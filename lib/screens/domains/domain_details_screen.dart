@@ -13,11 +13,8 @@ class DomainDetailsScreen extends StatelessWidget {
   final Domain domain;
   final void Function(Domain) remove;
 
-  const DomainDetailsScreen({
-    super.key,
-    required this.domain,
-    required this.remove
-  });
+  const DomainDetailsScreen(
+      {super.key, required this.domain, required this.remove});
 
   @override
   Widget build(BuildContext context) {
@@ -37,7 +34,7 @@ class DomainDetailsScreen extends StatelessWidget {
 
         default:
           return "";
-       }
+      }
     }
 
     return Scaffold(
@@ -45,17 +42,15 @@ class DomainDetailsScreen extends StatelessWidget {
         title: Text(AppLocalizations.of(context)!.domainDetails),
         actions: [
           IconButton(
-            onPressed: () => showDialog(
-              context: context,
-              builder: (context) => DeleteDomainModal(
-                onConfirm: () {
-                  Navigator.pop(context);
-                  remove(domain);
-                },
-              )
-            ),
-            icon: const Icon(Icons.delete_rounded)
-          ),
+              onPressed: () => showDialog(
+                  context: context,
+                  builder: (context) => DeleteDomainModal(
+                        onConfirm: () {
+                          Navigator.pop(context);
+                          remove(domain);
+                        },
+                      )),
+              icon: const Icon(Icons.delete_rounded)),
           const SizedBox(width: 10)
         ],
       ),
@@ -85,27 +80,26 @@ class DomainDetailsScreen extends StatelessWidget {
             leadingIcon: Icons.check,
             label: AppLocalizations.of(context)!.status,
             description: domain.enabled == 1
-              ? AppLocalizations.of(context)!.enabled
-              : AppLocalizations.of(context)!.disabled,
+                ? AppLocalizations.of(context)!.enabled
+                : AppLocalizations.of(context)!.disabled,
           ),
           Material(
             color: Colors.transparent,
             child: InkWell(
               onTap: domain.comment != null && domain.comment != ""
-                ? () => {
-                  showModal(
-                    context: context,
-                    builder: (context) => DomainCommentModal(
-                      comment: domain.comment!
-                    )
-                  )
-                } : null,
+                  ? () => {
+                        showModal(
+                            context: context,
+                            builder: (context) =>
+                                DomainCommentModal(comment: domain.comment!))
+                      }
+                  : null,
               child: CustomListTile(
                 leadingIcon: Icons.comment_rounded,
                 label: AppLocalizations.of(context)!.comment,
                 description: domain.comment == ""
-                  ? AppLocalizations.of(context)!.noComment
-                  : domain.comment,
+                    ? AppLocalizations.of(context)!.noComment
+                    : domain.comment,
               ),
             ),
           ),

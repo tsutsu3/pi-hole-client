@@ -7,13 +7,12 @@ class Server {
   String? basicAuthUser;
   String? basicAuthPassword;
 
-  Server({
-    required this.address,
-    required this.alias,
-    this.token,
-    required this.defaultServer,
-    this.enabled,
-    this.basicAuthUser,
-    this.basicAuthPassword
-  });
+  Server(
+      {required this.address,
+      required this.alias,
+      this.token,
+      required this.defaultServer,
+      this.enabled,
+      this.basicAuthUser,
+      this.basicAuthPassword});
 }

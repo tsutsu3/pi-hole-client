@@ -5,11 +5,8 @@ import 'package:permission_handler/permission_handler.dart';
 
 class ScanTokenModal extends StatefulWidget {
   final void Function(String) qrScanned;
-    
-  const ScanTokenModal({
-    super.key,
-    required this.qrScanned
-  });
+
+  const ScanTokenModal({super.key, required this.qrScanned});
 
   @override
   State<ScanTokenModal> createState() => _ScanTokenModalState();
@@ -26,23 +23,21 @@ class _ScanTokenModalState extends State<ScanTokenModal> {
       setState(() {
         permission = 1;
       });
-    }
-    else {
+    } else {
       final PermissionStatus status = await Permission.camera.request();
       if (mounted) {
         if (status.isGranted == false) {
           setState(() {
             permission = 2;
           });
-        }
-        else {
+        } else {
           setState(() {
             permission = 1;
           });
         }
       }
     }
-  } 
+  }
 
   @override
   void initState() {
@@ -75,10 +70,9 @@ class _ScanTokenModalState extends State<ScanTokenModal> {
                   AppLocalizations.of(context)!.gettingPermission,
                   textAlign: TextAlign.center,
                   style: TextStyle(
-                    color: Theme.of(context).colorScheme.onSurfaceVariant,
-                    fontSize: 16,
-                    fontWeight: FontWeight.w500
-                  ),
+                      color: Theme.of(context).colorScheme.onSurfaceVariant,
+                      fontSize: 16,
+                      fontWeight: FontWeight.w500),
                 )
               ],
             ),
@@ -96,18 +90,17 @@ class _ScanTokenModalState extends State<ScanTokenModal> {
             ),
           );
 
-        case 2: 
+        case 2:
           return Container(
             width: double.maxFinite,
             height: 300,
             padding: const EdgeInsets.all(30),
             decoration: BoxDecoration(
-              border: Border.all(
-                width: 2,
-                color: Theme.of(context).colorScheme.onSurfaceVariant,
-              ),
-              borderRadius: BorderRadius.circular(10)
-            ),
+                border: Border.all(
+                  width: 2,
+                  color: Theme.of(context).colorScheme.onSurfaceVariant,
+                ),
+                borderRadius: BorderRadius.circular(10)),
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
@@ -121,10 +114,9 @@ class _ScanTokenModalState extends State<ScanTokenModal> {
                   AppLocalizations.of(context)!.cameraPermission,
                   textAlign: TextAlign.center,
                   style: TextStyle(
-                    color: Theme.of(context).colorScheme.onSurfaceVariant,
-                    fontSize: 16,
-                    fontWeight: FontWeight.bold
-                  ),
+                      color: Theme.of(context).colorScheme.onSurfaceVariant,
+                      fontSize: 16,
+                      fontWeight: FontWeight.bold),
                 )
               ],
             ),
@@ -147,9 +139,7 @@ class _ScanTokenModalState extends State<ScanTokenModal> {
             padding: const EdgeInsets.only(top: 20),
             child: Text(
               AppLocalizations.of(context)!.qrScanner,
-              style: const TextStyle(
-                fontSize: 24
-              ),
+              style: const TextStyle(fontSize: 24),
             ),
           ),
         ],
@@ -157,9 +147,8 @@ class _ScanTokenModalState extends State<ScanTokenModal> {
       content: getPermissionStatus(),
       actions: [
         TextButton(
-          onPressed: () => Navigator.pop(context), 
-          child: Text(AppLocalizations.of(context)!.cancel)
-        )
+            onPressed: () => Navigator.pop(context),
+            child: Text(AppLocalizations.of(context)!.cancel))
       ],
     );
   }

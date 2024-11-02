@@ -18,7 +18,8 @@ class _ThemeScreenState extends State<ThemeScreen> {
 
   @override
   void initState() {
-    _selectedItem = Provider.of<AppConfigProvider>(context, listen: false).selectedThemeNumber;
+    _selectedItem = Provider.of<AppConfigProvider>(context, listen: false)
+        .selectedThemeNumber;
     super.initState();
   }
 
@@ -45,9 +46,7 @@ class _ThemeScreenState extends State<ThemeScreen> {
                   leading: const Icon(Icons.phone_android_rounded),
                   title: Text(
                     AppLocalizations.of(context)!.systemTheme,
-                    style: const TextStyle(
-                      fontWeight: FontWeight.normal
-                    ),
+                    style: const TextStyle(fontWeight: FontWeight.normal),
                   ),
                   trailing: CustomRadio(
                     value: 0,
@@ -71,9 +70,7 @@ class _ThemeScreenState extends State<ThemeScreen> {
                   leading: const Icon(Icons.light_mode_rounded),
                   title: Text(
                     AppLocalizations.of(context)!.light,
-                    style: const TextStyle(
-                      fontWeight: FontWeight.normal
-                    ),
+                    style: const TextStyle(fontWeight: FontWeight.normal),
                   ),
                   trailing: CustomRadio(
                     value: 1,
@@ -97,9 +94,7 @@ class _ThemeScreenState extends State<ThemeScreen> {
                   leading: const Icon(Icons.dark_mode_rounded),
                   title: Text(
                     AppLocalizations.of(context)!.dark,
-                    style: const TextStyle(
-                      fontWeight: FontWeight.normal
-                    ),
+                    style: const TextStyle(fontWeight: FontWeight.normal),
                   ),
                   trailing: CustomRadio(
                     value: 2,

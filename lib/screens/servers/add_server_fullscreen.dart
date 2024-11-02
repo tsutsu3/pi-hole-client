@@ -20,17 +20,13 @@ class AddServerFullscreen extends StatefulWidget {
   final Server? server;
   final bool window;
 
-  const AddServerFullscreen({
-    super.key,
-    this.server,
-    required this.window
-  });
+  const AddServerFullscreen({super.key, this.server, required this.window});
 
   @override
   State<AddServerFullscreen> createState() => _AddServerFullscreenState();
 }
 
-enum ConnectionType { http, https}
+enum ConnectionType { http, https }
 
 class _AddServerFullscreenState extends State<AddServerFullscreen> {
   TextEditingController addressFieldController = TextEditingController();
@@ -56,23 +52,18 @@ class _AddServerFullscreenState extends State<AddServerFullscreen> {
   bool isConnecting = false;
 
   void checkDataValid() {
-    if (
-      addressFieldController.text != '' &&
-      addressFieldError == null &&
-      subrouteFieldError == null &&
-      portFieldError == null &&
-      aliasFieldController.text != '' &&
-      tokenFieldController.text != '' &&
-      (
-        (basicAuthUser.text != '' && basicAuthPassword.text != '') ||
-        (basicAuthUser.text == '' && basicAuthPassword.text == '')
-      )
-    ) {
+    if (addressFieldController.text != '' &&
+        addressFieldError == null &&
+        subrouteFieldError == null &&
+        portFieldError == null &&
+        aliasFieldController.text != '' &&
+        tokenFieldController.text != '' &&
+        ((basicAuthUser.text != '' && basicAuthPassword.text != '') ||
+            (basicAuthUser.text == '' && basicAuthPassword.text == ''))) {
       setState(() {
         allDataValid = true;
       });
-    }
-    else {
+    } else {
       setState(() {
         allDataValid = false;
       });
@@ -81,20 +72,20 @@ class _AddServerFullscreenState extends State<AddServerFullscreen> {
 
   void validateAddress(String? value) {
     if (value != null && value != '') {
-      RegExp ipAddress = RegExp(r'^((25[0-5]|(2[0-4]|1\d|[1-9]|)\d)(\.(?!$)|$)){4}$');
-      RegExp domain = RegExp(r'^(([a-z0-9|-]+\.)*[a-z0-9|-]+\.[a-z]+)|((\w|-)+)$');
+      RegExp ipAddress =
+          RegExp(r'^((25[0-5]|(2[0-4]|1\d|[1-9]|)\d)(\.(?!$)|$)){4}$');
+      RegExp domain =
+          RegExp(r'^(([a-z0-9|-]+\.)*[a-z0-9|-]+\.[a-z]+)|((\w|-)+)$');
       if (ipAddress.hasMatch(value) == true || domain.hasMatch(value) == true) {
         setState(() {
           addressFieldError = null;
         });
-      }
-      else {
+      } else {
         setState(() {
           addressFieldError = AppLocalizations.of(context)!.invalidAddress;
         });
       }
-    }
-    else {
+    } else {
       setState(() {
         addressFieldError = AppLocalizations.of(context)!.ipCannotEmpty;
       });
@@ -109,14 +100,12 @@ class _AddServerFullscreenState extends State<AddServerFullscreen> {
         setState(() {
           subrouteFieldError = null;
         });
-      }
-      else {
+      } else {
         setState(() {
           subrouteFieldError = AppLocalizations.of(context)!.invalidSubroute;
         });
       }
-    }
-    else {
+    } else {
       setState(() {
         subrouteFieldError = null;
       });
@@ -130,14 +119,12 @@ class _AddServerFullscreenState extends State<AddServerFullscreen> {
         setState(() {
           portFieldError = null;
         });
-      }
-      else {
+      } else {
         setState(() {
           portFieldError = AppLocalizations.of(context)!.invalidPort;
         });
       }
-    }
-    else {
+    } else {
       setState(() {
         portFieldError = null;
       });
@@ -158,8 +145,8 @@ class _AddServerFullscreenState extends State<AddServerFullscreen> {
       basicAuthPassword.text = widget.server!.basicAuthPassword ?? '';
       setState(() {
         connectionType = widget.server!.address.split(':')[0] == 'https'
-          ? ConnectionType.https
-          : ConnectionType.http;
+            ? ConnectionType.https
+            : ConnectionType.http;
         defaultCheckbox = widget.server!.defaultServer;
       });
     }
@@ -177,106 +164,89 @@ class _AddServerFullscreenState extends State<AddServerFullscreen> {
       setState(() {
         isConnecting = true;
       });
-      final String url = "${connectionType.name}://${addressFieldController.text}${portFieldController.text != '' ? ':${portFieldController.text}' : ''}${subrouteFieldController.text}";
+      final String url =
+          "${connectionType.name}://${addressFieldController.text}${portFieldController.text != '' ? ':${portFieldController.text}' : ''}${subrouteFieldController.text}";
       final exists = await serversProvider.checkUrlExists(url);
       if (exists['result'] == 'success' && exists['exists'] == true) {
         setState(() {
           errorUrl = AppLocalizations.of(context)!.connectionAlreadyExists;
           isConnecting = false;
         });
-      }
-      else if (exists['result'] == 'fail') {
+      } else if (exists['result'] == 'fail') {
         setState(() {
           errorUrl = null;
           isConnecting = false;
         });
         showSnackBar(
-          appConfigProvider: appConfigProvider,
-          label: AppLocalizations.of(context)!.cannotCheckUrlSaved,
-          color: Colors.red
-        );
-      }
-      else {
+            appConfigProvider: appConfigProvider,
+            label: AppLocalizations.of(context)!.cannotCheckUrlSaved,
+            color: Colors.red);
+      } else {
         setState(() {
           errorUrl = null;
         });
         final serverObj = Server(
-          address: url,
-          alias: aliasFieldController.text,
-          token: tokenFieldController.text,
-          defaultServer: false,
-          basicAuthUser: basicAuthUser.text,
-          basicAuthPassword: basicAuthPassword.text
-        );
+            address: url,
+            alias: aliasFieldController.text,
+            token: tokenFieldController.text,
+            defaultServer: false,
+            basicAuthUser: basicAuthUser.text,
+            basicAuthPassword: basicAuthPassword.text);
         final result = await loginQuery(serverObj);
         if (!mounted) return;
         if (result['result'] == 'success') {
           Navigator.pop(context);
           serversProvider.addServer(Server(
-            address: serverObj.address,
-            alias: serverObj.alias,
-            token: serverObj.token,
-            defaultServer: defaultCheckbox,
-            enabled: result['status'] == 'enabled' ? true : false,
-            basicAuthUser: basicAuthUser.text,
-            basicAuthPassword: basicAuthPassword.text
-          ));
-        }
-        else {
+              address: serverObj.address,
+              alias: serverObj.alias,
+              token: serverObj.token,
+              defaultServer: defaultCheckbox,
+              enabled: result['status'] == 'enabled' ? true : false,
+              basicAuthUser: basicAuthUser.text,
+              basicAuthPassword: basicAuthPassword.text));
+        } else {
           if (mounted) {
             setState(() {
               isConnecting = false;
             });
             if (result['result'] == 'socket') {
               showSnackBar(
-                appConfigProvider: appConfigProvider,
-                label: AppLocalizations.of(context)!.checkAddress,
-                color: Colors.red
-              );
+                  appConfigProvider: appConfigProvider,
+                  label: AppLocalizations.of(context)!.checkAddress,
+                  color: Colors.red);
               appConfigProvider.addLog(result['log']);
-            }
-            else if (result['result'] == 'timeout') {
+            } else if (result['result'] == 'timeout') {
               showSnackBar(
-                appConfigProvider: appConfigProvider,
-                label: AppLocalizations.of(context)!.connectionTimeout,
-                color: Colors.red
-              );
+                  appConfigProvider: appConfigProvider,
+                  label: AppLocalizations.of(context)!.connectionTimeout,
+                  color: Colors.red);
               appConfigProvider.addLog(result['log']);
-            }
-            else if (result['result'] == 'no_connection') {
+            } else if (result['result'] == 'no_connection') {
               showSnackBar(
-                appConfigProvider: appConfigProvider,
-                label: AppLocalizations.of(context)!.cantReachServer,
-                color: Colors.red
-              );
+                  appConfigProvider: appConfigProvider,
+                  label: AppLocalizations.of(context)!.cantReachServer,
+                  color: Colors.red);
               appConfigProvider.addLog(result['log']);
-            }
-            else if (result['result'] == 'auth_error') {
+            } else if (result['result'] == 'auth_error') {
               showSnackBar(
-                appConfigProvider: appConfigProvider,
-                label: AppLocalizations.of(context)!.tokenNotValid,
-                color: Colors.red
-              );
+                  appConfigProvider: appConfigProvider,
+                  label: AppLocalizations.of(context)!.tokenNotValid,
+                  color: Colors.red);
               appConfigProvider.addLog(result['log']);
-            }
-            else if (result['result'] == 'ssl_error') {
+            } else if (result['result'] == 'ssl_error') {
               showSnackBar(
-                appConfigProvider: appConfigProvider,
-                label: AppLocalizations.of(context)!.sslErrorLong,
-                color: Colors.red
-              );
+                  appConfigProvider: appConfigProvider,
+                  label: AppLocalizations.of(context)!.sslErrorLong,
+                  color: Colors.red);
               appConfigProvider.addLog(result['log']);
-            }
-            else {
+            } else {
               showSnackBar(
-                appConfigProvider: appConfigProvider,
-                label: AppLocalizations.of(context)!.unknownError,
-                color: Colors.red
-              );
+                  appConfigProvider: appConfigProvider,
+                  label: AppLocalizations.of(context)!.unknownError,
+                  color: Colors.red);
               appConfigProvider.addLog(result['log']);
             }
-          }
-          else {
+          } else {
             isConnecting = false;
           }
         }
@@ -291,119 +261,97 @@ class _AddServerFullscreenState extends State<AddServerFullscreen> {
       });
 
       final serverObj = Server(
-        address: widget.server!.address,
-        alias: aliasFieldController.text,
-        token: tokenFieldController.text,
-        defaultServer: false,
-        basicAuthUser: basicAuthUser.text,
-        basicAuthPassword: basicAuthPassword.text
-      );
-      final result = await loginQuery(serverObj);
-      if (result['result'] == 'success') {
-        Server server = Server(
           address: widget.server!.address,
           alias: aliasFieldController.text,
           token: tokenFieldController.text,
-          defaultServer: defaultCheckbox,
+          defaultServer: false,
           basicAuthUser: basicAuthUser.text,
-          basicAuthPassword: basicAuthPassword.text
-        );
+          basicAuthPassword: basicAuthPassword.text);
+      final result = await loginQuery(serverObj);
+      if (result['result'] == 'success') {
+        Server server = Server(
+            address: widget.server!.address,
+            alias: aliasFieldController.text,
+            token: tokenFieldController.text,
+            defaultServer: defaultCheckbox,
+            basicAuthUser: basicAuthUser.text,
+            basicAuthPassword: basicAuthPassword.text);
         final result = await serversProvider.editServer(server);
         if (mounted) {
           if (result == true) {
             Navigator.pop(context);
-          }
-          else {
+          } else {
             setState(() {
               isConnecting = false;
             });
             showSnackBar(
-              appConfigProvider: appConfigProvider,
-              label: AppLocalizations.of(context)!.cantSaveConnectionData,
-              color: Colors.red
-            );
+                appConfigProvider: appConfigProvider,
+                label: AppLocalizations.of(context)!.cantSaveConnectionData,
+                color: Colors.red);
           }
         }
-      }
-      else {
+      } else {
         if (mounted) {
           setState(() {
             isConnecting = false;
           });
           if (result['result'] == 'socket') {
             showSnackBar(
-              appConfigProvider: appConfigProvider,
-              label: AppLocalizations.of(context)!.checkAddress,
-              color: Colors.red
-            );
-          }
-          else if (result['result'] == 'timeout') {
+                appConfigProvider: appConfigProvider,
+                label: AppLocalizations.of(context)!.checkAddress,
+                color: Colors.red);
+          } else if (result['result'] == 'timeout') {
             showSnackBar(
-              appConfigProvider: appConfigProvider,
-              label: AppLocalizations.of(context)!.connectionTimeout,
-              color: Colors.red
-            );
-          }
-          else if (result['result'] == 'no_connection') {
+                appConfigProvider: appConfigProvider,
+                label: AppLocalizations.of(context)!.connectionTimeout,
+                color: Colors.red);
+          } else if (result['result'] == 'no_connection') {
             showSnackBar(
-              appConfigProvider: appConfigProvider,
-              label: AppLocalizations.of(context)!.cantReachServer,
-              color: Colors.red
-            );
-          }
-          else if (result['result'] == 'auth_error') {
+                appConfigProvider: appConfigProvider,
+                label: AppLocalizations.of(context)!.cantReachServer,
+                color: Colors.red);
+          } else if (result['result'] == 'auth_error') {
             showSnackBar(
-              appConfigProvider: appConfigProvider,
-              label: AppLocalizations.of(context)!.tokenNotValid,
-              color: Colors.red
-            );
-          }
-          else if (result['result'] == 'ssl_error') {
+                appConfigProvider: appConfigProvider,
+                label: AppLocalizations.of(context)!.tokenNotValid,
+                color: Colors.red);
+          } else if (result['result'] == 'ssl_error') {
             showSnackBar(
-              appConfigProvider: appConfigProvider,
-              label: AppLocalizations.of(context)!.sslErrorLong,
-              color: Colors.red
-            );
-          }
-          else {
+                appConfigProvider: appConfigProvider,
+                label: AppLocalizations.of(context)!.sslErrorLong,
+                color: Colors.red);
+          } else {
             showSnackBar(
-              appConfigProvider: appConfigProvider,
-              label: AppLocalizations.of(context)!.unknownError,
-              color: Colors.red
-            );
+                appConfigProvider: appConfigProvider,
+                label: AppLocalizations.of(context)!.unknownError,
+                color: Colors.red);
           }
-        }
-        else {
+        } else {
           isConnecting = false;
         }
       }
     }
 
     bool validData() {
-      if (
-        addressFieldController.text != '' &&
-        subrouteFieldError == null &&
-        addressFieldError == null &&
-        aliasFieldController.text != '' &&
-        (
-          (basicAuthUser.text != '' && basicAuthPassword.text != '') ||
-          (basicAuthUser.text == '' && basicAuthPassword.text == '')
-        )
-      ) {
+      if (addressFieldController.text != '' &&
+          subrouteFieldError == null &&
+          addressFieldError == null &&
+          aliasFieldController.text != '' &&
+          ((basicAuthUser.text != '' && basicAuthPassword.text != '') ||
+              (basicAuthUser.text == '' && basicAuthPassword.text == ''))) {
         return true;
-      }
-      else {
+      } else {
         return false;
       }
     }
 
     void openScanTokenModal() {
       showDialog(
-        context: context,
-        builder: (context) => ScanTokenModal(
-          qrScanned: (value) => setState(() => tokenFieldController.text = value),
-        )
-      );
+          context: context,
+          builder: (context) => ScanTokenModal(
+                qrScanned: (value) =>
+                    setState(() => tokenFieldController.text = value),
+              ));
     }
 
     Widget formItems() {
@@ -414,34 +362,31 @@ class _AddServerFullscreenState extends State<AddServerFullscreen> {
             child: Column(
               children: [
                 Container(
-                  padding: const EdgeInsets.symmetric(
-                    horizontal: 15,
-                    vertical: 10
-                  ),
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 15, vertical: 10),
                   margin: const EdgeInsets.only(bottom: 10),
                   decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(50),
-                    border: Border.all(
-                      color: Theme.of(context).colorScheme.primary
-                    ),
-                    color: Theme.of(context).colorScheme.primary.withOpacity(0.05)
-                  ),
+                      borderRadius: BorderRadius.circular(50),
+                      border: Border.all(
+                          color: Theme.of(context).colorScheme.primary),
+                      color: Theme.of(context)
+                          .colorScheme
+                          .primary
+                          .withOpacity(0.05)),
                   child: Column(
                     children: [
                       Text(
                         "${connectionType.name}://${addressFieldController.text}${portFieldController.text != '' ? ':${portFieldController.text}' : ''}${subrouteFieldController.text}",
                         style: TextStyle(
-                          fontWeight: FontWeight.bold,
-                          color: Theme.of(context).colorScheme.primary
-                        ),
+                            fontWeight: FontWeight.bold,
+                            color: Theme.of(context).colorScheme.primary),
                       ),
                     ],
                   ),
                 ),
                 SectionLabel(
-                  label: AppLocalizations.of(context)!.connection,
-                  padding: const EdgeInsets.symmetric(vertical: 16)
-                ),
+                    label: AppLocalizations.of(context)!.connection,
+                    padding: const EdgeInsets.symmetric(vertical: 16)),
                 Padding(
                   padding: const EdgeInsets.symmetric(vertical: 20),
                   child: TextField(
@@ -450,10 +395,7 @@ class _AddServerFullscreenState extends State<AddServerFullscreen> {
                     decoration: InputDecoration(
                       prefixIcon: const Icon(Icons.badge_outlined),
                       border: const OutlineInputBorder(
-                        borderRadius: BorderRadius.all(
-                          Radius.circular(10)
-                        )
-                      ),
+                          borderRadius: BorderRadius.all(Radius.circular(10))),
                       labelText: AppLocalizations.of(context)!.serverName,
                     ),
                   ),
@@ -464,16 +406,13 @@ class _AddServerFullscreenState extends State<AddServerFullscreen> {
                   child: SegmentedButton<ConnectionType>(
                     segments: const [
                       ButtonSegment(
-                        value: ConnectionType.http,
-                        label: Text("HTTP")
-                      ),
+                          value: ConnectionType.http, label: Text("HTTP")),
                       ButtonSegment(
-                        value: ConnectionType.https,
-                        label: Text("HTTPS")
-                      ),
+                          value: ConnectionType.https, label: Text("HTTPS")),
                     ],
                     selected: <ConnectionType>{connectionType},
-                    onSelectionChanged: (value) => setState(() => connectionType = value.first),
+                    onSelectionChanged: (value) =>
+                        setState(() => connectionType = value.first),
                   ),
                 ),
                 Padding(
@@ -486,10 +425,7 @@ class _AddServerFullscreenState extends State<AddServerFullscreen> {
                       errorText: addressFieldError,
                       prefixIcon: const Icon(Icons.link),
                       border: const OutlineInputBorder(
-                        borderRadius: BorderRadius.all(
-                          Radius.circular(10)
-                        )
-                      ),
+                          borderRadius: BorderRadius.all(Radius.circular(10))),
                       labelText: AppLocalizations.of(context)!.address,
                     ),
                   ),
@@ -504,10 +440,7 @@ class _AddServerFullscreenState extends State<AddServerFullscreen> {
                       errorText: subrouteFieldError,
                       prefixIcon: const Icon(Icons.route_rounded),
                       border: const OutlineInputBorder(
-                        borderRadius: BorderRadius.all(
-                          Radius.circular(10)
-                        )
-                      ),
+                          borderRadius: BorderRadius.all(Radius.circular(10))),
                       labelText: AppLocalizations.of(context)!.subrouteField,
                       hintText: AppLocalizations.of(context)!.subrouteExample,
                       helperText: AppLocalizations.of(context)!.subrouteHelper,
@@ -525,21 +458,14 @@ class _AddServerFullscreenState extends State<AddServerFullscreen> {
                       errorText: portFieldError,
                       prefixIcon: const Icon(Icons.numbers),
                       border: const OutlineInputBorder(
-                        borderRadius: BorderRadius.all(
-                          Radius.circular(10)
-                        )
-                      ),
+                          borderRadius: BorderRadius.all(Radius.circular(10))),
                       labelText: AppLocalizations.of(context)!.port,
                     ),
                   ),
                 ),
                 SectionLabel(
-                  label: AppLocalizations.of(context)!.authentication,
-                  padding: const EdgeInsets.only(
-                    top: 30,
-                    bottom: 10
-                  )
-                ),
+                    label: AppLocalizations.of(context)!.authentication,
+                    padding: const EdgeInsets.only(top: 30, bottom: 10)),
                 Padding(
                   padding: const EdgeInsets.symmetric(vertical: 20),
                   child: Row(
@@ -554,10 +480,8 @@ class _AddServerFullscreenState extends State<AddServerFullscreen> {
                           decoration: InputDecoration(
                             prefixIcon: const Icon(Icons.key_rounded),
                             border: const OutlineInputBorder(
-                              borderRadius: BorderRadius.all(
-                                Radius.circular(10)
-                              )
-                            ),
+                                borderRadius:
+                                    BorderRadius.all(Radius.circular(10))),
                             labelText: AppLocalizations.of(context)!.token,
                           ),
                         ),
@@ -585,22 +509,17 @@ class _AddServerFullscreenState extends State<AddServerFullscreen> {
                         ),
                         const SizedBox(width: 16),
                         Flexible(
-                          child: Text(
-                            AppLocalizations.of(context)!.tokenInstructions,
-                          )
-                        )
+                            child: Text(
+                          AppLocalizations.of(context)!.tokenInstructions,
+                        ))
                       ],
                     ),
                   ),
                 ),
                 const SizedBox(height: 20),
                 SectionLabel(
-                  label: AppLocalizations.of(context)!.basicAuth,
-                  padding: const EdgeInsets.only(
-                    top: 10,
-                    bottom: 10
-                  )
-                ),
+                    label: AppLocalizations.of(context)!.basicAuth,
+                    padding: const EdgeInsets.only(top: 10, bottom: 10)),
                 Card(
                   margin: const EdgeInsets.only(top: 20, bottom: 10),
                   child: Padding(
@@ -613,10 +532,9 @@ class _AddServerFullscreenState extends State<AddServerFullscreen> {
                         ),
                         const SizedBox(width: 16),
                         Flexible(
-                          child: Text(
-                            AppLocalizations.of(context)!.basicAuthInfo,
-                          )
-                        )
+                            child: Text(
+                          AppLocalizations.of(context)!.basicAuthInfo,
+                        ))
                       ],
                     ),
                   ),
@@ -629,10 +547,7 @@ class _AddServerFullscreenState extends State<AddServerFullscreen> {
                     decoration: InputDecoration(
                       prefixIcon: const Icon(Icons.person_rounded),
                       border: const OutlineInputBorder(
-                        borderRadius: BorderRadius.all(
-                          Radius.circular(10)
-                        )
-                      ),
+                          borderRadius: BorderRadius.all(Radius.circular(10))),
                       labelText: AppLocalizations.of(context)!.username,
                     ),
                   ),
@@ -647,10 +562,7 @@ class _AddServerFullscreenState extends State<AddServerFullscreen> {
                     decoration: InputDecoration(
                       prefixIcon: const Icon(Icons.key_rounded),
                       border: const OutlineInputBorder(
-                        borderRadius: BorderRadius.all(
-                          Radius.circular(10)
-                        )
-                      ),
+                          borderRadius: BorderRadius.all(Radius.circular(10))),
                       labelText: AppLocalizations.of(context)!.password,
                     ),
                   ),
@@ -660,24 +572,27 @@ class _AddServerFullscreenState extends State<AddServerFullscreen> {
                   children: [
                     Checkbox(
                       value: defaultCheckbox,
-                      onChanged: widget.server == null ? (value) => {
-                        setState(() => defaultCheckbox = !defaultCheckbox)
-                      } : null,
+                      onChanged: widget.server == null
+                          ? (value) => {
+                                setState(
+                                    () => defaultCheckbox = !defaultCheckbox)
+                              }
+                          : null,
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(5),
                       ),
                     ),
                     GestureDetector(
-                      onTap: widget.server == null ? (() => {
-                        setState(() => defaultCheckbox = !defaultCheckbox)
-                      }) : null,
+                      onTap: widget.server == null
+                          ? (() => {
+                                setState(
+                                    () => defaultCheckbox = !defaultCheckbox)
+                              })
+                          : null,
                       child: Text(
                         AppLocalizations.of(context)!.defaultConnection,
                         style: TextStyle(
-                          color: widget.server != null
-                            ? Colors.grey
-                            : null
-                        ),
+                            color: widget.server != null ? Colors.grey : null),
                       ),
                     )
                   ],
@@ -685,21 +600,20 @@ class _AddServerFullscreenState extends State<AddServerFullscreen> {
               ],
             ),
           ),
-          if (errorUrl != null) Padding(
-            padding: const EdgeInsets.only(top: 7),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Text(
-                  errorUrl!,
-                  style: const TextStyle(
-                    fontWeight: FontWeight.bold,
-                    color: Colors.red
-                  ),
-                )
-              ],
+          if (errorUrl != null)
+            Padding(
+              padding: const EdgeInsets.only(top: 7),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Text(
+                    errorUrl!,
+                    style: const TextStyle(
+                        fontWeight: FontWeight.bold, color: Colors.red),
+                  )
+                ],
+              ),
             ),
-          ),
         ],
       );
     }
@@ -718,83 +632,83 @@ class _AddServerFullscreenState extends State<AddServerFullscreen> {
                     Row(
                       children: [
                         IconButton(
-                          onPressed: () => Navigator.pop(context),
-                          icon: const Icon(Icons.clear_rounded)
-                        ),
+                            onPressed: () => Navigator.pop(context),
+                            icon: const Icon(Icons.clear_rounded)),
                         const SizedBox(width: 8),
                         Text(
                           AppLocalizations.of(context)!.createConnection,
-                          style: const TextStyle(
-                            fontSize: 20
-                          ),
+                          style: const TextStyle(fontSize: 20),
                         ),
                       ],
                     ),
                     Row(
                       children: [
                         IconButton(
-                          onPressed: () => openUrl("https://github.com/tsutsu3/pi-hole-client/wiki/Create-a-connection",),
+                          onPressed: () => openUrl(
+                            "https://github.com/tsutsu3/pi-hole-client/wiki/Create-a-connection",
+                          ),
                           icon: const Icon(Icons.help_outline_rounded),
-                          tooltip: AppLocalizations.of(context)!.howCreateConnection,
+                          tooltip:
+                              AppLocalizations.of(context)!.howCreateConnection,
                         ),
                         Padding(
                           padding: const EdgeInsets.only(right: 10),
                           child: IconButton(
-                            tooltip: widget.server != null
-                              ? AppLocalizations.of(context)!.save
-                              : AppLocalizations.of(context)!.connect,
-                            onPressed: validData()
-                              ? widget.server != null ? save : connect
-                              : null,
-                            icon: widget.server != null
-                              ? const Icon(Icons.save_rounded)
-                              : const Icon(Icons.login_rounded)
-                          ),
+                              tooltip: widget.server != null
+                                  ? AppLocalizations.of(context)!.save
+                                  : AppLocalizations.of(context)!.connect,
+                              onPressed: validData()
+                                  ? widget.server != null
+                                      ? save
+                                      : connect
+                                  : null,
+                              icon: widget.server != null
+                                  ? const Icon(Icons.save_rounded)
+                                  : const Icon(Icons.login_rounded)),
                         ),
                       ],
                     )
                   ],
                 ),
               ),
-              Expanded(
-                child: formItems()
-              )
+              Expanded(child: formItems())
             ],
           ),
         ),
       );
-    }
-    else {
+    } else {
       return Stack(
         children: [
           Scaffold(
-            appBar: AppBar(
-              title: Text(AppLocalizations.of(context)!.createConnection),
-              actions: [
-                IconButton(
-                  onPressed: () => openUrl("https://github.com/tsutsu3/pi-hole-client/wiki/Create-a-connection",),
-                  icon: const Icon(Icons.help_outline_rounded),
-                  tooltip: AppLocalizations.of(context)!.howCreateConnection,
-                ),
-                Padding(
-                  padding: const EdgeInsets.only(right: 10),
-                  child: IconButton(
-                    tooltip: widget.server != null
-                      ? AppLocalizations.of(context)!.save
-                      : AppLocalizations.of(context)!.connect,
-                    onPressed: validData()
-                      ? widget.server != null ? save : connect
-                      : null,
-                    icon: widget.server != null
-                      ? const Icon(Icons.save_rounded)
-                      : const Icon(Icons.login_rounded)
+              appBar: AppBar(
+                title: Text(AppLocalizations.of(context)!.createConnection),
+                actions: [
+                  IconButton(
+                    onPressed: () => openUrl(
+                      "https://github.com/tsutsu3/pi-hole-client/wiki/Create-a-connection",
+                    ),
+                    icon: const Icon(Icons.help_outline_rounded),
+                    tooltip: AppLocalizations.of(context)!.howCreateConnection,
                   ),
-                ),
-              ],
-              toolbarHeight: 70,
-            ),
-            body: formItems()
-          ),
+                  Padding(
+                    padding: const EdgeInsets.only(right: 10),
+                    child: IconButton(
+                        tooltip: widget.server != null
+                            ? AppLocalizations.of(context)!.save
+                            : AppLocalizations.of(context)!.connect,
+                        onPressed: validData()
+                            ? widget.server != null
+                                ? save
+                                : connect
+                            : null,
+                        icon: widget.server != null
+                            ? const Icon(Icons.save_rounded)
+                            : const Icon(Icons.login_rounded)),
+                  ),
+                ],
+                toolbarHeight: 70,
+              ),
+              body: formItems()),
           AnimatedOpacity(
             opacity: isConnecting == true ? 1 : 0,
             duration: const Duration(milliseconds: 250),
@@ -817,10 +731,9 @@ class _AddServerFullscreenState extends State<AddServerFullscreen> {
                       Text(
                         AppLocalizations.of(context)!.connecting,
                         style: const TextStyle(
-                          color: Colors.white,
-                          fontWeight: FontWeight.w500,
-                          fontSize: 26
-                        ),
+                            color: Colors.white,
+                            fontWeight: FontWeight.w500,
+                            fontSize: 26),
                       )
                     ],
                   ),

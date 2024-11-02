@@ -10,11 +10,11 @@ class SelectedServerDisconnected extends StatelessWidget {
   Widget build(BuildContext context) {
     final height = MediaQuery.of(context).size.height;
 
-    return  Column(
+    return Column(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
         SizedBox(
-          height: height-180,
+          height: height - 180,
           child: Center(
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
@@ -23,16 +23,14 @@ class SelectedServerDisconnected extends StatelessWidget {
                   AppLocalizations.of(context)!.selectedDisconnected,
                   textAlign: TextAlign.center,
                   style: TextStyle(
-                    color: Theme.of(context).colorScheme.onSurfaceVariant,
-                    fontSize: 26
-                  ),
+                      color: Theme.of(context).colorScheme.onSurfaceVariant,
+                      fontSize: 26),
                 ),
                 const SizedBox(height: 30),
                 TextButton.icon(
-                  onPressed: () => refreshServerStatus(context),
-                  icon: const Icon(Icons.refresh),
-                  label: Text(AppLocalizations.of(context)!.tryReconnect)
-                )
+                    onPressed: () => refreshServerStatus(context),
+                    icon: const Icon(Icons.refresh),
+                    label: Text(AppLocalizations.of(context)!.tryReconnect))
               ],
             ),
           ),

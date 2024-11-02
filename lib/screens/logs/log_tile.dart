@@ -10,12 +10,11 @@ class LogTile extends StatelessWidget {
   final void Function(Log) showLogDetails;
   final bool? isLogSelected;
 
-  const LogTile({
-    super.key,
-    required this.log,
-    required this.showLogDetails,
-    this.isLogSelected
-  });
+  const LogTile(
+      {super.key,
+      required this.log,
+      required this.showLogDetails,
+      this.isLogSelected});
 
   @override
   Widget build(BuildContext context) {
@@ -34,11 +33,10 @@ class LogTile extends StatelessWidget {
               width: double.maxFinite,
               padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
               decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(28),
-                color: isLogSelected == true
-                  ? Theme.of(context).colorScheme.primaryContainer
-                  : null
-              ),
+                  borderRadius: BorderRadius.circular(28),
+                  color: isLogSelected == true
+                      ? Theme.of(context).colorScheme.primaryContainer
+                      : null),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
@@ -46,16 +44,15 @@ class LogTile extends StatelessWidget {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        if (log.status != null) LogStatus(status: log.status!, showIcon: true),
+                        if (log.status != null)
+                          LogStatus(status: log.status!, showIcon: true),
                         const SizedBox(height: 10),
                         SizedBox(
                           child: Text(
                             log.url,
                             overflow: TextOverflow.ellipsis,
                             style: const TextStyle(
-                              fontWeight: FontWeight.w400,
-                              fontSize: 16
-                            ),
+                                fontWeight: FontWeight.w400, fontSize: 16),
                           ),
                         ),
                         const SizedBox(height: 10),
@@ -75,26 +72,21 @@ class LogTile extends StatelessWidget {
                     ),
                   ),
                   const SizedBox(width: 16),
-                  Text(
-                    formatTimestamp(log.dateTime, 'HH:mm:ss')
-                  ),
+                  Text(formatTimestamp(log.dateTime, 'HH:mm:ss')),
                 ],
               ),
             ),
           ),
         ),
       );
-    }
-    else {
+    } else {
       return Material(
         color: Colors.transparent,
         child: InkWell(
           onTap: () => showLogDetails(log),
           child: Container(
             width: double.maxFinite,
-            padding: const EdgeInsets.symmetric(
-              horizontal: 16, vertical: 12
-            ),
+            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
@@ -102,16 +94,15 @@ class LogTile extends StatelessWidget {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      if (log.status != null) LogStatus(status: log.status!, showIcon: true),
+                      if (log.status != null)
+                        LogStatus(status: log.status!, showIcon: true),
                       const SizedBox(height: 10),
                       SizedBox(
                         child: Text(
                           log.url,
                           overflow: TextOverflow.ellipsis,
                           style: const TextStyle(
-                            fontWeight: FontWeight.w400,
-                            fontSize: 16
-                          ),
+                              fontWeight: FontWeight.w400, fontSize: 16),
                         ),
                       ),
                       const SizedBox(height: 10),
@@ -130,9 +121,7 @@ class LogTile extends StatelessWidget {
                     ],
                   ),
                 ),
-                Text(
-                  formatTimestamp(log.dateTime, 'HH:mm:ss')
-                ),
+                Text(formatTimestamp(log.dateTime, 'HH:mm:ss')),
               ],
             ),
           ),

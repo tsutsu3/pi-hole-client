@@ -10,30 +10,27 @@ class StatusFiltersModal extends StatefulWidget {
   final List<int> statusSelected;
   final bool window;
 
-  const StatusFiltersModal({
-    super.key,
-    required this.statusBarHeight,
-    required this.bottomNavBarHeight,
-    required this.statusSelected,
-    required this.window
-  });
+  const StatusFiltersModal(
+      {super.key,
+      required this.statusBarHeight,
+      required this.bottomNavBarHeight,
+      required this.statusSelected,
+      required this.window});
 
   @override
   State<StatusFiltersModal> createState() => _StatusFiltersModalState();
 }
 
 class _StatusFiltersModalState extends State<StatusFiltersModal> {
-  List<int> _statusSelected = [
-    1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14
-  ];
+  List<int> _statusSelected = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14];
 
   void _updateStatusSelected(int option) {
     if (_statusSelected.contains(option) == true) {
       setState(() {
-        _statusSelected = _statusSelected.where((status) => status != option).toList();
+        _statusSelected =
+            _statusSelected.where((status) => status != option).toList();
       });
-    }
-    else {
+    } else {
       setState(() {
         _statusSelected.add(option);
       });
@@ -69,17 +66,13 @@ class _StatusFiltersModalState extends State<StatusFiltersModal> {
             leading: Icon(icon),
             title: Text(
               label,
-              style: const TextStyle(
-                fontWeight: FontWeight.w400
-              ),
+              style: const TextStyle(fontWeight: FontWeight.w400),
             ),
             trailing: Checkbox(
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(5)
-              ),
-              value: _statusSelected.contains(value),
-              onChanged: (_) => _updateStatusSelected(value)
-            ),
+                shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(5)),
+                value: _statusSelected.contains(value),
+                onChanged: (_) => _updateStatusSelected(value)),
           ),
         ),
       );
@@ -88,12 +81,9 @@ class _StatusFiltersModalState extends State<StatusFiltersModal> {
     void checkUncheckAll() {
       if (_statusSelected.length < 14) {
         setState(() {
-          _statusSelected = [
-            1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14
-          ];
+          _statusSelected = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14];
         });
-      }
-      else {
+      } else {
         setState(() {
           _statusSelected = [];
         });
@@ -106,8 +96,7 @@ class _StatusFiltersModalState extends State<StatusFiltersModal> {
         children: [
           ConstrainedBox(
             constraints: BoxConstraints(
-              maxHeight: MediaQuery.of(context).size.height*0.8
-            ),
+                maxHeight: MediaQuery.of(context).size.height * 0.8),
             child: ListView(
               children: [
                 Padding(
@@ -122,89 +111,68 @@ class _StatusFiltersModalState extends State<StatusFiltersModal> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Padding(
-                      padding: const EdgeInsets.only(
-                        top: 24,
-                        bottom: 24
-                      ),
+                      padding: const EdgeInsets.only(top: 24, bottom: 24),
                       child: Text(
                         AppLocalizations.of(context)!.logsStatus,
-                        style: const TextStyle(
-                          fontSize: 24
-                        ),
+                        style: const TextStyle(fontSize: 24),
                       ),
                     ),
                   ],
                 ),
                 listItem(
-                  icon: Icons.gpp_bad_rounded,
-                  label: "Blocked (gravity)",
-                  value: 1
-                ),
+                    icon: Icons.gpp_bad_rounded,
+                    label: "Blocked (gravity)",
+                    value: 1),
                 listItem(
-                  icon: Icons.verified_user_rounded,
-                  label: "OK (forwarded)",
-                  value: 2
-                ),
+                    icon: Icons.verified_user_rounded,
+                    label: "OK (forwarded)",
+                    value: 2),
                 listItem(
-                  icon: Icons.verified_user_rounded,
-                  label: "OK (cache)",
-                  value: 3
-                ),
+                    icon: Icons.verified_user_rounded,
+                    label: "OK (cache)",
+                    value: 3),
                 listItem(
-                  icon: Icons.gpp_bad_rounded,
-                  label: "Blocked (regex blacklist",
-                  value: 4
-                ),
+                    icon: Icons.gpp_bad_rounded,
+                    label: "Blocked (regex blacklist",
+                    value: 4),
                 listItem(
-                  icon: Icons.gpp_bad_rounded,
-                  label: "Blocked (exact blacklist)",
-                  value: 5
-                ),
+                    icon: Icons.gpp_bad_rounded,
+                    label: "Blocked (exact blacklist)",
+                    value: 5),
                 listItem(
-                  icon: Icons.gpp_bad_rounded,
-                  label: "Blocked (external, IP)",
-                  value: 6
-                ),
+                    icon: Icons.gpp_bad_rounded,
+                    label: "Blocked (external, IP)",
+                    value: 6),
                 listItem(
-                  icon: Icons.gpp_bad_rounded,
-                  label: "Blocked (external, NULL)",
-                  value: 7
-                ),
+                    icon: Icons.gpp_bad_rounded,
+                    label: "Blocked (external, NULL)",
+                    value: 7),
                 listItem(
-                  icon: Icons.gpp_bad_rounded,
-                  label: "Blocked (external, NXRA)",
-                  value: 8
-                ),
+                    icon: Icons.gpp_bad_rounded,
+                    label: "Blocked (external, NXRA)",
+                    value: 8),
                 listItem(
-                  icon: Icons.gpp_bad_rounded,
-                  label: "Blocked (gravity, CNAME)",
-                  value: 9
-                ),
+                    icon: Icons.gpp_bad_rounded,
+                    label: "Blocked (gravity, CNAME)",
+                    value: 9),
                 listItem(
-                  icon: Icons.gpp_bad_rounded,
-                  label: "Blocked (regex blacklist, CNAME)",
-                  value: 10
-                ),
+                    icon: Icons.gpp_bad_rounded,
+                    label: "Blocked (regex blacklist, CNAME)",
+                    value: 10),
                 listItem(
-                  icon: Icons.gpp_bad_rounded,
-                  label: "Blocked (exact blacklist, CNAME)",
-                  value: 11
-                ),
+                    icon: Icons.gpp_bad_rounded,
+                    label: "Blocked (exact blacklist, CNAME)",
+                    value: 11),
                 listItem(
-                  icon: Icons.refresh_rounded,
-                  label: "Retried",
-                  value: 12
-                ),
+                    icon: Icons.refresh_rounded, label: "Retried", value: 12),
                 listItem(
-                  icon: Icons.refresh_rounded,
-                  label: "Retried (ignored)",
-                  value: 13
-                ),
+                    icon: Icons.refresh_rounded,
+                    label: "Retried (ignored)",
+                    value: 13),
                 listItem(
-                  icon: Icons.gpp_bad_rounded,
-                  label: "OK (already forwarded)",
-                  value: 14
-                ),
+                    icon: Icons.gpp_bad_rounded,
+                    label: "OK (already forwarded)",
+                    value: 14),
               ],
             ),
           ),
@@ -214,13 +182,10 @@ class _StatusFiltersModalState extends State<StatusFiltersModal> {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 TextButton(
-                  onPressed: checkUncheckAll,
-                  child: Text(
-                    _statusSelected.length == 14
-                      ? AppLocalizations.of(context)!.uncheckAll
-                      : AppLocalizations.of(context)!.checkAll
-                  )
-                ),
+                    onPressed: checkUncheckAll,
+                    child: Text(_statusSelected.length == 14
+                        ? AppLocalizations.of(context)!.uncheckAll
+                        : AppLocalizations.of(context)!.checkAll)),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.end,
                   children: [
@@ -231,17 +196,21 @@ class _StatusFiltersModalState extends State<StatusFiltersModal> {
                     const SizedBox(width: 20),
                     TextButton(
                       onPressed: _statusSelected.isNotEmpty
-                        ? () {
-                            updateList();
-                            Navigator.pop(context);
-                          }
-                        : null,
+                          ? () {
+                              updateList();
+                              Navigator.pop(context);
+                            }
+                          : null,
                       style: ButtonStyle(
-                        foregroundColor: WidgetStateProperty.all(
-                          _statusSelected.isNotEmpty ? Theme.of(context).colorScheme.primary : Colors.grey
-                        ),
-                        overlayColor: WidgetStateProperty.all(Theme.of(context).colorScheme.primary.withOpacity(0.1))
-                      ),
+                          foregroundColor: WidgetStateProperty.all(
+                              _statusSelected.isNotEmpty
+                                  ? Theme.of(context).colorScheme.primary
+                                  : Colors.grey),
+                          overlayColor: WidgetStateProperty.all(
+                              Theme.of(context)
+                                  .colorScheme
+                                  .primary
+                                  .withOpacity(0.1))),
                       child: Text(AppLocalizations.of(context)!.apply),
                     ),
                   ],
@@ -256,27 +225,19 @@ class _StatusFiltersModalState extends State<StatusFiltersModal> {
     if (widget.window == true) {
       return Dialog(
         child: ConstrainedBox(
-          constraints: const BoxConstraints(
-            maxWidth: 500
-          ),
-          child: content()
-        ),
+            constraints: const BoxConstraints(maxWidth: 500), child: content()),
       );
-    }
-    else {
+    } else {
       return Container(
-        decoration: BoxDecoration(
-          borderRadius: const BorderRadius.only(
-            topLeft: Radius.circular(28),
-            topRight: Radius.circular(28)
+          decoration: BoxDecoration(
+            borderRadius: const BorderRadius.only(
+                topLeft: Radius.circular(28), topRight: Radius.circular(28)),
+            color: Theme.of(context).dialogBackgroundColor,
           ),
-          color: Theme.of(context).dialogBackgroundColor,
-        ),
-        child: SafeArea(
-          bottom: true,
-          child: content(),
-        )
-      );
+          child: SafeArea(
+            bottom: true,
+            child: content(),
+          ));
     }
   }
 }

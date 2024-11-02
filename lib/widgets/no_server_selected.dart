@@ -4,7 +4,9 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:pi_hole_client/screens/servers/add_server_fullscreen.dart';
 
 class NoServerSelected extends StatelessWidget {
-  const NoServerSelected({super.key,});
+  const NoServerSelected({
+    super.key,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -12,25 +14,30 @@ class NoServerSelected extends StatelessWidget {
     final width = MediaQuery.of(context).size.width;
 
     void selectServer() {
-      Future.delayed(const Duration(seconds: 0), () => {
-        if (width > 900) {
-          showDialog(
-            context: context,
-            builder: (context) => const AddServerFullscreen(
-              window: true,
-            ),
-            barrierDismissible: false
-          )
-        }
-        else {
-          Navigator.push(context, MaterialPageRoute(
-            fullscreenDialog: true,
-            builder: (BuildContext context) => const AddServerFullscreen(
-              window: false,
-            )
-          ))
-        }
-      });
+      Future.delayed(
+          const Duration(seconds: 0),
+          () => {
+                if (width > 900)
+                  {
+                    showDialog(
+                        context: context,
+                        builder: (context) => const AddServerFullscreen(
+                              window: true,
+                            ),
+                        barrierDismissible: false)
+                  }
+                else
+                  {
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            fullscreenDialog: true,
+                            builder: (BuildContext context) =>
+                                const AddServerFullscreen(
+                                  window: false,
+                                )))
+                  }
+              });
     }
 
     return Column(
@@ -38,7 +45,7 @@ class NoServerSelected extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.center,
       children: [
         SizedBox(
-          height: height-162 > 300 ? 300 : height-162,
+          height: height - 162 > 300 ? 300 : height - 162,
           child: Center(
             child: Column(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -51,9 +58,8 @@ class NoServerSelected extends StatelessWidget {
                 Text(
                   AppLocalizations.of(context)!.noServerSelected,
                   style: TextStyle(
-                    color: Theme.of(context).colorScheme.onSurfaceVariant,
-                    fontSize: 24
-                  ),
+                      color: Theme.of(context).colorScheme.onSurfaceVariant,
+                      fontSize: 24),
                 ),
                 OutlinedButton.icon(
                   onPressed: selectServer,

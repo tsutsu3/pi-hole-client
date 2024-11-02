@@ -22,12 +22,12 @@ class DomainLists extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final serversProvider = Provider.of<ServersProvider>(context);
-    final domainsListProvider = Provider.of<DomainsListProvider>(context, listen: false);
+    final domainsListProvider =
+        Provider.of<DomainsListProvider>(context, listen: false);
 
     return DomainListsWidget(
-      server: serversProvider.selectedServer!,
-      domainsListProvider: domainsListProvider
-    );
+        server: serversProvider.selectedServer!,
+        domainsListProvider: domainsListProvider);
   }
 }
 
@@ -45,7 +45,8 @@ class DomainListsWidget extends StatefulWidget {
   State<DomainListsWidget> createState() => _DomainListsWidgetState();
 }
 
-class _DomainListsWidgetState extends State<DomainListsWidget> with TickerProviderStateMixin {
+class _DomainListsWidgetState extends State<DomainListsWidget>
+    with TickerProviderStateMixin {
   late TabController tabController;
   final ScrollController scrollController = ScrollController();
 
@@ -76,9 +77,7 @@ class _DomainListsWidgetState extends State<DomainListsWidget> with TickerProvid
       process.open(AppLocalizations.of(context)!.deleting);
 
       final result = await removeDomainFromList(
-        server: serversProvider.selectedServer!,
-        domain: domain
-      );
+          server: serversProvider.selectedServer!, domain: domain);
 
       process.close();
 
@@ -86,145 +85,141 @@ class _DomainListsWidgetState extends State<DomainListsWidget> with TickerProvid
         domainsListProvider.removeDomainFromList(domain);
 
         showSnackBar(
-          appConfigProvider: appConfigProvider,
-          label: AppLocalizations.of(context)!.domainRemoved,
-          color: Colors.green
-        );
-      }
-      else if (result['result'] == 'error' && result['message'] != null && result['message'] == 'not_exists') {
+            appConfigProvider: appConfigProvider,
+            label: AppLocalizations.of(context)!.domainRemoved,
+            color: Colors.green);
+      } else if (result['result'] == 'error' &&
+          result['message'] != null &&
+          result['message'] == 'not_exists') {
         showSnackBar(
-          appConfigProvider: appConfigProvider,
-          label: AppLocalizations.of(context)!.domainNotExists,
-          color: Colors.red
-        );
-      }
-      else {
+            appConfigProvider: appConfigProvider,
+            label: AppLocalizations.of(context)!.domainNotExists,
+            color: Colors.red);
+      } else {
         showSnackBar(
-          appConfigProvider: appConfigProvider,
-          label: AppLocalizations.of(context)!.errorRemovingDomain,
-          color: Colors.red
-        );
+            appConfigProvider: appConfigProvider,
+            label: AppLocalizations.of(context)!.errorRemovingDomain,
+            color: Colors.red);
       }
     }
 
     Widget scaffold() {
       return DefaultTabController(
-        length: 2,
-        child: NestedScrollView(
-          controller: scrollController,
-          headerSliverBuilder: ((context, innerBoxIsScrolled) {
-            return [
-              SliverOverlapAbsorber(
-                handle: NestedScrollView.sliverOverlapAbsorberHandleFor(context),
-                sliver: SliverAppBar(
-                  title: domainsListProvider.searchMode
-                    ? TextFormField(
-                        initialValue: domainsListProvider.searchTerm,
-                        onChanged: domainsListProvider.onSearch,
-                        maxLines: 1,
-                        decoration: InputDecoration(
-                          hintText: "${AppLocalizations.of(context)!.searchDomains}...",
-                          hintStyle: const TextStyle(
-                            fontWeight: FontWeight.w400
-                          ),
-                          border: InputBorder.none,
-                          prefixIcon: Icon(
-                            Icons.search_rounded,
-                            color: Theme.of(context).colorScheme.onSurfaceVariant,
+          length: 2,
+          child: NestedScrollView(
+            controller: scrollController,
+            headerSliverBuilder: ((context, innerBoxIsScrolled) {
+              return [
+                SliverOverlapAbsorber(
+                  handle:
+                      NestedScrollView.sliverOverlapAbsorberHandleFor(context),
+                  sliver: SliverAppBar(
+                    title: domainsListProvider.searchMode
+                        ? TextFormField(
+                            initialValue: domainsListProvider.searchTerm,
+                            onChanged: domainsListProvider.onSearch,
+                            maxLines: 1,
+                            decoration: InputDecoration(
+                                hintText:
+                                    "${AppLocalizations.of(context)!.searchDomains}...",
+                                hintStyle: const TextStyle(
+                                    fontWeight: FontWeight.w400),
+                                border: InputBorder.none,
+                                prefixIcon: Icon(
+                                  Icons.search_rounded,
+                                  color: Theme.of(context)
+                                      .colorScheme
+                                      .onSurfaceVariant,
+                                )),
                           )
-                        ),
-                      )
-                    : Text(AppLocalizations.of(context)!.domains),
-                  pinned: true,
-                  floating: true,
-                  forceElevated: innerBoxIsScrolled,
-                  actions: [
-                    if (domainsListProvider.searchMode == false) IconButton(
-                      onPressed: () => domainsListProvider.setSearchMode(true),
-                      icon: const Icon(Icons.search)
-                    ),
-                    if (domainsListProvider.searchMode == true) IconButton(
-                      onPressed: () => setState(() {
-                        domainsListProvider.setSearchMode(false);
-                        searchController.text = "";
-                        domainsListProvider.onSearch("");
-                      }),
-                      icon: const Icon(Icons.close_rounded)
-                    ),
-                    const SizedBox(width: 10)
-                  ],
-                  bottom: TabBar(
-                    controller: tabController,
-                    onTap: (value) => domainsListProvider.setSelectedTab(value),
-                    tabs: const [
-                      Tab(
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Icon(Icons.check_circle_rounded),
-                            SizedBox(width: 16),
-                            Text("Whitelist")
-                          ],
-                        ),
-                      ),
-                      Tab(
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Icon(Icons.block),
-                            SizedBox(width: 16),
-                            Text("Blacklist")
-                          ],
-                        ),
-                      ),
-                    ]
+                        : Text(AppLocalizations.of(context)!.domains),
+                    pinned: true,
+                    floating: true,
+                    forceElevated: innerBoxIsScrolled,
+                    actions: [
+                      if (domainsListProvider.searchMode == false)
+                        IconButton(
+                            onPressed: () =>
+                                domainsListProvider.setSearchMode(true),
+                            icon: const Icon(Icons.search)),
+                      if (domainsListProvider.searchMode == true)
+                        IconButton(
+                            onPressed: () => setState(() {
+                                  domainsListProvider.setSearchMode(false);
+                                  searchController.text = "";
+                                  domainsListProvider.onSearch("");
+                                }),
+                            icon: const Icon(Icons.close_rounded)),
+                      const SizedBox(width: 10)
+                    ],
+                    bottom: TabBar(
+                        controller: tabController,
+                        onTap: (value) =>
+                            domainsListProvider.setSelectedTab(value),
+                        tabs: const [
+                          Tab(
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Icon(Icons.check_circle_rounded),
+                                SizedBox(width: 16),
+                                Text("Whitelist")
+                              ],
+                            ),
+                          ),
+                          Tab(
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Icon(Icons.block),
+                                SizedBox(width: 16),
+                                Text("Blacklist")
+                              ],
+                            ),
+                          ),
+                        ]),
                   ),
+                )
+              ];
+            }),
+            body: TabBarView(
+              controller: tabController,
+              children: [
+                DomainsList(
+                  type: 'whitelist',
+                  scrollController: scrollController,
+                  onDomainSelected: (d) => setState(() => selectedDomain = d),
+                  selectedDomain: selectedDomain,
                 ),
-              )
-            ];
-          }),
-          body: TabBarView(
-            controller: tabController,
-            children: [
-              DomainsList(
-                type: 'whitelist',
-                scrollController: scrollController,
-                onDomainSelected: (d) => setState(() => selectedDomain = d),
-                selectedDomain: selectedDomain,
-              ),
-              DomainsList(
-                type: 'blacklist',
-                scrollController: scrollController,
-                onDomainSelected: (d) => setState(() => selectedDomain = d),
-                selectedDomain: selectedDomain,
-              )
-            ],
-          ),
-        )
-      );
+                DomainsList(
+                  type: 'blacklist',
+                  scrollController: scrollController,
+                  onDomainSelected: (d) => setState(() => selectedDomain = d),
+                  selectedDomain: selectedDomain,
+                )
+              ],
+            ),
+          ));
     }
 
     if (MediaQuery.of(context).size.width > 900) {
       return Row(
         children: [
+          Expanded(flex: 2, child: scaffold()),
           Expanded(
-            flex: 2,
-            child: scaffold()
-          ),
-          Expanded(
-            flex: 3,
-            child: selectedDomain != null ? DomainDetailsScreen(
-              domain: selectedDomain!,
-              remove: (domain) {
-                setState(() => selectedDomain = null);
-                removeDomain(domain);
-              },
-            ) : const SizedBox()
-          )
+              flex: 3,
+              child: selectedDomain != null
+                  ? DomainDetailsScreen(
+                      domain: selectedDomain!,
+                      remove: (domain) {
+                        setState(() => selectedDomain = null);
+                        removeDomain(domain);
+                      },
+                    )
+                  : const SizedBox())
         ],
       );
-    }
-    else {
+    } else {
       return scaffold();
     }
   }

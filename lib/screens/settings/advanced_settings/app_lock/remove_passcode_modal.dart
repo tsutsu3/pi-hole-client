@@ -20,13 +20,11 @@ class RemovePasscodeModal extends StatelessWidget {
       final deleted = await appConfigProvider.setPassCode(null);
       if (deleted == true) {
         Navigator.pop(context);
-      }
-      else {
+      } else {
         showSnackBar(
-          appConfigProvider: appConfigProvider,
-          label: AppLocalizations.of(context)!.connectionCannotBeRemoved,
-          color: Colors.red
-        );
+            appConfigProvider: appConfigProvider,
+            label: AppLocalizations.of(context)!.connectionCannotBeRemoved,
+            color: Colors.red);
       }
     }
 
@@ -42,23 +40,16 @@ class RemovePasscodeModal extends StatelessWidget {
             padding: const EdgeInsets.symmetric(vertical: 24),
             child: Text(
               AppLocalizations.of(context)!.removePasscode,
-              style: const TextStyle(
-                fontSize: 24
-              ),
+              style: const TextStyle(fontSize: 24),
             ),
           ),
         ],
       ),
-      content:Text(
-        AppLocalizations.of(context)!.areSureRemovePasscode
-      ),
+      content: Text(AppLocalizations.of(context)!.areSureRemovePasscode),
       actions: [
         TextButton(
-          onPressed: () => {
-            Navigator.pop(context)
-          },
-          child: Text(AppLocalizations.of(context)!.cancel)
-        ),
+            onPressed: () => {Navigator.pop(context)},
+            child: Text(AppLocalizations.of(context)!.cancel)),
         TextButton(
           onPressed: removePasscode,
           child: Text(AppLocalizations.of(context)!.remove),

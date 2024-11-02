@@ -9,22 +9,19 @@ class HomeTile extends StatelessWidget {
 
   const HomeTile({
     super.key,
-    required this.icon, 
-    required this.iconColor, 
-    required this.color, 
-    required this.label, 
+    required this.icon,
+    required this.iconColor,
+    required this.color,
+    required this.label,
     required this.value,
   });
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(10),
-        color: color
-      ),
-      child: Stack(
-        children: [
+        decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(10), color: color),
+        child: Stack(children: [
           Container(
             height: 100,
             padding: const EdgeInsets.only(left: 10),
@@ -55,18 +52,15 @@ class HomeTile extends StatelessWidget {
                           label,
                           textAlign: TextAlign.end,
                           style: const TextStyle(
-                            color: Colors.white,
-                            fontSize: 14
-                          ),
+                              color: Colors.white, fontSize: 14),
                         ),
                       ),
                       Text(
                         value,
                         style: const TextStyle(
-                          color: Colors.white,
-                          fontSize: 24,
-                          fontWeight: FontWeight.w500
-                        ),
+                            color: Colors.white,
+                            fontSize: 24,
+                            fontWeight: FontWeight.w500),
                       )
                     ],
                   ),
@@ -74,8 +68,6 @@ class HomeTile extends StatelessWidget {
               ],
             ),
           )
-        ] 
-      )
-    );
+        ]));
   }
 }

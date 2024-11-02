@@ -14,39 +14,33 @@ import 'package:pi_hole_client/services/http_requests.dart';
 Future refreshServerStatus(BuildContext context) async {
   final statusProvider = Provider.of<StatusProvider>(context, listen: false);
   final serversProvider = Provider.of<ServersProvider>(context, listen: false);
-  final appConfigProvider = Provider.of<AppConfigProvider>(context, listen: false);
+  final appConfigProvider =
+      Provider.of<AppConfigProvider>(context, listen: false);
 
-  final result = await realtimeStatus(
-    serversProvider.selectedServer!
-  );
+  final result = await realtimeStatus(serversProvider.selectedServer!);
   if (!context.mounted) return;
   if (result['result'] == "success") {
     serversProvider.updateselectedServerStatus(
-      result['data'].status == 'enabled' ? true : false
-    );
+        result['data'].status == 'enabled' ? true : false);
     statusProvider.setIsServerConnected(true);
     statusProvider.setRealtimeStatus(result['data']);
-  }
-  else if (result['result'] == 'ssl_error') {
+  } else if (result['result'] == 'ssl_error') {
     statusProvider.setIsServerConnected(false);
     if (statusProvider.getStatusLoading == LoadStatus.loading) {
       statusProvider.setStatusLoading(LoadStatus.error);
     }
     showSnackBar(
-      appConfigProvider: appConfigProvider,
-      label: AppLocalizations.of(context)!.sslErrorShort,
-      color: Colors.red
-    );
-  }
-  else {
+        appConfigProvider: appConfigProvider,
+        label: AppLocalizations.of(context)!.sslErrorShort,
+        color: Colors.red);
+  } else {
     statusProvider.setIsServerConnected(false);
     if (statusProvider.getStatusLoading == LoadStatus.loading) {
       statusProvider.setStatusLoading(LoadStatus.error);
     }
     showSnackBar(
-      appConfigProvider: appConfigProvider,
-      label: AppLocalizations.of(context)!.couldNotConnectServer,
-      color: Colors.red
-    );
+        appConfigProvider: appConfigProvider,
+        label: AppLocalizations.of(context)!.couldNotConnectServer,
+        color: Colors.red);
   }
 }

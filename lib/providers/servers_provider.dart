@@ -37,18 +37,15 @@ class ServersProvider with ChangeNotifier {
           _serversList.add(server);
           notifyListeners();
           return true;
-        }
-        else {
+        } else {
           return false;
         }
-      }
-      else {
+      } else {
         _serversList.add(server);
         notifyListeners();
         return true;
       }
-    }
-    else {
+    } else {
       return false;
     }
   }
@@ -59,16 +56,14 @@ class ServersProvider with ChangeNotifier {
       List<Server> newServers = _serversList.map((s) {
         if (s.address == server.address) {
           return server;
-        }
-        else {
+        } else {
           return s;
         }
       }).toList();
       _serversList = newServers;
       notifyListeners();
       return true;
-    }
-    else {
+    } else {
       return false;
     }
   }
@@ -77,12 +72,13 @@ class ServersProvider with ChangeNotifier {
     final result = await removeServerQuery(_dbInstance!, serverAddress);
     if (result == true) {
       _selectedServer = null;
-      List<Server> newServers = _serversList.where((server) => server.address != serverAddress).toList();
+      List<Server> newServers = _serversList
+          .where((server) => server.address != serverAddress)
+          .toList();
       _serversList = newServers;
       notifyListeners();
       return true;
-    }
-    else {
+    } else {
       return false;
     }
   }
@@ -94,8 +90,7 @@ class ServersProvider with ChangeNotifier {
         if (s.address == server.address) {
           s.defaultServer = true;
           return s;
-        }
-        else {
+        } else {
           s.defaultServer = false;
           return s;
         }
@@ -103,43 +98,40 @@ class ServersProvider with ChangeNotifier {
       _serversList = newServers;
       notifyListeners();
       return true;
-    }
-    else {
+    } else {
       return false;
     }
   }
 
   Future<bool> setToken(Server server) async {
-    final result = await setServerTokenQuery(_dbInstance!, server.token, server.address);
+    final result =
+        await setServerTokenQuery(_dbInstance!, server.token, server.address);
     if (result == true) {
       _serversList = _serversList.map((s) {
         if (s.address == server.address) {
           return server;
-        }
-        else {
+        } else {
           return s;
         }
       }).toList();
       notifyListeners();
       return true;
-    }
-    else {
+    } else {
       return false;
     }
   }
 
   Future saveFromDb(List<Map<String, dynamic>>? servers, bool connect) async {
-   if (servers != null) {
+    if (servers != null) {
       Server? defaultServer;
       for (var server in servers) {
         final Server serverObj = Server(
-          address: server['address'],
-          alias: server['alias'],
-          token: server['token'],
-          defaultServer: convertFromIntToBool(server['isDefaultServer'])!,
-          basicAuthUser: server['basicAuthUser'],
-          basicAuthPassword: server['basicAuthPassword']
-        );
+            address: server['address'],
+            alias: server['alias'],
+            token: server['token'],
+            defaultServer: convertFromIntToBool(server['isDefaultServer'])!,
+            basicAuthUser: server['basicAuthUser'],
+            basicAuthPassword: server['basicAuthPassword']);
         _serversList.add(serverObj);
         if (convertFromIntToBool(server['isDefaultServer']) == true) {
           defaultServer = serverObj;
@@ -151,8 +143,7 @@ class ServersProvider with ChangeNotifier {
 
         notifyListeners();
       }
-    }
-    else {
+    } else {
       notifyListeners();
     }
   }
@@ -163,8 +154,7 @@ class ServersProvider with ChangeNotifier {
       _selectedServer = serverObj;
       notifyListeners();
       return true;
-    }
-    else {
+    } else {
       _selectedServer = serverObj;
       notifyListeners();
       return false;
@@ -175,10 +165,7 @@ class ServersProvider with ChangeNotifier {
     return await checkUrlExistsQuery(_dbInstance!, url);
   }
 
-  void setselectedServer({
-    required Server? server,
-    bool? toHomeTab
-  }) {
+  void setselectedServer({required Server? server, bool? toHomeTab}) {
     _selectedServer = server;
     if (toHomeTab == true) _appConfigProvider!.setSelectedTab(0);
     notifyListeners();
@@ -202,8 +189,7 @@ class ServersProvider with ChangeNotifier {
       _selectedServer = null;
       notifyListeners();
       return true;
-    }
-    else {
+    } else {
       return false;
     }
   }

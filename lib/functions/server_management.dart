@@ -12,56 +12,48 @@ import 'package:pi_hole_client/providers/servers_provider.dart';
 
 void enableServer(BuildContext context) async {
   final serversProvider = Provider.of<ServersProvider>(context, listen: false);
-  final appConfigProvider = Provider.of<AppConfigProvider>(context, listen: false);
+  final appConfigProvider =
+      Provider.of<AppConfigProvider>(context, listen: false);
 
   final ProcessModal process = ProcessModal(context: context);
   process.open(AppLocalizations.of(context)!.enablingServer);
-  final result = await enableServerRequest(
-    serversProvider.selectedServer!
-  );
+  final result = await enableServerRequest(serversProvider.selectedServer!);
   process.close();
   if (result['result'] == 'success') {
     serversProvider.updateselectedServerStatus(true);
     showSnackBar(
-      appConfigProvider: appConfigProvider,
-      label: AppLocalizations.of(context)!.serverEnabled,
-      color: Colors.green
-    );
-  }
-  else {
+        appConfigProvider: appConfigProvider,
+        label: AppLocalizations.of(context)!.serverEnabled,
+        color: Colors.green);
+  } else {
     showSnackBar(
-      appConfigProvider: appConfigProvider,
-      label: AppLocalizations.of(context)!.couldntEnableServer,
-      color: Colors.red
-    );
+        appConfigProvider: appConfigProvider,
+        label: AppLocalizations.of(context)!.couldntEnableServer,
+        color: Colors.red);
   }
 }
 
 void disableServer(int time, BuildContext context) async {
   final serversProvider = Provider.of<ServersProvider>(context, listen: false);
-  final appConfigProvider = Provider.of<AppConfigProvider>(context, listen: false);
+  final appConfigProvider =
+      Provider.of<AppConfigProvider>(context, listen: false);
 
   final ProcessModal process = ProcessModal(context: context);
   process.open(AppLocalizations.of(context)!.disablingServer);
-  final result = await disableServerRequest(
-    serversProvider.selectedServer!,
-    time
-  );
+  final result =
+      await disableServerRequest(serversProvider.selectedServer!, time);
   process.close();
   if (!context.mounted) return;
   if (result['result'] == 'success') {
     serversProvider.updateselectedServerStatus(false);
     showSnackBar(
-      appConfigProvider: appConfigProvider,
-      label: AppLocalizations.of(context)!.serverDisabled,
-      color: Colors.green
-    );
-  }
-  else {
+        appConfigProvider: appConfigProvider,
+        label: AppLocalizations.of(context)!.serverDisabled,
+        color: Colors.green);
+  } else {
     showSnackBar(
-      appConfigProvider: appConfigProvider,
-      label: AppLocalizations.of(context)!.couldntDisableServer,
-      color: Colors.red
-    );
+        appConfigProvider: appConfigProvider,
+        label: AppLocalizations.of(context)!.couldntDisableServer,
+        color: Colors.red);
   }
 }

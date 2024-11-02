@@ -27,65 +27,56 @@ class NumericPad extends StatelessWidget {
 
     Widget number(String? value) {
       return SizedBox(
-        width: 40,
-        height: 40,
-        child: value != null
-          ? Center(
-              child: Text(
-                value,
-                style: TextStyle(
-                  fontSize: 30,
-                  color: Theme.of(context).colorScheme.primary,
-                  fontWeight: FontWeight.bold
-                ),
-              ),
-            )
-          : Center(
-              child: Container(
-                width: 20,
-                height: 20,
-                decoration: BoxDecoration(
-                  color: Theme.of(context).colorScheme.primary,
-                  borderRadius: BorderRadius.circular(30)
-                ),
-              ),
-        )
-      );
+          width: 40,
+          height: 40,
+          child: value != null
+              ? Center(
+                  child: Text(
+                    value,
+                    style: TextStyle(
+                        fontSize: 30,
+                        color: Theme.of(context).colorScheme.primary,
+                        fontWeight: FontWeight.bold),
+                  ),
+                )
+              : Center(
+                  child: Container(
+                    width: 20,
+                    height: 20,
+                    decoration: BoxDecoration(
+                        color: Theme.of(context).colorScheme.primary,
+                        borderRadius: BorderRadius.circular(30)),
+                  ),
+                ));
     }
 
-    Widget gridItem({
-      required int number
-    }) {
+    Widget gridItem({required int number}) {
       return Expanded(
         flex: 1,
         child: AspectRatio(
-          aspectRatio: 1/1,
+          aspectRatio: 1 / 1,
           child: Padding(
-            padding: EdgeInsets.all(
-              width <= 700
-                ? width > height ? height*0.05 : width*0.05
-                : 10
-            ),
+            padding: EdgeInsets.all(width <= 700
+                ? width > height
+                    ? height * 0.05
+                    : width * 0.05
+                : 10),
             child: ElevatedButton(
-              onPressed: code.length < 4
-                ? () {
-                    if (appConfigProvider.validVibrator) {
-                      Vibration.vibrate(duration: 15, amplitude: 128);
-                    }
-                    String newCode = "$code$number";
-                    onInput(newCode);
-                  }
-                : () => {},
-              style: ButtonStyle(
-                shadowColor: WidgetStateProperty.all(Colors.transparent)
-              ),
-              child: Text(
-                number.toString(),
-                style: TextStyle(
-                  fontSize: height > 700 ? 40 : 25
-                ),
-              )
-            ),
+                onPressed: code.length < 4
+                    ? () {
+                        if (appConfigProvider.validVibrator) {
+                          Vibration.vibrate(duration: 15, amplitude: 128);
+                        }
+                        String newCode = "$code$number";
+                        onInput(newCode);
+                      }
+                    : () => {},
+                style: ButtonStyle(
+                    shadowColor: WidgetStateProperty.all(Colors.transparent)),
+                child: Text(
+                  number.toString(),
+                  style: TextStyle(fontSize: height > 700 ? 40 : 25),
+                )),
           ),
         ),
       );
@@ -95,29 +86,24 @@ class NumericPad extends StatelessWidget {
       return Expanded(
         flex: 1,
         child: AspectRatio(
-          aspectRatio: 1/1,
+          aspectRatio: 1 / 1,
           child: Padding(
-            padding: EdgeInsets.all(
-              width <= 700
-                ? width > height ? height*0.05 : width*0.05
-                : 10
-            ),
+            padding: EdgeInsets.all(width <= 700
+                ? width > height
+                    ? height * 0.05
+                    : width * 0.05
+                : 10),
             child: ElevatedButton(
-              onPressed: code.isNotEmpty
-                ? () {
-                    Vibration.vibrate(duration: 10);
-                    String newCode = code.substring(0, code.length - 1);
-                    onInput(newCode);
-                  }
-                : () {},
-              style: ButtonStyle(
-                shadowColor: WidgetStateProperty.all(Colors.transparent)
-              ),
-              child: Icon(
-                Icons.backspace,
-                size: height > 700 ? 40 : 25
-              )
-            ),
+                onPressed: code.isNotEmpty
+                    ? () {
+                        Vibration.vibrate(duration: 10);
+                        String newCode = code.substring(0, code.length - 1);
+                        onInput(newCode);
+                      }
+                    : () {},
+                style: ButtonStyle(
+                    shadowColor: WidgetStateProperty.all(Colors.transparent)),
+                child: Icon(Icons.backspace, size: height > 700 ? 40 : 25)),
           ),
         ),
       );
@@ -129,8 +115,7 @@ class NumericPad extends StatelessWidget {
         children: [
           Padding(
             padding: EdgeInsets.symmetric(
-              vertical: height > 700 ? height*0.05 : height*0.02
-            ),
+                vertical: height > 700 ? height * 0.05 : height * 0.02),
             child: ShakeAnimation(
               key: shakeKey,
               child: Row(
@@ -151,8 +136,8 @@ class NumericPad extends StatelessWidget {
           Expanded(
             child: Container(
               padding: height > 700
-                ? const EdgeInsets.all(16)
-                : const EdgeInsets.symmetric(horizontal: 16),
+                  ? const EdgeInsets.all(16)
+                  : const EdgeInsets.symmetric(horizontal: 16),
               child: Column(
                 children: [
                   Expanded(

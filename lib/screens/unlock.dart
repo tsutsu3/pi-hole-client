@@ -27,10 +27,12 @@ class _UnlockState extends State<Unlock> {
 
   bool firstLoad = true;
 
-  final GlobalKey<ShakeAnimationState> _shakeKey = GlobalKey<ShakeAnimationState>();
+  final GlobalKey<ShakeAnimationState> _shakeKey =
+      GlobalKey<ShakeAnimationState>();
 
   void checkBiometrics() async {
-    final appConfigProvider = Provider.of<AppConfigProvider>(context, listen: false);
+    final appConfigProvider =
+        Provider.of<AppConfigProvider>(context, listen: false);
 
     final LocalAuthentication auth = LocalAuthentication();
     final biometrics = await auth.getAvailableBiometrics();
@@ -38,12 +40,12 @@ class _UnlockState extends State<Unlock> {
       auth.stopAuthentication();
       try {
         final bool didAuthenticate = await auth.authenticate(
-          localizedReason: AppLocalizations.of(context)!.unlockWithFingerprint,
-          options: const AuthenticationOptions(
-            biometricOnly: true,
-            stickyAuth: true,
-          )
-        );
+            localizedReason:
+                AppLocalizations.of(context)!.unlockWithFingerprint,
+            options: const AuthenticationOptions(
+              biometricOnly: true,
+              stickyAuth: true,
+            ));
         if (didAuthenticate == true && mounted) {
           AppLock.of(context)!.didUnlock();
         }
@@ -51,17 +53,15 @@ class _UnlockState extends State<Unlock> {
         if (!mounted) return;
         if (e.toString().contains('LockedOut')) {
           showSnackBar(
-            appConfigProvider: appConfigProvider,
-            label: AppLocalizations.of(context)!.fingerprintAuthUnavailableAttempts,
-            color: Colors.red
-          );
-        }
-        else {
+              appConfigProvider: appConfigProvider,
+              label: AppLocalizations.of(context)!
+                  .fingerprintAuthUnavailableAttempts,
+              color: Colors.red);
+        } else {
           showSnackBar(
-            appConfigProvider: appConfigProvider,
-            label: AppLocalizations.of(context)!.fingerprintAuthUnavailable,
-            color: Colors.red
-          );
+              appConfigProvider: appConfigProvider,
+              label: AppLocalizations.of(context)!.fingerprintAuthUnavailable,
+              color: Colors.red);
         }
       }
     }
@@ -86,8 +86,7 @@ class _UnlockState extends State<Unlock> {
       setState(() => _code = value);
       if (_code.length == 4 && _code == appConfigProvider.passCode) {
         AppLock.of(context)!.didUnlock();
-      }
-      else if (_code.length == 4 && _code != appConfigProvider.passCode) {
+      } else if (_code.length == 4 && _code != appConfigProvider.passCode) {
         _shakeKey.currentState!.shake();
         setState(() {
           _code = "";
@@ -96,16 +95,16 @@ class _UnlockState extends State<Unlock> {
     }
 
     return Scaffold(
-      body: Stack(
-        children: [
-          SizedBox(
-            height: height,
-            width: double.maxFinite,
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: [
-                const SizedBox(height: 16),
-                height-180 >= 426
+        body: Stack(
+      children: [
+        SizedBox(
+          height: height,
+          width: double.maxFinite,
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            children: [
+              const SizedBox(height: 16),
+              height - 180 >= 426
                   ? Column(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
@@ -121,9 +120,7 @@ class _UnlockState extends State<Unlock> {
                           child: Text(
                             AppLocalizations.of(context)!.enterCodeUnlock,
                             textAlign: TextAlign.center,
-                            style: const TextStyle(
-                              fontSize: 22
-                            ),
+                            style: const TextStyle(fontSize: 22),
                           ),
                         ),
                       ],
@@ -138,23 +135,20 @@ class _UnlockState extends State<Unlock> {
                         const SizedBox(width: 30),
                         Text(
                           AppLocalizations.of(context)!.enterCodeUnlock,
-                          style: const TextStyle(
-                            fontSize: 22
-                          ),
+                          style: const TextStyle(fontSize: 22),
                         ),
                       ],
                     ),
-                NumericPad(
-                  shakeKey: _shakeKey,
-                  code: _code,
-                  onInput: (newCode) => _code.length < 4
-                    ? updateCode(newCode)
-                    : {},
-                )
-              ],
-            ),
+              NumericPad(
+                shakeKey: _shakeKey,
+                code: _code,
+                onInput: (newCode) =>
+                    _code.length < 4 ? updateCode(newCode) : {},
+              )
+            ],
           ),
-          AnimatedOpacity(
+        ),
+        AnimatedOpacity(
             opacity: isLoading == true ? 1 : 0,
             duration: const Duration(milliseconds: 250),
             curve: Curves.easeInOut,
@@ -174,18 +168,15 @@ class _UnlockState extends State<Unlock> {
                     Text(
                       AppLocalizations.of(context)!.connecting,
                       style: const TextStyle(
-                        color: Colors.white,
-                        fontWeight: FontWeight.w500,
-                        fontSize: 26
-                      ),
+                          color: Colors.white,
+                          fontWeight: FontWeight.w500,
+                          fontSize: 26),
                     )
                   ],
                 ),
               ),
-            )
-          )
-        ],
-      )
-    );
+            ))
+      ],
+    ));
   }
 }

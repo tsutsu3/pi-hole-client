@@ -2,8 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:expandable/expandable.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-import 'package:url_launcher/url_launcher.dart'
-;
+import 'package:url_launcher/url_launcher.dart';
 import 'package:pi_hole_client/functions/open_url.dart';
 
 class ContactMeModal extends StatefulWidget {
@@ -18,8 +17,10 @@ class _ContactMeModalState extends State<ContactMeModal> {
 
   void sendEmail() {
     String? encodeQueryParameters(Map<String, String> params) {
-      return params.entries.map((MapEntry<String, String> e) =>
-        '${Uri.encodeComponent(e.key)}=${Uri.encodeComponent(e.value)}').join('&');
+      return params.entries
+          .map((MapEntry<String, String> e) =>
+              '${Uri.encodeComponent(e.key)}=${Uri.encodeComponent(e.value)}')
+          .join('&');
     }
 
     final Uri emailLaunchUri = Uri(
@@ -49,9 +50,7 @@ class _ContactMeModalState extends State<ContactMeModal> {
             padding: const EdgeInsets.symmetric(vertical: 20),
             child: Text(
               AppLocalizations.of(context)!.contact,
-              style: const TextStyle(
-                fontSize: 24
-              ),
+              style: const TextStyle(fontSize: 24),
             ),
           ),
         ],
@@ -62,12 +61,11 @@ class _ContactMeModalState extends State<ContactMeModal> {
           Material(
             color: Colors.transparent,
             child: InkWell(
-              onTap: () => openUrl('https://github.com/tsutsu3/pi-hole-client/issues'),
+              onTap: () =>
+                  openUrl('https://github.com/tsutsu3/pi-hole-client/issues'),
               child: Padding(
-                padding: const EdgeInsets.symmetric(
-                  vertical: 10,
-                  horizontal: 20
-                ),
+                padding:
+                    const EdgeInsets.symmetric(vertical: 10, horizontal: 20),
                 child: Row(
                   children: [
                     SvgPicture.asset(
@@ -83,16 +81,16 @@ class _ContactMeModalState extends State<ContactMeModal> {
                         Text(
                           "GitHub",
                           style: TextStyle(
-                            fontSize: 16,
-                            color: Theme.of(context).colorScheme.onSurface
-                          ),
+                              fontSize: 16,
+                              color: Theme.of(context).colorScheme.onSurface),
                         ),
                         const SizedBox(height: 5),
                         Text(
                           AppLocalizations.of(context)!.openIssueGitHub,
                           style: TextStyle(
-                            color: Theme.of(context).colorScheme.onSurfaceVariant
-                          ),
+                              color: Theme.of(context)
+                                  .colorScheme
+                                  .onSurfaceVariant),
                         )
                       ],
                     )
@@ -104,12 +102,11 @@ class _ContactMeModalState extends State<ContactMeModal> {
           Material(
             color: Colors.transparent,
             child: InkWell(
-              onTap: () => openUrl('https://docs.google.com/forms/d/e/1FAIpQLSdNm7H2iDUaQ0q-JA6hvrUSsGe50_iL5NVK6fR_2hkCsyrA-A/viewform?hl=en'),
+              onTap: () => openUrl(
+                  'https://docs.google.com/forms/d/e/1FAIpQLSdNm7H2iDUaQ0q-JA6hvrUSsGe50_iL5NVK6fR_2hkCsyrA-A/viewform?hl=en'),
               child: Padding(
-                padding: const EdgeInsets.symmetric(
-                  vertical: 10,
-                  horizontal: 20
-                ),
+                padding:
+                    const EdgeInsets.symmetric(vertical: 10, horizontal: 20),
                 child: Row(
                   children: [
                     Icon(Icons.question_mark_rounded),
@@ -121,16 +118,17 @@ class _ContactMeModalState extends State<ContactMeModal> {
                           Text(
                             AppLocalizations.of(context)!.supportForm,
                             style: TextStyle(
-                              fontSize: 16,
-                              color: Theme.of(context).colorScheme.onSurface
-                            ),
+                                fontSize: 16,
+                                color: Theme.of(context).colorScheme.onSurface),
                           ),
                           const SizedBox(height: 5),
                           Text(
-                            AppLocalizations.of(context)!.supportFormDescription,
+                            AppLocalizations.of(context)!
+                                .supportFormDescription,
                             style: TextStyle(
-                              color: Theme.of(context).colorScheme.onSurfaceVariant
-                            ),
+                                color: Theme.of(context)
+                                    .colorScheme
+                                    .onSurfaceVariant),
                           )
                         ],
                       ),
@@ -144,9 +142,8 @@ class _ContactMeModalState extends State<ContactMeModal> {
       ),
       actions: [
         TextButton(
-          onPressed: () => Navigator.pop(context),
-          child: Text(AppLocalizations.of(context)!.close)
-        )
+            onPressed: () => Navigator.pop(context),
+            child: Text(AppLocalizations.of(context)!.close))
       ],
     );
   }

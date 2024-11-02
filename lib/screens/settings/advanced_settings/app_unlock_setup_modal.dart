@@ -16,12 +16,11 @@ class AppUnlockSetupModal extends StatefulWidget {
   final bool useBiometrics;
   final bool window;
 
-  const AppUnlockSetupModal({
-    super.key,
-    required this.topBarHeight,
-    required this.useBiometrics,
-    required this.window
-  });
+  const AppUnlockSetupModal(
+      {super.key,
+      required this.topBarHeight,
+      required this.useBiometrics,
+      required this.window});
 
   @override
   State<AppUnlockSetupModal> createState() => _AppUnlockSetupModalState();
@@ -34,7 +33,8 @@ class _AppUnlockSetupModalState extends State<AppUnlockSetupModal> {
   void checkAvailableBiometrics() async {
     try {
       final auth = LocalAuthentication();
-      final List<BiometricType> biometrics = await auth.getAvailableBiometrics();
+      final List<BiometricType> biometrics =
+          await auth.getAvailableBiometrics();
       setState(() => availableBiometrics = biometrics);
     } catch (_) {
       // NO BIOMETRICS //
@@ -54,18 +54,18 @@ class _AppUnlockSetupModalState extends State<AppUnlockSetupModal> {
     final mediaQuery = MediaQuery.of(context);
 
     void openPassCodeDialog() {
-      Navigator.push(context, MaterialPageRoute(
-        fullscreenDialog: true,
-        builder: (BuildContext context) => const CreatePassCodeModal()
-      ));
+      Navigator.push(
+          context,
+          MaterialPageRoute(
+              fullscreenDialog: true,
+              builder: (BuildContext context) => const CreatePassCodeModal()));
     }
 
     void openRemovePasscode() {
       showDialog(
-        context: context,
-        builder: (context) => const RemovePasscodeModal(),
-        barrierDismissible: false
-      );
+          context: context,
+          builder: (context) => const RemovePasscodeModal(),
+          barrierDismissible: false);
     }
 
     void enableDisableBiometricsUnlock(bool status) async {
@@ -86,45 +86,41 @@ class _AppUnlockSetupModalState extends State<AppUnlockSetupModal> {
               final result = await appConfigProvider.setUseBiometrics(true);
               if (result == false) {
                 showSnackBar(
-                  appConfigProvider: appConfigProvider,
-                  label: AppLocalizations.of(context)!.biometricUnlockNotActivated,
-                  color: Colors.red
-                );
+                    appConfigProvider: appConfigProvider,
+                    label: AppLocalizations.of(context)!
+                        .biometricUnlockNotActivated,
+                    color: Colors.red);
               }
             }
           } catch (e) {
             if (e.toString().contains('LockedOut')) {
               showSnackBar(
-                appConfigProvider: appConfigProvider,
-                label: AppLocalizations.of(context)!.fingerprintAuthUnavailableAttempts,
-                color: Colors.red
-              );
-            }
-            else {
+                  appConfigProvider: appConfigProvider,
+                  label: AppLocalizations.of(context)!
+                      .fingerprintAuthUnavailableAttempts,
+                  color: Colors.red);
+            } else {
               showSnackBar(
-                appConfigProvider: appConfigProvider,
-                label: AppLocalizations.of(context)!.fingerprintAuthUnavailable,
-                color: Colors.red
-              );
+                  appConfigProvider: appConfigProvider,
+                  label:
+                      AppLocalizations.of(context)!.fingerprintAuthUnavailable,
+                  color: Colors.red);
             }
           }
-        }
-        else {
+        } else {
           showSnackBar(
             appConfigProvider: appConfigProvider,
             label: AppLocalizations.of(context)!.noAvailableBiometrics,
             color: Theme.of(context).colorScheme.onSurfaceVariant,
           );
         }
-      }
-      else {
+      } else {
         final result = await appConfigProvider.setUseBiometrics(false);
         if (result == false) {
           showSnackBar(
-            appConfigProvider: appConfigProvider,
-            label: AppLocalizations.of(context)!.biometricUnlockNotDisabled,
-            color: Colors.red
-          );
+              appConfigProvider: appConfigProvider,
+              label: AppLocalizations.of(context)!.biometricUnlockNotDisabled,
+              color: Colors.red);
         }
       }
     }
@@ -135,9 +131,7 @@ class _AppUnlockSetupModalState extends State<AppUnlockSetupModal> {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             const Padding(
-              padding: EdgeInsets.only(
-                top: 24
-              ),
+              padding: EdgeInsets.only(top: 24),
               child: Icon(
                 Icons.password_rounded,
                 size: 26,
@@ -147,185 +141,171 @@ class _AppUnlockSetupModalState extends State<AppUnlockSetupModal> {
               padding: const EdgeInsets.all(24),
               child: Text(
                 AppLocalizations.of(context)!.appUnlock,
-                style: const TextStyle(
-                  fontSize: 24
-                ),
+                style: const TextStyle(fontSize: 24),
               ),
             ),
           ],
         ),
         Container(
-          margin: const EdgeInsets.only(
-            bottom: 24,
-            top: 10
-          ),
-          padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
-          decoration: BoxDecoration(
-            border: Border.all(
-              color: appConfigProvider.passCode != null
-                ? Colors.green
-                : Colors.red
-            ),
-            borderRadius: BorderRadius.circular(30)
-          ),
-          child: appConfigProvider.passCode != null
-            ? Row(
-                mainAxisSize: MainAxisSize.min,
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  const Icon(
-                    Icons.check,
-                    color: Colors.green,
-                    size: 20,
-                  ),
-                  const SizedBox(width: 20),
-                  Text(
-                    AppLocalizations.of(context)!.statusEnabled,
-                    style: const TextStyle(
-                      color: Colors.green,
-                      fontSize: 15,
-                      fontWeight: FontWeight.w500
-                    ),
-                  )
-                ],
-              )
-            : Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  const Icon(
-                    Icons.close,
-                    color: Colors.red,
-                    size: 20,
-                  ),
-                  const SizedBox(width: 20),
-                  Text(
-                    AppLocalizations.of(context)!.statusDisabled,
-                    style: const TextStyle(
-                      color: Colors.red,
-                      fontSize: 15,
-                      fontWeight: FontWeight.w500
-                    ),
-                  )
-              ],
-            )
-        ),
-        appConfigProvider.passCode != null
-          ? Padding(
-              padding: const EdgeInsets.symmetric(
-                horizontal: 10,
-                vertical: 20
-              ),
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: [
-                  Row(
+            margin: const EdgeInsets.only(bottom: 24, top: 10),
+            padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+            decoration: BoxDecoration(
+                border: Border.all(
+                    color: appConfigProvider.passCode != null
+                        ? Colors.green
+                        : Colors.red),
+                borderRadius: BorderRadius.circular(30)),
+            child: appConfigProvider.passCode != null
+                ? Row(
+                    mainAxisSize: MainAxisSize.min,
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      ElevatedButton(
-                        onPressed: openPassCodeDialog,
-                        style: ButtonStyle(
-                          shadowColor: WidgetStateProperty.all(Colors.transparent)
-                        ),
-                        child: Row(
-                          children: [
-                            if (mediaQuery.size.width > 380) const Icon(Icons.update),
-                            if (mediaQuery.size.width > 380) const SizedBox(width: 10),
-                            Text(AppLocalizations.of(context)!.updatePasscode)
-                          ],
-                        ),
+                      const Icon(
+                        Icons.check,
+                        color: Colors.green,
+                        size: 20,
                       ),
-                    ],
-                  ),
-                  const SizedBox(height: 16),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      ElevatedButton(
-                        onPressed: openRemovePasscode,
-                        style: ButtonStyle(
-                          shadowColor: WidgetStateProperty.all(Colors.transparent)
-                        ),
-                        child: Row(
-                          children: [
-                            if (mediaQuery.size.width > 380) const Icon(Icons.delete),
-                            if (mediaQuery.size.width > 380) const SizedBox(width: 10),
-                            Text(AppLocalizations.of(context)!.removePasscode)
-                          ],
-                        ),
-                      ),
-                    ],
-                  ),
-                ],
-              ),
-            )
-          : Padding(
-              padding: const EdgeInsets.all(20),
-              child: ElevatedButton.icon(
-                onPressed: openPassCodeDialog,
-                style: ButtonStyle(
-                  shadowColor: WidgetStateProperty.all(Colors.transparent)
-                ),
-                icon: const Icon(Icons.pin_outlined),
-                label: Text(AppLocalizations.of(context)!.setPassCode),
-              ),
-            ),
-        if (appConfigProvider.biometricsSupport == true) Material(
-          color: Colors.transparent,
-          child: InkWell(
-            onTap: appConfigProvider.passCode != null
-              ? () => enableDisableBiometricsUnlock(!appConfigProvider.useBiometrics)
-              : null,
-            child: Padding(
-              padding: const EdgeInsets.only(
-                top: 10,
-                bottom: 10,
-                left: 30,
-                right: 20
-              ),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Row(
-                    children: [
-                      Icon(
-                        Icons.fingerprint,
-                        color: appConfigProvider.passCode != null
-                          ? null
-                          : Colors.grey,
-                      ),
-                      const SizedBox(width: 10),
+                      const SizedBox(width: 20),
                       Text(
-                        AppLocalizations.of(context)!.useFingerprint,
-                        style: TextStyle(
-                          fontSize: 16,
-                          color: appConfigProvider.passCode != null
-                            ? null
-                            : Colors.grey
-                        ),
-                      ),
+                        AppLocalizations.of(context)!.statusEnabled,
+                        style: const TextStyle(
+                            color: Colors.green,
+                            fontSize: 15,
+                            fontWeight: FontWeight.w500),
+                      )
                     ],
-                  ),
-                  Switch(
-                    value: appConfigProvider.useBiometrics,
-                    onChanged: appConfigProvider.passCode != null
-                      ? (value) => enableDisableBiometricsUnlock(value)
-                      : null
                   )
-                ],
+                : Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      const Icon(
+                        Icons.close,
+                        color: Colors.red,
+                        size: 20,
+                      ),
+                      const SizedBox(width: 20),
+                      Text(
+                        AppLocalizations.of(context)!.statusDisabled,
+                        style: const TextStyle(
+                            color: Colors.red,
+                            fontSize: 15,
+                            fontWeight: FontWeight.w500),
+                      )
+                    ],
+                  )),
+        appConfigProvider.passCode != null
+            ? Padding(
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 10, vertical: 20),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: [
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        ElevatedButton(
+                          onPressed: openPassCodeDialog,
+                          style: ButtonStyle(
+                              shadowColor:
+                                  WidgetStateProperty.all(Colors.transparent)),
+                          child: Row(
+                            children: [
+                              if (mediaQuery.size.width > 380)
+                                const Icon(Icons.update),
+                              if (mediaQuery.size.width > 380)
+                                const SizedBox(width: 10),
+                              Text(AppLocalizations.of(context)!.updatePasscode)
+                            ],
+                          ),
+                        ),
+                      ],
+                    ),
+                    const SizedBox(height: 16),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        ElevatedButton(
+                          onPressed: openRemovePasscode,
+                          style: ButtonStyle(
+                              shadowColor:
+                                  WidgetStateProperty.all(Colors.transparent)),
+                          child: Row(
+                            children: [
+                              if (mediaQuery.size.width > 380)
+                                const Icon(Icons.delete),
+                              if (mediaQuery.size.width > 380)
+                                const SizedBox(width: 10),
+                              Text(AppLocalizations.of(context)!.removePasscode)
+                            ],
+                          ),
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
+              )
+            : Padding(
+                padding: const EdgeInsets.all(20),
+                child: ElevatedButton.icon(
+                  onPressed: openPassCodeDialog,
+                  style: ButtonStyle(
+                      shadowColor: WidgetStateProperty.all(Colors.transparent)),
+                  icon: const Icon(Icons.pin_outlined),
+                  label: Text(AppLocalizations.of(context)!.setPassCode),
+                ),
+              ),
+        if (appConfigProvider.biometricsSupport == true)
+          Material(
+            color: Colors.transparent,
+            child: InkWell(
+              onTap: appConfigProvider.passCode != null
+                  ? () => enableDisableBiometricsUnlock(
+                      !appConfigProvider.useBiometrics)
+                  : null,
+              child: Padding(
+                padding: const EdgeInsets.only(
+                    top: 10, bottom: 10, left: 30, right: 20),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Row(
+                      children: [
+                        Icon(
+                          Icons.fingerprint,
+                          color: appConfigProvider.passCode != null
+                              ? null
+                              : Colors.grey,
+                        ),
+                        const SizedBox(width: 10),
+                        Text(
+                          AppLocalizations.of(context)!.useFingerprint,
+                          style: TextStyle(
+                              fontSize: 16,
+                              color: appConfigProvider.passCode != null
+                                  ? null
+                                  : Colors.grey),
+                        ),
+                      ],
+                    ),
+                    Switch(
+                        value: appConfigProvider.useBiometrics,
+                        onChanged: appConfigProvider.passCode != null
+                            ? (value) => enableDisableBiometricsUnlock(value)
+                            : null)
+                  ],
+                ),
               ),
             ),
           ),
-        ),
         Padding(
           padding: const EdgeInsets.all(20),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.end,
             children: [
               TextButton(
-                onPressed: () => Navigator.pop(context),
-                child: Text(AppLocalizations.of(context)!.close)
-              )
+                  onPressed: () => Navigator.pop(context),
+                  child: Text(AppLocalizations.of(context)!.close))
             ],
           ),
         )
@@ -335,9 +315,7 @@ class _AppUnlockSetupModalState extends State<AppUnlockSetupModal> {
     if (widget.window == true) {
       return Dialog(
         child: ConstrainedBox(
-          constraints: const BoxConstraints(
-            maxWidth: 400
-          ),
+          constraints: const BoxConstraints(maxWidth: 400),
           child: SingleChildScrollView(
             child: Wrap(
               alignment: WrapAlignment.center,
@@ -346,23 +324,18 @@ class _AppUnlockSetupModalState extends State<AppUnlockSetupModal> {
           ),
         ),
       );
-    }
-    else {
+    } else {
       return Container(
-        height: (mediaQuery.size.height-widget.topBarHeight) > 460
-          ? 460
-          : mediaQuery.size.height-widget.topBarHeight,
+        height: (mediaQuery.size.height - widget.topBarHeight) > 460
+            ? 460
+            : mediaQuery.size.height - widget.topBarHeight,
         decoration: BoxDecoration(
           borderRadius: const BorderRadius.only(
-            topLeft: Radius.circular(28),
-            topRight: Radius.circular(28)
-          ),
+              topLeft: Radius.circular(28), topRight: Radius.circular(28)),
           color: Theme.of(context).dialogBackgroundColor,
         ),
         child: SingleChildScrollView(
-          child: Column(
-            children: content()
-          ),
+          child: Column(children: content()),
         ),
       );
     }

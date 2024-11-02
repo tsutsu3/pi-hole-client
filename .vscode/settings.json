@@ -1,21 +1,13 @@
 {
-  "editor.formatOnSave": false,
-  "editor.formatOnPaste": false,
-  "editor.formatOnType": false,
   "editor.defaultFormatter": "Dart-Code.flutter",
-  "dart.lineLength": 120,
+  "dart.lineLength": 80,
   "[dart]": {
-    "editor.rulers": [
-      120
-    ],
-    "editor.defaultFormatter": "Dart-Code.dart-code",
-    "editor.formatOnSave": false,
-    "editor.formatOnPaste": false,
-    "editor.formatOnType": false
+    "editor.rulers": [80, 100, 120]
   },
-  "cSpell.ignorePaths": [
-    "/pubspec.yaml",
-    "/.github/workflows"
-  ],
-  "java.configuration.updateBuildConfiguration": "interactive"
+  "cSpell.ignorePaths": ["/pubspec.yaml", "/.github/workflows"],
+  "java.configuration.updateBuildConfiguration": "interactive",
+  "arb-editor.suppressedWarnings": [
+    "missing_metadata_for_key",
+    "missing_messages_from_template"
+  ]
 }

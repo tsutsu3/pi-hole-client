@@ -5,9 +5,5 @@ class Fab {
   final Color color;
   final void Function() onTap;
 
-  const Fab({
-    required this.icon,
-    required this.color,
-    required this.onTap
-  });
+  const Fab({required this.icon, required this.color, required this.onTap});
 }

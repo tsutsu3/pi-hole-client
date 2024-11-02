@@ -13,66 +13,58 @@ import 'package:pi_hole_client/providers/status_provider.dart';
 class QueriesServersTab extends StatelessWidget {
   final Future<void> Function() onRefresh;
 
-  const QueriesServersTab({
-    super.key,
-    required this.onRefresh
-  });
+  const QueriesServersTab({super.key, required this.onRefresh});
 
   @override
   Widget build(BuildContext context) {
     final statusProvider = Provider.of<StatusProvider>(context);
 
     return CustomTabContent(
-      loadingGenerator: () => SizedBox(
-        width: double.maxFinite,
-        height: 300,
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            const CircularProgressIndicator(),
-            const SizedBox(height: 50),
-            Text(
-              AppLocalizations.of(context)!.loadingStats,
-              textAlign: TextAlign.center,
-              style: TextStyle(
-                color: Theme.of(context).colorScheme.onSurfaceVariant,
-                fontSize: 22
+        loadingGenerator: () => SizedBox(
+              width: double.maxFinite,
+              height: 300,
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  const CircularProgressIndicator(),
+                  const SizedBox(height: 50),
+                  Text(
+                    AppLocalizations.of(context)!.loadingStats,
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                        color: Theme.of(context).colorScheme.onSurfaceVariant,
+                        fontSize: 22),
+                  )
+                ],
               ),
-            )
-          ],
-        ),
-      ),
-      contentGenerator: () => [
-        const QueriesServersTabContent()
-      ],
-      errorGenerator: () =>  SizedBox(
-        width: double.maxFinite,
-        height: 300,
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            const Icon(
-              Icons.error,
-              size: 50,
-              color: Colors.red,
             ),
-            const SizedBox(height: 50),
-            Text(
-              AppLocalizations.of(context)!.statsNotLoaded,
-              textAlign: TextAlign.center,
-              style: TextStyle(
-                color: Theme.of(context).colorScheme.onSurfaceVariant,
-                fontSize: 22
+        contentGenerator: () => [const QueriesServersTabContent()],
+        errorGenerator: () => SizedBox(
+              width: double.maxFinite,
+              height: 300,
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  const Icon(
+                    Icons.error,
+                    size: 50,
+                    color: Colors.red,
+                  ),
+                  const SizedBox(height: 50),
+                  Text(
+                    AppLocalizations.of(context)!.statsNotLoaded,
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                        color: Theme.of(context).colorScheme.onSurfaceVariant,
+                        fontSize: 22),
+                  )
+                ],
               ),
-            )
-          ],
-        ),
-      ),
-      loadStatus: statusProvider.getStatusLoading,
-      onRefresh: onRefresh
-    );
+            ),
+        loadStatus: statusProvider.getStatusLoading,
+        onRefresh: onRefresh);
   }
 }
 
@@ -88,115 +80,103 @@ class QueriesServersTabContent extends StatelessWidget {
     return Column(
       children: [
         statusProvider.getRealtimeStatus!.queryTypes.isEmpty == false
-          ? Padding(
-              padding: const EdgeInsets.only(top: 20, bottom: 10),
-              child: Column(
-                children: [
+            ? Padding(
+                padding: const EdgeInsets.only(top: 20, bottom: 10),
+                child: Column(children: [
                   SectionLabel(
                     label: AppLocalizations.of(context)!.queryTypes,
-                    padding: const EdgeInsets.only(
-                      top: 8,
-                      left: 16,
-                      bottom: 24
-                    ),
+                    padding:
+                        const EdgeInsets.only(top: 8, left: 16, bottom: 24),
                   ),
-                  if (width > 700) Row(
-                    children: [
-                      Expanded(
-                        flex: 2,
-                        child: ConstrainedBox(
-                          constraints: const BoxConstraints(
-                            maxWidth: 200,
-                            maxHeight: 200
-                          ),
-                          child: CustomPieChart(
+                  if (width > 700)
+                    Row(
+                      children: [
+                        Expanded(
+                            flex: 2,
+                            child: ConstrainedBox(
+                              constraints: const BoxConstraints(
+                                  maxWidth: 200, maxHeight: 200),
+                              child: CustomPieChart(
+                                data: statusProvider
+                                    .getRealtimeStatus!.queryTypes,
+                              ),
+                            )),
+                        Expanded(
+                          flex: 3,
+                          child: PieChartLegend(
                             data: statusProvider.getRealtimeStatus!.queryTypes,
+                            dataUnit: '%',
                           ),
                         )
-                      ),
-                      Expanded(
-                        flex: 3,
-                        child: PieChartLegend(
-                          data: statusProvider.getRealtimeStatus!.queryTypes,
-                          dataUnit: '%',
-                        ),
-                      )
-                    ],
-                  ),
+                      ],
+                    ),
                   if (width <= 700) ...[
                     SizedBox(
-                      width: width-40,
-                      child: CustomPieChart(
-                        data: statusProvider.getRealtimeStatus!.queryTypes,
-                      )
-                    ),
+                        width: width - 40,
+                        child: CustomPieChart(
+                          data: statusProvider.getRealtimeStatus!.queryTypes,
+                        )),
                     const SizedBox(height: 20),
                     PieChartLegend(
                       data: statusProvider.getRealtimeStatus!.queryTypes,
                       dataUnit: '%',
                     )
                   ]
-                ]
+                ]),
+              )
+            : NoDataChart(
+                topLabel: AppLocalizations.of(context)!.queryTypes,
               ),
-            )
-          : NoDataChart(
-            topLabel: AppLocalizations.of(context)!.queryTypes,
-          ),
         statusProvider.getRealtimeStatus!.forwardDestinations.isEmpty == false
-          ? Padding(
-              padding: const EdgeInsets.only(top: 20, bottom: 10),
-              child: Column(
-                children: [
+            ? Padding(
+                padding: const EdgeInsets.only(top: 20, bottom: 10),
+                child: Column(children: [
                   SectionLabel(
                     label: AppLocalizations.of(context)!.upstreamServers,
-                    padding: const EdgeInsets.only(
-                      top: 16,
-                      left: 16,
-                      bottom: 24
-                    ),
+                    padding:
+                        const EdgeInsets.only(top: 16, left: 16, bottom: 24),
                   ),
-                  if (width > 700) Row(
-                    children: [
-                      Expanded(
-                        flex: 2,
-                        child: ConstrainedBox(
-                          constraints: const BoxConstraints(
-                            maxWidth: 200,
-                            maxHeight: 200
+                  if (width > 700)
+                    Row(
+                      children: [
+                        Expanded(
+                            flex: 2,
+                            child: ConstrainedBox(
+                                constraints: const BoxConstraints(
+                                    maxWidth: 200, maxHeight: 200),
+                                child: CustomPieChart(
+                                  data: statusProvider
+                                      .getRealtimeStatus!.forwardDestinations,
+                                ))),
+                        Expanded(
+                          flex: 3,
+                          child: PieChartLegend(
+                            data: statusProvider
+                                .getRealtimeStatus!.forwardDestinations,
+                            dataUnit: '%',
                           ),
-                          child: CustomPieChart(
-                            data: statusProvider.getRealtimeStatus!.forwardDestinations,
-                          )
                         )
-                      ),
-                      Expanded(
-                        flex: 3,
-                        child: PieChartLegend(
-                          data: statusProvider.getRealtimeStatus!.forwardDestinations,
-                          dataUnit: '%',
-                        ),
-                      )
-                    ],
-                  ),
+                      ],
+                    ),
                   if (width <= 700) ...[
                     SizedBox(
-                      width: width-40,
-                      child: CustomPieChart(
-                        data: statusProvider.getRealtimeStatus!.forwardDestinations,
-                      )
-                    ),
+                        width: width - 40,
+                        child: CustomPieChart(
+                          data: statusProvider
+                              .getRealtimeStatus!.forwardDestinations,
+                        )),
                     const SizedBox(height: 20),
                     PieChartLegend(
-                      data: statusProvider.getRealtimeStatus!.forwardDestinations,
+                      data:
+                          statusProvider.getRealtimeStatus!.forwardDestinations,
                       dataUnit: '%',
                     )
                   ]
-                ]
+                ]),
+              )
+            : NoDataChart(
+                topLabel: AppLocalizations.of(context)!.upstreamServers,
               ),
-            )
-          : NoDataChart(
-            topLabel: AppLocalizations.of(context)!.upstreamServers,
-          ),
       ],
     );
   }

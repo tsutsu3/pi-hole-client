@@ -31,24 +31,22 @@ class _AddDomainModalState extends State<AddDomainModal> {
   @override
   void initState() {
     selectedType = widget.selectedlist == 'whitelist'
-      ? ListType.whitelist : ListType.blacklist;
+        ? ListType.whitelist
+        : ListType.blacklist;
     super.initState();
   }
 
   String getSelectedList() {
     if (selectedType == ListType.whitelist && wildcard == false) {
       return "white";
-    }
-    else if (selectedType == ListType.whitelist && wildcard == true) {
+    } else if (selectedType == ListType.whitelist && wildcard == true) {
       return "regex_white";
     }
     if (selectedType == ListType.blacklist && wildcard == false) {
       return "black";
-    }
-    else if (selectedType == ListType.blacklist && wildcard == true) {
+    } else if (selectedType == ListType.blacklist && wildcard == true) {
       return "regex_black";
-    }
-    else {
+    } else {
       return "";
     }
   }
@@ -59,19 +57,18 @@ class _AddDomainModalState extends State<AddDomainModal> {
 
   void validateDomain(String? value) {
     if (value != null && value != '') {
-      final RegExp subrouteRegexp = RegExp(r'^([a-z0-9]+(?:[._-][a-z0-9]+)*)([a-z0-9]+(?:[.-][a-z0-9]+)*\.[a-z]{2,})$');
+      final RegExp subrouteRegexp = RegExp(
+          r'^([a-z0-9]+(?:[._-][a-z0-9]+)*)([a-z0-9]+(?:[.-][a-z0-9]+)*\.[a-z]{2,})$');
       if (subrouteRegexp.hasMatch(value) == true) {
         setState(() {
           domainError = null;
         });
-      }
-      else {
+      } else {
         setState(() {
           domainError = AppLocalizations.of(context)!.invalidDomain;
         });
       }
-    }
-    else {
+    } else {
       setState(() {
         domainError = null;
       });
@@ -80,16 +77,14 @@ class _AddDomainModalState extends State<AddDomainModal> {
   }
 
   void validateAllData() {
-    if (
-      domainController.text != '' &&
-      domainError == null &&
-      (selectedType == ListType.blacklist || selectedType == ListType.whitelist)
-    ) {
+    if (domainController.text != '' &&
+        domainError == null &&
+        (selectedType == ListType.blacklist ||
+            selectedType == ListType.whitelist)) {
       setState(() {
         allDataValid = true;
       });
-    }
-    else {
+    } else {
       setState(() {
         allDataValid = false;
       });
@@ -118,9 +113,7 @@ class _AddDomainModalState extends State<AddDomainModal> {
                         padding: const EdgeInsets.all(20),
                         child: Text(
                           AppLocalizations.of(context)!.addDomain,
-                          style: const TextStyle(
-                            fontSize: 24
-                          ),
+                          style: const TextStyle(fontSize: 24),
                         ),
                       ),
                     ],
@@ -131,16 +124,15 @@ class _AddDomainModalState extends State<AddDomainModal> {
                     child: SegmentedButton<ListType>(
                       segments: const [
                         ButtonSegment(
-                          value: ListType.whitelist,
-                          label: Text("Whitelist")
-                        ),
+                            value: ListType.whitelist,
+                            label: Text("Whitelist")),
                         ButtonSegment(
-                          value: ListType.blacklist,
-                          label: Text("Blacklist")
-                        ),
+                            value: ListType.blacklist,
+                            label: Text("Blacklist")),
                       ],
                       selected: <ListType>{selectedType},
-                      onSelectionChanged: (value) => setState(() => selectedType = value.first),
+                      onSelectionChanged: (value) =>
+                          setState(() => selectedType = value.first),
                     ),
                   ),
                   Container(
@@ -150,15 +142,12 @@ class _AddDomainModalState extends State<AddDomainModal> {
                       controller: domainController,
                       onChanged: (value) => validateDomain(value),
                       decoration: InputDecoration(
-                        prefixIcon: const Icon(Icons.domain_rounded),
-                        border: const OutlineInputBorder(
-                          borderRadius: BorderRadius.all(
-                            Radius.circular(10)
-                          )
-                        ),
-                        labelText: AppLocalizations.of(context)!.domain,
-                        errorText: domainError
-                      ),
+                          prefixIcon: const Icon(Icons.domain_rounded),
+                          border: const OutlineInputBorder(
+                              borderRadius:
+                                  BorderRadius.all(Radius.circular(10))),
+                          labelText: AppLocalizations.of(context)!.domain,
+                          errorText: domainError),
                     ),
                   ),
                   const Padding(padding: EdgeInsets.all(8)),
@@ -167,9 +156,8 @@ class _AddDomainModalState extends State<AddDomainModal> {
                     onTap: () => setState(() => wildcard = !wildcard),
                     trailing: Switch(
                       value: wildcard,
-                      onChanged: (value) => {
-                        setState((() => wildcard = value))
-                      },
+                      onChanged: (value) =>
+                          {setState((() => wildcard = value))},
                     ),
                     padding: const EdgeInsets.all(8),
                   ),
@@ -183,29 +171,24 @@ class _AddDomainModalState extends State<AddDomainModal> {
               mainAxisAlignment: MainAxisAlignment.end,
               children: [
                 TextButton(
-                  onPressed: () => Navigator.pop(context),
-                  child: Text(AppLocalizations.of(context)!.cancel)
-                ),
+                    onPressed: () => Navigator.pop(context),
+                    child: Text(AppLocalizations.of(context)!.cancel)),
                 const SizedBox(width: 14),
                 TextButton(
                   onPressed: allDataValid == true
-                    ? () {
-                        widget.addDomain({
-                          'list': getSelectedList(),
-                          'domain': wildcard == true
-                            ? applyWildcard()
-                            : domainController.text,
-                        });
-                        Navigator.pop(context);
-                      }
-                    : null,
+                      ? () {
+                          widget.addDomain({
+                            'list': getSelectedList(),
+                            'domain': wildcard == true
+                                ? applyWildcard()
+                                : domainController.text,
+                          });
+                          Navigator.pop(context);
+                        }
+                      : null,
                   style: ButtonStyle(
-                    foregroundColor: WidgetStateProperty.all(
-                      allDataValid == true
-                        ? null
-                        : Colors.grey
-                    )
-                  ),
+                      foregroundColor: WidgetStateProperty.all(
+                          allDataValid == true ? null : Colors.grey)),
                   child: Text(AppLocalizations.of(context)!.add),
                 ),
               ],
@@ -218,33 +201,23 @@ class _AddDomainModalState extends State<AddDomainModal> {
     if (widget.window == true) {
       return Dialog(
         child: ConstrainedBox(
-          constraints: const BoxConstraints(
-            maxWidth: 500
-          ),
-          child: Padding(
-            padding: const EdgeInsets.all(16),
-            child: content(),
-          )
-        ),
+            constraints: const BoxConstraints(maxWidth: 500),
+            child: Padding(
+              padding: const EdgeInsets.all(16),
+              child: content(),
+            )),
       );
-    }
-    else {
+    } else {
       return Padding(
         padding: MediaQuery.of(context).viewInsets,
         child: Container(
-          padding: const EdgeInsets.all(24),
-          decoration: BoxDecoration(
-            color: Theme.of(context).dialogBackgroundColor,
-            borderRadius: const BorderRadius.only(
-              topLeft: Radius.circular(28),
-              topRight: Radius.circular(28)
-            )
-          ),
-          child: SafeArea(
-            bottom: true,
-            child: content()
-          )
-        ),
+            padding: const EdgeInsets.all(24),
+            decoration: BoxDecoration(
+                color: Theme.of(context).dialogBackgroundColor,
+                borderRadius: const BorderRadius.only(
+                    topLeft: Radius.circular(28),
+                    topRight: Radius.circular(28))),
+            child: SafeArea(bottom: true, child: content())),
       );
     }
   }

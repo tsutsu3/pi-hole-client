@@ -9,16 +9,15 @@ class CustomListTile extends StatelessWidget {
   final Widget? trailing;
   final EdgeInsets? padding;
 
-  const CustomListTile({
-    super.key,
-    this.leadingIcon,
-    required this.label,
-    this.description,
-    this.color,
-    this.onTap,
-    this.trailing,
-    this.padding
-  });
+  const CustomListTile(
+      {super.key,
+      this.leadingIcon,
+      required this.label,
+      this.description,
+      this.color,
+      this.onTap,
+      this.trailing,
+      this.padding});
 
   @override
   Widget build(BuildContext context) {
@@ -27,22 +26,21 @@ class CustomListTile extends StatelessWidget {
       child: InkWell(
         onTap: onTap,
         child: Container(
-          padding: padding ?? const EdgeInsets.symmetric(
-              vertical: 12,
-              horizontal: 16
-            ),
+          padding: padding ??
+              const EdgeInsets.symmetric(vertical: 12, horizontal: 16),
           width: double.maxFinite,
           child: Row(
             children: [
-              if (leadingIcon != null) Row(
-                children: [
-                  Icon(
-                    leadingIcon,
-                    color: color ?? Theme.of(context).colorScheme.onSurface,
-                  ),
-                  const SizedBox(width: 20),
-                ],
-              ),
+              if (leadingIcon != null)
+                Row(
+                  children: [
+                    Icon(
+                      leadingIcon,
+                      color: color ?? Theme.of(context).colorScheme.onSurface,
+                    ),
+                    const SizedBox(width: 20),
+                  ],
+                ),
               Expanded(
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -54,17 +52,20 @@ class CustomListTile extends StatelessWidget {
                         color: color ?? Theme.of(context).colorScheme.onSurface,
                       ),
                     ),
-                    if (description != null) Column(
-                      children: [
-                        const SizedBox(height: 5),
-                        Text(
-                          description!,
-                          style: TextStyle(
-                            color: color ?? Theme.of(context).colorScheme.onSurfaceVariant
-                          ),
-                        )
-                      ],
-                    )
+                    if (description != null)
+                      Column(
+                        children: [
+                          const SizedBox(height: 5),
+                          Text(
+                            description!,
+                            style: TextStyle(
+                                color: color ??
+                                    Theme.of(context)
+                                        .colorScheme
+                                        .onSurfaceVariant),
+                          )
+                        ],
+                      )
                   ],
                 ),
               ),

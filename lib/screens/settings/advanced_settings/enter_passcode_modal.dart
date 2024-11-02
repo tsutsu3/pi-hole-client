@@ -26,7 +26,8 @@ class EnterPasscodeModal extends StatefulWidget {
 class _EnterPasscodeModalState extends State<EnterPasscodeModal> {
   String _code = "";
 
-  final GlobalKey<ShakeAnimationState> _shakeKey = GlobalKey<ShakeAnimationState>();
+  final GlobalKey<ShakeAnimationState> _shakeKey =
+      GlobalKey<ShakeAnimationState>();
 
   @override
   Widget build(BuildContext context) {
@@ -38,8 +39,7 @@ class _EnterPasscodeModalState extends State<EnterPasscodeModal> {
       if (appConfigProvider.passCode == _code) {
         Navigator.pop(context);
         widget.onConfirm();
-      }
-      else {
+      } else {
         _shakeKey.currentState!.shake();
         setState(() {
           _code = "";
@@ -49,99 +49,79 @@ class _EnterPasscodeModalState extends State<EnterPasscodeModal> {
 
     if (widget.window == true) {
       return Dialog(
-        child: ConstrainedBox(
-          constraints: const BoxConstraints(
-            maxWidth: 400
-          ),
-          child: Wrap(
-            children: [
-              Padding(
-                padding: const EdgeInsets.all(16),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Row(
-                      children: [
-                        IconButton(
+          child: ConstrainedBox(
+        constraints: const BoxConstraints(maxWidth: 400),
+        child: Wrap(
+          children: [
+            Padding(
+              padding: const EdgeInsets.all(16),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Row(
+                    children: [
+                      IconButton(
                           onPressed: () => Navigator.pop(context),
-                          icon: const Icon(Icons.clear_rounded)
-                        ),
-                        const SizedBox(width: 16),
-                        Text(
-                          AppLocalizations.of(context)!.enterPasscode,
-                          style: const TextStyle(
-                            fontSize: 22
-                          ),
-                        ),
-                      ],
-                    ),
-                    TextButton(
+                          icon: const Icon(Icons.clear_rounded)),
+                      const SizedBox(width: 16),
+                      Text(
+                        AppLocalizations.of(context)!.enterPasscode,
+                        style: const TextStyle(fontSize: 22),
+                      ),
+                    ],
+                  ),
+                  TextButton(
                       onPressed: _code.length == 4 ? finish : null,
                       style: ButtonStyle(
                         foregroundColor: WidgetStateProperty.all(
-                          _code.length == 4
-                            ? Theme.of(context).colorScheme.primary
-                            : Colors.grey
-                        ),
+                            _code.length == 4
+                                ? Theme.of(context).colorScheme.primary
+                                : Colors.grey),
                       ),
-                      child: Text(
-                        AppLocalizations.of(context)!.confirm
-                      )
-                    )
-                  ],
-                ),
+                      child: Text(AppLocalizations.of(context)!.confirm))
+                ],
               ),
-              const Padding(padding: EdgeInsets.all(16)),
-              NumericPad(
-                shakeKey: _shakeKey,
-                code: _code,
-                onInput: (newCode) => setState(() => _code = newCode),
-              )
-            ],
-          ),
-        )
-      );
-    }
-    else {
-      return Scaffold(
-        appBar: AppBar(
-          title: Text(
-            AppLocalizations.of(context)!.enterPasscode
-          ),
-          elevation: 5,
-          actions: [
-            TextButton(
-              onPressed: _code.length == 4 ? finish : null,
-              style: ButtonStyle(
-                foregroundColor: WidgetStateProperty.all(
-                  _code.length == 4
-                    ? Theme.of(context).colorScheme.primary
-                    : Colors.grey
-                ),
-              ),
-              child: Text(
-                AppLocalizations.of(context)!.confirm
-              )
+            ),
+            const Padding(padding: EdgeInsets.all(16)),
+            NumericPad(
+              shakeKey: _shakeKey,
+              code: _code,
+              onInput: (newCode) => setState(() => _code = newCode),
             )
           ],
         ),
-        body: SizedBox(
-          height: height-60,
-          width: double.maxFinite,
-          child: Column(
-            mainAxisSize: MainAxisSize.max,
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              NumericPad(
-                shakeKey: _shakeKey,
-                code: _code,
-                onInput: (newCode) => setState(() => _code = newCode),
-              )
+      ));
+    } else {
+      return Scaffold(
+          appBar: AppBar(
+            title: Text(AppLocalizations.of(context)!.enterPasscode),
+            elevation: 5,
+            actions: [
+              TextButton(
+                  onPressed: _code.length == 4 ? finish : null,
+                  style: ButtonStyle(
+                    foregroundColor: WidgetStateProperty.all(_code.length == 4
+                        ? Theme.of(context).colorScheme.primary
+                        : Colors.grey),
+                  ),
+                  child: Text(AppLocalizations.of(context)!.confirm))
             ],
-          )
-        )
-      );
+          ),
+          body: SizedBox(
+              height: height - 60,
+              width: double.maxFinite,
+              child: Column(
+                mainAxisSize: MainAxisSize.max,
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  NumericPad(
+                    shakeKey: _shakeKey,
+                    code: _code,
+                    onInput: (newCode) => setState(() => _code = newCode),
+                  )
+                ],
+              )));
     }
   }
 }

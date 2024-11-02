@@ -18,9 +18,7 @@ class LegalModal extends StatelessWidget {
             padding: const EdgeInsets.only(top: 20),
             child: Text(
               AppLocalizations.of(context)!.legalInfo,
-              style: const TextStyle(
-                fontSize: 24
-              ),
+              style: const TextStyle(fontSize: 24),
             ),
           ),
         ],
@@ -30,9 +28,8 @@ class LegalModal extends StatelessWidget {
       ),
       actions: [
         TextButton(
-          onPressed: () => Navigator.pop(context), 
-          child: Text(AppLocalizations.of(context)!.close)
-        )
+            onPressed: () => Navigator.pop(context),
+            child: Text(AppLocalizations.of(context)!.close))
       ],
     );
   }

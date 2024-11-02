@@ -21,10 +21,9 @@ class NoDataChart extends StatelessWidget {
           Text(
             topLabel,
             style: TextStyle(
-              fontSize: 18,
-              fontWeight: FontWeight.w500,
-              color: Theme.of(context).colorScheme.onSurface
-            ),
+                fontSize: 18,
+                fontWeight: FontWeight.w500,
+                color: Theme.of(context).colorScheme.onSurface),
           ),
           const SizedBox(height: 50),
           Icon(
@@ -36,10 +35,9 @@ class NoDataChart extends StatelessWidget {
           Text(
             AppLocalizations.of(context)!.noData,
             style: TextStyle(
-              color: Theme.of(context).colorScheme.onSurfaceVariant,
-              fontWeight: FontWeight.w700,
-              fontSize: 14
-            ),
+                color: Theme.of(context).colorScheme.onSurfaceVariant,
+                fontWeight: FontWeight.w700,
+                fontSize: 14),
           ),
           const SizedBox(height: 30)
         ],

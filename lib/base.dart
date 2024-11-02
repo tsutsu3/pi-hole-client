@@ -25,7 +25,6 @@ import 'package:pi_hole_client/providers/app_config_provider.dart';
 import 'package:pi_hole_client/providers/domains_list_provider.dart';
 import 'package:pi_hole_client/providers/servers_provider.dart';
 
-
 class Base extends StatefulWidget {
   const Base({super.key});
 
@@ -49,25 +48,24 @@ class _BaseState extends State<Base> with WidgetsBindingObserver {
 
   void fetchMainData(Server server) async {
     final statusProvider = Provider.of<StatusProvider>(context, listen: false);
-    final serversProvider = Provider.of<ServersProvider>(context, listen: false);
+    final serversProvider =
+        Provider.of<ServersProvider>(context, listen: false);
 
-    final result = await Future.wait([
-      realtimeStatus(server),
-      fetchOverTimeData(server)
-    ]);
+    final result =
+        await Future.wait([realtimeStatus(server), fetchOverTimeData(server)]);
 
     if (result[0]['result'] == 'success' && result[1]['result'] == 'success') {
       statusProvider.setRealtimeStatus(result[0]['data']);
       statusProvider.setOvertimeData(result[1]['data']);
-      serversProvider.updateselectedServerStatus(result[0]['data'].status == 'enabled' ? true : false);
+      serversProvider.updateselectedServerStatus(
+          result[0]['data'].status == 'enabled' ? true : false);
 
       statusProvider.setOvertimeDataLoadingStatus(1);
       statusProvider.setStatusLoading(LoadStatus.loaded);
 
       statusProvider.setStartAutoRefresh(true);
       statusProvider.setIsServerConnected(true);
-    }
-    else {
+    } else {
       statusProvider.setOvertimeDataLoadingStatus(2);
       statusProvider.setStatusLoading(LoadStatus.error);
 
@@ -77,19 +75,20 @@ class _BaseState extends State<Base> with WidgetsBindingObserver {
 
   @override
   void initState() {
-    final serversProvider = Provider.of<ServersProvider>(context, listen: false);
+    final serversProvider =
+        Provider.of<ServersProvider>(context, listen: false);
 
     WidgetsBinding.instance.addObserver(this);
 
     super.initState();
 
     WidgetsBinding.instance.addPostFrameCallback((_) async {
-      final appConfigProvider = Provider.of<AppConfigProvider>(context, listen: false);
+      final appConfigProvider =
+          Provider.of<AppConfigProvider>(context, listen: false);
       if (appConfigProvider.importantInfoReaden == false) {
         await showDialog<String>(
-          context: context,
-          builder: (BuildContext context) => const ImportantInfoModal()
-        );
+            context: context,
+            builder: (BuildContext context) => const ImportantInfoModal());
       }
     });
 
@@ -108,7 +107,8 @@ class _BaseState extends State<Base> with WidgetsBindingObserver {
   Widget build(BuildContext context) {
     final serversProvider = Provider.of<ServersProvider>(context);
     final appConfigProvider = Provider.of<AppConfigProvider>(context);
-    final domainsListProvider = Provider.of<DomainsListProvider>(context, listen: false);
+    final domainsListProvider =
+        Provider.of<DomainsListProvider>(context, listen: false);
 
     final width = MediaQuery.of(context).size.width;
 
@@ -116,77 +116,88 @@ class _BaseState extends State<Base> with WidgetsBindingObserver {
       value: SystemUiOverlayStyle(
         statusBarColor: Colors.transparent,
         statusBarBrightness: Theme.of(context).brightness == Brightness.light
-          ? Brightness.light
-          : Brightness.dark,
-        statusBarIconBrightness: Theme.of(context).brightness == Brightness.light
-          ? Brightness.dark
-          : Brightness.light,
+            ? Brightness.light
+            : Brightness.dark,
+        statusBarIconBrightness:
+            Theme.of(context).brightness == Brightness.light
+                ? Brightness.dark
+                : Brightness.light,
         systemNavigationBarColor: Theme.of(context).scaffoldBackgroundColor,
-        systemNavigationBarIconBrightness: Theme.of(context).brightness == Brightness.light
-          ? Brightness.dark
-          : Brightness.light,
+        systemNavigationBarIconBrightness:
+            Theme.of(context).brightness == Brightness.light
+                ? Brightness.dark
+                : Brightness.light,
       ),
       child: Scaffold(
         body: width > 900
-          ? Row(
-            children: [
-              CustomNavigationRail(
+            ? Row(
+                children: [
+                  CustomNavigationRail(
+                    screens: serversProvider.selectedServer != null
+                        ? appScreens
+                        : appScreensNotSelected,
+                    selectedScreen: serversProvider.selectedServer != null
+                        ? appConfigProvider.selectedTab
+                        : appConfigProvider.selectedTab > 1
+                            ? 0
+                            : appConfigProvider.selectedTab,
+                    onChange: (selected) {
+                      if (selected != 3) {
+                        domainsListProvider.setSelectedTab(null);
+                      }
+                      appConfigProvider.setSelectedTab(selected);
+                    },
+                  ),
+                  Expanded(
+                    child: PageTransitionSwitcher(
+                        duration: const Duration(milliseconds: 200),
+                        transitionBuilder:
+                            ((child, primaryAnimation, secondaryAnimation) =>
+                                FadeThroughTransition(
+                                  animation: primaryAnimation,
+                                  secondaryAnimation: secondaryAnimation,
+                                  child: child,
+                                )),
+                        child: serversProvider.selectedServer != null
+                            ? pages[appConfigProvider.selectedTab]
+                            : pagesNotSelected[appConfigProvider.selectedTab > 1
+                                ? 0
+                                : appConfigProvider.selectedTab]),
+                  ),
+                ],
+              )
+            : PageTransitionSwitcher(
+                duration: const Duration(milliseconds: 200),
+                transitionBuilder:
+                    ((child, primaryAnimation, secondaryAnimation) =>
+                        FadeThroughTransition(
+                          animation: primaryAnimation,
+                          secondaryAnimation: secondaryAnimation,
+                          child: child,
+                        )),
+                child: serversProvider.selectedServer != null
+                    ? pages[appConfigProvider.selectedTab]
+                    : pagesNotSelected[appConfigProvider.selectedTab > 1
+                        ? 0
+                        : appConfigProvider.selectedTab]),
+        bottomNavigationBar: width <= 900
+            ? BottomNavBar(
                 screens: serversProvider.selectedServer != null
-                  ? appScreens
-                  : appScreensNotSelected,
+                    ? appScreens
+                    : appScreensNotSelected,
                 selectedScreen: serversProvider.selectedServer != null
-                  ? appConfigProvider.selectedTab
-                  : appConfigProvider.selectedTab > 1 ? 0 : appConfigProvider.selectedTab,
+                    ? appConfigProvider.selectedTab
+                    : appConfigProvider.selectedTab > 1
+                        ? 0
+                        : appConfigProvider.selectedTab,
                 onChange: (selected) {
                   if (selected != 3) {
                     domainsListProvider.setSelectedTab(null);
                   }
                   appConfigProvider.setSelectedTab(selected);
                 },
-              ),
-              Expanded(
-                child: PageTransitionSwitcher(
-                  duration: const Duration(milliseconds: 200),
-                  transitionBuilder: (
-                    (child, primaryAnimation, secondaryAnimation) => FadeThroughTransition(
-                      animation: primaryAnimation,
-                      secondaryAnimation: secondaryAnimation,
-                      child: child,
-                    )
-                  ),
-                  child: serversProvider.selectedServer != null
-                    ? pages[appConfigProvider.selectedTab]
-                    : pagesNotSelected[appConfigProvider.selectedTab > 1 ? 0 : appConfigProvider.selectedTab]
-                ),
-              ),
-            ],
-          ) : PageTransitionSwitcher(
-          duration: const Duration(milliseconds: 200),
-          transitionBuilder: (
-            (child, primaryAnimation, secondaryAnimation) => FadeThroughTransition(
-              animation: primaryAnimation,
-              secondaryAnimation: secondaryAnimation,
-              child: child,
-            )
-          ),
-          child: serversProvider.selectedServer != null
-            ? pages[appConfigProvider.selectedTab]
-            : pagesNotSelected[appConfigProvider.selectedTab > 1 ? 0 : appConfigProvider.selectedTab]
-        ),
-        bottomNavigationBar: width <= 900 ? BottomNavBar(
-          screens: serversProvider.selectedServer != null
-            ? appScreens
-            : appScreensNotSelected,
-          selectedScreen: serversProvider.selectedServer != null
-            ? appConfigProvider.selectedTab
-            : appConfigProvider.selectedTab > 1 ? 0 : appConfigProvider.selectedTab,
-          onChange: (selected) {
-            if (selected != 3) {
-              domainsListProvider.setSelectedTab(null);
-            }
-            appConfigProvider.setSelectedTab(selected);
-          },
-        ) : null,
+              )
+            : null,
       ),
     );
   }

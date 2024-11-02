@@ -23,21 +23,19 @@ class DeleteModal extends StatelessWidget {
     final appConfigProvider = Provider.of<AppConfigProvider>(context);
 
     void removeServer() async {
-      final deleted = await serversProvider.removeServer(serverToDelete.address);
+      final deleted =
+          await serversProvider.removeServer(serverToDelete.address);
       Navigator.pop(context);
       if (deleted == true) {
         showSnackBar(
-          appConfigProvider: appConfigProvider,
-          label: AppLocalizations.of(context)!.connectionRemoved,
-          color: Colors.green
-        );
-      }
-      else {
+            appConfigProvider: appConfigProvider,
+            label: AppLocalizations.of(context)!.connectionRemoved,
+            color: Colors.green);
+      } else {
         showSnackBar(
-          appConfigProvider: appConfigProvider,
-          label: AppLocalizations.of(context)!.connectionCannotBeRemoved,
-          color: Colors.red
-        );
+            appConfigProvider: appConfigProvider,
+            label: AppLocalizations.of(context)!.connectionCannotBeRemoved,
+            color: Colors.red);
       }
     }
 
@@ -53,9 +51,7 @@ class DeleteModal extends StatelessWidget {
             padding: const EdgeInsets.only(top: 20),
             child: Text(
               AppLocalizations.of(context)!.remove,
-              style: const TextStyle(
-                fontSize: 24
-              ),
+              style: const TextStyle(fontSize: 24),
             ),
           ),
         ],
@@ -74,9 +70,7 @@ class DeleteModal extends StatelessWidget {
               Center(
                 child: Text(
                   serverToDelete.address,
-                  style: const TextStyle(
-                    fontStyle: FontStyle.italic
-                  ),
+                  style: const TextStyle(fontStyle: FontStyle.italic),
                 ),
               ),
             ],
@@ -85,11 +79,8 @@ class DeleteModal extends StatelessWidget {
       ),
       actions: [
         TextButton(
-          onPressed: () => {
-            Navigator.pop(context)
-          },
-          child: Text(AppLocalizations.of(context)!.cancel)
-        ),
+            onPressed: () => {Navigator.pop(context)},
+            child: Text(AppLocalizations.of(context)!.cancel)),
         TextButton(
           onPressed: removeServer,
           child: Text(AppLocalizations.of(context)!.remove),

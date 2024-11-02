@@ -37,13 +37,14 @@ class _HomeState extends State<Home> {
 
     isVisible = true;
     scrollController.addListener(() {
-      if (scrollController.position.userScrollDirection == ScrollDirection.reverse) {
+      if (scrollController.position.userScrollDirection ==
+          ScrollDirection.reverse) {
         if (mounted && isVisible == true) {
           setState(() => isVisible = false);
         }
-      }
-      else {
-        if (scrollController.position.userScrollDirection == ScrollDirection.forward) {
+      } else {
+        if (scrollController.position.userScrollDirection ==
+            ScrollDirection.forward) {
           if (mounted && isVisible == false) {
             setState(() => isVisible = true);
           }
@@ -77,9 +78,8 @@ class _HomeState extends State<Home> {
                   AppLocalizations.of(context)!.loadingStats,
                   textAlign: TextAlign.center,
                   style: TextStyle(
-                    color: Theme.of(context).colorScheme.onSurfaceVariant,
-                    fontSize: 22
-                  ),
+                      color: Theme.of(context).colorScheme.onSurfaceVariant,
+                      fontSize: 22),
                 )
               ],
             ),
@@ -100,7 +100,9 @@ class _HomeState extends State<Home> {
                       iconColor: const Color.fromARGB(255, 27, 124, 203),
                       color: Colors.blue,
                       label: AppLocalizations.of(context)!.totalQueries,
-                      value: intFormat(statusProvider.getRealtimeStatus!.dnsQueriesToday,Platform.localeName),
+                      value: intFormat(
+                          statusProvider.getRealtimeStatus!.dnsQueriesToday,
+                          Platform.localeName),
                     ),
                   ),
                 ),
@@ -113,7 +115,9 @@ class _HomeState extends State<Home> {
                       iconColor: const Color.fromARGB(255, 206, 56, 45),
                       color: Colors.red,
                       label: AppLocalizations.of(context)!.queriesBlocked,
-                      value: intFormat(statusProvider.getRealtimeStatus!.adsBlockedToday, Platform.localeName),
+                      value: intFormat(
+                          statusProvider.getRealtimeStatus!.adsBlockedToday,
+                          Platform.localeName),
                     ),
                   ),
                 ),
@@ -126,7 +130,8 @@ class _HomeState extends State<Home> {
                       iconColor: const Color.fromARGB(255, 211, 127, 0),
                       color: Colors.orange,
                       label: AppLocalizations.of(context)!.percentageBlocked,
-                      value: "${formatPercentage(statusProvider.getRealtimeStatus!.adsPercentageToday, Platform.localeName)}%",
+                      value:
+                          "${formatPercentage(statusProvider.getRealtimeStatus!.adsPercentageToday, Platform.localeName)}%",
                     ),
                   ),
                 ),
@@ -139,7 +144,9 @@ class _HomeState extends State<Home> {
                       iconColor: const Color.fromARGB(255, 61, 142, 64),
                       color: Colors.green,
                       label: AppLocalizations.of(context)!.domainsAdlists,
-                      value: intFormat(statusProvider.getRealtimeStatus!.domainsBeingBlocked, Platform.localeName),
+                      value: intFormat(
+                          statusProvider.getRealtimeStatus!.domainsBeingBlocked,
+                          Platform.localeName),
                     ),
                   ),
                 ),
@@ -166,9 +173,8 @@ class _HomeState extends State<Home> {
                   AppLocalizations.of(context)!.statsNotLoaded,
                   textAlign: TextAlign.center,
                   style: TextStyle(
-                    color: Theme.of(context).colorScheme.onSurfaceVariant,
-                    fontSize: 22
-                  ),
+                      color: Theme.of(context).colorScheme.onSurfaceVariant,
+                      fontSize: 22),
                 )
               ],
             ),
@@ -180,10 +186,8 @@ class _HomeState extends State<Home> {
     }
 
     void enableDisableServer() async {
-      if (
-        statusProvider.isServerConnected == true &&
-        serversProvider.selectedServer != null
-      ) {
+      if (statusProvider.isServerConnected == true &&
+          serversProvider.selectedServer != null) {
         if (serversProvider.selectedServer?.enabled == true) {
           if (width > 700) {
             showDialog(
@@ -193,8 +197,7 @@ class _HomeState extends State<Home> {
                 window: true,
               ),
             );
-          }
-          else {
+          } else {
             showModalBottomSheet(
               context: context,
               isScrollControlled: true,
@@ -207,68 +210,70 @@ class _HomeState extends State<Home> {
               enableDrag: true,
             );
           }
-        }
-        else {
+        } else {
           enableServer(context);
         }
       }
     }
 
-    return serversProvider.selectedServer != null ? Stack(
-      children: [
-        Scaffold(
-          body: NestedScrollView(
-            headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled) {
-              return <Widget>[
-                SliverOverlapAbsorber(
-                  handle: NestedScrollView.sliverOverlapAbsorberHandleFor(context),
-                  sliver: HomeAppBar(innerBoxIsScrolled: innerBoxIsScrolled)
-                ),
-              ];
-            },
-            body: SafeArea(
-              top: false,
-              bottom: false,
-              child: Builder(
-                builder: (context) => RefreshIndicator(
-                  edgeOffset: 70,
-                  onRefresh: () async{
-                    await refreshServerStatus(context);
-                  },
-                  child: CustomScrollView(
-                    slivers: [
-                      SliverOverlapInjector(
-                        handle: NestedScrollView.sliverOverlapAbsorberHandleFor(context),
-                      ),
-                      SliverList.list(
-                        children: [
-                          tiles(),
-                          const SizedBox(height: 24),
-                          const HomeCharts(),
-                          const SizedBox(height: 16),
-                        ]
-                      )
-                    ],
-                  ),
-                ),
-              )
-            )
-          ),
-        ),
-        AnimatedPositioned(
-          duration: const Duration(milliseconds: 100),
-          curve: Curves.easeInOut,
-          bottom: isVisible && statusProvider.getStatusLoading == LoadStatus.loaded ?
-            appConfigProvider.showingSnackbar
-              ? 70 : 20
-            : -70,
-          right: 20,
-          child: FloatingActionButton(
-            onPressed: enableDisableServer,
-            child: const Icon(Icons.shield_rounded),
+    return serversProvider.selectedServer != null
+        ? Stack(
+            children: [
+              Scaffold(
+                body: NestedScrollView(
+                    headerSliverBuilder:
+                        (BuildContext context, bool innerBoxIsScrolled) {
+                      return <Widget>[
+                        SliverOverlapAbsorber(
+                            handle:
+                                NestedScrollView.sliverOverlapAbsorberHandleFor(
+                                    context),
+                            sliver: HomeAppBar(
+                                innerBoxIsScrolled: innerBoxIsScrolled)),
+                      ];
+                    },
+                    body: SafeArea(
+                        top: false,
+                        bottom: false,
+                        child: Builder(
+                          builder: (context) => RefreshIndicator(
+                            edgeOffset: 70,
+                            onRefresh: () async {
+                              await refreshServerStatus(context);
+                            },
+                            child: CustomScrollView(
+                              slivers: [
+                                SliverOverlapInjector(
+                                  handle: NestedScrollView
+                                      .sliverOverlapAbsorberHandleFor(context),
+                                ),
+                                SliverList.list(children: [
+                                  tiles(),
+                                  const SizedBox(height: 24),
+                                  const HomeCharts(),
+                                  const SizedBox(height: 16),
+                                ])
+                              ],
+                            ),
+                          ),
+                        ))),
+              ),
+              AnimatedPositioned(
+                  duration: const Duration(milliseconds: 100),
+                  curve: Curves.easeInOut,
+                  bottom: isVisible &&
+                          statusProvider.getStatusLoading == LoadStatus.loaded
+                      ? appConfigProvider.showingSnackbar
+                          ? 70
+                          : 20
+                      : -70,
+                  right: 20,
+                  child: FloatingActionButton(
+                    onPressed: enableDisableServer,
+                    child: const Icon(Icons.shield_rounded),
+                  ))
+            ],
           )
-        )
-      ],
-    ) : const SizedBox();
+        : const SizedBox();
   }
 }

@@ -16,7 +16,8 @@ String formatTimestampForChart(String timestamp) {
     return number.toString().padLeft(2, '0');
   }
 
-  final DateTime time = DateTime.fromMillisecondsSinceEpoch(int.parse(timestamp)*1000);
+  final DateTime time =
+      DateTime.fromMillisecondsSinceEpoch(int.parse(timestamp) * 1000);
   final DateTime start = time.subtract(const Duration(minutes: 5));
   final DateTime end = time.add(const Duration(minutes: 5));
   return "${formatNumber(start.hour)}:${formatNumber(start.minute)} - ${formatNumber(end.hour)}:${formatNumber(end.minute)}";

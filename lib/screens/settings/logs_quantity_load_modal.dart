@@ -16,7 +16,8 @@ class LogsQuantityPerLoadModal extends StatefulWidget {
   });
 
   @override
-  State<LogsQuantityPerLoadModal> createState() => _LogsQuantityPerLoadModalState();
+  State<LogsQuantityPerLoadModal> createState() =>
+      _LogsQuantityPerLoadModalState();
 }
 
 class _LogsQuantityPerLoadModalState extends State<LogsQuantityPerLoadModal> {
@@ -89,14 +90,12 @@ class _LogsQuantityPerLoadModalState extends State<LogsQuantityPerLoadModal> {
 
     return Container(
       height: mediaQueryData.size.height > (Platform.isIOS ? 675 : 655)
-        ? (Platform.isIOS ? 675 : 655)
-        : mediaQueryData.size.height-mediaQueryData.viewPadding.top-25,
+          ? (Platform.isIOS ? 675 : 655)
+          : mediaQueryData.size.height - mediaQueryData.viewPadding.top - 25,
       decoration: BoxDecoration(
         color: Theme.of(context).dialogBackgroundColor,
         borderRadius: const BorderRadius.only(
-          topLeft: Radius.circular(30),
-          topRight: Radius.circular(30)
-        ),
+            topLeft: Radius.circular(30), topRight: Radius.circular(30)),
       ),
       child: SingleChildScrollView(
         child: Column(
@@ -123,11 +122,7 @@ class _LogsQuantityPerLoadModalState extends State<LogsQuantityPerLoadModal> {
             Container(
               height: 70,
               padding: const EdgeInsets.only(
-                top: 10,
-                bottom: 20,
-                left: 20,
-                right: 20
-              ),
+                  top: 10, bottom: 20, left: 20, right: 20),
               child: Center(
                 child: Text(
                   AppLocalizations.of(context)!.logsPerQueryLabel,
@@ -136,38 +131,30 @@ class _LogsQuantityPerLoadModalState extends State<LogsQuantityPerLoadModal> {
               ),
             ),
             Padding(
-              padding: const EdgeInsets.only(
-                top: 10,
-                bottom: 20,
-                left: 20,
-                right: 20
-              ),
-              child: Container(
-                padding: const EdgeInsets.all(20),
-                decoration: BoxDecoration(
-                  color: Colors.yellow,
-                  borderRadius: BorderRadius.circular(30)
-                ),
-                height: 100,
-                child: Row(
-                  children: [
-                    const Icon(
-                      Icons.warning_rounded,
-                      color: Colors.black,
-                    ),
-                    const SizedBox(width: 20),
-                    Expanded(
-                      child: Text(
-                        AppLocalizations.of(context)!.logsPerQueryWarning,
-                        style: const TextStyle(
-                          color: Colors.black
-                        ),
+                padding: const EdgeInsets.only(
+                    top: 10, bottom: 20, left: 20, right: 20),
+                child: Container(
+                  padding: const EdgeInsets.all(20),
+                  decoration: BoxDecoration(
+                      color: Colors.yellow,
+                      borderRadius: BorderRadius.circular(30)),
+                  height: 100,
+                  child: Row(
+                    children: [
+                      const Icon(
+                        Icons.warning_rounded,
+                        color: Colors.black,
                       ),
-                    )
-                  ],
-                ),
-              )
-            ),
+                      const SizedBox(width: 20),
+                      Expanded(
+                        child: Text(
+                          AppLocalizations.of(context)!.logsPerQueryWarning,
+                          style: const TextStyle(color: Colors.black),
+                        ),
+                      )
+                    ],
+                  ),
+                )),
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 20),
               child: Column(
@@ -176,12 +163,9 @@ class _LogsQuantityPerLoadModalState extends State<LogsQuantityPerLoadModal> {
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: [
                       Container(
-                        width: (mediaQueryData.size.width-70)/2,
-                        margin: const EdgeInsets.only(
-                          top: 10,
-                          right: 5,
-                          bottom: 5
-                        ),
+                        width: (mediaQueryData.size.width - 70) / 2,
+                        margin:
+                            const EdgeInsets.only(top: 10, right: 5, bottom: 5),
                         child: OptionBox(
                           optionsValue: selectedOption,
                           itemValue: 0,
@@ -190,24 +174,23 @@ class _LogsQuantityPerLoadModalState extends State<LogsQuantityPerLoadModal> {
                             child: AnimatedDefaultTextStyle(
                               duration: const Duration(milliseconds: 250),
                               style: TextStyle(
-                                fontWeight: FontWeight.bold,
-                                fontSize: 14,
-                                color: selectedOption == 0
-                                  ? Theme.of(context).colorScheme.primary
-                                  : Theme.of(context).colorScheme.onSurfaceVariant
-                              ),
-                              child: Text(AppLocalizations.of(context)!.minutes30),
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 14,
+                                  color: selectedOption == 0
+                                      ? Theme.of(context).colorScheme.primary
+                                      : Theme.of(context)
+                                          .colorScheme
+                                          .onSurfaceVariant),
+                              child:
+                                  Text(AppLocalizations.of(context)!.minutes30),
                             ),
                           ),
                         ),
                       ),
                       Container(
-                        width: (mediaQueryData.size.width-70)/2,
-                        margin: const EdgeInsets.only(
-                          top: 10,
-                          left: 5,
-                          bottom: 5
-                        ),
+                        width: (mediaQueryData.size.width - 70) / 2,
+                        margin:
+                            const EdgeInsets.only(top: 10, left: 5, bottom: 5),
                         child: OptionBox(
                           optionsValue: selectedOption,
                           itemValue: 1,
@@ -216,12 +199,13 @@ class _LogsQuantityPerLoadModalState extends State<LogsQuantityPerLoadModal> {
                             child: AnimatedDefaultTextStyle(
                               duration: const Duration(milliseconds: 250),
                               style: TextStyle(
-                                fontWeight: FontWeight.bold,
-                                fontSize: 14,
-                                color: selectedOption == 1
-                                  ? Theme.of(context).colorScheme.primary
-                                  : Theme.of(context).colorScheme.onSurfaceVariant
-                              ),
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 14,
+                                  color: selectedOption == 1
+                                      ? Theme.of(context).colorScheme.primary
+                                      : Theme.of(context)
+                                          .colorScheme
+                                          .onSurfaceVariant),
                               child: Text(AppLocalizations.of(context)!.hour1),
                             ),
                           ),
@@ -233,12 +217,9 @@ class _LogsQuantityPerLoadModalState extends State<LogsQuantityPerLoadModal> {
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: [
                       Container(
-                        width: (mediaQueryData.size.width-70)/2,
-                        margin: const EdgeInsets.only(
-                          top: 5,
-                          right: 5,
-                          bottom: 5
-                        ),
+                        width: (mediaQueryData.size.width - 70) / 2,
+                        margin:
+                            const EdgeInsets.only(top: 5, right: 5, bottom: 5),
                         child: OptionBox(
                           optionsValue: selectedOption,
                           itemValue: 2,
@@ -247,24 +228,22 @@ class _LogsQuantityPerLoadModalState extends State<LogsQuantityPerLoadModal> {
                             child: AnimatedDefaultTextStyle(
                               duration: const Duration(milliseconds: 250),
                               style: TextStyle(
-                                fontWeight: FontWeight.bold,
-                                fontSize: 14,
-                                color: selectedOption == 2
-                                  ? Theme.of(context).colorScheme.primary
-                                  : Theme.of(context).colorScheme.onSurfaceVariant
-                              ),
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 14,
+                                  color: selectedOption == 2
+                                      ? Theme.of(context).colorScheme.primary
+                                      : Theme.of(context)
+                                          .colorScheme
+                                          .onSurfaceVariant),
                               child: Text(AppLocalizations.of(context)!.hours2),
                             ),
                           ),
                         ),
                       ),
                       Container(
-                        width: (mediaQueryData.size.width-70)/2,
-                        margin: const EdgeInsets.only(
-                          top: 5,
-                          left: 5,
-                          bottom: 5
-                        ),
+                        width: (mediaQueryData.size.width - 70) / 2,
+                        margin:
+                            const EdgeInsets.only(top: 5, left: 5, bottom: 5),
                         child: OptionBox(
                           optionsValue: selectedOption,
                           itemValue: 3,
@@ -273,12 +252,13 @@ class _LogsQuantityPerLoadModalState extends State<LogsQuantityPerLoadModal> {
                             child: AnimatedDefaultTextStyle(
                               duration: const Duration(milliseconds: 250),
                               style: TextStyle(
-                                fontWeight: FontWeight.bold,
-                                fontSize: 14,
-                                color: selectedOption == 3
-                                  ? Theme.of(context).colorScheme.primary
-                                  : Theme.of(context).colorScheme.onSurfaceVariant
-                              ),
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 14,
+                                  color: selectedOption == 3
+                                      ? Theme.of(context).colorScheme.primary
+                                      : Theme.of(context)
+                                          .colorScheme
+                                          .onSurfaceVariant),
                               child: Text(AppLocalizations.of(context)!.hours4),
                             ),
                           ),
@@ -290,12 +270,9 @@ class _LogsQuantityPerLoadModalState extends State<LogsQuantityPerLoadModal> {
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: [
                       Container(
-                        width: (mediaQueryData.size.width-70)/2,
-                        margin: const EdgeInsets.only(
-                          top: 5,
-                          right: 5,
-                          bottom: 5
-                        ),
+                        width: (mediaQueryData.size.width - 70) / 2,
+                        margin:
+                            const EdgeInsets.only(top: 5, right: 5, bottom: 5),
                         child: OptionBox(
                           optionsValue: selectedOption,
                           itemValue: 4,
@@ -304,24 +281,22 @@ class _LogsQuantityPerLoadModalState extends State<LogsQuantityPerLoadModal> {
                             child: AnimatedDefaultTextStyle(
                               duration: const Duration(milliseconds: 250),
                               style: TextStyle(
-                                fontWeight: FontWeight.bold,
-                                fontSize: 14,
-                                color: selectedOption == 4
-                                  ? Theme.of(context).colorScheme.primary
-                                  : Theme.of(context).colorScheme.onSurfaceVariant
-                              ),
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 14,
+                                  color: selectedOption == 4
+                                      ? Theme.of(context).colorScheme.primary
+                                      : Theme.of(context)
+                                          .colorScheme
+                                          .onSurfaceVariant),
                               child: Text(AppLocalizations.of(context)!.hours6),
                             ),
                           ),
                         ),
                       ),
                       Container(
-                        width: (mediaQueryData.size.width-70)/2,
-                        margin: const EdgeInsets.only(
-                          top: 5,
-                          left: 5,
-                          bottom: 5
-                        ),
+                        width: (mediaQueryData.size.width - 70) / 2,
+                        margin:
+                            const EdgeInsets.only(top: 5, left: 5, bottom: 5),
                         child: OptionBox(
                           optionsValue: selectedOption,
                           itemValue: 5,
@@ -330,12 +305,13 @@ class _LogsQuantityPerLoadModalState extends State<LogsQuantityPerLoadModal> {
                             child: AnimatedDefaultTextStyle(
                               duration: const Duration(milliseconds: 250),
                               style: TextStyle(
-                                fontWeight: FontWeight.bold,
-                                fontSize: 14,
-                                color: selectedOption == 5
-                                  ? Theme.of(context).colorScheme.primary
-                                  : Theme.of(context).colorScheme.onSurfaceVariant
-                              ),
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 14,
+                                  color: selectedOption == 5
+                                      ? Theme.of(context).colorScheme.primary
+                                      : Theme.of(context)
+                                          .colorScheme
+                                          .onSurfaceVariant),
                               child: Text(AppLocalizations.of(context)!.hours8),
                             ),
                           ),
@@ -348,16 +324,10 @@ class _LogsQuantityPerLoadModalState extends State<LogsQuantityPerLoadModal> {
             ),
             Padding(
               padding: const EdgeInsets.only(
-                top: 20,
-                left: 20,
-                bottom: 10,
-                right: 20
-              ),
+                  top: 20, left: 20, bottom: 10, right: 20),
               child: Text(
                 "${AppLocalizations.of(context)!.logsWillBeRequested} ${_getTime() == 0.5 ? '30' : _getTime().toInt()} ${_getTime() == 0.5 ? AppLocalizations.of(context)!.minutes : AppLocalizations.of(context)!.hours}",
-                style: const TextStyle(
-                  fontWeight: FontWeight.bold
-                ),
+                style: const TextStyle(fontWeight: FontWeight.bold),
               ),
             ),
             Column(
@@ -375,19 +345,21 @@ class _LogsQuantityPerLoadModalState extends State<LogsQuantityPerLoadModal> {
                       const SizedBox(width: 20),
                       TextButton(
                         onPressed: selectedOption != null
-                          ? () {
-                            Navigator.pop(context);
-                            widget.onChange(_getTime());
-                          }
-                          : null,
+                            ? () {
+                                Navigator.pop(context);
+                                widget.onChange(_getTime());
+                              }
+                            : null,
                         style: ButtonStyle(
                           overlayColor: WidgetStateProperty.all(
-                            Theme.of(context).colorScheme.primary.withOpacity(0.1)
-                          ),
+                              Theme.of(context)
+                                  .colorScheme
+                                  .primary
+                                  .withOpacity(0.1)),
                           foregroundColor: WidgetStateProperty.all(
                             selectedOption != null
-                              ? Theme.of(context).colorScheme.primary
-                              : Colors.grey,
+                                ? Theme.of(context).colorScheme.primary
+                                : Colors.grey,
                           ),
                         ),
                         child: Text(AppLocalizations.of(context)!.confirm),
