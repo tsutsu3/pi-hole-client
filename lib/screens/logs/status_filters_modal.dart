@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
-import 'package:droid_hole/providers/filters_provider.dart';
+import 'package:pi_hole_client/providers/filters_provider.dart';
 
 class StatusFiltersModal extends StatefulWidget {
   final double statusBarHeight;
@@ -77,7 +77,7 @@ class _StatusFiltersModalState extends State<StatusFiltersModal> {
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(5)
               ),
-              value: _statusSelected.contains(value), 
+              value: _statusSelected.contains(value),
               onChanged: (_) => _updateStatusSelected(value)
             ),
           ),
@@ -136,73 +136,73 @@ class _StatusFiltersModalState extends State<StatusFiltersModal> {
                   ],
                 ),
                 listItem(
-                  icon: Icons.gpp_bad_rounded, 
-                  label: "Blocked (gravity)", 
+                  icon: Icons.gpp_bad_rounded,
+                  label: "Blocked (gravity)",
                   value: 1
                 ),
                 listItem(
-                  icon: Icons.verified_user_rounded, 
-                  label: "OK (forwarded)", 
+                  icon: Icons.verified_user_rounded,
+                  label: "OK (forwarded)",
                   value: 2
                 ),
                 listItem(
-                  icon: Icons.verified_user_rounded, 
-                  label: "OK (cache)", 
+                  icon: Icons.verified_user_rounded,
+                  label: "OK (cache)",
                   value: 3
                 ),
                 listItem(
-                  icon: Icons.gpp_bad_rounded, 
-                  label: "Blocked (regex blacklist", 
+                  icon: Icons.gpp_bad_rounded,
+                  label: "Blocked (regex blacklist",
                   value: 4
                 ),
                 listItem(
-                  icon: Icons.gpp_bad_rounded, 
-                  label: "Blocked (exact blacklist)", 
+                  icon: Icons.gpp_bad_rounded,
+                  label: "Blocked (exact blacklist)",
                   value: 5
                 ),
                 listItem(
-                  icon: Icons.gpp_bad_rounded, 
-                  label: "Blocked (external, IP)", 
+                  icon: Icons.gpp_bad_rounded,
+                  label: "Blocked (external, IP)",
                   value: 6
                 ),
                 listItem(
-                  icon: Icons.gpp_bad_rounded, 
-                  label: "Blocked (external, NULL)", 
+                  icon: Icons.gpp_bad_rounded,
+                  label: "Blocked (external, NULL)",
                   value: 7
                 ),
                 listItem(
-                  icon: Icons.gpp_bad_rounded, 
-                  label: "Blocked (external, NXRA)", 
+                  icon: Icons.gpp_bad_rounded,
+                  label: "Blocked (external, NXRA)",
                   value: 8
                 ),
                 listItem(
-                  icon: Icons.gpp_bad_rounded, 
-                  label: "Blocked (gravity, CNAME)", 
+                  icon: Icons.gpp_bad_rounded,
+                  label: "Blocked (gravity, CNAME)",
                   value: 9
                 ),
                 listItem(
-                  icon: Icons.gpp_bad_rounded, 
-                  label: "Blocked (regex blacklist, CNAME)", 
+                  icon: Icons.gpp_bad_rounded,
+                  label: "Blocked (regex blacklist, CNAME)",
                   value: 10
                 ),
                 listItem(
-                  icon: Icons.gpp_bad_rounded, 
-                  label: "Blocked (exact blacklist, CNAME)", 
+                  icon: Icons.gpp_bad_rounded,
+                  label: "Blocked (exact blacklist, CNAME)",
                   value: 11
                 ),
                 listItem(
-                  icon: Icons.refresh_rounded, 
-                  label: "Retried", 
+                  icon: Icons.refresh_rounded,
+                  label: "Retried",
                   value: 12
                 ),
                 listItem(
-                  icon: Icons.refresh_rounded, 
-                  label: "Retried (ignored)", 
+                  icon: Icons.refresh_rounded,
+                  label: "Retried (ignored)",
                   value: 13
                 ),
                 listItem(
-                  icon: Icons.gpp_bad_rounded, 
-                  label: "OK (already forwarded)", 
+                  icon: Icons.gpp_bad_rounded,
+                  label: "OK (already forwarded)",
                   value: 14
                 ),
               ],
@@ -214,9 +214,9 @@ class _StatusFiltersModalState extends State<StatusFiltersModal> {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 TextButton(
-                  onPressed: checkUncheckAll, 
+                  onPressed: checkUncheckAll,
                   child: Text(
-                    _statusSelected.length == 14 
+                    _statusSelected.length == 14
                       ? AppLocalizations.of(context)!.uncheckAll
                       : AppLocalizations.of(context)!.checkAll
                   )
@@ -225,7 +225,7 @@ class _StatusFiltersModalState extends State<StatusFiltersModal> {
                   mainAxisAlignment: MainAxisAlignment.end,
                   children: [
                     TextButton(
-                      onPressed: () => Navigator.pop(context), 
+                      onPressed: () => Navigator.pop(context),
                       child: Text(AppLocalizations.of(context)!.close),
                     ),
                     const SizedBox(width: 20),
@@ -241,7 +241,7 @@ class _StatusFiltersModalState extends State<StatusFiltersModal> {
                           _statusSelected.isNotEmpty ? Theme.of(context).colorScheme.primary : Colors.grey
                         ),
                         overlayColor: WidgetStateProperty.all(Theme.of(context).colorScheme.primary.withOpacity(0.1))
-                      ), 
+                      ),
                       child: Text(AppLocalizations.of(context)!.apply),
                     ),
                   ],

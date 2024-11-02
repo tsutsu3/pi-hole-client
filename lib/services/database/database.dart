@@ -1,7 +1,7 @@
 import 'package:sqflite/sqflite.dart';
 
-import 'package:droid_hole/functions/conversions.dart';
-import 'package:droid_hole/models/server.dart';
+import 'package:pi_hole_client/functions/conversions.dart';
+import 'package:pi_hole_client/models/server.dart';
 
 Future upgradeDbToV3(Database db) async {
   await db.execute("ALTER TABLE servers RENAME COLUMN token TO password");
@@ -79,7 +79,7 @@ Future upgradeDbToV15(Database db) async {
   List<Server> servers = [];
   for (Map<String, dynamic> server in backupServers) {
     final Server serverObj = Server(
-      address: server['address'], 
+      address: server['address'],
       alias: server['alias'],
       token: server['pwHash'],
       defaultServer: convertFromIntToBool(server['isDefaultServer'])!,
@@ -91,7 +91,7 @@ Future upgradeDbToV15(Database db) async {
   await db.execute("CREATE TABLE servers (address TEXT PRIMARY KEY, alias TEXT, token TEXT, isDefaultServer NUMERIC)");
 
   List<Future> futures = [];
-  for (var server in servers) { 
+  for (var server in servers) {
     futures.add(db.execute("INSERT INTO servers (address, alias, token, isDefaultServer) VALUES ('${server.address}', '${server.alias}', '${server.token}', ${server.defaultServer == true ? 1 : 0})"));
   }
   await Future.wait(futures);
@@ -116,7 +116,7 @@ Future<Map<String, dynamic>> loadDb() async {
   List<Map<String, Object?>>? appConfig;
 
   Database db = await openDatabase(
-    'droid_hole.db',
+    'pi_hole_client.db',
     version: 16,
     onCreate: (Database db, int version) async {
       await db.execute("CREATE TABLE servers (address TEXT PRIMARY KEY, alias TEXT, token TEXT, isDefaultServer NUMERIC, basicAuthUser TEXT, basicAuthPassword TEXT)");

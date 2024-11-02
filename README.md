@@ -4,7 +4,7 @@
 
 <h5 align="center">
   <b>
-    DroidHole is an unnoficial
+    PiHoleClient is an unnoficial
     <a href="https://pi-hole.net/" target="_blank" rel="noopener noreferrer">
       Pi-hole®
     </a>
@@ -12,7 +12,7 @@
 </h5>
 
 <p align="center">
-  <a href="https://play.google.com/store/apps/details?id=com.jgeek00.droid_hole" target="_blank" rel="noopener noreferrer">
+  <a href="https://play.google.com/store/apps/details?id=com.jgeek00.pi_hole_client" target="_blank" rel="noopener noreferrer">
     <img src="/assets/other/get_google_play.png" width="300px">
   </a>
   <a href="https://github.com/tsutsu3/pi-hole-client/releases" target="_blank" rel="noopener noreferrer">

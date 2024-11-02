@@ -5,19 +5,19 @@ import 'package:flutter_phoenix/flutter_phoenix.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
-import 'package:droid_hole/screens/app_logs/app_logs.dart';
-import 'package:droid_hole/widgets/section_label.dart';
-import 'package:droid_hole/screens/settings/advanced_settings/reset_modal.dart';
-import 'package:droid_hole/widgets/custom_list_tile.dart';
-import 'package:droid_hole/screens/settings/advanced_settings/app_unlock_setup_modal.dart';
-import 'package:droid_hole/screens/settings/advanced_settings/enter_passcode_modal.dart';
-import 'package:droid_hole/screens/settings/advanced_settings/statistics_visualization_screen.dart';
+import 'package:pi_hole_client/screens/app_logs/app_logs.dart';
+import 'package:pi_hole_client/widgets/section_label.dart';
+import 'package:pi_hole_client/screens/settings/advanced_settings/reset_modal.dart';
+import 'package:pi_hole_client/widgets/custom_list_tile.dart';
+import 'package:pi_hole_client/screens/settings/advanced_settings/app_unlock_setup_modal.dart';
+import 'package:pi_hole_client/screens/settings/advanced_settings/enter_passcode_modal.dart';
+import 'package:pi_hole_client/screens/settings/advanced_settings/statistics_visualization_screen.dart';
 
-import 'package:droid_hole/config/system_overlay_style.dart';
-import 'package:droid_hole/functions/snackbar.dart';
-import 'package:droid_hole/providers/servers_provider.dart';
-import 'package:droid_hole/classes/process_modal.dart';
-import 'package:droid_hole/providers/app_config_provider.dart';
+import 'package:pi_hole_client/config/system_overlay_style.dart';
+import 'package:pi_hole_client/functions/snackbar.dart';
+import 'package:pi_hole_client/providers/servers_provider.dart';
+import 'package:pi_hole_client/classes/process_modal.dart';
+import 'package:pi_hole_client/providers/app_config_provider.dart';
 
 class AdvancedOptions extends StatelessWidget {
   const AdvancedOptions({super.key});
@@ -35,14 +35,14 @@ class AdvancedOptions extends StatelessWidget {
       if (result == true) {
         showSnackBar(
           appConfigProvider: appConfigProvider,
-          label: AppLocalizations.of(context)!.restartAppTakeEffect, 
+          label: AppLocalizations.of(context)!.restartAppTakeEffect,
           color: Colors.green
         );
       }
       else {
         showSnackBar(
           appConfigProvider: appConfigProvider,
-          label: AppLocalizations.of(context)!.cannotUpdateSettings, 
+          label: AppLocalizations.of(context)!.cannotUpdateSettings,
           color: Colors.red
         );
       }
@@ -53,14 +53,14 @@ class AdvancedOptions extends StatelessWidget {
       if (result == true) {
         showSnackBar(
           appConfigProvider: appConfigProvider,
-          label: AppLocalizations.of(context)!.settingsUpdatedSuccessfully, 
+          label: AppLocalizations.of(context)!.settingsUpdatedSuccessfully,
           color: Colors.green
         );
       }
       else {
         showSnackBar(
           appConfigProvider: appConfigProvider,
-          label: AppLocalizations.of(context)!.cannotUpdateSettings, 
+          label: AppLocalizations.of(context)!.cannotUpdateSettings,
           color: Colors.red
         );
       }
@@ -71,14 +71,14 @@ class AdvancedOptions extends StatelessWidget {
       if (result == true) {
         showSnackBar(
           appConfigProvider: appConfigProvider,
-          label: AppLocalizations.of(context)!.settingsUpdatedSuccessfully, 
+          label: AppLocalizations.of(context)!.settingsUpdatedSuccessfully,
           color: Colors.green
         );
       }
       else {
         showSnackBar(
           appConfigProvider: appConfigProvider,
-          label: AppLocalizations.of(context)!.cannotUpdateSettings, 
+          label: AppLocalizations.of(context)!.cannotUpdateSettings,
           color: Colors.red
         );
       }
@@ -89,14 +89,14 @@ class AdvancedOptions extends StatelessWidget {
       if (result == true) {
         showSnackBar(
           appConfigProvider: appConfigProvider,
-          label: AppLocalizations.of(context)!.settingsUpdatedSuccessfully, 
+          label: AppLocalizations.of(context)!.settingsUpdatedSuccessfully,
           color: Colors.green
         );
       }
       else {
         showSnackBar(
           appConfigProvider: appConfigProvider,
-          label: AppLocalizations.of(context)!.cannotUpdateSettings, 
+          label: AppLocalizations.of(context)!.cannotUpdateSettings,
           color: Colors.green
         );
       }
@@ -128,7 +128,7 @@ class AdvancedOptions extends StatelessWidget {
 
     void openResetModal() {
       showDialog(
-        context: context, 
+        context: context,
         builder: (context) => ResetModal(
           onConfirm: deleteApplicationData,
         ),
@@ -140,7 +140,7 @@ class AdvancedOptions extends StatelessWidget {
       void openModal() {
         if (width > 700) {
           showDialog(
-            context: context, 
+            context: context,
             builder: (context) => AppUnlockSetupModal(
               topBarHeight: topBarHeight,
               useBiometrics: appConfigProvider.useBiometrics,
@@ -150,7 +150,7 @@ class AdvancedOptions extends StatelessWidget {
         }
         else {
           showModalBottomSheet(
-            context: context, 
+            context: context,
             builder: (context) => AppUnlockSetupModal(
               topBarHeight: topBarHeight,
               useBiometrics: appConfigProvider.useBiometrics,
@@ -161,11 +161,11 @@ class AdvancedOptions extends StatelessWidget {
           );
         }
       }
-      
+
       if (appConfigProvider.passCode != null) {
         if (width > 700) {
           showDialog(
-            context: context, 
+            context: context,
             builder: (BuildContext context) => EnterPasscodeModal(
               onConfirm: () => openModal(),
               window: true,
@@ -200,7 +200,7 @@ class AdvancedOptions extends StatelessWidget {
             label: AppLocalizations.of(context)!.dontCheckCertificate,
             description: AppLocalizations.of(context)!.dontCheckCertificateDescription,
             trailing: Switch(
-              value: appConfigProvider.overrideSslCheck, 
+              value: appConfigProvider.overrideSslCheck,
               onChanged: updateSslCheck,
             ),
             onTap: () => updateSslCheck(!appConfigProvider.overrideSslCheck),
@@ -236,7 +236,7 @@ class AdvancedOptions extends StatelessWidget {
               right: 10
             ),
             trailing: Switch(
-              value: appConfigProvider.oneColumnLegend, 
+              value: appConfigProvider.oneColumnLegend,
               onChanged: updateOneColumnLegend,
             ),
           ),
@@ -252,7 +252,7 @@ class AdvancedOptions extends StatelessWidget {
               right: 10
             ),
             trailing: Switch(
-              value: appConfigProvider.reducedDataCharts, 
+              value: appConfigProvider.reducedDataCharts,
               onChanged: updateUseReducedData,
             ),
           ),
@@ -268,7 +268,7 @@ class AdvancedOptions extends StatelessWidget {
               right: 10
             ),
             trailing: Switch(
-              value: appConfigProvider.hideZeroValues, 
+              value: appConfigProvider.hideZeroValues,
               onChanged: updateHideZeroValues,
             ),
           ),
@@ -289,7 +289,7 @@ class AdvancedOptions extends StatelessWidget {
           SectionLabel(label: AppLocalizations.of(context)!.others),
           CustomListTile(
             leadingIcon: Icons.list,
-            label: AppLocalizations.of(context)!.appLogs, 
+            label: AppLocalizations.of(context)!.appLogs,
             description: AppLocalizations.of(context)!.errorsApp,
             onTap: () => {
               Navigator.push(context, MaterialPageRoute(builder: (context) => const AppLogs()))
@@ -303,7 +303,7 @@ class AdvancedOptions extends StatelessWidget {
           ),
           CustomListTile(
             leadingIcon: Icons.delete,
-            label: AppLocalizations.of(context)!.resetApplication, 
+            label: AppLocalizations.of(context)!.resetApplication,
             description: AppLocalizations.of(context)!.erasesAppData,
             color: Colors.red,
             onTap: openResetModal,

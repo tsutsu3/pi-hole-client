@@ -5,29 +5,29 @@ import 'package:flutter/services.dart';
 import 'package:animations/animations.dart';
 import 'package:provider/provider.dart';
 
-import 'package:droid_hole/widgets/navigation_rail.dart';
-import 'package:droid_hole/screens/servers/servers.dart';
-import 'package:droid_hole/screens/home/home.dart';
-import 'package:droid_hole/screens/logs/logs.dart';
-import 'package:droid_hole/screens/settings/settings.dart';
-import 'package:droid_hole/screens/domains/domains.dart';
-import 'package:droid_hole/screens/statistics/statistics.dart';
+import 'package:pi_hole_client/widgets/navigation_rail.dart';
+import 'package:pi_hole_client/screens/servers/servers.dart';
+import 'package:pi_hole_client/screens/home/home.dart';
+import 'package:pi_hole_client/screens/logs/logs.dart';
+import 'package:pi_hole_client/screens/settings/settings.dart';
+import 'package:pi_hole_client/screens/domains/domains.dart';
+import 'package:pi_hole_client/screens/statistics/statistics.dart';
 
-import 'package:droid_hole/widgets/start_warning_modal.dart';
-import 'package:droid_hole/widgets/bottom_nav_bar.dart';
+import 'package:pi_hole_client/widgets/start_warning_modal.dart';
+import 'package:pi_hole_client/widgets/bottom_nav_bar.dart';
 
-import 'package:droid_hole/models/server.dart';
-import 'package:droid_hole/constants/enums.dart';
-import 'package:droid_hole/services/http_requests.dart';
-import 'package:droid_hole/providers/status_provider.dart';
-import 'package:droid_hole/constants/app_screens.dart';
-import 'package:droid_hole/providers/app_config_provider.dart';
-import 'package:droid_hole/providers/domains_list_provider.dart';
-import 'package:droid_hole/providers/servers_provider.dart';
+import 'package:pi_hole_client/models/server.dart';
+import 'package:pi_hole_client/constants/enums.dart';
+import 'package:pi_hole_client/services/http_requests.dart';
+import 'package:pi_hole_client/providers/status_provider.dart';
+import 'package:pi_hole_client/constants/app_screens.dart';
+import 'package:pi_hole_client/providers/app_config_provider.dart';
+import 'package:pi_hole_client/providers/domains_list_provider.dart';
+import 'package:pi_hole_client/providers/servers_provider.dart';
 
 
 class Base extends StatefulWidget {
-  const Base({super.key}); 
+  const Base({super.key});
 
   @override
   State<Base> createState() => _BaseState();
@@ -92,7 +92,7 @@ class _BaseState extends State<Base> with WidgetsBindingObserver {
         );
       }
     });
-    
+
     if (serversProvider.selectedServer != null) {
       fetchMainData(serversProvider.selectedServer!);
     }
@@ -149,7 +149,7 @@ class _BaseState extends State<Base> with WidgetsBindingObserver {
                   duration: const Duration(milliseconds: 200),
                   transitionBuilder: (
                     (child, primaryAnimation, secondaryAnimation) => FadeThroughTransition(
-                      animation: primaryAnimation, 
+                      animation: primaryAnimation,
                       secondaryAnimation: secondaryAnimation,
                       child: child,
                     )
@@ -164,7 +164,7 @@ class _BaseState extends State<Base> with WidgetsBindingObserver {
           duration: const Duration(milliseconds: 200),
           transitionBuilder: (
             (child, primaryAnimation, secondaryAnimation) => FadeThroughTransition(
-              animation: primaryAnimation, 
+              animation: primaryAnimation,
               secondaryAnimation: secondaryAnimation,
               child: child,
             )

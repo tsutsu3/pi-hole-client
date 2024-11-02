@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import 'package:droid_hole/constants/enums.dart';
+import 'package:pi_hole_client/constants/enums.dart';
 
 class CustomTabContentList extends StatelessWidget {
   final Widget Function() loadingGenerator;
@@ -45,8 +45,8 @@ class CustomTabContentList extends StatelessWidget {
             ),
           )
         );
-        
-        
+
+
       case LoadStatus.loaded:
         return SafeArea(
           top: false,
@@ -77,7 +77,7 @@ class CustomTabContentList extends StatelessWidget {
           ),
         );
 
-      case LoadStatus.error: 
+      case LoadStatus.error:
         return SafeArea(
           top: false,
           bottom: false,
@@ -101,7 +101,7 @@ class CustomTabContentList extends StatelessWidget {
             ),
           )
         );
-       
+
       default:
         return const SizedBox();
     }

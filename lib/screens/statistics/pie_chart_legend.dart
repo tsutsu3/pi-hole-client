@@ -1,14 +1,14 @@
 import 'dart:io';
 
-import 'package:droid_hole/constants/colors.dart';
-import 'package:droid_hole/functions/conversions.dart';
+import 'package:pi_hole_client/constants/colors.dart';
+import 'package:pi_hole_client/functions/conversions.dart';
 import 'package:flutter/material.dart';
 
 class PieChartLegend extends StatelessWidget {
   final Map<String, dynamic> data;
   final String? dataUnit;
   final void Function(String)? onValueTap;
-  
+
   const PieChartLegend({
     super.key,
     required this.data,
@@ -17,7 +17,7 @@ class PieChartLegend extends StatelessWidget {
   });
 
   @override
-  Widget build(BuildContext context) { 
+  Widget build(BuildContext context) {
     List<Widget> generateLegendList(Map<String, dynamic> data) {
       List<Widget> items = [];
       int index = 0;

@@ -2,9 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
-import 'package:droid_hole/classes/no_scroll_behavior.dart';
-import 'package:droid_hole/providers/filters_provider.dart';
-import 'package:droid_hole/functions/format.dart';
+import 'package:pi_hole_client/classes/no_scroll_behavior.dart';
+import 'package:pi_hole_client/providers/filters_provider.dart';
+import 'package:pi_hole_client/functions/format.dart';
 
 class NoLogsMessage extends StatelessWidget {
   final double logsPerQuery;
@@ -39,7 +39,7 @@ class NoLogsMessage extends StatelessWidget {
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.center,
-                children: [ 
+                children: [
                   Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 10),
                     child: Text(

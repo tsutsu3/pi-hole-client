@@ -4,7 +4,7 @@ import 'package:flutter_svg/svg.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:url_launcher/url_launcher.dart'
 ;
-import 'package:droid_hole/functions/open_url.dart';
+import 'package:pi_hole_client/functions/open_url.dart';
 
 class ContactMeModal extends StatefulWidget {
   const ContactMeModal({super.key});
@@ -26,7 +26,7 @@ class _ContactMeModalState extends State<ContactMeModal> {
       scheme: 'mailto',
       path: 'juangilsanz@gmail.com',
       query: encodeQueryParameters(<String, String>{
-        'subject': 'DroidHole issue',
+        'subject': 'PiHoleClient issue',
       }),
     );
 

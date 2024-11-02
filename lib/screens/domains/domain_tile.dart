@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
-import 'package:droid_hole/models/domain.dart';
-import 'package:droid_hole/functions/format.dart';
+import 'package:pi_hole_client/models/domain.dart';
+import 'package:pi_hole_client/functions/format.dart';
 
 class DomainTile extends StatelessWidget {
   final Domain domain;

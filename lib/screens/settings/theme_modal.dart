@@ -4,9 +4,9 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
-import 'package:droid_hole/widgets/custom_radio.dart';
+import 'package:pi_hole_client/widgets/custom_radio.dart';
 
-import 'package:droid_hole/providers/app_config_provider.dart';
+import 'package:pi_hole_client/providers/app_config_provider.dart';
 
 
 class ThemeModal extends StatefulWidget {
@@ -93,7 +93,7 @@ class _ThemeModalState extends State<ThemeModal> {
                             ),
                           ),
                           trailing: CustomRadio(
-                            value: 0, 
+                            value: 0,
                             groupValue: _selectedItem,
                             backgroundColor: Theme.of(context).dialogBackgroundColor,
                           ),
@@ -119,7 +119,7 @@ class _ThemeModalState extends State<ThemeModal> {
                             ),
                           ),
                           trailing: CustomRadio(
-                            value: 1, 
+                            value: 1,
                             groupValue: _selectedItem,
                             backgroundColor: Theme.of(context).dialogBackgroundColor,
                           ),
@@ -145,7 +145,7 @@ class _ThemeModalState extends State<ThemeModal> {
                             ),
                           ),
                           trailing: CustomRadio(
-                            value: 2, 
+                            value: 2,
                             groupValue: _selectedItem,
                             backgroundColor: Theme.of(context).dialogBackgroundColor,
                           ),
@@ -167,7 +167,7 @@ class _ThemeModalState extends State<ThemeModal> {
                 mainAxisAlignment: MainAxisAlignment.end,
                 children: [
                   TextButton(
-                    onPressed: () => Navigator.pop(context), 
+                    onPressed: () => Navigator.pop(context),
                     child: Text(AppLocalizations.of(context)!.close)
                   )
                 ],

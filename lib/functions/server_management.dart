@@ -4,11 +4,11 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
-import 'package:droid_hole/services/http_requests.dart';
-import 'package:droid_hole/providers/app_config_provider.dart';
-import 'package:droid_hole/functions/snackbar.dart';
-import 'package:droid_hole/classes/process_modal.dart';
-import 'package:droid_hole/providers/servers_provider.dart';
+import 'package:pi_hole_client/services/http_requests.dart';
+import 'package:pi_hole_client/providers/app_config_provider.dart';
+import 'package:pi_hole_client/functions/snackbar.dart';
+import 'package:pi_hole_client/classes/process_modal.dart';
+import 'package:pi_hole_client/providers/servers_provider.dart';
 
 void enableServer(BuildContext context) async {
   final serversProvider = Provider.of<ServersProvider>(context, listen: false);
@@ -24,14 +24,14 @@ void enableServer(BuildContext context) async {
     serversProvider.updateselectedServerStatus(true);
     showSnackBar(
       appConfigProvider: appConfigProvider,
-      label: AppLocalizations.of(context)!.serverEnabled, 
+      label: AppLocalizations.of(context)!.serverEnabled,
       color: Colors.green
     );
   }
   else {
     showSnackBar(
       appConfigProvider: appConfigProvider,
-      label: AppLocalizations.of(context)!.couldntEnableServer, 
+      label: AppLocalizations.of(context)!.couldntEnableServer,
       color: Colors.red
     );
   }
@@ -53,14 +53,14 @@ void disableServer(int time, BuildContext context) async {
     serversProvider.updateselectedServerStatus(false);
     showSnackBar(
       appConfigProvider: appConfigProvider,
-      label: AppLocalizations.of(context)!.serverDisabled, 
+      label: AppLocalizations.of(context)!.serverDisabled,
       color: Colors.green
     );
   }
   else {
     showSnackBar(
       appConfigProvider: appConfigProvider,
-      label: AppLocalizations.of(context)!.couldntDisableServer, 
+      label: AppLocalizations.of(context)!.couldntDisableServer,
       color: Colors.red
     );
   }

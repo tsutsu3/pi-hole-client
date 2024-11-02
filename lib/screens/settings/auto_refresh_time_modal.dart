@@ -4,7 +4,7 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
-import 'package:droid_hole/widgets/option_box.dart';
+import 'package:pi_hole_client/widgets/option_box.dart';
 
 class AutoRefreshTimeModal extends StatefulWidget {
   final int? time;
@@ -131,16 +131,16 @@ class _AutoRefreshTimeModalState extends State<AutoRefreshTimeModal> {
 
   @override
   Widget build(BuildContext context) {
-    final MediaQueryData mediaQueryData = MediaQuery.of(context);   
+    final MediaQueryData mediaQueryData = MediaQuery.of(context);
 
     return Padding(
       padding: mediaQueryData.viewInsets,
       child: AnimatedContainer(
         duration: const Duration(milliseconds: 250),
         curve: Curves.easeInOut,
-        height: selectedOption == 5 
-          ? mediaQueryData.size.height > (Platform.isIOS ? 480 : 500) 
-            ? (Platform.isIOS ? 480 : 500) 
+        height: selectedOption == 5
+          ? mediaQueryData.size.height > (Platform.isIOS ? 480 : 500)
+            ? (Platform.isIOS ? 480 : 500)
             : mediaQueryData.size.height-25
           : mediaQueryData.size.height > (Platform.isIOS ? 296 : 410)
             ? (Platform.isIOS ? 396 : 410)
@@ -353,7 +353,7 @@ class _AutoRefreshTimeModalState extends State<AutoRefreshTimeModal> {
                           ),
                         ],
                       ),
-                      if (showCustomDurationInput == true) 
+                      if (showCustomDurationInput == true)
                         Column(
                           children: [
                             const SizedBox(height: 25),
@@ -365,7 +365,7 @@ class _AutoRefreshTimeModalState extends State<AutoRefreshTimeModal> {
                               ),
                               decoration: InputDecoration(
                                 errorText: !customTimeIsValid && customTimeController.text != ''
-                                  ? AppLocalizations.of(context)!.valueNotValid 
+                                  ? AppLocalizations.of(context)!.valueNotValid
                                   : null,
                                 border: const OutlineInputBorder(
                                   borderRadius: BorderRadius.all(
@@ -390,12 +390,12 @@ class _AutoRefreshTimeModalState extends State<AutoRefreshTimeModal> {
                       mainAxisAlignment: MainAxisAlignment.end,
                       children: [
                         TextButton(
-                          onPressed: () => Navigator.pop(context), 
+                          onPressed: () => Navigator.pop(context),
                           child: Text(AppLocalizations.of(context)!.cancel),
                         ),
                         const SizedBox(width: 20),
                         TextButton(
-                          onPressed: _selectionIsValid() == true 
+                          onPressed: _selectionIsValid() == true
                             ? () {
                               Navigator.pop(context);
                               widget.onChange(_getTime());
@@ -406,11 +406,11 @@ class _AutoRefreshTimeModalState extends State<AutoRefreshTimeModal> {
                               Theme.of(context).colorScheme.primary.withOpacity(0.1)
                             ),
                             foregroundColor: WidgetStateProperty.all(
-                              _selectionIsValid() == true 
+                              _selectionIsValid() == true
                                 ? Theme.of(context).colorScheme.primary
                                 : Colors.grey,
                             ),
-                          ), 
+                          ),
                           child: Text(AppLocalizations.of(context)!.confirm),
                         ),
                       ],

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
-import 'package:droid_hole/models/app_log.dart';
+import 'package:pi_hole_client/models/app_log.dart';
 
 
 class AppLogDetailsModal extends StatefulWidget {
@@ -25,7 +25,7 @@ class _AppLogDetailsModalState extends State<AppLogDetailsModal> {
         return widget.log.message;
 
       case 'statusCode':
-        return widget.log.statusCode != null 
+        return widget.log.statusCode != null
           ? widget.log.statusCode.toString()
           : "[NO STAUS CODE]";
 
@@ -92,14 +92,14 @@ class _AppLogDetailsModalState extends State<AppLogDetailsModal> {
                       border: Border.all(
                         color: Theme.of(context).colorScheme.primary
                       ),
-                      color: valueToShow == 'message'  
+                      color: valueToShow == 'message'
                         ? Theme.of(context).colorScheme.primary
                         : Theme.of(context).colorScheme.primary.withOpacity(0.05)
                     ),
                     child: Text(
                       "Message",
                       style: TextStyle(
-                        color: valueToShow == 'message'  
+                        color: valueToShow == 'message'
                           ? Colors.white
                           : null
                       ),
@@ -124,14 +124,14 @@ class _AppLogDetailsModalState extends State<AppLogDetailsModal> {
                           color: Theme.of(context).colorScheme.primary
                         ),
                       ),
-                      color: valueToShow == 'statusCode'  
+                      color: valueToShow == 'statusCode'
                         ? Theme.of(context).colorScheme.primary
                         : Theme.of(context).colorScheme.primary.withOpacity(0.05)
                     ),
                     child: Text(
                       "Status code",
                       style: TextStyle(
-                        color: valueToShow == 'statusCode'  
+                        color: valueToShow == 'statusCode'
                           ? Colors.white
                           : null
                       ),
@@ -163,14 +163,14 @@ class _AppLogDetailsModalState extends State<AppLogDetailsModal> {
                       border: Border.all(
                         color: Theme.of(context).colorScheme.primary
                       ),
-                      color: valueToShow == 'body'  
+                      color: valueToShow == 'body'
                         ? Theme.of(context).colorScheme.primary
                         : Theme.of(context).colorScheme.primary.withOpacity(0.05)
                     ),
                     child: Text(
                       "Body",
                       style: TextStyle(
-                        color: valueToShow == 'body'  
+                        color: valueToShow == 'body'
                           ? Colors.white
                           : null
                       ),
@@ -186,7 +186,7 @@ class _AppLogDetailsModalState extends State<AppLogDetailsModal> {
       ),
       actions: [
         TextButton(
-          onPressed: () => Navigator.pop(context), 
+          onPressed: () => Navigator.pop(context),
           child: const Text("Close")
         )
       ],

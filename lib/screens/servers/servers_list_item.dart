@@ -5,16 +5,16 @@ import 'package:expandable/expandable.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
-import 'package:droid_hole/screens/servers/add_server_fullscreen.dart';
-import 'package:droid_hole/screens/servers/delete_modal.dart';
+import 'package:pi_hole_client/screens/servers/add_server_fullscreen.dart';
+import 'package:pi_hole_client/screens/servers/delete_modal.dart';
 
-import 'package:droid_hole/classes/process_modal.dart';
-import 'package:droid_hole/functions/snackbar.dart';
-import 'package:droid_hole/providers/app_config_provider.dart';
-import 'package:droid_hole/providers/servers_provider.dart';
-import 'package:droid_hole/providers/status_provider.dart';
-import 'package:droid_hole/services/http_requests.dart';
-import 'package:droid_hole/models/server.dart';
+import 'package:pi_hole_client/classes/process_modal.dart';
+import 'package:pi_hole_client/functions/snackbar.dart';
+import 'package:pi_hole_client/providers/app_config_provider.dart';
+import 'package:pi_hole_client/providers/servers_provider.dart';
+import 'package:pi_hole_client/providers/status_provider.dart';
+import 'package:pi_hole_client/services/http_requests.dart';
+import 'package:pi_hole_client/models/server.dart';
 
 class ServersListItem extends StatefulWidget {
   final ExpandableController expandableController;
@@ -61,7 +61,7 @@ class _ServersListItemState extends State<ServersListItem> with SingleTickerProv
       parent: animationController,
       curve: Curves.easeInOut
     ));
-    
+
     super.initState();
   }
 
@@ -76,7 +76,7 @@ class _ServersListItemState extends State<ServersListItem> with SingleTickerProv
     void showDeleteModal(Server server) async {
       await Future.delayed(const Duration(seconds: 0), () => {
         showDialog(
-          context: context, 
+          context: context,
           builder: (context) => DeleteModal(
             serverToDelete: server,
           ),
@@ -89,7 +89,7 @@ class _ServersListItemState extends State<ServersListItem> with SingleTickerProv
       await Future.delayed(const Duration(seconds: 0), (() => {
         if (width > 700) {
           showDialog(
-            context: context, 
+            context: context,
             barrierDismissible: false,
             builder: (context) => AddServerFullscreen(
               server: server,
@@ -180,7 +180,7 @@ class _ServersListItemState extends State<ServersListItem> with SingleTickerProv
             Icon(
               Icons.storage_rounded,
               color: serversProvider.selectedServer != null && serversProvider.selectedServer?.address == server.address
-                ? statusProvider.isServerConnected == true 
+                ? statusProvider.isServerConnected == true
                   ? Colors.green
                   : Colors.orange
                 : null,
@@ -213,7 +213,7 @@ class _ServersListItemState extends State<ServersListItem> with SingleTickerProv
         return Icon(
           Icons.storage_rounded,
           color: serversProvider.selectedServer != null && serversProvider.selectedServer?.address == server.address
-            ? statusProvider.isServerConnected == true 
+            ? statusProvider.isServerConnected == true
               ? Colors.green
               : Colors.orange
             : null,
@@ -285,19 +285,19 @@ class _ServersListItemState extends State<ServersListItem> with SingleTickerProv
                 // color: Theme.of(context).dialogBackgroundColor,
                 itemBuilder: (context) => [
                   PopupMenuItem(
-                    enabled: server.defaultServer == false 
+                    enabled: server.defaultServer == false
                       ? true
                       : false,
-                    onTap: server.defaultServer == false 
+                    onTap: server.defaultServer == false
                       ? (() => setDefaultServer(server))
-                      : null, 
+                      : null,
                     child: SizedBox(
                       child: Row(
                         children: [
                           const Icon(Icons.star),
                           const SizedBox(width: 15),
                           Text(
-                            server.defaultServer == true 
+                            server.defaultServer == true
                               ? AppLocalizations.of(context)!.defaultConnection
                               : AppLocalizations.of(context)!.setDefault,
                           )
@@ -306,7 +306,7 @@ class _ServersListItemState extends State<ServersListItem> with SingleTickerProv
                     )
                   ),
                   PopupMenuItem(
-                    onTap: (() => openAddServerBottomSheet(server: server)), 
+                    onTap: (() => openAddServerBottomSheet(server: server)),
                     child: Row(
                       children: [
                         const Icon(Icons.edit),
@@ -316,7 +316,7 @@ class _ServersListItemState extends State<ServersListItem> with SingleTickerProv
                     )
                   ),
                   PopupMenuItem(
-                    onTap: (() => showDeleteModal(server)), 
+                    onTap: (() => showDeleteModal(server)),
                     child: Row(
                       children: [
                         const Icon(Icons.delete),
@@ -412,7 +412,7 @@ class _ServersListItemState extends State<ServersListItem> with SingleTickerProv
                   ),
                 ),
               )
-            ) 
+            )
           ],
         ),
       ),

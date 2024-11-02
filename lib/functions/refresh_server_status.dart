@@ -4,12 +4,12 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
-import 'package:droid_hole/providers/app_config_provider.dart';
-import 'package:droid_hole/functions/snackbar.dart';
-import 'package:droid_hole/providers/status_provider.dart';
-import 'package:droid_hole/constants/enums.dart';
-import 'package:droid_hole/providers/servers_provider.dart';
-import 'package:droid_hole/services/http_requests.dart';
+import 'package:pi_hole_client/providers/app_config_provider.dart';
+import 'package:pi_hole_client/functions/snackbar.dart';
+import 'package:pi_hole_client/providers/status_provider.dart';
+import 'package:pi_hole_client/constants/enums.dart';
+import 'package:pi_hole_client/providers/servers_provider.dart';
+import 'package:pi_hole_client/services/http_requests.dart';
 
 Future refreshServerStatus(BuildContext context) async {
   final statusProvider = Provider.of<StatusProvider>(context, listen: false);
@@ -34,7 +34,7 @@ Future refreshServerStatus(BuildContext context) async {
     }
     showSnackBar(
       appConfigProvider: appConfigProvider,
-      label: AppLocalizations.of(context)!.sslErrorShort, 
+      label: AppLocalizations.of(context)!.sslErrorShort,
       color: Colors.red
     );
   }
@@ -45,7 +45,7 @@ Future refreshServerStatus(BuildContext context) async {
     }
     showSnackBar(
       appConfigProvider: appConfigProvider,
-      label: AppLocalizations.of(context)!.couldNotConnectServer, 
+      label: AppLocalizations.of(context)!.couldNotConnectServer,
       color: Colors.red
     );
   }

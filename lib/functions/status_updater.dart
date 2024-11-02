@@ -1,14 +1,14 @@
 import 'dart:async';
 
-import 'package:droid_hole/providers/status_provider.dart';
+import 'package:pi_hole_client/providers/status_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-import 'package:droid_hole/constants/enums.dart';
-import 'package:droid_hole/providers/filters_provider.dart';
-import 'package:droid_hole/providers/app_config_provider.dart';
-import 'package:droid_hole/providers/servers_provider.dart';
-import 'package:droid_hole/services/http_requests.dart';
+import 'package:pi_hole_client/constants/enums.dart';
+import 'package:pi_hole_client/providers/filters_provider.dart';
+import 'package:pi_hole_client/providers/app_config_provider.dart';
+import 'package:pi_hole_client/providers/servers_provider.dart';
+import 'package:pi_hole_client/services/http_requests.dart';
 
 class StatusUpdater {
   BuildContext? context;
@@ -24,7 +24,7 @@ class StatusUpdater {
     void timerFn({Timer? timer}) async {
       // Restarts the statusDataTimer when time changes
       if (appConfigProvider.getAutoRefreshTime != _previousRefreshTime) {
-        timer != null 
+        timer != null
             ? _statusDataTimer!.cancel()
             : timer!.cancel();
         _previousRefreshTime = appConfigProvider.getAutoRefreshTime;
@@ -60,7 +60,7 @@ class StatusUpdater {
           isRunning = false;
         }
         else {
-          timer != null 
+          timer != null
             ? _statusDataTimer!.cancel()
             : timer!.cancel();
         }
@@ -105,7 +105,7 @@ class StatusUpdater {
         }
       }
       else {
-        timer != null 
+        timer != null
             ? _overTimeDataTimer!.cancel()
             : timer!.cancel();
       }

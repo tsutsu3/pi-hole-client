@@ -2,9 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:provider/provider.dart';
 
-import 'package:droid_hole/widgets/custom_radio.dart';
+import 'package:pi_hole_client/widgets/custom_radio.dart';
 
-import 'package:droid_hole/providers/app_config_provider.dart';
+import 'package:pi_hole_client/providers/app_config_provider.dart';
 
 class ThemeScreen extends StatefulWidget {
   const ThemeScreen({super.key});
@@ -25,7 +25,7 @@ class _ThemeScreenState extends State<ThemeScreen> {
   @override
   Widget build(BuildContext context) {
     final appConfigProvider = Provider.of<AppConfigProvider>(context);
-    
+
     return Scaffold(
       appBar: AppBar(
         title: Text(AppLocalizations.of(context)!.theme),
@@ -50,7 +50,7 @@ class _ThemeScreenState extends State<ThemeScreen> {
                     ),
                   ),
                   trailing: CustomRadio(
-                    value: 0, 
+                    value: 0,
                     groupValue: _selectedItem,
                     backgroundColor: Theme.of(context).dialogBackgroundColor,
                   ),
@@ -76,7 +76,7 @@ class _ThemeScreenState extends State<ThemeScreen> {
                     ),
                   ),
                   trailing: CustomRadio(
-                    value: 1, 
+                    value: 1,
                     groupValue: _selectedItem,
                     backgroundColor: Theme.of(context).dialogBackgroundColor,
                   ),
@@ -102,7 +102,7 @@ class _ThemeScreenState extends State<ThemeScreen> {
                     ),
                   ),
                   trailing: CustomRadio(
-                    value: 2, 
+                    value: 2,
                     groupValue: _selectedItem,
                     backgroundColor: Theme.of(context).dialogBackgroundColor,
                   ),

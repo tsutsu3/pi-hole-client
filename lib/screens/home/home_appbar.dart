@@ -4,19 +4,19 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
-import 'package:droid_hole/screens/home/switch_server_modal.dart';
-import 'package:droid_hole/screens/servers/servers.dart';
+import 'package:pi_hole_client/screens/home/switch_server_modal.dart';
+import 'package:pi_hole_client/screens/servers/servers.dart';
 
-import 'package:droid_hole/models/server.dart';
-import 'package:droid_hole/functions/open_url.dart';
-import 'package:droid_hole/config/system_overlay_style.dart';
-import 'package:droid_hole/providers/app_config_provider.dart';
-import 'package:droid_hole/providers/status_provider.dart';
-import 'package:droid_hole/classes/process_modal.dart';
-import 'package:droid_hole/functions/snackbar.dart';
-import 'package:droid_hole/constants/enums.dart';
-import 'package:droid_hole/services/http_requests.dart';
-import 'package:droid_hole/providers/servers_provider.dart';
+import 'package:pi_hole_client/models/server.dart';
+import 'package:pi_hole_client/functions/open_url.dart';
+import 'package:pi_hole_client/config/system_overlay_style.dart';
+import 'package:pi_hole_client/providers/app_config_provider.dart';
+import 'package:pi_hole_client/providers/status_provider.dart';
+import 'package:pi_hole_client/classes/process_modal.dart';
+import 'package:pi_hole_client/functions/snackbar.dart';
+import 'package:pi_hole_client/constants/enums.dart';
+import 'package:pi_hole_client/services/http_requests.dart';
+import 'package:pi_hole_client/providers/servers_provider.dart';
 
 class HomeAppBar extends StatelessWidget implements PreferredSizeWidget {
   final bool innerBoxIsScrolled;
@@ -55,7 +55,7 @@ class HomeAppBar extends StatelessWidget implements PreferredSizeWidget {
         }
         showSnackBar(
           appConfigProvider: appConfigProvider,
-          label: AppLocalizations.of(context)!.notConnectServer, 
+          label: AppLocalizations.of(context)!.notConnectServer,
           color: Colors.red
         );
       }
@@ -115,7 +115,7 @@ class HomeAppBar extends StatelessWidget implements PreferredSizeWidget {
 
     void openSwitchServerModal() {
       showDialog(
-        context: context, 
+        context: context,
         builder: (context) => SwitchServerModal(
           onServerSelect: connectToServer,
         )
@@ -129,13 +129,13 @@ class HomeAppBar extends StatelessWidget implements PreferredSizeWidget {
       centerTitle: false,
       forceElevated: innerBoxIsScrolled,
       leading: Icon(
-        statusProvider.isServerConnected == true 
-          ? serversProvider.selectedServer!.enabled == true 
+        statusProvider.isServerConnected == true
+          ? serversProvider.selectedServer!.enabled == true
             ? Icons.verified_user_rounded
             : Icons.gpp_bad_rounded
           : Icons.shield_rounded,
         size: 30,
-        color: statusProvider.isServerConnected == true 
+        color: statusProvider.isServerConnected == true
           ? serversProvider.selectedServer!.enabled == true
             ? Colors.green
             : Colors.red
@@ -146,7 +146,7 @@ class HomeAppBar extends StatelessWidget implements PreferredSizeWidget {
         children: [
           GestureDetector(
             onTap: openSwitchServerModal,
-            child: serversProvider.selectedServer != null 
+            child: serversProvider.selectedServer != null
               ? Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -182,9 +182,9 @@ class HomeAppBar extends StatelessWidget implements PreferredSizeWidget {
       actions: [
         PopupMenuButton(
           splashRadius: 20,
-          itemBuilder: (context) => 
-            serversProvider.selectedServer != null 
-              ? statusProvider.isServerConnected == true 
+          itemBuilder: (context) =>
+            serversProvider.selectedServer != null
+              ? statusProvider.isServerConnected == true
                 ? [
                     PopupMenuItem(
                       onTap: refresh,
@@ -255,7 +255,7 @@ class HomeAppBar extends StatelessWidget implements PreferredSizeWidget {
       ],
     );
   }
-    
+
   @override
   Size get preferredSize => const Size.fromHeight(70);
 }

@@ -2,16 +2,16 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
-import 'package:droid_hole/screens/statistics/no_data_chart.dart';
-import 'package:droid_hole/screens/home/queries_last_hours.dart';
-import 'package:droid_hole/screens/home/clients_last_hours.dart';
-import 'package:droid_hole/widgets/section_label.dart';
+import 'package:pi_hole_client/screens/statistics/no_data_chart.dart';
+import 'package:pi_hole_client/screens/home/queries_last_hours.dart';
+import 'package:pi_hole_client/screens/home/clients_last_hours.dart';
+import 'package:pi_hole_client/widgets/section_label.dart';
 
-import 'package:droid_hole/constants/colors.dart';
-import 'package:droid_hole/providers/status_provider.dart';
-import 'package:droid_hole/functions/conversions.dart';
-import 'package:droid_hole/models/overtime_data.dart';
-import 'package:droid_hole/providers/app_config_provider.dart';
+import 'package:pi_hole_client/constants/colors.dart';
+import 'package:pi_hole_client/providers/status_provider.dart';
+import 'package:pi_hole_client/functions/conversions.dart';
+import 'package:pi_hole_client/models/overtime_data.dart';
+import 'package:pi_hole_client/providers/app_config_provider.dart';
 
 class HomeCharts extends StatelessWidget {
   const HomeCharts({super.key});
@@ -23,7 +23,7 @@ class HomeCharts extends StatelessWidget {
         exists = true;
         break;
       }
-    } 
+    }
     return exists;
   }
 
@@ -141,7 +141,7 @@ class HomeCharts extends StatelessWidget {
             FractionallySizedBox(
               widthFactor: width > 700 ? 0.5 : 1,
               child: statusProvider.getOvertimeDataJson!['over_time'].keys.length > 0 &&
-                statusProvider.getOvertimeDataJson!['clients'].length > 0 
+                statusProvider.getOvertimeDataJson!['clients'].length > 0
                   ? Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
@@ -168,9 +168,9 @@ class HomeCharts extends StatelessWidget {
                         child: Wrap(
                           runSpacing: 16,
                           children: statusProvider.getOvertimeData!.clients.asMap().entries.map((entry) => FractionallySizedBox(
-                            widthFactor: width > 1000 && statusProvider.getOvertimeData!.clients.length > 3 
-                              ? 0.33 
-                              : width > 350 
+                            widthFactor: width > 1000 && statusProvider.getOvertimeData!.clients.length > 3
+                              ? 0.33
+                              : width > 350
                                 ? 0.5
                                 : 1,
                             child: Row(
@@ -221,7 +221,7 @@ class HomeCharts extends StatelessWidget {
           ],
         );
 
-      case 2: 
+      case 2:
         return SizedBox(
           width: double.maxFinite,
           height: 280,

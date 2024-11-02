@@ -4,21 +4,21 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
-import 'package:droid_hole/screens/logs/log_tile.dart';
-import 'package:droid_hole/screens/logs/no_logs_message.dart';
-import 'package:droid_hole/screens/logs/log_details_screen.dart';
-import 'package:droid_hole/screens/logs/logs_filters_modal.dart';
-import 'package:droid_hole/widgets/custom_radio.dart';
+import 'package:pi_hole_client/screens/logs/log_tile.dart';
+import 'package:pi_hole_client/screens/logs/no_logs_message.dart';
+import 'package:pi_hole_client/screens/logs/log_details_screen.dart';
+import 'package:pi_hole_client/screens/logs/logs_filters_modal.dart';
+import 'package:pi_hole_client/widgets/custom_radio.dart';
 
-import 'package:droid_hole/config/system_overlay_style.dart';
-import 'package:droid_hole/providers/app_config_provider.dart';
-import 'package:droid_hole/functions/snackbar.dart';
-import 'package:droid_hole/constants/log_status.dart';
-import 'package:droid_hole/providers/filters_provider.dart';
-import 'package:droid_hole/classes/process_modal.dart';
-import 'package:droid_hole/models/log.dart';
-import 'package:droid_hole/services/http_requests.dart';
-import 'package:droid_hole/providers/servers_provider.dart';
+import 'package:pi_hole_client/config/system_overlay_style.dart';
+import 'package:pi_hole_client/providers/app_config_provider.dart';
+import 'package:pi_hole_client/functions/snackbar.dart';
+import 'package:pi_hole_client/constants/log_status.dart';
+import 'package:pi_hole_client/providers/filters_provider.dart';
+import 'package:pi_hole_client/classes/process_modal.dart';
+import 'package:pi_hole_client/models/log.dart';
+import 'package:pi_hole_client/services/http_requests.dart';
+import 'package:pi_hole_client/providers/servers_provider.dart';
 
 class Logs extends StatefulWidget {
   const Logs({super.key});
@@ -48,7 +48,7 @@ class _LogsState extends State<Logs> {
   Future loadLogs({
     List<int>? statusSelected,
     DateTime? inStartTime,
-    DateTime? inEndTime, 
+    DateTime? inEndTime,
     required bool replaceOldLogs,
   }) async {
     final logsPerQuery = Provider.of<AppConfigProvider>(context, listen: false).logsPerQuery;
@@ -66,7 +66,7 @@ class _LogsState extends State<Logs> {
     if (_lastTimestamp == null || replaceOldLogs == true) {
       final now = DateTime.now();
       timestamp = endTime ?? now;
-      DateTime newOldTimestamp = logsPerQuery == 0.5 
+      DateTime newOldTimestamp = logsPerQuery == 0.5
         ? DateTime(timestamp.year, timestamp.month, timestamp.day, timestamp.hour, timestamp.minute-30, timestamp.second)
         : DateTime(timestamp.year, timestamp.month, timestamp.day, timestamp.hour-logsPerQuery.toInt(), timestamp.minute, timestamp.second);
       if (startTime != null) {
@@ -78,7 +78,7 @@ class _LogsState extends State<Logs> {
     }
     else {
       timestamp = _lastTimestamp!;
-      DateTime newOldTimestamp = logsPerQuery == 0.5 
+      DateTime newOldTimestamp = logsPerQuery == 0.5
         ? DateTime(_lastTimestamp!.year, _lastTimestamp!.month, _lastTimestamp!.day, _lastTimestamp!.hour, _lastTimestamp!.minute-30, _lastTimestamp!.second)
         : DateTime(_lastTimestamp!.year, _lastTimestamp!.month, _lastTimestamp!.day, _lastTimestamp!.hour-logsPerQuery.toInt(), _lastTimestamp!.minute, _lastTimestamp!.second);
       if (startTime != null) {
@@ -179,7 +179,7 @@ class _LogsState extends State<Logs> {
     }
 
     return tempLogs;
-  } 
+  }
 
 
   void _scrollListener() {
@@ -203,11 +203,11 @@ class _LogsState extends State<Logs> {
     final appConfigProvider = Provider.of<AppConfigProvider>(context);
 
     final width = MediaQuery.of(context).size.width;
-    final statusBarHeight = MediaQuery.of(context).viewPadding.top;   
-    final bottomNavBarHeight = MediaQuery.of(context).viewPadding.bottom;   
+    final statusBarHeight = MediaQuery.of(context).viewPadding.top;
+    final bottomNavBarHeight = MediaQuery.of(context).viewPadding.bottom;
 
     List<Log> logsListDisplay = filterLogs(
-      statusSelected: filtersProvider.statusSelected, 
+      statusSelected: filtersProvider.statusSelected,
       devicesSelected: filtersProvider.selectedClients,
       selectedDomain: filtersProvider.selectedDomain
     );
@@ -215,8 +215,8 @@ class _LogsState extends State<Logs> {
     void updateSortStatus(value) {
       if (sortStatus != value) {
         _scrollController.animateTo(
-          0, 
-          duration: const Duration(milliseconds: 250), 
+          0,
+          duration: const Duration(milliseconds: 250),
           curve: Curves.easeInOut
         );
         setState(() {
@@ -229,13 +229,13 @@ class _LogsState extends State<Logs> {
     void whiteBlackList(String list, Log log) async {
       final loading = ProcessModal(context: context);
       loading.open(
-        list == 'white' 
+        list == 'white'
           ? AppLocalizations.of(context)!.addingWhitelist
           : AppLocalizations.of(context)!.addingBlacklist,
       );
       final result = await setWhiteBlacklist(
-        server: serversProvider.selectedServer!, 
-        domain: log.url, 
+        server: serversProvider.selectedServer!,
+        domain: log.url,
         list: list
       );
       loading.close();
@@ -276,7 +276,7 @@ class _LogsState extends State<Logs> {
       if (width <= 1000) {
         Navigator.push(context, MaterialPageRoute(
           builder: (context) => LogDetailsScreen(
-            log: log, 
+            log: log,
             whiteBlackList: whiteBlackList,
           )
         ));
@@ -286,7 +286,7 @@ class _LogsState extends State<Logs> {
     void showFiltersModal() {
       if (width > 900) {
         showDialog(
-          context: context, 
+          context: context,
           builder: (context) => LogsFiltersModal(
             statusBarHeight: statusBarHeight,
             bottomNavBarHeight: bottomNavBarHeight,
@@ -308,7 +308,7 @@ class _LogsState extends State<Logs> {
       }
       else {
         showModalBottomSheet(
-          context: context, 
+          context: context,
           builder: (context) => LogsFiltersModal(
             statusBarHeight: statusBarHeight,
             bottomNavBarHeight: bottomNavBarHeight,
@@ -327,7 +327,7 @@ class _LogsState extends State<Logs> {
             window: false,
           ),
           backgroundColor: Colors.transparent,
-          isDismissible: true, 
+          isDismissible: true,
           enableDrag: true,
           isScrollControlled: true,
         );
@@ -335,7 +335,7 @@ class _LogsState extends State<Logs> {
     }
 
     void searchLogs(String value) {
-      List<Log> searched = logsList.where((log) => 
+      List<Log> searched = logsList.where((log) =>
         log.url.toLowerCase().contains(value.toLowerCase())
       ).toList();
       setState(() {
@@ -375,7 +375,7 @@ class _LogsState extends State<Logs> {
             child: logsListDisplay.isNotEmpty
               ? ListView.builder(
                   controller: _scrollController,
-                  itemCount: _isLoadingMore == true 
+                  itemCount: _isLoadingMore == true
                     ? logsListDisplay.length+1
                     : logsListDisplay.length,
                   itemBuilder: (context, index) {
@@ -389,7 +389,7 @@ class _LogsState extends State<Logs> {
                     }
                     else {
                       return LogTile(
-                        log: logsListDisplay[index], 
+                        log: logsListDisplay[index],
                         showLogDetails: showLogDetails,
                         isLogSelected: logsListDisplay[index] == selectedLog
                       );
@@ -423,7 +423,7 @@ class _LogsState extends State<Logs> {
               ],
             ),
           );
-          
+
         default:
           return const SizedBox();
       }
@@ -458,7 +458,7 @@ class _LogsState extends State<Logs> {
     void scrollToTop() {
       if (logsListDisplay.isNotEmpty) {
         _scrollController.animateTo(
-          0, 
+          0,
           duration: const Duration(milliseconds: 250),
           curve: Curves.easeInOut
         );
@@ -478,8 +478,8 @@ class _LogsState extends State<Logs> {
                   });
                   if (_scrollController.positions.isNotEmpty) {
                     _scrollController.animateTo(
-                      0, 
-                      duration: const Duration(milliseconds: 250), 
+                      0,
+                      duration: const Duration(milliseconds: 250),
                       curve: Curves.easeInOut
                     );
                   }
@@ -488,17 +488,17 @@ class _LogsState extends State<Logs> {
                 splashRadius: 20,
               ),
               actions: [
-                IconButton(     
+                IconButton(
                   onPressed: () {
                     setState(() => _searchController.text = "");
                     if (_scrollController.positions.isNotEmpty) {
                       _scrollController.animateTo(
-                        0, 
-                        duration: const Duration(milliseconds: 250), 
+                        0,
+                        duration: const Duration(milliseconds: 250),
                         curve: Curves.easeInOut
                       );
                     }
-                  }, 
+                  },
                   icon: const Icon(Icons.clear_rounded),
                   splashRadius: 20,
                 )
@@ -538,12 +538,12 @@ class _LogsState extends State<Logs> {
                     setState(() {
                       _showSearchBar = true;
                     });
-                  }, 
+                  },
                   icon: const Icon(Icons.search_rounded),
                   splashRadius: 20,
                 ),
                 IconButton(
-                  onPressed: showFiltersModal, 
+                  onPressed: showFiltersModal,
                   icon: const Icon(Icons.filter_list_rounded),
                   splashRadius: 20,
                 ),
@@ -565,8 +565,8 @@ class _LogsState extends State<Logs> {
                             ],
                           ),
                           CustomRadio(
-                            value: 0, 
-                            groupValue: sortStatus, 
+                            value: 0,
+                            groupValue: sortStatus,
                             backgroundColor: Theme.of(context).scaffoldBackgroundColor,
                           )
                         ],
@@ -585,8 +585,8 @@ class _LogsState extends State<Logs> {
                             ],
                           ),
                           CustomRadio(
-                            value: 1, 
-                            groupValue: sortStatus, 
+                            value: 1,
+                            groupValue: sortStatus,
                             backgroundColor: Theme.of(context).scaffoldBackgroundColor,
                           )
                         ],
@@ -607,7 +607,7 @@ class _LogsState extends State<Logs> {
                         children: [
                           const SizedBox(width: 5),
                           if (filtersProvider.startTime != null || filtersProvider.endTime != null) buildChip(
-                            AppLocalizations.of(context)!.time, 
+                            AppLocalizations.of(context)!.time,
                             const Icon(Icons.access_time_rounded),
                             () {
                               filtersProvider.resetTime();
@@ -669,7 +669,7 @@ class _LogsState extends State<Logs> {
           Expanded(
             flex: 4,
             child: selectedLog != null ? LogDetailsScreen(
-                log: selectedLog!, 
+                log: selectedLog!,
                 whiteBlackList: whiteBlackList
               ) : const SizedBox()
           )

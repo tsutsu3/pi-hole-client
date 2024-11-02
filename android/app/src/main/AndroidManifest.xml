@@ -1,9 +1,9 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.jgeek00.droid_hole">
+    package="com.jgeek00.pi_hole_client">
     <uses-permission android:name="android.permission.INTERNET"/>
     <uses-permission android:name="android.permission.USE_FINGERPRINT"/>
    <application
-        android:label="DroidHole"
+        android:label="PiHoleClient"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher">
         <activity

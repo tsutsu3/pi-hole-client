@@ -21,19 +21,19 @@ import 'package:window_size/window_size.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
-import 'package:droid_hole/base.dart';
-import 'package:droid_hole/screens/unlock.dart';
+import 'package:pi_hole_client/base.dart';
+import 'package:pi_hole_client/screens/unlock.dart';
 
-import 'package:droid_hole/services/database/database.dart';
-import 'package:droid_hole/classes/http_override.dart';
-import 'package:droid_hole/config/theme.dart';
-import 'package:droid_hole/providers/status_provider.dart';
-import 'package:droid_hole/providers/filters_provider.dart';
-import 'package:droid_hole/functions/status_updater.dart';
-import 'package:droid_hole/config/globals.dart';
-import 'package:droid_hole/providers/domains_list_provider.dart';
-import 'package:droid_hole/providers/app_config_provider.dart';
-import 'package:droid_hole/providers/servers_provider.dart';
+import 'package:pi_hole_client/services/database/database.dart';
+import 'package:pi_hole_client/classes/http_override.dart';
+import 'package:pi_hole_client/config/theme.dart';
+import 'package:pi_hole_client/providers/status_provider.dart';
+import 'package:pi_hole_client/providers/filters_provider.dart';
+import 'package:pi_hole_client/functions/status_updater.dart';
+import 'package:pi_hole_client/config/globals.dart';
+import 'package:pi_hole_client/providers/domains_list_provider.dart';
+import 'package:pi_hole_client/providers/app_config_provider.dart';
+import 'package:pi_hole_client/providers/servers_provider.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -65,7 +65,7 @@ void main() async {
   serversProvider.setDbInstance(dbData['dbInstance']);
   configProvider.saveFromDb(dbData['dbInstance'], dbData['appConfig']);
   await serversProvider.saveFromDb(
-    dbData['servers'], 
+    dbData['servers'],
     dbData['appConfig']['passCode'] != null ? false : true
   );
 
@@ -75,10 +75,10 @@ void main() async {
       final bool canAuthenticateWithBiometrics = await auth.canCheckBiometrics;
       List<BiometricType> availableBiometrics = await auth.getAvailableBiometrics();
       configProvider.setBiometricsSupport(canAuthenticateWithBiometrics);
-      
+
       if (
-        canAuthenticateWithBiometrics && 
-        availableBiometrics.contains(BiometricType.fingerprint) == false && 
+        canAuthenticateWithBiometrics &&
+        availableBiometrics.contains(BiometricType.fingerprint) == false &&
         dbData['useBiometricAuth'] == 1
       ) {
         await configProvider.setUseBiometrics(false);
@@ -133,13 +133,13 @@ void main() async {
           create: ((context) => configProvider)
         ),
         ChangeNotifierProxyProvider<AppConfigProvider, ServersProvider>(
-          create: (context) => serversProvider, 
+          create: (context) => serversProvider,
           update: (context, appConfig, servers) => servers!..update(appConfig),
         ),
       ],
       child: Phoenix(
-        child: const DroidHole()
-      ), 
+        child: const PiHoleClient()
+      ),
     )
   );
 
@@ -181,16 +181,16 @@ void main() async {
 
 Future<PackageInfo> loadAppInfo() async {
   return await PackageInfo.fromPlatform();
-} 
-
-class DroidHole extends StatefulWidget {
-  const DroidHole({super.key});
-
-  @override
-  State<DroidHole> createState() => _DroidHoleState();
 }
 
-class _DroidHoleState extends State<DroidHole> {
+class PiHoleClient extends StatefulWidget {
+  const PiHoleClient({super.key});
+
+  @override
+  State<PiHoleClient> createState() => _PiHoleClientState();
+}
+
+class _PiHoleClientState extends State<PiHoleClient> {
   final StatusUpdater statusUpdater = StatusUpdater();
 
   @override
@@ -241,7 +241,7 @@ class _DroidHoleState extends State<DroidHole> {
           scaffoldMessengerKey: scaffoldMessengerKey,
           builder: (context, child) {
             return AppLock(
-              builder: (_, __) => child!, 
+              builder: (_, __) => child!,
               lockScreenBuilder: (context) => const Unlock(),
               enabled: appConfigProvider.passCode != null ? true : false,
               backgroundLockLatency: const Duration(seconds: 0),

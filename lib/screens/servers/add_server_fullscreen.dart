@@ -6,15 +6,15 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
-import 'package:droid_hole/widgets/section_label.dart';
-import 'package:droid_hole/widgets/scan_token_modal.dart';
+import 'package:pi_hole_client/widgets/section_label.dart';
+import 'package:pi_hole_client/widgets/scan_token_modal.dart';
 
-import 'package:droid_hole/providers/servers_provider.dart';
-import 'package:droid_hole/functions/open_url.dart';
-import 'package:droid_hole/providers/app_config_provider.dart';
-import 'package:droid_hole/functions/snackbar.dart';
-import 'package:droid_hole/services/http_requests.dart';
-import 'package:droid_hole/models/server.dart';
+import 'package:pi_hole_client/providers/servers_provider.dart';
+import 'package:pi_hole_client/functions/open_url.dart';
+import 'package:pi_hole_client/providers/app_config_provider.dart';
+import 'package:pi_hole_client/functions/snackbar.dart';
+import 'package:pi_hole_client/services/http_requests.dart';
+import 'package:pi_hole_client/models/server.dart';
 
 class AddServerFullscreen extends StatefulWidget {
   final Server? server;

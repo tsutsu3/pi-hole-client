@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
-import 'package:droid_hole/screens/servers/add_server_fullscreen.dart';
+import 'package:pi_hole_client/screens/servers/add_server_fullscreen.dart';
 
 class NoServerSelected extends StatelessWidget {
   const NoServerSelected({super.key,});
@@ -15,7 +15,7 @@ class NoServerSelected extends StatelessWidget {
       Future.delayed(const Duration(seconds: 0), () => {
         if (width > 900) {
           showDialog(
-            context: context, 
+            context: context,
             builder: (context) => const AddServerFullscreen(
               window: true,
             ),
@@ -56,7 +56,7 @@ class NoServerSelected extends StatelessWidget {
                   ),
                 ),
                 OutlinedButton.icon(
-                  onPressed: selectServer, 
+                  onPressed: selectServer,
                   label: Text(AppLocalizations.of(context)!.selectConnection),
                   icon: const Icon(Icons.storage_rounded),
                 )

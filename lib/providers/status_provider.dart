@@ -1,6 +1,6 @@
-import 'package:droid_hole/constants/enums.dart';
-import 'package:droid_hole/models/overtime_data.dart';
-import 'package:droid_hole/models/realtime_status.dart';
+import 'package:pi_hole_client/constants/enums.dart';
+import 'package:pi_hole_client/models/overtime_data.dart';
+import 'package:pi_hole_client/models/realtime_status.dart';
 import 'package:flutter/material.dart';
 
 class StatusProvider with ChangeNotifier {
@@ -48,7 +48,7 @@ class StatusProvider with ChangeNotifier {
   bool get getRefreshServerStatus {
     return _refreshServerStatus;
   }
-  
+
   bool get startAutoRefresh {
     return _startAutoRefresh;
   }

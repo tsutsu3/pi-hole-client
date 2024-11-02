@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:pie_chart/pie_chart.dart';
 
-import 'package:droid_hole/constants/colors.dart';
+import 'package:pi_hole_client/constants/colors.dart';
 
 
 class CustomPieChart extends StatelessWidget {

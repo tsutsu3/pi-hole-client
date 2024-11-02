@@ -6,18 +6,18 @@ import 'dart:io';
 import 'package:http/http.dart';
 import 'package:http/http.dart' as http;
 
-import 'package:droid_hole/models/app_log.dart';
-import 'package:droid_hole/models/domain.dart';
-import 'package:droid_hole/functions/encode_basic_auth.dart';
-import 'package:droid_hole/models/overtime_data.dart';
-import 'package:droid_hole/models/realtime_status.dart';
-import 'package:droid_hole/models/server.dart';
+import 'package:pi_hole_client/models/app_log.dart';
+import 'package:pi_hole_client/models/domain.dart';
+import 'package:pi_hole_client/functions/encode_basic_auth.dart';
+import 'package:pi_hole_client/models/overtime_data.dart';
+import 'package:pi_hole_client/models/realtime_status.dart';
+import 'package:pi_hole_client/models/server.dart';
 
 bool checkBasicAuth(String? username, String? password) {
   if (
-    username != null && 
+    username != null &&
     password != null &&
-    username != '' && 
+    username != '' &&
     password != ''
   ) {
     return true;
@@ -28,14 +28,14 @@ bool checkBasicAuth(String? username, String? password) {
 }
 
 Future<Response> httpClient({
-  required String method, 
-  String? token, 
+  required String method,
+  String? token,
   required String url,
   Map<String, String>? headers,
   Map<String, dynamic>? body,
   int? timeout,
   Map<String, dynamic>? basicAuth,
-}) async {  
+}) async {
   final Map<String, String>? h = basicAuth != null && checkBasicAuth(basicAuth['username'], basicAuth['password'])
     ? headers != null
       ? {
@@ -56,7 +56,7 @@ Future<Response> httpClient({
       ).timeout(
         const Duration(seconds: 10)
       );
-    
+
     case 'get':
     default:
       return http.get(
@@ -128,7 +128,7 @@ Future loginQuery(Server server) async {
               'log': AppLog(
                 type: 'login',
                 dateTime: DateTime.now(),
-                statusCode: status.statusCode.toString(), 
+                statusCode: status.statusCode.toString(),
                 message: 'auth_error_1',
                 resBody: status.body
               )
@@ -150,7 +150,7 @@ Future loginQuery(Server server) async {
                 'log': AppLog(
                   type: 'login',
                   dateTime: DateTime.now(),
-                  statusCode: status.statusCode.toString(), 
+                  statusCode: status.statusCode.toString(),
                   message: 'auth_error_2',
                   resBody: status.body
                 )
@@ -164,7 +164,7 @@ Future loginQuery(Server server) async {
             'log': AppLog(
               type: 'login',
               dateTime: DateTime.now(),
-              statusCode: status.statusCode.toString(), 
+              statusCode: status.statusCode.toString(),
               message: 'auth_error_3',
               resBody: status.body
             )
@@ -177,7 +177,7 @@ Future loginQuery(Server server) async {
           'log': AppLog(
             type: 'login',
             dateTime: DateTime.now(),
-            statusCode: status.statusCode.toString(), 
+            statusCode: status.statusCode.toString(),
             message: 'auth_error',
             resBody: status.body
           )
@@ -190,7 +190,7 @@ Future loginQuery(Server server) async {
         'log': AppLog(
           type: 'login',
           dateTime: DateTime.now(),
-          statusCode: status.statusCode.toString(), 
+          statusCode: status.statusCode.toString(),
           message: 'no_connection_2',
           resBody: status.body
         )
@@ -198,47 +198,47 @@ Future loginQuery(Server server) async {
     }
   } on SocketException {
     return {
-      'result': 'socket', 
+      'result': 'socket',
       'log': AppLog(
         type: 'login',
-        dateTime: DateTime.now(), 
+        dateTime: DateTime.now(),
         message: 'SocketException'
       )
     };
   } on TimeoutException {
     return {
-      'result': 'timeout', 
+      'result': 'timeout',
       'log': AppLog(
         type: 'login',
-        dateTime: DateTime.now(), 
+        dateTime: DateTime.now(),
         message: 'TimeoutException'
       )
     };
   } on HandshakeException {
     return {
-      'result': 'ssl_error', 
+      'result': 'ssl_error',
       'log': AppLog(
         type: 'login',
-        dateTime: DateTime.now(), 
+        dateTime: DateTime.now(),
         message: 'HandshakeException'
       )
     };
   } on FormatException {
     return {
-      'result': 'auth_error', 
+      'result': 'auth_error',
       'log': AppLog(
         type: 'login',
-        dateTime: DateTime.now(), 
+        dateTime: DateTime.now(),
         message: 'FormatException'
       )
     };
   }
   catch (e) {
     return {
-      'result': 'error', 
+      'result': 'error',
       'log': AppLog(
         type: 'login',
-        dateTime: DateTime.now(), 
+        dateTime: DateTime.now(),
         message: e.toString()
       )
     };
@@ -248,7 +248,7 @@ Future loginQuery(Server server) async {
 dynamic disableServerRequest(Server server, int time) async {
   try {
     final response = await httpClient(
-      method: 'get', 
+      method: 'get',
       url: '${server.address}/admin/api.php?auth=${server.token}&disable=$time',
       basicAuth: {
         'username': server.basicAuthUser,
@@ -280,7 +280,7 @@ dynamic disableServerRequest(Server server, int time) async {
 dynamic enableServerRequest(Server server) async {
   try {
     final response = await httpClient(
-      method: 'get', 
+      method: 'get',
       url: '${server.address}/admin/api.php?auth=${server.token}&enable',
       basicAuth: {
         'username': server.basicAuthUser,
@@ -339,9 +339,9 @@ Future fetchOverTimeData(Server server) async {
 }
 
 Future fetchLogs({
-  required Server server, 
-  required DateTime from, 
-  required DateTime until, 
+  required Server server,
+  required DateTime from,
+  required DateTime until,
 }) async {
   try {
     final response = await httpClient(
@@ -373,7 +373,7 @@ Future fetchLogs({
 }
 
 Future setWhiteBlacklist({
-  required Server server, 
+  required Server server,
   required String domain,
   required String list,
 }) async {
@@ -416,7 +416,7 @@ Future setWhiteBlacklist({
   catch (e) {
     return {'result': 'error'};
   }
-} 
+}
 
 dynamic testHash(Server server, String hash) async {
   try {
@@ -432,7 +432,7 @@ dynamic testHash(Server server, String hash) async {
       final body = jsonDecode(status.body);
       if (body.runtimeType != List && body['status'] != null) {
         final response = await httpClient(
-          method: 'get', 
+          method: 'get',
           url: '${server.address}/admin/api.php?auth=$hash&${body['status'] == 'enabled' ? 'enable' : 'disable'}',
           basicAuth: {
             'username': server.basicAuthUser,
@@ -505,7 +505,7 @@ Future getDomainLists({
       results[0].statusCode == 200 &&
       results[1].statusCode == 200 &&
       results[2].statusCode == 200 &&
-      results[3].statusCode == 200 
+      results[3].statusCode == 200
     ) {
       return {
         'result': 'success',

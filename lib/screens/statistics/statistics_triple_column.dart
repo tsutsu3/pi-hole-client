@@ -2,11 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
-import 'package:droid_hole/screens/statistics/statistics_list.dart';
-import 'package:droid_hole/screens/statistics/statistics_queries_servers_tab.dart';
+import 'package:pi_hole_client/screens/statistics/statistics_list.dart';
+import 'package:pi_hole_client/screens/statistics/statistics_queries_servers_tab.dart';
 
-import 'package:droid_hole/constants/enums.dart';
-import 'package:droid_hole/providers/status_provider.dart';
+import 'package:pi_hole_client/constants/enums.dart';
+import 'package:pi_hole_client/providers/status_provider.dart';
 
 class StatisticsTripleColumn extends StatelessWidget {
   const StatisticsTripleColumn({super.key});
@@ -99,7 +99,7 @@ class StatisticsTripleColumn extends StatelessWidget {
                         child: ListView(
                           children: [
                             StatisticsListContent(
-                              type: "domains", 
+                              type: "domains",
                               countLabel: AppLocalizations.of(context)!.hits,
                             )
                           ],
@@ -134,7 +134,7 @@ class StatisticsTripleColumn extends StatelessWidget {
                         child: ListView(
                           children: [
                             StatisticsListContent(
-                              type: "clients", 
+                              type: "clients",
                               countLabel: AppLocalizations.of(context)!.requests,
                             )
                           ],
@@ -146,8 +146,8 @@ class StatisticsTripleColumn extends StatelessWidget {
               ),
             ],
           );
-        
-        case LoadStatus.error: 
+
+        case LoadStatus.error:
           return SizedBox(
             width: double.maxFinite,
             height: 300,

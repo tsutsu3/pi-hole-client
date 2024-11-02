@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import 'package:droid_hole/widgets/process_dialog.dart';
+import 'package:pi_hole_client/widgets/process_dialog.dart';
 
 class ProcessModal {
   late BuildContext context;
@@ -12,7 +12,7 @@ class ProcessModal {
   void open(String message) async {
     await Future.delayed(const Duration(seconds: 0), () => {
       showDialog(
-        context: context, 
+        context: context,
         builder: (c) {
           context = c;
           return ProcessDialog(

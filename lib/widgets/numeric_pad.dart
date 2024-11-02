@@ -2,9 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:vibration/vibration.dart';
 
-import 'package:droid_hole/widgets/shake_animation.dart';
+import 'package:pi_hole_client/widgets/shake_animation.dart';
 
-import 'package:droid_hole/providers/app_config_provider.dart';
+import 'package:pi_hole_client/providers/app_config_provider.dart';
 
 class NumericPad extends StatelessWidget {
   final GlobalKey? shakeKey;
@@ -62,7 +62,7 @@ class NumericPad extends StatelessWidget {
           aspectRatio: 1/1,
           child: Padding(
             padding: EdgeInsets.all(
-              width <= 700 
+              width <= 700
                 ? width > height ? height*0.05 : width*0.05
                 : 10
             ),
@@ -98,7 +98,7 @@ class NumericPad extends StatelessWidget {
           aspectRatio: 1/1,
           child: Padding(
             padding: EdgeInsets.all(
-              width <= 700 
+              width <= 700
                 ? width > height ? height*0.05 : width*0.05
                 : 10
             ),
@@ -150,7 +150,7 @@ class NumericPad extends StatelessWidget {
           ),
           Expanded(
             child: Container(
-              padding: height > 700 
+              padding: height > 700
                 ? const EdgeInsets.all(16)
                 : const EdgeInsets.symmetric(horizontal: 16),
               child: Column(

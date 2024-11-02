@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
-import 'package:droid_hole/providers/app_config_provider.dart';
+import 'package:pi_hole_client/providers/app_config_provider.dart';
 
 
 class StatisticsVisualizationScreen extends StatelessWidget {
@@ -102,7 +102,7 @@ class StatisticsVisualizationScreen extends StatelessWidget {
           item(
             AppLocalizations.of(context)!.pieChart,
             AppLocalizations.of(context)!.pieChartDescription,
-            Icons.pie_chart_rounded, 
+            Icons.pie_chart_rounded,
             1
           ),
         ],

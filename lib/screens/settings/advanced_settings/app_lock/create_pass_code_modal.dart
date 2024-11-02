@@ -4,10 +4,10 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
-import 'package:droid_hole/widgets/numeric_pad.dart';
+import 'package:pi_hole_client/widgets/numeric_pad.dart';
 
-import 'package:droid_hole/providers/app_config_provider.dart';
-import 'package:droid_hole/functions/snackbar.dart';
+import 'package:pi_hole_client/providers/app_config_provider.dart';
+import 'package:pi_hole_client/functions/snackbar.dart';
 
 class CreatePassCodeModal extends StatefulWidget {
   const CreatePassCodeModal({super.key});
@@ -66,7 +66,7 @@ class _CreatePassCodeModalState extends State<CreatePassCodeModal> {
                 : null
               : _repeatedCode.length == 4
                 ? finish
-                : null, 
+                : null,
             style: ButtonStyle(
               foregroundColor: WidgetStateProperty.all(
                 _step == 0
@@ -79,7 +79,7 @@ class _CreatePassCodeModalState extends State<CreatePassCodeModal> {
               ),
             ),
             child: Text(
-              _step == 0 
+              _step == 0
                 ? AppLocalizations.of(context)!.next
                 : AppLocalizations.of(context)!.finish
             )
@@ -98,7 +98,7 @@ class _CreatePassCodeModalState extends State<CreatePassCodeModal> {
               code: _step == 0 ? _code : _repeatedCode,
               onInput: (newCode) => _step == 0
                 ? setState(() => _code = newCode)
-                : setState(() => _repeatedCode = newCode), 
+                : setState(() => _repeatedCode = newCode),
             )
           ],
         )

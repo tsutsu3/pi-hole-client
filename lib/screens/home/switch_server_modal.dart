@@ -1,10 +1,10 @@
-import 'package:droid_hole/widgets/custom_list_tile.dart';
+import 'package:pi_hole_client/widgets/custom_list_tile.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
-import 'package:droid_hole/models/server.dart';
-import 'package:droid_hole/providers/servers_provider.dart';
+import 'package:pi_hole_client/models/server.dart';
+import 'package:pi_hole_client/providers/servers_provider.dart';
 
 class SwitchServerModal extends StatelessWidget {
   final void Function(Server) onServerSelect;
@@ -16,7 +16,7 @@ class SwitchServerModal extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final serversProvider = Provider.of<ServersProvider>(context);    
+    final serversProvider = Provider.of<ServersProvider>(context);
 
     return AlertDialog(
       scrollable: true,
@@ -58,7 +58,7 @@ class SwitchServerModal extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.end,
           children: [
             TextButton(
-              onPressed: () => Navigator.pop(context), 
+              onPressed: () => Navigator.pop(context),
               child: Text(AppLocalizations.of(context)!.cancel)
             )
           ],

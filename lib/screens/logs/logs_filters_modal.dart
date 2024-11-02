@@ -6,11 +6,11 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
-import 'package:droid_hole/screens/logs/clients_filters_modal.dart';
-import 'package:droid_hole/screens/logs/status_filters_modal.dart';
+import 'package:pi_hole_client/screens/logs/clients_filters_modal.dart';
+import 'package:pi_hole_client/screens/logs/status_filters_modal.dart';
 
-import 'package:droid_hole/providers/filters_provider.dart';
-import 'package:droid_hole/functions/format.dart';
+import 'package:pi_hole_client/providers/filters_provider.dart';
+import 'package:pi_hole_client/functions/format.dart';
 
 class LogsFiltersModal extends StatefulWidget {
   final double statusBarHeight;
@@ -43,7 +43,7 @@ class _LogsFiltersModalState extends State<LogsFiltersModal> {
     void openStatusModal() {
       if (width > 900) {
         showDialog(
-          context: context, 
+          context: context,
           builder: (context) => StatusFiltersModal(
             statusBarHeight: widget.statusBarHeight,
             bottomNavBarHeight: widget.bottomNavBarHeight,
@@ -54,7 +54,7 @@ class _LogsFiltersModalState extends State<LogsFiltersModal> {
       }
       else {
         showModalBottomSheet(
-          context: context, 
+          context: context,
           builder: (context) => StatusFiltersModal(
             statusBarHeight: widget.statusBarHeight,
             bottomNavBarHeight: widget.bottomNavBarHeight,
@@ -62,7 +62,7 @@ class _LogsFiltersModalState extends State<LogsFiltersModal> {
             window: false,
           ),
           backgroundColor: Colors.transparent,
-          isDismissible: true, 
+          isDismissible: true,
           enableDrag: true,
           isScrollControlled: true,
         );
@@ -71,7 +71,7 @@ class _LogsFiltersModalState extends State<LogsFiltersModal> {
     void openClientsModal() {
       if (width > 900) {
         showDialog(
-          context: context, 
+          context: context,
           builder: (context) => ClientsFiltersModal(
             statusBarHeight: widget.statusBarHeight,
             bottomNavBarHeight: widget.bottomNavBarHeight,
@@ -82,7 +82,7 @@ class _LogsFiltersModalState extends State<LogsFiltersModal> {
       }
       else {
         showModalBottomSheet(
-        context: context, 
+        context: context,
           builder: (context) => ClientsFiltersModal(
             statusBarHeight: widget.statusBarHeight,
             bottomNavBarHeight: widget.bottomNavBarHeight,
@@ -90,7 +90,7 @@ class _LogsFiltersModalState extends State<LogsFiltersModal> {
             window: false,
           ),
           backgroundColor: Colors.transparent,
-          isDismissible: true, 
+          isDismissible: true,
           enableDrag: true,
           isScrollControlled: true,
         );
@@ -112,14 +112,14 @@ class _LogsFiltersModalState extends State<LogsFiltersModal> {
     void selectTime(String time) async {
       DateTime now = DateTime.now();
       DateTime? dateValue = await showDatePicker(
-        context: context, 
-        initialDate: now, 
-        firstDate: DateTime(now.year, now.month-1, now.day), 
+        context: context,
+        initialDate: now,
+        firstDate: DateTime(now.year, now.month-1, now.day),
         lastDate: now
       );
       if (dateValue != null) {
         TimeOfDay? timeValue = await showTimePicker(
-          context: context, 
+          context: context,
           initialTime: TimeOfDay.now(),
           helpText: time == 'from'
             ? AppLocalizations.of(context)!.selectStartTime
@@ -253,7 +253,7 @@ class _LogsFiltersModalState extends State<LogsFiltersModal> {
                                         ),
                                         const SizedBox(height: 5),
                                         Text(
-                                          filtersProvider.startTime != null 
+                                          filtersProvider.startTime != null
                                             ? formatTimestamp(filtersProvider.startTime!, "dd/MM/yyyy - HH:mm")
                                             : AppLocalizations.of(context)!.notSelected,
                                           style: TextStyle(
@@ -304,7 +304,7 @@ class _LogsFiltersModalState extends State<LogsFiltersModal> {
                                         ),
                                         const SizedBox(height: 5),
                                         Text(
-                                          filtersProvider.endTime != null 
+                                          filtersProvider.endTime != null
                                             ? formatTimestamp(filtersProvider.endTime!, "dd/MM/yyyy - HH:mm")
                                             : AppLocalizations.of(context)!.notSelected,
                                           style: TextStyle(
@@ -366,7 +366,7 @@ class _LogsFiltersModalState extends State<LogsFiltersModal> {
                         value: RequestStatus.blocked,
                         label: Text(AppLocalizations.of(context)!.blocked)
                       ),
-                    ], 
+                    ],
                     selected: <RequestStatus>{filtersProvider.requestStatus},
                     onSelectionChanged: (value) => setState(() => filtersProvider.setRequestStatus(value.first)),
                   ),
@@ -466,14 +466,14 @@ class _LogsFiltersModalState extends State<LogsFiltersModal> {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     TextButton(
-                      onPressed: resetFilters, 
+                      onPressed: resetFilters,
                       child: Text(AppLocalizations.of(context)!.reset),
                     ),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.end,
                       children: [
                         TextButton(
-                          onPressed: () => Navigator.pop(context), 
+                          onPressed: () => Navigator.pop(context),
                           child: Text(AppLocalizations.of(context)!.close),
                         ),
                         const SizedBox(width: 20),
@@ -491,7 +491,7 @@ class _LogsFiltersModalState extends State<LogsFiltersModal> {
                                 : Colors.grey
                             ),
                             overlayColor: WidgetStateProperty.all(Theme.of(context).colorScheme.primary.withOpacity(0.1))
-                          ), 
+                          ),
                           child: Text(AppLocalizations.of(context)!.apply),
                         )
                       ],

@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
-import 'package:droid_hole/providers/filters_provider.dart';
+import 'package:pi_hole_client/providers/filters_provider.dart';
 
 class ClientsFiltersModal extends StatefulWidget {
   final double statusBarHeight;
@@ -73,7 +73,7 @@ class _ClientsFiltersModalState extends State<ClientsFiltersModal> {
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(5)
               ),
-              value: _selectedClients.contains(value), 
+              value: _selectedClients.contains(value),
               onChanged: (_) => _updateStatusSelected(value)
             ),
           ),
@@ -126,8 +126,8 @@ class _ClientsFiltersModalState extends State<ClientsFiltersModal> {
                   ),
                 ),
                 ...filtersProvider.totalClients.map((e) => listItem(
-                  label: e, 
-                  value: e, 
+                  label: e,
+                  value: e,
                 )),
               ],
             ),
@@ -138,16 +138,16 @@ class _ClientsFiltersModalState extends State<ClientsFiltersModal> {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 TextButton(
-                  onPressed: checkUncheckAll, 
-                  child: _selectedClients.length == filtersProvider.totalClients.length 
-                    ? Text(AppLocalizations.of(context)!.uncheckAll) 
-                    : Text(AppLocalizations.of(context)!.checkAll) 
+                  onPressed: checkUncheckAll,
+                  child: _selectedClients.length == filtersProvider.totalClients.length
+                    ? Text(AppLocalizations.of(context)!.uncheckAll)
+                    : Text(AppLocalizations.of(context)!.checkAll)
                 ),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.end,
                   children: [
                     TextButton(
-                      onPressed: () => Navigator.pop(context), 
+                      onPressed: () => Navigator.pop(context),
                       child: Text(AppLocalizations.of(context)!.close),
                     ),
                     const SizedBox(width: 20),
@@ -163,7 +163,7 @@ class _ClientsFiltersModalState extends State<ClientsFiltersModal> {
                           _selectedClients.isNotEmpty ? Theme.of(context).colorScheme.primary : Colors.grey
                         ),
                         overlayColor: WidgetStateProperty.all(Theme.of(context).colorScheme.primary.withOpacity(0.1))
-                      ), 
+                      ),
                       child: Text(AppLocalizations.of(context)!.apply),
                     ),
                   ],
