@@ -216,7 +216,7 @@ jobs:
       - name: Build installer witn innosetup
         run: iscc /Q windows/innosetup_installer_builder.iss
       - name: Move installer file to root directory
-        run: move build/windows/droidhole_installer.exe PiHoleClient_${{ env.VERSION_NAME }}_Windows_x64.exe
+        run: move build/windows/piholeclient_installer.exe PiHoleClient_${{ env.VERSION_NAME }}_Windows_x64.exe
       - name: Upload artifact
         uses: actions/upload-artifact@v3
         with:
@@ -279,7 +279,7 @@ jobs:
         uses: r0adkll/upload-google-play@v1
         with:
           serviceAccountJsonPlainText: ${{ secrets.PLAYSTORE_ACCOUNT_KEY }}
-          packageName: com.jgeek00.pi_hole_client
+          packageName: io.github.tsutsu3.pi_hole_client
           releaseFiles: PiHoleClient_${{ env.VERSION_NAME }}_Android.aab
           track: production
           status: draft

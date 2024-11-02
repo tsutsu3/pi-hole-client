@@ -3,7 +3,7 @@
 
 #define MyAppName "PiHoleClient"
 #define MyAppVersion "<REPLACE_VERSION_ACTIONS>"
-#define MyAppPublisher "JGeek00"
+#define MyAppPublisher "tsutsu3"
 #define MyAppURL "https://github.com/tsutsu3/pi-hole-client"
 #define MyAppExeName "pi_hole_client.exe"
 
@@ -23,7 +23,7 @@ DisableProgramGroupPage=yes
 ; Remove the following line to run in administrative install mode (install for all users.)
 PrivilegesRequired=lowest
 OutputDir=..\build\windows
-OutputBaseFilename=droidhole_installer
+OutputBaseFilename=piholeclient_installer
 SetupIconFile=..\assets\icon\icon-background-circle.ico
 Compression=lzma
 SolidCompression=yes

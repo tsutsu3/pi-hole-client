@@ -10,5 +10,5 @@ control:
   Essential: no
   Priority: optional
   Depends:
-  Maintainer: JGeek00
+  Maintainer: tsutsu3
   Description: Pi-hole® control app

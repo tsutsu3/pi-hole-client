@@ -276,7 +276,7 @@ class _SettingsWidgetState extends State<SettingsWidget> {
                     ),
                     CustomListTile(
                       label: AppLocalizations.of(context)!.createdBy,
-                      description: "JGeek00"
+                      description: "tsutsu3"
                     ),
                     Padding(
                       padding: const EdgeInsets.all(15),

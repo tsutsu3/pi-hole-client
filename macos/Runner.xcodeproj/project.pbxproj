@@ -477,7 +477,7 @@
 				CURRENT_PROJECT_VERSION = 1;
 				GENERATE_INFOPLIST_FILE = YES;
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.jgeek00.droidHole.RunnerTests;
+				PRODUCT_BUNDLE_IDENTIFIER = io.github.tsutsu3.piholeclient.RunnerTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/pi_hole_client.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/pi_hole_client";
@@ -492,7 +492,7 @@
 				CURRENT_PROJECT_VERSION = 1;
 				GENERATE_INFOPLIST_FILE = YES;
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.jgeek00.droidHole.RunnerTests;
+				PRODUCT_BUNDLE_IDENTIFIER = io.github.tsutsu3.piholeclient.RunnerTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/pi_hole_client.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/pi_hole_client";
@@ -507,7 +507,7 @@
 				CURRENT_PROJECT_VERSION = 1;
 				GENERATE_INFOPLIST_FILE = YES;
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.jgeek00.droidHole.RunnerTests;
+				PRODUCT_BUNDLE_IDENTIFIER = io.github.tsutsu3.piholeclient.RunnerTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/pi_hole_client.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/pi_hole_client";
@@ -578,7 +578,7 @@
 					"$(inherited)",
 					"@executable_path/../Frameworks",
 				);
-				PRODUCT_COPYRIGHT = "Copyright © 2023 JGeek00. All rights reserved.";
+				PRODUCT_COPYRIGHT = "Copyright © 2024 tsutsu3. All rights reserved.";
 				PRODUCT_NAME = PiHoleClient;
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_VERSION = 5.0;
@@ -710,7 +710,7 @@
 					"$(inherited)",
 					"@executable_path/../Frameworks",
 				);
-				PRODUCT_COPYRIGHT = "Copyright © 2023 JGeek00. All rights reserved.";
+				PRODUCT_COPYRIGHT = "Copyright © 2024 tsutsu3. All rights reserved.";
 				PRODUCT_NAME = PiHoleClient;
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
@@ -736,7 +736,7 @@
 					"$(inherited)",
 					"@executable_path/../Frameworks",
 				);
-				PRODUCT_COPYRIGHT = "Copyright © 2023 JGeek00. All rights reserved.";
+				PRODUCT_COPYRIGHT = "Copyright © 2024 tsutsu3. All rights reserved.";
 				PRODUCT_NAME = PiHoleClient;
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_VERSION = 5.0;

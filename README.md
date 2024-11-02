@@ -12,7 +12,7 @@
 </h5>
 
 <p align="center">
-  <a href="https://play.google.com/store/apps/details?id=com.jgeek00.pi_hole_client" target="_blank" rel="noopener noreferrer">
+  <a href="https://play.google.com/store/apps/details?id=io.github.tsutsu3.pi_hole_client" target="_blank" rel="noopener noreferrer">
     <img src="/assets/other/get_google_play.png" width="300px">
   </a>
   <a href="https://github.com/tsutsu3/pi-hole-client/releases" target="_blank" rel="noopener noreferrer">
@@ -40,7 +40,7 @@ This is an unofficial application. The Pi-hole team and the development of the P
 On [this repository](https://github.com/JuanRodenas/Pihole_list) you can find some recommended lists. Thanks to [JuanRodenas](https://github.com/JuanRodenas).
 
 ## Donations
-If you like the project and you want to contribute with the development, you can [become a sponsor on GitHub](https://github.com/sponsors/JGeek00), or you can donate using PayPal.
+If you like the project and you want to contribute with the development, you can [become a sponsor on GitHub](https://github.com/sponsors/tsutsu3), or you can donate using PayPal.
 
 <div align="center">
   <a href="https://www.paypal.com/donate/?hosted_button_id=T63UK6AVL3MG8">
@@ -121,5 +121,3 @@ If you like the project and you want to contribute with the development, you can
 - [flutter custom tabs](https://pub.dev/packages/flutter_custom_tabs)
 
 <br>
-
-##### Created by JGeek00
