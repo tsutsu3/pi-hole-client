@@ -1,5 +1,5 @@
 <h1 align="center">
-  <img src="https://github.com/JGeek00/droid-hole/raw/master/assets/other/banner.png" />
+  <img src="https://github.com/tsutsu3/pi-hole-client/raw/main/assets/other/banner.png" />
 </h1>
 
 <h5 align="center">
@@ -7,7 +7,7 @@
     DroidHole is an unnoficial
     <a href="https://pi-hole.net/" target="_blank" rel="noopener noreferrer">
       Pi-hole®
-    </a> 
+    </a>
     client developed with Flutter.</b>
 </h5>
 
@@ -15,7 +15,7 @@
   <a href="https://play.google.com/store/apps/details?id=com.jgeek00.droid_hole" target="_blank" rel="noopener noreferrer">
     <img src="/assets/other/get_google_play.png" width="300px">
   </a>
-  <a href="https://github.com/JGeek00/droid-hole/releases" target="_blank" rel="noopener noreferrer">
+  <a href="https://github.com/tsutsu3/pi-hole-client/releases" target="_blank" rel="noopener noreferrer">
     <img src="/assets/other/get-github.png" width="300px">
   </a>
 </p>
@@ -31,7 +31,7 @@
 <p>Requires Android 8.0+</p>
 
 ## Privacy policy
-Check the privacy policy [here](https://github.com/JGeek00/droid-hole/wiki/Privacy-policy).
+Check the privacy policy [here](https://github.com/tsutsu3/pi-hole-client/wiki/Privacy-policy).
 
 ## Disclaimer
 This is an unofficial application. The Pi-hole team and the development of the Pi-hole software is not related in any way with this application.
@@ -44,7 +44,7 @@ If you like the project and you want to contribute with the development, you can
 
 <div align="center">
   <a href="https://www.paypal.com/donate/?hosted_button_id=T63UK6AVL3MG8">
-    <img src="https://raw.githubusercontent.com/stefan-niedermann/paypal-donate-button/master/paypal-donate-button.png" alt="Donate with PayPal" height="100" />
+    <img src="https://raw.githubusercontent.com/stefan-niedermann/paypal-donate-button/main/paypal-donate-button.png" alt="Donate with PayPal" height="100" />
   </a>
 </div>
 

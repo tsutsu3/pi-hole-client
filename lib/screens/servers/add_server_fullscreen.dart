@@ -157,8 +157,8 @@ class _AddServerFullscreenState extends State<AddServerFullscreen> {
       basicAuthUser.text = widget.server!.basicAuthUser ?? '';
       basicAuthPassword.text = widget.server!.basicAuthPassword ?? '';
       setState(() {
-        connectionType = widget.server!.address.split(':')[0] == 'https' 
-          ? ConnectionType.https 
+        connectionType = widget.server!.address.split(':')[0] == 'https'
+          ? ConnectionType.https
           : ConnectionType.http;
         defaultCheckbox = widget.server!.defaultServer;
       });
@@ -201,9 +201,9 @@ class _AddServerFullscreenState extends State<AddServerFullscreen> {
           errorUrl = null;
         });
         final serverObj = Server(
-          address: url, 
+          address: url,
           alias: aliasFieldController.text,
-          token: tokenFieldController.text, 
+          token: tokenFieldController.text,
           defaultServer: false,
           basicAuthUser: basicAuthUser.text,
           basicAuthPassword: basicAuthPassword.text
@@ -291,7 +291,7 @@ class _AddServerFullscreenState extends State<AddServerFullscreen> {
       });
 
       final serverObj = Server(
-        address: widget.server!.address, 
+        address: widget.server!.address,
         alias: aliasFieldController.text,
         token: tokenFieldController.text,
         defaultServer: false,
@@ -301,7 +301,7 @@ class _AddServerFullscreenState extends State<AddServerFullscreen> {
       final result = await loginQuery(serverObj);
       if (result['result'] == 'success') {
         Server server = Server(
-          address: widget.server!.address, 
+          address: widget.server!.address,
           alias: aliasFieldController.text,
           token: tokenFieldController.text,
           defaultServer: defaultCheckbox,
@@ -381,10 +381,10 @@ class _AddServerFullscreenState extends State<AddServerFullscreen> {
 
     bool validData() {
       if (
-        addressFieldController.text != '' && 
+        addressFieldController.text != '' &&
         subrouteFieldError == null &&
         addressFieldError == null &&
-        aliasFieldController.text != '' && 
+        aliasFieldController.text != '' &&
         (
           (basicAuthUser.text != '' && basicAuthPassword.text != '') ||
           (basicAuthUser.text == '' && basicAuthPassword.text == '')
@@ -399,7 +399,7 @@ class _AddServerFullscreenState extends State<AddServerFullscreen> {
 
     void openScanTokenModal() {
       showDialog(
-        context: context, 
+        context: context,
         builder: (context) => ScanTokenModal(
           qrScanned: (value) => setState(() => tokenFieldController.text = value),
         )
@@ -471,7 +471,7 @@ class _AddServerFullscreenState extends State<AddServerFullscreen> {
                         value: ConnectionType.https,
                         label: Text("HTTPS")
                       ),
-                    ], 
+                    ],
                     selected: <ConnectionType>{connectionType},
                     onSelectionChanged: (value) => setState(() => connectionType = value.first),
                   ),
@@ -565,7 +565,7 @@ class _AddServerFullscreenState extends State<AddServerFullscreen> {
                       if (Platform.isAndroid || Platform.isIOS) ...[
                         const SizedBox(width: 16),
                         IconButton(
-                          onPressed: openScanTokenModal, 
+                          onPressed: openScanTokenModal,
                           icon: const Icon(Icons.qr_code_rounded),
                           tooltip: AppLocalizations.of(context)!.scanQrCode,
                         )
@@ -674,7 +674,7 @@ class _AddServerFullscreenState extends State<AddServerFullscreen> {
                       child: Text(
                         AppLocalizations.of(context)!.defaultConnection,
                         style: TextStyle(
-                          color: widget.server != null 
+                          color: widget.server != null
                             ? Colors.grey
                             : null
                         ),
@@ -703,7 +703,7 @@ class _AddServerFullscreenState extends State<AddServerFullscreen> {
         ],
       );
     }
-    
+
     if (widget.window == true) {
       return Dialog(
         child: SizedBox(
@@ -718,7 +718,7 @@ class _AddServerFullscreenState extends State<AddServerFullscreen> {
                     Row(
                       children: [
                         IconButton(
-                          onPressed: () => Navigator.pop(context), 
+                          onPressed: () => Navigator.pop(context),
                           icon: const Icon(Icons.clear_rounded)
                         ),
                         const SizedBox(width: 8),
@@ -733,20 +733,20 @@ class _AddServerFullscreenState extends State<AddServerFullscreen> {
                     Row(
                       children: [
                         IconButton(
-                          onPressed: () => openUrl("https://github.com/JGeek00/droid-hole/wiki/Create-a-connection",), 
+                          onPressed: () => openUrl("https://github.com/tsutsu3/pi-hole-client/wiki/Create-a-connection",),
                           icon: const Icon(Icons.help_outline_rounded),
                           tooltip: AppLocalizations.of(context)!.howCreateConnection,
                         ),
                         Padding(
                           padding: const EdgeInsets.only(right: 10),
                           child: IconButton(
-                            tooltip: widget.server != null 
-                              ? AppLocalizations.of(context)!.save 
+                            tooltip: widget.server != null
+                              ? AppLocalizations.of(context)!.save
                               : AppLocalizations.of(context)!.connect,
                             onPressed: validData()
                               ? widget.server != null ? save : connect
                               : null,
-                            icon: widget.server != null 
+                            icon: widget.server != null
                               ? const Icon(Icons.save_rounded)
                               : const Icon(Icons.login_rounded)
                           ),
@@ -772,20 +772,20 @@ class _AddServerFullscreenState extends State<AddServerFullscreen> {
               title: Text(AppLocalizations.of(context)!.createConnection),
               actions: [
                 IconButton(
-                  onPressed: () => openUrl("https://github.com/JGeek00/droid-hole/wiki/Create-a-connection",), 
+                  onPressed: () => openUrl("https://github.com/tsutsu3/pi-hole-client/wiki/Create-a-connection",),
                   icon: const Icon(Icons.help_outline_rounded),
                   tooltip: AppLocalizations.of(context)!.howCreateConnection,
                 ),
                 Padding(
                   padding: const EdgeInsets.only(right: 10),
                   child: IconButton(
-                    tooltip: widget.server != null 
-                      ? AppLocalizations.of(context)!.save 
+                    tooltip: widget.server != null
+                      ? AppLocalizations.of(context)!.save
                       : AppLocalizations.of(context)!.connect,
                     onPressed: validData()
                       ? widget.server != null ? save : connect
                       : null,
-                    icon: widget.server != null 
+                    icon: widget.server != null
                       ? const Icon(Icons.save_rounded)
                       : const Icon(Icons.login_rounded)
                   ),

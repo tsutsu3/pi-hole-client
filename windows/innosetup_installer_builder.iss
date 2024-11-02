@@ -4,7 +4,7 @@
 #define MyAppName "DroidHole"
 #define MyAppVersion "<REPLACE_VERSION_ACTIONS>"
 #define MyAppPublisher "JGeek00"
-#define MyAppURL "https://github.com/JGeek00/droid-hole"
+#define MyAppURL "https://github.com/tsutsu3/pi-hole-client"
 #define MyAppExeName "droid_hole.exe"
 
 [Setup]

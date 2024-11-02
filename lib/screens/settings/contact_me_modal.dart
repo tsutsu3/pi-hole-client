@@ -18,7 +18,7 @@ class _ContactMeModalState extends State<ContactMeModal> {
 
   void sendEmail() {
     String? encodeQueryParameters(Map<String, String> params) {
-      return params.entries.map((MapEntry<String, String> e) => 
+      return params.entries.map((MapEntry<String, String> e) =>
         '${Uri.encodeComponent(e.key)}=${Uri.encodeComponent(e.value)}').join('&');
     }
 
@@ -62,10 +62,10 @@ class _ContactMeModalState extends State<ContactMeModal> {
           Material(
             color: Colors.transparent,
             child: InkWell(
-              onTap: () => openUrl('https://github.com/JGeek00/droid-hole/issues'),
+              onTap: () => openUrl('https://github.com/tsutsu3/pi-hole-client/issues'),
               child: Padding(
                 padding: const EdgeInsets.symmetric(
-                  vertical: 10, 
+                  vertical: 10,
                   horizontal: 20
                 ),
                 child: Row(
@@ -107,7 +107,7 @@ class _ContactMeModalState extends State<ContactMeModal> {
               onTap: () => openUrl('https://appsupport.jgeek00.com'),
               child: Padding(
                 padding: const EdgeInsets.symmetric(
-                  vertical: 10, 
+                  vertical: 10,
                   horizontal: 20
                 ),
                 child: Row(
@@ -144,7 +144,7 @@ class _ContactMeModalState extends State<ContactMeModal> {
       ),
       actions: [
         TextButton(
-          onPressed: () => Navigator.pop(context), 
+          onPressed: () => Navigator.pop(context),
           child: Text(AppLocalizations.of(context)!.close)
         )
       ],
