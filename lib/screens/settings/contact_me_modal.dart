@@ -104,7 +104,7 @@ class _ContactMeModalState extends State<ContactMeModal> {
           Material(
             color: Colors.transparent,
             child: InkWell(
-              onTap: () => openUrl('https://appsupport.jgeek00.com'),
+              onTap: () => openUrl('https://docs.google.com/forms/d/e/1FAIpQLSdNm7H2iDUaQ0q-JA6hvrUSsGe50_iL5NVK6fR_2hkCsyrA-A/viewform?hl=en'),
               child: Padding(
                 padding: const EdgeInsets.symmetric(
                   vertical: 10,
