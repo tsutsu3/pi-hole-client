@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import 'package:droid_hole/widgets/custom_radio.dart';
+import 'package:pi_hole_client/widgets/custom_radio.dart';
 
 class CustomRadioListTile extends StatelessWidget {
   final int groupValue;
@@ -11,14 +11,14 @@ class CustomRadioListTile extends StatelessWidget {
   final void Function(int) onChanged;
 
   const CustomRadioListTile({
-    Key? key,
+    super.key,
     required this.groupValue,
     required this.value,
     required this.radioBackgroundColor,
     required this.title,
     this.subtitle,
     required this.onChanged,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -28,7 +28,7 @@ class CustomRadioListTile extends StatelessWidget {
         onTap: () => onChanged(value),
         child: Padding(
           padding: const EdgeInsets.symmetric(
-            horizontal: 16, 
+            horizontal: 16,
             vertical: 12
           ),
           child: Row(
@@ -36,8 +36,8 @@ class CustomRadioListTile extends StatelessWidget {
             children: [
               const SizedBox(width: 8),
               CustomRadio(
-                value: value, 
-                groupValue: groupValue, 
+                value: value,
+                groupValue: groupValue,
                 backgroundColor: radioBackgroundColor,
               ),
               const SizedBox(width: 24),
@@ -67,7 +67,7 @@ class CustomRadioListTile extends StatelessWidget {
                           ),
                         ),
                       ),
-                    ] 
+                    ]
                   ],
                 ),
               ),

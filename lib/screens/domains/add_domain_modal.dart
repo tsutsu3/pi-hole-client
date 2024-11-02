@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
-import 'package:droid_hole/widgets/custom_list_tile.dart';
+import 'package:pi_hole_client/widgets/custom_list_tile.dart';
 
 class AddDomainModal extends StatefulWidget {
   final String selectedlist;
@@ -9,11 +9,11 @@ class AddDomainModal extends StatefulWidget {
   final bool window;
 
   const AddDomainModal({
-    Key? key,
+    super.key,
     required this.selectedlist,
     required this.addDomain,
     required this.window,
-  }) : super(key: key);
+  });
 
   @override
   State<AddDomainModal> createState() => _AddDomainModalState();
@@ -23,14 +23,14 @@ enum ListType { whitelist, blacklist }
 
 class _AddDomainModalState extends State<AddDomainModal> {
   final TextEditingController domainController = TextEditingController();
-  String? domainError; 
+  String? domainError;
   ListType selectedType = ListType.whitelist;
   bool wildcard = false;
   bool allDataValid = false;
 
   @override
   void initState() {
-    selectedType = widget.selectedlist == 'whitelist' 
+    selectedType = widget.selectedlist == 'whitelist'
       ? ListType.whitelist : ListType.blacklist;
     super.initState();
   }
@@ -138,7 +138,7 @@ class _AddDomainModalState extends State<AddDomainModal> {
                           value: ListType.blacklist,
                           label: Text("Blacklist")
                         ),
-                      ], 
+                      ],
                       selected: <ListType>{selectedType},
                       onSelectionChanged: (value) => setState(() => selectedType = value.first),
                     ),
@@ -166,7 +166,7 @@ class _AddDomainModalState extends State<AddDomainModal> {
                     label: AppLocalizations.of(context)!.addAsWildcard,
                     onTap: () => setState(() => wildcard = !wildcard),
                     trailing: Switch(
-                      value: wildcard, 
+                      value: wildcard,
                       onChanged: (value) => {
                         setState((() => wildcard = value))
                       },
@@ -197,10 +197,10 @@ class _AddDomainModalState extends State<AddDomainModal> {
                             : domainController.text,
                         });
                         Navigator.pop(context);
-                      } 
+                      }
                     : null,
                   style: ButtonStyle(
-                    foregroundColor: MaterialStateProperty.all(
+                    foregroundColor: WidgetStateProperty.all(
                       allDataValid == true
                         ? null
                         : Colors.grey

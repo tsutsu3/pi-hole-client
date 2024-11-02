@@ -1,14 +1,14 @@
 import 'package:sqflite/sqflite.dart';
 
-import 'package:droid_hole/functions/conversions.dart';
-import 'package:droid_hole/models/server.dart';
+import 'package:pi_hole_client/functions/conversions.dart';
+import 'package:pi_hole_client/models/server.dart';
 
 Future<dynamic> saveServerQuery(Database db, Server server) async {
   try {
     await db.transaction((txn) async {
       await txn.insert(
         'servers',
-        { 
+        {
           'address': server.address,
           'alias': server.alias,
           'token': server.token,
@@ -29,7 +29,7 @@ Future<dynamic> editServerQuery(Database db, Server server) async {
     return await db.transaction((txn) async {
       await txn.update(
         'servers',
-        { 
+        {
           'alias': server.alias,
           'token': server.token,
           'isDefaultServer': convertFromBoolToInt(server.defaultServer),
@@ -88,8 +88,8 @@ Future<bool> removeServerQuery(Database db, String address) async {
   try {
     return await db.transaction((txn) async {
       await txn.delete(
-        'servers', 
-        where: 'address = ?', 
+        'servers',
+        where: 'address = ?',
         whereArgs: [address]
       );
       return true;
@@ -103,7 +103,7 @@ Future<bool> deleteServersDataQuery(Database db) async {
   try {
     return await db.transaction((txn) async {
       await txn.delete(
-        'servers', 
+        'servers',
       );
       return true;
     });
@@ -135,7 +135,7 @@ Future<Map<String, dynamic>> checkUrlExistsQuery(Database db, String url) async 
         };
       }
     });
-  } catch (e) {;
+  } catch (e) {
     return {
       'result': 'fail'
     };
@@ -143,7 +143,7 @@ Future<Map<String, dynamic>> checkUrlExistsQuery(Database db, String url) async 
 }
 
 Future<bool> updateConfigQuery({
-  required Database db, 
+  required Database db,
   required String column,
   required dynamic value
 }) async {
@@ -165,7 +165,7 @@ Future<bool> restoreAppConfigQuery(Database db) async {
     return await db.transaction((txn) async {
       await txn.update(
         'appConfig',
-        { 
+        {
           'autoRefreshTime': 5,
           'theme': 0,
           'overrideSslCheck': 0,

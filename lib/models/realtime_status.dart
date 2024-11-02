@@ -1,6 +1,6 @@
 import 'dart:convert';
 
-import 'package:droid_hole/functions/charts_data_functions.dart';
+import 'package:pi_hole_client/functions/charts_data_functions.dart';
 
 RealtimeStatus realtimeStatusFromJson(String str) => RealtimeStatus.fromJson(json.decode(str));
 
@@ -38,7 +38,7 @@ class RealtimeStatus {
   final Map<String, int> topSourcesBlocked;
   final Map<String, double> forwardDestinations;
   final Map<String, double> queryTypes;
-    
+
   RealtimeStatus({
     required this.domainsBeingBlocked,
     required this.dnsQueriesToday,
@@ -115,7 +115,7 @@ class RealtimeStatus {
     topSourcesBlocked: ((json["top_sources_blocked"].runtimeType != List<dynamic>) && (json["top_sources_blocked"] != null))
       ? Map.from(json["top_sources_blocked"]).map((k, v) => MapEntry<String, int>(k, v))
       : {},
-    forwardDestinations: ((json["forward_destinations"].runtimeType != List<dynamic>) && (json["forward_destinations"]) != null) 
+    forwardDestinations: ((json["forward_destinations"].runtimeType != List<dynamic>) && (json["forward_destinations"]) != null)
       ? sortValues(
           removeZeroValues(
             Map.from(json["forward_destinations"]).map((k, v) => MapEntry<String, double>(k, v.toDouble()))

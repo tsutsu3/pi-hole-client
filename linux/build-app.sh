@@ -11,7 +11,7 @@ set -e
 set -x
 
 
-projectName=DroidHole
+projectName=PiHoleClient
 
 archiveName=$projectName-Linux.tar.gz
 baseDir=$(pwd)

@@ -31,7 +31,7 @@ jobs:
         id: save_version
         run: |
           version=${{ steps.read_pubspec.outputs.data }}
-          IFS='+' 
+          IFS='+'
           read -r -a split <<< "$version"
           echo "VERSION_NAME=$(echo ${split[0]})" >> $GITHUB_ENV
           echo "version_name=${split[0]}" >> $GITHUB_OUTPUT
@@ -51,21 +51,21 @@ jobs:
       - run: flutter pub get
       - run: flutter build apk --release
       - run: flutter build appbundle --release
-      - name: Rename apk 
-        run: mv $ANDROID_APK_RELEASE_PATH/app-release.apk $ANDROID_APK_RELEASE_PATH/DroidHole_${{ env.VERSION_NAME }}_Android.apk
-      - name: Rename aab 
-        run: mv $ANDROID_AAB_RELEASE_PATH/app-release.aab $ANDROID_AAB_RELEASE_PATH/DroidHole_${{ env.VERSION_NAME }}_Android.aab
+      - name: Rename apk
+        run: mv $ANDROID_APK_RELEASE_PATH/app-release.apk $ANDROID_APK_RELEASE_PATH/PiHoleClient_${{ env.VERSION_NAME }}_Android.apk
+      - name: Rename aab
+        run: mv $ANDROID_AAB_RELEASE_PATH/app-release.aab $ANDROID_AAB_RELEASE_PATH/PiHoleClient_${{ env.VERSION_NAME }}_Android.aab
       - name: Copy apk to project root
-        run: cp $ANDROID_APK_RELEASE_PATH/DroidHole_${{ env.VERSION_NAME }}_Android.apk DroidHole_${{ env.VERSION_NAME }}_Android.apk
+        run: cp $ANDROID_APK_RELEASE_PATH/PiHoleClient_${{ env.VERSION_NAME }}_Android.apk PiHoleClient_${{ env.VERSION_NAME }}_Android.apk
       - name: Copy aab to project root
-        run: cp $ANDROID_AAB_RELEASE_PATH/DroidHole_${{ env.VERSION_NAME }}_Android.aab DroidHole_${{ env.VERSION_NAME }}_Android.aab
+        run: cp $ANDROID_AAB_RELEASE_PATH/PiHoleClient_${{ env.VERSION_NAME }}_Android.aab PiHoleClient_${{ env.VERSION_NAME }}_Android.aab
       - name: Upload artifact
         uses: actions/upload-artifact@v3
         with:
           name: android
           path: |
-            DroidHole_${{ env.VERSION_NAME }}_Android.aab
-            DroidHole_${{ env.VERSION_NAME }}_Android.apk
+            PiHoleClient_${{ env.VERSION_NAME }}_Android.aab
+            PiHoleClient_${{ env.VERSION_NAME }}_Android.apk
   build-macos:
     name: Build macOS .dmg
     runs-on: macos-latest
@@ -88,7 +88,7 @@ jobs:
         id: save_version
         run: |
           version=${{ steps.read_pubspec.outputs.data }}
-          IFS='+' 
+          IFS='+'
           read -r -a split <<< "$version"
           echo "VERSION_NAME=$(echo ${split[0]})" >> $GITHUB_ENV
           echo "version_name=${split[0]}" >> $GITHUB_OUTPUT
@@ -100,20 +100,20 @@ jobs:
       - run: flutter pub get
       - run: flutter build macos --release
       - name: Create folder to build dmg
-        run: mkdir $MACOS_APP_RELEASE_PATH/DroidHole
+        run: mkdir $MACOS_APP_RELEASE_PATH/PiHoleClient
       - name: Copy app into folder
-        run: cp -r $MACOS_APP_RELEASE_PATH/DroidHole.app $MACOS_APP_RELEASE_PATH/DroidHole/DroidHole.app
+        run: cp -r $MACOS_APP_RELEASE_PATH/PiHoleClient.app $MACOS_APP_RELEASE_PATH/PiHoleClient/PiHoleClient.app
       - name: Generate symbolic link to Applications dir
-        run: ln -s /Applications $MACOS_APP_RELEASE_PATH/DroidHole
+        run: ln -s /Applications $MACOS_APP_RELEASE_PATH/PiHoleClient
       - name: Generate dmg
-        run: hdiutil create -srcfolder $MACOS_APP_RELEASE_PATH/DroidHole $MACOS_APP_RELEASE_PATH/DroidHole_${{ env.VERSION_NAME }}_macOS_Universal.dmg
+        run: hdiutil create -srcfolder $MACOS_APP_RELEASE_PATH/PiHoleClient $MACOS_APP_RELEASE_PATH/PiHoleClient_${{ env.VERSION_NAME }}_macOS_Universal.dmg
       - name: Copy dmg to project root
-        run: cp $MACOS_APP_RELEASE_PATH/DroidHole_${{ env.VERSION_NAME }}_macOS_Universal.dmg DroidHole_${{ env.VERSION_NAME }}_macOS_Universal.dmg
+        run: cp $MACOS_APP_RELEASE_PATH/PiHoleClient_${{ env.VERSION_NAME }}_macOS_Universal.dmg PiHoleClient_${{ env.VERSION_NAME }}_macOS_Universal.dmg
       - name: Upload artifact
         uses: actions/upload-artifact@v3
         with:
           name: macos
-          path: DroidHole_${{ env.VERSION_NAME }}_macOS_Universal.dmg
+          path: PiHoleClient_${{ env.VERSION_NAME }}_macOS_Universal.dmg
   build-linux:
     name: Build Linux .tar.gz and .deb
     runs-on: ubuntu-latest
@@ -134,7 +134,7 @@ jobs:
         id: save_version
         run: |
           version=${{ steps.read_pubspec.outputs.data }}
-          IFS='+' 
+          IFS='+'
           read -r -a split <<< "$version"
           echo "VERSION_NAME=$(echo ${split[0]})" >> $GITHUB_ENV
           echo "version_name=${split[0]}" >> $GITHUB_OUTPUT
@@ -156,7 +156,7 @@ jobs:
       - name: Generate .deb package
         run: flutter_to_debian
       - name: Move .deb package to project root
-        run: mv build/linux/x64/release/debian/DroidHole_${{ env.VERSION_NAME }}_amd64.deb DroidHole_${{ env.VERSION_NAME }}_Linux_amd64.deb 
+        run: mv build/linux/x64/release/debian/PiHoleClient_${{ env.VERSION_NAME }}_amd64.deb PiHoleClient_${{ env.VERSION_NAME }}_Linux_amd64.deb
       - name: Generate .tar.gz package
         uses: a7ul/tar-action@v1.1.3
         id: compress
@@ -166,15 +166,15 @@ jobs:
           files: |
             ./data
             ./lib
-            ./DroidHole
-          outPath: DroidHole_${{ env.VERSION_NAME }}_Linux.tar.gz
+            ./PiHoleClient
+          outPath: PiHoleClient_${{ env.VERSION_NAME }}_Linux.tar.gz
       - name: Upload artifact
         uses: actions/upload-artifact@v3
         with:
           name: linux
           path: |
-            DroidHole_${{ env.VERSION_NAME }}_Linux_amd64.deb 
-            DroidHole_${{ env.VERSION_NAME }}_Linux.tar.gz
+            PiHoleClient_${{ env.VERSION_NAME }}_Linux_amd64.deb
+            PiHoleClient_${{ env.VERSION_NAME }}_Linux.tar.gz
   build-windows:
     name: Build Windows installer
     runs-on: windows-latest
@@ -198,7 +198,7 @@ jobs:
         id: save_version
         run: |
           version=${{ steps.read_pubspec.outputs.data }}
-          IFS='+' 
+          IFS='+'
           read -r -a split <<< "$version"
           echo "VERSION_NAME=$(echo ${split[0]})" >> $GITHUB_ENV
           echo "version_name=${split[0]}" >> $GITHUB_OUTPUT
@@ -216,17 +216,17 @@ jobs:
       - name: Build installer witn innosetup
         run: iscc /Q windows/innosetup_installer_builder.iss
       - name: Move installer file to root directory
-        run: move build/windows/droidhole_installer.exe DroidHole_${{ env.VERSION_NAME }}_Windows_x64.exe
+        run: move build/windows/piholeclient_installer.exe PiHoleClient_${{ env.VERSION_NAME }}_Windows_x64.exe
       - name: Upload artifact
         uses: actions/upload-artifact@v3
         with:
           name: windows
-          path: DroidHole_${{ env.VERSION_NAME }}_Windows_x64.exe
+          path: PiHoleClient_${{ env.VERSION_NAME }}_Windows_x64.exe
   release-builds-github:
     name: Release builds to GitHub
     runs-on: ubuntu-latest
     needs: [build-android, build-macos, build-linux, build-windows]
-    env: 
+    env:
       VERSION_NAME: ${{ needs.build-android.outputs.VERSION_NAME }}
       VERSION_NUMBER: ${{ needs.build-android.outputs.VERSION_NUMBER }}
     steps:
@@ -267,7 +267,7 @@ jobs:
     name: Release Android build to the Google Play Store
     runs-on: ubuntu-latest
     needs: [build-android, build-macos, build-linux, build-windows]
-    env: 
+    env:
       VERSION_NAME: ${{ needs.build-android.outputs.VERSION_NAME }}
     steps:
       - uses: actions/checkout@v3
@@ -279,8 +279,8 @@ jobs:
         uses: r0adkll/upload-google-play@v1
         with:
           serviceAccountJsonPlainText: ${{ secrets.PLAYSTORE_ACCOUNT_KEY }}
-          packageName: com.jgeek00.droid_hole
-          releaseFiles: DroidHole_${{ env.VERSION_NAME }}_Android.aab
+          packageName: io.github.tsutsu3.pi_hole_client
+          releaseFiles: PiHoleClient_${{ env.VERSION_NAME }}_Android.aab
           track: production
           status: draft
           releaseName: ${{ env.VERSION_NAME }}

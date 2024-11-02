@@ -2,18 +2,18 @@ import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-import 'package:droid_hole/functions/format.dart';
-import 'package:droid_hole/providers/app_config_provider.dart';
+import 'package:pi_hole_client/functions/format.dart';
+import 'package:pi_hole_client/providers/app_config_provider.dart';
 
 class QueriesLastHours extends StatelessWidget {
   final Map<String, dynamic> data;
   final bool reducedData;
 
   const QueriesLastHours({
-    Key? key,
+    super.key,
     required this.data,
     required this.reducedData,
-  }) : super(key: key);
+  });
 
   LineChartData mainData(Map<String, dynamic> data, ThemeMode selectedTheme) {
     final double interval = (data['topPoint']/5).toDouble() > 0
@@ -123,17 +123,17 @@ class QueriesLastHours extends StatelessWidget {
             : const Color.fromRGBO(35, 35, 35, 0.9),
           getTooltipItems: (items) => [
             LineTooltipItem(
-              formatTimestampForChart(data['time'][items[0].x.toInt()]), 
+              formatTimestampForChart(data['time'][items[0].x.toInt()]),
               TextStyle(
                 fontWeight: FontWeight.bold,
                 fontSize: 14,
-                color: selectedTheme == ThemeMode.light 
+                color: selectedTheme == ThemeMode.light
                   ? Colors.black
                   : Colors.white
               )
             ),
             LineTooltipItem(
-              "Not blocked: ${items[1].y.toInt().toString()}", 
+              "Not blocked: ${items[1].y.toInt().toString()}",
               const TextStyle(
                 fontWeight: FontWeight.bold,
                 fontSize: 14,
@@ -141,7 +141,7 @@ class QueriesLastHours extends StatelessWidget {
               )
             ),
             LineTooltipItem(
-              "Blocked: ${items[2].y.toInt().toString()}", 
+              "Blocked: ${items[2].y.toInt().toString()}",
               const TextStyle(
                 fontWeight: FontWeight.bold,
                 fontSize: 14,
@@ -171,19 +171,19 @@ class QueriesLastHours extends StatelessWidget {
         }
         domains.add(
           FlSpot(
-            xPosition.toDouble(), 
+            xPosition.toDouble(),
             data['domains_over_time'][domainsKeys[i]].toDouble()
           )
         );
         xPosition++;
       }
-      
+
       xPosition = 0;
       List<String> adsKeys = data['ads_over_time'].keys.toList();
       for (var i = 0; i < data['ads_over_time'].entries.length; reducedData == true ? i+=6 : i++) {
         ads.add(
           FlSpot(
-            xPosition.toDouble(), 
+            xPosition.toDouble(),
             data['ads_over_time'][adsKeys[i]].toDouble()
           )
         );

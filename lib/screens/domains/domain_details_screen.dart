@@ -2,22 +2,22 @@ import 'package:flutter/material.dart';
 import 'package:animations/animations.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
-import 'package:droid_hole/widgets/custom_list_tile.dart';
-import 'package:droid_hole/screens/domains/delete_domain_modal.dart';
-import 'package:droid_hole/screens/domains/domain_comment_modal.dart';
+import 'package:pi_hole_client/widgets/custom_list_tile.dart';
+import 'package:pi_hole_client/screens/domains/delete_domain_modal.dart';
+import 'package:pi_hole_client/screens/domains/domain_comment_modal.dart';
 
-import 'package:droid_hole/functions/format.dart';
-import 'package:droid_hole/models/domain.dart';
+import 'package:pi_hole_client/functions/format.dart';
+import 'package:pi_hole_client/models/domain.dart';
 
 class DomainDetailsScreen extends StatelessWidget {
   final Domain domain;
   final void Function(Domain) remove;
 
   const DomainDetailsScreen({
-    Key? key,
+    super.key,
     required this.domain,
     required this.remove
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -46,7 +46,7 @@ class DomainDetailsScreen extends StatelessWidget {
         actions: [
           IconButton(
             onPressed: () => showDialog(
-              context: context, 
+              context: context,
               builder: (context) => DeleteDomainModal(
                 onConfirm: () {
                   Navigator.pop(context);
@@ -62,28 +62,28 @@ class DomainDetailsScreen extends StatelessWidget {
       body: ListView(
         children: [
           CustomListTile(
-            leadingIcon: Icons.domain, 
-            label: AppLocalizations.of(context)!.domain, 
+            leadingIcon: Icons.domain,
+            label: AppLocalizations.of(context)!.domain,
             description: domain.domain,
           ),
           CustomListTile(
-            leadingIcon: Icons.category_rounded, 
-            label: AppLocalizations.of(context)!.type, 
+            leadingIcon: Icons.category_rounded,
+            label: AppLocalizations.of(context)!.type,
             description: getType(domain.type),
           ),
           CustomListTile(
-            leadingIcon: Icons.schedule_rounded, 
-            label: AppLocalizations.of(context)!.dateAdded, 
+            leadingIcon: Icons.schedule_rounded,
+            label: AppLocalizations.of(context)!.dateAdded,
             description: formatTimestamp(domain.dateAdded, 'yyyy-MM-dd'),
           ),
           CustomListTile(
-            leadingIcon: Icons.update_rounded, 
-            label: AppLocalizations.of(context)!.dateModified, 
+            leadingIcon: Icons.update_rounded,
+            label: AppLocalizations.of(context)!.dateModified,
             description: formatTimestamp(domain.dateModified, 'yyyy-MM-dd'),
           ),
           CustomListTile(
-            leadingIcon: Icons.check, 
-            label: AppLocalizations.of(context)!.status, 
+            leadingIcon: Icons.check,
+            label: AppLocalizations.of(context)!.status,
             description: domain.enabled == 1
               ? AppLocalizations.of(context)!.enabled
               : AppLocalizations.of(context)!.disabled,
@@ -91,19 +91,19 @@ class DomainDetailsScreen extends StatelessWidget {
           Material(
             color: Colors.transparent,
             child: InkWell(
-              onTap: domain.comment != null && domain.comment != "" 
+              onTap: domain.comment != null && domain.comment != ""
                 ? () => {
                   showModal(
-                    context: context, 
+                    context: context,
                     builder: (context) => DomainCommentModal(
                       comment: domain.comment!
                     )
                   )
                 } : null,
               child: CustomListTile(
-                leadingIcon: Icons.comment_rounded, 
-                label: AppLocalizations.of(context)!.comment, 
-                description: domain.comment == "" 
+                leadingIcon: Icons.comment_rounded,
+                label: AppLocalizations.of(context)!.comment,
+                description: domain.comment == ""
                   ? AppLocalizations.of(context)!.noComment
                   : domain.comment,
               ),

@@ -3,17 +3,17 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
-import 'package:droid_hole/widgets/option_box.dart';
+import 'package:pi_hole_client/widgets/option_box.dart';
 
 class LogsQuantityPerLoadModal extends StatefulWidget {
   final double? time;
   final void Function(double) onChange;
 
   const LogsQuantityPerLoadModal({
-    Key? key,
+    super.key,
     required this.time,
     required this.onChange,
-  }) : super(key: key);
+  });
 
   @override
   State<LogsQuantityPerLoadModal> createState() => _LogsQuantityPerLoadModalState();
@@ -85,11 +85,11 @@ class _LogsQuantityPerLoadModalState extends State<LogsQuantityPerLoadModal> {
 
   @override
   Widget build(BuildContext context) {
-    final MediaQueryData mediaQueryData = MediaQuery.of(context);   
+    final MediaQueryData mediaQueryData = MediaQuery.of(context);
 
     return Container(
-      height: mediaQueryData.size.height > (Platform.isIOS ? 675 : 655) 
-        ? (Platform.isIOS ? 675 : 655) 
+      height: mediaQueryData.size.height > (Platform.isIOS ? 675 : 655)
+        ? (Platform.isIOS ? 675 : 655)
         : mediaQueryData.size.height-mediaQueryData.viewPadding.top-25,
       decoration: BoxDecoration(
         color: Theme.of(context).dialogBackgroundColor,
@@ -125,7 +125,7 @@ class _LogsQuantityPerLoadModalState extends State<LogsQuantityPerLoadModal> {
               padding: const EdgeInsets.only(
                 top: 10,
                 bottom: 20,
-                left: 20, 
+                left: 20,
                 right: 20
               ),
               child: Center(
@@ -139,7 +139,7 @@ class _LogsQuantityPerLoadModalState extends State<LogsQuantityPerLoadModal> {
               padding: const EdgeInsets.only(
                 top: 10,
                 bottom: 20,
-                left: 20, 
+                left: 20,
                 right: 20
               ),
               child: Container(
@@ -369,7 +369,7 @@ class _LogsQuantityPerLoadModalState extends State<LogsQuantityPerLoadModal> {
                     mainAxisAlignment: MainAxisAlignment.end,
                     children: [
                       TextButton(
-                        onPressed: () => Navigator.pop(context), 
+                        onPressed: () => Navigator.pop(context),
                         child: Text(AppLocalizations.of(context)!.cancel),
                       ),
                       const SizedBox(width: 20),
@@ -381,15 +381,15 @@ class _LogsQuantityPerLoadModalState extends State<LogsQuantityPerLoadModal> {
                           }
                           : null,
                         style: ButtonStyle(
-                          overlayColor: MaterialStateProperty.all(
+                          overlayColor: WidgetStateProperty.all(
                             Theme.of(context).colorScheme.primary.withOpacity(0.1)
                           ),
-                          foregroundColor: MaterialStateProperty.all(
+                          foregroundColor: WidgetStateProperty.all(
                             selectedOption != null
                               ? Theme.of(context).colorScheme.primary
                               : Colors.grey,
                           ),
-                        ), 
+                        ),
                         child: Text(AppLocalizations.of(context)!.confirm),
                       ),
                     ],

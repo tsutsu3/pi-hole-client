@@ -1,9 +1,9 @@
-import 'package:droid_hole/models/log.dart';
+import 'package:pi_hole_client/models/log.dart';
 import 'package:flutter/material.dart';
 
-import 'package:droid_hole/screens/logs/log_status.dart';
+import 'package:pi_hole_client/screens/logs/log_status.dart';
 
-import 'package:droid_hole/functions/format.dart';
+import 'package:pi_hole_client/functions/format.dart';
 
 class LogTile extends StatelessWidget {
   final Log log;
@@ -11,11 +11,11 @@ class LogTile extends StatelessWidget {
   final bool? isLogSelected;
 
   const LogTile({
-    Key? key,
+    super.key,
     required this.log,
     required this.showLogDetails,
     this.isLogSelected
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {

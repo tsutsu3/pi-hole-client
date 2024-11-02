@@ -1,14 +1,14 @@
-flutter_app: 
-  command: DroidHole
+flutter_app:
+  command: PiHoleClient
   arch: x64
   parent: /usr/local/lib
 
 control:
-  Package: DroidHole
+  Package: PiHoleClient
   Version: <REPLACE_VERSION_NUMBER_ACTIONS>
   Architecture: amd64
   Essential: no
   Priority: optional
   Depends:
-  Maintainer: JGeek00
+  Maintainer: tsutsu3
   Description: Pi-hole® control app

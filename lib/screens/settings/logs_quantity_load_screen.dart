@@ -4,13 +4,13 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
-import 'package:droid_hole/widgets/custom_radio_list_tile.dart';
+import 'package:pi_hole_client/widgets/custom_radio_list_tile.dart';
 
-import 'package:droid_hole/functions/snackbar.dart';
-import 'package:droid_hole/providers/app_config_provider.dart';
+import 'package:pi_hole_client/functions/snackbar.dart';
+import 'package:pi_hole_client/providers/app_config_provider.dart';
 
 class LogsQuantityLoadScreen extends StatefulWidget {
-  const LogsQuantityLoadScreen({Key? key}) : super(key: key);
+  const LogsQuantityLoadScreen({super.key});
 
   @override
   State<LogsQuantityLoadScreen> createState() => _LogsQuantityLoadScreenState();
@@ -103,7 +103,7 @@ class _LogsQuantityLoadScreenState extends State<LogsQuantityLoadScreen> {
         title: Text(AppLocalizations.of(context)!.logsQuantityPerLoad),
         actions: [
           IconButton(
-            onPressed: onSave, 
+            onPressed: onSave,
             icon: const Icon(Icons.save_rounded),
             tooltip: AppLocalizations.of(context)!.save,
           ),
@@ -116,7 +116,7 @@ class _LogsQuantityLoadScreenState extends State<LogsQuantityLoadScreen> {
             padding: const EdgeInsets.only(
               top: 10,
               bottom: 20,
-              left: 20, 
+              left: 20,
               right: 20
             ),
             child: Container(
@@ -146,45 +146,45 @@ class _LogsQuantityLoadScreenState extends State<LogsQuantityLoadScreen> {
             )
           ),
           CustomRadioListTile(
-            groupValue: selectedOption, 
-            value: 0, 
-            radioBackgroundColor: Theme.of(context).colorScheme.surface, 
-            title: AppLocalizations.of(context)!.minutes30, 
+            groupValue: selectedOption,
+            value: 0,
+            radioBackgroundColor: Theme.of(context).colorScheme.surface,
+            title: AppLocalizations.of(context)!.minutes30,
             onChanged: _updateRadioValue
           ),
           CustomRadioListTile(
-            groupValue: selectedOption, 
-            value: 1, 
-            radioBackgroundColor: Theme.of(context).colorScheme.surface, 
-            title: AppLocalizations.of(context)!.hour1, 
+            groupValue: selectedOption,
+            value: 1,
+            radioBackgroundColor: Theme.of(context).colorScheme.surface,
+            title: AppLocalizations.of(context)!.hour1,
             onChanged: _updateRadioValue
           ),
           CustomRadioListTile(
-            groupValue: selectedOption, 
-            value: 2, 
-            radioBackgroundColor: Theme.of(context).colorScheme.surface, 
-            title: AppLocalizations.of(context)!.hours2, 
+            groupValue: selectedOption,
+            value: 2,
+            radioBackgroundColor: Theme.of(context).colorScheme.surface,
+            title: AppLocalizations.of(context)!.hours2,
             onChanged: _updateRadioValue
           ),
           CustomRadioListTile(
-            groupValue: selectedOption, 
-            value: 3, 
-            radioBackgroundColor: Theme.of(context).colorScheme.surface, 
-            title: AppLocalizations.of(context)!.hours4, 
+            groupValue: selectedOption,
+            value: 3,
+            radioBackgroundColor: Theme.of(context).colorScheme.surface,
+            title: AppLocalizations.of(context)!.hours4,
             onChanged: _updateRadioValue
           ),
           CustomRadioListTile(
-            groupValue: selectedOption, 
-            value: 4, 
-            radioBackgroundColor: Theme.of(context).colorScheme.surface, 
-            title: AppLocalizations.of(context)!.hours6, 
+            groupValue: selectedOption,
+            value: 4,
+            radioBackgroundColor: Theme.of(context).colorScheme.surface,
+            title: AppLocalizations.of(context)!.hours6,
             onChanged: _updateRadioValue
           ),
           CustomRadioListTile(
-            groupValue: selectedOption, 
-            value: 5, 
-            radioBackgroundColor: Theme.of(context).colorScheme.surface, 
-            title: AppLocalizations.of(context)!.hours8, 
+            groupValue: selectedOption,
+            value: 5,
+            radioBackgroundColor: Theme.of(context).colorScheme.surface,
+            title: AppLocalizations.of(context)!.hours8,
             onChanged: _updateRadioValue
           ),
           Padding(

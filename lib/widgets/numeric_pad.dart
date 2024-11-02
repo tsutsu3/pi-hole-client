@@ -2,9 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:vibration/vibration.dart';
 
-import 'package:droid_hole/widgets/shake_animation.dart';
+import 'package:pi_hole_client/widgets/shake_animation.dart';
 
-import 'package:droid_hole/providers/app_config_provider.dart';
+import 'package:pi_hole_client/providers/app_config_provider.dart';
 
 class NumericPad extends StatelessWidget {
   final GlobalKey? shakeKey;
@@ -12,11 +12,11 @@ class NumericPad extends StatelessWidget {
   final void Function(String) onInput;
 
   const NumericPad({
-    Key? key,
+    super.key,
     this.shakeKey,
     required this.code,
     required this.onInput,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -25,7 +25,7 @@ class NumericPad extends StatelessWidget {
     final width = MediaQuery.of(context).size.width;
     final height = MediaQuery.of(context).size.height;
 
-    Widget _number(String? value) {
+    Widget number(String? value) {
       return SizedBox(
         width: 40,
         height: 40,
@@ -62,7 +62,7 @@ class NumericPad extends StatelessWidget {
           aspectRatio: 1/1,
           child: Padding(
             padding: EdgeInsets.all(
-              width <= 700 
+              width <= 700
                 ? width > height ? height*0.05 : width*0.05
                 : 10
             ),
@@ -77,7 +77,7 @@ class NumericPad extends StatelessWidget {
                   }
                 : () => {},
               style: ButtonStyle(
-                shadowColor: MaterialStateProperty.all(Colors.transparent)
+                shadowColor: WidgetStateProperty.all(Colors.transparent)
               ),
               child: Text(
                 number.toString(),
@@ -98,7 +98,7 @@ class NumericPad extends StatelessWidget {
           aspectRatio: 1/1,
           child: Padding(
             padding: EdgeInsets.all(
-              width <= 700 
+              width <= 700
                 ? width > height ? height*0.05 : width*0.05
                 : 10
             ),
@@ -111,7 +111,7 @@ class NumericPad extends StatelessWidget {
                   }
                 : () {},
               style: ButtonStyle(
-                shadowColor: MaterialStateProperty.all(Colors.transparent)
+                shadowColor: WidgetStateProperty.all(Colors.transparent)
               ),
               child: Icon(
                 Icons.backspace,
@@ -137,20 +137,20 @@ class NumericPad extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.center,
                 mainAxisSize: MainAxisSize.max,
                 children: [
-                  _number(code.isNotEmpty ? code[0] : null),
+                  number(code.isNotEmpty ? code[0] : null),
                   const SizedBox(width: 20),
-                  _number(code.length >= 2 ? code[1] : null),
+                  number(code.length >= 2 ? code[1] : null),
                   const SizedBox(width: 20),
-                  _number(code.length >= 3 ? code[2] : null),
+                  number(code.length >= 3 ? code[2] : null),
                   const SizedBox(width: 20),
-                  _number(code.length >= 4 ? code[3] : null),
+                  number(code.length >= 4 ? code[3] : null),
                 ],
               ),
             ),
           ),
           Expanded(
             child: Container(
-              padding: height > 700 
+              padding: height > 700
                 ? const EdgeInsets.all(16)
                 : const EdgeInsets.symmetric(horizontal: 16),
               child: Column(

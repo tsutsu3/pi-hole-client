@@ -8,20 +8,20 @@ import 'package:flutter/rendering.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
-import 'package:droid_hole/screens/servers/add_server_fullscreen.dart';
-import 'package:droid_hole/screens/servers/servers_list.dart';
+import 'package:pi_hole_client/screens/servers/add_server_fullscreen.dart';
+import 'package:pi_hole_client/screens/servers/servers_list.dart';
 
-import 'package:droid_hole/providers/app_config_provider.dart';
-import 'package:droid_hole/providers/servers_provider.dart';
-import 'package:droid_hole/models/server.dart';
+import 'package:pi_hole_client/providers/app_config_provider.dart';
+import 'package:pi_hole_client/providers/servers_provider.dart';
+import 'package:pi_hole_client/models/server.dart';
 
 class ServersPage extends StatefulWidget {
   final bool? isFromBase;
 
   const ServersPage({
-    Key? key,
+    super.key,
     this.isFromBase,
-  }) : super(key: key);
+  });
 
   @override
   State<ServersPage> createState() => _ServersPageState();
@@ -51,7 +51,7 @@ class _ServersPageState extends State<ServersPage> {
         if (mounted && isVisible == true) {
           setState(() => isVisible = false);
         }
-      } 
+      }
       else {
         if (scrollController.position.userScrollDirection == ScrollDirection.forward) {
           if (mounted && isVisible == false) {
@@ -77,7 +77,7 @@ class _ServersPageState extends State<ServersPage> {
       await Future.delayed(const Duration(seconds: 0), (() => {
         if (width > 900) {
           showDialog(
-            context: context, 
+            context: context,
             builder: (context) => AddServerFullscreen(
               server: server,
               window: true,
@@ -111,8 +111,8 @@ class _ServersPageState extends State<ServersPage> {
         body: Stack(
           children: [
             ServersList(
-              context: context, 
-              controllers: expandableControllerList, 
+              context: context,
+              controllers: expandableControllerList,
               onChange: expandOrContract,
               scrollController: scrollController,
               breakingWidth: 700,

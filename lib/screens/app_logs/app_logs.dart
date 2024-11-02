@@ -7,12 +7,12 @@ import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
-import 'package:droid_hole/providers/app_config_provider.dart';
-import 'package:droid_hole/screens/app_logs/app_log_details_modal.dart';
+import 'package:pi_hole_client/providers/app_config_provider.dart';
+import 'package:pi_hole_client/screens/app_logs/app_log_details_modal.dart';
 
 
 class AppLogs extends StatelessWidget {
-  const AppLogs({Key? key}) : super(key: key);
+  const AppLogs({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -38,7 +38,7 @@ class AppLogs extends StatelessWidget {
           IconButton(
             onPressed: appConfigProvider.logs.isNotEmpty
               ? copyLogsClipboard
-              : null, 
+              : null,
             icon: const Icon(Icons.share),
             tooltip: AppLocalizations.of(context)!.copyLogsClipboard,
           ),
@@ -69,7 +69,7 @@ class AppLogs extends StatelessWidget {
             trailing: Text(appConfigProvider.logs[index].type),
             onTap: () => {
               showDialog(
-                context: context, 
+                context: context,
                 builder: (context) => AppLogDetailsModal(
                   log: appConfigProvider.logs[index]
                 )

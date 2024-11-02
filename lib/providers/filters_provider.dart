@@ -1,4 +1,4 @@
-import 'package:droid_hole/screens/logs/logs_filters_modal.dart';
+import 'package:pi_hole_client/screens/logs/logs_filters_modal.dart';
 import 'package:flutter/material.dart';
 
 class FiltersProvider with ChangeNotifier {
@@ -107,7 +107,7 @@ class FiltersProvider with ChangeNotifier {
     _selectedDomain = domain;
     notifyListeners();
   }
-  
+
   void resetClients() {
     _selectedClients = _totalClients;
     notifyListeners();

@@ -4,20 +4,20 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
-import 'package:droid_hole/widgets/numeric_pad.dart';
-import 'package:droid_hole/widgets/shake_animation.dart';
+import 'package:pi_hole_client/widgets/numeric_pad.dart';
+import 'package:pi_hole_client/widgets/shake_animation.dart';
 
-import 'package:droid_hole/providers/app_config_provider.dart';
+import 'package:pi_hole_client/providers/app_config_provider.dart';
 
 class EnterPasscodeModal extends StatefulWidget {
   final void Function() onConfirm;
   final bool window;
 
   const EnterPasscodeModal({
-    Key? key,
+    super.key,
     required this.onConfirm,
     required this.window,
-  }) : super(key: key);
+  });
 
   @override
   State<EnterPasscodeModal> createState() => _EnterPasscodeModalState();
@@ -34,7 +34,7 @@ class _EnterPasscodeModalState extends State<EnterPasscodeModal> {
 
     final height = MediaQuery.of(context).size.height;
 
-    void _finish() async {
+    void finish() async {
       if (appConfigProvider.passCode == _code) {
         Navigator.pop(context);
         widget.onConfirm();
@@ -63,7 +63,7 @@ class _EnterPasscodeModalState extends State<EnterPasscodeModal> {
                     Row(
                       children: [
                         IconButton(
-                          onPressed: () => Navigator.pop(context), 
+                          onPressed: () => Navigator.pop(context),
                           icon: const Icon(Icons.clear_rounded)
                         ),
                         const SizedBox(width: 16),
@@ -76,9 +76,9 @@ class _EnterPasscodeModalState extends State<EnterPasscodeModal> {
                       ],
                     ),
                     TextButton(
-                      onPressed: _code.length == 4 ? _finish : null, 
+                      onPressed: _code.length == 4 ? finish : null,
                       style: ButtonStyle(
-                        foregroundColor: MaterialStateProperty.all(
+                        foregroundColor: WidgetStateProperty.all(
                           _code.length == 4
                             ? Theme.of(context).colorScheme.primary
                             : Colors.grey
@@ -95,7 +95,7 @@ class _EnterPasscodeModalState extends State<EnterPasscodeModal> {
               NumericPad(
                 shakeKey: _shakeKey,
                 code: _code,
-                onInput: (newCode) => setState(() => _code = newCode), 
+                onInput: (newCode) => setState(() => _code = newCode),
               )
             ],
           ),
@@ -111,9 +111,9 @@ class _EnterPasscodeModalState extends State<EnterPasscodeModal> {
           elevation: 5,
           actions: [
             TextButton(
-              onPressed: _code.length == 4 ? _finish : null, 
+              onPressed: _code.length == 4 ? finish : null,
               style: ButtonStyle(
-                foregroundColor: MaterialStateProperty.all(
+                foregroundColor: WidgetStateProperty.all(
                   _code.length == 4
                     ? Theme.of(context).colorScheme.primary
                     : Colors.grey
@@ -136,7 +136,7 @@ class _EnterPasscodeModalState extends State<EnterPasscodeModal> {
               NumericPad(
                 shakeKey: _shakeKey,
                 code: _code,
-                onInput: (newCode) => setState(() => _code = newCode), 
+                onInput: (newCode) => setState(() => _code = newCode),
               )
             ],
           )

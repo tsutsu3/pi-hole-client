@@ -4,19 +4,19 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
-import 'package:droid_hole/functions/snackbar.dart';
-import 'package:droid_hole/providers/app_config_provider.dart';
+import 'package:pi_hole_client/functions/snackbar.dart';
+import 'package:pi_hole_client/providers/app_config_provider.dart';
 
 class RemovePasscodeModal extends StatelessWidget {
   const RemovePasscodeModal({
-    Key? key,
-  }) : super(key: key);
+    super.key,
+  });
 
   @override
   Widget build(BuildContext context) {
     final appConfigProvider = Provider.of<AppConfigProvider>(context);
 
-    void _removePasscode() async {
+    void removePasscode() async {
       final deleted = await appConfigProvider.setPassCode(null);
       if (deleted == true) {
         Navigator.pop(context);
@@ -56,11 +56,11 @@ class RemovePasscodeModal extends StatelessWidget {
         TextButton(
           onPressed: () => {
             Navigator.pop(context)
-          }, 
+          },
           child: Text(AppLocalizations.of(context)!.cancel)
         ),
         TextButton(
-          onPressed: _removePasscode,
+          onPressed: removePasscode,
           child: Text(AppLocalizations.of(context)!.remove),
         ),
       ],

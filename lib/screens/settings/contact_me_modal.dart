@@ -4,10 +4,10 @@ import 'package:flutter_svg/svg.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:url_launcher/url_launcher.dart'
 ;
-import 'package:droid_hole/functions/open_url.dart';
+import 'package:pi_hole_client/functions/open_url.dart';
 
 class ContactMeModal extends StatefulWidget {
-  const ContactMeModal({Key? key}) : super(key: key);
+  const ContactMeModal({super.key});
 
   @override
   State<ContactMeModal> createState() => _ContactMeModalState();
@@ -18,7 +18,7 @@ class _ContactMeModalState extends State<ContactMeModal> {
 
   void sendEmail() {
     String? encodeQueryParameters(Map<String, String> params) {
-      return params.entries.map((MapEntry<String, String> e) => 
+      return params.entries.map((MapEntry<String, String> e) =>
         '${Uri.encodeComponent(e.key)}=${Uri.encodeComponent(e.value)}').join('&');
     }
 
@@ -26,7 +26,7 @@ class _ContactMeModalState extends State<ContactMeModal> {
       scheme: 'mailto',
       path: 'juangilsanz@gmail.com',
       query: encodeQueryParameters(<String, String>{
-        'subject': 'DroidHole issue',
+        'subject': 'PiHoleClient issue',
       }),
     );
 
@@ -62,10 +62,10 @@ class _ContactMeModalState extends State<ContactMeModal> {
           Material(
             color: Colors.transparent,
             child: InkWell(
-              onTap: () => openUrl('https://github.com/JGeek00/droid-hole/issues'),
+              onTap: () => openUrl('https://github.com/tsutsu3/pi-hole-client/issues'),
               child: Padding(
                 padding: const EdgeInsets.symmetric(
-                  vertical: 10, 
+                  vertical: 10,
                   horizontal: 20
                 ),
                 child: Row(
@@ -104,10 +104,10 @@ class _ContactMeModalState extends State<ContactMeModal> {
           Material(
             color: Colors.transparent,
             child: InkWell(
-              onTap: () => openUrl('https://appsupport.jgeek00.com'),
+              onTap: () => openUrl('https://docs.google.com/forms/d/e/1FAIpQLSdNm7H2iDUaQ0q-JA6hvrUSsGe50_iL5NVK6fR_2hkCsyrA-A/viewform?hl=en'),
               child: Padding(
                 padding: const EdgeInsets.symmetric(
-                  vertical: 10, 
+                  vertical: 10,
                   horizontal: 20
                 ),
                 child: Row(
@@ -144,7 +144,7 @@ class _ContactMeModalState extends State<ContactMeModal> {
       ),
       actions: [
         TextButton(
-          onPressed: () => Navigator.pop(context), 
+          onPressed: () => Navigator.pop(context),
           child: Text(AppLocalizations.of(context)!.close)
         )
       ],

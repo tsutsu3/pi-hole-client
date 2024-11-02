@@ -4,20 +4,20 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
-import 'package:droid_hole/screens/domains/domains_list.dart';
-import 'package:droid_hole/screens/domains/domain_details_screen.dart';
+import 'package:pi_hole_client/screens/domains/domains_list.dart';
+import 'package:pi_hole_client/screens/domains/domain_details_screen.dart';
 
-import 'package:droid_hole/functions/snackbar.dart';
-import 'package:droid_hole/classes/process_modal.dart';
-import 'package:droid_hole/models/domain.dart';
-import 'package:droid_hole/providers/app_config_provider.dart';
-import 'package:droid_hole/services/http_requests.dart';
-import 'package:droid_hole/models/server.dart';
-import 'package:droid_hole/providers/servers_provider.dart';
-import 'package:droid_hole/providers/domains_list_provider.dart';
+import 'package:pi_hole_client/functions/snackbar.dart';
+import 'package:pi_hole_client/classes/process_modal.dart';
+import 'package:pi_hole_client/models/domain.dart';
+import 'package:pi_hole_client/providers/app_config_provider.dart';
+import 'package:pi_hole_client/services/http_requests.dart';
+import 'package:pi_hole_client/models/server.dart';
+import 'package:pi_hole_client/providers/servers_provider.dart';
+import 'package:pi_hole_client/providers/domains_list_provider.dart';
 
 class DomainLists extends StatelessWidget {
-  const DomainLists({Key? key}) : super(key: key);
+  const DomainLists({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -36,10 +36,10 @@ class DomainListsWidget extends StatefulWidget {
   final DomainsListProvider domainsListProvider;
 
   const DomainListsWidget({
-    Key? key,
+    super.key,
     required this.server,
     required this.domainsListProvider,
-  }) : super(key: key);
+  });
 
   @override
   State<DomainListsWidget> createState() => _DomainListsWidgetState();
@@ -76,7 +76,7 @@ class _DomainListsWidgetState extends State<DomainListsWidget> with TickerProvid
       process.open(AppLocalizations.of(context)!.deleting);
 
       final result = await removeDomainFromList(
-        server: serversProvider.selectedServer!, 
+        server: serversProvider.selectedServer!,
         domain: domain
       );
 
@@ -117,7 +117,7 @@ class _DomainListsWidgetState extends State<DomainListsWidget> with TickerProvid
               SliverOverlapAbsorber(
                 handle: NestedScrollView.sliverOverlapAbsorberHandleFor(context),
                 sliver: SliverAppBar(
-                  title: domainsListProvider.searchMode 
+                  title: domainsListProvider.searchMode
                     ? TextFormField(
                         initialValue: domainsListProvider.searchTerm,
                         onChanged: domainsListProvider.onSearch,
@@ -140,7 +140,7 @@ class _DomainListsWidgetState extends State<DomainListsWidget> with TickerProvid
                   forceElevated: innerBoxIsScrolled,
                   actions: [
                     if (domainsListProvider.searchMode == false) IconButton(
-                      onPressed: () => domainsListProvider.setSearchMode(true), 
+                      onPressed: () => domainsListProvider.setSearchMode(true),
                       icon: const Icon(Icons.search)
                     ),
                     if (domainsListProvider.searchMode == true) IconButton(
@@ -148,7 +148,7 @@ class _DomainListsWidgetState extends State<DomainListsWidget> with TickerProvid
                         domainsListProvider.setSearchMode(false);
                         searchController.text = "";
                         domainsListProvider.onSearch("");
-                      }), 
+                      }),
                       icon: const Icon(Icons.close_rounded)
                     ),
                     const SizedBox(width: 10)
@@ -182,7 +182,7 @@ class _DomainListsWidgetState extends State<DomainListsWidget> with TickerProvid
                 ),
               )
             ];
-          }), 
+          }),
           body: TabBarView(
             controller: tabController,
             children: [
@@ -214,7 +214,7 @@ class _DomainListsWidgetState extends State<DomainListsWidget> with TickerProvid
           Expanded(
             flex: 3,
             child: selectedDomain != null ? DomainDetailsScreen(
-              domain: selectedDomain!, 
+              domain: selectedDomain!,
               remove: (domain) {
                 setState(() => selectedDomain = null);
                 removeDomain(domain);

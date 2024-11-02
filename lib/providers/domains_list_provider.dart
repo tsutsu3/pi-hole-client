@@ -1,9 +1,9 @@
-import 'package:droid_hole/constants/enums.dart';
+import 'package:pi_hole_client/constants/enums.dart';
 import 'package:flutter/material.dart';
 
-import 'package:droid_hole/models/server.dart';
-import 'package:droid_hole/services/http_requests.dart';
-import 'package:droid_hole/models/domain.dart';
+import 'package:pi_hole_client/models/server.dart';
+import 'package:pi_hole_client/services/http_requests.dart';
+import 'package:pi_hole_client/models/domain.dart';
 
 class DomainsListProvider with ChangeNotifier {
   LoadStatus _loadingStatus = LoadStatus.loading;
@@ -42,7 +42,7 @@ class DomainsListProvider with ChangeNotifier {
   int? get selectedTab {
     return _selectedTab;
   }
-  
+
   String get searchTerm {
     return _searchTerm;
   }

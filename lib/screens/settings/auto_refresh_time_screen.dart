@@ -4,13 +4,13 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
-import 'package:droid_hole/widgets/custom_radio_list_tile.dart';
+import 'package:pi_hole_client/widgets/custom_radio_list_tile.dart';
 
-import 'package:droid_hole/functions/snackbar.dart';
-import 'package:droid_hole/providers/app_config_provider.dart';
+import 'package:pi_hole_client/functions/snackbar.dart';
+import 'package:pi_hole_client/providers/app_config_provider.dart';
 
 class AutoRefreshTimeScreen extends StatefulWidget {
-  const AutoRefreshTimeScreen({Key? key}) : super(key: key);
+  const AutoRefreshTimeScreen({super.key});
 
   @override
   State<AutoRefreshTimeScreen> createState() => _AutoRefreshTimeScreenState();
@@ -137,7 +137,7 @@ class _AutoRefreshTimeScreenState extends State<AutoRefreshTimeScreen> {
     super.initState();
     selectedOption = _setTime(Provider.of<AppConfigProvider>(context, listen: false).getAutoRefreshTime ?? 0);
   }
-  
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -145,9 +145,9 @@ class _AutoRefreshTimeScreenState extends State<AutoRefreshTimeScreen> {
         title: Text(AppLocalizations.of(context)!.autoRefreshTime),
         actions: [
           IconButton(
-            onPressed:  _selectionIsValid() == true 
+            onPressed:  _selectionIsValid() == true
               ? () => onSave()
-              : null, 
+              : null,
             icon: const Icon(Icons.save_rounded),
             tooltip: AppLocalizations.of(context)!.save,
           ),
@@ -157,45 +157,45 @@ class _AutoRefreshTimeScreenState extends State<AutoRefreshTimeScreen> {
       body: ListView(
         children: [
           CustomRadioListTile(
-            groupValue: selectedOption, 
-            value: 0, 
-            radioBackgroundColor: Theme.of(context).colorScheme.surface, 
-            title: AppLocalizations.of(context)!.second1, 
+            groupValue: selectedOption,
+            value: 0,
+            radioBackgroundColor: Theme.of(context).colorScheme.surface,
+            title: AppLocalizations.of(context)!.second1,
             onChanged: _updateRadioValue
           ),
           CustomRadioListTile(
-            groupValue: selectedOption, 
-            value: 1, 
-            radioBackgroundColor: Theme.of(context).colorScheme.surface, 
-            title: AppLocalizations.of(context)!.seconds2, 
+            groupValue: selectedOption,
+            value: 1,
+            radioBackgroundColor: Theme.of(context).colorScheme.surface,
+            title: AppLocalizations.of(context)!.seconds2,
             onChanged: _updateRadioValue
           ),
           CustomRadioListTile(
-            groupValue: selectedOption, 
-            value: 2, 
-            radioBackgroundColor: Theme.of(context).colorScheme.surface, 
-            title: AppLocalizations.of(context)!.seconds5, 
+            groupValue: selectedOption,
+            value: 2,
+            radioBackgroundColor: Theme.of(context).colorScheme.surface,
+            title: AppLocalizations.of(context)!.seconds5,
             onChanged: _updateRadioValue
           ),
           CustomRadioListTile(
-            groupValue: selectedOption, 
-            value: 3, 
-            radioBackgroundColor: Theme.of(context).colorScheme.surface, 
-            title: AppLocalizations.of(context)!.seconds10, 
+            groupValue: selectedOption,
+            value: 3,
+            radioBackgroundColor: Theme.of(context).colorScheme.surface,
+            title: AppLocalizations.of(context)!.seconds10,
             onChanged: _updateRadioValue
           ),
           CustomRadioListTile(
-            groupValue: selectedOption, 
-            value: 4, 
-            radioBackgroundColor: Theme.of(context).colorScheme.surface, 
-            title: AppLocalizations.of(context)!.seconds30, 
+            groupValue: selectedOption,
+            value: 4,
+            radioBackgroundColor: Theme.of(context).colorScheme.surface,
+            title: AppLocalizations.of(context)!.seconds30,
             onChanged: _updateRadioValue
           ),
           CustomRadioListTile(
-            groupValue: selectedOption, 
-            value: 5, 
-            radioBackgroundColor: Theme.of(context).colorScheme.surface, 
-            title: AppLocalizations.of(context)!.custom, 
+            groupValue: selectedOption,
+            value: 5,
+            radioBackgroundColor: Theme.of(context).colorScheme.surface,
+            title: AppLocalizations.of(context)!.custom,
             onChanged: _updateRadioValue
           ),
           if (showCustomDurationInput == true) Padding(
@@ -208,7 +208,7 @@ class _AutoRefreshTimeScreenState extends State<AutoRefreshTimeScreen> {
               ),
               decoration: InputDecoration(
                 errorText: !customTimeIsValid && customTimeController.text != ''
-                  ? AppLocalizations.of(context)!.valueNotValid 
+                  ? AppLocalizations.of(context)!.valueNotValid
                   : null,
                 border: const OutlineInputBorder(
                   borderRadius: BorderRadius.all(

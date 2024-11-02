@@ -2,11 +2,11 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:sqflite/sqlite_api.dart';
 
-import 'package:droid_hole/providers/app_config_provider.dart';
-import 'package:droid_hole/services/http_requests.dart';
-import 'package:droid_hole/services/database/queries.dart';
-import 'package:droid_hole/functions/conversions.dart';
-import 'package:droid_hole/models/server.dart';
+import 'package:pi_hole_client/providers/app_config_provider.dart';
+import 'package:pi_hole_client/services/http_requests.dart';
+import 'package:pi_hole_client/services/database/queries.dart';
+import 'package:pi_hole_client/functions/conversions.dart';
+import 'package:pi_hole_client/models/server.dart';
 
 class ServersProvider with ChangeNotifier {
   AppConfigProvider? _appConfigProvider;
@@ -133,7 +133,7 @@ class ServersProvider with ChangeNotifier {
       Server? defaultServer;
       for (var server in servers) {
         final Server serverObj = Server(
-          address: server['address'], 
+          address: server['address'],
           alias: server['alias'],
           token: server['token'],
           defaultServer: convertFromIntToBool(server['isDefaultServer'])!,
@@ -176,7 +176,7 @@ class ServersProvider with ChangeNotifier {
   }
 
   void setselectedServer({
-    required Server? server, 
+    required Server? server,
     bool? toHomeTab
   }) {
     _selectedServer = server;

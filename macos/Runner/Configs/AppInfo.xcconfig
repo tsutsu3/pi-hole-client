@@ -5,10 +5,10 @@
 // 'flutter create' template.
 
 // The application's name. By default this is also the title of the Flutter window.
-PRODUCT_NAME = droid_hole
+PRODUCT_NAME = pi_hole_client
 
 // The application's bundle identifier
-PRODUCT_BUNDLE_IDENTIFIER = com.jgeek00.droidHole
+PRODUCT_BUNDLE_IDENTIFIER = io.github.tsutsu3.piholeclient
 
 // The copyright displayed in application information
-PRODUCT_COPYRIGHT = Copyright © 2023 com.jgeek00. All rights reserved.
+PRODUCT_COPYRIGHT = Copyright © 2024 io.github.tsutsu3. All rights reserved.

@@ -2,12 +2,12 @@
 
 import 'package:flutter/material.dart';
 
-import 'package:droid_hole/config/globals.dart';
-import 'package:droid_hole/providers/app_config_provider.dart';
+import 'package:pi_hole_client/config/globals.dart';
+import 'package:pi_hole_client/providers/app_config_provider.dart';
 
 void showSnackBar({
   required AppConfigProvider appConfigProvider,
-  required String label, 
+  required String label,
   required Color color,
   Color? labelColor
 }) async {
@@ -28,5 +28,5 @@ void showSnackBar({
   );
   scaffoldMessengerKey.currentState?.showSnackBar(snackBar).closed.then(
     (value) => appConfigProvider.setShowingSnackbar(false)
-  ); 
+  );
 }

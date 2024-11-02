@@ -2,26 +2,26 @@
 
 import 'dart:io';
 
-import 'package:droid_hole/providers/status_provider.dart';
+import 'package:pi_hole_client/providers/status_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
-import 'package:droid_hole/screens/home/home_tile.dart';
-import 'package:droid_hole/screens/home/disable_modal.dart';
-import 'package:droid_hole/screens/home/home_charts.dart';
-import 'package:droid_hole/screens/home/home_appbar.dart';
+import 'package:pi_hole_client/screens/home/home_tile.dart';
+import 'package:pi_hole_client/screens/home/disable_modal.dart';
+import 'package:pi_hole_client/screens/home/home_charts.dart';
+import 'package:pi_hole_client/screens/home/home_appbar.dart';
 
-import 'package:droid_hole/functions/server_management.dart';
-import 'package:droid_hole/constants/enums.dart';
-import 'package:droid_hole/providers/app_config_provider.dart';
-import 'package:droid_hole/functions/refresh_server_status.dart';
-import 'package:droid_hole/functions/conversions.dart';
-import 'package:droid_hole/providers/servers_provider.dart';
+import 'package:pi_hole_client/functions/server_management.dart';
+import 'package:pi_hole_client/constants/enums.dart';
+import 'package:pi_hole_client/providers/app_config_provider.dart';
+import 'package:pi_hole_client/functions/refresh_server_status.dart';
+import 'package:pi_hole_client/functions/conversions.dart';
+import 'package:pi_hole_client/providers/servers_provider.dart';
 
 class Home extends StatefulWidget {
-  const Home({Key? key}) : super(key: key);
+  const Home({super.key});
 
   @override
   State<Home> createState() => _HomeState();
@@ -41,7 +41,7 @@ class _HomeState extends State<Home> {
         if (mounted && isVisible == true) {
           setState(() => isVisible = false);
         }
-      } 
+      }
       else {
         if (scrollController.position.userScrollDirection == ScrollDirection.forward) {
           if (mounted && isVisible == false) {
@@ -96,10 +96,10 @@ class _HomeState extends State<Home> {
                   child: Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 8),
                     child: HomeTile(
-                      icon: Icons.public, 
-                      iconColor: const Color.fromARGB(255, 27, 124, 203), 
-                      color: Colors.blue, 
-                      label: AppLocalizations.of(context)!.totalQueries, 
+                      icon: Icons.public,
+                      iconColor: const Color.fromARGB(255, 27, 124, 203),
+                      color: Colors.blue,
+                      label: AppLocalizations.of(context)!.totalQueries,
                       value: intFormat(statusProvider.getRealtimeStatus!.dnsQueriesToday,Platform.localeName),
                     ),
                   ),
@@ -109,10 +109,10 @@ class _HomeState extends State<Home> {
                   child: Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 8),
                     child: HomeTile(
-                      icon: Icons.block, 
-                      iconColor: const Color.fromARGB(255, 206, 56, 45), 
-                      color: Colors.red, 
-                      label: AppLocalizations.of(context)!.queriesBlocked, 
+                      icon: Icons.block,
+                      iconColor: const Color.fromARGB(255, 206, 56, 45),
+                      color: Colors.red,
+                      label: AppLocalizations.of(context)!.queriesBlocked,
                       value: intFormat(statusProvider.getRealtimeStatus!.adsBlockedToday, Platform.localeName),
                     ),
                   ),
@@ -122,10 +122,10 @@ class _HomeState extends State<Home> {
                   child: Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 8),
                     child: HomeTile(
-                      icon: Icons.pie_chart, 
-                      iconColor: const Color.fromARGB(255, 211, 127, 0), 
-                      color: Colors.orange, 
-                      label: AppLocalizations.of(context)!.percentageBlocked, 
+                      icon: Icons.pie_chart,
+                      iconColor: const Color.fromARGB(255, 211, 127, 0),
+                      color: Colors.orange,
+                      label: AppLocalizations.of(context)!.percentageBlocked,
                       value: "${formatPercentage(statusProvider.getRealtimeStatus!.adsPercentageToday, Platform.localeName)}%",
                     ),
                   ),
@@ -135,10 +135,10 @@ class _HomeState extends State<Home> {
                   child: Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 8),
                     child: HomeTile(
-                      icon: Icons.list, 
-                      iconColor: const Color.fromARGB(255, 61, 142, 64), 
-                      color: Colors.green, 
-                      label: AppLocalizations.of(context)!.domainsAdlists, 
+                      icon: Icons.list,
+                      iconColor: const Color.fromARGB(255, 61, 142, 64),
+                      color: Colors.green,
+                      label: AppLocalizations.of(context)!.domainsAdlists,
                       value: intFormat(statusProvider.getRealtimeStatus!.domainsBeingBlocked, Platform.localeName),
                     ),
                   ),
@@ -147,7 +147,7 @@ class _HomeState extends State<Home> {
             ),
           );
 
-        case LoadStatus.error: 
+        case LoadStatus.error:
           return Container(
             width: double.maxFinite,
             padding: const EdgeInsets.symmetric(horizontal: 16),
@@ -187,7 +187,7 @@ class _HomeState extends State<Home> {
         if (serversProvider.selectedServer?.enabled == true) {
           if (width > 700) {
             showDialog(
-              context: context, 
+              context: context,
               builder: (_) => DisableModal(
                 onDisable: (time) => disableServer(time, context),
                 window: true,
@@ -196,7 +196,7 @@ class _HomeState extends State<Home> {
           }
           else {
             showModalBottomSheet(
-              context: context, 
+              context: context,
               isScrollControlled: true,
               builder: (_) => DisableModal(
                 onDisable: (time) => disableServer(time, context),

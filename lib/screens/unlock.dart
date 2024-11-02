@@ -6,16 +6,16 @@ import 'package:provider/provider.dart';
 import 'package:flutter_app_lock/flutter_app_lock.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
-import 'package:droid_hole/widgets/numeric_pad.dart';
-import 'package:droid_hole/widgets/shake_animation.dart';
+import 'package:pi_hole_client/widgets/numeric_pad.dart';
+import 'package:pi_hole_client/widgets/shake_animation.dart';
 
-import 'package:droid_hole/functions/snackbar.dart';
-import 'package:droid_hole/providers/app_config_provider.dart';
+import 'package:pi_hole_client/functions/snackbar.dart';
+import 'package:pi_hole_client/providers/app_config_provider.dart';
 
 class Unlock extends StatefulWidget {
   const Unlock({
-    Key? key,
-  }) : super(key: key);
+    super.key,
+  });
 
   @override
   State<Unlock> createState() => _UnlockState();
@@ -24,14 +24,14 @@ class Unlock extends StatefulWidget {
 class _UnlockState extends State<Unlock> {
   bool isLoading = false;
   String _code = "";
-  
+
   bool firstLoad = true;
 
   final GlobalKey<ShakeAnimationState> _shakeKey = GlobalKey<ShakeAnimationState>();
 
   void checkBiometrics() async {
     final appConfigProvider = Provider.of<AppConfigProvider>(context, listen: false);
-    
+
     final LocalAuthentication auth = LocalAuthentication();
     final biometrics = await auth.getAvailableBiometrics();
     if (appConfigProvider.useBiometrics == true && biometrics.isNotEmpty) {
@@ -51,15 +51,15 @@ class _UnlockState extends State<Unlock> {
         if (!mounted) return;
         if (e.toString().contains('LockedOut')) {
           showSnackBar(
-            appConfigProvider: appConfigProvider, 
-            label: AppLocalizations.of(context)!.fingerprintAuthUnavailableAttempts, 
+            appConfigProvider: appConfigProvider,
+            label: AppLocalizations.of(context)!.fingerprintAuthUnavailableAttempts,
             color: Colors.red
           );
         }
         else {
           showSnackBar(
-            appConfigProvider: appConfigProvider, 
-            label: AppLocalizations.of(context)!.fingerprintAuthUnavailable, 
+            appConfigProvider: appConfigProvider,
+            label: AppLocalizations.of(context)!.fingerprintAuthUnavailable,
             color: Colors.red
           );
         }
@@ -105,7 +105,7 @@ class _UnlockState extends State<Unlock> {
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
                 const SizedBox(height: 16),
-                height-180 >= 426 
+                height-180 >= 426
                   ? Column(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
@@ -149,13 +149,13 @@ class _UnlockState extends State<Unlock> {
                   code: _code,
                   onInput: (newCode) => _code.length < 4
                     ? updateCode(newCode)
-                    : {}, 
+                    : {},
                 )
               ],
             ),
           ),
           AnimatedOpacity(
-            opacity: isLoading == true ? 1 : 0, 
+            opacity: isLoading == true ? 1 : 0,
             duration: const Duration(milliseconds: 250),
             curve: Curves.easeInOut,
             child: IgnorePointer(

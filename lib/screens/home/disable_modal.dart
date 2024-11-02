@@ -2,17 +2,17 @@ import 'package:flutter/material.dart';
 import 'package:expandable/expandable.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
-import 'package:droid_hole/widgets/option_box.dart';
+import 'package:pi_hole_client/widgets/option_box.dart';
 
 class DisableModal extends StatefulWidget {
   final void Function(int) onDisable;
   final bool window;
 
   const DisableModal({
-    Key? key,
+    super.key,
     required this.onDisable,
     required this.window
-  }) : super(key: key);
+  });
 
   @override
   State<DisableModal> createState() => _DisableModalState();
@@ -269,7 +269,7 @@ class _DisableModalState extends State<DisableModal> {
           ),
         ],
       );
-    }  
+    }
 
     Widget inputField() {
       return Padding(
@@ -285,7 +285,7 @@ class _DisableModalState extends State<DisableModal> {
               ),
               decoration: InputDecoration(
                 errorText: !customTimeIsValid && customTimeController.text != ''
-                  ? AppLocalizations.of(context)!.valueNotValid 
+                  ? AppLocalizations.of(context)!.valueNotValid
                   : null,
                 border: const OutlineInputBorder(
                   borderRadius: BorderRadius.all(
@@ -298,7 +298,7 @@ class _DisableModalState extends State<DisableModal> {
           ],
         ),
       );
-    } 
+    }
 
     if (widget.window == true) {
       return Dialog(
@@ -337,21 +337,21 @@ class _DisableModalState extends State<DisableModal> {
                     mainAxisAlignment: MainAxisAlignment.end,
                     children: [
                       TextButton(
-                        onPressed: () => Navigator.pop(context), 
+                        onPressed: () => Navigator.pop(context),
                         child: Text(AppLocalizations.of(context)!.cancel),
                       ),
                       const SizedBox(width: 20),
                       TextButton(
-                        onPressed: _selectionIsValid() == true 
+                        onPressed: _selectionIsValid() == true
                           ? () {
                               Navigator.pop(context);
                               widget.onDisable(_getTime());
                             }
                           : null,
                         style: ButtonStyle(
-                          foregroundColor: _selectionIsValid() == true 
-                            ? MaterialStateProperty.all(Theme.of(context).colorScheme.primary)
-                            : MaterialStateProperty.all(Colors.grey)
+                          foregroundColor: _selectionIsValid() == true
+                            ? WidgetStateProperty.all(Theme.of(context).colorScheme.primary)
+                            : WidgetStateProperty.all(Colors.grey)
                         ),
                         child: Text(AppLocalizations.of(context)!.accept),
                       )
@@ -406,21 +406,21 @@ class _DisableModalState extends State<DisableModal> {
                     mainAxisAlignment: MainAxisAlignment.end,
                     children: [
                       TextButton(
-                        onPressed: () => Navigator.pop(context), 
+                        onPressed: () => Navigator.pop(context),
                         child: Text(AppLocalizations.of(context)!.cancel),
                       ),
                       const SizedBox(width: 20),
                       TextButton(
-                        onPressed: _selectionIsValid() == true 
+                        onPressed: _selectionIsValid() == true
                           ? () {
                               Navigator.pop(context);
                               widget.onDisable(_getTime());
                             }
                           : null,
                         style: ButtonStyle(
-                          foregroundColor: _selectionIsValid() == true 
-                            ? MaterialStateProperty.all(Theme.of(context).colorScheme.primary)
-                            : MaterialStateProperty.all(Colors.grey)
+                          foregroundColor: _selectionIsValid() == true
+                            ? WidgetStateProperty.all(Theme.of(context).colorScheme.primary)
+                            : WidgetStateProperty.all(Colors.grey)
                         ),
                         child: Text(AppLocalizations.of(context)!.accept),
                       )

@@ -4,25 +4,25 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
-import 'package:droid_hole/providers/servers_provider.dart';
-import 'package:droid_hole/providers/app_config_provider.dart';
-import 'package:droid_hole/functions/snackbar.dart';
-import 'package:droid_hole/models/server.dart';
+import 'package:pi_hole_client/providers/servers_provider.dart';
+import 'package:pi_hole_client/providers/app_config_provider.dart';
+import 'package:pi_hole_client/functions/snackbar.dart';
+import 'package:pi_hole_client/models/server.dart';
 
 class DeleteModal extends StatelessWidget {
   final Server serverToDelete;
 
   const DeleteModal({
-    Key? key,
+    super.key,
     required this.serverToDelete,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {
     final serversProvider = Provider.of<ServersProvider>(context);
     final appConfigProvider = Provider.of<AppConfigProvider>(context);
 
-    void _removeServer() async {
+    void removeServer() async {
       final deleted = await serversProvider.removeServer(serverToDelete.address);
       Navigator.pop(context);
       if (deleted == true) {
@@ -87,11 +87,11 @@ class DeleteModal extends StatelessWidget {
         TextButton(
           onPressed: () => {
             Navigator.pop(context)
-          }, 
+          },
           child: Text(AppLocalizations.of(context)!.cancel)
         ),
         TextButton(
-          onPressed: _removeServer,
+          onPressed: removeServer,
           child: Text(AppLocalizations.of(context)!.remove),
         ),
       ],

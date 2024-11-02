@@ -2,21 +2,21 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
-import 'package:droid_hole/screens/statistics/no_data_chart.dart';
-import 'package:droid_hole/screens/statistics/pie_chart_legend.dart';
-import 'package:droid_hole/screens/statistics/custom_pie_chart.dart';
-import 'package:droid_hole/widgets/tab_content.dart';
-import 'package:droid_hole/widgets/section_label.dart';
+import 'package:pi_hole_client/screens/statistics/no_data_chart.dart';
+import 'package:pi_hole_client/screens/statistics/pie_chart_legend.dart';
+import 'package:pi_hole_client/screens/statistics/custom_pie_chart.dart';
+import 'package:pi_hole_client/widgets/tab_content.dart';
+import 'package:pi_hole_client/widgets/section_label.dart';
 
-import 'package:droid_hole/providers/status_provider.dart';
+import 'package:pi_hole_client/providers/status_provider.dart';
 
 class QueriesServersTab extends StatelessWidget {
   final Future<void> Function() onRefresh;
 
   const QueriesServersTab({
-    Key? key,
+    super.key,
     required this.onRefresh
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -42,10 +42,10 @@ class QueriesServersTab extends StatelessWidget {
             )
           ],
         ),
-      ), 
+      ),
       contentGenerator: () => [
         const QueriesServersTabContent()
-      ], 
+      ],
       errorGenerator: () =>  SizedBox(
         width: double.maxFinite,
         height: 300,
@@ -69,15 +69,15 @@ class QueriesServersTab extends StatelessWidget {
             )
           ],
         ),
-      ), 
-      loadStatus: statusProvider.getStatusLoading, 
+      ),
+      loadStatus: statusProvider.getStatusLoading,
       onRefresh: onRefresh
     );
   }
 }
 
 class QueriesServersTabContent extends StatelessWidget {
-  const QueriesServersTabContent({Key? key}) : super(key: key);
+  const QueriesServersTabContent({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -191,7 +191,7 @@ class QueriesServersTabContent extends StatelessWidget {
                       dataUnit: '%',
                     )
                   ]
-                ] 
+                ]
               ),
             )
           : NoDataChart(

@@ -167,7 +167,7 @@
     "tokenNotValid": "Token jest nieprawidłowy",
     "scanQrCode": "Zeskanuj kod QR",
     "noConnection": "Brak połączenia",
-    "cameraPermission": "DroidHole nie ma uprawnień dostępu do kamery.\n\nPrzejdź do ustawień i przyznaj uprawnienia.",
+    "cameraPermission": "PiHoleClient nie ma uprawnień dostępu do kamery.\n\nPrzejdź do ustawień i przyznaj uprawnienia.",
     "serverInvalidData": "Połączenie z serwerem zapisane z nieprawidłowymi danymi. Dodaj połączenie ponownie.",
     "dbNotWorking": "Baza danych nie działa. Zainstaluj ponownie aplikację.",
     "checkingToken": "Sprawdzanie tokena...",

@@ -5,18 +5,18 @@ import 'package:flutter/rendering.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
-import 'package:droid_hole/screens/domains/add_domain_modal.dart';
-import 'package:droid_hole/screens/domains/domain_tile.dart';
-import 'package:droid_hole/screens/domains/domain_details_screen.dart';
-import 'package:droid_hole/widgets/tab_content_list.dart';
+import 'package:pi_hole_client/screens/domains/add_domain_modal.dart';
+import 'package:pi_hole_client/screens/domains/domain_tile.dart';
+import 'package:pi_hole_client/screens/domains/domain_details_screen.dart';
+import 'package:pi_hole_client/widgets/tab_content_list.dart';
 
-import 'package:droid_hole/providers/domains_list_provider.dart';
-import 'package:droid_hole/classes/process_modal.dart';
-import 'package:droid_hole/services/http_requests.dart';
-import 'package:droid_hole/providers/app_config_provider.dart';
-import 'package:droid_hole/functions/snackbar.dart';
-import 'package:droid_hole/providers/servers_provider.dart';
-import 'package:droid_hole/models/domain.dart';
+import 'package:pi_hole_client/providers/domains_list_provider.dart';
+import 'package:pi_hole_client/classes/process_modal.dart';
+import 'package:pi_hole_client/services/http_requests.dart';
+import 'package:pi_hole_client/providers/app_config_provider.dart';
+import 'package:pi_hole_client/functions/snackbar.dart';
+import 'package:pi_hole_client/providers/servers_provider.dart';
+import 'package:pi_hole_client/models/domain.dart';
 
 class DomainsList extends StatefulWidget {
   final String type;
@@ -25,12 +25,12 @@ class DomainsList extends StatefulWidget {
   final Domain? selectedDomain;
 
   const DomainsList({
-    Key? key,
+    super.key,
     required this.type,
     required this.scrollController,
     required this.onDomainSelected,
     required this.selectedDomain
-  }) : super(key: key);
+  });
 
   @override
   State<DomainsList> createState() => _DomainsListState();
@@ -48,7 +48,7 @@ class _DomainsListState extends State<DomainsList> {
         if (mounted && isVisible == true) {
           setState(() => isVisible = false);
         }
-      } 
+      }
       else {
         if (widget.scrollController.position.userScrollDirection == ScrollDirection.forward) {
           if (mounted && isVisible == false) {
@@ -65,7 +65,7 @@ class _DomainsListState extends State<DomainsList> {
     final domainsListProvider = Provider.of<DomainsListProvider>(context);
     final appConfigProvider = Provider.of<AppConfigProvider>(context);
 
-    final domainsList = widget.type == 'blacklist'  
+    final domainsList = widget.type == 'blacklist'
       ? domainsListProvider.blacklistDomains
       : domainsListProvider.whitelistDomains;
 
@@ -74,7 +74,7 @@ class _DomainsListState extends State<DomainsList> {
       process.open(AppLocalizations.of(context)!.deleting);
 
       final result = await removeDomainFromList(
-        server: serversProvider.selectedServer!, 
+        server: serversProvider.selectedServer!,
         domain: domain
       );
 
@@ -110,7 +110,7 @@ class _DomainsListState extends State<DomainsList> {
       process.open(AppLocalizations.of(context)!.addingDomain);
 
       final result = await addDomainToList(
-        server: serversProvider.selectedServer!, 
+        server: serversProvider.selectedServer!,
         domainData: value
       );
 
@@ -137,7 +137,7 @@ class _DomainsListState extends State<DomainsList> {
           label: AppLocalizations.of(context)!.cannotAddDomain,
           color: Colors.red
         );
-      } 
+      }
     }
 
     void openModalAddDomainToList() {
@@ -153,7 +153,7 @@ class _DomainsListState extends State<DomainsList> {
       }
       else {
         showModalBottomSheet(
-          context: context, 
+          context: context,
           builder: (ctx) => AddDomainModal(
             selectedlist: widget.type,
             addDomain: onAddDomain,
@@ -187,13 +187,13 @@ class _DomainsListState extends State<DomainsList> {
                 )
               ],
             ),
-          ), 
+          ),
           itemsCount: domainsList.length,
           contentWidget: (index) {
             final thisDomain = domainsList[index];
             return Padding(
               padding: index == 0 && MediaQuery.of(context).size.width > 900
-                ? const EdgeInsets.only(top: 16) 
+                ? const EdgeInsets.only(top: 16)
                 : const EdgeInsets.all(0),
               child: DomainTile(
                 domain: thisDomain,
@@ -203,13 +203,13 @@ class _DomainsListState extends State<DomainsList> {
                   if (MediaQuery.of(context).size.width <= 900) {
                     Navigator.push(context, MaterialPageRoute(
                       builder: (context) => DomainDetailsScreen(
-                          domain: d, 
+                          domain: d,
                           remove: removeDomain,
                         )
                       )
                     );
                   }
-                },  
+                },
               ),
             );
           },
@@ -250,8 +250,8 @@ class _DomainsListState extends State<DomainsList> {
                 )
               ],
             ),
-          ), 
-          loadStatus: domainsListProvider.loadingStatus, 
+          ),
+          loadStatus: domainsListProvider.loadingStatus,
           onRefresh: () async => await domainsListProvider.fetchDomainsList(serversProvider.selectedServer!)
         ),
         AnimatedPositioned(

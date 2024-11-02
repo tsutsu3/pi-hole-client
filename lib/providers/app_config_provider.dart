@@ -1,5 +1,5 @@
-import 'package:droid_hole/models/app_log.dart';
-import 'package:droid_hole/services/database/queries.dart';
+import 'package:pi_hole_client/models/app_log.dart';
+import 'package:pi_hole_client/services/database/queries.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:device_info_plus/device_info_plus.dart';
@@ -51,8 +51,8 @@ class AppConfigProvider with ChangeNotifier {
   ThemeMode get selectedTheme {
     switch (_selectedTheme) {
       case 0:
-        return SchedulerBinding.instance.window.platformBrightness == Brightness.light 
-          ? ThemeMode.light 
+        return SchedulerBinding.instance.window.platformBrightness == Brightness.light
+          ? ThemeMode.light
           : ThemeMode.dark;
 
       case 1:
@@ -109,7 +109,7 @@ class AppConfigProvider with ChangeNotifier {
   bool get useBiometrics {
     return _useBiometrics == 0 ? false : true;
   }
-  
+
   bool get appUnlocked {
     return _appUnlocked;
   }

@@ -1,16 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:pie_chart/pie_chart.dart';
 
-import 'package:droid_hole/constants/colors.dart';
+import 'package:pi_hole_client/constants/colors.dart';
 
 
 class CustomPieChart extends StatelessWidget {
   final Map<String, double> data;
 
   const CustomPieChart({
-    Key? key,
+    super.key,
     required this.data,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {

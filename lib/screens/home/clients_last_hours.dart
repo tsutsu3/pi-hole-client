@@ -2,9 +2,9 @@ import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-import 'package:droid_hole/functions/format.dart';
-import 'package:droid_hole/constants/colors.dart';
-import 'package:droid_hole/providers/app_config_provider.dart';
+import 'package:pi_hole_client/functions/format.dart';
+import 'package:pi_hole_client/constants/colors.dart';
+import 'package:pi_hole_client/providers/app_config_provider.dart';
 
 class ClientsLastHours extends StatelessWidget {
   final List<String> realtimeListIps;
@@ -13,12 +13,12 @@ class ClientsLastHours extends StatelessWidget {
   final bool hideZeroValues;
 
   const ClientsLastHours({
-    Key? key,
+    super.key,
     required this.realtimeListIps,
     required this.data,
     required this.reducedData,
     required this.hideZeroValues
-  }) : super(key: key);
+  });
 
   LineChartData mainData(Map<String, dynamic> data, ThemeMode selectedTheme) {
     final double interval = (data['topPoint']/5).toDouble() > 0
@@ -97,7 +97,7 @@ class ClientsLastHours extends StatelessWidget {
                 if (items[i].y > 0 && items[i].barIndex < data.length-1) {
                   tooltipItems.add(
                     LineTooltipItem(
-                      "${data['clientsColors'][items[i].barIndex]['ip']}: ${items[i].y.toInt().toString()}", 
+                      "${data['clientsColors'][items[i].barIndex]['ip']}: ${items[i].y.toInt().toString()}",
                       TextStyle(
                         fontWeight: FontWeight.bold,
                         fontSize: 14,
@@ -111,7 +111,7 @@ class ClientsLastHours extends StatelessWidget {
                 if (items[i].barIndex < data.length-1) {
                   tooltipItems.add(
                     LineTooltipItem(
-                      "${data['clientsColors'][items[i].barIndex]['ip']}: ${items[i].y.toInt().toString()}", 
+                      "${data['clientsColors'][items[i].barIndex]['ip']}: ${items[i].y.toInt().toString()}",
                       TextStyle(
                         fontWeight: FontWeight.bold,
                         fontSize: 14,
@@ -125,11 +125,11 @@ class ClientsLastHours extends StatelessWidget {
 
             return [
               LineTooltipItem(
-                formatTimestampForChart(data['time'][items[0].x.toInt()]), 
+                formatTimestampForChart(data['time'][items[0].x.toInt()]),
                 TextStyle(
                   fontWeight: FontWeight.bold,
                   fontSize: 14,
-                  color: selectedTheme == ThemeMode.light 
+                  color: selectedTheme == ThemeMode.light
                     ? Colors.black
                     : Colors.white
                 )
@@ -150,7 +150,7 @@ class ClientsLastHours extends StatelessWidget {
       final exists = realtimeListIps.indexOf(data['clients'][index]['ip']);
       if (exists >= 0) {
         return colors[exists];
-      } 
+      }
       else {
         return client['color'];
       }

@@ -3,16 +3,16 @@ import 'package:percent_indicator/percent_indicator.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
-import 'package:droid_hole/screens/statistics/custom_pie_chart.dart';
-import 'package:droid_hole/screens/statistics/no_data_chart.dart';
-import 'package:droid_hole/screens/statistics/pie_chart_legend.dart';
-import 'package:droid_hole/widgets/section_label.dart';
-import 'package:droid_hole/widgets/tab_content.dart';
+import 'package:pi_hole_client/screens/statistics/custom_pie_chart.dart';
+import 'package:pi_hole_client/screens/statistics/no_data_chart.dart';
+import 'package:pi_hole_client/screens/statistics/pie_chart_legend.dart';
+import 'package:pi_hole_client/widgets/section_label.dart';
+import 'package:pi_hole_client/widgets/tab_content.dart';
 
-import 'package:droid_hole/providers/filters_provider.dart';
-import 'package:droid_hole/providers/status_provider.dart';
-import 'package:droid_hole/providers/app_config_provider.dart';
-import 'package:droid_hole/functions/conversions.dart';
+import 'package:pi_hole_client/providers/filters_provider.dart';
+import 'package:pi_hole_client/providers/status_provider.dart';
+import 'package:pi_hole_client/providers/app_config_provider.dart';
+import 'package:pi_hole_client/functions/conversions.dart';
 
 class StatisticsList extends StatelessWidget {
   final String countLabel;
@@ -20,11 +20,11 @@ class StatisticsList extends StatelessWidget {
   final Future<void> Function() onRefresh;
 
   const StatisticsList({
-    Key? key,
+    super.key,
     required this.countLabel,
     required this.type,
     required this.onRefresh
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -50,7 +50,7 @@ class StatisticsList extends StatelessWidget {
             )
           ],
         ),
-      ), 
+      ),
       contentGenerator: () => [
         StatisticsListContent(type: type, countLabel: countLabel)
       ],
@@ -77,8 +77,8 @@ class StatisticsList extends StatelessWidget {
             )
           ],
         ),
-      ), 
-      loadStatus: statusProvider.getStatusLoading, 
+      ),
+      loadStatus: statusProvider.getStatusLoading,
       onRefresh: onRefresh
     );
   }
@@ -89,10 +89,10 @@ class StatisticsListContent extends StatelessWidget {
   final String countLabel;
 
   const StatisticsListContent({
-    Key? key,
+    super.key,
     required this.type,
     required this.countLabel
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -173,14 +173,14 @@ class StatisticsListContent extends StatelessWidget {
                         percent: (item['value']/totalHits).toDouble(),
                         barRadius: const Radius.circular(5),
                         progressColor: Theme.of(context).colorScheme.primary,
-                        backgroundColor: Theme.of(context).colorScheme.surfaceVariant,
+                        backgroundColor: Theme.of(context).colorScheme.surfaceContainerHighest,
                       ),
                     ),
                   ],
                 ),
               ),
             ),
-          )).toList()
+          ))
         ],
       );
     }
@@ -216,7 +216,7 @@ class StatisticsListContent extends StatelessWidget {
 
     Widget generateList(Map<String, int> values, String label) {
       final topQueriesList = convertFromMapToList(values);
-      
+
       return Column(
         children: [
           SectionLabel(
@@ -239,7 +239,7 @@ class StatisticsListContent extends StatelessWidget {
         children: [
           statusProvider.getRealtimeStatus!.topQueries.isNotEmpty
             ? generateList(
-                statusProvider.getRealtimeStatus!.topQueries, 
+                statusProvider.getRealtimeStatus!.topQueries,
                 AppLocalizations.of(context)!.topPermittedDomains
               )
             : NoDataChart(
@@ -247,7 +247,7 @@ class StatisticsListContent extends StatelessWidget {
             ),
           statusProvider.getRealtimeStatus!.topAds.isNotEmpty
             ? generateList(
-                statusProvider.getRealtimeStatus!.topAds, 
+                statusProvider.getRealtimeStatus!.topAds,
                 AppLocalizations.of(context)!.topBlockedDomains
               )
             : NoDataChart(
@@ -261,7 +261,7 @@ class StatisticsListContent extends StatelessWidget {
         children: [
           statusProvider.getRealtimeStatus!.topSources.isNotEmpty
             ? generateList(
-                statusProvider.getRealtimeStatus!.topSources, 
+                statusProvider.getRealtimeStatus!.topSources,
                 AppLocalizations.of(context)!.topClients
               )
             : NoDataChart(
@@ -269,7 +269,7 @@ class StatisticsListContent extends StatelessWidget {
             ),
           statusProvider.getRealtimeStatus!.topSourcesBlocked.isNotEmpty
             ? generateList(
-                statusProvider.getRealtimeStatus!.topSourcesBlocked, 
+                statusProvider.getRealtimeStatus!.topSourcesBlocked,
                 AppLocalizations.of(context)!.topClientsBlocked
               )
             : NoDataChart(
