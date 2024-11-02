@@ -10,7 +10,7 @@ class CustomListTile extends StatelessWidget {
   final EdgeInsets? padding;
 
   const CustomListTile({
-    Key? key,
+    super.key,
     this.leadingIcon,
     required this.label,
     this.description,
@@ -18,7 +18,7 @@ class CustomListTile extends StatelessWidget {
     this.onTap,
     this.trailing,
     this.padding
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {

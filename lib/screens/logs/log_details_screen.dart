@@ -14,10 +14,10 @@ class LogDetailsScreen extends StatelessWidget {
   final void Function(String, Log) whiteBlackList;
 
   const LogDetailsScreen({
-    Key? key,
+    super.key,
     required this.log,
     required this.whiteBlackList
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {
