@@ -104,12 +104,16 @@ class _ServersPageState extends State<ServersPage> {
               }));
     }
 
-    return WillPopScope(
-        onWillPop: () async {
+    return PopScope(
+        canPop: true,
+        onPopInvokedWithResult: (didPop, result) async {
           if (serversProvider.selectedServer == null) {
             appConfigProvider.setSelectedTab(0);
           }
-          return true;
+
+          if (didPop) {
+            return;
+          }
         },
         child: Scaffold(
           appBar: AppBar(

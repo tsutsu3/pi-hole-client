@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:expandable/expandable.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-import 'package:url_launcher/url_launcher.dart';
+// import 'package:url_launcher/url_launcher.dart';
 import 'package:pi_hole_client/functions/open_url.dart';
 
 class ContactMeModal extends StatefulWidget {
@@ -15,24 +15,24 @@ class ContactMeModal extends StatefulWidget {
 class _ContactMeModalState extends State<ContactMeModal> {
   final expandableController = ExpandableController();
 
-  void sendEmail() {
-    String? encodeQueryParameters(Map<String, String> params) {
-      return params.entries
-          .map((MapEntry<String, String> e) =>
-              '${Uri.encodeComponent(e.key)}=${Uri.encodeComponent(e.value)}')
-          .join('&');
-    }
+  // void sendEmail() {
+  //   String? encodeQueryParameters(Map<String, String> params) {
+  //     return params.entries
+  //         .map((MapEntry<String, String> e) =>
+  //             '${Uri.encodeComponent(e.key)}=${Uri.encodeComponent(e.value)}')
+  //         .join('&');
+  //   }
 
-    final Uri emailLaunchUri = Uri(
-      scheme: 'mailto',
-      path: 'juangilsanz@gmail.com',
-      query: encodeQueryParameters(<String, String>{
-        'subject': 'PiHoleClient issue',
-      }),
-    );
+  //   final Uri emailLaunchUri = Uri(
+  //     scheme: 'mailto',
+  //     path: 'juangilsanz@gmail.com',
+  //     query: encodeQueryParameters(<String, String>{
+  //       'subject': 'PiHoleClient issue',
+  //     }),
+  //   );
 
-    launchUrl(emailLaunchUri);
-  }
+  //   launchUrl(emailLaunchUri);
+  // }
 
   @override
   Widget build(BuildContext context) {
@@ -70,7 +70,10 @@ class _ContactMeModalState extends State<ContactMeModal> {
                   children: [
                     SvgPicture.asset(
                       'assets/resources/github.svg',
-                      color: Theme.of(context).colorScheme.onSurface,
+                      colorFilter: ColorFilter.mode(
+                        Theme.of(context).colorScheme.onSurface,
+                        BlendMode.srcIn,
+                      ),
                       width: 25,
                       height: 25,
                     ),

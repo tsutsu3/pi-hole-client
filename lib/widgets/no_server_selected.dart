@@ -19,23 +19,29 @@ class NoServerSelected extends StatelessWidget {
           () => {
                 if (width > 900)
                   {
-                    showDialog(
-                        context: context,
-                        builder: (context) => const AddServerFullscreen(
-                              window: true,
-                            ),
-                        barrierDismissible: false)
+                    if (context.mounted)
+                      {
+                        showDialog(
+                            context: context,
+                            builder: (context) => const AddServerFullscreen(
+                                  window: true,
+                                ),
+                            barrierDismissible: false)
+                      }
                   }
                 else
                   {
-                    Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            fullscreenDialog: true,
-                            builder: (BuildContext context) =>
-                                const AddServerFullscreen(
-                                  window: false,
-                                )))
+                    if (context.mounted)
+                      {
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                fullscreenDialog: true,
+                                builder: (BuildContext context) =>
+                                    const AddServerFullscreen(
+                                      window: false,
+                                    )))
+                      }
                   }
               });
     }

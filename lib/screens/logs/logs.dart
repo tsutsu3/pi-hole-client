@@ -121,8 +121,9 @@ class _LogsState extends State<Logs> {
         setState(() => _isLoadingMore = false);
         if (result['result'] == 'success') {
           List<Log> items = [];
-          if (result['data'] != null)
+          if (result['data'] != null) {
             result['data'].forEach((item) => items.add(Log.fromJson(item)));
+          }
           if (replaceOldLogs == true) {
             setState(() {
               loadStatus = 1;

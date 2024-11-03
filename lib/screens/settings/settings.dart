@@ -13,7 +13,7 @@ import 'package:pi_hole_client/screens/settings/auto_refresh_time_screen.dart';
 import 'package:pi_hole_client/screens/servers/servers.dart';
 import 'package:pi_hole_client/screens/settings/contact_me_modal.dart';
 import 'package:pi_hole_client/widgets/start_warning_modal.dart';
-import 'package:pi_hole_client/screens/settings/logs_quantity_load_modal.dart';
+// import 'package:pi_hole_client/screens/settings/logs_quantity_load_modal.dart';
 import 'package:pi_hole_client/widgets/custom_list_tile.dart';
 import 'package:pi_hole_client/widgets/custom_settings_tile.dart';
 import 'package:pi_hole_client/widgets/section_label.dart';
@@ -21,7 +21,7 @@ import 'package:pi_hole_client/screens/settings/legal_modal.dart';
 
 import 'package:pi_hole_client/config/urls.dart';
 import 'package:pi_hole_client/functions/open_url.dart';
-import 'package:pi_hole_client/functions/snackbar.dart';
+// import 'package:pi_hole_client/functions/snackbar.dart';
 import 'package:pi_hole_client/providers/servers_provider.dart';
 import 'package:pi_hole_client/providers/status_provider.dart';
 import 'package:pi_hole_client/providers/app_config_provider.dart';
@@ -113,30 +113,30 @@ class _SettingsWidgetState extends State<SettingsWidget> {
       }
     }
 
-    void openLogsQuantityPerLoad() {
-      showModalBottomSheet(
-        context: context,
-        isScrollControlled: true,
-        builder: (context) => LogsQuantityPerLoadModal(
-          time: appConfigProvider.logsPerQuery,
-          onChange: (time) async {
-            final result = await appConfigProvider.setLogsPerQuery(time);
-            if (result == true) {
-              showSnackBar(
-                  appConfigProvider: appConfigProvider,
-                  label: AppLocalizations.of(context)!.logsPerQueryUpdated,
-                  color: Colors.green);
-            } else {
-              showSnackBar(
-                  appConfigProvider: appConfigProvider,
-                  label: AppLocalizations.of(context)!.cantUpdateLogsPerQuery,
-                  color: Colors.green);
-            }
-          },
-        ),
-        backgroundColor: Colors.transparent,
-      );
-    }
+    // void openLogsQuantityPerLoad() {
+    //   showModalBottomSheet(
+    //     context: context,
+    //     isScrollControlled: true,
+    //     builder: (context) => LogsQuantityPerLoadModal(
+    //       time: appConfigProvider.logsPerQuery,
+    //       onChange: (time) async {
+    //         final result = await appConfigProvider.setLogsPerQuery(time);
+    //         if (result == true) {
+    //           showSnackBar(
+    //               appConfigProvider: appConfigProvider,
+    //               label: AppLocalizations.of(context)!.logsPerQueryUpdated,
+    //               color: Colors.green);
+    //         } else {
+    //           showSnackBar(
+    //               appConfigProvider: appConfigProvider,
+    //               label: AppLocalizations.of(context)!.cantUpdateLogsPerQuery,
+    //               color: Colors.green);
+    //         }
+    //       },
+    //     ),
+    //     backgroundColor: Colors.transparent,
+    //   );
+    // }
 
     void openLegalModal() {
       showDialog(
@@ -275,7 +275,9 @@ class _SettingsWidgetState extends State<SettingsWidget> {
                               onPressed: () => openUrl(Urls.playStore),
                               icon: SvgPicture.asset(
                                 'assets/resources/google-play.svg',
-                                color: Theme.of(context).colorScheme.onSurface,
+                                colorFilter: ColorFilter.mode(
+                                    Theme.of(context).colorScheme.onSurface,
+                                    BlendMode.srcIn),
                                 width: 30,
                                 height: 30,
                               ),
@@ -286,7 +288,9 @@ class _SettingsWidgetState extends State<SettingsWidget> {
                               onPressed: () => openUrl(Urls.gitHub),
                               icon: SvgPicture.asset(
                                 'assets/resources/github.svg',
-                                color: Theme.of(context).colorScheme.onSurface,
+                                colorFilter: ColorFilter.mode(
+                                    Theme.of(context).colorScheme.onSurface,
+                                    BlendMode.srcIn),
                                 width: 30,
                                 height: 30,
                               ),
