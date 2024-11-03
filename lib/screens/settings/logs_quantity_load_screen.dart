@@ -73,27 +73,28 @@ class _LogsQuantityLoadScreenState extends State<LogsQuantityLoadScreen> {
   }
 
   void onSave() async {
-    final result = await Provider.of<AppConfigProvider>(context, listen: false).setLogsPerQuery(_getTime());
+    final result = await Provider.of<AppConfigProvider>(context, listen: false)
+        .setLogsPerQuery(_getTime());
     if (result == true) {
-        showSnackBar(
-        appConfigProvider: Provider.of<AppConfigProvider>(context, listen: false),
-        label: AppLocalizations.of(context)!.logsPerQueryUpdated,
-        color: Colors.green
-      );
-    }
-    else {
       showSnackBar(
-        appConfigProvider: Provider.of<AppConfigProvider>(context, listen: false),
-        label: AppLocalizations.of(context)!.cantUpdateLogsPerQuery,
-        color: Colors.green
-      );
+          appConfigProvider:
+              Provider.of<AppConfigProvider>(context, listen: false),
+          label: AppLocalizations.of(context)!.logsPerQueryUpdated,
+          color: Colors.green);
+    } else {
+      showSnackBar(
+          appConfigProvider:
+              Provider.of<AppConfigProvider>(context, listen: false),
+          label: AppLocalizations.of(context)!.cantUpdateLogsPerQuery,
+          color: Colors.green);
     }
   }
 
   @override
   void initState() {
     super.initState();
-    selectedOption = _setTime(Provider.of<AppConfigProvider>(context, listen: false).logsPerQuery);
+    selectedOption = _setTime(
+        Provider.of<AppConfigProvider>(context, listen: false).logsPerQuery);
   }
 
   @override
@@ -113,92 +114,72 @@ class _LogsQuantityLoadScreenState extends State<LogsQuantityLoadScreen> {
       body: ListView(
         children: [
           Padding(
-            padding: const EdgeInsets.only(
-              top: 10,
-              bottom: 20,
-              left: 20,
-              right: 20
-            ),
-            child: Container(
-              padding: const EdgeInsets.all(20),
-              decoration: BoxDecoration(
-                color: Colors.yellow,
-                borderRadius: BorderRadius.circular(30)
-              ),
-              height: 100,
-              child: Row(
-                children: [
-                  const Icon(
-                    Icons.warning_rounded,
-                    color: Colors.black,
-                  ),
-                  const SizedBox(width: 20),
-                  Expanded(
-                    child: Text(
-                      AppLocalizations.of(context)!.logsPerQueryWarning,
-                      style: const TextStyle(
-                        color: Colors.black
-                      ),
+              padding: const EdgeInsets.only(
+                  top: 10, bottom: 20, left: 20, right: 20),
+              child: Container(
+                padding: const EdgeInsets.all(20),
+                decoration: BoxDecoration(
+                    color: Colors.yellow,
+                    borderRadius: BorderRadius.circular(30)),
+                height: 100,
+                child: Row(
+                  children: [
+                    const Icon(
+                      Icons.warning_rounded,
+                      color: Colors.black,
                     ),
-                  )
-                ],
-              ),
-            )
-          ),
+                    const SizedBox(width: 20),
+                    Expanded(
+                      child: Text(
+                        AppLocalizations.of(context)!.logsPerQueryWarning,
+                        style: const TextStyle(color: Colors.black),
+                      ),
+                    )
+                  ],
+                ),
+              )),
           CustomRadioListTile(
-            groupValue: selectedOption,
-            value: 0,
-            radioBackgroundColor: Theme.of(context).colorScheme.surface,
-            title: AppLocalizations.of(context)!.minutes30,
-            onChanged: _updateRadioValue
-          ),
+              groupValue: selectedOption,
+              value: 0,
+              radioBackgroundColor: Theme.of(context).colorScheme.surface,
+              title: AppLocalizations.of(context)!.minutes30,
+              onChanged: _updateRadioValue),
           CustomRadioListTile(
-            groupValue: selectedOption,
-            value: 1,
-            radioBackgroundColor: Theme.of(context).colorScheme.surface,
-            title: AppLocalizations.of(context)!.hour1,
-            onChanged: _updateRadioValue
-          ),
+              groupValue: selectedOption,
+              value: 1,
+              radioBackgroundColor: Theme.of(context).colorScheme.surface,
+              title: AppLocalizations.of(context)!.hour1,
+              onChanged: _updateRadioValue),
           CustomRadioListTile(
-            groupValue: selectedOption,
-            value: 2,
-            radioBackgroundColor: Theme.of(context).colorScheme.surface,
-            title: AppLocalizations.of(context)!.hours2,
-            onChanged: _updateRadioValue
-          ),
+              groupValue: selectedOption,
+              value: 2,
+              radioBackgroundColor: Theme.of(context).colorScheme.surface,
+              title: AppLocalizations.of(context)!.hours2,
+              onChanged: _updateRadioValue),
           CustomRadioListTile(
-            groupValue: selectedOption,
-            value: 3,
-            radioBackgroundColor: Theme.of(context).colorScheme.surface,
-            title: AppLocalizations.of(context)!.hours4,
-            onChanged: _updateRadioValue
-          ),
+              groupValue: selectedOption,
+              value: 3,
+              radioBackgroundColor: Theme.of(context).colorScheme.surface,
+              title: AppLocalizations.of(context)!.hours4,
+              onChanged: _updateRadioValue),
           CustomRadioListTile(
-            groupValue: selectedOption,
-            value: 4,
-            radioBackgroundColor: Theme.of(context).colorScheme.surface,
-            title: AppLocalizations.of(context)!.hours6,
-            onChanged: _updateRadioValue
-          ),
+              groupValue: selectedOption,
+              value: 4,
+              radioBackgroundColor: Theme.of(context).colorScheme.surface,
+              title: AppLocalizations.of(context)!.hours6,
+              onChanged: _updateRadioValue),
           CustomRadioListTile(
-            groupValue: selectedOption,
-            value: 5,
-            radioBackgroundColor: Theme.of(context).colorScheme.surface,
-            title: AppLocalizations.of(context)!.hours8,
-            onChanged: _updateRadioValue
-          ),
+              groupValue: selectedOption,
+              value: 5,
+              radioBackgroundColor: Theme.of(context).colorScheme.surface,
+              title: AppLocalizations.of(context)!.hours8,
+              onChanged: _updateRadioValue),
           Padding(
-            padding: const EdgeInsets.only(
-              top: 20,
-              left: 20,
-              bottom: 10,
-              right: 20
-            ),
+            padding:
+                const EdgeInsets.only(top: 20, left: 20, bottom: 10, right: 20),
             child: Text(
               "${AppLocalizations.of(context)!.logsWillBeRequested} ${_getTime() == 0.5 ? '30' : _getTime().toInt()} ${_getTime() == 0.5 ? AppLocalizations.of(context)!.minutes : AppLocalizations.of(context)!.hours}",
-              style: const TextStyle(
-                fontWeight: FontWeight.bold
-              ),
+              style: const TextStyle(fontWeight: FontWeight.bold),
             ),
           ),
         ],

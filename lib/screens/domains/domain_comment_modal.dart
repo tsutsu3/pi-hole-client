@@ -4,10 +4,7 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 class DomainCommentModal extends StatelessWidget {
   final String comment;
 
-  const DomainCommentModal({
-    super.key,
-    required this.comment
-  });
+  const DomainCommentModal({super.key, required this.comment});
 
   @override
   Widget build(BuildContext context) {
@@ -24,9 +21,7 @@ class DomainCommentModal extends StatelessWidget {
             padding: const EdgeInsets.only(top: 20),
             child: Text(
               AppLocalizations.of(context)!.comment,
-              style: const TextStyle(
-                fontSize: 24
-              ),
+              style: const TextStyle(fontSize: 24),
             ),
           ),
         ],
@@ -36,9 +31,8 @@ class DomainCommentModal extends StatelessWidget {
       ),
       actions: [
         TextButton(
-          onPressed: () => Navigator.pop(context), 
-          child: Text(AppLocalizations.of(context)!.close)
-        )
+            onPressed: () => Navigator.pop(context),
+            child: Text(AppLocalizations.of(context)!.close))
       ],
     );
   }

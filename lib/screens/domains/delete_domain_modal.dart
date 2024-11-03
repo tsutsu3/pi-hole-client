@@ -4,10 +4,7 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 class DeleteDomainModal extends StatelessWidget {
   final void Function() onConfirm;
 
-  const DeleteDomainModal({
-    super.key,
-    required this.onConfirm
-  });
+  const DeleteDomainModal({super.key, required this.onConfirm});
 
   @override
   Widget build(BuildContext context) {
@@ -22,31 +19,25 @@ class DeleteDomainModal extends StatelessWidget {
           const SizedBox(height: 16),
           Text(
             AppLocalizations.of(context)!.deleteDomain,
-            style: TextStyle(
-              color: Theme.of(context).colorScheme.onSurface
-            ),
+            style: TextStyle(color: Theme.of(context).colorScheme.onSurface),
           )
         ],
       ),
       content: Text(
         AppLocalizations.of(context)!.deleteDomainMessage,
-        style: TextStyle(
-          color: Theme.of(context).colorScheme.onSurface
-        ),
+        style: TextStyle(color: Theme.of(context).colorScheme.onSurface),
       ),
       actions: [
         Row(
           mainAxisAlignment: MainAxisAlignment.end,
           children: [
             TextButton(
-              onPressed: () => Navigator.pop(context), 
-              child: Text(AppLocalizations.of(context)!.cancel)
-            ),
+                onPressed: () => Navigator.pop(context),
+                child: Text(AppLocalizations.of(context)!.cancel)),
             const SizedBox(width: 16),
             TextButton(
-              onPressed: () =>  onConfirm(),
-              child: Text(AppLocalizations.of(context)!.confirm)
-            ),
+                onPressed: () => onConfirm(),
+                child: Text(AppLocalizations.of(context)!.confirm)),
           ],
         )
       ],

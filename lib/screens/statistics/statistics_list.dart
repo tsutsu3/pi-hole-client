@@ -19,68 +19,63 @@ class StatisticsList extends StatelessWidget {
   final String type;
   final Future<void> Function() onRefresh;
 
-  const StatisticsList({
-    super.key,
-    required this.countLabel,
-    required this.type,
-    required this.onRefresh
-  });
+  const StatisticsList(
+      {super.key,
+      required this.countLabel,
+      required this.type,
+      required this.onRefresh});
 
   @override
   Widget build(BuildContext context) {
     final statusProvider = Provider.of<StatusProvider>(context);
 
     return CustomTabContent(
-      loadingGenerator: () => SizedBox(
-        width: double.maxFinite,
-        height: 300,
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            const CircularProgressIndicator(),
-            const SizedBox(height: 50),
-            Text(
-              AppLocalizations.of(context)!.loadingStats,
-              textAlign: TextAlign.center,
-              style: TextStyle(
-                color: Theme.of(context).colorScheme.onSurfaceVariant,
-                fontSize: 22
+        loadingGenerator: () => SizedBox(
+              width: double.maxFinite,
+              height: 300,
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  const CircularProgressIndicator(),
+                  const SizedBox(height: 50),
+                  Text(
+                    AppLocalizations.of(context)!.loadingStats,
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                        color: Theme.of(context).colorScheme.onSurfaceVariant,
+                        fontSize: 22),
+                  )
+                ],
               ),
-            )
-          ],
-        ),
-      ),
-      contentGenerator: () => [
-        StatisticsListContent(type: type, countLabel: countLabel)
-      ],
-      errorGenerator: () => SizedBox(
-        width: double.maxFinite,
-        height: 300,
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            const Icon(
-              Icons.error,
-              size: 50,
-              color: Colors.red,
             ),
-            const SizedBox(height: 50),
-            Text(
-              AppLocalizations.of(context)!.statsNotLoaded,
-              textAlign: TextAlign.center,
-              style: TextStyle(
-                color: Theme.of(context).colorScheme.onSurfaceVariant,
-                fontSize: 22
+        contentGenerator: () =>
+            [StatisticsListContent(type: type, countLabel: countLabel)],
+        errorGenerator: () => SizedBox(
+              width: double.maxFinite,
+              height: 300,
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  const Icon(
+                    Icons.error,
+                    size: 50,
+                    color: Colors.red,
+                  ),
+                  const SizedBox(height: 50),
+                  Text(
+                    AppLocalizations.of(context)!.statsNotLoaded,
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                        color: Theme.of(context).colorScheme.onSurfaceVariant,
+                        fontSize: 22),
+                  )
+                ],
               ),
-            )
-          ],
-        ),
-      ),
-      loadStatus: statusProvider.getStatusLoading,
-      onRefresh: onRefresh
-    );
+            ),
+        loadStatus: statusProvider.getStatusLoading,
+        onRefresh: onRefresh);
   }
 }
 
@@ -88,11 +83,8 @@ class StatisticsListContent extends StatelessWidget {
   final String type;
   final String countLabel;
 
-  const StatisticsListContent({
-    super.key,
-    required this.type,
-    required this.countLabel
-  });
+  const StatisticsListContent(
+      {super.key, required this.type, required this.countLabel});
 
   @override
   Widget build(BuildContext context) {
@@ -102,7 +94,9 @@ class StatisticsListContent extends StatelessWidget {
 
     void navigateFilter(String value) {
       if (type == 'clients') {
-        final isContained = filtersProvider.totalClients.where((client) => value.contains(client)).toList();
+        final isContained = filtersProvider.totalClients
+            .where((client) => value.contains(client))
+            .toList();
         if (isContained.isNotEmpty) {
           filtersProvider.setSelectedClients([isContained[0]]);
           appConfigProvider.setSelectedTab(2);
@@ -123,64 +117,64 @@ class StatisticsListContent extends StatelessWidget {
       return Column(
         children: [
           ...values.map((item) => Material(
-            color: Colors.transparent,
-            child: InkWell(
-              onTap: () => navigateFilter(item['label']),
-              child: Container(
-                padding: const EdgeInsets.symmetric(
-                  horizontal: 20,
-                  vertical: 10
-                ),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Expanded(
-                      flex: 2,
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            item['label'],
-                            overflow: TextOverflow.ellipsis,
-                            maxLines: 1,
-                            softWrap: false,
-                            style: const TextStyle(
-                              fontSize: 15
-                            ),
+                color: Colors.transparent,
+                child: InkWell(
+                  onTap: () => navigateFilter(item['label']),
+                  child: Container(
+                    padding: const EdgeInsets.symmetric(
+                        horizontal: 20, vertical: 10),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Expanded(
+                          flex: 2,
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                item['label'],
+                                overflow: TextOverflow.ellipsis,
+                                maxLines: 1,
+                                softWrap: false,
+                                style: const TextStyle(fontSize: 15),
+                              ),
+                              const SizedBox(height: 10),
+                              Text(
+                                "$countLabel ${item['value'].toInt().toString()}",
+                                overflow: TextOverflow.ellipsis,
+                                maxLines: 1,
+                                softWrap: false,
+                                style: TextStyle(
+                                    fontSize: 14,
+                                    color: Theme.of(context)
+                                        .colorScheme
+                                        .onSurfaceVariant),
+                              ),
+                            ],
                           ),
-                          const SizedBox(height: 10),
-                          Text(
-                            "$countLabel ${item['value'].toInt().toString()}",
-                            overflow: TextOverflow.ellipsis,
-                            maxLines: 1,
-                            softWrap: false,
-                            style: TextStyle(
-                              fontSize: 14,
-                              color: Theme.of(context).colorScheme.onSurfaceVariant
-                            ),
+                        ),
+                        const SizedBox(width: 20),
+                        Expanded(
+                          flex: 1,
+                          child: LinearPercentIndicator(
+                            animation: true,
+                            lineHeight: 10,
+                            animationDuration: 500,
+                            curve: Curves.easeOut,
+                            percent: (item['value'] / totalHits).toDouble(),
+                            barRadius: const Radius.circular(5),
+                            progressColor:
+                                Theme.of(context).colorScheme.primary,
+                            backgroundColor: Theme.of(context)
+                                .colorScheme
+                                .surfaceContainerHighest,
                           ),
-                        ],
-                      ),
+                        ),
+                      ],
                     ),
-                    const SizedBox(width: 20),
-                    Expanded(
-                      flex: 1,
-                      child: LinearPercentIndicator(
-                        animation: true,
-                        lineHeight: 10,
-                        animationDuration: 500,
-                        curve: Curves.easeOut,
-                        percent: (item['value']/totalHits).toDouble(),
-                        barRadius: const Radius.circular(5),
-                        progressColor: Theme.of(context).colorScheme.primary,
-                        backgroundColor: Theme.of(context).colorScheme.surfaceContainerHighest,
-                      ),
-                    ),
-                  ],
+                  ),
                 ),
-              ),
-            ),
-          ))
+              ))
         ],
       );
     }
@@ -189,21 +183,13 @@ class StatisticsListContent extends StatelessWidget {
       Map<String, double> items = {};
       Map<String, int> legend = {};
       for (var item in values) {
-        items = {
-          ...items,
-          item['label']: item['value'].toDouble()
-        };
-        legend = {
-          ...legend,
-          item['label']: item['value'].toInt()
-        };
+        items = {...items, item['label']: item['value'].toDouble()};
+        legend = {...legend, item['label']: item['value'].toInt()};
       }
       return Column(
         children: [
           const SizedBox(height: 10),
-          CustomPieChart(
-            data: items
-          ),
+          CustomPieChart(data: items),
           const SizedBox(height: 20),
           PieChartLegend(
             data: legend,
@@ -221,64 +207,38 @@ class StatisticsListContent extends StatelessWidget {
         children: [
           SectionLabel(
             label: label,
-            padding: const EdgeInsets.only(
-              top: 24,
-              left: 16,
-              bottom: 16
-            ),
+            padding: const EdgeInsets.only(top: 24, left: 16, bottom: 16),
           ),
           appConfigProvider.statisticsVisualizationMode == 0
-            ? listViewMode(topQueriesList)
-            : pieChertViewMode(topQueriesList)
+              ? listViewMode(topQueriesList)
+              : pieChertViewMode(topQueriesList)
         ],
       );
     }
 
     if (type == "domains") {
-      return Column(
-        children: [
-          statusProvider.getRealtimeStatus!.topQueries.isNotEmpty
-            ? generateList(
-                statusProvider.getRealtimeStatus!.topQueries,
-                AppLocalizations.of(context)!.topPermittedDomains
-              )
-            : NoDataChart(
-              topLabel: AppLocalizations.of(context)!.noData
-            ),
-          statusProvider.getRealtimeStatus!.topAds.isNotEmpty
-            ? generateList(
-                statusProvider.getRealtimeStatus!.topAds,
-                AppLocalizations.of(context)!.topBlockedDomains
-              )
-            : NoDataChart(
-                topLabel: AppLocalizations.of(context)!.noData
-              ),
-        ]
-      );
-    }
-    else if (type == "clients") {
-      return Column(
-        children: [
-          statusProvider.getRealtimeStatus!.topSources.isNotEmpty
-            ? generateList(
-                statusProvider.getRealtimeStatus!.topSources,
-                AppLocalizations.of(context)!.topClients
-              )
-            : NoDataChart(
-              topLabel: AppLocalizations.of(context)!.noData
-            ),
-          statusProvider.getRealtimeStatus!.topSourcesBlocked.isNotEmpty
-            ? generateList(
-                statusProvider.getRealtimeStatus!.topSourcesBlocked,
-                AppLocalizations.of(context)!.topClientsBlocked
-              )
-            : NoDataChart(
-                topLabel: AppLocalizations.of(context)!.noData
-              ),
-        ]
-       );
-    }
-    else {
+      return Column(children: [
+        statusProvider.getRealtimeStatus!.topQueries.isNotEmpty
+            ? generateList(statusProvider.getRealtimeStatus!.topQueries,
+                AppLocalizations.of(context)!.topPermittedDomains)
+            : NoDataChart(topLabel: AppLocalizations.of(context)!.noData),
+        statusProvider.getRealtimeStatus!.topAds.isNotEmpty
+            ? generateList(statusProvider.getRealtimeStatus!.topAds,
+                AppLocalizations.of(context)!.topBlockedDomains)
+            : NoDataChart(topLabel: AppLocalizations.of(context)!.noData),
+      ]);
+    } else if (type == "clients") {
+      return Column(children: [
+        statusProvider.getRealtimeStatus!.topSources.isNotEmpty
+            ? generateList(statusProvider.getRealtimeStatus!.topSources,
+                AppLocalizations.of(context)!.topClients)
+            : NoDataChart(topLabel: AppLocalizations.of(context)!.noData),
+        statusProvider.getRealtimeStatus!.topSourcesBlocked.isNotEmpty
+            ? generateList(statusProvider.getRealtimeStatus!.topSourcesBlocked,
+                AppLocalizations.of(context)!.topClientsBlocked)
+            : NoDataChart(topLabel: AppLocalizations.of(context)!.noData),
+      ]);
+    } else {
       return const SizedBox();
     }
   }

@@ -10,13 +10,12 @@ class ClientsFiltersModal extends StatefulWidget {
   final List<String> selectedClients;
   final bool window;
 
-  const ClientsFiltersModal({
-    super.key,
-    required this.statusBarHeight,
-    required this.bottomNavBarHeight,
-    required this.selectedClients,
-    required this.window
-  });
+  const ClientsFiltersModal(
+      {super.key,
+      required this.statusBarHeight,
+      required this.bottomNavBarHeight,
+      required this.selectedClients,
+      required this.window});
 
   @override
   State<ClientsFiltersModal> createState() => _ClientsFiltersModalState();
@@ -28,10 +27,10 @@ class _ClientsFiltersModalState extends State<ClientsFiltersModal> {
   void _updateStatusSelected(String option) {
     if (_selectedClients.contains(option) == true) {
       setState(() {
-        _selectedClients = _selectedClients.where((status) => status != option).toList();
+        _selectedClients =
+            _selectedClients.where((status) => status != option).toList();
       });
-    }
-    else {
+    } else {
       setState(() {
         _selectedClients.add(option);
       });
@@ -65,17 +64,13 @@ class _ClientsFiltersModalState extends State<ClientsFiltersModal> {
           child: ListTile(
             title: Text(
               label,
-              style: const TextStyle(
-                fontWeight: FontWeight.w400
-              ),
+              style: const TextStyle(fontWeight: FontWeight.w400),
             ),
             trailing: Checkbox(
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(5)
-              ),
-              value: _selectedClients.contains(value),
-              onChanged: (_) => _updateStatusSelected(value)
-            ),
+                shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(5)),
+                value: _selectedClients.contains(value),
+                onChanged: (_) => _updateStatusSelected(value)),
           ),
         ),
       );
@@ -86,8 +81,7 @@ class _ClientsFiltersModalState extends State<ClientsFiltersModal> {
         setState(() {
           _selectedClients = filtersProvider.totalClients;
         });
-      }
-      else {
+      } else {
         setState(() {
           _selectedClients = [];
         });
@@ -100,8 +94,7 @@ class _ClientsFiltersModalState extends State<ClientsFiltersModal> {
         children: [
           ConstrainedBox(
             constraints: BoxConstraints(
-              maxHeight: MediaQuery.of(context).size.height*0.8
-            ),
+                maxHeight: MediaQuery.of(context).size.height * 0.8),
             child: ListView(
               children: [
                 Padding(
@@ -113,22 +106,17 @@ class _ClientsFiltersModalState extends State<ClientsFiltersModal> {
                   ),
                 ),
                 Padding(
-                  padding: const EdgeInsets.only(
-                    top: 24,
-                    bottom: 24
-                  ),
+                  padding: const EdgeInsets.only(top: 24, bottom: 24),
                   child: Text(
                     AppLocalizations.of(context)!.clients,
                     textAlign: TextAlign.center,
-                    style: const TextStyle(
-                      fontSize: 24
-                    ),
+                    style: const TextStyle(fontSize: 24),
                   ),
                 ),
                 ...filtersProvider.totalClients.map((e) => listItem(
-                  label: e,
-                  value: e,
-                )),
+                      label: e,
+                      value: e,
+                    )),
               ],
             ),
           ),
@@ -138,11 +126,11 @@ class _ClientsFiltersModalState extends State<ClientsFiltersModal> {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 TextButton(
-                  onPressed: checkUncheckAll,
-                  child: _selectedClients.length == filtersProvider.totalClients.length
-                    ? Text(AppLocalizations.of(context)!.uncheckAll)
-                    : Text(AppLocalizations.of(context)!.checkAll)
-                ),
+                    onPressed: checkUncheckAll,
+                    child: _selectedClients.length ==
+                            filtersProvider.totalClients.length
+                        ? Text(AppLocalizations.of(context)!.uncheckAll)
+                        : Text(AppLocalizations.of(context)!.checkAll)),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.end,
                   children: [
@@ -153,17 +141,21 @@ class _ClientsFiltersModalState extends State<ClientsFiltersModal> {
                     const SizedBox(width: 20),
                     TextButton(
                       onPressed: _selectedClients.isNotEmpty
-                        ? () {
-                            updateList();
-                            Navigator.pop(context);
-                          }
-                        : null,
+                          ? () {
+                              updateList();
+                              Navigator.pop(context);
+                            }
+                          : null,
                       style: ButtonStyle(
-                        foregroundColor: WidgetStateProperty.all(
-                          _selectedClients.isNotEmpty ? Theme.of(context).colorScheme.primary : Colors.grey
-                        ),
-                        overlayColor: WidgetStateProperty.all(Theme.of(context).colorScheme.primary.withOpacity(0.1))
-                      ),
+                          foregroundColor: WidgetStateProperty.all(
+                              _selectedClients.isNotEmpty
+                                  ? Theme.of(context).colorScheme.primary
+                                  : Colors.grey),
+                          overlayColor: WidgetStateProperty.all(
+                              Theme.of(context)
+                                  .colorScheme
+                                  .primary
+                                  .withOpacity(0.1))),
                       child: Text(AppLocalizations.of(context)!.apply),
                     ),
                   ],
@@ -178,27 +170,16 @@ class _ClientsFiltersModalState extends State<ClientsFiltersModal> {
     if (widget.window == true) {
       return Dialog(
         child: ConstrainedBox(
-          constraints: const BoxConstraints(
-            maxWidth: 500
-          ),
-          child: content()
-        ),
+            constraints: const BoxConstraints(maxWidth: 500), child: content()),
       );
-    }
-    else {
+    } else {
       return Container(
-        decoration: BoxDecoration(
-          borderRadius: const BorderRadius.only(
-            topLeft: Radius.circular(28),
-            topRight: Radius.circular(28)
+          decoration: BoxDecoration(
+            borderRadius: const BorderRadius.only(
+                topLeft: Radius.circular(28), topRight: Radius.circular(28)),
+            color: Theme.of(context).dialogBackgroundColor,
           ),
-          color: Theme.of(context).dialogBackgroundColor,
-        ),
-        child: SafeArea(
-          bottom: true,
-          child: content()
-        )
-      );
+          child: SafeArea(bottom: true, child: content()));
     }
   }
 }

@@ -32,77 +32,65 @@ class _CreatePassCodeModalState extends State<CreatePassCodeModal> {
         final result = await appConfigProvider.setPassCode(_repeatedCode);
         if (result == true) {
           Navigator.pop(context);
-        }
-        else {
+        } else {
           showSnackBar(
-            appConfigProvider: appConfigProvider,
-            label: AppLocalizations.of(context)!.passCodeNotSaved,
-            color: Colors.red
-          );
+              appConfigProvider: appConfigProvider,
+              label: AppLocalizations.of(context)!.passCodeNotSaved,
+              color: Colors.red);
         }
-      }
-      else {
+      } else {
         showSnackBar(
-          appConfigProvider: appConfigProvider,
-          label: AppLocalizations.of(context)!.passcodesDontMatch,
-          color: Colors.red
-        );
+            appConfigProvider: appConfigProvider,
+            label: AppLocalizations.of(context)!.passcodesDontMatch,
+            color: Colors.red);
       }
     }
 
     return Scaffold(
       appBar: AppBar(
-        title: Text(
-          _step == 0
+        title: Text(_step == 0
             ? AppLocalizations.of(context)!.enterPasscode
-            : AppLocalizations.of(context)!.repeatPasscode
-        ),
+            : AppLocalizations.of(context)!.repeatPasscode),
         elevation: 5,
         actions: [
           TextButton(
-            onPressed: _step == 0
-              ? _code.length == 4
-                ? () => setState(() => _step = 1)
-                : null
-              : _repeatedCode.length == 4
-                ? finish
-                : null,
-            style: ButtonStyle(
-              foregroundColor: WidgetStateProperty.all(
-                _step == 0
-                ? _code.length == 4
-                  ? Theme.of(context).colorScheme.primary
-                  : Colors.grey
-                : _repeatedCode.length == 4
-                  ? Theme.of(context).colorScheme.primary
-                  : Colors.grey
+              onPressed: _step == 0
+                  ? _code.length == 4
+                      ? () => setState(() => _step = 1)
+                      : null
+                  : _repeatedCode.length == 4
+                      ? finish
+                      : null,
+              style: ButtonStyle(
+                foregroundColor: WidgetStateProperty.all(_step == 0
+                    ? _code.length == 4
+                        ? Theme.of(context).colorScheme.primary
+                        : Colors.grey
+                    : _repeatedCode.length == 4
+                        ? Theme.of(context).colorScheme.primary
+                        : Colors.grey),
               ),
-            ),
-            child: Text(
-              _step == 0
-                ? AppLocalizations.of(context)!.next
-                : AppLocalizations.of(context)!.finish
-            )
-          )
+              child: Text(_step == 0
+                  ? AppLocalizations.of(context)!.next
+                  : AppLocalizations.of(context)!.finish))
         ],
       ),
       body: SizedBox(
-        height: height-60,
-        width: double.maxFinite,
-        child: Column(
-          mainAxisSize: MainAxisSize.max,
-          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            NumericPad(
-              code: _step == 0 ? _code : _repeatedCode,
-              onInput: (newCode) => _step == 0
-                ? setState(() => _code = newCode)
-                : setState(() => _repeatedCode = newCode),
-            )
-          ],
-        )
-      ),
+          height: height - 60,
+          width: double.maxFinite,
+          child: Column(
+            mainAxisSize: MainAxisSize.max,
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              NumericPad(
+                code: _step == 0 ? _code : _repeatedCode,
+                onInput: (newCode) => _step == 0
+                    ? setState(() => _code = newCode)
+                    : setState(() => _repeatedCode = newCode),
+              )
+            ],
+          )),
     );
   }
 }

@@ -21,19 +21,19 @@ class ServersTileItem extends StatefulWidget {
   final void Function(int) onChange;
   final double breakingWidth;
 
-  const ServersTileItem({
-    super.key,
-    required this.server,
-    required this.index,
-    required this.onChange,
-    required this.breakingWidth
-  });
+  const ServersTileItem(
+      {super.key,
+      required this.server,
+      required this.index,
+      required this.onChange,
+      required this.breakingWidth});
 
   @override
   State<ServersTileItem> createState() => _ServersTileItemState();
 }
 
-class _ServersTileItemState extends State<ServersTileItem> with SingleTickerProviderStateMixin {
+class _ServersTileItemState extends State<ServersTileItem>
+    with SingleTickerProviderStateMixin {
   @override
   Widget build(BuildContext context) {
     final serversProvider = Provider.of<ServersProvider>(context);
@@ -43,53 +43,58 @@ class _ServersTileItemState extends State<ServersTileItem> with SingleTickerProv
     final width = MediaQuery.of(context).size.width;
 
     void showDeleteModal(Server server) async {
-      await Future.delayed(const Duration(seconds: 0), () => {
-        showDialog(
-          context: context,
-          builder: (context) => DeleteModal(
-            serverToDelete: server,
-          ),
-          barrierDismissible: false
-        )
-      });
+      await Future.delayed(
+          const Duration(seconds: 0),
+          () => {
+                showDialog(
+                    context: context,
+                    builder: (context) => DeleteModal(
+                          serverToDelete: server,
+                        ),
+                    barrierDismissible: false)
+              });
     }
 
     void openAddServerBottomSheet({Server? server}) async {
-      await Future.delayed(const Duration(seconds: 0), (() => {
-        if (width > 700) {
-          showDialog(
-            context: context,
-            barrierDismissible: false,
-            builder: (context) => AddServerFullscreen(
-              server: server,
-              window: true,
-            ),
-          )
-        }
-        else {
-          Navigator.push(context, MaterialPageRoute(
-            fullscreenDialog: true,
-            builder: (BuildContext context) => AddServerFullscreen(
-              server: server,
-              window: false,
-            )
-          ))
-        }
-      }));
+      await Future.delayed(
+          const Duration(seconds: 0),
+          (() => {
+                if (width > 700)
+                  {
+                    showDialog(
+                      context: context,
+                      barrierDismissible: false,
+                      builder: (context) => AddServerFullscreen(
+                        server: server,
+                        window: true,
+                      ),
+                    )
+                  }
+                else
+                  {
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            fullscreenDialog: true,
+                            builder: (BuildContext context) =>
+                                AddServerFullscreen(
+                                  server: server,
+                                  window: false,
+                                )))
+                  }
+              }));
     }
 
     void connectToServer(Server server) async {
       Future connectSuccess(result) async {
         serversProvider.setselectedServer(
-          server: Server(
-            address: server.address,
-            alias: server.alias,
-            token: server.token!,
-            defaultServer: server.defaultServer,
-            enabled: result['status'] == 'enabled' ? true : false
-          ),
-          toHomeTab: true
-        );
+            server: Server(
+                address: server.address,
+                alias: server.alias,
+                token: server.token!,
+                defaultServer: server.defaultServer,
+                enabled: result['status'] == 'enabled' ? true : false),
+            toHomeTab: true);
         final statusResult = await realtimeStatus(server);
         if (statusResult['result'] == 'success') {
           statusProvider.setRealtimeStatus(statusResult['data']);
@@ -98,8 +103,7 @@ class _ServersTileItemState extends State<ServersTileItem> with SingleTickerProv
         if (overtimeDataResult['result'] == 'success') {
           statusProvider.setOvertimeData(overtimeDataResult['data']);
           statusProvider.setOvertimeDataLoadingStatus(1);
-        }
-        else {
+        } else {
           statusProvider.setOvertimeDataLoadingStatus(2);
         }
         statusProvider.setIsServerConnected(true);
@@ -114,13 +118,11 @@ class _ServersTileItemState extends State<ServersTileItem> with SingleTickerProv
       process.close();
       if (result['result'] == 'success') {
         await connectSuccess(result);
-      }
-      else if (mounted) {
+      } else if (mounted) {
         showSnackBar(
-          appConfigProvider: appConfigProvider,
-          label: AppLocalizations.of(context)!.cannotConnect,
-          color: Colors.red
-        );
+            appConfigProvider: appConfigProvider,
+            label: AppLocalizations.of(context)!.cannotConnect,
+            color: Colors.red);
       }
     }
 
@@ -128,17 +130,14 @@ class _ServersTileItemState extends State<ServersTileItem> with SingleTickerProv
       final result = await serversProvider.setDefaultServer(server);
       if (result == true) {
         showSnackBar(
-          appConfigProvider: appConfigProvider,
-          label: AppLocalizations.of(context)!.connectionDefaultSuccessfully,
-          color: Colors.green
-        );
-      }
-      else {
+            appConfigProvider: appConfigProvider,
+            label: AppLocalizations.of(context)!.connectionDefaultSuccessfully,
+            color: Colors.green);
+      } else {
         showSnackBar(
-          appConfigProvider: appConfigProvider,
-          label: AppLocalizations.of(context)!.connectionDefaultFailed,
-          color: Colors.red
-        );
+            appConfigProvider: appConfigProvider,
+            label: AppLocalizations.of(context)!.connectionDefaultFailed,
+            color: Colors.red);
       }
     }
 
@@ -149,11 +148,12 @@ class _ServersTileItemState extends State<ServersTileItem> with SingleTickerProv
           children: [
             Icon(
               Icons.storage_rounded,
-              color: serversProvider.selectedServer != null && serversProvider.selectedServer?.address == server.address
-                ? statusProvider.isServerConnected == true
-                  ? Colors.green
-                  : Colors.orange
-                : null,
+              color: serversProvider.selectedServer != null &&
+                      serversProvider.selectedServer?.address == server.address
+                  ? statusProvider.isServerConnected == true
+                      ? Colors.green
+                      : Colors.orange
+                  : null,
             ),
             SizedBox(
               width: 25,
@@ -164,9 +164,8 @@ class _ServersTileItemState extends State<ServersTileItem> with SingleTickerProv
                   Container(
                     padding: const EdgeInsets.all(1),
                     decoration: BoxDecoration(
-                      color: Theme.of(context).colorScheme.primaryContainer,
-                      borderRadius: BorderRadius.circular(20)
-                    ),
+                        color: Theme.of(context).colorScheme.primaryContainer,
+                        borderRadius: BorderRadius.circular(20)),
                     child: Icon(
                       Icons.star,
                       color: Theme.of(context).colorScheme.onPrimaryContainer,
@@ -178,15 +177,15 @@ class _ServersTileItemState extends State<ServersTileItem> with SingleTickerProv
             )
           ],
         );
-      }
-      else {
+      } else {
         return Icon(
           Icons.storage_rounded,
-          color: serversProvider.selectedServer != null && serversProvider.selectedServer?.address == server.address
-            ? statusProvider.isServerConnected == true
-              ? Colors.green
-              : Colors.orange
-            : null,
+          color: serversProvider.selectedServer != null &&
+                  serversProvider.selectedServer?.address == server.address
+              ? statusProvider.isServerConnected == true
+                  ? Colors.green
+                  : Colors.orange
+              : null,
         );
       }
     }
@@ -211,10 +210,9 @@ class _ServersTileItemState extends State<ServersTileItem> with SingleTickerProv
                         textAlign: TextAlign.left,
                         overflow: TextOverflow.ellipsis,
                         style: TextStyle(
-                          fontSize: 16,
-                          fontWeight: FontWeight.w400,
-                          color: Theme.of(context).colorScheme.onSurface
-                        ),
+                            fontSize: 16,
+                            fontWeight: FontWeight.w400,
+                            color: Theme.of(context).colorScheme.onSurface),
                       ),
                       Column(
                         children: [
@@ -224,10 +222,11 @@ class _ServersTileItemState extends State<ServersTileItem> with SingleTickerProv
                             overflow: TextOverflow.ellipsis,
                             textAlign: TextAlign.left,
                             style: TextStyle(
-                              fontSize: 14,
-                              fontWeight: FontWeight.w400,
-                              color: Theme.of(context).colorScheme.onSurfaceVariant
-                            ),
+                                fontSize: 14,
+                                fontWeight: FontWeight.w400,
+                                color: Theme.of(context)
+                                    .colorScheme
+                                    .onSurfaceVariant),
                           )
                         ],
                       )
@@ -248,78 +247,79 @@ class _ServersTileItemState extends State<ServersTileItem> with SingleTickerProv
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               PopupMenuButton(
-                itemBuilder: (context) => [
-                  PopupMenuItem(
-                    enabled: server.defaultServer == false
-                      ? true
-                      : false,
-                    onTap: server.defaultServer == false
-                      ? (() => setDefaultServer(server))
-                      : null,
-                    child: SizedBox(
-                      child: Row(
-                        children: [
-                          const Icon(Icons.star),
-                          const SizedBox(width: 15),
-                          Text(
-                            server.defaultServer == true
-                              ? AppLocalizations.of(context)!.defaultConnection
-                              : AppLocalizations.of(context)!.setDefault,
-                          )
-                        ],
-                      ),
-                    )
-                  ),
-                  PopupMenuItem(
-                    onTap: (() => openAddServerBottomSheet(server: server)),
-                    child: Row(
-                      children: [
-                        const Icon(Icons.edit),
-                        const SizedBox(width: 15),
-                        Text(AppLocalizations.of(context)!.edit)
-                      ],
-                    )
-                  ),
-                  PopupMenuItem(
-                    onTap: (() => showDeleteModal(server)),
-                    child: Row(
-                      children: [
-                        const Icon(Icons.delete),
-                        const SizedBox(width: 15),
-                        Text(AppLocalizations.of(context)!.delete)
-                      ],
-                    )
-                  ),
-                ]
-              ),
+                  itemBuilder: (context) => [
+                        PopupMenuItem(
+                            enabled:
+                                server.defaultServer == false ? true : false,
+                            onTap: server.defaultServer == false
+                                ? (() => setDefaultServer(server))
+                                : null,
+                            child: SizedBox(
+                              child: Row(
+                                children: [
+                                  const Icon(Icons.star),
+                                  const SizedBox(width: 15),
+                                  Text(
+                                    server.defaultServer == true
+                                        ? AppLocalizations.of(context)!
+                                            .defaultConnection
+                                        : AppLocalizations.of(context)!
+                                            .setDefault,
+                                  )
+                                ],
+                              ),
+                            )),
+                        PopupMenuItem(
+                            onTap: (() =>
+                                openAddServerBottomSheet(server: server)),
+                            child: Row(
+                              children: [
+                                const Icon(Icons.edit),
+                                const SizedBox(width: 15),
+                                Text(AppLocalizations.of(context)!.edit)
+                              ],
+                            )),
+                        PopupMenuItem(
+                            onTap: (() => showDeleteModal(server)),
+                            child: Row(
+                              children: [
+                                const Icon(Icons.delete),
+                                const SizedBox(width: 15),
+                                Text(AppLocalizations.of(context)!.delete)
+                              ],
+                            )),
+                      ]),
               SizedBox(
-                child: serversProvider.selectedServer != null && serversProvider.selectedServer?.address == serversProvider.getServersList[index].address
+                child: serversProvider.selectedServer != null &&
+                        serversProvider.selectedServer?.address ==
+                            serversProvider.getServersList[index].address
                     ? Padding(
                         padding: const EdgeInsets.only(right: 16),
                         child: Row(
-                            children: [
-                              Icon(
-                                statusProvider.isServerConnected == true
+                          children: [
+                            Icon(
+                              statusProvider.isServerConnected == true
                                   ? Icons.check
                                   : Icons.warning,
-                                color: statusProvider.isServerConnected == true
+                              color: statusProvider.isServerConnected == true
                                   ? Colors.green
                                   : Colors.orange,
-                              ),
-                              const SizedBox(width: 10),
-                              Text(
-                                statusProvider.isServerConnected == true
+                            ),
+                            const SizedBox(width: 10),
+                            Text(
+                              statusProvider.isServerConnected == true
                                   ? AppLocalizations.of(context)!.connected
-                                  : AppLocalizations.of(context)!.selectedDisconnected,
-                                style: TextStyle(
-                                  color: statusProvider.isServerConnected == true
-                                    ? Colors.green
-                                    : Colors.orange,
-                                  fontWeight: FontWeight.w500
-                                ),
-                              )
-                            ],
-                          ),
+                                  : AppLocalizations.of(context)!
+                                      .selectedDisconnected,
+                              style: TextStyle(
+                                  color:
+                                      statusProvider.isServerConnected == true
+                                          ? Colors.green
+                                          : Colors.orange,
+                                  fontWeight: FontWeight.w500),
+                            )
+                          ],
+                        ),
                       )
                     : Container(
                         margin: const EdgeInsets.only(right: 10),
@@ -342,18 +342,16 @@ class _ServersTileItemState extends State<ServersTileItem> with SingleTickerProv
       }
       if (index == 1) {
         return const EdgeInsets.only(top: 16, left: 8, right: 16, bottom: 8);
-      }
-      else if (index == serversProvider.getServersList.length-1 && (index+1)%2 == 0) {
+      } else if (index == serversProvider.getServersList.length - 1 &&
+          (index + 1) % 2 == 0) {
         return const EdgeInsets.only(top: 8, left: 8, right: 16, bottom: 16);
-      }
-      else if (index == serversProvider.getServersList.length-1 && (index+1)%2 == 1) {
+      } else if (index == serversProvider.getServersList.length - 1 &&
+          (index + 1) % 2 == 1) {
         return const EdgeInsets.only(top: 8, left: 16, right: 8, bottom: 16);
-      }
-      else {
-        if ((index+1)%2 == 0) {
+      } else {
+        if ((index + 1) % 2 == 0) {
           return const EdgeInsets.only(top: 8, left: 8, right: 16, bottom: 8);
-        }
-        else {
+        } else {
           return const EdgeInsets.only(top: 8, left: 16, right: 8, bottom: 8);
         }
       }
@@ -362,9 +360,9 @@ class _ServersTileItemState extends State<ServersTileItem> with SingleTickerProv
     return FractionallySizedBox(
       widthFactor: width > widget.breakingWidth ? 0.5 : 1,
       child: Card(
-        margin:  width > widget.breakingWidth
-          ? generateMargins(widget.index)
-          : const EdgeInsets.symmetric(vertical: 8, horizontal: 16),
+        margin: width > widget.breakingWidth
+            ? generateMargins(widget.index)
+            : const EdgeInsets.symmetric(vertical: 8, horizontal: 16),
         child: Column(
           children: [
             Padding(
@@ -372,9 +370,7 @@ class _ServersTileItemState extends State<ServersTileItem> with SingleTickerProv
               child: topRow(widget.server, widget.index),
             ),
             Padding(
-              padding: const EdgeInsets.only(
-                left: 8, right: 8, bottom: 16
-              ),
+              padding: const EdgeInsets.only(left: 8, right: 8, bottom: 16),
               child: bottomRow(widget.server, widget.index),
             )
           ],

@@ -64,23 +64,20 @@ void main() async {
 
   serversProvider.setDbInstance(dbData['dbInstance']);
   configProvider.saveFromDb(dbData['dbInstance'], dbData['appConfig']);
-  await serversProvider.saveFromDb(
-    dbData['servers'],
-    dbData['appConfig']['passCode'] != null ? false : true
-  );
+  await serversProvider.saveFromDb(dbData['servers'],
+      dbData['appConfig']['passCode'] != null ? false : true);
 
   try {
     if (Platform.isAndroid || Platform.isIOS) {
       final auth = LocalAuthentication();
       final bool canAuthenticateWithBiometrics = await auth.canCheckBiometrics;
-      List<BiometricType> availableBiometrics = await auth.getAvailableBiometrics();
+      List<BiometricType> availableBiometrics =
+          await auth.getAvailableBiometrics();
       configProvider.setBiometricsSupport(canAuthenticateWithBiometrics);
 
-      if (
-        canAuthenticateWithBiometrics &&
-        availableBiometrics.contains(BiometricType.fingerprint) == false &&
-        dbData['useBiometricAuth'] == 1
-      ) {
+      if (canAuthenticateWithBiometrics &&
+          availableBiometrics.contains(BiometricType.fingerprint) == false &&
+          dbData['useBiometricAuth'] == 1) {
         await configProvider.setUseBiometrics(false);
       }
     }
@@ -92,8 +89,7 @@ void main() async {
     if (Platform.isAndroid || Platform.isIOS) {
       if (await Vibration.hasCustomVibrationsSupport() != null) {
         configProvider.setValidVibrator(true);
-      }
-      else {
+      } else {
         configProvider.setValidVibrator(false);
       }
     }
@@ -114,67 +110,49 @@ void main() async {
     configProvider.setIosInfo(iosInfo);
   }
 
-  void startApp() => runApp(
-    MultiProvider(
-      providers: [
-        ChangeNotifierProvider(
-          create: ((context) => serversProvider)
-        ),
-        ChangeNotifierProvider(
-          create: ((context) => statusProvider)
-        ),
-        ChangeNotifierProvider(
-          create: ((context) => filtersProvider)
-        ),
-        ChangeNotifierProvider(
-          create: ((context) => domainsListProvider)
-        ),
-        ChangeNotifierProvider(
-          create: ((context) => configProvider)
-        ),
-        ChangeNotifierProxyProvider<AppConfigProvider, ServersProvider>(
-          create: (context) => serversProvider,
-          update: (context, appConfig, servers) => servers!..update(appConfig),
-        ),
-      ],
-      child: Phoenix(
-        child: const PiHoleClient()
-      ),
-    )
-  );
+  void startApp() => runApp(MultiProvider(
+        providers: [
+          ChangeNotifierProvider(create: ((context) => serversProvider)),
+          ChangeNotifierProvider(create: ((context) => statusProvider)),
+          ChangeNotifierProvider(create: ((context) => filtersProvider)),
+          ChangeNotifierProvider(create: ((context) => domainsListProvider)),
+          ChangeNotifierProvider(create: ((context) => configProvider)),
+          ChangeNotifierProxyProvider<AppConfigProvider, ServersProvider>(
+            create: (context) => serversProvider,
+            update: (context, appConfig, servers) =>
+                servers!..update(appConfig),
+          ),
+        ],
+        child: Phoenix(child: const PiHoleClient()),
+      ));
 
-  if (
-    (
-      kReleaseMode &&
-      (dotenv.env['SENTRY_DSN'] != null && dotenv.env['SENTRY_DSN'] != "")
-    ) || (
-      dotenv.env['ENABLE_SENTRY'] == "true" &&
-      (dotenv.env['SENTRY_DSN'] != null && dotenv.env['SENTRY_DSN'] != "")
-    )
-  ) {
-    SentryFlutter.init(
-      (options) {
-        options.dsn = dotenv.env['SENTRY_DSN'];
-        options.sendDefaultPii = false;
-        options.beforeSend = (event, hint) {
-          if (event.throwable is HttpException) {
-            return null;
-          }
+  if ((kReleaseMode &&
+          (dotenv.env['SENTRY_DSN'] != null &&
+              dotenv.env['SENTRY_DSN'] != "")) ||
+      (dotenv.env['ENABLE_SENTRY'] == "true" &&
+          (dotenv.env['SENTRY_DSN'] != null &&
+              dotenv.env['SENTRY_DSN'] != ""))) {
+    SentryFlutter.init((options) {
+      options.dsn = dotenv.env['SENTRY_DSN'];
+      options.sendDefaultPii = false;
+      options.beforeSend = (event, hint) {
+        if (event.throwable is HttpException) {
+          return null;
+        }
 
-          if (
-            event.message?.formatted.contains("Unexpected character") ?? false ||
-            (event.throwable != null && event.throwable!.toString().contains("Unexpected character"))
-          ) {
-            return null; // Exclude this event
-          }
+        if (event.message?.formatted.contains("Unexpected character") ??
+            false ||
+                (event.throwable != null &&
+                    event.throwable!
+                        .toString()
+                        .contains("Unexpected character"))) {
+          return null; // Exclude this event
+        }
 
-          return event;
-        };
-      },
-      appRunner: () => startApp()
-    );
-  }
-  else {
+        return event;
+      };
+    }, appRunner: () => startApp());
+  } else {
     startApp();
   }
 }
@@ -203,7 +181,8 @@ class _PiHoleClientState extends State<PiHoleClient> {
     final statusProvider = Provider.of<StatusProvider>(context);
     final appConfigProvider = Provider.of<AppConfigProvider>(context);
 
-    if (statusProvider.startAutoRefresh == true || statusProvider.getRefreshServerStatus == true) {
+    if (statusProvider.startAutoRefresh == true ||
+        statusProvider.getRefreshServerStatus == true) {
       statusUpdater.context = context;
       if (statusProvider.getRefreshServerStatus == true) {
         statusProvider.setRefreshServerStatus(false);
@@ -217,38 +196,39 @@ class _PiHoleClientState extends State<PiHoleClient> {
     return DynamicColorBuilder(
       builder: ((lightDynamic, darkDynamic) {
         return MaterialApp(
-          title: 'Droid Hole',
-          theme: appConfigProvider.androidDeviceInfo != null && appConfigProvider.androidDeviceInfo!.version.sdkInt >= 31
-            ? lightTheme(lightDynamic)
-            : lightThemeOldVersions(),
-          darkTheme: appConfigProvider.androidDeviceInfo != null && appConfigProvider.androidDeviceInfo!.version.sdkInt >= 31
-            ? darkTheme(darkDynamic)
-            : darkThemeOldVersions(),
-          themeMode: appConfigProvider.selectedTheme,
-          debugShowCheckedModeBanner: false,
-          localizationsDelegates: const [
-            GlobalMaterialLocalizations.delegate,
-            GlobalWidgetsLocalizations.delegate,
-            GlobalCupertinoLocalizations.delegate,
-            AppLocalizations.delegate,
-          ],
-          supportedLocales: const [
-            Locale('en', ''),
-            Locale('es', ''),
-            Locale('de', ''),
-            Locale('pl', ''),
-          ],
-          scaffoldMessengerKey: scaffoldMessengerKey,
-          builder: (context, child) {
-            return AppLock(
-              builder: (_, __) => child!,
-              lockScreenBuilder: (context) => const Unlock(),
-              enabled: appConfigProvider.passCode != null ? true : false,
-              backgroundLockLatency: const Duration(seconds: 0),
-            );
-          },
-          home: const Base()
-        );
+            title: 'Droid Hole',
+            theme: appConfigProvider.androidDeviceInfo != null &&
+                    appConfigProvider.androidDeviceInfo!.version.sdkInt >= 31
+                ? lightTheme(lightDynamic)
+                : lightThemeOldVersions(),
+            darkTheme: appConfigProvider.androidDeviceInfo != null &&
+                    appConfigProvider.androidDeviceInfo!.version.sdkInt >= 31
+                ? darkTheme(darkDynamic)
+                : darkThemeOldVersions(),
+            themeMode: appConfigProvider.selectedTheme,
+            debugShowCheckedModeBanner: false,
+            localizationsDelegates: const [
+              GlobalMaterialLocalizations.delegate,
+              GlobalWidgetsLocalizations.delegate,
+              GlobalCupertinoLocalizations.delegate,
+              AppLocalizations.delegate,
+            ],
+            supportedLocales: const [
+              Locale('en', ''),
+              Locale('es', ''),
+              Locale('de', ''),
+              Locale('pl', ''),
+            ],
+            scaffoldMessengerKey: scaffoldMessengerKey,
+            builder: (context, child) {
+              return AppLock(
+                builder: (_, __) => child!,
+                lockScreenBuilder: (context) => const Unlock(),
+                enabled: appConfigProvider.passCode != null ? true : false,
+                backgroundLockLatency: const Duration(seconds: 0),
+              );
+            },
+            home: const Base());
       }),
     );
   }

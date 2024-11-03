@@ -51,9 +51,11 @@ class AppConfigProvider with ChangeNotifier {
   ThemeMode get selectedTheme {
     switch (_selectedTheme) {
       case 0:
-        return SchedulerBinding.instance.window.platformBrightness == Brightness.light
-          ? ThemeMode.light
-          : ThemeMode.dark;
+        return SchedulerBinding
+                    .instance.platformDispatcher.platformBrightness ==
+                Brightness.light
+            ? ThemeMode.light
+            : ThemeMode.dark;
 
       case 1:
         return ThemeMode.light;
@@ -192,32 +194,28 @@ class AppConfigProvider with ChangeNotifier {
 
   Future<bool> setUseBiometrics(bool biometrics) async {
     final updated = await updateConfigQuery(
-      db: _dbInstance!,
-      column: 'useBiometricAuth',
-      value: biometrics == true ? 1 : 0
-    );
+        db: _dbInstance!,
+        column: 'useBiometricAuth',
+        value: biometrics == true ? 1 : 0);
     if (updated == true) {
       _useBiometrics = biometrics == true ? 1 : 0;
       notifyListeners();
       return true;
-    }
-    else {
+    } else {
       return false;
     }
   }
 
   Future<bool> setImportantInfoReaden(bool status) async {
     final updated = await updateConfigQuery(
-      db: _dbInstance!,
-      column: 'importantInfoReaden',
-      value: status == true ? 1 : 0
-    );
+        db: _dbInstance!,
+        column: 'importantInfoReaden',
+        value: status == true ? 1 : 0);
     if (updated == true) {
       _importantInfoReaden = status == true ? 1 : 0;
       notifyListeners();
       return true;
-    }
-    else {
+    } else {
       return false;
     }
   }
@@ -225,42 +223,29 @@ class AppConfigProvider with ChangeNotifier {
   Future<bool> setPassCode(String? code) async {
     if (_useBiometrics == 1) {
       final updated = await updateConfigQuery(
-        db: _dbInstance!,
-        column: 'useBiometricAuth',
-        value: 0
-      );
+          db: _dbInstance!, column: 'useBiometricAuth', value: 0);
       if (updated == true) {
         _useBiometrics = 0;
         final updated2 = await updateConfigQuery(
-          db: _dbInstance!,
-          column: 'passCode',
-          value: code
-        );
+            db: _dbInstance!, column: 'passCode', value: code);
         if (updated2 == true) {
           _passCode = code;
           notifyListeners();
           return true;
-        }
-        else {
+        } else {
           return false;
         }
-      }
-      else {
+      } else {
         return false;
       }
-    }
-    else {
+    } else {
       final updated = await updateConfigQuery(
-        db: _dbInstance!,
-        column: 'passCode',
-        value: code
-      );
+          db: _dbInstance!, column: 'passCode', value: code);
       if (updated == true) {
         _passCode = code;
         notifyListeners();
         return true;
-      }
-      else {
+      } else {
         return false;
       }
     }
@@ -268,32 +253,24 @@ class AppConfigProvider with ChangeNotifier {
 
   Future<bool> setAutoRefreshTime(int seconds) async {
     final updated = await updateConfigQuery(
-      db: _dbInstance!,
-      column: 'autoRefreshTime',
-      value: seconds
-    );
+        db: _dbInstance!, column: 'autoRefreshTime', value: seconds);
     if (updated == true) {
       _autoRefreshTime = seconds;
       notifyListeners();
       return true;
-    }
-    else {
+    } else {
       return false;
     }
   }
 
   Future<bool> setLogsPerQuery(double time) async {
     final updated = await updateConfigQuery(
-      db: _dbInstance!,
-      column: 'logsPerQuery',
-      value: time
-    );
+        db: _dbInstance!, column: 'logsPerQuery', value: time);
     if (updated == true) {
       _logsPerQuery = time;
       notifyListeners();
       return true;
-    }
-    else {
+    } else {
       return false;
     }
   }
@@ -321,96 +298,80 @@ class AppConfigProvider with ChangeNotifier {
 
   Future<bool> setOverrideSslCheck(bool status) async {
     final updated = await updateConfigQuery(
-      db: _dbInstance!,
-      column: 'overrideSslCheck',
-      value: status == true ? 1 : 0
-    );
+        db: _dbInstance!,
+        column: 'overrideSslCheck',
+        value: status == true ? 1 : 0);
     if (updated == true) {
       _overrideSslCheck = status == true ? 1 : 0;
       notifyListeners();
       return true;
-    }
-    else {
+    } else {
       return false;
     }
   }
 
   Future<bool> setOneColumnLegend(bool status) async {
     final updated = await updateConfigQuery(
-      db: _dbInstance!,
-      column: 'oneColumnLegend',
-      value: status == true ? 1 : 0
-    );
+        db: _dbInstance!,
+        column: 'oneColumnLegend',
+        value: status == true ? 1 : 0);
     if (updated == true) {
       _oneColumnLegend = status == true ? 1 : 0;
       notifyListeners();
       return true;
-    }
-    else {
+    } else {
       return false;
     }
   }
 
   Future<bool> setReducedDataCharts(bool status) async {
     final updated = await updateConfigQuery(
-      db: _dbInstance!,
-      column: 'reducedDataCharts',
-      value: status == true ? 1 : 0
-    );
+        db: _dbInstance!,
+        column: 'reducedDataCharts',
+        value: status == true ? 1 : 0);
     if (updated == true) {
       _reducedDataCharts = status == true ? 1 : 0;
       notifyListeners();
       return true;
-    }
-    else {
+    } else {
       return false;
     }
   }
 
   Future<bool> setHideZeroValues(bool status) async {
     final updated = await updateConfigQuery(
-      db: _dbInstance!,
-      column: 'hideZeroValues',
-      value: status == true ? 1 : 0
-    );
+        db: _dbInstance!,
+        column: 'hideZeroValues',
+        value: status == true ? 1 : 0);
     if (updated == true) {
       _hideZeroValues = status == true ? 1 : 0;
       notifyListeners();
       return true;
-    }
-    else {
+    } else {
       return false;
     }
   }
 
   Future<bool> setSelectedTheme(int value) async {
     final updated = await updateConfigQuery(
-      db: _dbInstance!,
-      column: 'theme',
-      value: value
-    );
+        db: _dbInstance!, column: 'theme', value: value);
     if (updated == true) {
       _selectedTheme = value;
       notifyListeners();
       return true;
-    }
-    else {
+    } else {
       return false;
     }
   }
 
   Future<bool> setStatisticsVisualizationMode(int value) async {
     final updated = await updateConfigQuery(
-      db: _dbInstance!,
-      column: 'statisticsVisualizationMode',
-      value: value
-    );
+        db: _dbInstance!, column: 'statisticsVisualizationMode', value: value);
     if (updated == true) {
       _statisticsVisualizationMode = value;
       notifyListeners();
       return true;
-    }
-    else {
+    } else {
       return false;
     }
   }
@@ -433,8 +394,7 @@ class AppConfigProvider with ChangeNotifier {
       notifyListeners();
 
       return true;
-    }
-    else {
+    } else {
       return false;
     }
   }

@@ -6,17 +6,14 @@ import 'package:pi_hole_client/models/server.dart';
 Future<dynamic> saveServerQuery(Database db, Server server) async {
   try {
     await db.transaction((txn) async {
-      await txn.insert(
-        'servers',
-        {
-          'address': server.address,
-          'alias': server.alias,
-          'token': server.token,
-          'isDefaultServer': 0,
-          'basicAuthUser': server.basicAuthUser,
-          'basicAuthPassword': server.basicAuthPassword,
-        }
-      );
+      await txn.insert('servers', {
+        'address': server.address,
+        'alias': server.alias,
+        'token': server.token,
+        'isDefaultServer': 0,
+        'basicAuthUser': server.basicAuthUser,
+        'basicAuthPassword': server.basicAuthPassword,
+      });
     });
     return true;
   } catch (e) {
@@ -28,17 +25,16 @@ Future<dynamic> editServerQuery(Database db, Server server) async {
   try {
     return await db.transaction((txn) async {
       await txn.update(
-        'servers',
-        {
-          'alias': server.alias,
-          'token': server.token,
-          'isDefaultServer': convertFromBoolToInt(server.defaultServer),
-          'basicAuthUser': server.basicAuthUser,
-          'basicAuthPassword': server.basicAuthPassword,
-        },
-        where: 'address = ?',
-        whereArgs: [server.address]
-      );
+          'servers',
+          {
+            'alias': server.alias,
+            'token': server.token,
+            'isDefaultServer': convertFromBoolToInt(server.defaultServer),
+            'basicAuthUser': server.basicAuthUser,
+            'basicAuthPassword': server.basicAuthPassword,
+          },
+          where: 'address = ?',
+          whereArgs: [server.address]);
       return null;
     });
   } catch (e) {
@@ -49,18 +45,10 @@ Future<dynamic> editServerQuery(Database db, Server server) async {
 Future<dynamic> setDefaultServerQuery(Database db, String url) async {
   try {
     await db.transaction((txn) async {
-      await txn.update(
-        'servers',
-        {'isDefaultServer': '0'},
-        where: 'isDefaultServer = ?',
-        whereArgs: [1]
-      );
-      await txn.update(
-        'servers',
-        {'isDefaultServer': '1'},
-        where: 'address = ?',
-        whereArgs: [url]
-      );
+      await txn.update('servers', {'isDefaultServer': '0'},
+          where: 'isDefaultServer = ?', whereArgs: [1]);
+      await txn.update('servers', {'isDefaultServer': '1'},
+          where: 'address = ?', whereArgs: [url]);
     });
     return true;
   } catch (e) {
@@ -68,15 +56,12 @@ Future<dynamic> setDefaultServerQuery(Database db, String url) async {
   }
 }
 
-Future<dynamic> setServerTokenQuery(Database db, String? token, String address) async {
+Future<dynamic> setServerTokenQuery(
+    Database db, String? token, String address) async {
   try {
     return await db.transaction((txn) async {
-      await txn.update(
-        'servers',
-        {'token': token ?? ''},
-        where: 'address = ?',
-        whereArgs: [address]
-      );
+      await txn.update('servers', {'token': token ?? ''},
+          where: 'address = ?', whereArgs: [address]);
       return null;
     });
   } catch (e) {
@@ -87,11 +72,7 @@ Future<dynamic> setServerTokenQuery(Database db, String? token, String address) 
 Future<bool> removeServerQuery(Database db, String address) async {
   try {
     return await db.transaction((txn) async {
-      await txn.delete(
-        'servers',
-        where: 'address = ?',
-        whereArgs: [address]
-      );
+      await txn.delete('servers', where: 'address = ?', whereArgs: [address]);
       return true;
     });
   } catch (e) {
@@ -112,46 +93,35 @@ Future<bool> deleteServersDataQuery(Database db) async {
   }
 }
 
-Future<Map<String, dynamic>> checkUrlExistsQuery(Database db, String url) async {
+Future<Map<String, dynamic>> checkUrlExistsQuery(
+    Database db, String url) async {
   try {
     return await db.transaction((txn) async {
-      final res = await txn.query(
-        "servers",
-        columns: ["count(address) as quantity"],
-        where: "address = ?",
-        whereArgs: [url]
-      );
+      final res = await txn.query("servers",
+          columns: ["count(address) as quantity"],
+          where: "address = ?",
+          whereArgs: [url]);
 
       if (res[0]['quantity'] == 0) {
-        return {
-          'result': 'success',
-          'exists': false
-        };
-      }
-      else {
-        return {
-          'result': 'success',
-          'exists': true
-        };
+        return {'result': 'success', 'exists': false};
+      } else {
+        return {'result': 'success', 'exists': true};
       }
     });
   } catch (e) {
-    return {
-      'result': 'fail'
-    };
+    return {'result': 'fail'};
   }
 }
 
-Future<bool> updateConfigQuery({
-  required Database db,
-  required String column,
-  required dynamic value
-}) async {
+Future<bool> updateConfigQuery(
+    {required Database db,
+    required String column,
+    required dynamic value}) async {
   try {
     return await db.transaction((txn) async {
       await txn.update(
         'appConfig',
-        { column: value },
+        {column: value},
       );
       return true;
     });

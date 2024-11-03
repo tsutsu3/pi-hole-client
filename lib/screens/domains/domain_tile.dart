@@ -8,12 +8,11 @@ class DomainTile extends StatelessWidget {
   final void Function(Domain) showDomainDetails;
   final bool? isDomainSelected;
 
-  const DomainTile({
-    super.key,
-    required this.domain,
-    required this.showDomainDetails,
-    this.isDomainSelected
-  });
+  const DomainTile(
+      {super.key,
+      required this.domain,
+      required this.showDomainDetails,
+      this.isDomainSelected});
 
   @override
   Widget build(BuildContext context) {
@@ -57,20 +56,12 @@ class DomainTile extends StatelessWidget {
       }
 
       return Container(
-        padding: const EdgeInsets.symmetric(
-          horizontal: 4,
-          vertical: 2
-        ),
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(50)
-        ),
+        padding: const EdgeInsets.symmetric(horizontal: 4, vertical: 2),
+        decoration: BoxDecoration(borderRadius: BorderRadius.circular(50)),
         child: Text(
           getString(type),
           style: TextStyle(
-            color: getColor(type),
-            fontSize: 13,
-            fontWeight: FontWeight.w400
-          ),
+              color: getColor(type), fontSize: 13, fontWeight: FontWeight.w400),
         ),
       );
     }
@@ -90,11 +81,10 @@ class DomainTile extends StatelessWidget {
               width: double.maxFinite,
               padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
               decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(28),
-                color: isDomainSelected == true
-                  ? Theme.of(context).colorScheme.primaryContainer
-                  : null
-              ),
+                  borderRadius: BorderRadius.circular(28),
+                  color: isDomainSelected == true
+                      ? Theme.of(context).colorScheme.primaryContainer
+                      : null),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
@@ -107,9 +97,7 @@ class DomainTile extends StatelessWidget {
                             domain.domain,
                             overflow: TextOverflow.ellipsis,
                             style: const TextStyle(
-                              fontWeight: FontWeight.w400,
-                              fontSize: 16
-                            ),
+                                fontWeight: FontWeight.w400, fontSize: 16),
                           ),
                         ),
                         const SizedBox(height: 10),
@@ -136,17 +124,14 @@ class DomainTile extends StatelessWidget {
           ),
         ),
       );
-    }
-    else {
+    } else {
       return Material(
         color: Colors.transparent,
         child: InkWell(
           onTap: () => showDomainDetails(domain),
           child: Container(
             width: double.maxFinite,
-            padding: const EdgeInsets.symmetric(
-              horizontal: 16, vertical: 12
-            ),
+            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
@@ -159,9 +144,7 @@ class DomainTile extends StatelessWidget {
                           domain.domain,
                           overflow: TextOverflow.ellipsis,
                           style: const TextStyle(
-                            fontWeight: FontWeight.w400,
-                            fontSize: 16
-                          ),
+                              fontWeight: FontWeight.w400, fontSize: 16),
                         ),
                       ),
                       const SizedBox(height: 10),

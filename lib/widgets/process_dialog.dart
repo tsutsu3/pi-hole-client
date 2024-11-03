@@ -10,15 +10,12 @@ class ProcessDialog extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return WillPopScope(
-      onWillPop: () async => false,
+    return PopScope(
+      canPop: false,
       child: Dialog(
         backgroundColor: Theme.of(context).dialogBackgroundColor,
         child: Padding(
-          padding: const EdgeInsets.symmetric(
-            vertical: 30,
-            horizontal: 30
-          ),
+          padding: const EdgeInsets.symmetric(vertical: 30, horizontal: 30),
           child: Row(
             mainAxisSize: MainAxisSize.min,
             children: [

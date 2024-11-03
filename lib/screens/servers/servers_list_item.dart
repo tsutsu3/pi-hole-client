@@ -22,19 +22,19 @@ class ServersListItem extends StatefulWidget {
   final int index;
   final void Function(int) onChange;
 
-  const ServersListItem({
-    super.key,
-    required this.expandableController,
-    required this.server,
-    required this.index,
-    required this.onChange
-  });
+  const ServersListItem(
+      {super.key,
+      required this.expandableController,
+      required this.server,
+      required this.index,
+      required this.onChange});
 
   @override
   State<ServersListItem> createState() => _ServersListItemState();
 }
 
-class _ServersListItemState extends State<ServersListItem> with SingleTickerProviderStateMixin {
+class _ServersListItemState extends State<ServersListItem>
+    with SingleTickerProviderStateMixin {
   late AnimationController animationController;
   late Animation<double> animation;
 
@@ -44,8 +44,7 @@ class _ServersListItemState extends State<ServersListItem> with SingleTickerProv
       await Future.delayed(const Duration(milliseconds: 200));
       if (widget.expandableController.value == false) {
         animationController.animateTo(0);
-      }
-      else {
+      } else {
         animationController.animateBack(1);
       }
     });
@@ -57,10 +56,8 @@ class _ServersListItemState extends State<ServersListItem> with SingleTickerProv
     animation = Tween(
       begin: 0.0,
       end: 0.5,
-    ).animate(CurvedAnimation(
-      parent: animationController,
-      curve: Curves.easeInOut
-    ));
+    ).animate(
+        CurvedAnimation(parent: animationController, curve: Curves.easeInOut));
 
     super.initState();
   }
@@ -74,53 +71,58 @@ class _ServersListItemState extends State<ServersListItem> with SingleTickerProv
     final width = MediaQuery.of(context).size.width;
 
     void showDeleteModal(Server server) async {
-      await Future.delayed(const Duration(seconds: 0), () => {
-        showDialog(
-          context: context,
-          builder: (context) => DeleteModal(
-            serverToDelete: server,
-          ),
-          barrierDismissible: false
-        )
-      });
+      await Future.delayed(
+          const Duration(seconds: 0),
+          () => {
+                showDialog(
+                    context: context,
+                    builder: (context) => DeleteModal(
+                          serverToDelete: server,
+                        ),
+                    barrierDismissible: false)
+              });
     }
 
     void openAddServerBottomSheet({Server? server}) async {
-      await Future.delayed(const Duration(seconds: 0), (() => {
-        if (width > 700) {
-          showDialog(
-            context: context,
-            barrierDismissible: false,
-            builder: (context) => AddServerFullscreen(
-              server: server,
-              window: true,
-            ),
-          )
-        }
-        else {
-          Navigator.push(context, MaterialPageRoute(
-            fullscreenDialog: true,
-            builder: (BuildContext context) => AddServerFullscreen(
-              server: server,
-              window: false,
-            )
-          ))
-        }
-      }));
+      await Future.delayed(
+          const Duration(seconds: 0),
+          (() => {
+                if (width > 700)
+                  {
+                    showDialog(
+                      context: context,
+                      barrierDismissible: false,
+                      builder: (context) => AddServerFullscreen(
+                        server: server,
+                        window: true,
+                      ),
+                    )
+                  }
+                else
+                  {
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            fullscreenDialog: true,
+                            builder: (BuildContext context) =>
+                                AddServerFullscreen(
+                                  server: server,
+                                  window: false,
+                                )))
+                  }
+              }));
     }
 
     void connectToServer(Server server) async {
       Future connectSuccess(result) async {
         serversProvider.setselectedServer(
-          server: Server(
-            address: server.address,
-            alias: server.alias,
-            token: server.token!,
-            defaultServer: server.defaultServer,
-            enabled: result['status'] == 'enabled' ? true : false
-          ),
-          toHomeTab: true
-        );
+            server: Server(
+                address: server.address,
+                alias: server.alias,
+                token: server.token!,
+                defaultServer: server.defaultServer,
+                enabled: result['status'] == 'enabled' ? true : false),
+            toHomeTab: true);
         final statusResult = await realtimeStatus(server);
         if (statusResult['result'] == 'success') {
           statusProvider.setRealtimeStatus(statusResult['data']);
@@ -129,8 +131,7 @@ class _ServersListItemState extends State<ServersListItem> with SingleTickerProv
         if (overtimeDataResult['result'] == 'success') {
           statusProvider.setOvertimeData(overtimeDataResult['data']);
           statusProvider.setOvertimeDataLoadingStatus(1);
-        }
-        else {
+        } else {
           statusProvider.setOvertimeDataLoadingStatus(2);
         }
         statusProvider.setIsServerConnected(true);
@@ -144,13 +145,11 @@ class _ServersListItemState extends State<ServersListItem> with SingleTickerProv
       process.close();
       if (result['result'] == 'success') {
         await connectSuccess(result);
-      }
-      else {
+      } else {
         showSnackBar(
-          appConfigProvider: appConfigProvider,
-          label: AppLocalizations.of(context)!.cannotConnect,
-          color: Colors.red
-        );
+            appConfigProvider: appConfigProvider,
+            label: AppLocalizations.of(context)!.cannotConnect,
+            color: Colors.red);
       }
     }
 
@@ -158,17 +157,14 @@ class _ServersListItemState extends State<ServersListItem> with SingleTickerProv
       final result = await serversProvider.setDefaultServer(server);
       if (result == true) {
         showSnackBar(
-          appConfigProvider: appConfigProvider,
-          label: AppLocalizations.of(context)!.connectionDefaultSuccessfully,
-          color: Colors.green
-        );
-      }
-      else {
+            appConfigProvider: appConfigProvider,
+            label: AppLocalizations.of(context)!.connectionDefaultSuccessfully,
+            color: Colors.green);
+      } else {
         showSnackBar(
-          appConfigProvider: appConfigProvider,
-          label: AppLocalizations.of(context)!.connectionDefaultFailed,
-          color: Colors.red
-        );
+            appConfigProvider: appConfigProvider,
+            label: AppLocalizations.of(context)!.connectionDefaultFailed,
+            color: Colors.red);
       }
     }
 
@@ -179,11 +175,12 @@ class _ServersListItemState extends State<ServersListItem> with SingleTickerProv
           children: [
             Icon(
               Icons.storage_rounded,
-              color: serversProvider.selectedServer != null && serversProvider.selectedServer?.address == server.address
-                ? statusProvider.isServerConnected == true
-                  ? Colors.green
-                  : Colors.orange
-                : null,
+              color: serversProvider.selectedServer != null &&
+                      serversProvider.selectedServer?.address == server.address
+                  ? statusProvider.isServerConnected == true
+                      ? Colors.green
+                      : Colors.orange
+                  : null,
             ),
             SizedBox(
               width: 25,
@@ -194,9 +191,8 @@ class _ServersListItemState extends State<ServersListItem> with SingleTickerProv
                   Container(
                     padding: const EdgeInsets.all(1),
                     decoration: BoxDecoration(
-                      color: Theme.of(context).colorScheme.primaryContainer,
-                      borderRadius: BorderRadius.circular(20)
-                    ),
+                        color: Theme.of(context).colorScheme.primaryContainer,
+                        borderRadius: BorderRadius.circular(20)),
                     child: Icon(
                       Icons.star,
                       color: Theme.of(context).colorScheme.onPrimaryContainer,
@@ -208,16 +204,15 @@ class _ServersListItemState extends State<ServersListItem> with SingleTickerProv
             )
           ],
         );
-      }
-      else {
+      } else {
         return Icon(
           Icons.storage_rounded,
-          color: serversProvider.selectedServer != null && serversProvider.selectedServer?.address == server.address
-            ? statusProvider.isServerConnected == true
-              ? Colors.green
-              : Colors.orange
-            : null,
-
+          color: serversProvider.selectedServer != null &&
+                  serversProvider.selectedServer?.address == server.address
+              ? statusProvider.isServerConnected == true
+                  ? Colors.green
+                  : Colors.orange
+              : null,
         );
       }
     }
@@ -241,10 +236,9 @@ class _ServersListItemState extends State<ServersListItem> with SingleTickerProv
                         server.address,
                         textAlign: TextAlign.center,
                         style: TextStyle(
-                          fontSize: 16,
-                          fontWeight: FontWeight.w400,
-                          color: Theme.of(context).colorScheme.onSurface
-                        ),
+                            fontSize: 16,
+                            fontWeight: FontWeight.w400,
+                            color: Theme.of(context).colorScheme.onSurface),
                       ),
                       Column(
                         children: [
@@ -253,10 +247,11 @@ class _ServersListItemState extends State<ServersListItem> with SingleTickerProv
                             server.alias,
                             overflow: TextOverflow.ellipsis,
                             style: TextStyle(
-                              fontSize: 14,
-                              fontWeight: FontWeight.w400,
-                              color: Theme.of(context).colorScheme.onSurfaceVariant
-                            ),
+                                fontSize: 14,
+                                fontWeight: FontWeight.w400,
+                                color: Theme.of(context)
+                                    .colorScheme
+                                    .onSurfaceVariant),
                           )
                         ],
                       )
@@ -282,90 +277,90 @@ class _ServersListItemState extends State<ServersListItem> with SingleTickerProv
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               PopupMenuButton(
-                // color: Theme.of(context).dialogBackgroundColor,
-                itemBuilder: (context) => [
-                  PopupMenuItem(
-                    enabled: server.defaultServer == false
-                      ? true
-                      : false,
-                    onTap: server.defaultServer == false
-                      ? (() => setDefaultServer(server))
-                      : null,
-                    child: SizedBox(
-                      child: Row(
-                        children: [
-                          const Icon(Icons.star),
-                          const SizedBox(width: 15),
-                          Text(
-                            server.defaultServer == true
-                              ? AppLocalizations.of(context)!.defaultConnection
-                              : AppLocalizations.of(context)!.setDefault,
-                          )
-                        ],
-                      ),
-                    )
-                  ),
-                  PopupMenuItem(
-                    onTap: (() => openAddServerBottomSheet(server: server)),
-                    child: Row(
-                      children: [
-                        const Icon(Icons.edit),
-                        const SizedBox(width: 15),
-                        Text(AppLocalizations.of(context)!.edit)
-                      ],
-                    )
-                  ),
-                  PopupMenuItem(
-                    onTap: (() => showDeleteModal(server)),
-                    child: Row(
-                      children: [
-                        const Icon(Icons.delete),
-                        const SizedBox(width: 15),
-                        Text(AppLocalizations.of(context)!.delete)
-                      ],
-                    )
-                  ),
-                ]
-              ),
+                  // color: Theme.of(context).dialogBackgroundColor,
+                  itemBuilder: (context) => [
+                        PopupMenuItem(
+                            enabled:
+                                server.defaultServer == false ? true : false,
+                            onTap: server.defaultServer == false
+                                ? (() => setDefaultServer(server))
+                                : null,
+                            child: SizedBox(
+                              child: Row(
+                                children: [
+                                  const Icon(Icons.star),
+                                  const SizedBox(width: 15),
+                                  Text(
+                                    server.defaultServer == true
+                                        ? AppLocalizations.of(context)!
+                                            .defaultConnection
+                                        : AppLocalizations.of(context)!
+                                            .setDefault,
+                                  )
+                                ],
+                              ),
+                            )),
+                        PopupMenuItem(
+                            onTap: (() =>
+                                openAddServerBottomSheet(server: server)),
+                            child: Row(
+                              children: [
+                                const Icon(Icons.edit),
+                                const SizedBox(width: 15),
+                                Text(AppLocalizations.of(context)!.edit)
+                              ],
+                            )),
+                        PopupMenuItem(
+                            onTap: (() => showDeleteModal(server)),
+                            child: Row(
+                              children: [
+                                const Icon(Icons.delete),
+                                const SizedBox(width: 15),
+                                Text(AppLocalizations.of(context)!.delete)
+                              ],
+                            )),
+                      ]),
               SizedBox(
-                child: serversProvider.selectedServer != null && serversProvider.selectedServer?.address == serversProvider.getServersList[index].address
-                  ? Container(
-                    margin: const EdgeInsets.only(right: 12),
-                    padding: const EdgeInsets.symmetric(vertical: 5, horizontal: 10),
-                    decoration: BoxDecoration(
-                      color: statusProvider.isServerConnected == true
-                        ? Colors.green
-                        : Colors.orange,
-                      borderRadius: BorderRadius.circular(30)
-                    ),
-                    child: Row(
-                      children: [
-                        Icon(
-                          statusProvider.isServerConnected == true
-                            ? Icons.check
-                            : Icons.warning,
-                          color: Colors.white,
+                child: serversProvider.selectedServer != null &&
+                        serversProvider.selectedServer?.address ==
+                            serversProvider.getServersList[index].address
+                    ? Container(
+                        margin: const EdgeInsets.only(right: 12),
+                        padding: const EdgeInsets.symmetric(
+                            vertical: 5, horizontal: 10),
+                        decoration: BoxDecoration(
+                            color: statusProvider.isServerConnected == true
+                                ? Colors.green
+                                : Colors.orange,
+                            borderRadius: BorderRadius.circular(30)),
+                        child: Row(
+                          children: [
+                            Icon(
+                              statusProvider.isServerConnected == true
+                                  ? Icons.check
+                                  : Icons.warning,
+                              color: Colors.white,
+                            ),
+                            const SizedBox(width: 10),
+                            Text(
+                              statusProvider.isServerConnected == true
+                                  ? AppLocalizations.of(context)!.connected
+                                  : AppLocalizations.of(context)!
+                                      .selectedDisconnected,
+                              style: const TextStyle(
+                                  color: Colors.white,
+                                  fontWeight: FontWeight.w500),
+                            )
+                          ],
                         ),
-                        const SizedBox(width: 10),
-                        Text(
-                          statusProvider.isServerConnected == true
-                            ? AppLocalizations.of(context)!.connected
-                            : AppLocalizations.of(context)!.selectedDisconnected,
-                          style: const TextStyle(
-                            color: Colors.white,
-                            fontWeight: FontWeight.w500
-                          ),
-                        )
-                      ],
+                      )
+                    : Container(
+                        margin: const EdgeInsets.only(right: 10),
+                        child: TextButton(
+                          onPressed: () => connectToServer(server),
+                          child: Text(AppLocalizations.of(context)!.connect),
+                        ),
                       ),
-                  )
-                  : Container(
-                      margin: const EdgeInsets.only(right: 10),
-                      child: TextButton(
-                        onPressed: () => connectToServer(server),
-                        child: Text(AppLocalizations.of(context)!.connect),
-                      ),
-                    ),
               )
             ],
           )
@@ -375,44 +370,42 @@ class _ServersListItemState extends State<ServersListItem> with SingleTickerProv
 
     return Container(
       decoration: BoxDecoration(
-        border: Border(
-          bottom: BorderSide(
-            color: Theme.of(context).colorScheme.surfaceContainerHighest,
-            width: 1
-          )
-        )
-      ),
+          border: Border(
+              bottom: BorderSide(
+                  color: Theme.of(context).colorScheme.surfaceContainerHighest,
+                  width: 1))),
       child: ExpandableNotifier(
         controller: widget.expandableController,
         child: Column(
           children: [
             Expandable(
-              collapsed: Material(
-                color: Colors.transparent,
-                child: InkWell(
-                  onTap: () => widget.onChange(widget.index),
-                  child: Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
-                    child: topRow(widget.server, widget.index),
-                  ),
-                ),
-              ),
-              expanded: Material(
-                color: Colors.transparent,
-                child: InkWell(
-                  onTap: () => widget.onChange(widget.index),
-                  child: Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
-                    child: Column(
-                      children: [
-                        topRow(widget.server, widget.index),
-                        bottomRow(widget.server, widget.index)
-                      ],
+                collapsed: Material(
+                  color: Colors.transparent,
+                  child: InkWell(
+                    onTap: () => widget.onChange(widget.index),
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 16, vertical: 12),
+                      child: topRow(widget.server, widget.index),
                     ),
                   ),
                 ),
-              )
-            )
+                expanded: Material(
+                  color: Colors.transparent,
+                  child: InkWell(
+                    onTap: () => widget.onChange(widget.index),
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 16, vertical: 12),
+                      child: Column(
+                        children: [
+                          topRow(widget.server, widget.index),
+                          bottomRow(widget.server, widget.index)
+                        ],
+                      ),
+                    ),
+                  ),
+                ))
           ],
         ),
       ),

@@ -3,14 +3,10 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 import 'package:pi_hole_client/models/app_log.dart';
 
-
 class AppLogDetailsModal extends StatefulWidget {
   final AppLog log;
 
-  const AppLogDetailsModal({
-    super.key,
-    required this.log
-  });
+  const AppLogDetailsModal({super.key, required this.log});
 
   @override
   State<AppLogDetailsModal> createState() => _AppLogDetailsModalState();
@@ -26,13 +22,13 @@ class _AppLogDetailsModalState extends State<AppLogDetailsModal> {
 
       case 'statusCode':
         return widget.log.statusCode != null
-          ? widget.log.statusCode.toString()
-          : "[NO STAUS CODE]";
+            ? widget.log.statusCode.toString()
+            : "[NO STAUS CODE]";
 
       case 'body':
         return widget.log.resBody != null
-          ? widget.log.resBody.toString()
-          : "[NO RESPONSE BODY]";
+            ? widget.log.resBody.toString()
+            : "[NO RESPONSE BODY]";
 
       default:
         return '';
@@ -54,9 +50,7 @@ class _AppLogDetailsModalState extends State<AppLogDetailsModal> {
             AppLocalizations.of(context)!.logDetails,
             textAlign: TextAlign.center,
             style: TextStyle(
-              fontSize: 24,
-              color: Theme.of(context).colorScheme.onSurface
-            ),
+                fontSize: 24, color: Theme.of(context).colorScheme.onSurface),
           )
         ],
       ),
@@ -70,39 +64,36 @@ class _AppLogDetailsModalState extends State<AppLogDetailsModal> {
             children: [
               Material(
                 borderRadius: const BorderRadius.only(
-                  topLeft: Radius.circular(15),
-                  bottomLeft: Radius.circular(15)
-                ),
+                    topLeft: Radius.circular(15),
+                    bottomLeft: Radius.circular(15)),
                 color: Colors.transparent,
                 child: InkWell(
                   borderRadius: const BorderRadius.only(
-                    topLeft: Radius.circular(15),
-                    bottomLeft: Radius.circular(15)
-                  ),
+                      topLeft: Radius.circular(15),
+                      bottomLeft: Radius.circular(15)),
                   onTap: () => setState(() => valueToShow = 'message'),
                   child: AnimatedContainer(
-                    padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 10),
+                    padding: const EdgeInsets.symmetric(
+                        horizontal: 15, vertical: 10),
                     duration: const Duration(milliseconds: 200),
                     curve: Curves.easeInOut,
                     decoration: BoxDecoration(
-                      borderRadius: const BorderRadius.only(
-                        topLeft: Radius.circular(15),
-                        bottomLeft: Radius.circular(15)
-                      ),
-                      border: Border.all(
-                        color: Theme.of(context).colorScheme.primary
-                      ),
-                      color: valueToShow == 'message'
-                        ? Theme.of(context).colorScheme.primary
-                        : Theme.of(context).colorScheme.primary.withOpacity(0.05)
-                    ),
+                        borderRadius: const BorderRadius.only(
+                            topLeft: Radius.circular(15),
+                            bottomLeft: Radius.circular(15)),
+                        border: Border.all(
+                            color: Theme.of(context).colorScheme.primary),
+                        color: valueToShow == 'message'
+                            ? Theme.of(context).colorScheme.primary
+                            : Theme.of(context)
+                                .colorScheme
+                                .primary
+                                .withOpacity(0.05)),
                     child: Text(
                       "Message",
                       style: TextStyle(
-                        color: valueToShow == 'message'
-                          ? Colors.white
-                          : null
-                      ),
+                          color:
+                              valueToShow == 'message' ? Colors.white : null),
                     ),
                   ),
                 ),
@@ -112,68 +103,64 @@ class _AppLogDetailsModalState extends State<AppLogDetailsModal> {
                 child: InkWell(
                   onTap: () => setState(() => valueToShow = 'statusCode'),
                   child: AnimatedContainer(
-                    padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 10),
+                    padding: const EdgeInsets.symmetric(
+                        horizontal: 15, vertical: 10),
                     duration: const Duration(milliseconds: 200),
                     curve: Curves.easeInOut,
                     decoration: BoxDecoration(
-                      border: Border(
-                        top: BorderSide(
-                          color: Theme.of(context).colorScheme.primary
+                        border: Border(
+                          top: BorderSide(
+                              color: Theme.of(context).colorScheme.primary),
+                          bottom: BorderSide(
+                              color: Theme.of(context).colorScheme.primary),
                         ),
-                        bottom: BorderSide(
-                          color: Theme.of(context).colorScheme.primary
-                        ),
-                      ),
-                      color: valueToShow == 'statusCode'
-                        ? Theme.of(context).colorScheme.primary
-                        : Theme.of(context).colorScheme.primary.withOpacity(0.05)
-                    ),
+                        color: valueToShow == 'statusCode'
+                            ? Theme.of(context).colorScheme.primary
+                            : Theme.of(context)
+                                .colorScheme
+                                .primary
+                                .withOpacity(0.05)),
                     child: Text(
                       "Status code",
                       style: TextStyle(
-                        color: valueToShow == 'statusCode'
-                          ? Colors.white
-                          : null
-                      ),
+                          color: valueToShow == 'statusCode'
+                              ? Colors.white
+                              : null),
                     ),
                   ),
                 ),
               ),
               Material(
                 borderRadius: const BorderRadius.only(
-                  topRight: Radius.circular(15),
-                  bottomRight: Radius.circular(15)
-                ),
+                    topRight: Radius.circular(15),
+                    bottomRight: Radius.circular(15)),
                 color: Colors.transparent,
                 child: InkWell(
                   borderRadius: const BorderRadius.only(
-                    topRight: Radius.circular(15),
-                    bottomRight: Radius.circular(15)
-                  ),
+                      topRight: Radius.circular(15),
+                      bottomRight: Radius.circular(15)),
                   onTap: () => setState(() => valueToShow = 'body'),
                   child: AnimatedContainer(
-                    padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 10),
+                    padding: const EdgeInsets.symmetric(
+                        horizontal: 15, vertical: 10),
                     duration: const Duration(milliseconds: 200),
                     curve: Curves.easeInOut,
                     decoration: BoxDecoration(
-                      borderRadius: const BorderRadius.only(
-                        topRight: Radius.circular(15),
-                        bottomRight: Radius.circular(15)
-                      ),
-                      border: Border.all(
-                        color: Theme.of(context).colorScheme.primary
-                      ),
-                      color: valueToShow == 'body'
-                        ? Theme.of(context).colorScheme.primary
-                        : Theme.of(context).colorScheme.primary.withOpacity(0.05)
-                    ),
+                        borderRadius: const BorderRadius.only(
+                            topRight: Radius.circular(15),
+                            bottomRight: Radius.circular(15)),
+                        border: Border.all(
+                            color: Theme.of(context).colorScheme.primary),
+                        color: valueToShow == 'body'
+                            ? Theme.of(context).colorScheme.primary
+                            : Theme.of(context)
+                                .colorScheme
+                                .primary
+                                .withOpacity(0.05)),
                     child: Text(
                       "Body",
                       style: TextStyle(
-                        color: valueToShow == 'body'
-                          ? Colors.white
-                          : null
-                      ),
+                          color: valueToShow == 'body' ? Colors.white : null),
                     ),
                   ),
                 ),
@@ -186,9 +173,7 @@ class _AppLogDetailsModalState extends State<AppLogDetailsModal> {
       ),
       actions: [
         TextButton(
-          onPressed: () => Navigator.pop(context),
-          child: const Text("Close")
-        )
+            onPressed: () => Navigator.pop(context), child: const Text("Close"))
       ],
     );
   }

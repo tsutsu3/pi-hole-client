@@ -13,19 +13,14 @@ class LogDetailsScreen extends StatelessWidget {
   final Log log;
   final void Function(String, Log) whiteBlackList;
 
-  const LogDetailsScreen({
-    super.key,
-    required this.log,
-    required this.whiteBlackList
-  });
+  const LogDetailsScreen(
+      {super.key, required this.log, required this.whiteBlackList});
 
   @override
   Widget build(BuildContext context) {
     Widget item(IconData icon, String label, Widget value) {
       return Padding(
-        padding: const EdgeInsets.symmetric(
-          horizontal: 16, vertical: 12
-        ),
+        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
         child: Row(
           children: [
             Icon(
@@ -39,9 +34,7 @@ class LogDetailsScreen extends StatelessWidget {
                 Text(
                   label,
                   style: const TextStyle(
-                    fontWeight: FontWeight.w400,
-                    fontSize: 16
-                  ),
+                      fontWeight: FontWeight.w400, fontSize: 16),
                 ),
                 const SizedBox(height: 5),
                 value
@@ -53,13 +46,11 @@ class LogDetailsScreen extends StatelessWidget {
     }
 
     Widget blackWhiteListButton() {
-      if (
-        log.status == '2' ||
-        log.status == '3' ||
-        log.status == '12' ||
-        log.status == '13' ||
-        log.status == '14'
-      ) {
+      if (log.status == '2' ||
+          log.status == '3' ||
+          log.status == '12' ||
+          log.status == '13' ||
+          log.status == '14') {
         return IconButton(
           onPressed: () {
             Navigator.pop(context);
@@ -68,8 +59,7 @@ class LogDetailsScreen extends StatelessWidget {
           icon: const Icon(Icons.gpp_bad_rounded),
           tooltip: AppLocalizations.of(context)!.blacklist,
         );
-      }
-      else {
+      } else {
         return IconButton(
           onPressed: () {
             Navigator.pop(context);
@@ -116,20 +106,20 @@ class LogDetailsScreen extends StatelessWidget {
             label: AppLocalizations.of(context)!.time,
             description: formatTimestamp(log.dateTime, 'HH:mm:ss'),
           ),
-          if (log.status != null) item(
-            Icons.shield_outlined,
-            AppLocalizations.of(context)!.status,
-            LogStatus(status: log.status!, showIcon: false)
-          ),
-          if (log.status == '2' && log.answeredBy != null) CustomListTile(
-            leadingIcon: Icons.domain,
-            label: AppLocalizations.of(context)!.answeredBy,
-            description: log.answeredBy!,
-          ),
+          if (log.status != null)
+            item(Icons.shield_outlined, AppLocalizations.of(context)!.status,
+                LogStatus(status: log.status!, showIcon: false)),
+          if (log.status == '2' && log.answeredBy != null)
+            CustomListTile(
+              leadingIcon: Icons.domain,
+              label: AppLocalizations.of(context)!.answeredBy,
+              description: log.answeredBy!,
+            ),
           CustomListTile(
             leadingIcon: Icons.system_update_alt_outlined,
             label: AppLocalizations.of(context)!.reply,
-            description: "${log.replyType} (${(log.replyTime/BigInt.from(10))} ms)",
+            description:
+                "${log.replyType} (${(log.replyTime / BigInt.from(10))} ms)",
           ),
         ],
       ),

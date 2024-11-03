@@ -3,7 +3,6 @@ import 'package:pie_chart/pie_chart.dart';
 
 import 'package:pi_hole_client/constants/colors.dart';
 
-
 class CustomPieChart extends StatelessWidget {
   final Map<String, double> data;
 
@@ -22,9 +21,7 @@ class CustomPieChart extends StatelessWidget {
       initialAngleInDegree: 270,
       chartType: ChartType.ring,
       ringStrokeWidth: 20,
-      legendOptions: const LegendOptions(
-        showLegends: false
-      ),
+      legendOptions: const LegendOptions(showLegends: false),
       chartValuesOptions: const ChartValuesOptions(
         showChartValues: false,
       ),

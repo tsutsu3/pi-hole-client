@@ -2,9 +2,7 @@ import 'package:pi_hole_client/screens/logs/logs_filters_modal.dart';
 import 'package:flutter/material.dart';
 
 class FiltersProvider with ChangeNotifier {
-  List<int> _statusSelected = [
-    1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14
-  ];
+  List<int> _statusSelected = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14];
   DateTime? _startTime;
   DateTime? _endTime;
   List<String> _totalClients = [];
@@ -44,11 +42,9 @@ class FiltersProvider with ChangeNotifier {
     _statusSelected = values;
     if (values == [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14]) {
       _requestStatus = RequestStatus.all;
-    }
-    else if (values == [2, 3]) {
+    } else if (values == [2, 3]) {
       _requestStatus = RequestStatus.allowed;
-    }
-    else if (values == [1, 4, 5, 6, 7, 8, 9, 10, 11, 14]) {
+    } else if (values == [1, 4, 5, 6, 7, 8, 9, 10, 11, 14]) {
       _requestStatus = RequestStatus.blocked;
     }
     notifyListeners();
@@ -65,9 +61,7 @@ class FiltersProvider with ChangeNotifier {
   }
 
   void resetFilters() {
-    _statusSelected = [
-      1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14
-    ];
+    _statusSelected = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14];
     _requestStatus = RequestStatus.all;
     _startTime = null;
     _endTime = null;
@@ -83,9 +77,7 @@ class FiltersProvider with ChangeNotifier {
   }
 
   void resetStatus() {
-    _statusSelected = [
-      1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14
-    ];
+    _statusSelected = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14];
     _requestStatus = RequestStatus.all;
     notifyListeners();
   }
@@ -116,17 +108,11 @@ class FiltersProvider with ChangeNotifier {
   void setRequestStatus(RequestStatus status) {
     _requestStatus = status;
     if (status == RequestStatus.all) {
-      _statusSelected = [
-        1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14
-      ];
-    }
-    else if (status == RequestStatus.allowed) {
+      _statusSelected = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14];
+    } else if (status == RequestStatus.allowed) {
       _statusSelected = [2, 3];
-    }
-    else if (status == RequestStatus.blocked) {
-      _statusSelected = [
-        1, 4, 5, 6, 7, 8, 9, 10, 11
-      ];
+    } else if (status == RequestStatus.blocked) {
+      _statusSelected = [1, 4, 5, 6, 7, 8, 9, 10, 11];
     }
     notifyListeners();
   }

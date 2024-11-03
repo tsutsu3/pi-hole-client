@@ -28,8 +28,7 @@ class _AutoRefreshTimeScreenState extends State<AutoRefreshTimeScreen> {
       if (selectedOption != 5) {
         customTimeController.text = "";
         showCustomDurationInput = false;
-      }
-      else {
+      } else {
         setState(() {
           showCustomDurationInput = true;
         });
@@ -42,8 +41,7 @@ class _AutoRefreshTimeScreenState extends State<AutoRefreshTimeScreen> {
       setState(() {
         customTimeIsValid = true;
       });
-    }
-    else {
+    } else {
       setState(() {
         customTimeIsValid = false;
       });
@@ -53,11 +51,9 @@ class _AutoRefreshTimeScreenState extends State<AutoRefreshTimeScreen> {
   bool _selectionIsValid() {
     if (selectedOption != 5) {
       return true;
-    }
-    else if (selectedOption == 5 && customTimeIsValid == true) {
+    } else if (selectedOption == 5 && customTimeIsValid == true) {
       return true;
-    }
-    else {
+    } else {
       return false;
     }
   }
@@ -115,27 +111,30 @@ class _AutoRefreshTimeScreenState extends State<AutoRefreshTimeScreen> {
   }
 
   void onSave() async {
-    final result = await Provider.of<AppConfigProvider>(context, listen: false).setAutoRefreshTime(_getTime());
+    final result = await Provider.of<AppConfigProvider>(context, listen: false)
+        .setAutoRefreshTime(_getTime());
     if (result == true) {
       showSnackBar(
-        appConfigProvider: Provider.of<AppConfigProvider>(context, listen: false),
-        label: AppLocalizations.of(context)!.updateTimeChanged,
-        color: Colors.green
-      );
-    }
-    else {
+          appConfigProvider:
+              Provider.of<AppConfigProvider>(context, listen: false),
+          label: AppLocalizations.of(context)!.updateTimeChanged,
+          color: Colors.green);
+    } else {
       showSnackBar(
-        appConfigProvider: Provider.of<AppConfigProvider>(context, listen: false),
-        label: AppLocalizations.of(context)!.cannotChangeUpdateTime,
-        color: Colors.red
-      );
+          appConfigProvider:
+              Provider.of<AppConfigProvider>(context, listen: false),
+          label: AppLocalizations.of(context)!.cannotChangeUpdateTime,
+          color: Colors.red);
     }
   }
 
   @override
   void initState() {
     super.initState();
-    selectedOption = _setTime(Provider.of<AppConfigProvider>(context, listen: false).getAutoRefreshTime ?? 0);
+    selectedOption = _setTime(
+        Provider.of<AppConfigProvider>(context, listen: false)
+                .getAutoRefreshTime ??
+            0);
   }
 
   @override
@@ -145,9 +144,7 @@ class _AutoRefreshTimeScreenState extends State<AutoRefreshTimeScreen> {
         title: Text(AppLocalizations.of(context)!.autoRefreshTime),
         actions: [
           IconButton(
-            onPressed:  _selectionIsValid() == true
-              ? () => onSave()
-              : null,
+            onPressed: _selectionIsValid() == true ? () => onSave() : null,
             icon: const Icon(Icons.save_rounded),
             tooltip: AppLocalizations.of(context)!.save,
           ),
@@ -157,68 +154,60 @@ class _AutoRefreshTimeScreenState extends State<AutoRefreshTimeScreen> {
       body: ListView(
         children: [
           CustomRadioListTile(
-            groupValue: selectedOption,
-            value: 0,
-            radioBackgroundColor: Theme.of(context).colorScheme.surface,
-            title: AppLocalizations.of(context)!.second1,
-            onChanged: _updateRadioValue
-          ),
+              groupValue: selectedOption,
+              value: 0,
+              radioBackgroundColor: Theme.of(context).colorScheme.surface,
+              title: AppLocalizations.of(context)!.second1,
+              onChanged: _updateRadioValue),
           CustomRadioListTile(
-            groupValue: selectedOption,
-            value: 1,
-            radioBackgroundColor: Theme.of(context).colorScheme.surface,
-            title: AppLocalizations.of(context)!.seconds2,
-            onChanged: _updateRadioValue
-          ),
+              groupValue: selectedOption,
+              value: 1,
+              radioBackgroundColor: Theme.of(context).colorScheme.surface,
+              title: AppLocalizations.of(context)!.seconds2,
+              onChanged: _updateRadioValue),
           CustomRadioListTile(
-            groupValue: selectedOption,
-            value: 2,
-            radioBackgroundColor: Theme.of(context).colorScheme.surface,
-            title: AppLocalizations.of(context)!.seconds5,
-            onChanged: _updateRadioValue
-          ),
+              groupValue: selectedOption,
+              value: 2,
+              radioBackgroundColor: Theme.of(context).colorScheme.surface,
+              title: AppLocalizations.of(context)!.seconds5,
+              onChanged: _updateRadioValue),
           CustomRadioListTile(
-            groupValue: selectedOption,
-            value: 3,
-            radioBackgroundColor: Theme.of(context).colorScheme.surface,
-            title: AppLocalizations.of(context)!.seconds10,
-            onChanged: _updateRadioValue
-          ),
+              groupValue: selectedOption,
+              value: 3,
+              radioBackgroundColor: Theme.of(context).colorScheme.surface,
+              title: AppLocalizations.of(context)!.seconds10,
+              onChanged: _updateRadioValue),
           CustomRadioListTile(
-            groupValue: selectedOption,
-            value: 4,
-            radioBackgroundColor: Theme.of(context).colorScheme.surface,
-            title: AppLocalizations.of(context)!.seconds30,
-            onChanged: _updateRadioValue
-          ),
+              groupValue: selectedOption,
+              value: 4,
+              radioBackgroundColor: Theme.of(context).colorScheme.surface,
+              title: AppLocalizations.of(context)!.seconds30,
+              onChanged: _updateRadioValue),
           CustomRadioListTile(
-            groupValue: selectedOption,
-            value: 5,
-            radioBackgroundColor: Theme.of(context).colorScheme.surface,
-            title: AppLocalizations.of(context)!.custom,
-            onChanged: _updateRadioValue
-          ),
-          if (showCustomDurationInput == true) Padding(
-            padding: const EdgeInsets.all(16),
-            child: TextField(
-              onChanged: _validateCustomTime,
-              controller: customTimeController,
-              keyboardType: const TextInputType.numberWithOptions(
-                decimal: false
-              ),
-              decoration: InputDecoration(
-                errorText: !customTimeIsValid && customTimeController.text != ''
-                  ? AppLocalizations.of(context)!.valueNotValid
-                  : null,
-                border: const OutlineInputBorder(
-                  borderRadius: BorderRadius.all(
-                    Radius.circular(10)
-                  )
+              groupValue: selectedOption,
+              value: 5,
+              radioBackgroundColor: Theme.of(context).colorScheme.surface,
+              title: AppLocalizations.of(context)!.custom,
+              onChanged: _updateRadioValue),
+          if (showCustomDurationInput == true)
+            Padding(
+              padding: const EdgeInsets.all(16),
+              child: TextField(
+                onChanged: _validateCustomTime,
+                controller: customTimeController,
+                keyboardType:
+                    const TextInputType.numberWithOptions(decimal: false),
+                decoration: InputDecoration(
+                  errorText:
+                      !customTimeIsValid && customTimeController.text != ''
+                          ? AppLocalizations.of(context)!.valueNotValid
+                          : null,
+                  border: const OutlineInputBorder(
+                      borderRadius: BorderRadius.all(Radius.circular(10))),
+                  labelText: AppLocalizations.of(context)!.customSeconds,
                 ),
-                labelText: AppLocalizations.of(context)!.customSeconds,
               ),
             ),
-          ),
         ],
       ),
     );

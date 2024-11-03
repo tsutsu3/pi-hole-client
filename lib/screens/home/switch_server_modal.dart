@@ -9,10 +9,7 @@ import 'package:pi_hole_client/providers/servers_provider.dart';
 class SwitchServerModal extends StatelessWidget {
   final void Function(Server) onServerSelect;
 
-  const SwitchServerModal({
-    super.key,
-    required this.onServerSelect
-  });
+  const SwitchServerModal({super.key, required this.onServerSelect});
 
   @override
   Widget build(BuildContext context) {
@@ -33,34 +30,33 @@ class SwitchServerModal extends StatelessWidget {
       ),
       content: SizedBox(
         width: double.maxFinite,
-        height: serversProvider.getServersList.length*72,
+        height: serversProvider.getServersList.length * 72,
         child: ListView.builder(
-          shrinkWrap: true,
-          physics: const NeverScrollableScrollPhysics(),
-          itemCount: serversProvider.getServersList.length,
-          itemBuilder: (context, index) => Material(
-            color: Colors.transparent,
-            child: InkWell(
-              onTap: () {
-                Navigator.pop(context);
-                onServerSelect(serversProvider.getServersList[index]);
-              },
-              child: CustomListTile(
-                label:serversProvider.getServersList[index].alias,
-                description: serversProvider.getServersList[index].address,
-              ),
-            ),
-          )
-        ),
+            shrinkWrap: true,
+            physics: const NeverScrollableScrollPhysics(),
+            itemCount: serversProvider.getServersList.length,
+            itemBuilder: (context, index) => Material(
+                  color: Colors.transparent,
+                  child: InkWell(
+                    onTap: () {
+                      Navigator.pop(context);
+                      onServerSelect(serversProvider.getServersList[index]);
+                    },
+                    child: CustomListTile(
+                      label: serversProvider.getServersList[index].alias,
+                      description:
+                          serversProvider.getServersList[index].address,
+                    ),
+                  ),
+                )),
       ),
       actions: [
         Row(
           mainAxisAlignment: MainAxisAlignment.end,
           children: [
             TextButton(
-              onPressed: () => Navigator.pop(context),
-              child: Text(AppLocalizations.of(context)!.cancel)
-            )
+                onPressed: () => Navigator.pop(context),
+                child: Text(AppLocalizations.of(context)!.cancel))
           ],
         )
       ],

@@ -35,8 +35,7 @@ class StatusProvider with ChangeNotifier {
   Map<String, dynamic>? get getOvertimeDataJson {
     if (_overtimeData != null) {
       return _overtimeData!.toJson();
-    }
-    else {
+    } else {
       return null;
     }
   }
@@ -69,7 +68,7 @@ class StatusProvider with ChangeNotifier {
     }
   }
 
-    void setStatusLoading(LoadStatus status) {
+  void setStatusLoading(LoadStatus status) {
     _statusLoading = status;
     notifyListeners();
   }

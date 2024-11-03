@@ -4,11 +4,7 @@ class SectionLabel extends StatelessWidget {
   final String label;
   final EdgeInsets? padding;
 
-  const SectionLabel({
-    super.key,
-    required this.label,
-    this.padding
-  });
+  const SectionLabel({super.key, required this.label, this.padding});
 
   @override
   Widget build(BuildContext context) {
@@ -20,10 +16,9 @@ class SectionLabel extends StatelessWidget {
           child: Text(
             label,
             style: TextStyle(
-              fontWeight: FontWeight.w500,
-              fontSize: 16,
-              color: Theme.of(context).colorScheme.primary
-            ),
+                fontWeight: FontWeight.w500,
+                fontSize: 16,
+                color: Theme.of(context).colorScheme.primary),
           ),
         ),
       ],

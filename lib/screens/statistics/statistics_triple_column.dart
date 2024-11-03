@@ -31,9 +31,8 @@ class StatisticsTripleColumn extends StatelessWidget {
                   AppLocalizations.of(context)!.loadingStats,
                   textAlign: TextAlign.center,
                   style: TextStyle(
-                    color: Theme.of(context).colorScheme.onSurfaceVariant,
-                    fontSize: 22
-                  ),
+                      color: Theme.of(context).colorScheme.onSurfaceVariant,
+                      fontSize: 22),
                 )
               ],
             ),
@@ -56,9 +55,7 @@ class StatisticsTripleColumn extends StatelessWidget {
                             child: Text(
                               AppLocalizations.of(context)!.queriesServers,
                               style: const TextStyle(
-                                fontSize: 18,
-                                fontWeight: FontWeight.w500
-                              ),
+                                  fontSize: 18, fontWeight: FontWeight.w500),
                             ),
                           ),
                         ],
@@ -75,75 +72,70 @@ class StatisticsTripleColumn extends StatelessWidget {
                 ),
               ),
               Expanded(
-                flex: 1,
-                child: Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 8),
-                  child: Column(
-                    children: [
-                      Padding(
-                        padding: const EdgeInsets.all(16),
-                        child: Row(
+                  flex: 1,
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 8),
+                    child: Column(
+                      children: [
+                        Padding(
+                          padding: const EdgeInsets.all(16),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Text(
+                                AppLocalizations.of(context)!.domains,
+                                style: const TextStyle(
+                                    fontSize: 18, fontWeight: FontWeight.w500),
+                              ),
+                            ],
+                          ),
+                        ),
+                        Expanded(
+                          child: ListView(
+                            children: [
+                              StatisticsListContent(
+                                type: "domains",
+                                countLabel: AppLocalizations.of(context)!.hits,
+                              )
+                            ],
+                          ),
+                        ),
+                      ],
+                    ),
+                  )),
+              Expanded(
+                  flex: 1,
+                  child: Padding(
+                    padding: const EdgeInsets.only(left: 8, right: 16),
+                    child: Column(
+                      children: [
+                        Row(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
-                            Text(
-                              AppLocalizations.of(context)!.domains,
-                              style: const TextStyle(
-                                fontSize: 18,
-                                fontWeight: FontWeight.w500
+                            Padding(
+                              padding: const EdgeInsets.all(16),
+                              child: Text(
+                                AppLocalizations.of(context)!.clients,
+                                style: const TextStyle(
+                                    fontSize: 18, fontWeight: FontWeight.w500),
                               ),
                             ),
                           ],
                         ),
-                      ),
-                      Expanded(
-                        child: ListView(
-                          children: [
-                            StatisticsListContent(
-                              type: "domains",
-                              countLabel: AppLocalizations.of(context)!.hits,
-                            )
-                          ],
-                        ),
-                      ),
-                    ],
-                  ),
-                )
-              ),
-              Expanded(
-                flex: 1,
-                child: Padding(
-                  padding: const EdgeInsets.only(left: 8, right: 16),
-                  child: Column(
-                    children: [
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Padding(
-                            padding: const EdgeInsets.all(16),
-                            child: Text(
-                              AppLocalizations.of(context)!.clients,
-                              style: const TextStyle(
-                                fontSize: 18,
-                                fontWeight: FontWeight.w500
-                              ),
-                            ),
+                        Expanded(
+                          child: ListView(
+                            children: [
+                              StatisticsListContent(
+                                type: "clients",
+                                countLabel:
+                                    AppLocalizations.of(context)!.requests,
+                              )
+                            ],
                           ),
-                        ],
-                      ),
-                      Expanded(
-                        child: ListView(
-                          children: [
-                            StatisticsListContent(
-                              type: "clients",
-                              countLabel: AppLocalizations.of(context)!.requests,
-                            )
-                          ],
                         ),
-                      ),
-                    ],
-                  ),
-                )
-              ),
+                      ],
+                    ),
+                  )),
             ],
           );
 
@@ -165,9 +157,8 @@ class StatisticsTripleColumn extends StatelessWidget {
                   AppLocalizations.of(context)!.statsNotLoaded,
                   textAlign: TextAlign.center,
                   style: TextStyle(
-                    color: Theme.of(context).colorScheme.onSurfaceVariant,
-                    fontSize: 22
-                  ),
+                      color: Theme.of(context).colorScheme.onSurfaceVariant,
+                      fontSize: 22),
                 )
               ],
             ),
@@ -179,10 +170,9 @@ class StatisticsTripleColumn extends StatelessWidget {
     }
 
     return Scaffold(
-      appBar: AppBar(
-        title: Text(AppLocalizations.of(context)!.statistics),
-      ),
-      body: body()
-    );
+        appBar: AppBar(
+          title: Text(AppLocalizations.of(context)!.statistics),
+        ),
+        body: body());
   }
 }

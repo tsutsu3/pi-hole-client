@@ -38,7 +38,8 @@ class _ServersPageState extends State<ServersPage> {
   List<ExpandableController> expandableControllerList = [];
 
   void expandOrContract(int index) async {
-    expandableControllerList[index].expanded = !expandableControllerList[index].expanded;
+    expandableControllerList[index].expanded =
+        !expandableControllerList[index].expanded;
   }
 
   @override
@@ -47,13 +48,14 @@ class _ServersPageState extends State<ServersPage> {
 
     isVisible = true;
     scrollController.addListener(() {
-      if (scrollController.position.userScrollDirection == ScrollDirection.reverse) {
+      if (scrollController.position.userScrollDirection ==
+          ScrollDirection.reverse) {
         if (mounted && isVisible == true) {
           setState(() => isVisible = false);
         }
-      }
-      else {
-        if (scrollController.position.userScrollDirection == ScrollDirection.forward) {
+      } else {
+        if (scrollController.position.userScrollDirection ==
+            ScrollDirection.forward) {
           if (mounted && isVisible == false) {
             setState(() => isVisible = true);
           }
@@ -74,65 +76,74 @@ class _ServersPageState extends State<ServersPage> {
     }
 
     void openAddServer({Server? server}) async {
-      await Future.delayed(const Duration(seconds: 0), (() => {
-        if (width > 900) {
-          showDialog(
-            context: context,
-            builder: (context) => AddServerFullscreen(
-              server: server,
-              window: true,
-            ),
-            barrierDismissible: false
-          )
-        }
-        else {
-          Navigator.push(context, MaterialPageRoute(
-            fullscreenDialog: true,
-            builder: (BuildContext context) => AddServerFullscreen(
-              server: server,
-              window: false,
-            )
-          ))
-        }
-      }));
+      await Future.delayed(
+          const Duration(seconds: 0),
+          (() => {
+                if (width > 900)
+                  {
+                    showDialog(
+                        context: context,
+                        builder: (context) => AddServerFullscreen(
+                              server: server,
+                              window: true,
+                            ),
+                        barrierDismissible: false)
+                  }
+                else
+                  {
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            fullscreenDialog: true,
+                            builder: (BuildContext context) =>
+                                AddServerFullscreen(
+                                  server: server,
+                                  window: false,
+                                )))
+                  }
+              }));
     }
 
-    return WillPopScope(
-      onWillPop: () async {
-        if (serversProvider.selectedServer == null) {
-          appConfigProvider.setSelectedTab(0);
-        }
-        return true;
-      },
-      child: Scaffold(
-        appBar: AppBar(
-          title: Text(AppLocalizations.of(context)!.servers),
-        ),
-        body: Stack(
-          children: [
-            ServersList(
-              context: context,
-              controllers: expandableControllerList,
-              onChange: expandOrContract,
-              scrollController: scrollController,
-              breakingWidth: 700,
-            ),
-            AnimatedPositioned(
-              duration: const Duration(milliseconds: 100),
-              curve: Curves.easeInOut,
-              bottom: isVisible ?
-                appConfigProvider.showingSnackbar
-                  ? 70 : (Platform.isIOS ? 40 : 20)
-                : -70,
-              right: 20,
-              child: FloatingActionButton(
-                onPressed: openAddServer,
-                child: const Icon(Icons.add),
+    return PopScope(
+        canPop: true,
+        onPopInvokedWithResult: (didPop, result) async {
+          if (serversProvider.selectedServer == null) {
+            appConfigProvider.setSelectedTab(0);
+          }
+
+          if (didPop) {
+            return;
+          }
+        },
+        child: Scaffold(
+          appBar: AppBar(
+            title: Text(AppLocalizations.of(context)!.servers),
+          ),
+          body: Stack(
+            children: [
+              ServersList(
+                context: context,
+                controllers: expandableControllerList,
+                onChange: expandOrContract,
+                scrollController: scrollController,
+                breakingWidth: 700,
               ),
-            ),
-          ],
-        ),
-      )
-    );
+              AnimatedPositioned(
+                duration: const Duration(milliseconds: 100),
+                curve: Curves.easeInOut,
+                bottom: isVisible
+                    ? appConfigProvider.showingSnackbar
+                        ? 70
+                        : (Platform.isIOS ? 40 : 20)
+                    : -70,
+                right: 20,
+                child: FloatingActionButton(
+                  onPressed: openAddServer,
+                  child: const Icon(Icons.add),
+                ),
+              ),
+            ],
+          ),
+        ));
   }
 }

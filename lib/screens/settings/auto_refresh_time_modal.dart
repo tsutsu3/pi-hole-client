@@ -33,8 +33,7 @@ class _AutoRefreshTimeModalState extends State<AutoRefreshTimeModal> {
       if (selectedOption != 5) {
         customTimeController.text = "";
         showCustomDurationInput = false;
-      }
-      else {
+      } else {
         Timer(const Duration(milliseconds: 250), () {
           setState(() {
             showCustomDurationInput = true;
@@ -49,8 +48,7 @@ class _AutoRefreshTimeModalState extends State<AutoRefreshTimeModal> {
       setState(() {
         customTimeIsValid = true;
       });
-    }
-    else {
+    } else {
       setState(() {
         customTimeIsValid = false;
       });
@@ -60,11 +58,9 @@ class _AutoRefreshTimeModalState extends State<AutoRefreshTimeModal> {
   bool _selectionIsValid() {
     if (selectedOption != null && selectedOption != 5) {
       return true;
-    }
-    else if (selectedOption == 5 && customTimeIsValid == true) {
+    } else if (selectedOption == 5 && customTimeIsValid == true) {
       return true;
-    }
-    else {
+    } else {
       return false;
     }
   }
@@ -139,18 +135,16 @@ class _AutoRefreshTimeModalState extends State<AutoRefreshTimeModal> {
         duration: const Duration(milliseconds: 250),
         curve: Curves.easeInOut,
         height: selectedOption == 5
-          ? mediaQueryData.size.height > (Platform.isIOS ? 480 : 500)
-            ? (Platform.isIOS ? 480 : 500)
-            : mediaQueryData.size.height-25
-          : mediaQueryData.size.height > (Platform.isIOS ? 296 : 410)
-            ? (Platform.isIOS ? 396 : 410)
-            : mediaQueryData.size.height-25,
+            ? mediaQueryData.size.height > (Platform.isIOS ? 480 : 500)
+                ? (Platform.isIOS ? 480 : 500)
+                : mediaQueryData.size.height - 25
+            : mediaQueryData.size.height > (Platform.isIOS ? 296 : 410)
+                ? (Platform.isIOS ? 396 : 410)
+                : mediaQueryData.size.height - 25,
         decoration: BoxDecoration(
           color: Theme.of(context).dialogBackgroundColor,
           borderRadius: const BorderRadius.only(
-            topLeft: Radius.circular(28),
-            topRight: Radius.circular(28)
-          ),
+              topLeft: Radius.circular(28), topRight: Radius.circular(28)),
         ),
         child: SingleChildScrollView(
           child: Column(
@@ -186,12 +180,9 @@ class _AutoRefreshTimeModalState extends State<AutoRefreshTimeModal> {
                         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                         children: [
                           Container(
-                            width: (mediaQueryData.size.width-70)/2,
+                            width: (mediaQueryData.size.width - 70) / 2,
                             margin: const EdgeInsets.only(
-                              top: 10,
-                              right: 5,
-                              bottom: 5
-                            ),
+                                top: 10, right: 5, bottom: 5),
                             child: OptionBox(
                               optionsValue: selectedOption,
                               itemValue: 0,
@@ -200,24 +191,25 @@ class _AutoRefreshTimeModalState extends State<AutoRefreshTimeModal> {
                                 child: AnimatedDefaultTextStyle(
                                   duration: const Duration(milliseconds: 250),
                                   style: TextStyle(
-                                    fontWeight: FontWeight.bold,
-                                    fontSize: 14,
-                                    color: selectedOption == 0
-                                      ? Theme.of(context).colorScheme.onSecondaryContainer
-                                      : Theme.of(context).colorScheme.onSurfaceVariant
-                                  ),
-                                  child: Text(AppLocalizations.of(context)!.second1),
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 14,
+                                      color: selectedOption == 0
+                                          ? Theme.of(context)
+                                              .colorScheme
+                                              .onSecondaryContainer
+                                          : Theme.of(context)
+                                              .colorScheme
+                                              .onSurfaceVariant),
+                                  child: Text(
+                                      AppLocalizations.of(context)!.second1),
                                 ),
                               ),
                             ),
                           ),
                           Container(
-                            width: (mediaQueryData.size.width-70)/2,
+                            width: (mediaQueryData.size.width - 70) / 2,
                             margin: const EdgeInsets.only(
-                              top: 10,
-                              left: 5,
-                              bottom: 5
-                            ),
+                                top: 10, left: 5, bottom: 5),
                             child: OptionBox(
                               optionsValue: selectedOption,
                               itemValue: 1,
@@ -226,13 +218,17 @@ class _AutoRefreshTimeModalState extends State<AutoRefreshTimeModal> {
                                 child: AnimatedDefaultTextStyle(
                                   duration: const Duration(milliseconds: 250),
                                   style: TextStyle(
-                                    fontWeight: FontWeight.bold,
-                                    fontSize: 14,
-                                    color: selectedOption == 1
-                                      ? Theme.of(context).colorScheme.onSecondaryContainer
-                                      : Theme.of(context).colorScheme.onSurfaceVariant
-                                  ),
-                                  child: Text(AppLocalizations.of(context)!.seconds2),
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 14,
+                                      color: selectedOption == 1
+                                          ? Theme.of(context)
+                                              .colorScheme
+                                              .onSecondaryContainer
+                                          : Theme.of(context)
+                                              .colorScheme
+                                              .onSurfaceVariant),
+                                  child: Text(
+                                      AppLocalizations.of(context)!.seconds2),
                                 ),
                               ),
                             ),
@@ -243,12 +239,9 @@ class _AutoRefreshTimeModalState extends State<AutoRefreshTimeModal> {
                         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                         children: [
                           Container(
-                            width: (mediaQueryData.size.width-70)/2,
+                            width: (mediaQueryData.size.width - 70) / 2,
                             margin: const EdgeInsets.only(
-                              top: 5,
-                              right: 5,
-                              bottom: 5
-                            ),
+                                top: 5, right: 5, bottom: 5),
                             child: OptionBox(
                               optionsValue: selectedOption,
                               itemValue: 2,
@@ -257,24 +250,25 @@ class _AutoRefreshTimeModalState extends State<AutoRefreshTimeModal> {
                                 child: AnimatedDefaultTextStyle(
                                   duration: const Duration(milliseconds: 250),
                                   style: TextStyle(
-                                    fontWeight: FontWeight.bold,
-                                    fontSize: 14,
-                                    color: selectedOption == 2
-                                      ? Theme.of(context).colorScheme.onSecondaryContainer
-                                      : Theme.of(context).colorScheme.onSurfaceVariant
-                                  ),
-                                  child: Text(AppLocalizations.of(context)!.seconds5),
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 14,
+                                      color: selectedOption == 2
+                                          ? Theme.of(context)
+                                              .colorScheme
+                                              .onSecondaryContainer
+                                          : Theme.of(context)
+                                              .colorScheme
+                                              .onSurfaceVariant),
+                                  child: Text(
+                                      AppLocalizations.of(context)!.seconds5),
                                 ),
                               ),
                             ),
                           ),
                           Container(
-                            width: (mediaQueryData.size.width-70)/2,
+                            width: (mediaQueryData.size.width - 70) / 2,
                             margin: const EdgeInsets.only(
-                              top: 5,
-                              left: 5,
-                              bottom: 5
-                            ),
+                                top: 5, left: 5, bottom: 5),
                             child: OptionBox(
                               optionsValue: selectedOption,
                               itemValue: 3,
@@ -283,13 +277,17 @@ class _AutoRefreshTimeModalState extends State<AutoRefreshTimeModal> {
                                 child: AnimatedDefaultTextStyle(
                                   duration: const Duration(milliseconds: 250),
                                   style: TextStyle(
-                                    fontWeight: FontWeight.bold,
-                                    fontSize: 14,
-                                    color: selectedOption == 3
-                                      ? Theme.of(context).colorScheme.onSecondaryContainer
-                                      : Theme.of(context).colorScheme.onSurfaceVariant
-                                  ),
-                                  child: Text(AppLocalizations.of(context)!.seconds10),
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 14,
+                                      color: selectedOption == 3
+                                          ? Theme.of(context)
+                                              .colorScheme
+                                              .onSecondaryContainer
+                                          : Theme.of(context)
+                                              .colorScheme
+                                              .onSurfaceVariant),
+                                  child: Text(
+                                      AppLocalizations.of(context)!.seconds10),
                                 ),
                               ),
                             ),
@@ -300,12 +298,9 @@ class _AutoRefreshTimeModalState extends State<AutoRefreshTimeModal> {
                         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                         children: [
                           Container(
-                            width: (mediaQueryData.size.width-70)/2,
+                            width: (mediaQueryData.size.width - 70) / 2,
                             margin: const EdgeInsets.only(
-                              top: 5,
-                              right: 5,
-                              bottom: 10
-                            ),
+                                top: 5, right: 5, bottom: 10),
                             child: OptionBox(
                               optionsValue: selectedOption,
                               itemValue: 4,
@@ -314,24 +309,25 @@ class _AutoRefreshTimeModalState extends State<AutoRefreshTimeModal> {
                                 child: AnimatedDefaultTextStyle(
                                   duration: const Duration(milliseconds: 250),
                                   style: TextStyle(
-                                    fontWeight: FontWeight.bold,
-                                    fontSize: 14,
-                                    color: selectedOption == 4
-                                      ? Theme.of(context).colorScheme.onSecondaryContainer
-                                      : Theme.of(context).colorScheme.onSurfaceVariant
-                                  ),
-                                  child: Text(AppLocalizations.of(context)!.seconds30),
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 14,
+                                      color: selectedOption == 4
+                                          ? Theme.of(context)
+                                              .colorScheme
+                                              .onSecondaryContainer
+                                          : Theme.of(context)
+                                              .colorScheme
+                                              .onSurfaceVariant),
+                                  child: Text(
+                                      AppLocalizations.of(context)!.seconds30),
                                 ),
                               ),
                             ),
                           ),
                           Container(
-                            width: (mediaQueryData.size.width-70)/2,
+                            width: (mediaQueryData.size.width - 70) / 2,
                             margin: const EdgeInsets.only(
-                              top: 5,
-                              left: 5,
-                              bottom: 10
-                            ),
+                                top: 5, left: 5, bottom: 10),
                             child: OptionBox(
                               optionsValue: selectedOption,
                               itemValue: 5,
@@ -340,13 +336,17 @@ class _AutoRefreshTimeModalState extends State<AutoRefreshTimeModal> {
                                 child: AnimatedDefaultTextStyle(
                                   duration: const Duration(milliseconds: 250),
                                   style: TextStyle(
-                                    fontWeight: FontWeight.bold,
-                                    fontSize: 14,
-                                    color: selectedOption == 5
-                                      ? Theme.of(context).colorScheme.onSecondaryContainer
-                                      : Theme.of(context).colorScheme.onSurfaceVariant
-                                  ),
-                                  child: Text(AppLocalizations.of(context)!.custom),
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 14,
+                                      color: selectedOption == 5
+                                          ? Theme.of(context)
+                                              .colorScheme
+                                              .onSecondaryContainer
+                                          : Theme.of(context)
+                                              .colorScheme
+                                              .onSurfaceVariant),
+                                  child: Text(
+                                      AppLocalizations.of(context)!.custom),
                                 ),
                               ),
                             ),
@@ -360,19 +360,20 @@ class _AutoRefreshTimeModalState extends State<AutoRefreshTimeModal> {
                             TextField(
                               onChanged: _validateCustomTime,
                               controller: customTimeController,
-                              keyboardType: const TextInputType.numberWithOptions(
-                                decimal: false
-                              ),
+                              keyboardType:
+                                  const TextInputType.numberWithOptions(
+                                      decimal: false),
                               decoration: InputDecoration(
-                                errorText: !customTimeIsValid && customTimeController.text != ''
-                                  ? AppLocalizations.of(context)!.valueNotValid
-                                  : null,
+                                errorText: !customTimeIsValid &&
+                                        customTimeController.text != ''
+                                    ? AppLocalizations.of(context)!
+                                        .valueNotValid
+                                    : null,
                                 border: const OutlineInputBorder(
-                                  borderRadius: BorderRadius.all(
-                                    Radius.circular(10)
-                                  )
-                                ),
-                                labelText: AppLocalizations.of(context)!.customSeconds,
+                                    borderRadius:
+                                        BorderRadius.all(Radius.circular(10))),
+                                labelText:
+                                    AppLocalizations.of(context)!.customSeconds,
                               ),
                             ),
                           ],
@@ -396,19 +397,21 @@ class _AutoRefreshTimeModalState extends State<AutoRefreshTimeModal> {
                         const SizedBox(width: 20),
                         TextButton(
                           onPressed: _selectionIsValid() == true
-                            ? () {
-                              Navigator.pop(context);
-                              widget.onChange(_getTime());
-                            }
-                            : null,
+                              ? () {
+                                  Navigator.pop(context);
+                                  widget.onChange(_getTime());
+                                }
+                              : null,
                           style: ButtonStyle(
                             overlayColor: WidgetStateProperty.all(
-                              Theme.of(context).colorScheme.primary.withOpacity(0.1)
-                            ),
+                                Theme.of(context)
+                                    .colorScheme
+                                    .primary
+                                    .withOpacity(0.1)),
                             foregroundColor: WidgetStateProperty.all(
                               _selectionIsValid() == true
-                                ? Theme.of(context).colorScheme.primary
-                                : Colors.grey,
+                                  ? Theme.of(context).colorScheme.primary
+                                  : Colors.grey,
                             ),
                           ),
                           child: Text(AppLocalizations.of(context)!.confirm),

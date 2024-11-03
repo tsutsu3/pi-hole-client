@@ -2,7 +2,8 @@ import 'dart:convert';
 
 import 'package:pi_hole_client/functions/charts_data_functions.dart';
 
-RealtimeStatus realtimeStatusFromJson(String str) => RealtimeStatus.fromJson(json.decode(str));
+RealtimeStatus realtimeStatusFromJson(String str) =>
+    RealtimeStatus.fromJson(json.decode(str));
 
 class RealtimeStatus {
   final int domainsBeingBlocked;
@@ -76,58 +77,53 @@ class RealtimeStatus {
   });
 
   factory RealtimeStatus.fromJson(Map<String, dynamic> json) => RealtimeStatus(
-    domainsBeingBlocked: json["domains_being_blocked"],
-    dnsQueriesToday: json["dns_queries_today"],
-    adsBlockedToday: json["ads_blocked_today"],
-    adsPercentageToday: json["ads_percentage_today"].toDouble(),
-    uniqueDomains: json["unique_domains"],
-    queriesForwarded: json["queries_forwarded"],
-    queriesCached: json["queries_cached"],
-    clientsEverSeen: json["clients_ever_seen"],
-    uniqueClients: json["unique_clients"],
-    dnsQueriesAllTypes: json["dns_queries_all_types"],
-    replyUnknown: json["reply_UNKNOWN"],
-    replyNodata: json["reply_NODATA"],
-    replyNxdomain: json["reply_NXDOMAIN"],
-    replyCname: json["reply_CNAME"],
-    replyIp: json["reply_IP"],
-    replyDomain: json["reply_DOMAIN"],
-    replyRrname: json["reply_RRNAME"],
-    replyServfail: json["reply_SERVFAIL"],
-    replyRefused: json["reply_REFUSED"],
-    replyNotimp: json["reply_NOTIMP"],
-    replyOther: json["reply_OTHER"],
-    replyDnssec: json["reply_DNSSEC"],
-    replyNone: json["reply_NONE"],
-    replyBlob: json["reply_BLOB"],
-    dnsQueriesAllReplies: json["dns_queries_all_replies"],
-    privacyLevel: json["privacy_level"],
-    status: json["status"],
-    topQueries: ((json["top_queries"].runtimeType != List<dynamic>) && (json["top_queries"] != null))
-      ? Map.from(json["top_queries"]).map((k, v) => MapEntry<String, int>(k, v))
-      : {},
-    topAds: ((json["top_ads"].runtimeType != List<dynamic>) && (json["top_ads"] != null))
-      ? Map.from(json["top_ads"]).map((k, v) => MapEntry<String, int>(k, v))
-      : {},
-    topSources: ((json["top_sources"].runtimeType != List<dynamic>) && (json["top_sources"] != null))
-      ? Map.from(json["top_sources"]).map((k, v) => MapEntry<String, int>(k, v))
-      : {},
-    topSourcesBlocked: ((json["top_sources_blocked"].runtimeType != List<dynamic>) && (json["top_sources_blocked"] != null))
-      ? Map.from(json["top_sources_blocked"]).map((k, v) => MapEntry<String, int>(k, v))
-      : {},
-    forwardDestinations: ((json["forward_destinations"].runtimeType != List<dynamic>) && (json["forward_destinations"]) != null)
-      ? sortValues(
-          removeZeroValues(
-            Map.from(json["forward_destinations"]).map((k, v) => MapEntry<String, double>(k, v.toDouble()))
-          )
-        )
-      : {},
-    queryTypes: ((json["querytypes"].runtimeType != List<dynamic>) && (json["querytypes"] != null))
-      ? sortValues(
-          removeZeroValues(
-            Map.from(json["querytypes"]).map((k, v) => MapEntry<String, double>(k, v.toDouble()))
-          )
-        )
-      : {}
-  );
+      domainsBeingBlocked: json["domains_being_blocked"],
+      dnsQueriesToday: json["dns_queries_today"],
+      adsBlockedToday: json["ads_blocked_today"],
+      adsPercentageToday: json["ads_percentage_today"].toDouble(),
+      uniqueDomains: json["unique_domains"],
+      queriesForwarded: json["queries_forwarded"],
+      queriesCached: json["queries_cached"],
+      clientsEverSeen: json["clients_ever_seen"],
+      uniqueClients: json["unique_clients"],
+      dnsQueriesAllTypes: json["dns_queries_all_types"],
+      replyUnknown: json["reply_UNKNOWN"],
+      replyNodata: json["reply_NODATA"],
+      replyNxdomain: json["reply_NXDOMAIN"],
+      replyCname: json["reply_CNAME"],
+      replyIp: json["reply_IP"],
+      replyDomain: json["reply_DOMAIN"],
+      replyRrname: json["reply_RRNAME"],
+      replyServfail: json["reply_SERVFAIL"],
+      replyRefused: json["reply_REFUSED"],
+      replyNotimp: json["reply_NOTIMP"],
+      replyOther: json["reply_OTHER"],
+      replyDnssec: json["reply_DNSSEC"],
+      replyNone: json["reply_NONE"],
+      replyBlob: json["reply_BLOB"],
+      dnsQueriesAllReplies: json["dns_queries_all_replies"],
+      privacyLevel: json["privacy_level"],
+      status: json["status"],
+      topQueries: ((json["top_queries"].runtimeType != List<dynamic>) && (json["top_queries"] != null))
+          ? Map.from(json["top_queries"])
+              .map((k, v) => MapEntry<String, int>(k, v))
+          : {},
+      topAds: ((json["top_ads"].runtimeType != List<dynamic>) && (json["top_ads"] != null))
+          ? Map.from(json["top_ads"]).map((k, v) => MapEntry<String, int>(k, v))
+          : {},
+      topSources:
+          ((json["top_sources"].runtimeType != List<dynamic>) && (json["top_sources"] != null))
+              ? Map.from(json["top_sources"])
+                  .map((k, v) => MapEntry<String, int>(k, v))
+              : {},
+      topSourcesBlocked: ((json["top_sources_blocked"].runtimeType != List<dynamic>) &&
+              (json["top_sources_blocked"] != null))
+          ? Map.from(json["top_sources_blocked"])
+              .map((k, v) => MapEntry<String, int>(k, v))
+          : {},
+      forwardDestinations: ((json["forward_destinations"].runtimeType != List<dynamic>) &&
+              (json["forward_destinations"]) != null)
+          ? sortValues(removeZeroValues(Map.from(json["forward_destinations"]).map((k, v) => MapEntry<String, double>(k, v.toDouble()))))
+          : {},
+      queryTypes: ((json["querytypes"].runtimeType != List<dynamic>) && (json["querytypes"] != null)) ? sortValues(removeZeroValues(Map.from(json["querytypes"]).map((k, v) => MapEntry<String, double>(k, v.toDouble())))) : {});
 }

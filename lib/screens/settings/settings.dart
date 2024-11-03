@@ -13,7 +13,7 @@ import 'package:pi_hole_client/screens/settings/auto_refresh_time_screen.dart';
 import 'package:pi_hole_client/screens/servers/servers.dart';
 import 'package:pi_hole_client/screens/settings/contact_me_modal.dart';
 import 'package:pi_hole_client/widgets/start_warning_modal.dart';
-import 'package:pi_hole_client/screens/settings/logs_quantity_load_modal.dart';
+// import 'package:pi_hole_client/screens/settings/logs_quantity_load_modal.dart';
 import 'package:pi_hole_client/widgets/custom_list_tile.dart';
 import 'package:pi_hole_client/widgets/custom_settings_tile.dart';
 import 'package:pi_hole_client/widgets/section_label.dart';
@@ -21,7 +21,7 @@ import 'package:pi_hole_client/screens/settings/legal_modal.dart';
 
 import 'package:pi_hole_client/config/urls.dart';
 import 'package:pi_hole_client/functions/open_url.dart';
-import 'package:pi_hole_client/functions/snackbar.dart';
+// import 'package:pi_hole_client/functions/snackbar.dart';
 import 'package:pi_hole_client/providers/servers_provider.dart';
 import 'package:pi_hole_client/providers/status_provider.dart';
 import 'package:pi_hole_client/providers/app_config_provider.dart';
@@ -44,16 +44,14 @@ class Settings extends StatelessWidget {
               AppLocalizations.of(context)!.selectOptionLeftColumn,
               textAlign: TextAlign.center,
               style: TextStyle(
-                fontSize: 24,
-                color: Theme.of(context).colorScheme.onSurfaceVariant
-              ),
+                  fontSize: 24,
+                  color: Theme.of(context).colorScheme.onSurfaceVariant),
             ),
           ),
         ),
         child: const SettingsWidget(),
       );
-    }
-    else {
+    } else {
       return const SettingsWidget();
     }
   }
@@ -81,14 +79,13 @@ class _SettingsWidgetState extends State<SettingsWidget> {
       appConfigProvider.setSelectedSettingsScreen(screen: null);
     }
 
-    Widget settingsTile({
-      required String title,
-      required String subtitle,
-      required IconData icon,
-      Widget? trailing,
-      required Widget screenToNavigate,
-      required int thisItem
-    }) {
+    Widget settingsTile(
+        {required String title,
+        required String subtitle,
+        required IconData icon,
+        Widget? trailing,
+        required Widget screenToNavigate,
+        required int thisItem}) {
       if (width > 900) {
         return CustomSettingsTile(
           title: title,
@@ -102,8 +99,7 @@ class _SettingsWidgetState extends State<SettingsWidget> {
             SplitView.of(context).setSecondary(screenToNavigate);
           },
         );
-      }
-      else {
+      } else {
         return CustomListTile(
           label: title,
           description: subtitle,
@@ -111,40 +107,36 @@ class _SettingsWidgetState extends State<SettingsWidget> {
           trailing: trailing,
           onTap: () {
             Navigator.of(context).push(
-              MaterialPageRoute(builder: (context) => screenToNavigate)
-            );
+                MaterialPageRoute(builder: (context) => screenToNavigate));
           },
         );
       }
     }
 
-    void openLogsQuantityPerLoad() {
-      showModalBottomSheet(
-        context: context,
-        isScrollControlled: true,
-        builder: (context) => LogsQuantityPerLoadModal(
-          time: appConfigProvider.logsPerQuery,
-          onChange: (time) async {
-            final result = await appConfigProvider.setLogsPerQuery(time);
-            if (result == true) {
-                showSnackBar(
-                appConfigProvider: appConfigProvider,
-                label: AppLocalizations.of(context)!.logsPerQueryUpdated,
-                color: Colors.green
-              );
-            }
-            else {
-              showSnackBar(
-                appConfigProvider: appConfigProvider,
-                label: AppLocalizations.of(context)!.cantUpdateLogsPerQuery,
-                color: Colors.green
-              );
-            }
-          },
-        ),
-        backgroundColor: Colors.transparent,
-      );
-    }
+    // void openLogsQuantityPerLoad() {
+    //   showModalBottomSheet(
+    //     context: context,
+    //     isScrollControlled: true,
+    //     builder: (context) => LogsQuantityPerLoadModal(
+    //       time: appConfigProvider.logsPerQuery,
+    //       onChange: (time) async {
+    //         final result = await appConfigProvider.setLogsPerQuery(time);
+    //         if (result == true) {
+    //           showSnackBar(
+    //               appConfigProvider: appConfigProvider,
+    //               label: AppLocalizations.of(context)!.logsPerQueryUpdated,
+    //               color: Colors.green);
+    //         } else {
+    //           showSnackBar(
+    //               appConfigProvider: appConfigProvider,
+    //               label: AppLocalizations.of(context)!.cantUpdateLogsPerQuery,
+    //               color: Colors.green);
+    //         }
+    //       },
+    //     ),
+    //     backgroundColor: Colors.transparent,
+    //   );
+    // }
 
     void openLegalModal() {
       showDialog(
@@ -155,16 +147,12 @@ class _SettingsWidgetState extends State<SettingsWidget> {
 
     void openImportantInformationModal() {
       showDialog(
-        context: context,
-        builder: (context) => const ImportantInfoModal()
-      );
+          context: context, builder: (context) => const ImportantInfoModal());
     }
 
     void openContactModal() {
       showDialog(
-        context: context,
-        builder: (context) => const ContactMeModal()
-      );
+          context: context, builder: (context) => const ContactMeModal());
     }
 
     String getThemeString() {
@@ -185,134 +173,136 @@ class _SettingsWidgetState extends State<SettingsWidget> {
 
     return Scaffold(
       body: NestedScrollView(
-        headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled) {
-          return <Widget>[
-            SliverOverlapAbsorber(
-              handle: NestedScrollView.sliverOverlapAbsorberHandleFor(context),
-              sliver: SliverAppBar.large(
-                pinned: true,
-                floating: true,
-                centerTitle: false,
-                forceElevated: innerBoxIsScrolled,
-                title: Text(AppLocalizations.of(context)!.settings),
-              )
-            ),
-          ];
-        },
-        body: SafeArea(
-          top: false,
-          bottom: false,
-          child: Builder(
-            builder: (context) => CustomScrollView(
-              slivers: [
-                SliverOverlapInjector(
-                  handle: NestedScrollView.sliverOverlapAbsorberHandleFor(context),
-                ),
-                SliverList.list(
-                  children: [
-                    SectionLabel(
-                      label: AppLocalizations.of(context)!.appSettings,
+          headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled) {
+            return <Widget>[
+              SliverOverlapAbsorber(
+                  handle:
+                      NestedScrollView.sliverOverlapAbsorberHandleFor(context),
+                  sliver: SliverAppBar.large(
+                    pinned: true,
+                    floating: true,
+                    centerTitle: false,
+                    forceElevated: innerBoxIsScrolled,
+                    title: Text(AppLocalizations.of(context)!.settings),
+                  )),
+            ];
+          },
+          body: SafeArea(
+              top: false,
+              bottom: false,
+              child: Builder(
+                builder: (context) => CustomScrollView(
+                  slivers: [
+                    SliverOverlapInjector(
+                      handle: NestedScrollView.sliverOverlapAbsorberHandleFor(
+                          context),
                     ),
-                    settingsTile(
-                      icon: Icons.light_mode_rounded,
-                      title: AppLocalizations.of(context)!.theme,
-                      subtitle: getThemeString(),
-                      thisItem: 0,
-                      screenToNavigate: const ThemeScreen()
-                    ),
-                    settingsTile(
-                      icon: Icons.storage_rounded,
-                      title: AppLocalizations.of(context)!.servers,
-                      subtitle: serversProvider.selectedServer != null
-                        ? statusProvider.isServerConnected == true
-                          ? "${AppLocalizations.of(context)!.connectedTo} ${serversProvider.selectedServer!.alias}"
-                          : AppLocalizations.of(context)!.notConnectServer
-                        : AppLocalizations.of(context)!.notSelected,
-                      screenToNavigate: const ServersPage(),
-                      thisItem: 1
-                    ),
-                    settingsTile(
-                      icon: Icons.update,
-                      title: AppLocalizations.of(context)!.autoRefreshTime,
-                      subtitle: "${appConfigProvider.getAutoRefreshTime.toString()} ${AppLocalizations.of(context)!.seconds}",
-                      thisItem: 2,
-                      screenToNavigate: const AutoRefreshTimeScreen()
-                    ),
-                    settingsTile(
-                      icon: Icons.list_rounded,
-                      title: AppLocalizations.of(context)!.logsQuantityPerLoad,
-                      subtitle: "${appConfigProvider.logsPerQuery == 0.5 ? '30' : appConfigProvider.logsPerQuery.toInt()} ${appConfigProvider.logsPerQuery == 0.5 ? AppLocalizations.of(context)!.minutes : AppLocalizations.of(context)!.hours}",
-                      thisItem: 3,
-                      screenToNavigate: const LogsQuantityLoadScreen()
-                    ),
-                    settingsTile(
-                      icon: Icons.settings,
-                      title: AppLocalizations.of(context)!.advancedSetup,
-                      subtitle: AppLocalizations.of(context)!.advancedSetupDescription,
-                      screenToNavigate: const AdvancedOptions(),
-                      thisItem: 4,
-                    ),
-                    SectionLabel(
-                      label: AppLocalizations.of(context)!.about,
-                    ),
-                    CustomListTile(
-                      label: AppLocalizations.of(context)!.importantInformation,
-                      description: AppLocalizations.of(context)!.readIssues,
-                      onTap: openImportantInformationModal
-                    ),
-                    CustomListTile(
-                      label: AppLocalizations.of(context)!.legal,
-                      description: AppLocalizations.of(context)!.legalInfo,
-                      onTap: openLegalModal
-                    ),
-                    if (appConfigProvider.getAppInfo != null) CustomListTile(
-                      label: AppLocalizations.of(context)!.appVersion,
-                      description: appConfigProvider.getAppInfo!.version
-                    ),
-                    CustomListTile(
-                      label: AppLocalizations.of(context)!.contactDeveloper,
-                      description: AppLocalizations.of(context)!.issuesSuggestions,
-                      onTap: openContactModal,
-                    ),
-                    CustomListTile(
-                      label: AppLocalizations.of(context)!.createdBy,
-                      description: "tsutsu3"
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.all(15),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                        children: [
-                          IconButton(
-                            onPressed: () => openUrl(Urls.playStore),
-                            icon: SvgPicture.asset(
-                              'assets/resources/google-play.svg',
-                              color: Theme.of(context).colorScheme.onSurface,
-                              width: 30,
-                              height: 30,
-                            ),
-                            tooltip: AppLocalizations.of(context)!.visitGooglePlay,
-                          ),
-                          IconButton(
-                            onPressed: () => openUrl(Urls.gitHub),
-                            icon: SvgPicture.asset(
-                              'assets/resources/github.svg',
-                              color: Theme.of(context).colorScheme.onSurface,
-                              width: 30,
-                              height: 30,
-                            ),
-                            tooltip: AppLocalizations.of(context)!.gitHub,
-                          ),
-                        ],
+                    SliverList.list(children: [
+                      SectionLabel(
+                        label: AppLocalizations.of(context)!.appSettings,
                       ),
-                    )
-                  ]
-                )
-              ],
-            ),
-          )
-        )
-      ),
+                      settingsTile(
+                          icon: Icons.light_mode_rounded,
+                          title: AppLocalizations.of(context)!.theme,
+                          subtitle: getThemeString(),
+                          thisItem: 0,
+                          screenToNavigate: const ThemeScreen()),
+                      settingsTile(
+                          icon: Icons.storage_rounded,
+                          title: AppLocalizations.of(context)!.servers,
+                          subtitle: serversProvider.selectedServer != null
+                              ? statusProvider.isServerConnected == true
+                                  ? "${AppLocalizations.of(context)!.connectedTo} ${serversProvider.selectedServer!.alias}"
+                                  : AppLocalizations.of(context)!
+                                      .notConnectServer
+                              : AppLocalizations.of(context)!.notSelected,
+                          screenToNavigate: const ServersPage(),
+                          thisItem: 1),
+                      settingsTile(
+                          icon: Icons.update,
+                          title: AppLocalizations.of(context)!.autoRefreshTime,
+                          subtitle:
+                              "${appConfigProvider.getAutoRefreshTime.toString()} ${AppLocalizations.of(context)!.seconds}",
+                          thisItem: 2,
+                          screenToNavigate: const AutoRefreshTimeScreen()),
+                      settingsTile(
+                          icon: Icons.list_rounded,
+                          title:
+                              AppLocalizations.of(context)!.logsQuantityPerLoad,
+                          subtitle:
+                              "${appConfigProvider.logsPerQuery == 0.5 ? '30' : appConfigProvider.logsPerQuery.toInt()} ${appConfigProvider.logsPerQuery == 0.5 ? AppLocalizations.of(context)!.minutes : AppLocalizations.of(context)!.hours}",
+                          thisItem: 3,
+                          screenToNavigate: const LogsQuantityLoadScreen()),
+                      settingsTile(
+                        icon: Icons.settings,
+                        title: AppLocalizations.of(context)!.advancedSetup,
+                        subtitle: AppLocalizations.of(context)!
+                            .advancedSetupDescription,
+                        screenToNavigate: const AdvancedOptions(),
+                        thisItem: 4,
+                      ),
+                      SectionLabel(
+                        label: AppLocalizations.of(context)!.about,
+                      ),
+                      CustomListTile(
+                          label: AppLocalizations.of(context)!
+                              .importantInformation,
+                          description: AppLocalizations.of(context)!.readIssues,
+                          onTap: openImportantInformationModal),
+                      CustomListTile(
+                          label: AppLocalizations.of(context)!.legal,
+                          description: AppLocalizations.of(context)!.legalInfo,
+                          onTap: openLegalModal),
+                      if (appConfigProvider.getAppInfo != null)
+                        CustomListTile(
+                            label: AppLocalizations.of(context)!.appVersion,
+                            description: appConfigProvider.getAppInfo!.version),
+                      CustomListTile(
+                        label: AppLocalizations.of(context)!.contactDeveloper,
+                        description:
+                            AppLocalizations.of(context)!.issuesSuggestions,
+                        onTap: openContactModal,
+                      ),
+                      CustomListTile(
+                          label: AppLocalizations.of(context)!.createdBy,
+                          description: "tsutsu3"),
+                      Padding(
+                        padding: const EdgeInsets.all(15),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                          children: [
+                            IconButton(
+                              onPressed: () => openUrl(Urls.playStore),
+                              icon: SvgPicture.asset(
+                                'assets/resources/google-play.svg',
+                                colorFilter: ColorFilter.mode(
+                                    Theme.of(context).colorScheme.onSurface,
+                                    BlendMode.srcIn),
+                                width: 30,
+                                height: 30,
+                              ),
+                              tooltip:
+                                  AppLocalizations.of(context)!.visitGooglePlay,
+                            ),
+                            IconButton(
+                              onPressed: () => openUrl(Urls.gitHub),
+                              icon: SvgPicture.asset(
+                                'assets/resources/github.svg',
+                                colorFilter: ColorFilter.mode(
+                                    Theme.of(context).colorScheme.onSurface,
+                                    BlendMode.srcIn),
+                                width: 30,
+                                height: 30,
+                              ),
+                              tooltip: AppLocalizations.of(context)!.gitHub,
+                            ),
+                          ],
+                        ),
+                      )
+                    ])
+                  ],
+                ),
+              ))),
     );
   }
 }

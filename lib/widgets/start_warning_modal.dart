@@ -11,7 +11,8 @@ class ImportantInfoModal extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final appConfigProvider = Provider.of<AppConfigProvider>(context, listen: false);
+    final appConfigProvider =
+        Provider.of<AppConfigProvider>(context, listen: false);
 
     return AlertDialog(
       scrollable: true,
@@ -28,14 +29,12 @@ class ImportantInfoModal extends StatelessWidget {
               AppLocalizations.of(context)!.importantAnnouncement,
               textAlign: TextAlign.center,
               style: TextStyle(
-                fontSize: 24,
-                color: Theme.of(context).colorScheme.onSurface
-              ),
+                  fontSize: 24, color: Theme.of(context).colorScheme.onSurface),
             ),
           ),
         ],
       ),
-      content:  Column(
+      content: Column(
         children: [
           Column(
             crossAxisAlignment: CrossAxisAlignment.center,
@@ -43,10 +42,8 @@ class ImportantInfoModal extends StatelessWidget {
               Text(
                 AppLocalizations.of(context)!.requiredVersions,
                 textAlign: TextAlign.center,
-                style: const TextStyle(
-                  fontWeight: FontWeight.w500,
-                  fontSize: 16
-                ),
+                style:
+                    const TextStyle(fontWeight: FontWeight.w500, fontSize: 16),
               ),
               Container(
                 width: double.maxFinite,
@@ -81,12 +78,11 @@ class ImportantInfoModal extends StatelessWidget {
       ),
       actions: [
         TextButton(
-          onPressed: () async {
-            await appConfigProvider.setImportantInfoReaden(true);
-            Navigator.pop(context);
-          },
-          child: Text(AppLocalizations.of(context)!.close)
-        )
+            onPressed: () async {
+              await appConfigProvider.setImportantInfoReaden(true);
+              Navigator.pop(context);
+            },
+            child: Text(AppLocalizations.of(context)!.close))
       ],
     );
   }
