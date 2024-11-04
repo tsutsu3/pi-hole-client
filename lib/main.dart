@@ -213,11 +213,13 @@ class _PiHoleClientState extends State<PiHoleClient> {
               GlobalCupertinoLocalizations.delegate,
               AppLocalizations.delegate,
             ],
+            locale: Locale(appConfigProvider.selectedLanguage),
             supportedLocales: const [
               Locale('en', ''),
               Locale('es', ''),
               Locale('de', ''),
               Locale('pl', ''),
+              Locale('ja', ''),
             ],
             scaffoldMessengerKey: scaffoldMessengerKey,
             builder: (context, child) {

@@ -1,7 +1,10 @@
+import 'package:logger/logger.dart';
 import 'package:sqflite/sqflite.dart';
 
 import 'package:pi_hole_client/functions/conversions.dart';
 import 'package:pi_hole_client/models/server.dart';
+
+final logger = Logger();
 
 Future<dynamic> saveServerQuery(Database db, Server server) async {
   try {
@@ -126,6 +129,7 @@ Future<bool> updateConfigQuery(
       return true;
     });
   } catch (e) {
+    logger.e(e);
     return false;
   }
 }
@@ -138,6 +142,7 @@ Future<bool> restoreAppConfigQuery(Database db) async {
         {
           'autoRefreshTime': 5,
           'theme': 0,
+          'language': 'en',
           'overrideSslCheck': 0,
           'oneColumnLegend': 0,
           'reducedDataCharts': 0,

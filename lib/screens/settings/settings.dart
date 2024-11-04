@@ -2,6 +2,8 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:pi_hole_client/constants/languages.dart';
+import 'package:pi_hole_client/screens/settings/language_screen.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_split_view/flutter_split_view.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
@@ -171,6 +173,15 @@ class _SettingsWidgetState extends State<SettingsWidget> {
       }
     }
 
+    String getLanguageString() {
+      final selectedLanguageOption = languageOptions.firstWhere(
+        (option) => option.key == appConfigProvider.selectedLanguage,
+        orElse: () =>
+            languageOptions.firstWhere((option) => option.key == 'en'),
+      );
+      return selectedLanguageOption.displayName;
+    }
+
     return Scaffold(
       body: NestedScrollView(
           headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled) {
@@ -208,6 +219,12 @@ class _SettingsWidgetState extends State<SettingsWidget> {
                           thisItem: 0,
                           screenToNavigate: const ThemeScreen()),
                       settingsTile(
+                          icon: Icons.language,
+                          title: AppLocalizations.of(context)!.language,
+                          subtitle: getLanguageString(),
+                          thisItem: 1,
+                          screenToNavigate: const LanguageScreen()),
+                      settingsTile(
                           icon: Icons.storage_rounded,
                           title: AppLocalizations.of(context)!.servers,
                           subtitle: serversProvider.selectedServer != null
@@ -217,13 +234,13 @@ class _SettingsWidgetState extends State<SettingsWidget> {
                                       .notConnectServer
                               : AppLocalizations.of(context)!.notSelected,
                           screenToNavigate: const ServersPage(),
-                          thisItem: 1),
+                          thisItem: 2),
                       settingsTile(
                           icon: Icons.update,
                           title: AppLocalizations.of(context)!.autoRefreshTime,
                           subtitle:
                               "${appConfigProvider.getAutoRefreshTime.toString()} ${AppLocalizations.of(context)!.seconds}",
-                          thisItem: 2,
+                          thisItem: 3,
                           screenToNavigate: const AutoRefreshTimeScreen()),
                       settingsTile(
                           icon: Icons.list_rounded,
@@ -231,7 +248,7 @@ class _SettingsWidgetState extends State<SettingsWidget> {
                               AppLocalizations.of(context)!.logsQuantityPerLoad,
                           subtitle:
                               "${appConfigProvider.logsPerQuery == 0.5 ? '30' : appConfigProvider.logsPerQuery.toInt()} ${appConfigProvider.logsPerQuery == 0.5 ? AppLocalizations.of(context)!.minutes : AppLocalizations.of(context)!.hours}",
-                          thisItem: 3,
+                          thisItem: 4,
                           screenToNavigate: const LogsQuantityLoadScreen()),
                       settingsTile(
                         icon: Icons.settings,
@@ -239,7 +256,7 @@ class _SettingsWidgetState extends State<SettingsWidget> {
                         subtitle: AppLocalizations.of(context)!
                             .advancedSetupDescription,
                         screenToNavigate: const AdvancedOptions(),
-                        thisItem: 4,
+                        thisItem: 5,
                       ),
                       SectionLabel(
                         label: AppLocalizations.of(context)!.about,
