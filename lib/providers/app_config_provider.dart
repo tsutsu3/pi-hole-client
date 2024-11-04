@@ -1,3 +1,4 @@
+import 'package:pi_hole_client/constants/languages.dart';
 import 'package:pi_hole_client/models/app_log.dart';
 import 'package:pi_hole_client/services/database/queries.dart';
 import 'package:flutter/material.dart';
@@ -27,6 +28,8 @@ class AppConfigProvider with ChangeNotifier {
   int _hideZeroValues = 0;
   int _statisticsVisualizationMode = 0;
   int? _selectedSettingsScreen;
+  String _selectedLanguage =
+      SchedulerBinding.instance.platformDispatcher.locale.languageCode;
 
   final List<AppLog> _logs = [];
 
@@ -68,12 +71,24 @@ class AppConfigProvider with ChangeNotifier {
     }
   }
 
+  String get selectedLanguage {
+    return _selectedLanguage;
+  }
+
   Database? get dbInstance {
     return _dbInstance;
   }
 
   int get selectedThemeNumber {
     return _selectedTheme;
+  }
+
+  int get selectedLanguageNumber {
+    final selectedLanguageOption = languageOptions.firstWhere(
+      (option) => option.key == _selectedLanguage,
+      orElse: () => languageOptions.firstWhere((option) => option.key == 'en'),
+    );
+    return selectedLanguageOption.index;
   }
 
   bool get overrideSslCheck {
@@ -278,6 +293,7 @@ class AppConfigProvider with ChangeNotifier {
   void saveFromDb(Database dbInstance, Map<String, dynamic> dbData) {
     _autoRefreshTime = dbData['autoRefreshTime'];
     _selectedTheme = dbData['theme'];
+    // _selectedLanguage = dbData['language'];
     _overrideSslCheck = dbData['overrideSslCheck'];
     _oneColumnLegend = dbData['oneColumnLegend'];
     _reducedDataCharts = dbData['reducedDataCharts'];
@@ -364,6 +380,18 @@ class AppConfigProvider with ChangeNotifier {
     }
   }
 
+  Future<bool> setSelectedLanguage(String value) async {
+    final updated = await updateConfigQuery(
+        db: _dbInstance!, column: 'language', value: value);
+    if (updated == true) {
+      _selectedLanguage = value;
+      notifyListeners();
+      return true;
+    } else {
+      return false;
+    }
+  }
+
   Future<bool> setStatisticsVisualizationMode(int value) async {
     final updated = await updateConfigQuery(
         db: _dbInstance!, column: 'statisticsVisualizationMode', value: value);
@@ -381,7 +409,8 @@ class AppConfigProvider with ChangeNotifier {
     if (result == true) {
       _autoRefreshTime = 5;
       _selectedTheme = 0;
-      _overrideSslCheck = 0;
+      _selectedLanguage =
+          SchedulerBinding.instance.platformDispatcher.locale.languageCode;
       _oneColumnLegend = 0;
       _reducedDataCharts = 0;
       _logsPerQuery = 2;
