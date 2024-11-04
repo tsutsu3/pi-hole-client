@@ -115,31 +115,6 @@ class _SettingsWidgetState extends State<SettingsWidget> {
       }
     }
 
-    // void openLogsQuantityPerLoad() {
-    //   showModalBottomSheet(
-    //     context: context,
-    //     isScrollControlled: true,
-    //     builder: (context) => LogsQuantityPerLoadModal(
-    //       time: appConfigProvider.logsPerQuery,
-    //       onChange: (time) async {
-    //         final result = await appConfigProvider.setLogsPerQuery(time);
-    //         if (result == true) {
-    //           showSnackBar(
-    //               appConfigProvider: appConfigProvider,
-    //               label: AppLocalizations.of(context)!.logsPerQueryUpdated,
-    //               color: Colors.green);
-    //         } else {
-    //           showSnackBar(
-    //               appConfigProvider: appConfigProvider,
-    //               label: AppLocalizations.of(context)!.cantUpdateLogsPerQuery,
-    //               color: Colors.green);
-    //         }
-    //       },
-    //     ),
-    //     backgroundColor: Colors.transparent,
-    //   );
-    // }
-
     void openLegalModal() {
       showDialog(
         context: context,
