@@ -293,7 +293,7 @@ class AppConfigProvider with ChangeNotifier {
   void saveFromDb(Database dbInstance, Map<String, dynamic> dbData) {
     _autoRefreshTime = dbData['autoRefreshTime'];
     _selectedTheme = dbData['theme'];
-    // _selectedLanguage = dbData['language'];
+    _selectedLanguage = dbData['language'];
     _overrideSslCheck = dbData['overrideSslCheck'];
     _oneColumnLegend = dbData['oneColumnLegend'];
     _reducedDataCharts = dbData['reducedDataCharts'];
@@ -411,6 +411,7 @@ class AppConfigProvider with ChangeNotifier {
       _selectedTheme = 0;
       _selectedLanguage =
           SchedulerBinding.instance.platformDispatcher.locale.languageCode;
+      _overrideSslCheck = 0;
       _oneColumnLegend = 0;
       _reducedDataCharts = 0;
       _logsPerQuery = 2;
