@@ -218,6 +218,7 @@ class _PiHoleClientState extends State<PiHoleClient> {
               Locale('es', ''),
               Locale('de', ''),
               Locale('pl', ''),
+              Locale('ja', ''),
             ],
             scaffoldMessengerKey: scaffoldMessengerKey,
             builder: (context, child) {
