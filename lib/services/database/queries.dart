@@ -24,6 +24,23 @@ Future<dynamic> saveServerQuery(Database db, Server server) async {
   }
 }
 
+/// Edits the server details in the database.
+///
+/// This function performs a database transaction to update the server details
+/// in the 'servers' table. It updates the server's alias, token, default server
+/// status, basic authentication user, and basic authentication password based
+/// on the provided [server] object.
+///
+/// If the update is successful, it returns `true`. If an error occurs during
+/// the transaction, it logs the error and returns `false`.
+///
+/// Parameters:
+/// - [db]: The database instance to perform the transaction on.
+/// - [server]: The server object containing the updated details.
+///
+/// Returns:
+/// - A `Future` that resolves to `true` if the update is successful, or `false`
+/// if an error occurs.
 Future<dynamic> editServerQuery(Database db, Server server) async {
   try {
     return await db.transaction((txn) async {
@@ -38,10 +55,11 @@ Future<dynamic> editServerQuery(Database db, Server server) async {
           },
           where: 'address = ?',
           whereArgs: [server.address]);
-      return null;
+      return true;
     });
-  } catch (e) {
-    return e;
+  } catch (e, stackTrace) {
+    logger.e('Error editing server', error: e, stackTrace: stackTrace);
+    return false;
   }
 }
 
