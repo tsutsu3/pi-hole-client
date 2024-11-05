@@ -90,6 +90,38 @@ Future<dynamic> setServerTokenQuery(
   }
 }
 
+/// Updates the API version of a server in the database.
+///
+/// This function performs a database transaction to update the `apiVersion`
+/// field of a server identified by its `address`. If the `apiVersion` is null,
+/// it will be set to an empty string.
+///
+/// If an error occurs during the transaction, it logs the error and returns
+/// the exception.
+///
+/// Parameters:
+/// - `db`: The database instance.
+/// - `address`: The address of the server to update.
+/// - `apiVersion`: The new API version to set. If null, it will be set to an empty string.
+///
+/// Returns:
+/// - `null` if the update is successful.
+/// - The exception if an error occurs.
+Future<dynamic> setServerApiVersionQuery(
+    Database db, String address, String? apiVersion) async {
+  try {
+    return await db.transaction((txn) async {
+      await txn.update('servers', {'apiVersion': apiVersion ?? ''},
+          where: 'address = ?', whereArgs: [address]);
+      return true;
+    });
+  } catch (e, stackTrace) {
+    logger.e('Error updating server API version',
+        error: e, stackTrace: stackTrace);
+    return false;
+  }
+}
+
 Future<bool> removeServerQuery(Database db, String address) async {
   try {
     return await db.transaction((txn) async {

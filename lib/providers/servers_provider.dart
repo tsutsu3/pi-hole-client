@@ -121,6 +121,40 @@ class ServersProvider with ChangeNotifier {
     }
   }
 
+  /// Sets the API version for a given server.
+  ///
+  /// This method updates the API version of the specified [server] in the database
+  /// and updates the local list of servers if the operation is successful.
+  ///
+  /// The method performs the following steps:
+  /// 1. Calls [setServerApiVersionQuery] to update the API version in the database.
+  /// 2. If the database update is successful, updates the local list of servers
+  ///    to reflect the new API version.
+  /// 3. Notifies listeners about the change.
+  ///
+  /// Parameters:
+  /// - `server`: The server to update.
+  ///
+  /// Returns:
+  /// - `true` if the API version is successfully updated.
+  Future<bool> setApiVersion(Server server) async {
+    final result = await setServerApiVersionQuery(
+        _dbInstance!, server.address, server.apiVersion);
+    if (result == true) {
+      _serversList = _serversList.map((s) {
+        if (s.address == server.address) {
+          return server;
+        } else {
+          return s;
+        }
+      }).toList();
+      notifyListeners();
+      return true;
+    } else {
+      return false;
+    }
+  }
+
   Future saveFromDb(List<Map<String, dynamic>>? servers, bool connect) async {
     if (servers != null) {
       Server? defaultServer;
