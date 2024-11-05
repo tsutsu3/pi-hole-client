@@ -105,8 +105,7 @@ Future<dynamic> setServerTokenQuery(
 /// - `apiVersion`: The new API version to set. If null, it will be set to an empty string.
 ///
 /// Returns:
-/// - `null` if the update is successful.
-/// - The exception if an error occurs.
+/// - A `Future` that resolves to `null` if the update is successful, or the exception
 Future<dynamic> setServerApiVersionQuery(
     Database db, String address, String? apiVersion) async {
   try {
