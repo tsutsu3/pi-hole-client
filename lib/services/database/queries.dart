@@ -1,10 +1,8 @@
-import 'package:logger/logger.dart';
+import 'package:pi_hole_client/functions/logger.dart';
 import 'package:sqflite/sqflite.dart';
 
 import 'package:pi_hole_client/functions/conversions.dart';
 import 'package:pi_hole_client/models/server.dart';
-
-final logger = Logger();
 
 Future<dynamic> saveServerQuery(Database db, Server server) async {
   try {

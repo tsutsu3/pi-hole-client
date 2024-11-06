@@ -125,7 +125,7 @@ Future<Map<String, dynamic>> loadDb() async {
   List<Map<String, Object?>>? servers;
   List<Map<String, Object?>>? appConfig;
 
-  Database db = await openDatabase('pi_hole_client.db', version: 16,
+  Database db = await openDatabase('pi_hole_client.db', version: 17,
       onCreate: (Database db, int version) async {
     await db.execute(
         "CREATE TABLE servers (address TEXT PRIMARY KEY, alias TEXT, token TEXT, isDefaultServer NUMERIC, basicAuthUser TEXT, basicAuthPassword TEXT)");
