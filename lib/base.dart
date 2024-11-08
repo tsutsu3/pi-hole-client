@@ -18,7 +18,6 @@ import 'package:pi_hole_client/widgets/bottom_nav_bar.dart';
 
 import 'package:pi_hole_client/models/server.dart';
 import 'package:pi_hole_client/constants/enums.dart';
-import 'package:pi_hole_client/services/http_requests.dart';
 import 'package:pi_hole_client/providers/status_provider.dart';
 import 'package:pi_hole_client/constants/app_screens.dart';
 import 'package:pi_hole_client/providers/app_config_provider.dart';
@@ -52,8 +51,10 @@ class _BaseState extends State<Base> with WidgetsBindingObserver {
         Provider.of<ServersProvider>(context, listen: false);
     final apiGateway = serversProvider.selectedApiGateway;
 
-    final result = await Future.wait(
-        [apiGateway!.realtimeStatus(server), fetchOverTimeData(server)]);
+    final result = await Future.wait([
+      apiGateway!.realtimeStatus(server),
+      apiGateway.fetchOverTimeData(server)
+    ]);
 
     if (result[0]['result'] == 'success' && result[1]['result'] == 'success') {
       statusProvider.setRealtimeStatus(result[0]['data']);

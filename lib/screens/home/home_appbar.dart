@@ -79,7 +79,7 @@ class HomeAppBar extends StatelessWidget implements PreferredSizeWidget {
         if (statusResult['result'] == 'success') {
           statusProvider.setRealtimeStatus(statusResult['data']);
         }
-        final overtimeDataResult = await fetchOverTimeData(server);
+        final overtimeDataResult = await apiGateway?.fetchOverTimeData(server);
         if (overtimeDataResult['result'] == 'success') {
           statusProvider.setOvertimeData(overtimeDataResult['data']);
           statusProvider.setOvertimeDataLoadingStatus(1);

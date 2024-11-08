@@ -9,7 +9,6 @@ import 'package:http/http.dart' as http;
 import 'package:pi_hole_client/models/app_log.dart';
 import 'package:pi_hole_client/models/domain.dart';
 import 'package:pi_hole_client/functions/encode_basic_auth.dart';
-import 'package:pi_hole_client/models/overtime_data.dart';
 import 'package:pi_hole_client/models/server.dart';
 
 bool checkBasicAuth(String? username, String? password) {
@@ -193,29 +192,29 @@ Future loginQuery(Server server) async {
   }
 }
 
-Future fetchOverTimeData(Server server) async {
-  try {
-    final response = await httpClient(
-        method: 'get',
-        url:
-            '${server.address}/admin/api.php?auth=${server.token}&overTimeData10mins&overTimeDataClients&getClientNames',
-        basicAuth: {
-          'username': server.basicAuthUser,
-          'password': server.basicAuthPassword
-        });
-    final body = jsonDecode(response.body);
-    var data = OverTimeData.fromJson(body);
-    return {'result': 'success', 'data': data};
-  } on SocketException {
-    return {'result': 'socket'};
-  } on TimeoutException {
-    return {'result': 'timeout'};
-  } on HandshakeException {
-    return {'result': 'ssl_error'};
-  } catch (e) {
-    return {'result': 'error'};
-  }
-}
+// Future fetchOverTimeData(Server server) async {
+//   try {
+//     final response = await httpClient(
+//         method: 'get',
+//         url:
+//             '${server.address}/admin/api.php?auth=${server.token}&overTimeData10mins&overTimeDataClients&getClientNames',
+//         basicAuth: {
+//           'username': server.basicAuthUser,
+//           'password': server.basicAuthPassword
+//         });
+//     final body = jsonDecode(response.body);
+//     var data = OverTimeData.fromJson(body);
+//     return {'result': 'success', 'data': data};
+//   } on SocketException {
+//     return {'result': 'socket'};
+//   } on TimeoutException {
+//     return {'result': 'timeout'};
+//   } on HandshakeException {
+//     return {'result': 'ssl_error'};
+//   } catch (e) {
+//     return {'result': 'error'};
+//   }
+// }
 
 Future setWhiteBlacklist({
   required Server server,

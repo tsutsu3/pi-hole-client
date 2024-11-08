@@ -9,6 +9,7 @@ OverTimeData overTimeDataFromJson(String str) =>
 
 String overTimeDataToJson(OverTimeData data) => json.encode(data.toJson());
 
+/// Over time data (24 hours)
 class OverTimeData {
   OverTimeData({
     required this.domainsOverTime,

@@ -8,7 +8,6 @@ import 'package:pi_hole_client/constants/enums.dart';
 import 'package:pi_hole_client/providers/filters_provider.dart';
 import 'package:pi_hole_client/providers/app_config_provider.dart';
 import 'package:pi_hole_client/providers/servers_provider.dart';
-import 'package:pi_hole_client/services/http_requests.dart';
 
 class StatusUpdater {
   BuildContext? context;
@@ -72,9 +71,10 @@ class StatusUpdater {
       StatusProvider statusProvider, FiltersProvider filtersProvider) {
     void timerFn({Timer? timer}) async {
       if (serversProvider.selectedServer != null) {
+        final apiGateway = serversProvider.selectedApiGateway;
         String statusUrlBefore = serversProvider.selectedServer!.address;
-        final statusResult =
-            await fetchOverTimeData(serversProvider.selectedServer!);
+        final statusResult = await apiGateway
+            ?.fetchOverTimeData(serversProvider.selectedServer!);
         if (statusResult['result'] == 'success') {
           statusProvider.setOvertimeData(statusResult['data']);
           List<dynamic> clients = statusResult['data'].clients.map((client) {
