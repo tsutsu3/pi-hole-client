@@ -12,6 +12,7 @@ Future<dynamic> saveServerQuery(Database db, Server server) async {
         'alias': server.alias,
         'token': server.token,
         'isDefaultServer': 0,
+        'apiVersion': server.apiVersion,
         'basicAuthUser': server.basicAuthUser,
         'basicAuthPassword': server.basicAuthPassword,
       });
@@ -48,6 +49,7 @@ Future<dynamic> editServerQuery(Database db, Server server) async {
             'alias': server.alias,
             'token': server.token,
             'isDefaultServer': convertFromBoolToInt(server.defaultServer),
+            'apiVersion': server.apiVersion,
             'basicAuthUser': server.basicAuthUser,
             'basicAuthPassword': server.basicAuthPassword,
           },

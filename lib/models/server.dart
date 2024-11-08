@@ -1,3 +1,6 @@
+/// Model class for Pi-hole server
+///
+/// This class is used to store information about a Pi-hole server.
 class Server {
   /// Pi-hole server IP address with port
   final String address;
@@ -23,12 +26,14 @@ class Server {
   /// Basic authentication password
   String? basicAuthPassword;
 
-  Server(
-      {required this.address,
-      required this.alias,
-      this.token,
-      required this.defaultServer,
-      this.enabled,
-      this.basicAuthUser,
-      this.basicAuthPassword});
+  Server({
+    required this.address,
+    required this.alias,
+    this.token,
+    required this.defaultServer,
+    this.enabled,
+    this.apiVersion,
+    this.basicAuthUser,
+    this.basicAuthPassword,
+  });
 }

@@ -118,6 +118,7 @@ Future upgradeDbToV16(Database db) async {
 
 Future upgradeDbToV17(Database db) async {
   await db.execute("ALTER TABLE appConfig ADD COLUMN language TEXT");
+  await db.execute("ALTER TABLE servers ADD COLUMN apiVersion TEXT");
   await db.execute("UPDATE appConfig SET language = 'en'");
 }
 
@@ -128,7 +129,7 @@ Future<Map<String, dynamic>> loadDb() async {
   Database db = await openDatabase('pi_hole_client.db', version: 17,
       onCreate: (Database db, int version) async {
     await db.execute(
-        "CREATE TABLE servers (address TEXT PRIMARY KEY, alias TEXT, token TEXT, isDefaultServer NUMERIC, basicAuthUser TEXT, basicAuthPassword TEXT)");
+        "CREATE TABLE servers (address TEXT PRIMARY KEY, alias TEXT, token TEXT, isDefaultServer NUMERIC, apiVersion TEXT, basicAuthUser TEXT, basicAuthPassword TEXT)");
     await db.execute(
         "CREATE TABLE appConfig (autoRefreshTime NUMERIC, theme NUMERIC, language TEXT, overrideSslCheck NUMERIC, oneColumnLegend NUMERIC, reducedDataCharts NUMERIC, logsPerQuery NUMERIC, passCode TEXT, useBiometricAuth NUMERIC, importantInfoReaden NUMERIC, hideZeroValues NUMERIC, statisticsVisualizationMode NUMERIC)");
     await db.execute(
