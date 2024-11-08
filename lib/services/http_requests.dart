@@ -231,53 +231,6 @@ Future setWhiteBlacklist({
   }
 }
 
-dynamic testHash(Server server, String hash) async {
-  try {
-    final status = await httpClient(
-        method: 'get',
-        url: '${server.address}/admin/api.php',
-        basicAuth: {
-          'username': server.basicAuthUser,
-          'password': server.basicAuthPassword
-        });
-    if (status.statusCode == 200) {
-      final body = jsonDecode(status.body);
-      if (body.runtimeType != List && body['status'] != null) {
-        final response = await httpClient(
-            method: 'get',
-            url:
-                '${server.address}/admin/api.php?auth=$hash&${body['status'] == 'enabled' ? 'enable' : 'disable'}',
-            basicAuth: {
-              'username': server.basicAuthUser,
-              'password': server.basicAuthPassword
-            });
-        if (response.statusCode == 200) {
-          final body2 = jsonDecode(response.body);
-          if (body2.runtimeType != List && body2['status'] != null) {
-            return {'result': 'success'};
-          } else {
-            return {'result': 'hash_not_valid'};
-          }
-        } else {
-          return {'result': 'hash_not_valid'};
-        }
-      } else {
-        return {'result': 'no_connection'};
-      }
-    } else {
-      return {'result': 'no_connection'};
-    }
-  } on SocketException {
-    return {'result': 'no_connection'};
-  } on TimeoutException {
-    return {'result': 'no_connection'};
-  } on HandshakeException {
-    return {'result': 'ssl_error'};
-  } catch (e) {
-    return {'result': 'error'};
-  }
-}
-
 Future getDomainLists({required Server server}) async {
   Map<String, String>? headers;
   if (checkBasicAuth(server.basicAuthUser, server.basicAuthPassword) == true) {
