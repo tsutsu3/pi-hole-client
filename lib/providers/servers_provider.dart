@@ -22,7 +22,7 @@ class ServersProvider with ChangeNotifier {
 
   Server? _selectedServer;
 
-  final Map<Server, ApiGateway> _serverGateways = {};
+  final Map<String, ApiGateway> _serverGateways = {};
 
   List<Server> get getServersList {
     return _serversList;
@@ -34,13 +34,14 @@ class ServersProvider with ChangeNotifier {
 
   /// Returns the gateway for the selected server if a server is selected,
   /// otherwise returns null.
-  ApiGateway? get selectedApiGateway =>
-      _selectedServer != null ? _serverGateways[_selectedServer] : null;
+  ApiGateway? get selectedApiGateway => _selectedServer != null
+      ? _serverGateways[_selectedServer?.address]
+      : null;
 
   Future<bool> addServer(Server server) async {
     final saved = await saveServerQuery(_dbInstance!, server);
     if (saved == true) {
-      _serverGateways[server] = ApiGatewayV5();
+      _serverGateways[server.address] = ApiGatewayV5();
       if (server.defaultServer == true) {
         final defaultServer = await setDefaultServer(server);
         if (defaultServer == true) {
@@ -81,8 +82,7 @@ class ServersProvider with ChangeNotifier {
   Future<bool> removeServer(String serverAddress) async {
     final result = await removeServerQuery(_dbInstance!, serverAddress);
     if (result == true) {
-      _serverGateways
-          .removeWhere((server, _) => server.address == serverAddress);
+      _serverGateways.removeWhere((key, _) => key == serverAddress);
       _selectedServer = null;
       List<Server> newServers = _serversList
           .where((server) => server.address != serverAddress)
@@ -147,7 +147,7 @@ class ServersProvider with ChangeNotifier {
           basicAuthPassword: server['basicAuthPassword'],
         );
         _serversList.add(serverObj);
-        _serverGateways[serverObj] = ApiGatewayV5();
+        _serverGateways[serverObj.address] = ApiGatewayV5();
         if (convertFromIntToBool(server['isDefaultServer']) == true) {
           defaultServer = serverObj;
         }

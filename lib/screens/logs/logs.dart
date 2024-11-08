@@ -54,6 +54,10 @@ class _LogsState extends State<Logs> {
     final logsPerQuery =
         Provider.of<AppConfigProvider>(context, listen: false).logsPerQuery;
 
+    final serversProvider =
+        Provider.of<ServersProvider>(context, listen: false);
+    final apiGateway = serversProvider.selectedApiGateway;
+
     DateTime? startTime = masterStartTime ?? inStartTime;
     DateTime? endTime = masterEndTime ?? inEndTime;
     late DateTime? timestamp;
@@ -112,9 +116,8 @@ class _LogsState extends State<Logs> {
         loadStatus = 1;
       });
     } else {
-      final result = await fetchLogs(
-          server: Provider.of<ServersProvider>(context, listen: false)
-              .selectedServer!,
+      final result = await apiGateway?.fetchLogs(
+          server: serversProvider.selectedServer!,
           from: minusHoursTimestamp,
           until: timestamp);
       if (mounted) {

@@ -2,7 +2,7 @@
 ///
 /// This class is used to store information about a Pi-hole server.
 class Server {
-  /// Pi-hole server IP address with port
+  /// Pi-hole server IP address with port. Expected unique.
   final String address;
 
   /// Pi-hole server alias

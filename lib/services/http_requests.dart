@@ -298,36 +298,6 @@ Future fetchOverTimeData(Server server) async {
   }
 }
 
-Future fetchLogs({
-  required Server server,
-  required DateTime from,
-  required DateTime until,
-}) async {
-  try {
-    final response = await httpClient(
-        method: 'get',
-        url:
-            '${server.address}/admin/api.php?auth=${server.token}&getAllQueries&from=${from.millisecondsSinceEpoch ~/ 1000}&until=${until.millisecondsSinceEpoch ~/ 1000}',
-        timeout: 20,
-        basicAuth: {
-          'username': server.basicAuthUser,
-          'password': server.basicAuthPassword
-        });
-    final body = jsonDecode(response.body);
-    return {'result': 'success', 'data': body['data']};
-  } on FormatException {
-    return {'result': 'token'};
-  } on SocketException {
-    return {'result': 'socket'};
-  } on TimeoutException {
-    return {'result': 'timeout'};
-  } on HandshakeException {
-    return {'result': 'ssl_error'};
-  } catch (e) {
-    return {'result': 'error'};
-  }
-}
-
 Future setWhiteBlacklist({
   required Server server,
   required String domain,
