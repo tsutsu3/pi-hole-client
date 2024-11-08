@@ -221,59 +221,6 @@ Future loginQuery(Server server) async {
   }
 }
 
-dynamic disableServerRequest(Server server, int time) async {
-  try {
-    final response = await httpClient(
-        method: 'get',
-        url:
-            '${server.address}/admin/api.php?auth=${server.token}&disable=$time',
-        basicAuth: {
-          'username': server.basicAuthUser,
-          'password': server.basicAuthPassword
-        });
-    final body = jsonDecode(response.body);
-    if (body.runtimeType != List && body['status'] != null) {
-      return {'result': 'success', 'status': body['status']};
-    } else {
-      return {'result': 'error'};
-    }
-  } on SocketException {
-    return {'result': 'no_connection'};
-  } on TimeoutException {
-    return {'result': 'no_connection'};
-  } on HandshakeException {
-    return {'result': 'ssl_error'};
-  } catch (e) {
-    return {'result': 'error'};
-  }
-}
-
-dynamic enableServerRequest(Server server) async {
-  try {
-    final response = await httpClient(
-        method: 'get',
-        url: '${server.address}/admin/api.php?auth=${server.token}&enable',
-        basicAuth: {
-          'username': server.basicAuthUser,
-          'password': server.basicAuthPassword
-        });
-    final body = jsonDecode(response.body);
-    if (body.runtimeType != List && body['status'] != null) {
-      return {'result': 'success', 'status': body['status']};
-    } else {
-      return {'result': 'error'};
-    }
-  } on SocketException {
-    return {'result': 'no_connection'};
-  } on TimeoutException {
-    return {'result': 'no_connection'};
-  } on HandshakeException {
-    return {'result': 'ssl_error'};
-  } catch (e) {
-    return {'result': 'error'};
-  }
-}
-
 Future fetchOverTimeData(Server server) async {
   try {
     final response = await httpClient(
