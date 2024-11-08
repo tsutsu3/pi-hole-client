@@ -192,30 +192,6 @@ Future loginQuery(Server server) async {
   }
 }
 
-// Future fetchOverTimeData(Server server) async {
-//   try {
-//     final response = await httpClient(
-//         method: 'get',
-//         url:
-//             '${server.address}/admin/api.php?auth=${server.token}&overTimeData10mins&overTimeDataClients&getClientNames',
-//         basicAuth: {
-//           'username': server.basicAuthUser,
-//           'password': server.basicAuthPassword
-//         });
-//     final body = jsonDecode(response.body);
-//     var data = OverTimeData.fromJson(body);
-//     return {'result': 'success', 'data': data};
-//   } on SocketException {
-//     return {'result': 'socket'};
-//   } on TimeoutException {
-//     return {'result': 'timeout'};
-//   } on HandshakeException {
-//     return {'result': 'ssl_error'};
-//   } catch (e) {
-//     return {'result': 'error'};
-//   }
-// }
-
 Future setWhiteBlacklist({
   required Server server,
   required String domain,
