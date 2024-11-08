@@ -28,13 +28,15 @@ class HomeAppBar extends StatelessWidget implements PreferredSizeWidget {
     final serversProvider = Provider.of<ServersProvider>(context);
     final statusProvider = Provider.of<StatusProvider>(context);
     final appConfigProvider = Provider.of<AppConfigProvider>(context);
+    final apiGateway = serversProvider.selectedApiGateway;
 
     final width = MediaQuery.of(context).size.width;
 
     void refresh() async {
       final ProcessModal process = ProcessModal(context: context);
       process.open(AppLocalizations.of(context)!.refreshingData);
-      final result = await realtimeStatus(serversProvider.selectedServer!);
+      final result =
+          await apiGateway?.realtimeStatus(serversProvider.selectedServer!);
       process.close();
       if (result['result'] == "success") {
         serversProvider.updateselectedServerStatus(
@@ -73,7 +75,7 @@ class HomeAppBar extends StatelessWidget implements PreferredSizeWidget {
                 token: server.token!,
                 defaultServer: server.defaultServer,
                 enabled: result['status'] == 'enabled' ? true : false));
-        final statusResult = await realtimeStatus(server);
+        final statusResult = await apiGateway?.realtimeStatus(server);
         if (statusResult['result'] == 'success') {
           statusProvider.setRealtimeStatus(statusResult['data']);
         }

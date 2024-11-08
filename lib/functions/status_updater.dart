@@ -34,9 +34,10 @@ class StatusUpdater {
       if (isRunning == false) {
         isRunning = true;
         if (serversProvider.selectedServer != null) {
+          final apiGateway = serversProvider.selectedApiGateway;
           String selectedUrlBefore = serversProvider.selectedServer!.address;
           final statusResult =
-              await realtimeStatus(serversProvider.selectedServer!);
+              await apiGateway?.realtimeStatus(serversProvider.selectedServer!);
           if (statusResult['result'] == 'success') {
             serversProvider.updateselectedServerStatus(
                 statusResult['data'].status == 'enabled' ? true : false);

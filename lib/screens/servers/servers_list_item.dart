@@ -67,6 +67,7 @@ class _ServersListItemState extends State<ServersListItem>
     final serversProvider = Provider.of<ServersProvider>(context);
     final statusProvider = Provider.of<StatusProvider>(context);
     final appConfigProvider = Provider.of<AppConfigProvider>(context);
+    final apiGateway = serversProvider.selectedApiGateway;
 
     final width = MediaQuery.of(context).size.width;
 
@@ -123,7 +124,7 @@ class _ServersListItemState extends State<ServersListItem>
                 defaultServer: server.defaultServer,
                 enabled: result['status'] == 'enabled' ? true : false),
             toHomeTab: true);
-        final statusResult = await realtimeStatus(server);
+        final statusResult = await apiGateway?.realtimeStatus(server);
         if (statusResult['result'] == 'success') {
           statusProvider.setRealtimeStatus(statusResult['data']);
         }

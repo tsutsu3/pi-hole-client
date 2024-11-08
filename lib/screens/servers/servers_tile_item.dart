@@ -95,7 +95,8 @@ class _ServersTileItemState extends State<ServersTileItem>
                 defaultServer: server.defaultServer,
                 enabled: result['status'] == 'enabled' ? true : false),
             toHomeTab: true);
-        final statusResult = await realtimeStatus(server);
+        final apiGateway = serversProvider.selectedApiGateway;
+        final statusResult = await apiGateway?.realtimeStatus(server);
         if (statusResult['result'] == 'success') {
           statusProvider.setRealtimeStatus(statusResult['data']);
         }

@@ -10,7 +10,6 @@ import 'package:pi_hole_client/models/app_log.dart';
 import 'package:pi_hole_client/models/domain.dart';
 import 'package:pi_hole_client/functions/encode_basic_auth.dart';
 import 'package:pi_hole_client/models/overtime_data.dart';
-import 'package:pi_hole_client/models/realtime_status.dart';
 import 'package:pi_hole_client/models/server.dart';
 
 bool checkBasicAuth(String? username, String? password) {
@@ -58,33 +57,6 @@ Future<Response> httpClient({
       return http
           .get(Uri.parse(url), headers: h)
           .timeout(Duration(seconds: timeout ?? 10));
-  }
-}
-
-Future realtimeStatus(Server server) async {
-  try {
-    final response = await httpClient(
-        method: 'get',
-        url:
-            '${server.address}/admin/api.php?auth=${server.token}&summaryRaw&topItems&getForwardDestinations&getQuerySources&topClientsBlocked&getQueryTypes',
-        basicAuth: {
-          'username': server.basicAuthUser,
-          'password': server.basicAuthPassword
-        });
-    final body = jsonDecode(response.body);
-    if (body['status'] != null) {
-      return {'result': 'success', 'data': RealtimeStatus.fromJson(body)};
-    } else {
-      return {'result': 'error'};
-    }
-  } on SocketException {
-    return {'result': 'socket'};
-  } on TimeoutException {
-    return {'result': 'timeout'};
-  } on HandshakeException {
-    return {'result': 'ssl_error'};
-  } catch (e) {
-    return {'result': 'error'};
   }
 }
 

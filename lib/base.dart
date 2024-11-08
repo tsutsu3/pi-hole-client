@@ -50,9 +50,10 @@ class _BaseState extends State<Base> with WidgetsBindingObserver {
     final statusProvider = Provider.of<StatusProvider>(context, listen: false);
     final serversProvider =
         Provider.of<ServersProvider>(context, listen: false);
+    final apiGateway = serversProvider.selectedApiGateway;
 
-    final result =
-        await Future.wait([realtimeStatus(server), fetchOverTimeData(server)]);
+    final result = await Future.wait(
+        [apiGateway!.realtimeStatus(server), fetchOverTimeData(server)]);
 
     if (result[0]['result'] == 'success' && result[1]['result'] == 'success') {
       statusProvider.setRealtimeStatus(result[0]['data']);
