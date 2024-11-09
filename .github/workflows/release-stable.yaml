@@ -14,7 +14,7 @@ jobs:
       VERSION_NAME: ${{ steps.save_version.outputs.version_name }}
       VERSION_NUMBER: ${{ steps.save_version.outputs.version_number }}
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
       - name: Decode android/app/keystore.jks
         run: echo "${{ secrets.KEYSTORE_JKS }}" | base64 --decode > android/app/keystore.jks
       - name: Decode android/key.properties
@@ -75,7 +75,7 @@ jobs:
       VERSION_NAME: ${{ steps.save_version.outputs.version_name }}
       VERSION_NUMBER: ${{ steps.save_version.outputs.version_number }}
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
       - name: Decode .env
         run: echo "${{ secrets.ENV }}" | base64 --decode > .env
       - name: Read pubspec.yaml
@@ -121,7 +121,7 @@ jobs:
       VERSION_NAME: ${{ steps.save_version.outputs.version_name }}
       VERSION_NUMBER: ${{ steps.save_version.outputs.version_number }}
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
       - name: Decode .env
         run: echo "${{ secrets.ENV }}" | base64 --decode > .env
       - name: Read pubspec.yaml
@@ -182,7 +182,7 @@ jobs:
       VERSION_NAME: ${{ steps.save_version.outputs.version_name }}
       VERSION_NUMBER: ${{ steps.save_version.outputs.version_number }}
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
       - name: Decode .env
         shell: pwsh
         run: |
@@ -230,7 +230,7 @@ jobs:
       VERSION_NAME: ${{ needs.build-android.outputs.VERSION_NAME }}
       VERSION_NUMBER: ${{ needs.build-android.outputs.VERSION_NUMBER }}
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
       - name: Create builds directory
         run: mkdir releases
       - name: Download Android artifacts
@@ -270,7 +270,7 @@ jobs:
     env:
       VERSION_NAME: ${{ needs.build-android.outputs.VERSION_NAME }}
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
       - name: Download Android artifacts
         uses: actions/download-artifact@v3
         with:

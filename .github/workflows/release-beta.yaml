@@ -14,7 +14,7 @@ jobs:
       VERSION_NAME: ${{ steps.save_version.outputs.version_name }}
       VERSION_NUMBER: ${{ steps.save_version.outputs.version_number }}
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
         with:
           ref: beta
       - name: Decode android/app/keystore.jks
@@ -76,7 +76,7 @@ jobs:
       VERSION_NAME: ${{ needs.build-android.outputs.VERSION_NAME }}
       VERSION_NUMBER: ${{ needs.build-android.outputs.VERSION_NUMBER }}
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
         with:
           ref: beta
       - name: Create builds directory
@@ -103,7 +103,7 @@ jobs:
     env:
       VERSION_NAME: ${{ needs.build-android.outputs.VERSION_NAME }}
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
         with:
           ref: beta
       - name: Download Android artifacts
