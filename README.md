@@ -1,24 +1,30 @@
-<h1 align="center">
-  <img src="https://github.com/tsutsu3/pi-hole-client/raw/main/assets/other/banner.png" />
+>[!CAUTION]
+>This project is currently under development
+
+
+![Status](https://img.shields.io/badge/status-WIP-orange?style=for-the-badge)
+
+<h3 align="center">
+  <img src="assets/pc.svg" width="100"/>
 </h1>
 
 <h5 align="center">
   <b>
-    PiHoleClient is an unnoficial
+    Pi-hole Client is an unnoficial
     <a href="https://pi-hole.net/" target="_blank" rel="noopener noreferrer">
       Pi-hole®
     </a>
     client developed with Flutter.</b>
 </h5>
 
-<p align="center">
+<!-- <p align="center">
   <a href="https://play.google.com/store/apps/details?id=io.github.tsutsu3.pi_hole_client" target="_blank" rel="noopener noreferrer">
     <img src="/assets/other/get_google_play.png" width="300px">
   </a>
   <a href="https://github.com/tsutsu3/pi-hole-client/releases" target="_blank" rel="noopener noreferrer">
     <img src="/assets/other/get-github.png" width="300px">
   </a>
-</p>
+</p> -->
 
 ## Main features
 <p>▶ Manage your Pi-hole® server on an easy way.</p>
@@ -37,16 +43,16 @@ Check the privacy policy [here](https://github.com/tsutsu3/pi-hole-client/wiki/P
 This is an unofficial application. The Pi-hole team and the development of the Pi-hole software is not related in any way with this application.
 
 ## Recommended lists
-On [this repository](https://github.com/JuanRodenas/Pihole_list) you can find some recommended lists. Thanks to [JuanRodenas](https://github.com/JuanRodenas).
+On [this repository](https://github.com/JuanRodenas/Pihole_list) you can find some recommended lists. Thanks to [JuanRodenas](https://github.com/juanico10).
 
 ## Donations
 If you like the project and you want to contribute with the development, you can [become a sponsor on GitHub](https://github.com/sponsors/tsutsu3), or you can donate using PayPal.
 
-<div align="center">
+<!-- <div align="center">
   <a href="https://www.paypal.com/donate/?hosted_button_id=T63UK6AVL3MG8">
     <img src="https://raw.githubusercontent.com/stefan-niedermann/paypal-donate-button/main/paypal-donate-button.png" alt="Donate with PayPal" height="100" />
   </a>
-</div>
+</div> -->
 
 ## Prepare the development environment
 1. Clone the repository
