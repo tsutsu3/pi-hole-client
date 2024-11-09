@@ -62,7 +62,7 @@ jobs:
       - name: Copy aab to project root
         run: cp $ANDROID_AAB_RELEASE_PATH/PiHoleClient_${{ env.VERSION_NAME }}_Android.aab PiHoleClient_${{ env.VERSION_NAME }}_Android.aab
       - name: Upload artifact
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: android
           path: |

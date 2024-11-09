@@ -60,7 +60,7 @@ jobs:
       - name: Copy aab to project root
         run: cp $ANDROID_AAB_RELEASE_PATH/PiHoleClient_${{ env.VERSION_NAME }}_Android.aab PiHoleClient_${{ env.VERSION_NAME }}_Android.aab
       - name: Upload artifact
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: android
           path: |
@@ -110,7 +110,7 @@ jobs:
       - name: Copy dmg to project root
         run: cp $MACOS_APP_RELEASE_PATH/PiHoleClient_${{ env.VERSION_NAME }}_macOS_Universal.dmg PiHoleClient_${{ env.VERSION_NAME }}_macOS_Universal.dmg
       - name: Upload artifact
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: macos
           path: PiHoleClient_${{ env.VERSION_NAME }}_macOS_Universal.dmg
@@ -169,7 +169,7 @@ jobs:
             ./PiHoleClient
           outPath: PiHoleClient_${{ env.VERSION_NAME }}_Linux.tar.gz
       - name: Upload artifact
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: linux
           path: |
@@ -218,7 +218,7 @@ jobs:
       - name: Move installer file to root directory
         run: move build/windows/piholeclient_installer.exe PiHoleClient_${{ env.VERSION_NAME }}_Windows_x64.exe
       - name: Upload artifact
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: windows
           path: PiHoleClient_${{ env.VERSION_NAME }}_Windows_x64.exe
