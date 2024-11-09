@@ -14,7 +14,7 @@ jobs:
       VERSION_NAME: ${{ steps.save_version.outputs.version_name }}
       VERSION_NUMBER: ${{ steps.save_version.outputs.version_number }}
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
         with:
           ref: beta
       - name: Decode android/app/keystore.jks
@@ -42,7 +42,7 @@ jobs:
         run: sed -i 's/#{KEYSTORE_PASS}#/${{ secrets.KEYSTORE_PASS }}/g' android/key.properties
       - name: Update KeyStore key password in gradle properties
         run: sed -i 's/#{KEYSTORE_KEY_PASS}#/${{ secrets.KEYSTORE_KEY_PASS }}/g' android/key.properties
-      - uses: actions/setup-java@v3
+      - uses: actions/setup-java@v4
         with:
           distribution: 'zulu'
           java-version: '18.x'
@@ -62,7 +62,7 @@ jobs:
       - name: Copy aab to project root
         run: cp $ANDROID_AAB_RELEASE_PATH/PiHoleClient_${{ env.VERSION_NAME }}_Android.aab PiHoleClient_${{ env.VERSION_NAME }}_Android.aab
       - name: Upload artifact
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: android
           path: |
@@ -76,13 +76,13 @@ jobs:
       VERSION_NAME: ${{ needs.build-android.outputs.VERSION_NAME }}
       VERSION_NUMBER: ${{ needs.build-android.outputs.VERSION_NUMBER }}
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
         with:
           ref: beta
       - name: Create builds directory
         run: mkdir releases
       - name: Download Android artifacts
-        uses: actions/download-artifact@v3
+        uses: actions/download-artifact@v4
         with:
           name: android
           path: releases/
@@ -103,11 +103,11 @@ jobs:
     env:
       VERSION_NAME: ${{ needs.build-android.outputs.VERSION_NAME }}
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
         with:
           ref: beta
       - name: Download Android artifacts
-        uses: actions/download-artifact@v3
+        uses: actions/download-artifact@v4
         with:
           name: android
       - name: Release app to Google Play
