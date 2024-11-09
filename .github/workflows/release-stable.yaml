@@ -158,7 +158,7 @@ jobs:
       - name: Move .deb package to project root
         run: mv build/linux/x64/release/debian/PiHoleClient_${{ env.VERSION_NAME }}_amd64.deb PiHoleClient_${{ env.VERSION_NAME }}_Linux_amd64.deb
       - name: Generate .tar.gz package
-        uses: a7ul/tar-action@v1.1.3
+        uses: a7ul/tar-action@v1.2.0
         id: compress
         with:
           command: c
