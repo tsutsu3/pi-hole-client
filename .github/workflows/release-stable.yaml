@@ -234,22 +234,22 @@ jobs:
       - name: Create builds directory
         run: mkdir releases
       - name: Download Android artifacts
-        uses: actions/download-artifact@v3
+        uses: actions/download-artifact@v4
         with:
           name: android
           path: releases/
       - name: Download macOS artifacts
-        uses: actions/download-artifact@v3
+        uses: actions/download-artifact@v4
         with:
           name: macos
           path: releases/
       - name: Download Linux artifacts
-        uses: actions/download-artifact@v3
+        uses: actions/download-artifact@v4
         with:
           name: linux
           path: releases/
       - name: Download Windows artifacts
-        uses: actions/download-artifact@v3
+        uses: actions/download-artifact@v4
         with:
           name: windows
           path: releases/
@@ -272,7 +272,7 @@ jobs:
     steps:
       - uses: actions/checkout@v3
       - name: Download Android artifacts
-        uses: actions/download-artifact@v3
+        uses: actions/download-artifact@v4
         with:
           name: android
       - name: Release app to Google Play
