@@ -126,4 +126,8 @@ If you like the project and you want to contribute with the development, you can
 - [local auth](https://pub.dev/packages/local_auth)
 - [flutter custom tabs](https://pub.dev/packages/flutter_custom_tabs)
 
-<br>
+## Credits
+
+This project is based on [DroidHole](https://github.com/jgeek00/droidhole), originally developed by [JGeek00](https://github.com/JGeek00).
+
+See original [License](./LICENSE.md) for licensing details.
