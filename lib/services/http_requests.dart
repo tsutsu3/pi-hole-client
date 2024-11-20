@@ -192,45 +192,6 @@ Future loginQuery(Server server) async {
   }
 }
 
-Future setWhiteBlacklist({
-  required Server server,
-  required String domain,
-  required String list,
-}) async {
-  try {
-    final response = await httpClient(
-        method: 'get',
-        url:
-            '${server.address}/admin/api.php?auth=${server.token}&list=$list&add=$domain',
-        basicAuth: {
-          'username': server.basicAuthUser,
-          'password': server.basicAuthPassword
-        });
-    if (response.statusCode == 200) {
-      final json = jsonDecode(response.body);
-      if (json.runtimeType == List<dynamic>) {
-        return {'result': 'error', 'message': 'not_exists'};
-      } else {
-        if (json['success'] == true) {
-          return {'result': 'success', 'data': json};
-        } else {
-          return {'result': 'error'};
-        }
-      }
-    } else {
-      return {'result': 'error'};
-    }
-  } on SocketException {
-    return {'result': 'socket'};
-  } on TimeoutException {
-    return {'result': 'timeout'};
-  } on HandshakeException {
-    return {'result': 'ssl_error'};
-  } catch (e) {
-    return {'result': 'error'};
-  }
-}
-
 Future getDomainLists({required Server server}) async {
   Map<String, String>? headers;
   if (checkBasicAuth(server.basicAuthUser, server.basicAuthPassword) == true) {

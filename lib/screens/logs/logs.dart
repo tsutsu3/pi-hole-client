@@ -17,7 +17,6 @@ import 'package:pi_hole_client/constants/log_status.dart';
 import 'package:pi_hole_client/providers/filters_provider.dart';
 import 'package:pi_hole_client/classes/process_modal.dart';
 import 'package:pi_hole_client/models/log.dart';
-import 'package:pi_hole_client/services/http_requests.dart';
 import 'package:pi_hole_client/providers/servers_provider.dart';
 
 class Logs extends StatefulWidget {
@@ -218,6 +217,8 @@ class _LogsState extends State<Logs> {
     final filtersProvider = Provider.of<FiltersProvider>(context);
     final appConfigProvider = Provider.of<AppConfigProvider>(context);
 
+    final apiGateway = serversProvider.selectedApiGateway;
+
     final width = MediaQuery.of(context).size.width;
     final statusBarHeight = MediaQuery.of(context).viewPadding.top;
     final bottomNavBarHeight = MediaQuery.of(context).viewPadding.bottom;
@@ -246,7 +247,7 @@ class _LogsState extends State<Logs> {
             ? AppLocalizations.of(context)!.addingWhitelist
             : AppLocalizations.of(context)!.addingBlacklist,
       );
-      final result = await setWhiteBlacklist(
+      final result = await apiGateway?.setWhiteBlacklist(
           server: serversProvider.selectedServer!, domain: log.url, list: list);
       loading.close();
       if (result['result'] == 'success') {
