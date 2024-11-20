@@ -2,10 +2,16 @@ import 'package:pi_hole_client/constants/enums.dart';
 import 'package:flutter/material.dart';
 
 import 'package:pi_hole_client/models/server.dart';
-import 'package:pi_hole_client/services/http_requests.dart';
 import 'package:pi_hole_client/models/domain.dart';
+import 'package:pi_hole_client/providers/servers_provider.dart';
 
 class DomainsListProvider with ChangeNotifier {
+  ServersProvider? serversProvider;
+
+  update(ServersProvider? provider) {
+    serversProvider = provider;
+  }
+
   LoadStatus _loadingStatus = LoadStatus.loading;
   List<Domain> _whitelistDomains = [];
   List<Domain> _blacklistDomains = [];
@@ -18,6 +24,8 @@ class DomainsListProvider with ChangeNotifier {
   String _searchTerm = "";
 
   bool _searchMode = false;
+
+  DomainsListProvider({required this.serversProvider});
 
   LoadStatus get loadingStatus {
     return _loadingStatus;
@@ -91,7 +99,8 @@ class DomainsListProvider with ChangeNotifier {
   }
 
   Future fetchDomainsList(Server server) async {
-    final result = await getDomainLists(server: server);
+    final apiGateway = serversProvider?.selectedApiGateway;
+    final result = await apiGateway?.getDomainLists(server: server);
     if (result['result'] == 'success') {
       final List<Domain> whitelist = [
         ...result['data']['whitelist'],
