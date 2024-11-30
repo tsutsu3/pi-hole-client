@@ -90,20 +90,20 @@ dev_dependencies:
   json_serializable: ^6.8.0
 
 
-flutter_icons:
-  image_path_android: "assets/icon/icon-background-circle.png"
-  adaptive_icon_foreground: "assets/icon/icon-no-background.png"
-  image_path_ios: "assets/icon/icon-background-ios.png"
+flutter_launcher_icons:
   android: true
   ios: true
-  remove_alpha_ios: true
-  macos:
-    generate: true
-    image_path: "assets/icon/icon-macos.png"
+  # remove_alpha_ios: true
+  image_path: assets/icon/icon.png
+  adaptive_icon_background: '#ffffff'
+  adaptive_icon_foreground: assets/icon/icon-foreground.png
   windows:
     generate: true
-    image_path: "assets/icon/icon-background-circle.png"
-
+    image_path: assets/icon/icon-foreground-max.png
+    icon_size: 48
+  macos:
+    generate: true
+    image_path: assets/icon/icon-macos.png
 
 flutter_native_splash:
   # This package generates native code to customize Flutter's default white native splash screen
@@ -125,7 +125,7 @@ flutter_native_splash:
 
   # The image parameter allows you to specify an image used in the splash screen.  It must be a
   # png file and should be sized for 4x pixel density.
-  image: assets/icon/icon-no-background.png
+  image: assets/icon-foreground.png
 
   # The color_dark, background_image_dark, and image_dark are parameters that set the background
   # and image when the device is in dark mode. If they are not specified, the app will use the
@@ -134,7 +134,7 @@ flutter_native_splash:
   # set.
   color_dark: "#212121"
   #background_image_dark: "assets/dark-background.png"
-  image_dark: assets/icon/icon-no-background.png
+  image_dark: assets/icon-foreground.png
 
   # The android, ios and web parameters can be used to disable generating a splash screen on a given
   # platform.
@@ -192,11 +192,6 @@ flutter:
 
   # To add assets to your application, add an assets section, like this:
   assets:
-    - assets/icon/icon-background-circle.png
-    - assets/icon/icon-no-background.png
-    - assets/icon/icon-background.png
-    - assets/icon/icon-macos.png
-    - assets/icon/icon-background-ios.png
     - assets/resources/google-play.svg
     - assets/resources/github.svg
     - .env
