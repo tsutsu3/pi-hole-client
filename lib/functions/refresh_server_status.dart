@@ -9,15 +9,15 @@ import 'package:pi_hole_client/functions/snackbar.dart';
 import 'package:pi_hole_client/providers/status_provider.dart';
 import 'package:pi_hole_client/constants/enums.dart';
 import 'package:pi_hole_client/providers/servers_provider.dart';
-import 'package:pi_hole_client/services/http_requests.dart';
 
 Future refreshServerStatus(BuildContext context) async {
   final statusProvider = Provider.of<StatusProvider>(context, listen: false);
   final serversProvider = Provider.of<ServersProvider>(context, listen: false);
   final appConfigProvider =
       Provider.of<AppConfigProvider>(context, listen: false);
+  final apiGateway = serversProvider.selectedApiGateway;
 
-  final result = await realtimeStatus(serversProvider.selectedServer!);
+  final result = await apiGateway?.realtimeStatus();
   if (!context.mounted) return;
   if (result['result'] == "success") {
     serversProvider.updateselectedServerStatus(

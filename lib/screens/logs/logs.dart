@@ -17,7 +17,6 @@ import 'package:pi_hole_client/constants/log_status.dart';
 import 'package:pi_hole_client/providers/filters_provider.dart';
 import 'package:pi_hole_client/classes/process_modal.dart';
 import 'package:pi_hole_client/models/log.dart';
-import 'package:pi_hole_client/services/http_requests.dart';
 import 'package:pi_hole_client/providers/servers_provider.dart';
 
 class Logs extends StatefulWidget {
@@ -53,6 +52,10 @@ class _LogsState extends State<Logs> {
   }) async {
     final logsPerQuery =
         Provider.of<AppConfigProvider>(context, listen: false).logsPerQuery;
+
+    final serversProvider =
+        Provider.of<ServersProvider>(context, listen: false);
+    final apiGateway = serversProvider.selectedApiGateway;
 
     DateTime? startTime = masterStartTime ?? inStartTime;
     DateTime? endTime = masterEndTime ?? inEndTime;
@@ -112,11 +115,8 @@ class _LogsState extends State<Logs> {
         loadStatus = 1;
       });
     } else {
-      final result = await fetchLogs(
-          server: Provider.of<ServersProvider>(context, listen: false)
-              .selectedServer!,
-          from: minusHoursTimestamp,
-          until: timestamp);
+      final result =
+          await apiGateway?.fetchLogs(minusHoursTimestamp, timestamp);
       if (mounted) {
         setState(() => _isLoadingMore = false);
         if (result['result'] == 'success') {
@@ -215,6 +215,8 @@ class _LogsState extends State<Logs> {
     final filtersProvider = Provider.of<FiltersProvider>(context);
     final appConfigProvider = Provider.of<AppConfigProvider>(context);
 
+    final apiGateway = serversProvider.selectedApiGateway;
+
     final width = MediaQuery.of(context).size.width;
     final statusBarHeight = MediaQuery.of(context).viewPadding.top;
     final bottomNavBarHeight = MediaQuery.of(context).viewPadding.bottom;
@@ -243,8 +245,7 @@ class _LogsState extends State<Logs> {
             ? AppLocalizations.of(context)!.addingWhitelist
             : AppLocalizations.of(context)!.addingBlacklist,
       );
-      final result = await setWhiteBlacklist(
-          server: serversProvider.selectedServer!, domain: log.url, list: list);
+      final result = await apiGateway?.setWhiteBlacklist(log.url, list);
       loading.close();
       if (result['result'] == 'success') {
         if (result['data']['message'].toString().contains('Added')) {

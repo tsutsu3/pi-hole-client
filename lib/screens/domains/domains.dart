@@ -11,7 +11,6 @@ import 'package:pi_hole_client/functions/snackbar.dart';
 import 'package:pi_hole_client/classes/process_modal.dart';
 import 'package:pi_hole_client/models/domain.dart';
 import 'package:pi_hole_client/providers/app_config_provider.dart';
-import 'package:pi_hole_client/services/http_requests.dart';
 import 'package:pi_hole_client/models/server.dart';
 import 'package:pi_hole_client/providers/servers_provider.dart';
 import 'package:pi_hole_client/providers/domains_list_provider.dart';
@@ -71,13 +70,13 @@ class _DomainListsWidgetState extends State<DomainListsWidget>
     final domainsListProvider = Provider.of<DomainsListProvider>(context);
     final serversProvider = Provider.of<ServersProvider>(context);
     final appConfigProvider = Provider.of<AppConfigProvider>(context);
+    final apiGateway = serversProvider.selectedApiGateway;
 
     void removeDomain(Domain domain) async {
       final ProcessModal process = ProcessModal(context: context);
       process.open(AppLocalizations.of(context)!.deleting);
 
-      final result = await removeDomainFromList(
-          server: serversProvider.selectedServer!, domain: domain);
+      final result = await apiGateway?.removeDomainFromList(domain);
 
       process.close();
 

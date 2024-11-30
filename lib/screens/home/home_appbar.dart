@@ -1,6 +1,7 @@
 // ignore_for_file: use_build_context_synchronously
 
 import 'package:flutter/material.dart';
+import 'package:pi_hole_client/gateways/api_gateway_interface.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
@@ -15,7 +16,6 @@ import 'package:pi_hole_client/providers/status_provider.dart';
 import 'package:pi_hole_client/classes/process_modal.dart';
 import 'package:pi_hole_client/functions/snackbar.dart';
 import 'package:pi_hole_client/constants/enums.dart';
-import 'package:pi_hole_client/services/http_requests.dart';
 import 'package:pi_hole_client/providers/servers_provider.dart';
 
 class HomeAppBar extends StatelessWidget implements PreferredSizeWidget {
@@ -28,13 +28,14 @@ class HomeAppBar extends StatelessWidget implements PreferredSizeWidget {
     final serversProvider = Provider.of<ServersProvider>(context);
     final statusProvider = Provider.of<StatusProvider>(context);
     final appConfigProvider = Provider.of<AppConfigProvider>(context);
+    final apiGateway = serversProvider.selectedApiGateway;
 
     final width = MediaQuery.of(context).size.width;
 
     void refresh() async {
       final ProcessModal process = ProcessModal(context: context);
       process.open(AppLocalizations.of(context)!.refreshingData);
-      final result = await realtimeStatus(serversProvider.selectedServer!);
+      final result = await apiGateway?.realtimeStatus();
       process.close();
       if (result['result'] == "success") {
         serversProvider.updateselectedServerStatus(
@@ -73,11 +74,11 @@ class HomeAppBar extends StatelessWidget implements PreferredSizeWidget {
                 token: server.token!,
                 defaultServer: server.defaultServer,
                 enabled: result['status'] == 'enabled' ? true : false));
-        final statusResult = await realtimeStatus(server);
+        final statusResult = await apiGateway?.realtimeStatus();
         if (statusResult['result'] == 'success') {
           statusProvider.setRealtimeStatus(statusResult['data']);
         }
-        final overtimeDataResult = await fetchOverTimeData(server);
+        final overtimeDataResult = await apiGateway?.fetchOverTimeData();
         if (overtimeDataResult['result'] == 'success') {
           statusProvider.setOvertimeData(overtimeDataResult['data']);
           statusProvider.setOvertimeDataLoadingStatus(1);
@@ -91,7 +92,7 @@ class HomeAppBar extends StatelessWidget implements PreferredSizeWidget {
       final ProcessModal process = ProcessModal(context: context);
       process.open(AppLocalizations.of(context)!.connecting);
 
-      final result = await loginQuery(server);
+      final result = await ApiGateway.loginQuery(server);
       process.close();
       if (result['result'] == 'success') {
         await connectSuccess(result);

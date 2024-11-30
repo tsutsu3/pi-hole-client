@@ -2,6 +2,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:expandable/expandable.dart';
+import 'package:pi_hole_client/gateways/api_gateway_interface.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
@@ -13,7 +14,6 @@ import 'package:pi_hole_client/functions/snackbar.dart';
 import 'package:pi_hole_client/providers/app_config_provider.dart';
 import 'package:pi_hole_client/providers/servers_provider.dart';
 import 'package:pi_hole_client/providers/status_provider.dart';
-import 'package:pi_hole_client/services/http_requests.dart';
 import 'package:pi_hole_client/models/server.dart';
 
 class ServersListItem extends StatefulWidget {
@@ -67,6 +67,7 @@ class _ServersListItemState extends State<ServersListItem>
     final serversProvider = Provider.of<ServersProvider>(context);
     final statusProvider = Provider.of<StatusProvider>(context);
     final appConfigProvider = Provider.of<AppConfigProvider>(context);
+    final apiGateway = serversProvider.selectedApiGateway;
 
     final width = MediaQuery.of(context).size.width;
 
@@ -123,11 +124,11 @@ class _ServersListItemState extends State<ServersListItem>
                 defaultServer: server.defaultServer,
                 enabled: result['status'] == 'enabled' ? true : false),
             toHomeTab: true);
-        final statusResult = await realtimeStatus(server);
+        final statusResult = await apiGateway?.realtimeStatus();
         if (statusResult['result'] == 'success') {
           statusProvider.setRealtimeStatus(statusResult['data']);
         }
-        final overtimeDataResult = await fetchOverTimeData(server);
+        final overtimeDataResult = await apiGateway?.fetchOverTimeData();
         if (overtimeDataResult['result'] == 'success') {
           statusProvider.setOvertimeData(overtimeDataResult['data']);
           statusProvider.setOvertimeDataLoadingStatus(1);
@@ -141,7 +142,7 @@ class _ServersListItemState extends State<ServersListItem>
       final ProcessModal process = ProcessModal(context: context);
       process.open(AppLocalizations.of(context)!.connecting);
 
-      final result = await loginQuery(server);
+      final result = await ApiGateway.loginQuery(server);
       process.close();
       if (result['result'] == 'success') {
         await connectSuccess(result);

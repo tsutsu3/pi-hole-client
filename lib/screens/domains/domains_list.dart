@@ -12,7 +12,6 @@ import 'package:pi_hole_client/widgets/tab_content_list.dart';
 
 import 'package:pi_hole_client/providers/domains_list_provider.dart';
 import 'package:pi_hole_client/classes/process_modal.dart';
-import 'package:pi_hole_client/services/http_requests.dart';
 import 'package:pi_hole_client/providers/app_config_provider.dart';
 import 'package:pi_hole_client/functions/snackbar.dart';
 import 'package:pi_hole_client/providers/servers_provider.dart';
@@ -64,6 +63,7 @@ class _DomainsListState extends State<DomainsList> {
     final serversProvider = Provider.of<ServersProvider>(context);
     final domainsListProvider = Provider.of<DomainsListProvider>(context);
     final appConfigProvider = Provider.of<AppConfigProvider>(context);
+    final apiGateway = serversProvider.selectedApiGateway;
 
     final domainsList = widget.type == 'blacklist'
         ? domainsListProvider.blacklistDomains
@@ -73,8 +73,7 @@ class _DomainsListState extends State<DomainsList> {
       final ProcessModal process = ProcessModal(context: context);
       process.open(AppLocalizations.of(context)!.deleting);
 
-      final result = await removeDomainFromList(
-          server: serversProvider.selectedServer!, domain: domain);
+      final result = await apiGateway?.removeDomainFromList(domain);
 
       process.close();
 
@@ -104,8 +103,7 @@ class _DomainsListState extends State<DomainsList> {
       final ProcessModal process = ProcessModal(context: context);
       process.open(AppLocalizations.of(context)!.addingDomain);
 
-      final result = await addDomainToList(
-          server: serversProvider.selectedServer!, domainData: value);
+      final result = await apiGateway?.addDomainToList(value);
 
       process.close();
 

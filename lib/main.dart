@@ -53,7 +53,8 @@ void main() async {
   ServersProvider serversProvider = ServersProvider();
   StatusProvider statusProvider = StatusProvider();
   FiltersProvider filtersProvider = FiltersProvider();
-  DomainsListProvider domainsListProvider = DomainsListProvider();
+  DomainsListProvider domainsListProvider =
+      DomainsListProvider(serversProvider: serversProvider);
   AppConfigProvider configProvider = AppConfigProvider();
 
   Map<String, dynamic> dbData = await loadDb();
@@ -115,7 +116,11 @@ void main() async {
           ChangeNotifierProvider(create: ((context) => serversProvider)),
           ChangeNotifierProvider(create: ((context) => statusProvider)),
           ChangeNotifierProvider(create: ((context) => filtersProvider)),
-          ChangeNotifierProvider(create: ((context) => domainsListProvider)),
+          ChangeNotifierProxyProvider<ServersProvider, DomainsListProvider>(
+            create: (context) => domainsListProvider,
+            update: (context, serverConfig, servers) =>
+                servers!..update(serverConfig),
+          ),
           ChangeNotifierProvider(create: ((context) => configProvider)),
           ChangeNotifierProxyProvider<AppConfigProvider, ServersProvider>(
             create: (context) => serversProvider,
