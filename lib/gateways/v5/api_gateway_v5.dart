@@ -13,6 +13,26 @@ import 'package:pi_hole_client/gateways/api_common_mixin.dart';
 import 'package:pi_hole_client/gateways/api_gateway_interface.dart';
 
 class ApiGatewayV5 with ApiCommonMixin implements ApiGateway {
+  /// Fetches real-time status information from a Pi-hole server.
+  ///
+  /// This method sends a GET request to the specified Pi-hole server to retrieve
+  /// detailed status and metrics, including top items, forward destinations,
+  /// query sources, and query types. It parses the response and returns the
+  /// data in a structured format.
+  ///
+  /// ### Parameters:
+  /// - `server` (`Server`): The server object containing the Pi-hole address, token, and optional basic authentication credentials.
+  ///
+  /// ### Returns:
+  /// - `Map<String, dynamic>`: A result object with the following keys
+  ///   - `result`: A string indicating the outcome of the operation (`success`, `socket`, `timeout`, `ssl_error`, `error`).
+  ///   - `data`: A `RealtimeStatus` object containing the server's realtime status data if the operation is successful.
+  ///
+  /// ### Exceptions:
+  /// - `SocketException`: Network issues prevent connection to the server.
+  /// - `TimeoutException`: The request times out.
+  /// - `HandshakeException`: SSL/TLS handshake fails.
+  /// - General exceptions: Any other errors encountered during execution.
   @override
   Future realtimeStatus(Server server) async {
     try {
@@ -41,6 +61,40 @@ class ApiGatewayV5 with ApiCommonMixin implements ApiGateway {
     }
   }
 
+  /// Handles the login process to a Pi-hole server using its API.
+  ///
+  /// This function performs the following steps:
+  /// 1. Sends a GET request to verify the server's current status using the provided `address` and `token`.
+  /// 2. Toggles the Pi-hole's status between enabled and disabled depending on the current status.
+  /// 3. Validates the response to determine the success or failure of the login attempt.
+  ///
+  /// It returns a `Map` containing the result of the operation and, in case of failure, a detailed log.
+  ///
+  /// ### Parameters:
+  /// - `server` (`Server`): The server object containing the Pi-hole address, token, and optional basic authentication credentials.
+  ///
+  /// ### Returns:
+  /// - `Map<String, dynamic>`: A result object with the following keys:
+  ///   - `result`: A string indicating the outcome of the operation (`success`, `auth_error`, `no_connection`, etc.).
+  ///   - `status`: The current Pi-hole status (`enabled` or `disabled`) if the login is successful.
+  ///   - `phpSessId`: The PHP session ID if the login is successful.
+  ///   - `log` (`AppLog`): Detailed log information in case of errors or unexpected responses.
+  ///
+  /// #### Possible results:
+  /// - `success`: The login was successful, and the server's status was toggled.
+  /// - `auth_error`: There was an authentication error.
+  /// - `no_connection`: The server could not be reached.
+  /// - `socket`: A `SocketException` occurred.
+  /// - `timeout`: A `TimeoutException` occurred.
+  /// - `ssl_error`: A `HandshakeException` occurred.
+  /// - `error`: A general error occurred.
+  ///
+  /// ### Exceptions:
+  /// - `SocketException`: Network issues prevent connection to the server.
+  /// - `TimeoutException`: The request times out.
+  /// - `HandshakeException`: SSL/TLS handshake fails.
+  /// - `FormatException`: Malformed response body or unexpected data format.
+  /// - General exceptions: Any other errors encountered during execution.
   @override
   Future loginQuery(Server server) async {
     try {
@@ -180,6 +234,22 @@ class ApiGatewayV5 with ApiCommonMixin implements ApiGateway {
     }
   }
 
+  /// Disables a Pi-hole server
+  ///
+  /// ### Parameters:
+  /// - `server` (`Server`): The server object containing the Pi-hole address, token, and optional basic authentication credentials.
+  /// - `time` (`int`): The time in seconds to disable the server.
+  ///
+  /// ### Returns:
+  /// - `Map<String, dynamic>`: A result object with the following keys
+  ///   - `result`: A string indicating the outcome of the operation (`success`, `no_connection`, `ssl_error`, `error`).
+  ///   - `status`: The current Pi-hole status (`enabled` or `disabled`) if the operation is successful.
+  ///
+  /// ### Exceptions:
+  /// - `SocketException`: Network issues prevent connection to the server.
+  /// - `TimeoutException`: The request times out.
+  /// - `HandshakeException`: SSL/TLS handshake fails.
+  /// - General exceptions: Any other errors encountered during execution.
   @override
   dynamic disableServerRequest(Server server, int time) async {
     try {
@@ -208,6 +278,22 @@ class ApiGatewayV5 with ApiCommonMixin implements ApiGateway {
     }
   }
 
+  /// Enables a Pi-hole server
+  ///
+  /// ### Parameters:
+  /// - `server` (`Server`): The server object containing the Pi-hole address, token, and optional basic authentication credentials.
+  ///
+  /// ### Returns:
+  /// - `Map<String, dynamic>`: A result object with the following keys
+  ///   - `result`: A string indicating the outcome of the operation (`success`, `no_connection`, `ssl_error`, `error`).
+  ///   - `status`: The current Pi-hole status (`enabled` or `disabled`) if the operation is successful.
+  ///
+  /// ### Exceptions:
+  /// - `SocketException`: Network issues prevent connection to the server.
+  /// - `TimeoutException`: The request times out.
+  /// - `HandshakeException`: SSL/TLS handshake fails.
+  /// - General exceptions: Any other errors encountered during execution.
+  ///
   @override
   dynamic enableServerRequest(Server server) async {
     try {
@@ -235,7 +321,26 @@ class ApiGatewayV5 with ApiCommonMixin implements ApiGateway {
     }
   }
 
-  ///TODO: Hardcoded 10 minutes? The error occuer if the time is set anything other than 10 minutes.
+  /// Fetches over-time data from a Pi-hole server.
+  ///
+  /// This method retrieves various over-time data points from the specified
+  /// Pi-hole server, including queries over time (in 10-minute intervals), client
+  /// activity, and client names. The data is parsed and returned in a structured format.
+  ///
+  /// ### Parameters:
+  /// - `server` (`Server`): The server object containing the Pi-hole address, token, and optional basic authentication credentials.
+  ///
+  /// ### Returns:
+  /// - `Map<String, dynamic>`: A result object with the following keys
+  ///   - `result`: A string indicating the outcome of the operation (`success`, `socket`, `timeout`, `ssl_error`, `error`).
+  ///   - `data`: An `OverTimeData` object containing the server's over-time data if the operation is successful.
+  ///
+  /// ### Exceptions:
+  /// - `SocketException`: Network issues prevent connection to the server.
+  /// - `TimeoutException`: The request times out.
+  /// - `HandshakeException`: SSL/TLS handshake fails.
+  /// - General exceptions: Any other errors encountered during execution.
+  // TODO: Hardcoded 10 minutes? The error occuer if the time is set anything other than 10 minutes.
   @override
   Future fetchOverTimeData(Server server) async {
     try {
@@ -261,6 +366,28 @@ class ApiGatewayV5 with ApiCommonMixin implements ApiGateway {
     }
   }
 
+  /// Fetches log data from a Pi-hole server within a specified time range.
+  ///
+  /// This method retrieves query logs from the given Pi-hole server for a
+  /// specified time period. The logs are returned in a structured format
+  /// for further analysis or display.
+  ///
+  /// ### Parameters:
+  /// - `server` (`Server`): The server object containing the Pi-hole address, token, and optional basic authentication credentials.
+  /// - `from` (`DateTime`): The start date and time for the log data.
+  /// - `until` (`DateTime`): The end date and time for the log data.
+  ///
+  /// ### Returns:
+  /// - `Map<String, dynamic>`: A result object with the following keys
+  ///   - `result`: A string indicating the outcome of the operation (`success`, `token`, `socket`, `timeout`, `ssl_error`, `error`).
+  ///   - `data`: A list of log entries if the operation is successful.
+  ///
+  /// ### Exceptions:
+  /// - `FormatException`: Malformed response body or unexpected data format.
+  /// - `SocketException`: Network issues prevent connection to the server.
+  /// - `TimeoutException`: The request times out.
+  /// - `HandshakeException`: SSL/TLS handshake fails.
+  /// - General exceptions: Any other errors encountered during execution.
   @override
   Future fetchLogs({
     required Server server,
@@ -292,6 +419,27 @@ class ApiGatewayV5 with ApiCommonMixin implements ApiGateway {
     }
   }
 
+  /// Adds a domain to the whitelist or blacklist on a Pi-hole server.
+  ///
+  /// This method interacts with the Pi-hole server's API to add the specified domain
+  /// to either the whitelist or the blacklist, depending on the provided `list` parameter.
+  /// It validates the server's response to confirm the operation's success.
+  ///
+  /// ### Parameters:
+  /// - `server` (`Server`): The server object containing the Pi-hole address, token, and optional basic authentication credentials.
+  /// - `domain` (`String`): The domain to add to the whitelist or blacklist.
+  /// - `list` (`String`): The list to add the domain to (`white` or `black`).
+  ///
+  /// ### Returns:
+  /// - `Map<String, dynamic>`: A result object with the following keys
+  ///   - `result`: A string indicating the outcome of the operation (`success`, `socket`, `timeout`, `ssl_error`, `error`).
+  ///   - `data`: The server's response data if the operation is successful.
+  ///
+  /// ### Exceptions:
+  /// - `SocketException`: Network issues prevent connection to the server.
+  /// - `TimeoutException`: The request times out.
+  /// - `HandshakeException`: SSL/TLS handshake fails.
+  /// - General exceptions: Any other errors encountered during execution.
   @override
   Future setWhiteBlacklist({
     required Server server,
@@ -332,6 +480,29 @@ class ApiGatewayV5 with ApiCommonMixin implements ApiGateway {
     }
   }
 
+  /// Fetches domain lists (whitelist, blacklist, and regex-based lists) from a Pi-hole server.
+  ///
+  /// This method retrieves the whitelist, regex whitelist, blacklist, and regex blacklist
+  /// from the specified Pi-hole server. Each list is processed and returned in a structured format.
+  ///
+  /// ### Parameters:
+  /// - `server` (`Server`): The server object containing the Pi-hole address, token, and optional basic authentication credentials.
+  ///
+  /// ### Returns:
+  /// - `Map<String, dynamic>`: A result object with the following keys
+  ///   - `result`: A string indicating the outcome of the operation (`success`, `no_connection`, `ssl_error`, `auth_error`, `error`).
+  ///   - `data`: A map containing the following
+  ///     - `whitelist`: A list of `Domain` objects representing the whitelist.
+  ///     - `whitelistRegex`: A list of `Domain` objects representing the regex whitelist.
+  ///     - `blacklist`: A list of `Domain` objects representing the blacklist.
+  ///     - `blacklistRegex`: A list of `Domain` objects representing the regex blacklist.
+  ///
+  /// ### Exceptions:
+  /// - `SocketException`: Network issues prevent connection to the server.
+  /// - `TimeoutException`: The request times out.
+  /// - `HandshakeException`: SSL/TLS handshake fails.
+  /// - `FormatException`: Malformed response body or unexpected data format.
+  /// - General exceptions: Any other errors encountered during execution.
   @override
   Future getDomainLists({required Server server}) async {
     Map<String, String>? headers;
@@ -396,6 +567,27 @@ class ApiGatewayV5 with ApiCommonMixin implements ApiGateway {
     }
   }
 
+  /// Removes a domain from a specific list on a Pi-hole server.
+  ///
+  /// This method interacts with the Pi-hole server's API to remove the specified domain
+  /// from the given list, which can be one of the following: whitelist, blacklist,
+  /// regex whitelist, or regex blacklist. The operation's success or failure is determined
+  /// by the server's response.
+  ///
+  /// ### Parameters:
+  /// - `server` (`Server`): The server object containing the Pi-hole address, token, and optional basic authentication credentials.
+  /// - `domain` (`Domain`): The domain object to remove from the list.
+  ///
+  /// ### Returns:
+  /// - `Map<String, dynamic>`: A result object with the following keys
+  ///   - `result`: A string indicating the outcome of the operation (`success`, `not_exists`, `socket`, `timeout`, `ssl_error`, `error`).
+  ///   - `message`: A string indicating the reason for the operation's outcome.
+  ///
+  /// ### Exceptions:
+  /// - `SocketException`: Network issues prevent connection to the server.
+  /// - `TimeoutException`: The request times out.
+  /// - `HandshakeException`: SSL/TLS handshake fails.
+  /// - General exceptions: Any other errors encountered during execution.
   @override
   Future removeDomainFromList(
       {required Server server, required Domain domain}) async {
@@ -452,6 +644,20 @@ class ApiGatewayV5 with ApiCommonMixin implements ApiGateway {
     }
   }
 
+  /// Adds a domain to a specified list on a Pi-hole server.
+  ///
+  /// This method interacts with the Pi-hole server's API to add a domain to a specified list,
+  /// such as the whitelist, blacklist, regex whitelist, or regex blacklist. It checks the server's
+  /// response to determine whether the operation was successful or if the domain already exists
+  /// in the list.
+  ///
+  /// ### Parameters:
+  /// - `server` (`Server`): The server object containing the Pi-hole address, token, and optional basic authentication credentials.
+  /// - `domainData` (`Map<String, dynamic>`): A map containing the following keys
+  ///
+  /// ### Returns:
+  /// - `Map<String, dynamic>`: A result object with the following keys
+  ///   - `result`: A string indicating the outcome of the operation (`success`, `already_added`, `no_connection`, `ssl_error`, `auth_error`, `error`).
   @override
   Future addDomainToList({
     required Server server,
