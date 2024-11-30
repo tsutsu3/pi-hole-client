@@ -9,5 +9,9 @@
   "arb-editor.suppressedWarnings": [
     "missing_metadata_for_key",
     "missing_messages_from_template"
-  ]
+  ],
+  "markdown.extension.toc.omittedFromToc": {
+    "README.md": ["## Table of Contents"]
+  },
+  "markdown.extension.toc.levels": "1..3"
 }
