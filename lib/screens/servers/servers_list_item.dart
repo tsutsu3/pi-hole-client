@@ -2,6 +2,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:expandable/expandable.dart';
+import 'package:pi_hole_client/gateways/api_gateway_interface.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
@@ -13,7 +14,6 @@ import 'package:pi_hole_client/functions/snackbar.dart';
 import 'package:pi_hole_client/providers/app_config_provider.dart';
 import 'package:pi_hole_client/providers/servers_provider.dart';
 import 'package:pi_hole_client/providers/status_provider.dart';
-import 'package:pi_hole_client/services/http_requests.dart';
 import 'package:pi_hole_client/models/server.dart';
 
 class ServersListItem extends StatefulWidget {
@@ -142,7 +142,7 @@ class _ServersListItemState extends State<ServersListItem>
       final ProcessModal process = ProcessModal(context: context);
       process.open(AppLocalizations.of(context)!.connecting);
 
-      final result = await loginQuery(server);
+      final result = await ApiGateway.loginQuery(server);
       process.close();
       if (result['result'] == 'success') {
         await connectSuccess(result);

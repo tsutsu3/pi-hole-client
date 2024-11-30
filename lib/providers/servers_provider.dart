@@ -5,7 +5,7 @@ import 'package:pi_hole_client/gateways/v5/api_gateway_v5.dart';
 import 'package:sqflite/sqlite_api.dart';
 
 import 'package:pi_hole_client/providers/app_config_provider.dart';
-import 'package:pi_hole_client/services/http_requests.dart';
+// import 'package:pi_hole_client/services/http_requests.dart';
 import 'package:pi_hole_client/services/database/queries.dart';
 import 'package:pi_hole_client/functions/conversions.dart';
 import 'package:pi_hole_client/models/server.dart';
@@ -164,7 +164,7 @@ class ServersProvider with ChangeNotifier {
   }
 
   Future<bool> login(Server serverObj) async {
-    final result = await loginQuery(serverObj);
+    final result = await ApiGateway.loginQuery(serverObj);
     if (result['result'] == 'success') {
       _selectedServer = serverObj;
       notifyListeners();

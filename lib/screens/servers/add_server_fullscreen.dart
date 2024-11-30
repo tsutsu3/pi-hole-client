@@ -3,6 +3,7 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:pi_hole_client/gateways/api_gateway_interface.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
@@ -13,7 +14,6 @@ import 'package:pi_hole_client/providers/servers_provider.dart';
 import 'package:pi_hole_client/functions/open_url.dart';
 import 'package:pi_hole_client/providers/app_config_provider.dart';
 import 'package:pi_hole_client/functions/snackbar.dart';
-import 'package:pi_hole_client/services/http_requests.dart';
 import 'package:pi_hole_client/models/server.dart';
 
 class AddServerFullscreen extends StatefulWidget {
@@ -192,7 +192,7 @@ class _AddServerFullscreenState extends State<AddServerFullscreen> {
             defaultServer: false,
             basicAuthUser: basicAuthUser.text,
             basicAuthPassword: basicAuthPassword.text);
-        final result = await loginQuery(serverObj);
+        final result = await ApiGateway.loginQuery(serverObj);
         if (!mounted) return;
         if (result['result'] == 'success') {
           Navigator.pop(context);
@@ -267,7 +267,7 @@ class _AddServerFullscreenState extends State<AddServerFullscreen> {
           defaultServer: false,
           basicAuthUser: basicAuthUser.text,
           basicAuthPassword: basicAuthPassword.text);
-      final result = await loginQuery(serverObj);
+      final result = await ApiGateway.loginQuery(serverObj);
       if (result['result'] == 'success') {
         Server server = Server(
             address: widget.server!.address,
