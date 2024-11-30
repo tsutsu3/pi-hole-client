@@ -100,7 +100,7 @@ class DomainsListProvider with ChangeNotifier {
 
   Future fetchDomainsList(Server server) async {
     final apiGateway = serversProvider?.selectedApiGateway;
-    final result = await apiGateway?.getDomainLists(server: server);
+    final result = await apiGateway?.getDomainLists();
     if (result['result'] == 'success') {
       final List<Domain> whitelist = [
         ...result['data']['whitelist'],

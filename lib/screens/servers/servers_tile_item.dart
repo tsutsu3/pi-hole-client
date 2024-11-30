@@ -96,11 +96,11 @@ class _ServersTileItemState extends State<ServersTileItem>
                 enabled: result['status'] == 'enabled' ? true : false),
             toHomeTab: true);
         final apiGateway = serversProvider.selectedApiGateway;
-        final statusResult = await apiGateway?.realtimeStatus(server);
+        final statusResult = await apiGateway?.realtimeStatus();
         if (statusResult['result'] == 'success') {
           statusProvider.setRealtimeStatus(statusResult['data']);
         }
-        final overtimeDataResult = await apiGateway?.fetchOverTimeData(server);
+        final overtimeDataResult = await apiGateway?.fetchOverTimeData();
         if (overtimeDataResult['result'] == 'success') {
           statusProvider.setOvertimeData(overtimeDataResult['data']);
           statusProvider.setOvertimeDataLoadingStatus(1);

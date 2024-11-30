@@ -76,8 +76,7 @@ class _DomainListsWidgetState extends State<DomainListsWidget>
       final ProcessModal process = ProcessModal(context: context);
       process.open(AppLocalizations.of(context)!.deleting);
 
-      final result = await apiGateway?.removeDomainFromList(
-          server: serversProvider.selectedServer!, domain: domain);
+      final result = await apiGateway?.removeDomainFromList(domain);
 
       process.close();
 

@@ -73,8 +73,7 @@ class _DomainsListState extends State<DomainsList> {
       final ProcessModal process = ProcessModal(context: context);
       process.open(AppLocalizations.of(context)!.deleting);
 
-      final result = await apiGateway?.removeDomainFromList(
-          server: serversProvider.selectedServer!, domain: domain);
+      final result = await apiGateway?.removeDomainFromList(domain);
 
       process.close();
 
@@ -104,8 +103,7 @@ class _DomainsListState extends State<DomainsList> {
       final ProcessModal process = ProcessModal(context: context);
       process.open(AppLocalizations.of(context)!.addingDomain);
 
-      final result = await apiGateway?.addDomainToList(
-          server: serversProvider.selectedServer!, domainData: value);
+      final result = await apiGateway?.addDomainToList(value);
 
       process.close();
 

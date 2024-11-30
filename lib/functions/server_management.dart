@@ -17,8 +17,7 @@ void enableServer(BuildContext context) async {
 
   final ProcessModal process = ProcessModal(context: context);
   process.open(AppLocalizations.of(context)!.enablingServer);
-  final result =
-      await apiGateway?.enableServerRequest(serversProvider.selectedServer!);
+  final result = await apiGateway?.enableServerRequest();
   process.close();
   if (result['result'] == 'success') {
     serversProvider.updateselectedServerStatus(true);
@@ -42,8 +41,7 @@ void disableServer(int time, BuildContext context) async {
 
   final ProcessModal process = ProcessModal(context: context);
   process.open(AppLocalizations.of(context)!.disablingServer);
-  final result = await apiGateway?.disableServerRequest(
-      serversProvider.selectedServer!, time);
+  final result = await apiGateway?.disableServerRequest(time);
   process.close();
   if (!context.mounted) return;
   if (result['result'] == 'success') {

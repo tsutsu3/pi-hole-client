@@ -115,10 +115,8 @@ class _LogsState extends State<Logs> {
         loadStatus = 1;
       });
     } else {
-      final result = await apiGateway?.fetchLogs(
-          server: serversProvider.selectedServer!,
-          from: minusHoursTimestamp,
-          until: timestamp);
+      final result =
+          await apiGateway?.fetchLogs(minusHoursTimestamp, timestamp);
       if (mounted) {
         setState(() => _isLoadingMore = false);
         if (result['result'] == 'success') {
@@ -247,8 +245,7 @@ class _LogsState extends State<Logs> {
             ? AppLocalizations.of(context)!.addingWhitelist
             : AppLocalizations.of(context)!.addingBlacklist,
       );
-      final result = await apiGateway?.setWhiteBlacklist(
-          server: serversProvider.selectedServer!, domain: log.url, list: list);
+      final result = await apiGateway?.setWhiteBlacklist(log.url, list);
       loading.close();
       if (result['result'] == 'success') {
         if (result['data']['message'].toString().contains('Added')) {

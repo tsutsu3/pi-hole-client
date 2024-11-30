@@ -35,8 +35,7 @@ class HomeAppBar extends StatelessWidget implements PreferredSizeWidget {
     void refresh() async {
       final ProcessModal process = ProcessModal(context: context);
       process.open(AppLocalizations.of(context)!.refreshingData);
-      final result =
-          await apiGateway?.realtimeStatus(serversProvider.selectedServer!);
+      final result = await apiGateway?.realtimeStatus();
       process.close();
       if (result['result'] == "success") {
         serversProvider.updateselectedServerStatus(
@@ -75,11 +74,11 @@ class HomeAppBar extends StatelessWidget implements PreferredSizeWidget {
                 token: server.token!,
                 defaultServer: server.defaultServer,
                 enabled: result['status'] == 'enabled' ? true : false));
-        final statusResult = await apiGateway?.realtimeStatus(server);
+        final statusResult = await apiGateway?.realtimeStatus();
         if (statusResult['result'] == 'success') {
           statusProvider.setRealtimeStatus(statusResult['data']);
         }
-        final overtimeDataResult = await apiGateway?.fetchOverTimeData(server);
+        final overtimeDataResult = await apiGateway?.fetchOverTimeData();
         if (overtimeDataResult['result'] == 'success') {
           statusProvider.setOvertimeData(overtimeDataResult['data']);
           statusProvider.setOvertimeDataLoadingStatus(1);

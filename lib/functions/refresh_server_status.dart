@@ -17,8 +17,7 @@ Future refreshServerStatus(BuildContext context) async {
       Provider.of<AppConfigProvider>(context, listen: false);
   final apiGateway = serversProvider.selectedApiGateway;
 
-  final result =
-      await apiGateway?.realtimeStatus(serversProvider.selectedServer!);
+  final result = await apiGateway?.realtimeStatus();
   if (!context.mounted) return;
   if (result['result'] == "success") {
     serversProvider.updateselectedServerStatus(

@@ -41,7 +41,7 @@ class ServersProvider with ChangeNotifier {
   Future<bool> addServer(Server server) async {
     final saved = await saveServerQuery(_dbInstance!, server);
     if (saved == true) {
-      _serverGateways[server.address] = ApiGatewayV5();
+      _serverGateways[server.address] = ApiGatewayV5(server);
       if (server.defaultServer == true) {
         final defaultServer = await setDefaultServer(server);
         if (defaultServer == true) {
@@ -147,7 +147,7 @@ class ServersProvider with ChangeNotifier {
           basicAuthPassword: server['basicAuthPassword'],
         );
         _serversList.add(serverObj);
-        _serverGateways[serverObj.address] = ApiGatewayV5();
+        _serverGateways[serverObj.address] = ApiGatewayV5(serverObj);
         if (convertFromIntToBool(server['isDefaultServer']) == true) {
           defaultServer = serverObj;
         }

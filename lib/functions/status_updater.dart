@@ -35,8 +35,7 @@ class StatusUpdater {
         if (serversProvider.selectedServer != null) {
           final apiGateway = serversProvider.selectedApiGateway;
           String selectedUrlBefore = serversProvider.selectedServer!.address;
-          final statusResult =
-              await apiGateway?.realtimeStatus(serversProvider.selectedServer!);
+          final statusResult = await apiGateway?.realtimeStatus();
           if (statusResult['result'] == 'success') {
             serversProvider.updateselectedServerStatus(
                 statusResult['data'].status == 'enabled' ? true : false);
@@ -73,8 +72,7 @@ class StatusUpdater {
       if (serversProvider.selectedServer != null) {
         final apiGateway = serversProvider.selectedApiGateway;
         String statusUrlBefore = serversProvider.selectedServer!.address;
-        final statusResult = await apiGateway
-            ?.fetchOverTimeData(serversProvider.selectedServer!);
+        final statusResult = await apiGateway?.fetchOverTimeData();
         if (statusResult['result'] == 'success') {
           statusProvider.setOvertimeData(statusResult['data']);
           List<dynamic> clients = statusResult['data'].clients.map((client) {

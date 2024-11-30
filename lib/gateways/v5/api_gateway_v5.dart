@@ -10,6 +10,10 @@ import 'package:pi_hole_client/models/server.dart';
 import 'package:pi_hole_client/gateways/api_gateway_interface.dart';
 
 class ApiGatewayV5 implements ApiGateway {
+  final Server server;
+
+  ApiGatewayV5(this.server);
+
   /// Fetches real-time status information from a Pi-hole server.
   ///
   /// This method sends a GET request to the specified Pi-hole server to retrieve
@@ -31,7 +35,7 @@ class ApiGatewayV5 implements ApiGateway {
   /// - `HandshakeException`: SSL/TLS handshake fails.
   /// - General exceptions: Any other errors encountered during execution.
   @override
-  Future realtimeStatus(Server server) async {
+  Future realtimeStatus() async {
     try {
       final response = await ApiGateway.httpClient(
           method: 'get',
@@ -75,7 +79,7 @@ class ApiGatewayV5 implements ApiGateway {
   /// - `HandshakeException`: SSL/TLS handshake fails.
   /// - General exceptions: Any other errors encountered during execution.
   @override
-  dynamic disableServerRequest(Server server, int time) async {
+  dynamic disableServerRequest(int time) async {
     try {
       final response = await ApiGateway.httpClient(
           method: 'get',
@@ -119,7 +123,7 @@ class ApiGatewayV5 implements ApiGateway {
   /// - General exceptions: Any other errors encountered during execution.
   ///
   @override
-  dynamic enableServerRequest(Server server) async {
+  dynamic enableServerRequest() async {
     try {
       final response = await ApiGateway.httpClient(
           method: 'get',
@@ -166,7 +170,7 @@ class ApiGatewayV5 implements ApiGateway {
   /// - General exceptions: Any other errors encountered during execution.
   // TODO: Hardcoded 10 minutes? The error occuer if the time is set anything other than 10 minutes.
   @override
-  Future fetchOverTimeData(Server server) async {
+  Future fetchOverTimeData() async {
     try {
       final response = await ApiGateway.httpClient(
           method: 'get',
@@ -213,11 +217,7 @@ class ApiGatewayV5 implements ApiGateway {
   /// - `HandshakeException`: SSL/TLS handshake fails.
   /// - General exceptions: Any other errors encountered during execution.
   @override
-  Future fetchLogs({
-    required Server server,
-    required DateTime from,
-    required DateTime until,
-  }) async {
+  Future fetchLogs(DateTime from, DateTime until) async {
     try {
       final response = await ApiGateway.httpClient(
           method: 'get',
@@ -265,11 +265,7 @@ class ApiGatewayV5 implements ApiGateway {
   /// - `HandshakeException`: SSL/TLS handshake fails.
   /// - General exceptions: Any other errors encountered during execution.
   @override
-  Future setWhiteBlacklist({
-    required Server server,
-    required String domain,
-    required String list,
-  }) async {
+  Future setWhiteBlacklist(String domain, String list) async {
     try {
       final response = await ApiGateway.httpClient(
           method: 'get',
@@ -328,7 +324,7 @@ class ApiGatewayV5 implements ApiGateway {
   /// - `FormatException`: Malformed response body or unexpected data format.
   /// - General exceptions: Any other errors encountered during execution.
   @override
-  Future getDomainLists({required Server server}) async {
+  Future getDomainLists() async {
     Map<String, String>? headers;
     if (ApiGateway.checkBasicAuth(
             server.basicAuthUser, server.basicAuthPassword) ==
@@ -414,8 +410,7 @@ class ApiGatewayV5 implements ApiGateway {
   /// - `HandshakeException`: SSL/TLS handshake fails.
   /// - General exceptions: Any other errors encountered during execution.
   @override
-  Future removeDomainFromList(
-      {required Server server, required Domain domain}) async {
+  Future removeDomainFromList(Domain domain) async {
     String getType(int type) {
       switch (type) {
         case 0:
@@ -484,10 +479,7 @@ class ApiGatewayV5 implements ApiGateway {
   /// - `Map<String, dynamic>`: A result object with the following keys
   ///   - `result`: A string indicating the outcome of the operation (`success`, `already_added`, `no_connection`, `ssl_error`, `auth_error`, `error`).
   @override
-  Future addDomainToList({
-    required Server server,
-    required Map<String, dynamic> domainData,
-  }) async {
+  Future addDomainToList(Map<String, dynamic> domainData) async {
     try {
       final response = await ApiGateway.httpClient(
           method: 'get',

@@ -11,42 +11,31 @@ import 'package:pi_hole_client/models/app_log.dart';
 
 abstract interface class ApiGateway {
   /// Fetches real-time status information from a Pi-hole server.
-  Future realtimeStatus(Server server);
+  Future realtimeStatus();
 
   /// Disables a Pi-hole server
-  dynamic disableServerRequest(Server server, int time);
+  dynamic disableServerRequest(int time);
 
   /// Enables a Pi-hole server
-  dynamic enableServerRequest(Server server);
+  dynamic enableServerRequest();
 
   /// Fetches over-time data from a Pi-hole server.
-  Future fetchOverTimeData(Server server);
+  Future fetchOverTimeData();
 
   /// Fetches log data from a Pi-hole server within a specified time range.
-  Future fetchLogs({
-    required Server server,
-    required DateTime from,
-    required DateTime until,
-  });
+  Future fetchLogs(DateTime from, DateTime until);
 
   /// Adds a domain to the whitelist or blacklist on a Pi-hole server.
-  Future setWhiteBlacklist({
-    required Server server,
-    required String domain,
-    required String list,
-  });
+  Future setWhiteBlacklist(String domain, String list);
 
   /// Fetches domain lists (whitelist, blacklist, and regex-based lists) from a Pi-hole server.
-  Future getDomainLists({required Server server});
+  Future getDomainLists();
 
   /// Removes a domain from a specific list on a Pi-hole server.
-  Future removeDomainFromList({required Server server, required Domain domain});
+  Future removeDomainFromList(Domain domain);
 
   /// Adds a domain to a specified list on a Pi-hole server.
-  Future addDomainToList({
-    required Server server,
-    required Map<String, dynamic> domainData,
-  });
+  Future addDomainToList(Map<String, dynamic> domainData);
 
   /// Checks if both the username and password are non-null and non-empty.
   ///
