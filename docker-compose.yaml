@@ -1,0 +1,24 @@
+services:
+  piholeV5:
+    container_name: piholeV5
+    image: pihole/pihole:latest
+    ports:
+      - "54:53/tcp"
+      - "54:53/udp"
+      - "8080:80/tcp"
+      - "1444:443/tcp"
+    environment:
+      TZ: 'Asia/Tokyo'
+      WEBPASSWORD: 'test123'
+
+  piholeV6:
+    container_name: piholeV6
+    image: pihole/pihole:development
+    ports:
+      - "55:53/tcp"
+      - "55:53/udp"
+      - "8081:80/tcp"
+      - "1445:443/tcp"
+    environment:
+      TZ: 'Asia/Tokyo'
+      FTLCONF_webserver_api_password: 'test123'
