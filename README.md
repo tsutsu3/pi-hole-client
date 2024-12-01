@@ -9,6 +9,7 @@
 [![MIT License][license-shield]][license-url]
 [![CodeCov][codecov-shield]][codecov-url]
 [![CodeClimate][codeclimate-shield]][codeclimate-url]
+[![Codaocy][codacy-shield]][codacy-url]
 ![Status][status-shield]
 
 <!-- PROJECT LOGO -->
@@ -151,3 +152,5 @@ See original [License](./LICENSE.md) for licensing details.
 [codecov-url]: https://codecov.io/gh/tsutsu3/pi-hole-client
 [codeclimate-shield]: https://img.shields.io/codeclimate/maintainability/tsutsu3/pi-hole-client?style=for-the-badge&logo=codeclimate
 [codeclimate-url]: https://codeclimate.com/github/tsutsu3/pi-hole-client/maintainability
+[codacy-shield]: https://img.shields.io/codacy/grade/a8a50d5271be491ab68c69513f808ada?style=for-the-badge&logo=codacy
+[codacy-url]: https://app.codacy.com/gh/tsutsu3/pi-hole-client/dashboard

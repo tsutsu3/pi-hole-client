@@ -3,6 +3,7 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:pi_hole_client/constants/urls.dart';
 import 'package:pi_hole_client/gateways/api_gateway_interface.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
@@ -28,6 +29,8 @@ class AddServerFullscreen extends StatefulWidget {
 
 enum ConnectionType { http, https }
 
+enum PiHoleVersion { v5, v6 }
+
 class _AddServerFullscreenState extends State<AddServerFullscreen> {
   TextEditingController addressFieldController = TextEditingController();
   String? addressFieldError;
@@ -38,6 +41,7 @@ class _AddServerFullscreenState extends State<AddServerFullscreen> {
   TextEditingController aliasFieldController = TextEditingController();
   TextEditingController tokenFieldController = TextEditingController();
   ConnectionType connectionType = ConnectionType.http;
+  PiHoleVersion piHoleVersion = PiHoleVersion.v5;
   TextEditingController basicAuthUser = TextEditingController();
   TextEditingController basicAuthPassword = TextEditingController();
   bool defaultCheckbox = false;
@@ -147,6 +151,9 @@ class _AddServerFullscreenState extends State<AddServerFullscreen> {
         connectionType = widget.server!.address.split(':')[0] == 'https'
             ? ConnectionType.https
             : ConnectionType.http;
+        piHoleVersion = widget.server!.apiVersion == '5'
+            ? PiHoleVersion.v5
+            : PiHoleVersion.v6;
         defaultCheckbox = widget.server!.defaultServer;
       });
     }
@@ -354,6 +361,144 @@ class _AddServerFullscreenState extends State<AddServerFullscreen> {
               ));
     }
 
+    Widget buildV5Settings(BuildContext context) {
+      return Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Padding(
+            padding: const EdgeInsets.symmetric(vertical: 20),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Expanded(
+                  child: TextField(
+                    obscureText: true,
+                    keyboardType: TextInputType.visiblePassword,
+                    controller: tokenFieldController,
+                    onChanged: (value) => checkDataValid(),
+                    decoration: InputDecoration(
+                      prefixIcon: const Icon(Icons.key_rounded),
+                      border: const OutlineInputBorder(
+                          borderRadius: BorderRadius.all(Radius.circular(10))),
+                      labelText: AppLocalizations.of(context)!.token,
+                    ),
+                  ),
+                ),
+                if (Platform.isAndroid || Platform.isIOS) ...[
+                  const SizedBox(width: 16),
+                  IconButton(
+                    onPressed: openScanTokenModal,
+                    icon: const Icon(Icons.qr_code_rounded),
+                    tooltip: AppLocalizations.of(context)!.scanQrCode,
+                  )
+                ]
+              ],
+            ),
+          ),
+          Card(
+            margin: const EdgeInsets.only(top: 10, bottom: 10),
+            child: Padding(
+              padding: const EdgeInsets.all(16),
+              child: Row(
+                children: [
+                  Icon(
+                    Icons.info_rounded,
+                    color: Theme.of(context).colorScheme.onSurfaceVariant,
+                  ),
+                  const SizedBox(width: 16),
+                  Flexible(
+                      child: Text(
+                    AppLocalizations.of(context)!.tokenInstructions,
+                  ))
+                ],
+              ),
+            ),
+          ),
+          const SizedBox(height: 20),
+          SectionLabel(
+              label: AppLocalizations.of(context)!.basicAuth,
+              padding: const EdgeInsets.only(top: 10, bottom: 10)),
+          Card(
+            margin: const EdgeInsets.only(top: 20, bottom: 10),
+            child: Padding(
+              padding: const EdgeInsets.all(16),
+              child: Row(
+                children: [
+                  Icon(
+                    Icons.info_rounded,
+                    color: Theme.of(context).colorScheme.onSurfaceVariant,
+                  ),
+                  const SizedBox(width: 16),
+                  Flexible(
+                      child: Text(
+                    AppLocalizations.of(context)!.basicAuthInfo,
+                  ))
+                ],
+              ),
+            ),
+          ),
+          Padding(
+            padding: const EdgeInsets.only(top: 20),
+            child: TextFormField(
+              onChanged: (_) => checkDataValid(),
+              controller: basicAuthUser,
+              decoration: InputDecoration(
+                prefixIcon: const Icon(Icons.person_rounded),
+                border: const OutlineInputBorder(
+                    borderRadius: BorderRadius.all(Radius.circular(10))),
+                labelText: AppLocalizations.of(context)!.username,
+              ),
+            ),
+          ),
+          Padding(
+            padding: const EdgeInsets.only(top: 30, bottom: 30),
+            child: TextFormField(
+              onChanged: (_) => checkDataValid(),
+              controller: basicAuthPassword,
+              obscureText: true,
+              keyboardType: TextInputType.visiblePassword,
+              decoration: InputDecoration(
+                prefixIcon: const Icon(Icons.key_rounded),
+                border: const OutlineInputBorder(
+                    borderRadius: BorderRadius.all(Radius.circular(10))),
+                labelText: AppLocalizations.of(context)!.password,
+              ),
+            ),
+          ),
+        ],
+      );
+    }
+
+    Widget buildV6Settings(BuildContext context) {
+      return Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Padding(
+            padding: const EdgeInsets.symmetric(vertical: 20),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Expanded(
+                  child: TextField(
+                    obscureText: true,
+                    keyboardType: TextInputType.visiblePassword,
+                    controller: tokenFieldController,
+                    onChanged: (value) => checkDataValid(),
+                    decoration: InputDecoration(
+                      prefixIcon: const Icon(Icons.key_rounded),
+                      border: const OutlineInputBorder(
+                          borderRadius: BorderRadius.all(Radius.circular(10))),
+                      labelText: AppLocalizations.of(context)!.password,
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ],
+      );
+    }
+
     Widget formItems() {
       return ListView(
         children: [
@@ -464,108 +609,32 @@ class _AddServerFullscreenState extends State<AddServerFullscreen> {
                   ),
                 ),
                 SectionLabel(
+                    label: AppLocalizations.of(context)!.version,
+                    padding: const EdgeInsets.only(top: 30, bottom: 10)),
+                Container(
+                  padding: const EdgeInsets.symmetric(vertical: 10),
+                  width: double.maxFinite,
+                  child: SegmentedButton<PiHoleVersion>(
+                    segments: const [
+                      ButtonSegment(value: PiHoleVersion.v5, label: Text("v5")),
+                      ButtonSegment(
+                          value: PiHoleVersion.v6,
+                          label: Text("v6"),
+                          enabled: false), // TODO: enable
+                    ],
+                    selected: <PiHoleVersion>{piHoleVersion},
+                    onSelectionChanged: (value) =>
+                        setState(() => piHoleVersion = value.first),
+                  ),
+                ),
+                SectionLabel(
                     label: AppLocalizations.of(context)!.authentication,
                     padding: const EdgeInsets.only(top: 30, bottom: 10)),
                 Padding(
-                  padding: const EdgeInsets.symmetric(vertical: 20),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Expanded(
-                        child: TextField(
-                          obscureText: true,
-                          keyboardType: TextInputType.visiblePassword,
-                          controller: tokenFieldController,
-                          onChanged: (value) => checkDataValid(),
-                          decoration: InputDecoration(
-                            prefixIcon: const Icon(Icons.key_rounded),
-                            border: const OutlineInputBorder(
-                                borderRadius:
-                                    BorderRadius.all(Radius.circular(10))),
-                            labelText: AppLocalizations.of(context)!.token,
-                          ),
-                        ),
-                      ),
-                      if (Platform.isAndroid || Platform.isIOS) ...[
-                        const SizedBox(width: 16),
-                        IconButton(
-                          onPressed: openScanTokenModal,
-                          icon: const Icon(Icons.qr_code_rounded),
-                          tooltip: AppLocalizations.of(context)!.scanQrCode,
-                        )
-                      ]
-                    ],
-                  ),
-                ),
-                Card(
-                  margin: const EdgeInsets.only(top: 10, bottom: 10),
-                  child: Padding(
-                    padding: const EdgeInsets.all(16),
-                    child: Row(
-                      children: [
-                        Icon(
-                          Icons.info_rounded,
-                          color: Theme.of(context).colorScheme.onSurfaceVariant,
-                        ),
-                        const SizedBox(width: 16),
-                        Flexible(
-                            child: Text(
-                          AppLocalizations.of(context)!.tokenInstructions,
-                        ))
-                      ],
-                    ),
-                  ),
-                ),
-                const SizedBox(height: 20),
-                SectionLabel(
-                    label: AppLocalizations.of(context)!.basicAuth,
-                    padding: const EdgeInsets.only(top: 10, bottom: 10)),
-                Card(
-                  margin: const EdgeInsets.only(top: 20, bottom: 10),
-                  child: Padding(
-                    padding: const EdgeInsets.all(16),
-                    child: Row(
-                      children: [
-                        Icon(
-                          Icons.info_rounded,
-                          color: Theme.of(context).colorScheme.onSurfaceVariant,
-                        ),
-                        const SizedBox(width: 16),
-                        Flexible(
-                            child: Text(
-                          AppLocalizations.of(context)!.basicAuthInfo,
-                        ))
-                      ],
-                    ),
-                  ),
-                ),
-                Padding(
-                  padding: const EdgeInsets.only(top: 20),
-                  child: TextFormField(
-                    onChanged: (_) => checkDataValid(),
-                    controller: basicAuthUser,
-                    decoration: InputDecoration(
-                      prefixIcon: const Icon(Icons.person_rounded),
-                      border: const OutlineInputBorder(
-                          borderRadius: BorderRadius.all(Radius.circular(10))),
-                      labelText: AppLocalizations.of(context)!.username,
-                    ),
-                  ),
-                ),
-                Padding(
-                  padding: const EdgeInsets.only(top: 30, bottom: 30),
-                  child: TextFormField(
-                    onChanged: (_) => checkDataValid(),
-                    controller: basicAuthPassword,
-                    obscureText: true,
-                    keyboardType: TextInputType.visiblePassword,
-                    decoration: InputDecoration(
-                      prefixIcon: const Icon(Icons.key_rounded),
-                      border: const OutlineInputBorder(
-                          borderRadius: BorderRadius.all(Radius.circular(10))),
-                      labelText: AppLocalizations.of(context)!.password,
-                    ),
-                  ),
+                  padding: const EdgeInsets.symmetric(vertical: 10),
+                  child: piHoleVersion == PiHoleVersion.v5
+                      ? buildV5Settings(context)
+                      : buildV6Settings(context),
                 ),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
@@ -644,9 +713,7 @@ class _AddServerFullscreenState extends State<AddServerFullscreen> {
                     Row(
                       children: [
                         IconButton(
-                          onPressed: () => openUrl(
-                            "https://github.com/tsutsu3/pi-hole-client/wiki/Create-a-connection",
-                          ),
+                          onPressed: () => openUrl(createAConnectionUrl),
                           icon: const Icon(Icons.help_outline_rounded),
                           tooltip:
                               AppLocalizations.of(context)!.howCreateConnection,
@@ -684,9 +751,7 @@ class _AddServerFullscreenState extends State<AddServerFullscreen> {
                 title: Text(AppLocalizations.of(context)!.createConnection),
                 actions: [
                   IconButton(
-                    onPressed: () => openUrl(
-                      "https://github.com/tsutsu3/pi-hole-client/wiki/Create-a-connection",
-                    ),
+                    onPressed: () => openUrl(createAConnectionUrl),
                     icon: const Icon(Icons.help_outline_rounded),
                     tooltip: AppLocalizations.of(context)!.howCreateConnection,
                   ),
