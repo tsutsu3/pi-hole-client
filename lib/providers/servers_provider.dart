@@ -2,23 +2,23 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:pi_hole_client/gateways/api_gateway_interface.dart';
 import 'package:pi_hole_client/gateways/v5/api_gateway_v5.dart';
-import 'package:sqflite/sqlite_api.dart';
-
+import 'package:pi_hole_client/models/repository/database.dart';
+import 'package:pi_hole_client/repository/database.dart';
 import 'package:pi_hole_client/providers/app_config_provider.dart';
-// import 'package:pi_hole_client/services/http_requests.dart';
-import 'package:pi_hole_client/services/database/queries.dart';
 import 'package:pi_hole_client/functions/conversions.dart';
 import 'package:pi_hole_client/models/server.dart';
 
 class ServersProvider with ChangeNotifier {
   AppConfigProvider? _appConfigProvider;
+  final DatabaseRepository _repository;
+
+  ServersProvider(this._repository);
 
   update(AppConfigProvider? provider) {
     _appConfigProvider = provider;
   }
 
   List<Server> _serversList = [];
-  Database? _dbInstance;
 
   Server? _selectedServer;
 
@@ -39,7 +39,7 @@ class ServersProvider with ChangeNotifier {
       : null;
 
   Future<bool> addServer(Server server) async {
-    final saved = await saveServerQuery(_dbInstance!, server);
+    final saved = await _repository.saveServerQuery(server);
     if (saved == true) {
       _serverGateways[server.address] = ApiGatewayV5(server);
       if (server.defaultServer == true) {
@@ -62,7 +62,7 @@ class ServersProvider with ChangeNotifier {
   }
 
   Future<bool> editServer(Server server) async {
-    final result = await editServerQuery(_dbInstance!, server);
+    final result = await _repository.editServerQuery(server);
     if (result == true) {
       List<Server> newServers = _serversList.map((s) {
         if (s.address == server.address) {
@@ -80,7 +80,7 @@ class ServersProvider with ChangeNotifier {
   }
 
   Future<bool> removeServer(String serverAddress) async {
-    final result = await removeServerQuery(_dbInstance!, serverAddress);
+    final result = await _repository.removeServerQuery(serverAddress);
     if (result == true) {
       _serverGateways.removeWhere((key, _) => key == serverAddress);
       _selectedServer = null;
@@ -96,7 +96,7 @@ class ServersProvider with ChangeNotifier {
   }
 
   Future<bool> setDefaultServer(Server server) async {
-    final updated = await setDefaultServerQuery(_dbInstance!, server.address);
+    final updated = await _repository.setDefaultServerQuery(server.address);
     if (updated == true) {
       List<Server> newServers = _serversList.map((s) {
         if (s.address == server.address) {
@@ -117,7 +117,7 @@ class ServersProvider with ChangeNotifier {
 
   Future<bool> setToken(Server server) async {
     final result =
-        await setServerTokenQuery(_dbInstance!, server.token, server.address);
+        await _repository.setServerTokenQuery(server.token, server.address);
     if (result == true) {
       _serversList = _serversList.map((s) {
         if (s.address == server.address) {
@@ -133,22 +133,22 @@ class ServersProvider with ChangeNotifier {
     }
   }
 
-  Future saveFromDb(List<Map<String, dynamic>>? servers, bool connect) async {
+  Future saveFromDb(List<ServerDbData>? servers, bool connect) async {
     if (servers != null) {
       Server? defaultServer;
       for (var server in servers) {
         final Server serverObj = Server(
-          address: server['address'],
-          alias: server['alias'],
-          token: server['token'],
-          defaultServer: convertFromIntToBool(server['isDefaultServer'])!,
-          apiVersion: server['apiVersion'],
-          basicAuthUser: server['basicAuthUser'],
-          basicAuthPassword: server['basicAuthPassword'],
+          address: server.address,
+          alias: server.alias,
+          token: server.token,
+          defaultServer: convertFromIntToBool(server.isDefaultServer)!,
+          apiVersion: server.apiVersion,
+          basicAuthUser: server.basicAuthUser,
+          basicAuthPassword: server.basicAuthPassword,
         );
         _serversList.add(serverObj);
         _serverGateways[serverObj.address] = ApiGatewayV5(serverObj);
-        if (convertFromIntToBool(server['isDefaultServer']) == true) {
+        if (convertFromIntToBool(server.isDefaultServer) == true) {
           defaultServer = serverObj;
         }
 
@@ -177,7 +177,7 @@ class ServersProvider with ChangeNotifier {
   }
 
   FutureOr<Map<String, dynamic>> checkUrlExists(String url) async {
-    return await checkUrlExistsQuery(_dbInstance!, url);
+    return await _repository.checkUrlExistsQuery(url);
   }
 
   void setselectedServer({required Server? server, bool? toHomeTab}) {
@@ -193,12 +193,8 @@ class ServersProvider with ChangeNotifier {
     }
   }
 
-  void setDbInstance(Database db) {
-    _dbInstance = db;
-  }
-
   Future<bool> deleteDbData() async {
-    final result = await deleteServersDataQuery(_dbInstance!);
+    final result = await _repository.deleteServersDataQuery();
     if (result == true) {
       _serversList = [];
       _selectedServer = null;

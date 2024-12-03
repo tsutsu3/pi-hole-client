@@ -24,7 +24,7 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:pi_hole_client/base.dart';
 import 'package:pi_hole_client/screens/unlock.dart';
 
-import 'package:pi_hole_client/services/database/database.dart';
+import 'package:pi_hole_client/repository/database.dart';
 import 'package:pi_hole_client/classes/http_override.dart';
 import 'package:pi_hole_client/config/theme.dart';
 import 'package:pi_hole_client/providers/status_provider.dart';
@@ -50,23 +50,23 @@ void main() async {
 
   await dotenv.load(fileName: '.env');
 
-  ServersProvider serversProvider = ServersProvider();
+  DatabaseRepository dbRepository = DatabaseRepository();
+  await dbRepository.initialize();
+
+  ServersProvider serversProvider = ServersProvider(dbRepository);
+  AppConfigProvider configProvider = AppConfigProvider(dbRepository);
   StatusProvider statusProvider = StatusProvider();
   FiltersProvider filtersProvider = FiltersProvider();
   DomainsListProvider domainsListProvider =
       DomainsListProvider(serversProvider: serversProvider);
-  AppConfigProvider configProvider = AppConfigProvider();
 
-  Map<String, dynamic> dbData = await loadDb();
-
-  if (dbData['appConfig']['overrideSslCheck'] == 1) {
+  if (dbRepository.appConfig.overrideSslCheck == 1) {
     HttpOverrides.global = MyHttpOverrides();
   }
 
-  serversProvider.setDbInstance(dbData['dbInstance']);
-  configProvider.saveFromDb(dbData['dbInstance'], dbData['appConfig']);
-  await serversProvider.saveFromDb(dbData['servers'],
-      dbData['appConfig']['passCode'] != null ? false : true);
+  configProvider.saveFromDb(dbRepository.appConfig);
+  await serversProvider.saveFromDb(dbRepository.servers,
+      dbRepository.appConfig.passCode != null ? false : true);
 
   try {
     if (Platform.isAndroid || Platform.isIOS) {
@@ -78,7 +78,7 @@ void main() async {
 
       if (canAuthenticateWithBiometrics &&
           availableBiometrics.contains(BiometricType.fingerprint) == false &&
-          dbData['useBiometricAuth'] == 1) {
+          dbRepository.appConfig.useBiometricAuth == 1) {
         await configProvider.setUseBiometrics(false);
       }
     }
