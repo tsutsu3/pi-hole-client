@@ -1,11 +1,11 @@
 import 'package:pi_hole_client/constants/languages.dart';
 import 'package:pi_hole_client/models/app_log.dart';
-import 'package:pi_hole_client/services/database/queries.dart';
+import 'package:pi_hole_client/models/repository/database.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:device_info_plus/device_info_plus.dart';
 import 'package:package_info_plus/package_info_plus.dart';
-import 'package:sqflite/sqlite_api.dart';
+import 'package:pi_hole_client/repository/database.dart';
 
 class AppConfigProvider with ChangeNotifier {
   bool _showingSnackbar = false;
@@ -32,8 +32,9 @@ class AppConfigProvider with ChangeNotifier {
       SchedulerBinding.instance.platformDispatcher.locale.languageCode;
 
   final List<AppLog> _logs = [];
+  final DatabaseRepository _repository;
 
-  Database? _dbInstance;
+  AppConfigProvider(this._repository);
 
   bool get showingSnackbar {
     return _showingSnackbar;
@@ -73,10 +74,6 @@ class AppConfigProvider with ChangeNotifier {
 
   String get selectedLanguage {
     return _selectedLanguage;
-  }
-
-  Database? get dbInstance {
-    return _dbInstance;
   }
 
   int get selectedThemeNumber {
@@ -208,10 +205,8 @@ class AppConfigProvider with ChangeNotifier {
   }
 
   Future<bool> setUseBiometrics(bool biometrics) async {
-    final updated = await updateConfigQuery(
-        db: _dbInstance!,
-        column: 'useBiometricAuth',
-        value: biometrics == true ? 1 : 0);
+    final updated = await _repository.updateConfigQuery(
+        column: 'useBiometricAuth', value: biometrics == true ? 1 : 0);
     if (updated == true) {
       _useBiometrics = biometrics == true ? 1 : 0;
       notifyListeners();
@@ -222,10 +217,8 @@ class AppConfigProvider with ChangeNotifier {
   }
 
   Future<bool> setImportantInfoReaden(bool status) async {
-    final updated = await updateConfigQuery(
-        db: _dbInstance!,
-        column: 'importantInfoReaden',
-        value: status == true ? 1 : 0);
+    final updated = await _repository.updateConfigQuery(
+        column: 'importantInfoReaden', value: status == true ? 1 : 0);
     if (updated == true) {
       _importantInfoReaden = status == true ? 1 : 0;
       notifyListeners();
@@ -237,12 +230,12 @@ class AppConfigProvider with ChangeNotifier {
 
   Future<bool> setPassCode(String? code) async {
     if (_useBiometrics == 1) {
-      final updated = await updateConfigQuery(
-          db: _dbInstance!, column: 'useBiometricAuth', value: 0);
+      final updated = await _repository.updateConfigQuery(
+          column: 'useBiometricAuth', value: 0);
       if (updated == true) {
         _useBiometrics = 0;
-        final updated2 = await updateConfigQuery(
-            db: _dbInstance!, column: 'passCode', value: code);
+        final updated2 = await _repository.updateConfigQuery(
+            column: 'passCode', value: code);
         if (updated2 == true) {
           _passCode = code;
           notifyListeners();
@@ -254,8 +247,8 @@ class AppConfigProvider with ChangeNotifier {
         return false;
       }
     } else {
-      final updated = await updateConfigQuery(
-          db: _dbInstance!, column: 'passCode', value: code);
+      final updated =
+          await _repository.updateConfigQuery(column: 'passCode', value: code);
       if (updated == true) {
         _passCode = code;
         notifyListeners();
@@ -267,8 +260,8 @@ class AppConfigProvider with ChangeNotifier {
   }
 
   Future<bool> setAutoRefreshTime(int seconds) async {
-    final updated = await updateConfigQuery(
-        db: _dbInstance!, column: 'autoRefreshTime', value: seconds);
+    final updated = await _repository.updateConfigQuery(
+        column: 'autoRefreshTime', value: seconds);
     if (updated == true) {
       _autoRefreshTime = seconds;
       notifyListeners();
@@ -279,8 +272,8 @@ class AppConfigProvider with ChangeNotifier {
   }
 
   Future<bool> setLogsPerQuery(double time) async {
-    final updated = await updateConfigQuery(
-        db: _dbInstance!, column: 'logsPerQuery', value: time);
+    final updated = await _repository.updateConfigQuery(
+        column: 'logsPerQuery', value: time);
     if (updated == true) {
       _logsPerQuery = time;
       notifyListeners();
@@ -290,22 +283,21 @@ class AppConfigProvider with ChangeNotifier {
     }
   }
 
-  void saveFromDb(Database dbInstance, Map<String, dynamic> dbData) {
-    _autoRefreshTime = dbData['autoRefreshTime'];
-    _selectedTheme = dbData['theme'];
-    _selectedLanguage = dbData['language'];
-    _overrideSslCheck = dbData['overrideSslCheck'];
-    _oneColumnLegend = dbData['oneColumnLegend'];
-    _reducedDataCharts = dbData['reducedDataCharts'];
-    _logsPerQuery = dbData['logsPerQuery'].toDouble();
-    _passCode = dbData['passCode'];
-    _useBiometrics = dbData['useBiometricAuth'];
-    _importantInfoReaden = dbData['importantInfoReaden'];
-    _hideZeroValues = dbData['hideZeroValues'];
-    _statisticsVisualizationMode = dbData['statisticsVisualizationMode'];
-    _dbInstance = dbInstance;
+  void saveFromDb(AppDbData dbData) {
+    _autoRefreshTime = dbData.autoRefreshTime;
+    _selectedTheme = dbData.theme;
+    _selectedLanguage = dbData.language;
+    _overrideSslCheck = dbData.overrideSslCheck;
+    _oneColumnLegend = dbData.oneColumnLegend;
+    _reducedDataCharts = dbData.reducedDataCharts;
+    _logsPerQuery = dbData.logsPerQuery.toDouble();
+    _passCode = dbData.passCode;
+    _useBiometrics = dbData.useBiometricAuth;
+    _importantInfoReaden = dbData.importantInfoReaden;
+    _hideZeroValues = dbData.hideZeroValues;
+    _statisticsVisualizationMode = dbData.statisticsVisualizationMode;
 
-    if (dbData['passCode'] != null) {
+    if (dbData.passCode != null) {
       _appUnlocked = false;
     }
 
@@ -313,10 +305,8 @@ class AppConfigProvider with ChangeNotifier {
   }
 
   Future<bool> setOverrideSslCheck(bool status) async {
-    final updated = await updateConfigQuery(
-        db: _dbInstance!,
-        column: 'overrideSslCheck',
-        value: status == true ? 1 : 0);
+    final updated = await _repository.updateConfigQuery(
+        column: 'overrideSslCheck', value: status == true ? 1 : 0);
     if (updated == true) {
       _overrideSslCheck = status == true ? 1 : 0;
       notifyListeners();
@@ -327,10 +317,8 @@ class AppConfigProvider with ChangeNotifier {
   }
 
   Future<bool> setOneColumnLegend(bool status) async {
-    final updated = await updateConfigQuery(
-        db: _dbInstance!,
-        column: 'oneColumnLegend',
-        value: status == true ? 1 : 0);
+    final updated = await _repository.updateConfigQuery(
+        column: 'oneColumnLegend', value: status == true ? 1 : 0);
     if (updated == true) {
       _oneColumnLegend = status == true ? 1 : 0;
       notifyListeners();
@@ -341,10 +329,8 @@ class AppConfigProvider with ChangeNotifier {
   }
 
   Future<bool> setReducedDataCharts(bool status) async {
-    final updated = await updateConfigQuery(
-        db: _dbInstance!,
-        column: 'reducedDataCharts',
-        value: status == true ? 1 : 0);
+    final updated = await _repository.updateConfigQuery(
+        column: 'reducedDataCharts', value: status == true ? 1 : 0);
     if (updated == true) {
       _reducedDataCharts = status == true ? 1 : 0;
       notifyListeners();
@@ -355,10 +341,8 @@ class AppConfigProvider with ChangeNotifier {
   }
 
   Future<bool> setHideZeroValues(bool status) async {
-    final updated = await updateConfigQuery(
-        db: _dbInstance!,
-        column: 'hideZeroValues',
-        value: status == true ? 1 : 0);
+    final updated = await _repository.updateConfigQuery(
+        column: 'hideZeroValues', value: status == true ? 1 : 0);
     if (updated == true) {
       _hideZeroValues = status == true ? 1 : 0;
       notifyListeners();
@@ -369,8 +353,8 @@ class AppConfigProvider with ChangeNotifier {
   }
 
   Future<bool> setSelectedTheme(int value) async {
-    final updated = await updateConfigQuery(
-        db: _dbInstance!, column: 'theme', value: value);
+    final updated =
+        await _repository.updateConfigQuery(column: 'theme', value: value);
     if (updated == true) {
       _selectedTheme = value;
       notifyListeners();
@@ -381,8 +365,8 @@ class AppConfigProvider with ChangeNotifier {
   }
 
   Future<bool> setSelectedLanguage(String value) async {
-    final updated = await updateConfigQuery(
-        db: _dbInstance!, column: 'language', value: value);
+    final updated =
+        await _repository.updateConfigQuery(column: 'language', value: value);
     if (updated == true) {
       _selectedLanguage = value;
       notifyListeners();
@@ -393,8 +377,8 @@ class AppConfigProvider with ChangeNotifier {
   }
 
   Future<bool> setStatisticsVisualizationMode(int value) async {
-    final updated = await updateConfigQuery(
-        db: _dbInstance!, column: 'statisticsVisualizationMode', value: value);
+    final updated = await _repository.updateConfigQuery(
+        column: 'statisticsVisualizationMode', value: value);
     if (updated == true) {
       _statisticsVisualizationMode = value;
       notifyListeners();
@@ -405,7 +389,7 @@ class AppConfigProvider with ChangeNotifier {
   }
 
   Future<bool> restoreAppConfig() async {
-    final result = await restoreAppConfigQuery(_dbInstance!);
+    final result = await _repository.restoreAppConfigQuery();
     if (result == true) {
       _autoRefreshTime = 5;
       _selectedTheme = 0;
