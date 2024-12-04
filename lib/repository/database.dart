@@ -1,5 +1,6 @@
 import 'package:pi_hole_client/models/repository/database.dart';
 import 'package:pi_hole_client/models/server.dart';
+import 'package:pi_hole_client/repository/secure_storage.dart';
 import 'package:sqflite/sqflite.dart';
 import 'package:pi_hole_client/functions/logger.dart';
 import 'package:pi_hole_client/functions/conversions.dart';
@@ -8,6 +9,9 @@ class DatabaseRepository {
   late final List<ServerDbData>? _servers;
   late final AppDbData? _appConfig;
   late final Database _dbInstance;
+  final SecureStorageRepository _secureStorage;
+
+  DatabaseRepository(this._secureStorage);
 
   /// Initializes the database repository.
   ///
@@ -80,11 +84,8 @@ class DatabaseRepository {
             CREATE TABLE servers (
               address TEXT PRIMARY KEY NOT NULL,
               alias TEXT NOT NULL,
-              token TEXT,
               isDefaultServer NUMERIC NOT NULL,
-              apiVersion TEXT,
-              basicAuthUser TEXT,
-              basicAuthPassword TEXT
+              apiVersion TEXT
             )
           """);
           await db.execute("""
@@ -96,7 +97,6 @@ class DatabaseRepository {
               oneColumnLegend NUMERIC NOT NULL,
               reducedDataCharts NUMERIC NOT NULL,
               logsPerQuery NUMERIC NOT NULL,
-              passCode TEXT,
               useBiometricAuth NUMERIC NOT NULL,
               importantInfoReaden NUMERIC NOT NULL,
               hideZeroValues NUMERIC NOT NULL,
@@ -112,12 +112,11 @@ class DatabaseRepository {
               oneColumnLegend,
               reducedDataCharts,
               logsPerQuery,
-              passCode,
               useBiometricAuth,
               importantInfoReaden,
               hideZeroValues,
               statisticsVisualizationMode
-            ) VALUES (5, 0, 'en', 0, 0, 0, 2, null, 0, 0, 0, 0)
+            ) VALUES (5, 0, 'en', 0, 0, 0, 2, 0, 0, 0, 0)
           """);
         },
         onUpgrade: (Database db, int oldVersion, int newVersion) async {},
@@ -132,6 +131,32 @@ class DatabaseRepository {
             final appConfigRows = await txn.rawQuery('SELECT * FROM appConfig');
             appConfig = AppDbData.fromMap(appConfigRows[0]);
           });
+
+          // Load sensitive data from secure storage
+          final passCode = await _secureStorage.getValue('passCode');
+          AppDbData.withSecrets(appConfig!, passCode);
+
+          // _secureStorage.readAll()
+          logger.d((await _secureStorage.readAll()).toString());
+
+          if (servers != null && servers!.isNotEmpty) {
+            for (int i = 0; i < servers!.length; i++) {
+              final server = servers![i];
+              final token =
+                  await _secureStorage.getValue('${server.address}_token');
+              final basicAuthUser = await _secureStorage
+                  .getValue('${server.address}_basicAuthUser');
+              final basicAuthPassword = await _secureStorage
+                  .getValue('${server.address}_basicAuthPassword');
+
+              servers![i] = ServerDbData.withSecrets(
+                server,
+                token,
+                basicAuthUser,
+                basicAuthPassword,
+              );
+            }
+          }
         });
 
     return PiHoleClientData(
@@ -153,15 +178,25 @@ class DatabaseRepository {
   /// - Returns `null` or an appropriate error response if the operation fails.
   Future<dynamic> saveServerQuery(Server server) async {
     try {
+      if (server.token != null) {
+        await _secureStorage.saveValue(
+            '${server.address}_token', server.token!);
+      }
+      if (server.basicAuthUser != null) {
+        await _secureStorage.saveValue(
+            '${server.address}_basicAuthUser', server.basicAuthUser!);
+      }
+      if (server.basicAuthPassword != null) {
+        await _secureStorage.saveValue(
+            '${server.address}_basicAuthPassword', server.basicAuthPassword!);
+      }
+
       await _dbInstance.transaction((txn) async {
         await txn.insert('servers', {
           'address': server.address,
           'alias': server.alias,
-          'token': server.token,
           'isDefaultServer': 0,
           'apiVersion': server.apiVersion,
-          'basicAuthUser': server.basicAuthUser,
-          'basicAuthPassword': server.basicAuthPassword,
         });
       });
       return true;
@@ -194,16 +229,26 @@ class DatabaseRepository {
   ///   transaction.
   Future<dynamic> editServerQuery(Server server) async {
     try {
+      if (server.token != null) {
+        await _secureStorage.saveValue(
+            '${server.address}_token', server.token!);
+      }
+      if (server.basicAuthUser != null) {
+        await _secureStorage.saveValue(
+            '${server.address}_basicAuthUser', server.basicAuthUser!);
+      }
+      if (server.basicAuthPassword != null) {
+        await _secureStorage.saveValue(
+            '${server.address}_basicAuthPassword', server.basicAuthPassword!);
+      }
+
       return await _dbInstance.transaction((txn) async {
         await txn.update(
             'servers',
             {
               'alias': server.alias,
-              'token': server.token,
               'isDefaultServer': convertFromBoolToInt(server.defaultServer),
               'apiVersion': server.apiVersion,
-              'basicAuthUser': server.basicAuthUser,
-              'basicAuthPassword': server.basicAuthPassword,
             },
             where: 'address = ?',
             whereArgs: [server.address]);
@@ -257,11 +302,9 @@ class DatabaseRepository {
   ///   operation fails.
   Future<dynamic> setServerTokenQuery(String? token, String address) async {
     try {
-      return await _dbInstance.transaction((txn) async {
-        await txn.update('servers', {'token': token ?? ''},
-            where: 'address = ?', whereArgs: [address]);
-        return null;
-      });
+      if (token != null) {
+        await _secureStorage.saveValue('${address}_token', token);
+      }
     } catch (e) {
       return e;
     }
@@ -281,6 +324,10 @@ class DatabaseRepository {
   ///   `false` if it fails.
   Future<bool> removeServerQuery(String address) async {
     try {
+      await _secureStorage.deleteValue('${address}_token');
+      await _secureStorage.deleteValue('${address}_basicAuthUser');
+      await _secureStorage.deleteValue('${address}_basicAuthPassword');
+
       return await _dbInstance.transaction((txn) async {
         await txn.delete('servers', where: 'address = ?', whereArgs: [address]);
         return true;
@@ -302,6 +349,7 @@ class DatabaseRepository {
   ///   `false` if it fails.
   Future<bool> deleteServersDataQuery() async {
     try {
+      await _secureStorage.clearAll();
       return await _dbInstance.transaction((txn) async {
         await txn.delete(
           'servers',
@@ -361,6 +409,11 @@ class DatabaseRepository {
   Future<bool> updateConfigQuery(
       {required String column, required dynamic value}) async {
     try {
+      if (column == 'passCode') {
+        await _secureStorage.saveValue('passCode', value);
+        return true;
+      }
+
       return await _dbInstance.transaction((txn) async {
         await txn.update(
           'appConfig',
@@ -387,6 +440,7 @@ class DatabaseRepository {
   ///   `false` if it fails.
   Future<bool> restoreAppConfigQuery() async {
     try {
+      await _secureStorage.deleteValue('passCode');
       return await _dbInstance.transaction((txn) async {
         await txn.update(
           'appConfig',
@@ -398,7 +452,6 @@ class DatabaseRepository {
             'oneColumnLegend': 0,
             'reducedDataCharts': 0,
             'logsPerQuery': 2,
-            'passCode': null,
             'useBiometricAuth': 0
           },
         );
