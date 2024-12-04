@@ -3,6 +3,7 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:pi_hole_client/constants/api_versions.dart';
 import 'package:pi_hole_client/constants/urls.dart';
 import 'package:pi_hole_client/gateways/api_gateway_interface.dart';
 import 'package:provider/provider.dart';
@@ -29,8 +30,6 @@ class AddServerFullscreen extends StatefulWidget {
 
 enum ConnectionType { http, https }
 
-enum PiHoleVersion { v5, v6 }
-
 class _AddServerFullscreenState extends State<AddServerFullscreen> {
   TextEditingController addressFieldController = TextEditingController();
   String? addressFieldError;
@@ -41,7 +40,7 @@ class _AddServerFullscreenState extends State<AddServerFullscreen> {
   TextEditingController aliasFieldController = TextEditingController();
   TextEditingController tokenFieldController = TextEditingController();
   ConnectionType connectionType = ConnectionType.http;
-  PiHoleVersion piHoleVersion = PiHoleVersion.v5;
+  String piHoleVersion = SupportedApiVersions.v5;
   TextEditingController basicAuthUser = TextEditingController();
   TextEditingController basicAuthPassword = TextEditingController();
   bool defaultCheckbox = false;
@@ -151,9 +150,9 @@ class _AddServerFullscreenState extends State<AddServerFullscreen> {
         connectionType = widget.server!.address.split(':')[0] == 'https'
             ? ConnectionType.https
             : ConnectionType.http;
-        piHoleVersion = widget.server!.apiVersion == '5'
-            ? PiHoleVersion.v5
-            : PiHoleVersion.v6;
+        piHoleVersion = widget.server!.apiVersion != null
+            ? widget.server!.apiVersion!
+            : SupportedApiVersions.v5;
         defaultCheckbox = widget.server!.defaultServer;
       });
     }
@@ -614,12 +613,16 @@ class _AddServerFullscreenState extends State<AddServerFullscreen> {
                 Container(
                   padding: const EdgeInsets.symmetric(vertical: 10),
                   width: double.maxFinite,
-                  child: SegmentedButton<PiHoleVersion>(
+                  child: SegmentedButton<String>(
                     segments: const [
-                      ButtonSegment(value: PiHoleVersion.v5, label: Text("v5")),
-                      ButtonSegment(value: PiHoleVersion.v6, label: Text("v6"))
+                      ButtonSegment(
+                          value: SupportedApiVersions.v5,
+                          label: Text(SupportedApiVersions.v5)),
+                      ButtonSegment(
+                          value: SupportedApiVersions.v6,
+                          label: Text(SupportedApiVersions.v6))
                     ],
-                    selected: <PiHoleVersion>{piHoleVersion},
+                    selected: <String>{piHoleVersion},
                     onSelectionChanged: (value) =>
                         setState(() => piHoleVersion = value.first),
                   ),
@@ -629,7 +632,7 @@ class _AddServerFullscreenState extends State<AddServerFullscreen> {
                     padding: const EdgeInsets.only(top: 30, bottom: 10)),
                 Padding(
                   padding: const EdgeInsets.symmetric(vertical: 10),
-                  child: piHoleVersion == PiHoleVersion.v5
+                  child: piHoleVersion == SupportedApiVersions.v5
                       ? buildV5Settings(context)
                       : buildV6Settings(context),
                 ),
