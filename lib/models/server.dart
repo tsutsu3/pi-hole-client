@@ -18,7 +18,7 @@ class Server {
   bool? enabled;
 
   /// Pi-hole API version
-  String? apiVersion;
+  String apiVersion;
 
   /// Basic authentication username
   String? basicAuthUser;
@@ -32,7 +32,7 @@ class Server {
     this.token,
     required this.defaultServer,
     this.enabled,
-    this.apiVersion,
+    required this.apiVersion,
     this.basicAuthUser,
     this.basicAuthPassword,
   });

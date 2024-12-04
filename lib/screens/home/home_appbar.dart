@@ -73,6 +73,7 @@ class HomeAppBar extends StatelessWidget implements PreferredSizeWidget {
                 alias: server.alias,
                 token: server.token!,
                 defaultServer: server.defaultServer,
+                apiVersion: server.apiVersion,
                 enabled: result['status'] == 'enabled' ? true : false));
         final statusResult = await apiGateway?.realtimeStatus();
         if (statusResult['result'] == 'success') {

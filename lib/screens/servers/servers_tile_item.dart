@@ -93,6 +93,7 @@ class _ServersTileItemState extends State<ServersTileItem>
                 alias: server.alias,
                 token: server.token!,
                 defaultServer: server.defaultServer,
+                apiVersion: server.apiVersion,
                 enabled: result['status'] == 'enabled' ? true : false),
             toHomeTab: true);
         final apiGateway = serversProvider.selectedApiGateway;

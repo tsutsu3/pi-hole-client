@@ -150,9 +150,7 @@ class _AddServerFullscreenState extends State<AddServerFullscreen> {
         connectionType = widget.server!.address.split(':')[0] == 'https'
             ? ConnectionType.https
             : ConnectionType.http;
-        piHoleVersion = widget.server!.apiVersion != null
-            ? widget.server!.apiVersion!
-            : SupportedApiVersions.v5;
+        piHoleVersion = widget.server!.apiVersion;
         defaultCheckbox = widget.server!.defaultServer;
       });
     }
@@ -196,6 +194,7 @@ class _AddServerFullscreenState extends State<AddServerFullscreen> {
             alias: aliasFieldController.text,
             token: tokenFieldController.text,
             defaultServer: false,
+            apiVersion: piHoleVersion,
             basicAuthUser: basicAuthUser.text,
             basicAuthPassword: basicAuthPassword.text);
         final result = await ApiGateway.loginQuery(serverObj);
@@ -207,6 +206,7 @@ class _AddServerFullscreenState extends State<AddServerFullscreen> {
               alias: serverObj.alias,
               token: serverObj.token,
               defaultServer: defaultCheckbox,
+              apiVersion: piHoleVersion,
               enabled: result['status'] == 'enabled' ? true : false,
               basicAuthUser: basicAuthUser.text,
               basicAuthPassword: basicAuthPassword.text));
@@ -271,6 +271,7 @@ class _AddServerFullscreenState extends State<AddServerFullscreen> {
           alias: aliasFieldController.text,
           token: tokenFieldController.text,
           defaultServer: false,
+          apiVersion: piHoleVersion,
           basicAuthUser: basicAuthUser.text,
           basicAuthPassword: basicAuthPassword.text);
       final result = await ApiGateway.loginQuery(serverObj);
@@ -280,6 +281,7 @@ class _AddServerFullscreenState extends State<AddServerFullscreen> {
             alias: aliasFieldController.text,
             token: tokenFieldController.text,
             defaultServer: defaultCheckbox,
+            apiVersion: piHoleVersion,
             basicAuthUser: basicAuthUser.text,
             basicAuthPassword: basicAuthPassword.text);
         final result = await serversProvider.editServer(server);
