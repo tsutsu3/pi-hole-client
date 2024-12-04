@@ -51,6 +51,23 @@ class ServerDbData {
     );
   }
 
+  factory ServerDbData.withSecrets(
+    ServerDbData instance,
+    String? token,
+    String? basicAuthUser,
+    String? basicAuthPassword,
+  ) {
+    return ServerDbData(
+      address: instance.address,
+      alias: instance.alias,
+      token: token,
+      isDefaultServer: instance.isDefaultServer,
+      apiVersion: instance.apiVersion,
+      basicAuthUser: basicAuthUser,
+      basicAuthPassword: basicAuthPassword,
+    );
+  }
+
   toDict() {
     return {
       "address": address,
@@ -107,6 +124,26 @@ class AppDbData {
       importantInfoReaden: map['importantInfoReaden'] as int,
       hideZeroValues: map['hideZeroValues'] as int,
       statisticsVisualizationMode: map['statisticsVisualizationMode'] as int,
+    );
+  }
+
+  factory AppDbData.withSecrets(
+    AppDbData instance,
+    String? passCode,
+  ) {
+    return AppDbData(
+      autoRefreshTime: instance.autoRefreshTime,
+      theme: instance.theme,
+      language: instance.language,
+      overrideSslCheck: instance.overrideSslCheck,
+      oneColumnLegend: instance.oneColumnLegend,
+      reducedDataCharts: instance.reducedDataCharts,
+      logsPerQuery: instance.logsPerQuery,
+      passCode: passCode,
+      useBiometricAuth: instance.useBiometricAuth,
+      importantInfoReaden: instance.importantInfoReaden,
+      hideZeroValues: instance.hideZeroValues,
+      statisticsVisualizationMode: instance.statisticsVisualizationMode,
     );
   }
 

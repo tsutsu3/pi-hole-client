@@ -9,6 +9,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_app_lock/flutter_app_lock.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:local_auth/local_auth.dart';
+import 'package:pi_hole_client/repository/secure_storage.dart';
 import 'package:sentry_flutter/sentry_flutter.dart';
 import 'package:sqflite_common_ffi/sqflite_ffi.dart';
 import 'package:vibration/vibration.dart';
@@ -50,7 +51,8 @@ void main() async {
 
   await dotenv.load(fileName: '.env');
 
-  DatabaseRepository dbRepository = DatabaseRepository();
+  SecureStorageRepository ssRepository = SecureStorageRepository();
+  DatabaseRepository dbRepository = DatabaseRepository(ssRepository);
   await dbRepository.initialize();
 
   ServersProvider serversProvider = ServersProvider(dbRepository);
