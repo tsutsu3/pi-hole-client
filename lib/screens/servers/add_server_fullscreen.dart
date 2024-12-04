@@ -617,10 +617,7 @@ class _AddServerFullscreenState extends State<AddServerFullscreen> {
                   child: SegmentedButton<PiHoleVersion>(
                     segments: const [
                       ButtonSegment(value: PiHoleVersion.v5, label: Text("v5")),
-                      ButtonSegment(
-                          value: PiHoleVersion.v6,
-                          label: Text("v6"),
-                          enabled: false), // TODO: enable
+                      ButtonSegment(value: PiHoleVersion.v6, label: Text("v6"))
                     ],
                     selected: <PiHoleVersion>{piHoleVersion},
                     onSelectionChanged: (value) =>
