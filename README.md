@@ -77,7 +77,7 @@ On [this repository](https://github.com/JuanRodenas/Pihole_list) you can find so
 
 ## Donations
 
-If you like the project and you want to contribute with the development, you can [become a sponsor on GitHub](https://github.com/sponsors/tsutsu3), or you can donate using PayPal.
+If you like the project and you want to contribute with the development, you can [become a sponsor on GitHub](https://github.com/sponsors/tsutsu3), or [buy me a coffe](https://buymeacoffee.com/tsutsu3).
 
 <!-- <div align="center">
   <a href="https://www.paypal.com/donate/?hosted_button_id=T63UK6AVL3MG8">
