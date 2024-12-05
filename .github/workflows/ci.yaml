@@ -26,6 +26,9 @@ jobs:
     - name: Install dependencies
       run: flutter pub get
 
+    - name: Prepare env file
+      run: cp .env.example .env
+
     - name: Run tests
       run: flutter test --coverage
 
