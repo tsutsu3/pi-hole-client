@@ -1,7 +1,7 @@
 // ignore_for_file: use_build_context_synchronously
 
 import 'package:flutter/material.dart';
-import 'package:pi_hole_client/gateways/api_gateway_interface.dart';
+import 'package:pi_hole_client/gateways/api_gateway_factory.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
@@ -93,7 +93,7 @@ class HomeAppBar extends StatelessWidget implements PreferredSizeWidget {
       final ProcessModal process = ProcessModal(context: context);
       process.open(AppLocalizations.of(context)!.connecting);
 
-      final result = await ApiGateway.loginQuery(server);
+      final result = await ApiGatewayFactory.create(server).loginQuery(server);
       process.close();
       if (result['result'] == 'success') {
         await connectSuccess(result);
