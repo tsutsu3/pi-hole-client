@@ -14,7 +14,7 @@ abstract interface class ApiGateway {
   Future<LoginQueryResponse> loginQuery(Server server);
 
   /// Fetches real-time status information from a Pi-hole server.
-  Future realtimeStatus();
+  Future<RealtimeStatusResponse> realtimeStatus();
 
   /// Disables a Pi-hole server
   dynamic disableServerRequest(int time);
