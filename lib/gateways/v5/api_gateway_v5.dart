@@ -105,9 +105,10 @@ class ApiGatewayV5 implements ApiGateway {
   /// 2. Toggles the Pi-hole's status between enabled and disabled depending on the current status.
   /// 3. Validates the response to determine the success or failure of the login attempt.
   @override
-  Future<LoginQueryResponse> loginQuery() async {
+  Future<LoginQueryResponse> loginQuery({http.Client? client}) async {
+    client ??= http.Client();
     try {
-      final status = await http.get(
+      final status = await client.get(
           Uri.parse(
               '${server.address}/admin/api.php?auth=${server.token}&summaryRaw'),
           headers:

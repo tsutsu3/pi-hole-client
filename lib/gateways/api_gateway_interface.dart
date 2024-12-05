@@ -1,13 +1,17 @@
 import 'dart:async';
+import 'package:http/http.dart' as http;
 import 'package:pi_hole_client/models/domain.dart';
 import 'package:pi_hole_client/models/gateways.dart';
 
 abstract interface class ApiGateway {
   /// Handles the login process to a Pi-hole server using its API.
   ///
+  /// ### Parameters
+  /// - [client]: An optional [http.Client] object to use for the request.
+  ///
   /// ### Returns
   /// - A [LoginQueryResponse] object containing the result of the login query.
-  Future<LoginQueryResponse> loginQuery();
+  Future<LoginQueryResponse> loginQuery({http.Client? client});
 
   /// Fetches real-time status information from a Pi-hole server.
   ///
