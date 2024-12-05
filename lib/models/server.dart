@@ -6,25 +6,25 @@ class Server {
   final String address;
 
   /// Pi-hole server alias
-  String alias;
+  final String alias;
 
   /// Pi-hole server API token
-  String? token;
+  final String? token;
 
   /// Whether this server is the default server
-  bool defaultServer;
+  final bool defaultServer;
 
   /// Wheter this server is enabled(selected)
-  bool? enabled;
+  final bool? enabled;
 
   /// Pi-hole API version
-  String apiVersion;
+  final String apiVersion;
 
   /// Basic authentication username
-  String? basicAuthUser;
+  final String? basicAuthUser;
 
   /// Basic authentication password
-  String? basicAuthPassword;
+  final String? basicAuthPassword;
 
   Server({
     required this.address,
