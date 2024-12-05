@@ -100,16 +100,13 @@ class ServersProvider with ChangeNotifier {
   Future<bool> setDefaultServer(Server server) async {
     final updated = await _repository.setDefaultServerQuery(server.address);
     if (updated == true) {
-      List<Server> newServers = _serversList.map((s) {
+      _serversList = _serversList.map((s) {
         if (s.address == server.address) {
-          s.defaultServer = true;
-          return s;
+          return s.copyWith(defaultServer: true);
         } else {
-          s.defaultServer = false;
-          return s;
+          return s.copyWith(defaultServer: false);
         }
       }).toList();
-      _serversList = newServers;
       notifyListeners();
       return true;
     } else {
@@ -190,7 +187,7 @@ class ServersProvider with ChangeNotifier {
 
   void updateselectedServerStatus(bool enabled) {
     if (_selectedServer != null) {
-      _selectedServer!.enabled = enabled;
+      _selectedServer = _selectedServer!.copyWith(enabled: enabled);
       notifyListeners();
     }
   }

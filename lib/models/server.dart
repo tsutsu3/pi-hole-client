@@ -36,4 +36,26 @@ class Server {
     this.basicAuthUser,
     this.basicAuthPassword,
   });
+
+  Server copyWith({
+    String? address,
+    String? alias,
+    String? token,
+    bool? defaultServer,
+    bool? enabled,
+    String? apiVersion,
+    String? basicAuthUser,
+    String? basicAuthPassword,
+  }) {
+    return Server(
+      address: address ?? this.address,
+      alias: alias ?? this.alias,
+      token: token ?? this.token,
+      defaultServer: defaultServer ?? this.defaultServer,
+      enabled: enabled ?? this.enabled,
+      apiVersion: apiVersion ?? this.apiVersion,
+      basicAuthUser: basicAuthUser ?? this.basicAuthUser,
+      basicAuthPassword: basicAuthPassword ?? this.basicAuthPassword,
+    );
+  }
 }
