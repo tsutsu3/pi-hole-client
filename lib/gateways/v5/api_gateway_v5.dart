@@ -6,6 +6,7 @@ import 'package:http/http.dart' as http;
 import 'package:pi_hole_client/models/app_log.dart';
 import 'package:pi_hole_client/models/domain.dart';
 import 'package:pi_hole_client/functions/encode_basic_auth.dart';
+import 'package:pi_hole_client/models/gateways.dart';
 import 'package:pi_hole_client/models/overtime_data.dart';
 import 'package:pi_hole_client/models/realtime_status.dart';
 import 'package:pi_hole_client/models/server.dart';
@@ -110,20 +111,12 @@ class ApiGatewayV5 implements ApiGateway {
   /// - `server` (`Server`): The server object containing the Pi-hole address, token, and optional basic authentication credentials.
   ///
   /// ### Returns:
-  /// - `Map<String, dynamic>`: A result object with the following keys:
-  ///   - `result`: A string indicating the outcome of the operation (`success`, `auth_error`, `no_connection`, etc.).
-  ///   - `status`: The current Pi-hole status (`enabled` or `disabled`) if the login is successful.
-  ///   - `phpSessId`: The PHP session ID if the login is successful.
-  ///   - `log` (`AppLog`): Detailed log information in case of errors or unexpected responses.
-  ///
-  /// #### Possible results:
-  /// - `success`: The login was successful, and the server's status was toggled.
-  /// - `auth_error`: There was an authentication error.
-  /// - `no_connection`: The server could not be reached.
-  /// - `socket`: A `SocketException` occurred.
-  /// - `timeout`: A `TimeoutException` occurred.
-  /// - `ssl_error`: A `HandshakeException` occurred.
-  /// - `error`: A general error occurred.
+  /// - `LoginQueryResponse`: A result object with the following keys
+  ///   - `result`: A string indicating the outcome of the operation (`success`, `auth_error`, `no_connection`, `socket`, `timeout`, `ssl_error`, `error`).
+  ///   - `status`: The current Pi-hole status (`enabled` or `disabled`) if the operation is successful.
+  ///   - `phpSessId`: The PHP session ID if the operation is successful.
+  ///   - `log`: An `AppLog` object containing detailed information about the operation.
+  ///   - `message`: A string indicating the reason for the operation's outcome.
   ///
   /// ### Exceptions:
   /// - `SocketException`: Network issues prevent connection to the server.
@@ -132,7 +125,7 @@ class ApiGatewayV5 implements ApiGateway {
   /// - `FormatException`: Malformed response body or unexpected data format.
   /// - General exceptions: Any other errors encountered during execution.
   @override
-  Future loginQuery(Server server) async {
+  Future<LoginQueryResponse> loginQuery(Server server) async {
     try {
       final status = await http.get(
           Uri.parse(
@@ -168,105 +161,98 @@ class ApiGatewayV5 implements ApiGateway {
                 //  enableOrDisable.body == []) {
                 enableOrDisable.body.isEmpty) {
               logger.i(enableOrDisable.body);
-              return {
-                'result': 'auth_error',
-                'log': AppLog(
-                    type: 'login',
-                    dateTime: DateTime.now(),
-                    statusCode: status.statusCode.toString(),
-                    message: 'auth_error_1',
-                    resBody: status.body)
-              };
+              return LoginQueryResponse(
+                  result: LoginResultType.authError,
+                  log: AppLog(
+                      type: 'login',
+                      dateTime: DateTime.now(),
+                      statusCode: status.statusCode.toString(),
+                      message: 'auth_error_1',
+                      resBody: status.body));
             } else {
               final enableOrDisableParsed = jsonDecode(enableOrDisable.body);
               if (enableOrDisableParsed.runtimeType != List) {
                 final phpSessId = enableOrDisable.headers['set-cookie']!
                     .split(';')[0]
                     .split('=')[1];
-                return {
-                  'result': 'success',
-                  'status': statusParsed['status'],
-                  'phpSessId': phpSessId,
-                };
+                return LoginQueryResponse(
+                    result: LoginResultType.success,
+                    status: statusParsed['status'],
+                    phpSessId: phpSessId);
               } else {
-                return {
-                  'result': 'auth_error',
-                  'log': AppLog(
-                      type: 'login',
-                      dateTime: DateTime.now(),
-                      statusCode: status.statusCode.toString(),
-                      message: 'auth_error_2',
-                      resBody: status.body)
-                };
+                return LoginQueryResponse(
+                    result: LoginResultType.authError,
+                    log: AppLog(
+                        type: 'login',
+                        dateTime: DateTime.now(),
+                        statusCode: status.statusCode.toString(),
+                        message: 'auth_error_2',
+                        resBody: status.body));
               }
             }
           } else {
-            return {
-              'result': 'auth_error',
-              'log': AppLog(
+            return LoginQueryResponse(
+                result: LoginResultType.authError,
+                log: AppLog(
+                    type: 'login',
+                    dateTime: DateTime.now(),
+                    statusCode: status.statusCode.toString(),
+                    message: 'auth_error_3',
+                    resBody: status.body));
+          }
+        } else {
+          return LoginQueryResponse(
+              result: LoginResultType.authError,
+              log: AppLog(
                   type: 'login',
                   dateTime: DateTime.now(),
                   statusCode: status.statusCode.toString(),
-                  message: 'auth_error_3',
-                  resBody: status.body)
-            };
-          }
-        } else {
-          return {
-            'result': 'auth_error',
-            'log': AppLog(
+                  message: 'auth_error',
+                  resBody: status.body));
+        }
+      } else {
+        return LoginQueryResponse(
+            result: LoginResultType.noConnection,
+            log: AppLog(
                 type: 'login',
                 dateTime: DateTime.now(),
                 statusCode: status.statusCode.toString(),
-                message: 'auth_error',
-                resBody: status.body)
-          };
-        }
-      } else {
-        return {
-          'result': 'no_connection',
-          'log': AppLog(
-              type: 'login',
-              dateTime: DateTime.now(),
-              statusCode: status.statusCode.toString(),
-              message: 'no_connection_2',
-              resBody: status.body)
-        };
+                message: 'no_connection_2',
+                resBody: status.body));
       }
     } on SocketException {
-      return {
-        'result': 'socket',
-        'log': AppLog(
-            type: 'login', dateTime: DateTime.now(), message: 'SocketException')
-      };
+      return LoginQueryResponse(
+          result: LoginResultType.socket,
+          log: AppLog(
+              type: 'login',
+              dateTime: DateTime.now(),
+              message: 'SocketException'));
     } on TimeoutException {
-      return {
-        'result': 'timeout',
-        'log': AppLog(
-            type: 'login',
-            dateTime: DateTime.now(),
-            message: 'TimeoutException')
-      };
+      return LoginQueryResponse(
+          result: LoginResultType.timeout,
+          log: AppLog(
+              type: 'login',
+              dateTime: DateTime.now(),
+              message: 'TimeoutException'));
     } on HandshakeException {
-      return {
-        'result': 'ssl_error',
-        'log': AppLog(
-            type: 'login',
-            dateTime: DateTime.now(),
-            message: 'HandshakeException')
-      };
+      return LoginQueryResponse(
+          result: LoginResultType.sslError,
+          log: AppLog(
+              type: 'login',
+              dateTime: DateTime.now(),
+              message: 'HandshakeException'));
     } on FormatException {
-      return {
-        'result': 'auth_error',
-        'log': AppLog(
-            type: 'login', dateTime: DateTime.now(), message: 'FormatException')
-      };
+      return LoginQueryResponse(
+          result: LoginResultType.authError,
+          log: AppLog(
+              type: 'login',
+              dateTime: DateTime.now(),
+              message: 'FormatException'));
     } catch (e) {
-      return {
-        'result': 'error',
-        'log': AppLog(
-            type: 'login', dateTime: DateTime.now(), message: e.toString())
-      };
+      return LoginQueryResponse(
+          result: LoginResultType.error,
+          log: AppLog(
+              type: 'login', dateTime: DateTime.now(), message: e.toString()));
     }
   }
 

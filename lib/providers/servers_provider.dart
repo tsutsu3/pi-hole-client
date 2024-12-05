@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:pi_hole_client/gateways/api_gateway_factory.dart';
 import 'package:pi_hole_client/gateways/api_gateway_interface.dart';
 import 'package:pi_hole_client/gateways/v5/api_gateway_v5.dart';
+import 'package:pi_hole_client/models/gateways.dart';
 import 'package:pi_hole_client/models/repository/database.dart';
 import 'package:pi_hole_client/repository/database.dart';
 import 'package:pi_hole_client/providers/app_config_provider.dart';
@@ -167,7 +168,7 @@ class ServersProvider with ChangeNotifier {
   Future<bool> login(Server serverObj) async {
     final result =
         await ApiGatewayFactory.create(serverObj).loginQuery(serverObj);
-    if (result['result'] == 'success') {
+    if (result.result == LoginResultType.success) {
       _selectedServer = serverObj;
       notifyListeners();
       return true;

@@ -2,6 +2,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:pi_hole_client/gateways/api_gateway_factory.dart';
+import 'package:pi_hole_client/models/gateways.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
@@ -94,7 +95,7 @@ class _ServersTileItemState extends State<ServersTileItem>
                 token: server.token!,
                 defaultServer: server.defaultServer,
                 apiVersion: server.apiVersion,
-                enabled: result['status'] == 'enabled' ? true : false),
+                enabled: result.status == 'enabled' ? true : false),
             toHomeTab: true);
         final apiGateway = serversProvider.selectedApiGateway;
         final statusResult = await apiGateway?.realtimeStatus();
@@ -118,7 +119,7 @@ class _ServersTileItemState extends State<ServersTileItem>
 
       final result = await ApiGatewayFactory.create(server).loginQuery(server);
       process.close();
-      if (result['result'] == 'success') {
+      if (result.result == LoginResultType.success) {
         await connectSuccess(result);
       } else if (mounted) {
         showSnackBar(
