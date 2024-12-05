@@ -22,12 +22,19 @@ jobs:
       uses: subosito/flutter-action@v2
       with:
         channel: stable
+        flutter-version: ${{ env.flutter_version }}
+        cache: true
+        # optional parameters follow
+        cache-key: "flutter-:os:-:channel:-:version:-:arch:-:hash:" # optional, change this to force refresh cache
+        cache-path: "${{ runner.tool_cache }}/flutter/:channel:-:version:-:arch:" # optional, change this to specify the cache path
+        pub-cache-key: "flutter-pub:os:-:channel:-:version:-:arch:-:hash:" # optional, change this to force refresh cache of dart pub get dependencies
+        pub-cache-path: "${{ runner.tool_cache }}/flutter/:channel:-:version:-:arch:" # optional, change this to specify the cache path
 
     - name: Install dependencies
       run: flutter pub get
 
     - name: Prepare env file
-      run: cp .env.example .env
+      run: cp .env.sample .env
 
     - name: Run tests
       run: flutter test --coverage
