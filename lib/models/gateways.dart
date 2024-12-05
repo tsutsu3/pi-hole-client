@@ -34,3 +34,13 @@ class RealtimeStatusResponse {
     this.data,
   });
 }
+
+class DisableServerResponse {
+  final APiResponseType result;
+  final String? status;
+
+  DisableServerResponse({
+    required this.result,
+    this.status,
+  });
+}

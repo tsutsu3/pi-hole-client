@@ -198,8 +198,7 @@ class _AddServerFullscreenState extends State<AddServerFullscreen> {
             apiVersion: piHoleVersion,
             basicAuthUser: basicAuthUser.text,
             basicAuthPassword: basicAuthPassword.text);
-        final result =
-            await ApiGatewayFactory.create(serverObj).loginQuery(serverObj);
+        final result = await ApiGatewayFactory.create(serverObj).loginQuery();
         if (!mounted) return;
         if (result.result == APiResponseType.success) {
           Navigator.pop(context);
@@ -276,8 +275,7 @@ class _AddServerFullscreenState extends State<AddServerFullscreen> {
           apiVersion: piHoleVersion,
           basicAuthUser: basicAuthUser.text,
           basicAuthPassword: basicAuthPassword.text);
-      final result =
-          await ApiGatewayFactory.create(serverObj).loginQuery(serverObj);
+      final result = await ApiGatewayFactory.create(serverObj).loginQuery();
       if (result.result == APiResponseType.success) {
         Server server = Server(
             address: widget.server!.address,

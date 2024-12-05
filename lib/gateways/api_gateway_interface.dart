@@ -1,23 +1,28 @@
 import 'dart:async';
 import 'package:pi_hole_client/models/domain.dart';
 import 'package:pi_hole_client/models/gateways.dart';
-import 'package:pi_hole_client/models/server.dart';
 
 abstract interface class ApiGateway {
   /// Handles the login process to a Pi-hole server using its API.
   ///
-  /// ### Parameters
-  /// - `server`: The Pi-hole server to log in to.
-  ///
   /// ### Returns
   /// - A [LoginQueryResponse] object containing the result of the login query.
-  Future<LoginQueryResponse> loginQuery(Server server);
+  Future<LoginQueryResponse> loginQuery();
 
   /// Fetches real-time status information from a Pi-hole server.
+  ///
+  /// ### Returns
+  /// - A [RealtimeStatusResponse] object containing the result of the real-time status query.
   Future<RealtimeStatusResponse> realtimeStatus();
 
   /// Disables a Pi-hole server
-  dynamic disableServerRequest(int time);
+  ///
+  /// ### Parameters
+  /// - [time]: The time in seconds to disable the server for.
+  ///
+  /// ### Returns
+  /// - A [DisableServerResponse] object containing the result of the disable server query.
+  Future<DisableServerResponse> disableServerRequest(int time);
 
   /// Enables a Pi-hole server
   dynamic enableServerRequest();

@@ -104,28 +104,8 @@ class ApiGatewayV5 implements ApiGateway {
   /// 1. Sends a GET request to verify the server's current status using the provided `address` and `token`.
   /// 2. Toggles the Pi-hole's status between enabled and disabled depending on the current status.
   /// 3. Validates the response to determine the success or failure of the login attempt.
-  ///
-  /// It returns a `Map` containing the result of the operation and, in case of failure, a detailed log.
-  ///
-  /// ### Parameters:
-  /// - `server` (`Server`): The server object containing the Pi-hole address, token, and optional basic authentication credentials.
-  ///
-  /// ### Returns:
-  /// - `LoginQueryResponse`: A result object with the following keys
-  ///   - `result`: A string indicating the outcome of the operation (`success`, `auth_error`, `no_connection`, `socket`, `timeout`, `ssl_error`, `error`).
-  ///   - `status`: The current Pi-hole status (`enabled` or `disabled`) if the operation is successful.
-  ///   - `phpSessId`: The PHP session ID if the operation is successful.
-  ///   - `log`: An `AppLog` object containing detailed information about the operation.
-  ///   - `message`: A string indicating the reason for the operation's outcome.
-  ///
-  /// ### Exceptions:
-  /// - `SocketException`: Network issues prevent connection to the server.
-  /// - `TimeoutException`: The request times out.
-  /// - `HandshakeException`: SSL/TLS handshake fails.
-  /// - `FormatException`: Malformed response body or unexpected data format.
-  /// - General exceptions: Any other errors encountered during execution.
   @override
-  Future<LoginQueryResponse> loginQuery(Server server) async {
+  Future<LoginQueryResponse> loginQuery() async {
     try {
       final status = await http.get(
           Uri.parse(
@@ -262,20 +242,6 @@ class ApiGatewayV5 implements ApiGateway {
   /// detailed status and metrics, including top items, forward destinations,
   /// query sources, and query types. It parses the response and returns the
   /// data in a structured format.
-  ///
-  /// ### Parameters:
-  /// - `server` (`Server`): The server object containing the Pi-hole address, token, and optional basic authentication credentials.
-  ///
-  /// ### Returns:
-  /// - [RealtimeStatusResponse]: A result object with the following
-  ///   - `result`: A string indicating the outcome of the operation (`success`, `socket`, `timeout`, `ssl_error`, `error`).
-  ///   - `data`: A `RealtimeStatus` object containing the server's real-time status data if the operation is successful.
-  ///
-  /// ### Exceptions:
-  /// - `SocketException`: Network issues prevent connection to the server.
-  /// - `TimeoutException`: The request times out.
-  /// - `HandshakeException`: SSL/TLS handshake fails.
-  /// - General exceptions: Any other errors encountered during execution.
   @override
   Future<RealtimeStatusResponse> realtimeStatus() async {
     try {
@@ -308,22 +274,9 @@ class ApiGatewayV5 implements ApiGateway {
 
   /// Disables a Pi-hole server
   ///
-  /// ### Parameters:
-  /// - `server` (`Server`): The server object containing the Pi-hole address, token, and optional basic authentication credentials.
-  /// - `time` (`int`): The time in seconds to disable the server.
-  ///
-  /// ### Returns:
-  /// - `Map<String, dynamic>`: A result object with the following keys
-  ///   - `result`: A string indicating the outcome of the operation (`success`, `no_connection`, `ssl_error`, `error`).
-  ///   - `status`: The current Pi-hole status (`enabled` or `disabled`) if the operation is successful.
-  ///
-  /// ### Exceptions:
-  /// - `SocketException`: Network issues prevent connection to the server.
-  /// - `TimeoutException`: The request times out.
-  /// - `HandshakeException`: SSL/TLS handshake fails.
-  /// - General exceptions: Any other errors encountered during execution.
+  /// This method sends a GET request to the specified Pi-hole server to disable
   @override
-  dynamic disableServerRequest(int time) async {
+  Future<DisableServerResponse> disableServerRequest(int time) async {
     try {
       final response = await httpClient(
           method: 'get',
@@ -335,18 +288,19 @@ class ApiGatewayV5 implements ApiGateway {
           });
       final body = jsonDecode(response.body);
       if (body.runtimeType != List && body['status'] != null) {
-        return {'result': 'success', 'status': body['status']};
+        return DisableServerResponse(
+            result: APiResponseType.success, status: body['status']);
       } else {
-        return {'result': 'error'};
+        return DisableServerResponse(result: APiResponseType.error);
       }
     } on SocketException {
-      return {'result': 'no_connection'};
+      return DisableServerResponse(result: APiResponseType.noConnection);
     } on TimeoutException {
-      return {'result': 'no_connection'};
+      return DisableServerResponse(result: APiResponseType.noConnection);
     } on HandshakeException {
-      return {'result': 'ssl_error'};
+      return DisableServerResponse(result: APiResponseType.sslError);
     } catch (e) {
-      return {'result': 'error'};
+      return DisableServerResponse(result: APiResponseType.error);
     }
   }
 
