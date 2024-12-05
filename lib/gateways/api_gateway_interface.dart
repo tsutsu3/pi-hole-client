@@ -4,6 +4,15 @@ import 'package:pi_hole_client/models/gateways.dart';
 import 'package:pi_hole_client/models/server.dart';
 
 abstract interface class ApiGateway {
+  /// Handles the login process to a Pi-hole server using its API.
+  ///
+  /// ### Parameters
+  /// - `server`: The Pi-hole server to log in to.
+  ///
+  /// ### Returns
+  /// - A [LoginQueryResponse] object containing the result of the login query.
+  Future<LoginQueryResponse> loginQuery(Server server);
+
   /// Fetches real-time status information from a Pi-hole server.
   Future realtimeStatus();
 
@@ -30,13 +39,4 @@ abstract interface class ApiGateway {
 
   /// Adds a domain to a specified list on a Pi-hole server.
   Future addDomainToList(Map<String, dynamic> domainData);
-
-  /// Handles the login process to a Pi-hole server using its API.
-  ///
-  /// ### Parameters
-  /// - `server`: The Pi-hole server to log in to.
-  ///
-  /// ### Returns
-  /// - A [LoginQueryResponse] object containing the result of the login query.
-  Future<LoginQueryResponse> loginQuery(Server server);
 }
