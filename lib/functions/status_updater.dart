@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:pi_hole_client/models/gateways.dart';
 import 'package:pi_hole_client/providers/status_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -36,10 +37,10 @@ class StatusUpdater {
           final apiGateway = serversProvider.selectedApiGateway;
           String selectedUrlBefore = serversProvider.selectedServer!.address;
           final statusResult = await apiGateway?.realtimeStatus();
-          if (statusResult['result'] == 'success') {
+          if (statusResult?.result == APiResponseType.success) {
             serversProvider.updateselectedServerStatus(
-                statusResult['data'].status == 'enabled' ? true : false);
-            statusProvider.setRealtimeStatus(statusResult['data']);
+                statusResult!.data!.status == 'enabled' ? true : false);
+            statusProvider.setRealtimeStatus(statusResult.data!);
             if (statusProvider.isServerConnected == false) {
               statusProvider.setIsServerConnected(true);
             }

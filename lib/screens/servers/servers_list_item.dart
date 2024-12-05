@@ -127,8 +127,8 @@ class _ServersListItemState extends State<ServersListItem>
                 enabled: result.status == 'enabled' ? true : false),
             toHomeTab: true);
         final statusResult = await apiGateway?.realtimeStatus();
-        if (statusResult['result'] == 'success') {
-          statusProvider.setRealtimeStatus(statusResult['data']);
+        if (statusResult?.result == APiResponseType.success) {
+          statusProvider.setRealtimeStatus(statusResult!.data!);
         }
         final overtimeDataResult = await apiGateway?.fetchOverTimeData();
         if (overtimeDataResult['result'] == 'success') {

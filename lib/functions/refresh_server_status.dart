@@ -1,6 +1,7 @@
 // ignore_for_file: use_build_context_synchronously
 
 import 'package:flutter/material.dart';
+import 'package:pi_hole_client/models/gateways.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
@@ -19,12 +20,12 @@ Future refreshServerStatus(BuildContext context) async {
 
   final result = await apiGateway?.realtimeStatus();
   if (!context.mounted) return;
-  if (result['result'] == "success") {
+  if (result?.result == APiResponseType.success) {
     serversProvider.updateselectedServerStatus(
-        result['data'].status == 'enabled' ? true : false);
+        result!.data?.status == 'enabled' ? true : false);
     statusProvider.setIsServerConnected(true);
-    statusProvider.setRealtimeStatus(result['data']);
-  } else if (result['result'] == 'ssl_error') {
+    statusProvider.setRealtimeStatus(result.data!);
+  } else if (result?.result == APiResponseType.sslError) {
     statusProvider.setIsServerConnected(false);
     if (statusProvider.getStatusLoading == LoadStatus.loading) {
       statusProvider.setStatusLoading(LoadStatus.error);

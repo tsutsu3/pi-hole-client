@@ -38,11 +38,11 @@ class HomeAppBar extends StatelessWidget implements PreferredSizeWidget {
       process.open(AppLocalizations.of(context)!.refreshingData);
       final result = await apiGateway?.realtimeStatus();
       process.close();
-      if (result['result'] == "success") {
+      if (result?.result == APiResponseType.success) {
         serversProvider.updateselectedServerStatus(
-            result['data'].status == 'enabled' ? true : false);
+            result!.data!.status == 'enabled' ? true : false);
         statusProvider.setIsServerConnected(true);
-        statusProvider.setRealtimeStatus(result['data']);
+        statusProvider.setRealtimeStatus(result.data!);
       } else {
         statusProvider.setIsServerConnected(false);
         if (statusProvider.getStatusLoading == LoadStatus.loading) {
@@ -77,8 +77,8 @@ class HomeAppBar extends StatelessWidget implements PreferredSizeWidget {
                 apiVersion: server.apiVersion,
                 enabled: result.status == 'enabled' ? true : false));
         final statusResult = await apiGateway?.realtimeStatus();
-        if (statusResult['result'] == 'success') {
-          statusProvider.setRealtimeStatus(statusResult['data']);
+        if (statusResult?.result == APiResponseType.success) {
+          statusProvider.setRealtimeStatus(statusResult!.data!);
         }
         final overtimeDataResult = await apiGateway?.fetchOverTimeData();
         if (overtimeDataResult['result'] == 'success') {
