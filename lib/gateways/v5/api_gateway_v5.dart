@@ -123,7 +123,7 @@ class ApiGatewayV5 implements ApiGateway {
         final statusParsed = jsonDecode(status.body);
         if (statusParsed.runtimeType != List &&
             statusParsed['status'] != null) {
-          final enableOrDisable = await http.get(
+          final enableOrDisable = await client.get(
               Uri.parse(statusParsed['status'] == 'enabled'
                   ? '${server.address}/admin/api.php?auth=${server.token}&enable=0'
                   : '${server.address}/admin/api.php?auth=${server.token}&disable=0'),

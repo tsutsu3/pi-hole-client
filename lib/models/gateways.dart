@@ -11,6 +11,10 @@ enum APiResponseType {
   error
 }
 
+/// A response object for the login query.
+///
+/// When Successful [result], [status] and [phpSessId] are returned.
+/// When error, [result] and [log] are returned.
 class LoginQueryResponse {
   final APiResponseType result;
   final AppLog? log;
