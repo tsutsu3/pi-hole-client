@@ -201,7 +201,7 @@ class _AddServerFullscreenState extends State<AddServerFullscreen> {
         final result =
             await ApiGatewayFactory.create(serverObj).loginQuery(serverObj);
         if (!mounted) return;
-        if (result.result == LoginResultType.success) {
+        if (result.result == APiResponseType.success) {
           Navigator.pop(context);
           serversProvider.addServer(Server(
               address: serverObj.address,
@@ -217,31 +217,31 @@ class _AddServerFullscreenState extends State<AddServerFullscreen> {
             setState(() {
               isConnecting = false;
             });
-            if (result.result == LoginResultType.socket) {
+            if (result.result == APiResponseType.socket) {
               showSnackBar(
                   appConfigProvider: appConfigProvider,
                   label: AppLocalizations.of(context)!.checkAddress,
                   color: Colors.red);
               appConfigProvider.addLog(result.log!);
-            } else if (result.result == LoginResultType.timeout) {
+            } else if (result.result == APiResponseType.timeout) {
               showSnackBar(
                   appConfigProvider: appConfigProvider,
                   label: AppLocalizations.of(context)!.connectionTimeout,
                   color: Colors.red);
               appConfigProvider.addLog(result.log!);
-            } else if (result.result == LoginResultType.noConnection) {
+            } else if (result.result == APiResponseType.noConnection) {
               showSnackBar(
                   appConfigProvider: appConfigProvider,
                   label: AppLocalizations.of(context)!.cantReachServer,
                   color: Colors.red);
               appConfigProvider.addLog(result.log!);
-            } else if (result.result == LoginResultType.authError) {
+            } else if (result.result == APiResponseType.authError) {
               showSnackBar(
                   appConfigProvider: appConfigProvider,
                   label: AppLocalizations.of(context)!.tokenNotValid,
                   color: Colors.red);
               appConfigProvider.addLog(result.log!);
-            } else if (result.result == LoginResultType.sslError) {
+            } else if (result.result == APiResponseType.sslError) {
               showSnackBar(
                   appConfigProvider: appConfigProvider,
                   label: AppLocalizations.of(context)!.sslErrorLong,
@@ -278,7 +278,7 @@ class _AddServerFullscreenState extends State<AddServerFullscreen> {
           basicAuthPassword: basicAuthPassword.text);
       final result =
           await ApiGatewayFactory.create(serverObj).loginQuery(serverObj);
-      if (result.result == LoginResultType.success) {
+      if (result.result == APiResponseType.success) {
         Server server = Server(
             address: widget.server!.address,
             alias: aliasFieldController.text,
@@ -306,27 +306,27 @@ class _AddServerFullscreenState extends State<AddServerFullscreen> {
           setState(() {
             isConnecting = false;
           });
-          if (result.result == LoginResultType.socket) {
+          if (result.result == APiResponseType.socket) {
             showSnackBar(
                 appConfigProvider: appConfigProvider,
                 label: AppLocalizations.of(context)!.checkAddress,
                 color: Colors.red);
-          } else if (result.result == LoginResultType.timeout) {
+          } else if (result.result == APiResponseType.timeout) {
             showSnackBar(
                 appConfigProvider: appConfigProvider,
                 label: AppLocalizations.of(context)!.connectionTimeout,
                 color: Colors.red);
-          } else if (result.result == LoginResultType.noConnection) {
+          } else if (result.result == APiResponseType.noConnection) {
             showSnackBar(
                 appConfigProvider: appConfigProvider,
                 label: AppLocalizations.of(context)!.cantReachServer,
                 color: Colors.red);
-          } else if (result.result == LoginResultType.authError) {
+          } else if (result.result == APiResponseType.authError) {
             showSnackBar(
                 appConfigProvider: appConfigProvider,
                 label: AppLocalizations.of(context)!.tokenNotValid,
                 color: Colors.red);
-          } else if (result.result == LoginResultType.sslError) {
+          } else if (result.result == APiResponseType.sslError) {
             showSnackBar(
                 appConfigProvider: appConfigProvider,
                 label: AppLocalizations.of(context)!.sslErrorLong,

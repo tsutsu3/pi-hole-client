@@ -168,7 +168,7 @@ class ServersProvider with ChangeNotifier {
   Future<bool> login(Server serverObj) async {
     final result =
         await ApiGatewayFactory.create(serverObj).loginQuery(serverObj);
-    if (result.result == LoginResultType.success) {
+    if (result.result == APiResponseType.success) {
       _selectedServer = serverObj;
       notifyListeners();
       return true;

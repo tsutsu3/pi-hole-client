@@ -162,7 +162,7 @@ class ApiGatewayV5 implements ApiGateway {
                 enableOrDisable.body.isEmpty) {
               logger.i(enableOrDisable.body);
               return LoginQueryResponse(
-                  result: LoginResultType.authError,
+                  result: APiResponseType.authError,
                   log: AppLog(
                       type: 'login',
                       dateTime: DateTime.now(),
@@ -176,12 +176,12 @@ class ApiGatewayV5 implements ApiGateway {
                     .split(';')[0]
                     .split('=')[1];
                 return LoginQueryResponse(
-                    result: LoginResultType.success,
+                    result: APiResponseType.success,
                     status: statusParsed['status'],
                     phpSessId: phpSessId);
               } else {
                 return LoginQueryResponse(
-                    result: LoginResultType.authError,
+                    result: APiResponseType.authError,
                     log: AppLog(
                         type: 'login',
                         dateTime: DateTime.now(),
@@ -192,7 +192,7 @@ class ApiGatewayV5 implements ApiGateway {
             }
           } else {
             return LoginQueryResponse(
-                result: LoginResultType.authError,
+                result: APiResponseType.authError,
                 log: AppLog(
                     type: 'login',
                     dateTime: DateTime.now(),
@@ -202,7 +202,7 @@ class ApiGatewayV5 implements ApiGateway {
           }
         } else {
           return LoginQueryResponse(
-              result: LoginResultType.authError,
+              result: APiResponseType.authError,
               log: AppLog(
                   type: 'login',
                   dateTime: DateTime.now(),
@@ -212,7 +212,7 @@ class ApiGatewayV5 implements ApiGateway {
         }
       } else {
         return LoginQueryResponse(
-            result: LoginResultType.noConnection,
+            result: APiResponseType.noConnection,
             log: AppLog(
                 type: 'login',
                 dateTime: DateTime.now(),
@@ -222,35 +222,35 @@ class ApiGatewayV5 implements ApiGateway {
       }
     } on SocketException {
       return LoginQueryResponse(
-          result: LoginResultType.socket,
+          result: APiResponseType.socket,
           log: AppLog(
               type: 'login',
               dateTime: DateTime.now(),
               message: 'SocketException'));
     } on TimeoutException {
       return LoginQueryResponse(
-          result: LoginResultType.timeout,
+          result: APiResponseType.timeout,
           log: AppLog(
               type: 'login',
               dateTime: DateTime.now(),
               message: 'TimeoutException'));
     } on HandshakeException {
       return LoginQueryResponse(
-          result: LoginResultType.sslError,
+          result: APiResponseType.sslError,
           log: AppLog(
               type: 'login',
               dateTime: DateTime.now(),
               message: 'HandshakeException'));
     } on FormatException {
       return LoginQueryResponse(
-          result: LoginResultType.authError,
+          result: APiResponseType.authError,
           log: AppLog(
               type: 'login',
               dateTime: DateTime.now(),
               message: 'FormatException'));
     } catch (e) {
       return LoginQueryResponse(
-          result: LoginResultType.error,
+          result: APiResponseType.error,
           log: AppLog(
               type: 'login', dateTime: DateTime.now(), message: e.toString()));
     }
@@ -267,9 +267,9 @@ class ApiGatewayV5 implements ApiGateway {
   /// - `server` (`Server`): The server object containing the Pi-hole address, token, and optional basic authentication credentials.
   ///
   /// ### Returns:
-  /// - `Map<String, dynamic>`: A result object with the following keys
+  /// - [RealtimeStatusResponse]: A result object with the following
   ///   - `result`: A string indicating the outcome of the operation (`success`, `socket`, `timeout`, `ssl_error`, `error`).
-  ///   - `data`: A `RealtimeStatus` object containing the server's realtime status data if the operation is successful.
+  ///   - `data`: A `RealtimeStatus` object containing the server's real-time status data if the operation is successful.
   ///
   /// ### Exceptions:
   /// - `SocketException`: Network issues prevent connection to the server.
@@ -277,7 +277,7 @@ class ApiGatewayV5 implements ApiGateway {
   /// - `HandshakeException`: SSL/TLS handshake fails.
   /// - General exceptions: Any other errors encountered during execution.
   @override
-  Future realtimeStatus() async {
+  Future<RealtimeStatusResponse> realtimeStatus() async {
     try {
       final response = await httpClient(
           method: 'get',
@@ -289,18 +289,20 @@ class ApiGatewayV5 implements ApiGateway {
           });
       final body = jsonDecode(response.body);
       if (body['status'] != null) {
-        return {'result': 'success', 'data': RealtimeStatus.fromJson(body)};
+        return RealtimeStatusResponse(
+            result: APiResponseType.success,
+            data: RealtimeStatus.fromJson(body));
       } else {
-        return {'result': 'error'};
+        return RealtimeStatusResponse(result: APiResponseType.error);
       }
     } on SocketException {
-      return {'result': 'socket'};
+      return RealtimeStatusResponse(result: APiResponseType.socket);
     } on TimeoutException {
-      return {'result': 'timeout'};
+      return RealtimeStatusResponse(result: APiResponseType.timeout);
     } on HandshakeException {
-      return {'result': 'ssl_error'};
+      return RealtimeStatusResponse(result: APiResponseType.sslError);
     } catch (e) {
-      return {'result': 'error'};
+      return RealtimeStatusResponse(result: APiResponseType.error);
     }
   }
 

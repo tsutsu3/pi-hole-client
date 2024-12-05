@@ -96,7 +96,7 @@ class HomeAppBar extends StatelessWidget implements PreferredSizeWidget {
 
       final result = await ApiGatewayFactory.create(server).loginQuery(server);
       process.close();
-      if (result.result == LoginResultType.success) {
+      if (result.result == APiResponseType.success) {
         await connectSuccess(result);
       } else {
         showSnackBar(
