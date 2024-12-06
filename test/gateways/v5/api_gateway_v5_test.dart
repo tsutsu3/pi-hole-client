@@ -111,7 +111,7 @@ void main() {
       when(mockClient.get(Uri.parse(authUrl)))
           .thenAnswer((_) async => http.Response(
               jsonEncode({
-                "domains_being_blocked": 121860,
+                "domains_being_blocked": 121,
                 "dns_queries_today": 12,
                 "ads_blocked_today": 1,
                 "ads_percentage_today": 8.333333,
@@ -140,7 +140,7 @@ void main() {
                 "status": "enabled",
                 "gravity_last_updated": {
                   "file_exists": true,
-                  "absolute": 1732972589,
+                  "absolute": 17329,
                   "relative": {"days": 4, "hours": 23, "minutes": 41}
                 }
               }),
@@ -210,4 +210,10 @@ void main() {
       expect(response.log?.message, 'Exception: Unexpected error test');
     });
   });
+
+  group('realtimeStatus', () {});
+
+  group('disableServerRequest', () {});
+
+  group('enableServerRequest', () {});
 }
