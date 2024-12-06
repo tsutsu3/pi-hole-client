@@ -341,21 +341,6 @@ class ApiGatewayV5 implements ApiGateway {
   /// This method retrieves various over-time data points from the specified
   /// Pi-hole server, including queries over time (in 10-minute intervals), client
   /// activity, and client names. The data is parsed and returned in a structured format.
-  ///
-  /// ### Parameters:
-  /// - `server` (`Server`): The server object containing the Pi-hole address, token, and optional basic authentication credentials.
-  ///
-  /// ### Returns:
-  /// - `Map<String, dynamic>`: A result object with the following keys
-  ///   - `result`: A string indicating the outcome of the operation (`success`, `socket`, `timeout`, `ssl_error`, `error`).
-  ///   - `data`: An `OverTimeData` object containing the server's over-time data if the operation is successful.
-  ///
-  /// ### Exceptions:
-  /// - `SocketException`: Network issues prevent connection to the server.
-  /// - `TimeoutException`: The request times out.
-  /// - `HandshakeException`: SSL/TLS handshake fails.
-  /// - General exceptions: Any other errors encountered during execution.
-  // TODO: Hardcoded 10 minutes? The error occuer if the time is set anything other than 10 minutes.
   @override
   Future<FetchOverTimeDataResponse> fetchOverTimeData() async {
     try {
