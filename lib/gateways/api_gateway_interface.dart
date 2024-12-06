@@ -31,10 +31,20 @@ abstract interface class ApiGateway {
   Future<EnableServerResponse> enableServerRequest();
 
   /// Fetches over-time data from a Pi-hole server.
+  ///
+  /// ### Returns
+  /// - A [FetchOverTimeDataResponse] object containing the result of the over-time data query.
   Future<FetchOverTimeDataResponse> fetchOverTimeData();
 
   /// Fetches log data from a Pi-hole server within a specified time range.
-  Future fetchLogs(DateTime from, DateTime until);
+  ///
+  /// ### Parameters
+  /// - [from]: The start date and time of the log data to fetch.
+  /// - [until]: The end date and time of the log data to fetch.
+  ///
+  /// ### Returns
+  /// - A [FetchLogsResponse] object containing the result of the fetch logs query.
+  Future<FetchLogsResponse> fetchLogs(DateTime from, DateTime until);
 
   /// Adds a domain to the whitelist or blacklist on a Pi-hole server.
   Future setWhiteBlacklist(String domain, String list);

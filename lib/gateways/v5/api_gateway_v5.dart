@@ -7,6 +7,7 @@ import 'package:pi_hole_client/models/app_log.dart';
 import 'package:pi_hole_client/models/domain.dart';
 import 'package:pi_hole_client/functions/encode_basic_auth.dart';
 import 'package:pi_hole_client/models/gateways.dart';
+import 'package:pi_hole_client/models/log.dart';
 import 'package:pi_hole_client/models/overtime_data.dart';
 import 'package:pi_hole_client/models/realtime_status.dart';
 import 'package:pi_hole_client/models/server.dart';
@@ -64,9 +65,6 @@ class ApiGatewayV5 implements ApiGateway {
   Future<Response> httpClient({
     /// The HTTP method to use
     required String method,
-
-    /// The API key to use for authentication. Use v5 only
-    String? apiKey,
 
     /// The URL to send the request to
     required String url,
@@ -372,25 +370,8 @@ class ApiGatewayV5 implements ApiGateway {
   /// This method retrieves query logs from the given Pi-hole server for a
   /// specified time period. The logs are returned in a structured format
   /// for further analysis or display.
-  ///
-  /// ### Parameters:
-  /// - `server` (`Server`): The server object containing the Pi-hole address, token, and optional basic authentication credentials.
-  /// - `from` (`DateTime`): The start date and time for the log data.
-  /// - `until` (`DateTime`): The end date and time for the log data.
-  ///
-  /// ### Returns:
-  /// - `Map<String, dynamic>`: A result object with the following keys
-  ///   - `result`: A string indicating the outcome of the operation (`success`, `token`, `socket`, `timeout`, `ssl_error`, `error`).
-  ///   - `data`: A list of log entries if the operation is successful.
-  ///
-  /// ### Exceptions:
-  /// - `FormatException`: Malformed response body or unexpected data format.
-  /// - `SocketException`: Network issues prevent connection to the server.
-  /// - `TimeoutException`: The request times out.
-  /// - `HandshakeException`: SSL/TLS handshake fails.
-  /// - General exceptions: Any other errors encountered during execution.
   @override
-  Future fetchLogs(DateTime from, DateTime until) async {
+  Future<FetchLogsResponse> fetchLogs(DateTime from, DateTime until) async {
     try {
       final response = await httpClient(
           method: 'get',
@@ -402,17 +383,21 @@ class ApiGatewayV5 implements ApiGateway {
             'password': server.basicAuthPassword
           });
       final body = jsonDecode(response.body);
-      return {'result': 'success', 'data': body['data']};
+      return FetchLogsResponse(
+          result: APiResponseType.success,
+          data: (body['data'] as List)
+              .map((item) => Log.fromJson(item))
+              .toList());
     } on FormatException {
-      return {'result': 'token'};
+      return FetchLogsResponse(result: APiResponseType.authError);
     } on SocketException {
-      return {'result': 'socket'};
+      return FetchLogsResponse(result: APiResponseType.socket);
     } on TimeoutException {
-      return {'result': 'timeout'};
+      return FetchLogsResponse(result: APiResponseType.timeout);
     } on HandshakeException {
-      return {'result': 'ssl_error'};
+      return FetchLogsResponse(result: APiResponseType.sslError);
     } catch (e) {
-      return {'result': 'error'};
+      return FetchLogsResponse(result: APiResponseType.error);
     }
   }
 

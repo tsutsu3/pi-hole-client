@@ -1,4 +1,5 @@
 import 'package:pi_hole_client/models/app_log.dart';
+import 'package:pi_hole_client/models/log.dart';
 import 'package:pi_hole_client/models/overtime_data.dart';
 import 'package:pi_hole_client/models/realtime_status.dart';
 
@@ -65,6 +66,16 @@ class FetchOverTimeDataResponse {
   final OverTimeData? data;
 
   FetchOverTimeDataResponse({
+    required this.result,
+    this.data,
+  });
+}
+
+class FetchLogsResponse {
+  final APiResponseType result;
+  final List<Log>? data;
+
+  FetchLogsResponse({
     required this.result,
     this.data,
   });

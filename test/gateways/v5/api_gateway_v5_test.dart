@@ -892,4 +892,80 @@ void main() {
       expect(response.data, isNull);
     });
   });
+
+  group('fetchLogs', () {
+    late Server server;
+    final url =
+        'http://example.com/admin/api.php?auth=xxx123&getAllQueries&from=1733472267&until=1733479467';
+
+    setUp(() {
+      server = Server(
+          address: 'http://example.com',
+          alias: 'example',
+          defaultServer: true,
+          apiVersion: SupportedApiVersions.v5,
+          token: 'xxx123');
+    });
+
+    test('Return success', () async {
+      final mockClient = MockClient();
+      final apiGateway = ApiGatewayV5(server, client: mockClient);
+      final data = {
+        "data": [
+          [
+            "1733479389",
+            "A",
+            "google.com",
+            "172.26.0.1",
+            "2",
+            "0",
+            "4",
+            "324",
+            "N/A",
+            "-1",
+            "dns.google#53",
+            ""
+          ],
+          [
+            "1733479462",
+            "A",
+            "google.co.jp",
+            "172.26.0.1",
+            "2",
+            "0",
+            "4",
+            "742",
+            "N/A",
+            "-1",
+            "dns.google#53",
+            ""
+          ]
+        ]
+      };
+      when(mockClient.get(Uri.parse(url), headers: {}))
+          .thenAnswer((_) async => http.Response(jsonEncode(data), 200));
+
+      final from = DateTime.fromMillisecondsSinceEpoch(1733472267 * 1000);
+      final until = DateTime.fromMillisecondsSinceEpoch(1733479467 * 1000);
+      final response = await apiGateway.fetchLogs(from, until);
+
+      expect(response.result, APiResponseType.success);
+      expect(response.data, isNotNull);
+    });
+
+    test('Return error when unexpected exception occurs', () async {
+      final mockClient = MockClient();
+      final apiGateway = ApiGatewayV5(server, client: mockClient);
+
+      when(mockClient.get(Uri.parse(url), headers: {}))
+          .thenThrow(Exception('Unexpected error test'));
+
+      final from = DateTime.fromMillisecondsSinceEpoch(1733472267 * 1000);
+      final until = DateTime.fromMillisecondsSinceEpoch(1733479467 * 1000);
+      final response = await apiGateway.fetchLogs(from, until);
+
+      expect(response.result, APiResponseType.error);
+      expect(response.data, isNull);
+    });
+  });
 }
