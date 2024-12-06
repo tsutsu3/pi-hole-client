@@ -48,3 +48,13 @@ class DisableServerResponse {
     this.status,
   });
 }
+
+class EnableServerResponse {
+  final APiResponseType result;
+  final String? status;
+
+  EnableServerResponse({
+    required this.result,
+    this.status,
+  });
+}

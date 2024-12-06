@@ -91,10 +91,9 @@ void main() {
   });
 
   group('loginQuery', () {
-    late ApiGatewayV5 apiGateway;
     late Server server;
     final sessinId = 'n9n9f6c3umrumfq2ese1lvu2pg';
-    final authUrl = 'http://example.com/admin/api.php?auth=xxx123&summaryRaw';
+    final url = 'http://example.com/admin/api.php?auth=xxx123&summaryRaw';
 
     setUp(() {
       server = Server(
@@ -103,12 +102,12 @@ void main() {
           defaultServer: true,
           apiVersion: SupportedApiVersions.v5,
           token: 'xxx123');
-      apiGateway = ApiGatewayV5(server);
     });
-
     test('Return success with valid auth token', () async {
       final mockClient = MockClient();
-      when(mockClient.get(Uri.parse(authUrl)))
+      final apiGateway = ApiGatewayV5(server, client: mockClient);
+
+      when(mockClient.get(Uri.parse(url), headers: {}))
           .thenAnswer((_) async => http.Response(
               jsonEncode({
                 "domains_being_blocked": 121,
@@ -146,15 +145,15 @@ void main() {
               }),
               200));
 
-      when(mockClient.get(Uri.parse(
-              'http://example.com/admin/api.php?auth=xxx123&enable=0')))
-          .thenAnswer((_) async => http.Response(
-                  jsonEncode({"status": "enabled"}), 200, headers: {
-                'set-cookie':
-                    'PHPSESSID=$sessinId; path=/; HttpOnly; SameSite=Strict'
-              }));
+      when(mockClient.get(
+          Uri.parse('http://example.com/admin/api.php?auth=xxx123&enable=0'),
+          headers: {})).thenAnswer((_) async => http.Response(
+              jsonEncode({"status": "enabled"}), 200, headers: {
+            'set-cookie':
+                'PHPSESSID=$sessinId; path=/; HttpOnly; SameSite=Strict'
+          }));
 
-      final response = await apiGateway.loginQuery(client: mockClient);
+      final response = await apiGateway.loginQuery();
 
       expect(response.result, APiResponseType.success);
       expect(response.phpSessId, sessinId);
@@ -164,10 +163,12 @@ void main() {
 
     test('Return error with invalid auth token', () async {
       final mockClient = MockClient();
-      when(mockClient.get(Uri.parse(authUrl)))
+      final apiGateway = ApiGatewayV5(server, client: mockClient);
+
+      when(mockClient.get(Uri.parse(url), headers: {}))
           .thenAnswer((_) async => http.Response(jsonEncode([]), 200));
 
-      final response = await apiGateway.loginQuery(client: mockClient);
+      final response = await apiGateway.loginQuery();
 
       expect(response.result, APiResponseType.authError);
       expect(response.phpSessId, isNull);
@@ -181,10 +182,12 @@ void main() {
 
     test('Return error when accessing non Pi-hole server', () async {
       final mockClient = MockClient();
-      when(mockClient.get(Uri.parse(authUrl)))
+      final apiGateway = ApiGatewayV5(server, client: mockClient);
+
+      when(mockClient.get(Uri.parse(url), headers: {}))
           .thenAnswer((_) async => http.Response(htmlString, 404));
 
-      final response = await apiGateway.loginQuery(client: mockClient);
+      final response = await apiGateway.loginQuery();
 
       expect(response.result, APiResponseType.noConnection);
       expect(response.phpSessId, isNull);
@@ -198,10 +201,12 @@ void main() {
 
     test('Return error when unexpected exception occurs', () async {
       final mockClient = MockClient();
-      when(mockClient.get(Uri.parse(authUrl)))
+      final apiGateway = ApiGatewayV5(server, client: mockClient);
+
+      when(mockClient.get(Uri.parse(url), headers: {}))
           .thenThrow(Exception('Unexpected error test'));
 
-      final response = await apiGateway.loginQuery(client: mockClient);
+      final response = await apiGateway.loginQuery();
 
       expect(response.result, APiResponseType.error);
       expect(response.phpSessId, isNull);
@@ -211,9 +216,196 @@ void main() {
     });
   });
 
-  group('realtimeStatus', () {});
+  group('realtimeStatus', () {
+    late Server server;
+    final url =
+        'http://example.com/admin/api.php?auth=xxx123&summaryRaw&topItems&getForwardDestinations&getQuerySources&topClientsBlocked&getQueryTypes';
 
-  group('disableServerRequest', () {});
+    setUp(() {
+      server = Server(
+          address: 'http://example.com',
+          alias: 'example',
+          defaultServer: true,
+          apiVersion: SupportedApiVersions.v5,
+          token: 'xxx123');
+    });
 
-  group('enableServerRequest', () {});
+    test('Return success', () async {
+      final mockClient = MockClient();
+      final apiGateway = ApiGatewayV5(server, client: mockClient);
+      final data = {
+        "domains_being_blocked": 121860,
+        "dns_queries_today": 16,
+        "ads_blocked_today": 1,
+        "ads_percentage_today": 6.25,
+        "unique_domains": 11,
+        "queries_forwarded": 9,
+        "queries_cached": 6,
+        "clients_ever_seen": 2,
+        "unique_clients": 2,
+        "dns_queries_all_types": 16,
+        "reply_UNKNOWN": 0,
+        "reply_NODATA": 0,
+        "reply_NXDOMAIN": 3,
+        "reply_CNAME": 0,
+        "reply_IP": 10,
+        "reply_DOMAIN": 3,
+        "reply_RRNAME": 0,
+        "reply_SERVFAIL": 0,
+        "reply_REFUSED": 0,
+        "reply_NOTIMP": 0,
+        "reply_OTHER": 0,
+        "reply_DNSSEC": 0,
+        "reply_NONE": 0,
+        "reply_BLOB": 0,
+        "dns_queries_all_replies": 16,
+        "privacy_level": 0,
+        "status": "enabled",
+        "gravity_last_updated": {
+          "file_exists": true,
+          "absolute": 1732972589,
+          "relative": {"days": 5, "hours": 18, "minutes": 14}
+        },
+        "top_queries": {
+          "1.0.26.172.in-addr.arpa": 3,
+          "8.8.8.8.in-addr.arpa": 3,
+          "github.com": 2,
+          "gitlab.com": 1,
+          "sample.com": 1,
+          "test.com": 1,
+          "google.com": 1,
+          "google.co.jp": 1,
+          "yahoo.co.jp": 1,
+          "fix.test.com": 1
+        },
+        "top_ads": {"test.com": 1},
+        "top_sources": {"172.26.0.1": 10, "localhost|127.0.0.1": 6},
+        "top_sources_blocked": {"172.26.0.1": 1},
+        "forward_destinations": {
+          "blocked|blocked": 6.25,
+          "cached|cached": 37.5,
+          "other|other": 0,
+          "dns.google#53|8.8.8.8#53": 56.25
+        },
+        "querytypes": {
+          "A (IPv4)": 62.5,
+          "AAAA (IPv6)": 0,
+          "ANY": 0,
+          "SRV": 0,
+          "SOA": 0,
+          "PTR": 37.5,
+          "TXT": 0,
+          "NAPTR": 0,
+          "MX": 0,
+          "DS": 0,
+          "RRSIG": 0,
+          "DNSKEY": 0,
+          "NS": 0,
+          "OTHER": 0,
+          "SVCB": 0,
+          "HTTPS": 0
+        }
+      };
+      when(mockClient.get(Uri.parse(url), headers: {}))
+          .thenAnswer((_) async => http.Response(jsonEncode(data), 200));
+
+      final response = await apiGateway.realtimeStatus();
+
+      expect(response.result, APiResponseType.success);
+      expect(response.data, isNotNull);
+    });
+
+    test('Return error when unexpected exception occurs', () async {
+      final mockClient = MockClient();
+      final apiGateway = ApiGatewayV5(server, client: mockClient);
+
+      when(mockClient.get(Uri.parse(url), headers: {}))
+          .thenThrow(Exception('Unexpected error test'));
+
+      final response = await apiGateway.realtimeStatus();
+
+      expect(response.result, APiResponseType.error);
+      expect(response.data, isNull);
+    });
+  });
+
+  group('disableServerRequest', () {
+    late Server server;
+    final url = 'http://example.com/admin/api.php?auth=xxx123&disable=5';
+
+    setUp(() {
+      server = Server(
+          address: 'http://example.com',
+          alias: 'example',
+          defaultServer: true,
+          apiVersion: SupportedApiVersions.v5,
+          token: 'xxx123');
+    });
+
+    test('Return success', () async {
+      final mockClient = MockClient();
+      final apiGateway = ApiGatewayV5(server, client: mockClient);
+      final data = {"status": "disabled"};
+      when(mockClient.get(Uri.parse(url), headers: {}))
+          .thenAnswer((_) async => http.Response(jsonEncode(data), 200));
+
+      final response = await apiGateway.disableServerRequest(5);
+
+      expect(response.result, APiResponseType.success);
+      expect(response.status, 'disabled');
+    });
+
+    test('Return error when unexpected exception occurs', () async {
+      final mockClient = MockClient();
+      final apiGateway = ApiGatewayV5(server, client: mockClient);
+
+      when(mockClient.get(Uri.parse(url), headers: {}))
+          .thenThrow(Exception('Unexpected error test'));
+
+      final response = await apiGateway.disableServerRequest(5);
+
+      expect(response.result, APiResponseType.error);
+      expect(response.status, isNull);
+    });
+  });
+
+  group('enableServerRequest', () {
+    late Server server;
+    final url = 'http://example.com/admin/api.php?auth=xxx123&enable';
+
+    setUp(() {
+      server = Server(
+          address: 'http://example.com',
+          alias: 'example',
+          defaultServer: true,
+          apiVersion: SupportedApiVersions.v5,
+          token: 'xxx123');
+    });
+
+    test('Return success', () async {
+      final mockClient = MockClient();
+      final apiGateway = ApiGatewayV5(server, client: mockClient);
+      final data = {"status": "enabled"};
+      when(mockClient.get(Uri.parse(url), headers: {}))
+          .thenAnswer((_) async => http.Response(jsonEncode(data), 200));
+
+      final response = await apiGateway.enableServerRequest();
+
+      expect(response.result, APiResponseType.success);
+      expect(response.status, 'enabled');
+    });
+
+    test('Return error when unexpected exception occurs', () async {
+      final mockClient = MockClient();
+      final apiGateway = ApiGatewayV5(server, client: mockClient);
+
+      when(mockClient.get(Uri.parse(url), headers: {}))
+          .thenThrow(Exception('Unexpected error test'));
+
+      final response = await apiGateway.enableServerRequest();
+
+      expect(response.result, APiResponseType.error);
+      expect(response.status, isNull);
+    });
+  });
 }

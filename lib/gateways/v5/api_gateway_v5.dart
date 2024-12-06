@@ -15,8 +15,15 @@ import 'package:pi_hole_client/functions/logger.dart';
 
 class ApiGatewayV5 implements ApiGateway {
   final Server server;
+  final http.Client client;
 
-  ApiGatewayV5(this.server);
+  /// Creates a new instance of the `ApiGatewayV5` class.
+  ///
+  /// Parameters:
+  /// - `server` (`Server`): The server object containing the Pi-hole address, token, and optional basic authentication credentials.
+  /// - `client` (`http.Client`): An optional HTTP client to use for requests. If not provided, a new client will be created. Add for testing purposes.
+  ApiGatewayV5(this.server, {http.Client? client})
+      : client = client ?? http.Client();
 
   /// Checks if both the username and password are non-null and non-empty.
   ///
@@ -86,13 +93,13 @@ class ApiGatewayV5 implements ApiGateway {
 
     switch (method.toUpperCase()) {
       case 'POST':
-        return await http
+        return await client
             .post(Uri.parse(url), headers: authHeaders, body: body)
             .timeout(Duration(seconds: timeout));
 
       case 'GET':
       default:
-        return await http
+        return await client
             .get(Uri.parse(url), headers: authHeaders)
             .timeout(Duration(seconds: timeout));
     }
@@ -105,36 +112,29 @@ class ApiGatewayV5 implements ApiGateway {
   /// 2. Toggles the Pi-hole's status between enabled and disabled depending on the current status.
   /// 3. Validates the response to determine the success or failure of the login attempt.
   @override
-  Future<LoginQueryResponse> loginQuery({http.Client? client}) async {
-    client ??= http.Client();
+  Future<LoginQueryResponse> loginQuery() async {
     try {
-      final status = await client.get(
-          Uri.parse(
-              '${server.address}/admin/api.php?auth=${server.token}&summaryRaw'),
-          headers:
-              checkBasicAuth(server.basicAuthUser, server.basicAuthPassword) ==
-                      true
-                  ? {
-                      'Authorization':
-                          'Basic ${encodeBasicAuth(server.basicAuthUser!, server.basicAuthPassword!)}'
-                    }
-                  : null);
+      final status = await httpClient(
+          method: 'get',
+          url:
+              '${server.address}/admin/api.php?auth=${server.token}&summaryRaw',
+          basicAuth: {
+            'username': server.basicAuthUser,
+            'password': server.basicAuthPassword
+          });
       if (status.statusCode == 200) {
         final statusParsed = jsonDecode(status.body);
         if (statusParsed.runtimeType != List &&
             statusParsed['status'] != null) {
-          final enableOrDisable = await client.get(
-              Uri.parse(statusParsed['status'] == 'enabled'
+          final enableOrDisable = await httpClient(
+              method: 'get',
+              url: statusParsed['status'] == 'enabled'
                   ? '${server.address}/admin/api.php?auth=${server.token}&enable=0'
-                  : '${server.address}/admin/api.php?auth=${server.token}&disable=0'),
-              headers: checkBasicAuth(
-                          server.basicAuthUser, server.basicAuthPassword) ==
-                      true
-                  ? {
-                      'Authorization':
-                          'Basic ${encodeBasicAuth(server.basicAuthUser!, server.basicAuthPassword!)}'
-                    }
-                  : null);
+                  : '${server.address}/admin/api.php?auth=${server.token}&disable=0',
+              basicAuth: {
+                'username': server.basicAuthUser,
+                'password': server.basicAuthPassword
+              });
           if (enableOrDisable.statusCode == 200) {
             if (enableOrDisable.body == 'Not authorized!' ||
                 enableOrDisable.body ==
@@ -307,22 +307,9 @@ class ApiGatewayV5 implements ApiGateway {
 
   /// Enables a Pi-hole server
   ///
-  /// ### Parameters:
-  /// - `server` (`Server`): The server object containing the Pi-hole address, token, and optional basic authentication credentials.
-  ///
-  /// ### Returns:
-  /// - `Map<String, dynamic>`: A result object with the following keys
-  ///   - `result`: A string indicating the outcome of the operation (`success`, `no_connection`, `ssl_error`, `error`).
-  ///   - `status`: The current Pi-hole status (`enabled` or `disabled`) if the operation is successful.
-  ///
-  /// ### Exceptions:
-  /// - `SocketException`: Network issues prevent connection to the server.
-  /// - `TimeoutException`: The request times out.
-  /// - `HandshakeException`: SSL/TLS handshake fails.
-  /// - General exceptions: Any other errors encountered during execution.
-  ///
+  /// This method sends a GET request to the specified Pi-hole server to enable
   @override
-  dynamic enableServerRequest() async {
+  Future<EnableServerResponse> enableServerRequest() async {
     try {
       final response = await httpClient(
           method: 'get',
@@ -333,18 +320,19 @@ class ApiGatewayV5 implements ApiGateway {
           });
       final body = jsonDecode(response.body);
       if (body.runtimeType != List && body['status'] != null) {
-        return {'result': 'success', 'status': body['status']};
+        return EnableServerResponse(
+            result: APiResponseType.success, status: body['status']);
       } else {
-        return {'result': 'error'};
+        return EnableServerResponse(result: APiResponseType.error);
       }
     } on SocketException {
-      return {'result': 'no_connection'};
+      return EnableServerResponse(result: APiResponseType.noConnection);
     } on TimeoutException {
-      return {'result': 'no_connection'};
+      return EnableServerResponse(result: APiResponseType.noConnection);
     } on HandshakeException {
-      return {'result': 'ssl_error'};
+      return EnableServerResponse(result: APiResponseType.sslError);
     } catch (e) {
-      return {'result': 'error'};
+      return EnableServerResponse(result: APiResponseType.error);
     }
   }
 
@@ -535,21 +523,25 @@ class ApiGatewayV5 implements ApiGateway {
 
     try {
       final results = await Future.wait([
-        http.get(
-            Uri.parse(
-                '${server.address}/admin/api.php?auth=${server.token}&list=white'),
+        httpClient(
+            method: 'get',
+            url:
+                '${server.address}/admin/api.php?auth=${server.token}&list=white',
             headers: headers),
-        http.get(
-            Uri.parse(
-                '${server.address}/admin/api.php?auth=${server.token}&list=regex_white'),
+        httpClient(
+            method: 'get',
+            url:
+                '${server.address}/admin/api.php?auth=${server.token}&list=regex_white',
             headers: headers),
-        http.get(
-            Uri.parse(
-                '${server.address}/admin/api.php?auth=${server.token}&list=black'),
+        httpClient(
+            method: 'get',
+            url:
+                '${server.address}/admin/api.php?auth=${server.token}&list=black',
             headers: headers),
-        http.get(
-            Uri.parse(
-                '${server.address}/admin/api.php?auth=${server.token}&list=regex_black'),
+        httpClient(
+            method: 'get',
+            url:
+                '${server.address}/admin/api.php?auth=${server.token}&list=regex_black',
             headers: headers),
       ]);
 

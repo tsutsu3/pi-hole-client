@@ -20,7 +20,7 @@ void enableServer(BuildContext context) async {
   process.open(AppLocalizations.of(context)!.enablingServer);
   final result = await apiGateway?.enableServerRequest();
   process.close();
-  if (result['result'] == 'success') {
+  if (result?.result == APiResponseType.success) {
     serversProvider.updateselectedServerStatus(true);
     showSnackBar(
         appConfigProvider: appConfigProvider,
