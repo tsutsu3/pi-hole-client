@@ -1,4 +1,5 @@
 import 'package:pi_hole_client/models/app_log.dart';
+import 'package:pi_hole_client/models/overtime_data.dart';
 import 'package:pi_hole_client/models/realtime_status.dart';
 
 enum APiResponseType {
@@ -56,5 +57,15 @@ class EnableServerResponse {
   EnableServerResponse({
     required this.result,
     this.status,
+  });
+}
+
+class FetchOverTimeDataResponse {
+  final APiResponseType result;
+  final OverTimeData? data;
+
+  FetchOverTimeDataResponse({
+    required this.result,
+    this.data,
   });
 }

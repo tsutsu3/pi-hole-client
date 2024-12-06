@@ -74,9 +74,9 @@ class StatusUpdater {
         final apiGateway = serversProvider.selectedApiGateway;
         String statusUrlBefore = serversProvider.selectedServer!.address;
         final statusResult = await apiGateway?.fetchOverTimeData();
-        if (statusResult['result'] == 'success') {
-          statusProvider.setOvertimeData(statusResult['data']);
-          List<dynamic> clients = statusResult['data'].clients.map((client) {
+        if (statusResult?.result == APiResponseType.success) {
+          statusProvider.setOvertimeData(statusResult!.data!);
+          List<dynamic> clients = statusResult.data!.clients.map((client) {
             if (client.name != '') {
               return client.name.toString();
             } else {

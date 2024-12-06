@@ -357,7 +357,7 @@ class ApiGatewayV5 implements ApiGateway {
   /// - General exceptions: Any other errors encountered during execution.
   // TODO: Hardcoded 10 minutes? The error occuer if the time is set anything other than 10 minutes.
   @override
-  Future fetchOverTimeData() async {
+  Future<FetchOverTimeDataResponse> fetchOverTimeData() async {
     try {
       final response = await httpClient(
           method: 'get',
@@ -369,15 +369,16 @@ class ApiGatewayV5 implements ApiGateway {
           });
       final body = jsonDecode(response.body);
       var data = OverTimeData.fromJson(body);
-      return {'result': 'success', 'data': data};
+      return FetchOverTimeDataResponse(
+          result: APiResponseType.success, data: data);
     } on SocketException {
-      return {'result': 'socket'};
+      return FetchOverTimeDataResponse(result: APiResponseType.socket);
     } on TimeoutException {
-      return {'result': 'timeout'};
+      return FetchOverTimeDataResponse(result: APiResponseType.timeout);
     } on HandshakeException {
-      return {'result': 'ssl_error'};
+      return FetchOverTimeDataResponse(result: APiResponseType.sslError);
     } catch (e) {
-      return {'result': 'error'};
+      return FetchOverTimeDataResponse(result: APiResponseType.error);
     }
   }
 

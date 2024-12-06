@@ -31,7 +31,7 @@ abstract interface class ApiGateway {
   Future<EnableServerResponse> enableServerRequest();
 
   /// Fetches over-time data from a Pi-hole server.
-  Future fetchOverTimeData();
+  Future<FetchOverTimeDataResponse> fetchOverTimeData();
 
   /// Fetches log data from a Pi-hole server within a specified time range.
   Future fetchLogs(DateTime from, DateTime until);
