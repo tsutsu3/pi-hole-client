@@ -9,6 +9,56 @@ import 'package:pi_hole_client/models/gateways.dart';
 import 'package:pi_hole_client/models/server.dart';
 import './api_gateway_v5_test.mocks.dart';
 
+// example.com's 404 page
+final htmlString = '''
+<!doctype html>
+<html>
+<head>
+    <title>Example Domain</title>
+
+    <meta charset="utf-8" />
+    <meta http-equiv="Content-type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <style type="text/css">
+    body {
+        background-color: #f0f0f2;
+        margin: 0;
+        padding: 0;
+        font-family: -apple-system, system-ui, BlinkMacSystemFont, "Segoe UI", "Open Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
+
+    }
+    div {
+        width: 600px;
+        margin: 5em auto;
+        padding: 2em;
+        background-color: #fdfdff;
+        border-radius: 0.5em;
+        box-shadow: 2px 3px 7px 2px rgba(0,0,0,0.02);
+    }
+    a:link, a:visited {
+        color: #38488f;
+        text-decoration: none;
+    }
+    @media (max-width: 700px) {
+        div {
+            margin: 0 auto;
+            width: auto;
+        }
+    }
+    </style>
+</head>
+
+<body>
+<div>
+    <h1>Example Domain</h1>
+    <p>This domain is for use in illustrative examples in documents. You may use this
+    domain in literature without prior coordination or asking for permission.</p>
+    <p><a href="https://www.iana.org/domains/example">More information...</a></p>
+</div>
+</body>
+</html>
+''';
+
 @GenerateMocks([http.Client])
 void main() {
   group('checkBasicAuth', () {
@@ -43,8 +93,8 @@ void main() {
   group('loginQuery', () {
     late ApiGatewayV5 apiGateway;
     late Server server;
-    late MockClient mockClient;
     final sessinId = 'n9n9f6c3umrumfq2ese1lvu2pg';
+    final authUrl = 'http://example.com/admin/api.php?auth=xxx123&summaryRaw';
 
     setUp(() {
       server = Server(
@@ -56,10 +106,9 @@ void main() {
       apiGateway = ApiGatewayV5(server);
     });
 
-    test('Success loginQuery', () async {
-      mockClient = MockClient();
-      when(mockClient.get(Uri.parse(
-              'http://example.com/admin/api.php?auth=xxx123&summaryRaw')))
+    test('Return success with valid auth token', () async {
+      final mockClient = MockClient();
+      when(mockClient.get(Uri.parse(authUrl)))
           .thenAnswer((_) async => http.Response(
               jsonEncode({
                 "domains_being_blocked": 121860,
@@ -111,6 +160,54 @@ void main() {
       expect(response.phpSessId, sessinId);
       expect(response.status, 'enabled');
       expect(response.log, isNull);
+    });
+
+    test('Return error with invalid auth token', () async {
+      final mockClient = MockClient();
+      when(mockClient.get(Uri.parse(authUrl)))
+          .thenAnswer((_) async => http.Response(jsonEncode([]), 200));
+
+      final response = await apiGateway.loginQuery(client: mockClient);
+
+      expect(response.result, APiResponseType.authError);
+      expect(response.phpSessId, isNull);
+      expect(response.status, isNull);
+      expect(response.log, isNotNull);
+      expect(response.log?.type, 'login');
+      expect(response.log?.message, 'auth_error');
+      expect(response.log?.statusCode, '200');
+      expect(response.log?.resBody, '[]');
+    });
+
+    test('Return error when accessing non Pi-hole server', () async {
+      final mockClient = MockClient();
+      when(mockClient.get(Uri.parse(authUrl)))
+          .thenAnswer((_) async => http.Response(htmlString, 404));
+
+      final response = await apiGateway.loginQuery(client: mockClient);
+
+      expect(response.result, APiResponseType.noConnection);
+      expect(response.phpSessId, isNull);
+      expect(response.status, isNull);
+      expect(response.log, isNotNull);
+      expect(response.log?.type, 'login');
+      expect(response.log?.message, 'no_connection_2');
+      expect(response.log?.statusCode, '404');
+      expect(response.log?.resBody, htmlString);
+    });
+
+    test('Return error when unexpected exception occurs', () async {
+      final mockClient = MockClient();
+      when(mockClient.get(Uri.parse(authUrl)))
+          .thenThrow(Exception('Unexpected error test'));
+
+      final response = await apiGateway.loginQuery(client: mockClient);
+
+      expect(response.result, APiResponseType.error);
+      expect(response.phpSessId, isNull);
+      expect(response.status, isNull);
+      expect(response.log?.type, 'login');
+      expect(response.log?.message, 'Exception: Unexpected error test');
     });
   });
 }
