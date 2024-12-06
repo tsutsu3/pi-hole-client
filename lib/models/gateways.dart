@@ -80,3 +80,39 @@ class FetchLogsResponse {
     this.data,
   });
 }
+
+class DomainResult {
+  final bool success;
+  final String message;
+
+  DomainResult({
+    required this.success,
+    required this.message,
+  });
+
+  factory DomainResult.fromJson(Map<String, dynamic> json) {
+    return DomainResult(
+      success: json['success'],
+      message: json['message'],
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    return {
+      'success': success,
+      'message': message,
+    };
+  }
+}
+
+class SetWhiteBlacklistResponse {
+  final APiResponseType result;
+  final String? message;
+  final DomainResult? data;
+
+  SetWhiteBlacklistResponse({
+    required this.result,
+    this.message,
+    this.data,
+  });
+}

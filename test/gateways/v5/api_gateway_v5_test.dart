@@ -968,4 +968,83 @@ void main() {
       expect(response.data, isNull);
     });
   });
+
+  group('setWhiteBlacklist', () {
+    late Server server;
+    final url =
+        'http://example.com/admin/api.php?auth=xxx123&list=black&add=google.com';
+
+    setUp(() {
+      server = Server(
+          address: 'http://example.com',
+          alias: 'example',
+          defaultServer: true,
+          apiVersion: SupportedApiVersions.v5,
+          token: 'xxx123');
+    });
+
+    test('Return success when add new domain', () async {
+      final mockClient = MockClient();
+      final apiGateway = ApiGatewayV5(server, client: mockClient);
+      final data = {"success": true, "message": "Added google.com"};
+      when(mockClient.get(Uri.parse(url), headers: {}))
+          .thenAnswer((_) async => http.Response(jsonEncode(data), 200));
+
+      final response =
+          await apiGateway.setWhiteBlacklist('google.com', 'black');
+
+      expect(response.result, APiResponseType.success);
+      expect(response.data!.toJson(), data);
+      expect(response.message, isNull);
+    });
+
+    test('Return success when add exist domain', () async {
+      final mockClient = MockClient();
+      final apiGateway = ApiGatewayV5(server, client: mockClient);
+      final data = {
+        "success": true,
+        "message": "Not adding google.com as it is already on the list"
+      };
+      when(mockClient.get(Uri.parse(url), headers: {}))
+          .thenAnswer((_) async => http.Response(jsonEncode(data), 200));
+
+      final response =
+          await apiGateway.setWhiteBlacklist('google.com', 'black');
+
+      expect(response.result, APiResponseType.success);
+      expect(response.data!.toJson(), data);
+      expect(response.message, isNull);
+    });
+
+    test('Return error with invalid list type', () async {
+      final mockClient = MockClient();
+      final apiGateway = ApiGatewayV5(server, client: mockClient);
+      final data =
+          'Invalid list [supported: black, regex_black, white, regex_white]';
+      when(mockClient.get(Uri.parse(url), headers: {}))
+          .thenAnswer((_) async => http.Response(jsonEncode(data), 200));
+
+      final response =
+          await apiGateway.setWhiteBlacklist('google.com', 'black');
+
+      expect(response.result, APiResponseType.error);
+      expect(response.data, isNull);
+      expect(response.message, isNull);
+    });
+
+    test('Return error when unexpected exception occurs', () async {
+      final mockClient = MockClient();
+      final apiGateway = ApiGatewayV5(server, client: mockClient);
+
+      when(mockClient.get(Uri.parse(url), headers: {}))
+          .thenThrow(Exception('Unexpected error test'));
+
+      final response =
+          await apiGateway.setWhiteBlacklist('google.com', 'black');
+
+      expect(response.result, APiResponseType.error);
+      expect(response.data, isNull);
+      expect(response.message, isNull);
+    });
+  });
 }

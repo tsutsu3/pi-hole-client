@@ -248,8 +248,8 @@ class _LogsState extends State<Logs> {
       );
       final result = await apiGateway?.setWhiteBlacklist(log.url, list);
       loading.close();
-      if (result['result'] == 'success') {
-        if (result['data']['message'].toString().contains('Added')) {
+      if (result?.result == APiResponseType.success) {
+        if (result!.data!.message.contains('Added')) {
           if (!mounted) return;
           showSnackBar(
               appConfigProvider: appConfigProvider,

@@ -406,24 +406,9 @@ class ApiGatewayV5 implements ApiGateway {
   /// This method interacts with the Pi-hole server's API to add the specified domain
   /// to either the whitelist or the blacklist, depending on the provided `list` parameter.
   /// It validates the server's response to confirm the operation's success.
-  ///
-  /// ### Parameters:
-  /// - `server` (`Server`): The server object containing the Pi-hole address, token, and optional basic authentication credentials.
-  /// - `domain` (`String`): The domain to add to the whitelist or blacklist.
-  /// - `list` (`String`): The list to add the domain to (`white` or `black`).
-  ///
-  /// ### Returns:
-  /// - `Map<String, dynamic>`: A result object with the following keys
-  ///   - `result`: A string indicating the outcome of the operation (`success`, `socket`, `timeout`, `ssl_error`, `error`).
-  ///   - `data`: The server's response data if the operation is successful.
-  ///
-  /// ### Exceptions:
-  /// - `SocketException`: Network issues prevent connection to the server.
-  /// - `TimeoutException`: The request times out.
-  /// - `HandshakeException`: SSL/TLS handshake fails.
-  /// - General exceptions: Any other errors encountered during execution.
   @override
-  Future setWhiteBlacklist(String domain, String list) async {
+  Future<SetWhiteBlacklistResponse> setWhiteBlacklist(
+      String domain, String list) async {
     try {
       final response = await httpClient(
           method: 'get',
@@ -436,25 +421,28 @@ class ApiGatewayV5 implements ApiGateway {
       if (response.statusCode == 200) {
         final json = jsonDecode(response.body);
         if (json.runtimeType == List<dynamic>) {
-          return {'result': 'error', 'message': 'not_exists'};
+          return SetWhiteBlacklistResponse(
+              result: APiResponseType.error, message: 'not_exists');
         } else {
           if (json['success'] == true) {
-            return {'result': 'success', 'data': json};
+            return SetWhiteBlacklistResponse(
+                result: APiResponseType.success,
+                data: DomainResult.fromJson(json));
           } else {
-            return {'result': 'error'};
+            return SetWhiteBlacklistResponse(result: APiResponseType.error);
           }
         }
       } else {
-        return {'result': 'error'};
+        return SetWhiteBlacklistResponse(result: APiResponseType.error);
       }
     } on SocketException {
-      return {'result': 'socket'};
+      return SetWhiteBlacklistResponse(result: APiResponseType.socket);
     } on TimeoutException {
-      return {'result': 'timeout'};
+      return SetWhiteBlacklistResponse(result: APiResponseType.timeout);
     } on HandshakeException {
-      return {'result': 'ssl_error'};
+      return SetWhiteBlacklistResponse(result: APiResponseType.sslError);
     } catch (e) {
-      return {'result': 'error'};
+      return SetWhiteBlacklistResponse(result: APiResponseType.error);
     }
   }
 

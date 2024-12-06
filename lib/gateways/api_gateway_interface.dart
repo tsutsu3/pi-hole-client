@@ -47,7 +47,15 @@ abstract interface class ApiGateway {
   Future<FetchLogsResponse> fetchLogs(DateTime from, DateTime until);
 
   /// Adds a domain to the whitelist or blacklist on a Pi-hole server.
-  Future setWhiteBlacklist(String domain, String list);
+  ///
+  /// ### Parameters
+  /// - [domain]: The domain to add to the list.
+  /// - [list]: The list to add the domain to (`black`, `regex_black`, `white`, `regex_white`).
+  ///
+  /// ### Returns
+  /// - A [SetWhiteBlacklistResponse] object containing the result of the set white/blacklist query.
+  Future<SetWhiteBlacklistResponse> setWhiteBlacklist(
+      String domain, String list);
 
   /// Fetches domain lists (whitelist, blacklist, and regex-based lists) from a Pi-hole server.
   Future getDomainLists();
