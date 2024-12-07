@@ -1,6 +1,7 @@
 // ignore_for_file: use_build_context_synchronously
 
 import 'package:flutter/material.dart';
+import 'package:pi_hole_client/models/gateways.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
@@ -119,10 +120,10 @@ class _LogsState extends State<Logs> {
           await apiGateway?.fetchLogs(minusHoursTimestamp, timestamp);
       if (mounted) {
         setState(() => _isLoadingMore = false);
-        if (result['result'] == 'success') {
+        if (result?.result == APiResponseType.success) {
           List<Log> items = [];
-          if (result['data'] != null) {
-            result['data'].forEach((item) => items.add(Log.fromJson(item)));
+          if (result!.data != null) {
+            result.data?.forEach((item) => items.add(item));
           }
           if (replaceOldLogs == true) {
             setState(() {
@@ -247,8 +248,8 @@ class _LogsState extends State<Logs> {
       );
       final result = await apiGateway?.setWhiteBlacklist(log.url, list);
       loading.close();
-      if (result['result'] == 'success') {
-        if (result['data']['message'].toString().contains('Added')) {
+      if (result?.result == APiResponseType.success) {
+        if (result!.data!.message.contains('Added')) {
           if (!mounted) return;
           showSnackBar(
               appConfigProvider: appConfigProvider,

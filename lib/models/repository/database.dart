@@ -25,7 +25,7 @@ class ServerDbData {
   final String alias;
   final String? token;
   final int isDefaultServer;
-  final String? apiVersion;
+  final String apiVersion;
   final String? basicAuthUser;
   final String? basicAuthPassword;
 
@@ -45,7 +45,7 @@ class ServerDbData {
       alias: map['alias'] as String,
       token: map['token'] as String?,
       isDefaultServer: map['isDefaultServer'] as int,
-      apiVersion: map['apiVersion'] as String?,
+      apiVersion: map['apiVersion'] as String,
       basicAuthUser: map['basicAuthUser'] as String?,
       basicAuthPassword: map['basicAuthPassword'] as String?,
     );

@@ -1,6 +1,7 @@
 // ignore_for_file: use_build_context_synchronously
 
 import 'package:flutter/material.dart';
+import 'package:pi_hole_client/models/gateways.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
@@ -19,7 +20,7 @@ void enableServer(BuildContext context) async {
   process.open(AppLocalizations.of(context)!.enablingServer);
   final result = await apiGateway?.enableServerRequest();
   process.close();
-  if (result['result'] == 'success') {
+  if (result?.result == APiResponseType.success) {
     serversProvider.updateselectedServerStatus(true);
     showSnackBar(
         appConfigProvider: appConfigProvider,
@@ -44,7 +45,7 @@ void disableServer(int time, BuildContext context) async {
   final result = await apiGateway?.disableServerRequest(time);
   process.close();
   if (!context.mounted) return;
-  if (result['result'] == 'success') {
+  if (result?.result == APiResponseType.success) {
     serversProvider.updateselectedServerStatus(false);
     showSnackBar(
         appConfigProvider: appConfigProvider,

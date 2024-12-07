@@ -1,7 +1,8 @@
 // ignore_for_file: use_build_context_synchronously
 
 import 'package:flutter/material.dart';
-import 'package:pi_hole_client/gateways/api_gateway_interface.dart';
+import 'package:pi_hole_client/gateways/api_gateway_factory.dart';
+import 'package:pi_hole_client/models/gateways.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
@@ -93,16 +94,17 @@ class _ServersTileItemState extends State<ServersTileItem>
                 alias: server.alias,
                 token: server.token!,
                 defaultServer: server.defaultServer,
-                enabled: result['status'] == 'enabled' ? true : false),
+                apiVersion: server.apiVersion,
+                enabled: result.status == 'enabled' ? true : false),
             toHomeTab: true);
         final apiGateway = serversProvider.selectedApiGateway;
         final statusResult = await apiGateway?.realtimeStatus();
-        if (statusResult['result'] == 'success') {
-          statusProvider.setRealtimeStatus(statusResult['data']);
+        if (statusResult?.result == APiResponseType.success) {
+          statusProvider.setRealtimeStatus(statusResult!.data!);
         }
         final overtimeDataResult = await apiGateway?.fetchOverTimeData();
-        if (overtimeDataResult['result'] == 'success') {
-          statusProvider.setOvertimeData(overtimeDataResult['data']);
+        if (overtimeDataResult?.result == APiResponseType.success) {
+          statusProvider.setOvertimeData(overtimeDataResult!.data!);
           statusProvider.setOvertimeDataLoadingStatus(1);
         } else {
           statusProvider.setOvertimeDataLoadingStatus(2);
@@ -115,9 +117,9 @@ class _ServersTileItemState extends State<ServersTileItem>
       final ProcessModal process = ProcessModal(context: context);
       process.open(AppLocalizations.of(context)!.connecting);
 
-      final result = await ApiGateway.loginQuery(server);
+      final result = await ApiGatewayFactory.create(server).loginQuery();
       process.close();
-      if (result['result'] == 'success') {
+      if (result.result == APiResponseType.success) {
         await connectSuccess(result);
       } else if (mounted) {
         showSnackBar(

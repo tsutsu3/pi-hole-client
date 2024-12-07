@@ -85,7 +85,7 @@ class DatabaseRepository {
               address TEXT PRIMARY KEY NOT NULL,
               alias TEXT NOT NULL,
               isDefaultServer NUMERIC NOT NULL,
-              apiVersion TEXT
+              apiVersion TEXT NOT NULL
             )
           """);
           await db.execute("""

@@ -1,7 +1,9 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
+import 'package:pi_hole_client/gateways/api_gateway_factory.dart';
 import 'package:pi_hole_client/gateways/api_gateway_interface.dart';
 import 'package:pi_hole_client/gateways/v5/api_gateway_v5.dart';
+import 'package:pi_hole_client/models/gateways.dart';
 import 'package:pi_hole_client/models/repository/database.dart';
 import 'package:pi_hole_client/repository/database.dart';
 import 'package:pi_hole_client/providers/app_config_provider.dart';
@@ -98,16 +100,13 @@ class ServersProvider with ChangeNotifier {
   Future<bool> setDefaultServer(Server server) async {
     final updated = await _repository.setDefaultServerQuery(server.address);
     if (updated == true) {
-      List<Server> newServers = _serversList.map((s) {
+      _serversList = _serversList.map((s) {
         if (s.address == server.address) {
-          s.defaultServer = true;
-          return s;
+          return s.copyWith(defaultServer: true);
         } else {
-          s.defaultServer = false;
-          return s;
+          return s.copyWith(defaultServer: false);
         }
       }).toList();
-      _serversList = newServers;
       notifyListeners();
       return true;
     } else {
@@ -164,8 +163,8 @@ class ServersProvider with ChangeNotifier {
   }
 
   Future<bool> login(Server serverObj) async {
-    final result = await ApiGateway.loginQuery(serverObj);
-    if (result['result'] == 'success') {
+    final result = await ApiGatewayFactory.create(serverObj).loginQuery();
+    if (result.result == APiResponseType.success) {
       _selectedServer = serverObj;
       notifyListeners();
       return true;
@@ -188,7 +187,7 @@ class ServersProvider with ChangeNotifier {
 
   void updateselectedServerStatus(bool enabled) {
     if (_selectedServer != null) {
-      _selectedServer!.enabled = enabled;
+      _selectedServer = _selectedServer!.copyWith(enabled: enabled);
       notifyListeners();
     }
   }

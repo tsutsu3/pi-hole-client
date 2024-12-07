@@ -3,6 +3,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:animations/animations.dart';
+import 'package:pi_hole_client/models/gateways.dart';
 import 'package:provider/provider.dart';
 
 import 'package:pi_hole_client/widgets/navigation_rail.dart';
@@ -54,11 +55,15 @@ class _BaseState extends State<Base> with WidgetsBindingObserver {
     final result = await Future.wait(
         [apiGateway!.realtimeStatus(), apiGateway.fetchOverTimeData()]);
 
-    if (result[0]['result'] == 'success' && result[1]['result'] == 'success') {
-      statusProvider.setRealtimeStatus(result[0]['data']);
-      statusProvider.setOvertimeData(result[1]['data']);
+    final realtimeStatusResponse = result[0] as RealtimeStatusResponse;
+    final overTimeDataResponse = result[1] as FetchOverTimeDataResponse;
+
+    if (realtimeStatusResponse.result == APiResponseType.success &&
+        overTimeDataResponse.result == APiResponseType.success) {
+      statusProvider.setRealtimeStatus(realtimeStatusResponse.data!);
+      statusProvider.setOvertimeData(overTimeDataResponse.data!);
       serversProvider.updateselectedServerStatus(
-          result[0]['data'].status == 'enabled' ? true : false);
+          realtimeStatusResponse.data!.status == 'enabled' ? true : false);
 
       statusProvider.setOvertimeDataLoadingStatus(1);
       statusProvider.setStatusLoading(LoadStatus.loaded);

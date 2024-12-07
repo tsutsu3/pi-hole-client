@@ -3,8 +3,10 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:pi_hole_client/constants/api_versions.dart';
 import 'package:pi_hole_client/constants/urls.dart';
-import 'package:pi_hole_client/gateways/api_gateway_interface.dart';
+import 'package:pi_hole_client/gateways/api_gateway_factory.dart';
+import 'package:pi_hole_client/models/gateways.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
@@ -29,8 +31,6 @@ class AddServerFullscreen extends StatefulWidget {
 
 enum ConnectionType { http, https }
 
-enum PiHoleVersion { v5, v6 }
-
 class _AddServerFullscreenState extends State<AddServerFullscreen> {
   TextEditingController addressFieldController = TextEditingController();
   String? addressFieldError;
@@ -41,7 +41,7 @@ class _AddServerFullscreenState extends State<AddServerFullscreen> {
   TextEditingController aliasFieldController = TextEditingController();
   TextEditingController tokenFieldController = TextEditingController();
   ConnectionType connectionType = ConnectionType.http;
-  PiHoleVersion piHoleVersion = PiHoleVersion.v5;
+  String piHoleVersion = SupportedApiVersions.v5;
   TextEditingController basicAuthUser = TextEditingController();
   TextEditingController basicAuthPassword = TextEditingController();
   bool defaultCheckbox = false;
@@ -151,9 +151,7 @@ class _AddServerFullscreenState extends State<AddServerFullscreen> {
         connectionType = widget.server!.address.split(':')[0] == 'https'
             ? ConnectionType.https
             : ConnectionType.http;
-        piHoleVersion = widget.server!.apiVersion == '5'
-            ? PiHoleVersion.v5
-            : PiHoleVersion.v6;
+        piHoleVersion = widget.server!.apiVersion;
         defaultCheckbox = widget.server!.defaultServer;
       });
     }
@@ -197,18 +195,20 @@ class _AddServerFullscreenState extends State<AddServerFullscreen> {
             alias: aliasFieldController.text,
             token: tokenFieldController.text,
             defaultServer: false,
+            apiVersion: piHoleVersion,
             basicAuthUser: basicAuthUser.text,
             basicAuthPassword: basicAuthPassword.text);
-        final result = await ApiGateway.loginQuery(serverObj);
+        final result = await ApiGatewayFactory.create(serverObj).loginQuery();
         if (!mounted) return;
-        if (result['result'] == 'success') {
+        if (result.result == APiResponseType.success) {
           Navigator.pop(context);
           serversProvider.addServer(Server(
               address: serverObj.address,
               alias: serverObj.alias,
               token: serverObj.token,
               defaultServer: defaultCheckbox,
-              enabled: result['status'] == 'enabled' ? true : false,
+              apiVersion: piHoleVersion,
+              enabled: result.status == 'enabled' ? true : false,
               basicAuthUser: basicAuthUser.text,
               basicAuthPassword: basicAuthPassword.text));
         } else {
@@ -216,42 +216,42 @@ class _AddServerFullscreenState extends State<AddServerFullscreen> {
             setState(() {
               isConnecting = false;
             });
-            if (result['result'] == 'socket') {
+            if (result.result == APiResponseType.socket) {
               showSnackBar(
                   appConfigProvider: appConfigProvider,
                   label: AppLocalizations.of(context)!.checkAddress,
                   color: Colors.red);
-              appConfigProvider.addLog(result['log']);
-            } else if (result['result'] == 'timeout') {
+              appConfigProvider.addLog(result.log!);
+            } else if (result.result == APiResponseType.timeout) {
               showSnackBar(
                   appConfigProvider: appConfigProvider,
                   label: AppLocalizations.of(context)!.connectionTimeout,
                   color: Colors.red);
-              appConfigProvider.addLog(result['log']);
-            } else if (result['result'] == 'no_connection') {
+              appConfigProvider.addLog(result.log!);
+            } else if (result.result == APiResponseType.noConnection) {
               showSnackBar(
                   appConfigProvider: appConfigProvider,
                   label: AppLocalizations.of(context)!.cantReachServer,
                   color: Colors.red);
-              appConfigProvider.addLog(result['log']);
-            } else if (result['result'] == 'auth_error') {
+              appConfigProvider.addLog(result.log!);
+            } else if (result.result == APiResponseType.authError) {
               showSnackBar(
                   appConfigProvider: appConfigProvider,
                   label: AppLocalizations.of(context)!.tokenNotValid,
                   color: Colors.red);
-              appConfigProvider.addLog(result['log']);
-            } else if (result['result'] == 'ssl_error') {
+              appConfigProvider.addLog(result.log!);
+            } else if (result.result == APiResponseType.sslError) {
               showSnackBar(
                   appConfigProvider: appConfigProvider,
                   label: AppLocalizations.of(context)!.sslErrorLong,
                   color: Colors.red);
-              appConfigProvider.addLog(result['log']);
+              appConfigProvider.addLog(result.log!);
             } else {
               showSnackBar(
                   appConfigProvider: appConfigProvider,
                   label: AppLocalizations.of(context)!.unknownError,
                   color: Colors.red);
-              appConfigProvider.addLog(result['log']);
+              appConfigProvider.addLog(result.log!);
             }
           } else {
             isConnecting = false;
@@ -272,15 +272,17 @@ class _AddServerFullscreenState extends State<AddServerFullscreen> {
           alias: aliasFieldController.text,
           token: tokenFieldController.text,
           defaultServer: false,
+          apiVersion: piHoleVersion,
           basicAuthUser: basicAuthUser.text,
           basicAuthPassword: basicAuthPassword.text);
-      final result = await ApiGateway.loginQuery(serverObj);
-      if (result['result'] == 'success') {
+      final result = await ApiGatewayFactory.create(serverObj).loginQuery();
+      if (result.result == APiResponseType.success) {
         Server server = Server(
             address: widget.server!.address,
             alias: aliasFieldController.text,
             token: tokenFieldController.text,
             defaultServer: defaultCheckbox,
+            apiVersion: piHoleVersion,
             basicAuthUser: basicAuthUser.text,
             basicAuthPassword: basicAuthPassword.text);
         final result = await serversProvider.editServer(server);
@@ -302,27 +304,27 @@ class _AddServerFullscreenState extends State<AddServerFullscreen> {
           setState(() {
             isConnecting = false;
           });
-          if (result['result'] == 'socket') {
+          if (result.result == APiResponseType.socket) {
             showSnackBar(
                 appConfigProvider: appConfigProvider,
                 label: AppLocalizations.of(context)!.checkAddress,
                 color: Colors.red);
-          } else if (result['result'] == 'timeout') {
+          } else if (result.result == APiResponseType.timeout) {
             showSnackBar(
                 appConfigProvider: appConfigProvider,
                 label: AppLocalizations.of(context)!.connectionTimeout,
                 color: Colors.red);
-          } else if (result['result'] == 'no_connection') {
+          } else if (result.result == APiResponseType.noConnection) {
             showSnackBar(
                 appConfigProvider: appConfigProvider,
                 label: AppLocalizations.of(context)!.cantReachServer,
                 color: Colors.red);
-          } else if (result['result'] == 'auth_error') {
+          } else if (result.result == APiResponseType.authError) {
             showSnackBar(
                 appConfigProvider: appConfigProvider,
                 label: AppLocalizations.of(context)!.tokenNotValid,
                 color: Colors.red);
-          } else if (result['result'] == 'ssl_error') {
+          } else if (result.result == APiResponseType.sslError) {
             showSnackBar(
                 appConfigProvider: appConfigProvider,
                 label: AppLocalizations.of(context)!.sslErrorLong,
@@ -614,15 +616,16 @@ class _AddServerFullscreenState extends State<AddServerFullscreen> {
                 Container(
                   padding: const EdgeInsets.symmetric(vertical: 10),
                   width: double.maxFinite,
-                  child: SegmentedButton<PiHoleVersion>(
+                  child: SegmentedButton<String>(
                     segments: const [
-                      ButtonSegment(value: PiHoleVersion.v5, label: Text("v5")),
                       ButtonSegment(
-                          value: PiHoleVersion.v6,
-                          label: Text("v6"),
-                          enabled: false), // TODO: enable
+                          value: SupportedApiVersions.v5,
+                          label: Text(SupportedApiVersions.v5)),
+                      ButtonSegment(
+                          value: SupportedApiVersions.v6,
+                          label: Text(SupportedApiVersions.v6))
                     ],
-                    selected: <PiHoleVersion>{piHoleVersion},
+                    selected: <String>{piHoleVersion},
                     onSelectionChanged: (value) =>
                         setState(() => piHoleVersion = value.first),
                   ),
@@ -632,7 +635,7 @@ class _AddServerFullscreenState extends State<AddServerFullscreen> {
                     padding: const EdgeInsets.only(top: 30, bottom: 10)),
                 Padding(
                   padding: const EdgeInsets.symmetric(vertical: 10),
-                  child: piHoleVersion == PiHoleVersion.v5
+                  child: piHoleVersion == SupportedApiVersions.v5
                       ? buildV5Settings(context)
                       : buildV6Settings(context),
                 ),
