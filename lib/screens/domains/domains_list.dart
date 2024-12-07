@@ -2,6 +2,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
+import 'package:pi_hole_client/models/gateways.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
@@ -77,16 +78,16 @@ class _DomainsListState extends State<DomainsList> {
 
       process.close();
 
-      if (result['result'] == 'success') {
+      if (result?.result == APiResponseType.success) {
         domainsListProvider.removeDomainFromList(domain);
         Navigator.pop(context);
         showSnackBar(
             appConfigProvider: appConfigProvider,
             label: AppLocalizations.of(context)!.domainRemoved,
             color: Colors.green);
-      } else if (result['result'] == 'error' &&
-          result['message'] != null &&
-          result['message'] == 'not_exists') {
+      } else if (result?.result == APiResponseType.error &&
+          result!.message != null &&
+          result.message == 'not_exists') {
         showSnackBar(
             appConfigProvider: appConfigProvider,
             label: AppLocalizations.of(context)!.domainNotExists,
@@ -107,13 +108,13 @@ class _DomainsListState extends State<DomainsList> {
 
       process.close();
 
-      if (result['result'] == 'success') {
+      if (result?.result == APiResponseType.success) {
         domainsListProvider.fetchDomainsList(serversProvider.selectedServer!);
         showSnackBar(
             appConfigProvider: appConfigProvider,
             label: AppLocalizations.of(context)!.domainAdded,
             color: Colors.green);
-      } else if (result['result'] == 'already_added') {
+      } else if (result?.result == APiResponseType.alreadyAdded) {
         showSnackBar(
             appConfigProvider: appConfigProvider,
             label: AppLocalizations.of(context)!.domainAlreadyAdded,

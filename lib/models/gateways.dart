@@ -1,4 +1,5 @@
 import 'package:pi_hole_client/models/app_log.dart';
+import 'package:pi_hole_client/models/domain.dart';
 import 'package:pi_hole_client/models/log.dart';
 import 'package:pi_hole_client/models/overtime_data.dart';
 import 'package:pi_hole_client/models/realtime_status.dart';
@@ -10,7 +11,8 @@ enum APiResponseType {
   socket,
   timeout,
   sslError,
-  error
+  error,
+  alreadyAdded
 }
 
 /// A response object for the login query.
@@ -114,5 +116,47 @@ class SetWhiteBlacklistResponse {
     required this.result,
     this.message,
     this.data,
+  });
+}
+
+class DomainListResult {
+  final List<Domain> whitelist;
+  final List<Domain> whitelistRegex;
+  final List<Domain> blacklist;
+  final List<Domain> blacklistRegex;
+
+  DomainListResult({
+    required this.whitelist,
+    required this.whitelistRegex,
+    required this.blacklist,
+    required this.blacklistRegex,
+  });
+}
+
+class GetDomainLists {
+  final APiResponseType result;
+  final DomainListResult? data;
+
+  GetDomainLists({
+    required this.result,
+    this.data,
+  });
+}
+
+class RemoveDomainFromListResponse {
+  final APiResponseType result;
+  final String? message;
+
+  RemoveDomainFromListResponse({
+    required this.result,
+    this.message,
+  });
+}
+
+class AddDomainToListResponse {
+  final APiResponseType result;
+
+  AddDomainToListResponse({
+    required this.result,
   });
 }

@@ -1,6 +1,7 @@
 // ignore_for_file: use_build_context_synchronously
 
 import 'package:flutter/material.dart';
+import 'package:pi_hole_client/models/gateways.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
@@ -80,16 +81,16 @@ class _DomainListsWidgetState extends State<DomainListsWidget>
 
       process.close();
 
-      if (result['result'] == 'success') {
+      if (result?.result == APiResponseType.success) {
         domainsListProvider.removeDomainFromList(domain);
 
         showSnackBar(
             appConfigProvider: appConfigProvider,
             label: AppLocalizations.of(context)!.domainRemoved,
             color: Colors.green);
-      } else if (result['result'] == 'error' &&
-          result['message'] != null &&
-          result['message'] == 'not_exists') {
+      } else if (result!.result == APiResponseType.error &&
+          result.message != null &&
+          result.message == 'not_exists') {
         showSnackBar(
             appConfigProvider: appConfigProvider,
             label: AppLocalizations.of(context)!.domainNotExists,

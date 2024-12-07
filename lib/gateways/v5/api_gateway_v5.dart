@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'dart:io';
 import 'package:http/http.dart';
 import 'package:http/http.dart' as http;
+import 'package:pi_hole_client/functions/convert.dart';
 import 'package:pi_hole_client/models/app_log.dart';
 import 'package:pi_hole_client/models/domain.dart';
 import 'package:pi_hole_client/functions/encode_basic_auth.dart';
@@ -450,27 +451,8 @@ class ApiGatewayV5 implements ApiGateway {
   ///
   /// This method retrieves the whitelist, regex whitelist, blacklist, and regex blacklist
   /// from the specified Pi-hole server. Each list is processed and returned in a structured format.
-  ///
-  /// ### Parameters:
-  /// - `server` (`Server`): The server object containing the Pi-hole address, token, and optional basic authentication credentials.
-  ///
-  /// ### Returns:
-  /// - `Map<String, dynamic>`: A result object with the following keys
-  ///   - `result`: A string indicating the outcome of the operation (`success`, `no_connection`, `ssl_error`, `auth_error`, `error`).
-  ///   - `data`: A map containing the following
-  ///     - `whitelist`: A list of `Domain` objects representing the whitelist.
-  ///     - `whitelistRegex`: A list of `Domain` objects representing the regex whitelist.
-  ///     - `blacklist`: A list of `Domain` objects representing the blacklist.
-  ///     - `blacklistRegex`: A list of `Domain` objects representing the regex blacklist.
-  ///
-  /// ### Exceptions:
-  /// - `SocketException`: Network issues prevent connection to the server.
-  /// - `TimeoutException`: The request times out.
-  /// - `HandshakeException`: SSL/TLS handshake fails.
-  /// - `FormatException`: Malformed response body or unexpected data format.
-  /// - General exceptions: Any other errors encountered during execution.
   @override
-  Future getDomainLists() async {
+  Future<GetDomainLists> getDomainLists() async {
     Map<String, String>? headers;
     if (checkBasicAuth(server.basicAuthUser, server.basicAuthPassword) ==
         true) {
@@ -508,32 +490,30 @@ class ApiGatewayV5 implements ApiGateway {
           results[1].statusCode == 200 &&
           results[2].statusCode == 200 &&
           results[3].statusCode == 200) {
-        return {
-          'result': 'success',
-          'data': {
-            'whitelist': jsonDecode(results[0].body)['data']
-                .map((item) => Domain.fromJson(item)),
-            'whitelistRegex': jsonDecode(results[1].body)['data']
-                .map((item) => Domain.fromJson(item)),
-            'blacklist': jsonDecode(results[2].body)['data']
-                .map((item) => Domain.fromJson(item)),
-            'blacklistRegex': jsonDecode(results[3].body)['data']
-                .map((item) => Domain.fromJson(item)),
-          }
-        };
+        return GetDomainLists(
+          result: APiResponseType.success,
+          data: DomainListResult(
+            whitelist: parseDomainList(jsonDecode(results[0].body)['data']),
+            whitelistRegex:
+                parseDomainList(jsonDecode(results[1].body)['data']),
+            blacklist: parseDomainList(jsonDecode(results[2].body)['data']),
+            blacklistRegex:
+                parseDomainList(jsonDecode(results[3].body)['data']),
+          ),
+        );
       } else {
-        return {'result': 'error'};
+        return GetDomainLists(result: APiResponseType.error);
       }
     } on SocketException {
-      return {'result': 'no_connection'};
+      return GetDomainLists(result: APiResponseType.socket);
     } on TimeoutException {
-      return {'result': 'no_connection'};
+      return GetDomainLists(result: APiResponseType.timeout);
     } on HandshakeException {
-      return {'result': 'ssl_error'};
+      return GetDomainLists(result: APiResponseType.sslError);
     } on FormatException {
-      return {'result': 'auth_error'};
+      return GetDomainLists(result: APiResponseType.authError);
     } catch (e) {
-      return {'result': 'error'};
+      return GetDomainLists(result: APiResponseType.error);
     }
   }
 
@@ -543,23 +523,9 @@ class ApiGatewayV5 implements ApiGateway {
   /// from the given list, which can be one of the following: whitelist, blacklist,
   /// regex whitelist, or regex blacklist. The operation's success or failure is determined
   /// by the server's response.
-  ///
-  /// ### Parameters:
-  /// - `server` (`Server`): The server object containing the Pi-hole address, token, and optional basic authentication credentials.
-  /// - `domain` (`Domain`): The domain object to remove from the list.
-  ///
-  /// ### Returns:
-  /// - `Map<String, dynamic>`: A result object with the following keys
-  ///   - `result`: A string indicating the outcome of the operation (`success`, `not_exists`, `socket`, `timeout`, `ssl_error`, `error`).
-  ///   - `message`: A string indicating the reason for the operation's outcome.
-  ///
-  /// ### Exceptions:
-  /// - `SocketException`: Network issues prevent connection to the server.
-  /// - `TimeoutException`: The request times out.
-  /// - `HandshakeException`: SSL/TLS handshake fails.
-  /// - General exceptions: Any other errors encountered during execution.
   @override
-  Future removeDomainFromList(Domain domain) async {
+  Future<RemoveDomainFromListResponse> removeDomainFromList(
+      Domain domain) async {
     String getType(int type) {
       switch (type) {
         case 0:
@@ -591,25 +557,27 @@ class ApiGatewayV5 implements ApiGateway {
       if (response.statusCode == 200) {
         final json = jsonDecode(response.body);
         if (json.runtimeType == List<dynamic>) {
-          return {'result': 'error', 'message': 'not_exists'};
+          return RemoveDomainFromListResponse(
+              result: APiResponseType.error, message: 'not_exists');
         } else {
           if (json['success'] == true) {
-            return {'result': 'success'};
+            return RemoveDomainFromListResponse(
+                result: APiResponseType.success);
           } else {
-            return {'result': 'error'};
+            return RemoveDomainFromListResponse(result: APiResponseType.error);
           }
         }
       } else {
-        return {'result': 'error'};
+        return RemoveDomainFromListResponse(result: APiResponseType.error);
       }
     } on SocketException {
-      return {'result': 'socket'};
+      return RemoveDomainFromListResponse(result: APiResponseType.noConnection);
     } on TimeoutException {
-      return {'result': 'timeout'};
+      return RemoveDomainFromListResponse(result: APiResponseType.noConnection);
     } on HandshakeException {
-      return {'result': 'ssl_error'};
+      return RemoveDomainFromListResponse(result: APiResponseType.sslError);
     } catch (e) {
-      return {'result': 'error'};
+      return RemoveDomainFromListResponse(result: APiResponseType.error);
     }
   }
 
@@ -619,16 +587,9 @@ class ApiGatewayV5 implements ApiGateway {
   /// such as the whitelist, blacklist, regex whitelist, or regex blacklist. It checks the server's
   /// response to determine whether the operation was successful or if the domain already exists
   /// in the list.
-  ///
-  /// ### Parameters:
-  /// - `server` (`Server`): The server object containing the Pi-hole address, token, and optional basic authentication credentials.
-  /// - `domainData` (`Map<String, dynamic>`): A map containing the following keys
-  ///
-  /// ### Returns:
-  /// - `Map<String, dynamic>`: A result object with the following keys
-  ///   - `result`: A string indicating the outcome of the operation (`success`, `already_added`, `no_connection`, `ssl_error`, `auth_error`, `error`).
   @override
-  Future addDomainToList(Map<String, dynamic> domainData) async {
+  Future<AddDomainToListResponse> addDomainToList(
+      Map<String, dynamic> domainData) async {
     try {
       final response = await httpClient(
           method: 'get',
@@ -641,32 +602,33 @@ class ApiGatewayV5 implements ApiGateway {
       if (response.statusCode == 200) {
         final json = jsonDecode(response.body);
         if (json.runtimeType == List<dynamic>) {
-          return {'result': 'error'};
+          return AddDomainToListResponse(result: APiResponseType.error);
         } else {
           if (json['success'] == true &&
               json['message'] == 'Added ${domainData['domain']}') {
-            return {'result': 'success'};
+            return AddDomainToListResponse(result: APiResponseType.success);
           } else if (json['success'] == true &&
               json['message'] ==
                   'Not adding ${domainData['domain']} as it is already on the list') {
-            return {'result': 'already_added'};
+            return AddDomainToListResponse(
+                result: APiResponseType.alreadyAdded);
           } else {
-            return {'result': 'error'};
+            return AddDomainToListResponse(result: APiResponseType.error);
           }
         }
       } else {
-        return {'result': 'error'};
+        return AddDomainToListResponse(result: APiResponseType.error);
       }
     } on SocketException {
-      return {'result': 'no_connection'};
+      return AddDomainToListResponse(result: APiResponseType.noConnection);
     } on TimeoutException {
-      return {'result': 'no_connection'};
+      return AddDomainToListResponse(result: APiResponseType.noConnection);
     } on HandshakeException {
-      return {'result': 'ssl_error'};
+      return AddDomainToListResponse(result: APiResponseType.sslError);
     } on FormatException {
-      return {'result': 'auth_error'};
+      return AddDomainToListResponse(result: APiResponseType.authError);
     } catch (e) {
-      return {'result': 'error'};
+      return AddDomainToListResponse(result: APiResponseType.error);
     }
   }
 }

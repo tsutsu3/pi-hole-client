@@ -5,6 +5,7 @@ import 'package:mockito/mockito.dart';
 import 'package:mockito/annotations.dart';
 import 'package:pi_hole_client/constants/api_versions.dart';
 import 'package:pi_hole_client/gateways/v5/api_gateway_v5.dart';
+import 'package:pi_hole_client/models/domain.dart';
 import 'package:pi_hole_client/models/gateways.dart';
 import 'package:pi_hole_client/models/server.dart';
 import './api_gateway_v5_test.mocks.dart';
@@ -1045,6 +1046,216 @@ void main() {
       expect(response.result, APiResponseType.error);
       expect(response.data, isNull);
       expect(response.message, isNull);
+    });
+  });
+
+  group('getDomainLists', () {
+    late Server server;
+    final urls = [
+      'http://example.com/admin/api.php?auth=xxx123&list=white',
+      'http://example.com/admin/api.php?auth=xxx123&list=regex_white',
+      'http://example.com/admin/api.php?auth=xxx123&list=black',
+      'http://example.com/admin/api.php?auth=xxx123&list=regex_black'
+    ];
+
+    setUp(() {
+      server = Server(
+          address: 'http://example.com',
+          alias: 'example',
+          defaultServer: true,
+          apiVersion: SupportedApiVersions.v5,
+          token: 'xxx123');
+    });
+
+    test('Return success', () async {
+      final mockClient = MockClient();
+      final apiGateway = ApiGatewayV5(server, client: mockClient);
+      final data = [
+        {
+          "data": [
+            {
+              "id": 14,
+              "type": 0,
+              "domain": "example.com",
+              "enabled": 1,
+              "date_added": 1733559182,
+              "date_modified": 1733559182,
+              "comment": "",
+              "groups": [0]
+            }
+          ]
+        },
+        {"data": []},
+        {
+          "data": [
+            {
+              "id": 2,
+              "type": 1,
+              "domain": "test.com",
+              "enabled": 1,
+              "date_added": 1733401118,
+              "date_modified": 1733496612,
+              "comment": "",
+              "groups": [0]
+            }
+          ]
+        },
+        {"data": []},
+      ];
+      for (var i = 0; i < urls.length; i++) {
+        when(mockClient.get(Uri.parse(urls[i]), headers: {}))
+            .thenAnswer((_) async => http.Response(jsonEncode(data[i]), 200));
+      }
+
+      final response = await apiGateway.getDomainLists();
+
+      expect(response.result, APiResponseType.success);
+      expect(response.data, isNotNull);
+    });
+
+    test('Return error when unexpected exception occurs', () async {
+      final mockClient = MockClient();
+      final apiGateway = ApiGatewayV5(server, client: mockClient);
+      final data = {"data": []};
+      for (var i = 0; i < urls.length - 1; i++) {
+        when(mockClient.get(Uri.parse(urls[i]), headers: {}))
+            .thenAnswer((_) async => http.Response(jsonEncode(data), 200));
+      }
+      when(mockClient.get(Uri.parse(urls[3]), headers: {}))
+          .thenThrow(Exception('Unexpected error test'));
+
+      final response = await apiGateway.getDomainLists();
+
+      expect(response.result, APiResponseType.error);
+      expect(response.data, isNull);
+    });
+  });
+
+  group('removeDomainFromList', () {
+    late Server server;
+    final url =
+        'http://example.com/admin/api.php?auth=xxx123&list=white&sub=google.com';
+
+    setUp(() {
+      server = Server(
+          address: 'http://example.com',
+          alias: 'example',
+          defaultServer: true,
+          apiVersion: SupportedApiVersions.v5,
+          token: 'xxx123');
+    });
+
+    test('Return success', () async {
+      final mockClient = MockClient();
+      final apiGateway = ApiGatewayV5(server, client: mockClient);
+      final data = {"success": true, "message": null};
+      when(mockClient.get(Uri.parse(url), headers: {}))
+          .thenAnswer((_) async => http.Response(jsonEncode(data), 200));
+
+      final response = await apiGateway.removeDomainFromList(Domain(
+          id: 1,
+          domain: 'google.com',
+          type: 0,
+          enabled: 1,
+          dateAdded: DateTime.now(),
+          dateModified: DateTime.now(),
+          comment: '',
+          groups: []));
+
+      expect(response.result, APiResponseType.success);
+      expect(response.message, isNull);
+    });
+
+    test('Return error when unexpected exception occurs', () async {
+      final mockClient = MockClient();
+      final apiGateway = ApiGatewayV5(server, client: mockClient);
+
+      when(mockClient.get(Uri.parse(url), headers: {}))
+          .thenThrow(Exception('Unexpected error test'));
+
+      final response = await apiGateway.removeDomainFromList(Domain(
+          id: 1,
+          domain: 'google.com',
+          type: 0,
+          enabled: 1,
+          dateAdded: DateTime.now(),
+          dateModified: DateTime.now(),
+          comment: '',
+          groups: []));
+
+      expect(response.result, APiResponseType.error);
+      expect(response.message, isNull);
+    });
+  });
+
+  group('addDomainToList', () {
+    late Server server;
+    final url =
+        'http://example.com/admin/api.php?auth=xxx123&list=black&add=google.com';
+
+    setUp(() {
+      server = Server(
+          address: 'http://example.com',
+          alias: 'example',
+          defaultServer: true,
+          apiVersion: SupportedApiVersions.v5,
+          token: 'xxx123');
+    });
+
+    test('Return success when add new domain', () async {
+      final mockClient = MockClient();
+      final apiGateway = ApiGatewayV5(server, client: mockClient);
+      final data = {"success": true, "message": "Added google.com"};
+      when(mockClient.get(Uri.parse(url), headers: {}))
+          .thenAnswer((_) async => http.Response(jsonEncode(data), 200));
+
+      final response = await apiGateway
+          .addDomainToList({"list": "black", "domain": "google.com"});
+
+      expect(response.result, APiResponseType.success);
+    });
+
+    test('Return success when add exist domain', () async {
+      final mockClient = MockClient();
+      final apiGateway = ApiGatewayV5(server, client: mockClient);
+      final data = {
+        "success": true,
+        "message": "Not adding google.com as it is already on the list"
+      };
+      when(mockClient.get(Uri.parse(url), headers: {}))
+          .thenAnswer((_) async => http.Response(jsonEncode(data), 200));
+
+      final response = await apiGateway
+          .addDomainToList({"list": "black", "domain": "google.com"});
+
+      expect(response.result, APiResponseType.alreadyAdded);
+    });
+
+    test('Return error with invalid list type', () async {
+      final mockClient = MockClient();
+      final apiGateway = ApiGatewayV5(server, client: mockClient);
+      final data =
+          'Invalid list [supported: black, regex_black, white, regex_white]';
+      when(mockClient.get(Uri.parse(url), headers: {}))
+          .thenAnswer((_) async => http.Response(jsonEncode(data), 200));
+
+      final response = await apiGateway
+          .addDomainToList({"list": "black", "domain": "google.com"});
+
+      expect(response.result, APiResponseType.error);
+    });
+
+    test('Return error when unexpected exception occurs', () async {
+      final mockClient = MockClient();
+      final apiGateway = ApiGatewayV5(server, client: mockClient);
+
+      when(mockClient.get(Uri.parse(url), headers: {}))
+          .thenThrow(Exception('Unexpected error test'));
+
+      final response = await apiGateway
+          .addDomainToList({"list": "black", "domain": "google.com"});
+
+      expect(response.result, APiResponseType.error);
     });
   });
 }

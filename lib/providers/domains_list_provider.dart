@@ -1,5 +1,6 @@
 import 'package:pi_hole_client/constants/enums.dart';
 import 'package:flutter/material.dart';
+import 'package:pi_hole_client/models/gateways.dart';
 
 import 'package:pi_hole_client/models/server.dart';
 import 'package:pi_hole_client/models/domain.dart';
@@ -101,18 +102,18 @@ class DomainsListProvider with ChangeNotifier {
   Future fetchDomainsList(Server server) async {
     final apiGateway = serversProvider?.selectedApiGateway;
     final result = await apiGateway?.getDomainLists();
-    if (result['result'] == 'success') {
+    if (result?.result == APiResponseType.success) {
       final List<Domain> whitelist = [
-        ...result['data']['whitelist'],
-        ...result['data']['whitelistRegex']
+        ...result!.data!.whitelist,
+        ...result.data!.whitelistRegex
       ];
       _whitelistDomains = whitelist;
       _filteredWhitelistDomains =
           whitelist.where((i) => i.domain.contains(_searchTerm)).toList();
 
       final List<Domain> blacklist = [
-        ...result['data']['blacklist'],
-        ...result['data']['blacklistRegex']
+        ...result.data!.blacklist,
+        ...result.data!.blacklistRegex
       ];
       _blacklistDomains = blacklist;
       _filteredBlacklistDomains =

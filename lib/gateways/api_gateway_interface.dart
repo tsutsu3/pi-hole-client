@@ -58,11 +58,27 @@ abstract interface class ApiGateway {
       String domain, String list);
 
   /// Fetches domain lists (whitelist, blacklist, and regex-based lists) from a Pi-hole server.
-  Future getDomainLists();
+  ///
+  /// ### Returns
+  /// - A [GetDomainLists] object containing the result of the get domain lists query.
+  Future<GetDomainLists> getDomainLists();
 
   /// Removes a domain from a specific list on a Pi-hole server.
-  Future removeDomainFromList(Domain domain);
+  ///
+  /// ### Parameters
+  /// - [domain]: The domain to remove from the list.
+  ///
+  /// ### Returns
+  /// - A [RemoveDomainFromListResponse] object containing the result of the remove domain from list query.
+  Future<RemoveDomainFromListResponse> removeDomainFromList(Domain domain);
 
   /// Adds a domain to a specified list on a Pi-hole server.
-  Future addDomainToList(Map<String, dynamic> domainData);
+  ///
+  /// ### Parameters
+  /// - [domainData]: The domain data to add to the list.
+  ///
+  /// ### Returns
+  /// - An [AddDomainToListResponse] object containing the result of the add domain to list query.
+  Future<AddDomainToListResponse> addDomainToList(
+      Map<String, dynamic> domainData);
 }
