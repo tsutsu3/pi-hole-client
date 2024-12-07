@@ -32,37 +32,30 @@ class ApiGatewayV6 implements ApiGateway {
 
   /// Sends an HTTP request using the specified method and parameters.
   ///
+  /// This method sends an HTTP request to the specified URL using the provided
+  /// method, headers, and body. It also handles authentication using the API key
+  /// if provided. If the request fails due to a 401 response, it will retry the
+  /// request once after re-authenticating with the server.
+  ///
   /// Parameters:
   /// - [method] The HTTP method to use (e.g., 'GET', 'POST').
-  /// - [apiKey] The API key to use for authentication. Use v5 only.
   /// - [url] The URL to send the request to.
   /// - [headers] The headers to send with the request.
   /// - [body] The body of the request.
   /// - [timeout] The timeout for the request in seconds. Default is 10 seconds.
-  /// - [sid] The session ID for the request.
+  /// - [maxRetries] The number of times to retry the request if a 401 response is received. Default is 1.
   ///
   /// Returns
   /// - A `Response` object containing the response from the server.
   ///
   /// Exceptions:
-  /// - Throws a `TimeoutException` if the request times out.
+  /// - Throws an exception if the request fails or times out.
   Future<Response> httpClient({
-    /// The HTTP method to use
     required String method,
-
-    /// The URL to send the request to
     required String url,
-
-    /// The headers to send with the request
     Map<String, String>? headers,
-
-    /// The body of the request
     Map<String, dynamic>? body,
-
-    /// The timeout for the request. Default is 10 seconds
     int timeout = 10,
-
-    /// The number of times to retry the request if 401. Default is 1
     int maxRetries = 1,
   }) async {
     final Map<String, String> authHeaders = headers != null ? {...headers} : {};
@@ -137,9 +130,9 @@ class ApiGatewayV6 implements ApiGateway {
   /// Handles the login process to a Pi-hole server using its API.
   ///
   /// This function performs the following steps:
-  /// 1. Sends a GET request to verify the server's current status using the provided `address` and `token`.
-  /// 2. Toggles the Pi-hole's status between enabled and disabled depending on the current status.
-  /// 3. Validates the response to determine the success or failure of the login attempt.
+  /// 1. Sends a POST request to the Pi-hole server's Auth API with the password.
+  /// 2. Sends a GET request to the Pi-hole server's DNS API to retrieve the blocking status.
+  /// 3. Returns LoginQueryResponse with the result of the login query.
   @override
   Future<LoginQueryResponse> loginQuery() async {
     try {
