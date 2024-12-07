@@ -61,6 +61,9 @@ class ApiGatewayV6 implements ApiGateway {
 
     /// The timeout for the request. Default is 10 seconds
     int timeout = 10,
+
+    /// The number of times to retry the request if 401. Default is 1
+    int maxRetries = 1,
   }) async {
     final Map<String, String> authHeaders = headers != null ? {...headers} : {};
     authHeaders['Content-Type'] = 'application/json';
@@ -68,37 +71,65 @@ class ApiGatewayV6 implements ApiGateway {
       authHeaders['X-FTL-SID'] = sid!;
     }
 
+    for (int attempt = 0; attempt <= maxRetries; attempt++) {
+      final response = await _sendRequest(
+        method: method,
+        url: url,
+        headers: authHeaders,
+        body: body,
+        timeout: timeout,
+      );
+
+      if (response.statusCode == 401) {
+        if (attempt >= maxRetries) {
+          return response;
+        }
+
+        await loginQuery();
+        continue;
+      }
+
+      return response;
+    }
+
+    throw Exception("Failed to execute HTTP request");
+  }
+
+  Future<Response> _sendRequest({
+    required String method,
+    required String url,
+    required Map<String, String> headers,
+    Map<String, dynamic>? body,
+    required int timeout,
+  }) async {
     switch (method.toUpperCase()) {
       case 'POST':
         return await client
             .post(Uri.parse(url),
-                headers: authHeaders,
-                body: body != null ? jsonEncode(body) : null)
+                headers: headers, body: body != null ? jsonEncode(body) : null)
             .timeout(Duration(seconds: timeout));
 
       case 'PUT':
         return await client
             .put(Uri.parse(url),
-                headers: authHeaders,
-                body: body != null ? jsonEncode(body) : null)
+                headers: headers, body: body != null ? jsonEncode(body) : null)
             .timeout(Duration(seconds: timeout));
 
       case 'PATCH':
         return await client
             .patch(Uri.parse(url),
-                headers: authHeaders,
-                body: body != null ? jsonEncode(body) : null)
+                headers: headers, body: body != null ? jsonEncode(body) : null)
             .timeout(Duration(seconds: timeout));
 
       case 'DELETE':
         return await client
-            .delete(Uri.parse(url), headers: authHeaders)
+            .delete(Uri.parse(url), headers: headers)
             .timeout(Duration(seconds: timeout));
 
       case 'GET':
       default:
         return await client
-            .get(Uri.parse(url), headers: authHeaders)
+            .get(Uri.parse(url), headers: headers)
             .timeout(Duration(seconds: timeout));
     }
   }
@@ -116,6 +147,7 @@ class ApiGatewayV6 implements ApiGateway {
         method: 'post',
         url: '${server.address}/api/auth',
         body: {'password': server.password},
+        maxRetries: 0,
       );
 
       // Login
