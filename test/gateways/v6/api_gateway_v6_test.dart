@@ -4,104 +4,59 @@ import 'package:http/http.dart' as http;
 import 'package:mockito/mockito.dart';
 import 'package:mockito/annotations.dart';
 import 'package:pi_hole_client/constants/api_versions.dart';
-import 'package:pi_hole_client/gateways/v5/api_gateway_v5.dart';
+import 'package:pi_hole_client/gateways/v6/api_gateway_v6.dart';
+import 'package:pi_hole_client/models/api/v6/auth/auth.dart';
 import 'package:pi_hole_client/models/domain.dart';
 import 'package:pi_hole_client/models/gateways.dart';
 import 'package:pi_hole_client/models/server.dart';
-import './api_gateway_v5_test.mocks.dart';
+import './api_gateway_v6_test.mocks.dart';
 
 @GenerateMocks([http.Client])
 void main() {
-  group('checkBasicAuth', () {
-    late ApiGatewayV5 apiGateway;
-    late Server server;
-
-    setUp(() {
-      server = Server(
-          address: 'http://example.com',
-          alias: 'example',
-          defaultServer: true,
-          apiVersion: SupportedApiVersions.v5,
-          token: 'xxx123');
-      apiGateway = ApiGatewayV5(server);
-    });
-
-    test('checkBasicAuth returns true for valid credentials', () {
-      expect(apiGateway.checkBasicAuth('username', 'password'), isTrue);
-    });
-
-    test('checkBasicAuth returns false for invalid username', () {
-      expect(apiGateway.checkBasicAuth('', 'password'), isFalse);
-      expect(apiGateway.checkBasicAuth(null, 'password'), isFalse);
-    });
-
-    test('checkBasicAuth returns false for invalid blank blank password', () {
-      expect(apiGateway.checkBasicAuth('username', ''), isFalse);
-      expect(apiGateway.checkBasicAuth('username', null), isFalse);
-    });
-  });
-
   group('loginQuery', () {
     late Server server;
     final sessinId = 'n9n9f6c3umrumfq2ese1lvu2pg';
-    final url = 'http://example.com/admin/api.php?auth=xxx123&summaryRaw';
+    final urls = [
+      'http://example.com/api/auth',
+      'http://example.com/api/dns/blocking'
+    ];
 
     setUp(() {
       server = Server(
           address: 'http://example.com',
           alias: 'example',
           defaultServer: true,
-          apiVersion: SupportedApiVersions.v5,
-          token: 'xxx123');
+          apiVersion: SupportedApiVersions.v6,
+          password: 'xxx123');
     });
-    test('Return success with valid auth token', () async {
+    test('Return success with valid password', () async {
       final mockClient = MockClient();
-      final apiGateway = ApiGatewayV5(server, client: mockClient);
+      final apiGateway = ApiGatewayV6(server, client: mockClient);
 
-      when(mockClient.get(Uri.parse(url), headers: {}))
-          .thenAnswer((_) async => http.Response(
-              jsonEncode({
-                "domains_being_blocked": 121,
-                "dns_queries_today": 12,
-                "ads_blocked_today": 1,
-                "ads_percentage_today": 8.333333,
-                "unique_domains": 11,
-                "queries_forwarded": 9,
-                "queries_cached": 2,
-                "clients_ever_seen": 2,
-                "unique_clients": 2,
-                "dns_queries_all_types": 12,
-                "reply_UNKNOWN": 0,
-                "reply_NODATA": 0,
-                "reply_NXDOMAIN": 1,
-                "reply_CNAME": 0,
-                "reply_IP": 10,
-                "reply_DOMAIN": 1,
-                "reply_RRNAME": 0,
-                "reply_SERVFAIL": 0,
-                "reply_REFUSED": 0,
-                "reply_NOTIMP": 0,
-                "reply_OTHER": 0,
-                "reply_DNSSEC": 0,
-                "reply_NONE": 0,
-                "reply_BLOB": 0,
-                "dns_queries_all_replies": 12,
-                "privacy_level": 0,
-                "status": "enabled",
-                "gravity_last_updated": {
-                  "file_exists": true,
-                  "absolute": 17329,
-                  "relative": {"days": 4, "hours": 23, "minutes": 41}
-                }
-              }),
-              200));
+      when(mockClient.post(
+        Uri.parse(urls[0]),
+        headers: anyNamed('headers'),
+        body: anyNamed('body'),
+      )).thenAnswer((_) async => http.Response(
+          jsonEncode({
+            "session": {
+              "valid": true,
+              "totp": false,
+              "sid": "n9n9f6c3umrumfq2ese1lvu2pg",
+              "csrf": "Ux87YTIiMOf/GKCefVIOMw=",
+              "validity": 300,
+              "message": "correct password"
+            },
+            "took": 0.039638996124267578
+          }),
+          200));
 
       when(mockClient.get(
-          Uri.parse('http://example.com/admin/api.php?auth=xxx123&enable=0'),
-          headers: {})).thenAnswer((_) async => http.Response(
-              jsonEncode({"status": "enabled"}), 200, headers: {
-            'set-cookie': 'sid=$sessinId; path=/; HttpOnly; SameSite=Strict'
-          }));
+        Uri.parse(urls[1]),
+        headers: anyNamed('headers'),
+      )).thenAnswer((_) async => http.Response(
+          jsonEncode({"blocking": "enabled", "timer": null, "took": 0.003}),
+          200));
 
       final response = await apiGateway.loginQuery();
 
@@ -111,12 +66,26 @@ void main() {
       expect(response.log, isNull);
     });
 
-    test('Return error with invalid auth token', () async {
+    test('Return error with invalid password', () async {
       final mockClient = MockClient();
-      final apiGateway = ApiGatewayV5(server, client: mockClient);
+      final apiGateway = ApiGatewayV6(server, client: mockClient);
 
-      when(mockClient.get(Uri.parse(url), headers: {}))
-          .thenAnswer((_) async => http.Response(jsonEncode([]), 200));
+      when(mockClient.post(
+        Uri.parse(urls[0]),
+        headers: anyNamed('headers'),
+        body: anyNamed('body'),
+      )).thenAnswer((_) async => http.Response(
+          jsonEncode({
+            "session": {
+              "valid": false,
+              "totp": false,
+              "sid": null,
+              "validity": -1,
+              "message": "password incorrect"
+            },
+            "took": 0.039638996124267578
+          }),
+          401));
 
       final response = await apiGateway.loginQuery();
 
@@ -126,13 +95,13 @@ void main() {
       expect(response.log, isNotNull);
       expect(response.log?.type, 'login');
       expect(response.log?.message, 'auth_error');
-      expect(response.log?.statusCode, '200');
-      expect(response.log?.resBody, '[]');
+      expect(response.log?.statusCode, '401');
+      expect(response.log?.resBody, isNotNull);
     });
 
     test('Return error when accessing non Pi-hole server', () async {
       final mockClient = MockClient();
-      final apiGateway = ApiGatewayV5(server, client: mockClient);
+      final apiGateway = ApiGatewayV6(server, client: mockClient);
       // example.com's 404 page
       final htmlString = '''
         <!doctype html>
@@ -184,8 +153,11 @@ void main() {
       '''
           .trimLeft();
 
-      when(mockClient.get(Uri.parse(url), headers: {}))
-          .thenAnswer((_) async => http.Response(htmlString, 404));
+      when(mockClient.post(
+        Uri.parse(urls[0]),
+        headers: anyNamed('headers'),
+        body: anyNamed('body'),
+      )).thenAnswer((_) async => http.Response(htmlString, 404));
 
       final response = await apiGateway.loginQuery();
 
@@ -201,10 +173,13 @@ void main() {
 
     test('Return error when unexpected exception occurs', () async {
       final mockClient = MockClient();
-      final apiGateway = ApiGatewayV5(server, client: mockClient);
+      final apiGateway = ApiGatewayV6(server, client: mockClient);
 
-      when(mockClient.get(Uri.parse(url), headers: {}))
-          .thenThrow(Exception('Unexpected error test'));
+      when(mockClient.post(
+        Uri.parse(urls[0]),
+        headers: anyNamed('headers'),
+        body: anyNamed('body'),
+      )).thenThrow(Exception('Unexpected error test'));
 
       final response = await apiGateway.loginQuery();
 
@@ -226,13 +201,13 @@ void main() {
           address: 'http://example.com',
           alias: 'example',
           defaultServer: true,
-          apiVersion: SupportedApiVersions.v5,
+          apiVersion: SupportedApiVersions.v6,
           token: 'xxx123');
     });
 
     test('Return success', () async {
       final mockClient = MockClient();
-      final apiGateway = ApiGatewayV5(server, client: mockClient);
+      final apiGateway = ApiGatewayV6(server, client: mockClient);
       final data = {
         "domains_being_blocked": 121860,
         "dns_queries_today": 16,
@@ -317,7 +292,7 @@ void main() {
 
     test('Return error when unexpected exception occurs', () async {
       final mockClient = MockClient();
-      final apiGateway = ApiGatewayV5(server, client: mockClient);
+      final apiGateway = ApiGatewayV6(server, client: mockClient);
 
       when(mockClient.get(Uri.parse(url), headers: {}))
           .thenThrow(Exception('Unexpected error test'));
@@ -338,13 +313,13 @@ void main() {
           address: 'http://example.com',
           alias: 'example',
           defaultServer: true,
-          apiVersion: SupportedApiVersions.v5,
+          apiVersion: SupportedApiVersions.v6,
           token: 'xxx123');
     });
 
     test('Return success', () async {
       final mockClient = MockClient();
-      final apiGateway = ApiGatewayV5(server, client: mockClient);
+      final apiGateway = ApiGatewayV6(server, client: mockClient);
       final data = {"status": "disabled"};
       when(mockClient.get(Uri.parse(url), headers: {}))
           .thenAnswer((_) async => http.Response(jsonEncode(data), 200));
@@ -357,7 +332,7 @@ void main() {
 
     test('Return error when unexpected exception occurs', () async {
       final mockClient = MockClient();
-      final apiGateway = ApiGatewayV5(server, client: mockClient);
+      final apiGateway = ApiGatewayV6(server, client: mockClient);
 
       when(mockClient.get(Uri.parse(url), headers: {}))
           .thenThrow(Exception('Unexpected error test'));
@@ -378,13 +353,13 @@ void main() {
           address: 'http://example.com',
           alias: 'example',
           defaultServer: true,
-          apiVersion: SupportedApiVersions.v5,
+          apiVersion: SupportedApiVersions.v6,
           token: 'xxx123');
     });
 
     test('Return success', () async {
       final mockClient = MockClient();
-      final apiGateway = ApiGatewayV5(server, client: mockClient);
+      final apiGateway = ApiGatewayV6(server, client: mockClient);
       final data = {"status": "enabled"};
       when(mockClient.get(Uri.parse(url), headers: {}))
           .thenAnswer((_) async => http.Response(jsonEncode(data), 200));
@@ -397,7 +372,7 @@ void main() {
 
     test('Return error when unexpected exception occurs', () async {
       final mockClient = MockClient();
-      final apiGateway = ApiGatewayV5(server, client: mockClient);
+      final apiGateway = ApiGatewayV6(server, client: mockClient);
 
       when(mockClient.get(Uri.parse(url), headers: {}))
           .thenThrow(Exception('Unexpected error test'));
@@ -419,13 +394,13 @@ void main() {
           address: 'http://example.com',
           alias: 'example',
           defaultServer: true,
-          apiVersion: SupportedApiVersions.v5,
+          apiVersion: SupportedApiVersions.v6,
           token: 'xxx123');
     });
 
     test('Return success', () async {
       final mockClient = MockClient();
-      final apiGateway = ApiGatewayV5(server, client: mockClient);
+      final apiGateway = ApiGatewayV6(server, client: mockClient);
       final data = {
         "domains_over_time": {
           "1733391300": 0,
@@ -881,7 +856,7 @@ void main() {
 
     test('Return error when unexpected exception occurs', () async {
       final mockClient = MockClient();
-      final apiGateway = ApiGatewayV5(server, client: mockClient);
+      final apiGateway = ApiGatewayV6(server, client: mockClient);
 
       when(mockClient.get(Uri.parse(url), headers: {}))
           .thenThrow(Exception('Unexpected error test'));
@@ -903,13 +878,13 @@ void main() {
           address: 'http://example.com',
           alias: 'example',
           defaultServer: true,
-          apiVersion: SupportedApiVersions.v5,
+          apiVersion: SupportedApiVersions.v6,
           token: 'xxx123');
     });
 
     test('Return success', () async {
       final mockClient = MockClient();
-      final apiGateway = ApiGatewayV5(server, client: mockClient);
+      final apiGateway = ApiGatewayV6(server, client: mockClient);
       final data = {
         "data": [
           [
@@ -955,7 +930,7 @@ void main() {
 
     test('Return error when unexpected exception occurs', () async {
       final mockClient = MockClient();
-      final apiGateway = ApiGatewayV5(server, client: mockClient);
+      final apiGateway = ApiGatewayV6(server, client: mockClient);
 
       when(mockClient.get(Uri.parse(url), headers: {}))
           .thenThrow(Exception('Unexpected error test'));
@@ -979,13 +954,13 @@ void main() {
           address: 'http://example.com',
           alias: 'example',
           defaultServer: true,
-          apiVersion: SupportedApiVersions.v5,
+          apiVersion: SupportedApiVersions.v6,
           token: 'xxx123');
     });
 
     test('Return success when add new domain', () async {
       final mockClient = MockClient();
-      final apiGateway = ApiGatewayV5(server, client: mockClient);
+      final apiGateway = ApiGatewayV6(server, client: mockClient);
       final data = {"success": true, "message": "Added google.com"};
       when(mockClient.get(Uri.parse(url), headers: {}))
           .thenAnswer((_) async => http.Response(jsonEncode(data), 200));
@@ -1000,7 +975,7 @@ void main() {
 
     test('Return success when add exist domain', () async {
       final mockClient = MockClient();
-      final apiGateway = ApiGatewayV5(server, client: mockClient);
+      final apiGateway = ApiGatewayV6(server, client: mockClient);
       final data = {
         "success": true,
         "message": "Not adding google.com as it is already on the list"
@@ -1018,7 +993,7 @@ void main() {
 
     test('Return error with invalid list type', () async {
       final mockClient = MockClient();
-      final apiGateway = ApiGatewayV5(server, client: mockClient);
+      final apiGateway = ApiGatewayV6(server, client: mockClient);
       final data =
           'Invalid list [supported: black, regex_black, white, regex_white]';
       when(mockClient.get(Uri.parse(url), headers: {}))
@@ -1034,7 +1009,7 @@ void main() {
 
     test('Return error when unexpected exception occurs', () async {
       final mockClient = MockClient();
-      final apiGateway = ApiGatewayV5(server, client: mockClient);
+      final apiGateway = ApiGatewayV6(server, client: mockClient);
 
       when(mockClient.get(Uri.parse(url), headers: {}))
           .thenThrow(Exception('Unexpected error test'));
@@ -1062,13 +1037,13 @@ void main() {
           address: 'http://example.com',
           alias: 'example',
           defaultServer: true,
-          apiVersion: SupportedApiVersions.v5,
+          apiVersion: SupportedApiVersions.v6,
           token: 'xxx123');
     });
 
     test('Return success', () async {
       final mockClient = MockClient();
-      final apiGateway = ApiGatewayV5(server, client: mockClient);
+      final apiGateway = ApiGatewayV6(server, client: mockClient);
       final data = [
         {
           "data": [
@@ -1114,7 +1089,7 @@ void main() {
 
     test('Return error when unexpected exception occurs', () async {
       final mockClient = MockClient();
-      final apiGateway = ApiGatewayV5(server, client: mockClient);
+      final apiGateway = ApiGatewayV6(server, client: mockClient);
       final data = {"data": []};
       for (var i = 0; i < urls.length - 1; i++) {
         when(mockClient.get(Uri.parse(urls[i]), headers: {}))
@@ -1140,13 +1115,13 @@ void main() {
           address: 'http://example.com',
           alias: 'example',
           defaultServer: true,
-          apiVersion: SupportedApiVersions.v5,
+          apiVersion: SupportedApiVersions.v6,
           token: 'xxx123');
     });
 
     test('Return success', () async {
       final mockClient = MockClient();
-      final apiGateway = ApiGatewayV5(server, client: mockClient);
+      final apiGateway = ApiGatewayV6(server, client: mockClient);
       final data = {"success": true, "message": null};
       when(mockClient.get(Uri.parse(url), headers: {}))
           .thenAnswer((_) async => http.Response(jsonEncode(data), 200));
@@ -1167,7 +1142,7 @@ void main() {
 
     test('Return error when unexpected exception occurs', () async {
       final mockClient = MockClient();
-      final apiGateway = ApiGatewayV5(server, client: mockClient);
+      final apiGateway = ApiGatewayV6(server, client: mockClient);
 
       when(mockClient.get(Uri.parse(url), headers: {}))
           .thenThrow(Exception('Unexpected error test'));
@@ -1197,13 +1172,13 @@ void main() {
           address: 'http://example.com',
           alias: 'example',
           defaultServer: true,
-          apiVersion: SupportedApiVersions.v5,
+          apiVersion: SupportedApiVersions.v6,
           token: 'xxx123');
     });
 
     test('Return success when add new domain', () async {
       final mockClient = MockClient();
-      final apiGateway = ApiGatewayV5(server, client: mockClient);
+      final apiGateway = ApiGatewayV6(server, client: mockClient);
       final data = {"success": true, "message": "Added google.com"};
       when(mockClient.get(Uri.parse(url), headers: {}))
           .thenAnswer((_) async => http.Response(jsonEncode(data), 200));
@@ -1216,7 +1191,7 @@ void main() {
 
     test('Return success when add exist domain', () async {
       final mockClient = MockClient();
-      final apiGateway = ApiGatewayV5(server, client: mockClient);
+      final apiGateway = ApiGatewayV6(server, client: mockClient);
       final data = {
         "success": true,
         "message": "Not adding google.com as it is already on the list"
@@ -1232,7 +1207,7 @@ void main() {
 
     test('Return error with invalid list type', () async {
       final mockClient = MockClient();
-      final apiGateway = ApiGatewayV5(server, client: mockClient);
+      final apiGateway = ApiGatewayV6(server, client: mockClient);
       final data =
           'Invalid list [supported: black, regex_black, white, regex_white]';
       when(mockClient.get(Uri.parse(url), headers: {}))
@@ -1246,7 +1221,7 @@ void main() {
 
     test('Return error when unexpected exception occurs', () async {
       final mockClient = MockClient();
-      final apiGateway = ApiGatewayV5(server, client: mockClient);
+      final apiGateway = ApiGatewayV6(server, client: mockClient);
 
       when(mockClient.get(Uri.parse(url), headers: {}))
           .thenThrow(Exception('Unexpected error test'));

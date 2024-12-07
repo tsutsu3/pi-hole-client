@@ -9,6 +9,7 @@ import 'package:pi_hole_client/repository/database.dart';
 import 'package:pi_hole_client/providers/app_config_provider.dart';
 import 'package:pi_hole_client/functions/conversions.dart';
 import 'package:pi_hole_client/models/server.dart';
+import 'package:provider/provider.dart';
 
 class ServersProvider with ChangeNotifier {
   AppConfigProvider? _appConfigProvider;
@@ -43,7 +44,7 @@ class ServersProvider with ChangeNotifier {
   Future<bool> addServer(Server server) async {
     final saved = await _repository.saveServerQuery(server);
     if (saved == true) {
-      _serverGateways[server.address] = ApiGatewayV5(server);
+      _serverGateways[server.address] = ApiGatewayFactory.create(server);
       if (server.defaultServer == true) {
         final defaultServer = await setDefaultServer(server);
         if (defaultServer == true) {
@@ -114,23 +115,23 @@ class ServersProvider with ChangeNotifier {
     }
   }
 
-  Future<bool> setToken(Server server) async {
-    final result =
-        await _repository.setServerTokenQuery(server.token, server.address);
-    if (result == true) {
-      _serversList = _serversList.map((s) {
-        if (s.address == server.address) {
-          return server;
-        } else {
-          return s;
-        }
-      }).toList();
-      notifyListeners();
-      return true;
-    } else {
-      return false;
-    }
-  }
+  // Future<bool> setToken(Server server) async {
+  //   final result =
+  //       await _repository.setServerTokenQuery(server.token, server.address);
+  //   if (result == true) {
+  //     _serversList = _serversList.map((s) {
+  //       if (s.address == server.address) {
+  //         return server;
+  //       } else {
+  //         return s;
+  //       }
+  //     }).toList();
+  //     notifyListeners();
+  //     return true;
+  //   } else {
+  //     return false;
+  //   }
+  // }
 
   Future saveFromDb(List<ServerDbData>? servers, bool connect) async {
     if (servers != null) {
@@ -144,9 +145,11 @@ class ServersProvider with ChangeNotifier {
           apiVersion: server.apiVersion,
           basicAuthUser: server.basicAuthUser,
           basicAuthPassword: server.basicAuthPassword,
+          password: server.password,
         );
         _serversList.add(serverObj);
-        _serverGateways[serverObj.address] = ApiGatewayV5(serverObj);
+        _serverGateways[serverObj.address] =
+            ApiGatewayFactory.create(serverObj);
         if (convertFromIntToBool(server.isDefaultServer) == true) {
           defaultServer = serverObj;
         }
@@ -162,18 +165,18 @@ class ServersProvider with ChangeNotifier {
     }
   }
 
-  Future<bool> login(Server serverObj) async {
-    final result = await ApiGatewayFactory.create(serverObj).loginQuery();
-    if (result.result == APiResponseType.success) {
-      _selectedServer = serverObj;
-      notifyListeners();
-      return true;
-    } else {
-      _selectedServer = serverObj;
-      notifyListeners();
-      return false;
-    }
-  }
+  // Future<bool> login(Server serverObj) async {
+  //   final result = await ApiGatewayFactory.create(serverObj).loginQuery();
+  //   if (result.result == APiResponseType.success) {
+  //     _selectedServer = serverObj;
+  //     notifyListeners();
+  //     return true;
+  //   } else {
+  //     _selectedServer = serverObj;
+  //     notifyListeners();
+  //     return false;
+  //   }
+  // }
 
   FutureOr<Map<String, dynamic>> checkUrlExists(String url) async {
     return await _repository.checkUrlExistsQuery(url);

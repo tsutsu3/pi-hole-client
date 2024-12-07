@@ -40,6 +40,7 @@ class _AddServerFullscreenState extends State<AddServerFullscreen> {
   String? subrouteFieldError;
   TextEditingController aliasFieldController = TextEditingController();
   TextEditingController tokenFieldController = TextEditingController();
+  TextEditingController passwordFieldController = TextEditingController();
   ConnectionType connectionType = ConnectionType.http;
   String piHoleVersion = SupportedApiVersions.v5;
   TextEditingController basicAuthUser = TextEditingController();
@@ -62,6 +63,7 @@ class _AddServerFullscreenState extends State<AddServerFullscreen> {
         portFieldError == null &&
         aliasFieldController.text != '' &&
         tokenFieldController.text != '' &&
+        passwordFieldController.text != '' &&
         ((basicAuthUser.text != '' && basicAuthPassword.text != '') ||
             (basicAuthUser.text == '' && basicAuthPassword.text == ''))) {
       setState(() {
@@ -147,6 +149,7 @@ class _AddServerFullscreenState extends State<AddServerFullscreen> {
       tokenFieldController.text = widget.server!.token ?? '';
       basicAuthUser.text = widget.server!.basicAuthUser ?? '';
       basicAuthPassword.text = widget.server!.basicAuthPassword ?? '';
+      passwordFieldController.text = widget.server!.password ?? '';
       setState(() {
         connectionType = widget.server!.address.split(':')[0] == 'https'
             ? ConnectionType.https
@@ -191,26 +194,30 @@ class _AddServerFullscreenState extends State<AddServerFullscreen> {
           errorUrl = null;
         });
         final serverObj = Server(
-            address: url,
-            alias: aliasFieldController.text,
-            token: tokenFieldController.text,
-            defaultServer: false,
-            apiVersion: piHoleVersion,
-            basicAuthUser: basicAuthUser.text,
-            basicAuthPassword: basicAuthPassword.text);
+          address: url,
+          alias: aliasFieldController.text,
+          token: tokenFieldController.text,
+          defaultServer: false,
+          apiVersion: piHoleVersion,
+          basicAuthUser: basicAuthUser.text,
+          basicAuthPassword: basicAuthPassword.text,
+          password: passwordFieldController.text,
+        );
         final result = await ApiGatewayFactory.create(serverObj).loginQuery();
         if (!mounted) return;
         if (result.result == APiResponseType.success) {
           Navigator.pop(context);
           serversProvider.addServer(Server(
-              address: serverObj.address,
-              alias: serverObj.alias,
-              token: serverObj.token,
-              defaultServer: defaultCheckbox,
-              apiVersion: piHoleVersion,
-              enabled: result.status == 'enabled' ? true : false,
-              basicAuthUser: basicAuthUser.text,
-              basicAuthPassword: basicAuthPassword.text));
+            address: serverObj.address,
+            alias: serverObj.alias,
+            token: serverObj.token,
+            defaultServer: defaultCheckbox,
+            apiVersion: piHoleVersion,
+            enabled: result.status == 'enabled' ? true : false,
+            basicAuthUser: basicAuthUser.text,
+            basicAuthPassword: basicAuthPassword.text,
+            password: passwordFieldController.text,
+          ));
         } else {
           if (mounted) {
             setState(() {
@@ -268,23 +275,27 @@ class _AddServerFullscreenState extends State<AddServerFullscreen> {
       });
 
       final serverObj = Server(
-          address: widget.server!.address,
-          alias: aliasFieldController.text,
-          token: tokenFieldController.text,
-          defaultServer: false,
-          apiVersion: piHoleVersion,
-          basicAuthUser: basicAuthUser.text,
-          basicAuthPassword: basicAuthPassword.text);
+        address: widget.server!.address,
+        alias: aliasFieldController.text,
+        token: tokenFieldController.text,
+        defaultServer: false,
+        apiVersion: piHoleVersion,
+        basicAuthUser: basicAuthUser.text,
+        basicAuthPassword: basicAuthPassword.text,
+        password: passwordFieldController.text,
+      );
       final result = await ApiGatewayFactory.create(serverObj).loginQuery();
       if (result.result == APiResponseType.success) {
         Server server = Server(
-            address: widget.server!.address,
-            alias: aliasFieldController.text,
-            token: tokenFieldController.text,
-            defaultServer: defaultCheckbox,
-            apiVersion: piHoleVersion,
-            basicAuthUser: basicAuthUser.text,
-            basicAuthPassword: basicAuthPassword.text);
+          address: widget.server!.address,
+          alias: aliasFieldController.text,
+          token: tokenFieldController.text,
+          defaultServer: defaultCheckbox,
+          apiVersion: piHoleVersion,
+          basicAuthUser: basicAuthUser.text,
+          basicAuthPassword: basicAuthPassword.text,
+          password: passwordFieldController.text,
+        );
         final result = await serversProvider.editServer(server);
         if (mounted) {
           if (result == true) {
@@ -484,7 +495,7 @@ class _AddServerFullscreenState extends State<AddServerFullscreen> {
                   child: TextField(
                     obscureText: true,
                     keyboardType: TextInputType.visiblePassword,
-                    controller: tokenFieldController,
+                    controller: passwordFieldController,
                     onChanged: (value) => checkDataValid(),
                     decoration: InputDecoration(
                       prefixIcon: const Icon(Icons.key_rounded),
