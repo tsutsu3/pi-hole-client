@@ -322,7 +322,28 @@ class ApiGatewayV6 implements ApiGateway {
   /// This method sends a GET request to the specified Pi-hole server to disable
   @override
   Future<DisableServerResponse> disableServerRequest(int time) async {
-    throw UnimplementedError();
+    try {
+      final response = await httpClient(
+        method: 'post',
+        url: '${server.address}/api/dns/blocking',
+        body: {'blocking': false, 'timer': time},
+      );
+      if (response.statusCode == 200) {
+        final body = v6.Blocking.fromJson(jsonDecode(response.body));
+        return DisableServerResponse(
+            result: APiResponseType.success, status: body.blocking);
+      } else {
+        return DisableServerResponse(result: APiResponseType.error);
+      }
+    } on SocketException {
+      return DisableServerResponse(result: APiResponseType.noConnection);
+    } on TimeoutException {
+      return DisableServerResponse(result: APiResponseType.noConnection);
+    } on HandshakeException {
+      return DisableServerResponse(result: APiResponseType.sslError);
+    } catch (e) {
+      return DisableServerResponse(result: APiResponseType.error);
+    }
   }
 
   /// Enables a Pi-hole server
@@ -330,7 +351,28 @@ class ApiGatewayV6 implements ApiGateway {
   /// This method sends a GET request to the specified Pi-hole server to enable
   @override
   Future<EnableServerResponse> enableServerRequest() async {
-    throw UnimplementedError();
+    try {
+      final response = await httpClient(
+        method: 'post',
+        url: '${server.address}/api/dns/blocking',
+        body: {'blocking': true, 'timer': null},
+      );
+      if (response.statusCode == 200) {
+        final body = v6.Blocking.fromJson(jsonDecode(response.body));
+        return EnableServerResponse(
+            result: APiResponseType.success, status: body.blocking);
+      } else {
+        return EnableServerResponse(result: APiResponseType.error);
+      }
+    } on SocketException {
+      return EnableServerResponse(result: APiResponseType.noConnection);
+    } on TimeoutException {
+      return EnableServerResponse(result: APiResponseType.noConnection);
+    } on HandshakeException {
+      return EnableServerResponse(result: APiResponseType.sslError);
+    } catch (e) {
+      return EnableServerResponse(result: APiResponseType.error);
+    }
   }
 
   /// Fetches over-time data from a Pi-hole server.

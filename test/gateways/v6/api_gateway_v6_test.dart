@@ -429,7 +429,7 @@ void main() {
 
   group('disableServerRequest', () {
     late Server server;
-    final url = 'http://example.com/admin/api.php?auth=xxx123&disable=5';
+    final url = 'http://example.com/api/dns/blocking';
 
     setUp(() {
       server = Server(
@@ -437,17 +437,19 @@ void main() {
           alias: 'example',
           defaultServer: true,
           apiVersion: SupportedApiVersions.v6,
-          token: 'xxx123');
+          password: 'xxx123');
     });
 
     test('Return success', () async {
       final mockClient = MockClient();
       final apiGateway = ApiGatewayV6(server, client: mockClient);
-      final data = {"status": "disabled"};
-      when(mockClient.get(Uri.parse(url), headers: {}))
+      final data = {"blocking": "disabled", "timer": 15, "took": 0.003};
+      when(mockClient.post(Uri.parse(url),
+              headers: anyNamed('headers'),
+              body: jsonEncode({"blocking": false, "timer": 15})))
           .thenAnswer((_) async => http.Response(jsonEncode(data), 200));
 
-      final response = await apiGateway.disableServerRequest(5);
+      final response = await apiGateway.disableServerRequest(15);
 
       expect(response.result, APiResponseType.success);
       expect(response.status, 'disabled');
@@ -457,7 +459,9 @@ void main() {
       final mockClient = MockClient();
       final apiGateway = ApiGatewayV6(server, client: mockClient);
 
-      when(mockClient.get(Uri.parse(url), headers: {}))
+      when(mockClient.post(Uri.parse(url),
+              headers: anyNamed('headers'),
+              body: jsonEncode({"blocking": false, "timer": 15})))
           .thenThrow(Exception('Unexpected error test'));
 
       final response = await apiGateway.disableServerRequest(5);
@@ -469,7 +473,7 @@ void main() {
 
   group('enableServerRequest', () {
     late Server server;
-    final url = 'http://example.com/admin/api.php?auth=xxx123&enable';
+    final url = 'http://example.com/api/dns/blocking';
 
     setUp(() {
       server = Server(
@@ -477,14 +481,16 @@ void main() {
           alias: 'example',
           defaultServer: true,
           apiVersion: SupportedApiVersions.v6,
-          token: 'xxx123');
+          password: 'xxx123');
     });
 
     test('Return success', () async {
       final mockClient = MockClient();
       final apiGateway = ApiGatewayV6(server, client: mockClient);
-      final data = {"status": "enabled"};
-      when(mockClient.get(Uri.parse(url), headers: {}))
+      final data = {"blocking": "enabled", "timer": null, "took": 0.03};
+      when(mockClient.post(Uri.parse(url),
+              headers: anyNamed('headers'),
+              body: jsonEncode({"blocking": true, "timer": null})))
           .thenAnswer((_) async => http.Response(jsonEncode(data), 200));
 
       final response = await apiGateway.enableServerRequest();
@@ -496,8 +502,11 @@ void main() {
     test('Return error when unexpected exception occurs', () async {
       final mockClient = MockClient();
       final apiGateway = ApiGatewayV6(server, client: mockClient);
+      final data = {"blocking": "enabled", "timer": null, "took": 0.03};
 
-      when(mockClient.get(Uri.parse(url), headers: {}))
+      when(mockClient.post(Uri.parse(url),
+              headers: anyNamed('headers'),
+              body: jsonEncode({"blocking": true, "timer": null})))
           .thenThrow(Exception('Unexpected error test'));
 
       final response = await apiGateway.enableServerRequest();
