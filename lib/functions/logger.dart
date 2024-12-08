@@ -17,6 +17,8 @@ Level getLogLevel() {
       return Level.warning;
     case 'error':
       return Level.error;
+    case 'off':
+      return Level.off;
     default:
       return Level.info;
   }
