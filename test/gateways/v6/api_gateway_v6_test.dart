@@ -502,7 +502,6 @@ void main() {
     test('Return error when unexpected exception occurs', () async {
       final mockClient = MockClient();
       final apiGateway = ApiGatewayV6(server, client: mockClient);
-      final data = {"blocking": "enabled", "timer": null, "took": 0.03};
 
       when(mockClient.post(Uri.parse(url),
               headers: anyNamed('headers'),
