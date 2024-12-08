@@ -22,7 +22,6 @@ jobs:
       uses: subosito/flutter-action@v2
       with:
         channel: stable
-        flutter-version: ${{ env.flutter_version }}
         cache: true
         # optional parameters follow
         cache-key: "flutter-:os:-:channel:-:version:-:arch:-:hash:" # optional, change this to force refresh cache
