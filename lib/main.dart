@@ -130,7 +130,11 @@ void main() async {
                 servers!..update(appConfig),
           ),
         ],
-        child: Phoenix(child: const PiHoleClient()),
+        child: Phoenix(
+          child: const SentryWidget(
+            child: PiHoleClient(),
+          ),
+        ),
       ));
 
   if ((kReleaseMode &&
@@ -142,6 +146,8 @@ void main() async {
     SentryFlutter.init((options) {
       options.dsn = dotenv.env['SENTRY_DSN'];
       options.sendDefaultPii = false;
+      options.attachScreenshot =
+          dotenv.env['ENABLE_SENTRY_SCREENSHOTS'] == "true";
       options.beforeSend = (event, hint) {
         if (event.throwable is HttpException) {
           return null;
@@ -203,6 +209,9 @@ class _PiHoleClientState extends State<PiHoleClient> {
     return DynamicColorBuilder(
       builder: ((lightDynamic, darkDynamic) {
         return MaterialApp(
+            navigatorObservers: [
+              SentryNavigatorObserver(),
+            ],
             title: 'Droid Hole',
             theme: appConfigProvider.androidDeviceInfo != null &&
                     appConfigProvider.androidDeviceInfo!.version.sdkInt >= 31
