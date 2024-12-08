@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 
 import 'package:pi_hole_client/functions/colors.dart';
+import 'package:pi_hole_client/models/api/v6/metrics/history.dart';
 
 OverTimeData overTimeDataFromJson(String str) =>
     OverTimeData.fromJson(json.decode(str));
@@ -50,6 +51,62 @@ class OverTimeData {
         "over_time": Map.from(overTime).map((k, v) =>
             MapEntry<String, dynamic>(k, List<dynamic>.from(v.map((x) => x)))),
       };
+
+  factory OverTimeData.fromV6(History history, HistoryClients historyClients) {
+    final domainsOverTime = history.history.isNotEmpty
+        ? Map.fromEntries(
+            history.history.map(
+              (entry) => MapEntry<String, int>(
+                  entry.timestamp.toInt().toString(), entry.total),
+            ),
+          )
+        : <String, int>{};
+
+    final adsOverTime = history.history.isNotEmpty
+        ? Map.fromEntries(
+            history.history.map(
+              (entry) => MapEntry<String, int>(
+                  entry.timestamp.toInt().toString(), entry.blocked),
+            ),
+          )
+        : <String, int>{};
+
+    final clients = historyClients.clients.isNotEmpty
+        ? historyClients.clients.entries.map((entry) {
+            final ip = entry.key;
+            final name = entry.value.name ?? ip;
+
+            return Client(
+              name: name,
+              ip: ip,
+              color: generateRandomColor(),
+            );
+          }).toList()
+        : <Client>[];
+
+    final overTimes = historyClients.history.isNotEmpty
+        ? Map.fromEntries(
+            historyClients.history.map((entry) {
+              final timestamp = entry.timestamp.toInt().toString();
+
+              // Sort the data by clients' order
+              final sortedData = clients.map((client) {
+                final ip = client.ip;
+                return entry.data[ip] ?? 0; // Default to 0 if not found
+              }).toList();
+
+              return MapEntry<String, List<int>>(timestamp, sortedData);
+            }),
+          )
+        : <String, List<int>>{};
+
+    return OverTimeData(
+      domainsOverTime: domainsOverTime,
+      adsOverTime: adsOverTime,
+      clients: clients,
+      overTime: overTimes,
+    );
+  }
 }
 
 class Client {

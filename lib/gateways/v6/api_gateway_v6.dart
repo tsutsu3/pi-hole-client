@@ -8,10 +8,12 @@ import 'package:pi_hole_client/models/api/v6/auth/auth.dart' as v6;
 import 'package:pi_hole_client/models/api/v6/dns/dns.dart' as v6;
 import 'package:pi_hole_client/models/api/v6/flt/ftl.dart' as v6;
 import 'package:pi_hole_client/models/api/v6/metrics/stats.dart' as v6;
+import 'package:pi_hole_client/models/api/v6/metrics/history.dart' as v6;
 import 'package:pi_hole_client/models/app_log.dart';
 import 'package:pi_hole_client/models/domain.dart';
 // import 'package:pi_hole_client/functions/encode_basic_auth.dart';
 import 'package:pi_hole_client/models/gateways.dart';
+import 'package:pi_hole_client/models/overtime_data.dart';
 // import 'package:pi_hole_client/models/log.dart';
 // import 'package:pi_hole_client/models/overtime_data.dart';
 import 'package:pi_hole_client/models/realtime_status.dart';
@@ -338,7 +340,37 @@ class ApiGatewayV6 implements ApiGateway {
   /// activity, and client names. The data is parsed and returned in a structured format.
   @override
   Future<FetchOverTimeDataResponse> fetchOverTimeData() async {
-    throw UnimplementedError();
+    try {
+      final response = await Future.wait([
+        httpClient(
+          method: 'get',
+          url: '${server.address}/api/history',
+        ),
+        httpClient(
+          method: 'get',
+          url: '${server.address}/api/history/clients',
+        ),
+      ]);
+
+      if (response[0].statusCode == 200 && response[1].statusCode == 200) {
+        final history = v6.History.fromJson(jsonDecode(response[0].body));
+        final historyClients =
+            v6.HistoryClients.fromJson(jsonDecode(response[1].body));
+        return FetchOverTimeDataResponse(
+            result: APiResponseType.success,
+            data: OverTimeData.fromV6(history, historyClients));
+      } else {
+        return FetchOverTimeDataResponse(result: APiResponseType.error);
+      }
+    } on SocketException {
+      return FetchOverTimeDataResponse(result: APiResponseType.socket);
+    } on TimeoutException {
+      return FetchOverTimeDataResponse(result: APiResponseType.timeout);
+    } on HandshakeException {
+      return FetchOverTimeDataResponse(result: APiResponseType.sslError);
+    } catch (e) {
+      return FetchOverTimeDataResponse(result: APiResponseType.error);
+    }
   }
 
   /// Fetches log data from a Pi-hole server within a specified time range.
