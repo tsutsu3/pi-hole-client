@@ -170,6 +170,7 @@ Session _$SessionFromJson(Map<String, dynamic> json) {
 /// @nodoc
 mixin _$Session {
   SessionDetail get session => throw _privateConstructorUsedError;
+  double get took => throw _privateConstructorUsedError;
 
   /// Serializes this Session to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
@@ -185,7 +186,7 @@ abstract class $SessionCopyWith<$Res> {
   factory $SessionCopyWith(Session value, $Res Function(Session) then) =
       _$SessionCopyWithImpl<$Res, Session>;
   @useResult
-  $Res call({SessionDetail session});
+  $Res call({SessionDetail session, double took});
 
   $SessionDetailCopyWith<$Res> get session;
 }
@@ -206,12 +207,17 @@ class _$SessionCopyWithImpl<$Res, $Val extends Session>
   @override
   $Res call({
     Object? session = null,
+    Object? took = null,
   }) {
     return _then(_value.copyWith(
       session: null == session
           ? _value.session
           : session // ignore: cast_nullable_to_non_nullable
               as SessionDetail,
+      took: null == took
+          ? _value.took
+          : took // ignore: cast_nullable_to_non_nullable
+              as double,
     ) as $Val);
   }
 
@@ -233,7 +239,7 @@ abstract class _$$SessionImplCopyWith<$Res> implements $SessionCopyWith<$Res> {
       __$$SessionImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({SessionDetail session});
+  $Res call({SessionDetail session, double took});
 
   @override
   $SessionDetailCopyWith<$Res> get session;
@@ -253,12 +259,17 @@ class __$$SessionImplCopyWithImpl<$Res>
   @override
   $Res call({
     Object? session = null,
+    Object? took = null,
   }) {
     return _then(_$SessionImpl(
       session: null == session
           ? _value.session
           : session // ignore: cast_nullable_to_non_nullable
               as SessionDetail,
+      took: null == took
+          ? _value.took
+          : took // ignore: cast_nullable_to_non_nullable
+              as double,
     ));
   }
 }
@@ -266,17 +277,19 @@ class __$$SessionImplCopyWithImpl<$Res>
 /// @nodoc
 @JsonSerializable()
 class _$SessionImpl implements _Session {
-  _$SessionImpl({required this.session});
+  _$SessionImpl({required this.session, required this.took});
 
   factory _$SessionImpl.fromJson(Map<String, dynamic> json) =>
       _$$SessionImplFromJson(json);
 
   @override
   final SessionDetail session;
+  @override
+  final double took;
 
   @override
   String toString() {
-    return 'Session(session: $session)';
+    return 'Session(session: $session, took: $took)';
   }
 
   @override
@@ -284,12 +297,13 @@ class _$SessionImpl implements _Session {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$SessionImpl &&
-            (identical(other.session, session) || other.session == session));
+            (identical(other.session, session) || other.session == session) &&
+            (identical(other.took, took) || other.took == took));
   }
 
   @JsonKey(includeFromJson: false, includeToJson: false)
   @override
-  int get hashCode => Object.hash(runtimeType, session);
+  int get hashCode => Object.hash(runtimeType, session, took);
 
   /// Create a copy of Session
   /// with the given fields replaced by the non-null parameter values.
@@ -308,12 +322,16 @@ class _$SessionImpl implements _Session {
 }
 
 abstract class _Session implements Session {
-  factory _Session({required final SessionDetail session}) = _$SessionImpl;
+  factory _Session(
+      {required final SessionDetail session,
+      required final double took}) = _$SessionImpl;
 
   factory _Session.fromJson(Map<String, dynamic> json) = _$SessionImpl.fromJson;
 
   @override
   SessionDetail get session;
+  @override
+  double get took;
 
   /// Create a copy of Session
   /// with the given fields replaced by the non-null parameter values.

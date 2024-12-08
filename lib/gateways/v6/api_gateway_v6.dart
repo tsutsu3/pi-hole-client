@@ -3,19 +3,21 @@ import 'dart:convert';
 import 'dart:io';
 import 'package:http/http.dart';
 import 'package:http/http.dart' as http;
-import 'package:pi_hole_client/functions/convert.dart';
-import 'package:pi_hole_client/models/api/v6/auth/auth.dart';
-import 'package:pi_hole_client/models/api/v6/dns/dns.dart';
+// import 'package:pi_hole_client/functions/convert.dart';
+import 'package:pi_hole_client/models/api/v6/auth/auth.dart' as v6;
+import 'package:pi_hole_client/models/api/v6/dns/dns.dart' as v6;
+import 'package:pi_hole_client/models/api/v6/flt/ftl.dart' as v6;
+import 'package:pi_hole_client/models/api/v6/metrics/stats.dart' as v6;
 import 'package:pi_hole_client/models/app_log.dart';
 import 'package:pi_hole_client/models/domain.dart';
-import 'package:pi_hole_client/functions/encode_basic_auth.dart';
+// import 'package:pi_hole_client/functions/encode_basic_auth.dart';
 import 'package:pi_hole_client/models/gateways.dart';
-import 'package:pi_hole_client/models/log.dart';
-import 'package:pi_hole_client/models/overtime_data.dart';
+// import 'package:pi_hole_client/models/log.dart';
+// import 'package:pi_hole_client/models/overtime_data.dart';
 import 'package:pi_hole_client/models/realtime_status.dart';
 import 'package:pi_hole_client/models/server.dart';
 import 'package:pi_hole_client/gateways/api_gateway_interface.dart';
-import 'package:pi_hole_client/functions/logger.dart';
+// import 'package:pi_hole_client/functions/logger.dart';
 
 class ApiGatewayV6 implements ApiGateway {
   final Server server;
@@ -145,7 +147,7 @@ class ApiGatewayV6 implements ApiGateway {
 
       // Login
       if (status.statusCode == 200) {
-        final statusParsed = Session.fromJson(jsonDecode(status.body));
+        final statusParsed = v6.Session.fromJson(jsonDecode(status.body));
         sid = statusParsed.session.sid;
 
         // Get DNS blocking status
@@ -153,7 +155,7 @@ class ApiGatewayV6 implements ApiGateway {
             method: 'get', url: '${server.address}/api/dns/blocking');
         if (enableOrDisable.statusCode == 200) {
           final enableOrDisableParsed =
-              Blocking.fromJson(jsonDecode(enableOrDisable.body));
+              v6.Blocking.fromJson(jsonDecode(enableOrDisable.body));
           return LoginQueryResponse(
               result: APiResponseType.success,
               status: enableOrDisableParsed.blocking,
@@ -231,7 +233,86 @@ class ApiGatewayV6 implements ApiGateway {
   /// data in a structured format.
   @override
   Future<RealtimeStatusResponse> realtimeStatus() async {
-    throw UnimplementedError();
+    try {
+      final response = await Future.wait([
+        httpClient(
+          method: 'get',
+          url: '${server.address}/api/stats/summary',
+        ),
+        httpClient(
+          method: 'get',
+          url: '${server.address}/api/info/ftl',
+        ),
+        httpClient(
+          method: 'get',
+          url: '${server.address}/api/dns/blocking',
+        ),
+        httpClient(
+          method: 'get',
+          url: '${server.address}/api/stats/top_domains',
+        ),
+        httpClient(
+          method: 'get',
+          url: '${server.address}/api/stats/top_domains?blocked=true',
+        ),
+        httpClient(
+          method: 'get',
+          url: '${server.address}/api/stats/top_clients',
+        ),
+        httpClient(
+          method: 'get',
+          url: '${server.address}/api/stats/top_clients?blocked=true',
+        ),
+        httpClient(
+          method: 'get',
+          url: '${server.address}/api/stats/upstreams',
+        ),
+      ]);
+      if (response[0].statusCode == 200 &&
+          response[1].statusCode == 200 &&
+          response[2].statusCode == 200 &&
+          response[3].statusCode == 200 &&
+          response[4].statusCode == 200 &&
+          response[5].statusCode == 200 &&
+          response[6].statusCode == 200 &&
+          response[7].statusCode == 200) {
+        final summary = v6.StatsSummary.fromJson(jsonDecode(response[0].body));
+        final infoFtl = v6.InfoFtl.fromJson(jsonDecode(response[1].body));
+        final blocking = v6.Blocking.fromJson(jsonDecode(response[2].body));
+        final topPermittedDomains =
+            v6.StatsTopDomains.fromJson(jsonDecode(response[3].body));
+        final topBlockedDomains =
+            v6.StatsTopDomains.fromJson(jsonDecode(response[4].body));
+        final topClients =
+            v6.StatsTopClients.fromJson(jsonDecode(response[5].body));
+        final topBlockedClients =
+            v6.StatsTopClients.fromJson(jsonDecode(response[6].body));
+        final upstreams =
+            v6.StatsUpstreams.fromJson(jsonDecode(response[7].body));
+
+        return RealtimeStatusResponse(
+            result: APiResponseType.success,
+            data: RealtimeStatus.fromV6(
+                summary,
+                infoFtl,
+                blocking,
+                topPermittedDomains,
+                topBlockedDomains,
+                topClients,
+                topBlockedClients,
+                upstreams));
+      } else {
+        return RealtimeStatusResponse(result: APiResponseType.error);
+      }
+    } on SocketException {
+      return RealtimeStatusResponse(result: APiResponseType.socket);
+    } on TimeoutException {
+      return RealtimeStatusResponse(result: APiResponseType.timeout);
+    } on HandshakeException {
+      return RealtimeStatusResponse(result: APiResponseType.sslError);
+    } catch (e) {
+      return RealtimeStatusResponse(result: APiResponseType.error);
+    }
   }
 
   /// Disables a Pi-hole server

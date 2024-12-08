@@ -17,6 +17,7 @@ class Password with _$Password {
 class Session with _$Session {
   factory Session({
     required SessionDetail session,
+    required double took,
   }) = _Session;
 
   factory Session.fromJson(Map<String, dynamic> json) =>

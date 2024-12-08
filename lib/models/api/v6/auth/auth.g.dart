@@ -19,11 +19,13 @@ Map<String, dynamic> _$$PasswordImplToJson(_$PasswordImpl instance) =>
 _$SessionImpl _$$SessionImplFromJson(Map<String, dynamic> json) =>
     _$SessionImpl(
       session: SessionDetail.fromJson(json['session'] as Map<String, dynamic>),
+      took: (json['took'] as num).toDouble(),
     );
 
 Map<String, dynamic> _$$SessionImplToJson(_$SessionImpl instance) =>
     <String, dynamic>{
       'session': instance.session,
+      'took': instance.took,
     };
 
 _$SessionDetailImpl _$$SessionDetailImplFromJson(Map<String, dynamic> json) =>

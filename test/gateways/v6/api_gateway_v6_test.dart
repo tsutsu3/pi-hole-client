@@ -5,7 +5,6 @@ import 'package:mockito/mockito.dart';
 import 'package:mockito/annotations.dart';
 import 'package:pi_hole_client/constants/api_versions.dart';
 import 'package:pi_hole_client/gateways/v6/api_gateway_v6.dart';
-import 'package:pi_hole_client/models/api/v6/auth/auth.dart';
 import 'package:pi_hole_client/models/domain.dart';
 import 'package:pi_hole_client/models/gateways.dart';
 import 'package:pi_hole_client/models/server.dart';
@@ -193,8 +192,16 @@ void main() {
 
   group('realtimeStatus', () {
     late Server server;
-    final url =
-        'http://example.com/admin/api.php?auth=xxx123&summaryRaw&topItems&getForwardDestinations&getQuerySources&topClientsBlocked&getQueryTypes';
+    final urls = [
+      'http://example.com/api/stats/summary',
+      'http://example.com/api/info/ftl',
+      'http://example.com/api/dns/blocking',
+      'http://example.com/api/stats/top_domains',
+      'http://example.com/api/stats/top_domains?blocked=true',
+      'http://example.com/api/stats/top_clients',
+      'http://example.com/api/stats/top_clients?blocked=true',
+      'http://example.com/api/stats/upstreams',
+    ];
 
     setUp(() {
       server = Server(
@@ -202,87 +209,201 @@ void main() {
           alias: 'example',
           defaultServer: true,
           apiVersion: SupportedApiVersions.v6,
-          token: 'xxx123');
+          password: 'xxx123');
     });
 
     test('Return success', () async {
       final mockClient = MockClient();
       final apiGateway = ApiGatewayV6(server, client: mockClient);
-      final data = {
-        "domains_being_blocked": 121860,
-        "dns_queries_today": 16,
-        "ads_blocked_today": 1,
-        "ads_percentage_today": 6.25,
-        "unique_domains": 11,
-        "queries_forwarded": 9,
-        "queries_cached": 6,
-        "clients_ever_seen": 2,
-        "unique_clients": 2,
-        "dns_queries_all_types": 16,
-        "reply_UNKNOWN": 0,
-        "reply_NODATA": 0,
-        "reply_NXDOMAIN": 3,
-        "reply_CNAME": 0,
-        "reply_IP": 10,
-        "reply_DOMAIN": 3,
-        "reply_RRNAME": 0,
-        "reply_SERVFAIL": 0,
-        "reply_REFUSED": 0,
-        "reply_NOTIMP": 0,
-        "reply_OTHER": 0,
-        "reply_DNSSEC": 0,
-        "reply_NONE": 0,
-        "reply_BLOB": 0,
-        "dns_queries_all_replies": 16,
-        "privacy_level": 0,
-        "status": "enabled",
-        "gravity_last_updated": {
-          "file_exists": true,
-          "absolute": 1732972589,
-          "relative": {"days": 5, "hours": 18, "minutes": 14}
+      final data = [
+        {
+          "queries": {
+            "total": 7497,
+            "blocked": 3465,
+            "percent_blocked": 34.5,
+            "unique_domains": 445,
+            "forwarded": 4574,
+            "cached": 9765,
+            "types": {
+              "A": 3643,
+              "AAAA": 123,
+              "ANY": 3423,
+              "SRV": 345,
+              "SOA": 7567,
+              "PTR": 456,
+              "TXT": 85,
+              "NAPTR": 346,
+              "MX": 457,
+              "DS": 456,
+              "RRSIG": 345,
+              "DNSKEY": 55,
+              "NS": 868,
+              "SVCB": 645,
+              "HTTPS": 4,
+              "OTHER": 845
+            },
+            "status": {
+              "UNKNOWN": 3,
+              "GRAVITY": 72,
+              "FORWARDED": 533,
+              "CACHE": 32,
+              "REGEX": 84,
+              "DENYLIST": 31,
+              "EXTERNAL_BLOCKED_IP": 0,
+              "EXTERNAL_BLOCKED_NULL": 0,
+              "EXTERNAL_BLOCKED_NXRA": 0,
+              "GRAVITY_CNAME": 0,
+              "REGEX_CNAME": 0,
+              "DENYLIST_CNAME": 0,
+              "RETRIED": 0,
+              "RETRIED_DNSSEC": 0,
+              "IN_PROGRESS": 0,
+              "DBBUSY": 0,
+              "SPECIAL_DOMAIN": 0,
+              "CACHE_STALE": 0
+            },
+            "replies": {
+              "UNKNOWN": 3,
+              "NODATA": 72,
+              "NXDOMAIN": 533,
+              "CNAME": 32,
+              "IP": 84,
+              "DOMAIN": 31,
+              "RRNAME": 0,
+              "SERVFAIL": 0,
+              "REFUSED": 0,
+              "NOTIMP": 0,
+              "OTHER": 0,
+              "DNSSEC": 31,
+              "NONE": 0,
+              "BLOB": 0
+            }
+          },
+          "clients": {"active": 10, "total": 22},
+          "gravity": {
+            "domains_being_blocked": 104756,
+            "last_update": 1725194639
+          },
+          "took": 0.003
         },
-        "top_queries": {
-          "1.0.26.172.in-addr.arpa": 3,
-          "8.8.8.8.in-addr.arpa": 3,
-          "github.com": 2,
-          "gitlab.com": 1,
-          "sample.com": 1,
-          "test.com": 1,
-          "google.com": 1,
-          "google.co.jp": 1,
-          "yahoo.co.jp": 1,
-          "fix.test.com": 1
+        {
+          "ftl": {
+            "database": {
+              "gravity": 67906,
+              "groups": 6,
+              "lists": 1,
+              "clients": 5,
+              "domains": {"allowed": 10, "denied": 3}
+            },
+            "privacy_level": 0,
+            "clients": {"total": 10, "active": 8},
+            "pid": 1234,
+            "uptime": 123456789,
+            "%mem": 0.1,
+            "%cpu": 1.2,
+            "allow_destructive": true,
+            "dnsmasq": {
+              "dns_cache_inserted": 8,
+              "dns_cache_live_freed": 0,
+              "dns_queries_forwarded": 2,
+              "dns_auth_answered": 0,
+              "dns_local_answered": 74,
+              "dns_stale_answered": 0,
+              "dns_unanswered": 0,
+              "bootp": 0,
+              "pxe": 0,
+              "dhcp_ack": 0,
+              "dhcp_decline": 0,
+              "dhcp_discover": 0,
+              "dhcp_inform": 0,
+              "dhcp_nak": 0,
+              "dhcp_offer": 0,
+              "dhcp_release": 0,
+              "dhcp_request": 0,
+              "noanswer": 0,
+              "leases_allocated_4": 0,
+              "leases_pruned_4": 0,
+              "leases_allocated_6": 0,
+              "leases_pruned_6": 0,
+              "tcp_connections": 0,
+              "dnssec_max_crypto_use": 0,
+              "dnssec_max_sig_fail": 0,
+              "dnssec_max_work": 0
+            }
+          },
+          "took": 0.003
         },
-        "top_ads": {"test.com": 1},
-        "top_sources": {"172.26.0.1": 10, "localhost|127.0.0.1": 6},
-        "top_sources_blocked": {"172.26.0.1": 1},
-        "forward_destinations": {
-          "blocked|blocked": 6.25,
-          "cached|cached": 37.5,
-          "other|other": 0,
-          "dns.google#53|8.8.8.8#53": 56.25
+        {"blocking": "enabled", "timer": 15, "took": 0.003},
+        {
+          "domains": [
+            {"domain": "pi-hole.net", "count": 8516}
+          ],
+          "total_queries": 29160,
+          "blocked_queries": 6379,
+          "took": 0.003
         },
-        "querytypes": {
-          "A (IPv4)": 62.5,
-          "AAAA (IPv6)": 0,
-          "ANY": 0,
-          "SRV": 0,
-          "SOA": 0,
-          "PTR": 37.5,
-          "TXT": 0,
-          "NAPTR": 0,
-          "MX": 0,
-          "DS": 0,
-          "RRSIG": 0,
-          "DNSKEY": 0,
-          "NS": 0,
-          "OTHER": 0,
-          "SVCB": 0,
-          "HTTPS": 0
+        {
+          "domains": [
+            {"domain": "pi-hole.net", "count": 8516}
+          ],
+          "total_queries": 29160,
+          "blocked_queries": 6379,
+          "took": 0.003
+        },
+        {
+          "clients": [
+            {"ip": "192.168.0.44", "name": "raspberrypi.lan", "count": 5896}
+          ],
+          "total_queries": 29160,
+          "blocked_queries": 6379,
+          "took": 0.003
+        },
+        {
+          "clients": [
+            {"ip": "192.168.0.44", "name": "raspberrypi.lan", "count": 5896}
+          ],
+          "total_queries": 29160,
+          "blocked_queries": 6379,
+          "took": 0.003
+        },
+        {
+          "upstreams": [
+            {
+              "ip": "blocklist",
+              "name": "blocklist",
+              "port": -1,
+              "count": 0,
+              "statistics": {"response": 0, "variance": 0}
+            },
+            {
+              "ip": "cache",
+              "name": "cache",
+              "port": -1,
+              "count": 2,
+              "statistics": {"response": 0, "variance": 0}
+            },
+            {
+              "ip": "8.8.8.8",
+              "name": "dns.google",
+              "port": 53,
+              "count": 8,
+              "statistics": {
+                "response": 0.0516872935824924,
+                "variance": 0.0049697216173868828
+              }
+            },
+          ],
+          "total_queries": 8,
+          "forwarded_queries": 6,
+          "took": 5.6982040405273438e-05
         }
-      };
-      when(mockClient.get(Uri.parse(url), headers: {}))
-          .thenAnswer((_) async => http.Response(jsonEncode(data), 200));
+      ];
+      for (int i = 0; i < urls.length; i++) {
+        when(mockClient.get(
+          Uri.parse(urls[i]),
+          headers: anyNamed('headers'),
+        )).thenAnswer((_) async => http.Response(jsonEncode(data[i]), 200));
+      }
 
       final response = await apiGateway.realtimeStatus();
 
@@ -294,8 +415,10 @@ void main() {
       final mockClient = MockClient();
       final apiGateway = ApiGatewayV6(server, client: mockClient);
 
-      when(mockClient.get(Uri.parse(url), headers: {}))
-          .thenThrow(Exception('Unexpected error test'));
+      for (final url in urls) {
+        when(mockClient.get(Uri.parse(url), headers: {}))
+            .thenThrow(Exception('Unexpected error test'));
+      }
 
       final response = await apiGateway.realtimeStatus();
 

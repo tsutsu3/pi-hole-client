@@ -148,7 +148,8 @@ class DatabaseRepository {
                   .getValue('${server.address}_basicAuthUser');
               final basicAuthPassword = await _secureStorage
                   .getValue('${server.address}_basicAuthPassword');
-              final password = await _secureStorage.getValue('password');
+              final password =
+                  await _secureStorage.getValue('${server.address}_password');
 
               servers![i] = ServerDbData.withSecrets(
                 server,
