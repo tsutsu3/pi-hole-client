@@ -17,19 +17,19 @@ enum APiResponseType {
 
 /// A response object for the login query.
 ///
-/// When Successful [result], [status] and [phpSessId] are returned.
+/// When Successful [result], [status] and [sid] are returned.
 /// When error, [result] and [log] are returned.
 class LoginQueryResponse {
   final APiResponseType result;
   final AppLog? log;
   final String? status;
-  final String? phpSessId;
+  final String? sid;
 
   LoginQueryResponse({
     required this.result,
     this.log,
     this.status,
-    this.phpSessId,
+    this.sid,
   });
 }
 

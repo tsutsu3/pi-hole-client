@@ -100,14 +100,13 @@ void main() {
           Uri.parse('http://example.com/admin/api.php?auth=xxx123&enable=0'),
           headers: {})).thenAnswer((_) async => http.Response(
               jsonEncode({"status": "enabled"}), 200, headers: {
-            'set-cookie':
-                'PHPSESSID=$sessinId; path=/; HttpOnly; SameSite=Strict'
+            'set-cookie': 'sid=$sessinId; path=/; HttpOnly; SameSite=Strict'
           }));
 
       final response = await apiGateway.loginQuery();
 
       expect(response.result, APiResponseType.success);
-      expect(response.phpSessId, sessinId);
+      expect(response.sid, sessinId);
       expect(response.status, 'enabled');
       expect(response.log, isNull);
     });
@@ -122,7 +121,7 @@ void main() {
       final response = await apiGateway.loginQuery();
 
       expect(response.result, APiResponseType.authError);
-      expect(response.phpSessId, isNull);
+      expect(response.sid, isNull);
       expect(response.status, isNull);
       expect(response.log, isNotNull);
       expect(response.log?.type, 'login');
@@ -191,7 +190,7 @@ void main() {
       final response = await apiGateway.loginQuery();
 
       expect(response.result, APiResponseType.noConnection);
-      expect(response.phpSessId, isNull);
+      expect(response.sid, isNull);
       expect(response.status, isNull);
       expect(response.log, isNotNull);
       expect(response.log?.type, 'login');
@@ -210,7 +209,7 @@ void main() {
       final response = await apiGateway.loginQuery();
 
       expect(response.result, APiResponseType.error);
-      expect(response.phpSessId, isNull);
+      expect(response.sid, isNull);
       expect(response.status, isNull);
       expect(response.log?.type, 'login');
       expect(response.log?.message, 'Exception: Unexpected error test');
