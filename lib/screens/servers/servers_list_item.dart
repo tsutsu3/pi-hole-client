@@ -2,7 +2,6 @@
 
 import 'package:flutter/material.dart';
 import 'package:expandable/expandable.dart';
-import 'package:pi_hole_client/gateways/api_gateway_factory.dart';
 import 'package:pi_hole_client/models/gateways.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
@@ -144,9 +143,9 @@ class _ServersListItemState extends State<ServersListItem>
       final ProcessModal process = ProcessModal(context: context);
       process.open(AppLocalizations.of(context)!.connecting);
 
-      final result = await ApiGatewayFactory.create(server).loginQuery();
+      final result = await serversProvider.loadApiGateway(server)?.loginQuery();
       process.close();
-      if (result.result == APiResponseType.success) {
+      if (result?.result == APiResponseType.success) {
         await connectSuccess(result);
       } else {
         showSnackBar(

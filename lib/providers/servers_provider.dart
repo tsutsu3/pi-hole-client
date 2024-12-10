@@ -38,6 +38,10 @@ class ServersProvider with ChangeNotifier {
       ? _serverGateways[_selectedServer?.address]
       : null;
 
+  ApiGateway? loadApiGateway(Server server) {
+    return _serverGateways[server.address];
+  }
+
   Future<bool> addServer(Server server) async {
     final saved = await _repository.saveServerQuery(server);
     if (saved == true) {
