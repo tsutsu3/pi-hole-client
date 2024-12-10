@@ -4,11 +4,13 @@ import 'dart:io';
 import 'package:http/http.dart';
 import 'package:http/http.dart' as http;
 // import 'package:pi_hole_client/functions/convert.dart';
+// todo: use show not as
 import 'package:pi_hole_client/models/api/v6/auth/auth.dart' as v6;
 import 'package:pi_hole_client/models/api/v6/dns/dns.dart' as v6;
 import 'package:pi_hole_client/models/api/v6/flt/ftl.dart' as v6;
 import 'package:pi_hole_client/models/api/v6/metrics/stats.dart' as v6;
 import 'package:pi_hole_client/models/api/v6/metrics/history.dart' as v6;
+import 'package:pi_hole_client/models/api/v6/domains/domains.dart' as v6d;
 import 'package:pi_hole_client/models/app_log.dart';
 import 'package:pi_hole_client/models/domain.dart';
 // import 'package:pi_hole_client/functions/encode_basic_auth.dart';
@@ -433,7 +435,39 @@ class ApiGatewayV6 implements ApiGateway {
   @override
   Future<SetWhiteBlacklistResponse> setWhiteBlacklist(
       String domain, String list) async {
-    throw UnimplementedError();
+    try {
+      final types = {
+        'white': ['allow', 'exact'],
+        'black': ['deny', 'exact'],
+        'regex_white': ['allow', 'regex'],
+        'regex_black': ['deny', 'regex']
+      };
+      final response = await httpClient(
+          method: 'post',
+          url:
+              '${server.address}/api/domains/${types[list]?[0]}/${types[list]?[1]}',
+          body: {
+            "domain": domain,
+            "comment": null,
+            "groups": [0], // Array of group IDs
+            "enabled": true
+          });
+      if (response.statusCode == 201) {
+        final json = v6d.AddDomains.fromJson(jsonDecode(response.body));
+        return SetWhiteBlacklistResponse(
+            result: APiResponseType.success, data: DomainResult.fromV6(json));
+      } else {
+        return SetWhiteBlacklistResponse(result: APiResponseType.error);
+      }
+    } on SocketException {
+      return SetWhiteBlacklistResponse(result: APiResponseType.socket);
+    } on TimeoutException {
+      return SetWhiteBlacklistResponse(result: APiResponseType.timeout);
+    } on HandshakeException {
+      return SetWhiteBlacklistResponse(result: APiResponseType.sslError);
+    } catch (e) {
+      return SetWhiteBlacklistResponse(result: APiResponseType.error);
+    }
   }
 
   /// Fetches domain lists (whitelist, blacklist, and regex-based lists) from a Pi-hole server.
@@ -442,7 +476,32 @@ class ApiGatewayV6 implements ApiGateway {
   /// from the specified Pi-hole server. Each list is processed and returned in a structured format.
   @override
   Future<GetDomainLists> getDomainLists() async {
-    throw UnimplementedError();
+    try {
+      final results = await httpClient(
+        method: 'get',
+        url: '${server.address}/api/domains',
+      );
+
+      if (results.statusCode == 200) {
+        final domains = v6d.Domains.fromJson(jsonDecode(results.body));
+
+        return GetDomainLists(
+            result: APiResponseType.success,
+            data: DomainListResult.fromV6(domains));
+      } else {
+        return GetDomainLists(result: APiResponseType.error);
+      }
+    } on SocketException {
+      return GetDomainLists(result: APiResponseType.socket);
+    } on TimeoutException {
+      return GetDomainLists(result: APiResponseType.timeout);
+    } on HandshakeException {
+      return GetDomainLists(result: APiResponseType.sslError);
+    } on FormatException {
+      return GetDomainLists(result: APiResponseType.authError);
+    } catch (e) {
+      return GetDomainLists(result: APiResponseType.error);
+    }
   }
 
   /// Removes a domain from a specific list on a Pi-hole server.
@@ -454,7 +513,48 @@ class ApiGatewayV6 implements ApiGateway {
   @override
   Future<RemoveDomainFromListResponse> removeDomainFromList(
       Domain domain) async {
-    throw UnimplementedError();
+    List<String> getType(int type) {
+      switch (type) {
+        case 0:
+          return ['allow', 'exact'];
+
+        case 1:
+          return ['deny', 'exact'];
+
+        case 2:
+          return ['allow', 'regex'];
+
+        case 3:
+          return ['deny', 'regex'];
+
+        default:
+          return ['', ''];
+      }
+    }
+
+    try {
+      final response = await httpClient(
+        method: 'delete',
+        url:
+            '${server.address}/api/domains/${getType(domain.type)[0]}/${getType(domain.type)[1]}/${domain.domain}',
+      );
+      if (response.statusCode == 204) {
+        return RemoveDomainFromListResponse(result: APiResponseType.success);
+      } else if (response.statusCode == 404) {
+        return RemoveDomainFromListResponse(
+            result: APiResponseType.error, message: 'not_exists');
+      } else {
+        return RemoveDomainFromListResponse(result: APiResponseType.error);
+      }
+    } on SocketException {
+      return RemoveDomainFromListResponse(result: APiResponseType.noConnection);
+    } on TimeoutException {
+      return RemoveDomainFromListResponse(result: APiResponseType.noConnection);
+    } on HandshakeException {
+      return RemoveDomainFromListResponse(result: APiResponseType.sslError);
+    } catch (e) {
+      return RemoveDomainFromListResponse(result: APiResponseType.error);
+    }
   }
 
   /// Adds a domain to a specified list on a Pi-hole server.
@@ -466,6 +566,51 @@ class ApiGatewayV6 implements ApiGateway {
   @override
   Future<AddDomainToListResponse> addDomainToList(
       Map<String, dynamic> domainData) async {
-    throw UnimplementedError();
+    try {
+      final types = {
+        'white': ['allow', 'exact'],
+        'black': ['deny', 'exact'],
+        'regex_white': ['allow', 'regex'],
+        'regex_black': ['deny', 'regex']
+      };
+      final response = await httpClient(
+          method: 'post',
+          url:
+              '${server.address}/api/domains/${types[domainData['list']]?[0]}/${types[domainData['list']]?[1]}',
+          body: {
+            "domain": domainData['domain'],
+            "comment": null,
+            "groups": [0], // Array of group IDs
+            "enabled": true
+          });
+      if (response.statusCode == 201) {
+        final domains = v6d.AddDomains.fromJson(jsonDecode(response.body));
+
+        if (domains.domains.length != 1) {
+          return AddDomainToListResponse(result: APiResponseType.error);
+        }
+
+        if (domains.processed.success.isNotEmpty) {
+          return AddDomainToListResponse(result: APiResponseType.success);
+        }
+
+        if (domains.processed.errors.isNotEmpty &&
+            domains.processed.errors[0].error
+                .contains('UNIQUE constraint failed:')) {
+          return AddDomainToListResponse(result: APiResponseType.alreadyAdded);
+        }
+        return AddDomainToListResponse(result: APiResponseType.error);
+      } else {
+        return AddDomainToListResponse(result: APiResponseType.error);
+      }
+    } on SocketException {
+      return AddDomainToListResponse(result: APiResponseType.socket);
+    } on TimeoutException {
+      return AddDomainToListResponse(result: APiResponseType.timeout);
+    } on HandshakeException {
+      return AddDomainToListResponse(result: APiResponseType.sslError);
+    } catch (e) {
+      return AddDomainToListResponse(result: APiResponseType.error);
+    }
   }
 }
