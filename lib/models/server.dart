@@ -8,7 +8,7 @@ class Server {
   /// Pi-hole server alias
   final String alias;
 
-  /// Pi-hole server API token
+  /// Pi-hole server API token (Use only v5)
   final String? token;
 
   /// Whether this server is the default server
@@ -20,11 +20,14 @@ class Server {
   /// Pi-hole API version
   final String apiVersion;
 
-  /// Basic authentication username
+  /// Basic authentication username (Use only v5)
   final String? basicAuthUser;
 
-  /// Basic authentication password
+  /// Basic authentication password (Use only v5)
   final String? basicAuthPassword;
+
+  /// password (Use only v6)
+  final String? password;
 
   Server({
     required this.address,
@@ -35,6 +38,7 @@ class Server {
     required this.apiVersion,
     this.basicAuthUser,
     this.basicAuthPassword,
+    this.password,
   });
 
   Server copyWith({
@@ -46,6 +50,7 @@ class Server {
     String? apiVersion,
     String? basicAuthUser,
     String? basicAuthPassword,
+    String? password,
   }) {
     return Server(
       address: address ?? this.address,
@@ -56,6 +61,7 @@ class Server {
       apiVersion: apiVersion ?? this.apiVersion,
       basicAuthUser: basicAuthUser ?? this.basicAuthUser,
       basicAuthPassword: basicAuthPassword ?? this.basicAuthPassword,
+      password: password ?? this.password,
     );
   }
 }

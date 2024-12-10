@@ -152,13 +152,13 @@ class ApiGatewayV5 implements ApiGateway {
             } else {
               final enableOrDisableParsed = jsonDecode(enableOrDisable.body);
               if (enableOrDisableParsed.runtimeType != List) {
-                final phpSessId = enableOrDisable.headers['set-cookie']!
+                final sid = enableOrDisable.headers['set-cookie']!
                     .split(';')[0]
                     .split('=')[1];
                 return LoginQueryResponse(
                     result: APiResponseType.success,
                     status: statusParsed['status'],
-                    phpSessId: phpSessId);
+                    sid: sid);
               } else {
                 return LoginQueryResponse(
                     result: APiResponseType.authError,

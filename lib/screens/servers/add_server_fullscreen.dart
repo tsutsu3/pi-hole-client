@@ -5,7 +5,6 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:pi_hole_client/constants/api_versions.dart';
 import 'package:pi_hole_client/constants/urls.dart';
-import 'package:pi_hole_client/gateways/api_gateway_factory.dart';
 import 'package:pi_hole_client/models/gateways.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
@@ -40,6 +39,7 @@ class _AddServerFullscreenState extends State<AddServerFullscreen> {
   String? subrouteFieldError;
   TextEditingController aliasFieldController = TextEditingController();
   TextEditingController tokenFieldController = TextEditingController();
+  TextEditingController passwordFieldController = TextEditingController();
   ConnectionType connectionType = ConnectionType.http;
   String piHoleVersion = SupportedApiVersions.v5;
   TextEditingController basicAuthUser = TextEditingController();
@@ -62,6 +62,7 @@ class _AddServerFullscreenState extends State<AddServerFullscreen> {
         portFieldError == null &&
         aliasFieldController.text != '' &&
         tokenFieldController.text != '' &&
+        passwordFieldController.text != '' &&
         ((basicAuthUser.text != '' && basicAuthPassword.text != '') ||
             (basicAuthUser.text == '' && basicAuthPassword.text == ''))) {
       setState(() {
@@ -147,6 +148,7 @@ class _AddServerFullscreenState extends State<AddServerFullscreen> {
       tokenFieldController.text = widget.server!.token ?? '';
       basicAuthUser.text = widget.server!.basicAuthUser ?? '';
       basicAuthPassword.text = widget.server!.basicAuthPassword ?? '';
+      passwordFieldController.text = widget.server!.password ?? '';
       setState(() {
         connectionType = widget.server!.address.split(':')[0] == 'https'
             ? ConnectionType.https
@@ -191,67 +193,72 @@ class _AddServerFullscreenState extends State<AddServerFullscreen> {
           errorUrl = null;
         });
         final serverObj = Server(
-            address: url,
-            alias: aliasFieldController.text,
-            token: tokenFieldController.text,
-            defaultServer: false,
-            apiVersion: piHoleVersion,
-            basicAuthUser: basicAuthUser.text,
-            basicAuthPassword: basicAuthPassword.text);
-        final result = await ApiGatewayFactory.create(serverObj).loginQuery();
+          address: url,
+          alias: aliasFieldController.text,
+          token: tokenFieldController.text,
+          defaultServer: false,
+          apiVersion: piHoleVersion,
+          basicAuthUser: basicAuthUser.text,
+          basicAuthPassword: basicAuthPassword.text,
+          password: passwordFieldController.text,
+        );
+        final result =
+            await serversProvider.loadApiGateway(serverObj)?.loginQuery();
         if (!mounted) return;
-        if (result.result == APiResponseType.success) {
+        if (result?.result == APiResponseType.success) {
           Navigator.pop(context);
           serversProvider.addServer(Server(
-              address: serverObj.address,
-              alias: serverObj.alias,
-              token: serverObj.token,
-              defaultServer: defaultCheckbox,
-              apiVersion: piHoleVersion,
-              enabled: result.status == 'enabled' ? true : false,
-              basicAuthUser: basicAuthUser.text,
-              basicAuthPassword: basicAuthPassword.text));
+            address: serverObj.address,
+            alias: serverObj.alias,
+            token: serverObj.token,
+            defaultServer: defaultCheckbox,
+            apiVersion: piHoleVersion,
+            enabled: result!.status == 'enabled' ? true : false,
+            basicAuthUser: basicAuthUser.text,
+            basicAuthPassword: basicAuthPassword.text,
+            password: passwordFieldController.text,
+          ));
         } else {
           if (mounted) {
             setState(() {
               isConnecting = false;
             });
-            if (result.result == APiResponseType.socket) {
+            if (result?.result == APiResponseType.socket) {
               showSnackBar(
                   appConfigProvider: appConfigProvider,
                   label: AppLocalizations.of(context)!.checkAddress,
                   color: Colors.red);
-              appConfigProvider.addLog(result.log!);
-            } else if (result.result == APiResponseType.timeout) {
+              appConfigProvider.addLog(result!.log!);
+            } else if (result?.result == APiResponseType.timeout) {
               showSnackBar(
                   appConfigProvider: appConfigProvider,
                   label: AppLocalizations.of(context)!.connectionTimeout,
                   color: Colors.red);
-              appConfigProvider.addLog(result.log!);
-            } else if (result.result == APiResponseType.noConnection) {
+              appConfigProvider.addLog(result!.log!);
+            } else if (result?.result == APiResponseType.noConnection) {
               showSnackBar(
                   appConfigProvider: appConfigProvider,
                   label: AppLocalizations.of(context)!.cantReachServer,
                   color: Colors.red);
-              appConfigProvider.addLog(result.log!);
-            } else if (result.result == APiResponseType.authError) {
+              appConfigProvider.addLog(result!.log!);
+            } else if (result?.result == APiResponseType.authError) {
               showSnackBar(
                   appConfigProvider: appConfigProvider,
                   label: AppLocalizations.of(context)!.tokenNotValid,
                   color: Colors.red);
-              appConfigProvider.addLog(result.log!);
-            } else if (result.result == APiResponseType.sslError) {
+              appConfigProvider.addLog(result!.log!);
+            } else if (result?.result == APiResponseType.sslError) {
               showSnackBar(
                   appConfigProvider: appConfigProvider,
                   label: AppLocalizations.of(context)!.sslErrorLong,
                   color: Colors.red);
-              appConfigProvider.addLog(result.log!);
+              appConfigProvider.addLog(result!.log!);
             } else {
               showSnackBar(
                   appConfigProvider: appConfigProvider,
                   label: AppLocalizations.of(context)!.unknownError,
                   color: Colors.red);
-              appConfigProvider.addLog(result.log!);
+              appConfigProvider.addLog(result!.log!);
             }
           } else {
             isConnecting = false;
@@ -268,23 +275,28 @@ class _AddServerFullscreenState extends State<AddServerFullscreen> {
       });
 
       final serverObj = Server(
+        address: widget.server!.address,
+        alias: aliasFieldController.text,
+        token: tokenFieldController.text,
+        defaultServer: false,
+        apiVersion: piHoleVersion,
+        basicAuthUser: basicAuthUser.text,
+        basicAuthPassword: basicAuthPassword.text,
+        password: passwordFieldController.text,
+      );
+      final result =
+          await serversProvider.loadApiGateway(serverObj)?.loginQuery();
+      if (result?.result == APiResponseType.success) {
+        Server server = Server(
           address: widget.server!.address,
           alias: aliasFieldController.text,
           token: tokenFieldController.text,
-          defaultServer: false,
+          defaultServer: defaultCheckbox,
           apiVersion: piHoleVersion,
           basicAuthUser: basicAuthUser.text,
-          basicAuthPassword: basicAuthPassword.text);
-      final result = await ApiGatewayFactory.create(serverObj).loginQuery();
-      if (result.result == APiResponseType.success) {
-        Server server = Server(
-            address: widget.server!.address,
-            alias: aliasFieldController.text,
-            token: tokenFieldController.text,
-            defaultServer: defaultCheckbox,
-            apiVersion: piHoleVersion,
-            basicAuthUser: basicAuthUser.text,
-            basicAuthPassword: basicAuthPassword.text);
+          basicAuthPassword: basicAuthPassword.text,
+          password: passwordFieldController.text,
+        );
         final result = await serversProvider.editServer(server);
         if (mounted) {
           if (result == true) {
@@ -304,27 +316,27 @@ class _AddServerFullscreenState extends State<AddServerFullscreen> {
           setState(() {
             isConnecting = false;
           });
-          if (result.result == APiResponseType.socket) {
+          if (result?.result == APiResponseType.socket) {
             showSnackBar(
                 appConfigProvider: appConfigProvider,
                 label: AppLocalizations.of(context)!.checkAddress,
                 color: Colors.red);
-          } else if (result.result == APiResponseType.timeout) {
+          } else if (result?.result == APiResponseType.timeout) {
             showSnackBar(
                 appConfigProvider: appConfigProvider,
                 label: AppLocalizations.of(context)!.connectionTimeout,
                 color: Colors.red);
-          } else if (result.result == APiResponseType.noConnection) {
+          } else if (result?.result == APiResponseType.noConnection) {
             showSnackBar(
                 appConfigProvider: appConfigProvider,
                 label: AppLocalizations.of(context)!.cantReachServer,
                 color: Colors.red);
-          } else if (result.result == APiResponseType.authError) {
+          } else if (result?.result == APiResponseType.authError) {
             showSnackBar(
                 appConfigProvider: appConfigProvider,
                 label: AppLocalizations.of(context)!.tokenNotValid,
                 color: Colors.red);
-          } else if (result.result == APiResponseType.sslError) {
+          } else if (result?.result == APiResponseType.sslError) {
             showSnackBar(
                 appConfigProvider: appConfigProvider,
                 label: AppLocalizations.of(context)!.sslErrorLong,
@@ -484,7 +496,7 @@ class _AddServerFullscreenState extends State<AddServerFullscreen> {
                   child: TextField(
                     obscureText: true,
                     keyboardType: TextInputType.visiblePassword,
-                    controller: tokenFieldController,
+                    controller: passwordFieldController,
                     onChanged: (value) => checkDataValid(),
                     decoration: InputDecoration(
                       prefixIcon: const Icon(Icons.key_rounded),
