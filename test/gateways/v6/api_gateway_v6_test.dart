@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:http/http.dart' as http;
 import 'package:mockito/mockito.dart';
@@ -8,10 +9,56 @@ import 'package:pi_hole_client/gateways/v6/api_gateway_v6.dart';
 import 'package:pi_hole_client/models/domain.dart';
 import 'package:pi_hole_client/models/gateways.dart';
 import 'package:pi_hole_client/models/server.dart';
+import 'package:pi_hole_client/services/session_manager.dart';
 import './api_gateway_v6_test.mocks.dart';
 
+class SessionManagerMock implements SessionManager {
+  String? _sid;
+  String? _password;
+
+  SessionManagerMock(this._sid, this._password);
+
+  @override
+  get sid => _sid;
+
+  @override
+  get password async {
+    try {
+      return _password;
+    } catch (e) {
+      return null;
+    }
+  }
+
+  @override
+  Future<bool> save(String sid) async {
+    _sid = sid;
+    return true;
+  }
+
+  @override
+  Future<bool> load() async {
+    return true;
+  }
+
+  @override
+  Future<bool> delete() async {
+    _sid = null;
+    return true;
+  }
+
+  @override
+  Future<bool> savePassword(String password) async {
+    _password = password;
+    return true;
+  }
+}
+
 @GenerateMocks([http.Client])
-void main() {
+void main() async {
+  TestWidgetsFlutterBinding.ensureInitialized();
+  await dotenv.load(fileName: '.env');
+
   group('loginQuery', () {
     late Server server;
     final sessinId = 'n9n9f6c3umrumfq2ese1lvu2pg';
@@ -26,8 +73,8 @@ void main() {
         alias: 'example',
         defaultServer: true,
         apiVersion: SupportedApiVersions.v6,
+        sm: SessionManagerMock(sessinId, 'xxx123'),
       );
-      server.sm.savePassword('xxx123');
     });
     test('Return success with valid password', () async {
       final mockClient = MockClient();
@@ -51,12 +98,55 @@ void main() {
           }),
           200));
 
+      int callCount = 0;
+
       when(mockClient.get(
         Uri.parse(urls[1]),
         headers: anyNamed('headers'),
-      )).thenAnswer((_) async => http.Response(
+      )).thenAnswer((_) async {
+        callCount++;
+        if (callCount == 1) {
+          return http.Response(
+            jsonEncode({
+              "error": {
+                "key": "unauthorized",
+                "message": "Unauthorized",
+                "hint": null
+              },
+              "took": 4.1484832763671875e-05
+            }),
+            401,
+          );
+        } else {
+          // 2回目以降の呼び出し: 正常なレスポンスを返す
+          return http.Response(
+            jsonEncode({"blocking": "enabled", "timer": null, "took": 0.003}),
+            200,
+          );
+        }
+      });
+
+      final response = await apiGateway.loginQuery();
+
+      expect(response.result, APiResponseType.success);
+      expect(response.sid, sessinId);
+      expect(response.status, 'enabled');
+      expect(response.log, isNull);
+    });
+
+    test('Return success with exist sid', () async {
+      final mockClient = MockClient();
+      final apiGateway = ApiGatewayV6(server, client: mockClient);
+
+      when(mockClient.get(
+        Uri.parse(urls[1]),
+        headers: anyNamed('headers'),
+      )).thenAnswer((_) async {
+        return http.Response(
           jsonEncode({"blocking": "enabled", "timer": null, "took": 0.003}),
-          200));
+          200,
+        );
+      });
 
       final response = await apiGateway.loginQuery();
 
@@ -69,6 +159,23 @@ void main() {
     test('Return error with invalid password', () async {
       final mockClient = MockClient();
       final apiGateway = ApiGatewayV6(server, client: mockClient);
+
+      when(mockClient.get(
+        Uri.parse(urls[1]),
+        headers: anyNamed('headers'),
+      )).thenAnswer((_) async {
+        return http.Response(
+          jsonEncode({
+            "error": {
+              "key": "unauthorized",
+              "message": "Unauthorized",
+              "hint": null
+            },
+            "took": 4.1484832763671875e-05
+          }),
+          401,
+        );
+      });
 
       when(mockClient.post(
         Uri.parse(urls[0]),
@@ -153,6 +260,23 @@ void main() {
       '''
           .trimLeft();
 
+      when(mockClient.get(
+        Uri.parse(urls[1]),
+        headers: anyNamed('headers'),
+      )).thenAnswer((_) async {
+        return http.Response(
+          jsonEncode({
+            "error": {
+              "key": "unauthorized",
+              "message": "Unauthorized",
+              "hint": null
+            },
+            "took": 4.1484832763671875e-05
+          }),
+          401,
+        );
+      });
+
       when(mockClient.post(
         Uri.parse(urls[0]),
         headers: anyNamed('headers'),
@@ -174,6 +298,23 @@ void main() {
     test('Return error when unexpected exception occurs', () async {
       final mockClient = MockClient();
       final apiGateway = ApiGatewayV6(server, client: mockClient);
+
+      when(mockClient.get(
+        Uri.parse(urls[1]),
+        headers: anyNamed('headers'),
+      )).thenAnswer((_) async {
+        return http.Response(
+          jsonEncode({
+            "error": {
+              "key": "unauthorized",
+              "message": "Unauthorized",
+              "hint": null
+            },
+            "took": 4.1484832763671875e-05
+          }),
+          401,
+        );
+      });
 
       when(mockClient.post(
         Uri.parse(urls[0]),
