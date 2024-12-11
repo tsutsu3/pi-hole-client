@@ -138,7 +138,7 @@ class _AddServerFullscreenState extends State<AddServerFullscreen> {
   }
 
   @override
-  void initState() {
+  void initState() async {
     super.initState();
     if (widget.server != null) {
       final List<String> splitted = widget.server!.address.split(':');
@@ -148,7 +148,7 @@ class _AddServerFullscreenState extends State<AddServerFullscreen> {
       tokenFieldController.text = widget.server!.token ?? '';
       basicAuthUser.text = widget.server!.basicAuthUser ?? '';
       basicAuthPassword.text = widget.server!.basicAuthPassword ?? '';
-      passwordFieldController.text = widget.server!.password ?? '';
+      passwordFieldController.text = await widget.server!.sm.password ?? '';
       setState(() {
         connectionType = widget.server!.address.split(':')[0] == 'https'
             ? ConnectionType.https
@@ -200,8 +200,8 @@ class _AddServerFullscreenState extends State<AddServerFullscreen> {
           apiVersion: piHoleVersion,
           basicAuthUser: basicAuthUser.text,
           basicAuthPassword: basicAuthPassword.text,
-          password: passwordFieldController.text,
         );
+        serverObj.sm.savePassword(passwordFieldController.text);
         final result =
             await serversProvider.loadApiGateway(serverObj)?.loginQuery();
         if (!mounted) return;
@@ -216,7 +216,7 @@ class _AddServerFullscreenState extends State<AddServerFullscreen> {
             enabled: result!.status == 'enabled' ? true : false,
             basicAuthUser: basicAuthUser.text,
             basicAuthPassword: basicAuthPassword.text,
-            password: passwordFieldController.text,
+            sm: serverObj.sm,
           ));
         } else {
           if (mounted) {
@@ -282,8 +282,8 @@ class _AddServerFullscreenState extends State<AddServerFullscreen> {
         apiVersion: piHoleVersion,
         basicAuthUser: basicAuthUser.text,
         basicAuthPassword: basicAuthPassword.text,
-        password: passwordFieldController.text,
       );
+      serverObj.sm.savePassword(passwordFieldController.text);
       final result =
           await serversProvider.loadApiGateway(serverObj)?.loginQuery();
       if (result?.result == APiResponseType.success) {
@@ -295,8 +295,8 @@ class _AddServerFullscreenState extends State<AddServerFullscreen> {
           apiVersion: piHoleVersion,
           basicAuthUser: basicAuthUser.text,
           basicAuthPassword: basicAuthPassword.text,
-          password: passwordFieldController.text,
         );
+        server.sm.savePassword(passwordFieldController.text);
         final result = await serversProvider.editServer(server);
         if (mounted) {
           if (result == true) {

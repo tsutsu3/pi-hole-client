@@ -148,16 +148,11 @@ class DatabaseRepository {
                   .getValue('${server.address}_basicAuthUser');
               final basicAuthPassword = await _secureStorage
                   .getValue('${server.address}_basicAuthPassword');
-              final password =
-                  await _secureStorage.getValue('${server.address}_password');
+              final sid =
+                  await _secureStorage.getValue('${server.address}_sid');
 
               servers![i] = ServerDbData.withSecrets(
-                server,
-                token,
-                basicAuthUser,
-                basicAuthPassword,
-                password,
-              );
+                  server, token, basicAuthUser, basicAuthPassword, sid);
             }
           }
         });
@@ -193,9 +188,13 @@ class DatabaseRepository {
         await _secureStorage.saveValue(
             '${server.address}_basicAuthPassword', server.basicAuthPassword!);
       }
-      if (server.password != null) {
-        await _secureStorage.saveValue(
-            '${server.address}_password', server.password!);
+
+      final password = await server.sm.password;
+      if (password != null) {
+        await _secureStorage.saveValue('${server.address}_password', password);
+      }
+      if (server.sm.sid != null) {
+        await _secureStorage.saveValue('${server.address}_sid', server.sm.sid);
       }
 
       await _dbInstance.transaction((txn) async {
@@ -248,9 +247,12 @@ class DatabaseRepository {
         await _secureStorage.saveValue(
             '${server.address}_basicAuthPassword', server.basicAuthPassword!);
       }
-      if (server.password != null) {
-        await _secureStorage.saveValue(
-            '${server.address}_password', server.password!);
+      final password = await server.sm.password;
+      if (password != null) {
+        await _secureStorage.saveValue('${server.address}_password', password);
+      }
+      if (server.sm.sid != null) {
+        await _secureStorage.saveValue('${server.address}_sid', server.sm.sid!);
       }
 
       return await _dbInstance.transaction((txn) async {
@@ -311,15 +313,15 @@ class DatabaseRepository {
   /// Returns:
   /// - A `Future` that resolves to `null` on success, or the error if the
   ///   operation fails.
-  Future<dynamic> setServerTokenQuery(String? token, String address) async {
-    try {
-      if (token != null) {
-        await _secureStorage.saveValue('${address}_token', token);
-      }
-    } catch (e) {
-      return e;
-    }
-  }
+  // Future<dynamic> setServerTokenQuery(String? token, String address) async {
+  //   try {
+  //     if (token != null) {
+  //       await _secureStorage.saveValue('${address}_token', token);
+  //     }
+  //   } catch (e) {
+  //     return e;
+  //   }
+  // }
 
   /// Updates the basic authentication credentials for a server in the database.
   ///
@@ -329,15 +331,15 @@ class DatabaseRepository {
   /// Parameters:
   /// - [password]: The new password value for the server. If `null`, an empty
   /// - [address]: The address of the server to update.
-  Future<dynamic> setPsswordQuery(String? password, String address) async {
-    try {
-      if (password != null) {
-        await _secureStorage.saveValue('${address}_password', password);
-      }
-    } catch (e) {
-      return e;
-    }
-  }
+  // Future<dynamic> setPsswordQuery(String? password, String address) async {
+  //   try {
+  //     if (password != null) {
+  //       await _secureStorage.saveValue('${address}_password', password);
+  //     }
+  //   } catch (e) {
+  //     return e;
+  //   }
+  // }
 
   /// Removes a server from the database.
   ///
@@ -353,10 +355,13 @@ class DatabaseRepository {
   ///   `false` if it fails.
   Future<bool> removeServerQuery(String address) async {
     try {
-      await _secureStorage.deleteValue('${address}_token');
-      await _secureStorage.deleteValue('${address}_basicAuthUser');
-      await _secureStorage.deleteValue('${address}_basicAuthPassword');
-      await _secureStorage.deleteValue('${address}_password');
+      await Future.wait([
+        _secureStorage.deleteValue('${address}_token'),
+        _secureStorage.deleteValue('${address}_basicAuthUser'),
+        _secureStorage.deleteValue('${address}_basicAuthPassword'),
+        _secureStorage.deleteValue('${address}_password'),
+        _secureStorage.deleteValue('${address}_sid'),
+      ]);
 
       return await _dbInstance.transaction((txn) async {
         await txn.delete('servers', where: 'address = ?', whereArgs: [address]);

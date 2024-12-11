@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'dart:io';
 import 'package:http/http.dart';
 import 'package:http/http.dart' as http;
+import 'package:pi_hole_client/functions/logger.dart';
 // import 'package:pi_hole_client/functions/convert.dart';
 // todo: use show not as
 import 'package:pi_hole_client/models/api/v6/auth/auth.dart' as v6;
@@ -26,7 +27,6 @@ import 'package:pi_hole_client/gateways/api_gateway_interface.dart';
 class ApiGatewayV6 implements ApiGateway {
   final Server server;
   final http.Client client;
-  String? sid;
 
   /// Creates a new instance of the `ApiGatewayV5` class.
   ///
@@ -34,7 +34,9 @@ class ApiGatewayV6 implements ApiGateway {
   /// - `server` (`Server`): The server object containing the Pi-hole address, token, and optional basic authentication credentials.
   /// - `client` (`http.Client`): An optional HTTP client to use for requests. If not provided, a new client will be created. Add for testing purposes.
   ApiGatewayV6(this.server, {http.Client? client})
-      : client = client ?? http.Client();
+      : client = client ?? http.Client() {
+    server.sm.load();
+  }
 
   /// Sends an HTTP request using the specified method and parameters.
   ///
@@ -66,8 +68,8 @@ class ApiGatewayV6 implements ApiGateway {
   }) async {
     final Map<String, String> authHeaders = headers != null ? {...headers} : {};
     authHeaders['Content-Type'] = 'application/json';
-    if (sid != null && sid!.isNotEmpty) {
-      authHeaders['X-FTL-SID'] = sid!;
+    if (server.sm.sid != null && server.sm.sid!.isNotEmpty) {
+      authHeaders['X-FTL-SID'] = server.sm.sid!;
     }
 
     for (int attempt = 0; attempt <= maxRetries; attempt++) {
@@ -134,27 +136,45 @@ class ApiGatewayV6 implements ApiGateway {
   }
 
   /// Handles the login process to a Pi-hole server using its API.
-  ///
-  /// This function performs the following steps:
-  /// 1. Sends a POST request to the Pi-hole server's Auth API with the password.
-  /// 2. Sends a GET request to the Pi-hole server's DNS API to retrieve the blocking status.
-  /// 3. Returns LoginQueryResponse with the result of the login query.
   @override
   Future<LoginQueryResponse> loginQuery() async {
     try {
+      // 1. Get DNS blocking status
+      // If the session ID is already available, use it to get the status
+      // Otherwise, re-login to get the session ID
+      final enableOrDisable = await httpClient(
+          method: 'get',
+          url: '${server.address}/api/dns/blocking',
+          maxRetries: 0);
+      if (enableOrDisable.statusCode == 200) {
+        logger.i('Reusing session ID login');
+        final enableOrDisableParsed =
+            v6.Blocking.fromJson(jsonDecode(enableOrDisable.body));
+        return LoginQueryResponse(
+            result: APiResponseType.success,
+            status: enableOrDisableParsed.blocking,
+            sid: server.sm.sid);
+      }
+
+      if (server.sm.sid == null || server.sm.sid!.isEmpty) {
+        logger.i('No session ID available, logging in');
+      } else {
+        logger.i('Session ID is expired or deleted, logging in');
+      }
+
+      // 2.login
       final status = await httpClient(
         method: 'post',
         url: '${server.address}/api/auth',
-        body: {'password': server.password},
+        body: {'password': await server.sm.password},
         maxRetries: 0,
       );
 
-      // Login
       if (status.statusCode == 200) {
         final statusParsed = v6.Session.fromJson(jsonDecode(status.body));
-        sid = statusParsed.session.sid;
+        await server.sm.save(statusParsed.session.sid);
 
-        // Get DNS blocking status
+        // 3. Get DNS blocking status
         final enableOrDisable = await httpClient(
             method: 'get', url: '${server.address}/api/dns/blocking');
         if (enableOrDisable.statusCode == 200) {
@@ -163,7 +183,7 @@ class ApiGatewayV6 implements ApiGateway {
           return LoginQueryResponse(
               result: APiResponseType.success,
               status: enableOrDisableParsed.blocking,
-              sid: sid);
+              sid: statusParsed.session.sid);
         } else {
           return LoginQueryResponse(
               result: APiResponseType.authError,

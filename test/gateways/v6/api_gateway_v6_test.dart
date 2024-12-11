@@ -22,11 +22,12 @@ void main() {
 
     setUp(() {
       server = Server(
-          address: 'http://example.com',
-          alias: 'example',
-          defaultServer: true,
-          apiVersion: SupportedApiVersions.v6,
-          password: 'xxx123');
+        address: 'http://example.com',
+        alias: 'example',
+        defaultServer: true,
+        apiVersion: SupportedApiVersions.v6,
+      );
+      server.sm.savePassword('xxx123');
     });
     test('Return success with valid password', () async {
       final mockClient = MockClient();
@@ -205,11 +206,12 @@ void main() {
 
     setUp(() {
       server = Server(
-          address: 'http://example.com',
-          alias: 'example',
-          defaultServer: true,
-          apiVersion: SupportedApiVersions.v6,
-          password: 'xxx123');
+        address: 'http://example.com',
+        alias: 'example',
+        defaultServer: true,
+        apiVersion: SupportedApiVersions.v6,
+      );
+      server.sm.savePassword('xxx123');
     });
 
     test('Return success', () async {
@@ -433,11 +435,12 @@ void main() {
 
     setUp(() {
       server = Server(
-          address: 'http://example.com',
-          alias: 'example',
-          defaultServer: true,
-          apiVersion: SupportedApiVersions.v6,
-          password: 'xxx123');
+        address: 'http://example.com',
+        alias: 'example',
+        defaultServer: true,
+        apiVersion: SupportedApiVersions.v6,
+      );
+      server.sm.savePassword('xxx123');
     });
 
     test('Return success', () async {
@@ -477,11 +480,12 @@ void main() {
 
     setUp(() {
       server = Server(
-          address: 'http://example.com',
-          alias: 'example',
-          defaultServer: true,
-          apiVersion: SupportedApiVersions.v6,
-          password: 'xxx123');
+        address: 'http://example.com',
+        alias: 'example',
+        defaultServer: true,
+        apiVersion: SupportedApiVersions.v6,
+      );
+      server.sm.savePassword('xxx123');
     });
 
     test('Return success', () async {

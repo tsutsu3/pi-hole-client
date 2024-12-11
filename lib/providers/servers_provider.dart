@@ -146,7 +146,6 @@ class ServersProvider with ChangeNotifier {
           apiVersion: server.apiVersion,
           basicAuthUser: server.basicAuthUser,
           basicAuthPassword: server.basicAuthPassword,
-          password: server.password,
         );
         _serversList.add(serverObj);
         _serverGateways[serverObj.address] =

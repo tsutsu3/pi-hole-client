@@ -1,3 +1,6 @@
+import 'package:pi_hole_client/repository/secure_storage.dart';
+import 'package:pi_hole_client/services/session_manager.dart';
+
 /// Model class for Pi-hole server
 ///
 /// This class is used to store information about a Pi-hole server.
@@ -26,8 +29,8 @@ class Server {
   /// Basic authentication password (Use only v5)
   final String? basicAuthPassword;
 
-  /// password (Use only v6)
-  final String? password;
+  /// Session manager (Use only v5)
+  final SessionManager sm;
 
   Server({
     required this.address,
@@ -38,8 +41,8 @@ class Server {
     required this.apiVersion,
     this.basicAuthUser,
     this.basicAuthPassword,
-    this.password,
-  });
+    SessionManager? sm,
+  }) : sm = sm ?? SessionManager(SecureStorageRepository(), address);
 
   Server copyWith({
     String? address,
@@ -50,7 +53,7 @@ class Server {
     String? apiVersion,
     String? basicAuthUser,
     String? basicAuthPassword,
-    String? password,
+    SessionManager? sm,
   }) {
     return Server(
       address: address ?? this.address,
@@ -61,7 +64,7 @@ class Server {
       apiVersion: apiVersion ?? this.apiVersion,
       basicAuthUser: basicAuthUser ?? this.basicAuthUser,
       basicAuthPassword: basicAuthPassword ?? this.basicAuthPassword,
-      password: password ?? this.password,
+      sm: sm ?? sm,
     );
   }
 }
