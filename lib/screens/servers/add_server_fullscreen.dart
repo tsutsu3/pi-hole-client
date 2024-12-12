@@ -143,6 +143,31 @@ class _AddServerFullscreenState extends State<AddServerFullscreen> {
     checkDataValid();
   }
 
+  Future<void> _loadPassword() async {
+    if (widget.server != null) {
+      try {
+        final password = await widget.server!.sm.password;
+        if (mounted) {
+          setState(() {
+            passwordFieldController.text = password ?? '';
+          });
+        }
+      } catch (e) {
+        if (mounted) {
+          setState(() {
+            passwordFieldController.text = '';
+          });
+        }
+      }
+    } else {
+      if (mounted) {
+        setState(() {
+          passwordFieldController.text = '';
+        });
+      }
+    }
+  }
+
   @override
   void initState() {
     super.initState();
@@ -154,14 +179,13 @@ class _AddServerFullscreenState extends State<AddServerFullscreen> {
       tokenFieldController.text = widget.server!.token ?? '';
       basicAuthUser.text = widget.server!.basicAuthUser ?? '';
       basicAuthPassword.text = widget.server!.basicAuthPassword ?? '';
-      passwordFieldController.text = ''; // widget.server!.sm.password ?? '';
-      setState(() {
-        connectionType = widget.server!.address.split(':')[0] == 'https'
-            ? ConnectionType.https
-            : ConnectionType.http;
-        piHoleVersion = widget.server!.apiVersion;
-        defaultCheckbox = widget.server!.defaultServer;
-      });
+
+      connectionType = widget.server!.address.split(':')[0] == 'https'
+          ? ConnectionType.https
+          : ConnectionType.http;
+      piHoleVersion = widget.server!.apiVersion;
+      defaultCheckbox = widget.server!.defaultServer;
+      _loadPassword();
     }
   }
 
