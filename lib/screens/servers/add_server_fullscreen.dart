@@ -21,8 +21,14 @@ import 'package:pi_hole_client/models/server.dart';
 class AddServerFullscreen extends StatefulWidget {
   final Server? server;
   final bool window;
+  final String title;
 
-  const AddServerFullscreen({super.key, this.server, required this.window});
+  const AddServerFullscreen({
+    super.key,
+    this.server,
+    required this.window,
+    required this.title,
+  });
 
   @override
   State<AddServerFullscreen> createState() => _AddServerFullscreenState();
@@ -720,7 +726,7 @@ class _AddServerFullscreenState extends State<AddServerFullscreen> {
                             icon: const Icon(Icons.clear_rounded)),
                         const SizedBox(width: 8),
                         Text(
-                          AppLocalizations.of(context)!.createConnection,
+                          widget.title,
                           style: const TextStyle(fontSize: 20),
                         ),
                       ],
@@ -763,7 +769,7 @@ class _AddServerFullscreenState extends State<AddServerFullscreen> {
         children: [
           Scaffold(
               appBar: AppBar(
-                title: Text(AppLocalizations.of(context)!.createConnection),
+                title: Text(widget.title),
                 actions: [
                   IconButton(
                     onPressed: () => openUrl(createAConnectionUrl),

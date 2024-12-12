@@ -42,6 +42,7 @@ class _ServersTileItemState extends State<ServersTileItem>
 
     final width = MediaQuery.of(context).size.width;
 
+    /// Delete
     void showDeleteModal(Server server) async {
       await Future.delayed(
           const Duration(seconds: 0),
@@ -55,6 +56,7 @@ class _ServersTileItemState extends State<ServersTileItem>
               });
     }
 
+    /// Edit
     void openAddServerBottomSheet({Server? server}) async {
       await Future.delayed(
           const Duration(seconds: 0),
@@ -65,9 +67,9 @@ class _ServersTileItemState extends State<ServersTileItem>
                       context: context,
                       barrierDismissible: false,
                       builder: (context) => AddServerFullscreen(
-                        server: server,
-                        window: true,
-                      ),
+                          server: server,
+                          window: true,
+                          title: AppLocalizations.of(context)!.editConnection),
                     )
                   }
                 else
@@ -78,13 +80,15 @@ class _ServersTileItemState extends State<ServersTileItem>
                             fullscreenDialog: true,
                             builder: (BuildContext context) =>
                                 AddServerFullscreen(
-                                  server: server,
-                                  window: false,
-                                )))
+                                    server: server,
+                                    window: false,
+                                    title: AppLocalizations.of(context)!
+                                        .editConnection)))
                   }
               }));
     }
 
+    /// Connect to the server button
     void connectToServer(Server server) async {
       Future connectSuccess(result) async {
         serversProvider.setselectedServer(
@@ -128,6 +132,7 @@ class _ServersTileItemState extends State<ServersTileItem>
       }
     }
 
+    /// Set default server
     void setDefaultServer(Server server) async {
       final result = await serversProvider.setDefaultServer(server);
       if (result == true) {

@@ -23,9 +23,10 @@ class NoServerSelected extends StatelessWidget {
                       {
                         showDialog(
                             context: context,
-                            builder: (context) => const AddServerFullscreen(
-                                  window: true,
-                                ),
+                            builder: (context) => AddServerFullscreen(
+                                window: true,
+                                title: AppLocalizations.of(context)!
+                                    .createConnection),
                             barrierDismissible: false)
                       }
                   }
@@ -38,8 +39,10 @@ class NoServerSelected extends StatelessWidget {
                             MaterialPageRoute(
                                 fullscreenDialog: true,
                                 builder: (BuildContext context) =>
-                                    const AddServerFullscreen(
+                                    AddServerFullscreen(
                                       window: false,
+                                      title: AppLocalizations.of(context)!
+                                          .createConnection,
                                     )))
                       }
                   }
