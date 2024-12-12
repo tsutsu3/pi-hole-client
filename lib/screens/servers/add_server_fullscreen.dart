@@ -138,7 +138,7 @@ class _AddServerFullscreenState extends State<AddServerFullscreen> {
   }
 
   @override
-  void initState() async {
+  void initState() {
     super.initState();
     if (widget.server != null) {
       final List<String> splitted = widget.server!.address.split(':');
@@ -148,7 +148,7 @@ class _AddServerFullscreenState extends State<AddServerFullscreen> {
       tokenFieldController.text = widget.server!.token ?? '';
       basicAuthUser.text = widget.server!.basicAuthUser ?? '';
       basicAuthPassword.text = widget.server!.basicAuthPassword ?? '';
-      passwordFieldController.text = await widget.server!.sm.password ?? '';
+      passwordFieldController.text = ''; // widget.server!.sm.password ?? '';
       setState(() {
         connectionType = widget.server!.address.split(':')[0] == 'https'
             ? ConnectionType.https
