@@ -473,9 +473,10 @@ class ApiGatewayV6 implements ApiGateway {
             "enabled": true
           });
       if (response.statusCode == 201) {
-        final json = v6d.AddDomains.fromJson(jsonDecode(response.body));
+        final domains = v6d.AddDomains.fromJson(jsonDecode(response.body));
         return SetWhiteBlacklistResponse(
-            result: APiResponseType.success, data: DomainResult.fromV6(json));
+            result: APiResponseType.success,
+            data: DomainResult.fromV6(domains));
       } else {
         return SetWhiteBlacklistResponse(result: APiResponseType.error);
       }

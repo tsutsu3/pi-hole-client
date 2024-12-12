@@ -626,7 +626,6 @@ void main() async {
         defaultServer: true,
         apiVersion: SupportedApiVersions.v6,
       );
-      server.sm.savePassword('xxx123');
     });
 
     test('Return success', () async {
@@ -668,11 +667,11 @@ void main() async {
     ];
     setUp(() {
       server = Server(
-          address: 'http://example.com',
-          alias: 'example',
-          defaultServer: true,
-          apiVersion: SupportedApiVersions.v6,
-          token: 'xxx123');
+        address: 'http://example.com',
+        alias: 'example',
+        defaultServer: true,
+        apiVersion: SupportedApiVersions.v6,
+      );
     });
 
     test('Return success', () async {
@@ -762,11 +761,11 @@ void main() async {
 
     setUp(() {
       server = Server(
-          address: 'http://example.com',
-          alias: 'example',
-          defaultServer: true,
-          apiVersion: SupportedApiVersions.v6,
-          token: 'xxx123');
+        address: 'http://example.com',
+        alias: 'example',
+        defaultServer: true,
+        apiVersion: SupportedApiVersions.v6,
+      );
     });
 
     test('Return success', () async {
@@ -833,30 +832,58 @@ void main() async {
 
   group('setWhiteBlacklist', () {
     late Server server;
-    final url =
-        'http://example.com/admin/api.php?auth=xxx123&list=black&add=google.com';
+    final url = 'http://example.com/api/domains/deny/exact';
 
     setUp(() {
       server = Server(
-          address: 'http://example.com',
-          alias: 'example',
-          defaultServer: true,
-          apiVersion: SupportedApiVersions.v6,
-          token: 'xxx123');
+        address: 'http://example.com',
+        alias: 'example',
+        defaultServer: true,
+        apiVersion: SupportedApiVersions.v6,
+      );
     });
 
     test('Return success when add new domain', () async {
       final mockClient = MockClient();
       final apiGateway = ApiGatewayV6(server, client: mockClient);
-      final data = {"success": true, "message": "Added google.com"};
-      when(mockClient.get(Uri.parse(url), headers: {}))
-          .thenAnswer((_) async => http.Response(jsonEncode(data), 200));
+      final data = {
+        "domains": [
+          {
+            "domain": "google.com",
+            "unicode": "google.com",
+            "type": "deny",
+            "kind": "exact",
+            "comment": null,
+            "groups": [0],
+            "enabled": true,
+            "id": 1,
+            "date_added": 1734008144,
+            "date_modified": 1734008144
+          }
+        ],
+        "processed": {
+          "errors": [],
+          "success": [
+            {"item": "google.com"}
+          ]
+        },
+        "took": 0.0042212009429931641
+      };
+      when(mockClient.post(Uri.parse(url),
+          headers: anyNamed('headers'),
+          body: jsonEncode({
+            "domain": "google.com",
+            "comment": null,
+            "groups": [0],
+            "enabled": true
+          }))).thenAnswer((_) async => http.Response(jsonEncode(data), 201));
 
       final response =
           await apiGateway.setWhiteBlacklist('google.com', 'black');
 
       expect(response.result, APiResponseType.success);
-      expect(response.data!.toJson(), data);
+      expect(response.data!.toJson(),
+          {'success': true, 'message': 'Added google.com'});
       expect(response.message, isNull);
     });
 
@@ -864,27 +891,70 @@ void main() async {
       final mockClient = MockClient();
       final apiGateway = ApiGatewayV6(server, client: mockClient);
       final data = {
-        "success": true,
-        "message": "Not adding google.com as it is already on the list"
+        "domains": [
+          {
+            "domain": "google.com",
+            "unicode": "google.com",
+            "type": "deny",
+            "kind": "exact",
+            "comment": null,
+            "groups": [0],
+            "enabled": true,
+            "id": 8,
+            "date_added": 1734005851,
+            "date_modified": 1734005851
+          }
+        ],
+        "processed": {
+          "errors": [
+            {
+              "item": "google.com",
+              "error":
+                  "UNIQUE constraint failed: domainlist.domain, domainlist.type"
+            }
+          ],
+          "success": []
+        },
+        "took": 0.000306844711303711
       };
-      when(mockClient.get(Uri.parse(url), headers: {}))
-          .thenAnswer((_) async => http.Response(jsonEncode(data), 200));
+      when(mockClient.post(Uri.parse(url),
+          headers: anyNamed('headers'),
+          body: jsonEncode({
+            "domain": "google.com",
+            "comment": null,
+            "groups": [0],
+            "enabled": true
+          }))).thenAnswer((_) async => http.Response(jsonEncode(data), 201));
 
       final response =
           await apiGateway.setWhiteBlacklist('google.com', 'black');
 
       expect(response.result, APiResponseType.success);
-      expect(response.data!.toJson(), data);
+      expect(response.data!.toJson(), {
+        'success': false,
+        'message':
+            'UNIQUE constraint failed: domainlist.domain, domainlist.type'
+      });
       expect(response.message, isNull);
     });
 
     test('Return error with invalid list type', () async {
       final mockClient = MockClient();
       final apiGateway = ApiGatewayV6(server, client: mockClient);
-      final data =
-          'Invalid list [supported: black, regex_black, white, regex_white]';
-      when(mockClient.get(Uri.parse(url), headers: {}))
-          .thenAnswer((_) async => http.Response(jsonEncode(data), 200));
+      final data = {
+        "error": {
+          "key": "uri_error",
+          "message": "Invalid request: Specify list to modify more precisely",
+          "hint": "/api/domains/xxxx/exact"
+        },
+        "took": 0.00055241584777832031
+      };
+      when(mockClient.post(Uri.parse(url), headers: anyNamed('headers'), body: {
+        "domain": "google.com",
+        "comment": null,
+        "groups": [0],
+        "enabled": true
+      })).thenAnswer((_) async => http.Response(jsonEncode(data), 200));
 
       final response =
           await apiGateway.setWhiteBlacklist('google.com', 'black');
@@ -912,61 +982,52 @@ void main() async {
 
   group('getDomainLists', () {
     late Server server;
-    final urls = [
-      'http://example.com/admin/api.php?auth=xxx123&list=white',
-      'http://example.com/admin/api.php?auth=xxx123&list=regex_white',
-      'http://example.com/admin/api.php?auth=xxx123&list=black',
-      'http://example.com/admin/api.php?auth=xxx123&list=regex_black'
-    ];
+    final url = 'http://example.com/api/domains';
 
     setUp(() {
       server = Server(
-          address: 'http://example.com',
-          alias: 'example',
-          defaultServer: true,
-          apiVersion: SupportedApiVersions.v6,
-          token: 'xxx123');
+        address: 'http://example.com',
+        alias: 'example',
+        defaultServer: true,
+        apiVersion: SupportedApiVersions.v6,
+      );
     });
 
     test('Return success', () async {
       final mockClient = MockClient();
       final apiGateway = ApiGatewayV6(server, client: mockClient);
-      final data = [
-        {
-          "data": [
-            {
-              "id": 14,
-              "type": 0,
-              "domain": "example.com",
-              "enabled": 1,
-              "date_added": 1733559182,
-              "date_modified": 1733559182,
-              "comment": "",
-              "groups": [0]
-            }
-          ]
-        },
-        {"data": []},
-        {
-          "data": [
-            {
-              "id": 2,
-              "type": 1,
-              "domain": "test.com",
-              "enabled": 1,
-              "date_added": 1733401118,
-              "date_modified": 1733496612,
-              "comment": "",
-              "groups": [0]
-            }
-          ]
-        },
-        {"data": []},
-      ];
-      for (var i = 0; i < urls.length; i++) {
-        when(mockClient.get(Uri.parse(urls[i]), headers: {}))
-            .thenAnswer((_) async => http.Response(jsonEncode(data[i]), 200));
-      }
+      final data = {
+        "domains": [
+          {
+            "domain": "allowed.com",
+            "unicode": "allowed.com",
+            "type": "allow",
+            "kind": "exact",
+            "comment": null,
+            "groups": [0],
+            "enabled": true,
+            "id": 299,
+            "date_added": 1611239095,
+            "date_modified": 1612163756
+          },
+          {
+            "domain": "xn--4ca.com",
+            "unicode": "ä.com",
+            "type": "allow",
+            "kind": "regex",
+            "comment": "Some text",
+            "groups": [0],
+            "enabled": true,
+            "id": 305,
+            "date_added": 1611240635,
+            "date_modified": 1611241276
+          }
+        ],
+        "took": 0.012,
+        "processed": null
+      };
+      when(mockClient.get(Uri.parse(url), headers: anyNamed('headers')))
+          .thenAnswer((_) async => http.Response(jsonEncode(data), 200));
 
       final response = await apiGateway.getDomainLists();
 
@@ -977,12 +1038,7 @@ void main() async {
     test('Return error when unexpected exception occurs', () async {
       final mockClient = MockClient();
       final apiGateway = ApiGatewayV6(server, client: mockClient);
-      final data = {"data": []};
-      for (var i = 0; i < urls.length - 1; i++) {
-        when(mockClient.get(Uri.parse(urls[i]), headers: {}))
-            .thenAnswer((_) async => http.Response(jsonEncode(data), 200));
-      }
-      when(mockClient.get(Uri.parse(urls[3]), headers: {}))
+      when(mockClient.get(Uri.parse(url), headers: {}))
           .thenThrow(Exception('Unexpected error test'));
 
       final response = await apiGateway.getDomainLists();
@@ -994,24 +1050,23 @@ void main() async {
 
   group('removeDomainFromList', () {
     late Server server;
-    final url =
-        'http://example.com/admin/api.php?auth=xxx123&list=white&sub=google.com';
+    final url = 'http://example.com/api/domains/allow/exact/google.com';
 
     setUp(() {
       server = Server(
-          address: 'http://example.com',
-          alias: 'example',
-          defaultServer: true,
-          apiVersion: SupportedApiVersions.v6,
-          token: 'xxx123');
+        address: 'http://example.com',
+        alias: 'example',
+        defaultServer: true,
+        apiVersion: SupportedApiVersions.v6,
+      );
     });
 
     test('Return success', () async {
       final mockClient = MockClient();
       final apiGateway = ApiGatewayV6(server, client: mockClient);
       final data = {"success": true, "message": null};
-      when(mockClient.get(Uri.parse(url), headers: {}))
-          .thenAnswer((_) async => http.Response(jsonEncode(data), 200));
+      when(mockClient.delete(Uri.parse(url), headers: anyNamed('headers')))
+          .thenAnswer((_) async => http.Response(jsonEncode(data), 204));
 
       final response = await apiGateway.removeDomainFromList(Domain(
           id: 1,
@@ -1031,7 +1086,7 @@ void main() async {
       final mockClient = MockClient();
       final apiGateway = ApiGatewayV6(server, client: mockClient);
 
-      when(mockClient.get(Uri.parse(url), headers: {}))
+      when(mockClient.delete(Uri.parse(url), headers: anyNamed('headers')))
           .thenThrow(Exception('Unexpected error test'));
 
       final response = await apiGateway.removeDomainFromList(Domain(
@@ -1051,24 +1106,51 @@ void main() async {
 
   group('addDomainToList', () {
     late Server server;
-    final url =
-        'http://example.com/admin/api.php?auth=xxx123&list=black&add=google.com';
+    final url = 'http://example.com/api/domains/deny/exact';
 
     setUp(() {
       server = Server(
-          address: 'http://example.com',
-          alias: 'example',
-          defaultServer: true,
-          apiVersion: SupportedApiVersions.v6,
-          token: 'xxx123');
+        address: 'http://example.com',
+        alias: 'example',
+        defaultServer: true,
+        apiVersion: SupportedApiVersions.v6,
+      );
     });
 
     test('Return success when add new domain', () async {
       final mockClient = MockClient();
       final apiGateway = ApiGatewayV6(server, client: mockClient);
-      final data = {"success": true, "message": "Added google.com"};
-      when(mockClient.get(Uri.parse(url), headers: {}))
-          .thenAnswer((_) async => http.Response(jsonEncode(data), 200));
+      final data = {
+        "domains": [
+          {
+            "domain": "google.com",
+            "unicode": "google.com",
+            "type": "deny",
+            "kind": "exact",
+            "comment": null,
+            "groups": [0],
+            "enabled": true,
+            "id": 1,
+            "date_added": 1734008144,
+            "date_modified": 1734008144
+          }
+        ],
+        "processed": {
+          "errors": [],
+          "success": [
+            {"item": "google.com"}
+          ]
+        },
+        "took": 0.0042212009429931641
+      };
+      when(mockClient.post(Uri.parse(url),
+          headers: anyNamed('headers'),
+          body: jsonEncode({
+            "domain": "google.com",
+            "comment": null,
+            "groups": [0],
+            "enabled": true
+          }))).thenAnswer((_) async => http.Response(jsonEncode(data), 201));
 
       final response = await apiGateway
           .addDomainToList({"list": "black", "domain": "google.com"});
@@ -1080,11 +1162,40 @@ void main() async {
       final mockClient = MockClient();
       final apiGateway = ApiGatewayV6(server, client: mockClient);
       final data = {
-        "success": true,
-        "message": "Not adding google.com as it is already on the list"
+        "domains": [
+          {
+            "domain": "google.com",
+            "unicode": "google.com",
+            "type": "deny",
+            "kind": "exact",
+            "comment": null,
+            "groups": [0],
+            "enabled": true,
+            "id": 8,
+            "date_added": 1734005851,
+            "date_modified": 1734005851
+          }
+        ],
+        "processed": {
+          "errors": [
+            {
+              "item": "google.com",
+              "error":
+                  "UNIQUE constraint failed: domainlist.domain, domainlist.type"
+            }
+          ],
+          "success": []
+        },
+        "took": 0.000306844711303711
       };
-      when(mockClient.get(Uri.parse(url), headers: {}))
-          .thenAnswer((_) async => http.Response(jsonEncode(data), 200));
+      when(mockClient.post(Uri.parse(url),
+          headers: anyNamed('headers'),
+          body: jsonEncode({
+            "domain": "google.com",
+            "comment": null,
+            "groups": [0],
+            "enabled": true
+          }))).thenAnswer((_) async => http.Response(jsonEncode(data), 201));
 
       final response = await apiGateway
           .addDomainToList({"list": "black", "domain": "google.com"});
@@ -1095,10 +1206,20 @@ void main() async {
     test('Return error with invalid list type', () async {
       final mockClient = MockClient();
       final apiGateway = ApiGatewayV6(server, client: mockClient);
-      final data =
-          'Invalid list [supported: black, regex_black, white, regex_white]';
-      when(mockClient.get(Uri.parse(url), headers: {}))
-          .thenAnswer((_) async => http.Response(jsonEncode(data), 200));
+      final data = {
+        "error": {
+          "key": "uri_error",
+          "message": "Invalid request: Specify list to modify more precisely",
+          "hint": "/api/domains/xxxx/exact"
+        },
+        "took": 0.00055241584777832031
+      };
+      when(mockClient.post(Uri.parse(url), headers: anyNamed('headers'), body: {
+        "domain": "google.com",
+        "comment": null,
+        "groups": [0],
+        "enabled": true
+      })).thenAnswer((_) async => http.Response(jsonEncode(data), 200));
 
       final response = await apiGateway
           .addDomainToList({"list": "black", "domain": "google.com"});
