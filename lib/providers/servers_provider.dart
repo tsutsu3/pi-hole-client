@@ -39,9 +39,11 @@ class ServersProvider with ChangeNotifier {
       : null;
 
   ApiGateway? loadApiGateway(Server server) {
-    if (_serverGateways.isEmpty) {
+    final gateway = _serverGateways[server.address];
+    if (gateway == null) {
       return ApiGatewayFactory.create(server);
     }
+
     return _serverGateways[server.address];
   }
 
