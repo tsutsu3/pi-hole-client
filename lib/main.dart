@@ -58,7 +58,8 @@ void main() async {
   ServersProvider serversProvider = ServersProvider(dbRepository);
   AppConfigProvider configProvider = AppConfigProvider(dbRepository);
   StatusProvider statusProvider = StatusProvider();
-  FiltersProvider filtersProvider = FiltersProvider();
+  FiltersProvider filtersProvider =
+      FiltersProvider(serversProvider: serversProvider);
   DomainsListProvider domainsListProvider =
       DomainsListProvider(serversProvider: serversProvider);
 
@@ -117,7 +118,11 @@ void main() async {
         providers: [
           ChangeNotifierProvider(create: ((context) => serversProvider)),
           ChangeNotifierProvider(create: ((context) => statusProvider)),
-          ChangeNotifierProvider(create: ((context) => filtersProvider)),
+          ChangeNotifierProxyProvider<ServersProvider, FiltersProvider>(
+            create: (context) => filtersProvider,
+            update: (context, serverConfig, servers) =>
+                servers!..update(serverConfig),
+          ),
           ChangeNotifierProxyProvider<ServersProvider, DomainsListProvider>(
             create: (context) => domainsListProvider,
             update: (context, serverConfig, servers) =>

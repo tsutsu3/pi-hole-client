@@ -14,7 +14,6 @@ import 'package:pi_hole_client/widgets/custom_radio.dart';
 import 'package:pi_hole_client/config/system_overlay_style.dart';
 import 'package:pi_hole_client/providers/app_config_provider.dart';
 import 'package:pi_hole_client/functions/snackbar.dart';
-import 'package:pi_hole_client/constants/log_status.dart';
 import 'package:pi_hole_client/providers/filters_provider.dart';
 import 'package:pi_hole_client/classes/process_modal.dart';
 import 'package:pi_hole_client/models/log.dart';
@@ -615,9 +614,7 @@ class _LogsState extends State<Logs> {
                                       13)
                                     buildChip(
                                       filtersProvider.statusSelected.length == 1
-                                          ? logStatusString[filtersProvider
-                                                  .statusSelected[0] -
-                                              1]
+                                          ? filtersProvider.statusSelectedString
                                           : "${filtersProvider.statusSelected.length} ${AppLocalizations.of(context)!.statusSelected}",
                                       const Icon(Icons.shield),
                                       () {

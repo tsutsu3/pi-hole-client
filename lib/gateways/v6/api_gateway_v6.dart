@@ -13,9 +13,11 @@ import 'package:pi_hole_client/models/api/v6/metrics/history.dart'
     show History, HistoryClients;
 import 'package:pi_hole_client/models/api/v6/domains/domains.dart'
     show AddDomains, Domains;
+import 'package:pi_hole_client/models/api/v6/metrics/query.dart' show Queries;
 import 'package:pi_hole_client/models/app_log.dart';
 import 'package:pi_hole_client/models/domain.dart';
 import 'package:pi_hole_client/models/gateways.dart';
+import 'package:pi_hole_client/models/log.dart';
 import 'package:pi_hole_client/models/overtime_data.dart';
 import 'package:pi_hole_client/models/realtime_status.dart';
 import 'package:pi_hole_client/models/server.dart';
@@ -440,7 +442,32 @@ class ApiGatewayV6 implements ApiGateway {
   /// for further analysis or display.
   @override
   Future<FetchLogsResponse> fetchLogs(DateTime from, DateTime until) async {
-    throw UnimplementedError();
+    try {
+      final response = await httpClient(
+        method: 'get',
+        url:
+            '${server.address}/api/queries/&from=${from.millisecondsSinceEpoch ~/ 1000}&until=${until.millisecondsSinceEpoch ~/ 1000}',
+        timeout: 20,
+      );
+      if (response.statusCode == 200) {
+        final queries = Queries.fromJson(jsonDecode(response.body));
+        return FetchLogsResponse(
+            result: APiResponseType.success,
+            data: queries.queries.map((query) => Log.fromV6(query)).toList());
+      } else {
+        return FetchLogsResponse(result: APiResponseType.error);
+      }
+    } on FormatException {
+      return FetchLogsResponse(result: APiResponseType.authError);
+    } on SocketException {
+      return FetchLogsResponse(result: APiResponseType.socket);
+    } on TimeoutException {
+      return FetchLogsResponse(result: APiResponseType.timeout);
+    } on HandshakeException {
+      return FetchLogsResponse(result: APiResponseType.sslError);
+    } catch (e) {
+      return FetchLogsResponse(result: APiResponseType.error);
+    }
   }
 
   /// Adds a domain to the whitelist or blacklist on a Pi-hole server.

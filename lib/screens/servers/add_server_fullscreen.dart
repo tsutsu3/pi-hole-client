@@ -179,7 +179,6 @@ class _AddServerFullscreenState extends State<AddServerFullscreen> {
       tokenFieldController.text = widget.server!.token ?? '';
       basicAuthUser.text = widget.server!.basicAuthUser ?? '';
       basicAuthPassword.text = widget.server!.basicAuthPassword ?? '';
-
       connectionType = widget.server!.address.split(':')[0] == 'https'
           ? ConnectionType.https
           : ConnectionType.http;

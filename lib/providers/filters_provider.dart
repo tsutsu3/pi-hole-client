@@ -1,119 +1,132 @@
+import 'package:pi_hole_client/providers/filters_provider/filters_interface.dart';
+import 'package:pi_hole_client/providers/filters_provider/filters_v5.dart';
+import 'package:pi_hole_client/providers/filters_provider/filters_v6.dart';
+import 'package:pi_hole_client/providers/servers_provider.dart';
 import 'package:pi_hole_client/screens/logs/logs_filters_modal.dart';
 import 'package:flutter/material.dart';
 
-class FiltersProvider with ChangeNotifier {
-  List<int> _statusSelected = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14];
-  DateTime? _startTime;
-  DateTime? _endTime;
-  List<String> _totalClients = [];
-  List<String> _selectedClients = [];
-  String? _selectedDomain;
-  RequestStatus _requestStatus = RequestStatus.all;
+class FiltersProvider with ChangeNotifier implements Filters {
+  Filters? _filters;
 
+  FiltersProvider({ServersProvider? serversProvider}) {
+    // Default filtersProvider is FiltersProviderV5.
+    // Update filtersPorviders version when update ServersProvider.
+    final version = serversProvider?.selectedServer?.apiVersion ?? "v5";
+    _updateFiltersVersion(version);
+  }
+
+  update(ServersProvider? provider) {
+    final version = provider?.selectedServer?.apiVersion ?? "v5";
+    _updateFiltersVersion(version);
+  }
+
+  _updateFiltersVersion(String version) {
+    _filters = version == "v5" ? FiltersV5() : FiltersV6();
+  }
+
+  @override
   List<int> get statusSelected {
-    return _statusSelected;
+    return _filters!.statusSelected;
   }
 
+  @override
+  String get statusSelectedString {
+    return _filters!.statusSelectedString;
+  }
+
+  @override
   DateTime? get startTime {
-    return _startTime;
+    return _filters!.startTime;
   }
 
+  @override
   DateTime? get endTime {
-    return _endTime;
+    return _filters!.endTime;
   }
 
+  @override
   List<String> get totalClients {
-    return _totalClients;
+    return _filters!.totalClients;
   }
 
+  @override
   List<String> get selectedClients {
-    return _selectedClients;
+    return _filters!.selectedClients;
   }
 
+  @override
   String? get selectedDomain {
-    return _selectedDomain;
+    return _filters!.selectedDomain;
   }
 
+  @override
   RequestStatus get requestStatus {
-    return _requestStatus;
+    return _filters!.requestStatus;
   }
 
+  @override
   void setStatusSelected(List<int> values) {
-    _statusSelected = values;
-    if (values == [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14]) {
-      _requestStatus = RequestStatus.all;
-    } else if (values == [2, 3]) {
-      _requestStatus = RequestStatus.allowed;
-    } else if (values == [1, 4, 5, 6, 7, 8, 9, 10, 11, 14]) {
-      _requestStatus = RequestStatus.blocked;
-    }
+    _filters!.setStatusSelected(values);
     notifyListeners();
   }
 
+  @override
   void setStartTime(DateTime value) {
-    _startTime = value;
+    _filters!.setStartTime(value);
     notifyListeners();
   }
 
+  @override
   void setEndTime(DateTime value) {
-    _endTime = value;
+    _filters!.setEndTime(value);
     notifyListeners();
   }
 
+  @override
   void resetFilters() {
-    _statusSelected = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14];
-    _requestStatus = RequestStatus.all;
-    _startTime = null;
-    _endTime = null;
-    _selectedClients = _totalClients;
-    _selectedDomain = null;
+    _filters!.resetFilters();
     notifyListeners();
   }
 
+  @override
   void resetTime() {
-    _startTime = null;
-    _endTime = null;
+    _filters!.resetTime();
     notifyListeners();
   }
 
+  @override
   void resetStatus() {
-    _statusSelected = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14];
-    _requestStatus = RequestStatus.all;
+    _filters!.resetStatus();
     notifyListeners();
   }
 
+  @override
   void setClients(List<String> clients) {
-    if (_totalClients.isEmpty) {
-      _selectedClients = clients;
-    }
-    _totalClients = clients;
+    _filters!.setClients(clients);
     notifyListeners();
   }
 
+  @override
   void setSelectedClients(List<String> selectedClients) {
-    _selectedClients = selectedClients;
+    _filters!.setSelectedClients(selectedClients);
     notifyListeners();
   }
 
+  @override
   void setSelectedDomain(String? domain) {
-    _selectedDomain = domain;
+    _filters!.setSelectedDomain(domain);
     notifyListeners();
   }
 
+  @override
   void resetClients() {
-    _selectedClients = _totalClients;
+    _filters!.resetClients();
     notifyListeners();
   }
 
+  @override
   void setRequestStatus(RequestStatus status) {
-    _requestStatus = status;
-    if (status == RequestStatus.all) {
-      _statusSelected = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14];
-    } else if (status == RequestStatus.allowed) {
-      _statusSelected = [2, 3];
-    } else if (status == RequestStatus.blocked) {
-      _statusSelected = [1, 4, 5, 6, 7, 8, 9, 10, 11];
-    }
+    _filters!.setRequestStatus(status);
     notifyListeners();
   }
 }
