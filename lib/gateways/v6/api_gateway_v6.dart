@@ -4,25 +4,22 @@ import 'dart:io';
 import 'package:http/http.dart';
 import 'package:http/http.dart' as http;
 import 'package:pi_hole_client/functions/logger.dart';
-// import 'package:pi_hole_client/functions/convert.dart';
-// todo: use show not as
-import 'package:pi_hole_client/models/api/v6/auth/auth.dart' as v6;
-import 'package:pi_hole_client/models/api/v6/dns/dns.dart' as v6;
-import 'package:pi_hole_client/models/api/v6/flt/ftl.dart' as v6;
-import 'package:pi_hole_client/models/api/v6/metrics/stats.dart' as v6;
-import 'package:pi_hole_client/models/api/v6/metrics/history.dart' as v6;
-import 'package:pi_hole_client/models/api/v6/domains/domains.dart' as v6d;
+import 'package:pi_hole_client/models/api/v6/auth/auth.dart' show Session;
+import 'package:pi_hole_client/models/api/v6/dns/dns.dart' show Blocking;
+import 'package:pi_hole_client/models/api/v6/flt/ftl.dart' show InfoFtl;
+import 'package:pi_hole_client/models/api/v6/metrics/stats.dart'
+    show StatsSummary, StatsTopDomains, StatsTopClients, StatsUpstreams;
+import 'package:pi_hole_client/models/api/v6/metrics/history.dart'
+    show History, HistoryClients;
+import 'package:pi_hole_client/models/api/v6/domains/domains.dart'
+    show AddDomains, Domains;
 import 'package:pi_hole_client/models/app_log.dart';
 import 'package:pi_hole_client/models/domain.dart';
-// import 'package:pi_hole_client/functions/encode_basic_auth.dart';
 import 'package:pi_hole_client/models/gateways.dart';
 import 'package:pi_hole_client/models/overtime_data.dart';
-// import 'package:pi_hole_client/models/log.dart';
-// import 'package:pi_hole_client/models/overtime_data.dart';
 import 'package:pi_hole_client/models/realtime_status.dart';
 import 'package:pi_hole_client/models/server.dart';
 import 'package:pi_hole_client/gateways/api_gateway_interface.dart';
-// import 'package:pi_hole_client/functions/logger.dart';
 
 class ApiGatewayV6 implements ApiGateway {
   final Server server;
@@ -149,7 +146,7 @@ class ApiGatewayV6 implements ApiGateway {
       if (enableOrDisable.statusCode == 200) {
         logger.i('Reusing session ID login');
         final enableOrDisableParsed =
-            v6.Blocking.fromJson(jsonDecode(enableOrDisable.body));
+            Blocking.fromJson(jsonDecode(enableOrDisable.body));
         return LoginQueryResponse(
             result: APiResponseType.success,
             status: enableOrDisableParsed.blocking,
@@ -171,7 +168,7 @@ class ApiGatewayV6 implements ApiGateway {
       );
 
       if (status.statusCode == 200) {
-        final statusParsed = v6.Session.fromJson(jsonDecode(status.body));
+        final statusParsed = Session.fromJson(jsonDecode(status.body));
         await server.sm.save(statusParsed.session.sid);
 
         // 3. Get DNS blocking status
@@ -179,7 +176,7 @@ class ApiGatewayV6 implements ApiGateway {
             method: 'get', url: '${server.address}/api/dns/blocking');
         if (enableOrDisable.statusCode == 200) {
           final enableOrDisableParsed =
-              v6.Blocking.fromJson(jsonDecode(enableOrDisable.body));
+              Blocking.fromJson(jsonDecode(enableOrDisable.body));
           return LoginQueryResponse(
               result: APiResponseType.success,
               status: enableOrDisableParsed.blocking,
@@ -300,19 +297,18 @@ class ApiGatewayV6 implements ApiGateway {
           response[5].statusCode == 200 &&
           response[6].statusCode == 200 &&
           response[7].statusCode == 200) {
-        final summary = v6.StatsSummary.fromJson(jsonDecode(response[0].body));
-        final infoFtl = v6.InfoFtl.fromJson(jsonDecode(response[1].body));
-        final blocking = v6.Blocking.fromJson(jsonDecode(response[2].body));
+        final summary = StatsSummary.fromJson(jsonDecode(response[0].body));
+        final infoFtl = InfoFtl.fromJson(jsonDecode(response[1].body));
+        final blocking = Blocking.fromJson(jsonDecode(response[2].body));
         final topPermittedDomains =
-            v6.StatsTopDomains.fromJson(jsonDecode(response[3].body));
+            StatsTopDomains.fromJson(jsonDecode(response[3].body));
         final topBlockedDomains =
-            v6.StatsTopDomains.fromJson(jsonDecode(response[4].body));
+            StatsTopDomains.fromJson(jsonDecode(response[4].body));
         final topClients =
-            v6.StatsTopClients.fromJson(jsonDecode(response[5].body));
+            StatsTopClients.fromJson(jsonDecode(response[5].body));
         final topBlockedClients =
-            v6.StatsTopClients.fromJson(jsonDecode(response[6].body));
-        final upstreams =
-            v6.StatsUpstreams.fromJson(jsonDecode(response[7].body));
+            StatsTopClients.fromJson(jsonDecode(response[6].body));
+        final upstreams = StatsUpstreams.fromJson(jsonDecode(response[7].body));
 
         return RealtimeStatusResponse(
             result: APiResponseType.success,
@@ -351,7 +347,7 @@ class ApiGatewayV6 implements ApiGateway {
         body: {'blocking': false, 'timer': time},
       );
       if (response.statusCode == 200) {
-        final body = v6.Blocking.fromJson(jsonDecode(response.body));
+        final body = Blocking.fromJson(jsonDecode(response.body));
         return DisableServerResponse(
             result: APiResponseType.success, status: body.blocking);
       } else {
@@ -380,7 +376,7 @@ class ApiGatewayV6 implements ApiGateway {
         body: {'blocking': true, 'timer': null},
       );
       if (response.statusCode == 200) {
-        final body = v6.Blocking.fromJson(jsonDecode(response.body));
+        final body = Blocking.fromJson(jsonDecode(response.body));
         return EnableServerResponse(
             result: APiResponseType.success, status: body.blocking);
       } else {
@@ -417,9 +413,9 @@ class ApiGatewayV6 implements ApiGateway {
       ]);
 
       if (response[0].statusCode == 200 && response[1].statusCode == 200) {
-        final history = v6.History.fromJson(jsonDecode(response[0].body));
+        final history = History.fromJson(jsonDecode(response[0].body));
         final historyClients =
-            v6.HistoryClients.fromJson(jsonDecode(response[1].body));
+            HistoryClients.fromJson(jsonDecode(response[1].body));
         return FetchOverTimeDataResponse(
             result: APiResponseType.success,
             data: OverTimeData.fromV6(history, historyClients));
@@ -473,7 +469,7 @@ class ApiGatewayV6 implements ApiGateway {
             "enabled": true
           });
       if (response.statusCode == 201) {
-        final domains = v6d.AddDomains.fromJson(jsonDecode(response.body));
+        final domains = AddDomains.fromJson(jsonDecode(response.body));
         return SetWhiteBlacklistResponse(
             result: APiResponseType.success,
             data: DomainResult.fromV6(domains));
@@ -504,7 +500,7 @@ class ApiGatewayV6 implements ApiGateway {
       );
 
       if (results.statusCode == 200) {
-        final domains = v6d.Domains.fromJson(jsonDecode(results.body));
+        final domains = Domains.fromJson(jsonDecode(results.body));
 
         return GetDomainLists(
             result: APiResponseType.success,
@@ -605,7 +601,7 @@ class ApiGatewayV6 implements ApiGateway {
             "enabled": true
           });
       if (response.statusCode == 201) {
-        final domains = v6d.AddDomains.fromJson(jsonDecode(response.body));
+        final domains = AddDomains.fromJson(jsonDecode(response.body));
 
         if (domains.domains.length != 1) {
           return AddDomainToListResponse(result: APiResponseType.error);
