@@ -118,6 +118,7 @@ class _ServersTileItemState extends State<ServersTileItem>
       }
 
       final ProcessModal process = ProcessModal(context: context);
+      // TODO: When switching servers multiple times, it gets stuck on loading.
       process.open(AppLocalizations.of(context)!.connecting);
 
       final result = await serversProvider.loadApiGateway(server)?.loginQuery();
