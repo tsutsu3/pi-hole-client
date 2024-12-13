@@ -318,7 +318,7 @@ class _ServersTileItemState extends State<ServersTileItem>
                               statusProvider.isServerConnected == true
                                   ? AppLocalizations.of(context)!.connected
                                   : AppLocalizations.of(context)!
-                                      .selectedDisconnected,
+                                      .selectedDisconnected, // TODO: Not show loading spenner, but show disconnected message(orange color)
                               style: TextStyle(
                                   color:
                                       statusProvider.isServerConnected == true
