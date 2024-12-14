@@ -1,27 +1,15 @@
+import 'dart:math';
+
+import 'package:pi_hole_client/constants/query_types.dart';
 import 'package:pi_hole_client/providers/filters_provider/filters_interface.dart';
 import 'package:pi_hole_client/screens/logs/logs_filters_modal.dart';
 
 class FiltersV6 implements Filters {
-  List<int> _statusSelected = [
-    1,
-    2,
-    3,
-    4,
-    5,
-    6,
-    7,
-    8,
-    9,
-    10,
-    11,
-    12,
-    13,
-    14,
-    15,
-    16,
-    17,
-    18
-  ];
+  final List<int> _statusAll =
+      queryStatusesV6.where((e) => e.isShown).map((e) => e.index).toList();
+  final List<int> _statusAllowed = [3, 4];
+  final List<int> _statusBlocked = [2, 5, 6, 7, 8, 9, 10, 11, 12];
+  List<int> _statusSelected;
   DateTime? _startTime;
   DateTime? _endTime;
   List<String> _totalClients = [];
@@ -54,9 +42,13 @@ class FiltersV6 implements Filters {
     "DBBUSY",
   ];
 
+  FiltersV6() : _statusSelected = [] {
+    _statusSelected = _statusAll;
+  }
+
   @override
   List<int> get defaultSelected {
-    return [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18];
+    return _statusAll;
   }
 
   @override
@@ -102,12 +94,11 @@ class FiltersV6 implements Filters {
   @override
   void setStatusSelected(List<int> values) {
     _statusSelected = values;
-    if (values ==
-        [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18]) {
+    if (values == _statusAll) {
       _requestStatus = RequestStatus.all;
-    } else if (values == [1, 2]) {
+    } else if (values == _statusAllowed) {
       _requestStatus = RequestStatus.allowed;
-    } else if (values == [3, 4, 5, 6, 7, 8, 9, 10, 11, 12]) {
+    } else if (values == _statusBlocked) {
       _requestStatus = RequestStatus.blocked;
     }
   }
@@ -124,26 +115,7 @@ class FiltersV6 implements Filters {
 
   @override
   void resetFilters() {
-    _statusSelected = [
-      1,
-      2,
-      3,
-      4,
-      5,
-      6,
-      7,
-      8,
-      9,
-      10,
-      11,
-      12,
-      13,
-      14,
-      15,
-      16,
-      17,
-      18
-    ];
+    _statusSelected = _statusAll;
     _requestStatus = RequestStatus.all;
     _startTime = null;
     _endTime = null;
@@ -159,26 +131,7 @@ class FiltersV6 implements Filters {
 
   @override
   void resetStatus() {
-    _statusSelected = [
-      1,
-      2,
-      3,
-      4,
-      5,
-      6,
-      7,
-      8,
-      9,
-      10,
-      11,
-      12,
-      13,
-      14,
-      15,
-      16,
-      17,
-      18
-    ];
+    _statusSelected = _statusAll;
     _requestStatus = RequestStatus.all;
   }
 
@@ -209,30 +162,11 @@ class FiltersV6 implements Filters {
   void setRequestStatus(RequestStatus status) {
     _requestStatus = status;
     if (status == RequestStatus.all) {
-      _statusSelected = [
-        1,
-        2,
-        3,
-        4,
-        5,
-        6,
-        7,
-        8,
-        9,
-        10,
-        11,
-        12,
-        13,
-        14,
-        15,
-        16,
-        17,
-        18
-      ];
+      _statusSelected = _statusAll;
     } else if (status == RequestStatus.allowed) {
-      _statusSelected = [1, 2];
+      _statusSelected = _statusAllowed;
     } else if (status == RequestStatus.blocked) {
-      _statusSelected = [3, 4, 5, 6, 7, 8, 9, 10, 11, 12];
+      _statusSelected = _statusBlocked;
     }
   }
 }

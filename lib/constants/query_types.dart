@@ -101,7 +101,7 @@ final List<QueryStatus> queryStatusesV5 = [
     icon: Icons.verified_user_rounded,
   ),
   QueryStatus(
-    index: 14,
+    index: 15,
     key: "15",
     text: "Database is busy",
     color: Colors.orange,
@@ -117,6 +117,7 @@ final List<QueryStatus> queryStatusesV6 = [
     text: "UNKNOWN",
     color: Colors.grey,
     icon: Icons.question_mark_rounded,
+    isShown: false,
   ),
   QueryStatus(
     index: 2,
@@ -210,17 +211,19 @@ final List<QueryStatus> queryStatusesV6 = [
     icon: Icons.refresh_rounded,
   ),
   QueryStatus(
-      index: 15,
-      key: "IN_PROGRESS",
-      text: "Already forwarded, awaiting reply",
-      color: Colors.blue,
-      icon: Icons.hourglass_bottom_rounded),
+    index: 15,
+    key: "IN_PROGRESS",
+    text: "Already forwarded, awaiting reply",
+    color: Colors.green,
+    icon: Icons.verified_user_rounded,
+  ),
   QueryStatus(
     index: 16,
     key: "DBBUSY",
     text: "DBBUSY",
     color: Colors.orange,
     icon: Icons.storage_rounded,
+    isShown: false,
   ),
   QueryStatus(
     index: 17,
@@ -228,6 +231,7 @@ final List<QueryStatus> queryStatusesV6 = [
     text: "SPECIAL_DOMAIN",
     color: Colors.red,
     icon: Icons.gpp_bad_rounded,
+    isShown: false,
   ),
   QueryStatus(
     index: 18,
@@ -235,6 +239,7 @@ final List<QueryStatus> queryStatusesV6 = [
     text: "Served by cache optimizer",
     color: Colors.blue,
     icon: Icons.cached_rounded,
+    isShown: false,
   ),
   QueryStatus(
     index: 19,
@@ -242,5 +247,6 @@ final List<QueryStatus> queryStatusesV6 = [
     text: "EXTERNAL_BLOCKED_EDE15",
     color: Colors.orange,
     icon: Icons.question_mark_rounded,
+    isShown: false,
   ),
 ];
