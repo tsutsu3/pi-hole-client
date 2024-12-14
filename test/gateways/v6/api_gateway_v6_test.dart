@@ -757,7 +757,7 @@ void main() async {
   group('fetchLogs', () {
     late Server server;
     final url =
-        'http://example.com/admin/api.php?auth=xxx123&getAllQueries&from=1733472267&until=1733479467';
+        'http://example.com/admin/api.php?auth=xxx123&getAllQueries?from=1733472267&until=1733479467';
 
     setUp(() {
       server = Server(
