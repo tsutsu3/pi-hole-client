@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:pi_hole_client/models/server.dart';
+import 'package:pi_hole_client/providers/servers_provider.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
@@ -22,7 +24,7 @@ class StatusFiltersModal extends StatefulWidget {
 }
 
 class _StatusFiltersModalState extends State<StatusFiltersModal> {
-  List<int> _statusSelected = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14];
+  late List<int> _statusSelected;
 
   void _updateStatusSelected(int option) {
     if (_statusSelected.contains(option) == true) {
@@ -48,6 +50,11 @@ class _StatusFiltersModalState extends State<StatusFiltersModal> {
   @override
   Widget build(BuildContext context) {
     final filtersProvider = Provider.of<FiltersProvider>(context);
+    final serversProvider = Provider.of<ServersProvider>(context);
+
+    setState(() {
+      _statusSelected = filtersProvider.defaultSelected;
+    });
 
     void updateList() {
       filtersProvider.setStatusSelected(_statusSelected);
@@ -81,13 +88,23 @@ class _StatusFiltersModalState extends State<StatusFiltersModal> {
     void checkUncheckAll() {
       if (_statusSelected.length < 14) {
         setState(() {
-          _statusSelected = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14];
+          _statusSelected = filtersProvider.defaultSelected;
         });
       } else {
         setState(() {
           _statusSelected = [];
         });
       }
+    }
+
+    List<Widget> generateListItems() {
+      return serversProvider.queryStatuses.map((item) {
+        if (item.isShown == true) {
+          return listItem(icon: item.icon, label: item.text, value: item.index);
+        } else {
+          return const SizedBox.shrink();
+        }
+      }).toList();
     }
 
     Widget content() {
@@ -119,60 +136,7 @@ class _StatusFiltersModalState extends State<StatusFiltersModal> {
                     ),
                   ],
                 ),
-                listItem(
-                    icon: Icons.gpp_bad_rounded,
-                    label: "Blocked (gravity)",
-                    value: 1),
-                listItem(
-                    icon: Icons.verified_user_rounded,
-                    label: "OK (forwarded)",
-                    value: 2),
-                listItem(
-                    icon: Icons.verified_user_rounded,
-                    label: "OK (cache)",
-                    value: 3),
-                listItem(
-                    icon: Icons.gpp_bad_rounded,
-                    label: "Blocked (regex blacklist",
-                    value: 4),
-                listItem(
-                    icon: Icons.gpp_bad_rounded,
-                    label: "Blocked (exact blacklist)",
-                    value: 5),
-                listItem(
-                    icon: Icons.gpp_bad_rounded,
-                    label: "Blocked (external, IP)",
-                    value: 6),
-                listItem(
-                    icon: Icons.gpp_bad_rounded,
-                    label: "Blocked (external, NULL)",
-                    value: 7),
-                listItem(
-                    icon: Icons.gpp_bad_rounded,
-                    label: "Blocked (external, NXRA)",
-                    value: 8),
-                listItem(
-                    icon: Icons.gpp_bad_rounded,
-                    label: "Blocked (gravity, CNAME)",
-                    value: 9),
-                listItem(
-                    icon: Icons.gpp_bad_rounded,
-                    label: "Blocked (regex blacklist, CNAME)",
-                    value: 10),
-                listItem(
-                    icon: Icons.gpp_bad_rounded,
-                    label: "Blocked (exact blacklist, CNAME)",
-                    value: 11),
-                listItem(
-                    icon: Icons.refresh_rounded, label: "Retried", value: 12),
-                listItem(
-                    icon: Icons.refresh_rounded,
-                    label: "Retried (ignored)",
-                    value: 13),
-                listItem(
-                    icon: Icons.gpp_bad_rounded,
-                    label: "OK (already forwarded)",
-                    value: 14),
+                ...generateListItems(),
               ],
             ),
           ),

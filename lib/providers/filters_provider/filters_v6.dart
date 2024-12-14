@@ -55,6 +55,11 @@ class FiltersV6 implements Filters {
   ];
 
   @override
+  List<int> get defaultSelected {
+    return [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18];
+  }
+
+  @override
   List<int> get statusSelected {
     return _statusSelected;
   }

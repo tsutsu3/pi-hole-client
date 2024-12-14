@@ -1,7 +1,10 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
+import 'package:collection/collection.dart';
+import 'package:pi_hole_client/constants/query_types.dart';
 import 'package:pi_hole_client/gateways/api_gateway_factory.dart';
 import 'package:pi_hole_client/gateways/api_gateway_interface.dart';
+import 'package:pi_hole_client/models/query_status.dart';
 import 'package:pi_hole_client/models/repository/database.dart';
 import 'package:pi_hole_client/repository/database.dart';
 import 'package:pi_hole_client/providers/app_config_provider.dart';
@@ -11,6 +14,8 @@ import 'package:pi_hole_client/models/server.dart';
 class ServersProvider with ChangeNotifier {
   AppConfigProvider? _appConfigProvider;
   final DatabaseRepository _repository;
+  final List<QueryStatus> _queryStatusesV5 = queryStatusesV5;
+  final List<QueryStatus> _queryStatusesV6 = queryStatusesV6;
 
   ServersProvider(this._repository);
 
@@ -45,6 +50,31 @@ class ServersProvider with ChangeNotifier {
     }
 
     return _serverGateways[server.address];
+  }
+
+  List<QueryStatus> get queryStatuses {
+    switch (_selectedServer?.apiVersion) {
+      case 'v5':
+        return _queryStatusesV5;
+      case 'v6':
+        return _queryStatusesV6;
+      default:
+        return [];
+    }
+  }
+
+  /// Returns the query status object for the given key.
+  ///
+  /// If the key is not found, returns null.
+  QueryStatus? findQueryStatus(String key) {
+    switch (_selectedServer?.apiVersion) {
+      case 'v5':
+        return _queryStatusesV5.firstWhereOrNull((status) => status.key == key);
+      case 'v6':
+        return _queryStatusesV6.firstWhereOrNull((status) => status.key == key);
+      default:
+        return null;
+    }
   }
 
   Future<bool> addServer(Server server) async {
