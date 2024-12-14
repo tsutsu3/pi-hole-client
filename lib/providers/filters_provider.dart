@@ -25,6 +25,11 @@ class FiltersProvider with ChangeNotifier implements Filters {
   }
 
   @override
+  List<int> get statusAllowedAndRetried {
+    return _filters!.statusAllowedAndRetried;
+  }
+
+  @override
   List<int> get defaultSelected {
     return _filters!.defaultSelected;
   }

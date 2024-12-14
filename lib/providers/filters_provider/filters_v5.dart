@@ -14,26 +14,14 @@ class FiltersV5 implements Filters {
   List<String> _selectedClients = [];
   String? _selectedDomain;
   RequestStatus _requestStatus = RequestStatus.all;
-  final List<String> _logStatusString = [
-    "Blocked (gravity)",
-    "OK (forwarded)",
-    "OK (cache)",
-    "Blocked (regex blacklist)",
-    "Blocked (exact blacklist)",
-    "Blocked (external, IP)",
-    "Blocked (external, NULL)",
-    "Blocked (external, NXRA)",
-    "Blocked (gravity, CNAME)",
-    "Blocked (regex blacklist, CNAME)",
-    "Blocked (exact blacklist, CNAME)",
-    "Retried",
-    "Retried (ignored)",
-    "OK (already forwarded)",
-    "Database is busy"
-  ];
 
   FiltersV5() : _statusSelected = [] {
     _statusSelected = _statusAll;
+  }
+
+  @override
+  List<int> get statusAllowedAndRetried {
+    return [2, 3, 12, 13, 14];
   }
 
   @override
@@ -48,8 +36,9 @@ class FiltersV5 implements Filters {
 
   @override
   String get statusSelectedString {
-    // Convert 1-based index in _statusSelected to 0-based index for _logStatusString.
-    return _logStatusString[_statusSelected[0] - 1];
+    return queryStatusesV5
+        .firstWhere((e) => e.index == _statusSelected[0])
+        .text;
   }
 
   @override

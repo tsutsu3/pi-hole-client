@@ -14,34 +14,14 @@ class FiltersV6 implements Filters {
   List<String> _selectedClients = [];
   String? _selectedDomain;
   RequestStatus _requestStatus = RequestStatus.all;
-  final List<String> _logStatusString = [
-    // OKs
-    "FORWARDED",
-    "CACHE",
-    // NGs
-    "REGEX",
-    "GRAVITY",
-    "DENYLIST",
-    "EXTERNAL_BLOCKED_IP",
-    "EXTERNAL_BLOCKED_NULL",
-    "EXTERNAL_BLOCKED_NXRA",
-    "EXTERNAL_BLOCKED_EDE15",
-    "DENYLIST_CNAME",
-    "GRAVITY_CNAME",
-    "REGEX_CNAME",
-    // Others
-    "CACHE_STALE",
-    "RETRIED",
-    "RETRIED_DNSSEC",
-    "IN_PROGRESS",
-    "SPECIAL_DOMAIN",
-    "UNKNOWN",
-    // Not a status
-    "DBBUSY",
-  ];
 
   FiltersV6() : _statusSelected = [] {
     _statusSelected = _statusAll;
+  }
+
+  @override
+  List<int> get statusAllowedAndRetried {
+    return [3, 4, 13, 14, 15];
   }
 
   @override
@@ -56,7 +36,9 @@ class FiltersV6 implements Filters {
 
   @override
   String get statusSelectedString {
-    return _logStatusString[_statusSelected[0]];
+    return queryStatusesV6
+        .firstWhere((e) => e.index == _statusSelected[0])
+        .text;
   }
 
   @override

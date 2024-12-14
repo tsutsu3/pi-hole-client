@@ -1,3 +1,4 @@
+import 'package:pi_hole_client/constants/query_types.dart';
 import 'package:pi_hole_client/models/api/v6/metrics/query.dart';
 
 class Log {
@@ -38,33 +39,6 @@ class Log {
     "BLOB",
   ];
 
-  // Must be in the same order as FilterV6._logStatusString
-  static const List<String> logStatusV6 = [
-    // OKs
-    "FORWARDED",
-    "CACHE",
-    // NGs
-    "REGEX",
-    "GRAVITY",
-    "DENYLIST",
-    "EXTERNAL_BLOCKED_IP",
-    "EXTERNAL_BLOCKED_NULL",
-    "EXTERNAL_BLOCKED_NXRA",
-    "EXTERNAL_BLOCKED_EDE15",
-    "DENYLIST_CNAME",
-    "GRAVITY_CNAME",
-    "REGEX_CNAME",
-    // Others
-    "CACHE_STALE",
-    "RETRIED",
-    "RETRIED_DNSSEC",
-    "IN_PROGRESS",
-    "SPECIAL_DOMAIN",
-    "UNKNOWN",
-    // Not a status
-    "DBBUSY",
-  ];
-
   factory Log.fromJson(List data) => Log(
       dateTime:
           DateTime.fromMillisecondsSinceEpoch((int.parse(data[0])) * 1000),
@@ -86,9 +60,10 @@ class Log {
       type: query.type,
       url: query.domain,
       device: query.client.name ?? query.client.ip,
-      status: query.status != null
-          ? logStatusV6.indexOf(query.status!).toString()
-          : null,
+      status: queryStatusesV6
+          .firstWhere((status) => status.key == query.status)
+          .index
+          .toString(), // TODO: Use query.status
       replyType: query.reply.type,
       replyTime: BigInt.from(query.reply.time * 1000 * 10),
       answeredBy: query.upstream,

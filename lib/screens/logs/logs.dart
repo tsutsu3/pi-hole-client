@@ -443,7 +443,8 @@ class _LogsState extends State<Logs> {
     }
 
     bool areFiltersApplied() {
-      if (filtersProvider.statusSelected.length < 13 ||
+      if (filtersProvider.statusSelected.length <
+              serversProvider.numShown - 1 ||
           filtersProvider.startTime != null ||
           filtersProvider.endTime != null ||
           filtersProvider.selectedClients.length <
@@ -613,7 +614,7 @@ class _LogsState extends State<Logs> {
                                       loadLogs(replaceOldLogs: true);
                                     }),
                                   if (filtersProvider.statusSelected.length <
-                                      13)
+                                      serversProvider.numShown - 1)
                                     buildChip(
                                       filtersProvider.statusSelected.length == 1
                                           ? filtersProvider.statusSelectedString

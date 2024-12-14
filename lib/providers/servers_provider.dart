@@ -68,7 +68,8 @@ class ServersProvider with ChangeNotifier {
       case 'v5':
         return _queryStatusesV5.firstWhereOrNull((status) => status.key == key);
       case 'v6':
-        return _queryStatusesV6.firstWhereOrNull((status) => status.key == key);
+        return _queryStatusesV6
+            .firstWhereOrNull((status) => status.index.toString() == key);
       default:
         return null;
     }
