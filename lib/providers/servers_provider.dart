@@ -170,19 +170,6 @@ class ServersProvider with ChangeNotifier {
     }
   }
 
-  // Future<bool> login(Server serverObj) async {
-  //   final result = await ApiGatewayFactory.create(serverObj).loginQuery();
-  //   if (result.result == APiResponseType.success) {
-  //     _selectedServer = serverObj;
-  //     notifyListeners();
-  //     return true;
-  //   } else {
-  //     _selectedServer = serverObj;
-  //     notifyListeners();
-  //     return false;
-  //   }
-  // }
-
   FutureOr<Map<String, dynamic>> checkUrlExists(String url) async {
     return await _repository.checkUrlExistsQuery(url);
   }
