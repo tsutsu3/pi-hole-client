@@ -64,7 +64,7 @@ class Server {
       apiVersion: apiVersion ?? this.apiVersion,
       basicAuthUser: basicAuthUser ?? this.basicAuthUser,
       basicAuthPassword: basicAuthPassword ?? this.basicAuthPassword,
-      sm: sm ?? sm,
+      sm: sm ?? this.sm,
     );
   }
 }
