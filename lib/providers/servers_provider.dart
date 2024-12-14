@@ -63,12 +63,12 @@ class ServersProvider with ChangeNotifier {
     }
   }
 
-  QueryStatus? get queryStatus {
+  QueryStatus? getQueryStatus(String key) {
     switch (_selectedServer?.apiVersion) {
       case 'v5':
-        return _queryStatusesV5.firstWhere((status) => status.isShown);
+        return _queryStatusesV5.firstWhereOrNull((status) => status.key == key);
       case 'v6':
-        return _queryStatusesV6.firstWhere((status) => status.isShown);
+        return _queryStatusesV6.firstWhereOrNull((status) => status.key == key);
       default:
         return null;
     }
