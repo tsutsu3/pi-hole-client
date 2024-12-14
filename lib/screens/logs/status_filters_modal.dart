@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:pi_hole_client/models/server.dart';
 import 'package:pi_hole_client/providers/servers_provider.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
@@ -52,10 +51,6 @@ class _StatusFiltersModalState extends State<StatusFiltersModal> {
     final filtersProvider = Provider.of<FiltersProvider>(context);
     final serversProvider = Provider.of<ServersProvider>(context);
 
-    setState(() {
-      _statusSelected = filtersProvider.defaultSelected;
-    });
-
     void updateList() {
       filtersProvider.setStatusSelected(_statusSelected);
     }
@@ -98,12 +93,14 @@ class _StatusFiltersModalState extends State<StatusFiltersModal> {
     }
 
     List<Widget> generateListItems() {
-      return serversProvider.queryStatuses.map((item) {
-        if (item.isShown == true) {
-          return listItem(icon: item.icon, label: item.text, value: item.index);
-        } else {
-          return const SizedBox.shrink();
-        }
+      return serversProvider.queryStatuses
+          .where((item) => item.isShown)
+          .map((item) {
+        return listItem(
+          icon: item.icon,
+          label: item.text,
+          value: item.index,
+        );
       }).toList();
     }
 
