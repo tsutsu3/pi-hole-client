@@ -451,6 +451,7 @@ class ApiGatewayV6 implements ApiGateway {
       );
       if (response.statusCode == 200) {
         final queries = Queries.fromJson(jsonDecode(response.body));
+        logger.d('Queries: ${queries.queries.map((e) => e.toJson()).toList()}');
         return FetchLogsResponse(
             result: APiResponseType.success,
             data: queries.queries.map((query) => Log.fromV6(query)).toList());

@@ -1,6 +1,7 @@
 // ignore_for_file: use_build_context_synchronously
 
 import 'package:flutter/material.dart';
+import 'package:pi_hole_client/functions/logger.dart';
 import 'package:pi_hole_client/models/gateways.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
@@ -123,6 +124,7 @@ class _LogsState extends State<Logs> {
           List<Log> items = [];
           if (result!.data != null) {
             result.data?.forEach((item) => items.add(item));
+            logger.d('Logs fetched: ${items.map((e) => e.toJson()).toList()}');
           }
           if (replaceOldLogs == true) {
             setState(() {

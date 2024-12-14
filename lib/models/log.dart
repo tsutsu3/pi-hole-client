@@ -94,4 +94,16 @@ class Log {
       answeredBy: query.upstream,
     );
   }
+
+  //toJson
+  Map<String, dynamic> toJson() => {
+        'dateTime': dateTime.toIso8601String(),
+        'type': type,
+        'url': url,
+        'device': device,
+        'status': status,
+        'replyType': replyType,
+        'replyTime': replyTime.toString(),
+        'answeredBy': answeredBy,
+      };
 }
