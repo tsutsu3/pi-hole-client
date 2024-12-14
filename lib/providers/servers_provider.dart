@@ -181,7 +181,7 @@ class ServersProvider with ChangeNotifier {
   }
 
   void updateselectedServerStatus(bool enabled) {
-    if (_selectedServer != null) {
+    if (_selectedServer != null && _selectedServer!.enabled != enabled) {
       _selectedServer = _selectedServer!.copyWith(enabled: enabled);
       notifyListeners();
     }
