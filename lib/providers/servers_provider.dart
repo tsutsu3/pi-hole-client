@@ -63,6 +63,17 @@ class ServersProvider with ChangeNotifier {
     }
   }
 
+  int get numShown {
+    switch (_selectedServer?.apiVersion) {
+      case 'v5':
+        return _queryStatusesV5.where((status) => status.isShown).length;
+      case 'v6':
+        return _queryStatusesV6.where((status) => status.isShown).length;
+      default:
+        return 0;
+    }
+  }
+
   /// Returns the query status object for the given key.
   ///
   /// If the key is not found, returns null.

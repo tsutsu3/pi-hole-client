@@ -81,7 +81,7 @@ class _StatusFiltersModalState extends State<StatusFiltersModal> {
     }
 
     void checkUncheckAll() {
-      if (_statusSelected.length < 14) {
+      if (_statusSelected.length < serversProvider.numShown) {
         setState(() {
           _statusSelected = filtersProvider.defaultSelected;
         });
@@ -144,9 +144,10 @@ class _StatusFiltersModalState extends State<StatusFiltersModal> {
               children: [
                 TextButton(
                     onPressed: checkUncheckAll,
-                    child: Text(_statusSelected.length == 14
-                        ? AppLocalizations.of(context)!.uncheckAll
-                        : AppLocalizations.of(context)!.checkAll)),
+                    child: Text(
+                        _statusSelected.length == serversProvider.numShown
+                            ? AppLocalizations.of(context)!.uncheckAll
+                            : AppLocalizations.of(context)!.checkAll)),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.end,
                   children: [
