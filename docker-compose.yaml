@@ -22,3 +22,27 @@ services:
     environment:
       TZ: 'Asia/Tokyo'
       FTLCONF_webserver_api_password: 'test123'
+
+  piholeV52:
+    container_name: piholeV52
+    image: pihole/pihole:latest
+    ports:
+      - "56:53/tcp"
+      - "56:53/udp"
+      - "8082:80/tcp"
+      - "1446:443/tcp"
+    environment:
+      TZ: 'Asia/Tokyo'
+      WEBPASSWORD: 'test456'
+
+  piholeV62:
+    container_name: piholeV62
+    image: pihole/pihole:development
+    ports:
+      - "57:53/tcp"
+      - "57:53/udp"
+      - "8083:80/tcp"
+      - "1447:443/tcp"
+    environment:
+      TZ: 'Asia/Tokyo'
+      FTLCONF_webserver_api_password: 'test456'
