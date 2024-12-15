@@ -13,12 +13,12 @@ class AppConfigProvider with ChangeNotifier {
   AndroidDeviceInfo? _androidDeviceInfo;
   IosDeviceInfo? _iosDeviceInfo;
   PackageInfo? _appInfo;
-  int? _autoRefreshTime = 2;
+  int? _autoRefreshTime = 2; // secounds
   int _selectedTheme = 0;
   int _overrideSslCheck = 0;
   int _oneColumnLegend = 0;
   int _reducedDataCharts = 0;
-  double _logsPerQuery = 2;
+  double _logsPerQuery = 2; //hours
   String? _passCode;
   bool _biometricsSupport = false;
   int _useBiometrics = 0;
