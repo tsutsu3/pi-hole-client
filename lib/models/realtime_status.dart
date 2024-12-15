@@ -1,6 +1,9 @@
 import 'dart:convert';
 
 import 'package:pi_hole_client/functions/charts_data_functions.dart';
+import 'package:pi_hole_client/models/api/v6/dns/dns.dart';
+import 'package:pi_hole_client/models/api/v6/flt/ftl.dart';
+import 'package:pi_hole_client/models/api/v6/metrics/stats.dart';
 
 RealtimeStatus realtimeStatusFromJson(String str) =>
     RealtimeStatus.fromJson(json.decode(str));
@@ -126,4 +129,116 @@ class RealtimeStatus {
           ? sortValues(removeZeroValues(Map.from(json["forward_destinations"]).map((k, v) => MapEntry<String, double>(k, v.toDouble()))))
           : {},
       queryTypes: ((json["querytypes"].runtimeType != List<dynamic>) && (json["querytypes"] != null)) ? sortValues(removeZeroValues(Map.from(json["querytypes"]).map((k, v) => MapEntry<String, double>(k, v.toDouble())))) : {});
+
+  factory RealtimeStatus.fromV6(
+    StatsSummary summary,
+    InfoFtl infoFtl,
+    Blocking blocking,
+    StatsTopDomains topPermittedDomains,
+    StatsTopDomains topBlockedDomains,
+    StatsTopClients topClients,
+    StatsTopClients topClientsBlocked,
+    StatsUpstreams upstreams,
+  ) {
+    // Calculate the percentage of each query type
+    final totalQueryTypes =
+        summary.queries.types.toJson().values.reduce((a, b) => a + b);
+    final queryTypes = sortValues(removeZeroValues(summary.queries.types
+        .toJson()
+        .map((key, value) => MapEntry(key, (value / totalQueryTypes) * 100))));
+
+    final topQueries = topPermittedDomains.domains.isNotEmpty
+        ? Map.fromEntries(
+            topPermittedDomains.domains.map(
+                (domain) => MapEntry<String, int>(domain.domain, domain.count)),
+          )
+        : <String, int>{};
+
+    final topAds = topBlockedDomains.domains.isNotEmpty
+        ? Map.fromEntries(
+            topBlockedDomains.domains.map(
+                (domain) => MapEntry<String, int>(domain.domain, domain.count)),
+          )
+        : <String, int>{};
+
+    final topSources = topClients.clients.isNotEmpty
+        ? Map.fromEntries(
+            topClients.clients.map(
+              (client) => MapEntry<String, int>(
+                  client.name.isNotEmpty
+                      ? '${client.name}|${client.ip}'
+                      : client.ip,
+                  client.count),
+            ),
+          )
+        : <String, int>{};
+
+    final topSourcesBlocked = topClientsBlocked.clients.isNotEmpty
+        ? Map.fromEntries(
+            topClientsBlocked.clients.map(
+              (client) => MapEntry<String, int>(
+                  client.name.isNotEmpty
+                      ? '${client.name}|${client.ip}'
+                      : client.ip,
+                  client.count),
+            ),
+          )
+        : <String, int>{};
+
+    final totalForwardDestinations = upstreams.upstreams.isNotEmpty
+        ? upstreams.upstreams
+            .map((upstream) => upstream.count)
+            .reduce((a, b) => a + b)
+        : 0;
+    final forwardDestinations = upstreams.upstreams.isNotEmpty
+        ? sortValues(removeZeroValues(Map.fromEntries(
+            upstreams.upstreams.map(
+              (upstream) => MapEntry<String, double>(
+                  upstream.port == -1
+                      ? '${upstream.name}|${upstream.ip}'
+                      : '${upstream.name}#${upstream.port}|${upstream.ip}#${upstream.port}',
+                  upstream.count / totalForwardDestinations * 100),
+            ),
+          )))
+        : <String, double>{};
+
+    // memo:
+    // dnsQueriesAllTypes: v5 same as dnsQueriesToday number
+    // dnsQueriesAllReplies: v5 same as dnsQueriesToday number
+    return RealtimeStatus(
+      domainsBeingBlocked: summary.gravity.domainsBeingBlocked,
+      dnsQueriesToday: summary.queries.total,
+      adsBlockedToday: summary.queries.blocked,
+      adsPercentageToday: summary.queries.percentBlocked,
+      uniqueDomains: summary.queries.uniqueDomains,
+      queriesForwarded: summary.queries.forwarded,
+      queriesCached: summary.queries.cached,
+      clientsEverSeen: summary.clients.total,
+      uniqueClients: summary.clients.active,
+      dnsQueriesAllTypes: summary.queries.total,
+      replyUnknown: summary.queries.replies.unknown,
+      replyNodata: summary.queries.replies.nodata,
+      replyNxdomain: summary.queries.replies.nxdomain,
+      replyCname: summary.queries.replies.cname,
+      replyIp: summary.queries.replies.ip,
+      replyDomain: summary.queries.replies.domain,
+      replyRrname: summary.queries.replies.rrname,
+      replyServfail: summary.queries.replies.servfail,
+      replyRefused: summary.queries.replies.refused,
+      replyNotimp: summary.queries.replies.notimp,
+      replyOther: summary.queries.replies.other,
+      replyDnssec: summary.queries.replies.dnssec,
+      replyNone: summary.queries.replies.none,
+      replyBlob: summary.queries.replies.blob,
+      dnsQueriesAllReplies: summary.queries.total,
+      privacyLevel: infoFtl.ftl.privacyLevel,
+      status: blocking.blocking,
+      topQueries: topQueries,
+      topAds: topAds,
+      topSources: topSources,
+      topSourcesBlocked: topSourcesBlocked,
+      forwardDestinations: forwardDestinations,
+      queryTypes: queryTypes,
+    );
+  }
 }

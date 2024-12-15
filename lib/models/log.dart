@@ -1,3 +1,6 @@
+import 'package:pi_hole_client/constants/query_types.dart';
+import 'package:pi_hole_client/models/api/v6/metrics/query.dart';
+
 class Log {
   final DateTime dateTime;
   final String type;
@@ -50,4 +53,34 @@ class Log {
               ? data[10]
               : null
           : null);
+
+  factory Log.fromV6(Query query) {
+    return Log(
+      //double to int
+      dateTime:
+          DateTime.fromMillisecondsSinceEpoch((query.time * 1000).toInt()),
+      type: query.type,
+      url: query.domain,
+      device: query.client.name ?? query.client.ip,
+      status: queryStatusesV6
+          .firstWhere((status) => status.key == query.status)
+          .index
+          .toString(), // TODO: Use query.status
+      replyType: query.reply.type,
+      replyTime: BigInt.from(query.reply.time * 1000 * 10),
+      answeredBy: query.upstream,
+    );
+  }
+
+  //toJson
+  Map<String, dynamic> toJson() => {
+        'dateTime': dateTime.toIso8601String(),
+        'type': type,
+        'url': url,
+        'device': device,
+        'status': status,
+        'replyType': replyType,
+        'replyTime': replyTime.toString(),
+        'answeredBy': answeredBy,
+      };
 }

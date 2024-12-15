@@ -84,9 +84,10 @@ class _ServersPageState extends State<ServersPage> {
                     showDialog(
                         context: context,
                         builder: (context) => AddServerFullscreen(
-                              server: server,
-                              window: true,
-                            ),
+                            server: server,
+                            window: true,
+                            title:
+                                AppLocalizations.of(context)!.createConnection),
                         barrierDismissible: false)
                   }
                 else
@@ -97,9 +98,10 @@ class _ServersPageState extends State<ServersPage> {
                             fullscreenDialog: true,
                             builder: (BuildContext context) =>
                                 AddServerFullscreen(
-                                  server: server,
-                                  window: false,
-                                )))
+                                    server: server,
+                                    window: false,
+                                    title: AppLocalizations.of(context)!
+                                        .createConnection)))
                   }
               }));
     }

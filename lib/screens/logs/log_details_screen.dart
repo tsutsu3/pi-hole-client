@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:pi_hole_client/providers/filters_provider.dart';
 
 import 'package:pi_hole_client/screens/logs/log_status.dart';
 import 'package:pi_hole_client/widgets/custom_list_tile.dart';
@@ -8,6 +9,7 @@ import 'package:pi_hole_client/functions/open_url.dart';
 import 'package:pi_hole_client/models/log.dart';
 import 'package:pi_hole_client/constants/search_domain_base_url.dart';
 import 'package:pi_hole_client/functions/format.dart';
+import 'package:provider/provider.dart';
 
 class LogDetailsScreen extends StatelessWidget {
   final Log log;
@@ -18,6 +20,8 @@ class LogDetailsScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final filterProvider = Provider.of<FiltersProvider>(context);
+
     Widget item(IconData icon, String label, Widget value) {
       return Padding(
         padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
@@ -46,11 +50,8 @@ class LogDetailsScreen extends StatelessWidget {
     }
 
     Widget blackWhiteListButton() {
-      if (log.status == '2' ||
-          log.status == '3' ||
-          log.status == '12' ||
-          log.status == '13' ||
-          log.status == '14') {
+      if (filterProvider.statusAllowedAndRetried
+          .contains(int.parse(log.status!))) {
         return IconButton(
           onPressed: () {
             Navigator.pop(context);

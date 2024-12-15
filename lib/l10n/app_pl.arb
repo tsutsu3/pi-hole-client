@@ -124,6 +124,7 @@
   "dontCheckCertificate": "Nie sprawdzaj certyfikatu SSL",
   "dontCheckCertificateDescription": "Zastępuje sprawdzanie poprawności certyfikatu SSL serwera",
   "edit": "Edytuj",
+  "editConnection": "Edytuj połączenie",
   "editServer": "Edytowanie połączenia z serwerem",
   "enable": "Włączyć",
   "enabled": "Włączone",

@@ -1,7 +1,6 @@
 // ignore_for_file: use_build_context_synchronously
 
 import 'package:flutter/material.dart';
-import 'package:pi_hole_client/gateways/api_gateway_factory.dart';
 import 'package:pi_hole_client/models/gateways.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
@@ -43,6 +42,7 @@ class _ServersTileItemState extends State<ServersTileItem>
 
     final width = MediaQuery.of(context).size.width;
 
+    /// Delete
     void showDeleteModal(Server server) async {
       await Future.delayed(
           const Duration(seconds: 0),
@@ -56,6 +56,7 @@ class _ServersTileItemState extends State<ServersTileItem>
               });
     }
 
+    /// Edit
     void openAddServerBottomSheet({Server? server}) async {
       await Future.delayed(
           const Duration(seconds: 0),
@@ -66,9 +67,9 @@ class _ServersTileItemState extends State<ServersTileItem>
                       context: context,
                       barrierDismissible: false,
                       builder: (context) => AddServerFullscreen(
-                        server: server,
-                        window: true,
-                      ),
+                          server: server,
+                          window: true,
+                          title: AppLocalizations.of(context)!.editConnection),
                     )
                   }
                 else
@@ -79,13 +80,15 @@ class _ServersTileItemState extends State<ServersTileItem>
                             fullscreenDialog: true,
                             builder: (BuildContext context) =>
                                 AddServerFullscreen(
-                                  server: server,
-                                  window: false,
-                                )))
+                                    server: server,
+                                    window: false,
+                                    title: AppLocalizations.of(context)!
+                                        .editConnection)))
                   }
               }));
     }
 
+    /// Connect to the server button
     void connectToServer(Server server) async {
       Future connectSuccess(result) async {
         serversProvider.setselectedServer(
@@ -95,7 +98,8 @@ class _ServersTileItemState extends State<ServersTileItem>
                 token: server.token!,
                 defaultServer: server.defaultServer,
                 apiVersion: server.apiVersion,
-                enabled: result.status == 'enabled' ? true : false),
+                enabled: result.status == 'enabled' ? true : false,
+                sm: server.sm),
             toHomeTab: true);
         final apiGateway = serversProvider.selectedApiGateway;
         final statusResult = await apiGateway?.realtimeStatus();
@@ -114,12 +118,12 @@ class _ServersTileItemState extends State<ServersTileItem>
         appConfigProvider.setSelectedTab(0);
       }
 
+      await serversProvider.resetSelectedServer();
       final ProcessModal process = ProcessModal(context: context);
       process.open(AppLocalizations.of(context)!.connecting);
 
-      final result = await ApiGatewayFactory.create(server).loginQuery();
-      process.close();
-      if (result.result == APiResponseType.success) {
+      final result = await serversProvider.loadApiGateway(server)?.loginQuery();
+      if (result?.result == APiResponseType.success) {
         await connectSuccess(result);
       } else if (mounted) {
         showSnackBar(
@@ -127,8 +131,10 @@ class _ServersTileItemState extends State<ServersTileItem>
             label: AppLocalizations.of(context)!.cannotConnect,
             color: Colors.red);
       }
+      process.close();
     }
 
+    /// Set default server
     void setDefaultServer(Server server) async {
       final result = await serversProvider.setDefaultServer(server);
       if (result == true) {

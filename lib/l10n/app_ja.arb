@@ -124,6 +124,7 @@
   "dontCheckCertificate": "SSL証明書を確認しない",
   "dontCheckCertificateDescription": "サーバーのSSL証明書の検証を無効にします",
   "edit": "編集",
+  "editConnection": "接続を編集",
   "editServer": "サーバー接続を編集",
   "enable": "有効化",
   "enabled": "有効",

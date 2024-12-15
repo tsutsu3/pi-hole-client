@@ -126,6 +126,7 @@
   "dontCheckCertificate": "No comprobar el certificado SSL",
   "dontCheckCertificateDescription": "Anula la validación del certificado SSL del servidor",
   "edit": "Editar",
+  "editConnection": "Editar una conexión",
   "editServer": "Editar conexión",
   "enable": "Activar",
   "enabled": "Activado",

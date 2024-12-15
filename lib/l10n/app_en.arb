@@ -124,6 +124,7 @@
   "dontCheckCertificate": "Don't check SSL certificate",
   "dontCheckCertificateDescription": "Overrides the server's SSL certificate validation",
   "edit": "Edit",
+  "editConnection": "Edit a Connection",
   "editServer": "Edit server connection",
   "enable": "Enable",
   "enabled": "Enabled",

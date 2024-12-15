@@ -28,6 +28,7 @@ class ServerDbData {
   final String apiVersion;
   final String? basicAuthUser;
   final String? basicAuthPassword;
+  final String? sid;
 
   ServerDbData({
     required this.address,
@@ -37,6 +38,7 @@ class ServerDbData {
     required this.apiVersion,
     required this.basicAuthUser,
     required this.basicAuthPassword,
+    required this.sid,
   });
 
   factory ServerDbData.fromMap(Map<String, Object?> map) {
@@ -48,6 +50,7 @@ class ServerDbData {
       apiVersion: map['apiVersion'] as String,
       basicAuthUser: map['basicAuthUser'] as String?,
       basicAuthPassword: map['basicAuthPassword'] as String?,
+      sid: map['sid'] as String?,
     );
   }
 
@@ -56,6 +59,7 @@ class ServerDbData {
     String? token,
     String? basicAuthUser,
     String? basicAuthPassword,
+    String? sid,
   ) {
     return ServerDbData(
       address: instance.address,
@@ -65,6 +69,7 @@ class ServerDbData {
       apiVersion: instance.apiVersion,
       basicAuthUser: basicAuthUser,
       basicAuthPassword: basicAuthPassword,
+      sid: sid,
     );
   }
 
@@ -77,6 +82,7 @@ class ServerDbData {
       "apiVersion": apiVersion,
       "basicAuthUser": basicAuthUser,
       "basicAuthPassword": basicAuthPassword,
+      "sid": sid,
     };
   }
 }

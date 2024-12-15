@@ -3,6 +3,7 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:pi_hole_client/providers/servers_provider.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
@@ -37,6 +38,7 @@ class _LogsFiltersModalState extends State<LogsFiltersModal> {
   @override
   Widget build(BuildContext context) {
     final filtersProvider = Provider.of<FiltersProvider>(context);
+    final serverProvider = Provider.of<ServersProvider>(context);
 
     final width = MediaQuery.of(context).size.width;
 
@@ -397,7 +399,8 @@ class _LogsFiltersModalState extends State<LogsFiltersModal> {
                               const SizedBox(height: 5),
                               Text(
                                 statusText(
-                                    filtersProvider.statusSelected.length, 14),
+                                    filtersProvider.statusSelected.length,
+                                    serverProvider.numShown),
                                 style: TextStyle(
                                   color: Theme.of(context)
                                       .colorScheme
