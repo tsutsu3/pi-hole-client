@@ -118,12 +118,11 @@ class _ServersTileItemState extends State<ServersTileItem>
         appConfigProvider.setSelectedTab(0);
       }
 
+      await serversProvider.resetSelectedServer();
       final ProcessModal process = ProcessModal(context: context);
-      // TODO: When switching servers multiple times, it gets stuck on loading.
       process.open(AppLocalizations.of(context)!.connecting);
 
       final result = await serversProvider.loadApiGateway(server)?.loginQuery();
-      process.close();
       if (result?.result == APiResponseType.success) {
         await connectSuccess(result);
       } else if (mounted) {
@@ -132,6 +131,7 @@ class _ServersTileItemState extends State<ServersTileItem>
             label: AppLocalizations.of(context)!.cannotConnect,
             color: Colors.red);
       }
+      process.close();
     }
 
     /// Set default server
@@ -319,7 +319,7 @@ class _ServersTileItemState extends State<ServersTileItem>
                               statusProvider.isServerConnected == true
                                   ? AppLocalizations.of(context)!.connected
                                   : AppLocalizations.of(context)!
-                                      .selectedDisconnected, // TODO: Not show loading spenner, but show disconnected message(orange color)
+                                      .selectedDisconnected,
                               style: TextStyle(
                                   color:
                                       statusProvider.isServerConnected == true

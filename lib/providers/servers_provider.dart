@@ -251,4 +251,10 @@ class ServersProvider with ChangeNotifier {
       return false;
     }
   }
+
+  Future<bool> resetSelectedServer() async {
+    _selectedServer = null;
+    notifyListeners();
+    return true;
+  }
 }

@@ -166,7 +166,7 @@ class RealtimeStatus {
             topClients.clients.map(
               (client) => MapEntry<String, int>(
                   client.name.isNotEmpty
-                      ? '$client.name|$client.ip'
+                      ? '${client.name}|${client.ip}'
                       : client.ip,
                   client.count),
             ),
@@ -178,7 +178,7 @@ class RealtimeStatus {
             topClientsBlocked.clients.map(
               (client) => MapEntry<String, int>(
                   client.name.isNotEmpty
-                      ? '$client.name|$client.ip'
+                      ? '${client.name}|${client.ip}'
                       : client.ip,
                   client.count),
             ),
