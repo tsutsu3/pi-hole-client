@@ -30,7 +30,7 @@ Map<String, dynamic> _$$QueriesImplToJson(_$QueriesImpl instance) =>
 
 _$QueryImpl _$$QueryImplFromJson(Map<String, dynamic> json) => _$QueryImpl(
       id: (json['id'] as num).toInt(),
-      time: (json['time'] as num).toInt(),
+      time: (json['time'] as num).toDouble(),
       type: json['type'] as String,
       domain: json['domain'] as String,
       cname: json['cname'] as String?,
@@ -70,7 +70,7 @@ Map<String, dynamic> _$$ClientImplToJson(_$ClientImpl instance) =>
 
 _$ReplyImpl _$$ReplyImplFromJson(Map<String, dynamic> json) => _$ReplyImpl(
       type: json['type'] as String?,
-      time: (json['time'] as num).toInt(),
+      time: (json['time'] as num).toDouble(),
     );
 
 Map<String, dynamic> _$$ReplyImplToJson(_$ReplyImpl instance) =>

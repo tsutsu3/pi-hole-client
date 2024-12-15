@@ -446,7 +446,7 @@ class ApiGatewayV6 implements ApiGateway {
       final response = await httpClient(
         method: 'get',
         url:
-            '${server.address}/api/queries/?from=${from.millisecondsSinceEpoch ~/ 1000}&until=${until.millisecondsSinceEpoch ~/ 1000}',
+            '${server.address}/api/queries?from=${from.millisecondsSinceEpoch ~/ 1000}&until=${until.millisecondsSinceEpoch ~/ 1000}',
         timeout: 20,
       );
       if (response.statusCode == 200) {

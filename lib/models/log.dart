@@ -56,7 +56,9 @@ class Log {
 
   factory Log.fromV6(Query query) {
     return Log(
-      dateTime: DateTime.fromMillisecondsSinceEpoch(query.time * 1000),
+      //double to int
+      dateTime:
+          DateTime.fromMillisecondsSinceEpoch((query.time * 1000).toInt()),
       type: query.type,
       url: query.domain,
       device: query.client.name ?? query.client.ip,

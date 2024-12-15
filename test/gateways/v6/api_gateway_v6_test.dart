@@ -757,7 +757,7 @@ void main() async {
   group('fetchLogs', () {
     late Server server;
     final url =
-        'http://example.com/admin/api.php?auth=xxx123&getAllQueries?from=1733472267&until=1733479467';
+        'http://example.com/api/queries?from=1733472267&until=1733479467';
 
     setUp(() {
       server = Server(
@@ -772,38 +772,43 @@ void main() async {
       final mockClient = MockClient();
       final apiGateway = ApiGatewayV6(server, client: mockClient);
       final data = {
-        "data": [
-          [
-            "1733479389",
-            "A",
-            "google.com",
-            "172.26.0.1",
-            "2",
-            "0",
-            "4",
-            "324",
-            "N/A",
-            "-1",
-            "dns.google#53",
-            ""
-          ],
-          [
-            "1733479462",
-            "A",
-            "google.co.jp",
-            "172.26.0.1",
-            "2",
-            "0",
-            "4",
-            "742",
-            "N/A",
-            "-1",
-            "dns.google#53",
-            ""
-          ]
-        ]
+        "queries": [
+          {
+            "id": 1,
+            "time": 1581907991.539157,
+            "type": "A",
+            "domain": "community.stoplight.io",
+            "cname": null,
+            "status": "FORWARDED",
+            "client": {"ip": "192.168.0.14", "name": "desktop.lan"},
+            "dnssec": "INSECURE",
+            "reply": {"type": "IP", "time": 19},
+            "list_id": null,
+            "upstream": "localhost#5353",
+            "dbid": 112421354
+          },
+          {
+            "id": 2,
+            "time": 1581907871.583821,
+            "type": "AAAA",
+            "domain": "api.github.com",
+            "cname": null,
+            "status": "FORWARDED",
+            "client": {"ip": "127.0.0.1", "name": "localhost"},
+            "dnssec": "UNKNOWN",
+            "reply": {"type": "IP", "time": 12.3},
+            "list_id": null,
+            "upstream": "localhost#5353",
+            "dbid": 112421355
+          }
+        ],
+        "cursor": 175881,
+        "recordsTotal": 1234,
+        "recordsFiltered": 1234,
+        "draw": 1,
+        "took": 0.003
       };
-      when(mockClient.get(Uri.parse(url), headers: {}))
+      when(mockClient.get(Uri.parse(url), headers: anyNamed('headers')))
           .thenAnswer((_) async => http.Response(jsonEncode(data), 200));
 
       final from = DateTime.fromMillisecondsSinceEpoch(1733472267 * 1000);
@@ -818,7 +823,7 @@ void main() async {
       final mockClient = MockClient();
       final apiGateway = ApiGatewayV6(server, client: mockClient);
 
-      when(mockClient.get(Uri.parse(url), headers: {}))
+      when(mockClient.get(Uri.parse(url), headers: anyNamed('headers')))
           .thenThrow(Exception('Unexpected error test'));
 
       final from = DateTime.fromMillisecondsSinceEpoch(1733472267 * 1000);

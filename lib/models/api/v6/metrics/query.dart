@@ -22,7 +22,7 @@ class Queries with _$Queries {
 class Query with _$Query {
   const factory Query({
     required int id,
-    required int time,
+    required double time,
     required String type,
     required String domain,
     String? cname,
@@ -51,7 +51,7 @@ class Client with _$Client {
 class Reply with _$Reply {
   const factory Reply({
     String? type,
-    required int time,
+    required double time,
   }) = _Reply;
 
   factory Reply.fromJson(Map<String, dynamic> json) => _$ReplyFromJson(json);

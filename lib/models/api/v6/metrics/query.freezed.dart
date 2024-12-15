@@ -286,7 +286,7 @@ Query _$QueryFromJson(Map<String, dynamic> json) {
 /// @nodoc
 mixin _$Query {
   int get id => throw _privateConstructorUsedError;
-  int get time => throw _privateConstructorUsedError;
+  double get time => throw _privateConstructorUsedError;
   String get type => throw _privateConstructorUsedError;
   String get domain => throw _privateConstructorUsedError;
   String? get cname => throw _privateConstructorUsedError;
@@ -314,7 +314,7 @@ abstract class $QueryCopyWith<$Res> {
   @useResult
   $Res call(
       {int id,
-      int time,
+      double time,
       String type,
       String domain,
       String? cname,
@@ -364,7 +364,7 @@ class _$QueryCopyWithImpl<$Res, $Val extends Query>
       time: null == time
           ? _value.time
           : time // ignore: cast_nullable_to_non_nullable
-              as int,
+              as double,
       type: null == type
           ? _value.type
           : type // ignore: cast_nullable_to_non_nullable
@@ -434,7 +434,7 @@ abstract class _$$QueryImplCopyWith<$Res> implements $QueryCopyWith<$Res> {
   @useResult
   $Res call(
       {int id,
-      int time,
+      double time,
       String type,
       String domain,
       String? cname,
@@ -484,7 +484,7 @@ class __$$QueryImplCopyWithImpl<$Res>
       time: null == time
           ? _value.time
           : time // ignore: cast_nullable_to_non_nullable
-              as int,
+              as double,
       type: null == type
           ? _value.type
           : type // ignore: cast_nullable_to_non_nullable
@@ -547,7 +547,7 @@ class _$QueryImpl implements _Query {
   @override
   final int id;
   @override
-  final int time;
+  final double time;
   @override
   final String type;
   @override
@@ -616,7 +616,7 @@ class _$QueryImpl implements _Query {
 abstract class _Query implements Query {
   const factory _Query(
       {required final int id,
-      required final int time,
+      required final double time,
       required final String type,
       required final String domain,
       final String? cname,
@@ -632,7 +632,7 @@ abstract class _Query implements Query {
   @override
   int get id;
   @override
-  int get time;
+  double get time;
   @override
   String get type;
   @override
@@ -830,7 +830,7 @@ Reply _$ReplyFromJson(Map<String, dynamic> json) {
 /// @nodoc
 mixin _$Reply {
   String? get type => throw _privateConstructorUsedError;
-  int get time => throw _privateConstructorUsedError;
+  double get time => throw _privateConstructorUsedError;
 
   /// Serializes this Reply to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
@@ -846,7 +846,7 @@ abstract class $ReplyCopyWith<$Res> {
   factory $ReplyCopyWith(Reply value, $Res Function(Reply) then) =
       _$ReplyCopyWithImpl<$Res, Reply>;
   @useResult
-  $Res call({String? type, int time});
+  $Res call({String? type, double time});
 }
 
 /// @nodoc
@@ -875,7 +875,7 @@ class _$ReplyCopyWithImpl<$Res, $Val extends Reply>
       time: null == time
           ? _value.time
           : time // ignore: cast_nullable_to_non_nullable
-              as int,
+              as double,
     ) as $Val);
   }
 }
@@ -887,7 +887,7 @@ abstract class _$$ReplyImplCopyWith<$Res> implements $ReplyCopyWith<$Res> {
       __$$ReplyImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({String? type, int time});
+  $Res call({String? type, double time});
 }
 
 /// @nodoc
@@ -914,7 +914,7 @@ class __$$ReplyImplCopyWithImpl<$Res>
       time: null == time
           ? _value.time
           : time // ignore: cast_nullable_to_non_nullable
-              as int,
+              as double,
     ));
   }
 }
@@ -930,7 +930,7 @@ class _$ReplyImpl implements _Reply {
   @override
   final String? type;
   @override
-  final int time;
+  final double time;
 
   @override
   String toString() {
@@ -967,7 +967,7 @@ class _$ReplyImpl implements _Reply {
 }
 
 abstract class _Reply implements Reply {
-  const factory _Reply({final String? type, required final int time}) =
+  const factory _Reply({final String? type, required final double time}) =
       _$ReplyImpl;
 
   factory _Reply.fromJson(Map<String, dynamic> json) = _$ReplyImpl.fromJson;
@@ -975,7 +975,7 @@ abstract class _Reply implements Reply {
   @override
   String? get type;
   @override
-  int get time;
+  double get time;
 
   /// Create a copy of Reply
   /// with the given fields replaced by the non-null parameter values.
