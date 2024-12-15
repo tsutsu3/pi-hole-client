@@ -322,6 +322,7 @@
   "username": "Username",
   "valueNotValid": "Value not valid",
   "version": "Version",
+  "versionDescription": "Select the version of Pi-hole you are using",
   "visitGooglePlay": "Visit Google Play page",
   "whitelist": "Add to whitelist",
   "writeEmail": "Write me by email.",

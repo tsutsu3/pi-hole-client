@@ -654,6 +654,13 @@ class _AddServerFullscreenState extends State<AddServerFullscreen> {
                 SectionLabel(
                     label: AppLocalizations.of(context)!.version,
                     padding: const EdgeInsets.only(top: 30, bottom: 10)),
+                Align(
+                  alignment: Alignment.centerLeft,
+                  child: Text(
+                    AppLocalizations.of(context)!.versionDescription,
+                    style: Theme.of(context).textTheme.bodySmall,
+                  ),
+                ),
                 Container(
                   padding: const EdgeInsets.symmetric(vertical: 10),
                   width: double.maxFinite,
@@ -673,7 +680,7 @@ class _AddServerFullscreenState extends State<AddServerFullscreen> {
                 ),
                 SectionLabel(
                     label: AppLocalizations.of(context)!.authentication,
-                    padding: const EdgeInsets.only(top: 30, bottom: 10)),
+                    padding: const EdgeInsets.only(top: 30, bottom: 0)),
                 Padding(
                   padding: const EdgeInsets.symmetric(vertical: 10),
                   child: piHoleVersion == SupportedApiVersions.v5
