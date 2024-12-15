@@ -355,13 +355,12 @@ class DatabaseRepository {
   ///   `false` if it fails.
   Future<bool> removeServerQuery(String address) async {
     try {
-      await Future.wait([
-        _secureStorage.deleteValue('${address}_token'),
-        _secureStorage.deleteValue('${address}_basicAuthUser'),
-        _secureStorage.deleteValue('${address}_basicAuthPassword'),
-        _secureStorage.deleteValue('${address}_password'),
-        _secureStorage.deleteValue('${address}_sid'),
-      ]);
+      await _secureStorage.deleteValue('${address}_token');
+      await _secureStorage.deleteValue('${address}_basicAuthUser');
+      await _secureStorage.deleteValue('${address}_basicAuthPassword');
+      await _secureStorage.deleteValue('${address}_password');
+      await _secureStorage.deleteValue('${address}_sid');
+      logger.d((await _secureStorage.readAll()).toString());
 
       return await _dbInstance.transaction((txn) async {
         await txn.delete('servers', where: 'address = ?', whereArgs: [address]);
