@@ -175,6 +175,8 @@
   "legalInfo": "Rechtliche Informationen",
   "legalText": "Alle eingetragenen Warenzeichen, die in dieser Anwendung vorhanden sind, sind Eigentum ihrer jeweiligen Inhaber.",
   "letMeKnow": "Manchmal nimmt das Pi-Hole-Team einige Änderungen an der API vor, die von dieser App benutzt wird, um auf die Daten zuzugreifen. Wenn Sie Verbindungsprobleme haben oder Daten nicht geladen werden und Sie sicher sind, dass Ihr Server einwandfrei funktioniert, lassen Sie es mich bitte wissen, damit wir dies untersuchen und so schnell wie möglich ein Update veröffentlichen können.",
+  "licenses": "Lizenzen",
+  "licensesInfo": "OSS-Informationen",
   "light": "Hell",
   "list": "Liste",
   "listDescription": "Zeigt die Daten in einer Liste mit Labeln und Nummern auf der linken Seite, sowie einer Anzeige auf der rechten Seite.",

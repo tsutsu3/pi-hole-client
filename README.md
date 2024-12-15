@@ -135,7 +135,7 @@ Distributed under the Apach 2.0 License. See [LICENSE](./LICENSE) for more infor
 
 ## Credits
 
-This project is based on [DroidHole](https://github.com/jgeek00/droidhole), originally developed by [JGeek00](https://github.com/JGeek00).
+This project is based on [DroidHole](https://github.com/jgeek00/droid-hole), originally developed by [JGeek00](https://github.com/JGeek00).
 
 See original [License](./LICENSE.md) for licensing details.
 

@@ -1,9 +1,8 @@
-// ignore_for_file: use_build_context_synchronously
-
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:pi_hole_client/constants/languages.dart';
 import 'package:pi_hole_client/screens/settings/language_screen.dart';
+import 'package:pi_hole_client/screens/settings/licenses.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_split_view/flutter_split_view.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
@@ -15,15 +14,12 @@ import 'package:pi_hole_client/screens/settings/auto_refresh_time_screen.dart';
 import 'package:pi_hole_client/screens/servers/servers.dart';
 import 'package:pi_hole_client/screens/settings/contact_me_modal.dart';
 import 'package:pi_hole_client/widgets/start_warning_modal.dart';
-// import 'package:pi_hole_client/screens/settings/logs_quantity_load_modal.dart';
 import 'package:pi_hole_client/widgets/custom_list_tile.dart';
-import 'package:pi_hole_client/widgets/custom_settings_tile.dart';
 import 'package:pi_hole_client/widgets/section_label.dart';
 import 'package:pi_hole_client/screens/settings/legal_modal.dart';
 
 import 'package:pi_hole_client/config/urls.dart';
 import 'package:pi_hole_client/functions/open_url.dart';
-// import 'package:pi_hole_client/functions/snackbar.dart';
 import 'package:pi_hole_client/providers/servers_provider.dart';
 import 'package:pi_hole_client/providers/status_provider.dart';
 import 'package:pi_hole_client/providers/app_config_provider.dart';
@@ -37,7 +33,7 @@ class Settings extends StatelessWidget {
 
     if (width > 900) {
       return SplitView.material(
-        // hideDivider: true,
+        hideDivider: true,
         // flexWidth: const FlexWidth(mainViewFlexWidth: 1, secondaryViewFlexWidth: 2),
         placeholder: Center(
           child: Padding(
@@ -84,18 +80,16 @@ class _SettingsWidgetState extends State<SettingsWidget> {
     Widget settingsTile(
         {required String title,
         required String subtitle,
-        required IconData icon,
+        IconData? icon,
         Widget? trailing,
         required Widget screenToNavigate,
         required int thisItem}) {
       if (width > 900) {
-        return CustomSettingsTile(
-          title: title,
-          subtitle: subtitle,
-          icon: icon,
+        return CustomListTile(
+          label: title,
+          description: subtitle,
+          leadingIcon: icon,
           trailing: trailing,
-          thisItem: thisItem,
-          selectedItem: selectedScreen,
           onTap: () {
             setState(() => selectedScreen = thisItem);
             SplitView.of(context).setSecondary(screenToNavigate);
@@ -236,25 +230,32 @@ class _SettingsWidgetState extends State<SettingsWidget> {
                       SectionLabel(
                         label: AppLocalizations.of(context)!.about,
                       ),
+                      settingsTile(
+                        title: AppLocalizations.of(context)!.licenses,
+                        subtitle: AppLocalizations.of(context)!.licensesInfo,
+                        screenToNavigate: const License(),
+                        thisItem: 6,
+                      ),
+                      // TODO: replace show notice page
+                      CustomListTile(
+                          label: AppLocalizations.of(context)!.legal,
+                          description: AppLocalizations.of(context)!.legalInfo,
+                          onTap: openLegalModal),
                       CustomListTile(
                           label: AppLocalizations.of(context)!
                               .importantInformation,
                           description: AppLocalizations.of(context)!.readIssues,
                           onTap: openImportantInformationModal),
                       CustomListTile(
-                          label: AppLocalizations.of(context)!.legal,
-                          description: AppLocalizations.of(context)!.legalInfo,
-                          onTap: openLegalModal),
-                      if (appConfigProvider.getAppInfo != null)
-                        CustomListTile(
-                            label: AppLocalizations.of(context)!.appVersion,
-                            description: appConfigProvider.getAppInfo!.version),
-                      CustomListTile(
                         label: AppLocalizations.of(context)!.contactDeveloper,
                         description:
                             AppLocalizations.of(context)!.issuesSuggestions,
                         onTap: openContactModal,
                       ),
+                      if (appConfigProvider.getAppInfo != null)
+                        CustomListTile(
+                            label: AppLocalizations.of(context)!.appVersion,
+                            description: appConfigProvider.getAppInfo!.version),
                       CustomListTile(
                           label: AppLocalizations.of(context)!.createdBy,
                           description: "tsutsu3"),
