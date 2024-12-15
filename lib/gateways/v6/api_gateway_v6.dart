@@ -33,9 +33,7 @@ class ApiGatewayV6 implements ApiGateway {
   /// - `server` (`Server`): The server object containing the Pi-hole address, token, and optional basic authentication credentials.
   /// - `client` (`http.Client`): An optional HTTP client to use for requests. If not provided, a new client will be created. Add for testing purposes.
   ApiGatewayV6(this.server, {http.Client? client})
-      : client = client ?? http.Client() {
-    server.sm.load();
-  }
+      : client = client ?? http.Client();
 
   /// Sends an HTTP request using the specified method and parameters.
   ///
@@ -65,6 +63,9 @@ class ApiGatewayV6 implements ApiGateway {
     int timeout = 10,
     int maxRetries = 1,
   }) async {
+    if (server.sm.sid == null) {
+      await server.sm.load();
+    }
     final Map<String, String> authHeaders = headers != null ? {...headers} : {};
     authHeaders['Content-Type'] = 'application/json';
     if (server.sm.sid != null && server.sm.sid!.isNotEmpty) {
