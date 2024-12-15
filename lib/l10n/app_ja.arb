@@ -322,6 +322,7 @@
   "username": "ユーザー名",
   "valueNotValid": "無効な値",
   "version": "バージョン",
+  "versionDescription": "使用している Pi-hole のバージョンを選択してください",
   "visitGooglePlay": "Google Playページを訪問",
   "whitelist": "ホワイトリストに追加",
   "writeEmail": "メールで私に書いてください。",

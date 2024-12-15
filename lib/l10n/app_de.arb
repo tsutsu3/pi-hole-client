@@ -320,6 +320,7 @@
   "username": "Nutzername",
   "valueNotValid": "Eingabe nicht gültig",
   "version": "Version",
+  "versionDescription": "Wählen Sie die Version von Pi-hole, die Sie verwenden",
   "visitGooglePlay": "Google Play-Seite besuchen",
   "whitelist": "Zur Whitelist hinzufügen",
   "writeEmail": "Schreiben Sie mir per E-Mail.",
