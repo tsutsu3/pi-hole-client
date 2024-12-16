@@ -214,6 +214,8 @@
   "notConnectServer": "Could not connect to the server",
   "notConnected": "Not connected",
   "notSelected": "Not selected",
+  "noticeError": "ERROR",
+  "noticeErrorDetail": "The NOTICE file could not be found.",
   "now": "now",
   "olderVersion": "If you have an older version, please update your Pi-hole to continue using this app.",
   "oneColumnLegend": "One column legend",

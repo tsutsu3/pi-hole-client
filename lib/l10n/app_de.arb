@@ -214,6 +214,8 @@
   "notConnectServer": "Es konnte keine Verbindung zum Server hergestellt werden.",
   "notConnected": "Nicht verbunden",
   "notSelected": "Nicht ausgewählt",
+  "noticeError": "FEHLER",
+  "noticeErrorDetail": "Die NOTICE-Datei wurde nicht gefunden.",
   "now": "jetzt",
   "olderVersion": "Wenn Sie eine ältere Version haben, aktualisieren Sie bitte Ihr Pi-Hole, um diese App weiterhin verwenden zu können.",
   "oneColumnLegend": "Einspalt-Legende",

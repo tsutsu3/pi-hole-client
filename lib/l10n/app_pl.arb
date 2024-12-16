@@ -212,6 +212,8 @@
   "notConnectServer": "Nie można połączyć się z serwerem",
   "notConnected": "Nie połączony",
   "notSelected": "Nie wybrano",
+  "noticeError": "BŁĄD",
+  "noticeErrorDetail": "Plik NOTICE nie został znaleziony.",
   "now": "teraz",
   "olderVersion": "Jeśli masz starszą wersję, zaktualizuj Pi-hole, aby nadal korzystać z tej aplikacji.",
   "oneColumnLegend": "Legenda w jednej kolumnie",

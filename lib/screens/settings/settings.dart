@@ -236,7 +236,6 @@ class _SettingsWidgetState extends State<SettingsWidget> {
                         screenToNavigate: const License(),
                         thisItem: 6,
                       ),
-                      // TODO: replace show notice page
                       CustomListTile(
                           label: AppLocalizations.of(context)!.legal,
                           description: AppLocalizations.of(context)!.legalInfo,

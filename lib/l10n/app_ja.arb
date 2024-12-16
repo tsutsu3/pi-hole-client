@@ -214,6 +214,8 @@
   "notConnectServer": "サーバーに接続できませんでした",
   "notConnected": "接続されていません",
   "notSelected": "選択されていません",
+  "noticeError": "エラー",
+  "noticeErrorDetail": "NOTICEが見つかりませんでした。",
   "now": "現在",
   "olderVersion": "古いバージョンの場合、このアプリを引き続き使用するためにPi-holeを更新してください。",
   "oneColumnLegend": "1列の凡例",

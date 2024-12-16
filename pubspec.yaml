@@ -207,7 +207,7 @@ flutter:
     - assets/resources/github.svg
     - assets/icon/icon-foreground.png
     - .env
-    - LICENSE
+    - NOTICE
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware
