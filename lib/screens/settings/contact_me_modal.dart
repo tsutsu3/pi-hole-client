@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:expandable/expandable.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:pi_hole_client/constants/urls.dart';
 // import 'package:url_launcher/url_launcher.dart';
 import 'package:pi_hole_client/functions/open_url.dart';
 
@@ -42,8 +43,7 @@ class _ContactMeModalState extends State<ContactMeModal> {
           Material(
             color: Colors.transparent,
             child: InkWell(
-              onTap: () =>
-                  openUrl('https://github.com/tsutsu3/pi-hole-client/issues'),
+              onTap: () => openUrl(issueUrl),
               child: Padding(
                 padding:
                     const EdgeInsets.symmetric(vertical: 10, horizontal: 20),
@@ -86,8 +86,7 @@ class _ContactMeModalState extends State<ContactMeModal> {
           Material(
             color: Colors.transparent,
             child: InkWell(
-              onTap: () => openUrl(
-                  'https://docs.google.com/forms/d/e/1FAIpQLSdNm7H2iDUaQ0q-JA6hvrUSsGe50_iL5NVK6fR_2hkCsyrA-A/viewform?hl=en'),
+              onTap: () => openUrl(supportUrl),
               child: Padding(
                 padding:
                     const EdgeInsets.symmetric(vertical: 10, horizontal: 20),
