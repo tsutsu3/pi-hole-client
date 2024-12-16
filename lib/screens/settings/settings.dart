@@ -12,7 +12,7 @@ import 'package:pi_hole_client/screens/settings/advanced_settings/advanced_optio
 import 'package:pi_hole_client/screens/settings/theme_screen.dart';
 import 'package:pi_hole_client/screens/settings/auto_refresh_time_screen.dart';
 import 'package:pi_hole_client/screens/servers/servers.dart';
-import 'package:pi_hole_client/screens/settings/contact_me_modal.dart';
+import 'package:pi_hole_client/screens/settings/app_detail_modal.dart';
 import 'package:pi_hole_client/widgets/start_warning_modal.dart';
 import 'package:pi_hole_client/widgets/custom_list_tile.dart';
 import 'package:pi_hole_client/widgets/section_label.dart';
@@ -121,9 +121,11 @@ class _SettingsWidgetState extends State<SettingsWidget> {
           context: context, builder: (context) => const ImportantInfoModal());
     }
 
-    void openContactModal() {
+    void openAppDetailModal() {
+      final appVersion = appConfigProvider.getAppInfo?.version ?? "";
       showDialog(
-          context: context, builder: (context) => const ContactMeModal());
+          context: context,
+          builder: (context) => AppDetailModal(appVersion: appVersion));
     }
 
     String getThemeString() {
@@ -230,6 +232,11 @@ class _SettingsWidgetState extends State<SettingsWidget> {
                       SectionLabel(
                         label: AppLocalizations.of(context)!.about,
                       ),
+                      CustomListTile(
+                        label: AppLocalizations.of(context)!.applicationDetail,
+                        description: AppLocalizations.of(context)!.aboutThisApp,
+                        onTap: openAppDetailModal,
+                      ),
                       settingsTile(
                         title: AppLocalizations.of(context)!.licenses,
                         subtitle: AppLocalizations.of(context)!.licensesInfo,
@@ -245,19 +252,6 @@ class _SettingsWidgetState extends State<SettingsWidget> {
                               .importantInformation,
                           description: AppLocalizations.of(context)!.readIssues,
                           onTap: openImportantInformationModal),
-                      CustomListTile(
-                        label: AppLocalizations.of(context)!.contactDeveloper,
-                        description:
-                            AppLocalizations.of(context)!.issuesSuggestions,
-                        onTap: openContactModal,
-                      ),
-                      if (appConfigProvider.getAppInfo != null)
-                        CustomListTile(
-                            label: AppLocalizations.of(context)!.appVersion,
-                            description: appConfigProvider.getAppInfo!.version),
-                      CustomListTile(
-                          label: AppLocalizations.of(context)!.createdBy,
-                          description: "tsutsu3"),
                       Padding(
                         padding: const EdgeInsets.all(15),
                         child: Row(
