@@ -15,25 +15,6 @@ class ContactMeModal extends StatefulWidget {
 class _ContactMeModalState extends State<ContactMeModal> {
   final expandableController = ExpandableController();
 
-  // void sendEmail() {
-  //   String? encodeQueryParameters(Map<String, String> params) {
-  //     return params.entries
-  //         .map((MapEntry<String, String> e) =>
-  //             '${Uri.encodeComponent(e.key)}=${Uri.encodeComponent(e.value)}')
-  //         .join('&');
-  //   }
-
-  //   final Uri emailLaunchUri = Uri(
-  //     scheme: 'mailto',
-  //     path: 'juangilsanz@gmail.com',
-  //     query: encodeQueryParameters(<String, String>{
-  //       'subject': 'PiHoleClient issue',
-  //     }),
-  //   );
-
-  //   launchUrl(emailLaunchUri);
-  // }
-
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
