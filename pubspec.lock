@@ -475,10 +475,11 @@ packages:
   flutter_split_view:
     dependency: "direct main"
     description:
-      name: flutter_split_view
-      sha256: "0fb1f3aa6a6f2031d936ae5596fc5178affacdc7d793b27cdbc191a1ae8e56bf"
-      url: "https://pub.dev"
-    source: hosted
+      path: "."
+      ref: main
+      resolved-ref: "366ef1f9033e38e2956d73df23c4461db0fb5ae1"
+      url: "https://github.com/TerminalStudio/flutter_split_view.git"
+    source: git
     version: "0.1.2"
   flutter_svg:
     dependency: "direct main"

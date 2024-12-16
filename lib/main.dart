@@ -217,7 +217,7 @@ class _PiHoleClientState extends State<PiHoleClient> {
             navigatorObservers: [
               SentryNavigatorObserver(),
             ],
-            title: 'Droid Hole',
+            title: 'Pi-hole Client',
             theme: appConfigProvider.androidDeviceInfo != null &&
                     appConfigProvider.androidDeviceInfo!.version.sdkInt >= 31
                 ? lightTheme(lightDynamic)
