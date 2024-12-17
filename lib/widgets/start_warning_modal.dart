@@ -149,6 +149,7 @@ class StartInfoModal extends StatelessWidget {
                 const Padding(padding: EdgeInsets.only(top: 20)),
               ],
             ),
+            actionsPadding: EdgeInsets.only(right: 0, bottom: 20),
             actions: [
               TextButton(
                 onPressed: () async {
