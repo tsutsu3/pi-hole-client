@@ -145,6 +145,7 @@ class StartInfoModal extends StatelessWidget {
                     ),
                   ],
                 ),
+                const Padding(padding: EdgeInsets.only(top: 20)),
               ],
             ),
             actions: [
