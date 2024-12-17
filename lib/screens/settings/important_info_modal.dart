@@ -1,19 +1,11 @@
-// ignore_for_file: use_build_context_synchronously
-
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-
-import 'package:pi_hole_client/providers/app_config_provider.dart';
 
 class ImportantInfoModal extends StatelessWidget {
   const ImportantInfoModal({super.key});
 
   @override
   Widget build(BuildContext context) {
-    final appConfigProvider =
-        Provider.of<AppConfigProvider>(context, listen: false);
-
     return AlertDialog(
       scrollable: true,
       title: Column(
@@ -78,11 +70,9 @@ class ImportantInfoModal extends StatelessWidget {
       ),
       actions: [
         TextButton(
-            onPressed: () async {
-              await appConfigProvider.setImportantInfoReaden(true);
-              Navigator.pop(context);
-            },
-            child: Text(AppLocalizations.of(context)!.close))
+          onPressed: () => Navigator.pop(context),
+          child: Text(AppLocalizations.of(context)!.close),
+        )
       ],
     );
   }
