@@ -26,6 +26,7 @@ class ImportantInfoModal extends StatelessWidget {
           ),
         ],
       ),
+      contentPadding: EdgeInsets.all(40),
       content: Column(
         children: [
           Column(

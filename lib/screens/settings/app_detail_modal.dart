@@ -26,7 +26,6 @@ class _AppDetailModalState extends State<AppDetailModal> {
 
     return AlertDialog(
       scrollable: true,
-      contentPadding: const EdgeInsets.all(0),
       title: Column(
         children: [
           Icon(
@@ -43,6 +42,7 @@ class _AppDetailModalState extends State<AppDetailModal> {
           ),
         ],
       ),
+      contentPadding: EdgeInsets.all(40),
       content: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
@@ -100,7 +100,7 @@ class _AppDetailModalState extends State<AppDetailModal> {
               ),
             ],
           ),
-          Padding(padding: const EdgeInsets.symmetric(vertical: 10)),
+          Padding(padding: const EdgeInsets.only(top: 10)),
         ],
       ),
       actions: [

@@ -31,6 +31,7 @@ class LegalModal extends StatelessWidget {
                 ),
               ],
             ),
+            contentPadding: EdgeInsets.all(40),
             content: SingleChildScrollView(
               child: Text(noticeText),
             ),

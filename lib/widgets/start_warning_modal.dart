@@ -34,7 +34,7 @@ class StartInfoModal extends StatelessWidget {
                   color: Theme.of(context).colorScheme.secondary,
                 ),
                 Padding(
-                  padding: const EdgeInsets.only(top: 20, bottom: 30),
+                  padding: const EdgeInsets.only(top: 20),
                   child: Text(
                     AppLocalizations.of(context)!.gettingStarted,
                     textAlign: TextAlign.left,
@@ -46,6 +46,7 @@ class StartInfoModal extends StatelessWidget {
                 ),
               ],
             ),
+            contentPadding: EdgeInsets.only(top: 60),
             content: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
