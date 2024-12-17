@@ -93,7 +93,7 @@ class _BaseState extends State<Base> with WidgetsBindingObserver {
       if (appConfigProvider.importantInfoReaden == false) {
         await showDialog<String>(
             context: context,
-            builder: (BuildContext context) => const ImportantInfoModal());
+            builder: (BuildContext context) => const StartInfoModal());
       }
     });
 

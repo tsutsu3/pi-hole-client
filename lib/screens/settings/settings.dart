@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:pi_hole_client/constants/languages.dart';
+import 'package:pi_hole_client/screens/settings/important_info_modal.dart';
 import 'package:pi_hole_client/screens/settings/language_screen.dart';
 import 'package:pi_hole_client/screens/settings/licenses.dart';
 import 'package:provider/provider.dart';
@@ -13,7 +14,6 @@ import 'package:pi_hole_client/screens/settings/theme_screen.dart';
 import 'package:pi_hole_client/screens/settings/auto_refresh_time_screen.dart';
 import 'package:pi_hole_client/screens/servers/servers.dart';
 import 'package:pi_hole_client/screens/settings/app_detail_modal.dart';
-import 'package:pi_hole_client/widgets/start_warning_modal.dart';
 import 'package:pi_hole_client/widgets/custom_list_tile.dart';
 import 'package:pi_hole_client/widgets/section_label.dart';
 import 'package:pi_hole_client/screens/settings/legal_modal.dart';
