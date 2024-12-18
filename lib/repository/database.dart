@@ -100,7 +100,8 @@ class DatabaseRepository {
               useBiometricAuth NUMERIC NOT NULL,
               importantInfoReaden NUMERIC NOT NULL,
               hideZeroValues NUMERIC NOT NULL,
-              statisticsVisualizationMode NUMERIC NOT NULL
+              statisticsVisualizationMode NUMERIC NOT NULL,
+              sendCrashReports NUMERIC NOT NULL
             )
           """);
           await db.execute("""
@@ -115,8 +116,9 @@ class DatabaseRepository {
               useBiometricAuth,
               importantInfoReaden,
               hideZeroValues,
-              statisticsVisualizationMode
-            ) VALUES (5, 0, 'en', 0, 0, 0, 2, 0, 0, 0, 0)
+              statisticsVisualizationMode,
+              sendCrashReports
+            ) VALUES (5, 0, 'en', 0, 0, 0, 2, 0, 0, 0, 0, 0)
           """);
         },
         onUpgrade: (Database db, int oldVersion, int newVersion) async {},
@@ -486,7 +488,8 @@ class DatabaseRepository {
             'oneColumnLegend': 0,
             'reducedDataCharts': 0,
             'logsPerQuery': 2,
-            'useBiometricAuth': 0
+            'useBiometricAuth': 0,
+            'sendCrashReports': 0,
           },
         );
         return true;

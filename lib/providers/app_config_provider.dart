@@ -27,6 +27,7 @@ class AppConfigProvider with ChangeNotifier {
   int _importantInfoReaden = 0;
   int _hideZeroValues = 0;
   int _statisticsVisualizationMode = 0;
+  int _sendCrashReports = 0;
   int? _selectedSettingsScreen;
   String _selectedLanguage =
       SchedulerBinding.instance.platformDispatcher.locale.languageCode;
@@ -142,6 +143,10 @@ class AppConfigProvider with ChangeNotifier {
 
   int get statisticsVisualizationMode {
     return _statisticsVisualizationMode;
+  }
+
+  bool get sendCrashReports {
+    return _sendCrashReports == 0 ? false : true;
   }
 
   List<AppLog> get logs {
@@ -283,6 +288,18 @@ class AppConfigProvider with ChangeNotifier {
     }
   }
 
+  Future<bool> setSendCrashReports(bool status) async {
+    final updated = await _repository.updateConfigQuery(
+        column: 'sendCrashReports', value: status == true ? 1 : 0);
+    if (updated == true) {
+      _sendCrashReports = status == true ? 1 : 0;
+      notifyListeners();
+      return true;
+    } else {
+      return false;
+    }
+  }
+
   void saveFromDb(AppDbData dbData) {
     _autoRefreshTime = dbData.autoRefreshTime;
     _selectedTheme = dbData.theme;
@@ -296,6 +313,7 @@ class AppConfigProvider with ChangeNotifier {
     _importantInfoReaden = dbData.importantInfoReaden;
     _hideZeroValues = dbData.hideZeroValues;
     _statisticsVisualizationMode = dbData.statisticsVisualizationMode;
+    _sendCrashReports = dbData.sendCrashReports;
 
     if (dbData.passCode != null) {
       _appUnlocked = false;
@@ -404,6 +422,7 @@ class AppConfigProvider with ChangeNotifier {
       _importantInfoReaden = 0;
       _hideZeroValues = 0;
       _statisticsVisualizationMode = 0;
+      _sendCrashReports = 0;
 
       notifyListeners();
 

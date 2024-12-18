@@ -100,6 +100,7 @@ class AppDbData {
   final int importantInfoReaden;
   final int hideZeroValues;
   final int statisticsVisualizationMode;
+  final int sendCrashReports;
 
   AppDbData({
     required this.autoRefreshTime,
@@ -114,6 +115,7 @@ class AppDbData {
     required this.importantInfoReaden,
     required this.hideZeroValues,
     required this.statisticsVisualizationMode,
+    required this.sendCrashReports,
   });
 
   factory AppDbData.fromMap(Map<String, Object?> map) {
@@ -130,6 +132,7 @@ class AppDbData {
       importantInfoReaden: map['importantInfoReaden'] as int,
       hideZeroValues: map['hideZeroValues'] as int,
       statisticsVisualizationMode: map['statisticsVisualizationMode'] as int,
+      sendCrashReports: map['sendCrashReports'] as int,
     );
   }
 
@@ -150,6 +153,7 @@ class AppDbData {
       importantInfoReaden: instance.importantInfoReaden,
       hideZeroValues: instance.hideZeroValues,
       statisticsVisualizationMode: instance.statisticsVisualizationMode,
+      sendCrashReports: instance.sendCrashReports,
     );
   }
 
@@ -167,6 +171,7 @@ class AppDbData {
       "importantInfoReaden": importantInfoReaden,
       "hideZeroValues": hideZeroValues,
       "statisticsVisualizationMode": statisticsVisualizationMode,
+      "sendCrashReports": sendCrashReports,
     };
   }
 }
