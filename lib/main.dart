@@ -9,6 +9,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_app_lock/flutter_app_lock.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:local_auth/local_auth.dart';
+import 'package:pi_hole_client/functions/logger.dart';
 import 'package:pi_hole_client/repository/secure_storage.dart';
 import 'package:sentry_flutter/sentry_flutter.dart';
 import 'package:sqflite_common_ffi/sqflite_ffi.dart';
@@ -114,6 +115,47 @@ void main() async {
     configProvider.setIosInfo(iosInfo);
   }
 
+  Future<void> initializeSentry() async {
+    if (configProvider.sendCrashReports == false) {
+      logger.d("Send Crash Reports: OFF");
+      await Sentry.close();
+      return;
+    }
+
+    if ((kReleaseMode &&
+            (dotenv.env['SENTRY_DSN'] != null &&
+                dotenv.env['SENTRY_DSN'] != "")) ||
+        (dotenv.env['ENABLE_SENTRY'] == "true" &&
+            (dotenv.env['SENTRY_DSN'] != null &&
+                dotenv.env['SENTRY_DSN'] != ""))) {
+      logger.d("Send Crash Reports: ON");
+      SentryFlutter.init(
+        (options) {
+          options.dsn = dotenv.env['SENTRY_DSN'];
+          options.sendDefaultPii = false;
+          options.attachScreenshot =
+              dotenv.env['ENABLE_SENTRY_SCREENSHOTS'] == "true";
+          options.beforeSend = (event, hint) {
+            if (event.throwable is HttpException) {
+              return null;
+            }
+
+            if (event.message?.formatted.contains("Unexpected character") ??
+                false ||
+                    (event.throwable != null &&
+                        event.throwable!
+                            .toString()
+                            .contains("Unexpected character"))) {
+              return null; // Exclude this event
+            }
+
+            return event;
+          };
+        },
+      );
+    }
+  }
+
   void startApp() => runApp(MultiProvider(
         providers: [
           ChangeNotifierProvider(create: ((context) => serversProvider)),
@@ -142,37 +184,8 @@ void main() async {
         ),
       ));
 
-  if ((kReleaseMode &&
-          (dotenv.env['SENTRY_DSN'] != null &&
-              dotenv.env['SENTRY_DSN'] != "")) ||
-      (dotenv.env['ENABLE_SENTRY'] == "true" &&
-          (dotenv.env['SENTRY_DSN'] != null &&
-              dotenv.env['SENTRY_DSN'] != ""))) {
-    SentryFlutter.init((options) {
-      options.dsn = dotenv.env['SENTRY_DSN'];
-      options.sendDefaultPii = false;
-      options.attachScreenshot =
-          dotenv.env['ENABLE_SENTRY_SCREENSHOTS'] == "true";
-      options.beforeSend = (event, hint) {
-        if (event.throwable is HttpException) {
-          return null;
-        }
-
-        if (event.message?.formatted.contains("Unexpected character") ??
-            false ||
-                (event.throwable != null &&
-                    event.throwable!
-                        .toString()
-                        .contains("Unexpected character"))) {
-          return null; // Exclude this event
-        }
-
-        return event;
-      };
-    }, appRunner: () => startApp());
-  } else {
-    startApp();
-  }
+  initializeSentry();
+  startApp();
 }
 
 Future<PackageInfo> loadAppInfo() async {

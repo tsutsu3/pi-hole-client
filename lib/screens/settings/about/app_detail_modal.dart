@@ -26,7 +26,6 @@ class _AppDetailModalState extends State<AppDetailModal> {
 
     return AlertDialog(
       scrollable: true,
-      contentPadding: const EdgeInsets.all(0),
       title: Column(
         children: [
           Icon(
@@ -43,6 +42,7 @@ class _AppDetailModalState extends State<AppDetailModal> {
           ),
         ],
       ),
+      contentPadding: EdgeInsets.all(40),
       content: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
@@ -67,40 +67,20 @@ class _AppDetailModalState extends State<AppDetailModal> {
             subtitle: AppLocalizations.of(context)!.supportFormDescription,
             colorScheme: colorScheme,
           ),
+          Padding(padding: const EdgeInsets.symmetric(vertical: 20)),
           _appDetailLine(
-            url: privacyPolicyUrl,
-            icon: Icon(Icons.security_rounded, color: colorScheme.onSurface),
-            title: AppLocalizations.of(context)!.privacyPolicy,
-            subtitle: AppLocalizations.of(context)!.privacyPolicyDescription,
+            title: AppLocalizations.of(context)!.appVersion,
+            subtitle: _appVersion,
             colorScheme: colorScheme,
+            showWebViewIcon: false,
           ),
-          Padding(padding: const EdgeInsets.symmetric(vertical: 10)),
-          Column(
-            children: [
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Expanded(
-                    child: _appDetailLine(
-                      title: AppLocalizations.of(context)!.appVersion,
-                      subtitle: _appVersion,
-                      colorScheme: colorScheme,
-                      showWebViewIcon: false,
-                    ),
-                  ),
-                  Expanded(
-                    child: _appDetailLine(
-                      title: AppLocalizations.of(context)!.createdBy,
-                      subtitle: "tsutsu3",
-                      colorScheme: colorScheme,
-                      showWebViewIcon: false,
-                    ),
-                  ),
-                ],
-              ),
-            ],
+          _appDetailLine(
+            title: AppLocalizations.of(context)!.createdBy,
+            subtitle: "tsutsu3",
+            colorScheme: colorScheme,
+            showWebViewIcon: false,
           ),
-          Padding(padding: const EdgeInsets.symmetric(vertical: 10)),
+          Padding(padding: const EdgeInsets.only(top: 10)),
         ],
       ),
       actions: [
@@ -125,11 +105,11 @@ class _AppDetailModalState extends State<AppDetailModal> {
       child: InkWell(
         onTap: url != null ? () => openUrl(url) : null,
         child: Padding(
-          padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 20),
+          padding: const EdgeInsets.symmetric(vertical: 10),
           child: Row(
             children: [
               icon ?? const SizedBox(width: 0),
-              const SizedBox(width: 20),
+              if (icon != null) const SizedBox(width: 20),
               Flexible(
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,

@@ -1,22 +1,23 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:pi_hole_client/constants/languages.dart';
-import 'package:pi_hole_client/screens/settings/language_screen.dart';
-import 'package:pi_hole_client/screens/settings/licenses.dart';
+import 'package:pi_hole_client/screens/settings/about/important_info_modal.dart';
+import 'package:pi_hole_client/screens/settings/about/privacy_modal.dart';
+import 'package:pi_hole_client/screens/settings/app_settings/language_screen.dart';
+import 'package:pi_hole_client/screens/settings/about/licenses_screen.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_split_view/flutter_split_view.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
-import 'package:pi_hole_client/screens/settings/logs_quantity_load_screen.dart';
-import 'package:pi_hole_client/screens/settings/advanced_settings/advanced_options.dart';
-import 'package:pi_hole_client/screens/settings/theme_screen.dart';
-import 'package:pi_hole_client/screens/settings/auto_refresh_time_screen.dart';
+import 'package:pi_hole_client/screens/settings/app_settings/logs_quantity_load_screen.dart';
+import 'package:pi_hole_client/screens/settings/app_settings/advanced_settings/advanced_options.dart';
+import 'package:pi_hole_client/screens/settings/app_settings/theme_screen.dart';
+import 'package:pi_hole_client/screens/settings/app_settings/auto_refresh_time_screen.dart';
 import 'package:pi_hole_client/screens/servers/servers.dart';
-import 'package:pi_hole_client/screens/settings/app_detail_modal.dart';
-import 'package:pi_hole_client/widgets/start_warning_modal.dart';
+import 'package:pi_hole_client/screens/settings/about/app_detail_modal.dart';
 import 'package:pi_hole_client/widgets/custom_list_tile.dart';
 import 'package:pi_hole_client/widgets/section_label.dart';
-import 'package:pi_hole_client/screens/settings/legal_modal.dart';
+import 'package:pi_hole_client/screens/settings/about/legal_modal.dart';
 
 import 'package:pi_hole_client/config/urls.dart';
 import 'package:pi_hole_client/functions/open_url.dart';
@@ -128,6 +129,13 @@ class _SettingsWidgetState extends State<SettingsWidget> {
           builder: (context) => AppDetailModal(appVersion: appVersion));
     }
 
+    void openPrivacyModal() {
+      showDialog(
+        context: context,
+        builder: (context) => const PrivacyModal(),
+      );
+    }
+
     String getThemeString() {
       switch (appConfigProvider.selectedThemeNumber) {
         case 0:
@@ -237,21 +245,26 @@ class _SettingsWidgetState extends State<SettingsWidget> {
                         description: AppLocalizations.of(context)!.aboutThisApp,
                         onTap: openAppDetailModal,
                       ),
-                      settingsTile(
-                        title: AppLocalizations.of(context)!.licenses,
-                        subtitle: AppLocalizations.of(context)!.licensesInfo,
-                        screenToNavigate: const License(),
-                        thisItem: 6,
-                      ),
                       CustomListTile(
-                          label: AppLocalizations.of(context)!.legal,
-                          description: AppLocalizations.of(context)!.legalInfo,
-                          onTap: openLegalModal),
+                          label: AppLocalizations.of(context)!.privacy,
+                          description:
+                              AppLocalizations.of(context)!.privacyInfo,
+                          onTap: openPrivacyModal),
                       CustomListTile(
                           label: AppLocalizations.of(context)!
                               .importantInformation,
                           description: AppLocalizations.of(context)!.readIssues,
                           onTap: openImportantInformationModal),
+                      CustomListTile(
+                          label: AppLocalizations.of(context)!.legal,
+                          description: AppLocalizations.of(context)!.legalInfo,
+                          onTap: openLegalModal),
+                      settingsTile(
+                        title: AppLocalizations.of(context)!.licenses,
+                        subtitle: AppLocalizations.of(context)!.licensesInfo,
+                        screenToNavigate: const LicensesScreen(),
+                        thisItem: 6,
+                      ),
                       Padding(
                         padding: const EdgeInsets.all(15),
                         child: Row(
