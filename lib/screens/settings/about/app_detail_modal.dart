@@ -67,31 +67,18 @@ class _AppDetailModalState extends State<AppDetailModal> {
             subtitle: AppLocalizations.of(context)!.supportFormDescription,
             colorScheme: colorScheme,
           ),
-          Padding(padding: const EdgeInsets.symmetric(vertical: 10)),
-          Column(
-            children: [
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Expanded(
-                    child: _appDetailLine(
-                      title: AppLocalizations.of(context)!.appVersion,
-                      subtitle: _appVersion,
-                      colorScheme: colorScheme,
-                      showWebViewIcon: false,
-                    ),
-                  ),
-                  Expanded(
-                    child: _appDetailLine(
-                      title: AppLocalizations.of(context)!.createdBy,
-                      subtitle: "tsutsu3",
-                      colorScheme: colorScheme,
-                      showWebViewIcon: false,
-                    ),
-                  ),
-                ],
-              ),
-            ],
+          Padding(padding: const EdgeInsets.symmetric(vertical: 20)),
+          _appDetailLine(
+            title: AppLocalizations.of(context)!.appVersion,
+            subtitle: _appVersion,
+            colorScheme: colorScheme,
+            showWebViewIcon: false,
+          ),
+          _appDetailLine(
+            title: AppLocalizations.of(context)!.createdBy,
+            subtitle: "tsutsu3",
+            colorScheme: colorScheme,
+            showWebViewIcon: false,
           ),
           Padding(padding: const EdgeInsets.only(top: 10)),
         ],
