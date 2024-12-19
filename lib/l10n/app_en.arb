@@ -242,6 +242,8 @@
   "pieChartDescription": "Displays the data on a pie chart with the legend under it.",
   "port": "Port",
   "portCannotEmpty": "Port field cannot be empty",
+  "privacy": "Privacy",
+  "privacyInfo": "Privacy and Data Management",
   "privacyPolicy": "Privacy Policy",
   "privacyPolicyDescription": "View Privacy Policy",
   "qrScanner": "QR scanner",

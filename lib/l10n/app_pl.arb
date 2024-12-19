@@ -240,6 +240,8 @@
   "pieChartDescription": "Wyświetla dane na wykresie kołowym z legendą pod nimi.",
   "port": "Port",
   "portCannotEmpty": "Pole portu nie może być puste",
+  "privacy": "Prywatność",
+  "privacyInfo": "Prywatność i zarządzanie danymi",
   "privacyPolicy": "Polityka Prywatności",
   "privacyPolicyDescription": "Zobacz Politykę Prywatności",
   "qrScanner": "Skaner QR",

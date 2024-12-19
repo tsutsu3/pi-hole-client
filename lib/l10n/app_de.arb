@@ -242,6 +242,8 @@
   "pieChartDescription": "Zeigt die Daten in einem Tortendiagramm mit einer Legende.",
   "port": "Port",
   "portCannotEmpty": "Port Feld darf nicht leer sein",
+  "privacy": "Datenschutz",
+  "privacyInfo": "Datenschutz und Datenverwaltung",
   "privacyPolicy": "Datenschutzrichtlinie",
   "privacyPolicyDescription": "Datenschutzrichtlinie ansehen",
   "qrScanner": "QR-Code Scanner",

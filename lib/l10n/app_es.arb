@@ -244,6 +244,8 @@
   "pieChartDescription": "Muestra los datos en un gráfico circular con la leyenda debajo.",
   "port": "Puerto",
   "portCannotEmpty": "Puerto no puede estar vacío",
+  "privacy": "Privacidad",
+  "privacyInfo": "Privacidad y gestión de datos",
   "privacyPolicy": "Política de Privacidad",
   "privacyPolicyDescription": "Ver Política de Privacidad",
   "qrScanner": "Escáner QR",

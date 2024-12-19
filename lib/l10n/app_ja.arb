@@ -242,6 +242,8 @@
   "pieChartDescription": "円グラフでデータを表示し、その下に凡例を表示します。",
   "port": "ポート",
   "portCannotEmpty": "ポートフィールドを空にすることはできません",
+  "privacy": "プライバシー",
+  "privacyInfo": "プライバシーとデータ管理",
   "privacyPolicy": "プライバシーポリシー",
   "privacyPolicyDescription": "プライバシーポリシーを見る",
   "qrScanner": "QRスキャナー",
