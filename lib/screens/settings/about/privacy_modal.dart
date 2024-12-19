@@ -50,10 +50,12 @@ class _PrivacyModalState extends State<PrivacyModal> {
                 color: colorScheme.secondary,
               ),
               Padding(
-                padding: const EdgeInsets.symmetric(vertical: 20),
+                padding:
+                    const EdgeInsets.symmetric(vertical: 20, horizontal: 20),
                 child: Text(
                   AppLocalizations.of(context)!.privacyInfo,
                   style: const TextStyle(fontSize: 24),
+                  textAlign: TextAlign.center,
                 ),
               ),
             ],
@@ -73,7 +75,7 @@ class _PrivacyModalState extends State<PrivacyModal> {
               ),
               Padding(padding: const EdgeInsets.only(top: 40)),
               Row(
-                mainAxisAlignment: MainAxisAlignment.start,
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Expanded(
                     child: Text(
@@ -81,7 +83,6 @@ class _PrivacyModalState extends State<PrivacyModal> {
                       textAlign: TextAlign.left,
                     ),
                   ),
-                  const Padding(padding: EdgeInsets.only(right: 60)),
                   Switch(
                     value: sendCrashReportStatus,
                     onChanged: (value) async {
@@ -117,36 +118,22 @@ class _PrivacyModalState extends State<PrivacyModal> {
       child: InkWell(
         onTap: url != null ? () => openUrl(url) : null,
         child: Padding(
-          padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 20),
+          padding: const EdgeInsets.symmetric(vertical: 10),
           child: Row(
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               icon ?? const SizedBox(width: 0),
               const SizedBox(width: 20),
-              Flexible(
+              Expanded(
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Row(
-                      children: [
-                        Text(
-                          title,
-                          style: TextStyle(
-                              fontSize: 16, color: colorScheme.onSurface),
-                        ),
-                        if (showWebViewIcon) ...[
-                          const SizedBox(width: 8),
-                          Tooltip(
-                            message:
-                                AppLocalizations.of(context)!.openExternalUrl,
-                            child: Icon(
-                              Icons.open_in_browser_rounded,
-                              size: 16,
-                              color:
-                                  colorScheme.onSurfaceVariant.withOpacity(0.6),
-                            ),
-                          ),
-                        ],
-                      ],
+                    Text(
+                      title,
+                      style: TextStyle(
+                        fontSize: 16,
+                        color: colorScheme.onSurface,
+                      ),
                     ),
                     const SizedBox(height: 5),
                     Text(
@@ -156,6 +143,15 @@ class _PrivacyModalState extends State<PrivacyModal> {
                   ],
                 ),
               ),
+              if (showWebViewIcon)
+                Tooltip(
+                  message: AppLocalizations.of(context)!.openExternalUrl,
+                  child: Icon(
+                    Icons.open_in_browser_rounded,
+                    size: 20,
+                    color: colorScheme.onSurfaceVariant.withOpacity(0.6),
+                  ),
+                ),
             ],
           ),
         ),

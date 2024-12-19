@@ -105,11 +105,11 @@ class _AppDetailModalState extends State<AppDetailModal> {
       child: InkWell(
         onTap: url != null ? () => openUrl(url) : null,
         child: Padding(
-          padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 20),
+          padding: const EdgeInsets.symmetric(vertical: 10),
           child: Row(
             children: [
               icon ?? const SizedBox(width: 0),
-              const SizedBox(width: 20),
+              if (icon != null) const SizedBox(width: 20),
               Flexible(
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
