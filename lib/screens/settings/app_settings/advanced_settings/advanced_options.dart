@@ -7,11 +7,11 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 import 'package:pi_hole_client/screens/app_logs/app_logs.dart';
 import 'package:pi_hole_client/widgets/section_label.dart';
-import 'package:pi_hole_client/screens/settings/advanced_settings/reset_modal.dart';
+import 'package:pi_hole_client/screens/settings/app_settings/advanced_settings/reset_modal.dart';
 import 'package:pi_hole_client/widgets/custom_list_tile.dart';
-import 'package:pi_hole_client/screens/settings/advanced_settings/app_unlock_setup_modal.dart';
-import 'package:pi_hole_client/screens/settings/advanced_settings/enter_passcode_modal.dart';
-import 'package:pi_hole_client/screens/settings/advanced_settings/statistics_visualization_screen.dart';
+import 'package:pi_hole_client/screens/settings/app_settings/advanced_settings/app_unlock_setup_modal.dart';
+import 'package:pi_hole_client/screens/settings/app_settings/advanced_settings/enter_passcode_modal.dart';
+import 'package:pi_hole_client/screens/settings/app_settings/advanced_settings/statistics_visualization_screen.dart';
 
 import 'package:pi_hole_client/config/system_overlay_style.dart';
 import 'package:pi_hole_client/functions/snackbar.dart';

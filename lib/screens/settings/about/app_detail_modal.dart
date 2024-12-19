@@ -67,13 +67,6 @@ class _AppDetailModalState extends State<AppDetailModal> {
             subtitle: AppLocalizations.of(context)!.supportFormDescription,
             colorScheme: colorScheme,
           ),
-          _appDetailLine(
-            url: privacyPolicyUrl,
-            icon: Icon(Icons.security_rounded, color: colorScheme.onSurface),
-            title: AppLocalizations.of(context)!.privacyPolicy,
-            subtitle: AppLocalizations.of(context)!.privacyPolicyDescription,
-            colorScheme: colorScheme,
-          ),
           Padding(padding: const EdgeInsets.symmetric(vertical: 10)),
           Column(
             children: [

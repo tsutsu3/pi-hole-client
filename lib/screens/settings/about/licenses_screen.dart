@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart' hide LicensePage;
 import 'package:package_info_plus/package_info_plus.dart';
-import 'package:pi_hole_client/screens/settings/about.dart';
+import 'package:pi_hole_client/screens/settings/about/about.dart';
 
-class License extends StatelessWidget {
-  const License({super.key});
+class LicensesScreen extends StatelessWidget {
+  const LicensesScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
