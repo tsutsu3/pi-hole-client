@@ -42,3 +42,29 @@ jobs:
       uses: codecov/codecov-action@v5
       with:
         token: ${{ secrets.CODECOV_TOKEN }}
+  prepare-release:
+    runs-on: ubuntu-latest
+    if: startsWith(github.ref_name, 'release-v')
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install dependencies
+        run: npm install
+      - name: Extract version from branch
+        id: extract_version
+        run: |
+          branch_name="${{ github.ref_name }}"
+          version="${branch_name#release-v}"
+          echo "version=v$version" >> $GITHUB_ENV
+      - name: Generate Changelog
+        run: |
+          git cliff --tag ${{ env.version }} --output CHANGELOG.md
+          git add CHANGELOG.md
+          git commit -m "chore: update CHANGELOG for version ${{ env.version }}"
+          git push origin ${{ github.ref_name }}
+      - name: Update version in pubspec.yaml
+        run: |
+          version_line=$(grep "^version:" pubspec.yaml)
+          sed -i "s/$version_line/version: ${{ env.version }}/" pubspec.yaml
+          git add pubspec.yaml
+          git commit -m "chore: update pubspec.yaml version to ${{ env.version }}"
+          git push origin ${{ github.ref_name }}
