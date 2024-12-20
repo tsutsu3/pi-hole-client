@@ -67,7 +67,7 @@ jobs:
           set +e
           git add CHANGELOG.md
           git commit -m "chore: update CHANGELOG for version ${{ env.version }}"
-          git push origin ${{ github.head_ref }}
+          git push https://${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}.git ${{ github.head_ref }}
       - name: Update version in pubspec.yaml
         run: |
           version_line=$(grep "^version:" pubspec.yaml)
