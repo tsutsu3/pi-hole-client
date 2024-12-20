@@ -48,15 +48,20 @@ jobs:
     if: startsWith(github.ref_name, 'release-v')
     steps:
       - uses: actions/checkout@v4
-      - name: Install dependencies
-        run: npm install
       - name: Extract version from branch
         id: extract_version
         run: |
           branch_name="${{ github.ref_name }}"
           version="${branch_name#release-v}"
           echo "version=v$version" >> $GITHUB_ENV
-      - name: Generate Changelog
+      - name: Generate changelog
+        uses: orhun/git-cliff-action@v4
+        with:
+          config: cliff.toml
+          args: --tag ${{ env.version }}
+        env:
+          OUTPUT: CHANGELOG.md
+      - name: Commit Changelog
         run: |
           git cliff --tag ${{ env.version }} --output CHANGELOG.md
           git add CHANGELOG.md
