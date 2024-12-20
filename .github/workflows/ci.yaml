@@ -4,7 +4,6 @@ on:
   push:
     branches:
       - main
-      - release-v*
     tags:
       - "v[0-9]+.[0-9]+.[0-9]+*"
   pull_request:
@@ -45,7 +44,7 @@ jobs:
         token: ${{ secrets.CODECOV_TOKEN }}
   prepare-release:
     runs-on: ubuntu-latest
-    if: startsWith(github.ref_name, 'release-v')
+    if: startsWith(github.head_ref, 'release-v')
     steps:
       - uses: actions/checkout@v4
       - name: Extract version from branch
@@ -63,9 +62,9 @@ jobs:
           OUTPUT: CHANGELOG.md
       - name: Commit Changelog
         run: |
-          git checkout ${{ github.ref_name }}
           git config user.name 'github-actions[bot]'
           git config user.email 'github-actions[bot]@users.noreply.github.com'
+          git pull --rebase origin ${{ github.ref_name }}
           set +e
           git add CHANGELOG.md
           git commit -m "chore: update CHANGELOG for version ${{ env.version }}"
