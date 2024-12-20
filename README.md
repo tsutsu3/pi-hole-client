@@ -131,13 +131,13 @@ If you like the project and you want to contribute with the development, you can
 
 ## License
 
-Distributed under the Apach 2.0 License. See [LICENSE](./LICENSE) for more information.
+This app distributed under the Apach 2.0 License. See [LICENSE](./LICENSE) for more information.
 
 ## Credits
 
 This project is based on [DroidHole](https://github.com/jgeek00/droid-hole), originally developed by [JGeek00](https://github.com/JGeek00).
 
-See original [License](./LICENSE.md) for licensing details.
+For details on the licenses applicable to this project, please refer to [LICENSE.md](./LICENSE.md).
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
@@ -147,7 +147,7 @@ See original [License](./LICENSE.md) for licensing details.
 [issues-shield]: https://img.shields.io/github/issues/tsutsu3/pi-hole-client?style=for-the-badge
 [issues-url]: https://github.com/tsutsu3/pi-hole-client/issues
 [license-shield]: https://img.shields.io/github/license/tsutsu3/pi-hole-client?style=for-the-badge
-[license-url]: https://github.com/tsutsu3/pi-hole-client/blob/master/LICENSE.txt
+[license-url]: https://github.com/tsutsu3/pi-hole-client/blob/master/LICENSE
 [codecov-shield]: https://img.shields.io/codecov/c/github/tsutsu3/pi-hole-client?token=O6MIIYA211&style=for-the-badge&logo=codecov
 [codecov-url]: https://codecov.io/gh/tsutsu3/pi-hole-client
 [codeclimate-shield]: https://img.shields.io/codeclimate/maintainability/tsutsu3/pi-hole-client?style=for-the-badge&logo=codeclimate
