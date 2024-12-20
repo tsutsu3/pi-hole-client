@@ -50,7 +50,7 @@ jobs:
       - name: Extract version from branch
         id: extract_version
         run: |
-          branch_name="${{ github.ref_name }}"
+          branch_name="${{ github.head_ref }}"
           version="${branch_name#release-v}"
           echo "version=v$version" >> $GITHUB_ENV
       - name: Generate changelog
@@ -64,15 +64,14 @@ jobs:
         run: |
           git config user.name 'github-actions[bot]'
           git config user.email 'github-actions[bot]@users.noreply.github.com'
-          git pull --rebase origin ${{ github.ref_name }}
           set +e
           git add CHANGELOG.md
           git commit -m "chore: update CHANGELOG for version ${{ env.version }}"
-          git push origin ${{ github.ref_name }}
+          git push origin ${{ github.head_ref }}
       - name: Update version in pubspec.yaml
         run: |
           version_line=$(grep "^version:" pubspec.yaml)
           sed -i "s/$version_line/version: ${{ env.version }}/" pubspec.yaml
           git add pubspec.yaml
           git commit -m "chore: update pubspec.yaml version to ${{ env.version }}"
-          git push origin ${{ github.ref_name }}
+          git push origin ${{ github.head_ref }}
