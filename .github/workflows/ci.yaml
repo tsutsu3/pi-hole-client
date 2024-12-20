@@ -63,7 +63,10 @@ jobs:
           OUTPUT: CHANGELOG.md
       - name: Commit Changelog
         run: |
-          git cliff --tag ${{ env.version }} --output CHANGELOG.md
+          git checkout ${{ github.ref_name }}
+          git config user.name 'github-actions[bot]'
+          git config user.email 'github-actions[bot]@users.noreply.github.com'
+          set +e
           git add CHANGELOG.md
           git commit -m "chore: update CHANGELOG for version ${{ env.version }}"
           git push origin ${{ github.ref_name }}
