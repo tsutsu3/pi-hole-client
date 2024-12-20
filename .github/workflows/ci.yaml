@@ -62,6 +62,7 @@ jobs:
           OUTPUT: CHANGELOG.md
       - name: Commit Changelog
         run: |
+          git checkout ${{ github.head_ref }}
           git config user.name 'github-actions[bot]'
           git config user.email 'github-actions[bot]@users.noreply.github.com'
           set +e
