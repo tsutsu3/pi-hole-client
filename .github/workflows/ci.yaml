@@ -42,3 +42,41 @@ jobs:
       uses: codecov/codecov-action@v5
       with:
         token: ${{ secrets.CODECOV_TOKEN }}
+  prepare-release:
+    runs-on: ubuntu-latest
+    if: startsWith(github.head_ref, 'release-v')
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Extract version from branch
+        id: extract_version
+        run: |
+          branch_name="${{ github.head_ref }}"
+          version="${branch_name#release-v}"
+          echo "version=v$version" >> $GITHUB_ENV
+      - name: Generate changelog
+        uses: orhun/git-cliff-action@v4
+        with:
+          config: cliff.toml
+          args: --tag ${{ env.version }}
+        env:
+          OUTPUT: CHANGELOG.md
+          GITHUB_REPO: ${{ github.repository }}
+      - name: Commit Changelog
+        run: |
+          git config user.name 'github-actions[bot]'
+          git config user.email 'github-actions[bot]@users.noreply.github.com'
+          git checkout ${{ github.head_ref }}
+          git add CHANGELOG.md
+          git commit -m "Update CHANGELOG for version ${{ env.version }}"
+          git push https://${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}.git ${{ github.head_ref }}
+      - name: Update version in pubspec.yaml
+        run: |
+          version_without_v=${{ env.version }}
+          version_without_v=${version_without_v#v}
+          sed -i "s/^version: .*/version: $version_without_v/" pubspec.yaml
+          git add pubspec.yaml
+          git commit -m "Update pubspec.yaml version to ${{ env.version }}"
+          git push https://${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}.git ${{ github.head_ref || github.ref_name }}
+
