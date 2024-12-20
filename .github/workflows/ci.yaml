@@ -73,8 +73,9 @@ jobs:
           git push https://${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}.git ${{ github.head_ref }}
       - name: Update version in pubspec.yaml
         run: |
-          version_line=$(grep "^version:" pubspec.yaml)
-          sed -i "s/$version_line/version: ${{ env.version }}/" pubspec.yaml
+          version_without_v=${{ env.version#v }}
+          sed -i "s/^version: .*/version: $version_without_v/" pubspec.yaml
           git add pubspec.yaml
           git commit -m "Update pubspec.yaml version to ${{ env.version }}"
-          git push origin ${{ github.head_ref }}
+          git push https://${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}.git ${{ github.head_ref || github.ref_name }}
+
