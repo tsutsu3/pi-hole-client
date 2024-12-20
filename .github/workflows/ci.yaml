@@ -62,17 +62,16 @@ jobs:
           OUTPUT: CHANGELOG.md
       - name: Commit Changelog
         run: |
-          git checkout ${{ github.head_ref }}
           git config user.name 'github-actions[bot]'
           git config user.email 'github-actions[bot]@users.noreply.github.com'
-          set +e
+          git checkout ${{ github.head_ref }}
           git add CHANGELOG.md
-          git commit -m "chore: update CHANGELOG for version ${{ env.version }}"
+          git commit -m "Update CHANGELOG for version ${{ env.version }}"
           git push https://${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}.git ${{ github.head_ref }}
       - name: Update version in pubspec.yaml
         run: |
           version_line=$(grep "^version:" pubspec.yaml)
           sed -i "s/$version_line/version: ${{ env.version }}/" pubspec.yaml
           git add pubspec.yaml
-          git commit -m "chore: update pubspec.yaml version to ${{ env.version }}"
+          git commit -m "Update pubspec.yaml version to ${{ env.version }}"
           git push origin ${{ github.head_ref }}
