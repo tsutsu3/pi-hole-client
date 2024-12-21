@@ -1,7 +1,0 @@
-version: "2"
-plugins:
-  dart:
-    enabled: true
-    config:
-      include_patterns:
-        - "lib/**"
