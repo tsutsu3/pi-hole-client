@@ -54,7 +54,14 @@ dart_code_metrics:
   metrics-exclude:
     - test/**
   rules:
-    # - avoid-unused-parameters
+    # common
+    - avoid-unused-assignment
+    - avoid-unused-generics
+    - avoid-unused-instances
+    - avoid-unused-parameters
+    # Code Quality Checks
+    - check-unused-files
+    - check-unused-code
     # - binary-expression-operand-order
     # - double-literal-format
     # - member-ordering
