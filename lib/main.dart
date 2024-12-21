@@ -69,8 +69,7 @@ void main() async {
   }
 
   configProvider.saveFromDb(dbRepository.appConfig);
-  await serversProvider.saveFromDb(dbRepository.servers,
-      dbRepository.appConfig.passCode != null ? false : true);
+  await serversProvider.saveFromDb(dbRepository.servers);
 
   try {
     if (Platform.isAndroid || Platform.isIOS) {

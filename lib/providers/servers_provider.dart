@@ -192,7 +192,7 @@ class ServersProvider with ChangeNotifier {
   //   }
   // }
 
-  Future saveFromDb(List<ServerDbData>? servers, bool connect) async {
+  Future saveFromDb(List<ServerDbData>? servers) async {
     if (servers != null) {
       Server? defaultServer;
       for (var server in servers) {
