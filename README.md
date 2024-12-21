@@ -13,7 +13,7 @@
 <!-- PROJECT LOGO -->
 <div align="center">
   <a href="https://github.com/tsutsu3/pi-hole-client">
-    <img src="assets/other/feature-image-w.png">
+    <img src="assets/other/feature-image-w.png" width="600">
   </a>
   <p align="center">
     <b>
@@ -59,6 +59,8 @@ Easily view statistics, enable or disable the server, access logs, and much more
 
 ## 💡 Main features
 
+![ss](assets/other/ss.jpg)
+
 <p>▶ Manage your Pi-hole® server on an easy way.</p>
 <p>▶ Supports Pi-hole v6.</p>
 <p>▶ Enable and disable the server with only one button.</p>
@@ -67,7 +69,6 @@ Easily view statistics, enable or disable the server, access logs, and much more
 <p>▶ Explore the query logs list and see the log details.</p>
 <p>▶ Manage your domain lists. Add and remove domains to the whitelist or blacklist.</p>
 <p>▶ Material User interface with dynamic theming (only Android 12+)</p>
-<p>Requires Android 8.0+</p>
 
 ## 📌 Requirements
 
