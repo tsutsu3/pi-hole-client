@@ -201,7 +201,7 @@ class _AddServerFullscreenState extends State<AddServerFullscreen> {
         isConnecting = true;
       });
       final String url =
-          "${connectionType.name}://${addressFieldController.text}${portFieldController.text != '' ? ':${portFieldController.text}' : ''}${subrouteFieldController.text}";
+          '${connectionType.name}://${addressFieldController.text}${portFieldController.text != '' ? ':${portFieldController.text}' : ''}${subrouteFieldController.text}';
       final exists = await serversProvider.checkUrlExists(url);
       if (exists['result'] == 'success' && exists['exists'] == true) {
         setState(() {
@@ -564,7 +564,7 @@ class _AddServerFullscreenState extends State<AddServerFullscreen> {
                   child: Column(
                     children: [
                       Text(
-                        "${connectionType.name}://${addressFieldController.text}${portFieldController.text != '' ? ':${portFieldController.text}' : ''}${subrouteFieldController.text}",
+                        '${connectionType.name}://${addressFieldController.text}${portFieldController.text != '' ? ':${portFieldController.text}' : ''}${subrouteFieldController.text}',
                         style: TextStyle(
                             fontWeight: FontWeight.bold,
                             color: Theme.of(context).colorScheme.primary),
@@ -594,9 +594,9 @@ class _AddServerFullscreenState extends State<AddServerFullscreen> {
                   child: SegmentedButton<ConnectionType>(
                     segments: const [
                       ButtonSegment(
-                          value: ConnectionType.http, label: Text("HTTP")),
+                          value: ConnectionType.http, label: Text('HTTP')),
                       ButtonSegment(
-                          value: ConnectionType.https, label: Text("HTTPS")),
+                          value: ConnectionType.https, label: Text('HTTPS')),
                     ],
                     selected: <ConnectionType>{connectionType},
                     onSelectionChanged: (value) =>

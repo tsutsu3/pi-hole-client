@@ -123,7 +123,7 @@ class _SettingsWidgetState extends State<SettingsWidget> {
     }
 
     void openAppDetailModal() {
-      final appVersion = appConfigProvider.getAppInfo?.version ?? "";
+      final appVersion = appConfigProvider.getAppInfo?.version ?? '';
       showDialog(
           context: context,
           builder: (context) => AppDetailModal(appVersion: appVersion));
@@ -148,7 +148,7 @@ class _SettingsWidgetState extends State<SettingsWidget> {
           return AppLocalizations.of(context)!.dark;
 
         default:
-          return "";
+          return '';
       }
     }
 
@@ -208,7 +208,7 @@ class _SettingsWidgetState extends State<SettingsWidget> {
                           title: AppLocalizations.of(context)!.servers,
                           subtitle: serversProvider.selectedServer != null
                               ? statusProvider.isServerConnected == true
-                                  ? "${AppLocalizations.of(context)!.connectedTo} ${serversProvider.selectedServer!.alias}"
+                                  ? '${AppLocalizations.of(context)!.connectedTo} ${serversProvider.selectedServer!.alias}'
                                   : AppLocalizations.of(context)!
                                       .notConnectServer
                               : AppLocalizations.of(context)!.notSelected,
@@ -218,7 +218,7 @@ class _SettingsWidgetState extends State<SettingsWidget> {
                           icon: Icons.update,
                           title: AppLocalizations.of(context)!.autoRefreshTime,
                           subtitle:
-                              "${appConfigProvider.getAutoRefreshTime.toString()} ${AppLocalizations.of(context)!.seconds}",
+                              '${appConfigProvider.getAutoRefreshTime.toString()} ${AppLocalizations.of(context)!.seconds}',
                           thisItem: 3,
                           screenToNavigate: const AutoRefreshTimeScreen()),
                       settingsTile(
@@ -226,7 +226,7 @@ class _SettingsWidgetState extends State<SettingsWidget> {
                           title:
                               AppLocalizations.of(context)!.logsQuantityPerLoad,
                           subtitle:
-                              "${appConfigProvider.logsPerQuery == 0.5 ? '30' : appConfigProvider.logsPerQuery.toInt()} ${appConfigProvider.logsPerQuery == 0.5 ? AppLocalizations.of(context)!.minutes : AppLocalizations.of(context)!.hours}",
+                              '${appConfigProvider.logsPerQuery == 0.5 ? '30' : appConfigProvider.logsPerQuery.toInt()} ${appConfigProvider.logsPerQuery == 0.5 ? AppLocalizations.of(context)!.minutes : AppLocalizations.of(context)!.hours}',
                           thisItem: 4,
                           screenToNavigate: const LogsQuantityLoadScreen()),
                       settingsTile(

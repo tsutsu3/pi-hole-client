@@ -72,12 +72,12 @@ class Statistics extends StatelessWidget {
               ),
               StatisticsList(
                 countLabel: AppLocalizations.of(context)!.hits,
-                type: "domains",
+                type: 'domains',
                 onRefresh: () async => await refreshServerStatus(context),
               ),
               StatisticsList(
                 countLabel: AppLocalizations.of(context)!.requests,
-                type: "clients",
+                type: 'clients',
                 onRefresh: () async => await refreshServerStatus(context),
               ),
             ]),

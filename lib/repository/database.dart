@@ -37,7 +37,7 @@ class DatabaseRepository {
   List<ServerDbData> get servers {
     if (_servers == null) {
       throw Exception(
-          "DatabaseRepository is not initialized. Call initialize() first.");
+          'DatabaseRepository is not initialized. Call initialize() first.');
     }
     return _servers!;
   }
@@ -45,7 +45,7 @@ class DatabaseRepository {
   AppDbData get appConfig {
     if (_appConfig == null) {
       throw Exception(
-          "DatabaseRepository is not initialized. Call initialize() first.");
+          'DatabaseRepository is not initialized. Call initialize() first.');
     }
     return _appConfig!;
   }
@@ -80,15 +80,15 @@ class DatabaseRepository {
     Database db = await openDatabase('pi_hole_client.db',
         version: 1,
         onCreate: (Database db, int version) async {
-          await db.execute("""
+          await db.execute('''
             CREATE TABLE servers (
               address TEXT PRIMARY KEY NOT NULL,
               alias TEXT NOT NULL,
               isDefaultServer NUMERIC NOT NULL,
               apiVersion TEXT NOT NULL
             )
-          """);
-          await db.execute("""
+          ''');
+          await db.execute('''
             CREATE TABLE appConfig (
               autoRefreshTime NUMERIC NOT NULL,
               theme NUMERIC NOT NULL,
@@ -103,8 +103,8 @@ class DatabaseRepository {
               statisticsVisualizationMode NUMERIC NOT NULL,
               sendCrashReports NUMERIC NOT NULL
             )
-          """);
-          await db.execute("""
+          ''');
+          await db.execute('''
             INSERT INTO appConfig (
               autoRefreshTime,
               theme,
@@ -119,7 +119,7 @@ class DatabaseRepository {
               statisticsVisualizationMode,
               sendCrashReports
             ) VALUES (5, 0, 'en', 0, 0, 0, 2, 0, 0, 0, 0, 0)
-          """);
+          ''');
         },
         onUpgrade: (Database db, int oldVersion, int newVersion) async {},
         onDowngrade: (Database db, int oldVersion, int newVersion) async {},
@@ -414,9 +414,9 @@ class DatabaseRepository {
   Future<Map<String, dynamic>> checkUrlExistsQuery(String url) async {
     try {
       return await _dbInstance.transaction((txn) async {
-        final res = await txn.query("servers",
-            columns: ["count(address) as quantity"],
-            where: "address = ?",
+        final res = await txn.query('servers',
+            columns: ['count(address) as quantity'],
+            where: 'address = ?',
             whereArgs: [url]);
 
         if (res[0]['quantity'] == 0) {

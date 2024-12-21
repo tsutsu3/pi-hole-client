@@ -160,7 +160,7 @@ class DomainListResult {
 
   factory DomainListResult.fromV6(v6.Domains domains) {
     final types = {
-      "allow_exact": 0,
+      'allow_exact': 0,
       'deny_exact': 1,
       'allow_regex': 2,
       'deny_regex': 3,

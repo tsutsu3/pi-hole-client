@@ -12,27 +12,27 @@ import 'package:pi_hole_client/models/app_screen.dart';
 final List<AppScreen> appScreens = [
   const AppScreen(
     icon: Icon(Icons.home),
-    name: "home",
+    name: 'home',
     widget: Home(),
   ),
   const AppScreen(
     icon: Icon(Icons.analytics_rounded),
-    name: "statistics",
+    name: 'statistics',
     widget: Statistics(),
   ),
   const AppScreen(
     icon: Icon(Icons.list_alt_rounded),
-    name: "logs",
+    name: 'logs',
     widget: Logs(),
   ),
   const AppScreen(
     icon: Icon(Icons.shield_rounded),
-    name: "domains",
+    name: 'domains',
     widget: DomainLists(),
   ),
   const AppScreen(
     icon: Icon(Icons.settings),
-    name: "settings",
+    name: 'settings',
     widget: Settings(),
   ),
 ];
@@ -40,12 +40,12 @@ final List<AppScreen> appScreens = [
 final List<AppScreen> appScreensNotSelected = [
   const AppScreen(
     icon: Icon(Icons.link_rounded),
-    name: "connect",
+    name: 'connect',
     widget: ServersPage(),
   ),
   const AppScreen(
     icon: Icon(Icons.settings),
-    name: "settings",
+    name: 'settings',
     widget: Settings(),
   ),
 ];

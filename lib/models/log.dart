@@ -23,20 +23,20 @@ class Log {
   });
 
   static const List<String> replyTypes = [
-    "N/A",
-    "NODATA",
-    "NXDOMAIN",
-    "CNAME",
-    "IP",
-    "DOMAIN",
-    "RRNAME",
-    "SERVFAIL",
-    "REFUSED",
-    "NOTIMP",
-    "upstream error",
-    "DNSSEC",
-    "NONE",
-    "BLOB",
+    'N/A',
+    'NODATA',
+    'NXDOMAIN',
+    'CNAME',
+    'IP',
+    'DOMAIN',
+    'RRNAME',
+    'SERVFAIL',
+    'REFUSED',
+    'NOTIMP',
+    'upstream error',
+    'DNSSEC',
+    'NONE',
+    'BLOB',
   ];
 
   factory Log.fromJson(List data) => Log(

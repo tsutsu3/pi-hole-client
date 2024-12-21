@@ -529,19 +529,19 @@ class ApiGatewayV5 implements ApiGateway {
     String getType(int type) {
       switch (type) {
         case 0:
-          return "white";
+          return 'white';
 
         case 1:
-          return "black";
+          return 'black';
 
         case 2:
-          return "regex_white";
+          return 'regex_white';
 
         case 3:
-          return "regex_black";
+          return 'regex_black';
 
         default:
-          return "";
+          return '';
       }
     }
 

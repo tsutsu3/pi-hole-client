@@ -58,9 +58,9 @@ class PieChartLegend extends StatelessWidget {
                     SizedBox(
                         width: 65,
                         child: Text(
-                          dataUnit == "%"
-                              ? "${formatPercentage(value, Platform.localeName)} %"
-                              : "${value.toString()}${dataUnit != null ? " $dataUnit" : ''}",
+                          dataUnit == '%'
+                              ? '${formatPercentage(value, Platform.localeName)} %'
+                              : '${value.toString()}${dataUnit != null ? ' $dataUnit' : ''}',
                           textAlign: TextAlign.end,
                         )),
                   ],

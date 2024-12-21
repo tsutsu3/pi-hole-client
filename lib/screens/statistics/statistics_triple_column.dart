@@ -94,7 +94,7 @@ class StatisticsTripleColumn extends StatelessWidget {
                           child: ListView(
                             children: [
                               StatisticsListContent(
-                                type: "domains",
+                                type: 'domains',
                                 countLabel: AppLocalizations.of(context)!.hits,
                               )
                             ],
@@ -126,7 +126,7 @@ class StatisticsTripleColumn extends StatelessWidget {
                           child: ListView(
                             children: [
                               StatisticsListContent(
-                                type: "clients",
+                                type: 'clients',
                                 countLabel:
                                     AppLocalizations.of(context)!.requests,
                               )

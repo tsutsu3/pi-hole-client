@@ -85,11 +85,11 @@ class StartInfoModal extends StatelessWidget {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Text(
-                                "Pi-hole: v5.12+",
+                                'Pi-hole: v5.12+',
                                 textAlign: TextAlign.left,
                               ),
                               SizedBox(height: 5),
-                              Text("Web interface: v5.14.2+",
+                              Text('Web interface: v5.14.2+',
                                   textAlign: TextAlign.left),
                             ],
                           ),

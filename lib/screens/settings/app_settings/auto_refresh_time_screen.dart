@@ -26,7 +26,7 @@ class _AutoRefreshTimeScreenState extends State<AutoRefreshTimeScreen> {
     setState(() {
       selectedOption = value;
       if (selectedOption != 5) {
-        customTimeController.text = "";
+        customTimeController.text = '';
         showCustomDurationInput = false;
       } else {
         setState(() {

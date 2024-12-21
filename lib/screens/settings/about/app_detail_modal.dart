@@ -18,7 +18,7 @@ class AppDetailModal extends StatefulWidget {
 class _AppDetailModalState extends State<AppDetailModal> {
   final expandableController = ExpandableController();
 
-  String get _appVersion => widget._appVersion ?? "";
+  String get _appVersion => widget._appVersion ?? '';
 
   @override
   Widget build(BuildContext context) {
@@ -55,7 +55,7 @@ class _AppDetailModalState extends State<AppDetailModal> {
               width: 25,
               height: 25,
             ),
-            title: "GitHub",
+            title: 'GitHub',
             subtitle: AppLocalizations.of(context)!.openIssueGitHub,
             colorScheme: colorScheme,
           ),
@@ -76,7 +76,7 @@ class _AppDetailModalState extends State<AppDetailModal> {
           ),
           _appDetailLine(
             title: AppLocalizations.of(context)!.createdBy,
-            subtitle: "tsutsu3",
+            subtitle: 'tsutsu3',
             colorScheme: colorScheme,
             showWebViewIcon: false,
           ),

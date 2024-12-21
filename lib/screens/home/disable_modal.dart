@@ -26,7 +26,7 @@ class _DisableModalState extends State<DisableModal> {
     setState(() {
       selectedOption = value;
       if (selectedOption != 5) {
-        customTimeController.text = "";
+        customTimeController.text = '';
         if (expandableController.expanded) expandableController.toggle();
       } else if (expandableController.expanded == false) {
         expandableController.toggle();

@@ -38,21 +38,21 @@ class _AddDomainModalState extends State<AddDomainModal> {
 
   String getSelectedList() {
     if (selectedType == ListType.whitelist && wildcard == false) {
-      return "white";
+      return 'white';
     } else if (selectedType == ListType.whitelist && wildcard == true) {
-      return "regex_white";
+      return 'regex_white';
     }
     if (selectedType == ListType.blacklist && wildcard == false) {
-      return "black";
+      return 'black';
     } else if (selectedType == ListType.blacklist && wildcard == true) {
-      return "regex_black";
+      return 'regex_black';
     } else {
-      return "";
+      return '';
     }
   }
 
   String applyWildcard() {
-    return "(\\.|^)${domainController.text.replaceAll('.', '\\.')}\$";
+    return '(\\.|^)${domainController.text.replaceAll('.', '\\.')}\$';
   }
 
   void validateDomain(String? value) {
@@ -125,10 +125,10 @@ class _AddDomainModalState extends State<AddDomainModal> {
                       segments: const [
                         ButtonSegment(
                             value: ListType.whitelist,
-                            label: Text("Whitelist")),
+                            label: Text('Whitelist')),
                         ButtonSegment(
                             value: ListType.blacklist,
-                            label: Text("Blacklist")),
+                            label: Text('Blacklist')),
                       ],
                       selected: <ListType>{selectedType},
                       onSelectionChanged: (value) =>

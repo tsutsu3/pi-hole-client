@@ -21,19 +21,19 @@ class DomainDetailsScreen extends StatelessWidget {
     String getType(int type) {
       switch (type) {
         case 0:
-          return "Whitelist";
+          return 'Whitelist';
 
         case 1:
-          return "Blacklist";
+          return 'Blacklist';
 
         case 2:
-          return "Whitelist Regex";
+          return 'Whitelist Regex';
 
         case 3:
-          return "Blacklist Regex";
+          return 'Blacklist Regex';
 
         default:
-          return "";
+          return '';
       }
     }
 
@@ -86,7 +86,7 @@ class DomainDetailsScreen extends StatelessWidget {
           Material(
             color: Colors.transparent,
             child: InkWell(
-              onTap: domain.comment != null && domain.comment != ""
+              onTap: domain.comment != null && domain.comment != ''
                   ? () => {
                         showModal(
                             context: context,
@@ -97,7 +97,7 @@ class DomainDetailsScreen extends StatelessWidget {
               child: CustomListTile(
                 leadingIcon: Icons.comment_rounded,
                 label: AppLocalizations.of(context)!.comment,
-                description: domain.comment == ""
+                description: domain.comment == ''
                     ? AppLocalizations.of(context)!.noComment
                     : domain.comment,
               ),

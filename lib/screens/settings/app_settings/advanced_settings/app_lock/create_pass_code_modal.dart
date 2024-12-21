@@ -18,8 +18,8 @@ class CreatePassCodeModal extends StatefulWidget {
 
 class _CreatePassCodeModalState extends State<CreatePassCodeModal> {
   int _step = 0;
-  String _code = "";
-  String _repeatedCode = "";
+  String _code = '';
+  String _repeatedCode = '';
 
   @override
   Widget build(BuildContext context) {

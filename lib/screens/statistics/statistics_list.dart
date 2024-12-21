@@ -140,7 +140,7 @@ class StatisticsListContent extends StatelessWidget {
                               ),
                               const SizedBox(height: 10),
                               Text(
-                                "$countLabel ${item['value'].toInt().toString()}",
+                                '$countLabel ${item['value'].toInt().toString()}',
                                 overflow: TextOverflow.ellipsis,
                                 maxLines: 1,
                                 softWrap: false,
@@ -216,7 +216,7 @@ class StatisticsListContent extends StatelessWidget {
       );
     }
 
-    if (type == "domains") {
+    if (type == 'domains') {
       return Column(children: [
         statusProvider.getRealtimeStatus!.topQueries.isNotEmpty
             ? generateList(statusProvider.getRealtimeStatus!.topQueries,
@@ -227,7 +227,7 @@ class StatisticsListContent extends StatelessWidget {
                 AppLocalizations.of(context)!.topBlockedDomains)
             : NoDataChart(topLabel: AppLocalizations.of(context)!.noData),
       ]);
-    } else if (type == "clients") {
+    } else if (type == 'clients') {
       return Column(children: [
         statusProvider.getRealtimeStatus!.topSources.isNotEmpty
             ? generateList(statusProvider.getRealtimeStatus!.topSources,

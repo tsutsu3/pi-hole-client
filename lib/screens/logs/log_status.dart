@@ -49,7 +49,7 @@ class LogStatus extends StatelessWidget {
     final queryStatus = serverProvider.getQueryStatus(status);
     if (queryStatus == null) {
       return logStatusWidget(
-          icon: Icons.shield_rounded, color: Colors.grey, text: "Unknown");
+          icon: Icons.shield_rounded, color: Colors.grey, text: 'Unknown');
     }
 
     return logStatusWidget(

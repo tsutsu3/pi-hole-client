@@ -121,7 +121,7 @@ class _DomainListsWidgetState extends State<DomainListsWidget>
                             maxLines: 1,
                             decoration: InputDecoration(
                                 hintText:
-                                    "${AppLocalizations.of(context)!.searchDomains}...",
+                                    '${AppLocalizations.of(context)!.searchDomains}...',
                                 hintStyle: const TextStyle(
                                     fontWeight: FontWeight.w400),
                                 border: InputBorder.none,
@@ -146,8 +146,8 @@ class _DomainListsWidgetState extends State<DomainListsWidget>
                         IconButton(
                             onPressed: () => setState(() {
                                   domainsListProvider.setSearchMode(false);
-                                  searchController.text = "";
-                                  domainsListProvider.onSearch("");
+                                  searchController.text = '';
+                                  domainsListProvider.onSearch('');
                                 }),
                             icon: const Icon(Icons.close_rounded)),
                       const SizedBox(width: 10)
@@ -163,7 +163,7 @@ class _DomainListsWidgetState extends State<DomainListsWidget>
                               children: [
                                 Icon(Icons.check_circle_rounded),
                                 SizedBox(width: 16),
-                                Text("Whitelist")
+                                Text('Whitelist')
                               ],
                             ),
                           ),
@@ -173,7 +173,7 @@ class _DomainListsWidgetState extends State<DomainListsWidget>
                               children: [
                                 Icon(Icons.block),
                                 SizedBox(width: 16),
-                                Text("Blacklist")
+                                Text('Blacklist')
                               ],
                             ),
                           ),

@@ -1,1 +1,1 @@
-const searchDomainBaseUrlGoogle = "https://www.google.com/search?q=";
+const searchDomainBaseUrlGoogle = 'https://www.google.com/search?q=';

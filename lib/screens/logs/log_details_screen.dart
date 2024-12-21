@@ -1,3 +1,5 @@
+// ignore_for_file: prefer_single_quotes
+
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:pi_hole_client/providers/filters_provider.dart';
@@ -77,7 +79,7 @@ class LogDetailsScreen extends StatelessWidget {
         title: Text(AppLocalizations.of(context)!.logDetails),
         actions: [
           IconButton(
-            onPressed: () => openUrl("$searchDomainBaseUrlGoogle${log.url}"),
+            onPressed: () => openUrl('$searchDomainBaseUrlGoogle${log.url}'),
             icon: const Icon(Icons.travel_explore_rounded),
             tooltip: AppLocalizations.of(context)!.searchDomainInternet,
           ),
@@ -120,7 +122,7 @@ class LogDetailsScreen extends StatelessWidget {
             leadingIcon: Icons.system_update_alt_outlined,
             label: AppLocalizations.of(context)!.reply,
             description:
-                "${log.replyType} (${(log.replyTime / BigInt.from(10))} ms)",
+                '${log.replyType} (${(log.replyTime / BigInt.from(10))} ms)',
           ),
         ],
       ),

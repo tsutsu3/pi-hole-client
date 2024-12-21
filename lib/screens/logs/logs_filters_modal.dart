@@ -104,7 +104,7 @@ class _LogsFiltersModalState extends State<LogsFiltersModal> {
       } else if (items == maxItems) {
         return AppLocalizations.of(context)!.allItemsSelected;
       } else {
-        return "$items ${AppLocalizations.of(context)!.itemsSelected}";
+        return '$items ${AppLocalizations.of(context)!.itemsSelected}';
       }
     }
 
@@ -253,7 +253,7 @@ class _LogsFiltersModalState extends State<LogsFiltersModal> {
                                           filtersProvider.startTime != null
                                               ? formatTimestamp(
                                                   filtersProvider.startTime!,
-                                                  "dd/MM/yyyy - HH:mm")
+                                                  'dd/MM/yyyy - HH:mm')
                                               : AppLocalizations.of(context)!
                                                   .notSelected,
                                           style: TextStyle(
@@ -268,7 +268,7 @@ class _LogsFiltersModalState extends State<LogsFiltersModal> {
                                 ),
                               ),
                               const Text(
-                                "-",
+                                '-',
                                 style: TextStyle(
                                     fontWeight: FontWeight.bold, fontSize: 20),
                               ),
@@ -311,7 +311,7 @@ class _LogsFiltersModalState extends State<LogsFiltersModal> {
                                           filtersProvider.endTime != null
                                               ? formatTimestamp(
                                                   filtersProvider.endTime!,
-                                                  "dd/MM/yyyy - HH:mm")
+                                                  'dd/MM/yyyy - HH:mm')
                                               : AppLocalizations.of(context)!
                                                   .notSelected,
                                           style: TextStyle(

@@ -24,7 +24,7 @@ class EnterPasscodeModal extends StatefulWidget {
 }
 
 class _EnterPasscodeModalState extends State<EnterPasscodeModal> {
-  String _code = "";
+  String _code = '';
 
   final GlobalKey<ShakeAnimationState> _shakeKey =
       GlobalKey<ShakeAnimationState>();
@@ -42,7 +42,7 @@ class _EnterPasscodeModalState extends State<EnterPasscodeModal> {
       } else {
         _shakeKey.currentState!.shake();
         setState(() {
-          _code = "";
+          _code = '';
         });
       }
     }

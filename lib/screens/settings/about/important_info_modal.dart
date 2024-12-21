@@ -44,9 +44,9 @@ class ImportantInfoModal extends StatelessWidget {
                 child: const Column(
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
-                    Text("Pi-hole: v5.12+"),
+                    Text('Pi-hole: v5.12+'),
                     SizedBox(height: 5),
-                    Text("Web interface: v5.14.2+")
+                    Text('Web interface: v5.14.2+')
                   ],
                 ),
               ),

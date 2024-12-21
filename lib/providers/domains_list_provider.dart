@@ -22,7 +22,7 @@ class DomainsListProvider with ChangeNotifier {
 
   int? _selectedTab;
 
-  String _searchTerm = "";
+  String _searchTerm = '';
 
   bool _searchMode = false;
 
@@ -86,7 +86,7 @@ class DomainsListProvider with ChangeNotifier {
   void onSearch(String value) {
     _searchTerm = value;
 
-    if (value != "") {
+    if (value != '') {
       _filteredBlacklistDomains =
           _blacklistDomains.where((i) => i.domain.contains(value)).toList();
       _filteredWhitelistDomains =

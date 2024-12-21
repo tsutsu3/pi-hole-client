@@ -131,7 +131,7 @@ class _HomeState extends State<Home> {
                       color: Colors.orange,
                       label: AppLocalizations.of(context)!.percentageBlocked,
                       value:
-                          "${formatPercentage(statusProvider.getRealtimeStatus!.adsPercentageToday, Platform.localeName)}%",
+                          '${formatPercentage(statusProvider.getRealtimeStatus!.adsPercentageToday, Platform.localeName)}%',
                     ),
                   ),
                 ),

@@ -116,35 +116,35 @@ void main() async {
 
   Future<void> initializeSentry() async {
     if (configProvider.sendCrashReports == false) {
-      logger.d("Send Crash Reports: OFF");
+      logger.d('Send Crash Reports: OFF');
       await Sentry.close();
       return;
     }
 
     if ((kReleaseMode &&
             (dotenv.env['SENTRY_DSN'] != null &&
-                dotenv.env['SENTRY_DSN'] != "")) ||
-        (dotenv.env['ENABLE_SENTRY'] == "true" &&
+                dotenv.env['SENTRY_DSN'] != '')) ||
+        (dotenv.env['ENABLE_SENTRY'] == 'true' &&
             (dotenv.env['SENTRY_DSN'] != null &&
-                dotenv.env['SENTRY_DSN'] != ""))) {
-      logger.d("Send Crash Reports: ON");
+                dotenv.env['SENTRY_DSN'] != ''))) {
+      logger.d('Send Crash Reports: ON');
       SentryFlutter.init(
         (options) {
           options.dsn = dotenv.env['SENTRY_DSN'];
           options.sendDefaultPii = false;
           options.attachScreenshot =
-              dotenv.env['ENABLE_SENTRY_SCREENSHOTS'] == "true";
+              dotenv.env['ENABLE_SENTRY_SCREENSHOTS'] == 'true';
           options.beforeSend = (event, hint) {
             if (event.throwable is HttpException) {
               return null;
             }
 
-            if (event.message?.formatted.contains("Unexpected character") ??
+            if (event.message?.formatted.contains('Unexpected character') ??
                 false ||
                     (event.throwable != null &&
                         event.throwable!
                             .toString()
-                            .contains("Unexpected character"))) {
+                            .contains('Unexpected character'))) {
               return null; // Exclude this event
             }
 

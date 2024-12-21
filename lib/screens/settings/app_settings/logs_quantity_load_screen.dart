@@ -178,7 +178,7 @@ class _LogsQuantityLoadScreenState extends State<LogsQuantityLoadScreen> {
             padding:
                 const EdgeInsets.only(top: 20, left: 20, bottom: 10, right: 20),
             child: Text(
-              "${AppLocalizations.of(context)!.logsWillBeRequested} ${_getTime() == 0.5 ? '30' : _getTime().toInt()} ${_getTime() == 0.5 ? AppLocalizations.of(context)!.minutes : AppLocalizations.of(context)!.hours}",
+              '${AppLocalizations.of(context)!.logsWillBeRequested} ${_getTime() == 0.5 ? '30' : _getTime().toInt()} ${_getTime() == 0.5 ? AppLocalizations.of(context)!.minutes : AppLocalizations.of(context)!.hours}',
               style: const TextStyle(fontWeight: FontWeight.bold),
             ),
           ),

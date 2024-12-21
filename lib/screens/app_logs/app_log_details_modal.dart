@@ -23,12 +23,12 @@ class _AppLogDetailsModalState extends State<AppLogDetailsModal> {
       case 'statusCode':
         return widget.log.statusCode != null
             ? widget.log.statusCode.toString()
-            : "[NO STAUS CODE]";
+            : '[NO STAUS CODE]';
 
       case 'body':
         return widget.log.resBody != null
             ? widget.log.resBody.toString()
-            : "[NO RESPONSE BODY]";
+            : '[NO RESPONSE BODY]';
 
       default:
         return '';
@@ -90,7 +90,7 @@ class _AppLogDetailsModalState extends State<AppLogDetailsModal> {
                                 .primary
                                 .withOpacity(0.05)),
                     child: Text(
-                      "Message",
+                      'Message',
                       style: TextStyle(
                           color:
                               valueToShow == 'message' ? Colors.white : null),
@@ -121,7 +121,7 @@ class _AppLogDetailsModalState extends State<AppLogDetailsModal> {
                                 .primary
                                 .withOpacity(0.05)),
                     child: Text(
-                      "Status code",
+                      'Status code',
                       style: TextStyle(
                           color: valueToShow == 'statusCode'
                               ? Colors.white
@@ -158,7 +158,7 @@ class _AppLogDetailsModalState extends State<AppLogDetailsModal> {
                                 .primary
                                 .withOpacity(0.05)),
                     child: Text(
-                      "Body",
+                      'Body',
                       style: TextStyle(
                           color: valueToShow == 'body' ? Colors.white : null),
                     ),
@@ -173,7 +173,7 @@ class _AppLogDetailsModalState extends State<AppLogDetailsModal> {
       ),
       actions: [
         TextButton(
-            onPressed: () => Navigator.pop(context), child: const Text("Close"))
+            onPressed: () => Navigator.pop(context), child: const Text('Close'))
       ],
     );
   }

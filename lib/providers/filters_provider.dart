@@ -11,17 +11,17 @@ class FiltersProvider with ChangeNotifier implements Filters {
   FiltersProvider({ServersProvider? serversProvider}) {
     // Default filtersProvider is FiltersProviderV5.
     // Update filtersPorviders version when update ServersProvider.
-    final version = serversProvider?.selectedServer?.apiVersion ?? "v5";
+    final version = serversProvider?.selectedServer?.apiVersion ?? 'v5';
     _updateFiltersVersion(version);
   }
 
   void update(ServersProvider? provider) {
-    final version = provider?.selectedServer?.apiVersion ?? "v5";
+    final version = provider?.selectedServer?.apiVersion ?? 'v5';
     _updateFiltersVersion(version);
   }
 
   void _updateFiltersVersion(String version) {
-    _filters = version == "v5" ? FiltersV5() : FiltersV6();
+    _filters = version == 'v5' ? FiltersV5() : FiltersV6();
   }
 
   @override

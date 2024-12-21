@@ -473,7 +473,7 @@ class _LogsState extends State<Logs> {
                     onPressed: () {
                       setState(() {
                         _showSearchBar = false;
-                        _searchController.text = "";
+                        _searchController.text = '';
                       });
                       if (_scrollController.positions.isNotEmpty) {
                         _scrollController.animateTo(0,
@@ -487,7 +487,7 @@ class _LogsState extends State<Logs> {
                   actions: [
                     IconButton(
                       onPressed: () {
-                        setState(() => _searchController.text = "");
+                        setState(() => _searchController.text = '');
                         if (_scrollController.positions.isNotEmpty) {
                           _scrollController.animateTo(0,
                               duration: const Duration(milliseconds: 250),
@@ -618,7 +618,7 @@ class _LogsState extends State<Logs> {
                                     buildChip(
                                       filtersProvider.statusSelected.length == 1
                                           ? filtersProvider.statusSelectedString
-                                          : "${filtersProvider.statusSelected.length} ${AppLocalizations.of(context)!.statusSelected}",
+                                          : '${filtersProvider.statusSelected.length} ${AppLocalizations.of(context)!.statusSelected}',
                                       const Icon(Icons.shield),
                                       () {
                                         scrollToTop();
@@ -633,7 +633,7 @@ class _LogsState extends State<Logs> {
                                       filtersProvider.selectedClients.length ==
                                               1
                                           ? filtersProvider.selectedClients[0]
-                                          : "${filtersProvider.selectedClients.length} ${AppLocalizations.of(context)!.clientsSelected}",
+                                          : '${filtersProvider.selectedClients.length} ${AppLocalizations.of(context)!.clientsSelected}',
                                       const Icon(Icons.devices),
                                       () {
                                         scrollToTop();

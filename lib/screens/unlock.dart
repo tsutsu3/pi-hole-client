@@ -23,7 +23,7 @@ class Unlock extends StatefulWidget {
 
 class _UnlockState extends State<Unlock> {
   bool isLoading = false;
-  String _code = "";
+  String _code = '';
 
   bool firstLoad = true;
 
@@ -89,7 +89,7 @@ class _UnlockState extends State<Unlock> {
       } else if (_code.length == 4 && _code != appConfigProvider.passCode) {
         _shakeKey.currentState!.shake();
         setState(() {
-          _code = "";
+          _code = '';
         });
       }
     }

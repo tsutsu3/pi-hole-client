@@ -93,7 +93,7 @@ class ApiGatewayV6 implements ApiGateway {
       return response;
     }
 
-    throw Exception("Failed to execute HTTP request");
+    throw Exception('Failed to execute HTTP request');
   }
 
   Future<Response> _sendRequest({
@@ -492,10 +492,10 @@ class ApiGatewayV6 implements ApiGateway {
           url:
               '${server.address}/api/domains/${types[list]?[0]}/${types[list]?[1]}',
           body: {
-            "domain": domain,
-            "comment": null,
-            "groups": [0], // Array of group IDs
-            "enabled": true
+            'domain': domain,
+            'comment': null,
+            'groups': [0], // Array of group IDs
+            'enabled': true
           });
       if (response.statusCode == 201) {
         final domains = AddDomains.fromJson(jsonDecode(response.body));
@@ -624,10 +624,10 @@ class ApiGatewayV6 implements ApiGateway {
           url:
               '${server.address}/api/domains/${types[domainData['list']]?[0]}/${types[domainData['list']]?[1]}',
           body: {
-            "domain": domainData['domain'],
-            "comment": null,
-            "groups": [0], // Array of group IDs
-            "enabled": true
+            'domain': domainData['domain'],
+            'comment': null,
+            'groups': [0], // Array of group IDs
+            'enabled': true
           });
       if (response.statusCode == 201) {
         final domains = AddDomains.fromJson(jsonDecode(response.body));

@@ -67,7 +67,7 @@ class NumericPad extends StatelessWidget {
                         if (appConfigProvider.validVibrator) {
                           Vibration.vibrate(duration: 15, amplitude: 128);
                         }
-                        String newCode = "$code$number";
+                        String newCode = '$code$number';
                         onInput(newCode);
                       }
                     : () => {},

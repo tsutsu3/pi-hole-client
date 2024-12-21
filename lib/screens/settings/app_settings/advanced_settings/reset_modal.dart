@@ -76,7 +76,7 @@ class _ResetModalState extends State<ResetModal> {
                 ),
                 child: Text(
                   _timeRemaining > 0
-                      ? "${AppLocalizations.of(context)!.eraseAll} ($_timeRemaining)"
+                      ? '${AppLocalizations.of(context)!.eraseAll} ($_timeRemaining)'
                       : AppLocalizations.of(context)!.eraseAll,
                   overflow: TextOverflow.ellipsis,
                 ),
@@ -98,7 +98,7 @@ class _ResetModalState extends State<ResetModal> {
                       ),
                       child: Text(
                         _timeRemaining > 0
-                            ? "${AppLocalizations.of(context)!.eraseAll} ($_timeRemaining)"
+                            ? '${AppLocalizations.of(context)!.eraseAll} ($_timeRemaining)'
                             : AppLocalizations.of(context)!.eraseAll,
                         overflow: TextOverflow.ellipsis,
                       ),

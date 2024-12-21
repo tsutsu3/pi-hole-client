@@ -20,19 +20,19 @@ class DomainTile extends StatelessWidget {
       String getString(int type) {
         switch (type) {
           case 0:
-            return "Whitelist";
+            return 'Whitelist';
 
           case 1:
-            return "Blacklist";
+            return 'Blacklist';
 
           case 2:
-            return "Whitelist Regex";
+            return 'Whitelist Regex';
 
           case 3:
-            return "Blacklist Regex";
+            return 'Blacklist Regex';
 
           default:
-            return "";
+            return '';
         }
       }
 

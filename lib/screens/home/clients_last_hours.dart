@@ -90,7 +90,7 @@ class ClientsLastHours extends StatelessWidget {
                   if (hideZeroValues == true) {
                     if (items[i].y > 0 && items[i].barIndex < data.length - 1) {
                       tooltipItems.add(LineTooltipItem(
-                          "${data['clientsColors'][items[i].barIndex]['ip']}: ${items[i].y.toInt().toString()}",
+                          '${data['clientsColors'][items[i].barIndex]['ip']}: ${items[i].y.toInt().toString()}',
                           TextStyle(
                               fontWeight: FontWeight.bold,
                               fontSize: 14,
@@ -100,7 +100,7 @@ class ClientsLastHours extends StatelessWidget {
                   } else {
                     if (items[i].barIndex < data.length - 1) {
                       tooltipItems.add(LineTooltipItem(
-                          "${data['clientsColors'][items[i].barIndex]['ip']}: ${items[i].y.toInt().toString()}",
+                          '${data['clientsColors'][items[i].barIndex]['ip']}: ${items[i].y.toInt().toString()}',
                           TextStyle(
                               fontWeight: FontWeight.bold,
                               fontSize: 14,

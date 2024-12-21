@@ -123,13 +123,13 @@ class QueriesLastHours extends StatelessWidget {
                                 ? Colors.black
                                 : Colors.white)),
                     LineTooltipItem(
-                        "Not blocked: ${items[1].y.toInt().toString()}",
+                        'Not blocked: ${items[1].y.toInt().toString()}',
                         const TextStyle(
                             fontWeight: FontWeight.bold,
                             fontSize: 14,
                             color: Colors.green)),
                     LineTooltipItem(
-                        "Blocked: ${items[2].y.toInt().toString()}",
+                        'Blocked: ${items[2].y.toInt().toString()}',
                         const TextStyle(
                             fontWeight: FontWeight.bold,
                             fontSize: 14,
