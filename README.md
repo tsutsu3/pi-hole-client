@@ -103,8 +103,29 @@ If you like the project and you want to contribute with the development, you can
 
 ### Analyze
 
-- ``dart run dart_code_metrics:metrics lib --reporter=html -o metrics``
-- ``flutter analyze``
+To ensure code quality and identify potential issues, perform the following analysis steps:
+
+1. **Run Dart Code Metrics**
+
+   Generate a detailed metrics report for the `lib` directory:
+
+   ```bash
+   dart run dart_code_metrics:metrics lib --reporter=html -o metrics
+   ```
+
+   - This will create an HTML report in the `metrics` directory.
+   - Open the report in your browser to view metrics such as Cyclomatic Complexity, Maintainability Index, and more.
+
+2. **Run Flutter Analyze**
+
+   Analyze the project to catch syntax errors, type issues, and other code problems:
+
+   ```bash
+   flutter analyze
+   ```
+
+   - This will output warnings and errors directly in the terminal.
+   - Review the output and address any issues before committing your changes.
 
 ### Prepare the development environment
 
