@@ -9,7 +9,7 @@ import 'package:pi_hole_client/providers/servers_provider.dart';
 class DomainsListProvider with ChangeNotifier {
   ServersProvider? serversProvider;
 
-  update(ServersProvider? provider) {
+  void update(ServersProvider? provider) {
     serversProvider = provider;
   }
 

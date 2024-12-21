@@ -19,7 +19,7 @@ class ServersProvider with ChangeNotifier {
 
   ServersProvider(this._repository);
 
-  update(AppConfigProvider? provider) {
+  void update(AppConfigProvider? provider) {
     _appConfigProvider = provider;
   }
 

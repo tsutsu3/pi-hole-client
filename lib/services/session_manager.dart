@@ -7,9 +7,9 @@ class SessionManager {
 
   SessionManager(this._storage, this._address);
 
-  get sid => _sid;
+  String? get sid => _sid;
 
-  get password async {
+  Future<String?>? get password async {
     try {
       return await _storage.getValue('${_address}_password');
     } catch (e) {

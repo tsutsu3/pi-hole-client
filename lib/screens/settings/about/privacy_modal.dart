@@ -60,7 +60,7 @@ class _PrivacyModalState extends State<PrivacyModal> {
               ),
             ],
           ),
-          contentPadding: EdgeInsets.all(40),
+          contentPadding: const EdgeInsets.all(40),
           content: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
@@ -73,7 +73,7 @@ class _PrivacyModalState extends State<PrivacyModal> {
                     AppLocalizations.of(context)!.privacyPolicyDescription,
                 colorScheme: colorScheme,
               ),
-              Padding(padding: const EdgeInsets.only(top: 40)),
+              const Padding(padding: EdgeInsets.only(top: 40)),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [

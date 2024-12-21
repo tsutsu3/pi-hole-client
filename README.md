@@ -46,6 +46,7 @@
 - [🌟 Recommended lists](#-recommended-lists)
 - [💖 Donations](#-donations)
 - [🛠️ Development](#️-development)
+  - [Analyze](#analyze)
   - [Prepare the development environment](#prepare-the-development-environment)
   - [Compile the production build](#compile-the-production-build)
 - [⚖️ License](#️-license)
@@ -99,6 +100,11 @@ If you like the project and you want to contribute with the development, you can
 </div> -->
 
 ## 🛠️ Development
+
+### Analyze
+
+- ``dart run dart_code_metrics:metrics lib --reporter=html -o metrics``
+- ``flutter analyze``
 
 ### Prepare the development environment
 
