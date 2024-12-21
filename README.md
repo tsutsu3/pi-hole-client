@@ -1,7 +1,5 @@
 <a id="readme-top"></a>
 
-<!-- >[!CAUTION]
->:construction: This project is currently under development :construction: -->
 
 <!-- PROJECT SHIELDS -->
 <!-- https://www.markdownguide.org/basic-syntax/#reference-style-links -->
@@ -13,15 +11,10 @@
 ![Status][status-shield]
 
 <!-- PROJECT LOGO -->
-<!-- <br /> -->
 <div align="center">
-  <!-- <a href="https://github.com/tsutsu3/unbound-control-ts">
-    <img src="assets/pi-hole-client.svg" width="100"/>
-  </a> -->
   <a href="https://github.com/tsutsu3/pi-hole-client">
     <img src="assets/other/feature-image-w.png">
   </a>
-  <!-- <h3 align="center">Pi-hole Client</h3> -->
   <p align="center">
     <b>
       Pi-hole client is an unnoficial
