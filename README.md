@@ -1,7 +1,5 @@
 <a id="readme-top"></a>
 
->[!CAUTION]
->:construction: This project is currently under development :construction:
 
 <!-- PROJECT SHIELDS -->
 <!-- https://www.markdownguide.org/basic-syntax/#reference-style-links -->
@@ -13,19 +11,17 @@
 ![Status][status-shield]
 
 <!-- PROJECT LOGO -->
-<br />
 <div align="center">
-  <a href="https://github.com/tsutsu3/unbound-control-ts">
-    <img src="assets/pi-hole-client.svg" width="100"/>
+  <a href="https://github.com/tsutsu3/pi-hole-client">
+    <img src="assets/other/feature-image-w.png">
   </a>
-  <h3 align="center">Pi-hole Client</h3>
   <p align="center">
     <b>
-      Pi-hole Client is an unnoficial
+      Pi-hole client is an unnoficial
       <a href="https://pi-hole.net/" target="_blank" rel="noopener noreferrer">
         Pi-hole®
       </a>
-      client developed with Flutter.
+      client
     </b>
   </p>
 </div>
@@ -39,22 +35,32 @@
   </a>
 </p> -->
 
-## Table of Contents
+## 📚 Table of Contents
 
-- [Main features](#main-features)
-- [Privacy policy](#privacy-policy)
-- [Disclaimer](#disclaimer)
-- [Recommended lists](#recommended-lists)
-- [Donations](#donations)
-- [Development](#development)
+- [📚 Table of Contents](#-table-of-contents)
+- [🎉 About The Project](#-about-the-project)
+- [💡 Main features](#-main-features)
+- [📌 Requirements](#-requirements)
+- [🔑 Privacy policy](#-privacy-policy)
+- [📜 Disclaimer](#-disclaimer)
+- [🌟 Recommended lists](#-recommended-lists)
+- [💖 Donations](#-donations)
+- [🛠️ Development](#️-development)
   - [Prepare the development environment](#prepare-the-development-environment)
   - [Compile the production build](#compile-the-production-build)
-- [License](#license)
-- [Credits](#credits)
+- [⚖️ License](#️-license)
+- [🖋️ Credits](#️-credits)
 
-## Main features
+## 🎉 About The Project
+
+The easy way to manage your Pi-hole® server.
+
+Easily view statistics, enable or disable the server, access logs, and much more.
+
+## 💡 Main features
 
 <p>▶ Manage your Pi-hole® server on an easy way.</p>
+<p>▶ Supports Pi-hole v6.</p>
 <p>▶ Enable and disable the server with only one button.</p>
 <p>▶ Beautiful charts with all the statistics you need to see.</p>
 <p>▶ Add multiple servers to the app, and manage all of them from here.</p>
@@ -63,19 +69,25 @@
 <p>▶ Material User interface with dynamic theming (only Android 12+)</p>
 <p>Requires Android 8.0+</p>
 
-## Privacy policy
+## 📌 Requirements
+
+- Fully supports Pi-hole v6
+- Requires Pi-hole v5.12 or greater
+- Requires web interface v5.14.2 or greater
+
+## 🔑 Privacy policy
 
 Check the privacy policy [here](https://github.com/tsutsu3/pi-hole-client/wiki/Privacy-policy).
 
-## Disclaimer
+## 📜 Disclaimer
 
 This is an unofficial application. The Pi-hole team and the development of the Pi-hole software is not related in any way with this application.
 
-## Recommended lists
+## 🌟 Recommended lists
 
 On [this repository](https://github.com/JuanRodenas/Pihole_list) you can find some recommended lists. Thanks to [JuanRodenas](https://github.com/juanico10).
 
-## Donations
+## 💖 Donations
 
 If you like the project and you want to contribute with the development, you can [become a sponsor on GitHub](https://github.com/sponsors/tsutsu3), or [buy me a coffe](https://buymeacoffee.com/tsutsu3).
 
@@ -85,7 +97,7 @@ If you like the project and you want to contribute with the development, you can
   </a>
 </div> -->
 
-## Development
+## 🛠️ Development
 
 ### Prepare the development environment
 
@@ -129,11 +141,11 @@ If you like the project and you want to contribute with the development, you can
 4. Install the [InnoSetup](https://jrsoftware.org/isdl.php) software you don't have it
 5. Run ``iscc /Q windows/innosetup_installer_builder.iss`` to generate the Windows installer
 
-## License
+## ⚖️ License
 
 This app distributed under the Apach 2.0 License. See [LICENSE](./LICENSE) for more information.
 
-## Credits
+## 🖋️ Credits
 
 This project is based on [DroidHole](https://github.com/jgeek00/droid-hole), originally developed by [JGeek00](https://github.com/JGeek00).
 
@@ -143,7 +155,7 @@ For details on the licenses applicable to this project, please refer to [LICENSE
 
 <!-- MARKDOWN LINKS & IMAGES -->
 <!-- https://www.markdownguide.org/basic-syntax/#reference-style-links -->
-[status-shield]: https://img.shields.io/badge/status-WIP-orange?style=for-the-badge
+[status-shield]: https://img.shields.io/badge/status-alpha-orange?style=for-the-badge
 [issues-shield]: https://img.shields.io/github/issues/tsutsu3/pi-hole-client?style=for-the-badge
 [issues-url]: https://github.com/tsutsu3/pi-hole-client/issues
 [license-shield]: https://img.shields.io/github/license/tsutsu3/pi-hole-client?style=for-the-badge
