@@ -53,3 +53,4 @@ untranslated.txt
 .env
 
 coverage/
+metrics/

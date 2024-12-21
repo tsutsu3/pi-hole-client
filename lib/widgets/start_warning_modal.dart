@@ -64,7 +64,7 @@ class StartInfoModal extends StatelessWidget {
                     ),
                   ],
                 ),
-                contentPadding: EdgeInsets.only(top: 60),
+                contentPadding: const EdgeInsets.only(top: 60),
                 content: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
@@ -150,7 +150,7 @@ class StartInfoModal extends StatelessWidget {
                                     .agreePrivacyPolicy,
                                 style: const TextStyle(fontSize: 14),
                               ),
-                              TextSpan(text: ' '),
+                              const TextSpan(text: ' '),
                               TextSpan(
                                 text:
                                     AppLocalizations.of(context)!.privacyPolicy,
@@ -171,7 +171,7 @@ class StartInfoModal extends StatelessWidget {
                     const Padding(padding: EdgeInsets.only(top: 20)),
                   ],
                 ),
-                actionsPadding: EdgeInsets.only(right: 0, bottom: 20),
+                actionsPadding: const EdgeInsets.only(right: 0, bottom: 20),
                 actions: [
                   TextButton(
                     onPressed: () async {

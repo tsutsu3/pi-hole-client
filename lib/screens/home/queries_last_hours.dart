@@ -34,13 +34,13 @@ class QueriesLastHours extends StatelessWidget {
         ),
         titlesData: FlTitlesData(
           show: true,
-          rightTitles: AxisTitles(
+          rightTitles: const AxisTitles(
             sideTitles: SideTitles(showTitles: false),
           ),
-          topTitles: AxisTitles(
+          topTitles: const AxisTitles(
             sideTitles: SideTitles(showTitles: false),
           ),
-          bottomTitles: AxisTitles(
+          bottomTitles: const AxisTitles(
             sideTitles: SideTitles(
               showTitles: false,
             ),
@@ -86,7 +86,7 @@ class QueriesLastHours extends StatelessWidget {
             barWidth: 2,
             isStrokeCapRound: true,
             preventCurveOverShooting: true,
-            dotData: FlDotData(
+            dotData: const FlDotData(
               show: false,
             ),
             belowBarData:
@@ -99,7 +99,7 @@ class QueriesLastHours extends StatelessWidget {
             barWidth: 2,
             isStrokeCapRound: true,
             preventCurveOverShooting: true,
-            dotData: FlDotData(
+            dotData: const FlDotData(
               show: false,
             ),
             belowBarData:

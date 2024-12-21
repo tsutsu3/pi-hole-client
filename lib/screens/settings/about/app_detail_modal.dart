@@ -42,7 +42,7 @@ class _AppDetailModalState extends State<AppDetailModal> {
           ),
         ],
       ),
-      contentPadding: EdgeInsets.all(40),
+      contentPadding: const EdgeInsets.all(40),
       content: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
@@ -67,7 +67,7 @@ class _AppDetailModalState extends State<AppDetailModal> {
             subtitle: AppLocalizations.of(context)!.supportFormDescription,
             colorScheme: colorScheme,
           ),
-          Padding(padding: const EdgeInsets.symmetric(vertical: 20)),
+          const Padding(padding: EdgeInsets.symmetric(vertical: 20)),
           _appDetailLine(
             title: AppLocalizations.of(context)!.appVersion,
             subtitle: _appVersion,
@@ -80,7 +80,7 @@ class _AppDetailModalState extends State<AppDetailModal> {
             colorScheme: colorScheme,
             showWebViewIcon: false,
           ),
-          Padding(padding: const EdgeInsets.only(top: 10)),
+          const Padding(padding: EdgeInsets.only(top: 10)),
         ],
       ),
       actions: [

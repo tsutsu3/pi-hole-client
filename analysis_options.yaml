@@ -24,9 +24,47 @@ linter:
   rules:
     # avoid_print: false  # Uncomment to disable the `avoid_print` rule
     # prefer_single_quotes: true  # Uncomment to enable the `prefer_single_quotes` rule
+    - always_declare_return_types
+    - annotate_overrides
+    - prefer_const_constructors
+    - prefer_final_fields
+    - avoid_print
+    - use_colored_box
+    - avoid_unused_constructor_parameters
 
 # Additional information about this file can be found at
 # https://dart.dev/guides/language/analysis-options
 analyzer:
+  plugins:
+    - dart_code_metrics
   errors:
     invalid_annotation_target: ignore
+  exclude:
+    - 'test/**'
+
+dart_code_metrics:
+  # anti-patterns:
+  #   - long-method
+  #   - long-parameter-list
+  metrics:
+    cyclomatic-complexity: 20
+    lines-of-executable-code: 50
+    number-of-parameters: 4
+    maximum-nesting-level: 5
+  metrics-exclude:
+    - test/**
+  rules:
+    # - avoid-unused-parameters
+    # - binary-expression-operand-order
+    # - double-literal-format
+    # - member-ordering
+    # - member-ordering-extended
+    # - newline-before-return
+    # - no-boolean-literal-compare
+    # - no-empty-block
+    # - no-equal-arguments
+    # - no-equal-then-else
+    # - no-magic-number
+    # - no-object-declaration
+    # - prefer-conditional-expressions
+    # - prefer-trailing-comma

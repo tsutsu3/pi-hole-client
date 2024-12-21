@@ -196,7 +196,8 @@ class DatabaseRepository {
         await _secureStorage.saveValue('${server.address}_password', password);
       }
       if (server.sm.sid != null) {
-        await _secureStorage.saveValue('${server.address}_sid', server.sm.sid);
+        await _secureStorage.saveValue(
+            '${server.address}_sid', server.sm.sid ?? '');
       }
 
       await _dbInstance.transaction((txn) async {

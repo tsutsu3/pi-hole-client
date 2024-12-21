@@ -15,12 +15,12 @@ class FiltersProvider with ChangeNotifier implements Filters {
     _updateFiltersVersion(version);
   }
 
-  update(ServersProvider? provider) {
+  void update(ServersProvider? provider) {
     final version = provider?.selectedServer?.apiVersion ?? "v5";
     _updateFiltersVersion(version);
   }
 
-  _updateFiltersVersion(String version) {
+  void _updateFiltersVersion(String version) {
     _filters = version == "v5" ? FiltersV5() : FiltersV6();
   }
 

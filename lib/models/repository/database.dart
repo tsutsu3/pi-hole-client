@@ -11,7 +11,7 @@ class PiHoleClientData {
     required this.dbInstance,
   });
 
-  toDict() {
+  Map<String, dynamic> toDict() {
     return {
       "servers": servers,
       "appConfig": appConfig,
@@ -73,7 +73,7 @@ class ServerDbData {
     );
   }
 
-  toDict() {
+  Map<String, dynamic> toDict() {
     return {
       "address": address,
       "alias": alias,
@@ -157,7 +157,7 @@ class AppDbData {
     );
   }
 
-  toDict() {
+  Map<String, dynamic> toDict() {
     return {
       "autoRefreshTime": autoRefreshTime,
       "theme": theme,

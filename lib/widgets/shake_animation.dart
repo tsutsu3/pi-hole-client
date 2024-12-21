@@ -22,11 +22,11 @@ class ShakeAnimationState extends State<ShakeAnimation>
     super.initState();
   }
 
-  shake() {
+  void shake() {
     controller!.forward(from: 0.0);
   }
 
-  stop() {
+  void stop() {
     controller!.stop();
   }
 
