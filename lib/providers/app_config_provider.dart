@@ -35,8 +35,6 @@ class AppConfigProvider with ChangeNotifier {
   final List<AppLog> _logs = [];
   final DatabaseRepository _repository;
 
-  AppConfigProvider(this._repository);
-
   bool get showingSnackbar {
     return _showingSnackbar;
   }
@@ -156,6 +154,8 @@ class AppConfigProvider with ChangeNotifier {
   int? get selectedSettingsScreen {
     return _selectedSettingsScreen;
   }
+
+  AppConfigProvider(this._repository);
 
   void setShowingSnackbar(bool status) {
     _showingSnackbar = status;

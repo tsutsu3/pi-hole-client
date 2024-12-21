@@ -96,45 +96,6 @@ class ApiGatewayV6 implements ApiGateway {
     throw Exception('Failed to execute HTTP request');
   }
 
-  Future<Response> _sendRequest({
-    required String method,
-    required String url,
-    required Map<String, String> headers,
-    Map<String, dynamic>? body,
-    required int timeout,
-  }) async {
-    switch (method.toUpperCase()) {
-      case 'POST':
-        return await client
-            .post(Uri.parse(url),
-                headers: headers, body: body != null ? jsonEncode(body) : null)
-            .timeout(Duration(seconds: timeout));
-
-      case 'PUT':
-        return await client
-            .put(Uri.parse(url),
-                headers: headers, body: body != null ? jsonEncode(body) : null)
-            .timeout(Duration(seconds: timeout));
-
-      case 'PATCH':
-        return await client
-            .patch(Uri.parse(url),
-                headers: headers, body: body != null ? jsonEncode(body) : null)
-            .timeout(Duration(seconds: timeout));
-
-      case 'DELETE':
-        return await client
-            .delete(Uri.parse(url), headers: headers)
-            .timeout(Duration(seconds: timeout));
-
-      case 'GET':
-      default:
-        return await client
-            .get(Uri.parse(url), headers: headers)
-            .timeout(Duration(seconds: timeout));
-    }
-  }
-
   /// Handles the login process to a Pi-hole server using its API.
   @override
   Future<LoginQueryResponse> loginQuery() async {
@@ -657,6 +618,45 @@ class ApiGatewayV6 implements ApiGateway {
       return AddDomainToListResponse(result: APiResponseType.sslError);
     } catch (e) {
       return AddDomainToListResponse(result: APiResponseType.error);
+    }
+  }
+
+  Future<Response> _sendRequest({
+    required String method,
+    required String url,
+    required Map<String, String> headers,
+    Map<String, dynamic>? body,
+    required int timeout,
+  }) async {
+    switch (method.toUpperCase()) {
+      case 'POST':
+        return await client
+            .post(Uri.parse(url),
+                headers: headers, body: body != null ? jsonEncode(body) : null)
+            .timeout(Duration(seconds: timeout));
+
+      case 'PUT':
+        return await client
+            .put(Uri.parse(url),
+                headers: headers, body: body != null ? jsonEncode(body) : null)
+            .timeout(Duration(seconds: timeout));
+
+      case 'PATCH':
+        return await client
+            .patch(Uri.parse(url),
+                headers: headers, body: body != null ? jsonEncode(body) : null)
+            .timeout(Duration(seconds: timeout));
+
+      case 'DELETE':
+        return await client
+            .delete(Uri.parse(url), headers: headers)
+            .timeout(Duration(seconds: timeout));
+
+      case 'GET':
+      default:
+        return await client
+            .get(Uri.parse(url), headers: headers)
+            .timeout(Duration(seconds: timeout));
     }
   }
 }

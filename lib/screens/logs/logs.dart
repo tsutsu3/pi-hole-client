@@ -197,18 +197,18 @@ class _LogsState extends State<Logs> {
     return tempLogs;
   }
 
-  void _scrollListener() {
-    if (_scrollController.position.extentAfter < 500 &&
-        _isLoadingMore == false) {
-      loadLogs(replaceOldLogs: false);
-    }
-  }
-
   @override
   void initState() {
     _scrollController = ScrollController()..addListener(_scrollListener);
     loadLogs(replaceOldLogs: true);
     super.initState();
+  }
+
+  void _scrollListener() {
+    if (_scrollController.position.extentAfter < 500 &&
+        _isLoadingMore == false) {
+      loadLogs(replaceOldLogs: false);
+    }
   }
 
   @override

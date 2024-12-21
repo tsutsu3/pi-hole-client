@@ -19,6 +19,13 @@ class LogsQuantityLoadScreen extends StatefulWidget {
 class _LogsQuantityLoadScreenState extends State<LogsQuantityLoadScreen> {
   int selectedOption = 1;
 
+  @override
+  void initState() {
+    super.initState();
+    selectedOption = _setTime(
+        Provider.of<AppConfigProvider>(context, listen: false).logsPerQuery);
+  }
+
   void _updateRadioValue(value) {
     setState(() {
       selectedOption = value;
@@ -88,13 +95,6 @@ class _LogsQuantityLoadScreenState extends State<LogsQuantityLoadScreen> {
           label: AppLocalizations.of(context)!.cantUpdateLogsPerQuery,
           color: Colors.green);
     }
-  }
-
-  @override
-  void initState() {
-    super.initState();
-    selectedOption = _setTime(
-        Provider.of<AppConfigProvider>(context, listen: false).logsPerQuery);
   }
 
   @override

@@ -16,6 +16,52 @@ class StatusUpdater {
   Timer? _overTimeDataTimer;
 
   int? _previousRefreshTime;
+
+  void statusData() {
+    final serversProvider = Provider.of<ServersProvider>(context!);
+    final statusProvider = Provider.of<StatusProvider>(context!);
+    final appConfigProvider = Provider.of<AppConfigProvider>(context!);
+
+    if (statusProvider.isServerConnected == true && _statusDataTimer == null) {
+      _updateStatusData(serversProvider, statusProvider, appConfigProvider);
+    } else if (statusProvider.isServerConnected == true &&
+        _statusDataTimer != null &&
+        _statusDataTimer!.isActive == false) {
+      _updateStatusData(serversProvider, statusProvider, appConfigProvider);
+    } else if (statusProvider.isServerConnected == false &&
+        _statusDataTimer != null) {
+      _statusDataTimer!.cancel();
+    }
+  }
+
+  void overTimeData() {
+    final serversProvider = Provider.of<ServersProvider>(context!);
+    final statusProvider = Provider.of<StatusProvider>(context!);
+    final filtersProvider = Provider.of<FiltersProvider>(context!);
+
+    if (statusProvider.isServerConnected == true &&
+        _overTimeDataTimer == null) {
+      _updateOverTimeData(serversProvider, statusProvider, filtersProvider);
+    } else if (statusProvider.isServerConnected == true &&
+        _overTimeDataTimer != null &&
+        _overTimeDataTimer!.isActive == false) {
+      _updateOverTimeData(serversProvider, statusProvider, filtersProvider);
+    } else if (statusProvider.isServerConnected == false &&
+        _overTimeDataTimer != null) {
+      _overTimeDataTimer!.cancel();
+    }
+  }
+
+  void cancelTimers() {
+    if (_statusDataTimer != null) {
+      _statusDataTimer!.cancel();
+    }
+
+    if (_overTimeDataTimer != null) {
+      _overTimeDataTimer!.cancel();
+    }
+  }
+
   void _updateStatusData(ServersProvider serversProvider,
       StatusProvider statusProvider, AppConfigProvider appConfigProvider) {
     // Sets previousRefreshTime when is not initialized
@@ -106,50 +152,5 @@ class StatusUpdater {
     _overTimeDataTimer = Timer.periodic(
         const Duration(minutes: 1), (timer) => timerFn(timer: timer));
     timerFn();
-  }
-
-  void statusData() {
-    final serversProvider = Provider.of<ServersProvider>(context!);
-    final statusProvider = Provider.of<StatusProvider>(context!);
-    final appConfigProvider = Provider.of<AppConfigProvider>(context!);
-
-    if (statusProvider.isServerConnected == true && _statusDataTimer == null) {
-      _updateStatusData(serversProvider, statusProvider, appConfigProvider);
-    } else if (statusProvider.isServerConnected == true &&
-        _statusDataTimer != null &&
-        _statusDataTimer!.isActive == false) {
-      _updateStatusData(serversProvider, statusProvider, appConfigProvider);
-    } else if (statusProvider.isServerConnected == false &&
-        _statusDataTimer != null) {
-      _statusDataTimer!.cancel();
-    }
-  }
-
-  void overTimeData() {
-    final serversProvider = Provider.of<ServersProvider>(context!);
-    final statusProvider = Provider.of<StatusProvider>(context!);
-    final filtersProvider = Provider.of<FiltersProvider>(context!);
-
-    if (statusProvider.isServerConnected == true &&
-        _overTimeDataTimer == null) {
-      _updateOverTimeData(serversProvider, statusProvider, filtersProvider);
-    } else if (statusProvider.isServerConnected == true &&
-        _overTimeDataTimer != null &&
-        _overTimeDataTimer!.isActive == false) {
-      _updateOverTimeData(serversProvider, statusProvider, filtersProvider);
-    } else if (statusProvider.isServerConnected == false &&
-        _overTimeDataTimer != null) {
-      _overTimeDataTimer!.cancel();
-    }
-  }
-
-  void cancelTimers() {
-    if (_statusDataTimer != null) {
-      _statusDataTimer!.cancel();
-    }
-
-    if (_overTimeDataTimer != null) {
-      _overTimeDataTimer!.cancel();
-    }
   }
 }

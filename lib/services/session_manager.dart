@@ -5,8 +5,6 @@ class SessionManager {
   final String _address;
   String? _sid;
 
-  SessionManager(this._storage, this._address);
-
   String? get sid => _sid;
 
   Future<String?>? get password async {
@@ -16,6 +14,8 @@ class SessionManager {
       return null;
     }
   }
+
+  SessionManager(this._storage, this._address);
 
   Future<bool> save(String sid) async {
     try {

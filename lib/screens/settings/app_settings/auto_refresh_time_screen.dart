@@ -22,6 +22,15 @@ class _AutoRefreshTimeScreenState extends State<AutoRefreshTimeScreen> {
   bool showCustomDurationInput = false;
   bool customTimeIsValid = false;
 
+  @override
+  void initState() {
+    super.initState();
+    selectedOption = _setTime(
+        Provider.of<AppConfigProvider>(context, listen: false)
+                .getAutoRefreshTime ??
+            0);
+  }
+
   void _updateRadioValue(value) {
     setState(() {
       selectedOption = value;
@@ -126,15 +135,6 @@ class _AutoRefreshTimeScreenState extends State<AutoRefreshTimeScreen> {
           label: AppLocalizations.of(context)!.cannotChangeUpdateTime,
           color: Colors.red);
     }
-  }
-
-  @override
-  void initState() {
-    super.initState();
-    selectedOption = _setTime(
-        Provider.of<AppConfigProvider>(context, listen: false)
-                .getAutoRefreshTime ??
-            0);
   }
 
   @override

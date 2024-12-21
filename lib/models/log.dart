@@ -11,17 +11,6 @@ class Log {
   final BigInt replyTime;
   final String? answeredBy;
 
-  const Log({
-    required this.dateTime,
-    required this.type,
-    required this.url,
-    required this.device,
-    required this.status,
-    required this.replyType,
-    required this.replyTime,
-    this.answeredBy,
-  });
-
   static const List<String> replyTypes = [
     'N/A',
     'NODATA',
@@ -38,6 +27,17 @@ class Log {
     'NONE',
     'BLOB',
   ];
+
+  const Log({
+    required this.dateTime,
+    required this.type,
+    required this.url,
+    required this.device,
+    required this.status,
+    required this.replyType,
+    required this.replyTime,
+    this.answeredBy,
+  });
 
   factory Log.fromJson(List data) => Log(
       dateTime:

@@ -9,10 +9,6 @@ import 'package:pi_hole_client/providers/servers_provider.dart';
 class DomainsListProvider with ChangeNotifier {
   ServersProvider? serversProvider;
 
-  void update(ServersProvider? provider) {
-    serversProvider = provider;
-  }
-
   LoadStatus _loadingStatus = LoadStatus.loading;
   List<Domain> _whitelistDomains = [];
   List<Domain> _blacklistDomains = [];
@@ -25,8 +21,6 @@ class DomainsListProvider with ChangeNotifier {
   String _searchTerm = '';
 
   bool _searchMode = false;
-
-  DomainsListProvider({required this.serversProvider});
 
   LoadStatus get loadingStatus {
     return _loadingStatus;
@@ -58,6 +52,12 @@ class DomainsListProvider with ChangeNotifier {
 
   bool get searchMode {
     return _searchMode;
+  }
+
+  DomainsListProvider({required this.serversProvider});
+
+  void update(ServersProvider? provider) {
+    serversProvider = provider;
   }
 
   void setLoadingStatus(LoadStatus status) {

@@ -11,6 +11,26 @@ class DatabaseRepository {
   late final Database _dbInstance;
   final SecureStorageRepository _secureStorage;
 
+  List<ServerDbData> get servers {
+    if (_servers == null) {
+      throw Exception(
+          'DatabaseRepository is not initialized. Call initialize() first.');
+    }
+    return _servers!;
+  }
+
+  AppDbData get appConfig {
+    if (_appConfig == null) {
+      throw Exception(
+          'DatabaseRepository is not initialized. Call initialize() first.');
+    }
+    return _appConfig!;
+  }
+
+  Database get dbInstance {
+    return _dbInstance;
+  }
+
   DatabaseRepository(this._secureStorage);
 
   /// Initializes the database repository.
@@ -32,26 +52,6 @@ class DatabaseRepository {
     _servers = piHoleClientData.servers;
     _appConfig = piHoleClientData.appConfig;
     _dbInstance = piHoleClientData.dbInstance;
-  }
-
-  List<ServerDbData> get servers {
-    if (_servers == null) {
-      throw Exception(
-          'DatabaseRepository is not initialized. Call initialize() first.');
-    }
-    return _servers!;
-  }
-
-  AppDbData get appConfig {
-    if (_appConfig == null) {
-      throw Exception(
-          'DatabaseRepository is not initialized. Call initialize() first.');
-    }
-    return _appConfig!;
-  }
-
-  Database get dbInstance {
-    return _dbInstance;
   }
 
   Map<String, dynamic> toDict() {

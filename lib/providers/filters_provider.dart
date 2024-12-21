@@ -8,22 +8,6 @@ import 'package:flutter/material.dart';
 class FiltersProvider with ChangeNotifier implements Filters {
   Filters? _filters;
 
-  FiltersProvider({ServersProvider? serversProvider}) {
-    // Default filtersProvider is FiltersProviderV5.
-    // Update filtersPorviders version when update ServersProvider.
-    final version = serversProvider?.selectedServer?.apiVersion ?? 'v5';
-    _updateFiltersVersion(version);
-  }
-
-  void update(ServersProvider? provider) {
-    final version = provider?.selectedServer?.apiVersion ?? 'v5';
-    _updateFiltersVersion(version);
-  }
-
-  void _updateFiltersVersion(String version) {
-    _filters = version == 'v5' ? FiltersV5() : FiltersV6();
-  }
-
   @override
   List<int> get statusAllowedAndRetried {
     return _filters!.statusAllowedAndRetried;
@@ -72,6 +56,18 @@ class FiltersProvider with ChangeNotifier implements Filters {
   @override
   RequestStatus get requestStatus {
     return _filters!.requestStatus;
+  }
+
+  FiltersProvider({ServersProvider? serversProvider}) {
+    // Default filtersProvider is FiltersProviderV5.
+    // Update filtersPorviders version when update ServersProvider.
+    final version = serversProvider?.selectedServer?.apiVersion ?? 'v5';
+    _updateFiltersVersion(version);
+  }
+
+  void update(ServersProvider? provider) {
+    final version = provider?.selectedServer?.apiVersion ?? 'v5';
+    _updateFiltersVersion(version);
   }
 
   @override
@@ -138,5 +134,9 @@ class FiltersProvider with ChangeNotifier implements Filters {
   void setRequestStatus(RequestStatus status) {
     _filters!.setRequestStatus(status);
     notifyListeners();
+  }
+
+  void _updateFiltersVersion(String version) {
+    _filters = version == 'v5' ? FiltersV5() : FiltersV6();
   }
 }

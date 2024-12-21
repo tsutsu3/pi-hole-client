@@ -25,6 +25,14 @@ class StatusFiltersModal extends StatefulWidget {
 class _StatusFiltersModalState extends State<StatusFiltersModal> {
   late List<int> _statusSelected;
 
+  @override
+  void initState() {
+    setState(() {
+      _statusSelected = widget.statusSelected;
+    });
+    super.initState();
+  }
+
   void _updateStatusSelected(int option) {
     if (_statusSelected.contains(option) == true) {
       setState(() {
@@ -36,14 +44,6 @@ class _StatusFiltersModalState extends State<StatusFiltersModal> {
         _statusSelected.add(option);
       });
     }
-  }
-
-  @override
-  void initState() {
-    setState(() {
-      _statusSelected = widget.statusSelected;
-    });
-    super.initState();
   }
 
   @override

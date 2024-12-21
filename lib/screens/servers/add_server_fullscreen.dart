@@ -61,6 +61,26 @@ class _AddServerFullscreenState extends State<AddServerFullscreen> {
 
   bool isConnecting = false;
 
+  @override
+  void initState() {
+    super.initState();
+    if (widget.server != null) {
+      final List<String> splitted = widget.server!.address.split(':');
+      addressFieldController.text = splitted[1].split('/')[2];
+      portFieldController.text = splitted.length == 3 ? splitted[2] : '';
+      aliasFieldController.text = widget.server!.alias;
+      tokenFieldController.text = widget.server!.token ?? '';
+      basicAuthUser.text = widget.server!.basicAuthUser ?? '';
+      basicAuthPassword.text = widget.server!.basicAuthPassword ?? '';
+      connectionType = widget.server!.address.split(':')[0] == 'https'
+          ? ConnectionType.https
+          : ConnectionType.http;
+      piHoleVersion = widget.server!.apiVersion;
+      defaultCheckbox = widget.server!.defaultServer;
+      _loadPassword();
+    }
+  }
+
   void checkDataValid() {
     if (addressFieldController.text != '' &&
         addressFieldError == null &&
@@ -165,26 +185,6 @@ class _AddServerFullscreenState extends State<AddServerFullscreen> {
           passwordFieldController.text = '';
         });
       }
-    }
-  }
-
-  @override
-  void initState() {
-    super.initState();
-    if (widget.server != null) {
-      final List<String> splitted = widget.server!.address.split(':');
-      addressFieldController.text = splitted[1].split('/')[2];
-      portFieldController.text = splitted.length == 3 ? splitted[2] : '';
-      aliasFieldController.text = widget.server!.alias;
-      tokenFieldController.text = widget.server!.token ?? '';
-      basicAuthUser.text = widget.server!.basicAuthUser ?? '';
-      basicAuthPassword.text = widget.server!.basicAuthPassword ?? '';
-      connectionType = widget.server!.address.split(':')[0] == 'https'
-          ? ConnectionType.https
-          : ConnectionType.http;
-      piHoleVersion = widget.server!.apiVersion;
-      defaultCheckbox = widget.server!.defaultServer;
-      _loadPassword();
     }
   }
 

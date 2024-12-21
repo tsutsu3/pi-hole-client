@@ -24,6 +24,14 @@ class ClientsFiltersModal extends StatefulWidget {
 class _ClientsFiltersModalState extends State<ClientsFiltersModal> {
   List<String> _selectedClients = [];
 
+  @override
+  void initState() {
+    setState(() {
+      _selectedClients = widget.selectedClients;
+    });
+    super.initState();
+  }
+
   void _updateStatusSelected(String option) {
     if (_selectedClients.contains(option) == true) {
       setState(() {
@@ -35,14 +43,6 @@ class _ClientsFiltersModalState extends State<ClientsFiltersModal> {
         _selectedClients.add(option);
       });
     }
-  }
-
-  @override
-  void initState() {
-    setState(() {
-      _selectedClients = widget.selectedClients;
-    });
-    super.initState();
   }
 
   @override

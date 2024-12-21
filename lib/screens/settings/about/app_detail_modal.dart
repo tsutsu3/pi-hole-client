@@ -20,6 +20,65 @@ class _AppDetailModalState extends State<AppDetailModal> {
 
   String get _appVersion => widget._appVersion ?? '';
 
+  Widget _appDetailLine({
+    String? url,
+    Widget? icon,
+    required String title,
+    required String subtitle,
+    required ColorScheme colorScheme,
+    bool showWebViewIcon = true,
+  }) {
+    return Material(
+      color: Colors.transparent,
+      child: InkWell(
+        onTap: url != null ? () => openUrl(url) : null,
+        child: Padding(
+          padding: const EdgeInsets.symmetric(vertical: 10),
+          child: Row(
+            children: [
+              icon ?? const SizedBox(width: 0),
+              if (icon != null) const SizedBox(width: 20),
+              Flexible(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Row(
+                      children: [
+                        Text(
+                          title,
+                          style: TextStyle(
+                              fontSize: 16, color: colorScheme.onSurface),
+                        ),
+                        if (showWebViewIcon) ...[
+                          const SizedBox(width: 8),
+                          Tooltip(
+                            message:
+                                AppLocalizations.of(context)!.openExternalUrl,
+                            child: Icon(
+                              Icons.open_in_browser_rounded,
+                              size: 16,
+                              color:
+                                  colorScheme.onSurfaceVariant.withOpacity(0.6),
+                            ),
+                          ),
+                        ],
+                      ],
+                    ),
+                    const SizedBox(height: 5),
+                    Text(
+                      subtitle,
+                      style: TextStyle(color: colorScheme.onSurfaceVariant),
+                    ),
+                  ],
+                ),
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     final colorScheme = Theme.of(context).colorScheme;
@@ -89,65 +148,6 @@ class _AppDetailModalState extends State<AppDetailModal> {
           child: Text(AppLocalizations.of(context)!.close),
         ),
       ],
-    );
-  }
-
-  Widget _appDetailLine({
-    String? url,
-    Widget? icon,
-    required String title,
-    required String subtitle,
-    required ColorScheme colorScheme,
-    bool showWebViewIcon = true,
-  }) {
-    return Material(
-      color: Colors.transparent,
-      child: InkWell(
-        onTap: url != null ? () => openUrl(url) : null,
-        child: Padding(
-          padding: const EdgeInsets.symmetric(vertical: 10),
-          child: Row(
-            children: [
-              icon ?? const SizedBox(width: 0),
-              if (icon != null) const SizedBox(width: 20),
-              Flexible(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Row(
-                      children: [
-                        Text(
-                          title,
-                          style: TextStyle(
-                              fontSize: 16, color: colorScheme.onSurface),
-                        ),
-                        if (showWebViewIcon) ...[
-                          const SizedBox(width: 8),
-                          Tooltip(
-                            message:
-                                AppLocalizations.of(context)!.openExternalUrl,
-                            child: Icon(
-                              Icons.open_in_browser_rounded,
-                              size: 16,
-                              color:
-                                  colorScheme.onSurfaceVariant.withOpacity(0.6),
-                            ),
-                          ),
-                        ],
-                      ],
-                    ),
-                    const SizedBox(height: 5),
-                    Text(
-                      subtitle,
-                      style: TextStyle(color: colorScheme.onSurfaceVariant),
-                    ),
-                  ],
-                ),
-              ),
-            ],
-          ),
-        ),
-      ),
     );
   }
 }

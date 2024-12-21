@@ -15,10 +15,6 @@ class FiltersV6 implements Filters {
   String? _selectedDomain;
   RequestStatus _requestStatus = RequestStatus.all;
 
-  FiltersV6() : _statusSelected = [] {
-    _statusSelected = _statusAll;
-  }
-
   @override
   List<int> get statusAllowedAndRetried {
     return [3, 4, 13, 14, 15];
@@ -69,6 +65,10 @@ class FiltersV6 implements Filters {
   @override
   RequestStatus get requestStatus {
     return _requestStatus;
+  }
+
+  FiltersV6() : _statusSelected = [] {
+    _statusSelected = _statusAll;
   }
 
   @override

@@ -58,19 +58,18 @@ dart_code_metrics:
     - avoid-unused-generics
     - avoid-unused-instances
     - avoid-unused-parameters
+    - member-ordering
+    # - no-boolean-literal-compare
+    # - no-empty-block
+    # - no-equal-arguments
+    # - no-equal-then-else
+    # - no-object-declaration
     # Code Quality Checks
     - check-unused-files
     - check-unused-code
     # - binary-expression-operand-order
     # - double-literal-format
-    # - member-ordering
-    # - member-ordering-extended
     # - newline-before-return
-    # - no-boolean-literal-compare
-    # - no-empty-block
-    # - no-equal-arguments
-    # - no-equal-then-else
     # - no-magic-number
-    # - no-object-declaration
     # - prefer-conditional-expressions
     # - prefer-trailing-comma
