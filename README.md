@@ -6,9 +6,9 @@
 [![Issues][issues-shield]][issues-url]
 [![MIT License][license-shield]][license-url]
 [![CodeCov][codecov-shield]][codecov-url]
-[![CodeClimate][codeclimate-shield]][codeclimate-url]
 [![Codaocy][codacy-shield]][codacy-url]
 ![Status][status-shield]
+<!-- [![CodeClimate][codeclimate-shield]][codeclimate-url] -->
 
 <!-- PROJECT LOGO -->
 <div align="center">
