@@ -51,7 +51,7 @@ class NoLogsMessage extends StatelessWidget {
                       fontSize: 24,
                     ),
                   ),
-                )
+                ),
               ],
             ),
           ),

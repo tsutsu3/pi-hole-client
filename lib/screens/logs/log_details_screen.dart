@@ -17,8 +17,11 @@ class LogDetailsScreen extends StatelessWidget {
   final Log log;
   final void Function(String, Log) whiteBlackList;
 
-  const LogDetailsScreen(
-      {super.key, required this.log, required this.whiteBlackList});
+  const LogDetailsScreen({
+    super.key,
+    required this.log,
+    required this.whiteBlackList,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -40,12 +43,14 @@ class LogDetailsScreen extends StatelessWidget {
                 Text(
                   label,
                   style: const TextStyle(
-                      fontWeight: FontWeight.w400, fontSize: 16),
+                    fontWeight: FontWeight.w400,
+                    fontSize: 16,
+                  ),
                 ),
                 const SizedBox(height: 5),
-                value
+                value,
               ],
-            )
+            ),
           ],
         ),
       );
@@ -84,7 +89,7 @@ class LogDetailsScreen extends StatelessWidget {
             tooltip: AppLocalizations.of(context)!.searchDomainInternet,
           ),
           blackWhiteListButton(),
-          const SizedBox(width: 10)
+          const SizedBox(width: 10),
         ],
       ),
       body: ListView(
@@ -110,8 +115,11 @@ class LogDetailsScreen extends StatelessWidget {
             description: formatTimestamp(log.dateTime, 'HH:mm:ss'),
           ),
           if (log.status != null)
-            item(Icons.shield_outlined, AppLocalizations.of(context)!.status,
-                LogStatus(status: log.status!, showIcon: false)),
+            item(
+              Icons.shield_outlined,
+              AppLocalizations.of(context)!.status,
+              LogStatus(status: log.status!, showIcon: false),
+            ),
           if (log.status == '2' && log.answeredBy != null)
             CustomListTile(
               leadingIcon: Icons.domain,
