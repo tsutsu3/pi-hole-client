@@ -129,7 +129,9 @@ class StatisticsListContent extends StatelessWidget {
                   onTap: () => navigateFilter(item['label']),
                   child: Container(
                     padding: const EdgeInsets.symmetric(
-                        horizontal: 20, vertical: 10),
+                      horizontal: 20,
+                      vertical: 10,
+                    ),
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [

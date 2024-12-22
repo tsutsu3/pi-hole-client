@@ -16,8 +16,11 @@ class LogStatus extends StatelessWidget {
   Widget build(BuildContext context) {
     final serverProvider = Provider.of<ServersProvider>(context);
 
-    Widget logStatusWidget(
-        {required IconData icon, required Color color, required String text}) {
+    Widget logStatusWidget({
+      required IconData icon,
+      required Color color,
+      required String text,
+    }) {
       return Row(
         children: showIcon == true
             ? [

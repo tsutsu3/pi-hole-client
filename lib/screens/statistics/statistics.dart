@@ -40,7 +40,8 @@ class Statistics extends StatelessWidget {
                               const Icon(Icons.dns_rounded),
                               const SizedBox(width: 16),
                               Text(
-                                  AppLocalizations.of(context)!.queriesServers),
+                                AppLocalizations.of(context)!.queriesServers,
+                              ),
                             ],
                           ),
                         ),
