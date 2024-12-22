@@ -226,44 +226,45 @@ class _PiHoleClientState extends State<PiHoleClient> {
     return DynamicColorBuilder(
       builder: ((lightDynamic, darkDynamic) {
         return MaterialApp(
-            navigatorObservers: [
-              SentryNavigatorObserver(),
-            ],
-            title: 'Pi-hole Client',
-            theme: appConfigProvider.androidDeviceInfo != null &&
-                    appConfigProvider.androidDeviceInfo!.version.sdkInt >= 31
-                ? lightTheme(lightDynamic)
-                : lightThemeOldVersions(),
-            darkTheme: appConfigProvider.androidDeviceInfo != null &&
-                    appConfigProvider.androidDeviceInfo!.version.sdkInt >= 31
-                ? darkTheme(darkDynamic)
-                : darkThemeOldVersions(),
-            themeMode: appConfigProvider.selectedTheme,
-            debugShowCheckedModeBanner: false,
-            localizationsDelegates: const [
-              GlobalMaterialLocalizations.delegate,
-              GlobalWidgetsLocalizations.delegate,
-              GlobalCupertinoLocalizations.delegate,
-              AppLocalizations.delegate,
-            ],
-            locale: Locale(appConfigProvider.selectedLanguage),
-            supportedLocales: const [
-              Locale('en', ''),
-              Locale('es', ''),
-              Locale('de', ''),
-              Locale('pl', ''),
-              Locale('ja', ''),
-            ],
-            scaffoldMessengerKey: scaffoldMessengerKey,
-            builder: (context, child) {
-              return AppLock(
-                builder: (_, __) => child!,
-                lockScreenBuilder: (context) => const Unlock(),
-                enabled: appConfigProvider.passCode != null ? true : false,
-                backgroundLockLatency: const Duration(seconds: 0),
-              );
-            },
-            home: const Base());
+          navigatorObservers: [
+            SentryNavigatorObserver(),
+          ],
+          title: 'Pi-hole Client',
+          theme: appConfigProvider.androidDeviceInfo != null &&
+                  appConfigProvider.androidDeviceInfo!.version.sdkInt >= 31
+              ? lightTheme(lightDynamic)
+              : lightThemeOldVersions(),
+          darkTheme: appConfigProvider.androidDeviceInfo != null &&
+                  appConfigProvider.androidDeviceInfo!.version.sdkInt >= 31
+              ? darkTheme(darkDynamic)
+              : darkThemeOldVersions(),
+          themeMode: appConfigProvider.selectedTheme,
+          debugShowCheckedModeBanner: false,
+          localizationsDelegates: const [
+            GlobalMaterialLocalizations.delegate,
+            GlobalWidgetsLocalizations.delegate,
+            GlobalCupertinoLocalizations.delegate,
+            AppLocalizations.delegate,
+          ],
+          locale: Locale(appConfigProvider.selectedLanguage),
+          supportedLocales: const [
+            Locale('en', ''),
+            Locale('es', ''),
+            Locale('de', ''),
+            Locale('pl', ''),
+            Locale('ja', ''),
+          ],
+          scaffoldMessengerKey: scaffoldMessengerKey,
+          builder: (context, child) {
+            return AppLock(
+              builder: (_, __) => child!,
+              lockScreenBuilder: (context) => const Unlock(),
+              enabled: appConfigProvider.passCode != null ? true : false,
+              backgroundLockLatency: const Duration(seconds: 0),
+            );
+          },
+          home: const Base(),
+        );
       }),
     );
   }

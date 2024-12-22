@@ -38,12 +38,12 @@ class _BaseState extends State<Base> with WidgetsBindingObserver {
     const Statistics(),
     const Logs(),
     const DomainLists(),
-    const Settings()
+    const Settings(),
   ];
 
   final List<Widget> pagesNotSelected = [
     const ServersPage(isFromBase: true),
-    const Settings()
+    const Settings(),
   ];
 
   void fetchMainData(Server server) async {
@@ -53,7 +53,8 @@ class _BaseState extends State<Base> with WidgetsBindingObserver {
     final apiGateway = serversProvider.selectedApiGateway;
 
     final result = await Future.wait(
-        [apiGateway!.realtimeStatus(), apiGateway.fetchOverTimeData()]);
+      [apiGateway!.realtimeStatus(), apiGateway.fetchOverTimeData()],
+    );
 
     final realtimeStatusResponse = result[0] as RealtimeStatusResponse;
     final overTimeDataResponse = result[1] as FetchOverTimeDataResponse;
@@ -63,7 +64,8 @@ class _BaseState extends State<Base> with WidgetsBindingObserver {
       statusProvider.setRealtimeStatus(realtimeStatusResponse.data!);
       statusProvider.setOvertimeData(overTimeDataResponse.data!);
       serversProvider.updateselectedServerStatus(
-          realtimeStatusResponse.data!.status == 'enabled' ? true : false);
+        realtimeStatusResponse.data!.status == 'enabled' ? true : false,
+      );
 
       statusProvider.setOvertimeDataLoadingStatus(1);
       statusProvider.setStatusLoading(LoadStatus.loaded);
@@ -92,8 +94,9 @@ class _BaseState extends State<Base> with WidgetsBindingObserver {
           Provider.of<AppConfigProvider>(context, listen: false);
       if (appConfigProvider.importantInfoReaden == false) {
         await showDialog<String>(
-            context: context,
-            builder: (BuildContext context) => const StartInfoModal());
+          context: context,
+          builder: (BuildContext context) => const StartInfoModal(),
+        );
       }
     });
 
@@ -155,19 +158,20 @@ class _BaseState extends State<Base> with WidgetsBindingObserver {
                   ),
                   Expanded(
                     child: PageTransitionSwitcher(
-                        duration: const Duration(milliseconds: 200),
-                        transitionBuilder:
-                            ((child, primaryAnimation, secondaryAnimation) =>
-                                FadeThroughTransition(
-                                  animation: primaryAnimation,
-                                  secondaryAnimation: secondaryAnimation,
-                                  child: child,
-                                )),
-                        child: serversProvider.selectedServer != null
-                            ? pages[appConfigProvider.selectedTab]
-                            : pagesNotSelected[appConfigProvider.selectedTab > 1
-                                ? 0
-                                : appConfigProvider.selectedTab]),
+                      duration: const Duration(milliseconds: 200),
+                      transitionBuilder:
+                          ((child, primaryAnimation, secondaryAnimation) =>
+                              FadeThroughTransition(
+                                animation: primaryAnimation,
+                                secondaryAnimation: secondaryAnimation,
+                                child: child,
+                              )),
+                      child: serversProvider.selectedServer != null
+                          ? pages[appConfigProvider.selectedTab]
+                          : pagesNotSelected[appConfigProvider.selectedTab > 1
+                              ? 0
+                              : appConfigProvider.selectedTab],
+                    ),
                   ),
                 ],
               )
@@ -184,7 +188,8 @@ class _BaseState extends State<Base> with WidgetsBindingObserver {
                     ? pages[appConfigProvider.selectedTab]
                     : pagesNotSelected[appConfigProvider.selectedTab > 1
                         ? 0
-                        : appConfigProvider.selectedTab]),
+                        : appConfigProvider.selectedTab],
+              ),
         bottomNavigationBar: width <= 900
             ? BottomNavBar(
                 screens: serversProvider.selectedServer != null
