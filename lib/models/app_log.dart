@@ -19,7 +19,7 @@ class AppLog {
       'dateTime': dateTime.toString(),
       'message': message,
       'statusCode': statusCode.toString(),
-      'resBody': resBody.toString()
+      'resBody': resBody.toString(),
     };
   }
 

@@ -47,7 +47,9 @@ class OverTimeData {
         ? Map.fromEntries(
             history.history.map(
               (entry) => MapEntry<String, int>(
-                  entry.timestamp.toInt().toString(), entry.total),
+                entry.timestamp.toInt().toString(),
+                entry.total,
+              ),
             ),
           )
         : <String, int>{};
@@ -56,7 +58,9 @@ class OverTimeData {
         ? Map.fromEntries(
             history.history.map(
               (entry) => MapEntry<String, int>(
-                  entry.timestamp.toInt().toString(), entry.blocked),
+                entry.timestamp.toInt().toString(),
+                entry.blocked,
+              ),
             ),
           )
         : <String, int>{};

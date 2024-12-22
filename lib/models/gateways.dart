@@ -167,7 +167,10 @@ class DomainListResult {
     };
 
     List<Domain> v6DomainsToDomainList(
-        v6.Domains domains, String type, String kind) {
+      v6.Domains domains,
+      String type,
+      String kind,
+    ) {
       return domains.domains
           .where((domain) => domain.type == type && domain.kind == kind)
           .toList()
