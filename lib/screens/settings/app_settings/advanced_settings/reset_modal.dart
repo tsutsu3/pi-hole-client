@@ -94,7 +94,8 @@ class _ResetModalState extends State<ResetModal> {
                             ? WidgetStateProperty.all(Colors.red)
                             : WidgetStateProperty.all(Colors.grey),
                         overlayColor: WidgetStateProperty.all(
-                            Colors.red.withOpacity(0.1)),
+                          Colors.red.withOpacity(0.1),
+                        ),
                       ),
                       child: Text(
                         _timeRemaining > 0

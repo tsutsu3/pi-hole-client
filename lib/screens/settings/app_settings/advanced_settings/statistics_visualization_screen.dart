@@ -28,23 +28,26 @@ class StatisticsVisualizationScreen extends StatelessWidget {
               curve: Curves.easeInOut,
               padding: const EdgeInsets.all(20),
               decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(28),
+                borderRadius: BorderRadius.circular(28),
+                color: value == appConfigProvider.statisticsVisualizationMode
+                    ? Theme.of(context).colorScheme.primary.withOpacity(0.1)
+                    : Theme.of(context).dialogBackgroundColor,
+                border: Border.all(
                   color: value == appConfigProvider.statisticsVisualizationMode
-                      ? Theme.of(context).colorScheme.primary.withOpacity(0.1)
-                      : Theme.of(context).dialogBackgroundColor,
-                  border: Border.all(
-                      color:
-                          value == appConfigProvider.statisticsVisualizationMode
-                              ? Theme.of(context).colorScheme.primary
-                              : Colors.grey)),
+                      ? Theme.of(context).colorScheme.primary
+                      : Colors.grey,
+                ),
+              ),
               child: Row(
                 children: [
-                  Icon(icon,
-                      size: 50,
-                      color:
-                          value == appConfigProvider.statisticsVisualizationMode
-                              ? Theme.of(context).colorScheme.primary
-                              : Theme.of(context).colorScheme.onSurfaceVariant),
+                  Icon(
+                    icon,
+                    size: 50,
+                    color:
+                        value == appConfigProvider.statisticsVisualizationMode
+                            ? Theme.of(context).colorScheme.primary
+                            : Theme.of(context).colorScheme.onSurfaceVariant,
+                  ),
                   const SizedBox(width: 30),
                   Expanded(
                     child: Column(
@@ -53,15 +56,16 @@ class StatisticsVisualizationScreen extends StatelessWidget {
                         Text(
                           title,
                           style: TextStyle(
-                              fontSize: 18,
-                              fontWeight: FontWeight.bold,
-                              color: value ==
-                                      appConfigProvider
-                                          .statisticsVisualizationMode
-                                  ? Theme.of(context).colorScheme.primary
-                                  : Theme.of(context)
-                                      .colorScheme
-                                      .onSurfaceVariant),
+                            fontSize: 18,
+                            fontWeight: FontWeight.bold,
+                            color: value ==
+                                    appConfigProvider
+                                        .statisticsVisualizationMode
+                                ? Theme.of(context).colorScheme.primary
+                                : Theme.of(context)
+                                    .colorScheme
+                                    .onSurfaceVariant,
+                          ),
                         ),
                         const SizedBox(height: 10),
                         SizedBox(
@@ -69,18 +73,19 @@ class StatisticsVisualizationScreen extends StatelessWidget {
                           child: Text(
                             description,
                             style: TextStyle(
-                                color: value ==
-                                        appConfigProvider
-                                            .statisticsVisualizationMode
-                                    ? Theme.of(context).colorScheme.primary
-                                    : Theme.of(context)
-                                        .colorScheme
-                                        .onSurfaceVariant),
+                              color: value ==
+                                      appConfigProvider
+                                          .statisticsVisualizationMode
+                                  ? Theme.of(context).colorScheme.primary
+                                  : Theme.of(context)
+                                      .colorScheme
+                                      .onSurfaceVariant,
+                            ),
                           ),
-                        )
+                        ),
                       ],
                     ),
-                  )
+                  ),
                 ],
               ),
             ),
@@ -97,16 +102,18 @@ class StatisticsVisualizationScreen extends StatelessWidget {
         children: [
           const SizedBox(height: 16),
           item(
-              AppLocalizations.of(context)!.list,
-              AppLocalizations.of(context)!.listDescription,
-              Icons.list_rounded,
-              0),
+            AppLocalizations.of(context)!.list,
+            AppLocalizations.of(context)!.listDescription,
+            Icons.list_rounded,
+            0,
+          ),
           const SizedBox(height: 24),
           item(
-              AppLocalizations.of(context)!.pieChart,
-              AppLocalizations.of(context)!.pieChartDescription,
-              Icons.pie_chart_rounded,
-              1),
+            AppLocalizations.of(context)!.pieChart,
+            AppLocalizations.of(context)!.pieChartDescription,
+            Icons.pie_chart_rounded,
+            1,
+          ),
         ],
       ),
     );

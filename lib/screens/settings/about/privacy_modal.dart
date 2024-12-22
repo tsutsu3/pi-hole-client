@@ -120,8 +120,10 @@ class _PrivacyModalState extends State<PrivacyModal> {
             children: [
               _appDetailLine(
                 url: privacyPolicyUrl,
-                icon: Icon(Icons.privacy_tip_rounded,
-                    color: colorScheme.onSurface),
+                icon: Icon(
+                  Icons.privacy_tip_rounded,
+                  color: colorScheme.onSurface,
+                ),
                 title: AppLocalizations.of(context)!.privacyPolicy,
                 subtitle:
                     AppLocalizations.of(context)!.privacyPolicyDescription,

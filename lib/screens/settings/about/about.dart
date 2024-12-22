@@ -7,7 +7,7 @@
 // - evelation level = 0.0
 // - Removed `powered by flutterR`
 
-// ignore_for_file: avoid-unused-parameters, member-ordering
+// ignore_for_file: avoid-unused-parameters, member-ordering, prefer-trailing-comma
 
 import 'dart:io';
 

@@ -47,7 +47,9 @@ class _AppDetailModalState extends State<AppDetailModal> {
                         Text(
                           title,
                           style: TextStyle(
-                              fontSize: 16, color: colorScheme.onSurface),
+                            fontSize: 16,
+                            color: colorScheme.onSurface,
+                          ),
                         ),
                         if (showWebViewIcon) ...[
                           const SizedBox(width: 8),

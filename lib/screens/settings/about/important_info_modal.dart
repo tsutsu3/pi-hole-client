@@ -21,7 +21,9 @@ class ImportantInfoModal extends StatelessWidget {
               AppLocalizations.of(context)!.importantAnnouncement,
               textAlign: TextAlign.center,
               style: TextStyle(
-                  fontSize: 24, color: Theme.of(context).colorScheme.onSurface),
+                fontSize: 24,
+                color: Theme.of(context).colorScheme.onSurface,
+              ),
             ),
           ),
         ],
@@ -46,7 +48,7 @@ class ImportantInfoModal extends StatelessWidget {
                   children: [
                     Text('Pi-hole: v5.12+'),
                     SizedBox(height: 5),
-                    Text('Web interface: v5.14.2+')
+                    Text('Web interface: v5.14.2+'),
                   ],
                 ),
               ),
@@ -54,7 +56,7 @@ class ImportantInfoModal extends StatelessWidget {
               Text(
                 AppLocalizations.of(context)!.olderVersion,
                 textAlign: TextAlign.justify,
-              )
+              ),
             ],
           ),
           const SizedBox(height: 30),
@@ -73,7 +75,7 @@ class ImportantInfoModal extends StatelessWidget {
         TextButton(
           onPressed: () => Navigator.pop(context),
           child: Text(AppLocalizations.of(context)!.close),
-        )
+        ),
       ],
     );
   }
