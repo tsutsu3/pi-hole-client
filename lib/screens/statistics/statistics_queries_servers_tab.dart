@@ -20,51 +20,54 @@ class QueriesServersTab extends StatelessWidget {
     final statusProvider = Provider.of<StatusProvider>(context);
 
     return CustomTabContent(
-        loadingGenerator: () => SizedBox(
-              width: double.maxFinite,
-              height: 300,
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  const CircularProgressIndicator(),
-                  const SizedBox(height: 50),
-                  Text(
-                    AppLocalizations.of(context)!.loadingStats,
-                    textAlign: TextAlign.center,
-                    style: TextStyle(
-                        color: Theme.of(context).colorScheme.onSurfaceVariant,
-                        fontSize: 22),
-                  )
-                ],
+      loadingGenerator: () => SizedBox(
+        width: double.maxFinite,
+        height: 300,
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            const CircularProgressIndicator(),
+            const SizedBox(height: 50),
+            Text(
+              AppLocalizations.of(context)!.loadingStats,
+              textAlign: TextAlign.center,
+              style: TextStyle(
+                color: Theme.of(context).colorScheme.onSurfaceVariant,
+                fontSize: 22,
               ),
             ),
-        contentGenerator: () => [const QueriesServersTabContent()],
-        errorGenerator: () => SizedBox(
-              width: double.maxFinite,
-              height: 300,
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  const Icon(
-                    Icons.error,
-                    size: 50,
-                    color: Colors.red,
-                  ),
-                  const SizedBox(height: 50),
-                  Text(
-                    AppLocalizations.of(context)!.statsNotLoaded,
-                    textAlign: TextAlign.center,
-                    style: TextStyle(
-                        color: Theme.of(context).colorScheme.onSurfaceVariant,
-                        fontSize: 22),
-                  )
-                ],
+          ],
+        ),
+      ),
+      contentGenerator: () => [const QueriesServersTabContent()],
+      errorGenerator: () => SizedBox(
+        width: double.maxFinite,
+        height: 300,
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            const Icon(
+              Icons.error,
+              size: 50,
+              color: Colors.red,
+            ),
+            const SizedBox(height: 50),
+            Text(
+              AppLocalizations.of(context)!.statsNotLoaded,
+              textAlign: TextAlign.center,
+              style: TextStyle(
+                color: Theme.of(context).colorScheme.onSurfaceVariant,
+                fontSize: 22,
               ),
             ),
-        loadStatus: statusProvider.getStatusLoading,
-        onRefresh: onRefresh);
+          ],
+        ),
+      ),
+      loadStatus: statusProvider.getStatusLoading,
+      onRefresh: onRefresh,
+    );
   }
 }
 
@@ -92,36 +95,40 @@ class QueriesServersTabContent extends StatelessWidget {
                     Row(
                       children: [
                         Expanded(
-                            flex: 2,
-                            child: ConstrainedBox(
-                              constraints: const BoxConstraints(
-                                  maxWidth: 200, maxHeight: 200),
-                              child: CustomPieChart(
-                                data: statusProvider
-                                    .getRealtimeStatus!.queryTypes,
-                              ),
-                            )),
+                          flex: 2,
+                          child: ConstrainedBox(
+                            constraints: const BoxConstraints(
+                              maxWidth: 200,
+                              maxHeight: 200,
+                            ),
+                            child: CustomPieChart(
+                              data:
+                                  statusProvider.getRealtimeStatus!.queryTypes,
+                            ),
+                          ),
+                        ),
                         Expanded(
                           flex: 3,
                           child: PieChartLegend(
                             data: statusProvider.getRealtimeStatus!.queryTypes,
                             dataUnit: '%',
                           ),
-                        )
+                        ),
                       ],
                     ),
                   if (width <= 700) ...[
                     SizedBox(
-                        width: width - 40,
-                        child: CustomPieChart(
-                          data: statusProvider.getRealtimeStatus!.queryTypes,
-                        )),
+                      width: width - 40,
+                      child: CustomPieChart(
+                        data: statusProvider.getRealtimeStatus!.queryTypes,
+                      ),
+                    ),
                     const SizedBox(height: 20),
                     PieChartLegend(
                       data: statusProvider.getRealtimeStatus!.queryTypes,
                       dataUnit: '%',
-                    )
-                  ]
+                    ),
+                  ],
                 ]),
               )
             : NoDataChart(
@@ -140,14 +147,18 @@ class QueriesServersTabContent extends StatelessWidget {
                     Row(
                       children: [
                         Expanded(
-                            flex: 2,
-                            child: ConstrainedBox(
-                                constraints: const BoxConstraints(
-                                    maxWidth: 200, maxHeight: 200),
-                                child: CustomPieChart(
-                                  data: statusProvider
-                                      .getRealtimeStatus!.forwardDestinations,
-                                ))),
+                          flex: 2,
+                          child: ConstrainedBox(
+                            constraints: const BoxConstraints(
+                              maxWidth: 200,
+                              maxHeight: 200,
+                            ),
+                            child: CustomPieChart(
+                              data: statusProvider
+                                  .getRealtimeStatus!.forwardDestinations,
+                            ),
+                          ),
+                        ),
                         Expanded(
                           flex: 3,
                           child: PieChartLegend(
@@ -155,23 +166,24 @@ class QueriesServersTabContent extends StatelessWidget {
                                 .getRealtimeStatus!.forwardDestinations,
                             dataUnit: '%',
                           ),
-                        )
+                        ),
                       ],
                     ),
                   if (width <= 700) ...[
                     SizedBox(
-                        width: width - 40,
-                        child: CustomPieChart(
-                          data: statusProvider
-                              .getRealtimeStatus!.forwardDestinations,
-                        )),
+                      width: width - 40,
+                      child: CustomPieChart(
+                        data: statusProvider
+                            .getRealtimeStatus!.forwardDestinations,
+                      ),
+                    ),
                     const SizedBox(height: 20),
                     PieChartLegend(
                       data:
                           statusProvider.getRealtimeStatus!.forwardDestinations,
                       dataUnit: '%',
-                    )
-                  ]
+                    ),
+                  ],
                 ]),
               )
             : NoDataChart(

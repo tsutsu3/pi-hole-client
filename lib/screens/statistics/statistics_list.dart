@@ -19,63 +19,67 @@ class StatisticsList extends StatelessWidget {
   final String type;
   final Future<void> Function() onRefresh;
 
-  const StatisticsList(
-      {super.key,
-      required this.countLabel,
-      required this.type,
-      required this.onRefresh});
+  const StatisticsList({
+    super.key,
+    required this.countLabel,
+    required this.type,
+    required this.onRefresh,
+  });
 
   @override
   Widget build(BuildContext context) {
     final statusProvider = Provider.of<StatusProvider>(context);
 
     return CustomTabContent(
-        loadingGenerator: () => SizedBox(
-              width: double.maxFinite,
-              height: 300,
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  const CircularProgressIndicator(),
-                  const SizedBox(height: 50),
-                  Text(
-                    AppLocalizations.of(context)!.loadingStats,
-                    textAlign: TextAlign.center,
-                    style: TextStyle(
-                        color: Theme.of(context).colorScheme.onSurfaceVariant,
-                        fontSize: 22),
-                  )
-                ],
+      loadingGenerator: () => SizedBox(
+        width: double.maxFinite,
+        height: 300,
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            const CircularProgressIndicator(),
+            const SizedBox(height: 50),
+            Text(
+              AppLocalizations.of(context)!.loadingStats,
+              textAlign: TextAlign.center,
+              style: TextStyle(
+                color: Theme.of(context).colorScheme.onSurfaceVariant,
+                fontSize: 22,
               ),
             ),
-        contentGenerator: () =>
-            [StatisticsListContent(type: type, countLabel: countLabel)],
-        errorGenerator: () => SizedBox(
-              width: double.maxFinite,
-              height: 300,
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  const Icon(
-                    Icons.error,
-                    size: 50,
-                    color: Colors.red,
-                  ),
-                  const SizedBox(height: 50),
-                  Text(
-                    AppLocalizations.of(context)!.statsNotLoaded,
-                    textAlign: TextAlign.center,
-                    style: TextStyle(
-                        color: Theme.of(context).colorScheme.onSurfaceVariant,
-                        fontSize: 22),
-                  )
-                ],
+          ],
+        ),
+      ),
+      contentGenerator: () =>
+          [StatisticsListContent(type: type, countLabel: countLabel)],
+      errorGenerator: () => SizedBox(
+        width: double.maxFinite,
+        height: 300,
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            const Icon(
+              Icons.error,
+              size: 50,
+              color: Colors.red,
+            ),
+            const SizedBox(height: 50),
+            Text(
+              AppLocalizations.of(context)!.statsNotLoaded,
+              textAlign: TextAlign.center,
+              style: TextStyle(
+                color: Theme.of(context).colorScheme.onSurfaceVariant,
+                fontSize: 22,
               ),
             ),
-        loadStatus: statusProvider.getStatusLoading,
-        onRefresh: onRefresh);
+          ],
+        ),
+      ),
+      loadStatus: statusProvider.getStatusLoading,
+      onRefresh: onRefresh,
+    );
   }
 }
 
@@ -83,8 +87,11 @@ class StatisticsListContent extends StatelessWidget {
   final String type;
   final String countLabel;
 
-  const StatisticsListContent(
-      {super.key, required this.type, required this.countLabel});
+  const StatisticsListContent({
+    super.key,
+    required this.type,
+    required this.countLabel,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -145,10 +152,11 @@ class StatisticsListContent extends StatelessWidget {
                                 maxLines: 1,
                                 softWrap: false,
                                 style: TextStyle(
-                                    fontSize: 14,
-                                    color: Theme.of(context)
-                                        .colorScheme
-                                        .onSurfaceVariant),
+                                  fontSize: 14,
+                                  color: Theme.of(context)
+                                      .colorScheme
+                                      .onSurfaceVariant,
+                                ),
                               ),
                             ],
                           ),
@@ -174,7 +182,7 @@ class StatisticsListContent extends StatelessWidget {
                     ),
                   ),
                 ),
-              ))
+              )),
         ],
       );
     }
@@ -211,7 +219,7 @@ class StatisticsListContent extends StatelessWidget {
           ),
           appConfigProvider.statisticsVisualizationMode == 0
               ? listViewMode(topQueriesList)
-              : pieChertViewMode(topQueriesList)
+              : pieChertViewMode(topQueriesList),
         ],
       );
     }
@@ -219,23 +227,31 @@ class StatisticsListContent extends StatelessWidget {
     if (type == 'domains') {
       return Column(children: [
         statusProvider.getRealtimeStatus!.topQueries.isNotEmpty
-            ? generateList(statusProvider.getRealtimeStatus!.topQueries,
-                AppLocalizations.of(context)!.topPermittedDomains)
+            ? generateList(
+                statusProvider.getRealtimeStatus!.topQueries,
+                AppLocalizations.of(context)!.topPermittedDomains,
+              )
             : NoDataChart(topLabel: AppLocalizations.of(context)!.noData),
         statusProvider.getRealtimeStatus!.topAds.isNotEmpty
-            ? generateList(statusProvider.getRealtimeStatus!.topAds,
-                AppLocalizations.of(context)!.topBlockedDomains)
+            ? generateList(
+                statusProvider.getRealtimeStatus!.topAds,
+                AppLocalizations.of(context)!.topBlockedDomains,
+              )
             : NoDataChart(topLabel: AppLocalizations.of(context)!.noData),
       ]);
     } else if (type == 'clients') {
       return Column(children: [
         statusProvider.getRealtimeStatus!.topSources.isNotEmpty
-            ? generateList(statusProvider.getRealtimeStatus!.topSources,
-                AppLocalizations.of(context)!.topClients)
+            ? generateList(
+                statusProvider.getRealtimeStatus!.topSources,
+                AppLocalizations.of(context)!.topClients,
+              )
             : NoDataChart(topLabel: AppLocalizations.of(context)!.noData),
         statusProvider.getRealtimeStatus!.topSourcesBlocked.isNotEmpty
-            ? generateList(statusProvider.getRealtimeStatus!.topSourcesBlocked,
-                AppLocalizations.of(context)!.topClientsBlocked)
+            ? generateList(
+                statusProvider.getRealtimeStatus!.topSourcesBlocked,
+                AppLocalizations.of(context)!.topClientsBlocked,
+              )
             : NoDataChart(topLabel: AppLocalizations.of(context)!.noData),
       ]);
     } else {
