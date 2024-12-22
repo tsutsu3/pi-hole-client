@@ -38,34 +38,27 @@ linter:
 # Additional information about this file can be found at
 # https://dart.dev/guides/language/analysis-options
 analyzer:
-  plugins:
-    - dart_code_metrics
   errors:
     invalid_annotation_target: ignore
   exclude:
     - 'test/**'
 
 dart_code_metrics:
-  # anti-patterns:
-  #   - long-method
-  #   - long-parameter-list
+  extends:
+    - recommended
   metrics:
     cyclomatic-complexity: 20
-    lines-of-executable-code: 50
-    number-of-parameters: 4
+    halstead-volume: 150
+    lines-of-code: 100
+    maintainability-index: 50
     maximum-nesting-level: 5
+    number-of-parameters: 4
+    number-of-used-widgets: 20
+    source-lines-of-code: 50
+    widgets-nesting-level: 10
   metrics-exclude:
     - test/**
   rules:
     # common
-    - avoid-unused-assignment
-    - avoid-unused-generics
-    - avoid-unused-instances
-    - avoid-unused-parameters
     - member-ordering
-    - prefer-trailing-comma
-    - no-equal-then-else
     - no-object-declaration
-    # Code Quality Checks
-    - check-unused-files
-    - check-unused-code

@@ -46,9 +46,9 @@
 - [🌟 Recommended lists](#-recommended-lists)
 - [💖 Donations](#-donations)
 - [🛠️ Development](#️-development)
-  - [Analyze](#analyze)
   - [Prepare the development environment](#prepare-the-development-environment)
   - [Compile the production build](#compile-the-production-build)
+  - [Code Quality and Analysis](#code-quality-and-analysis)
 - [⚖️ License](#️-license)
 - [🖋️ Credits](#️-credits)
 
@@ -101,32 +101,6 @@ If you like the project and you want to contribute with the development, you can
 
 ## 🛠️ Development
 
-### Analyze
-
-To ensure code quality and identify potential issues, perform the following analysis steps:
-
-1. **Run Dart Code Metrics**
-
-   Generate a detailed metrics report for the `lib` directory:
-
-   ```bash
-   dart run dart_code_metrics:metrics lib --reporter=html -o metrics
-   ```
-
-   - This will create an HTML report in the `metrics` directory.
-   - Open the report in your browser to view metrics such as Cyclomatic Complexity, Maintainability Index, and more.
-
-2. **Run Flutter Analyze**
-
-   Analyze the project to catch syntax errors, type issues, and other code problems:
-
-   ```bash
-   flutter analyze
-   ```
-
-   - This will output warnings and errors directly in the terminal.
-   - Review the output and address any issues before committing your changes.
-
 ### Prepare the development environment
 
 1. Clone the repository
@@ -168,6 +142,35 @@ To ensure code quality and identify potential issues, perform the following anal
 3. Run ``flutter build windows --release`` to build the Windows executable
 4. Install the [InnoSetup](https://jrsoftware.org/isdl.php) software you don't have it
 5. Run ``iscc /Q windows/innosetup_installer_builder.iss`` to generate the Windows installer
+
+### Code Quality and Analysis
+
+To ensure code quality and identify potential issues, perform the following analysis steps:
+
+1. **Calculate Code Metrics**
+
+   Generate code metrics for the lib directory:
+
+   ```bash
+   dcm calculate-metrics lib
+   ```
+
+2. **Analyze Code**
+
+   Analyze the project to catch syntax errors, type issues, and other code problems:
+
+   ```bash
+   flutter analyze
+   dcm analyze lib
+   ```
+
+3. **Check Unused Files**
+
+  Identify unused files in the lib directory:
+
+  ```bash
+  dcm check-unused-files lib
+  ```
 
 ## ⚖️ License
 
