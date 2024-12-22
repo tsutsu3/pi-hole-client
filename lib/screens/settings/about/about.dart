@@ -269,7 +269,6 @@ class _PackagesViewState extends State<_PackagesView> {
   }
 
   Widget _packagesList(
-    // ignore: avoid-unused-parameters
     final BuildContext context,
     final int? selectedId,
     final _LicenseData data,
@@ -639,12 +638,10 @@ String _defaultApplicationName(BuildContext context) {
       Platform.resolvedExecutable.split(Platform.pathSeparator).last;
 }
 
-// ignore: avoid-unused-parameters
 String _defaultApplicationVersion(BuildContext context) {
   return '';
 }
 
-// ignore: avoid-unused-parameters
 Widget? _defaultApplicationIcon(BuildContext context) {
   return null;
 }
@@ -910,7 +907,6 @@ class _MasterDetailFlowState extends State<_MasterDetailFlow>
     });
   }
 
-  // ignore: avoid-unused-parameters
   Widget _lateralUI(BuildContext context) {
     _builtLayout = _LayoutMode.lateral;
     return _MasterDetailScaffold(
