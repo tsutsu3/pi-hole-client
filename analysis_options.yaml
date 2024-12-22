@@ -59,6 +59,7 @@ dart_code_metrics:
     - avoid-unused-instances
     - avoid-unused-parameters
     - member-ordering
+    - prefer-trailing-comma
     # - no-boolean-literal-compare
     # - no-empty-block
     # - no-equal-arguments
@@ -72,4 +73,3 @@ dart_code_metrics:
     # - newline-before-return
     # - no-magic-number
     # - prefer-conditional-expressions
-    # - prefer-trailing-comma

@@ -62,8 +62,11 @@ class StatusUpdater {
     }
   }
 
-  void _updateStatusData(ServersProvider serversProvider,
-      StatusProvider statusProvider, AppConfigProvider appConfigProvider) {
+  void _updateStatusData(
+    ServersProvider serversProvider,
+    StatusProvider statusProvider,
+    AppConfigProvider appConfigProvider,
+  ) {
     // Sets previousRefreshTime when is not initialized
     _previousRefreshTime ??= appConfigProvider.getAutoRefreshTime;
 
@@ -85,7 +88,8 @@ class StatusUpdater {
           final statusResult = await apiGateway?.realtimeStatus();
           if (statusResult?.result == APiResponseType.success) {
             serversProvider.updateselectedServerStatus(
-                statusResult!.data!.status == 'enabled' ? true : false);
+              statusResult!.data!.status == 'enabled' ? true : false,
+            );
             statusProvider.setRealtimeStatus(statusResult.data!);
             if (statusProvider.isServerConnected == false) {
               statusProvider.setIsServerConnected(true);
@@ -108,13 +112,17 @@ class StatusUpdater {
     }
 
     _statusDataTimer = Timer.periodic(
-        Duration(seconds: appConfigProvider.getAutoRefreshTime!),
-        (timer) => timerFn(timer: timer));
+      Duration(seconds: appConfigProvider.getAutoRefreshTime!),
+      (timer) => timerFn(timer: timer),
+    );
     timerFn();
   }
 
-  void _updateOverTimeData(ServersProvider serversProvider,
-      StatusProvider statusProvider, FiltersProvider filtersProvider) {
+  void _updateOverTimeData(
+    ServersProvider serversProvider,
+    StatusProvider statusProvider,
+    FiltersProvider filtersProvider,
+  ) {
     void timerFn({Timer? timer}) async {
       if (serversProvider.selectedServer != null) {
         final apiGateway = serversProvider.selectedApiGateway;
@@ -150,7 +158,9 @@ class StatusUpdater {
     }
 
     _overTimeDataTimer = Timer.periodic(
-        const Duration(minutes: 1), (timer) => timerFn(timer: timer));
+      const Duration(minutes: 1),
+      (timer) => timerFn(timer: timer),
+    );
     timerFn();
   }
 }
