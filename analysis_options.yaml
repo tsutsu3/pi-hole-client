@@ -30,6 +30,10 @@ linter:
     - avoid_print
     - use_colored_box
     - avoid_unused_constructor_parameters
+    - avoid_empty_else
+    - avoid_function_literals_in_foreach_calls
+    - avoid_init_to_null
+    - avoid_relative_lib_imports
 
 # Additional information about this file can be found at
 # https://dart.dev/guides/language/analysis-options
@@ -60,16 +64,8 @@ dart_code_metrics:
     - avoid-unused-parameters
     - member-ordering
     - prefer-trailing-comma
-    # - no-boolean-literal-compare
-    # - no-empty-block
-    # - no-equal-arguments
-    # - no-equal-then-else
-    # - no-object-declaration
+    - no-equal-then-else
+    - no-object-declaration
     # Code Quality Checks
     - check-unused-files
     - check-unused-code
-    # - binary-expression-operand-order
-    # - double-literal-format
-    # - newline-before-return
-    # - no-magic-number
-    # - prefer-conditional-expressions
