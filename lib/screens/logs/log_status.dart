@@ -16,40 +16,49 @@ class LogStatus extends StatelessWidget {
   Widget build(BuildContext context) {
     final serverProvider = Provider.of<ServersProvider>(context);
 
-    Widget logStatusWidget(
-        {required IconData icon, required Color color, required String text}) {
+    Widget logStatusWidget({
+      required IconData icon,
+      required Color color,
+      required String text,
+    }) {
       return Row(
-          children: showIcon == true
-              ? [
-                  Icon(
-                    icon,
+        children: showIcon == true
+            ? [
+                Icon(
+                  icon,
+                  color: color,
+                  size: 14,
+                ),
+                const SizedBox(width: 10),
+                Text(
+                  text,
+                  style: TextStyle(
                     color: color,
-                    size: 14,
+                    fontWeight: FontWeight.w400,
+                    fontSize: 12,
                   ),
-                  const SizedBox(width: 10),
-                  Text(
-                    text,
-                    style: TextStyle(
-                        color: color,
-                        fontWeight: FontWeight.w400,
-                        fontSize: 12),
-                  )
-                ]
-              : [
-                  Text(
-                    text,
-                    style: TextStyle(
-                        color: color,
-                        fontWeight: FontWeight.w400,
-                        fontSize: 13),
-                  )
-                ]);
+                ),
+              ]
+            : [
+                Text(
+                  text,
+                  style: TextStyle(
+                    color: color,
+                    fontWeight: FontWeight.w400,
+                    fontSize: 13,
+                  ),
+                ),
+              ],
+      );
     }
 
     final queryStatus = serverProvider.getQueryStatus(status);
     if (queryStatus == null) {
       return logStatusWidget(
-          icon: Icons.shield_rounded, color: Colors.grey, text: "Unknown");
+        icon: Icons.shield_rounded,
+        color: Colors.grey,
+        text: 'Unknown',
+      );
     }
 
     return logStatusWidget(

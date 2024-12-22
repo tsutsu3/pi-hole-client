@@ -17,12 +17,6 @@ class ServersProvider with ChangeNotifier {
   final List<QueryStatus> _queryStatusesV5 = queryStatusesV5;
   final List<QueryStatus> _queryStatusesV6 = queryStatusesV6;
 
-  ServersProvider(this._repository);
-
-  update(AppConfigProvider? provider) {
-    _appConfigProvider = provider;
-  }
-
   List<Server> _serversList = [];
 
   Server? _selectedServer;
@@ -43,13 +37,15 @@ class ServersProvider with ChangeNotifier {
       ? _serverGateways[_selectedServer?.address]
       : null;
 
-  ApiGateway? loadApiGateway(Server server) {
-    final gateway = _serverGateways[server.address];
-    if (gateway == null) {
-      return ApiGatewayFactory.create(server);
+  int get numShown {
+    switch (_selectedServer?.apiVersion) {
+      case 'v5':
+        return _queryStatusesV5.where((status) => status.isShown).length;
+      case 'v6':
+        return _queryStatusesV6.where((status) => status.isShown).length;
+      default:
+        return 0;
     }
-
-    return _serverGateways[server.address];
   }
 
   List<QueryStatus> get queryStatuses {
@@ -63,6 +59,21 @@ class ServersProvider with ChangeNotifier {
     }
   }
 
+  ServersProvider(this._repository);
+
+  void update(AppConfigProvider? provider) {
+    _appConfigProvider = provider;
+  }
+
+  ApiGateway? loadApiGateway(Server server) {
+    final gateway = _serverGateways[server.address];
+    if (gateway == null) {
+      return ApiGatewayFactory.create(server);
+    }
+
+    return _serverGateways[server.address];
+  }
+
   QueryStatus? getQueryStatus(String key) {
     switch (_selectedServer?.apiVersion) {
       case 'v5':
@@ -72,17 +83,6 @@ class ServersProvider with ChangeNotifier {
             .firstWhereOrNull((status) => status.index.toString() == key);
       default:
         return null;
-    }
-  }
-
-  int get numShown {
-    switch (_selectedServer?.apiVersion) {
-      case 'v5':
-        return _queryStatusesV5.where((status) => status.isShown).length;
-      case 'v6':
-        return _queryStatusesV6.where((status) => status.isShown).length;
-      default:
-        return 0;
     }
   }
 
@@ -192,7 +192,7 @@ class ServersProvider with ChangeNotifier {
   //   }
   // }
 
-  Future saveFromDb(List<ServerDbData>? servers, bool connect) async {
+  Future saveFromDb(List<ServerDbData>? servers) async {
     if (servers != null) {
       Server? defaultServer;
       for (var server in servers) {

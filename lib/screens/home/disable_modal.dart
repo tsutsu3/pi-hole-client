@@ -8,8 +8,11 @@ class DisableModal extends StatefulWidget {
   final void Function(int) onDisable;
   final bool window;
 
-  const DisableModal(
-      {super.key, required this.onDisable, required this.window});
+  const DisableModal({
+    super.key,
+    required this.onDisable,
+    required this.window,
+  });
 
   @override
   State<DisableModal> createState() => _DisableModalState();
@@ -26,7 +29,7 @@ class _DisableModalState extends State<DisableModal> {
     setState(() {
       selectedOption = value;
       if (selectedOption != 5) {
-        customTimeController.text = "";
+        customTimeController.text = '';
         if (expandableController.expanded) expandableController.toggle();
       } else if (expandableController.expanded == false) {
         expandableController.toggle();
@@ -124,11 +127,12 @@ class _DisableModalState extends State<DisableModal> {
                   child: AnimatedDefaultTextStyle(
                     duration: const Duration(milliseconds: 250),
                     style: TextStyle(
-                        fontWeight: FontWeight.bold,
-                        fontSize: 14,
-                        color: selectedOption == 0
-                            ? Theme.of(context).colorScheme.onSecondaryContainer
-                            : Theme.of(context).colorScheme.onSurfaceVariant),
+                      fontWeight: FontWeight.bold,
+                      fontSize: 14,
+                      color: selectedOption == 0
+                          ? Theme.of(context).colorScheme.onSecondaryContainer
+                          : Theme.of(context).colorScheme.onSurfaceVariant,
+                    ),
                     child: Text(AppLocalizations.of(context)!.seconds30),
                   ),
                 ),
@@ -147,11 +151,12 @@ class _DisableModalState extends State<DisableModal> {
                   child: AnimatedDefaultTextStyle(
                     duration: const Duration(milliseconds: 250),
                     style: TextStyle(
-                        fontWeight: FontWeight.bold,
-                        fontSize: 14,
-                        color: selectedOption == 1
-                            ? Theme.of(context).colorScheme.onSecondaryContainer
-                            : Theme.of(context).colorScheme.onSurfaceVariant),
+                      fontWeight: FontWeight.bold,
+                      fontSize: 14,
+                      color: selectedOption == 1
+                          ? Theme.of(context).colorScheme.onSecondaryContainer
+                          : Theme.of(context).colorScheme.onSurfaceVariant,
+                    ),
                     child: Text(AppLocalizations.of(context)!.minute1),
                   ),
                 ),
@@ -171,11 +176,12 @@ class _DisableModalState extends State<DisableModal> {
                   child: AnimatedDefaultTextStyle(
                     duration: const Duration(milliseconds: 250),
                     style: TextStyle(
-                        fontWeight: FontWeight.bold,
-                        fontSize: 14,
-                        color: selectedOption == 2
-                            ? Theme.of(context).colorScheme.onSecondaryContainer
-                            : Theme.of(context).colorScheme.onSurfaceVariant),
+                      fontWeight: FontWeight.bold,
+                      fontSize: 14,
+                      color: selectedOption == 2
+                          ? Theme.of(context).colorScheme.onSecondaryContainer
+                          : Theme.of(context).colorScheme.onSurfaceVariant,
+                    ),
                     child: Text(AppLocalizations.of(context)!.minutes2),
                   ),
                 ),
@@ -195,11 +201,12 @@ class _DisableModalState extends State<DisableModal> {
                   child: AnimatedDefaultTextStyle(
                     duration: const Duration(milliseconds: 250),
                     style: TextStyle(
-                        fontWeight: FontWeight.bold,
-                        fontSize: 14,
-                        color: selectedOption == 3
-                            ? Theme.of(context).colorScheme.onSecondaryContainer
-                            : Theme.of(context).colorScheme.onSurfaceVariant),
+                      fontWeight: FontWeight.bold,
+                      fontSize: 14,
+                      color: selectedOption == 3
+                          ? Theme.of(context).colorScheme.onSecondaryContainer
+                          : Theme.of(context).colorScheme.onSurfaceVariant,
+                    ),
                     child: Text(AppLocalizations.of(context)!.minutes5),
                   ),
                 ),
@@ -218,11 +225,12 @@ class _DisableModalState extends State<DisableModal> {
                   child: AnimatedDefaultTextStyle(
                     duration: const Duration(milliseconds: 250),
                     style: TextStyle(
-                        fontWeight: FontWeight.bold,
-                        fontSize: 14,
-                        color: selectedOption == 4
-                            ? Theme.of(context).colorScheme.onSecondaryContainer
-                            : Theme.of(context).colorScheme.onSurfaceVariant),
+                      fontWeight: FontWeight.bold,
+                      fontSize: 14,
+                      color: selectedOption == 4
+                          ? Theme.of(context).colorScheme.onSecondaryContainer
+                          : Theme.of(context).colorScheme.onSurfaceVariant,
+                    ),
                     child: Text(AppLocalizations.of(context)!.indefinitely),
                   ),
                 ),
@@ -241,11 +249,12 @@ class _DisableModalState extends State<DisableModal> {
                   child: AnimatedDefaultTextStyle(
                     duration: const Duration(milliseconds: 250),
                     style: TextStyle(
-                        fontWeight: FontWeight.bold,
-                        fontSize: 14,
-                        color: selectedOption == 5
-                            ? Theme.of(context).colorScheme.onSecondaryContainer
-                            : Theme.of(context).colorScheme.onSurfaceVariant),
+                      fontWeight: FontWeight.bold,
+                      fontSize: 14,
+                      color: selectedOption == 5
+                          ? Theme.of(context).colorScheme.onSecondaryContainer
+                          : Theme.of(context).colorScheme.onSurfaceVariant,
+                    ),
                     child: Text(AppLocalizations.of(context)!.custom),
                   ),
                 ),
@@ -272,7 +281,8 @@ class _DisableModalState extends State<DisableModal> {
                     ? AppLocalizations.of(context)!.valueNotValid
                     : null,
                 border: const OutlineInputBorder(
-                    borderRadius: BorderRadius.all(Radius.circular(10))),
+                  borderRadius: BorderRadius.all(Radius.circular(10)),
+                ),
                 labelText: AppLocalizations.of(context)!.customMinutes,
               ),
             ),
@@ -324,14 +334,16 @@ class _DisableModalState extends State<DisableModal> {
                             }
                           : null,
                       style: ButtonStyle(
-                          foregroundColor: _selectionIsValid() == true
-                              ? WidgetStateProperty.all(
-                                  Theme.of(context).colorScheme.primary)
-                              : WidgetStateProperty.all(Colors.grey)),
+                        foregroundColor: _selectionIsValid() == true
+                            ? WidgetStateProperty.all(
+                                Theme.of(context).colorScheme.primary,
+                              )
+                            : WidgetStateProperty.all(Colors.grey),
+                      ),
                       child: Text(AppLocalizations.of(context)!.accept),
-                    )
+                    ),
                   ]),
-                )
+                ),
               ],
             ),
           ),
@@ -344,7 +356,9 @@ class _DisableModalState extends State<DisableModal> {
           decoration: BoxDecoration(
             color: Theme.of(context).dialogBackgroundColor,
             borderRadius: const BorderRadius.only(
-                topLeft: Radius.circular(28), topRight: Radius.circular(28)),
+              topLeft: Radius.circular(28),
+              topRight: Radius.circular(28),
+            ),
           ),
           child: SafeArea(
             bottom: true,
@@ -385,14 +399,16 @@ class _DisableModalState extends State<DisableModal> {
                             }
                           : null,
                       style: ButtonStyle(
-                          foregroundColor: _selectionIsValid() == true
-                              ? WidgetStateProperty.all(
-                                  Theme.of(context).colorScheme.primary)
-                              : WidgetStateProperty.all(Colors.grey)),
+                        foregroundColor: _selectionIsValid() == true
+                            ? WidgetStateProperty.all(
+                                Theme.of(context).colorScheme.primary,
+                              )
+                            : WidgetStateProperty.all(Colors.grey),
+                      ),
                       child: Text(AppLocalizations.of(context)!.accept),
-                    )
+                    ),
                   ]),
-                )
+                ),
               ],
             ),
           ),

@@ -2,108 +2,108 @@ import 'package:flutter/material.dart';
 import 'package:pi_hole_client/models/query_status.dart';
 
 final List<QueryStatus> queryStatusesV5 = [
-  QueryStatus(
+  const QueryStatus(
     index: 1,
-    key: "1",
-    text: "Blocked (gravity)",
+    key: '1',
+    text: 'Blocked (gravity)',
     color: Colors.red,
     icon: Icons.gpp_bad_rounded,
   ),
-  QueryStatus(
+  const QueryStatus(
     index: 2,
-    key: "2",
-    text: "OK (forwarded)",
+    key: '2',
+    text: 'OK (forwarded)',
     color: Colors.green,
     icon: Icons.verified_user_rounded,
   ),
-  QueryStatus(
+  const QueryStatus(
     index: 3,
-    key: "3",
-    text: "OK (cache)",
+    key: '3',
+    text: 'OK (cache)',
     color: Colors.green,
     icon: Icons.verified_user_rounded,
   ),
-  QueryStatus(
+  const QueryStatus(
     index: 4,
-    key: "4",
-    text: "Blocked (regex blacklist)",
+    key: '4',
+    text: 'Blocked (regex blacklist)',
     color: Colors.red,
     icon: Icons.gpp_bad_rounded,
   ),
-  QueryStatus(
+  const QueryStatus(
     index: 5,
-    key: "5",
-    text: "Blocked (exact blacklist)",
+    key: '5',
+    text: 'Blocked (exact blacklist)',
     color: Colors.red,
     icon: Icons.gpp_bad_rounded,
   ),
-  QueryStatus(
+  const QueryStatus(
     index: 6,
-    key: "6",
-    text: "Blocked (external, IP)",
+    key: '6',
+    text: 'Blocked (external, IP)',
     color: Colors.red,
     icon: Icons.gpp_bad_rounded,
   ),
-  QueryStatus(
+  const QueryStatus(
     index: 7,
-    key: "7",
-    text: "Blocked (external, NULL)",
+    key: '7',
+    text: 'Blocked (external, NULL)',
     color: Colors.red,
     icon: Icons.gpp_bad_rounded,
   ),
-  QueryStatus(
+  const QueryStatus(
     index: 8,
-    key: "8",
-    text: "Blocked (external, NXRA)",
+    key: '8',
+    text: 'Blocked (external, NXRA)',
     color: Colors.red,
     icon: Icons.gpp_bad_rounded,
   ),
-  QueryStatus(
+  const QueryStatus(
     index: 9,
-    key: "9",
-    text: "Blocked (gravity, CNAME)",
+    key: '9',
+    text: 'Blocked (gravity, CNAME)',
     color: Colors.red,
     icon: Icons.gpp_bad_rounded,
   ),
-  QueryStatus(
+  const QueryStatus(
     index: 10,
-    key: "10",
-    text: "Blocked (regex blacklist, CNAME)",
+    key: '10',
+    text: 'Blocked (regex blacklist, CNAME)',
     color: Colors.red,
     icon: Icons.gpp_bad_rounded,
   ),
-  QueryStatus(
+  const QueryStatus(
     index: 11,
-    key: "11",
-    text: "Blocked (exact blacklist, CNAME)",
+    key: '11',
+    text: 'Blocked (exact blacklist, CNAME)',
     color: Colors.red,
     icon: Icons.gpp_bad_rounded,
   ),
-  QueryStatus(
+  const QueryStatus(
     index: 12,
-    key: "12",
-    text: "Retried",
+    key: '12',
+    text: 'Retried',
     color: Colors.blue,
     icon: Icons.refresh_rounded,
   ),
-  QueryStatus(
+  const QueryStatus(
     index: 13,
-    key: "13",
-    text: "Retried (ignored)",
+    key: '13',
+    text: 'Retried (ignored)',
     color: Colors.blue,
     icon: Icons.refresh_rounded,
   ),
-  QueryStatus(
+  const QueryStatus(
     index: 14,
-    key: "14",
-    text: "OK (already forwarded)",
+    key: '14',
+    text: 'OK (already forwarded)',
     color: Colors.green,
     icon: Icons.verified_user_rounded,
   ),
-  QueryStatus(
+  const QueryStatus(
     index: 15,
-    key: "15",
-    text: "Database is busy",
+    key: '15',
+    text: 'Database is busy',
     color: Colors.orange,
     icon: Icons.storage_rounded,
     isShown: false,
@@ -111,140 +111,140 @@ final List<QueryStatus> queryStatusesV5 = [
 ];
 
 final List<QueryStatus> queryStatusesV6 = [
-  QueryStatus(
+  const QueryStatus(
     index: 1,
-    key: "UNKNOWN",
-    text: "UNKNOWN",
+    key: 'UNKNOWN',
+    text: 'UNKNOWN',
     color: Colors.grey,
     icon: Icons.question_mark_rounded,
     isShown: false,
   ),
-  QueryStatus(
+  const QueryStatus(
     index: 2,
-    key: "GRAVITY",
-    text: "Blocked (gravity)",
+    key: 'GRAVITY',
+    text: 'Blocked (gravity)',
     color: Colors.red,
     icon: Icons.gpp_bad_rounded,
   ),
-  QueryStatus(
+  const QueryStatus(
     index: 3,
-    key: "FORWARDED",
-    text: "Forwarded",
+    key: 'FORWARDED',
+    text: 'Forwarded',
     color: Colors.green,
     icon: Icons.verified_user_rounded,
   ),
-  QueryStatus(
+  const QueryStatus(
     index: 4,
-    key: "CACHE",
-    text: "Served from cache",
+    key: 'CACHE',
+    text: 'Served from cache',
     color: Colors.green,
     icon: Icons.verified_user_rounded,
   ),
-  QueryStatus(
+  const QueryStatus(
     index: 5,
-    key: "REGEX",
-    text: "Blocked (regex)",
+    key: 'REGEX',
+    text: 'Blocked (regex)',
     color: Colors.red,
     icon: Icons.gpp_bad_rounded,
   ),
-  QueryStatus(
+  const QueryStatus(
     index: 6,
-    key: "DENYLIST",
-    text: "Blocked (exact)",
+    key: 'DENYLIST',
+    text: 'Blocked (exact)',
     color: Colors.red,
     icon: Icons.gpp_bad_rounded,
   ),
-  QueryStatus(
+  const QueryStatus(
     index: 7,
-    key: "EXTERNAL_BLOCKED_IP",
-    text: "Blocked (external, IP)",
+    key: 'EXTERNAL_BLOCKED_IP',
+    text: 'Blocked (external, IP)',
     color: Colors.red,
     icon: Icons.gpp_bad_rounded,
   ),
-  QueryStatus(
+  const QueryStatus(
     index: 8,
-    key: "EXTERNAL_BLOCKED_NULL",
-    text: "Blocked (external, NULL)",
+    key: 'EXTERNAL_BLOCKED_NULL',
+    text: 'Blocked (external, NULL)',
     color: Colors.red,
     icon: Icons.gpp_bad_rounded,
   ),
-  QueryStatus(
+  const QueryStatus(
     index: 9,
-    key: "EXTERNAL_BLOCKED_NXRA",
-    text: "Blocked (external, NXRA)",
+    key: 'EXTERNAL_BLOCKED_NXRA',
+    text: 'Blocked (external, NXRA)',
     color: Colors.red,
     icon: Icons.gpp_bad_rounded,
   ),
-  QueryStatus(
+  const QueryStatus(
     index: 10,
-    key: "GRAVITY_CNAME",
-    text: "Blocked (gravity, CNAME)",
+    key: 'GRAVITY_CNAME',
+    text: 'Blocked (gravity, CNAME)',
     color: Colors.red,
     icon: Icons.gpp_bad_rounded,
   ),
-  QueryStatus(
+  const QueryStatus(
     index: 11,
-    key: "REGEX_CNAME",
-    text: "Blocked (regex denied, CNAME)",
+    key: 'REGEX_CNAME',
+    text: 'Blocked (regex denied, CNAME)',
     color: Colors.red,
     icon: Icons.gpp_bad_rounded,
   ),
-  QueryStatus(
+  const QueryStatus(
     index: 12,
-    key: "DENYLIST_CNAME",
-    text: "Blocked (exact denied, CNAME)",
+    key: 'DENYLIST_CNAME',
+    text: 'Blocked (exact denied, CNAME)',
     color: Colors.red,
     icon: Icons.gpp_bad_rounded,
   ),
-  QueryStatus(
+  const QueryStatus(
     index: 13,
-    key: "RETRIED",
-    text: "Retried",
+    key: 'RETRIED',
+    text: 'Retried',
     color: Colors.blue,
     icon: Icons.refresh_rounded,
   ),
-  QueryStatus(
+  const QueryStatus(
     index: 14,
-    key: "RETRIED_DNSSEC",
-    text: "Retried (ignored)",
+    key: 'RETRIED_DNSSEC',
+    text: 'Retried (ignored)',
     color: Colors.blue,
     icon: Icons.refresh_rounded,
   ),
-  QueryStatus(
+  const QueryStatus(
     index: 15,
-    key: "IN_PROGRESS",
-    text: "Already forwarded, awaiting reply",
+    key: 'IN_PROGRESS',
+    text: 'Already forwarded, awaiting reply',
     color: Colors.green,
     icon: Icons.verified_user_rounded,
   ),
-  QueryStatus(
+  const QueryStatus(
     index: 16,
-    key: "DBBUSY",
-    text: "DBBUSY",
+    key: 'DBBUSY',
+    text: 'DBBUSY',
     color: Colors.orange,
     icon: Icons.storage_rounded,
     isShown: false,
   ),
-  QueryStatus(
+  const QueryStatus(
     index: 17,
-    key: "SPECIAL_DOMAIN",
-    text: "SPECIAL_DOMAIN",
+    key: 'SPECIAL_DOMAIN',
+    text: 'SPECIAL_DOMAIN',
     color: Colors.red,
     icon: Icons.gpp_bad_rounded,
     isShown: false,
   ),
-  QueryStatus(
+  const QueryStatus(
     index: 18,
-    key: "CACHE_STALE",
-    text: "Served by cache optimizer",
+    key: 'CACHE_STALE',
+    text: 'Served by cache optimizer',
     color: Colors.blue,
     icon: Icons.cached_rounded,
     isShown: false,
   ),
-  QueryStatus(
+  const QueryStatus(
     index: 19,
-    key: "EXTERNAL_BLOCKED_EDE15",
-    text: "EXTERNAL_BLOCKED_EDE15",
+    key: 'EXTERNAL_BLOCKED_EDE15',
+    text: 'EXTERNAL_BLOCKED_EDE15',
     color: Colors.orange,
     icon: Icons.question_mark_rounded,
     isShown: false,

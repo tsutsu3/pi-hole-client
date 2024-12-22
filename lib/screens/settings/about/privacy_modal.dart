@@ -20,91 +20,6 @@ class _PrivacyModalState extends State<PrivacyModal> {
     return appConfigProvider.sendCrashReports;
   }
 
-  @override
-  Widget build(BuildContext context) {
-    final colorScheme = Theme.of(context).colorScheme;
-    final appConfigProvider =
-        Provider.of<AppConfigProvider>(context, listen: true);
-
-    return FutureBuilder<bool>(
-      future: _getSendCrashReports(appConfigProvider),
-      builder: (context, snapshot) {
-        if (snapshot.hasError) {
-          return Dialog(
-            child: Padding(
-              padding: const EdgeInsets.all(16.0),
-              child: Text('Error: ${snapshot.error}'),
-            ),
-          );
-        }
-
-        final sendCrashReportStatus = snapshot.data ?? false;
-
-        return AlertDialog(
-          scrollable: true,
-          title: Column(
-            children: [
-              Icon(
-                Icons.contact_page_rounded,
-                size: 24,
-                color: colorScheme.secondary,
-              ),
-              Padding(
-                padding:
-                    const EdgeInsets.symmetric(vertical: 20, horizontal: 20),
-                child: Text(
-                  AppLocalizations.of(context)!.privacyInfo,
-                  style: const TextStyle(fontSize: 24),
-                  textAlign: TextAlign.center,
-                ),
-              ),
-            ],
-          ),
-          contentPadding: EdgeInsets.all(40),
-          content: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              _appDetailLine(
-                url: privacyPolicyUrl,
-                icon: Icon(Icons.privacy_tip_rounded,
-                    color: colorScheme.onSurface),
-                title: AppLocalizations.of(context)!.privacyPolicy,
-                subtitle:
-                    AppLocalizations.of(context)!.privacyPolicyDescription,
-                colorScheme: colorScheme,
-              ),
-              Padding(padding: const EdgeInsets.only(top: 40)),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Expanded(
-                    child: Text(
-                      AppLocalizations.of(context)!.allowCrashReport,
-                      textAlign: TextAlign.left,
-                    ),
-                  ),
-                  Switch(
-                    value: sendCrashReportStatus,
-                    onChanged: (value) async {
-                      await appConfigProvider.setSendCrashReports(value);
-                    },
-                  ),
-                ],
-              ),
-              const Padding(padding: EdgeInsets.only(top: 10)),
-            ],
-          ),
-          actions: [
-            TextButton(
-              onPressed: () => Navigator.pop(context),
-              child: Text(AppLocalizations.of(context)!.close),
-            ),
-          ],
-        );
-      },
-    );
-  }
-
   Widget _appDetailLine({
     String? url,
     Widget? icon,
@@ -156,6 +71,93 @@ class _PrivacyModalState extends State<PrivacyModal> {
           ),
         ),
       ),
+    );
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final colorScheme = Theme.of(context).colorScheme;
+    final appConfigProvider =
+        Provider.of<AppConfigProvider>(context, listen: true);
+
+    return FutureBuilder<bool>(
+      future: _getSendCrashReports(appConfigProvider),
+      builder: (context, snapshot) {
+        if (snapshot.hasError) {
+          return Dialog(
+            child: Padding(
+              padding: const EdgeInsets.all(16.0),
+              child: Text('Error: ${snapshot.error}'),
+            ),
+          );
+        }
+
+        final sendCrashReportStatus = snapshot.data ?? false;
+
+        return AlertDialog(
+          scrollable: true,
+          title: Column(
+            children: [
+              Icon(
+                Icons.contact_page_rounded,
+                size: 24,
+                color: colorScheme.secondary,
+              ),
+              Padding(
+                padding:
+                    const EdgeInsets.symmetric(vertical: 20, horizontal: 20),
+                child: Text(
+                  AppLocalizations.of(context)!.privacyInfo,
+                  style: const TextStyle(fontSize: 24),
+                  textAlign: TextAlign.center,
+                ),
+              ),
+            ],
+          ),
+          contentPadding: const EdgeInsets.all(40),
+          content: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              _appDetailLine(
+                url: privacyPolicyUrl,
+                icon: Icon(
+                  Icons.privacy_tip_rounded,
+                  color: colorScheme.onSurface,
+                ),
+                title: AppLocalizations.of(context)!.privacyPolicy,
+                subtitle:
+                    AppLocalizations.of(context)!.privacyPolicyDescription,
+                colorScheme: colorScheme,
+              ),
+              const Padding(padding: EdgeInsets.only(top: 40)),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Expanded(
+                    child: Text(
+                      AppLocalizations.of(context)!.allowCrashReport,
+                      textAlign: TextAlign.left,
+                    ),
+                  ),
+                  Switch(
+                    value: sendCrashReportStatus,
+                    onChanged: (value) async {
+                      await appConfigProvider.setSendCrashReports(value);
+                    },
+                  ),
+                ],
+              ),
+              const Padding(padding: EdgeInsets.only(top: 10)),
+            ],
+          ),
+          actions: [
+            TextButton(
+              onPressed: () => Navigator.pop(context),
+              child: Text(AppLocalizations.of(context)!.close),
+            ),
+          ],
+        );
+      },
     );
   }
 }

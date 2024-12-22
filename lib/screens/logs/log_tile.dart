@@ -10,11 +10,12 @@ class LogTile extends StatelessWidget {
   final void Function(Log) showLogDetails;
   final bool? isLogSelected;
 
-  const LogTile(
-      {super.key,
-      required this.log,
-      required this.showLogDetails,
-      this.isLogSelected});
+  const LogTile({
+    super.key,
+    required this.log,
+    required this.showLogDetails,
+    this.isLogSelected,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -33,10 +34,11 @@ class LogTile extends StatelessWidget {
               width: double.maxFinite,
               padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
               decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(28),
-                  color: isLogSelected == true
-                      ? Theme.of(context).colorScheme.primaryContainer
-                      : null),
+                borderRadius: BorderRadius.circular(28),
+                color: isLogSelected == true
+                    ? Theme.of(context).colorScheme.primaryContainer
+                    : null,
+              ),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
@@ -52,7 +54,9 @@ class LogTile extends StatelessWidget {
                             log.url,
                             overflow: TextOverflow.ellipsis,
                             style: const TextStyle(
-                                fontWeight: FontWeight.w400, fontSize: 16),
+                              fontWeight: FontWeight.w400,
+                              fontSize: 16,
+                            ),
                           ),
                         ),
                         const SizedBox(height: 10),
@@ -67,7 +71,7 @@ class LogTile extends StatelessWidget {
                               fontWeight: FontWeight.w400,
                             ),
                           ),
-                        )
+                        ),
                       ],
                     ),
                   ),
@@ -102,7 +106,9 @@ class LogTile extends StatelessWidget {
                           log.url,
                           overflow: TextOverflow.ellipsis,
                           style: const TextStyle(
-                              fontWeight: FontWeight.w400, fontSize: 16),
+                            fontWeight: FontWeight.w400,
+                            fontSize: 16,
+                          ),
                         ),
                       ),
                       const SizedBox(height: 10),
@@ -117,7 +123,7 @@ class LogTile extends StatelessWidget {
                             fontWeight: FontWeight.w400,
                           ),
                         ),
-                      )
+                      ),
                     ],
                   ),
                 ),

@@ -27,27 +27,30 @@ class NumericPad extends StatelessWidget {
 
     Widget number(String? value) {
       return SizedBox(
-          width: 40,
-          height: 40,
-          child: value != null
-              ? Center(
-                  child: Text(
-                    value,
-                    style: TextStyle(
-                        fontSize: 30,
-                        color: Theme.of(context).colorScheme.primary,
-                        fontWeight: FontWeight.bold),
+        width: 40,
+        height: 40,
+        child: value != null
+            ? Center(
+                child: Text(
+                  value,
+                  style: TextStyle(
+                    fontSize: 30,
+                    color: Theme.of(context).colorScheme.primary,
+                    fontWeight: FontWeight.bold,
                   ),
-                )
-              : Center(
-                  child: Container(
-                    width: 20,
-                    height: 20,
-                    decoration: BoxDecoration(
-                        color: Theme.of(context).colorScheme.primary,
-                        borderRadius: BorderRadius.circular(30)),
+                ),
+              )
+            : Center(
+                child: Container(
+                  width: 20,
+                  height: 20,
+                  decoration: BoxDecoration(
+                    color: Theme.of(context).colorScheme.primary,
+                    borderRadius: BorderRadius.circular(30),
                   ),
-                ));
+                ),
+              ),
+      );
     }
 
     Widget gridItem({required int number}) {
@@ -62,21 +65,23 @@ class NumericPad extends StatelessWidget {
                     : width * 0.05
                 : 10),
             child: ElevatedButton(
-                onPressed: code.length < 4
-                    ? () {
-                        if (appConfigProvider.validVibrator) {
-                          Vibration.vibrate(duration: 15, amplitude: 128);
-                        }
-                        String newCode = "$code$number";
-                        onInput(newCode);
+              onPressed: code.length < 4
+                  ? () {
+                      if (appConfigProvider.validVibrator) {
+                        Vibration.vibrate(duration: 15, amplitude: 128);
                       }
-                    : () => {},
-                style: ButtonStyle(
-                    shadowColor: WidgetStateProperty.all(Colors.transparent)),
-                child: Text(
-                  number.toString(),
-                  style: TextStyle(fontSize: height > 700 ? 40 : 25),
-                )),
+                      String newCode = '$code$number';
+                      onInput(newCode);
+                    }
+                  : () => {},
+              style: ButtonStyle(
+                shadowColor: WidgetStateProperty.all(Colors.transparent),
+              ),
+              child: Text(
+                number.toString(),
+                style: TextStyle(fontSize: height > 700 ? 40 : 25),
+              ),
+            ),
           ),
         ),
       );
@@ -94,16 +99,18 @@ class NumericPad extends StatelessWidget {
                     : width * 0.05
                 : 10),
             child: ElevatedButton(
-                onPressed: code.isNotEmpty
-                    ? () {
-                        Vibration.vibrate(duration: 10);
-                        String newCode = code.substring(0, code.length - 1);
-                        onInput(newCode);
-                      }
-                    : () {},
-                style: ButtonStyle(
-                    shadowColor: WidgetStateProperty.all(Colors.transparent)),
-                child: Icon(Icons.backspace, size: height > 700 ? 40 : 25)),
+              onPressed: code.isNotEmpty
+                  ? () {
+                      Vibration.vibrate(duration: 10);
+                      String newCode = code.substring(0, code.length - 1);
+                      onInput(newCode);
+                    }
+                  : () {},
+              style: ButtonStyle(
+                shadowColor: WidgetStateProperty.all(Colors.transparent),
+              ),
+              child: Icon(Icons.backspace, size: height > 700 ? 40 : 25),
+            ),
           ),
         ),
       );
@@ -115,7 +122,8 @@ class NumericPad extends StatelessWidget {
         children: [
           Padding(
             padding: EdgeInsets.symmetric(
-                vertical: height > 700 ? height * 0.05 : height * 0.02),
+              vertical: height > 700 ? height * 0.05 : height * 0.02,
+            ),
             child: ShakeAnimation(
               key: shakeKey,
               child: Row(
@@ -145,7 +153,7 @@ class NumericPad extends StatelessWidget {
                       children: [
                         gridItem(number: 1),
                         gridItem(number: 2),
-                        gridItem(number: 3)
+                        gridItem(number: 3),
                       ],
                     ),
                   ),
@@ -154,7 +162,7 @@ class NumericPad extends StatelessWidget {
                       children: [
                         gridItem(number: 4),
                         gridItem(number: 5),
-                        gridItem(number: 6)
+                        gridItem(number: 6),
                       ],
                     ),
                   ),
@@ -163,7 +171,7 @@ class NumericPad extends StatelessWidget {
                       children: [
                         gridItem(number: 7),
                         gridItem(number: 8),
-                        gridItem(number: 9)
+                        gridItem(number: 9),
                       ],
                     ),
                   ),
@@ -172,14 +180,14 @@ class NumericPad extends StatelessWidget {
                       children: [
                         const Expanded(flex: 1, child: SizedBox()),
                         gridItem(number: 0),
-                        backButton()
+                        backButton(),
                       ],
                     ),
                   ),
                 ],
               ),
             ),
-          )
+          ),
         ],
       ),
     );

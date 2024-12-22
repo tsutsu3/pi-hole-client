@@ -64,7 +64,7 @@ class StartInfoModal extends StatelessWidget {
                     ),
                   ],
                 ),
-                contentPadding: EdgeInsets.only(top: 60),
+                contentPadding: const EdgeInsets.only(top: 60),
                 content: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
@@ -76,7 +76,9 @@ class StartInfoModal extends StatelessWidget {
                           AppLocalizations.of(context)!.requiredVersions,
                           textAlign: TextAlign.left,
                           style: const TextStyle(
-                              fontWeight: FontWeight.w500, fontSize: 16),
+                            fontWeight: FontWeight.w500,
+                            fontSize: 16,
+                          ),
                         ),
                         Container(
                           width: double.maxFinite,
@@ -85,12 +87,14 @@ class StartInfoModal extends StatelessWidget {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Text(
-                                "Pi-hole: v5.12+",
+                                'Pi-hole: v5.12+',
                                 textAlign: TextAlign.left,
                               ),
                               SizedBox(height: 5),
-                              Text("Web interface: v5.14.2+",
-                                  textAlign: TextAlign.left),
+                              Text(
+                                'Web interface: v5.14.2+',
+                                textAlign: TextAlign.left,
+                              ),
                             ],
                           ),
                         ),
@@ -110,7 +114,9 @@ class StartInfoModal extends StatelessWidget {
                           AppLocalizations.of(context)!.helpUsImprove,
                           textAlign: TextAlign.left,
                           style: const TextStyle(
-                              fontWeight: FontWeight.w500, fontSize: 16),
+                            fontWeight: FontWeight.w500,
+                            fontSize: 16,
+                          ),
                         ),
                         const Padding(padding: EdgeInsets.only(top: 10)),
                         Text(
@@ -126,7 +132,8 @@ class StartInfoModal extends StatelessWidget {
                                 AppLocalizations.of(context)!.allowCrashReport,
                                 textAlign: TextAlign.left,
                                 style: const TextStyle(
-                                    fontWeight: FontWeight.w500),
+                                  fontWeight: FontWeight.w500,
+                                ),
                               ),
                             ),
                             Switch(
@@ -150,7 +157,7 @@ class StartInfoModal extends StatelessWidget {
                                     .agreePrivacyPolicy,
                                 style: const TextStyle(fontSize: 14),
                               ),
-                              TextSpan(text: ' '),
+                              const TextSpan(text: ' '),
                               TextSpan(
                                 text:
                                     AppLocalizations.of(context)!.privacyPolicy,
@@ -171,7 +178,7 @@ class StartInfoModal extends StatelessWidget {
                     const Padding(padding: EdgeInsets.only(top: 20)),
                   ],
                 ),
-                actionsPadding: EdgeInsets.only(right: 0, bottom: 20),
+                actionsPadding: const EdgeInsets.only(right: 0, bottom: 20),
                 actions: [
                   TextButton(
                     onPressed: () async {

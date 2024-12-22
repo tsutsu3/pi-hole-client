@@ -1,3 +1,5 @@
+// ignore_for_file: prefer_single_quotes
+
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:pi_hole_client/providers/filters_provider.dart';
@@ -15,8 +17,11 @@ class LogDetailsScreen extends StatelessWidget {
   final Log log;
   final void Function(String, Log) whiteBlackList;
 
-  const LogDetailsScreen(
-      {super.key, required this.log, required this.whiteBlackList});
+  const LogDetailsScreen({
+    super.key,
+    required this.log,
+    required this.whiteBlackList,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -38,12 +43,14 @@ class LogDetailsScreen extends StatelessWidget {
                 Text(
                   label,
                   style: const TextStyle(
-                      fontWeight: FontWeight.w400, fontSize: 16),
+                    fontWeight: FontWeight.w400,
+                    fontSize: 16,
+                  ),
                 ),
                 const SizedBox(height: 5),
-                value
+                value,
               ],
-            )
+            ),
           ],
         ),
       );
@@ -77,12 +84,12 @@ class LogDetailsScreen extends StatelessWidget {
         title: Text(AppLocalizations.of(context)!.logDetails),
         actions: [
           IconButton(
-            onPressed: () => openUrl("$searchDomainBaseUrlGoogle${log.url}"),
+            onPressed: () => openUrl('$searchDomainBaseUrlGoogle${log.url}'),
             icon: const Icon(Icons.travel_explore_rounded),
             tooltip: AppLocalizations.of(context)!.searchDomainInternet,
           ),
           blackWhiteListButton(),
-          const SizedBox(width: 10)
+          const SizedBox(width: 10),
         ],
       ),
       body: ListView(
@@ -108,8 +115,11 @@ class LogDetailsScreen extends StatelessWidget {
             description: formatTimestamp(log.dateTime, 'HH:mm:ss'),
           ),
           if (log.status != null)
-            item(Icons.shield_outlined, AppLocalizations.of(context)!.status,
-                LogStatus(status: log.status!, showIcon: false)),
+            item(
+              Icons.shield_outlined,
+              AppLocalizations.of(context)!.status,
+              LogStatus(status: log.status!, showIcon: false),
+            ),
           if (log.status == '2' && log.answeredBy != null)
             CustomListTile(
               leadingIcon: Icons.domain,
@@ -120,7 +130,7 @@ class LogDetailsScreen extends StatelessWidget {
             leadingIcon: Icons.system_update_alt_outlined,
             label: AppLocalizations.of(context)!.reply,
             description:
-                "${log.replyType} (${(log.replyTime / BigInt.from(10))} ms)",
+                '${log.replyType} (${(log.replyTime / BigInt.from(10))} ms)',
           ),
         ],
       ),

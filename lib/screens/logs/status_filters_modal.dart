@@ -11,12 +11,13 @@ class StatusFiltersModal extends StatefulWidget {
   final List<int> statusSelected;
   final bool window;
 
-  const StatusFiltersModal(
-      {super.key,
-      required this.statusBarHeight,
-      required this.bottomNavBarHeight,
-      required this.statusSelected,
-      required this.window});
+  const StatusFiltersModal({
+    super.key,
+    required this.statusBarHeight,
+    required this.bottomNavBarHeight,
+    required this.statusSelected,
+    required this.window,
+  });
 
   @override
   State<StatusFiltersModal> createState() => _StatusFiltersModalState();
@@ -24,6 +25,14 @@ class StatusFiltersModal extends StatefulWidget {
 
 class _StatusFiltersModalState extends State<StatusFiltersModal> {
   late List<int> _statusSelected;
+
+  @override
+  void initState() {
+    setState(() {
+      _statusSelected = widget.statusSelected;
+    });
+    super.initState();
+  }
 
   void _updateStatusSelected(int option) {
     if (_statusSelected.contains(option) == true) {
@@ -36,14 +45,6 @@ class _StatusFiltersModalState extends State<StatusFiltersModal> {
         _statusSelected.add(option);
       });
     }
-  }
-
-  @override
-  void initState() {
-    setState(() {
-      _statusSelected = widget.statusSelected;
-    });
-    super.initState();
   }
 
   @override
@@ -71,10 +72,12 @@ class _StatusFiltersModalState extends State<StatusFiltersModal> {
               style: const TextStyle(fontWeight: FontWeight.w400),
             ),
             trailing: Checkbox(
-                shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(5)),
-                value: _statusSelected.contains(value),
-                onChanged: (_) => _updateStatusSelected(value)),
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(5),
+              ),
+              value: _statusSelected.contains(value),
+              onChanged: (_) => _updateStatusSelected(value),
+            ),
           ),
         ),
       );
@@ -110,7 +113,8 @@ class _StatusFiltersModalState extends State<StatusFiltersModal> {
         children: [
           ConstrainedBox(
             constraints: BoxConstraints(
-                maxHeight: MediaQuery.of(context).size.height * 0.8),
+              maxHeight: MediaQuery.of(context).size.height * 0.8,
+            ),
             child: ListView(
               children: [
                 Padding(
@@ -143,11 +147,13 @@ class _StatusFiltersModalState extends State<StatusFiltersModal> {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 TextButton(
-                    onPressed: checkUncheckAll,
-                    child: Text(
-                        _statusSelected.length == serversProvider.numShown
-                            ? AppLocalizations.of(context)!.uncheckAll
-                            : AppLocalizations.of(context)!.checkAll)),
+                  onPressed: checkUncheckAll,
+                  child: Text(
+                    _statusSelected.length == serversProvider.numShown
+                        ? AppLocalizations.of(context)!.uncheckAll
+                        : AppLocalizations.of(context)!.checkAll,
+                  ),
+                ),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.end,
                   children: [
@@ -164,15 +170,18 @@ class _StatusFiltersModalState extends State<StatusFiltersModal> {
                             }
                           : null,
                       style: ButtonStyle(
-                          foregroundColor: WidgetStateProperty.all(
-                              _statusSelected.isNotEmpty
-                                  ? Theme.of(context).colorScheme.primary
-                                  : Colors.grey),
-                          overlayColor: WidgetStateProperty.all(
-                              Theme.of(context)
-                                  .colorScheme
-                                  .primary
-                                  .withOpacity(0.1))),
+                        foregroundColor: WidgetStateProperty.all(
+                          _statusSelected.isNotEmpty
+                              ? Theme.of(context).colorScheme.primary
+                              : Colors.grey,
+                        ),
+                        overlayColor: WidgetStateProperty.all(
+                          Theme.of(context)
+                              .colorScheme
+                              .primary
+                              .withOpacity(0.1),
+                        ),
+                      ),
                       child: Text(AppLocalizations.of(context)!.apply),
                     ),
                   ],
@@ -187,19 +196,24 @@ class _StatusFiltersModalState extends State<StatusFiltersModal> {
     if (widget.window == true) {
       return Dialog(
         child: ConstrainedBox(
-            constraints: const BoxConstraints(maxWidth: 500), child: content()),
+          constraints: const BoxConstraints(maxWidth: 500),
+          child: content(),
+        ),
       );
     } else {
       return Container(
-          decoration: BoxDecoration(
-            borderRadius: const BorderRadius.only(
-                topLeft: Radius.circular(28), topRight: Radius.circular(28)),
-            color: Theme.of(context).dialogBackgroundColor,
+        decoration: BoxDecoration(
+          borderRadius: const BorderRadius.only(
+            topLeft: Radius.circular(28),
+            topRight: Radius.circular(28),
           ),
-          child: SafeArea(
-            bottom: true,
-            child: content(),
-          ));
+          color: Theme.of(context).dialogBackgroundColor,
+        ),
+        child: SafeArea(
+          bottom: true,
+          child: content(),
+        ),
+      );
     }
   }
 }

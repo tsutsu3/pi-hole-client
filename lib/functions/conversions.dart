@@ -21,19 +21,19 @@ int? convertFromBoolToInt(bool value) {
 }
 
 String formatPercentage(double value, String locale) {
-  final NumberFormat f = NumberFormat("###.##", locale);
+  final NumberFormat f = NumberFormat('###.##', locale);
   return f.format(value);
 }
 
 String intFormat(int value, String locale) {
-  final f = NumberFormat("#,###", locale);
+  final f = NumberFormat('#,###', locale);
   return f.format(value);
 }
 
 List<Map<String, dynamic>> convertFromMapToList(Map<String, int> values) {
   List<Map<String, dynamic>> items = [];
   values.forEach((key, value) {
-    items.add({"label": key, "value": value});
+    items.add({'label': key, 'value': value});
   });
   return items;
 }

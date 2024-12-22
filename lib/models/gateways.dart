@@ -160,14 +160,17 @@ class DomainListResult {
 
   factory DomainListResult.fromV6(v6.Domains domains) {
     final types = {
-      "allow_exact": 0,
+      'allow_exact': 0,
       'deny_exact': 1,
       'allow_regex': 2,
       'deny_regex': 3,
     };
 
     List<Domain> v6DomainsToDomainList(
-        v6.Domains domains, String type, String kind) {
+      v6.Domains domains,
+      String type,
+      String kind,
+    ) {
       return domains.domains
           .where((domain) => domain.type == type && domain.kind == kind)
           .toList()

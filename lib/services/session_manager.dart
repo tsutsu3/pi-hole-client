@@ -5,17 +5,17 @@ class SessionManager {
   final String _address;
   String? _sid;
 
-  SessionManager(this._storage, this._address);
+  String? get sid => _sid;
 
-  get sid => _sid;
-
-  get password async {
+  Future<String?>? get password async {
     try {
       return await _storage.getValue('${_address}_password');
     } catch (e) {
       return null;
     }
   }
+
+  SessionManager(this._storage, this._address);
 
   Future<bool> save(String sid) async {
     try {

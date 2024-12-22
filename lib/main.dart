@@ -69,8 +69,7 @@ void main() async {
   }
 
   configProvider.saveFromDb(dbRepository.appConfig);
-  await serversProvider.saveFromDb(dbRepository.servers,
-      dbRepository.appConfig.passCode != null ? false : true);
+  await serversProvider.saveFromDb(dbRepository.servers);
 
   try {
     if (Platform.isAndroid || Platform.isIOS) {
@@ -117,35 +116,35 @@ void main() async {
 
   Future<void> initializeSentry() async {
     if (configProvider.sendCrashReports == false) {
-      logger.d("Send Crash Reports: OFF");
+      logger.d('Send Crash Reports: OFF');
       await Sentry.close();
       return;
     }
 
     if ((kReleaseMode &&
             (dotenv.env['SENTRY_DSN'] != null &&
-                dotenv.env['SENTRY_DSN'] != "")) ||
-        (dotenv.env['ENABLE_SENTRY'] == "true" &&
+                dotenv.env['SENTRY_DSN'] != '')) ||
+        (dotenv.env['ENABLE_SENTRY'] == 'true' &&
             (dotenv.env['SENTRY_DSN'] != null &&
-                dotenv.env['SENTRY_DSN'] != ""))) {
-      logger.d("Send Crash Reports: ON");
+                dotenv.env['SENTRY_DSN'] != ''))) {
+      logger.d('Send Crash Reports: ON');
       SentryFlutter.init(
         (options) {
           options.dsn = dotenv.env['SENTRY_DSN'];
           options.sendDefaultPii = false;
           options.attachScreenshot =
-              dotenv.env['ENABLE_SENTRY_SCREENSHOTS'] == "true";
+              dotenv.env['ENABLE_SENTRY_SCREENSHOTS'] == 'true';
           options.beforeSend = (event, hint) {
             if (event.throwable is HttpException) {
               return null;
             }
 
-            if (event.message?.formatted.contains("Unexpected character") ??
+            if (event.message?.formatted.contains('Unexpected character') ??
                 false ||
                     (event.throwable != null &&
                         event.throwable!
                             .toString()
-                            .contains("Unexpected character"))) {
+                            .contains('Unexpected character'))) {
               return null; // Exclude this event
             }
 
@@ -227,44 +226,45 @@ class _PiHoleClientState extends State<PiHoleClient> {
     return DynamicColorBuilder(
       builder: ((lightDynamic, darkDynamic) {
         return MaterialApp(
-            navigatorObservers: [
-              SentryNavigatorObserver(),
-            ],
-            title: 'Pi-hole Client',
-            theme: appConfigProvider.androidDeviceInfo != null &&
-                    appConfigProvider.androidDeviceInfo!.version.sdkInt >= 31
-                ? lightTheme(lightDynamic)
-                : lightThemeOldVersions(),
-            darkTheme: appConfigProvider.androidDeviceInfo != null &&
-                    appConfigProvider.androidDeviceInfo!.version.sdkInt >= 31
-                ? darkTheme(darkDynamic)
-                : darkThemeOldVersions(),
-            themeMode: appConfigProvider.selectedTheme,
-            debugShowCheckedModeBanner: false,
-            localizationsDelegates: const [
-              GlobalMaterialLocalizations.delegate,
-              GlobalWidgetsLocalizations.delegate,
-              GlobalCupertinoLocalizations.delegate,
-              AppLocalizations.delegate,
-            ],
-            locale: Locale(appConfigProvider.selectedLanguage),
-            supportedLocales: const [
-              Locale('en', ''),
-              Locale('es', ''),
-              Locale('de', ''),
-              Locale('pl', ''),
-              Locale('ja', ''),
-            ],
-            scaffoldMessengerKey: scaffoldMessengerKey,
-            builder: (context, child) {
-              return AppLock(
-                builder: (_, __) => child!,
-                lockScreenBuilder: (context) => const Unlock(),
-                enabled: appConfigProvider.passCode != null ? true : false,
-                backgroundLockLatency: const Duration(seconds: 0),
-              );
-            },
-            home: const Base());
+          navigatorObservers: [
+            SentryNavigatorObserver(),
+          ],
+          title: 'Pi-hole Client',
+          theme: appConfigProvider.androidDeviceInfo != null &&
+                  appConfigProvider.androidDeviceInfo!.version.sdkInt >= 31
+              ? lightTheme(lightDynamic)
+              : lightThemeOldVersions(),
+          darkTheme: appConfigProvider.androidDeviceInfo != null &&
+                  appConfigProvider.androidDeviceInfo!.version.sdkInt >= 31
+              ? darkTheme(darkDynamic)
+              : darkThemeOldVersions(),
+          themeMode: appConfigProvider.selectedTheme,
+          debugShowCheckedModeBanner: false,
+          localizationsDelegates: const [
+            GlobalMaterialLocalizations.delegate,
+            GlobalWidgetsLocalizations.delegate,
+            GlobalCupertinoLocalizations.delegate,
+            AppLocalizations.delegate,
+          ],
+          locale: Locale(appConfigProvider.selectedLanguage),
+          supportedLocales: const [
+            Locale('en', ''),
+            Locale('es', ''),
+            Locale('de', ''),
+            Locale('pl', ''),
+            Locale('ja', ''),
+          ],
+          scaffoldMessengerKey: scaffoldMessengerKey,
+          builder: (context, child) {
+            return AppLock(
+              builder: (_, __) => child!,
+              lockScreenBuilder: (context) => const Unlock(),
+              enabled: appConfigProvider.passCode != null ? true : false,
+              backgroundLockLatency: const Duration(seconds: 0),
+            );
+          },
+          home: const Base(),
+        );
       }),
     );
   }

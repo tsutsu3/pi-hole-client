@@ -55,7 +55,9 @@ abstract interface class ApiGateway {
   /// ### Returns
   /// - A [SetWhiteBlacklistResponse] object containing the result of the set white/blacklist query.
   Future<SetWhiteBlacklistResponse> setWhiteBlacklist(
-      String domain, String list);
+    String domain,
+    String list,
+  );
 
   /// Fetches domain lists (whitelist, blacklist, and regex-based lists) from a Pi-hole server.
   ///
@@ -80,5 +82,6 @@ abstract interface class ApiGateway {
   /// ### Returns
   /// - An [AddDomainToListResponse] object containing the result of the add domain to list query.
   Future<AddDomainToListResponse> addDomainToList(
-      Map<String, dynamic> domainData);
+    Map<String, dynamic> domainData,
+  );
 }

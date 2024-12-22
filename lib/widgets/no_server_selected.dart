@@ -15,38 +15,40 @@ class NoServerSelected extends StatelessWidget {
 
     void selectServer() {
       Future.delayed(
-          const Duration(seconds: 0),
-          () => {
-                if (width > 900)
-                  {
-                    if (context.mounted)
-                      {
-                        showDialog(
-                            context: context,
-                            builder: (context) => AddServerFullscreen(
-                                window: true,
-                                title: AppLocalizations.of(context)!
-                                    .createConnection),
-                            barrierDismissible: false)
-                      }
-                  }
-                else
-                  {
-                    if (context.mounted)
-                      {
-                        Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                fullscreenDialog: true,
-                                builder: (BuildContext context) =>
-                                    AddServerFullscreen(
-                                      window: false,
-                                      title: AppLocalizations.of(context)!
-                                          .createConnection,
-                                    )))
-                      }
-                  }
-              });
+        const Duration(seconds: 0),
+        () => {
+          if (width > 900)
+            {
+              if (context.mounted)
+                {
+                  showDialog(
+                    context: context,
+                    builder: (context) => AddServerFullscreen(
+                      window: true,
+                      title: AppLocalizations.of(context)!.createConnection,
+                    ),
+                    barrierDismissible: false,
+                  ),
+                },
+            }
+          else
+            {
+              if (context.mounted)
+                {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      fullscreenDialog: true,
+                      builder: (BuildContext context) => AddServerFullscreen(
+                        window: false,
+                        title: AppLocalizations.of(context)!.createConnection,
+                      ),
+                    ),
+                  ),
+                },
+            },
+        },
+      );
     }
 
     return Column(
@@ -67,14 +69,15 @@ class NoServerSelected extends StatelessWidget {
                 Text(
                   AppLocalizations.of(context)!.noServerSelected,
                   style: TextStyle(
-                      color: Theme.of(context).colorScheme.onSurfaceVariant,
-                      fontSize: 24),
+                    color: Theme.of(context).colorScheme.onSurfaceVariant,
+                    fontSize: 24,
+                  ),
                 ),
                 OutlinedButton.icon(
                   onPressed: selectServer,
                   label: Text(AppLocalizations.of(context)!.selectConnection),
                   icon: const Icon(Icons.storage_rounded),
-                )
+                ),
               ],
             ),
           ),

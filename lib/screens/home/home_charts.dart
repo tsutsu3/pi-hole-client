@@ -69,9 +69,10 @@ class HomeCharts extends StatelessWidget {
               Text(
                 AppLocalizations.of(context)!.loadingCharts,
                 style: TextStyle(
-                    color: Theme.of(context).colorScheme.onSurfaceVariant,
-                    fontSize: 22),
-              )
+                  color: Theme.of(context).colorScheme.onSurfaceVariant,
+                  fontSize: 22,
+                ),
+              ),
             ],
           ),
         );
@@ -84,21 +85,23 @@ class HomeCharts extends StatelessWidget {
               child: checkExistsData(statusProvider
                           .getOvertimeDataJson!['domains_over_time']) &&
                       checkExistsData(
-                          statusProvider.getOvertimeDataJson!['ads_over_time'])
+                        statusProvider.getOvertimeDataJson!['ads_over_time'],
+                      )
                   ? Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         SectionLabel(
-                            label:
-                                AppLocalizations.of(context)!.totalQueries24),
+                          label: AppLocalizations.of(context)!.totalQueries24,
+                        ),
                         Container(
-                            width: double.maxFinite,
-                            height: 350,
-                            padding: const EdgeInsets.symmetric(horizontal: 16),
-                            child: QueriesLastHours(
-                              data: statusProvider.getOvertimeDataJson!,
-                              reducedData: appConfigProvider.reducedDataCharts,
-                            )),
+                          width: double.maxFinite,
+                          height: 350,
+                          padding: const EdgeInsets.symmetric(horizontal: 16),
+                          child: QueriesLastHours(
+                            data: statusProvider.getOvertimeDataJson!,
+                            reducedData: appConfigProvider.reducedDataCharts,
+                          ),
+                        ),
                         Row(
                           mainAxisAlignment: MainAxisAlignment.spaceAround,
                           children: [
@@ -108,11 +111,12 @@ class HomeCharts extends StatelessWidget {
                                   width: 10,
                                   height: 10,
                                   decoration: BoxDecoration(
-                                      borderRadius: BorderRadius.circular(10),
-                                      color: Colors.blue),
+                                    borderRadius: BorderRadius.circular(10),
+                                    color: Colors.blue,
+                                  ),
                                 ),
                                 const SizedBox(width: 10),
-                                Text(AppLocalizations.of(context)!.blocked)
+                                Text(AppLocalizations.of(context)!.blocked),
                               ],
                             ),
                             Row(
@@ -121,15 +125,16 @@ class HomeCharts extends StatelessWidget {
                                   width: 10,
                                   height: 10,
                                   decoration: BoxDecoration(
-                                      borderRadius: BorderRadius.circular(10),
-                                      color: Colors.green),
+                                    borderRadius: BorderRadius.circular(10),
+                                    color: Colors.green,
+                                  ),
                                 ),
                                 const SizedBox(width: 10),
-                                Text(AppLocalizations.of(context)!.notBlocked)
+                                Text(AppLocalizations.of(context)!.notBlocked),
                               ],
                             ),
                           ],
-                        )
+                        ),
                       ],
                     )
                   : NoDataChart(
@@ -149,8 +154,9 @@ class HomeCharts extends StatelessWidget {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             SectionLabel(
-                                label: AppLocalizations.of(context)!
-                                    .clientActivity24),
+                              label: AppLocalizations.of(context)!
+                                  .clientActivity24,
+                            ),
                             Container(
                               width: double.maxFinite,
                               height: 350,
@@ -175,54 +181,60 @@ class HomeCharts extends StatelessWidget {
                             children: statusProvider.getOvertimeData!.clients
                                 .asMap()
                                 .entries
-                                .map((entry) => FractionallySizedBox(
-                                      widthFactor: width > 1000 &&
-                                              statusProvider.getOvertimeData!
-                                                      .clients.length >
-                                                  3
-                                          ? 0.33
-                                          : width > 350
-                                              ? 0.5
-                                              : 1,
-                                      child: Row(
-                                        mainAxisSize: MainAxisSize.max,
-                                        children: [
-                                          Container(
-                                            width: 10,
-                                            height: 10,
-                                            margin: const EdgeInsets.symmetric(
-                                                horizontal: 10, vertical: 10),
-                                            decoration: BoxDecoration(
-                                                borderRadius:
-                                                    BorderRadius.circular(10),
-                                                color: getColor(
-                                                    entry.value, entry.key)),
+                                .map(
+                                  (entry) => FractionallySizedBox(
+                                    widthFactor: width > 1000 &&
+                                            statusProvider.getOvertimeData!
+                                                    .clients.length >
+                                                3
+                                        ? 0.33
+                                        : width > 350
+                                            ? 0.5
+                                            : 1,
+                                    child: Row(
+                                      mainAxisSize: MainAxisSize.max,
+                                      children: [
+                                        Container(
+                                          width: 10,
+                                          height: 10,
+                                          margin: const EdgeInsets.symmetric(
+                                            horizontal: 10,
+                                            vertical: 10,
                                           ),
-                                          const SizedBox(width: 10),
-                                          Expanded(
-                                            child: Column(
-                                              crossAxisAlignment:
-                                                  CrossAxisAlignment.start,
-                                              children: [
-                                                if (entry.value.name != '') ...[
-                                                  Text(
-                                                    entry.value.name,
-                                                    overflow:
-                                                        TextOverflow.ellipsis,
-                                                  ),
-                                                  const SizedBox(height: 2),
-                                                ],
+                                          decoration: BoxDecoration(
+                                            borderRadius:
+                                                BorderRadius.circular(10),
+                                            color: getColor(
+                                              entry.value,
+                                              entry.key,
+                                            ),
+                                          ),
+                                        ),
+                                        const SizedBox(width: 10),
+                                        Expanded(
+                                          child: Column(
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.start,
+                                            children: [
+                                              if (entry.value.name != '') ...[
                                                 Text(
-                                                  entry.value.ip,
+                                                  entry.value.name,
                                                   overflow:
                                                       TextOverflow.ellipsis,
                                                 ),
+                                                const SizedBox(height: 2),
                                               ],
-                                            ),
-                                          )
-                                        ],
-                                      ),
-                                    ))
+                                              Text(
+                                                entry.value.ip,
+                                                overflow: TextOverflow.ellipsis,
+                                              ),
+                                            ],
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                )
                                 .toList(),
                           ),
                         ),
@@ -231,7 +243,7 @@ class HomeCharts extends StatelessWidget {
                   : NoDataChart(
                       topLabel: AppLocalizations.of(context)!.clientActivity24,
                     ),
-            )
+            ),
           ],
         );
 
@@ -252,9 +264,10 @@ class HomeCharts extends StatelessWidget {
               Text(
                 AppLocalizations.of(context)!.chartsNotLoaded,
                 style: TextStyle(
-                    color: Theme.of(context).colorScheme.onSurfaceVariant,
-                    fontSize: 22),
-              )
+                  color: Theme.of(context).colorScheme.onSurfaceVariant,
+                  fontSize: 22,
+                ),
+              ),
             ],
           ),
         );

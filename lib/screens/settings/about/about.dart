@@ -7,6 +7,9 @@
 // - evelation level = 0.0
 // - Removed `powered by flutterR`
 
+// ignore_for_file: avoid-unused-parameters, member-ordering, prefer-trailing-comma
+// ignore_for_file: no-object-declaration
+
 import 'dart:io';
 
 import 'package:flutter/foundation.dart';

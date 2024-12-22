@@ -21,12 +21,13 @@ class ServersTileItem extends StatefulWidget {
   final void Function(int) onChange;
   final double breakingWidth;
 
-  const ServersTileItem(
-      {super.key,
-      required this.server,
-      required this.index,
-      required this.onChange,
-      required this.breakingWidth});
+  const ServersTileItem({
+    super.key,
+    required this.server,
+    required this.index,
+    required this.onChange,
+    required this.breakingWidth,
+  });
 
   @override
   State<ServersTileItem> createState() => _ServersTileItemState();
@@ -45,62 +46,69 @@ class _ServersTileItemState extends State<ServersTileItem>
     /// Delete
     void showDeleteModal(Server server) async {
       await Future.delayed(
-          const Duration(seconds: 0),
-          () => {
-                showDialog(
-                    context: context,
-                    builder: (context) => DeleteModal(
-                          serverToDelete: server,
-                        ),
-                    barrierDismissible: false)
-              });
+        const Duration(seconds: 0),
+        () => {
+          showDialog(
+            context: context,
+            builder: (context) => DeleteModal(
+              serverToDelete: server,
+            ),
+            barrierDismissible: false,
+          ),
+        },
+      );
     }
 
     /// Edit
     void openAddServerBottomSheet({Server? server}) async {
       await Future.delayed(
-          const Duration(seconds: 0),
-          (() => {
-                if (width > 700)
-                  {
-                    showDialog(
-                      context: context,
-                      barrierDismissible: false,
-                      builder: (context) => AddServerFullscreen(
-                          server: server,
-                          window: true,
-                          title: AppLocalizations.of(context)!.editConnection),
-                    )
-                  }
-                else
-                  {
-                    Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            fullscreenDialog: true,
-                            builder: (BuildContext context) =>
-                                AddServerFullscreen(
-                                    server: server,
-                                    window: false,
-                                    title: AppLocalizations.of(context)!
-                                        .editConnection)))
-                  }
-              }));
+        const Duration(seconds: 0),
+        (() => {
+              if (width > 700)
+                {
+                  showDialog(
+                    context: context,
+                    barrierDismissible: false,
+                    builder: (context) => AddServerFullscreen(
+                      server: server,
+                      window: true,
+                      title: AppLocalizations.of(context)!.editConnection,
+                    ),
+                  ),
+                }
+              else
+                {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      fullscreenDialog: true,
+                      builder: (BuildContext context) => AddServerFullscreen(
+                        server: server,
+                        window: false,
+                        title: AppLocalizations.of(context)!.editConnection,
+                      ),
+                    ),
+                  ),
+                },
+            }),
+      );
     }
 
     /// Connect to the server button
     void connectToServer(Server server) async {
       Future connectSuccess(result) async {
         serversProvider.setselectedServer(
-            server: Server(
-                address: server.address,
-                alias: server.alias,
-                token: server.token!,
-                defaultServer: server.defaultServer,
-                apiVersion: server.apiVersion,
-                enabled: result.status == 'enabled' ? true : false,
-                sm: server.sm),
-            toHomeTab: true);
+          server: Server(
+            address: server.address,
+            alias: server.alias,
+            token: server.token!,
+            defaultServer: server.defaultServer,
+            apiVersion: server.apiVersion,
+            enabled: result.status == 'enabled' ? true : false,
+            sm: server.sm,
+          ),
+          toHomeTab: true,
+        );
         final apiGateway = serversProvider.selectedApiGateway;
         final statusResult = await apiGateway?.realtimeStatus();
         if (statusResult?.result == APiResponseType.success) {
@@ -127,9 +135,10 @@ class _ServersTileItemState extends State<ServersTileItem>
         await connectSuccess(result);
       } else if (mounted) {
         showSnackBar(
-            appConfigProvider: appConfigProvider,
-            label: AppLocalizations.of(context)!.cannotConnect,
-            color: Colors.red);
+          appConfigProvider: appConfigProvider,
+          label: AppLocalizations.of(context)!.cannotConnect,
+          color: Colors.red,
+        );
       }
       process.close();
     }
@@ -139,14 +148,16 @@ class _ServersTileItemState extends State<ServersTileItem>
       final result = await serversProvider.setDefaultServer(server);
       if (result == true) {
         showSnackBar(
-            appConfigProvider: appConfigProvider,
-            label: AppLocalizations.of(context)!.connectionDefaultSuccessfully,
-            color: Colors.green);
+          appConfigProvider: appConfigProvider,
+          label: AppLocalizations.of(context)!.connectionDefaultSuccessfully,
+          color: Colors.green,
+        );
       } else {
         showSnackBar(
-            appConfigProvider: appConfigProvider,
-            label: AppLocalizations.of(context)!.connectionDefaultFailed,
-            color: Colors.red);
+          appConfigProvider: appConfigProvider,
+          label: AppLocalizations.of(context)!.connectionDefaultFailed,
+          color: Colors.red,
+        );
       }
     }
 
@@ -173,8 +184,9 @@ class _ServersTileItemState extends State<ServersTileItem>
                   Container(
                     padding: const EdgeInsets.all(1),
                     decoration: BoxDecoration(
-                        color: Theme.of(context).colorScheme.primaryContainer,
-                        borderRadius: BorderRadius.circular(20)),
+                      color: Theme.of(context).colorScheme.primaryContainer,
+                      borderRadius: BorderRadius.circular(20),
+                    ),
                     child: Icon(
                       Icons.star,
                       color: Theme.of(context).colorScheme.onPrimaryContainer,
@@ -183,7 +195,7 @@ class _ServersTileItemState extends State<ServersTileItem>
                   ),
                 ],
               ),
-            )
+            ),
           ],
         );
       } else {
@@ -219,9 +231,10 @@ class _ServersTileItemState extends State<ServersTileItem>
                         textAlign: TextAlign.left,
                         overflow: TextOverflow.ellipsis,
                         style: TextStyle(
-                            fontSize: 16,
-                            fontWeight: FontWeight.w400,
-                            color: Theme.of(context).colorScheme.onSurface),
+                          fontSize: 16,
+                          fontWeight: FontWeight.w400,
+                          color: Theme.of(context).colorScheme.onSurface,
+                        ),
                       ),
                       Column(
                         children: [
@@ -231,14 +244,15 @@ class _ServersTileItemState extends State<ServersTileItem>
                             overflow: TextOverflow.ellipsis,
                             textAlign: TextAlign.left,
                             style: TextStyle(
-                                fontSize: 14,
-                                fontWeight: FontWeight.w400,
-                                color: Theme.of(context)
-                                    .colorScheme
-                                    .onSurfaceVariant),
-                          )
+                              fontSize: 14,
+                              fontWeight: FontWeight.w400,
+                              color: Theme.of(context)
+                                  .colorScheme
+                                  .onSurfaceVariant,
+                            ),
+                          ),
                         ],
-                      )
+                      ),
                     ],
                   ),
                 ),
@@ -256,48 +270,49 @@ class _ServersTileItemState extends State<ServersTileItem>
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               PopupMenuButton(
-                  itemBuilder: (context) => [
-                        PopupMenuItem(
-                            enabled:
-                                server.defaultServer == false ? true : false,
-                            onTap: server.defaultServer == false
-                                ? (() => setDefaultServer(server))
-                                : null,
-                            child: SizedBox(
-                              child: Row(
-                                children: [
-                                  const Icon(Icons.star),
-                                  const SizedBox(width: 15),
-                                  Text(
-                                    server.defaultServer == true
-                                        ? AppLocalizations.of(context)!
-                                            .defaultConnection
-                                        : AppLocalizations.of(context)!
-                                            .setDefault,
-                                  )
-                                ],
-                              ),
-                            )),
-                        PopupMenuItem(
-                            onTap: (() =>
-                                openAddServerBottomSheet(server: server)),
-                            child: Row(
-                              children: [
-                                const Icon(Icons.edit),
-                                const SizedBox(width: 15),
-                                Text(AppLocalizations.of(context)!.edit)
-                              ],
-                            )),
-                        PopupMenuItem(
-                            onTap: (() => showDeleteModal(server)),
-                            child: Row(
-                              children: [
-                                const Icon(Icons.delete),
-                                const SizedBox(width: 15),
-                                Text(AppLocalizations.of(context)!.delete)
-                              ],
-                            )),
-                      ]),
+                itemBuilder: (context) => [
+                  PopupMenuItem(
+                    enabled: server.defaultServer == false ? true : false,
+                    onTap: server.defaultServer == false
+                        ? (() => setDefaultServer(server))
+                        : null,
+                    child: SizedBox(
+                      child: Row(
+                        children: [
+                          const Icon(Icons.star),
+                          const SizedBox(width: 15),
+                          Text(
+                            server.defaultServer == true
+                                ? AppLocalizations.of(context)!
+                                    .defaultConnection
+                                : AppLocalizations.of(context)!.setDefault,
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                  PopupMenuItem(
+                    onTap: (() => openAddServerBottomSheet(server: server)),
+                    child: Row(
+                      children: [
+                        const Icon(Icons.edit),
+                        const SizedBox(width: 15),
+                        Text(AppLocalizations.of(context)!.edit),
+                      ],
+                    ),
+                  ),
+                  PopupMenuItem(
+                    onTap: (() => showDeleteModal(server)),
+                    child: Row(
+                      children: [
+                        const Icon(Icons.delete),
+                        const SizedBox(width: 15),
+                        Text(AppLocalizations.of(context)!.delete),
+                      ],
+                    ),
+                  ),
+                ],
+              ),
               SizedBox(
                 child: serversProvider.selectedServer != null &&
                         serversProvider.selectedServer?.address ==
@@ -321,12 +336,12 @@ class _ServersTileItemState extends State<ServersTileItem>
                                   : AppLocalizations.of(context)!
                                       .selectedDisconnected,
                               style: TextStyle(
-                                  color:
-                                      statusProvider.isServerConnected == true
-                                          ? Colors.green
-                                          : Colors.orange,
-                                  fontWeight: FontWeight.w500),
-                            )
+                                color: statusProvider.isServerConnected == true
+                                    ? Colors.green
+                                    : Colors.orange,
+                                fontWeight: FontWeight.w500,
+                              ),
+                            ),
                           ],
                         ),
                       )
@@ -338,9 +353,9 @@ class _ServersTileItemState extends State<ServersTileItem>
                           label: Text(AppLocalizations.of(context)!.connect),
                         ),
                       ),
-              )
+              ),
             ],
-          )
+          ),
         ],
       );
     }
@@ -381,7 +396,7 @@ class _ServersTileItemState extends State<ServersTileItem>
             Padding(
               padding: const EdgeInsets.only(left: 8, right: 8, bottom: 16),
               child: bottomRow(widget.server, widget.index),
-            )
+            ),
           ],
         ),
       ),

@@ -22,7 +22,8 @@ Future refreshServerStatus(BuildContext context) async {
   if (!context.mounted) return;
   if (result?.result == APiResponseType.success) {
     serversProvider.updateselectedServerStatus(
-        result!.data?.status == 'enabled' ? true : false);
+      result!.data?.status == 'enabled' ? true : false,
+    );
     statusProvider.setIsServerConnected(true);
     statusProvider.setRealtimeStatus(result.data!);
   } else if (result?.result == APiResponseType.sslError) {
@@ -31,17 +32,19 @@ Future refreshServerStatus(BuildContext context) async {
       statusProvider.setStatusLoading(LoadStatus.error);
     }
     showSnackBar(
-        appConfigProvider: appConfigProvider,
-        label: AppLocalizations.of(context)!.sslErrorShort,
-        color: Colors.red);
+      appConfigProvider: appConfigProvider,
+      label: AppLocalizations.of(context)!.sslErrorShort,
+      color: Colors.red,
+    );
   } else {
     statusProvider.setIsServerConnected(false);
     if (statusProvider.getStatusLoading == LoadStatus.loading) {
       statusProvider.setStatusLoading(LoadStatus.error);
     }
     showSnackBar(
-        appConfigProvider: appConfigProvider,
-        label: AppLocalizations.of(context)!.couldNotConnectServer,
-        color: Colors.red);
+      appConfigProvider: appConfigProvider,
+      label: AppLocalizations.of(context)!.couldNotConnectServer,
+      color: Colors.red,
+    );
   }
 }

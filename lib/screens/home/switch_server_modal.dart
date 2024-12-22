@@ -25,40 +25,41 @@ class SwitchServerModal extends StatelessWidget {
             color: Theme.of(context).colorScheme.secondary,
           ),
           const SizedBox(height: 16),
-          Text(AppLocalizations.of(context)!.switchServer)
+          Text(AppLocalizations.of(context)!.switchServer),
         ],
       ),
       content: SizedBox(
         width: double.maxFinite,
         height: serversProvider.getServersList.length * 72,
         child: ListView.builder(
-            shrinkWrap: true,
-            physics: const NeverScrollableScrollPhysics(),
-            itemCount: serversProvider.getServersList.length,
-            itemBuilder: (context, index) => Material(
-                  color: Colors.transparent,
-                  child: InkWell(
-                    onTap: () {
-                      Navigator.pop(context);
-                      onServerSelect(serversProvider.getServersList[index]);
-                    },
-                    child: CustomListTile(
-                      label: serversProvider.getServersList[index].alias,
-                      description:
-                          serversProvider.getServersList[index].address,
-                    ),
-                  ),
-                )),
+          shrinkWrap: true,
+          physics: const NeverScrollableScrollPhysics(),
+          itemCount: serversProvider.getServersList.length,
+          itemBuilder: (context, index) => Material(
+            color: Colors.transparent,
+            child: InkWell(
+              onTap: () {
+                Navigator.pop(context);
+                onServerSelect(serversProvider.getServersList[index]);
+              },
+              child: CustomListTile(
+                label: serversProvider.getServersList[index].alias,
+                description: serversProvider.getServersList[index].address,
+              ),
+            ),
+          ),
+        ),
       ),
       actions: [
         Row(
           mainAxisAlignment: MainAxisAlignment.end,
           children: [
             TextButton(
-                onPressed: () => Navigator.pop(context),
-                child: Text(AppLocalizations.of(context)!.cancel))
+              onPressed: () => Navigator.pop(context),
+              child: Text(AppLocalizations.of(context)!.cancel),
+            ),
           ],
-        )
+        ),
       ],
     );
   }

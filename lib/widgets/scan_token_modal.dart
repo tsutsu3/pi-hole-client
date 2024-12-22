@@ -70,10 +70,11 @@ class _ScanTokenModalState extends State<ScanTokenModal> {
                   AppLocalizations.of(context)!.gettingPermission,
                   textAlign: TextAlign.center,
                   style: TextStyle(
-                      color: Theme.of(context).colorScheme.onSurfaceVariant,
-                      fontSize: 16,
-                      fontWeight: FontWeight.w500),
-                )
+                    color: Theme.of(context).colorScheme.onSurfaceVariant,
+                    fontSize: 16,
+                    fontWeight: FontWeight.w500,
+                  ),
+                ),
               ],
             ),
           );
@@ -96,11 +97,12 @@ class _ScanTokenModalState extends State<ScanTokenModal> {
             height: 300,
             padding: const EdgeInsets.all(30),
             decoration: BoxDecoration(
-                border: Border.all(
-                  width: 2,
-                  color: Theme.of(context).colorScheme.onSurfaceVariant,
-                ),
-                borderRadius: BorderRadius.circular(10)),
+              border: Border.all(
+                width: 2,
+                color: Theme.of(context).colorScheme.onSurfaceVariant,
+              ),
+              borderRadius: BorderRadius.circular(10),
+            ),
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
@@ -114,10 +116,11 @@ class _ScanTokenModalState extends State<ScanTokenModal> {
                   AppLocalizations.of(context)!.cameraPermission,
                   textAlign: TextAlign.center,
                   style: TextStyle(
-                      color: Theme.of(context).colorScheme.onSurfaceVariant,
-                      fontSize: 16,
-                      fontWeight: FontWeight.bold),
-                )
+                    color: Theme.of(context).colorScheme.onSurfaceVariant,
+                    fontSize: 16,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
               ],
             ),
           );
@@ -147,8 +150,9 @@ class _ScanTokenModalState extends State<ScanTokenModal> {
       content: getPermissionStatus(),
       actions: [
         TextButton(
-            onPressed: () => Navigator.pop(context),
-            child: Text(AppLocalizations.of(context)!.cancel))
+          onPressed: () => Navigator.pop(context),
+          child: Text(AppLocalizations.of(context)!.cancel),
+        ),
       ],
     );
   }

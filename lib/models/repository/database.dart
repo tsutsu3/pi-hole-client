@@ -11,11 +11,11 @@ class PiHoleClientData {
     required this.dbInstance,
   });
 
-  toDict() {
+  Map<String, dynamic> toDict() {
     return {
-      "servers": servers,
-      "appConfig": appConfig,
-      "dbInstance": dbInstance,
+      'servers': servers,
+      'appConfig': appConfig,
+      'dbInstance': dbInstance,
     };
   }
 }
@@ -73,16 +73,16 @@ class ServerDbData {
     );
   }
 
-  toDict() {
+  Map<String, dynamic> toDict() {
     return {
-      "address": address,
-      "alias": alias,
-      "token": token,
-      "isDefaultServer": isDefaultServer,
-      "apiVersion": apiVersion,
-      "basicAuthUser": basicAuthUser,
-      "basicAuthPassword": basicAuthPassword,
-      "sid": sid,
+      'address': address,
+      'alias': alias,
+      'token': token,
+      'isDefaultServer': isDefaultServer,
+      'apiVersion': apiVersion,
+      'basicAuthUser': basicAuthUser,
+      'basicAuthPassword': basicAuthPassword,
+      'sid': sid,
     };
   }
 }
@@ -157,21 +157,21 @@ class AppDbData {
     );
   }
 
-  toDict() {
+  Map<String, dynamic> toDict() {
     return {
-      "autoRefreshTime": autoRefreshTime,
-      "theme": theme,
-      "language": language,
-      "overrideSslCheck": overrideSslCheck,
-      "oneColumnLegend": oneColumnLegend,
-      "reducedDataCharts": reducedDataCharts,
-      "logsPerQuery": logsPerQuery,
-      "passCode": passCode,
-      "useBiometricAuth": useBiometricAuth,
-      "importantInfoReaden": importantInfoReaden,
-      "hideZeroValues": hideZeroValues,
-      "statisticsVisualizationMode": statisticsVisualizationMode,
-      "sendCrashReports": sendCrashReports,
+      'autoRefreshTime': autoRefreshTime,
+      'theme': theme,
+      'language': language,
+      'overrideSslCheck': overrideSslCheck,
+      'oneColumnLegend': oneColumnLegend,
+      'reducedDataCharts': reducedDataCharts,
+      'logsPerQuery': logsPerQuery,
+      'passCode': passCode,
+      'useBiometricAuth': useBiometricAuth,
+      'importantInfoReaden': importantInfoReaden,
+      'hideZeroValues': hideZeroValues,
+      'statisticsVisualizationMode': statisticsVisualizationMode,
+      'sendCrashReports': sendCrashReports,
     };
   }
 }

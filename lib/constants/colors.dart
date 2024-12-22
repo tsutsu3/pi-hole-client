@@ -22,5 +22,5 @@ List<Color> colors = [
   Colors.limeAccent,
   Colors.teal,
   Colors.pink,
-  Colors.greenAccent
+  Colors.greenAccent,
 ];

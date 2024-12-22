@@ -19,12 +19,13 @@ class LogsFiltersModal extends StatefulWidget {
   final void Function() filterLogs;
   final bool window;
 
-  const LogsFiltersModal(
-      {super.key,
-      required this.statusBarHeight,
-      required this.bottomNavBarHeight,
-      required this.filterLogs,
-      required this.window});
+  const LogsFiltersModal({
+    super.key,
+    required this.statusBarHeight,
+    required this.bottomNavBarHeight,
+    required this.filterLogs,
+    required this.window,
+  });
 
   @override
   State<LogsFiltersModal> createState() => _LogsFiltersModalState();
@@ -104,32 +105,35 @@ class _LogsFiltersModalState extends State<LogsFiltersModal> {
       } else if (items == maxItems) {
         return AppLocalizations.of(context)!.allItemsSelected;
       } else {
-        return "$items ${AppLocalizations.of(context)!.itemsSelected}";
+        return '$items ${AppLocalizations.of(context)!.itemsSelected}';
       }
     }
 
     void selectTime(String time) async {
       DateTime now = DateTime.now();
       DateTime? dateValue = await showDatePicker(
-          context: context,
-          initialDate: now,
-          firstDate: DateTime(now.year, now.month - 1, now.day),
-          lastDate: now);
+        context: context,
+        initialDate: now,
+        firstDate: DateTime(now.year, now.month - 1, now.day),
+        lastDate: now,
+      );
       if (dateValue != null) {
         TimeOfDay? timeValue = await showTimePicker(
-            context: context,
-            initialTime: TimeOfDay.now(),
-            helpText: time == 'from'
-                ? AppLocalizations.of(context)!.selectStartTime
-                : AppLocalizations.of(context)!.selectEndTime);
+          context: context,
+          initialTime: TimeOfDay.now(),
+          helpText: time == 'from'
+              ? AppLocalizations.of(context)!.selectStartTime
+              : AppLocalizations.of(context)!.selectEndTime,
+        );
         if (timeValue != null) {
           DateTime value = DateTime(
-              dateValue.year,
-              dateValue.month,
-              dateValue.day,
-              timeValue.hour,
-              timeValue.minute,
-              dateValue.second);
+            dateValue.year,
+            dateValue.month,
+            dateValue.day,
+            timeValue.hour,
+            timeValue.minute,
+            dateValue.second,
+          );
           if (time == 'from') {
             if (filtersProvider.endTime != null &&
                 value.isAfter(filtersProvider.endTime!)) {
@@ -204,7 +208,9 @@ class _LogsFiltersModalState extends State<LogsFiltersModal> {
                       Text(
                         AppLocalizations.of(context)!.time,
                         style: const TextStyle(
-                            fontWeight: FontWeight.w400, fontSize: 16),
+                          fontWeight: FontWeight.w400,
+                          fontSize: 16,
+                        ),
                       ),
                       const SizedBox(height: 16),
                       Column(
@@ -228,13 +234,17 @@ class _LogsFiltersModalState extends State<LogsFiltersModal> {
                                       .withOpacity(0.1),
                                   child: Container(
                                     padding: const EdgeInsets.symmetric(
-                                        horizontal: 15, vertical: 10),
+                                      horizontal: 15,
+                                      vertical: 10,
+                                    ),
                                     decoration: BoxDecoration(
-                                        borderRadius: BorderRadius.circular(10),
-                                        border: Border.all(
-                                            color: Theme.of(context)
-                                                .colorScheme
-                                                .primary)),
+                                      borderRadius: BorderRadius.circular(10),
+                                      border: Border.all(
+                                        color: Theme.of(context)
+                                            .colorScheme
+                                            .primary,
+                                      ),
+                                    ),
                                     child: Column(
                                       children: [
                                         Text(
@@ -253,24 +263,28 @@ class _LogsFiltersModalState extends State<LogsFiltersModal> {
                                           filtersProvider.startTime != null
                                               ? formatTimestamp(
                                                   filtersProvider.startTime!,
-                                                  "dd/MM/yyyy - HH:mm")
+                                                  'dd/MM/yyyy - HH:mm',
+                                                )
                                               : AppLocalizations.of(context)!
                                                   .notSelected,
                                           style: TextStyle(
-                                              color: Theme.of(context)
-                                                  .colorScheme
-                                                  .onSurfaceVariant,
-                                              fontSize: 12),
-                                        )
+                                            color: Theme.of(context)
+                                                .colorScheme
+                                                .onSurfaceVariant,
+                                            fontSize: 12,
+                                          ),
+                                        ),
                                       ],
                                     ),
                                   ),
                                 ),
                               ),
                               const Text(
-                                "-",
+                                '-',
                                 style: TextStyle(
-                                    fontWeight: FontWeight.bold, fontSize: 20),
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 20,
+                                ),
                               ),
                               Material(
                                 color: Colors.transparent,
@@ -288,38 +302,45 @@ class _LogsFiltersModalState extends State<LogsFiltersModal> {
                                       .withOpacity(0.1),
                                   child: Container(
                                     padding: const EdgeInsets.symmetric(
-                                        horizontal: 15, vertical: 10),
+                                      horizontal: 15,
+                                      vertical: 10,
+                                    ),
                                     decoration: BoxDecoration(
-                                        borderRadius: BorderRadius.circular(10),
-                                        border: Border.all(
-                                            color: Theme.of(context)
-                                                .colorScheme
-                                                .primary)),
+                                      borderRadius: BorderRadius.circular(10),
+                                      border: Border.all(
+                                        color: Theme.of(context)
+                                            .colorScheme
+                                            .primary,
+                                      ),
+                                    ),
                                     child: Column(
                                       children: [
                                         Text(
                                           AppLocalizations.of(context)!.toTime,
                                           style: TextStyle(
-                                              fontWeight: FontWeight.w500,
-                                              fontSize: 14,
-                                              color: Theme.of(context)
-                                                  .colorScheme
-                                                  .primary),
+                                            fontWeight: FontWeight.w500,
+                                            fontSize: 14,
+                                            color: Theme.of(context)
+                                                .colorScheme
+                                                .primary,
+                                          ),
                                         ),
                                         const SizedBox(height: 5),
                                         Text(
                                           filtersProvider.endTime != null
                                               ? formatTimestamp(
                                                   filtersProvider.endTime!,
-                                                  "dd/MM/yyyy - HH:mm")
+                                                  'dd/MM/yyyy - HH:mm',
+                                                )
                                               : AppLocalizations.of(context)!
                                                   .notSelected,
                                           style: TextStyle(
-                                              color: Theme.of(context)
-                                                  .colorScheme
-                                                  .onSurfaceVariant,
-                                              fontSize: 12),
-                                        )
+                                            color: Theme.of(context)
+                                                .colorScheme
+                                                .onSurfaceVariant,
+                                            fontSize: 12,
+                                          ),
+                                        ),
                                       ],
                                     ),
                                   ),
@@ -332,11 +353,12 @@ class _LogsFiltersModalState extends State<LogsFiltersModal> {
                             Text(
                               timeError!,
                               style: const TextStyle(
-                                  fontWeight: FontWeight.bold,
-                                  fontSize: 13,
-                                  color: Colors.red),
-                            )
-                          ]
+                                fontWeight: FontWeight.bold,
+                                fontSize: 13,
+                                color: Colors.red,
+                              ),
+                            ),
+                          ],
                         ],
                       ),
                     ],
@@ -350,7 +372,9 @@ class _LogsFiltersModalState extends State<LogsFiltersModal> {
                       Text(
                         AppLocalizations.of(context)!.status,
                         style: const TextStyle(
-                            fontWeight: FontWeight.w400, fontSize: 16),
+                          fontWeight: FontWeight.w400,
+                          fontSize: 16,
+                        ),
                       ),
                     ],
                   ),
@@ -361,18 +385,22 @@ class _LogsFiltersModalState extends State<LogsFiltersModal> {
                   child: SegmentedButton<RequestStatus>(
                     segments: [
                       ButtonSegment(
-                          value: RequestStatus.all,
-                          label: Text(AppLocalizations.of(context)!.all)),
+                        value: RequestStatus.all,
+                        label: Text(AppLocalizations.of(context)!.all),
+                      ),
                       ButtonSegment(
-                          value: RequestStatus.allowed,
-                          label: Text(AppLocalizations.of(context)!.allowed)),
+                        value: RequestStatus.allowed,
+                        label: Text(AppLocalizations.of(context)!.allowed),
+                      ),
                       ButtonSegment(
-                          value: RequestStatus.blocked,
-                          label: Text(AppLocalizations.of(context)!.blocked)),
+                        value: RequestStatus.blocked,
+                        label: Text(AppLocalizations.of(context)!.blocked),
+                      ),
                     ],
                     selected: <RequestStatus>{filtersProvider.requestStatus},
                     onSelectionChanged: (value) => setState(
-                        () => filtersProvider.setRequestStatus(value.first)),
+                      () => filtersProvider.setRequestStatus(value.first),
+                    ),
                   ),
                 ),
                 const SizedBox(height: 8),
@@ -382,7 +410,9 @@ class _LogsFiltersModalState extends State<LogsFiltersModal> {
                     onTap: openStatusModal,
                     child: Padding(
                       padding: const EdgeInsets.symmetric(
-                          horizontal: 24, vertical: 12),
+                        horizontal: 24,
+                        vertical: 12,
+                      ),
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         crossAxisAlignment: CrossAxisAlignment.center,
@@ -394,13 +424,16 @@ class _LogsFiltersModalState extends State<LogsFiltersModal> {
                                 AppLocalizations.of(context)!
                                     .advancedStatusFiltering,
                                 style: const TextStyle(
-                                    fontWeight: FontWeight.w400, fontSize: 16),
+                                  fontWeight: FontWeight.w400,
+                                  fontSize: 16,
+                                ),
                               ),
                               const SizedBox(height: 5),
                               Text(
                                 statusText(
-                                    filtersProvider.statusSelected.length,
-                                    serverProvider.numShown),
+                                  filtersProvider.statusSelected.length,
+                                  serverProvider.numShown,
+                                ),
                                 style: TextStyle(
                                   color: Theme.of(context)
                                       .colorScheme
@@ -409,7 +442,7 @@ class _LogsFiltersModalState extends State<LogsFiltersModal> {
                               ),
                             ],
                           ),
-                          const Icon(Icons.arrow_right)
+                          const Icon(Icons.arrow_right),
                         ],
                       ),
                     ),
@@ -421,7 +454,9 @@ class _LogsFiltersModalState extends State<LogsFiltersModal> {
                     onTap: openClientsModal,
                     child: Padding(
                       padding: const EdgeInsets.symmetric(
-                          horizontal: 24, vertical: 10),
+                        horizontal: 24,
+                        vertical: 10,
+                      ),
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         crossAxisAlignment: CrossAxisAlignment.center,
@@ -432,13 +467,16 @@ class _LogsFiltersModalState extends State<LogsFiltersModal> {
                               Text(
                                 AppLocalizations.of(context)!.clients,
                                 style: const TextStyle(
-                                    fontWeight: FontWeight.w400, fontSize: 16),
+                                  fontWeight: FontWeight.w400,
+                                  fontSize: 16,
+                                ),
                               ),
                               const SizedBox(height: 5),
                               Text(
                                 statusText(
-                                    filtersProvider.selectedClients.length,
-                                    filtersProvider.totalClients.length),
+                                  filtersProvider.selectedClients.length,
+                                  filtersProvider.totalClients.length,
+                                ),
                                 style: TextStyle(
                                   color: Theme.of(context)
                                       .colorScheme
@@ -447,12 +485,12 @@ class _LogsFiltersModalState extends State<LogsFiltersModal> {
                               ),
                             ],
                           ),
-                          const Icon(Icons.arrow_right)
+                          const Icon(Icons.arrow_right),
                         ],
                       ),
                     ),
                   ),
-                )
+                ),
               ],
             ),
             Padding(
@@ -482,23 +520,26 @@ class _LogsFiltersModalState extends State<LogsFiltersModal> {
                                 }
                               : null,
                           style: ButtonStyle(
-                              foregroundColor: WidgetStateProperty.all(
-                                  isFilteringValid() == true
-                                      ? Theme.of(context).colorScheme.primary
-                                      : Colors.grey),
-                              overlayColor: WidgetStateProperty.all(
-                                  Theme.of(context)
-                                      .colorScheme
-                                      .primary
-                                      .withOpacity(0.1))),
+                            foregroundColor: WidgetStateProperty.all(
+                              isFilteringValid() == true
+                                  ? Theme.of(context).colorScheme.primary
+                                  : Colors.grey,
+                            ),
+                            overlayColor: WidgetStateProperty.all(
+                              Theme.of(context)
+                                  .colorScheme
+                                  .primary
+                                  .withOpacity(0.1),
+                            ),
+                          ),
                           child: Text(AppLocalizations.of(context)!.apply),
-                        )
+                        ),
                       ],
                     ),
                   ],
                 ),
               ),
-            )
+            ),
           ],
         ),
       );
@@ -507,18 +548,24 @@ class _LogsFiltersModalState extends State<LogsFiltersModal> {
     if (widget.window == true) {
       return Dialog(
         child: ConstrainedBox(
-            constraints: const BoxConstraints(maxWidth: 500), child: content()),
+          constraints: const BoxConstraints(maxWidth: 500),
+          child: content(),
+        ),
       );
     } else {
       return Container(
-          decoration: BoxDecoration(
-              color: Theme.of(context).dialogBackgroundColor,
-              borderRadius: const BorderRadius.only(
-                  topLeft: Radius.circular(24), topRight: Radius.circular(24))),
-          child: SafeArea(
-            bottom: true,
-            child: content(),
-          ));
+        decoration: BoxDecoration(
+          color: Theme.of(context).dialogBackgroundColor,
+          borderRadius: const BorderRadius.only(
+            topLeft: Radius.circular(24),
+            topRight: Radius.circular(24),
+          ),
+        ),
+        child: SafeArea(
+          bottom: true,
+          child: content(),
+        ),
+      );
     }
   }
 }

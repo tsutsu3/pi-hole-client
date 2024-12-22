@@ -18,79 +18,7 @@ class AppDetailModal extends StatefulWidget {
 class _AppDetailModalState extends State<AppDetailModal> {
   final expandableController = ExpandableController();
 
-  String get _appVersion => widget._appVersion ?? "";
-
-  @override
-  Widget build(BuildContext context) {
-    final colorScheme = Theme.of(context).colorScheme;
-
-    return AlertDialog(
-      scrollable: true,
-      title: Column(
-        children: [
-          Icon(
-            Icons.contact_page_rounded,
-            size: 24,
-            color: colorScheme.secondary,
-          ),
-          Padding(
-            padding: const EdgeInsets.symmetric(vertical: 20),
-            child: Text(
-              AppLocalizations.of(context)!.applicationDetail,
-              style: const TextStyle(fontSize: 24),
-            ),
-          ),
-        ],
-      ),
-      contentPadding: EdgeInsets.all(40),
-      content: Column(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          _appDetailLine(
-            url: issueUrl,
-            icon: SvgPicture.asset(
-              'assets/resources/github.svg',
-              colorFilter:
-                  ColorFilter.mode(colorScheme.onSurface, BlendMode.srcIn),
-              width: 25,
-              height: 25,
-            ),
-            title: "GitHub",
-            subtitle: AppLocalizations.of(context)!.openIssueGitHub,
-            colorScheme: colorScheme,
-          ),
-          _appDetailLine(
-            url: supportUrl,
-            icon:
-                Icon(Icons.question_mark_rounded, color: colorScheme.onSurface),
-            title: AppLocalizations.of(context)!.supportForm,
-            subtitle: AppLocalizations.of(context)!.supportFormDescription,
-            colorScheme: colorScheme,
-          ),
-          Padding(padding: const EdgeInsets.symmetric(vertical: 20)),
-          _appDetailLine(
-            title: AppLocalizations.of(context)!.appVersion,
-            subtitle: _appVersion,
-            colorScheme: colorScheme,
-            showWebViewIcon: false,
-          ),
-          _appDetailLine(
-            title: AppLocalizations.of(context)!.createdBy,
-            subtitle: "tsutsu3",
-            colorScheme: colorScheme,
-            showWebViewIcon: false,
-          ),
-          Padding(padding: const EdgeInsets.only(top: 10)),
-        ],
-      ),
-      actions: [
-        TextButton(
-          onPressed: () => Navigator.pop(context),
-          child: Text(AppLocalizations.of(context)!.close),
-        ),
-      ],
-    );
-  }
+  String get _appVersion => widget._appVersion ?? '';
 
   Widget _appDetailLine({
     String? url,
@@ -119,7 +47,9 @@ class _AppDetailModalState extends State<AppDetailModal> {
                         Text(
                           title,
                           style: TextStyle(
-                              fontSize: 16, color: colorScheme.onSurface),
+                            fontSize: 16,
+                            color: colorScheme.onSurface,
+                          ),
                         ),
                         if (showWebViewIcon) ...[
                           const SizedBox(width: 8),
@@ -148,6 +78,78 @@ class _AppDetailModalState extends State<AppDetailModal> {
           ),
         ),
       ),
+    );
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final colorScheme = Theme.of(context).colorScheme;
+
+    return AlertDialog(
+      scrollable: true,
+      title: Column(
+        children: [
+          Icon(
+            Icons.contact_page_rounded,
+            size: 24,
+            color: colorScheme.secondary,
+          ),
+          Padding(
+            padding: const EdgeInsets.symmetric(vertical: 20),
+            child: Text(
+              AppLocalizations.of(context)!.applicationDetail,
+              style: const TextStyle(fontSize: 24),
+            ),
+          ),
+        ],
+      ),
+      contentPadding: const EdgeInsets.all(40),
+      content: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          _appDetailLine(
+            url: issueUrl,
+            icon: SvgPicture.asset(
+              'assets/resources/github.svg',
+              colorFilter:
+                  ColorFilter.mode(colorScheme.onSurface, BlendMode.srcIn),
+              width: 25,
+              height: 25,
+            ),
+            title: 'GitHub',
+            subtitle: AppLocalizations.of(context)!.openIssueGitHub,
+            colorScheme: colorScheme,
+          ),
+          _appDetailLine(
+            url: supportUrl,
+            icon:
+                Icon(Icons.question_mark_rounded, color: colorScheme.onSurface),
+            title: AppLocalizations.of(context)!.supportForm,
+            subtitle: AppLocalizations.of(context)!.supportFormDescription,
+            colorScheme: colorScheme,
+          ),
+          const Padding(padding: EdgeInsets.symmetric(vertical: 20)),
+          _appDetailLine(
+            title: AppLocalizations.of(context)!.appVersion,
+            subtitle: _appVersion,
+            colorScheme: colorScheme,
+            showWebViewIcon: false,
+          ),
+          _appDetailLine(
+            title: AppLocalizations.of(context)!.createdBy,
+            subtitle: 'tsutsu3',
+            colorScheme: colorScheme,
+            showWebViewIcon: false,
+          ),
+          const Padding(padding: EdgeInsets.only(top: 10)),
+        ],
+      ),
+      actions: [
+        TextButton(
+          onPressed: () => Navigator.pop(context),
+          child: Text(AppLocalizations.of(context)!.close),
+        ),
+      ],
     );
   }
 }

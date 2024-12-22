@@ -22,11 +22,50 @@ linter:
   # `// ignore_for_file: name_of_lint` syntax on the line or in the file
   # producing the lint.
   rules:
-    # avoid_print: false  # Uncomment to disable the `avoid_print` rule
-    # prefer_single_quotes: true  # Uncomment to enable the `prefer_single_quotes` rule
+    - prefer_single_quotes
+    - always_declare_return_types
+    - annotate_overrides
+    - prefer_const_constructors
+    - prefer_final_fields
+    - avoid_print
+    - use_colored_box
+    - avoid_unused_constructor_parameters
+    - avoid_empty_else
+    - avoid_function_literals_in_foreach_calls
+    - avoid_init_to_null
+    - avoid_relative_lib_imports
 
 # Additional information about this file can be found at
 # https://dart.dev/guides/language/analysis-options
 analyzer:
+  plugins:
+    - dart_code_metrics
   errors:
     invalid_annotation_target: ignore
+  exclude:
+    - 'test/**'
+
+dart_code_metrics:
+  # anti-patterns:
+  #   - long-method
+  #   - long-parameter-list
+  metrics:
+    cyclomatic-complexity: 20
+    lines-of-executable-code: 50
+    number-of-parameters: 4
+    maximum-nesting-level: 5
+  metrics-exclude:
+    - test/**
+  rules:
+    # common
+    - avoid-unused-assignment
+    - avoid-unused-generics
+    - avoid-unused-instances
+    - avoid-unused-parameters
+    - member-ordering
+    - prefer-trailing-comma
+    - no-equal-then-else
+    - no-object-declaration
+    # Code Quality Checks
+    - check-unused-files
+    - check-unused-code

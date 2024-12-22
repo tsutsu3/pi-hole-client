@@ -40,8 +40,9 @@ class PieChartLegend extends StatelessWidget {
                             width: 15,
                             height: 15,
                             decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(15),
-                                color: colors[index]),
+                              borderRadius: BorderRadius.circular(15),
+                              color: colors[index],
+                            ),
                           ),
                           const SizedBox(width: 20),
                           Expanded(
@@ -49,20 +50,23 @@ class PieChartLegend extends StatelessWidget {
                               key,
                               overflow: TextOverflow.ellipsis,
                               style: const TextStyle(
-                                  fontSize: 14, fontWeight: FontWeight.w500),
+                                fontSize: 14,
+                                fontWeight: FontWeight.w500,
+                              ),
                             ),
-                          )
+                          ),
                         ],
                       ),
                     ),
                     SizedBox(
-                        width: 65,
-                        child: Text(
-                          dataUnit == "%"
-                              ? "${formatPercentage(value, Platform.localeName)} %"
-                              : "${value.toString()}${dataUnit != null ? " $dataUnit" : ''}",
-                          textAlign: TextAlign.end,
-                        )),
+                      width: 65,
+                      child: Text(
+                        dataUnit == '%'
+                            ? '${formatPercentage(value, Platform.localeName)} %'
+                            : '${value.toString()}${dataUnit != null ? ' $dataUnit' : ''}',
+                        textAlign: TextAlign.end,
+                      ),
+                    ),
                   ],
                 ),
               ),

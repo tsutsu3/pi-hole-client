@@ -9,23 +9,24 @@ class ProcessModal {
 
   void open(String message) async {
     await Future.delayed(
-        const Duration(seconds: 0),
-        () => {
-              if (context.mounted)
-                {
-                  showDialog(
-                    context: context,
-                    builder: (c) {
-                      context = c;
-                      return ProcessDialog(
-                        message: message,
-                      );
-                    },
-                    barrierDismissible: false,
-                    useSafeArea: true,
-                  )
-                }
-            });
+      const Duration(seconds: 0),
+      () => {
+        if (context.mounted)
+          {
+            showDialog(
+              context: context,
+              builder: (c) {
+                context = c;
+                return ProcessDialog(
+                  message: message,
+                );
+              },
+              barrierDismissible: false,
+              useSafeArea: true,
+            ),
+          },
+      },
+    );
   }
 
   void close() {

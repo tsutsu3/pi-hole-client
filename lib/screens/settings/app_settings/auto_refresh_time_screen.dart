@@ -22,11 +22,21 @@ class _AutoRefreshTimeScreenState extends State<AutoRefreshTimeScreen> {
   bool showCustomDurationInput = false;
   bool customTimeIsValid = false;
 
+  @override
+  void initState() {
+    super.initState();
+    selectedOption = _setTime(
+      Provider.of<AppConfigProvider>(context, listen: false)
+              .getAutoRefreshTime ??
+          0,
+    );
+  }
+
   void _updateRadioValue(value) {
     setState(() {
       selectedOption = value;
       if (selectedOption != 5) {
-        customTimeController.text = "";
+        customTimeController.text = '';
         showCustomDurationInput = false;
       } else {
         setState(() {
@@ -115,26 +125,19 @@ class _AutoRefreshTimeScreenState extends State<AutoRefreshTimeScreen> {
         .setAutoRefreshTime(_getTime());
     if (result == true) {
       showSnackBar(
-          appConfigProvider:
-              Provider.of<AppConfigProvider>(context, listen: false),
-          label: AppLocalizations.of(context)!.updateTimeChanged,
-          color: Colors.green);
+        appConfigProvider:
+            Provider.of<AppConfigProvider>(context, listen: false),
+        label: AppLocalizations.of(context)!.updateTimeChanged,
+        color: Colors.green,
+      );
     } else {
       showSnackBar(
-          appConfigProvider:
-              Provider.of<AppConfigProvider>(context, listen: false),
-          label: AppLocalizations.of(context)!.cannotChangeUpdateTime,
-          color: Colors.red);
+        appConfigProvider:
+            Provider.of<AppConfigProvider>(context, listen: false),
+        label: AppLocalizations.of(context)!.cannotChangeUpdateTime,
+        color: Colors.red,
+      );
     }
-  }
-
-  @override
-  void initState() {
-    super.initState();
-    selectedOption = _setTime(
-        Provider.of<AppConfigProvider>(context, listen: false)
-                .getAutoRefreshTime ??
-            0);
   }
 
   @override
@@ -148,47 +151,53 @@ class _AutoRefreshTimeScreenState extends State<AutoRefreshTimeScreen> {
             icon: const Icon(Icons.save_rounded),
             tooltip: AppLocalizations.of(context)!.save,
           ),
-          const SizedBox(width: 8)
+          const SizedBox(width: 8),
         ],
       ),
       body: ListView(
         children: [
           CustomRadioListTile(
-              groupValue: selectedOption,
-              value: 0,
-              radioBackgroundColor: Theme.of(context).colorScheme.surface,
-              title: AppLocalizations.of(context)!.second1,
-              onChanged: _updateRadioValue),
+            groupValue: selectedOption,
+            value: 0,
+            radioBackgroundColor: Theme.of(context).colorScheme.surface,
+            title: AppLocalizations.of(context)!.second1,
+            onChanged: _updateRadioValue,
+          ),
           CustomRadioListTile(
-              groupValue: selectedOption,
-              value: 1,
-              radioBackgroundColor: Theme.of(context).colorScheme.surface,
-              title: AppLocalizations.of(context)!.seconds2,
-              onChanged: _updateRadioValue),
+            groupValue: selectedOption,
+            value: 1,
+            radioBackgroundColor: Theme.of(context).colorScheme.surface,
+            title: AppLocalizations.of(context)!.seconds2,
+            onChanged: _updateRadioValue,
+          ),
           CustomRadioListTile(
-              groupValue: selectedOption,
-              value: 2,
-              radioBackgroundColor: Theme.of(context).colorScheme.surface,
-              title: AppLocalizations.of(context)!.seconds5,
-              onChanged: _updateRadioValue),
+            groupValue: selectedOption,
+            value: 2,
+            radioBackgroundColor: Theme.of(context).colorScheme.surface,
+            title: AppLocalizations.of(context)!.seconds5,
+            onChanged: _updateRadioValue,
+          ),
           CustomRadioListTile(
-              groupValue: selectedOption,
-              value: 3,
-              radioBackgroundColor: Theme.of(context).colorScheme.surface,
-              title: AppLocalizations.of(context)!.seconds10,
-              onChanged: _updateRadioValue),
+            groupValue: selectedOption,
+            value: 3,
+            radioBackgroundColor: Theme.of(context).colorScheme.surface,
+            title: AppLocalizations.of(context)!.seconds10,
+            onChanged: _updateRadioValue,
+          ),
           CustomRadioListTile(
-              groupValue: selectedOption,
-              value: 4,
-              radioBackgroundColor: Theme.of(context).colorScheme.surface,
-              title: AppLocalizations.of(context)!.seconds30,
-              onChanged: _updateRadioValue),
+            groupValue: selectedOption,
+            value: 4,
+            radioBackgroundColor: Theme.of(context).colorScheme.surface,
+            title: AppLocalizations.of(context)!.seconds30,
+            onChanged: _updateRadioValue,
+          ),
           CustomRadioListTile(
-              groupValue: selectedOption,
-              value: 5,
-              radioBackgroundColor: Theme.of(context).colorScheme.surface,
-              title: AppLocalizations.of(context)!.custom,
-              onChanged: _updateRadioValue),
+            groupValue: selectedOption,
+            value: 5,
+            radioBackgroundColor: Theme.of(context).colorScheme.surface,
+            title: AppLocalizations.of(context)!.custom,
+            onChanged: _updateRadioValue,
+          ),
           if (showCustomDurationInput == true)
             Padding(
               padding: const EdgeInsets.all(16),
@@ -203,7 +212,8 @@ class _AutoRefreshTimeScreenState extends State<AutoRefreshTimeScreen> {
                           ? AppLocalizations.of(context)!.valueNotValid
                           : null,
                   border: const OutlineInputBorder(
-                      borderRadius: BorderRadius.all(Radius.circular(10))),
+                    borderRadius: BorderRadius.all(Radius.circular(10)),
+                  ),
                   labelText: AppLocalizations.of(context)!.customSeconds,
                 ),
               ),

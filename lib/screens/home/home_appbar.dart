@@ -39,7 +39,8 @@ class HomeAppBar extends StatelessWidget implements PreferredSizeWidget {
       process.close();
       if (result?.result == APiResponseType.success) {
         serversProvider.updateselectedServerStatus(
-            result!.data!.status == 'enabled' ? true : false);
+          result!.data!.status == 'enabled' ? true : false,
+        );
         statusProvider.setIsServerConnected(true);
         statusProvider.setRealtimeStatus(result.data!);
       } else {
@@ -48,33 +49,37 @@ class HomeAppBar extends StatelessWidget implements PreferredSizeWidget {
           statusProvider.setStatusLoading(LoadStatus.error);
         }
         showSnackBar(
-            appConfigProvider: appConfigProvider,
-            label: AppLocalizations.of(context)!.notConnectServer,
-            color: Colors.red);
+          appConfigProvider: appConfigProvider,
+          label: AppLocalizations.of(context)!.notConnectServer,
+          color: Colors.red,
+        );
       }
     }
 
     void changeServer() {
       Future.delayed(
-          const Duration(seconds: 0),
-          () => {
-                Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: (context) => const ServersPage()))
-              });
+        const Duration(seconds: 0),
+        () => {
+          Navigator.push(
+            context,
+            MaterialPageRoute(builder: (context) => const ServersPage()),
+          ),
+        },
+      );
     }
 
     void connectToServer(Server server) async {
       Future connectSuccess(result) async {
         serversProvider.setselectedServer(
-            server: Server(
-                address: server.address,
-                alias: server.alias,
-                token: server.token!,
-                defaultServer: server.defaultServer,
-                apiVersion: server.apiVersion,
-                enabled: result.status == 'enabled' ? true : false));
+          server: Server(
+            address: server.address,
+            alias: server.alias,
+            token: server.token!,
+            defaultServer: server.defaultServer,
+            apiVersion: server.apiVersion,
+            enabled: result.status == 'enabled' ? true : false,
+          ),
+        );
         final statusResult = await apiGateway?.realtimeStatus();
         if (statusResult?.result == APiResponseType.success) {
           statusProvider.setRealtimeStatus(statusResult!.data!);
@@ -99,18 +104,20 @@ class HomeAppBar extends StatelessWidget implements PreferredSizeWidget {
         await connectSuccess(result);
       } else {
         showSnackBar(
-            appConfigProvider: appConfigProvider,
-            label: AppLocalizations.of(context)!.cannotConnect,
-            color: Colors.red);
+          appConfigProvider: appConfigProvider,
+          label: AppLocalizations.of(context)!.cannotConnect,
+          color: Colors.red,
+        );
       }
     }
 
     void openSwitchServerModal() {
       showDialog(
-          context: context,
-          builder: (context) => SwitchServerModal(
-                onServerSelect: connectToServer,
-              ));
+        context: context,
+        builder: (context) => SwitchServerModal(
+          onServerSelect: connectToServer,
+        ),
+      );
     }
 
     return SliverAppBar.large(
@@ -120,17 +127,18 @@ class HomeAppBar extends StatelessWidget implements PreferredSizeWidget {
       centerTitle: false,
       forceElevated: innerBoxIsScrolled,
       leading: Icon(
-          statusProvider.isServerConnected == true
-              ? serversProvider.selectedServer!.enabled == true
-                  ? Icons.verified_user_rounded
-                  : Icons.gpp_bad_rounded
-              : Icons.shield_rounded,
-          size: 30,
-          color: statusProvider.isServerConnected == true
-              ? serversProvider.selectedServer!.enabled == true
-                  ? Colors.green
-                  : Colors.red
-              : Colors.grey),
+        statusProvider.isServerConnected == true
+            ? serversProvider.selectedServer!.enabled == true
+                ? Icons.verified_user_rounded
+                : Icons.gpp_bad_rounded
+            : Icons.shield_rounded,
+        size: 30,
+        color: statusProvider.isServerConnected == true
+            ? serversProvider.selectedServer!.enabled == true
+                ? Colors.green
+                : Colors.red
+            : Colors.grey,
+      ),
       title: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
@@ -145,10 +153,13 @@ class HomeAppBar extends StatelessWidget implements PreferredSizeWidget {
                         serversProvider.selectedServer!.alias,
                         style: const TextStyle(fontSize: 20),
                       ),
-                      Text(serversProvider.selectedServer!.address,
-                          style: TextStyle(
-                              color: Theme.of(context).listTileTheme.textColor,
-                              fontSize: 14))
+                      Text(
+                        serversProvider.selectedServer!.address,
+                        style: TextStyle(
+                          color: Theme.of(context).listTileTheme.textColor,
+                          fontSize: 14,
+                        ),
+                      ),
                     ],
                   )
                 : SizedBox(
@@ -161,75 +172,83 @@ class HomeAppBar extends StatelessWidget implements PreferredSizeWidget {
                       ),
                     ),
                   ),
-          )
+          ),
         ],
       ),
       actions: [
         PopupMenuButton(
-            splashRadius: 20,
-            itemBuilder: (context) => serversProvider.selectedServer != null
-                ? statusProvider.isServerConnected == true
-                    ? [
-                        PopupMenuItem(
-                            onTap: refresh,
-                            child: Row(
-                              children: [
-                                const Icon(Icons.refresh),
-                                const SizedBox(width: 15),
-                                Text(AppLocalizations.of(context)!.refresh)
-                              ],
-                            )),
-                        PopupMenuItem(
-                            onTap: () => openUrl(
-                                '${serversProvider.selectedServer!.address}/admin/'),
-                            child: Row(
-                              children: [
-                                const Icon(Icons.web),
-                                const SizedBox(width: 15),
-                                Text(AppLocalizations.of(context)!.openWebPanel)
-                              ],
-                            )),
-                        PopupMenuItem(
-                            onTap: changeServer,
-                            child: Row(
-                              children: [
-                                const Icon(Icons.storage_rounded),
-                                const SizedBox(width: 15),
-                                Text(AppLocalizations.of(context)!.changeServer)
-                              ],
-                            )),
-                      ]
-                    : [
-                        PopupMenuItem(
-                            onTap: refresh,
-                            child: Row(
-                              children: [
-                                const Icon(Icons.refresh_rounded),
-                                const SizedBox(width: 15),
-                                Text(AppLocalizations.of(context)!.tryReconnect)
-                              ],
-                            )),
-                        PopupMenuItem(
-                            onTap: changeServer,
-                            child: Row(
-                              children: [
-                                const Icon(Icons.storage_rounded),
-                                const SizedBox(width: 15),
-                                Text(AppLocalizations.of(context)!.changeServer)
-                              ],
-                            )),
-                      ]
-                : [
-                    PopupMenuItem(
+          splashRadius: 20,
+          itemBuilder: (context) => serversProvider.selectedServer != null
+              ? statusProvider.isServerConnected == true
+                  ? [
+                      PopupMenuItem(
+                        onTap: refresh,
+                        child: Row(
+                          children: [
+                            const Icon(Icons.refresh),
+                            const SizedBox(width: 15),
+                            Text(AppLocalizations.of(context)!.refresh),
+                          ],
+                        ),
+                      ),
+                      PopupMenuItem(
+                        onTap: () => openUrl(
+                          '${serversProvider.selectedServer!.address}/admin/',
+                        ),
+                        child: Row(
+                          children: [
+                            const Icon(Icons.web),
+                            const SizedBox(width: 15),
+                            Text(AppLocalizations.of(context)!.openWebPanel),
+                          ],
+                        ),
+                      ),
+                      PopupMenuItem(
                         onTap: changeServer,
                         child: Row(
                           children: [
                             const Icon(Icons.storage_rounded),
                             const SizedBox(width: 15),
-                            Text(AppLocalizations.of(context)!.selectServer)
+                            Text(AppLocalizations.of(context)!.changeServer),
                           ],
-                        )),
-                  ])
+                        ),
+                      ),
+                    ]
+                  : [
+                      PopupMenuItem(
+                        onTap: refresh,
+                        child: Row(
+                          children: [
+                            const Icon(Icons.refresh_rounded),
+                            const SizedBox(width: 15),
+                            Text(AppLocalizations.of(context)!.tryReconnect),
+                          ],
+                        ),
+                      ),
+                      PopupMenuItem(
+                        onTap: changeServer,
+                        child: Row(
+                          children: [
+                            const Icon(Icons.storage_rounded),
+                            const SizedBox(width: 15),
+                            Text(AppLocalizations.of(context)!.changeServer),
+                          ],
+                        ),
+                      ),
+                    ]
+              : [
+                  PopupMenuItem(
+                    onTap: changeServer,
+                    child: Row(
+                      children: [
+                        const Icon(Icons.storage_rounded),
+                        const SizedBox(width: 15),
+                        Text(AppLocalizations.of(context)!.selectServer),
+                      ],
+                    ),
+                  ),
+                ],
+        ),
       ],
     );
   }

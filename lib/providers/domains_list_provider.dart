@@ -9,10 +9,6 @@ import 'package:pi_hole_client/providers/servers_provider.dart';
 class DomainsListProvider with ChangeNotifier {
   ServersProvider? serversProvider;
 
-  update(ServersProvider? provider) {
-    serversProvider = provider;
-  }
-
   LoadStatus _loadingStatus = LoadStatus.loading;
   List<Domain> _whitelistDomains = [];
   List<Domain> _blacklistDomains = [];
@@ -22,11 +18,9 @@ class DomainsListProvider with ChangeNotifier {
 
   int? _selectedTab;
 
-  String _searchTerm = "";
+  String _searchTerm = '';
 
   bool _searchMode = false;
-
-  DomainsListProvider({required this.serversProvider});
 
   LoadStatus get loadingStatus {
     return _loadingStatus;
@@ -60,6 +54,12 @@ class DomainsListProvider with ChangeNotifier {
     return _searchMode;
   }
 
+  DomainsListProvider({required this.serversProvider});
+
+  void update(ServersProvider? provider) {
+    serversProvider = provider;
+  }
+
   void setLoadingStatus(LoadStatus status) {
     _loadingStatus = status;
   }
@@ -86,7 +86,7 @@ class DomainsListProvider with ChangeNotifier {
   void onSearch(String value) {
     _searchTerm = value;
 
-    if (value != "") {
+    if (value != '') {
       _filteredBlacklistDomains =
           _blacklistDomains.where((i) => i.domain.contains(value)).toList();
       _filteredWhitelistDomains =
@@ -105,7 +105,7 @@ class DomainsListProvider with ChangeNotifier {
     if (result?.result == APiResponseType.success) {
       final List<Domain> whitelist = [
         ...result!.data!.whitelist,
-        ...result.data!.whitelistRegex
+        ...result.data!.whitelistRegex,
       ];
       _whitelistDomains = whitelist;
       _filteredWhitelistDomains =
@@ -113,7 +113,7 @@ class DomainsListProvider with ChangeNotifier {
 
       final List<Domain> blacklist = [
         ...result.data!.blacklist,
-        ...result.data!.blacklistRegex
+        ...result.data!.blacklistRegex,
       ];
       _blacklistDomains = blacklist;
       _filteredBlacklistDomains =

@@ -5,6 +5,15 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 class LegalModal extends StatelessWidget {
   const LegalModal({super.key});
 
+  Future<String> _loadLicensesAndNotice() async {
+    try {
+      final noticeText = await rootBundle.loadString('NOTICE');
+      return noticeText;
+    } catch (e) {
+      throw Exception('Failed to load NOTICE file: $e');
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return FutureBuilder<String>(
@@ -31,7 +40,7 @@ class LegalModal extends StatelessWidget {
                 ),
               ],
             ),
-            contentPadding: EdgeInsets.all(40),
+            contentPadding: const EdgeInsets.all(40),
             content: SingleChildScrollView(
               child: Text(noticeText),
             ),
@@ -74,14 +83,5 @@ class LegalModal extends StatelessWidget {
         );
       },
     );
-  }
-
-  Future<String> _loadLicensesAndNotice() async {
-    try {
-      final noticeText = await rootBundle.loadString('NOTICE');
-      return noticeText;
-    } catch (e) {
-      throw Exception('Failed to load NOTICE file: $e');
-    }
   }
 }
