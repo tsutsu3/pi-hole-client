@@ -20,7 +20,7 @@ class DeleteDomainModal extends StatelessWidget {
           Text(
             AppLocalizations.of(context)!.deleteDomain,
             style: TextStyle(color: Theme.of(context).colorScheme.onSurface),
-          )
+          ),
         ],
       ),
       content: Text(
@@ -32,14 +32,16 @@ class DeleteDomainModal extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.end,
           children: [
             TextButton(
-                onPressed: () => Navigator.pop(context),
-                child: Text(AppLocalizations.of(context)!.cancel)),
+              onPressed: () => Navigator.pop(context),
+              child: Text(AppLocalizations.of(context)!.cancel),
+            ),
             const SizedBox(width: 16),
             TextButton(
-                onPressed: () => onConfirm(),
-                child: Text(AppLocalizations.of(context)!.confirm)),
+              onPressed: () => onConfirm(),
+              child: Text(AppLocalizations.of(context)!.confirm),
+            ),
           ],
-        )
+        ),
       ],
     );
   }

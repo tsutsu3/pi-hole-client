@@ -24,12 +24,13 @@ class DomainsList extends StatefulWidget {
   final void Function(Domain) onDomainSelected;
   final Domain? selectedDomain;
 
-  const DomainsList(
-      {super.key,
-      required this.type,
-      required this.scrollController,
-      required this.onDomainSelected,
-      required this.selectedDomain});
+  const DomainsList({
+    super.key,
+    required this.type,
+    required this.scrollController,
+    required this.onDomainSelected,
+    required this.selectedDomain,
+  });
 
   @override
   State<DomainsList> createState() => _DomainsListState();
@@ -82,21 +83,24 @@ class _DomainsListState extends State<DomainsList> {
         domainsListProvider.removeDomainFromList(domain);
         Navigator.pop(context);
         showSnackBar(
-            appConfigProvider: appConfigProvider,
-            label: AppLocalizations.of(context)!.domainRemoved,
-            color: Colors.green);
+          appConfigProvider: appConfigProvider,
+          label: AppLocalizations.of(context)!.domainRemoved,
+          color: Colors.green,
+        );
       } else if (result?.result == APiResponseType.error &&
           result!.message != null &&
           result.message == 'not_exists') {
         showSnackBar(
-            appConfigProvider: appConfigProvider,
-            label: AppLocalizations.of(context)!.domainNotExists,
-            color: Colors.red);
+          appConfigProvider: appConfigProvider,
+          label: AppLocalizations.of(context)!.domainNotExists,
+          color: Colors.red,
+        );
       } else {
         showSnackBar(
-            appConfigProvider: appConfigProvider,
-            label: AppLocalizations.of(context)!.errorRemovingDomain,
-            color: Colors.red);
+          appConfigProvider: appConfigProvider,
+          label: AppLocalizations.of(context)!.errorRemovingDomain,
+          color: Colors.red,
+        );
       }
     }
 
@@ -111,19 +115,22 @@ class _DomainsListState extends State<DomainsList> {
       if (result?.result == APiResponseType.success) {
         domainsListProvider.fetchDomainsList(serversProvider.selectedServer!);
         showSnackBar(
-            appConfigProvider: appConfigProvider,
-            label: AppLocalizations.of(context)!.domainAdded,
-            color: Colors.green);
+          appConfigProvider: appConfigProvider,
+          label: AppLocalizations.of(context)!.domainAdded,
+          color: Colors.green,
+        );
       } else if (result?.result == APiResponseType.alreadyAdded) {
         showSnackBar(
-            appConfigProvider: appConfigProvider,
-            label: AppLocalizations.of(context)!.domainAlreadyAdded,
-            color: Colors.orange);
+          appConfigProvider: appConfigProvider,
+          label: AppLocalizations.of(context)!.domainAlreadyAdded,
+          color: Colors.orange,
+        );
       } else {
         showSnackBar(
-            appConfigProvider: appConfigProvider,
-            label: AppLocalizations.of(context)!.cannotAddDomain,
-            color: Colors.red);
+          appConfigProvider: appConfigProvider,
+          label: AppLocalizations.of(context)!.cannotAddDomain,
+          color: Colors.red,
+        );
       }
     }
 
@@ -139,117 +146,124 @@ class _DomainsListState extends State<DomainsList> {
         );
       } else {
         showModalBottomSheet(
-            context: context,
-            builder: (ctx) => AddDomainModal(
-                  selectedlist: widget.type,
-                  addDomain: onAddDomain,
-                  window: false,
-                ),
-            backgroundColor: Colors.transparent,
-            isScrollControlled: true);
+          context: context,
+          builder: (ctx) => AddDomainModal(
+            selectedlist: widget.type,
+            addDomain: onAddDomain,
+            window: false,
+          ),
+          backgroundColor: Colors.transparent,
+          isScrollControlled: true,
+        );
       }
     }
 
     return Stack(
       children: [
         CustomTabContentList(
-            loadingGenerator: () => SizedBox(
-                  width: double.maxFinite,
-                  height: 300,
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                      const CircularProgressIndicator(),
-                      const SizedBox(height: 50),
-                      Text(
-                        AppLocalizations.of(context)!.loadingList,
-                        textAlign: TextAlign.center,
-                        style: TextStyle(
-                            color:
-                                Theme.of(context).colorScheme.onSurfaceVariant,
-                            fontSize: 22),
-                      )
-                    ],
+          loadingGenerator: () => SizedBox(
+            width: double.maxFinite,
+            height: 300,
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                const CircularProgressIndicator(),
+                const SizedBox(height: 50),
+                Text(
+                  AppLocalizations.of(context)!.loadingList,
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                    color: Theme.of(context).colorScheme.onSurfaceVariant,
+                    fontSize: 22,
                   ),
                 ),
-            itemsCount: domainsList.length,
-            contentWidget: (index) {
-              final thisDomain = domainsList[index];
-              return Padding(
-                padding: index == 0 && MediaQuery.of(context).size.width > 900
-                    ? const EdgeInsets.only(top: 16)
-                    : const EdgeInsets.all(0),
-                child: DomainTile(
-                  domain: thisDomain,
-                  isDomainSelected: widget.selectedDomain == thisDomain,
-                  showDomainDetails: (d) {
-                    widget.onDomainSelected(d);
-                    if (MediaQuery.of(context).size.width <= 900) {
-                      Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => DomainDetailsScreen(
-                                    domain: d,
-                                    remove: removeDomain,
-                                  )));
-                    }
-                  },
-                ),
-              );
-            },
-            noData: Container(
-              height: double.maxFinite,
-              padding: const EdgeInsets.all(20),
-              child: Center(
-                  child: Text(
+              ],
+            ),
+          ),
+          itemsCount: domainsList.length,
+          contentWidget: (index) {
+            final thisDomain = domainsList[index];
+            return Padding(
+              padding: index == 0 && MediaQuery.of(context).size.width > 900
+                  ? const EdgeInsets.only(top: 16)
+                  : const EdgeInsets.all(0),
+              child: DomainTile(
+                domain: thisDomain,
+                isDomainSelected: widget.selectedDomain == thisDomain,
+                showDomainDetails: (d) {
+                  widget.onDomainSelected(d);
+                  if (MediaQuery.of(context).size.width <= 900) {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => DomainDetailsScreen(
+                          domain: d,
+                          remove: removeDomain,
+                        ),
+                      ),
+                    );
+                  }
+                },
+              ),
+            );
+          },
+          noData: Container(
+            height: double.maxFinite,
+            padding: const EdgeInsets.all(20),
+            child: Center(
+              child: Text(
                 AppLocalizations.of(context)!.noDomains,
                 textAlign: TextAlign.center,
                 style: TextStyle(
-                    fontSize: 24,
-                    color: Theme.of(context).colorScheme.onSurfaceVariant),
-              )),
+                  fontSize: 24,
+                  color: Theme.of(context).colorScheme.onSurfaceVariant,
+                ),
+              ),
             ),
-            errorGenerator: () => SizedBox(
-                  width: double.maxFinite,
-                  height: 300,
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                      const Icon(
-                        Icons.error,
-                        size: 50,
-                        color: Colors.red,
-                      ),
-                      const SizedBox(height: 50),
-                      Text(
-                        AppLocalizations.of(context)!.domainsNotLoaded,
-                        textAlign: TextAlign.center,
-                        style: TextStyle(
-                            color:
-                                Theme.of(context).colorScheme.onSurfaceVariant,
-                            fontSize: 22),
-                      )
-                    ],
+          ),
+          errorGenerator: () => SizedBox(
+            width: double.maxFinite,
+            height: 300,
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                const Icon(
+                  Icons.error,
+                  size: 50,
+                  color: Colors.red,
+                ),
+                const SizedBox(height: 50),
+                Text(
+                  AppLocalizations.of(context)!.domainsNotLoaded,
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                    color: Theme.of(context).colorScheme.onSurfaceVariant,
+                    fontSize: 22,
                   ),
                 ),
-            loadStatus: domainsListProvider.loadingStatus,
-            onRefresh: () async => await domainsListProvider
-                .fetchDomainsList(serversProvider.selectedServer!)),
+              ],
+            ),
+          ),
+          loadStatus: domainsListProvider.loadingStatus,
+          onRefresh: () async => await domainsListProvider
+              .fetchDomainsList(serversProvider.selectedServer!),
+        ),
         AnimatedPositioned(
-            duration: const Duration(milliseconds: 100),
-            curve: Curves.easeInOut,
-            bottom: isVisible
-                ? appConfigProvider.showingSnackbar
-                    ? 70
-                    : 20
-                : -70,
-            right: 20,
-            child: FloatingActionButton(
-              onPressed: openModalAddDomainToList,
-              child: const Icon(Icons.add),
-            ))
+          duration: const Duration(milliseconds: 100),
+          curve: Curves.easeInOut,
+          bottom: isVisible
+              ? appConfigProvider.showingSnackbar
+                  ? 70
+                  : 20
+              : -70,
+          right: 20,
+          child: FloatingActionButton(
+            onPressed: openModalAddDomainToList,
+            child: const Icon(Icons.add),
+          ),
+        ),
       ],
     );
   }

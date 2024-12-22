@@ -31,8 +31,9 @@ class DomainCommentModal extends StatelessWidget {
       ),
       actions: [
         TextButton(
-            onPressed: () => Navigator.pop(context),
-            child: Text(AppLocalizations.of(context)!.close))
+          onPressed: () => Navigator.pop(context),
+          child: Text(AppLocalizations.of(context)!.close),
+        ),
       ],
     );
   }
