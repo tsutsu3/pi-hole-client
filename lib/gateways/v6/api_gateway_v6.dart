@@ -104,17 +104,19 @@ class ApiGatewayV6 implements ApiGateway {
       // If the session ID is already available, use it to get the status
       // Otherwise, re-login to get the session ID
       final enableOrDisable = await httpClient(
-          method: 'get',
-          url: '${server.address}/api/dns/blocking',
-          maxRetries: 0);
+        method: 'get',
+        url: '${server.address}/api/dns/blocking',
+        maxRetries: 0,
+      );
       if (enableOrDisable.statusCode == 200) {
         logger.i('Reusing session ID login');
         final enableOrDisableParsed =
             Blocking.fromJson(jsonDecode(enableOrDisable.body));
         return LoginQueryResponse(
-            result: APiResponseType.success,
-            status: enableOrDisableParsed.blocking,
-            sid: server.sm.sid);
+          result: APiResponseType.success,
+          status: enableOrDisableParsed.blocking,
+          sid: server.sm.sid,
+        );
       }
 
       if (server.sm.sid == null || server.sm.sid!.isEmpty) {
@@ -137,76 +139,97 @@ class ApiGatewayV6 implements ApiGateway {
 
         // 3. Get DNS blocking status
         final enableOrDisable = await httpClient(
-            method: 'get', url: '${server.address}/api/dns/blocking');
+          method: 'get',
+          url: '${server.address}/api/dns/blocking',
+        );
         if (enableOrDisable.statusCode == 200) {
           final enableOrDisableParsed =
               Blocking.fromJson(jsonDecode(enableOrDisable.body));
           return LoginQueryResponse(
-              result: APiResponseType.success,
-              status: enableOrDisableParsed.blocking,
-              sid: statusParsed.session.sid);
+            result: APiResponseType.success,
+            status: enableOrDisableParsed.blocking,
+            sid: statusParsed.session.sid,
+          );
         } else {
           return LoginQueryResponse(
-              result: APiResponseType.authError,
-              log: AppLog(
-                  type: 'login',
-                  dateTime: DateTime.now(),
-                  statusCode: status.statusCode.toString(),
-                  message: 'auth_error_1',
-                  resBody: status.body));
+            result: APiResponseType.authError,
+            log: AppLog(
+              type: 'login',
+              dateTime: DateTime.now(),
+              statusCode: status.statusCode.toString(),
+              message: 'auth_error_1',
+              resBody: status.body,
+            ),
+          );
         }
       } else if (status.statusCode == 404) {
         return LoginQueryResponse(
-            result: APiResponseType.noConnection,
-            log: AppLog(
-                type: 'login',
-                dateTime: DateTime.now(),
-                statusCode: status.statusCode.toString(),
-                message: 'no_connection_2',
-                resBody: status.body));
+          result: APiResponseType.noConnection,
+          log: AppLog(
+            type: 'login',
+            dateTime: DateTime.now(),
+            statusCode: status.statusCode.toString(),
+            message: 'no_connection_2',
+            resBody: status.body,
+          ),
+        );
       } else {
         return LoginQueryResponse(
-            result: APiResponseType.authError,
-            log: AppLog(
-                type: 'login',
-                dateTime: DateTime.now(),
-                statusCode: status.statusCode.toString(),
-                message: 'auth_error',
-                resBody: status.body));
+          result: APiResponseType.authError,
+          log: AppLog(
+            type: 'login',
+            dateTime: DateTime.now(),
+            statusCode: status.statusCode.toString(),
+            message: 'auth_error',
+            resBody: status.body,
+          ),
+        );
       }
     } on SocketException {
       return LoginQueryResponse(
-          result: APiResponseType.socket,
-          log: AppLog(
-              type: 'login',
-              dateTime: DateTime.now(),
-              message: 'SocketException'));
+        result: APiResponseType.socket,
+        log: AppLog(
+          type: 'login',
+          dateTime: DateTime.now(),
+          message: 'SocketException',
+        ),
+      );
     } on TimeoutException {
       return LoginQueryResponse(
-          result: APiResponseType.timeout,
-          log: AppLog(
-              type: 'login',
-              dateTime: DateTime.now(),
-              message: 'TimeoutException'));
+        result: APiResponseType.timeout,
+        log: AppLog(
+          type: 'login',
+          dateTime: DateTime.now(),
+          message: 'TimeoutException',
+        ),
+      );
     } on HandshakeException {
       return LoginQueryResponse(
-          result: APiResponseType.sslError,
-          log: AppLog(
-              type: 'login',
-              dateTime: DateTime.now(),
-              message: 'HandshakeException'));
+        result: APiResponseType.sslError,
+        log: AppLog(
+          type: 'login',
+          dateTime: DateTime.now(),
+          message: 'HandshakeException',
+        ),
+      );
     } on FormatException {
       return LoginQueryResponse(
-          result: APiResponseType.authError,
-          log: AppLog(
-              type: 'login',
-              dateTime: DateTime.now(),
-              message: 'FormatException'));
+        result: APiResponseType.authError,
+        log: AppLog(
+          type: 'login',
+          dateTime: DateTime.now(),
+          message: 'FormatException',
+        ),
+      );
     } catch (e) {
       return LoginQueryResponse(
-          result: APiResponseType.error,
-          log: AppLog(
-              type: 'login', dateTime: DateTime.now(), message: e.toString()));
+        result: APiResponseType.error,
+        log: AppLog(
+          type: 'login',
+          dateTime: DateTime.now(),
+          message: e.toString(),
+        ),
+      );
     }
   }
 
@@ -275,16 +298,18 @@ class ApiGatewayV6 implements ApiGateway {
         final upstreams = StatsUpstreams.fromJson(jsonDecode(response[7].body));
 
         return RealtimeStatusResponse(
-            result: APiResponseType.success,
-            data: RealtimeStatus.fromV6(
-                summary,
-                infoFtl,
-                blocking,
-                topPermittedDomains,
-                topBlockedDomains,
-                topClients,
-                topBlockedClients,
-                upstreams));
+          result: APiResponseType.success,
+          data: RealtimeStatus.fromV6(
+            summary,
+            infoFtl,
+            blocking,
+            topPermittedDomains,
+            topBlockedDomains,
+            topClients,
+            topBlockedClients,
+            upstreams,
+          ),
+        );
       } else {
         return RealtimeStatusResponse(result: APiResponseType.error);
       }
@@ -313,7 +338,9 @@ class ApiGatewayV6 implements ApiGateway {
       if (response.statusCode == 200) {
         final body = Blocking.fromJson(jsonDecode(response.body));
         return DisableServerResponse(
-            result: APiResponseType.success, status: body.blocking);
+          result: APiResponseType.success,
+          status: body.blocking,
+        );
       } else {
         return DisableServerResponse(result: APiResponseType.error);
       }
@@ -342,7 +369,9 @@ class ApiGatewayV6 implements ApiGateway {
       if (response.statusCode == 200) {
         final body = Blocking.fromJson(jsonDecode(response.body));
         return EnableServerResponse(
-            result: APiResponseType.success, status: body.blocking);
+          result: APiResponseType.success,
+          status: body.blocking,
+        );
       } else {
         return EnableServerResponse(result: APiResponseType.error);
       }
@@ -381,8 +410,9 @@ class ApiGatewayV6 implements ApiGateway {
         final historyClients =
             HistoryClients.fromJson(jsonDecode(response[1].body));
         return FetchOverTimeDataResponse(
-            result: APiResponseType.success,
-            data: OverTimeData.fromV6(history, historyClients));
+          result: APiResponseType.success,
+          data: OverTimeData.fromV6(history, historyClients),
+        );
       } else {
         return FetchOverTimeDataResponse(result: APiResponseType.error);
       }
@@ -415,8 +445,9 @@ class ApiGatewayV6 implements ApiGateway {
         final queries = Queries.fromJson(jsonDecode(response.body));
         logger.d('Queries: ${queries.queries.map((e) => e.toJson()).toList()}');
         return FetchLogsResponse(
-            result: APiResponseType.success,
-            data: queries.queries.map((query) => Log.fromV6(query)).toList());
+          result: APiResponseType.success,
+          data: queries.queries.map((query) => Log.fromV6(query)).toList(),
+        );
       } else {
         return FetchLogsResponse(result: APiResponseType.error);
       }
@@ -440,29 +471,33 @@ class ApiGatewayV6 implements ApiGateway {
   /// It validates the server's response to confirm the operation's success.
   @override
   Future<SetWhiteBlacklistResponse> setWhiteBlacklist(
-      String domain, String list) async {
+    String domain,
+    String list,
+  ) async {
     try {
       final types = {
         'white': ['allow', 'exact'],
         'black': ['deny', 'exact'],
         'regex_white': ['allow', 'regex'],
-        'regex_black': ['deny', 'regex']
+        'regex_black': ['deny', 'regex'],
       };
       final response = await httpClient(
-          method: 'post',
-          url:
-              '${server.address}/api/domains/${types[list]?[0]}/${types[list]?[1]}',
-          body: {
-            'domain': domain,
-            'comment': null,
-            'groups': [0], // Array of group IDs
-            'enabled': true
-          });
+        method: 'post',
+        url:
+            '${server.address}/api/domains/${types[list]?[0]}/${types[list]?[1]}',
+        body: {
+          'domain': domain,
+          'comment': null,
+          'groups': [0], // Array of group IDs
+          'enabled': true,
+        },
+      );
       if (response.statusCode == 201) {
         final domains = AddDomains.fromJson(jsonDecode(response.body));
         return SetWhiteBlacklistResponse(
-            result: APiResponseType.success,
-            data: DomainResult.fromV6(domains));
+          result: APiResponseType.success,
+          data: DomainResult.fromV6(domains),
+        );
       } else {
         return SetWhiteBlacklistResponse(result: APiResponseType.error);
       }
@@ -493,8 +528,9 @@ class ApiGatewayV6 implements ApiGateway {
         final domains = Domains.fromJson(jsonDecode(results.body));
 
         return GetDomainLists(
-            result: APiResponseType.success,
-            data: DomainListResult.fromV6(domains));
+          result: APiResponseType.success,
+          data: DomainListResult.fromV6(domains),
+        );
       } else {
         return GetDomainLists(result: APiResponseType.error);
       }
@@ -519,7 +555,8 @@ class ApiGatewayV6 implements ApiGateway {
   /// by the server's response.
   @override
   Future<RemoveDomainFromListResponse> removeDomainFromList(
-      Domain domain) async {
+    Domain domain,
+  ) async {
     List<String> getType(int type) {
       switch (type) {
         case 0:
@@ -549,7 +586,9 @@ class ApiGatewayV6 implements ApiGateway {
         return RemoveDomainFromListResponse(result: APiResponseType.success);
       } else if (response.statusCode == 404) {
         return RemoveDomainFromListResponse(
-            result: APiResponseType.error, message: 'not_exists');
+          result: APiResponseType.error,
+          message: 'not_exists',
+        );
       } else {
         return RemoveDomainFromListResponse(result: APiResponseType.error);
       }
@@ -572,24 +611,26 @@ class ApiGatewayV6 implements ApiGateway {
   /// in the list.
   @override
   Future<AddDomainToListResponse> addDomainToList(
-      Map<String, dynamic> domainData) async {
+    Map<String, dynamic> domainData,
+  ) async {
     try {
       final types = {
         'white': ['allow', 'exact'],
         'black': ['deny', 'exact'],
         'regex_white': ['allow', 'regex'],
-        'regex_black': ['deny', 'regex']
+        'regex_black': ['deny', 'regex'],
       };
       final response = await httpClient(
-          method: 'post',
-          url:
-              '${server.address}/api/domains/${types[domainData['list']]?[0]}/${types[domainData['list']]?[1]}',
-          body: {
-            'domain': domainData['domain'],
-            'comment': null,
-            'groups': [0], // Array of group IDs
-            'enabled': true
-          });
+        method: 'post',
+        url:
+            '${server.address}/api/domains/${types[domainData['list']]?[0]}/${types[domainData['list']]?[1]}',
+        body: {
+          'domain': domainData['domain'],
+          'comment': null,
+          'groups': [0], // Array of group IDs
+          'enabled': true,
+        },
+      );
       if (response.statusCode == 201) {
         final domains = AddDomains.fromJson(jsonDecode(response.body));
 
@@ -631,20 +672,29 @@ class ApiGatewayV6 implements ApiGateway {
     switch (method.toUpperCase()) {
       case 'POST':
         return await client
-            .post(Uri.parse(url),
-                headers: headers, body: body != null ? jsonEncode(body) : null)
+            .post(
+              Uri.parse(url),
+              headers: headers,
+              body: body != null ? jsonEncode(body) : null,
+            )
             .timeout(Duration(seconds: timeout));
 
       case 'PUT':
         return await client
-            .put(Uri.parse(url),
-                headers: headers, body: body != null ? jsonEncode(body) : null)
+            .put(
+              Uri.parse(url),
+              headers: headers,
+              body: body != null ? jsonEncode(body) : null,
+            )
             .timeout(Duration(seconds: timeout));
 
       case 'PATCH':
         return await client
-            .patch(Uri.parse(url),
-                headers: headers, body: body != null ? jsonEncode(body) : null)
+            .patch(
+              Uri.parse(url),
+              headers: headers,
+              body: body != null ? jsonEncode(body) : null,
+            )
             .timeout(Duration(seconds: timeout));
 
       case 'DELETE':

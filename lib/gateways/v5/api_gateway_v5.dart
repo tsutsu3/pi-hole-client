@@ -114,26 +114,27 @@ class ApiGatewayV5 implements ApiGateway {
   Future<LoginQueryResponse> loginQuery() async {
     try {
       final status = await httpClient(
-          method: 'get',
-          url:
-              '${server.address}/admin/api.php?auth=${server.token}&summaryRaw',
-          basicAuth: {
-            'username': server.basicAuthUser,
-            'password': server.basicAuthPassword
-          });
+        method: 'get',
+        url: '${server.address}/admin/api.php?auth=${server.token}&summaryRaw',
+        basicAuth: {
+          'username': server.basicAuthUser,
+          'password': server.basicAuthPassword,
+        },
+      );
       if (status.statusCode == 200) {
         final statusParsed = jsonDecode(status.body);
         if (statusParsed.runtimeType != List &&
             statusParsed['status'] != null) {
           final enableOrDisable = await httpClient(
-              method: 'get',
-              url: statusParsed['status'] == 'enabled'
-                  ? '${server.address}/admin/api.php?auth=${server.token}&enable=0'
-                  : '${server.address}/admin/api.php?auth=${server.token}&disable=0',
-              basicAuth: {
-                'username': server.basicAuthUser,
-                'password': server.basicAuthPassword
-              });
+            method: 'get',
+            url: statusParsed['status'] == 'enabled'
+                ? '${server.address}/admin/api.php?auth=${server.token}&enable=0'
+                : '${server.address}/admin/api.php?auth=${server.token}&disable=0',
+            basicAuth: {
+              'username': server.basicAuthUser,
+              'password': server.basicAuthPassword,
+            },
+          );
           if (enableOrDisable.statusCode == 200) {
             if (enableOrDisable.body == 'Not authorized!' ||
                 enableOrDisable.body ==
@@ -142,13 +143,15 @@ class ApiGatewayV5 implements ApiGateway {
                 enableOrDisable.body.isEmpty) {
               logger.i(enableOrDisable.body);
               return LoginQueryResponse(
-                  result: APiResponseType.authError,
-                  log: AppLog(
-                      type: 'login',
-                      dateTime: DateTime.now(),
-                      statusCode: status.statusCode.toString(),
-                      message: 'auth_error_1',
-                      resBody: status.body));
+                result: APiResponseType.authError,
+                log: AppLog(
+                  type: 'login',
+                  dateTime: DateTime.now(),
+                  statusCode: status.statusCode.toString(),
+                  message: 'auth_error_1',
+                  resBody: status.body,
+                ),
+              );
             } else {
               final enableOrDisableParsed = jsonDecode(enableOrDisable.body);
               if (enableOrDisableParsed.runtimeType != List) {
@@ -156,83 +159,104 @@ class ApiGatewayV5 implements ApiGateway {
                     .split(';')[0]
                     .split('=')[1];
                 return LoginQueryResponse(
-                    result: APiResponseType.success,
-                    status: statusParsed['status'],
-                    sid: sid);
+                  result: APiResponseType.success,
+                  status: statusParsed['status'],
+                  sid: sid,
+                );
               } else {
                 return LoginQueryResponse(
-                    result: APiResponseType.authError,
-                    log: AppLog(
-                        type: 'login',
-                        dateTime: DateTime.now(),
-                        statusCode: status.statusCode.toString(),
-                        message: 'auth_error_2',
-                        resBody: status.body));
+                  result: APiResponseType.authError,
+                  log: AppLog(
+                    type: 'login',
+                    dateTime: DateTime.now(),
+                    statusCode: status.statusCode.toString(),
+                    message: 'auth_error_2',
+                    resBody: status.body,
+                  ),
+                );
               }
             }
           } else {
             return LoginQueryResponse(
-                result: APiResponseType.authError,
-                log: AppLog(
-                    type: 'login',
-                    dateTime: DateTime.now(),
-                    statusCode: status.statusCode.toString(),
-                    message: 'auth_error_3',
-                    resBody: status.body));
-          }
-        } else {
-          return LoginQueryResponse(
               result: APiResponseType.authError,
               log: AppLog(
-                  type: 'login',
-                  dateTime: DateTime.now(),
-                  statusCode: status.statusCode.toString(),
-                  message: 'auth_error',
-                  resBody: status.body));
-        }
-      } else {
-        return LoginQueryResponse(
-            result: APiResponseType.noConnection,
-            log: AppLog(
                 type: 'login',
                 dateTime: DateTime.now(),
                 statusCode: status.statusCode.toString(),
-                message: 'no_connection_2',
-                resBody: status.body));
+                message: 'auth_error_3',
+                resBody: status.body,
+              ),
+            );
+          }
+        } else {
+          return LoginQueryResponse(
+            result: APiResponseType.authError,
+            log: AppLog(
+              type: 'login',
+              dateTime: DateTime.now(),
+              statusCode: status.statusCode.toString(),
+              message: 'auth_error',
+              resBody: status.body,
+            ),
+          );
+        }
+      } else {
+        return LoginQueryResponse(
+          result: APiResponseType.noConnection,
+          log: AppLog(
+            type: 'login',
+            dateTime: DateTime.now(),
+            statusCode: status.statusCode.toString(),
+            message: 'no_connection_2',
+            resBody: status.body,
+          ),
+        );
       }
     } on SocketException {
       return LoginQueryResponse(
-          result: APiResponseType.socket,
-          log: AppLog(
-              type: 'login',
-              dateTime: DateTime.now(),
-              message: 'SocketException'));
+        result: APiResponseType.socket,
+        log: AppLog(
+          type: 'login',
+          dateTime: DateTime.now(),
+          message: 'SocketException',
+        ),
+      );
     } on TimeoutException {
       return LoginQueryResponse(
-          result: APiResponseType.timeout,
-          log: AppLog(
-              type: 'login',
-              dateTime: DateTime.now(),
-              message: 'TimeoutException'));
+        result: APiResponseType.timeout,
+        log: AppLog(
+          type: 'login',
+          dateTime: DateTime.now(),
+          message: 'TimeoutException',
+        ),
+      );
     } on HandshakeException {
       return LoginQueryResponse(
-          result: APiResponseType.sslError,
-          log: AppLog(
-              type: 'login',
-              dateTime: DateTime.now(),
-              message: 'HandshakeException'));
+        result: APiResponseType.sslError,
+        log: AppLog(
+          type: 'login',
+          dateTime: DateTime.now(),
+          message: 'HandshakeException',
+        ),
+      );
     } on FormatException {
       return LoginQueryResponse(
-          result: APiResponseType.authError,
-          log: AppLog(
-              type: 'login',
-              dateTime: DateTime.now(),
-              message: 'FormatException'));
+        result: APiResponseType.authError,
+        log: AppLog(
+          type: 'login',
+          dateTime: DateTime.now(),
+          message: 'FormatException',
+        ),
+      );
     } catch (e) {
       return LoginQueryResponse(
-          result: APiResponseType.error,
-          log: AppLog(
-              type: 'login', dateTime: DateTime.now(), message: e.toString()));
+        result: APiResponseType.error,
+        log: AppLog(
+          type: 'login',
+          dateTime: DateTime.now(),
+          message: e.toString(),
+        ),
+      );
     }
   }
 
@@ -246,18 +270,20 @@ class ApiGatewayV5 implements ApiGateway {
   Future<RealtimeStatusResponse> realtimeStatus() async {
     try {
       final response = await httpClient(
-          method: 'get',
-          url:
-              '${server.address}/admin/api.php?auth=${server.token}&summaryRaw&topItems&getForwardDestinations&getQuerySources&topClientsBlocked&getQueryTypes',
-          basicAuth: {
-            'username': server.basicAuthUser,
-            'password': server.basicAuthPassword
-          });
+        method: 'get',
+        url:
+            '${server.address}/admin/api.php?auth=${server.token}&summaryRaw&topItems&getForwardDestinations&getQuerySources&topClientsBlocked&getQueryTypes',
+        basicAuth: {
+          'username': server.basicAuthUser,
+          'password': server.basicAuthPassword,
+        },
+      );
       final body = jsonDecode(response.body);
       if (body['status'] != null) {
         return RealtimeStatusResponse(
-            result: APiResponseType.success,
-            data: RealtimeStatus.fromJson(body));
+          result: APiResponseType.success,
+          data: RealtimeStatus.fromJson(body),
+        );
       } else {
         return RealtimeStatusResponse(result: APiResponseType.error);
       }
@@ -279,17 +305,20 @@ class ApiGatewayV5 implements ApiGateway {
   Future<DisableServerResponse> disableServerRequest(int time) async {
     try {
       final response = await httpClient(
-          method: 'get',
-          url:
-              '${server.address}/admin/api.php?auth=${server.token}&disable=$time',
-          basicAuth: {
-            'username': server.basicAuthUser,
-            'password': server.basicAuthPassword
-          });
+        method: 'get',
+        url:
+            '${server.address}/admin/api.php?auth=${server.token}&disable=$time',
+        basicAuth: {
+          'username': server.basicAuthUser,
+          'password': server.basicAuthPassword,
+        },
+      );
       final body = jsonDecode(response.body);
       if (body.runtimeType != List && body['status'] != null) {
         return DisableServerResponse(
-            result: APiResponseType.success, status: body['status']);
+          result: APiResponseType.success,
+          status: body['status'],
+        );
       } else {
         return DisableServerResponse(result: APiResponseType.error);
       }
@@ -311,16 +340,19 @@ class ApiGatewayV5 implements ApiGateway {
   Future<EnableServerResponse> enableServerRequest() async {
     try {
       final response = await httpClient(
-          method: 'get',
-          url: '${server.address}/admin/api.php?auth=${server.token}&enable',
-          basicAuth: {
-            'username': server.basicAuthUser,
-            'password': server.basicAuthPassword
-          });
+        method: 'get',
+        url: '${server.address}/admin/api.php?auth=${server.token}&enable',
+        basicAuth: {
+          'username': server.basicAuthUser,
+          'password': server.basicAuthPassword,
+        },
+      );
       final body = jsonDecode(response.body);
       if (body.runtimeType != List && body['status'] != null) {
         return EnableServerResponse(
-            result: APiResponseType.success, status: body['status']);
+          result: APiResponseType.success,
+          status: body['status'],
+        );
       } else {
         return EnableServerResponse(result: APiResponseType.error);
       }
@@ -344,17 +376,20 @@ class ApiGatewayV5 implements ApiGateway {
   Future<FetchOverTimeDataResponse> fetchOverTimeData() async {
     try {
       final response = await httpClient(
-          method: 'get',
-          url:
-              '${server.address}/admin/api.php?auth=${server.token}&overTimeData10mins&overTimeDataClients&getClientNames',
-          basicAuth: {
-            'username': server.basicAuthUser,
-            'password': server.basicAuthPassword
-          });
+        method: 'get',
+        url:
+            '${server.address}/admin/api.php?auth=${server.token}&overTimeData10mins&overTimeDataClients&getClientNames',
+        basicAuth: {
+          'username': server.basicAuthUser,
+          'password': server.basicAuthPassword,
+        },
+      );
       final body = jsonDecode(response.body);
       var data = OverTimeData.fromJson(body);
       return FetchOverTimeDataResponse(
-          result: APiResponseType.success, data: data);
+        result: APiResponseType.success,
+        data: data,
+      );
     } on SocketException {
       return FetchOverTimeDataResponse(result: APiResponseType.socket);
     } on TimeoutException {
@@ -375,20 +410,24 @@ class ApiGatewayV5 implements ApiGateway {
   Future<FetchLogsResponse> fetchLogs(DateTime from, DateTime until) async {
     try {
       final response = await httpClient(
-          method: 'get',
-          url:
-              '${server.address}/admin/api.php?auth=${server.token}&getAllQueries&from=${from.millisecondsSinceEpoch ~/ 1000}&until=${until.millisecondsSinceEpoch ~/ 1000}',
-          timeout: 20,
-          basicAuth: {
-            'username': server.basicAuthUser,
-            'password': server.basicAuthPassword
-          });
+        method: 'get',
+        url:
+            '${server.address}/admin/api.php?auth=${server.token}&getAllQueries&from=${from.millisecondsSinceEpoch ~/ 1000}&until=${until.millisecondsSinceEpoch ~/ 1000}',
+        timeout: 20,
+        basicAuth: {
+          'username': server.basicAuthUser,
+          'password': server.basicAuthPassword,
+        },
+      );
       final body = jsonDecode(response.body);
       return FetchLogsResponse(
-          result: APiResponseType.success,
-          data: (body['data'] as List)
-              .map((item) => Log.fromJson(item))
-              .toList());
+        result: APiResponseType.success,
+        data: (body['data'] as List)
+            .map(
+              (item) => Log.fromJson(item),
+            )
+            .toList(),
+      );
     } on FormatException {
       return FetchLogsResponse(result: APiResponseType.authError);
     } on SocketException {
@@ -409,26 +448,32 @@ class ApiGatewayV5 implements ApiGateway {
   /// It validates the server's response to confirm the operation's success.
   @override
   Future<SetWhiteBlacklistResponse> setWhiteBlacklist(
-      String domain, String list) async {
+    String domain,
+    String list,
+  ) async {
     try {
       final response = await httpClient(
-          method: 'get',
-          url:
-              '${server.address}/admin/api.php?auth=${server.token}&list=$list&add=$domain',
-          basicAuth: {
-            'username': server.basicAuthUser,
-            'password': server.basicAuthPassword
-          });
+        method: 'get',
+        url:
+            '${server.address}/admin/api.php?auth=${server.token}&list=$list&add=$domain',
+        basicAuth: {
+          'username': server.basicAuthUser,
+          'password': server.basicAuthPassword,
+        },
+      );
       if (response.statusCode == 200) {
         final json = jsonDecode(response.body);
         if (json.runtimeType == List<dynamic>) {
           return SetWhiteBlacklistResponse(
-              result: APiResponseType.error, message: 'not_exists');
+            result: APiResponseType.error,
+            message: 'not_exists',
+          );
         } else {
           if (json['success'] == true) {
             return SetWhiteBlacklistResponse(
-                result: APiResponseType.success,
-                data: DomainResult.fromJson(json));
+              result: APiResponseType.success,
+              data: DomainResult.fromJson(json),
+            );
           } else {
             return SetWhiteBlacklistResponse(result: APiResponseType.error);
           }
@@ -458,32 +503,36 @@ class ApiGatewayV5 implements ApiGateway {
         true) {
       headers = {
         'Authorization':
-            'Basic ${encodeBasicAuth(server.basicAuthUser!, server.basicAuthPassword!)}'
+            'Basic ${encodeBasicAuth(server.basicAuthUser!, server.basicAuthPassword!)}',
       };
     }
 
     try {
       final results = await Future.wait([
         httpClient(
-            method: 'get',
-            url:
-                '${server.address}/admin/api.php?auth=${server.token}&list=white',
-            headers: headers),
+          method: 'get',
+          url:
+              '${server.address}/admin/api.php?auth=${server.token}&list=white',
+          headers: headers,
+        ),
         httpClient(
-            method: 'get',
-            url:
-                '${server.address}/admin/api.php?auth=${server.token}&list=regex_white',
-            headers: headers),
+          method: 'get',
+          url:
+              '${server.address}/admin/api.php?auth=${server.token}&list=regex_white',
+          headers: headers,
+        ),
         httpClient(
-            method: 'get',
-            url:
-                '${server.address}/admin/api.php?auth=${server.token}&list=black',
-            headers: headers),
+          method: 'get',
+          url:
+              '${server.address}/admin/api.php?auth=${server.token}&list=black',
+          headers: headers,
+        ),
         httpClient(
-            method: 'get',
-            url:
-                '${server.address}/admin/api.php?auth=${server.token}&list=regex_black',
-            headers: headers),
+          method: 'get',
+          url:
+              '${server.address}/admin/api.php?auth=${server.token}&list=regex_black',
+          headers: headers,
+        ),
       ]);
 
       if (results[0].statusCode == 200 &&
@@ -525,7 +574,8 @@ class ApiGatewayV5 implements ApiGateway {
   /// by the server's response.
   @override
   Future<RemoveDomainFromListResponse> removeDomainFromList(
-      Domain domain) async {
+    Domain domain,
+  ) async {
     String getType(int type) {
       switch (type) {
         case 0:
@@ -547,22 +597,26 @@ class ApiGatewayV5 implements ApiGateway {
 
     try {
       final response = await httpClient(
-          method: 'get',
-          url:
-              '${server.address}/admin/api.php?auth=${server.token}&list=${getType(domain.type)}&sub=${domain.domain}',
-          basicAuth: {
-            'username': server.basicAuthUser,
-            'password': server.basicAuthPassword
-          });
+        method: 'get',
+        url:
+            '${server.address}/admin/api.php?auth=${server.token}&list=${getType(domain.type)}&sub=${domain.domain}',
+        basicAuth: {
+          'username': server.basicAuthUser,
+          'password': server.basicAuthPassword,
+        },
+      );
       if (response.statusCode == 200) {
         final json = jsonDecode(response.body);
         if (json.runtimeType == List<dynamic>) {
           return RemoveDomainFromListResponse(
-              result: APiResponseType.error, message: 'not_exists');
+            result: APiResponseType.error,
+            message: 'not_exists',
+          );
         } else {
           if (json['success'] == true) {
             return RemoveDomainFromListResponse(
-                result: APiResponseType.success);
+              result: APiResponseType.success,
+            );
           } else {
             return RemoveDomainFromListResponse(result: APiResponseType.error);
           }
@@ -589,16 +643,18 @@ class ApiGatewayV5 implements ApiGateway {
   /// in the list.
   @override
   Future<AddDomainToListResponse> addDomainToList(
-      Map<String, dynamic> domainData) async {
+    Map<String, dynamic> domainData,
+  ) async {
     try {
       final response = await httpClient(
-          method: 'get',
-          url:
-              '${server.address}/admin/api.php?auth=${server.token}&list=${domainData['list']}&add=${domainData['domain']}',
-          basicAuth: {
-            'username': server.basicAuthUser,
-            'password': server.basicAuthPassword
-          });
+        method: 'get',
+        url:
+            '${server.address}/admin/api.php?auth=${server.token}&list=${domainData['list']}&add=${domainData['domain']}',
+        basicAuth: {
+          'username': server.basicAuthUser,
+          'password': server.basicAuthPassword,
+        },
+      );
       if (response.statusCode == 200) {
         final json = jsonDecode(response.body);
         if (json.runtimeType == List<dynamic>) {
@@ -611,7 +667,8 @@ class ApiGatewayV5 implements ApiGateway {
               json['message'] ==
                   'Not adding ${domainData['domain']} as it is already on the list') {
             return AddDomainToListResponse(
-                result: APiResponseType.alreadyAdded);
+              result: APiResponseType.alreadyAdded,
+            );
           } else {
             return AddDomainToListResponse(result: APiResponseType.error);
           }
