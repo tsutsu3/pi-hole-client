@@ -27,23 +27,26 @@ class CustomTabContentList extends StatelessWidget {
     switch (loadStatus) {
       case LoadStatus.loading:
         return SafeArea(
-            top: false,
-            bottom: false,
-            child: Builder(
-              builder: (BuildContext context) => CustomScrollView(
-                slivers: [
-                  SliverOverlapInjector(
-                    handle: NestedScrollView.sliverOverlapAbsorberHandleFor(
-                        context),
+          top: false,
+          bottom: false,
+          child: Builder(
+            builder: (BuildContext context) => CustomScrollView(
+              slivers: [
+                SliverOverlapInjector(
+                  handle: NestedScrollView.sliverOverlapAbsorberHandleFor(
+                    context,
                   ),
-                  SliverFillRemaining(
-                    child: Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 16),
-                        child: loadingGenerator()),
-                  )
-                ],
-              ),
-            ));
+                ),
+                SliverFillRemaining(
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 16),
+                    child: loadingGenerator(),
+                  ),
+                ),
+              ],
+            ),
+          ),
+        );
 
       case LoadStatus.loaded:
         return SafeArea(
@@ -58,18 +61,20 @@ class CustomTabContentList extends StatelessWidget {
                   slivers: <Widget>[
                     SliverOverlapInjector(
                       handle: NestedScrollView.sliverOverlapAbsorberHandleFor(
-                          context),
+                        context,
+                      ),
                     ),
                     if (itemsCount > 0)
                       SliverList(
                         delegate: SliverChildBuilderDelegate(
-                            (context, index) => contentWidget(index),
-                            childCount: itemsCount),
+                          (context, index) => contentWidget(index),
+                          childCount: itemsCount,
+                        ),
                       ),
                     if (itemsCount == 0)
                       SliverFillRemaining(
                         child: noData,
-                      )
+                      ),
                   ],
                 ),
               );
@@ -79,24 +84,27 @@ class CustomTabContentList extends StatelessWidget {
 
       case LoadStatus.error:
         return SafeArea(
-            top: false,
-            bottom: false,
-            child: Builder(
-              builder: (BuildContext context) => CustomScrollView(
-                slivers: [
-                  SliverOverlapInjector(
-                    handle: NestedScrollView.sliverOverlapAbsorberHandleFor(
-                        context),
+          top: false,
+          bottom: false,
+          child: Builder(
+            builder: (BuildContext context) => CustomScrollView(
+              slivers: [
+                SliverOverlapInjector(
+                  handle: NestedScrollView.sliverOverlapAbsorberHandleFor(
+                    context,
                   ),
-                  SliverFillRemaining(
-                    child: Padding(
-                        padding:
-                            const EdgeInsets.only(top: 95, left: 16, right: 16),
-                        child: errorGenerator()),
-                  )
-                ],
-              ),
-            ));
+                ),
+                SliverFillRemaining(
+                  child: Padding(
+                    padding:
+                        const EdgeInsets.only(top: 95, left: 16, right: 16),
+                    child: errorGenerator(),
+                  ),
+                ),
+              ],
+            ),
+          ),
+        );
 
       default:
         return const SizedBox();

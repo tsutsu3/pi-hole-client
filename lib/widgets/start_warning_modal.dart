@@ -76,7 +76,9 @@ class StartInfoModal extends StatelessWidget {
                           AppLocalizations.of(context)!.requiredVersions,
                           textAlign: TextAlign.left,
                           style: const TextStyle(
-                              fontWeight: FontWeight.w500, fontSize: 16),
+                            fontWeight: FontWeight.w500,
+                            fontSize: 16,
+                          ),
                         ),
                         Container(
                           width: double.maxFinite,
@@ -89,8 +91,10 @@ class StartInfoModal extends StatelessWidget {
                                 textAlign: TextAlign.left,
                               ),
                               SizedBox(height: 5),
-                              Text('Web interface: v5.14.2+',
-                                  textAlign: TextAlign.left),
+                              Text(
+                                'Web interface: v5.14.2+',
+                                textAlign: TextAlign.left,
+                              ),
                             ],
                           ),
                         ),
@@ -110,7 +114,9 @@ class StartInfoModal extends StatelessWidget {
                           AppLocalizations.of(context)!.helpUsImprove,
                           textAlign: TextAlign.left,
                           style: const TextStyle(
-                              fontWeight: FontWeight.w500, fontSize: 16),
+                            fontWeight: FontWeight.w500,
+                            fontSize: 16,
+                          ),
                         ),
                         const Padding(padding: EdgeInsets.only(top: 10)),
                         Text(
@@ -126,7 +132,8 @@ class StartInfoModal extends StatelessWidget {
                                 AppLocalizations.of(context)!.allowCrashReport,
                                 textAlign: TextAlign.left,
                                 style: const TextStyle(
-                                    fontWeight: FontWeight.w500),
+                                  fontWeight: FontWeight.w500,
+                                ),
                               ),
                             ),
                             Switch(

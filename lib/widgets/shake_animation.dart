@@ -18,7 +18,9 @@ class ShakeAnimationState extends State<ShakeAnimation>
   @override
   void initState() {
     controller = AnimationController(
-        duration: const Duration(milliseconds: 300), vsync: this);
+      duration: const Duration(milliseconds: 300),
+      vsync: this,
+    );
     super.initState();
   }
 
@@ -42,15 +44,17 @@ class ShakeAnimationState extends State<ShakeAnimation>
       });
 
     return AnimatedBuilder(
-        animation: offsetAnimation,
-        child: widget.child,
-        builder: (context, child) {
-          return Container(
-            padding: EdgeInsets.only(
-                left: offsetAnimation.value + 50.0,
-                right: 50.0 - offsetAnimation.value),
-            child: child,
-          );
-        });
+      animation: offsetAnimation,
+      child: widget.child,
+      builder: (context, child) {
+        return Container(
+          padding: EdgeInsets.only(
+            left: offsetAnimation.value + 50.0,
+            right: 50.0 - offsetAnimation.value,
+          ),
+          child: child,
+        );
+      },
+    );
   }
 }

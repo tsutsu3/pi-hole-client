@@ -9,15 +9,16 @@ class CustomListTile extends StatelessWidget {
   final Widget? trailing;
   final EdgeInsets? padding;
 
-  const CustomListTile(
-      {super.key,
-      this.leadingIcon,
-      required this.label,
-      this.description,
-      this.color,
-      this.onTap,
-      this.trailing,
-      this.padding});
+  const CustomListTile({
+    super.key,
+    this.leadingIcon,
+    required this.label,
+    this.description,
+    this.color,
+    this.onTap,
+    this.trailing,
+    this.padding,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -59,17 +60,18 @@ class CustomListTile extends StatelessWidget {
                           Text(
                             description!,
                             style: TextStyle(
-                                color: color ??
-                                    Theme.of(context)
-                                        .colorScheme
-                                        .onSurfaceVariant),
-                          )
+                              color: color ??
+                                  Theme.of(context)
+                                      .colorScheme
+                                      .onSurfaceVariant,
+                            ),
+                          ),
                         ],
-                      )
+                      ),
                   ],
                 ),
               ),
-              if (trailing != null) trailing!
+              if (trailing != null) trailing!,
             ],
           ),
         ),

@@ -47,8 +47,9 @@ class CustomRadioListTile extends StatelessWidget {
                       child: Text(
                         title,
                         style: TextStyle(
-                            fontSize: 16,
-                            color: Theme.of(context).colorScheme.onSurface),
+                          fontSize: 16,
+                          color: Theme.of(context).colorScheme.onSurface,
+                        ),
                       ),
                     ),
                     if (subtitle != null) ...[
@@ -58,11 +59,12 @@ class CustomRadioListTile extends StatelessWidget {
                         child: Text(
                           subtitle!,
                           style: TextStyle(
-                              color: Theme.of(context).listTileTheme.textColor,
-                              fontSize: 14),
+                            color: Theme.of(context).listTileTheme.textColor,
+                            fontSize: 14,
+                          ),
                         ),
                       ),
-                    ]
+                    ],
                   ],
                 ),
               ),

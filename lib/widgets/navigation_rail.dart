@@ -47,8 +47,9 @@ class CustomNavigationRail extends StatelessWidget {
       onDestinationSelected: onChange,
       destinations: screens
           .map((screen) => NavigationRailDestination(
-              icon: screen.icon,
-              label: Text(getStringLocalization(screen.name))))
+                icon: screen.icon,
+                label: Text(getStringLocalization(screen.name)),
+              ))
           .toList(),
       labelType: NavigationRailLabelType.all,
       useIndicator: true,

@@ -47,7 +47,9 @@ class BottomNavBar extends StatelessWidget {
       onDestinationSelected: onChange,
       destinations: screens
           .map((screen) => NavigationDestination(
-              icon: screen.icon, label: getStringLocalization(screen.name)))
+                icon: screen.icon,
+                label: getStringLocalization(screen.name),
+              ))
           .toList(),
     );
   }
