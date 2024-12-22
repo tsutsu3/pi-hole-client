@@ -1,12 +1,12 @@
 <a id="readme-top"></a>
 
-
 <!-- PROJECT SHIELDS -->
 <!-- https://www.markdownguide.org/basic-syntax/#reference-style-links -->
 [![Issues][issues-shield]][issues-url]
 [![MIT License][license-shield]][license-url]
 [![CodeCov][codecov-shield]][codecov-url]
 [![Codaocy][codacy-shield]][codacy-url]
+[![SonarQube][sonar-quality-gate-shield]][sonar-quality-gate-url]
 ![Status][status-shield]
 <!-- [![CodeClimate][codeclimate-shield]][codeclimate-url] -->
 
@@ -194,3 +194,5 @@ For details on the licenses applicable to this project, please refer to [LICENSE
 [codeclimate-url]: https://codeclimate.com/github/tsutsu3/pi-hole-client/maintainability
 [codacy-shield]: https://img.shields.io/codacy/grade/a8a50d5271be491ab68c69513f808ada?style=for-the-badge&logo=codacy
 [codacy-url]: https://app.codacy.com/gh/tsutsu3/pi-hole-client/dashboard
+[sonar-quality-gate-shield]: https://img.shields.io/sonar/quality_gate/tsutsu3_pi-hole-client?server=https://sonarcloud.io&style=for-the-badge&logo=sonarqube
+[sonar-quality-gate-url]: https://sonarcloud.io/summary/new_code?id=tsutsu3_pi-hole-client
