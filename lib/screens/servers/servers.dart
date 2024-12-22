@@ -77,75 +77,79 @@ class _ServersPageState extends State<ServersPage> {
 
     void openAddServer({Server? server}) async {
       await Future.delayed(
-          const Duration(seconds: 0),
-          (() => {
-                if (width > 900)
-                  {
-                    showDialog(
-                        context: context,
-                        builder: (context) => AddServerFullscreen(
-                            server: server,
-                            window: true,
-                            title:
-                                AppLocalizations.of(context)!.createConnection),
-                        barrierDismissible: false)
-                  }
-                else
-                  {
-                    Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            fullscreenDialog: true,
-                            builder: (BuildContext context) =>
-                                AddServerFullscreen(
-                                    server: server,
-                                    window: false,
-                                    title: AppLocalizations.of(context)!
-                                        .createConnection)))
-                  }
-              }));
+        const Duration(seconds: 0),
+        (() => {
+              if (width > 900)
+                {
+                  showDialog(
+                    context: context,
+                    builder: (context) => AddServerFullscreen(
+                      server: server,
+                      window: true,
+                      title: AppLocalizations.of(context)!.createConnection,
+                    ),
+                    barrierDismissible: false,
+                  ),
+                }
+              else
+                {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      fullscreenDialog: true,
+                      builder: (BuildContext context) => AddServerFullscreen(
+                        server: server,
+                        window: false,
+                        title: AppLocalizations.of(context)!.createConnection,
+                      ),
+                    ),
+                  ),
+                },
+            }),
+      );
     }
 
     return PopScope(
-        canPop: true,
-        onPopInvokedWithResult: (didPop, result) async {
-          if (serversProvider.selectedServer == null) {
-            appConfigProvider.setSelectedTab(0);
-          }
+      canPop: true,
+      onPopInvokedWithResult: (didPop, result) async {
+        if (serversProvider.selectedServer == null) {
+          appConfigProvider.setSelectedTab(0);
+        }
 
-          if (didPop) {
-            return;
-          }
-        },
-        child: Scaffold(
-          appBar: AppBar(
-            title: Text(AppLocalizations.of(context)!.servers),
-          ),
-          body: Stack(
-            children: [
-              ServersList(
-                context: context,
-                controllers: expandableControllerList,
-                onChange: expandOrContract,
-                scrollController: scrollController,
-                breakingWidth: 700,
+        if (didPop) {
+          return;
+        }
+      },
+      child: Scaffold(
+        appBar: AppBar(
+          title: Text(AppLocalizations.of(context)!.servers),
+        ),
+        body: Stack(
+          children: [
+            ServersList(
+              context: context,
+              controllers: expandableControllerList,
+              onChange: expandOrContract,
+              scrollController: scrollController,
+              breakingWidth: 700,
+            ),
+            AnimatedPositioned(
+              duration: const Duration(milliseconds: 100),
+              curve: Curves.easeInOut,
+              bottom: isVisible
+                  ? appConfigProvider.showingSnackbar
+                      ? 70
+                      : (Platform.isIOS ? 40 : 20)
+                  : -70,
+              right: 20,
+              child: FloatingActionButton(
+                onPressed: openAddServer,
+                child: const Icon(Icons.add),
               ),
-              AnimatedPositioned(
-                duration: const Duration(milliseconds: 100),
-                curve: Curves.easeInOut,
-                bottom: isVisible
-                    ? appConfigProvider.showingSnackbar
-                        ? 70
-                        : (Platform.isIOS ? 40 : 20)
-                    : -70,
-                right: 20,
-                child: FloatingActionButton(
-                  onPressed: openAddServer,
-                  child: const Icon(Icons.add),
-                ),
-              ),
-            ],
-          ),
-        ));
+            ),
+          ],
+        ),
+      ),
+    );
   }
 }

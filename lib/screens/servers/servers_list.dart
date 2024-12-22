@@ -15,13 +15,14 @@ class ServersList extends StatelessWidget {
   final ScrollController scrollController;
   final double breakingWidth;
 
-  const ServersList(
-      {super.key,
-      required this.context,
-      required this.controllers,
-      required this.onChange,
-      required this.scrollController,
-      required this.breakingWidth});
+  const ServersList({
+    super.key,
+    required this.context,
+    required this.controllers,
+    required this.onChange,
+    required this.scrollController,
+    required this.breakingWidth,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -35,13 +36,14 @@ class ServersList extends StatelessWidget {
                 .asMap()
                 .entries
                 .map((s) => ServersTileItem(
-                    breakingWidth: breakingWidth,
-                    server: serversProvider.getServersList[s.key],
-                    index: s.key,
-                    onChange: onChange))
+                      breakingWidth: breakingWidth,
+                      server: serversProvider.getServersList[s.key],
+                      index: s.key,
+                      onChange: onChange,
+                    ))
                 .toList(),
           ),
-          const SizedBox(height: 8)
+          const SizedBox(height: 8),
         ],
       );
     } else {

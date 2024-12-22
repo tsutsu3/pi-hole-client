@@ -28,14 +28,16 @@ class DeleteModal extends StatelessWidget {
       Navigator.pop(context);
       if (deleted == true) {
         showSnackBar(
-            appConfigProvider: appConfigProvider,
-            label: AppLocalizations.of(context)!.connectionRemoved,
-            color: Colors.green);
+          appConfigProvider: appConfigProvider,
+          label: AppLocalizations.of(context)!.connectionRemoved,
+          color: Colors.green,
+        );
       } else {
         showSnackBar(
-            appConfigProvider: appConfigProvider,
-            label: AppLocalizations.of(context)!.connectionCannotBeRemoved,
-            color: Colors.red);
+          appConfigProvider: appConfigProvider,
+          label: AppLocalizations.of(context)!.connectionCannotBeRemoved,
+          color: Colors.red,
+        );
       }
     }
 
@@ -79,8 +81,9 @@ class DeleteModal extends StatelessWidget {
       ),
       actions: [
         TextButton(
-            onPressed: () => {Navigator.pop(context)},
-            child: Text(AppLocalizations.of(context)!.cancel)),
+          onPressed: () => {Navigator.pop(context)},
+          child: Text(AppLocalizations.of(context)!.cancel),
+        ),
         TextButton(
           onPressed: removeServer,
           child: Text(AppLocalizations.of(context)!.remove),

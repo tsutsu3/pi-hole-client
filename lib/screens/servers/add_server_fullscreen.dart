@@ -214,9 +214,10 @@ class _AddServerFullscreenState extends State<AddServerFullscreen> {
           isConnecting = false;
         });
         showSnackBar(
-            appConfigProvider: appConfigProvider,
-            label: AppLocalizations.of(context)!.cannotCheckUrlSaved,
-            color: Colors.red);
+          appConfigProvider: appConfigProvider,
+          label: AppLocalizations.of(context)!.cannotCheckUrlSaved,
+          color: Colors.red,
+        );
       } else {
         setState(() {
           errorUrl = null;
@@ -254,39 +255,45 @@ class _AddServerFullscreenState extends State<AddServerFullscreen> {
             });
             if (result?.result == APiResponseType.socket) {
               showSnackBar(
-                  appConfigProvider: appConfigProvider,
-                  label: AppLocalizations.of(context)!.checkAddress,
-                  color: Colors.red);
+                appConfigProvider: appConfigProvider,
+                label: AppLocalizations.of(context)!.checkAddress,
+                color: Colors.red,
+              );
               appConfigProvider.addLog(result!.log!);
             } else if (result?.result == APiResponseType.timeout) {
               showSnackBar(
-                  appConfigProvider: appConfigProvider,
-                  label: AppLocalizations.of(context)!.connectionTimeout,
-                  color: Colors.red);
+                appConfigProvider: appConfigProvider,
+                label: AppLocalizations.of(context)!.connectionTimeout,
+                color: Colors.red,
+              );
               appConfigProvider.addLog(result!.log!);
             } else if (result?.result == APiResponseType.noConnection) {
               showSnackBar(
-                  appConfigProvider: appConfigProvider,
-                  label: AppLocalizations.of(context)!.cantReachServer,
-                  color: Colors.red);
+                appConfigProvider: appConfigProvider,
+                label: AppLocalizations.of(context)!.cantReachServer,
+                color: Colors.red,
+              );
               appConfigProvider.addLog(result!.log!);
             } else if (result?.result == APiResponseType.authError) {
               showSnackBar(
-                  appConfigProvider: appConfigProvider,
-                  label: AppLocalizations.of(context)!.tokenNotValid,
-                  color: Colors.red);
+                appConfigProvider: appConfigProvider,
+                label: AppLocalizations.of(context)!.tokenNotValid,
+                color: Colors.red,
+              );
               appConfigProvider.addLog(result!.log!);
             } else if (result?.result == APiResponseType.sslError) {
               showSnackBar(
-                  appConfigProvider: appConfigProvider,
-                  label: AppLocalizations.of(context)!.sslErrorLong,
-                  color: Colors.red);
+                appConfigProvider: appConfigProvider,
+                label: AppLocalizations.of(context)!.sslErrorLong,
+                color: Colors.red,
+              );
               appConfigProvider.addLog(result!.log!);
             } else {
               showSnackBar(
-                  appConfigProvider: appConfigProvider,
-                  label: AppLocalizations.of(context)!.unknownError,
-                  color: Colors.red);
+                appConfigProvider: appConfigProvider,
+                label: AppLocalizations.of(context)!.unknownError,
+                color: Colors.red,
+              );
               appConfigProvider.addLog(result!.log!);
             }
           } else {
@@ -335,9 +342,10 @@ class _AddServerFullscreenState extends State<AddServerFullscreen> {
               isConnecting = false;
             });
             showSnackBar(
-                appConfigProvider: appConfigProvider,
-                label: AppLocalizations.of(context)!.cantSaveConnectionData,
-                color: Colors.red);
+              appConfigProvider: appConfigProvider,
+              label: AppLocalizations.of(context)!.cantSaveConnectionData,
+              color: Colors.red,
+            );
           }
         }
       } else {
@@ -347,34 +355,40 @@ class _AddServerFullscreenState extends State<AddServerFullscreen> {
           });
           if (result?.result == APiResponseType.socket) {
             showSnackBar(
-                appConfigProvider: appConfigProvider,
-                label: AppLocalizations.of(context)!.checkAddress,
-                color: Colors.red);
+              appConfigProvider: appConfigProvider,
+              label: AppLocalizations.of(context)!.checkAddress,
+              color: Colors.red,
+            );
           } else if (result?.result == APiResponseType.timeout) {
             showSnackBar(
-                appConfigProvider: appConfigProvider,
-                label: AppLocalizations.of(context)!.connectionTimeout,
-                color: Colors.red);
+              appConfigProvider: appConfigProvider,
+              label: AppLocalizations.of(context)!.connectionTimeout,
+              color: Colors.red,
+            );
           } else if (result?.result == APiResponseType.noConnection) {
             showSnackBar(
-                appConfigProvider: appConfigProvider,
-                label: AppLocalizations.of(context)!.cantReachServer,
-                color: Colors.red);
+              appConfigProvider: appConfigProvider,
+              label: AppLocalizations.of(context)!.cantReachServer,
+              color: Colors.red,
+            );
           } else if (result?.result == APiResponseType.authError) {
             showSnackBar(
-                appConfigProvider: appConfigProvider,
-                label: AppLocalizations.of(context)!.tokenNotValid,
-                color: Colors.red);
+              appConfigProvider: appConfigProvider,
+              label: AppLocalizations.of(context)!.tokenNotValid,
+              color: Colors.red,
+            );
           } else if (result?.result == APiResponseType.sslError) {
             showSnackBar(
-                appConfigProvider: appConfigProvider,
-                label: AppLocalizations.of(context)!.sslErrorLong,
-                color: Colors.red);
+              appConfigProvider: appConfigProvider,
+              label: AppLocalizations.of(context)!.sslErrorLong,
+              color: Colors.red,
+            );
           } else {
             showSnackBar(
-                appConfigProvider: appConfigProvider,
-                label: AppLocalizations.of(context)!.unknownError,
-                color: Colors.red);
+              appConfigProvider: appConfigProvider,
+              label: AppLocalizations.of(context)!.unknownError,
+              color: Colors.red,
+            );
           }
         } else {
           isConnecting = false;
@@ -397,11 +411,12 @@ class _AddServerFullscreenState extends State<AddServerFullscreen> {
 
     void openScanTokenModal() {
       showDialog(
-          context: context,
-          builder: (context) => ScanTokenModal(
-                qrScanned: (value) =>
-                    setState(() => tokenFieldController.text = value),
-              ));
+        context: context,
+        builder: (context) => ScanTokenModal(
+          qrScanned: (value) =>
+              setState(() => tokenFieldController.text = value),
+        ),
+      );
     }
 
     Widget buildV5Settings(BuildContext context) {
@@ -422,7 +437,8 @@ class _AddServerFullscreenState extends State<AddServerFullscreen> {
                     decoration: InputDecoration(
                       prefixIcon: const Icon(Icons.key_rounded),
                       border: const OutlineInputBorder(
-                          borderRadius: BorderRadius.all(Radius.circular(10))),
+                        borderRadius: BorderRadius.all(Radius.circular(10)),
+                      ),
                       labelText: AppLocalizations.of(context)!.token,
                     ),
                   ),
@@ -433,8 +449,8 @@ class _AddServerFullscreenState extends State<AddServerFullscreen> {
                     onPressed: openScanTokenModal,
                     icon: const Icon(Icons.qr_code_rounded),
                     tooltip: AppLocalizations.of(context)!.scanQrCode,
-                  )
-                ]
+                  ),
+                ],
               ],
             ),
           ),
@@ -450,17 +466,19 @@ class _AddServerFullscreenState extends State<AddServerFullscreen> {
                   ),
                   const SizedBox(width: 16),
                   Flexible(
-                      child: Text(
-                    AppLocalizations.of(context)!.tokenInstructions,
-                  ))
+                    child: Text(
+                      AppLocalizations.of(context)!.tokenInstructions,
+                    ),
+                  ),
                 ],
               ),
             ),
           ),
           const SizedBox(height: 20),
           SectionLabel(
-              label: AppLocalizations.of(context)!.basicAuth,
-              padding: const EdgeInsets.only(top: 10, bottom: 10)),
+            label: AppLocalizations.of(context)!.basicAuth,
+            padding: const EdgeInsets.only(top: 10, bottom: 10),
+          ),
           Card(
             margin: const EdgeInsets.only(top: 20, bottom: 10),
             child: Padding(
@@ -473,9 +491,10 @@ class _AddServerFullscreenState extends State<AddServerFullscreen> {
                   ),
                   const SizedBox(width: 16),
                   Flexible(
-                      child: Text(
-                    AppLocalizations.of(context)!.basicAuthInfo,
-                  ))
+                    child: Text(
+                      AppLocalizations.of(context)!.basicAuthInfo,
+                    ),
+                  ),
                 ],
               ),
             ),
@@ -488,7 +507,8 @@ class _AddServerFullscreenState extends State<AddServerFullscreen> {
               decoration: InputDecoration(
                 prefixIcon: const Icon(Icons.person_rounded),
                 border: const OutlineInputBorder(
-                    borderRadius: BorderRadius.all(Radius.circular(10))),
+                  borderRadius: BorderRadius.all(Radius.circular(10)),
+                ),
                 labelText: AppLocalizations.of(context)!.username,
               ),
             ),
@@ -503,7 +523,8 @@ class _AddServerFullscreenState extends State<AddServerFullscreen> {
               decoration: InputDecoration(
                 prefixIcon: const Icon(Icons.key_rounded),
                 border: const OutlineInputBorder(
-                    borderRadius: BorderRadius.all(Radius.circular(10))),
+                  borderRadius: BorderRadius.all(Radius.circular(10)),
+                ),
                 labelText: AppLocalizations.of(context)!.password,
               ),
             ),
@@ -530,7 +551,8 @@ class _AddServerFullscreenState extends State<AddServerFullscreen> {
                     decoration: InputDecoration(
                       prefixIcon: const Icon(Icons.key_rounded),
                       border: const OutlineInputBorder(
-                          borderRadius: BorderRadius.all(Radius.circular(10))),
+                        borderRadius: BorderRadius.all(Radius.circular(10)),
+                      ),
                       labelText: AppLocalizations.of(context)!.password,
                     ),
                   ),
@@ -554,27 +576,29 @@ class _AddServerFullscreenState extends State<AddServerFullscreen> {
                       const EdgeInsets.symmetric(horizontal: 15, vertical: 10),
                   margin: const EdgeInsets.only(bottom: 10),
                   decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(50),
-                      border: Border.all(
-                          color: Theme.of(context).colorScheme.primary),
-                      color: Theme.of(context)
-                          .colorScheme
-                          .primary
-                          .withOpacity(0.05)),
+                    borderRadius: BorderRadius.circular(50),
+                    border: Border.all(
+                      color: Theme.of(context).colorScheme.primary,
+                    ),
+                    color:
+                        Theme.of(context).colorScheme.primary.withOpacity(0.05),
+                  ),
                   child: Column(
                     children: [
                       Text(
                         '${connectionType.name}://${addressFieldController.text}${portFieldController.text != '' ? ':${portFieldController.text}' : ''}${subrouteFieldController.text}',
                         style: TextStyle(
-                            fontWeight: FontWeight.bold,
-                            color: Theme.of(context).colorScheme.primary),
+                          fontWeight: FontWeight.bold,
+                          color: Theme.of(context).colorScheme.primary,
+                        ),
                       ),
                     ],
                   ),
                 ),
                 SectionLabel(
-                    label: AppLocalizations.of(context)!.connection,
-                    padding: const EdgeInsets.symmetric(vertical: 16)),
+                  label: AppLocalizations.of(context)!.connection,
+                  padding: const EdgeInsets.symmetric(vertical: 16),
+                ),
                 Padding(
                   padding: const EdgeInsets.symmetric(vertical: 20),
                   child: TextField(
@@ -583,7 +607,8 @@ class _AddServerFullscreenState extends State<AddServerFullscreen> {
                     decoration: InputDecoration(
                       prefixIcon: const Icon(Icons.badge_outlined),
                       border: const OutlineInputBorder(
-                          borderRadius: BorderRadius.all(Radius.circular(10))),
+                        borderRadius: BorderRadius.all(Radius.circular(10)),
+                      ),
                       labelText: AppLocalizations.of(context)!.serverName,
                     ),
                   ),
@@ -594,9 +619,13 @@ class _AddServerFullscreenState extends State<AddServerFullscreen> {
                   child: SegmentedButton<ConnectionType>(
                     segments: const [
                       ButtonSegment(
-                          value: ConnectionType.http, label: Text('HTTP')),
+                        value: ConnectionType.http,
+                        label: Text('HTTP'),
+                      ),
                       ButtonSegment(
-                          value: ConnectionType.https, label: Text('HTTPS')),
+                        value: ConnectionType.https,
+                        label: Text('HTTPS'),
+                      ),
                     ],
                     selected: <ConnectionType>{connectionType},
                     onSelectionChanged: (value) =>
@@ -613,7 +642,8 @@ class _AddServerFullscreenState extends State<AddServerFullscreen> {
                       errorText: addressFieldError,
                       prefixIcon: const Icon(Icons.link),
                       border: const OutlineInputBorder(
-                          borderRadius: BorderRadius.all(Radius.circular(10))),
+                        borderRadius: BorderRadius.all(Radius.circular(10)),
+                      ),
                       labelText: AppLocalizations.of(context)!.address,
                     ),
                   ),
@@ -628,7 +658,8 @@ class _AddServerFullscreenState extends State<AddServerFullscreen> {
                       errorText: subrouteFieldError,
                       prefixIcon: const Icon(Icons.route_rounded),
                       border: const OutlineInputBorder(
-                          borderRadius: BorderRadius.all(Radius.circular(10))),
+                        borderRadius: BorderRadius.all(Radius.circular(10)),
+                      ),
                       labelText: AppLocalizations.of(context)!.subrouteField,
                       hintText: AppLocalizations.of(context)!.subrouteExample,
                       helperText: AppLocalizations.of(context)!.subrouteHelper,
@@ -646,14 +677,16 @@ class _AddServerFullscreenState extends State<AddServerFullscreen> {
                       errorText: portFieldError,
                       prefixIcon: const Icon(Icons.numbers),
                       border: const OutlineInputBorder(
-                          borderRadius: BorderRadius.all(Radius.circular(10))),
+                        borderRadius: BorderRadius.all(Radius.circular(10)),
+                      ),
                       labelText: AppLocalizations.of(context)!.port,
                     ),
                   ),
                 ),
                 SectionLabel(
-                    label: AppLocalizations.of(context)!.version,
-                    padding: const EdgeInsets.only(top: 30, bottom: 10)),
+                  label: AppLocalizations.of(context)!.version,
+                  padding: const EdgeInsets.only(top: 30, bottom: 10),
+                ),
                 Align(
                   alignment: Alignment.centerLeft,
                   child: Text(
@@ -667,11 +700,13 @@ class _AddServerFullscreenState extends State<AddServerFullscreen> {
                   child: SegmentedButton<String>(
                     segments: const [
                       ButtonSegment(
-                          value: SupportedApiVersions.v5,
-                          label: Text(SupportedApiVersions.v5)),
+                        value: SupportedApiVersions.v5,
+                        label: Text(SupportedApiVersions.v5),
+                      ),
                       ButtonSegment(
-                          value: SupportedApiVersions.v6,
-                          label: Text(SupportedApiVersions.v6))
+                        value: SupportedApiVersions.v6,
+                        label: Text(SupportedApiVersions.v6),
+                      ),
                     ],
                     selected: <String>{piHoleVersion},
                     onSelectionChanged: (value) =>
@@ -679,8 +714,9 @@ class _AddServerFullscreenState extends State<AddServerFullscreen> {
                   ),
                 ),
                 SectionLabel(
-                    label: AppLocalizations.of(context)!.authentication,
-                    padding: const EdgeInsets.only(top: 30, bottom: 0)),
+                  label: AppLocalizations.of(context)!.authentication,
+                  padding: const EdgeInsets.only(top: 30, bottom: 0),
+                ),
                 Padding(
                   padding: const EdgeInsets.symmetric(vertical: 10),
                   child: piHoleVersion == SupportedApiVersions.v5
@@ -695,7 +731,8 @@ class _AddServerFullscreenState extends State<AddServerFullscreen> {
                       onChanged: widget.server == null
                           ? (value) => {
                                 setState(
-                                    () => defaultCheckbox = !defaultCheckbox)
+                                  () => defaultCheckbox = !defaultCheckbox,
+                                ),
                               }
                           : null,
                       shape: RoundedRectangleBorder(
@@ -706,15 +743,17 @@ class _AddServerFullscreenState extends State<AddServerFullscreen> {
                       onTap: widget.server == null
                           ? (() => {
                                 setState(
-                                    () => defaultCheckbox = !defaultCheckbox)
+                                  () => defaultCheckbox = !defaultCheckbox,
+                                ),
                               })
                           : null,
                       child: Text(
                         AppLocalizations.of(context)!.defaultConnection,
                         style: TextStyle(
-                            color: widget.server != null ? Colors.grey : null),
+                          color: widget.server != null ? Colors.grey : null,
+                        ),
                       ),
-                    )
+                    ),
                   ],
                 ),
               ],
@@ -729,8 +768,10 @@ class _AddServerFullscreenState extends State<AddServerFullscreen> {
                   Text(
                     errorUrl!,
                     style: const TextStyle(
-                        fontWeight: FontWeight.bold, color: Colors.red),
-                  )
+                      fontWeight: FontWeight.bold,
+                      color: Colors.red,
+                    ),
+                  ),
                 ],
               ),
             ),
@@ -752,8 +793,9 @@ class _AddServerFullscreenState extends State<AddServerFullscreen> {
                     Row(
                       children: [
                         IconButton(
-                            onPressed: () => Navigator.pop(context),
-                            icon: const Icon(Icons.clear_rounded)),
+                          onPressed: () => Navigator.pop(context),
+                          icon: const Icon(Icons.clear_rounded),
+                        ),
                         const SizedBox(width: 8),
                         Text(
                           widget.title,
@@ -772,24 +814,25 @@ class _AddServerFullscreenState extends State<AddServerFullscreen> {
                         Padding(
                           padding: const EdgeInsets.only(right: 10),
                           child: IconButton(
-                              tooltip: widget.server != null
-                                  ? AppLocalizations.of(context)!.save
-                                  : AppLocalizations.of(context)!.connect,
-                              onPressed: validData()
-                                  ? widget.server != null
-                                      ? save
-                                      : connect
-                                  : null,
-                              icon: widget.server != null
-                                  ? const Icon(Icons.save_rounded)
-                                  : const Icon(Icons.login_rounded)),
+                            tooltip: widget.server != null
+                                ? AppLocalizations.of(context)!.save
+                                : AppLocalizations.of(context)!.connect,
+                            onPressed: validData()
+                                ? widget.server != null
+                                    ? save
+                                    : connect
+                                : null,
+                            icon: widget.server != null
+                                ? const Icon(Icons.save_rounded)
+                                : const Icon(Icons.login_rounded),
+                          ),
                         ),
                       ],
-                    )
+                    ),
                   ],
                 ),
               ),
-              Expanded(child: formItems())
+              Expanded(child: formItems()),
             ],
           ),
         ),
@@ -798,33 +841,35 @@ class _AddServerFullscreenState extends State<AddServerFullscreen> {
       return Stack(
         children: [
           Scaffold(
-              appBar: AppBar(
-                title: Text(widget.title),
-                actions: [
-                  IconButton(
-                    onPressed: () => openUrl(createAConnectionUrl),
-                    icon: const Icon(Icons.help_outline_rounded),
-                    tooltip: AppLocalizations.of(context)!.howCreateConnection,
+            appBar: AppBar(
+              title: Text(widget.title),
+              actions: [
+                IconButton(
+                  onPressed: () => openUrl(createAConnectionUrl),
+                  icon: const Icon(Icons.help_outline_rounded),
+                  tooltip: AppLocalizations.of(context)!.howCreateConnection,
+                ),
+                Padding(
+                  padding: const EdgeInsets.only(right: 10),
+                  child: IconButton(
+                    tooltip: widget.server != null
+                        ? AppLocalizations.of(context)!.save
+                        : AppLocalizations.of(context)!.connect,
+                    onPressed: validData()
+                        ? widget.server != null
+                            ? save
+                            : connect
+                        : null,
+                    icon: widget.server != null
+                        ? const Icon(Icons.save_rounded)
+                        : const Icon(Icons.login_rounded),
                   ),
-                  Padding(
-                    padding: const EdgeInsets.only(right: 10),
-                    child: IconButton(
-                        tooltip: widget.server != null
-                            ? AppLocalizations.of(context)!.save
-                            : AppLocalizations.of(context)!.connect,
-                        onPressed: validData()
-                            ? widget.server != null
-                                ? save
-                                : connect
-                            : null,
-                        icon: widget.server != null
-                            ? const Icon(Icons.save_rounded)
-                            : const Icon(Icons.login_rounded)),
-                  ),
-                ],
-                toolbarHeight: 70,
-              ),
-              body: formItems()),
+                ),
+              ],
+              toolbarHeight: 70,
+            ),
+            body: formItems(),
+          ),
           AnimatedOpacity(
             opacity: isConnecting == true ? 1 : 0,
             duration: const Duration(milliseconds: 250),
@@ -847,16 +892,17 @@ class _AddServerFullscreenState extends State<AddServerFullscreen> {
                       Text(
                         AppLocalizations.of(context)!.connecting,
                         style: const TextStyle(
-                            color: Colors.white,
-                            fontWeight: FontWeight.w500,
-                            fontSize: 26),
-                      )
+                          color: Colors.white,
+                          fontWeight: FontWeight.w500,
+                          fontSize: 26,
+                        ),
+                      ),
                     ],
                   ),
                 ),
               ),
             ),
-          )
+          ),
         ],
       );
     }
