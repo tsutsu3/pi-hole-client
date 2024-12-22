@@ -105,7 +105,7 @@ class DomainsListProvider with ChangeNotifier {
     if (result?.result == APiResponseType.success) {
       final List<Domain> whitelist = [
         ...result!.data!.whitelist,
-        ...result.data!.whitelistRegex
+        ...result.data!.whitelistRegex,
       ];
       _whitelistDomains = whitelist;
       _filteredWhitelistDomains =
@@ -113,7 +113,7 @@ class DomainsListProvider with ChangeNotifier {
 
       final List<Domain> blacklist = [
         ...result.data!.blacklist,
-        ...result.data!.blacklistRegex
+        ...result.data!.blacklistRegex,
       ];
       _blacklistDomains = blacklist;
       _filteredBlacklistDomains =
