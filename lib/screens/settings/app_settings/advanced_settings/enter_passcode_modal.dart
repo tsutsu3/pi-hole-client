@@ -104,9 +104,11 @@ class _EnterPasscodeModalState extends State<EnterPasscodeModal> {
             TextButton(
               onPressed: _code.length == 4 ? finish : null,
               style: ButtonStyle(
-                foregroundColor: WidgetStateProperty.all(_code.length == 4
-                    ? Theme.of(context).colorScheme.primary
-                    : Colors.grey),
+                foregroundColor: WidgetStateProperty.all(
+                  _code.length == 4
+                      ? Theme.of(context).colorScheme.primary
+                      : Colors.grey,
+                ),
               ),
               child: Text(AppLocalizations.of(context)!.confirm),
             ),

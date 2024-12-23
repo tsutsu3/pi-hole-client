@@ -50,9 +50,11 @@ class _CreatePassCodeModalState extends State<CreatePassCodeModal> {
 
     return Scaffold(
       appBar: AppBar(
-        title: Text(_step == 0
-            ? AppLocalizations.of(context)!.enterPasscode
-            : AppLocalizations.of(context)!.repeatPasscode),
+        title: Text(
+          _step == 0
+              ? AppLocalizations.of(context)!.enterPasscode
+              : AppLocalizations.of(context)!.repeatPasscode,
+        ),
         elevation: 5,
         actions: [
           TextButton(
@@ -64,17 +66,21 @@ class _CreatePassCodeModalState extends State<CreatePassCodeModal> {
                     ? finish
                     : null,
             style: ButtonStyle(
-              foregroundColor: WidgetStateProperty.all(_step == 0
-                  ? _code.length == 4
-                      ? Theme.of(context).colorScheme.primary
-                      : Colors.grey
-                  : _repeatedCode.length == 4
-                      ? Theme.of(context).colorScheme.primary
-                      : Colors.grey),
+              foregroundColor: WidgetStateProperty.all(
+                _step == 0
+                    ? _code.length == 4
+                        ? Theme.of(context).colorScheme.primary
+                        : Colors.grey
+                    : _repeatedCode.length == 4
+                        ? Theme.of(context).colorScheme.primary
+                        : Colors.grey,
+              ),
             ),
-            child: Text(_step == 0
-                ? AppLocalizations.of(context)!.next
-                : AppLocalizations.of(context)!.finish),
+            child: Text(
+              _step == 0
+                  ? AppLocalizations.of(context)!.next
+                  : AppLocalizations.of(context)!.finish,
+            ),
           ),
         ],
       ),

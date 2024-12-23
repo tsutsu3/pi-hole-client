@@ -123,68 +123,69 @@ class StatisticsListContent extends StatelessWidget {
 
       return Column(
         children: [
-          ...values.map((item) => Material(
-                color: Colors.transparent,
-                child: InkWell(
-                  onTap: () => navigateFilter(item['label']),
-                  child: Container(
-                    padding: const EdgeInsets.symmetric(
-                      horizontal: 20,
-                      vertical: 10,
-                    ),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Expanded(
-                          flex: 2,
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text(
-                                item['label'],
-                                overflow: TextOverflow.ellipsis,
-                                maxLines: 1,
-                                softWrap: false,
-                                style: const TextStyle(fontSize: 15),
+          ...values.map(
+            (item) => Material(
+              color: Colors.transparent,
+              child: InkWell(
+                onTap: () => navigateFilter(item['label']),
+                child: Container(
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 20,
+                    vertical: 10,
+                  ),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Expanded(
+                        flex: 2,
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              item['label'],
+                              overflow: TextOverflow.ellipsis,
+                              maxLines: 1,
+                              softWrap: false,
+                              style: const TextStyle(fontSize: 15),
+                            ),
+                            const SizedBox(height: 10),
+                            Text(
+                              '$countLabel ${item['value'].toInt().toString()}',
+                              overflow: TextOverflow.ellipsis,
+                              maxLines: 1,
+                              softWrap: false,
+                              style: TextStyle(
+                                fontSize: 14,
+                                color: Theme.of(context)
+                                    .colorScheme
+                                    .onSurfaceVariant,
                               ),
-                              const SizedBox(height: 10),
-                              Text(
-                                '$countLabel ${item['value'].toInt().toString()}',
-                                overflow: TextOverflow.ellipsis,
-                                maxLines: 1,
-                                softWrap: false,
-                                style: TextStyle(
-                                  fontSize: 14,
-                                  color: Theme.of(context)
-                                      .colorScheme
-                                      .onSurfaceVariant,
-                                ),
-                              ),
-                            ],
-                          ),
+                            ),
+                          ],
                         ),
-                        const SizedBox(width: 20),
-                        Expanded(
-                          flex: 1,
-                          child: LinearPercentIndicator(
-                            animation: true,
-                            lineHeight: 10,
-                            animationDuration: 500,
-                            curve: Curves.easeOut,
-                            percent: (item['value'] / totalHits).toDouble(),
-                            barRadius: const Radius.circular(5),
-                            progressColor:
-                                Theme.of(context).colorScheme.primary,
-                            backgroundColor: Theme.of(context)
-                                .colorScheme
-                                .surfaceContainerHighest,
-                          ),
+                      ),
+                      const SizedBox(width: 20),
+                      Expanded(
+                        flex: 1,
+                        child: LinearPercentIndicator(
+                          animation: true,
+                          lineHeight: 10,
+                          animationDuration: 500,
+                          curve: Curves.easeOut,
+                          percent: (item['value'] / totalHits).toDouble(),
+                          barRadius: const Radius.circular(5),
+                          progressColor: Theme.of(context).colorScheme.primary,
+                          backgroundColor: Theme.of(context)
+                              .colorScheme
+                              .surfaceContainerHighest,
                         ),
-                      ],
-                    ),
+                      ),
+                    ],
                   ),
                 ),
-              )),
+              ),
+            ),
+          ),
         ],
       );
     }
@@ -227,35 +228,39 @@ class StatisticsListContent extends StatelessWidget {
     }
 
     if (type == 'domains') {
-      return Column(children: [
-        statusProvider.getRealtimeStatus!.topQueries.isNotEmpty
-            ? generateList(
-                statusProvider.getRealtimeStatus!.topQueries,
-                AppLocalizations.of(context)!.topPermittedDomains,
-              )
-            : NoDataChart(topLabel: AppLocalizations.of(context)!.noData),
-        statusProvider.getRealtimeStatus!.topAds.isNotEmpty
-            ? generateList(
-                statusProvider.getRealtimeStatus!.topAds,
-                AppLocalizations.of(context)!.topBlockedDomains,
-              )
-            : NoDataChart(topLabel: AppLocalizations.of(context)!.noData),
-      ]);
+      return Column(
+        children: [
+          statusProvider.getRealtimeStatus!.topQueries.isNotEmpty
+              ? generateList(
+                  statusProvider.getRealtimeStatus!.topQueries,
+                  AppLocalizations.of(context)!.topPermittedDomains,
+                )
+              : NoDataChart(topLabel: AppLocalizations.of(context)!.noData),
+          statusProvider.getRealtimeStatus!.topAds.isNotEmpty
+              ? generateList(
+                  statusProvider.getRealtimeStatus!.topAds,
+                  AppLocalizations.of(context)!.topBlockedDomains,
+                )
+              : NoDataChart(topLabel: AppLocalizations.of(context)!.noData),
+        ],
+      );
     } else if (type == 'clients') {
-      return Column(children: [
-        statusProvider.getRealtimeStatus!.topSources.isNotEmpty
-            ? generateList(
-                statusProvider.getRealtimeStatus!.topSources,
-                AppLocalizations.of(context)!.topClients,
-              )
-            : NoDataChart(topLabel: AppLocalizations.of(context)!.noData),
-        statusProvider.getRealtimeStatus!.topSourcesBlocked.isNotEmpty
-            ? generateList(
-                statusProvider.getRealtimeStatus!.topSourcesBlocked,
-                AppLocalizations.of(context)!.topClientsBlocked,
-              )
-            : NoDataChart(topLabel: AppLocalizations.of(context)!.noData),
-      ]);
+      return Column(
+        children: [
+          statusProvider.getRealtimeStatus!.topSources.isNotEmpty
+              ? generateList(
+                  statusProvider.getRealtimeStatus!.topSources,
+                  AppLocalizations.of(context)!.topClients,
+                )
+              : NoDataChart(topLabel: AppLocalizations.of(context)!.noData),
+          statusProvider.getRealtimeStatus!.topSourcesBlocked.isNotEmpty
+              ? generateList(
+                  statusProvider.getRealtimeStatus!.topSourcesBlocked,
+                  AppLocalizations.of(context)!.topClientsBlocked,
+                )
+              : NoDataChart(topLabel: AppLocalizations.of(context)!.noData),
+        ],
+      );
     } else {
       return const SizedBox();
     }

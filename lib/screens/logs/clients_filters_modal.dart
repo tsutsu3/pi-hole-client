@@ -117,10 +117,12 @@ class _ClientsFiltersModalState extends State<ClientsFiltersModal> {
                     style: const TextStyle(fontSize: 24),
                   ),
                 ),
-                ...filtersProvider.totalClients.map((e) => listItem(
-                      label: e,
-                      value: e,
-                    )),
+                ...filtersProvider.totalClients.map(
+                  (e) => listItem(
+                    label: e,
+                    value: e,
+                  ),
+                ),
               ],
             ),
           ),

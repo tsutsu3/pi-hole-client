@@ -35,12 +35,14 @@ class ServersList extends StatelessWidget {
             children: serversProvider.getServersList
                 .asMap()
                 .entries
-                .map((s) => ServersTileItem(
-                      breakingWidth: breakingWidth,
-                      server: serversProvider.getServersList[s.key],
-                      index: s.key,
-                      onChange: onChange,
-                    ))
+                .map(
+                  (s) => ServersTileItem(
+                    breakingWidth: breakingWidth,
+                    server: serversProvider.getServersList[s.key],
+                    index: s.key,
+                    onChange: onChange,
+                  ),
+                )
                 .toList(),
           ),
           const SizedBox(height: 8),

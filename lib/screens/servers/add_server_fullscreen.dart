@@ -237,17 +237,19 @@ class _AddServerFullscreenState extends State<AddServerFullscreen> {
         if (!mounted) return;
         if (result?.result == APiResponseType.success) {
           Navigator.pop(context);
-          serversProvider.addServer(Server(
-            address: serverObj.address,
-            alias: serverObj.alias,
-            token: serverObj.token,
-            defaultServer: defaultCheckbox,
-            apiVersion: piHoleVersion,
-            enabled: result!.status == 'enabled' ? true : false,
-            basicAuthUser: basicAuthUser.text,
-            basicAuthPassword: basicAuthPassword.text,
-            sm: serverObj.sm,
-          ));
+          serversProvider.addServer(
+            Server(
+              address: serverObj.address,
+              alias: serverObj.alias,
+              token: serverObj.token,
+              defaultServer: defaultCheckbox,
+              apiVersion: piHoleVersion,
+              enabled: result!.status == 'enabled' ? true : false,
+              basicAuthUser: basicAuthUser.text,
+              basicAuthPassword: basicAuthPassword.text,
+              sm: serverObj.sm,
+            ),
+          );
         } else {
           if (mounted) {
             setState(() {

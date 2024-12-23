@@ -262,12 +262,14 @@ class _HomeState extends State<Home> {
                               handle: NestedScrollView
                                   .sliverOverlapAbsorberHandleFor(context),
                             ),
-                            SliverList.list(children: [
-                              tiles(),
-                              const SizedBox(height: 24),
-                              const HomeCharts(),
-                              const SizedBox(height: 16),
-                            ]),
+                            SliverList.list(
+                              children: [
+                                tiles(),
+                                const SizedBox(height: 24),
+                                const HomeCharts(),
+                                const SizedBox(height: 16),
+                              ],
+                            ),
                           ],
                         ),
                       ),

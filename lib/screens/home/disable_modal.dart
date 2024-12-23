@@ -319,30 +319,32 @@ class _DisableModalState extends State<DisableModal> {
                 ),
                 Padding(
                   padding: const EdgeInsets.all(16),
-                  child:
-                      Row(mainAxisAlignment: MainAxisAlignment.end, children: [
-                    TextButton(
-                      onPressed: () => Navigator.pop(context),
-                      child: Text(AppLocalizations.of(context)!.cancel),
-                    ),
-                    const SizedBox(width: 20),
-                    TextButton(
-                      onPressed: _selectionIsValid() == true
-                          ? () {
-                              Navigator.pop(context);
-                              widget.onDisable(_getTime());
-                            }
-                          : null,
-                      style: ButtonStyle(
-                        foregroundColor: _selectionIsValid() == true
-                            ? WidgetStateProperty.all(
-                                Theme.of(context).colorScheme.primary,
-                              )
-                            : WidgetStateProperty.all(Colors.grey),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.end,
+                    children: [
+                      TextButton(
+                        onPressed: () => Navigator.pop(context),
+                        child: Text(AppLocalizations.of(context)!.cancel),
                       ),
-                      child: Text(AppLocalizations.of(context)!.accept),
-                    ),
-                  ]),
+                      const SizedBox(width: 20),
+                      TextButton(
+                        onPressed: _selectionIsValid() == true
+                            ? () {
+                                Navigator.pop(context);
+                                widget.onDisable(_getTime());
+                              }
+                            : null,
+                        style: ButtonStyle(
+                          foregroundColor: _selectionIsValid() == true
+                              ? WidgetStateProperty.all(
+                                  Theme.of(context).colorScheme.primary,
+                                )
+                              : WidgetStateProperty.all(Colors.grey),
+                        ),
+                        child: Text(AppLocalizations.of(context)!.accept),
+                      ),
+                    ],
+                  ),
                 ),
               ],
             ),
@@ -384,30 +386,32 @@ class _DisableModalState extends State<DisableModal> {
                 ),
                 Padding(
                   padding: const EdgeInsets.all(16),
-                  child:
-                      Row(mainAxisAlignment: MainAxisAlignment.end, children: [
-                    TextButton(
-                      onPressed: () => Navigator.pop(context),
-                      child: Text(AppLocalizations.of(context)!.cancel),
-                    ),
-                    const SizedBox(width: 20),
-                    TextButton(
-                      onPressed: _selectionIsValid() == true
-                          ? () {
-                              Navigator.pop(context);
-                              widget.onDisable(_getTime());
-                            }
-                          : null,
-                      style: ButtonStyle(
-                        foregroundColor: _selectionIsValid() == true
-                            ? WidgetStateProperty.all(
-                                Theme.of(context).colorScheme.primary,
-                              )
-                            : WidgetStateProperty.all(Colors.grey),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.end,
+                    children: [
+                      TextButton(
+                        onPressed: () => Navigator.pop(context),
+                        child: Text(AppLocalizations.of(context)!.cancel),
                       ),
-                      child: Text(AppLocalizations.of(context)!.accept),
-                    ),
-                  ]),
+                      const SizedBox(width: 20),
+                      TextButton(
+                        onPressed: _selectionIsValid() == true
+                            ? () {
+                                Navigator.pop(context);
+                                widget.onDisable(_getTime());
+                              }
+                            : null,
+                        style: ButtonStyle(
+                          foregroundColor: _selectionIsValid() == true
+                              ? WidgetStateProperty.all(
+                                  Theme.of(context).colorScheme.primary,
+                                )
+                              : WidgetStateProperty.all(Colors.grey),
+                        ),
+                        child: Text(AppLocalizations.of(context)!.accept),
+                      ),
+                    ],
+                  ),
                 ),
               ],
             ),

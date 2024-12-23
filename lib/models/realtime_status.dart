@@ -131,13 +131,21 @@ class RealtimeStatus {
         forwardDestinations: ((json['forward_destinations'].runtimeType !=
                     List<dynamic>) &&
                 (json['forward_destinations']) != null)
-            ? sortValues(removeZeroValues(Map.from(json['forward_destinations'])
-                .map((k, v) => MapEntry<String, double>(k, v.toDouble()))))
+            ? sortValues(
+                removeZeroValues(
+                  Map.from(json['forward_destinations'])
+                      .map((k, v) => MapEntry<String, double>(k, v.toDouble())),
+                ),
+              )
             : {},
         queryTypes: ((json['querytypes'].runtimeType != List<dynamic>) &&
                 (json['querytypes'] != null))
-            ? sortValues(removeZeroValues(Map.from(json['querytypes'])
-                .map((k, v) => MapEntry<String, double>(k, v.toDouble()))))
+            ? sortValues(
+                removeZeroValues(
+                  Map.from(json['querytypes'])
+                      .map((k, v) => MapEntry<String, double>(k, v.toDouble())),
+                ),
+              )
             : {},
       );
 
@@ -154,9 +162,12 @@ class RealtimeStatus {
     // Calculate the percentage of each query type
     final totalQueryTypes =
         summary.queries.types.toJson().values.reduce((a, b) => a + b);
-    final queryTypes = sortValues(removeZeroValues(summary.queries.types
-        .toJson()
-        .map((key, value) => MapEntry(key, (value / totalQueryTypes) * 100))));
+    final queryTypes = sortValues(
+      removeZeroValues(
+        summary.queries.types.toJson().map(
+            (key, value) => MapEntry(key, (value / totalQueryTypes) * 100)),
+      ),
+    );
 
     final topQueries = topPermittedDomains.domains.isNotEmpty
         ? Map.fromEntries(
@@ -206,16 +217,20 @@ class RealtimeStatus {
             .reduce((a, b) => a + b)
         : 0;
     final forwardDestinations = upstreams.upstreams.isNotEmpty
-        ? sortValues(removeZeroValues(Map.fromEntries(
-            upstreams.upstreams.map(
-              (upstream) => MapEntry<String, double>(
-                upstream.port == -1
-                    ? '${upstream.name}|${upstream.ip}'
-                    : '${upstream.name}#${upstream.port}|${upstream.ip}#${upstream.port}',
-                upstream.count / totalForwardDestinations * 100,
+        ? sortValues(
+            removeZeroValues(
+              Map.fromEntries(
+                upstreams.upstreams.map(
+                  (upstream) => MapEntry<String, double>(
+                    upstream.port == -1
+                        ? '${upstream.name}|${upstream.ip}'
+                        : '${upstream.name}#${upstream.port}|${upstream.ip}#${upstream.port}',
+                    upstream.count / totalForwardDestinations * 100,
+                  ),
+                ),
               ),
             ),
-          )))
+          )
         : <String, double>{};
 
     // memo:

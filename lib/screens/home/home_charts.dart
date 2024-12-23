@@ -82,8 +82,10 @@ class HomeCharts extends StatelessWidget {
           children: [
             FractionallySizedBox(
               widthFactor: width > 700 ? 0.5 : 1,
-              child: checkExistsData(statusProvider
-                          .getOvertimeDataJson!['domains_over_time']) &&
+              child: checkExistsData(
+                        statusProvider
+                            .getOvertimeDataJson!['domains_over_time'],
+                      ) &&
                       checkExistsData(
                         statusProvider.getOvertimeDataJson!['ads_over_time'],
                       )

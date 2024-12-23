@@ -37,8 +37,10 @@ class OverTimeData {
         clients:
             List<Client>.from(json['clients'].map((x) => Client.fromJson(x))),
         overTime: (json['over_time'].runtimeType != List<dynamic>)
-            ? Map.from(json['over_time']).map((k, v) =>
-                MapEntry<String, List<int>>(k, List<int>.from(v.map((x) => x))))
+            ? Map.from(json['over_time']).map(
+                (k, v) => MapEntry<String, List<int>>(
+                    k, List<int>.from(v.map((x) => x))),
+              )
             : {},
       );
 
@@ -108,8 +110,10 @@ class OverTimeData {
         'ads_over_time': Map.from(adsOverTime)
             .map((k, v) => MapEntry<String, dynamic>(k, v)),
         'clients': List<dynamic>.from(clients.map((x) => x.toJson())),
-        'over_time': Map.from(overTime).map((k, v) =>
-            MapEntry<String, dynamic>(k, List<dynamic>.from(v.map((x) => x)))),
+        'over_time': Map.from(overTime).map(
+          (k, v) =>
+              MapEntry<String, dynamic>(k, List<dynamic>.from(v.map((x) => x))),
+        ),
       };
 }
 

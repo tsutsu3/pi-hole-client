@@ -69,21 +69,23 @@ class Statistics extends StatelessWidget {
                 ),
               ];
             },
-            body: TabBarView(children: [
-              QueriesServersTab(
-                onRefresh: () async => await refreshServerStatus(context),
-              ),
-              StatisticsList(
-                countLabel: AppLocalizations.of(context)!.hits,
-                type: 'domains',
-                onRefresh: () async => await refreshServerStatus(context),
-              ),
-              StatisticsList(
-                countLabel: AppLocalizations.of(context)!.requests,
-                type: 'clients',
-                onRefresh: () async => await refreshServerStatus(context),
-              ),
-            ]),
+            body: TabBarView(
+              children: [
+                QueriesServersTab(
+                  onRefresh: () async => await refreshServerStatus(context),
+                ),
+                StatisticsList(
+                  countLabel: AppLocalizations.of(context)!.hits,
+                  type: 'domains',
+                  onRefresh: () async => await refreshServerStatus(context),
+                ),
+                StatisticsList(
+                  countLabel: AppLocalizations.of(context)!.requests,
+                  type: 'clients',
+                  onRefresh: () async => await refreshServerStatus(context),
+                ),
+              ],
+            ),
           ),
         ),
       );

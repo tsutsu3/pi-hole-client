@@ -95,25 +95,31 @@ class ClientsLastHours extends StatelessWidget {
             for (var i = 0; i < items.length - 1; i++) {
               if (hideZeroValues == true) {
                 if (items[i].y > 0 && items[i].barIndex < data.length - 1) {
-                  tooltipItems.add(LineTooltipItem(
-                    '${data['clientsColors'][items[i].barIndex]['ip']}: ${items[i].y.toInt().toString()}',
-                    TextStyle(
-                      fontWeight: FontWeight.bold,
-                      fontSize: 14,
-                      color: data['clientsColors'][items[i].barIndex]['color'],
+                  tooltipItems.add(
+                    LineTooltipItem(
+                      '${data['clientsColors'][items[i].barIndex]['ip']}: ${items[i].y.toInt().toString()}',
+                      TextStyle(
+                        fontWeight: FontWeight.bold,
+                        fontSize: 14,
+                        color: data['clientsColors'][items[i].barIndex]
+                            ['color'],
+                      ),
                     ),
-                  ));
+                  );
                 }
               } else {
                 if (items[i].barIndex < data.length - 1) {
-                  tooltipItems.add(LineTooltipItem(
-                    '${data['clientsColors'][items[i].barIndex]['ip']}: ${items[i].y.toInt().toString()}',
-                    TextStyle(
-                      fontWeight: FontWeight.bold,
-                      fontSize: 14,
-                      color: data['clientsColors'][items[i].barIndex]['color'],
+                  tooltipItems.add(
+                    LineTooltipItem(
+                      '${data['clientsColors'][items[i].barIndex]['ip']}: ${items[i].y.toInt().toString()}',
+                      TextStyle(
+                        fontWeight: FontWeight.bold,
+                        fontSize: 14,
+                        color: data['clientsColors'][items[i].barIndex]
+                            ['color'],
+                      ),
                     ),
-                  ));
+                  );
                 }
               }
             }
@@ -164,10 +170,12 @@ class ClientsLastHours extends StatelessWidget {
           if (data['over_time'][keys[j]][i] > topPoint) {
             topPoint = data['over_time'][keys[j]][i];
           }
-          client.add(FlSpot(
-            xPosition.toDouble(),
-            data['over_time'][keys[j]][i].toDouble(),
-          ));
+          client.add(
+            FlSpot(
+              xPosition.toDouble(),
+              data['over_time'][keys[j]][i].toDouble(),
+            ),
+          );
           xPosition++;
         }
         items.add(

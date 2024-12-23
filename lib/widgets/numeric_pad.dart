@@ -59,11 +59,13 @@ class NumericPad extends StatelessWidget {
         child: AspectRatio(
           aspectRatio: 1 / 1,
           child: Padding(
-            padding: EdgeInsets.all(width <= 700
-                ? width > height
-                    ? height * 0.05
-                    : width * 0.05
-                : 10),
+            padding: EdgeInsets.all(
+              width <= 700
+                  ? width > height
+                      ? height * 0.05
+                      : width * 0.05
+                  : 10,
+            ),
             child: ElevatedButton(
               onPressed: code.length < 4
                   ? () {
@@ -93,11 +95,13 @@ class NumericPad extends StatelessWidget {
         child: AspectRatio(
           aspectRatio: 1 / 1,
           child: Padding(
-            padding: EdgeInsets.all(width <= 700
-                ? width > height
-                    ? height * 0.05
-                    : width * 0.05
-                : 10),
+            padding: EdgeInsets.all(
+              width <= 700
+                  ? width > height
+                      ? height * 0.05
+                      : width * 0.05
+                  : 10,
+            ),
             child: ElevatedButton(
               onPressed: code.isNotEmpty
                   ? () {

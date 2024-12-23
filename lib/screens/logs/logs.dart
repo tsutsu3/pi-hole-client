@@ -582,8 +582,10 @@ class _LogsState extends State<Logs> {
                               children: [
                                 const Icon(Icons.arrow_downward_rounded),
                                 const SizedBox(width: 15),
-                                Text(AppLocalizations.of(context)!
-                                    .fromLatestToOldest),
+                                Text(
+                                  AppLocalizations.of(context)!
+                                      .fromLatestToOldest,
+                                ),
                               ],
                             ),
                             CustomRadio(
@@ -604,8 +606,10 @@ class _LogsState extends State<Logs> {
                               children: [
                                 const Icon(Icons.arrow_upward_rounded),
                                 const SizedBox(width: 15),
-                                Text(AppLocalizations.of(context)!
-                                    .fromOldestToLatest),
+                                Text(
+                                  AppLocalizations.of(context)!
+                                      .fromOldestToLatest,
+                                ),
                               ],
                             ),
                             CustomRadio(
