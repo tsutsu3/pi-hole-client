@@ -43,21 +43,29 @@ class _DomainsListState extends State<DomainsList> {
   void initState() {
     super.initState();
     isVisible = true;
-    widget.scrollController.addListener(() {
+    widget.scrollController.addListener(_scrollListener);
+  }
+
+  void _scrollListener() {
+    if (widget.scrollController.position.userScrollDirection ==
+        ScrollDirection.reverse) {
+      if (mounted && isVisible == true) {
+        setState(() => isVisible = false);
+      }
+    } else {
       if (widget.scrollController.position.userScrollDirection ==
-          ScrollDirection.reverse) {
-        if (mounted && isVisible == true) {
-          setState(() => isVisible = false);
-        }
-      } else {
-        if (widget.scrollController.position.userScrollDirection ==
-            ScrollDirection.forward) {
-          if (mounted && isVisible == false) {
-            setState(() => isVisible = true);
-          }
+          ScrollDirection.forward) {
+        if (mounted && isVisible == false) {
+          setState(() => isVisible = true);
         }
       }
-    });
+    }
+  }
+
+  @override
+  void dispose() {
+    widget.scrollController.removeListener(_scrollListener);
+    super.dispose();
   }
 
   @override
