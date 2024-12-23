@@ -10,9 +10,9 @@ class OptionBox extends StatelessWidget {
   });
 
   final Widget child;
-  final dynamic optionsValue;
-  final dynamic itemValue;
-  final void Function(dynamic) onTap;
+  final int? optionsValue;
+  final int itemValue;
+  final void Function(int) onTap;
 
   @override
   Widget build(BuildContext context) {

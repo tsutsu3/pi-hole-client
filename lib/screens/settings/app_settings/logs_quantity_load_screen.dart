@@ -27,7 +27,7 @@ class _LogsQuantityLoadScreenState extends State<LogsQuantityLoadScreen> {
     );
   }
 
-  void _updateRadioValue(value) {
+  void _updateRadioValue(int value) {
     setState(() {
       selectedOption = value;
     });

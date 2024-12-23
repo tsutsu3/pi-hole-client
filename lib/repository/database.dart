@@ -188,7 +188,7 @@ class DatabaseRepository {
   /// Returns:
   /// - A `Future` that resolves to `true` if the save operation is successful.
   /// - Returns `null` or an appropriate error response if the operation fails.
-  Future<dynamic> saveServerQuery(Server server) async {
+  Future<bool?> saveServerQuery(Server server) async {
     try {
       if (server.token != null) {
         await _secureStorage.saveValue(
@@ -256,7 +256,7 @@ class DatabaseRepository {
   /// Throws:
   /// - [Exception] may be thrown if there is an issue with the database
   ///   transaction.
-  Future<dynamic> editServerQuery(Server server) async {
+  Future<bool> editServerQuery(Server server) async {
     try {
       if (server.token != null) {
         await _secureStorage.saveValue(
@@ -315,7 +315,7 @@ class DatabaseRepository {
   /// Returns:
   /// - A `Future` that resolves to `true` if the operation is successful, or
   ///   `null` if an error occurs.
-  Future<dynamic> setDefaultServerQuery(String url) async {
+  Future<bool?> setDefaultServerQuery(String url) async {
     try {
       await _dbInstance.transaction((txn) async {
         await txn.update(
@@ -482,11 +482,11 @@ class DatabaseRepository {
   ///   `false` if it fails.
   Future<bool> updateConfigQuery({
     required String column,
-    required dynamic value,
+    required Object? value,
   }) async {
     try {
       if (column == 'passCode') {
-        await _secureStorage.saveValue('passCode', value);
+        await _secureStorage.saveValue('passCode', value.toString());
         return true;
       }
 

@@ -46,6 +46,6 @@ class Domain {
         'date_added': dateAdded,
         'date_modified': dateModified,
         'comment': comment,
-        'groups': List<dynamic>.from(groups.map((x) => x)),
+        'groups': List<int>.from(groups.map((x) => x)),
       };
 }

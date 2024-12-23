@@ -25,7 +25,7 @@ class _DisableModalState extends State<DisableModal> {
 
   final ExpandableController expandableController = ExpandableController();
 
-  void _updateRadioValue(value) {
+  void _updateRadioValue(int? value) {
     setState(() {
       selectedOption = value;
       if (selectedOption != 5) {
@@ -37,7 +37,7 @@ class _DisableModalState extends State<DisableModal> {
     });
   }
 
-  void _validateCustomMinutes(value) {
+  void _validateCustomMinutes(String value) {
     if (int.tryParse(value) != null) {
       setState(() {
         customTimeIsValid = true;

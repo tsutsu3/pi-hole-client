@@ -542,12 +542,18 @@ class ApiGatewayV5 implements ApiGateway {
         return GetDomainLists(
           result: APiResponseType.success,
           data: DomainListResult(
-            whitelist: parseDomainList(jsonDecode(results[0].body)['data']),
-            whitelistRegex:
-                parseDomainList(jsonDecode(results[1].body)['data']),
-            blacklist: parseDomainList(jsonDecode(results[2].body)['data']),
-            blacklistRegex:
-                parseDomainList(jsonDecode(results[3].body)['data']),
+            whitelist: parseDomainList(
+              jsonDecode(results[0].body)['data'].cast<Map<String, dynamic>>(),
+            ),
+            whitelistRegex: parseDomainList(
+              jsonDecode(results[1].body)['data'].cast<Map<String, dynamic>>(),
+            ),
+            blacklist: parseDomainList(
+              jsonDecode(results[2].body)['data'].cast<Map<String, dynamic>>(),
+            ),
+            blacklistRegex: parseDomainList(
+              jsonDecode(results[3].body)['data'].cast<Map<String, dynamic>>(),
+            ),
           ),
         );
       } else {
