@@ -59,6 +59,7 @@ dart_code_metrics:
   metrics-exclude:
     - test/**
   rules:
-    # common
     - member-ordering
     - no-object-declaration
+    - prefer-match-file-name: false
+    - no-empty-block: false
