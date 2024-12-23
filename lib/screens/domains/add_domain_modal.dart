@@ -4,16 +4,16 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:pi_hole_client/widgets/custom_list_tile.dart';
 
 class AddDomainModal extends StatefulWidget {
-  final String selectedlist;
-  final void Function(Map<String, dynamic>) addDomain;
-  final bool window;
-
   const AddDomainModal({
     super.key,
     required this.selectedlist,
     required this.addDomain,
     required this.window,
   });
+
+  final String selectedlist;
+  final void Function(Map<String, dynamic>) addDomain;
+  final bool window;
 
   @override
   State<AddDomainModal> createState() => _AddDomainModalState();

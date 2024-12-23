@@ -10,12 +10,12 @@ import 'package:pi_hole_client/functions/snackbar.dart';
 import 'package:pi_hole_client/models/server.dart';
 
 class DeleteModal extends StatelessWidget {
-  final Server serverToDelete;
-
   const DeleteModal({
     super.key,
     required this.serverToDelete,
   });
+
+  final Server serverToDelete;
 
   @override
   Widget build(BuildContext context) {

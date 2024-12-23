@@ -2,12 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class NoDataChart extends StatelessWidget {
-  final String topLabel;
-
   const NoDataChart({
     super.key,
     required this.topLabel,
   });
+
+  final String topLabel;
 
   @override
   Widget build(BuildContext context) {

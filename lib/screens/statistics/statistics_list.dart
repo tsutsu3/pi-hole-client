@@ -15,16 +15,16 @@ import 'package:pi_hole_client/providers/app_config_provider.dart';
 import 'package:pi_hole_client/functions/conversions.dart';
 
 class StatisticsList extends StatelessWidget {
-  final String countLabel;
-  final String type;
-  final Future<void> Function() onRefresh;
-
   const StatisticsList({
     super.key,
     required this.countLabel,
     required this.type,
     required this.onRefresh,
   });
+
+  final String countLabel;
+  final String type;
+  final Future<void> Function() onRefresh;
 
   @override
   Widget build(BuildContext context) {
@@ -84,14 +84,14 @@ class StatisticsList extends StatelessWidget {
 }
 
 class StatisticsListContent extends StatelessWidget {
-  final String type;
-  final String countLabel;
-
   const StatisticsListContent({
     super.key,
     required this.type,
     required this.countLabel,
   });
+
+  final String type;
+  final String countLabel;
 
   @override
   Widget build(BuildContext context) {

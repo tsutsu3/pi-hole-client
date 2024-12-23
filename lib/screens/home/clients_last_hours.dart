@@ -7,11 +7,6 @@ import 'package:pi_hole_client/constants/colors.dart';
 import 'package:pi_hole_client/providers/app_config_provider.dart';
 
 class ClientsLastHours extends StatelessWidget {
-  final List<String> realtimeListIps;
-  final Map<String, dynamic> data;
-  final bool reducedData;
-  final bool hideZeroValues;
-
   const ClientsLastHours({
     super.key,
     required this.realtimeListIps,
@@ -19,6 +14,11 @@ class ClientsLastHours extends StatelessWidget {
     required this.reducedData,
     required this.hideZeroValues,
   });
+
+  final List<String> realtimeListIps;
+  final Map<String, dynamic> data;
+  final bool reducedData;
+  final bool hideZeroValues;
 
   LineChartData mainData(Map<String, dynamic> data, ThemeMode selectedTheme) {
     final double interval = (data['topPoint'] / 5).toDouble() > 0

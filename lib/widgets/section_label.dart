@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 
 class SectionLabel extends StatelessWidget {
+  const SectionLabel({super.key, required this.label, this.padding});
+
   final String label;
   final EdgeInsets? padding;
-
-  const SectionLabel({super.key, required this.label, this.padding});
 
   @override
   Widget build(BuildContext context) {

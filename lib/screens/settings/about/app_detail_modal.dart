@@ -6,10 +6,10 @@ import 'package:pi_hole_client/constants/urls.dart';
 import 'package:pi_hole_client/functions/open_url.dart';
 
 class AppDetailModal extends StatefulWidget {
-  final String? _appVersion;
-
   const AppDetailModal({super.key, String? appVersion})
       : _appVersion = appVersion;
+
+  final String? _appVersion;
 
   @override
   State<AppDetailModal> createState() => _AppDetailModalState();

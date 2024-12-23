@@ -3,14 +3,14 @@ import 'package:pi_hole_client/providers/servers_provider.dart';
 import 'package:provider/provider.dart';
 
 class LogStatus extends StatelessWidget {
-  final String status;
-  final bool showIcon;
-
   const LogStatus({
     super.key,
     required this.status,
     required this.showIcon,
   });
+
+  final String status;
+  final bool showIcon;
 
   @override
   Widget build(BuildContext context) {

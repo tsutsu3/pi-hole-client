@@ -16,12 +16,12 @@ import 'package:pi_hole_client/providers/servers_provider.dart';
 import 'package:pi_hole_client/models/server.dart';
 
 class ServersPage extends StatefulWidget {
-  final bool? isFromBase;
-
   const ServersPage({
     super.key,
     this.isFromBase,
   });
+
+  final bool? isFromBase;
 
   @override
   State<ServersPage> createState() => _ServersPageState();

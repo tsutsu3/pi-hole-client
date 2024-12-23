@@ -10,14 +10,14 @@ import 'package:pi_hole_client/functions/format.dart';
 import 'package:pi_hole_client/models/domain.dart';
 
 class DomainDetailsScreen extends StatelessWidget {
-  final Domain domain;
-  final void Function(Domain) remove;
-
   const DomainDetailsScreen({
     super.key,
     required this.domain,
     required this.remove,
   });
+
+  final Domain domain;
+  final void Function(Domain) remove;
 
   @override
   Widget build(BuildContext context) {

@@ -4,12 +4,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class ResetModal extends StatefulWidget {
-  final void Function() onConfirm;
-
   const ResetModal({
     super.key,
     required this.onConfirm,
   });
+
+  final void Function() onConfirm;
 
   @override
   State<ResetModal> createState() => _ResetModalState();

@@ -7,9 +7,9 @@ import 'package:pi_hole_client/providers/filters_provider.dart';
 import 'package:pi_hole_client/functions/format.dart';
 
 class NoLogsMessage extends StatelessWidget {
-  final double logsPerQuery;
-
   const NoLogsMessage({super.key, required this.logsPerQuery});
+
+  final double logsPerQuery;
 
   @override
   Widget build(BuildContext context) {

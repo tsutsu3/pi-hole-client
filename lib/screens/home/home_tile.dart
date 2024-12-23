@@ -1,12 +1,6 @@
 import 'package:flutter/material.dart';
 
 class HomeTile extends StatelessWidget {
-  final IconData icon;
-  final Color iconColor;
-  final Color color;
-  final String label;
-  final String value;
-
   const HomeTile({
     super.key,
     required this.icon,
@@ -15,6 +9,12 @@ class HomeTile extends StatelessWidget {
     required this.label,
     required this.value,
   });
+
+  final IconData icon;
+  final Color iconColor;
+  final Color color;
+  final String label;
+  final String value;
 
   @override
   Widget build(BuildContext context) {

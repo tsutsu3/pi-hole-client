@@ -19,16 +19,16 @@ import 'package:pi_hole_client/functions/snackbar.dart';
 import 'package:pi_hole_client/models/server.dart';
 
 class AddServerFullscreen extends StatefulWidget {
-  final Server? server;
-  final bool window;
-  final String title;
-
   const AddServerFullscreen({
     super.key,
     this.server,
     required this.window,
     required this.title,
   });
+
+  final Server? server;
+  final bool window;
+  final String title;
 
   @override
   State<AddServerFullscreen> createState() => _AddServerFullscreenState();

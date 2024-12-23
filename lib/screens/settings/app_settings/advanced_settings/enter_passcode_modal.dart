@@ -10,14 +10,14 @@ import 'package:pi_hole_client/widgets/shake_animation.dart';
 import 'package:pi_hole_client/providers/app_config_provider.dart';
 
 class EnterPasscodeModal extends StatefulWidget {
-  final void Function() onConfirm;
-  final bool window;
-
   const EnterPasscodeModal({
     super.key,
     required this.onConfirm,
     required this.window,
   });
+
+  final void Function() onConfirm;
+  final bool window;
 
   @override
   State<EnterPasscodeModal> createState() => _EnterPasscodeModalState();

@@ -11,9 +11,9 @@ import 'package:pi_hole_client/widgets/section_label.dart';
 import 'package:pi_hole_client/providers/status_provider.dart';
 
 class QueriesServersTab extends StatelessWidget {
-  final Future<void> Function() onRefresh;
-
   const QueriesServersTab({super.key, required this.onRefresh});
+
+  final Future<void> Function() onRefresh;
 
   @override
   Widget build(BuildContext context) {

@@ -33,14 +33,14 @@ class DomainLists extends StatelessWidget {
 }
 
 class DomainListsWidget extends StatefulWidget {
-  final Server server;
-  final DomainsListProvider domainsListProvider;
-
   const DomainListsWidget({
     super.key,
     required this.server,
     required this.domainsListProvider,
   });
+
+  final Server server;
+  final DomainsListProvider domainsListProvider;
 
   @override
   State<DomainListsWidget> createState() => _DomainListsWidgetState();

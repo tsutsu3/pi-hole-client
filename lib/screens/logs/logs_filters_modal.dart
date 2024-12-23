@@ -14,11 +14,6 @@ import 'package:pi_hole_client/providers/filters_provider.dart';
 import 'package:pi_hole_client/functions/format.dart';
 
 class LogsFiltersModal extends StatefulWidget {
-  final double statusBarHeight;
-  final double bottomNavBarHeight;
-  final void Function() filterLogs;
-  final bool window;
-
   const LogsFiltersModal({
     super.key,
     required this.statusBarHeight,
@@ -26,6 +21,11 @@ class LogsFiltersModal extends StatefulWidget {
     required this.filterLogs,
     required this.window,
   });
+
+  final double statusBarHeight;
+  final double bottomNavBarHeight;
+  final void Function() filterLogs;
+  final bool window;
 
   @override
   State<LogsFiltersModal> createState() => _LogsFiltersModalState();

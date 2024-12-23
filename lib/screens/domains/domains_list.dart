@@ -19,11 +19,6 @@ import 'package:pi_hole_client/providers/servers_provider.dart';
 import 'package:pi_hole_client/models/domain.dart';
 
 class DomainsList extends StatefulWidget {
-  final String type;
-  final ScrollController scrollController;
-  final void Function(Domain) onDomainSelected;
-  final Domain? selectedDomain;
-
   const DomainsList({
     super.key,
     required this.type,
@@ -31,6 +26,11 @@ class DomainsList extends StatefulWidget {
     required this.onDomainSelected,
     required this.selectedDomain,
   });
+
+  final String type;
+  final ScrollController scrollController;
+  final void Function(Domain) onDomainSelected;
+  final Domain? selectedDomain;
 
   @override
   State<DomainsList> createState() => _DomainsListState();

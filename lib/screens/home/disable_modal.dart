@@ -5,14 +5,14 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:pi_hole_client/widgets/option_box.dart';
 
 class DisableModal extends StatefulWidget {
-  final void Function(int) onDisable;
-  final bool window;
-
   const DisableModal({
     super.key,
     required this.onDisable,
     required this.window,
   });
+
+  final void Function(int) onDisable;
+  final bool window;
 
   @override
   State<DisableModal> createState() => _DisableModalState();

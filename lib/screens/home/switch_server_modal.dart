@@ -7,9 +7,9 @@ import 'package:pi_hole_client/models/server.dart';
 import 'package:pi_hole_client/providers/servers_provider.dart';
 
 class SwitchServerModal extends StatelessWidget {
-  final void Function(Server) onServerSelect;
-
   const SwitchServerModal({super.key, required this.onServerSelect});
+
+  final void Function(Server) onServerSelect;
 
   @override
   Widget build(BuildContext context) {

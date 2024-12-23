@@ -4,9 +4,9 @@ import 'package:mobile_scanner/mobile_scanner.dart';
 import 'package:permission_handler/permission_handler.dart';
 
 class ScanTokenModal extends StatefulWidget {
-  final void Function(String) qrScanned;
-
   const ScanTokenModal({super.key, required this.qrScanned});
+
+  final void Function(String) qrScanned;
 
   @override
   State<ScanTokenModal> createState() => _ScanTokenModalState();

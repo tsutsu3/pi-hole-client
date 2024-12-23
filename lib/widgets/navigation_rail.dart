@@ -4,16 +4,16 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:pi_hole_client/models/app_screen.dart';
 
 class CustomNavigationRail extends StatelessWidget {
-  final List<AppScreen> screens;
-  final int selectedScreen;
-  final Function(int) onChange;
-
   const CustomNavigationRail({
     super.key,
     required this.screens,
     required this.selectedScreen,
     required this.onChange,
   });
+
+  final List<AppScreen> screens;
+  final int selectedScreen;
+  final Function(int) onChange;
 
   @override
   Widget build(BuildContext context) {
