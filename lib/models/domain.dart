@@ -1,9 +1,3 @@
-import 'dart:convert';
-
-Domain domainFromJson(String str) => Domain.fromJson(json.decode(str));
-
-String domainToJson(Domain data) => json.encode(data.toJson());
-
 class Domain {
   int id;
   int type;
