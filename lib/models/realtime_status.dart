@@ -165,7 +165,8 @@ class RealtimeStatus {
     final queryTypes = sortValues(
       removeZeroValues(
         summary.queries.types.toJson().map(
-            (key, value) => MapEntry(key, (value / totalQueryTypes) * 100)),
+              (key, value) => MapEntry(key, (value / totalQueryTypes) * 100),
+            ),
       ),
     );
 

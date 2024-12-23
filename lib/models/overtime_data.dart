@@ -39,7 +39,9 @@ class OverTimeData {
         overTime: (json['over_time'].runtimeType != List<dynamic>)
             ? Map.from(json['over_time']).map(
                 (k, v) => MapEntry<String, List<int>>(
-                    k, List<int>.from(v.map((x) => x))),
+                  k,
+                  List<int>.from(v.map((x) => x)),
+                ),
               )
             : {},
       );
