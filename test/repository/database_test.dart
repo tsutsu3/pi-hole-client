@@ -46,9 +46,9 @@ void main() async {
       await databaseRepository.closeDb();
     });
 
-    // tearDown(() async {
-    //   await databaseRepository.closeDb();
-    // });
+    tearDown(() async {
+      await databaseRepository.closeDb();
+    });
 
     test('should initialize database with default values', () async {
       databaseRepository = DatabaseRepository(mockSecureStorage);
@@ -102,7 +102,7 @@ void main() async {
           'http://localhost:8080',
         ),
       );
-      DatabaseRepository databaseRepositoryTmp =
+      final DatabaseRepository databaseRepositoryTmp =
           DatabaseRepository(mockSecureStorage);
       await databaseRepositoryTmp.initialize(path: testDb);
       await databaseRepositoryTmp.saveServerQuery(server);
@@ -169,7 +169,7 @@ void main() async {
           'http://localhost:8080',
         ),
       );
-      DatabaseRepository databaseRepositoryTmp =
+      final DatabaseRepository databaseRepositoryTmp =
           DatabaseRepository(mockSecureStorage);
       await databaseRepositoryTmp.initialize(path: testDb);
       await databaseRepositoryTmp.saveServerQuery(server);
