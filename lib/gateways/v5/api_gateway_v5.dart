@@ -463,12 +463,12 @@ class ApiGatewayV5 implements ApiGateway {
       );
       if (response.statusCode == 200) {
         final json = jsonDecode(response.body);
-        if (json.runtimeType == List<dynamic>) {
+        if (json.runtimeType is List) {
           return SetWhiteBlacklistResponse(
             result: APiResponseType.error,
             message: 'not_exists',
           );
-        } else {
+        } else if (json is Map<String, dynamic>) {
           if (json['success'] == true) {
             return SetWhiteBlacklistResponse(
               result: APiResponseType.success,
@@ -477,6 +477,11 @@ class ApiGatewayV5 implements ApiGateway {
           } else {
             return SetWhiteBlacklistResponse(result: APiResponseType.error);
           }
+        } else {
+          return SetWhiteBlacklistResponse(
+            result: APiResponseType.error,
+            message: 'Invalid response format',
+          );
         }
       } else {
         return SetWhiteBlacklistResponse(result: APiResponseType.error);
@@ -613,12 +618,12 @@ class ApiGatewayV5 implements ApiGateway {
       );
       if (response.statusCode == 200) {
         final json = jsonDecode(response.body);
-        if (json.runtimeType == List<dynamic>) {
+        if (json.runtimeType is List) {
           return RemoveDomainFromListResponse(
             result: APiResponseType.error,
             message: 'not_exists',
           );
-        } else {
+        } else if (json is Map<String, dynamic>) {
           if (json['success'] == true) {
             return RemoveDomainFromListResponse(
               result: APiResponseType.success,
@@ -626,6 +631,11 @@ class ApiGatewayV5 implements ApiGateway {
           } else {
             return RemoveDomainFromListResponse(result: APiResponseType.error);
           }
+        } else {
+          return RemoveDomainFromListResponse(
+            result: APiResponseType.error,
+            message: 'Invalid response format',
+          );
         }
       } else {
         return RemoveDomainFromListResponse(result: APiResponseType.error);
@@ -663,9 +673,9 @@ class ApiGatewayV5 implements ApiGateway {
       );
       if (response.statusCode == 200) {
         final json = jsonDecode(response.body);
-        if (json.runtimeType == List<dynamic>) {
+        if (json.runtimeType is List) {
           return AddDomainToListResponse(result: APiResponseType.error);
-        } else {
+        } else if (json is Map<String, dynamic>) {
           if (json['success'] == true &&
               json['message'] == 'Added ${domainData['domain']}') {
             return AddDomainToListResponse(result: APiResponseType.success);
@@ -678,6 +688,10 @@ class ApiGatewayV5 implements ApiGateway {
           } else {
             return AddDomainToListResponse(result: APiResponseType.error);
           }
+        } else {
+          return AddDomainToListResponse(
+            result: APiResponseType.error,
+          );
         }
       } else {
         return AddDomainToListResponse(result: APiResponseType.error);
