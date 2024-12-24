@@ -144,7 +144,7 @@ class DatabaseRepository {
 
         // Load sensitive data from secure storage
         final passCode = await _secureStorage.getValue('passCode');
-        AppDbData.withSecrets(appConfig!, passCode);
+        appConfig = AppDbData.withSecrets(appConfig!, passCode);
 
         // _secureStorage.readAll()
         logger.d((await _secureStorage.readAll()).toString());
