@@ -1029,7 +1029,7 @@ void main() {
 
       expect(response.result, APiResponseType.error);
       expect(response.data, isNull);
-      expect(response.message, isNull);
+      expect(response.message, 'Invalid response format');
     });
 
     test('Return error when unexpected exception occurs', () async {

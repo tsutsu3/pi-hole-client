@@ -480,7 +480,7 @@ class ApiGatewayV5 implements ApiGateway {
         } else {
           return SetWhiteBlacklistResponse(
             result: APiResponseType.error,
-            message: 'not_exists',
+            message: 'Invalid response format',
           );
         }
       } else {
@@ -634,7 +634,7 @@ class ApiGatewayV5 implements ApiGateway {
         } else {
           return RemoveDomainFromListResponse(
             result: APiResponseType.error,
-            message: 'not_exists',
+            message: 'Invalid response format',
           );
         }
       } else {
