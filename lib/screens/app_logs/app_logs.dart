@@ -21,10 +21,12 @@ class AppLogs extends StatelessWidget {
       List<Map<String, String>> logsString =
           appConfigProvider.logs.map((log) => log.toMap()).toList();
       await Clipboard.setData(ClipboardData(text: jsonEncode(logsString)));
-      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-        content: Text(AppLocalizations.of(context)!.logsCopiedClipboard),
-        backgroundColor: Colors.black,
-      ));
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text(AppLocalizations.of(context)!.logsCopiedClipboard),
+          backgroundColor: Colors.black,
+        ),
+      );
     }
 
     return Scaffold(

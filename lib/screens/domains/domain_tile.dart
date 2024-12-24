@@ -4,16 +4,16 @@ import 'package:pi_hole_client/models/domain.dart';
 import 'package:pi_hole_client/functions/format.dart';
 
 class DomainTile extends StatelessWidget {
-  final Domain domain;
-  final void Function(Domain) showDomainDetails;
-  final bool? isDomainSelected;
-
   const DomainTile({
     super.key,
     required this.domain,
     required this.showDomainDetails,
     this.isDomainSelected,
   });
+
+  final Domain domain;
+  final void Function(Domain) showDomainDetails;
+  final bool? isDomainSelected;
 
   @override
   Widget build(BuildContext context) {

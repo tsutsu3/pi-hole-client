@@ -12,16 +12,16 @@ import 'package:pi_hole_client/providers/app_config_provider.dart';
 import 'package:pi_hole_client/functions/snackbar.dart';
 
 class AppUnlockSetupModal extends StatefulWidget {
-  final double topBarHeight;
-  final bool useBiometrics;
-  final bool window;
-
   const AppUnlockSetupModal({
     super.key,
     required this.topBarHeight,
     required this.useBiometrics,
     required this.window,
   });
+
+  final double topBarHeight;
+  final bool useBiometrics;
+  final bool window;
 
   @override
   State<AppUnlockSetupModal> createState() => _AppUnlockSetupModalState();

@@ -19,16 +19,16 @@ import 'package:pi_hole_client/functions/snackbar.dart';
 import 'package:pi_hole_client/models/server.dart';
 
 class AddServerFullscreen extends StatefulWidget {
-  final Server? server;
-  final bool window;
-  final String title;
-
   const AddServerFullscreen({
     super.key,
     this.server,
     required this.window,
     required this.title,
   });
+
+  final Server? server;
+  final bool window;
+  final String title;
 
   @override
   State<AddServerFullscreen> createState() => _AddServerFullscreenState();
@@ -237,17 +237,19 @@ class _AddServerFullscreenState extends State<AddServerFullscreen> {
         if (!mounted) return;
         if (result?.result == APiResponseType.success) {
           Navigator.pop(context);
-          serversProvider.addServer(Server(
-            address: serverObj.address,
-            alias: serverObj.alias,
-            token: serverObj.token,
-            defaultServer: defaultCheckbox,
-            apiVersion: piHoleVersion,
-            enabled: result!.status == 'enabled' ? true : false,
-            basicAuthUser: basicAuthUser.text,
-            basicAuthPassword: basicAuthPassword.text,
-            sm: serverObj.sm,
-          ));
+          serversProvider.addServer(
+            Server(
+              address: serverObj.address,
+              alias: serverObj.alias,
+              token: serverObj.token,
+              defaultServer: defaultCheckbox,
+              apiVersion: piHoleVersion,
+              enabled: result!.status == 'enabled' ? true : false,
+              basicAuthUser: basicAuthUser.text,
+              basicAuthPassword: basicAuthPassword.text,
+              sm: serverObj.sm,
+            ),
+          );
         } else {
           if (mounted) {
             setState(() {

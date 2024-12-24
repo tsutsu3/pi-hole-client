@@ -6,11 +6,6 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:pi_hole_client/providers/filters_provider.dart';
 
 class StatusFiltersModal extends StatefulWidget {
-  final double statusBarHeight;
-  final double bottomNavBarHeight;
-  final List<int> statusSelected;
-  final bool window;
-
   const StatusFiltersModal({
     super.key,
     required this.statusBarHeight,
@@ -18,6 +13,11 @@ class StatusFiltersModal extends StatefulWidget {
     required this.statusSelected,
     required this.window,
   });
+
+  final double statusBarHeight;
+  final double bottomNavBarHeight;
+  final List<int> statusSelected;
+  final bool window;
 
   @override
   State<StatusFiltersModal> createState() => _StatusFiltersModalState();

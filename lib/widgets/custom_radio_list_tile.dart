@@ -3,13 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:pi_hole_client/widgets/custom_radio.dart';
 
 class CustomRadioListTile extends StatelessWidget {
-  final int groupValue;
-  final int value;
-  final Color radioBackgroundColor;
-  final String title;
-  final String? subtitle;
-  final void Function(int) onChanged;
-
   const CustomRadioListTile({
     super.key,
     required this.groupValue,
@@ -19,6 +12,13 @@ class CustomRadioListTile extends StatelessWidget {
     this.subtitle,
     required this.onChanged,
   });
+
+  final int groupValue;
+  final int value;
+  final Color radioBackgroundColor;
+  final String title;
+  final String? subtitle;
+  final void Function(int) onChanged;
 
   @override
   Widget build(BuildContext context) {

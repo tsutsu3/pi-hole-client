@@ -36,21 +36,29 @@ class _HomeState extends State<Home> {
     super.initState();
 
     isVisible = true;
-    scrollController.addListener(() {
+    scrollController.addListener(_scrollListener);
+  }
+
+  void _scrollListener() {
+    if (scrollController.position.userScrollDirection ==
+        ScrollDirection.reverse) {
+      if (mounted && isVisible == true) {
+        setState(() => isVisible = false);
+      }
+    } else {
       if (scrollController.position.userScrollDirection ==
-          ScrollDirection.reverse) {
-        if (mounted && isVisible == true) {
-          setState(() => isVisible = false);
-        }
-      } else {
-        if (scrollController.position.userScrollDirection ==
-            ScrollDirection.forward) {
-          if (mounted && isVisible == false) {
-            setState(() => isVisible = true);
-          }
+          ScrollDirection.forward) {
+        if (mounted && isVisible == false) {
+          setState(() => isVisible = true);
         }
       }
-    });
+    }
+  }
+
+  @override
+  void dispose() {
+    scrollController.removeListener(_scrollListener);
+    super.dispose();
   }
 
   @override
@@ -254,12 +262,14 @@ class _HomeState extends State<Home> {
                               handle: NestedScrollView
                                   .sliverOverlapAbsorberHandleFor(context),
                             ),
-                            SliverList.list(children: [
-                              tiles(),
-                              const SizedBox(height: 24),
-                              const HomeCharts(),
-                              const SizedBox(height: 16),
-                            ]),
+                            SliverList.list(
+                              children: [
+                                tiles(),
+                                const SizedBox(height: 24),
+                                const HomeCharts(),
+                                const SizedBox(height: 16),
+                              ],
+                            ),
                           ],
                         ),
                       ),

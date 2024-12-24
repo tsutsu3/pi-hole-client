@@ -16,11 +16,6 @@ import 'package:pi_hole_client/providers/servers_provider.dart';
 import 'package:pi_hole_client/providers/status_provider.dart';
 
 class ServersTileItem extends StatefulWidget {
-  final Server server;
-  final int index;
-  final void Function(int) onChange;
-  final double breakingWidth;
-
   const ServersTileItem({
     super.key,
     required this.server,
@@ -28,6 +23,11 @@ class ServersTileItem extends StatefulWidget {
     required this.onChange,
     required this.breakingWidth,
   });
+
+  final Server server;
+  final int index;
+  final void Function(int) onChange;
+  final double breakingWidth;
 
   @override
   State<ServersTileItem> createState() => _ServersTileItemState();

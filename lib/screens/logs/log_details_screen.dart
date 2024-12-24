@@ -14,14 +14,14 @@ import 'package:pi_hole_client/functions/format.dart';
 import 'package:provider/provider.dart';
 
 class LogDetailsScreen extends StatelessWidget {
-  final Log log;
-  final void Function(String, Log) whiteBlackList;
-
   const LogDetailsScreen({
     super.key,
     required this.log,
     required this.whiteBlackList,
   });
+
+  final Log log;
+  final void Function(String, Log) whiteBlackList;
 
   @override
   Widget build(BuildContext context) {

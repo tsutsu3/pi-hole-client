@@ -19,9 +19,9 @@ import 'package:pi_hole_client/constants/enums.dart';
 import 'package:pi_hole_client/providers/servers_provider.dart';
 
 class HomeAppBar extends StatelessWidget implements PreferredSizeWidget {
-  final bool innerBoxIsScrolled;
-
   const HomeAppBar({super.key, required this.innerBoxIsScrolled});
+
+  final bool innerBoxIsScrolled;
 
   @override
   Widget build(BuildContext context) {

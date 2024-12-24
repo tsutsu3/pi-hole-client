@@ -1,9 +1,3 @@
-import 'dart:convert';
-
-Domain domainFromJson(String str) => Domain.fromJson(json.decode(str));
-
-String domainToJson(Domain data) => json.encode(data.toJson());
-
 class Domain {
   int id;
   int type;
@@ -46,6 +40,6 @@ class Domain {
         'date_added': dateAdded,
         'date_modified': dateModified,
         'comment': comment,
-        'groups': List<dynamic>.from(groups.map((x) => x)),
+        'groups': List<int>.from(groups.map((x) => x)),
       };
 }

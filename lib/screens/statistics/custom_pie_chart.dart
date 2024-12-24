@@ -4,12 +4,12 @@ import 'package:pie_chart/pie_chart.dart';
 import 'package:pi_hole_client/constants/colors.dart';
 
 class CustomPieChart extends StatelessWidget {
-  final Map<String, double> data;
-
   const CustomPieChart({
     super.key,
     required this.data,
   });
+
+  final Map<String, double> data;
 
   @override
   Widget build(BuildContext context) {

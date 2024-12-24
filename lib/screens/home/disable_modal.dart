@@ -5,14 +5,14 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:pi_hole_client/widgets/option_box.dart';
 
 class DisableModal extends StatefulWidget {
-  final void Function(int) onDisable;
-  final bool window;
-
   const DisableModal({
     super.key,
     required this.onDisable,
     required this.window,
   });
+
+  final void Function(int) onDisable;
+  final bool window;
 
   @override
   State<DisableModal> createState() => _DisableModalState();
@@ -25,7 +25,7 @@ class _DisableModalState extends State<DisableModal> {
 
   final ExpandableController expandableController = ExpandableController();
 
-  void _updateRadioValue(value) {
+  void _updateRadioValue(int? value) {
     setState(() {
       selectedOption = value;
       if (selectedOption != 5) {
@@ -37,7 +37,7 @@ class _DisableModalState extends State<DisableModal> {
     });
   }
 
-  void _validateCustomMinutes(value) {
+  void _validateCustomMinutes(String value) {
     if (int.tryParse(value) != null) {
       setState(() {
         customTimeIsValid = true;
@@ -319,30 +319,32 @@ class _DisableModalState extends State<DisableModal> {
                 ),
                 Padding(
                   padding: const EdgeInsets.all(16),
-                  child:
-                      Row(mainAxisAlignment: MainAxisAlignment.end, children: [
-                    TextButton(
-                      onPressed: () => Navigator.pop(context),
-                      child: Text(AppLocalizations.of(context)!.cancel),
-                    ),
-                    const SizedBox(width: 20),
-                    TextButton(
-                      onPressed: _selectionIsValid() == true
-                          ? () {
-                              Navigator.pop(context);
-                              widget.onDisable(_getTime());
-                            }
-                          : null,
-                      style: ButtonStyle(
-                        foregroundColor: _selectionIsValid() == true
-                            ? WidgetStateProperty.all(
-                                Theme.of(context).colorScheme.primary,
-                              )
-                            : WidgetStateProperty.all(Colors.grey),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.end,
+                    children: [
+                      TextButton(
+                        onPressed: () => Navigator.pop(context),
+                        child: Text(AppLocalizations.of(context)!.cancel),
                       ),
-                      child: Text(AppLocalizations.of(context)!.accept),
-                    ),
-                  ]),
+                      const SizedBox(width: 20),
+                      TextButton(
+                        onPressed: _selectionIsValid() == true
+                            ? () {
+                                Navigator.pop(context);
+                                widget.onDisable(_getTime());
+                              }
+                            : null,
+                        style: ButtonStyle(
+                          foregroundColor: _selectionIsValid() == true
+                              ? WidgetStateProperty.all(
+                                  Theme.of(context).colorScheme.primary,
+                                )
+                              : WidgetStateProperty.all(Colors.grey),
+                        ),
+                        child: Text(AppLocalizations.of(context)!.accept),
+                      ),
+                    ],
+                  ),
                 ),
               ],
             ),
@@ -384,30 +386,32 @@ class _DisableModalState extends State<DisableModal> {
                 ),
                 Padding(
                   padding: const EdgeInsets.all(16),
-                  child:
-                      Row(mainAxisAlignment: MainAxisAlignment.end, children: [
-                    TextButton(
-                      onPressed: () => Navigator.pop(context),
-                      child: Text(AppLocalizations.of(context)!.cancel),
-                    ),
-                    const SizedBox(width: 20),
-                    TextButton(
-                      onPressed: _selectionIsValid() == true
-                          ? () {
-                              Navigator.pop(context);
-                              widget.onDisable(_getTime());
-                            }
-                          : null,
-                      style: ButtonStyle(
-                        foregroundColor: _selectionIsValid() == true
-                            ? WidgetStateProperty.all(
-                                Theme.of(context).colorScheme.primary,
-                              )
-                            : WidgetStateProperty.all(Colors.grey),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.end,
+                    children: [
+                      TextButton(
+                        onPressed: () => Navigator.pop(context),
+                        child: Text(AppLocalizations.of(context)!.cancel),
                       ),
-                      child: Text(AppLocalizations.of(context)!.accept),
-                    ),
-                  ]),
+                      const SizedBox(width: 20),
+                      TextButton(
+                        onPressed: _selectionIsValid() == true
+                            ? () {
+                                Navigator.pop(context);
+                                widget.onDisable(_getTime());
+                              }
+                            : null,
+                        style: ButtonStyle(
+                          foregroundColor: _selectionIsValid() == true
+                              ? WidgetStateProperty.all(
+                                  Theme.of(context).colorScheme.primary,
+                                )
+                              : WidgetStateProperty.all(Colors.grey),
+                        ),
+                        child: Text(AppLocalizations.of(context)!.accept),
+                      ),
+                    ],
+                  ),
                 ),
               ],
             ),

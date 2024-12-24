@@ -1,11 +1,6 @@
 import 'package:flutter/material.dart';
 
 class CustomRadio extends StatelessWidget {
-  final int value;
-  final int groupValue;
-  final Function(int)? onChange;
-  final Color backgroundColor;
-
   const CustomRadio({
     super.key,
     required this.value,
@@ -13,6 +8,11 @@ class CustomRadio extends StatelessWidget {
     this.onChange,
     required this.backgroundColor,
   });
+
+  final int value;
+  final int groupValue;
+  final Function(int)? onChange;
+  final Color backgroundColor;
 
   @override
   Widget build(BuildContext context) {

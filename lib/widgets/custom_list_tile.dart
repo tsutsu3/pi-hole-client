@@ -1,14 +1,6 @@
 import 'package:flutter/material.dart';
 
 class CustomListTile extends StatelessWidget {
-  final IconData? leadingIcon;
-  final String label;
-  final String? description;
-  final Color? color;
-  final void Function()? onTap;
-  final Widget? trailing;
-  final EdgeInsets? padding;
-
   const CustomListTile({
     super.key,
     this.leadingIcon,
@@ -19,6 +11,14 @@ class CustomListTile extends StatelessWidget {
     this.trailing,
     this.padding,
   });
+
+  final IconData? leadingIcon;
+  final String label;
+  final String? description;
+  final Color? color;
+  final void Function()? onTap;
+  final Widget? trailing;
+  final EdgeInsets? padding;
 
   @override
   Widget build(BuildContext context) {

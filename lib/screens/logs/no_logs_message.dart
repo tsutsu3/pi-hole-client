@@ -7,9 +7,9 @@ import 'package:pi_hole_client/providers/filters_provider.dart';
 import 'package:pi_hole_client/functions/format.dart';
 
 class NoLogsMessage extends StatelessWidget {
-  final double logsPerQuery;
-
   const NoLogsMessage({super.key, required this.logsPerQuery});
+
+  final double logsPerQuery;
 
   @override
   Widget build(BuildContext context) {
@@ -33,30 +33,32 @@ class NoLogsMessage extends StatelessWidget {
 
     return ScrollConfiguration(
       behavior: NoScrollBehavior(),
-      child: ListView(children: [
-        SizedBox(
-          height: height - 144,
-          child: Center(
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 10),
-                  child: Text(
-                    noLogsMessage(),
-                    textAlign: TextAlign.center,
-                    style: TextStyle(
-                      color: Theme.of(context).colorScheme.onSurfaceVariant,
-                      fontSize: 24,
+      child: ListView(
+        children: [
+          SizedBox(
+            height: height - 144,
+            child: Center(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 10),
+                    child: Text(
+                      noLogsMessage(),
+                      textAlign: TextAlign.center,
+                      style: TextStyle(
+                        color: Theme.of(context).colorScheme.onSurfaceVariant,
+                        fontSize: 24,
+                      ),
                     ),
                   ),
-                ),
-              ],
+                ],
+              ),
             ),
           ),
-        ),
-      ]),
+        ],
+      ),
     );
   }
 }

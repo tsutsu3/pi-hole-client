@@ -155,33 +155,35 @@ void main() async {
     }
   }
 
-  void startApp() => runApp(MultiProvider(
-        providers: [
-          ChangeNotifierProvider(create: ((context) => serversProvider)),
-          ChangeNotifierProvider(create: ((context) => statusProvider)),
-          ChangeNotifierProxyProvider<ServersProvider, FiltersProvider>(
-            create: (context) => filtersProvider,
-            update: (context, serverConfig, servers) =>
-                servers!..update(serverConfig),
-          ),
-          ChangeNotifierProxyProvider<ServersProvider, DomainsListProvider>(
-            create: (context) => domainsListProvider,
-            update: (context, serverConfig, servers) =>
-                servers!..update(serverConfig),
-          ),
-          ChangeNotifierProvider(create: ((context) => configProvider)),
-          ChangeNotifierProxyProvider<AppConfigProvider, ServersProvider>(
-            create: (context) => serversProvider,
-            update: (context, appConfig, servers) =>
-                servers!..update(appConfig),
-          ),
-        ],
-        child: Phoenix(
-          child: const SentryWidget(
-            child: PiHoleClient(),
+  void startApp() => runApp(
+        MultiProvider(
+          providers: [
+            ChangeNotifierProvider(create: ((context) => serversProvider)),
+            ChangeNotifierProvider(create: ((context) => statusProvider)),
+            ChangeNotifierProxyProvider<ServersProvider, FiltersProvider>(
+              create: (context) => filtersProvider,
+              update: (context, serverConfig, servers) =>
+                  servers!..update(serverConfig),
+            ),
+            ChangeNotifierProxyProvider<ServersProvider, DomainsListProvider>(
+              create: (context) => domainsListProvider,
+              update: (context, serverConfig, servers) =>
+                  servers!..update(serverConfig),
+            ),
+            ChangeNotifierProvider(create: ((context) => configProvider)),
+            ChangeNotifierProxyProvider<AppConfigProvider, ServersProvider>(
+              create: (context) => serversProvider,
+              update: (context, appConfig, servers) =>
+                  servers!..update(appConfig),
+            ),
+          ],
+          child: Phoenix(
+            child: const SentryWidget(
+              child: PiHoleClient(),
+            ),
           ),
         ),
-      ));
+      );
 
   initializeSentry();
   startApp();

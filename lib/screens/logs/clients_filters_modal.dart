@@ -5,11 +5,6 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:pi_hole_client/providers/filters_provider.dart';
 
 class ClientsFiltersModal extends StatefulWidget {
-  final double statusBarHeight;
-  final double bottomNavBarHeight;
-  final List<String> selectedClients;
-  final bool window;
-
   const ClientsFiltersModal({
     super.key,
     required this.statusBarHeight,
@@ -17,6 +12,11 @@ class ClientsFiltersModal extends StatefulWidget {
     required this.selectedClients,
     required this.window,
   });
+
+  final double statusBarHeight;
+  final double bottomNavBarHeight;
+  final List<String> selectedClients;
+  final bool window;
 
   @override
   State<ClientsFiltersModal> createState() => _ClientsFiltersModalState();
@@ -117,10 +117,12 @@ class _ClientsFiltersModalState extends State<ClientsFiltersModal> {
                     style: const TextStyle(fontSize: 24),
                   ),
                 ),
-                ...filtersProvider.totalClients.map((e) => listItem(
-                      label: e,
-                      value: e,
-                    )),
+                ...filtersProvider.totalClients.map(
+                  (e) => listItem(
+                    label: e,
+                    value: e,
+                  ),
+                ),
               ],
             ),
           ),

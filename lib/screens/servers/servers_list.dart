@@ -9,12 +9,6 @@ import 'package:pi_hole_client/screens/servers/servers_tile_item.dart';
 import 'package:pi_hole_client/providers/servers_provider.dart';
 
 class ServersList extends StatelessWidget {
-  final BuildContext context;
-  final List<ExpandableController> controllers;
-  final Function(int) onChange;
-  final ScrollController scrollController;
-  final double breakingWidth;
-
   const ServersList({
     super.key,
     required this.context,
@@ -23,6 +17,12 @@ class ServersList extends StatelessWidget {
     required this.scrollController,
     required this.breakingWidth,
   });
+
+  final BuildContext context;
+  final List<ExpandableController> controllers;
+  final Function(int) onChange;
+  final ScrollController scrollController;
+  final double breakingWidth;
 
   @override
   Widget build(BuildContext context) {
@@ -35,12 +35,14 @@ class ServersList extends StatelessWidget {
             children: serversProvider.getServersList
                 .asMap()
                 .entries
-                .map((s) => ServersTileItem(
-                      breakingWidth: breakingWidth,
-                      server: serversProvider.getServersList[s.key],
-                      index: s.key,
-                      onChange: onChange,
-                    ))
+                .map(
+                  (s) => ServersTileItem(
+                    breakingWidth: breakingWidth,
+                    server: serversProvider.getServersList[s.key],
+                    index: s.key,
+                    onChange: onChange,
+                  ),
+                )
                 .toList(),
           ),
           const SizedBox(height: 8),

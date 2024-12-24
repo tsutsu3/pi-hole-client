@@ -7,9 +7,6 @@
 // - evelation level = 0.0
 // - Removed `powered by flutterR`
 
-// ignore_for_file: avoid-unused-parameters, member-ordering, prefer-trailing-comma
-// ignore_for_file: no-object-declaration
-
 import 'dart:io';
 
 import 'package:flutter/foundation.dart';
@@ -98,7 +95,10 @@ class _LicensePageState extends State<LicensePage> {
   }
 
   Widget _packageLicensePage(
-      BuildContext _, Object? args, ScrollController? scrollController) {
+    BuildContext _,
+    Object? args,
+    ScrollController? scrollController,
+  ) {
     assert(args is _DetailArguments);
     final _DetailArguments detailArguments = args! as _DetailArguments;
     return _PackageLicensePage(
@@ -209,12 +209,14 @@ class _PackagesViewState extends State<_PackagesView> {
               case ConnectionState.done:
                 if (snapshot.hasError) {
                   assert(() {
-                    FlutterError.reportError(FlutterErrorDetails(
-                      exception: snapshot.error!,
-                      stack: snapshot.stackTrace,
-                      context:
-                          ErrorDescription('while decoding the license file'),
-                    ));
+                    FlutterError.reportError(
+                      FlutterErrorDetails(
+                        exception: snapshot.error!,
+                        stack: snapshot.stackTrace,
+                        context:
+                            ErrorDescription('while decoding the license file'),
+                      ),
+                    );
                     return true;
                   }());
                   return Center(child: Text(snapshot.error.toString()));
@@ -229,8 +231,12 @@ class _PackagesViewState extends State<_PackagesView> {
                         elevation: 0.0,
                         child: ConstrainedBox(
                           constraints: const BoxConstraints(maxWidth: 600.0),
-                          child: _packagesList(context, selectedId,
-                              snapshot.data!, widget.isLateral),
+                          child: _packagesList(
+                            context,
+                            selectedId,
+                            snapshot.data!,
+                            widget.isLateral,
+                          ),
                         ),
                       ),
                     );
@@ -291,10 +297,14 @@ class _PackagesViewState extends State<_PackagesView> {
           numberLicenses: bindings.length,
           onTap: () {
             widget.selectedId.value = packageIndex;
-            _MasterDetailFlow.of(context).openDetailPage(_DetailArguments(
-              packageName,
-              bindings.map((int i) => data.licenses[i]).toList(growable: false),
-            ));
+            _MasterDetailFlow.of(context).openDetailPage(
+              _DetailArguments(
+                packageName,
+                bindings
+                    .map((int i) => data.licenses[i])
+                    .toList(growable: false),
+              ),
+            );
           },
         );
       },
@@ -325,8 +335,10 @@ class _PackageListTile extends StatelessWidget {
           : Theme.of(context).cardColor,
       child: ListTile(
         title: Text(packageName),
-        subtitle: Text(MaterialLocalizations.of(context)
-            .licensesPackageDetailText(numberLicenses)),
+        subtitle: Text(
+          MaterialLocalizations.of(context)
+              .licensesPackageDetailText(numberLicenses),
+        ),
         selected: isSelected,
         onTap: onTap,
       ),
@@ -373,20 +385,22 @@ class _LicenseData {
   /// which is to put the application package first, followed by every other
   /// package in case-insensitive alphabetical order.
   void sortPackages([int Function(String a, String b)? compare]) {
-    packages.sort(compare ??
-        (String a, String b) {
-          // Based on how LicenseRegistry currently behaves, the first package
-          // returned is the end user application license. This should be
-          // presented first in the list. So here we make sure that first package
-          // remains at the front regardless of alphabetical sorting.
-          if (a == firstPackage) {
-            return -1;
-          }
-          if (b == firstPackage) {
-            return 1;
-          }
-          return a.toLowerCase().compareTo(b.toLowerCase());
-        });
+    packages.sort(
+      compare ??
+          (String a, String b) {
+            // Based on how LicenseRegistry currently behaves, the first package
+            // returned is the end user application license. This should be
+            // presented first in the list. So here we make sure that first package
+            // remains at the front regardless of alphabetical sorting.
+            if (a == firstPackage) {
+              return -1;
+            }
+            if (b == firstPackage) {
+              return 1;
+            }
+            return a.toLowerCase().compareTo(b.toLowerCase());
+          },
+    );
   }
 }
 
@@ -447,8 +461,11 @@ class _PackageLicensePageState extends State<_PackageLicensePage> {
         return;
       }
       assert(() {
-        Timeline.timeSync('_initLicenses()', () {},
-            flow: Flow.step(debugFlowId));
+        Timeline.timeSync(
+          '_initLicenses()',
+          () {},
+          flow: Flow.step(debugFlowId),
+        );
         return true;
       }());
       final List<LicenseParagraph> paragraphs =
@@ -461,27 +478,35 @@ class _PackageLicensePageState extends State<_PackageLicensePage> {
         return;
       }
       setState(() {
-        _licenses.add(const Padding(
-          padding: EdgeInsets.all(18.0),
-          child: Divider(),
-        ));
+        _licenses.add(
+          const Padding(
+            padding: EdgeInsets.all(18.0),
+            child: Divider(),
+          ),
+        );
         for (final LicenseParagraph paragraph in paragraphs) {
           if (paragraph.indent == LicenseParagraph.centeredIndent) {
-            _licenses.add(Padding(
-              padding: const EdgeInsets.only(top: 16.0),
-              child: Text(
-                paragraph.text,
-                style: const TextStyle(fontWeight: FontWeight.bold),
-                textAlign: TextAlign.center,
+            _licenses.add(
+              Padding(
+                padding: const EdgeInsets.only(top: 16.0),
+                child: Text(
+                  paragraph.text,
+                  style: const TextStyle(fontWeight: FontWeight.bold),
+                  textAlign: TextAlign.center,
+                ),
               ),
-            ));
+            );
           } else {
             assert(paragraph.indent >= 0);
-            _licenses.add(Padding(
-              padding: EdgeInsetsDirectional.only(
-                  top: 8.0, start: 16.0 * paragraph.indent),
-              child: Text(paragraph.text),
-            ));
+            _licenses.add(
+              Padding(
+                padding: EdgeInsetsDirectional.only(
+                  top: 8.0,
+                  start: 16.0 * paragraph.indent,
+                ),
+                child: Text(paragraph.text),
+              ),
+            );
           }
         }
       });
@@ -618,10 +643,14 @@ class _PackageLicensePageTitle extends StatelessWidget {
       mainAxisAlignment: MainAxisAlignment.center,
       crossAxisAlignment: CrossAxisAlignment.start,
       children: <Widget>[
-        Text(title,
-            style: effectiveTitleTextStyle?.copyWith(color: foregroundColor)),
-        Text(subtitle,
-            style: theme.titleSmall?.copyWith(color: foregroundColor)),
+        Text(
+          title,
+          style: effectiveTitleTextStyle?.copyWith(color: foregroundColor),
+        ),
+        Text(
+          subtitle,
+          style: theme.titleSmall?.copyWith(color: foregroundColor),
+        ),
       ],
     );
   }
@@ -658,14 +687,19 @@ double _getGutterSize(BuildContext context) =>
 
 /// Signature for the builder callback used by [_MasterDetailFlow].
 typedef _MasterViewBuilder = Widget Function(
-    BuildContext context, bool isLateralUI);
+  BuildContext context,
+  bool isLateralUI,
+);
 
 /// Signature for the builder callback used by [_MasterDetailFlow.detailPageBuilder].
 ///
 /// scrollController is provided when the page destination is the draggable
 /// sheet in the lateral UI. Otherwise, it is null.
-typedef _DetailPageBuilder = Widget Function(BuildContext context,
-    Object? arguments, ScrollController? scrollController);
+typedef _DetailPageBuilder = Widget Function(
+  BuildContext context,
+  Object? arguments,
+  ScrollController? scrollController,
+);
 
 /// Signature for the builder callback used by [_MasterDetailFlow.actionBuilder].
 ///
@@ -673,7 +707,9 @@ typedef _DetailPageBuilder = Widget Function(BuildContext context,
 /// lateral UI pages. actionLevel indicates the intended destination of the
 /// return actions.
 typedef _ActionBuilder = List<Widget> Function(
-    BuildContext context, _ActionLevel actionLevel);
+  BuildContext context,
+  _ActionLevel actionLevel,
+);
 
 /// Describes which type of app bar the actions are intended for.
 enum _ActionLevel {
@@ -827,13 +863,14 @@ class _MasterDetailFlowState extends State<_MasterDetailFlow>
   @override
   Widget build(BuildContext context) {
     return LayoutBuilder(
-        builder: (BuildContext context, BoxConstraints constraints) {
-      final double availableWidth = constraints.maxWidth;
-      if (availableWidth >= _materialWideDisplayThreshold) {
-        return _lateralUI(context);
-      }
-      return _nestedUI(context);
-    });
+      builder: (BuildContext context, BoxConstraints constraints) {
+        final double availableWidth = constraints.maxWidth;
+        if (availableWidth >= _materialWideDisplayThreshold) {
+          return _lateralUI(context);
+        }
+        return _nestedUI(context);
+      },
+    );
   }
 
   Widget _nestedUI(BuildContext context) {
@@ -853,7 +890,7 @@ class _MasterDetailFlowState extends State<_MasterDetailFlow>
             _Focus.master => <Route<void>>[masterPageRoute],
             _Focus.detail => <Route<void>>[
                 masterPageRoute,
-                _detailPageRoute(_cachedDetailArguments)
+                _detailPageRoute(_cachedDetailArguments),
               ],
           };
         },
@@ -883,9 +920,11 @@ class _MasterDetailFlowState extends State<_MasterDetailFlow>
         return BlockSemantics(
           child: _MasterPage(
             leading: Navigator.of(context).canPop()
-                ? BackButton(onPressed: () {
-                    Navigator.of(context).pop();
-                  })
+                ? BackButton(
+                    onPressed: () {
+                      Navigator.of(context).pop();
+                    },
+                  )
                 : null,
             title: widget.title,
             masterViewBuilder: widget.masterViewBuilder,
@@ -896,26 +935,35 @@ class _MasterDetailFlowState extends State<_MasterDetailFlow>
   }
 
   MaterialPageRoute<void> _detailPageRoute(Object? arguments) {
-    return MaterialPageRoute<void>(builder: (BuildContext context) {
-      return PopScope<void>(
-        onPopInvokedWithResult: (bool didPop, void result) {
-          // No need for setState() as rebuild happens on navigation pop.
-          focus = _Focus.master;
-        },
-        child: BlockSemantics(
-            child: widget.detailPageBuilder(context, arguments, null)),
-      );
-    });
+    return MaterialPageRoute<void>(
+      builder: (BuildContext context) {
+        return PopScope<void>(
+          onPopInvokedWithResult: (bool didPop, void result) {
+            // No need for setState() as rebuild happens on navigation pop.
+            focus = _Focus.master;
+          },
+          child: BlockSemantics(
+            child: widget.detailPageBuilder(context, arguments, null),
+          ),
+        );
+      },
+    );
   }
 
   Widget _lateralUI(BuildContext context) {
     _builtLayout = _LayoutMode.lateral;
     return _MasterDetailScaffold(
       actionBuilder: (_, __) => const <Widget>[],
-      detailPageBuilder: (BuildContext context, Object? args,
-              ScrollController? scrollController) =>
+      detailPageBuilder: (
+        BuildContext context,
+        Object? args,
+        ScrollController? scrollController,
+      ) =>
           widget.detailPageBuilder(
-              context, args ?? _cachedDetailArguments, scrollController),
+        context,
+        args ?? _cachedDetailArguments,
+        scrollController,
+      ),
       detailPageFABlessGutterWidth: widget.detailPageFABlessGutterWidth,
       initialArguments: _cachedDetailArguments,
       masterViewBuilder: (BuildContext context, bool isLateral) =>
@@ -1045,7 +1093,9 @@ class _MasterDetailScaffoldState extends State<_MasterDetailScaffold>
                             spacing: 8,
                             overflowAlignment: OverflowBarAlignment.end,
                             children: widget.actionBuilder!(
-                                context, _ActionLevel.view),
+                              context,
+                              _ActionLevel.view,
+                            ),
                           ),
                         ),
                       ),
@@ -1098,8 +1148,10 @@ class _MasterDetailScaffoldState extends State<_MasterDetailScaffold>
     );
   }
 
-  ConstrainedBox _masterPanel(BuildContext context,
-      {bool needsScaffold = false}) {
+  ConstrainedBox _masterPanel(
+    BuildContext context, {
+    bool needsScaffold = false,
+  }) {
     return ConstrainedBox(
       constraints: BoxConstraints(maxWidth: masterViewWidth),
       child: needsScaffold
@@ -1144,7 +1196,11 @@ class _DetailView extends StatelessWidget {
             elevation: _kCardElevation,
             clipBehavior: Clip.antiAlias,
             margin: const EdgeInsets.fromLTRB(
-                _kCardElevation, 0.0, _kCardElevation, 0.0),
+              _kCardElevation,
+              0.0,
+              _kCardElevation,
+              0.0,
+            ),
             shape: const RoundedRectangleBorder(
               borderRadius: BorderRadius.vertical(top: Radius.circular(3.0)),
             ),

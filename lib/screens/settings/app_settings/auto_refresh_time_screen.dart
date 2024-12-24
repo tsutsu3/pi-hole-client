@@ -32,7 +32,7 @@ class _AutoRefreshTimeScreenState extends State<AutoRefreshTimeScreen> {
     );
   }
 
-  void _updateRadioValue(value) {
+  void _updateRadioValue(int value) {
     setState(() {
       selectedOption = value;
       if (selectedOption != 5) {
@@ -46,7 +46,7 @@ class _AutoRefreshTimeScreenState extends State<AutoRefreshTimeScreen> {
     });
   }
 
-  void _validateCustomTime(value) {
+  void _validateCustomTime(String value) {
     if (int.tryParse(value) != null) {
       setState(() {
         customTimeIsValid = true;

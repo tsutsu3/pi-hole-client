@@ -19,5 +19,11 @@
   },
   "[yaml]": {
     "editor.defaultFormatter": "redhat.vscode-yaml"
+  },
+  "editor.codeActionsOnSave": {
+    // "source.fixAll": "explicit",
+    // "source.dcm.fixAll": "explicit"
+    // or, to enable unsafe fixes on save,
+    // "source.dcm.unsafeFixAll": "explicit",
   }
 }

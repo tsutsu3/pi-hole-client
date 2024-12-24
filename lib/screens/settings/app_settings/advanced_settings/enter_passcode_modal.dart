@@ -10,14 +10,14 @@ import 'package:pi_hole_client/widgets/shake_animation.dart';
 import 'package:pi_hole_client/providers/app_config_provider.dart';
 
 class EnterPasscodeModal extends StatefulWidget {
-  final void Function() onConfirm;
-  final bool window;
-
   const EnterPasscodeModal({
     super.key,
     required this.onConfirm,
     required this.window,
   });
+
+  final void Function() onConfirm;
+  final bool window;
 
   @override
   State<EnterPasscodeModal> createState() => _EnterPasscodeModalState();
@@ -104,9 +104,11 @@ class _EnterPasscodeModalState extends State<EnterPasscodeModal> {
             TextButton(
               onPressed: _code.length == 4 ? finish : null,
               style: ButtonStyle(
-                foregroundColor: WidgetStateProperty.all(_code.length == 4
-                    ? Theme.of(context).colorScheme.primary
-                    : Colors.grey),
+                foregroundColor: WidgetStateProperty.all(
+                  _code.length == 4
+                      ? Theme.of(context).colorScheme.primary
+                      : Colors.grey,
+                ),
               ),
               child: Text(AppLocalizations.of(context)!.confirm),
             ),

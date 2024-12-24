@@ -4,16 +4,16 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:pi_hole_client/models/app_screen.dart';
 
 class BottomNavBar extends StatelessWidget {
-  final List<AppScreen> screens;
-  final int selectedScreen;
-  final Function(int) onChange;
-
   const BottomNavBar({
     super.key,
     required this.screens,
     required this.selectedScreen,
     required this.onChange,
   });
+
+  final List<AppScreen> screens;
+  final int selectedScreen;
+  final Function(int) onChange;
 
   @override
   Widget build(BuildContext context) {
@@ -46,10 +46,12 @@ class BottomNavBar extends StatelessWidget {
       selectedIndex: selectedScreen,
       onDestinationSelected: onChange,
       destinations: screens
-          .map((screen) => NavigationDestination(
-                icon: screen.icon,
-                label: getStringLocalization(screen.name),
-              ))
+          .map(
+            (screen) => NavigationDestination(
+              icon: screen.icon,
+              label: getStringLocalization(screen.name),
+            ),
+          )
           .toList(),
     );
   }

@@ -9,8 +9,11 @@ class LegalModal extends StatelessWidget {
     try {
       final noticeText = await rootBundle.loadString('NOTICE');
       return noticeText;
-    } catch (e) {
-      throw Exception('Failed to load NOTICE file: $e');
+    } catch (e, stack) {
+      Error.throwWithStackTrace(
+        Exception('Failed to load NOTICE file: $e'),
+        stack,
+      );
     }
   }
 

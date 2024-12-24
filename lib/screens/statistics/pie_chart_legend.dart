@@ -5,16 +5,16 @@ import 'package:pi_hole_client/functions/conversions.dart';
 import 'package:flutter/material.dart';
 
 class PieChartLegend extends StatelessWidget {
-  final Map<String, dynamic> data;
-  final String? dataUnit;
-  final void Function(String)? onValueTap;
-
   const PieChartLegend({
     super.key,
     required this.data,
     this.dataUnit,
     this.onValueTap,
   });
+
+  final Map<String, dynamic> data;
+  final String? dataUnit;
+  final void Function(String)? onValueTap;
 
   @override
   Widget build(BuildContext context) {

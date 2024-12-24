@@ -6,14 +6,14 @@ import 'package:pi_hole_client/functions/format.dart';
 import 'package:pi_hole_client/providers/app_config_provider.dart';
 
 class QueriesLastHours extends StatelessWidget {
-  final Map<String, dynamic> data;
-  final bool reducedData;
-
   const QueriesLastHours({
     super.key,
     required this.data,
     required this.reducedData,
   });
+
+  final Map<String, dynamic> data;
+  final bool reducedData;
 
   LineChartData mainData(Map<String, dynamic> data, ThemeMode selectedTheme) {
     final double interval = (data['topPoint'] / 5).toDouble() > 0
@@ -167,10 +167,12 @@ class QueriesLastHours extends StatelessWidget {
         if (data['domains_over_time'][domainsKeys[i]] > topPoint) {
           topPoint = data['domains_over_time'][domainsKeys[i]];
         }
-        domains.add(FlSpot(
-          xPosition.toDouble(),
-          data['domains_over_time'][domainsKeys[i]].toDouble(),
-        ));
+        domains.add(
+          FlSpot(
+            xPosition.toDouble(),
+            data['domains_over_time'][domainsKeys[i]].toDouble(),
+          ),
+        );
         xPosition++;
       }
 
@@ -179,10 +181,12 @@ class QueriesLastHours extends StatelessWidget {
       for (var i = 0;
           i < data['ads_over_time'].entries.length;
           reducedData == true ? i += 6 : i++) {
-        ads.add(FlSpot(
-          xPosition.toDouble(),
-          data['ads_over_time'][adsKeys[i]].toDouble(),
-        ));
+        ads.add(
+          FlSpot(
+            xPosition.toDouble(),
+            data['ads_over_time'][adsKeys[i]].toDouble(),
+          ),
+        );
         xPosition++;
       }
 

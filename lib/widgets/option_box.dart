@@ -1,11 +1,6 @@
 import 'package:flutter/material.dart';
 
 class OptionBox extends StatelessWidget {
-  final Widget child;
-  final dynamic optionsValue;
-  final dynamic itemValue;
-  final void Function(dynamic) onTap;
-
   const OptionBox({
     super.key,
     required this.child,
@@ -13,6 +8,11 @@ class OptionBox extends StatelessWidget {
     required this.itemValue,
     required this.onTap,
   });
+
+  final Widget child;
+  final int? optionsValue;
+  final int itemValue;
+  final void Function(int) onTap;
 
   @override
   Widget build(BuildContext context) {

@@ -130,7 +130,7 @@ class StatusUpdater {
         final statusResult = await apiGateway?.fetchOverTimeData();
         if (statusResult?.result == APiResponseType.success) {
           statusProvider.setOvertimeData(statusResult!.data!);
-          List<dynamic> clients = statusResult.data!.clients.map((client) {
+          List<String?> clients = statusResult.data!.clients.map((client) {
             if (client.name != '') {
               return client.name.toString();
             } else {

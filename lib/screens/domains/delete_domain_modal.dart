@@ -2,9 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class DeleteDomainModal extends StatelessWidget {
-  final void Function() onConfirm;
-
   const DeleteDomainModal({super.key, required this.onConfirm});
+
+  final void Function() onConfirm;
 
   @override
   Widget build(BuildContext context) {

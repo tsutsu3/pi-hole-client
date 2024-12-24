@@ -6,16 +6,16 @@ import 'package:pi_hole_client/screens/logs/log_status.dart';
 import 'package:pi_hole_client/functions/format.dart';
 
 class LogTile extends StatelessWidget {
-  final Log log;
-  final void Function(Log) showLogDetails;
-  final bool? isLogSelected;
-
   const LogTile({
     super.key,
     required this.log,
     required this.showLogDetails,
     this.isLogSelected,
   });
+
+  final Log log;
+  final void Function(Log) showLogDetails;
+  final bool? isLogSelected;
 
   @override
   Widget build(BuildContext context) {

@@ -7,11 +7,6 @@ import 'package:pi_hole_client/constants/colors.dart';
 import 'package:pi_hole_client/providers/app_config_provider.dart';
 
 class ClientsLastHours extends StatelessWidget {
-  final List<String> realtimeListIps;
-  final Map<String, dynamic> data;
-  final bool reducedData;
-  final bool hideZeroValues;
-
   const ClientsLastHours({
     super.key,
     required this.realtimeListIps,
@@ -19,6 +14,11 @@ class ClientsLastHours extends StatelessWidget {
     required this.reducedData,
     required this.hideZeroValues,
   });
+
+  final List<String> realtimeListIps;
+  final Map<String, dynamic> data;
+  final bool reducedData;
+  final bool hideZeroValues;
 
   LineChartData mainData(Map<String, dynamic> data, ThemeMode selectedTheme) {
     final double interval = (data['topPoint'] / 5).toDouble() > 0
@@ -95,25 +95,31 @@ class ClientsLastHours extends StatelessWidget {
             for (var i = 0; i < items.length - 1; i++) {
               if (hideZeroValues == true) {
                 if (items[i].y > 0 && items[i].barIndex < data.length - 1) {
-                  tooltipItems.add(LineTooltipItem(
-                    '${data['clientsColors'][items[i].barIndex]['ip']}: ${items[i].y.toInt().toString()}',
-                    TextStyle(
-                      fontWeight: FontWeight.bold,
-                      fontSize: 14,
-                      color: data['clientsColors'][items[i].barIndex]['color'],
+                  tooltipItems.add(
+                    LineTooltipItem(
+                      '${data['clientsColors'][items[i].barIndex]['ip']}: ${items[i].y.toInt().toString()}',
+                      TextStyle(
+                        fontWeight: FontWeight.bold,
+                        fontSize: 14,
+                        color: data['clientsColors'][items[i].barIndex]
+                            ['color'],
+                      ),
                     ),
-                  ));
+                  );
                 }
               } else {
                 if (items[i].barIndex < data.length - 1) {
-                  tooltipItems.add(LineTooltipItem(
-                    '${data['clientsColors'][items[i].barIndex]['ip']}: ${items[i].y.toInt().toString()}',
-                    TextStyle(
-                      fontWeight: FontWeight.bold,
-                      fontSize: 14,
-                      color: data['clientsColors'][items[i].barIndex]['color'],
+                  tooltipItems.add(
+                    LineTooltipItem(
+                      '${data['clientsColors'][items[i].barIndex]['ip']}: ${items[i].y.toInt().toString()}',
+                      TextStyle(
+                        fontWeight: FontWeight.bold,
+                        fontSize: 14,
+                        color: data['clientsColors'][items[i].barIndex]
+                            ['color'],
+                      ),
                     ),
-                  ));
+                  );
                 }
               }
             }
@@ -164,10 +170,12 @@ class ClientsLastHours extends StatelessWidget {
           if (data['over_time'][keys[j]][i] > topPoint) {
             topPoint = data['over_time'][keys[j]][i];
           }
-          client.add(FlSpot(
-            xPosition.toDouble(),
-            data['over_time'][keys[j]][i].toDouble(),
-          ));
+          client.add(
+            FlSpot(
+              xPosition.toDouble(),
+              data['over_time'][keys[j]][i].toDouble(),
+            ),
+          );
           xPosition++;
         }
         items.add(

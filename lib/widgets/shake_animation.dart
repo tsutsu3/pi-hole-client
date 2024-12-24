@@ -3,9 +3,9 @@
 import 'package:flutter/material.dart';
 
 class ShakeAnimation extends StatefulWidget {
-  final Widget child;
-
   const ShakeAnimation({super.key, required this.child});
+
+  final Widget child;
 
   @override
   State<ShakeAnimation> createState() => ShakeAnimationState();

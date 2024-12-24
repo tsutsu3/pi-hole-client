@@ -34,38 +34,47 @@ linter:
     - avoid_function_literals_in_foreach_calls
     - avoid_init_to_null
     - avoid_relative_lib_imports
+    - require_trailing_commas
 
 # Additional information about this file can be found at
 # https://dart.dev/guides/language/analysis-options
 analyzer:
   plugins:
-    - dart_code_metrics
+    - dart_code_linter
   errors:
     invalid_annotation_target: ignore
   exclude:
-    - 'test/**'
-
-dart_code_metrics:
-  # anti-patterns:
-  #   - long-method
-  #   - long-parameter-list
-  metrics:
-    cyclomatic-complexity: 20
-    lines-of-executable-code: 50
-    number-of-parameters: 4
-    maximum-nesting-level: 5
-  metrics-exclude:
     - test/**
+    - lib/**/*.g.dart
+    - lib/screens/settings/about/about.dart
+
+dart_code_linter:
   rules:
-    # common
     - avoid-unused-assignment
     - avoid-unused-generics
     - avoid-unused-instances
     - avoid-unused-parameters
-    - member-ordering
     - prefer-trailing-comma
-    - no-equal-then-else
-    - no-object-declaration
-    # Code Quality Checks
     - check-unused-files
     - check-unused-code
+
+dart_code_metrics:
+  extends:
+    - recommended
+  metrics:
+    cyclomatic-complexity: 20
+    halstead-volume: 150
+    lines-of-code: 100
+    maintainability-index: 50
+    maximum-nesting-level: 5
+    number-of-parameters: 4
+    number-of-used-widgets: 20
+    source-lines-of-code: 50
+    widgets-nesting-level: 10
+  metrics-exclude:
+    - test/**
+  rules:
+    - member-ordering
+    - no-object-declaration
+    - prefer-match-file-name: false
+    - no-empty-block: false

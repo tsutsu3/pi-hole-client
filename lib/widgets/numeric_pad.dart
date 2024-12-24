@@ -7,16 +7,16 @@ import 'package:pi_hole_client/widgets/shake_animation.dart';
 import 'package:pi_hole_client/providers/app_config_provider.dart';
 
 class NumericPad extends StatelessWidget {
-  final GlobalKey? shakeKey;
-  final String code;
-  final void Function(String) onInput;
-
   const NumericPad({
     super.key,
     this.shakeKey,
     required this.code,
     required this.onInput,
   });
+
+  final GlobalKey? shakeKey;
+  final String code;
+  final void Function(String) onInput;
 
   @override
   Widget build(BuildContext context) {
@@ -59,11 +59,13 @@ class NumericPad extends StatelessWidget {
         child: AspectRatio(
           aspectRatio: 1 / 1,
           child: Padding(
-            padding: EdgeInsets.all(width <= 700
-                ? width > height
-                    ? height * 0.05
-                    : width * 0.05
-                : 10),
+            padding: EdgeInsets.all(
+              width <= 700
+                  ? width > height
+                      ? height * 0.05
+                      : width * 0.05
+                  : 10,
+            ),
             child: ElevatedButton(
               onPressed: code.length < 4
                   ? () {
@@ -93,11 +95,13 @@ class NumericPad extends StatelessWidget {
         child: AspectRatio(
           aspectRatio: 1 / 1,
           child: Padding(
-            padding: EdgeInsets.all(width <= 700
-                ? width > height
-                    ? height * 0.05
-                    : width * 0.05
-                : 10),
+            padding: EdgeInsets.all(
+              width <= 700
+                  ? width > height
+                      ? height * 0.05
+                      : width * 0.05
+                  : 10,
+            ),
             child: ElevatedButton(
               onPressed: code.isNotEmpty
                   ? () {

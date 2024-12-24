@@ -3,12 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:pi_hole_client/constants/enums.dart';
 
 class CustomTabContent extends StatelessWidget {
-  final Widget Function() loadingGenerator;
-  final List<Widget> Function() contentGenerator;
-  final Widget Function() errorGenerator;
-  final LoadStatus loadStatus;
-  final Future<void> Function() onRefresh;
-
   const CustomTabContent({
     super.key,
     required this.loadingGenerator,
@@ -17,6 +11,12 @@ class CustomTabContent extends StatelessWidget {
     required this.loadStatus,
     required this.onRefresh,
   });
+
+  final Widget Function() loadingGenerator;
+  final List<Widget> Function() contentGenerator;
+  final Widget Function() errorGenerator;
+  final LoadStatus loadStatus;
+  final Future<void> Function() onRefresh;
 
   @override
   Widget build(BuildContext context) {
