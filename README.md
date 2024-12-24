@@ -155,6 +155,12 @@ To ensure code quality and identify potential issues, perform the following anal
    dcm calculate-metrics lib
    ```
 
+   or
+
+   ```bash
+   dart run dart_code_metrics:metrics lib --reporter=html -o metrics
+   ```
+
 2. **Analyze Code**
 
    Analyze the project to catch syntax errors, type issues, and other code problems:

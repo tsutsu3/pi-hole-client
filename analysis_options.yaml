@@ -39,11 +39,24 @@ linter:
 # Additional information about this file can be found at
 # https://dart.dev/guides/language/analysis-options
 analyzer:
+  plugins:
+    - dart_code_linter
   errors:
     invalid_annotation_target: ignore
   exclude:
     - test/**
     - lib/**/*.g.dart
+    - lib/screens/settings/about/about.dart
+
+dart_code_linter:
+  rules:
+    - avoid-unused-assignment
+    - avoid-unused-generics
+    - avoid-unused-instances
+    - avoid-unused-parameters
+    - prefer-trailing-comma
+    - check-unused-files
+    - check-unused-code
 
 dart_code_metrics:
   extends:

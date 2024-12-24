@@ -7,8 +7,6 @@
 // - evelation level = 0.0
 // - Removed `powered by flutterR`
 
-// ignore_for_file: member-ordering, avoid-dynamic
-
 import 'dart:io';
 
 import 'package:flutter/foundation.dart';
