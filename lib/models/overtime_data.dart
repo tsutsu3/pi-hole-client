@@ -26,24 +26,26 @@ class OverTimeData {
 
   factory OverTimeData.fromJson(Map<String, dynamic> json) => OverTimeData(
         domainsOverTime:
-            (json['domains_over_time'].runtimeType != List<dynamic>)
+            (json['domains_over_time'].runtimeType != List<Map<String, int>>)
                 ? Map.from(json['domains_over_time'])
                     .map((k, v) => MapEntry<String, int>(k, v))
                 : {},
-        adsOverTime: (json['ads_over_time'].runtimeType != List<dynamic>)
-            ? Map.from(json['ads_over_time'])
-                .map((k, v) => MapEntry<String, int>(k, v))
-            : {},
+        adsOverTime:
+            (json['ads_over_time'].runtimeType != List<Map<String, int>>)
+                ? Map.from(json['ads_over_time'])
+                    .map((k, v) => MapEntry<String, int>(k, v))
+                : {},
         clients:
             List<Client>.from(json['clients'].map((x) => Client.fromJson(x))),
-        overTime: (json['over_time'].runtimeType != List<dynamic>)
-            ? Map.from(json['over_time']).map(
-                (k, v) => MapEntry<String, List<int>>(
-                  k,
-                  List<int>.from(v.map((x) => x)),
-                ),
-              )
-            : {},
+        overTime:
+            (json['over_time'].runtimeType != List<MapEntry<String, List<int>>>)
+                ? Map.from(json['over_time']).map(
+                    (k, v) => MapEntry<String, List<int>>(
+                      k,
+                      List<int>.from(v.map((x) => x)),
+                    ),
+                  )
+                : {},
       );
 
   factory OverTimeData.fromV6(History history, HistoryClients historyClients) {
@@ -111,10 +113,11 @@ class OverTimeData {
             .map((k, v) => MapEntry<String, dynamic>(k, v)),
         'ads_over_time': Map.from(adsOverTime)
             .map((k, v) => MapEntry<String, dynamic>(k, v)),
-        'clients': List<dynamic>.from(clients.map((x) => x.toJson())),
+        'clients':
+            List<Map<String, dynamic>>.from(clients.map((x) => x.toJson())),
         'over_time': Map.from(overTime).map(
           (k, v) =>
-              MapEntry<String, dynamic>(k, List<dynamic>.from(v.map((x) => x))),
+              MapEntry<String, dynamic>(k, List<int>.from(v.map((x) => x))),
         ),
       };
 }
