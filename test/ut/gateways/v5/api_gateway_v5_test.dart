@@ -8,7 +8,7 @@ import 'package:pi_hole_client/gateways/v5/api_gateway_v5.dart';
 import 'package:pi_hole_client/models/domain.dart';
 import 'package:pi_hole_client/models/gateways.dart';
 import 'package:pi_hole_client/models/server.dart';
-import './api_gateway_v5_test.mocks.dart';
+import 'api_gateway_v5_test.mocks.dart';
 
 @GenerateMocks([http.Client])
 void main() {

@@ -10,7 +10,7 @@ import 'package:pi_hole_client/models/domain.dart';
 import 'package:pi_hole_client/models/gateways.dart';
 import 'package:pi_hole_client/models/server.dart';
 import 'package:pi_hole_client/services/session_manager.dart';
-import './api_gateway_v6_test.mocks.dart';
+import 'api_gateway_v6_test.mocks.dart';
 
 class SessionManagerMock implements SessionManager {
   String? _sid;
