@@ -44,7 +44,7 @@ analyzer:
   errors:
     invalid_annotation_target: ignore
   exclude:
-    - test/**
+    - test/**/*.mocks.dart
     - lib/**/*.g.dart
     - lib/screens/settings/about/about.dart
 
