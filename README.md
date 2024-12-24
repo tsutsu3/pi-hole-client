@@ -13,7 +13,7 @@
 <!-- PROJECT LOGO -->
 <div align="center">
   <a href="https://github.com/tsutsu3/pi-hole-client">
-    <img src="assets/other/feature-image-w.png" width="600">
+    <img alt="feature-image" src="assets/other/feature-image-w.png" width="600">
   </a>
   <p align="center">
     <b>
@@ -27,11 +27,13 @@
 </div>
 
 <!-- <p align="center">
-  <a href="https://play.google.com/store/apps/details?id=io.github.tsutsu3.pi_hole_client" target="_blank" rel="noopener noreferrer">
-    <img src="/assets/other/get_google_play.png" width="300px">
+  <a href="https://play.google.com/store/apps/details?id=io.github.tsutsu3.pi_hole_client"
+     target="_blank" rel="noopener noreferrer">
+    <img alt="google play" src="/assets/other/get_google_play.png" width="300px">
   </a>
-  <a href="https://github.com/tsutsu3/pi-hole-client/releases" target="_blank" rel="noopener noreferrer">
-    <img src="/assets/other/get-github.png" width="300px">
+  <a href="https://github.com/tsutsu3/pi-hole-client/releases" target="_blank"
+     rel="noopener noreferrer">
+    <img alt="release" src="/assets/other/get-github.png" width="300px">
   </a>
 </p> -->
 
@@ -83,19 +85,24 @@ Check the privacy policy [here](https://github.com/tsutsu3/pi-hole-client/wiki/P
 
 ## 📜 Disclaimer
 
-This is an unofficial application. The Pi-hole team and the development of the Pi-hole software is not related in any way with this application.
+This is an unofficial application. The Pi-hole team and the development of the
+Pi-hole software is not related in any way with this application.
 
 ## 🌟 Recommended lists
 
-On [this repository](https://github.com/JuanRodenas/Pihole_list) you can find some recommended lists. Thanks to [JuanRodenas](https://github.com/juanico10).
+On [this repository](https://github.com/JuanRodenas/Pihole_list) you can find
+some recommended lists. Thanks to [JuanRodenas](https://github.com/juanico10).
 
 ## 💖 Donations
 
-If you like the project and you want to contribute with the development, you can [become a sponsor on GitHub](https://github.com/sponsors/tsutsu3), or [buy me a coffe](https://buymeacoffee.com/tsutsu3).
+If you like the project and you want to contribute with the development, you
+can [become a sponsor on GitHub](https://github.com/sponsors/tsutsu3), or
+[buy me a coffe](https://buymeacoffee.com/tsutsu3).
 
 <!-- <div align="center">
   <a href="https://www.paypal.com/donate/?hosted_button_id=T63UK6AVL3MG8">
-    <img src="https://raw.githubusercontent.com/stefan-niedermann/paypal-donate-button/main/paypal-donate-button.png" alt="Donate with PayPal" height="100" />
+    <img src="https://raw.githubusercontent.com/stefan-niedermann/paypal-donate-button/main/paypal-donate-button.png"
+         alt="Donate with PayPal" height="100" />
   </a>
 </div> -->
 
@@ -107,7 +114,8 @@ If you like the project and you want to contribute with the development, you can
 2. Run ``flutter pub get``
 3. Clone the ``.env.sample`` file and name it ``.env``
 4. On the ``SENTRY_DSN`` variable assign it's value
-5. Inside the ``android`` folder, clone the ``key.properties.sample`` file and name it ``key.properties``
+5. Inside the ``android`` folder, clone the ``key.properties.sample`` file and
+   name it ``key.properties``
 6. Open the file and fill the variables with the corresponding values
 7. Store your ``keystore.jks`` file inside ``android/app``
 
@@ -132,20 +140,24 @@ If you like the project and you want to contribute with the development, you can
 2. Run ``flutter pub get``
 3. Run ``flutter build linux --release`` to build the Linux executable
 4. If you want to build also the .deb file do this:
-  4.1. Run ``dart pub global activate flutter_to_debian`` to install the utility that will build the .deb file
-  4.2. Run ``flutter_to_debian``
+   1. Run ``dart pub global activate flutter_to_debian`` to install the utility
+      that will build the .deb file
+   2. Run ``flutter_to_debian``
 
 #### Windows
 
 1. Run ``flutter clean``
 2. Run ``flutter pub get``
 3. Run ``flutter build windows --release`` to build the Windows executable
-4. Install the [InnoSetup](https://jrsoftware.org/isdl.php) software you don't have it
-5. Run ``iscc /Q windows/innosetup_installer_builder.iss`` to generate the Windows installer
+4. Install the [InnoSetup](https://jrsoftware.org/isdl.php) software you don't
+   have it
+5. Run ``iscc /Q windows/innosetup_installer_builder.iss`` to generate the
+   Windows installer
 
 ### Code Quality and Analysis
 
-To ensure code quality and identify potential issues, perform the following analysis steps:
+To ensure code quality and identify potential issues, perform the following
+analysis steps:
 
 1. **Calculate Code Metrics**
 
@@ -180,11 +192,13 @@ To ensure code quality and identify potential issues, perform the following anal
 
 ## ⚖️ License
 
-This app distributed under the Apach 2.0 License. See [LICENSE](./LICENSE) for more information.
+This app distributed under the Apach 2.0 License. See [LICENSE](./LICENSE) for
+more information.
 
 ## 🖋️ Credits
 
-This project is based on [DroidHole](https://github.com/jgeek00/droid-hole), originally developed by [JGeek00](https://github.com/JGeek00).
+This project is based on [DroidHole](https://github.com/jgeek00/droid-hole),
+originally developed by [JGeek00](https://github.com/JGeek00).
 
 For details on the licenses applicable to this project, please refer to [LICENSE.md](./LICENSE.md).
 
@@ -199,8 +213,6 @@ For details on the licenses applicable to this project, please refer to [LICENSE
 [license-url]: https://github.com/tsutsu3/pi-hole-client/blob/master/LICENSE
 [codecov-shield]: https://img.shields.io/codecov/c/github/tsutsu3/pi-hole-client?token=O6MIIYA211&style=for-the-badge&logo=codecov
 [codecov-url]: https://codecov.io/gh/tsutsu3/pi-hole-client
-[codeclimate-shield]: https://img.shields.io/codeclimate/maintainability/tsutsu3/pi-hole-client?style=for-the-badge&logo=codeclimate
-[codeclimate-url]: https://codeclimate.com/github/tsutsu3/pi-hole-client/maintainability
 [codacy-shield]: https://img.shields.io/codacy/grade/a8a50d5271be491ab68c69513f808ada?style=for-the-badge&logo=codacy
 [codacy-url]: https://app.codacy.com/gh/tsutsu3/pi-hole-client/dashboard
 [sonar-quality-gate-shield]: https://img.shields.io/sonar/quality_gate/tsutsu3_pi-hole-client?server=https://sonarcloud.io&style=for-the-badge&logo=sonarqube
