@@ -49,7 +49,7 @@
   "biometricUnlockNotDisabled": "Nie można wyłączyć odblokowania za pomocą odcisku palca.",
   "blacklist": "Dodaj do czarnej listy",
   "blocked": "Zablokowane",
-  "cameraPermission": "PiHoleClient nie ma uprawnień dostępu do kamery.\n\nPrzejdź do ustawień i przyznaj uprawnienia.",
+  "cameraPermission": "Pi-hole client nie ma uprawnień dostępu do kamery.\n\nPrzejdź do ustawień i przyznaj uprawnienia.",
   "cancel": "Anuluj",
   "cannotAddDomain": "Nie można dodać domeny",
   "cannotChangeUpdateTime": "Nie można zmienić czasu aktualizacji",

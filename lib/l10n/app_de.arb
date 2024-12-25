@@ -49,7 +49,7 @@
   "biometricUnlockNotDisabled": "Entsperren per Fingerabdruck konnte nicht deaktiviert werden.",
   "blacklist": "Zur Blacklist hinzufügen",
   "blocked": "Blockiert",
-  "cameraPermission": "PiHoleClient hat keine Berechtigungen, um auf die Kamera zuzugreifen.\n\nGehen Sie in die Einstellungen, um den Zugriff zu erlauben.",
+  "cameraPermission": "Pi-hole client hat keine Berechtigungen, um auf die Kamera zuzugreifen.\n\nGehen Sie in die Einstellungen, um den Zugriff zu erlauben.",
   "cancel": "Abbrechen",
   "cannotAddDomain": "Domain konnte nicht hinzugefügt werden",
   "cannotChangeUpdateTime": "Aktualisierungszeit konnte nicht geändert werden",
