@@ -121,6 +121,14 @@ can [become a sponsor on GitHub](https://github.com/sponsors/tsutsu3), or
 
 ### Compile the production build
 
+#### Common
+
+Run these commands as needed whenever you update the images.
+
+1. Run ``flutter clean``
+2. Run ``dart run flutter_launcher_icons`
+3. Run ``dart run flutter_native_splash:create``
+
 #### Android
 
 1. Run ``flutter clean``
