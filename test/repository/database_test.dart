@@ -1,5 +1,6 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:mockito/mockito.dart';
 import 'package:mockito/annotations.dart';
 import 'package:pi_hole_client/services/session_manager.dart';
@@ -15,7 +16,7 @@ void sqfliteTestInit() {
   databaseFactory = databaseFactoryFfi;
 }
 
-@GenerateMocks([SecureStorageRepository])
+@GenerateMocks([SecureStorageRepository, FlutterSecureStorage])
 void main() async {
   // Initialize the sqflite for testing
   sqfliteTestInit();
@@ -199,6 +200,108 @@ void main() async {
       expect(appConfig.passCode, '9999');
       expect(appConfig.useBiometricAuth, 0);
       expect(appConfig.sendCrashReports, 0);
+    });
+  });
+
+  group('DatabaseRepository.updateConfigQuery', () {
+    late MockFlutterSecureStorage mockFlutterSecureStorage;
+    late SecureStorageRepository secureStorage;
+    late DatabaseRepository databaseRepository;
+
+    setUp(() async {
+      mockFlutterSecureStorage = MockFlutterSecureStorage();
+      secureStorage =
+          SecureStorageRepository(secureStorage: mockFlutterSecureStorage);
+      databaseRepository = DatabaseRepository(secureStorage);
+
+      when(mockFlutterSecureStorage.read(key: anyNamed('key')))
+          .thenAnswer((_) async => null);
+      when(mockFlutterSecureStorage.readAll()).thenAnswer(
+        (_) async => {},
+      );
+
+      // Use test sqflite database. Before each test, initialize the database
+      await databaseRepository.initialize(path: testDb);
+    });
+
+    tearDown(() async {
+      await databaseRepository.closeDb();
+    });
+
+    test(
+      'should delete key from secure storage when null is passed (Clear)',
+      () async {
+        const testColumn = 'passCode';
+
+        when(mockFlutterSecureStorage.delete(key: testColumn))
+            .thenAnswer((_) async {});
+
+        final result = await databaseRepository.updateConfigQuery(
+          column: testColumn,
+          value: null,
+        );
+
+        // Check call to delete
+        // Check not call to write
+        expect(result, true);
+        verify(mockFlutterSecureStorage.delete(key: testColumn)).called(1);
+        verifyNever(
+          mockFlutterSecureStorage.write(
+            key: testColumn,
+            value: anyNamed('value'),
+          ),
+        );
+      },
+    );
+
+    test(
+      'should save value to secure storage when non-null value is passed (Update)',
+      () async {
+        const testColumn = 'passCode';
+        const testValue = '1234';
+
+        when(mockFlutterSecureStorage.write(key: testColumn, value: testValue))
+            .thenAnswer(
+          (_) async {},
+        );
+
+        final result = await databaseRepository.updateConfigQuery(
+          column: testColumn,
+          value: testValue,
+        );
+
+        // Check not call to delete
+        // Check call to write
+        expect(result, true);
+        verifyNever(mockFlutterSecureStorage.delete(key: testColumn));
+        verify(
+          mockFlutterSecureStorage.write(
+            key: testColumn,
+            value: testValue,
+          ),
+        ).called(1);
+      },
+    );
+
+    test('should return false if secure storage delete fails', () async {
+      const testColumn = 'passCode';
+
+      when(mockFlutterSecureStorage.delete(key: testColumn))
+          .thenThrow(Exception('Failed to delete'));
+
+      final result = await databaseRepository.updateConfigQuery(
+        column: testColumn,
+        value: null,
+      );
+
+      expect(result, false);
+      verify(mockFlutterSecureStorage.delete(key: testColumn)).called(1);
+      verifyNever(
+        mockFlutterSecureStorage.write(
+          key: testColumn,
+          value: anyNamed('value'),
+        ),
+      );
     });
   });
 }
