@@ -80,7 +80,9 @@ void main() async {
       configProvider.setBiometricsSupport(canAuthenticateWithBiometrics);
 
       if (canAuthenticateWithBiometrics &&
-          availableBiometrics.contains(BiometricType.fingerprint) == false &&
+          !availableBiometrics.contains(BiometricType.fingerprint) &&
+          !availableBiometrics.contains(BiometricType.strong) &&
+          !availableBiometrics.contains(BiometricType.weak) &&
           dbRepository.appConfig.useBiometricAuth == 1) {
         await configProvider.setUseBiometrics(false);
       }
