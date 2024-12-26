@@ -505,6 +505,11 @@ class DatabaseRepository {
   }) async {
     try {
       if (column == 'passCode') {
+        if (value == null) {
+          await _secureStorage.deleteValue('passCode');
+          return true;
+        }
+
         await _secureStorage.saveValue('passCode', value.toString());
         return true;
       }
