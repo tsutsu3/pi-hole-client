@@ -143,6 +143,7 @@ flutter:
     - assets/resources/google-play.svg
     - assets/resources/github.svg
     - assets/icon/icon-foreground.png
+    - assets/icon/icon-foreground-max.png
     - .env
     - NOTICE
 
