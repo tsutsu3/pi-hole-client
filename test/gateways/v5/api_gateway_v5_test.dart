@@ -18,11 +18,12 @@ void main() {
 
     setUp(() {
       server = Server(
-          address: 'http://example.com',
-          alias: 'example',
-          defaultServer: true,
-          apiVersion: SupportedApiVersions.v5,
-          token: 'xxx123');
+        address: 'http://example.com',
+        alias: 'example',
+        defaultServer: true,
+        apiVersion: SupportedApiVersions.v5,
+        token: 'xxx123',
+      );
       apiGateway = ApiGatewayV5(server);
     });
 
@@ -48,60 +49,71 @@ void main() {
 
     setUp(() {
       server = Server(
-          address: 'http://example.com',
-          alias: 'example',
-          defaultServer: true,
-          apiVersion: SupportedApiVersions.v5,
-          token: 'xxx123');
+        address: 'http://example.com',
+        alias: 'example',
+        defaultServer: true,
+        apiVersion: SupportedApiVersions.v5,
+        token: 'xxx123',
+      );
     });
     test('Return success with valid auth token', () async {
       final mockClient = MockClient();
       final apiGateway = ApiGatewayV5(server, client: mockClient);
 
-      when(mockClient.get(Uri.parse(url), headers: {}))
-          .thenAnswer((_) async => http.Response(
-              jsonEncode({
-                'domains_being_blocked': 121,
-                'dns_queries_today': 12,
-                'ads_blocked_today': 1,
-                'ads_percentage_today': 8.333333,
-                'unique_domains': 11,
-                'queries_forwarded': 9,
-                'queries_cached': 2,
-                'clients_ever_seen': 2,
-                'unique_clients': 2,
-                'dns_queries_all_types': 12,
-                'reply_UNKNOWN': 0,
-                'reply_NODATA': 0,
-                'reply_NXDOMAIN': 1,
-                'reply_CNAME': 0,
-                'reply_IP': 10,
-                'reply_DOMAIN': 1,
-                'reply_RRNAME': 0,
-                'reply_SERVFAIL': 0,
-                'reply_REFUSED': 0,
-                'reply_NOTIMP': 0,
-                'reply_OTHER': 0,
-                'reply_DNSSEC': 0,
-                'reply_NONE': 0,
-                'reply_BLOB': 0,
-                'dns_queries_all_replies': 12,
-                'privacy_level': 0,
-                'status': 'enabled',
-                'gravity_last_updated': {
-                  'file_exists': true,
-                  'absolute': 17329,
-                  'relative': {'days': 4, 'hours': 23, 'minutes': 41}
-                }
-              }),
-              200));
+      when(mockClient.get(Uri.parse(url), headers: {})).thenAnswer(
+        (_) async => http.Response(
+          jsonEncode({
+            'domains_being_blocked': 121,
+            'dns_queries_today': 12,
+            'ads_blocked_today': 1,
+            'ads_percentage_today': 8.333333,
+            'unique_domains': 11,
+            'queries_forwarded': 9,
+            'queries_cached': 2,
+            'clients_ever_seen': 2,
+            'unique_clients': 2,
+            'dns_queries_all_types': 12,
+            'reply_UNKNOWN': 0,
+            'reply_NODATA': 0,
+            'reply_NXDOMAIN': 1,
+            'reply_CNAME': 0,
+            'reply_IP': 10,
+            'reply_DOMAIN': 1,
+            'reply_RRNAME': 0,
+            'reply_SERVFAIL': 0,
+            'reply_REFUSED': 0,
+            'reply_NOTIMP': 0,
+            'reply_OTHER': 0,
+            'reply_DNSSEC': 0,
+            'reply_NONE': 0,
+            'reply_BLOB': 0,
+            'dns_queries_all_replies': 12,
+            'privacy_level': 0,
+            'status': 'enabled',
+            'gravity_last_updated': {
+              'file_exists': true,
+              'absolute': 17329,
+              'relative': {'days': 4, 'hours': 23, 'minutes': 41},
+            },
+          }),
+          200,
+        ),
+      );
 
-      when(mockClient.get(
+      when(
+        mockClient.get(
           Uri.parse('http://example.com/admin/api.php?auth=xxx123&enable=0'),
-          headers: {})).thenAnswer((_) async => http.Response(
-              jsonEncode({'status': 'enabled'}), 200, headers: {
-            'set-cookie': 'sid=$sessinId; path=/; HttpOnly; SameSite=Strict'
-          }));
+          headers: {},
+        ),
+      ).thenAnswer(
+        (_) async => http.Response(
+          jsonEncode({'status': 'enabled'}),
+          200,
+          headers: {
+            'set-cookie': 'sid=$sessinId; path=/; HttpOnly; SameSite=Strict',
+          },
+        ),
+      );
 
       final response = await apiGateway.loginQuery();
 
@@ -223,11 +235,12 @@ void main() {
 
     setUp(() {
       server = Server(
-          address: 'http://example.com',
-          alias: 'example',
-          defaultServer: true,
-          apiVersion: SupportedApiVersions.v5,
-          token: 'xxx123');
+        address: 'http://example.com',
+        alias: 'example',
+        defaultServer: true,
+        apiVersion: SupportedApiVersions.v5,
+        token: 'xxx123',
+      );
     });
 
     test('Return success', () async {
@@ -264,7 +277,7 @@ void main() {
         'gravity_last_updated': {
           'file_exists': true,
           'absolute': 1732972589,
-          'relative': {'days': 5, 'hours': 18, 'minutes': 14}
+          'relative': {'days': 5, 'hours': 18, 'minutes': 14},
         },
         'top_queries': {
           '1.0.26.172.in-addr.arpa': 3,
@@ -276,7 +289,7 @@ void main() {
           'google.com': 1,
           'google.co.jp': 1,
           'yahoo.co.jp': 1,
-          'fix.test.com': 1
+          'fix.test.com': 1,
         },
         'top_ads': {'test.com': 1},
         'top_sources': {'172.26.0.1': 10, 'localhost|127.0.0.1': 6},
@@ -285,7 +298,7 @@ void main() {
           'blocked|blocked': 6.25,
           'cached|cached': 37.5,
           'other|other': 0,
-          'dns.google#53|8.8.8.8#53': 56.25
+          'dns.google#53|8.8.8.8#53': 56.25,
         },
         'querytypes': {
           'A (IPv4)': 62.5,
@@ -303,8 +316,8 @@ void main() {
           'NS': 0,
           'OTHER': 0,
           'SVCB': 0,
-          'HTTPS': 0
-        }
+          'HTTPS': 0,
+        },
       };
       when(mockClient.get(Uri.parse(url), headers: {}))
           .thenAnswer((_) async => http.Response(jsonEncode(data), 200));
@@ -335,11 +348,12 @@ void main() {
 
     setUp(() {
       server = Server(
-          address: 'http://example.com',
-          alias: 'example',
-          defaultServer: true,
-          apiVersion: SupportedApiVersions.v5,
-          token: 'xxx123');
+        address: 'http://example.com',
+        alias: 'example',
+        defaultServer: true,
+        apiVersion: SupportedApiVersions.v5,
+        token: 'xxx123',
+      );
     });
 
     test('Return success', () async {
@@ -375,11 +389,12 @@ void main() {
 
     setUp(() {
       server = Server(
-          address: 'http://example.com',
-          alias: 'example',
-          defaultServer: true,
-          apiVersion: SupportedApiVersions.v5,
-          token: 'xxx123');
+        address: 'http://example.com',
+        alias: 'example',
+        defaultServer: true,
+        apiVersion: SupportedApiVersions.v5,
+        token: 'xxx123',
+      );
     });
 
     test('Return success', () async {
@@ -416,11 +431,12 @@ void main() {
 
     setUp(() {
       server = Server(
-          address: 'http://example.com',
-          alias: 'example',
-          defaultServer: true,
-          apiVersion: SupportedApiVersions.v5,
-          token: 'xxx123');
+        address: 'http://example.com',
+        alias: 'example',
+        defaultServer: true,
+        apiVersion: SupportedApiVersions.v5,
+        token: 'xxx123',
+      );
     });
 
     test('Return success', () async {
@@ -571,7 +587,7 @@ void main() {
           '1733475300': 0,
           '1733475900': 0,
           '1733476500': 0,
-          '1733477100': 0
+          '1733477100': 0,
         },
         'ads_over_time': {
           '1733391300': 0,
@@ -717,11 +733,11 @@ void main() {
           '1733475300': 0,
           '1733475900': 0,
           '1733476500': 0,
-          '1733477100': 0
+          '1733477100': 0,
         },
         'clients': [
           {'name': '', 'ip': '172.26.0.1'},
-          {'name': 'localhost', 'ip': '127.0.0.1'}
+          {'name': 'localhost', 'ip': '127.0.0.1'},
         ],
         'over_time': {
           '1733391300': [0, 0],
@@ -867,8 +883,8 @@ void main() {
           '1733475300': [0, 0],
           '1733475900': [0, 0],
           '1733476500': [0, 0],
-          '1733477100': [0, 0]
-        }
+          '1733477100': [0, 0],
+        },
       };
       when(mockClient.get(Uri.parse(url), headers: {}))
           .thenAnswer((_) async => http.Response(jsonEncode(data), 200));
@@ -900,11 +916,12 @@ void main() {
 
     setUp(() {
       server = Server(
-          address: 'http://example.com',
-          alias: 'example',
-          defaultServer: true,
-          apiVersion: SupportedApiVersions.v5,
-          token: 'xxx123');
+        address: 'http://example.com',
+        alias: 'example',
+        defaultServer: true,
+        apiVersion: SupportedApiVersions.v5,
+        token: 'xxx123',
+      );
     });
 
     test('Return success', () async {
@@ -924,7 +941,7 @@ void main() {
             'N/A',
             '-1',
             'dns.google#53',
-            ''
+            '',
           ],
           [
             '1733479462',
@@ -938,9 +955,9 @@ void main() {
             'N/A',
             '-1',
             'dns.google#53',
-            ''
-          ]
-        ]
+            '',
+          ],
+        ],
       };
       when(mockClient.get(Uri.parse(url), headers: {}))
           .thenAnswer((_) async => http.Response(jsonEncode(data), 200));
@@ -976,11 +993,12 @@ void main() {
 
     setUp(() {
       server = Server(
-          address: 'http://example.com',
-          alias: 'example',
-          defaultServer: true,
-          apiVersion: SupportedApiVersions.v5,
-          token: 'xxx123');
+        address: 'http://example.com',
+        alias: 'example',
+        defaultServer: true,
+        apiVersion: SupportedApiVersions.v5,
+        token: 'xxx123',
+      );
     });
 
     test('Return success when add new domain', () async {
@@ -1003,7 +1021,7 @@ void main() {
       final apiGateway = ApiGatewayV5(server, client: mockClient);
       final data = {
         'success': true,
-        'message': 'Not adding google.com as it is already on the list'
+        'message': 'Not adding google.com as it is already on the list',
       };
       when(mockClient.get(Uri.parse(url), headers: {}))
           .thenAnswer((_) async => http.Response(jsonEncode(data), 200));
@@ -1054,16 +1072,17 @@ void main() {
       'http://example.com/admin/api.php?auth=xxx123&list=white',
       'http://example.com/admin/api.php?auth=xxx123&list=regex_white',
       'http://example.com/admin/api.php?auth=xxx123&list=black',
-      'http://example.com/admin/api.php?auth=xxx123&list=regex_black'
+      'http://example.com/admin/api.php?auth=xxx123&list=regex_black',
     ];
 
     setUp(() {
       server = Server(
-          address: 'http://example.com',
-          alias: 'example',
-          defaultServer: true,
-          apiVersion: SupportedApiVersions.v5,
-          token: 'xxx123');
+        address: 'http://example.com',
+        alias: 'example',
+        defaultServer: true,
+        apiVersion: SupportedApiVersions.v5,
+        token: 'xxx123',
+      );
     });
 
     test('Return success', () async {
@@ -1080,9 +1099,9 @@ void main() {
               'date_added': 1733559182,
               'date_modified': 1733559182,
               'comment': '',
-              'groups': [0]
-            }
-          ]
+              'groups': [0],
+            },
+          ],
         },
         {'data': []},
         {
@@ -1095,9 +1114,9 @@ void main() {
               'date_added': 1733401118,
               'date_modified': 1733496612,
               'comment': '',
-              'groups': [0]
-            }
-          ]
+              'groups': [0],
+            },
+          ],
         },
         {'data': []},
       ];
@@ -1137,11 +1156,12 @@ void main() {
 
     setUp(() {
       server = Server(
-          address: 'http://example.com',
-          alias: 'example',
-          defaultServer: true,
-          apiVersion: SupportedApiVersions.v5,
-          token: 'xxx123');
+        address: 'http://example.com',
+        alias: 'example',
+        defaultServer: true,
+        apiVersion: SupportedApiVersions.v5,
+        token: 'xxx123',
+      );
     });
 
     test('Return success', () async {
@@ -1151,7 +1171,8 @@ void main() {
       when(mockClient.get(Uri.parse(url), headers: {}))
           .thenAnswer((_) async => http.Response(jsonEncode(data), 200));
 
-      final response = await apiGateway.removeDomainFromList(Domain(
+      final response = await apiGateway.removeDomainFromList(
+        Domain(
           id: 1,
           domain: 'google.com',
           type: 0,
@@ -1159,7 +1180,9 @@ void main() {
           dateAdded: DateTime.now(),
           dateModified: DateTime.now(),
           comment: '',
-          groups: []));
+          groups: [],
+        ),
+      );
 
       expect(response.result, APiResponseType.success);
       expect(response.message, isNull);
@@ -1172,7 +1195,8 @@ void main() {
       when(mockClient.get(Uri.parse(url), headers: {}))
           .thenThrow(Exception('Unexpected error test'));
 
-      final response = await apiGateway.removeDomainFromList(Domain(
+      final response = await apiGateway.removeDomainFromList(
+        Domain(
           id: 1,
           domain: 'google.com',
           type: 0,
@@ -1180,7 +1204,9 @@ void main() {
           dateAdded: DateTime.now(),
           dateModified: DateTime.now(),
           comment: '',
-          groups: []));
+          groups: [],
+        ),
+      );
 
       expect(response.result, APiResponseType.error);
       expect(response.message, isNull);
@@ -1194,11 +1220,12 @@ void main() {
 
     setUp(() {
       server = Server(
-          address: 'http://example.com',
-          alias: 'example',
-          defaultServer: true,
-          apiVersion: SupportedApiVersions.v5,
-          token: 'xxx123');
+        address: 'http://example.com',
+        alias: 'example',
+        defaultServer: true,
+        apiVersion: SupportedApiVersions.v5,
+        token: 'xxx123',
+      );
     });
 
     test('Return success when add new domain', () async {
@@ -1219,7 +1246,7 @@ void main() {
       final apiGateway = ApiGatewayV5(server, client: mockClient);
       final data = {
         'success': true,
-        'message': 'Not adding google.com as it is already on the list'
+        'message': 'Not adding google.com as it is already on the list',
       };
       when(mockClient.get(Uri.parse(url), headers: {}))
           .thenAnswer((_) async => http.Response(jsonEncode(data), 200));

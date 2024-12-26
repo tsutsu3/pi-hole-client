@@ -49,8 +49,8 @@ class DatabaseRepository {
   ///
   /// Throws:
   /// - [Exception] if the initialization fails or the database cannot be accessed.
-  Future<void> initialize() async {
-    final piHoleClientData = await loadDb();
+  Future<void> initialize({String? path}) async {
+    final piHoleClientData = await loadDb(path: path);
     _servers = piHoleClientData.servers;
     _appConfig = piHoleClientData.appConfig;
     _dbInstance = piHoleClientData.dbInstance;
@@ -69,6 +69,10 @@ class DatabaseRepository {
   /// This method is responsible for initializing or opening the database,
   /// ensuring that necessary tables exist, and fetching the required data.
   ///
+  /// Parameters:
+  /// - [path]: The path to the database file. If not provided, the default
+  ///  path 'pi_hole_client.db' will be used.
+  ///
   /// Returns:
   /// - A `Future` that resolves to a [PiHoleClientData] object containing:
   ///   - `servers`: A list of server configurations from the database.
@@ -77,12 +81,12 @@ class DatabaseRepository {
   ///
   /// Throws:
   /// - [Exception] if the database cannot be initialized or data cannot be retrieved.
-  Future<PiHoleClientData> loadDb() async {
+  Future<PiHoleClientData> loadDb({String? path}) async {
     List<ServerDbData>? servers;
     AppDbData? appConfig;
 
     Database db = await openDatabase(
-      'pi_hole_client.db',
+      path ?? 'pi_hole_client.db',
       version: 1,
       onCreate: (Database db, int version) async {
         await db.execute('''
@@ -140,7 +144,7 @@ class DatabaseRepository {
 
         // Load sensitive data from secure storage
         final passCode = await _secureStorage.getValue('passCode');
-        AppDbData.withSecrets(appConfig!, passCode);
+        appConfig = AppDbData.withSecrets(appConfig!, passCode);
 
         // _secureStorage.readAll()
         logger.d((await _secureStorage.readAll()).toString());
@@ -173,6 +177,21 @@ class DatabaseRepository {
       appConfig: appConfig!,
       dbInstance: db,
     );
+  }
+
+  /// Closes the database connection.
+  ///
+  /// This method closes the database connection and releases any resources
+  ///
+  /// Returns:
+  /// - A `Future` that resolves to `true` if the operation is successful.
+  Future<bool> closeDb() async {
+    try {
+      await _dbInstance.close();
+      return true;
+    } catch (e) {
+      return false;
+    }
   }
 
   /// Saves a new server entry into the database.
@@ -486,6 +505,11 @@ class DatabaseRepository {
   }) async {
     try {
       if (column == 'passCode') {
+        if (value == null) {
+          await _secureStorage.deleteValue('passCode');
+          return true;
+        }
+
         await _secureStorage.saveValue('passCode', value.toString());
         return true;
       }

@@ -16,19 +16,19 @@ class SessionManagerMock implements SessionManager {
   String? _sid;
   String? _password;
 
-  SessionManagerMock(this._sid, this._password);
+  @override
+  String? get sid => _sid;
 
   @override
-  get sid => _sid;
-
-  @override
-  get password async {
+  Future<String?>? get password async {
     try {
       return _password;
     } catch (e) {
       return null;
     }
   }
+
+  SessionManagerMock(this._sid, this._password);
 
   @override
   Future<bool> save(String sid) async {
@@ -64,7 +64,7 @@ void main() async {
     final sessinId = 'n9n9f6c3umrumfq2ese1lvu2pg';
     final urls = [
       'http://example.com/api/auth',
-      'http://example.com/api/dns/blocking'
+      'http://example.com/api/dns/blocking',
     ];
 
     setUp(() {
@@ -80,11 +80,14 @@ void main() async {
       final mockClient = MockClient();
       final apiGateway = ApiGatewayV6(server, client: mockClient);
 
-      when(mockClient.post(
-        Uri.parse(urls[0]),
-        headers: anyNamed('headers'),
-        body: anyNamed('body'),
-      )).thenAnswer((_) async => http.Response(
+      when(
+        mockClient.post(
+          Uri.parse(urls[0]),
+          headers: anyNamed('headers'),
+          body: anyNamed('body'),
+        ),
+      ).thenAnswer(
+        (_) async => http.Response(
           jsonEncode({
             'session': {
               'valid': true,
@@ -92,18 +95,22 @@ void main() async {
               'sid': 'n9n9f6c3umrumfq2ese1lvu2pg',
               'csrf': 'Ux87YTIiMOf/GKCefVIOMw=',
               'validity': 300,
-              'message': 'correct password'
+              'message': 'correct password',
             },
-            'took': 0.039638996124267578
+            'took': 0.039638996124267578,
           }),
-          200));
+          200,
+        ),
+      );
 
       int callCount = 0;
 
-      when(mockClient.get(
-        Uri.parse(urls[1]),
-        headers: anyNamed('headers'),
-      )).thenAnswer((_) async {
+      when(
+        mockClient.get(
+          Uri.parse(urls[1]),
+          headers: anyNamed('headers'),
+        ),
+      ).thenAnswer((_) async {
         callCount++;
         if (callCount == 1) {
           return http.Response(
@@ -111,9 +118,9 @@ void main() async {
               'error': {
                 'key': 'unauthorized',
                 'message': 'Unauthorized',
-                'hint': null
+                'hint': null,
               },
-              'took': 4.1484832763671875e-05
+              'took': 4.1484832763671875e-05,
             }),
             401,
           );
@@ -138,10 +145,12 @@ void main() async {
       final mockClient = MockClient();
       final apiGateway = ApiGatewayV6(server, client: mockClient);
 
-      when(mockClient.get(
-        Uri.parse(urls[1]),
-        headers: anyNamed('headers'),
-      )).thenAnswer((_) async {
+      when(
+        mockClient.get(
+          Uri.parse(urls[1]),
+          headers: anyNamed('headers'),
+        ),
+      ).thenAnswer((_) async {
         return http.Response(
           jsonEncode({'blocking': 'enabled', 'timer': null, 'took': 0.003}),
           200,
@@ -160,39 +169,46 @@ void main() async {
       final mockClient = MockClient();
       final apiGateway = ApiGatewayV6(server, client: mockClient);
 
-      when(mockClient.get(
-        Uri.parse(urls[1]),
-        headers: anyNamed('headers'),
-      )).thenAnswer((_) async {
+      when(
+        mockClient.get(
+          Uri.parse(urls[1]),
+          headers: anyNamed('headers'),
+        ),
+      ).thenAnswer((_) async {
         return http.Response(
           jsonEncode({
             'error': {
               'key': 'unauthorized',
               'message': 'Unauthorized',
-              'hint': null
+              'hint': null,
             },
-            'took': 4.1484832763671875e-05
+            'took': 4.1484832763671875e-05,
           }),
           401,
         );
       });
 
-      when(mockClient.post(
-        Uri.parse(urls[0]),
-        headers: anyNamed('headers'),
-        body: anyNamed('body'),
-      )).thenAnswer((_) async => http.Response(
+      when(
+        mockClient.post(
+          Uri.parse(urls[0]),
+          headers: anyNamed('headers'),
+          body: anyNamed('body'),
+        ),
+      ).thenAnswer(
+        (_) async => http.Response(
           jsonEncode({
             'session': {
               'valid': false,
               'totp': false,
               'sid': null,
               'validity': -1,
-              'message': 'password incorrect'
+              'message': 'password incorrect',
             },
-            'took': 0.039638996124267578
+            'took': 0.039638996124267578,
           }),
-          401));
+          401,
+        ),
+      );
 
       final response = await apiGateway.loginQuery();
 
@@ -260,28 +276,32 @@ void main() async {
       '''
           .trimLeft();
 
-      when(mockClient.get(
-        Uri.parse(urls[1]),
-        headers: anyNamed('headers'),
-      )).thenAnswer((_) async {
+      when(
+        mockClient.get(
+          Uri.parse(urls[1]),
+          headers: anyNamed('headers'),
+        ),
+      ).thenAnswer((_) async {
         return http.Response(
           jsonEncode({
             'error': {
               'key': 'unauthorized',
               'message': 'Unauthorized',
-              'hint': null
+              'hint': null,
             },
-            'took': 4.1484832763671875e-05
+            'took': 4.1484832763671875e-05,
           }),
           401,
         );
       });
 
-      when(mockClient.post(
-        Uri.parse(urls[0]),
-        headers: anyNamed('headers'),
-        body: anyNamed('body'),
-      )).thenAnswer((_) async => http.Response(htmlString, 404));
+      when(
+        mockClient.post(
+          Uri.parse(urls[0]),
+          headers: anyNamed('headers'),
+          body: anyNamed('body'),
+        ),
+      ).thenAnswer((_) async => http.Response(htmlString, 404));
 
       final response = await apiGateway.loginQuery();
 
@@ -299,28 +319,32 @@ void main() async {
       final mockClient = MockClient();
       final apiGateway = ApiGatewayV6(server, client: mockClient);
 
-      when(mockClient.get(
-        Uri.parse(urls[1]),
-        headers: anyNamed('headers'),
-      )).thenAnswer((_) async {
+      when(
+        mockClient.get(
+          Uri.parse(urls[1]),
+          headers: anyNamed('headers'),
+        ),
+      ).thenAnswer((_) async {
         return http.Response(
           jsonEncode({
             'error': {
               'key': 'unauthorized',
               'message': 'Unauthorized',
-              'hint': null
+              'hint': null,
             },
-            'took': 4.1484832763671875e-05
+            'took': 4.1484832763671875e-05,
           }),
           401,
         );
       });
 
-      when(mockClient.post(
-        Uri.parse(urls[0]),
-        headers: anyNamed('headers'),
-        body: anyNamed('body'),
-      )).thenThrow(Exception('Unexpected error test'));
+      when(
+        mockClient.post(
+          Uri.parse(urls[0]),
+          headers: anyNamed('headers'),
+          body: anyNamed('body'),
+        ),
+      ).thenThrow(Exception('Unexpected error test'));
 
       final response = await apiGateway.loginQuery();
 
@@ -383,7 +407,7 @@ void main() async {
               'NS': 868,
               'SVCB': 645,
               'HTTPS': 4,
-              'OTHER': 845
+              'OTHER': 845,
             },
             'status': {
               'UNKNOWN': 3,
@@ -403,7 +427,7 @@ void main() async {
               'IN_PROGRESS': 0,
               'DBBUSY': 0,
               'SPECIAL_DOMAIN': 0,
-              'CACHE_STALE': 0
+              'CACHE_STALE': 0,
             },
             'replies': {
               'UNKNOWN': 3,
@@ -419,15 +443,15 @@ void main() async {
               'OTHER': 0,
               'DNSSEC': 31,
               'NONE': 0,
-              'BLOB': 0
-            }
+              'BLOB': 0,
+            },
           },
           'clients': {'active': 10, 'total': 22},
           'gravity': {
             'domains_being_blocked': 104756,
-            'last_update': 1725194639
+            'last_update': 1725194639,
           },
-          'took': 0.003
+          'took': 0.003,
         },
         {
           'ftl': {
@@ -436,7 +460,7 @@ void main() async {
               'groups': 6,
               'lists': 1,
               'clients': 5,
-              'domains': {'allowed': 10, 'denied': 3}
+              'domains': {'allowed': 10, 'denied': 3},
             },
             'privacy_level': 0,
             'clients': {'total': 10, 'active': 8},
@@ -471,43 +495,43 @@ void main() async {
               'tcp_connections': 0,
               'dnssec_max_crypto_use': 0,
               'dnssec_max_sig_fail': 0,
-              'dnssec_max_work': 0
-            }
+              'dnssec_max_work': 0,
+            },
           },
-          'took': 0.003
+          'took': 0.003,
         },
         {'blocking': 'enabled', 'timer': 15, 'took': 0.003},
         {
           'domains': [
-            {'domain': 'pi-hole.net', 'count': 8516}
+            {'domain': 'pi-hole.net', 'count': 8516},
           ],
           'total_queries': 29160,
           'blocked_queries': 6379,
-          'took': 0.003
+          'took': 0.003,
         },
         {
           'domains': [
-            {'domain': 'pi-hole.net', 'count': 8516}
+            {'domain': 'pi-hole.net', 'count': 8516},
           ],
           'total_queries': 29160,
           'blocked_queries': 6379,
-          'took': 0.003
+          'took': 0.003,
         },
         {
           'clients': [
-            {'ip': '192.168.0.44', 'name': 'raspberrypi.lan', 'count': 5896}
+            {'ip': '192.168.0.44', 'name': 'raspberrypi.lan', 'count': 5896},
           ],
           'total_queries': 29160,
           'blocked_queries': 6379,
-          'took': 0.003
+          'took': 0.003,
         },
         {
           'clients': [
-            {'ip': '192.168.0.44', 'name': 'raspberrypi.lan', 'count': 5896}
+            {'ip': '192.168.0.44', 'name': 'raspberrypi.lan', 'count': 5896},
           ],
           'total_queries': 29160,
           'blocked_queries': 6379,
-          'took': 0.003
+          'took': 0.003,
         },
         {
           'upstreams': [
@@ -516,14 +540,14 @@ void main() async {
               'name': 'blocklist',
               'port': -1,
               'count': 0,
-              'statistics': {'response': 0, 'variance': 0}
+              'statistics': {'response': 0, 'variance': 0},
             },
             {
               'ip': 'cache',
               'name': 'cache',
               'port': -1,
               'count': 2,
-              'statistics': {'response': 0, 'variance': 0}
+              'statistics': {'response': 0, 'variance': 0},
             },
             {
               'ip': '8.8.8.8',
@@ -532,20 +556,22 @@ void main() async {
               'count': 8,
               'statistics': {
                 'response': 0.0516872935824924,
-                'variance': 0.0049697216173868828
-              }
+                'variance': 0.0049697216173868828,
+              },
             },
           ],
           'total_queries': 8,
           'forwarded_queries': 6,
-          'took': 5.6982040405273438e-05
-        }
+          'took': 5.6982040405273438e-05,
+        },
       ];
       for (int i = 0; i < urls.length; i++) {
-        when(mockClient.get(
-          Uri.parse(urls[i]),
-          headers: anyNamed('headers'),
-        )).thenAnswer((_) async => http.Response(jsonEncode(data[i]), 200));
+        when(
+          mockClient.get(
+            Uri.parse(urls[i]),
+            headers: anyNamed('headers'),
+          ),
+        ).thenAnswer((_) async => http.Response(jsonEncode(data[i]), 200));
       }
 
       final response = await apiGateway.realtimeStatus();
@@ -588,10 +614,13 @@ void main() async {
       final mockClient = MockClient();
       final apiGateway = ApiGatewayV6(server, client: mockClient);
       final data = {'blocking': 'disabled', 'timer': 15, 'took': 0.003};
-      when(mockClient.post(Uri.parse(url),
-              headers: anyNamed('headers'),
-              body: jsonEncode({'blocking': false, 'timer': 15})))
-          .thenAnswer((_) async => http.Response(jsonEncode(data), 200));
+      when(
+        mockClient.post(
+          Uri.parse(url),
+          headers: anyNamed('headers'),
+          body: jsonEncode({'blocking': false, 'timer': 15}),
+        ),
+      ).thenAnswer((_) async => http.Response(jsonEncode(data), 200));
 
       final response = await apiGateway.disableServerRequest(15);
 
@@ -603,10 +632,13 @@ void main() async {
       final mockClient = MockClient();
       final apiGateway = ApiGatewayV6(server, client: mockClient);
 
-      when(mockClient.post(Uri.parse(url),
-              headers: anyNamed('headers'),
-              body: jsonEncode({'blocking': false, 'timer': 15})))
-          .thenThrow(Exception('Unexpected error test'));
+      when(
+        mockClient.post(
+          Uri.parse(url),
+          headers: anyNamed('headers'),
+          body: jsonEncode({'blocking': false, 'timer': 15}),
+        ),
+      ).thenThrow(Exception('Unexpected error test'));
 
       final response = await apiGateway.disableServerRequest(5);
 
@@ -632,10 +664,13 @@ void main() async {
       final mockClient = MockClient();
       final apiGateway = ApiGatewayV6(server, client: mockClient);
       final data = {'blocking': 'enabled', 'timer': null, 'took': 0.03};
-      when(mockClient.post(Uri.parse(url),
-              headers: anyNamed('headers'),
-              body: jsonEncode({'blocking': true, 'timer': null})))
-          .thenAnswer((_) async => http.Response(jsonEncode(data), 200));
+      when(
+        mockClient.post(
+          Uri.parse(url),
+          headers: anyNamed('headers'),
+          body: jsonEncode({'blocking': true, 'timer': null}),
+        ),
+      ).thenAnswer((_) async => http.Response(jsonEncode(data), 200));
 
       final response = await apiGateway.enableServerRequest();
 
@@ -647,10 +682,13 @@ void main() async {
       final mockClient = MockClient();
       final apiGateway = ApiGatewayV6(server, client: mockClient);
 
-      when(mockClient.post(Uri.parse(url),
-              headers: anyNamed('headers'),
-              body: jsonEncode({'blocking': true, 'timer': null})))
-          .thenThrow(Exception('Unexpected error test'));
+      when(
+        mockClient.post(
+          Uri.parse(url),
+          headers: anyNamed('headers'),
+          body: jsonEncode({'blocking': true, 'timer': null}),
+        ),
+      ).thenThrow(Exception('Unexpected error test'));
 
       final response = await apiGateway.enableServerRequest();
 
@@ -663,7 +701,7 @@ void main() async {
     late Server server;
     final urls = [
       'http://example.com/api/history',
-      'http://example.com/api/history/clients'
+      'http://example.com/api/history/clients',
     ];
     setUp(() {
       server = Server(
@@ -685,17 +723,17 @@ void main() async {
               'total': 2134,
               'cached': 525,
               'blocked': 413,
-              'forwarded': 1196
+              'forwarded': 1196,
             },
             {
               'timestamp': 1511820500.583821,
               'total': 2014,
               'cached': 52,
               'blocked': 43,
-              'forwarded': 1910
-            }
+              'forwarded': 1910,
+            },
           ],
-          'took': 0.003
+          'took': 0.003,
         },
         {
           'clients': {
@@ -703,7 +741,7 @@ void main() async {
             '::1': {'name': 'ip6-localnet', 'total': 2100},
             '192.168.1.1': {'name': null, 'total': 254},
             '::': {'name': 'pi.hole', 'total': 29},
-            '0.0.0.0': {'name': 'other clients', 'total': 14}
+            '0.0.0.0': {'name': 'other clients', 'total': 14},
           },
           'history': [
             {
@@ -713,23 +751,25 @@ void main() async {
                 '::1': 63,
                 '192.168.1.1': 20,
                 '::': 9,
-                '0.0.0.0': 0
-              }
+                '0.0.0.0': 0,
+              },
             },
             {
               'timestamp': 1511820500.583821,
-              'data': {'127.0.0.1': 10, '::1': 44, '192.168.1.1': 56, '::': 52}
-            }
+              'data': {'127.0.0.1': 10, '::1': 44, '192.168.1.1': 56, '::': 52},
+            },
           ],
-          'took': 0.003
+          'took': 0.003,
         },
       ];
 
       for (int i = 0; i < urls.length; i++) {
-        when(mockClient.get(
-          Uri.parse(urls[i]),
-          headers: anyNamed('headers'),
-        )).thenAnswer((_) async => http.Response(jsonEncode(data[i]), 200));
+        when(
+          mockClient.get(
+            Uri.parse(urls[i]),
+            headers: anyNamed('headers'),
+          ),
+        ).thenAnswer((_) async => http.Response(jsonEncode(data[i]), 200));
       }
 
       final response = await apiGateway.fetchOverTimeData();
@@ -785,7 +825,7 @@ void main() async {
             'reply': {'type': 'IP', 'time': 19},
             'list_id': null,
             'upstream': 'localhost#5353',
-            'dbid': 112421354
+            'dbid': 112421354,
           },
           {
             'id': 2,
@@ -799,14 +839,14 @@ void main() async {
             'reply': {'type': 'IP', 'time': 12.3},
             'list_id': null,
             'upstream': 'localhost#5353',
-            'dbid': 112421355
-          }
+            'dbid': 112421355,
+          },
         ],
         'cursor': 175881,
         'recordsTotal': 1234,
         'recordsFiltered': 1234,
         'draw': 1,
-        'took': 0.003
+        'took': 0.003,
       };
       when(mockClient.get(Uri.parse(url), headers: anyNamed('headers')))
           .thenAnswer((_) async => http.Response(jsonEncode(data), 200));
@@ -863,32 +903,38 @@ void main() async {
             'enabled': true,
             'id': 1,
             'date_added': 1734008144,
-            'date_modified': 1734008144
-          }
+            'date_modified': 1734008144,
+          },
         ],
         'processed': {
           'errors': [],
           'success': [
-            {'item': 'google.com'}
-          ]
+            {'item': 'google.com'},
+          ],
         },
-        'took': 0.0042212009429931641
+        'took': 0.0042212009429931641,
       };
-      when(mockClient.post(Uri.parse(url),
+      when(
+        mockClient.post(
+          Uri.parse(url),
           headers: anyNamed('headers'),
           body: jsonEncode({
             'domain': 'google.com',
             'comment': null,
             'groups': [0],
-            'enabled': true
-          }))).thenAnswer((_) async => http.Response(jsonEncode(data), 201));
+            'enabled': true,
+          }),
+        ),
+      ).thenAnswer((_) async => http.Response(jsonEncode(data), 201));
 
       final response =
           await apiGateway.setWhiteBlacklist('google.com', 'black');
 
       expect(response.result, APiResponseType.success);
-      expect(response.data!.toJson(),
-          {'success': true, 'message': 'Added google.com'});
+      expect(
+        response.data!.toJson(),
+        {'success': true, 'message': 'Added google.com'},
+      );
       expect(response.message, isNull);
     });
 
@@ -907,29 +953,33 @@ void main() async {
             'enabled': true,
             'id': 8,
             'date_added': 1734005851,
-            'date_modified': 1734005851
-          }
+            'date_modified': 1734005851,
+          },
         ],
         'processed': {
           'errors': [
             {
               'item': 'google.com',
               'error':
-                  'UNIQUE constraint failed: domainlist.domain, domainlist.type'
-            }
+                  'UNIQUE constraint failed: domainlist.domain, domainlist.type',
+            },
           ],
-          'success': []
+          'success': [],
         },
-        'took': 0.000306844711303711
+        'took': 0.000306844711303711,
       };
-      when(mockClient.post(Uri.parse(url),
+      when(
+        mockClient.post(
+          Uri.parse(url),
           headers: anyNamed('headers'),
           body: jsonEncode({
             'domain': 'google.com',
             'comment': null,
             'groups': [0],
-            'enabled': true
-          }))).thenAnswer((_) async => http.Response(jsonEncode(data), 201));
+            'enabled': true,
+          }),
+        ),
+      ).thenAnswer((_) async => http.Response(jsonEncode(data), 201));
 
       final response =
           await apiGateway.setWhiteBlacklist('google.com', 'black');
@@ -938,7 +988,7 @@ void main() async {
       expect(response.data!.toJson(), {
         'success': false,
         'message':
-            'UNIQUE constraint failed: domainlist.domain, domainlist.type'
+            'UNIQUE constraint failed: domainlist.domain, domainlist.type',
       });
       expect(response.message, isNull);
     });
@@ -950,16 +1000,22 @@ void main() async {
         'error': {
           'key': 'uri_error',
           'message': 'Invalid request: Specify list to modify more precisely',
-          'hint': '/api/domains/xxxx/exact'
+          'hint': '/api/domains/xxxx/exact',
         },
-        'took': 0.00055241584777832031
+        'took': 0.00055241584777832031,
       };
-      when(mockClient.post(Uri.parse(url), headers: anyNamed('headers'), body: {
-        'domain': 'google.com',
-        'comment': null,
-        'groups': [0],
-        'enabled': true
-      })).thenAnswer((_) async => http.Response(jsonEncode(data), 200));
+      when(
+        mockClient.post(
+          Uri.parse(url),
+          headers: anyNamed('headers'),
+          body: {
+            'domain': 'google.com',
+            'comment': null,
+            'groups': [0],
+            'enabled': true,
+          },
+        ),
+      ).thenAnswer((_) async => http.Response(jsonEncode(data), 200));
 
       final response =
           await apiGateway.setWhiteBlacklist('google.com', 'black');
@@ -1013,7 +1069,7 @@ void main() async {
             'enabled': true,
             'id': 299,
             'date_added': 1611239095,
-            'date_modified': 1612163756
+            'date_modified': 1612163756,
           },
           {
             'domain': 'xn--4ca.com',
@@ -1025,11 +1081,11 @@ void main() async {
             'enabled': true,
             'id': 305,
             'date_added': 1611240635,
-            'date_modified': 1611241276
-          }
+            'date_modified': 1611241276,
+          },
         ],
         'took': 0.012,
-        'processed': null
+        'processed': null,
       };
       when(mockClient.get(Uri.parse(url), headers: anyNamed('headers')))
           .thenAnswer((_) async => http.Response(jsonEncode(data), 200));
@@ -1073,7 +1129,8 @@ void main() async {
       when(mockClient.delete(Uri.parse(url), headers: anyNamed('headers')))
           .thenAnswer((_) async => http.Response(jsonEncode(data), 204));
 
-      final response = await apiGateway.removeDomainFromList(Domain(
+      final response = await apiGateway.removeDomainFromList(
+        Domain(
           id: 1,
           domain: 'google.com',
           type: 0,
@@ -1081,7 +1138,9 @@ void main() async {
           dateAdded: DateTime.now(),
           dateModified: DateTime.now(),
           comment: '',
-          groups: []));
+          groups: [],
+        ),
+      );
 
       expect(response.result, APiResponseType.success);
       expect(response.message, isNull);
@@ -1094,7 +1153,8 @@ void main() async {
       when(mockClient.delete(Uri.parse(url), headers: anyNamed('headers')))
           .thenThrow(Exception('Unexpected error test'));
 
-      final response = await apiGateway.removeDomainFromList(Domain(
+      final response = await apiGateway.removeDomainFromList(
+        Domain(
           id: 1,
           domain: 'google.com',
           type: 0,
@@ -1102,7 +1162,9 @@ void main() async {
           dateAdded: DateTime.now(),
           dateModified: DateTime.now(),
           comment: '',
-          groups: []));
+          groups: [],
+        ),
+      );
 
       expect(response.result, APiResponseType.error);
       expect(response.message, isNull);
@@ -1137,25 +1199,29 @@ void main() async {
             'enabled': true,
             'id': 1,
             'date_added': 1734008144,
-            'date_modified': 1734008144
-          }
+            'date_modified': 1734008144,
+          },
         ],
         'processed': {
           'errors': [],
           'success': [
-            {'item': 'google.com'}
-          ]
+            {'item': 'google.com'},
+          ],
         },
-        'took': 0.0042212009429931641
+        'took': 0.0042212009429931641,
       };
-      when(mockClient.post(Uri.parse(url),
+      when(
+        mockClient.post(
+          Uri.parse(url),
           headers: anyNamed('headers'),
           body: jsonEncode({
             'domain': 'google.com',
             'comment': null,
             'groups': [0],
-            'enabled': true
-          }))).thenAnswer((_) async => http.Response(jsonEncode(data), 201));
+            'enabled': true,
+          }),
+        ),
+      ).thenAnswer((_) async => http.Response(jsonEncode(data), 201));
 
       final response = await apiGateway
           .addDomainToList({'list': 'black', 'domain': 'google.com'});
@@ -1178,29 +1244,33 @@ void main() async {
             'enabled': true,
             'id': 8,
             'date_added': 1734005851,
-            'date_modified': 1734005851
-          }
+            'date_modified': 1734005851,
+          },
         ],
         'processed': {
           'errors': [
             {
               'item': 'google.com',
               'error':
-                  'UNIQUE constraint failed: domainlist.domain, domainlist.type'
-            }
+                  'UNIQUE constraint failed: domainlist.domain, domainlist.type',
+            },
           ],
-          'success': []
+          'success': [],
         },
-        'took': 0.000306844711303711
+        'took': 0.000306844711303711,
       };
-      when(mockClient.post(Uri.parse(url),
+      when(
+        mockClient.post(
+          Uri.parse(url),
           headers: anyNamed('headers'),
           body: jsonEncode({
             'domain': 'google.com',
             'comment': null,
             'groups': [0],
-            'enabled': true
-          }))).thenAnswer((_) async => http.Response(jsonEncode(data), 201));
+            'enabled': true,
+          }),
+        ),
+      ).thenAnswer((_) async => http.Response(jsonEncode(data), 201));
 
       final response = await apiGateway
           .addDomainToList({'list': 'black', 'domain': 'google.com'});
@@ -1215,16 +1285,22 @@ void main() async {
         'error': {
           'key': 'uri_error',
           'message': 'Invalid request: Specify list to modify more precisely',
-          'hint': '/api/domains/xxxx/exact'
+          'hint': '/api/domains/xxxx/exact',
         },
-        'took': 0.00055241584777832031
+        'took': 0.00055241584777832031,
       };
-      when(mockClient.post(Uri.parse(url), headers: anyNamed('headers'), body: {
-        'domain': 'google.com',
-        'comment': null,
-        'groups': [0],
-        'enabled': true
-      })).thenAnswer((_) async => http.Response(jsonEncode(data), 200));
+      when(
+        mockClient.post(
+          Uri.parse(url),
+          headers: anyNamed('headers'),
+          body: {
+            'domain': 'google.com',
+            'comment': null,
+            'groups': [0],
+            'enabled': true,
+          },
+        ),
+      ).thenAnswer((_) async => http.Response(jsonEncode(data), 200));
 
       final response = await apiGateway
           .addDomainToList({'list': 'black', 'domain': 'google.com'});
