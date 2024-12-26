@@ -1,14 +1,15 @@
 flutter_app:
-  command: PiHoleClient
+  command: pi-hole-client
   arch: x64
   parent: /usr/local/lib
 
 control:
-  Package: PiHoleClient
+  Package: pi-hole-client
   Version: <REPLACE_VERSION_NUMBER_ACTIONS>
   Architecture: amd64
   Essential: no
   Priority: optional
-  Depends:
+  Build-Depends: libsecret-1-dev, libjsoncpp-dev
+  Depends: libsecret-1-0
   Maintainer: tsutsu3
-  Description: Pi-hole® control app
+  Description: Pi-hole control app

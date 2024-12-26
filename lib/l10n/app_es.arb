@@ -49,7 +49,7 @@
   "biometricUnlockNotDisabled": "No se ha podido desactivar el desbloqueo con huella dactilar.",
   "blacklist": "Añadir a lista negra",
   "blocked": "Bloqueados",
-  "cameraPermission": "PiHoleClient no tiene permiso para acceder a la cámara.\n\nVe a los ajustes del teléfono y acepta el permiso.",
+  "cameraPermission": "Pi-hole client no tiene permiso para acceder a la cámara.\n\nVe a los ajustes del teléfono y acepta el permiso.",
   "cancel": "Cancelar",
   "cannotAddDomain": "El dominio no ha podido ser añadido",
   "cannotChangeUpdateTime": "No se ha podido cambiar el tiempo de auto actualización.",

@@ -49,7 +49,7 @@
   "biometricUnlockNotDisabled": "Couldn't disable unlock with fingerprint.",
   "blacklist": "Add to blacklist",
   "blocked": "Blocked",
-  "cameraPermission": "PiHoleClient does not have permission to access the camera.\n\nGo to settings and grant the permission.",
+  "cameraPermission": "Pi-hole client does not have permission to access the camera.\n\nGo to settings and grant the permission.",
   "cancel": "Cancel",
   "cannotAddDomain": "Domain couldn't be added",
   "cannotChangeUpdateTime": "Cannot change update time",

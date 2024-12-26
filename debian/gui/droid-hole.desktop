@@ -1,8 +1,8 @@
 [Desktop Entry]
-Name=PiHoleClient
-Comment=Manage your Pi-hole® server
-Exec=PiHoleClient
-Icon=${SNAP}/meta/gui/droid-hole.png
+Name=Pi-hole client
+Comment=Manage your Pi-hole server
+Exec=pi-hole-client
+Icon=${SNAP}/meta/gui/icon-foreground-max.png
 Terminal=false
 Type=Application
 Categories=Utilities;

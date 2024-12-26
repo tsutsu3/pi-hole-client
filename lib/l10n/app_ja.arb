@@ -49,7 +49,7 @@
   "biometricUnlockNotDisabled": "指紋によるロック解除を無効にできませんでした。",
   "blacklist": "ブラックリストに追加",
   "blocked": "ブロック済み",
-  "cameraPermission": "PiHoleClientにはカメラアクセスの権限がありません。\n\n設定に移動して権限を付与してください。",
+  "cameraPermission": "Pi-hole clientにはカメラアクセスの権限がありません。\n\n設定に移動して権限を付与してください。",
   "cancel": "キャンセル",
   "cannotAddDomain": "ドメインを追加できませんでした",
   "cannotChangeUpdateTime": "更新時間を変更できません",
