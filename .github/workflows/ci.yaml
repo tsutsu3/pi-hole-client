@@ -8,6 +8,9 @@ on:
       - "v[0-9]+.[0-9]+.[0-9]+*"
   pull_request:
 
+env:
+  api_level: 34
+
 jobs:
   setup-test:
     runs-on: ubuntu-latest
@@ -21,11 +24,6 @@ jobs:
       with:
         channel: stable
         cache: true
-        # optional parameters follow
-        cache-key: "flutter-:os:-:channel:-:version:-:arch:-:hash:" # optional, change this to force refresh cache
-        cache-path: "${{ runner.tool_cache }}/flutter/:channel:-:version:-:arch:" # optional, change this to specify the cache path
-        pub-cache-key: "flutter-pub:os:-:channel:-:version:-:arch:-:hash:" # optional, change this to force refresh cache of dart pub get dependencies
-        pub-cache-path: "${{ runner.tool_cache }}/flutter/:channel:-:version:-:arch:" # optional, change this to specify the cache path
 
     - name: Install dependencies
       run: flutter pub get
@@ -96,13 +94,37 @@ jobs:
         sudo udevadm control --reload-rules
         sudo udevadm trigger --name-match=kvm
 
-    - name: Setup Android SDK
+    - name: Gradle cache
+      uses: gradle/actions/setup-gradle@v4
+
+    - name: AVD cache
+      uses: actions/cache@v4
+      id: avd-cache
+      with:
+        path: |
+          ~/.android/avd/*
+          ~/.android/adb*
+        key: avd-${{ env.api_level }}
+
+    - name: create AVD and generate snapshot for caching
+      if: steps.avd-cache.outputs.cache-hit != 'true'
       uses: reactivecircus/android-emulator-runner@v2
       with:
-        api-level: 34
+        api-level: ${{ env.api_level }}
         target: google_apis
         arch: x86_64
         profile: pixel_6_pro
+        force-avd-creation: false
+        script: echo "Generated AVD snapshot for caching."
+
+    - name: Setup Android SDK
+      uses: reactivecircus/android-emulator-runner@v2
+      with:
+        api-level: ${{ env.api_level }}
+        target: google_apis
+        arch: x86_64
+        profile: pixel_6_pro
+        force-avd-creation: false
         script: flutter test integration_test --coverage --coverage-path coverage/lcov-it.info
 
     - name: Upload coverage artifact
@@ -149,16 +171,16 @@ jobs:
           fetch-depth: 0  # Shallow clones should be disabled for a better relevancy of analysis
 
       - name: Download unit test coverage artifact
-        uses: actions/download-artifact@v3
+        uses: actions/download-artifact@v4
         with:
           name: unit-test-coverage
-          path: coverage/
+          path: coverage
 
       - name: Download integration test coverage artifact
-        uses: actions/download-artifact@v3
+        uses: actions/download-artifact@v4
         with:
           name: integration-test-coverage
-          path: coverage/
+          path: coverage
 
       - name: Setup Flutter
         uses: subosito/flutter-action@v2
