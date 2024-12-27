@@ -72,11 +72,22 @@ jobs:
     - name: Prepare env file
       run: cp .env.sample .env
 
-    - name: Install Linux dependencies (for integration tests)
-      run: sudo apt-get update && sudo apt-get install -y ninja-build
+    - name: Install Android dependencies
+      run: |
+        sudo apt-get update
+        sudo apt-get install -y lib32stdc++6 lib32z1
 
-    - name: Run integration tests
-      run: flutter test integration_test --coverage --coverage-path coverage/lcov-it.info
+    - name: Setup Android SDK
+      uses: reactivecircus/android-emulator-runner@v2
+      with:
+        api-level: 34
+        target: google_apis
+        arch: x86_64
+        profile: Pixel 8a
+        script: flutter test integration_test --coverage --coverage-path coverage/lcov-it.info
+
+    # - name: Run integration tests
+    #   run: flutter test integration_test --coverage --coverage-path coverage/lcov-it.info
 
   codecov:
     needs: [test, integration-test]
