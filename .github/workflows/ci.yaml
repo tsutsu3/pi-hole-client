@@ -77,13 +77,19 @@ jobs:
         sudo apt-get update
         sudo apt-get install -y lib32stdc++6 lib32z1
 
+    - name: Enable KVM
+      run: |
+        echo 'KERNEL=="kvm", GROUP="kvm", MODE="0666", OPTIONS+="static_node=kvm"' | sudo tee /etc/udev/rules.d/99-kvm4all.rules
+        sudo udevadm control --reload-rules
+        sudo udevadm trigger --name-match=kvm
+
     - name: Setup Android SDK
       uses: reactivecircus/android-emulator-runner@v2
       with:
         api-level: 30
         target: google_apis
         arch: x86_64
-        profile: pixel_8a
+        profile: pixel_6_pro
         script: flutter test integration_test --coverage --coverage-path coverage/lcov-it.info
 
     # - name: Run integration tests
