@@ -49,7 +49,7 @@ class DomainDetailsScreen extends StatelessWidget {
               context: context,
               builder: (context) => DeleteDomainModal(
                 onConfirm: () {
-                  Navigator.pop(context);
+                  Navigator.maybePop(context);
                   remove(domain);
                 },
               ),

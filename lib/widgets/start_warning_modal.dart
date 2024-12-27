@@ -183,7 +183,7 @@ class StartInfoModal extends StatelessWidget {
                   TextButton(
                     onPressed: () async {
                       await appConfigProvider.setImportantInfoReaden(true);
-                      Navigator.pop(context);
+                      Navigator.maybePop(context);
                     },
                     child: Text(AppLocalizations.of(context)!.close),
                   ),

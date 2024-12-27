@@ -32,7 +32,7 @@ class DeleteDomainModal extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.end,
           children: [
             TextButton(
-              onPressed: () => Navigator.pop(context),
+              onPressed: () => Navigator.maybePop(context),
               child: Text(AppLocalizations.of(context)!.cancel),
             ),
             const SizedBox(width: 16),

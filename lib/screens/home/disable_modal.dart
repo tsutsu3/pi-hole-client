@@ -323,14 +323,14 @@ class _DisableModalState extends State<DisableModal> {
                     mainAxisAlignment: MainAxisAlignment.end,
                     children: [
                       TextButton(
-                        onPressed: () => Navigator.pop(context),
+                        onPressed: () => Navigator.maybePop(context),
                         child: Text(AppLocalizations.of(context)!.cancel),
                       ),
                       const SizedBox(width: 20),
                       TextButton(
                         onPressed: _selectionIsValid() == true
                             ? () {
-                                Navigator.pop(context);
+                                Navigator.maybePop(context);
                                 widget.onDisable(_getTime());
                               }
                             : null,
@@ -390,14 +390,14 @@ class _DisableModalState extends State<DisableModal> {
                     mainAxisAlignment: MainAxisAlignment.end,
                     children: [
                       TextButton(
-                        onPressed: () => Navigator.pop(context),
+                        onPressed: () => Navigator.maybePop(context),
                         child: Text(AppLocalizations.of(context)!.cancel),
                       ),
                       const SizedBox(width: 20),
                       TextButton(
                         onPressed: _selectionIsValid() == true
                             ? () {
-                                Navigator.pop(context);
+                                Navigator.maybePop(context);
                                 widget.onDisable(_getTime());
                               }
                             : null,

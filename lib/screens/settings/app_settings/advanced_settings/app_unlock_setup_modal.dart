@@ -330,7 +330,7 @@ class _AppUnlockSetupModalState extends State<AppUnlockSetupModal> {
             mainAxisAlignment: MainAxisAlignment.end,
             children: [
               TextButton(
-                onPressed: () => Navigator.pop(context),
+                onPressed: () => Navigator.maybePop(context),
                 child: Text(AppLocalizations.of(context)!.close),
               ),
             ],

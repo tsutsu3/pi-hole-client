@@ -175,7 +175,7 @@ class _AddDomainModalState extends State<AddDomainModal> {
               mainAxisAlignment: MainAxisAlignment.end,
               children: [
                 TextButton(
-                  onPressed: () => Navigator.pop(context),
+                  onPressed: () => Navigator.maybePop(context),
                   child: Text(AppLocalizations.of(context)!.cancel),
                 ),
                 const SizedBox(width: 14),
@@ -188,7 +188,7 @@ class _AddDomainModalState extends State<AddDomainModal> {
                                 ? applyWildcard()
                                 : domainController.text,
                           });
-                          Navigator.pop(context);
+                          Navigator.maybePop(context);
                         }
                       : null,
                   style: ButtonStyle(

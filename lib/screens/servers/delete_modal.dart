@@ -25,7 +25,7 @@ class DeleteModal extends StatelessWidget {
     void removeServer() async {
       final deleted =
           await serversProvider.removeServer(serverToDelete.address);
-      Navigator.pop(context);
+      Navigator.maybePop(context);
       if (deleted == true) {
         showSnackBar(
           appConfigProvider: appConfigProvider,
@@ -81,7 +81,7 @@ class DeleteModal extends StatelessWidget {
       ),
       actions: [
         TextButton(
-          onPressed: () => {Navigator.pop(context)},
+          onPressed: () => {Navigator.maybePop(context)},
           child: Text(AppLocalizations.of(context)!.cancel),
         ),
         TextButton(

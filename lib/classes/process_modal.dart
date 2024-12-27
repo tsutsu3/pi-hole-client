@@ -31,7 +31,7 @@ class ProcessModal {
 
   void close() {
     if (context.mounted) {
-      Navigator.pop(context);
+      Navigator.maybePop(context);
     }
   }
 }

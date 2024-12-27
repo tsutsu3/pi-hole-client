@@ -158,7 +158,7 @@ class _StatusFiltersModalState extends State<StatusFiltersModal> {
                   mainAxisAlignment: MainAxisAlignment.end,
                   children: [
                     TextButton(
-                      onPressed: () => Navigator.pop(context),
+                      onPressed: () => Navigator.maybePop(context),
                       child: Text(AppLocalizations.of(context)!.close),
                     ),
                     const SizedBox(width: 20),
@@ -166,7 +166,7 @@ class _StatusFiltersModalState extends State<StatusFiltersModal> {
                       onPressed: _statusSelected.isNotEmpty
                           ? () {
                               updateList();
-                              Navigator.pop(context);
+                              Navigator.maybePop(context);
                             }
                           : null,
                       style: ButtonStyle(

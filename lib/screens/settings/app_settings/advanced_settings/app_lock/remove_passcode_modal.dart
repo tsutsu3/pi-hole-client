@@ -19,7 +19,7 @@ class RemovePasscodeModal extends StatelessWidget {
     void removePasscode() async {
       final deleted = await appConfigProvider.setPassCode(null);
       if (deleted == true) {
-        Navigator.pop(context);
+        Navigator.maybePop(context);
       } else {
         showSnackBar(
           appConfigProvider: appConfigProvider,
@@ -49,7 +49,7 @@ class RemovePasscodeModal extends StatelessWidget {
       content: Text(AppLocalizations.of(context)!.areSureRemovePasscode),
       actions: [
         TextButton(
-          onPressed: () => {Navigator.pop(context)},
+          onPressed: () => {Navigator.maybePop(context)},
           child: Text(AppLocalizations.of(context)!.cancel),
         ),
         TextButton(

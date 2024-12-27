@@ -49,7 +49,7 @@ class LegalModal extends StatelessWidget {
             ),
             actions: [
               TextButton(
-                onPressed: () => Navigator.pop(context),
+                onPressed: () => Navigator.maybePop(context),
                 child: Text(AppLocalizations.of(context)!.close),
               ),
             ],
@@ -79,7 +79,7 @@ class LegalModal extends StatelessWidget {
           ),
           actions: [
             TextButton(
-              onPressed: () => Navigator.pop(context),
+              onPressed: () => Navigator.maybePop(context),
               child: Text(AppLocalizations.of(context)!.close),
             ),
           ],

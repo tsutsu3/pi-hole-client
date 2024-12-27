@@ -37,7 +37,7 @@ class _EnterPasscodeModalState extends State<EnterPasscodeModal> {
 
     void finish() async {
       if (appConfigProvider.passCode == _code) {
-        Navigator.pop(context);
+        Navigator.maybePop(context);
         widget.onConfirm();
       } else {
         _shakeKey.currentState!.shake();
@@ -61,7 +61,7 @@ class _EnterPasscodeModalState extends State<EnterPasscodeModal> {
                     Row(
                       children: [
                         IconButton(
-                          onPressed: () => Navigator.pop(context),
+                          onPressed: () => Navigator.maybePop(context),
                           icon: const Icon(Icons.clear_rounded),
                         ),
                         const SizedBox(width: 16),
