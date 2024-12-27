@@ -2,16 +2,15 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:provider/provider.dart';
+import 'package:mockito/mockito.dart';
+import 'package:mockito/annotations.dart';
 import 'package:pi_hole_client/constants/enums.dart';
 import 'package:pi_hole_client/gateways/v6/api_gateway_v6.dart';
 import 'package:pi_hole_client/models/gateways.dart';
 import 'package:pi_hole_client/providers/app_config_provider.dart';
 import 'package:pi_hole_client/screens/domains/domain_details_screen.dart';
-import 'package:provider/provider.dart';
 import 'package:pi_hole_client/models/domain.dart';
-import 'package:mockito/mockito.dart';
-import 'package:mockito/annotations.dart';
-import 'package:pi_hole_client/models/repository/database.dart';
 import 'package:pi_hole_client/models/server.dart';
 import 'package:pi_hole_client/providers/domains_list_provider.dart';
 import 'package:pi_hole_client/providers/servers_provider.dart';
@@ -23,42 +22,11 @@ import './domains_test.mocks.dart';
   [AppConfigProvider, DomainsListProvider, ServersProvider, ApiGatewayV6],
 )
 void main() {
-  final testDb = 'test_widgets.db';
-
   final server = Server(
     address: 'address',
     alias: 'test',
     defaultServer: false,
     apiVersion: 'v6',
-  );
-
-  final servers = [
-    ServerDbData(
-      address: 'address',
-      alias: 'test',
-      token: null,
-      isDefaultServer: 0,
-      apiVersion: 'v6',
-      basicAuthUser: null,
-      basicAuthPassword: null,
-      sid: null,
-    ),
-  ];
-
-  final appConfig = AppDbData(
-    autoRefreshTime: 5,
-    theme: 0,
-    language: 'en',
-    overrideSslCheck: 0,
-    oneColumnLegend: 0,
-    reducedDataCharts: 0,
-    logsPerQuery: 2,
-    passCode: null,
-    useBiometricAuth: 0,
-    importantInfoReaden: 0,
-    hideZeroValues: 0,
-    statisticsVisualizationMode: 0,
-    sendCrashReports: 0,
   );
 
   group('Domain detail screen tests', () {
