@@ -55,6 +55,12 @@ jobs:
         dart run full_coverage
         flutter test --coverage
 
+    - name: Upload coverage artifact
+      uses: actions/upload-artifact@v4
+      with:
+        name: unit-test-coverage
+        path: coverage/lcov.info
+
   integration-test:
     needs: setup-test
     runs-on: ubuntu-latest
@@ -97,10 +103,16 @@ jobs:
         target: google_apis
         arch: x86_64
         profile: pixel_6_pro
-        script: flutter test integration_test --coverage --coverage-path coverage/lcov-it.info
+        script: echo "Setup Android Emulator"
 
-    # - name: Run integration tests
-    #   run: flutter test integration_test --coverage --coverage-path coverage/lcov-it.info
+    - name: Run integration tests
+      run: flutter test integration_test --coverage --coverage-path coverage/lcov-it.info
+
+    - name: Upload coverage artifact
+      uses: actions/upload-artifact@v4
+      with:
+        name: integration-test-coverage
+        path: coverage/lcov-it.info
 
   codecov:
     needs: [test, integration-test]
@@ -110,6 +122,19 @@ jobs:
     steps:
     - name: Checkout code
       uses: actions/checkout@v4
+
+    - name: Download unit test coverage artifact
+      uses: actions/download-artifact@v3
+      with:
+        name: unit-test-coverage
+        path: coverage/
+
+    - name: Download integration test coverage artifact
+      uses: actions/download-artifact@v3
+      with:
+        name: integration-test-coverage
+        path: coverage/
+
     - name: Upload coverage to Codecov
       uses: codecov/codecov-action@v5
       with:
@@ -125,11 +150,25 @@ jobs:
       - uses: actions/checkout@v4
         with:
           fetch-depth: 0  # Shallow clones should be disabled for a better relevancy of analysis
+
+      - name: Download unit test coverage artifact
+        uses: actions/download-artifact@v3
+        with:
+          name: unit-test-coverage
+          path: coverage/
+
+      - name: Download integration test coverage artifact
+        uses: actions/download-artifact@v3
+        with:
+          name: integration-test-coverage
+          path: coverage/
+
       - name: Setup Flutter
         uses: subosito/flutter-action@v2
         with:
           channel: stable
           cache: true
+
       - name: SonarQube Scan
         uses: SonarSource/sonarqube-scan-action@v4
         env:
