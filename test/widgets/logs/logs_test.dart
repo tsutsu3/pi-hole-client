@@ -4,7 +4,6 @@ import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:pi_hole_client/constants/query_types.dart';
-import 'package:pi_hole_client/models/query_status.dart';
 import 'package:provider/provider.dart';
 import 'package:mockito/mockito.dart';
 import 'package:mockito/annotations.dart';
@@ -88,9 +87,9 @@ void main() async {
       });
 
       // mock AppConfigProvider
-      //   bool showingSnackbar = false;
-      //   when(mockConfigProvider.showingSnackbar).thenReturn(showingSnackbar);
-      //   when(mockConfigProvider.setShowingSnackbar(any)).thenAnswer((_) {});
+      bool showingSnackbar = false;
+      when(mockConfigProvider.showingSnackbar).thenReturn(showingSnackbar);
+      when(mockConfigProvider.setShowingSnackbar(any)).thenAnswer((_) {});
       when(mockConfigProvider.logsPerQuery).thenReturn(2);
 
       // mock ServersProvider
@@ -176,11 +175,11 @@ void main() async {
         // Tap blacklist button
         expect(find.byIcon(Icons.gpp_bad_rounded), findsOneWidget);
         await tester.tap(find.byIcon(Icons.gpp_bad_rounded));
-        await tester.pumpAndSettle();
+        await tester.pump(const Duration(milliseconds: 500));
 
         // Return to logs screen (Not raise Exception)
+        expect(find.text('Domain added to blacklist.'), findsWidgets);
         expect(find.byType(Logs), findsOneWidget);
-        await tester.pumpAndSettle();
       },
     );
   });
