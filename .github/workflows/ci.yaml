@@ -58,6 +58,7 @@ jobs:
   integration-test:
     needs: setup-test
     runs-on: ubuntu-latest
+    timeout-minutes: 5
 
     steps:
     - name: Checkout code
@@ -86,10 +87,10 @@ jobs:
     - name: Setup Android SDK
       uses: reactivecircus/android-emulator-runner@v2
       with:
-        api-level: 30
+        api-level: 34
         target: google_apis
         arch: x86_64
-        profile: pixel_6_pro
+        profile: pixel_7_pro
         script: flutter test integration_test --coverage --coverage-path coverage/lcov-it.info
 
     # - name: Run integration tests
