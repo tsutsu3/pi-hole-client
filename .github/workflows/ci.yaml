@@ -12,27 +12,7 @@ env:
   api_level: 34
 
 jobs:
-  setup-test:
-    runs-on: ubuntu-latest
-
-    steps:
-    - name: Checkout code
-      uses: actions/checkout@v4
-
-    - name: Setup Flutter
-      uses: subosito/flutter-action@v2
-      with:
-        channel: stable
-        cache: true
-
-    - name: Install dependencies
-      run: flutter pub get
-
-    - name: Prepare env file
-      run: cp .env.sample .env
-
   test:
-    needs: setup-test
     runs-on: ubuntu-latest
 
     steps:
@@ -44,6 +24,9 @@ jobs:
       with:
         channel: stable
         cache: true
+
+    - name: Install dependencies
+      run: flutter pub get
 
     - name: Prepare env file
       run: cp .env.sample .env
@@ -60,7 +43,6 @@ jobs:
         path: coverage/lcov.info
 
   integration-test:
-    needs: setup-test
     runs-on: ubuntu-latest
     timeout-minutes: 10
 
@@ -73,6 +55,25 @@ jobs:
       with:
         channel: stable
         cache: true
+
+    - name: Cache Flutter dependencies
+      uses: actions/cache@v4
+      with:
+        path: ~/.pub-cache
+        key: pub-cache-${{ runner.os }}-${{ hashFiles('pubspec.yaml', 'pubspec.lock') }}
+        restore-keys: |
+          pub-cache-${{ runner.os }}-
+
+    - name: Cache Flutter build outputs
+      uses: actions/cache@v4
+      with:
+        path: build/
+        key: flutter-build-${{ runner.os }}-${{ hashFiles('pubspec.yaml', 'pubspec.lock') }}
+        restore-keys: |
+          flutter-build-${{ runner.os }}-
+
+    - name: Install dependencies
+      run: flutter pub get
 
     - name: Prepare env file
       run: cp .env.sample .env
