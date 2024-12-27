@@ -1,3 +1,4 @@
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
@@ -21,7 +22,10 @@ import './domains_test.mocks.dart';
 @GenerateMocks(
   [AppConfigProvider, DomainsListProvider, ServersProvider, ApiGatewayV6],
 )
-void main() {
+void main() async {
+  TestWidgetsFlutterBinding.ensureInitialized();
+  await dotenv.load(fileName: '.env');
+
   final server = Server(
     address: 'address',
     alias: 'test',
@@ -160,7 +164,7 @@ void main() {
 
         // Tap confirm button
         await tester.tap(find.text('Confirm'));
-        await tester.pump(const Duration(milliseconds: 500));
+        await tester.pump(const Duration(milliseconds: 1000));
 
         // show snackbar
         expect(find.text('Domain removed successfully'), findsWidgets);

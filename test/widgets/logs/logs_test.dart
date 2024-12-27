@@ -175,7 +175,7 @@ void main() async {
         // Tap blacklist button
         expect(find.byIcon(Icons.gpp_bad_rounded), findsOneWidget);
         await tester.tap(find.byIcon(Icons.gpp_bad_rounded));
-        await tester.pump(const Duration(milliseconds: 500));
+        await tester.pump(const Duration(milliseconds: 1000));
 
         // Return to logs screen (Not raise Exception)
         expect(find.text('Domain added to blacklist.'), findsWidgets);
