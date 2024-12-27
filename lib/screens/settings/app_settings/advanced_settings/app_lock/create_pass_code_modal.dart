@@ -31,7 +31,7 @@ class _CreatePassCodeModalState extends State<CreatePassCodeModal> {
       if (_code == _repeatedCode) {
         final result = await appConfigProvider.setPassCode(_repeatedCode);
         if (result == true) {
-          Navigator.pop(context);
+          Navigator.maybePop(context);
         } else {
           showSnackBar(
             appConfigProvider: appConfigProvider,

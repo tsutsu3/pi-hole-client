@@ -57,7 +57,7 @@ class _ResetModalState extends State<ResetModal> {
         TextButton(
           onPressed: () {
             _timer.cancel();
-            Navigator.pop(context);
+            Navigator.maybePop(context);
           },
           child: Text(
             AppLocalizations.of(context)!.cancel,

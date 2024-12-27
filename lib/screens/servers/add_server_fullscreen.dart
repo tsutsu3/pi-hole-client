@@ -236,7 +236,7 @@ class _AddServerFullscreenState extends State<AddServerFullscreen> {
             await serversProvider.loadApiGateway(serverObj)?.loginQuery();
         if (!mounted) return;
         if (result?.result == APiResponseType.success) {
-          Navigator.pop(context);
+          Navigator.maybePop(context);
           serversProvider.addServer(
             Server(
               address: serverObj.address,
@@ -338,7 +338,7 @@ class _AddServerFullscreenState extends State<AddServerFullscreen> {
         final result = await serversProvider.editServer(server);
         if (mounted) {
           if (result == true) {
-            Navigator.pop(context);
+            Navigator.maybePop(context);
           } else {
             setState(() {
               isConnecting = false;
@@ -795,7 +795,7 @@ class _AddServerFullscreenState extends State<AddServerFullscreen> {
                     Row(
                       children: [
                         IconButton(
-                          onPressed: () => Navigator.pop(context),
+                          onPressed: () => Navigator.maybePop(context),
                           icon: const Icon(Icons.clear_rounded),
                         ),
                         const SizedBox(width: 8),

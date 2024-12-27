@@ -142,7 +142,7 @@ class _ClientsFiltersModalState extends State<ClientsFiltersModal> {
                   mainAxisAlignment: MainAxisAlignment.end,
                   children: [
                     TextButton(
-                      onPressed: () => Navigator.pop(context),
+                      onPressed: () => Navigator.maybePop(context),
                       child: Text(AppLocalizations.of(context)!.close),
                     ),
                     const SizedBox(width: 20),
@@ -150,7 +150,7 @@ class _ClientsFiltersModalState extends State<ClientsFiltersModal> {
                       onPressed: _selectedClients.isNotEmpty
                           ? () {
                               updateList();
-                              Navigator.pop(context);
+                              Navigator.maybePop(context);
                             }
                           : null,
                       style: ButtonStyle(

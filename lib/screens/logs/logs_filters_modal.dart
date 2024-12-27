@@ -508,7 +508,7 @@ class _LogsFiltersModalState extends State<LogsFiltersModal> {
                       mainAxisAlignment: MainAxisAlignment.end,
                       children: [
                         TextButton(
-                          onPressed: () => Navigator.pop(context),
+                          onPressed: () => Navigator.maybePop(context),
                           child: Text(AppLocalizations.of(context)!.close),
                         ),
                         const SizedBox(width: 20),
@@ -516,7 +516,7 @@ class _LogsFiltersModalState extends State<LogsFiltersModal> {
                           onPressed: isFilteringValid() == true
                               ? () {
                                   widget.filterLogs();
-                                  Navigator.pop(context);
+                                  Navigator.maybePop(context);
                                 }
                               : null,
                           style: ButtonStyle(

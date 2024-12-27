@@ -177,7 +177,7 @@ analysis steps:
    or
 
    ```bash
-   dart run dart_code_metrics:metrics lib --reporter=html -o metrics
+   dart run dart_code_linter:metrics lib --reporter=html -o metrics
    ```
 
 2. **Analyze Code**

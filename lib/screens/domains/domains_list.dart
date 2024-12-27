@@ -89,7 +89,7 @@ class _DomainsListState extends State<DomainsList> {
 
       if (result?.result == APiResponseType.success) {
         domainsListProvider.removeDomainFromList(domain);
-        Navigator.pop(context);
+        Navigator.maybePop(context);
         showSnackBar(
           appConfigProvider: appConfigProvider,
           label: AppLocalizations.of(context)!.domainRemoved,

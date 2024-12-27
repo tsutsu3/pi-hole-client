@@ -8,7 +8,7 @@ import 'package:sqflite_common_ffi/sqflite_ffi.dart';
 import 'package:pi_hole_client/models/server.dart';
 import 'package:pi_hole_client/repository/secure_storage.dart';
 import 'package:pi_hole_client/repository/database.dart';
-import './database_test.mocks.dart';
+import 'database_test.mocks.dart';
 
 /// Initialize sqflite for test.
 void sqfliteTestInit() {

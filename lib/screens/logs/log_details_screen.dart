@@ -61,7 +61,7 @@ class LogDetailsScreen extends StatelessWidget {
           .contains(int.parse(log.status!))) {
         return IconButton(
           onPressed: () {
-            Navigator.pop(context);
+            Navigator.maybePop(context);
             whiteBlackList('black', log);
           },
           icon: const Icon(Icons.gpp_bad_rounded),
@@ -70,7 +70,7 @@ class LogDetailsScreen extends StatelessWidget {
       } else {
         return IconButton(
           onPressed: () {
-            Navigator.pop(context);
+            Navigator.maybePop(context);
             whiteBlackList('white', log);
           },
           icon: const Icon(Icons.verified_user_rounded),

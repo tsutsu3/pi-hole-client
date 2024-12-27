@@ -36,7 +36,9 @@ jobs:
       run: cp .env.sample .env
 
     - name: Run tests
-      run: flutter test --coverage
+      run: |
+        dart run full_coverage
+        flutter test --coverage
 
     - name: Upload coverage reports to Codecov
       uses: codecov/codecov-action@v5

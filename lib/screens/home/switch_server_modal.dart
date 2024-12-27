@@ -39,7 +39,7 @@ class SwitchServerModal extends StatelessWidget {
             color: Colors.transparent,
             child: InkWell(
               onTap: () {
-                Navigator.pop(context);
+                Navigator.maybePop(context);
                 onServerSelect(serversProvider.getServersList[index]);
               },
               child: CustomListTile(
@@ -55,7 +55,7 @@ class SwitchServerModal extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.end,
           children: [
             TextButton(
-              onPressed: () => Navigator.pop(context),
+              onPressed: () => Navigator.maybePop(context),
               child: Text(AppLocalizations.of(context)!.cancel),
             ),
           ],

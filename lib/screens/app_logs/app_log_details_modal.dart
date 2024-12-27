@@ -195,7 +195,7 @@ class _AppLogDetailsModalState extends State<AppLogDetailsModal> {
       ),
       actions: [
         TextButton(
-          onPressed: () => Navigator.pop(context),
+          onPressed: () => Navigator.maybePop(context),
           child: const Text('Close'),
         ),
       ],

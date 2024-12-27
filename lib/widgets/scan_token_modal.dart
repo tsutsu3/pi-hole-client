@@ -52,7 +52,7 @@ class _ScanTokenModalState extends State<ScanTokenModal> {
     void handleBarcode(BarcodeCapture codes) {
       if (codes.barcodes.isNotEmpty && codes.barcodes[0].rawValue != null) {
         widget.qrScanned(codes.barcodes[0].rawValue!);
-        Navigator.pop(context);
+        Navigator.maybePop(context);
       }
     }
 
@@ -150,7 +150,7 @@ class _ScanTokenModalState extends State<ScanTokenModal> {
       content: getPermissionStatus(),
       actions: [
         TextButton(
-          onPressed: () => Navigator.pop(context),
+          onPressed: () => Navigator.maybePop(context),
           child: Text(AppLocalizations.of(context)!.cancel),
         ),
       ],
