@@ -513,7 +513,81 @@ void main() async {
     );
   });
 
-  group('DatabaseRepository.removeServerQuery', () {});
+  group('DatabaseRepository.removeServerQuery', () {
+    late DbHelper dbHelper;
+    late SecureStorageRepository secureStorage;
+    late DatabaseRepository databaseRepository;
+    late Server defaultServerV6;
+
+    setUp(() async {
+      FlutterSecureStorage.setMockInitialValues({});
+      await deleteDatabase(testDb);
+
+      secureStorage = SecureStorageRepository();
+      databaseRepository = DatabaseRepository(secureStorage);
+      await databaseRepository.initialize(path: testDb);
+
+      defaultServerV6 = Server(
+        address: 'http://localhost:8081',
+        alias: 'test v6',
+        defaultServer: false,
+        apiVersion: 'v6',
+        sm: SessionManager(
+          secureStorage,
+          'http://localhost:8081',
+        ),
+      );
+      defaultServerV6.sm.savePassword('password02');
+      defaultServerV6.sm.save('sid02');
+    });
+
+    tearDown(() async {
+      await deleteDatabase(testDb);
+    });
+
+    test(
+      'should remove exist server data',
+      () async {
+        dbHelper = DbHelper(testDb);
+        await dbHelper.loadDb();
+        await dbHelper.saveDb(defaultServerV6);
+
+        final result =
+            await databaseRepository.removeServerQuery('http://localhost:8081');
+
+        final actualD = await dbHelper.readDb();
+        await dbHelper.closeDb();
+
+        final actualS = await secureStorage.readAll();
+
+        expect(result, true);
+        expect(actualD['servers'].length, 0);
+        expect(actualS['http://localhost:8081_password'], null);
+        expect(actualS['http://localhost:8081_sid'], null);
+      },
+    );
+
+    test(
+      'should remove not exist server data',
+      () async {
+        dbHelper = DbHelper(testDb);
+        await dbHelper.loadDb();
+
+        final result =
+            await databaseRepository.removeServerQuery('http://localhost:8081');
+
+        final actualD = await dbHelper.readDb();
+        await dbHelper.closeDb();
+
+        final actualS = await secureStorage.readAll();
+
+        expect(result, true);
+        expect(actualD['servers'].length, 0);
+        expect(actualS['http://localhost:8081_password'], null);
+        expect(actualS['http://localhost:8081_sid'], null);
+      },
+    );
+  });
 
   group('DatabaseRepository.deleteServersDataQuery', () {});
 
