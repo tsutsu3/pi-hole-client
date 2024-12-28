@@ -203,10 +203,6 @@ void main() async {
           token: 'token123',
           defaultServer: false,
           apiVersion: 'v5',
-          sm: SessionManager(
-            secureStorage,
-            'http://localhost:8080',
-          ),
         );
 
         final result = await databaseRepository.saveServerQuery(server);
@@ -237,10 +233,6 @@ void main() async {
           apiVersion: 'v5',
           basicAuthUser: 'user01',
           basicAuthPassword: 'password01',
-          sm: SessionManager(
-            secureStorage,
-            'http://localhost:8080',
-          ),
         );
 
         final result = await databaseRepository.saveServerQuery(server);
@@ -273,10 +265,6 @@ void main() async {
           alias: 'test v6',
           defaultServer: false,
           apiVersion: 'v6',
-          sm: SessionManager(
-            secureStorage,
-            'http://localhost:8080',
-          ),
         );
         server.sm.savePassword('password01');
 
