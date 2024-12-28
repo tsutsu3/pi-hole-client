@@ -129,6 +129,7 @@ class DatabaseRepository {
               sendCrashReports
             ) VALUES (5, 0, 'en', 0, 0, 0, 2, 0, 0, 0, 0, 0)
           ''');
+        logger.d('Database created');
       },
       onUpgrade: (Database db, int oldVersion, int newVersion) async {},
       onDowngrade: (Database db, int oldVersion, int newVersion) async {},
