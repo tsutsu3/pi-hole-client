@@ -643,7 +643,69 @@ void main() async {
     );
   });
 
-  group('DatabaseRepository.checkUrlExistsQuery', () {});
+  group('DatabaseRepository.checkUrlExistsQuery', () {
+    late DbHelper dbHelper;
+    late SecureStorageRepository secureStorage;
+    late DatabaseRepository databaseRepository;
+    late Server defaultServerV6;
+
+    setUp(() async {
+      FlutterSecureStorage.setMockInitialValues({});
+      await deleteDatabase(testDb);
+
+      secureStorage = SecureStorageRepository();
+      databaseRepository = DatabaseRepository(secureStorage);
+      await databaseRepository.initialize(path: testDb);
+
+      defaultServerV6 = Server(
+        address: 'http://localhost:8081',
+        alias: 'test v6',
+        defaultServer: false,
+        apiVersion: 'v6',
+        sm: SessionManager(
+          secureStorage,
+          'http://localhost:8081',
+        ),
+      );
+      defaultServerV6.sm.savePassword('password02');
+      defaultServerV6.sm.save('sid02');
+    });
+
+    tearDown(() async {
+      await deleteDatabase(testDb);
+    });
+
+    test(
+      'should check exist url',
+      () async {
+        dbHelper = DbHelper(testDb);
+        await dbHelper.loadDb();
+        await dbHelper.saveDb(defaultServerV6);
+
+        final result = await databaseRepository
+            .checkUrlExistsQuery('http://localhost:8081');
+
+        await dbHelper.closeDb();
+
+        expect(result, {'result': 'success', 'exists': true});
+      },
+    );
+
+    test(
+      'should check not exist url',
+      () async {
+        dbHelper = DbHelper(testDb);
+        await dbHelper.loadDb();
+
+        final result = await databaseRepository
+            .checkUrlExistsQuery('http://localhost:8081');
+
+        await dbHelper.closeDb();
+
+        expect(result, {'result': 'success', 'exists': false});
+      },
+    );
+  });
 
   group('DatabaseRepository.updateConfigQuery', () {
     late SecureStorageRepository secureStorage;
