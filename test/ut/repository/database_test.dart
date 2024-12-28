@@ -176,6 +176,139 @@ void main() async {
     });
   });
 
+  group('DatabaseRepository.saveServerQuery', () {
+    late DbHelper dbHelper;
+    late SecureStorageRepository secureStorage;
+    late DatabaseRepository databaseRepository;
+
+    setUp(() async {
+      FlutterSecureStorage.setMockInitialValues({});
+      await deleteDatabase(testDb);
+
+      secureStorage = SecureStorageRepository();
+      databaseRepository = DatabaseRepository(secureStorage);
+      await databaseRepository.initialize(path: testDb);
+    });
+
+    tearDown(() async {
+      await deleteDatabase(testDb);
+    });
+
+    test(
+      'should save server with token (v5)',
+      () async {
+        final server = Server(
+          address: 'http://localhost:8080',
+          alias: 'test v5',
+          token: 'token123',
+          defaultServer: false,
+          apiVersion: 'v5',
+          sm: SessionManager(
+            secureStorage,
+            'http://localhost:8080',
+          ),
+        );
+
+        final result = await databaseRepository.saveServerQuery(server);
+
+        dbHelper = DbHelper(testDb);
+        await dbHelper.loadDb();
+        final actualD = await dbHelper.readDb();
+        await dbHelper.closeDb();
+        final actuslS = await secureStorage.readAll();
+
+        expect(result, true);
+        expect(actualD['servers'].length, 1);
+        expect(actualD['servers'][0]['address'], 'http://localhost:8080');
+        expect(actualD['servers'][0]['alias'], 'test v5');
+        expect(actualD['servers'][0]['apiVersion'], 'v5');
+        expect(actualD['servers'][0]['isDefaultServer'], 0);
+        expect(actuslS['http://localhost:8080_token'], 'token123');
+      },
+    );
+
+    test(
+      'should save server with basic auth (v5)',
+      () async {
+        final server = Server(
+          address: 'http://localhost:8080',
+          alias: 'test v5',
+          defaultServer: false,
+          apiVersion: 'v5',
+          basicAuthUser: 'user01',
+          basicAuthPassword: 'password01',
+          sm: SessionManager(
+            secureStorage,
+            'http://localhost:8080',
+          ),
+        );
+
+        final result = await databaseRepository.saveServerQuery(server);
+
+        dbHelper = DbHelper(testDb);
+        await dbHelper.loadDb();
+        final actualD = await dbHelper.readDb();
+        await dbHelper.closeDb();
+        final actuslS = await secureStorage.readAll();
+
+        expect(result, true);
+        expect(actualD['servers'].length, 1);
+        expect(actualD['servers'][0]['address'], 'http://localhost:8080');
+        expect(actualD['servers'][0]['alias'], 'test v5');
+        expect(actualD['servers'][0]['apiVersion'], 'v5');
+        expect(actualD['servers'][0]['isDefaultServer'], 0);
+        expect(actuslS['http://localhost:8080_basicAuthUser'], 'user01');
+        expect(
+          actuslS['http://localhost:8080_basicAuthPassword'],
+          'password01',
+        );
+      },
+    );
+
+    test(
+      'should save server with password (v6)',
+      () async {
+        final server = Server(
+          address: 'http://localhost:8080',
+          alias: 'test v6',
+          defaultServer: false,
+          apiVersion: 'v6',
+          sm: SessionManager(
+            secureStorage,
+            'http://localhost:8080',
+          ),
+        );
+        server.sm.savePassword('password01');
+
+        final result = await databaseRepository.saveServerQuery(server);
+
+        dbHelper = DbHelper(testDb);
+        await dbHelper.loadDb();
+        final actualD = await dbHelper.readDb();
+        await dbHelper.closeDb();
+        final actuslS = await secureStorage.readAll();
+
+        expect(result, true);
+        expect(actualD['servers'].length, 1);
+        expect(actualD['servers'][0]['address'], 'http://localhost:8080');
+        expect(actualD['servers'][0]['alias'], 'test v6');
+        expect(actualD['servers'][0]['apiVersion'], 'v6');
+        expect(actualD['servers'][0]['isDefaultServer'], 0);
+        expect(actuslS['http://localhost:8080_password'], 'password01');
+      },
+    );
+  });
+
+  group('DatabaseRepository.editServerQuery', () {});
+
+  group('DatabaseRepository.setDefaultServerQuery', () {});
+
+  group('DatabaseRepository.removeServerQuery', () {});
+
+  group('DatabaseRepository.deleteServersDataQuery', () {});
+
+  group('DatabaseRepository.checkUrlExistsQuery', () {});
+
   group('DatabaseRepository.updateConfigQuery', () {
     late SecureStorageRepository secureStorage;
     late DatabaseRepository databaseRepository;
@@ -223,4 +356,6 @@ void main() async {
       },
     );
   });
+
+  group('DatabaseRepository.restoreAppConfigQuery', () {});
 }

@@ -111,6 +111,16 @@ class DbHelper {
     }
   }
 
+  Future<Map<String, dynamic>> readDb() async {
+    final servers = await _db.query('servers');
+    final appConfig = await _db.query('appConfig');
+    return {
+      'servers':
+          servers.toList().map((e) => Map<String, dynamic>.from(e)).toList(),
+      'appConfig': appConfig.map((e) => Map<String, dynamic>.from(e)).toList(),
+    };
+  }
+
   Future<void> deleteDb() async {
     deleteDatabase(_path);
   }
