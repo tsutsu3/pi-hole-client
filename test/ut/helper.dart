@@ -112,7 +112,7 @@ class DbHelper {
   }
 
   Future<Map<String, dynamic>> readDb() async {
-    final servers = await _db.query('servers');
+    final servers = await _db.query('servers', orderBy: 'address');
     final appConfig = await _db.query('appConfig');
     return {
       'servers':

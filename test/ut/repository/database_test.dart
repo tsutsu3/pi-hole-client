@@ -419,7 +419,99 @@ void main() async {
     );
   });
 
-  group('DatabaseRepository.setDefaultServerQuery', () {});
+  group('DatabaseRepository.setDefaultServerQuery', () {
+    late DbHelper dbHelper;
+    late SecureStorageRepository secureStorage;
+    late DatabaseRepository databaseRepository;
+    late Server defaultServerV5;
+    late Server defaultServerV6;
+
+    setUp(() async {
+      FlutterSecureStorage.setMockInitialValues({});
+      await deleteDatabase(testDb);
+
+      secureStorage = SecureStorageRepository();
+      databaseRepository = DatabaseRepository(secureStorage);
+      await databaseRepository.initialize(path: testDb);
+
+      defaultServerV5 = Server(
+        address: 'http://localhost:8080',
+        alias: 'test v5',
+        defaultServer: false,
+        apiVersion: 'v5',
+      );
+
+      defaultServerV6 = Server(
+        address: 'http://localhost:8081',
+        alias: 'test v6',
+        defaultServer: false,
+        apiVersion: 'v6',
+        sm: SessionManager(
+          secureStorage,
+          'http://localhost:8081',
+        ),
+      );
+    });
+
+    tearDown(() async {
+      await deleteDatabase(testDb);
+    });
+
+    test(
+      'should set default server',
+      () async {
+        dbHelper = DbHelper(testDb);
+        await dbHelper.loadDb();
+        await dbHelper.saveDb(defaultServerV5);
+        await dbHelper.saveDb(defaultServerV6);
+
+        final result = await databaseRepository
+            .setDefaultServerQuery('http://localhost:8081');
+
+        final actualD = await dbHelper.readDb();
+        await dbHelper.closeDb();
+
+        expect(result, true);
+        expect(actualD['servers'].length, 2);
+        expect(actualD['servers'][0]['address'], 'http://localhost:8080');
+        expect(actualD['servers'][0]['alias'], 'test v5');
+        expect(actualD['servers'][0]['apiVersion'], 'v5');
+        expect(actualD['servers'][0]['isDefaultServer'], 0);
+        expect(actualD['servers'][1]['address'], 'http://localhost:8081');
+        expect(actualD['servers'][1]['alias'], 'test v6');
+        expect(actualD['servers'][1]['apiVersion'], 'v6');
+        expect(actualD['servers'][1]['isDefaultServer'], 1);
+      },
+    );
+
+    test(
+      'should switch default server',
+      () async {
+        dbHelper = DbHelper(testDb);
+        await dbHelper.loadDb();
+        await dbHelper.saveDb(defaultServerV5);
+        await dbHelper.saveDb(defaultServerV6);
+
+        await databaseRepository.setDefaultServerQuery('http://localhost:8081');
+        final result = await databaseRepository
+            .setDefaultServerQuery('http://localhost:8080');
+
+        final actualD = await dbHelper.readDb();
+        await dbHelper.closeDb();
+
+        expect(result, true);
+        expect(actualD['servers'].length, 2);
+        expect(actualD['servers'][0]['address'], 'http://localhost:8080');
+        expect(actualD['servers'][0]['alias'], 'test v5');
+        expect(actualD['servers'][0]['apiVersion'], 'v5');
+        expect(actualD['servers'][0]['isDefaultServer'], 1);
+        expect(actualD['servers'][1]['address'], 'http://localhost:8081');
+        expect(actualD['servers'][1]['alias'], 'test v6');
+        expect(actualD['servers'][1]['apiVersion'], 'v6');
+        expect(actualD['servers'][1]['isDefaultServer'], 0);
+      },
+    );
+  });
 
   group('DatabaseRepository.removeServerQuery', () {});
 
