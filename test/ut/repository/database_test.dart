@@ -287,7 +287,137 @@ void main() async {
     );
   });
 
-  group('DatabaseRepository.editServerQuery', () {});
+  group('DatabaseRepository.editServerQuery', () {
+    late DbHelper dbHelper;
+    late SecureStorageRepository secureStorage;
+    late DatabaseRepository databaseRepository;
+    late Server defaultServerV5;
+    late Server defaultServerV6;
+
+    setUp(() async {
+      FlutterSecureStorage.setMockInitialValues({});
+      await deleteDatabase(testDb);
+
+      secureStorage = SecureStorageRepository();
+      databaseRepository = DatabaseRepository(secureStorage);
+      await databaseRepository.initialize(path: testDb);
+
+      defaultServerV5 = Server(
+        address: 'http://localhost:8080',
+        alias: 'test v5',
+        defaultServer: false,
+        apiVersion: 'v5',
+      );
+
+      defaultServerV6 = Server(
+        address: 'http://localhost:8081',
+        alias: 'test v6',
+        defaultServer: false,
+        apiVersion: 'v6',
+        sm: SessionManager(
+          secureStorage,
+          'http://localhost:8081',
+        ),
+      );
+    });
+
+    tearDown(() async {
+      await deleteDatabase(testDb);
+    });
+
+    test(
+      'should edit token (v5)',
+      () async {
+        final server = defaultServerV5.copyWith(token: 'token123');
+
+        dbHelper = DbHelper(testDb);
+        await dbHelper.loadDb();
+        await dbHelper.saveDb(defaultServerV5);
+
+        final result = await databaseRepository.editServerQuery(server);
+
+        final actualD = await dbHelper.readDb();
+        await dbHelper.closeDb();
+
+        final actuslS = await secureStorage.readAll();
+
+        expect(result, true);
+        expect(actualD['servers'].length, 1);
+        expect(actualD['servers'][0]['address'], 'http://localhost:8080');
+        expect(actualD['servers'][0]['alias'], 'test v5');
+        expect(actualD['servers'][0]['apiVersion'], 'v5');
+        expect(actualD['servers'][0]['isDefaultServer'], 0);
+        expect(actuslS['http://localhost:8080_token'], 'token123');
+      },
+    );
+
+    test(
+      'should edit basic auth (v5)',
+      () async {
+        final server = defaultServerV5.copyWith(
+          basicAuthUser: 'user01',
+          basicAuthPassword: 'password01',
+        );
+
+        dbHelper = DbHelper(testDb);
+        await dbHelper.loadDb();
+        await dbHelper.saveDb(defaultServerV5);
+
+        final result = await databaseRepository.editServerQuery(server);
+
+        final actualD = await dbHelper.readDb();
+        await dbHelper.closeDb();
+
+        final actuslS = await secureStorage.readAll();
+
+        expect(result, true);
+        expect(actualD['servers'].length, 1);
+        expect(actualD['servers'][0]['address'], 'http://localhost:8080');
+        expect(actualD['servers'][0]['alias'], 'test v5');
+        expect(actualD['servers'][0]['apiVersion'], 'v5');
+        expect(actualD['servers'][0]['isDefaultServer'], 0);
+        expect(actuslS['http://localhost:8080_basicAuthUser'], 'user01');
+        expect(
+          actuslS['http://localhost:8080_basicAuthPassword'],
+          'password01',
+        );
+      },
+    );
+
+    test(
+      'should save server with password (v6)',
+      () async {
+        final server = defaultServerV6.copyWith(
+          sm: SessionManager(
+            secureStorage,
+            'http://localhost:8081',
+          ),
+        );
+        server.sm.savePassword('password02');
+        server.sm.save('sid02');
+
+        dbHelper = DbHelper(testDb);
+        await dbHelper.loadDb();
+        await dbHelper.saveDb(defaultServerV6);
+
+        final result = await databaseRepository.editServerQuery(server);
+
+        final actualD = await dbHelper.readDb();
+        await dbHelper.closeDb();
+
+        final actuslS = await secureStorage.readAll();
+
+        expect(result, true);
+        expect(actualD['servers'].length, 1);
+        expect(actualD['servers'][0]['address'], 'http://localhost:8081');
+        expect(actualD['servers'][0]['alias'], 'test v6');
+        expect(actualD['servers'][0]['apiVersion'], 'v6');
+        expect(actualD['servers'][0]['isDefaultServer'], 0);
+        expect(actuslS['http://localhost:8081_password'], 'password02');
+        expect(actuslS['http://localhost:8081_sid'], 'sid02');
+      },
+    );
+  });
 
   group('DatabaseRepository.setDefaultServerQuery', () {});
 
