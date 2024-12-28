@@ -35,10 +35,16 @@ void main() async {
       mockSecureStorage = MockSecureStorageRepository();
       databaseRepository = DatabaseRepository(mockSecureStorage);
 
-      when(mockSecureStorage.getValue(any)).thenAnswer((_) async => null);
-      when(mockSecureStorage.readAll()).thenAnswer(
-        (_) async => {},
-      );
+      when(mockSecureStorage.basicAuthPassword).thenAnswer((_) async => null);
+      when(mockSecureStorage.basicAuthUser).thenAnswer((_) async => null);
+      when(mockSecureStorage.token).thenAnswer((_) async => null);
+      when(mockSecureStorage.sid).thenAnswer((_) async => null);
+      when(mockSecureStorage.passCode).thenAnswer((_) async => null);
+      when(mockSecureStorage.password).thenAnswer((_) async => null);
+      when(mockSecureStorage.readAll()).thenAnswer((_) async => {});
+      when(mockSecureStorage.readEnvironmentData()).thenAnswer((_) async => {});
+      when(mockSecureStorage.deleteEnvironmentData())
+          .thenAnswer((_) async => true);
 
       // Use test sqflite database. Before each test, initialize the database
       await databaseRepository.initialize(path: testDb);
@@ -48,7 +54,7 @@ void main() async {
     });
 
     tearDown(() async {
-      await databaseRepository.closeDb();
+      await databaseFactory.deleteDatabase(testDb);
     });
 
     test('should initialize database with default values', () async {
@@ -72,26 +78,6 @@ void main() async {
     });
 
     test('should return one registered server without passcode', () async {
-      //Mock the secure storage calls
-      when(mockSecureStorage.getValue('http://localhost:8080_token'))
-          .thenAnswer((_) async => '');
-      when(mockSecureStorage.getValue('http://localhost:8080_basicAuthUser'))
-          .thenAnswer((_) async => '');
-      when(
-        mockSecureStorage.getValue('http://localhost:8080_basicAuthPassword'),
-      ).thenAnswer((_) async => '');
-      when(mockSecureStorage.getValue('http://localhost:8080_sid')).thenAnswer(
-        (_) async => '',
-      );
-      when(mockSecureStorage.readAll()).thenAnswer(
-        (_) async => {
-          'http://localhost:8080_token': '',
-          'http://localhost:8080_basicAuthUser': '',
-          'http://localhost:8080_basicAuthPassword': '',
-          'http://localhost:8080_sid': '',
-        },
-      );
-
       // Add test server
       final server = Server(
         address: 'http://localhost:8080',
@@ -99,8 +85,7 @@ void main() async {
         defaultServer: false,
         apiVersion: 'v6',
         sm: SessionManager(
-          MockSecureStorageRepository(),
-          'http://localhost:8080',
+          mockSecureStorage,
         ),
       );
       final DatabaseRepository databaseRepositoryTmp =
@@ -137,25 +122,16 @@ void main() async {
 
     test('should return one registered server with passcode', () async {
       //Mock the secure storage calls
-      when(mockSecureStorage.getValue('passCode'))
-          .thenAnswer((_) async => '9999');
-      when(mockSecureStorage.getValue('http://localhost:8080_token'))
-          .thenAnswer((_) async => '');
-      when(mockSecureStorage.getValue('http://localhost:8080_basicAuthUser'))
-          .thenAnswer((_) async => '');
-      when(
-        mockSecureStorage.getValue('http://localhost:8080_basicAuthPassword'),
-      ).thenAnswer((_) async => '');
-      when(mockSecureStorage.getValue('http://localhost:8080_sid')).thenAnswer(
+      when(mockSecureStorage.passCode).thenAnswer((_) async => '9999');
+      when(mockSecureStorage.token).thenAnswer((_) async => '');
+      when(mockSecureStorage.basicAuthUser).thenAnswer((_) async => '');
+      when(mockSecureStorage.basicAuthPassword).thenAnswer((_) async => '');
+      when(mockSecureStorage.sid).thenAnswer(
         (_) async => '',
       );
       when(mockSecureStorage.readAll()).thenAnswer(
         (_) async => {
-          'passCode': '9999',
-          'http://localhost:8080_token': '',
-          'http://localhost:8080_basicAuthUser': '',
-          'http://localhost:8080_basicAuthPassword': '',
-          'http://localhost:8080_sid': '',
+          'test_passCode': '9999',
         },
       );
 
@@ -166,8 +142,7 @@ void main() async {
         defaultServer: false,
         apiVersion: 'v6',
         sm: SessionManager(
-          MockSecureStorageRepository(),
-          'http://localhost:8080',
+          mockSecureStorage,
         ),
       );
       final DatabaseRepository databaseRepositoryTmp =
@@ -210,15 +185,13 @@ void main() async {
 
     setUp(() async {
       mockFlutterSecureStorage = MockFlutterSecureStorage();
-      secureStorage =
-          SecureStorageRepository(secureStorage: mockFlutterSecureStorage);
+      secureStorage = SecureStorageRepository(
+          secureStorage: mockFlutterSecureStorage, environment: 'test');
       databaseRepository = DatabaseRepository(secureStorage);
 
       when(mockFlutterSecureStorage.read(key: anyNamed('key')))
           .thenAnswer((_) async => null);
-      when(mockFlutterSecureStorage.readAll()).thenAnswer(
-        (_) async => {},
-      );
+      when(mockFlutterSecureStorage.readAll()).thenAnswer((_) async => {});
 
       // Use test sqflite database. Before each test, initialize the database
       await databaseRepository.initialize(path: testDb);
@@ -232,8 +205,9 @@ void main() async {
       'should delete key from secure storage when null is passed (Clear)',
       () async {
         const testColumn = 'passCode';
+        const keyName = 'test_$testColumn';
 
-        when(mockFlutterSecureStorage.delete(key: testColumn))
+        when(mockFlutterSecureStorage.delete(key: keyName))
             .thenAnswer((_) async {});
 
         final result = await databaseRepository.updateConfigQuery(
@@ -244,10 +218,10 @@ void main() async {
         // Check call to delete
         // Check not call to write
         expect(result, true);
-        verify(mockFlutterSecureStorage.delete(key: testColumn)).called(1);
+        verify(mockFlutterSecureStorage.delete(key: keyName)).called(1);
         verifyNever(
           mockFlutterSecureStorage.write(
-            key: testColumn,
+            key: keyName,
             value: anyNamed('value'),
           ),
         );
@@ -258,9 +232,10 @@ void main() async {
       'should save value to secure storage when non-null value is passed (Update)',
       () async {
         const testColumn = 'passCode';
+        const keyName = 'test_$testColumn';
         const testValue = '1234';
 
-        when(mockFlutterSecureStorage.write(key: testColumn, value: testValue))
+        when(mockFlutterSecureStorage.write(key: keyName, value: testValue))
             .thenAnswer(
           (_) async {},
         );
@@ -273,10 +248,10 @@ void main() async {
         // Check not call to delete
         // Check call to write
         expect(result, true);
-        verifyNever(mockFlutterSecureStorage.delete(key: testColumn));
+        verifyNever(mockFlutterSecureStorage.delete(key: keyName));
         verify(
           mockFlutterSecureStorage.write(
-            key: testColumn,
+            key: keyName,
             value: testValue,
           ),
         ).called(1);
@@ -285,8 +260,9 @@ void main() async {
 
     test('should return false if secure storage delete fails', () async {
       const testColumn = 'passCode';
+      const keyName = 'test_$testColumn';
 
-      when(mockFlutterSecureStorage.delete(key: testColumn))
+      when(mockFlutterSecureStorage.delete(key: keyName))
           .thenThrow(Exception('Failed to delete'));
 
       final result = await databaseRepository.updateConfigQuery(
@@ -295,10 +271,10 @@ void main() async {
       );
 
       expect(result, false);
-      verify(mockFlutterSecureStorage.delete(key: testColumn)).called(1);
+      verify(mockFlutterSecureStorage.delete(key: keyName)).called(1);
       verifyNever(
         mockFlutterSecureStorage.write(
-          key: testColumn,
+          key: keyName,
           value: anyNamed('value'),
         ),
       );

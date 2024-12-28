@@ -143,22 +143,18 @@ class DatabaseRepository {
         });
 
         // Load sensitive data from secure storage
-        final passCode = await _secureStorage.getValue('passCode');
+        final passCode = await _secureStorage.passCode;
         appConfig = AppDbData.withSecrets(appConfig!, passCode);
 
-        // _secureStorage.readAll()
-        logger.d((await _secureStorage.readAll()).toString());
+        logger.d((await _secureStorage.readEnvironmentData()).toString());
 
         if (servers != null && servers!.isNotEmpty) {
           for (int i = 0; i < servers!.length; i++) {
             final server = servers![i];
-            final token =
-                await _secureStorage.getValue('${server.address}_token');
-            final basicAuthUser = await _secureStorage
-                .getValue('${server.address}_basicAuthUser');
-            final basicAuthPassword = await _secureStorage
-                .getValue('${server.address}_basicAuthPassword');
-            final sid = await _secureStorage.getValue('${server.address}_sid');
+            final token = await _secureStorage.token;
+            final basicAuthUser = await _secureStorage.basicAuthUser;
+            final basicAuthPassword = await _secureStorage.basicAuthPassword;
+            final sid = await _secureStorage.sid;
 
             servers![i] = ServerDbData.withSecrets(
               server,
@@ -210,33 +206,21 @@ class DatabaseRepository {
   Future<bool?> saveServerQuery(Server server) async {
     try {
       if (server.token != null) {
-        await _secureStorage.saveValue(
-          '${server.address}_token',
-          server.token!,
-        );
+        await _secureStorage.saveToken(server.token);
       }
       if (server.basicAuthUser != null) {
-        await _secureStorage.saveValue(
-          '${server.address}_basicAuthUser',
-          server.basicAuthUser!,
-        );
+        await _secureStorage.saveBasicAuthUser(server.basicAuthUser);
       }
       if (server.basicAuthPassword != null) {
-        await _secureStorage.saveValue(
-          '${server.address}_basicAuthPassword',
-          server.basicAuthPassword!,
-        );
+        await _secureStorage.saveBasicAuthPassword(server.basicAuthPassword);
       }
 
       final password = await server.sm.password;
       if (password != null) {
-        await _secureStorage.saveValue('${server.address}_password', password);
+        await _secureStorage.savePassword(password);
       }
       if (server.sm.sid != null) {
-        await _secureStorage.saveValue(
-          '${server.address}_sid',
-          server.sm.sid ?? '',
-        );
+        await _secureStorage.saveSid(server.sm.sid);
       }
 
       await _dbInstance.transaction((txn) async {
@@ -278,29 +262,20 @@ class DatabaseRepository {
   Future<bool> editServerQuery(Server server) async {
     try {
       if (server.token != null) {
-        await _secureStorage.saveValue(
-          '${server.address}_token',
-          server.token!,
-        );
+        await _secureStorage.saveToken(server.token);
       }
       if (server.basicAuthUser != null) {
-        await _secureStorage.saveValue(
-          '${server.address}_basicAuthUser',
-          server.basicAuthUser!,
-        );
+        await _secureStorage.saveBasicAuthUser(server.basicAuthUser);
       }
       if (server.basicAuthPassword != null) {
-        await _secureStorage.saveValue(
-          '${server.address}_basicAuthPassword',
-          server.basicAuthPassword!,
-        );
+        await _secureStorage.saveBasicAuthPassword(server.basicAuthPassword);
       }
       final password = await server.sm.password;
       if (password != null) {
-        await _secureStorage.saveValue('${server.address}_password', password);
+        await _secureStorage.savePassword(password);
       }
       if (server.sm.sid != null) {
-        await _secureStorage.saveValue('${server.address}_sid', server.sm.sid!);
+        await _secureStorage.saveSid(server.sm.sid);
       }
 
       return await _dbInstance.transaction((txn) async {
@@ -412,12 +387,12 @@ class DatabaseRepository {
   ///   `false` if it fails.
   Future<bool> removeServerQuery(String address) async {
     try {
-      await _secureStorage.deleteValue('${address}_token');
-      await _secureStorage.deleteValue('${address}_basicAuthUser');
-      await _secureStorage.deleteValue('${address}_basicAuthPassword');
-      await _secureStorage.deleteValue('${address}_password');
-      await _secureStorage.deleteValue('${address}_sid');
-      logger.d((await _secureStorage.readAll()).toString());
+      await _secureStorage.saveToken(null);
+      await _secureStorage.saveBasicAuthUser(null);
+      await _secureStorage.saveBasicAuthPassword(null);
+      await _secureStorage.savePassword(null);
+      await _secureStorage.saveSid(null);
+      logger.d((await _secureStorage.readEnvironmentData()).toString());
 
       return await _dbInstance.transaction((txn) async {
         await txn.delete('servers', where: 'address = ?', whereArgs: [address]);
@@ -440,7 +415,7 @@ class DatabaseRepository {
   ///   `false` if it fails.
   Future<bool> deleteServersDataQuery() async {
     try {
-      await _secureStorage.clearAll();
+      await _secureStorage.deleteEnvironmentData();
       return await _dbInstance.transaction((txn) async {
         await txn.delete(
           'servers',
@@ -506,12 +481,10 @@ class DatabaseRepository {
     try {
       if (column == 'passCode') {
         if (value == null) {
-          await _secureStorage.deleteValue('passCode');
-          return true;
+          return await _secureStorage.savePassCode(null);
         }
 
-        await _secureStorage.saveValue('passCode', value.toString());
-        return true;
+        return await _secureStorage.savePassCode(value.toString());
       }
 
       return await _dbInstance.transaction((txn) async {
@@ -540,7 +513,7 @@ class DatabaseRepository {
   ///   `false` if it fails.
   Future<bool> restoreAppConfigQuery() async {
     try {
-      await _secureStorage.deleteValue('passCode');
+      await _secureStorage.savePassCode(null);
       return await _dbInstance.transaction((txn) async {
         await txn.update(
           'appConfig',

@@ -1,35 +1,29 @@
 import 'package:pi_hole_client/repository/secure_storage.dart';
 
+/// SessionManager is a class that manages the session of the user.
+///
+/// Parameters:
+/// - `_storage`: SecureStorageRepository: The storage repository to store the session.
+/// - `_address`: String: The address of the Pi-hole server.
 class SessionManager {
   final SecureStorageRepository _storage;
-  final String _address;
   String? _sid;
 
   String? get sid => _sid;
 
   Future<String?>? get password async {
-    try {
-      return await _storage.getValue('${_address}_password');
-    } catch (e) {
-      return null;
-    }
+    return await _storage.password;
   }
 
-  SessionManager(this._storage, this._address);
+  SessionManager(this._storage);
 
   Future<bool> save(String sid) async {
-    try {
-      await _storage.saveValue('${_address}_sid', sid);
-      _sid = sid;
-      return true;
-    } catch (e) {
-      return false;
-    }
+    return await _storage.saveSid(sid);
   }
 
   Future<bool> load() async {
     try {
-      _sid = await _storage.getValue('${_address}_sid');
+      _sid = await _storage.sid;
       return true;
     } catch (e) {
       return false;
@@ -38,7 +32,7 @@ class SessionManager {
 
   Future<bool> delete() async {
     try {
-      await _storage.deleteValue('${_address}_sid');
+      await _storage.saveSid(null);
       _sid = null;
       return true;
     } catch (e) {
@@ -47,11 +41,6 @@ class SessionManager {
   }
 
   Future<bool> savePassword(String password) async {
-    try {
-      await _storage.saveValue('${_address}_password', password);
-      return true;
-    } catch (e) {
-      return false;
-    }
+    return await _storage.savePassword(password);
   }
 }

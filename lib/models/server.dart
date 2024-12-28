@@ -29,7 +29,7 @@ class Server {
   /// Basic authentication password (Use only v5)
   final String? basicAuthPassword;
 
-  /// Session manager (Use only v5)
+  /// Session manager (Use only v6)
   final SessionManager sm;
 
   Server({
@@ -42,7 +42,7 @@ class Server {
     this.basicAuthUser,
     this.basicAuthPassword,
     SessionManager? sm,
-  }) : sm = sm ?? SessionManager(SecureStorageRepository(), address);
+  }) : sm = sm ?? SessionManager(SecureStorageRepository(address: address));
 
   Server copyWith({
     String? address,

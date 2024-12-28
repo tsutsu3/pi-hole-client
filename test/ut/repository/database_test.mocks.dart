@@ -95,50 +95,118 @@ class MockSecureStorageRepository extends _i1.Mock
   }
 
   @override
-  _i4.Future<void> saveValue(
-    String? key,
-    String? value,
-  ) =>
-      (super.noSuchMethod(
-        Invocation.method(
-          #saveValue,
-          [
-            key,
-            value,
-          ],
-        ),
-        returnValue: _i4.Future<void>.value(),
-        returnValueForMissingStub: _i4.Future<void>.value(),
-      ) as _i4.Future<void>);
-
-  @override
-  _i4.Future<String?> getValue(String? key) => (super.noSuchMethod(
-        Invocation.method(
-          #getValue,
-          [key],
-        ),
+  _i4.Future<String?> get sid => (super.noSuchMethod(
+        Invocation.getter(#sid),
         returnValue: _i4.Future<String?>.value(),
       ) as _i4.Future<String?>);
 
   @override
-  _i4.Future<void> deleteValue(String? key) => (super.noSuchMethod(
-        Invocation.method(
-          #deleteValue,
-          [key],
-        ),
-        returnValue: _i4.Future<void>.value(),
-        returnValueForMissingStub: _i4.Future<void>.value(),
-      ) as _i4.Future<void>);
+  _i4.Future<String?> get password => (super.noSuchMethod(
+        Invocation.getter(#password),
+        returnValue: _i4.Future<String?>.value(),
+      ) as _i4.Future<String?>);
 
   @override
-  _i4.Future<void> clearAll() => (super.noSuchMethod(
+  _i4.Future<String?> get token => (super.noSuchMethod(
+        Invocation.getter(#token),
+        returnValue: _i4.Future<String?>.value(),
+      ) as _i4.Future<String?>);
+
+  @override
+  _i4.Future<String?> get basicAuthUser => (super.noSuchMethod(
+        Invocation.getter(#basicAuthUser),
+        returnValue: _i4.Future<String?>.value(),
+      ) as _i4.Future<String?>);
+
+  @override
+  _i4.Future<String?> get basicAuthPassword => (super.noSuchMethod(
+        Invocation.getter(#basicAuthPassword),
+        returnValue: _i4.Future<String?>.value(),
+      ) as _i4.Future<String?>);
+
+  @override
+  _i4.Future<String?> get passCode => (super.noSuchMethod(
+        Invocation.getter(#passCode),
+        returnValue: _i4.Future<String?>.value(),
+      ) as _i4.Future<String?>);
+
+  @override
+  _i4.Future<bool> saveSid(String? sid) => (super.noSuchMethod(
         Invocation.method(
-          #clearAll,
-          [],
+          #saveSid,
+          [sid],
         ),
-        returnValue: _i4.Future<void>.value(),
-        returnValueForMissingStub: _i4.Future<void>.value(),
-      ) as _i4.Future<void>);
+        returnValue: _i4.Future<bool>.value(false),
+      ) as _i4.Future<bool>);
+
+  @override
+  _i4.Future<bool> savePassword(String? password) => (super.noSuchMethod(
+        Invocation.method(
+          #savePassword,
+          [password],
+        ),
+        returnValue: _i4.Future<bool>.value(false),
+      ) as _i4.Future<bool>);
+
+  @override
+  _i4.Future<bool> saveToken(String? token) => (super.noSuchMethod(
+        Invocation.method(
+          #saveToken,
+          [token],
+        ),
+        returnValue: _i4.Future<bool>.value(false),
+      ) as _i4.Future<bool>);
+
+  @override
+  _i4.Future<bool> saveBasicAuthUser(String? basicAuthUser) =>
+      (super.noSuchMethod(
+        Invocation.method(
+          #saveBasicAuthUser,
+          [basicAuthUser],
+        ),
+        returnValue: _i4.Future<bool>.value(false),
+      ) as _i4.Future<bool>);
+
+  @override
+  _i4.Future<bool> saveBasicAuthPassword(String? basicAuthPassword) =>
+      (super.noSuchMethod(
+        Invocation.method(
+          #saveBasicAuthPassword,
+          [basicAuthPassword],
+        ),
+        returnValue: _i4.Future<bool>.value(false),
+      ) as _i4.Future<bool>);
+
+  @override
+  _i4.Future<bool> savePassCode(String? passCode) => (super.noSuchMethod(
+        Invocation.method(
+          #savePassCode,
+          [passCode],
+        ),
+        returnValue: _i4.Future<bool>.value(false),
+      ) as _i4.Future<bool>);
+
+  @override
+  _i4.Future<Map<String, String>> readEnvironmentData({String? environment}) =>
+      (super.noSuchMethod(
+        Invocation.method(
+          #readEnvironmentData,
+          [],
+          {#environment: environment},
+        ),
+        returnValue: _i4.Future<Map<String, String>>.value(<String, String>{}),
+      ) as _i4.Future<Map<String, String>>);
+
+  @override
+  _i4.Future<bool> deleteEnvironmentData({String? environment}) =>
+      (super.noSuchMethod(
+        Invocation.method(
+          #deleteEnvironmentData,
+          [],
+          {#environment: environment},
+        ),
+        returnValue: _i4.Future<bool>.value(false),
+      ) as _i4.Future<bool>);
 
   @override
   _i4.Future<Map<String, String>> readAll() => (super.noSuchMethod(
@@ -148,6 +216,15 @@ class MockSecureStorageRepository extends _i1.Mock
         ),
         returnValue: _i4.Future<Map<String, String>>.value(<String, String>{}),
       ) as _i4.Future<Map<String, String>>);
+
+  @override
+  _i4.Future<bool> deleteAll() => (super.noSuchMethod(
+        Invocation.method(
+          #deleteAll,
+          [],
+        ),
+        returnValue: _i4.Future<bool>.value(false),
+      ) as _i4.Future<bool>);
 }
 
 /// A class which mocks [FlutterSecureStorage].
