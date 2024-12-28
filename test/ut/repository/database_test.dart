@@ -753,6 +753,26 @@ void main() async {
         expect(await secureStorage.getValue(testColumn), testValue);
       },
     );
+
+    test(
+      'should update appConfig',
+      () async {
+        const testColumn = 'autoRefreshTime';
+        const testValue = 4;
+
+        final result = await databaseRepository.updateConfigQuery(
+          column: testColumn,
+          value: testValue,
+        );
+
+        DbHelper dbHelper = DbHelper(testDb);
+        await dbHelper.loadDb();
+        final actualD = await dbHelper.readDb();
+
+        expect(result, true);
+        expect(actualD['appConfig'][0][testColumn], testValue);
+      },
+    );
   });
 
   group('DatabaseRepository.restoreAppConfigQuery', () {});
