@@ -111,6 +111,23 @@ class DbHelper {
     }
   }
 
+  Future<bool> updateConfigQuery({
+    required String column,
+    required Object? value,
+  }) async {
+    try {
+      return await _db.transaction((txn) async {
+        await txn.update(
+          'appConfig',
+          {column: value},
+        );
+        return true;
+      });
+    } catch (e) {
+      return false;
+    }
+  }
+
   Future<Map<String, dynamic>> readDb() async {
     final servers = await _db.query('servers', orderBy: 'address');
     final appConfig = await _db.query('appConfig');

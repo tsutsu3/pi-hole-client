@@ -768,6 +768,7 @@ void main() async {
         DbHelper dbHelper = DbHelper(testDb);
         await dbHelper.loadDb();
         final actualD = await dbHelper.readDb();
+        dbHelper.closeDb();
 
         expect(result, true);
         expect(actualD['appConfig'][0][testColumn], testValue);
@@ -775,5 +776,42 @@ void main() async {
     );
   });
 
-  group('DatabaseRepository.restoreAppConfigQuery', () {});
+  group('DatabaseRepository.restoreAppConfigQuery', () {
+    late SecureStorageRepository secureStorage;
+    late DatabaseRepository databaseRepository;
+
+    setUp(() async {
+      secureStorage = SecureStorageRepository();
+      databaseRepository = DatabaseRepository(secureStorage);
+
+      await databaseRepository.initialize(path: testDb);
+    });
+
+    tearDown(() async {
+      await databaseRepository.closeDb();
+    });
+
+    test(
+      'should delete key from secure storage when null is passed (Clear)',
+      () async {
+        const testColumn = 'autoRefreshTime';
+
+        DbHelper dbHelper = DbHelper(testDb);
+        await dbHelper.loadDb();
+        await dbHelper.updateConfigQuery(column: testColumn, value: 10);
+        await secureStorage.saveValue('passCode', '1234');
+
+        final result = await databaseRepository.restoreAppConfigQuery();
+
+        final actualD = await dbHelper.readDb();
+        dbHelper.closeDb();
+
+        final actualS = await secureStorage.readAll();
+
+        expect(result, true);
+        expect(actualD['appConfig'][0][testColumn], 5);
+        expect(actualS['passCode'], null);
+      },
+    );
+  });
 }
