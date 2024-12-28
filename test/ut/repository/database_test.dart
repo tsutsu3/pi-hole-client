@@ -29,7 +29,7 @@ void main() async {
 
   final testDb = 'test.db';
 
-  group('DatabaseRepository.loadDb', () {
+  group('DatabaseRepository.initialize', () {
     late MockSecureStorageRepository mockSecureStorage;
     late DatabaseRepository databaseRepository;
 
