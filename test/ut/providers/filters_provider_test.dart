@@ -14,6 +14,7 @@ void main() {
   group('FiltersProvider', () {
     late FiltersProvider filtersProvider;
     late MockServersProvider mockServersProvider;
+    late bool listenerCalled;
 
     setUp(() {
       mockServersProvider = MockServersProvider();
@@ -27,6 +28,11 @@ void main() {
       );
 
       filtersProvider = FiltersProvider(serversProvider: mockServersProvider);
+
+      listenerCalled = false;
+      filtersProvider.addListener(() {
+        listenerCalled = true;
+      });
     });
 
     test('initializes with FiltersV5 by default', () {
@@ -42,6 +48,7 @@ void main() {
         filtersProvider.statusSelectedString,
         'Blocked (gravity)',
       );
+      expect(listenerCalled, false);
     });
 
     test('updates to FiltersV6 when server version is v6', () {
@@ -58,32 +65,26 @@ void main() {
         filtersProvider.statusAllowedAndRetried,
         FiltersV6().statusAllowedAndRetried,
       );
+      expect(listenerCalled, false);
     });
 
     test('setStatusSelected updates statusSelected and notifies listeners', () {
-      void listener() {}
-      filtersProvider.addListener(listener);
       filtersProvider.setStatusSelected([1, 2, 3]);
       expect(filtersProvider.statusSelected, [1, 2, 3]);
-      filtersProvider.removeListener(listener);
+      expect(listenerCalled, true);
     });
 
     test('setStartTime updates startTime and notifies listeners', () {
-      void listener() {}
-      filtersProvider.addListener(listener);
       final dateTime = DateTime.now();
       filtersProvider.setStartTime(dateTime);
       expect(filtersProvider.startTime, dateTime);
-      filtersProvider.removeListener(listener);
+      expect(listenerCalled, true);
     });
 
     test('setEndTime updates endTime and notifies listeners', () {
-      void listener() {}
-      filtersProvider.addListener(listener);
       final dateTime = DateTime.now();
       filtersProvider.setEndTime(dateTime);
       expect(filtersProvider.endTime, dateTime);
-      filtersProvider.removeListener(listener);
     });
 
     test(
@@ -91,14 +92,13 @@ void main() {
       () {
         filtersProvider.setStatusSelected([1, 2, 3]);
 
-        void listener() {}
-        filtersProvider.addListener(listener);
         filtersProvider.resetFilters();
         expect(
           filtersProvider.statusSelected,
           [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14],
         );
-        filtersProvider.removeListener(listener);
+
+        expect(listenerCalled, true);
       },
     );
 
@@ -109,12 +109,11 @@ void main() {
         filtersProvider.setStartTime(dateTime);
         filtersProvider.setEndTime(dateTime);
 
-        void listener() {}
-        filtersProvider.addListener(listener);
         filtersProvider.resetTime();
         expect(filtersProvider.startTime, null);
         expect(filtersProvider.endTime, null);
-        filtersProvider.removeListener(listener);
+
+        expect(listenerCalled, true);
       },
     );
 
@@ -123,48 +122,44 @@ void main() {
       () {
         filtersProvider.setStatusSelected([1, 2, 3]);
 
-        void listener() {}
-        filtersProvider.addListener(listener);
         filtersProvider.resetStatus();
         expect(
           filtersProvider.statusSelected,
           [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14],
         );
-        filtersProvider.removeListener(listener);
+
+        expect(listenerCalled, true);
       },
     );
 
     test(
       'setClients updates clients and notifies listeners',
       () {
-        void listener() {}
-        filtersProvider.addListener(listener);
         final clients = ['client1', 'client2'];
         filtersProvider.setClients(clients);
         expect(filtersProvider.totalClients, clients);
-        filtersProvider.removeListener(listener);
+
+        expect(listenerCalled, true);
       },
     );
 
     test(
       'setSelectedClients updates selectedClients and notifies listeners',
       () {
-        void listener() {}
-        filtersProvider.addListener(listener);
         final selectedClients = ['client1'];
         filtersProvider.setSelectedClients(selectedClients);
         expect(filtersProvider.selectedClients, selectedClients);
-        filtersProvider.removeListener(listener);
+
+        expect(listenerCalled, true);
       },
     );
 
     test('setSelectedDomain updates selectedDomain and notifies listeners', () {
-      void listener() {}
-      filtersProvider.addListener(listener);
       final domain = 'example.com';
       filtersProvider.setSelectedDomain(domain);
       expect(filtersProvider.selectedDomain, domain);
-      filtersProvider.removeListener(listener);
+
+      expect(listenerCalled, true);
     });
 
     test(
@@ -173,28 +168,27 @@ void main() {
         final selectedClients = ['client1'];
         filtersProvider.setSelectedClients(selectedClients);
 
-        void listener() {}
-        filtersProvider.addListener(listener);
         filtersProvider.resetClients();
         expect(filtersProvider.totalClients, []);
-        filtersProvider.removeListener(listener);
+
+        expect(listenerCalled, true);
       },
     );
 
     test('setRequestStatus updates requestStatus and notifies listeners', () {
-      void listener() {}
-      filtersProvider.addListener(listener);
       final status = RequestStatus.allowed;
       filtersProvider.setRequestStatus(status);
 
       expect(filtersProvider.requestStatus, status);
-      filtersProvider.removeListener(listener);
+
+      expect(listenerCalled, true);
     });
   });
 
   group('FiltersProvider v6', () {
     late FiltersProvider filtersProvider;
     late MockServersProvider mockServersProvider;
+    late bool listenerCalled;
 
     setUp(() {
       mockServersProvider = MockServersProvider();
@@ -208,6 +202,10 @@ void main() {
       );
 
       filtersProvider = FiltersProvider(serversProvider: mockServersProvider);
+      listenerCalled = false;
+      filtersProvider.addListener(() {
+        listenerCalled = true;
+      });
     });
 
     test('initializes with FiltersV6 by default', () {
@@ -226,29 +224,26 @@ void main() {
     });
 
     test('setStatusSelected updates statusSelected and notifies listeners', () {
-      void listener() {}
-      filtersProvider.addListener(listener);
       filtersProvider.setStatusSelected([1, 2, 3]);
       expect(filtersProvider.statusSelected, [1, 2, 3]);
-      filtersProvider.removeListener(listener);
+
+      expect(listenerCalled, true);
     });
 
     test('setStartTime updates startTime and notifies listeners', () {
-      void listener() {}
-      filtersProvider.addListener(listener);
       final dateTime = DateTime.now();
       filtersProvider.setStartTime(dateTime);
       expect(filtersProvider.startTime, dateTime);
-      filtersProvider.removeListener(listener);
+
+      expect(listenerCalled, true);
     });
 
     test('setEndTime updates endTime and notifies listeners', () {
-      void listener() {}
-      filtersProvider.addListener(listener);
       final dateTime = DateTime.now();
       filtersProvider.setEndTime(dateTime);
       expect(filtersProvider.endTime, dateTime);
-      filtersProvider.removeListener(listener);
+
+      expect(listenerCalled, true);
     });
 
     test(
@@ -256,14 +251,13 @@ void main() {
       () {
         filtersProvider.setStatusSelected([1, 2, 3]);
 
-        void listener() {}
-        filtersProvider.addListener(listener);
         filtersProvider.resetFilters();
         expect(
           filtersProvider.statusSelected,
           [2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15],
         );
-        filtersProvider.removeListener(listener);
+
+        expect(listenerCalled, true);
       },
     );
 
@@ -274,12 +268,11 @@ void main() {
         filtersProvider.setStartTime(dateTime);
         filtersProvider.setEndTime(dateTime);
 
-        void listener() {}
-        filtersProvider.addListener(listener);
         filtersProvider.resetTime();
         expect(filtersProvider.startTime, null);
         expect(filtersProvider.endTime, null);
-        filtersProvider.removeListener(listener);
+
+        expect(listenerCalled, true);
       },
     );
 
@@ -288,48 +281,44 @@ void main() {
       () {
         filtersProvider.setStatusSelected([1, 2, 3]);
 
-        void listener() {}
-        filtersProvider.addListener(listener);
         filtersProvider.resetStatus();
         expect(
           filtersProvider.statusSelected,
           [2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15],
         );
-        filtersProvider.removeListener(listener);
+
+        expect(listenerCalled, true);
       },
     );
 
     test(
       'setClients updates clients and notifies listeners',
       () {
-        void listener() {}
-        filtersProvider.addListener(listener);
         final clients = ['client1', 'client2'];
         filtersProvider.setClients(clients);
         expect(filtersProvider.totalClients, clients);
-        filtersProvider.removeListener(listener);
+
+        expect(listenerCalled, true);
       },
     );
 
     test(
       'setSelectedClients updates selectedClients and notifies listeners',
       () {
-        void listener() {}
-        filtersProvider.addListener(listener);
         final selectedClients = ['client1'];
         filtersProvider.setSelectedClients(selectedClients);
         expect(filtersProvider.selectedClients, selectedClients);
-        filtersProvider.removeListener(listener);
+
+        expect(listenerCalled, true);
       },
     );
 
     test('setSelectedDomain updates selectedDomain and notifies listeners', () {
-      void listener() {}
-      filtersProvider.addListener(listener);
       final domain = 'example.com';
       filtersProvider.setSelectedDomain(domain);
       expect(filtersProvider.selectedDomain, domain);
-      filtersProvider.removeListener(listener);
+
+      expect(listenerCalled, true);
     });
 
     test(
@@ -338,22 +327,20 @@ void main() {
         final selectedClients = ['client1'];
         filtersProvider.setSelectedClients(selectedClients);
 
-        void listener() {}
-        filtersProvider.addListener(listener);
         filtersProvider.resetClients();
         expect(filtersProvider.totalClients, []);
-        filtersProvider.removeListener(listener);
+
+        expect(listenerCalled, true);
       },
     );
 
     test('setRequestStatus updates requestStatus and notifies listeners', () {
-      void listener() {}
-      filtersProvider.addListener(listener);
       final status = RequestStatus.allowed;
       filtersProvider.setRequestStatus(status);
 
       expect(filtersProvider.requestStatus, status);
-      filtersProvider.removeListener(listener);
+
+      expect(listenerCalled, true);
     });
   });
 }
