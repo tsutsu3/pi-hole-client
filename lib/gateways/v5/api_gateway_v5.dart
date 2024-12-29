@@ -16,16 +16,20 @@ import 'package:pi_hole_client/gateways/api_gateway_interface.dart';
 import 'package:pi_hole_client/functions/logger.dart';
 
 class ApiGatewayV5 implements ApiGateway {
-  final Server server;
-  final http.Client client;
+  final Server _server;
+  final http.Client _client;
+
+  @override
+  Server get server => _server;
 
   /// Creates a new instance of the `ApiGatewayV5` class.
   ///
   /// Parameters:
   /// - `server` (`Server`): The server object containing the Pi-hole address, token, and optional basic authentication credentials.
   /// - `client` (`http.Client`): An optional HTTP client to use for requests. If not provided, a new client will be created. Add for testing purposes.
-  ApiGatewayV5(this.server, {http.Client? client})
-      : client = client ?? http.Client();
+  ApiGatewayV5(Server server, {http.Client? client})
+      : _server = server,
+        _client = client ?? http.Client();
 
   /// Checks if both the username and password are non-null and non-empty.
   ///
@@ -92,13 +96,13 @@ class ApiGatewayV5 implements ApiGateway {
 
     switch (method.toUpperCase()) {
       case 'POST':
-        return await client
+        return await _client
             .post(Uri.parse(url), headers: authHeaders, body: body)
             .timeout(Duration(seconds: timeout));
 
       case 'GET':
       default:
-        return await client
+        return await _client
             .get(Uri.parse(url), headers: authHeaders)
             .timeout(Duration(seconds: timeout));
     }
@@ -115,10 +119,11 @@ class ApiGatewayV5 implements ApiGateway {
     try {
       final status = await httpClient(
         method: 'get',
-        url: '${server.address}/admin/api.php?auth=${server.token}&summaryRaw',
+        url:
+            '${_server.address}/admin/api.php?auth=${_server.token}&summaryRaw',
         basicAuth: {
-          'username': server.basicAuthUser,
-          'password': server.basicAuthPassword,
+          'username': _server.basicAuthUser,
+          'password': _server.basicAuthPassword,
         },
       );
       if (status.statusCode == 200) {
@@ -128,11 +133,11 @@ class ApiGatewayV5 implements ApiGateway {
           final enableOrDisable = await httpClient(
             method: 'get',
             url: statusParsed['status'] == 'enabled'
-                ? '${server.address}/admin/api.php?auth=${server.token}&enable=0'
-                : '${server.address}/admin/api.php?auth=${server.token}&disable=0',
+                ? '${_server.address}/admin/api.php?auth=${_server.token}&enable=0'
+                : '${_server.address}/admin/api.php?auth=${_server.token}&disable=0',
             basicAuth: {
-              'username': server.basicAuthUser,
-              'password': server.basicAuthPassword,
+              'username': _server.basicAuthUser,
+              'password': _server.basicAuthPassword,
             },
           );
           if (enableOrDisable.statusCode == 200) {
@@ -272,10 +277,10 @@ class ApiGatewayV5 implements ApiGateway {
       final response = await httpClient(
         method: 'get',
         url:
-            '${server.address}/admin/api.php?auth=${server.token}&summaryRaw&topItems&getForwardDestinations&getQuerySources&topClientsBlocked&getQueryTypes',
+            '${_server.address}/admin/api.php?auth=${_server.token}&summaryRaw&topItems&getForwardDestinations&getQuerySources&topClientsBlocked&getQueryTypes',
         basicAuth: {
-          'username': server.basicAuthUser,
-          'password': server.basicAuthPassword,
+          'username': _server.basicAuthUser,
+          'password': _server.basicAuthPassword,
         },
       );
       final body = jsonDecode(response.body);
@@ -307,10 +312,10 @@ class ApiGatewayV5 implements ApiGateway {
       final response = await httpClient(
         method: 'get',
         url:
-            '${server.address}/admin/api.php?auth=${server.token}&disable=$time',
+            '${_server.address}/admin/api.php?auth=${_server.token}&disable=$time',
         basicAuth: {
-          'username': server.basicAuthUser,
-          'password': server.basicAuthPassword,
+          'username': _server.basicAuthUser,
+          'password': _server.basicAuthPassword,
         },
       );
       final body = jsonDecode(response.body);
@@ -341,10 +346,10 @@ class ApiGatewayV5 implements ApiGateway {
     try {
       final response = await httpClient(
         method: 'get',
-        url: '${server.address}/admin/api.php?auth=${server.token}&enable',
+        url: '${_server.address}/admin/api.php?auth=${_server.token}&enable',
         basicAuth: {
-          'username': server.basicAuthUser,
-          'password': server.basicAuthPassword,
+          'username': _server.basicAuthUser,
+          'password': _server.basicAuthPassword,
         },
       );
       final body = jsonDecode(response.body);
@@ -378,10 +383,10 @@ class ApiGatewayV5 implements ApiGateway {
       final response = await httpClient(
         method: 'get',
         url:
-            '${server.address}/admin/api.php?auth=${server.token}&overTimeData10mins&overTimeDataClients&getClientNames',
+            '${_server.address}/admin/api.php?auth=${_server.token}&overTimeData10mins&overTimeDataClients&getClientNames',
         basicAuth: {
-          'username': server.basicAuthUser,
-          'password': server.basicAuthPassword,
+          'username': _server.basicAuthUser,
+          'password': _server.basicAuthPassword,
         },
       );
       final body = jsonDecode(response.body);
@@ -412,11 +417,11 @@ class ApiGatewayV5 implements ApiGateway {
       final response = await httpClient(
         method: 'get',
         url:
-            '${server.address}/admin/api.php?auth=${server.token}&getAllQueries&from=${from.millisecondsSinceEpoch ~/ 1000}&until=${until.millisecondsSinceEpoch ~/ 1000}',
+            '${_server.address}/admin/api.php?auth=${_server.token}&getAllQueries&from=${from.millisecondsSinceEpoch ~/ 1000}&until=${until.millisecondsSinceEpoch ~/ 1000}',
         timeout: 20,
         basicAuth: {
-          'username': server.basicAuthUser,
-          'password': server.basicAuthPassword,
+          'username': _server.basicAuthUser,
+          'password': _server.basicAuthPassword,
         },
       );
       final body = jsonDecode(response.body);
@@ -455,10 +460,10 @@ class ApiGatewayV5 implements ApiGateway {
       final response = await httpClient(
         method: 'get',
         url:
-            '${server.address}/admin/api.php?auth=${server.token}&list=$list&add=$domain',
+            '${_server.address}/admin/api.php?auth=${_server.token}&list=$list&add=$domain',
         basicAuth: {
-          'username': server.basicAuthUser,
-          'password': server.basicAuthPassword,
+          'username': _server.basicAuthUser,
+          'password': _server.basicAuthPassword,
         },
       );
       if (response.statusCode == 200) {
@@ -504,11 +509,11 @@ class ApiGatewayV5 implements ApiGateway {
   @override
   Future<GetDomainLists> getDomainLists() async {
     Map<String, String>? headers;
-    if (checkBasicAuth(server.basicAuthUser, server.basicAuthPassword) ==
+    if (checkBasicAuth(_server.basicAuthUser, _server.basicAuthPassword) ==
         true) {
       headers = {
         'Authorization':
-            'Basic ${encodeBasicAuth(server.basicAuthUser!, server.basicAuthPassword!)}',
+            'Basic ${encodeBasicAuth(_server.basicAuthUser!, _server.basicAuthPassword!)}',
       };
     }
 
@@ -517,25 +522,25 @@ class ApiGatewayV5 implements ApiGateway {
         httpClient(
           method: 'get',
           url:
-              '${server.address}/admin/api.php?auth=${server.token}&list=white',
+              '${_server.address}/admin/api.php?auth=${_server.token}&list=white',
           headers: headers,
         ),
         httpClient(
           method: 'get',
           url:
-              '${server.address}/admin/api.php?auth=${server.token}&list=regex_white',
+              '${_server.address}/admin/api.php?auth=${_server.token}&list=regex_white',
           headers: headers,
         ),
         httpClient(
           method: 'get',
           url:
-              '${server.address}/admin/api.php?auth=${server.token}&list=black',
+              '${_server.address}/admin/api.php?auth=${_server.token}&list=black',
           headers: headers,
         ),
         httpClient(
           method: 'get',
           url:
-              '${server.address}/admin/api.php?auth=${server.token}&list=regex_black',
+              '${_server.address}/admin/api.php?auth=${_server.token}&list=regex_black',
           headers: headers,
         ),
       ]);
@@ -610,10 +615,10 @@ class ApiGatewayV5 implements ApiGateway {
       final response = await httpClient(
         method: 'get',
         url:
-            '${server.address}/admin/api.php?auth=${server.token}&list=${getType(domain.type)}&sub=${domain.domain}',
+            '${_server.address}/admin/api.php?auth=${_server.token}&list=${getType(domain.type)}&sub=${domain.domain}',
         basicAuth: {
-          'username': server.basicAuthUser,
-          'password': server.basicAuthPassword,
+          'username': _server.basicAuthUser,
+          'password': _server.basicAuthPassword,
         },
       );
       if (response.statusCode == 200) {
@@ -665,10 +670,10 @@ class ApiGatewayV5 implements ApiGateway {
       final response = await httpClient(
         method: 'get',
         url:
-            '${server.address}/admin/api.php?auth=${server.token}&list=${domainData['list']}&add=${domainData['domain']}',
+            '${_server.address}/admin/api.php?auth=${_server.token}&list=${domainData['list']}&add=${domainData['domain']}',
         basicAuth: {
-          'username': server.basicAuthUser,
-          'password': server.basicAuthPassword,
+          'username': _server.basicAuthUser,
+          'password': _server.basicAuthPassword,
         },
       );
       if (response.statusCode == 200) {
