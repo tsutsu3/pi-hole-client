@@ -23,6 +23,8 @@ class ServersProvider with ChangeNotifier {
 
   final Map<String, ApiGateway> _serverGateways = {};
 
+  AppConfigProvider? get appConfigProvider => _appConfigProvider;
+
   List<Server> get getServersList {
     return _serversList;
   }
