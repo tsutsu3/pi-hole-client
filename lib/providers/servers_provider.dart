@@ -76,6 +76,10 @@ class ServersProvider with ChangeNotifier {
     return _serverGateways[server.address];
   }
 
+  /// Returns the query status object for the given key.
+  ///
+  /// Parameters:
+  /// - [key]: Number of the query status. e.g. '1', '2', '3', etc.
   QueryStatus? getQueryStatus(String key) {
     switch (_selectedServer?.apiVersion) {
       case 'v5':
