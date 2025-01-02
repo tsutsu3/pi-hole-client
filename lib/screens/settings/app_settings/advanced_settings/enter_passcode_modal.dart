@@ -37,7 +37,9 @@ class _EnterPasscodeModalState extends State<EnterPasscodeModal> {
 
     void finish() async {
       if (appConfigProvider.passCode == _code) {
-        Navigator.maybePop(context);
+        if (Navigator.canPop(context)) {
+          Navigator.pop(context);
+        }
         widget.onConfirm();
       } else {
         _shakeKey.currentState!.shake();
