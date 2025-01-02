@@ -7,9 +7,11 @@ class ResetModal extends StatefulWidget {
   const ResetModal({
     super.key,
     required this.onConfirm,
+    this.timeRemaining = 5,
   });
 
   final void Function() onConfirm;
+  final int timeRemaining;
 
   @override
   State<ResetModal> createState() => _ResetModalState();
@@ -17,7 +19,7 @@ class ResetModal extends StatefulWidget {
 
 class _ResetModalState extends State<ResetModal> {
   late Timer _timer;
-  int _timeRemaining = 5;
+  late int _timeRemaining;
 
   @override
   void initState() {
@@ -29,6 +31,7 @@ class _ResetModalState extends State<ResetModal> {
       }
     });
     super.initState();
+    _timeRemaining = widget.timeRemaining;
   }
 
   @override
