@@ -64,7 +64,7 @@ class _PrivacyModalState extends State<PrivacyModal> {
                   child: Icon(
                     Icons.open_in_browser_rounded,
                     size: 20,
-                    color: colorScheme.onSurfaceVariant.withOpacity(0.6),
+                    color: colorScheme.onSurfaceVariant.withValues(alpha: 0.6),
                   ),
                 ),
             ],

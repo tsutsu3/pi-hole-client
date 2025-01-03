@@ -174,8 +174,8 @@ class StatisticsTripleColumn extends StatelessWidget {
             ),
           );
 
-        default:
-          return const SizedBox();
+        // default:
+        //   return const SizedBox();
       }
     }
 

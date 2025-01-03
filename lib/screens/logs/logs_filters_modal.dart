@@ -227,11 +227,11 @@ class _LogsFiltersModalState extends State<LogsFiltersModal> {
                                   splashColor: Theme.of(context)
                                       .colorScheme
                                       .primary
-                                      .withOpacity(0.1),
+                                      .withValues(alpha: 0.1),
                                   highlightColor: Theme.of(context)
                                       .colorScheme
                                       .primary
-                                      .withOpacity(0.1),
+                                      .withValues(alpha: 0.1),
                                   child: Container(
                                     padding: const EdgeInsets.symmetric(
                                       horizontal: 15,
@@ -295,11 +295,11 @@ class _LogsFiltersModalState extends State<LogsFiltersModal> {
                                   splashColor: Theme.of(context)
                                       .colorScheme
                                       .primary
-                                      .withOpacity(0.1),
+                                      .withValues(alpha: 0.1),
                                   highlightColor: Theme.of(context)
                                       .colorScheme
                                       .primary
-                                      .withOpacity(0.1),
+                                      .withValues(alpha: 0.1),
                                   child: Container(
                                     padding: const EdgeInsets.symmetric(
                                       horizontal: 15,
@@ -529,7 +529,7 @@ class _LogsFiltersModalState extends State<LogsFiltersModal> {
                               Theme.of(context)
                                   .colorScheme
                                   .primary
-                                  .withOpacity(0.1),
+                                  .withValues(alpha: 0.1),
                             ),
                           ),
                           child: Text(AppLocalizations.of(context)!.apply),

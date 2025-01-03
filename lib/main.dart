@@ -263,8 +263,9 @@ class _PiHoleClientState extends State<PiHoleClient> {
             return AppLock(
               builder: (_, __) => child!,
               lockScreenBuilder: (context) => const Unlock(),
-              enabled: appConfigProvider.passCode != null ? true : false,
-              backgroundLockLatency: const Duration(seconds: 0),
+              initiallyEnabled:
+                  appConfigProvider.passCode != null ? true : false,
+              initialBackgroundLockLatency: const Duration(seconds: 0),
             );
           },
           home: const Base(),

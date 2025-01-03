@@ -193,8 +193,8 @@ class _HomeState extends State<Home> {
             ),
           );
 
-        default:
-          return const SizedBox();
+        // default:
+        //   return const SizedBox();
       }
     }
 

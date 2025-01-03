@@ -87,8 +87,9 @@ class _ResetModalState extends State<ResetModal> {
                   foregroundColor: _timeRemaining == 0
                       ? WidgetStateProperty.all(Colors.red)
                       : WidgetStateProperty.all(Colors.grey),
-                  overlayColor:
-                      WidgetStateProperty.all(Colors.red.withOpacity(0.1)),
+                  overlayColor: WidgetStateProperty.all(
+                    Colors.red.withValues(alpha: 0.1),
+                  ),
                 ),
                 child: Text(
                   _timeRemaining > 0
@@ -110,7 +111,7 @@ class _ResetModalState extends State<ResetModal> {
                             ? WidgetStateProperty.all(Colors.red)
                             : WidgetStateProperty.all(Colors.grey),
                         overlayColor: WidgetStateProperty.all(
-                          Colors.red.withOpacity(0.1),
+                          Colors.red.withValues(alpha: 0.1),
                         ),
                       ),
                       child: Text(

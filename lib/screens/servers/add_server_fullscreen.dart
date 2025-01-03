@@ -582,8 +582,10 @@ class _AddServerFullscreenState extends State<AddServerFullscreen> {
                     border: Border.all(
                       color: Theme.of(context).colorScheme.primary,
                     ),
-                    color:
-                        Theme.of(context).colorScheme.primary.withOpacity(0.05),
+                    color: Theme.of(context)
+                        .colorScheme
+                        .primary
+                        .withValues(alpha: 0.05),
                   ),
                   child: Column(
                     children: [

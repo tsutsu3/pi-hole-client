@@ -59,8 +59,8 @@ class _AppDetailModalState extends State<AppDetailModal> {
                             child: Icon(
                               Icons.open_in_browser_rounded,
                               size: 16,
-                              color:
-                                  colorScheme.onSurfaceVariant.withOpacity(0.6),
+                              color: colorScheme.onSurfaceVariant
+                                  .withValues(alpha: 0.6),
                             ),
                           ),
                         ],
