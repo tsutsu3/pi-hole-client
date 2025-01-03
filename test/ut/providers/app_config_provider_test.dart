@@ -1,4 +1,3 @@
-import 'package:device_info_plus/device_info_plus.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/annotations.dart';
@@ -6,7 +5,6 @@ import 'package:mockito/mockito.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 import 'package:pi_hole_client/models/repository/database.dart';
 import 'package:pi_hole_client/providers/app_config_provider.dart';
-import 'package:pi_hole_client/models/app_log.dart';
 import 'package:pi_hole_client/repository/database.dart';
 import './app_config_provider_test.mocks.dart';
 
@@ -20,10 +18,12 @@ void main() {
 
     setUp(() {
       mockDatabaseRepository = MockDatabaseRepository();
-      when(mockDatabaseRepository.updateConfigQuery(
-        column: anyNamed('column'),
-        value: anyNamed('value'),
-      )).thenAnswer((_) async => true);
+      when(
+        mockDatabaseRepository.updateConfigQuery(
+          column: anyNamed('column'),
+          value: anyNamed('value'),
+        ),
+      ).thenAnswer((_) async => true);
       when(mockDatabaseRepository.restoreAppConfigQuery())
           .thenAnswer((_) async => true);
       appConfigProvider = AppConfigProvider(mockDatabaseRepository);
@@ -72,26 +72,6 @@ void main() {
       expect(appConfigProvider.getAppInfo, packageInfo);
     });
 
-    // test('setAndroidInfo updates value and notifies listeners', () {
-    //   final androidDeviceInfo = AndroidDeviceInfo(version: '1.0', model: 'Test');
-    //   appConfigProvider.setAndroidInfo(androidDeviceInfo);
-    //   expect(appConfigProvider.androidDeviceInfo, androidDeviceInfo);
-    // });
-
-    // test('setIosInfo updates value and notifies listeners', () {
-    //   final iosDeviceInfo = IosDeviceInfo(
-    //     utsname: IosUtsname(
-    //       sysname: 'iOS',
-    //       nodename: 'Test',
-    //       release: '1.0',
-    //       version: '1.0',
-    //       machine: 'iPhone',
-    //     ),
-    //   );
-    //   appConfigProvider.setIosInfo(iosDeviceInfo);
-    //   expect(appConfigProvider.iosDeviceInfo, iosDeviceInfo);
-    // });
-
     test('setBiometricsSupport updates value and notifies listeners', () {
       appConfigProvider.setBiometricsSupport(true);
       expect(appConfigProvider.biometricsSupport, true);
@@ -119,10 +99,12 @@ void main() {
     });
 
     test('setUseBiometrics updates value and notifies listeners', () async {
-      when(mockDatabaseRepository.updateConfigQuery(
-        column: 'useBiometricAuth',
-        value: 1,
-      )).thenAnswer((_) async => true);
+      when(
+        mockDatabaseRepository.updateConfigQuery(
+          column: 'useBiometricAuth',
+          value: 1,
+        ),
+      ).thenAnswer((_) async => true);
       final result = await appConfigProvider.setUseBiometrics(true);
       expect(result, true);
       expect(appConfigProvider.useBiometrics, true);
@@ -131,10 +113,12 @@ void main() {
     test(
       'setImportantInfoReaden updates value and notifies listeners',
       () async {
-        when(mockDatabaseRepository.updateConfigQuery(
-          column: 'importantInfoReaden',
-          value: 1,
-        )).thenAnswer((_) async => true);
+        when(
+          mockDatabaseRepository.updateConfigQuery(
+            column: 'importantInfoReaden',
+            value: 1,
+          ),
+        ).thenAnswer((_) async => true);
         final result = await appConfigProvider.setImportantInfoReaden(true);
         expect(result, true);
         expect(appConfigProvider.importantInfoReaden, true);
@@ -142,80 +126,149 @@ void main() {
     );
 
     test('setPassCode updates value and notifies listeners', () async {
-      when(mockDatabaseRepository.updateConfigQuery(
-        column: 'passCode',
-        value: '1234',
-      )).thenAnswer((_) async => true);
+      when(
+        mockDatabaseRepository.updateConfigQuery(
+          column: 'passCode',
+          value: '1234',
+        ),
+      ).thenAnswer((_) async => true);
       final result = await appConfigProvider.setPassCode('1234');
       expect(result, true);
       expect(appConfigProvider.passCode, '1234');
     });
 
+    test(
+      'setPassCode updates value with biometrics and notifies listeners',
+      () async {
+        await appConfigProvider.setUseBiometrics(true);
+
+        when(
+          mockDatabaseRepository.updateConfigQuery(
+            column: 'passCode',
+            value: '1234',
+          ),
+        ).thenAnswer((_) async => true);
+        final result = await appConfigProvider.setPassCode('1234');
+        expect(result, true);
+        expect(appConfigProvider.passCode, '1234');
+      },
+    );
+
     test('setAutoRefreshTime updates value and notifies listeners', () async {
-      when(mockDatabaseRepository.updateConfigQuery(
-        column: 'autoRefreshTime',
-        value: 10,
-      )).thenAnswer((_) async => true);
+      when(
+        mockDatabaseRepository.updateConfigQuery(
+          column: 'autoRefreshTime',
+          value: 10,
+        ),
+      ).thenAnswer((_) async => true);
       final result = await appConfigProvider.setAutoRefreshTime(10);
       expect(result, true);
       expect(appConfigProvider.getAutoRefreshTime, 10);
     });
 
     test('setLogsPerQuery updates value and notifies listeners', () async {
-      when(mockDatabaseRepository.updateConfigQuery(
-        column: 'logsPerQuery',
-        value: 5.0,
-      )).thenAnswer((_) async => true);
+      when(
+        mockDatabaseRepository.updateConfigQuery(
+          column: 'logsPerQuery',
+          value: 5.0,
+        ),
+      ).thenAnswer((_) async => true);
       final result = await appConfigProvider.setLogsPerQuery(5.0);
       expect(result, true);
       expect(appConfigProvider.logsPerQuery, 5.0);
     });
 
     test('setSendCrashReports updates value and notifies listeners', () async {
-      when(mockDatabaseRepository.updateConfigQuery(
-        column: 'sendCrashReports',
-        value: 1,
-      )).thenAnswer((_) async => true);
+      when(
+        mockDatabaseRepository.updateConfigQuery(
+          column: 'sendCrashReports',
+          value: 1,
+        ),
+      ).thenAnswer((_) async => true);
       final result = await appConfigProvider.setSendCrashReports(true);
       expect(result, true);
       expect(appConfigProvider.sendCrashReports, true);
     });
 
+    test(
+      'saveFromDb updates values from database and notifies listeners',
+      () async {
+        final appDbData = AppDbData(
+          autoRefreshTime: 5,
+          theme: 1,
+          language: 'ja',
+          overrideSslCheck: 1,
+          oneColumnLegend: 1,
+          reducedDataCharts: 1,
+          logsPerQuery: 5,
+          passCode: '9999',
+          useBiometricAuth: 1,
+          importantInfoReaden: 1,
+          hideZeroValues: 1,
+          statisticsVisualizationMode: 1,
+          sendCrashReports: 1,
+        );
+
+        appConfigProvider.saveFromDb(appDbData);
+        expect(appConfigProvider.getAutoRefreshTime, 5);
+        expect(appConfigProvider.selectedThemeNumber, 1);
+        expect(appConfigProvider.selectedLanguage, 'ja');
+        expect(appConfigProvider.overrideSslCheck, true);
+        expect(appConfigProvider.oneColumnLegend, true);
+        expect(appConfigProvider.reducedDataCharts, true);
+        expect(appConfigProvider.logsPerQuery, 5);
+        expect(appConfigProvider.passCode, '9999');
+        expect(appConfigProvider.useBiometrics, true);
+        expect(appConfigProvider.importantInfoReaden, true);
+        expect(appConfigProvider.hideZeroValues, true);
+        expect(appConfigProvider.statisticsVisualizationMode, 1);
+        expect(appConfigProvider.sendCrashReports, true);
+      },
+    );
+
     test('setOverrideSslCheck updates value and notifies listeners', () async {
-      when(mockDatabaseRepository.updateConfigQuery(
-        column: 'overrideSslCheck',
-        value: 1,
-      )).thenAnswer((_) async => true);
+      when(
+        mockDatabaseRepository.updateConfigQuery(
+          column: 'overrideSslCheck',
+          value: 1,
+        ),
+      ).thenAnswer((_) async => true);
       final result = await appConfigProvider.setOverrideSslCheck(true);
       expect(result, true);
       expect(appConfigProvider.overrideSslCheck, true);
     });
 
     test('setOneColumnLegend updates value and notifies listeners', () async {
-      when(mockDatabaseRepository.updateConfigQuery(
-        column: 'oneColumnLegend',
-        value: 1,
-      )).thenAnswer((_) async => true);
+      when(
+        mockDatabaseRepository.updateConfigQuery(
+          column: 'oneColumnLegend',
+          value: 1,
+        ),
+      ).thenAnswer((_) async => true);
       final result = await appConfigProvider.setOneColumnLegend(true);
       expect(result, true);
       expect(appConfigProvider.oneColumnLegend, true);
     });
 
     test('setReducedDataCharts updates value and notifies listeners', () async {
-      when(mockDatabaseRepository.updateConfigQuery(
-        column: 'reducedDataCharts',
-        value: 1,
-      )).thenAnswer((_) async => true);
+      when(
+        mockDatabaseRepository.updateConfigQuery(
+          column: 'reducedDataCharts',
+          value: 1,
+        ),
+      ).thenAnswer((_) async => true);
       final result = await appConfigProvider.setReducedDataCharts(true);
       expect(result, true);
       expect(appConfigProvider.reducedDataCharts, true);
     });
 
     test('setHideZeroValues updates value and notifies listeners', () async {
-      when(mockDatabaseRepository.updateConfigQuery(
-        column: 'hideZeroValues',
-        value: 1,
-      )).thenAnswer((_) async => true);
+      when(
+        mockDatabaseRepository.updateConfigQuery(
+          column: 'hideZeroValues',
+          value: 1,
+        ),
+      ).thenAnswer((_) async => true);
       final result = await appConfigProvider.setHideZeroValues(true);
       expect(result, true);
       expect(appConfigProvider.hideZeroValues, true);
@@ -230,13 +283,16 @@ void main() {
     });
 
     test('setSelectedLanguage updates value and notifies listeners', () async {
-      when(mockDatabaseRepository.updateConfigQuery(
-        column: 'language',
-        value: 'en',
-      )).thenAnswer((_) async => true);
+      when(
+        mockDatabaseRepository.updateConfigQuery(
+          column: 'language',
+          value: 'en',
+        ),
+      ).thenAnswer((_) async => true);
       final result = await appConfigProvider.setSelectedLanguage('en');
       expect(result, true);
       expect(appConfigProvider.selectedLanguage, 'en');
+      expect(appConfigProvider.selectedLanguageNumber, 0);
     });
 
     test(
