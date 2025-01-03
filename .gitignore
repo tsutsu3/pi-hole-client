@@ -54,3 +54,4 @@ untranslated.txt
 
 coverage/
 metrics/
+.sentry-native/

@@ -163,7 +163,7 @@ class _ClientsFiltersModalState extends State<ClientsFiltersModal> {
                           Theme.of(context)
                               .colorScheme
                               .primary
-                              .withOpacity(0.1),
+                              .withValues(alpha: 0.1),
                         ),
                       ),
                       child: Text(AppLocalizations.of(context)!.apply),

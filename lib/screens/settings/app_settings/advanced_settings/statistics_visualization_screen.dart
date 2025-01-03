@@ -30,7 +30,10 @@ class StatisticsVisualizationScreen extends StatelessWidget {
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(28),
                 color: value == appConfigProvider.statisticsVisualizationMode
-                    ? Theme.of(context).colorScheme.primary.withOpacity(0.1)
+                    ? Theme.of(context)
+                        .colorScheme
+                        .primary
+                        .withValues(alpha: 0.1)
                     : Theme.of(context).dialogBackgroundColor,
                 border: Border.all(
                   color: value == appConfigProvider.statisticsVisualizationMode

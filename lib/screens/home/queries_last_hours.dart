@@ -94,8 +94,10 @@ class QueriesLastHours extends StatelessWidget {
           dotData: const FlDotData(
             show: false,
           ),
-          belowBarData:
-              BarAreaData(show: true, color: Colors.blue.withOpacity(0.2)),
+          belowBarData: BarAreaData(
+            show: true,
+            color: Colors.blue.withValues(alpha: 0.2),
+          ),
         ),
         LineChartBarData(
           spots: data['data']['domains'],
@@ -107,8 +109,10 @@ class QueriesLastHours extends StatelessWidget {
           dotData: const FlDotData(
             show: false,
           ),
-          belowBarData:
-              BarAreaData(show: true, color: Colors.green.withOpacity(0.2)),
+          belowBarData: BarAreaData(
+            show: true,
+            color: Colors.green.withValues(alpha: 0.2),
+          ),
         ),
       ],
       lineTouchData: LineTouchData(

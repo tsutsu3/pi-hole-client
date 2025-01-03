@@ -96,7 +96,7 @@ class _AppLogDetailsModalState extends State<AppLogDetailsModal> {
                           : Theme.of(context)
                               .colorScheme
                               .primary
-                              .withOpacity(0.05),
+                              .withValues(alpha: 0.05),
                     ),
                     child: Text(
                       'Message',
@@ -132,7 +132,7 @@ class _AppLogDetailsModalState extends State<AppLogDetailsModal> {
                           : Theme.of(context)
                               .colorScheme
                               .primary
-                              .withOpacity(0.05),
+                              .withValues(alpha: 0.05),
                     ),
                     child: Text(
                       'Status code',
@@ -176,7 +176,7 @@ class _AppLogDetailsModalState extends State<AppLogDetailsModal> {
                           : Theme.of(context)
                               .colorScheme
                               .primary
-                              .withOpacity(0.05),
+                              .withValues(alpha: 0.05),
                     ),
                     child: Text(
                       'Body',
