@@ -4,17 +4,20 @@ import 'package:mockito/annotations.dart';
 import 'package:pi_hole_client/constants/enums.dart';
 import 'package:pi_hole_client/gateways/v6/api_gateway_v6.dart';
 import 'package:pi_hole_client/models/domain.dart';
+import 'package:pi_hole_client/models/gateways.dart';
 import 'package:pi_hole_client/models/server.dart';
 import 'package:pi_hole_client/providers/domains_list_provider.dart';
 import 'package:pi_hole_client/providers/servers_provider.dart';
 import './domains_list_provider_test.mocks.dart';
 
-@GenerateMocks([ServersProvider])
+@GenerateMocks([ServersProvider, ApiGatewayV6])
 void main() {
   group('DomainsListProvider', () {
     late bool listenerCalled;
     late DomainsListProvider provider;
     late MockServersProvider mockServersProvider;
+    late MockApiGatewayV6 mockApiGatewayV6;
+
     final server = Server(
       address: 'http://localhost:8081',
       alias: 'test v6',
@@ -36,8 +39,19 @@ void main() {
 
     setUp(() {
       mockServersProvider = MockServersProvider();
-      when(mockServersProvider.selectedApiGateway)
-          .thenReturn(ApiGatewayV6(server));
+      mockApiGatewayV6 = MockApiGatewayV6();
+      when(mockServersProvider.selectedApiGateway).thenReturn(mockApiGatewayV6);
+      when(mockApiGatewayV6.getDomainLists()).thenAnswer(
+        (_) async => GetDomainLists(
+          result: APiResponseType.success,
+          data: DomainListResult(
+            whitelist: domains,
+            whitelistRegex: [],
+            blacklist: domains,
+            blacklistRegex: [],
+          ),
+        ),
+      );
       provider = DomainsListProvider(serversProvider: mockServersProvider);
       listenerCalled = false;
       provider.addListener(() {
@@ -116,6 +130,7 @@ void main() {
 
     test('removeDomainFromList removes domain from the list', () {
       provider.setWhitelistDomains(domains);
+
       provider.removeDomainFromList(domains[0]);
       expect(provider.whitelistDomains, []);
       expect(listenerCalled, true);
