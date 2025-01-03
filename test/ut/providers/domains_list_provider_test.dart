@@ -3,6 +3,7 @@ import 'package:mockito/mockito.dart';
 import 'package:mockito/annotations.dart';
 import 'package:pi_hole_client/constants/enums.dart';
 import 'package:pi_hole_client/gateways/v6/api_gateway_v6.dart';
+import 'package:pi_hole_client/models/domain.dart';
 import 'package:pi_hole_client/models/server.dart';
 import 'package:pi_hole_client/providers/domains_list_provider.dart';
 import 'package:pi_hole_client/providers/servers_provider.dart';
@@ -11,6 +12,7 @@ import './domains_list_provider_test.mocks.dart';
 @GenerateMocks([ServersProvider])
 void main() {
   group('DomainsListProvider', () {
+    late bool listenerCalled;
     late DomainsListProvider provider;
     late MockServersProvider mockServersProvider;
     final server = Server(
@@ -19,12 +21,28 @@ void main() {
       defaultServer: false,
       apiVersion: 'v6',
     );
+    final domains = [
+      Domain(
+        id: 1,
+        type: 0,
+        domain: 'example.com',
+        enabled: 1,
+        dateAdded: DateTime.now(),
+        dateModified: DateTime.now(),
+        comment: null,
+        groups: [0],
+      ),
+    ];
 
     setUp(() {
       mockServersProvider = MockServersProvider();
       when(mockServersProvider.selectedApiGateway)
           .thenReturn(ApiGatewayV6(server));
       provider = DomainsListProvider(serversProvider: mockServersProvider);
+      listenerCalled = false;
+      provider.addListener(() {
+        listenerCalled = true;
+      });
     });
 
     test('initial values are correct', () {
@@ -36,57 +54,71 @@ void main() {
       expect(provider.selectedTab, null);
       expect(provider.searchTerm, '');
       expect(provider.searchMode, false);
+      expect(listenerCalled, false);
+    });
+
+    test('update updates serversProvider', () {
+      final newProvider = MockServersProvider();
+      provider.update(newProvider);
+      expect(provider.serversProvider, newProvider);
+      expect(listenerCalled, false);
     });
 
     test('setLoadingStatus updates loading status', () {
       provider.setLoadingStatus(LoadStatus.loaded);
       expect(provider.loadingStatus, LoadStatus.loaded);
+      expect(listenerCalled, false);
     });
 
-    // test('setWhitelistDomains updates whitelist domains', () {
-    //   final domains = [Domain(id: 1, domain: 'example.com', type: 0)];
-    //   provider.setWhitelistDomains(domains);
-    //   expect(provider.whitelistDomains, domains);
-    // });
+    test('setWhitelistDomains updates whitelist domains', () {
+      provider.setWhitelistDomains(domains);
+      expect(provider.whitelistDomains, domains);
+      expect(listenerCalled, true);
+    });
 
-    // test('setBlacklistDomains updates blacklist domains', () {
-    //   final domains = [Domain(id: 1, domain: 'example.com', type: 1)];
-    //   provider.setBlacklistDomains(domains);
-    //   expect(provider.blacklistDomains, domains);
-    // });
+    test('setBlacklistDomains updates blacklist domains', () {
+      provider.setBlacklistDomains(domains);
+      expect(provider.blacklistDomains, domains);
+      expect(listenerCalled, true);
+    });
 
     test('setSelectedTab updates selected tab', () {
       provider.setSelectedTab(1);
       expect(provider.selectedTab, 1);
+      expect(listenerCalled, false);
     });
 
     test('setSearchMode updates search mode', () {
       provider.setSearchMode(true);
       expect(provider.searchMode, true);
+      expect(listenerCalled, true);
     });
 
-    // test('onSearch filters domains based on search term', () {
-    //   final whitelistDomains = [
-    //     Domain(id: 1, domain: 'example.com', type: 0),
-    //     Domain(id: 2, domain: 'test.com', type: 0),
-    //   ];
-    //   final blacklistDomains = [
-    //     Domain(id: 3, domain: 'example.org', type: 1),
-    //     Domain(id: 4, domain: 'test.org', type: 1),
-    //   ];
-    //   provider.setWhitelistDomains(whitelistDomains);
-    //   provider.setBlacklistDomains(blacklistDomains);
+    test('onSearch filters domains based on search term', () {
+      provider.setWhitelistDomains(domains);
+      provider.setBlacklistDomains(domains);
 
-    //   provider.onSearch('example');
-    //   expect(provider.filteredWhitelistDomains.length, 1);
-    //   expect(provider.filteredBlacklistDomains.length, 1);
-    // });
+      provider.onSearch('example');
+      expect(provider.filteredWhitelistDomains.length, 1);
+      expect(provider.filteredBlacklistDomains.length, 1);
+      expect(listenerCalled, true);
+    });
 
-    // test('removeDomainFromList removes domain from the list', () {
-    //   final domain = Domain(id: 1, domain: 'example.com', type: 0);
-    //   provider.setWhitelistDomains([domain]);
-    //   provider.removeDomainFromList(domain);
-    //   expect(provider.whitelistDomains, []);
-    // });
+    test('fetchDomainsList fetches domains list', () async {
+      provider.setWhitelistDomains(domains);
+      provider.setBlacklistDomains(domains);
+
+      await provider.fetchDomainsList(server);
+      expect(provider.whitelistDomains, domains);
+      expect(provider.blacklistDomains, domains);
+      expect(listenerCalled, true);
+    });
+
+    test('removeDomainFromList removes domain from the list', () {
+      provider.setWhitelistDomains(domains);
+      provider.removeDomainFromList(domains[0]);
+      expect(provider.whitelistDomains, []);
+      expect(listenerCalled, true);
+    });
   });
 }
