@@ -10,7 +10,7 @@ class ResetModal extends StatefulWidget {
     this.timeRemaining = 5,
   });
 
-  final void Function() onConfirm;
+  final Future<void> Function() onConfirm;
   final int timeRemaining;
 
   @override
@@ -75,7 +75,14 @@ class _ResetModalState extends State<ResetModal> {
         ),
         width > 380
             ? TextButton(
-                onPressed: _timeRemaining == 0 ? widget.onConfirm : null,
+                onPressed: _timeRemaining == 0
+                    ? () async {
+                        await widget.onConfirm.call();
+                        if (context.mounted) {
+                          Navigator.pop(context);
+                        }
+                      }
+                    : null,
                 style: ButtonStyle(
                   foregroundColor: _timeRemaining == 0
                       ? WidgetStateProperty.all(Colors.red)

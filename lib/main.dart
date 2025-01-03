@@ -179,9 +179,9 @@ void main() async {
                   servers!..update(appConfig),
             ),
           ],
-          child: Phoenix(
-            child: const SentryWidget(
-              child: PiHoleClient(),
+          child: SentryWidget(
+            child: Phoenix(
+              child: const PiHoleClient(),
             ),
           ),
         ),

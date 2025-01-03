@@ -98,7 +98,7 @@ class AdvancedOptions extends StatelessWidget {
       }
     }
 
-    void deleteApplicationData() async {
+    Future<void> deleteApplicationData() async {
       void reset() async {
         final ProcessModal process = ProcessModal(context: context);
         process.open(AppLocalizations.of(context)!.deleting);

@@ -554,6 +554,9 @@ class DatabaseRepository {
             'reducedDataCharts': 0,
             'logsPerQuery': 2,
             'useBiometricAuth': 0,
+            'importantInfoReaden': 0,
+            'hideZeroValues': 0,
+            'statisticsVisualizationMode': 0,
             'sendCrashReports': 0,
           },
         );

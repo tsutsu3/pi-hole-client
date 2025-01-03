@@ -29,8 +29,8 @@ class AppConfigProvider with ChangeNotifier {
   int _statisticsVisualizationMode = 0;
   int _sendCrashReports = 0;
   int? _selectedSettingsScreen;
-  String _selectedLanguage =
-      SchedulerBinding.instance.platformDispatcher.locale.languageCode;
+  String _selectedLanguage = 'en';
+  // SchedulerBinding.instance.platformDispatcher.locale.languageCode;
 
   final List<AppLog> _logs = [];
   final DatabaseRepository _repository;
@@ -435,8 +435,7 @@ class AppConfigProvider with ChangeNotifier {
     if (result == true) {
       _autoRefreshTime = 5;
       _selectedTheme = 0;
-      _selectedLanguage =
-          SchedulerBinding.instance.platformDispatcher.locale.languageCode;
+      _selectedLanguage = 'en';
       _overrideSslCheck = 0;
       _oneColumnLegend = 0;
       _reducedDataCharts = 0;
