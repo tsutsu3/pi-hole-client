@@ -24,16 +24,20 @@ import 'package:pi_hole_client/models/server.dart';
 import 'package:pi_hole_client/gateways/api_gateway_interface.dart';
 
 class ApiGatewayV6 implements ApiGateway {
-  final Server server;
-  final http.Client client;
+  final Server _server;
+  final http.Client _client;
+
+  @override
+  Server get server => _server;
 
   /// Creates a new instance of the `ApiGatewayV5` class.
   ///
   /// Parameters:
   /// - `server` (`Server`): The server object containing the Pi-hole address, token, and optional basic authentication credentials.
   /// - `client` (`http.Client`): An optional HTTP client to use for requests. If not provided, a new client will be created. Add for testing purposes.
-  ApiGatewayV6(this.server, {http.Client? client})
-      : client = client ?? http.Client();
+  ApiGatewayV6(Server server, {http.Client? client})
+      : _server = server,
+        _client = client ?? http.Client();
 
   /// Sends an HTTP request using the specified method and parameters.
   ///
@@ -63,13 +67,13 @@ class ApiGatewayV6 implements ApiGateway {
     int timeout = 10,
     int maxRetries = 1,
   }) async {
-    if (server.sm.sid == null) {
-      await server.sm.load();
+    if (_server.sm.sid == null) {
+      await _server.sm.load();
     }
     final Map<String, String> authHeaders = headers != null ? {...headers} : {};
     authHeaders['Content-Type'] = 'application/json';
-    if (server.sm.sid != null && server.sm.sid!.isNotEmpty) {
-      authHeaders['X-FTL-SID'] = server.sm.sid!;
+    if (_server.sm.sid != null && _server.sm.sid!.isNotEmpty) {
+      authHeaders['X-FTL-SID'] = _server.sm.sid!;
     }
 
     for (int attempt = 0; attempt <= maxRetries; attempt++) {
@@ -105,7 +109,7 @@ class ApiGatewayV6 implements ApiGateway {
       // Otherwise, re-login to get the session ID
       final enableOrDisable = await httpClient(
         method: 'get',
-        url: '${server.address}/api/dns/blocking',
+        url: '${_server.address}/api/dns/blocking',
         maxRetries: 0,
       );
       if (enableOrDisable.statusCode == 200) {
@@ -115,11 +119,11 @@ class ApiGatewayV6 implements ApiGateway {
         return LoginQueryResponse(
           result: APiResponseType.success,
           status: enableOrDisableParsed.blocking,
-          sid: server.sm.sid,
+          sid: _server.sm.sid,
         );
       }
 
-      if (server.sm.sid == null || server.sm.sid!.isEmpty) {
+      if (_server.sm.sid == null || _server.sm.sid!.isEmpty) {
         logger.i('No session ID available, logging in');
       } else {
         logger.i('Session ID is expired or deleted, logging in');
@@ -128,19 +132,19 @@ class ApiGatewayV6 implements ApiGateway {
       // 2.login
       final status = await httpClient(
         method: 'post',
-        url: '${server.address}/api/auth',
-        body: {'password': await server.sm.password},
+        url: '${_server.address}/api/auth',
+        body: {'password': await _server.sm.password},
         maxRetries: 0,
       );
 
       if (status.statusCode == 200) {
         final statusParsed = Session.fromJson(jsonDecode(status.body));
-        await server.sm.save(statusParsed.session.sid);
+        await _server.sm.save(statusParsed.session.sid);
 
         // 3. Get DNS blocking status
         final enableOrDisable = await httpClient(
           method: 'get',
-          url: '${server.address}/api/dns/blocking',
+          url: '${_server.address}/api/dns/blocking',
         );
         if (enableOrDisable.statusCode == 200) {
           final enableOrDisableParsed =
@@ -245,35 +249,35 @@ class ApiGatewayV6 implements ApiGateway {
       final response = await Future.wait([
         httpClient(
           method: 'get',
-          url: '${server.address}/api/stats/summary',
+          url: '${_server.address}/api/stats/summary',
         ),
         httpClient(
           method: 'get',
-          url: '${server.address}/api/info/ftl',
+          url: '${_server.address}/api/info/ftl',
         ),
         httpClient(
           method: 'get',
-          url: '${server.address}/api/dns/blocking',
+          url: '${_server.address}/api/dns/blocking',
         ),
         httpClient(
           method: 'get',
-          url: '${server.address}/api/stats/top_domains',
+          url: '${_server.address}/api/stats/top_domains',
         ),
         httpClient(
           method: 'get',
-          url: '${server.address}/api/stats/top_domains?blocked=true',
+          url: '${_server.address}/api/stats/top_domains?blocked=true',
         ),
         httpClient(
           method: 'get',
-          url: '${server.address}/api/stats/top_clients',
+          url: '${_server.address}/api/stats/top_clients',
         ),
         httpClient(
           method: 'get',
-          url: '${server.address}/api/stats/top_clients?blocked=true',
+          url: '${_server.address}/api/stats/top_clients?blocked=true',
         ),
         httpClient(
           method: 'get',
-          url: '${server.address}/api/stats/upstreams',
+          url: '${_server.address}/api/stats/upstreams',
         ),
       ]);
       if (response[0].statusCode == 200 &&
@@ -332,7 +336,7 @@ class ApiGatewayV6 implements ApiGateway {
     try {
       final response = await httpClient(
         method: 'post',
-        url: '${server.address}/api/dns/blocking',
+        url: '${_server.address}/api/dns/blocking',
         body: {'blocking': false, 'timer': time},
       );
       if (response.statusCode == 200) {
@@ -363,7 +367,7 @@ class ApiGatewayV6 implements ApiGateway {
     try {
       final response = await httpClient(
         method: 'post',
-        url: '${server.address}/api/dns/blocking',
+        url: '${_server.address}/api/dns/blocking',
         body: {'blocking': true, 'timer': null},
       );
       if (response.statusCode == 200) {
@@ -397,11 +401,11 @@ class ApiGatewayV6 implements ApiGateway {
       final response = await Future.wait([
         httpClient(
           method: 'get',
-          url: '${server.address}/api/history',
+          url: '${_server.address}/api/history',
         ),
         httpClient(
           method: 'get',
-          url: '${server.address}/api/history/clients',
+          url: '${_server.address}/api/history/clients',
         ),
       ]);
 
@@ -438,7 +442,7 @@ class ApiGatewayV6 implements ApiGateway {
       final response = await httpClient(
         method: 'get',
         url:
-            '${server.address}/api/queries?from=${from.millisecondsSinceEpoch ~/ 1000}&until=${until.millisecondsSinceEpoch ~/ 1000}',
+            '${_server.address}/api/queries?from=${from.millisecondsSinceEpoch ~/ 1000}&until=${until.millisecondsSinceEpoch ~/ 1000}',
         timeout: 20,
       );
       if (response.statusCode == 200) {
@@ -484,7 +488,7 @@ class ApiGatewayV6 implements ApiGateway {
       final response = await httpClient(
         method: 'post',
         url:
-            '${server.address}/api/domains/${types[list]?[0]}/${types[list]?[1]}',
+            '${_server.address}/api/domains/${types[list]?[0]}/${types[list]?[1]}',
         body: {
           'domain': domain,
           'comment': null,
@@ -521,7 +525,7 @@ class ApiGatewayV6 implements ApiGateway {
     try {
       final results = await httpClient(
         method: 'get',
-        url: '${server.address}/api/domains',
+        url: '${_server.address}/api/domains',
       );
 
       if (results.statusCode == 200) {
@@ -580,7 +584,7 @@ class ApiGatewayV6 implements ApiGateway {
       final response = await httpClient(
         method: 'delete',
         url:
-            '${server.address}/api/domains/${getType(domain.type)[0]}/${getType(domain.type)[1]}/${domain.domain}',
+            '${_server.address}/api/domains/${getType(domain.type)[0]}/${getType(domain.type)[1]}/${domain.domain}',
       );
       if (response.statusCode == 204) {
         return RemoveDomainFromListResponse(result: APiResponseType.success);
@@ -623,7 +627,7 @@ class ApiGatewayV6 implements ApiGateway {
       final response = await httpClient(
         method: 'post',
         url:
-            '${server.address}/api/domains/${types[domainData['list']]?[0]}/${types[domainData['list']]?[1]}',
+            '${_server.address}/api/domains/${types[domainData['list']]?[0]}/${types[domainData['list']]?[1]}',
         body: {
           'domain': domainData['domain'],
           'comment': null,
@@ -671,7 +675,7 @@ class ApiGatewayV6 implements ApiGateway {
   }) async {
     switch (method.toUpperCase()) {
       case 'POST':
-        return await client
+        return await _client
             .post(
               Uri.parse(url),
               headers: headers,
@@ -680,7 +684,7 @@ class ApiGatewayV6 implements ApiGateway {
             .timeout(Duration(seconds: timeout));
 
       case 'PUT':
-        return await client
+        return await _client
             .put(
               Uri.parse(url),
               headers: headers,
@@ -689,7 +693,7 @@ class ApiGatewayV6 implements ApiGateway {
             .timeout(Duration(seconds: timeout));
 
       case 'PATCH':
-        return await client
+        return await _client
             .patch(
               Uri.parse(url),
               headers: headers,
@@ -698,13 +702,13 @@ class ApiGatewayV6 implements ApiGateway {
             .timeout(Duration(seconds: timeout));
 
       case 'DELETE':
-        return await client
+        return await _client
             .delete(Uri.parse(url), headers: headers)
             .timeout(Duration(seconds: timeout));
 
       case 'GET':
       default:
-        return await client
+        return await _client
             .get(Uri.parse(url), headers: headers)
             .timeout(Duration(seconds: timeout));
     }

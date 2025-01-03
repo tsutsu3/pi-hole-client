@@ -1,14 +1,12 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
-import 'package:mockito/mockito.dart';
-import 'package:mockito/annotations.dart';
 import 'package:pi_hole_client/services/session_manager.dart';
 import 'package:sqflite_common_ffi/sqflite_ffi.dart';
 import 'package:pi_hole_client/models/server.dart';
 import 'package:pi_hole_client/repository/secure_storage.dart';
 import 'package:pi_hole_client/repository/database.dart';
-import 'database_test.mocks.dart';
+import '../helper.dart';
 
 /// Initialize sqflite for test.
 void sqfliteTestInit() {
@@ -16,10 +14,11 @@ void sqfliteTestInit() {
   databaseFactory = databaseFactoryFfi;
 }
 
-@GenerateMocks([SecureStorageRepository, FlutterSecureStorage])
 void main() async {
   // Initialize the sqflite for testing
   sqfliteTestInit();
+
+  FlutterSecureStorage.setMockInitialValues({});
 
   // For loading the .env file
   TestWidgetsFlutterBinding.ensureInitialized();
@@ -27,32 +26,21 @@ void main() async {
 
   final testDb = 'test.db';
 
-  group('DatabaseRepository.loadDb', () {
-    late MockSecureStorageRepository mockSecureStorage;
-    late DatabaseRepository databaseRepository;
+  group('DatabaseRepository.initialize', () {
+    late DbHelper dbHelper;
 
     setUp(() async {
-      mockSecureStorage = MockSecureStorageRepository();
-      databaseRepository = DatabaseRepository(mockSecureStorage);
-
-      when(mockSecureStorage.getValue(any)).thenAnswer((_) async => null);
-      when(mockSecureStorage.readAll()).thenAnswer(
-        (_) async => {},
-      );
-
-      // Use test sqflite database. Before each test, initialize the database
-      await databaseRepository.initialize(path: testDb);
-      await databaseRepository.deleteServersDataQuery();
-      await databaseRepository.restoreAppConfigQuery();
-      await databaseRepository.closeDb();
+      await deleteDatabase(testDb);
+      FlutterSecureStorage.setMockInitialValues({});
     });
 
     tearDown(() async {
-      await databaseRepository.closeDb();
+      await deleteDatabase(testDb);
     });
 
-    test('should initialize database with default values', () async {
-      databaseRepository = DatabaseRepository(mockSecureStorage);
+    test('should initialize database', () async {
+      final secureStorageRepository = SecureStorageRepository();
+      final databaseRepository = DatabaseRepository(secureStorageRepository);
       await databaseRepository.initialize(path: testDb);
 
       final servers = databaseRepository.servers;
@@ -69,47 +57,54 @@ void main() async {
       expect(appConfig.passCode, isNull);
       expect(appConfig.useBiometricAuth, 0);
       expect(appConfig.sendCrashReports, 0);
+      // TODO: check logger messages
+    });
+
+    test('should open database', () async {
+      dbHelper = DbHelper(testDb);
+      await dbHelper.loadDb();
+      await dbHelper.closeDb();
+
+      final secureStorageRepository = SecureStorageRepository();
+      final databaseRepository = DatabaseRepository(secureStorageRepository);
+      await databaseRepository.initialize(path: testDb);
+
+      final servers = databaseRepository.servers;
+      final appConfig = databaseRepository.appConfig;
+      expect(servers, []);
+      expect(appConfig, isNotNull);
+      expect(appConfig.autoRefreshTime, 5);
+      expect(appConfig.theme, 0);
+      expect(appConfig.language, 'en');
+      expect(appConfig.overrideSslCheck, 0);
+      expect(appConfig.oneColumnLegend, 0);
+      expect(appConfig.reducedDataCharts, 0);
+      expect(appConfig.logsPerQuery, 2);
+      expect(appConfig.passCode, isNull);
+      expect(appConfig.useBiometricAuth, 0);
+      expect(appConfig.sendCrashReports, 0);
+      // TODO: check logger messages
     });
 
     test('should return one registered server without passcode', () async {
-      //Mock the secure storage calls
-      when(mockSecureStorage.getValue('http://localhost:8080_token'))
-          .thenAnswer((_) async => '');
-      when(mockSecureStorage.getValue('http://localhost:8080_basicAuthUser'))
-          .thenAnswer((_) async => '');
-      when(
-        mockSecureStorage.getValue('http://localhost:8080_basicAuthPassword'),
-      ).thenAnswer((_) async => '');
-      when(mockSecureStorage.getValue('http://localhost:8080_sid')).thenAnswer(
-        (_) async => '',
-      );
-      when(mockSecureStorage.readAll()).thenAnswer(
-        (_) async => {
-          'http://localhost:8080_token': '',
-          'http://localhost:8080_basicAuthUser': '',
-          'http://localhost:8080_basicAuthPassword': '',
-          'http://localhost:8080_sid': '',
-        },
-      );
-
-      // Add test server
+      final secureStorageRepository = SecureStorageRepository();
       final server = Server(
         address: 'http://localhost:8080',
         alias: 'test v6',
         defaultServer: false,
         apiVersion: 'v6',
         sm: SessionManager(
-          MockSecureStorageRepository(),
+          secureStorageRepository,
           'http://localhost:8080',
         ),
       );
-      final DatabaseRepository databaseRepositoryTmp =
-          DatabaseRepository(mockSecureStorage);
-      await databaseRepositoryTmp.initialize(path: testDb);
-      await databaseRepositoryTmp.saveServerQuery(server);
-      await databaseRepositoryTmp.closeDb();
 
-      databaseRepository = DatabaseRepository(mockSecureStorage);
+      dbHelper = DbHelper(testDb);
+      await dbHelper.loadDb();
+      await dbHelper.saveDb(server);
+      await dbHelper.closeDb();
+
+      final databaseRepository = DatabaseRepository(secureStorageRepository);
       await databaseRepository.initialize(path: testDb);
 
       // Assert the returned data
@@ -136,47 +131,25 @@ void main() async {
     });
 
     test('should return one registered server with passcode', () async {
-      //Mock the secure storage calls
-      when(mockSecureStorage.getValue('passCode'))
-          .thenAnswer((_) async => '9999');
-      when(mockSecureStorage.getValue('http://localhost:8080_token'))
-          .thenAnswer((_) async => '');
-      when(mockSecureStorage.getValue('http://localhost:8080_basicAuthUser'))
-          .thenAnswer((_) async => '');
-      when(
-        mockSecureStorage.getValue('http://localhost:8080_basicAuthPassword'),
-      ).thenAnswer((_) async => '');
-      when(mockSecureStorage.getValue('http://localhost:8080_sid')).thenAnswer(
-        (_) async => '',
-      );
-      when(mockSecureStorage.readAll()).thenAnswer(
-        (_) async => {
-          'passCode': '9999',
-          'http://localhost:8080_token': '',
-          'http://localhost:8080_basicAuthUser': '',
-          'http://localhost:8080_basicAuthPassword': '',
-          'http://localhost:8080_sid': '',
-        },
-      );
-
-      // Add test server
+      final secureStorageRepository = SecureStorageRepository();
       final server = Server(
         address: 'http://localhost:8080',
         alias: 'test v6',
         defaultServer: false,
         apiVersion: 'v6',
         sm: SessionManager(
-          MockSecureStorageRepository(),
+          secureStorageRepository,
           'http://localhost:8080',
         ),
       );
-      final DatabaseRepository databaseRepositoryTmp =
-          DatabaseRepository(mockSecureStorage);
-      await databaseRepositoryTmp.initialize(path: testDb);
-      await databaseRepositoryTmp.saveServerQuery(server);
-      await databaseRepositoryTmp.closeDb();
+      secureStorageRepository.saveValue('passCode', '9999');
 
-      databaseRepository = DatabaseRepository(mockSecureStorage);
+      dbHelper = DbHelper(testDb);
+      await dbHelper.loadDb();
+      await dbHelper.saveDb(server);
+      await dbHelper.closeDb();
+
+      final databaseRepository = DatabaseRepository(secureStorageRepository);
       await databaseRepository.initialize(path: testDb);
 
       // Assert the returned data
@@ -203,22 +176,544 @@ void main() async {
     });
   });
 
-  group('DatabaseRepository.updateConfigQuery', () {
-    late MockFlutterSecureStorage mockFlutterSecureStorage;
+  group('DatabaseRepository.saveServerQuery', () {
+    late DbHelper dbHelper;
     late SecureStorageRepository secureStorage;
     late DatabaseRepository databaseRepository;
 
     setUp(() async {
-      mockFlutterSecureStorage = MockFlutterSecureStorage();
-      secureStorage =
-          SecureStorageRepository(secureStorage: mockFlutterSecureStorage);
-      databaseRepository = DatabaseRepository(secureStorage);
+      FlutterSecureStorage.setMockInitialValues({});
+      await deleteDatabase(testDb);
 
-      when(mockFlutterSecureStorage.read(key: anyNamed('key')))
-          .thenAnswer((_) async => null);
-      when(mockFlutterSecureStorage.readAll()).thenAnswer(
-        (_) async => {},
+      secureStorage = SecureStorageRepository();
+      databaseRepository = DatabaseRepository(secureStorage);
+      await databaseRepository.initialize(path: testDb);
+    });
+
+    tearDown(() async {
+      await deleteDatabase(testDb);
+    });
+
+    test(
+      'should save server with token (v5)',
+      () async {
+        final server = Server(
+          address: 'http://localhost:8080',
+          alias: 'test v5',
+          token: 'token123',
+          defaultServer: false,
+          apiVersion: 'v5',
+        );
+
+        final result = await databaseRepository.saveServerQuery(server);
+
+        dbHelper = DbHelper(testDb);
+        await dbHelper.loadDb();
+        final actualD = await dbHelper.readDb();
+        await dbHelper.closeDb();
+        final actuslS = await secureStorage.readAll();
+
+        expect(result, true);
+        expect(actualD['servers'].length, 1);
+        expect(actualD['servers'][0]['address'], 'http://localhost:8080');
+        expect(actualD['servers'][0]['alias'], 'test v5');
+        expect(actualD['servers'][0]['apiVersion'], 'v5');
+        expect(actualD['servers'][0]['isDefaultServer'], 0);
+        expect(actuslS['http://localhost:8080_token'], 'token123');
+      },
+    );
+
+    test(
+      'should save server with basic auth (v5)',
+      () async {
+        final server = Server(
+          address: 'http://localhost:8080',
+          alias: 'test v5',
+          defaultServer: false,
+          apiVersion: 'v5',
+          basicAuthUser: 'user01',
+          basicAuthPassword: 'password01',
+        );
+
+        final result = await databaseRepository.saveServerQuery(server);
+
+        dbHelper = DbHelper(testDb);
+        await dbHelper.loadDb();
+        final actualD = await dbHelper.readDb();
+        await dbHelper.closeDb();
+        final actuslS = await secureStorage.readAll();
+
+        expect(result, true);
+        expect(actualD['servers'].length, 1);
+        expect(actualD['servers'][0]['address'], 'http://localhost:8080');
+        expect(actualD['servers'][0]['alias'], 'test v5');
+        expect(actualD['servers'][0]['apiVersion'], 'v5');
+        expect(actualD['servers'][0]['isDefaultServer'], 0);
+        expect(actuslS['http://localhost:8080_basicAuthUser'], 'user01');
+        expect(
+          actuslS['http://localhost:8080_basicAuthPassword'],
+          'password01',
+        );
+      },
+    );
+
+    test(
+      'should save server with password (v6)',
+      () async {
+        final server = Server(
+          address: 'http://localhost:8080',
+          alias: 'test v6',
+          defaultServer: false,
+          apiVersion: 'v6',
+        );
+        server.sm.savePassword('password01');
+
+        final result = await databaseRepository.saveServerQuery(server);
+
+        dbHelper = DbHelper(testDb);
+        await dbHelper.loadDb();
+        final actualD = await dbHelper.readDb();
+        await dbHelper.closeDb();
+        final actuslS = await secureStorage.readAll();
+
+        expect(result, true);
+        expect(actualD['servers'].length, 1);
+        expect(actualD['servers'][0]['address'], 'http://localhost:8080');
+        expect(actualD['servers'][0]['alias'], 'test v6');
+        expect(actualD['servers'][0]['apiVersion'], 'v6');
+        expect(actualD['servers'][0]['isDefaultServer'], 0);
+        expect(actuslS['http://localhost:8080_password'], 'password01');
+      },
+    );
+  });
+
+  group('DatabaseRepository.editServerQuery', () {
+    late DbHelper dbHelper;
+    late SecureStorageRepository secureStorage;
+    late DatabaseRepository databaseRepository;
+    late Server defaultServerV5;
+    late Server defaultServerV6;
+
+    setUp(() async {
+      FlutterSecureStorage.setMockInitialValues({});
+      await deleteDatabase(testDb);
+
+      secureStorage = SecureStorageRepository();
+      databaseRepository = DatabaseRepository(secureStorage);
+      await databaseRepository.initialize(path: testDb);
+
+      defaultServerV5 = Server(
+        address: 'http://localhost:8080',
+        alias: 'test v5',
+        defaultServer: false,
+        apiVersion: 'v5',
       );
+
+      defaultServerV6 = Server(
+        address: 'http://localhost:8081',
+        alias: 'test v6',
+        defaultServer: false,
+        apiVersion: 'v6',
+        sm: SessionManager(
+          secureStorage,
+          'http://localhost:8081',
+        ),
+      );
+    });
+
+    tearDown(() async {
+      await deleteDatabase(testDb);
+    });
+
+    test(
+      'should edit token (v5)',
+      () async {
+        final server = defaultServerV5.copyWith(token: 'token123');
+
+        dbHelper = DbHelper(testDb);
+        await dbHelper.loadDb();
+        await dbHelper.saveDb(defaultServerV5);
+
+        final result = await databaseRepository.editServerQuery(server);
+
+        final actualD = await dbHelper.readDb();
+        await dbHelper.closeDb();
+
+        final actuslS = await secureStorage.readAll();
+
+        expect(result, true);
+        expect(actualD['servers'].length, 1);
+        expect(actualD['servers'][0]['address'], 'http://localhost:8080');
+        expect(actualD['servers'][0]['alias'], 'test v5');
+        expect(actualD['servers'][0]['apiVersion'], 'v5');
+        expect(actualD['servers'][0]['isDefaultServer'], 0);
+        expect(actuslS['http://localhost:8080_token'], 'token123');
+      },
+    );
+
+    test(
+      'should edit basic auth (v5)',
+      () async {
+        final server = defaultServerV5.copyWith(
+          basicAuthUser: 'user01',
+          basicAuthPassword: 'password01',
+        );
+
+        dbHelper = DbHelper(testDb);
+        await dbHelper.loadDb();
+        await dbHelper.saveDb(defaultServerV5);
+
+        final result = await databaseRepository.editServerQuery(server);
+
+        final actualD = await dbHelper.readDb();
+        await dbHelper.closeDb();
+
+        final actuslS = await secureStorage.readAll();
+
+        expect(result, true);
+        expect(actualD['servers'].length, 1);
+        expect(actualD['servers'][0]['address'], 'http://localhost:8080');
+        expect(actualD['servers'][0]['alias'], 'test v5');
+        expect(actualD['servers'][0]['apiVersion'], 'v5');
+        expect(actualD['servers'][0]['isDefaultServer'], 0);
+        expect(actuslS['http://localhost:8080_basicAuthUser'], 'user01');
+        expect(
+          actuslS['http://localhost:8080_basicAuthPassword'],
+          'password01',
+        );
+      },
+    );
+
+    test(
+      'should save server with password (v6)',
+      () async {
+        final server = defaultServerV6.copyWith(
+          sm: SessionManager(
+            secureStorage,
+            'http://localhost:8081',
+          ),
+        );
+        server.sm.savePassword('password02');
+        server.sm.save('sid02');
+
+        dbHelper = DbHelper(testDb);
+        await dbHelper.loadDb();
+        await dbHelper.saveDb(defaultServerV6);
+
+        final result = await databaseRepository.editServerQuery(server);
+
+        final actualD = await dbHelper.readDb();
+        await dbHelper.closeDb();
+
+        final actuslS = await secureStorage.readAll();
+
+        expect(result, true);
+        expect(actualD['servers'].length, 1);
+        expect(actualD['servers'][0]['address'], 'http://localhost:8081');
+        expect(actualD['servers'][0]['alias'], 'test v6');
+        expect(actualD['servers'][0]['apiVersion'], 'v6');
+        expect(actualD['servers'][0]['isDefaultServer'], 0);
+        expect(actuslS['http://localhost:8081_password'], 'password02');
+        expect(actuslS['http://localhost:8081_sid'], 'sid02');
+      },
+    );
+  });
+
+  group('DatabaseRepository.setDefaultServerQuery', () {
+    late DbHelper dbHelper;
+    late SecureStorageRepository secureStorage;
+    late DatabaseRepository databaseRepository;
+    late Server defaultServerV5;
+    late Server defaultServerV6;
+
+    setUp(() async {
+      FlutterSecureStorage.setMockInitialValues({});
+      await deleteDatabase(testDb);
+
+      secureStorage = SecureStorageRepository();
+      databaseRepository = DatabaseRepository(secureStorage);
+      await databaseRepository.initialize(path: testDb);
+
+      defaultServerV5 = Server(
+        address: 'http://localhost:8080',
+        alias: 'test v5',
+        defaultServer: false,
+        apiVersion: 'v5',
+      );
+
+      defaultServerV6 = Server(
+        address: 'http://localhost:8081',
+        alias: 'test v6',
+        defaultServer: false,
+        apiVersion: 'v6',
+        sm: SessionManager(
+          secureStorage,
+          'http://localhost:8081',
+        ),
+      );
+    });
+
+    tearDown(() async {
+      await deleteDatabase(testDb);
+    });
+
+    test(
+      'should set default server',
+      () async {
+        dbHelper = DbHelper(testDb);
+        await dbHelper.loadDb();
+        await dbHelper.saveDb(defaultServerV5);
+        await dbHelper.saveDb(defaultServerV6);
+
+        final result = await databaseRepository
+            .setDefaultServerQuery('http://localhost:8081');
+
+        final actualD = await dbHelper.readDb();
+        await dbHelper.closeDb();
+
+        expect(result, true);
+        expect(actualD['servers'].length, 2);
+        expect(actualD['servers'][0]['address'], 'http://localhost:8080');
+        expect(actualD['servers'][0]['alias'], 'test v5');
+        expect(actualD['servers'][0]['apiVersion'], 'v5');
+        expect(actualD['servers'][0]['isDefaultServer'], 0);
+        expect(actualD['servers'][1]['address'], 'http://localhost:8081');
+        expect(actualD['servers'][1]['alias'], 'test v6');
+        expect(actualD['servers'][1]['apiVersion'], 'v6');
+        expect(actualD['servers'][1]['isDefaultServer'], 1);
+      },
+    );
+
+    test(
+      'should switch default server',
+      () async {
+        dbHelper = DbHelper(testDb);
+        await dbHelper.loadDb();
+        await dbHelper.saveDb(defaultServerV5);
+        await dbHelper.saveDb(defaultServerV6);
+
+        await databaseRepository.setDefaultServerQuery('http://localhost:8081');
+        final result = await databaseRepository
+            .setDefaultServerQuery('http://localhost:8080');
+
+        final actualD = await dbHelper.readDb();
+        await dbHelper.closeDb();
+
+        expect(result, true);
+        expect(actualD['servers'].length, 2);
+        expect(actualD['servers'][0]['address'], 'http://localhost:8080');
+        expect(actualD['servers'][0]['alias'], 'test v5');
+        expect(actualD['servers'][0]['apiVersion'], 'v5');
+        expect(actualD['servers'][0]['isDefaultServer'], 1);
+        expect(actualD['servers'][1]['address'], 'http://localhost:8081');
+        expect(actualD['servers'][1]['alias'], 'test v6');
+        expect(actualD['servers'][1]['apiVersion'], 'v6');
+        expect(actualD['servers'][1]['isDefaultServer'], 0);
+      },
+    );
+  });
+
+  group('DatabaseRepository.removeServerQuery', () {
+    late DbHelper dbHelper;
+    late SecureStorageRepository secureStorage;
+    late DatabaseRepository databaseRepository;
+    late Server defaultServerV6;
+
+    setUp(() async {
+      FlutterSecureStorage.setMockInitialValues({});
+      await deleteDatabase(testDb);
+
+      secureStorage = SecureStorageRepository();
+      databaseRepository = DatabaseRepository(secureStorage);
+      await databaseRepository.initialize(path: testDb);
+
+      defaultServerV6 = Server(
+        address: 'http://localhost:8081',
+        alias: 'test v6',
+        defaultServer: false,
+        apiVersion: 'v6',
+        sm: SessionManager(
+          secureStorage,
+          'http://localhost:8081',
+        ),
+      );
+      defaultServerV6.sm.savePassword('password02');
+      defaultServerV6.sm.save('sid02');
+    });
+
+    tearDown(() async {
+      await deleteDatabase(testDb);
+    });
+
+    test(
+      'should remove exist server data',
+      () async {
+        dbHelper = DbHelper(testDb);
+        await dbHelper.loadDb();
+        await dbHelper.saveDb(defaultServerV6);
+
+        final result =
+            await databaseRepository.removeServerQuery('http://localhost:8081');
+
+        final actualD = await dbHelper.readDb();
+        await dbHelper.closeDb();
+
+        final actualS = await secureStorage.readAll();
+
+        expect(result, true);
+        expect(actualD['servers'].length, 0);
+        expect(actualS['http://localhost:8081_password'], null);
+        expect(actualS['http://localhost:8081_sid'], null);
+      },
+    );
+
+    test(
+      'should remove not exist server data',
+      () async {
+        dbHelper = DbHelper(testDb);
+        await dbHelper.loadDb();
+
+        final result =
+            await databaseRepository.removeServerQuery('http://localhost:8081');
+
+        final actualD = await dbHelper.readDb();
+        await dbHelper.closeDb();
+
+        final actualS = await secureStorage.readAll();
+
+        expect(result, true);
+        expect(actualD['servers'].length, 0);
+        expect(actualS['http://localhost:8081_password'], null);
+        expect(actualS['http://localhost:8081_sid'], null);
+      },
+    );
+  });
+
+  group('DatabaseRepository.deleteServersDataQuery', () {
+    late DbHelper dbHelper;
+    late SecureStorageRepository secureStorage;
+    late DatabaseRepository databaseRepository;
+    late Server defaultServerV6;
+
+    setUp(() async {
+      FlutterSecureStorage.setMockInitialValues({});
+      await deleteDatabase(testDb);
+
+      secureStorage = SecureStorageRepository();
+      databaseRepository = DatabaseRepository(secureStorage);
+      await databaseRepository.initialize(path: testDb);
+
+      defaultServerV6 = Server(
+        address: 'http://localhost:8081',
+        alias: 'test v6',
+        defaultServer: false,
+        apiVersion: 'v6',
+        sm: SessionManager(
+          secureStorage,
+          'http://localhost:8081',
+        ),
+      );
+      defaultServerV6.sm.savePassword('password02');
+      defaultServerV6.sm.save('sid02');
+    });
+
+    tearDown(() async {
+      await deleteDatabase(testDb);
+    });
+
+    test(
+      'should delete all servers data',
+      () async {
+        dbHelper = DbHelper(testDb);
+        await dbHelper.loadDb();
+        await dbHelper.saveDb(defaultServerV6);
+
+        final result = await databaseRepository.deleteServersDataQuery();
+
+        final actualD = await dbHelper.readDb();
+        await dbHelper.closeDb();
+
+        final actualS = await secureStorage.readAll();
+
+        expect(result, true);
+        expect(actualD['servers'].length, 0);
+        expect(actualS['http://localhost:8081_password'], null);
+        expect(actualS['http://localhost:8081_sid'], null);
+      },
+    );
+  });
+
+  group('DatabaseRepository.checkUrlExistsQuery', () {
+    late DbHelper dbHelper;
+    late SecureStorageRepository secureStorage;
+    late DatabaseRepository databaseRepository;
+    late Server defaultServerV6;
+
+    setUp(() async {
+      FlutterSecureStorage.setMockInitialValues({});
+      await deleteDatabase(testDb);
+
+      secureStorage = SecureStorageRepository();
+      databaseRepository = DatabaseRepository(secureStorage);
+      await databaseRepository.initialize(path: testDb);
+
+      defaultServerV6 = Server(
+        address: 'http://localhost:8081',
+        alias: 'test v6',
+        defaultServer: false,
+        apiVersion: 'v6',
+        sm: SessionManager(
+          secureStorage,
+          'http://localhost:8081',
+        ),
+      );
+      defaultServerV6.sm.savePassword('password02');
+      defaultServerV6.sm.save('sid02');
+    });
+
+    tearDown(() async {
+      await deleteDatabase(testDb);
+    });
+
+    test(
+      'should check exist url',
+      () async {
+        dbHelper = DbHelper(testDb);
+        await dbHelper.loadDb();
+        await dbHelper.saveDb(defaultServerV6);
+
+        final result = await databaseRepository
+            .checkUrlExistsQuery('http://localhost:8081');
+
+        await dbHelper.closeDb();
+
+        expect(result, {'result': 'success', 'exists': true});
+      },
+    );
+
+    test(
+      'should check not exist url',
+      () async {
+        dbHelper = DbHelper(testDb);
+        await dbHelper.loadDb();
+
+        final result = await databaseRepository
+            .checkUrlExistsQuery('http://localhost:8081');
+
+        await dbHelper.closeDb();
+
+        expect(result, {'result': 'success', 'exists': false});
+      },
+    );
+  });
+
+  group('DatabaseRepository.updateConfigQuery', () {
+    late SecureStorageRepository secureStorage;
+    late DatabaseRepository databaseRepository;
+
+    setUp(() async {
+      secureStorage = SecureStorageRepository();
+      databaseRepository = DatabaseRepository(secureStorage);
 
       // Use test sqflite database. Before each test, initialize the database
       await databaseRepository.initialize(path: testDb);
@@ -233,24 +728,13 @@ void main() async {
       () async {
         const testColumn = 'passCode';
 
-        when(mockFlutterSecureStorage.delete(key: testColumn))
-            .thenAnswer((_) async {});
-
         final result = await databaseRepository.updateConfigQuery(
           column: testColumn,
           value: null,
         );
 
-        // Check call to delete
-        // Check not call to write
         expect(result, true);
-        verify(mockFlutterSecureStorage.delete(key: testColumn)).called(1);
-        verifyNever(
-          mockFlutterSecureStorage.write(
-            key: testColumn,
-            value: anyNamed('value'),
-          ),
-        );
+        expect(await secureStorage.getValue(testColumn), null);
       },
     );
 
@@ -260,48 +744,74 @@ void main() async {
         const testColumn = 'passCode';
         const testValue = '1234';
 
-        when(mockFlutterSecureStorage.write(key: testColumn, value: testValue))
-            .thenAnswer(
-          (_) async {},
+        final result = await databaseRepository.updateConfigQuery(
+          column: testColumn,
+          value: testValue,
         );
+
+        expect(result, true);
+        expect(await secureStorage.getValue(testColumn), testValue);
+      },
+    );
+
+    test(
+      'should update appConfig',
+      () async {
+        const testColumn = 'autoRefreshTime';
+        const testValue = 4;
 
         final result = await databaseRepository.updateConfigQuery(
           column: testColumn,
           value: testValue,
         );
 
-        // Check not call to delete
-        // Check call to write
+        DbHelper dbHelper = DbHelper(testDb);
+        await dbHelper.loadDb();
+        final actualD = await dbHelper.readDb();
+        dbHelper.closeDb();
+
         expect(result, true);
-        verifyNever(mockFlutterSecureStorage.delete(key: testColumn));
-        verify(
-          mockFlutterSecureStorage.write(
-            key: testColumn,
-            value: testValue,
-          ),
-        ).called(1);
+        expect(actualD['appConfig'][0][testColumn], testValue);
       },
     );
+  });
 
-    test('should return false if secure storage delete fails', () async {
-      const testColumn = 'passCode';
+  group('DatabaseRepository.restoreAppConfigQuery', () {
+    late SecureStorageRepository secureStorage;
+    late DatabaseRepository databaseRepository;
 
-      when(mockFlutterSecureStorage.delete(key: testColumn))
-          .thenThrow(Exception('Failed to delete'));
+    setUp(() async {
+      secureStorage = SecureStorageRepository();
+      databaseRepository = DatabaseRepository(secureStorage);
 
-      final result = await databaseRepository.updateConfigQuery(
-        column: testColumn,
-        value: null,
-      );
-
-      expect(result, false);
-      verify(mockFlutterSecureStorage.delete(key: testColumn)).called(1);
-      verifyNever(
-        mockFlutterSecureStorage.write(
-          key: testColumn,
-          value: anyNamed('value'),
-        ),
-      );
+      await databaseRepository.initialize(path: testDb);
     });
+
+    tearDown(() async {
+      await databaseRepository.closeDb();
+    });
+
+    test(
+      'should delete key from secure storage when null is passed (Clear)',
+      () async {
+        const testColumn = 'autoRefreshTime';
+
+        DbHelper dbHelper = DbHelper(testDb);
+        await dbHelper.loadDb();
+        await dbHelper.updateConfigQuery(column: testColumn, value: 10);
+        await secureStorage.saveValue('passCode', '1234');
+
+        final result = await databaseRepository.restoreAppConfigQuery();
+
+        final actualD = await dbHelper.readDb();
+        dbHelper.closeDb();
+
+        final actualS = await secureStorage.readAll();
+
+        expect(result, true);
+        expect(actualD['appConfig'][0][testColumn], 5);
+        expect(actualS['passCode'], null);
+      },
+    );
   });
 }

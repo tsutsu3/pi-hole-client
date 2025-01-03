@@ -48,8 +48,8 @@ class _FakeServer_0 extends _i1.SmartFake implements _i2.Server {
         );
 }
 
-class _FakeClient_1 extends _i1.SmartFake implements _i3.Client {
-  _FakeClient_1(
+class _FakeResponse_1 extends _i1.SmartFake implements _i3.Response {
+  _FakeResponse_1(
     Object parent,
     Invocation parentInvocation,
   ) : super(
@@ -58,19 +58,9 @@ class _FakeClient_1 extends _i1.SmartFake implements _i3.Client {
         );
 }
 
-class _FakeResponse_2 extends _i1.SmartFake implements _i3.Response {
-  _FakeResponse_2(
-    Object parent,
-    Invocation parentInvocation,
-  ) : super(
-          parent,
-          parentInvocation,
-        );
-}
-
-class _FakeLoginQueryResponse_3 extends _i1.SmartFake
+class _FakeLoginQueryResponse_2 extends _i1.SmartFake
     implements _i4.LoginQueryResponse {
-  _FakeLoginQueryResponse_3(
+  _FakeLoginQueryResponse_2(
     Object parent,
     Invocation parentInvocation,
   ) : super(
@@ -79,9 +69,9 @@ class _FakeLoginQueryResponse_3 extends _i1.SmartFake
         );
 }
 
-class _FakeRealtimeStatusResponse_4 extends _i1.SmartFake
+class _FakeRealtimeStatusResponse_3 extends _i1.SmartFake
     implements _i4.RealtimeStatusResponse {
-  _FakeRealtimeStatusResponse_4(
+  _FakeRealtimeStatusResponse_3(
     Object parent,
     Invocation parentInvocation,
   ) : super(
@@ -90,9 +80,9 @@ class _FakeRealtimeStatusResponse_4 extends _i1.SmartFake
         );
 }
 
-class _FakeDisableServerResponse_5 extends _i1.SmartFake
+class _FakeDisableServerResponse_4 extends _i1.SmartFake
     implements _i4.DisableServerResponse {
-  _FakeDisableServerResponse_5(
+  _FakeDisableServerResponse_4(
     Object parent,
     Invocation parentInvocation,
   ) : super(
@@ -101,9 +91,9 @@ class _FakeDisableServerResponse_5 extends _i1.SmartFake
         );
 }
 
-class _FakeEnableServerResponse_6 extends _i1.SmartFake
+class _FakeEnableServerResponse_5 extends _i1.SmartFake
     implements _i4.EnableServerResponse {
-  _FakeEnableServerResponse_6(
+  _FakeEnableServerResponse_5(
     Object parent,
     Invocation parentInvocation,
   ) : super(
@@ -112,9 +102,9 @@ class _FakeEnableServerResponse_6 extends _i1.SmartFake
         );
 }
 
-class _FakeFetchOverTimeDataResponse_7 extends _i1.SmartFake
+class _FakeFetchOverTimeDataResponse_6 extends _i1.SmartFake
     implements _i4.FetchOverTimeDataResponse {
-  _FakeFetchOverTimeDataResponse_7(
+  _FakeFetchOverTimeDataResponse_6(
     Object parent,
     Invocation parentInvocation,
   ) : super(
@@ -123,9 +113,9 @@ class _FakeFetchOverTimeDataResponse_7 extends _i1.SmartFake
         );
 }
 
-class _FakeFetchLogsResponse_8 extends _i1.SmartFake
+class _FakeFetchLogsResponse_7 extends _i1.SmartFake
     implements _i4.FetchLogsResponse {
-  _FakeFetchLogsResponse_8(
+  _FakeFetchLogsResponse_7(
     Object parent,
     Invocation parentInvocation,
   ) : super(
@@ -134,9 +124,9 @@ class _FakeFetchLogsResponse_8 extends _i1.SmartFake
         );
 }
 
-class _FakeSetWhiteBlacklistResponse_9 extends _i1.SmartFake
+class _FakeSetWhiteBlacklistResponse_8 extends _i1.SmartFake
     implements _i4.SetWhiteBlacklistResponse {
-  _FakeSetWhiteBlacklistResponse_9(
+  _FakeSetWhiteBlacklistResponse_8(
     Object parent,
     Invocation parentInvocation,
   ) : super(
@@ -145,9 +135,9 @@ class _FakeSetWhiteBlacklistResponse_9 extends _i1.SmartFake
         );
 }
 
-class _FakeGetDomainLists_10 extends _i1.SmartFake
+class _FakeGetDomainLists_9 extends _i1.SmartFake
     implements _i4.GetDomainLists {
-  _FakeGetDomainLists_10(
+  _FakeGetDomainLists_9(
     Object parent,
     Invocation parentInvocation,
   ) : super(
@@ -156,9 +146,9 @@ class _FakeGetDomainLists_10 extends _i1.SmartFake
         );
 }
 
-class _FakeRemoveDomainFromListResponse_11 extends _i1.SmartFake
+class _FakeRemoveDomainFromListResponse_10 extends _i1.SmartFake
     implements _i4.RemoveDomainFromListResponse {
-  _FakeRemoveDomainFromListResponse_11(
+  _FakeRemoveDomainFromListResponse_10(
     Object parent,
     Invocation parentInvocation,
   ) : super(
@@ -167,9 +157,9 @@ class _FakeRemoveDomainFromListResponse_11 extends _i1.SmartFake
         );
 }
 
-class _FakeAddDomainToListResponse_12 extends _i1.SmartFake
+class _FakeAddDomainToListResponse_11 extends _i1.SmartFake
     implements _i4.AddDomainToListResponse {
-  _FakeAddDomainToListResponse_12(
+  _FakeAddDomainToListResponse_11(
     Object parent,
     Invocation parentInvocation,
   ) : super(
@@ -987,15 +977,6 @@ class MockApiGatewayV6 extends _i1.Mock implements _i20.ApiGatewayV6 {
       ) as _i2.Server);
 
   @override
-  _i3.Client get client => (super.noSuchMethod(
-        Invocation.getter(#client),
-        returnValue: _FakeClient_1(
-          this,
-          Invocation.getter(#client),
-        ),
-      ) as _i3.Client);
-
-  @override
   _i11.Future<_i3.Response> httpClient({
     required String? method,
     required String? url,
@@ -1017,7 +998,7 @@ class MockApiGatewayV6 extends _i1.Mock implements _i20.ApiGatewayV6 {
             #maxRetries: maxRetries,
           },
         ),
-        returnValue: _i11.Future<_i3.Response>.value(_FakeResponse_2(
+        returnValue: _i11.Future<_i3.Response>.value(_FakeResponse_1(
           this,
           Invocation.method(
             #httpClient,
@@ -1041,7 +1022,7 @@ class MockApiGatewayV6 extends _i1.Mock implements _i20.ApiGatewayV6 {
           [],
         ),
         returnValue:
-            _i11.Future<_i4.LoginQueryResponse>.value(_FakeLoginQueryResponse_3(
+            _i11.Future<_i4.LoginQueryResponse>.value(_FakeLoginQueryResponse_2(
           this,
           Invocation.method(
             #loginQuery,
@@ -1058,7 +1039,7 @@ class MockApiGatewayV6 extends _i1.Mock implements _i20.ApiGatewayV6 {
           [],
         ),
         returnValue: _i11.Future<_i4.RealtimeStatusResponse>.value(
-            _FakeRealtimeStatusResponse_4(
+            _FakeRealtimeStatusResponse_3(
           this,
           Invocation.method(
             #realtimeStatus,
@@ -1075,7 +1056,7 @@ class MockApiGatewayV6 extends _i1.Mock implements _i20.ApiGatewayV6 {
           [time],
         ),
         returnValue: _i11.Future<_i4.DisableServerResponse>.value(
-            _FakeDisableServerResponse_5(
+            _FakeDisableServerResponse_4(
           this,
           Invocation.method(
             #disableServerRequest,
@@ -1092,7 +1073,7 @@ class MockApiGatewayV6 extends _i1.Mock implements _i20.ApiGatewayV6 {
           [],
         ),
         returnValue: _i11.Future<_i4.EnableServerResponse>.value(
-            _FakeEnableServerResponse_6(
+            _FakeEnableServerResponse_5(
           this,
           Invocation.method(
             #enableServerRequest,
@@ -1109,7 +1090,7 @@ class MockApiGatewayV6 extends _i1.Mock implements _i20.ApiGatewayV6 {
           [],
         ),
         returnValue: _i11.Future<_i4.FetchOverTimeDataResponse>.value(
-            _FakeFetchOverTimeDataResponse_7(
+            _FakeFetchOverTimeDataResponse_6(
           this,
           Invocation.method(
             #fetchOverTimeData,
@@ -1132,7 +1113,7 @@ class MockApiGatewayV6 extends _i1.Mock implements _i20.ApiGatewayV6 {
           ],
         ),
         returnValue:
-            _i11.Future<_i4.FetchLogsResponse>.value(_FakeFetchLogsResponse_8(
+            _i11.Future<_i4.FetchLogsResponse>.value(_FakeFetchLogsResponse_7(
           this,
           Invocation.method(
             #fetchLogs,
@@ -1158,7 +1139,7 @@ class MockApiGatewayV6 extends _i1.Mock implements _i20.ApiGatewayV6 {
           ],
         ),
         returnValue: _i11.Future<_i4.SetWhiteBlacklistResponse>.value(
-            _FakeSetWhiteBlacklistResponse_9(
+            _FakeSetWhiteBlacklistResponse_8(
           this,
           Invocation.method(
             #setWhiteBlacklist,
@@ -1177,7 +1158,7 @@ class MockApiGatewayV6 extends _i1.Mock implements _i20.ApiGatewayV6 {
           [],
         ),
         returnValue:
-            _i11.Future<_i4.GetDomainLists>.value(_FakeGetDomainLists_10(
+            _i11.Future<_i4.GetDomainLists>.value(_FakeGetDomainLists_9(
           this,
           Invocation.method(
             #getDomainLists,
@@ -1195,7 +1176,7 @@ class MockApiGatewayV6 extends _i1.Mock implements _i20.ApiGatewayV6 {
           [domain],
         ),
         returnValue: _i11.Future<_i4.RemoveDomainFromListResponse>.value(
-            _FakeRemoveDomainFromListResponse_11(
+            _FakeRemoveDomainFromListResponse_10(
           this,
           Invocation.method(
             #removeDomainFromList,
@@ -1213,7 +1194,7 @@ class MockApiGatewayV6 extends _i1.Mock implements _i20.ApiGatewayV6 {
           [domainData],
         ),
         returnValue: _i11.Future<_i4.AddDomainToListResponse>.value(
-            _FakeAddDomainToListResponse_12(
+            _FakeAddDomainToListResponse_11(
           this,
           Invocation.method(
             #addDomainToList,

@@ -1,8 +1,11 @@
 import 'dart:async';
 import 'package:pi_hole_client/models/domain.dart';
 import 'package:pi_hole_client/models/gateways.dart';
+import 'package:pi_hole_client/models/server.dart';
 
 abstract interface class ApiGateway {
+  Server get server;
+
   /// Handles the login process to a Pi-hole server using its API.
   ///
   /// ### Returns
