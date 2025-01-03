@@ -15,6 +15,7 @@ void main() {
   group('DomainsListProvider', () {
     late AppConfigProvider appConfigProvider;
     late MockDatabaseRepository mockDatabaseRepository;
+    late bool listenerCalled;
 
     setUp(() {
       mockDatabaseRepository = MockDatabaseRepository();
@@ -27,6 +28,11 @@ void main() {
       when(mockDatabaseRepository.restoreAppConfigQuery())
           .thenAnswer((_) async => true);
       appConfigProvider = AppConfigProvider(mockDatabaseRepository);
+
+      listenerCalled = false;
+      appConfigProvider.addListener(() {
+        listenerCalled = true;
+      });
     });
 
     test('Initial values are correct', () {
@@ -49,16 +55,19 @@ void main() {
       expect(appConfigProvider.sendCrashReports, false);
       expect(appConfigProvider.logs, []);
       expect(appConfigProvider.selectedSettingsScreen, null);
+      expect(listenerCalled, false);
     });
 
     test('setShowingSnackbar updates value and notifies listeners', () {
       appConfigProvider.setShowingSnackbar(true);
       expect(appConfigProvider.showingSnackbar, true);
+      expect(listenerCalled, true);
     });
 
     test('setSelectedTab updates value and notifies listeners', () {
       appConfigProvider.setSelectedTab(1);
       expect(appConfigProvider.selectedTab, 1);
+      expect(listenerCalled, true);
     });
 
     test('setAppInfo updates value and notifies listeners', () {
@@ -70,21 +79,25 @@ void main() {
       );
       appConfigProvider.setAppInfo(packageInfo);
       expect(appConfigProvider.getAppInfo, packageInfo);
+      expect(listenerCalled, true);
     });
 
     test('setBiometricsSupport updates value and notifies listeners', () {
       appConfigProvider.setBiometricsSupport(true);
       expect(appConfigProvider.biometricsSupport, true);
+      expect(listenerCalled, true);
     });
 
     test('setAppUnlocked updates value and notifies listeners', () {
       appConfigProvider.setAppUnlocked(false);
       expect(appConfigProvider.appUnlocked, false);
+      expect(listenerCalled, true);
     });
 
     test('setValidVibrator updates value and notifies listeners', () {
       appConfigProvider.setValidVibrator(true);
       expect(appConfigProvider.validVibrator, true);
+      expect(listenerCalled, true);
     });
 
     // test('addLog adds log and notifies listeners', () {
@@ -96,6 +109,7 @@ void main() {
     test('setSelectedSettingsScreen updates value and notifies listeners', () {
       appConfigProvider.setSelectedSettingsScreen(screen: 1, notify: true);
       expect(appConfigProvider.selectedSettingsScreen, 1);
+      expect(listenerCalled, true);
     });
 
     test('setUseBiometrics updates value and notifies listeners', () async {
@@ -108,6 +122,7 @@ void main() {
       final result = await appConfigProvider.setUseBiometrics(true);
       expect(result, true);
       expect(appConfigProvider.useBiometrics, true);
+      expect(listenerCalled, true);
     });
 
     test(
@@ -122,6 +137,7 @@ void main() {
         final result = await appConfigProvider.setImportantInfoReaden(true);
         expect(result, true);
         expect(appConfigProvider.importantInfoReaden, true);
+        expect(listenerCalled, true);
       },
     );
 
@@ -135,6 +151,7 @@ void main() {
       final result = await appConfigProvider.setPassCode('1234');
       expect(result, true);
       expect(appConfigProvider.passCode, '1234');
+      expect(listenerCalled, true);
     });
 
     test(
@@ -151,6 +168,7 @@ void main() {
         final result = await appConfigProvider.setPassCode('1234');
         expect(result, true);
         expect(appConfigProvider.passCode, '1234');
+        expect(listenerCalled, true);
       },
     );
 
@@ -164,6 +182,7 @@ void main() {
       final result = await appConfigProvider.setAutoRefreshTime(10);
       expect(result, true);
       expect(appConfigProvider.getAutoRefreshTime, 10);
+      expect(listenerCalled, true);
     });
 
     test('setLogsPerQuery updates value and notifies listeners', () async {
@@ -176,6 +195,7 @@ void main() {
       final result = await appConfigProvider.setLogsPerQuery(5.0);
       expect(result, true);
       expect(appConfigProvider.logsPerQuery, 5.0);
+      expect(listenerCalled, true);
     });
 
     test('setSendCrashReports updates value and notifies listeners', () async {
@@ -188,6 +208,7 @@ void main() {
       final result = await appConfigProvider.setSendCrashReports(true);
       expect(result, true);
       expect(appConfigProvider.sendCrashReports, true);
+      expect(listenerCalled, true);
     });
 
     test(
@@ -223,6 +244,7 @@ void main() {
         expect(appConfigProvider.hideZeroValues, true);
         expect(appConfigProvider.statisticsVisualizationMode, 1);
         expect(appConfigProvider.sendCrashReports, true);
+        expect(listenerCalled, true);
       },
     );
 
@@ -236,6 +258,7 @@ void main() {
       final result = await appConfigProvider.setOverrideSslCheck(true);
       expect(result, true);
       expect(appConfigProvider.overrideSslCheck, true);
+      expect(listenerCalled, true);
     });
 
     test('setOneColumnLegend updates value and notifies listeners', () async {
@@ -248,6 +271,7 @@ void main() {
       final result = await appConfigProvider.setOneColumnLegend(true);
       expect(result, true);
       expect(appConfigProvider.oneColumnLegend, true);
+      expect(listenerCalled, true);
     });
 
     test('setReducedDataCharts updates value and notifies listeners', () async {
@@ -260,6 +284,7 @@ void main() {
       final result = await appConfigProvider.setReducedDataCharts(true);
       expect(result, true);
       expect(appConfigProvider.reducedDataCharts, true);
+      expect(listenerCalled, true);
     });
 
     test('setHideZeroValues updates value and notifies listeners', () async {
@@ -272,6 +297,7 @@ void main() {
       final result = await appConfigProvider.setHideZeroValues(true);
       expect(result, true);
       expect(appConfigProvider.hideZeroValues, true);
+      expect(listenerCalled, true);
     });
 
     test('setSelectedTheme updates value and notifies listeners', () async {
@@ -280,6 +306,7 @@ void main() {
       final result = await appConfigProvider.setSelectedTheme(1);
       expect(result, true);
       expect(appConfigProvider.selectedThemeNumber, 1);
+      expect(listenerCalled, true);
     });
 
     test('setSelectedLanguage updates value and notifies listeners', () async {
@@ -293,6 +320,7 @@ void main() {
       expect(result, true);
       expect(appConfigProvider.selectedLanguage, 'en');
       expect(appConfigProvider.selectedLanguageNumber, 0);
+      expect(listenerCalled, true);
     });
 
     test(
@@ -308,6 +336,7 @@ void main() {
             await appConfigProvider.setStatisticsVisualizationMode(1);
         expect(result, true);
         expect(appConfigProvider.statisticsVisualizationMode, 1);
+        expect(listenerCalled, true);
       },
     );
 
@@ -334,6 +363,7 @@ void main() {
         expect(appConfigProvider.hideZeroValues, false);
         expect(appConfigProvider.statisticsVisualizationMode, 0);
         expect(appConfigProvider.sendCrashReports, false);
+        expect(listenerCalled, true);
       },
     );
   });
