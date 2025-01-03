@@ -7,9 +7,14 @@ import 'package:pi_hole_client/providers/status_provider.dart';
 void main() {
   group('StatusProvider Tests', () {
     late StatusProvider statusProvider;
+    late bool listenerCalled;
 
     setUp(() {
       statusProvider = StatusProvider();
+      listenerCalled = false;
+      statusProvider.addListener(() {
+        listenerCalled = true;
+      });
     });
 
     test('Initial values are correct', () {
@@ -24,22 +29,12 @@ void main() {
     });
 
     test('setIsServerConnected updates value and notifies listeners', () {
-      bool listenerCalled = false;
-      statusProvider.addListener(() {
-        listenerCalled = true;
-      });
-
       statusProvider.setIsServerConnected(true);
       expect(statusProvider.isServerConnected, true);
       expect(listenerCalled, true);
     });
 
     test('setStartAutoRefresh updates value without notifying listeners', () {
-      bool listenerCalled = false;
-      statusProvider.addListener(() {
-        listenerCalled = true;
-      });
-
       statusProvider.setStartAutoRefresh(true);
       expect(statusProvider.startAutoRefresh, true);
       expect(listenerCalled, false);
@@ -48,11 +43,6 @@ void main() {
     test(
       'setRefreshServerStatus updates value and notifies listeners if true',
       () {
-        bool listenerCalled = false;
-        statusProvider.addListener(() {
-          listenerCalled = true;
-        });
-
         statusProvider.setRefreshServerStatus(true);
         expect(statusProvider.getRefreshServerStatus, true);
         expect(listenerCalled, true);
@@ -60,22 +50,12 @@ void main() {
     );
 
     test('setStatusLoading updates value and notifies listeners', () {
-      bool listenerCalled = false;
-      statusProvider.addListener(() {
-        listenerCalled = true;
-      });
-
       statusProvider.setStatusLoading(LoadStatus.loaded);
       expect(statusProvider.getStatusLoading, LoadStatus.loaded);
       expect(listenerCalled, true);
     });
 
     test('setRealtimeStatus updates value and notifies listeners', () {
-      bool listenerCalled = false;
-      statusProvider.addListener(() {
-        listenerCalled = true;
-      });
-
       final data = {
         'domains_being_blocked': 121860,
         'dns_queries_today': 16,
@@ -160,11 +140,6 @@ void main() {
     test(
       'setOvertimeDataLoadingStatus updates value and notifies listeners',
       () {
-        bool listenerCalled = false;
-        statusProvider.addListener(() {
-          listenerCalled = true;
-        });
-
         statusProvider.setOvertimeDataLoadingStatus(1);
         expect(statusProvider.getOvertimeDataLoadStatus, 1);
         expect(listenerCalled, true);
@@ -172,11 +147,6 @@ void main() {
     );
 
     test('setOvertimeData updates value and notifies listeners', () {
-      bool listenerCalled = false;
-      statusProvider.addListener(() {
-        listenerCalled = true;
-      });
-
       final data = {
         'domains_over_time': {
           '1733391300': 0,
