@@ -116,5 +116,66 @@ void main() async {
         // expect(find.text('Getting Started'), findsOneWidget);
       },
     );
+
+    testWidgets(
+      'should open EnterPasscodeModal',
+      (WidgetTester tester) async {
+        tester.view.physicalSize = const Size(1000, 800);
+        tester.view.devicePixelRatio = 1.0;
+
+        when(mockConfigProvider.passCode).thenReturn('1111');
+
+        addTearDown(() {
+          tester.view.resetPhysicalSize();
+          tester.view.resetDevicePixelRatio();
+        });
+
+        await tester.pumpWidget(
+          MultiProvider(
+            providers: [
+              ChangeNotifierProvider<ServersProvider>(
+                create: (context) => mockServersProvider,
+              ),
+              ChangeNotifierProvider<AppConfigProvider>(
+                create: (context) => mockConfigProvider,
+              ),
+              ChangeNotifierProxyProvider<AppConfigProvider, ServersProvider>(
+                create: (context) => mockServersProvider,
+                update: (context, appConfig, servers) =>
+                    servers!..update(appConfig),
+              ),
+            ],
+            child: Phoenix(
+              child: MaterialApp(
+                home: const Scaffold(
+                  body: AdvancedOptions(),
+                ),
+                locale: const Locale('en'),
+                supportedLocales: const [
+                  Locale('en', ''),
+                  Locale('ja', ''),
+                ],
+                localizationsDelegates: [
+                  GlobalMaterialLocalizations.delegate,
+                  GlobalWidgetsLocalizations.delegate,
+                  GlobalCupertinoLocalizations.delegate,
+                  AppLocalizations.delegate,
+                ],
+                scaffoldMessengerKey: scaffoldMessengerKey,
+              ),
+            ),
+          ),
+        );
+
+        expect(find.byType(AdvancedOptions), findsOneWidget);
+
+        // Tap App unlock
+        await tester.tap(find.text('App unlock'));
+        await tester.pumpAndSettle();
+
+        // Show Enter passcode screen
+        expect(find.text('Enter passcode'), findsOneWidget);
+      },
+    );
   });
 }
