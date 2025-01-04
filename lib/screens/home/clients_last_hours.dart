@@ -213,7 +213,7 @@ class ClientsLastHours extends StatelessWidget {
             ),
             belowBarData: BarAreaData(
               show: true,
-              color: data['clients'][i]['color'].withValues(alpha: 0.2),
+              color: getColor(data['clients'][i], i).withValues(alpha: 0.2),
             ),
           ),
         );
