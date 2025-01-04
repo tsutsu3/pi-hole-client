@@ -121,6 +121,7 @@ class QueriesLastHours extends StatelessWidget {
           getTooltipColor: (touchedSpot) => selectedTheme == ThemeMode.light
               ? const Color.fromRGBO(220, 220, 220, 0.9)
               : const Color.fromRGBO(35, 35, 35, 0.9),
+          fitInsideHorizontally: true,
           getTooltipItems: (items) => [
             LineTooltipItem(
               formatTimestampForChart(data['time'][items[0].x.toInt()]),
