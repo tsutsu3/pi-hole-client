@@ -111,13 +111,13 @@ can [become a sponsor on GitHub](https://github.com/sponsors/tsutsu3), or
 ### Prepare the development environment
 
 1. Clone the repository
-2. Run ``flutter pub get``
-3. Clone the ``.env.sample`` file and name it ``.env``
-4. On the ``SENTRY_DSN`` variable assign it's value
-5. Inside the ``android`` folder, clone the ``key.properties.sample`` file and
-   name it ``key.properties``
+2. Run `flutter pub get`
+3. Clone the `.env.sample` file and name it `.env`
+4. On the `SENTRY_DSN` variable assign it's value
+5. Inside the `android` folder, clone the `key.properties.sample` file and
+   name it `key.properties`
 6. Open the file and fill the variables with the corresponding values
-7. Store your ``keystore.jks`` file inside ``android/app``
+7. Store your `keystore.jks` file inside `android/app`
 
 ### Compile the production build
 
@@ -125,40 +125,40 @@ can [become a sponsor on GitHub](https://github.com/sponsors/tsutsu3), or
 
 Run these commands as needed whenever you update the images.
 
-1. Run ``dart run flutter_launcher_icons`
-2. Run ``dart run flutter_native_splash:create``
+1. Run `dart run flutter_launcher_icons`
+2. Run `dart run flutter_native_splash:create`
 
 #### Android
 
-1. Run ``flutter clean``
-2. Run ``flutter pub get``
-3. Run ``flutter build apk --release`` to build the .apk file
-4. Run ``flutter build appbundle --release`` to build the .aab file
+1. Run `flutter clean`
+2. Run `flutter pub get`
+3. Run `flutter build apk --release` to build the .apk file
+4. Run `flutter build appbundle --release` to build the .aab file
 
 #### macOS
 
-1. Run ``flutter clean``
-2. Run ``flutter pub get``
-3. Run ``flutter build macos --release`` to build the .app file
+1. Run `flutter clean`
+2. Run `flutter pub get`
+3. Run `flutter build macos --release` to build the .app file
 
 #### Linux
 
-1. Run ``flutter clean``
-2. Run ``flutter pub get``
-3. Run ``flutter build linux --release`` to build the Linux executable
+1. Run `flutter clean`
+2. Run `flutter pub get`
+3. Run `flutter build linux --release` to build the Linux executable
 4. If you want to build also the .deb file do this:
-   1. Run ``dart pub global activate flutter_to_debian`` to install the utility
+   1. Run `dart pub global activate flutter_to_debian` to install the utility
       that will build the .deb file
-   2. Run ``flutter_to_debian``
+   2. Run `flutter_to_debian`
 
 #### Windows
 
-1. Run ``flutter clean``
-2. Run ``flutter pub get``
-3. Run ``flutter build windows --release`` to build the Windows executable
+1. Run `flutter clean`
+2. Run `flutter pub get`
+3. Run `flutter build windows --release` to build the Windows executable
 4. Install the [InnoSetup](https://jrsoftware.org/isdl.php) software you don't
    have it
-5. Run ``iscc /Q windows/innosetup_installer_builder.iss`` to generate the
+5. Run `iscc /Q windows/innosetup_installer_builder.iss` to generate the
    Windows installer
 
 ### Code Quality and Analysis
