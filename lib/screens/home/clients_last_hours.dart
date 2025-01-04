@@ -108,9 +108,9 @@ class ClientsLastHours extends StatelessWidget {
           getTooltipItems: (items) {
             List<LineTooltipItem> tooltipItems = [];
 
-            List<int> showIndexes = [];
+            List<LineBarSpot> showIndexes = [];
 
-            for (var i = 0; i < items.length - 1; i++) {
+            for (var item in items) {
               double fontSize = 14;
 
               // TODO: Fix this logic.
@@ -119,11 +119,11 @@ class ClientsLastHours extends StatelessWidget {
               // However, an empty tooltip item still occupies vertical space,
               // resulting in extra space at the bottom of the tooltip.
               if (hideZeroValues) {
-                fontSize = items[i].y.toInt() == 0 ? 0 : 14;
+                fontSize = item.y.toInt() == 0 ? 0 : 14;
               }
 
               if (fontSize != 0) {
-                showIndexes.add(i);
+                showIndexes.add(item);
               }
 
               // Show legend only for the first 10 items.
@@ -131,15 +131,15 @@ class ClientsLastHours extends StatelessWidget {
                 fontSize = 0;
               }
 
-              if (items[i].barIndex < data['data'].length - 1) {
+              if (item.barIndex < data['data'].length - 1) {
                 tooltipItems.add(
                   LineTooltipItem(
-                    _getLegendName(data, items[i]),
+                    _getLegendName(data, item),
                     textAlign: TextAlign.left,
                     TextStyle(
                       fontWeight: FontWeight.bold,
                       fontSize: fontSize,
-                      color: data['clientsColors'][items[i].barIndex]['color'],
+                      color: data['clientsColors'][item.barIndex]['color'],
                     ),
                   ),
                 );
@@ -229,22 +229,6 @@ class ClientsLastHours extends StatelessWidget {
       for (var i = 0; i < k.length; reducedData == true ? i += 6 : i++) {
         timestamps.add(k[i]);
       }
-
-      final List<FlSpot> flatLine = [];
-      int xPosition = 0;
-      for (var j = 0;
-          j < data['over_time'].entries.length;
-          reducedData == true ? j += 6 : j++) {
-        flatLine.add(FlSpot(xPosition.toDouble(), 0));
-        xPosition++;
-      }
-      items.add(
-        LineChartBarData(
-          spots: flatLine,
-          color: Colors.transparent,
-          barWidth: 0,
-        ),
-      );
 
       return {
         'data': items,
