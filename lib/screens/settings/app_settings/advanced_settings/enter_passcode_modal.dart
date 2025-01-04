@@ -52,8 +52,8 @@ class _EnterPasscodeModalState extends State<EnterPasscodeModal> {
     if (widget.window == true) {
       return Dialog(
         child: ConstrainedBox(
-          constraints: const BoxConstraints(maxWidth: 400),
-          child: Wrap(
+          constraints: const BoxConstraints(maxWidth: 600, maxHeight: 800),
+          child: Column(
             children: [
               Padding(
                 padding: const EdgeInsets.all(16),

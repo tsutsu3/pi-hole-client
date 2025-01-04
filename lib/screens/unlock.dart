@@ -81,6 +81,7 @@ class _UnlockState extends State<Unlock> {
   @override
   Widget build(BuildContext context) {
     final height = MediaQuery.of(context).size.height;
+    final width = MediaQuery.of(context).size.width;
 
     final appConfigProvider = Provider.of<AppConfigProvider>(context);
 
@@ -99,55 +100,76 @@ class _UnlockState extends State<Unlock> {
     return Scaffold(
       body: Stack(
         children: [
-          SizedBox(
-            height: height,
-            width: double.maxFinite,
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: [
-                const SizedBox(height: 16),
-                height - 180 >= 426
-                    ? Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          const Padding(
-                            padding: EdgeInsets.only(top: 30),
-                            child: Icon(
-                              Icons.lock_open_rounded,
-                              size: 30,
-                            ),
+          Center(
+            child: LayoutBuilder(
+              builder: (context, constraints) {
+                return ConstrainedBox(
+                  constraints: width <= 700
+                      ? const BoxConstraints.expand()
+                      : const BoxConstraints(
+                          maxWidth: 600,
+                          maxHeight: 800,
+                        ),
+                  child: Container(
+                    padding: const EdgeInsets.all(16),
+                    decoration: width <= 700
+                        ? null
+                        : BoxDecoration(
+                            borderRadius: BorderRadius.circular(16),
                           ),
-                          Padding(
-                            padding: const EdgeInsets.all(30),
-                            child: Text(
-                              AppLocalizations.of(context)!.enterCodeUnlock,
-                              textAlign: TextAlign.center,
-                              style: const TextStyle(fontSize: 22),
-                            ),
-                          ),
-                        ],
-                      )
-                    : Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          const Icon(
-                            Icons.lock_open_rounded,
-                            size: 30,
-                          ),
-                          const SizedBox(width: 30),
-                          Text(
-                            AppLocalizations.of(context)!.enterCodeUnlock,
-                            style: const TextStyle(fontSize: 22),
-                          ),
-                        ],
-                      ),
-                NumericPad(
-                  shakeKey: _shakeKey,
-                  code: _code,
-                  onInput: (newCode) =>
-                      _code.length < 4 ? updateCode(newCode) : {},
-                ),
-              ],
+                    child: Column(
+                      mainAxisSize: MainAxisSize.min,
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      children: [
+                        const SizedBox(height: 16),
+                        height - 180 >= 426
+                            ? Column(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  const Padding(
+                                    padding: EdgeInsets.only(top: 30),
+                                    child: Icon(
+                                      Icons.lock_open_rounded,
+                                      size: 30,
+                                    ),
+                                  ),
+                                  Padding(
+                                    padding: const EdgeInsets.all(30),
+                                    child: Text(
+                                      AppLocalizations.of(context)!
+                                          .enterCodeUnlock,
+                                      textAlign: TextAlign.center,
+                                      style: const TextStyle(fontSize: 22),
+                                    ),
+                                  ),
+                                ],
+                              )
+                            : Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  const Icon(
+                                    Icons.lock_open_rounded,
+                                    size: 30,
+                                  ),
+                                  const SizedBox(width: 30),
+                                  Text(
+                                    AppLocalizations.of(context)!
+                                        .enterCodeUnlock,
+                                    style: const TextStyle(fontSize: 22),
+                                  ),
+                                ],
+                              ),
+                        NumericPad(
+                          shakeKey: _shakeKey,
+                          code: _code,
+                          onInput: (newCode) =>
+                              _code.length < 4 ? updateCode(newCode) : {},
+                        ),
+                      ],
+                    ),
+                  ),
+                );
+              },
             ),
           ),
           AnimatedOpacity(
