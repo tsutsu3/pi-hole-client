@@ -49,7 +49,8 @@ class QueriesLastHours extends StatelessWidget {
         leftTitles: AxisTitles(
           sideTitles: SideTitles(
             showTitles: true,
-            interval: (data['topPoint'] / 5).toDouble(),
+            interval:
+                data['topPoint'] == 0 ? 1 : (data['topPoint'] / 5).toDouble(),
             reservedSize: 35,
             getTitlesWidget: (value, widget) => Text(
               value.toInt().toString(),
