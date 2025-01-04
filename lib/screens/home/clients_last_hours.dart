@@ -20,6 +20,21 @@ class ClientsLastHours extends StatelessWidget {
   final bool reducedData;
   final bool hideZeroValues;
 
+  /// Get the legend name for the tooltip.
+  ///
+  /// If the client has a name, it will be used, otherwise the IP address.
+  /// If the name is longer than 14 characters, it will be truncated.
+  String _getLegendName(Map<String, dynamic> data, LineBarSpot item) {
+    if (data['clientsColors'][item.barIndex]['name'] != '') {
+      if (data['clientsColors'][item.barIndex]['name'].length > 14) {
+        return '${data['clientsColors'][item.barIndex]['name'].substring(0, 14)}...: ${item.y.toInt().toString()}';
+      }
+      return '${data['clientsColors'][item.barIndex]['name']}: ${item.y.toInt().toString()}';
+    } else {
+      return '${data['clientsColors'][item.barIndex]['ip']}: ${item.y.toInt().toString()}';
+    }
+  }
+
   LineChartData mainData(Map<String, dynamic> data, ThemeMode selectedTheme) {
     final double interval = (data['topPoint'] / 5).toDouble() > 0
         ? (data['topPoint'] / 5).toDouble()
@@ -86,41 +101,48 @@ class ClientsLastHours extends StatelessWidget {
         enabled: true,
         touchTooltipData: LineTouchTooltipData(
           getTooltipColor: (touchedSpot) => selectedTheme == ThemeMode.light
-              ? const Color.fromRGBO(220, 220, 220, 1)
-              : const Color.fromRGBO(35, 35, 35, 1),
-          maxContentWidth: 150,
+              ? const Color.fromRGBO(220, 220, 220, 0.9)
+              : const Color.fromRGBO(35, 35, 35, 0.9),
+          maxContentWidth: 300,
+          fitInsideHorizontally: true,
           getTooltipItems: (items) {
             List<LineTooltipItem> tooltipItems = [];
 
-            for (var i = 0; i < items.length - 1; i++) {
-              if (hideZeroValues == true) {
-                if (items[i].y > 0 && items[i].barIndex < data.length - 1) {
-                  tooltipItems.add(
-                    LineTooltipItem(
-                      '${data['clientsColors'][items[i].barIndex]['ip']}: ${items[i].y.toInt().toString()}',
-                      TextStyle(
-                        fontWeight: FontWeight.bold,
-                        fontSize: 14,
-                        color: data['clientsColors'][items[i].barIndex]
-                            ['color'],
-                      ),
+            List<LineBarSpot> showIndexes = [];
+
+            for (var item in items) {
+              double fontSize = 14;
+
+              // TODO: Fix this logic.
+              // If "hide zero values" is enabled, setting font size to 0 will
+              // prevent rendering while keeping tooltip structure intact.
+              // However, an empty tooltip item still occupies vertical space,
+              // resulting in extra space at the bottom of the tooltip.
+              if (hideZeroValues) {
+                fontSize = item.y.toInt() == 0 ? 0 : 14;
+              }
+
+              if (fontSize != 0) {
+                showIndexes.add(item);
+              }
+
+              // Show legend only for the first 10 items.
+              if (showIndexes.length > 10) {
+                fontSize = 0;
+              }
+
+              if (item.barIndex < data['data'].length - 1) {
+                tooltipItems.add(
+                  LineTooltipItem(
+                    _getLegendName(data, item),
+                    textAlign: TextAlign.left,
+                    TextStyle(
+                      fontWeight: FontWeight.bold,
+                      fontSize: fontSize,
+                      color: data['clientsColors'][item.barIndex]['color'],
                     ),
-                  );
-                }
-              } else {
-                if (items[i].barIndex < data.length - 1) {
-                  tooltipItems.add(
-                    LineTooltipItem(
-                      '${data['clientsColors'][items[i].barIndex]['ip']}: ${items[i].y.toInt().toString()}',
-                      TextStyle(
-                        fontWeight: FontWeight.bold,
-                        fontSize: 14,
-                        color: data['clientsColors'][items[i].barIndex]
-                            ['color'],
-                      ),
-                    ),
-                  );
-                }
+                  ),
+                );
               }
             }
 
@@ -191,12 +213,13 @@ class ClientsLastHours extends StatelessWidget {
             ),
             belowBarData: BarAreaData(
               show: true,
-              color: data['clients'][i]['color'].withValues(alpha: 0.2),
+              color: getColor(data['clients'][i], i).withValues(alpha: 0.2),
             ),
           ),
         );
         clientsColors.add({
           'ip': data['clients'][i]['ip'],
+          'name': data['clients'][i]['name'],
           'color': getColor(data['clients'][i], i),
         });
       }

@@ -34,15 +34,9 @@ class HomeCharts extends StatelessWidget {
 
     final width = MediaQuery.of(context).size.width;
 
-    final List<String> clientsListIps = statusProvider.getRealtimeStatus != null
-        ? convertFromMapToList(statusProvider.getRealtimeStatus!.topSources)
-            .map((client) {
-            final split = client['label'].toString().split('|');
-            if (split.length > 1) {
-              return split[1];
-            } else {
-              return client['label'].toString();
-            }
+    final List<String> clientsListIps = statusProvider.getOvertimeData != null
+        ? statusProvider.getOvertimeData!.clients.map((client) {
+            return client.ip;
           }).toList()
         : [];
 

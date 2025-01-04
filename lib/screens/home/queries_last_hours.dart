@@ -49,7 +49,8 @@ class QueriesLastHours extends StatelessWidget {
         leftTitles: AxisTitles(
           sideTitles: SideTitles(
             showTitles: true,
-            interval: (data['topPoint'] / 5).toDouble(),
+            interval:
+                data['topPoint'] == 0 ? 1 : (data['topPoint'] / 5).toDouble(),
             reservedSize: 35,
             getTitlesWidget: (value, widget) => Text(
               value.toInt().toString(),
@@ -121,6 +122,7 @@ class QueriesLastHours extends StatelessWidget {
           getTooltipColor: (touchedSpot) => selectedTheme == ThemeMode.light
               ? const Color.fromRGBO(220, 220, 220, 0.9)
               : const Color.fromRGBO(35, 35, 35, 0.9),
+          fitInsideHorizontally: true,
           getTooltipItems: (items) => [
             LineTooltipItem(
               formatTimestampForChart(data['time'][items[0].x.toInt()]),
