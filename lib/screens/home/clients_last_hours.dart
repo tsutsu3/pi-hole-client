@@ -230,6 +230,22 @@ class ClientsLastHours extends StatelessWidget {
         timestamps.add(k[i]);
       }
 
+      final List<FlSpot> flatLine = [];
+      int xPosition = 0;
+      for (var j = 0;
+          j < data['over_time'].entries.length;
+          reducedData == true ? j += 6 : j++) {
+        flatLine.add(FlSpot(xPosition.toDouble(), 0));
+        xPosition++;
+      }
+      items.add(
+        LineChartBarData(
+          spots: flatLine,
+          color: Colors.transparent,
+          barWidth: 0,
+        ),
+      );
+
       return {
         'data': items,
         'clientsColors': clientsColors,
