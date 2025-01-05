@@ -173,5 +173,115 @@ void main() async {
         expect(find.byType(DomainLists), findsOneWidget);
       },
     );
+
+    testWidgets(
+      'should filter domains list by search term',
+      (WidgetTester tester) async {
+        tester.view.physicalSize = const Size(1000, 400);
+        tester.view.devicePixelRatio = 1.0;
+
+        when(mockApiGatewayV6.getDomainLists()).thenAnswer((_) async {
+          return GetDomainLists(
+            result: APiResponseType.success,
+            data: DomainListResult(
+              blacklist: [],
+              whitelist: [
+                Domain(
+                  id: 1,
+                  type: 1,
+                  domain: 'white01.example.com',
+                  enabled: 1,
+                  dateAdded: DateTime.now(),
+                  dateModified: DateTime.now(),
+                  comment: null,
+                  groups: [0],
+                ),
+                Domain(
+                  id: 2,
+                  type: 1,
+                  domain: 'white02.example.com',
+                  enabled: 1,
+                  dateAdded: DateTime.now(),
+                  dateModified: DateTime.now(),
+                  comment: null,
+                  groups: [0],
+                ),
+              ],
+              whitelistRegex: [],
+              blacklistRegex: [],
+            ),
+          );
+        });
+
+        addTearDown(() {
+          tester.view.resetPhysicalSize();
+          tester.view.resetDevicePixelRatio();
+        });
+
+        final domainsListProvider =
+            DomainsListProvider(serversProvider: mockServersProvider);
+
+        await tester.pumpWidget(
+          MultiProvider(
+            providers: [
+              ChangeNotifierProvider<ServersProvider>(
+                create: (context) => mockServersProvider,
+              ),
+              ChangeNotifierProxyProvider<ServersProvider, DomainsListProvider>(
+                create: (context) => domainsListProvider,
+                update: (context, serverConfig, servers) =>
+                    servers!..update(serverConfig),
+              ),
+              ChangeNotifierProvider<AppConfigProvider>(
+                create: (context) => mockConfigProvider,
+              ),
+              ChangeNotifierProxyProvider<AppConfigProvider, ServersProvider>(
+                create: (context) => mockServersProvider,
+                update: (context, appConfig, servers) =>
+                    servers!..update(appConfig),
+              ),
+            ],
+            child: MaterialApp(
+              home: const Scaffold(
+                body: DomainLists(),
+              ),
+              localizationsDelegates: [
+                GlobalMaterialLocalizations.delegate,
+                AppLocalizations.delegate,
+              ],
+              scaffoldMessengerKey: scaffoldMessengerKey,
+            ),
+          ),
+        );
+
+        // Show whiltelist domains screen
+        expect(find.byType(DomainLists), findsOneWidget);
+        await tester.pumpAndSettle();
+        expect(find.text('Domains'), findsOneWidget);
+        expect(find.byIcon(Icons.search), findsOneWidget);
+        expect(find.text('white01.example.com'), findsOneWidget);
+        expect(find.text('white02.example.com'), findsOneWidget);
+
+        // Tap search button and input search term
+        await tester.pumpAndSettle();
+        await tester.tap(find.byIcon(Icons.search));
+        await tester.pumpAndSettle();
+        await tester.enterText(find.byType(TextField), 'white01');
+        await tester.pumpAndSettle();
+
+        // Filtered domains list
+        expect(find.text('white01.example.com'), findsOneWidget);
+        expect(find.text('white02.example.com'), findsNothing);
+
+        // Tap close button
+        await tester.tap(find.byIcon(Icons.close_rounded));
+        await tester.pumpAndSettle();
+
+        // Reset search term
+        expect(find.text('Domains'), findsOneWidget);
+        expect(find.text('white01.example.com'), findsOneWidget);
+        expect(find.text('white02.example.com'), findsOneWidget);
+      },
+    );
   });
 }
