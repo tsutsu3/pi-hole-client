@@ -1,3 +1,4 @@
+import 'package:pi_hole_client/constants/responsive.dart';
 import 'package:pi_hole_client/models/log.dart';
 import 'package:flutter/material.dart';
 
@@ -19,7 +20,7 @@ class LogTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    if (MediaQuery.of(context).size.width > 1000) {
+    if (MediaQuery.of(context).size.width > ResponsiveConstants.large) {
       return Padding(
         padding: const EdgeInsets.symmetric(horizontal: 12),
         child: Material(

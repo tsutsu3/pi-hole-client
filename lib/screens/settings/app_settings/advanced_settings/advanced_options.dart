@@ -116,7 +116,7 @@ class AdvancedOptions extends StatelessWidget {
             fullscreenDialog: true,
             builder: (BuildContext context) => EnterPasscodeModal(
               onConfirm: () => reset(),
-              window: width > ResponsiveConstants.tabletBreakpoint,
+              window: width > ResponsiveConstants.medium,
             ),
           ),
         );
@@ -137,7 +137,7 @@ class AdvancedOptions extends StatelessWidget {
 
     void openAppUnlockModal() {
       void openModal() {
-        if (width > ResponsiveConstants.tabletBreakpoint) {
+        if (width > ResponsiveConstants.medium) {
           showDialog(
             context: context,
             builder: (context) => AppUnlockSetupModal(
@@ -161,7 +161,7 @@ class AdvancedOptions extends StatelessWidget {
       }
 
       if (appConfigProvider.passCode != null) {
-        if (width > ResponsiveConstants.tabletBreakpoint) {
+        if (width > ResponsiveConstants.medium) {
           showDialog(
             context: context,
             builder: (BuildContext context) => EnterPasscodeModal(

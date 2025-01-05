@@ -65,7 +65,7 @@ class _ServersTileItemState extends State<ServersTileItem>
       await Future.delayed(
         const Duration(seconds: 0),
         (() => {
-              if (width > ResponsiveConstants.tabletBreakpoint)
+              if (width > ResponsiveConstants.medium)
                 {
                   showDialog(
                     context: context,

@@ -61,7 +61,7 @@ class NumericPad extends StatelessWidget {
           aspectRatio: 1 / 1,
           child: Padding(
             padding: EdgeInsets.all(
-              width <= ResponsiveConstants.tabletBreakpoint
+              width <= ResponsiveConstants.medium
                   ? width > height
                       ? height * 0.05
                       : width * 0.05
@@ -83,8 +83,7 @@ class NumericPad extends StatelessWidget {
               child: Text(
                 number.toString(),
                 style: TextStyle(
-                  fontSize:
-                      height > ResponsiveConstants.tabletBreakpoint ? 40 : 25,
+                  fontSize: height > ResponsiveConstants.medium ? 40 : 25,
                 ),
               ),
             ),
@@ -100,7 +99,7 @@ class NumericPad extends StatelessWidget {
           aspectRatio: 1 / 1,
           child: Padding(
             padding: EdgeInsets.all(
-              width <= ResponsiveConstants.tabletBreakpoint
+              width <= ResponsiveConstants.medium
                   ? width > height
                       ? height * 0.05
                       : width * 0.05
@@ -119,7 +118,7 @@ class NumericPad extends StatelessWidget {
               ),
               child: Icon(
                 Icons.backspace,
-                size: height > ResponsiveConstants.tabletBreakpoint ? 40 : 25,
+                size: height > ResponsiveConstants.medium ? 40 : 25,
               ),
             ),
           ),
@@ -133,7 +132,7 @@ class NumericPad extends StatelessWidget {
         children: [
           Padding(
             padding: EdgeInsets.symmetric(
-              vertical: height > ResponsiveConstants.tabletBreakpoint
+              vertical: height > ResponsiveConstants.medium
                   ? height * 0.05
                   : height * 0.02,
             ),
@@ -156,7 +155,7 @@ class NumericPad extends StatelessWidget {
           ),
           Expanded(
             child: Container(
-              padding: height > ResponsiveConstants.tabletBreakpoint
+              padding: height > ResponsiveConstants.medium
                   ? const EdgeInsets.all(16)
                   : const EdgeInsets.symmetric(horizontal: 16),
               child: Column(

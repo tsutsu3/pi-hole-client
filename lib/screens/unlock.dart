@@ -105,7 +105,7 @@ class _UnlockState extends State<Unlock> {
             child: LayoutBuilder(
               builder: (context, constraints) {
                 return ConstrainedBox(
-                  constraints: width <= ResponsiveConstants.tabletBreakpoint
+                  constraints: width <= ResponsiveConstants.medium
                       ? const BoxConstraints.expand()
                       : const BoxConstraints(
                           maxWidth: 600,
@@ -113,7 +113,7 @@ class _UnlockState extends State<Unlock> {
                         ),
                   child: Container(
                     padding: const EdgeInsets.all(16),
-                    decoration: width <= ResponsiveConstants.tabletBreakpoint
+                    decoration: width <= ResponsiveConstants.medium
                         ? null
                         : BoxDecoration(
                             borderRadius: BorderRadius.circular(16),

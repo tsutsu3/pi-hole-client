@@ -88,7 +88,7 @@ class _ServersPageState extends State<ServersPage> {
       await Future.delayed(
         const Duration(seconds: 0),
         (() => {
-              if (width > 900)
+              if (width > ResponsiveConstants.medium)
                 {
                   showDialog(
                     context: context,
@@ -140,7 +140,7 @@ class _ServersPageState extends State<ServersPage> {
               controllers: expandableControllerList,
               onChange: expandOrContract,
               scrollController: scrollController,
-              breakingWidth: ResponsiveConstants.tabletBreakpoint,
+              breakingWidth: ResponsiveConstants.medium,
             ),
             AnimatedPositioned(
               duration: const Duration(milliseconds: 100),

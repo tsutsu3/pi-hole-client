@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:pi_hole_client/constants/responsive.dart';
 
 import 'package:pi_hole_client/screens/statistics/statistics_triple_column.dart';
 import 'package:pi_hole_client/screens/statistics/statistics_list.dart';
@@ -12,7 +13,7 @@ class Statistics extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    if (MediaQuery.of(context).size.width > 1200) {
+    if (MediaQuery.of(context).size.width > ResponsiveConstants.xxLarge) {
       return const StatisticsTripleColumn();
     } else {
       return DefaultTabController(

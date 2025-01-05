@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:pi_hole_client/constants/languages.dart';
+import 'package:pi_hole_client/constants/responsive.dart';
 import 'package:pi_hole_client/screens/settings/about/important_info_modal.dart';
 import 'package:pi_hole_client/screens/settings/about/privacy_modal.dart';
 import 'package:pi_hole_client/screens/settings/app_settings/language_screen.dart';
@@ -32,7 +33,7 @@ class Settings extends StatelessWidget {
   Widget build(BuildContext context) {
     final width = MediaQuery.of(context).size.width;
 
-    if (width > 900) {
+    if (width > ResponsiveConstants.large) {
       return SplitView.material(
         hideDivider: true,
         // flexWidth: const FlexWidth(mainViewFlexWidth: 1, secondaryViewFlexWidth: 2),
@@ -75,7 +76,8 @@ class _SettingsWidgetState extends State<SettingsWidget> {
 
     final width = MediaQuery.of(context).size.width;
 
-    if (width <= 900 && appConfigProvider.selectedSettingsScreen != null) {
+    if (width <= ResponsiveConstants.large &&
+        appConfigProvider.selectedSettingsScreen != null) {
       appConfigProvider.setSelectedSettingsScreen(screen: null);
     }
 
@@ -87,7 +89,7 @@ class _SettingsWidgetState extends State<SettingsWidget> {
       required Widget screenToNavigate,
       required int thisItem,
     }) {
-      if (width > 900) {
+      if (width > ResponsiveConstants.large) {
         return CustomListTile(
           label: title,
           description: subtitle,

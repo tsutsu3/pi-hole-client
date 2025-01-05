@@ -3,6 +3,7 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:pi_hole_client/constants/responsive.dart';
 import 'package:pi_hole_client/providers/servers_provider.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
@@ -44,7 +45,7 @@ class _LogsFiltersModalState extends State<LogsFiltersModal> {
     final width = MediaQuery.of(context).size.width;
 
     void openStatusModal() {
-      if (width > 900) {
+      if (width > ResponsiveConstants.medium) {
         showDialog(
           context: context,
           builder: (context) => StatusFiltersModal(
@@ -72,7 +73,7 @@ class _LogsFiltersModalState extends State<LogsFiltersModal> {
     }
 
     void openClientsModal() {
-      if (width > 900) {
+      if (width > ResponsiveConstants.medium) {
         showDialog(
           context: context,
           builder: (context) => ClientsFiltersModal(

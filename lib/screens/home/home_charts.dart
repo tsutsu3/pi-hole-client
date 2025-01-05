@@ -75,8 +75,7 @@ class HomeCharts extends StatelessWidget {
         return Wrap(
           children: [
             FractionallySizedBox(
-              widthFactor:
-                  width > ResponsiveConstants.tabletBreakpoint ? 0.5 : 1,
+              widthFactor: width > ResponsiveConstants.medium ? 0.5 : 1,
               child: checkExistsData(
                         statusProvider
                             .getOvertimeDataJson!['domains_over_time'],
@@ -139,8 +138,7 @@ class HomeCharts extends StatelessWidget {
                     ),
             ),
             FractionallySizedBox(
-              widthFactor:
-                  width > ResponsiveConstants.tabletBreakpoint ? 0.5 : 1,
+              widthFactor: width > ResponsiveConstants.medium ? 0.5 : 1,
               child: statusProvider
                               .getOvertimeDataJson!['over_time'].keys.length >
                           0 &&
@@ -181,14 +179,15 @@ class HomeCharts extends StatelessWidget {
                                 .entries
                                 .map(
                                   (entry) => FractionallySizedBox(
-                                    widthFactor: width > 1000 &&
-                                            statusProvider.getOvertimeData!
-                                                    .clients.length >
-                                                3
-                                        ? 0.33
-                                        : width > 350
-                                            ? 0.5
-                                            : 1,
+                                    widthFactor:
+                                        width > ResponsiveConstants.xLarge &&
+                                                statusProvider.getOvertimeData!
+                                                        .clients.length >
+                                                    3
+                                            ? 0.33
+                                            : width > 350
+                                                ? 0.5
+                                                : 1,
                                     child: Row(
                                       mainAxisSize: MainAxisSize.max,
                                       children: [

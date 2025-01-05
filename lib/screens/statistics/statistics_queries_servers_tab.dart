@@ -93,7 +93,7 @@ class QueriesServersTabContent extends StatelessWidget {
                       padding:
                           const EdgeInsets.only(top: 8, left: 16, bottom: 24),
                     ),
-                    if (width > ResponsiveConstants.tabletBreakpoint)
+                    if (width > ResponsiveConstants.medium)
                       Row(
                         children: [
                           Expanded(
@@ -119,7 +119,7 @@ class QueriesServersTabContent extends StatelessWidget {
                           ),
                         ],
                       ),
-                    if (width <= ResponsiveConstants.tabletBreakpoint) ...[
+                    if (width <= ResponsiveConstants.medium) ...[
                       SizedBox(
                         width: width - 40,
                         child: CustomPieChart(
@@ -148,7 +148,7 @@ class QueriesServersTabContent extends StatelessWidget {
                       padding:
                           const EdgeInsets.only(top: 16, left: 16, bottom: 24),
                     ),
-                    if (width > ResponsiveConstants.tabletBreakpoint)
+                    if (width > ResponsiveConstants.medium)
                       Row(
                         children: [
                           Expanded(
@@ -174,7 +174,7 @@ class QueriesServersTabContent extends StatelessWidget {
                           ),
                         ],
                       ),
-                    if (width <= ResponsiveConstants.tabletBreakpoint) ...[
+                    if (width <= ResponsiveConstants.medium) ...[
                       SizedBox(
                         width: width - 40,
                         child: CustomPieChart(
