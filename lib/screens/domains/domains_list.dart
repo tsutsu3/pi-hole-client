@@ -76,8 +76,8 @@ class _DomainsListState extends State<DomainsList> {
     final apiGateway = serversProvider.selectedApiGateway;
 
     final domainsList = widget.type == 'blacklist'
-        ? domainsListProvider.blacklistDomains
-        : domainsListProvider.whitelistDomains;
+        ? domainsListProvider.filteredBlacklistDomains
+        : domainsListProvider.filteredWhitelistDomains;
 
     void removeDomain(Domain domain) async {
       final ProcessModal process = ProcessModal(context: context);
