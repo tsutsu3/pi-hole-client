@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:pi_hole_client/constants/responsive.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
@@ -92,7 +93,7 @@ class QueriesServersTabContent extends StatelessWidget {
                       padding:
                           const EdgeInsets.only(top: 8, left: 16, bottom: 24),
                     ),
-                    if (width > 700)
+                    if (width > ResponsiveConstants.tabletBreakpoint)
                       Row(
                         children: [
                           Expanded(
@@ -118,7 +119,7 @@ class QueriesServersTabContent extends StatelessWidget {
                           ),
                         ],
                       ),
-                    if (width <= 700) ...[
+                    if (width <= ResponsiveConstants.tabletBreakpoint) ...[
                       SizedBox(
                         width: width - 40,
                         child: CustomPieChart(
@@ -147,7 +148,7 @@ class QueriesServersTabContent extends StatelessWidget {
                       padding:
                           const EdgeInsets.only(top: 16, left: 16, bottom: 24),
                     ),
-                    if (width > 700)
+                    if (width > ResponsiveConstants.tabletBreakpoint)
                       Row(
                         children: [
                           Expanded(
@@ -173,7 +174,7 @@ class QueriesServersTabContent extends StatelessWidget {
                           ),
                         ],
                       ),
-                    if (width <= 700) ...[
+                    if (width <= ResponsiveConstants.tabletBreakpoint) ...[
                       SizedBox(
                         width: width - 40,
                         child: CustomPieChart(

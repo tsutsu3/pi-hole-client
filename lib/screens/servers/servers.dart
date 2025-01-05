@@ -5,6 +5,7 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:expandable/expandable.dart';
 import 'package:flutter/rendering.dart';
+import 'package:pi_hole_client/constants/responsive.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
@@ -139,7 +140,7 @@ class _ServersPageState extends State<ServersPage> {
               controllers: expandableControllerList,
               onChange: expandOrContract,
               scrollController: scrollController,
-              breakingWidth: 700,
+              breakingWidth: ResponsiveConstants.tabletBreakpoint,
             ),
             AnimatedPositioned(
               duration: const Duration(milliseconds: 100),

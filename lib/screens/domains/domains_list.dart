@@ -2,6 +2,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
+import 'package:pi_hole_client/constants/responsive.dart';
 import 'package:pi_hole_client/models/gateways.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
@@ -143,7 +144,8 @@ class _DomainsListState extends State<DomainsList> {
     }
 
     void openModalAddDomainToList() {
-      if (MediaQuery.of(context).size.width > 700) {
+      if (MediaQuery.of(context).size.width >
+          ResponsiveConstants.tabletBreakpoint) {
         showDialog(
           context: context,
           builder: (ctx) => AddDomainModal(

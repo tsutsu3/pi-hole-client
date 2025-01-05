@@ -1,6 +1,7 @@
 // ignore_for_file: use_build_context_synchronously
 
 import 'package:flutter/material.dart';
+import 'package:pi_hole_client/constants/responsive.dart';
 import 'package:pi_hole_client/models/gateways.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
@@ -64,7 +65,7 @@ class _ServersTileItemState extends State<ServersTileItem>
       await Future.delayed(
         const Duration(seconds: 0),
         (() => {
-              if (width > 700)
+              if (width > ResponsiveConstants.tabletBreakpoint)
                 {
                   showDialog(
                     context: context,
