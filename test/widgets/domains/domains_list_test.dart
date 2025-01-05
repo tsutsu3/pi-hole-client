@@ -17,7 +17,7 @@ import 'package:pi_hole_client/providers/domains_list_provider.dart';
 import 'package:pi_hole_client/providers/servers_provider.dart';
 import 'package:pi_hole_client/screens/domains/domains.dart';
 import 'package:pi_hole_client/config/globals.dart';
-import './domains_test.mocks.dart';
+import './domains_list_test.mocks.dart';
 
 @GenerateMocks(
   [AppConfigProvider, DomainsListProvider, ServersProvider, ApiGatewayV6],
@@ -33,7 +33,7 @@ void main() async {
     apiVersion: 'v6',
   );
 
-  group('Domain detail screen tests', () {
+  group('DomainLists Widget Tests', () {
     late MockApiGatewayV6 mockApiGatewayV6;
     late MockAppConfigProvider mockConfigProvider;
     late MockServersProvider mockServersProvider;
@@ -97,7 +97,7 @@ void main() async {
     });
 
     testWidgets(
-      'Delete domain from whitelist',
+      'should delete a domain from whitelist and show confirmation modal',
       (WidgetTester tester) async {
         tester.view.physicalSize = const Size(1000, 400);
         tester.view.devicePixelRatio = 1.0;
