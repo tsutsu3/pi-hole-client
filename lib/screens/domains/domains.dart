@@ -212,7 +212,7 @@ class _DomainListsWidgetState extends State<DomainListsWidget>
       );
     }
 
-    if (MediaQuery.of(context).size.width > ResponsiveConstants.medium) {
+    if (MediaQuery.of(context).size.width > ResponsiveConstants.large) {
       return Row(
         children: [
           Expanded(flex: 2, child: scaffold()),

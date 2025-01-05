@@ -138,7 +138,7 @@ class _BaseState extends State<Base> with WidgetsBindingObserver {
                 : Brightness.light,
       ),
       child: Scaffold(
-        body: width > ResponsiveConstants.medium
+        body: width > ResponsiveConstants.large
             ? Row(
                 children: [
                   CustomNavigationRail(
@@ -191,7 +191,7 @@ class _BaseState extends State<Base> with WidgetsBindingObserver {
                         ? 0
                         : appConfigProvider.selectedTab],
               ),
-        bottomNavigationBar: width <= ResponsiveConstants.medium
+        bottomNavigationBar: width <= ResponsiveConstants.large
             ? BottomNavBar(
                 screens: serversProvider.selectedServer != null
                     ? appScreens

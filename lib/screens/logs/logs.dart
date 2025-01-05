@@ -294,7 +294,7 @@ class _LogsState extends State<Logs> {
 
     void showLogDetails(Log log) {
       setState(() => selectedLog = log);
-      if (width <= ResponsiveConstants.medium) {
+      if (width <= ResponsiveConstants.large) {
         Navigator.push(
           context,
           MaterialPageRoute(
@@ -697,7 +697,7 @@ class _LogsState extends State<Logs> {
       );
     }
 
-    if (width > ResponsiveConstants.medium) {
+    if (width > ResponsiveConstants.large) {
       return Row(
         children: [
           Expanded(flex: 2, child: scaffold()),

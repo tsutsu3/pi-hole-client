@@ -20,7 +20,7 @@ class LogTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    if (MediaQuery.of(context).size.width > ResponsiveConstants.medium) {
+    if (MediaQuery.of(context).size.width > ResponsiveConstants.large) {
       return Padding(
         padding: const EdgeInsets.symmetric(horizontal: 12),
         child: Material(

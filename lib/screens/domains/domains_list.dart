@@ -196,7 +196,7 @@ class _DomainsListState extends State<DomainsList> {
             return Padding(
               padding: index == 0 &&
                       MediaQuery.of(context).size.width >
-                          ResponsiveConstants.medium
+                          ResponsiveConstants.large
                   ? const EdgeInsets.only(top: 16)
                   : const EdgeInsets.all(0),
               child: DomainTile(
@@ -205,7 +205,7 @@ class _DomainsListState extends State<DomainsList> {
                 showDomainDetails: (d) {
                   widget.onDomainSelected(d);
                   if (MediaQuery.of(context).size.width <=
-                      ResponsiveConstants.medium) {
+                      ResponsiveConstants.large) {
                     Navigator.push(
                       context,
                       MaterialPageRoute(

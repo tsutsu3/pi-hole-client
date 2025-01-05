@@ -71,7 +71,7 @@ class DomainTile extends StatelessWidget {
       );
     }
 
-    if (MediaQuery.of(context).size.width > ResponsiveConstants.medium) {
+    if (MediaQuery.of(context).size.width > ResponsiveConstants.large) {
       return Padding(
         padding: const EdgeInsets.symmetric(horizontal: 12),
         child: Material(
