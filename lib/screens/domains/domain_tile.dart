@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:pi_hole_client/constants/responsive.dart';
 
 import 'package:pi_hole_client/models/domain.dart';
 import 'package:pi_hole_client/functions/format.dart';
@@ -70,7 +71,7 @@ class DomainTile extends StatelessWidget {
       );
     }
 
-    if (MediaQuery.of(context).size.width > 900) {
+    if (MediaQuery.of(context).size.width > ResponsiveConstants.medium) {
       return Padding(
         padding: const EdgeInsets.symmetric(horizontal: 12),
         child: Material(

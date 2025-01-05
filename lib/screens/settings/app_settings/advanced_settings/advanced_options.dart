@@ -2,6 +2,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_phoenix/flutter_phoenix.dart';
+import 'package:pi_hole_client/constants/responsive.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
@@ -115,7 +116,7 @@ class AdvancedOptions extends StatelessWidget {
             fullscreenDialog: true,
             builder: (BuildContext context) => EnterPasscodeModal(
               onConfirm: () => reset(),
-              window: width > 700,
+              window: width > ResponsiveConstants.medium,
             ),
           ),
         );
@@ -136,7 +137,7 @@ class AdvancedOptions extends StatelessWidget {
 
     void openAppUnlockModal() {
       void openModal() {
-        if (width > 700) {
+        if (width > ResponsiveConstants.medium) {
           showDialog(
             context: context,
             builder: (context) => AppUnlockSetupModal(
@@ -160,7 +161,7 @@ class AdvancedOptions extends StatelessWidget {
       }
 
       if (appConfigProvider.passCode != null) {
-        if (width > 700) {
+        if (width > ResponsiveConstants.medium) {
           showDialog(
             context: context,
             builder: (BuildContext context) => EnterPasscodeModal(

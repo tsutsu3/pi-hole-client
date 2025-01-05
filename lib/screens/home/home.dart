@@ -2,6 +2,7 @@
 
 import 'dart:io';
 
+import 'package:pi_hole_client/constants/responsive.dart';
 import 'package:pi_hole_client/providers/status_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
@@ -101,7 +102,7 @@ class _HomeState extends State<Home> {
               runSpacing: 16,
               children: [
                 FractionallySizedBox(
-                  widthFactor: width > 700 ? 0.25 : 0.5,
+                  widthFactor: width > ResponsiveConstants.medium ? 0.25 : 0.5,
                   child: Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 8),
                     child: HomeTile(
@@ -117,7 +118,7 @@ class _HomeState extends State<Home> {
                   ),
                 ),
                 FractionallySizedBox(
-                  widthFactor: width > 700 ? 0.25 : 0.5,
+                  widthFactor: width > ResponsiveConstants.medium ? 0.25 : 0.5,
                   child: Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 8),
                     child: HomeTile(
@@ -133,7 +134,7 @@ class _HomeState extends State<Home> {
                   ),
                 ),
                 FractionallySizedBox(
-                  widthFactor: width > 700 ? 0.25 : 0.5,
+                  widthFactor: width > ResponsiveConstants.medium ? 0.25 : 0.5,
                   child: Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 8),
                     child: HomeTile(
@@ -147,7 +148,7 @@ class _HomeState extends State<Home> {
                   ),
                 ),
                 FractionallySizedBox(
-                  widthFactor: width > 700 ? 0.25 : 0.5,
+                  widthFactor: width > ResponsiveConstants.medium ? 0.25 : 0.5,
                   child: Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 8),
                     child: HomeTile(
@@ -202,7 +203,7 @@ class _HomeState extends State<Home> {
       if (statusProvider.isServerConnected == true &&
           serversProvider.selectedServer != null) {
         if (serversProvider.selectedServer?.enabled == true) {
-          if (width > 700) {
+          if (width > ResponsiveConstants.medium) {
             showDialog(
               context: context,
               builder: (_) => DisableModal(

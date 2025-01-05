@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:pi_hole_client/constants/responsive.dart';
 
 import 'package:pi_hole_client/screens/servers/add_server_fullscreen.dart';
 
@@ -17,7 +18,7 @@ class NoServerSelected extends StatelessWidget {
       Future.delayed(
         const Duration(seconds: 0),
         () => {
-          if (width > 900)
+          if (width > ResponsiveConstants.medium)
             {
               if (context.mounted)
                 {

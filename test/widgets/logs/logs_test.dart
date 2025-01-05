@@ -121,7 +121,7 @@ void main() async {
     testWidgets(
       'should set blacklist domains',
       (WidgetTester tester) async {
-        tester.view.physicalSize = const Size(1100, 400);
+        tester.view.physicalSize = const Size(1000, 400);
         tester.view.devicePixelRatio = 1.0;
 
         addTearDown(() {
@@ -164,8 +164,9 @@ void main() async {
 
         // Show logs screen
         expect(find.byType(Logs), findsOneWidget);
+        await tester.pumpAndSettle();
         expect(find.text('Query logs'), findsOneWidget);
-        await tester.pump();
+        expect(find.text('white.example.com'), findsOneWidget);
 
         // Tap whitelist domain to open domain detail screen
         await tester.tap(find.text('white.example.com'));

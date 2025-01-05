@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:pi_hole_client/constants/responsive.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
@@ -9,7 +10,6 @@ import 'package:pi_hole_client/widgets/section_label.dart';
 
 import 'package:pi_hole_client/constants/colors.dart';
 import 'package:pi_hole_client/providers/status_provider.dart';
-import 'package:pi_hole_client/functions/conversions.dart';
 import 'package:pi_hole_client/models/overtime_data.dart';
 import 'package:pi_hole_client/providers/app_config_provider.dart';
 
@@ -75,7 +75,7 @@ class HomeCharts extends StatelessWidget {
         return Wrap(
           children: [
             FractionallySizedBox(
-              widthFactor: width > 700 ? 0.5 : 1,
+              widthFactor: width > ResponsiveConstants.medium ? 0.5 : 1,
               child: checkExistsData(
                         statusProvider
                             .getOvertimeDataJson!['domains_over_time'],
@@ -138,7 +138,7 @@ class HomeCharts extends StatelessWidget {
                     ),
             ),
             FractionallySizedBox(
-              widthFactor: width > 700 ? 0.5 : 1,
+              widthFactor: width > ResponsiveConstants.medium ? 0.5 : 1,
               child: statusProvider
                               .getOvertimeDataJson!['over_time'].keys.length >
                           0 &&
@@ -179,14 +179,15 @@ class HomeCharts extends StatelessWidget {
                                 .entries
                                 .map(
                                   (entry) => FractionallySizedBox(
-                                    widthFactor: width > 1000 &&
-                                            statusProvider.getOvertimeData!
-                                                    .clients.length >
-                                                3
-                                        ? 0.33
-                                        : width > 350
-                                            ? 0.5
-                                            : 1,
+                                    widthFactor:
+                                        width > ResponsiveConstants.xLarge &&
+                                                statusProvider.getOvertimeData!
+                                                        .clients.length >
+                                                    3
+                                            ? 0.33
+                                            : width > 350
+                                                ? 0.5
+                                                : 1,
                                     child: Row(
                                       mainAxisSize: MainAxisSize.max,
                                       children: [

@@ -2,6 +2,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
+import 'package:pi_hole_client/constants/responsive.dart';
 import 'package:pi_hole_client/models/gateways.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
@@ -143,7 +144,7 @@ class _DomainsListState extends State<DomainsList> {
     }
 
     void openModalAddDomainToList() {
-      if (MediaQuery.of(context).size.width > 700) {
+      if (MediaQuery.of(context).size.width > ResponsiveConstants.medium) {
         showDialog(
           context: context,
           builder: (ctx) => AddDomainModal(
@@ -193,7 +194,9 @@ class _DomainsListState extends State<DomainsList> {
           contentWidget: (index) {
             final thisDomain = domainsList[index];
             return Padding(
-              padding: index == 0 && MediaQuery.of(context).size.width > 900
+              padding: index == 0 &&
+                      MediaQuery.of(context).size.width >
+                          ResponsiveConstants.large
                   ? const EdgeInsets.only(top: 16)
                   : const EdgeInsets.all(0),
               child: DomainTile(
@@ -201,7 +204,8 @@ class _DomainsListState extends State<DomainsList> {
                 isDomainSelected: widget.selectedDomain == thisDomain,
                 showDomainDetails: (d) {
                   widget.onDomainSelected(d);
-                  if (MediaQuery.of(context).size.width <= 900) {
+                  if (MediaQuery.of(context).size.width <=
+                      ResponsiveConstants.large) {
                     Navigator.push(
                       context,
                       MaterialPageRoute(

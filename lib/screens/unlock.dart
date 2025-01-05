@@ -2,6 +2,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:local_auth/local_auth.dart';
+import 'package:pi_hole_client/constants/responsive.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_app_lock/flutter_app_lock.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
@@ -104,7 +105,7 @@ class _UnlockState extends State<Unlock> {
             child: LayoutBuilder(
               builder: (context, constraints) {
                 return ConstrainedBox(
-                  constraints: width <= 700
+                  constraints: width <= ResponsiveConstants.medium
                       ? const BoxConstraints.expand()
                       : const BoxConstraints(
                           maxWidth: 600,
@@ -112,7 +113,7 @@ class _UnlockState extends State<Unlock> {
                         ),
                   child: Container(
                     padding: const EdgeInsets.all(16),
-                    decoration: width <= 700
+                    decoration: width <= ResponsiveConstants.medium
                         ? null
                         : BoxDecoration(
                             borderRadius: BorderRadius.circular(16),

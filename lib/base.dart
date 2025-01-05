@@ -3,6 +3,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:animations/animations.dart';
+import 'package:pi_hole_client/constants/responsive.dart';
 import 'package:pi_hole_client/models/gateways.dart';
 import 'package:provider/provider.dart';
 
@@ -137,7 +138,7 @@ class _BaseState extends State<Base> with WidgetsBindingObserver {
                 : Brightness.light,
       ),
       child: Scaffold(
-        body: width > 900
+        body: width > ResponsiveConstants.medium
             ? Row(
                 children: [
                   CustomNavigationRail(
@@ -190,7 +191,7 @@ class _BaseState extends State<Base> with WidgetsBindingObserver {
                         ? 0
                         : appConfigProvider.selectedTab],
               ),
-        bottomNavigationBar: width <= 900
+        bottomNavigationBar: width <= ResponsiveConstants.medium
             ? BottomNavBar(
                 screens: serversProvider.selectedServer != null
                     ? appScreens

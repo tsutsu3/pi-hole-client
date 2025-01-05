@@ -1,6 +1,7 @@
 // ignore_for_file: use_build_context_synchronously
 
 import 'package:flutter/material.dart';
+import 'package:pi_hole_client/constants/responsive.dart';
 import 'package:pi_hole_client/functions/logger.dart';
 import 'package:pi_hole_client/models/gateways.dart';
 import 'package:provider/provider.dart';
@@ -293,7 +294,7 @@ class _LogsState extends State<Logs> {
 
     void showLogDetails(Log log) {
       setState(() => selectedLog = log);
-      if (width <= 1000) {
+      if (width <= ResponsiveConstants.large) {
         Navigator.push(
           context,
           MaterialPageRoute(
@@ -307,7 +308,7 @@ class _LogsState extends State<Logs> {
     }
 
     void showFiltersModal() {
-      if (width > 900) {
+      if (width > ResponsiveConstants.medium) {
         showDialog(
           context: context,
           builder: (context) => LogsFiltersModal(
@@ -696,12 +697,12 @@ class _LogsState extends State<Logs> {
       );
     }
 
-    if (width > 1000) {
+    if (width > ResponsiveConstants.large) {
       return Row(
         children: [
           Expanded(flex: 2, child: scaffold()),
           Expanded(
-            flex: 4,
+            flex: 3,
             child: selectedLog != null
                 ? LogDetailsScreen(
                     log: selectedLog!,

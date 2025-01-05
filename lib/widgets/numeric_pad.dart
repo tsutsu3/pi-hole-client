@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:pi_hole_client/constants/responsive.dart';
 import 'package:provider/provider.dart';
 import 'package:vibration/vibration.dart';
 
@@ -60,7 +61,7 @@ class NumericPad extends StatelessWidget {
           aspectRatio: 1 / 1,
           child: Padding(
             padding: EdgeInsets.all(
-              width <= 700
+              width <= ResponsiveConstants.medium
                   ? width > height
                       ? height * 0.05
                       : width * 0.05
@@ -81,7 +82,9 @@ class NumericPad extends StatelessWidget {
               ),
               child: Text(
                 number.toString(),
-                style: TextStyle(fontSize: height > 700 ? 40 : 25),
+                style: TextStyle(
+                  fontSize: height > ResponsiveConstants.medium ? 40 : 25,
+                ),
               ),
             ),
           ),
@@ -96,7 +99,7 @@ class NumericPad extends StatelessWidget {
           aspectRatio: 1 / 1,
           child: Padding(
             padding: EdgeInsets.all(
-              width <= 700
+              width <= ResponsiveConstants.medium
                   ? width > height
                       ? height * 0.05
                       : width * 0.05
@@ -113,7 +116,10 @@ class NumericPad extends StatelessWidget {
               style: ButtonStyle(
                 shadowColor: WidgetStateProperty.all(Colors.transparent),
               ),
-              child: Icon(Icons.backspace, size: height > 700 ? 40 : 25),
+              child: Icon(
+                Icons.backspace,
+                size: height > ResponsiveConstants.medium ? 40 : 25,
+              ),
             ),
           ),
         ),
@@ -126,7 +132,9 @@ class NumericPad extends StatelessWidget {
         children: [
           Padding(
             padding: EdgeInsets.symmetric(
-              vertical: height > 700 ? height * 0.05 : height * 0.02,
+              vertical: height > ResponsiveConstants.medium
+                  ? height * 0.05
+                  : height * 0.02,
             ),
             child: ShakeAnimation(
               key: shakeKey,
@@ -147,7 +155,7 @@ class NumericPad extends StatelessWidget {
           ),
           Expanded(
             child: Container(
-              padding: height > 700
+              padding: height > ResponsiveConstants.medium
                   ? const EdgeInsets.all(16)
                   : const EdgeInsets.symmetric(horizontal: 16),
               child: Column(
