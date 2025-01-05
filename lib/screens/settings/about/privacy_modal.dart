@@ -33,7 +33,7 @@ class _PrivacyModalState extends State<PrivacyModal> {
       child: InkWell(
         onTap: url != null ? () => openUrl(url) : null,
         child: Padding(
-          padding: const EdgeInsets.symmetric(vertical: 10),
+          padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 12),
           child: Row(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [

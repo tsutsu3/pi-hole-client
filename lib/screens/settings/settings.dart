@@ -33,7 +33,7 @@ class Settings extends StatelessWidget {
   Widget build(BuildContext context) {
     final width = MediaQuery.of(context).size.width;
 
-    if (width > ResponsiveConstants.large) {
+    if (width > ResponsiveConstants.medium) {
       return SplitView.material(
         hideDivider: true,
         // flexWidth: const FlexWidth(mainViewFlexWidth: 1, secondaryViewFlexWidth: 2),
@@ -76,7 +76,7 @@ class _SettingsWidgetState extends State<SettingsWidget> {
 
     final width = MediaQuery.of(context).size.width;
 
-    if (width <= ResponsiveConstants.large &&
+    if (width <= ResponsiveConstants.medium &&
         appConfigProvider.selectedSettingsScreen != null) {
       appConfigProvider.setSelectedSettingsScreen(screen: null);
     }
@@ -89,7 +89,7 @@ class _SettingsWidgetState extends State<SettingsWidget> {
       required Widget screenToNavigate,
       required int thisItem,
     }) {
-      if (width > ResponsiveConstants.large) {
+      if (width > ResponsiveConstants.medium) {
         return CustomListTile(
           label: title,
           description: subtitle,

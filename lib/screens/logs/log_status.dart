@@ -29,7 +29,7 @@ class LogStatus extends StatelessWidget {
                   color: color,
                   size: 14,
                 ),
-                const SizedBox(width: 10),
+                const Flexible(child: SizedBox(width: 10)),
                 Text(
                   text,
                   style: TextStyle(

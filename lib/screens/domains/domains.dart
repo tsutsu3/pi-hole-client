@@ -170,7 +170,7 @@ class _DomainListsWidgetState extends State<DomainListsWidget>
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
                             Icon(Icons.check_circle_rounded),
-                            SizedBox(width: 16),
+                            Flexible(child: SizedBox(width: 16)),
                             Text('Whitelist'),
                           ],
                         ),
@@ -180,7 +180,7 @@ class _DomainListsWidgetState extends State<DomainListsWidget>
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
                             Icon(Icons.block),
-                            SizedBox(width: 16),
+                            Flexible(child: SizedBox(width: 16)),
                             Text('Blacklist'),
                           ],
                         ),
@@ -212,7 +212,7 @@ class _DomainListsWidgetState extends State<DomainListsWidget>
       );
     }
 
-    if (MediaQuery.of(context).size.width > ResponsiveConstants.large) {
+    if (MediaQuery.of(context).size.width > ResponsiveConstants.medium) {
       return Row(
         children: [
           Expanded(flex: 2, child: scaffold()),
