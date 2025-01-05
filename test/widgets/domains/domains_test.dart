@@ -94,6 +94,20 @@ void main() async {
         ],
       );
       when(mockDomainsListProvider.loadingStatus).thenReturn(LoadStatus.loaded);
+      when(mockDomainsListProvider.filteredWhitelistDomains).thenReturn(
+        [
+          Domain(
+            id: 1,
+            type: 1,
+            domain: 'white.example.com',
+            enabled: 1,
+            dateAdded: DateTime.now(),
+            dateModified: DateTime.now(),
+            comment: null,
+            groups: [0],
+          ),
+        ],
+      );
     });
 
     testWidgets(
