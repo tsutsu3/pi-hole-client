@@ -125,7 +125,7 @@ class _DomainListsWidgetState extends State<DomainListsWidget>
                           maxLines: 1,
                           decoration: InputDecoration(
                             hintText:
-                                '${AppLocalizations.of(context)!.searchDomains}...',
+                                AppLocalizations.of(context)!.searchDomains,
                             hintStyle: const TextStyle(
                               fontWeight: FontWeight.w400,
                             ),
