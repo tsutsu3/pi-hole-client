@@ -17,7 +17,7 @@ import 'package:pi_hole_client/providers/domains_list_provider.dart';
 import 'package:pi_hole_client/providers/servers_provider.dart';
 import 'package:pi_hole_client/screens/domains/domains.dart';
 import 'package:pi_hole_client/config/globals.dart';
-import './domains_list_test.mocks.dart';
+import './domains_test.mocks.dart';
 
 @GenerateMocks(
   [AppConfigProvider, DomainsListProvider, ServersProvider, ApiGatewayV6],
