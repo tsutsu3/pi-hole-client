@@ -580,11 +580,15 @@ class ApiGatewayV6 implements ApiGateway {
       }
     }
 
+    final name = getType(domain.type)[1] == 'regex'
+        ? Uri.encodeComponent(domain.domain)
+        : domain.domain;
+
     try {
       final response = await httpClient(
         method: 'delete',
         url:
-            '${_server.address}/api/domains/${getType(domain.type)[0]}/${getType(domain.type)[1]}/${domain.domain}',
+            '${_server.address}/api/domains/${getType(domain.type)[0]}/${getType(domain.type)[1]}/$name',
       );
       if (response.statusCode == 204) {
         return RemoveDomainFromListResponse(result: APiResponseType.success);
