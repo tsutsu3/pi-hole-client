@@ -26,6 +26,7 @@ class NumericPad extends StatelessWidget {
     final width = MediaQuery.of(context).size.width;
     final height = MediaQuery.of(context).size.height;
 
+    // Keypad number
     Widget number(String? value) {
       return SizedBox(
         width: 40,
@@ -54,6 +55,7 @@ class NumericPad extends StatelessWidget {
       );
     }
 
+    // Tapped number
     Widget gridItem({required int number}) {
       return Expanded(
         flex: 1,
@@ -115,10 +117,15 @@ class NumericPad extends StatelessWidget {
                   : () {},
               style: ButtonStyle(
                 shadowColor: WidgetStateProperty.all(Colors.transparent),
+                padding: WidgetStateProperty.all(EdgeInsets.zero),
+                alignment: Alignment.center,
               ),
-              child: Icon(
-                Icons.backspace,
-                size: height > ResponsiveConstants.medium ? 40 : 25,
+              child: Center(
+                child: Icon(
+                  Icons.backspace,
+                  color: Theme.of(context).colorScheme.primary,
+                  size: height > ResponsiveConstants.medium ? 40 : 25,
+                ),
               ),
             ),
           ),
