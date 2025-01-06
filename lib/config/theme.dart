@@ -103,6 +103,148 @@ const darkDataVisColors = DataVisColors(
   redDark: Color(0xFF963424),
 );
 
+class AppColors extends ThemeExtension<AppColors> {
+  final Color? snackBarSuccess;
+  final Color? snackBarSuccessText;
+  final Color? snackBarError;
+  final Color? snackBarErrorText;
+
+  final Color? cardWarning;
+  final Color? cardWarningText;
+
+  final Color? queryRed;
+  final Color? queryGreen;
+  final Color? queryBlue;
+  final Color? queryOrange;
+  final Color? queryGrey;
+
+  final Color? commonRed;
+  final Color? commonGreen;
+
+  const AppColors({
+    required this.snackBarSuccess,
+    required this.snackBarSuccessText,
+    required this.snackBarError,
+    required this.snackBarErrorText,
+    required this.cardWarning,
+    required this.cardWarningText,
+    required this.queryRed,
+    required this.queryGreen,
+    required this.queryBlue,
+    required this.queryOrange,
+    required this.queryGrey,
+    required this.commonRed,
+    required this.commonGreen,
+  });
+
+  @override
+  AppColors copyWith({
+    Color? snackBarSuccess,
+    Color? snackBarSuccessText,
+    Color? snackBarError,
+    Color? snackBarErrorText,
+    Color? cardWarning,
+    Color? cardWarningText,
+    Color? queryRed,
+    Color? queryGreen,
+    Color? queryBlue,
+    Color? queryOrange,
+    Color? queryGrey,
+    Color? commonRed,
+    Color? commonGreen,
+  }) {
+    return AppColors(
+      snackBarSuccess: snackBarSuccess ?? this.snackBarSuccess,
+      snackBarSuccessText: snackBarSuccessText ?? this.snackBarSuccessText,
+      snackBarError: snackBarError ?? this.snackBarError,
+      snackBarErrorText: snackBarErrorText ?? this.snackBarErrorText,
+      cardWarning: cardWarning ?? this.cardWarning,
+      cardWarningText: cardWarningText ?? this.cardWarningText,
+      queryRed: queryRed ?? this.queryRed,
+      queryGreen: queryGreen ?? this.queryGreen,
+      queryBlue: queryBlue ?? this.queryBlue,
+      queryOrange: queryOrange ?? this.queryOrange,
+      queryGrey: queryGrey ?? this.queryGrey,
+      commonRed: commonRed ?? this.commonRed,
+      commonGreen: commonGreen ?? this.commonGreen,
+    );
+  }
+
+  @override
+  AppColors lerp(ThemeExtension<AppColors>? other, double t) {
+    if (other is! AppColors) {
+      return this;
+    }
+    return AppColors(
+      snackBarSuccess: Color.lerp(snackBarSuccess, other.snackBarSuccess, t),
+      snackBarSuccessText:
+          Color.lerp(snackBarSuccessText, other.snackBarSuccessText, t),
+      snackBarError: Color.lerp(snackBarError, other.snackBarError, t),
+      snackBarErrorText:
+          Color.lerp(snackBarErrorText, other.snackBarErrorText, t),
+      cardWarning: Color.lerp(cardWarning, other.cardWarning, t),
+      cardWarningText: Color.lerp(cardWarningText, other.cardWarningText, t),
+      queryRed: Color.lerp(queryRed, other.queryRed, t),
+      queryGreen: Color.lerp(queryGreen, other.queryGreen, t),
+      queryBlue: Color.lerp(queryBlue, other.queryBlue, t),
+      queryOrange: Color.lerp(queryOrange, other.queryOrange, t),
+      queryGrey: Color.lerp(queryGrey, other.queryGrey, t),
+      commonRed: Color.lerp(commonRed, other.commonRed, t),
+      commonGreen: Color.lerp(commonGreen, other.commonGreen, t),
+    );
+  }
+
+  AppColors harmonized(ColorScheme dynamic) {
+    return copyWith(
+      snackBarSuccess: snackBarSuccess!.harmonizeWith(dynamic.primary),
+      snackBarSuccessText: snackBarSuccessText!.harmonizeWith(dynamic.primary),
+      snackBarError: snackBarError!.harmonizeWith(dynamic.primary),
+      snackBarErrorText: snackBarErrorText!.harmonizeWith(dynamic.primary),
+      cardWarning: cardWarning!.harmonizeWith(dynamic.primary),
+      cardWarningText: cardWarningText!.harmonizeWith(dynamic.primary),
+      queryRed: queryRed!.harmonizeWith(dynamic.primary),
+      queryGreen: queryGreen!.harmonizeWith(dynamic.primary),
+      queryBlue: queryBlue!.harmonizeWith(dynamic.primary),
+      queryOrange: queryOrange!.harmonizeWith(dynamic.primary),
+      queryGrey: queryGrey!.harmonizeWith(dynamic.primary),
+      commonRed: commonRed!.harmonizeWith(dynamic.primary),
+      commonGreen: commonGreen!.harmonizeWith(dynamic.primary),
+    );
+  }
+}
+
+const lightAppColors = AppColors(
+  snackBarSuccess: Color(0xFF81C784),
+  snackBarSuccessText: Color(0xFF1B5E20),
+  snackBarError: Color(0xFFE57373),
+  snackBarErrorText: Color(0xFFB71C1C),
+  cardWarning: Color(0xFFFFF176),
+  cardWarningText: Color(0xFF212121),
+  queryRed: Color(0xFFD32F2F),
+  queryGreen: Color(0xFF388E3C),
+  queryBlue: Color(0xFF1976D2),
+  queryOrange: Color(0xFFF57C00),
+  queryGrey: Color(0xFF616161),
+  commonRed: Color(0xFFD32F2F),
+  commonGreen: Color(0xFF388E3C),
+);
+
+const darkAppColors = AppColors(
+  snackBarSuccess: Color(0xFF1B5E20),
+  snackBarSuccessText: Color(0xFFA5D6A7),
+  snackBarError: Color(0xFFB71C1C),
+  snackBarErrorText: Color(0xFFFFCDD2),
+  cardWarning: Color(0xFFCC8500),
+  cardWarningText: Color(0xFFEEEEEE),
+  queryRed: Color(0xFFEF9A9A),
+  queryGreen: Color(0xFFA5D6A7),
+  queryBlue: Color(0xFF90CAF9),
+  queryOrange: Color(0xFFFFCC80),
+  queryGrey: Color(0xFFB0BEC5),
+  commonRed: Color(0xFFEF9A9A),
+  commonGreen: Color(0xFFA5D6A7),
+);
+
 // ----------------------------------------------------------------------------
 // Themes
 // ----------------------------------------------------------------------------
@@ -111,6 +253,7 @@ ThemeData createTheme(
   ColorScheme? dynamicColorScheme,
   Brightness brightness,
   DataVisColors dataVisColors,
+  AppColors appColors,
 ) {
   final colorScheme = dynamicColorScheme ??
       ColorScheme.fromSeed(seedColor: Colors.blue, brightness: brightness);
@@ -142,13 +285,23 @@ ThemeData createTheme(
     ),
     extensions: [
       // dataVisColors.harmonized(colorScheme),
+      // appColors.harmonized(colorScheme),
       dataVisColors,
+      appColors,
     ],
   );
 }
 
-ThemeData lightTheme(ColorScheme? dynamicColorScheme) =>
-    createTheme(dynamicColorScheme, Brightness.light, lightDataVisColors);
+ThemeData lightTheme(ColorScheme? dynamicColorScheme) => createTheme(
+      dynamicColorScheme,
+      Brightness.light,
+      lightDataVisColors,
+      lightAppColors,
+    );
 
-ThemeData darkTheme(ColorScheme? dynamicColorScheme) =>
-    createTheme(dynamicColorScheme, Brightness.dark, darkDataVisColors);
+ThemeData darkTheme(ColorScheme? dynamicColorScheme) => createTheme(
+      dynamicColorScheme,
+      Brightness.dark,
+      darkDataVisColors,
+      darkAppColors,
+    );
