@@ -4,8 +4,8 @@ import 'package:pi_hole_client/constants/languages.dart';
 import 'package:provider/provider.dart';
 
 import 'package:pi_hole_client/widgets/custom_radio.dart';
-
 import 'package:pi_hole_client/providers/app_config_provider.dart';
+import 'package:pi_hole_client/functions/colors.dart';
 
 class LanguageScreen extends StatefulWidget {
   const LanguageScreen({super.key});
@@ -50,7 +50,10 @@ class _LanguageScreenState extends State<LanguageScreen> {
                   child: ListTile(
                     title: Text(
                       languageOption.displayName,
-                      style: const TextStyle(fontWeight: FontWeight.normal),
+                      style: TextStyle(
+                        fontWeight: FontWeight.normal,
+                        color: getListTextColor(context),
+                      ),
                     ),
                     trailing: CustomRadio(
                       value: languageOption.index,

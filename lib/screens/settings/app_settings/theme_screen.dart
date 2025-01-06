@@ -3,8 +3,8 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:provider/provider.dart';
 
 import 'package:pi_hole_client/widgets/custom_radio.dart';
-
 import 'package:pi_hole_client/providers/app_config_provider.dart';
+import 'package:pi_hole_client/functions/colors.dart';
 
 class ThemeScreen extends StatefulWidget {
   const ThemeScreen({super.key});
@@ -23,6 +23,42 @@ class _ThemeScreenState extends State<ThemeScreen> {
     super.initState();
   }
 
+  Widget _buildThemeRow(
+    BuildContext context, {
+    required IconData icon,
+    required String text,
+    required int value,
+    required AppConfigProvider appConfigProvider,
+  }) {
+    return Material(
+      color: Colors.transparent,
+      child: InkWell(
+        onTap: () {
+          setState(() => _selectedItem = value);
+          appConfigProvider.setSelectedTheme(value);
+        },
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 10),
+          child: ListTile(
+            leading: Icon(icon),
+            title: Text(
+              text,
+              style: TextStyle(
+                fontWeight: FontWeight.normal,
+                color: getListTextColor(context),
+              ),
+            ),
+            trailing: CustomRadio(
+              value: value,
+              groupValue: _selectedItem,
+              backgroundColor: Theme.of(context).dialogBackgroundColor,
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     final appConfigProvider = Provider.of<AppConfigProvider>(context);
@@ -33,77 +69,26 @@ class _ThemeScreenState extends State<ThemeScreen> {
       ),
       body: ListView(
         children: [
-          Material(
-            color: Colors.transparent,
-            child: InkWell(
-              onTap: () {
-                setState(() => _selectedItem = 0);
-                appConfigProvider.setSelectedTheme(0);
-              },
-              child: Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 10),
-                child: ListTile(
-                  leading: const Icon(Icons.phone_android_rounded),
-                  title: Text(
-                    AppLocalizations.of(context)!.systemTheme,
-                    style: const TextStyle(fontWeight: FontWeight.normal),
-                  ),
-                  trailing: CustomRadio(
-                    value: 0,
-                    groupValue: _selectedItem,
-                    backgroundColor: Theme.of(context).dialogBackgroundColor,
-                  ),
-                ),
-              ),
-            ),
+          _buildThemeRow(
+            context,
+            icon: Icons.phone_android_rounded,
+            text: AppLocalizations.of(context)!.systemTheme,
+            value: 0,
+            appConfigProvider: appConfigProvider,
           ),
-          Material(
-            color: Colors.transparent,
-            child: InkWell(
-              onTap: () {
-                setState(() => _selectedItem = 1);
-                appConfigProvider.setSelectedTheme(1);
-              },
-              child: Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 10),
-                child: ListTile(
-                  leading: const Icon(Icons.light_mode_rounded),
-                  title: Text(
-                    AppLocalizations.of(context)!.light,
-                    style: const TextStyle(fontWeight: FontWeight.normal),
-                  ),
-                  trailing: CustomRadio(
-                    value: 1,
-                    groupValue: _selectedItem,
-                    backgroundColor: Theme.of(context).dialogBackgroundColor,
-                  ),
-                ),
-              ),
-            ),
+          _buildThemeRow(
+            context,
+            icon: Icons.light_mode_rounded,
+            text: AppLocalizations.of(context)!.light,
+            value: 1,
+            appConfigProvider: appConfigProvider,
           ),
-          Material(
-            color: Colors.transparent,
-            child: InkWell(
-              onTap: () {
-                setState(() => _selectedItem = 2);
-                appConfigProvider.setSelectedTheme(2);
-              },
-              child: Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 10),
-                child: ListTile(
-                  leading: const Icon(Icons.dark_mode_rounded),
-                  title: Text(
-                    AppLocalizations.of(context)!.dark,
-                    style: const TextStyle(fontWeight: FontWeight.normal),
-                  ),
-                  trailing: CustomRadio(
-                    value: 2,
-                    groupValue: _selectedItem,
-                    backgroundColor: Theme.of(context).dialogBackgroundColor,
-                  ),
-                ),
-              ),
-            ),
+          _buildThemeRow(
+            context,
+            icon: Icons.dark_mode_rounded,
+            text: AppLocalizations.of(context)!.dark,
+            value: 2,
+            appConfigProvider: appConfigProvider,
           ),
         ],
       ),
