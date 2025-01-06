@@ -225,6 +225,7 @@ class _DomainListsWidgetState extends State<DomainListsWidget>
                       setState(() => selectedDomain = null);
                       removeDomain(domain);
                     },
+                    colors: serversProvider.colors,
                   )
                 : SizedBox(
                     child: Text(

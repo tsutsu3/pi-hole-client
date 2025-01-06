@@ -37,7 +37,7 @@ class CustomListTile extends StatelessWidget {
                   children: [
                     Icon(
                       leadingIcon,
-                      color: color ?? Theme.of(context).colorScheme.onSurface,
+                      color: Theme.of(context).colorScheme.onSurface,
                     ),
                     const SizedBox(width: 20),
                   ],
@@ -50,7 +50,7 @@ class CustomListTile extends StatelessWidget {
                       label,
                       style: TextStyle(
                         fontSize: 16,
-                        color: color ?? Theme.of(context).colorScheme.onSurface,
+                        color: Theme.of(context).colorScheme.onSurface,
                       ),
                     ),
                     if (description != null)

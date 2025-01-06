@@ -15,7 +15,6 @@ import 'package:pi_hole_client/config/theme.dart';
 /// This is particularly useful for applying light and dark theme adjustments
 /// to predefined colors while keeping the structure of [QueryStatus] unchanged.
 ///
-///
 /// ### Parameters:
 /// - [colors]: An instance of [AppColors] that contains the theme-based color
 /// definitions.
@@ -38,6 +37,33 @@ Color convertColor(AppColors colors, Color color) {
       return colors.queryGrey ?? Colors.grey;
     default:
       return color;
+  }
+}
+
+/// Converts a given [number] to the corresponding theme-based color defined in
+/// [AppColors].
+///
+/// This function is used to adapt predefined color numbers (0-3) to theme-
+/// specific variants from [AppColors]. If the provided number matches a
+/// predefined color, the corresponding color from [AppColors] is returned. If
+/// no match is found, the default color is returned.
+///
+/// ### Parameters:
+/// - [colors]: An instance of [AppColors] that contains the theme-based color
+/// definitions.
+/// - [number]: The number representing the color to be converted.
+Color convertColorFromNumber(AppColors colors, int number) {
+  switch (number) {
+    case 0:
+      return colors.queryGreen ?? Colors.green;
+    case 1:
+      return colors.queryRed ?? Colors.red;
+    case 2:
+      return colors.queryBlue ?? Colors.blue;
+    case 3:
+      return colors.queryOrange ?? Colors.orange;
+    default:
+      return colors.queryGrey ?? Colors.grey;
   }
 }
 

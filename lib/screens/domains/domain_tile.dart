@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:pi_hole_client/config/theme.dart';
 import 'package:pi_hole_client/constants/responsive.dart';
+import 'package:pi_hole_client/functions/conversions.dart';
 
 import 'package:pi_hole_client/models/domain.dart';
 import 'package:pi_hole_client/functions/format.dart';
@@ -9,11 +11,13 @@ class DomainTile extends StatelessWidget {
     super.key,
     required this.domain,
     required this.showDomainDetails,
+    required this.colors,
     this.isDomainSelected,
   });
 
   final Domain domain;
   final void Function(Domain) showDomainDetails;
+  final AppColors colors;
   final bool? isDomainSelected;
 
   @override
@@ -38,32 +42,13 @@ class DomainTile extends StatelessWidget {
         }
       }
 
-      Color getColor(int type) {
-        switch (type) {
-          case 0:
-            return Colors.green;
-
-          case 1:
-            return Colors.red;
-
-          case 2:
-            return Colors.blue;
-
-          case 3:
-            return Colors.orange;
-
-          default:
-            return Colors.white;
-        }
-      }
-
       return Container(
         padding: const EdgeInsets.symmetric(horizontal: 4, vertical: 2),
         decoration: BoxDecoration(borderRadius: BorderRadius.circular(50)),
         child: Text(
           getString(type),
           style: TextStyle(
-            color: getColor(type),
+            color: convertColorFromNumber(colors, type),
             fontSize: 13,
             fontWeight: FontWeight.w400,
           ),

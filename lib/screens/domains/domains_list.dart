@@ -212,11 +212,13 @@ class _DomainsListState extends State<DomainsList> {
                         builder: (context) => DomainDetailsScreen(
                           domain: d,
                           remove: removeDomain,
+                          colors: serversProvider.colors,
                         ),
                       ),
                     );
                   }
                 },
+                colors: serversProvider.colors,
               ),
             );
           },
