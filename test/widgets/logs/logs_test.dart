@@ -119,6 +119,61 @@ void main() async {
     });
 
     testWidgets(
+      'should mobile screen layout',
+      (WidgetTester tester) async {
+        tester.view.physicalSize = const Size(800, 400);
+        tester.view.devicePixelRatio = 1.0;
+
+        addTearDown(() {
+          tester.view.resetPhysicalSize();
+          tester.view.resetDevicePixelRatio();
+        });
+
+        await tester.pumpWidget(
+          MultiProvider(
+            providers: [
+              ChangeNotifierProvider<ServersProvider>(
+                create: (context) => mockServersProvider,
+              ),
+              ChangeNotifierProxyProvider<ServersProvider, FiltersProvider>(
+                create: (context) => mockFiltersProvider,
+                update: (context, serverConfig, servers) =>
+                    servers!..update(serverConfig),
+              ),
+              ChangeNotifierProvider<AppConfigProvider>(
+                create: (context) => mockConfigProvider,
+              ),
+              ChangeNotifierProxyProvider<AppConfigProvider, ServersProvider>(
+                create: (context) => mockServersProvider,
+                update: (context, appConfig, servers) =>
+                    servers!..update(appConfig),
+              ),
+            ],
+            child: MaterialApp(
+              home: const Scaffold(
+                body: Logs(),
+              ),
+              localizationsDelegates: [
+                GlobalMaterialLocalizations.delegate,
+                AppLocalizations.delegate,
+              ],
+              scaffoldMessengerKey: scaffoldMessengerKey,
+            ),
+          ),
+        );
+
+        // Show logs screen
+        expect(find.byType(Logs), findsOneWidget);
+        await tester.pumpAndSettle();
+        expect(find.text('Query logs'), findsOneWidget);
+        expect(
+          find.text('Choose a query log to see its details.'),
+          findsNothing,
+        );
+      },
+    );
+
+    testWidgets(
       'should set blacklist domains',
       (WidgetTester tester) async {
         tester.view.physicalSize = const Size(1000, 400);
@@ -167,6 +222,10 @@ void main() async {
         await tester.pumpAndSettle();
         expect(find.text('Query logs'), findsOneWidget);
         expect(find.text('white.example.com'), findsOneWidget);
+        expect(
+          find.text('Choose a query log to see its details.'),
+          findsOneWidget,
+        );
 
         // Tap whitelist domain to open domain detail screen
         await tester.tap(find.text('white.example.com'));

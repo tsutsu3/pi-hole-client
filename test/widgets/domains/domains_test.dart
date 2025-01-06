@@ -153,6 +153,10 @@ void main() async {
         await tester.pumpAndSettle();
         expect(find.text('white01.example.com'), findsOneWidget);
         expect(find.text('white02.example.com'), findsOneWidget);
+        expect(
+          find.text('Choose a domain to see its details.'),
+          findsOneWidget,
+        );
 
         // Tap whitelist domain to open domain detail screen
         await tester.tap(find.text('white01.example.com'));
@@ -228,6 +232,10 @@ void main() async {
         await tester.pumpAndSettle();
         expect(find.text('white01.example.com'), findsOneWidget);
         expect(find.text('white02.example.com'), findsOneWidget);
+        expect(
+          find.text('Choose a domain to see its details.'),
+          findsNothing,
+        );
 
         // Tap whitelist domain to open domain detail screen
         await tester.tap(find.text('white01.example.com'));

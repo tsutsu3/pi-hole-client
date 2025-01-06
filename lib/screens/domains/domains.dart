@@ -226,7 +226,16 @@ class _DomainListsWidgetState extends State<DomainListsWidget>
                       removeDomain(domain);
                     },
                   )
-                : const SizedBox(),
+                : SizedBox(
+                    child: Text(
+                      AppLocalizations.of(context)!.selectDomainsLeftColumn,
+                      textAlign: TextAlign.center,
+                      style: TextStyle(
+                        fontSize: 24,
+                        color: Theme.of(context).colorScheme.onSurfaceVariant,
+                      ),
+                    ),
+                  ),
           ),
         ],
       );

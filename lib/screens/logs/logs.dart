@@ -708,7 +708,16 @@ class _LogsState extends State<Logs> {
                     log: selectedLog!,
                     whiteBlackList: whiteBlackList,
                   )
-                : const SizedBox(),
+                : SizedBox(
+                    child: Text(
+                      AppLocalizations.of(context)!.selectLogsLeftColumn,
+                      textAlign: TextAlign.center,
+                      style: TextStyle(
+                        fontSize: 24,
+                        color: Theme.of(context).colorScheme.onSurfaceVariant,
+                      ),
+                    ),
+                  ),
           ),
         ],
       );
