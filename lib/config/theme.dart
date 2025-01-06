@@ -279,6 +279,20 @@ ThemeData createTheme(
     useMaterial3: true,
     colorScheme: colorScheme,
     brightness: brightness,
+    elevatedButtonTheme: ElevatedButtonThemeData(
+      style: ButtonStyle(
+        backgroundColor: WidgetStateProperty.resolveWith(
+          (states) {
+            final baseColor = colorScheme.primaryContainer;
+            final greyColor = brightness == Brightness.dark
+                ? Colors.grey[900]!
+                : Colors.grey[300]!;
+            return Color.lerp(baseColor, greyColor, 0.5)!
+                .withValues(alpha: 0.3);
+          },
+        ),
+      ),
+    ),
     snackBarTheme: SnackBarThemeData(
       behavior: SnackBarBehavior.floating,
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(5)),
