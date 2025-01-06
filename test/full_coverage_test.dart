@@ -6,7 +6,6 @@ import 'package:pi_hole_client/classes/process_modal.dart';
 import 'package:pi_hole_client/config/globals.dart';
 import 'package:pi_hole_client/config/system_overlay_style.dart';
 import 'package:pi_hole_client/config/theme.dart';
-import 'package:pi_hole_client/config/urls.dart';
 import 'package:pi_hole_client/constants/api_versions.dart';
 import 'package:pi_hole_client/constants/app_screens.dart';
 import 'package:pi_hole_client/constants/colors.dart';

@@ -1,10 +1,18 @@
-const createAConnectionUrl =
-    'https://github.com/tsutsu3/pi-hole-client/wiki/Create-a-connection';
+class Urls {
+  static const String playStore =
+      'https://play.google.com/store/apps/details?id=io.github.tsutsu3.pi_hole_client';
 
-const issueUrl = 'https://github.com/tsutsu3/pi-hole-client/issues';
+  static const String gitHub = 'https://github.com/tsutsu3/pi-hole-client';
 
-const supportUrl =
-    'https://docs.google.com/forms/d/e/1FAIpQLSdNm7H2iDUaQ0q-JA6hvrUSsGe50_iL5NVK6fR_2hkCsyrA-A/viewform?hl=en';
+  static const String createAConnection =
+      'https://github.com/tsutsu3/pi-hole-client/wiki/Create-a-connection';
 
-const privacyPolicyUrl =
-    'https://github.com/tsutsu3/pi-hole-client/wiki/Privacy-policy';
+  static const String issue =
+      'https://github.com/tsutsu3/pi-hole-client/issues';
+
+  static const String support =
+      'https://docs.google.com/forms/d/e/1FAIpQLSdNm7H2iDUaQ0q-JA6hvrUSsGe50_iL5NVK6fR_2hkCsyrA-A/viewform?hl=en';
+
+  static const String privacyPolicy =
+      'https://github.com/tsutsu3/pi-hole-client/wiki/Privacy-policy';
+}

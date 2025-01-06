@@ -20,7 +20,7 @@ import 'package:pi_hole_client/widgets/custom_list_tile.dart';
 import 'package:pi_hole_client/widgets/section_label.dart';
 import 'package:pi_hole_client/screens/settings/about/legal_modal.dart';
 
-import 'package:pi_hole_client/config/urls.dart';
+import 'package:pi_hole_client/constants/urls.dart';
 import 'package:pi_hole_client/functions/open_url.dart';
 import 'package:pi_hole_client/providers/servers_provider.dart';
 import 'package:pi_hole_client/providers/status_provider.dart';

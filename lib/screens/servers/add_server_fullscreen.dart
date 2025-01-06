@@ -810,7 +810,7 @@ class _AddServerFullscreenState extends State<AddServerFullscreen> {
                     Row(
                       children: [
                         IconButton(
-                          onPressed: () => openUrl(createAConnectionUrl),
+                          onPressed: () => openUrl(Urls.createAConnection),
                           icon: const Icon(Icons.help_outline_rounded),
                           tooltip:
                               AppLocalizations.of(context)!.howCreateConnection,
@@ -849,7 +849,7 @@ class _AddServerFullscreenState extends State<AddServerFullscreen> {
               title: Text(widget.title),
               actions: [
                 IconButton(
-                  onPressed: () => openUrl(createAConnectionUrl),
+                  onPressed: () => openUrl(Urls.createAConnection),
                   icon: const Icon(Icons.help_outline_rounded),
                   tooltip: AppLocalizations.of(context)!.howCreateConnection,
                 ),

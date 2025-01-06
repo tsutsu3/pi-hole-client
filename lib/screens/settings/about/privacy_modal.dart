@@ -119,7 +119,7 @@ class _PrivacyModalState extends State<PrivacyModal> {
             mainAxisSize: MainAxisSize.min,
             children: [
               _appDetailLine(
-                url: privacyPolicyUrl,
+                url: Urls.privacyPolicy,
                 icon: Icon(
                   Icons.privacy_tip_rounded,
                   color: colorScheme.onSurface,

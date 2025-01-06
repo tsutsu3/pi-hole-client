@@ -108,7 +108,7 @@ class _AppDetailModalState extends State<AppDetailModal> {
         mainAxisSize: MainAxisSize.min,
         children: [
           _appDetailLine(
-            url: issueUrl,
+            url: Urls.issue,
             icon: SvgPicture.asset(
               'assets/resources/github.svg',
               colorFilter:
@@ -121,7 +121,7 @@ class _AppDetailModalState extends State<AppDetailModal> {
             colorScheme: colorScheme,
           ),
           _appDetailLine(
-            url: supportUrl,
+            url: Urls.support,
             icon:
                 Icon(Icons.question_mark_rounded, color: colorScheme.onSurface),
             title: AppLocalizations.of(context)!.supportForm,

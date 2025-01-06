@@ -168,7 +168,7 @@ class StartInfoModal extends StatelessWidget {
                                   fontSize: 14,
                                 ),
                                 recognizer: TapGestureRecognizer()
-                                  ..onTap = () => openUrl(privacyPolicyUrl),
+                                  ..onTap = () => openUrl(Urls.privacyPolicy),
                               ),
                             ],
                           ),
