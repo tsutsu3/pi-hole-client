@@ -171,7 +171,12 @@ class _DomainListsWidgetState extends State<DomainListsWidget>
                           children: [
                             Icon(Icons.check_circle_rounded),
                             Flexible(child: SizedBox(width: 16)),
-                            Text('Whitelist'),
+                            Flexible(
+                              child: Text(
+                                'Whitelist',
+                                overflow: TextOverflow.ellipsis,
+                              ),
+                            ),
                           ],
                         ),
                       ),
@@ -181,7 +186,12 @@ class _DomainListsWidgetState extends State<DomainListsWidget>
                           children: [
                             Icon(Icons.block),
                             Flexible(child: SizedBox(width: 16)),
-                            Text('Blacklist'),
+                            Flexible(
+                              child: Text(
+                                'Blacklist',
+                                overflow: TextOverflow.ellipsis,
+                              ),
+                            ),
                           ],
                         ),
                       ),

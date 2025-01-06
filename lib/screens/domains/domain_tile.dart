@@ -51,6 +51,7 @@ class DomainTile extends StatelessWidget {
             color: convertColorFromNumber(colors, type),
             fontSize: 13,
             fontWeight: FontWeight.w400,
+            overflow: TextOverflow.ellipsis,
           ),
         ),
       );
@@ -110,7 +111,7 @@ class DomainTile extends StatelessWidget {
                     ),
                   ),
                   const SizedBox(width: 16),
-                  domainType(domain.type),
+                  Flexible(child: domainType(domain.type)),
                 ],
               ),
             ),
