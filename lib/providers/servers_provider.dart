@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:collection/collection.dart';
+import 'package:pi_hole_client/config/theme.dart';
 import 'package:pi_hole_client/constants/query_types.dart';
 import 'package:pi_hole_client/gateways/api_gateway_factory.dart';
 import 'package:pi_hole_client/gateways/api_gateway_interface.dart';
@@ -22,6 +23,10 @@ class ServersProvider with ChangeNotifier {
   Server? _selectedServer;
 
   final Map<String, ApiGateway> _serverGateways = {};
+
+  AppColors get colors => _appConfigProvider!.selectedTheme == ThemeMode.light
+      ? lightAppColors
+      : darkAppColors;
 
   AppConfigProvider? get appConfigProvider => _appConfigProvider;
 
