@@ -3,6 +3,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_phoenix/flutter_phoenix.dart';
 import 'package:pi_hole_client/constants/responsive.dart';
+import 'package:pi_hole_client/functions/conversions.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
@@ -304,7 +305,7 @@ class AdvancedOptions extends StatelessWidget {
             leadingIcon: Icons.delete,
             label: AppLocalizations.of(context)!.resetApplication,
             description: AppLocalizations.of(context)!.erasesAppData,
-            color: Colors.red,
+            color: convertColor(serversProvider.colors, Colors.red),
             onTap: openResetModal,
             padding: const EdgeInsets.only(
               top: 10,
