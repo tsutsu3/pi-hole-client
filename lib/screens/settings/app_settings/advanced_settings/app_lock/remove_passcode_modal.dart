@@ -21,10 +21,10 @@ class RemovePasscodeModal extends StatelessWidget {
       if (deleted == true) {
         Navigator.maybePop(context);
       } else {
-        showSnackBar(
+        showErrorSnackBar(
+          context: context,
           appConfigProvider: appConfigProvider,
           label: AppLocalizations.of(context)!.connectionCannotBeRemoved,
-          color: Colors.red,
         );
       }
     }

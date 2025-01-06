@@ -31,20 +31,20 @@ Future refreshServerStatus(BuildContext context) async {
     if (statusProvider.getStatusLoading == LoadStatus.loading) {
       statusProvider.setStatusLoading(LoadStatus.error);
     }
-    showSnackBar(
+    showErrorSnackBar(
+      context: context,
       appConfigProvider: appConfigProvider,
       label: AppLocalizations.of(context)!.sslErrorShort,
-      color: Colors.red,
     );
   } else {
     statusProvider.setIsServerConnected(false);
     if (statusProvider.getStatusLoading == LoadStatus.loading) {
       statusProvider.setStatusLoading(LoadStatus.error);
     }
-    showSnackBar(
+    showErrorSnackBar(
+      context: context,
       appConfigProvider: appConfigProvider,
       label: AppLocalizations.of(context)!.couldNotConnectServer,
-      color: Colors.red,
     );
   }
 }

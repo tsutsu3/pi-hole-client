@@ -48,10 +48,10 @@ class HomeAppBar extends StatelessWidget implements PreferredSizeWidget {
         if (statusProvider.getStatusLoading == LoadStatus.loading) {
           statusProvider.setStatusLoading(LoadStatus.error);
         }
-        showSnackBar(
+        showErrorSnackBar(
+          context: context,
           appConfigProvider: appConfigProvider,
-          label: AppLocalizations.of(context)!.notConnectServer,
-          color: Colors.red,
+          label: AppLocalizations.of(context)!.couldNotConnectServer,
         );
       }
     }
@@ -103,10 +103,10 @@ class HomeAppBar extends StatelessWidget implements PreferredSizeWidget {
       if (result?.result == APiResponseType.success) {
         await connectSuccess(result);
       } else {
-        showSnackBar(
+        showErrorSnackBar(
+          context: context,
           appConfigProvider: appConfigProvider,
-          label: AppLocalizations.of(context)!.cannotConnect,
-          color: Colors.red,
+          label: AppLocalizations.of(context)!.couldNotConnectServer,
         );
       }
     }

@@ -135,10 +135,10 @@ class _ServersTileItemState extends State<ServersTileItem>
       if (result?.result == APiResponseType.success) {
         await connectSuccess(result);
       } else if (mounted) {
-        showSnackBar(
+        showErrorSnackBar(
+          context: context,
           appConfigProvider: appConfigProvider,
           label: AppLocalizations.of(context)!.cannotConnect,
-          color: Colors.red,
         );
       }
       process.close();
@@ -148,16 +148,16 @@ class _ServersTileItemState extends State<ServersTileItem>
     void setDefaultServer(Server server) async {
       final result = await serversProvider.setDefaultServer(server);
       if (result == true) {
-        showSnackBar(
+        showSuccessSnackBar(
+          context: context,
           appConfigProvider: appConfigProvider,
           label: AppLocalizations.of(context)!.connectionDefaultSuccessfully,
-          color: Colors.green,
         );
       } else {
-        showSnackBar(
+        showErrorSnackBar(
+          context: context,
           appConfigProvider: appConfigProvider,
           label: AppLocalizations.of(context)!.connectionDefaultFailed,
-          color: Colors.red,
         );
       }
     }

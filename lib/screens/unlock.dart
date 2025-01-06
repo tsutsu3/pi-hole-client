@@ -53,17 +53,17 @@ class _UnlockState extends State<Unlock> {
       } catch (e) {
         if (!mounted) return;
         if (e.toString().contains('LockedOut')) {
-          showSnackBar(
+          showErrorSnackBar(
+            context: context,
             appConfigProvider: appConfigProvider,
             label: AppLocalizations.of(context)!
                 .fingerprintAuthUnavailableAttempts,
-            color: Colors.red,
           );
         } else {
-          showSnackBar(
+          showErrorSnackBar(
+            context: context,
             appConfigProvider: appConfigProvider,
             label: AppLocalizations.of(context)!.fingerprintAuthUnavailable,
-            color: Colors.red,
           );
         }
       }

@@ -265,29 +265,29 @@ class _LogsState extends State<Logs> {
       if (result?.result == APiResponseType.success) {
         if (result!.data!.message.contains('Added')) {
           if (!mounted) return;
-          showSnackBar(
+          showSuccessSnackBar(
+            context: context,
             appConfigProvider: appConfigProvider,
             label: list == 'white'
                 ? AppLocalizations.of(context)!.addedWhitelist
                 : AppLocalizations.of(context)!.addedBlacklist,
-            color: Colors.green,
           );
         } else {
-          showSnackBar(
+          showSuccessSnackBar(
+            context: context,
             appConfigProvider: appConfigProvider,
             label: list == 'white'
                 ? AppLocalizations.of(context)!.alreadyWhitelist
                 : AppLocalizations.of(context)!.alreadyBlacklist,
-            color: Colors.green,
           );
         }
       } else {
-        showSnackBar(
+        showErrorSnackBar(
+          context: context,
           appConfigProvider: appConfigProvider,
           label: list == 'white'
               ? AppLocalizations.of(context)!.couldntAddWhitelist
               : AppLocalizations.of(context)!.couldntAddBlacklist,
-          color: Colors.red,
         );
       }
     }

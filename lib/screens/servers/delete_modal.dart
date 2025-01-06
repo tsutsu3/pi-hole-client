@@ -27,16 +27,16 @@ class DeleteModal extends StatelessWidget {
           await serversProvider.removeServer(serverToDelete.address);
       Navigator.maybePop(context);
       if (deleted == true) {
-        showSnackBar(
+        showSuccessSnackBar(
+          context: context,
           appConfigProvider: appConfigProvider,
           label: AppLocalizations.of(context)!.connectionRemoved,
-          color: Colors.green,
         );
       } else {
-        showSnackBar(
+        showErrorSnackBar(
+          context: context,
           appConfigProvider: appConfigProvider,
           label: AppLocalizations.of(context)!.connectionCannotBeRemoved,
-          color: Colors.red,
         );
       }
     }

@@ -108,6 +108,8 @@ class AppColors extends ThemeExtension<AppColors> {
   final Color? snackBarSuccessText;
   final Color? snackBarError;
   final Color? snackBarErrorText;
+  final Color? snackBarNeutral;
+  final Color? snackBarNeutralText;
 
   final Color? cardWarning;
   final Color? cardWarningText;
@@ -126,6 +128,8 @@ class AppColors extends ThemeExtension<AppColors> {
     required this.snackBarSuccessText,
     required this.snackBarError,
     required this.snackBarErrorText,
+    required this.snackBarNeutral,
+    required this.snackBarNeutralText,
     required this.cardWarning,
     required this.cardWarningText,
     required this.queryRed,
@@ -143,6 +147,8 @@ class AppColors extends ThemeExtension<AppColors> {
     Color? snackBarSuccessText,
     Color? snackBarError,
     Color? snackBarErrorText,
+    Color? snackBarNeutral,
+    Color? snackBarNeutralText,
     Color? cardWarning,
     Color? cardWarningText,
     Color? queryRed,
@@ -158,6 +164,8 @@ class AppColors extends ThemeExtension<AppColors> {
       snackBarSuccessText: snackBarSuccessText ?? this.snackBarSuccessText,
       snackBarError: snackBarError ?? this.snackBarError,
       snackBarErrorText: snackBarErrorText ?? this.snackBarErrorText,
+      snackBarNeutral: snackBarNeutral ?? this.snackBarNeutral,
+      snackBarNeutralText: snackBarNeutralText ?? this.snackBarNeutralText,
       cardWarning: cardWarning ?? this.cardWarning,
       cardWarningText: cardWarningText ?? this.cardWarningText,
       queryRed: queryRed ?? this.queryRed,
@@ -182,6 +190,9 @@ class AppColors extends ThemeExtension<AppColors> {
       snackBarError: Color.lerp(snackBarError, other.snackBarError, t),
       snackBarErrorText:
           Color.lerp(snackBarErrorText, other.snackBarErrorText, t),
+      snackBarNeutral: Color.lerp(snackBarNeutral, other.snackBarNeutral, t),
+      snackBarNeutralText:
+          Color.lerp(snackBarNeutralText, other.snackBarNeutralText, t),
       cardWarning: Color.lerp(cardWarning, other.cardWarning, t),
       cardWarningText: Color.lerp(cardWarningText, other.cardWarningText, t),
       queryRed: Color.lerp(queryRed, other.queryRed, t),
@@ -200,6 +211,8 @@ class AppColors extends ThemeExtension<AppColors> {
       snackBarSuccessText: snackBarSuccessText!.harmonizeWith(dynamic.primary),
       snackBarError: snackBarError!.harmonizeWith(dynamic.primary),
       snackBarErrorText: snackBarErrorText!.harmonizeWith(dynamic.primary),
+      snackBarNeutral: snackBarNeutral!.harmonizeWith(dynamic.primary),
+      snackBarNeutralText: snackBarNeutralText!.harmonizeWith(dynamic.primary),
       cardWarning: cardWarning!.harmonizeWith(dynamic.primary),
       cardWarningText: cardWarningText!.harmonizeWith(dynamic.primary),
       queryRed: queryRed!.harmonizeWith(dynamic.primary),
@@ -218,6 +231,8 @@ const lightAppColors = AppColors(
   snackBarSuccessText: Color(0xFF1B5E20),
   snackBarError: Color(0xFFE57373),
   snackBarErrorText: Color(0xFFB71C1C),
+  snackBarNeutral: Color(0xFFE0E0E0),
+  snackBarNeutralText: Color(0xFF424242),
   cardWarning: Color(0xFFFFF176),
   cardWarningText: Color(0xFF212121),
   queryRed: Color(0xFFD32F2F),
@@ -234,6 +249,8 @@ const darkAppColors = AppColors(
   snackBarSuccessText: Color(0xFFA5D6A7),
   snackBarError: Color(0xFFB71C1C),
   snackBarErrorText: Color(0xFFFFCDD2),
+  snackBarNeutral: Color(0xFF424242),
+  snackBarNeutralText: Color(0xFFE0E0E0),
   cardWarning: Color(0xFFCC8500),
   cardWarningText: Color(0xFFEEEEEE),
   queryRed: Color(0xFFEF9A9A),

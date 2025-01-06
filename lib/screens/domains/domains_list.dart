@@ -91,24 +91,24 @@ class _DomainsListState extends State<DomainsList> {
       if (result?.result == APiResponseType.success) {
         domainsListProvider.removeDomainFromList(domain);
         Navigator.maybePop(context);
-        showSnackBar(
+        showSuccessSnackBar(
+          context: context,
           appConfigProvider: appConfigProvider,
           label: AppLocalizations.of(context)!.domainRemoved,
-          color: Colors.green,
         );
       } else if (result?.result == APiResponseType.error &&
           result!.message != null &&
           result.message == 'not_exists') {
-        showSnackBar(
+        showErrorSnackBar(
+          context: context,
           appConfigProvider: appConfigProvider,
           label: AppLocalizations.of(context)!.domainNotExists,
-          color: Colors.red,
         );
       } else {
-        showSnackBar(
+        showErrorSnackBar(
+          context: context,
           appConfigProvider: appConfigProvider,
           label: AppLocalizations.of(context)!.errorRemovingDomain,
-          color: Colors.red,
         );
       }
     }
@@ -123,22 +123,22 @@ class _DomainsListState extends State<DomainsList> {
 
       if (result?.result == APiResponseType.success) {
         domainsListProvider.fetchDomainsList(serversProvider.selectedServer!);
-        showSnackBar(
+        showSuccessSnackBar(
+          context: context,
           appConfigProvider: appConfigProvider,
           label: AppLocalizations.of(context)!.domainAdded,
-          color: Colors.green,
         );
       } else if (result?.result == APiResponseType.alreadyAdded) {
-        showSnackBar(
+        showErrorSnackBar(
+          context: context,
           appConfigProvider: appConfigProvider,
           label: AppLocalizations.of(context)!.domainAlreadyAdded,
-          color: Colors.orange,
         );
       } else {
-        showSnackBar(
+        showErrorSnackBar(
+          context: context,
           appConfigProvider: appConfigProvider,
           label: AppLocalizations.of(context)!.cannotAddDomain,
-          color: Colors.red,
         );
       }
     }

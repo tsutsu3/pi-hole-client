@@ -85,18 +85,18 @@ class _LogsQuantityLoadScreenState extends State<LogsQuantityLoadScreen> {
     final result = await Provider.of<AppConfigProvider>(context, listen: false)
         .setLogsPerQuery(_getTime());
     if (result == true) {
-      showSnackBar(
+      showSuccessSnackBar(
+        context: context,
         appConfigProvider:
             Provider.of<AppConfigProvider>(context, listen: false),
         label: AppLocalizations.of(context)!.logsPerQueryUpdated,
-        color: Colors.green,
       );
     } else {
-      showSnackBar(
+      showErrorSnackBar(
+        context: context,
         appConfigProvider:
             Provider.of<AppConfigProvider>(context, listen: false),
         label: AppLocalizations.of(context)!.cantUpdateLogsPerQuery,
-        color: Colors.green,
       );
     }
   }

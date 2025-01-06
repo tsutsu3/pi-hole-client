@@ -124,18 +124,18 @@ class _AutoRefreshTimeScreenState extends State<AutoRefreshTimeScreen> {
     final result = await Provider.of<AppConfigProvider>(context, listen: false)
         .setAutoRefreshTime(_getTime());
     if (result == true) {
-      showSnackBar(
+      showSuccessSnackBar(
+        context: context,
         appConfigProvider:
             Provider.of<AppConfigProvider>(context, listen: false),
         label: AppLocalizations.of(context)!.updateTimeChanged,
-        color: Colors.green,
       );
     } else {
-      showSnackBar(
+      showErrorSnackBar(
+        context: context,
         appConfigProvider:
             Provider.of<AppConfigProvider>(context, listen: false),
         label: AppLocalizations.of(context)!.cannotChangeUpdateTime,
-        color: Colors.red,
       );
     }
   }

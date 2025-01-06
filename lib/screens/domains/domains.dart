@@ -86,24 +86,24 @@ class _DomainListsWidgetState extends State<DomainListsWidget>
       if (result?.result == APiResponseType.success) {
         domainsListProvider.removeDomainFromList(domain);
 
-        showSnackBar(
+        showSuccessSnackBar(
+          context: context,
           appConfigProvider: appConfigProvider,
           label: AppLocalizations.of(context)!.domainRemoved,
-          color: Colors.green,
         );
       } else if (result!.result == APiResponseType.error &&
           result.message != null &&
           result.message == 'not_exists') {
-        showSnackBar(
+        showErrorSnackBar(
+          context: context,
           appConfigProvider: appConfigProvider,
           label: AppLocalizations.of(context)!.domainNotExists,
-          color: Colors.red,
         );
       } else {
-        showSnackBar(
+        showErrorSnackBar(
+          context: context,
           appConfigProvider: appConfigProvider,
           label: AppLocalizations.of(context)!.errorRemovingDomain,
-          color: Colors.red,
         );
       }
     }

@@ -89,44 +89,44 @@ class _AppUnlockSetupModalState extends State<AppUnlockSetupModal> {
             if (didAuthenticate == true) {
               final result = await appConfigProvider.setUseBiometrics(true);
               if (result == false) {
-                showSnackBar(
+                showErrorSnackBar(
+                  context: context,
                   appConfigProvider: appConfigProvider,
                   label:
                       AppLocalizations.of(context)!.biometricUnlockNotActivated,
-                  color: Colors.red,
                 );
               }
             }
           } catch (e) {
             if (e.toString().contains('LockedOut')) {
-              showSnackBar(
+              showErrorSnackBar(
+                context: context,
                 appConfigProvider: appConfigProvider,
                 label: AppLocalizations.of(context)!
                     .fingerprintAuthUnavailableAttempts,
-                color: Colors.red,
               );
             } else {
-              showSnackBar(
+              showErrorSnackBar(
+                context: context,
                 appConfigProvider: appConfigProvider,
                 label: AppLocalizations.of(context)!.fingerprintAuthUnavailable,
-                color: Colors.red,
               );
             }
           }
         } else {
-          showSnackBar(
+          showNeutralSnackBar(
+            context: context,
             appConfigProvider: appConfigProvider,
             label: AppLocalizations.of(context)!.noAvailableBiometrics,
-            color: Theme.of(context).colorScheme.onSurfaceVariant,
           );
         }
       } else {
         final result = await appConfigProvider.setUseBiometrics(false);
         if (result == false) {
-          showSnackBar(
+          showErrorSnackBar(
+            context: context,
             appConfigProvider: appConfigProvider,
             label: AppLocalizations.of(context)!.biometricUnlockNotDisabled,
-            color: Colors.red,
           );
         }
       }

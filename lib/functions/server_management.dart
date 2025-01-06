@@ -22,16 +22,16 @@ void enableServer(BuildContext context) async {
   process.close();
   if (result?.result == APiResponseType.success) {
     serversProvider.updateselectedServerStatus(true);
-    showSnackBar(
+    showSuccessSnackBar(
+      context: context,
       appConfigProvider: appConfigProvider,
       label: AppLocalizations.of(context)!.serverEnabled,
-      color: Colors.green,
     );
   } else {
-    showSnackBar(
+    showErrorSnackBar(
+      context: context,
       appConfigProvider: appConfigProvider,
       label: AppLocalizations.of(context)!.couldntEnableServer,
-      color: Colors.red,
     );
   }
 }
@@ -49,16 +49,16 @@ void disableServer(int time, BuildContext context) async {
   if (!context.mounted) return;
   if (result?.result == APiResponseType.success) {
     serversProvider.updateselectedServerStatus(false);
-    showSnackBar(
+    showSuccessSnackBar(
+      context: context,
       appConfigProvider: appConfigProvider,
       label: AppLocalizations.of(context)!.serverDisabled,
-      color: Colors.green,
     );
   } else {
-    showSnackBar(
+    showErrorSnackBar(
+      context: context,
       appConfigProvider: appConfigProvider,
       label: AppLocalizations.of(context)!.couldntDisableServer,
-      color: Colors.red,
     );
   }
 }
