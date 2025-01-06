@@ -1,4 +1,53 @@
 import 'package:flutter/material.dart';
+import 'package:pi_hole_client/constants/responsive.dart';
+
+/// Displays a status metric in a responsive tile.
+///
+/// `HomeTileItem` is used to show key statistics such as total queries,
+/// blocked queries, or percentage blocked in the Pi-hole dashboard.
+///
+/// ## Parameters
+/// - `icon`: The icon to display in the card.
+/// - `iconColor`: The color of the icon.
+/// - `color`: The color of the card.
+/// - `label`: The label to display in the card.
+/// - `value`: The value to display in the card.
+/// - `width`: The width of the card.
+class HomeTileItem extends StatelessWidget {
+  const HomeTileItem({
+    super.key,
+    required this.icon,
+    required this.iconColor,
+    required this.color,
+    required this.label,
+    required this.value,
+    required this.width,
+  });
+
+  final IconData icon;
+  final Color iconColor;
+  final Color color;
+  final String label;
+  final String value;
+  final double width;
+
+  @override
+  Widget build(BuildContext context) {
+    return FractionallySizedBox(
+      widthFactor: width > ResponsiveConstants.medium ? 0.25 : 0.5,
+      child: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 8),
+        child: HomeTile(
+          icon: icon,
+          iconColor: iconColor,
+          color: color,
+          label: label,
+          value: value,
+        ),
+      ),
+    );
+  }
+}
 
 class HomeTile extends StatelessWidget {
   const HomeTile({
