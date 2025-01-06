@@ -175,9 +175,8 @@ class StatisticsListContent extends StatelessWidget {
                           percent: (item['value'] / totalHits).toDouble(),
                           barRadius: const Radius.circular(5),
                           progressColor: Theme.of(context).colorScheme.primary,
-                          backgroundColor: Theme.of(context)
-                              .colorScheme
-                              .surfaceContainerHighest,
+                          backgroundColor:
+                              Theme.of(context).colorScheme.primaryContainer,
                         ),
                       ),
                     ],
