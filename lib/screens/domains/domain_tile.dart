@@ -23,30 +23,11 @@ class DomainTile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     Widget domainType(int type) {
-      String getString(int type) {
-        switch (type) {
-          case 0:
-            return 'Whitelist';
-
-          case 1:
-            return 'Blacklist';
-
-          case 2:
-            return 'Whitelist Regex';
-
-          case 3:
-            return 'Blacklist Regex';
-
-          default:
-            return '';
-        }
-      }
-
       return Container(
         padding: const EdgeInsets.symmetric(horizontal: 4, vertical: 2),
         decoration: BoxDecoration(borderRadius: BorderRadius.circular(50)),
         child: Text(
-          getString(type),
+          getDomainType(type),
           style: TextStyle(
             color: convertColorFromNumber(colors, type),
             fontSize: 13,

@@ -25,25 +25,6 @@ class DomainDetailsScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    String getType(int type) {
-      switch (type) {
-        case 0:
-          return 'Whitelist';
-
-        case 1:
-          return 'Blacklist';
-
-        case 2:
-          return 'Whitelist Regex';
-
-        case 3:
-          return 'Blacklist Regex';
-
-        default:
-          return '';
-      }
-    }
-
     return Scaffold(
       appBar: AppBar(
         title: Text(AppLocalizations.of(context)!.domainDetails),
@@ -73,7 +54,7 @@ class DomainDetailsScreen extends StatelessWidget {
           CustomListTile(
             leadingIcon: Icons.category_rounded,
             label: AppLocalizations.of(context)!.type,
-            description: getType(domain.type),
+            description: getDomainType(domain.type),
             color: colors != null
                 ? convertColorFromNumber(colors!, domain.type)
                 : null,
