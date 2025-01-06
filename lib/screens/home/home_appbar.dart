@@ -1,6 +1,7 @@
 // ignore_for_file: use_build_context_synchronously
 
 import 'package:flutter/material.dart';
+import 'package:pi_hole_client/functions/conversions.dart';
 import 'package:pi_hole_client/models/gateways.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
@@ -135,8 +136,8 @@ class HomeAppBar extends StatelessWidget implements PreferredSizeWidget {
         size: 30,
         color: statusProvider.isServerConnected == true
             ? serversProvider.selectedServer!.enabled == true
-                ? Colors.green
-                : Colors.red
+                ? convertColor(serversProvider.colors, Colors.green)
+                : convertColor(serversProvider.colors, Colors.red)
             : Colors.grey,
       ),
       title: Row(
