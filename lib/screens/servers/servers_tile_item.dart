@@ -2,6 +2,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:pi_hole_client/constants/responsive.dart';
+import 'package:pi_hole_client/functions/conversions.dart';
 import 'package:pi_hole_client/models/gateways.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
@@ -205,8 +206,8 @@ class _ServersTileItemState extends State<ServersTileItem>
           color: serversProvider.selectedServer != null &&
                   serversProvider.selectedServer?.address == server.address
               ? statusProvider.isServerConnected == true
-                  ? Colors.green
-                  : Colors.orange
+                  ? convertColor(serversProvider.colors, Colors.green)
+                  : convertColor(serversProvider.colors, Colors.orange)
               : null,
         );
       }
@@ -327,8 +328,14 @@ class _ServersTileItemState extends State<ServersTileItem>
                                   ? Icons.check
                                   : Icons.warning,
                               color: statusProvider.isServerConnected == true
-                                  ? Colors.green
-                                  : Colors.orange,
+                                  ? convertColor(
+                                      serversProvider.colors,
+                                      Colors.green,
+                                    )
+                                  : convertColor(
+                                      serversProvider.colors,
+                                      Colors.orange,
+                                    ),
                             ),
                             const SizedBox(width: 10),
                             Text(
@@ -338,8 +345,14 @@ class _ServersTileItemState extends State<ServersTileItem>
                                       .selectedDisconnected,
                               style: TextStyle(
                                 color: statusProvider.isServerConnected == true
-                                    ? Colors.green
-                                    : Colors.orange,
+                                    ? convertColor(
+                                        serversProvider.colors,
+                                        Colors.green,
+                                      )
+                                    : convertColor(
+                                        serversProvider.colors,
+                                        Colors.orange,
+                                      ),
                                 fontWeight: FontWeight.w500,
                               ),
                             ),
