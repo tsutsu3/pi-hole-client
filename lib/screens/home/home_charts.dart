@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:pi_hole_client/config/theme.dart';
 import 'package:pi_hole_client/constants/responsive.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
@@ -8,7 +9,6 @@ import 'package:pi_hole_client/screens/home/queries_last_hours.dart';
 import 'package:pi_hole_client/screens/home/clients_last_hours.dart';
 import 'package:pi_hole_client/widgets/section_label.dart';
 
-import 'package:pi_hole_client/constants/colors.dart';
 import 'package:pi_hole_client/providers/status_provider.dart';
 import 'package:pi_hole_client/models/overtime_data.dart';
 import 'package:pi_hole_client/providers/app_config_provider.dart';
@@ -43,7 +43,7 @@ class HomeCharts extends StatelessWidget {
     Color getColor(Client client, int index) {
       final exists = clientsListIps.indexOf(client.ip);
       if (exists >= 0) {
-        return colors[exists];
+        return Theme.of(context).extension<GraphColors>()!.getColor(exists);
       } else {
         return client.color;
       }

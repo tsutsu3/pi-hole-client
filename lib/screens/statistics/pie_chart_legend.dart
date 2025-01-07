@@ -1,6 +1,6 @@
 import 'dart:io';
 
-import 'package:pi_hole_client/constants/colors.dart';
+import 'package:pi_hole_client/config/theme.dart';
 import 'package:pi_hole_client/functions/conversions.dart';
 import 'package:flutter/material.dart';
 
@@ -41,7 +41,9 @@ class PieChartLegend extends StatelessWidget {
                             height: 15,
                             decoration: BoxDecoration(
                               borderRadius: BorderRadius.circular(15),
-                              color: colors[index],
+                              color: Theme.of(context)
+                                  .extension<GraphColors>()!
+                                  .getColor(index),
                             ),
                           ),
                           const SizedBox(width: 20),

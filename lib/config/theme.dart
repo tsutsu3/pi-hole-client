@@ -262,6 +262,96 @@ const darkAppColors = AppColors(
   commonGreen: Color(0xFFA5D6A7),
 );
 
+@immutable
+class GraphColors extends ThemeExtension<GraphColors> {
+  final List<Color> colors;
+
+  const GraphColors({required this.colors});
+
+  @override
+  GraphColors copyWith({List<Color>? colors}) {
+    return GraphColors(colors: colors ?? this.colors);
+  }
+
+  @override
+  GraphColors lerp(ThemeExtension<GraphColors>? other, double t) {
+    if (other is! GraphColors) return this;
+    return GraphColors(
+      colors: List.generate(colors.length, (i) {
+        return Color.lerp(colors[i], other.colors[i], t) ?? colors[i];
+      }),
+    );
+  }
+
+  GraphColors harmonized(ColorScheme dynamic) {
+    return copyWith(
+      colors:
+          colors.map((color) => color.harmonizeWith(dynamic.primary)).toList(),
+    );
+  }
+
+  Color getColor(int index, [Color? defaultColor]) {
+    if (index >= 0 && index < colors.length) {
+      return colors[index];
+    }
+    return defaultColor ?? Colors.black;
+  }
+}
+
+const lightGraphColors = GraphColors(
+  colors: [
+    Colors.blue,
+    Colors.red,
+    Colors.amber,
+    Colors.green,
+    Colors.cyan,
+    Colors.blueGrey,
+    Colors.deepPurple,
+    Colors.orange,
+    Colors.lightBlue,
+    Colors.brown,
+    Colors.deepOrange,
+    Colors.amberAccent,
+    Colors.blueAccent,
+    Colors.grey,
+    Colors.indigo,
+    Colors.redAccent,
+    Colors.yellowAccent,
+    Colors.purple,
+    Colors.limeAccent,
+    Colors.teal,
+    Colors.pink,
+    Colors.greenAccent,
+  ],
+);
+
+const darkGraphColors = GraphColors(
+  colors: [
+    Color(0xFF42A5F5), // shade400
+    Color(0xFFEF5350), // shade400
+    Color(0xFFFFCA28), // shade400
+    Color(0xFF66BB6A), // shade400
+    Color(0xFF26C6DA), // shade400
+    Color(0xFF78909C), // shade400
+    Color(0xFF9575CD), // shade400
+    Color(0xFFFFA726), // shade400
+    Color(0xFF29B6F6), // shade400
+    Color(0xFF8D6E63), // shade400
+    Color(0xFFFF7043), // shade400
+    Color(0xFFFFD54F), // A200
+    Color(0xFF448AFF), // A200
+    Color(0xFFBDBDBD), // shade400
+    Color(0xFF5C6BC0), // shade400
+    Color(0xFFFF5252), // A200
+    Color(0xFFFFFF00), // A200
+    Color(0xFFAB47BC), // shade400
+    Color(0xFFEEFF41), // A200
+    Color(0xFF26A69A), // shade400
+    Color(0xFFEC407A), // shade400
+    Color(0xFF00E676), // A400
+  ],
+);
+
 // ----------------------------------------------------------------------------
 // Themes
 // ----------------------------------------------------------------------------
@@ -271,6 +361,7 @@ ThemeData createTheme(
   Brightness brightness,
   DataVisColors dataVisColors,
   AppColors appColors,
+  GraphColors graphColors,
 ) {
   final colorScheme = dynamicColorScheme ??
       ColorScheme.fromSeed(seedColor: Colors.blue, brightness: brightness);
@@ -319,6 +410,7 @@ ThemeData createTheme(
       // appColors.harmonized(colorScheme),
       dataVisColors,
       appColors,
+      graphColors,
     ],
   );
 }
@@ -328,6 +420,7 @@ ThemeData lightTheme(ColorScheme? dynamicColorScheme) => createTheme(
       Brightness.light,
       lightDataVisColors,
       lightAppColors,
+      lightGraphColors,
     );
 
 ThemeData darkTheme(ColorScheme? dynamicColorScheme) => createTheme(
@@ -335,4 +428,5 @@ ThemeData darkTheme(ColorScheme? dynamicColorScheme) => createTheme(
       Brightness.dark,
       darkDataVisColors,
       darkAppColors,
+      darkGraphColors,
     );

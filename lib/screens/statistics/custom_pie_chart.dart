@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:pi_hole_client/config/theme.dart';
 import 'package:pie_chart/pie_chart.dart';
-
-import 'package:pi_hole_client/constants/colors.dart';
 
 class CustomPieChart extends StatelessWidget {
   const CustomPieChart({
@@ -17,7 +16,7 @@ class CustomPieChart extends StatelessWidget {
       dataMap: data,
       animationDuration: const Duration(milliseconds: 800),
       chartRadius: MediaQuery.of(context).size.width / 3,
-      colorList: colors,
+      colorList: Theme.of(context).extension<GraphColors>()!.colors,
       initialAngleInDegree: 270,
       chartType: ChartType.ring,
       ringStrokeWidth: 20,
