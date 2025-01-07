@@ -1,6 +1,7 @@
 // ignore_for_file: use_build_context_synchronously
 
 import 'package:flutter/material.dart';
+import 'package:pi_hole_client/functions/conversions.dart';
 import 'package:pi_hole_client/models/gateways.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
@@ -48,10 +49,10 @@ class HomeAppBar extends StatelessWidget implements PreferredSizeWidget {
         if (statusProvider.getStatusLoading == LoadStatus.loading) {
           statusProvider.setStatusLoading(LoadStatus.error);
         }
-        showSnackBar(
+        showErrorSnackBar(
+          context: context,
           appConfigProvider: appConfigProvider,
-          label: AppLocalizations.of(context)!.notConnectServer,
-          color: Colors.red,
+          label: AppLocalizations.of(context)!.couldNotConnectServer,
         );
       }
     }
@@ -103,10 +104,10 @@ class HomeAppBar extends StatelessWidget implements PreferredSizeWidget {
       if (result?.result == APiResponseType.success) {
         await connectSuccess(result);
       } else {
-        showSnackBar(
+        showErrorSnackBar(
+          context: context,
           appConfigProvider: appConfigProvider,
-          label: AppLocalizations.of(context)!.cannotConnect,
-          color: Colors.red,
+          label: AppLocalizations.of(context)!.couldNotConnectServer,
         );
       }
     }
@@ -135,8 +136,8 @@ class HomeAppBar extends StatelessWidget implements PreferredSizeWidget {
         size: 30,
         color: statusProvider.isServerConnected == true
             ? serversProvider.selectedServer!.enabled == true
-                ? Colors.green
-                : Colors.red
+                ? convertColor(serversProvider.colors, Colors.green)
+                : convertColor(serversProvider.colors, Colors.red)
             : Colors.grey,
       ),
       title: Row(

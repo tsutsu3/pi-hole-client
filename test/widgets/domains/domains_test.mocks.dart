@@ -3,26 +3,25 @@
 // Do not manually edit this file.
 
 // ignore_for_file: no_leading_underscores_for_library_prefixes
-import 'dart:async' as _i11;
-import 'dart:ui' as _i13;
+import 'dart:async' as _i12;
+import 'dart:ui' as _i14;
 
-import 'package:device_info_plus/device_info_plus.dart' as _i10;
-import 'package:flutter/material.dart' as _i6;
-import 'package:http/http.dart' as _i3;
+import 'package:device_info_plus/device_info_plus.dart' as _i11;
+import 'package:flutter/material.dart' as _i7;
+import 'package:http/http.dart' as _i4;
 import 'package:mockito/mockito.dart' as _i1;
-import 'package:mockito/src/dummies.dart' as _i7;
-import 'package:package_info_plus/package_info_plus.dart' as _i9;
-import 'package:pi_hole_client/constants/enums.dart' as _i16;
-import 'package:pi_hole_client/gateways/api_gateway_interface.dart' as _i19;
-import 'package:pi_hole_client/gateways/v6/api_gateway_v6.dart' as _i20;
-import 'package:pi_hole_client/models/app_log.dart' as _i8;
-import 'package:pi_hole_client/models/domain.dart' as _i17;
-import 'package:pi_hole_client/models/gateways.dart' as _i4;
-import 'package:pi_hole_client/models/query_status.dart' as _i18;
-import 'package:pi_hole_client/models/repository/database.dart' as _i12;
-import 'package:pi_hole_client/models/server.dart' as _i2;
-import 'package:pi_hole_client/providers/app_config_provider.dart' as _i5;
-import 'package:pi_hole_client/providers/domains_list_provider.dart' as _i14;
+import 'package:mockito/src/dummies.dart' as _i8;
+import 'package:package_info_plus/package_info_plus.dart' as _i10;
+import 'package:pi_hole_client/config/theme.dart' as _i2;
+import 'package:pi_hole_client/gateways/api_gateway_interface.dart' as _i17;
+import 'package:pi_hole_client/gateways/v6/api_gateway_v6.dart' as _i18;
+import 'package:pi_hole_client/models/app_log.dart' as _i9;
+import 'package:pi_hole_client/models/domain.dart' as _i19;
+import 'package:pi_hole_client/models/gateways.dart' as _i5;
+import 'package:pi_hole_client/models/query_status.dart' as _i16;
+import 'package:pi_hole_client/models/repository/database.dart' as _i13;
+import 'package:pi_hole_client/models/server.dart' as _i3;
+import 'package:pi_hole_client/providers/app_config_provider.dart' as _i6;
 import 'package:pi_hole_client/providers/servers_provider.dart' as _i15;
 
 // ignore_for_file: type=lint
@@ -39,8 +38,8 @@ import 'package:pi_hole_client/providers/servers_provider.dart' as _i15;
 // ignore_for_file: camel_case_types
 // ignore_for_file: subtype_of_sealed_class
 
-class _FakeServer_0 extends _i1.SmartFake implements _i2.Server {
-  _FakeServer_0(
+class _FakeAppColors_0 extends _i1.SmartFake implements _i2.AppColors {
+  _FakeAppColors_0(
     Object parent,
     Invocation parentInvocation,
   ) : super(
@@ -49,8 +48,8 @@ class _FakeServer_0 extends _i1.SmartFake implements _i2.Server {
         );
 }
 
-class _FakeResponse_1 extends _i1.SmartFake implements _i3.Response {
-  _FakeResponse_1(
+class _FakeServer_1 extends _i1.SmartFake implements _i3.Server {
+  _FakeServer_1(
     Object parent,
     Invocation parentInvocation,
   ) : super(
@@ -59,9 +58,8 @@ class _FakeResponse_1 extends _i1.SmartFake implements _i3.Response {
         );
 }
 
-class _FakeLoginQueryResponse_2 extends _i1.SmartFake
-    implements _i4.LoginQueryResponse {
-  _FakeLoginQueryResponse_2(
+class _FakeResponse_2 extends _i1.SmartFake implements _i4.Response {
+  _FakeResponse_2(
     Object parent,
     Invocation parentInvocation,
   ) : super(
@@ -70,9 +68,9 @@ class _FakeLoginQueryResponse_2 extends _i1.SmartFake
         );
 }
 
-class _FakeRealtimeStatusResponse_3 extends _i1.SmartFake
-    implements _i4.RealtimeStatusResponse {
-  _FakeRealtimeStatusResponse_3(
+class _FakeLoginQueryResponse_3 extends _i1.SmartFake
+    implements _i5.LoginQueryResponse {
+  _FakeLoginQueryResponse_3(
     Object parent,
     Invocation parentInvocation,
   ) : super(
@@ -81,9 +79,9 @@ class _FakeRealtimeStatusResponse_3 extends _i1.SmartFake
         );
 }
 
-class _FakeDisableServerResponse_4 extends _i1.SmartFake
-    implements _i4.DisableServerResponse {
-  _FakeDisableServerResponse_4(
+class _FakeRealtimeStatusResponse_4 extends _i1.SmartFake
+    implements _i5.RealtimeStatusResponse {
+  _FakeRealtimeStatusResponse_4(
     Object parent,
     Invocation parentInvocation,
   ) : super(
@@ -92,9 +90,9 @@ class _FakeDisableServerResponse_4 extends _i1.SmartFake
         );
 }
 
-class _FakeEnableServerResponse_5 extends _i1.SmartFake
-    implements _i4.EnableServerResponse {
-  _FakeEnableServerResponse_5(
+class _FakeDisableServerResponse_5 extends _i1.SmartFake
+    implements _i5.DisableServerResponse {
+  _FakeDisableServerResponse_5(
     Object parent,
     Invocation parentInvocation,
   ) : super(
@@ -103,9 +101,9 @@ class _FakeEnableServerResponse_5 extends _i1.SmartFake
         );
 }
 
-class _FakeFetchOverTimeDataResponse_6 extends _i1.SmartFake
-    implements _i4.FetchOverTimeDataResponse {
-  _FakeFetchOverTimeDataResponse_6(
+class _FakeEnableServerResponse_6 extends _i1.SmartFake
+    implements _i5.EnableServerResponse {
+  _FakeEnableServerResponse_6(
     Object parent,
     Invocation parentInvocation,
   ) : super(
@@ -114,9 +112,9 @@ class _FakeFetchOverTimeDataResponse_6 extends _i1.SmartFake
         );
 }
 
-class _FakeFetchLogsResponse_7 extends _i1.SmartFake
-    implements _i4.FetchLogsResponse {
-  _FakeFetchLogsResponse_7(
+class _FakeFetchOverTimeDataResponse_7 extends _i1.SmartFake
+    implements _i5.FetchOverTimeDataResponse {
+  _FakeFetchOverTimeDataResponse_7(
     Object parent,
     Invocation parentInvocation,
   ) : super(
@@ -125,9 +123,9 @@ class _FakeFetchLogsResponse_7 extends _i1.SmartFake
         );
 }
 
-class _FakeSetWhiteBlacklistResponse_8 extends _i1.SmartFake
-    implements _i4.SetWhiteBlacklistResponse {
-  _FakeSetWhiteBlacklistResponse_8(
+class _FakeFetchLogsResponse_8 extends _i1.SmartFake
+    implements _i5.FetchLogsResponse {
+  _FakeFetchLogsResponse_8(
     Object parent,
     Invocation parentInvocation,
   ) : super(
@@ -136,9 +134,9 @@ class _FakeSetWhiteBlacklistResponse_8 extends _i1.SmartFake
         );
 }
 
-class _FakeGetDomainLists_9 extends _i1.SmartFake
-    implements _i4.GetDomainLists {
-  _FakeGetDomainLists_9(
+class _FakeSetWhiteBlacklistResponse_9 extends _i1.SmartFake
+    implements _i5.SetWhiteBlacklistResponse {
+  _FakeSetWhiteBlacklistResponse_9(
     Object parent,
     Invocation parentInvocation,
   ) : super(
@@ -147,9 +145,9 @@ class _FakeGetDomainLists_9 extends _i1.SmartFake
         );
 }
 
-class _FakeRemoveDomainFromListResponse_10 extends _i1.SmartFake
-    implements _i4.RemoveDomainFromListResponse {
-  _FakeRemoveDomainFromListResponse_10(
+class _FakeGetDomainLists_10 extends _i1.SmartFake
+    implements _i5.GetDomainLists {
+  _FakeGetDomainLists_10(
     Object parent,
     Invocation parentInvocation,
   ) : super(
@@ -158,9 +156,20 @@ class _FakeRemoveDomainFromListResponse_10 extends _i1.SmartFake
         );
 }
 
-class _FakeAddDomainToListResponse_11 extends _i1.SmartFake
-    implements _i4.AddDomainToListResponse {
-  _FakeAddDomainToListResponse_11(
+class _FakeRemoveDomainFromListResponse_11 extends _i1.SmartFake
+    implements _i5.RemoveDomainFromListResponse {
+  _FakeRemoveDomainFromListResponse_11(
+    Object parent,
+    Invocation parentInvocation,
+  ) : super(
+          parent,
+          parentInvocation,
+        );
+}
+
+class _FakeAddDomainToListResponse_12 extends _i1.SmartFake
+    implements _i5.AddDomainToListResponse {
+  _FakeAddDomainToListResponse_12(
     Object parent,
     Invocation parentInvocation,
   ) : super(
@@ -172,10 +181,19 @@ class _FakeAddDomainToListResponse_11 extends _i1.SmartFake
 /// A class which mocks [AppConfigProvider].
 ///
 /// See the documentation for Mockito's code generation for more information.
-class MockAppConfigProvider extends _i1.Mock implements _i5.AppConfigProvider {
+class MockAppConfigProvider extends _i1.Mock implements _i6.AppConfigProvider {
   MockAppConfigProvider() {
     _i1.throwOnMissingStub(this);
   }
+
+  @override
+  _i2.AppColors get colors => (super.noSuchMethod(
+        Invocation.getter(#colors),
+        returnValue: _FakeAppColors_0(
+          this,
+          Invocation.getter(#colors),
+        ),
+      ) as _i2.AppColors);
 
   @override
   bool get showingSnackbar => (super.noSuchMethod(
@@ -190,15 +208,15 @@ class MockAppConfigProvider extends _i1.Mock implements _i5.AppConfigProvider {
       ) as int);
 
   @override
-  _i6.ThemeMode get selectedTheme => (super.noSuchMethod(
+  _i7.ThemeMode get selectedTheme => (super.noSuchMethod(
         Invocation.getter(#selectedTheme),
-        returnValue: _i6.ThemeMode.system,
-      ) as _i6.ThemeMode);
+        returnValue: _i7.ThemeMode.system,
+      ) as _i7.ThemeMode);
 
   @override
   String get selectedLanguage => (super.noSuchMethod(
         Invocation.getter(#selectedLanguage),
-        returnValue: _i7.dummyValue<String>(
+        returnValue: _i8.dummyValue<String>(
           this,
           Invocation.getter(#selectedLanguage),
         ),
@@ -289,10 +307,10 @@ class MockAppConfigProvider extends _i1.Mock implements _i5.AppConfigProvider {
       ) as bool);
 
   @override
-  List<_i8.AppLog> get logs => (super.noSuchMethod(
+  List<_i9.AppLog> get logs => (super.noSuchMethod(
         Invocation.getter(#logs),
-        returnValue: <_i8.AppLog>[],
-      ) as List<_i8.AppLog>);
+        returnValue: <_i9.AppLog>[],
+      ) as List<_i9.AppLog>);
 
   @override
   bool get hasListeners => (super.noSuchMethod(
@@ -319,7 +337,7 @@ class MockAppConfigProvider extends _i1.Mock implements _i5.AppConfigProvider {
       );
 
   @override
-  void setAppInfo(_i9.PackageInfo? appInfo) => super.noSuchMethod(
+  void setAppInfo(_i10.PackageInfo? appInfo) => super.noSuchMethod(
         Invocation.method(
           #setAppInfo,
           [appInfo],
@@ -328,7 +346,7 @@ class MockAppConfigProvider extends _i1.Mock implements _i5.AppConfigProvider {
       );
 
   @override
-  void setAndroidInfo(_i10.AndroidDeviceInfo? deviceInfo) => super.noSuchMethod(
+  void setAndroidInfo(_i11.AndroidDeviceInfo? deviceInfo) => super.noSuchMethod(
         Invocation.method(
           #setAndroidInfo,
           [deviceInfo],
@@ -337,7 +355,7 @@ class MockAppConfigProvider extends _i1.Mock implements _i5.AppConfigProvider {
       );
 
   @override
-  void setIosInfo(_i10.IosDeviceInfo? deviceInfo) => super.noSuchMethod(
+  void setIosInfo(_i11.IosDeviceInfo? deviceInfo) => super.noSuchMethod(
         Invocation.method(
           #setIosInfo,
           [deviceInfo],
@@ -373,7 +391,7 @@ class MockAppConfigProvider extends _i1.Mock implements _i5.AppConfigProvider {
       );
 
   @override
-  void addLog(_i8.AppLog? log) => super.noSuchMethod(
+  void addLog(_i9.AppLog? log) => super.noSuchMethod(
         Invocation.method(
           #addLog,
           [log],
@@ -399,61 +417,61 @@ class MockAppConfigProvider extends _i1.Mock implements _i5.AppConfigProvider {
       );
 
   @override
-  _i11.Future<bool> setUseBiometrics(bool? biometrics) => (super.noSuchMethod(
+  _i12.Future<bool> setUseBiometrics(bool? biometrics) => (super.noSuchMethod(
         Invocation.method(
           #setUseBiometrics,
           [biometrics],
         ),
-        returnValue: _i11.Future<bool>.value(false),
-      ) as _i11.Future<bool>);
+        returnValue: _i12.Future<bool>.value(false),
+      ) as _i12.Future<bool>);
 
   @override
-  _i11.Future<bool> setImportantInfoReaden(bool? status) => (super.noSuchMethod(
+  _i12.Future<bool> setImportantInfoReaden(bool? status) => (super.noSuchMethod(
         Invocation.method(
           #setImportantInfoReaden,
           [status],
         ),
-        returnValue: _i11.Future<bool>.value(false),
-      ) as _i11.Future<bool>);
+        returnValue: _i12.Future<bool>.value(false),
+      ) as _i12.Future<bool>);
 
   @override
-  _i11.Future<bool> setPassCode(String? code) => (super.noSuchMethod(
+  _i12.Future<bool> setPassCode(String? code) => (super.noSuchMethod(
         Invocation.method(
           #setPassCode,
           [code],
         ),
-        returnValue: _i11.Future<bool>.value(false),
-      ) as _i11.Future<bool>);
+        returnValue: _i12.Future<bool>.value(false),
+      ) as _i12.Future<bool>);
 
   @override
-  _i11.Future<bool> setAutoRefreshTime(int? seconds) => (super.noSuchMethod(
+  _i12.Future<bool> setAutoRefreshTime(int? seconds) => (super.noSuchMethod(
         Invocation.method(
           #setAutoRefreshTime,
           [seconds],
         ),
-        returnValue: _i11.Future<bool>.value(false),
-      ) as _i11.Future<bool>);
+        returnValue: _i12.Future<bool>.value(false),
+      ) as _i12.Future<bool>);
 
   @override
-  _i11.Future<bool> setLogsPerQuery(double? time) => (super.noSuchMethod(
+  _i12.Future<bool> setLogsPerQuery(double? time) => (super.noSuchMethod(
         Invocation.method(
           #setLogsPerQuery,
           [time],
         ),
-        returnValue: _i11.Future<bool>.value(false),
-      ) as _i11.Future<bool>);
+        returnValue: _i12.Future<bool>.value(false),
+      ) as _i12.Future<bool>);
 
   @override
-  _i11.Future<bool> setSendCrashReports(bool? status) => (super.noSuchMethod(
+  _i12.Future<bool> setSendCrashReports(bool? status) => (super.noSuchMethod(
         Invocation.method(
           #setSendCrashReports,
           [status],
         ),
-        returnValue: _i11.Future<bool>.value(false),
-      ) as _i11.Future<bool>);
+        returnValue: _i12.Future<bool>.value(false),
+      ) as _i12.Future<bool>);
 
   @override
-  void saveFromDb(_i12.AppDbData? dbData) => super.noSuchMethod(
+  void saveFromDb(_i13.AppDbData? dbData) => super.noSuchMethod(
         Invocation.method(
           #saveFromDb,
           [dbData],
@@ -462,80 +480,80 @@ class MockAppConfigProvider extends _i1.Mock implements _i5.AppConfigProvider {
       );
 
   @override
-  _i11.Future<bool> setOverrideSslCheck(bool? status) => (super.noSuchMethod(
+  _i12.Future<bool> setOverrideSslCheck(bool? status) => (super.noSuchMethod(
         Invocation.method(
           #setOverrideSslCheck,
           [status],
         ),
-        returnValue: _i11.Future<bool>.value(false),
-      ) as _i11.Future<bool>);
+        returnValue: _i12.Future<bool>.value(false),
+      ) as _i12.Future<bool>);
 
   @override
-  _i11.Future<bool> setOneColumnLegend(bool? status) => (super.noSuchMethod(
+  _i12.Future<bool> setOneColumnLegend(bool? status) => (super.noSuchMethod(
         Invocation.method(
           #setOneColumnLegend,
           [status],
         ),
-        returnValue: _i11.Future<bool>.value(false),
-      ) as _i11.Future<bool>);
+        returnValue: _i12.Future<bool>.value(false),
+      ) as _i12.Future<bool>);
 
   @override
-  _i11.Future<bool> setReducedDataCharts(bool? status) => (super.noSuchMethod(
+  _i12.Future<bool> setReducedDataCharts(bool? status) => (super.noSuchMethod(
         Invocation.method(
           #setReducedDataCharts,
           [status],
         ),
-        returnValue: _i11.Future<bool>.value(false),
-      ) as _i11.Future<bool>);
+        returnValue: _i12.Future<bool>.value(false),
+      ) as _i12.Future<bool>);
 
   @override
-  _i11.Future<bool> setHideZeroValues(bool? status) => (super.noSuchMethod(
+  _i12.Future<bool> setHideZeroValues(bool? status) => (super.noSuchMethod(
         Invocation.method(
           #setHideZeroValues,
           [status],
         ),
-        returnValue: _i11.Future<bool>.value(false),
-      ) as _i11.Future<bool>);
+        returnValue: _i12.Future<bool>.value(false),
+      ) as _i12.Future<bool>);
 
   @override
-  _i11.Future<bool> setSelectedTheme(int? value) => (super.noSuchMethod(
+  _i12.Future<bool> setSelectedTheme(int? value) => (super.noSuchMethod(
         Invocation.method(
           #setSelectedTheme,
           [value],
         ),
-        returnValue: _i11.Future<bool>.value(false),
-      ) as _i11.Future<bool>);
+        returnValue: _i12.Future<bool>.value(false),
+      ) as _i12.Future<bool>);
 
   @override
-  _i11.Future<bool> setSelectedLanguage(String? value) => (super.noSuchMethod(
+  _i12.Future<bool> setSelectedLanguage(String? value) => (super.noSuchMethod(
         Invocation.method(
           #setSelectedLanguage,
           [value],
         ),
-        returnValue: _i11.Future<bool>.value(false),
-      ) as _i11.Future<bool>);
+        returnValue: _i12.Future<bool>.value(false),
+      ) as _i12.Future<bool>);
 
   @override
-  _i11.Future<bool> setStatisticsVisualizationMode(int? value) =>
+  _i12.Future<bool> setStatisticsVisualizationMode(int? value) =>
       (super.noSuchMethod(
         Invocation.method(
           #setStatisticsVisualizationMode,
           [value],
         ),
-        returnValue: _i11.Future<bool>.value(false),
-      ) as _i11.Future<bool>);
+        returnValue: _i12.Future<bool>.value(false),
+      ) as _i12.Future<bool>);
 
   @override
-  _i11.Future<bool> restoreAppConfig() => (super.noSuchMethod(
+  _i12.Future<bool> restoreAppConfig() => (super.noSuchMethod(
         Invocation.method(
           #restoreAppConfig,
           [],
         ),
-        returnValue: _i11.Future<bool>.value(false),
-      ) as _i11.Future<bool>);
+        returnValue: _i12.Future<bool>.value(false),
+      ) as _i12.Future<bool>);
 
   @override
-  void addListener(_i13.VoidCallback? listener) => super.noSuchMethod(
+  void addListener(_i14.VoidCallback? listener) => super.noSuchMethod(
         Invocation.method(
           #addListener,
           [listener],
@@ -544,196 +562,7 @@ class MockAppConfigProvider extends _i1.Mock implements _i5.AppConfigProvider {
       );
 
   @override
-  void removeListener(_i13.VoidCallback? listener) => super.noSuchMethod(
-        Invocation.method(
-          #removeListener,
-          [listener],
-        ),
-        returnValueForMissingStub: null,
-      );
-
-  @override
-  void dispose() => super.noSuchMethod(
-        Invocation.method(
-          #dispose,
-          [],
-        ),
-        returnValueForMissingStub: null,
-      );
-
-  @override
-  void notifyListeners() => super.noSuchMethod(
-        Invocation.method(
-          #notifyListeners,
-          [],
-        ),
-        returnValueForMissingStub: null,
-      );
-}
-
-/// A class which mocks [DomainsListProvider].
-///
-/// See the documentation for Mockito's code generation for more information.
-class MockDomainsListProvider extends _i1.Mock
-    implements _i14.DomainsListProvider {
-  MockDomainsListProvider() {
-    _i1.throwOnMissingStub(this);
-  }
-
-  @override
-  set serversProvider(_i15.ServersProvider? _serversProvider) =>
-      super.noSuchMethod(
-        Invocation.setter(
-          #serversProvider,
-          _serversProvider,
-        ),
-        returnValueForMissingStub: null,
-      );
-
-  @override
-  _i16.LoadStatus get loadingStatus => (super.noSuchMethod(
-        Invocation.getter(#loadingStatus),
-        returnValue: _i16.LoadStatus.loading,
-      ) as _i16.LoadStatus);
-
-  @override
-  List<_i17.Domain> get whitelistDomains => (super.noSuchMethod(
-        Invocation.getter(#whitelistDomains),
-        returnValue: <_i17.Domain>[],
-      ) as List<_i17.Domain>);
-
-  @override
-  List<_i17.Domain> get blacklistDomains => (super.noSuchMethod(
-        Invocation.getter(#blacklistDomains),
-        returnValue: <_i17.Domain>[],
-      ) as List<_i17.Domain>);
-
-  @override
-  List<_i17.Domain> get filteredWhitelistDomains => (super.noSuchMethod(
-        Invocation.getter(#filteredWhitelistDomains),
-        returnValue: <_i17.Domain>[],
-      ) as List<_i17.Domain>);
-
-  @override
-  List<_i17.Domain> get filteredBlacklistDomains => (super.noSuchMethod(
-        Invocation.getter(#filteredBlacklistDomains),
-        returnValue: <_i17.Domain>[],
-      ) as List<_i17.Domain>);
-
-  @override
-  String get searchTerm => (super.noSuchMethod(
-        Invocation.getter(#searchTerm),
-        returnValue: _i7.dummyValue<String>(
-          this,
-          Invocation.getter(#searchTerm),
-        ),
-      ) as String);
-
-  @override
-  bool get searchMode => (super.noSuchMethod(
-        Invocation.getter(#searchMode),
-        returnValue: false,
-      ) as bool);
-
-  @override
-  bool get hasListeners => (super.noSuchMethod(
-        Invocation.getter(#hasListeners),
-        returnValue: false,
-      ) as bool);
-
-  @override
-  void update(_i15.ServersProvider? provider) => super.noSuchMethod(
-        Invocation.method(
-          #update,
-          [provider],
-        ),
-        returnValueForMissingStub: null,
-      );
-
-  @override
-  void setLoadingStatus(_i16.LoadStatus? status) => super.noSuchMethod(
-        Invocation.method(
-          #setLoadingStatus,
-          [status],
-        ),
-        returnValueForMissingStub: null,
-      );
-
-  @override
-  void setWhitelistDomains(List<_i17.Domain>? domains) => super.noSuchMethod(
-        Invocation.method(
-          #setWhitelistDomains,
-          [domains],
-        ),
-        returnValueForMissingStub: null,
-      );
-
-  @override
-  void setBlacklistDomains(List<_i17.Domain>? domains) => super.noSuchMethod(
-        Invocation.method(
-          #setBlacklistDomains,
-          [domains],
-        ),
-        returnValueForMissingStub: null,
-      );
-
-  @override
-  void setSelectedTab(int? tab) => super.noSuchMethod(
-        Invocation.method(
-          #setSelectedTab,
-          [tab],
-        ),
-        returnValueForMissingStub: null,
-      );
-
-  @override
-  void setSearchMode(bool? value) => super.noSuchMethod(
-        Invocation.method(
-          #setSearchMode,
-          [value],
-        ),
-        returnValueForMissingStub: null,
-      );
-
-  @override
-  void onSearch(String? value) => super.noSuchMethod(
-        Invocation.method(
-          #onSearch,
-          [value],
-        ),
-        returnValueForMissingStub: null,
-      );
-
-  @override
-  _i11.Future<dynamic> fetchDomainsList(_i2.Server? server) =>
-      (super.noSuchMethod(
-        Invocation.method(
-          #fetchDomainsList,
-          [server],
-        ),
-        returnValue: _i11.Future<dynamic>.value(),
-      ) as _i11.Future<dynamic>);
-
-  @override
-  void removeDomainFromList(_i17.Domain? domain) => super.noSuchMethod(
-        Invocation.method(
-          #removeDomainFromList,
-          [domain],
-        ),
-        returnValueForMissingStub: null,
-      );
-
-  @override
-  void addListener(_i13.VoidCallback? listener) => super.noSuchMethod(
-        Invocation.method(
-          #addListener,
-          [listener],
-        ),
-        returnValueForMissingStub: null,
-      );
-
-  @override
-  void removeListener(_i13.VoidCallback? listener) => super.noSuchMethod(
+  void removeListener(_i14.VoidCallback? listener) => super.noSuchMethod(
         Invocation.method(
           #removeListener,
           [listener],
@@ -769,10 +598,19 @@ class MockServersProvider extends _i1.Mock implements _i15.ServersProvider {
   }
 
   @override
-  List<_i2.Server> get getServersList => (super.noSuchMethod(
+  _i2.AppColors get colors => (super.noSuchMethod(
+        Invocation.getter(#colors),
+        returnValue: _FakeAppColors_0(
+          this,
+          Invocation.getter(#colors),
+        ),
+      ) as _i2.AppColors);
+
+  @override
+  List<_i3.Server> get getServersList => (super.noSuchMethod(
         Invocation.getter(#getServersList),
-        returnValue: <_i2.Server>[],
-      ) as List<_i2.Server>);
+        returnValue: <_i3.Server>[],
+      ) as List<_i3.Server>);
 
   @override
   int get numShown => (super.noSuchMethod(
@@ -781,10 +619,10 @@ class MockServersProvider extends _i1.Mock implements _i15.ServersProvider {
       ) as int);
 
   @override
-  List<_i18.QueryStatus> get queryStatuses => (super.noSuchMethod(
+  List<_i16.QueryStatus> get queryStatuses => (super.noSuchMethod(
         Invocation.getter(#queryStatuses),
-        returnValue: <_i18.QueryStatus>[],
-      ) as List<_i18.QueryStatus>);
+        returnValue: <_i16.QueryStatus>[],
+      ) as List<_i16.QueryStatus>);
 
   @override
   bool get hasListeners => (super.noSuchMethod(
@@ -793,7 +631,7 @@ class MockServersProvider extends _i1.Mock implements _i15.ServersProvider {
       ) as bool);
 
   @override
-  void update(_i5.AppConfigProvider? provider) => super.noSuchMethod(
+  void update(_i6.AppConfigProvider? provider) => super.noSuchMethod(
         Invocation.method(
           #update,
           [provider],
@@ -802,86 +640,86 @@ class MockServersProvider extends _i1.Mock implements _i15.ServersProvider {
       );
 
   @override
-  _i19.ApiGateway? loadApiGateway(_i2.Server? server) =>
+  _i17.ApiGateway? loadApiGateway(_i3.Server? server) =>
       (super.noSuchMethod(Invocation.method(
         #loadApiGateway,
         [server],
-      )) as _i19.ApiGateway?);
+      )) as _i17.ApiGateway?);
 
   @override
-  _i18.QueryStatus? getQueryStatus(String? key) =>
+  _i16.QueryStatus? getQueryStatus(String? key) =>
       (super.noSuchMethod(Invocation.method(
         #getQueryStatus,
         [key],
-      )) as _i18.QueryStatus?);
+      )) as _i16.QueryStatus?);
 
   @override
-  _i18.QueryStatus? findQueryStatus(String? key) =>
+  _i16.QueryStatus? findQueryStatus(String? key) =>
       (super.noSuchMethod(Invocation.method(
         #findQueryStatus,
         [key],
-      )) as _i18.QueryStatus?);
+      )) as _i16.QueryStatus?);
 
   @override
-  _i11.Future<bool> addServer(_i2.Server? server) => (super.noSuchMethod(
+  _i12.Future<bool> addServer(_i3.Server? server) => (super.noSuchMethod(
         Invocation.method(
           #addServer,
           [server],
         ),
-        returnValue: _i11.Future<bool>.value(false),
-      ) as _i11.Future<bool>);
+        returnValue: _i12.Future<bool>.value(false),
+      ) as _i12.Future<bool>);
 
   @override
-  _i11.Future<bool> editServer(_i2.Server? server) => (super.noSuchMethod(
+  _i12.Future<bool> editServer(_i3.Server? server) => (super.noSuchMethod(
         Invocation.method(
           #editServer,
           [server],
         ),
-        returnValue: _i11.Future<bool>.value(false),
-      ) as _i11.Future<bool>);
+        returnValue: _i12.Future<bool>.value(false),
+      ) as _i12.Future<bool>);
 
   @override
-  _i11.Future<bool> removeServer(String? serverAddress) => (super.noSuchMethod(
+  _i12.Future<bool> removeServer(String? serverAddress) => (super.noSuchMethod(
         Invocation.method(
           #removeServer,
           [serverAddress],
         ),
-        returnValue: _i11.Future<bool>.value(false),
-      ) as _i11.Future<bool>);
+        returnValue: _i12.Future<bool>.value(false),
+      ) as _i12.Future<bool>);
 
   @override
-  _i11.Future<bool> setDefaultServer(_i2.Server? server) => (super.noSuchMethod(
+  _i12.Future<bool> setDefaultServer(_i3.Server? server) => (super.noSuchMethod(
         Invocation.method(
           #setDefaultServer,
           [server],
         ),
-        returnValue: _i11.Future<bool>.value(false),
-      ) as _i11.Future<bool>);
+        returnValue: _i12.Future<bool>.value(false),
+      ) as _i12.Future<bool>);
 
   @override
-  _i11.Future<dynamic> saveFromDb(List<_i12.ServerDbData>? servers) =>
+  _i12.Future<dynamic> saveFromDb(List<_i13.ServerDbData>? servers) =>
       (super.noSuchMethod(
         Invocation.method(
           #saveFromDb,
           [servers],
         ),
-        returnValue: _i11.Future<dynamic>.value(),
-      ) as _i11.Future<dynamic>);
+        returnValue: _i12.Future<dynamic>.value(),
+      ) as _i12.Future<dynamic>);
 
   @override
-  _i11.FutureOr<Map<String, dynamic>> checkUrlExists(String? url) =>
+  _i12.FutureOr<Map<String, dynamic>> checkUrlExists(String? url) =>
       (super.noSuchMethod(
         Invocation.method(
           #checkUrlExists,
           [url],
         ),
         returnValue:
-            _i11.Future<Map<String, dynamic>>.value(<String, dynamic>{}),
-      ) as _i11.FutureOr<Map<String, dynamic>>);
+            _i12.Future<Map<String, dynamic>>.value(<String, dynamic>{}),
+      ) as _i12.FutureOr<Map<String, dynamic>>);
 
   @override
   void setselectedServer({
-    required _i2.Server? server,
+    required _i3.Server? server,
     bool? toHomeTab,
   }) =>
       super.noSuchMethod(
@@ -906,25 +744,25 @@ class MockServersProvider extends _i1.Mock implements _i15.ServersProvider {
       );
 
   @override
-  _i11.Future<bool> deleteDbData() => (super.noSuchMethod(
+  _i12.Future<bool> deleteDbData() => (super.noSuchMethod(
         Invocation.method(
           #deleteDbData,
           [],
         ),
-        returnValue: _i11.Future<bool>.value(false),
-      ) as _i11.Future<bool>);
+        returnValue: _i12.Future<bool>.value(false),
+      ) as _i12.Future<bool>);
 
   @override
-  _i11.Future<bool> resetSelectedServer() => (super.noSuchMethod(
+  _i12.Future<bool> resetSelectedServer() => (super.noSuchMethod(
         Invocation.method(
           #resetSelectedServer,
           [],
         ),
-        returnValue: _i11.Future<bool>.value(false),
-      ) as _i11.Future<bool>);
+        returnValue: _i12.Future<bool>.value(false),
+      ) as _i12.Future<bool>);
 
   @override
-  void addListener(_i13.VoidCallback? listener) => super.noSuchMethod(
+  void addListener(_i14.VoidCallback? listener) => super.noSuchMethod(
         Invocation.method(
           #addListener,
           [listener],
@@ -933,7 +771,7 @@ class MockServersProvider extends _i1.Mock implements _i15.ServersProvider {
       );
 
   @override
-  void removeListener(_i13.VoidCallback? listener) => super.noSuchMethod(
+  void removeListener(_i14.VoidCallback? listener) => super.noSuchMethod(
         Invocation.method(
           #removeListener,
           [listener],
@@ -963,22 +801,22 @@ class MockServersProvider extends _i1.Mock implements _i15.ServersProvider {
 /// A class which mocks [ApiGatewayV6].
 ///
 /// See the documentation for Mockito's code generation for more information.
-class MockApiGatewayV6 extends _i1.Mock implements _i20.ApiGatewayV6 {
+class MockApiGatewayV6 extends _i1.Mock implements _i18.ApiGatewayV6 {
   MockApiGatewayV6() {
     _i1.throwOnMissingStub(this);
   }
 
   @override
-  _i2.Server get server => (super.noSuchMethod(
+  _i3.Server get server => (super.noSuchMethod(
         Invocation.getter(#server),
-        returnValue: _FakeServer_0(
+        returnValue: _FakeServer_1(
           this,
           Invocation.getter(#server),
         ),
-      ) as _i2.Server);
+      ) as _i3.Server);
 
   @override
-  _i11.Future<_i3.Response> httpClient({
+  _i12.Future<_i4.Response> httpClient({
     required String? method,
     required String? url,
     Map<String, String>? headers,
@@ -999,7 +837,7 @@ class MockApiGatewayV6 extends _i1.Mock implements _i20.ApiGatewayV6 {
             #maxRetries: maxRetries,
           },
         ),
-        returnValue: _i11.Future<_i3.Response>.value(_FakeResponse_1(
+        returnValue: _i12.Future<_i4.Response>.value(_FakeResponse_2(
           this,
           Invocation.method(
             #httpClient,
@@ -1014,94 +852,94 @@ class MockApiGatewayV6 extends _i1.Mock implements _i20.ApiGatewayV6 {
             },
           ),
         )),
-      ) as _i11.Future<_i3.Response>);
+      ) as _i12.Future<_i4.Response>);
 
   @override
-  _i11.Future<_i4.LoginQueryResponse> loginQuery() => (super.noSuchMethod(
+  _i12.Future<_i5.LoginQueryResponse> loginQuery() => (super.noSuchMethod(
         Invocation.method(
           #loginQuery,
           [],
         ),
         returnValue:
-            _i11.Future<_i4.LoginQueryResponse>.value(_FakeLoginQueryResponse_2(
+            _i12.Future<_i5.LoginQueryResponse>.value(_FakeLoginQueryResponse_3(
           this,
           Invocation.method(
             #loginQuery,
             [],
           ),
         )),
-      ) as _i11.Future<_i4.LoginQueryResponse>);
+      ) as _i12.Future<_i5.LoginQueryResponse>);
 
   @override
-  _i11.Future<_i4.RealtimeStatusResponse> realtimeStatus() =>
+  _i12.Future<_i5.RealtimeStatusResponse> realtimeStatus() =>
       (super.noSuchMethod(
         Invocation.method(
           #realtimeStatus,
           [],
         ),
-        returnValue: _i11.Future<_i4.RealtimeStatusResponse>.value(
-            _FakeRealtimeStatusResponse_3(
+        returnValue: _i12.Future<_i5.RealtimeStatusResponse>.value(
+            _FakeRealtimeStatusResponse_4(
           this,
           Invocation.method(
             #realtimeStatus,
             [],
           ),
         )),
-      ) as _i11.Future<_i4.RealtimeStatusResponse>);
+      ) as _i12.Future<_i5.RealtimeStatusResponse>);
 
   @override
-  _i11.Future<_i4.DisableServerResponse> disableServerRequest(int? time) =>
+  _i12.Future<_i5.DisableServerResponse> disableServerRequest(int? time) =>
       (super.noSuchMethod(
         Invocation.method(
           #disableServerRequest,
           [time],
         ),
-        returnValue: _i11.Future<_i4.DisableServerResponse>.value(
-            _FakeDisableServerResponse_4(
+        returnValue: _i12.Future<_i5.DisableServerResponse>.value(
+            _FakeDisableServerResponse_5(
           this,
           Invocation.method(
             #disableServerRequest,
             [time],
           ),
         )),
-      ) as _i11.Future<_i4.DisableServerResponse>);
+      ) as _i12.Future<_i5.DisableServerResponse>);
 
   @override
-  _i11.Future<_i4.EnableServerResponse> enableServerRequest() =>
+  _i12.Future<_i5.EnableServerResponse> enableServerRequest() =>
       (super.noSuchMethod(
         Invocation.method(
           #enableServerRequest,
           [],
         ),
-        returnValue: _i11.Future<_i4.EnableServerResponse>.value(
-            _FakeEnableServerResponse_5(
+        returnValue: _i12.Future<_i5.EnableServerResponse>.value(
+            _FakeEnableServerResponse_6(
           this,
           Invocation.method(
             #enableServerRequest,
             [],
           ),
         )),
-      ) as _i11.Future<_i4.EnableServerResponse>);
+      ) as _i12.Future<_i5.EnableServerResponse>);
 
   @override
-  _i11.Future<_i4.FetchOverTimeDataResponse> fetchOverTimeData() =>
+  _i12.Future<_i5.FetchOverTimeDataResponse> fetchOverTimeData() =>
       (super.noSuchMethod(
         Invocation.method(
           #fetchOverTimeData,
           [],
         ),
-        returnValue: _i11.Future<_i4.FetchOverTimeDataResponse>.value(
-            _FakeFetchOverTimeDataResponse_6(
+        returnValue: _i12.Future<_i5.FetchOverTimeDataResponse>.value(
+            _FakeFetchOverTimeDataResponse_7(
           this,
           Invocation.method(
             #fetchOverTimeData,
             [],
           ),
         )),
-      ) as _i11.Future<_i4.FetchOverTimeDataResponse>);
+      ) as _i12.Future<_i5.FetchOverTimeDataResponse>);
 
   @override
-  _i11.Future<_i4.FetchLogsResponse> fetchLogs(
+  _i12.Future<_i5.FetchLogsResponse> fetchLogs(
     DateTime? from,
     DateTime? until,
   ) =>
@@ -1114,7 +952,7 @@ class MockApiGatewayV6 extends _i1.Mock implements _i20.ApiGatewayV6 {
           ],
         ),
         returnValue:
-            _i11.Future<_i4.FetchLogsResponse>.value(_FakeFetchLogsResponse_7(
+            _i12.Future<_i5.FetchLogsResponse>.value(_FakeFetchLogsResponse_8(
           this,
           Invocation.method(
             #fetchLogs,
@@ -1124,10 +962,10 @@ class MockApiGatewayV6 extends _i1.Mock implements _i20.ApiGatewayV6 {
             ],
           ),
         )),
-      ) as _i11.Future<_i4.FetchLogsResponse>);
+      ) as _i12.Future<_i5.FetchLogsResponse>);
 
   @override
-  _i11.Future<_i4.SetWhiteBlacklistResponse> setWhiteBlacklist(
+  _i12.Future<_i5.SetWhiteBlacklistResponse> setWhiteBlacklist(
     String? domain,
     String? list,
   ) =>
@@ -1139,8 +977,8 @@ class MockApiGatewayV6 extends _i1.Mock implements _i20.ApiGatewayV6 {
             list,
           ],
         ),
-        returnValue: _i11.Future<_i4.SetWhiteBlacklistResponse>.value(
-            _FakeSetWhiteBlacklistResponse_8(
+        returnValue: _i12.Future<_i5.SetWhiteBlacklistResponse>.value(
+            _FakeSetWhiteBlacklistResponse_9(
           this,
           Invocation.method(
             #setWhiteBlacklist,
@@ -1150,57 +988,57 @@ class MockApiGatewayV6 extends _i1.Mock implements _i20.ApiGatewayV6 {
             ],
           ),
         )),
-      ) as _i11.Future<_i4.SetWhiteBlacklistResponse>);
+      ) as _i12.Future<_i5.SetWhiteBlacklistResponse>);
 
   @override
-  _i11.Future<_i4.GetDomainLists> getDomainLists() => (super.noSuchMethod(
+  _i12.Future<_i5.GetDomainLists> getDomainLists() => (super.noSuchMethod(
         Invocation.method(
           #getDomainLists,
           [],
         ),
         returnValue:
-            _i11.Future<_i4.GetDomainLists>.value(_FakeGetDomainLists_9(
+            _i12.Future<_i5.GetDomainLists>.value(_FakeGetDomainLists_10(
           this,
           Invocation.method(
             #getDomainLists,
             [],
           ),
         )),
-      ) as _i11.Future<_i4.GetDomainLists>);
+      ) as _i12.Future<_i5.GetDomainLists>);
 
   @override
-  _i11.Future<_i4.RemoveDomainFromListResponse> removeDomainFromList(
-          _i17.Domain? domain) =>
+  _i12.Future<_i5.RemoveDomainFromListResponse> removeDomainFromList(
+          _i19.Domain? domain) =>
       (super.noSuchMethod(
         Invocation.method(
           #removeDomainFromList,
           [domain],
         ),
-        returnValue: _i11.Future<_i4.RemoveDomainFromListResponse>.value(
-            _FakeRemoveDomainFromListResponse_10(
+        returnValue: _i12.Future<_i5.RemoveDomainFromListResponse>.value(
+            _FakeRemoveDomainFromListResponse_11(
           this,
           Invocation.method(
             #removeDomainFromList,
             [domain],
           ),
         )),
-      ) as _i11.Future<_i4.RemoveDomainFromListResponse>);
+      ) as _i12.Future<_i5.RemoveDomainFromListResponse>);
 
   @override
-  _i11.Future<_i4.AddDomainToListResponse> addDomainToList(
+  _i12.Future<_i5.AddDomainToListResponse> addDomainToList(
           Map<String, dynamic>? domainData) =>
       (super.noSuchMethod(
         Invocation.method(
           #addDomainToList,
           [domainData],
         ),
-        returnValue: _i11.Future<_i4.AddDomainToListResponse>.value(
-            _FakeAddDomainToListResponse_11(
+        returnValue: _i12.Future<_i5.AddDomainToListResponse>.value(
+            _FakeAddDomainToListResponse_12(
           this,
           Invocation.method(
             #addDomainToList,
             [domainData],
           ),
         )),
-      ) as _i11.Future<_i4.AddDomainToListResponse>);
+      ) as _i12.Future<_i5.AddDomainToListResponse>);
 }

@@ -2,6 +2,7 @@
 
 import 'dart:io';
 
+import 'package:pi_hole_client/config/theme.dart';
 import 'package:pi_hole_client/constants/responsive.dart';
 import 'package:pi_hole_client/providers/status_provider.dart';
 import 'package:flutter/material.dart';
@@ -101,67 +102,51 @@ class _HomeState extends State<Home> {
             child: Wrap(
               runSpacing: 16,
               children: [
-                FractionallySizedBox(
-                  widthFactor: width > ResponsiveConstants.medium ? 0.25 : 0.5,
-                  child: Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 8),
-                    child: HomeTile(
-                      icon: Icons.public,
-                      iconColor: const Color.fromARGB(255, 27, 124, 203),
-                      color: Colors.blue,
-                      label: AppLocalizations.of(context)!.totalQueries,
-                      value: intFormat(
-                        statusProvider.getRealtimeStatus!.dnsQueriesToday,
-                        Platform.localeName,
-                      ),
-                    ),
+                HomeTileItem(
+                  icon: Icons.public,
+                  iconColor:
+                      Theme.of(context).extension<DataVisColors>()!.blueDark!,
+                  color: Theme.of(context).extension<DataVisColors>()!.blue!,
+                  label: AppLocalizations.of(context)!.totalQueries,
+                  value: intFormat(
+                    statusProvider.getRealtimeStatus!.dnsQueriesToday,
+                    Platform.localeName,
                   ),
+                  width: width,
                 ),
-                FractionallySizedBox(
-                  widthFactor: width > ResponsiveConstants.medium ? 0.25 : 0.5,
-                  child: Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 8),
-                    child: HomeTile(
-                      icon: Icons.block,
-                      iconColor: const Color.fromARGB(255, 206, 56, 45),
-                      color: Colors.red,
-                      label: AppLocalizations.of(context)!.queriesBlocked,
-                      value: intFormat(
-                        statusProvider.getRealtimeStatus!.adsBlockedToday,
-                        Platform.localeName,
-                      ),
-                    ),
+                HomeTileItem(
+                  icon: Icons.block,
+                  iconColor:
+                      Theme.of(context).extension<DataVisColors>()!.redDark!,
+                  color: Theme.of(context).extension<DataVisColors>()!.red!,
+                  label: AppLocalizations.of(context)!.queriesBlocked,
+                  value: intFormat(
+                    statusProvider.getRealtimeStatus!.adsBlockedToday,
+                    Platform.localeName,
                   ),
+                  width: width,
                 ),
-                FractionallySizedBox(
-                  widthFactor: width > ResponsiveConstants.medium ? 0.25 : 0.5,
-                  child: Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 8),
-                    child: HomeTile(
-                      icon: Icons.pie_chart,
-                      iconColor: const Color.fromARGB(255, 211, 127, 0),
-                      color: Colors.orange,
-                      label: AppLocalizations.of(context)!.percentageBlocked,
-                      value:
-                          '${formatPercentage(statusProvider.getRealtimeStatus!.adsPercentageToday, Platform.localeName)}%',
-                    ),
-                  ),
+                HomeTileItem(
+                  icon: Icons.pie_chart,
+                  iconColor:
+                      Theme.of(context).extension<DataVisColors>()!.orangeDark!,
+                  color: Theme.of(context).extension<DataVisColors>()!.orange!,
+                  label: AppLocalizations.of(context)!.percentageBlocked,
+                  value:
+                      '${formatPercentage(statusProvider.getRealtimeStatus!.adsPercentageToday, Platform.localeName)}%',
+                  width: width,
                 ),
-                FractionallySizedBox(
-                  widthFactor: width > ResponsiveConstants.medium ? 0.25 : 0.5,
-                  child: Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 8),
-                    child: HomeTile(
-                      icon: Icons.list,
-                      iconColor: const Color.fromARGB(255, 61, 142, 64),
-                      color: Colors.green,
-                      label: AppLocalizations.of(context)!.domainsAdlists,
-                      value: intFormat(
-                        statusProvider.getRealtimeStatus!.domainsBeingBlocked,
-                        Platform.localeName,
-                      ),
-                    ),
+                HomeTileItem(
+                  icon: Icons.list,
+                  iconColor:
+                      Theme.of(context).extension<DataVisColors>()!.greenDark!,
+                  color: Theme.of(context).extension<DataVisColors>()!.green!,
+                  label: AppLocalizations.of(context)!.domainsAdlists,
+                  value: intFormat(
+                    statusProvider.getRealtimeStatus!.domainsBeingBlocked,
+                    Platform.localeName,
                   ),
+                  width: width,
                 ),
               ],
             ),

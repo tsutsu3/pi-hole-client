@@ -4,28 +4,78 @@ import 'package:flutter/material.dart';
 
 import 'package:pi_hole_client/config/globals.dart';
 import 'package:pi_hole_client/providers/app_config_provider.dart';
+import 'package:pi_hole_client/config/theme.dart';
 
-void showSnackBar({
+void showSuccessSnackBar({
+  required BuildContext context,
   required AppConfigProvider appConfigProvider,
   required String label,
-  required Color color,
-  Color? labelColor,
+}) {
+  showSnackBar(
+    context: context,
+    appConfigProvider: appConfigProvider,
+    label: label,
+    colorSelector: (theme) => theme.snackBarSuccess!,
+    labelColorSelector: (theme) => theme.snackBarSuccessText!,
+  );
+}
+
+void showErrorSnackBar({
+  required BuildContext context,
+  required AppConfigProvider appConfigProvider,
+  required String label,
+}) {
+  showSnackBar(
+    context: context,
+    appConfigProvider: appConfigProvider,
+    label: label,
+    colorSelector: (theme) => theme.snackBarError!,
+    labelColorSelector: (theme) => theme.snackBarErrorText!,
+  );
+}
+
+void showNeutralSnackBar({
+  required BuildContext context,
+  required AppConfigProvider appConfigProvider,
+  required String label,
+}) {
+  showSnackBar(
+    context: context,
+    appConfigProvider: appConfigProvider,
+    label: label,
+    colorSelector: (theme) => theme.snackBarNeutral!,
+    labelColorSelector: (theme) => theme.snackBarNeutralText!,
+  );
+}
+
+void showSnackBar({
+  required BuildContext context,
+  required AppConfigProvider appConfigProvider,
+  required String label,
+  required Color Function(AppColors) colorSelector,
+  Color Function(AppColors)? labelColorSelector,
 }) async {
-  if (appConfigProvider.showingSnackbar == true) {
+  if (appConfigProvider.showingSnackbar) {
     scaffoldMessengerKey.currentState?.clearSnackBars();
     await Future.delayed(const Duration(milliseconds: 500));
   }
   appConfigProvider.setShowingSnackbar(true);
 
+  final theme = Theme.of(context).extension<AppColors>()!;
+  final backgroundColor = colorSelector(theme);
+  final textColor = labelColorSelector?.call(theme) ?? Colors.white;
+
   final snackBar = SnackBar(
     content: Text(
       label,
-      style: TextStyle(color: labelColor ?? Colors.white),
+      style: TextStyle(color: textColor),
     ),
-    backgroundColor: color,
+    backgroundColor: backgroundColor,
+    duration: const Duration(seconds: 3),
   );
+
   scaffoldMessengerKey.currentState
       ?.showSnackBar(snackBar)
       .closed
-      .then((value) => appConfigProvider.setShowingSnackbar(false));
+      .then((_) => appConfigProvider.setShowingSnackbar(false));
 }

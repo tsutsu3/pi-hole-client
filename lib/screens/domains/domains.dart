@@ -86,24 +86,24 @@ class _DomainListsWidgetState extends State<DomainListsWidget>
       if (result?.result == APiResponseType.success) {
         domainsListProvider.removeDomainFromList(domain);
 
-        showSnackBar(
+        showSuccessSnackBar(
+          context: context,
           appConfigProvider: appConfigProvider,
           label: AppLocalizations.of(context)!.domainRemoved,
-          color: Colors.green,
         );
       } else if (result!.result == APiResponseType.error &&
           result.message != null &&
           result.message == 'not_exists') {
-        showSnackBar(
+        showErrorSnackBar(
+          context: context,
           appConfigProvider: appConfigProvider,
           label: AppLocalizations.of(context)!.domainNotExists,
-          color: Colors.red,
         );
       } else {
-        showSnackBar(
+        showErrorSnackBar(
+          context: context,
           appConfigProvider: appConfigProvider,
           label: AppLocalizations.of(context)!.errorRemovingDomain,
-          color: Colors.red,
         );
       }
     }
@@ -171,7 +171,12 @@ class _DomainListsWidgetState extends State<DomainListsWidget>
                           children: [
                             Icon(Icons.check_circle_rounded),
                             Flexible(child: SizedBox(width: 16)),
-                            Text('Whitelist'),
+                            Flexible(
+                              child: Text(
+                                'Whitelist',
+                                overflow: TextOverflow.ellipsis,
+                              ),
+                            ),
                           ],
                         ),
                       ),
@@ -181,7 +186,12 @@ class _DomainListsWidgetState extends State<DomainListsWidget>
                           children: [
                             Icon(Icons.block),
                             Flexible(child: SizedBox(width: 16)),
-                            Text('Blacklist'),
+                            Flexible(
+                              child: Text(
+                                'Blacklist',
+                                overflow: TextOverflow.ellipsis,
+                              ),
+                            ),
                           ],
                         ),
                       ),
@@ -225,6 +235,7 @@ class _DomainListsWidgetState extends State<DomainListsWidget>
                       setState(() => selectedDomain = null);
                       removeDomain(domain);
                     },
+                    colors: serversProvider.colors,
                   )
                 : SizedBox(
                     child: Text(

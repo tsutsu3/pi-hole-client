@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:animations/animations.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:pi_hole_client/config/theme.dart';
+import 'package:pi_hole_client/functions/conversions.dart';
 
 import 'package:pi_hole_client/widgets/custom_list_tile.dart';
 import 'package:pi_hole_client/screens/domains/delete_domain_modal.dart';
@@ -14,32 +16,15 @@ class DomainDetailsScreen extends StatelessWidget {
     super.key,
     required this.domain,
     required this.remove,
+    this.colors,
   });
 
   final Domain domain;
   final void Function(Domain) remove;
+  final AppColors? colors;
 
   @override
   Widget build(BuildContext context) {
-    String getType(int type) {
-      switch (type) {
-        case 0:
-          return 'Whitelist';
-
-        case 1:
-          return 'Blacklist';
-
-        case 2:
-          return 'Whitelist Regex';
-
-        case 3:
-          return 'Blacklist Regex';
-
-        default:
-          return '';
-      }
-    }
-
     return Scaffold(
       appBar: AppBar(
         title: Text(AppLocalizations.of(context)!.domainDetails),
@@ -69,7 +54,10 @@ class DomainDetailsScreen extends StatelessWidget {
           CustomListTile(
             leadingIcon: Icons.category_rounded,
             label: AppLocalizations.of(context)!.type,
-            description: getType(domain.type),
+            description: getDomainType(domain.type),
+            color: colors != null
+                ? convertColorFromNumber(colors!, domain.type)
+                : null,
           ),
           CustomListTile(
             leadingIcon: Icons.schedule_rounded,

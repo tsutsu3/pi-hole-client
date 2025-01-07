@@ -4,6 +4,7 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:pi_hole_client/config/theme.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
@@ -21,10 +22,20 @@ class AppLogs extends StatelessWidget {
       List<Map<String, String>> logsString =
           appConfigProvider.logs.map((log) => log.toMap()).toList();
       await Clipboard.setData(ClipboardData(text: jsonEncode(logsString)));
+
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
-          content: Text(AppLocalizations.of(context)!.logsCopiedClipboard),
-          backgroundColor: Colors.black,
+          content: Text(
+            AppLocalizations.of(context)!.logsCopiedClipboard,
+            style: TextStyle(
+              color: Theme.of(context)
+                  .extension<AppColors>()!
+                  .snackBarNeutralText!,
+            ),
+          ),
+          backgroundColor:
+              Theme.of(context).extension<AppColors>()!.snackBarNeutral!,
+          duration: const Duration(seconds: 3),
         ),
       );
     }

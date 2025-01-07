@@ -33,17 +33,17 @@ class _CreatePassCodeModalState extends State<CreatePassCodeModal> {
         if (result == true) {
           Navigator.maybePop(context);
         } else {
-          showSnackBar(
+          showErrorSnackBar(
+            context: context,
             appConfigProvider: appConfigProvider,
             label: AppLocalizations.of(context)!.passCodeNotSaved,
-            color: Colors.red,
           );
         }
       } else {
-        showSnackBar(
+        showErrorSnackBar(
+          context: context,
           appConfigProvider: appConfigProvider,
           label: AppLocalizations.of(context)!.passcodesDontMatch,
-          color: Colors.red,
         );
       }
     }

@@ -1,6 +1,7 @@
 // ignore_for_file: use_build_context_synchronously
 
 import 'package:flutter/material.dart';
+import 'package:pi_hole_client/config/theme.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
@@ -84,18 +85,18 @@ class _LogsQuantityLoadScreenState extends State<LogsQuantityLoadScreen> {
     final result = await Provider.of<AppConfigProvider>(context, listen: false)
         .setLogsPerQuery(_getTime());
     if (result == true) {
-      showSnackBar(
+      showSuccessSnackBar(
+        context: context,
         appConfigProvider:
             Provider.of<AppConfigProvider>(context, listen: false),
         label: AppLocalizations.of(context)!.logsPerQueryUpdated,
-        color: Colors.green,
       );
     } else {
-      showSnackBar(
+      showErrorSnackBar(
+        context: context,
         appConfigProvider:
             Provider.of<AppConfigProvider>(context, listen: false),
         label: AppLocalizations.of(context)!.cantUpdateLogsPerQuery,
-        color: Colors.green,
       );
     }
   }
@@ -126,21 +127,27 @@ class _LogsQuantityLoadScreenState extends State<LogsQuantityLoadScreen> {
             child: Container(
               padding: const EdgeInsets.all(20),
               decoration: BoxDecoration(
-                color: Colors.yellow,
+                color: Theme.of(context).extension<AppColors>()!.cardWarning!,
                 borderRadius: BorderRadius.circular(30),
               ),
               height: 100,
               child: Row(
                 children: [
-                  const Icon(
+                  Icon(
                     Icons.warning_rounded,
-                    color: Colors.black,
+                    color: Theme.of(context)
+                        .extension<AppColors>()!
+                        .cardWarningText!,
                   ),
                   const SizedBox(width: 20),
                   Expanded(
                     child: Text(
                       AppLocalizations.of(context)!.logsPerQueryWarning,
-                      style: const TextStyle(color: Colors.black),
+                      style: TextStyle(
+                        color: Theme.of(context)
+                            .extension<AppColors>()!
+                            .cardWarningText!,
+                      ),
                     ),
                   ),
                 ],

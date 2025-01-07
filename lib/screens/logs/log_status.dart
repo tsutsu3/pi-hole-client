@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:pi_hole_client/config/theme.dart';
+import 'package:pi_hole_client/functions/conversions.dart';
 import 'package:pi_hole_client/providers/servers_provider.dart';
 import 'package:provider/provider.dart';
 
@@ -56,14 +58,16 @@ class LogStatus extends StatelessWidget {
     if (queryStatus == null) {
       return logStatusWidget(
         icon: Icons.shield_rounded,
-        color: Colors.grey,
+        color: Theme.of(context).extension<AppColors>()!.queryGrey!,
         text: 'Unknown',
       );
     }
 
+    final colorTheme = serverProvider.colors;
+
     return logStatusWidget(
       icon: queryStatus.icon,
-      color: queryStatus.color,
+      color: convertColor(colorTheme, queryStatus.color),
       text: queryStatus.text,
     );
   }

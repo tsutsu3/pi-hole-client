@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:pi_hole_client/config/theme.dart';
 import 'package:pi_hole_client/constants/responsive.dart';
+import 'package:pi_hole_client/functions/conversions.dart';
 
 import 'package:pi_hole_client/models/domain.dart';
 import 'package:pi_hole_client/functions/format.dart';
@@ -9,63 +11,28 @@ class DomainTile extends StatelessWidget {
     super.key,
     required this.domain,
     required this.showDomainDetails,
+    required this.colors,
     this.isDomainSelected,
   });
 
   final Domain domain;
   final void Function(Domain) showDomainDetails;
+  final AppColors colors;
   final bool? isDomainSelected;
 
   @override
   Widget build(BuildContext context) {
     Widget domainType(int type) {
-      String getString(int type) {
-        switch (type) {
-          case 0:
-            return 'Whitelist';
-
-          case 1:
-            return 'Blacklist';
-
-          case 2:
-            return 'Whitelist Regex';
-
-          case 3:
-            return 'Blacklist Regex';
-
-          default:
-            return '';
-        }
-      }
-
-      Color getColor(int type) {
-        switch (type) {
-          case 0:
-            return Colors.green;
-
-          case 1:
-            return Colors.red;
-
-          case 2:
-            return Colors.blue;
-
-          case 3:
-            return Colors.orange;
-
-          default:
-            return Colors.white;
-        }
-      }
-
       return Container(
         padding: const EdgeInsets.symmetric(horizontal: 4, vertical: 2),
         decoration: BoxDecoration(borderRadius: BorderRadius.circular(50)),
         child: Text(
-          getString(type),
+          getDomainType(type),
           style: TextStyle(
-            color: getColor(type),
+            color: convertColorFromNumber(colors, type),
             fontSize: 13,
             fontWeight: FontWeight.w400,
+            overflow: TextOverflow.ellipsis,
           ),
         ),
       );
@@ -125,7 +92,7 @@ class DomainTile extends StatelessWidget {
                     ),
                   ),
                   const SizedBox(width: 16),
-                  domainType(domain.type),
+                  Flexible(child: domainType(domain.type)),
                 ],
               ),
             ),

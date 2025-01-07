@@ -213,10 +213,10 @@ class _AddServerFullscreenState extends State<AddServerFullscreen> {
           errorUrl = null;
           isConnecting = false;
         });
-        showSnackBar(
+        showErrorSnackBar(
+          context: context,
           appConfigProvider: appConfigProvider,
           label: AppLocalizations.of(context)!.cannotCheckUrlSaved,
-          color: Colors.red,
         );
       } else {
         setState(() {
@@ -256,45 +256,45 @@ class _AddServerFullscreenState extends State<AddServerFullscreen> {
               isConnecting = false;
             });
             if (result?.result == APiResponseType.socket) {
-              showSnackBar(
+              showErrorSnackBar(
+                context: context,
                 appConfigProvider: appConfigProvider,
                 label: AppLocalizations.of(context)!.checkAddress,
-                color: Colors.red,
               );
               appConfigProvider.addLog(result!.log!);
             } else if (result?.result == APiResponseType.timeout) {
-              showSnackBar(
+              showErrorSnackBar(
+                context: context,
                 appConfigProvider: appConfigProvider,
                 label: AppLocalizations.of(context)!.connectionTimeout,
-                color: Colors.red,
               );
               appConfigProvider.addLog(result!.log!);
             } else if (result?.result == APiResponseType.noConnection) {
-              showSnackBar(
+              showErrorSnackBar(
+                context: context,
                 appConfigProvider: appConfigProvider,
                 label: AppLocalizations.of(context)!.cantReachServer,
-                color: Colors.red,
               );
               appConfigProvider.addLog(result!.log!);
             } else if (result?.result == APiResponseType.authError) {
-              showSnackBar(
+              showErrorSnackBar(
+                context: context,
                 appConfigProvider: appConfigProvider,
                 label: AppLocalizations.of(context)!.tokenNotValid,
-                color: Colors.red,
               );
               appConfigProvider.addLog(result!.log!);
             } else if (result?.result == APiResponseType.sslError) {
-              showSnackBar(
+              showErrorSnackBar(
+                context: context,
                 appConfigProvider: appConfigProvider,
                 label: AppLocalizations.of(context)!.sslErrorLong,
-                color: Colors.red,
               );
               appConfigProvider.addLog(result!.log!);
             } else {
-              showSnackBar(
+              showErrorSnackBar(
+                context: context,
                 appConfigProvider: appConfigProvider,
                 label: AppLocalizations.of(context)!.unknownError,
-                color: Colors.red,
               );
               appConfigProvider.addLog(result!.log!);
             }
@@ -343,10 +343,10 @@ class _AddServerFullscreenState extends State<AddServerFullscreen> {
             setState(() {
               isConnecting = false;
             });
-            showSnackBar(
+            showErrorSnackBar(
+              context: context,
               appConfigProvider: appConfigProvider,
               label: AppLocalizations.of(context)!.cantSaveConnectionData,
-              color: Colors.red,
             );
           }
         }
@@ -356,40 +356,40 @@ class _AddServerFullscreenState extends State<AddServerFullscreen> {
             isConnecting = false;
           });
           if (result?.result == APiResponseType.socket) {
-            showSnackBar(
+            showErrorSnackBar(
+              context: context,
               appConfigProvider: appConfigProvider,
               label: AppLocalizations.of(context)!.checkAddress,
-              color: Colors.red,
             );
           } else if (result?.result == APiResponseType.timeout) {
-            showSnackBar(
+            showErrorSnackBar(
+              context: context,
               appConfigProvider: appConfigProvider,
               label: AppLocalizations.of(context)!.connectionTimeout,
-              color: Colors.red,
             );
           } else if (result?.result == APiResponseType.noConnection) {
-            showSnackBar(
+            showErrorSnackBar(
+              context: context,
               appConfigProvider: appConfigProvider,
               label: AppLocalizations.of(context)!.cantReachServer,
-              color: Colors.red,
             );
           } else if (result?.result == APiResponseType.authError) {
-            showSnackBar(
+            showErrorSnackBar(
+              context: context,
               appConfigProvider: appConfigProvider,
               label: AppLocalizations.of(context)!.tokenNotValid,
-              color: Colors.red,
             );
           } else if (result?.result == APiResponseType.sslError) {
-            showSnackBar(
+            showErrorSnackBar(
+              context: context,
               appConfigProvider: appConfigProvider,
               label: AppLocalizations.of(context)!.sslErrorLong,
-              color: Colors.red,
             );
           } else {
-            showSnackBar(
+            showErrorSnackBar(
+              context: context,
               appConfigProvider: appConfigProvider,
               label: AppLocalizations.of(context)!.unknownError,
-              color: Colors.red,
             );
           }
         } else {

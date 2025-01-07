@@ -1,9 +1,9 @@
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
+import 'package:pi_hole_client/config/theme.dart';
 import 'package:provider/provider.dart';
 
 import 'package:pi_hole_client/functions/format.dart';
-import 'package:pi_hole_client/constants/colors.dart';
 import 'package:pi_hole_client/providers/app_config_provider.dart';
 
 class ClientsLastHours extends StatelessWidget {
@@ -172,7 +172,7 @@ class ClientsLastHours extends StatelessWidget {
     Color getColor(Map<String, dynamic> client, int index) {
       final exists = realtimeListIps.indexOf(data['clients'][index]['ip']);
       if (exists >= 0) {
-        return colors[exists];
+        return Theme.of(context).extension<GraphColors>()!.getColor(exists);
       } else {
         return client['color'];
       }

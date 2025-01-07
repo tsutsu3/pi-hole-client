@@ -1,5 +1,6 @@
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
+import 'package:pi_hole_client/config/theme.dart';
 import 'package:provider/provider.dart';
 
 import 'package:pi_hole_client/functions/format.dart';
@@ -15,7 +16,11 @@ class QueriesLastHours extends StatelessWidget {
   final Map<String, dynamic> data;
   final bool reducedData;
 
-  LineChartData mainData(Map<String, dynamic> data, ThemeMode selectedTheme) {
+  LineChartData mainData(
+    Map<String, dynamic> data,
+    ThemeMode selectedTheme,
+    BuildContext context,
+  ) {
     final double interval = (data['topPoint'] / 5).toDouble() > 0
         ? (data['topPoint'] / 5).toDouble()
         : data['topPoint'].toDouble() > 0
@@ -87,7 +92,7 @@ class QueriesLastHours extends StatelessWidget {
         ),
         LineChartBarData(
           spots: data['data']['ads'],
-          color: Colors.blue,
+          color: Theme.of(context).extension<GraphColors>()!.getColor(0),
           isCurved: true,
           barWidth: 2,
           isStrokeCapRound: true,
@@ -97,12 +102,15 @@ class QueriesLastHours extends StatelessWidget {
           ),
           belowBarData: BarAreaData(
             show: true,
-            color: Colors.blue.withValues(alpha: 0.2),
+            color: Theme.of(context)
+                .extension<GraphColors>()!
+                .getColor(0)
+                .withValues(alpha: 0.2),
           ),
         ),
         LineChartBarData(
           spots: data['data']['domains'],
-          color: Colors.green,
+          color: Theme.of(context).extension<GraphColors>()!.getColor(3),
           isCurved: true,
           barWidth: 2,
           isStrokeCapRound: true,
@@ -112,7 +120,10 @@ class QueriesLastHours extends StatelessWidget {
           ),
           belowBarData: BarAreaData(
             show: true,
-            color: Colors.green.withValues(alpha: 0.2),
+            color: Theme.of(context)
+                .extension<GraphColors>()!
+                .getColor(3)
+                .withValues(alpha: 0.2),
           ),
         ),
       ],
@@ -212,7 +223,7 @@ class QueriesLastHours extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 15),
       child: LineChart(
-        mainData(formatData(data), appConfigProvider.selectedTheme),
+        mainData(formatData(data), appConfigProvider.selectedTheme, context),
       ),
     );
   }

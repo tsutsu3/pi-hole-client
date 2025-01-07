@@ -1,3 +1,4 @@
+import 'package:pi_hole_client/config/theme.dart';
 import 'package:pi_hole_client/constants/languages.dart';
 import 'package:pi_hole_client/models/app_log.dart';
 import 'package:pi_hole_client/models/repository/database.dart';
@@ -34,6 +35,9 @@ class AppConfigProvider with ChangeNotifier {
 
   final List<AppLog> _logs = [];
   final DatabaseRepository _repository;
+
+  AppColors get colors =>
+      selectedTheme == ThemeMode.light ? lightAppColors : darkAppColors;
 
   bool get showingSnackbar {
     return _showingSnackbar;

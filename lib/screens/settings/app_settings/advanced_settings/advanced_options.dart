@@ -3,6 +3,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_phoenix/flutter_phoenix.dart';
 import 'package:pi_hole_client/constants/responsive.dart';
+import 'package:pi_hole_client/functions/conversions.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
@@ -34,16 +35,16 @@ class AdvancedOptions extends StatelessWidget {
     void updateSslCheck(bool newStatus) async {
       final result = await appConfigProvider.setOverrideSslCheck(newStatus);
       if (result == true) {
-        showSnackBar(
+        showSuccessSnackBar(
+          context: context,
           appConfigProvider: appConfigProvider,
           label: AppLocalizations.of(context)!.restartAppTakeEffect,
-          color: Colors.green,
         );
       } else {
-        showSnackBar(
+        showErrorSnackBar(
+          context: context,
           appConfigProvider: appConfigProvider,
           label: AppLocalizations.of(context)!.cannotUpdateSettings,
-          color: Colors.red,
         );
       }
     }
@@ -51,16 +52,16 @@ class AdvancedOptions extends StatelessWidget {
     void updateOneColumnLegend(bool newStatus) async {
       final result = await appConfigProvider.setOneColumnLegend(newStatus);
       if (result == true) {
-        showSnackBar(
+        showSuccessSnackBar(
+          context: context,
           appConfigProvider: appConfigProvider,
           label: AppLocalizations.of(context)!.settingsUpdatedSuccessfully,
-          color: Colors.green,
         );
       } else {
-        showSnackBar(
+        showErrorSnackBar(
+          context: context,
           appConfigProvider: appConfigProvider,
           label: AppLocalizations.of(context)!.cannotUpdateSettings,
-          color: Colors.red,
         );
       }
     }
@@ -68,16 +69,16 @@ class AdvancedOptions extends StatelessWidget {
     void updateUseReducedData(bool newStatus) async {
       final result = await appConfigProvider.setReducedDataCharts(newStatus);
       if (result == true) {
-        showSnackBar(
+        showSuccessSnackBar(
+          context: context,
           appConfigProvider: appConfigProvider,
           label: AppLocalizations.of(context)!.settingsUpdatedSuccessfully,
-          color: Colors.green,
         );
       } else {
-        showSnackBar(
+        showErrorSnackBar(
+          context: context,
           appConfigProvider: appConfigProvider,
           label: AppLocalizations.of(context)!.cannotUpdateSettings,
-          color: Colors.red,
         );
       }
     }
@@ -85,16 +86,16 @@ class AdvancedOptions extends StatelessWidget {
     void updateHideZeroValues(bool newStatus) async {
       final result = await appConfigProvider.setHideZeroValues(newStatus);
       if (result == true) {
-        showSnackBar(
+        showSuccessSnackBar(
+          context: context,
           appConfigProvider: appConfigProvider,
           label: AppLocalizations.of(context)!.settingsUpdatedSuccessfully,
-          color: Colors.green,
         );
       } else {
-        showSnackBar(
+        showErrorSnackBar(
+          context: context,
           appConfigProvider: appConfigProvider,
           label: AppLocalizations.of(context)!.cannotUpdateSettings,
-          color: Colors.green,
         );
       }
     }
@@ -304,7 +305,7 @@ class AdvancedOptions extends StatelessWidget {
             leadingIcon: Icons.delete,
             label: AppLocalizations.of(context)!.resetApplication,
             description: AppLocalizations.of(context)!.erasesAppData,
-            color: Colors.red,
+            color: convertColor(serversProvider.colors, Colors.red),
             onTap: openResetModal,
             padding: const EdgeInsets.only(
               top: 10,

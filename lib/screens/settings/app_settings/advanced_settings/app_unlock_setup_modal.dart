@@ -2,6 +2,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:local_auth/local_auth.dart';
+import 'package:pi_hole_client/functions/conversions.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
@@ -89,44 +90,44 @@ class _AppUnlockSetupModalState extends State<AppUnlockSetupModal> {
             if (didAuthenticate == true) {
               final result = await appConfigProvider.setUseBiometrics(true);
               if (result == false) {
-                showSnackBar(
+                showErrorSnackBar(
+                  context: context,
                   appConfigProvider: appConfigProvider,
                   label:
                       AppLocalizations.of(context)!.biometricUnlockNotActivated,
-                  color: Colors.red,
                 );
               }
             }
           } catch (e) {
             if (e.toString().contains('LockedOut')) {
-              showSnackBar(
+              showErrorSnackBar(
+                context: context,
                 appConfigProvider: appConfigProvider,
                 label: AppLocalizations.of(context)!
                     .fingerprintAuthUnavailableAttempts,
-                color: Colors.red,
               );
             } else {
-              showSnackBar(
+              showErrorSnackBar(
+                context: context,
                 appConfigProvider: appConfigProvider,
                 label: AppLocalizations.of(context)!.fingerprintAuthUnavailable,
-                color: Colors.red,
               );
             }
           }
         } else {
-          showSnackBar(
+          showNeutralSnackBar(
+            context: context,
             appConfigProvider: appConfigProvider,
             label: AppLocalizations.of(context)!.noAvailableBiometrics,
-            color: Theme.of(context).colorScheme.onSurfaceVariant,
           );
         }
       } else {
         final result = await appConfigProvider.setUseBiometrics(false);
         if (result == false) {
-          showSnackBar(
+          showErrorSnackBar(
+            context: context,
             appConfigProvider: appConfigProvider,
             label: AppLocalizations.of(context)!.biometricUnlockNotDisabled,
-            color: Colors.red,
           );
         }
       }
@@ -159,8 +160,8 @@ class _AppUnlockSetupModalState extends State<AppUnlockSetupModal> {
           decoration: BoxDecoration(
             border: Border.all(
               color: appConfigProvider.passCode != null
-                  ? Colors.green
-                  : Colors.red,
+                  ? convertColor(appConfigProvider.colors, Colors.green)
+                  : convertColor(appConfigProvider.colors, Colors.red),
             ),
             borderRadius: BorderRadius.circular(30),
           ),
@@ -169,16 +170,22 @@ class _AppUnlockSetupModalState extends State<AppUnlockSetupModal> {
                   mainAxisSize: MainAxisSize.min,
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    const Icon(
+                    Icon(
                       Icons.check,
-                      color: Colors.green,
+                      color: convertColor(
+                        appConfigProvider.colors,
+                        Colors.green,
+                      ),
                       size: 20,
                     ),
                     const SizedBox(width: 20),
                     Text(
                       AppLocalizations.of(context)!.statusEnabled,
-                      style: const TextStyle(
-                        color: Colors.green,
+                      style: TextStyle(
+                        color: convertColor(
+                          appConfigProvider.colors,
+                          Colors.green,
+                        ),
                         fontSize: 15,
                         fontWeight: FontWeight.w500,
                       ),
@@ -189,16 +196,17 @@ class _AppUnlockSetupModalState extends State<AppUnlockSetupModal> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   mainAxisSize: MainAxisSize.min,
                   children: [
-                    const Icon(
+                    Icon(
                       Icons.close,
-                      color: Colors.red,
+                      color: convertColor(appConfigProvider.colors, Colors.red),
                       size: 20,
                     ),
                     const SizedBox(width: 20),
                     Text(
                       AppLocalizations.of(context)!.statusDisabled,
-                      style: const TextStyle(
-                        color: Colors.red,
+                      style: TextStyle(
+                        color:
+                            convertColor(appConfigProvider.colors, Colors.red),
                         fontSize: 15,
                         fontWeight: FontWeight.w500,
                       ),
@@ -299,7 +307,10 @@ class _AppUnlockSetupModalState extends State<AppUnlockSetupModal> {
                           Icons.fingerprint,
                           color: appConfigProvider.passCode != null
                               ? null
-                              : Colors.grey,
+                              : convertColor(
+                                  appConfigProvider.colors,
+                                  Colors.grey,
+                                ),
                         ),
                         const SizedBox(width: 10),
                         Text(
@@ -308,7 +319,10 @@ class _AppUnlockSetupModalState extends State<AppUnlockSetupModal> {
                             fontSize: 16,
                             color: appConfigProvider.passCode != null
                                 ? null
-                                : Colors.grey,
+                                : convertColor(
+                                    appConfigProvider.colors,
+                                    Colors.grey,
+                                  ),
                           ),
                         ),
                       ],
