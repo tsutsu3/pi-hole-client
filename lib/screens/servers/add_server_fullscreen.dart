@@ -232,11 +232,17 @@ class _AddServerFullscreenState extends State<AddServerFullscreen> {
           basicAuthPassword: basicAuthPassword.text,
         );
         serverObj.sm.savePassword(passwordFieldController.text);
-        final result =
-            await serversProvider.loadApiGateway(serverObj)?.loginQuery();
+        final result = await serversProvider
+            .loadApiGateway(serverObj)
+            ?.loginQuery(server: serverObj);
         if (!mounted) return;
         if (result?.result == APiResponseType.success) {
           Navigator.maybePop(context);
+          showSuccessSnackBar(
+            context: context,
+            appConfigProvider: appConfigProvider,
+            label: AppLocalizations.of(context)!.checkAddress,
+          );
           serversProvider.addServer(
             Server(
               address: serverObj.address,
@@ -322,8 +328,9 @@ class _AddServerFullscreenState extends State<AddServerFullscreen> {
         basicAuthPassword: basicAuthPassword.text,
       );
       serverObj.sm.savePassword(passwordFieldController.text);
-      final result =
-          await serversProvider.loadApiGateway(serverObj)?.loginQuery();
+      final result = await serversProvider
+          .loadApiGateway(serverObj)
+          ?.loginQuery(server: serverObj);
       if (result?.result == APiResponseType.success) {
         Server server = Server(
           address: widget.server!.address,

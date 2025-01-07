@@ -10,7 +10,7 @@ abstract interface class ApiGateway {
   ///
   /// ### Returns
   /// - A [LoginQueryResponse] object containing the result of the login query.
-  Future<LoginQueryResponse> loginQuery();
+  Future<LoginQueryResponse> loginQuery({Server? server});
 
   /// Fetches real-time status information from a Pi-hole server.
   ///
