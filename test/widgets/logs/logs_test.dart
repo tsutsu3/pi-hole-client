@@ -1,8 +1,10 @@
+import 'package:dynamic_color/dynamic_color.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:pi_hole_client/config/theme.dart';
 import 'package:pi_hole_client/constants/query_types.dart';
 import 'package:provider/provider.dart';
 import 'package:mockito/mockito.dart';
@@ -91,6 +93,7 @@ void main() async {
       when(mockConfigProvider.showingSnackbar).thenReturn(showingSnackbar);
       when(mockConfigProvider.setShowingSnackbar(any)).thenAnswer((_) {});
       when(mockConfigProvider.logsPerQuery).thenReturn(2);
+      when(mockServersProvider.colors).thenReturn(lightAppColors);
 
       // mock ServersProvider
       when(mockServersProvider.selectedServer).thenReturn(server);
@@ -185,35 +188,43 @@ void main() async {
         });
 
         await tester.pumpWidget(
-          MultiProvider(
-            providers: [
-              ChangeNotifierProvider<ServersProvider>(
-                create: (context) => mockServersProvider,
-              ),
-              ChangeNotifierProxyProvider<ServersProvider, FiltersProvider>(
-                create: (context) => mockFiltersProvider,
-                update: (context, serverConfig, servers) =>
-                    servers!..update(serverConfig),
-              ),
-              ChangeNotifierProvider<AppConfigProvider>(
-                create: (context) => mockConfigProvider,
-              ),
-              ChangeNotifierProxyProvider<AppConfigProvider, ServersProvider>(
-                create: (context) => mockServersProvider,
-                update: (context, appConfig, servers) =>
-                    servers!..update(appConfig),
-              ),
-            ],
-            child: MaterialApp(
-              home: const Scaffold(
-                body: Logs(),
-              ),
-              localizationsDelegates: [
-                GlobalMaterialLocalizations.delegate,
-                AppLocalizations.delegate,
-              ],
-              scaffoldMessengerKey: scaffoldMessengerKey,
-            ),
+          DynamicColorBuilder(
+            builder: (lightDynamic, darkDynamic) {
+              return MultiProvider(
+                providers: [
+                  ChangeNotifierProvider<ServersProvider>(
+                    create: (context) => mockServersProvider,
+                  ),
+                  ChangeNotifierProxyProvider<ServersProvider, FiltersProvider>(
+                    create: (context) => mockFiltersProvider,
+                    update: (context, serverConfig, servers) =>
+                        servers!..update(serverConfig),
+                  ),
+                  ChangeNotifierProvider<AppConfigProvider>(
+                    create: (context) => mockConfigProvider,
+                  ),
+                  ChangeNotifierProxyProvider<AppConfigProvider,
+                      ServersProvider>(
+                    create: (context) => mockServersProvider,
+                    update: (context, appConfig, servers) =>
+                        servers!..update(appConfig),
+                  ),
+                ],
+                child: MaterialApp(
+                  theme: lightTheme(lightDynamic),
+                  darkTheme: darkTheme(darkDynamic),
+                  themeMode: ThemeMode.light,
+                  home: const Scaffold(
+                    body: Logs(),
+                  ),
+                  localizationsDelegates: [
+                    GlobalMaterialLocalizations.delegate,
+                    AppLocalizations.delegate,
+                  ],
+                  scaffoldMessengerKey: scaffoldMessengerKey,
+                ),
+              );
+            },
           ),
         );
 

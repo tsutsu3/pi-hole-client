@@ -3,16 +3,17 @@
 // Do not manually edit this file.
 
 // ignore_for_file: no_leading_underscores_for_library_prefixes
-import 'dart:async' as _i7;
-import 'dart:ui' as _i9;
+import 'dart:async' as _i8;
+import 'dart:ui' as _i10;
 
 import 'package:mockito/mockito.dart' as _i1;
-import 'package:pi_hole_client/gateways/api_gateway_interface.dart' as _i6;
-import 'package:pi_hole_client/models/query_status.dart' as _i4;
-import 'package:pi_hole_client/models/repository/database.dart' as _i8;
-import 'package:pi_hole_client/models/server.dart' as _i3;
-import 'package:pi_hole_client/providers/app_config_provider.dart' as _i5;
-import 'package:pi_hole_client/providers/servers_provider.dart' as _i2;
+import 'package:pi_hole_client/config/theme.dart' as _i2;
+import 'package:pi_hole_client/gateways/api_gateway_interface.dart' as _i7;
+import 'package:pi_hole_client/models/query_status.dart' as _i5;
+import 'package:pi_hole_client/models/repository/database.dart' as _i9;
+import 'package:pi_hole_client/models/server.dart' as _i4;
+import 'package:pi_hole_client/providers/app_config_provider.dart' as _i6;
+import 'package:pi_hole_client/providers/servers_provider.dart' as _i3;
 
 // ignore_for_file: type=lint
 // ignore_for_file: avoid_redundant_argument_values
@@ -28,19 +29,38 @@ import 'package:pi_hole_client/providers/servers_provider.dart' as _i2;
 // ignore_for_file: camel_case_types
 // ignore_for_file: subtype_of_sealed_class
 
+class _FakeAppColors_0 extends _i1.SmartFake implements _i2.AppColors {
+  _FakeAppColors_0(
+    Object parent,
+    Invocation parentInvocation,
+  ) : super(
+          parent,
+          parentInvocation,
+        );
+}
+
 /// A class which mocks [ServersProvider].
 ///
 /// See the documentation for Mockito's code generation for more information.
-class MockServersProvider extends _i1.Mock implements _i2.ServersProvider {
+class MockServersProvider extends _i1.Mock implements _i3.ServersProvider {
   MockServersProvider() {
     _i1.throwOnMissingStub(this);
   }
 
   @override
-  List<_i3.Server> get getServersList => (super.noSuchMethod(
+  _i2.AppColors get colors => (super.noSuchMethod(
+        Invocation.getter(#colors),
+        returnValue: _FakeAppColors_0(
+          this,
+          Invocation.getter(#colors),
+        ),
+      ) as _i2.AppColors);
+
+  @override
+  List<_i4.Server> get getServersList => (super.noSuchMethod(
         Invocation.getter(#getServersList),
-        returnValue: <_i3.Server>[],
-      ) as List<_i3.Server>);
+        returnValue: <_i4.Server>[],
+      ) as List<_i4.Server>);
 
   @override
   int get numShown => (super.noSuchMethod(
@@ -49,10 +69,10 @@ class MockServersProvider extends _i1.Mock implements _i2.ServersProvider {
       ) as int);
 
   @override
-  List<_i4.QueryStatus> get queryStatuses => (super.noSuchMethod(
+  List<_i5.QueryStatus> get queryStatuses => (super.noSuchMethod(
         Invocation.getter(#queryStatuses),
-        returnValue: <_i4.QueryStatus>[],
-      ) as List<_i4.QueryStatus>);
+        returnValue: <_i5.QueryStatus>[],
+      ) as List<_i5.QueryStatus>);
 
   @override
   bool get hasListeners => (super.noSuchMethod(
@@ -61,7 +81,7 @@ class MockServersProvider extends _i1.Mock implements _i2.ServersProvider {
       ) as bool);
 
   @override
-  void update(_i5.AppConfigProvider? provider) => super.noSuchMethod(
+  void update(_i6.AppConfigProvider? provider) => super.noSuchMethod(
         Invocation.method(
           #update,
           [provider],
@@ -70,86 +90,86 @@ class MockServersProvider extends _i1.Mock implements _i2.ServersProvider {
       );
 
   @override
-  _i6.ApiGateway? loadApiGateway(_i3.Server? server) =>
+  _i7.ApiGateway? loadApiGateway(_i4.Server? server) =>
       (super.noSuchMethod(Invocation.method(
         #loadApiGateway,
         [server],
-      )) as _i6.ApiGateway?);
+      )) as _i7.ApiGateway?);
 
   @override
-  _i4.QueryStatus? getQueryStatus(String? key) =>
+  _i5.QueryStatus? getQueryStatus(String? key) =>
       (super.noSuchMethod(Invocation.method(
         #getQueryStatus,
         [key],
-      )) as _i4.QueryStatus?);
+      )) as _i5.QueryStatus?);
 
   @override
-  _i4.QueryStatus? findQueryStatus(String? key) =>
+  _i5.QueryStatus? findQueryStatus(String? key) =>
       (super.noSuchMethod(Invocation.method(
         #findQueryStatus,
         [key],
-      )) as _i4.QueryStatus?);
+      )) as _i5.QueryStatus?);
 
   @override
-  _i7.Future<bool> addServer(_i3.Server? server) => (super.noSuchMethod(
+  _i8.Future<bool> addServer(_i4.Server? server) => (super.noSuchMethod(
         Invocation.method(
           #addServer,
           [server],
         ),
-        returnValue: _i7.Future<bool>.value(false),
-      ) as _i7.Future<bool>);
+        returnValue: _i8.Future<bool>.value(false),
+      ) as _i8.Future<bool>);
 
   @override
-  _i7.Future<bool> editServer(_i3.Server? server) => (super.noSuchMethod(
+  _i8.Future<bool> editServer(_i4.Server? server) => (super.noSuchMethod(
         Invocation.method(
           #editServer,
           [server],
         ),
-        returnValue: _i7.Future<bool>.value(false),
-      ) as _i7.Future<bool>);
+        returnValue: _i8.Future<bool>.value(false),
+      ) as _i8.Future<bool>);
 
   @override
-  _i7.Future<bool> removeServer(String? serverAddress) => (super.noSuchMethod(
+  _i8.Future<bool> removeServer(String? serverAddress) => (super.noSuchMethod(
         Invocation.method(
           #removeServer,
           [serverAddress],
         ),
-        returnValue: _i7.Future<bool>.value(false),
-      ) as _i7.Future<bool>);
+        returnValue: _i8.Future<bool>.value(false),
+      ) as _i8.Future<bool>);
 
   @override
-  _i7.Future<bool> setDefaultServer(_i3.Server? server) => (super.noSuchMethod(
+  _i8.Future<bool> setDefaultServer(_i4.Server? server) => (super.noSuchMethod(
         Invocation.method(
           #setDefaultServer,
           [server],
         ),
-        returnValue: _i7.Future<bool>.value(false),
-      ) as _i7.Future<bool>);
+        returnValue: _i8.Future<bool>.value(false),
+      ) as _i8.Future<bool>);
 
   @override
-  _i7.Future<dynamic> saveFromDb(List<_i8.ServerDbData>? servers) =>
+  _i8.Future<dynamic> saveFromDb(List<_i9.ServerDbData>? servers) =>
       (super.noSuchMethod(
         Invocation.method(
           #saveFromDb,
           [servers],
         ),
-        returnValue: _i7.Future<dynamic>.value(),
-      ) as _i7.Future<dynamic>);
+        returnValue: _i8.Future<dynamic>.value(),
+      ) as _i8.Future<dynamic>);
 
   @override
-  _i7.FutureOr<Map<String, dynamic>> checkUrlExists(String? url) =>
+  _i8.FutureOr<Map<String, dynamic>> checkUrlExists(String? url) =>
       (super.noSuchMethod(
         Invocation.method(
           #checkUrlExists,
           [url],
         ),
         returnValue:
-            _i7.Future<Map<String, dynamic>>.value(<String, dynamic>{}),
-      ) as _i7.FutureOr<Map<String, dynamic>>);
+            _i8.Future<Map<String, dynamic>>.value(<String, dynamic>{}),
+      ) as _i8.FutureOr<Map<String, dynamic>>);
 
   @override
   void setselectedServer({
-    required _i3.Server? server,
+    required _i4.Server? server,
     bool? toHomeTab,
   }) =>
       super.noSuchMethod(
@@ -174,25 +194,25 @@ class MockServersProvider extends _i1.Mock implements _i2.ServersProvider {
       );
 
   @override
-  _i7.Future<bool> deleteDbData() => (super.noSuchMethod(
+  _i8.Future<bool> deleteDbData() => (super.noSuchMethod(
         Invocation.method(
           #deleteDbData,
           [],
         ),
-        returnValue: _i7.Future<bool>.value(false),
-      ) as _i7.Future<bool>);
+        returnValue: _i8.Future<bool>.value(false),
+      ) as _i8.Future<bool>);
 
   @override
-  _i7.Future<bool> resetSelectedServer() => (super.noSuchMethod(
+  _i8.Future<bool> resetSelectedServer() => (super.noSuchMethod(
         Invocation.method(
           #resetSelectedServer,
           [],
         ),
-        returnValue: _i7.Future<bool>.value(false),
-      ) as _i7.Future<bool>);
+        returnValue: _i8.Future<bool>.value(false),
+      ) as _i8.Future<bool>);
 
   @override
-  void addListener(_i9.VoidCallback? listener) => super.noSuchMethod(
+  void addListener(_i10.VoidCallback? listener) => super.noSuchMethod(
         Invocation.method(
           #addListener,
           [listener],
@@ -201,7 +221,7 @@ class MockServersProvider extends _i1.Mock implements _i2.ServersProvider {
       );
 
   @override
-  void removeListener(_i9.VoidCallback? listener) => super.noSuchMethod(
+  void removeListener(_i10.VoidCallback? listener) => super.noSuchMethod(
         Invocation.method(
           #removeListener,
           [listener],

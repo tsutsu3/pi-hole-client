@@ -3,21 +3,22 @@
 // Do not manually edit this file.
 
 // ignore_for_file: no_leading_underscores_for_library_prefixes
-import 'dart:async' as _i8;
-import 'dart:ui' as _i10;
+import 'dart:async' as _i9;
+import 'dart:ui' as _i11;
 
-import 'package:device_info_plus/device_info_plus.dart' as _i7;
-import 'package:flutter/material.dart' as _i3;
+import 'package:device_info_plus/device_info_plus.dart' as _i8;
+import 'package:flutter/material.dart' as _i4;
 import 'package:mockito/mockito.dart' as _i1;
-import 'package:mockito/src/dummies.dart' as _i4;
-import 'package:package_info_plus/package_info_plus.dart' as _i6;
-import 'package:pi_hole_client/gateways/api_gateway_interface.dart' as _i14;
-import 'package:pi_hole_client/models/app_log.dart' as _i5;
-import 'package:pi_hole_client/models/query_status.dart' as _i13;
-import 'package:pi_hole_client/models/repository/database.dart' as _i9;
-import 'package:pi_hole_client/models/server.dart' as _i12;
-import 'package:pi_hole_client/providers/app_config_provider.dart' as _i2;
-import 'package:pi_hole_client/providers/servers_provider.dart' as _i11;
+import 'package:mockito/src/dummies.dart' as _i5;
+import 'package:package_info_plus/package_info_plus.dart' as _i7;
+import 'package:pi_hole_client/config/theme.dart' as _i2;
+import 'package:pi_hole_client/gateways/api_gateway_interface.dart' as _i15;
+import 'package:pi_hole_client/models/app_log.dart' as _i6;
+import 'package:pi_hole_client/models/query_status.dart' as _i14;
+import 'package:pi_hole_client/models/repository/database.dart' as _i10;
+import 'package:pi_hole_client/models/server.dart' as _i13;
+import 'package:pi_hole_client/providers/app_config_provider.dart' as _i3;
+import 'package:pi_hole_client/providers/servers_provider.dart' as _i12;
 
 // ignore_for_file: type=lint
 // ignore_for_file: avoid_redundant_argument_values
@@ -33,13 +34,32 @@ import 'package:pi_hole_client/providers/servers_provider.dart' as _i11;
 // ignore_for_file: camel_case_types
 // ignore_for_file: subtype_of_sealed_class
 
+class _FakeAppColors_0 extends _i1.SmartFake implements _i2.AppColors {
+  _FakeAppColors_0(
+    Object parent,
+    Invocation parentInvocation,
+  ) : super(
+          parent,
+          parentInvocation,
+        );
+}
+
 /// A class which mocks [AppConfigProvider].
 ///
 /// See the documentation for Mockito's code generation for more information.
-class MockAppConfigProvider extends _i1.Mock implements _i2.AppConfigProvider {
+class MockAppConfigProvider extends _i1.Mock implements _i3.AppConfigProvider {
   MockAppConfigProvider() {
     _i1.throwOnMissingStub(this);
   }
+
+  @override
+  _i2.AppColors get colors => (super.noSuchMethod(
+        Invocation.getter(#colors),
+        returnValue: _FakeAppColors_0(
+          this,
+          Invocation.getter(#colors),
+        ),
+      ) as _i2.AppColors);
 
   @override
   bool get showingSnackbar => (super.noSuchMethod(
@@ -54,15 +74,15 @@ class MockAppConfigProvider extends _i1.Mock implements _i2.AppConfigProvider {
       ) as int);
 
   @override
-  _i3.ThemeMode get selectedTheme => (super.noSuchMethod(
+  _i4.ThemeMode get selectedTheme => (super.noSuchMethod(
         Invocation.getter(#selectedTheme),
-        returnValue: _i3.ThemeMode.system,
-      ) as _i3.ThemeMode);
+        returnValue: _i4.ThemeMode.system,
+      ) as _i4.ThemeMode);
 
   @override
   String get selectedLanguage => (super.noSuchMethod(
         Invocation.getter(#selectedLanguage),
-        returnValue: _i4.dummyValue<String>(
+        returnValue: _i5.dummyValue<String>(
           this,
           Invocation.getter(#selectedLanguage),
         ),
@@ -153,10 +173,10 @@ class MockAppConfigProvider extends _i1.Mock implements _i2.AppConfigProvider {
       ) as bool);
 
   @override
-  List<_i5.AppLog> get logs => (super.noSuchMethod(
+  List<_i6.AppLog> get logs => (super.noSuchMethod(
         Invocation.getter(#logs),
-        returnValue: <_i5.AppLog>[],
-      ) as List<_i5.AppLog>);
+        returnValue: <_i6.AppLog>[],
+      ) as List<_i6.AppLog>);
 
   @override
   bool get hasListeners => (super.noSuchMethod(
@@ -183,7 +203,7 @@ class MockAppConfigProvider extends _i1.Mock implements _i2.AppConfigProvider {
       );
 
   @override
-  void setAppInfo(_i6.PackageInfo? appInfo) => super.noSuchMethod(
+  void setAppInfo(_i7.PackageInfo? appInfo) => super.noSuchMethod(
         Invocation.method(
           #setAppInfo,
           [appInfo],
@@ -192,7 +212,7 @@ class MockAppConfigProvider extends _i1.Mock implements _i2.AppConfigProvider {
       );
 
   @override
-  void setAndroidInfo(_i7.AndroidDeviceInfo? deviceInfo) => super.noSuchMethod(
+  void setAndroidInfo(_i8.AndroidDeviceInfo? deviceInfo) => super.noSuchMethod(
         Invocation.method(
           #setAndroidInfo,
           [deviceInfo],
@@ -201,7 +221,7 @@ class MockAppConfigProvider extends _i1.Mock implements _i2.AppConfigProvider {
       );
 
   @override
-  void setIosInfo(_i7.IosDeviceInfo? deviceInfo) => super.noSuchMethod(
+  void setIosInfo(_i8.IosDeviceInfo? deviceInfo) => super.noSuchMethod(
         Invocation.method(
           #setIosInfo,
           [deviceInfo],
@@ -237,7 +257,7 @@ class MockAppConfigProvider extends _i1.Mock implements _i2.AppConfigProvider {
       );
 
   @override
-  void addLog(_i5.AppLog? log) => super.noSuchMethod(
+  void addLog(_i6.AppLog? log) => super.noSuchMethod(
         Invocation.method(
           #addLog,
           [log],
@@ -263,61 +283,61 @@ class MockAppConfigProvider extends _i1.Mock implements _i2.AppConfigProvider {
       );
 
   @override
-  _i8.Future<bool> setUseBiometrics(bool? biometrics) => (super.noSuchMethod(
+  _i9.Future<bool> setUseBiometrics(bool? biometrics) => (super.noSuchMethod(
         Invocation.method(
           #setUseBiometrics,
           [biometrics],
         ),
-        returnValue: _i8.Future<bool>.value(false),
-      ) as _i8.Future<bool>);
+        returnValue: _i9.Future<bool>.value(false),
+      ) as _i9.Future<bool>);
 
   @override
-  _i8.Future<bool> setImportantInfoReaden(bool? status) => (super.noSuchMethod(
+  _i9.Future<bool> setImportantInfoReaden(bool? status) => (super.noSuchMethod(
         Invocation.method(
           #setImportantInfoReaden,
           [status],
         ),
-        returnValue: _i8.Future<bool>.value(false),
-      ) as _i8.Future<bool>);
+        returnValue: _i9.Future<bool>.value(false),
+      ) as _i9.Future<bool>);
 
   @override
-  _i8.Future<bool> setPassCode(String? code) => (super.noSuchMethod(
+  _i9.Future<bool> setPassCode(String? code) => (super.noSuchMethod(
         Invocation.method(
           #setPassCode,
           [code],
         ),
-        returnValue: _i8.Future<bool>.value(false),
-      ) as _i8.Future<bool>);
+        returnValue: _i9.Future<bool>.value(false),
+      ) as _i9.Future<bool>);
 
   @override
-  _i8.Future<bool> setAutoRefreshTime(int? seconds) => (super.noSuchMethod(
+  _i9.Future<bool> setAutoRefreshTime(int? seconds) => (super.noSuchMethod(
         Invocation.method(
           #setAutoRefreshTime,
           [seconds],
         ),
-        returnValue: _i8.Future<bool>.value(false),
-      ) as _i8.Future<bool>);
+        returnValue: _i9.Future<bool>.value(false),
+      ) as _i9.Future<bool>);
 
   @override
-  _i8.Future<bool> setLogsPerQuery(double? time) => (super.noSuchMethod(
+  _i9.Future<bool> setLogsPerQuery(double? time) => (super.noSuchMethod(
         Invocation.method(
           #setLogsPerQuery,
           [time],
         ),
-        returnValue: _i8.Future<bool>.value(false),
-      ) as _i8.Future<bool>);
+        returnValue: _i9.Future<bool>.value(false),
+      ) as _i9.Future<bool>);
 
   @override
-  _i8.Future<bool> setSendCrashReports(bool? status) => (super.noSuchMethod(
+  _i9.Future<bool> setSendCrashReports(bool? status) => (super.noSuchMethod(
         Invocation.method(
           #setSendCrashReports,
           [status],
         ),
-        returnValue: _i8.Future<bool>.value(false),
-      ) as _i8.Future<bool>);
+        returnValue: _i9.Future<bool>.value(false),
+      ) as _i9.Future<bool>);
 
   @override
-  void saveFromDb(_i9.AppDbData? dbData) => super.noSuchMethod(
+  void saveFromDb(_i10.AppDbData? dbData) => super.noSuchMethod(
         Invocation.method(
           #saveFromDb,
           [dbData],
@@ -326,80 +346,80 @@ class MockAppConfigProvider extends _i1.Mock implements _i2.AppConfigProvider {
       );
 
   @override
-  _i8.Future<bool> setOverrideSslCheck(bool? status) => (super.noSuchMethod(
+  _i9.Future<bool> setOverrideSslCheck(bool? status) => (super.noSuchMethod(
         Invocation.method(
           #setOverrideSslCheck,
           [status],
         ),
-        returnValue: _i8.Future<bool>.value(false),
-      ) as _i8.Future<bool>);
+        returnValue: _i9.Future<bool>.value(false),
+      ) as _i9.Future<bool>);
 
   @override
-  _i8.Future<bool> setOneColumnLegend(bool? status) => (super.noSuchMethod(
+  _i9.Future<bool> setOneColumnLegend(bool? status) => (super.noSuchMethod(
         Invocation.method(
           #setOneColumnLegend,
           [status],
         ),
-        returnValue: _i8.Future<bool>.value(false),
-      ) as _i8.Future<bool>);
+        returnValue: _i9.Future<bool>.value(false),
+      ) as _i9.Future<bool>);
 
   @override
-  _i8.Future<bool> setReducedDataCharts(bool? status) => (super.noSuchMethod(
+  _i9.Future<bool> setReducedDataCharts(bool? status) => (super.noSuchMethod(
         Invocation.method(
           #setReducedDataCharts,
           [status],
         ),
-        returnValue: _i8.Future<bool>.value(false),
-      ) as _i8.Future<bool>);
+        returnValue: _i9.Future<bool>.value(false),
+      ) as _i9.Future<bool>);
 
   @override
-  _i8.Future<bool> setHideZeroValues(bool? status) => (super.noSuchMethod(
+  _i9.Future<bool> setHideZeroValues(bool? status) => (super.noSuchMethod(
         Invocation.method(
           #setHideZeroValues,
           [status],
         ),
-        returnValue: _i8.Future<bool>.value(false),
-      ) as _i8.Future<bool>);
+        returnValue: _i9.Future<bool>.value(false),
+      ) as _i9.Future<bool>);
 
   @override
-  _i8.Future<bool> setSelectedTheme(int? value) => (super.noSuchMethod(
+  _i9.Future<bool> setSelectedTheme(int? value) => (super.noSuchMethod(
         Invocation.method(
           #setSelectedTheme,
           [value],
         ),
-        returnValue: _i8.Future<bool>.value(false),
-      ) as _i8.Future<bool>);
+        returnValue: _i9.Future<bool>.value(false),
+      ) as _i9.Future<bool>);
 
   @override
-  _i8.Future<bool> setSelectedLanguage(String? value) => (super.noSuchMethod(
+  _i9.Future<bool> setSelectedLanguage(String? value) => (super.noSuchMethod(
         Invocation.method(
           #setSelectedLanguage,
           [value],
         ),
-        returnValue: _i8.Future<bool>.value(false),
-      ) as _i8.Future<bool>);
+        returnValue: _i9.Future<bool>.value(false),
+      ) as _i9.Future<bool>);
 
   @override
-  _i8.Future<bool> setStatisticsVisualizationMode(int? value) =>
+  _i9.Future<bool> setStatisticsVisualizationMode(int? value) =>
       (super.noSuchMethod(
         Invocation.method(
           #setStatisticsVisualizationMode,
           [value],
         ),
-        returnValue: _i8.Future<bool>.value(false),
-      ) as _i8.Future<bool>);
+        returnValue: _i9.Future<bool>.value(false),
+      ) as _i9.Future<bool>);
 
   @override
-  _i8.Future<bool> restoreAppConfig() => (super.noSuchMethod(
+  _i9.Future<bool> restoreAppConfig() => (super.noSuchMethod(
         Invocation.method(
           #restoreAppConfig,
           [],
         ),
-        returnValue: _i8.Future<bool>.value(false),
-      ) as _i8.Future<bool>);
+        returnValue: _i9.Future<bool>.value(false),
+      ) as _i9.Future<bool>);
 
   @override
-  void addListener(_i10.VoidCallback? listener) => super.noSuchMethod(
+  void addListener(_i11.VoidCallback? listener) => super.noSuchMethod(
         Invocation.method(
           #addListener,
           [listener],
@@ -408,7 +428,7 @@ class MockAppConfigProvider extends _i1.Mock implements _i2.AppConfigProvider {
       );
 
   @override
-  void removeListener(_i10.VoidCallback? listener) => super.noSuchMethod(
+  void removeListener(_i11.VoidCallback? listener) => super.noSuchMethod(
         Invocation.method(
           #removeListener,
           [listener],
@@ -438,16 +458,25 @@ class MockAppConfigProvider extends _i1.Mock implements _i2.AppConfigProvider {
 /// A class which mocks [ServersProvider].
 ///
 /// See the documentation for Mockito's code generation for more information.
-class MockServersProvider extends _i1.Mock implements _i11.ServersProvider {
+class MockServersProvider extends _i1.Mock implements _i12.ServersProvider {
   MockServersProvider() {
     _i1.throwOnMissingStub(this);
   }
 
   @override
-  List<_i12.Server> get getServersList => (super.noSuchMethod(
+  _i2.AppColors get colors => (super.noSuchMethod(
+        Invocation.getter(#colors),
+        returnValue: _FakeAppColors_0(
+          this,
+          Invocation.getter(#colors),
+        ),
+      ) as _i2.AppColors);
+
+  @override
+  List<_i13.Server> get getServersList => (super.noSuchMethod(
         Invocation.getter(#getServersList),
-        returnValue: <_i12.Server>[],
-      ) as List<_i12.Server>);
+        returnValue: <_i13.Server>[],
+      ) as List<_i13.Server>);
 
   @override
   int get numShown => (super.noSuchMethod(
@@ -456,10 +485,10 @@ class MockServersProvider extends _i1.Mock implements _i11.ServersProvider {
       ) as int);
 
   @override
-  List<_i13.QueryStatus> get queryStatuses => (super.noSuchMethod(
+  List<_i14.QueryStatus> get queryStatuses => (super.noSuchMethod(
         Invocation.getter(#queryStatuses),
-        returnValue: <_i13.QueryStatus>[],
-      ) as List<_i13.QueryStatus>);
+        returnValue: <_i14.QueryStatus>[],
+      ) as List<_i14.QueryStatus>);
 
   @override
   bool get hasListeners => (super.noSuchMethod(
@@ -468,7 +497,7 @@ class MockServersProvider extends _i1.Mock implements _i11.ServersProvider {
       ) as bool);
 
   @override
-  void update(_i2.AppConfigProvider? provider) => super.noSuchMethod(
+  void update(_i3.AppConfigProvider? provider) => super.noSuchMethod(
         Invocation.method(
           #update,
           [provider],
@@ -477,86 +506,86 @@ class MockServersProvider extends _i1.Mock implements _i11.ServersProvider {
       );
 
   @override
-  _i14.ApiGateway? loadApiGateway(_i12.Server? server) =>
+  _i15.ApiGateway? loadApiGateway(_i13.Server? server) =>
       (super.noSuchMethod(Invocation.method(
         #loadApiGateway,
         [server],
-      )) as _i14.ApiGateway?);
+      )) as _i15.ApiGateway?);
 
   @override
-  _i13.QueryStatus? getQueryStatus(String? key) =>
+  _i14.QueryStatus? getQueryStatus(String? key) =>
       (super.noSuchMethod(Invocation.method(
         #getQueryStatus,
         [key],
-      )) as _i13.QueryStatus?);
+      )) as _i14.QueryStatus?);
 
   @override
-  _i13.QueryStatus? findQueryStatus(String? key) =>
+  _i14.QueryStatus? findQueryStatus(String? key) =>
       (super.noSuchMethod(Invocation.method(
         #findQueryStatus,
         [key],
-      )) as _i13.QueryStatus?);
+      )) as _i14.QueryStatus?);
 
   @override
-  _i8.Future<bool> addServer(_i12.Server? server) => (super.noSuchMethod(
+  _i9.Future<bool> addServer(_i13.Server? server) => (super.noSuchMethod(
         Invocation.method(
           #addServer,
           [server],
         ),
-        returnValue: _i8.Future<bool>.value(false),
-      ) as _i8.Future<bool>);
+        returnValue: _i9.Future<bool>.value(false),
+      ) as _i9.Future<bool>);
 
   @override
-  _i8.Future<bool> editServer(_i12.Server? server) => (super.noSuchMethod(
+  _i9.Future<bool> editServer(_i13.Server? server) => (super.noSuchMethod(
         Invocation.method(
           #editServer,
           [server],
         ),
-        returnValue: _i8.Future<bool>.value(false),
-      ) as _i8.Future<bool>);
+        returnValue: _i9.Future<bool>.value(false),
+      ) as _i9.Future<bool>);
 
   @override
-  _i8.Future<bool> removeServer(String? serverAddress) => (super.noSuchMethod(
+  _i9.Future<bool> removeServer(String? serverAddress) => (super.noSuchMethod(
         Invocation.method(
           #removeServer,
           [serverAddress],
         ),
-        returnValue: _i8.Future<bool>.value(false),
-      ) as _i8.Future<bool>);
+        returnValue: _i9.Future<bool>.value(false),
+      ) as _i9.Future<bool>);
 
   @override
-  _i8.Future<bool> setDefaultServer(_i12.Server? server) => (super.noSuchMethod(
+  _i9.Future<bool> setDefaultServer(_i13.Server? server) => (super.noSuchMethod(
         Invocation.method(
           #setDefaultServer,
           [server],
         ),
-        returnValue: _i8.Future<bool>.value(false),
-      ) as _i8.Future<bool>);
+        returnValue: _i9.Future<bool>.value(false),
+      ) as _i9.Future<bool>);
 
   @override
-  _i8.Future<dynamic> saveFromDb(List<_i9.ServerDbData>? servers) =>
+  _i9.Future<dynamic> saveFromDb(List<_i10.ServerDbData>? servers) =>
       (super.noSuchMethod(
         Invocation.method(
           #saveFromDb,
           [servers],
         ),
-        returnValue: _i8.Future<dynamic>.value(),
-      ) as _i8.Future<dynamic>);
+        returnValue: _i9.Future<dynamic>.value(),
+      ) as _i9.Future<dynamic>);
 
   @override
-  _i8.FutureOr<Map<String, dynamic>> checkUrlExists(String? url) =>
+  _i9.FutureOr<Map<String, dynamic>> checkUrlExists(String? url) =>
       (super.noSuchMethod(
         Invocation.method(
           #checkUrlExists,
           [url],
         ),
         returnValue:
-            _i8.Future<Map<String, dynamic>>.value(<String, dynamic>{}),
-      ) as _i8.FutureOr<Map<String, dynamic>>);
+            _i9.Future<Map<String, dynamic>>.value(<String, dynamic>{}),
+      ) as _i9.FutureOr<Map<String, dynamic>>);
 
   @override
   void setselectedServer({
-    required _i12.Server? server,
+    required _i13.Server? server,
     bool? toHomeTab,
   }) =>
       super.noSuchMethod(
@@ -581,25 +610,25 @@ class MockServersProvider extends _i1.Mock implements _i11.ServersProvider {
       );
 
   @override
-  _i8.Future<bool> deleteDbData() => (super.noSuchMethod(
+  _i9.Future<bool> deleteDbData() => (super.noSuchMethod(
         Invocation.method(
           #deleteDbData,
           [],
         ),
-        returnValue: _i8.Future<bool>.value(false),
-      ) as _i8.Future<bool>);
+        returnValue: _i9.Future<bool>.value(false),
+      ) as _i9.Future<bool>);
 
   @override
-  _i8.Future<bool> resetSelectedServer() => (super.noSuchMethod(
+  _i9.Future<bool> resetSelectedServer() => (super.noSuchMethod(
         Invocation.method(
           #resetSelectedServer,
           [],
         ),
-        returnValue: _i8.Future<bool>.value(false),
-      ) as _i8.Future<bool>);
+        returnValue: _i9.Future<bool>.value(false),
+      ) as _i9.Future<bool>);
 
   @override
-  void addListener(_i10.VoidCallback? listener) => super.noSuchMethod(
+  void addListener(_i11.VoidCallback? listener) => super.noSuchMethod(
         Invocation.method(
           #addListener,
           [listener],
@@ -608,7 +637,7 @@ class MockServersProvider extends _i1.Mock implements _i11.ServersProvider {
       );
 
   @override
-  void removeListener(_i10.VoidCallback? listener) => super.noSuchMethod(
+  void removeListener(_i11.VoidCallback? listener) => super.noSuchMethod(
         Invocation.method(
           #removeListener,
           [listener],

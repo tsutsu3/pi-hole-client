@@ -4,6 +4,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:pi_hole_client/config/theme.dart';
 import 'package:pi_hole_client/screens/settings/app_settings/advanced_settings/advanced_options.dart';
 import 'package:provider/provider.dart';
 import 'package:mockito/mockito.dart';
@@ -45,6 +46,7 @@ void main() async {
       when(mockConfigProvider.oneColumnLegend).thenReturn(false);
       when(mockConfigProvider.reducedDataCharts).thenReturn(false);
       when(mockConfigProvider.hideZeroValues).thenReturn(false);
+      when(mockServersProvider.colors).thenReturn(lightAppColors);
 
       when(mockServersProvider.deleteDbData()).thenAnswer((_) async => true);
     });
