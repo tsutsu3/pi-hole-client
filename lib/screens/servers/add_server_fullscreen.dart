@@ -231,10 +231,9 @@ class _AddServerFullscreenState extends State<AddServerFullscreen> {
           basicAuthUser: basicAuthUser.text,
           basicAuthPassword: basicAuthPassword.text,
         );
-        serverObj.sm.savePassword(passwordFieldController.text);
-        final result = await serversProvider
-            .loadApiGateway(serverObj)
-            ?.loginQuery(server: serverObj);
+        await serverObj.sm.savePassword(passwordFieldController.text);
+        final result =
+            await serversProvider.loadApiGateway(serverObj)?.loginQuery();
         if (!mounted) return;
         if (result?.result == APiResponseType.success) {
           Navigator.maybePop(context);
@@ -327,10 +326,9 @@ class _AddServerFullscreenState extends State<AddServerFullscreen> {
         basicAuthUser: basicAuthUser.text,
         basicAuthPassword: basicAuthPassword.text,
       );
-      serverObj.sm.savePassword(passwordFieldController.text);
-      final result = await serversProvider
-          .loadApiGateway(serverObj)
-          ?.loginQuery(server: serverObj);
+      await serverObj.sm.savePassword(passwordFieldController.text);
+      final result =
+          await serversProvider.loadApiGateway(serverObj)?.loginQuery();
       if (result?.result == APiResponseType.success) {
         Server server = Server(
           address: widget.server!.address,
