@@ -114,18 +114,19 @@ class ApiGatewayV5 implements ApiGateway {
   /// 1. Sends a GET request to verify the server's current status using the provided `address` and `token`.
   /// 2. Toggles the Pi-hole's status between enabled and disabled depending on the current status.
   /// 3. Validates the response to determine the success or failure of the login attempt.
+  ///
+  /// Parameters:
+  /// - [refresh]: A boolean value indicating whether to refresh the login status.
   @override
-  Future<LoginQueryResponse> loginQuery({Server? server}) async {
-    final targetServer = server ?? _server;
-
+  Future<LoginQueryResponse> loginQuery({bool refresh = false}) async {
     try {
       final status = await httpClient(
         method: 'get',
         url:
-            '${targetServer.address}/admin/api.php?auth=${targetServer.token}&summaryRaw',
+            '${_server.address}/admin/api.php?auth=${_server.token}&summaryRaw',
         basicAuth: {
-          'username': targetServer.basicAuthUser,
-          'password': targetServer.basicAuthPassword,
+          'username': _server.basicAuthUser,
+          'password': _server.basicAuthPassword,
         },
       );
       if (status.statusCode == 200) {
@@ -135,11 +136,11 @@ class ApiGatewayV5 implements ApiGateway {
           final enableOrDisable = await httpClient(
             method: 'get',
             url: statusParsed['status'] == 'enabled'
-                ? '${targetServer.address}/admin/api.php?auth=${targetServer.token}&enable=0'
-                : '${targetServer.address}/admin/api.php?auth=${targetServer.token}&disable=0',
+                ? '${_server.address}/admin/api.php?auth=${_server.token}&enable=0'
+                : '${_server.address}/admin/api.php?auth=${_server.token}&disable=0',
             basicAuth: {
-              'username': targetServer.basicAuthUser,
-              'password': targetServer.basicAuthPassword,
+              'username': _server.basicAuthUser,
+              'password': _server.basicAuthPassword,
             },
           );
           if (enableOrDisable.statusCode == 200) {

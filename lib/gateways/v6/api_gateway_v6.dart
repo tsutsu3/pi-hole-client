@@ -102,16 +102,14 @@ class ApiGatewayV6 implements ApiGateway {
 
   /// Handles the login process to a Pi-hole server using its API.
   @override
-  Future<LoginQueryResponse> loginQuery({Server? server}) async {
-    final targetServer = server ?? _server;
-
+  Future<LoginQueryResponse> loginQuery({bool refresh = false}) async {
     try {
       // 1. Get DNS blocking status
       // If the session ID is already available, use it to get the status
       // Otherwise, re-login to get the session ID
       final enableOrDisable = await httpClient(
         method: 'get',
-        url: '${targetServer.address}/api/dns/blocking',
+        url: '${_server.address}/api/dns/blocking',
         maxRetries: 0,
       );
       if (enableOrDisable.statusCode == 200) {
@@ -121,32 +119,26 @@ class ApiGatewayV6 implements ApiGateway {
         return LoginQueryResponse(
           result: APiResponseType.success,
           status: enableOrDisableParsed.blocking,
-          sid: targetServer.sm.sid,
+          sid: _server.sm.sid,
         );
-      }
-
-      if (targetServer.sm.sid == null || targetServer.sm.sid!.isEmpty) {
-        logger.i('No session ID available, logging in');
-      } else {
-        logger.i('Session ID is expired or deleted, logging in');
       }
 
       // 2.login
       final status = await httpClient(
         method: 'post',
-        url: '${targetServer.address}/api/auth',
-        body: {'password': await targetServer.sm.password},
+        url: '${_server.address}/api/auth',
+        body: {'password': await _server.sm.password},
         maxRetries: 0,
       );
 
       if (status.statusCode == 200) {
         final statusParsed = Session.fromJson(jsonDecode(status.body));
-        await targetServer.sm.save(statusParsed.session.sid);
+        await _server.sm.save(statusParsed.session.sid);
 
         // 3. Get DNS blocking status
         final enableOrDisable = await httpClient(
           method: 'get',
-          url: '${targetServer.address}/api/dns/blocking',
+          url: '${_server.address}/api/dns/blocking',
         );
         if (enableOrDisable.statusCode == 200) {
           final enableOrDisableParsed =
