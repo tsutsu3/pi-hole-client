@@ -99,9 +99,7 @@ class HomeAppBar extends StatelessWidget implements PreferredSizeWidget {
       final ProcessModal process = ProcessModal(context: context);
       process.open(AppLocalizations.of(context)!.connecting);
 
-      final result = await serversProvider
-          .loadApiGateway(server)
-          ?.loginQuery(server: server);
+      final result = await serversProvider.loadApiGateway(server)?.loginQuery();
       process.close();
       if (result?.result == APiResponseType.success) {
         await connectSuccess(result);

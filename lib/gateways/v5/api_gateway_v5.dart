@@ -148,7 +148,6 @@ class ApiGatewayV5 implements ApiGateway {
                     'Session expired! Please re-login on the Pi-hole dashboard.' ||
                 //  enableOrDisable.body == []) {
                 enableOrDisable.body.isEmpty) {
-              logger.i(enableOrDisable.body);
               return LoginQueryResponse(
                 result: APiResponseType.authError,
                 log: AppLog(

@@ -132,9 +132,7 @@ class _ServersTileItemState extends State<ServersTileItem>
       final ProcessModal process = ProcessModal(context: context);
       process.open(AppLocalizations.of(context)!.connecting);
 
-      final result = await serversProvider
-          .loadApiGateway(server)
-          ?.loginQuery(server: server);
+      final result = await serversProvider.loadApiGateway(server)?.loginQuery();
       if (result?.result == APiResponseType.success) {
         await connectSuccess(result);
       } else if (mounted) {
