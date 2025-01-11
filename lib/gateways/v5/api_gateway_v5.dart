@@ -13,7 +13,6 @@ import 'package:pi_hole_client/models/overtime_data.dart';
 import 'package:pi_hole_client/models/realtime_status.dart';
 import 'package:pi_hole_client/models/server.dart';
 import 'package:pi_hole_client/gateways/api_gateway_interface.dart';
-import 'package:pi_hole_client/functions/logger.dart';
 
 class ApiGatewayV5 implements ApiGateway {
   final Server _server;
