@@ -104,6 +104,19 @@ class ApiGatewayV6 implements ApiGateway {
   @override
   Future<LoginQueryResponse> loginQuery({bool refresh = false}) async {
     try {
+      // If the refresh flag is set, delete the session
+      if (refresh) {
+        final deleteResp = await httpClient(
+          method: 'delete',
+          url: '${_server.address}/api/auth',
+          maxRetries: 0,
+        );
+        if (deleteResp.statusCode == 204) {
+          _server.sm.delete();
+          logger.d('Logout successful. Session deleted.');
+        }
+      }
+
       // 1. Get DNS blocking status
       // If the session ID is already available, use it to get the status
       // Otherwise, re-login to get the session ID

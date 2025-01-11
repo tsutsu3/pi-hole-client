@@ -327,8 +327,9 @@ class _AddServerFullscreenState extends State<AddServerFullscreen> {
         basicAuthPassword: basicAuthPassword.text,
       );
       await serverObj.sm.savePassword(passwordFieldController.text);
-      final result =
-          await serversProvider.loadApiGateway(serverObj)?.loginQuery();
+      final result = await serversProvider
+          .loadApiGateway(serverObj)
+          ?.loginQuery(refresh: true);
       if (result?.result == APiResponseType.success) {
         Server server = Server(
           address: widget.server!.address,
