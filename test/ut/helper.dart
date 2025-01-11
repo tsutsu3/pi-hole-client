@@ -14,7 +14,7 @@ class DbHelper {
   Future<void> loadDb() async {
     _db = await openDatabase(
       _path,
-      version: 1,
+      version: 2,
       onCreate: (Database db, int version) async {
         await db.execute('''
             CREATE TABLE servers (
@@ -30,7 +30,6 @@ class DbHelper {
               theme NUMERIC NOT NULL,
               language TEXT NOT NULL,
               overrideSslCheck NUMERIC NOT NULL,
-              oneColumnLegend NUMERIC NOT NULL,
               reducedDataCharts NUMERIC NOT NULL,
               logsPerQuery NUMERIC NOT NULL,
               useBiometricAuth NUMERIC NOT NULL,
@@ -46,7 +45,6 @@ class DbHelper {
               theme,
               language,
               overrideSslCheck,
-              oneColumnLegend,
               reducedDataCharts,
               logsPerQuery,
               useBiometricAuth,
@@ -54,7 +52,7 @@ class DbHelper {
               hideZeroValues,
               statisticsVisualizationMode,
               sendCrashReports
-            ) VALUES (5, 0, 'en', 0, 0, 0, 2, 0, 0, 0, 0, 0)
+            ) VALUES (5, 0, 'en', 0, 0, 2, 0, 0, 0, 0, 0)
           ''');
       },
       onOpen: (Database db) async {},

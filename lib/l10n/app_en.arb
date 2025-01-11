@@ -226,8 +226,6 @@
   "noticeErrorDetail": "The NOTICE file could not be found.",
   "now": "now",
   "olderVersion": "If you have an older version, please update your Pi-hole to continue using this app.",
-  "oneColumnLegend": "One column legend",
-  "oneColumnLegendDescription": "Use only one column for the legend",
   "openExternalUrl": "Opens an external link",
   "openIssueGitHub": "Open an issue on GitHub",
   "openWebPanel": "Open web panel",

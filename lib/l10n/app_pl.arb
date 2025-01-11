@@ -224,8 +224,6 @@
   "noticeErrorDetail": "Plik NOTICE nie został znaleziony.",
   "now": "teraz",
   "olderVersion": "Jeśli masz starszą wersję, zaktualizuj Pi-hole, aby nadal korzystać z tej aplikacji.",
-  "oneColumnLegend": "Legenda w jednej kolumnie",
-  "oneColumnLegendDescription": "Używanie tylko jednej kolumny dla legendy",
   "openExternalUrl": "Otwiera zewnętrzny link",
   "openIssueGitHub": "Otwórz problem w serwisie GitHub",
   "openWebPanel": "Otwórz panel WWW",

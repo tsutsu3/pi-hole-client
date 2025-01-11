@@ -226,8 +226,6 @@
   "noticeErrorDetail": "NOTICEが見つかりませんでした。",
   "now": "現在",
   "olderVersion": "古いバージョンの場合、このアプリを引き続き使用するためにPi-holeを更新してください。",
-  "oneColumnLegend": "1列の凡例",
-  "oneColumnLegendDescription": "凡例を1列だけ使用する",
   "openExternalUrl": "外部リンクを開きます",
   "openIssueGitHub": "GitHubで問題を開く",
   "openWebPanel": "ウェブパネルを開く",

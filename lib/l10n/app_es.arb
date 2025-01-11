@@ -228,8 +228,6 @@
   "noticeErrorDetail": "No se pudo encontrar el archivo NOTICE.",
   "now": "ahora",
   "olderVersion": "Si tienes una versión más antigua, por favor, actualiza tu Pi-hole para seguir usando esta app.",
-  "oneColumnLegend": "Leyenda de una columna",
-  "oneColumnLegendDescription": "Usar solo una columna para la leyenda",
   "openExternalUrl": "Abre un enlace externo",
   "openIssueGitHub": "Abre un issue en GitHub",
   "openWebPanel": "Abrir panel web",
