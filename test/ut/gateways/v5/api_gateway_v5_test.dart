@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:http/http.dart' as http;
 import 'package:mockito/mockito.dart';
@@ -11,19 +12,21 @@ import 'package:pi_hole_client/models/server.dart';
 import 'api_gateway_v5_test.mocks.dart';
 
 @GenerateMocks([http.Client])
-void main() {
+void main() async {
+  FlutterSecureStorage.setMockInitialValues({});
+
   group('checkBasicAuth', () {
     late ApiGatewayV5 apiGateway;
     late Server server;
 
-    setUp(() {
+    setUp(() async {
       server = Server(
         address: 'http://example.com',
         alias: 'example',
         defaultServer: true,
         apiVersion: SupportedApiVersions.v5,
-        token: 'xxx123',
       );
+      await server.sm.saveToken('xxx123');
       apiGateway = ApiGatewayV5(server);
     });
 
@@ -47,14 +50,14 @@ void main() {
     final sessinId = 'n9n9f6c3umrumfq2ese1lvu2pg';
     final url = 'http://example.com/admin/api.php?auth=xxx123&summaryRaw';
 
-    setUp(() {
+    setUp(() async {
       server = Server(
         address: 'http://example.com',
         alias: 'example',
         defaultServer: true,
         apiVersion: SupportedApiVersions.v5,
-        token: 'xxx123',
       );
+      await server.sm.saveToken('xxx123');
     });
     test('Return success with valid auth token', () async {
       final mockClient = MockClient();
@@ -233,14 +236,14 @@ void main() {
     final url =
         'http://example.com/admin/api.php?auth=xxx123&summaryRaw&topItems&getForwardDestinations&getQuerySources&topClientsBlocked&getQueryTypes';
 
-    setUp(() {
+    setUp(() async {
       server = Server(
         address: 'http://example.com',
         alias: 'example',
         defaultServer: true,
         apiVersion: SupportedApiVersions.v5,
-        token: 'xxx123',
       );
+      await server.sm.saveToken('xxx123');
     });
 
     test('Return success', () async {
@@ -346,14 +349,14 @@ void main() {
     late Server server;
     final url = 'http://example.com/admin/api.php?auth=xxx123&disable=5';
 
-    setUp(() {
+    setUp(() async {
       server = Server(
         address: 'http://example.com',
         alias: 'example',
         defaultServer: true,
         apiVersion: SupportedApiVersions.v5,
-        token: 'xxx123',
       );
+      await server.sm.saveToken('xxx123');
     });
 
     test('Return success', () async {
@@ -387,14 +390,14 @@ void main() {
     late Server server;
     final url = 'http://example.com/admin/api.php?auth=xxx123&enable';
 
-    setUp(() {
+    setUp(() async {
       server = Server(
         address: 'http://example.com',
         alias: 'example',
         defaultServer: true,
         apiVersion: SupportedApiVersions.v5,
-        token: 'xxx123',
       );
+      await server.sm.saveToken('xxx123');
     });
 
     test('Return success', () async {
@@ -429,14 +432,14 @@ void main() {
     final url =
         'http://example.com/admin/api.php?auth=xxx123&overTimeData10mins&overTimeDataClients&getClientNames';
 
-    setUp(() {
+    setUp(() async {
       server = Server(
         address: 'http://example.com',
         alias: 'example',
         defaultServer: true,
         apiVersion: SupportedApiVersions.v5,
-        token: 'xxx123',
       );
+      await server.sm.saveToken('xxx123');
     });
 
     test('Return success', () async {
@@ -914,14 +917,14 @@ void main() {
     final url =
         'http://example.com/admin/api.php?auth=xxx123&getAllQueries&from=1733472267&until=1733479467';
 
-    setUp(() {
+    setUp(() async {
       server = Server(
         address: 'http://example.com',
         alias: 'example',
         defaultServer: true,
         apiVersion: SupportedApiVersions.v5,
-        token: 'xxx123',
       );
+      await server.sm.saveToken('xxx123');
     });
 
     test('Return success', () async {
@@ -991,14 +994,14 @@ void main() {
     final url =
         'http://example.com/admin/api.php?auth=xxx123&list=black&add=google.com';
 
-    setUp(() {
+    setUp(() async {
       server = Server(
         address: 'http://example.com',
         alias: 'example',
         defaultServer: true,
         apiVersion: SupportedApiVersions.v5,
-        token: 'xxx123',
       );
+      await server.sm.saveToken('xxx123');
     });
 
     test('Return success when add new domain', () async {
@@ -1075,14 +1078,14 @@ void main() {
       'http://example.com/admin/api.php?auth=xxx123&list=regex_black',
     ];
 
-    setUp(() {
+    setUp(() async {
       server = Server(
         address: 'http://example.com',
         alias: 'example',
         defaultServer: true,
         apiVersion: SupportedApiVersions.v5,
-        token: 'xxx123',
       );
+      await server.sm.saveToken('xxx123');
     });
 
     test('Return success', () async {
@@ -1154,14 +1157,14 @@ void main() {
     final url =
         'http://example.com/admin/api.php?auth=xxx123&list=white&sub=google.com';
 
-    setUp(() {
+    setUp(() async {
       server = Server(
         address: 'http://example.com',
         alias: 'example',
         defaultServer: true,
         apiVersion: SupportedApiVersions.v5,
-        token: 'xxx123',
       );
+      await server.sm.saveToken('xxx123');
     });
 
     test('Return success', () async {
@@ -1218,14 +1221,14 @@ void main() {
     final url =
         'http://example.com/admin/api.php?auth=xxx123&list=black&add=google.com';
 
-    setUp(() {
+    setUp(() async {
       server = Server(
         address: 'http://example.com',
         alias: 'example',
         defaultServer: true,
         apiVersion: SupportedApiVersions.v5,
-        token: 'xxx123',
       );
+      await server.sm.saveToken('xxx123');
     });
 
     test('Return success when add new domain', () async {

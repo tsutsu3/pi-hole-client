@@ -150,7 +150,7 @@ void main() {
         ServerDbData(
           address: server.address,
           alias: server.alias,
-          token: server.token,
+          token: await server.sm.token,
           isDefaultServer: 1,
           apiVersion: server.apiVersion,
           basicAuthUser: server.basicAuthUser,

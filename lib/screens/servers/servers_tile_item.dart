@@ -103,7 +103,6 @@ class _ServersTileItemState extends State<ServersTileItem>
           server: Server(
             address: server.address,
             alias: server.alias,
-            token: server.token!,
             defaultServer: server.defaultServer,
             apiVersion: server.apiVersion,
             enabled: result.status == 'enabled' ? true : false,

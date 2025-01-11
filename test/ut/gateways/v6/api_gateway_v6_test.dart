@@ -9,10 +9,10 @@ import 'package:pi_hole_client/gateways/v6/api_gateway_v6.dart';
 import 'package:pi_hole_client/models/domain.dart';
 import 'package:pi_hole_client/models/gateways.dart';
 import 'package:pi_hole_client/models/server.dart';
-import 'package:pi_hole_client/services/session_manager.dart';
+import 'package:pi_hole_client/services/secret_manager.dart';
 import 'api_gateway_v6_test.mocks.dart';
 
-class SessionManagerMock implements SessionManager {
+class SecretManagerMock implements SecretManager {
   String? _sid;
   String? _password;
 
@@ -28,7 +28,16 @@ class SessionManagerMock implements SessionManager {
     }
   }
 
-  SessionManagerMock(this._sid, this._password);
+  @override
+  Future<String?>? get token async {
+    try {
+      return _sid;
+    } catch (e) {
+      return null;
+    }
+  }
+
+  SecretManagerMock(this._sid, this._password);
 
   @override
   Future<bool> save(String sid) async {
@@ -52,6 +61,12 @@ class SessionManagerMock implements SessionManager {
     _password = password;
     return true;
   }
+
+  @override
+  Future<bool> saveToken(String token) async {
+    _sid = token;
+    return true;
+  }
 }
 
 @GenerateMocks([http.Client])
@@ -73,7 +88,7 @@ void main() async {
         alias: 'example',
         defaultServer: true,
         apiVersion: SupportedApiVersions.v6,
-        sm: SessionManagerMock(sessinId, 'xxx123'),
+        sm: SecretManagerMock(sessinId, 'xxx123'),
       );
     });
     test('Return success with valid password', () async {
