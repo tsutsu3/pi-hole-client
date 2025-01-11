@@ -17,7 +17,6 @@ class AppConfigProvider with ChangeNotifier {
   int? _autoRefreshTime = 2; // secounds
   int _selectedTheme = 0;
   int _overrideSslCheck = 0;
-  int _oneColumnLegend = 0;
   int _reducedDataCharts = 0;
   double _logsPerQuery = 2; //hours
   String? _passCode;
@@ -93,10 +92,6 @@ class AppConfigProvider with ChangeNotifier {
 
   bool get overrideSslCheck {
     return _overrideSslCheck == 0 ? false : true;
-  }
-
-  bool get oneColumnLegend {
-    return _oneColumnLegend == 0 ? false : true;
   }
 
   bool get reducedDataCharts {
@@ -323,7 +318,6 @@ class AppConfigProvider with ChangeNotifier {
     _selectedTheme = dbData.theme;
     _selectedLanguage = dbData.language;
     _overrideSslCheck = dbData.overrideSslCheck;
-    _oneColumnLegend = dbData.oneColumnLegend;
     _reducedDataCharts = dbData.reducedDataCharts;
     _logsPerQuery = dbData.logsPerQuery.toDouble();
     _passCode = dbData.passCode;
@@ -347,20 +341,6 @@ class AppConfigProvider with ChangeNotifier {
     );
     if (updated == true) {
       _overrideSslCheck = status == true ? 1 : 0;
-      notifyListeners();
-      return true;
-    } else {
-      return false;
-    }
-  }
-
-  Future<bool> setOneColumnLegend(bool status) async {
-    final updated = await _repository.updateConfigQuery(
-      column: 'oneColumnLegend',
-      value: status == true ? 1 : 0,
-    );
-    if (updated == true) {
-      _oneColumnLegend = status == true ? 1 : 0;
       notifyListeners();
       return true;
     } else {
@@ -441,7 +421,6 @@ class AppConfigProvider with ChangeNotifier {
       _selectedTheme = 0;
       _selectedLanguage = 'en';
       _overrideSslCheck = 0;
-      _oneColumnLegend = 0;
       _reducedDataCharts = 0;
       _logsPerQuery = 2;
       _passCode = null;

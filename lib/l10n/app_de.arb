@@ -226,8 +226,6 @@
   "noticeErrorDetail": "Die NOTICE-Datei wurde nicht gefunden.",
   "now": "jetzt",
   "olderVersion": "Wenn Sie eine ältere Version haben, aktualisieren Sie bitte Ihr Pi-Hole, um diese App weiterhin verwenden zu können.",
-  "oneColumnLegend": "Einspalt-Legende",
-  "oneColumnLegendDescription": "Nur eine Spalte für die Legende verwenden",
   "openExternalUrl": "Öffnet einen externen Link",
   "openIssueGitHub": "Issue auf GitHub eröffnen",
   "openWebPanel": "Web-Panel öffnen",

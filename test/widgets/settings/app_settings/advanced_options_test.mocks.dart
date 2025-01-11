@@ -107,12 +107,6 @@ class MockAppConfigProvider extends _i1.Mock implements _i3.AppConfigProvider {
       ) as bool);
 
   @override
-  bool get oneColumnLegend => (super.noSuchMethod(
-        Invocation.getter(#oneColumnLegend),
-        returnValue: false,
-      ) as bool);
-
-  @override
   bool get reducedDataCharts => (super.noSuchMethod(
         Invocation.getter(#reducedDataCharts),
         returnValue: false,
@@ -349,15 +343,6 @@ class MockAppConfigProvider extends _i1.Mock implements _i3.AppConfigProvider {
   _i9.Future<bool> setOverrideSslCheck(bool? status) => (super.noSuchMethod(
         Invocation.method(
           #setOverrideSslCheck,
-          [status],
-        ),
-        returnValue: _i9.Future<bool>.value(false),
-      ) as _i9.Future<bool>);
-
-  @override
-  _i9.Future<bool> setOneColumnLegend(bool? status) => (super.noSuchMethod(
-        Invocation.method(
-          #setOneColumnLegend,
           [status],
         ),
         returnValue: _i9.Future<bool>.value(false),

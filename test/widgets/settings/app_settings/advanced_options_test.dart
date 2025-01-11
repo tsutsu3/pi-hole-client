@@ -33,8 +33,6 @@ void main() async {
       when(mockConfigProvider.showingSnackbar).thenReturn(showingSnackbar);
       when(mockConfigProvider.setOverrideSslCheck(any))
           .thenAnswer((_) async => true);
-      when(mockConfigProvider.setOneColumnLegend(any))
-          .thenAnswer((_) async => true);
       when(mockConfigProvider.setReducedDataCharts(any))
           .thenAnswer((_) async => true);
       when(mockConfigProvider.setHideZeroValues(any))
@@ -43,7 +41,6 @@ void main() async {
       when(mockConfigProvider.passCode).thenReturn(null);
       when(mockConfigProvider.useBiometrics).thenReturn(false);
       when(mockConfigProvider.overrideSslCheck).thenReturn(false);
-      when(mockConfigProvider.oneColumnLegend).thenReturn(false);
       when(mockConfigProvider.reducedDataCharts).thenReturn(false);
       when(mockConfigProvider.hideZeroValues).thenReturn(false);
       when(mockServersProvider.colors).thenReturn(lightAppColors);

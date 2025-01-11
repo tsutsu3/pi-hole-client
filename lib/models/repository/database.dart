@@ -92,7 +92,6 @@ class AppDbData {
   final int theme;
   final String language;
   final int overrideSslCheck;
-  final int oneColumnLegend;
   final int reducedDataCharts;
   final int logsPerQuery;
   final String? passCode;
@@ -107,7 +106,6 @@ class AppDbData {
     required this.theme,
     required this.language,
     required this.overrideSslCheck,
-    required this.oneColumnLegend,
     required this.reducedDataCharts,
     required this.logsPerQuery,
     required this.passCode,
@@ -124,7 +122,6 @@ class AppDbData {
       theme: map['theme'] as int,
       language: map['language'] as String,
       overrideSslCheck: map['overrideSslCheck'] as int,
-      oneColumnLegend: map['oneColumnLegend'] as int,
       reducedDataCharts: map['reducedDataCharts'] as int,
       logsPerQuery: map['logsPerQuery'] as int,
       passCode: map['passCode'] as String?,
@@ -145,7 +142,6 @@ class AppDbData {
       theme: instance.theme,
       language: instance.language,
       overrideSslCheck: instance.overrideSslCheck,
-      oneColumnLegend: instance.oneColumnLegend,
       reducedDataCharts: instance.reducedDataCharts,
       logsPerQuery: instance.logsPerQuery,
       passCode: passCode,
@@ -163,7 +159,6 @@ class AppDbData {
       'theme': theme,
       'language': language,
       'overrideSslCheck': overrideSslCheck,
-      'oneColumnLegend': oneColumnLegend,
       'reducedDataCharts': reducedDataCharts,
       'logsPerQuery': logsPerQuery,
       'passCode': passCode,

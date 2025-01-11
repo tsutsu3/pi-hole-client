@@ -49,23 +49,6 @@ class AdvancedOptions extends StatelessWidget {
       }
     }
 
-    void updateOneColumnLegend(bool newStatus) async {
-      final result = await appConfigProvider.setOneColumnLegend(newStatus);
-      if (result == true) {
-        showSuccessSnackBar(
-          context: context,
-          appConfigProvider: appConfigProvider,
-          label: AppLocalizations.of(context)!.settingsUpdatedSuccessfully,
-        );
-      } else {
-        showErrorSnackBar(
-          context: context,
-          appConfigProvider: appConfigProvider,
-          label: AppLocalizations.of(context)!.cannotUpdateSettings,
-        );
-      }
-    }
-
     void updateUseReducedData(bool newStatus) async {
       final result = await appConfigProvider.setReducedDataCharts(newStatus);
       if (result == true) {
@@ -225,20 +208,6 @@ class AdvancedOptions extends StatelessWidget {
             ),
           ),
           SectionLabel(label: AppLocalizations.of(context)!.charts),
-          CustomListTile(
-            leadingIcon: Icons.list,
-            label: AppLocalizations.of(context)!.oneColumnLegend,
-            description:
-                AppLocalizations.of(context)!.oneColumnLegendDescription,
-            onTap: () =>
-                updateOneColumnLegend(!appConfigProvider.oneColumnLegend),
-            padding:
-                const EdgeInsets.only(top: 10, bottom: 10, left: 20, right: 10),
-            trailing: Switch(
-              value: appConfigProvider.oneColumnLegend,
-              onChanged: updateOneColumnLegend,
-            ),
-          ),
           CustomListTile(
             leadingIcon: Icons.stacked_line_chart_rounded,
             label: AppLocalizations.of(context)!.reducedDataCharts,

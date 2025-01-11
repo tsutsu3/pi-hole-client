@@ -87,7 +87,7 @@ class DatabaseRepository {
 
     Database db = await openDatabase(
       path ?? 'pi_hole_client.db',
-      version: 1,
+      version: 2,
       onCreate: (Database db, int version) async {
         await db.execute('''
             CREATE TABLE servers (
@@ -103,7 +103,6 @@ class DatabaseRepository {
               theme NUMERIC NOT NULL,
               language TEXT NOT NULL,
               overrideSslCheck NUMERIC NOT NULL,
-              oneColumnLegend NUMERIC NOT NULL,
               reducedDataCharts NUMERIC NOT NULL,
               logsPerQuery NUMERIC NOT NULL,
               useBiometricAuth NUMERIC NOT NULL,
@@ -119,7 +118,6 @@ class DatabaseRepository {
               theme,
               language,
               overrideSslCheck,
-              oneColumnLegend,
               reducedDataCharts,
               logsPerQuery,
               useBiometricAuth,
@@ -127,11 +125,15 @@ class DatabaseRepository {
               hideZeroValues,
               statisticsVisualizationMode,
               sendCrashReports
-            ) VALUES (5, 0, 'en', 0, 0, 0, 2, 0, 0, 0, 0, 0)
+            ) VALUES (5, 0, 'en', 0, 0, 2, 0, 0, 0, 0, 0)
           ''');
         logger.d('Database created');
       },
-      onUpgrade: (Database db, int oldVersion, int newVersion) async {},
+      onUpgrade: (Database db, int oldVersion, int newVersion) async {
+        if (oldVersion == 1) {
+          await _upgradeToV2(db);
+        }
+      },
       onDowngrade: (Database db, int oldVersion, int newVersion) async {},
       onOpen: (Database db) async {
         await db.transaction((txn) async {
@@ -548,7 +550,6 @@ class DatabaseRepository {
             'theme': 0,
             'language': 'en',
             'overrideSslCheck': 0,
-            'oneColumnLegend': 0,
             'reducedDataCharts': 0,
             'logsPerQuery': 2,
             'useBiometricAuth': 0,
@@ -563,5 +564,10 @@ class DatabaseRepository {
     } catch (e) {
       return false;
     }
+  }
+
+  // Migration methods
+  Future _upgradeToV2(Database db) async {
+    await db.execute('ALTER TABLE appConfig DROP COLUMN oneColumnLegend');
   }
 }
