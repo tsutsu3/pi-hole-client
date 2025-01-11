@@ -227,39 +227,39 @@ class AppColors extends ThemeExtension<AppColors> {
 }
 
 const lightAppColors = AppColors(
-  snackBarSuccess: Color(0xFF81C784),
-  snackBarSuccessText: Color(0xFF1B5E20),
-  snackBarError: Color(0xFFE57373),
-  snackBarErrorText: Color(0xFFB71C1C),
-  snackBarNeutral: Color(0xFFE0E0E0),
-  snackBarNeutralText: Color(0xFF424242),
-  cardWarning: Color(0xFFFFF176),
-  cardWarningText: Color(0xFF212121),
-  queryRed: Color(0xFFD32F2F),
-  queryGreen: Color(0xFF388E3C),
-  queryBlue: Color(0xFF1976D2),
-  queryOrange: Color(0xFFF57C00),
-  queryGrey: Color(0xFF616161),
-  commonRed: Color(0xFFD32F2F),
-  commonGreen: Color(0xFF388E3C),
+  snackBarSuccess: Colors.green,
+  snackBarSuccessText: Color(0xFFE8F5E9), // shade50
+  snackBarError: Colors.red,
+  snackBarErrorText: Color(0xFFFFEBEE), // shade50
+  snackBarNeutral: Colors.blueGrey,
+  snackBarNeutralText: Color(0xFFECEFF1), // shade50
+  cardWarning: Color(0xFFFFF176), // shade300
+  cardWarningText: Colors.black87,
+  queryRed: Colors.red,
+  queryGreen: Colors.green,
+  queryBlue: Colors.blue,
+  queryOrange: Colors.orange,
+  queryGrey: Color(0xFF757575), // shade600
+  commonRed: Colors.red,
+  commonGreen: Colors.green,
 );
 
 const darkAppColors = AppColors(
-  snackBarSuccess: Color(0xFF1B5E20),
-  snackBarSuccessText: Color(0xFFA5D6A7),
-  snackBarError: Color(0xFFB71C1C),
-  snackBarErrorText: Color(0xFFFFCDD2),
-  snackBarNeutral: Color(0xFF424242),
-  snackBarNeutralText: Color(0xFFE0E0E0),
-  cardWarning: Color(0xFFCC8500),
-  cardWarningText: Color(0xFFEEEEEE),
-  queryRed: Color(0xFFEF9A9A),
-  queryGreen: Color(0xFFA5D6A7),
-  queryBlue: Color(0xFF90CAF9),
-  queryOrange: Color(0xFFFFCC80),
-  queryGrey: Color(0xFFB0BEC5),
-  commonRed: Color(0xFFEF9A9A),
-  commonGreen: Color(0xFFA5D6A7),
+  snackBarSuccess: Color(0xFF2E7D32), // shade800
+  snackBarSuccessText: Color(0xFFC8E6C9), // shade100
+  snackBarError: Color(0xFFC62828), // shade800
+  snackBarErrorText: Color(0xFFFFCDD2), // shade100
+  snackBarNeutral: Color(0xFF37474F), // shade800
+  snackBarNeutralText: Color(0xFFCFD8DC), // shade100
+  cardWarning: Color(0xFFF57F17), // shade900
+  cardWarningText: Color(0xFFFFFDE7), // shade50
+  queryRed: Colors.redAccent,
+  queryGreen: Colors.greenAccent,
+  queryBlue: Colors.blueAccent,
+  queryOrange: Colors.orangeAccent,
+  queryGrey: Colors.grey,
+  commonRed: Colors.redAccent,
+  commonGreen: Colors.greenAccent,
 );
 
 @immutable
