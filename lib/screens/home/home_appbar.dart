@@ -29,14 +29,13 @@ class HomeAppBar extends StatelessWidget implements PreferredSizeWidget {
     final serversProvider = Provider.of<ServersProvider>(context);
     final statusProvider = Provider.of<StatusProvider>(context);
     final appConfigProvider = Provider.of<AppConfigProvider>(context);
-    final apiGateway = serversProvider.selectedApiGateway;
 
     final width = MediaQuery.of(context).size.width;
 
     void refresh() async {
       final ProcessModal process = ProcessModal(context: context);
       process.open(AppLocalizations.of(context)!.refreshingData);
-      final result = await apiGateway?.realtimeStatus();
+      final result = await serversProvider.selectedApiGateway?.realtimeStatus();
       process.close();
       if (result?.result == APiResponseType.success) {
         serversProvider.updateselectedServerStatus(
@@ -80,11 +79,13 @@ class HomeAppBar extends StatelessWidget implements PreferredSizeWidget {
             enabled: result.status == 'enabled' ? true : false,
           ),
         );
-        final statusResult = await apiGateway?.realtimeStatus();
+        final statusResult =
+            await serversProvider.selectedApiGateway?.realtimeStatus();
         if (statusResult?.result == APiResponseType.success) {
           statusProvider.setRealtimeStatus(statusResult!.data!);
         }
-        final overtimeDataResult = await apiGateway?.fetchOverTimeData();
+        final overtimeDataResult =
+            await serversProvider.selectedApiGateway?.fetchOverTimeData();
         if (overtimeDataResult?.result == APiResponseType.success) {
           statusProvider.setOvertimeData(overtimeDataResult!.data!);
           statusProvider.setOvertimeDataLoadingStatus(1);
