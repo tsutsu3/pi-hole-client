@@ -6,8 +6,8 @@ import 'package:provider/provider.dart';
 import 'package:pi_hole_client/functions/format.dart';
 import 'package:pi_hole_client/providers/app_config_provider.dart';
 
-class ClientsLastHours extends StatelessWidget {
-  const ClientsLastHours({
+class ClientsLastHoursLine extends StatelessWidget {
+  const ClientsLastHoursLine({
     super.key,
     required this.realtimeListIps,
     required this.data,

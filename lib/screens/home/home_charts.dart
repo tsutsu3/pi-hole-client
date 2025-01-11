@@ -5,8 +5,8 @@ import 'package:provider/provider.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 import 'package:pi_hole_client/screens/statistics/no_data_chart.dart';
-import 'package:pi_hole_client/screens/home/queries_last_hours.dart';
-import 'package:pi_hole_client/screens/home/clients_last_hours.dart';
+import 'package:pi_hole_client/screens/home/widgets/queries_last_hours_line.dart';
+import 'package:pi_hole_client/screens/home/widgets/clients_last_hours_line.dart';
 import 'package:pi_hole_client/widgets/section_label.dart';
 
 import 'package:pi_hole_client/providers/status_provider.dart';
@@ -93,7 +93,7 @@ class HomeCharts extends StatelessWidget {
                           width: double.maxFinite,
                           height: 350,
                           padding: const EdgeInsets.symmetric(horizontal: 16),
-                          child: QueriesLastHours(
+                          child: QueriesLastHoursLine(
                             data: statusProvider.getOvertimeDataJson!,
                             reducedData: appConfigProvider.reducedDataCharts,
                           ),
@@ -108,7 +108,9 @@ class HomeCharts extends StatelessWidget {
                                   height: 10,
                                   decoration: BoxDecoration(
                                     borderRadius: BorderRadius.circular(10),
-                                    color: Colors.blue,
+                                    color: Theme.of(context)
+                                        .extension<GraphColors>()!
+                                        .getColor(0), //blue
                                   ),
                                 ),
                                 const SizedBox(width: 10),
@@ -122,7 +124,9 @@ class HomeCharts extends StatelessWidget {
                                   height: 10,
                                   decoration: BoxDecoration(
                                     borderRadius: BorderRadius.circular(10),
-                                    color: Colors.green,
+                                    color: Theme.of(context)
+                                        .extension<GraphColors>()!
+                                        .getColor(3), //green
                                   ),
                                 ),
                                 const SizedBox(width: 10),
@@ -158,7 +162,7 @@ class HomeCharts extends StatelessWidget {
                               height: 350,
                               padding:
                                   const EdgeInsets.symmetric(horizontal: 16),
-                              child: ClientsLastHours(
+                              child: ClientsLastHoursLine(
                                 realtimeListIps: clientsListIps,
                                 data: statusProvider.getOvertimeDataJson!,
                                 reducedData:

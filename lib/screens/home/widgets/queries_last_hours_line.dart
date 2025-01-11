@@ -2,12 +2,12 @@ import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:pi_hole_client/config/theme.dart';
 import 'package:provider/provider.dart';
-
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:pi_hole_client/functions/format.dart';
 import 'package:pi_hole_client/providers/app_config_provider.dart';
 
-class QueriesLastHours extends StatelessWidget {
-  const QueriesLastHours({
+class QueriesLastHoursLine extends StatelessWidget {
+  const QueriesLastHoursLine({
     super.key,
     required this.data,
     required this.reducedData,
@@ -178,26 +178,31 @@ class QueriesLastHours extends StatelessWidget {
       int xPosition = 0;
       int topPoint = 0;
       List<String> domainsKeys = data['domains_over_time'].keys.toList();
+      List<String> adsKeys = data['ads_over_time'].keys.toList();
+
+      if (domainsKeys.length != adsKeys.length) {
+        return {
+          'data': {'domains': [], 'ads': []},
+          'topPoint': 0,
+          'time': [],
+          'error': 'error',
+        };
+      }
+
       for (var i = 0;
           i < data['domains_over_time'].entries.length;
           reducedData == true ? i += 6 : i++) {
         if (data['domains_over_time'][domainsKeys[i]] > topPoint) {
-          topPoint = data['domains_over_time'][domainsKeys[i]];
+          topPoint = data['domains_over_time'][domainsKeys[i]] -
+              data['ads_over_time'][adsKeys[i]];
         }
         domains.add(
           FlSpot(
             xPosition.toDouble(),
-            data['domains_over_time'][domainsKeys[i]].toDouble(),
+            data['domains_over_time'][domainsKeys[i]].toDouble() -
+                data['ads_over_time'][adsKeys[i]].toDouble(),
           ),
         );
-        xPosition++;
-      }
-
-      xPosition = 0;
-      List<String> adsKeys = data['ads_over_time'].keys.toList();
-      for (var i = 0;
-          i < data['ads_over_time'].entries.length;
-          reducedData == true ? i += 6 : i++) {
         ads.add(
           FlSpot(
             xPosition.toDouble(),
@@ -220,10 +225,35 @@ class QueriesLastHours extends StatelessWidget {
       };
     }
 
+    final formattedData = formatData(data);
+
+    if (formattedData.containsKey('error')) {
+      return Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            const Icon(
+              Icons.error,
+              size: 50,
+              color: Colors.red,
+            ),
+            const SizedBox(height: 50),
+            Text(
+              AppLocalizations.of(context)!.chartsNotLoaded,
+              style: TextStyle(
+                color: Theme.of(context).colorScheme.onSurfaceVariant,
+                fontSize: 22,
+              ),
+            ),
+          ],
+        ),
+      );
+    }
+
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 15),
       child: LineChart(
-        mainData(formatData(data), appConfigProvider.selectedTheme, context),
+        mainData(formattedData, appConfigProvider.selectedTheme, context),
       ),
     );
   }
