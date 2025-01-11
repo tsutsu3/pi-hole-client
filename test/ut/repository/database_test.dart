@@ -1,7 +1,7 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
-import 'package:pi_hole_client/services/session_manager.dart';
+import 'package:pi_hole_client/services/secret_manager.dart';
 import 'package:sqflite_common_ffi/sqflite_ffi.dart';
 import 'package:pi_hole_client/models/server.dart';
 import 'package:pi_hole_client/repository/secure_storage.dart';
@@ -93,7 +93,7 @@ void main() async {
         alias: 'test v6',
         defaultServer: false,
         apiVersion: 'v6',
-        sm: SessionManager(
+        sm: SecretManager(
           secureStorageRepository,
           'http://localhost:8080',
         ),
@@ -137,7 +137,7 @@ void main() async {
         alias: 'test v6',
         defaultServer: false,
         apiVersion: 'v6',
-        sm: SessionManager(
+        sm: SecretManager(
           secureStorageRepository,
           'http://localhost:8080',
         ),
@@ -200,10 +200,10 @@ void main() async {
         final server = Server(
           address: 'http://localhost:8080',
           alias: 'test v5',
-          token: 'token123',
           defaultServer: false,
           apiVersion: 'v5',
         );
+        await server.sm.saveToken('token123');
 
         final result = await databaseRepository.saveServerQuery(server);
 
@@ -307,6 +307,10 @@ void main() async {
         alias: 'test v5',
         defaultServer: false,
         apiVersion: 'v5',
+        sm: SecretManager(
+          secureStorage,
+          'http://localhost:8080',
+        ),
       );
 
       defaultServerV6 = Server(
@@ -314,7 +318,7 @@ void main() async {
         alias: 'test v6',
         defaultServer: false,
         apiVersion: 'v6',
-        sm: SessionManager(
+        sm: SecretManager(
           secureStorage,
           'http://localhost:8081',
         ),
@@ -328,7 +332,13 @@ void main() async {
     test(
       'should edit token (v5)',
       () async {
-        final server = defaultServerV5.copyWith(token: 'token123');
+        final server = defaultServerV5.copyWith(
+          sm: SecretManager(
+            secureStorage,
+            'http://localhost:8080',
+          ),
+        );
+        await server.sm.saveToken('token123');
 
         dbHelper = DbHelper(testDb);
         await dbHelper.loadDb();
@@ -388,7 +398,7 @@ void main() async {
       'should save server with password (v6)',
       () async {
         final server = defaultServerV6.copyWith(
-          sm: SessionManager(
+          sm: SecretManager(
             secureStorage,
             'http://localhost:8081',
           ),
@@ -446,7 +456,7 @@ void main() async {
         alias: 'test v6',
         defaultServer: false,
         apiVersion: 'v6',
-        sm: SessionManager(
+        sm: SecretManager(
           secureStorage,
           'http://localhost:8081',
         ),
@@ -532,7 +542,7 @@ void main() async {
         alias: 'test v6',
         defaultServer: false,
         apiVersion: 'v6',
-        sm: SessionManager(
+        sm: SecretManager(
           secureStorage,
           'http://localhost:8081',
         ),
@@ -608,7 +618,7 @@ void main() async {
         alias: 'test v6',
         defaultServer: false,
         apiVersion: 'v6',
-        sm: SessionManager(
+        sm: SecretManager(
           secureStorage,
           'http://localhost:8081',
         ),
@@ -662,7 +672,7 @@ void main() async {
         alias: 'test v6',
         defaultServer: false,
         apiVersion: 'v6',
-        sm: SessionManager(
+        sm: SecretManager(
           secureStorage,
           'http://localhost:8081',
         ),

@@ -855,10 +855,12 @@ class MockApiGatewayV6 extends _i1.Mock implements _i18.ApiGatewayV6 {
       ) as _i12.Future<_i4.Response>);
 
   @override
-  _i12.Future<_i5.LoginQueryResponse> loginQuery() => (super.noSuchMethod(
+  _i12.Future<_i5.LoginQueryResponse> loginQuery({bool? refresh = false}) =>
+      (super.noSuchMethod(
         Invocation.method(
           #loginQuery,
           [],
+          {#refresh: refresh},
         ),
         returnValue:
             _i12.Future<_i5.LoginQueryResponse>.value(_FakeLoginQueryResponse_3(
@@ -866,6 +868,7 @@ class MockApiGatewayV6 extends _i1.Mock implements _i18.ApiGatewayV6 {
           Invocation.method(
             #loginQuery,
             [],
+            {#refresh: refresh},
           ),
         )),
       ) as _i12.Future<_i5.LoginQueryResponse>);

@@ -75,7 +75,6 @@ class HomeAppBar extends StatelessWidget implements PreferredSizeWidget {
           server: Server(
             address: server.address,
             alias: server.alias,
-            token: server.token!,
             defaultServer: server.defaultServer,
             apiVersion: server.apiVersion,
             enabled: result.status == 'enabled' ? true : false,

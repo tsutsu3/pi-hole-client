@@ -116,7 +116,7 @@ import 'package:pi_hole_client/screens/statistics/statistics_list.dart';
 import 'package:pi_hole_client/screens/statistics/statistics_queries_servers_tab.dart';
 import 'package:pi_hole_client/screens/statistics/statistics_triple_column.dart';
 import 'package:pi_hole_client/screens/unlock.dart';
-import 'package:pi_hole_client/services/session_manager.dart';
+import 'package:pi_hole_client/services/secret_manager.dart';
 import 'package:pi_hole_client/widgets/bottom_nav_bar.dart';
 import 'package:pi_hole_client/widgets/custom_list_tile.dart';
 import 'package:pi_hole_client/widgets/custom_radio.dart';

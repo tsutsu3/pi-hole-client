@@ -1,6 +1,6 @@
 import 'package:pi_hole_client/repository/secure_storage.dart';
 
-class SessionManager {
+class SecretManager {
   final SecureStorageRepository _storage;
   final String _address;
   String? _sid;
@@ -15,7 +15,15 @@ class SessionManager {
     }
   }
 
-  SessionManager(this._storage, this._address);
+  Future<String?>? get token async {
+    try {
+      return await _storage.getValue('${_address}_token');
+    } catch (e) {
+      return null;
+    }
+  }
+
+  SecretManager(this._storage, this._address);
 
   Future<bool> save(String sid) async {
     try {
@@ -49,6 +57,15 @@ class SessionManager {
   Future<bool> savePassword(String password) async {
     try {
       await _storage.saveValue('${_address}_password', password);
+      return true;
+    } catch (e) {
+      return false;
+    }
+  }
+
+  Future<bool> saveToken(String token) async {
+    try {
+      await _storage.saveValue('${_address}_token', token);
       return true;
     } catch (e) {
       return false;

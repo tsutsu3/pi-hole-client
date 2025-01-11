@@ -61,6 +61,9 @@ class _AddServerFullscreenState extends State<AddServerFullscreen> {
 
   bool isConnecting = false;
 
+  String? initToken;
+  String? initPassword;
+
   @override
   void initState() {
     super.initState();
@@ -69,7 +72,6 @@ class _AddServerFullscreenState extends State<AddServerFullscreen> {
       addressFieldController.text = splitted[1].split('/')[2];
       portFieldController.text = splitted.length == 3 ? splitted[2] : '';
       aliasFieldController.text = widget.server!.alias;
-      tokenFieldController.text = widget.server!.token ?? '';
       basicAuthUser.text = widget.server!.basicAuthUser ?? '';
       basicAuthPassword.text = widget.server!.basicAuthPassword ?? '';
       connectionType = widget.server!.address.split(':')[0] == 'https'
@@ -77,7 +79,7 @@ class _AddServerFullscreenState extends State<AddServerFullscreen> {
           : ConnectionType.http;
       piHoleVersion = widget.server!.apiVersion;
       defaultCheckbox = widget.server!.defaultServer;
-      _loadPassword();
+      _loadSecrets();
     }
   }
 
@@ -163,19 +165,27 @@ class _AddServerFullscreenState extends State<AddServerFullscreen> {
     checkDataValid();
   }
 
-  Future<void> _loadPassword() async {
+  Future<void> _loadSecrets() async {
     if (widget.server != null) {
       try {
         final password = await widget.server!.sm.password;
+        final token = await widget.server!.sm.token;
+
         if (mounted) {
           setState(() {
             passwordFieldController.text = password ?? '';
+            tokenFieldController.text = token ?? '';
+            initToken = token ?? '';
+            initPassword = password ?? '';
           });
         }
       } catch (e) {
         if (mounted) {
           setState(() {
             passwordFieldController.text = '';
+            tokenFieldController.text = '';
+            initToken = '';
+            initPassword = '';
           });
         }
       }
@@ -183,8 +193,18 @@ class _AddServerFullscreenState extends State<AddServerFullscreen> {
       if (mounted) {
         setState(() {
           passwordFieldController.text = '';
+          tokenFieldController.text = '';
+          initToken = '';
+          initPassword = '';
         });
       }
+    }
+  }
+
+  Future<void> _restoreSecrets() async {
+    if (widget.server != null) {
+      await widget.server?.sm.savePassword(initPassword!);
+      await widget.server?.sm.saveToken(initToken!);
     }
   }
 
@@ -225,23 +245,27 @@ class _AddServerFullscreenState extends State<AddServerFullscreen> {
         final serverObj = Server(
           address: url,
           alias: aliasFieldController.text,
-          token: tokenFieldController.text,
           defaultServer: false,
           apiVersion: piHoleVersion,
           basicAuthUser: basicAuthUser.text,
           basicAuthPassword: basicAuthPassword.text,
         );
-        serverObj.sm.savePassword(passwordFieldController.text);
+        await serverObj.sm.savePassword(passwordFieldController.text);
+        await serverObj.sm.saveToken(tokenFieldController.text);
         final result =
             await serversProvider.loadApiGateway(serverObj)?.loginQuery();
         if (!mounted) return;
         if (result?.result == APiResponseType.success) {
           Navigator.maybePop(context);
+          showSuccessSnackBar(
+            context: context,
+            appConfigProvider: appConfigProvider,
+            label: AppLocalizations.of(context)!.checkAddress,
+          );
           serversProvider.addServer(
             Server(
               address: serverObj.address,
               alias: serverObj.alias,
-              token: serverObj.token,
               defaultServer: defaultCheckbox,
               apiVersion: piHoleVersion,
               enabled: result!.status == 'enabled' ? true : false,
@@ -254,6 +278,7 @@ class _AddServerFullscreenState extends State<AddServerFullscreen> {
           if (mounted) {
             setState(() {
               isConnecting = false;
+              _restoreSecrets();
             });
             if (result?.result == APiResponseType.socket) {
               showErrorSnackBar(
@@ -315,26 +340,27 @@ class _AddServerFullscreenState extends State<AddServerFullscreen> {
       final serverObj = Server(
         address: widget.server!.address,
         alias: aliasFieldController.text,
-        token: tokenFieldController.text,
         defaultServer: false,
         apiVersion: piHoleVersion,
         basicAuthUser: basicAuthUser.text,
         basicAuthPassword: basicAuthPassword.text,
       );
-      serverObj.sm.savePassword(passwordFieldController.text);
-      final result =
-          await serversProvider.loadApiGateway(serverObj)?.loginQuery();
+      await serverObj.sm.savePassword(passwordFieldController.text);
+      await serverObj.sm.saveToken(tokenFieldController.text);
+      final result = await serversProvider
+          .loadApiGateway(serverObj)
+          ?.loginQuery(refresh: true);
       if (result?.result == APiResponseType.success) {
         Server server = Server(
           address: widget.server!.address,
           alias: aliasFieldController.text,
-          token: tokenFieldController.text,
           defaultServer: defaultCheckbox,
           apiVersion: piHoleVersion,
           basicAuthUser: basicAuthUser.text,
           basicAuthPassword: basicAuthPassword.text,
         );
-        server.sm.savePassword(passwordFieldController.text);
+        await server.sm.savePassword(passwordFieldController.text);
+        await server.sm.saveToken(tokenFieldController.text);
         final result = await serversProvider.editServer(server);
         if (mounted) {
           if (result == true) {
@@ -354,6 +380,7 @@ class _AddServerFullscreenState extends State<AddServerFullscreen> {
         if (mounted) {
           setState(() {
             isConnecting = false;
+            _restoreSecrets();
           });
           if (result?.result == APiResponseType.socket) {
             showErrorSnackBar(

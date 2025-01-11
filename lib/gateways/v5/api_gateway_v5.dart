@@ -13,7 +13,6 @@ import 'package:pi_hole_client/models/overtime_data.dart';
 import 'package:pi_hole_client/models/realtime_status.dart';
 import 'package:pi_hole_client/models/server.dart';
 import 'package:pi_hole_client/gateways/api_gateway_interface.dart';
-import 'package:pi_hole_client/functions/logger.dart';
 
 class ApiGatewayV5 implements ApiGateway {
   final Server _server;
@@ -114,13 +113,16 @@ class ApiGatewayV5 implements ApiGateway {
   /// 1. Sends a GET request to verify the server's current status using the provided `address` and `token`.
   /// 2. Toggles the Pi-hole's status between enabled and disabled depending on the current status.
   /// 3. Validates the response to determine the success or failure of the login attempt.
+  ///
+  /// Parameters:
+  /// - [refresh]: A boolean value indicating whether to refresh the login status.
   @override
-  Future<LoginQueryResponse> loginQuery() async {
+  Future<LoginQueryResponse> loginQuery({bool refresh = false}) async {
     try {
+      final token = await _server.sm.token;
       final status = await httpClient(
         method: 'get',
-        url:
-            '${_server.address}/admin/api.php?auth=${_server.token}&summaryRaw',
+        url: '${_server.address}/admin/api.php?auth=$token&summaryRaw',
         basicAuth: {
           'username': _server.basicAuthUser,
           'password': _server.basicAuthPassword,
@@ -133,8 +135,8 @@ class ApiGatewayV5 implements ApiGateway {
           final enableOrDisable = await httpClient(
             method: 'get',
             url: statusParsed['status'] == 'enabled'
-                ? '${_server.address}/admin/api.php?auth=${_server.token}&enable=0'
-                : '${_server.address}/admin/api.php?auth=${_server.token}&disable=0',
+                ? '${_server.address}/admin/api.php?auth=$token&enable=0'
+                : '${_server.address}/admin/api.php?auth=$token&disable=0',
             basicAuth: {
               'username': _server.basicAuthUser,
               'password': _server.basicAuthPassword,
@@ -146,7 +148,6 @@ class ApiGatewayV5 implements ApiGateway {
                     'Session expired! Please re-login on the Pi-hole dashboard.' ||
                 //  enableOrDisable.body == []) {
                 enableOrDisable.body.isEmpty) {
-              logger.i(enableOrDisable.body);
               return LoginQueryResponse(
                 result: APiResponseType.authError,
                 log: AppLog(
@@ -277,7 +278,7 @@ class ApiGatewayV5 implements ApiGateway {
       final response = await httpClient(
         method: 'get',
         url:
-            '${_server.address}/admin/api.php?auth=${_server.token}&summaryRaw&topItems&getForwardDestinations&getQuerySources&topClientsBlocked&getQueryTypes',
+            '${_server.address}/admin/api.php?auth=${await _server.sm.token}&summaryRaw&topItems&getForwardDestinations&getQuerySources&topClientsBlocked&getQueryTypes',
         basicAuth: {
           'username': _server.basicAuthUser,
           'password': _server.basicAuthPassword,
@@ -312,7 +313,7 @@ class ApiGatewayV5 implements ApiGateway {
       final response = await httpClient(
         method: 'get',
         url:
-            '${_server.address}/admin/api.php?auth=${_server.token}&disable=$time',
+            '${_server.address}/admin/api.php?auth=${await _server.sm.token}&disable=$time',
         basicAuth: {
           'username': _server.basicAuthUser,
           'password': _server.basicAuthPassword,
@@ -346,7 +347,8 @@ class ApiGatewayV5 implements ApiGateway {
     try {
       final response = await httpClient(
         method: 'get',
-        url: '${_server.address}/admin/api.php?auth=${_server.token}&enable',
+        url:
+            '${_server.address}/admin/api.php?auth=${await _server.sm.token}&enable',
         basicAuth: {
           'username': _server.basicAuthUser,
           'password': _server.basicAuthPassword,
@@ -383,7 +385,7 @@ class ApiGatewayV5 implements ApiGateway {
       final response = await httpClient(
         method: 'get',
         url:
-            '${_server.address}/admin/api.php?auth=${_server.token}&overTimeData10mins&overTimeDataClients&getClientNames',
+            '${_server.address}/admin/api.php?auth=${await _server.sm.token}&overTimeData10mins&overTimeDataClients&getClientNames',
         basicAuth: {
           'username': _server.basicAuthUser,
           'password': _server.basicAuthPassword,
@@ -417,7 +419,7 @@ class ApiGatewayV5 implements ApiGateway {
       final response = await httpClient(
         method: 'get',
         url:
-            '${_server.address}/admin/api.php?auth=${_server.token}&getAllQueries&from=${from.millisecondsSinceEpoch ~/ 1000}&until=${until.millisecondsSinceEpoch ~/ 1000}',
+            '${_server.address}/admin/api.php?auth=${await _server.sm.token}&getAllQueries&from=${from.millisecondsSinceEpoch ~/ 1000}&until=${until.millisecondsSinceEpoch ~/ 1000}',
         timeout: 20,
         basicAuth: {
           'username': _server.basicAuthUser,
@@ -460,7 +462,7 @@ class ApiGatewayV5 implements ApiGateway {
       final response = await httpClient(
         method: 'get',
         url:
-            '${_server.address}/admin/api.php?auth=${_server.token}&list=$list&add=$domain',
+            '${_server.address}/admin/api.php?auth=${await _server.sm.token}&list=$list&add=$domain',
         basicAuth: {
           'username': _server.basicAuthUser,
           'password': _server.basicAuthPassword,
@@ -518,29 +520,26 @@ class ApiGatewayV5 implements ApiGateway {
     }
 
     try {
+      final token = await _server.sm.token;
       final results = await Future.wait([
         httpClient(
           method: 'get',
-          url:
-              '${_server.address}/admin/api.php?auth=${_server.token}&list=white',
+          url: '${_server.address}/admin/api.php?auth=$token&list=white',
           headers: headers,
         ),
         httpClient(
           method: 'get',
-          url:
-              '${_server.address}/admin/api.php?auth=${_server.token}&list=regex_white',
+          url: '${_server.address}/admin/api.php?auth=$token&list=regex_white',
           headers: headers,
         ),
         httpClient(
           method: 'get',
-          url:
-              '${_server.address}/admin/api.php?auth=${_server.token}&list=black',
+          url: '${_server.address}/admin/api.php?auth=$token&list=black',
           headers: headers,
         ),
         httpClient(
           method: 'get',
-          url:
-              '${_server.address}/admin/api.php?auth=${_server.token}&list=regex_black',
+          url: '${_server.address}/admin/api.php?auth=$token&list=regex_black',
           headers: headers,
         ),
       ]);
@@ -615,7 +614,7 @@ class ApiGatewayV5 implements ApiGateway {
       final response = await httpClient(
         method: 'get',
         url:
-            '${_server.address}/admin/api.php?auth=${_server.token}&list=${getType(domain.type)}&sub=${domain.domain}',
+            '${_server.address}/admin/api.php?auth=${await _server.sm.token}&list=${getType(domain.type)}&sub=${domain.domain}',
         basicAuth: {
           'username': _server.basicAuthUser,
           'password': _server.basicAuthPassword,
@@ -670,7 +669,7 @@ class ApiGatewayV5 implements ApiGateway {
       final response = await httpClient(
         method: 'get',
         url:
-            '${_server.address}/admin/api.php?auth=${_server.token}&list=${domainData['list']}&add=${domainData['domain']}',
+            '${_server.address}/admin/api.php?auth=${await _server.sm.token}&list=${domainData['list']}&add=${domainData['domain']}',
         basicAuth: {
           'username': _server.basicAuthUser,
           'password': _server.basicAuthPassword,

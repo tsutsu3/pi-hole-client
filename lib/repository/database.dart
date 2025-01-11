@@ -210,12 +210,11 @@ class DatabaseRepository {
   /// - Returns `null` or an appropriate error response if the operation fails.
   Future<bool?> saveServerQuery(Server server) async {
     try {
-      if (server.token != null) {
-        await _secureStorage.saveValue(
-          '${server.address}_token',
-          server.token!,
-        );
+      final token = await server.sm.token;
+      if (token != null) {
+        await _secureStorage.saveValue('${server.address}_token', token);
       }
+
       if (server.basicAuthUser != null) {
         await _secureStorage.saveValue(
           '${server.address}_basicAuthUser',
@@ -278,12 +277,11 @@ class DatabaseRepository {
   ///   transaction.
   Future<bool> editServerQuery(Server server) async {
     try {
-      if (server.token != null) {
-        await _secureStorage.saveValue(
-          '${server.address}_token',
-          server.token!,
-        );
+      final token = await server.sm.token;
+      if (token != null) {
+        await _secureStorage.saveValue('${server.address}_token', token);
       }
+
       if (server.basicAuthUser != null) {
         await _secureStorage.saveValue(
           '${server.address}_basicAuthUser',

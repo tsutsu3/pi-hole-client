@@ -102,8 +102,21 @@ class ApiGatewayV6 implements ApiGateway {
 
   /// Handles the login process to a Pi-hole server using its API.
   @override
-  Future<LoginQueryResponse> loginQuery() async {
+  Future<LoginQueryResponse> loginQuery({bool refresh = false}) async {
     try {
+      // If the refresh flag is set, delete the session
+      if (refresh) {
+        final deleteResp = await httpClient(
+          method: 'delete',
+          url: '${_server.address}/api/auth',
+          maxRetries: 0,
+        );
+        if (deleteResp.statusCode == 204) {
+          _server.sm.delete();
+          logger.d('Logout successful. Session deleted.');
+        }
+      }
+
       // 1. Get DNS blocking status
       // If the session ID is already available, use it to get the status
       // Otherwise, re-login to get the session ID
@@ -121,12 +134,6 @@ class ApiGatewayV6 implements ApiGateway {
           status: enableOrDisableParsed.blocking,
           sid: _server.sm.sid,
         );
-      }
-
-      if (_server.sm.sid == null || _server.sm.sid!.isEmpty) {
-        logger.i('No session ID available, logging in');
-      } else {
-        logger.i('Session ID is expired or deleted, logging in');
       }
 
       // 2.login

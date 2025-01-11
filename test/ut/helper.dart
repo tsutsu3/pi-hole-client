@@ -67,12 +67,11 @@ class DbHelper {
 
   Future<bool> saveDb(Server server) async {
     try {
-      if (server.token != null) {
-        await _secureStorage.saveValue(
-          '${server.address}_token',
-          server.token!,
-        );
+      final token = await server.sm.token;
+      if (token != null) {
+        await _secureStorage.saveValue('${server.address}_token', token);
       }
+
       if (server.basicAuthUser != null) {
         await _secureStorage.saveValue(
           '${server.address}_basicAuthUser',

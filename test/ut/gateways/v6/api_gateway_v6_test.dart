@@ -9,10 +9,10 @@ import 'package:pi_hole_client/gateways/v6/api_gateway_v6.dart';
 import 'package:pi_hole_client/models/domain.dart';
 import 'package:pi_hole_client/models/gateways.dart';
 import 'package:pi_hole_client/models/server.dart';
-import 'package:pi_hole_client/services/session_manager.dart';
+import 'package:pi_hole_client/services/secret_manager.dart';
 import 'api_gateway_v6_test.mocks.dart';
 
-class SessionManagerMock implements SessionManager {
+class SecretManagerMock implements SecretManager {
   String? _sid;
   String? _password;
 
@@ -28,7 +28,16 @@ class SessionManagerMock implements SessionManager {
     }
   }
 
-  SessionManagerMock(this._sid, this._password);
+  @override
+  Future<String?>? get token async {
+    try {
+      return _sid;
+    } catch (e) {
+      return null;
+    }
+  }
+
+  SecretManagerMock(this._sid, this._password);
 
   @override
   Future<bool> save(String sid) async {
@@ -52,6 +61,12 @@ class SessionManagerMock implements SessionManager {
     _password = password;
     return true;
   }
+
+  @override
+  Future<bool> saveToken(String token) async {
+    _sid = token;
+    return true;
+  }
 }
 
 @GenerateMocks([http.Client])
@@ -73,7 +88,7 @@ void main() async {
         alias: 'example',
         defaultServer: true,
         apiVersion: SupportedApiVersions.v6,
-        sm: SessionManagerMock(sessinId, 'xxx123'),
+        sm: SecretManagerMock(sessinId, 'xxx123'),
       );
     });
     test('Return success with valid password', () async {
@@ -353,6 +368,84 @@ void main() async {
       expect(response.status, isNull);
       expect(response.log?.type, 'login');
       expect(response.log?.message, 'Exception: Unexpected error test');
+    });
+
+    test('Return success with refresh true', () async {
+      final mockClient = MockClient();
+      final apiGateway = ApiGatewayV6(server, client: mockClient);
+
+      when(
+        mockClient.delete(
+          Uri.parse(urls[0]),
+          headers: anyNamed('headers'),
+          body: anyNamed('body'),
+        ),
+      ).thenAnswer(
+        (_) async => http.Response(
+          '',
+          204,
+        ),
+      );
+
+      when(
+        mockClient.post(
+          Uri.parse(urls[0]),
+          headers: anyNamed('headers'),
+          body: anyNamed('body'),
+        ),
+      ).thenAnswer(
+        (_) async => http.Response(
+          jsonEncode({
+            'session': {
+              'valid': true,
+              'totp': false,
+              'sid': 'n9n9f6c3umrumfq2ese1lvu2pg',
+              'csrf': 'Ux87YTIiMOf/GKCefVIOMw=',
+              'validity': 300,
+              'message': 'correct password',
+            },
+            'took': 0.039638996124267578,
+          }),
+          200,
+        ),
+      );
+
+      int callCount = 0;
+
+      when(
+        mockClient.get(
+          Uri.parse(urls[1]),
+          headers: anyNamed('headers'),
+        ),
+      ).thenAnswer((_) async {
+        callCount++;
+        if (callCount == 1) {
+          return http.Response(
+            jsonEncode({
+              'error': {
+                'key': 'unauthorized',
+                'message': 'Unauthorized',
+                'hint': null,
+              },
+              'took': 4.1484832763671875e-05,
+            }),
+            401,
+          );
+        } else {
+          // 2回目以降の呼び出し: 正常なレスポンスを返す
+          return http.Response(
+            jsonEncode({'blocking': 'enabled', 'timer': null, 'took': 0.003}),
+            200,
+          );
+        }
+      });
+
+      final response = await apiGateway.loginQuery(refresh: true);
+
+      expect(response.result, APiResponseType.success);
+      expect(response.sid, sessinId);
+      expect(response.status, 'enabled');
+      expect(response.log, isNull);
     });
   });
 

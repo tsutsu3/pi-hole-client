@@ -185,24 +185,6 @@ class ServersProvider with ChangeNotifier {
     }
   }
 
-  // Future<bool> setToken(Server server) async {
-  //   final result =
-  //       await _repository.setServerTokenQuery(server.token, server.address);
-  //   if (result == true) {
-  //     _serversList = _serversList.map((s) {
-  //       if (s.address == server.address) {
-  //         return server;
-  //       } else {
-  //         return s;
-  //       }
-  //     }).toList();
-  //     notifyListeners();
-  //     return true;
-  //   } else {
-  //     return false;
-  //   }
-  // }
-
   Future saveFromDb(List<ServerDbData>? servers) async {
     if (servers != null) {
       Server? defaultServer;
@@ -210,7 +192,6 @@ class ServersProvider with ChangeNotifier {
         final Server serverObj = Server(
           address: server.address,
           alias: server.alias,
-          token: server.token,
           defaultServer: convertFromIntToBool(server.isDefaultServer)!,
           apiVersion: server.apiVersion,
           basicAuthUser: server.basicAuthUser,

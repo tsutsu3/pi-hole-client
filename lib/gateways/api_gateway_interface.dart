@@ -8,9 +8,14 @@ abstract interface class ApiGateway {
 
   /// Handles the login process to a Pi-hole server using its API.
   ///
+  /// ### Parameters
+  /// - [refresh]: A boolean value indicating whether to refresh the login status.
+  /// Default is `false`.
+  ///   - **v6**: This parameter is used to control session refresh.
+  ///   - **v5**: This parameter is ignored.
   /// ### Returns
   /// - A [LoginQueryResponse] object containing the result of the login query.
-  Future<LoginQueryResponse> loginQuery();
+  Future<LoginQueryResponse> loginQuery({bool refresh = false});
 
   /// Fetches real-time status information from a Pi-hole server.
   ///
