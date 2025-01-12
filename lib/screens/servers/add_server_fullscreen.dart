@@ -260,7 +260,7 @@ class _AddServerFullscreenState extends State<AddServerFullscreen> {
           showSuccessSnackBar(
             context: context,
             appConfigProvider: appConfigProvider,
-            label: AppLocalizations.of(context)!.checkAddress,
+            label: AppLocalizations.of(context)!.connectedSuccessfully,
           );
           serversProvider.addServer(
             Server(
