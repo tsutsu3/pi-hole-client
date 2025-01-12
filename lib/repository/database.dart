@@ -568,6 +568,41 @@ class DatabaseRepository {
 
   // Migration methods
   Future _upgradeToV2(Database db) async {
-    await db.execute('ALTER TABLE appConfig DROP COLUMN oneColumnLegend');
+    // await db.execute('ALTER TABLE appConfig DROP COLUMN oneColumnLegend');
+
+    // 1. Create a new table
+    await db.execute('''
+    CREATE TABLE appConfig_new (
+      autoRefreshTime NUMERIC NOT NULL,
+      theme NUMERIC NOT NULL,
+      language TEXT NOT NULL,
+      overrideSslCheck NUMERIC NOT NULL,
+      reducedDataCharts NUMERIC NOT NULL,
+      logsPerQuery NUMERIC NOT NULL,
+      useBiometricAuth NUMERIC NOT NULL,
+      importantInfoReaden NUMERIC NOT NULL,
+      hideZeroValues NUMERIC NOT NULL,
+      statisticsVisualizationMode NUMERIC NOT NULL,
+      sendCrashReports NUMERIC NOT NULL
+    )
+    ''');
+
+    // 2. Copy data from the old table to the new table
+    await db.execute('''
+    INSERT INTO appConfig_new (autoRefreshTime, theme, language,
+      overrideSslCheck, reducedDataCharts, logsPerQuery, useBiometricAuth,
+      importantInfoReaden, hideZeroValues, statisticsVisualizationMode,
+      sendCrashReports)
+    SELECT autoRefreshTime, theme, language, overrideSslCheck,
+      reducedDataCharts, logsPerQuery, useBiometricAuth, importantInfoReaden,
+      hideZeroValues, statisticsVisualizationMode, sendCrashReports
+    FROM appConfig
+    ''');
+
+    // 3. Drop the old table
+    await db.execute('DROP TABLE appConfig');
+
+    // 4. Rename the new table to the old table
+    await db.execute('ALTER TABLE appConfig_new RENAME TO appConfig');
   }
 }
