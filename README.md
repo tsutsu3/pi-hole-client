@@ -58,26 +58,29 @@
 
 The easy way to manage your Pi-hole® server.
 
+The Pi-hole client features a beautiful and modern user interface.
+
 Easily view statistics, enable or disable the server, access logs, and much more.
 
 ## 💡 Main features
 
 ![ss](assets/other/ss.jpg)
 
-<p>▶ Manage your Pi-hole® server on an easy way.</p>
+<p>▶ Manage your Pi-hole® server the easy way.</p>
 <p>▶ Supports Pi-hole v6.</p>
-<p>▶ Enable and disable the server with only one button.</p>
-<p>▶ Beautiful charts with all the statistics you need to see.</p>
-<p>▶ Add multiple servers to the app, and manage all of them from here.</p>
-<p>▶ Explore the query logs list and see the log details.</p>
-<p>▶ Manage your domain lists. Add and remove domains to the whitelist or blacklist.</p>
-<p>▶ Material User interface with dynamic theming (only Android 12+)</p>
+<p>▶ Connect via HTTP or HTTPS.</p>
+<p>▶ Enable and disable the server with just one button.</p>
+<p>▶ Visualize detailed statistics with clear, dynamic charts.</p>
+<p>▶ Add multiple servers and manage them all in one place.</p>
+<p>▶ Explore query logs and access detailed log information.</p>
+<p>▶ Manage your domain lists: add or remove domains from the whitelist or blacklist.</p>
+<p>▶ Material You interface with dynamic theming (Android 12+ only).</p>
 
 ## 📌 Requirements
 
-- Fully supports Pi-hole v6
 - Requires Pi-hole v5.12 or greater
 - Requires web interface v5.14.2 or greater
+- Pi-hole v6 is supported, but it is still an unstable version
 
 ## 🔑 Privacy policy
 
@@ -99,12 +102,13 @@ If you like the project and you want to contribute with the development, you
 can [become a sponsor on GitHub](https://github.com/sponsors/tsutsu3), or
 [buy me a coffe](https://buymeacoffee.com/tsutsu3).
 
-<!-- <div align="center">
-  <a href="https://www.paypal.com/donate/?hosted_button_id=T63UK6AVL3MG8">
-    <img src="https://raw.githubusercontent.com/stefan-niedermann/paypal-donate-button/main/paypal-donate-button.png"
-         alt="Donate with PayPal" height="100" />
-  </a>
-</div> -->
+<div align="center">
+<a href="https://www.buymeacoffee.com/tsutsu3" target="_blank">
+  <img src="https://cdn.buymeacoffee.com/buttons/v2/default-yellow.png"
+    alt="Buy Me A Coffee"
+    style="height: 60px !important;width: 217px !important;" >
+</a>
+</div>
 
 ## 🛠️ Development
 
