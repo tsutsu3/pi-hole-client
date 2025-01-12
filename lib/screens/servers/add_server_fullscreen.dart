@@ -503,61 +503,61 @@ class _AddServerFullscreenState extends State<AddServerFullscreen> {
               ),
             ),
           ),
-          const SizedBox(height: 20),
-          SectionLabel(
-            label: AppLocalizations.of(context)!.basicAuth,
-            padding: const EdgeInsets.only(top: 10, bottom: 10),
-          ),
-          Card(
-            margin: const EdgeInsets.only(top: 20, bottom: 10),
-            child: Padding(
-              padding: const EdgeInsets.all(16),
-              child: Row(
-                children: [
-                  Icon(
-                    Icons.info_rounded,
-                    color: Theme.of(context).colorScheme.onSurfaceVariant,
-                  ),
-                  const SizedBox(width: 16),
-                  Flexible(
-                    child: Text(
-                      AppLocalizations.of(context)!.basicAuthInfo,
-                    ),
-                  ),
-                ],
-              ),
-            ),
-          ),
-          Padding(
-            padding: const EdgeInsets.only(top: 20),
-            child: TextFormField(
-              onChanged: (_) => checkDataValid(),
-              controller: basicAuthUser,
-              decoration: InputDecoration(
-                prefixIcon: const Icon(Icons.person_rounded),
-                border: const OutlineInputBorder(
-                  borderRadius: BorderRadius.all(Radius.circular(10)),
-                ),
-                labelText: AppLocalizations.of(context)!.username,
-              ),
-            ),
-          ),
-          Padding(
-            padding: const EdgeInsets.only(top: 30, bottom: 30),
-            child: TextFormField(
-              onChanged: (_) => checkDataValid(),
-              controller: basicAuthPassword,
-              obscureText: true,
-              keyboardType: TextInputType.visiblePassword,
-              decoration: InputDecoration(
-                prefixIcon: const Icon(Icons.key_rounded),
-                border: const OutlineInputBorder(
-                  borderRadius: BorderRadius.all(Radius.circular(10)),
-                ),
-                labelText: AppLocalizations.of(context)!.password,
-              ),
-            ),
-          ),
+          // const SizedBox(height: 20),
+          // SectionLabel(
+          //   label: AppLocalizations.of(context)!.basicAuth,
+          //   padding: const EdgeInsets.only(top: 10, bottom: 10),
+          // ),
+          // Card(
+          //   margin: const EdgeInsets.only(top: 20, bottom: 10),
+          //   child: Padding(
+          //     padding: const EdgeInsets.all(16),
+          //     child: Row(
+          //       children: [
+          //         Icon(
+          //           Icons.info_rounded,
+          //           color: Theme.of(context).colorScheme.onSurfaceVariant,
+          //         ),
+          //         const SizedBox(width: 16),
+          //         Flexible(
+          //           child: Text(
+          //             AppLocalizations.of(context)!.basicAuthInfo,
+          //           ),
+          //         ),
+          //       ],
+          //     ),
+          //   ),
+          // ),
+          // Padding(
+          //   padding: const EdgeInsets.only(top: 20),
+          //   child: TextFormField(
+          //     onChanged: (_) => checkDataValid(),
+          //     controller: basicAuthUser,
+          //     decoration: InputDecoration(
+          //       prefixIcon: const Icon(Icons.person_rounded),
+          //       border: const OutlineInputBorder(
+          //         borderRadius: BorderRadius.all(Radius.circular(10)),
+          //       ),
+          //       labelText: AppLocalizations.of(context)!.username,
+          //     ),
+          //   ),
+          // ),
+          // Padding(
+          //   padding: const EdgeInsets.only(top: 30, bottom: 30),
+          //   child: TextFormField(
+          //     onChanged: (_) => checkDataValid(),
+          //     controller: basicAuthPassword,
+          //     obscureText: true,
+          //     keyboardType: TextInputType.visiblePassword,
+          //     decoration: InputDecoration(
+          //       prefixIcon: const Icon(Icons.key_rounded),
+          //       border: const OutlineInputBorder(
+          //         borderRadius: BorderRadius.all(Radius.circular(10)),
+          //       ),
+          //       labelText: AppLocalizations.of(context)!.password,
+          //     ),
+          //   ),
+          // ),
         ],
       );
     }
