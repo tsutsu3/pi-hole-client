@@ -399,7 +399,6 @@ ThemeData createTheme(
         PopupMenuThemeData(surfaceTintColor: colorScheme.surfaceTint),
     navigationBarTheme:
         NavigationBarThemeData(surfaceTintColor: colorScheme.surfaceTint),
-    dialogTheme: DialogTheme(surfaceTintColor: colorScheme.surfaceTint),
     pageTransitionsTheme: const PageTransitionsTheme(
       builders: {
         TargetPlatform.android: PredictiveBackPageTransitionsBuilder(),
