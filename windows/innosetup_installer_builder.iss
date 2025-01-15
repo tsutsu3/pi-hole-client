@@ -23,7 +23,7 @@ DisableProgramGroupPage=yes
 ; Remove the following line to run in administrative install mode (install for all users.)
 PrivilegesRequired=lowest
 OutputDir=..\build\windows
-OutputBaseFilename=PiHoleClientInstaller
+OutputBaseFilename=PiHoleClient
 ; SetupIconFile=..\assets\icon\favicon.ico
 Compression=lzma
 SolidCompression=yes
