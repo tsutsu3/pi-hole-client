@@ -51,6 +51,7 @@
   - [Prepare the development environment](#prepare-the-development-environment)
   - [Compile the production build](#compile-the-production-build)
   - [Code Quality and Analysis](#code-quality-and-analysis)
+  - [CI/CD Secrets Management](#cicd-secrets-management)
 - [⚖️ License](#️-license)
 - [🖋️ Credits](#️-credits)
 
@@ -147,6 +148,14 @@ Run these commands as needed whenever you update the images.
 
 #### Linux
 
+First, install the required dependencies:
+
+```bash
+sudo apt install libcurl4-openssl-dev libsecret-1-dev libjsoncpp-dev
+```
+
+Then, follow these steps to build the Linux executable:
+
 1. Run `flutter clean`
 2. Run `flutter pub get`
 3. Run `flutter build linux --release` to build the Linux executable
@@ -200,6 +209,18 @@ analysis steps:
   ```bash
   dcm check-unused-files lib
   ```
+
+### CI/CD Secrets Management
+
+To store and manage secrets required for GitHub Actions, refer to the
+dedicated documentation:
+
+📖 **[Managing CI/CD Secrets](docs/ci-secrets.md)**
+
+This document covers:
+
+- Required secrets for GCP authentication and secure builds.
+- Encoding and storing files as GitHub Secrets.
 
 ## ⚖️ License
 
