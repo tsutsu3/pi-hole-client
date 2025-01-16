@@ -275,6 +275,6 @@ jobs:
           serviceAccountJson: ${{ steps.auth.outputs.credentials_file_path }}
           packageName: io.github.tsutsu3.pi_hole_client
           releaseFiles: PiHoleClient_${{ env.VERSION_NAME }}_Android.aab
-          track: test # Available tracks are: production,beta,alpha,internal,test
+          track: production # Available tracks are: production,beta,alpha,internal,test
           status: draft
           releaseName: ${{ env.VERSION_NAME }}

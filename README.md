@@ -13,11 +13,12 @@
 <!-- PROJECT LOGO -->
 <div align="center">
   <a href="https://github.com/tsutsu3/pi-hole-client">
-    <img alt="feature-image" src="assets/other/feature-image-w.png" width="600">
+    <img alt="Pi-hole Client Logo" src="assets/other/feature-image-w.png" width="600"
+      style="background-color: #f9f9f9; padding: 10px; border-radius: 8px;">
   </a>
   <p align="center">
     <b>
-      Pi-hole client is an unnoficial
+      Pi-hole client is an unofficial
       <a href="https://pi-hole.net/" target="_blank" rel="noopener noreferrer">
         Pi-hole®
       </a>
@@ -26,16 +27,19 @@
   </p>
 </div>
 
-<!-- <p align="center">
+<br><br><br>
+
+<div align="center">
+  <p>Get the app on Google Play or download the latest release from GitHub.</p>
   <a href="https://play.google.com/store/apps/details?id=io.github.tsutsu3.pi_hole_client"
      target="_blank" rel="noopener noreferrer">
-    <img alt="google play" src="/assets/other/get_google_play.png" width="300px">
+    <img alt="Get it on Google Play" src="assets/other/get-google-play.png" width="200px" height="auto">
   </a>
-  <a href="https://github.com/tsutsu3/pi-hole-client/releases" target="_blank"
-     rel="noopener noreferrer">
-    <img alt="release" src="/assets/other/get-github.png" width="300px">
+  <span style="display:inline-block; width: 20px;"></span>
+  <a href="https://github.com/tsutsu3/pi-hole-client/releases" target="_blank" rel="noopener noreferrer">
+    <img alt="Download from GitHub" src="assets/other/get-github.png" width="200px" height="auto">
   </a>
-</p> -->
+</div>
 
 ## 📚 Table of Contents
 
@@ -238,7 +242,7 @@ For details on the licenses applicable to this project, please refer to [LICENSE
 
 <!-- MARKDOWN LINKS & IMAGES -->
 <!-- https://www.markdownguide.org/basic-syntax/#reference-style-links -->
-[status-shield]: https://img.shields.io/badge/status-alpha-orange?style=for-the-badge
+[status-shield]: https://img.shields.io/badge/status-beta-orange?style=for-the-badge
 [issues-shield]: https://img.shields.io/github/issues/tsutsu3/pi-hole-client?style=for-the-badge
 [issues-url]: https://github.com/tsutsu3/pi-hole-client/issues
 [license-shield]: https://img.shields.io/github/license/tsutsu3/pi-hole-client?style=for-the-badge
