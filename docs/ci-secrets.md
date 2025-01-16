@@ -23,6 +23,7 @@ The following secrets contain **encoded files** and must be stored as
 | `ENV`            | `.env` file containing environment variables            |
 | `KEYSTORE_JKS`   | Keystore file (`.jks`) for signing Android builds       |
 | `KEY_PROPERTIES` | Key properties file (`key.properties`) for the keystore |
+| `TEST_ENV`       | test `.env` file containing environment variables       |
 
 ## 2️⃣ Using Workload Identity Federation through a Service Account
 
