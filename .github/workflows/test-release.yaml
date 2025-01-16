@@ -1,4 +1,4 @@
-name: Compile and release production build
+name: Compile and release test build
 
 on:
   push:
@@ -89,7 +89,7 @@ jobs:
             PiHoleClient_${{ env.VERSION_NAME }}_Android.apk
             PiHoleClient_${{ env.VERSION_NAME }}_Android.aab
 
-  release-build-google-play:
+  test-build-google-play:
     name: Release Android test build to the Google Play Store
     runs-on: ubuntu-latest
     needs: [get-version, build-android]
