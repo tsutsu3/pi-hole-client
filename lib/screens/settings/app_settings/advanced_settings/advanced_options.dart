@@ -217,7 +217,11 @@ class AdvancedOptions extends StatelessWidget {
               onTap: () =>
                   updateUseReducedData(!appConfigProvider.reducedDataCharts),
               padding: const EdgeInsets.only(
-                  top: 10, bottom: 10, left: 20, right: 10),
+                top: 10,
+                bottom: 10,
+                left: 20,
+                right: 10,
+              ),
               trailing: Switch(
                 value: appConfigProvider.reducedDataCharts,
                 onChanged: updateUseReducedData,
@@ -231,7 +235,11 @@ class AdvancedOptions extends StatelessWidget {
               onTap: () =>
                   updateHideZeroValues(!appConfigProvider.hideZeroValues),
               padding: const EdgeInsets.only(
-                  top: 10, bottom: 10, left: 20, right: 10),
+                top: 10,
+                bottom: 10,
+                left: 20,
+                right: 10,
+              ),
               trailing: Switch(
                 value: appConfigProvider.hideZeroValues,
                 onChanged: updateHideZeroValues,
@@ -249,7 +257,11 @@ class AdvancedOptions extends StatelessWidget {
                 ),
               ),
               padding: const EdgeInsets.only(
-                  top: 10, bottom: 10, left: 20, right: 10),
+                top: 10,
+                bottom: 10,
+                left: 20,
+                right: 10,
+              ),
             ),
             SectionLabel(label: AppLocalizations.of(context)!.others),
             CustomListTile(

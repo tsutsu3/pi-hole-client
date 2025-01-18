@@ -80,7 +80,8 @@ class AppLogs extends StatelessWidget {
                     showDialog(
                       context: context,
                       builder: (context) => AppLogDetailsModal(
-                          log: appConfigProvider.logs[index]),
+                        log: appConfigProvider.logs[index],
+                      ),
                     ),
                   },
                 ),
