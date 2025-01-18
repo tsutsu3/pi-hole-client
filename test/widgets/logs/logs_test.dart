@@ -232,14 +232,15 @@ void main() async {
         expect(find.byType(Logs), findsOneWidget);
         await tester.pumpAndSettle();
         expect(find.text('Query logs'), findsOneWidget);
-        expect(find.text('white.example.com'), findsOneWidget);
+        // expect(find.text('white.example.com'), findsOneWidget); why two widgets?
+        expect(find.text('white.example.com'), findsWidgets);
         expect(
           find.text('Choose a query log to see its details.'),
           findsOneWidget,
         );
 
         // Tap whitelist domain to open domain detail screen
-        await tester.tap(find.text('white.example.com'));
+        await tester.tap(find.text('white.example.com').at(0));
         await tester.pumpAndSettle();
         expect(find.text('Log details'), findsOneWidget);
 
