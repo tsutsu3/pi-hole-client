@@ -44,60 +44,62 @@ class DomainDetailsScreen extends StatelessWidget {
           const SizedBox(width: 10),
         ],
       ),
-      body: ListView(
-        children: [
-          CustomListTile(
-            leadingIcon: Icons.domain,
-            label: AppLocalizations.of(context)!.domain,
-            description: domain.domain,
-          ),
-          CustomListTile(
-            leadingIcon: Icons.category_rounded,
-            label: AppLocalizations.of(context)!.type,
-            description: getDomainType(domain.type),
-            color: colors != null
-                ? convertColorFromNumber(colors!, domain.type)
-                : null,
-          ),
-          CustomListTile(
-            leadingIcon: Icons.schedule_rounded,
-            label: AppLocalizations.of(context)!.dateAdded,
-            description: formatTimestamp(domain.dateAdded, 'yyyy-MM-dd'),
-          ),
-          CustomListTile(
-            leadingIcon: Icons.update_rounded,
-            label: AppLocalizations.of(context)!.dateModified,
-            description: formatTimestamp(domain.dateModified, 'yyyy-MM-dd'),
-          ),
-          CustomListTile(
-            leadingIcon: Icons.check,
-            label: AppLocalizations.of(context)!.status,
-            description: domain.enabled == 1
-                ? AppLocalizations.of(context)!.enabled
-                : AppLocalizations.of(context)!.disabled,
-          ),
-          Material(
-            color: Colors.transparent,
-            child: InkWell(
-              onTap: domain.comment != null && domain.comment != ''
-                  ? () => {
-                        showModal(
-                          context: context,
-                          builder: (context) =>
-                              DomainCommentModal(comment: domain.comment!),
-                        ),
-                      }
+      body: SafeArea(
+        child: ListView(
+          children: [
+            CustomListTile(
+              leadingIcon: Icons.domain,
+              label: AppLocalizations.of(context)!.domain,
+              description: domain.domain,
+            ),
+            CustomListTile(
+              leadingIcon: Icons.category_rounded,
+              label: AppLocalizations.of(context)!.type,
+              description: getDomainType(domain.type),
+              color: colors != null
+                  ? convertColorFromNumber(colors!, domain.type)
                   : null,
-              child: CustomListTile(
-                leadingIcon: Icons.comment_rounded,
-                label: AppLocalizations.of(context)!.comment,
-                description: domain.comment == ''
-                    ? AppLocalizations.of(context)!.noComment
-                    : domain.comment,
+            ),
+            CustomListTile(
+              leadingIcon: Icons.schedule_rounded,
+              label: AppLocalizations.of(context)!.dateAdded,
+              description: formatTimestamp(domain.dateAdded, 'yyyy-MM-dd'),
+            ),
+            CustomListTile(
+              leadingIcon: Icons.update_rounded,
+              label: AppLocalizations.of(context)!.dateModified,
+              description: formatTimestamp(domain.dateModified, 'yyyy-MM-dd'),
+            ),
+            CustomListTile(
+              leadingIcon: Icons.check,
+              label: AppLocalizations.of(context)!.status,
+              description: domain.enabled == 1
+                  ? AppLocalizations.of(context)!.enabled
+                  : AppLocalizations.of(context)!.disabled,
+            ),
+            Material(
+              color: Colors.transparent,
+              child: InkWell(
+                onTap: domain.comment != null && domain.comment != ''
+                    ? () => {
+                          showModal(
+                            context: context,
+                            builder: (context) =>
+                                DomainCommentModal(comment: domain.comment!),
+                          ),
+                        }
+                    : null,
+                child: CustomListTile(
+                  leadingIcon: Icons.comment_rounded,
+                  label: AppLocalizations.of(context)!.comment,
+                  description: domain.comment == ''
+                      ? AppLocalizations.of(context)!.noComment
+                      : domain.comment,
+                ),
               ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }
