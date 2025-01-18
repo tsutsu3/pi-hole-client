@@ -92,47 +92,49 @@ class LogDetailsScreen extends StatelessWidget {
           const SizedBox(width: 10),
         ],
       ),
-      body: ListView(
-        children: [
-          CustomListTile(
-            leadingIcon: Icons.link,
-            label: AppLocalizations.of(context)!.url,
-            description: log.url,
-          ),
-          CustomListTile(
-            leadingIcon: Icons.http_rounded,
-            label: AppLocalizations.of(context)!.type,
-            description: log.type,
-          ),
-          CustomListTile(
-            leadingIcon: Icons.phone_android_rounded,
-            label: AppLocalizations.of(context)!.device,
-            description: log.device,
-          ),
-          CustomListTile(
-            leadingIcon: Icons.access_time_outlined,
-            label: AppLocalizations.of(context)!.time,
-            description: formatTimestamp(log.dateTime, 'HH:mm:ss'),
-          ),
-          if (log.status != null)
-            item(
-              Icons.shield_outlined,
-              AppLocalizations.of(context)!.status,
-              LogStatus(status: log.status!, showIcon: false),
-            ),
-          if (log.status == '2' && log.answeredBy != null)
+      body: SafeArea(
+        child: ListView(
+          children: [
             CustomListTile(
-              leadingIcon: Icons.domain,
-              label: AppLocalizations.of(context)!.answeredBy,
-              description: log.answeredBy!,
+              leadingIcon: Icons.link,
+              label: AppLocalizations.of(context)!.url,
+              description: log.url,
             ),
-          CustomListTile(
-            leadingIcon: Icons.system_update_alt_outlined,
-            label: AppLocalizations.of(context)!.reply,
-            description:
-                '${log.replyType} (${(log.replyTime / BigInt.from(10))} ms)',
-          ),
-        ],
+            CustomListTile(
+              leadingIcon: Icons.http_rounded,
+              label: AppLocalizations.of(context)!.type,
+              description: log.type,
+            ),
+            CustomListTile(
+              leadingIcon: Icons.phone_android_rounded,
+              label: AppLocalizations.of(context)!.device,
+              description: log.device,
+            ),
+            CustomListTile(
+              leadingIcon: Icons.access_time_outlined,
+              label: AppLocalizations.of(context)!.time,
+              description: formatTimestamp(log.dateTime, 'HH:mm:ss'),
+            ),
+            if (log.status != null)
+              item(
+                Icons.shield_outlined,
+                AppLocalizations.of(context)!.status,
+                LogStatus(status: log.status!, showIcon: false),
+              ),
+            if (log.status == '2' && log.answeredBy != null)
+              CustomListTile(
+                leadingIcon: Icons.domain,
+                label: AppLocalizations.of(context)!.answeredBy,
+                description: log.answeredBy!,
+              ),
+            CustomListTile(
+              leadingIcon: Icons.system_update_alt_outlined,
+              label: AppLocalizations.of(context)!.reply,
+              description:
+                  '${log.replyType} (${(log.replyTime / BigInt.from(10))} ms)',
+            ),
+          ],
+        ),
       ),
     );
   }
