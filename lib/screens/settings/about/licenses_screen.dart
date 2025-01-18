@@ -23,19 +23,25 @@ class LicensesScreen extends StatelessWidget {
         } else if (snapshot.hasData) {
           final packageInfo = snapshot.data!;
           return Scaffold(
-            body: LicensePage(
-              applicationVersion: packageInfo.version,
-              applicationIcon: Image.asset(
-                'assets/icon/icon-foreground.png',
-                width: 48,
-                height: 48,
+            body: SafeArea(
+              child: LicensePage(
+                applicationVersion: packageInfo.version,
+                applicationIcon: Image.asset(
+                  'assets/icon/icon-foreground.png',
+                  width: 48,
+                  height: 48,
+                ),
+                applicationLegalese: '© ${DateTime.now().year} tsutsu3',
               ),
-              applicationLegalese: '© ${DateTime.now().year} tsutsu3',
             ),
           );
         } else {
           return const Scaffold(
-            body: Center(child: Text('Unexpected error occurred')),
+            body: SafeArea(
+              child: Center(
+                child: Text('Unexpected error occurred'),
+              ),
+            ),
           );
         }
       },
