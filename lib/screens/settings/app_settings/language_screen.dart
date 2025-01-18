@@ -32,40 +32,43 @@ class _LanguageScreenState extends State<LanguageScreen> {
       appBar: AppBar(
         title: Text(AppLocalizations.of(context)!.language),
       ),
-      body: ListView(
-        children: [
-          // System language
-          // Other languages
-          ...(languageOptions..sort((a, b) => a.key.compareTo(b.key)))
-              .map((languageOption) {
-            return Material(
-              color: Colors.transparent,
-              child: InkWell(
-                onTap: () {
-                  setState(() => _selectedItem = languageOption.index);
-                  appConfigProvider.setSelectedLanguage(languageOption.key);
-                },
-                child: Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 10),
-                  child: ListTile(
-                    title: Text(
-                      languageOption.displayName,
-                      style: TextStyle(
-                        fontWeight: FontWeight.normal,
-                        color: getListTextColor(context),
+      body: SafeArea(
+        child: ListView(
+          children: [
+            // System language
+            // Other languages
+            ...(languageOptions..sort((a, b) => a.key.compareTo(b.key)))
+                .map((languageOption) {
+              return Material(
+                color: Colors.transparent,
+                child: InkWell(
+                  onTap: () {
+                    setState(() => _selectedItem = languageOption.index);
+                    appConfigProvider.setSelectedLanguage(languageOption.key);
+                  },
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 10),
+                    child: ListTile(
+                      title: Text(
+                        languageOption.displayName,
+                        style: TextStyle(
+                          fontWeight: FontWeight.normal,
+                          color: getListTextColor(context),
+                        ),
                       ),
-                    ),
-                    trailing: CustomRadio(
-                      value: languageOption.index,
-                      groupValue: _selectedItem,
-                      backgroundColor: Theme.of(context).dialogBackgroundColor,
+                      trailing: CustomRadio(
+                        value: languageOption.index,
+                        groupValue: _selectedItem,
+                        backgroundColor:
+                            Theme.of(context).dialogBackgroundColor,
+                      ),
                     ),
                   ),
                 ),
-              ),
-            );
-          }),
-        ],
+              );
+            }),
+          ],
+        ),
       ),
     );
   }
