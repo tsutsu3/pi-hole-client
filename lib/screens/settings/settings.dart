@@ -38,14 +38,16 @@ class Settings extends StatelessWidget {
         hideDivider: true,
         // flexWidth: const FlexWidth(mainViewFlexWidth: 1, secondaryViewFlexWidth: 2),
         placeholder: Center(
-          child: Padding(
-            padding: const EdgeInsets.all(24),
-            child: Text(
-              AppLocalizations.of(context)!.selectOptionLeftColumn,
-              textAlign: TextAlign.center,
-              style: TextStyle(
-                fontSize: 24,
-                color: Theme.of(context).colorScheme.onSurfaceVariant,
+          child: SafeArea(
+            child: Padding(
+              padding: const EdgeInsets.all(24),
+              child: Text(
+                AppLocalizations.of(context)!.selectOptionLeftColumn,
+                textAlign: TextAlign.center,
+                style: TextStyle(
+                  fontSize: 24,
+                  color: Theme.of(context).colorScheme.onSurfaceVariant,
+                ),
               ),
             ),
           ),
