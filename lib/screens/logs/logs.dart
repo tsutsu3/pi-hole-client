@@ -693,7 +693,9 @@ class _LogsState extends State<Logs> {
                         child: SizedBox(),
                       ),
               ),
-        body: status(),
+        body: SafeArea(
+          child: status(),
+        ),
       );
     }
 
