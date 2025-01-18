@@ -53,46 +53,48 @@ class AppLogs extends StatelessWidget {
           const SizedBox(width: 10),
         ],
       ),
-      body: appConfigProvider.logs.isNotEmpty
-          ? ListView.builder(
-              padding: const EdgeInsets.only(top: 0),
-              itemCount: appConfigProvider.logs.length,
-              itemBuilder: (context, index) => ListTile(
-                title: Text(
-                  appConfigProvider.logs[index].message,
+      body: SafeArea(
+        child: appConfigProvider.logs.isNotEmpty
+            ? ListView.builder(
+                padding: const EdgeInsets.only(top: 0),
+                itemCount: appConfigProvider.logs.length,
+                itemBuilder: (context, index) => ListTile(
+                  title: Text(
+                    appConfigProvider.logs[index].message,
+                    style: TextStyle(
+                      fontSize: 16,
+                      fontWeight: FontWeight.normal,
+                      color: Theme.of(context).colorScheme.onSurface,
+                    ),
+                  ),
+                  subtitle: Text(
+                    appConfigProvider.logs[index].dateTime.toString(),
+                    style: TextStyle(
+                      fontSize: 14,
+                      fontWeight: FontWeight.normal,
+                      color: Theme.of(context).listTileTheme.textColor,
+                    ),
+                  ),
+                  trailing: Text(appConfigProvider.logs[index].type),
+                  onTap: () => {
+                    showDialog(
+                      context: context,
+                      builder: (context) => AppLogDetailsModal(
+                          log: appConfigProvider.logs[index]),
+                    ),
+                  },
+                ),
+              )
+            : Center(
+                child: Text(
+                  AppLocalizations.of(context)!.noSavedLogs,
                   style: TextStyle(
-                    fontSize: 16,
-                    fontWeight: FontWeight.normal,
-                    color: Theme.of(context).colorScheme.onSurface,
+                    fontSize: 24,
+                    color: Theme.of(context).colorScheme.onSurfaceVariant,
                   ),
-                ),
-                subtitle: Text(
-                  appConfigProvider.logs[index].dateTime.toString(),
-                  style: TextStyle(
-                    fontSize: 14,
-                    fontWeight: FontWeight.normal,
-                    color: Theme.of(context).listTileTheme.textColor,
-                  ),
-                ),
-                trailing: Text(appConfigProvider.logs[index].type),
-                onTap: () => {
-                  showDialog(
-                    context: context,
-                    builder: (context) =>
-                        AppLogDetailsModal(log: appConfigProvider.logs[index]),
-                  ),
-                },
-              ),
-            )
-          : Center(
-              child: Text(
-                AppLocalizations.of(context)!.noSavedLogs,
-                style: TextStyle(
-                  fontSize: 24,
-                  color: Theme.of(context).colorScheme.onSurfaceVariant,
                 ),
               ),
-            ),
+      ),
     );
   }
 }
