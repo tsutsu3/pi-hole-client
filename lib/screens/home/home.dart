@@ -219,63 +219,73 @@ class _HomeState extends State<Home> {
         ? Stack(
             children: [
               Scaffold(
-                body: NestedScrollView(
-                  headerSliverBuilder:
-                      (BuildContext context, bool innerBoxIsScrolled) {
-                    return <Widget>[
-                      SliverOverlapAbsorber(
-                        handle: NestedScrollView.sliverOverlapAbsorberHandleFor(
-                          context,
+                body: SafeArea(
+                  child: NestedScrollView(
+                    headerSliverBuilder:
+                        (BuildContext context, bool innerBoxIsScrolled) {
+                      return <Widget>[
+                        SliverOverlapAbsorber(
+                          handle:
+                              NestedScrollView.sliverOverlapAbsorberHandleFor(
+                            context,
+                          ),
+                          sliver: HomeAppBar(
+                            innerBoxIsScrolled: innerBoxIsScrolled,
+                          ),
                         ),
-                        sliver: HomeAppBar(
-                          innerBoxIsScrolled: innerBoxIsScrolled,
-                        ),
-                      ),
-                    ];
-                  },
-                  body: SafeArea(
-                    top: false,
-                    bottom: false,
-                    child: Builder(
-                      builder: (context) => RefreshIndicator(
-                        edgeOffset: 70,
-                        onRefresh: () async {
-                          await refreshServerStatus(context);
-                        },
-                        child: CustomScrollView(
-                          slivers: [
-                            SliverOverlapInjector(
-                              handle: NestedScrollView
-                                  .sliverOverlapAbsorberHandleFor(context),
-                            ),
-                            SliverList.list(
-                              children: [
-                                tiles(),
-                                const SizedBox(height: 24),
-                                const HomeCharts(),
-                                const SizedBox(height: 16),
-                              ],
-                            ),
-                          ],
+                      ];
+                    },
+                    body: SafeArea(
+                      top: false,
+                      bottom: false,
+                      child: Builder(
+                        builder: (context) => RefreshIndicator(
+                          edgeOffset: 70,
+                          onRefresh: () async {
+                            await refreshServerStatus(context);
+                          },
+                          child: CustomScrollView(
+                            slivers: [
+                              SliverOverlapInjector(
+                                handle: NestedScrollView
+                                    .sliverOverlapAbsorberHandleFor(context),
+                              ),
+                              SliverList.list(
+                                children: [
+                                  tiles(),
+                                  const SizedBox(height: 24),
+                                  const HomeCharts(),
+                                  const SizedBox(height: 16),
+                                ],
+                              ),
+                            ],
+                          ),
                         ),
                       ),
                     ),
                   ),
                 ),
               ),
-              AnimatedPositioned(
-                duration: const Duration(milliseconds: 100),
-                curve: Curves.easeInOut,
-                bottom: isVisible &&
-                        statusProvider.getStatusLoading == LoadStatus.loaded
-                    ? appConfigProvider.showingSnackbar
-                        ? 70
-                        : 20
-                    : -70,
-                right: 20,
-                child: FloatingActionButton(
-                  onPressed: enableDisableServer,
-                  child: const Icon(Icons.shield_rounded),
+              SafeArea(
+                child: Stack(
+                  children: [
+                    AnimatedPositioned(
+                      duration: const Duration(milliseconds: 100),
+                      curve: Curves.easeInOut,
+                      bottom: isVisible &&
+                              statusProvider.getStatusLoading ==
+                                  LoadStatus.loaded
+                          ? appConfigProvider.showingSnackbar
+                              ? 70
+                              : 20
+                          : -70,
+                      right: 20,
+                      child: FloatingActionButton(
+                        onPressed: enableDisableServer,
+                        child: const Icon(Icons.shield_rounded),
+                      ),
+                    ),
+                  ],
                 ),
               ),
             ],
