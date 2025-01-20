@@ -67,30 +67,32 @@ class _ThemeScreenState extends State<ThemeScreen> {
       appBar: AppBar(
         title: Text(AppLocalizations.of(context)!.theme),
       ),
-      body: ListView(
-        children: [
-          _buildThemeRow(
-            context,
-            icon: Icons.phone_android_rounded,
-            text: AppLocalizations.of(context)!.systemTheme,
-            value: 0,
-            appConfigProvider: appConfigProvider,
-          ),
-          _buildThemeRow(
-            context,
-            icon: Icons.light_mode_rounded,
-            text: AppLocalizations.of(context)!.light,
-            value: 1,
-            appConfigProvider: appConfigProvider,
-          ),
-          _buildThemeRow(
-            context,
-            icon: Icons.dark_mode_rounded,
-            text: AppLocalizations.of(context)!.dark,
-            value: 2,
-            appConfigProvider: appConfigProvider,
-          ),
-        ],
+      body: SafeArea(
+        child: ListView(
+          children: [
+            _buildThemeRow(
+              context,
+              icon: Icons.phone_android_rounded,
+              text: AppLocalizations.of(context)!.systemTheme,
+              value: 0,
+              appConfigProvider: appConfigProvider,
+            ),
+            _buildThemeRow(
+              context,
+              icon: Icons.light_mode_rounded,
+              text: AppLocalizations.of(context)!.light,
+              value: 1,
+              appConfigProvider: appConfigProvider,
+            ),
+            _buildThemeRow(
+              context,
+              icon: Icons.dark_mode_rounded,
+              text: AppLocalizations.of(context)!.dark,
+              value: 2,
+              appConfigProvider: appConfigProvider,
+            ),
+          ],
+        ),
       ),
     );
   }

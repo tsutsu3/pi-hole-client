@@ -133,30 +133,32 @@ class _ServersPageState extends State<ServersPage> {
         appBar: AppBar(
           title: Text(AppLocalizations.of(context)!.servers),
         ),
-        body: Stack(
-          children: [
-            ServersList(
-              context: context,
-              controllers: expandableControllerList,
-              onChange: expandOrContract,
-              scrollController: scrollController,
-              breakingWidth: ResponsiveConstants.medium,
-            ),
-            AnimatedPositioned(
-              duration: const Duration(milliseconds: 100),
-              curve: Curves.easeInOut,
-              bottom: isVisible
-                  ? appConfigProvider.showingSnackbar
-                      ? 70
-                      : (Platform.isIOS ? 40 : 20)
-                  : -70,
-              right: 20,
-              child: FloatingActionButton(
-                onPressed: openAddServer,
-                child: const Icon(Icons.add),
+        body: SafeArea(
+          child: Stack(
+            children: [
+              ServersList(
+                context: context,
+                controllers: expandableControllerList,
+                onChange: expandOrContract,
+                scrollController: scrollController,
+                breakingWidth: ResponsiveConstants.medium,
               ),
-            ),
-          ],
+              AnimatedPositioned(
+                duration: const Duration(milliseconds: 100),
+                curve: Curves.easeInOut,
+                bottom: isVisible
+                    ? appConfigProvider.showingSnackbar
+                        ? 70
+                        : (Platform.isIOS ? 40 : 20)
+                    : -70,
+                right: 20,
+                child: FloatingActionButton(
+                  onPressed: openAddServer,
+                  child: const Icon(Icons.add),
+                ),
+              ),
+            ],
+          ),
         ),
       ),
     );

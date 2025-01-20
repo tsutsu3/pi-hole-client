@@ -9,7 +9,7 @@ import 'package:pi_hole_client/config/theme.dart';
 import 'package:pi_hole_client/gateways/v5/api_gateway_v5.dart';
 import 'package:pi_hole_client/models/app_log.dart';
 import 'package:pi_hole_client/models/gateways.dart';
-import 'package:pi_hole_client/models/server.dart';
+// import 'package:pi_hole_client/models/server.dart';
 import 'package:pi_hole_client/providers/servers_provider.dart';
 import 'package:pi_hole_client/screens/servers/add_server_fullscreen.dart';
 import 'package:provider/provider.dart';
@@ -31,12 +31,12 @@ void main() async {
     late MockServersProvider mockServersProvider;
     late MockApiGatewayV5 mockApiGatewayV5;
 
-    final server = Server(
-      address: 'http://localhost',
-      alias: 'v5',
-      defaultServer: false,
-      apiVersion: 'v5',
-    );
+    // final server = Server(
+    //   address: 'http://localhost',
+    //   alias: 'v5',
+    //   defaultServer: false,
+    //   apiVersion: 'v5',
+    // );
 
     setUp(() async {
       FlutterSecureStorage.setMockInitialValues({});

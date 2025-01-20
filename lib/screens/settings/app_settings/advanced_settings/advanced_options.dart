@@ -175,115 +175,129 @@ class AdvancedOptions extends StatelessWidget {
         systemOverlayStyle: systemUiOverlayStyleConfig(context),
         title: Text(AppLocalizations.of(context)!.advancedSetup),
       ),
-      body: ListView(
-        children: [
-          SectionLabel(label: AppLocalizations.of(context)!.security),
-          CustomListTile(
-            leadingIcon: Icons.lock,
-            label: AppLocalizations.of(context)!.dontCheckCertificate,
-            description:
-                AppLocalizations.of(context)!.dontCheckCertificateDescription,
-            trailing: Switch(
-              value: appConfigProvider.overrideSslCheck,
-              onChanged: updateSslCheck,
-            ),
-            onTap: () => updateSslCheck(!appConfigProvider.overrideSslCheck),
-            padding: const EdgeInsets.only(
-              top: 10,
-              bottom: 10,
-              left: 20,
-              right: 10,
-            ),
-          ),
-          CustomListTile(
-            leadingIcon: Icons.fingerprint_rounded,
-            label: AppLocalizations.of(context)!.appUnlock,
-            description: AppLocalizations.of(context)!.appUnlockDescription,
-            onTap: openAppUnlockModal,
-            padding: const EdgeInsets.only(
-              top: 10,
-              bottom: 10,
-              left: 20,
-              right: 10,
-            ),
-          ),
-          SectionLabel(label: AppLocalizations.of(context)!.charts),
-          CustomListTile(
-            leadingIcon: Icons.stacked_line_chart_rounded,
-            label: AppLocalizations.of(context)!.reducedDataCharts,
-            description:
-                AppLocalizations.of(context)!.reducedDataChartsDescription,
-            onTap: () =>
-                updateUseReducedData(!appConfigProvider.reducedDataCharts),
-            padding:
-                const EdgeInsets.only(top: 10, bottom: 10, left: 20, right: 10),
-            trailing: Switch(
-              value: appConfigProvider.reducedDataCharts,
-              onChanged: updateUseReducedData,
-            ),
-          ),
-          CustomListTile(
-            leadingIcon: Icons.exposure_zero_rounded,
-            label: AppLocalizations.of(context)!.hideZeroValues,
-            description:
-                AppLocalizations.of(context)!.hideZeroValuesDescription,
-            onTap: () =>
-                updateHideZeroValues(!appConfigProvider.hideZeroValues),
-            padding:
-                const EdgeInsets.only(top: 10, bottom: 10, left: 20, right: 10),
-            trailing: Switch(
-              value: appConfigProvider.hideZeroValues,
-              onChanged: updateHideZeroValues,
-            ),
-          ),
-          CustomListTile(
-            leadingIcon: Icons.pie_chart_rounded,
-            label: AppLocalizations.of(context)!.domainsClientsDataMode,
-            description:
-                AppLocalizations.of(context)!.domainsClientsDataModeDescription,
-            onTap: () => Navigator.push(
-              context,
-              MaterialPageRoute(
-                builder: (context) => const StatisticsVisualizationScreen(),
+      body: SafeArea(
+        child: ListView(
+          children: [
+            SectionLabel(label: AppLocalizations.of(context)!.security),
+            CustomListTile(
+              leadingIcon: Icons.lock,
+              label: AppLocalizations.of(context)!.dontCheckCertificate,
+              description:
+                  AppLocalizations.of(context)!.dontCheckCertificateDescription,
+              trailing: Switch(
+                value: appConfigProvider.overrideSslCheck,
+                onChanged: updateSslCheck,
+              ),
+              onTap: () => updateSslCheck(!appConfigProvider.overrideSslCheck),
+              padding: const EdgeInsets.only(
+                top: 10,
+                bottom: 10,
+                left: 20,
+                right: 10,
               ),
             ),
-            padding:
-                const EdgeInsets.only(top: 10, bottom: 10, left: 20, right: 10),
-          ),
-          SectionLabel(label: AppLocalizations.of(context)!.others),
-          CustomListTile(
-            leadingIcon: Icons.list,
-            label: AppLocalizations.of(context)!.appLogs,
-            description: AppLocalizations.of(context)!.errorsApp,
-            onTap: () => {
-              Navigator.push(
+            CustomListTile(
+              leadingIcon: Icons.fingerprint_rounded,
+              label: AppLocalizations.of(context)!.appUnlock,
+              description: AppLocalizations.of(context)!.appUnlockDescription,
+              onTap: openAppUnlockModal,
+              padding: const EdgeInsets.only(
+                top: 10,
+                bottom: 10,
+                left: 20,
+                right: 10,
+              ),
+            ),
+            SectionLabel(label: AppLocalizations.of(context)!.charts),
+            CustomListTile(
+              leadingIcon: Icons.stacked_line_chart_rounded,
+              label: AppLocalizations.of(context)!.reducedDataCharts,
+              description:
+                  AppLocalizations.of(context)!.reducedDataChartsDescription,
+              onTap: () =>
+                  updateUseReducedData(!appConfigProvider.reducedDataCharts),
+              padding: const EdgeInsets.only(
+                top: 10,
+                bottom: 10,
+                left: 20,
+                right: 10,
+              ),
+              trailing: Switch(
+                value: appConfigProvider.reducedDataCharts,
+                onChanged: updateUseReducedData,
+              ),
+            ),
+            CustomListTile(
+              leadingIcon: Icons.exposure_zero_rounded,
+              label: AppLocalizations.of(context)!.hideZeroValues,
+              description:
+                  AppLocalizations.of(context)!.hideZeroValuesDescription,
+              onTap: () =>
+                  updateHideZeroValues(!appConfigProvider.hideZeroValues),
+              padding: const EdgeInsets.only(
+                top: 10,
+                bottom: 10,
+                left: 20,
+                right: 10,
+              ),
+              trailing: Switch(
+                value: appConfigProvider.hideZeroValues,
+                onChanged: updateHideZeroValues,
+              ),
+            ),
+            CustomListTile(
+              leadingIcon: Icons.pie_chart_rounded,
+              label: AppLocalizations.of(context)!.domainsClientsDataMode,
+              description: AppLocalizations.of(context)!
+                  .domainsClientsDataModeDescription,
+              onTap: () => Navigator.push(
                 context,
                 MaterialPageRoute(
-                  builder: (context) => const AppLogs(),
+                  builder: (context) => const StatisticsVisualizationScreen(),
                 ),
               ),
-            },
-            padding: const EdgeInsets.only(
-              top: 10,
-              bottom: 10,
-              left: 20,
-              right: 10,
+              padding: const EdgeInsets.only(
+                top: 10,
+                bottom: 10,
+                left: 20,
+                right: 10,
+              ),
             ),
-          ),
-          CustomListTile(
-            leadingIcon: Icons.delete,
-            label: AppLocalizations.of(context)!.resetApplication,
-            description: AppLocalizations.of(context)!.erasesAppData,
-            color: convertColor(serversProvider.colors, Colors.red),
-            onTap: openResetModal,
-            padding: const EdgeInsets.only(
-              top: 10,
-              bottom: 10,
-              left: 20,
-              right: 10,
+            SectionLabel(label: AppLocalizations.of(context)!.others),
+            CustomListTile(
+              leadingIcon: Icons.list,
+              label: AppLocalizations.of(context)!.appLogs,
+              description: AppLocalizations.of(context)!.errorsApp,
+              onTap: () => {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => const AppLogs(),
+                  ),
+                ),
+              },
+              padding: const EdgeInsets.only(
+                top: 10,
+                bottom: 10,
+                left: 20,
+                right: 10,
+              ),
             ),
-          ),
-        ],
+            CustomListTile(
+              leadingIcon: Icons.delete,
+              label: AppLocalizations.of(context)!.resetApplication,
+              description: AppLocalizations.of(context)!.erasesAppData,
+              color: convertColor(serversProvider.colors, Colors.red),
+              onTap: openResetModal,
+              padding: const EdgeInsets.only(
+                top: 10,
+                bottom: 10,
+                left: 20,
+                right: 10,
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }

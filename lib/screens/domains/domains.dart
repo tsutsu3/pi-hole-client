@@ -225,7 +225,12 @@ class _DomainListsWidgetState extends State<DomainListsWidget>
     if (MediaQuery.of(context).size.width > ResponsiveConstants.large) {
       return Row(
         children: [
-          Expanded(flex: 2, child: scaffold()),
+          Expanded(
+            flex: MediaQuery.of(context).size.width > ResponsiveConstants.xLarge
+                ? 2
+                : 3,
+            child: scaffold(),
+          ),
           Expanded(
             flex: 3,
             child: selectedDomain != null
@@ -238,12 +243,14 @@ class _DomainListsWidgetState extends State<DomainListsWidget>
                     colors: serversProvider.colors,
                   )
                 : SizedBox(
-                    child: Text(
-                      AppLocalizations.of(context)!.selectDomainsLeftColumn,
-                      textAlign: TextAlign.center,
-                      style: TextStyle(
-                        fontSize: 24,
-                        color: Theme.of(context).colorScheme.onSurfaceVariant,
+                    child: SafeArea(
+                      child: Text(
+                        AppLocalizations.of(context)!.selectDomainsLeftColumn,
+                        textAlign: TextAlign.center,
+                        style: TextStyle(
+                          fontSize: 24,
+                          color: Theme.of(context).colorScheme.onSurfaceVariant,
+                        ),
                       ),
                     ),
                   ),

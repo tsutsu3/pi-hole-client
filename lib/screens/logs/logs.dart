@@ -693,14 +693,19 @@ class _LogsState extends State<Logs> {
                         child: SizedBox(),
                       ),
               ),
-        body: status(),
+        body: SafeArea(
+          child: status(),
+        ),
       );
     }
 
     if (width > ResponsiveConstants.large) {
       return Row(
         children: [
-          Expanded(flex: 2, child: scaffold()),
+          Expanded(
+            flex: width > ResponsiveConstants.xLarge ? 2 : 3,
+            child: scaffold(),
+          ),
           Expanded(
             flex: 3,
             child: selectedLog != null
@@ -709,12 +714,14 @@ class _LogsState extends State<Logs> {
                     whiteBlackList: whiteBlackList,
                   )
                 : SizedBox(
-                    child: Text(
-                      AppLocalizations.of(context)!.selectLogsLeftColumn,
-                      textAlign: TextAlign.center,
-                      style: TextStyle(
-                        fontSize: 24,
-                        color: Theme.of(context).colorScheme.onSurfaceVariant,
+                    child: SafeArea(
+                      child: Text(
+                        AppLocalizations.of(context)!.selectLogsLeftColumn,
+                        textAlign: TextAlign.center,
+                        style: TextStyle(
+                          fontSize: 24,
+                          color: Theme.of(context).colorScheme.onSurfaceVariant,
+                        ),
                       ),
                     ),
                   ),

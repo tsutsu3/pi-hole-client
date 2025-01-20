@@ -154,71 +154,73 @@ class _AutoRefreshTimeScreenState extends State<AutoRefreshTimeScreen> {
           const SizedBox(width: 8),
         ],
       ),
-      body: ListView(
-        children: [
-          CustomRadioListTile(
-            groupValue: selectedOption,
-            value: 0,
-            radioBackgroundColor: Theme.of(context).colorScheme.surface,
-            title: AppLocalizations.of(context)!.second1,
-            onChanged: _updateRadioValue,
-          ),
-          CustomRadioListTile(
-            groupValue: selectedOption,
-            value: 1,
-            radioBackgroundColor: Theme.of(context).colorScheme.surface,
-            title: AppLocalizations.of(context)!.seconds2,
-            onChanged: _updateRadioValue,
-          ),
-          CustomRadioListTile(
-            groupValue: selectedOption,
-            value: 2,
-            radioBackgroundColor: Theme.of(context).colorScheme.surface,
-            title: AppLocalizations.of(context)!.seconds5,
-            onChanged: _updateRadioValue,
-          ),
-          CustomRadioListTile(
-            groupValue: selectedOption,
-            value: 3,
-            radioBackgroundColor: Theme.of(context).colorScheme.surface,
-            title: AppLocalizations.of(context)!.seconds10,
-            onChanged: _updateRadioValue,
-          ),
-          CustomRadioListTile(
-            groupValue: selectedOption,
-            value: 4,
-            radioBackgroundColor: Theme.of(context).colorScheme.surface,
-            title: AppLocalizations.of(context)!.seconds30,
-            onChanged: _updateRadioValue,
-          ),
-          CustomRadioListTile(
-            groupValue: selectedOption,
-            value: 5,
-            radioBackgroundColor: Theme.of(context).colorScheme.surface,
-            title: AppLocalizations.of(context)!.custom,
-            onChanged: _updateRadioValue,
-          ),
-          if (showCustomDurationInput == true)
-            Padding(
-              padding: const EdgeInsets.all(16),
-              child: TextField(
-                onChanged: _validateCustomTime,
-                controller: customTimeController,
-                keyboardType:
-                    const TextInputType.numberWithOptions(decimal: false),
-                decoration: InputDecoration(
-                  errorText:
-                      !customTimeIsValid && customTimeController.text != ''
-                          ? AppLocalizations.of(context)!.valueNotValid
-                          : null,
-                  border: const OutlineInputBorder(
-                    borderRadius: BorderRadius.all(Radius.circular(10)),
+      body: SafeArea(
+        child: ListView(
+          children: [
+            CustomRadioListTile(
+              groupValue: selectedOption,
+              value: 0,
+              radioBackgroundColor: Theme.of(context).colorScheme.surface,
+              title: AppLocalizations.of(context)!.second1,
+              onChanged: _updateRadioValue,
+            ),
+            CustomRadioListTile(
+              groupValue: selectedOption,
+              value: 1,
+              radioBackgroundColor: Theme.of(context).colorScheme.surface,
+              title: AppLocalizations.of(context)!.seconds2,
+              onChanged: _updateRadioValue,
+            ),
+            CustomRadioListTile(
+              groupValue: selectedOption,
+              value: 2,
+              radioBackgroundColor: Theme.of(context).colorScheme.surface,
+              title: AppLocalizations.of(context)!.seconds5,
+              onChanged: _updateRadioValue,
+            ),
+            CustomRadioListTile(
+              groupValue: selectedOption,
+              value: 3,
+              radioBackgroundColor: Theme.of(context).colorScheme.surface,
+              title: AppLocalizations.of(context)!.seconds10,
+              onChanged: _updateRadioValue,
+            ),
+            CustomRadioListTile(
+              groupValue: selectedOption,
+              value: 4,
+              radioBackgroundColor: Theme.of(context).colorScheme.surface,
+              title: AppLocalizations.of(context)!.seconds30,
+              onChanged: _updateRadioValue,
+            ),
+            CustomRadioListTile(
+              groupValue: selectedOption,
+              value: 5,
+              radioBackgroundColor: Theme.of(context).colorScheme.surface,
+              title: AppLocalizations.of(context)!.custom,
+              onChanged: _updateRadioValue,
+            ),
+            if (showCustomDurationInput == true)
+              Padding(
+                padding: const EdgeInsets.all(16),
+                child: TextField(
+                  onChanged: _validateCustomTime,
+                  controller: customTimeController,
+                  keyboardType:
+                      const TextInputType.numberWithOptions(decimal: false),
+                  decoration: InputDecoration(
+                    errorText:
+                        !customTimeIsValid && customTimeController.text != ''
+                            ? AppLocalizations.of(context)!.valueNotValid
+                            : null,
+                    border: const OutlineInputBorder(
+                      borderRadius: BorderRadius.all(Radius.circular(10)),
+                    ),
+                    labelText: AppLocalizations.of(context)!.customSeconds,
                   ),
-                  labelText: AppLocalizations.of(context)!.customSeconds,
                 ),
               ),
-            ),
-        ],
+          ],
+        ),
       ),
     );
   }

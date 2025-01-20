@@ -101,23 +101,25 @@ class StatisticsVisualizationScreen extends StatelessWidget {
       appBar: AppBar(
         title: Text(AppLocalizations.of(context)!.domainsClientsDataMode),
       ),
-      body: ListView(
-        children: [
-          const SizedBox(height: 16),
-          item(
-            AppLocalizations.of(context)!.list,
-            AppLocalizations.of(context)!.listDescription,
-            Icons.list_rounded,
-            0,
-          ),
-          const SizedBox(height: 24),
-          item(
-            AppLocalizations.of(context)!.pieChart,
-            AppLocalizations.of(context)!.pieChartDescription,
-            Icons.pie_chart_rounded,
-            1,
-          ),
-        ],
+      body: SafeArea(
+        child: ListView(
+          children: [
+            const SizedBox(height: 16),
+            item(
+              AppLocalizations.of(context)!.list,
+              AppLocalizations.of(context)!.listDescription,
+              Icons.list_rounded,
+              0,
+            ),
+            const SizedBox(height: 24),
+            item(
+              AppLocalizations.of(context)!.pieChart,
+              AppLocalizations.of(context)!.pieChartDescription,
+              Icons.pie_chart_rounded,
+              1,
+            ),
+          ],
+        ),
       ),
     );
   }

@@ -395,9 +395,9 @@ class _ServersTileItemState extends State<ServersTileItem>
     }
 
     return FractionallySizedBox(
-      widthFactor: width > ResponsiveConstants.large ? 0.5 : 1,
+      widthFactor: width > ResponsiveConstants.xLarge ? 0.5 : 1,
       child: Card(
-        margin: width > ResponsiveConstants.large
+        margin: width > ResponsiveConstants.xLarge
             ? generateMargins(widget.index)
             : const EdgeInsets.symmetric(vertical: 8, horizontal: 16),
         child: Column(

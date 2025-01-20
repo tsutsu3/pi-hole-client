@@ -264,18 +264,24 @@ class _DomainsListState extends State<DomainsList> {
           onRefresh: () async => await domainsListProvider
               .fetchDomainsList(serversProvider.selectedServer!),
         ),
-        AnimatedPositioned(
-          duration: const Duration(milliseconds: 100),
-          curve: Curves.easeInOut,
-          bottom: isVisible
-              ? appConfigProvider.showingSnackbar
-                  ? 70
-                  : 20
-              : -70,
-          right: 20,
-          child: FloatingActionButton(
-            onPressed: openModalAddDomainToList,
-            child: const Icon(Icons.add),
+        SafeArea(
+          child: Stack(
+            children: [
+              AnimatedPositioned(
+                duration: const Duration(milliseconds: 100),
+                curve: Curves.easeInOut,
+                bottom: isVisible
+                    ? appConfigProvider.showingSnackbar
+                        ? 70
+                        : 20
+                    : -70,
+                right: 20,
+                child: FloatingActionButton(
+                  onPressed: openModalAddDomainToList,
+                  child: const Icon(Icons.add),
+                ),
+              ),
+            ],
           ),
         ),
       ],
