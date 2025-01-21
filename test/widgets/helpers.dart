@@ -819,6 +819,7 @@ class TestSetupHelper {
     when(mockConfigProvider.reducedDataCharts).thenReturn(false);
     when(mockConfigProvider.hideZeroValues).thenReturn(false);
     when(mockConfigProvider.selectedTheme).thenReturn(ThemeMode.light);
+    when(mockConfigProvider.statisticsVisualizationMode).thenReturn(0);
     when(mockConfigProvider.setShowingSnackbar(any)).thenReturn(null);
     when(mockConfigProvider.setOverrideSslCheck(any))
         .thenAnswer((_) async => true);
