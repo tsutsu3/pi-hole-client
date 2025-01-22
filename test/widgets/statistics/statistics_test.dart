@@ -2,10 +2,8 @@ import 'package:pi_hole_client/screens/statistics/statistics_list.dart';
 import 'package:pie_chart/pie_chart.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:flutter/material.dart';
-// import 'package:pi_hole_client/models/api/v6/metrics/stats.dart';
 import 'package:pi_hole_client/screens/statistics/statistics.dart';
 import '../helpers.dart';
-import '../utils.dart';
 
 void main() async {
   initializeApp();

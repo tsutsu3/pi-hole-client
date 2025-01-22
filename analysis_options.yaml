@@ -56,7 +56,7 @@ dart_code_linter:
     - avoid-unused-parameters
     - prefer-trailing-comma
     - check-unused-files
-    - check-unused-code
+    # - check-unused-code
 
 dart_code_metrics:
   extends:
