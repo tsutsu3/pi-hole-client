@@ -13,6 +13,7 @@ import 'package:pi_hole_client/gateways/api_gateway_interface.dart';
 import 'package:pi_hole_client/gateways/v5/api_gateway_v5.dart';
 import 'package:pi_hole_client/gateways/v6/api_gateway_v6.dart';
 import 'package:pi_hole_client/models/api/v6/metrics/query.dart';
+import 'package:pi_hole_client/models/app_log.dart';
 import 'package:pi_hole_client/models/gateways.dart';
 import 'package:pi_hole_client/models/log.dart';
 import 'package:pi_hole_client/models/overtime_data.dart';
@@ -828,6 +829,15 @@ class TestSetupHelper {
     when(mockConfigProvider.setHideZeroValues(any))
         .thenAnswer((_) async => true);
     when(mockConfigProvider.restoreAppConfig()).thenAnswer((_) async => true);
+    when(mockConfigProvider.logs).thenReturn([
+      AppLog(
+        type: 'sample',
+        dateTime: DateTime(2025, 01, 22, 10, 50, 31),
+        message: 'message',
+        statusCode: '200',
+        resBody: 'body',
+      ),
+    ]);
   }
 
   void _initServerProviderMock(String useApiGatewayVersion) {
