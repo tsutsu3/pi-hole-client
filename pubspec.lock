@@ -518,6 +518,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "2.0.16"
+  flutter_svg_test:
+    dependency: "direct dev"
+    description:
+      name: flutter_svg_test
+      sha256: bfc0114ef604770d5c5dfd993c0ce7e8a5234c894361adee52dad98f6db53185
+      url: "https://pub.dev"
+    source: hosted
+    version: "1.0.3"
   flutter_test:
     dependency: "direct dev"
     description: flutter

@@ -5,6 +5,7 @@ import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/mockito.dart';
+import 'package:package_info_plus/package_info_plus.dart';
 import 'package:pi_hole_client/config/globals.dart';
 import 'package:pi_hole_client/config/theme.dart';
 import 'package:pi_hole_client/constants/enums.dart';
@@ -838,6 +839,19 @@ class TestSetupHelper {
         resBody: 'body',
       ),
     ]);
+    when(mockConfigProvider.selectedThemeNumber).thenReturn(0);
+    when(mockConfigProvider.selectedLanguage).thenReturn('en');
+    when(mockConfigProvider.getAutoRefreshTime).thenReturn(5);
+    when(mockConfigProvider.selectedSettingsScreen).thenReturn(null);
+    when(mockConfigProvider.selectedLanguageNumber).thenReturn(0);
+    when(mockConfigProvider.getAppInfo).thenReturn(
+      PackageInfo(
+        appName: 'pi-hole client',
+        packageName: 'io.github.tsutsu3.pi_hole_clien',
+        version: '1.0.0',
+        buildNumber: '1',
+      ),
+    );
   }
 
   void _initServerProviderMock(String useApiGatewayVersion) {
@@ -867,6 +881,7 @@ class TestSetupHelper {
           : mockApiGatewayV6 as ApiGateway,
     );
     when(mockServersProvider.deleteDbData()).thenAnswer((_) async => true);
+    when(mockServersProvider.getServersList).thenReturn([serverV6]);
   }
 
   void _initFiltersProviderMock(String useApiGatewayVersion) {
