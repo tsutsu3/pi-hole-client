@@ -392,6 +392,66 @@ void main() async {
           // expect(find.byType(LicensePage), findsOneWidget);
         },
       );
+
+      testWidgets(
+        'should show Google play page with tap',
+        (WidgetTester tester) async {
+          tester.view.physicalSize = const Size(1080, 2400);
+          tester.view.devicePixelRatio = 2.0;
+
+          addTearDown(() {
+            tester.view.resetPhysicalSize();
+            tester.view.resetDevicePixelRatio();
+          });
+
+          await tester.pumpWidget(
+            testSetup.buildTestWidget(
+              const Settings(),
+            ),
+          );
+
+          expect(find.byType(Settings), findsOneWidget);
+          await tester.pump();
+
+          final SvgPicture googlePlaySvg =
+              SvgPicture.asset('assets/resources/google-play.svg');
+          expect(find.svg(googlePlaySvg.bytesLoader), findsOneWidget);
+
+          await tester.tap(find.svg(googlePlaySvg.bytesLoader));
+          // await tester.pumpAndSettle();
+          // expect(find.byType(), findsOneWidget); // TODO: open url
+        },
+      );
+
+      testWidgets(
+        'should show Github page with tap',
+        (WidgetTester tester) async {
+          tester.view.physicalSize = const Size(1080, 2400);
+          tester.view.devicePixelRatio = 2.0;
+
+          addTearDown(() {
+            tester.view.resetPhysicalSize();
+            tester.view.resetDevicePixelRatio();
+          });
+
+          await tester.pumpWidget(
+            testSetup.buildTestWidget(
+              const Settings(),
+            ),
+          );
+
+          expect(find.byType(Settings), findsOneWidget);
+          await tester.pump();
+
+          final SvgPicture githubSvg =
+              SvgPicture.asset('assets/resources/github.svg');
+          expect(find.svg(githubSvg.bytesLoader), findsOneWidget);
+
+          await tester.tap(find.svg(githubSvg.bytesLoader));
+          // await tester.pumpAndSettle();
+          // expect(find.byType(), findsOneWidget); // TODO: open url
+        },
+      );
     },
   );
 }
