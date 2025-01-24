@@ -790,13 +790,16 @@ class TestSetupHelper {
           child: MaterialApp(
             theme: lightTheme(lightDynamic),
             darkTheme: darkTheme(darkDynamic),
-            themeMode: ThemeMode.light,
+            themeMode: mockConfigProvider.selectedTheme,
             home: Scaffold(
               body: child,
             ),
-            locale: const Locale('en'),
+            locale: Locale(mockConfigProvider.selectedLanguage),
             supportedLocales: const [
               Locale('en', ''),
+              Locale('es', ''),
+              Locale('de', ''),
+              Locale('pl', ''),
               Locale('ja', ''),
             ],
             localizationsDelegates: [
