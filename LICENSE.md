@@ -438,4 +438,4 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 ### Included Files
 
-- `lib/screens/settings/about.dart`
+- `lib/screens/settings/about/about.dart`
