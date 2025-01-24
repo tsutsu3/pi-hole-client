@@ -153,6 +153,23 @@ jobs:
         with:
           fetch-depth: 0  # Shallow clones should be disabled for a better relevancy of analysis
 
+      - name: Install system dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y sqlite3 libsqlite3-dev
+
+      - name: Setup Flutter (use cache)
+        uses: subosito/flutter-action@v2
+        with:
+          channel: stable
+          cache: true
+
+      - name: Install dependencies
+        run: flutter pub get
+
+      - name: Prepare env file
+        run: cp .env.sample .env
+
       - name: Download unit test coverage artifact
         uses: actions/download-artifact@v4
         with:
@@ -164,12 +181,6 @@ jobs:
       #   with:
       #     name: integration-test-coverage
       #     path: coverage
-
-      - name: Setup Flutter
-        uses: subosito/flutter-action@v2
-        with:
-          channel: stable
-          cache: true
 
       - name: SonarQube Scan
         uses: SonarSource/sonarqube-scan-action@v4
