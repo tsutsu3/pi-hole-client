@@ -855,6 +855,8 @@ class TestSetupHelper {
         buildNumber: '1',
       ),
     );
+    when(mockConfigProvider.setAutoRefreshTime(any))
+        .thenAnswer((_) async => true);
   }
 
   void _initServerProviderMock(String useApiGatewayVersion) {
