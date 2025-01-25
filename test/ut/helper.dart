@@ -3,13 +3,13 @@ import 'package:pi_hole_client/repository/secure_storage.dart';
 import 'package:sqflite/sqflite.dart';
 
 class DbHelper {
-  final String _path;
-  final SecureStorageRepository _secureStorage;
-  late Database _db;
-
   DbHelper(String path)
       : _path = path,
         _secureStorage = SecureStorageRepository();
+
+  final String _path;
+  final SecureStorageRepository _secureStorage;
+  late Database _db;
 
   Future<void> loadDb() async {
     _db = await openDatabase(
@@ -129,14 +129,13 @@ class DbHelper {
     final servers = await _db.query('servers', orderBy: 'address');
     final appConfig = await _db.query('appConfig');
     return {
-      'servers':
-          servers.toList().map((e) => Map<String, dynamic>.from(e)).toList(),
-      'appConfig': appConfig.map((e) => Map<String, dynamic>.from(e)).toList(),
+      'servers': servers.toList().map(Map<String, dynamic>.from).toList(),
+      'appConfig': appConfig.map(Map<String, dynamic>.from).toList(),
     };
   }
 
   Future<void> deleteDb() async {
-    deleteDatabase(_path);
+    await deleteDatabase(_path);
   }
 
   Future<bool> clearDb() async {

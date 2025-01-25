@@ -1,11 +1,13 @@
+import 'package:pi_hole_client/functions/conversions.dart';
+import 'package:pi_hole_client/functions/logger.dart';
 import 'package:pi_hole_client/models/repository/database.dart';
 import 'package:pi_hole_client/models/server.dart';
 import 'package:pi_hole_client/repository/secure_storage.dart';
 import 'package:sqflite/sqflite.dart';
-import 'package:pi_hole_client/functions/logger.dart';
-import 'package:pi_hole_client/functions/conversions.dart';
 
 class DatabaseRepository {
+  DatabaseRepository(this._secureStorage);
+
   late final List<ServerDbData>? _servers;
   late final AppDbData? _appConfig;
   late final Database _dbInstance;
@@ -32,8 +34,6 @@ class DatabaseRepository {
   Database get dbInstance {
     return _dbInstance;
   }
-
-  DatabaseRepository(this._secureStorage);
 
   /// Initializes the database repository.
   ///
@@ -85,7 +85,7 @@ class DatabaseRepository {
     List<ServerDbData>? servers;
     AppDbData? appConfig;
 
-    Database db = await openDatabase(
+    final db = await openDatabase(
       path ?? 'pi_hole_client.db',
       version: 2,
       onCreate: (Database db, int version) async {
@@ -138,7 +138,7 @@ class DatabaseRepository {
       onOpen: (Database db) async {
         await db.transaction((txn) async {
           final serverRows = await txn.rawQuery('SELECT * FROM servers');
-          servers = serverRows.map((row) => ServerDbData.fromMap(row)).toList();
+          servers = serverRows.map(ServerDbData.fromMap).toList();
         });
         await db.transaction((txn) async {
           final appConfigRows = await txn.rawQuery('SELECT * FROM appConfig');
@@ -153,7 +153,7 @@ class DatabaseRepository {
         logger.d((await _secureStorage.readAll()).toString());
 
         if (servers != null && servers!.isNotEmpty) {
-          for (int i = 0; i < servers!.length; i++) {
+          for (var i = 0; i < servers!.length; i++) {
             final server = servers![i];
             final token =
                 await _secureStorage.getValue('${server.address}_token');
@@ -204,7 +204,6 @@ class DatabaseRepository {
   /// and authentication details.
   ///
   /// Parameters:
-  /// - [db]: The database instance where the server entry will be stored.
   /// - [server]: The server object containing the details to be saved.
   ///
   /// Returns:
@@ -263,7 +262,6 @@ class DatabaseRepository {
   /// server status, API version, and authentication credentials.
   ///
   /// Parameters:
-  /// - [db]: The [Database] instance where the transaction is performed.
   /// - [server]: The [Server] object containing the updated server details. The
   ///   `address` field is used to locate the record to be updated.
   ///
@@ -329,7 +327,6 @@ class DatabaseRepository {
   /// specified by [url] as the new default.
   ///
   /// Parameters:
-  /// - [db]: The [Database] instance to perform the transaction.
   /// - [url]: The address of the server to be marked as default.
   ///
   /// Returns:
@@ -357,55 +354,12 @@ class DatabaseRepository {
     }
   }
 
-  /// Updates the token for a specific server in the database.
-  ///
-  /// This method updates the `token` field of the server identified by
-  /// [address] in the `servers` table.
-  ///
-  /// Parameters:
-  /// - [db]: The [Database] instance to perform the transaction.
-  /// - [token]: The new token value for the server. If `null`, an empty string
-  ///   will be saved.
-  /// - [address]: The address of the server to update.
-  ///
-  /// Returns:
-  /// - A `Future` that resolves to `null` on success, or the error if the
-  ///   operation fails.
-  // Future<dynamic> setServerTokenQuery(String? token, String address) async {
-  //   try {
-  //     if (token != null) {
-  //       await _secureStorage.saveValue('${address}_token', token);
-  //     }
-  //   } catch (e) {
-  //     return e;
-  //   }
-  // }
-
-  /// Updates the basic authentication credentials for a server in the database.
-  ///
-  /// This method updates the `password` field of the server identified by
-  /// [address] in the `servers` table.
-  ///
-  /// Parameters:
-  /// - [password]: The new password value for the server. If `null`, an empty
-  /// - [address]: The address of the server to update.
-  // Future<dynamic> setPsswordQuery(String? password, String address) async {
-  //   try {
-  //     if (password != null) {
-  //       await _secureStorage.saveValue('${address}_password', password);
-  //     }
-  //   } catch (e) {
-  //     return e;
-  //   }
-  // }
-
   /// Removes a server from the database.
   ///
   /// This method deletes the server identified by [address] from the `servers`
   /// table.
   ///
   /// Parameters:
-  /// - [db]: The [Database] instance to perform the transaction.
   /// - [address]: The address of the server to remove.
   ///
   /// Returns:
@@ -433,9 +387,6 @@ class DatabaseRepository {
   ///
   /// This method clears the `servers` table, removing all server entries.
   ///
-  /// Parameters:
-  /// - [db]: The [Database] instance to perform the transaction.
-  ///
   /// Returns:
   /// - A `Future` that resolves to `true` if the operation is successful, or
   ///   `false` if it fails.
@@ -459,7 +410,6 @@ class DatabaseRepository {
   /// given [url] exists.
   ///
   /// Parameters:
-  /// - [db]: The [Database] instance to perform the query.
   /// - [url]: The URL of the server to check.
   ///
   /// Returns:
@@ -493,7 +443,6 @@ class DatabaseRepository {
   /// specified [value].
   ///
   /// Parameters:
-  /// - [db]: The [Database] instance to perform the transaction.
   /// - [column]: The name of the column to update.
   /// - [value]: The new value for the specified column.
   ///
@@ -532,9 +481,6 @@ class DatabaseRepository {
   ///
   /// This method resets all fields in the `appConfig` table to their default
   /// values.
-  ///
-  /// Parameters:
-  /// - [db]: The [Database] instance to perform the transaction.
   ///
   /// Returns:
   /// - A `Future` that resolves to `true` if the operation is successful, or
