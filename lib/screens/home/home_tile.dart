@@ -15,13 +15,13 @@ import 'package:pi_hole_client/constants/responsive.dart';
 /// - `width`: The width of the card.
 class HomeTileItem extends StatelessWidget {
   const HomeTileItem({
-    super.key,
     required this.icon,
     required this.iconColor,
     required this.color,
     required this.label,
     required this.value,
     required this.width,
+    super.key,
   });
 
   final IconData icon;
@@ -51,12 +51,12 @@ class HomeTileItem extends StatelessWidget {
 
 class HomeTile extends StatelessWidget {
   const HomeTile({
-    super.key,
     required this.icon,
     required this.iconColor,
     required this.color,
     required this.label,
     required this.value,
+    super.key,
   });
 
   final IconData icon;

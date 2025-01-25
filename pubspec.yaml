@@ -102,8 +102,6 @@ dev_dependencies:
   freezed: ^2.5.7
   json_serializable: ^6.9.0
   mockito: ^5.4.4
-  dart_code_metrics_presets: ^2.19.0
-  dart_code_linter: ^1.2.1
   full_coverage: ^1.0.0
   flutter_svg_test: ^1.0.3
   pub_version_plus: ^3.0.0

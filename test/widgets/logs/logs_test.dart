@@ -1,24 +1,25 @@
 import 'package:dynamic_color/dynamic_color.dart';
-import 'package:flutter_test/flutter_test.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_localizations/flutter_localizations.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:flutter_test/flutter_test.dart';
+import 'package:mockito/annotations.dart';
+import 'package:mockito/mockito.dart';
+import 'package:pi_hole_client/config/globals.dart';
 import 'package:pi_hole_client/config/theme.dart';
 import 'package:pi_hole_client/constants/query_types.dart';
-import 'package:provider/provider.dart';
-import 'package:mockito/mockito.dart';
-import 'package:mockito/annotations.dart';
 import 'package:pi_hole_client/gateways/v6/api_gateway_v6.dart';
 import 'package:pi_hole_client/models/api/v6/metrics/query.dart';
 import 'package:pi_hole_client/models/gateways.dart';
 import 'package:pi_hole_client/models/log.dart';
-import 'package:pi_hole_client/providers/app_config_provider.dart';
 import 'package:pi_hole_client/models/server.dart';
-import 'package:pi_hole_client/providers/servers_provider.dart';
+import 'package:pi_hole_client/providers/app_config_provider.dart';
 import 'package:pi_hole_client/providers/filters_provider.dart';
-import 'package:pi_hole_client/config/globals.dart';
+import 'package:pi_hole_client/providers/servers_provider.dart';
 import 'package:pi_hole_client/screens/logs/logs.dart';
+import 'package:provider/provider.dart';
+
 import './logs_test.mocks.dart';
 
 @GenerateMocks(
@@ -27,7 +28,7 @@ import './logs_test.mocks.dart';
 void main() async {
 // For loading the .env file
   TestWidgetsFlutterBinding.ensureInitialized();
-  await dotenv.load(fileName: '.env');
+  await dotenv.load();
 
   final server = Server(
     address: 'address',
@@ -78,7 +79,7 @@ void main() async {
       when(mockApiGatewayV6.fetchLogs(any, any)).thenAnswer((_) async {
         return FetchLogsResponse(
           result: APiResponseType.success,
-          data: queries.queries.map((query) => Log.fromV6(query)).toList(),
+          data: queries.queries.map(Log.fromV6).toList(),
         );
       });
       when(mockApiGatewayV6.setWhiteBlacklist(any, any)).thenAnswer((_) async {
@@ -89,7 +90,7 @@ void main() async {
       });
 
       // mock AppConfigProvider
-      bool showingSnackbar = false;
+      const showingSnackbar = false;
       when(mockConfigProvider.showingSnackbar).thenReturn(showingSnackbar);
       when(mockConfigProvider.setShowingSnackbar(any)).thenAnswer((_) {});
       when(mockConfigProvider.logsPerQuery).thenReturn(2);
@@ -156,7 +157,7 @@ void main() async {
               home: const Scaffold(
                 body: Logs(),
               ),
-              localizationsDelegates: [
+              localizationsDelegates: const [
                 GlobalMaterialLocalizations.delegate,
                 AppLocalizations.delegate,
               ],
@@ -217,7 +218,7 @@ void main() async {
                   home: const Scaffold(
                     body: Logs(),
                   ),
-                  localizationsDelegates: [
+                  localizationsDelegates: const [
                     GlobalMaterialLocalizations.delegate,
                     AppLocalizations.delegate,
                   ],

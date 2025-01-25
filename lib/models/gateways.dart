@@ -21,78 +21,74 @@ enum APiResponseType {
 /// When Successful [result], [status] and [sid] are returned.
 /// When error, [result] and [log] are returned.
 class LoginQueryResponse {
-  final APiResponseType result;
-  final AppLog? log;
-  final String? status;
-  final String? sid;
-
   LoginQueryResponse({
     required this.result,
     this.log,
     this.status,
     this.sid,
   });
+
+  final APiResponseType result;
+  final AppLog? log;
+  final String? status;
+  final String? sid;
 }
 
 class RealtimeStatusResponse {
-  final APiResponseType result;
-  final RealtimeStatus? data;
-
   RealtimeStatusResponse({
     required this.result,
     this.data,
   });
+
+  final APiResponseType result;
+  final RealtimeStatus? data;
 }
 
 class DisableServerResponse {
-  final APiResponseType result;
-  final String? status;
-
   DisableServerResponse({
     required this.result,
     this.status,
   });
+
+  final APiResponseType result;
+  final String? status;
 }
 
 class EnableServerResponse {
-  final APiResponseType result;
-  final String? status;
-
   EnableServerResponse({
     required this.result,
     this.status,
   });
+
+  final APiResponseType result;
+  final String? status;
 }
 
 class FetchOverTimeDataResponse {
-  final APiResponseType result;
-  final OverTimeData? data;
-
   FetchOverTimeDataResponse({
     required this.result,
     this.data,
   });
+
+  final APiResponseType result;
+  final OverTimeData? data;
 }
 
 class FetchLogsResponse {
-  final APiResponseType result;
-  final List<Log>? data;
-
   FetchLogsResponse({
     required this.result,
     this.data,
   });
+
+  final APiResponseType result;
+  final List<Log>? data;
 }
 
 class DomainResult {
-  final bool success;
-  final String message;
-
   DomainResult({
     required this.success,
     required this.message,
   });
-
   factory DomainResult.fromJson(Map<String, dynamic> json) {
     return DomainResult(
       success: json['success'],
@@ -100,9 +96,9 @@ class DomainResult {
     );
   }
 
-  /// Converts a [AddDomains] object to a [DomainResult] object.
+  /// Converts a [v6.AddDomains] object to a [DomainResult] object.
   ///
-  /// Warning: This method assumes that the [AddDomains] object has exactly 1 domain.
+  /// Warning: This method assumes that the [v6.AddDomains] object has exactly 1 domain.
   factory DomainResult.fromV6(v6.AddDomains domains) {
     if (domains.domains.length != 1) {
       throw ArgumentError('domains must have exactly 1 item');
@@ -125,6 +121,9 @@ class DomainResult {
     throw ArgumentError('domains must have either success or error');
   }
 
+  final bool success;
+  final String message;
+
   Map<String, dynamic> toJson() {
     return {
       'success': success,
@@ -134,23 +133,18 @@ class DomainResult {
 }
 
 class SetWhiteBlacklistResponse {
-  final APiResponseType result;
-  final String? message;
-  final DomainResult? data;
-
   SetWhiteBlacklistResponse({
     required this.result,
     this.message,
     this.data,
   });
+
+  final APiResponseType result;
+  final String? message;
+  final DomainResult? data;
 }
 
 class DomainListResult {
-  final List<Domain> whitelist;
-  final List<Domain> whitelistRegex;
-  final List<Domain> blacklist;
-  final List<Domain> blacklistRegex;
-
   DomainListResult({
     required this.whitelist,
     required this.whitelistRegex,
@@ -197,32 +191,37 @@ class DomainListResult {
       blacklistRegex: v6DomainsToDomainList(domains, 'deny', 'regex'),
     );
   }
+
+  final List<Domain> whitelist;
+  final List<Domain> whitelistRegex;
+  final List<Domain> blacklist;
+  final List<Domain> blacklistRegex;
 }
 
 class GetDomainLists {
-  final APiResponseType result;
-  final DomainListResult? data;
-
   GetDomainLists({
     required this.result,
     this.data,
   });
+
+  final APiResponseType result;
+  final DomainListResult? data;
 }
 
 class RemoveDomainFromListResponse {
-  final APiResponseType result;
-  final String? message;
-
   RemoveDomainFromListResponse({
     required this.result,
     this.message,
   });
+
+  final APiResponseType result;
+  final String? message;
 }
 
 class AddDomainToListResponse {
-  final APiResponseType result;
-
   AddDomainToListResponse({
     required this.result,
   });
+
+  final APiResponseType result;
 }

@@ -1,5 +1,5 @@
-import 'package:flutter/material.dart';
 import 'package:expandable/expandable.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:pi_hole_client/constants/urls.dart';
 import 'package:pi_hole_client/functions/open_url.dart';
@@ -21,11 +21,11 @@ class _PrivacyModalState extends State<PrivacyModal> {
   }
 
   Widget _appDetailLine({
-    String? url,
-    Widget? icon,
     required String title,
     required String subtitle,
     required ColorScheme colorScheme,
+    String? url,
+    Widget? icon,
     bool showWebViewIcon = true,
   }) {
     return Material(
@@ -77,8 +77,7 @@ class _PrivacyModalState extends State<PrivacyModal> {
   @override
   Widget build(BuildContext context) {
     final colorScheme = Theme.of(context).colorScheme;
-    final appConfigProvider =
-        Provider.of<AppConfigProvider>(context, listen: true);
+    final appConfigProvider = Provider.of<AppConfigProvider>(context);
 
     return FutureBuilder<bool>(
       future: _getSendCrashReports(appConfigProvider),

@@ -25,9 +25,9 @@ Level getLogLevel() {
 }
 
 class CustomLogFilter extends LogFilter {
-  final Level minLevel;
-
   CustomLogFilter(this.minLevel);
+
+  final Level minLevel;
 
   @override
   bool shouldLog(LogEvent event) {

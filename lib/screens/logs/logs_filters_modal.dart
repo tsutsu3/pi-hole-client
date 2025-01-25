@@ -3,24 +3,22 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
-import 'package:pi_hole_client/constants/responsive.dart';
-import 'package:pi_hole_client/providers/servers_provider.dart';
-import 'package:provider/provider.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-
+import 'package:pi_hole_client/constants/responsive.dart';
+import 'package:pi_hole_client/functions/format.dart';
+import 'package:pi_hole_client/providers/filters_provider.dart';
+import 'package:pi_hole_client/providers/servers_provider.dart';
 import 'package:pi_hole_client/screens/logs/clients_filters_modal.dart';
 import 'package:pi_hole_client/screens/logs/status_filters_modal.dart';
-
-import 'package:pi_hole_client/providers/filters_provider.dart';
-import 'package:pi_hole_client/functions/format.dart';
+import 'package:provider/provider.dart';
 
 class LogsFiltersModal extends StatefulWidget {
   const LogsFiltersModal({
-    super.key,
     required this.statusBarHeight,
     required this.bottomNavBarHeight,
     required this.filterLogs,
     required this.window,
+    super.key,
   });
 
   final double statusBarHeight;
@@ -65,8 +63,6 @@ class _LogsFiltersModalState extends State<LogsFiltersModal> {
             window: false,
           ),
           backgroundColor: Colors.transparent,
-          isDismissible: true,
-          enableDrag: true,
           isScrollControlled: true,
         );
       }
@@ -93,8 +89,6 @@ class _LogsFiltersModalState extends State<LogsFiltersModal> {
             window: false,
           ),
           backgroundColor: Colors.transparent,
-          isDismissible: true,
-          enableDrag: true,
           isScrollControlled: true,
         );
       }
@@ -110,16 +104,16 @@ class _LogsFiltersModalState extends State<LogsFiltersModal> {
       }
     }
 
-    void selectTime(String time) async {
-      DateTime now = DateTime.now();
-      DateTime? dateValue = await showDatePicker(
+    Future<void> selectTime(String time) async {
+      final now = DateTime.now();
+      final dateValue = await showDatePicker(
         context: context,
         initialDate: now,
         firstDate: DateTime(now.year, now.month - 1, now.day),
         lastDate: now,
       );
       if (dateValue != null) {
-        TimeOfDay? timeValue = await showTimePicker(
+        final timeValue = await showTimePicker(
           context: context,
           initialTime: TimeOfDay.now(),
           helpText: time == 'from'
@@ -127,7 +121,7 @@ class _LogsFiltersModalState extends State<LogsFiltersModal> {
               : AppLocalizations.of(context)!.selectEndTime,
         );
         if (timeValue != null) {
-          DateTime value = DateTime(
+          final value = DateTime(
             dateValue.year,
             dateValue.month,
             dateValue.day,
@@ -416,7 +410,6 @@ class _LogsFiltersModalState extends State<LogsFiltersModal> {
                       ),
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        crossAxisAlignment: CrossAxisAlignment.center,
                         children: [
                           Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
@@ -460,7 +453,6 @@ class _LogsFiltersModalState extends State<LogsFiltersModal> {
                       ),
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        crossAxisAlignment: CrossAxisAlignment.center,
                         children: [
                           Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
@@ -563,7 +555,6 @@ class _LogsFiltersModalState extends State<LogsFiltersModal> {
           ),
         ),
         child: SafeArea(
-          bottom: true,
           child: content(),
         ),
       );

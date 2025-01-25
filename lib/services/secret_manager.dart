@@ -1,6 +1,8 @@
 import 'package:pi_hole_client/repository/secure_storage.dart';
 
 class SecretManager {
+  SecretManager(this._storage, this._address);
+
   final SecureStorageRepository _storage;
   final String _address;
   String? _sid;
@@ -22,8 +24,6 @@ class SecretManager {
       return null;
     }
   }
-
-  SecretManager(this._storage, this._address);
 
   Future<bool> save(String sid) async {
     try {

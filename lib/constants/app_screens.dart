@@ -1,13 +1,11 @@
 import 'package:flutter/material.dart';
-
+import 'package:pi_hole_client/models/app_screen.dart';
 import 'package:pi_hole_client/screens/domains/domains.dart';
-import 'package:pi_hole_client/screens/settings/settings.dart';
-import 'package:pi_hole_client/screens/servers/servers.dart';
 import 'package:pi_hole_client/screens/home/home.dart';
 import 'package:pi_hole_client/screens/logs/logs.dart';
+import 'package:pi_hole_client/screens/servers/servers.dart';
+import 'package:pi_hole_client/screens/settings/settings.dart';
 import 'package:pi_hole_client/screens/statistics/statistics.dart';
-
-import 'package:pi_hole_client/models/app_screen.dart';
 
 final List<AppScreen> appScreens = [
   const AppScreen(

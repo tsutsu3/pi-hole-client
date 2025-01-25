@@ -1,14 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-
 import 'package:pi_hole_client/models/app_screen.dart';
 
 class BottomNavBar extends StatelessWidget {
   const BottomNavBar({
-    super.key,
     required this.screens,
     required this.selectedScreen,
     required this.onChange,
+    super.key,
   });
 
   final List<AppScreen> screens;

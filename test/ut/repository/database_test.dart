@@ -1,11 +1,13 @@
-import 'package:flutter_test/flutter_test.dart';
+// ignore_for_file: avoid_dynamic_calls
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+import 'package:flutter_test/flutter_test.dart';
+import 'package:pi_hole_client/models/server.dart';
+import 'package:pi_hole_client/repository/database.dart';
+import 'package:pi_hole_client/repository/secure_storage.dart';
 import 'package:pi_hole_client/services/secret_manager.dart';
 import 'package:sqflite_common_ffi/sqflite_ffi.dart';
-import 'package:pi_hole_client/models/server.dart';
-import 'package:pi_hole_client/repository/secure_storage.dart';
-import 'package:pi_hole_client/repository/database.dart';
+
 import '../helper.dart';
 
 /// Initialize sqflite for test.
@@ -22,9 +24,9 @@ void main() async {
 
   // For loading the .env file
   TestWidgetsFlutterBinding.ensureInitialized();
-  await dotenv.load(fileName: '.env');
+  await dotenv.load();
 
-  final testDb = 'test.db';
+  const testDb = 'test.db';
 
   group('DatabaseRepository.initialize', () {
     late DbHelper dbHelper;
@@ -139,7 +141,7 @@ void main() async {
           'http://localhost:8080',
         ),
       );
-      secureStorageRepository.saveValue('passCode', '9999');
+      await secureStorageRepository.saveValue('passCode', '9999');
 
       dbHelper = DbHelper(testDb);
       await dbHelper.loadDb();
@@ -262,7 +264,7 @@ void main() async {
           defaultServer: false,
           apiVersion: 'v6',
         );
-        server.sm.savePassword('password01');
+        await server.sm.savePassword('password01');
 
         final result = await databaseRepository.saveServerQuery(server);
 
@@ -399,8 +401,8 @@ void main() async {
             'http://localhost:8081',
           ),
         );
-        server.sm.savePassword('password02');
-        server.sm.save('sid02');
+        await server.sm.savePassword('password02');
+        await server.sm.save('sid02');
 
         dbHelper = DbHelper(testDb);
         await dbHelper.loadDb();
@@ -543,8 +545,8 @@ void main() async {
           'http://localhost:8081',
         ),
       );
-      defaultServerV6.sm.savePassword('password02');
-      defaultServerV6.sm.save('sid02');
+      await defaultServerV6.sm.savePassword('password02');
+      await defaultServerV6.sm.save('sid02');
     });
 
     tearDown(() async {
@@ -619,8 +621,8 @@ void main() async {
           'http://localhost:8081',
         ),
       );
-      defaultServerV6.sm.savePassword('password02');
-      defaultServerV6.sm.save('sid02');
+      await defaultServerV6.sm.savePassword('password02');
+      await defaultServerV6.sm.save('sid02');
     });
 
     tearDown(() async {
@@ -673,8 +675,8 @@ void main() async {
           'http://localhost:8081',
         ),
       );
-      defaultServerV6.sm.savePassword('password02');
-      defaultServerV6.sm.save('sid02');
+      await defaultServerV6.sm.savePassword('password02');
+      await defaultServerV6.sm.save('sid02');
     });
 
     tearDown(() async {
@@ -771,10 +773,10 @@ void main() async {
           value: testValue,
         );
 
-        DbHelper dbHelper = DbHelper(testDb);
+        final dbHelper = DbHelper(testDb);
         await dbHelper.loadDb();
         final actualD = await dbHelper.readDb();
-        dbHelper.closeDb();
+        await dbHelper.closeDb();
 
         expect(result, true);
         expect(actualD['appConfig'][0][testColumn], testValue);
@@ -802,7 +804,7 @@ void main() async {
       () async {
         const testColumn = 'autoRefreshTime';
 
-        DbHelper dbHelper = DbHelper(testDb);
+        final dbHelper = DbHelper(testDb);
         await dbHelper.loadDb();
         await dbHelper.updateConfigQuery(column: testColumn, value: 10);
         await secureStorage.saveValue('passCode', '1234');
@@ -810,7 +812,7 @@ void main() async {
         final result = await databaseRepository.restoreAppConfigQuery();
 
         final actualD = await dbHelper.readDb();
-        dbHelper.closeDb();
+        await dbHelper.closeDb();
 
         final actualS = await secureStorage.readAll();
 

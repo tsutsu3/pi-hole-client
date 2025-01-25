@@ -4,8 +4,6 @@
   "[dart]": {
     "editor.rulers": [80, 100, 120]
   },
-  "cSpell.ignorePaths": ["/pubspec.yaml", "/.github/workflows"],
-  "java.configuration.updateBuildConfiguration": "interactive",
   "arb-editor.suppressedWarnings": [
     "missing_metadata_for_key",
     "missing_messages_from_template"
@@ -19,11 +17,5 @@
   },
   "[yaml]": {
     "editor.defaultFormatter": "redhat.vscode-yaml"
-  },
-  "editor.codeActionsOnSave": {
-    // "source.fixAll": "explicit",
-    // "source.dcm.fixAll": "explicit"
-    // or, to enable unsafe fixes on save,
-    // "source.dcm.unsafeFixAll": "explicit",
   }
 }

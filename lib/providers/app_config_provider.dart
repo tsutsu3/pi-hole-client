@@ -1,14 +1,16 @@
+import 'package:device_info_plus/device_info_plus.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter/scheduler.dart';
+import 'package:package_info_plus/package_info_plus.dart';
 import 'package:pi_hole_client/config/theme.dart';
 import 'package:pi_hole_client/constants/languages.dart';
 import 'package:pi_hole_client/models/app_log.dart';
 import 'package:pi_hole_client/models/repository/database.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter/scheduler.dart';
-import 'package:device_info_plus/device_info_plus.dart';
-import 'package:package_info_plus/package_info_plus.dart';
 import 'package:pi_hole_client/repository/database.dart';
 
 class AppConfigProvider with ChangeNotifier {
+  AppConfigProvider(this._repository);
+
   bool _showingSnackbar = false;
   int _selectedTab = 0;
   AndroidDeviceInfo? _androidDeviceInfo;
@@ -153,8 +155,6 @@ class AppConfigProvider with ChangeNotifier {
   int? get selectedSettingsScreen {
     return _selectedSettingsScreen;
   }
-
-  AppConfigProvider(this._repository);
 
   void setShowingSnackbar(bool status) {
     _showingSnackbar = status;

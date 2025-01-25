@@ -1,25 +1,23 @@
 // ignore_for_file: use_build_context_synchronously
 
 import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:pi_hole_client/classes/process_modal.dart';
+import 'package:pi_hole_client/config/system_overlay_style.dart';
 import 'package:pi_hole_client/constants/responsive.dart';
 import 'package:pi_hole_client/functions/logger.dart';
-import 'package:pi_hole_client/models/gateways.dart';
-import 'package:provider/provider.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-
-import 'package:pi_hole_client/screens/logs/log_tile.dart';
-import 'package:pi_hole_client/screens/logs/no_logs_message.dart';
-import 'package:pi_hole_client/screens/logs/log_details_screen.dart';
-import 'package:pi_hole_client/screens/logs/logs_filters_modal.dart';
-import 'package:pi_hole_client/widgets/custom_radio.dart';
-
-import 'package:pi_hole_client/config/system_overlay_style.dart';
-import 'package:pi_hole_client/providers/app_config_provider.dart';
 import 'package:pi_hole_client/functions/snackbar.dart';
-import 'package:pi_hole_client/providers/filters_provider.dart';
-import 'package:pi_hole_client/classes/process_modal.dart';
+import 'package:pi_hole_client/models/gateways.dart';
 import 'package:pi_hole_client/models/log.dart';
+import 'package:pi_hole_client/providers/app_config_provider.dart';
+import 'package:pi_hole_client/providers/filters_provider.dart';
 import 'package:pi_hole_client/providers/servers_provider.dart';
+import 'package:pi_hole_client/screens/logs/log_details_screen.dart';
+import 'package:pi_hole_client/screens/logs/log_tile.dart';
+import 'package:pi_hole_client/screens/logs/logs_filters_modal.dart';
+import 'package:pi_hole_client/screens/logs/no_logs_message.dart';
+import 'package:pi_hole_client/widgets/custom_radio.dart';
+import 'package:provider/provider.dart';
 
 class Logs extends StatefulWidget {
   const Logs({super.key});
@@ -46,11 +44,11 @@ class _LogsState extends State<Logs> {
   DateTime? masterStartTime;
   DateTime? masterEndTime;
 
-  Future loadLogs({
+  Future<dynamic> loadLogs({
+    required bool replaceOldLogs,
     List<int>? statusSelected,
     DateTime? inStartTime,
     DateTime? inEndTime,
-    required bool replaceOldLogs,
   }) async {
     final logsPerQuery =
         Provider.of<AppConfigProvider>(context, listen: false).logsPerQuery;
@@ -59,8 +57,8 @@ class _LogsState extends State<Logs> {
         Provider.of<ServersProvider>(context, listen: false);
     final apiGateway = serversProvider.selectedApiGateway;
 
-    DateTime? startTime = masterStartTime ?? inStartTime;
-    DateTime? endTime = masterEndTime ?? inEndTime;
+    final startTime = masterStartTime ?? inStartTime;
+    final endTime = masterEndTime ?? inEndTime;
     late DateTime? timestamp;
     late DateTime? minusHoursTimestamp;
     if (replaceOldLogs == true) {
@@ -71,7 +69,7 @@ class _LogsState extends State<Logs> {
     if (_lastTimestamp == null || replaceOldLogs == true) {
       final now = DateTime.now();
       timestamp = endTime ?? now;
-      DateTime newOldTimestamp = logsPerQuery == 0.5
+      final newOldTimestamp = logsPerQuery == 0.5
           ? DateTime(
               timestamp.year,
               timestamp.month,
@@ -95,8 +93,8 @@ class _LogsState extends State<Logs> {
         minusHoursTimestamp = newOldTimestamp;
       }
     } else {
-      timestamp = _lastTimestamp!;
-      DateTime newOldTimestamp = logsPerQuery == 0.5
+      timestamp = _lastTimestamp;
+      final newOldTimestamp = logsPerQuery == 0.5
           ? DateTime(
               _lastTimestamp!.year,
               _lastTimestamp!.month,
@@ -127,13 +125,13 @@ class _LogsState extends State<Logs> {
       });
     } else {
       final result =
-          await apiGateway?.fetchLogs(minusHoursTimestamp, timestamp);
+          await apiGateway?.fetchLogs(minusHoursTimestamp, timestamp!);
       if (mounted) {
         setState(() => _isLoadingMore = false);
         if (result?.result == APiResponseType.success) {
-          List<Log> items = [];
+          final items = <Log>[];
           if (result!.data != null) {
-            result.data?.forEach((item) => items.add(item));
+            result.data?.forEach(items.add);
             logger.d('Logs fetched: ${items.map((e) => e.toJson()).toList()}');
           }
           if (replaceOldLogs == true) {
@@ -157,12 +155,12 @@ class _LogsState extends State<Logs> {
   }
 
   List<Log> filterLogs({
-    List<Log>? logs,
     required List<int> statusSelected,
     required List<String> devicesSelected,
     required String? selectedDomain,
+    List<Log>? logs,
   }) {
-    List<Log> tempLogs = logs != null ? [...logs] : [...logsList];
+    var tempLogs = logs != null ? [...logs] : [...logsList];
 
     tempLogs = tempLogs.where((log) {
       if (log.status != null &&
@@ -233,7 +231,7 @@ class _LogsState extends State<Logs> {
     final statusBarHeight = MediaQuery.of(context).viewPadding.top;
     final bottomNavBarHeight = MediaQuery.of(context).viewPadding.bottom;
 
-    List<Log> logsListDisplay = filterLogs(
+    var logsListDisplay = filterLogs(
       statusSelected: filtersProvider.statusSelected,
       devicesSelected: filtersProvider.selectedClients,
       selectedDomain: filtersProvider.selectedDomain,
@@ -253,7 +251,7 @@ class _LogsState extends State<Logs> {
       }
     }
 
-    void whiteBlackList(String list, Log log) async {
+    Future<void> whiteBlackList(String list, Log log) async {
       final loading = ProcessModal(context: context);
       loading.open(
         list == 'white'
@@ -350,15 +348,13 @@ class _LogsState extends State<Logs> {
             window: false,
           ),
           backgroundColor: Colors.transparent,
-          isDismissible: true,
-          enableDrag: true,
           isScrollControlled: true,
         );
       }
     }
 
     void searchLogs(String value) {
-      List<Log> searched = logsList
+      final searched = logsList
           .where((log) => log.url.toLowerCase().contains(value.toLowerCase()))
           .toList();
       setState(() {
@@ -373,7 +369,6 @@ class _LogsState extends State<Logs> {
           return SizedBox(
             width: double.maxFinite,
             child: Column(
-              crossAxisAlignment: CrossAxisAlignment.center,
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 const CircularProgressIndicator(),
@@ -391,10 +386,10 @@ class _LogsState extends State<Logs> {
           );
         case 1:
           return RefreshIndicator(
-            onRefresh: (() async {
+            onRefresh: () async {
               _lastTimestamp = DateTime.now();
               await loadLogs(replaceOldLogs: true);
-            }),
+            },
             child: logsListDisplay.isNotEmpty
                 ? ListView.builder(
                     controller: _scrollController,
@@ -426,7 +421,6 @@ class _LogsState extends State<Logs> {
           return SizedBox(
             width: double.maxFinite,
             child: Column(
-              crossAxisAlignment: CrossAxisAlignment.center,
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 const Icon(
@@ -572,7 +566,7 @@ class _LogsState extends State<Logs> {
                   PopupMenuButton(
                     splashRadius: 20,
                     icon: const Icon(Icons.sort_rounded),
-                    onSelected: (value) => updateSortStatus(value),
+                    onSelected: updateSortStatus,
                     itemBuilder: (context) => [
                       PopupMenuItem(
                         value: 0,
@@ -689,7 +683,7 @@ class _LogsState extends State<Logs> {
                         ),
                       )
                     : const PreferredSize(
-                        preferredSize: Size(0, 0),
+                        preferredSize: Size.zero,
                         child: SizedBox(),
                       ),
               ),

@@ -16,7 +16,7 @@ class NoServerSelected extends StatelessWidget {
 
     void selectServer() {
       Future.delayed(
-        const Duration(seconds: 0),
+        Duration.zero,
         () => {
           if (width > ResponsiveConstants.medium)
             {
@@ -54,7 +54,6 @@ class NoServerSelected extends StatelessWidget {
 
     return Column(
       mainAxisAlignment: MainAxisAlignment.center,
-      crossAxisAlignment: CrossAxisAlignment.center,
       children: [
         SizedBox(
           height: height - 162 > 300 ? 300 : height - 162,

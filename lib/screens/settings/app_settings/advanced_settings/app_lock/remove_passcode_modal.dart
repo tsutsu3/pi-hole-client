@@ -1,11 +1,10 @@
 // ignore_for_file: use_build_context_synchronously
 
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-
 import 'package:pi_hole_client/functions/snackbar.dart';
 import 'package:pi_hole_client/providers/app_config_provider.dart';
+import 'package:provider/provider.dart';
 
 class RemovePasscodeModal extends StatelessWidget {
   const RemovePasscodeModal({
@@ -16,10 +15,10 @@ class RemovePasscodeModal extends StatelessWidget {
   Widget build(BuildContext context) {
     final appConfigProvider = Provider.of<AppConfigProvider>(context);
 
-    void removePasscode() async {
+    Future<void> removePasscode() async {
       final deleted = await appConfigProvider.setPassCode(null);
       if (deleted == true) {
-        Navigator.maybePop(context);
+        await Navigator.maybePop(context);
       } else {
         showErrorSnackBar(
           context: context,

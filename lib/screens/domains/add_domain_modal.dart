@@ -5,10 +5,10 @@ import 'package:pi_hole_client/widgets/custom_list_tile.dart';
 
 class AddDomainModal extends StatefulWidget {
   const AddDomainModal({
-    super.key,
     required this.selectedlist,
     required this.addDomain,
     required this.window,
+    super.key,
   });
 
   final String selectedlist;
@@ -52,12 +52,12 @@ class _AddDomainModalState extends State<AddDomainModal> {
   }
 
   String applyWildcard() {
-    return '(\\.|^)${domainController.text.replaceAll('.', '\\.')}\$';
+    return '(\\.|^)${domainController.text.replaceAll('.', r'\.')}\$';
   }
 
   void validateDomain(String? value) {
     if (value != null && value != '') {
-      final RegExp subrouteRegexp = RegExp(
+      final subrouteRegexp = RegExp(
         r'^([a-z0-9]+(?:[._-][a-z0-9]+)*)([a-z0-9]+(?:[.-][a-z0-9]+)*\.[a-z]{2,})$',
       );
       if (subrouteRegexp.hasMatch(value) == true) {
@@ -143,7 +143,7 @@ class _AddDomainModalState extends State<AddDomainModal> {
                     padding: const EdgeInsets.only(top: 20),
                     child: TextField(
                       controller: domainController,
-                      onChanged: (value) => validateDomain(value),
+                      onChanged: validateDomain,
                       decoration: InputDecoration(
                         prefixIcon: const Icon(Icons.domain_rounded),
                         border: const OutlineInputBorder(
@@ -160,8 +160,7 @@ class _AddDomainModalState extends State<AddDomainModal> {
                     onTap: () => setState(() => wildcard = !wildcard),
                     trailing: Switch(
                       value: wildcard,
-                      onChanged: (value) =>
-                          {setState((() => wildcard = value))},
+                      onChanged: (value) => {setState(() => wildcard = value)},
                     ),
                     padding: const EdgeInsets.all(8),
                   ),
@@ -227,7 +226,7 @@ class _AddDomainModalState extends State<AddDomainModal> {
               topRight: Radius.circular(28),
             ),
           ),
-          child: SafeArea(bottom: true, child: content()),
+          child: SafeArea(child: content()),
         ),
       );
     }

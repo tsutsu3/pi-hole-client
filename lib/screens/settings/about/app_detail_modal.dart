@@ -1,7 +1,7 @@
-import 'package:flutter/material.dart';
 import 'package:expandable/expandable.dart';
-import 'package:flutter_svg/svg.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:pi_hole_client/constants/urls.dart';
 import 'package:pi_hole_client/functions/open_url.dart';
 
@@ -21,11 +21,11 @@ class _AppDetailModalState extends State<AppDetailModal> {
   String get _appVersion => widget._appVersion ?? '';
 
   Widget _appDetailLine({
-    String? url,
-    Widget? icon,
     required String title,
     required String subtitle,
     required ColorScheme colorScheme,
+    String? url,
+    Widget? icon,
     bool showWebViewIcon = true,
   }) {
     return Material(

@@ -1,29 +1,27 @@
 // ignore_for_file: use_build_context_synchronously
 
 import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:pi_hole_client/classes/process_modal.dart';
 import 'package:pi_hole_client/constants/responsive.dart';
 import 'package:pi_hole_client/functions/conversions.dart';
-import 'package:pi_hole_client/models/gateways.dart';
-import 'package:provider/provider.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-
-import 'package:pi_hole_client/screens/servers/add_server_fullscreen.dart';
-import 'package:pi_hole_client/screens/servers/delete_modal.dart';
-
-import 'package:pi_hole_client/classes/process_modal.dart';
 import 'package:pi_hole_client/functions/snackbar.dart';
+import 'package:pi_hole_client/models/gateways.dart';
 import 'package:pi_hole_client/models/server.dart';
 import 'package:pi_hole_client/providers/app_config_provider.dart';
 import 'package:pi_hole_client/providers/servers_provider.dart';
 import 'package:pi_hole_client/providers/status_provider.dart';
+import 'package:pi_hole_client/screens/servers/add_server_fullscreen.dart';
+import 'package:pi_hole_client/screens/servers/delete_modal.dart';
+import 'package:provider/provider.dart';
 
 class ServersTileItem extends StatefulWidget {
   const ServersTileItem({
-    super.key,
     required this.server,
     required this.index,
     required this.onChange,
     required this.breakingWidth,
+    super.key,
   });
 
   final Server server;
@@ -46,9 +44,9 @@ class _ServersTileItemState extends State<ServersTileItem>
     final width = MediaQuery.of(context).size.width;
 
     /// Delete
-    void showDeleteModal(Server server) async {
+    Future<void> showDeleteModal(Server server) async {
       await Future.delayed(
-        const Duration(seconds: 0),
+        Duration.zero,
         () => {
           showDialog(
             context: context,
@@ -62,43 +60,43 @@ class _ServersTileItemState extends State<ServersTileItem>
     }
 
     /// Edit
-    void openAddServerBottomSheet({Server? server}) async {
+    Future<void> openAddServerBottomSheet({Server? server}) async {
       await Future.delayed(
-        const Duration(seconds: 0),
-        (() => {
-              if (width > ResponsiveConstants.medium)
-                {
-                  showDialog(
-                    context: context,
-                    barrierDismissible: false,
-                    builder: (context) => AddServerFullscreen(
-                      server: server,
-                      window: true,
-                      title: AppLocalizations.of(context)!.editConnection,
-                    ),
+        Duration.zero,
+        () => {
+          if (width > ResponsiveConstants.medium)
+            {
+              showDialog(
+                context: context,
+                barrierDismissible: false,
+                builder: (context) => AddServerFullscreen(
+                  server: server,
+                  window: true,
+                  title: AppLocalizations.of(context)!.editConnection,
+                ),
+              ),
+            }
+          else
+            {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  fullscreenDialog: true,
+                  builder: (BuildContext context) => AddServerFullscreen(
+                    server: server,
+                    window: false,
+                    title: AppLocalizations.of(context)!.editConnection,
                   ),
-                }
-              else
-                {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      fullscreenDialog: true,
-                      builder: (BuildContext context) => AddServerFullscreen(
-                        server: server,
-                        window: false,
-                        title: AppLocalizations.of(context)!.editConnection,
-                      ),
-                    ),
-                  ),
-                },
-            }),
+                ),
+              ),
+            },
+        },
       );
     }
 
     /// Connect to the server button
-    void connectToServer(Server server) async {
-      Future connectSuccess(result) async {
+    Future<void> connectToServer(Server server) async {
+      Future<dynamic> connectSuccess(result) async {
         serversProvider.setselectedServer(
           server: Server(
             address: server.address,
@@ -128,7 +126,7 @@ class _ServersTileItemState extends State<ServersTileItem>
       }
 
       await serversProvider.resetSelectedServer();
-      final ProcessModal process = ProcessModal(context: context);
+      final process = ProcessModal(context: context);
       process.open(AppLocalizations.of(context)!.connecting);
 
       final result = await serversProvider.loadApiGateway(server)?.loginQuery();
@@ -145,7 +143,7 @@ class _ServersTileItemState extends State<ServersTileItem>
     }
 
     /// Set default server
-    void setDefaultServer(Server server) async {
+    Future<void> setDefaultServer(Server server) async {
       final result = await serversProvider.setDefaultServer(server);
       if (result == true) {
         showSuccessSnackBar(
@@ -293,7 +291,7 @@ class _ServersTileItemState extends State<ServersTileItem>
                     ),
                   ),
                   PopupMenuItem(
-                    onTap: (() => openAddServerBottomSheet(server: server)),
+                    onTap: () => openAddServerBottomSheet(server: server),
                     child: Row(
                       children: [
                         const Icon(Icons.edit),
@@ -303,7 +301,7 @@ class _ServersTileItemState extends State<ServersTileItem>
                     ),
                   ),
                   PopupMenuItem(
-                    onTap: (() => showDeleteModal(server)),
+                    onTap: () => showDeleteModal(server),
                     child: Row(
                       children: [
                         const Icon(Icons.delete),
@@ -380,13 +378,13 @@ class _ServersTileItemState extends State<ServersTileItem>
       if (index == 1) {
         return const EdgeInsets.only(top: 16, left: 8, right: 16, bottom: 8);
       } else if (index == serversProvider.getServersList.length - 1 &&
-          (index + 1) % 2 == 0) {
+          (index + 1).isEven) {
         return const EdgeInsets.only(top: 8, left: 8, right: 16, bottom: 16);
       } else if (index == serversProvider.getServersList.length - 1 &&
-          (index + 1) % 2 == 1) {
+          (index + 1).isOdd) {
         return const EdgeInsets.only(top: 8, left: 16, right: 8, bottom: 16);
       } else {
-        if ((index + 1) % 2 == 0) {
+        if ((index + 1).isEven) {
           return const EdgeInsets.only(top: 8, left: 8, right: 16, bottom: 8);
         } else {
           return const EdgeInsets.only(top: 8, left: 16, right: 8, bottom: 8);

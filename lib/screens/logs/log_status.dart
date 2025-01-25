@@ -6,9 +6,9 @@ import 'package:provider/provider.dart';
 
 class LogStatus extends StatelessWidget {
   const LogStatus({
-    super.key,
     required this.status,
     required this.showIcon,
+    super.key,
   });
 
   final String status;

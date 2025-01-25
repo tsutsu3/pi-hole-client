@@ -1,12 +1,19 @@
+import 'package:flutter/material.dart';
 import 'package:pi_hole_client/providers/filters_provider/filters_interface.dart';
 import 'package:pi_hole_client/providers/filters_provider/filters_v5.dart';
 import 'package:pi_hole_client/providers/filters_provider/filters_v6.dart';
 import 'package:pi_hole_client/providers/servers_provider.dart';
 import 'package:pi_hole_client/screens/logs/logs_filters_modal.dart';
-import 'package:flutter/material.dart';
 
 class FiltersProvider with ChangeNotifier implements Filters {
-  Filters? _filters;
+  FiltersProvider({ServersProvider? serversProvider}) {
+    // Default filtersProvider is FiltersProviderV5.
+    // Update filtersPorviders version when update ServersProvider.
+    final version = serversProvider?.selectedServer?.apiVersion ?? 'v5';
+    _updateFiltersVersion(version);
+  }
+
+  late Filters? _filters;
 
   @override
   List<int> get statusAllowedAndRetried {
@@ -56,13 +63,6 @@ class FiltersProvider with ChangeNotifier implements Filters {
   @override
   RequestStatus get requestStatus {
     return _filters!.requestStatus;
-  }
-
-  FiltersProvider({ServersProvider? serversProvider}) {
-    // Default filtersProvider is FiltersProviderV5.
-    // Update filtersPorviders version when update ServersProvider.
-    final version = serversProvider?.selectedServer?.apiVersion ?? 'v5';
-    _updateFiltersVersion(version);
   }
 
   void update(ServersProvider? provider) {

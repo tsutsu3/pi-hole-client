@@ -1,19 +1,17 @@
 // ignore_for_file: use_build_context_synchronously
 
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-
+import 'package:pi_hole_client/providers/app_config_provider.dart';
 import 'package:pi_hole_client/widgets/numeric_pad.dart';
 import 'package:pi_hole_client/widgets/shake_animation.dart';
-
-import 'package:pi_hole_client/providers/app_config_provider.dart';
+import 'package:provider/provider.dart';
 
 class EnterPasscodeModal extends StatefulWidget {
   const EnterPasscodeModal({
-    super.key,
     required this.onConfirm,
     required this.window,
+    super.key,
   });
 
   final void Function() onConfirm;
@@ -35,7 +33,7 @@ class _EnterPasscodeModalState extends State<EnterPasscodeModal> {
 
     final height = MediaQuery.of(context).size.height;
 
-    void finish() async {
+    Future<void> finish() async {
       if (appConfigProvider.passCode == _code) {
         if (Navigator.canPop(context)) {
           Navigator.pop(context);
@@ -120,9 +118,7 @@ class _EnterPasscodeModalState extends State<EnterPasscodeModal> {
           height: height - 60,
           width: double.maxFinite,
           child: Column(
-            mainAxisSize: MainAxisSize.max,
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               NumericPad(
                 shakeKey: _shakeKey,

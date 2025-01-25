@@ -2,25 +2,23 @@
 
 import 'dart:io';
 
-import 'package:pi_hole_client/config/theme.dart';
-import 'package:pi_hole_client/constants/responsive.dart';
-import 'package:pi_hole_client/providers/status_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
-import 'package:provider/provider.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-
-import 'package:pi_hole_client/screens/home/home_tile.dart';
-import 'package:pi_hole_client/screens/home/disable_modal.dart';
-import 'package:pi_hole_client/screens/home/home_charts.dart';
-import 'package:pi_hole_client/screens/home/home_appbar.dart';
-
-import 'package:pi_hole_client/functions/server_management.dart';
+import 'package:pi_hole_client/config/theme.dart';
 import 'package:pi_hole_client/constants/enums.dart';
-import 'package:pi_hole_client/providers/app_config_provider.dart';
-import 'package:pi_hole_client/functions/refresh_server_status.dart';
+import 'package:pi_hole_client/constants/responsive.dart';
 import 'package:pi_hole_client/functions/conversions.dart';
+import 'package:pi_hole_client/functions/refresh_server_status.dart';
+import 'package:pi_hole_client/functions/server_management.dart';
+import 'package:pi_hole_client/providers/app_config_provider.dart';
 import 'package:pi_hole_client/providers/servers_provider.dart';
+import 'package:pi_hole_client/providers/status_provider.dart';
+import 'package:pi_hole_client/screens/home/disable_modal.dart';
+import 'package:pi_hole_client/screens/home/home_appbar.dart';
+import 'package:pi_hole_client/screens/home/home_charts.dart';
+import 'package:pi_hole_client/screens/home/home_tile.dart';
+import 'package:provider/provider.dart';
 
 class Home extends StatefulWidget {
   const Home({super.key});
@@ -80,7 +78,6 @@ class _HomeState extends State<Home> {
             height: 300,
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 const CircularProgressIndicator(),
                 const SizedBox(height: 50),
@@ -159,7 +156,6 @@ class _HomeState extends State<Home> {
             height: 300,
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 const Icon(
                   Icons.error,
@@ -184,12 +180,12 @@ class _HomeState extends State<Home> {
       }
     }
 
-    void enableDisableServer() async {
+    Future<void> enableDisableServer() async {
       if (statusProvider.isServerConnected == true &&
           serversProvider.selectedServer != null) {
         if (serversProvider.selectedServer?.enabled == true) {
           if (width > ResponsiveConstants.medium) {
-            showDialog(
+            await showDialog(
               context: context,
               builder: (_) => DisableModal(
                 onDisable: (time) => disableServer(time, context),
@@ -197,7 +193,7 @@ class _HomeState extends State<Home> {
               ),
             );
           } else {
-            showModalBottomSheet(
+            await showModalBottomSheet(
               context: context,
               isScrollControlled: true,
               builder: (_) => DisableModal(
@@ -205,12 +201,10 @@ class _HomeState extends State<Home> {
                 window: false,
               ),
               backgroundColor: Colors.transparent,
-              isDismissible: true,
-              enableDrag: true,
             );
           }
         } else {
-          enableServer(context);
+          await enableServer(context);
         }
       }
     }

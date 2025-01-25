@@ -6,12 +6,12 @@ Map<String, double> removeZeroValues(Map<String, double> values) {
 }
 
 Map<String, double> sortValues(Map<String, double> values) {
-  var sortedKeys = values.keys.toList(growable: false)
+  final sortedKeys = values.keys.toList(growable: false)
     ..sort((k1, k2) => values[k1]!.compareTo(values[k2]!));
-  LinkedHashMap sortedMap = LinkedHashMap.fromIterable(
+  final sortedMap = LinkedHashMap.fromIterable(
     sortedKeys,
     key: (k) => k,
-    value: (k) => values[k],
+    value: (k) => values[k] ?? 0.0,
   );
   final reversed =
       LinkedHashMap.fromEntries(sortedMap.entries.toList().reversed);

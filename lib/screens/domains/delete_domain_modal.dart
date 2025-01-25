@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class DeleteDomainModal extends StatelessWidget {
-  const DeleteDomainModal({super.key, required this.onConfirm});
+  const DeleteDomainModal({required this.onConfirm, super.key});
 
   final void Function() onConfirm;
 
@@ -37,7 +37,7 @@ class DeleteDomainModal extends StatelessWidget {
             ),
             const SizedBox(width: 16),
             TextButton(
-              onPressed: () => onConfirm(),
+              onPressed: onConfirm,
               child: Text(AppLocalizations.of(context)!.confirm),
             ),
           ],

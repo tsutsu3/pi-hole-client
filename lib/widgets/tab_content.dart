@@ -4,12 +4,12 @@ import 'package:pi_hole_client/constants/enums.dart';
 
 class CustomTabContent extends StatelessWidget {
   const CustomTabContent({
-    super.key,
     required this.loadingGenerator,
     required this.contentGenerator,
     required this.errorGenerator,
     required this.loadStatus,
     required this.onRefresh,
+    super.key,
   });
 
   final Widget Function() loadingGenerator;

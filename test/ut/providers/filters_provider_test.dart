@@ -3,10 +3,11 @@ import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
 import 'package:pi_hole_client/models/server.dart';
 import 'package:pi_hole_client/providers/filters_provider.dart';
-import 'package:pi_hole_client/providers/servers_provider.dart';
 import 'package:pi_hole_client/providers/filters_provider/filters_v5.dart';
 import 'package:pi_hole_client/providers/filters_provider/filters_v6.dart';
+import 'package:pi_hole_client/providers/servers_provider.dart';
 import 'package:pi_hole_client/screens/logs/logs_filters_modal.dart';
+
 import './filters_provider_test.mocks.dart';
 
 @GenerateMocks([ServersProvider])
@@ -155,7 +156,7 @@ void main() {
     );
 
     test('setSelectedDomain updates selectedDomain and notifies listeners', () {
-      final domain = 'example.com';
+      const domain = 'example.com';
       filtersProvider.setSelectedDomain(domain);
       expect(filtersProvider.selectedDomain, domain);
 
@@ -176,7 +177,7 @@ void main() {
     );
 
     test('setRequestStatus updates requestStatus and notifies listeners', () {
-      final status = RequestStatus.allowed;
+      const status = RequestStatus.allowed;
       filtersProvider.setRequestStatus(status);
 
       expect(filtersProvider.requestStatus, status);
@@ -314,7 +315,7 @@ void main() {
     );
 
     test('setSelectedDomain updates selectedDomain and notifies listeners', () {
-      final domain = 'example.com';
+      const domain = 'example.com';
       filtersProvider.setSelectedDomain(domain);
       expect(filtersProvider.selectedDomain, domain);
 
@@ -335,7 +336,7 @@ void main() {
     );
 
     test('setRequestStatus updates requestStatus and notifies listeners', () {
-      final status = RequestStatus.allowed;
+      const status = RequestStatus.allowed;
       filtersProvider.setRequestStatus(status);
 
       expect(filtersProvider.requestStatus, status);

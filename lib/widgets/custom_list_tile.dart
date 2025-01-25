@@ -2,9 +2,9 @@ import 'package:flutter/material.dart';
 
 class CustomListTile extends StatelessWidget {
   const CustomListTile({
+    required this.label,
     super.key,
     this.leadingIcon,
-    required this.label,
     this.description,
     this.color,
     this.onTap,

@@ -3,27 +3,25 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:pi_hole_client/constants/api_versions.dart';
 import 'package:pi_hole_client/constants/urls.dart';
-import 'package:pi_hole_client/models/gateways.dart';
-import 'package:provider/provider.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-
-import 'package:pi_hole_client/widgets/section_label.dart';
-import 'package:pi_hole_client/widgets/scan_token_modal.dart';
-
-import 'package:pi_hole_client/providers/servers_provider.dart';
 import 'package:pi_hole_client/functions/open_url.dart';
-import 'package:pi_hole_client/providers/app_config_provider.dart';
 import 'package:pi_hole_client/functions/snackbar.dart';
+import 'package:pi_hole_client/models/gateways.dart';
 import 'package:pi_hole_client/models/server.dart';
+import 'package:pi_hole_client/providers/app_config_provider.dart';
+import 'package:pi_hole_client/providers/servers_provider.dart';
+import 'package:pi_hole_client/widgets/scan_token_modal.dart';
+import 'package:pi_hole_client/widgets/section_label.dart';
+import 'package:provider/provider.dart';
 
 class AddServerFullscreen extends StatefulWidget {
   const AddServerFullscreen({
-    super.key,
-    this.server,
     required this.window,
     required this.title,
+    super.key,
+    this.server,
   });
 
   final Server? server;
@@ -68,7 +66,7 @@ class _AddServerFullscreenState extends State<AddServerFullscreen> {
   void initState() {
     super.initState();
     if (widget.server != null) {
-      final List<String> splitted = widget.server!.address.split(':');
+      final splitted = widget.server!.address.split(':');
       addressFieldController.text = splitted[1].split('/')[2];
       portFieldController.text = splitted.length == 3 ? splitted[2] : '';
       aliasFieldController.text = widget.server!.alias;
@@ -105,9 +103,9 @@ class _AddServerFullscreenState extends State<AddServerFullscreen> {
 
   void validateAddress(String? value) {
     if (value != null && value != '') {
-      RegExp ipAddress =
+      final ipAddress =
           RegExp(r'^((25[0-5]|(2[0-4]|1\d|[1-9]|)\d)(\.(?!$)|$)){4}$');
-      RegExp domain =
+      final domain =
           RegExp(r'^(([a-z0-9|-]+\.)*[a-z0-9|-]+\.[a-z]+)|((\w|-)+)$');
       if (ipAddress.hasMatch(value) == true || domain.hasMatch(value) == true) {
         setState(() {
@@ -128,7 +126,7 @@ class _AddServerFullscreenState extends State<AddServerFullscreen> {
 
   void validateSubroute(String? value) {
     if (value != null && value != '') {
-      RegExp subrouteRegexp = RegExp(r'^\/\b([A-Za-z0-9_\-~/]*)[^\/|\.|\:]$');
+      final subrouteRegexp = RegExp(r'^\/\b([A-Za-z0-9_\-~/]*)[^\/|\.|\:]$');
       if (subrouteRegexp.hasMatch(value) == true) {
         setState(() {
           subrouteFieldError = null;
@@ -215,12 +213,12 @@ class _AddServerFullscreenState extends State<AddServerFullscreen> {
 
     final mediaQuery = MediaQuery.of(context);
 
-    void connect() async {
+    Future<void> connect() async {
       FocusManager.instance.primaryFocus?.unfocus();
       setState(() {
         isConnecting = true;
       });
-      final String url =
+      final url =
           '${connectionType.name}://${addressFieldController.text}${portFieldController.text != '' ? ':${portFieldController.text}' : ''}${subrouteFieldController.text}';
       final exists = await serversProvider.checkUrlExists(url);
       if (exists['result'] == 'success' && exists['exists'] == true) {
@@ -256,13 +254,13 @@ class _AddServerFullscreenState extends State<AddServerFullscreen> {
             await serversProvider.loadApiGateway(serverObj)?.loginQuery();
         if (!mounted) return;
         if (result?.result == APiResponseType.success) {
-          Navigator.maybePop(context);
+          await Navigator.maybePop(context);
           showSuccessSnackBar(
             context: context,
             appConfigProvider: appConfigProvider,
             label: AppLocalizations.of(context)!.connectedSuccessfully,
           );
-          serversProvider.addServer(
+          await serversProvider.addServer(
             Server(
               address: serverObj.address,
               alias: serverObj.alias,
@@ -330,7 +328,7 @@ class _AddServerFullscreenState extends State<AddServerFullscreen> {
       }
     }
 
-    void save() async {
+    Future<void> save() async {
       FocusManager.instance.primaryFocus?.unfocus();
       setState(() {
         errorUrl = null;
@@ -351,7 +349,7 @@ class _AddServerFullscreenState extends State<AddServerFullscreen> {
           .loadApiGateway(serverObj)
           ?.loginQuery(refresh: true);
       if (result?.result == APiResponseType.success) {
-        Server server = Server(
+        final server = Server(
           address: widget.server!.address,
           alias: aliasFieldController.text,
           defaultServer: defaultCheckbox,
@@ -364,7 +362,7 @@ class _AddServerFullscreenState extends State<AddServerFullscreen> {
         final result = await serversProvider.editServer(server);
         if (mounted) {
           if (result == true) {
-            Navigator.maybePop(context);
+            await Navigator.maybePop(context);
           } else {
             setState(() {
               isConnecting = false;
@@ -666,7 +664,7 @@ class _AddServerFullscreenState extends State<AddServerFullscreen> {
                 Padding(
                   padding: const EdgeInsets.only(top: 20),
                   child: TextFormField(
-                    onChanged: (value) => validateAddress(value),
+                    onChanged: validateAddress,
                     controller: addressFieldController,
                     enabled: widget.server != null ? false : true,
                     decoration: InputDecoration(
@@ -682,7 +680,7 @@ class _AddServerFullscreenState extends State<AddServerFullscreen> {
                 Padding(
                   padding: const EdgeInsets.only(top: 30),
                   child: TextFormField(
-                    onChanged: (value) => validateSubroute(value),
+                    onChanged: validateSubroute,
                     controller: subrouteFieldController,
                     enabled: widget.server != null ? false : true,
                     decoration: InputDecoration(
@@ -700,7 +698,7 @@ class _AddServerFullscreenState extends State<AddServerFullscreen> {
                 Padding(
                   padding: const EdgeInsets.only(top: 30),
                   child: TextFormField(
-                    onChanged: (value) => validatePort(value),
+                    onChanged: validatePort,
                     controller: portFieldController,
                     enabled: widget.server != null ? false : true,
                     keyboardType: TextInputType.number,
@@ -746,7 +744,7 @@ class _AddServerFullscreenState extends State<AddServerFullscreen> {
                 ),
                 SectionLabel(
                   label: AppLocalizations.of(context)!.authentication,
-                  padding: const EdgeInsets.only(top: 30, bottom: 0),
+                  padding: const EdgeInsets.only(top: 30),
                 ),
                 Padding(
                   padding: const EdgeInsets.symmetric(vertical: 10),

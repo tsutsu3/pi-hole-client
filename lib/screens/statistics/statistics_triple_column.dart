@@ -1,12 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-
-import 'package:pi_hole_client/screens/statistics/statistics_list.dart';
-import 'package:pi_hole_client/screens/statistics/statistics_queries_servers_tab.dart';
-
 import 'package:pi_hole_client/constants/enums.dart';
 import 'package:pi_hole_client/providers/status_provider.dart';
+import 'package:pi_hole_client/screens/statistics/statistics_list.dart';
+import 'package:pi_hole_client/screens/statistics/statistics_queries_servers_tab.dart';
+import 'package:provider/provider.dart';
 
 class StatisticsTripleColumn extends StatelessWidget {
   const StatisticsTripleColumn({super.key});
@@ -23,7 +21,6 @@ class StatisticsTripleColumn extends StatelessWidget {
             height: 300,
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 const CircularProgressIndicator(),
                 const SizedBox(height: 50),
@@ -43,7 +40,6 @@ class StatisticsTripleColumn extends StatelessWidget {
           return Row(
             children: [
               Expanded(
-                flex: 1,
                 child: Padding(
                   padding: const EdgeInsets.only(left: 16, right: 8),
                   child: Column(
@@ -75,7 +71,6 @@ class StatisticsTripleColumn extends StatelessWidget {
                 ),
               ),
               Expanded(
-                flex: 1,
                 child: Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 8),
                   child: Column(
@@ -110,7 +105,6 @@ class StatisticsTripleColumn extends StatelessWidget {
                 ),
               ),
               Expanded(
-                flex: 1,
                 child: Padding(
                   padding: const EdgeInsets.only(left: 8, right: 16),
                   child: Column(
@@ -154,7 +148,6 @@ class StatisticsTripleColumn extends StatelessWidget {
             height: 300,
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 const Icon(
                   Icons.error,

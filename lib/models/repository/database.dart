@@ -1,15 +1,15 @@
 import 'package:sqflite/sqflite.dart';
 
 class PiHoleClientData {
-  final List<ServerDbData>? servers;
-  final AppDbData appConfig;
-  final Database dbInstance;
-
   PiHoleClientData({
     required this.servers,
     required this.appConfig,
     required this.dbInstance,
   });
+
+  final List<ServerDbData>? servers;
+  final AppDbData appConfig;
+  final Database dbInstance;
 
   Map<String, dynamic> toDict() {
     return {
@@ -21,15 +21,6 @@ class PiHoleClientData {
 }
 
 class ServerDbData {
-  final String address;
-  final String alias;
-  final String? token;
-  final int isDefaultServer;
-  final String apiVersion;
-  final String? basicAuthUser;
-  final String? basicAuthPassword;
-  final String? sid;
-
   ServerDbData({
     required this.address,
     required this.alias,
@@ -40,19 +31,6 @@ class ServerDbData {
     required this.basicAuthPassword,
     required this.sid,
   });
-
-  factory ServerDbData.fromMap(Map<String, Object?> map) {
-    return ServerDbData(
-      address: map['address'] as String,
-      alias: map['alias'] as String,
-      token: map['token'] as String?,
-      isDefaultServer: map['isDefaultServer'] as int,
-      apiVersion: map['apiVersion'] as String,
-      basicAuthUser: map['basicAuthUser'] as String?,
-      basicAuthPassword: map['basicAuthPassword'] as String?,
-      sid: map['sid'] as String?,
-    );
-  }
 
   factory ServerDbData.withSecrets(
     ServerDbData instance,
@@ -73,6 +51,28 @@ class ServerDbData {
     );
   }
 
+  factory ServerDbData.fromMap(Map<String, Object?> map) {
+    return ServerDbData(
+      address: map['address']! as String,
+      alias: map['alias']! as String,
+      token: map['token'] as String?,
+      isDefaultServer: map['isDefaultServer']! as int,
+      apiVersion: map['apiVersion']! as String,
+      basicAuthUser: map['basicAuthUser'] as String?,
+      basicAuthPassword: map['basicAuthPassword'] as String?,
+      sid: map['sid'] as String?,
+    );
+  }
+
+  final String address;
+  final String alias;
+  final String? token;
+  final int isDefaultServer;
+  final String apiVersion;
+  final String? basicAuthUser;
+  final String? basicAuthPassword;
+  final String? sid;
+
   Map<String, dynamic> toDict() {
     return {
       'address': address,
@@ -88,19 +88,6 @@ class ServerDbData {
 }
 
 class AppDbData {
-  final int autoRefreshTime;
-  final int theme;
-  final String language;
-  final int overrideSslCheck;
-  final int reducedDataCharts;
-  final int logsPerQuery;
-  final String? passCode;
-  final int useBiometricAuth;
-  final int importantInfoReaden;
-  final int hideZeroValues;
-  final int statisticsVisualizationMode;
-  final int sendCrashReports;
-
   AppDbData({
     required this.autoRefreshTime,
     required this.theme,
@@ -118,18 +105,18 @@ class AppDbData {
 
   factory AppDbData.fromMap(Map<String, Object?> map) {
     return AppDbData(
-      autoRefreshTime: map['autoRefreshTime'] as int,
-      theme: map['theme'] as int,
-      language: map['language'] as String,
-      overrideSslCheck: map['overrideSslCheck'] as int,
-      reducedDataCharts: map['reducedDataCharts'] as int,
-      logsPerQuery: map['logsPerQuery'] as int,
+      autoRefreshTime: map['autoRefreshTime']! as int,
+      theme: map['theme']! as int,
+      language: map['language']! as String,
+      overrideSslCheck: map['overrideSslCheck']! as int,
+      reducedDataCharts: map['reducedDataCharts']! as int,
+      logsPerQuery: map['logsPerQuery']! as int,
       passCode: map['passCode'] as String?,
-      useBiometricAuth: map['useBiometricAuth'] as int,
-      importantInfoReaden: map['importantInfoReaden'] as int,
-      hideZeroValues: map['hideZeroValues'] as int,
-      statisticsVisualizationMode: map['statisticsVisualizationMode'] as int,
-      sendCrashReports: map['sendCrashReports'] as int,
+      useBiometricAuth: map['useBiometricAuth']! as int,
+      importantInfoReaden: map['importantInfoReaden']! as int,
+      hideZeroValues: map['hideZeroValues']! as int,
+      statisticsVisualizationMode: map['statisticsVisualizationMode']! as int,
+      sendCrashReports: map['sendCrashReports']! as int,
     );
   }
 
@@ -152,6 +139,19 @@ class AppDbData {
       sendCrashReports: instance.sendCrashReports,
     );
   }
+
+  final int autoRefreshTime;
+  final int theme;
+  final String language;
+  final int overrideSslCheck;
+  final int reducedDataCharts;
+  final int logsPerQuery;
+  final String? passCode;
+  final int useBiometricAuth;
+  final int importantInfoReaden;
+  final int hideZeroValues;
+  final int statisticsVisualizationMode;
+  final int sendCrashReports;
 
   Map<String, dynamic> toDict() {
     return {

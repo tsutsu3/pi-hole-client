@@ -4,13 +4,13 @@ import 'package:pi_hole_client/widgets/custom_radio.dart';
 
 class CustomRadioListTile extends StatelessWidget {
   const CustomRadioListTile({
-    super.key,
     required this.groupValue,
     required this.value,
     required this.radioBackgroundColor,
     required this.title,
-    this.subtitle,
     required this.onChanged,
+    super.key,
+    this.subtitle,
   });
 
   final int groupValue;
@@ -29,7 +29,6 @@ class CustomRadioListTile extends StatelessWidget {
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
           child: Row(
-            mainAxisAlignment: MainAxisAlignment.start,
             children: [
               const SizedBox(width: 8),
               CustomRadio(

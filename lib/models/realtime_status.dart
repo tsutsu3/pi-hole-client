@@ -9,40 +9,6 @@ RealtimeStatus realtimeStatusFromJson(String str) =>
     RealtimeStatus.fromJson(json.decode(str));
 
 class RealtimeStatus {
-  final int domainsBeingBlocked;
-  final int dnsQueriesToday;
-  final int adsBlockedToday;
-  final double adsPercentageToday;
-  final int uniqueDomains;
-  final int queriesForwarded;
-  final int queriesCached;
-  final int clientsEverSeen;
-  final int uniqueClients;
-  final int dnsQueriesAllTypes;
-  final int replyUnknown;
-  final int replyNodata;
-  final int replyNxdomain;
-  final int replyCname;
-  final int replyIp;
-  final int replyDomain;
-  final int replyRrname;
-  final int replyServfail;
-  final int replyRefused;
-  final int replyNotimp;
-  final int replyOther;
-  final int replyDnssec;
-  final int replyNone;
-  final int replyBlob;
-  final int dnsQueriesAllReplies;
-  final int privacyLevel;
-  final String status;
-  final Map<String, int> topQueries;
-  final Map<String, int> topAds;
-  final Map<String, int> topSources;
-  final Map<String, int> topSourcesBlocked;
-  final Map<String, double> forwardDestinations;
-  final Map<String, double> queryTypes;
-
   RealtimeStatus({
     required this.domainsBeingBlocked,
     required this.dnsQueriesToday,
@@ -273,4 +239,38 @@ class RealtimeStatus {
       queryTypes: queryTypes,
     );
   }
+
+  final int domainsBeingBlocked;
+  final int dnsQueriesToday;
+  final int adsBlockedToday;
+  final double adsPercentageToday;
+  final int uniqueDomains;
+  final int queriesForwarded;
+  final int queriesCached;
+  final int clientsEverSeen;
+  final int uniqueClients;
+  final int dnsQueriesAllTypes;
+  final int replyUnknown;
+  final int replyNodata;
+  final int replyNxdomain;
+  final int replyCname;
+  final int replyIp;
+  final int replyDomain;
+  final int replyRrname;
+  final int replyServfail;
+  final int replyRefused;
+  final int replyNotimp;
+  final int replyOther;
+  final int replyDnssec;
+  final int replyNone;
+  final int replyBlob;
+  final int dnsQueriesAllReplies;
+  final int privacyLevel;
+  final String status;
+  final Map<String, int> topQueries;
+  final Map<String, int> topAds;
+  final Map<String, int> topSources;
+  final Map<String, int> topSourcesBlocked;
+  final Map<String, double> forwardDestinations;
+  final Map<String, double> queryTypes;
 }

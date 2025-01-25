@@ -25,11 +25,11 @@ class Query with _$Query {
     required double time,
     required String type,
     required String domain,
+    required Client client,
+    required Reply reply,
     String? cname,
     String? status,
-    required Client client,
     String? dnssec,
-    required Reply reply,
     @JsonKey(name: 'list_id') int? listId,
     String? upstream,
   }) = _Query;
@@ -50,8 +50,8 @@ class Client with _$Client {
 @freezed
 class Reply with _$Reply {
   const factory Reply({
-    String? type,
     required double time,
+    String? type,
   }) = _Reply;
 
   factory Reply.fromJson(Map<String, dynamic> json) => _$ReplyFromJson(json);

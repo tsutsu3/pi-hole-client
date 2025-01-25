@@ -1,18 +1,21 @@
 import 'dart:async';
-import 'package:flutter/material.dart';
+
 import 'package:collection/collection.dart';
+import 'package:flutter/material.dart';
 import 'package:pi_hole_client/config/theme.dart';
 import 'package:pi_hole_client/constants/query_types.dart';
+import 'package:pi_hole_client/functions/conversions.dart';
 import 'package:pi_hole_client/gateways/api_gateway_factory.dart';
 import 'package:pi_hole_client/gateways/api_gateway_interface.dart';
 import 'package:pi_hole_client/models/query_status.dart';
 import 'package:pi_hole_client/models/repository/database.dart';
-import 'package:pi_hole_client/repository/database.dart';
-import 'package:pi_hole_client/providers/app_config_provider.dart';
-import 'package:pi_hole_client/functions/conversions.dart';
 import 'package:pi_hole_client/models/server.dart';
+import 'package:pi_hole_client/providers/app_config_provider.dart';
+import 'package:pi_hole_client/repository/database.dart';
 
 class ServersProvider with ChangeNotifier {
+  ServersProvider(this._repository);
+
   AppConfigProvider? _appConfigProvider;
   final DatabaseRepository _repository;
   final List<QueryStatus> _queryStatusesV5 = queryStatusesV5;
@@ -65,8 +68,6 @@ class ServersProvider with ChangeNotifier {
         return [];
     }
   }
-
-  ServersProvider(this._repository);
 
   void update(AppConfigProvider? provider) {
     _appConfigProvider = provider;
@@ -137,7 +138,7 @@ class ServersProvider with ChangeNotifier {
   Future<bool> editServer(Server server) async {
     final result = await _repository.editServerQuery(server);
     if (result == true) {
-      List<Server> newServers = _serversList.map((s) {
+      final newServers = _serversList.map((s) {
         if (s.address == server.address) {
           return server;
         } else {
@@ -157,7 +158,7 @@ class ServersProvider with ChangeNotifier {
     if (result == true) {
       _serverGateways.removeWhere((key, _) => key == serverAddress);
       _selectedServer = null;
-      List<Server> newServers = _serversList
+      final newServers = _serversList
           .where((server) => server.address != serverAddress)
           .toList();
       _serversList = newServers;
@@ -185,11 +186,11 @@ class ServersProvider with ChangeNotifier {
     }
   }
 
-  Future saveFromDb(List<ServerDbData>? servers) async {
+  Future<dynamic> saveFromDb(List<ServerDbData>? servers) async {
     if (servers != null) {
       Server? defaultServer;
-      for (var server in servers) {
-        final Server serverObj = Server(
+      for (final server in servers) {
+        final serverObj = Server(
           address: server.address,
           alias: server.alias,
           defaultServer: convertFromIntToBool(server.isDefaultServer)!,

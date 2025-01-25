@@ -1,13 +1,4 @@
 class Domain {
-  int id;
-  int type;
-  String domain;
-  int enabled;
-  DateTime dateAdded;
-  DateTime dateModified;
-  String? comment;
-  List<int> groups;
-
   Domain({
     required this.id,
     required this.type,
@@ -31,6 +22,15 @@ class Domain {
         comment: json['comment'],
         groups: List<int>.from(json['groups'].map((x) => x)),
       );
+
+  int id;
+  int type;
+  String domain;
+  int enabled;
+  DateTime dateAdded;
+  DateTime dateModified;
+  String? comment;
+  List<int> groups;
 
   Map<String, dynamic> toJson() => {
         'id': id,

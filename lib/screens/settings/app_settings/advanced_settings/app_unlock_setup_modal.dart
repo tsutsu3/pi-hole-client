@@ -1,23 +1,21 @@
 // ignore_for_file: use_build_context_synchronously
 
 import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:local_auth/local_auth.dart';
 import 'package:pi_hole_client/functions/conversions.dart';
-import 'package:provider/provider.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-
-import 'package:pi_hole_client/screens/settings/app_settings/advanced_settings/app_lock/remove_passcode_modal.dart';
-import 'package:pi_hole_client/screens/settings/app_settings/advanced_settings/app_lock/create_pass_code_modal.dart';
-
-import 'package:pi_hole_client/providers/app_config_provider.dart';
 import 'package:pi_hole_client/functions/snackbar.dart';
+import 'package:pi_hole_client/providers/app_config_provider.dart';
+import 'package:pi_hole_client/screens/settings/app_settings/advanced_settings/app_lock/create_pass_code_modal.dart';
+import 'package:pi_hole_client/screens/settings/app_settings/advanced_settings/app_lock/remove_passcode_modal.dart';
+import 'package:provider/provider.dart';
 
 class AppUnlockSetupModal extends StatefulWidget {
   const AppUnlockSetupModal({
-    super.key,
     required this.topBarHeight,
     required this.useBiometrics,
     required this.window,
+    super.key,
   });
 
   final double topBarHeight;
@@ -32,11 +30,10 @@ class _AppUnlockSetupModalState extends State<AppUnlockSetupModal> {
   List<BiometricType> availableBiometrics = [];
   bool validVibrator = false;
 
-  void checkAvailableBiometrics() async {
+  Future<void> checkAvailableBiometrics() async {
     try {
       final auth = LocalAuthentication();
-      final List<BiometricType> biometrics =
-          await auth.getAvailableBiometrics();
+      final biometrics = await auth.getAvailableBiometrics();
       setState(() => availableBiometrics = biometrics);
     } catch (_) {
       // NO BIOMETRICS //
@@ -73,14 +70,14 @@ class _AppUnlockSetupModalState extends State<AppUnlockSetupModal> {
       );
     }
 
-    void enableDisableBiometricsUnlock(bool status) async {
+    Future<void> enableDisableBiometricsUnlock(bool status) async {
       if (status == true) {
         final auth = LocalAuthentication();
         final biometrics = await auth.getAvailableBiometrics();
         if (biometrics.isNotEmpty) {
-          auth.stopAuthentication();
+          await auth.stopAuthentication();
           try {
-            final bool didAuthenticate = await auth.authenticate(
+            final didAuthenticate = await auth.authenticate(
               localizedReason: 'Unlock the app',
               options: const AuthenticationOptions(
                 biometricOnly: true,
@@ -214,74 +211,74 @@ class _AppUnlockSetupModalState extends State<AppUnlockSetupModal> {
                   ],
                 ),
         ),
-        appConfigProvider.passCode != null
-            ? Padding(
-                padding:
-                    const EdgeInsets.symmetric(horizontal: 10, vertical: 20),
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+        if (appConfigProvider.passCode != null)
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 20),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: [
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        ElevatedButton(
-                          onPressed: openPassCodeDialog,
-                          style: ButtonStyle(
-                            shadowColor:
-                                WidgetStateProperty.all(Colors.transparent),
+                    ElevatedButton(
+                      onPressed: openPassCodeDialog,
+                      style: ButtonStyle(
+                        shadowColor:
+                            WidgetStateProperty.all(Colors.transparent),
+                      ),
+                      child: Row(
+                        children: [
+                          if (mediaQuery.size.width > 380)
+                            const Icon(Icons.update),
+                          if (mediaQuery.size.width > 380)
+                            const SizedBox(width: 10),
+                          Text(
+                            AppLocalizations.of(context)!.updatePasscode,
                           ),
-                          child: Row(
-                            children: [
-                              if (mediaQuery.size.width > 380)
-                                const Icon(Icons.update),
-                              if (mediaQuery.size.width > 380)
-                                const SizedBox(width: 10),
-                              Text(
-                                AppLocalizations.of(context)!.updatePasscode,
-                              ),
-                            ],
-                          ),
-                        ),
-                      ],
-                    ),
-                    const SizedBox(height: 16),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        ElevatedButton(
-                          onPressed: openRemovePasscode,
-                          style: ButtonStyle(
-                            shadowColor:
-                                WidgetStateProperty.all(Colors.transparent),
-                          ),
-                          child: Row(
-                            children: [
-                              if (mediaQuery.size.width > 380)
-                                const Icon(Icons.delete),
-                              if (mediaQuery.size.width > 380)
-                                const SizedBox(width: 10),
-                              Text(
-                                AppLocalizations.of(context)!.removePasscode,
-                              ),
-                            ],
-                          ),
-                        ),
-                      ],
+                        ],
+                      ),
                     ),
                   ],
                 ),
-              )
-            : Padding(
-                padding: const EdgeInsets.all(20),
-                child: ElevatedButton.icon(
-                  onPressed: openPassCodeDialog,
-                  style: ButtonStyle(
-                    shadowColor: WidgetStateProperty.all(Colors.transparent),
-                  ),
-                  icon: const Icon(Icons.pin_outlined),
-                  label: Text(AppLocalizations.of(context)!.setPassCode),
+                const SizedBox(height: 16),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    ElevatedButton(
+                      onPressed: openRemovePasscode,
+                      style: ButtonStyle(
+                        shadowColor:
+                            WidgetStateProperty.all(Colors.transparent),
+                      ),
+                      child: Row(
+                        children: [
+                          if (mediaQuery.size.width > 380)
+                            const Icon(Icons.delete),
+                          if (mediaQuery.size.width > 380)
+                            const SizedBox(width: 10),
+                          Text(
+                            AppLocalizations.of(context)!.removePasscode,
+                          ),
+                        ],
+                      ),
+                    ),
+                  ],
                 ),
+              ],
+            ),
+          )
+        else
+          Padding(
+            padding: const EdgeInsets.all(20),
+            child: ElevatedButton.icon(
+              onPressed: openPassCodeDialog,
+              style: ButtonStyle(
+                shadowColor: WidgetStateProperty.all(Colors.transparent),
               ),
+              icon: const Icon(Icons.pin_outlined),
+              label: Text(AppLocalizations.of(context)!.setPassCode),
+            ),
+          ),
         if (appConfigProvider.biometricsSupport == true)
           Material(
             color: Colors.transparent,
@@ -330,7 +327,7 @@ class _AppUnlockSetupModalState extends State<AppUnlockSetupModal> {
                     Switch(
                       value: appConfigProvider.useBiometrics,
                       onChanged: appConfigProvider.passCode != null
-                          ? (value) => enableDisableBiometricsUnlock(value)
+                          ? enableDisableBiometricsUnlock
                           : null,
                     ),
                   ],

@@ -2,16 +2,15 @@ import 'package:flutter/material.dart';
 import 'package:pi_hole_client/config/theme.dart';
 import 'package:pi_hole_client/constants/responsive.dart';
 import 'package:pi_hole_client/functions/conversions.dart';
-
-import 'package:pi_hole_client/models/domain.dart';
 import 'package:pi_hole_client/functions/format.dart';
+import 'package:pi_hole_client/models/domain.dart';
 
 class DomainTile extends StatelessWidget {
   const DomainTile({
-    super.key,
     required this.domain,
     required this.showDomainDetails,
     required this.colors,
+    super.key,
     this.isDomainSelected,
   });
 

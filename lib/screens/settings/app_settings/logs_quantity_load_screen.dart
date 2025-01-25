@@ -1,14 +1,12 @@
 // ignore_for_file: use_build_context_synchronously
 
 import 'package:flutter/material.dart';
-import 'package:pi_hole_client/config/theme.dart';
-import 'package:provider/provider.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-
-import 'package:pi_hole_client/widgets/custom_radio_list_tile.dart';
-
+import 'package:pi_hole_client/config/theme.dart';
 import 'package:pi_hole_client/functions/snackbar.dart';
 import 'package:pi_hole_client/providers/app_config_provider.dart';
+import 'package:pi_hole_client/widgets/custom_radio_list_tile.dart';
+import 'package:provider/provider.dart';
 
 class LogsQuantityLoadScreen extends StatefulWidget {
   const LogsQuantityLoadScreen({super.key});
@@ -81,7 +79,7 @@ class _LogsQuantityLoadScreenState extends State<LogsQuantityLoadScreen> {
     }
   }
 
-  void onSave() async {
+  Future<void> onSave() async {
     final result = await Provider.of<AppConfigProvider>(context, listen: false)
         .setLogsPerQuery(_getTime());
     if (result == true) {
@@ -128,7 +126,7 @@ class _LogsQuantityLoadScreenState extends State<LogsQuantityLoadScreen> {
               child: Container(
                 padding: const EdgeInsets.all(20),
                 decoration: BoxDecoration(
-                  color: Theme.of(context).extension<AppColors>()!.cardWarning!,
+                  color: Theme.of(context).extension<AppColors>()!.cardWarning,
                   borderRadius: BorderRadius.circular(30),
                 ),
                 height: 100,
@@ -138,7 +136,7 @@ class _LogsQuantityLoadScreenState extends State<LogsQuantityLoadScreen> {
                       Icons.warning_rounded,
                       color: Theme.of(context)
                           .extension<AppColors>()!
-                          .cardWarningText!,
+                          .cardWarningText,
                     ),
                     const SizedBox(width: 20),
                     Expanded(
@@ -147,7 +145,7 @@ class _LogsQuantityLoadScreenState extends State<LogsQuantityLoadScreen> {
                         style: TextStyle(
                           color: Theme.of(context)
                               .extension<AppColors>()!
-                              .cardWarningText!,
+                              .cardWarningText,
                         ),
                       ),
                     ),

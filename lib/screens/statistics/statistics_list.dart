@@ -1,25 +1,23 @@
 import 'package:flutter/material.dart';
-import 'package:percent_indicator/percent_indicator.dart';
-import 'package:provider/provider.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-
+import 'package:percent_indicator/percent_indicator.dart';
+import 'package:pi_hole_client/functions/conversions.dart';
+import 'package:pi_hole_client/providers/app_config_provider.dart';
+import 'package:pi_hole_client/providers/filters_provider.dart';
+import 'package:pi_hole_client/providers/status_provider.dart';
 import 'package:pi_hole_client/screens/statistics/custom_pie_chart.dart';
 import 'package:pi_hole_client/screens/statistics/no_data_chart.dart';
 import 'package:pi_hole_client/screens/statistics/pie_chart_legend.dart';
 import 'package:pi_hole_client/widgets/section_label.dart';
 import 'package:pi_hole_client/widgets/tab_content.dart';
-
-import 'package:pi_hole_client/providers/filters_provider.dart';
-import 'package:pi_hole_client/providers/status_provider.dart';
-import 'package:pi_hole_client/providers/app_config_provider.dart';
-import 'package:pi_hole_client/functions/conversions.dart';
+import 'package:provider/provider.dart';
 
 class StatisticsList extends StatelessWidget {
   const StatisticsList({
-    super.key,
     required this.countLabel,
     required this.type,
     required this.onRefresh,
+    super.key,
   });
 
   final String countLabel;
@@ -36,7 +34,6 @@ class StatisticsList extends StatelessWidget {
         height: 300,
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
-          crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             const CircularProgressIndicator(),
             const SizedBox(height: 50),
@@ -58,7 +55,6 @@ class StatisticsList extends StatelessWidget {
         height: 300,
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
-          crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             const Icon(
               Icons.error,
@@ -85,9 +81,9 @@ class StatisticsList extends StatelessWidget {
 
 class StatisticsListContent extends StatelessWidget {
   const StatisticsListContent({
-    super.key,
     required this.type,
     required this.countLabel,
+    super.key,
   });
 
   final String type;
@@ -116,8 +112,8 @@ class StatisticsListContent extends StatelessWidget {
     }
 
     Widget listViewMode(List<Map<String, dynamic>> values) {
-      int totalHits = 0;
-      for (var item in values) {
+      var totalHits = 0;
+      for (final item in values) {
         totalHits = totalHits + item['value'].toInt() as int;
       }
 
@@ -150,7 +146,7 @@ class StatisticsListContent extends StatelessWidget {
                             ),
                             const SizedBox(height: 10),
                             Text(
-                              '$countLabel ${item['value'].toInt().toString()}',
+                              '$countLabel ${item['value'].toInt()}',
                               overflow: TextOverflow.ellipsis,
                               maxLines: 1,
                               softWrap: false,
@@ -166,11 +162,9 @@ class StatisticsListContent extends StatelessWidget {
                       ),
                       const SizedBox(width: 20),
                       Expanded(
-                        flex: 1,
                         child: LinearPercentIndicator(
                           animation: true,
                           lineHeight: 10,
-                          animationDuration: 500,
                           curve: Curves.easeOut,
                           percent: (item['value'] / totalHits).toDouble(),
                           barRadius: const Radius.circular(5),
@@ -190,9 +184,9 @@ class StatisticsListContent extends StatelessWidget {
     }
 
     Widget pieChertViewMode(List<Map<String, dynamic>> values) {
-      Map<String, double> items = {};
-      Map<String, int> legend = {};
-      for (var item in values) {
+      var items = <String, double>{};
+      var legend = <String, int>{};
+      for (final item in values) {
         items = {...items, item['label']: item['value'].toDouble()};
         legend = {...legend, item['label']: item['value'].toInt()};
       }
@@ -203,7 +197,7 @@ class StatisticsListContent extends StatelessWidget {
           const SizedBox(height: 20),
           PieChartLegend(
             data: legend,
-            onValueTap: (value) => navigateFilter(value),
+            onValueTap: navigateFilter,
           ),
           const SizedBox(height: 10),
         ],
@@ -219,9 +213,10 @@ class StatisticsListContent extends StatelessWidget {
             label: label,
             padding: const EdgeInsets.only(top: 24, left: 16, bottom: 16),
           ),
-          appConfigProvider.statisticsVisualizationMode == 0
-              ? listViewMode(topQueriesList)
-              : pieChertViewMode(topQueriesList),
+          if (appConfigProvider.statisticsVisualizationMode == 0)
+            listViewMode(topQueriesList)
+          else
+            pieChertViewMode(topQueriesList),
         ],
       );
     }
@@ -229,35 +224,39 @@ class StatisticsListContent extends StatelessWidget {
     if (type == 'domains') {
       return Column(
         children: [
-          statusProvider.getRealtimeStatus!.topQueries.isNotEmpty
-              ? generateList(
-                  statusProvider.getRealtimeStatus!.topQueries,
-                  AppLocalizations.of(context)!.topPermittedDomains,
-                )
-              : NoDataChart(topLabel: AppLocalizations.of(context)!.noData),
-          statusProvider.getRealtimeStatus!.topAds.isNotEmpty
-              ? generateList(
-                  statusProvider.getRealtimeStatus!.topAds,
-                  AppLocalizations.of(context)!.topBlockedDomains,
-                )
-              : NoDataChart(topLabel: AppLocalizations.of(context)!.noData),
+          if (statusProvider.getRealtimeStatus!.topQueries.isNotEmpty)
+            generateList(
+              statusProvider.getRealtimeStatus!.topQueries,
+              AppLocalizations.of(context)!.topPermittedDomains,
+            )
+          else
+            NoDataChart(topLabel: AppLocalizations.of(context)!.noData),
+          if (statusProvider.getRealtimeStatus!.topAds.isNotEmpty)
+            generateList(
+              statusProvider.getRealtimeStatus!.topAds,
+              AppLocalizations.of(context)!.topBlockedDomains,
+            )
+          else
+            NoDataChart(topLabel: AppLocalizations.of(context)!.noData),
         ],
       );
     } else if (type == 'clients') {
       return Column(
         children: [
-          statusProvider.getRealtimeStatus!.topSources.isNotEmpty
-              ? generateList(
-                  statusProvider.getRealtimeStatus!.topSources,
-                  AppLocalizations.of(context)!.topClients,
-                )
-              : NoDataChart(topLabel: AppLocalizations.of(context)!.noData),
-          statusProvider.getRealtimeStatus!.topSourcesBlocked.isNotEmpty
-              ? generateList(
-                  statusProvider.getRealtimeStatus!.topSourcesBlocked,
-                  AppLocalizations.of(context)!.topClientsBlocked,
-                )
-              : NoDataChart(topLabel: AppLocalizations.of(context)!.noData),
+          if (statusProvider.getRealtimeStatus!.topSources.isNotEmpty)
+            generateList(
+              statusProvider.getRealtimeStatus!.topSources,
+              AppLocalizations.of(context)!.topClients,
+            )
+          else
+            NoDataChart(topLabel: AppLocalizations.of(context)!.noData),
+          if (statusProvider.getRealtimeStatus!.topSourcesBlocked.isNotEmpty)
+            generateList(
+              statusProvider.getRealtimeStatus!.topSourcesBlocked,
+              AppLocalizations.of(context)!.topClientsBlocked,
+            )
+          else
+            NoDataChart(topLabel: AppLocalizations.of(context)!.noData),
         ],
       );
     } else {

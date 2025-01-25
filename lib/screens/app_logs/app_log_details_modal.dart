@@ -4,7 +4,7 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:pi_hole_client/models/app_log.dart';
 
 class AppLogDetailsModal extends StatefulWidget {
-  const AppLogDetailsModal({super.key, required this.log});
+  const AppLogDetailsModal({required this.log, super.key});
 
   final AppLog log;
 
@@ -59,7 +59,6 @@ class _AppLogDetailsModalState extends State<AppLogDetailsModal> {
       scrollable: true,
       content: Column(
         mainAxisSize: MainAxisSize.min,
-        crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           const SizedBox(height: 20),
           Row(

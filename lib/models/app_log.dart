@@ -1,10 +1,4 @@
 class AppLog {
-  final String type;
-  final DateTime dateTime;
-  final String message;
-  final String? statusCode;
-  final String? resBody;
-
   const AppLog({
     required this.type,
     required this.dateTime,
@@ -12,6 +6,12 @@ class AppLog {
     this.statusCode,
     this.resBody,
   });
+
+  final String type;
+  final DateTime dateTime;
+  final String message;
+  final String? statusCode;
+  final String? resBody;
 
   Map<String, String> toMap() {
     return {

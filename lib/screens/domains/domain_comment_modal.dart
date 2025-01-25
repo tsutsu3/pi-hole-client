@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class DomainCommentModal extends StatelessWidget {
-  const DomainCommentModal({super.key, required this.comment});
+  const DomainCommentModal({required this.comment, super.key});
 
   final String comment;
 

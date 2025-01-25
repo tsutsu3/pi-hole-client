@@ -1,13 +1,11 @@
 // ignore_for_file: use_build_context_synchronously
 
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-
-import 'package:pi_hole_client/widgets/numeric_pad.dart';
-
-import 'package:pi_hole_client/providers/app_config_provider.dart';
 import 'package:pi_hole_client/functions/snackbar.dart';
+import 'package:pi_hole_client/providers/app_config_provider.dart';
+import 'package:pi_hole_client/widgets/numeric_pad.dart';
+import 'package:provider/provider.dart';
 
 class CreatePassCodeModal extends StatefulWidget {
   const CreatePassCodeModal({super.key});
@@ -27,11 +25,11 @@ class _CreatePassCodeModalState extends State<CreatePassCodeModal> {
 
     final height = MediaQuery.of(context).size.height;
 
-    void finish() async {
+    Future<void> finish() async {
       if (_code == _repeatedCode) {
         final result = await appConfigProvider.setPassCode(_repeatedCode);
         if (result == true) {
-          Navigator.maybePop(context);
+          await Navigator.maybePop(context);
         } else {
           showErrorSnackBar(
             context: context,
@@ -88,9 +86,7 @@ class _CreatePassCodeModalState extends State<CreatePassCodeModal> {
         height: height - 60,
         width: double.maxFinite,
         child: Column(
-          mainAxisSize: MainAxisSize.max,
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-          crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             NumericPad(
               code: _step == 0 ? _code : _repeatedCode,

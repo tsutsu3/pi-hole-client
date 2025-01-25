@@ -1,17 +1,15 @@
 // ignore_for_file: use_build_context_synchronously
 
 import 'package:flutter/material.dart';
-import 'package:local_auth/local_auth.dart';
-import 'package:pi_hole_client/constants/responsive.dart';
-import 'package:provider/provider.dart';
 import 'package:flutter_app_lock/flutter_app_lock.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-
-import 'package:pi_hole_client/widgets/numeric_pad.dart';
-import 'package:pi_hole_client/widgets/shake_animation.dart';
-
+import 'package:local_auth/local_auth.dart';
+import 'package:pi_hole_client/constants/responsive.dart';
 import 'package:pi_hole_client/functions/snackbar.dart';
 import 'package:pi_hole_client/providers/app_config_provider.dart';
+import 'package:pi_hole_client/widgets/numeric_pad.dart';
+import 'package:pi_hole_client/widgets/shake_animation.dart';
+import 'package:provider/provider.dart';
 
 class Unlock extends StatefulWidget {
   const Unlock({
@@ -31,16 +29,16 @@ class _UnlockState extends State<Unlock> {
   final GlobalKey<ShakeAnimationState> _shakeKey =
       GlobalKey<ShakeAnimationState>();
 
-  void checkBiometrics() async {
+  Future<void> checkBiometrics() async {
     final appConfigProvider =
         Provider.of<AppConfigProvider>(context, listen: false);
 
-    final LocalAuthentication auth = LocalAuthentication();
+    final auth = LocalAuthentication();
     final biometrics = await auth.getAvailableBiometrics();
     if (appConfigProvider.useBiometrics == true && biometrics.isNotEmpty) {
-      auth.stopAuthentication();
+      await auth.stopAuthentication();
       try {
-        final bool didAuthenticate = await auth.authenticate(
+        final didAuthenticate = await auth.authenticate(
           localizedReason: AppLocalizations.of(context)!.unlockWithFingerprint,
           options: const AuthenticationOptions(
             biometricOnly: true,
@@ -123,43 +121,42 @@ class _UnlockState extends State<Unlock> {
                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                       children: [
                         const SizedBox(height: 16),
-                        height - 180 >= 426
-                            ? Column(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  const Padding(
-                                    padding: EdgeInsets.only(top: 30),
-                                    child: Icon(
-                                      Icons.lock_open_rounded,
-                                      size: 30,
-                                    ),
-                                  ),
-                                  Padding(
-                                    padding: const EdgeInsets.all(30),
-                                    child: Text(
-                                      AppLocalizations.of(context)!
-                                          .enterCodeUnlock,
-                                      textAlign: TextAlign.center,
-                                      style: const TextStyle(fontSize: 22),
-                                    ),
-                                  ),
-                                ],
-                              )
-                            : Row(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  const Icon(
-                                    Icons.lock_open_rounded,
-                                    size: 30,
-                                  ),
-                                  const SizedBox(width: 30),
-                                  Text(
-                                    AppLocalizations.of(context)!
-                                        .enterCodeUnlock,
-                                    style: const TextStyle(fontSize: 22),
-                                  ),
-                                ],
+                        if (height - 180 >= 426)
+                          Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              const Padding(
+                                padding: EdgeInsets.only(top: 30),
+                                child: Icon(
+                                  Icons.lock_open_rounded,
+                                  size: 30,
+                                ),
                               ),
+                              Padding(
+                                padding: const EdgeInsets.all(30),
+                                child: Text(
+                                  AppLocalizations.of(context)!.enterCodeUnlock,
+                                  textAlign: TextAlign.center,
+                                  style: const TextStyle(fontSize: 22),
+                                ),
+                              ),
+                            ],
+                          )
+                        else
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              const Icon(
+                                Icons.lock_open_rounded,
+                                size: 30,
+                              ),
+                              const SizedBox(width: 30),
+                              Text(
+                                AppLocalizations.of(context)!.enterCodeUnlock,
+                                style: const TextStyle(fontSize: 22),
+                              ),
+                            ],
+                          ),
                         NumericPad(
                           shakeKey: _shakeKey,
                           code: _code,

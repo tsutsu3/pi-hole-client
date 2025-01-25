@@ -1,7 +1,6 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
-
 import 'package:pi_hole_client/functions/colors.dart';
 import 'package:pi_hole_client/models/api/v6/metrics/history.dart';
 
@@ -12,11 +11,6 @@ String overTimeDataToJson(OverTimeData data) => json.encode(data.toJson());
 
 /// Over time data (24 hours)
 class OverTimeData {
-  final Map<String, int> domainsOverTime;
-  final Map<String, int> adsOverTime;
-  final List<Client> clients;
-  final Map<String, List<int>> overTime;
-
   OverTimeData({
     required this.domainsOverTime,
     required this.adsOverTime,
@@ -108,6 +102,11 @@ class OverTimeData {
     );
   }
 
+  final Map<String, int> domainsOverTime;
+  final Map<String, int> adsOverTime;
+  final List<Client> clients;
+  final Map<String, List<int>> overTime;
+
   Map<String, dynamic> toJson() => {
         'domains_over_time': Map.from(domainsOverTime)
             .map((k, v) => MapEntry<String, dynamic>(k, v)),
@@ -123,10 +122,6 @@ class OverTimeData {
 }
 
 class Client {
-  final String name;
-  final String ip;
-  final Color color;
-
   Client({
     required this.name,
     required this.ip,
@@ -135,6 +130,10 @@ class Client {
 
   factory Client.fromJson(Map<String, dynamic> json) =>
       Client(name: json['name'], ip: json['ip'], color: generateRandomColor());
+
+  final String name;
+  final String ip;
+  final Color color;
 
   Map<String, dynamic> toJson() => {
         'name': name,

@@ -1,23 +1,24 @@
 import 'package:dynamic_color/dynamic_color.dart';
-import 'package:flutter_dotenv/flutter_dotenv.dart';
-import 'package:flutter_test/flutter_test.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-import 'package:pi_hole_client/config/theme.dart';
-import 'package:provider/provider.dart';
-import 'package:mockito/mockito.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/annotations.dart';
+import 'package:mockito/mockito.dart';
+import 'package:pi_hole_client/config/globals.dart';
+import 'package:pi_hole_client/config/theme.dart';
 import 'package:pi_hole_client/gateways/v6/api_gateway_v6.dart';
-import 'package:pi_hole_client/models/gateways.dart';
-import 'package:pi_hole_client/providers/app_config_provider.dart';
-import 'package:pi_hole_client/screens/domains/domain_details_screen.dart';
 import 'package:pi_hole_client/models/domain.dart';
+import 'package:pi_hole_client/models/gateways.dart';
 import 'package:pi_hole_client/models/server.dart';
+import 'package:pi_hole_client/providers/app_config_provider.dart';
 import 'package:pi_hole_client/providers/domains_list_provider.dart';
 import 'package:pi_hole_client/providers/servers_provider.dart';
+import 'package:pi_hole_client/screens/domains/domain_details_screen.dart';
 import 'package:pi_hole_client/screens/domains/domains.dart';
-import 'package:pi_hole_client/config/globals.dart';
+import 'package:provider/provider.dart';
+
 import './domains_test.mocks.dart';
 
 @GenerateMocks(
@@ -25,7 +26,7 @@ import './domains_test.mocks.dart';
 )
 void main() async {
   TestWidgetsFlutterBinding.ensureInitialized();
-  await dotenv.load(fileName: '.env');
+  await dotenv.load();
 
   final server = Server(
     address: 'address',
@@ -99,7 +100,7 @@ void main() async {
         return AddDomainToListResponse(result: APiResponseType.success);
       });
 
-      bool showingSnackbar = false;
+      const showingSnackbar = false;
       when(mockConfigProvider.showingSnackbar).thenReturn(showingSnackbar);
       when(mockConfigProvider.setShowingSnackbar(any)).thenAnswer((_) {});
       when(mockConfigProvider.colors).thenReturn(lightAppColors);
@@ -150,7 +151,7 @@ void main() async {
                   home: const Scaffold(
                     body: DomainLists(),
                   ),
-                  localizationsDelegates: [
+                  localizationsDelegates: const [
                     GlobalMaterialLocalizations.delegate,
                     AppLocalizations.delegate,
                   ],
@@ -239,7 +240,7 @@ void main() async {
                   home: const Scaffold(
                     body: DomainLists(),
                   ),
-                  localizationsDelegates: [
+                  localizationsDelegates: const [
                     GlobalMaterialLocalizations.delegate,
                     AppLocalizations.delegate,
                   ],
@@ -320,7 +321,7 @@ void main() async {
               home: const Scaffold(
                 body: DomainLists(),
               ),
-              localizationsDelegates: [
+              localizationsDelegates: const [
                 GlobalMaterialLocalizations.delegate,
                 AppLocalizations.delegate,
               ],
@@ -401,7 +402,7 @@ void main() async {
                   home: const Scaffold(
                     body: DomainLists(),
                   ),
-                  localizationsDelegates: [
+                  localizationsDelegates: const [
                     GlobalMaterialLocalizations.delegate,
                     AppLocalizations.delegate,
                   ],
