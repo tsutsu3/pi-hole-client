@@ -1,18 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:pi_hole_client/constants/responsive.dart';
+import 'package:pi_hole_client/providers/app_config_provider.dart';
+import 'package:pi_hole_client/widgets/shake_animation.dart';
 import 'package:provider/provider.dart';
 import 'package:vibration/vibration.dart';
 
-import 'package:pi_hole_client/widgets/shake_animation.dart';
-
-import 'package:pi_hole_client/providers/app_config_provider.dart';
-
 class NumericPad extends StatelessWidget {
   const NumericPad({
-    super.key,
-    this.shakeKey,
     required this.code,
     required this.onInput,
+    super.key,
+    this.shakeKey,
   });
 
   final GlobalKey? shakeKey;
@@ -58,7 +56,6 @@ class NumericPad extends StatelessWidget {
     // Tapped number
     Widget gridItem({required int number}) {
       return Expanded(
-        flex: 1,
         child: AspectRatio(
           aspectRatio: 1 / 1,
           child: Padding(
@@ -75,7 +72,7 @@ class NumericPad extends StatelessWidget {
                       if (appConfigProvider.validVibrator) {
                         Vibration.vibrate(duration: 15, amplitude: 128);
                       }
-                      String newCode = '$code$number';
+                      final newCode = '$code$number';
                       onInput(newCode);
                     }
                   : () => {},
@@ -96,7 +93,6 @@ class NumericPad extends StatelessWidget {
 
     Widget backButton() {
       return Expanded(
-        flex: 1,
         child: AspectRatio(
           aspectRatio: 1 / 1,
           child: Padding(
@@ -111,7 +107,7 @@ class NumericPad extends StatelessWidget {
               onPressed: code.isNotEmpty
                   ? () {
                       Vibration.vibrate(duration: 10);
-                      String newCode = code.substring(0, code.length - 1);
+                      final newCode = code.substring(0, code.length - 1);
                       onInput(newCode);
                     }
                   : () {},
@@ -147,7 +143,6 @@ class NumericPad extends StatelessWidget {
               key: shakeKey,
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
-                mainAxisSize: MainAxisSize.max,
                 children: [
                   number(code.isNotEmpty ? code[0] : null),
                   const SizedBox(width: 20),
@@ -197,7 +192,7 @@ class NumericPad extends StatelessWidget {
                   Expanded(
                     child: Row(
                       children: [
-                        const Expanded(flex: 1, child: SizedBox()),
+                        const Expanded(child: SizedBox()),
                         gridItem(number: 0),
                         backButton(),
                       ],

@@ -1,18 +1,17 @@
 // ignore_for_file: use_build_context_synchronously
 
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-
-import 'package:pi_hole_client/providers/servers_provider.dart';
-import 'package:pi_hole_client/providers/app_config_provider.dart';
 import 'package:pi_hole_client/functions/snackbar.dart';
 import 'package:pi_hole_client/models/server.dart';
+import 'package:pi_hole_client/providers/app_config_provider.dart';
+import 'package:pi_hole_client/providers/servers_provider.dart';
+import 'package:provider/provider.dart';
 
 class DeleteModal extends StatelessWidget {
   const DeleteModal({
-    super.key,
     required this.serverToDelete,
+    super.key,
   });
 
   final Server serverToDelete;
@@ -22,10 +21,10 @@ class DeleteModal extends StatelessWidget {
     final serversProvider = Provider.of<ServersProvider>(context);
     final appConfigProvider = Provider.of<AppConfigProvider>(context);
 
-    void removeServer() async {
+    Future<void> removeServer() async {
       final deleted =
           await serversProvider.removeServer(serverToDelete.address);
-      Navigator.maybePop(context);
+      await Navigator.maybePop(context);
       if (deleted == true) {
         showSuccessSnackBar(
           context: context,

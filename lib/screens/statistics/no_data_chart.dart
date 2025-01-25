@@ -3,8 +3,8 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class NoDataChart extends StatelessWidget {
   const NoDataChart({
-    super.key,
     required this.topLabel,
+    super.key,
   });
 
   final String topLabel;

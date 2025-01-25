@@ -3,10 +3,10 @@ import 'package:flutter/material.dart';
 import 'package:pi_hole_client/widgets/process_dialog.dart';
 
 class ProcessModal {
+  ProcessModal({required this.context});
+
   final BuildContext context;
   OverlayEntry? _overlayEntry;
-
-  ProcessModal({required this.context});
 
   /// Opens the process dialog as an overlay.
   void open(String message) {

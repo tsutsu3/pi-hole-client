@@ -60,7 +60,7 @@ class DbHelper {
   }
 
   Future<void> closeDb() async {
-    _db.close();
+    await _db.close();
   }
 
   Future<bool> saveDb(Server server) async {

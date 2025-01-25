@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 
 class ProcessDialog extends StatelessWidget {
   const ProcessDialog({
-    super.key,
     required this.message,
+    super.key,
   });
 
   final String message;

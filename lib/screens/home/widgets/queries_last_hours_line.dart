@@ -1,16 +1,16 @@
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
-import 'package:pi_hole_client/config/theme.dart';
-import 'package:provider/provider.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:pi_hole_client/config/theme.dart';
 import 'package:pi_hole_client/functions/format.dart';
 import 'package:pi_hole_client/providers/app_config_provider.dart';
+import 'package:provider/provider.dart';
 
 class QueriesLastHoursLine extends StatelessWidget {
   const QueriesLastHoursLine({
-    super.key,
     required this.data,
     required this.reducedData,
+    super.key,
   });
 
   final Map<String, dynamic> data;
@@ -28,7 +28,6 @@ class QueriesLastHoursLine extends StatelessWidget {
             : 1.0;
     return LineChartData(
       gridData: FlGridData(
-        show: true,
         drawVerticalLine: false,
         horizontalInterval: interval,
         getDrawingHorizontalLine: (value) => FlLine(
@@ -39,18 +38,9 @@ class QueriesLastHoursLine extends StatelessWidget {
         ),
       ),
       titlesData: FlTitlesData(
-        show: true,
-        rightTitles: const AxisTitles(
-          sideTitles: SideTitles(showTitles: false),
-        ),
-        topTitles: const AxisTitles(
-          sideTitles: SideTitles(showTitles: false),
-        ),
-        bottomTitles: const AxisTitles(
-          sideTitles: SideTitles(
-            showTitles: false,
-          ),
-        ),
+        rightTitles: const AxisTitles(),
+        topTitles: const AxisTitles(),
+        bottomTitles: const AxisTitles(),
         leftTitles: AxisTitles(
           sideTitles: SideTitles(
             showTitles: true,
@@ -73,13 +63,11 @@ class QueriesLastHoursLine extends StatelessWidget {
             color: selectedTheme == ThemeMode.light
                 ? Colors.black12
                 : Colors.white12,
-            width: 1,
           ),
           bottom: BorderSide(
             color: selectedTheme == ThemeMode.light
                 ? Colors.black12
                 : Colors.white12,
-            width: 1,
           ),
         ),
       ),
@@ -94,7 +82,6 @@ class QueriesLastHoursLine extends StatelessWidget {
           spots: data['data']['ads'],
           color: Theme.of(context).extension<GraphColors>()!.getColor(0),
           isCurved: true,
-          barWidth: 2,
           isStrokeCapRound: true,
           preventCurveOverShooting: true,
           dotData: const FlDotData(
@@ -112,7 +99,6 @@ class QueriesLastHoursLine extends StatelessWidget {
           spots: data['data']['domains'],
           color: Theme.of(context).extension<GraphColors>()!.getColor(3),
           isCurved: true,
-          barWidth: 2,
           isStrokeCapRound: true,
           preventCurveOverShooting: true,
           dotData: const FlDotData(
@@ -128,7 +114,6 @@ class QueriesLastHoursLine extends StatelessWidget {
         ),
       ],
       lineTouchData: LineTouchData(
-        enabled: true,
         touchTooltipData: LineTouchTooltipData(
           getTooltipColor: (touchedSpot) => selectedTheme == ThemeMode.light
               ? const Color.fromRGBO(220, 220, 220, 0.9)
@@ -146,7 +131,7 @@ class QueriesLastHoursLine extends StatelessWidget {
               ),
             ),
             LineTooltipItem(
-              'Not blocked: ${items[1].y.toInt().toString()}',
+              'Not blocked: ${items[1].y.toInt()}',
               const TextStyle(
                 fontWeight: FontWeight.bold,
                 fontSize: 14,
@@ -154,7 +139,7 @@ class QueriesLastHoursLine extends StatelessWidget {
               ),
             ),
             LineTooltipItem(
-              'Blocked: ${items[2].y.toInt().toString()}',
+              'Blocked: ${items[2].y.toInt()}',
               const TextStyle(
                 fontWeight: FontWeight.bold,
                 fontSize: 14,
@@ -172,13 +157,13 @@ class QueriesLastHoursLine extends StatelessWidget {
     final appConfigProvider = Provider.of<AppConfigProvider>(context);
 
     Map<String, dynamic> formatData(Map<String, dynamic> data) {
-      final List<FlSpot> domains = [];
-      final List<FlSpot> ads = [];
+      final domains = <FlSpot>[];
+      final ads = <FlSpot>[];
 
-      int xPosition = 0;
-      int topPoint = 0;
-      List<String> domainsKeys = data['domains_over_time'].keys.toList();
-      List<String> adsKeys = data['ads_over_time'].keys.toList();
+      var xPosition = 0;
+      var topPoint = 0;
+      final List<String> domainsKeys = data['domains_over_time'].keys.toList();
+      final List<String> adsKeys = data['ads_over_time'].keys.toList();
 
       if (domainsKeys.length != adsKeys.length) {
         return {
@@ -212,7 +197,7 @@ class QueriesLastHoursLine extends StatelessWidget {
         xPosition++;
       }
 
-      List<String> timestamps = [];
+      final timestamps = <String>[];
       final List<String> k = data['domains_over_time'].keys.toList();
       for (var i = 0; i < k.length; reducedData == true ? i += 6 : i++) {
         timestamps.add(k[i]);

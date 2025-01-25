@@ -1,12 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:pi_hole_client/constants/responsive.dart';
-
-import 'package:pi_hole_client/screens/statistics/statistics_triple_column.dart';
+import 'package:pi_hole_client/functions/refresh_server_status.dart';
 import 'package:pi_hole_client/screens/statistics/statistics_list.dart';
 import 'package:pi_hole_client/screens/statistics/statistics_queries_servers_tab.dart';
-
-import 'package:pi_hole_client/functions/refresh_server_status.dart';
+import 'package:pi_hole_client/screens/statistics/statistics_triple_column.dart';
 
 class Statistics extends StatelessWidget {
   const Statistics({super.key});
@@ -73,17 +71,17 @@ class Statistics extends StatelessWidget {
             body: TabBarView(
               children: [
                 QueriesServersTab(
-                  onRefresh: () async => await refreshServerStatus(context),
+                  onRefresh: () async => refreshServerStatus(context),
                 ),
                 StatisticsList(
                   countLabel: AppLocalizations.of(context)!.hits,
                   type: 'domains',
-                  onRefresh: () async => await refreshServerStatus(context),
+                  onRefresh: () async => refreshServerStatus(context),
                 ),
                 StatisticsList(
                   countLabel: AppLocalizations.of(context)!.requests,
                   type: 'clients',
-                  onRefresh: () async => await refreshServerStatus(context),
+                  onRefresh: () async => refreshServerStatus(context),
                 ),
               ],
             ),

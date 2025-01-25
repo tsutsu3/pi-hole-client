@@ -2,22 +2,20 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-import 'package:pi_hole_client/providers/filters_provider.dart';
-
-import 'package:pi_hole_client/screens/logs/log_status.dart';
-import 'package:pi_hole_client/widgets/custom_list_tile.dart';
-
-import 'package:pi_hole_client/functions/open_url.dart';
-import 'package:pi_hole_client/models/log.dart';
 import 'package:pi_hole_client/constants/search_domain_base_url.dart';
 import 'package:pi_hole_client/functions/format.dart';
+import 'package:pi_hole_client/functions/open_url.dart';
+import 'package:pi_hole_client/models/log.dart';
+import 'package:pi_hole_client/providers/filters_provider.dart';
+import 'package:pi_hole_client/screens/logs/log_status.dart';
+import 'package:pi_hole_client/widgets/custom_list_tile.dart';
 import 'package:provider/provider.dart';
 
 class LogDetailsScreen extends StatelessWidget {
   const LogDetailsScreen({
-    super.key,
     required this.log,
     required this.whiteBlackList,
+    super.key,
   });
 
   final Log log;
@@ -125,13 +123,13 @@ class LogDetailsScreen extends StatelessWidget {
               CustomListTile(
                 leadingIcon: Icons.domain,
                 label: AppLocalizations.of(context)!.answeredBy,
-                description: log.answeredBy!,
+                description: log.answeredBy,
               ),
             CustomListTile(
               leadingIcon: Icons.system_update_alt_outlined,
               label: AppLocalizations.of(context)!.reply,
               description:
-                  '${log.replyType} (${(log.replyTime / BigInt.from(10))} ms)',
+                  '${log.replyType} (${log.replyTime / BigInt.from(10)} ms)',
             ),
           ],
         ),

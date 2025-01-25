@@ -3,43 +3,41 @@
 import 'dart:async';
 import 'dart:io';
 
+import 'package:device_info_plus/device_info_plus.dart';
+import 'package:dynamic_color/dynamic_color.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_app_lock/flutter_app_lock.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:flutter_phoenix/flutter_phoenix.dart';
 import 'package:local_auth/local_auth.dart';
+import 'package:package_info_plus/package_info_plus.dart';
+import 'package:pi_hole_client/base.dart';
+import 'package:pi_hole_client/classes/http_override.dart';
+import 'package:pi_hole_client/config/globals.dart';
+import 'package:pi_hole_client/config/theme.dart';
 import 'package:pi_hole_client/functions/logger.dart';
+import 'package:pi_hole_client/functions/status_updater.dart';
+import 'package:pi_hole_client/providers/app_config_provider.dart';
+import 'package:pi_hole_client/providers/domains_list_provider.dart';
+import 'package:pi_hole_client/providers/filters_provider.dart';
+import 'package:pi_hole_client/providers/servers_provider.dart';
+import 'package:pi_hole_client/providers/status_provider.dart';
+import 'package:pi_hole_client/repository/database.dart';
 import 'package:pi_hole_client/repository/secure_storage.dart';
+import 'package:pi_hole_client/screens/unlock.dart';
+import 'package:provider/provider.dart';
 import 'package:sentry_flutter/sentry_flutter.dart';
 import 'package:sqflite_common_ffi/sqflite_ffi.dart';
 import 'package:vibration/vibration.dart';
-import 'package:dynamic_color/dynamic_color.dart';
-import 'package:flutter_localizations/flutter_localizations.dart';
-import 'package:flutter_phoenix/flutter_phoenix.dart';
-import 'package:device_info_plus/device_info_plus.dart';
-import 'package:package_info_plus/package_info_plus.dart';
 import 'package:window_size/window_size.dart';
-import 'package:provider/provider.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-
-import 'package:pi_hole_client/base.dart';
-import 'package:pi_hole_client/screens/unlock.dart';
-
-import 'package:pi_hole_client/repository/database.dart';
-import 'package:pi_hole_client/classes/http_override.dart';
-import 'package:pi_hole_client/config/theme.dart';
-import 'package:pi_hole_client/providers/status_provider.dart';
-import 'package:pi_hole_client/providers/filters_provider.dart';
-import 'package:pi_hole_client/functions/status_updater.dart';
-import 'package:pi_hole_client/config/globals.dart';
-import 'package:pi_hole_client/providers/domains_list_provider.dart';
-import 'package:pi_hole_client/providers/app_config_provider.dart';
-import 'package:pi_hole_client/providers/servers_provider.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  SystemChrome.setEnabledSystemUIMode(SystemUiMode.edgeToEdge);
+  await SystemChrome.setEnabledSystemUIMode(SystemUiMode.edgeToEdge);
 
   if (Platform.isWindows || Platform.isLinux || Platform.isMacOS) {
     setWindowMinSize(const Size(500, 500));
@@ -50,18 +48,17 @@ void main() async {
     databaseFactory = databaseFactoryFfi;
   }
 
-  await dotenv.load(fileName: '.env');
+  await dotenv.load();
 
-  SecureStorageRepository ssRepository = SecureStorageRepository();
-  DatabaseRepository dbRepository = DatabaseRepository(ssRepository);
+  final ssRepository = SecureStorageRepository();
+  final dbRepository = DatabaseRepository(ssRepository);
   await dbRepository.initialize();
 
-  ServersProvider serversProvider = ServersProvider(dbRepository);
-  AppConfigProvider configProvider = AppConfigProvider(dbRepository);
-  StatusProvider statusProvider = StatusProvider();
-  FiltersProvider filtersProvider =
-      FiltersProvider(serversProvider: serversProvider);
-  DomainsListProvider domainsListProvider =
+  final serversProvider = ServersProvider(dbRepository);
+  final configProvider = AppConfigProvider(dbRepository);
+  final statusProvider = StatusProvider();
+  final filtersProvider = FiltersProvider(serversProvider: serversProvider);
+  final domainsListProvider =
       DomainsListProvider(serversProvider: serversProvider);
 
   if (dbRepository.appConfig.overrideSslCheck == 1) {
@@ -74,9 +71,8 @@ void main() async {
   try {
     if (Platform.isAndroid || Platform.isIOS) {
       final auth = LocalAuthentication();
-      final bool canAuthenticateWithBiometrics = await auth.canCheckBiometrics;
-      List<BiometricType> availableBiometrics =
-          await auth.getAvailableBiometrics();
+      final canAuthenticateWithBiometrics = await auth.canCheckBiometrics;
+      final availableBiometrics = await auth.getAvailableBiometrics();
       configProvider.setBiometricsSupport(canAuthenticateWithBiometrics);
 
       if (canAuthenticateWithBiometrics &&
@@ -103,10 +99,10 @@ void main() async {
     configProvider.setValidVibrator(false);
   }
 
-  PackageInfo appInfo = await loadAppInfo();
+  final appInfo = await loadAppInfo();
   configProvider.setAppInfo(appInfo);
 
-  DeviceInfoPlugin deviceInfo = DeviceInfoPlugin();
+  final deviceInfo = DeviceInfoPlugin();
   if (Platform.isAndroid) {
     final androidInfo = await deviceInfo.androidInfo;
     configProvider.setAndroidInfo(androidInfo);
@@ -130,7 +126,7 @@ void main() async {
             (dotenv.env['SENTRY_DSN'] != null &&
                 dotenv.env['SENTRY_DSN'] != ''))) {
       logger.d('Send Crash Reports: ON');
-      SentryFlutter.init(
+      await SentryFlutter.init(
         (options) {
           options.dsn = dotenv.env['SENTRY_DSN'];
           options.sendDefaultPii = false;
@@ -160,8 +156,8 @@ void main() async {
   void startApp() => runApp(
         MultiProvider(
           providers: [
-            ChangeNotifierProvider(create: ((context) => serversProvider)),
-            ChangeNotifierProvider(create: ((context) => statusProvider)),
+            ChangeNotifierProvider(create: (context) => serversProvider),
+            ChangeNotifierProvider(create: (context) => statusProvider),
             ChangeNotifierProxyProvider<ServersProvider, FiltersProvider>(
               create: (context) => filtersProvider,
               update: (context, serverConfig, servers) =>
@@ -172,7 +168,7 @@ void main() async {
               update: (context, serverConfig, servers) =>
                   servers!..update(serverConfig),
             ),
-            ChangeNotifierProvider(create: ((context) => configProvider)),
+            ChangeNotifierProvider(create: (context) => configProvider),
             ChangeNotifierProxyProvider<AppConfigProvider, ServersProvider>(
               create: (context) => serversProvider,
               update: (context, appConfig, servers) =>
@@ -187,12 +183,12 @@ void main() async {
         ),
       );
 
-  initializeSentry();
+  await initializeSentry();
   startApp();
 }
 
 Future<PackageInfo> loadAppInfo() async {
-  return await PackageInfo.fromPlatform();
+  return PackageInfo.fromPlatform();
 }
 
 class PiHoleClient extends StatefulWidget {
@@ -228,7 +224,7 @@ class _PiHoleClientState extends State<PiHoleClient> {
     }
 
     return DynamicColorBuilder(
-      builder: ((lightDynamic, darkDynamic) {
+      builder: (lightDynamic, darkDynamic) {
         return MaterialApp(
           navigatorObservers: [
             SentryNavigatorObserver(),
@@ -259,12 +255,12 @@ class _PiHoleClientState extends State<PiHoleClient> {
               lockScreenBuilder: (context) => const Unlock(),
               initiallyEnabled:
                   appConfigProvider.passCode != null ? true : false,
-              initialBackgroundLockLatency: const Duration(seconds: 0),
+              initialBackgroundLockLatency: Duration.zero,
             );
           },
           home: const Base(),
         );
-      }),
+      },
     );
   }
 }

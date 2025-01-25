@@ -3,7 +3,7 @@
 import 'package:flutter/material.dart';
 
 class ShakeAnimation extends StatefulWidget {
-  const ShakeAnimation({super.key, required this.child});
+  const ShakeAnimation({required this.child, super.key});
 
   final Widget child;
 
@@ -34,7 +34,7 @@ class ShakeAnimationState extends State<ShakeAnimation>
 
   @override
   Widget build(BuildContext context) {
-    final Animation<double> offsetAnimation = Tween(begin: 0.0, end: 40.0)
+    final offsetAnimation = Tween(begin: 0.0, end: 40.0)
         .chain(CurveTween(curve: Curves.elasticIn))
         .animate(controller!)
       ..addStatusListener((status) {

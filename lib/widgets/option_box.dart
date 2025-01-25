@@ -2,11 +2,11 @@ import 'package:flutter/material.dart';
 
 class OptionBox extends StatelessWidget {
   const OptionBox({
-    super.key,
     required this.child,
     required this.optionsValue,
     required this.itemValue,
     required this.onTap,
+    super.key,
   });
 
   final Widget child;

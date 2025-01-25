@@ -1,13 +1,11 @@
 // ignore_for_file: use_build_context_synchronously
 
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-
-import 'package:pi_hole_client/widgets/custom_radio_list_tile.dart';
-
 import 'package:pi_hole_client/functions/snackbar.dart';
 import 'package:pi_hole_client/providers/app_config_provider.dart';
+import 'package:pi_hole_client/widgets/custom_radio_list_tile.dart';
+import 'package:provider/provider.dart';
 
 class AutoRefreshTimeScreen extends StatefulWidget {
   const AutoRefreshTimeScreen({super.key});
@@ -120,7 +118,7 @@ class _AutoRefreshTimeScreenState extends State<AutoRefreshTimeScreen> {
     }
   }
 
-  void onSave() async {
+  Future<void> onSave() async {
     final result = await Provider.of<AppConfigProvider>(context, listen: false)
         .setAutoRefreshTime(_getTime());
     if (result == true) {
@@ -147,7 +145,7 @@ class _AutoRefreshTimeScreenState extends State<AutoRefreshTimeScreen> {
         title: Text(AppLocalizations.of(context)!.autoRefreshTime),
         actions: [
           IconButton(
-            onPressed: _selectionIsValid() == true ? () => onSave() : null,
+            onPressed: _selectionIsValid() == true ? onSave : null,
             icon: const Icon(Icons.save_rounded),
             tooltip: AppLocalizations.of(context)!.save,
           ),
@@ -205,8 +203,7 @@ class _AutoRefreshTimeScreenState extends State<AutoRefreshTimeScreen> {
                 child: TextField(
                   onChanged: _validateCustomTime,
                   controller: customTimeController,
-                  keyboardType:
-                      const TextInputType.numberWithOptions(decimal: false),
+                  keyboardType: TextInputType.number,
                   decoration: InputDecoration(
                     errorText:
                         !customTimeIsValid && customTimeController.text != ''

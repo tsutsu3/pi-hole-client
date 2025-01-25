@@ -4,7 +4,7 @@ import 'package:mobile_scanner/mobile_scanner.dart';
 import 'package:permission_handler/permission_handler.dart';
 
 class ScanTokenModal extends StatefulWidget {
-  const ScanTokenModal({super.key, required this.qrScanned});
+  const ScanTokenModal({required this.qrScanned, super.key});
 
   final void Function(String) qrScanned;
 
@@ -24,7 +24,7 @@ class _ScanTokenModalState extends State<ScanTokenModal> {
         permission = 1;
       });
     } else {
-      final PermissionStatus status = await Permission.camera.request();
+      final status = await Permission.camera.request();
       if (mounted) {
         if (status.isGranted == false) {
           setState(() {

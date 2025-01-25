@@ -1,11 +1,12 @@
-import 'package:flutter_test/flutter_test.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/mockito.dart';
 import 'package:pi_hole_client/screens/settings/app_settings/auto_refresh_time_screen.dart';
+
 import '../../helpers.dart';
 
 void main() async {
-  initializeApp();
+  await initializeApp();
 
   group(
     'Auto refresh Screen Widget Tests',

@@ -1,30 +1,28 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:flutter_split_view/flutter_split_view.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:pi_hole_client/constants/languages.dart';
 import 'package:pi_hole_client/constants/responsive.dart';
-import 'package:pi_hole_client/screens/settings/about/important_info_modal.dart';
-import 'package:pi_hole_client/screens/settings/about/privacy_modal.dart';
-import 'package:pi_hole_client/screens/settings/app_settings/language_screen.dart';
-import 'package:pi_hole_client/screens/settings/about/licenses_screen.dart';
-import 'package:provider/provider.dart';
-import 'package:flutter_split_view/flutter_split_view.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-
-import 'package:pi_hole_client/screens/settings/app_settings/logs_quantity_load_screen.dart';
-import 'package:pi_hole_client/screens/settings/app_settings/advanced_settings/advanced_options.dart';
-import 'package:pi_hole_client/screens/settings/app_settings/theme_screen.dart';
-import 'package:pi_hole_client/screens/settings/app_settings/auto_refresh_time_screen.dart';
-import 'package:pi_hole_client/screens/servers/servers.dart';
-import 'package:pi_hole_client/screens/settings/about/app_detail_modal.dart';
-import 'package:pi_hole_client/widgets/custom_list_tile.dart';
-import 'package:pi_hole_client/widgets/section_label.dart';
-import 'package:pi_hole_client/screens/settings/about/legal_modal.dart';
-
 import 'package:pi_hole_client/constants/urls.dart';
 import 'package:pi_hole_client/functions/open_url.dart';
+import 'package:pi_hole_client/providers/app_config_provider.dart';
 import 'package:pi_hole_client/providers/servers_provider.dart';
 import 'package:pi_hole_client/providers/status_provider.dart';
-import 'package:pi_hole_client/providers/app_config_provider.dart';
+import 'package:pi_hole_client/screens/servers/servers.dart';
+import 'package:pi_hole_client/screens/settings/about/app_detail_modal.dart';
+import 'package:pi_hole_client/screens/settings/about/important_info_modal.dart';
+import 'package:pi_hole_client/screens/settings/about/legal_modal.dart';
+import 'package:pi_hole_client/screens/settings/about/licenses_screen.dart';
+import 'package:pi_hole_client/screens/settings/about/privacy_modal.dart';
+import 'package:pi_hole_client/screens/settings/app_settings/advanced_settings/advanced_options.dart';
+import 'package:pi_hole_client/screens/settings/app_settings/auto_refresh_time_screen.dart';
+import 'package:pi_hole_client/screens/settings/app_settings/language_screen.dart';
+import 'package:pi_hole_client/screens/settings/app_settings/logs_quantity_load_screen.dart';
+import 'package:pi_hole_client/screens/settings/app_settings/theme_screen.dart';
+import 'package:pi_hole_client/widgets/custom_list_tile.dart';
+import 'package:pi_hole_client/widgets/section_label.dart';
+import 'package:provider/provider.dart';
 
 class Settings extends StatelessWidget {
   const Settings({super.key});
@@ -86,10 +84,10 @@ class _SettingsWidgetState extends State<SettingsWidget> {
     Widget settingsTile({
       required String title,
       required String subtitle,
-      IconData? icon,
-      Widget? trailing,
       required Widget screenToNavigate,
       required int thisItem,
+      IconData? icon,
+      Widget? trailing,
     }) {
       if (width > ResponsiveConstants.large) {
         return CustomListTile(
@@ -180,7 +178,6 @@ class _SettingsWidgetState extends State<SettingsWidget> {
                 handle:
                     NestedScrollView.sliverOverlapAbsorberHandleFor(context),
                 sliver: SliverAppBar.large(
-                  pinned: true,
                   floating: true,
                   centerTitle: false,
                   forceElevated: innerBoxIsScrolled,
@@ -234,7 +231,7 @@ class _SettingsWidgetState extends State<SettingsWidget> {
                         icon: Icons.update,
                         title: AppLocalizations.of(context)!.autoRefreshTime,
                         subtitle:
-                            '${appConfigProvider.getAutoRefreshTime.toString()} ${AppLocalizations.of(context)!.seconds}',
+                            '${appConfigProvider.getAutoRefreshTime} ${AppLocalizations.of(context)!.seconds}',
                         thisItem: 3,
                         screenToNavigate: const AutoRefreshTimeScreen(),
                       ),

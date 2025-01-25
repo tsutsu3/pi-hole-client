@@ -1,13 +1,13 @@
 import 'dart:io';
 
+import 'package:flutter/material.dart';
 import 'package:pi_hole_client/config/theme.dart';
 import 'package:pi_hole_client/functions/conversions.dart';
-import 'package:flutter/material.dart';
 
 class PieChartLegend extends StatelessWidget {
   const PieChartLegend({
-    super.key,
     required this.data,
+    super.key,
     this.dataUnit,
     this.onValueTap,
   });
@@ -19,8 +19,8 @@ class PieChartLegend extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     List<Widget> generateLegendList(Map<String, dynamic> data) {
-      List<Widget> items = [];
-      int index = 0;
+      final items = <Widget>[];
+      var index = 0;
       data.forEach((key, value) {
         items.add(
           Material(
@@ -65,7 +65,7 @@ class PieChartLegend extends StatelessWidget {
                       child: Text(
                         dataUnit == '%'
                             ? '${formatPercentage(value, Platform.localeName)} %'
-                            : '${value.toString()}${dataUnit != null ? ' $dataUnit' : ''}',
+                            : '$value${dataUnit != null ? ' $dataUnit' : ''}',
                         textAlign: TextAlign.end,
                       ),
                     ),

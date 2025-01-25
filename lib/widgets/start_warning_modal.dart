@@ -2,12 +2,11 @@
 
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:pi_hole_client/constants/urls.dart';
 import 'package:pi_hole_client/functions/open_url.dart';
-import 'package:provider/provider.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-
 import 'package:pi_hole_client/providers/app_config_provider.dart';
+import 'package:provider/provider.dart';
 
 class StartInfoModal extends StatelessWidget {
   const StartInfoModal({super.key});
@@ -18,8 +17,7 @@ class StartInfoModal extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final appConfigProvider =
-        Provider.of<AppConfigProvider>(context, listen: true);
+    final appConfigProvider = Provider.of<AppConfigProvider>(context);
 
     return FutureBuilder<bool>(
       future: getSendCrashReports(appConfigProvider),
@@ -44,7 +42,6 @@ class StartInfoModal extends StatelessWidget {
               child: AlertDialog(
                 scrollable: true,
                 title: Column(
-                  crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
                     Icon(
                       Icons.info_rounded,
@@ -125,7 +122,6 @@ class StartInfoModal extends StatelessWidget {
                         ),
                         const Padding(padding: EdgeInsets.only(top: 20)),
                         Row(
-                          mainAxisAlignment: MainAxisAlignment.start,
                           children: [
                             Expanded(
                               child: Text(
@@ -178,12 +174,12 @@ class StartInfoModal extends StatelessWidget {
                     const Padding(padding: EdgeInsets.only(top: 20)),
                   ],
                 ),
-                actionsPadding: const EdgeInsets.only(right: 0, bottom: 20),
+                actionsPadding: const EdgeInsets.only(bottom: 20),
                 actions: [
                   TextButton(
                     onPressed: () async {
                       await appConfigProvider.setImportantInfoReaden(true);
-                      Navigator.maybePop(context);
+                      await Navigator.maybePop(context);
                     },
                     child: Text(AppLocalizations.of(context)!.close),
                   ),

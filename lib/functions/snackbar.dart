@@ -1,10 +1,9 @@
 // ignore_for_file: use_build_context_synchronously
 
 import 'package:flutter/material.dart';
-
 import 'package:pi_hole_client/config/globals.dart';
-import 'package:pi_hole_client/providers/app_config_provider.dart';
 import 'package:pi_hole_client/config/theme.dart';
+import 'package:pi_hole_client/providers/app_config_provider.dart';
 
 void showSuccessSnackBar({
   required BuildContext context,
@@ -48,7 +47,7 @@ void showNeutralSnackBar({
   );
 }
 
-void showSnackBar({
+Future<void> showSnackBar({
   required BuildContext context,
   required AppConfigProvider appConfigProvider,
   required String label,
@@ -74,7 +73,7 @@ void showSnackBar({
     duration: const Duration(seconds: 3),
   );
 
-  scaffoldMessengerKey.currentState
+  await scaffoldMessengerKey.currentState
       ?.showSnackBar(snackBar)
       .closed
       .then((_) => appConfigProvider.setShowingSnackbar(false));

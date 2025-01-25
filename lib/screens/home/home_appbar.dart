@@ -1,26 +1,24 @@
 // ignore_for_file: use_build_context_synchronously
 
 import 'package:flutter/material.dart';
-import 'package:pi_hole_client/functions/conversions.dart';
-import 'package:pi_hole_client/models/gateways.dart';
-import 'package:provider/provider.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-
+import 'package:pi_hole_client/classes/process_modal.dart';
+import 'package:pi_hole_client/config/system_overlay_style.dart';
+import 'package:pi_hole_client/constants/enums.dart';
+import 'package:pi_hole_client/functions/conversions.dart';
+import 'package:pi_hole_client/functions/open_url.dart';
+import 'package:pi_hole_client/functions/snackbar.dart';
+import 'package:pi_hole_client/models/gateways.dart';
+import 'package:pi_hole_client/models/server.dart';
+import 'package:pi_hole_client/providers/app_config_provider.dart';
+import 'package:pi_hole_client/providers/servers_provider.dart';
+import 'package:pi_hole_client/providers/status_provider.dart';
 import 'package:pi_hole_client/screens/home/switch_server_modal.dart';
 import 'package:pi_hole_client/screens/servers/servers.dart';
-
-import 'package:pi_hole_client/models/server.dart';
-import 'package:pi_hole_client/functions/open_url.dart';
-import 'package:pi_hole_client/config/system_overlay_style.dart';
-import 'package:pi_hole_client/providers/app_config_provider.dart';
-import 'package:pi_hole_client/providers/status_provider.dart';
-import 'package:pi_hole_client/classes/process_modal.dart';
-import 'package:pi_hole_client/functions/snackbar.dart';
-import 'package:pi_hole_client/constants/enums.dart';
-import 'package:pi_hole_client/providers/servers_provider.dart';
+import 'package:provider/provider.dart';
 
 class HomeAppBar extends StatelessWidget implements PreferredSizeWidget {
-  const HomeAppBar({super.key, required this.innerBoxIsScrolled});
+  const HomeAppBar({required this.innerBoxIsScrolled, super.key});
 
   final bool innerBoxIsScrolled;
 
@@ -32,8 +30,8 @@ class HomeAppBar extends StatelessWidget implements PreferredSizeWidget {
 
     final width = MediaQuery.of(context).size.width;
 
-    void refresh() async {
-      final ProcessModal process = ProcessModal(context: context);
+    Future<void> refresh() async {
+      final process = ProcessModal(context: context);
       process.open(AppLocalizations.of(context)!.refreshingData);
       final result = await serversProvider.selectedApiGateway?.realtimeStatus();
       process.close();
@@ -58,7 +56,7 @@ class HomeAppBar extends StatelessWidget implements PreferredSizeWidget {
 
     void changeServer() {
       Future.delayed(
-        const Duration(seconds: 0),
+        Duration.zero,
         () => {
           Navigator.push(
             context,
@@ -68,7 +66,7 @@ class HomeAppBar extends StatelessWidget implements PreferredSizeWidget {
       );
     }
 
-    void connectToServer(Server server) async {
+    Future<void> connectToServer(Server server) async {
       Future connectSuccess(result) async {
         serversProvider.setselectedServer(
           server: Server(
@@ -96,7 +94,7 @@ class HomeAppBar extends StatelessWidget implements PreferredSizeWidget {
         statusProvider.setRefreshServerStatus(true);
       }
 
-      final ProcessModal process = ProcessModal(context: context);
+      final process = ProcessModal(context: context);
       process.open(AppLocalizations.of(context)!.connecting);
 
       final result = await serversProvider.loadApiGateway(server)?.loginQuery();
@@ -123,7 +121,6 @@ class HomeAppBar extends StatelessWidget implements PreferredSizeWidget {
 
     return SliverAppBar.large(
       systemOverlayStyle: systemUiOverlayStyleConfig(context),
-      pinned: true,
       floating: true,
       centerTitle: false,
       forceElevated: innerBoxIsScrolled,

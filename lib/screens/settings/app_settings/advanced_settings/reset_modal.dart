@@ -5,8 +5,8 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class ResetModal extends StatefulWidget {
   const ResetModal({
-    super.key,
     required this.onConfirm,
+    super.key,
     this.timeRemaining = 5,
   });
 
@@ -73,57 +73,58 @@ class _ResetModalState extends State<ResetModal> {
             overflow: TextOverflow.ellipsis,
           ),
         ),
-        width > 380
-            ? TextButton(
-                onPressed: _timeRemaining == 0
-                    ? () async {
-                        await widget.onConfirm.call();
-                        if (context.mounted) {
-                          Navigator.pop(context);
-                        }
-                      }
-                    : null,
-                style: ButtonStyle(
-                  foregroundColor: _timeRemaining == 0
-                      ? WidgetStateProperty.all(Colors.red)
-                      : WidgetStateProperty.all(Colors.grey),
-                  overlayColor: WidgetStateProperty.all(
-                    Colors.red.withValues(alpha: 0.1),
+        if (width > 380)
+          TextButton(
+            onPressed: _timeRemaining == 0
+                ? () async {
+                    await widget.onConfirm.call();
+                    if (context.mounted) {
+                      Navigator.pop(context);
+                    }
+                  }
+                : null,
+            style: ButtonStyle(
+              foregroundColor: _timeRemaining == 0
+                  ? WidgetStateProperty.all(Colors.red)
+                  : WidgetStateProperty.all(Colors.grey),
+              overlayColor: WidgetStateProperty.all(
+                Colors.red.withValues(alpha: 0.1),
+              ),
+            ),
+            child: Text(
+              _timeRemaining > 0
+                  ? '${AppLocalizations.of(context)!.eraseAll} ($_timeRemaining)'
+                  : AppLocalizations.of(context)!.eraseAll,
+              overflow: TextOverflow.ellipsis,
+            ),
+          )
+        else
+          SizedBox(
+            width: double.maxFinite,
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.end,
+              crossAxisAlignment: CrossAxisAlignment.end,
+              children: [
+                TextButton(
+                  onPressed: _timeRemaining == 0 ? widget.onConfirm : null,
+                  style: ButtonStyle(
+                    foregroundColor: _timeRemaining == 0
+                        ? WidgetStateProperty.all(Colors.red)
+                        : WidgetStateProperty.all(Colors.grey),
+                    overlayColor: WidgetStateProperty.all(
+                      Colors.red.withValues(alpha: 0.1),
+                    ),
+                  ),
+                  child: Text(
+                    _timeRemaining > 0
+                        ? '${AppLocalizations.of(context)!.eraseAll} ($_timeRemaining)'
+                        : AppLocalizations.of(context)!.eraseAll,
+                    overflow: TextOverflow.ellipsis,
                   ),
                 ),
-                child: Text(
-                  _timeRemaining > 0
-                      ? '${AppLocalizations.of(context)!.eraseAll} ($_timeRemaining)'
-                      : AppLocalizations.of(context)!.eraseAll,
-                  overflow: TextOverflow.ellipsis,
-                ),
-              )
-            : SizedBox(
-                width: double.maxFinite,
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.end,
-                  crossAxisAlignment: CrossAxisAlignment.end,
-                  children: [
-                    TextButton(
-                      onPressed: _timeRemaining == 0 ? widget.onConfirm : null,
-                      style: ButtonStyle(
-                        foregroundColor: _timeRemaining == 0
-                            ? WidgetStateProperty.all(Colors.red)
-                            : WidgetStateProperty.all(Colors.grey),
-                        overlayColor: WidgetStateProperty.all(
-                          Colors.red.withValues(alpha: 0.1),
-                        ),
-                      ),
-                      child: Text(
-                        _timeRemaining > 0
-                            ? '${AppLocalizations.of(context)!.eraseAll} ($_timeRemaining)'
-                            : AppLocalizations.of(context)!.eraseAll,
-                        overflow: TextOverflow.ellipsis,
-                      ),
-                    ),
-                  ],
-                ),
-              ),
+              ],
+            ),
+          ),
       ],
     );
   }

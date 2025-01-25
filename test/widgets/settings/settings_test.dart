@@ -1,8 +1,8 @@
+import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:flutter_svg_test/flutter_svg_test.dart';
-import 'package:mockito/mockito.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:flutter/material.dart';
+import 'package:mockito/mockito.dart';
 import 'package:pi_hole_client/screens/servers/servers.dart';
 import 'package:pi_hole_client/screens/settings/about/app_detail_modal.dart';
 import 'package:pi_hole_client/screens/settings/about/important_info_modal.dart';
@@ -15,10 +15,11 @@ import 'package:pi_hole_client/screens/settings/app_settings/language_screen.dar
 import 'package:pi_hole_client/screens/settings/app_settings/logs_quantity_load_screen.dart';
 import 'package:pi_hole_client/screens/settings/app_settings/theme_screen.dart';
 import 'package:pi_hole_client/screens/settings/settings.dart';
+
 import '../helpers.dart';
 
 void main() async {
-  initializeApp();
+  await initializeApp();
 
   group(
     'Settings Screen Widget Tests',
@@ -93,10 +94,9 @@ void main() async {
           expect(find.text('Licenses'), findsOneWidget);
           expect(find.text('OSS Information'), findsOneWidget);
 
-          final SvgPicture googlePlaySvg =
+          final googlePlaySvg =
               SvgPicture.asset('assets/resources/google-play.svg');
-          final SvgPicture githubSvg =
-              SvgPicture.asset('assets/resources/github.svg');
+          final githubSvg = SvgPicture.asset('assets/resources/github.svg');
           expect(find.svg(googlePlaySvg.bytesLoader), findsOneWidget);
           expect(find.svg(githubSvg.bytesLoader), findsOneWidget);
         },
@@ -413,7 +413,7 @@ void main() async {
           expect(find.byType(Settings), findsOneWidget);
           await tester.pump();
 
-          final SvgPicture googlePlaySvg =
+          final googlePlaySvg =
               SvgPicture.asset('assets/resources/google-play.svg');
           expect(find.svg(googlePlaySvg.bytesLoader), findsOneWidget);
 
@@ -443,8 +443,7 @@ void main() async {
           expect(find.byType(Settings), findsOneWidget);
           await tester.pump();
 
-          final SvgPicture githubSvg =
-              SvgPicture.asset('assets/resources/github.svg');
+          final githubSvg = SvgPicture.asset('assets/resources/github.svg');
           expect(find.svg(githubSvg.bytesLoader), findsOneWidget);
 
           await tester.tap(find.svg(githubSvg.bytesLoader));

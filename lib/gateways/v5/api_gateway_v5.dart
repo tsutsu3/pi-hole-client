@@ -394,7 +394,7 @@ class ApiGatewayV5 implements ApiGateway {
         },
       );
       final body = jsonDecode(response.body);
-      var data = OverTimeData.fromJson(body);
+      final data = OverTimeData.fromJson(body);
       return FetchOverTimeDataResponse(
         result: APiResponseType.success,
         data: data,

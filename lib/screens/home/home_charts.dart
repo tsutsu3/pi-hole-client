@@ -1,24 +1,22 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:pi_hole_client/config/theme.dart';
 import 'package:pi_hole_client/constants/responsive.dart';
-import 'package:provider/provider.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-
-import 'package:pi_hole_client/screens/statistics/no_data_chart.dart';
-import 'package:pi_hole_client/screens/home/widgets/queries_last_hours_line.dart';
-import 'package:pi_hole_client/screens/home/widgets/clients_last_hours_line.dart';
-import 'package:pi_hole_client/widgets/section_label.dart';
-
-import 'package:pi_hole_client/providers/status_provider.dart';
 import 'package:pi_hole_client/models/overtime_data.dart';
 import 'package:pi_hole_client/providers/app_config_provider.dart';
+import 'package:pi_hole_client/providers/status_provider.dart';
+import 'package:pi_hole_client/screens/home/widgets/clients_last_hours_line.dart';
+import 'package:pi_hole_client/screens/home/widgets/queries_last_hours_line.dart';
+import 'package:pi_hole_client/screens/statistics/no_data_chart.dart';
+import 'package:pi_hole_client/widgets/section_label.dart';
+import 'package:provider/provider.dart';
 
 class HomeCharts extends StatelessWidget {
   const HomeCharts({super.key});
 
   bool checkExistsData(Map<String, dynamic> data) {
-    bool exists = false;
-    for (var element in data.keys) {
+    var exists = false;
+    for (final element in data.keys) {
       if (data[element] > 0) {
         exists = true;
         break;
@@ -56,7 +54,6 @@ class HomeCharts extends StatelessWidget {
           height: 280,
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
-            crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               const CircularProgressIndicator(),
               const SizedBox(height: 50),
@@ -193,7 +190,6 @@ class HomeCharts extends StatelessWidget {
                                                 ? 0.5
                                                 : 1,
                                     child: Row(
-                                      mainAxisSize: MainAxisSize.max,
                                       children: [
                                         Container(
                                           width: 10,
@@ -254,7 +250,6 @@ class HomeCharts extends StatelessWidget {
           height: 280,
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
-            crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               const Icon(
                 Icons.error,

@@ -3,6 +3,10 @@ import 'package:pi_hole_client/providers/filters_provider/filters_interface.dart
 import 'package:pi_hole_client/screens/logs/logs_filters_modal.dart';
 
 class FiltersV5 implements Filters {
+  FiltersV5() : _statusSelected = [] {
+    _statusSelected = _statusAll;
+  }
+
   final List<int> _statusAll =
       queryStatusesV5.where((e) => e.isShown).map((e) => e.index).toList();
   final List<int> _statusAllowed = [2, 3];
@@ -65,10 +69,6 @@ class FiltersV5 implements Filters {
   @override
   RequestStatus get requestStatus {
     return _requestStatus;
-  }
-
-  FiltersV5() : _statusSelected = [] {
-    _statusSelected = _statusAll;
   }
 
   @override

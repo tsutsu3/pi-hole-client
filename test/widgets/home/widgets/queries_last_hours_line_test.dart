@@ -1,16 +1,17 @@
 import 'package:dynamic_color/dynamic_color.dart';
-import 'package:flutter_dotenv/flutter_dotenv.dart';
-import 'package:flutter_test/flutter_test.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:flutter_test/flutter_test.dart';
+import 'package:mockito/annotations.dart';
+import 'package:mockito/mockito.dart';
+import 'package:pi_hole_client/config/globals.dart';
 import 'package:pi_hole_client/config/theme.dart';
+import 'package:pi_hole_client/providers/app_config_provider.dart';
 import 'package:pi_hole_client/screens/home/widgets/queries_last_hours_line.dart';
 import 'package:provider/provider.dart';
-import 'package:mockito/mockito.dart';
-import 'package:mockito/annotations.dart';
-import 'package:pi_hole_client/providers/app_config_provider.dart';
-import 'package:pi_hole_client/config/globals.dart';
+
 import './queries_last_hours_line_test.mocks.dart';
 
 @GenerateMocks(
@@ -18,7 +19,7 @@ import './queries_last_hours_line_test.mocks.dart';
 )
 void main() async {
   TestWidgetsFlutterBinding.ensureInitialized();
-  await dotenv.load(fileName: '.env');
+  await dotenv.load();
 
   group('Queries Last Hours Line Widget Tests', () {
     late MockAppConfigProvider mockAppConfigProvider;
@@ -944,7 +945,7 @@ void main() async {
                   home: Scaffold(
                     body: QueriesLastHoursLine(data: data, reducedData: false),
                   ),
-                  localizationsDelegates: [
+                  localizationsDelegates: const [
                     GlobalMaterialLocalizations.delegate,
                     AppLocalizations.delegate,
                   ],
@@ -991,7 +992,7 @@ void main() async {
                     body:
                         QueriesLastHoursLine(data: errData, reducedData: false),
                   ),
-                  localizationsDelegates: [
+                  localizationsDelegates: const [
                     GlobalMaterialLocalizations.delegate,
                     AppLocalizations.delegate,
                   ],

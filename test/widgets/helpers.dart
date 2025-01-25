@@ -1,9 +1,11 @@
 import 'package:dynamic_color/dynamic_color.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 import 'package:pi_hole_client/config/globals.dart';
@@ -15,6 +17,7 @@ import 'package:pi_hole_client/gateways/v5/api_gateway_v5.dart';
 import 'package:pi_hole_client/gateways/v6/api_gateway_v6.dart';
 import 'package:pi_hole_client/models/api/v6/metrics/query.dart';
 import 'package:pi_hole_client/models/app_log.dart';
+import 'package:pi_hole_client/models/domain.dart';
 import 'package:pi_hole_client/models/gateways.dart';
 import 'package:pi_hole_client/models/log.dart';
 import 'package:pi_hole_client/models/overtime_data.dart';
@@ -25,10 +28,8 @@ import 'package:pi_hole_client/providers/domains_list_provider.dart';
 import 'package:pi_hole_client/providers/filters_provider.dart';
 import 'package:pi_hole_client/providers/servers_provider.dart';
 import 'package:pi_hole_client/providers/status_provider.dart';
-import 'package:pi_hole_client/models/domain.dart';
 import 'package:provider/provider.dart';
-import 'package:mockito/annotations.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+
 import './helpers.mocks.dart';
 
 final serverV5 = Server(
@@ -657,7 +658,7 @@ final realtimeStatus = RealtimeStatus.fromJson(
 /// ```
 Future<void> initializeApp() async {
   TestWidgetsFlutterBinding.ensureInitialized();
-  await dotenv.load(fileName: '.env');
+  await dotenv.load();
 
   FlutterSecureStorage.setMockInitialValues({
     'http://localhost:8080_token': 'token123',
@@ -703,15 +704,6 @@ Future<void> initializeApp() async {
   ApiGatewayV6,
 ])
 class TestSetupHelper {
-  late MockAppConfigProvider mockConfigProvider;
-  late MockServersProvider mockServersProvider;
-  late MockFiltersProvider mockFiltersProvider;
-  late MockStatusProvider mockStatusProvider;
-  late MockDomainsListProvider mockDomainsListProvider;
-
-  late MockApiGatewayV5 mockApiGatewayV5;
-  late MockApiGatewayV6 mockApiGatewayV6;
-
   TestSetupHelper({
     MockAppConfigProvider? customConfigProvider,
     MockServersProvider? customServersProvider,
@@ -731,6 +723,15 @@ class TestSetupHelper {
     mockApiGatewayV5 = customApiGatewayV5 ?? MockApiGatewayV5();
     mockApiGatewayV6 = customApiGatewayV6 ?? MockApiGatewayV6();
   }
+
+  late MockAppConfigProvider mockConfigProvider;
+  late MockServersProvider mockServersProvider;
+  late MockFiltersProvider mockFiltersProvider;
+  late MockStatusProvider mockStatusProvider;
+  late MockDomainsListProvider mockDomainsListProvider;
+
+  late MockApiGatewayV5 mockApiGatewayV5;
+  late MockApiGatewayV6 mockApiGatewayV6;
 
   void initializeMock({String useApiGatewayVersion = 'v5'}) {
     _initConfiProviderMock(useApiGatewayVersion);
@@ -802,7 +803,7 @@ class TestSetupHelper {
               Locale('pl', ''),
               Locale('ja', ''),
             ],
-            localizationsDelegates: [
+            localizationsDelegates: const [
               GlobalMaterialLocalizations.delegate,
               GlobalWidgetsLocalizations.delegate,
               GlobalCupertinoLocalizations.delegate,
@@ -958,7 +959,7 @@ class TestSetupHelper {
     when(mockApiGatewayV6.fetchLogs(any, any)).thenAnswer((_) async {
       return FetchLogsResponse(
         result: APiResponseType.success,
-        data: queries.queries.map((query) => Log.fromV6(query)).toList(),
+        data: queries.queries.map(Log.fromV6).toList(),
       );
     });
 

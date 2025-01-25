@@ -1,21 +1,19 @@
 // ignore_for_file: use_build_context_synchronously
 
 import 'package:flutter/material.dart';
-import 'package:pi_hole_client/constants/responsive.dart';
-import 'package:pi_hole_client/models/gateways.dart';
-import 'package:provider/provider.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-
-import 'package:pi_hole_client/screens/domains/domains_list.dart';
-import 'package:pi_hole_client/screens/domains/domain_details_screen.dart';
-
-import 'package:pi_hole_client/functions/snackbar.dart';
 import 'package:pi_hole_client/classes/process_modal.dart';
+import 'package:pi_hole_client/constants/responsive.dart';
+import 'package:pi_hole_client/functions/snackbar.dart';
 import 'package:pi_hole_client/models/domain.dart';
-import 'package:pi_hole_client/providers/app_config_provider.dart';
+import 'package:pi_hole_client/models/gateways.dart';
 import 'package:pi_hole_client/models/server.dart';
-import 'package:pi_hole_client/providers/servers_provider.dart';
+import 'package:pi_hole_client/providers/app_config_provider.dart';
 import 'package:pi_hole_client/providers/domains_list_provider.dart';
+import 'package:pi_hole_client/providers/servers_provider.dart';
+import 'package:pi_hole_client/screens/domains/domain_details_screen.dart';
+import 'package:pi_hole_client/screens/domains/domains_list.dart';
+import 'package:provider/provider.dart';
 
 class DomainLists extends StatelessWidget {
   const DomainLists({super.key});
@@ -35,9 +33,9 @@ class DomainLists extends StatelessWidget {
 
 class DomainListsWidget extends StatefulWidget {
   const DomainListsWidget({
-    super.key,
     required this.server,
     required this.domainsListProvider,
+    super.key,
   });
 
   final Server server;
@@ -62,7 +60,6 @@ class _DomainListsWidgetState extends State<DomainListsWidget>
     widget.domainsListProvider.setSelectedTab(0);
     super.initState();
     tabController = TabController(
-      initialIndex: 0,
       length: 2,
       vsync: this,
     );
@@ -75,8 +72,8 @@ class _DomainListsWidgetState extends State<DomainListsWidget>
     final appConfigProvider = Provider.of<AppConfigProvider>(context);
     final apiGateway = serversProvider.selectedApiGateway;
 
-    void removeDomain(Domain domain) async {
-      final ProcessModal process = ProcessModal(context: context);
+    Future<void> removeDomain(Domain domain) async {
+      final process = ProcessModal(context: context);
       process.open(AppLocalizations.of(context)!.deleting);
 
       final result = await apiGateway?.removeDomainFromList(domain);
@@ -113,7 +110,7 @@ class _DomainListsWidgetState extends State<DomainListsWidget>
         length: 2,
         child: NestedScrollView(
           controller: scrollController,
-          headerSliverBuilder: ((context, innerBoxIsScrolled) {
+          headerSliverBuilder: (context, innerBoxIsScrolled) {
             return [
               SliverOverlapAbsorber(
                 handle:
@@ -123,7 +120,6 @@ class _DomainListsWidgetState extends State<DomainListsWidget>
                       ? TextFormField(
                           initialValue: domainsListProvider.searchTerm,
                           onChanged: domainsListProvider.onSearch,
-                          maxLines: 1,
                           decoration: InputDecoration(
                             hintText:
                                 AppLocalizations.of(context)!.searchDomains,
@@ -163,7 +159,7 @@ class _DomainListsWidgetState extends State<DomainListsWidget>
                   ],
                   bottom: TabBar(
                     controller: tabController,
-                    onTap: (value) => domainsListProvider.setSelectedTab(value),
+                    onTap: domainsListProvider.setSelectedTab,
                     tabs: const [
                       Tab(
                         child: Row(
@@ -200,7 +196,7 @@ class _DomainListsWidgetState extends State<DomainListsWidget>
                 ),
               ),
             ];
-          }),
+          },
           body: TabBarView(
             controller: tabController,
             children: [

@@ -1,17 +1,18 @@
+import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_phoenix/flutter_phoenix.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter_localizations/flutter_localizations.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-import 'package:pi_hole_client/config/theme.dart';
-import 'package:pi_hole_client/screens/settings/app_settings/advanced_settings/advanced_options.dart';
-import 'package:provider/provider.dart';
-import 'package:mockito/mockito.dart';
 import 'package:mockito/annotations.dart';
+import 'package:mockito/mockito.dart';
+import 'package:pi_hole_client/config/globals.dart';
+import 'package:pi_hole_client/config/theme.dart';
 import 'package:pi_hole_client/providers/app_config_provider.dart';
 import 'package:pi_hole_client/providers/servers_provider.dart';
-import 'package:pi_hole_client/config/globals.dart';
+import 'package:pi_hole_client/screens/settings/app_settings/advanced_settings/advanced_options.dart';
+import 'package:provider/provider.dart';
+
 import './advanced_options_test.mocks.dart';
 
 @GenerateMocks(
@@ -19,7 +20,7 @@ import './advanced_options_test.mocks.dart';
 )
 void main() async {
   TestWidgetsFlutterBinding.ensureInitialized();
-  await dotenv.load(fileName: '.env');
+  await dotenv.load();
 
   group('Advanced Options Screen tests', () {
     late MockAppConfigProvider mockConfigProvider;
@@ -29,7 +30,7 @@ void main() async {
       mockConfigProvider = MockAppConfigProvider();
       mockServersProvider = MockServersProvider();
 
-      bool showingSnackbar = false;
+      const showingSnackbar = false;
       when(mockConfigProvider.showingSnackbar).thenReturn(showingSnackbar);
       when(mockConfigProvider.setOverrideSslCheck(any))
           .thenAnswer((_) async => true);
@@ -84,7 +85,7 @@ void main() async {
                   Locale('en', ''),
                   Locale('ja', ''),
                 ],
-                localizationsDelegates: [
+                localizationsDelegates: const [
                   GlobalMaterialLocalizations.delegate,
                   GlobalWidgetsLocalizations.delegate,
                   GlobalCupertinoLocalizations.delegate,
@@ -154,7 +155,7 @@ void main() async {
                   Locale('en', ''),
                   Locale('ja', ''),
                 ],
-                localizationsDelegates: [
+                localizationsDelegates: const [
                   GlobalMaterialLocalizations.delegate,
                   GlobalWidgetsLocalizations.delegate,
                   GlobalCupertinoLocalizations.delegate,

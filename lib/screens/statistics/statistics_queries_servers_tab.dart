@@ -1,18 +1,16 @@
 import 'package:flutter/material.dart';
-import 'package:pi_hole_client/constants/responsive.dart';
-import 'package:provider/provider.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-
+import 'package:pi_hole_client/constants/responsive.dart';
+import 'package:pi_hole_client/providers/status_provider.dart';
+import 'package:pi_hole_client/screens/statistics/custom_pie_chart.dart';
 import 'package:pi_hole_client/screens/statistics/no_data_chart.dart';
 import 'package:pi_hole_client/screens/statistics/pie_chart_legend.dart';
-import 'package:pi_hole_client/screens/statistics/custom_pie_chart.dart';
-import 'package:pi_hole_client/widgets/tab_content.dart';
 import 'package:pi_hole_client/widgets/section_label.dart';
-
-import 'package:pi_hole_client/providers/status_provider.dart';
+import 'package:pi_hole_client/widgets/tab_content.dart';
+import 'package:provider/provider.dart';
 
 class QueriesServersTab extends StatelessWidget {
-  const QueriesServersTab({super.key, required this.onRefresh});
+  const QueriesServersTab({required this.onRefresh, super.key});
 
   final Future<void> Function() onRefresh;
 
@@ -26,7 +24,6 @@ class QueriesServersTab extends StatelessWidget {
         height: 300,
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
-          crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             const CircularProgressIndicator(),
             const SizedBox(height: 50),
@@ -47,7 +44,6 @@ class QueriesServersTab extends StatelessWidget {
         height: 300,
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
-          crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             const Icon(
               Icons.error,
@@ -83,118 +79,116 @@ class QueriesServersTabContent extends StatelessWidget {
 
     return Column(
       children: [
-        statusProvider.getRealtimeStatus!.queryTypes.isEmpty == false
-            ? Padding(
-                padding: const EdgeInsets.only(top: 20, bottom: 10),
-                child: Column(
-                  children: [
-                    SectionLabel(
-                      label: AppLocalizations.of(context)!.queryTypes,
-                      padding:
-                          const EdgeInsets.only(top: 8, left: 16, bottom: 24),
-                    ),
-                    if (width > ResponsiveConstants.medium)
-                      Row(
-                        children: [
-                          Expanded(
-                            flex: 2,
-                            child: ConstrainedBox(
-                              constraints: const BoxConstraints(
-                                maxWidth: 200,
-                                maxHeight: 200,
-                              ),
-                              child: CustomPieChart(
-                                data: statusProvider
-                                    .getRealtimeStatus!.queryTypes,
-                              ),
-                            ),
+        if (statusProvider.getRealtimeStatus!.queryTypes.isEmpty == false)
+          Padding(
+            padding: const EdgeInsets.only(top: 20, bottom: 10),
+            child: Column(
+              children: [
+                SectionLabel(
+                  label: AppLocalizations.of(context)!.queryTypes,
+                  padding: const EdgeInsets.only(top: 8, left: 16, bottom: 24),
+                ),
+                if (width > ResponsiveConstants.medium)
+                  Row(
+                    children: [
+                      Expanded(
+                        flex: 2,
+                        child: ConstrainedBox(
+                          constraints: const BoxConstraints(
+                            maxWidth: 200,
+                            maxHeight: 200,
                           ),
-                          Expanded(
-                            flex: 3,
-                            child: PieChartLegend(
-                              data:
-                                  statusProvider.getRealtimeStatus!.queryTypes,
-                              dataUnit: '%',
-                            ),
+                          child: CustomPieChart(
+                            data: statusProvider.getRealtimeStatus!.queryTypes,
                           ),
-                        ],
-                      ),
-                    if (width <= ResponsiveConstants.medium) ...[
-                      SizedBox(
-                        width: width - 40,
-                        child: CustomPieChart(
-                          data: statusProvider.getRealtimeStatus!.queryTypes,
                         ),
                       ),
-                      const SizedBox(height: 20),
-                      PieChartLegend(
-                        data: statusProvider.getRealtimeStatus!.queryTypes,
-                        dataUnit: '%',
+                      Expanded(
+                        flex: 3,
+                        child: PieChartLegend(
+                          data: statusProvider.getRealtimeStatus!.queryTypes,
+                          dataUnit: '%',
+                        ),
                       ),
                     ],
-                  ],
-                ),
-              )
-            : NoDataChart(
-                topLabel: AppLocalizations.of(context)!.queryTypes,
-              ),
-        statusProvider.getRealtimeStatus!.forwardDestinations.isEmpty == false
-            ? Padding(
-                padding: const EdgeInsets.only(top: 20, bottom: 10),
-                child: Column(
-                  children: [
-                    SectionLabel(
-                      label: AppLocalizations.of(context)!.upstreamServers,
-                      padding:
-                          const EdgeInsets.only(top: 16, left: 16, bottom: 24),
+                  ),
+                if (width <= ResponsiveConstants.medium) ...[
+                  SizedBox(
+                    width: width - 40,
+                    child: CustomPieChart(
+                      data: statusProvider.getRealtimeStatus!.queryTypes,
                     ),
-                    if (width > ResponsiveConstants.medium)
-                      Row(
-                        children: [
-                          Expanded(
-                            flex: 2,
-                            child: ConstrainedBox(
-                              constraints: const BoxConstraints(
-                                maxWidth: 200,
-                                maxHeight: 200,
-                              ),
-                              child: CustomPieChart(
-                                data: statusProvider
-                                    .getRealtimeStatus!.forwardDestinations,
-                              ),
-                            ),
+                  ),
+                  const SizedBox(height: 20),
+                  PieChartLegend(
+                    data: statusProvider.getRealtimeStatus!.queryTypes,
+                    dataUnit: '%',
+                  ),
+                ],
+              ],
+            ),
+          )
+        else
+          NoDataChart(
+            topLabel: AppLocalizations.of(context)!.queryTypes,
+          ),
+        if (statusProvider.getRealtimeStatus!.forwardDestinations.isEmpty ==
+            false)
+          Padding(
+            padding: const EdgeInsets.only(top: 20, bottom: 10),
+            child: Column(
+              children: [
+                SectionLabel(
+                  label: AppLocalizations.of(context)!.upstreamServers,
+                  padding: const EdgeInsets.only(top: 16, left: 16, bottom: 24),
+                ),
+                if (width > ResponsiveConstants.medium)
+                  Row(
+                    children: [
+                      Expanded(
+                        flex: 2,
+                        child: ConstrainedBox(
+                          constraints: const BoxConstraints(
+                            maxWidth: 200,
+                            maxHeight: 200,
                           ),
-                          Expanded(
-                            flex: 3,
-                            child: PieChartLegend(
-                              data: statusProvider
-                                  .getRealtimeStatus!.forwardDestinations,
-                              dataUnit: '%',
-                            ),
+                          child: CustomPieChart(
+                            data: statusProvider
+                                .getRealtimeStatus!.forwardDestinations,
                           ),
-                        ],
+                        ),
                       ),
-                    if (width <= ResponsiveConstants.medium) ...[
-                      SizedBox(
-                        width: width - 40,
-                        child: CustomPieChart(
+                      Expanded(
+                        flex: 3,
+                        child: PieChartLegend(
                           data: statusProvider
                               .getRealtimeStatus!.forwardDestinations,
+                          dataUnit: '%',
                         ),
                       ),
-                      const SizedBox(height: 20),
-                      PieChartLegend(
-                        data: statusProvider
-                            .getRealtimeStatus!.forwardDestinations,
-                        dataUnit: '%',
-                      ),
                     ],
-                  ],
-                ),
-              )
-            : NoDataChart(
-                topLabel: AppLocalizations.of(context)!.upstreamServers,
-              ),
+                  ),
+                if (width <= ResponsiveConstants.medium) ...[
+                  SizedBox(
+                    width: width - 40,
+                    child: CustomPieChart(
+                      data:
+                          statusProvider.getRealtimeStatus!.forwardDestinations,
+                    ),
+                  ),
+                  const SizedBox(height: 20),
+                  PieChartLegend(
+                    data: statusProvider.getRealtimeStatus!.forwardDestinations,
+                    dataUnit: '%',
+                  ),
+                ],
+              ],
+            ),
+          )
+        else
+          NoDataChart(
+            topLabel: AppLocalizations.of(context)!.upstreamServers,
+          ),
       ],
     );
   }

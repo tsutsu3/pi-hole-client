@@ -2,10 +2,10 @@ import 'dart:io';
 
 import 'package:flutter_custom_tabs/flutter_custom_tabs.dart'
     as flutter_custom_tabs;
-import 'package:url_launcher/url_launcher.dart' as url_launcher;
 import 'package:sentry_flutter/sentry_flutter.dart';
+import 'package:url_launcher/url_launcher.dart' as url_launcher;
 
-void openUrl(String url) async {
+Future<void> openUrl(String url) async {
   if (Platform.isAndroid || Platform.isIOS) {
     try {
       await flutter_custom_tabs.launchUrl(
@@ -22,13 +22,13 @@ void openUrl(String url) async {
         ),
       );
     } catch (e, stackTrace) {
-      Sentry.captureException(e, stackTrace: stackTrace);
+      await Sentry.captureException(e, stackTrace: stackTrace);
     }
   } else {
     try {
-      url_launcher.launchUrl(Uri.parse(url));
+      await url_launcher.launchUrl(Uri.parse(url));
     } catch (e, stackTrace) {
-      Sentry.captureException(e, stackTrace: stackTrace);
+      await Sentry.captureException(e, stackTrace: stackTrace);
     }
   }
 }

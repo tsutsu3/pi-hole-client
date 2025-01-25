@@ -2,30 +2,28 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
-import 'package:pi_hole_client/constants/responsive.dart';
-import 'package:pi_hole_client/models/gateways.dart';
-import 'package:provider/provider.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-
-import 'package:pi_hole_client/screens/domains/add_domain_modal.dart';
-import 'package:pi_hole_client/screens/domains/domain_tile.dart';
-import 'package:pi_hole_client/screens/domains/domain_details_screen.dart';
-import 'package:pi_hole_client/widgets/tab_content_list.dart';
-
-import 'package:pi_hole_client/providers/domains_list_provider.dart';
 import 'package:pi_hole_client/classes/process_modal.dart';
-import 'package:pi_hole_client/providers/app_config_provider.dart';
+import 'package:pi_hole_client/constants/responsive.dart';
 import 'package:pi_hole_client/functions/snackbar.dart';
-import 'package:pi_hole_client/providers/servers_provider.dart';
 import 'package:pi_hole_client/models/domain.dart';
+import 'package:pi_hole_client/models/gateways.dart';
+import 'package:pi_hole_client/providers/app_config_provider.dart';
+import 'package:pi_hole_client/providers/domains_list_provider.dart';
+import 'package:pi_hole_client/providers/servers_provider.dart';
+import 'package:pi_hole_client/screens/domains/add_domain_modal.dart';
+import 'package:pi_hole_client/screens/domains/domain_details_screen.dart';
+import 'package:pi_hole_client/screens/domains/domain_tile.dart';
+import 'package:pi_hole_client/widgets/tab_content_list.dart';
+import 'package:provider/provider.dart';
 
 class DomainsList extends StatefulWidget {
   const DomainsList({
-    super.key,
     required this.type,
     required this.scrollController,
     required this.onDomainSelected,
     required this.selectedDomain,
+    super.key,
   });
 
   final String type;
@@ -80,8 +78,8 @@ class _DomainsListState extends State<DomainsList> {
         ? domainsListProvider.filteredBlacklistDomains
         : domainsListProvider.filteredWhitelistDomains;
 
-    void removeDomain(Domain domain) async {
-      final ProcessModal process = ProcessModal(context: context);
+    Future<void> removeDomain(Domain domain) async {
+      final process = ProcessModal(context: context);
       process.open(AppLocalizations.of(context)!.deleting);
 
       final result = await apiGateway?.removeDomainFromList(domain);
@@ -90,7 +88,7 @@ class _DomainsListState extends State<DomainsList> {
 
       if (result?.result == APiResponseType.success) {
         domainsListProvider.removeDomainFromList(domain);
-        Navigator.maybePop(context);
+        await Navigator.maybePop(context);
         showSuccessSnackBar(
           context: context,
           appConfigProvider: appConfigProvider,
@@ -113,8 +111,8 @@ class _DomainsListState extends State<DomainsList> {
       }
     }
 
-    void onAddDomain(Map<String, dynamic> value) async {
-      final ProcessModal process = ProcessModal(context: context);
+    Future<void> onAddDomain(Map<String, dynamic> value) async {
+      final process = ProcessModal(context: context);
       process.open(AppLocalizations.of(context)!.addingDomain);
 
       final result = await apiGateway?.addDomainToList(value);
@@ -122,7 +120,8 @@ class _DomainsListState extends State<DomainsList> {
       process.close();
 
       if (result?.result == APiResponseType.success) {
-        domainsListProvider.fetchDomainsList(serversProvider.selectedServer!);
+        await domainsListProvider
+            .fetchDomainsList(serversProvider.selectedServer!);
         showSuccessSnackBar(
           context: context,
           appConfigProvider: appConfigProvider,
@@ -175,7 +174,6 @@ class _DomainsListState extends State<DomainsList> {
             height: 300,
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 const CircularProgressIndicator(),
                 const SizedBox(height: 50),
@@ -198,7 +196,7 @@ class _DomainsListState extends State<DomainsList> {
                       MediaQuery.of(context).size.width >
                           ResponsiveConstants.large
                   ? const EdgeInsets.only(top: 16)
-                  : const EdgeInsets.all(0),
+                  : EdgeInsets.zero,
               child: DomainTile(
                 domain: thisDomain,
                 isDomainSelected: widget.selectedDomain == thisDomain,
@@ -241,7 +239,6 @@ class _DomainsListState extends State<DomainsList> {
             height: 300,
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 const Icon(
                   Icons.error,
@@ -261,7 +258,7 @@ class _DomainsListState extends State<DomainsList> {
             ),
           ),
           loadStatus: domainsListProvider.loadingStatus,
-          onRefresh: () async => await domainsListProvider
+          onRefresh: () async => domainsListProvider
               .fetchDomainsList(serversProvider.selectedServer!),
         ),
         SafeArea(

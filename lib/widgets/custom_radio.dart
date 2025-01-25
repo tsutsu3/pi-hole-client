@@ -2,11 +2,11 @@ import 'package:flutter/material.dart';
 
 class CustomRadio extends StatelessWidget {
   const CustomRadio({
-    super.key,
     required this.value,
     required this.groupValue,
-    this.onChange,
     required this.backgroundColor,
+    super.key,
+    this.onChange,
   });
 
   final int value;

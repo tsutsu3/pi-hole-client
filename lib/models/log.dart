@@ -2,32 +2,6 @@ import 'package:pi_hole_client/constants/query_types.dart';
 import 'package:pi_hole_client/models/api/v6/metrics/query.dart';
 
 class Log {
-  final DateTime dateTime;
-  final String type;
-  final String url;
-  final String device;
-  final String? status;
-  final String? replyType;
-  final BigInt replyTime;
-  final String? answeredBy;
-
-  static const List<String> replyTypes = [
-    'N/A',
-    'NODATA',
-    'NXDOMAIN',
-    'CNAME',
-    'IP',
-    'DOMAIN',
-    'RRNAME',
-    'SERVFAIL',
-    'REFUSED',
-    'NOTIMP',
-    'upstream error',
-    'DNSSEC',
-    'NONE',
-    'BLOB',
-  ];
-
   const Log({
     required this.dateTime,
     required this.type,
@@ -72,6 +46,32 @@ class Log {
       answeredBy: query.upstream,
     );
   }
+
+  final DateTime dateTime;
+  final String type;
+  final String url;
+  final String device;
+  final String? status;
+  final String? replyType;
+  final BigInt replyTime;
+  final String? answeredBy;
+
+  static const List<String> replyTypes = [
+    'N/A',
+    'NODATA',
+    'NXDOMAIN',
+    'CNAME',
+    'IP',
+    'DOMAIN',
+    'RRNAME',
+    'SERVFAIL',
+    'REFUSED',
+    'NOTIMP',
+    'upstream error',
+    'DNSSEC',
+    'NONE',
+    'BLOB',
+  ];
 
   //toJson
   Map<String, dynamic> toJson() => {

@@ -1,14 +1,13 @@
 import 'dart:async';
 
-import 'package:pi_hole_client/models/gateways.dart';
-import 'package:pi_hole_client/providers/status_provider.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
-
 import 'package:pi_hole_client/constants/enums.dart';
-import 'package:pi_hole_client/providers/filters_provider.dart';
+import 'package:pi_hole_client/models/gateways.dart';
 import 'package:pi_hole_client/providers/app_config_provider.dart';
+import 'package:pi_hole_client/providers/filters_provider.dart';
 import 'package:pi_hole_client/providers/servers_provider.dart';
+import 'package:pi_hole_client/providers/status_provider.dart';
+import 'package:provider/provider.dart';
 
 class StatusUpdater {
   BuildContext? context;
@@ -70,9 +69,9 @@ class StatusUpdater {
     // Sets previousRefreshTime when is not initialized
     _previousRefreshTime ??= appConfigProvider.getAutoRefreshTime;
 
-    bool isRunning =
+    var isRunning =
         false; // Prevents async request from being executed when last one is not completed yet
-    void timerFn({Timer? timer}) async {
+    Future<void> timerFn({Timer? timer}) async {
       // Restarts the statusDataTimer when time changes
       if (appConfigProvider.getAutoRefreshTime != _previousRefreshTime) {
         timer != null ? _statusDataTimer!.cancel() : timer!.cancel();
@@ -84,7 +83,7 @@ class StatusUpdater {
         isRunning = true;
         if (serversProvider.selectedServer != null) {
           final apiGateway = serversProvider.selectedApiGateway;
-          String selectedUrlBefore = serversProvider.selectedServer!.address;
+          final selectedUrlBefore = serversProvider.selectedServer!.address;
           final statusResult = await apiGateway?.realtimeStatus();
           if (statusResult?.result == APiResponseType.success) {
             serversProvider.updateselectedServerStatus(
@@ -123,18 +122,19 @@ class StatusUpdater {
     StatusProvider statusProvider,
     FiltersProvider filtersProvider,
   ) {
-    void timerFn({Timer? timer}) async {
+    Future<void> timerFn({Timer? timer}) async {
       if (serversProvider.selectedServer != null) {
         final apiGateway = serversProvider.selectedApiGateway;
-        String statusUrlBefore = serversProvider.selectedServer!.address;
+        final statusUrlBefore = serversProvider.selectedServer!.address;
         final statusResult = await apiGateway?.fetchOverTimeData();
         if (statusResult?.result == APiResponseType.success) {
           statusProvider.setOvertimeData(statusResult!.data!);
-          List<String?> clients = statusResult.data!.clients.map((client) {
+          final List<String?> clients =
+              statusResult.data!.clients.map((client) {
             if (client.name != '') {
-              return client.name.toString();
+              return client.name;
             } else {
-              return client.ip.toString();
+              return client.ip;
             }
           }).toList();
           filtersProvider.setClients(List<String>.from(clients));

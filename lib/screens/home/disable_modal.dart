@@ -1,14 +1,13 @@
-import 'package:flutter/material.dart';
 import 'package:expandable/expandable.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-
 import 'package:pi_hole_client/widgets/option_box.dart';
 
 class DisableModal extends StatefulWidget {
   const DisableModal({
-    super.key,
     required this.onDisable,
     required this.window,
+    super.key,
   });
 
   final void Function(int) onDisable;
@@ -86,7 +85,7 @@ class _DisableModalState extends State<DisableModal> {
 
   @override
   Widget build(BuildContext context) {
-    final MediaQueryData mediaQueryData = MediaQuery.of(context);
+    final mediaQueryData = MediaQuery.of(context);
 
     Widget options() {
       return Wrap(
@@ -274,8 +273,7 @@ class _DisableModalState extends State<DisableModal> {
             TextField(
               onChanged: _validateCustomMinutes,
               controller: customTimeController,
-              keyboardType:
-                  const TextInputType.numberWithOptions(decimal: false),
+              keyboardType: TextInputType.number,
               decoration: InputDecoration(
                 errorText: !customTimeIsValid && customTimeController.text != ''
                     ? AppLocalizations.of(context)!.valueNotValid
@@ -363,7 +361,6 @@ class _DisableModalState extends State<DisableModal> {
             ),
           ),
           child: SafeArea(
-            bottom: true,
             child: Column(
               mainAxisSize: MainAxisSize.min,
               children: [

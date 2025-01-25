@@ -5,6 +5,17 @@ import 'package:pi_hole_client/services/secret_manager.dart';
 ///
 /// This class is used to store information about a Pi-hole server.
 class Server {
+  Server({
+    required this.address,
+    required this.alias,
+    required this.defaultServer,
+    required this.apiVersion,
+    this.enabled,
+    this.basicAuthUser,
+    this.basicAuthPassword,
+    SecretManager? sm,
+  }) : sm = sm ?? SecretManager(SecureStorageRepository(), address);
+
   /// Pi-hole server IP address with port. Expected unique.
   final String address;
 
@@ -28,17 +39,6 @@ class Server {
 
   /// Session manager (Use only v5)
   final SecretManager sm;
-
-  Server({
-    required this.address,
-    required this.alias,
-    required this.defaultServer,
-    this.enabled,
-    required this.apiVersion,
-    this.basicAuthUser,
-    this.basicAuthPassword,
-    SecretManager? sm,
-  }) : sm = sm ?? SecretManager(SecureStorageRepository(), address);
 
   Server copyWith({
     String? address,

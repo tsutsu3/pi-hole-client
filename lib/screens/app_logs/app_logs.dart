@@ -4,12 +4,11 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:pi_hole_client/config/theme.dart';
-import 'package:provider/provider.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-
+import 'package:pi_hole_client/config/theme.dart';
 import 'package:pi_hole_client/providers/app_config_provider.dart';
 import 'package:pi_hole_client/screens/app_logs/app_log_details_modal.dart';
+import 'package:provider/provider.dart';
 
 class AppLogs extends StatelessWidget {
   const AppLogs({super.key});
@@ -18,8 +17,8 @@ class AppLogs extends StatelessWidget {
   Widget build(BuildContext context) {
     final appConfigProvider = Provider.of<AppConfigProvider>(context);
 
-    void copyLogsClipboard() async {
-      List<Map<String, String>> logsString =
+    Future<void> copyLogsClipboard() async {
+      final logsString =
           appConfigProvider.logs.map((log) => log.toMap()).toList();
       await Clipboard.setData(ClipboardData(text: jsonEncode(logsString)));
 
@@ -28,13 +27,12 @@ class AppLogs extends StatelessWidget {
           content: Text(
             AppLocalizations.of(context)!.logsCopiedClipboard,
             style: TextStyle(
-              color: Theme.of(context)
-                  .extension<AppColors>()!
-                  .snackBarNeutralText!,
+              color:
+                  Theme.of(context).extension<AppColors>()!.snackBarNeutralText,
             ),
           ),
           backgroundColor:
-              Theme.of(context).extension<AppColors>()!.snackBarNeutral!,
+              Theme.of(context).extension<AppColors>()!.snackBarNeutral,
           duration: const Duration(seconds: 3),
         ),
       );
@@ -56,7 +54,7 @@ class AppLogs extends StatelessWidget {
       body: SafeArea(
         child: appConfigProvider.logs.isNotEmpty
             ? ListView.builder(
-                padding: const EdgeInsets.only(top: 0),
+                padding: EdgeInsets.zero,
                 itemCount: appConfigProvider.logs.length,
                 itemBuilder: (context, index) => ListTile(
                   title: Text(

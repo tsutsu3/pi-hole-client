@@ -2,19 +2,17 @@
 
 import 'dart:io';
 
-import 'package:flutter/material.dart';
 import 'package:expandable/expandable.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
-import 'package:pi_hole_client/constants/responsive.dart';
-import 'package:provider/provider.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-
-import 'package:pi_hole_client/screens/servers/add_server_fullscreen.dart';
-import 'package:pi_hole_client/screens/servers/servers_list.dart';
-
+import 'package:pi_hole_client/constants/responsive.dart';
+import 'package:pi_hole_client/models/server.dart';
 import 'package:pi_hole_client/providers/app_config_provider.dart';
 import 'package:pi_hole_client/providers/servers_provider.dart';
-import 'package:pi_hole_client/models/server.dart';
+import 'package:pi_hole_client/screens/servers/add_server_fullscreen.dart';
+import 'package:pi_hole_client/screens/servers/servers_list.dart';
+import 'package:provider/provider.dart';
 
 class ServersPage extends StatefulWidget {
   const ServersPage({
@@ -38,7 +36,7 @@ class _ServersPageState extends State<ServersPage> {
 
   List<ExpandableController> expandableControllerList = [];
 
-  void expandOrContract(int index) async {
+  Future<void> expandOrContract(int index) async {
     expandableControllerList[index].expanded =
         !expandableControllerList[index].expanded;
   }
@@ -84,42 +82,41 @@ class _ServersPageState extends State<ServersPage> {
       expandableControllerList.add(ExpandableController());
     }
 
-    void openAddServer({Server? server}) async {
+    Future<void> openAddServer({Server? server}) async {
       await Future.delayed(
-        const Duration(seconds: 0),
-        (() => {
-              if (width > ResponsiveConstants.medium)
-                {
-                  showDialog(
-                    context: context,
-                    builder: (context) => AddServerFullscreen(
-                      server: server,
-                      window: true,
-                      title: AppLocalizations.of(context)!.createConnection,
-                    ),
-                    barrierDismissible: false,
+        Duration.zero,
+        () => {
+          if (width > ResponsiveConstants.medium)
+            {
+              showDialog(
+                context: context,
+                builder: (context) => AddServerFullscreen(
+                  server: server,
+                  window: true,
+                  title: AppLocalizations.of(context)!.createConnection,
+                ),
+                barrierDismissible: false,
+              ),
+            }
+          else
+            {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  fullscreenDialog: true,
+                  builder: (BuildContext context) => AddServerFullscreen(
+                    server: server,
+                    window: false,
+                    title: AppLocalizations.of(context)!.createConnection,
                   ),
-                }
-              else
-                {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      fullscreenDialog: true,
-                      builder: (BuildContext context) => AddServerFullscreen(
-                        server: server,
-                        window: false,
-                        title: AppLocalizations.of(context)!.createConnection,
-                      ),
-                    ),
-                  ),
-                },
-            }),
+                ),
+              ),
+            },
+        },
       );
     }
 
     return PopScope(
-      canPop: true,
       onPopInvokedWithResult: (didPop, result) async {
         if (serversProvider.selectedServer == null) {
           appConfigProvider.setSelectedTab(0);

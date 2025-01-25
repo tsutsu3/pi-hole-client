@@ -32,7 +32,6 @@ class ImportantInfoModal extends StatelessWidget {
       content: Column(
         children: [
           Column(
-            crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               Text(
                 AppLocalizations.of(context)!.requiredVersions,
@@ -44,7 +43,6 @@ class ImportantInfoModal extends StatelessWidget {
                 width: double.maxFinite,
                 margin: const EdgeInsets.only(top: 10),
                 child: const Column(
-                  crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
                     Text('Pi-hole: v5.12+'),
                     SizedBox(height: 5),

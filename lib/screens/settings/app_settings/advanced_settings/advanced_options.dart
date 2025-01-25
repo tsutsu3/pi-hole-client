@@ -1,25 +1,23 @@
 // ignore_for_file: use_build_context_synchronously
 
 import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_phoenix/flutter_phoenix.dart';
+import 'package:pi_hole_client/classes/process_modal.dart';
+import 'package:pi_hole_client/config/system_overlay_style.dart';
 import 'package:pi_hole_client/constants/responsive.dart';
 import 'package:pi_hole_client/functions/conversions.dart';
-import 'package:provider/provider.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-
+import 'package:pi_hole_client/functions/snackbar.dart';
+import 'package:pi_hole_client/providers/app_config_provider.dart';
+import 'package:pi_hole_client/providers/servers_provider.dart';
 import 'package:pi_hole_client/screens/app_logs/app_logs.dart';
-import 'package:pi_hole_client/widgets/section_label.dart';
-import 'package:pi_hole_client/screens/settings/app_settings/advanced_settings/reset_modal.dart';
-import 'package:pi_hole_client/widgets/custom_list_tile.dart';
 import 'package:pi_hole_client/screens/settings/app_settings/advanced_settings/app_unlock_setup_modal.dart';
 import 'package:pi_hole_client/screens/settings/app_settings/advanced_settings/enter_passcode_modal.dart';
+import 'package:pi_hole_client/screens/settings/app_settings/advanced_settings/reset_modal.dart';
 import 'package:pi_hole_client/screens/settings/app_settings/advanced_settings/statistics_visualization_screen.dart';
-
-import 'package:pi_hole_client/config/system_overlay_style.dart';
-import 'package:pi_hole_client/functions/snackbar.dart';
-import 'package:pi_hole_client/providers/servers_provider.dart';
-import 'package:pi_hole_client/classes/process_modal.dart';
-import 'package:pi_hole_client/providers/app_config_provider.dart';
+import 'package:pi_hole_client/widgets/custom_list_tile.dart';
+import 'package:pi_hole_client/widgets/section_label.dart';
+import 'package:provider/provider.dart';
 
 class AdvancedOptions extends StatelessWidget {
   const AdvancedOptions({super.key});
@@ -32,7 +30,7 @@ class AdvancedOptions extends StatelessWidget {
     final topBarHeight = MediaQuery.of(context).viewPadding.top;
     final width = MediaQuery.of(context).size.width;
 
-    void updateSslCheck(bool newStatus) async {
+    Future<void> updateSslCheck(bool newStatus) async {
       final result = await appConfigProvider.setOverrideSslCheck(newStatus);
       if (result == true) {
         showSuccessSnackBar(
@@ -49,7 +47,7 @@ class AdvancedOptions extends StatelessWidget {
       }
     }
 
-    void updateUseReducedData(bool newStatus) async {
+    Future<void> updateUseReducedData(bool newStatus) async {
       final result = await appConfigProvider.setReducedDataCharts(newStatus);
       if (result == true) {
         showSuccessSnackBar(
@@ -66,7 +64,7 @@ class AdvancedOptions extends StatelessWidget {
       }
     }
 
-    void updateHideZeroValues(bool newStatus) async {
+    Future<void> updateHideZeroValues(bool newStatus) async {
       final result = await appConfigProvider.setHideZeroValues(newStatus);
       if (result == true) {
         showSuccessSnackBar(
@@ -84,8 +82,8 @@ class AdvancedOptions extends StatelessWidget {
     }
 
     Future<void> deleteApplicationData() async {
-      void reset() async {
-        final ProcessModal process = ProcessModal(context: context);
+      Future<void> reset() async {
+        final process = ProcessModal(context: context);
         process.open(AppLocalizations.of(context)!.deleting);
         await serversProvider.deleteDbData();
         await appConfigProvider.restoreAppConfig();
@@ -94,18 +92,18 @@ class AdvancedOptions extends StatelessWidget {
       }
 
       if (appConfigProvider.passCode != null) {
-        Navigator.push(
+        await Navigator.push(
           context,
           MaterialPageRoute(
             fullscreenDialog: true,
             builder: (BuildContext context) => EnterPasscodeModal(
-              onConfirm: () => reset(),
+              onConfirm: reset,
               window: width > ResponsiveConstants.medium,
             ),
           ),
         );
       } else {
-        reset();
+        await reset();
       }
     }
 
@@ -115,7 +113,6 @@ class AdvancedOptions extends StatelessWidget {
         builder: (context) => ResetModal(
           onConfirm: deleteApplicationData,
         ),
-        useSafeArea: true,
       );
     }
 
@@ -149,7 +146,7 @@ class AdvancedOptions extends StatelessWidget {
           showDialog(
             context: context,
             builder: (BuildContext context) => EnterPasscodeModal(
-              onConfirm: () => openModal(),
+              onConfirm: openModal,
               window: true,
             ),
           );
@@ -159,7 +156,7 @@ class AdvancedOptions extends StatelessWidget {
             MaterialPageRoute(
               fullscreenDialog: true,
               builder: (BuildContext context) => EnterPasscodeModal(
-                onConfirm: () => openModal(),
+                onConfirm: openModal,
                 window: false,
               ),
             ),

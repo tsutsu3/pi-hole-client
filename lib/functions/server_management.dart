@@ -1,22 +1,21 @@
 // ignore_for_file: use_build_context_synchronously
 
 import 'package:flutter/material.dart';
-import 'package:pi_hole_client/models/gateways.dart';
-import 'package:provider/provider.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-
-import 'package:pi_hole_client/providers/app_config_provider.dart';
-import 'package:pi_hole_client/functions/snackbar.dart';
 import 'package:pi_hole_client/classes/process_modal.dart';
+import 'package:pi_hole_client/functions/snackbar.dart';
+import 'package:pi_hole_client/models/gateways.dart';
+import 'package:pi_hole_client/providers/app_config_provider.dart';
 import 'package:pi_hole_client/providers/servers_provider.dart';
+import 'package:provider/provider.dart';
 
-void enableServer(BuildContext context) async {
+Future<void> enableServer(BuildContext context) async {
   final serversProvider = Provider.of<ServersProvider>(context, listen: false);
   final appConfigProvider =
       Provider.of<AppConfigProvider>(context, listen: false);
   final apiGateway = serversProvider.selectedApiGateway;
 
-  final ProcessModal process = ProcessModal(context: context);
+  final process = ProcessModal(context: context);
   process.open(AppLocalizations.of(context)!.enablingServer);
   final result = await apiGateway?.enableServerRequest();
   process.close();
@@ -36,13 +35,13 @@ void enableServer(BuildContext context) async {
   }
 }
 
-void disableServer(int time, BuildContext context) async {
+Future<void> disableServer(int time, BuildContext context) async {
   final serversProvider = Provider.of<ServersProvider>(context, listen: false);
   final appConfigProvider =
       Provider.of<AppConfigProvider>(context, listen: false);
   final apiGateway = serversProvider.selectedApiGateway;
 
-  final ProcessModal process = ProcessModal(context: context);
+  final process = ProcessModal(context: context);
   process.open(AppLocalizations.of(context)!.disablingServer);
   final result = await apiGateway?.disableServerRequest(time);
   process.close();

@@ -1,20 +1,11 @@
-import 'package:flutter/material.dart';
 import 'package:dynamic_color/dynamic_color.dart';
+import 'package:flutter/material.dart';
 
 // ----------------------------------------------------------------------------
 // Extension for the `ColorScheme` class
 // ----------------------------------------------------------------------------
 @immutable
 class DataVisColors extends ThemeExtension<DataVisColors> {
-  final Color? blue;
-  final Color? blueDark;
-  final Color? green;
-  final Color? greenDark;
-  final Color? orange;
-  final Color? orangeDark;
-  final Color? red;
-  final Color? redDark;
-
   const DataVisColors({
     required this.blue,
     required this.blueDark,
@@ -25,6 +16,15 @@ class DataVisColors extends ThemeExtension<DataVisColors> {
     required this.red,
     required this.redDark,
   });
+
+  final Color? blue;
+  final Color? blueDark;
+  final Color? green;
+  final Color? greenDark;
+  final Color? orange;
+  final Color? orangeDark;
+  final Color? red;
+  final Color? redDark;
 
   @override
   DataVisColors copyWith({
@@ -104,6 +104,24 @@ const darkDataVisColors = DataVisColors(
 );
 
 class AppColors extends ThemeExtension<AppColors> {
+  const AppColors({
+    required this.snackBarSuccess,
+    required this.snackBarSuccessText,
+    required this.snackBarError,
+    required this.snackBarErrorText,
+    required this.snackBarNeutral,
+    required this.snackBarNeutralText,
+    required this.cardWarning,
+    required this.cardWarningText,
+    required this.queryRed,
+    required this.queryGreen,
+    required this.queryBlue,
+    required this.queryOrange,
+    required this.queryGrey,
+    required this.commonRed,
+    required this.commonGreen,
+  });
+
   final Color? snackBarSuccess;
   final Color? snackBarSuccessText;
   final Color? snackBarError;
@@ -122,24 +140,6 @@ class AppColors extends ThemeExtension<AppColors> {
 
   final Color? commonRed;
   final Color? commonGreen;
-
-  const AppColors({
-    required this.snackBarSuccess,
-    required this.snackBarSuccessText,
-    required this.snackBarError,
-    required this.snackBarErrorText,
-    required this.snackBarNeutral,
-    required this.snackBarNeutralText,
-    required this.cardWarning,
-    required this.cardWarningText,
-    required this.queryRed,
-    required this.queryGreen,
-    required this.queryBlue,
-    required this.queryOrange,
-    required this.queryGrey,
-    required this.commonRed,
-    required this.commonGreen,
-  });
 
   @override
   AppColors copyWith({
@@ -264,9 +264,9 @@ const darkAppColors = AppColors(
 
 @immutable
 class GraphColors extends ThemeExtension<GraphColors> {
-  final List<Color> colors;
-
   const GraphColors({required this.colors});
+
+  final List<Color> colors;
 
   @override
   GraphColors copyWith({List<Color>? colors}) {

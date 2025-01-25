@@ -4,8 +4,8 @@ import 'package:pie_chart/pie_chart.dart';
 
 class CustomPieChart extends StatelessWidget {
   const CustomPieChart({
-    super.key,
     required this.data,
+    super.key,
   });
 
   final Map<String, double> data;
@@ -19,7 +19,6 @@ class CustomPieChart extends StatelessWidget {
       colorList: Theme.of(context).extension<GraphColors>()!.colors,
       initialAngleInDegree: 270,
       chartType: ChartType.ring,
-      ringStrokeWidth: 20,
       legendOptions: const LegendOptions(showLegends: false),
       chartValuesOptions: const ChartValuesOptions(
         showChartValues: false,

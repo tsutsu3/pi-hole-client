@@ -1,18 +1,17 @@
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:pi_hole_client/config/theme.dart';
-import 'package:provider/provider.dart';
-
 import 'package:pi_hole_client/functions/format.dart';
 import 'package:pi_hole_client/providers/app_config_provider.dart';
+import 'package:provider/provider.dart';
 
 class ClientsLastHoursLine extends StatelessWidget {
   const ClientsLastHoursLine({
-    super.key,
     required this.realtimeListIps,
     required this.data,
     required this.reducedData,
     required this.hideZeroValues,
+    super.key,
   });
 
   final List<String> realtimeListIps;
@@ -27,11 +26,11 @@ class ClientsLastHoursLine extends StatelessWidget {
   String _getLegendName(Map<String, dynamic> data, LineBarSpot item) {
     if (data['clientsColors'][item.barIndex]['name'] != '') {
       if (data['clientsColors'][item.barIndex]['name'].length > 14) {
-        return '${data['clientsColors'][item.barIndex]['name'].substring(0, 14)}...: ${item.y.toInt().toString()}';
+        return '${data['clientsColors'][item.barIndex]['name'].substring(0, 14)}...: ${item.y.toInt()}';
       }
-      return '${data['clientsColors'][item.barIndex]['name']}: ${item.y.toInt().toString()}';
+      return '${data['clientsColors'][item.barIndex]['name']}: ${item.y.toInt()}';
     } else {
-      return '${data['clientsColors'][item.barIndex]['ip']}: ${item.y.toInt().toString()}';
+      return '${data['clientsColors'][item.barIndex]['ip']}: ${item.y.toInt()}';
     }
   }
 
@@ -43,7 +42,6 @@ class ClientsLastHoursLine extends StatelessWidget {
             : 1.0;
     return LineChartData(
       gridData: FlGridData(
-        show: true,
         drawVerticalLine: false,
         getDrawingHorizontalLine: (value) => FlLine(
           color: selectedTheme == ThemeMode.light
@@ -53,18 +51,9 @@ class ClientsLastHoursLine extends StatelessWidget {
         ),
       ),
       titlesData: FlTitlesData(
-        show: true,
-        rightTitles: const AxisTitles(
-          sideTitles: SideTitles(showTitles: false),
-        ),
-        topTitles: const AxisTitles(
-          sideTitles: SideTitles(showTitles: false),
-        ),
-        bottomTitles: const AxisTitles(
-          sideTitles: SideTitles(
-            showTitles: false,
-          ),
-        ),
+        rightTitles: const AxisTitles(),
+        topTitles: const AxisTitles(),
+        bottomTitles: const AxisTitles(),
         leftTitles: AxisTitles(
           sideTitles: SideTitles(
             showTitles: true,
@@ -86,19 +75,16 @@ class ClientsLastHoursLine extends StatelessWidget {
             color: selectedTheme == ThemeMode.light
                 ? Colors.black12
                 : Colors.white12,
-            width: 1,
           ),
           bottom: BorderSide(
             color: selectedTheme == ThemeMode.light
                 ? Colors.black12
                 : Colors.white12,
-            width: 1,
           ),
         ),
       ),
       lineBarsData: data['data'],
       lineTouchData: LineTouchData(
-        enabled: true,
         touchTooltipData: LineTouchTooltipData(
           getTooltipColor: (touchedSpot) => selectedTheme == ThemeMode.light
               ? const Color.fromRGBO(220, 220, 220, 0.9)
@@ -106,11 +92,11 @@ class ClientsLastHoursLine extends StatelessWidget {
           maxContentWidth: 300,
           fitInsideHorizontally: true,
           getTooltipItems: (items) {
-            List<LineTooltipItem> tooltipItems = [];
+            final tooltipItems = <LineTooltipItem>[];
 
-            List<LineBarSpot> showIndexes = [];
+            final showIndexes = <LineBarSpot>[];
 
-            for (var item in items) {
+            for (final item in items) {
               double fontSize = 14;
 
               // TODO: Fix this logic.
@@ -179,13 +165,13 @@ class ClientsLastHoursLine extends StatelessWidget {
     }
 
     Map<String, dynamic> formatData(Map<String, dynamic> data) {
-      final List<LineChartBarData> items = [];
-      final List<Map<String, dynamic>> clientsColors = [];
-      int topPoint = 0;
-      List<String> keys = data['over_time'].keys.toList();
+      final items = <LineChartBarData>[];
+      final clientsColors = <Map<String, dynamic>>[];
+      var topPoint = 0;
+      final List<String> keys = data['over_time'].keys.toList();
       for (var i = 0; i < data['clients'].length; i++) {
-        final List<FlSpot> client = [];
-        int xPosition = 0;
+        final client = <FlSpot>[];
+        var xPosition = 0;
         for (var j = 0;
             j < data['over_time'].entries.length;
             reducedData == true ? j += 6 : j++) {
@@ -205,7 +191,6 @@ class ClientsLastHoursLine extends StatelessWidget {
             spots: client,
             color: getColor(data['clients'][i], i),
             isCurved: true,
-            barWidth: 2,
             preventCurveOverShooting: true,
             isStrokeCapRound: true,
             dotData: const FlDotData(
@@ -224,14 +209,14 @@ class ClientsLastHoursLine extends StatelessWidget {
         });
       }
 
-      List<String> timestamps = [];
+      final timestamps = <String>[];
       final List<String> k = data['domains_over_time'].keys.toList();
       for (var i = 0; i < k.length; reducedData == true ? i += 6 : i++) {
         timestamps.add(k[i]);
       }
 
-      final List<FlSpot> flatLine = [];
-      int xPosition = 0;
+      final flatLine = <FlSpot>[];
+      var xPosition = 0;
       for (var j = 0;
           j < data['over_time'].entries.length;
           reducedData == true ? j += 6 : j++) {

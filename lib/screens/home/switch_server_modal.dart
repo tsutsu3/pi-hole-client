@@ -1,13 +1,12 @@
-import 'package:pi_hole_client/widgets/custom_list_tile.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-
 import 'package:pi_hole_client/models/server.dart';
 import 'package:pi_hole_client/providers/servers_provider.dart';
+import 'package:pi_hole_client/widgets/custom_list_tile.dart';
+import 'package:provider/provider.dart';
 
 class SwitchServerModal extends StatelessWidget {
-  const SwitchServerModal({super.key, required this.onServerSelect});
+  const SwitchServerModal({required this.onServerSelect, super.key});
 
   final void Function(Server) onServerSelect;
 

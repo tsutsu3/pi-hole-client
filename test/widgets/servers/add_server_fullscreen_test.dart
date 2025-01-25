@@ -1,22 +1,23 @@
 import 'package:dynamic_color/dynamic_color.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter_localizations/flutter_localizations.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:mockito/annotations.dart';
+import 'package:mockito/mockito.dart';
+import 'package:pi_hole_client/config/globals.dart';
 import 'package:pi_hole_client/config/theme.dart';
 import 'package:pi_hole_client/gateways/v5/api_gateway_v5.dart';
 import 'package:pi_hole_client/models/app_log.dart';
 import 'package:pi_hole_client/models/gateways.dart';
+import 'package:pi_hole_client/providers/app_config_provider.dart';
 // import 'package:pi_hole_client/models/server.dart';
 import 'package:pi_hole_client/providers/servers_provider.dart';
 import 'package:pi_hole_client/screens/servers/add_server_fullscreen.dart';
 import 'package:provider/provider.dart';
-import 'package:mockito/mockito.dart';
-import 'package:mockito/annotations.dart';
-import 'package:pi_hole_client/providers/app_config_provider.dart';
-import 'package:pi_hole_client/config/globals.dart';
+
 import './add_server_fullscreen_test.mocks.dart';
 
 @GenerateMocks(
@@ -24,7 +25,7 @@ import './add_server_fullscreen_test.mocks.dart';
 )
 void main() async {
   TestWidgetsFlutterBinding.ensureInitialized();
-  await dotenv.load(fileName: '.env');
+  await dotenv.load();
 
   group('Add Server Full Screen Widget Tests', () {
     late MockAppConfigProvider mockAppConfigProvider;
@@ -53,7 +54,7 @@ void main() async {
         ),
       );
 
-      bool showingSnackbar = false;
+      const showingSnackbar = false;
       when(mockAppConfigProvider.showingSnackbar).thenReturn(showingSnackbar);
       when(mockAppConfigProvider.setShowingSnackbar(any)).thenAnswer((_) {});
 
@@ -104,7 +105,7 @@ void main() async {
                       title: 'test',
                     ),
                   ),
-                  localizationsDelegates: [
+                  localizationsDelegates: const [
                     GlobalMaterialLocalizations.delegate,
                     AppLocalizations.delegate,
                   ],
@@ -186,7 +187,7 @@ void main() async {
                       title: 'test',
                     ),
                   ),
-                  localizationsDelegates: [
+                  localizationsDelegates: const [
                     GlobalMaterialLocalizations.delegate,
                     AppLocalizations.delegate,
                   ],

@@ -5,10 +5,10 @@ import 'package:pi_hole_client/models/app_screen.dart';
 
 class CustomNavigationRail extends StatelessWidget {
   const CustomNavigationRail({
-    super.key,
     required this.screens,
     required this.selectedScreen,
     required this.onChange,
+    super.key,
   });
 
   final List<AppScreen> screens;

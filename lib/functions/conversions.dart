@@ -1,7 +1,7 @@
-import 'package:intl/intl.dart';
 import 'package:flutter/material.dart';
-import 'package:pi_hole_client/models/domain.dart';
+import 'package:intl/intl.dart';
 import 'package:pi_hole_client/config/theme.dart';
+import 'package:pi_hole_client/models/domain.dart';
 
 /// Converts a given [color] to the corresponding theme-based color defined in
 /// [AppColors].
@@ -11,9 +11,6 @@ import 'package:pi_hole_client/config/theme.dart';
 /// provided color matches a predefined color, the corresponding color from
 /// [AppColors] is returned. If no match is found, the original color is
 /// returned unchanged.
-///
-/// This is particularly useful for applying light and dark theme adjustments
-/// to predefined colors while keeping the structure of [QueryStatus] unchanged.
 ///
 /// ### Parameters:
 /// - [colors]: An instance of [AppColors] that contains the theme-based color
@@ -87,7 +84,7 @@ String getDomainType(int type) {
 }
 
 List<Domain> parseDomainList(List<Map<String, dynamic>> jsonList) {
-  return jsonList.map((item) => Domain.fromJson(item)).toList();
+  return jsonList.map(Domain.fromJson).toList();
 }
 
 bool? convertFromIntToBool(int value) {
@@ -111,7 +108,7 @@ int? convertFromBoolToInt(bool value) {
 }
 
 String formatPercentage(double value, String locale) {
-  final NumberFormat f = NumberFormat('###.##', locale);
+  final f = NumberFormat('###.##', locale);
   return f.format(value);
 }
 
@@ -121,7 +118,7 @@ String intFormat(int value, String locale) {
 }
 
 List<Map<String, dynamic>> convertFromMapToList(Map<String, int> values) {
-  List<Map<String, dynamic>> items = [];
+  final items = <Map<String, dynamic>>[];
   values.forEach((key, value) {
     items.add({'label': key, 'value': value});
   });

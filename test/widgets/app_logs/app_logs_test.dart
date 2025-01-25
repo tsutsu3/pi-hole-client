@@ -1,12 +1,13 @@
+import 'package:flutter/material.dart';
+import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/mockito.dart';
 import 'package:pi_hole_client/screens/app_logs/app_log_details_modal.dart';
 import 'package:pi_hole_client/screens/app_logs/app_logs.dart';
-import 'package:flutter_test/flutter_test.dart';
-import 'package:flutter/material.dart';
+
 import '../helpers.dart';
 
 void main() async {
-  initializeApp();
+  await initializeApp();
 
   group(
     'App Log Screen Widget Tests',

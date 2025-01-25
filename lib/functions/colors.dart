@@ -4,11 +4,11 @@ import 'package:flutter/material.dart';
 import 'package:pi_hole_client/functions/misc.dart';
 
 Color generateRandomColor() {
-  Random rnd = Random();
+  final rnd = Random();
   return Color.fromRGBO(
-    (0 + rnd.nextInt(255 - 0)),
-    (0 + rnd.nextInt(255 - 0)),
-    (0 + rnd.nextInt(255 - 0)),
+    0 + rnd.nextInt(255 - 0),
+    0 + rnd.nextInt(255 - 0),
+    0 + rnd.nextInt(255 - 0),
     1,
   );
 }
