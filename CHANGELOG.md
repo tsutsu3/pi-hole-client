@@ -1,6 +1,20 @@
 # Changelog
 
-## [0.9.0] - 2025-01-16
+## [0.9.1] - 2025-01-24
+
+### 🐛 Bug Fixes
+
+- *(layout)* Fix screen layouts (#106)
+
+### 🧪 Testing
+
+- *(widget)* Add widget tests to improve coverage (#107)
+
+### ⚙️ Miscellaneous Tasks
+
+- Add test release workflow (#105)
+
+## [0.9.0_(10)] - 2025-01-16
 
 ### 🚀 Features
 
