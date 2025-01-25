@@ -1,12 +1,13 @@
-import 'package:pi_hole_client/constants/enums.dart';
 import 'package:flutter/material.dart';
-import 'package:pi_hole_client/models/gateways.dart';
-
-import 'package:pi_hole_client/models/server.dart';
+import 'package:pi_hole_client/constants/enums.dart';
 import 'package:pi_hole_client/models/domain.dart';
+import 'package:pi_hole_client/models/gateways.dart';
+import 'package:pi_hole_client/models/server.dart';
 import 'package:pi_hole_client/providers/servers_provider.dart';
 
 class DomainsListProvider with ChangeNotifier {
+  DomainsListProvider({required this.serversProvider});
+
   ServersProvider? serversProvider;
 
   LoadStatus _loadingStatus = LoadStatus.loading;
@@ -53,8 +54,6 @@ class DomainsListProvider with ChangeNotifier {
   bool get searchMode {
     return _searchMode;
   }
-
-  DomainsListProvider({required this.serversProvider});
 
   void update(ServersProvider? provider) {
     serversProvider = provider;
@@ -103,7 +102,7 @@ class DomainsListProvider with ChangeNotifier {
     final apiGateway = serversProvider?.selectedApiGateway;
     final result = await apiGateway?.getDomainLists();
     if (result?.result == APiResponseType.success) {
-      final List<Domain> whitelist = [
+      final whitelist = <Domain>[
         ...result!.data!.whitelist,
         ...result.data!.whitelistRegex,
       ];
@@ -111,7 +110,7 @@ class DomainsListProvider with ChangeNotifier {
       _filteredWhitelistDomains =
           whitelist.where((i) => i.domain.contains(_searchTerm)).toList();
 
-      final List<Domain> blacklist = [
+      final blacklist = <Domain>[
         ...result.data!.blacklist,
         ...result.data!.blacklistRegex,
       ];

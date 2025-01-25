@@ -3,11 +3,12 @@ import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
 import 'package:pi_hole_client/constants/query_types.dart';
 import 'package:pi_hole_client/gateways/v6/api_gateway_v6.dart';
-import 'package:pi_hole_client/models/server.dart';
-import 'package:pi_hole_client/providers/servers_provider.dart';
 import 'package:pi_hole_client/models/repository/database.dart';
+import 'package:pi_hole_client/models/server.dart';
 import 'package:pi_hole_client/providers/app_config_provider.dart';
+import 'package:pi_hole_client/providers/servers_provider.dart';
 import 'package:pi_hole_client/repository/database.dart';
+
 import './servers_provider_test.mocks.dart';
 
 @GenerateMocks([DatabaseRepository, AppConfigProvider])
@@ -168,7 +169,7 @@ void main() {
     });
 
     test('checkUrlExists returns the correct result', () async {
-      serversProvider.addServer(server);
+      await serversProvider.addServer(server);
 
       final result = await serversProvider.checkUrlExists(server.address);
 
@@ -187,7 +188,7 @@ void main() {
     });
 
     test('deleteDbData deletes the servers data', () async {
-      serversProvider.addServer(server);
+      await serversProvider.addServer(server);
       serversProvider.setselectedServer(server: server);
 
       final result = await serversProvider.deleteDbData();
