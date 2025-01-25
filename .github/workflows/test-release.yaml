@@ -124,13 +124,15 @@ jobs:
           status: draft
           releaseName: ${{ env.VERSION_NAME }}
 
-  bump-verion:
-    name: Bump version in pubspec.yaml
+  bump-version:
+    name: Bump version for production release
     runs-on: ubuntu-latest
     needs: [test-build-google-play]
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
 
       - name: Setup Flutter
         uses: subosito/flutter-action@v2
