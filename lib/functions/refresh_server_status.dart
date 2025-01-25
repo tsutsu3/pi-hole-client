@@ -10,7 +10,7 @@ import 'package:pi_hole_client/providers/servers_provider.dart';
 import 'package:pi_hole_client/providers/status_provider.dart';
 import 'package:provider/provider.dart';
 
-Future refreshServerStatus(BuildContext context) async {
+Future<dynamic> refreshServerStatus(BuildContext context) async {
   final statusProvider = Provider.of<StatusProvider>(context, listen: false);
   final serversProvider = Provider.of<ServersProvider>(context, listen: false);
   final appConfigProvider =

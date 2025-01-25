@@ -13,7 +13,7 @@ class Log {
     this.answeredBy,
   });
 
-  factory Log.fromJson(List data) => Log(
+  factory Log.fromJson(List<dynamic> data) => Log(
         dateTime:
             DateTime.fromMillisecondsSinceEpoch((int.parse(data[0])) * 1000),
         type: data[1],

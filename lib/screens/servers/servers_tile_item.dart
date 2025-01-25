@@ -96,7 +96,7 @@ class _ServersTileItemState extends State<ServersTileItem>
 
     /// Connect to the server button
     Future<void> connectToServer(Server server) async {
-      Future connectSuccess(result) async {
+      Future<dynamic> connectSuccess(result) async {
         serversProvider.setselectedServer(
           server: Server(
             address: server.address,

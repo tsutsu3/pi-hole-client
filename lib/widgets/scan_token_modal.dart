@@ -18,7 +18,7 @@ class _ScanTokenModalState extends State<ScanTokenModal> {
   final GlobalKey qrKey = GlobalKey(debugLabel: 'QR');
   int permission = 0;
 
-  Future managePermission() async {
+  Future<dynamic> managePermission() async {
     if (await Permission.camera.isGranted) {
       setState(() {
         permission = 1;

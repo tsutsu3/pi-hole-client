@@ -98,7 +98,7 @@ class DomainsListProvider with ChangeNotifier {
     notifyListeners();
   }
 
-  Future fetchDomainsList(Server server) async {
+  Future<dynamic> fetchDomainsList(Server server) async {
     final apiGateway = serversProvider?.selectedApiGateway;
     final result = await apiGateway?.getDomainLists();
     if (result?.result == APiResponseType.success) {

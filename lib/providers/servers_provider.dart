@@ -186,7 +186,7 @@ class ServersProvider with ChangeNotifier {
     }
   }
 
-  Future saveFromDb(List<ServerDbData>? servers) async {
+  Future<dynamic> saveFromDb(List<ServerDbData>? servers) async {
     if (servers != null) {
       Server? defaultServer;
       for (final server in servers) {

@@ -67,7 +67,7 @@ class HomeAppBar extends StatelessWidget implements PreferredSizeWidget {
     }
 
     Future<void> connectToServer(Server server) async {
-      Future connectSuccess(result) async {
+      Future<dynamic> connectSuccess(result) async {
         serversProvider.setselectedServer(
           server: Server(
             address: server.address,

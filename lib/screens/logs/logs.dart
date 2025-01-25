@@ -44,7 +44,7 @@ class _LogsState extends State<Logs> {
   DateTime? masterStartTime;
   DateTime? masterEndTime;
 
-  Future loadLogs({
+  Future<dynamic> loadLogs({
     required bool replaceOldLogs,
     List<int>? statusSelected,
     DateTime? inStartTime,

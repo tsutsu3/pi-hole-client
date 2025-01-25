@@ -513,7 +513,7 @@ class DatabaseRepository {
   }
 
   // Migration methods
-  Future _upgradeToV2(Database db) async {
+  Future<dynamic> _upgradeToV2(Database db) async {
     // await db.execute('ALTER TABLE appConfig DROP COLUMN oneColumnLegend');
 
     // 1. Create a new table
