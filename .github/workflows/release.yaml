@@ -13,7 +13,7 @@ jobs:
   get-version:
     name: Extract Version from pubspec.yaml
     runs-on: ubuntu-latest
-    if: github.event.pull_request.merged == true || github.event_name == 'workflow_dispatch'
+    if: (github.event.pull_request.merged == true && startsWith(github.event.pull_request.head.ref, 'release-v')) || github.event_name == 'workflow_dispatch'
     outputs:
       VERSION_NAME: ${{ steps.extract_version.outputs.VERSION_NAME }}
       VERSION_NUMBER: ${{ steps.extract_version.outputs.VERSION_NUMBER }}
