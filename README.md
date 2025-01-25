@@ -56,6 +56,7 @@
   - [Compile the production build](#compile-the-production-build)
   - [Code Quality and Analysis](#code-quality-and-analysis)
   - [CI/CD Secrets Management](#cicd-secrets-management)
+  - [CI/CD Workflow](#cicd-workflow)
 - [⚖️ License](#️-license)
 - [🖋️ Credits](#️-credits)
 
@@ -225,6 +226,12 @@ This document covers:
 
 - Required secrets for GCP authentication and secure builds.
 - Encoding and storing files as GitHub Secrets.
+
+### CI/CD Workflow
+
+The CI/CD process is outlined in the following documentation:
+
+📖 **[CI/CD Workflow](docs/ci-flow.md)**
 
 ## ⚖️ License
 
