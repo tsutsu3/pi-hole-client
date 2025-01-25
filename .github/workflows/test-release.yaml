@@ -123,3 +123,31 @@ jobs:
           track: alpha # Available tracks are: production,beta,alpha,internal,test
           status: draft
           releaseName: ${{ env.VERSION_NAME }}
+
+  bump-verion:
+    name: Bump version in pubspec.yaml
+    runs-on: ubuntu-latest
+    needs: [test-build-google-play]
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Flutter
+        uses: subosito/flutter-action@v2
+        with:
+          channel: stable
+          cache: true
+      - run: flutter clean
+      - run: flutter pub get
+
+      - name: Bump version in pubspec.yaml
+        run: dart run pub_version_plus:main build
+
+      - name: Commit version bump
+        run: |
+          git config user.name 'github-actions[bot]'
+          git config user.email 'github-actions[bot]@users.noreply.github.com'
+          git checkout ${{ github.head_ref }}
+          git add pubspec.yaml
+          git commit -m "Bump build version"
+          git push https://${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}.git ${{ github.head_ref }}
