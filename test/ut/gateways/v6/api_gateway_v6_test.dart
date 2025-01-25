@@ -2,17 +2,19 @@ import 'dart:convert';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:http/http.dart' as http;
-import 'package:mockito/mockito.dart';
 import 'package:mockito/annotations.dart';
+import 'package:mockito/mockito.dart';
 import 'package:pi_hole_client/constants/api_versions.dart';
 import 'package:pi_hole_client/gateways/v6/api_gateway_v6.dart';
 import 'package:pi_hole_client/models/domain.dart';
 import 'package:pi_hole_client/models/gateways.dart';
 import 'package:pi_hole_client/models/server.dart';
 import 'package:pi_hole_client/services/secret_manager.dart';
+
 import 'api_gateway_v6_test.mocks.dart';
 
 class SecretManagerMock implements SecretManager {
+  SecretManagerMock(this._sid, this._password);
   String? _sid;
   String? _password;
 
@@ -36,8 +38,6 @@ class SecretManagerMock implements SecretManager {
       return null;
     }
   }
-
-  SecretManagerMock(this._sid, this._password);
 
   @override
   Future<bool> save(String sid) async {
@@ -72,11 +72,11 @@ class SecretManagerMock implements SecretManager {
 @GenerateMocks([http.Client])
 void main() async {
   TestWidgetsFlutterBinding.ensureInitialized();
-  await dotenv.load(fileName: '.env');
+  await dotenv.load();
 
   group('loginQuery', () {
     late Server server;
-    final sessinId = 'n9n9f6c3umrumfq2ese1lvu2pg';
+    const sessinId = 'n9n9f6c3umrumfq2ese1lvu2pg';
     final urls = [
       'http://example.com/api/auth',
       'http://example.com/api/dns/blocking',
@@ -118,7 +118,7 @@ void main() async {
         ),
       );
 
-      int callCount = 0;
+      var callCount = 0;
 
       when(
         mockClient.get(
@@ -410,7 +410,7 @@ void main() async {
         ),
       );
 
-      int callCount = 0;
+      var callCount = 0;
 
       when(
         mockClient.get(
@@ -658,7 +658,7 @@ void main() async {
           'took': 5.6982040405273438e-05,
         },
       ];
-      for (int i = 0; i < urls.length; i++) {
+      for (var i = 0; i < urls.length; i++) {
         when(
           mockClient.get(
             Uri.parse(urls[i]),
@@ -691,7 +691,7 @@ void main() async {
 
   group('disableServerRequest', () {
     late Server server;
-    final url = 'http://example.com/api/dns/blocking';
+    const url = 'http://example.com/api/dns/blocking';
 
     setUp(() {
       server = Server(
@@ -742,7 +742,7 @@ void main() async {
 
   group('enableServerRequest', () {
     late Server server;
-    final url = 'http://example.com/api/dns/blocking';
+    const url = 'http://example.com/api/dns/blocking';
 
     setUp(() {
       server = Server(
@@ -856,7 +856,7 @@ void main() async {
         },
       ];
 
-      for (int i = 0; i < urls.length; i++) {
+      for (var i = 0; i < urls.length; i++) {
         when(
           mockClient.get(
             Uri.parse(urls[i]),
@@ -889,7 +889,7 @@ void main() async {
 
   group('fetchLogs', () {
     late Server server;
-    final url =
+    const url =
         'http://example.com/api/queries?from=1733472267&until=1733479467';
 
     setUp(() {
@@ -970,7 +970,7 @@ void main() async {
 
   group('setWhiteBlacklist', () {
     late Server server;
-    final url = 'http://example.com/api/domains/deny/exact';
+    const url = 'http://example.com/api/domains/deny/exact';
 
     setUp(() {
       server = Server(
@@ -1136,7 +1136,7 @@ void main() async {
 
   group('getDomainLists', () {
     late Server server;
-    final url = 'http://example.com/api/domains';
+    const url = 'http://example.com/api/domains';
 
     setUp(() {
       server = Server(
@@ -1204,7 +1204,7 @@ void main() async {
 
   group('removeDomainFromList', () {
     late Server server;
-    final url = 'http://example.com/api/domains/allow/exact/google.com';
+    const url = 'http://example.com/api/domains/allow/exact/google.com';
 
     setUp(() {
       server = Server(
@@ -1266,7 +1266,7 @@ void main() async {
 
   group('addDomainToList', () {
     late Server server;
-    final url = 'http://example.com/api/domains/deny/exact';
+    const url = 'http://example.com/api/domains/deny/exact';
 
     setUp(() {
       server = Server(

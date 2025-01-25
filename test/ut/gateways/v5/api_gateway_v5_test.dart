@@ -1,14 +1,16 @@
 import 'dart:convert';
+
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:http/http.dart' as http;
-import 'package:mockito/mockito.dart';
 import 'package:mockito/annotations.dart';
+import 'package:mockito/mockito.dart';
 import 'package:pi_hole_client/constants/api_versions.dart';
 import 'package:pi_hole_client/gateways/v5/api_gateway_v5.dart';
 import 'package:pi_hole_client/models/domain.dart';
 import 'package:pi_hole_client/models/gateways.dart';
 import 'package:pi_hole_client/models/server.dart';
+
 import 'api_gateway_v5_test.mocks.dart';
 
 @GenerateMocks([http.Client])
@@ -47,8 +49,8 @@ void main() async {
 
   group('loginQuery', () {
     late Server server;
-    final sessinId = 'n9n9f6c3umrumfq2ese1lvu2pg';
-    final url = 'http://example.com/admin/api.php?auth=xxx123&summaryRaw';
+    const sessinId = 'n9n9f6c3umrumfq2ese1lvu2pg';
+    const url = 'http://example.com/admin/api.php?auth=xxx123&summaryRaw';
 
     setUp(() async {
       server = Server(
@@ -233,7 +235,7 @@ void main() async {
 
   group('realtimeStatus', () {
     late Server server;
-    final url =
+    const url =
         'http://example.com/admin/api.php?auth=xxx123&summaryRaw&topItems&getForwardDestinations&getQuerySources&topClientsBlocked&getQueryTypes';
 
     setUp(() async {
@@ -347,7 +349,7 @@ void main() async {
 
   group('disableServerRequest', () {
     late Server server;
-    final url = 'http://example.com/admin/api.php?auth=xxx123&disable=5';
+    const url = 'http://example.com/admin/api.php?auth=xxx123&disable=5';
 
     setUp(() async {
       server = Server(
@@ -388,7 +390,7 @@ void main() async {
 
   group('enableServerRequest', () {
     late Server server;
-    final url = 'http://example.com/admin/api.php?auth=xxx123&enable';
+    const url = 'http://example.com/admin/api.php?auth=xxx123&enable';
 
     setUp(() async {
       server = Server(
@@ -429,7 +431,7 @@ void main() async {
 
   group('fetchOverTimeData', () {
     late Server server;
-    final url =
+    const url =
         'http://example.com/admin/api.php?auth=xxx123&overTimeData10mins&overTimeDataClients&getClientNames';
 
     setUp(() async {
@@ -914,7 +916,7 @@ void main() async {
 
   group('fetchLogs', () {
     late Server server;
-    final url =
+    const url =
         'http://example.com/admin/api.php?auth=xxx123&getAllQueries&from=1733472267&until=1733479467';
 
     setUp(() async {
@@ -991,7 +993,7 @@ void main() async {
 
   group('setWhiteBlacklist', () {
     late Server server;
-    final url =
+    const url =
         'http://example.com/admin/api.php?auth=xxx123&list=black&add=google.com';
 
     setUp(() async {
@@ -1040,7 +1042,7 @@ void main() async {
     test('Return error with invalid list type', () async {
       final mockClient = MockClient();
       final apiGateway = ApiGatewayV5(server, client: mockClient);
-      final data =
+      const data =
           'Invalid list [supported: black, regex_black, white, regex_white]';
       when(mockClient.get(Uri.parse(url), headers: {}))
           .thenAnswer((_) async => http.Response(jsonEncode(data), 200));
@@ -1154,7 +1156,7 @@ void main() async {
 
   group('removeDomainFromList', () {
     late Server server;
-    final url =
+    const url =
         'http://example.com/admin/api.php?auth=xxx123&list=white&sub=google.com';
 
     setUp(() async {
@@ -1218,7 +1220,7 @@ void main() async {
 
   group('addDomainToList', () {
     late Server server;
-    final url =
+    const url =
         'http://example.com/admin/api.php?auth=xxx123&list=black&add=google.com';
 
     setUp(() async {
@@ -1263,7 +1265,7 @@ void main() async {
     test('Return error with invalid list type', () async {
       final mockClient = MockClient();
       final apiGateway = ApiGatewayV5(server, client: mockClient);
-      final data =
+      const data =
           'Invalid list [supported: black, regex_black, white, regex_white]';
       when(mockClient.get(Uri.parse(url), headers: {}))
           .thenAnswer((_) async => http.Response(jsonEncode(data), 200));

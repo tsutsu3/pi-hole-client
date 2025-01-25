@@ -1,19 +1,20 @@
 import 'dart:async';
 import 'dart:convert';
 import 'dart:io';
-import 'package:http/http.dart';
 import 'package:http/http.dart' as http;
+import 'package:http/http.dart';
 import 'package:pi_hole_client/functions/logger.dart';
+import 'package:pi_hole_client/gateways/api_gateway_interface.dart';
 import 'package:pi_hole_client/models/api/v6/auth/auth.dart' show Session;
 import 'package:pi_hole_client/models/api/v6/dns/dns.dart' show Blocking;
-import 'package:pi_hole_client/models/api/v6/flt/ftl.dart' show InfoFtl;
-import 'package:pi_hole_client/models/api/v6/metrics/stats.dart'
-    show StatsSummary, StatsTopDomains, StatsTopClients, StatsUpstreams;
-import 'package:pi_hole_client/models/api/v6/metrics/history.dart'
-    show History, HistoryClients;
 import 'package:pi_hole_client/models/api/v6/domains/domains.dart'
     show AddDomains, Domains;
+import 'package:pi_hole_client/models/api/v6/flt/ftl.dart' show InfoFtl;
+import 'package:pi_hole_client/models/api/v6/metrics/history.dart'
+    show History, HistoryClients;
 import 'package:pi_hole_client/models/api/v6/metrics/query.dart' show Queries;
+import 'package:pi_hole_client/models/api/v6/metrics/stats.dart'
+    show StatsSummary, StatsTopClients, StatsTopDomains, StatsUpstreams;
 import 'package:pi_hole_client/models/app_log.dart';
 import 'package:pi_hole_client/models/domain.dart';
 import 'package:pi_hole_client/models/gateways.dart';
@@ -21,15 +22,8 @@ import 'package:pi_hole_client/models/log.dart';
 import 'package:pi_hole_client/models/overtime_data.dart';
 import 'package:pi_hole_client/models/realtime_status.dart';
 import 'package:pi_hole_client/models/server.dart';
-import 'package:pi_hole_client/gateways/api_gateway_interface.dart';
 
 class ApiGatewayV6 implements ApiGateway {
-  final Server _server;
-  final http.Client _client;
-
-  @override
-  Server get server => _server;
-
   /// Creates a new instance of the `ApiGatewayV5` class.
   ///
   /// Parameters:
@@ -38,6 +32,11 @@ class ApiGatewayV6 implements ApiGateway {
   ApiGatewayV6(Server server, {http.Client? client})
       : _server = server,
         _client = client ?? http.Client();
+  final Server _server;
+  final http.Client _client;
+
+  @override
+  Server get server => _server;
 
   /// Sends an HTTP request using the specified method and parameters.
   ///
@@ -70,17 +69,21 @@ class ApiGatewayV6 implements ApiGateway {
     if (_server.sm.sid == null) {
       await _server.sm.load();
     }
-    final Map<String, String> authHeaders = headers != null ? {...headers} : {};
+    final authHeaders = headers != null ? {...headers} : {};
     authHeaders['Content-Type'] = 'application/json';
     if (_server.sm.sid != null && _server.sm.sid!.isNotEmpty) {
-      authHeaders['X-FTL-SID'] = _server.sm.sid!;
+      authHeaders['X-FTL-SID'] = _server.sm.sid;
     }
 
-    for (int attempt = 0; attempt <= maxRetries; attempt++) {
+    final stringAuthHeaders = authHeaders.map(
+      (key, value) => MapEntry(key.toString(), value.toString()),
+    );
+
+    for (var attempt = 0; attempt <= maxRetries; attempt++) {
       final response = await _sendRequest(
         method: method,
         url: url,
-        headers: authHeaders,
+        headers: stringAuthHeaders,
         body: body,
         timeout: timeout,
       );
@@ -112,7 +115,7 @@ class ApiGatewayV6 implements ApiGateway {
           maxRetries: 0,
         );
         if (deleteResp.statusCode == 204) {
-          _server.sm.delete();
+          await _server.sm.delete();
           logger.d('Logout successful. Session deleted.');
         }
       }
@@ -457,7 +460,7 @@ class ApiGatewayV6 implements ApiGateway {
         logger.d('Queries: ${queries.queries.map((e) => e.toJson()).toList()}');
         return FetchLogsResponse(
           result: APiResponseType.success,
-          data: queries.queries.map((query) => Log.fromV6(query)).toList(),
+          data: queries.queries.map(Log.fromV6).toList(),
         );
       } else {
         return FetchLogsResponse(result: APiResponseType.error);
@@ -681,12 +684,12 @@ class ApiGatewayV6 implements ApiGateway {
     required String method,
     required String url,
     required Map<String, String> headers,
-    Map<String, dynamic>? body,
     required int timeout,
+    Map<String, dynamic>? body,
   }) async {
     switch (method.toUpperCase()) {
       case 'POST':
-        return await _client
+        return _client
             .post(
               Uri.parse(url),
               headers: headers,
@@ -695,7 +698,7 @@ class ApiGatewayV6 implements ApiGateway {
             .timeout(Duration(seconds: timeout));
 
       case 'PUT':
-        return await _client
+        return _client
             .put(
               Uri.parse(url),
               headers: headers,
@@ -704,7 +707,7 @@ class ApiGatewayV6 implements ApiGateway {
             .timeout(Duration(seconds: timeout));
 
       case 'PATCH':
-        return await _client
+        return _client
             .patch(
               Uri.parse(url),
               headers: headers,
@@ -713,13 +716,13 @@ class ApiGatewayV6 implements ApiGateway {
             .timeout(Duration(seconds: timeout));
 
       case 'DELETE':
-        return await _client
+        return _client
             .delete(Uri.parse(url), headers: headers)
             .timeout(Duration(seconds: timeout));
 
       case 'GET':
       default:
-        return await _client
+        return _client
             .get(Uri.parse(url), headers: headers)
             .timeout(Duration(seconds: timeout));
     }

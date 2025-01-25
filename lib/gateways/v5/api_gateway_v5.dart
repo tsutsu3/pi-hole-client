@@ -1,26 +1,20 @@
 import 'dart:async';
 import 'dart:convert';
 import 'dart:io';
-import 'package:http/http.dart';
 import 'package:http/http.dart' as http;
+import 'package:http/http.dart';
 import 'package:pi_hole_client/functions/conversions.dart';
+import 'package:pi_hole_client/functions/encode_basic_auth.dart';
+import 'package:pi_hole_client/gateways/api_gateway_interface.dart';
 import 'package:pi_hole_client/models/app_log.dart';
 import 'package:pi_hole_client/models/domain.dart';
-import 'package:pi_hole_client/functions/encode_basic_auth.dart';
 import 'package:pi_hole_client/models/gateways.dart';
 import 'package:pi_hole_client/models/log.dart';
 import 'package:pi_hole_client/models/overtime_data.dart';
 import 'package:pi_hole_client/models/realtime_status.dart';
 import 'package:pi_hole_client/models/server.dart';
-import 'package:pi_hole_client/gateways/api_gateway_interface.dart';
 
 class ApiGatewayV5 implements ApiGateway {
-  final Server _server;
-  final http.Client _client;
-
-  @override
-  Server get server => _server;
-
   /// Creates a new instance of the `ApiGatewayV5` class.
   ///
   /// Parameters:
@@ -29,6 +23,11 @@ class ApiGatewayV5 implements ApiGateway {
   ApiGatewayV5(Server server, {http.Client? client})
       : _server = server,
         _client = client ?? http.Client();
+  final Server _server;
+  final http.Client _client;
+
+  @override
+  Server get server => _server;
 
   /// Checks if both the username and password are non-null and non-empty.
   ///
@@ -54,7 +53,6 @@ class ApiGatewayV5 implements ApiGateway {
   ///
   /// Parameters:
   /// - [method] The HTTP method to use (e.g., 'GET', 'POST').
-  /// - [apiKey] The API key to use for authentication. Use v5 only.
   /// - [url] The URL to send the request to.
   /// - [headers] The headers to send with the request.
   /// - [body] The body of the request.
@@ -85,7 +83,7 @@ class ApiGatewayV5 implements ApiGateway {
     /// The basic authentication credentials to use for authentication
     Map<String, dynamic>? basicAuth,
   }) async {
-    final Map<String, String> authHeaders = headers != null ? {...headers} : {};
+    final authHeaders = headers != null ? {...headers} : {};
 
     if (basicAuth != null &&
         checkBasicAuth(basicAuth['username'], basicAuth['password'])) {
@@ -93,16 +91,20 @@ class ApiGatewayV5 implements ApiGateway {
           'Basic ${encodeBasicAuth(basicAuth['username'], basicAuth['password'])}';
     }
 
+    final stringAuthHeaders = authHeaders.map(
+      (key, value) => MapEntry(key.toString(), value.toString()),
+    );
+
     switch (method.toUpperCase()) {
       case 'POST':
-        return await _client
-            .post(Uri.parse(url), headers: authHeaders, body: body)
+        return _client
+            .post(Uri.parse(url), headers: stringAuthHeaders, body: body)
             .timeout(Duration(seconds: timeout));
 
       case 'GET':
       default:
-        return await _client
-            .get(Uri.parse(url), headers: authHeaders)
+        return _client
+            .get(Uri.parse(url), headers: stringAuthHeaders)
             .timeout(Duration(seconds: timeout));
     }
   }
