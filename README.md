@@ -184,36 +184,13 @@ Then, follow these steps to build the Linux executable:
 To ensure code quality and identify potential issues, perform the following
 analysis steps:
 
-1. **Calculate Code Metrics**
-
-   Generate code metrics for the lib directory:
-
-   ```bash
-   dcm calculate-metrics lib
-   ```
-
-   or
-
-   ```bash
-   dart run dart_code_linter:metrics lib --reporter=html -o metrics
-   ```
-
-2. **Analyze Code**
+1. **Analyze Code**
 
    Analyze the project to catch syntax errors, type issues, and other code problems:
 
    ```bash
    flutter analyze
-   dcm analyze lib
    ```
-
-3. **Check Unused Files**
-
-  Identify unused files in the lib directory:
-
-  ```bash
-  dcm check-unused-files lib
-  ```
 
 ### CI/CD Secrets Management
 
