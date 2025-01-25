@@ -32,7 +32,7 @@ class HomeCharts extends StatelessWidget {
 
     final width = MediaQuery.of(context).size.width;
 
-    final List<String> clientsListIps = statusProvider.getOvertimeData != null
+    final clientsListIps = statusProvider.getOvertimeData != null
         ? statusProvider.getOvertimeData!.clients.map((client) {
             return client.ip;
           }).toList()
@@ -160,7 +160,7 @@ class HomeCharts extends StatelessWidget {
                               padding:
                                   const EdgeInsets.symmetric(horizontal: 16),
                               child: ClientsLastHoursLine(
-                                realtimeListIps: clientsListIps,
+                                realtimeListIps: clientsListIps as List<String>,
                                 data: statusProvider.getOvertimeDataJson!,
                                 reducedData:
                                     appConfigProvider.reducedDataCharts,
