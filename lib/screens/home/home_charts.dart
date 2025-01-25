@@ -76,7 +76,7 @@ class HomeCharts extends StatelessWidget {
               child: checkExistsData(
                         statusProvider
                             .getOvertimeDataJson!['domains_over_time'],
-                      ) &&
+                      ) ||
                       checkExistsData(
                         statusProvider.getOvertimeDataJson!['ads_over_time'],
                       )
