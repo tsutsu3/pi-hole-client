@@ -1,6 +1,13 @@
 # Changelog
 
-## [0.9.1] - 2025-01-24
+## [0.9.1] - 2025-01-25
+
+### ⚙️ Miscellaneous Tasks
+
+- Refine version extraction condition for release workflows
+- Add version bump step in test release (#112)
+
+## [0.9.1_(11)] - 2025-01-25
 
 ### 🐛 Bug Fixes
 
@@ -12,6 +19,7 @@
 
 ### ⚙️ Miscellaneous Tasks
 
+- Update test workflow to install system dependencies for snar (#111)
 - Add test release workflow (#105)
 
 ## [0.9.0_(10)] - 2025-01-16
