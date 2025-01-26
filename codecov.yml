@@ -1,2 +1,3 @@
 ignore:
   - "lib/screens/settings/about/about.dart"
+  - "lib/**/*.g.dart"

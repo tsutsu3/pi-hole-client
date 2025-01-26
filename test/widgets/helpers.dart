@@ -28,6 +28,7 @@ import 'package:pi_hole_client/providers/domains_list_provider.dart';
 import 'package:pi_hole_client/providers/filters_provider.dart';
 import 'package:pi_hole_client/providers/servers_provider.dart';
 import 'package:pi_hole_client/providers/status_provider.dart';
+import 'package:pi_hole_client/screens/logs/logs_filters_modal.dart';
 import 'package:provider/provider.dart';
 
 import './helpers.mocks.dart';
@@ -895,6 +896,9 @@ class TestSetupHelper {
     when(mockServersProvider.deleteDbData()).thenAnswer((_) async => true);
     when(mockServersProvider.getServersList).thenReturn([serverV6]);
     when(mockServersProvider.colors).thenReturn(lightAppColors);
+    when(mockServersProvider.queryStatuses).thenReturn(
+      useApiGatewayVersion == 'v5' ? queryStatusesV5 : queryStatusesV6,
+    );
   }
 
   void _initFiltersProviderMock(String useApiGatewayVersion) {
@@ -917,6 +921,12 @@ class TestSetupHelper {
     when(mockFiltersProvider.setSelectedDomain(null)).thenReturn(null);
     when(mockFiltersProvider.statusAllowedAndRetried).thenReturn(
       useApiGatewayVersion == 'v5' ? [2, 3, 12, 13, 14] : [3, 4, 13, 14, 15],
+    );
+    when(mockFiltersProvider.requestStatus).thenReturn(RequestStatus.all);
+    when(mockFiltersProvider.defaultSelected).thenReturn(
+      useApiGatewayVersion == 'v5'
+          ? [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 14]
+          : [2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15],
     );
   }
 
