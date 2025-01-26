@@ -3,7 +3,6 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:pi_hole_client/screens/home/home.dart';
 
 import '../helpers.dart';
-import '../utils.dart';
 
 void main() async {
   await initializeApp();
