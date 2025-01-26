@@ -28,6 +28,7 @@ import 'package:pi_hole_client/providers/domains_list_provider.dart';
 import 'package:pi_hole_client/providers/filters_provider.dart';
 import 'package:pi_hole_client/providers/servers_provider.dart';
 import 'package:pi_hole_client/providers/status_provider.dart';
+import 'package:pi_hole_client/screens/logs/logs_filters_modal.dart';
 import 'package:provider/provider.dart';
 
 import './helpers.mocks.dart';
@@ -918,6 +919,7 @@ class TestSetupHelper {
     when(mockFiltersProvider.statusAllowedAndRetried).thenReturn(
       useApiGatewayVersion == 'v5' ? [2, 3, 12, 13, 14] : [3, 4, 13, 14, 15],
     );
+    when(mockFiltersProvider.requestStatus).thenReturn(RequestStatus.all);
   }
 
   void _initStatusProviderMock(String useApiGatewayVersion) {
