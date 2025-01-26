@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:mockito/mockito.dart';
 import 'package:pi_hole_client/screens/logs/logs.dart';
-import 'package:pi_hole_client/screens/logs/logs_filters_modal.dart';
 
 import '../helpers.dart';
 

@@ -896,6 +896,9 @@ class TestSetupHelper {
     when(mockServersProvider.deleteDbData()).thenAnswer((_) async => true);
     when(mockServersProvider.getServersList).thenReturn([serverV6]);
     when(mockServersProvider.colors).thenReturn(lightAppColors);
+    when(mockServersProvider.queryStatuses).thenReturn(
+      useApiGatewayVersion == 'v5' ? queryStatusesV5 : queryStatusesV6,
+    );
   }
 
   void _initFiltersProviderMock(String useApiGatewayVersion) {
@@ -920,6 +923,11 @@ class TestSetupHelper {
       useApiGatewayVersion == 'v5' ? [2, 3, 12, 13, 14] : [3, 4, 13, 14, 15],
     );
     when(mockFiltersProvider.requestStatus).thenReturn(RequestStatus.all);
+    when(mockFiltersProvider.defaultSelected).thenReturn(
+      useApiGatewayVersion == 'v5'
+          ? [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 14]
+          : [2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15],
+    );
   }
 
   void _initStatusProviderMock(String useApiGatewayVersion) {
