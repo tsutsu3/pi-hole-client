@@ -862,6 +862,8 @@ class TestSetupHelper {
     when(mockConfigProvider.biometricsSupport).thenReturn(true);
     when(mockConfigProvider.setStatisticsVisualizationMode(any))
         .thenAnswer((_) async => true);
+    when(mockConfigProvider.validVibrator).thenReturn(true);
+    when(mockConfigProvider.setPassCode(any)).thenAnswer((_) async => true);
   }
 
   void _initServerProviderMock(String useApiGatewayVersion) {
