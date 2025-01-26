@@ -4,7 +4,6 @@ import 'package:pi_hole_client/screens/settings/app_settings/advanced_settings/a
 import 'package:pi_hole_client/screens/settings/app_settings/advanced_settings/statistics_visualization_screen.dart';
 
 import '../../../helpers.dart';
-import '../../../utils.dart';
 
 void main() async {
   await initializeApp();
@@ -38,8 +37,6 @@ void main() async {
 
           expect(find.byType(StatisticsVisualizationScreen), findsOneWidget);
           expect(find.text('Statistics display mode'), findsOneWidget);
-
-          showText();
 
           expect(find.text('List'), findsOneWidget);
           expect(find.text('Pie chart'), findsOneWidget);

@@ -388,7 +388,6 @@ void main() async {
           await tester.pump(const Duration(seconds: 10));
 
           // TODO: Not found, always show ircularProgressIndicator????
-          // showText();
           // expect(find.byType(LicensePage), findsOneWidget);
         },
       );

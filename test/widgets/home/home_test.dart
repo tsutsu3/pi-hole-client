@@ -41,8 +41,6 @@ void main() async {
           // await tester.pump(const Duration(seconds: 3));
           await tester.pumpAndSettle(const Duration(seconds: 3));
 
-          showText(); // TODO
-
           // Home App Bar
           // expect(find.byIcon(Icons.verified_user_rounded), findsOneWidget); // TODO
           // expect(find.byIcon(Icons.more_vert), findsOneWidget); // TODO
