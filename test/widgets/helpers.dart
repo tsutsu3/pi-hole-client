@@ -860,6 +860,8 @@ class TestSetupHelper {
         .thenAnswer((_) async => true);
     when(mockConfigProvider.colors).thenReturn(lightAppColors);
     when(mockConfigProvider.biometricsSupport).thenReturn(true);
+    when(mockConfigProvider.setStatisticsVisualizationMode(any))
+        .thenAnswer((_) async => true);
   }
 
   void _initServerProviderMock(String useApiGatewayVersion) {
