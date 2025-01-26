@@ -858,6 +858,12 @@ class TestSetupHelper {
     );
     when(mockConfigProvider.setAutoRefreshTime(any))
         .thenAnswer((_) async => true);
+    when(mockConfigProvider.colors).thenReturn(lightAppColors);
+    when(mockConfigProvider.biometricsSupport).thenReturn(true);
+    when(mockConfigProvider.setStatisticsVisualizationMode(any))
+        .thenAnswer((_) async => true);
+    when(mockConfigProvider.validVibrator).thenReturn(true);
+    when(mockConfigProvider.setPassCode(any)).thenAnswer((_) async => true);
   }
 
   void _initServerProviderMock(String useApiGatewayVersion) {
@@ -888,6 +894,7 @@ class TestSetupHelper {
     );
     when(mockServersProvider.deleteDbData()).thenAnswer((_) async => true);
     when(mockServersProvider.getServersList).thenReturn([serverV6]);
+    when(mockServersProvider.colors).thenReturn(lightAppColors);
   }
 
   void _initFiltersProviderMock(String useApiGatewayVersion) {

@@ -3,7 +3,6 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:pi_hole_client/screens/home/home.dart';
 
 import '../helpers.dart';
-import '../utils.dart';
 
 void main() async {
   await initializeApp();
@@ -40,8 +39,6 @@ void main() async {
           // await tester.pump();
           // await tester.pump(const Duration(seconds: 3));
           await tester.pumpAndSettle(const Duration(seconds: 3));
-
-          showText(); // TODO
 
           // Home App Bar
           // expect(find.byIcon(Icons.verified_user_rounded), findsOneWidget); // TODO
