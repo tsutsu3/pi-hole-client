@@ -89,7 +89,7 @@ void main() async {
 
   try {
     if (Platform.isAndroid || Platform.isIOS) {
-      if (await Vibration.hasCustomVibrationsSupport() != null) {
+      if (await Vibration.hasCustomVibrationsSupport()) {
         configProvider.setValidVibrator(true);
       } else {
         configProvider.setValidVibrator(false);
