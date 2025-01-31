@@ -27,6 +27,7 @@ class LegalModal extends StatelessWidget {
         } else if (snapshot.hasData) {
           final noticeText = snapshot.data!;
           return AlertDialog(
+            scrollable: true,
             title: Column(
               children: [
                 Icon(
@@ -58,6 +59,7 @@ class LegalModal extends StatelessWidget {
 
         // Error handling
         return AlertDialog(
+          scrollable: true,
           title: Column(
             children: [
               Icon(
