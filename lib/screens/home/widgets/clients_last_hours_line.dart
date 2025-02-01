@@ -2,6 +2,7 @@ import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:pi_hole_client/config/theme.dart';
 import 'package:pi_hole_client/functions/format.dart';
+import 'package:pi_hole_client/functions/graph.dart';
 import 'package:pi_hole_client/providers/app_config_provider.dart';
 import 'package:provider/provider.dart';
 
@@ -35,14 +36,11 @@ class ClientsLastHoursLine extends StatelessWidget {
   }
 
   LineChartData mainData(Map<String, dynamic> data, ThemeMode selectedTheme) {
-    final double interval = (data['topPoint'] / 5).toDouble() > 0
-        ? (data['topPoint'] / 5).toDouble()
-        : data['topPoint'].toDouble() > 0
-            ? data['topPoint'].toDouble()
-            : 1.0;
+    final interval = calcInterval(data['topPoint']);
     return LineChartData(
       gridData: FlGridData(
         drawVerticalLine: false,
+        horizontalInterval: interval,
         getDrawingHorizontalLine: (value) => FlLine(
           color: selectedTheme == ThemeMode.light
               ? Colors.black12
@@ -215,6 +213,7 @@ class ClientsLastHoursLine extends StatelessWidget {
         timestamps.add(k[i]);
       }
 
+      /// Dummy data for legend
       final flatLine = <FlSpot>[];
       var xPosition = 0;
       for (var j = 0;
