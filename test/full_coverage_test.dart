@@ -19,6 +19,7 @@ import 'package:pi_hole_client/functions/colors.dart';
 import 'package:pi_hole_client/functions/conversions.dart';
 import 'package:pi_hole_client/functions/encode_basic_auth.dart';
 import 'package:pi_hole_client/functions/format.dart';
+import 'package:pi_hole_client/functions/graph.dart';
 import 'package:pi_hole_client/functions/logger.dart';
 import 'package:pi_hole_client/functions/misc.dart';
 import 'package:pi_hole_client/functions/open_url.dart';

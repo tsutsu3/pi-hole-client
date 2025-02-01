@@ -33,11 +33,11 @@ _$QueryImpl _$$QueryImplFromJson(Map<String, dynamic> json) => _$QueryImpl(
       time: (json['time'] as num).toDouble(),
       type: json['type'] as String,
       domain: json['domain'] as String,
+      client: Client.fromJson(json['client'] as Map<String, dynamic>),
+      reply: Reply.fromJson(json['reply'] as Map<String, dynamic>),
       cname: json['cname'] as String?,
       status: json['status'] as String?,
-      client: Client.fromJson(json['client'] as Map<String, dynamic>),
       dnssec: json['dnssec'] as String?,
-      reply: Reply.fromJson(json['reply'] as Map<String, dynamic>),
       listId: (json['list_id'] as num?)?.toInt(),
       upstream: json['upstream'] as String?,
     );
@@ -48,11 +48,11 @@ Map<String, dynamic> _$$QueryImplToJson(_$QueryImpl instance) =>
       'time': instance.time,
       'type': instance.type,
       'domain': instance.domain,
+      'client': instance.client,
+      'reply': instance.reply,
       'cname': instance.cname,
       'status': instance.status,
-      'client': instance.client,
       'dnssec': instance.dnssec,
-      'reply': instance.reply,
       'list_id': instance.listId,
       'upstream': instance.upstream,
     };
@@ -69,12 +69,12 @@ Map<String, dynamic> _$$ClientImplToJson(_$ClientImpl instance) =>
     };
 
 _$ReplyImpl _$$ReplyImplFromJson(Map<String, dynamic> json) => _$ReplyImpl(
-      type: json['type'] as String?,
       time: (json['time'] as num).toDouble(),
+      type: json['type'] as String?,
     );
 
 Map<String, dynamic> _$$ReplyImplToJson(_$ReplyImpl instance) =>
     <String, dynamic>{
-      'type': instance.type,
       'time': instance.time,
+      'type': instance.type,
     };
