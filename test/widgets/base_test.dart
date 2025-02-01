@@ -2,11 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/mockito.dart';
 import 'package:pi_hole_client/base.dart';
+import 'package:pi_hole_client/screens/home/home.dart';
 import 'package:pi_hole_client/widgets/bottom_nav_bar.dart';
 import 'package:pi_hole_client/widgets/navigation_rail.dart';
 import 'package:pi_hole_client/widgets/start_warning_modal.dart';
 
 import './helpers.dart';
+import 'screens/utils.dart';
 
 void main() async {
   await initializeApp();
@@ -52,7 +54,7 @@ void main() async {
       );
 
       testWidgets(
-        'should show mobile layout',
+        'should show mobile layout with no selected server',
         (WidgetTester tester) async {
           tester.view.physicalSize = const Size(1080, 2400);
           tester.view.devicePixelRatio = 2.0;
@@ -79,7 +81,7 @@ void main() async {
       );
 
       testWidgets(
-        'should show tablet layout',
+        'should show tablet layout with no selected server',
         (WidgetTester tester) async {
           tester.view.physicalSize = const Size(2560, 1600);
           tester.view.devicePixelRatio = 1.6;
@@ -102,6 +104,31 @@ void main() async {
           expect(find.byType(CustomNavigationRail), findsOneWidget);
           expect(find.byIcon(Icons.link_rounded), findsOneWidget);
           expect(find.text('Servers'), findsOneWidget);
+        },
+      );
+
+      testWidgets(
+        'should show mobile layout with selected server',
+        (WidgetTester tester) async {
+          tester.view.physicalSize = const Size(1080, 2400);
+          tester.view.devicePixelRatio = 2.0;
+
+          addTearDown(() {
+            tester.view.resetPhysicalSize();
+            tester.view.resetDevicePixelRatio();
+          });
+
+          await tester.pumpWidget(
+            testSetup.buildTestWidget(
+              const Base(),
+            ),
+          );
+
+          expect(find.byType(Base), findsOneWidget);
+          await tester.pump();
+          expect(find.byType(BottomNavBar), findsOneWidget);
+          expect(find.byIcon(Icons.link_rounded), findsNothing);
+          expect(find.byType(Home), findsOneWidget);
         },
       );
     },
