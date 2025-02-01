@@ -867,6 +867,9 @@ class TestSetupHelper {
         .thenAnswer((_) async => true);
     when(mockConfigProvider.validVibrator).thenReturn(true);
     when(mockConfigProvider.setPassCode(any)).thenAnswer((_) async => true);
+    when(mockConfigProvider.selectedTab).thenReturn(0);
+    when(mockConfigProvider.importantInfoReaden).thenReturn(true);
+    when(mockConfigProvider.sendCrashReports).thenReturn(false);
   }
 
   void _initServerProviderMock(String useApiGatewayVersion) {
