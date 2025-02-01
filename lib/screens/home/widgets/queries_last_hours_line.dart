@@ -16,6 +16,58 @@ class QueriesLastHoursLine extends StatelessWidget {
   final Map<String, dynamic> data;
   final bool reducedData;
 
+  /// Create the legend for the tooltip.
+  List<LineTooltipItem> _createLegend(
+    Map<String, dynamic> data,
+    List<LineBarSpot> items,
+    ThemeMode selectedTheme,
+  ) {
+    final legend = List<LineTooltipItem>.filled(
+      3,
+      const LineTooltipItem('', TextStyle()),
+    );
+
+    for (final item in items) {
+      switch (item.barIndex) {
+        case 0:
+          legend[0] = LineTooltipItem(
+            formatTimestampForChart(data['time'][item.x.toInt()]),
+            TextStyle(
+              fontWeight: FontWeight.bold,
+              fontSize: 14,
+              color: selectedTheme == ThemeMode.light
+                  ? Colors.black
+                  : Colors.white,
+            ),
+          );
+        case 1:
+          legend[1] = LineTooltipItem(
+            'Blocked: ${item.y.toInt()}',
+            const TextStyle(
+              fontWeight: FontWeight.bold,
+              fontSize: 14,
+              color: Colors.blue,
+            ),
+          );
+        case 2:
+          legend[2] = LineTooltipItem(
+            'Not blocked: ${item.y.toInt()}',
+            const TextStyle(
+              fontWeight: FontWeight.bold,
+              fontSize: 14,
+              color: Colors.green,
+            ),
+          );
+        default:
+          break;
+      }
+    }
+
+    // sort legend [time, blocked, not blocked]
+
+    return legend;
+  }
+
   LineChartData mainData(
     Map<String, dynamic> data,
     ThemeMode selectedTheme,
@@ -73,11 +125,13 @@ class QueriesLastHoursLine extends StatelessWidget {
       ),
       lineBarsData: [
         // Hidden bar to allow 3 items on tooltip
+        // barIndex: 0
         LineChartBarData(
           spots: data['data']['domains'],
           color: Colors.transparent,
           barWidth: 0,
         ),
+        // barIndex: 1
         LineChartBarData(
           spots: data['data']['ads'],
           color: Theme.of(context).extension<GraphColors>()!.getColor(0),
@@ -95,6 +149,7 @@ class QueriesLastHoursLine extends StatelessWidget {
                 .withValues(alpha: 0.2),
           ),
         ),
+        // barIndex: 2
         LineChartBarData(
           spots: data['data']['domains'],
           color: Theme.of(context).extension<GraphColors>()!.getColor(3),
@@ -119,34 +174,7 @@ class QueriesLastHoursLine extends StatelessWidget {
               ? const Color.fromRGBO(220, 220, 220, 0.9)
               : const Color.fromRGBO(35, 35, 35, 0.9),
           fitInsideHorizontally: true,
-          getTooltipItems: (items) => [
-            LineTooltipItem(
-              formatTimestampForChart(data['time'][items[0].x.toInt()]),
-              TextStyle(
-                fontWeight: FontWeight.bold,
-                fontSize: 14,
-                color: selectedTheme == ThemeMode.light
-                    ? Colors.black
-                    : Colors.white,
-              ),
-            ),
-            LineTooltipItem(
-              'Not blocked: ${items[1].y.toInt()}',
-              const TextStyle(
-                fontWeight: FontWeight.bold,
-                fontSize: 14,
-                color: Colors.green,
-              ),
-            ),
-            LineTooltipItem(
-              'Blocked: ${items[2].y.toInt()}',
-              const TextStyle(
-                fontWeight: FontWeight.bold,
-                fontSize: 14,
-                color: Colors.blue,
-              ),
-            ),
-          ],
+          getTooltipItems: (items) => _createLegend(data, items, selectedTheme),
         ),
       ),
     );
