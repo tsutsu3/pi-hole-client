@@ -38,6 +38,7 @@ final serverV5 = Server(
   alias: 'test v5',
   defaultServer: false,
   apiVersion: 'v5',
+  enabled: false,
 );
 
 final serverV6 = Server(
@@ -45,6 +46,7 @@ final serverV6 = Server(
   alias: 'test v6',
   defaultServer: false,
   apiVersion: 'v6',
+  enabled: true,
 );
 
 final domains = [
@@ -950,6 +952,10 @@ class TestSetupHelper {
         sid: 'sid123',
       ),
     );
+
+    when(mockApiGatewayV6.enableServerRequest()).thenAnswer((_) async {
+      return EnableServerResponse(result: APiResponseType.success);
+    });
   }
 
   void _initApiGatewayV6Mock() {
@@ -985,6 +991,14 @@ class TestSetupHelper {
         result: APiResponseType.success,
         data: DomainResult(success: true, message: 'Added white.example.com'),
       );
+    });
+
+    when(mockApiGatewayV6.enableServerRequest()).thenAnswer((_) async {
+      return EnableServerResponse(result: APiResponseType.success);
+    });
+
+    when(mockApiGatewayV6.disableServerRequest(any)).thenAnswer((_) async {
+      return DisableServerResponse(result: APiResponseType.success);
     });
   }
 }
