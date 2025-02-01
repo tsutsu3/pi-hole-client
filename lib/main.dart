@@ -207,6 +207,12 @@ class _PiHoleClientState extends State<PiHoleClient> {
   }
 
   @override
+  void dispose() {
+    statusUpdater.dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     final statusProvider = Provider.of<StatusProvider>(context);
     final appConfigProvider = Provider.of<AppConfigProvider>(context);
