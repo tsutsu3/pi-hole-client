@@ -819,6 +819,37 @@ class TestSetupHelper {
     );
   }
 
+  Widget buildMainTestWidget(Widget child) {
+    return MultiProvider(
+      providers: [
+        ChangeNotifierProvider<ServersProvider>(
+          create: (context) => mockServersProvider,
+        ),
+        ChangeNotifierProvider<AppConfigProvider>(
+          create: (context) => mockConfigProvider,
+        ),
+        ChangeNotifierProvider<StatusProvider>(
+          create: (context) => mockStatusProvider,
+        ),
+        ChangeNotifierProxyProvider<ServersProvider, DomainsListProvider>(
+          create: (context) => mockDomainsListProvider,
+          update: (context, serverConfig, servers) =>
+              servers!..update(serverConfig),
+        ),
+        ChangeNotifierProxyProvider<ServersProvider, FiltersProvider>(
+          create: (context) => mockFiltersProvider,
+          update: (context, serverConfig, servers) =>
+              servers!..update(serverConfig),
+        ),
+        ChangeNotifierProxyProvider<AppConfigProvider, ServersProvider>(
+          create: (context) => mockServersProvider,
+          update: (context, appConfig, servers) => servers!..update(appConfig),
+        ),
+      ],
+      child: child,
+    );
+  }
+
   void _initConfiProviderMock(String useApiGatewayVersion) {
     when(mockConfigProvider.showingSnackbar).thenReturn(false);
     when(mockConfigProvider.logsPerQuery).thenReturn(2);
@@ -943,6 +974,8 @@ class TestSetupHelper {
     when(mockStatusProvider.getOvertimeDataJson)
         .thenReturn(overtimeData.toJson());
     when(mockStatusProvider.getRealtimeStatus).thenReturn(realtimeStatus);
+    when(mockStatusProvider.startAutoRefresh).thenReturn(true);
+    when(mockStatusProvider.getRefreshServerStatus).thenReturn(true);
   }
 
   void _initDomainListProviderMock(String useApiGatewayVersion) {}

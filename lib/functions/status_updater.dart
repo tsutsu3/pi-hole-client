@@ -61,6 +61,11 @@ class StatusUpdater {
     }
   }
 
+  void dispose() {
+    _statusDataTimer?.cancel();
+    _overTimeDataTimer?.cancel();
+  }
+
   void _updateStatusData(
     ServersProvider serversProvider,
     StatusProvider statusProvider,
