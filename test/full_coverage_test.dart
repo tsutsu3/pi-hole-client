@@ -124,7 +124,6 @@ import 'package:pi_hole_client/widgets/custom_list_tile.dart';
 import 'package:pi_hole_client/widgets/custom_radio.dart';
 import 'package:pi_hole_client/widgets/custom_radio_list_tile.dart';
 import 'package:pi_hole_client/widgets/navigation_rail.dart';
-import 'package:pi_hole_client/widgets/no_server_selected.dart';
 import 'package:pi_hole_client/widgets/numeric_pad.dart';
 import 'package:pi_hole_client/widgets/option_box.dart';
 import 'package:pi_hole_client/widgets/process_dialog.dart';

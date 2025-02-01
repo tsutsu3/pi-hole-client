@@ -8,7 +8,6 @@ import 'package:pi_hole_client/widgets/navigation_rail.dart';
 import 'package:pi_hole_client/widgets/start_warning_modal.dart';
 
 import './helpers.dart';
-import 'screens/utils.dart';
 
 void main() async {
   await initializeApp();
