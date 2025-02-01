@@ -34,44 +34,24 @@ import 'package:sqflite/sqflite.dart' as _i3;
 // ignore_for_file: subtype_of_sealed_class
 
 class _FakeAppDbData_0 extends _i1.SmartFake implements _i2.AppDbData {
-  _FakeAppDbData_0(
-    Object parent,
-    Invocation parentInvocation,
-  ) : super(
-          parent,
-          parentInvocation,
-        );
+  _FakeAppDbData_0(Object parent, Invocation parentInvocation)
+    : super(parent, parentInvocation);
 }
 
 class _FakeDatabase_1 extends _i1.SmartFake implements _i3.Database {
-  _FakeDatabase_1(
-    Object parent,
-    Invocation parentInvocation,
-  ) : super(
-          parent,
-          parentInvocation,
-        );
+  _FakeDatabase_1(Object parent, Invocation parentInvocation)
+    : super(parent, parentInvocation);
 }
 
 class _FakePiHoleClientData_2 extends _i1.SmartFake
     implements _i2.PiHoleClientData {
-  _FakePiHoleClientData_2(
-    Object parent,
-    Invocation parentInvocation,
-  ) : super(
-          parent,
-          parentInvocation,
-        );
+  _FakePiHoleClientData_2(Object parent, Invocation parentInvocation)
+    : super(parent, parentInvocation);
 }
 
 class _FakeAppColors_3 extends _i1.SmartFake implements _i4.AppColors {
-  _FakeAppColors_3(
-    Object parent,
-    Invocation parentInvocation,
-  ) : super(
-          parent,
-          parentInvocation,
-        );
+  _FakeAppColors_3(Object parent, Invocation parentInvocation)
+    : super(parent, parentInvocation);
 }
 
 /// A class which mocks [DatabaseRepository].
@@ -84,132 +64,116 @@ class MockDatabaseRepository extends _i1.Mock
   }
 
   @override
-  List<_i2.ServerDbData> get servers => (super.noSuchMethod(
-        Invocation.getter(#servers),
-        returnValue: <_i2.ServerDbData>[],
-      ) as List<_i2.ServerDbData>);
+  List<_i2.ServerDbData> get servers =>
+      (super.noSuchMethod(
+            Invocation.getter(#servers),
+            returnValue: <_i2.ServerDbData>[],
+          )
+          as List<_i2.ServerDbData>);
 
   @override
-  _i2.AppDbData get appConfig => (super.noSuchMethod(
-        Invocation.getter(#appConfig),
-        returnValue: _FakeAppDbData_0(
-          this,
-          Invocation.getter(#appConfig),
-        ),
-      ) as _i2.AppDbData);
+  _i2.AppDbData get appConfig =>
+      (super.noSuchMethod(
+            Invocation.getter(#appConfig),
+            returnValue: _FakeAppDbData_0(this, Invocation.getter(#appConfig)),
+          )
+          as _i2.AppDbData);
 
   @override
-  _i3.Database get dbInstance => (super.noSuchMethod(
-        Invocation.getter(#dbInstance),
-        returnValue: _FakeDatabase_1(
-          this,
-          Invocation.getter(#dbInstance),
-        ),
-      ) as _i3.Database);
+  _i3.Database get dbInstance =>
+      (super.noSuchMethod(
+            Invocation.getter(#dbInstance),
+            returnValue: _FakeDatabase_1(this, Invocation.getter(#dbInstance)),
+          )
+          as _i3.Database);
 
   @override
-  _i6.Future<void> initialize({String? path}) => (super.noSuchMethod(
-        Invocation.method(
-          #initialize,
-          [],
-          {#path: path},
-        ),
-        returnValue: _i6.Future<void>.value(),
-        returnValueForMissingStub: _i6.Future<void>.value(),
-      ) as _i6.Future<void>);
+  _i6.Future<void> initialize({String? path}) =>
+      (super.noSuchMethod(
+            Invocation.method(#initialize, [], {#path: path}),
+            returnValue: _i6.Future<void>.value(),
+            returnValueForMissingStub: _i6.Future<void>.value(),
+          )
+          as _i6.Future<void>);
 
   @override
-  Map<String, dynamic> toDict() => (super.noSuchMethod(
-        Invocation.method(
-          #toDict,
-          [],
-        ),
-        returnValue: <String, dynamic>{},
-      ) as Map<String, dynamic>);
+  Map<String, dynamic> toDict() =>
+      (super.noSuchMethod(
+            Invocation.method(#toDict, []),
+            returnValue: <String, dynamic>{},
+          )
+          as Map<String, dynamic>);
 
   @override
   _i6.Future<_i2.PiHoleClientData> loadDb({String? path}) =>
       (super.noSuchMethod(
-        Invocation.method(
-          #loadDb,
-          [],
-          {#path: path},
-        ),
-        returnValue:
-            _i6.Future<_i2.PiHoleClientData>.value(_FakePiHoleClientData_2(
-          this,
-          Invocation.method(
-            #loadDb,
-            [],
-            {#path: path},
-          ),
-        )),
-      ) as _i6.Future<_i2.PiHoleClientData>);
+            Invocation.method(#loadDb, [], {#path: path}),
+            returnValue: _i6.Future<_i2.PiHoleClientData>.value(
+              _FakePiHoleClientData_2(
+                this,
+                Invocation.method(#loadDb, [], {#path: path}),
+              ),
+            ),
+          )
+          as _i6.Future<_i2.PiHoleClientData>);
 
   @override
-  _i6.Future<bool> closeDb() => (super.noSuchMethod(
-        Invocation.method(
-          #closeDb,
-          [],
-        ),
-        returnValue: _i6.Future<bool>.value(false),
-      ) as _i6.Future<bool>);
+  _i6.Future<bool> closeDb() =>
+      (super.noSuchMethod(
+            Invocation.method(#closeDb, []),
+            returnValue: _i6.Future<bool>.value(false),
+          )
+          as _i6.Future<bool>);
 
   @override
-  _i6.Future<bool?> saveServerQuery(_i7.Server? server) => (super.noSuchMethod(
-        Invocation.method(
-          #saveServerQuery,
-          [server],
-        ),
-        returnValue: _i6.Future<bool?>.value(),
-      ) as _i6.Future<bool?>);
+  _i6.Future<bool?> saveServerQuery(_i7.Server? server) =>
+      (super.noSuchMethod(
+            Invocation.method(#saveServerQuery, [server]),
+            returnValue: _i6.Future<bool?>.value(),
+          )
+          as _i6.Future<bool?>);
 
   @override
-  _i6.Future<bool> editServerQuery(_i7.Server? server) => (super.noSuchMethod(
-        Invocation.method(
-          #editServerQuery,
-          [server],
-        ),
-        returnValue: _i6.Future<bool>.value(false),
-      ) as _i6.Future<bool>);
+  _i6.Future<bool> editServerQuery(_i7.Server? server) =>
+      (super.noSuchMethod(
+            Invocation.method(#editServerQuery, [server]),
+            returnValue: _i6.Future<bool>.value(false),
+          )
+          as _i6.Future<bool>);
 
   @override
-  _i6.Future<bool?> setDefaultServerQuery(String? url) => (super.noSuchMethod(
-        Invocation.method(
-          #setDefaultServerQuery,
-          [url],
-        ),
-        returnValue: _i6.Future<bool?>.value(),
-      ) as _i6.Future<bool?>);
+  _i6.Future<bool?> setDefaultServerQuery(String? url) =>
+      (super.noSuchMethod(
+            Invocation.method(#setDefaultServerQuery, [url]),
+            returnValue: _i6.Future<bool?>.value(),
+          )
+          as _i6.Future<bool?>);
 
   @override
-  _i6.Future<bool> removeServerQuery(String? address) => (super.noSuchMethod(
-        Invocation.method(
-          #removeServerQuery,
-          [address],
-        ),
-        returnValue: _i6.Future<bool>.value(false),
-      ) as _i6.Future<bool>);
+  _i6.Future<bool> removeServerQuery(String? address) =>
+      (super.noSuchMethod(
+            Invocation.method(#removeServerQuery, [address]),
+            returnValue: _i6.Future<bool>.value(false),
+          )
+          as _i6.Future<bool>);
 
   @override
-  _i6.Future<bool> deleteServersDataQuery() => (super.noSuchMethod(
-        Invocation.method(
-          #deleteServersDataQuery,
-          [],
-        ),
-        returnValue: _i6.Future<bool>.value(false),
-      ) as _i6.Future<bool>);
+  _i6.Future<bool> deleteServersDataQuery() =>
+      (super.noSuchMethod(
+            Invocation.method(#deleteServersDataQuery, []),
+            returnValue: _i6.Future<bool>.value(false),
+          )
+          as _i6.Future<bool>);
 
   @override
   _i6.Future<Map<String, dynamic>> checkUrlExistsQuery(String? url) =>
       (super.noSuchMethod(
-        Invocation.method(
-          #checkUrlExistsQuery,
-          [url],
-        ),
-        returnValue:
-            _i6.Future<Map<String, dynamic>>.value(<String, dynamic>{}),
-      ) as _i6.Future<Map<String, dynamic>>);
+            Invocation.method(#checkUrlExistsQuery, [url]),
+            returnValue: _i6.Future<Map<String, dynamic>>.value(
+              <String, dynamic>{},
+            ),
+          )
+          as _i6.Future<Map<String, dynamic>>);
 
   @override
   _i6.Future<bool> updateConfigQuery({
@@ -217,25 +181,21 @@ class MockDatabaseRepository extends _i1.Mock
     required Object? value,
   }) =>
       (super.noSuchMethod(
-        Invocation.method(
-          #updateConfigQuery,
-          [],
-          {
-            #column: column,
-            #value: value,
-          },
-        ),
-        returnValue: _i6.Future<bool>.value(false),
-      ) as _i6.Future<bool>);
+            Invocation.method(#updateConfigQuery, [], {
+              #column: column,
+              #value: value,
+            }),
+            returnValue: _i6.Future<bool>.value(false),
+          )
+          as _i6.Future<bool>);
 
   @override
-  _i6.Future<bool> restoreAppConfigQuery() => (super.noSuchMethod(
-        Invocation.method(
-          #restoreAppConfigQuery,
-          [],
-        ),
-        returnValue: _i6.Future<bool>.value(false),
-      ) as _i6.Future<bool>);
+  _i6.Future<bool> restoreAppConfigQuery() =>
+      (super.noSuchMethod(
+            Invocation.method(#restoreAppConfigQuery, []),
+            returnValue: _i6.Future<bool>.value(false),
+          )
+          as _i6.Future<bool>);
 }
 
 /// A class which mocks [AppConfigProvider].
@@ -247,389 +207,345 @@ class MockAppConfigProvider extends _i1.Mock implements _i8.AppConfigProvider {
   }
 
   @override
-  _i4.AppColors get colors => (super.noSuchMethod(
-        Invocation.getter(#colors),
-        returnValue: _FakeAppColors_3(
-          this,
-          Invocation.getter(#colors),
-        ),
-      ) as _i4.AppColors);
+  _i4.AppColors get colors =>
+      (super.noSuchMethod(
+            Invocation.getter(#colors),
+            returnValue: _FakeAppColors_3(this, Invocation.getter(#colors)),
+          )
+          as _i4.AppColors);
 
   @override
-  bool get showingSnackbar => (super.noSuchMethod(
-        Invocation.getter(#showingSnackbar),
-        returnValue: false,
-      ) as bool);
+  bool get showingSnackbar =>
+      (super.noSuchMethod(
+            Invocation.getter(#showingSnackbar),
+            returnValue: false,
+          )
+          as bool);
 
   @override
-  int get selectedTab => (super.noSuchMethod(
-        Invocation.getter(#selectedTab),
-        returnValue: 0,
-      ) as int);
+  int get selectedTab =>
+      (super.noSuchMethod(Invocation.getter(#selectedTab), returnValue: 0)
+          as int);
 
   @override
-  _i9.ThemeMode get selectedTheme => (super.noSuchMethod(
-        Invocation.getter(#selectedTheme),
-        returnValue: _i9.ThemeMode.system,
-      ) as _i9.ThemeMode);
+  _i9.ThemeMode get selectedTheme =>
+      (super.noSuchMethod(
+            Invocation.getter(#selectedTheme),
+            returnValue: _i9.ThemeMode.system,
+          )
+          as _i9.ThemeMode);
 
   @override
-  String get selectedLanguage => (super.noSuchMethod(
-        Invocation.getter(#selectedLanguage),
-        returnValue: _i10.dummyValue<String>(
-          this,
-          Invocation.getter(#selectedLanguage),
-        ),
-      ) as String);
+  String get selectedLanguage =>
+      (super.noSuchMethod(
+            Invocation.getter(#selectedLanguage),
+            returnValue: _i10.dummyValue<String>(
+              this,
+              Invocation.getter(#selectedLanguage),
+            ),
+          )
+          as String);
 
   @override
-  int get selectedThemeNumber => (super.noSuchMethod(
-        Invocation.getter(#selectedThemeNumber),
-        returnValue: 0,
-      ) as int);
+  int get selectedThemeNumber =>
+      (super.noSuchMethod(
+            Invocation.getter(#selectedThemeNumber),
+            returnValue: 0,
+          )
+          as int);
 
   @override
-  int get selectedLanguageNumber => (super.noSuchMethod(
-        Invocation.getter(#selectedLanguageNumber),
-        returnValue: 0,
-      ) as int);
+  int get selectedLanguageNumber =>
+      (super.noSuchMethod(
+            Invocation.getter(#selectedLanguageNumber),
+            returnValue: 0,
+          )
+          as int);
 
   @override
-  bool get overrideSslCheck => (super.noSuchMethod(
-        Invocation.getter(#overrideSslCheck),
-        returnValue: false,
-      ) as bool);
+  bool get overrideSslCheck =>
+      (super.noSuchMethod(
+            Invocation.getter(#overrideSslCheck),
+            returnValue: false,
+          )
+          as bool);
 
   @override
-  bool get reducedDataCharts => (super.noSuchMethod(
-        Invocation.getter(#reducedDataCharts),
-        returnValue: false,
-      ) as bool);
+  bool get reducedDataCharts =>
+      (super.noSuchMethod(
+            Invocation.getter(#reducedDataCharts),
+            returnValue: false,
+          )
+          as bool);
 
   @override
-  double get logsPerQuery => (super.noSuchMethod(
-        Invocation.getter(#logsPerQuery),
-        returnValue: 0.0,
-      ) as double);
+  double get logsPerQuery =>
+      (super.noSuchMethod(Invocation.getter(#logsPerQuery), returnValue: 0.0)
+          as double);
 
   @override
-  bool get biometricsSupport => (super.noSuchMethod(
-        Invocation.getter(#biometricsSupport),
-        returnValue: false,
-      ) as bool);
+  bool get biometricsSupport =>
+      (super.noSuchMethod(
+            Invocation.getter(#biometricsSupport),
+            returnValue: false,
+          )
+          as bool);
 
   @override
-  bool get useBiometrics => (super.noSuchMethod(
-        Invocation.getter(#useBiometrics),
-        returnValue: false,
-      ) as bool);
+  bool get useBiometrics =>
+      (super.noSuchMethod(Invocation.getter(#useBiometrics), returnValue: false)
+          as bool);
 
   @override
-  bool get appUnlocked => (super.noSuchMethod(
-        Invocation.getter(#appUnlocked),
-        returnValue: false,
-      ) as bool);
+  bool get appUnlocked =>
+      (super.noSuchMethod(Invocation.getter(#appUnlocked), returnValue: false)
+          as bool);
 
   @override
-  bool get validVibrator => (super.noSuchMethod(
-        Invocation.getter(#validVibrator),
-        returnValue: false,
-      ) as bool);
+  bool get validVibrator =>
+      (super.noSuchMethod(Invocation.getter(#validVibrator), returnValue: false)
+          as bool);
 
   @override
-  bool get importantInfoReaden => (super.noSuchMethod(
-        Invocation.getter(#importantInfoReaden),
-        returnValue: false,
-      ) as bool);
+  bool get importantInfoReaden =>
+      (super.noSuchMethod(
+            Invocation.getter(#importantInfoReaden),
+            returnValue: false,
+          )
+          as bool);
 
   @override
-  bool get hideZeroValues => (super.noSuchMethod(
-        Invocation.getter(#hideZeroValues),
-        returnValue: false,
-      ) as bool);
+  bool get hideZeroValues =>
+      (super.noSuchMethod(
+            Invocation.getter(#hideZeroValues),
+            returnValue: false,
+          )
+          as bool);
 
   @override
-  int get statisticsVisualizationMode => (super.noSuchMethod(
-        Invocation.getter(#statisticsVisualizationMode),
-        returnValue: 0,
-      ) as int);
+  int get statisticsVisualizationMode =>
+      (super.noSuchMethod(
+            Invocation.getter(#statisticsVisualizationMode),
+            returnValue: 0,
+          )
+          as int);
 
   @override
-  bool get sendCrashReports => (super.noSuchMethod(
-        Invocation.getter(#sendCrashReports),
-        returnValue: false,
-      ) as bool);
+  bool get sendCrashReports =>
+      (super.noSuchMethod(
+            Invocation.getter(#sendCrashReports),
+            returnValue: false,
+          )
+          as bool);
 
   @override
-  List<_i11.AppLog> get logs => (super.noSuchMethod(
-        Invocation.getter(#logs),
-        returnValue: <_i11.AppLog>[],
-      ) as List<_i11.AppLog>);
+  List<_i11.AppLog> get logs =>
+      (super.noSuchMethod(
+            Invocation.getter(#logs),
+            returnValue: <_i11.AppLog>[],
+          )
+          as List<_i11.AppLog>);
 
   @override
-  bool get hasListeners => (super.noSuchMethod(
-        Invocation.getter(#hasListeners),
-        returnValue: false,
-      ) as bool);
+  bool get hasListeners =>
+      (super.noSuchMethod(Invocation.getter(#hasListeners), returnValue: false)
+          as bool);
 
   @override
   void setShowingSnackbar(bool? status) => super.noSuchMethod(
-        Invocation.method(
-          #setShowingSnackbar,
-          [status],
-        ),
-        returnValueForMissingStub: null,
-      );
+    Invocation.method(#setShowingSnackbar, [status]),
+    returnValueForMissingStub: null,
+  );
 
   @override
   void setSelectedTab(int? selectedTab) => super.noSuchMethod(
-        Invocation.method(
-          #setSelectedTab,
-          [selectedTab],
-        ),
-        returnValueForMissingStub: null,
-      );
+    Invocation.method(#setSelectedTab, [selectedTab]),
+    returnValueForMissingStub: null,
+  );
 
   @override
   void setAppInfo(_i12.PackageInfo? appInfo) => super.noSuchMethod(
-        Invocation.method(
-          #setAppInfo,
-          [appInfo],
-        ),
-        returnValueForMissingStub: null,
-      );
+    Invocation.method(#setAppInfo, [appInfo]),
+    returnValueForMissingStub: null,
+  );
 
   @override
   void setAndroidInfo(_i13.AndroidDeviceInfo? deviceInfo) => super.noSuchMethod(
-        Invocation.method(
-          #setAndroidInfo,
-          [deviceInfo],
-        ),
-        returnValueForMissingStub: null,
-      );
+    Invocation.method(#setAndroidInfo, [deviceInfo]),
+    returnValueForMissingStub: null,
+  );
 
   @override
   void setIosInfo(_i13.IosDeviceInfo? deviceInfo) => super.noSuchMethod(
-        Invocation.method(
-          #setIosInfo,
-          [deviceInfo],
-        ),
-        returnValueForMissingStub: null,
-      );
+    Invocation.method(#setIosInfo, [deviceInfo]),
+    returnValueForMissingStub: null,
+  );
 
   @override
   void setBiometricsSupport(bool? isSupported) => super.noSuchMethod(
-        Invocation.method(
-          #setBiometricsSupport,
-          [isSupported],
-        ),
-        returnValueForMissingStub: null,
-      );
+    Invocation.method(#setBiometricsSupport, [isSupported]),
+    returnValueForMissingStub: null,
+  );
 
   @override
   void setAppUnlocked(bool? status) => super.noSuchMethod(
-        Invocation.method(
-          #setAppUnlocked,
-          [status],
-        ),
-        returnValueForMissingStub: null,
-      );
+    Invocation.method(#setAppUnlocked, [status]),
+    returnValueForMissingStub: null,
+  );
 
   @override
   void setValidVibrator(bool? valid) => super.noSuchMethod(
-        Invocation.method(
-          #setValidVibrator,
-          [valid],
-        ),
-        returnValueForMissingStub: null,
-      );
+    Invocation.method(#setValidVibrator, [valid]),
+    returnValueForMissingStub: null,
+  );
 
   @override
   void addLog(_i11.AppLog? log) => super.noSuchMethod(
-        Invocation.method(
-          #addLog,
-          [log],
-        ),
-        returnValueForMissingStub: null,
-      );
+    Invocation.method(#addLog, [log]),
+    returnValueForMissingStub: null,
+  );
 
   @override
-  void setSelectedSettingsScreen({
-    required int? screen,
-    bool? notify,
-  }) =>
+  void setSelectedSettingsScreen({required int? screen, bool? notify}) =>
       super.noSuchMethod(
-        Invocation.method(
-          #setSelectedSettingsScreen,
-          [],
-          {
-            #screen: screen,
-            #notify: notify,
-          },
-        ),
+        Invocation.method(#setSelectedSettingsScreen, [], {
+          #screen: screen,
+          #notify: notify,
+        }),
         returnValueForMissingStub: null,
       );
 
   @override
-  _i6.Future<bool> setUseBiometrics(bool? biometrics) => (super.noSuchMethod(
-        Invocation.method(
-          #setUseBiometrics,
-          [biometrics],
-        ),
-        returnValue: _i6.Future<bool>.value(false),
-      ) as _i6.Future<bool>);
+  _i6.Future<bool> setUseBiometrics(bool? biometrics) =>
+      (super.noSuchMethod(
+            Invocation.method(#setUseBiometrics, [biometrics]),
+            returnValue: _i6.Future<bool>.value(false),
+          )
+          as _i6.Future<bool>);
 
   @override
-  _i6.Future<bool> setImportantInfoReaden(bool? status) => (super.noSuchMethod(
-        Invocation.method(
-          #setImportantInfoReaden,
-          [status],
-        ),
-        returnValue: _i6.Future<bool>.value(false),
-      ) as _i6.Future<bool>);
+  _i6.Future<bool> setImportantInfoReaden(bool? status) =>
+      (super.noSuchMethod(
+            Invocation.method(#setImportantInfoReaden, [status]),
+            returnValue: _i6.Future<bool>.value(false),
+          )
+          as _i6.Future<bool>);
 
   @override
-  _i6.Future<bool> setPassCode(String? code) => (super.noSuchMethod(
-        Invocation.method(
-          #setPassCode,
-          [code],
-        ),
-        returnValue: _i6.Future<bool>.value(false),
-      ) as _i6.Future<bool>);
+  _i6.Future<bool> setPassCode(String? code) =>
+      (super.noSuchMethod(
+            Invocation.method(#setPassCode, [code]),
+            returnValue: _i6.Future<bool>.value(false),
+          )
+          as _i6.Future<bool>);
 
   @override
-  _i6.Future<bool> setAutoRefreshTime(int? seconds) => (super.noSuchMethod(
-        Invocation.method(
-          #setAutoRefreshTime,
-          [seconds],
-        ),
-        returnValue: _i6.Future<bool>.value(false),
-      ) as _i6.Future<bool>);
+  _i6.Future<bool> setAutoRefreshTime(int? seconds) =>
+      (super.noSuchMethod(
+            Invocation.method(#setAutoRefreshTime, [seconds]),
+            returnValue: _i6.Future<bool>.value(false),
+          )
+          as _i6.Future<bool>);
 
   @override
-  _i6.Future<bool> setLogsPerQuery(double? time) => (super.noSuchMethod(
-        Invocation.method(
-          #setLogsPerQuery,
-          [time],
-        ),
-        returnValue: _i6.Future<bool>.value(false),
-      ) as _i6.Future<bool>);
+  _i6.Future<bool> setLogsPerQuery(double? time) =>
+      (super.noSuchMethod(
+            Invocation.method(#setLogsPerQuery, [time]),
+            returnValue: _i6.Future<bool>.value(false),
+          )
+          as _i6.Future<bool>);
 
   @override
-  _i6.Future<bool> setSendCrashReports(bool? status) => (super.noSuchMethod(
-        Invocation.method(
-          #setSendCrashReports,
-          [status],
-        ),
-        returnValue: _i6.Future<bool>.value(false),
-      ) as _i6.Future<bool>);
+  _i6.Future<bool> setSendCrashReports(bool? status) =>
+      (super.noSuchMethod(
+            Invocation.method(#setSendCrashReports, [status]),
+            returnValue: _i6.Future<bool>.value(false),
+          )
+          as _i6.Future<bool>);
 
   @override
   void saveFromDb(_i2.AppDbData? dbData) => super.noSuchMethod(
-        Invocation.method(
-          #saveFromDb,
-          [dbData],
-        ),
-        returnValueForMissingStub: null,
-      );
+    Invocation.method(#saveFromDb, [dbData]),
+    returnValueForMissingStub: null,
+  );
 
   @override
-  _i6.Future<bool> setOverrideSslCheck(bool? status) => (super.noSuchMethod(
-        Invocation.method(
-          #setOverrideSslCheck,
-          [status],
-        ),
-        returnValue: _i6.Future<bool>.value(false),
-      ) as _i6.Future<bool>);
+  _i6.Future<bool> setOverrideSslCheck(bool? status) =>
+      (super.noSuchMethod(
+            Invocation.method(#setOverrideSslCheck, [status]),
+            returnValue: _i6.Future<bool>.value(false),
+          )
+          as _i6.Future<bool>);
 
   @override
-  _i6.Future<bool> setReducedDataCharts(bool? status) => (super.noSuchMethod(
-        Invocation.method(
-          #setReducedDataCharts,
-          [status],
-        ),
-        returnValue: _i6.Future<bool>.value(false),
-      ) as _i6.Future<bool>);
+  _i6.Future<bool> setReducedDataCharts(bool? status) =>
+      (super.noSuchMethod(
+            Invocation.method(#setReducedDataCharts, [status]),
+            returnValue: _i6.Future<bool>.value(false),
+          )
+          as _i6.Future<bool>);
 
   @override
-  _i6.Future<bool> setHideZeroValues(bool? status) => (super.noSuchMethod(
-        Invocation.method(
-          #setHideZeroValues,
-          [status],
-        ),
-        returnValue: _i6.Future<bool>.value(false),
-      ) as _i6.Future<bool>);
+  _i6.Future<bool> setHideZeroValues(bool? status) =>
+      (super.noSuchMethod(
+            Invocation.method(#setHideZeroValues, [status]),
+            returnValue: _i6.Future<bool>.value(false),
+          )
+          as _i6.Future<bool>);
 
   @override
-  _i6.Future<bool> setSelectedTheme(int? value) => (super.noSuchMethod(
-        Invocation.method(
-          #setSelectedTheme,
-          [value],
-        ),
-        returnValue: _i6.Future<bool>.value(false),
-      ) as _i6.Future<bool>);
+  _i6.Future<bool> setSelectedTheme(int? value) =>
+      (super.noSuchMethod(
+            Invocation.method(#setSelectedTheme, [value]),
+            returnValue: _i6.Future<bool>.value(false),
+          )
+          as _i6.Future<bool>);
 
   @override
-  _i6.Future<bool> setSelectedLanguage(String? value) => (super.noSuchMethod(
-        Invocation.method(
-          #setSelectedLanguage,
-          [value],
-        ),
-        returnValue: _i6.Future<bool>.value(false),
-      ) as _i6.Future<bool>);
+  _i6.Future<bool> setSelectedLanguage(String? value) =>
+      (super.noSuchMethod(
+            Invocation.method(#setSelectedLanguage, [value]),
+            returnValue: _i6.Future<bool>.value(false),
+          )
+          as _i6.Future<bool>);
 
   @override
   _i6.Future<bool> setStatisticsVisualizationMode(int? value) =>
       (super.noSuchMethod(
-        Invocation.method(
-          #setStatisticsVisualizationMode,
-          [value],
-        ),
-        returnValue: _i6.Future<bool>.value(false),
-      ) as _i6.Future<bool>);
+            Invocation.method(#setStatisticsVisualizationMode, [value]),
+            returnValue: _i6.Future<bool>.value(false),
+          )
+          as _i6.Future<bool>);
 
   @override
-  _i6.Future<bool> restoreAppConfig() => (super.noSuchMethod(
-        Invocation.method(
-          #restoreAppConfig,
-          [],
-        ),
-        returnValue: _i6.Future<bool>.value(false),
-      ) as _i6.Future<bool>);
+  _i6.Future<bool> restoreAppConfig() =>
+      (super.noSuchMethod(
+            Invocation.method(#restoreAppConfig, []),
+            returnValue: _i6.Future<bool>.value(false),
+          )
+          as _i6.Future<bool>);
 
   @override
   void addListener(_i14.VoidCallback? listener) => super.noSuchMethod(
-        Invocation.method(
-          #addListener,
-          [listener],
-        ),
-        returnValueForMissingStub: null,
-      );
+    Invocation.method(#addListener, [listener]),
+    returnValueForMissingStub: null,
+  );
 
   @override
   void removeListener(_i14.VoidCallback? listener) => super.noSuchMethod(
-        Invocation.method(
-          #removeListener,
-          [listener],
-        ),
-        returnValueForMissingStub: null,
-      );
+    Invocation.method(#removeListener, [listener]),
+    returnValueForMissingStub: null,
+  );
 
   @override
   void dispose() => super.noSuchMethod(
-        Invocation.method(
-          #dispose,
-          [],
-        ),
-        returnValueForMissingStub: null,
-      );
+    Invocation.method(#dispose, []),
+    returnValueForMissingStub: null,
+  );
 
   @override
   void notifyListeners() => super.noSuchMethod(
-        Invocation.method(
-          #notifyListeners,
-          [],
-        ),
-        returnValueForMissingStub: null,
-      );
+    Invocation.method(#notifyListeners, []),
+    returnValueForMissingStub: null,
+  );
 }

@@ -289,11 +289,11 @@ mixin _$Query {
   double get time => throw _privateConstructorUsedError;
   String get type => throw _privateConstructorUsedError;
   String get domain => throw _privateConstructorUsedError;
+  Client get client => throw _privateConstructorUsedError;
+  Reply get reply => throw _privateConstructorUsedError;
   String? get cname => throw _privateConstructorUsedError;
   String? get status => throw _privateConstructorUsedError;
-  Client get client => throw _privateConstructorUsedError;
   String? get dnssec => throw _privateConstructorUsedError;
-  Reply get reply => throw _privateConstructorUsedError;
   @JsonKey(name: 'list_id')
   int? get listId => throw _privateConstructorUsedError;
   String? get upstream => throw _privateConstructorUsedError;
@@ -317,11 +317,11 @@ abstract class $QueryCopyWith<$Res> {
       double time,
       String type,
       String domain,
+      Client client,
+      Reply reply,
       String? cname,
       String? status,
-      Client client,
       String? dnssec,
-      Reply reply,
       @JsonKey(name: 'list_id') int? listId,
       String? upstream});
 
@@ -348,11 +348,11 @@ class _$QueryCopyWithImpl<$Res, $Val extends Query>
     Object? time = null,
     Object? type = null,
     Object? domain = null,
+    Object? client = null,
+    Object? reply = null,
     Object? cname = freezed,
     Object? status = freezed,
-    Object? client = null,
     Object? dnssec = freezed,
-    Object? reply = null,
     Object? listId = freezed,
     Object? upstream = freezed,
   }) {
@@ -373,6 +373,14 @@ class _$QueryCopyWithImpl<$Res, $Val extends Query>
           ? _value.domain
           : domain // ignore: cast_nullable_to_non_nullable
               as String,
+      client: null == client
+          ? _value.client
+          : client // ignore: cast_nullable_to_non_nullable
+              as Client,
+      reply: null == reply
+          ? _value.reply
+          : reply // ignore: cast_nullable_to_non_nullable
+              as Reply,
       cname: freezed == cname
           ? _value.cname
           : cname // ignore: cast_nullable_to_non_nullable
@@ -381,18 +389,10 @@ class _$QueryCopyWithImpl<$Res, $Val extends Query>
           ? _value.status
           : status // ignore: cast_nullable_to_non_nullable
               as String?,
-      client: null == client
-          ? _value.client
-          : client // ignore: cast_nullable_to_non_nullable
-              as Client,
       dnssec: freezed == dnssec
           ? _value.dnssec
           : dnssec // ignore: cast_nullable_to_non_nullable
               as String?,
-      reply: null == reply
-          ? _value.reply
-          : reply // ignore: cast_nullable_to_non_nullable
-              as Reply,
       listId: freezed == listId
           ? _value.listId
           : listId // ignore: cast_nullable_to_non_nullable
@@ -437,11 +437,11 @@ abstract class _$$QueryImplCopyWith<$Res> implements $QueryCopyWith<$Res> {
       double time,
       String type,
       String domain,
+      Client client,
+      Reply reply,
       String? cname,
       String? status,
-      Client client,
       String? dnssec,
-      Reply reply,
       @JsonKey(name: 'list_id') int? listId,
       String? upstream});
 
@@ -468,11 +468,11 @@ class __$$QueryImplCopyWithImpl<$Res>
     Object? time = null,
     Object? type = null,
     Object? domain = null,
+    Object? client = null,
+    Object? reply = null,
     Object? cname = freezed,
     Object? status = freezed,
-    Object? client = null,
     Object? dnssec = freezed,
-    Object? reply = null,
     Object? listId = freezed,
     Object? upstream = freezed,
   }) {
@@ -493,6 +493,14 @@ class __$$QueryImplCopyWithImpl<$Res>
           ? _value.domain
           : domain // ignore: cast_nullable_to_non_nullable
               as String,
+      client: null == client
+          ? _value.client
+          : client // ignore: cast_nullable_to_non_nullable
+              as Client,
+      reply: null == reply
+          ? _value.reply
+          : reply // ignore: cast_nullable_to_non_nullable
+              as Reply,
       cname: freezed == cname
           ? _value.cname
           : cname // ignore: cast_nullable_to_non_nullable
@@ -501,18 +509,10 @@ class __$$QueryImplCopyWithImpl<$Res>
           ? _value.status
           : status // ignore: cast_nullable_to_non_nullable
               as String?,
-      client: null == client
-          ? _value.client
-          : client // ignore: cast_nullable_to_non_nullable
-              as Client,
       dnssec: freezed == dnssec
           ? _value.dnssec
           : dnssec // ignore: cast_nullable_to_non_nullable
               as String?,
-      reply: null == reply
-          ? _value.reply
-          : reply // ignore: cast_nullable_to_non_nullable
-              as Reply,
       listId: freezed == listId
           ? _value.listId
           : listId // ignore: cast_nullable_to_non_nullable
@@ -533,11 +533,11 @@ class _$QueryImpl implements _Query {
       required this.time,
       required this.type,
       required this.domain,
+      required this.client,
+      required this.reply,
       this.cname,
       this.status,
-      required this.client,
       this.dnssec,
-      required this.reply,
       @JsonKey(name: 'list_id') this.listId,
       this.upstream});
 
@@ -553,15 +553,15 @@ class _$QueryImpl implements _Query {
   @override
   final String domain;
   @override
+  final Client client;
+  @override
+  final Reply reply;
+  @override
   final String? cname;
   @override
   final String? status;
   @override
-  final Client client;
-  @override
   final String? dnssec;
-  @override
-  final Reply reply;
   @override
   @JsonKey(name: 'list_id')
   final int? listId;
@@ -570,7 +570,7 @@ class _$QueryImpl implements _Query {
 
   @override
   String toString() {
-    return 'Query(id: $id, time: $time, type: $type, domain: $domain, cname: $cname, status: $status, client: $client, dnssec: $dnssec, reply: $reply, listId: $listId, upstream: $upstream)';
+    return 'Query(id: $id, time: $time, type: $type, domain: $domain, client: $client, reply: $reply, cname: $cname, status: $status, dnssec: $dnssec, listId: $listId, upstream: $upstream)';
   }
 
   @override
@@ -582,11 +582,11 @@ class _$QueryImpl implements _Query {
             (identical(other.time, time) || other.time == time) &&
             (identical(other.type, type) || other.type == type) &&
             (identical(other.domain, domain) || other.domain == domain) &&
+            (identical(other.client, client) || other.client == client) &&
+            (identical(other.reply, reply) || other.reply == reply) &&
             (identical(other.cname, cname) || other.cname == cname) &&
             (identical(other.status, status) || other.status == status) &&
-            (identical(other.client, client) || other.client == client) &&
             (identical(other.dnssec, dnssec) || other.dnssec == dnssec) &&
-            (identical(other.reply, reply) || other.reply == reply) &&
             (identical(other.listId, listId) || other.listId == listId) &&
             (identical(other.upstream, upstream) ||
                 other.upstream == upstream));
@@ -594,8 +594,8 @@ class _$QueryImpl implements _Query {
 
   @JsonKey(includeFromJson: false, includeToJson: false)
   @override
-  int get hashCode => Object.hash(runtimeType, id, time, type, domain, cname,
-      status, client, dnssec, reply, listId, upstream);
+  int get hashCode => Object.hash(runtimeType, id, time, type, domain, client,
+      reply, cname, status, dnssec, listId, upstream);
 
   /// Create a copy of Query
   /// with the given fields replaced by the non-null parameter values.
@@ -619,11 +619,11 @@ abstract class _Query implements Query {
       required final double time,
       required final String type,
       required final String domain,
+      required final Client client,
+      required final Reply reply,
       final String? cname,
       final String? status,
-      required final Client client,
       final String? dnssec,
-      required final Reply reply,
       @JsonKey(name: 'list_id') final int? listId,
       final String? upstream}) = _$QueryImpl;
 
@@ -638,15 +638,15 @@ abstract class _Query implements Query {
   @override
   String get domain;
   @override
+  Client get client;
+  @override
+  Reply get reply;
+  @override
   String? get cname;
   @override
   String? get status;
   @override
-  Client get client;
-  @override
   String? get dnssec;
-  @override
-  Reply get reply;
   @override
   @JsonKey(name: 'list_id')
   int? get listId;
@@ -829,8 +829,8 @@ Reply _$ReplyFromJson(Map<String, dynamic> json) {
 
 /// @nodoc
 mixin _$Reply {
-  String? get type => throw _privateConstructorUsedError;
   double get time => throw _privateConstructorUsedError;
+  String? get type => throw _privateConstructorUsedError;
 
   /// Serializes this Reply to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
@@ -846,7 +846,7 @@ abstract class $ReplyCopyWith<$Res> {
   factory $ReplyCopyWith(Reply value, $Res Function(Reply) then) =
       _$ReplyCopyWithImpl<$Res, Reply>;
   @useResult
-  $Res call({String? type, double time});
+  $Res call({double time, String? type});
 }
 
 /// @nodoc
@@ -864,18 +864,18 @@ class _$ReplyCopyWithImpl<$Res, $Val extends Reply>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? type = freezed,
     Object? time = null,
+    Object? type = freezed,
   }) {
     return _then(_value.copyWith(
-      type: freezed == type
-          ? _value.type
-          : type // ignore: cast_nullable_to_non_nullable
-              as String?,
       time: null == time
           ? _value.time
           : time // ignore: cast_nullable_to_non_nullable
               as double,
+      type: freezed == type
+          ? _value.type
+          : type // ignore: cast_nullable_to_non_nullable
+              as String?,
     ) as $Val);
   }
 }
@@ -887,7 +887,7 @@ abstract class _$$ReplyImplCopyWith<$Res> implements $ReplyCopyWith<$Res> {
       __$$ReplyImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({String? type, double time});
+  $Res call({double time, String? type});
 }
 
 /// @nodoc
@@ -903,18 +903,18 @@ class __$$ReplyImplCopyWithImpl<$Res>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? type = freezed,
     Object? time = null,
+    Object? type = freezed,
   }) {
     return _then(_$ReplyImpl(
-      type: freezed == type
-          ? _value.type
-          : type // ignore: cast_nullable_to_non_nullable
-              as String?,
       time: null == time
           ? _value.time
           : time // ignore: cast_nullable_to_non_nullable
               as double,
+      type: freezed == type
+          ? _value.type
+          : type // ignore: cast_nullable_to_non_nullable
+              as String?,
     ));
   }
 }
@@ -922,19 +922,19 @@ class __$$ReplyImplCopyWithImpl<$Res>
 /// @nodoc
 @JsonSerializable()
 class _$ReplyImpl implements _Reply {
-  const _$ReplyImpl({this.type, required this.time});
+  const _$ReplyImpl({required this.time, this.type});
 
   factory _$ReplyImpl.fromJson(Map<String, dynamic> json) =>
       _$$ReplyImplFromJson(json);
 
   @override
-  final String? type;
-  @override
   final double time;
+  @override
+  final String? type;
 
   @override
   String toString() {
-    return 'Reply(type: $type, time: $time)';
+    return 'Reply(time: $time, type: $type)';
   }
 
   @override
@@ -942,13 +942,13 @@ class _$ReplyImpl implements _Reply {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$ReplyImpl &&
-            (identical(other.type, type) || other.type == type) &&
-            (identical(other.time, time) || other.time == time));
+            (identical(other.time, time) || other.time == time) &&
+            (identical(other.type, type) || other.type == type));
   }
 
   @JsonKey(includeFromJson: false, includeToJson: false)
   @override
-  int get hashCode => Object.hash(runtimeType, type, time);
+  int get hashCode => Object.hash(runtimeType, time, type);
 
   /// Create a copy of Reply
   /// with the given fields replaced by the non-null parameter values.
@@ -967,15 +967,15 @@ class _$ReplyImpl implements _Reply {
 }
 
 abstract class _Reply implements Reply {
-  const factory _Reply({final String? type, required final double time}) =
+  const factory _Reply({required final double time, final String? type}) =
       _$ReplyImpl;
 
   factory _Reply.fromJson(Map<String, dynamic> json) = _$ReplyImpl.fromJson;
 
   @override
-  String? get type;
-  @override
   double get time;
+  @override
+  String? get type;
 
   /// Create a copy of Reply
   /// with the given fields replaced by the non-null parameter values.
