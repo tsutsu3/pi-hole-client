@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/mockito.dart';
 import 'package:pi_hole_client/base.dart';
+import 'package:pi_hole_client/widgets/bottom_nav_bar.dart';
+import 'package:pi_hole_client/widgets/navigation_rail.dart';
 import 'package:pi_hole_client/widgets/start_warning_modal.dart';
 
 import './helpers.dart';
@@ -70,7 +72,7 @@ void main() async {
 
           expect(find.byType(Base), findsOneWidget);
           await tester.pump();
-
+          expect(find.byType(BottomNavBar), findsOneWidget);
           expect(find.byIcon(Icons.link_rounded), findsOneWidget);
           expect(find.text('Servers'), findsOneWidget);
         },
@@ -97,7 +99,7 @@ void main() async {
 
           expect(find.byType(Base), findsOneWidget);
           await tester.pump();
-
+          expect(find.byType(CustomNavigationRail), findsOneWidget);
           expect(find.byIcon(Icons.link_rounded), findsOneWidget);
           expect(find.text('Servers'), findsOneWidget);
         },
