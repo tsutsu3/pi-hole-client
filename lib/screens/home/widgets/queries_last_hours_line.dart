@@ -152,6 +152,20 @@ class QueriesLastHoursLine extends StatelessWidget {
     );
   }
 
+  int calcTopPoint(
+    Map<String, dynamic> data,
+    List<String> domainsKeys,
+    List<String> adsKeys,
+    int index,
+  ) {
+    final permitted = data['domains_over_time'][domainsKeys[index]] -
+        data['ads_over_time'][adsKeys[index]];
+
+    final blocked = data['ads_over_time'][adsKeys[index]];
+
+    return permitted > blocked ? permitted : blocked;
+  }
+
   @override
   Widget build(BuildContext context) {
     final appConfigProvider = Provider.of<AppConfigProvider>(context);
@@ -178,8 +192,7 @@ class QueriesLastHoursLine extends StatelessWidget {
           i < data['domains_over_time'].entries.length;
           reducedData == true ? i += 6 : i++) {
         if (data['domains_over_time'][domainsKeys[i]] > topPoint) {
-          topPoint = data['domains_over_time'][domainsKeys[i]] -
-              data['ads_over_time'][adsKeys[i]];
+          topPoint = calcTopPoint(data, domainsKeys, adsKeys, i);
         }
         domains.add(
           FlSpot(
