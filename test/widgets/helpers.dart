@@ -1000,5 +1000,27 @@ class TestSetupHelper {
     when(mockApiGatewayV6.disableServerRequest(any)).thenAnswer((_) async {
       return DisableServerResponse(result: APiResponseType.success);
     });
+
+    when(mockApiGatewayV6.loginQuery()).thenAnswer(
+      (_) async => LoginQueryResponse(
+        result: APiResponseType.success,
+        status: 'enabled',
+        sid: 'sid123',
+      ),
+    );
+
+    when(mockApiGatewayV6.realtimeStatus()).thenAnswer(
+      (_) async => RealtimeStatusResponse(
+        result: APiResponseType.success,
+        data: realtimeStatus,
+      ),
+    );
+
+    when(mockApiGatewayV6.fetchOverTimeData()).thenAnswer(
+      (_) async => FetchOverTimeDataResponse(
+        result: APiResponseType.success,
+        data: overtimeData,
+      ),
+    );
   }
 }

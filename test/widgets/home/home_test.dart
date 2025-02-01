@@ -5,6 +5,8 @@ import 'package:pi_hole_client/constants/enums.dart';
 import 'package:pi_hole_client/models/server.dart';
 import 'package:pi_hole_client/screens/home/disable_modal.dart';
 import 'package:pi_hole_client/screens/home/home.dart';
+import 'package:pi_hole_client/screens/home/home_appbar.dart';
+import 'package:pi_hole_client/screens/home/switch_server_modal.dart';
 
 import '../helpers.dart';
 
@@ -197,6 +199,69 @@ void main() async {
           expect(find.byType(DisableModal), findsNothing);
           expect(find.byType(SnackBar), findsOneWidget);
           expect(find.text('Server enabled successfully.'), findsOneWidget);
+        },
+      );
+
+      testWidgets(
+        'should show switch server modal',
+        (WidgetTester tester) async {
+          tester.view.physicalSize = const Size(1080, 2400);
+          tester.view.devicePixelRatio = 2.0;
+
+          addTearDown(() {
+            tester.view.resetPhysicalSize();
+            tester.view.resetDevicePixelRatio();
+          });
+
+          await tester.pumpWidget(
+            testSetup.buildTestWidget(
+              const Home(),
+            ),
+          );
+
+          expect(find.byType(Home), findsOneWidget);
+          expect(find.byType(HomeAppBar), findsOneWidget);
+          await tester.pump();
+
+          // show switch server modal
+          expect(find.text('test v6'), findsWidgets); // TODO: find One
+          await tester.tap(find.text('test v6').last);
+          await tester.pumpAndSettle();
+          expect(find.byType(SwitchServerModal), findsOneWidget);
+          await tester.pump();
+
+          // tap and swith server
+          await tester.tap(find.text('test v6').last);
+        },
+      );
+
+      testWidgets(
+        'should show popup menu',
+        (WidgetTester tester) async {
+          tester.view.physicalSize = const Size(1080, 2400);
+          tester.view.devicePixelRatio = 2.0;
+
+          addTearDown(() {
+            tester.view.resetPhysicalSize();
+            tester.view.resetDevicePixelRatio();
+          });
+
+          await tester.pumpWidget(
+            testSetup.buildTestWidget(
+              const Home(),
+            ),
+          );
+
+          expect(find.byType(Home), findsOneWidget);
+          expect(find.byType(HomeAppBar), findsOneWidget);
+          expect(find.byType(PopupMenuButton), findsOneWidget);
+          await tester.pump();
+
+          await tester.tap(find.byType(PopupMenuButton));
+          await tester.pumpAndSettle();
+          expect(find.text('Refresh'), findsOneWidget);
+          expect(find.text('Open web panel'), findsOneWidget);
+          expect(find.text('Change server'), findsOneWidget);
         },
       );
     },
