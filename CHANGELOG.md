@@ -1,6 +1,37 @@
 # Changelog
 
-## [0.9.1] - 2025-01-24
+## [0.9.2] - 2025-02-02
+
+### 🐛 Bug Fixes
+
+- *(graph)* Resolve home graph issues (#124)
+- *(legal_modal)* Make AlertDialog scrollable (#119)
+- *(home_charts)* Fix overtime graph not displayed when only 'permitted data' (#115)
+
+### 🚜 Refactor
+
+- *(widget)* Remove unused NoServerSelected widget
+- *(lint)* Update lint rules (#114)
+
+### 📚 Documentation
+
+- Add CI/CD workflow documentation
+
+### 🧪 Testing
+
+- *(main)* Add tests (#126)
+- *(base)* Add widget tests (#125)
+- *(home)* Add widget tests (#121)
+- *(logs)* Add tests (#117)
+- *(advanced_settings)* Add widget tests (#116)
+
+### ⚙️ Miscellaneous Tasks
+
+- Rename bump version step for clarity and adjust fetch depth
+- Refine version extraction condition for release workflows
+- Add version bump step in test release (#112)
+
+## [0.9.1_(11)] - 2025-01-25
 
 ### 🐛 Bug Fixes
 
@@ -12,6 +43,7 @@
 
 ### ⚙️ Miscellaneous Tasks
 
+- Update test workflow to install system dependencies for snar (#111)
 - Add test release workflow (#105)
 
 ## [0.9.0_(10)] - 2025-01-16
