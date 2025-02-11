@@ -44,10 +44,39 @@ void main() async {
     );
 
     testWidgets(
+      'should connect to server',
+      (WidgetTester tester) async {
+        tester.view.physicalSize = const Size(1080, 2400);
+        tester.view.devicePixelRatio = 2.0;
+
+        when(testSetup.mockServersProvider.selectedServer).thenReturn(null);
+        when(testSetup.mockServersProvider.resetSelectedServer())
+            .thenAnswer((_) async => true);
+
+        addTearDown(() {
+          tester.view.resetPhysicalSize();
+          tester.view.resetDevicePixelRatio();
+        });
+
+        await tester.pumpWidget(
+          testSetup.buildTestWidget(
+            const ServersPage(),
+          ),
+        );
+
+        expect(find.byType(ServersPage), findsOneWidget);
+        expect(find.text('Servers'), findsOneWidget);
+        expect(find.text('Connect'), findsOneWidget);
+        await tester.tap(find.text('Connect'));
+        await tester.pumpAndSettle();
+      },
+    );
+
+    testWidgets(
       'should set default server',
       (WidgetTester tester) async {
         tester.view.physicalSize = const Size(1080, 2400);
-        tester.view.devicePixelRatio = 1.0;
+        tester.view.devicePixelRatio = 2.0;
 
         addTearDown(() {
           tester.view.resetPhysicalSize();

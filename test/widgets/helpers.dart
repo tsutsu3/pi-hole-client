@@ -930,7 +930,8 @@ class TestSetupHelper {
           : mockApiGatewayV6 as ApiGateway,
     );
     when(mockServersProvider.deleteDbData()).thenAnswer((_) async => true);
-    when(mockServersProvider.getServersList).thenReturn([serverV6]);
+    when(mockServersProvider.getServersList)
+        .thenReturn(useApiGatewayVersion == 'v5' ? [serverV5] : [serverV6]);
     when(mockServersProvider.colors).thenReturn(lightAppColors);
     when(mockServersProvider.queryStatuses).thenReturn(
       useApiGatewayVersion == 'v5' ? queryStatusesV5 : queryStatusesV6,
