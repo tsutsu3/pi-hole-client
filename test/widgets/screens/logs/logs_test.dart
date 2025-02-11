@@ -290,40 +290,42 @@ void main() async {
         },
       );
 
-      // testWidgets(
-      //   'should sort logs',
-      //   (WidgetTester tester) async {
-      //     tester.view.physicalSize = const Size(1080, 2400);
-      //     tester.view.devicePixelRatio = 2.0;
+      testWidgets(
+        'should show sort modal',
+        (WidgetTester tester) async {
+          tester.view.physicalSize = const Size(1080, 2400);
+          tester.view.devicePixelRatio = 2.0;
 
-      //     addTearDown(() {
-      //       tester.view.resetPhysicalSize();
-      //       tester.view.resetDevicePixelRatio();
-      //     });
+          addTearDown(() {
+            tester.view.resetPhysicalSize();
+            tester.view.resetDevicePixelRatio();
+          });
 
-      //     await tester.pumpWidget(
-      //       testSetup.buildTestWidget(
-      //         const Logs(),
-      //       ),
-      //     );
+          await tester.pumpWidget(
+            testSetup.buildTestWidget(
+              const Logs(),
+            ),
+          );
 
-      //     expect(find.byType(Logs), findsOneWidget);
-      //     expect(find.text('Query logs'), findsOneWidget);
-      //     await tester.pumpAndSettle();
-      //     expect(find.text('white.example.com'), findsWidgets);
+          expect(find.byType(Logs), findsOneWidget);
+          expect(find.text('Query logs'), findsOneWidget);
+          await tester.pumpAndSettle();
 
-      //     expect(find.byIcon(Icons.sort_rounded), findsOneWidget);
-      //     await tester.tap(find.byIcon(Icons.sort_rounded));
-      //     await tester.pump();
-      //     await tester.pumpAndSettle();
-      //     expect(find.text('From Latest to oldest'), findsOneWidget);
-      //     expect(find.text('From oldest to latest'), findsOneWidget);
-      //     await tester.tap(find.text('From oldest to latest'));
-      //     await tester.pumpAndSettle();
+          expect(find.byIcon(Icons.sort_rounded), findsOneWidget);
+          await tester.tap(find.byIcon(Icons.sort_rounded));
+          await tester.pumpAndSettle();
 
-      //     expect(find.byType(Logs), findsOneWidget);
-      //   },
-      // );
+          expect(find.byIcon(Icons.arrow_upward_rounded), findsOneWidget);
+          expect(find.byIcon(Icons.arrow_downward_rounded), findsOneWidget);
+          expect(find.text('From latest to oldest'), findsOneWidget);
+          expect(find.text('From oldest to latest'), findsOneWidget);
+          await tester.tap(find.text('From oldest to latest'));
+          await tester.pumpAndSettle();
+
+          expect(find.byType(Logs), findsOneWidget);
+          expect(find.byType(PopupMenuItem), findsNothing);
+        },
+      );
     },
   );
 }
