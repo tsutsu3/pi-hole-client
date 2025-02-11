@@ -573,15 +573,20 @@ class _LogsState extends State<Logs> {
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
-                            Row(
-                              children: [
-                                const Icon(Icons.arrow_downward_rounded),
-                                const SizedBox(width: 15),
-                                Text(
-                                  AppLocalizations.of(context)!
-                                      .fromLatestToOldest,
-                                ),
-                              ],
+                            Expanded(
+                              child: Row(
+                                children: [
+                                  const Icon(Icons.arrow_downward_rounded),
+                                  const SizedBox(width: 15),
+                                  Flexible(
+                                    child: Text(
+                                      AppLocalizations.of(context)!
+                                          .fromLatestToOldest,
+                                      overflow: TextOverflow.ellipsis,
+                                    ),
+                                  ),
+                                ],
+                              ),
                             ),
                             CustomRadio(
                               value: 0,
@@ -597,15 +602,20 @@ class _LogsState extends State<Logs> {
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
-                            Row(
-                              children: [
-                                const Icon(Icons.arrow_upward_rounded),
-                                const SizedBox(width: 15),
-                                Text(
-                                  AppLocalizations.of(context)!
-                                      .fromOldestToLatest,
-                                ),
-                              ],
+                            Expanded(
+                              child: Row(
+                                children: [
+                                  const Icon(Icons.arrow_upward_rounded),
+                                  const SizedBox(width: 15),
+                                  Flexible(
+                                    child: Text(
+                                      AppLocalizations.of(context)!
+                                          .fromOldestToLatest,
+                                      overflow: TextOverflow.ellipsis,
+                                    ),
+                                  ),
+                                ],
+                              ),
                             ),
                             CustomRadio(
                               value: 1,

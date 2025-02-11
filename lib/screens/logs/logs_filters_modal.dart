@@ -213,130 +213,138 @@ class _LogsFiltersModalState extends State<LogsFiltersModal> {
                           Row(
                             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                             children: [
-                              Material(
-                                color: Colors.transparent,
-                                borderRadius: BorderRadius.circular(10),
-                                child: InkWell(
-                                  onTap: () => selectTime('from'),
+                              Expanded(
+                                child: Material(
+                                  color: Colors.transparent,
                                   borderRadius: BorderRadius.circular(10),
-                                  splashColor: Theme.of(context)
-                                      .colorScheme
-                                      .primary
-                                      .withValues(alpha: 0.1),
-                                  highlightColor: Theme.of(context)
-                                      .colorScheme
-                                      .primary
-                                      .withValues(alpha: 0.1),
-                                  child: Container(
-                                    padding: const EdgeInsets.symmetric(
-                                      horizontal: 15,
-                                      vertical: 10,
-                                    ),
-                                    decoration: BoxDecoration(
-                                      borderRadius: BorderRadius.circular(10),
-                                      border: Border.all(
-                                        color: Theme.of(context)
-                                            .colorScheme
-                                            .primary,
+                                  child: InkWell(
+                                    onTap: () => selectTime('from'),
+                                    borderRadius: BorderRadius.circular(10),
+                                    splashColor: Theme.of(context)
+                                        .colorScheme
+                                        .primary
+                                        .withValues(alpha: 0.1),
+                                    highlightColor: Theme.of(context)
+                                        .colorScheme
+                                        .primary
+                                        .withValues(alpha: 0.1),
+                                    child: Container(
+                                      padding: const EdgeInsets.symmetric(
+                                        horizontal: 15,
+                                        vertical: 10,
                                       ),
-                                    ),
-                                    child: Column(
-                                      children: [
-                                        Text(
-                                          AppLocalizations.of(context)!
-                                              .fromTime,
-                                          style: TextStyle(
-                                            fontWeight: FontWeight.w500,
-                                            fontSize: 14,
-                                            color: Theme.of(context)
-                                                .colorScheme
-                                                .primary,
-                                          ),
+                                      decoration: BoxDecoration(
+                                        borderRadius: BorderRadius.circular(10),
+                                        border: Border.all(
+                                          color: Theme.of(context)
+                                              .colorScheme
+                                              .primary,
                                         ),
-                                        const SizedBox(height: 5),
-                                        Text(
-                                          filtersProvider.startTime != null
-                                              ? formatTimestamp(
-                                                  filtersProvider.startTime!,
-                                                  'dd/MM/yyyy - HH:mm',
-                                                )
-                                              : AppLocalizations.of(context)!
-                                                  .notSelected,
-                                          style: TextStyle(
-                                            color: Theme.of(context)
-                                                .colorScheme
-                                                .onSurfaceVariant,
-                                            fontSize: 12,
+                                      ),
+                                      child: Column(
+                                        children: [
+                                          Text(
+                                            AppLocalizations.of(context)!
+                                                .fromTime,
+                                            style: TextStyle(
+                                              fontWeight: FontWeight.w500,
+                                              fontSize: 14,
+                                              color: Theme.of(context)
+                                                  .colorScheme
+                                                  .primary,
+                                            ),
                                           ),
-                                        ),
-                                      ],
+                                          const SizedBox(height: 5),
+                                          Text(
+                                            filtersProvider.startTime != null
+                                                ? formatTimestamp(
+                                                    filtersProvider.startTime!,
+                                                    'dd/MM/yyyy - HH:mm',
+                                                  )
+                                                : AppLocalizations.of(context)!
+                                                    .notSelected,
+                                            style: TextStyle(
+                                              color: Theme.of(context)
+                                                  .colorScheme
+                                                  .onSurfaceVariant,
+                                              fontSize: 12,
+                                            ),
+                                          ),
+                                        ],
+                                      ),
                                     ),
                                   ),
                                 ),
                               ),
-                              const Text(
-                                '-',
-                                style: TextStyle(
-                                  fontWeight: FontWeight.bold,
-                                  fontSize: 20,
+                              const Padding(
+                                padding: EdgeInsets.symmetric(horizontal: 10),
+                                child: Text(
+                                  '-',
+                                  style: TextStyle(
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: 20,
+                                  ),
                                 ),
                               ),
-                              Material(
-                                color: Colors.transparent,
-                                borderRadius: BorderRadius.circular(10),
-                                child: InkWell(
-                                  onTap: () => selectTime('to'),
+                              Expanded(
+                                child: Material(
+                                  color: Colors.transparent,
                                   borderRadius: BorderRadius.circular(10),
-                                  splashColor: Theme.of(context)
-                                      .colorScheme
-                                      .primary
-                                      .withValues(alpha: 0.1),
-                                  highlightColor: Theme.of(context)
-                                      .colorScheme
-                                      .primary
-                                      .withValues(alpha: 0.1),
-                                  child: Container(
-                                    padding: const EdgeInsets.symmetric(
-                                      horizontal: 15,
-                                      vertical: 10,
-                                    ),
-                                    decoration: BoxDecoration(
-                                      borderRadius: BorderRadius.circular(10),
-                                      border: Border.all(
-                                        color: Theme.of(context)
-                                            .colorScheme
-                                            .primary,
+                                  child: InkWell(
+                                    onTap: () => selectTime('to'),
+                                    borderRadius: BorderRadius.circular(10),
+                                    splashColor: Theme.of(context)
+                                        .colorScheme
+                                        .primary
+                                        .withValues(alpha: 0.1),
+                                    highlightColor: Theme.of(context)
+                                        .colorScheme
+                                        .primary
+                                        .withValues(alpha: 0.1),
+                                    child: Container(
+                                      padding: const EdgeInsets.symmetric(
+                                        horizontal: 15,
+                                        vertical: 10,
                                       ),
-                                    ),
-                                    child: Column(
-                                      children: [
-                                        Text(
-                                          AppLocalizations.of(context)!.toTime,
-                                          style: TextStyle(
-                                            fontWeight: FontWeight.w500,
-                                            fontSize: 14,
-                                            color: Theme.of(context)
-                                                .colorScheme
-                                                .primary,
-                                          ),
+                                      decoration: BoxDecoration(
+                                        borderRadius: BorderRadius.circular(10),
+                                        border: Border.all(
+                                          color: Theme.of(context)
+                                              .colorScheme
+                                              .primary,
                                         ),
-                                        const SizedBox(height: 5),
-                                        Text(
-                                          filtersProvider.endTime != null
-                                              ? formatTimestamp(
-                                                  filtersProvider.endTime!,
-                                                  'dd/MM/yyyy - HH:mm',
-                                                )
-                                              : AppLocalizations.of(context)!
-                                                  .notSelected,
-                                          style: TextStyle(
-                                            color: Theme.of(context)
-                                                .colorScheme
-                                                .onSurfaceVariant,
-                                            fontSize: 12,
+                                      ),
+                                      child: Column(
+                                        children: [
+                                          Text(
+                                            AppLocalizations.of(context)!
+                                                .toTime,
+                                            style: TextStyle(
+                                              fontWeight: FontWeight.w500,
+                                              fontSize: 14,
+                                              color: Theme.of(context)
+                                                  .colorScheme
+                                                  .primary,
+                                            ),
                                           ),
-                                        ),
-                                      ],
+                                          const SizedBox(height: 5),
+                                          Text(
+                                            filtersProvider.endTime != null
+                                                ? formatTimestamp(
+                                                    filtersProvider.endTime!,
+                                                    'dd/MM/yyyy - HH:mm',
+                                                  )
+                                                : AppLocalizations.of(context)!
+                                                    .notSelected,
+                                            style: TextStyle(
+                                              color: Theme.of(context)
+                                                  .colorScheme
+                                                  .onSurfaceVariant,
+                                              fontSize: 12,
+                                            ),
+                                          ),
+                                        ],
+                                      ),
                                     ),
                                   ),
                                 ),
@@ -411,30 +419,32 @@ class _LogsFiltersModalState extends State<LogsFiltersModal> {
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text(
-                                AppLocalizations.of(context)!
-                                    .advancedStatusFiltering,
-                                style: const TextStyle(
-                                  fontWeight: FontWeight.w400,
-                                  fontSize: 16,
+                          Expanded(
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  AppLocalizations.of(context)!
+                                      .advancedStatusFiltering,
+                                  style: const TextStyle(
+                                    fontWeight: FontWeight.w400,
+                                    fontSize: 16,
+                                  ),
                                 ),
-                              ),
-                              const SizedBox(height: 5),
-                              Text(
-                                statusText(
-                                  filtersProvider.statusSelected.length,
-                                  serverProvider.numShown,
+                                const SizedBox(height: 5),
+                                Text(
+                                  statusText(
+                                    filtersProvider.statusSelected.length,
+                                    serverProvider.numShown,
+                                  ),
+                                  style: TextStyle(
+                                    color: Theme.of(context)
+                                        .colorScheme
+                                        .onSurfaceVariant,
+                                  ),
                                 ),
-                                style: TextStyle(
-                                  color: Theme.of(context)
-                                      .colorScheme
-                                      .onSurfaceVariant,
-                                ),
-                              ),
-                            ],
+                              ],
+                            ),
                           ),
                           const Icon(Icons.arrow_right),
                         ],
@@ -454,29 +464,31 @@ class _LogsFiltersModalState extends State<LogsFiltersModal> {
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text(
-                                AppLocalizations.of(context)!.clients,
-                                style: const TextStyle(
-                                  fontWeight: FontWeight.w400,
-                                  fontSize: 16,
+                          Expanded(
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  AppLocalizations.of(context)!.clients,
+                                  style: const TextStyle(
+                                    fontWeight: FontWeight.w400,
+                                    fontSize: 16,
+                                  ),
                                 ),
-                              ),
-                              const SizedBox(height: 5),
-                              Text(
-                                statusText(
-                                  filtersProvider.selectedClients.length,
-                                  filtersProvider.totalClients.length,
+                                const SizedBox(height: 5),
+                                Text(
+                                  statusText(
+                                    filtersProvider.selectedClients.length,
+                                    filtersProvider.totalClients.length,
+                                  ),
+                                  style: TextStyle(
+                                    color: Theme.of(context)
+                                        .colorScheme
+                                        .onSurfaceVariant,
+                                  ),
                                 ),
-                                style: TextStyle(
-                                  color: Theme.of(context)
-                                      .colorScheme
-                                      .onSurfaceVariant,
-                                ),
-                              ),
-                            ],
+                              ],
+                            ),
                           ),
                           const Icon(Icons.arrow_right),
                         ],

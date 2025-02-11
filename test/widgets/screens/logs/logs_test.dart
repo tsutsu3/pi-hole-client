@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:mockito/mockito.dart';
+import 'package:pi_hole_client/models/gateways.dart';
 import 'package:pi_hole_client/screens/logs/logs.dart';
+import 'package:pi_hole_client/screens/logs/logs_filters_modal.dart';
 
 import '../../helpers.dart';
 
@@ -43,6 +46,35 @@ void main() async {
             find.text('Choose a query log to see its details.'),
             findsNothing,
           );
+        },
+      );
+
+      testWidgets(
+        'should show error message when logs could not be loaded',
+        (WidgetTester tester) async {
+          tester.view.physicalSize = const Size(1080, 2400);
+          tester.view.devicePixelRatio = 2.0;
+
+          when(testSetup.mockApiGatewayV6.fetchLogs(any, any)).thenAnswer(
+            (_) async => FetchLogsResponse(result: APiResponseType.error),
+          );
+
+          addTearDown(() {
+            tester.view.resetPhysicalSize();
+            tester.view.resetDevicePixelRatio();
+          });
+
+          await tester.pumpWidget(
+            testSetup.buildTestWidget(
+              const Logs(),
+            ),
+          );
+
+          expect(find.byType(Logs), findsOneWidget);
+          expect(find.text('Query logs'), findsOneWidget);
+          await tester.pumpAndSettle();
+          expect(find.text("Logs couldn't be loaded"), findsWidgets);
+          expect(find.byIcon(Icons.error), findsOneWidget);
         },
       );
 
@@ -120,89 +152,180 @@ void main() async {
         },
       );
 
-      // testWidgets(
-      //   'should filter logs',
-      //   (WidgetTester tester) async {
-      //     tester.view.physicalSize = const Size(1080, 2400);
-      //     tester.view.devicePixelRatio = 2.0;
+      testWidgets(
+        'should show filter logs and apply filter(close modal)',
+        (WidgetTester tester) async {
+          tester.view.physicalSize = const Size(1080, 2400);
+          tester.view.devicePixelRatio = 2.0;
 
-      //     addTearDown(() {
-      //       tester.view.resetPhysicalSize();
-      //       tester.view.resetDevicePixelRatio();
-      //     });
+          addTearDown(() {
+            tester.view.resetPhysicalSize();
+            tester.view.resetDevicePixelRatio();
+          });
 
-      //     await tester.pumpWidget(
-      //       testSetup.buildTestWidget(
-      //         const Logs(),
-      //       ),
-      //     );
+          await tester.pumpWidget(
+            testSetup.buildTestWidget(
+              const Logs(),
+            ),
+          );
 
-      //     // show logs screen
-      //     expect(find.byType(Logs), findsOneWidget);
-      //     expect(find.text('Query logs'), findsOneWidget);
-      //     await tester.pumpAndSettle();
-      //     expect(find.text('white.example.com'), findsWidgets);
+          // show logs screen
+          expect(find.byType(Logs), findsOneWidget);
+          expect(find.text('Query logs'), findsOneWidget);
+          await tester.pumpAndSettle();
 
-      //     // tap filter button
-      //     expect(find.byIcon(Icons.filter_list_rounded), findsOneWidget);
-      //     await tester.tap(find.byIcon(Icons.filter_list_rounded));
-      //     await tester.pumpAndSettle();
+          // tap filter button
+          expect(find.byIcon(Icons.filter_list_rounded), findsOneWidget);
+          await tester.tap(find.byIcon(Icons.filter_list_rounded));
+          await tester.pumpAndSettle();
 
-      //     // show filter modal
-      //     expect(find.byType(LogsFiltersModal), findsOneWidget);
-      //     expect(find.text('Filters'), findsOneWidget);
-      //     expect(find.text('Blocked'), findsOneWidget);
-      //     expect(find.text('Apply'), findsOneWidget);
+          // show filter modal
+          expect(find.byType(LogsFiltersModal), findsOneWidget);
+          expect(find.text('Filters'), findsOneWidget);
+          expect(find.text('Blocked'), findsOneWidget);
+          expect(find.text('Apply'), findsOneWidget);
 
-      //     // tap blocked filter
-      //     await tester.tap(find.text('Blocked'));
-      //     await tester.pumpAndSettle();
+          // tap blocked filter
+          await tester.tap(find.text('Blocked'));
+          await tester.pumpAndSettle();
 
-      //     // apply filter and close modal
-      //     await tester.tap(find.text('Apply'));
-      //     await tester.pumpAndSettle();
-      //     // when(testSetup.mockFiltersProvider.requestStatus)
-      //     //     .thenReturn(RequestStatus.blocked);
+          // apply filter and close modal
+          await tester.tap(find.text('Apply'));
+          await tester.pumpAndSettle();
 
-      //     // expect(find.text('status selected'), findsOneWidget);
-      //     // expect(find.text('white.example.com'), findsNothing);
-      //   },
-      // );
+          expect(find.byType(LogsFiltersModal), findsNothing);
+          expect(find.text('Filters'), findsNothing);
+        },
+      );
 
-      // testWidgets(
-      //   'should sort logs',
-      //   (WidgetTester tester) async {
-      //     tester.view.physicalSize = const Size(1080, 2400);
-      //     tester.view.devicePixelRatio = 2.0;
+      testWidgets(
+        'should show filter logs and tap close(close modal)',
+        (WidgetTester tester) async {
+          tester.view.physicalSize = const Size(1080, 2400);
+          tester.view.devicePixelRatio = 2.0;
 
-      //     addTearDown(() {
-      //       tester.view.resetPhysicalSize();
-      //       tester.view.resetDevicePixelRatio();
-      //     });
+          addTearDown(() {
+            tester.view.resetPhysicalSize();
+            tester.view.resetDevicePixelRatio();
+          });
 
-      //     await tester.pumpWidget(
-      //       testSetup.buildTestWidget(
-      //         const Logs(),
-      //       ),
-      //     );
+          await tester.pumpWidget(
+            testSetup.buildTestWidget(
+              const Logs(),
+            ),
+          );
 
-      //     expect(find.byType(Logs), findsOneWidget);
-      //     expect(find.text('Query logs'), findsOneWidget);
-      //     await tester.pumpAndSettle();
-      //     expect(find.text('white.example.com'), findsWidgets);
+          // show logs screen
+          expect(find.byType(Logs), findsOneWidget);
+          expect(find.text('Query logs'), findsOneWidget);
+          await tester.pumpAndSettle();
 
-      //     expect(find.byIcon(Icons.sort_rounded), findsOneWidget);
-      //     await tester.tap(find.byIcon(Icons.sort_rounded));
-      //     await tester.pump();
-      //     await tester.pumpAndSettle();
-      //     expect(find.text('From Latest to oldest'), findsOneWidget);
-      //     expect(find.text('From oldest to latest'), findsOneWidget);
-      //     await tester.tap(find.text('From oldest to latest'));
-      //     await tester.pumpAndSettle();
+          // tap filter button
+          expect(find.byIcon(Icons.filter_list_rounded), findsOneWidget);
+          await tester.tap(find.byIcon(Icons.filter_list_rounded));
+          await tester.pumpAndSettle();
 
-      //     expect(find.byType(Logs), findsOneWidget);
-      //   },
-      // );
+          // show filter modal
+          expect(find.byType(LogsFiltersModal), findsOneWidget);
+          expect(find.text('Filters'), findsOneWidget);
+          expect(find.text('Blocked'), findsOneWidget);
+          expect(find.text('Close'), findsOneWidget);
+
+          // tap Allowd filter
+          await tester.tap(find.text('Allowed'));
+          await tester.pumpAndSettle();
+
+          // close modal
+          await tester.tap(find.text('Close'));
+          await tester.pumpAndSettle();
+
+          expect(find.byType(LogsFiltersModal), findsNothing);
+          expect(find.text('Filters'), findsNothing);
+        },
+      );
+
+      testWidgets(
+        'should show filter logs on tablet layout',
+        (WidgetTester tester) async {
+          tester.view.physicalSize = const Size(2176, 1600);
+          tester.view.devicePixelRatio = 2.0;
+
+          addTearDown(() {
+            tester.view.resetPhysicalSize();
+            tester.view.resetDevicePixelRatio();
+          });
+
+          await tester.pumpWidget(
+            testSetup.buildTestWidget(
+              const Logs(),
+            ),
+          );
+
+          // show logs screen
+          expect(find.byType(Logs), findsOneWidget);
+          expect(find.text('Query logs'), findsOneWidget);
+          await tester.pumpAndSettle();
+
+          // tap filter button
+          expect(find.byIcon(Icons.filter_list_rounded), findsOneWidget);
+          await tester.tap(find.byIcon(Icons.filter_list_rounded));
+          await tester.pumpAndSettle();
+
+          // show filter modal
+          expect(find.byType(LogsFiltersModal), findsOneWidget);
+          expect(find.text('Filters'), findsOneWidget);
+          expect(find.text('Blocked'), findsOneWidget);
+          expect(find.text('Close'), findsOneWidget);
+
+          // tap Allowd filter
+          await tester.tap(find.text('Allowed'));
+          await tester.pumpAndSettle();
+
+          // close modal
+          await tester.tap(find.text('Close'));
+          await tester.pumpAndSettle();
+
+          expect(find.byType(LogsFiltersModal), findsNothing);
+          expect(find.text('Filters'), findsNothing);
+        },
+      );
+
+      testWidgets(
+        'should show sort modal',
+        (WidgetTester tester) async {
+          tester.view.physicalSize = const Size(1080, 2400);
+          tester.view.devicePixelRatio = 2.0;
+
+          addTearDown(() {
+            tester.view.resetPhysicalSize();
+            tester.view.resetDevicePixelRatio();
+          });
+
+          await tester.pumpWidget(
+            testSetup.buildTestWidget(
+              const Logs(),
+            ),
+          );
+
+          expect(find.byType(Logs), findsOneWidget);
+          expect(find.text('Query logs'), findsOneWidget);
+          await tester.pumpAndSettle();
+
+          expect(find.byIcon(Icons.sort_rounded), findsOneWidget);
+          await tester.tap(find.byIcon(Icons.sort_rounded));
+          await tester.pumpAndSettle();
+
+          expect(find.byIcon(Icons.arrow_upward_rounded), findsOneWidget);
+          expect(find.byIcon(Icons.arrow_downward_rounded), findsOneWidget);
+          expect(find.text('From latest to oldest'), findsOneWidget);
+          expect(find.text('From oldest to latest'), findsOneWidget);
+          await tester.tap(find.text('From oldest to latest'));
+          await tester.pumpAndSettle();
+
+          expect(find.byType(Logs), findsOneWidget);
+          expect(find.byType(PopupMenuItem), findsNothing);
+        },
+      );
     },
   );
 }
