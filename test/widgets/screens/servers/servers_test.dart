@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/mockito.dart';
@@ -5,6 +7,7 @@ import 'package:pi_hole_client/screens/servers/delete_modal.dart';
 import 'package:pi_hole_client/screens/servers/servers.dart';
 
 import '../../helpers.dart';
+import '../utils.dart';
 
 void main() async {
   await initializeApp();
@@ -169,8 +172,10 @@ void main() async {
         await tester.pumpAndSettle();
         expect(find.byType(DeleteModal), findsOneWidget);
         expect(find.text('Remove'), findsWidgets);
-        await tester.tap(find.text('Remove').first);
+        await tester.tap(find.text('Remove').last);
         await tester.pumpAndSettle();
+        expect(find.byType(SnackBar), findsOneWidget);
+        expect(find.text('Connection removed successfully'), findsOneWidget);
       },
     );
   });

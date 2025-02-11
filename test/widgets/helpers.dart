@@ -936,6 +936,7 @@ class TestSetupHelper {
     when(mockServersProvider.queryStatuses).thenReturn(
       useApiGatewayVersion == 'v5' ? queryStatusesV5 : queryStatusesV6,
     );
+    when(mockServersProvider.removeServer(any)).thenAnswer((_) async => true);
   }
 
   void _initFiltersProviderMock(String useApiGatewayVersion) {
