@@ -1,13 +1,11 @@
-import 'dart:math';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/mockito.dart';
+import 'package:pi_hole_client/screens/servers/add_server_fullscreen.dart';
 import 'package:pi_hole_client/screens/servers/delete_modal.dart';
 import 'package:pi_hole_client/screens/servers/servers.dart';
 
 import '../../helpers.dart';
-import '../utils.dart';
 
 void main() async {
   await initializeApp();
@@ -115,8 +113,7 @@ void main() async {
     testWidgets(
       'should show edit server',
       (WidgetTester tester) async {
-        tester.view.physicalSize = const Size(1080, 2400); // timed out
-        // tester.view.physicalSize = const Size(2176, 1600); //overflow
+        tester.view.physicalSize = const Size(1080, 2400);
         tester.view.devicePixelRatio = 2.0;
 
         addTearDown(() {
@@ -137,17 +134,18 @@ void main() async {
         await tester.pumpAndSettle();
 
         expect(find.text('Edit'), findsOneWidget);
-        // await tester.tap(find.text('Edit')); // TODO
-        // await tester.pump();
-        // await tester.pumpAndSettle();
-        // expect(find.byType(AddServerFullscreen), findsOneWidget);
+        await tester.tap(find.text('Edit'));
+        await tester.pump(const Duration(milliseconds: 1000));
+        await tester.pump(const Duration(milliseconds: 1000));
+        await tester.pump(const Duration(milliseconds: 1000));
+        expect(find.byType(AddServerFullscreen), findsOneWidget);
       },
     );
 
     testWidgets(
       'should delete server',
       (WidgetTester tester) async {
-        tester.view.physicalSize = const Size(1080, 2400); // timed out
+        tester.view.physicalSize = const Size(1080, 2400);
         tester.view.devicePixelRatio = 2.0;
 
         addTearDown(() {
@@ -176,6 +174,34 @@ void main() async {
         await tester.pumpAndSettle();
         expect(find.byType(SnackBar), findsOneWidget);
         expect(find.text('Connection removed successfully'), findsOneWidget);
+      },
+    );
+
+    testWidgets(
+      'should show add server window',
+      (WidgetTester tester) async {
+        tester.view.physicalSize = const Size(1080, 2400);
+        tester.view.devicePixelRatio = 2.0;
+
+        addTearDown(() {
+          tester.view.resetPhysicalSize();
+          tester.view.resetDevicePixelRatio();
+        });
+
+        await tester.pumpWidget(
+          testSetup.buildTestWidget(
+            const ServersPage(),
+          ),
+        );
+
+        expect(find.byType(ServersPage), findsOneWidget);
+        expect(find.text('Servers'), findsOneWidget);
+
+        await tester.tap(find.byType(FloatingActionButton));
+        await tester.pump(const Duration(milliseconds: 1000));
+        await tester.pump(const Duration(milliseconds: 1000));
+        await tester.pump(const Duration(milliseconds: 1000));
+        expect(find.byType(AddServerFullscreen), findsOneWidget);
       },
     );
   });
