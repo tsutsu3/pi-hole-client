@@ -1047,6 +1047,14 @@ class TestSetupHelper {
       ),
     );
 
+    when(mockApiGatewayV6.loginQuery(refresh: true)).thenAnswer(
+      (_) async => LoginQueryResponse(
+        result: APiResponseType.success,
+        status: 'enabled',
+        sid: 'sid123',
+      ),
+    );
+
     when(mockApiGatewayV6.realtimeStatus()).thenAnswer(
       (_) async => RealtimeStatusResponse(
         result: APiResponseType.success,
