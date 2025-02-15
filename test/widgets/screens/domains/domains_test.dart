@@ -8,6 +8,7 @@ import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
 import 'package:pi_hole_client/config/globals.dart';
 import 'package:pi_hole_client/config/theme.dart';
+import 'package:pi_hole_client/constants/enums.dart';
 import 'package:pi_hole_client/gateways/v6/api_gateway_v6.dart';
 import 'package:pi_hole_client/models/domain.dart';
 import 'package:pi_hole_client/models/gateways.dart';
@@ -19,6 +20,7 @@ import 'package:pi_hole_client/screens/domains/domain_details_screen.dart';
 import 'package:pi_hole_client/screens/domains/domains.dart';
 import 'package:provider/provider.dart';
 
+import '../../helpers.dart';
 import 'domains_test.mocks.dart';
 
 @GenerateMocks(
@@ -27,6 +29,8 @@ import 'domains_test.mocks.dart';
 void main() async {
   TestWidgetsFlutterBinding.ensureInitialized();
   await dotenv.load();
+
+  await initializeApp();
 
   final server = Server(
     address: 'address',
@@ -40,8 +44,12 @@ void main() async {
     late MockAppConfigProvider mockConfigProvider;
     late MockServersProvider mockServersProvider;
     late DomainsListProvider domainsListProvider;
+    late TestSetupHelper testSetup;
 
     setUp(() async {
+      testSetup = TestSetupHelper();
+
+      testSetup.initializeMock(useApiGatewayVersion: 'v6');
       mockApiGatewayV6 = MockApiGatewayV6();
       mockConfigProvider = MockAppConfigProvider();
       mockServersProvider = MockServersProvider();
@@ -430,6 +438,56 @@ void main() async {
         // Show whiltelist domains screen
         expect(find.text('Domain added successfully'), findsWidgets);
         expect(find.byType(DomainLists), findsOneWidget);
+      },
+    );
+
+    testWidgets(
+      'should show error loading domains list',
+      (WidgetTester tester) async {
+        tester.view.physicalSize = const Size(1080, 2400);
+        tester.view.devicePixelRatio = 2.0;
+
+        when(testSetup.mockDomainsListProvider.loadingStatus)
+            .thenReturn(LoadStatus.error);
+
+        addTearDown(() {
+          tester.view.resetPhysicalSize();
+          tester.view.resetDevicePixelRatio();
+        });
+
+        await tester.pumpWidget(
+          testSetup.buildTestWidget(
+            const DomainLists(),
+          ),
+        );
+
+        expect(find.byType(DomainLists), findsOneWidget);
+        expect(find.text("Domains list couldn't be loaded"), findsOneWidget);
+      },
+    );
+
+    testWidgets(
+      'should show loading messge',
+      (WidgetTester tester) async {
+        tester.view.physicalSize = const Size(1080, 2400);
+        tester.view.devicePixelRatio = 2.0;
+
+        when(testSetup.mockDomainsListProvider.loadingStatus)
+            .thenReturn(LoadStatus.loading);
+
+        addTearDown(() {
+          tester.view.resetPhysicalSize();
+          tester.view.resetDevicePixelRatio();
+        });
+
+        await tester.pumpWidget(
+          testSetup.buildTestWidget(
+            const DomainLists(),
+          ),
+        );
+
+        expect(find.byType(DomainLists), findsOneWidget);
+        expect(find.text('Loading list...'), findsOneWidget);
       },
     );
   });

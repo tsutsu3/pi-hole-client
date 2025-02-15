@@ -276,15 +276,19 @@ class _ServersTileItemState extends State<ServersTileItem>
                         ? (() => setDefaultServer(server))
                         : null,
                     child: SizedBox(
+                      width: double.infinity,
                       child: Row(
                         children: [
                           const Icon(Icons.star),
                           const SizedBox(width: 15),
-                          Text(
-                            server.defaultServer == true
-                                ? AppLocalizations.of(context)!
-                                    .defaultConnection
-                                : AppLocalizations.of(context)!.setDefault,
+                          Expanded(
+                            child: Text(
+                              server.defaultServer == true
+                                  ? AppLocalizations.of(context)!
+                                      .defaultConnection
+                                  : AppLocalizations.of(context)!.setDefault,
+                              overflow: TextOverflow.ellipsis,
+                            ),
                           ),
                         ],
                       ),

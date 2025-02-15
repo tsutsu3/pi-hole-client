@@ -930,11 +930,13 @@ class TestSetupHelper {
           : mockApiGatewayV6 as ApiGateway,
     );
     when(mockServersProvider.deleteDbData()).thenAnswer((_) async => true);
-    when(mockServersProvider.getServersList).thenReturn([serverV6]);
+    when(mockServersProvider.getServersList)
+        .thenReturn(useApiGatewayVersion == 'v5' ? [serverV5] : [serverV6]);
     when(mockServersProvider.colors).thenReturn(lightAppColors);
     when(mockServersProvider.queryStatuses).thenReturn(
       useApiGatewayVersion == 'v5' ? queryStatusesV5 : queryStatusesV6,
     );
+    when(mockServersProvider.removeServer(any)).thenAnswer((_) async => true);
   }
 
   void _initFiltersProviderMock(String useApiGatewayVersion) {
@@ -978,7 +980,12 @@ class TestSetupHelper {
     when(mockStatusProvider.getRefreshServerStatus).thenReturn(true);
   }
 
-  void _initDomainListProviderMock(String useApiGatewayVersion) {}
+  void _initDomainListProviderMock(String useApiGatewayVersion) {
+    when(mockDomainsListProvider.fetchDomainsList(any))
+        .thenAnswer((_) async {});
+    when(mockDomainsListProvider.searchMode).thenReturn(false);
+    when(mockDomainsListProvider.filteredWhitelistDomains).thenReturn(domains);
+  }
 
   void _initApiGatewayV5Mock() {
     when(mockApiGatewayV5.loginQuery()).thenAnswer(
@@ -1038,6 +1045,14 @@ class TestSetupHelper {
     });
 
     when(mockApiGatewayV6.loginQuery()).thenAnswer(
+      (_) async => LoginQueryResponse(
+        result: APiResponseType.success,
+        status: 'enabled',
+        sid: 'sid123',
+      ),
+    );
+
+    when(mockApiGatewayV6.loginQuery(refresh: true)).thenAnswer(
       (_) async => LoginQueryResponse(
         result: APiResponseType.success,
         status: 'enabled',
