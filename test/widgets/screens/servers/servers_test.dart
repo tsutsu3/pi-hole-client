@@ -45,6 +45,32 @@ void main() async {
     );
 
     testWidgets(
+      'should show blank page',
+      (WidgetTester tester) async {
+        tester.view.physicalSize = const Size(1080, 2400);
+        tester.view.devicePixelRatio = 2.0;
+
+        when(testSetup.mockServersProvider.getServersList).thenReturn([]);
+
+        addTearDown(() {
+          tester.view.resetPhysicalSize();
+          tester.view.resetDevicePixelRatio();
+        });
+
+        await tester.pumpWidget(
+          testSetup.buildTestWidget(
+            const ServersPage(),
+          ),
+        );
+
+        expect(find.byType(ServersPage), findsOneWidget);
+        expect(find.text('Servers'), findsOneWidget);
+
+        expect(find.text('test v6'), findsNothing);
+      },
+    );
+
+    testWidgets(
       'should connect to server',
       (WidgetTester tester) async {
         tester.view.physicalSize = const Size(1080, 2400);
