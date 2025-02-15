@@ -9,6 +9,7 @@ import 'package:pi_hole_client/screens/statistics/statistics_triple_column.dart'
 import 'package:pie_chart/pie_chart.dart';
 
 import '../../helpers.dart';
+import '../utils.dart';
 
 void main() async {
   await initializeApp();
@@ -81,6 +82,74 @@ void main() async {
           expect(find.text('Top clients (total)'), findsOneWidget);
           expect(find.text('Top clients (blocked only)'), findsOneWidget);
           expect(find.byType(StatisticsListContent), findsOneWidget);
+        },
+      );
+
+      testWidgets(
+        'should show loading screen',
+        (WidgetTester tester) async {
+          tester.view.physicalSize = const Size(1080, 2400);
+          tester.view.devicePixelRatio = 2.0;
+
+          when(testSetup.mockStatusProvider.getStatusLoading)
+              .thenReturn(LoadStatus.loading);
+
+          addTearDown(() {
+            tester.view.resetPhysicalSize();
+            tester.view.resetDevicePixelRatio();
+          });
+
+          await tester.pumpWidget(
+            testSetup.buildTestWidget(
+              const Statistics(),
+            ),
+          );
+
+          expect(find.byType(Statistics), findsOneWidget);
+          await tester.pump();
+
+          expect(find.text('Domains'), findsWidgets);
+
+          // Switch to Domains tab
+          await tester.tap(find.text('Domains'));
+          await tester.pump();
+          showText();
+          expect(find.text('Loading stats...'), findsOneWidget);
+          expect(find.byType(StatisticsListContent), findsNothing);
+        },
+      );
+
+      testWidgets(
+        'should show error screen',
+        (WidgetTester tester) async {
+          tester.view.physicalSize = const Size(1080, 2400);
+          tester.view.devicePixelRatio = 2.0;
+
+          when(testSetup.mockStatusProvider.getStatusLoading)
+              .thenReturn(LoadStatus.error);
+
+          addTearDown(() {
+            tester.view.resetPhysicalSize();
+            tester.view.resetDevicePixelRatio();
+          });
+
+          await tester.pumpWidget(
+            testSetup.buildTestWidget(
+              const Statistics(),
+            ),
+          );
+
+          expect(find.byType(Statistics), findsOneWidget);
+          await tester.pump();
+
+          expect(find.text('Domains'), findsWidgets);
+
+          // Switch to Domains tab
+          await tester.tap(find.text('Domains'));
+          await tester.pump();
+          showText();
+          expect(find.text('Stats could not be loaded'), findsOneWidget);
+          expect(find.byType(StatisticsListContent), findsNothing);
         },
       );
 
