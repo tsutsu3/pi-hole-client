@@ -980,7 +980,12 @@ class TestSetupHelper {
     when(mockStatusProvider.getRefreshServerStatus).thenReturn(true);
   }
 
-  void _initDomainListProviderMock(String useApiGatewayVersion) {}
+  void _initDomainListProviderMock(String useApiGatewayVersion) {
+    when(mockDomainsListProvider.fetchDomainsList(any))
+        .thenAnswer((_) async {});
+    when(mockDomainsListProvider.searchMode).thenReturn(false);
+    when(mockDomainsListProvider.filteredWhitelistDomains).thenReturn(domains);
+  }
 
   void _initApiGatewayV5Mock() {
     when(mockApiGatewayV5.loginQuery()).thenAnswer(
