@@ -17,8 +17,8 @@ services:
     ports:
       - "55:53/tcp"
       - "55:53/udp"
-      - "8081:80/tcp"
-      - "1445:443/tcp"
+      - "80:80/tcp"
+      - "443:443/tcp"
     environment:
       TZ: 'Asia/Tokyo'
       FTLCONF_webserver_api_password: 'test123'
