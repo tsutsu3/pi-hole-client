@@ -354,7 +354,7 @@ class _DisableModalState extends State<DisableModal> {
         padding: mediaQueryData.viewInsets,
         child: Container(
           decoration: BoxDecoration(
-            color: Theme.of(context).dialogBackgroundColor,
+            color: Theme.of(context).dialogTheme.backgroundColor,
             borderRadius: const BorderRadius.only(
               topLeft: Radius.circular(28),
               topRight: Radius.circular(28),

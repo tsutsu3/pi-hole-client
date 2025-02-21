@@ -190,7 +190,7 @@ class _ClientsFiltersModalState extends State<ClientsFiltersModal> {
             topLeft: Radius.circular(28),
             topRight: Radius.circular(28),
           ),
-          color: Theme.of(context).dialogBackgroundColor,
+          color: Theme.of(context).dialogTheme.backgroundColor,
         ),
         child: SafeArea(child: content()),
       );

@@ -50,7 +50,7 @@ class _ThemeScreenState extends State<ThemeScreen> {
             trailing: CustomRadio(
               value: value,
               groupValue: _selectedItem,
-              backgroundColor: Theme.of(context).dialogBackgroundColor,
+              backgroundColor: Theme.of(context).dialogTheme.backgroundColor!,
             ),
           ),
         ),

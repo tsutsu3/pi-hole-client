@@ -404,6 +404,7 @@ ThemeData createTheme(
         TargetPlatform.android: PredictiveBackPageTransitionsBuilder(),
       },
     ),
+    dialogTheme: DialogThemeData(backgroundColor: colorScheme.surface),
     extensions: [
       // dataVisColors.harmonized(colorScheme),
       // appColors.harmonized(colorScheme),

@@ -33,7 +33,7 @@ class StatisticsVisualizationScreen extends StatelessWidget {
                         .colorScheme
                         .primary
                         .withValues(alpha: 0.1)
-                    : Theme.of(context).dialogBackgroundColor,
+                    : Theme.of(context).dialogTheme.backgroundColor,
                 border: Border.all(
                   color: value == appConfigProvider.statisticsVisualizationMode
                       ? Theme.of(context).colorScheme.primary

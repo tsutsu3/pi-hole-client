@@ -59,7 +59,7 @@ class _LanguageScreenState extends State<LanguageScreen> {
                         value: languageOption.index,
                         groupValue: _selectedItem,
                         backgroundColor:
-                            Theme.of(context).dialogBackgroundColor,
+                            Theme.of(context).dialogTheme.backgroundColor!,
                       ),
                     ),
                   ),
