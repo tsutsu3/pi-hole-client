@@ -38,7 +38,7 @@ dependencies:
     sdk: flutter
   cupertino_icons: ^1.0.2
   provider: ^6.0.3
-  sqflite: ^2.2.5
+  sqflite: ^2.4.2
   http: ^1.3.0
   expandable: ^5.0.1
   package_info_plus: ^8.2.1
@@ -52,12 +52,12 @@ dependencies:
   permission_handler: ^11.3.1
   dynamic_color: ^1.6.5
   device_info_plus: ^11.3.0
-  vibration: ^3.1.1
+  vibration: ^3.1.3
   url_launcher: ^6.2.4
   percent_indicator: ^4.2.2
   flutter_app_lock: ^4.0.0-dev.0
   sqlite3_flutter_libs: ^0.5.30
-  sqflite_common_ffi: ^2.2.3
+  sqflite_common_ffi: ^2.3.5
   sentry_flutter: ^8.13.0
   flutter_dotenv: ^5.0.2
   contextmenu: ^3.0.0
@@ -90,8 +90,8 @@ dev_dependencies:
   integration_test:
     sdk: flutter
   flutter_launcher_icons: ^0.14.3
-  flutter_native_splash: ^2.4.3
-  build_runner: ^2.4.13
+  flutter_native_splash: ^2.4.5
+  build_runner: ^2.4.15
 
   # The "flutter_lints" package below contains a set of recommended lints to
   # encourage good coding practices. The lint set provided by the package is
@@ -100,7 +100,7 @@ dev_dependencies:
   # rules and activating additional ones.
   flutter_lints: ^5.0.0
   freezed: ^2.5.8
-  json_serializable: ^6.9.0
+  json_serializable: ^6.9.4
   mockito: ^5.4.4
   full_coverage: ^1.0.0
   flutter_svg_test: ^1.0.3
