@@ -1,10 +1,10 @@
 // ignore_for_file: use_build_context_synchronously
 
 import 'package:flutter/material.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:local_auth/local_auth.dart';
 import 'package:pi_hole_client/functions/conversions.dart';
 import 'package:pi_hole_client/functions/snackbar.dart';
+import 'package:pi_hole_client/l10n/generated/app_localizations.dart';
 import 'package:pi_hole_client/providers/app_config_provider.dart';
 import 'package:pi_hole_client/screens/settings/app_settings/advanced_settings/app_lock/create_pass_code_modal.dart';
 import 'package:pi_hole_client/screens/settings/app_settings/advanced_settings/app_lock/remove_passcode_modal.dart';
