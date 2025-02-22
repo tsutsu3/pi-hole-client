@@ -41,8 +41,6 @@
   "areSureRemovePasscode": "Sind Sie sicher, dass Sie das Passwort entfernen möchten? Dadurch wird die App-Sperre deaktiviert.",
   "authentication": "Authentifizierung",
   "autoRefreshTime": "Aktualisierungsintervall",
-  "basicAuth": "Grundlegende Authentifizierung",
-  "basicAuthInfo": "Wenn sich Ihr Server hinter einer Basisauthentifizierung befindet, können Sie hier die entsprechenden Anmeldeinformationen eingeben. Stellen Sie sicher, dass Sie beide Felder ausfüllen, sonst können Sie die Verbindung nicht speichern.",
   "beginAddConnection": "Fügen Sie zunächst eine Verbindung zu einem Server hinzu.",
   "between": "zwischen",
   "biometricUnlockNotActivated": "Entsperren per Fingerabdruck konnte nicht aktiviert werden.",

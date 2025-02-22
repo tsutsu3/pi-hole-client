@@ -135,12 +135,6 @@ class AppLocalizationsPl extends AppLocalizations {
   String get autoRefreshTime => 'Czas automatycznego odświeżania';
 
   @override
-  String get basicAuth => 'Uwierzytelnianie podstawowe';
-
-  @override
-  String get basicAuthInfo => 'Jeśli Twój serwer znajduje się za uwierzytelnianiem podstawowym, możesz wypełnić tutaj odpowiednie poświadczenia. Pamiętaj, aby wypełnić oba pola, w przeciwnym razie nie będzie można zapisać połączenia.';
-
-  @override
   String get beginAddConnection => 'Na początek dodaj połączenie z serwerem.';
 
   @override

@@ -27,16 +27,12 @@ class ServerDbData {
     required this.token,
     required this.isDefaultServer,
     required this.apiVersion,
-    required this.basicAuthUser,
-    required this.basicAuthPassword,
     required this.sid,
   });
 
   factory ServerDbData.withSecrets(
     ServerDbData instance,
     String? token,
-    String? basicAuthUser,
-    String? basicAuthPassword,
     String? sid,
   ) {
     return ServerDbData(
@@ -45,8 +41,6 @@ class ServerDbData {
       token: token,
       isDefaultServer: instance.isDefaultServer,
       apiVersion: instance.apiVersion,
-      basicAuthUser: basicAuthUser,
-      basicAuthPassword: basicAuthPassword,
       sid: sid,
     );
   }
@@ -58,8 +52,6 @@ class ServerDbData {
       token: map['token'] as String?,
       isDefaultServer: map['isDefaultServer']! as int,
       apiVersion: map['apiVersion']! as String,
-      basicAuthUser: map['basicAuthUser'] as String?,
-      basicAuthPassword: map['basicAuthPassword'] as String?,
       sid: map['sid'] as String?,
     );
   }
@@ -69,8 +61,6 @@ class ServerDbData {
   final String? token;
   final int isDefaultServer;
   final String apiVersion;
-  final String? basicAuthUser;
-  final String? basicAuthPassword;
   final String? sid;
 
   Map<String, dynamic> toDict() {
@@ -80,8 +70,6 @@ class ServerDbData {
       'token': token,
       'isDefaultServer': isDefaultServer,
       'apiVersion': apiVersion,
-      'basicAuthUser': basicAuthUser,
-      'basicAuthPassword': basicAuthPassword,
       'sid': sid,
     };
   }

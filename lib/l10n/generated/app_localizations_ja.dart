@@ -135,12 +135,6 @@ class AppLocalizationsJa extends AppLocalizations {
   String get autoRefreshTime => '自動更新時間';
 
   @override
-  String get basicAuth => '基本認証';
-
-  @override
-  String get basicAuthInfo => 'サーバーが基本認証の背後にある場合は、対応する資格情報をここに入力できます。両方のフィールドを入力しないと接続を保存できません。';
-
-  @override
   String get beginAddConnection => 'まず、サーバーへの接続を追加します。';
 
   @override

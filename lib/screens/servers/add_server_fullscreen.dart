@@ -46,8 +46,6 @@ class _AddServerFullscreenState extends State<AddServerFullscreen> {
   TextEditingController passwordFieldController = TextEditingController();
   ConnectionType connectionType = ConnectionType.http;
   String piHoleVersion = SupportedApiVersions.v6;
-  TextEditingController basicAuthUser = TextEditingController();
-  TextEditingController basicAuthPassword = TextEditingController();
   bool defaultCheckbox = false;
 
   String? errorUrl;
@@ -70,8 +68,6 @@ class _AddServerFullscreenState extends State<AddServerFullscreen> {
       addressFieldController.text = splitted[1].split('/')[2];
       portFieldController.text = splitted.length == 3 ? splitted[2] : '';
       aliasFieldController.text = widget.server!.alias;
-      basicAuthUser.text = widget.server!.basicAuthUser ?? '';
-      basicAuthPassword.text = widget.server!.basicAuthPassword ?? '';
       connectionType = widget.server!.address.split(':')[0] == 'https'
           ? ConnectionType.https
           : ConnectionType.http;
@@ -88,9 +84,7 @@ class _AddServerFullscreenState extends State<AddServerFullscreen> {
         portFieldError == null &&
         aliasFieldController.text != '' &&
         tokenFieldController.text != '' &&
-        passwordFieldController.text != '' &&
-        ((basicAuthUser.text != '' && basicAuthPassword.text != '') ||
-            (basicAuthUser.text == '' && basicAuthPassword.text == ''))) {
+        passwordFieldController.text != '') {
       setState(() {
         allDataValid = true;
       });
@@ -245,8 +239,6 @@ class _AddServerFullscreenState extends State<AddServerFullscreen> {
           alias: aliasFieldController.text,
           defaultServer: false,
           apiVersion: piHoleVersion,
-          basicAuthUser: basicAuthUser.text,
-          basicAuthPassword: basicAuthPassword.text,
         );
         await serverObj.sm.savePassword(passwordFieldController.text);
         await serverObj.sm.saveToken(tokenFieldController.text);
@@ -267,8 +259,6 @@ class _AddServerFullscreenState extends State<AddServerFullscreen> {
               defaultServer: defaultCheckbox,
               apiVersion: piHoleVersion,
               enabled: result!.status == 'enabled' ? true : false,
-              basicAuthUser: basicAuthUser.text,
-              basicAuthPassword: basicAuthPassword.text,
               sm: serverObj.sm,
             ),
           );
@@ -344,8 +334,6 @@ class _AddServerFullscreenState extends State<AddServerFullscreen> {
         alias: aliasFieldController.text,
         defaultServer: false,
         apiVersion: piHoleVersion,
-        basicAuthUser: basicAuthUser.text,
-        basicAuthPassword: basicAuthPassword.text,
       );
       await serverObj.sm.savePassword(passwordFieldController.text);
       await serverObj.sm.saveToken(tokenFieldController.text);
@@ -358,8 +346,6 @@ class _AddServerFullscreenState extends State<AddServerFullscreen> {
           alias: aliasFieldController.text,
           defaultServer: defaultCheckbox,
           apiVersion: piHoleVersion,
-          basicAuthUser: basicAuthUser.text,
-          basicAuthPassword: basicAuthPassword.text,
         );
         await server.sm.savePassword(passwordFieldController.text);
         await server.sm.saveToken(tokenFieldController.text);
@@ -431,9 +417,7 @@ class _AddServerFullscreenState extends State<AddServerFullscreen> {
       if (addressFieldController.text != '' &&
           subrouteFieldError == null &&
           addressFieldError == null &&
-          aliasFieldController.text != '' &&
-          ((basicAuthUser.text != '' && basicAuthPassword.text != '') ||
-              (basicAuthUser.text == '' && basicAuthPassword.text == ''))) {
+          aliasFieldController.text != '') {
         return true;
       } else {
         return false;
@@ -505,61 +489,6 @@ class _AddServerFullscreenState extends State<AddServerFullscreen> {
               ),
             ),
           ),
-          // const SizedBox(height: 20),
-          // SectionLabel(
-          //   label: AppLocalizations.of(context)!.basicAuth,
-          //   padding: const EdgeInsets.only(top: 10, bottom: 10),
-          // ),
-          // Card(
-          //   margin: const EdgeInsets.only(top: 20, bottom: 10),
-          //   child: Padding(
-          //     padding: const EdgeInsets.all(16),
-          //     child: Row(
-          //       children: [
-          //         Icon(
-          //           Icons.info_rounded,
-          //           color: Theme.of(context).colorScheme.onSurfaceVariant,
-          //         ),
-          //         const SizedBox(width: 16),
-          //         Flexible(
-          //           child: Text(
-          //             AppLocalizations.of(context)!.basicAuthInfo,
-          //           ),
-          //         ),
-          //       ],
-          //     ),
-          //   ),
-          // ),
-          // Padding(
-          //   padding: const EdgeInsets.only(top: 20),
-          //   child: TextFormField(
-          //     onChanged: (_) => checkDataValid(),
-          //     controller: basicAuthUser,
-          //     decoration: InputDecoration(
-          //       prefixIcon: const Icon(Icons.person_rounded),
-          //       border: const OutlineInputBorder(
-          //         borderRadius: BorderRadius.all(Radius.circular(10)),
-          //       ),
-          //       labelText: AppLocalizations.of(context)!.username,
-          //     ),
-          //   ),
-          // ),
-          // Padding(
-          //   padding: const EdgeInsets.only(top: 30, bottom: 30),
-          //   child: TextFormField(
-          //     onChanged: (_) => checkDataValid(),
-          //     controller: basicAuthPassword,
-          //     obscureText: true,
-          //     keyboardType: TextInputType.visiblePassword,
-          //     decoration: InputDecoration(
-          //       prefixIcon: const Icon(Icons.key_rounded),
-          //       border: const OutlineInputBorder(
-          //         borderRadius: BorderRadius.all(Radius.circular(10)),
-          //       ),
-          //       labelText: AppLocalizations.of(context)!.password,
-          //     ),
-          //   ),
-          // ),
         ],
       );
     }

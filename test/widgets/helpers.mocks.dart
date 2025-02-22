@@ -1106,21 +1106,12 @@ class MockApiGatewayV5 extends _i1.Mock implements _i26.ApiGatewayV5 {
           as _i3.Server);
 
   @override
-  bool checkBasicAuth(String? username, String? password) =>
-      (super.noSuchMethod(
-            Invocation.method(#checkBasicAuth, [username, password]),
-            returnValue: false,
-          )
-          as bool);
-
-  @override
   _i12.Future<_i4.Response> httpClient({
     required String? method,
     required String? url,
     Map<String, String>? headers,
     Map<String, dynamic>? body,
     int? timeout = 10,
-    Map<String, dynamic>? basicAuth,
   }) =>
       (super.noSuchMethod(
             Invocation.method(#httpClient, [], {
@@ -1129,7 +1120,6 @@ class MockApiGatewayV5 extends _i1.Mock implements _i26.ApiGatewayV5 {
               #headers: headers,
               #body: body,
               #timeout: timeout,
-              #basicAuth: basicAuth,
             }),
             returnValue: _i12.Future<_i4.Response>.value(
               _FakeResponse_2(
@@ -1140,7 +1130,6 @@ class MockApiGatewayV5 extends _i1.Mock implements _i26.ApiGatewayV5 {
                   #headers: headers,
                   #body: body,
                   #timeout: timeout,
-                  #basicAuth: basicAuth,
                 }),
               ),
             ),
