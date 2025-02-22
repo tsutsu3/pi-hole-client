@@ -1,7 +1,7 @@
 services:
   piholeV5:
     container_name: piholeV5
-    image: pihole/pihole:latest
+    image: pihole/pihole:2024.07.0
     ports:
       - "54:53/tcp"
       - "54:53/udp"
@@ -13,19 +13,19 @@ services:
 
   piholeV6:
     container_name: piholeV6
-    image: pihole/pihole:development
+    image: pihole/pihole:latest
     ports:
       - "55:53/tcp"
       - "55:53/udp"
-      - "8081:80/tcp"
-      - "1445:443/tcp"
+      - "80:80/tcp"
+      - "443:443/tcp"
     environment:
       TZ: 'Asia/Tokyo'
       FTLCONF_webserver_api_password: 'test123'
 
   piholeV52:
     container_name: piholeV52
-    image: pihole/pihole:latest
+    image: pihole/pihole:2024.07.0
     ports:
       - "56:53/tcp"
       - "56:53/udp"
@@ -37,7 +37,7 @@ services:
 
   piholeV62:
     container_name: piholeV62
-    image: pihole/pihole:development
+    image: pihole/pihole:latest
     ports:
       - "57:53/tcp"
       - "57:53/udp"
