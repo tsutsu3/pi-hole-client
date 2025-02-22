@@ -278,6 +278,10 @@ class _AddServerFullscreenState extends State<AddServerFullscreen> {
               isConnecting = false;
               _restoreSecrets();
             });
+
+            await serverObj.sm.deletePassword();
+            await serverObj.sm.deleteToken();
+
             if (result?.result == APiResponseType.socket) {
               showErrorSnackBar(
                 context: context,
