@@ -40,6 +40,8 @@ void main() async {
 
         expect(find.byType(AddServerFullscreen), findsOneWidget);
         expect(find.byIcon(Icons.login_rounded), findsOneWidget);
+        expect(find.text('Token'), findsNothing);
+        expect(find.text('Password'), findsOne);
       },
     );
 
