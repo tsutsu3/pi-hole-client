@@ -1,6 +1,31 @@
 # Changelog
 
-## [0.9.2] - 2025-02-02
+## [0.9.3] - 2025-02-22
+
+### 🐛 Bug Fixes
+
+- *(secure_storage)* Clean up unused data (#150)
+- *(add_server)* Change the default Pi-hole version to v6 (#149)
+- *(edit_server)* Temporarily disable the changes (#148)
+- *(l10n)* Update translations (#147)
+
+### 🚜 Refactor
+
+- Remove basic auth (#151)
+
+### 🧪 Testing
+
+- Add tests (#133)
+
+### ⚙️ Miscellaneous Tasks
+
+- *(flutter)* Bump version to 3.29.0 (#146)
+- Update Flutter version to 3.27.4 in workflow files (#145)
+- *(docker)* Update pihole images
+- Update sonar coverage exclusions
+- *(ui)* Minor UI appearance adjustments (#132)
+
+## [0.9.2_(13)] - 2025-02-02
 
 ### 🐛 Bug Fixes
 
