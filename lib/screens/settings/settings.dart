@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:pi_hole_client/l10n/generated/app_localizations.dart';
 import 'package:flutter_split_view/flutter_split_view.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:pi_hole_client/constants/languages.dart';
 import 'package:pi_hole_client/constants/responsive.dart';
 import 'package:pi_hole_client/constants/urls.dart';
 import 'package:pi_hole_client/functions/open_url.dart';
+import 'package:pi_hole_client/l10n/generated/app_localizations.dart';
 import 'package:pi_hole_client/providers/app_config_provider.dart';
 import 'package:pi_hole_client/providers/servers_provider.dart';
 import 'package:pi_hole_client/providers/status_provider.dart';

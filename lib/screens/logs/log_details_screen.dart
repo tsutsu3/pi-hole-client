@@ -1,10 +1,10 @@
 // ignore_for_file: prefer_single_quotes
 
 import 'package:flutter/material.dart';
-import 'package:pi_hole_client/l10n/generated/app_localizations.dart';
 import 'package:pi_hole_client/constants/search_domain_base_url.dart';
 import 'package:pi_hole_client/functions/format.dart';
 import 'package:pi_hole_client/functions/open_url.dart';
+import 'package:pi_hole_client/l10n/generated/app_localizations.dart';
 import 'package:pi_hole_client/models/log.dart';
 import 'package:pi_hole_client/providers/filters_provider.dart';
 import 'package:pi_hole_client/screens/logs/log_status.dart';

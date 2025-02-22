@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:pi_hole_client/l10n/generated/app_localizations.dart';
 import 'package:pi_hole_client/constants/responsive.dart';
 import 'package:pi_hole_client/functions/refresh_server_status.dart';
+import 'package:pi_hole_client/l10n/generated/app_localizations.dart';
 import 'package:pi_hole_client/screens/statistics/statistics_list.dart';
 import 'package:pi_hole_client/screens/statistics/statistics_queries_servers_tab.dart';
 import 'package:pi_hole_client/screens/statistics/statistics_triple_column.dart';
