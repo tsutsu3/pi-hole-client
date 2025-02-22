@@ -936,7 +936,7 @@ class AppLocalizationsJa extends AppLocalizations {
   String get supportForm => 'サポートフォーム';
 
   @override
-  String get supportFormDescription => 'サポートリクエストをサポートフォームで送信します。';
+  String get supportFormDescription => 'サポートフォームを使用してサポートリクエストを送信してください。';
 
   @override
   String get switchServer => 'サーバーを切り替える';

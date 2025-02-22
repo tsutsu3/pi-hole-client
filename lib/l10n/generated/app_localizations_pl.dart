@@ -444,10 +444,10 @@ class AppLocalizationsPl extends AppLocalizations {
   String get filters => 'Filtry';
 
   @override
-  String get fingerprintAuthUnavailable => 'Fingerprint authentication unavailable.';
+  String get fingerprintAuthUnavailable => 'Uwierzytelnianie odciskiem palca jest niedostępne.';
 
   @override
-  String get fingerprintAuthUnavailableAttempts => 'Fingerprint authentication unavailable due to many failed attempts.';
+  String get fingerprintAuthUnavailableAttempts => 'Uwierzytelnianie odciskiem palca jest niedostępne z powodu zbyt wielu nieudanych prób.';
 
   @override
   String get finish => 'Zakończ';
@@ -933,10 +933,10 @@ class AppLocalizationsPl extends AppLocalizations {
   String get subrouteHelper => 'Do użycia z odwrotnym proxy';
 
   @override
-  String get supportForm => 'Support form';
+  String get supportForm => 'Formularz wsparcia';
 
   @override
-  String get supportFormDescription => 'Send a support request using the support form.';
+  String get supportFormDescription => 'Wyślij zgłoszenie wsparcia za pomocą formularza wsparcia.';
 
   @override
   String get switchServer => 'Zmień serwer';

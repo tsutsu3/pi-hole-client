@@ -933,10 +933,10 @@ class AppLocalizationsDe extends AppLocalizations {
   String get subrouteHelper => 'Zur Verwendung mit einem Reverse-Proxy';
 
   @override
-  String get supportForm => 'Support form';
+  String get supportForm => 'Support-Formular';
 
   @override
-  String get supportFormDescription => 'Send a support request using the support form.';
+  String get supportFormDescription => 'Senden Sie eine Support-Anfrage über das Support-Formular.';
 
   @override
   String get switchServer => 'Server wechseln';
