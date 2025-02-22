@@ -4,7 +4,7 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:pi_hole_client/l10n/generated/app_localizations.dart';
 import 'package:pi_hole_client/config/theme.dart';
 import 'package:pi_hole_client/constants/enums.dart';
 import 'package:pi_hole_client/constants/responsive.dart';
