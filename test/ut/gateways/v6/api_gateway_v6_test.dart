@@ -67,6 +67,18 @@ class SecretManagerMock implements SecretManager {
     _sid = token;
     return true;
   }
+
+  @override
+  Future<bool> deletePassword() async {
+    _password = null;
+    return true;
+  }
+
+  @override
+  Future<bool> deleteToken() async {
+    _sid = null;
+    return true;
+  }
 }
 
 @GenerateMocks([http.Client])
