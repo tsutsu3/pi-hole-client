@@ -66,6 +66,7 @@ jobs:
         with:
           channel: stable
           cache: true
+          flutter-version: 3.27.4
       - run: flutter clean
       - run: flutter pub get
 
@@ -139,6 +140,7 @@ jobs:
         with:
           channel: stable
           cache: true
+          flutter-version: 3.27.4
       - run: flutter clean
       - run: flutter pub get
 
