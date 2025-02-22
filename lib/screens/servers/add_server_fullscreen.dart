@@ -45,7 +45,7 @@ class _AddServerFullscreenState extends State<AddServerFullscreen> {
   TextEditingController tokenFieldController = TextEditingController();
   TextEditingController passwordFieldController = TextEditingController();
   ConnectionType connectionType = ConnectionType.http;
-  String piHoleVersion = SupportedApiVersions.v5;
+  String piHoleVersion = SupportedApiVersions.v6;
   TextEditingController basicAuthUser = TextEditingController();
   TextEditingController basicAuthPassword = TextEditingController();
   bool defaultCheckbox = false;
