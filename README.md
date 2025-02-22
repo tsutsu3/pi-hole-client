@@ -7,6 +7,8 @@
 [![CodeCov][codecov-shield]][codecov-url]
 [![Codaocy][codacy-shield]][codacy-url]
 [![SonarQube][sonar-quality-gate-shield]][sonar-quality-gate-url]
+[![Pihole V6][pihole-v6-shield]][pihole-url]
+[![Pihole V5][pihole-v5-shield]][pihole-url]
 ![Status][status-shield]
 <!-- [![CodeClimate][codeclimate-shield]][codeclimate-url] -->
 
@@ -84,9 +86,8 @@ Easily view statistics, enable or disable the server, access logs, and much more
 
 ## 📌 Requirements
 
-- Requires Pi-hole v5.12 or greater
-- Requires web interface v5.14.2 or greater
-- Pi-hole v6 is supported, but it is still an unstable version
+- **Requires Pi-hole v6 or greater** (v5 is now considered an older version)
+- **Pi-hole v5 is still supported**, but it is an outdated version
 
 ## 🔑 Privacy policy
 
@@ -237,3 +238,6 @@ For details on the licenses applicable to this project, please refer to [LICENSE
 [codacy-url]: https://app.codacy.com/gh/tsutsu3/pi-hole-client/dashboard
 [sonar-quality-gate-shield]: https://img.shields.io/sonar/quality_gate/tsutsu3_pi-hole-client?server=https://sonarcloud.io&style=for-the-badge&logo=sonarqube
 [sonar-quality-gate-url]: https://sonarcloud.io/summary/new_code?id=tsutsu3_pi-hole-client
+[pihole-v6-shield]: https://img.shields.io/badge/Pi--hole-v6-green?style=for-the-badge&logo=pihole
+[pihole-v5-shield]: https://img.shields.io/badge/Pi--hole-v5-orange?style=for-the-badge&logo=pihole
+[pihole-url]: https://pi-hole.net
