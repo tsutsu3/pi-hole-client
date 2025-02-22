@@ -240,4 +240,4 @@ For details on the licenses applicable to this project, please refer to [LICENSE
 [sonar-quality-gate-url]: https://sonarcloud.io/summary/new_code?id=tsutsu3_pi-hole-client
 [pihole-v6-shield]: https://img.shields.io/badge/Pi--hole-v6-green?style=for-the-badge&logo=pihole
 [pihole-v5-shield]: https://img.shields.io/badge/Pi--hole-v5-orange?style=for-the-badge&logo=pihole
-[pihole-url]: [http://](https://pi-hole.net/)
+[pihole-url]: https://pi-hole.net
