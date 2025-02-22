@@ -58,7 +58,6 @@ void main() async {
       expect(appConfig.passCode, isNull);
       expect(appConfig.useBiometricAuth, 0);
       expect(appConfig.sendCrashReports, 0);
-      // TODO: check logger messages
     });
 
     test('should open database', () async {
@@ -83,7 +82,6 @@ void main() async {
       expect(appConfig.passCode, isNull);
       expect(appConfig.useBiometricAuth, 0);
       expect(appConfig.sendCrashReports, 0);
-      // TODO: check logger messages
     });
 
     test('should return one registered server without passcode', () async {
