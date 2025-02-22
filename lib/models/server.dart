@@ -11,8 +11,6 @@ class Server {
     required this.defaultServer,
     required this.apiVersion,
     this.enabled,
-    this.basicAuthUser,
-    this.basicAuthPassword,
     SecretManager? sm,
   }) : sm = sm ?? SecretManager(SecureStorageRepository(), address);
 
@@ -31,12 +29,6 @@ class Server {
   /// Pi-hole API version
   final String apiVersion;
 
-  /// Basic authentication username (Use only v5)
-  final String? basicAuthUser;
-
-  /// Basic authentication password (Use only v5)
-  final String? basicAuthPassword;
-
   /// Session manager (Use only v5)
   final SecretManager sm;
 
@@ -46,8 +38,6 @@ class Server {
     bool? defaultServer,
     bool? enabled,
     String? apiVersion,
-    String? basicAuthUser,
-    String? basicAuthPassword,
     SecretManager? sm,
   }) {
     return Server(
@@ -56,8 +46,6 @@ class Server {
       defaultServer: defaultServer ?? this.defaultServer,
       enabled: enabled ?? this.enabled,
       apiVersion: apiVersion ?? this.apiVersion,
-      basicAuthUser: basicAuthUser ?? this.basicAuthUser,
-      basicAuthPassword: basicAuthPassword ?? this.basicAuthPassword,
       sm: sm ?? this.sm,
     );
   }

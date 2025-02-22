@@ -195,8 +195,6 @@ class ServersProvider with ChangeNotifier {
           alias: server.alias,
           defaultServer: convertFromIntToBool(server.isDefaultServer)!,
           apiVersion: server.apiVersion,
-          basicAuthUser: server.basicAuthUser,
-          basicAuthPassword: server.basicAuthPassword,
         );
         _serversList.add(serverObj);
         _serverGateways[serverObj.address] =

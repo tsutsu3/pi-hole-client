@@ -70,19 +70,6 @@ class DbHelper {
         await _secureStorage.saveValue('${server.address}_token', token);
       }
 
-      if (server.basicAuthUser != null) {
-        await _secureStorage.saveValue(
-          '${server.address}_basicAuthUser',
-          server.basicAuthUser!,
-        );
-      }
-      if (server.basicAuthPassword != null) {
-        await _secureStorage.saveValue(
-          '${server.address}_basicAuthPassword',
-          server.basicAuthPassword!,
-        );
-      }
-
       final password = await server.sm.password;
       if (password != null) {
         await _secureStorage.saveValue('${server.address}_password', password);

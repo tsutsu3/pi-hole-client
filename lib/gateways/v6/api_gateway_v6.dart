@@ -27,7 +27,7 @@ class ApiGatewayV6 implements ApiGateway {
   /// Creates a new instance of the `ApiGatewayV5` class.
   ///
   /// Parameters:
-  /// - `server` (`Server`): The server object containing the Pi-hole address, token, and optional basic authentication credentials.
+  /// - `server` (`Server`): The pihole server object
   /// - `client` (`http.Client`): An optional HTTP client to use for requests. If not provided, a new client will be created. Add for testing purposes.
   ApiGatewayV6(Server server, {http.Client? client})
       : _server = server,

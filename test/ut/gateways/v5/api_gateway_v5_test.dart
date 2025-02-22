@@ -17,36 +17,6 @@ import 'api_gateway_v5_test.mocks.dart';
 void main() async {
   FlutterSecureStorage.setMockInitialValues({});
 
-  group('checkBasicAuth', () {
-    late ApiGatewayV5 apiGateway;
-    late Server server;
-
-    setUp(() async {
-      server = Server(
-        address: 'http://example.com',
-        alias: 'example',
-        defaultServer: true,
-        apiVersion: SupportedApiVersions.v5,
-      );
-      await server.sm.saveToken('xxx123');
-      apiGateway = ApiGatewayV5(server);
-    });
-
-    test('checkBasicAuth returns true for valid credentials', () {
-      expect(apiGateway.checkBasicAuth('username', 'password'), isTrue);
-    });
-
-    test('checkBasicAuth returns false for invalid username', () {
-      expect(apiGateway.checkBasicAuth('', 'password'), isFalse);
-      expect(apiGateway.checkBasicAuth(null, 'password'), isFalse);
-    });
-
-    test('checkBasicAuth returns false for invalid blank blank password', () {
-      expect(apiGateway.checkBasicAuth('username', ''), isFalse);
-      expect(apiGateway.checkBasicAuth('username', null), isFalse);
-    });
-  });
-
   group('loginQuery', () {
     late Server server;
     const sessinId = 'n9n9f6c3umrumfq2ese1lvu2pg';

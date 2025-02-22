@@ -156,17 +156,11 @@ class DatabaseRepository {
             final server = servers![i];
             final token =
                 await _secureStorage.getValue('${server.address}_token');
-            final basicAuthUser = await _secureStorage
-                .getValue('${server.address}_basicAuthUser');
-            final basicAuthPassword = await _secureStorage
-                .getValue('${server.address}_basicAuthPassword');
             final sid = await _secureStorage.getValue('${server.address}_sid');
 
             servers![i] = ServerDbData.withSecrets(
               server,
               token,
-              basicAuthUser,
-              basicAuthPassword,
               sid,
             );
           }
@@ -213,19 +207,6 @@ class DatabaseRepository {
       final token = await server.sm.token;
       if (token != null) {
         await _secureStorage.saveValue('${server.address}_token', token);
-      }
-
-      if (server.basicAuthUser != null) {
-        await _secureStorage.saveValue(
-          '${server.address}_basicAuthUser',
-          server.basicAuthUser!,
-        );
-      }
-      if (server.basicAuthPassword != null) {
-        await _secureStorage.saveValue(
-          '${server.address}_basicAuthPassword',
-          server.basicAuthPassword!,
-        );
       }
 
       final password = await server.sm.password;
@@ -281,18 +262,6 @@ class DatabaseRepository {
         await _secureStorage.saveValue('${server.address}_token', token);
       }
 
-      if (server.basicAuthUser != null) {
-        await _secureStorage.saveValue(
-          '${server.address}_basicAuthUser',
-          server.basicAuthUser!,
-        );
-      }
-      if (server.basicAuthPassword != null) {
-        await _secureStorage.saveValue(
-          '${server.address}_basicAuthPassword',
-          server.basicAuthPassword!,
-        );
-      }
       final password = await server.sm.password;
       if (password != null) {
         await _secureStorage.saveValue('${server.address}_password', password);
@@ -367,8 +336,6 @@ class DatabaseRepository {
   Future<bool> removeServerQuery(String address) async {
     try {
       await _secureStorage.deleteValue('${address}_token');
-      await _secureStorage.deleteValue('${address}_basicAuthUser');
-      await _secureStorage.deleteValue('${address}_basicAuthPassword');
       await _secureStorage.deleteValue('${address}_password');
       await _secureStorage.deleteValue('${address}_sid');
       logger.d((await _secureStorage.readAll()).toString());

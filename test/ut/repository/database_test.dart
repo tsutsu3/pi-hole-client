@@ -220,40 +220,6 @@ void main() async {
     );
 
     test(
-      'should save server with basic auth (v5)',
-      () async {
-        final server = Server(
-          address: 'http://localhost:8080',
-          alias: 'test v5',
-          defaultServer: false,
-          apiVersion: 'v5',
-          basicAuthUser: 'user01',
-          basicAuthPassword: 'password01',
-        );
-
-        final result = await databaseRepository.saveServerQuery(server);
-
-        dbHelper = DbHelper(testDb);
-        await dbHelper.loadDb();
-        final actualD = await dbHelper.readDb();
-        await dbHelper.closeDb();
-        final actuslS = await secureStorage.readAll();
-
-        expect(result, true);
-        expect(actualD['servers'].length, 1);
-        expect(actualD['servers'][0]['address'], 'http://localhost:8080');
-        expect(actualD['servers'][0]['alias'], 'test v5');
-        expect(actualD['servers'][0]['apiVersion'], 'v5');
-        expect(actualD['servers'][0]['isDefaultServer'], 0);
-        expect(actuslS['http://localhost:8080_basicAuthUser'], 'user01');
-        expect(
-          actuslS['http://localhost:8080_basicAuthPassword'],
-          'password01',
-        );
-      },
-    );
-
-    test(
       'should save server with password (v6)',
       () async {
         final server = Server(
@@ -354,39 +320,6 @@ void main() async {
         expect(actualD['servers'][0]['apiVersion'], 'v5');
         expect(actualD['servers'][0]['isDefaultServer'], 0);
         expect(actuslS['http://localhost:8080_token'], 'token123');
-      },
-    );
-
-    test(
-      'should edit basic auth (v5)',
-      () async {
-        final server = defaultServerV5.copyWith(
-          basicAuthUser: 'user01',
-          basicAuthPassword: 'password01',
-        );
-
-        dbHelper = DbHelper(testDb);
-        await dbHelper.loadDb();
-        await dbHelper.saveDb(defaultServerV5);
-
-        final result = await databaseRepository.editServerQuery(server);
-
-        final actualD = await dbHelper.readDb();
-        await dbHelper.closeDb();
-
-        final actuslS = await secureStorage.readAll();
-
-        expect(result, true);
-        expect(actualD['servers'].length, 1);
-        expect(actualD['servers'][0]['address'], 'http://localhost:8080');
-        expect(actualD['servers'][0]['alias'], 'test v5');
-        expect(actualD['servers'][0]['apiVersion'], 'v5');
-        expect(actualD['servers'][0]['isDefaultServer'], 0);
-        expect(actuslS['http://localhost:8080_basicAuthUser'], 'user01');
-        expect(
-          actuslS['http://localhost:8080_basicAuthPassword'],
-          'password01',
-        );
       },
     );
 

@@ -154,8 +154,6 @@ void main() {
           token: await server.sm.token,
           isDefaultServer: 1,
           apiVersion: server.apiVersion,
-          basicAuthUser: server.basicAuthUser,
-          basicAuthPassword: server.basicAuthPassword,
           sid: 'sid01',
         ),
       ];
