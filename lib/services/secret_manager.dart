@@ -71,4 +71,22 @@ class SecretManager {
       return false;
     }
   }
+
+  Future<bool> deletePassword() async {
+    try {
+      await _storage.deleteValue('${_address}_password');
+      return true;
+    } catch (e) {
+      return false;
+    }
+  }
+
+  Future<bool> deleteToken() async {
+    try {
+      await _storage.deleteValue('${_address}_token');
+      return true;
+    } catch (e) {
+      return false;
+    }
+  }
 }
