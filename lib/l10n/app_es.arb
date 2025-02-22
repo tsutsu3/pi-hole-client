@@ -56,7 +56,6 @@
   "cannotCheckUrlSaved": "No se ha podido comprobar si la URL ya existe.",
   "cannotConnect": "No se ha podido conectar al servidor.",
   "cannotUpdateSettings": "No se han podido actualizar los ajustes.",
-  "cannotUpdateSslSettings": "No se han podido actualizar los ajustes de comprobación del certificado SSL.",
   "cantReachServer": "No se puede alcanzar el servidor. Comprueba la dirección IP y el puerto.",
   "cantSaveConnectionData": "No se han podido guardar los datos de conexión.",
   "cantUpdateLogsPerQuery": "No se ha podido actualizar la cantidad de registros por petición.",

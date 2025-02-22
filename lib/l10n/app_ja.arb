@@ -308,7 +308,7 @@
   "subrouteField": "サブルート",
   "subrouteHelper": "リバースプロキシで使用",
   "supportForm": "サポートフォーム",
-  "supportFormDescription": "サポートリクエストをサポートフォームで送信します。",
+  "supportFormDescription": "サポートフォームを使用してサポートリクエストを送信してください。",
   "switchServer": "サーバーを切り替える",
   "systemLanguage": "システム言語",
   "systemTheme": "システムテーマ",

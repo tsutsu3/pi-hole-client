@@ -307,6 +307,8 @@
   "subrouteExample": "Beispiel: /pihole",
   "subrouteField": "Subroute",
   "subrouteHelper": "Zur Verwendung mit einem Reverse-Proxy",
+  "supportForm": "Support-Formular",
+  "supportFormDescription": "Senden Sie eine Support-Anfrage über das Support-Formular.",
   "switchServer": "Server wechseln",
   "systemLanguage": "System Sprache",
   "systemTheme": "System Standard",
