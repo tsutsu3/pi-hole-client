@@ -489,8 +489,6 @@ class DatabaseRepository {
 
     for (final key in keys.keys) {
       if (key.endsWith('_token') ||
-          key.endsWith('_basicAuthUser') ||
-          key.endsWith('_basicAuthPassword') ||
           key.endsWith('_password') ||
           key.endsWith('_sid')) {
         final address = key.split('_').first;
