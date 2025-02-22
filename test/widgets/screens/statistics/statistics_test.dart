@@ -9,7 +9,6 @@ import 'package:pi_hole_client/screens/statistics/statistics_triple_column.dart'
 import 'package:pie_chart/pie_chart.dart';
 
 import '../../helpers.dart';
-import '../utils.dart';
 
 void main() async {
   await initializeApp();
@@ -113,7 +112,6 @@ void main() async {
           // Switch to Domains tab
           await tester.tap(find.text('Domains'));
           await tester.pump();
-          showText();
           expect(find.text('Loading stats...'), findsOneWidget);
           expect(find.byType(StatisticsListContent), findsNothing);
         },
@@ -147,7 +145,6 @@ void main() async {
           // Switch to Domains tab
           await tester.tap(find.text('Domains'));
           await tester.pump();
-          showText();
           expect(find.text('Stats could not be loaded'), findsOneWidget);
           expect(find.byType(StatisticsListContent), findsNothing);
         },
