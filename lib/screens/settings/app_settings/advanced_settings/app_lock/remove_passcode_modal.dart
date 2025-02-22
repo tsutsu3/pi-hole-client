@@ -29,7 +29,7 @@ class RemovePasscodeModal extends StatelessWidget {
     }
 
     return AlertDialog(
-      backgroundColor: Theme.of(context).dialogBackgroundColor,
+      backgroundColor: Theme.of(context).dialogTheme.backgroundColor,
       title: Column(
         children: [
           const Icon(

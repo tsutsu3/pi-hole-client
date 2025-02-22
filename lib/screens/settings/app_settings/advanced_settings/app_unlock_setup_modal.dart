@@ -372,7 +372,7 @@ class _AppUnlockSetupModalState extends State<AppUnlockSetupModal> {
             topLeft: Radius.circular(28),
             topRight: Radius.circular(28),
           ),
-          color: Theme.of(context).dialogBackgroundColor,
+          color: Theme.of(context).dialogTheme.backgroundColor,
         ),
         child: SingleChildScrollView(
           child: Column(children: content()),
