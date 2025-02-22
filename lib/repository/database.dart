@@ -514,8 +514,12 @@ class DatabaseRepository {
   /// Delete and clean up unused secure storage data for servers not present in the database.
   /// This method is intended to be called during application startup.
   Future<void> cleanUpSecureStorage() async {
-    final serverAddresses = _servers?.map((e) => e.address).toList();
+    final serverAddresses = servers.map((e) => e.address).toList();
     final keys = await _secureStorage.readAll();
+
+    // Collect keys to be deleted
+    final keysToDelete = <String>[];
+
     for (final key in keys.keys) {
       if (key.endsWith('_token') ||
           key.endsWith('_basicAuthUser') ||
@@ -523,10 +527,15 @@ class DatabaseRepository {
           key.endsWith('_password') ||
           key.endsWith('_sid')) {
         final address = key.split('_').first;
-        if (serverAddresses != null && !serverAddresses.contains(address)) {
-          await _secureStorage.deleteValue(key);
+        if (!serverAddresses.contains(address)) {
+          keysToDelete.add(key);
         }
       }
+    }
+
+    // Delete collected keys separately
+    for (final key in keysToDelete) {
+      await _secureStorage.deleteValue(key);
     }
   }
 
