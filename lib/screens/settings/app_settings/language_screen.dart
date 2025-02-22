@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:pi_hole_client/constants/languages.dart';
 import 'package:pi_hole_client/functions/colors.dart';
+import 'package:pi_hole_client/l10n/generated/app_localizations.dart';
 import 'package:pi_hole_client/providers/app_config_provider.dart';
 import 'package:pi_hole_client/widgets/custom_radio.dart';
 import 'package:provider/provider.dart';
@@ -59,7 +59,7 @@ class _LanguageScreenState extends State<LanguageScreen> {
                         value: languageOption.index,
                         groupValue: _selectedItem,
                         backgroundColor:
-                            Theme.of(context).dialogBackgroundColor,
+                            Theme.of(context).dialogTheme.backgroundColor!,
                       ),
                     ),
                   ),

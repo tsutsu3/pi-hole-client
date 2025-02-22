@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:pi_hole_client/l10n/generated/app_localizations.dart';
 import 'package:pi_hole_client/providers/filters_provider.dart';
 import 'package:pi_hole_client/providers/servers_provider.dart';
 import 'package:provider/provider.dart';
@@ -206,7 +206,7 @@ class _StatusFiltersModalState extends State<StatusFiltersModal> {
             topLeft: Radius.circular(28),
             topRight: Radius.circular(28),
           ),
-          color: Theme.of(context).dialogBackgroundColor,
+          color: Theme.of(context).dialogTheme.backgroundColor,
         ),
         child: SafeArea(
           child: content(),

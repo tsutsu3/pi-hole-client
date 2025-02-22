@@ -1,9 +1,9 @@
 import 'package:animations/animations.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:pi_hole_client/config/theme.dart';
 import 'package:pi_hole_client/functions/conversions.dart';
 import 'package:pi_hole_client/functions/format.dart';
+import 'package:pi_hole_client/l10n/generated/app_localizations.dart';
 import 'package:pi_hole_client/models/domain.dart';
 import 'package:pi_hole_client/screens/domains/delete_domain_modal.dart';
 import 'package:pi_hole_client/screens/domains/domain_comment_modal.dart';

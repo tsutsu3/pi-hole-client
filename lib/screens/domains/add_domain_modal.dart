@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:pi_hole_client/l10n/generated/app_localizations.dart';
 
 import 'package:pi_hole_client/widgets/custom_list_tile.dart';
 
@@ -220,7 +220,7 @@ class _AddDomainModalState extends State<AddDomainModal> {
         child: Container(
           padding: const EdgeInsets.all(24),
           decoration: BoxDecoration(
-            color: Theme.of(context).dialogBackgroundColor,
+            color: Theme.of(context).dialogTheme.backgroundColor,
             borderRadius: const BorderRadius.only(
               topLeft: Radius.circular(28),
               topRight: Radius.circular(28),

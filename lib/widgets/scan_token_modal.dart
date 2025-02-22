@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:mobile_scanner/mobile_scanner.dart';
 import 'package:permission_handler/permission_handler.dart';
+import 'package:pi_hole_client/l10n/generated/app_localizations.dart';
 
 class ScanTokenModal extends StatefulWidget {
   const ScanTokenModal({required this.qrScanned, super.key});
@@ -131,7 +131,7 @@ class _ScanTokenModalState extends State<ScanTokenModal> {
     }
 
     return AlertDialog(
-      backgroundColor: Theme.of(context).dialogBackgroundColor,
+      backgroundColor: Theme.of(context).dialogTheme.backgroundColor,
       title: Column(
         children: [
           const Icon(
