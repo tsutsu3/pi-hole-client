@@ -646,14 +646,16 @@ class _AddServerFullscreenState extends State<AddServerFullscreen> {
                   padding: const EdgeInsets.symmetric(vertical: 10),
                   width: double.maxFinite,
                   child: SegmentedButton<ConnectionType>(
-                    segments: const [
+                    segments: [
                       ButtonSegment(
                         value: ConnectionType.http,
-                        label: Text('HTTP'),
+                        label: const Text('HTTP'),
+                        enabled: widget.server != null ? false : true,
                       ),
                       ButtonSegment(
                         value: ConnectionType.https,
-                        label: Text('HTTPS'),
+                        label: const Text('HTTPS'),
+                        enabled: widget.server != null ? false : true,
                       ),
                     ],
                     selected: <ConnectionType>{connectionType},
@@ -727,14 +729,16 @@ class _AddServerFullscreenState extends State<AddServerFullscreen> {
                   padding: const EdgeInsets.symmetric(vertical: 10),
                   width: double.maxFinite,
                   child: SegmentedButton<String>(
-                    segments: const [
+                    segments: [
                       ButtonSegment(
                         value: SupportedApiVersions.v5,
-                        label: Text(SupportedApiVersions.v5),
+                        label: const Text(SupportedApiVersions.v5),
+                        enabled: widget.server != null ? false : true,
                       ),
                       ButtonSegment(
                         value: SupportedApiVersions.v6,
-                        label: Text(SupportedApiVersions.v6),
+                        label: const Text(SupportedApiVersions.v6),
+                        enabled: widget.server != null ? false : true,
                       ),
                     ],
                     selected: <String>{piHoleVersion},
