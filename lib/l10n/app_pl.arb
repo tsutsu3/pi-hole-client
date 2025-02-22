@@ -41,8 +41,6 @@
   "areSureRemovePasscode": "Czy na pewno chcesz usunąć kod dostępu? Spowoduje to wyłączenie ochrony przed odblokowaniem aplikacji.",
   "authentication": "Uwierzytelnianie",
   "autoRefreshTime": "Czas automatycznego odświeżania",
-  "basicAuth": "Uwierzytelnianie podstawowe",
-  "basicAuthInfo": "Jeśli Twój serwer znajduje się za uwierzytelnianiem podstawowym, możesz wypełnić tutaj odpowiednie poświadczenia. Pamiętaj, aby wypełnić oba pola, w przeciwnym razie nie będzie można zapisać połączenia.",
   "beginAddConnection": "Na początek dodaj połączenie z serwerem.",
   "between": "between",
   "biometricUnlockNotActivated": "Nie można aktywować odblokowania za pomocą odcisku palca.",

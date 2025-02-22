@@ -135,12 +135,6 @@ class AppLocalizationsDe extends AppLocalizations {
   String get autoRefreshTime => 'Aktualisierungsintervall';
 
   @override
-  String get basicAuth => 'Grundlegende Authentifizierung';
-
-  @override
-  String get basicAuthInfo => 'Wenn sich Ihr Server hinter einer Basisauthentifizierung befindet, können Sie hier die entsprechenden Anmeldeinformationen eingeben. Stellen Sie sicher, dass Sie beide Felder ausfüllen, sonst können Sie die Verbindung nicht speichern.';
-
-  @override
   String get beginAddConnection => 'Fügen Sie zunächst eine Verbindung zu einem Server hinzu.';
 
   @override

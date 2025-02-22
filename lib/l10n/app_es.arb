@@ -41,8 +41,6 @@
   "areSureRemovePasscode": "Estás seguro que deseas eliminar el código? Esto desactivará la protección de desbloqueo de la app.",
   "authentication": "Autenticación",
   "autoRefreshTime": "Tiempo de refresco automático",
-  "basicAuth": "Autenticación Basic",
-  "basicAuthInfo": "Si tu servidor está detrás de una autenticación básica, puedes rellenar aquí las credenciales. Asegúrate de rellenar ambos campos, si no no podrás guardar la conexión.",
   "beginAddConnection": "Para empezar, añade una conexión a un servidor.",
   "between": "entre",
   "biometricUnlockNotActivated": "No se ha podido activar el desbloqueo con huella dactilar.",

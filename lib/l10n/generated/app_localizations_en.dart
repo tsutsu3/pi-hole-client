@@ -135,12 +135,6 @@ class AppLocalizationsEn extends AppLocalizations {
   String get autoRefreshTime => 'Auto refresh time';
 
   @override
-  String get basicAuth => 'Basic authentication';
-
-  @override
-  String get basicAuthInfo => 'If your server is behind a basic authentication, you can fill here the corresponding credentials. Make sure to fill both fields or you won\'t be able to save the connection.';
-
-  @override
   String get beginAddConnection => 'First of all, add a connection to a server.';
 
   @override

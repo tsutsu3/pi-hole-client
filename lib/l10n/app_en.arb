@@ -41,8 +41,6 @@
   "areSureRemovePasscode": "Are you sure you want to remove the passcode? This will disable the app unlock protection.",
   "authentication": "Authentication",
   "autoRefreshTime": "Auto refresh time",
-  "basicAuth": "Basic authentication",
-  "basicAuthInfo": "If your server is behind a basic authentication, you can fill here the corresponding credentials. Make sure to fill both fields or you won't be able to save the connection.",
   "beginAddConnection": "First of all, add a connection to a server.",
   "between": "between",
   "biometricUnlockNotActivated": "Couldn't activate unlock with fingerprint.",

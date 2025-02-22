@@ -353,18 +353,6 @@ abstract class AppLocalizations {
   /// **'Auto refresh time'**
   String get autoRefreshTime;
 
-  /// No description provided for @basicAuth.
-  ///
-  /// In en, this message translates to:
-  /// **'Basic authentication'**
-  String get basicAuth;
-
-  /// No description provided for @basicAuthInfo.
-  ///
-  /// In en, this message translates to:
-  /// **'If your server is behind a basic authentication, you can fill here the corresponding credentials. Make sure to fill both fields or you won\'t be able to save the connection.'**
-  String get basicAuthInfo;
-
   /// No description provided for @beginAddConnection.
   ///
   /// In en, this message translates to:

@@ -41,8 +41,6 @@
   "areSureRemovePasscode": "パスコードを削除してもよろしいですか？これによりアプリのロック解除保護が無効になります。",
   "authentication": "認証",
   "autoRefreshTime": "自動更新時間",
-  "basicAuth": "基本認証",
-  "basicAuthInfo": "サーバーが基本認証の背後にある場合は、対応する資格情報をここに入力できます。両方のフィールドを入力しないと接続を保存できません。",
   "beginAddConnection": "まず、サーバーへの接続を追加します。",
   "between": "～",
   "biometricUnlockNotActivated": "指紋によるロック解除を有効化できませんでした。",
