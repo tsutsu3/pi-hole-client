@@ -66,7 +66,7 @@ void main() async {
         expect(find.byType(AddServerFullscreen), findsOneWidget);
         expect(find.byIcon(Icons.login_rounded), findsOneWidget);
 
-        await tester.enterText(find.byType(TextField).at(0), 'v6'); // Alias
+        await tester.enterText(find.byType(TextField).at(0), 'v5'); // Alias
         await tester.enterText(
           find.byType(TextField).at(1),
           'localhost',
