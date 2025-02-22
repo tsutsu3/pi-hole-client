@@ -820,4 +820,75 @@ void main() async {
       },
     );
   });
+
+  group('DatabaseRepository.cleanUpSecureStorage', () {
+    late DbHelper dbHelper;
+
+    setUp(() async {
+      await deleteDatabase(testDb);
+      FlutterSecureStorage.setMockInitialValues({
+        'http://localhost_password': 'test123',
+        'http://localhost_token': '',
+        'http://localhost_sid': 'XXXXXxxx1234Q=',
+      });
+    });
+
+    tearDown(() async {
+      await deleteDatabase(testDb);
+    });
+
+    test('should not cleanup secure storage', () async {
+      final secureStorageRepository = SecureStorageRepository();
+      final server = Server(
+        address: 'http://localhost',
+        alias: 'test v6',
+        defaultServer: false,
+        apiVersion: 'v6',
+        sm: SecretManager(
+          secureStorageRepository,
+          'http://localhost',
+        ),
+      );
+
+      dbHelper = DbHelper(testDb);
+      await dbHelper.loadDb();
+      await dbHelper.saveDb(server);
+      await dbHelper.closeDb();
+
+      final databaseRepository = DatabaseRepository(secureStorageRepository);
+      await databaseRepository.initialize(path: testDb);
+
+      final actual = await secureStorageRepository.readAll();
+      expect(actual['http://localhost_password'], 'test123');
+      expect(actual['http://localhost_token'], '');
+      expect(actual['http://localhost_sid'], 'XXXXXxxx1234Q=');
+    });
+
+    test('should cleanup secure storage', () async {
+      final secureStorageRepository = SecureStorageRepository();
+      final server = Server(
+        address: 'http://localhost:8080',
+        alias: 'test v6',
+        defaultServer: false,
+        apiVersion: 'v6',
+        sm: SecretManager(
+          secureStorageRepository,
+          'http://localhost:8080',
+        ),
+      );
+
+      dbHelper = DbHelper(testDb);
+      await dbHelper.loadDb();
+      await dbHelper.saveDb(server);
+      await dbHelper.closeDb();
+
+      final databaseRepository = DatabaseRepository(secureStorageRepository);
+      await databaseRepository.initialize(path: testDb);
+
+      final actual = await secureStorageRepository.readAll();
+      expect(actual['http://localhost_password'], null);
+      expect(actual['http://localhost_token'], null);
+      expect(actual['http://localhost_sid'], null);
+    });
+  });
 }
