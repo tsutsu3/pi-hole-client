@@ -823,5 +823,42 @@ void main() async {
       expect(actual['http://localhost_token'], null);
       expect(actual['http://localhost_sid'], null);
     });
+
+    test('should cleanup secure storage (basic auth)', () async {
+      FlutterSecureStorage.setMockInitialValues({
+        'http://localhost_password': 'test123',
+        'http://localhost_token': '',
+        'http://localhost_sid': 'XXXXXxxx1234Q=',
+        'http://localhost_basicAuthUser': 'user',
+        'http://localhost_basicAuthPassword': 'pss123',
+      });
+
+      final secureStorageRepository = SecureStorageRepository();
+      final server = Server(
+        address: 'http://localhost',
+        alias: 'test v6',
+        defaultServer: false,
+        apiVersion: 'v6',
+        sm: SecretManager(
+          secureStorageRepository,
+          'http://localhost',
+        ),
+      );
+
+      dbHelper = DbHelper(testDb);
+      await dbHelper.loadDb();
+      await dbHelper.saveDb(server);
+      await dbHelper.closeDb();
+
+      final databaseRepository = DatabaseRepository(secureStorageRepository);
+      await databaseRepository.initialize(path: testDb);
+
+      final actual = await secureStorageRepository.readAll();
+      expect(actual['http://localhost_password'], 'test123');
+      expect(actual['http://localhost_token'], '');
+      expect(actual['http://localhost_sid'], 'XXXXXxxx1234Q=');
+      expect(actual['http://localhost_basicAuthUser'], null);
+      expect(actual['http://localhost_basicAuthPassword'], null);
+    });
   });
 }
