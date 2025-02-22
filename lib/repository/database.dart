@@ -54,6 +54,8 @@ class DatabaseRepository {
     _servers = piHoleClientData.servers;
     _appConfig = piHoleClientData.appConfig;
     _dbInstance = piHoleClientData.dbInstance;
+    await cleanUpSecureStorage();
+    logger.d('Secure storage: ${await _secureStorage.readAll()}');
   }
 
   Map<String, dynamic> toDict() {
@@ -148,9 +150,6 @@ class DatabaseRepository {
         // Load sensitive data from secure storage
         final passCode = await _secureStorage.getValue('passCode');
         appConfig = AppDbData.withSecrets(appConfig!, passCode);
-
-        // _secureStorage.readAll()
-        logger.d((await _secureStorage.readAll()).toString());
 
         if (servers != null && servers!.isNotEmpty) {
           for (var i = 0; i < servers!.length; i++) {
@@ -511,6 +510,29 @@ class DatabaseRepository {
       return false;
     }
   }
+
+  /// Delete and clean up unused secure storage data for servers not present in the database.
+  /// This method is intended to be called during application startup.
+  Future<void> cleanUpSecureStorage() async {
+    final serverAddresses = _servers?.map((e) => e.address).toList();
+    final keys = await _secureStorage.readAll();
+    for (final key in keys.keys) {
+      if (key.endsWith('_token') ||
+          key.endsWith('_basicAuthUser') ||
+          key.endsWith('_basicAuthPassword') ||
+          key.endsWith('_password') ||
+          key.endsWith('_sid')) {
+        final address = key.split('_').first;
+        if (serverAddresses != null && !serverAddresses.contains(address)) {
+          await _secureStorage.deleteValue(key);
+        }
+      }
+    }
+  }
+
+  // ==========================================================================
+  // MIGRATION METHODS
+  // ==========================================================================
 
   // Migration methods
   Future<dynamic> _upgradeToV2(Database db) async {
