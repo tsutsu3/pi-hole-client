@@ -27,6 +27,7 @@ jobs:
       with:
         channel: stable
         cache: true
+        flutter-version: 3.27.4
 
     - name: Install dependencies
       run: flutter pub get
@@ -163,6 +164,7 @@ jobs:
         with:
           channel: stable
           cache: true
+          flutter-version: 3.27.4
 
       - name: Install dependencies
         run: flutter pub get
