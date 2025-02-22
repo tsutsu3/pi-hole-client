@@ -496,6 +496,12 @@ class DatabaseRepository {
           keysToDelete.add(key);
         }
       }
+
+      // TODO: Delete all basic auth keys (Will be removed after a certain period)
+      if (key.endsWith('_basicAuthUser') ||
+          key.endsWith('_basicAuthPassword')) {
+        keysToDelete.add(key);
+      }
     }
 
     // Delete collected keys separately
