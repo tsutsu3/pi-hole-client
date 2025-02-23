@@ -414,6 +414,9 @@ class AppLocalizationsDe extends AppLocalizations {
   String get enterCodeUnlock => 'Geben Sie den Code zum Entsperren ein';
 
   @override
+  String get enterComment => 'Bitte geben Sie einen Kommentar ein.';
+
+  @override
   String get enterPasscode => 'Passwort eingeben';
 
   @override
@@ -466,6 +469,9 @@ class AppLocalizationsDe extends AppLocalizations {
 
   @override
   String get gitHub => 'Code auf GitHub ansehen';
+
+  @override
+  String get group => 'Gruppe';
 
   @override
   String get helpUsImprove => 'Helfen Sie uns, besser zu werden';

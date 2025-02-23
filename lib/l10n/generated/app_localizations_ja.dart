@@ -414,6 +414,9 @@ class AppLocalizationsJa extends AppLocalizations {
   String get enterCodeUnlock => 'コードを入力してロックを解除';
 
   @override
+  String get enterComment => 'コメントを入力してください。';
+
+  @override
   String get enterPasscode => 'パスコードを入力';
 
   @override
@@ -466,6 +469,9 @@ class AppLocalizationsJa extends AppLocalizations {
 
   @override
   String get gitHub => 'アプリコードはGitHubで利用可能';
+
+  @override
+  String get group => 'グループ';
 
   @override
   String get helpUsImprove => '改善へのご協力をお願いします';
