@@ -61,18 +61,15 @@ class _DomainCommentModalState extends State<DomainCommentModal> {
       ),
       content: readonly
           // v5: read only, because the API does not support updating comments
-          ? Text(
-              widget.domain.comment == ''
-                  ? AppLocalizations.of(context)!.noComment
-                  : widget.domain.comment!,
-              style: TextStyle(fontSize: 16, color: Colors.grey[700]),
+          ? TextField(
+              controller: _commentController,
+              maxLines: 5,
+              minLines: 1,
+              readOnly: true,
             )
           // v6: editable
           : TextField(
               controller: _commentController,
-              onChanged: (value) {
-                setState(() {});
-              },
               decoration: InputDecoration(
                 hintText: AppLocalizations.of(context)!.enterComment,
               ),
