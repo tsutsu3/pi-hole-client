@@ -76,6 +76,8 @@ class _DomainCommentModalState extends State<DomainCommentModal> {
               decoration: InputDecoration(
                 hintText: AppLocalizations.of(context)!.enterComment,
               ),
+              maxLines: 5,
+              minLines: 1,
             ),
       actions: [
         TextButton(
