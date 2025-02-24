@@ -56,7 +56,7 @@ dependencies:
   url_launcher: ^6.2.4
   percent_indicator: ^4.2.2
   flutter_app_lock: ^4.0.0-dev.0
-  sqlite3_flutter_libs: ^0.5.30
+  sqlite3_flutter_libs: ^0.5.31
   sqflite_common_ffi: ^2.2.3
   sentry_flutter: ^8.13.2
   flutter_dotenv: ^5.0.2
