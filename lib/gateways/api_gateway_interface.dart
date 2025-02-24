@@ -92,4 +92,19 @@ abstract interface class ApiGateway {
   Future<AddDomainToListResponse> addDomainToList(
     Map<String, dynamic> domainData,
   );
+
+  /// Update domain
+  ///
+  /// ### Behavior by Version:
+  /// - **v5**: Only the domain and type can be updated.
+  /// - **v6**: The domain, type, comment, and group can be updated.
+  ///
+  /// ### Parameters
+  /// - [domain]: The domain to update.
+  ///
+  /// ### Returns
+  /// - An [AddDomainToListResponse] object containing the result of the update domain to list query.
+  Future<AddDomainToListResponse> updateDomain(
+    Domain domain,
+  );
 }

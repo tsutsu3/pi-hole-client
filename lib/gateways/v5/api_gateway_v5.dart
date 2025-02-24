@@ -636,4 +636,39 @@ class ApiGatewayV5 implements ApiGateway {
       return AddDomainToListResponse(result: APiResponseType.error);
     }
   }
+
+  /// Update domain
+  ///
+  /// Note: This function removes the domain first and then adds it again.
+  @override
+  Future<AddDomainToListResponse> updateDomain(Domain domain) async {
+    String getType(int type) {
+      switch (type) {
+        case 0:
+          return 'white';
+
+        case 1:
+          return 'black';
+
+        case 2:
+          return 'regex_white';
+
+        case 3:
+          return 'regex_black';
+
+        default:
+          return '';
+      }
+    }
+
+    // First, remove the domain from the list
+    final respRemove = await removeDomainFromList(domain);
+    if (respRemove.result != APiResponseType.success) {
+      return AddDomainToListResponse(result: APiResponseType.error);
+    }
+
+    // Then, add the domain back to the list
+    final domainData = {'domain': domain.domain, 'list': getType(domain.type)};
+    return addDomainToList(domainData);
+  }
 }
