@@ -154,7 +154,7 @@ class DomainDetailsScreen extends StatelessWidget {
                   ),
                 );
 
-                if (newComment != null && newComment != newDomain!.comment) {
+                if (newComment != newDomain!.comment) {
                   if (context.mounted) {
                     newDomain = newDomain!.copyWith(comment: newComment);
                     final resp = await apiGateway!.updateDomain(newDomain!);

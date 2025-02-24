@@ -28,7 +28,7 @@ class _DomainCommentModalState extends State<DomainCommentModal> {
     _commentController = TextEditingController(text: widget.domain.comment);
     _commentController.addListener(() {
       setState(() {
-        isSaveEnabled = _commentController.text.isNotEmpty;
+        isSaveEnabled = _commentController.text != widget.domain.comment;
       });
     });
   }
