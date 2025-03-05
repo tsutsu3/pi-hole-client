@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:pi_hole_client/base.dart';
 import 'package:pi_hole_client/main.dart';
+import 'package:pi_hole_client/pi_hole_client.dart';
 import 'package:pi_hole_client/screens/home/home.dart';
 
 import './helpers.dart';

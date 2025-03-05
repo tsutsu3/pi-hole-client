@@ -4,10 +4,7 @@ import 'package:animations/animations.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:pi_hole_client/constants/app_screens.dart';
-import 'package:pi_hole_client/constants/enums.dart';
 import 'package:pi_hole_client/constants/responsive.dart';
-import 'package:pi_hole_client/models/gateways.dart';
-import 'package:pi_hole_client/models/server.dart';
 import 'package:pi_hole_client/providers/app_config_provider.dart';
 import 'package:pi_hole_client/providers/domains_list_provider.dart';
 import 'package:pi_hole_client/providers/servers_provider.dart';
@@ -44,40 +41,6 @@ class _BaseState extends State<Base> with WidgetsBindingObserver {
     const Settings(),
   ];
 
-  Future<void> fetchMainData(Server server) async {
-    final statusProvider = Provider.of<StatusProvider>(context, listen: false);
-    final serversProvider =
-        Provider.of<ServersProvider>(context, listen: false);
-    final apiGateway = serversProvider.selectedApiGateway;
-
-    final result = await Future.wait(
-      [apiGateway!.realtimeStatus(), apiGateway.fetchOverTimeData()],
-    );
-
-    final realtimeStatusResponse = result[0] as RealtimeStatusResponse;
-    final overTimeDataResponse = result[1] as FetchOverTimeDataResponse;
-
-    if (realtimeStatusResponse.result == APiResponseType.success &&
-        overTimeDataResponse.result == APiResponseType.success) {
-      statusProvider.setRealtimeStatus(realtimeStatusResponse.data!);
-      statusProvider.setOvertimeData(overTimeDataResponse.data!);
-      serversProvider.updateselectedServerStatus(
-        realtimeStatusResponse.data!.status == 'enabled' ? true : false,
-      );
-
-      statusProvider.setOvertimeDataLoadingStatus(1);
-      statusProvider.setStatusLoading(LoadStatus.loaded);
-
-      statusProvider.setStartAutoRefresh(true);
-      statusProvider.setIsServerConnected(true);
-    } else {
-      statusProvider.setOvertimeDataLoadingStatus(2);
-      statusProvider.setStatusLoading(LoadStatus.error);
-
-      statusProvider.setIsServerConnected(false);
-    }
-  }
-
   @override
   void initState() {
     final serversProvider =
@@ -99,7 +62,8 @@ class _BaseState extends State<Base> with WidgetsBindingObserver {
     });
 
     if (serversProvider.selectedServer != null) {
-      fetchMainData(serversProvider.selectedServer!);
+      Provider.of<StatusProvider>(context, listen: false)
+          .setStartAutoRefresh(true);
     }
   }
 
