@@ -32,6 +32,8 @@ class StatusUpdateService {
   int? _previousRefreshTime;
   bool _isAutoRefreshRunning = false;
 
+  bool get isAutoRefreshRunning => _isAutoRefreshRunning;
+
   /// Start timer for auto refresh
   void startAutoRefresh() {
     if (!_isAutoRefreshRunning) {
@@ -41,9 +43,9 @@ class StatusUpdateService {
   }
 
   /// Refresh the status data once
-  void refreshOnce() {
+  Future<void> refreshOnce() async {
     logger.d('Refresh once Server Status');
-    _refreshOnce();
+    await _refreshOnce();
   }
 
   void dispose() {
