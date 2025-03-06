@@ -59,6 +59,7 @@ class StatusProvider with ChangeNotifier {
 
   void setStartAutoRefresh(bool value) {
     _startAutoRefresh = value;
+    notifyListeners();
   }
 
   void setRefreshServerStatus(bool status) {
