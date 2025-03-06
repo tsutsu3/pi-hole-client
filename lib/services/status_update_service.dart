@@ -34,9 +34,6 @@ class StatusUpdateService {
 
   /// Start timer for auto refresh
   void startAutoRefresh() {
-    logger.d(
-      'Start Auto Refresh bedore, ${_statusProvider.startAutoRefresh}, $_isAutoRefreshRunning',
-    );
     if (_statusProvider.startAutoRefresh && !_isAutoRefreshRunning) {
       logger.d('Starting Auto Refresh');
       _startAutoRefresh();
