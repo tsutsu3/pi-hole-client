@@ -156,12 +156,14 @@ void main() async {
   void startApp() => runApp(
         MultiProvider(
           providers: [
-            Provider<StatusUpdateService>(
-              create: (_) => statusUpdateService,
-              dispose: (_, service) => service.dispose(),
-            ),
+            ChangeNotifierProvider(create: (context) => configProvider),
             ChangeNotifierProvider(create: (context) => serversProvider),
             ChangeNotifierProvider(create: (context) => statusProvider),
+            ChangeNotifierProxyProvider<AppConfigProvider, ServersProvider>(
+              create: (context) => serversProvider,
+              update: (context, appConfig, servers) =>
+                  servers!..update(appConfig),
+            ),
             ChangeNotifierProxyProvider<ServersProvider, FiltersProvider>(
               create: (context) => filtersProvider,
               update: (context, serverConfig, servers) =>
@@ -172,11 +174,9 @@ void main() async {
               update: (context, serverConfig, servers) =>
                   servers!..update(serverConfig),
             ),
-            ChangeNotifierProvider(create: (context) => configProvider),
-            ChangeNotifierProxyProvider<AppConfigProvider, ServersProvider>(
-              create: (context) => serversProvider,
-              update: (context, appConfig, servers) =>
-                  servers!..update(appConfig),
+            Provider<StatusUpdateService>(
+              create: (_) => statusUpdateService,
+              dispose: (_, service) => service.dispose(),
             ),
           ],
           child: SentryWidget(
