@@ -34,7 +34,7 @@ class StatusUpdateService {
 
   /// Start timer for auto refresh
   void startAutoRefresh() {
-    if (_statusProvider.startAutoRefresh && !_isAutoRefreshRunning) {
+    if (!_isAutoRefreshRunning) {
       logger.d('Starting Auto Refresh');
       _startAutoRefresh();
     }
@@ -42,11 +42,8 @@ class StatusUpdateService {
 
   /// Refresh the status data once
   void refreshOnce() {
-    if (_statusProvider.getRefreshServerStatus) {
-      logger.d('Refresh once Server Status');
-      _refreshOnce();
-      _statusProvider.setRefreshServerStatus(false);
-    }
+    logger.d('Refresh once Server Status');
+    _refreshOnce();
   }
 
   void dispose() {
@@ -74,7 +71,6 @@ class StatusUpdateService {
   /// Refresh the status data once
   Future<void> _refreshOnce() async {
     if (await _fetchStatusData() && await _fetchOverTimeData()) {
-      _statusProvider.setStartAutoRefresh(true);
       _statusProvider.setIsServerConnected(true);
     } else {
       _statusProvider.setIsServerConnected(false);

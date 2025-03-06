@@ -6,15 +6,11 @@ import 'package:pi_hole_client/models/realtime_status.dart';
 class StatusProvider with ChangeNotifier {
   bool _isServerConnected = false;
 
-  bool _refreshServerStatus = false;
-
   LoadStatus _statusLoading = LoadStatus.loading;
   RealtimeStatus? _realtimeStatus;
 
   int _overtimeDataLoading = 0;
   OverTimeData? _overtimeData;
-
-  bool _startAutoRefresh = false;
 
   bool get isServerConnected {
     return _isServerConnected;
@@ -44,29 +40,8 @@ class StatusProvider with ChangeNotifier {
     return _overtimeDataLoading;
   }
 
-  bool get getRefreshServerStatus {
-    return _refreshServerStatus;
-  }
-
-  bool get startAutoRefresh {
-    return _startAutoRefresh;
-  }
-
   void setIsServerConnected(bool value) {
     _isServerConnected = value;
-    notifyListeners();
-  }
-
-  void setStartAutoRefresh(bool value) {
-    _startAutoRefresh = value;
-    notifyListeners();
-  }
-
-  void setRefreshServerStatus(bool status) {
-    _refreshServerStatus = status;
-    // if (status == true) {
-    //   notifyListeners();
-    // }
     notifyListeners();
   }
 

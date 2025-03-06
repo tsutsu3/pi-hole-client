@@ -59,7 +59,6 @@ class _BaseState extends State<Base> with WidgetsBindingObserver {
       }
 
       if (serversProvider.selectedServer != null) {
-        context.read<StatusProvider>().setStartAutoRefresh(true);
         context.read<StatusUpdateService>().startAutoRefresh();
       }
     });

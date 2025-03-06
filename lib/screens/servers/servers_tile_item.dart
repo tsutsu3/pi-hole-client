@@ -124,8 +124,6 @@ class _ServersTileItemState extends State<ServersTileItem>
           statusProvider.setOvertimeDataLoadingStatus(2);
         }
         statusProvider.setIsServerConnected(true);
-        statusProvider.setRefreshServerStatus(true);
-        statusProvider.setStartAutoRefresh(true);
         statusUpdateService.startAutoRefresh();
         statusUpdateService.refreshOnce();
         appConfigProvider.setSelectedTab(0);
