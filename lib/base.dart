@@ -8,7 +8,6 @@ import 'package:pi_hole_client/constants/responsive.dart';
 import 'package:pi_hole_client/providers/app_config_provider.dart';
 import 'package:pi_hole_client/providers/domains_list_provider.dart';
 import 'package:pi_hole_client/providers/servers_provider.dart';
-import 'package:pi_hole_client/providers/status_provider.dart';
 import 'package:pi_hole_client/screens/domains/domains.dart';
 import 'package:pi_hole_client/screens/home/home.dart';
 import 'package:pi_hole_client/screens/logs/logs.dart';
