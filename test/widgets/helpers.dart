@@ -29,6 +29,7 @@ import 'package:pi_hole_client/providers/filters_provider.dart';
 import 'package:pi_hole_client/providers/servers_provider.dart';
 import 'package:pi_hole_client/providers/status_provider.dart';
 import 'package:pi_hole_client/screens/logs/logs_filters_modal.dart';
+import 'package:pi_hole_client/services/status_update_service.dart';
 import 'package:provider/provider.dart';
 
 import './helpers.mocks.dart';
@@ -705,6 +706,7 @@ Future<void> initializeApp() async {
   DomainsListProvider,
   ApiGatewayV5,
   ApiGatewayV6,
+  StatusUpdateService,
 ])
 class TestSetupHelper {
   TestSetupHelper({
@@ -715,6 +717,7 @@ class TestSetupHelper {
     MockDomainsListProvider? customDomainsListProvider,
     MockApiGatewayV5? customApiGatewayV5,
     MockApiGatewayV6? customApiGatewayV6,
+    MockStatusUpdateService? customStatusUpdateService,
   }) {
     mockConfigProvider = customConfigProvider ?? MockAppConfigProvider();
     mockServersProvider = customServersProvider ?? MockServersProvider();
@@ -725,6 +728,9 @@ class TestSetupHelper {
 
     mockApiGatewayV5 = customApiGatewayV5 ?? MockApiGatewayV5();
     mockApiGatewayV6 = customApiGatewayV6 ?? MockApiGatewayV6();
+
+    mockStatusUpdateService =
+        customStatusUpdateService ?? MockStatusUpdateService();
   }
 
   late MockAppConfigProvider mockConfigProvider;
@@ -736,6 +742,8 @@ class TestSetupHelper {
   late MockApiGatewayV5 mockApiGatewayV5;
   late MockApiGatewayV6 mockApiGatewayV6;
 
+  late MockStatusUpdateService mockStatusUpdateService;
+
   void initializeMock({String useApiGatewayVersion = 'v5'}) {
     _initConfiProviderMock(useApiGatewayVersion);
     _initServerProviderMock(useApiGatewayVersion);
@@ -744,6 +752,7 @@ class TestSetupHelper {
     _initDomainListProviderMock(useApiGatewayVersion);
     _initApiGatewayV5Mock();
     _initApiGatewayV6Mock();
+    _initStatusUpdateServiceMock();
   }
 
   /// Build the test widget with the given setup helper.
@@ -766,14 +775,19 @@ class TestSetupHelper {
       builder: (lightDynamic, darkDynamic) {
         return MultiProvider(
           providers: [
-            ChangeNotifierProvider<ServersProvider>(
-              create: (context) => mockServersProvider,
-            ),
             ChangeNotifierProvider<AppConfigProvider>(
               create: (context) => mockConfigProvider,
             ),
+            ChangeNotifierProvider<ServersProvider>(
+              create: (context) => mockServersProvider,
+            ),
             ChangeNotifierProvider<StatusProvider>(
               create: (context) => mockStatusProvider,
+            ),
+            ChangeNotifierProxyProvider<AppConfigProvider, ServersProvider>(
+              create: (context) => mockServersProvider,
+              update: (context, appConfig, servers) =>
+                  servers!..update(appConfig),
             ),
             ChangeNotifierProxyProvider<ServersProvider, DomainsListProvider>(
               create: (context) => mockDomainsListProvider,
@@ -785,10 +799,9 @@ class TestSetupHelper {
               update: (context, serverConfig, servers) =>
                   servers!..update(serverConfig),
             ),
-            ChangeNotifierProxyProvider<AppConfigProvider, ServersProvider>(
-              create: (context) => mockServersProvider,
-              update: (context, appConfig, servers) =>
-                  servers!..update(appConfig),
+            Provider<StatusUpdateService>(
+              create: (_) => mockStatusUpdateService,
+              dispose: (_, service) => service.dispose(),
             ),
           ],
           child: MaterialApp(
@@ -822,14 +835,18 @@ class TestSetupHelper {
   Widget buildMainTestWidget(Widget child) {
     return MultiProvider(
       providers: [
-        ChangeNotifierProvider<ServersProvider>(
-          create: (context) => mockServersProvider,
-        ),
         ChangeNotifierProvider<AppConfigProvider>(
           create: (context) => mockConfigProvider,
         ),
+        ChangeNotifierProvider<ServersProvider>(
+          create: (context) => mockServersProvider,
+        ),
         ChangeNotifierProvider<StatusProvider>(
           create: (context) => mockStatusProvider,
+        ),
+        ChangeNotifierProxyProvider<AppConfigProvider, ServersProvider>(
+          create: (context) => mockServersProvider,
+          update: (context, appConfig, servers) => servers!..update(appConfig),
         ),
         ChangeNotifierProxyProvider<ServersProvider, DomainsListProvider>(
           create: (context) => mockDomainsListProvider,
@@ -841,9 +858,9 @@ class TestSetupHelper {
           update: (context, serverConfig, servers) =>
               servers!..update(serverConfig),
         ),
-        ChangeNotifierProxyProvider<AppConfigProvider, ServersProvider>(
-          create: (context) => mockServersProvider,
-          update: (context, appConfig, servers) => servers!..update(appConfig),
+        Provider<StatusUpdateService>(
+          create: (_) => mockStatusUpdateService,
+          dispose: (_, service) => service.dispose(),
         ),
       ],
       child: child,
@@ -976,8 +993,6 @@ class TestSetupHelper {
     when(mockStatusProvider.getOvertimeDataJson)
         .thenReturn(overtimeData.toJson());
     when(mockStatusProvider.getRealtimeStatus).thenReturn(realtimeStatus);
-    when(mockStatusProvider.startAutoRefresh).thenReturn(true);
-    when(mockStatusProvider.getRefreshServerStatus).thenReturn(true);
   }
 
   void _initDomainListProviderMock(String useApiGatewayVersion) {
@@ -1073,5 +1088,10 @@ class TestSetupHelper {
         data: overtimeData,
       ),
     );
+  }
+
+  void _initStatusUpdateServiceMock() {
+    when(mockStatusUpdateService.startAutoRefresh()).thenReturn(null);
+    when(mockStatusUpdateService.refreshOnce()).thenReturn(null);
   }
 }

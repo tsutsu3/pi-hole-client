@@ -196,6 +196,15 @@ class MockDatabaseRepository extends _i1.Mock
             returnValue: _i6.Future<bool>.value(false),
           )
           as _i6.Future<bool>);
+
+  @override
+  _i6.Future<void> cleanUpSecureStorage() =>
+      (super.noSuchMethod(
+            Invocation.method(#cleanUpSecureStorage, []),
+            returnValue: _i6.Future<void>.value(),
+            returnValueForMissingStub: _i6.Future<void>.value(),
+          )
+          as _i6.Future<void>);
 }
 
 /// A class which mocks [AppConfigProvider].

@@ -24,8 +24,6 @@ void main() {
       expect(statusProvider.getOvertimeData, null);
       expect(statusProvider.getOvertimeDataJson, null);
       expect(statusProvider.getOvertimeDataLoadStatus, 0);
-      expect(statusProvider.getRefreshServerStatus, false);
-      expect(statusProvider.startAutoRefresh, false);
     });
 
     test('setIsServerConnected updates value and notifies listeners', () {
@@ -33,21 +31,6 @@ void main() {
       expect(statusProvider.isServerConnected, true);
       expect(listenerCalled, true);
     });
-
-    test('setStartAutoRefresh updates value without notifying listeners', () {
-      statusProvider.setStartAutoRefresh(true);
-      expect(statusProvider.startAutoRefresh, true);
-      expect(listenerCalled, false);
-    });
-
-    test(
-      'setRefreshServerStatus updates value and notifies listeners if true',
-      () {
-        statusProvider.setRefreshServerStatus(true);
-        expect(statusProvider.getRefreshServerStatus, true);
-        expect(listenerCalled, true);
-      },
-    );
 
     test('setStatusLoading updates value and notifies listeners', () {
       statusProvider.setStatusLoading(LoadStatus.loaded);

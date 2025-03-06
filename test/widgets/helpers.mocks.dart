@@ -31,6 +31,7 @@ import 'package:pi_hole_client/providers/filters_provider.dart' as _i18;
 import 'package:pi_hole_client/providers/servers_provider.dart' as _i15;
 import 'package:pi_hole_client/providers/status_provider.dart' as _i20;
 import 'package:pi_hole_client/screens/logs/logs_filters_modal.dart' as _i19;
+import 'package:pi_hole_client/services/status_update_service.dart' as _i28;
 
 // ignore_for_file: type=lint
 // ignore_for_file: avoid_redundant_argument_values
@@ -843,22 +844,6 @@ class MockStatusProvider extends _i1.Mock implements _i20.StatusProvider {
           as int);
 
   @override
-  bool get getRefreshServerStatus =>
-      (super.noSuchMethod(
-            Invocation.getter(#getRefreshServerStatus),
-            returnValue: false,
-          )
-          as bool);
-
-  @override
-  bool get startAutoRefresh =>
-      (super.noSuchMethod(
-            Invocation.getter(#startAutoRefresh),
-            returnValue: false,
-          )
-          as bool);
-
-  @override
   bool get hasListeners =>
       (super.noSuchMethod(Invocation.getter(#hasListeners), returnValue: false)
           as bool);
@@ -866,18 +851,6 @@ class MockStatusProvider extends _i1.Mock implements _i20.StatusProvider {
   @override
   void setIsServerConnected(bool? value) => super.noSuchMethod(
     Invocation.method(#setIsServerConnected, [value]),
-    returnValueForMissingStub: null,
-  );
-
-  @override
-  void setStartAutoRefresh(bool? value) => super.noSuchMethod(
-    Invocation.method(#setStartAutoRefresh, [value]),
-    returnValueForMissingStub: null,
-  );
-
-  @override
-  void setRefreshServerStatus(bool? status) => super.noSuchMethod(
-    Invocation.method(#setRefreshServerStatus, [status]),
     returnValueForMissingStub: null,
   );
 
@@ -1466,4 +1439,32 @@ class MockApiGatewayV6 extends _i1.Mock implements _i27.ApiGatewayV6 {
             ),
           )
           as _i12.Future<_i5.AddDomainToListResponse>);
+}
+
+/// A class which mocks [StatusUpdateService].
+///
+/// See the documentation for Mockito's code generation for more information.
+class MockStatusUpdateService extends _i1.Mock
+    implements _i28.StatusUpdateService {
+  MockStatusUpdateService() {
+    _i1.throwOnMissingStub(this);
+  }
+
+  @override
+  void startAutoRefresh() => super.noSuchMethod(
+    Invocation.method(#startAutoRefresh, []),
+    returnValueForMissingStub: null,
+  );
+
+  @override
+  void refreshOnce() => super.noSuchMethod(
+    Invocation.method(#refreshOnce, []),
+    returnValueForMissingStub: null,
+  );
+
+  @override
+  void dispose() => super.noSuchMethod(
+    Invocation.method(#dispose, []),
+    returnValueForMissingStub: null,
+  );
 }
