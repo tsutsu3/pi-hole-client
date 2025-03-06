@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_app_lock/flutter_app_lock.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:pi_hole_client/base.dart';
+import 'package:pi_hole_client/config/globals.dart';
 import 'package:pi_hole_client/config/theme.dart';
 import 'package:pi_hole_client/l10n/generated/app_localizations.dart';
 import 'package:pi_hole_client/providers/app_config_provider.dart';
@@ -42,7 +43,7 @@ class PiHoleClient extends StatelessWidget {
             Locale('pl', ''),
             Locale('ja', ''),
           ],
-          scaffoldMessengerKey: GlobalKey<ScaffoldMessengerState>(),
+          scaffoldMessengerKey: scaffoldMessengerKey,
           builder: (context, child) {
             return AppLock(
               builder: (_, __) => child!,
