@@ -1451,16 +1451,27 @@ class MockStatusUpdateService extends _i1.Mock
   }
 
   @override
+  bool get isAutoRefreshRunning =>
+      (super.noSuchMethod(
+            Invocation.getter(#isAutoRefreshRunning),
+            returnValue: false,
+          )
+          as bool);
+
+  @override
   void startAutoRefresh() => super.noSuchMethod(
     Invocation.method(#startAutoRefresh, []),
     returnValueForMissingStub: null,
   );
 
   @override
-  void refreshOnce() => super.noSuchMethod(
-    Invocation.method(#refreshOnce, []),
-    returnValueForMissingStub: null,
-  );
+  _i12.Future<void> refreshOnce() =>
+      (super.noSuchMethod(
+            Invocation.method(#refreshOnce, []),
+            returnValue: _i12.Future<void>.value(),
+            returnValueForMissingStub: _i12.Future<void>.value(),
+          )
+          as _i12.Future<void>);
 
   @override
   void dispose() => super.noSuchMethod(

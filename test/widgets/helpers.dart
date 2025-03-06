@@ -1092,6 +1092,6 @@ class TestSetupHelper {
 
   void _initStatusUpdateServiceMock() {
     when(mockStatusUpdateService.startAutoRefresh()).thenReturn(null);
-    when(mockStatusUpdateService.refreshOnce()).thenReturn(null);
+    when(mockStatusUpdateService.refreshOnce()).thenAnswer((_) async => ());
   }
 }
