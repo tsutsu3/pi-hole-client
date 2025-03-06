@@ -125,7 +125,7 @@ class _ServersTileItemState extends State<ServersTileItem>
         }
         statusProvider.setIsServerConnected(true);
         statusUpdateService.startAutoRefresh();
-        statusUpdateService.refreshOnce();
+        await statusUpdateService.refreshOnce();
         appConfigProvider.setSelectedTab(0);
       }
 
