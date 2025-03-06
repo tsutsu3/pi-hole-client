@@ -64,9 +64,10 @@ class StatusProvider with ChangeNotifier {
 
   void setRefreshServerStatus(bool status) {
     _refreshServerStatus = status;
-    if (status == true) {
-      notifyListeners();
-    }
+    // if (status == true) {
+    //   notifyListeners();
+    // }
+    notifyListeners();
   }
 
   void setStatusLoading(LoadStatus status) {

@@ -15,6 +15,7 @@ import 'package:pi_hole_client/screens/logs/logs.dart';
 import 'package:pi_hole_client/screens/servers/servers.dart';
 import 'package:pi_hole_client/screens/settings/settings.dart';
 import 'package:pi_hole_client/screens/statistics/statistics.dart';
+import 'package:pi_hole_client/services/status_update_service.dart';
 import 'package:pi_hole_client/widgets/bottom_nav_bar.dart';
 import 'package:pi_hole_client/widgets/navigation_rail.dart';
 import 'package:pi_hole_client/widgets/start_warning_modal.dart';
@@ -43,28 +44,25 @@ class _BaseState extends State<Base> with WidgetsBindingObserver {
 
   @override
   void initState() {
-    final serversProvider =
-        Provider.of<ServersProvider>(context, listen: false);
-
-    WidgetsBinding.instance.addObserver(this);
-
     super.initState();
 
     WidgetsBinding.instance.addPostFrameCallback((_) async {
-      final appConfigProvider =
-          Provider.of<AppConfigProvider>(context, listen: false);
+      final serversProvider = context.read<ServersProvider>();
+
+      final appConfigProvider = context.read<AppConfigProvider>();
+
       if (appConfigProvider.importantInfoReaden == false) {
         await showDialog<String>(
           context: context,
           builder: (BuildContext context) => const StartInfoModal(),
         );
       }
-    });
 
-    if (serversProvider.selectedServer != null) {
-      Provider.of<StatusProvider>(context, listen: false)
-          .setStartAutoRefresh(true);
-    }
+      if (serversProvider.selectedServer != null) {
+        context.read<StatusProvider>().setStartAutoRefresh(true);
+        context.read<StatusUpdateService>().startAutoRefresh();
+      }
+    });
   }
 
   @override

@@ -19,21 +19,7 @@ class StatusUpdateService {
   })  : _serversProvider = serversProvider,
         _statusProvider = statusProvider,
         _appConfigProvider = appConfigProvider,
-        _filtersProvider = filtersProvider {
-    // Listen to the statusProvider for changes
-    statusProvider.addListener(() {
-      if (statusProvider.startAutoRefresh && !_isAutoRefreshRunning) {
-        logger.d('Starting Auto Refresh');
-        startAutoRefresh();
-      }
-
-      if (statusProvider.getRefreshServerStatus) {
-        logger.d('Refresh once Server Status');
-        refreshOnce();
-        statusProvider.setRefreshServerStatus(false);
-      }
-    });
-  }
+        _filtersProvider = filtersProvider;
 
   final ServersProvider _serversProvider;
   final StatusProvider _statusProvider;
@@ -48,6 +34,30 @@ class StatusUpdateService {
 
   /// Start timer for auto refresh
   void startAutoRefresh() {
+    logger.d(
+      'Start Auto Refresh bedore, ${_statusProvider.startAutoRefresh}, $_isAutoRefreshRunning',
+    );
+    if (_statusProvider.startAutoRefresh && !_isAutoRefreshRunning) {
+      logger.d('Starting Auto Refresh');
+      _startAutoRefresh();
+    }
+  }
+
+  /// Refresh the status data once
+  void refreshOnce() {
+    if (_statusProvider.getRefreshServerStatus) {
+      logger.d('Refresh once Server Status');
+      _refreshOnce();
+      _statusProvider.setRefreshServerStatus(false);
+    }
+  }
+
+  void dispose() {
+    _stopAutoRefresh();
+  }
+
+  /// Start timer for auto refresh
+  void _startAutoRefresh() {
     if (_isAutoRefreshRunning) return;
     _isAutoRefreshRunning = true;
 
@@ -56,7 +66,7 @@ class StatusUpdateService {
   }
 
   /// Stop timer for auto refresh
-  void stopAutoRefresh() {
+  void _stopAutoRefresh() {
     _isAutoRefreshRunning = false;
     _statusDataTimer?.cancel();
     _overTimeDataTimer?.cancel();
@@ -65,17 +75,13 @@ class StatusUpdateService {
   }
 
   /// Refresh the status data once
-  Future<void> refreshOnce() async {
+  Future<void> _refreshOnce() async {
     if (await _fetchStatusData() && await _fetchOverTimeData()) {
       _statusProvider.setStartAutoRefresh(true);
       _statusProvider.setIsServerConnected(true);
     } else {
       _statusProvider.setIsServerConnected(false);
     }
-  }
-
-  void dispose() {
-    stopAutoRefresh();
   }
 
   Future<bool> _fetchStatusData() async {
