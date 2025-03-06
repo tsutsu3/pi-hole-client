@@ -97,6 +97,8 @@ class _ServersTileItemState extends State<ServersTileItem>
 
     /// Connect to the server button
     Future<void> connectToServer(Server server) async {
+      final statusUpdateService = context.read<StatusUpdateService>();
+
       Future<dynamic> connectSuccess(result) async {
         serversProvider.setselectedServer(
           server: Server(
@@ -124,7 +126,6 @@ class _ServersTileItemState extends State<ServersTileItem>
         statusProvider.setIsServerConnected(true);
         statusProvider.setRefreshServerStatus(true);
         statusProvider.setStartAutoRefresh(true);
-        final statusUpdateService = context.read<StatusUpdateService>();
         statusUpdateService.startAutoRefresh();
         statusUpdateService.refreshOnce();
         appConfigProvider.setSelectedTab(0);

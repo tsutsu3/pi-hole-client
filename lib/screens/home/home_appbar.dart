@@ -68,6 +68,8 @@ class HomeAppBar extends StatelessWidget implements PreferredSizeWidget {
     }
 
     Future<void> connectToServer(Server server) async {
+      final statusUpdateService = context.read<StatusUpdateService>();
+
       Future<dynamic> connectSuccess(result) async {
         serversProvider.setselectedServer(
           server: Server(
@@ -93,7 +95,7 @@ class HomeAppBar extends StatelessWidget implements PreferredSizeWidget {
         }
         statusProvider.setIsServerConnected(true);
         statusProvider.setRefreshServerStatus(true);
-        context.read<StatusUpdateService>().refreshOnce();
+        statusUpdateService.refreshOnce();
       }
 
       final process = ProcessModal(context: context);
