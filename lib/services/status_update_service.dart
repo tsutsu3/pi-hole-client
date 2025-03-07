@@ -72,7 +72,8 @@ class StatusUpdateService {
 
   /// Refresh the status data once
   Future<void> _refreshOnce() async {
-    if (await _fetchStatusData() && await _fetchOverTimeData()) {
+    if ((await Future.wait([_fetchStatusData(), _fetchOverTimeData()]))
+        .every((result) => result)) {
       _statusProvider.setIsServerConnected(true);
     } else {
       _statusProvider.setIsServerConnected(false);
