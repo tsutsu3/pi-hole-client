@@ -4,23 +4,16 @@ import 'dart:async';
 import 'dart:io';
 
 import 'package:device_info_plus/device_info_plus.dart';
-import 'package:dynamic_color/dynamic_color.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_app_lock/flutter_app_lock.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
-import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_phoenix/flutter_phoenix.dart';
 import 'package:local_auth/local_auth.dart';
 import 'package:package_info_plus/package_info_plus.dart';
-import 'package:pi_hole_client/base.dart';
 import 'package:pi_hole_client/classes/http_override.dart';
-import 'package:pi_hole_client/config/globals.dart';
-import 'package:pi_hole_client/config/theme.dart';
 import 'package:pi_hole_client/functions/logger.dart';
-import 'package:pi_hole_client/functions/status_updater.dart';
-import 'package:pi_hole_client/l10n/generated/app_localizations.dart';
+import 'package:pi_hole_client/pi_hole_client.dart';
 import 'package:pi_hole_client/providers/app_config_provider.dart';
 import 'package:pi_hole_client/providers/domains_list_provider.dart';
 import 'package:pi_hole_client/providers/filters_provider.dart';
@@ -28,7 +21,7 @@ import 'package:pi_hole_client/providers/servers_provider.dart';
 import 'package:pi_hole_client/providers/status_provider.dart';
 import 'package:pi_hole_client/repository/database.dart';
 import 'package:pi_hole_client/repository/secure_storage.dart';
-import 'package:pi_hole_client/screens/unlock.dart';
+import 'package:pi_hole_client/services/status_update_service.dart';
 import 'package:provider/provider.dart';
 import 'package:sentry_flutter/sentry_flutter.dart';
 import 'package:sqflite_common_ffi/sqflite_ffi.dart';
@@ -60,6 +53,13 @@ void main() async {
   final filtersProvider = FiltersProvider(serversProvider: serversProvider);
   final domainsListProvider =
       DomainsListProvider(serversProvider: serversProvider);
+
+  final statusUpdateService = StatusUpdateService(
+    serversProvider: serversProvider,
+    statusProvider: statusProvider,
+    appConfigProvider: configProvider,
+    filtersProvider: filtersProvider,
+  );
 
   if (dbRepository.appConfig.overrideSslCheck == 1) {
     HttpOverrides.global = MyHttpOverrides();
@@ -156,8 +156,14 @@ void main() async {
   void startApp() => runApp(
         MultiProvider(
           providers: [
+            ChangeNotifierProvider(create: (context) => configProvider),
             ChangeNotifierProvider(create: (context) => serversProvider),
             ChangeNotifierProvider(create: (context) => statusProvider),
+            ChangeNotifierProxyProvider<AppConfigProvider, ServersProvider>(
+              create: (context) => serversProvider,
+              update: (context, appConfig, servers) =>
+                  servers!..update(appConfig),
+            ),
             ChangeNotifierProxyProvider<ServersProvider, FiltersProvider>(
               create: (context) => filtersProvider,
               update: (context, serverConfig, servers) =>
@@ -168,11 +174,9 @@ void main() async {
               update: (context, serverConfig, servers) =>
                   servers!..update(serverConfig),
             ),
-            ChangeNotifierProvider(create: (context) => configProvider),
-            ChangeNotifierProxyProvider<AppConfigProvider, ServersProvider>(
-              create: (context) => serversProvider,
-              update: (context, appConfig, servers) =>
-                  servers!..update(appConfig),
+            Provider<StatusUpdateService>(
+              create: (_) => statusUpdateService,
+              dispose: (_, service) => service.dispose(),
             ),
           ],
           child: SentryWidget(
@@ -189,84 +193,4 @@ void main() async {
 
 Future<PackageInfo> loadAppInfo() async {
   return PackageInfo.fromPlatform();
-}
-
-class PiHoleClient extends StatefulWidget {
-  const PiHoleClient({super.key});
-
-  @override
-  State<PiHoleClient> createState() => _PiHoleClientState();
-}
-
-class _PiHoleClientState extends State<PiHoleClient> {
-  final StatusUpdater statusUpdater = StatusUpdater();
-
-  @override
-  void initState() {
-    super.initState();
-  }
-
-  @override
-  void dispose() {
-    statusUpdater.dispose();
-    super.dispose();
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    final statusProvider = Provider.of<StatusProvider>(context);
-    final appConfigProvider = Provider.of<AppConfigProvider>(context);
-
-    if (statusProvider.startAutoRefresh == true ||
-        statusProvider.getRefreshServerStatus == true) {
-      statusUpdater.context = context;
-      if (statusProvider.getRefreshServerStatus == true) {
-        statusProvider.setRefreshServerStatus(false);
-      }
-      statusUpdater.statusData();
-      statusUpdater.overTimeData();
-
-      statusProvider.setStartAutoRefresh(false);
-    }
-
-    return DynamicColorBuilder(
-      builder: (lightDynamic, darkDynamic) {
-        return MaterialApp(
-          navigatorObservers: [
-            SentryNavigatorObserver(),
-          ],
-          title: 'Pi-hole client',
-          theme: lightTheme(lightDynamic),
-          darkTheme: darkTheme(darkDynamic),
-          themeMode: appConfigProvider.selectedTheme,
-          debugShowCheckedModeBanner: false,
-          localizationsDelegates: const [
-            GlobalMaterialLocalizations.delegate,
-            GlobalWidgetsLocalizations.delegate,
-            GlobalCupertinoLocalizations.delegate,
-            AppLocalizations.delegate,
-          ],
-          locale: Locale(appConfigProvider.selectedLanguage),
-          supportedLocales: const [
-            Locale('en', ''),
-            Locale('es', ''),
-            Locale('de', ''),
-            Locale('pl', ''),
-            Locale('ja', ''),
-          ],
-          scaffoldMessengerKey: scaffoldMessengerKey,
-          builder: (context, child) {
-            return AppLock(
-              builder: (_, __) => child!,
-              lockScreenBuilder: (context) => const Unlock(),
-              initiallyEnabled:
-                  appConfigProvider.passCode != null ? true : false,
-              initialBackgroundLockLatency: Duration.zero,
-            );
-          },
-          home: const Base(),
-        );
-      },
-    );
-  }
 }

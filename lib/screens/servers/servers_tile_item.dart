@@ -13,6 +13,7 @@ import 'package:pi_hole_client/providers/servers_provider.dart';
 import 'package:pi_hole_client/providers/status_provider.dart';
 import 'package:pi_hole_client/screens/servers/add_server_fullscreen.dart';
 import 'package:pi_hole_client/screens/servers/delete_modal.dart';
+import 'package:pi_hole_client/services/status_update_service.dart';
 import 'package:provider/provider.dart';
 
 class ServersTileItem extends StatefulWidget {
@@ -96,6 +97,8 @@ class _ServersTileItemState extends State<ServersTileItem>
 
     /// Connect to the server button
     Future<void> connectToServer(Server server) async {
+      final statusUpdateService = context.read<StatusUpdateService>();
+
       Future<dynamic> connectSuccess(result) async {
         serversProvider.setselectedServer(
           server: Server(
@@ -121,7 +124,8 @@ class _ServersTileItemState extends State<ServersTileItem>
           statusProvider.setOvertimeDataLoadingStatus(2);
         }
         statusProvider.setIsServerConnected(true);
-        statusProvider.setRefreshServerStatus(true);
+        statusUpdateService.startAutoRefresh();
+        await statusUpdateService.refreshOnce();
         appConfigProvider.setSelectedTab(0);
       }
 

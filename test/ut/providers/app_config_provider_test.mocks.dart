@@ -183,4 +183,13 @@ class MockDatabaseRepository extends _i1.Mock
             returnValue: _i5.Future<bool>.value(false),
           )
           as _i5.Future<bool>);
+
+  @override
+  _i5.Future<void> cleanUpSecureStorage() =>
+      (super.noSuchMethod(
+            Invocation.method(#cleanUpSecureStorage, []),
+            returnValue: _i5.Future<void>.value(),
+            returnValueForMissingStub: _i5.Future<void>.value(),
+          )
+          as _i5.Future<void>);
 }

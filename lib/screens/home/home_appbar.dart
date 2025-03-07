@@ -15,6 +15,7 @@ import 'package:pi_hole_client/providers/servers_provider.dart';
 import 'package:pi_hole_client/providers/status_provider.dart';
 import 'package:pi_hole_client/screens/home/switch_server_modal.dart';
 import 'package:pi_hole_client/screens/servers/servers.dart';
+import 'package:pi_hole_client/services/status_update_service.dart';
 import 'package:provider/provider.dart';
 
 class HomeAppBar extends StatelessWidget implements PreferredSizeWidget {
@@ -67,6 +68,8 @@ class HomeAppBar extends StatelessWidget implements PreferredSizeWidget {
     }
 
     Future<void> connectToServer(Server server) async {
+      final statusUpdateService = context.read<StatusUpdateService>();
+
       Future<dynamic> connectSuccess(result) async {
         serversProvider.setselectedServer(
           server: Server(
@@ -91,7 +94,7 @@ class HomeAppBar extends StatelessWidget implements PreferredSizeWidget {
           statusProvider.setOvertimeDataLoadingStatus(2);
         }
         statusProvider.setIsServerConnected(true);
-        statusProvider.setRefreshServerStatus(true);
+        await statusUpdateService.refreshOnce();
       }
 
       final process = ProcessModal(context: context);
