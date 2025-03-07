@@ -2,6 +2,7 @@ import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
+import 'package:pi_hole_client/constants/enums.dart';
 import 'package:pi_hole_client/gateways/v6/api_gateway_v6.dart';
 import 'package:pi_hole_client/models/gateways.dart';
 import 'package:pi_hole_client/models/server.dart';
@@ -89,27 +90,95 @@ void main() async {
       );
     });
 
-    test('startAutoRefresh at first time', () {
+    test('startAutoRefresh starts refreshing automatically on first run', () {
+      when(mockAppConfigProvider.getAutoRefreshTime).thenReturn(1);
+
       statusUpdateService.startAutoRefresh();
-      verify(mockAppConfigProvider.getAutoRefreshTime).called(3);
-      expect(statusUpdateService.isAutoRefreshRunning, true);
+
+      // sleep for 2 seconds to allow the timer to run
+      Future.delayed(const Duration(seconds: 2), () {
+        verify(mockAppConfigProvider.getAutoRefreshTime).called(3);
+        verify(mockStatusProvider.setRealtimeStatus(any)).called(1);
+        verify(mockStatusProvider.setOvertimeData(any)).called(1);
+        expect(statusUpdateService.isAutoRefreshRunning, true);
+      });
     });
 
-    test('startAutoRefresh at second time', () {
+    test(
+        'startAutoRefresh does not start refreshing automatically on second run',
+        () {
+      when(mockAppConfigProvider.getAutoRefreshTime).thenReturn(1);
+
       statusUpdateService.startAutoRefresh();
       statusUpdateService.startAutoRefresh();
-      verify(mockAppConfigProvider.getAutoRefreshTime).called(3);
-      expect(statusUpdateService.isAutoRefreshRunning, true);
+      Future.delayed(const Duration(seconds: 2), () {
+        verify(mockAppConfigProvider.getAutoRefreshTime).called(3);
+        verify(mockStatusProvider.setRealtimeStatus(any)).called(1);
+        verify(mockStatusProvider.setOvertimeData(any)).called(1);
+        expect(statusUpdateService.isAutoRefreshRunning, true);
+      });
     });
 
-    test('refreshOnce', () async {
+    test(
+        'startAutoRefresh should fail when fetching data from the server fails',
+        () {
+      when(mockApiGatewayV6.realtimeStatus()).thenAnswer(
+        (_) async => RealtimeStatusResponse(
+          result: APiResponseType.socket,
+        ),
+      );
+
+      when(mockApiGatewayV6.fetchOverTimeData()).thenAnswer(
+        (_) async => FetchOverTimeDataResponse(
+          result: APiResponseType.socket,
+        ),
+      );
+      when(mockStatusProvider.isServerConnected).thenReturn(true);
+      when(mockStatusProvider.getStatusLoading).thenReturn(LoadStatus.loading);
+      when(mockStatusProvider.getOvertimeDataLoadStatus).thenReturn(0);
+
+      statusUpdateService.startAutoRefresh();
+      Future.delayed(const Duration(seconds: 2), () {
+        verify(mockAppConfigProvider.getAutoRefreshTime).called(3);
+        verifyNever(mockStatusProvider.setRealtimeStatus(any)).called(0);
+        verifyNever(mockStatusProvider.setOvertimeData(any)).called(0);
+        expect(statusUpdateService.isAutoRefreshRunning, true);
+      });
+    });
+
+    test('refreshOnce should succeed', () async {
       await statusUpdateService.refreshOnce();
       verify(mockApiGatewayV6.realtimeStatus()).called(1);
       verify(mockApiGatewayV6.fetchOverTimeData()).called(1);
       verify(mockServersProvider.updateselectedServerStatus(any)).called(1);
+      verify(mockStatusProvider.setRealtimeStatus(any)).called(1);
+      verify(mockStatusProvider.setOvertimeData(any)).called(1);
     });
 
-    test('dispose', () {
+    test('refreshOnce should fail when fetching data from the server fails',
+        () async {
+      when(mockApiGatewayV6.realtimeStatus()).thenAnswer(
+        (_) async => RealtimeStatusResponse(
+          result: APiResponseType.socket,
+        ),
+      );
+
+      when(mockApiGatewayV6.fetchOverTimeData()).thenAnswer(
+        (_) async => FetchOverTimeDataResponse(
+          result: APiResponseType.socket,
+        ),
+      );
+
+      await statusUpdateService.refreshOnce();
+      verify(mockApiGatewayV6.realtimeStatus()).called(1);
+      verify(mockApiGatewayV6.fetchOverTimeData()).called(1);
+      verifyNever(mockServersProvider.updateselectedServerStatus(any))
+          .called(0);
+      verifyNever(mockStatusProvider.setRealtimeStatus(any)).called(0);
+      verifyNever(mockStatusProvider.setOvertimeData(any)).called(0);
+    });
+
+    test('dispose should succeed', () {
       statusUpdateService.dispose();
       expect(statusUpdateService.isAutoRefreshRunning, false);
     });
