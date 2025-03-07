@@ -121,6 +121,7 @@ class StatusUpdateService {
 
     Future<void> timerFn({Timer? timer}) async {
       if (_appConfigProvider.getAutoRefreshTime != _previousRefreshTime) {
+        logger.d('Auto Refresh Time Changed. Restarting Timer');
         timer?.cancel();
         _previousRefreshTime = _appConfigProvider.getAutoRefreshTime;
         _setupStatusDataTimer();
