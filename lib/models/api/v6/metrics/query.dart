@@ -4,7 +4,7 @@ part 'query.freezed.dart';
 part 'query.g.dart';
 
 @freezed
-class Queries with _$Queries {
+sealed class Queries with _$Queries {
   const factory Queries({
     required List<Query> queries,
     required int cursor,
@@ -19,7 +19,7 @@ class Queries with _$Queries {
 }
 
 @freezed
-class Query with _$Query {
+sealed class Query with _$Query {
   const factory Query({
     required int id,
     required double time,
@@ -38,7 +38,7 @@ class Query with _$Query {
 }
 
 @freezed
-class Client with _$Client {
+sealed class Client with _$Client {
   const factory Client({
     required String ip,
     String? name,
@@ -48,7 +48,7 @@ class Client with _$Client {
 }
 
 @freezed
-class Reply with _$Reply {
+sealed class Reply with _$Reply {
   const factory Reply({
     required double time,
     String? type,

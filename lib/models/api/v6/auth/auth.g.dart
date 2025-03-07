@@ -6,30 +6,26 @@ part of 'auth.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-_$PasswordImpl _$$PasswordImplFromJson(Map<String, dynamic> json) =>
-    _$PasswordImpl(
+_Password _$PasswordFromJson(Map<String, dynamic> json) => _Password(
       password: json['password'] as String,
     );
 
-Map<String, dynamic> _$$PasswordImplToJson(_$PasswordImpl instance) =>
-    <String, dynamic>{
+Map<String, dynamic> _$PasswordToJson(_Password instance) => <String, dynamic>{
       'password': instance.password,
     };
 
-_$SessionImpl _$$SessionImplFromJson(Map<String, dynamic> json) =>
-    _$SessionImpl(
+_Session _$SessionFromJson(Map<String, dynamic> json) => _Session(
       session: SessionDetail.fromJson(json['session'] as Map<String, dynamic>),
       took: (json['took'] as num).toDouble(),
     );
 
-Map<String, dynamic> _$$SessionImplToJson(_$SessionImpl instance) =>
-    <String, dynamic>{
+Map<String, dynamic> _$SessionToJson(_Session instance) => <String, dynamic>{
       'session': instance.session,
       'took': instance.took,
     };
 
-_$SessionDetailImpl _$$SessionDetailImplFromJson(Map<String, dynamic> json) =>
-    _$SessionDetailImpl(
+_SessionDetail _$SessionDetailFromJson(Map<String, dynamic> json) =>
+    _SessionDetail(
       valid: json['valid'] as bool,
       totp: json['totp'] as bool,
       sid: json['sid'] as String,
@@ -38,7 +34,7 @@ _$SessionDetailImpl _$$SessionDetailImplFromJson(Map<String, dynamic> json) =>
       message: json['message'] as String,
     );
 
-Map<String, dynamic> _$$SessionDetailImplToJson(_$SessionDetailImpl instance) =>
+Map<String, dynamic> _$SessionDetailToJson(_SessionDetail instance) =>
     <String, dynamic>{
       'valid': instance.valid,
       'totp': instance.totp,

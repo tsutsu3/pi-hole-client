@@ -1,3 +1,4 @@
+// dart format width=80
 // coverage:ignore-file
 // GENERATED CODE - DO NOT MODIFY BY HAND
 // ignore_for_file: type=lint
@@ -9,119 +10,28 @@ part of 'auth.dart';
 // FreezedGenerator
 // **************************************************************************
 
+// dart format off
 T _$identity<T>(T value) => value;
-
-final _privateConstructorUsedError = UnsupportedError(
-    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models');
-
-Password _$PasswordFromJson(Map<String, dynamic> json) {
-  return _Password.fromJson(json);
-}
 
 /// @nodoc
 mixin _$Password {
-  String get password => throw _privateConstructorUsedError;
-
-  /// Serializes this Password to a JSON map.
-  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
+  String get password;
 
   /// Create a copy of Password
   /// with the given fields replaced by the non-null parameter values.
   @JsonKey(includeFromJson: false, includeToJson: false)
+  @pragma('vm:prefer-inline')
   $PasswordCopyWith<Password> get copyWith =>
-      throw _privateConstructorUsedError;
-}
+      _$PasswordCopyWithImpl<Password>(this as Password, _$identity);
 
-/// @nodoc
-abstract class $PasswordCopyWith<$Res> {
-  factory $PasswordCopyWith(Password value, $Res Function(Password) then) =
-      _$PasswordCopyWithImpl<$Res, Password>;
-  @useResult
-  $Res call({String password});
-}
-
-/// @nodoc
-class _$PasswordCopyWithImpl<$Res, $Val extends Password>
-    implements $PasswordCopyWith<$Res> {
-  _$PasswordCopyWithImpl(this._value, this._then);
-
-  // ignore: unused_field
-  final $Val _value;
-  // ignore: unused_field
-  final $Res Function($Val) _then;
-
-  /// Create a copy of Password
-  /// with the given fields replaced by the non-null parameter values.
-  @pragma('vm:prefer-inline')
-  @override
-  $Res call({
-    Object? password = null,
-  }) {
-    return _then(_value.copyWith(
-      password: null == password
-          ? _value.password
-          : password // ignore: cast_nullable_to_non_nullable
-              as String,
-    ) as $Val);
-  }
-}
-
-/// @nodoc
-abstract class _$$PasswordImplCopyWith<$Res>
-    implements $PasswordCopyWith<$Res> {
-  factory _$$PasswordImplCopyWith(
-          _$PasswordImpl value, $Res Function(_$PasswordImpl) then) =
-      __$$PasswordImplCopyWithImpl<$Res>;
-  @override
-  @useResult
-  $Res call({String password});
-}
-
-/// @nodoc
-class __$$PasswordImplCopyWithImpl<$Res>
-    extends _$PasswordCopyWithImpl<$Res, _$PasswordImpl>
-    implements _$$PasswordImplCopyWith<$Res> {
-  __$$PasswordImplCopyWithImpl(
-      _$PasswordImpl _value, $Res Function(_$PasswordImpl) _then)
-      : super(_value, _then);
-
-  /// Create a copy of Password
-  /// with the given fields replaced by the non-null parameter values.
-  @pragma('vm:prefer-inline')
-  @override
-  $Res call({
-    Object? password = null,
-  }) {
-    return _then(_$PasswordImpl(
-      password: null == password
-          ? _value.password
-          : password // ignore: cast_nullable_to_non_nullable
-              as String,
-    ));
-  }
-}
-
-/// @nodoc
-@JsonSerializable()
-class _$PasswordImpl implements _Password {
-  _$PasswordImpl({required this.password});
-
-  factory _$PasswordImpl.fromJson(Map<String, dynamic> json) =>
-      _$$PasswordImplFromJson(json);
-
-  @override
-  final String password;
-
-  @override
-  String toString() {
-    return 'Password(password: $password)';
-  }
+  /// Serializes this Password to a JSON map.
+  Map<String, dynamic> toJson();
 
   @override
   bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$PasswordImpl &&
+            other is Password &&
             (identical(other.password, password) ||
                 other.password == password));
   }
@@ -130,173 +40,140 @@ class _$PasswordImpl implements _Password {
   @override
   int get hashCode => Object.hash(runtimeType, password);
 
-  /// Create a copy of Password
-  /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
-  @pragma('vm:prefer-inline')
-  _$$PasswordImplCopyWith<_$PasswordImpl> get copyWith =>
-      __$$PasswordImplCopyWithImpl<_$PasswordImpl>(this, _$identity);
-
-  @override
-  Map<String, dynamic> toJson() {
-    return _$$PasswordImplToJson(
-      this,
-    );
+  String toString() {
+    return 'Password(password: $password)';
   }
 }
 
-abstract class _Password implements Password {
-  factory _Password({required final String password}) = _$PasswordImpl;
+/// @nodoc
+abstract mixin class $PasswordCopyWith<$Res> {
+  factory $PasswordCopyWith(Password value, $Res Function(Password) _then) =
+      _$PasswordCopyWithImpl;
+  @useResult
+  $Res call({String password});
+}
 
-  factory _Password.fromJson(Map<String, dynamic> json) =
-      _$PasswordImpl.fromJson;
+/// @nodoc
+class _$PasswordCopyWithImpl<$Res> implements $PasswordCopyWith<$Res> {
+  _$PasswordCopyWithImpl(this._self, this._then);
 
-  @override
-  String get password;
+  final Password _self;
+  final $Res Function(Password) _then;
 
   /// Create a copy of Password
-  /// with the given fields replaced by the non-null parameter values.
-  @override
-  @JsonKey(includeFromJson: false, includeToJson: false)
-  _$$PasswordImplCopyWith<_$PasswordImpl> get copyWith =>
-      throw _privateConstructorUsedError;
-}
-
-Session _$SessionFromJson(Map<String, dynamic> json) {
-  return _Session.fromJson(json);
-}
-
-/// @nodoc
-mixin _$Session {
-  SessionDetail get session => throw _privateConstructorUsedError;
-  double get took => throw _privateConstructorUsedError;
-
-  /// Serializes this Session to a JSON map.
-  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
-
-  /// Create a copy of Session
-  /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
-  $SessionCopyWith<Session> get copyWith => throw _privateConstructorUsedError;
-}
-
-/// @nodoc
-abstract class $SessionCopyWith<$Res> {
-  factory $SessionCopyWith(Session value, $Res Function(Session) then) =
-      _$SessionCopyWithImpl<$Res, Session>;
-  @useResult
-  $Res call({SessionDetail session, double took});
-
-  $SessionDetailCopyWith<$Res> get session;
-}
-
-/// @nodoc
-class _$SessionCopyWithImpl<$Res, $Val extends Session>
-    implements $SessionCopyWith<$Res> {
-  _$SessionCopyWithImpl(this._value, this._then);
-
-  // ignore: unused_field
-  final $Val _value;
-  // ignore: unused_field
-  final $Res Function($Val) _then;
-
-  /// Create a copy of Session
   /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? session = null,
-    Object? took = null,
+    Object? password = null,
   }) {
-    return _then(_value.copyWith(
-      session: null == session
-          ? _value.session
-          : session // ignore: cast_nullable_to_non_nullable
-              as SessionDetail,
-      took: null == took
-          ? _value.took
-          : took // ignore: cast_nullable_to_non_nullable
-              as double,
-    ) as $Val);
-  }
-
-  /// Create a copy of Session
-  /// with the given fields replaced by the non-null parameter values.
-  @override
-  @pragma('vm:prefer-inline')
-  $SessionDetailCopyWith<$Res> get session {
-    return $SessionDetailCopyWith<$Res>(_value.session, (value) {
-      return _then(_value.copyWith(session: value) as $Val);
-    });
-  }
-}
-
-/// @nodoc
-abstract class _$$SessionImplCopyWith<$Res> implements $SessionCopyWith<$Res> {
-  factory _$$SessionImplCopyWith(
-          _$SessionImpl value, $Res Function(_$SessionImpl) then) =
-      __$$SessionImplCopyWithImpl<$Res>;
-  @override
-  @useResult
-  $Res call({SessionDetail session, double took});
-
-  @override
-  $SessionDetailCopyWith<$Res> get session;
-}
-
-/// @nodoc
-class __$$SessionImplCopyWithImpl<$Res>
-    extends _$SessionCopyWithImpl<$Res, _$SessionImpl>
-    implements _$$SessionImplCopyWith<$Res> {
-  __$$SessionImplCopyWithImpl(
-      _$SessionImpl _value, $Res Function(_$SessionImpl) _then)
-      : super(_value, _then);
-
-  /// Create a copy of Session
-  /// with the given fields replaced by the non-null parameter values.
-  @pragma('vm:prefer-inline')
-  @override
-  $Res call({
-    Object? session = null,
-    Object? took = null,
-  }) {
-    return _then(_$SessionImpl(
-      session: null == session
-          ? _value.session
-          : session // ignore: cast_nullable_to_non_nullable
-              as SessionDetail,
-      took: null == took
-          ? _value.took
-          : took // ignore: cast_nullable_to_non_nullable
-              as double,
+    return _then(_self.copyWith(
+      password: null == password
+          ? _self.password
+          : password // ignore: cast_nullable_to_non_nullable
+              as String,
     ));
   }
 }
 
 /// @nodoc
 @JsonSerializable()
-class _$SessionImpl implements _Session {
-  _$SessionImpl({required this.session, required this.took});
-
-  factory _$SessionImpl.fromJson(Map<String, dynamic> json) =>
-      _$$SessionImplFromJson(json);
-
-  @override
-  final SessionDetail session;
-  @override
-  final double took;
+class _Password implements Password {
+  _Password({required this.password});
+  factory _Password.fromJson(Map<String, dynamic> json) =>
+      _$PasswordFromJson(json);
 
   @override
-  String toString() {
-    return 'Session(session: $session, took: $took)';
+  final String password;
+
+  /// Create a copy of Password
+  /// with the given fields replaced by the non-null parameter values.
+  @override
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @pragma('vm:prefer-inline')
+  _$PasswordCopyWith<_Password> get copyWith =>
+      __$PasswordCopyWithImpl<_Password>(this, _$identity);
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$PasswordToJson(
+      this,
+    );
   }
 
   @override
   bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$SessionImpl &&
+            other is _Password &&
+            (identical(other.password, password) ||
+                other.password == password));
+  }
+
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @override
+  int get hashCode => Object.hash(runtimeType, password);
+
+  @override
+  String toString() {
+    return 'Password(password: $password)';
+  }
+}
+
+/// @nodoc
+abstract mixin class _$PasswordCopyWith<$Res>
+    implements $PasswordCopyWith<$Res> {
+  factory _$PasswordCopyWith(_Password value, $Res Function(_Password) _then) =
+      __$PasswordCopyWithImpl;
+  @override
+  @useResult
+  $Res call({String password});
+}
+
+/// @nodoc
+class __$PasswordCopyWithImpl<$Res> implements _$PasswordCopyWith<$Res> {
+  __$PasswordCopyWithImpl(this._self, this._then);
+
+  final _Password _self;
+  final $Res Function(_Password) _then;
+
+  /// Create a copy of Password
+  /// with the given fields replaced by the non-null parameter values.
+  @override
+  @pragma('vm:prefer-inline')
+  $Res call({
+    Object? password = null,
+  }) {
+    return _then(_Password(
+      password: null == password
+          ? _self.password
+          : password // ignore: cast_nullable_to_non_nullable
+              as String,
+    ));
+  }
+}
+
+/// @nodoc
+mixin _$Session {
+  SessionDetail get session;
+  double get took;
+
+  /// Create a copy of Session
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @pragma('vm:prefer-inline')
+  $SessionCopyWith<Session> get copyWith =>
+      _$SessionCopyWithImpl<Session>(this as Session, _$identity);
+
+  /// Serializes this Session to a JSON map.
+  Map<String, dynamic> toJson();
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is Session &&
             (identical(other.session, session) || other.session == session) &&
             (identical(other.took, took) || other.took == took));
   }
@@ -305,234 +182,181 @@ class _$SessionImpl implements _Session {
   @override
   int get hashCode => Object.hash(runtimeType, session, took);
 
-  /// Create a copy of Session
-  /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
-  @pragma('vm:prefer-inline')
-  _$$SessionImplCopyWith<_$SessionImpl> get copyWith =>
-      __$$SessionImplCopyWithImpl<_$SessionImpl>(this, _$identity);
-
-  @override
-  Map<String, dynamic> toJson() {
-    return _$$SessionImplToJson(
-      this,
-    );
-  }
-}
-
-abstract class _Session implements Session {
-  factory _Session(
-      {required final SessionDetail session,
-      required final double took}) = _$SessionImpl;
-
-  factory _Session.fromJson(Map<String, dynamic> json) = _$SessionImpl.fromJson;
-
-  @override
-  SessionDetail get session;
-  @override
-  double get took;
-
-  /// Create a copy of Session
-  /// with the given fields replaced by the non-null parameter values.
-  @override
-  @JsonKey(includeFromJson: false, includeToJson: false)
-  _$$SessionImplCopyWith<_$SessionImpl> get copyWith =>
-      throw _privateConstructorUsedError;
-}
-
-SessionDetail _$SessionDetailFromJson(Map<String, dynamic> json) {
-  return _SessionDetail.fromJson(json);
-}
-
-/// @nodoc
-mixin _$SessionDetail {
-  bool get valid => throw _privateConstructorUsedError;
-  bool get totp => throw _privateConstructorUsedError;
-  String get sid => throw _privateConstructorUsedError;
-  String get csrf => throw _privateConstructorUsedError;
-  int get validity => throw _privateConstructorUsedError;
-  String get message => throw _privateConstructorUsedError;
-
-  /// Serializes this SessionDetail to a JSON map.
-  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
-
-  /// Create a copy of SessionDetail
-  /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
-  $SessionDetailCopyWith<SessionDetail> get copyWith =>
-      throw _privateConstructorUsedError;
-}
-
-/// @nodoc
-abstract class $SessionDetailCopyWith<$Res> {
-  factory $SessionDetailCopyWith(
-          SessionDetail value, $Res Function(SessionDetail) then) =
-      _$SessionDetailCopyWithImpl<$Res, SessionDetail>;
-  @useResult
-  $Res call(
-      {bool valid,
-      bool totp,
-      String sid,
-      String csrf,
-      int validity,
-      String message});
-}
-
-/// @nodoc
-class _$SessionDetailCopyWithImpl<$Res, $Val extends SessionDetail>
-    implements $SessionDetailCopyWith<$Res> {
-  _$SessionDetailCopyWithImpl(this._value, this._then);
-
-  // ignore: unused_field
-  final $Val _value;
-  // ignore: unused_field
-  final $Res Function($Val) _then;
-
-  /// Create a copy of SessionDetail
-  /// with the given fields replaced by the non-null parameter values.
-  @pragma('vm:prefer-inline')
-  @override
-  $Res call({
-    Object? valid = null,
-    Object? totp = null,
-    Object? sid = null,
-    Object? csrf = null,
-    Object? validity = null,
-    Object? message = null,
-  }) {
-    return _then(_value.copyWith(
-      valid: null == valid
-          ? _value.valid
-          : valid // ignore: cast_nullable_to_non_nullable
-              as bool,
-      totp: null == totp
-          ? _value.totp
-          : totp // ignore: cast_nullable_to_non_nullable
-              as bool,
-      sid: null == sid
-          ? _value.sid
-          : sid // ignore: cast_nullable_to_non_nullable
-              as String,
-      csrf: null == csrf
-          ? _value.csrf
-          : csrf // ignore: cast_nullable_to_non_nullable
-              as String,
-      validity: null == validity
-          ? _value.validity
-          : validity // ignore: cast_nullable_to_non_nullable
-              as int,
-      message: null == message
-          ? _value.message
-          : message // ignore: cast_nullable_to_non_nullable
-              as String,
-    ) as $Val);
+  String toString() {
+    return 'Session(session: $session, took: $took)';
   }
 }
 
 /// @nodoc
-abstract class _$$SessionDetailImplCopyWith<$Res>
-    implements $SessionDetailCopyWith<$Res> {
-  factory _$$SessionDetailImplCopyWith(
-          _$SessionDetailImpl value, $Res Function(_$SessionDetailImpl) then) =
-      __$$SessionDetailImplCopyWithImpl<$Res>;
-  @override
+abstract mixin class $SessionCopyWith<$Res> {
+  factory $SessionCopyWith(Session value, $Res Function(Session) _then) =
+      _$SessionCopyWithImpl;
   @useResult
-  $Res call(
-      {bool valid,
-      bool totp,
-      String sid,
-      String csrf,
-      int validity,
-      String message});
+  $Res call({SessionDetail session, double took});
+
+  $SessionDetailCopyWith<$Res> get session;
 }
 
 /// @nodoc
-class __$$SessionDetailImplCopyWithImpl<$Res>
-    extends _$SessionDetailCopyWithImpl<$Res, _$SessionDetailImpl>
-    implements _$$SessionDetailImplCopyWith<$Res> {
-  __$$SessionDetailImplCopyWithImpl(
-      _$SessionDetailImpl _value, $Res Function(_$SessionDetailImpl) _then)
-      : super(_value, _then);
+class _$SessionCopyWithImpl<$Res> implements $SessionCopyWith<$Res> {
+  _$SessionCopyWithImpl(this._self, this._then);
 
-  /// Create a copy of SessionDetail
+  final Session _self;
+  final $Res Function(Session) _then;
+
+  /// Create a copy of Session
   /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? valid = null,
-    Object? totp = null,
-    Object? sid = null,
-    Object? csrf = null,
-    Object? validity = null,
-    Object? message = null,
+    Object? session = null,
+    Object? took = null,
   }) {
-    return _then(_$SessionDetailImpl(
-      valid: null == valid
-          ? _value.valid
-          : valid // ignore: cast_nullable_to_non_nullable
-              as bool,
-      totp: null == totp
-          ? _value.totp
-          : totp // ignore: cast_nullable_to_non_nullable
-              as bool,
-      sid: null == sid
-          ? _value.sid
-          : sid // ignore: cast_nullable_to_non_nullable
-              as String,
-      csrf: null == csrf
-          ? _value.csrf
-          : csrf // ignore: cast_nullable_to_non_nullable
-              as String,
-      validity: null == validity
-          ? _value.validity
-          : validity // ignore: cast_nullable_to_non_nullable
-              as int,
-      message: null == message
-          ? _value.message
-          : message // ignore: cast_nullable_to_non_nullable
-              as String,
+    return _then(_self.copyWith(
+      session: null == session
+          ? _self.session
+          : session // ignore: cast_nullable_to_non_nullable
+              as SessionDetail,
+      took: null == took
+          ? _self.took
+          : took // ignore: cast_nullable_to_non_nullable
+              as double,
     ));
+  }
+
+  /// Create a copy of Session
+  /// with the given fields replaced by the non-null parameter values.
+  @override
+  @pragma('vm:prefer-inline')
+  $SessionDetailCopyWith<$Res> get session {
+    return $SessionDetailCopyWith<$Res>(_self.session, (value) {
+      return _then(_self.copyWith(session: value));
+    });
   }
 }
 
 /// @nodoc
 @JsonSerializable()
-class _$SessionDetailImpl implements _SessionDetail {
-  _$SessionDetailImpl(
-      {required this.valid,
-      required this.totp,
-      required this.sid,
-      required this.csrf,
-      required this.validity,
-      required this.message});
-
-  factory _$SessionDetailImpl.fromJson(Map<String, dynamic> json) =>
-      _$$SessionDetailImplFromJson(json);
+class _Session implements Session {
+  _Session({required this.session, required this.took});
+  factory _Session.fromJson(Map<String, dynamic> json) =>
+      _$SessionFromJson(json);
 
   @override
-  final bool valid;
+  final SessionDetail session;
   @override
-  final bool totp;
+  final double took;
+
+  /// Create a copy of Session
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  final String sid;
-  @override
-  final String csrf;
-  @override
-  final int validity;
-  @override
-  final String message;
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @pragma('vm:prefer-inline')
+  _$SessionCopyWith<_Session> get copyWith =>
+      __$SessionCopyWithImpl<_Session>(this, _$identity);
 
   @override
-  String toString() {
-    return 'SessionDetail(valid: $valid, totp: $totp, sid: $sid, csrf: $csrf, validity: $validity, message: $message)';
+  Map<String, dynamic> toJson() {
+    return _$SessionToJson(
+      this,
+    );
   }
 
   @override
   bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$SessionDetailImpl &&
+            other is _Session &&
+            (identical(other.session, session) || other.session == session) &&
+            (identical(other.took, took) || other.took == took));
+  }
+
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @override
+  int get hashCode => Object.hash(runtimeType, session, took);
+
+  @override
+  String toString() {
+    return 'Session(session: $session, took: $took)';
+  }
+}
+
+/// @nodoc
+abstract mixin class _$SessionCopyWith<$Res> implements $SessionCopyWith<$Res> {
+  factory _$SessionCopyWith(_Session value, $Res Function(_Session) _then) =
+      __$SessionCopyWithImpl;
+  @override
+  @useResult
+  $Res call({SessionDetail session, double took});
+
+  @override
+  $SessionDetailCopyWith<$Res> get session;
+}
+
+/// @nodoc
+class __$SessionCopyWithImpl<$Res> implements _$SessionCopyWith<$Res> {
+  __$SessionCopyWithImpl(this._self, this._then);
+
+  final _Session _self;
+  final $Res Function(_Session) _then;
+
+  /// Create a copy of Session
+  /// with the given fields replaced by the non-null parameter values.
+  @override
+  @pragma('vm:prefer-inline')
+  $Res call({
+    Object? session = null,
+    Object? took = null,
+  }) {
+    return _then(_Session(
+      session: null == session
+          ? _self.session
+          : session // ignore: cast_nullable_to_non_nullable
+              as SessionDetail,
+      took: null == took
+          ? _self.took
+          : took // ignore: cast_nullable_to_non_nullable
+              as double,
+    ));
+  }
+
+  /// Create a copy of Session
+  /// with the given fields replaced by the non-null parameter values.
+  @override
+  @pragma('vm:prefer-inline')
+  $SessionDetailCopyWith<$Res> get session {
+    return $SessionDetailCopyWith<$Res>(_self.session, (value) {
+      return _then(_self.copyWith(session: value));
+    });
+  }
+}
+
+/// @nodoc
+mixin _$SessionDetail {
+  bool get valid;
+  bool get totp;
+  String get sid;
+  String get csrf;
+  int get validity;
+  String get message;
+
+  /// Create a copy of SessionDetail
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @pragma('vm:prefer-inline')
+  $SessionDetailCopyWith<SessionDetail> get copyWith =>
+      _$SessionDetailCopyWithImpl<SessionDetail>(
+          this as SessionDetail, _$identity);
+
+  /// Serializes this SessionDetail to a JSON map.
+  Map<String, dynamic> toJson();
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is SessionDetail &&
             (identical(other.valid, valid) || other.valid == valid) &&
             (identical(other.totp, totp) || other.totp == totp) &&
             (identical(other.sid, sid) || other.sid == sid) &&
@@ -547,51 +371,206 @@ class _$SessionDetailImpl implements _SessionDetail {
   int get hashCode =>
       Object.hash(runtimeType, valid, totp, sid, csrf, validity, message);
 
-  /// Create a copy of SessionDetail
-  /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
-  @pragma('vm:prefer-inline')
-  _$$SessionDetailImplCopyWith<_$SessionDetailImpl> get copyWith =>
-      __$$SessionDetailImplCopyWithImpl<_$SessionDetailImpl>(this, _$identity);
-
-  @override
-  Map<String, dynamic> toJson() {
-    return _$$SessionDetailImplToJson(
-      this,
-    );
+  String toString() {
+    return 'SessionDetail(valid: $valid, totp: $totp, sid: $sid, csrf: $csrf, validity: $validity, message: $message)';
   }
 }
 
-abstract class _SessionDetail implements SessionDetail {
-  factory _SessionDetail(
-      {required final bool valid,
-      required final bool totp,
-      required final String sid,
-      required final String csrf,
-      required final int validity,
-      required final String message}) = _$SessionDetailImpl;
+/// @nodoc
+abstract mixin class $SessionDetailCopyWith<$Res> {
+  factory $SessionDetailCopyWith(
+          SessionDetail value, $Res Function(SessionDetail) _then) =
+      _$SessionDetailCopyWithImpl;
+  @useResult
+  $Res call(
+      {bool valid,
+      bool totp,
+      String sid,
+      String csrf,
+      int validity,
+      String message});
+}
 
-  factory _SessionDetail.fromJson(Map<String, dynamic> json) =
-      _$SessionDetailImpl.fromJson;
+/// @nodoc
+class _$SessionDetailCopyWithImpl<$Res>
+    implements $SessionDetailCopyWith<$Res> {
+  _$SessionDetailCopyWithImpl(this._self, this._then);
+
+  final SessionDetail _self;
+  final $Res Function(SessionDetail) _then;
+
+  /// Create a copy of SessionDetail
+  /// with the given fields replaced by the non-null parameter values.
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? valid = null,
+    Object? totp = null,
+    Object? sid = null,
+    Object? csrf = null,
+    Object? validity = null,
+    Object? message = null,
+  }) {
+    return _then(_self.copyWith(
+      valid: null == valid
+          ? _self.valid
+          : valid // ignore: cast_nullable_to_non_nullable
+              as bool,
+      totp: null == totp
+          ? _self.totp
+          : totp // ignore: cast_nullable_to_non_nullable
+              as bool,
+      sid: null == sid
+          ? _self.sid
+          : sid // ignore: cast_nullable_to_non_nullable
+              as String,
+      csrf: null == csrf
+          ? _self.csrf
+          : csrf // ignore: cast_nullable_to_non_nullable
+              as String,
+      validity: null == validity
+          ? _self.validity
+          : validity // ignore: cast_nullable_to_non_nullable
+              as int,
+      message: null == message
+          ? _self.message
+          : message // ignore: cast_nullable_to_non_nullable
+              as String,
+    ));
+  }
+}
+
+/// @nodoc
+@JsonSerializable()
+class _SessionDetail implements SessionDetail {
+  _SessionDetail(
+      {required this.valid,
+      required this.totp,
+      required this.sid,
+      required this.csrf,
+      required this.validity,
+      required this.message});
+  factory _SessionDetail.fromJson(Map<String, dynamic> json) =>
+      _$SessionDetailFromJson(json);
 
   @override
-  bool get valid;
+  final bool valid;
   @override
-  bool get totp;
+  final bool totp;
   @override
-  String get sid;
+  final String sid;
   @override
-  String get csrf;
+  final String csrf;
   @override
-  int get validity;
+  final int validity;
   @override
-  String get message;
+  final String message;
 
   /// Create a copy of SessionDetail
   /// with the given fields replaced by the non-null parameter values.
   @override
   @JsonKey(includeFromJson: false, includeToJson: false)
-  _$$SessionDetailImplCopyWith<_$SessionDetailImpl> get copyWith =>
-      throw _privateConstructorUsedError;
+  @pragma('vm:prefer-inline')
+  _$SessionDetailCopyWith<_SessionDetail> get copyWith =>
+      __$SessionDetailCopyWithImpl<_SessionDetail>(this, _$identity);
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$SessionDetailToJson(
+      this,
+    );
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _SessionDetail &&
+            (identical(other.valid, valid) || other.valid == valid) &&
+            (identical(other.totp, totp) || other.totp == totp) &&
+            (identical(other.sid, sid) || other.sid == sid) &&
+            (identical(other.csrf, csrf) || other.csrf == csrf) &&
+            (identical(other.validity, validity) ||
+                other.validity == validity) &&
+            (identical(other.message, message) || other.message == message));
+  }
+
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @override
+  int get hashCode =>
+      Object.hash(runtimeType, valid, totp, sid, csrf, validity, message);
+
+  @override
+  String toString() {
+    return 'SessionDetail(valid: $valid, totp: $totp, sid: $sid, csrf: $csrf, validity: $validity, message: $message)';
+  }
 }
+
+/// @nodoc
+abstract mixin class _$SessionDetailCopyWith<$Res>
+    implements $SessionDetailCopyWith<$Res> {
+  factory _$SessionDetailCopyWith(
+          _SessionDetail value, $Res Function(_SessionDetail) _then) =
+      __$SessionDetailCopyWithImpl;
+  @override
+  @useResult
+  $Res call(
+      {bool valid,
+      bool totp,
+      String sid,
+      String csrf,
+      int validity,
+      String message});
+}
+
+/// @nodoc
+class __$SessionDetailCopyWithImpl<$Res>
+    implements _$SessionDetailCopyWith<$Res> {
+  __$SessionDetailCopyWithImpl(this._self, this._then);
+
+  final _SessionDetail _self;
+  final $Res Function(_SessionDetail) _then;
+
+  /// Create a copy of SessionDetail
+  /// with the given fields replaced by the non-null parameter values.
+  @override
+  @pragma('vm:prefer-inline')
+  $Res call({
+    Object? valid = null,
+    Object? totp = null,
+    Object? sid = null,
+    Object? csrf = null,
+    Object? validity = null,
+    Object? message = null,
+  }) {
+    return _then(_SessionDetail(
+      valid: null == valid
+          ? _self.valid
+          : valid // ignore: cast_nullable_to_non_nullable
+              as bool,
+      totp: null == totp
+          ? _self.totp
+          : totp // ignore: cast_nullable_to_non_nullable
+              as bool,
+      sid: null == sid
+          ? _self.sid
+          : sid // ignore: cast_nullable_to_non_nullable
+              as String,
+      csrf: null == csrf
+          ? _self.csrf
+          : csrf // ignore: cast_nullable_to_non_nullable
+              as String,
+      validity: null == validity
+          ? _self.validity
+          : validity // ignore: cast_nullable_to_non_nullable
+              as int,
+      message: null == message
+          ? _self.message
+          : message // ignore: cast_nullable_to_non_nullable
+              as String,
+    ));
+  }
+}
+
+// dart format on

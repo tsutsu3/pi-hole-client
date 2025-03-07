@@ -4,7 +4,7 @@ part 'domains.freezed.dart';
 part 'domains.g.dart';
 
 @freezed
-class Domains with _$Domains {
+sealed class Domains with _$Domains {
   const factory Domains({
     required List<Domain> domains,
     required double took, // Time in seconds
@@ -15,7 +15,7 @@ class Domains with _$Domains {
 }
 
 @freezed
-class AddDomains with _$AddDomains {
+sealed class AddDomains with _$AddDomains {
   const factory AddDomains({
     required List<Domain> domains,
     required Processed processed,
@@ -27,7 +27,7 @@ class AddDomains with _$AddDomains {
 }
 
 @freezed
-class Domain with _$Domain {
+sealed class Domain with _$Domain {
   const factory Domain({
     required String domain, // Domain
     required String unicode, // Unicode domain
@@ -45,7 +45,7 @@ class Domain with _$Domain {
 }
 
 @freezed
-class Processed with _$Processed {
+sealed class Processed with _$Processed {
   const factory Processed({
     required List<ProcessedItem> success,
     required List<ProcessedError> errors,
@@ -56,7 +56,7 @@ class Processed with _$Processed {
 }
 
 @freezed
-class ProcessedItem with _$ProcessedItem {
+sealed class ProcessedItem with _$ProcessedItem {
   const factory ProcessedItem({
     required String item,
   }) = _ProcessedItem;
@@ -66,7 +66,7 @@ class ProcessedItem with _$ProcessedItem {
 }
 
 @freezed
-class ProcessedError with _$ProcessedError {
+sealed class ProcessedError with _$ProcessedError {
   const factory ProcessedError({
     required String item,
     required String error,

@@ -6,22 +6,19 @@ part of 'domains.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-_$DomainsImpl _$$DomainsImplFromJson(Map<String, dynamic> json) =>
-    _$DomainsImpl(
+_Domains _$DomainsFromJson(Map<String, dynamic> json) => _Domains(
       domains: (json['domains'] as List<dynamic>)
           .map((e) => Domain.fromJson(e as Map<String, dynamic>))
           .toList(),
       took: (json['took'] as num).toDouble(),
     );
 
-Map<String, dynamic> _$$DomainsImplToJson(_$DomainsImpl instance) =>
-    <String, dynamic>{
+Map<String, dynamic> _$DomainsToJson(_Domains instance) => <String, dynamic>{
       'domains': instance.domains,
       'took': instance.took,
     };
 
-_$AddDomainsImpl _$$AddDomainsImplFromJson(Map<String, dynamic> json) =>
-    _$AddDomainsImpl(
+_AddDomains _$AddDomainsFromJson(Map<String, dynamic> json) => _AddDomains(
       domains: (json['domains'] as List<dynamic>)
           .map((e) => Domain.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -29,14 +26,14 @@ _$AddDomainsImpl _$$AddDomainsImplFromJson(Map<String, dynamic> json) =>
       took: (json['took'] as num).toDouble(),
     );
 
-Map<String, dynamic> _$$AddDomainsImplToJson(_$AddDomainsImpl instance) =>
+Map<String, dynamic> _$AddDomainsToJson(_AddDomains instance) =>
     <String, dynamic>{
       'domains': instance.domains,
       'processed': instance.processed,
       'took': instance.took,
     };
 
-_$DomainImpl _$$DomainImplFromJson(Map<String, dynamic> json) => _$DomainImpl(
+_Domain _$DomainFromJson(Map<String, dynamic> json) => _Domain(
       domain: json['domain'] as String,
       unicode: json['unicode'] as String,
       type: json['type'] as String,
@@ -51,8 +48,7 @@ _$DomainImpl _$$DomainImplFromJson(Map<String, dynamic> json) => _$DomainImpl(
       dateModified: (json['date_modified'] as num).toInt(),
     );
 
-Map<String, dynamic> _$$DomainImplToJson(_$DomainImpl instance) =>
-    <String, dynamic>{
+Map<String, dynamic> _$DomainToJson(_Domain instance) => <String, dynamic>{
       'domain': instance.domain,
       'unicode': instance.unicode,
       'type': instance.type,
@@ -65,8 +61,7 @@ Map<String, dynamic> _$$DomainImplToJson(_$DomainImpl instance) =>
       'date_modified': instance.dateModified,
     };
 
-_$ProcessedImpl _$$ProcessedImplFromJson(Map<String, dynamic> json) =>
-    _$ProcessedImpl(
+_Processed _$ProcessedFromJson(Map<String, dynamic> json) => _Processed(
       success: (json['success'] as List<dynamic>)
           .map((e) => ProcessedItem.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -75,30 +70,29 @@ _$ProcessedImpl _$$ProcessedImplFromJson(Map<String, dynamic> json) =>
           .toList(),
     );
 
-Map<String, dynamic> _$$ProcessedImplToJson(_$ProcessedImpl instance) =>
+Map<String, dynamic> _$ProcessedToJson(_Processed instance) =>
     <String, dynamic>{
       'success': instance.success,
       'errors': instance.errors,
     };
 
-_$ProcessedItemImpl _$$ProcessedItemImplFromJson(Map<String, dynamic> json) =>
-    _$ProcessedItemImpl(
+_ProcessedItem _$ProcessedItemFromJson(Map<String, dynamic> json) =>
+    _ProcessedItem(
       item: json['item'] as String,
     );
 
-Map<String, dynamic> _$$ProcessedItemImplToJson(_$ProcessedItemImpl instance) =>
+Map<String, dynamic> _$ProcessedItemToJson(_ProcessedItem instance) =>
     <String, dynamic>{
       'item': instance.item,
     };
 
-_$ProcessedErrorImpl _$$ProcessedErrorImplFromJson(Map<String, dynamic> json) =>
-    _$ProcessedErrorImpl(
+_ProcessedError _$ProcessedErrorFromJson(Map<String, dynamic> json) =>
+    _ProcessedError(
       item: json['item'] as String,
       error: json['error'] as String,
     );
 
-Map<String, dynamic> _$$ProcessedErrorImplToJson(
-        _$ProcessedErrorImpl instance) =>
+Map<String, dynamic> _$ProcessedErrorToJson(_ProcessedError instance) =>
     <String, dynamic>{
       'item': instance.item,
       'error': instance.error,

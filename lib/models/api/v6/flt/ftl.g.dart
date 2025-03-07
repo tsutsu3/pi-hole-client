@@ -6,19 +6,17 @@ part of 'ftl.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-_$InfoFtlImpl _$$InfoFtlImplFromJson(Map<String, dynamic> json) =>
-    _$InfoFtlImpl(
+_InfoFtl _$InfoFtlFromJson(Map<String, dynamic> json) => _InfoFtl(
       ftl: Ftl.fromJson(json['ftl'] as Map<String, dynamic>),
       took: (json['took'] as num).toDouble(),
     );
 
-Map<String, dynamic> _$$InfoFtlImplToJson(_$InfoFtlImpl instance) =>
-    <String, dynamic>{
+Map<String, dynamic> _$InfoFtlToJson(_InfoFtl instance) => <String, dynamic>{
       'ftl': instance.ftl,
       'took': instance.took,
     };
 
-_$FtlImpl _$$FtlImplFromJson(Map<String, dynamic> json) => _$FtlImpl(
+_Ftl _$FtlFromJson(Map<String, dynamic> json) => _Ftl(
       database: Database.fromJson(json['database'] as Map<String, dynamic>),
       privacyLevel: (json['privacy_level'] as num).toInt(),
       clients: Clients.fromJson(json['clients'] as Map<String, dynamic>),
@@ -30,7 +28,7 @@ _$FtlImpl _$$FtlImplFromJson(Map<String, dynamic> json) => _$FtlImpl(
       dnsmasq: Dnsmasq.fromJson(json['dnsmasq'] as Map<String, dynamic>),
     );
 
-Map<String, dynamic> _$$FtlImplToJson(_$FtlImpl instance) => <String, dynamic>{
+Map<String, dynamic> _$FtlToJson(_Ftl instance) => <String, dynamic>{
       'database': instance.database,
       'privacy_level': instance.privacyLevel,
       'clients': instance.clients,
@@ -42,8 +40,7 @@ Map<String, dynamic> _$$FtlImplToJson(_$FtlImpl instance) => <String, dynamic>{
       'dnsmasq': instance.dnsmasq,
     };
 
-_$DatabaseImpl _$$DatabaseImplFromJson(Map<String, dynamic> json) =>
-    _$DatabaseImpl(
+_Database _$DatabaseFromJson(Map<String, dynamic> json) => _Database(
       gravity: (json['gravity'] as num).toInt(),
       groups: (json['groups'] as num).toInt(),
       lists: (json['lists'] as num).toInt(),
@@ -51,8 +48,7 @@ _$DatabaseImpl _$$DatabaseImplFromJson(Map<String, dynamic> json) =>
       domains: Domains.fromJson(json['domains'] as Map<String, dynamic>),
     );
 
-Map<String, dynamic> _$$DatabaseImplToJson(_$DatabaseImpl instance) =>
-    <String, dynamic>{
+Map<String, dynamic> _$DatabaseToJson(_Database instance) => <String, dynamic>{
       'gravity': instance.gravity,
       'groups': instance.groups,
       'lists': instance.lists,
@@ -60,32 +56,27 @@ Map<String, dynamic> _$$DatabaseImplToJson(_$DatabaseImpl instance) =>
       'domains': instance.domains,
     };
 
-_$DomainsImpl _$$DomainsImplFromJson(Map<String, dynamic> json) =>
-    _$DomainsImpl(
+_Domains _$DomainsFromJson(Map<String, dynamic> json) => _Domains(
       allowed: (json['allowed'] as num).toInt(),
       denied: (json['denied'] as num).toInt(),
     );
 
-Map<String, dynamic> _$$DomainsImplToJson(_$DomainsImpl instance) =>
-    <String, dynamic>{
+Map<String, dynamic> _$DomainsToJson(_Domains instance) => <String, dynamic>{
       'allowed': instance.allowed,
       'denied': instance.denied,
     };
 
-_$ClientsImpl _$$ClientsImplFromJson(Map<String, dynamic> json) =>
-    _$ClientsImpl(
+_Clients _$ClientsFromJson(Map<String, dynamic> json) => _Clients(
       total: (json['total'] as num).toInt(),
       active: (json['active'] as num).toInt(),
     );
 
-Map<String, dynamic> _$$ClientsImplToJson(_$ClientsImpl instance) =>
-    <String, dynamic>{
+Map<String, dynamic> _$ClientsToJson(_Clients instance) => <String, dynamic>{
       'total': instance.total,
       'active': instance.active,
     };
 
-_$DnsmasqImpl _$$DnsmasqImplFromJson(Map<String, dynamic> json) =>
-    _$DnsmasqImpl(
+_Dnsmasq _$DnsmasqFromJson(Map<String, dynamic> json) => _Dnsmasq(
       dnsCacheInserted: (json['dns_cache_inserted'] as num).toInt(),
       dnsCacheLiveFreed: (json['dns_cache_live_freed'] as num).toInt(),
       dnsQueriesForwarded: (json['dns_queries_forwarded'] as num).toInt(),
@@ -114,8 +105,7 @@ _$DnsmasqImpl _$$DnsmasqImplFromJson(Map<String, dynamic> json) =>
       dnssecMaxWork: (json['dnssec_max_work'] as num).toInt(),
     );
 
-Map<String, dynamic> _$$DnsmasqImplToJson(_$DnsmasqImpl instance) =>
-    <String, dynamic>{
+Map<String, dynamic> _$DnsmasqToJson(_Dnsmasq instance) => <String, dynamic>{
       'dns_cache_inserted': instance.dnsCacheInserted,
       'dns_cache_live_freed': instance.dnsCacheLiveFreed,
       'dns_queries_forwarded': instance.dnsQueriesForwarded,

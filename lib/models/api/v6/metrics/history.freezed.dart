@@ -1,3 +1,4 @@
+// dart format width=80
 // coverage:ignore-file
 // GENERATED CODE - DO NOT MODIFY BY HAND
 // ignore_for_file: type=lint
@@ -9,85 +10,58 @@ part of 'history.dart';
 // FreezedGenerator
 // **************************************************************************
 
+// dart format off
 T _$identity<T>(T value) => value;
-
-final _privateConstructorUsedError = UnsupportedError(
-    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models');
-
-History _$HistoryFromJson(Map<String, dynamic> json) {
-  return _History.fromJson(json);
-}
 
 /// @nodoc
 mixin _$History {
-  List<HistoryData> get history => throw _privateConstructorUsedError;
-  double get took => throw _privateConstructorUsedError;
-
-  /// Serializes this History to a JSON map.
-  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
+  List<HistoryData> get history;
+  double get took;
 
   /// Create a copy of History
   /// with the given fields replaced by the non-null parameter values.
   @JsonKey(includeFromJson: false, includeToJson: false)
-  $HistoryCopyWith<History> get copyWith => throw _privateConstructorUsedError;
-}
-
-/// @nodoc
-abstract class $HistoryCopyWith<$Res> {
-  factory $HistoryCopyWith(History value, $Res Function(History) then) =
-      _$HistoryCopyWithImpl<$Res, History>;
-  @useResult
-  $Res call({List<HistoryData> history, double took});
-}
-
-/// @nodoc
-class _$HistoryCopyWithImpl<$Res, $Val extends History>
-    implements $HistoryCopyWith<$Res> {
-  _$HistoryCopyWithImpl(this._value, this._then);
-
-  // ignore: unused_field
-  final $Val _value;
-  // ignore: unused_field
-  final $Res Function($Val) _then;
-
-  /// Create a copy of History
-  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
+  $HistoryCopyWith<History> get copyWith =>
+      _$HistoryCopyWithImpl<History>(this as History, _$identity);
+
+  /// Serializes this History to a JSON map.
+  Map<String, dynamic> toJson();
+
   @override
-  $Res call({
-    Object? history = null,
-    Object? took = null,
-  }) {
-    return _then(_value.copyWith(
-      history: null == history
-          ? _value.history
-          : history // ignore: cast_nullable_to_non_nullable
-              as List<HistoryData>,
-      took: null == took
-          ? _value.took
-          : took // ignore: cast_nullable_to_non_nullable
-              as double,
-    ) as $Val);
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is History &&
+            const DeepCollectionEquality().equals(other.history, history) &&
+            (identical(other.took, took) || other.took == took));
+  }
+
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @override
+  int get hashCode => Object.hash(
+      runtimeType, const DeepCollectionEquality().hash(history), took);
+
+  @override
+  String toString() {
+    return 'History(history: $history, took: $took)';
   }
 }
 
 /// @nodoc
-abstract class _$$HistoryImplCopyWith<$Res> implements $HistoryCopyWith<$Res> {
-  factory _$$HistoryImplCopyWith(
-          _$HistoryImpl value, $Res Function(_$HistoryImpl) then) =
-      __$$HistoryImplCopyWithImpl<$Res>;
-  @override
+abstract mixin class $HistoryCopyWith<$Res> {
+  factory $HistoryCopyWith(History value, $Res Function(History) _then) =
+      _$HistoryCopyWithImpl;
   @useResult
   $Res call({List<HistoryData> history, double took});
 }
 
 /// @nodoc
-class __$$HistoryImplCopyWithImpl<$Res>
-    extends _$HistoryCopyWithImpl<$Res, _$HistoryImpl>
-    implements _$$HistoryImplCopyWith<$Res> {
-  __$$HistoryImplCopyWithImpl(
-      _$HistoryImpl _value, $Res Function(_$HistoryImpl) _then)
-      : super(_value, _then);
+class _$HistoryCopyWithImpl<$Res> implements $HistoryCopyWith<$Res> {
+  _$HistoryCopyWithImpl(this._self, this._then);
+
+  final History _self;
+  final $Res Function(History) _then;
 
   /// Create a copy of History
   /// with the given fields replaced by the non-null parameter values.
@@ -97,13 +71,13 @@ class __$$HistoryImplCopyWithImpl<$Res>
     Object? history = null,
     Object? took = null,
   }) {
-    return _then(_$HistoryImpl(
+    return _then(_self.copyWith(
       history: null == history
-          ? _value._history
+          ? _self.history
           : history // ignore: cast_nullable_to_non_nullable
               as List<HistoryData>,
       took: null == took
-          ? _value.took
+          ? _self.took
           : took // ignore: cast_nullable_to_non_nullable
               as double,
     ));
@@ -112,13 +86,11 @@ class __$$HistoryImplCopyWithImpl<$Res>
 
 /// @nodoc
 @JsonSerializable()
-class _$HistoryImpl implements _History {
-  const _$HistoryImpl(
-      {required final List<HistoryData> history, required this.took})
+class _History implements History {
+  const _History({required final List<HistoryData> history, required this.took})
       : _history = history;
-
-  factory _$HistoryImpl.fromJson(Map<String, dynamic> json) =>
-      _$$HistoryImplFromJson(json);
+  factory _History.fromJson(Map<String, dynamic> json) =>
+      _$HistoryFromJson(json);
 
   final List<HistoryData> _history;
   @override
@@ -131,16 +103,26 @@ class _$HistoryImpl implements _History {
   @override
   final double took;
 
+  /// Create a copy of History
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  String toString() {
-    return 'History(history: $history, took: $took)';
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @pragma('vm:prefer-inline')
+  _$HistoryCopyWith<_History> get copyWith =>
+      __$HistoryCopyWithImpl<_History>(this, _$identity);
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$HistoryToJson(
+      this,
+    );
   }
 
   @override
   bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$HistoryImpl &&
+            other is _History &&
             const DeepCollectionEquality().equals(other._history, _history) &&
             (identical(other.took, took) || other.took == took));
   }
@@ -150,210 +132,72 @@ class _$HistoryImpl implements _History {
   int get hashCode => Object.hash(
       runtimeType, const DeepCollectionEquality().hash(_history), took);
 
-  /// Create a copy of History
-  /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
-  @pragma('vm:prefer-inline')
-  _$$HistoryImplCopyWith<_$HistoryImpl> get copyWith =>
-      __$$HistoryImplCopyWithImpl<_$HistoryImpl>(this, _$identity);
-
-  @override
-  Map<String, dynamic> toJson() {
-    return _$$HistoryImplToJson(
-      this,
-    );
-  }
-}
-
-abstract class _History implements History {
-  const factory _History(
-      {required final List<HistoryData> history,
-      required final double took}) = _$HistoryImpl;
-
-  factory _History.fromJson(Map<String, dynamic> json) = _$HistoryImpl.fromJson;
-
-  @override
-  List<HistoryData> get history;
-  @override
-  double get took;
-
-  /// Create a copy of History
-  /// with the given fields replaced by the non-null parameter values.
-  @override
-  @JsonKey(includeFromJson: false, includeToJson: false)
-  _$$HistoryImplCopyWith<_$HistoryImpl> get copyWith =>
-      throw _privateConstructorUsedError;
-}
-
-HistoryData _$HistoryDataFromJson(Map<String, dynamic> json) {
-  return _HistoryData.fromJson(json);
-}
-
-/// @nodoc
-mixin _$HistoryData {
-  double get timestamp => throw _privateConstructorUsedError;
-  int get total => throw _privateConstructorUsedError;
-  int get cached => throw _privateConstructorUsedError;
-  int get blocked => throw _privateConstructorUsedError;
-  int get forwarded => throw _privateConstructorUsedError;
-
-  /// Serializes this HistoryData to a JSON map.
-  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
-
-  /// Create a copy of HistoryData
-  /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
-  $HistoryDataCopyWith<HistoryData> get copyWith =>
-      throw _privateConstructorUsedError;
-}
-
-/// @nodoc
-abstract class $HistoryDataCopyWith<$Res> {
-  factory $HistoryDataCopyWith(
-          HistoryData value, $Res Function(HistoryData) then) =
-      _$HistoryDataCopyWithImpl<$Res, HistoryData>;
-  @useResult
-  $Res call(
-      {double timestamp, int total, int cached, int blocked, int forwarded});
-}
-
-/// @nodoc
-class _$HistoryDataCopyWithImpl<$Res, $Val extends HistoryData>
-    implements $HistoryDataCopyWith<$Res> {
-  _$HistoryDataCopyWithImpl(this._value, this._then);
-
-  // ignore: unused_field
-  final $Val _value;
-  // ignore: unused_field
-  final $Res Function($Val) _then;
-
-  /// Create a copy of HistoryData
-  /// with the given fields replaced by the non-null parameter values.
-  @pragma('vm:prefer-inline')
-  @override
-  $Res call({
-    Object? timestamp = null,
-    Object? total = null,
-    Object? cached = null,
-    Object? blocked = null,
-    Object? forwarded = null,
-  }) {
-    return _then(_value.copyWith(
-      timestamp: null == timestamp
-          ? _value.timestamp
-          : timestamp // ignore: cast_nullable_to_non_nullable
-              as double,
-      total: null == total
-          ? _value.total
-          : total // ignore: cast_nullable_to_non_nullable
-              as int,
-      cached: null == cached
-          ? _value.cached
-          : cached // ignore: cast_nullable_to_non_nullable
-              as int,
-      blocked: null == blocked
-          ? _value.blocked
-          : blocked // ignore: cast_nullable_to_non_nullable
-              as int,
-      forwarded: null == forwarded
-          ? _value.forwarded
-          : forwarded // ignore: cast_nullable_to_non_nullable
-              as int,
-    ) as $Val);
+  String toString() {
+    return 'History(history: $history, took: $took)';
   }
 }
 
 /// @nodoc
-abstract class _$$HistoryDataImplCopyWith<$Res>
-    implements $HistoryDataCopyWith<$Res> {
-  factory _$$HistoryDataImplCopyWith(
-          _$HistoryDataImpl value, $Res Function(_$HistoryDataImpl) then) =
-      __$$HistoryDataImplCopyWithImpl<$Res>;
+abstract mixin class _$HistoryCopyWith<$Res> implements $HistoryCopyWith<$Res> {
+  factory _$HistoryCopyWith(_History value, $Res Function(_History) _then) =
+      __$HistoryCopyWithImpl;
   @override
   @useResult
-  $Res call(
-      {double timestamp, int total, int cached, int blocked, int forwarded});
+  $Res call({List<HistoryData> history, double took});
 }
 
 /// @nodoc
-class __$$HistoryDataImplCopyWithImpl<$Res>
-    extends _$HistoryDataCopyWithImpl<$Res, _$HistoryDataImpl>
-    implements _$$HistoryDataImplCopyWith<$Res> {
-  __$$HistoryDataImplCopyWithImpl(
-      _$HistoryDataImpl _value, $Res Function(_$HistoryDataImpl) _then)
-      : super(_value, _then);
+class __$HistoryCopyWithImpl<$Res> implements _$HistoryCopyWith<$Res> {
+  __$HistoryCopyWithImpl(this._self, this._then);
 
-  /// Create a copy of HistoryData
+  final _History _self;
+  final $Res Function(_History) _then;
+
+  /// Create a copy of History
   /// with the given fields replaced by the non-null parameter values.
-  @pragma('vm:prefer-inline')
   @override
+  @pragma('vm:prefer-inline')
   $Res call({
-    Object? timestamp = null,
-    Object? total = null,
-    Object? cached = null,
-    Object? blocked = null,
-    Object? forwarded = null,
+    Object? history = null,
+    Object? took = null,
   }) {
-    return _then(_$HistoryDataImpl(
-      timestamp: null == timestamp
-          ? _value.timestamp
-          : timestamp // ignore: cast_nullable_to_non_nullable
+    return _then(_History(
+      history: null == history
+          ? _self._history
+          : history // ignore: cast_nullable_to_non_nullable
+              as List<HistoryData>,
+      took: null == took
+          ? _self.took
+          : took // ignore: cast_nullable_to_non_nullable
               as double,
-      total: null == total
-          ? _value.total
-          : total // ignore: cast_nullable_to_non_nullable
-              as int,
-      cached: null == cached
-          ? _value.cached
-          : cached // ignore: cast_nullable_to_non_nullable
-              as int,
-      blocked: null == blocked
-          ? _value.blocked
-          : blocked // ignore: cast_nullable_to_non_nullable
-              as int,
-      forwarded: null == forwarded
-          ? _value.forwarded
-          : forwarded // ignore: cast_nullable_to_non_nullable
-              as int,
     ));
   }
 }
 
 /// @nodoc
-@JsonSerializable()
-class _$HistoryDataImpl implements _HistoryData {
-  const _$HistoryDataImpl(
-      {required this.timestamp,
-      required this.total,
-      required this.cached,
-      required this.blocked,
-      required this.forwarded});
+mixin _$HistoryData {
+  double get timestamp;
+  int get total;
+  int get cached;
+  int get blocked;
+  int get forwarded;
 
-  factory _$HistoryDataImpl.fromJson(Map<String, dynamic> json) =>
-      _$$HistoryDataImplFromJson(json);
+  /// Create a copy of HistoryData
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @pragma('vm:prefer-inline')
+  $HistoryDataCopyWith<HistoryData> get copyWith =>
+      _$HistoryDataCopyWithImpl<HistoryData>(this as HistoryData, _$identity);
 
-  @override
-  final double timestamp;
-  @override
-  final int total;
-  @override
-  final int cached;
-  @override
-  final int blocked;
-  @override
-  final int forwarded;
-
-  @override
-  String toString() {
-    return 'HistoryData(timestamp: $timestamp, total: $total, cached: $cached, blocked: $blocked, forwarded: $forwarded)';
-  }
+  /// Serializes this HistoryData to a JSON map.
+  Map<String, dynamic> toJson();
 
   @override
   bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$HistoryDataImpl &&
+            other is HistoryData &&
             (identical(other.timestamp, timestamp) ||
                 other.timestamp == timestamp) &&
             (identical(other.total, total) || other.total == total) &&
@@ -368,137 +212,241 @@ class _$HistoryDataImpl implements _HistoryData {
   int get hashCode =>
       Object.hash(runtimeType, timestamp, total, cached, blocked, forwarded);
 
-  /// Create a copy of HistoryData
-  /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
-  @pragma('vm:prefer-inline')
-  _$$HistoryDataImplCopyWith<_$HistoryDataImpl> get copyWith =>
-      __$$HistoryDataImplCopyWithImpl<_$HistoryDataImpl>(this, _$identity);
-
-  @override
-  Map<String, dynamic> toJson() {
-    return _$$HistoryDataImplToJson(
-      this,
-    );
+  String toString() {
+    return 'HistoryData(timestamp: $timestamp, total: $total, cached: $cached, blocked: $blocked, forwarded: $forwarded)';
   }
 }
 
-abstract class _HistoryData implements HistoryData {
-  const factory _HistoryData(
-      {required final double timestamp,
-      required final int total,
-      required final int cached,
-      required final int blocked,
-      required final int forwarded}) = _$HistoryDataImpl;
+/// @nodoc
+abstract mixin class $HistoryDataCopyWith<$Res> {
+  factory $HistoryDataCopyWith(
+          HistoryData value, $Res Function(HistoryData) _then) =
+      _$HistoryDataCopyWithImpl;
+  @useResult
+  $Res call(
+      {double timestamp, int total, int cached, int blocked, int forwarded});
+}
 
-  factory _HistoryData.fromJson(Map<String, dynamic> json) =
-      _$HistoryDataImpl.fromJson;
+/// @nodoc
+class _$HistoryDataCopyWithImpl<$Res> implements $HistoryDataCopyWith<$Res> {
+  _$HistoryDataCopyWithImpl(this._self, this._then);
+
+  final HistoryData _self;
+  final $Res Function(HistoryData) _then;
+
+  /// Create a copy of HistoryData
+  /// with the given fields replaced by the non-null parameter values.
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? timestamp = null,
+    Object? total = null,
+    Object? cached = null,
+    Object? blocked = null,
+    Object? forwarded = null,
+  }) {
+    return _then(_self.copyWith(
+      timestamp: null == timestamp
+          ? _self.timestamp
+          : timestamp // ignore: cast_nullable_to_non_nullable
+              as double,
+      total: null == total
+          ? _self.total
+          : total // ignore: cast_nullable_to_non_nullable
+              as int,
+      cached: null == cached
+          ? _self.cached
+          : cached // ignore: cast_nullable_to_non_nullable
+              as int,
+      blocked: null == blocked
+          ? _self.blocked
+          : blocked // ignore: cast_nullable_to_non_nullable
+              as int,
+      forwarded: null == forwarded
+          ? _self.forwarded
+          : forwarded // ignore: cast_nullable_to_non_nullable
+              as int,
+    ));
+  }
+}
+
+/// @nodoc
+@JsonSerializable()
+class _HistoryData implements HistoryData {
+  const _HistoryData(
+      {required this.timestamp,
+      required this.total,
+      required this.cached,
+      required this.blocked,
+      required this.forwarded});
+  factory _HistoryData.fromJson(Map<String, dynamic> json) =>
+      _$HistoryDataFromJson(json);
 
   @override
-  double get timestamp;
+  final double timestamp;
   @override
-  int get total;
+  final int total;
   @override
-  int get cached;
+  final int cached;
   @override
-  int get blocked;
+  final int blocked;
   @override
-  int get forwarded;
+  final int forwarded;
 
   /// Create a copy of HistoryData
   /// with the given fields replaced by the non-null parameter values.
   @override
   @JsonKey(includeFromJson: false, includeToJson: false)
-  _$$HistoryDataImplCopyWith<_$HistoryDataImpl> get copyWith =>
-      throw _privateConstructorUsedError;
+  @pragma('vm:prefer-inline')
+  _$HistoryDataCopyWith<_HistoryData> get copyWith =>
+      __$HistoryDataCopyWithImpl<_HistoryData>(this, _$identity);
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$HistoryDataToJson(
+      this,
+    );
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _HistoryData &&
+            (identical(other.timestamp, timestamp) ||
+                other.timestamp == timestamp) &&
+            (identical(other.total, total) || other.total == total) &&
+            (identical(other.cached, cached) || other.cached == cached) &&
+            (identical(other.blocked, blocked) || other.blocked == blocked) &&
+            (identical(other.forwarded, forwarded) ||
+                other.forwarded == forwarded));
+  }
+
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @override
+  int get hashCode =>
+      Object.hash(runtimeType, timestamp, total, cached, blocked, forwarded);
+
+  @override
+  String toString() {
+    return 'HistoryData(timestamp: $timestamp, total: $total, cached: $cached, blocked: $blocked, forwarded: $forwarded)';
+  }
 }
 
-HistoryClients _$HistoryClientsFromJson(Map<String, dynamic> json) {
-  return _HistoryClients.fromJson(json);
+/// @nodoc
+abstract mixin class _$HistoryDataCopyWith<$Res>
+    implements $HistoryDataCopyWith<$Res> {
+  factory _$HistoryDataCopyWith(
+          _HistoryData value, $Res Function(_HistoryData) _then) =
+      __$HistoryDataCopyWithImpl;
+  @override
+  @useResult
+  $Res call(
+      {double timestamp, int total, int cached, int blocked, int forwarded});
+}
+
+/// @nodoc
+class __$HistoryDataCopyWithImpl<$Res> implements _$HistoryDataCopyWith<$Res> {
+  __$HistoryDataCopyWithImpl(this._self, this._then);
+
+  final _HistoryData _self;
+  final $Res Function(_HistoryData) _then;
+
+  /// Create a copy of HistoryData
+  /// with the given fields replaced by the non-null parameter values.
+  @override
+  @pragma('vm:prefer-inline')
+  $Res call({
+    Object? timestamp = null,
+    Object? total = null,
+    Object? cached = null,
+    Object? blocked = null,
+    Object? forwarded = null,
+  }) {
+    return _then(_HistoryData(
+      timestamp: null == timestamp
+          ? _self.timestamp
+          : timestamp // ignore: cast_nullable_to_non_nullable
+              as double,
+      total: null == total
+          ? _self.total
+          : total // ignore: cast_nullable_to_non_nullable
+              as int,
+      cached: null == cached
+          ? _self.cached
+          : cached // ignore: cast_nullable_to_non_nullable
+              as int,
+      blocked: null == blocked
+          ? _self.blocked
+          : blocked // ignore: cast_nullable_to_non_nullable
+              as int,
+      forwarded: null == forwarded
+          ? _self.forwarded
+          : forwarded // ignore: cast_nullable_to_non_nullable
+              as int,
+    ));
+  }
 }
 
 /// @nodoc
 mixin _$HistoryClients {
-  Map<String, Client> get clients => throw _privateConstructorUsedError;
-  List<HistoryEntry> get history => throw _privateConstructorUsedError;
-  double get took => throw _privateConstructorUsedError;
-
-  /// Serializes this HistoryClients to a JSON map.
-  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
+  Map<String, Client> get clients;
+  List<HistoryEntry> get history;
+  double get took;
 
   /// Create a copy of HistoryClients
   /// with the given fields replaced by the non-null parameter values.
   @JsonKey(includeFromJson: false, includeToJson: false)
-  $HistoryClientsCopyWith<HistoryClients> get copyWith =>
-      throw _privateConstructorUsedError;
-}
-
-/// @nodoc
-abstract class $HistoryClientsCopyWith<$Res> {
-  factory $HistoryClientsCopyWith(
-          HistoryClients value, $Res Function(HistoryClients) then) =
-      _$HistoryClientsCopyWithImpl<$Res, HistoryClients>;
-  @useResult
-  $Res call(
-      {Map<String, Client> clients, List<HistoryEntry> history, double took});
-}
-
-/// @nodoc
-class _$HistoryClientsCopyWithImpl<$Res, $Val extends HistoryClients>
-    implements $HistoryClientsCopyWith<$Res> {
-  _$HistoryClientsCopyWithImpl(this._value, this._then);
-
-  // ignore: unused_field
-  final $Val _value;
-  // ignore: unused_field
-  final $Res Function($Val) _then;
-
-  /// Create a copy of HistoryClients
-  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
+  $HistoryClientsCopyWith<HistoryClients> get copyWith =>
+      _$HistoryClientsCopyWithImpl<HistoryClients>(
+          this as HistoryClients, _$identity);
+
+  /// Serializes this HistoryClients to a JSON map.
+  Map<String, dynamic> toJson();
+
   @override
-  $Res call({
-    Object? clients = null,
-    Object? history = null,
-    Object? took = null,
-  }) {
-    return _then(_value.copyWith(
-      clients: null == clients
-          ? _value.clients
-          : clients // ignore: cast_nullable_to_non_nullable
-              as Map<String, Client>,
-      history: null == history
-          ? _value.history
-          : history // ignore: cast_nullable_to_non_nullable
-              as List<HistoryEntry>,
-      took: null == took
-          ? _value.took
-          : took // ignore: cast_nullable_to_non_nullable
-              as double,
-    ) as $Val);
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is HistoryClients &&
+            const DeepCollectionEquality().equals(other.clients, clients) &&
+            const DeepCollectionEquality().equals(other.history, history) &&
+            (identical(other.took, took) || other.took == took));
+  }
+
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @override
+  int get hashCode => Object.hash(
+      runtimeType,
+      const DeepCollectionEquality().hash(clients),
+      const DeepCollectionEquality().hash(history),
+      took);
+
+  @override
+  String toString() {
+    return 'HistoryClients(clients: $clients, history: $history, took: $took)';
   }
 }
 
 /// @nodoc
-abstract class _$$HistoryClientsImplCopyWith<$Res>
-    implements $HistoryClientsCopyWith<$Res> {
-  factory _$$HistoryClientsImplCopyWith(_$HistoryClientsImpl value,
-          $Res Function(_$HistoryClientsImpl) then) =
-      __$$HistoryClientsImplCopyWithImpl<$Res>;
-  @override
+abstract mixin class $HistoryClientsCopyWith<$Res> {
+  factory $HistoryClientsCopyWith(
+          HistoryClients value, $Res Function(HistoryClients) _then) =
+      _$HistoryClientsCopyWithImpl;
   @useResult
   $Res call(
       {Map<String, Client> clients, List<HistoryEntry> history, double took});
 }
 
 /// @nodoc
-class __$$HistoryClientsImplCopyWithImpl<$Res>
-    extends _$HistoryClientsCopyWithImpl<$Res, _$HistoryClientsImpl>
-    implements _$$HistoryClientsImplCopyWith<$Res> {
-  __$$HistoryClientsImplCopyWithImpl(
-      _$HistoryClientsImpl _value, $Res Function(_$HistoryClientsImpl) _then)
-      : super(_value, _then);
+class _$HistoryClientsCopyWithImpl<$Res>
+    implements $HistoryClientsCopyWith<$Res> {
+  _$HistoryClientsCopyWithImpl(this._self, this._then);
+
+  final HistoryClients _self;
+  final $Res Function(HistoryClients) _then;
 
   /// Create a copy of HistoryClients
   /// with the given fields replaced by the non-null parameter values.
@@ -509,17 +457,17 @@ class __$$HistoryClientsImplCopyWithImpl<$Res>
     Object? history = null,
     Object? took = null,
   }) {
-    return _then(_$HistoryClientsImpl(
+    return _then(_self.copyWith(
       clients: null == clients
-          ? _value._clients
+          ? _self.clients
           : clients // ignore: cast_nullable_to_non_nullable
               as Map<String, Client>,
       history: null == history
-          ? _value._history
+          ? _self.history
           : history // ignore: cast_nullable_to_non_nullable
               as List<HistoryEntry>,
       took: null == took
-          ? _value.took
+          ? _self.took
           : took // ignore: cast_nullable_to_non_nullable
               as double,
     ));
@@ -528,16 +476,15 @@ class __$$HistoryClientsImplCopyWithImpl<$Res>
 
 /// @nodoc
 @JsonSerializable()
-class _$HistoryClientsImpl implements _HistoryClients {
-  const _$HistoryClientsImpl(
+class _HistoryClients implements HistoryClients {
+  const _HistoryClients(
       {required final Map<String, Client> clients,
       required final List<HistoryEntry> history,
       required this.took})
       : _clients = clients,
         _history = history;
-
-  factory _$HistoryClientsImpl.fromJson(Map<String, dynamic> json) =>
-      _$$HistoryClientsImplFromJson(json);
+  factory _HistoryClients.fromJson(Map<String, dynamic> json) =>
+      _$HistoryClientsFromJson(json);
 
   final Map<String, Client> _clients;
   @override
@@ -558,16 +505,26 @@ class _$HistoryClientsImpl implements _HistoryClients {
   @override
   final double took;
 
+  /// Create a copy of HistoryClients
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  String toString() {
-    return 'HistoryClients(clients: $clients, history: $history, took: $took)';
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @pragma('vm:prefer-inline')
+  _$HistoryClientsCopyWith<_HistoryClients> get copyWith =>
+      __$HistoryClientsCopyWithImpl<_HistoryClients>(this, _$identity);
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$HistoryClientsToJson(
+      this,
+    );
   }
 
   @override
   bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$HistoryClientsImpl &&
+            other is _HistoryClients &&
             const DeepCollectionEquality().equals(other._clients, _clients) &&
             const DeepCollectionEquality().equals(other._history, _history) &&
             (identical(other.took, took) || other.took == took));
@@ -581,168 +538,78 @@ class _$HistoryClientsImpl implements _HistoryClients {
       const DeepCollectionEquality().hash(_history),
       took);
 
-  /// Create a copy of HistoryClients
-  /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
-  @pragma('vm:prefer-inline')
-  _$$HistoryClientsImplCopyWith<_$HistoryClientsImpl> get copyWith =>
-      __$$HistoryClientsImplCopyWithImpl<_$HistoryClientsImpl>(
-          this, _$identity);
-
-  @override
-  Map<String, dynamic> toJson() {
-    return _$$HistoryClientsImplToJson(
-      this,
-    );
-  }
-}
-
-abstract class _HistoryClients implements HistoryClients {
-  const factory _HistoryClients(
-      {required final Map<String, Client> clients,
-      required final List<HistoryEntry> history,
-      required final double took}) = _$HistoryClientsImpl;
-
-  factory _HistoryClients.fromJson(Map<String, dynamic> json) =
-      _$HistoryClientsImpl.fromJson;
-
-  @override
-  Map<String, Client> get clients;
-  @override
-  List<HistoryEntry> get history;
-  @override
-  double get took;
-
-  /// Create a copy of HistoryClients
-  /// with the given fields replaced by the non-null parameter values.
-  @override
-  @JsonKey(includeFromJson: false, includeToJson: false)
-  _$$HistoryClientsImplCopyWith<_$HistoryClientsImpl> get copyWith =>
-      throw _privateConstructorUsedError;
-}
-
-Client _$ClientFromJson(Map<String, dynamic> json) {
-  return _Client.fromJson(json);
-}
-
-/// @nodoc
-mixin _$Client {
-  String? get name =>
-      throw _privateConstructorUsedError; // Nullable since "name" can be null
-  int get total => throw _privateConstructorUsedError;
-
-  /// Serializes this Client to a JSON map.
-  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
-
-  /// Create a copy of Client
-  /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
-  $ClientCopyWith<Client> get copyWith => throw _privateConstructorUsedError;
-}
-
-/// @nodoc
-abstract class $ClientCopyWith<$Res> {
-  factory $ClientCopyWith(Client value, $Res Function(Client) then) =
-      _$ClientCopyWithImpl<$Res, Client>;
-  @useResult
-  $Res call({String? name, int total});
-}
-
-/// @nodoc
-class _$ClientCopyWithImpl<$Res, $Val extends Client>
-    implements $ClientCopyWith<$Res> {
-  _$ClientCopyWithImpl(this._value, this._then);
-
-  // ignore: unused_field
-  final $Val _value;
-  // ignore: unused_field
-  final $Res Function($Val) _then;
-
-  /// Create a copy of Client
-  /// with the given fields replaced by the non-null parameter values.
-  @pragma('vm:prefer-inline')
-  @override
-  $Res call({
-    Object? name = freezed,
-    Object? total = null,
-  }) {
-    return _then(_value.copyWith(
-      name: freezed == name
-          ? _value.name
-          : name // ignore: cast_nullable_to_non_nullable
-              as String?,
-      total: null == total
-          ? _value.total
-          : total // ignore: cast_nullable_to_non_nullable
-              as int,
-    ) as $Val);
+  String toString() {
+    return 'HistoryClients(clients: $clients, history: $history, took: $took)';
   }
 }
 
 /// @nodoc
-abstract class _$$ClientImplCopyWith<$Res> implements $ClientCopyWith<$Res> {
-  factory _$$ClientImplCopyWith(
-          _$ClientImpl value, $Res Function(_$ClientImpl) then) =
-      __$$ClientImplCopyWithImpl<$Res>;
+abstract mixin class _$HistoryClientsCopyWith<$Res>
+    implements $HistoryClientsCopyWith<$Res> {
+  factory _$HistoryClientsCopyWith(
+          _HistoryClients value, $Res Function(_HistoryClients) _then) =
+      __$HistoryClientsCopyWithImpl;
   @override
   @useResult
-  $Res call({String? name, int total});
+  $Res call(
+      {Map<String, Client> clients, List<HistoryEntry> history, double took});
 }
 
 /// @nodoc
-class __$$ClientImplCopyWithImpl<$Res>
-    extends _$ClientCopyWithImpl<$Res, _$ClientImpl>
-    implements _$$ClientImplCopyWith<$Res> {
-  __$$ClientImplCopyWithImpl(
-      _$ClientImpl _value, $Res Function(_$ClientImpl) _then)
-      : super(_value, _then);
+class __$HistoryClientsCopyWithImpl<$Res>
+    implements _$HistoryClientsCopyWith<$Res> {
+  __$HistoryClientsCopyWithImpl(this._self, this._then);
 
-  /// Create a copy of Client
+  final _HistoryClients _self;
+  final $Res Function(_HistoryClients) _then;
+
+  /// Create a copy of HistoryClients
   /// with the given fields replaced by the non-null parameter values.
-  @pragma('vm:prefer-inline')
   @override
+  @pragma('vm:prefer-inline')
   $Res call({
-    Object? name = freezed,
-    Object? total = null,
+    Object? clients = null,
+    Object? history = null,
+    Object? took = null,
   }) {
-    return _then(_$ClientImpl(
-      name: freezed == name
-          ? _value.name
-          : name // ignore: cast_nullable_to_non_nullable
-              as String?,
-      total: null == total
-          ? _value.total
-          : total // ignore: cast_nullable_to_non_nullable
-              as int,
+    return _then(_HistoryClients(
+      clients: null == clients
+          ? _self._clients
+          : clients // ignore: cast_nullable_to_non_nullable
+              as Map<String, Client>,
+      history: null == history
+          ? _self._history
+          : history // ignore: cast_nullable_to_non_nullable
+              as List<HistoryEntry>,
+      took: null == took
+          ? _self.took
+          : took // ignore: cast_nullable_to_non_nullable
+              as double,
     ));
   }
 }
 
 /// @nodoc
-@JsonSerializable()
-class _$ClientImpl implements _Client {
-  const _$ClientImpl({required this.name, required this.total});
+mixin _$Client {
+  String? get name; // Nullable since "name" can be null
+  int get total;
 
-  factory _$ClientImpl.fromJson(Map<String, dynamic> json) =>
-      _$$ClientImplFromJson(json);
+  /// Create a copy of Client
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @pragma('vm:prefer-inline')
+  $ClientCopyWith<Client> get copyWith =>
+      _$ClientCopyWithImpl<Client>(this as Client, _$identity);
 
-  @override
-  final String? name;
-// Nullable since "name" can be null
-  @override
-  final int total;
-
-  @override
-  String toString() {
-    return 'Client(name: $name, total: $total)';
-  }
+  /// Serializes this Client to a JSON map.
+  Map<String, dynamic> toJson();
 
   @override
   bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$ClientImpl &&
+            other is Client &&
             (identical(other.name, name) || other.name == name) &&
             (identical(other.total, total) || other.total == total));
   }
@@ -751,118 +618,183 @@ class _$ClientImpl implements _Client {
   @override
   int get hashCode => Object.hash(runtimeType, name, total);
 
-  /// Create a copy of Client
-  /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
-  @pragma('vm:prefer-inline')
-  _$$ClientImplCopyWith<_$ClientImpl> get copyWith =>
-      __$$ClientImplCopyWithImpl<_$ClientImpl>(this, _$identity);
-
-  @override
-  Map<String, dynamic> toJson() {
-    return _$$ClientImplToJson(
-      this,
-    );
+  String toString() {
+    return 'Client(name: $name, total: $total)';
   }
 }
 
-abstract class _Client implements Client {
-  const factory _Client(
-      {required final String? name, required final int total}) = _$ClientImpl;
+/// @nodoc
+abstract mixin class $ClientCopyWith<$Res> {
+  factory $ClientCopyWith(Client value, $Res Function(Client) _then) =
+      _$ClientCopyWithImpl;
+  @useResult
+  $Res call({String? name, int total});
+}
 
-  factory _Client.fromJson(Map<String, dynamic> json) = _$ClientImpl.fromJson;
+/// @nodoc
+class _$ClientCopyWithImpl<$Res> implements $ClientCopyWith<$Res> {
+  _$ClientCopyWithImpl(this._self, this._then);
+
+  final Client _self;
+  final $Res Function(Client) _then;
+
+  /// Create a copy of Client
+  /// with the given fields replaced by the non-null parameter values.
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? name = freezed,
+    Object? total = null,
+  }) {
+    return _then(_self.copyWith(
+      name: freezed == name
+          ? _self.name
+          : name // ignore: cast_nullable_to_non_nullable
+              as String?,
+      total: null == total
+          ? _self.total
+          : total // ignore: cast_nullable_to_non_nullable
+              as int,
+    ));
+  }
+}
+
+/// @nodoc
+@JsonSerializable()
+class _Client implements Client {
+  const _Client({required this.name, required this.total});
+  factory _Client.fromJson(Map<String, dynamic> json) => _$ClientFromJson(json);
 
   @override
-  String? get name; // Nullable since "name" can be null
+  final String? name;
+// Nullable since "name" can be null
   @override
-  int get total;
+  final int total;
 
   /// Create a copy of Client
   /// with the given fields replaced by the non-null parameter values.
   @override
   @JsonKey(includeFromJson: false, includeToJson: false)
-  _$$ClientImplCopyWith<_$ClientImpl> get copyWith =>
-      throw _privateConstructorUsedError;
+  @pragma('vm:prefer-inline')
+  _$ClientCopyWith<_Client> get copyWith =>
+      __$ClientCopyWithImpl<_Client>(this, _$identity);
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$ClientToJson(
+      this,
+    );
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _Client &&
+            (identical(other.name, name) || other.name == name) &&
+            (identical(other.total, total) || other.total == total));
+  }
+
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @override
+  int get hashCode => Object.hash(runtimeType, name, total);
+
+  @override
+  String toString() {
+    return 'Client(name: $name, total: $total)';
+  }
 }
 
-HistoryEntry _$HistoryEntryFromJson(Map<String, dynamic> json) {
-  return _HistoryEntry.fromJson(json);
+/// @nodoc
+abstract mixin class _$ClientCopyWith<$Res> implements $ClientCopyWith<$Res> {
+  factory _$ClientCopyWith(_Client value, $Res Function(_Client) _then) =
+      __$ClientCopyWithImpl;
+  @override
+  @useResult
+  $Res call({String? name, int total});
+}
+
+/// @nodoc
+class __$ClientCopyWithImpl<$Res> implements _$ClientCopyWith<$Res> {
+  __$ClientCopyWithImpl(this._self, this._then);
+
+  final _Client _self;
+  final $Res Function(_Client) _then;
+
+  /// Create a copy of Client
+  /// with the given fields replaced by the non-null parameter values.
+  @override
+  @pragma('vm:prefer-inline')
+  $Res call({
+    Object? name = freezed,
+    Object? total = null,
+  }) {
+    return _then(_Client(
+      name: freezed == name
+          ? _self.name
+          : name // ignore: cast_nullable_to_non_nullable
+              as String?,
+      total: null == total
+          ? _self.total
+          : total // ignore: cast_nullable_to_non_nullable
+              as int,
+    ));
+  }
 }
 
 /// @nodoc
 mixin _$HistoryEntry {
-  double get timestamp => throw _privateConstructorUsedError;
-  Map<String, int> get data => throw _privateConstructorUsedError;
-
-  /// Serializes this HistoryEntry to a JSON map.
-  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
+  double get timestamp;
+  Map<String, int> get data;
 
   /// Create a copy of HistoryEntry
   /// with the given fields replaced by the non-null parameter values.
   @JsonKey(includeFromJson: false, includeToJson: false)
-  $HistoryEntryCopyWith<HistoryEntry> get copyWith =>
-      throw _privateConstructorUsedError;
-}
-
-/// @nodoc
-abstract class $HistoryEntryCopyWith<$Res> {
-  factory $HistoryEntryCopyWith(
-          HistoryEntry value, $Res Function(HistoryEntry) then) =
-      _$HistoryEntryCopyWithImpl<$Res, HistoryEntry>;
-  @useResult
-  $Res call({double timestamp, Map<String, int> data});
-}
-
-/// @nodoc
-class _$HistoryEntryCopyWithImpl<$Res, $Val extends HistoryEntry>
-    implements $HistoryEntryCopyWith<$Res> {
-  _$HistoryEntryCopyWithImpl(this._value, this._then);
-
-  // ignore: unused_field
-  final $Val _value;
-  // ignore: unused_field
-  final $Res Function($Val) _then;
-
-  /// Create a copy of HistoryEntry
-  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
+  $HistoryEntryCopyWith<HistoryEntry> get copyWith =>
+      _$HistoryEntryCopyWithImpl<HistoryEntry>(
+          this as HistoryEntry, _$identity);
+
+  /// Serializes this HistoryEntry to a JSON map.
+  Map<String, dynamic> toJson();
+
   @override
-  $Res call({
-    Object? timestamp = null,
-    Object? data = null,
-  }) {
-    return _then(_value.copyWith(
-      timestamp: null == timestamp
-          ? _value.timestamp
-          : timestamp // ignore: cast_nullable_to_non_nullable
-              as double,
-      data: null == data
-          ? _value.data
-          : data // ignore: cast_nullable_to_non_nullable
-              as Map<String, int>,
-    ) as $Val);
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is HistoryEntry &&
+            (identical(other.timestamp, timestamp) ||
+                other.timestamp == timestamp) &&
+            const DeepCollectionEquality().equals(other.data, data));
+  }
+
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @override
+  int get hashCode => Object.hash(
+      runtimeType, timestamp, const DeepCollectionEquality().hash(data));
+
+  @override
+  String toString() {
+    return 'HistoryEntry(timestamp: $timestamp, data: $data)';
   }
 }
 
 /// @nodoc
-abstract class _$$HistoryEntryImplCopyWith<$Res>
-    implements $HistoryEntryCopyWith<$Res> {
-  factory _$$HistoryEntryImplCopyWith(
-          _$HistoryEntryImpl value, $Res Function(_$HistoryEntryImpl) then) =
-      __$$HistoryEntryImplCopyWithImpl<$Res>;
-  @override
+abstract mixin class $HistoryEntryCopyWith<$Res> {
+  factory $HistoryEntryCopyWith(
+          HistoryEntry value, $Res Function(HistoryEntry) _then) =
+      _$HistoryEntryCopyWithImpl;
   @useResult
   $Res call({double timestamp, Map<String, int> data});
 }
 
 /// @nodoc
-class __$$HistoryEntryImplCopyWithImpl<$Res>
-    extends _$HistoryEntryCopyWithImpl<$Res, _$HistoryEntryImpl>
-    implements _$$HistoryEntryImplCopyWith<$Res> {
-  __$$HistoryEntryImplCopyWithImpl(
-      _$HistoryEntryImpl _value, $Res Function(_$HistoryEntryImpl) _then)
-      : super(_value, _then);
+class _$HistoryEntryCopyWithImpl<$Res> implements $HistoryEntryCopyWith<$Res> {
+  _$HistoryEntryCopyWithImpl(this._self, this._then);
+
+  final HistoryEntry _self;
+  final $Res Function(HistoryEntry) _then;
 
   /// Create a copy of HistoryEntry
   /// with the given fields replaced by the non-null parameter values.
@@ -872,13 +804,13 @@ class __$$HistoryEntryImplCopyWithImpl<$Res>
     Object? timestamp = null,
     Object? data = null,
   }) {
-    return _then(_$HistoryEntryImpl(
+    return _then(_self.copyWith(
       timestamp: null == timestamp
-          ? _value.timestamp
+          ? _self.timestamp
           : timestamp // ignore: cast_nullable_to_non_nullable
               as double,
       data: null == data
-          ? _value._data
+          ? _self.data
           : data // ignore: cast_nullable_to_non_nullable
               as Map<String, int>,
     ));
@@ -887,13 +819,12 @@ class __$$HistoryEntryImplCopyWithImpl<$Res>
 
 /// @nodoc
 @JsonSerializable()
-class _$HistoryEntryImpl implements _HistoryEntry {
-  const _$HistoryEntryImpl(
+class _HistoryEntry implements HistoryEntry {
+  const _HistoryEntry(
       {required this.timestamp, required final Map<String, int> data})
       : _data = data;
-
-  factory _$HistoryEntryImpl.fromJson(Map<String, dynamic> json) =>
-      _$$HistoryEntryImplFromJson(json);
+  factory _HistoryEntry.fromJson(Map<String, dynamic> json) =>
+      _$HistoryEntryFromJson(json);
 
   @override
   final double timestamp;
@@ -905,16 +836,26 @@ class _$HistoryEntryImpl implements _HistoryEntry {
     return EqualUnmodifiableMapView(_data);
   }
 
+  /// Create a copy of HistoryEntry
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  String toString() {
-    return 'HistoryEntry(timestamp: $timestamp, data: $data)';
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @pragma('vm:prefer-inline')
+  _$HistoryEntryCopyWith<_HistoryEntry> get copyWith =>
+      __$HistoryEntryCopyWithImpl<_HistoryEntry>(this, _$identity);
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$HistoryEntryToJson(
+      this,
+    );
   }
 
   @override
   bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$HistoryEntryImpl &&
+            other is _HistoryEntry &&
             (identical(other.timestamp, timestamp) ||
                 other.timestamp == timestamp) &&
             const DeepCollectionEquality().equals(other._data, _data));
@@ -925,39 +866,50 @@ class _$HistoryEntryImpl implements _HistoryEntry {
   int get hashCode => Object.hash(
       runtimeType, timestamp, const DeepCollectionEquality().hash(_data));
 
-  /// Create a copy of HistoryEntry
-  /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
-  @pragma('vm:prefer-inline')
-  _$$HistoryEntryImplCopyWith<_$HistoryEntryImpl> get copyWith =>
-      __$$HistoryEntryImplCopyWithImpl<_$HistoryEntryImpl>(this, _$identity);
-
-  @override
-  Map<String, dynamic> toJson() {
-    return _$$HistoryEntryImplToJson(
-      this,
-    );
+  String toString() {
+    return 'HistoryEntry(timestamp: $timestamp, data: $data)';
   }
 }
 
-abstract class _HistoryEntry implements HistoryEntry {
-  const factory _HistoryEntry(
-      {required final double timestamp,
-      required final Map<String, int> data}) = _$HistoryEntryImpl;
-
-  factory _HistoryEntry.fromJson(Map<String, dynamic> json) =
-      _$HistoryEntryImpl.fromJson;
-
+/// @nodoc
+abstract mixin class _$HistoryEntryCopyWith<$Res>
+    implements $HistoryEntryCopyWith<$Res> {
+  factory _$HistoryEntryCopyWith(
+          _HistoryEntry value, $Res Function(_HistoryEntry) _then) =
+      __$HistoryEntryCopyWithImpl;
   @override
-  double get timestamp;
-  @override
-  Map<String, int> get data;
+  @useResult
+  $Res call({double timestamp, Map<String, int> data});
+}
+
+/// @nodoc
+class __$HistoryEntryCopyWithImpl<$Res>
+    implements _$HistoryEntryCopyWith<$Res> {
+  __$HistoryEntryCopyWithImpl(this._self, this._then);
+
+  final _HistoryEntry _self;
+  final $Res Function(_HistoryEntry) _then;
 
   /// Create a copy of HistoryEntry
   /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(includeFromJson: false, includeToJson: false)
-  _$$HistoryEntryImplCopyWith<_$HistoryEntryImpl> get copyWith =>
-      throw _privateConstructorUsedError;
+  @pragma('vm:prefer-inline')
+  $Res call({
+    Object? timestamp = null,
+    Object? data = null,
+  }) {
+    return _then(_HistoryEntry(
+      timestamp: null == timestamp
+          ? _self.timestamp
+          : timestamp // ignore: cast_nullable_to_non_nullable
+              as double,
+      data: null == data
+          ? _self._data
+          : data // ignore: cast_nullable_to_non_nullable
+              as Map<String, int>,
+    ));
+  }
 }
+
+// dart format on

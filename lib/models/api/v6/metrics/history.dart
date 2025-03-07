@@ -5,7 +5,7 @@ part 'history.g.dart';
 
 // api/history
 @freezed
-class History with _$History {
+sealed class History with _$History {
   const factory History({
     required List<HistoryData> history,
     required double took,
@@ -16,7 +16,7 @@ class History with _$History {
 }
 
 @freezed
-class HistoryData with _$HistoryData {
+sealed class HistoryData with _$HistoryData {
   const factory HistoryData({
     required double timestamp,
     required int total,
@@ -31,7 +31,7 @@ class HistoryData with _$HistoryData {
 
 // api/history/clients
 @freezed
-class HistoryClients with _$HistoryClients {
+sealed class HistoryClients with _$HistoryClients {
   const factory HistoryClients({
     required Map<String, Client> clients,
     required List<HistoryEntry> history,
@@ -43,7 +43,7 @@ class HistoryClients with _$HistoryClients {
 }
 
 @freezed
-class Client with _$Client {
+sealed class Client with _$Client {
   const factory Client({
     required String? name, // Nullable since "name" can be null
     required int total,
@@ -53,7 +53,7 @@ class Client with _$Client {
 }
 
 @freezed
-class HistoryEntry with _$HistoryEntry {
+sealed class HistoryEntry with _$HistoryEntry {
   const factory HistoryEntry({
     required double timestamp,
     required Map<String, int> data,

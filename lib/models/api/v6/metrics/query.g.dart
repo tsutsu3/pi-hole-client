@@ -6,8 +6,7 @@ part of 'query.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-_$QueriesImpl _$$QueriesImplFromJson(Map<String, dynamic> json) =>
-    _$QueriesImpl(
+_Queries _$QueriesFromJson(Map<String, dynamic> json) => _Queries(
       queries: (json['queries'] as List<dynamic>)
           .map((e) => Query.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -18,8 +17,7 @@ _$QueriesImpl _$$QueriesImplFromJson(Map<String, dynamic> json) =>
       took: (json['took'] as num).toDouble(),
     );
 
-Map<String, dynamic> _$$QueriesImplToJson(_$QueriesImpl instance) =>
-    <String, dynamic>{
+Map<String, dynamic> _$QueriesToJson(_Queries instance) => <String, dynamic>{
       'queries': instance.queries,
       'cursor': instance.cursor,
       'recordsTotal': instance.recordsTotal,
@@ -28,7 +26,7 @@ Map<String, dynamic> _$$QueriesImplToJson(_$QueriesImpl instance) =>
       'took': instance.took,
     };
 
-_$QueryImpl _$$QueryImplFromJson(Map<String, dynamic> json) => _$QueryImpl(
+_Query _$QueryFromJson(Map<String, dynamic> json) => _Query(
       id: (json['id'] as num).toInt(),
       time: (json['time'] as num).toDouble(),
       type: json['type'] as String,
@@ -42,8 +40,7 @@ _$QueryImpl _$$QueryImplFromJson(Map<String, dynamic> json) => _$QueryImpl(
       upstream: json['upstream'] as String?,
     );
 
-Map<String, dynamic> _$$QueryImplToJson(_$QueryImpl instance) =>
-    <String, dynamic>{
+Map<String, dynamic> _$QueryToJson(_Query instance) => <String, dynamic>{
       'id': instance.id,
       'time': instance.time,
       'type': instance.type,
@@ -57,24 +54,22 @@ Map<String, dynamic> _$$QueryImplToJson(_$QueryImpl instance) =>
       'upstream': instance.upstream,
     };
 
-_$ClientImpl _$$ClientImplFromJson(Map<String, dynamic> json) => _$ClientImpl(
+_Client _$ClientFromJson(Map<String, dynamic> json) => _Client(
       ip: json['ip'] as String,
       name: json['name'] as String?,
     );
 
-Map<String, dynamic> _$$ClientImplToJson(_$ClientImpl instance) =>
-    <String, dynamic>{
+Map<String, dynamic> _$ClientToJson(_Client instance) => <String, dynamic>{
       'ip': instance.ip,
       'name': instance.name,
     };
 
-_$ReplyImpl _$$ReplyImplFromJson(Map<String, dynamic> json) => _$ReplyImpl(
+_Reply _$ReplyFromJson(Map<String, dynamic> json) => _Reply(
       time: (json['time'] as num).toDouble(),
       type: json['type'] as String?,
     );
 
-Map<String, dynamic> _$$ReplyImplToJson(_$ReplyImpl instance) =>
-    <String, dynamic>{
+Map<String, dynamic> _$ReplyToJson(_Reply instance) => <String, dynamic>{
       'time': instance.time,
       'type': instance.type,
     };
