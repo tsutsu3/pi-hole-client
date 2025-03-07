@@ -4,7 +4,7 @@ part 'error.freezed.dart';
 part 'error.g.dart';
 
 @freezed
-class Error with _$Error {
+sealed class Error with _$Error {
   factory Error({
     required ErrorDetails error,
   }) = _Error;
@@ -13,7 +13,7 @@ class Error with _$Error {
 }
 
 @freezed
-class ErrorDetails with _$ErrorDetails {
+sealed class ErrorDetails with _$ErrorDetails {
   factory ErrorDetails({
     required String key,
     required String message,

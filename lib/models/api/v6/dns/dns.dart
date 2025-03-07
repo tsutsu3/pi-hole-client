@@ -4,7 +4,7 @@ part 'dns.freezed.dart';
 part 'dns.g.dart';
 
 @freezed
-class Blocking with _$Blocking {
+sealed class Blocking with _$Blocking {
   factory Blocking({
     required String blocking,
     required int? timer,

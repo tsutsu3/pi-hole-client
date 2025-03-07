@@ -4,7 +4,7 @@ part 'stats.freezed.dart';
 part 'stats.g.dart';
 
 @freezed
-class StatsSummary with _$StatsSummary {
+sealed class StatsSummary with _$StatsSummary {
   const factory StatsSummary({
     required Queries queries,
     required Clients clients,
@@ -17,7 +17,7 @@ class StatsSummary with _$StatsSummary {
 }
 
 @freezed
-class Queries with _$Queries {
+sealed class Queries with _$Queries {
   const factory Queries({
     required int total,
     required int blocked,
@@ -35,7 +35,7 @@ class Queries with _$Queries {
 }
 
 @freezed
-class Types with _$Types {
+sealed class Types with _$Types {
   const factory Types({
     @JsonKey(name: 'A') required int a,
     @JsonKey(name: 'AAAA') required int aaaa,
@@ -59,7 +59,7 @@ class Types with _$Types {
 }
 
 @freezed
-class Status with _$Status {
+sealed class Status with _$Status {
   const factory Status({
     @JsonKey(name: 'UNKNOWN') required int unknown,
     @JsonKey(name: 'GRAVITY') required int gravity,
@@ -85,7 +85,7 @@ class Status with _$Status {
 }
 
 @freezed
-class Replies with _$Replies {
+sealed class Replies with _$Replies {
   const factory Replies({
     @JsonKey(name: 'UNKNOWN') required int unknown,
     @JsonKey(name: 'NODATA') required int nodata,
@@ -108,7 +108,7 @@ class Replies with _$Replies {
 }
 
 @freezed
-class Clients with _$Clients {
+sealed class Clients with _$Clients {
   const factory Clients({
     required int active,
     required int total,
@@ -119,7 +119,7 @@ class Clients with _$Clients {
 }
 
 @freezed
-class Gravity with _$Gravity {
+sealed class Gravity with _$Gravity {
   const factory Gravity({
     @JsonKey(name: 'domains_being_blocked') required int domainsBeingBlocked,
     @JsonKey(name: 'last_update') required int lastUpdate,
@@ -131,7 +131,7 @@ class Gravity with _$Gravity {
 
 //api/stats/top_tomains
 @freezed
-class StatsTopDomains with _$StatsTopDomains {
+sealed class StatsTopDomains with _$StatsTopDomains {
   const factory StatsTopDomains({
     required List<Domain> domains,
     @JsonKey(name: 'total_queries') required int totalQueries,
@@ -144,7 +144,7 @@ class StatsTopDomains with _$StatsTopDomains {
 }
 
 @freezed
-class Domain with _$Domain {
+sealed class Domain with _$Domain {
   const factory Domain({
     required String domain,
     required int count,
@@ -155,7 +155,7 @@ class Domain with _$Domain {
 
 // api/stats/top_clients
 @freezed
-class StatsTopClients with _$StatsTopClients {
+sealed class StatsTopClients with _$StatsTopClients {
   const factory StatsTopClients({
     required List<Client> clients,
     @JsonKey(name: 'total_queries') required int totalQueries,
@@ -168,7 +168,7 @@ class StatsTopClients with _$StatsTopClients {
 }
 
 @freezed
-class Client with _$Client {
+sealed class Client with _$Client {
   const factory Client({
     required String ip,
     required String name,
@@ -180,7 +180,7 @@ class Client with _$Client {
 
 // api/stats/StatsUpstreams
 @freezed
-class StatsUpstreams with _$StatsUpstreams {
+sealed class StatsUpstreams with _$StatsUpstreams {
   const factory StatsUpstreams({
     required List<Upstream> upstreams,
     @JsonKey(name: 'forwarded_queries') required int forwardedQueries,
@@ -193,7 +193,7 @@ class StatsUpstreams with _$StatsUpstreams {
 }
 
 @freezed
-class Upstream with _$Upstream {
+sealed class Upstream with _$Upstream {
   const factory Upstream({
     required String ip,
     required String name,
@@ -207,7 +207,7 @@ class Upstream with _$Upstream {
 }
 
 @freezed
-class Statistics with _$Statistics {
+sealed class Statistics with _$Statistics {
   const factory Statistics({
     required double response,
     required double variance,

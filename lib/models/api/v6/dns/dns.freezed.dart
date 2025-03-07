@@ -1,3 +1,4 @@
+// dart format width=80
 // coverage:ignore-file
 // GENERATED CODE - DO NOT MODIFY BY HAND
 // ignore_for_file: type=lint
@@ -9,146 +10,30 @@ part of 'dns.dart';
 // FreezedGenerator
 // **************************************************************************
 
+// dart format off
 T _$identity<T>(T value) => value;
-
-final _privateConstructorUsedError = UnsupportedError(
-    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models');
-
-Blocking _$BlockingFromJson(Map<String, dynamic> json) {
-  return _Blocking.fromJson(json);
-}
 
 /// @nodoc
 mixin _$Blocking {
-  String get blocking => throw _privateConstructorUsedError;
-  int? get timer => throw _privateConstructorUsedError;
-  double get took => throw _privateConstructorUsedError;
-
-  /// Serializes this Blocking to a JSON map.
-  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
+  String get blocking;
+  int? get timer;
+  double get took;
 
   /// Create a copy of Blocking
   /// with the given fields replaced by the non-null parameter values.
   @JsonKey(includeFromJson: false, includeToJson: false)
+  @pragma('vm:prefer-inline')
   $BlockingCopyWith<Blocking> get copyWith =>
-      throw _privateConstructorUsedError;
-}
+      _$BlockingCopyWithImpl<Blocking>(this as Blocking, _$identity);
 
-/// @nodoc
-abstract class $BlockingCopyWith<$Res> {
-  factory $BlockingCopyWith(Blocking value, $Res Function(Blocking) then) =
-      _$BlockingCopyWithImpl<$Res, Blocking>;
-  @useResult
-  $Res call({String blocking, int? timer, double took});
-}
-
-/// @nodoc
-class _$BlockingCopyWithImpl<$Res, $Val extends Blocking>
-    implements $BlockingCopyWith<$Res> {
-  _$BlockingCopyWithImpl(this._value, this._then);
-
-  // ignore: unused_field
-  final $Val _value;
-  // ignore: unused_field
-  final $Res Function($Val) _then;
-
-  /// Create a copy of Blocking
-  /// with the given fields replaced by the non-null parameter values.
-  @pragma('vm:prefer-inline')
-  @override
-  $Res call({
-    Object? blocking = null,
-    Object? timer = freezed,
-    Object? took = null,
-  }) {
-    return _then(_value.copyWith(
-      blocking: null == blocking
-          ? _value.blocking
-          : blocking // ignore: cast_nullable_to_non_nullable
-              as String,
-      timer: freezed == timer
-          ? _value.timer
-          : timer // ignore: cast_nullable_to_non_nullable
-              as int?,
-      took: null == took
-          ? _value.took
-          : took // ignore: cast_nullable_to_non_nullable
-              as double,
-    ) as $Val);
-  }
-}
-
-/// @nodoc
-abstract class _$$BlockingImplCopyWith<$Res>
-    implements $BlockingCopyWith<$Res> {
-  factory _$$BlockingImplCopyWith(
-          _$BlockingImpl value, $Res Function(_$BlockingImpl) then) =
-      __$$BlockingImplCopyWithImpl<$Res>;
-  @override
-  @useResult
-  $Res call({String blocking, int? timer, double took});
-}
-
-/// @nodoc
-class __$$BlockingImplCopyWithImpl<$Res>
-    extends _$BlockingCopyWithImpl<$Res, _$BlockingImpl>
-    implements _$$BlockingImplCopyWith<$Res> {
-  __$$BlockingImplCopyWithImpl(
-      _$BlockingImpl _value, $Res Function(_$BlockingImpl) _then)
-      : super(_value, _then);
-
-  /// Create a copy of Blocking
-  /// with the given fields replaced by the non-null parameter values.
-  @pragma('vm:prefer-inline')
-  @override
-  $Res call({
-    Object? blocking = null,
-    Object? timer = freezed,
-    Object? took = null,
-  }) {
-    return _then(_$BlockingImpl(
-      blocking: null == blocking
-          ? _value.blocking
-          : blocking // ignore: cast_nullable_to_non_nullable
-              as String,
-      timer: freezed == timer
-          ? _value.timer
-          : timer // ignore: cast_nullable_to_non_nullable
-              as int?,
-      took: null == took
-          ? _value.took
-          : took // ignore: cast_nullable_to_non_nullable
-              as double,
-    ));
-  }
-}
-
-/// @nodoc
-@JsonSerializable()
-class _$BlockingImpl implements _Blocking {
-  _$BlockingImpl(
-      {required this.blocking, required this.timer, required this.took});
-
-  factory _$BlockingImpl.fromJson(Map<String, dynamic> json) =>
-      _$$BlockingImplFromJson(json);
-
-  @override
-  final String blocking;
-  @override
-  final int? timer;
-  @override
-  final double took;
-
-  @override
-  String toString() {
-    return 'Blocking(blocking: $blocking, timer: $timer, took: $took)';
-  }
+  /// Serializes this Blocking to a JSON map.
+  Map<String, dynamic> toJson();
 
   @override
   bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$BlockingImpl &&
+            other is Blocking &&
             (identical(other.blocking, blocking) ||
                 other.blocking == blocking) &&
             (identical(other.timer, timer) || other.timer == timer) &&
@@ -159,42 +44,144 @@ class _$BlockingImpl implements _Blocking {
   @override
   int get hashCode => Object.hash(runtimeType, blocking, timer, took);
 
-  /// Create a copy of Blocking
-  /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
-  @pragma('vm:prefer-inline')
-  _$$BlockingImplCopyWith<_$BlockingImpl> get copyWith =>
-      __$$BlockingImplCopyWithImpl<_$BlockingImpl>(this, _$identity);
-
-  @override
-  Map<String, dynamic> toJson() {
-    return _$$BlockingImplToJson(
-      this,
-    );
+  String toString() {
+    return 'Blocking(blocking: $blocking, timer: $timer, took: $took)';
   }
 }
 
-abstract class _Blocking implements Blocking {
-  factory _Blocking(
-      {required final String blocking,
-      required final int? timer,
-      required final double took}) = _$BlockingImpl;
+/// @nodoc
+abstract mixin class $BlockingCopyWith<$Res> {
+  factory $BlockingCopyWith(Blocking value, $Res Function(Blocking) _then) =
+      _$BlockingCopyWithImpl;
+  @useResult
+  $Res call({String blocking, int? timer, double took});
+}
 
-  factory _Blocking.fromJson(Map<String, dynamic> json) =
-      _$BlockingImpl.fromJson;
+/// @nodoc
+class _$BlockingCopyWithImpl<$Res> implements $BlockingCopyWith<$Res> {
+  _$BlockingCopyWithImpl(this._self, this._then);
+
+  final Blocking _self;
+  final $Res Function(Blocking) _then;
+
+  /// Create a copy of Blocking
+  /// with the given fields replaced by the non-null parameter values.
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? blocking = null,
+    Object? timer = freezed,
+    Object? took = null,
+  }) {
+    return _then(_self.copyWith(
+      blocking: null == blocking
+          ? _self.blocking
+          : blocking // ignore: cast_nullable_to_non_nullable
+              as String,
+      timer: freezed == timer
+          ? _self.timer
+          : timer // ignore: cast_nullable_to_non_nullable
+              as int?,
+      took: null == took
+          ? _self.took
+          : took // ignore: cast_nullable_to_non_nullable
+              as double,
+    ));
+  }
+}
+
+/// @nodoc
+@JsonSerializable()
+class _Blocking implements Blocking {
+  _Blocking({required this.blocking, required this.timer, required this.took});
+  factory _Blocking.fromJson(Map<String, dynamic> json) =>
+      _$BlockingFromJson(json);
 
   @override
-  String get blocking;
+  final String blocking;
   @override
-  int? get timer;
+  final int? timer;
   @override
-  double get took;
+  final double took;
 
   /// Create a copy of Blocking
   /// with the given fields replaced by the non-null parameter values.
   @override
   @JsonKey(includeFromJson: false, includeToJson: false)
-  _$$BlockingImplCopyWith<_$BlockingImpl> get copyWith =>
-      throw _privateConstructorUsedError;
+  @pragma('vm:prefer-inline')
+  _$BlockingCopyWith<_Blocking> get copyWith =>
+      __$BlockingCopyWithImpl<_Blocking>(this, _$identity);
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$BlockingToJson(
+      this,
+    );
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _Blocking &&
+            (identical(other.blocking, blocking) ||
+                other.blocking == blocking) &&
+            (identical(other.timer, timer) || other.timer == timer) &&
+            (identical(other.took, took) || other.took == took));
+  }
+
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @override
+  int get hashCode => Object.hash(runtimeType, blocking, timer, took);
+
+  @override
+  String toString() {
+    return 'Blocking(blocking: $blocking, timer: $timer, took: $took)';
+  }
 }
+
+/// @nodoc
+abstract mixin class _$BlockingCopyWith<$Res>
+    implements $BlockingCopyWith<$Res> {
+  factory _$BlockingCopyWith(_Blocking value, $Res Function(_Blocking) _then) =
+      __$BlockingCopyWithImpl;
+  @override
+  @useResult
+  $Res call({String blocking, int? timer, double took});
+}
+
+/// @nodoc
+class __$BlockingCopyWithImpl<$Res> implements _$BlockingCopyWith<$Res> {
+  __$BlockingCopyWithImpl(this._self, this._then);
+
+  final _Blocking _self;
+  final $Res Function(_Blocking) _then;
+
+  /// Create a copy of Blocking
+  /// with the given fields replaced by the non-null parameter values.
+  @override
+  @pragma('vm:prefer-inline')
+  $Res call({
+    Object? blocking = null,
+    Object? timer = freezed,
+    Object? took = null,
+  }) {
+    return _then(_Blocking(
+      blocking: null == blocking
+          ? _self.blocking
+          : blocking // ignore: cast_nullable_to_non_nullable
+              as String,
+      timer: freezed == timer
+          ? _self.timer
+          : timer // ignore: cast_nullable_to_non_nullable
+              as int?,
+      took: null == took
+          ? _self.took
+          : took // ignore: cast_nullable_to_non_nullable
+              as double,
+    ));
+  }
+}
+
+// dart format on

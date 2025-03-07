@@ -6,15 +6,15 @@ part of 'stats.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-_$StatsSummaryImpl _$$StatsSummaryImplFromJson(Map<String, dynamic> json) =>
-    _$StatsSummaryImpl(
+_StatsSummary _$StatsSummaryFromJson(Map<String, dynamic> json) =>
+    _StatsSummary(
       queries: Queries.fromJson(json['queries'] as Map<String, dynamic>),
       clients: Clients.fromJson(json['clients'] as Map<String, dynamic>),
       gravity: Gravity.fromJson(json['gravity'] as Map<String, dynamic>),
       took: (json['took'] as num).toDouble(),
     );
 
-Map<String, dynamic> _$$StatsSummaryImplToJson(_$StatsSummaryImpl instance) =>
+Map<String, dynamic> _$StatsSummaryToJson(_StatsSummary instance) =>
     <String, dynamic>{
       'queries': instance.queries,
       'clients': instance.clients,
@@ -22,8 +22,7 @@ Map<String, dynamic> _$$StatsSummaryImplToJson(_$StatsSummaryImpl instance) =>
       'took': instance.took,
     };
 
-_$QueriesImpl _$$QueriesImplFromJson(Map<String, dynamic> json) =>
-    _$QueriesImpl(
+_Queries _$QueriesFromJson(Map<String, dynamic> json) => _Queries(
       total: (json['total'] as num).toInt(),
       blocked: (json['blocked'] as num).toInt(),
       percentBlocked: (json['percent_blocked'] as num).toDouble(),
@@ -35,8 +34,7 @@ _$QueriesImpl _$$QueriesImplFromJson(Map<String, dynamic> json) =>
       replies: Replies.fromJson(json['replies'] as Map<String, dynamic>),
     );
 
-Map<String, dynamic> _$$QueriesImplToJson(_$QueriesImpl instance) =>
-    <String, dynamic>{
+Map<String, dynamic> _$QueriesToJson(_Queries instance) => <String, dynamic>{
       'total': instance.total,
       'blocked': instance.blocked,
       'percent_blocked': instance.percentBlocked,
@@ -48,7 +46,7 @@ Map<String, dynamic> _$$QueriesImplToJson(_$QueriesImpl instance) =>
       'replies': instance.replies,
     };
 
-_$TypesImpl _$$TypesImplFromJson(Map<String, dynamic> json) => _$TypesImpl(
+_Types _$TypesFromJson(Map<String, dynamic> json) => _Types(
       a: (json['A'] as num).toInt(),
       aaaa: (json['AAAA'] as num).toInt(),
       any: (json['ANY'] as num).toInt(),
@@ -67,8 +65,7 @@ _$TypesImpl _$$TypesImplFromJson(Map<String, dynamic> json) => _$TypesImpl(
       other: (json['OTHER'] as num).toInt(),
     );
 
-Map<String, dynamic> _$$TypesImplToJson(_$TypesImpl instance) =>
-    <String, dynamic>{
+Map<String, dynamic> _$TypesToJson(_Types instance) => <String, dynamic>{
       'A': instance.a,
       'AAAA': instance.aaaa,
       'ANY': instance.any,
@@ -87,7 +84,7 @@ Map<String, dynamic> _$$TypesImplToJson(_$TypesImpl instance) =>
       'OTHER': instance.other,
     };
 
-_$StatusImpl _$$StatusImplFromJson(Map<String, dynamic> json) => _$StatusImpl(
+_Status _$StatusFromJson(Map<String, dynamic> json) => _Status(
       unknown: (json['UNKNOWN'] as num).toInt(),
       gravity: (json['GRAVITY'] as num).toInt(),
       forwarded: (json['FORWARDED'] as num).toInt(),
@@ -108,8 +105,7 @@ _$StatusImpl _$$StatusImplFromJson(Map<String, dynamic> json) => _$StatusImpl(
       cacheStale: (json['CACHE_STALE'] as num).toInt(),
     );
 
-Map<String, dynamic> _$$StatusImplToJson(_$StatusImpl instance) =>
-    <String, dynamic>{
+Map<String, dynamic> _$StatusToJson(_Status instance) => <String, dynamic>{
       'UNKNOWN': instance.unknown,
       'GRAVITY': instance.gravity,
       'FORWARDED': instance.forwarded,
@@ -130,8 +126,7 @@ Map<String, dynamic> _$$StatusImplToJson(_$StatusImpl instance) =>
       'CACHE_STALE': instance.cacheStale,
     };
 
-_$RepliesImpl _$$RepliesImplFromJson(Map<String, dynamic> json) =>
-    _$RepliesImpl(
+_Replies _$RepliesFromJson(Map<String, dynamic> json) => _Replies(
       unknown: (json['UNKNOWN'] as num).toInt(),
       nodata: (json['NODATA'] as num).toInt(),
       nxdomain: (json['NXDOMAIN'] as num).toInt(),
@@ -148,8 +143,7 @@ _$RepliesImpl _$$RepliesImplFromJson(Map<String, dynamic> json) =>
       blob: (json['BLOB'] as num).toInt(),
     );
 
-Map<String, dynamic> _$$RepliesImplToJson(_$RepliesImpl instance) =>
-    <String, dynamic>{
+Map<String, dynamic> _$RepliesToJson(_Replies instance) => <String, dynamic>{
       'UNKNOWN': instance.unknown,
       'NODATA': instance.nodata,
       'NXDOMAIN': instance.nxdomain,
@@ -166,33 +160,28 @@ Map<String, dynamic> _$$RepliesImplToJson(_$RepliesImpl instance) =>
       'BLOB': instance.blob,
     };
 
-_$ClientsImpl _$$ClientsImplFromJson(Map<String, dynamic> json) =>
-    _$ClientsImpl(
+_Clients _$ClientsFromJson(Map<String, dynamic> json) => _Clients(
       active: (json['active'] as num).toInt(),
       total: (json['total'] as num).toInt(),
     );
 
-Map<String, dynamic> _$$ClientsImplToJson(_$ClientsImpl instance) =>
-    <String, dynamic>{
+Map<String, dynamic> _$ClientsToJson(_Clients instance) => <String, dynamic>{
       'active': instance.active,
       'total': instance.total,
     };
 
-_$GravityImpl _$$GravityImplFromJson(Map<String, dynamic> json) =>
-    _$GravityImpl(
+_Gravity _$GravityFromJson(Map<String, dynamic> json) => _Gravity(
       domainsBeingBlocked: (json['domains_being_blocked'] as num).toInt(),
       lastUpdate: (json['last_update'] as num).toInt(),
     );
 
-Map<String, dynamic> _$$GravityImplToJson(_$GravityImpl instance) =>
-    <String, dynamic>{
+Map<String, dynamic> _$GravityToJson(_Gravity instance) => <String, dynamic>{
       'domains_being_blocked': instance.domainsBeingBlocked,
       'last_update': instance.lastUpdate,
     };
 
-_$StatsTopDomainsImpl _$$StatsTopDomainsImplFromJson(
-        Map<String, dynamic> json) =>
-    _$StatsTopDomainsImpl(
+_StatsTopDomains _$StatsTopDomainsFromJson(Map<String, dynamic> json) =>
+    _StatsTopDomains(
       domains: (json['domains'] as List<dynamic>)
           .map((e) => Domain.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -201,8 +190,7 @@ _$StatsTopDomainsImpl _$$StatsTopDomainsImplFromJson(
       took: (json['took'] as num).toDouble(),
     );
 
-Map<String, dynamic> _$$StatsTopDomainsImplToJson(
-        _$StatsTopDomainsImpl instance) =>
+Map<String, dynamic> _$StatsTopDomainsToJson(_StatsTopDomains instance) =>
     <String, dynamic>{
       'domains': instance.domains,
       'total_queries': instance.totalQueries,
@@ -210,20 +198,18 @@ Map<String, dynamic> _$$StatsTopDomainsImplToJson(
       'took': instance.took,
     };
 
-_$DomainImpl _$$DomainImplFromJson(Map<String, dynamic> json) => _$DomainImpl(
+_Domain _$DomainFromJson(Map<String, dynamic> json) => _Domain(
       domain: json['domain'] as String,
       count: (json['count'] as num).toInt(),
     );
 
-Map<String, dynamic> _$$DomainImplToJson(_$DomainImpl instance) =>
-    <String, dynamic>{
+Map<String, dynamic> _$DomainToJson(_Domain instance) => <String, dynamic>{
       'domain': instance.domain,
       'count': instance.count,
     };
 
-_$StatsTopClientsImpl _$$StatsTopClientsImplFromJson(
-        Map<String, dynamic> json) =>
-    _$StatsTopClientsImpl(
+_StatsTopClients _$StatsTopClientsFromJson(Map<String, dynamic> json) =>
+    _StatsTopClients(
       clients: (json['clients'] as List<dynamic>)
           .map((e) => Client.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -232,8 +218,7 @@ _$StatsTopClientsImpl _$$StatsTopClientsImplFromJson(
       took: (json['took'] as num).toDouble(),
     );
 
-Map<String, dynamic> _$$StatsTopClientsImplToJson(
-        _$StatsTopClientsImpl instance) =>
+Map<String, dynamic> _$StatsTopClientsToJson(_StatsTopClients instance) =>
     <String, dynamic>{
       'clients': instance.clients,
       'total_queries': instance.totalQueries,
@@ -241,21 +226,20 @@ Map<String, dynamic> _$$StatsTopClientsImplToJson(
       'took': instance.took,
     };
 
-_$ClientImpl _$$ClientImplFromJson(Map<String, dynamic> json) => _$ClientImpl(
+_Client _$ClientFromJson(Map<String, dynamic> json) => _Client(
       ip: json['ip'] as String,
       name: json['name'] as String,
       count: (json['count'] as num).toInt(),
     );
 
-Map<String, dynamic> _$$ClientImplToJson(_$ClientImpl instance) =>
-    <String, dynamic>{
+Map<String, dynamic> _$ClientToJson(_Client instance) => <String, dynamic>{
       'ip': instance.ip,
       'name': instance.name,
       'count': instance.count,
     };
 
-_$StatsUpstreamsImpl _$$StatsUpstreamsImplFromJson(Map<String, dynamic> json) =>
-    _$StatsUpstreamsImpl(
+_StatsUpstreams _$StatsUpstreamsFromJson(Map<String, dynamic> json) =>
+    _StatsUpstreams(
       upstreams: (json['upstreams'] as List<dynamic>)
           .map((e) => Upstream.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -264,8 +248,7 @@ _$StatsUpstreamsImpl _$$StatsUpstreamsImplFromJson(Map<String, dynamic> json) =>
       took: (json['took'] as num).toDouble(),
     );
 
-Map<String, dynamic> _$$StatsUpstreamsImplToJson(
-        _$StatsUpstreamsImpl instance) =>
+Map<String, dynamic> _$StatsUpstreamsToJson(_StatsUpstreams instance) =>
     <String, dynamic>{
       'upstreams': instance.upstreams,
       'forwarded_queries': instance.forwardedQueries,
@@ -273,8 +256,7 @@ Map<String, dynamic> _$$StatsUpstreamsImplToJson(
       'took': instance.took,
     };
 
-_$UpstreamImpl _$$UpstreamImplFromJson(Map<String, dynamic> json) =>
-    _$UpstreamImpl(
+_Upstream _$UpstreamFromJson(Map<String, dynamic> json) => _Upstream(
       ip: json['ip'] as String,
       name: json['name'] as String,
       port: (json['port'] as num).toInt(),
@@ -283,8 +265,7 @@ _$UpstreamImpl _$$UpstreamImplFromJson(Map<String, dynamic> json) =>
           Statistics.fromJson(json['statistics'] as Map<String, dynamic>),
     );
 
-Map<String, dynamic> _$$UpstreamImplToJson(_$UpstreamImpl instance) =>
-    <String, dynamic>{
+Map<String, dynamic> _$UpstreamToJson(_Upstream instance) => <String, dynamic>{
       'ip': instance.ip,
       'name': instance.name,
       'port': instance.port,
@@ -292,13 +273,12 @@ Map<String, dynamic> _$$UpstreamImplToJson(_$UpstreamImpl instance) =>
       'statistics': instance.statistics,
     };
 
-_$StatisticsImpl _$$StatisticsImplFromJson(Map<String, dynamic> json) =>
-    _$StatisticsImpl(
+_Statistics _$StatisticsFromJson(Map<String, dynamic> json) => _Statistics(
       response: (json['response'] as num).toDouble(),
       variance: (json['variance'] as num).toDouble(),
     );
 
-Map<String, dynamic> _$$StatisticsImplToJson(_$StatisticsImpl instance) =>
+Map<String, dynamic> _$StatisticsToJson(_Statistics instance) =>
     <String, dynamic>{
       'response': instance.response,
       'variance': instance.variance,

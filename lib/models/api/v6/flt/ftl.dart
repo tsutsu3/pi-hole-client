@@ -4,7 +4,7 @@ part 'ftl.freezed.dart';
 part 'ftl.g.dart';
 
 @freezed
-class InfoFtl with _$InfoFtl {
+sealed class InfoFtl with _$InfoFtl {
   const factory InfoFtl({
     required Ftl ftl,
     required double took,
@@ -15,7 +15,7 @@ class InfoFtl with _$InfoFtl {
 }
 
 @freezed
-class Ftl with _$Ftl {
+sealed class Ftl with _$Ftl {
   const factory Ftl({
     required Database database,
     @JsonKey(name: 'privacy_level') required int privacyLevel,
@@ -32,7 +32,7 @@ class Ftl with _$Ftl {
 }
 
 @freezed
-class Database with _$Database {
+sealed class Database with _$Database {
   const factory Database({
     required int gravity,
     required int groups,
@@ -46,7 +46,7 @@ class Database with _$Database {
 }
 
 @freezed
-class Domains with _$Domains {
+sealed class Domains with _$Domains {
   const factory Domains({
     required int allowed,
     required int denied,
@@ -57,7 +57,7 @@ class Domains with _$Domains {
 }
 
 @freezed
-class Clients with _$Clients {
+sealed class Clients with _$Clients {
   const factory Clients({
     required int total,
     required int active,
@@ -68,7 +68,7 @@ class Clients with _$Clients {
 }
 
 @freezed
-class Dnsmasq with _$Dnsmasq {
+sealed class Dnsmasq with _$Dnsmasq {
   const factory Dnsmasq({
     @JsonKey(name: 'dns_cache_inserted') required int dnsCacheInserted,
     @JsonKey(name: 'dns_cache_live_freed') required int dnsCacheLiveFreed,

@@ -4,7 +4,7 @@ part 'auth.freezed.dart';
 part 'auth.g.dart';
 
 @freezed
-class Password with _$Password {
+sealed class Password with _$Password {
   factory Password({
     required String password,
   }) = _Password;
@@ -14,7 +14,7 @@ class Password with _$Password {
 }
 
 @freezed
-class Session with _$Session {
+sealed class Session with _$Session {
   factory Session({
     required SessionDetail session,
     required double took,
@@ -25,7 +25,7 @@ class Session with _$Session {
 }
 
 @freezed
-class SessionDetail with _$SessionDetail {
+sealed class SessionDetail with _$SessionDetail {
   factory SessionDetail({
     required bool valid,
     required bool totp,
