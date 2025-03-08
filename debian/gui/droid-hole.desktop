@@ -2,7 +2,7 @@
 Name=Pi-hole client
 Comment=Manage your Pi-hole server
 Exec=pi-hole-client
-Icon=${SNAP}/meta/gui/icon-foreground-max.png
+Icon=${SNAP}/meta/gui/pi-hole-client-icon-large-round.png
 Terminal=false
 Type=Application
 Categories=Utilities;

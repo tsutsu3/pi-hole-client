@@ -2,7 +2,7 @@
 ; SEE THE DOCUMENTATION FOR DETAILS ON CREATING INNO SETUP SCRIPT FILES!
 
 #define MyAppName "Pi-hole client"
-#define MyAppVersion "<REPLACE_VERSION_ACTIONS>"
+#define MyAppVersion "9.9.9"
 #define MyAppPublisher "tsutsu3"
 #define MyAppURL "https://github.com/tsutsu3/pi-hole-client"
 #define MyAppExeName "PiHoleClient.exe"
@@ -24,7 +24,6 @@ DisableProgramGroupPage=yes
 PrivilegesRequired=lowest
 OutputDir=..\build\windows
 OutputBaseFilename=PiHoleClient
-; SetupIconFile=..\assets\icon\favicon.ico
 Compression=lzma
 SolidCompression=yes
 WizardStyle=modern

@@ -27,7 +27,7 @@ class LicensesScreen extends StatelessWidget {
               child: LicensePage(
                 applicationVersion: packageInfo.version,
                 applicationIcon: Image.asset(
-                  'assets/icon/icon-foreground.png',
+                  'assets/icon/pi-hole-client-symbol-large.png',
                   width: 48,
                   height: 48,
                 ),

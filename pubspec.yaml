@@ -110,19 +110,23 @@ dependency_overrides:
   analyzer: ^6.5.0
 
 flutter_launcher_icons:
+  image_path: assets/icon/pi-hole-client-icon-large.png
+  # android
   android: true
+  adaptive_icon_background: '#ff5d5b'
+  adaptive_icon_foreground: assets/icon/pi-hole-client-icon-large-foreground.png
+  # ios
   ios: true
-  remove_alpha_ios: true
-  image_path: assets/icon/icon.png
-  adaptive_icon_background: '#ffffff'
-  adaptive_icon_foreground: assets/icon/icon-foreground.png
+  # remove_alpha_ios: true
+  image_path_ios: assets/icon/pi-hole-client-icon-large-foreground.png
+  background_color_ios: '#ff5d5b'
   windows:
     generate: true
-    image_path: assets/icon/icon-foreground-max.png
+    image_path: assets/icon/pi-hole-client-icon-large-round.png
     icon_size: 48
   macos:
     generate: true
-    image_path: assets/icon/icon-macos.png
+    image_path: assets/icon/pi-hole-client-icon-large-round.png
 
 flutter_native_splash:
   color: "#ffffff"
@@ -148,8 +152,8 @@ flutter:
   assets:
     - assets/resources/google-play.svg
     - assets/resources/github.svg
-    - assets/icon/icon-foreground.png
-    - assets/icon/icon-foreground-max.png
+    - assets/icon/pi-hole-client-symbol-large.png
+    - assets/icon/pi-hole-client-icon-large-round.png
     - .env
     - NOTICE
 

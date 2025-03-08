@@ -18,18 +18,23 @@
     <img alt="Pi-hole Client Logo" src="assets/other/feature-image.png" width="600"
       style="background-color: #f9f9f9; padding: 10px; border-radius: 8px;">
   </a>
-  <p align="center">
+  <br><br>
+  <p align="center" style="display: flex; align-items: center; justify-content: center;">
+    <a href="https://play.google.com/store/apps/details?id=io.github.tsutsu3.pi_hole_client"
+     target="_blank" rel="noopener noreferrer">
+      <img alt="App Icon" src="assets/other/icon.png" width="48" style="margin-right: 10px;">
+    </a>
     <b>
       Pi-hole client is an unofficial
       <a href="https://pi-hole.net/" target="_blank" rel="noopener noreferrer">
         Pi-hole®
       </a>
-      client
+      mobile client
     </b>
   </p>
 </div>
 
-<br><br><br>
+<br><br>
 
 <div align="center">
   <p>Get the app on Google Play or download the latest release from GitHub.</p>
