@@ -126,13 +126,13 @@ flutter_launcher_icons:
 
 flutter_native_splash:
   color: "#ffffff"
-  image: assets/icon/icon-foreground-12.png
+  image: assets/icon/pi-hole-client-symbol-1152.png
   color_dark: "#212121"
-  image_dark: assets/icon/icon-foreground-12.png
+  image_dark: assets/icon/pi-hole-client-symbol-1152.png
   android_12:
-    image: assets/icon/icon-foreground-12.png
+    image: assets/icon/pi-hole-client-symbol-1152.png
     icon_background_color: "#ffffff"
-    image_dark: assets/icon/icon-foreground-12.png
+    image_dark: assets/icon/pi-hole-client-symbol-1152.png
     icon_background_color_dark: "#212121"
 
 
