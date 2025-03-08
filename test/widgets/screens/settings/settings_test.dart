@@ -15,7 +15,6 @@ import 'package:pi_hole_client/screens/settings/app_settings/theme_screen.dart';
 import 'package:pi_hole_client/screens/settings/settings.dart';
 
 import '../../helpers.dart';
-import '../utils.dart';
 
 void main() async {
   await initializeApp();
@@ -93,8 +92,10 @@ void main() async {
           expect(find.svg(googlePlaySvg.bytesLoader), findsOneWidget);
           expect(find.svg(githubSvg.bytesLoader), findsOneWidget);
 
-          expect(find.text('Select an option from the left column.'),
-              findsNothing);
+          expect(
+            find.text('Select an option from the left column.'),
+            findsNothing,
+          );
         },
       );
 
