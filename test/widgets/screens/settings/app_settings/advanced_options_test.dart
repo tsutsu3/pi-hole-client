@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/mockito.dart';
 import 'package:pi_hole_client/screens/settings/app_settings/advanced_settings/advanced_options.dart';
+import 'package:pi_hole_client/screens/settings/app_settings/advanced_settings/auto_refresh_time_screen.dart';
+import 'package:pi_hole_client/screens/settings/app_settings/advanced_settings/logs_quantity_load_screen.dart';
 
 import '../../../helpers.dart';
 
@@ -80,6 +82,58 @@ void main() async {
 
         // Show Enter passcode screen
         expect(find.text('Enter passcode'), findsOneWidget);
+      },
+    );
+
+    testWidgets(
+      'should show Auto refresh time screen with tap',
+      (WidgetTester tester) async {
+        tester.view.physicalSize = const Size(1080, 2400);
+        tester.view.devicePixelRatio = 2.0;
+
+        addTearDown(() {
+          tester.view.resetPhysicalSize();
+          tester.view.resetDevicePixelRatio();
+        });
+
+        await tester.pumpWidget(
+          testSetup.buildTestWidget(
+            const AdvancedOptions(),
+          ),
+        );
+
+        expect(find.byType(AdvancedOptions), findsOneWidget);
+        await tester.pump();
+
+        await tester.tap(find.text('Auto refresh time'));
+        await tester.pumpAndSettle();
+        expect(find.byType(AutoRefreshTimeScreen), findsOneWidget);
+      },
+    );
+
+    testWidgets(
+      'should show Logs quantity screen with tap',
+      (WidgetTester tester) async {
+        tester.view.physicalSize = const Size(1080, 2400);
+        tester.view.devicePixelRatio = 2.0;
+
+        addTearDown(() {
+          tester.view.resetPhysicalSize();
+          tester.view.resetDevicePixelRatio();
+        });
+
+        await tester.pumpWidget(
+          testSetup.buildTestWidget(
+            const AdvancedOptions(),
+          ),
+        );
+
+        expect(find.byType(AdvancedOptions), findsOneWidget);
+        await tester.pump();
+
+        await tester.tap(find.text('Logs quantity per request'));
+        await tester.pumpAndSettle();
+        expect(find.byType(LogsQuantityLoadScreen), findsOneWidget);
       },
     );
   });

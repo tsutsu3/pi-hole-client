@@ -62,12 +62,6 @@ void main() async {
           expect(find.text('Servers'), findsOneWidget);
           expect(find.text('Connected to test v6'), findsOneWidget);
 
-          expect(find.text('Auto refresh time'), findsOneWidget);
-          expect(find.text('5 Seconds'), findsOneWidget);
-
-          expect(find.text('Logs quantity per request'), findsOneWidget);
-          expect(find.text('2 hours'), findsOneWidget);
-
           expect(find.text('Advanced settings'), findsOneWidget);
           expect(find.text('Advanced options'), findsOneWidget);
 
@@ -177,58 +171,6 @@ void main() async {
           await tester.tap(find.text('Servers'));
           await tester.pumpAndSettle();
           expect(find.byType(ServersPage), findsOneWidget);
-        },
-      );
-
-      testWidgets(
-        'should show Auto refresh time screen with tap',
-        (WidgetTester tester) async {
-          tester.view.physicalSize = const Size(1080, 2400);
-          tester.view.devicePixelRatio = 2.0;
-
-          addTearDown(() {
-            tester.view.resetPhysicalSize();
-            tester.view.resetDevicePixelRatio();
-          });
-
-          await tester.pumpWidget(
-            testSetup.buildTestWidget(
-              const Settings(),
-            ),
-          );
-
-          expect(find.byType(Settings), findsOneWidget);
-          await tester.pump();
-
-          await tester.tap(find.text('Auto refresh time'));
-          await tester.pumpAndSettle();
-          expect(find.byType(AutoRefreshTimeScreen), findsOneWidget);
-        },
-      );
-
-      testWidgets(
-        'should show Logs quantity screen with tap',
-        (WidgetTester tester) async {
-          tester.view.physicalSize = const Size(1080, 2400);
-          tester.view.devicePixelRatio = 2.0;
-
-          addTearDown(() {
-            tester.view.resetPhysicalSize();
-            tester.view.resetDevicePixelRatio();
-          });
-
-          await tester.pumpWidget(
-            testSetup.buildTestWidget(
-              const Settings(),
-            ),
-          );
-
-          expect(find.byType(Settings), findsOneWidget);
-          await tester.pump();
-
-          await tester.tap(find.text('Logs quantity per request'));
-          await tester.pumpAndSettle();
-          expect(find.byType(LogsQuantityLoadScreen), findsOneWidget);
         },
       );
 
