@@ -1,3 +1,4 @@
+import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
 import 'package:pi_hole_client/constants/enums.dart';
 import 'package:pi_hole_client/models/domain.dart';
@@ -138,6 +139,57 @@ class DomainsListProvider with ChangeNotifier {
       _filteredBlacklistDomains = _filteredBlacklistDomains
           .where((item) => item.id != domain.id)
           .toList();
+    }
+    notifyListeners();
+  }
+
+  Domain? getDomainById(int id) {
+    final whitelistDomain = _whitelistDomains.firstWhereOrNull(
+      (item) => item.id == id,
+    );
+
+    if (whitelistDomain != null) {
+      return whitelistDomain;
+    }
+
+    final blacklistDomain = _blacklistDomains.firstWhereOrNull(
+      (item) => item.id == id,
+    );
+
+    return blacklistDomain;
+  }
+
+  /// Update domain
+  void updateDomain(Domain domain) {
+    // TODO: Handle changes when white and black lists are updated
+    // whitelist
+    if (domain.type == 0 || domain.type == 2) {
+      final index =
+          _whitelistDomains.indexWhere((item) => item.id == domain.id);
+      if (index != -1) {
+        _whitelistDomains[index] = domain;
+      }
+
+      final filteredIndex =
+          _filteredWhitelistDomains.indexWhere((item) => item.id == domain.id);
+      if (filteredIndex != -1) {
+        _filteredWhitelistDomains[filteredIndex] = domain;
+      }
+    }
+
+    // blacklist
+    if (domain.type == 1 || domain.type == 3) {
+      final index =
+          _blacklistDomains.indexWhere((item) => item.id == domain.id);
+      if (index != -1) {
+        _blacklistDomains[index] = domain;
+      }
+
+      final filteredIndex =
+          _filteredBlacklistDomains.indexWhere((item) => item.id == domain.id);
+      if (filteredIndex != -1) {
+        _filteredBlacklistDomains[filteredIndex] = domain;
+      }
     }
     notifyListeners();
   }

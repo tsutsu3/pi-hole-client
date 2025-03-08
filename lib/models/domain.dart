@@ -42,4 +42,25 @@ class Domain {
         'comment': comment,
         'groups': List<int>.from(groups.map((x) => x)),
       };
+
+  Domain copyWith({
+    int? id,
+    int? type,
+    String? domain,
+    int? enabled,
+    DateTime? dateAdded,
+    DateTime? dateModified,
+    String? comment,
+    List<int>? groups,
+  }) =>
+      Domain(
+        id: id ?? this.id,
+        type: type ?? this.type,
+        domain: domain ?? this.domain,
+        enabled: enabled ?? this.enabled,
+        dateAdded: dateAdded ?? this.dateAdded,
+        dateModified: dateModified ?? this.dateModified,
+        comment: comment ?? this.comment,
+        groups: groups ?? this.groups,
+      );
 }
