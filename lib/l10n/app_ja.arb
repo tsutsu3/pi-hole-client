@@ -233,6 +233,7 @@
   "password": "パスワード",
   "passwordNotValid": "失敗しました。無効なパスワードです。",
   "percentageBlocked": "ブロック率",
+  "performance": "パフォーマンス",
   "piHoleServers": "サーバー接続",
   "pieChart": "円グラフ",
   "pieChartDescription": "円グラフでデータを表示し、その下に凡例を表示します。",

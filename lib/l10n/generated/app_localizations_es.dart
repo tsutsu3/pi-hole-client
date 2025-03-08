@@ -711,6 +711,9 @@ class AppLocalizationsEs extends AppLocalizations {
   String get percentageBlocked => 'Porcentaje bloqueado';
 
   @override
+  String get performance => 'Rendimiento';
+
+  @override
   String get piHoleServers => 'Conexiones a servidores';
 
   @override

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/mockito.dart';
-import 'package:pi_hole_client/screens/settings/app_settings/auto_refresh_time_screen.dart';
+import 'package:pi_hole_client/screens/settings/app_settings/advanced_settings/auto_refresh_time_screen.dart';
 
 import '../../../helpers.dart';
 

@@ -10,9 +10,9 @@ import 'package:pi_hole_client/screens/settings/about/legal_modal.dart';
 // import 'package:pi_hole_client/screens/settings/about/licenses_screen.dart';
 import 'package:pi_hole_client/screens/settings/about/privacy_modal.dart';
 import 'package:pi_hole_client/screens/settings/app_settings/advanced_settings/advanced_options.dart';
-import 'package:pi_hole_client/screens/settings/app_settings/auto_refresh_time_screen.dart';
+import 'package:pi_hole_client/screens/settings/app_settings/advanced_settings/auto_refresh_time_screen.dart';
 import 'package:pi_hole_client/screens/settings/app_settings/language_screen.dart';
-import 'package:pi_hole_client/screens/settings/app_settings/logs_quantity_load_screen.dart';
+import 'package:pi_hole_client/screens/settings/app_settings/advanced_settings/logs_quantity_load_screen.dart';
 import 'package:pi_hole_client/screens/settings/app_settings/theme_screen.dart';
 import 'package:pi_hole_client/screens/settings/settings.dart';
 

@@ -107,12 +107,12 @@ import 'package:pi_hole_client/screens/settings/app_settings/advanced_settings/a
 import 'package:pi_hole_client/screens/settings/app_settings/advanced_settings/app_lock/create_pass_code_modal.dart';
 import 'package:pi_hole_client/screens/settings/app_settings/advanced_settings/app_lock/remove_passcode_modal.dart';
 import 'package:pi_hole_client/screens/settings/app_settings/advanced_settings/app_unlock_setup_modal.dart';
+import 'package:pi_hole_client/screens/settings/app_settings/advanced_settings/auto_refresh_time_screen.dart';
 import 'package:pi_hole_client/screens/settings/app_settings/advanced_settings/enter_passcode_modal.dart';
+import 'package:pi_hole_client/screens/settings/app_settings/advanced_settings/logs_quantity_load_screen.dart';
 import 'package:pi_hole_client/screens/settings/app_settings/advanced_settings/reset_modal.dart';
 import 'package:pi_hole_client/screens/settings/app_settings/advanced_settings/statistics_visualization_screen.dart';
-import 'package:pi_hole_client/screens/settings/app_settings/auto_refresh_time_screen.dart';
 import 'package:pi_hole_client/screens/settings/app_settings/language_screen.dart';
-import 'package:pi_hole_client/screens/settings/app_settings/logs_quantity_load_screen.dart';
 import 'package:pi_hole_client/screens/settings/app_settings/theme_screen.dart';
 import 'package:pi_hole_client/screens/settings/settings.dart';
 import 'package:pi_hole_client/screens/statistics/custom_pie_chart.dart';

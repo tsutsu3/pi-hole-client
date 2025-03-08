@@ -1505,6 +1505,12 @@ abstract class AppLocalizations {
   /// **'Percentage blocked'**
   String get percentageBlocked;
 
+  /// No description provided for @performance.
+  ///
+  /// In en, this message translates to:
+  /// **'Performance'**
+  String get performance;
+
   /// No description provided for @piHoleServers.
   ///
   /// In en, this message translates to:
