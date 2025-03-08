@@ -102,8 +102,11 @@ class _BaseState extends State<Base> with WidgetsBindingObserver {
     );
   }
 
-  void _handleTabChange(int selected, DomainsListProvider domainsListProvider,
-      AppConfigProvider appConfigProvider) {
+  void _handleTabChange(
+    int selected,
+    DomainsListProvider domainsListProvider,
+    AppConfigProvider appConfigProvider,
+  ) {
     if (selected != 3) {
       domainsListProvider.setSelectedTab(null);
     }
