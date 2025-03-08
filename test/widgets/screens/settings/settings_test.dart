@@ -10,13 +10,12 @@ import 'package:pi_hole_client/screens/settings/about/legal_modal.dart';
 // import 'package:pi_hole_client/screens/settings/about/licenses_screen.dart';
 import 'package:pi_hole_client/screens/settings/about/privacy_modal.dart';
 import 'package:pi_hole_client/screens/settings/app_settings/advanced_settings/advanced_options.dart';
-import 'package:pi_hole_client/screens/settings/app_settings/advanced_settings/auto_refresh_time_screen.dart';
 import 'package:pi_hole_client/screens/settings/app_settings/language_screen.dart';
-import 'package:pi_hole_client/screens/settings/app_settings/advanced_settings/logs_quantity_load_screen.dart';
 import 'package:pi_hole_client/screens/settings/app_settings/theme_screen.dart';
 import 'package:pi_hole_client/screens/settings/settings.dart';
 
 import '../../helpers.dart';
+import '../utils.dart';
 
 void main() async {
   await initializeApp();
@@ -93,6 +92,81 @@ void main() async {
           final githubSvg = SvgPicture.asset('assets/resources/github.svg');
           expect(find.svg(googlePlaySvg.bytesLoader), findsOneWidget);
           expect(find.svg(githubSvg.bytesLoader), findsOneWidget);
+        },
+      );
+
+      testWidgets(
+        'should show Settings screen with tablet size',
+        (WidgetTester tester) async {
+          tester.view.physicalSize = const Size(2560, 1600);
+          tester.view.devicePixelRatio = 1.6;
+
+          addTearDown(() {
+            tester.view.resetPhysicalSize();
+            tester.view.resetDevicePixelRatio();
+          });
+
+          await tester.pumpWidget(
+            testSetup.buildTestWidget(
+              const Settings(),
+            ),
+          );
+
+          expect(find.byType(Settings), findsOneWidget);
+          expect(find.text('Settings'), findsNWidgets(2)); //title and nav bar
+
+          expect(find.text('App settings'), findsOneWidget);
+
+          expect(find.text('Theme'), findsOneWidget);
+          expect(find.text('System theme'), findsOneWidget);
+
+          expect(find.text('Language'), findsOneWidget);
+          expect(find.text('English'), findsOneWidget);
+
+          expect(find.text('Servers'), findsOneWidget);
+          expect(find.text('Connected to test v6'), findsOneWidget);
+
+          expect(find.text('Advanced settings'), findsOneWidget);
+          expect(find.text('Advanced options'), findsOneWidget);
+
+          expect(find.text('About'), findsOneWidget);
+
+          expect(find.text('Application Detail'), findsOneWidget);
+          expect(
+            find.text('Get help and learn about this app'),
+            findsOneWidget,
+          );
+
+          expect(find.text('Privacy'), findsOneWidget);
+          expect(find.text('Privacy and Data Management'), findsOneWidget);
+
+          expect(find.text('Important information'), findsOneWidget);
+          expect(
+            find.text('Read this if you are experimenting issues'),
+            findsOneWidget,
+          );
+
+          expect(find.text('Legal'), findsOneWidget);
+          expect(find.text('Legal information'), findsOneWidget);
+
+          // scroll down
+          final scrollableFinder = find.byType(Scrollable);
+          await tester.drag(scrollableFinder.first, const Offset(0, -200));
+          await tester.pumpAndSettle();
+
+          expect(find.text('Licenses'), findsOneWidget);
+          expect(find.text('OSS Information'), findsOneWidget);
+
+          final googlePlaySvg =
+              SvgPicture.asset('assets/resources/google-play.svg');
+          final githubSvg = SvgPicture.asset('assets/resources/github.svg');
+          expect(find.svg(googlePlaySvg.bytesLoader), findsOneWidget);
+          expect(find.svg(githubSvg.bytesLoader), findsOneWidget);
+
+          expect(
+            find.text('Select an option from the left column.'),
+            findsOneWidget,
+          );
         },
       );
 
