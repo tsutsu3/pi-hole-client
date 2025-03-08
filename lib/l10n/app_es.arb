@@ -234,6 +234,7 @@
   "password": "Contraseña",
   "passwordNotValid": "Error. Contraseña no válida.",
   "percentageBlocked": "Porcentaje bloqueado",
+  "performance": "Rendimiento",
   "piHoleServers": "Conexiones a servidores",
   "pieChart": "Gráfico circular",
   "pieChartDescription": "Muestra los datos en un gráfico circular con la leyenda debajo.",

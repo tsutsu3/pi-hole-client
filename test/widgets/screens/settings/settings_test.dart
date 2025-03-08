@@ -10,9 +10,7 @@ import 'package:pi_hole_client/screens/settings/about/legal_modal.dart';
 // import 'package:pi_hole_client/screens/settings/about/licenses_screen.dart';
 import 'package:pi_hole_client/screens/settings/about/privacy_modal.dart';
 import 'package:pi_hole_client/screens/settings/app_settings/advanced_settings/advanced_options.dart';
-import 'package:pi_hole_client/screens/settings/app_settings/auto_refresh_time_screen.dart';
 import 'package:pi_hole_client/screens/settings/app_settings/language_screen.dart';
-import 'package:pi_hole_client/screens/settings/app_settings/logs_quantity_load_screen.dart';
 import 'package:pi_hole_client/screens/settings/app_settings/theme_screen.dart';
 import 'package:pi_hole_client/screens/settings/settings.dart';
 
@@ -62,12 +60,6 @@ void main() async {
           expect(find.text('Servers'), findsOneWidget);
           expect(find.text('Connected to test v6'), findsOneWidget);
 
-          expect(find.text('Auto refresh time'), findsOneWidget);
-          expect(find.text('5 Seconds'), findsOneWidget);
-
-          expect(find.text('Logs quantity per request'), findsOneWidget);
-          expect(find.text('2 hours'), findsOneWidget);
-
           expect(find.text('Advanced settings'), findsOneWidget);
           expect(find.text('Advanced options'), findsOneWidget);
 
@@ -99,6 +91,86 @@ void main() async {
           final githubSvg = SvgPicture.asset('assets/resources/github.svg');
           expect(find.svg(googlePlaySvg.bytesLoader), findsOneWidget);
           expect(find.svg(githubSvg.bytesLoader), findsOneWidget);
+
+          expect(
+            find.text('Select an option from the left column.'),
+            findsNothing,
+          );
+        },
+      );
+
+      testWidgets(
+        'should show Settings screen with tablet size',
+        (WidgetTester tester) async {
+          tester.view.physicalSize = const Size(2560, 1600);
+          tester.view.devicePixelRatio = 1.6;
+
+          addTearDown(() {
+            tester.view.resetPhysicalSize();
+            tester.view.resetDevicePixelRatio();
+          });
+
+          await tester.pumpWidget(
+            testSetup.buildTestWidget(
+              const Settings(),
+            ),
+          );
+
+          expect(find.byType(Settings), findsOneWidget);
+          expect(find.text('Settings'), findsNWidgets(2)); //title and nav bar
+
+          expect(find.text('App settings'), findsOneWidget);
+
+          expect(find.text('Theme'), findsOneWidget);
+          expect(find.text('System theme'), findsOneWidget);
+
+          expect(find.text('Language'), findsOneWidget);
+          expect(find.text('English'), findsOneWidget);
+
+          expect(find.text('Servers'), findsOneWidget);
+          expect(find.text('Connected to test v6'), findsOneWidget);
+
+          expect(find.text('Advanced settings'), findsOneWidget);
+          expect(find.text('Advanced options'), findsOneWidget);
+
+          expect(find.text('About'), findsOneWidget);
+
+          expect(find.text('Application Detail'), findsOneWidget);
+          expect(
+            find.text('Get help and learn about this app'),
+            findsOneWidget,
+          );
+
+          expect(find.text('Privacy'), findsOneWidget);
+          expect(find.text('Privacy and Data Management'), findsOneWidget);
+
+          expect(find.text('Important information'), findsOneWidget);
+          expect(
+            find.text('Read this if you are experimenting issues'),
+            findsOneWidget,
+          );
+
+          expect(find.text('Legal'), findsOneWidget);
+          expect(find.text('Legal information'), findsOneWidget);
+
+          // scroll down
+          final scrollableFinder = find.byType(Scrollable);
+          await tester.drag(scrollableFinder.first, const Offset(0, -200));
+          await tester.pumpAndSettle();
+
+          expect(find.text('Licenses'), findsOneWidget);
+          expect(find.text('OSS Information'), findsOneWidget);
+
+          final googlePlaySvg =
+              SvgPicture.asset('assets/resources/google-play.svg');
+          final githubSvg = SvgPicture.asset('assets/resources/github.svg');
+          expect(find.svg(googlePlaySvg.bytesLoader), findsOneWidget);
+          expect(find.svg(githubSvg.bytesLoader), findsOneWidget);
+
+          expect(
+            find.text('Select an option from the left column.'),
+            findsOneWidget,
+          );
         },
       );
 
@@ -177,58 +249,6 @@ void main() async {
           await tester.tap(find.text('Servers'));
           await tester.pumpAndSettle();
           expect(find.byType(ServersPage), findsOneWidget);
-        },
-      );
-
-      testWidgets(
-        'should show Auto refresh time screen with tap',
-        (WidgetTester tester) async {
-          tester.view.physicalSize = const Size(1080, 2400);
-          tester.view.devicePixelRatio = 2.0;
-
-          addTearDown(() {
-            tester.view.resetPhysicalSize();
-            tester.view.resetDevicePixelRatio();
-          });
-
-          await tester.pumpWidget(
-            testSetup.buildTestWidget(
-              const Settings(),
-            ),
-          );
-
-          expect(find.byType(Settings), findsOneWidget);
-          await tester.pump();
-
-          await tester.tap(find.text('Auto refresh time'));
-          await tester.pumpAndSettle();
-          expect(find.byType(AutoRefreshTimeScreen), findsOneWidget);
-        },
-      );
-
-      testWidgets(
-        'should show Logs quantity screen with tap',
-        (WidgetTester tester) async {
-          tester.view.physicalSize = const Size(1080, 2400);
-          tester.view.devicePixelRatio = 2.0;
-
-          addTearDown(() {
-            tester.view.resetPhysicalSize();
-            tester.view.resetDevicePixelRatio();
-          });
-
-          await tester.pumpWidget(
-            testSetup.buildTestWidget(
-              const Settings(),
-            ),
-          );
-
-          expect(find.byType(Settings), findsOneWidget);
-          await tester.pump();
-
-          await tester.tap(find.text('Logs quantity per request'));
-          await tester.pumpAndSettle();
-          expect(find.byType(LogsQuantityLoadScreen), findsOneWidget);
         },
       );
 

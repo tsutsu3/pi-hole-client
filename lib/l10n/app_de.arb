@@ -233,6 +233,7 @@
   "password": "Passwort",
   "passwordNotValid": "Fehlgeschlagen. Passwort ist ungültig.",
   "percentageBlocked": "Blockierter Anteil",
+  "performance": "Leistung",
   "piHoleServers": "Server Verbindungen",
   "pieChart": "Tortendiagramm",
   "pieChartDescription": "Zeigt die Daten in einem Tortendiagramm mit einer Legende.",

@@ -12,7 +12,9 @@ import 'package:pi_hole_client/providers/app_config_provider.dart';
 import 'package:pi_hole_client/providers/servers_provider.dart';
 import 'package:pi_hole_client/screens/app_logs/app_logs.dart';
 import 'package:pi_hole_client/screens/settings/app_settings/advanced_settings/app_unlock_setup_modal.dart';
+import 'package:pi_hole_client/screens/settings/app_settings/advanced_settings/auto_refresh_time_screen.dart';
 import 'package:pi_hole_client/screens/settings/app_settings/advanced_settings/enter_passcode_modal.dart';
+import 'package:pi_hole_client/screens/settings/app_settings/advanced_settings/logs_quantity_load_screen.dart';
 import 'package:pi_hole_client/screens/settings/app_settings/advanced_settings/reset_modal.dart';
 import 'package:pi_hole_client/screens/settings/app_settings/advanced_settings/statistics_visualization_screen.dart';
 import 'package:pi_hole_client/widgets/custom_list_tile.dart';
@@ -251,6 +253,43 @@ class AdvancedOptions extends StatelessWidget {
                 context,
                 MaterialPageRoute(
                   builder: (context) => const StatisticsVisualizationScreen(),
+                ),
+              ),
+              padding: const EdgeInsets.only(
+                top: 10,
+                bottom: 10,
+                left: 20,
+                right: 10,
+              ),
+            ),
+            SectionLabel(label: AppLocalizations.of(context)!.performance),
+            CustomListTile(
+              leadingIcon: Icons.update,
+              label: AppLocalizations.of(context)!.autoRefreshTime,
+              description:
+                  '${appConfigProvider.getAutoRefreshTime} ${AppLocalizations.of(context)!.seconds}',
+              onTap: () => Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => const AutoRefreshTimeScreen(),
+                ),
+              ),
+              padding: const EdgeInsets.only(
+                top: 10,
+                bottom: 10,
+                left: 20,
+                right: 10,
+              ),
+            ),
+            CustomListTile(
+              leadingIcon: Icons.list_rounded,
+              label: AppLocalizations.of(context)!.logsQuantityPerLoad,
+              description:
+                  '${appConfigProvider.logsPerQuery == 0.5 ? '30' : appConfigProvider.logsPerQuery.toInt()} ${appConfigProvider.logsPerQuery == 0.5 ? AppLocalizations.of(context)!.minutes : AppLocalizations.of(context)!.hours}',
+              onTap: () => Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => const LogsQuantityLoadScreen(),
                 ),
               ),
               padding: const EdgeInsets.only(

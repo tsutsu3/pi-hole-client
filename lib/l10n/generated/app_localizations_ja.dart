@@ -711,6 +711,9 @@ class AppLocalizationsJa extends AppLocalizations {
   String get percentageBlocked => 'ブロック率';
 
   @override
+  String get performance => 'パフォーマンス';
+
+  @override
   String get piHoleServers => 'サーバー接続';
 
   @override

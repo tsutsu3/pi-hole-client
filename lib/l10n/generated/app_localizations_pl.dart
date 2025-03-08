@@ -711,6 +711,9 @@ class AppLocalizationsPl extends AppLocalizations {
   String get percentageBlocked => 'Procent zablokowanych';
 
   @override
+  String get performance => 'Wydajność';
+
+  @override
   String get piHoleServers => 'Połączenia serwerów';
 
   @override

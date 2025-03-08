@@ -233,6 +233,7 @@
   "password": "Password",
   "passwordNotValid": "Failed. Password not valid.",
   "percentageBlocked": "Percentage blocked",
+  "performance": "Performance",
   "piHoleServers": "Servers connections",
   "pieChart": "Pie chart",
   "pieChartDescription": "Displays the data on a pie chart with the legend under it.",

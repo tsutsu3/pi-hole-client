@@ -16,9 +16,7 @@ import 'package:pi_hole_client/screens/settings/about/legal_modal.dart';
 import 'package:pi_hole_client/screens/settings/about/licenses_screen.dart';
 import 'package:pi_hole_client/screens/settings/about/privacy_modal.dart';
 import 'package:pi_hole_client/screens/settings/app_settings/advanced_settings/advanced_options.dart';
-import 'package:pi_hole_client/screens/settings/app_settings/auto_refresh_time_screen.dart';
 import 'package:pi_hole_client/screens/settings/app_settings/language_screen.dart';
-import 'package:pi_hole_client/screens/settings/app_settings/logs_quantity_load_screen.dart';
 import 'package:pi_hole_client/screens/settings/app_settings/theme_screen.dart';
 import 'package:pi_hole_client/widgets/custom_list_tile.dart';
 import 'package:pi_hole_client/widgets/section_label.dart';
@@ -226,23 +224,6 @@ class _SettingsWidgetState extends State<SettingsWidget> {
                             : AppLocalizations.of(context)!.notSelected,
                         screenToNavigate: const ServersPage(),
                         thisItem: 2,
-                      ),
-                      settingsTile(
-                        icon: Icons.update,
-                        title: AppLocalizations.of(context)!.autoRefreshTime,
-                        subtitle:
-                            '${appConfigProvider.getAutoRefreshTime} ${AppLocalizations.of(context)!.seconds}',
-                        thisItem: 3,
-                        screenToNavigate: const AutoRefreshTimeScreen(),
-                      ),
-                      settingsTile(
-                        icon: Icons.list_rounded,
-                        title:
-                            AppLocalizations.of(context)!.logsQuantityPerLoad,
-                        subtitle:
-                            '${appConfigProvider.logsPerQuery == 0.5 ? '30' : appConfigProvider.logsPerQuery.toInt()} ${appConfigProvider.logsPerQuery == 0.5 ? AppLocalizations.of(context)!.minutes : AppLocalizations.of(context)!.hours}',
-                        thisItem: 4,
-                        screenToNavigate: const LogsQuantityLoadScreen(),
                       ),
                       settingsTile(
                         icon: Icons.settings,

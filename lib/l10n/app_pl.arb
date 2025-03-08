@@ -233,6 +233,7 @@
   "password": "Hasło",
   "passwordNotValid": "Niepowodzenie. Hasło jest nieprawidłowe.",
   "percentageBlocked": "Procent zablokowanych",
+  "performance": "Wydajność",
   "piHoleServers": "Połączenia serwerów",
   "pieChart": "Wykres kołowy",
   "pieChartDescription": "Wyświetla dane na wykresie kołowym z legendą pod nimi.",
