@@ -2,6 +2,7 @@ import 'package:dynamic_color/dynamic_color.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:flutter_phoenix/flutter_phoenix.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/annotations.dart';
@@ -804,28 +805,30 @@ class TestSetupHelper {
               dispose: (_, service) => service.dispose(),
             ),
           ],
-          child: MaterialApp(
-            theme: lightTheme(lightDynamic),
-            darkTheme: darkTheme(darkDynamic),
-            themeMode: mockConfigProvider.selectedTheme,
-            home: Scaffold(
-              body: child,
+          child: Phoenix(
+            child: MaterialApp(
+              theme: lightTheme(lightDynamic),
+              darkTheme: darkTheme(darkDynamic),
+              themeMode: mockConfigProvider.selectedTheme,
+              home: Scaffold(
+                body: child,
+              ),
+              locale: Locale(mockConfigProvider.selectedLanguage),
+              supportedLocales: const [
+                Locale('en', ''),
+                Locale('es', ''),
+                Locale('de', ''),
+                Locale('pl', ''),
+                Locale('ja', ''),
+              ],
+              localizationsDelegates: const [
+                GlobalMaterialLocalizations.delegate,
+                GlobalWidgetsLocalizations.delegate,
+                GlobalCupertinoLocalizations.delegate,
+                AppLocalizations.delegate,
+              ],
+              scaffoldMessengerKey: scaffoldMessengerKey,
             ),
-            locale: Locale(mockConfigProvider.selectedLanguage),
-            supportedLocales: const [
-              Locale('en', ''),
-              Locale('es', ''),
-              Locale('de', ''),
-              Locale('pl', ''),
-              Locale('ja', ''),
-            ],
-            localizationsDelegates: const [
-              GlobalMaterialLocalizations.delegate,
-              GlobalWidgetsLocalizations.delegate,
-              GlobalCupertinoLocalizations.delegate,
-              AppLocalizations.delegate,
-            ],
-            scaffoldMessengerKey: scaffoldMessengerKey,
           ),
         );
       },
