@@ -92,6 +92,9 @@ void main() async {
           final githubSvg = SvgPicture.asset('assets/resources/github.svg');
           expect(find.svg(googlePlaySvg.bytesLoader), findsOneWidget);
           expect(find.svg(githubSvg.bytesLoader), findsOneWidget);
+
+          expect(find.text('Select an option from the left column.'),
+              findsNothing);
         },
       );
 
