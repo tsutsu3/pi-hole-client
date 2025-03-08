@@ -45,6 +45,8 @@ class _BaseState extends State<Base> with WidgetsBindingObserver {
   void initState() {
     super.initState();
 
+    WidgetsBinding.instance.addObserver(this);
+
     WidgetsBinding.instance.addPostFrameCallback((_) async {
       final serversProvider = context.read<ServersProvider>();
 
@@ -55,6 +57,7 @@ class _BaseState extends State<Base> with WidgetsBindingObserver {
           context: context,
           builder: (BuildContext context) => const StartInfoModal(),
         );
+        if (!mounted) return;
       }
 
       if (serversProvider.selectedServer != null) {
@@ -69,6 +72,44 @@ class _BaseState extends State<Base> with WidgetsBindingObserver {
     super.dispose();
   }
 
+  List<Widget> get _currentPages {
+    final serversProvider = context.read<ServersProvider>();
+    return serversProvider.selectedServer != null ? pages : pagesNotSelected;
+  }
+
+  int _currentTabIndex(
+    ServersProvider serversProvider,
+    AppConfigProvider appConfigProvider,
+  ) {
+    final tab = appConfigProvider.selectedTab;
+    if (serversProvider.selectedServer == null && tab > 1) {
+      return 0;
+    }
+    return tab;
+  }
+
+  Widget _buildPageTransitionSwitcher(Widget child) {
+    return PageTransitionSwitcher(
+      duration: const Duration(milliseconds: 200),
+      transitionBuilder: (child, primaryAnimation, secondaryAnimation) {
+        return FadeThroughTransition(
+          animation: primaryAnimation,
+          secondaryAnimation: secondaryAnimation,
+          child: child,
+        );
+      },
+      child: child,
+    );
+  }
+
+  void _handleTabChange(int selected, DomainsListProvider domainsListProvider,
+      AppConfigProvider appConfigProvider) {
+    if (selected != 3) {
+      domainsListProvider.setSelectedTab(null);
+    }
+    appConfigProvider.setSelectedTab(selected);
+  }
+
   @override
   Widget build(BuildContext context) {
     final serversProvider = Provider.of<ServersProvider>(context);
@@ -77,6 +118,7 @@ class _BaseState extends State<Base> with WidgetsBindingObserver {
         Provider.of<DomainsListProvider>(context, listen: false);
 
     final width = MediaQuery.of(context).size.width;
+    final currentTab = _currentTabIndex(serversProvider, appConfigProvider);
 
     return AnnotatedRegion<SystemUiOverlayStyle>(
       value: SystemUiOverlayStyle(
@@ -102,67 +144,34 @@ class _BaseState extends State<Base> with WidgetsBindingObserver {
                     screens: serversProvider.selectedServer != null
                         ? appScreens
                         : appScreensNotSelected,
-                    selectedScreen: serversProvider.selectedServer != null
-                        ? appConfigProvider.selectedTab
-                        : appConfigProvider.selectedTab > 1
-                            ? 0
-                            : appConfigProvider.selectedTab,
+                    selectedScreen: currentTab,
                     onChange: (selected) {
-                      if (selected != 3) {
-                        domainsListProvider.setSelectedTab(null);
-                      }
-                      appConfigProvider.setSelectedTab(selected);
+                      _handleTabChange(
+                        selected,
+                        domainsListProvider,
+                        appConfigProvider,
+                      );
                     },
                   ),
                   Expanded(
-                    child: PageTransitionSwitcher(
-                      duration: const Duration(milliseconds: 200),
-                      transitionBuilder:
-                          (child, primaryAnimation, secondaryAnimation) =>
-                              FadeThroughTransition(
-                        animation: primaryAnimation,
-                        secondaryAnimation: secondaryAnimation,
-                        child: child,
-                      ),
-                      child: serversProvider.selectedServer != null
-                          ? pages[appConfigProvider.selectedTab]
-                          : pagesNotSelected[appConfigProvider.selectedTab > 1
-                              ? 0
-                              : appConfigProvider.selectedTab],
-                    ),
+                    child:
+                        _buildPageTransitionSwitcher(_currentPages[currentTab]),
                   ),
                 ],
               )
-            : PageTransitionSwitcher(
-                duration: const Duration(milliseconds: 200),
-                transitionBuilder:
-                    (child, primaryAnimation, secondaryAnimation) =>
-                        FadeThroughTransition(
-                  animation: primaryAnimation,
-                  secondaryAnimation: secondaryAnimation,
-                  child: child,
-                ),
-                child: serversProvider.selectedServer != null
-                    ? pages[appConfigProvider.selectedTab]
-                    : pagesNotSelected[appConfigProvider.selectedTab > 1
-                        ? 0
-                        : appConfigProvider.selectedTab],
-              ),
+            : _buildPageTransitionSwitcher(_currentPages[currentTab]),
         bottomNavigationBar: width <= ResponsiveConstants.large
             ? BottomNavBar(
                 screens: serversProvider.selectedServer != null
                     ? appScreens
                     : appScreensNotSelected,
-                selectedScreen: serversProvider.selectedServer != null
-                    ? appConfigProvider.selectedTab
-                    : appConfigProvider.selectedTab > 1
-                        ? 0
-                        : appConfigProvider.selectedTab,
+                selectedScreen: currentTab,
                 onChange: (selected) {
-                  if (selected != 3) {
-                    domainsListProvider.setSelectedTab(null);
-                  }
-                  appConfigProvider.setSelectedTab(selected);
+                  _handleTabChange(
+                    selected,
+                    domainsListProvider,
+                    appConfigProvider,
+                  );
                 },
               )
             : null,
