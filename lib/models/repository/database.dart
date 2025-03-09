@@ -98,7 +98,7 @@ class AppDbData {
       language: map['language']! as String,
       overrideSslCheck: map['overrideSslCheck']! as int,
       reducedDataCharts: map['reducedDataCharts']! as int,
-      logsPerQuery: map['logsPerQuery']! as int,
+      logsPerQuery: (map['logsPerQuery']! as num).toDouble(),
       passCode: map['passCode'] as String?,
       useBiometricAuth: map['useBiometricAuth']! as int,
       importantInfoReaden: map['importantInfoReaden']! as int,
@@ -133,7 +133,7 @@ class AppDbData {
   final String language;
   final int overrideSslCheck;
   final int reducedDataCharts;
-  final int logsPerQuery;
+  final double logsPerQuery;
   final String? passCode;
   final int useBiometricAuth;
   final int importantInfoReaden;
