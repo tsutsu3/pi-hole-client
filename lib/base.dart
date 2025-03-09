@@ -72,22 +72,6 @@ class _BaseState extends State<Base> with WidgetsBindingObserver {
     super.dispose();
   }
 
-  List<Widget> get _currentPages {
-    final serversProvider = context.read<ServersProvider>();
-    return serversProvider.selectedServer != null ? pages : pagesNotSelected;
-  }
-
-  int _currentTabIndex(
-    ServersProvider serversProvider,
-    AppConfigProvider appConfigProvider,
-  ) {
-    final tab = appConfigProvider.selectedTab;
-    if (serversProvider.selectedServer == null && tab > 1) {
-      return 0;
-    }
-    return tab;
-  }
-
   Widget _buildPageTransitionSwitcher(Widget child) {
     return PageTransitionSwitcher(
       duration: const Duration(milliseconds: 200),
@@ -115,65 +99,66 @@ class _BaseState extends State<Base> with WidgetsBindingObserver {
 
   @override
   Widget build(BuildContext context) {
-    final serversProvider = Provider.of<ServersProvider>(context);
-    final appConfigProvider = Provider.of<AppConfigProvider>(context);
-    final domainsListProvider =
-        Provider.of<DomainsListProvider>(context, listen: false);
+    // Listen only to necessary properties
+    final hasSelectedServer = context.select<ServersProvider, bool>(
+      (sp) => sp.selectedServer != null,
+    );
+    final selectedTab = context.select<AppConfigProvider, int>(
+      (acp) => acp.selectedTab,
+    );
+    final domainsListProvider = context.read<DomainsListProvider>();
+
+    // Determine the current tab index, mimicking _currentTabIndex logic
+    final currentTab =
+        (!hasSelectedServer && selectedTab > 1) ? 0 : selectedTab;
+    final screens = hasSelectedServer ? appScreens : appScreensNotSelected;
+    final currentPage =
+        hasSelectedServer ? pages[currentTab] : pagesNotSelected[currentTab];
 
     final width = MediaQuery.of(context).size.width;
-    final currentTab = _currentTabIndex(serversProvider, appConfigProvider);
+    final brightness = Theme.of(context).brightness;
 
     return AnnotatedRegion<SystemUiOverlayStyle>(
       value: SystemUiOverlayStyle(
         statusBarColor: Colors.transparent,
-        statusBarBrightness: Theme.of(context).brightness == Brightness.light
-            ? Brightness.light
-            : Brightness.dark,
+        statusBarBrightness:
+            brightness == Brightness.light ? Brightness.light : Brightness.dark,
         statusBarIconBrightness:
-            Theme.of(context).brightness == Brightness.light
-                ? Brightness.dark
-                : Brightness.light,
+            brightness == Brightness.light ? Brightness.dark : Brightness.light,
         systemNavigationBarColor: Theme.of(context).scaffoldBackgroundColor,
         systemNavigationBarIconBrightness:
-            Theme.of(context).brightness == Brightness.light
-                ? Brightness.dark
-                : Brightness.light,
+            brightness == Brightness.light ? Brightness.dark : Brightness.light,
       ),
       child: Scaffold(
         body: width > ResponsiveConstants.large
             ? Row(
                 children: [
                   CustomNavigationRail(
-                    screens: serversProvider.selectedServer != null
-                        ? appScreens
-                        : appScreensNotSelected,
+                    screens: screens,
                     selectedScreen: currentTab,
                     onChange: (selected) {
                       _handleTabChange(
                         selected,
                         domainsListProvider,
-                        appConfigProvider,
+                        context.read<AppConfigProvider>(),
                       );
                     },
                   ),
                   Expanded(
-                    child:
-                        _buildPageTransitionSwitcher(_currentPages[currentTab]),
+                    child: _buildPageTransitionSwitcher(currentPage),
                   ),
                 ],
               )
-            : _buildPageTransitionSwitcher(_currentPages[currentTab]),
+            : _buildPageTransitionSwitcher(currentPage),
         bottomNavigationBar: width <= ResponsiveConstants.large
             ? BottomNavBar(
-                screens: serversProvider.selectedServer != null
-                    ? appScreens
-                    : appScreensNotSelected,
+                screens: screens,
                 selectedScreen: currentTab,
                 onChange: (selected) {
                   _handleTabChange(
                     selected,
                     domainsListProvider,
-                    appConfigProvider,
+                    context.read<AppConfigProvider>(),
                   );
                 },
               )
