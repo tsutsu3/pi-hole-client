@@ -10,11 +10,10 @@ import 'package:pi_hole_client/providers/app_config_provider.dart';
 import 'package:pi_hole_client/providers/servers_provider.dart';
 import 'package:pi_hole_client/providers/status_provider.dart';
 import 'package:pi_hole_client/screens/servers/servers.dart';
-import 'package:pi_hole_client/screens/settings/about/app_detail_modal.dart';
-import 'package:pi_hole_client/screens/settings/about/important_info_modal.dart';
-import 'package:pi_hole_client/screens/settings/about/legal_modal.dart';
+import 'package:pi_hole_client/screens/settings/about/app_detail_screen.dart';
+import 'package:pi_hole_client/screens/settings/about/legal_screen.dart';
 import 'package:pi_hole_client/screens/settings/about/licenses_screen.dart';
-import 'package:pi_hole_client/screens/settings/about/privacy_modal.dart';
+import 'package:pi_hole_client/screens/settings/about/privacy_screen.dart';
 import 'package:pi_hole_client/screens/settings/app_settings/advanced_settings/advanced_options.dart';
 import 'package:pi_hole_client/screens/settings/app_settings/language_screen.dart';
 import 'package:pi_hole_client/screens/settings/app_settings/theme_screen.dart';
@@ -113,35 +112,6 @@ class _SettingsWidgetState extends State<SettingsWidget> {
       }
     }
 
-    void openLegalModal() {
-      showDialog(
-        context: context,
-        builder: (context) => const LegalModal(),
-      );
-    }
-
-    void openImportantInformationModal() {
-      showDialog(
-        context: context,
-        builder: (context) => const ImportantInfoModal(),
-      );
-    }
-
-    void openAppDetailModal() {
-      final appVersion = appConfigProvider.getAppInfo?.version ?? '';
-      showDialog(
-        context: context,
-        builder: (context) => AppDetailModal(appVersion: appVersion),
-      );
-    }
-
-    void openPrivacyModal() {
-      showDialog(
-        context: context,
-        builder: (context) => const PrivacyModal(),
-      );
-    }
-
     String getThemeString() {
       switch (appConfigProvider.selectedThemeNumber) {
         case 0:
@@ -231,33 +201,36 @@ class _SettingsWidgetState extends State<SettingsWidget> {
                         subtitle: AppLocalizations.of(context)!
                             .advancedSetupDescription,
                         screenToNavigate: const AdvancedOptions(),
-                        thisItem: 5,
+                        thisItem: 3,
                       ),
                       SectionLabel(
                         label: AppLocalizations.of(context)!.about,
                       ),
-                      CustomListTile(
-                        label: AppLocalizations.of(context)!.applicationDetail,
-                        description: AppLocalizations.of(context)!.aboutThisApp,
-                        onTap: openAppDetailModal,
-                      ),
-                      CustomListTile(
-                        label: AppLocalizations.of(context)!.privacy,
-                        description: AppLocalizations.of(context)!.privacyInfo,
-                        onTap: openPrivacyModal,
-                      ),
-                      CustomListTile(
-                        label:
-                            AppLocalizations.of(context)!.importantInformation,
-                        description: AppLocalizations.of(context)!.readIssues,
-                        onTap: openImportantInformationModal,
-                      ),
-                      CustomListTile(
-                        label: AppLocalizations.of(context)!.legal,
-                        description: AppLocalizations.of(context)!.legalInfo,
-                        onTap: openLegalModal,
+                      settingsTile(
+                        icon: Icons.phone_android_rounded,
+                        title: AppLocalizations.of(context)!.applicationDetail,
+                        subtitle: AppLocalizations.of(context)!.aboutThisApp,
+                        screenToNavigate: AppDetailScreen(
+                          appVersion: appConfigProvider.getAppInfo?.version,
+                        ),
+                        thisItem: 4,
                       ),
                       settingsTile(
+                        icon: Icons.privacy_tip_rounded,
+                        title: AppLocalizations.of(context)!.privacy,
+                        subtitle: AppLocalizations.of(context)!.privacyInfo,
+                        screenToNavigate: const PrivacyScreen(),
+                        thisItem: 5,
+                      ),
+                      settingsTile(
+                        icon: Icons.balance_rounded,
+                        title: AppLocalizations.of(context)!.legal,
+                        subtitle: AppLocalizations.of(context)!.legalInfo,
+                        screenToNavigate: const LegalScreen(),
+                        thisItem: 6,
+                      ),
+                      settingsTile(
+                        icon: Icons.description_rounded,
                         title: AppLocalizations.of(context)!.licenses,
                         subtitle: AppLocalizations.of(context)!.licensesInfo,
                         screenToNavigate: const LicensesScreen(),

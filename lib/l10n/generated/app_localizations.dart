@@ -275,6 +275,12 @@ abstract class AppLocalizations {
   /// **'API token'**
   String get apiToken;
 
+  /// No description provided for @appInfo.
+  ///
+  /// In en, this message translates to:
+  /// **'App Information'**
+  String get appInfo;
+
   /// No description provided for @appLogs.
   ///
   /// In en, this message translates to:
@@ -886,6 +892,18 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Enable'**
   String get enable;
+
+  /// No description provided for @enableCrashReport.
+  ///
+  /// In en, this message translates to:
+  /// **'Enable Crash Reporting'**
+  String get enableCrashReport;
+
+  /// No description provided for @enableCrashReportDetail.
+  ///
+  /// In en, this message translates to:
+  /// **'Automatically send anonymized reports to diagnose issues.'**
+  String get enableCrashReportDetail;
 
   /// No description provided for @enabled.
   ///
@@ -1811,6 +1829,12 @@ abstract class AppLocalizations {
   /// **'Selected but disconnected'**
   String get selectedDisconnected;
 
+  /// No description provided for @sendCrashReport.
+  ///
+  /// In en, this message translates to:
+  /// **'Send Crash Report'**
+  String get sendCrashReport;
+
   /// No description provided for @serverAddress.
   ///
   /// In en, this message translates to:
@@ -1942,6 +1966,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'To be used with a reverse proxy'**
   String get subrouteHelper;
+
+  /// No description provided for @supportFeedback.
+  ///
+  /// In en, this message translates to:
+  /// **'Support and Feedback'**
+  String get supportFeedback;
 
   /// No description provided for @supportForm.
   ///
@@ -2140,6 +2170,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Select the version of Pi-hole you are using'**
   String get versionDescription;
+
+  /// No description provided for @versionRequirements.
+  ///
+  /// In en, this message translates to:
+  /// **'Version Requirements'**
+  String get versionRequirements;
 
   /// No description provided for @visitGooglePlay.
   ///

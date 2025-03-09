@@ -4,11 +4,10 @@ import 'package:flutter_svg_test/flutter_svg_test.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/mockito.dart';
 import 'package:pi_hole_client/screens/servers/servers.dart';
-import 'package:pi_hole_client/screens/settings/about/app_detail_modal.dart';
-import 'package:pi_hole_client/screens/settings/about/important_info_modal.dart';
-import 'package:pi_hole_client/screens/settings/about/legal_modal.dart';
+import 'package:pi_hole_client/screens/settings/about/app_detail_screen.dart';
+import 'package:pi_hole_client/screens/settings/about/legal_screen.dart';
+import 'package:pi_hole_client/screens/settings/about/privacy_screen.dart';
 // import 'package:pi_hole_client/screens/settings/about/licenses_screen.dart';
-import 'package:pi_hole_client/screens/settings/about/privacy_modal.dart';
 import 'package:pi_hole_client/screens/settings/app_settings/advanced_settings/advanced_options.dart';
 import 'package:pi_hole_client/screens/settings/app_settings/language_screen.dart';
 import 'package:pi_hole_client/screens/settings/app_settings/theme_screen.dart';
@@ -74,12 +73,6 @@ void main() async {
           expect(find.text('Privacy'), findsOneWidget);
           expect(find.text('Privacy and Data Management'), findsOneWidget);
 
-          expect(find.text('Important information'), findsOneWidget);
-          expect(
-            find.text('Read this if you are experimenting issues'),
-            findsOneWidget,
-          );
-
           expect(find.text('Legal'), findsOneWidget);
           expect(find.text('Legal information'), findsOneWidget);
 
@@ -143,12 +136,6 @@ void main() async {
 
           expect(find.text('Privacy'), findsOneWidget);
           expect(find.text('Privacy and Data Management'), findsOneWidget);
-
-          expect(find.text('Important information'), findsOneWidget);
-          expect(
-            find.text('Read this if you are experimenting issues'),
-            findsOneWidget,
-          );
 
           expect(find.text('Legal'), findsOneWidget);
           expect(find.text('Legal information'), findsOneWidget);
@@ -300,7 +287,7 @@ void main() async {
 
           await tester.tap(find.text('Application Detail'));
           await tester.pumpAndSettle();
-          expect(find.byType(AppDetailModal), findsOneWidget);
+          expect(find.byType(AppDetailScreen), findsOneWidget);
         },
       );
 
@@ -326,33 +313,7 @@ void main() async {
 
           await tester.tap(find.text('Privacy'));
           await tester.pumpAndSettle();
-          expect(find.byType(PrivacyModal), findsOneWidget);
-        },
-      );
-
-      testWidgets(
-        'should show Important Info screen with tap',
-        (WidgetTester tester) async {
-          tester.view.physicalSize = const Size(1080, 2400);
-          tester.view.devicePixelRatio = 2.0;
-
-          addTearDown(() {
-            tester.view.resetPhysicalSize();
-            tester.view.resetDevicePixelRatio();
-          });
-
-          await tester.pumpWidget(
-            testSetup.buildTestWidget(
-              const Settings(),
-            ),
-          );
-
-          expect(find.byType(Settings), findsOneWidget);
-          await tester.pump();
-
-          await tester.tap(find.text('Important information'));
-          await tester.pumpAndSettle();
-          expect(find.byType(ImportantInfoModal), findsOneWidget);
+          expect(find.byType(PrivacyScreen), findsOneWidget);
         },
       );
 
@@ -378,7 +339,7 @@ void main() async {
 
           await tester.tap(find.text('Legal'));
           await tester.pumpAndSettle();
-          expect(find.byType(LegalModal), findsOneWidget);
+          expect(find.byType(LegalScreen), findsOneWidget);
         },
       );
 
