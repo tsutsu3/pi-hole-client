@@ -2,7 +2,7 @@
 ; SEE THE DOCUMENTATION FOR DETAILS ON CREATING INNO SETUP SCRIPT FILES!
 
 #define MyAppName "Pi-hole client"
-#define MyAppVersion "9.9.9"
+#define MyAppVersion "<REPLACE_VERSION_ACTIONS>"
 #define MyAppPublisher "tsutsu3"
 #define MyAppURL "https://github.com/tsutsu3/pi-hole-client"
 #define MyAppExeName "PiHoleClient.exe"

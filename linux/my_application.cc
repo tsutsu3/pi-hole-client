@@ -25,7 +25,7 @@ static void my_application_activate(GApplication* application) {
       GTK_WINDOW(gtk_application_window_new(GTK_APPLICATION(application)));
 
   // Add app icon
-  const string iconFilename = "assets/icon/pi-hole-client-icon-large-round.png";
+  const string iconFilename = "assets/icon/pi-hole-client-icon-medium-round.png";
   path execDir = canonical(read_symlink("/proc/self/exe")).parent_path();
   path iconPath = execDir / "data/flutter_assets" / iconFilename;
   gtk_window_set_icon_from_file(GTK_WINDOW(window), iconPath.c_str(), NULL);
