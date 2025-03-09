@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:pi_hole_client/constants/urls.dart';
 import 'package:pi_hole_client/functions/open_url.dart';
+import 'package:pi_hole_client/functions/snackbar.dart';
 import 'package:pi_hole_client/l10n/generated/app_localizations.dart';
 import 'package:pi_hole_client/providers/app_config_provider.dart';
 import 'package:pi_hole_client/widgets/list_tile_title.dart';
@@ -58,8 +59,26 @@ class PrivacyScreen extends StatelessWidget {
                 builder: (context, appConfigProvider, child) {
                   return Switch(
                     value: appConfigProvider.sendCrashReports,
-                    onChanged: (bool value) {
-                      appConfigProvider.setSendCrashReports(value);
+                    onChanged: (bool value) async {
+                      final result =
+                          await appConfigProvider.setSendCrashReports(value);
+                      if (!context.mounted) return;
+                      if (result == true) {
+                        showCautionSnackBar(
+                          context: context,
+                          appConfigProvider: appConfigProvider,
+                          label: AppLocalizations.of(context)!
+                              .restartAppTakeEffect,
+                          duration: 6,
+                        );
+                      } else {
+                        showErrorSnackBar(
+                          context: context,
+                          appConfigProvider: appConfigProvider,
+                          label: AppLocalizations.of(context)!
+                              .cannotUpdateSettings,
+                        );
+                      }
                     },
                   );
                 },
