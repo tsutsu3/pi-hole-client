@@ -16,7 +16,16 @@ class PiHoleClient extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final appConfigProvider = Provider.of<AppConfigProvider>(context);
+    // Subscribe only to the necessary parts.
+    final selectedTheme = context.select<AppConfigProvider, ThemeMode>(
+      (provider) => provider.selectedTheme,
+    );
+    final selectedLanguage = context.select<AppConfigProvider, String>(
+      (provider) => provider.selectedLanguage,
+    );
+    final passCode = context.select<AppConfigProvider, String?>(
+      (provider) => provider.passCode,
+    );
 
     return DynamicColorBuilder(
       builder: (lightDynamic, darkDynamic) {
@@ -27,7 +36,7 @@ class PiHoleClient extends StatelessWidget {
           title: 'Pi-hole client',
           theme: lightTheme(lightDynamic),
           darkTheme: darkTheme(darkDynamic),
-          themeMode: appConfigProvider.selectedTheme,
+          themeMode: selectedTheme,
           debugShowCheckedModeBanner: false,
           localizationsDelegates: const [
             GlobalMaterialLocalizations.delegate,
@@ -35,7 +44,7 @@ class PiHoleClient extends StatelessWidget {
             GlobalCupertinoLocalizations.delegate,
             AppLocalizations.delegate,
           ],
-          locale: Locale(appConfigProvider.selectedLanguage),
+          locale: Locale(selectedLanguage),
           supportedLocales: const [
             Locale('en', ''),
             Locale('es', ''),
@@ -48,7 +57,7 @@ class PiHoleClient extends StatelessWidget {
             return AppLock(
               builder: (_, __) => child!,
               lockScreenBuilder: (context) => const Unlock(),
-              initiallyEnabled: appConfigProvider.passCode != null,
+              initiallyEnabled: passCode != null,
               initialBackgroundLockLatency: Duration.zero,
             );
           },
