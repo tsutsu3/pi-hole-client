@@ -229,27 +229,6 @@ class _SettingsWidgetState extends State<SettingsWidget> {
                         screenToNavigate: const LegalScreen(),
                         thisItem: 6,
                       ),
-                      // CustomListTile(
-                      //   label: AppLocalizations.of(context)!.applicationDetail,
-                      //   description: AppLocalizations.of(context)!.aboutThisApp,
-                      //   onTap: openAppDetailModal,
-                      // ),
-                      // CustomListTile(
-                      //   label: AppLocalizations.of(context)!.privacy,
-                      //   description: AppLocalizations.of(context)!.privacyInfo,
-                      //   onTap: openPrivacyModal,
-                      // ),
-                      // CustomListTile(
-                      //   label:
-                      //       AppLocalizations.of(context)!.importantInformation,
-                      //   description: AppLocalizations.of(context)!.readIssues,
-                      //   onTap: openImportantInformationModal,
-                      // ),
-                      // CustomListTile(
-                      //   label: AppLocalizations.of(context)!.legal,
-                      //   description: AppLocalizations.of(context)!.legalInfo,
-                      //   onTap: openLegalModal,
-                      // ),
                       settingsTile(
                         icon: Icons.description_rounded,
                         title: AppLocalizations.of(context)!.licenses,
