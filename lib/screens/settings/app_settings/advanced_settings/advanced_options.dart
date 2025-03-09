@@ -35,10 +35,11 @@ class AdvancedOptions extends StatelessWidget {
     Future<void> updateSslCheck(bool newStatus) async {
       final result = await appConfigProvider.setOverrideSslCheck(newStatus);
       if (result == true) {
-        showSuccessSnackBar(
+        showCautionSnackBar(
           context: context,
           appConfigProvider: appConfigProvider,
           label: AppLocalizations.of(context)!.restartAppTakeEffect,
+          duration: 6,
         );
       } else {
         showErrorSnackBar(

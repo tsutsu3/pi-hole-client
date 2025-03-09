@@ -1700,7 +1700,7 @@ abstract class AppLocalizations {
   /// No description provided for @restartAppTakeEffect.
   ///
   /// In en, this message translates to:
-  /// **'Restart the application'**
+  /// **'Please restart the application.'**
   String get restartAppTakeEffect;
 
   /// No description provided for @save.

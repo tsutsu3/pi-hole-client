@@ -265,7 +265,7 @@
   "requiredVersions": "Required versions:",
   "reset": "Reset",
   "resetApplication": "Reset application",
-  "restartAppTakeEffect": "Restart the application",
+  "restartAppTakeEffect": "Please restart the application.",
   "save": "Save",
   "saved": "Saved",
   "scanQrCode": "Scan the QR code",

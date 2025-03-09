@@ -107,6 +107,8 @@ class AppColors extends ThemeExtension<AppColors> {
   const AppColors({
     required this.snackBarSuccess,
     required this.snackBarSuccessText,
+    required this.snackBarCaution,
+    required this.snackBarCautionText,
     required this.snackBarError,
     required this.snackBarErrorText,
     required this.snackBarNeutral,
@@ -124,6 +126,8 @@ class AppColors extends ThemeExtension<AppColors> {
 
   final Color? snackBarSuccess;
   final Color? snackBarSuccessText;
+  final Color? snackBarCaution;
+  final Color? snackBarCautionText;
   final Color? snackBarError;
   final Color? snackBarErrorText;
   final Color? snackBarNeutral;
@@ -145,6 +149,8 @@ class AppColors extends ThemeExtension<AppColors> {
   AppColors copyWith({
     Color? snackBarSuccess,
     Color? snackBarSuccessText,
+    Color? snackBarCaution,
+    Color? snackBarCautionText,
     Color? snackBarError,
     Color? snackBarErrorText,
     Color? snackBarNeutral,
@@ -162,6 +168,8 @@ class AppColors extends ThemeExtension<AppColors> {
     return AppColors(
       snackBarSuccess: snackBarSuccess ?? this.snackBarSuccess,
       snackBarSuccessText: snackBarSuccessText ?? this.snackBarSuccessText,
+      snackBarCaution: snackBarCaution ?? this.snackBarCaution,
+      snackBarCautionText: snackBarCautionText ?? this.snackBarCautionText,
       snackBarError: snackBarError ?? this.snackBarError,
       snackBarErrorText: snackBarErrorText ?? this.snackBarErrorText,
       snackBarNeutral: snackBarNeutral ?? this.snackBarNeutral,
@@ -187,6 +195,9 @@ class AppColors extends ThemeExtension<AppColors> {
       snackBarSuccess: Color.lerp(snackBarSuccess, other.snackBarSuccess, t),
       snackBarSuccessText:
           Color.lerp(snackBarSuccessText, other.snackBarSuccessText, t),
+      snackBarCaution: Color.lerp(snackBarCaution, other.snackBarCaution, t),
+      snackBarCautionText:
+          Color.lerp(snackBarCautionText, other.snackBarCautionText, t),
       snackBarError: Color.lerp(snackBarError, other.snackBarError, t),
       snackBarErrorText:
           Color.lerp(snackBarErrorText, other.snackBarErrorText, t),
@@ -209,6 +220,8 @@ class AppColors extends ThemeExtension<AppColors> {
     return copyWith(
       snackBarSuccess: snackBarSuccess!.harmonizeWith(dynamic.primary),
       snackBarSuccessText: snackBarSuccessText!.harmonizeWith(dynamic.primary),
+      snackBarCaution: snackBarCaution!.harmonizeWith(dynamic.primary),
+      snackBarCautionText: snackBarCautionText!.harmonizeWith(dynamic.primary),
       snackBarError: snackBarError!.harmonizeWith(dynamic.primary),
       snackBarErrorText: snackBarErrorText!.harmonizeWith(dynamic.primary),
       snackBarNeutral: snackBarNeutral!.harmonizeWith(dynamic.primary),
@@ -229,6 +242,8 @@ class AppColors extends ThemeExtension<AppColors> {
 const lightAppColors = AppColors(
   snackBarSuccess: Colors.green,
   snackBarSuccessText: Color(0xFFE8F5E9), // shade50
+  snackBarCaution: Color(0xFFFFB300), // shade600
+  snackBarCautionText: Color(0xFFFFF8E1), // shade50
   snackBarError: Colors.red,
   snackBarErrorText: Color(0xFFFFEBEE), // shade50
   snackBarNeutral: Colors.blueGrey,
@@ -247,6 +262,8 @@ const lightAppColors = AppColors(
 const darkAppColors = AppColors(
   snackBarSuccess: Color(0xFF2E7D32), // shade800
   snackBarSuccessText: Color(0xFFC8E6C9), // shade100
+  snackBarCaution: Color(0xFFFF8F00), // shade800
+  snackBarCautionText: Color(0xFFFFF8E1), // shade50
   snackBarError: Color(0xFFC62828), // shade800
   snackBarErrorText: Color(0xFFFFCDD2), // shade100
   snackBarNeutral: Color(0xFF37474F), // shade800
