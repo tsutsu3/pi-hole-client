@@ -1,6 +1,30 @@
 # Changelog
 
-## [0.9.3] - 2025-02-22
+## [1.0.0] - 2025-03-09
+
+### 🚀 Features
+
+- *(snackbar)* Add caution snackbar (#172)
+- *(icon)* Update app icon (#165)
+
+### 🚜 Refactor
+
+- *(settings)* Change modal to screen (#167)
+- *(settings)* Move existing settings to new Performance section (#166)
+- *(base)* Improve formatting of _handleTabChange method parameters
+- *(base)* Improve code readability and reduce duplication (#164)
+
+### ⚡ Performance
+
+- *(pi_hole_client)* Subscribe only to necessary provider properties (#171)
+- Reduce unnecessary rebuilds during status updates (#161)
+
+### ⚙️ Miscellaneous Tasks
+
+- *(flutter)* Upgrade Flutter to 3.29.1 (#170)
+- *(icon)* Tweak symbol size in app icon (#168)
+
+## [0.9.3_(15)] - 2025-02-22
 
 ### 🐛 Bug Fixes
 
