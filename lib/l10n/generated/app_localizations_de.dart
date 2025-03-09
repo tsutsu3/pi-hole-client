@@ -96,6 +96,9 @@ class AppLocalizationsDe extends AppLocalizations {
   String get apiToken => 'API Token';
 
   @override
+  String get appInfo => 'App-Informationen';
+
+  @override
   String get appLogs => 'App Logs';
 
   @override
@@ -400,6 +403,12 @@ class AppLocalizationsDe extends AppLocalizations {
 
   @override
   String get enable => 'Aktivieren';
+
+  @override
+  String get enableCrashReport => 'Absturzbericht aktivieren';
+
+  @override
+  String get enableCrashReportDetail => 'Automatisch anonymisierte Berichte senden, um Probleme zu diagnostizieren.';
 
   @override
   String get enabled => 'Aktiviert';
@@ -864,6 +873,9 @@ class AppLocalizationsDe extends AppLocalizations {
   String get selectedDisconnected => 'Ausgewählt, ohne Verbindung';
 
   @override
+  String get sendCrashReport => 'Senden des Absturzberichts';
+
+  @override
   String get serverAddress => 'Server Adresse';
 
   @override
@@ -928,6 +940,9 @@ class AppLocalizationsDe extends AppLocalizations {
 
   @override
   String get subrouteHelper => 'Zur Verwendung mit einem Reverse-Proxy';
+
+  @override
+  String get supportFeedback => 'Support und Feedback';
 
   @override
   String get supportForm => 'Support-Formular';
@@ -1027,6 +1042,9 @@ class AppLocalizationsDe extends AppLocalizations {
 
   @override
   String get versionDescription => 'Wählen Sie die Version von Pi-hole, die Sie verwenden';
+
+  @override
+  String get versionRequirements => 'Versionsanforderungen';
 
   @override
   String get visitGooglePlay => 'Google Play-Seite besuchen';

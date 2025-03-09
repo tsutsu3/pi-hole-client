@@ -96,6 +96,9 @@ class AppLocalizationsJa extends AppLocalizations {
   String get apiToken => 'APIトークン';
 
   @override
+  String get appInfo => 'アプリ情報';
+
+  @override
   String get appLogs => 'アプリログ';
 
   @override
@@ -400,6 +403,12 @@ class AppLocalizationsJa extends AppLocalizations {
 
   @override
   String get enable => '有効化';
+
+  @override
+  String get enableCrashReport => 'クラッシュレポートを有効にする';
+
+  @override
+  String get enableCrashReportDetail => '問題を診断するために匿名化されたレポートを自動的に送信します。';
 
   @override
   String get enabled => '有効';
@@ -864,6 +873,9 @@ class AppLocalizationsJa extends AppLocalizations {
   String get selectedDisconnected => '選択済みだが切断中';
 
   @override
+  String get sendCrashReport => 'クラッシュレポート送信';
+
+  @override
   String get serverAddress => 'サーバーアドレス';
 
   @override
@@ -928,6 +940,9 @@ class AppLocalizationsJa extends AppLocalizations {
 
   @override
   String get subrouteHelper => 'リバースプロキシで使用';
+
+  @override
+  String get supportFeedback => 'サポート・フィードバック';
 
   @override
   String get supportForm => 'サポートフォーム';
@@ -1027,6 +1042,9 @@ class AppLocalizationsJa extends AppLocalizations {
 
   @override
   String get versionDescription => '使用している Pi-hole のバージョンを選択してください';
+
+  @override
+  String get versionRequirements => 'バージョン要件';
 
   @override
   String get visitGooglePlay => 'Google Playページを訪問';
