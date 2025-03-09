@@ -1,6 +1,12 @@
 # Changelog
 
-## [1.0.0] - 2025-03-09
+## [1.0.1] - 2025-03-09
+
+### 🐛 Bug Fixes
+
+- *(database)* Change logsPerQuery type from int to double (#174)
+
+## [1.0.0_(17)] - 2025-03-09
 
 ### 🚀 Features
 
