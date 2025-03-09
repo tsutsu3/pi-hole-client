@@ -265,7 +265,7 @@
   "requiredVersions": "必要なバージョン：",
   "reset": "リセット",
   "resetApplication": "アプリケーションをリセット",
-  "restartAppTakeEffect": "アプリを再起動してください。",
+  "restartAppTakeEffect": "設定を反映するためにアプリを再起動してください。",
   "save": "保存",
   "saved": "保存済み",
   "scanQrCode": "QRコードをスキャン",

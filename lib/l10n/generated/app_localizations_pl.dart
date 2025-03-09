@@ -807,7 +807,7 @@ class AppLocalizationsPl extends AppLocalizations {
   String get resetApplication => 'Zresetuj aplikację';
 
   @override
-  String get restartAppTakeEffect => 'Proszę ponownie uruchomić aplikację.';
+  String get restartAppTakeEffect => 'Proszę ponownie uruchomić aplikację, aby zastosować ustawienia.';
 
   @override
   String get save => 'Zapisać';

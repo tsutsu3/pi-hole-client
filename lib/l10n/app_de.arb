@@ -265,7 +265,7 @@
   "requiredVersions": "Erforderliche Versionen:",
   "reset": "Zurücksetzen",
   "resetApplication": "App zurücksetzen",
-  "restartAppTakeEffect": "Bitte starten Sie die Anwendung neu.",
+  "restartAppTakeEffect": "Bitte starten Sie die Anwendung neu, um die Einstellungen zu übernehmen.",
   "save": "Speichern",
   "saved": "Gespeichert",
   "scanQrCode": "QR-Code scannen",

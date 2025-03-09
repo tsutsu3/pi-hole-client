@@ -265,7 +265,7 @@
   "requiredVersions": "Wymagane wersje:",
   "reset": "Resetuj",
   "resetApplication": "Zresetuj aplikację",
-  "restartAppTakeEffect": "Proszę ponownie uruchomić aplikację.",
+  "restartAppTakeEffect": "Proszę ponownie uruchomić aplikację, aby zastosować ustawienia.",
   "save": "Zapisać",
   "saved": "Zapisano",
   "scanQrCode": "Zeskanuj kod QR",
