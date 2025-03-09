@@ -807,7 +807,7 @@ class AppLocalizationsDe extends AppLocalizations {
   String get resetApplication => 'App zurücksetzen';
 
   @override
-  String get restartAppTakeEffect => 'App neustarten';
+  String get restartAppTakeEffect => 'Bitte starten Sie die Anwendung neu, um die Einstellungen zu übernehmen.';
 
   @override
   String get save => 'Speichern';
