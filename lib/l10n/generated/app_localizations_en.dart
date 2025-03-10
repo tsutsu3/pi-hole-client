@@ -423,6 +423,9 @@ class AppLocalizationsEn extends AppLocalizations {
   String get enterCodeUnlock => 'Enter code to unlock';
 
   @override
+  String get enterComment => 'Please enter a comment.';
+
+  @override
   String get enterPasscode => 'Enter passcode';
 
   @override
@@ -475,6 +478,9 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get gitHub => 'App code available on GitHub';
+
+  @override
+  String get group => 'Group';
 
   @override
   String get helpUsImprove => 'Help Us Improve';
