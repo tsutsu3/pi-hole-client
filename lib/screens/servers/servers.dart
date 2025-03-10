@@ -117,15 +117,6 @@ class _ServersPageState extends State<ServersPage> {
     }
 
     return PopScope(
-      onPopInvokedWithResult: (didPop, result) async {
-        if (serversProvider.selectedServer == null) {
-          appConfigProvider.setSelectedTab(0);
-        }
-
-        if (didPop) {
-          return;
-        }
-      },
       child: Scaffold(
         appBar: AppBar(
           title: Text(AppLocalizations.of(context)!.servers),
