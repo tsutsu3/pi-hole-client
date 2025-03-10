@@ -76,7 +76,7 @@ dependencies:
   #     ref: master-alt
   local_auth: ^2.1.6
   flutter_custom_tabs: ^2.0.0+1
-  mobile_scanner: ^6.0.6
+  mobile_scanner: ^6.0.7
   logger: ^2.4.0
   freezed_annotation: ^3.0.0
   json_annotation: ^4.9.0
