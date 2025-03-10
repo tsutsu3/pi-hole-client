@@ -9,7 +9,6 @@
 [![SonarQube][sonar-quality-gate-shield]][sonar-quality-gate-url]
 [![Pihole V6][pihole-v6-shield]][pihole-url]
 [![Pihole V5][pihole-v5-shield]][pihole-url]
-![Status][status-shield]
 <!-- [![CodeClimate][codeclimate-shield]][codeclimate-url] -->
 
 <!-- PROJECT LOGO -->
@@ -234,7 +233,6 @@ For details on the licenses applicable to this project, please refer to [LICENSE
 
 <!-- MARKDOWN LINKS & IMAGES -->
 <!-- https://www.markdownguide.org/basic-syntax/#reference-style-links -->
-[status-shield]: https://img.shields.io/badge/status-beta-orange?style=for-the-badge
 [issues-shield]: https://img.shields.io/github/issues/tsutsu3/pi-hole-client?style=for-the-badge
 [issues-url]: https://github.com/tsutsu3/pi-hole-client/issues
 [license-shield]: https://img.shields.io/github/license/tsutsu3/pi-hole-client?style=for-the-badge
