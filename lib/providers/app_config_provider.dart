@@ -319,7 +319,7 @@ class AppConfigProvider with ChangeNotifier {
     _selectedLanguage = dbData.language;
     _overrideSslCheck = dbData.overrideSslCheck;
     _reducedDataCharts = dbData.reducedDataCharts;
-    _logsPerQuery = dbData.logsPerQuery.toDouble();
+    _logsPerQuery = dbData.logsPerQuery;
     _passCode = dbData.passCode;
     _useBiometrics = dbData.useBiometricAuth;
     _importantInfoReaden = dbData.importantInfoReaden;

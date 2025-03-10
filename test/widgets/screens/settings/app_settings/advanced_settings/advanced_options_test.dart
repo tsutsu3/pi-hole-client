@@ -78,9 +78,11 @@ void main() async {
           await tester.tap(find.text("Don't check SSL certificate"));
           await tester.pumpAndSettle();
           expect(
-              find.text(
-                  'Please restart the application to apply the settings.'),
-              findsOneWidget);
+            find.text(
+              'Please restart the application to apply the settings.',
+            ),
+            findsOneWidget,
+          );
         },
       );
 
