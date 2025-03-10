@@ -1,6 +1,16 @@
 # Changelog
 
-## [1.0.1] - 2025-03-09
+## [1.0.2] - 2025-03-10
+
+### 🚀 Features
+
+- *(ui)* Convert LanguageScreen & ThemeScreen to stateless, fix back gesture behavior (Mobile layout is not yet) (#176)
+
+### ⚙️ Miscellaneous Tasks
+
+- *(lint)* Resolve analyzer warnings
+
+## [1.0.1_(19)] - 2025-03-09
 
 ### 🐛 Bug Fixes
 
