@@ -1,6 +1,16 @@
 # Changelog
 
-## [1.0.2] - 2025-03-10
+## [1.0.3] - 2025-03-11
+
+### 🎨 Styling
+
+- *(icon)* Fine-tune app icon color (#183)
+
+### ⚙️ Miscellaneous Tasks
+
+- *(README)* Remove status badg
+
+## [1.0.2_(21)] - 2025-03-10
 
 ### 🚀 Features
 
