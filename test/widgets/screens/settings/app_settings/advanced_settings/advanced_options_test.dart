@@ -3,7 +3,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:pi_hole_client/screens/app_logs/app_logs.dart';
 import 'package:pi_hole_client/screens/settings/app_settings/advanced_settings/advanced_options.dart';
 import 'package:pi_hole_client/screens/settings/app_settings/advanced_settings/app_unlock_setup_modal.dart';
-import 'package:pi_hole_client/screens/settings/app_settings/advanced_settings/reset_modal.dart';
+import 'package:pi_hole_client/screens/settings/app_settings/advanced_settings/reset_screen.dart';
 import 'package:pi_hole_client/screens/settings/app_settings/advanced_settings/statistics_visualization_screen.dart';
 
 import '../../../../helpers.dart';
@@ -235,7 +235,7 @@ void main() async {
           expect(find.text('Reset application'), findsOneWidget);
           await tester.tap(find.text('Reset application'));
           await tester.pumpAndSettle();
-          expect(find.byType(ResetModal), findsOneWidget);
+          expect(find.byType(ResetScreen), findsOneWidget);
           expect(find.text('Erase app data'), findsOneWidget);
         },
       );
