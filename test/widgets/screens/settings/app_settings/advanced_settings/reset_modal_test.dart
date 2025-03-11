@@ -40,7 +40,7 @@ void main() async {
 
           await tester.tap(find.text('Reset application'));
           await tester.pumpAndSettle();
-          expect(find.text('Erase app data'), findsOneWidget);
+          expect(find.text('Erase app data'), findsNWidgets(2));
           expect(find.text('Cancel'), findsOneWidget);
           await tester.tap(find.text('Cancel'));
           await tester.pumpAndSettle();
@@ -72,7 +72,7 @@ void main() async {
 
           await tester.tap(find.text('Reset application'));
           await tester.pumpAndSettle();
-          expect(find.text('Erase app data'), findsOneWidget);
+          expect(find.text('Erase app data'), findsNWidgets(2));
           expect(find.text('ERASE ALL (5)'), findsOneWidget);
           await tester.pump();
           await tester.pumpAndSettle(const Duration(seconds: 6));

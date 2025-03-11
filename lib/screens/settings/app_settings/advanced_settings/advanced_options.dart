@@ -15,7 +15,7 @@ import 'package:pi_hole_client/screens/settings/app_settings/advanced_settings/a
 import 'package:pi_hole_client/screens/settings/app_settings/advanced_settings/auto_refresh_time_screen.dart';
 import 'package:pi_hole_client/screens/settings/app_settings/advanced_settings/enter_passcode_modal.dart';
 import 'package:pi_hole_client/screens/settings/app_settings/advanced_settings/logs_quantity_load_screen.dart';
-import 'package:pi_hole_client/screens/settings/app_settings/advanced_settings/reset_modal.dart';
+import 'package:pi_hole_client/screens/settings/app_settings/advanced_settings/reset_screen.dart';
 import 'package:pi_hole_client/screens/settings/app_settings/advanced_settings/statistics_visualization_screen.dart';
 import 'package:pi_hole_client/widgets/custom_list_tile.dart';
 import 'package:pi_hole_client/widgets/section_label.dart';
@@ -108,15 +108,6 @@ class AdvancedOptions extends StatelessWidget {
       } else {
         await reset();
       }
-    }
-
-    void openResetModal() {
-      showDialog(
-        context: context,
-        builder: (context) => ResetModal(
-          onConfirm: deleteApplicationData,
-        ),
-      );
     }
 
     void openAppUnlockModal() {
@@ -325,7 +316,16 @@ class AdvancedOptions extends StatelessWidget {
               label: AppLocalizations.of(context)!.resetApplication,
               description: AppLocalizations.of(context)!.erasesAppData,
               color: convertColor(serversProvider.colors, Colors.red),
-              onTap: openResetModal,
+              onTap: () => {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => ResetScreen(
+                      onConfirm: deleteApplicationData,
+                    ),
+                  ),
+                ),
+              },
               padding: const EdgeInsets.only(
                 top: 10,
                 bottom: 10,
