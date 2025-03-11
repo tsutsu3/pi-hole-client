@@ -19,7 +19,7 @@ void main() async {
     });
 
     testWidgets(
-      'should close reset modal',
+      'should close reset screen',
       (WidgetTester tester) async {
         tester.view.physicalSize = const Size(1080, 2400);
         tester.view.devicePixelRatio = 2.0;
@@ -42,9 +42,9 @@ void main() async {
         await tester.pumpAndSettle();
 
         // Tap Elase all button
-        expect(find.text('Erase app data'), findsOneWidget);
+        expect(find.text('Erase app data'), findsNWidgets(2));
         await tester.pumpAndSettle(const Duration(seconds: 6));
-        await tester.tap(find.text('ERASE ALL'));
+        await tester.tap(find.text('ERASE ALL').last);
 
         // AUto close dialog
         await tester.pumpAndSettle(const Duration(seconds: 1));
