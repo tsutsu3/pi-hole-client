@@ -113,13 +113,13 @@ flutter_launcher_icons:
   image_path: assets/icon/pi-hole-client-icon-medium.png
   # android
   android: true
-  adaptive_icon_background: '#ff5d5b'
+  adaptive_icon_background: '#ff5c4d'
   adaptive_icon_foreground: assets/icon/pi-hole-client-icon-medium-foreground.png
   # ios
   ios: true
   # remove_alpha_ios: true
   image_path_ios: assets/icon/pi-hole-client-icon-medium-foreground.png
-  background_color_ios: '#ff5d5b'
+  background_color_ios: '#ff5c4d'
   windows:
     generate: true
     image_path: assets/icon/pi-hole-client-icon-medium-round.png
