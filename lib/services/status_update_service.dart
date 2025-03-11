@@ -107,6 +107,13 @@ class StatusUpdateService {
     if (statusResult?.result == APiResponseType.success) {
       _statusProvider.setOvertimeData(statusResult!.data!);
       _statusProvider.setOvertimeDataLoadingStatus(1);
+      _statusProvider.setStatusLoading(LoadStatus.loaded);
+
+      final List<String?> clients = statusResult.data!.clients.map((client) {
+        return client.name.isNotEmpty ? client.name : client.ip;
+      }).toList();
+      _filtersProvider.setClients(List<String>.from(clients));
+
       return true;
     } else {
       _statusProvider.setOvertimeDataLoadingStatus(2);
