@@ -10,7 +10,7 @@
    inkscape:version="1.2.1 (9c6d41e410, 2022-07-14)"
    sodipodi:docname="feature-image.svg"
    xml:space="preserve"
-   inkscape:export-filename="feature-image2.png"
+   inkscape:export-filename="feature-image.png"
    inkscape:export-xdpi="96"
    inkscape:export-ydpi="96"
    xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
@@ -28,8 +28,8 @@
      inkscape:document-units="mm"
      showgrid="false"
      inkscape:zoom="1.3266287"
-     inkscape:cx="339.58257"
-     inkscape:cy="340.33636"
+     inkscape:cx="640.34496"
+     inkscape:cy="341.09016"
      inkscape:window-width="2467"
      inkscape:window-height="1230"
      inkscape:window-x="316"
@@ -89,6 +89,15 @@
       .cls-3{fill:#980200}.cls-4{fill:red}
     </style><style
        id="style414-8">
+      .cls-3{fill:#980200}.cls-4{fill:red}
+    </style><style
+       id="style6382-1">
+      .cls-3{fill:#980200}.cls-4{fill:red}
+    </style><style
+       id="style288-3">
+      .cls-3{fill:#980200}.cls-4{fill:red}
+    </style><style
+       id="style414-2">
       .cls-3{fill:#980200}.cls-4{fill:red}
     </style></defs><g
      inkscape:groupmode="layer"
@@ -184,7 +193,8 @@
      inkscape:groupmode="layer"
      id="layer3"
      inkscape:label="textlogo"
-     style="display:inline"><text
+     style="display:inline"
+     sodipodi:insensitive="true"><text
        xml:space="preserve"
        style="font-size:23.6069px;fill:#1a1a1a;fill-opacity:1;stroke-width:1.96722"
        x="53.348209"
@@ -196,31 +206,31 @@
          style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-size:23.6069px;font-family:'Courier New';-inkscape-font-specification:'Courier New, Bold';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;fill:#4d4d4d;stroke-width:1.96722"
          x="53.348209"
          y="70.710381">Pi-hole client</tspan></text><g
-       id="layer1-0"
+       id="layer1"
        inkscape:label="front"
        transform="matrix(0.1171875,0,0,0.1171875,25,57.697)"><g
-         id="g463-4"
-         style="fill:#ff5d5b;fill-opacity:1"
+         id="g463"
+         style="fill:#ff5c4d;fill-opacity:1"
          transform="matrix(1.5338153,0,0,1.5334692,9.8181776e-5,-63.776984)"><path
            d="m 88.32,85.75 c -0.09,1.57 -0.65,16.22 -17.11,17.11 -10,0.73 -17.37,-7.18 -27.08,-7.18 -24.21,1.79 -21.21,34.22 0,34.22 a 19.92,19.92 0 0 0 14.14,-5.83 L 82.46,99.9 a 19.94,19.94 0 0 0 5.83,-14.15"
            class="cls-4"
-           id="path428-4"
-           style="fill:#ff5d5b;fill-opacity:1" /><path
+           id="path428"
+           style="fill:#ff5c4d;fill-opacity:1" /><path
            d="m 0.08,85.75 c 0.09,-1.57 0.65,-16.22 17.11,-17.11 10,-0.72 17.37,7.19 27.08,7.19 24.21,-1.8 21.21,-34.23 0,-34.23 A 19.92,19.92 0 0 0 30.13,47.43 L 5.94,71.61 A 19.94,19.94 0 0 0 0.11,85.75"
            class="cls-4"
-           id="path432-8"
-           style="fill:#ff5d5b;fill-opacity:1" /></g><g
-         id="g467-9"
-         style="opacity:1;fill:#ffb2b2;fill-opacity:1"
+           id="path432"
+           style="fill:#ff5c4d;fill-opacity:1" /></g><g
+         id="g467"
+         style="opacity:1;fill:#ffbeb8;fill-opacity:1"
          transform="matrix(1.5338153,0,0,1.5334692,9.8181776e-5,-63.776984)"><path
            d="m 44.16,129.93 c -1.57,-0.1 -16.22,-0.65 -17.11,-17.11 -0.72,-10 7.19,-17.38 7.19,-27.08 C 32.44,61.53 0,64.53 0,85.74 A 19.94,19.94 0 0 0 5.83,99.88 L 30,124.06 a 20,20 0 0 0 14.14,5.84"
            class="cls-3"
-           id="path426-4"
-           style="fill:#ffb2b2;fill-opacity:1" /><path
+           id="path426"
+           style="fill:#ffbeb8;fill-opacity:1" /><path
            d="m 44.16,41.59 c 1.57,0.09 16.22,0.65 17.11,17.11 0.73,10 -7.18,17.38 -7.18,27.08 1.79,24.21 34.22,21.21 34.22,0 A 19.94,19.94 0 0 0 82.48,71.64 L 58.3,47.45 A 20,20 0 0 0 44.16,41.62"
            class="cls-3"
-           id="path430-9"
-           style="fill:#ffb2b2;fill-opacity:1" /></g></g></g><style
+           id="path430"
+           style="fill:#ffbeb8;fill-opacity:1" /></g></g></g><style
      type="text/css"
      id="style22550">
 	.st0{fill:#4B4B4B;}
@@ -295,5 +305,43 @@
 </style><style
      type="text/css"
      id="style16596-2">
+	.st0{fill:#4B4B4B;}
+</style><style
+     type="text/css"
+     id="style22550-46">
+	.st0{fill:#4B4B4B;}
+</style><style
+     type="text/css"
+     id="style33903-8">
+	.st0{fill:#4B4B4B;}
+</style><style
+     type="text/css"
+     id="style33923-6">
+	.st0{fill:#4B4B4B;}
+</style><style
+     type="text/css"
+     id="style43783-1">
+
+	.st0{fill:#4B4B4B;}
+
+</style><style
+     type="text/css"
+     id="style43811-3">
+
+	.st0{fill:#4B4B4B;}
+
+</style><style
+     type="text/css"
+     id="style43839-0">
+
+	.st0{fill:#4B4B4B;}
+
+</style><style
+     type="text/css"
+     id="style44212-9">
+	.st0{fill:#4B4B4B;}
+</style><style
+     type="text/css"
+     id="style16596-5">
 	.st0{fill:#4B4B4B;}
 </style></svg>
