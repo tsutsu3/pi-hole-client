@@ -1,5 +1,6 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:intl/intl.dart';
 import 'package:logger/logger.dart';
 
 Level getLogLevel() {
@@ -35,7 +36,21 @@ class CustomLogFilter extends LogFilter {
   }
 }
 
+class TimeStampedPrinter extends LogPrinter {
+  final PrettyPrinter _prettyPrinter = PrettyPrinter();
+
+  @override
+  List<String> log(LogEvent event) {
+    final timestamp = DateFormat('yyyy-MM-dd HH:mm:ss').format(DateTime.now());
+    return _prettyPrinter
+        .log(event)
+        .map((line) => '[$timestamp] $line')
+        .toList();
+  }
+}
+
 final Logger logger = Logger(
   filter: CustomLogFilter(getLogLevel()),
-  printer: PrettyPrinter(),
+  // printer: PrettyPrinter(),
+  printer: TimeStampedPrinter(),
 );
