@@ -90,6 +90,7 @@ class AdvancedOptions extends StatelessWidget {
         process.open(AppLocalizations.of(context)!.deleting);
         await serversProvider.deleteDbData();
         await appConfigProvider.restoreAppConfig();
+        appConfigProvider.setSelectedTab(0);
         process.close();
         Phoenix.rebirth(context);
       }
