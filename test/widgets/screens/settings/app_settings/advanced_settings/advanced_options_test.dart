@@ -236,7 +236,7 @@ void main() async {
           await tester.tap(find.text('Reset application'));
           await tester.pumpAndSettle();
           expect(find.byType(ResetScreen), findsOneWidget);
-          expect(find.text('Erase app data'), findsOneWidget);
+          expect(find.text('Erase app data'), findsNWidgets(2));
         },
       );
     },
