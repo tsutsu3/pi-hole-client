@@ -290,6 +290,8 @@
   "selectedDisconnected": "Seleccionado pero desconectado",
   "sendCrashReport": "Enviar informe de fallos",
   "serverAddress": "Dirección del servidor",
+  "serverConnectionGuide": "Guía de conexión al servidor",
+  "serverConnectionGuideDescription": "Aprenda cómo conectarse al servidor.",
   "serverDisabled": "El servidor se desactivó correctamente.",
   "serverEnabled": "El servidor se activó correctamente.",
   "serverInvalidData": "Conexión guardada con valores no válidos. Añade la conexión otra vez.",

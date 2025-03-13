@@ -879,6 +879,12 @@ class AppLocalizationsEs extends AppLocalizations {
   String get serverAddress => 'Dirección del servidor';
 
   @override
+  String get serverConnectionGuide => 'Guía de conexión al servidor';
+
+  @override
+  String get serverConnectionGuideDescription => 'Aprenda cómo conectarse al servidor.';
+
+  @override
   String get serverDisabled => 'El servidor se desactivó correctamente.';
 
   @override

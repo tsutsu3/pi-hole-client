@@ -289,6 +289,8 @@
   "selectedDisconnected": "Wybrano, ale rozłączono",
   "sendCrashReport": "Wyślij raport o awarii",
   "serverAddress": "Adres serwera",
+  "serverConnectionGuide": "Przewodnik po połączeniu z serwerem",
+  "serverConnectionGuideDescription": "Dowiedz się, jak połączyć się z serwerem.",
   "serverDisabled": "Serwer został pomyślnie wyłączony.",
   "serverEnabled": "Serwer został pomyślnie włączony.",
   "serverInvalidData": "Połączenie z serwerem zapisane z nieprawidłowymi danymi. Dodaj połączenie ponownie.",

@@ -289,6 +289,8 @@
   "selectedDisconnected": "Ausgewählt, ohne Verbindung",
   "sendCrashReport": "Senden des Absturzberichts",
   "serverAddress": "Server Adresse",
+  "serverConnectionGuide": "Serververbindungsanleitung",
+  "serverConnectionGuideDescription": "Erfahren Sie, wie Sie eine Verbindung zum Server herstellen.",
   "serverDisabled": "Server erfolgreich deaktiviert.",
   "serverEnabled": "Server erfolgreich aktiviert.",
   "serverInvalidData": "Verbindung mit ungültigen Daten gespeichert. Fügen Sie die Verbindung erneut hinzu.",

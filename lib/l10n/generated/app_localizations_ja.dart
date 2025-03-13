@@ -879,6 +879,12 @@ class AppLocalizationsJa extends AppLocalizations {
   String get serverAddress => 'サーバーアドレス';
 
   @override
+  String get serverConnectionGuide => 'サーバー接続ガイド';
+
+  @override
+  String get serverConnectionGuideDescription => 'サーバーに接続する方法を学ぶ';
+
+  @override
   String get serverDisabled => 'サーバーが正常に無効化されました。';
 
   @override

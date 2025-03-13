@@ -879,6 +879,12 @@ class AppLocalizationsPl extends AppLocalizations {
   String get serverAddress => 'Adres serwera';
 
   @override
+  String get serverConnectionGuide => 'Przewodnik po połączeniu z serwerem';
+
+  @override
+  String get serverConnectionGuideDescription => 'Dowiedz się, jak połączyć się z serwerem.';
+
+  @override
   String get serverDisabled => 'Serwer został pomyślnie wyłączony.';
 
   @override
