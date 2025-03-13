@@ -100,6 +100,12 @@ class _ServersTileItemState extends State<ServersTileItem>
       final statusUpdateService = context.read<StatusUpdateService>();
 
       Future<dynamic> connectSuccess(result) async {
+        // appScreensNotSelected Layout only. Go to settings
+        if (serversProvider.selectedServer == null &&
+            appConfigProvider.selectedTab == 1) {
+          appConfigProvider.setSelectedTab(4);
+        }
+
         serversProvider.setselectedServer(
           server: Server(
             address: server.address,
@@ -109,7 +115,6 @@ class _ServersTileItemState extends State<ServersTileItem>
             enabled: result.status == 'enabled' ? true : false,
             sm: server.sm,
           ),
-          toHomeTab: true,
         );
         final apiGateway = serversProvider.selectedApiGateway;
         final statusResult = await apiGateway?.realtimeStatus();
@@ -126,7 +131,6 @@ class _ServersTileItemState extends State<ServersTileItem>
         statusProvider.setIsServerConnected(true);
         statusUpdateService.startAutoRefresh();
         await statusUpdateService.refreshOnce();
-        appConfigProvider.setSelectedTab(0);
       }
 
       await serversProvider.resetSelectedServer();
