@@ -289,6 +289,8 @@
   "selectedDisconnected": "Selected but disconnected",
   "sendCrashReport": "Send Crash Report",
   "serverAddress": "Server address",
+  "serverConnectionGuide": "Server Connection Guide",
+  "serverConnectionGuideDescription": "Learn how to connect to the server.",
   "serverDisabled": "Server disabled successfully.",
   "serverEnabled": "Server enabled successfully.",
   "serverInvalidData": "Server connection saved with invalid data. Add the connection again.",

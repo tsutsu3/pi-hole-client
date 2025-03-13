@@ -70,7 +70,7 @@ class AppDetailScreen extends StatelessWidget {
             ),
             ListTile(
               leading: Icon(
-                Icons.question_mark_rounded,
+                Icons.contact_support_rounded,
                 color: colorScheme.onSurface,
               ),
               title: listTileTitle(
@@ -81,6 +81,24 @@ class AppDetailScreen extends StatelessWidget {
                 AppLocalizations.of(context)!.supportFormDescription,
               ),
               onTap: () => openUrl(Urls.support),
+              trailing: Icon(
+                Icons.open_in_browser_rounded,
+                color: colorScheme.onSurfaceVariant.withValues(alpha: 0.8),
+              ),
+            ),
+            ListTile(
+              leading: Icon(
+                Icons.add_link_rounded,
+                color: colorScheme.onSurface,
+              ),
+              title: listTileTitle(
+                AppLocalizations.of(context)!.serverConnectionGuide,
+                colorScheme: colorScheme,
+              ),
+              subtitle: Text(
+                AppLocalizations.of(context)!.serverConnectionGuideDescription,
+              ),
+              onTap: () => openUrl(Urls.createAConnection),
               trailing: Icon(
                 Icons.open_in_browser_rounded,
                 color: colorScheme.onSurfaceVariant.withValues(alpha: 0.8),

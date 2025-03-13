@@ -289,6 +289,8 @@
   "selectedDisconnected": "選択済みだが切断中",
   "sendCrashReport": "クラッシュレポート送信",
   "serverAddress": "サーバーアドレス",
+  "serverConnectionGuide": "サーバー接続ガイド",
+  "serverConnectionGuideDescription": "サーバーに接続する方法を学ぶ",
   "serverDisabled": "サーバーが正常に無効化されました。",
   "serverEnabled": "サーバーが正常に有効化されました。",
   "serverInvalidData": "サーバー接続が無効なデータで保存されています。再度接続を追加してください。",

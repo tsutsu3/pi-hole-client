@@ -1841,6 +1841,18 @@ abstract class AppLocalizations {
   /// **'Server address'**
   String get serverAddress;
 
+  /// No description provided for @serverConnectionGuide.
+  ///
+  /// In en, this message translates to:
+  /// **'Server Connection Guide'**
+  String get serverConnectionGuide;
+
+  /// No description provided for @serverConnectionGuideDescription.
+  ///
+  /// In en, this message translates to:
+  /// **'Learn how to connect to the server.'**
+  String get serverConnectionGuideDescription;
+
   /// No description provided for @serverDisabled.
   ///
   /// In en, this message translates to:
