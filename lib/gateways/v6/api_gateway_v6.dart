@@ -680,6 +680,81 @@ class ApiGatewayV6 implements ApiGateway {
     }
   }
 
+  /// Update domain
+  @override
+  Future<AddDomainToListResponse> updateDomain(Domain domain) async {
+    try {
+      final types = {
+        'white': ['allow', 'exact'],
+        'black': ['deny', 'exact'],
+        'regex_white': ['allow', 'regex'],
+        'regex_black': ['deny', 'regex'],
+      };
+
+      String getType(int type) {
+        switch (type) {
+          case 0:
+            return 'white';
+
+          case 1:
+            return 'black';
+
+          case 2:
+            return 'regex_white';
+
+          case 3:
+            return 'regex_black';
+
+          default:
+            return '';
+        }
+      }
+
+      final type = types[getType(domain.type)]?[0];
+      final kind = types[getType(domain.type)]?[1];
+
+      final response = await httpClient(
+        method: 'put',
+        url: '${_server.address}/api/domains/$type/$kind/${domain.domain}',
+        body: {
+          'comment': domain.comment,
+          'enabled': domain.enabled == 1 ? true : false,
+          'groups': domain.groups,
+          'kind': kind,
+          'type': type,
+        },
+      );
+      if (response.statusCode == 200) {
+        final domains = AddDomains.fromJson(jsonDecode(response.body));
+
+        if (domains.domains.length != 1) {
+          return AddDomainToListResponse(result: APiResponseType.error);
+        }
+
+        if (domains.processed.success.isNotEmpty) {
+          return AddDomainToListResponse(result: APiResponseType.success);
+        }
+
+        if (domains.processed.errors.isNotEmpty &&
+            domains.processed.errors[0].error
+                .contains('UNIQUE constraint failed:')) {
+          return AddDomainToListResponse(result: APiResponseType.alreadyAdded);
+        }
+        return AddDomainToListResponse(result: APiResponseType.error);
+      } else {
+        return AddDomainToListResponse(result: APiResponseType.error);
+      }
+    } on SocketException {
+      return AddDomainToListResponse(result: APiResponseType.socket);
+    } on TimeoutException {
+      return AddDomainToListResponse(result: APiResponseType.timeout);
+    } on HandshakeException {
+      return AddDomainToListResponse(result: APiResponseType.sslError);
+    } catch (e) {
+      return AddDomainToListResponse(result: APiResponseType.error);
+    }
+  }
+
   Future<Response> _sendRequest({
     required String method,
     required String url,

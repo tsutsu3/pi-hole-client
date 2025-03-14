@@ -929,6 +929,12 @@ abstract class AppLocalizations {
   /// **'Enter code to unlock'**
   String get enterCodeUnlock;
 
+  /// No description provided for @enterComment.
+  ///
+  /// In en, this message translates to:
+  /// **'Please enter a comment.'**
+  String get enterComment;
+
   /// No description provided for @enterPasscode.
   ///
   /// In en, this message translates to:
@@ -1036,6 +1042,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'App code available on GitHub'**
   String get gitHub;
+
+  /// No description provided for @group.
+  ///
+  /// In en, this message translates to:
+  /// **'Group'**
+  String get group;
 
   /// No description provided for @helpUsImprove.
   ///
