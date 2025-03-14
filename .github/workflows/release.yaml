@@ -131,6 +131,9 @@ jobs:
       - name: Install flutter_to_debian
         run: dart pub global activate flutter_to_debian
 
+      - name: Add executable permissions to debian/scripts/postrm
+        run: chmod +x debian/scripts/postrm
+
       - name: Generate .deb package
         run: flutter_to_debian
 
