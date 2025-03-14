@@ -29,8 +29,6 @@ class HomeAppBar extends StatelessWidget implements PreferredSizeWidget {
     final statusProvider = Provider.of<StatusProvider>(context);
     final appConfigProvider = Provider.of<AppConfigProvider>(context);
 
-    final width = MediaQuery.of(context).size.width;
-
     Future<void> refresh() async {
       final process = ProcessModal(context: context);
       process.open(AppLocalizations.of(context)!.refreshingData);
