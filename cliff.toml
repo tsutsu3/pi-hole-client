@@ -62,7 +62,7 @@ body = """
       [#{{ contributor.pr_number }}]({{ self::remote_url() }}/pull/{{ contributor.pr_number }}) \
     {%- endif %}
 {%- endfor -%}
-{%- endif %}\n
+{%- endif %}\n\n
 """
 # template for the changelog footer
 footer = """
