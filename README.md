@@ -60,6 +60,7 @@
 - [🌟 Recommended lists](#-recommended-lists)
 - [💖 Donations](#-donations)
 - [🛠️ Development](#️-development)
+- [📦 Install](#-install)
 - [⚖️ License](#️-license)
 - [🖋️ Credits](#️-credits)
 
@@ -130,6 +131,12 @@ This guide includes:
 - Compiling production builds for different platforms
 - Code quality and analysis
 - CI/CD secrets management and workflows
+
+## 📦 Install
+
+For installation instructions, please refer to the following document:
+
+📖 **[Installation Guide](docs/install.md)**
 
 ## ⚖️ License
 
