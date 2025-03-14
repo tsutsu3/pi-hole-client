@@ -1,5 +1,37 @@
 # Changelog
 
+## [1.0.3](https://github.com/tsutsu3/pi-hole-client/compare/1.0.3_(23)..1.0.3) - 2025-03-14
+
+### 🚀 Features
+
+- *(log)* Add timestamp to log messages - ([0184757](https://github.com/tsutsu3/pi-hole-client/commit/0184757d05428e77d7df9f69fecfbad550c29791))
+- *(settings)* Add server connection guide (#192) - ([b3c78cc](https://github.com/tsutsu3/pi-hole-client/commit/b3c78cc173492e50b7deed2b7c29a9d83c485728))
+
+### 🐛 Bug Fixes
+
+- *(log-filter)* Ensure clients appears without manual refresh (#185) - ([f387087](https://github.com/tsutsu3/pi-hole-client/commit/f387087eb53e66f3f05742a3ed35da48fbef82ac))
+- *(settings)* Prevent navigation to home after selecting server (#195) - ([ddd991a](https://github.com/tsutsu3/pi-hole-client/commit/ddd991aefefebb1bafef95f1f50dbd794ea94318))
+- *(settings)* Navigate to initial screen after app reset - ([abf6ecf](https://github.com/tsutsu3/pi-hole-client/commit/abf6ecf490e84a45da556df0596e11992bb0212a))
+
+### 🚜 Refactor
+
+- *(reset)* Convert reset modal to full screen (#186) - ([84343ac](https://github.com/tsutsu3/pi-hole-client/commit/84343ac3a73c24b62adbf002972d3b627fb9c505))
+
+### 🧪 Testing
+
+- *(theme)* Add unit tests for theme creation (#190) - ([f488555](https://github.com/tsutsu3/pi-hole-client/commit/f488555b9b56b12855abfc302edcb24ed92e8382))
+
+### ⚙️ Miscellaneous Tasks
+
+- *(ci)* Update git-cliff changelog format - ([ef758b0](https://github.com/tsutsu3/pi-hole-client/commit/ef758b04b4dd7da8ede759db9658282e876dd705))
+- *(template)* Request more info and hide clarifications after submission (#197) - ([74ab278](https://github.com/tsutsu3/pi-hole-client/commit/74ab2787d48f03e44960efa0d190d0396a174d60))
+
+## 🎉 New Contributors 🎉
+
+* @mwoolweaver made their first contribution in [#197](https://github.com/tsutsu3/pi-hole-client/pull/197)
+* @tsutsu3 made their first contribution in [#195](https://github.com/tsutsu3/pi-hole-client/pull/195)
+* @dependabot[bot] made their first contribution in [#182](https://github.com/tsutsu3/pi-hole-client/pull/182)
+
 ## [1.0.3_(23)](https://github.com/tsutsu3/pi-hole-client/compare/1.0.2_(21)..1.0.3_(23)) - 2025-03-11
 
 ### 🎨 Styling
