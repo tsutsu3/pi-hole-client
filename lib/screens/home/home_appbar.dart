@@ -140,41 +140,48 @@ class HomeAppBar extends StatelessWidget implements PreferredSizeWidget {
                 : convertColor(serversProvider.colors, Colors.red)
             : Colors.grey,
       ),
-      title: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          GestureDetector(
-            onTap: openSwitchServerModal,
-            child: serversProvider.selectedServer != null
-                ? Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        serversProvider.selectedServer!.alias,
-                        style: const TextStyle(fontSize: 20),
-                      ),
-                      Text(
-                        serversProvider.selectedServer!.address,
-                        style: TextStyle(
-                          color: Theme.of(context).listTileTheme.textColor,
-                          fontSize: 14,
+      title: InkWell(
+        onTap: openSwitchServerModal,
+        borderRadius: BorderRadius.circular(8),
+        child: Padding(
+          padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 12),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Expanded(
+                child: serversProvider.selectedServer != null
+                    ? Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            serversProvider.selectedServer!.alias,
+                            style: const TextStyle(fontSize: 20),
+                          ),
+                          Text(
+                            serversProvider.selectedServer!.address,
+                            style: TextStyle(
+                              color: Theme.of(context).listTileTheme.textColor,
+                              fontSize: 14,
+                            ),
+                          ),
+                        ],
+                      )
+                    : Text(
+                        AppLocalizations.of(context)!.noServerSelected,
+                        overflow: TextOverflow.ellipsis,
+                        style: const TextStyle(
+                          fontWeight: FontWeight.bold,
                         ),
                       ),
-                    ],
-                  )
-                : SizedBox(
-                    width: width - 128,
-                    child: Text(
-                      AppLocalizations.of(context)!.noServerSelected,
-                      overflow: TextOverflow.ellipsis,
-                      style: const TextStyle(
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                  ),
+              ),
+              Icon(
+                Icons.sync_alt_rounded,
+                color: Theme.of(context).listTileTheme.textColor,
+              ),
+            ],
           ),
-        ],
+        ),
       ),
       actions: [
         PopupMenuButton(
