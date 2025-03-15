@@ -9,7 +9,10 @@ import 'package:pi_hole_client/models/api/v6/auth/auth.dart' show Session;
 import 'package:pi_hole_client/models/api/v6/dns/dns.dart' show Blocking;
 import 'package:pi_hole_client/models/api/v6/domains/domains.dart'
     show AddDomains, Domains;
-import 'package:pi_hole_client/models/api/v6/flt/ftl.dart' show InfoFtl;
+import 'package:pi_hole_client/models/api/v6/ftl/ftl.dart' show InfoFtl;
+import 'package:pi_hole_client/models/api/v6/ftl/host.dart';
+import 'package:pi_hole_client/models/api/v6/ftl/sensors.dart';
+import 'package:pi_hole_client/models/api/v6/ftl/version.dart';
 import 'package:pi_hole_client/models/api/v6/metrics/history.dart'
     show History, HistoryClients;
 import 'package:pi_hole_client/models/api/v6/metrics/query.dart' show Queries;
@@ -18,10 +21,13 @@ import 'package:pi_hole_client/models/api/v6/metrics/stats.dart'
 import 'package:pi_hole_client/models/app_log.dart';
 import 'package:pi_hole_client/models/domain.dart';
 import 'package:pi_hole_client/models/gateways.dart';
+import 'package:pi_hole_client/models/host.dart';
 import 'package:pi_hole_client/models/log.dart';
 import 'package:pi_hole_client/models/overtime_data.dart';
 import 'package:pi_hole_client/models/realtime_status.dart';
+import 'package:pi_hole_client/models/sensors.dart';
 import 'package:pi_hole_client/models/server.dart';
+import 'package:pi_hole_client/models/version.dart';
 
 class ApiGatewayV6 implements ApiGateway {
   /// Creates a new instance of the `ApiGatewayV5` class.
@@ -726,5 +732,84 @@ class ApiGatewayV6 implements ApiGateway {
             .get(Uri.parse(url), headers: headers)
             .timeout(Duration(seconds: timeout));
     }
+  }
+
+  @override
+  Future<HostResponse> fetchHostInfo() async {
+    try {
+      final results = await httpClient(
+        method: 'get',
+        url: '${_server.address}/api/info/host',
+      );
+
+      if (results.statusCode == 200) {
+        final host = Host.fromJson(jsonDecode(results.body));
+
+        return HostResponse(
+          result: APiResponseType.success,
+          data: HostInfo.fromV6(host),
+        );
+      } else {
+        return HostResponse(result: APiResponseType.error);
+      }
+    } catch (e) {
+      return HostResponse(result: APiResponseType.error);
+    }
+  }
+
+  @override
+  Future<SensorsResponse> fetchSensorsInfo() async {
+    try {
+      final results = await httpClient(
+        method: 'get',
+        url: '${_server.address}/api/info/sensors',
+      );
+
+      if (results.statusCode == 200) {
+        final sensors = Sensors.fromJson(jsonDecode(results.body));
+
+        return SensorsResponse(
+          result: APiResponseType.success,
+          data: SensorsInfo.fromV6(sensors),
+        );
+      } else {
+        return SensorsResponse(result: APiResponseType.error);
+      }
+    } catch (e) {
+      return SensorsResponse(result: APiResponseType.error);
+    }
+  }
+
+  @override
+  Future<SystemResponse> fetchSystemInfo() {
+    throw UnimplementedError();
+  }
+
+  @override
+  Future<VersionResponse> fetchVersionInfo() async {
+    try {
+      final results = await httpClient(
+        method: 'get',
+        url: '${_server.address}/api/info/version',
+      );
+
+      if (results.statusCode == 200) {
+        final version = Version.fromJson(jsonDecode(results.body));
+
+        return VersionResponse(
+          result: APiResponseType.success,
+          data: VersionInfo.fromV6(version),
+        );
+      } else {
+        return VersionResponse(result: APiResponseType.error);
+      }
+    } catch (e) {
+      return VersionResponse(result: APiResponseType.error);
+    }
+  }
+
+  @override
+  Future<PiHoleServerInfoResponse> fetchAllServerInfo() {
+    throw UnimplementedError();
   }
 }

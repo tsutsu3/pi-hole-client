@@ -6,9 +6,15 @@ import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
 import 'package:pi_hole_client/constants/api_versions.dart';
 import 'package:pi_hole_client/gateways/v6/api_gateway_v6.dart';
+import 'package:pi_hole_client/models/api/v6/ftl/host.dart';
+import 'package:pi_hole_client/models/api/v6/ftl/sensors.dart';
+import 'package:pi_hole_client/models/api/v6/ftl/version.dart';
 import 'package:pi_hole_client/models/domain.dart';
 import 'package:pi_hole_client/models/gateways.dart';
+import 'package:pi_hole_client/models/host.dart';
+import 'package:pi_hole_client/models/sensors.dart';
 import 'package:pi_hole_client/models/server.dart';
+import 'package:pi_hole_client/models/version.dart';
 import 'package:pi_hole_client/services/secret_manager.dart';
 
 import 'api_gateway_v6_test.mocks.dart';
@@ -1424,6 +1430,270 @@ void main() async {
           .addDomainToList({'list': 'black', 'domain': 'google.com'});
 
       expect(response.result, APiResponseType.error);
+    });
+  });
+
+  group('fetchVersionInfo', () {
+    late Server server;
+    const url = 'http://example.com/api/info/version';
+    const data = {
+      'version': {
+        'core': {
+          'local': {
+            'version': 'v6.0.5',
+            'branch': 'master',
+            'hash': '9fe687bd',
+          },
+          'remote': {
+            'version': 'v6.0.5',
+            'hash': '9fe687bd',
+          },
+        },
+        'web': {
+          'local': {
+            'version': 'v6.0.2',
+            'branch': 'master',
+            'hash': '25441178',
+          },
+          'remote': {
+            'version': 'v6.0.2',
+            'hash': '25441178',
+          },
+        },
+        'ftl': {
+          'local': {
+            'hash': 'b7eb53bf',
+            'branch': 'master',
+            'version': 'v6.0.4',
+            'date': '2025-03-04 17:22:10 +0000',
+          },
+          'remote': {
+            'version': 'v6.0.4',
+            'hash': 'b7eb53bf',
+          },
+        },
+        'docker': {
+          'local': '2025.03.0',
+          'remote': '2025.03.0',
+        },
+      },
+      'took': 0.014363765716552734,
+    };
+
+    setUp(() {
+      server = Server(
+        address: 'http://example.com',
+        alias: 'example',
+        defaultServer: true,
+        apiVersion: SupportedApiVersions.v6,
+      );
+      server.sm.savePassword('xxx123');
+    });
+
+    test('should return success when use docker', () async {
+      final mockClient = MockClient();
+      final apiGateway = ApiGatewayV6(server, client: mockClient);
+      when(
+        mockClient.get(
+          Uri.parse(url),
+          headers: anyNamed('headers'),
+        ),
+      ).thenAnswer((_) async => http.Response(jsonEncode(data), 200));
+      final response = await apiGateway.fetchVersionInfo();
+
+      expect(response.result, APiResponseType.success);
+      expect(response.message, null);
+      expect(
+        response.data?.toJson(),
+        VersionInfo.fromV6(Version.fromJson(data)).toJson(),
+      );
+    });
+
+    test('should return success when no use docker', () async {
+      const dataNoDocker = {
+        'version': {
+          'core': {
+            'local': {
+              'version': 'v6.0.4',
+              'branch': 'master',
+              'hash': '9fe687xxx',
+            },
+            'remote': {
+              'version': 'v6.0.5',
+              'hash': '9fe687bd',
+            },
+          },
+          'web': {
+            'local': {
+              'version': 'v6.0.1',
+              'branch': 'master',
+              'hash': '254411xxx',
+            },
+            'remote': {
+              'version': 'v6.0.2',
+              'hash': '25441178',
+            },
+          },
+          'ftl': {
+            'local': {
+              'hash': 'b7eb5xxx',
+              'branch': 'master',
+              'version': 'v6.0.3',
+              'date': '2025-03-01 17:22:10 +0000',
+            },
+            'remote': {
+              'version': 'v6.0.4',
+              'hash': 'b7eb53bf',
+            },
+          },
+          'docker': {
+            'local': null,
+            'remote': null,
+          },
+        },
+        'took': 0.014363765716552734,
+      };
+
+      final mockClient = MockClient();
+      final apiGateway = ApiGatewayV6(server, client: mockClient);
+      when(
+        mockClient.get(
+          Uri.parse(url),
+          headers: anyNamed('headers'),
+        ),
+      ).thenAnswer((_) async => http.Response(jsonEncode(dataNoDocker), 200));
+      final response = await apiGateway.fetchVersionInfo();
+
+      expect(response.result, APiResponseType.success);
+      expect(response.message, null);
+      expect(
+        response.data?.toJson(),
+        VersionInfo.fromV6(Version.fromJson(dataNoDocker)).toJson(),
+      );
+      expect(response.data?.core.canUpdate, true);
+      expect(response.data?.web.canUpdate, true);
+      expect(response.data?.ftl.canUpdate, true);
+      expect(response.data?.docker.canUpdate, false);
+    });
+  });
+
+  group('fetchHostInfo', () {
+    late Server server;
+    const url = 'http://example.com/api/info/host';
+    const data = {
+      'host': {
+        'uname': {
+          'domainname': '(none)',
+          'machine': 'x86_64',
+          'nodename': 'raspberrypi',
+          'release': '5.15.0-52-generic',
+          'sysname': 'Linux',
+          'version': '#58-Ubuntu SMP Thu Oct 13 08:03:55 UTC 2022',
+        },
+        'model': 'Raspberry Pi Model 4B',
+        'dmi': {
+          'bios': {'vendor': 'American Megatrends Inc.'},
+          'board': {
+            'name': 'Raspberry Pi 4 Model B Rev 1.4',
+            'vendor': 'Raspberry Pi Foundation',
+            'version': '0x14',
+          },
+          'product': {
+            'name': 'Raspberry Pi 4 Model B Rev 1.4',
+            'version': '0x14',
+            'family': 'Raspberry Pi 4 Model B Rev 1.4',
+          },
+          'sys': {'vendor': 'Raspberry Pi Foundation'},
+        },
+      },
+      'took': 0.003,
+    };
+
+    setUp(() {
+      server = Server(
+        address: 'http://example.com',
+        alias: 'example',
+        defaultServer: true,
+        apiVersion: SupportedApiVersions.v6,
+      );
+      server.sm.savePassword('xxx123');
+    });
+
+    test('should return success', () async {
+      final mockClient = MockClient();
+      final apiGateway = ApiGatewayV6(server, client: mockClient);
+      when(
+        mockClient.get(
+          Uri.parse(url),
+          headers: anyNamed('headers'),
+        ),
+      ).thenAnswer((_) async => http.Response(jsonEncode(data), 200));
+      final response = await apiGateway.fetchHostInfo();
+
+      expect(response.result, APiResponseType.success);
+      expect(response.message, null);
+      expect(
+        response.data?.toJson(),
+        HostInfo.fromV6(Host.fromJson(data)).toJson(),
+      );
+    });
+  });
+
+  group('fetchSensorsInfo', () {
+    late Server server;
+    const url = 'http://example.com/api/info/sensors';
+    const data = {
+      'sensors': {
+        'list': [
+          {
+            'name': 'amdgpu',
+            'path': 'hwmon1',
+            'source': 'devices/pci0000:00/0000:00:08.1/0000:05:00.0',
+            'temps': [
+              {
+                'name': 'edge',
+                'value': 40,
+                'max': null,
+                'crit': null,
+                'sensor': 'temp1',
+              }
+            ],
+          },
+        ],
+        'cpu_temp': 48,
+        'hot_limit': 60,
+        'unit': 'C',
+      },
+      'took': 0.003,
+    };
+
+    setUp(() {
+      server = Server(
+        address: 'http://example.com',
+        alias: 'example',
+        defaultServer: true,
+        apiVersion: SupportedApiVersions.v6,
+      );
+      server.sm.savePassword('xxx123');
+    });
+
+    test('should return success', () async {
+      final mockClient = MockClient();
+      final apiGateway = ApiGatewayV6(server, client: mockClient);
+      when(
+        mockClient.get(
+          Uri.parse(url),
+          headers: anyNamed('headers'),
+        ),
+      ).thenAnswer((_) async => http.Response(jsonEncode(data), 200));
+      final response = await apiGateway.fetchSensorsInfo();
+
+      expect(response.result, APiResponseType.success);
+      expect(response.message, null);
+      expect(
+        response.data?.toJson(),
+        SensorsInfo.fromV6(Sensors.fromJson(data)).toJson(),
+      );
     });
   });
 }

@@ -92,4 +92,31 @@ abstract interface class ApiGateway {
   Future<AddDomainToListResponse> addDomainToList(
     Map<String, dynamic> domainData,
   );
+
+  // =========================================================================
+  // Pi-hole Sever information
+  // =========================================================================
+
+  /// Fetch Pi-hole host information.
+  Future<HostResponse> fetchHostInfo();
+
+  /// Fetch Pi-hole sensors information. (temperature)
+  Future<SensorsResponse> fetchSensorsInfo();
+
+  /// Fetch Pi-hole system information. (CPU, RAM, Swap)
+  Future<SystemResponse> fetchSystemInfo();
+
+  /// Fetch Pi-hole version information. (Core, Web, FTL, Docker)
+  Future<VersionResponse> fetchVersionInfo();
+
+  /// Fetches information about the Pi-hole server.
+  ///
+  /// ### Behavior by Pi-hole version:
+  /// - **v6**: Retrieves all available server information, including:
+  ///   - Host information
+  ///   - Sensor data
+  ///   - System status
+  ///   - Version details
+  /// - **v5**: Only retrieves version information
+  Future<PiHoleServerInfoResponse> fetchAllServerInfo();
 }
