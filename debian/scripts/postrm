@@ -1,0 +1,11 @@
+#!/bin/bash
+set -e
+
+case "$1" in
+    remove)
+        if [ -d "/usr/local/lib/PiHoleClient" ]; then
+            rm -rf /usr/local/lib/PiHoleClient
+        fi
+        ;;
+esac
+exit 0
