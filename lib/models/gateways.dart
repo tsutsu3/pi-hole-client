@@ -1,5 +1,4 @@
 import 'package:pi_hole_client/models/api/v6/domains/domains.dart' as v6;
-import 'package:pi_hole_client/models/api/v6/ftl/sensors.dart';
 import 'package:pi_hole_client/models/api/v6/ftl/system.dart';
 import 'package:pi_hole_client/models/app_log.dart';
 import 'package:pi_hole_client/models/domain.dart';
@@ -7,6 +6,7 @@ import 'package:pi_hole_client/models/host.dart';
 import 'package:pi_hole_client/models/log.dart';
 import 'package:pi_hole_client/models/overtime_data.dart';
 import 'package:pi_hole_client/models/realtime_status.dart';
+import 'package:pi_hole_client/models/sensors.dart';
 import 'package:pi_hole_client/models/version.dart';
 
 enum APiResponseType {
@@ -251,7 +251,7 @@ class HostResponse extends BaseInfoResponse<HostInfo> {
   });
 }
 
-class SensorsResponse extends BaseInfoResponse<Sensors> {
+class SensorsResponse extends BaseInfoResponse<SensorsInfo> {
   SensorsResponse({
     required super.result,
     super.message,
@@ -288,7 +288,7 @@ class PiHoleServerInfoResponse {
   final APiResponseType result;
   final String? message;
   final HostInfo? host;
-  final Sensors? sensors;
+  final SensorsInfo? sensors;
   final System? system;
   final VersionInfo? version;
 }

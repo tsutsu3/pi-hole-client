@@ -7,10 +7,12 @@ import 'package:mockito/mockito.dart';
 import 'package:pi_hole_client/constants/api_versions.dart';
 import 'package:pi_hole_client/gateways/v6/api_gateway_v6.dart';
 import 'package:pi_hole_client/models/api/v6/ftl/host.dart';
+import 'package:pi_hole_client/models/api/v6/ftl/sensors.dart';
 import 'package:pi_hole_client/models/api/v6/ftl/version.dart';
 import 'package:pi_hole_client/models/domain.dart';
 import 'package:pi_hole_client/models/gateways.dart';
 import 'package:pi_hole_client/models/host.dart';
+import 'package:pi_hole_client/models/sensors.dart';
 import 'package:pi_hole_client/models/server.dart';
 import 'package:pi_hole_client/models/version.dart';
 import 'package:pi_hole_client/services/secret_manager.dart';
@@ -1633,6 +1635,64 @@ void main() async {
       expect(
         response.data?.toJson(),
         HostInfo.fromV6(Host.fromJson(data)).toJson(),
+      );
+    });
+  });
+
+  group('fetchSensorsInfo', () {
+    late Server server;
+    const url = 'http://example.com/api/info/sensors';
+    const data = {
+      'sensors': {
+        'list': [
+          {
+            'name': 'amdgpu',
+            'path': 'hwmon1',
+            'source': 'devices/pci0000:00/0000:00:08.1/0000:05:00.0',
+            'temps': [
+              {
+                'name': 'edge',
+                'value': 40,
+                'max': null,
+                'crit': null,
+                'sensor': 'temp1',
+              }
+            ],
+          },
+        ],
+        'cpu_temp': 48,
+        'hot_limit': 60,
+        'unit': 'C',
+      },
+      'took': 0.003,
+    };
+
+    setUp(() {
+      server = Server(
+        address: 'http://example.com',
+        alias: 'example',
+        defaultServer: true,
+        apiVersion: SupportedApiVersions.v6,
+      );
+      server.sm.savePassword('xxx123');
+    });
+
+    test('should return success', () async {
+      final mockClient = MockClient();
+      final apiGateway = ApiGatewayV6(server, client: mockClient);
+      when(
+        mockClient.get(
+          Uri.parse(url),
+          headers: anyNamed('headers'),
+        ),
+      ).thenAnswer((_) async => http.Response(jsonEncode(data), 200));
+      final response = await apiGateway.fetchSensorsInfo();
+
+      expect(response.result, APiResponseType.success);
+      expect(response.message, null);
+      expect(
+        response.data?.toJson(),
+        SensorsInfo.fromV6(Sensors.fromJson(data)).toJson(),
       );
     });
   });

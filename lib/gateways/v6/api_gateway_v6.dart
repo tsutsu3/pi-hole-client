@@ -11,6 +11,7 @@ import 'package:pi_hole_client/models/api/v6/domains/domains.dart'
     show AddDomains, Domains;
 import 'package:pi_hole_client/models/api/v6/ftl/ftl.dart' show InfoFtl;
 import 'package:pi_hole_client/models/api/v6/ftl/host.dart';
+import 'package:pi_hole_client/models/api/v6/ftl/sensors.dart';
 import 'package:pi_hole_client/models/api/v6/ftl/version.dart';
 import 'package:pi_hole_client/models/api/v6/metrics/history.dart'
     show History, HistoryClients;
@@ -24,6 +25,7 @@ import 'package:pi_hole_client/models/host.dart';
 import 'package:pi_hole_client/models/log.dart';
 import 'package:pi_hole_client/models/overtime_data.dart';
 import 'package:pi_hole_client/models/realtime_status.dart';
+import 'package:pi_hole_client/models/sensors.dart';
 import 'package:pi_hole_client/models/server.dart';
 import 'package:pi_hole_client/models/version.dart';
 
@@ -764,8 +766,34 @@ class ApiGatewayV6 implements ApiGateway {
   }
 
   @override
-  Future<SensorsResponse> fetchSensorsInfo() {
-    throw UnimplementedError();
+  Future<SensorsResponse> fetchSensorsInfo() async {
+    try {
+      final results = await httpClient(
+        method: 'get',
+        url: '${_server.address}/api/info/sensors',
+      );
+
+      if (results.statusCode == 200) {
+        final sensors = Sensors.fromJson(jsonDecode(results.body));
+
+        return SensorsResponse(
+          result: APiResponseType.success,
+          data: SensorsInfo.fromV6(sensors),
+        );
+      } else {
+        return SensorsResponse(result: APiResponseType.error);
+      }
+    } on SocketException {
+      return SensorsResponse(result: APiResponseType.socket);
+    } on TimeoutException {
+      return SensorsResponse(result: APiResponseType.timeout);
+    } on HandshakeException {
+      return SensorsResponse(result: APiResponseType.sslError);
+    } on FormatException {
+      return SensorsResponse(result: APiResponseType.authError);
+    } catch (e) {
+      return SensorsResponse(result: APiResponseType.error);
+    }
   }
 
   @override

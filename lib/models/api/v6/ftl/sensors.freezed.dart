@@ -15,12 +15,8 @@ T _$identity<T>(T value) => value;
 
 /// @nodoc
 mixin _$Sensors {
-  List<SensorData> get list;
-  @JsonKey(name: 'cpu_temp')
-  num? get cpuTemp;
-  @JsonKey(name: 'hot_limit')
-  num get hotLimit;
-  String get unit;
+  SensorsData get sensors;
+  double get took;
 
   /// Create a copy of Sensors
   /// with the given fields replaced by the non-null parameter values.
@@ -37,21 +33,17 @@ mixin _$Sensors {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is Sensors &&
-            const DeepCollectionEquality().equals(other.list, list) &&
-            (identical(other.cpuTemp, cpuTemp) || other.cpuTemp == cpuTemp) &&
-            (identical(other.hotLimit, hotLimit) ||
-                other.hotLimit == hotLimit) &&
-            (identical(other.unit, unit) || other.unit == unit));
+            (identical(other.sensors, sensors) || other.sensors == sensors) &&
+            (identical(other.took, took) || other.took == took));
   }
 
   @JsonKey(includeFromJson: false, includeToJson: false)
   @override
-  int get hashCode => Object.hash(runtimeType,
-      const DeepCollectionEquality().hash(list), cpuTemp, hotLimit, unit);
+  int get hashCode => Object.hash(runtimeType, sensors, took);
 
   @override
   String toString() {
-    return 'Sensors(list: $list, cpuTemp: $cpuTemp, hotLimit: $hotLimit, unit: $unit)';
+    return 'Sensors(sensors: $sensors, took: $took)';
   }
 }
 
@@ -60,11 +52,9 @@ abstract mixin class $SensorsCopyWith<$Res> {
   factory $SensorsCopyWith(Sensors value, $Res Function(Sensors) _then) =
       _$SensorsCopyWithImpl;
   @useResult
-  $Res call(
-      {List<SensorData> list,
-      @JsonKey(name: 'cpu_temp') num? cpuTemp,
-      @JsonKey(name: 'hot_limit') num hotLimit,
-      String unit});
+  $Res call({SensorsData sensors, double took});
+
+  $SensorsDataCopyWith<$Res> get sensors;
 }
 
 /// @nodoc
@@ -79,60 +69,43 @@ class _$SensorsCopyWithImpl<$Res> implements $SensorsCopyWith<$Res> {
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? list = null,
-    Object? cpuTemp = freezed,
-    Object? hotLimit = null,
-    Object? unit = null,
+    Object? sensors = null,
+    Object? took = null,
   }) {
     return _then(_self.copyWith(
-      list: null == list
-          ? _self.list
-          : list // ignore: cast_nullable_to_non_nullable
-              as List<SensorData>,
-      cpuTemp: freezed == cpuTemp
-          ? _self.cpuTemp
-          : cpuTemp // ignore: cast_nullable_to_non_nullable
-              as num?,
-      hotLimit: null == hotLimit
-          ? _self.hotLimit
-          : hotLimit // ignore: cast_nullable_to_non_nullable
-              as num,
-      unit: null == unit
-          ? _self.unit
-          : unit // ignore: cast_nullable_to_non_nullable
-              as String,
+      sensors: null == sensors
+          ? _self.sensors
+          : sensors // ignore: cast_nullable_to_non_nullable
+              as SensorsData,
+      took: null == took
+          ? _self.took
+          : took // ignore: cast_nullable_to_non_nullable
+              as double,
     ));
+  }
+
+  /// Create a copy of Sensors
+  /// with the given fields replaced by the non-null parameter values.
+  @override
+  @pragma('vm:prefer-inline')
+  $SensorsDataCopyWith<$Res> get sensors {
+    return $SensorsDataCopyWith<$Res>(_self.sensors, (value) {
+      return _then(_self.copyWith(sensors: value));
+    });
   }
 }
 
 /// @nodoc
 @JsonSerializable()
 class _Sensors implements Sensors {
-  const _Sensors(
-      {required final List<SensorData> list,
-      @JsonKey(name: 'cpu_temp') required this.cpuTemp,
-      @JsonKey(name: 'hot_limit') required this.hotLimit,
-      required this.unit})
-      : _list = list;
+  const _Sensors({required this.sensors, required this.took});
   factory _Sensors.fromJson(Map<String, dynamic> json) =>
       _$SensorsFromJson(json);
 
-  final List<SensorData> _list;
   @override
-  List<SensorData> get list {
-    if (_list is EqualUnmodifiableListView) return _list;
-    // ignore: implicit_dynamic_type
-    return EqualUnmodifiableListView(_list);
-  }
-
+  final SensorsData sensors;
   @override
-  @JsonKey(name: 'cpu_temp')
-  final num? cpuTemp;
-  @override
-  @JsonKey(name: 'hot_limit')
-  final num hotLimit;
-  @override
-  final String unit;
+  final double took;
 
   /// Create a copy of Sensors
   /// with the given fields replaced by the non-null parameter values.
@@ -154,21 +127,17 @@ class _Sensors implements Sensors {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _Sensors &&
-            const DeepCollectionEquality().equals(other._list, _list) &&
-            (identical(other.cpuTemp, cpuTemp) || other.cpuTemp == cpuTemp) &&
-            (identical(other.hotLimit, hotLimit) ||
-                other.hotLimit == hotLimit) &&
-            (identical(other.unit, unit) || other.unit == unit));
+            (identical(other.sensors, sensors) || other.sensors == sensors) &&
+            (identical(other.took, took) || other.took == took));
   }
 
   @JsonKey(includeFromJson: false, includeToJson: false)
   @override
-  int get hashCode => Object.hash(runtimeType,
-      const DeepCollectionEquality().hash(_list), cpuTemp, hotLimit, unit);
+  int get hashCode => Object.hash(runtimeType, sensors, took);
 
   @override
   String toString() {
-    return 'Sensors(list: $list, cpuTemp: $cpuTemp, hotLimit: $hotLimit, unit: $unit)';
+    return 'Sensors(sensors: $sensors, took: $took)';
   }
 }
 
@@ -178,11 +147,10 @@ abstract mixin class _$SensorsCopyWith<$Res> implements $SensorsCopyWith<$Res> {
       __$SensorsCopyWithImpl;
   @override
   @useResult
-  $Res call(
-      {List<SensorData> list,
-      @JsonKey(name: 'cpu_temp') num? cpuTemp,
-      @JsonKey(name: 'hot_limit') num hotLimit,
-      String unit});
+  $Res call({SensorsData sensors, double took});
+
+  @override
+  $SensorsDataCopyWith<$Res> get sensors;
 }
 
 /// @nodoc
@@ -197,12 +165,225 @@ class __$SensorsCopyWithImpl<$Res> implements _$SensorsCopyWith<$Res> {
   @override
   @pragma('vm:prefer-inline')
   $Res call({
+    Object? sensors = null,
+    Object? took = null,
+  }) {
+    return _then(_Sensors(
+      sensors: null == sensors
+          ? _self.sensors
+          : sensors // ignore: cast_nullable_to_non_nullable
+              as SensorsData,
+      took: null == took
+          ? _self.took
+          : took // ignore: cast_nullable_to_non_nullable
+              as double,
+    ));
+  }
+
+  /// Create a copy of Sensors
+  /// with the given fields replaced by the non-null parameter values.
+  @override
+  @pragma('vm:prefer-inline')
+  $SensorsDataCopyWith<$Res> get sensors {
+    return $SensorsDataCopyWith<$Res>(_self.sensors, (value) {
+      return _then(_self.copyWith(sensors: value));
+    });
+  }
+}
+
+/// @nodoc
+mixin _$SensorsData {
+  List<SensorData> get list;
+  @JsonKey(name: 'cpu_temp')
+  double? get cpuTemp;
+  @JsonKey(name: 'hot_limit')
+  double get hotLimit;
+  String get unit;
+
+  /// Create a copy of SensorsData
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @pragma('vm:prefer-inline')
+  $SensorsDataCopyWith<SensorsData> get copyWith =>
+      _$SensorsDataCopyWithImpl<SensorsData>(this as SensorsData, _$identity);
+
+  /// Serializes this SensorsData to a JSON map.
+  Map<String, dynamic> toJson();
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is SensorsData &&
+            const DeepCollectionEquality().equals(other.list, list) &&
+            (identical(other.cpuTemp, cpuTemp) || other.cpuTemp == cpuTemp) &&
+            (identical(other.hotLimit, hotLimit) ||
+                other.hotLimit == hotLimit) &&
+            (identical(other.unit, unit) || other.unit == unit));
+  }
+
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @override
+  int get hashCode => Object.hash(runtimeType,
+      const DeepCollectionEquality().hash(list), cpuTemp, hotLimit, unit);
+
+  @override
+  String toString() {
+    return 'SensorsData(list: $list, cpuTemp: $cpuTemp, hotLimit: $hotLimit, unit: $unit)';
+  }
+}
+
+/// @nodoc
+abstract mixin class $SensorsDataCopyWith<$Res> {
+  factory $SensorsDataCopyWith(
+          SensorsData value, $Res Function(SensorsData) _then) =
+      _$SensorsDataCopyWithImpl;
+  @useResult
+  $Res call(
+      {List<SensorData> list,
+      @JsonKey(name: 'cpu_temp') double? cpuTemp,
+      @JsonKey(name: 'hot_limit') double hotLimit,
+      String unit});
+}
+
+/// @nodoc
+class _$SensorsDataCopyWithImpl<$Res> implements $SensorsDataCopyWith<$Res> {
+  _$SensorsDataCopyWithImpl(this._self, this._then);
+
+  final SensorsData _self;
+  final $Res Function(SensorsData) _then;
+
+  /// Create a copy of SensorsData
+  /// with the given fields replaced by the non-null parameter values.
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
     Object? list = null,
     Object? cpuTemp = freezed,
     Object? hotLimit = null,
     Object? unit = null,
   }) {
-    return _then(_Sensors(
+    return _then(_self.copyWith(
+      list: null == list
+          ? _self.list
+          : list // ignore: cast_nullable_to_non_nullable
+              as List<SensorData>,
+      cpuTemp: freezed == cpuTemp
+          ? _self.cpuTemp
+          : cpuTemp // ignore: cast_nullable_to_non_nullable
+              as double?,
+      hotLimit: null == hotLimit
+          ? _self.hotLimit
+          : hotLimit // ignore: cast_nullable_to_non_nullable
+              as double,
+      unit: null == unit
+          ? _self.unit
+          : unit // ignore: cast_nullable_to_non_nullable
+              as String,
+    ));
+  }
+}
+
+/// @nodoc
+@JsonSerializable()
+class _SensorsData implements SensorsData {
+  const _SensorsData(
+      {required final List<SensorData> list,
+      @JsonKey(name: 'cpu_temp') required this.cpuTemp,
+      @JsonKey(name: 'hot_limit') required this.hotLimit,
+      required this.unit})
+      : _list = list;
+  factory _SensorsData.fromJson(Map<String, dynamic> json) =>
+      _$SensorsDataFromJson(json);
+
+  final List<SensorData> _list;
+  @override
+  List<SensorData> get list {
+    if (_list is EqualUnmodifiableListView) return _list;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(_list);
+  }
+
+  @override
+  @JsonKey(name: 'cpu_temp')
+  final double? cpuTemp;
+  @override
+  @JsonKey(name: 'hot_limit')
+  final double hotLimit;
+  @override
+  final String unit;
+
+  /// Create a copy of SensorsData
+  /// with the given fields replaced by the non-null parameter values.
+  @override
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @pragma('vm:prefer-inline')
+  _$SensorsDataCopyWith<_SensorsData> get copyWith =>
+      __$SensorsDataCopyWithImpl<_SensorsData>(this, _$identity);
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$SensorsDataToJson(
+      this,
+    );
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _SensorsData &&
+            const DeepCollectionEquality().equals(other._list, _list) &&
+            (identical(other.cpuTemp, cpuTemp) || other.cpuTemp == cpuTemp) &&
+            (identical(other.hotLimit, hotLimit) ||
+                other.hotLimit == hotLimit) &&
+            (identical(other.unit, unit) || other.unit == unit));
+  }
+
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @override
+  int get hashCode => Object.hash(runtimeType,
+      const DeepCollectionEquality().hash(_list), cpuTemp, hotLimit, unit);
+
+  @override
+  String toString() {
+    return 'SensorsData(list: $list, cpuTemp: $cpuTemp, hotLimit: $hotLimit, unit: $unit)';
+  }
+}
+
+/// @nodoc
+abstract mixin class _$SensorsDataCopyWith<$Res>
+    implements $SensorsDataCopyWith<$Res> {
+  factory _$SensorsDataCopyWith(
+          _SensorsData value, $Res Function(_SensorsData) _then) =
+      __$SensorsDataCopyWithImpl;
+  @override
+  @useResult
+  $Res call(
+      {List<SensorData> list,
+      @JsonKey(name: 'cpu_temp') double? cpuTemp,
+      @JsonKey(name: 'hot_limit') double hotLimit,
+      String unit});
+}
+
+/// @nodoc
+class __$SensorsDataCopyWithImpl<$Res> implements _$SensorsDataCopyWith<$Res> {
+  __$SensorsDataCopyWithImpl(this._self, this._then);
+
+  final _SensorsData _self;
+  final $Res Function(_SensorsData) _then;
+
+  /// Create a copy of SensorsData
+  /// with the given fields replaced by the non-null parameter values.
+  @override
+  @pragma('vm:prefer-inline')
+  $Res call({
+    Object? list = null,
+    Object? cpuTemp = freezed,
+    Object? hotLimit = null,
+    Object? unit = null,
+  }) {
+    return _then(_SensorsData(
       list: null == list
           ? _self._list
           : list // ignore: cast_nullable_to_non_nullable
@@ -210,11 +391,11 @@ class __$SensorsCopyWithImpl<$Res> implements _$SensorsCopyWith<$Res> {
       cpuTemp: freezed == cpuTemp
           ? _self.cpuTemp
           : cpuTemp // ignore: cast_nullable_to_non_nullable
-              as num?,
+              as double?,
       hotLimit: null == hotLimit
           ? _self.hotLimit
           : hotLimit // ignore: cast_nullable_to_non_nullable
-              as num,
+              as double,
       unit: null == unit
           ? _self.unit
           : unit // ignore: cast_nullable_to_non_nullable

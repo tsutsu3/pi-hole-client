@@ -7,15 +7,26 @@ part of 'sensors.dart';
 // **************************************************************************
 
 _Sensors _$SensorsFromJson(Map<String, dynamic> json) => _Sensors(
-      list: (json['list'] as List<dynamic>)
-          .map((e) => SensorData.fromJson(e as Map<String, dynamic>))
-          .toList(),
-      cpuTemp: json['cpu_temp'] as num?,
-      hotLimit: json['hot_limit'] as num,
-      unit: json['unit'] as String,
+      sensors: SensorsData.fromJson(json['sensors'] as Map<String, dynamic>),
+      took: (json['took'] as num).toDouble(),
     );
 
 Map<String, dynamic> _$SensorsToJson(_Sensors instance) => <String, dynamic>{
+      'sensors': instance.sensors,
+      'took': instance.took,
+    };
+
+_SensorsData _$SensorsDataFromJson(Map<String, dynamic> json) => _SensorsData(
+      list: (json['list'] as List<dynamic>)
+          .map((e) => SensorData.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      cpuTemp: (json['cpu_temp'] as num?)?.toDouble(),
+      hotLimit: (json['hot_limit'] as num).toDouble(),
+      unit: json['unit'] as String,
+    );
+
+Map<String, dynamic> _$SensorsDataToJson(_SensorsData instance) =>
+    <String, dynamic>{
       'list': instance.list,
       'cpu_temp': instance.cpuTemp,
       'hot_limit': instance.hotLimit,

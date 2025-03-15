@@ -6,14 +6,25 @@ part 'sensors.g.dart';
 @freezed
 sealed class Sensors with _$Sensors {
   const factory Sensors({
-    required List<SensorData> list,
-    @JsonKey(name: 'cpu_temp') required num? cpuTemp,
-    @JsonKey(name: 'hot_limit') required num hotLimit,
-    required String unit,
+    required SensorsData sensors,
+    required double took,
   }) = _Sensors;
 
   factory Sensors.fromJson(Map<String, dynamic> json) =>
       _$SensorsFromJson(json);
+}
+
+@freezed
+sealed class SensorsData with _$SensorsData {
+  const factory SensorsData({
+    required List<SensorData> list,
+    @JsonKey(name: 'cpu_temp') required double? cpuTemp,
+    @JsonKey(name: 'hot_limit') required double hotLimit,
+    required String unit,
+  }) = _SensorsData;
+
+  factory SensorsData.fromJson(Map<String, dynamic> json) =>
+      _$SensorsDataFromJson(json);
 }
 
 @freezed
