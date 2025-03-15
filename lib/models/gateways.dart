@@ -1,7 +1,7 @@
 import 'package:pi_hole_client/models/api/v6/domains/domains.dart' as v6;
-import 'package:pi_hole_client/models/api/v6/flt/host.dart';
-import 'package:pi_hole_client/models/api/v6/flt/sensors.dart';
-import 'package:pi_hole_client/models/api/v6/flt/system.dart';
+import 'package:pi_hole_client/models/api/v6/ftl/host.dart';
+import 'package:pi_hole_client/models/api/v6/ftl/sensors.dart';
+import 'package:pi_hole_client/models/api/v6/ftl/system.dart';
 import 'package:pi_hole_client/models/app_log.dart';
 import 'package:pi_hole_client/models/domain.dart';
 import 'package:pi_hole_client/models/log.dart';

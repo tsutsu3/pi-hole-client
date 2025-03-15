@@ -1,4 +1,4 @@
-import 'package:pi_hole_client/models/api/v6/flt/version.dart';
+import 'package:pi_hole_client/models/api/v6/ftl/version.dart';
 
 class VersionInfo {
   VersionInfo({

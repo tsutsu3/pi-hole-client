@@ -9,7 +9,7 @@ import 'package:pi_hole_client/models/api/v6/auth/auth.dart' show Session;
 import 'package:pi_hole_client/models/api/v6/dns/dns.dart' show Blocking;
 import 'package:pi_hole_client/models/api/v6/domains/domains.dart'
     show AddDomains, Domains;
-import 'package:pi_hole_client/models/api/v6/flt/ftl.dart' show InfoFtl;
+import 'package:pi_hole_client/models/api/v6/ftl/ftl.dart' show InfoFtl;
 import 'package:pi_hole_client/models/api/v6/metrics/history.dart'
     show History, HistoryClients;
 import 'package:pi_hole_client/models/api/v6/metrics/query.dart' show Queries;
