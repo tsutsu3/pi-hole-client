@@ -691,12 +691,6 @@ class ApiGatewayV5 implements ApiGateway {
       } else {
         return VersionResponse(result: APiResponseType.error);
       }
-    } on SocketException {
-      return VersionResponse(result: APiResponseType.noConnection);
-    } on TimeoutException {
-      return VersionResponse(result: APiResponseType.noConnection);
-    } on HandshakeException {
-      return VersionResponse(result: APiResponseType.sslError);
     } catch (e) {
       return VersionResponse(result: APiResponseType.error);
     }

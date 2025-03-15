@@ -752,14 +752,6 @@ class ApiGatewayV6 implements ApiGateway {
       } else {
         return HostResponse(result: APiResponseType.error);
       }
-    } on SocketException {
-      return HostResponse(result: APiResponseType.socket);
-    } on TimeoutException {
-      return HostResponse(result: APiResponseType.timeout);
-    } on HandshakeException {
-      return HostResponse(result: APiResponseType.sslError);
-    } on FormatException {
-      return HostResponse(result: APiResponseType.authError);
     } catch (e) {
       return HostResponse(result: APiResponseType.error);
     }
@@ -783,14 +775,6 @@ class ApiGatewayV6 implements ApiGateway {
       } else {
         return SensorsResponse(result: APiResponseType.error);
       }
-    } on SocketException {
-      return SensorsResponse(result: APiResponseType.socket);
-    } on TimeoutException {
-      return SensorsResponse(result: APiResponseType.timeout);
-    } on HandshakeException {
-      return SensorsResponse(result: APiResponseType.sslError);
-    } on FormatException {
-      return SensorsResponse(result: APiResponseType.authError);
     } catch (e) {
       return SensorsResponse(result: APiResponseType.error);
     }
@@ -819,14 +803,6 @@ class ApiGatewayV6 implements ApiGateway {
       } else {
         return VersionResponse(result: APiResponseType.error);
       }
-    } on SocketException {
-      return VersionResponse(result: APiResponseType.socket);
-    } on TimeoutException {
-      return VersionResponse(result: APiResponseType.timeout);
-    } on HandshakeException {
-      return VersionResponse(result: APiResponseType.sslError);
-    } on FormatException {
-      return VersionResponse(result: APiResponseType.authError);
     } catch (e) {
       return VersionResponse(result: APiResponseType.error);
     }
