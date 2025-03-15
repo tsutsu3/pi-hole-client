@@ -723,12 +723,6 @@ class ApiGatewayV5 implements ApiGateway {
       } else {
         return PiHoleServerInfoResponse(result: APiResponseType.error);
       }
-    } on SocketException {
-      return PiHoleServerInfoResponse(result: APiResponseType.noConnection);
-    } on TimeoutException {
-      return PiHoleServerInfoResponse(result: APiResponseType.noConnection);
-    } on HandshakeException {
-      return PiHoleServerInfoResponse(result: APiResponseType.sslError);
     } catch (e) {
       return PiHoleServerInfoResponse(result: APiResponseType.error);
     }

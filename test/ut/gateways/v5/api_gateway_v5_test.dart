@@ -1364,7 +1364,7 @@ void main() async {
       await server.sm.saveToken('xxx123');
     });
 
-    test('should return succen when use docker', () async {
+    test('should return success when use docker', () async {
       final mockClient = MockClient();
       final apiGateway = ApiGatewayV5(server, client: mockClient);
       when(mockClient.get(Uri.parse(url), headers: {}))
@@ -1380,7 +1380,7 @@ void main() async {
       expect(response.data?.docker.canUpdate, true);
     });
 
-    test('should return succen when no use docker', () async {
+    test('should return success when no use docker', () async {
       const dataNoDocker = {
         'core_update': true,
         'web_update': true,
@@ -1430,6 +1430,67 @@ void main() async {
       expect(response.data?.web.canUpdate, true);
       expect(response.data?.ftl.canUpdate, true);
       expect(response.data?.docker.canUpdate, false);
+    });
+  });
+
+  group('fetchAllServerInfo', () {
+    late Server server;
+    const url = 'http://example.com/admin/api.php?auth=xxx123&versions';
+    const data = {
+      'core_update': false,
+      'web_update': false,
+      'FTL_update': false,
+      'docker_update': true,
+      'core_current': 'v5.18.3',
+      'web_current': 'v5.21',
+      'FTL_current': 'v5.25.2',
+      'docker_current': '2024.07.0',
+      'core_latest': 'v6.0.5',
+      'web_latest': 'v6.0.2',
+      'FTL_latest': 'v6.0.4',
+      'docker_latest': '2025.03.0',
+      'core_branch': 'master',
+      'web_branch': 'master',
+      'FTL_branch': 'master',
+    };
+
+    setUp(() async {
+      server = Server(
+        address: 'http://example.com',
+        alias: 'example',
+        defaultServer: true,
+        apiVersion: SupportedApiVersions.v5,
+      );
+      await server.sm.saveToken('xxx123');
+    });
+
+    test('should return success', () async {
+      final mockClient = MockClient();
+      final apiGateway = ApiGatewayV5(server, client: mockClient);
+      when(mockClient.get(Uri.parse(url), headers: {}))
+          .thenAnswer((_) async => http.Response(jsonEncode(data), 200));
+      final response = await apiGateway.fetchAllServerInfo();
+
+      expect(response.result, APiResponseType.success);
+      expect(response.message, null);
+      expect(response.version?.toJson(), VersionInfo.fromJson(data).toJson());
+      expect(response.system?.toJson(), null);
+      expect(response.sensors?.toJson(), null);
+      expect(response.host?.toJson(), null);
+    });
+
+    test('should return error when unexpected exception occurs', () async {
+      final mockClient = MockClient();
+      final apiGateway = ApiGatewayV5(server, client: mockClient);
+      when(mockClient.get(Uri.parse(url), headers: {}))
+          .thenAnswer((_) async => http.Response(jsonEncode(data), 200));
+
+      when(mockClient.get(Uri.parse(url), headers: {}))
+          .thenThrow(Exception('Unexpected error test'));
+
+      final response = await apiGateway.fetchAllServerInfo();
+
+      expect(response.result, APiResponseType.error);
     });
   });
 }
