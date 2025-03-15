@@ -1,0 +1,25 @@
+#!/bin/bash
+echo "
+⚠️  ⚠️  ⚠️  Warning!"
+echo "
+The creator of a debian package has 100% access to every parts of the system it's installed"
+echo "
+Maintainer: tsutsu3"
+echo "
+Description: Pi-hole control app"
+
+echo "
+Sure you want to proceed with the installation of this package (yes/no) ?:"
+read choice
+
+if [[ "$choice" != "yes" ]]; then
+    #pwd # /home/user/foo
+    exit 1
+else
+    echo "proceeding..."
+    if [ $(("${2//.}")) -le 103 ]; then
+        if [ -e /var/lib/dpkg/info/PiHoleClient.list ]; then
+            rm /var/lib/dpkg/info/PiHoleClient.*
+        fi
+    fi
+fi
