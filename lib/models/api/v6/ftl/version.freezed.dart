@@ -15,10 +15,7 @@ T _$identity<T>(T value) => value;
 
 /// @nodoc
 mixin _$Version {
-  Core get core;
-  Web get web;
-  FTL get ftl;
-  Docker get docker;
+  VersionData get version; // `version` フィールドを追加
   double get took;
 
   /// Create a copy of Version
@@ -36,20 +33,17 @@ mixin _$Version {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is Version &&
-            (identical(other.core, core) || other.core == core) &&
-            (identical(other.web, web) || other.web == web) &&
-            (identical(other.ftl, ftl) || other.ftl == ftl) &&
-            (identical(other.docker, docker) || other.docker == docker) &&
+            (identical(other.version, version) || other.version == version) &&
             (identical(other.took, took) || other.took == took));
   }
 
   @JsonKey(includeFromJson: false, includeToJson: false)
   @override
-  int get hashCode => Object.hash(runtimeType, core, web, ftl, docker, took);
+  int get hashCode => Object.hash(runtimeType, version, took);
 
   @override
   String toString() {
-    return 'Version(core: $core, web: $web, ftl: $ftl, docker: $docker, took: $took)';
+    return 'Version(version: $version, took: $took)';
   }
 }
 
@@ -58,12 +52,9 @@ abstract mixin class $VersionCopyWith<$Res> {
   factory $VersionCopyWith(Version value, $Res Function(Version) _then) =
       _$VersionCopyWithImpl;
   @useResult
-  $Res call({Core core, Web web, FTL ftl, Docker docker, double took});
+  $Res call({VersionData version, double took});
 
-  $CoreCopyWith<$Res> get core;
-  $WebCopyWith<$Res> get web;
-  $FTLCopyWith<$Res> get ftl;
-  $DockerCopyWith<$Res> get docker;
+  $VersionDataCopyWith<$Res> get version;
 }
 
 /// @nodoc
@@ -78,29 +69,14 @@ class _$VersionCopyWithImpl<$Res> implements $VersionCopyWith<$Res> {
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? core = null,
-    Object? web = null,
-    Object? ftl = null,
-    Object? docker = null,
+    Object? version = null,
     Object? took = null,
   }) {
     return _then(_self.copyWith(
-      core: null == core
-          ? _self.core
-          : core // ignore: cast_nullable_to_non_nullable
-              as Core,
-      web: null == web
-          ? _self.web
-          : web // ignore: cast_nullable_to_non_nullable
-              as Web,
-      ftl: null == ftl
-          ? _self.ftl
-          : ftl // ignore: cast_nullable_to_non_nullable
-              as FTL,
-      docker: null == docker
-          ? _self.docker
-          : docker // ignore: cast_nullable_to_non_nullable
-              as Docker,
+      version: null == version
+          ? _self.version
+          : version // ignore: cast_nullable_to_non_nullable
+              as VersionData,
       took: null == took
           ? _self.took
           : took // ignore: cast_nullable_to_non_nullable
@@ -112,39 +88,9 @@ class _$VersionCopyWithImpl<$Res> implements $VersionCopyWith<$Res> {
   /// with the given fields replaced by the non-null parameter values.
   @override
   @pragma('vm:prefer-inline')
-  $CoreCopyWith<$Res> get core {
-    return $CoreCopyWith<$Res>(_self.core, (value) {
-      return _then(_self.copyWith(core: value));
-    });
-  }
-
-  /// Create a copy of Version
-  /// with the given fields replaced by the non-null parameter values.
-  @override
-  @pragma('vm:prefer-inline')
-  $WebCopyWith<$Res> get web {
-    return $WebCopyWith<$Res>(_self.web, (value) {
-      return _then(_self.copyWith(web: value));
-    });
-  }
-
-  /// Create a copy of Version
-  /// with the given fields replaced by the non-null parameter values.
-  @override
-  @pragma('vm:prefer-inline')
-  $FTLCopyWith<$Res> get ftl {
-    return $FTLCopyWith<$Res>(_self.ftl, (value) {
-      return _then(_self.copyWith(ftl: value));
-    });
-  }
-
-  /// Create a copy of Version
-  /// with the given fields replaced by the non-null parameter values.
-  @override
-  @pragma('vm:prefer-inline')
-  $DockerCopyWith<$Res> get docker {
-    return $DockerCopyWith<$Res>(_self.docker, (value) {
-      return _then(_self.copyWith(docker: value));
+  $VersionDataCopyWith<$Res> get version {
+    return $VersionDataCopyWith<$Res>(_self.version, (value) {
+      return _then(_self.copyWith(version: value));
     });
   }
 }
@@ -152,23 +98,13 @@ class _$VersionCopyWithImpl<$Res> implements $VersionCopyWith<$Res> {
 /// @nodoc
 @JsonSerializable()
 class _Version implements Version {
-  const _Version(
-      {required this.core,
-      required this.web,
-      required this.ftl,
-      required this.docker,
-      required this.took});
+  const _Version({required this.version, required this.took});
   factory _Version.fromJson(Map<String, dynamic> json) =>
       _$VersionFromJson(json);
 
   @override
-  final Core core;
-  @override
-  final Web web;
-  @override
-  final FTL ftl;
-  @override
-  final Docker docker;
+  final VersionData version;
+// `version` フィールドを追加
   @override
   final double took;
 
@@ -192,20 +128,17 @@ class _Version implements Version {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _Version &&
-            (identical(other.core, core) || other.core == core) &&
-            (identical(other.web, web) || other.web == web) &&
-            (identical(other.ftl, ftl) || other.ftl == ftl) &&
-            (identical(other.docker, docker) || other.docker == docker) &&
+            (identical(other.version, version) || other.version == version) &&
             (identical(other.took, took) || other.took == took));
   }
 
   @JsonKey(includeFromJson: false, includeToJson: false)
   @override
-  int get hashCode => Object.hash(runtimeType, core, web, ftl, docker, took);
+  int get hashCode => Object.hash(runtimeType, version, took);
 
   @override
   String toString() {
-    return 'Version(core: $core, web: $web, ftl: $ftl, docker: $docker, took: $took)';
+    return 'Version(version: $version, took: $took)';
   }
 }
 
@@ -215,16 +148,10 @@ abstract mixin class _$VersionCopyWith<$Res> implements $VersionCopyWith<$Res> {
       __$VersionCopyWithImpl;
   @override
   @useResult
-  $Res call({Core core, Web web, FTL ftl, Docker docker, double took});
+  $Res call({VersionData version, double took});
 
   @override
-  $CoreCopyWith<$Res> get core;
-  @override
-  $WebCopyWith<$Res> get web;
-  @override
-  $FTLCopyWith<$Res> get ftl;
-  @override
-  $DockerCopyWith<$Res> get docker;
+  $VersionDataCopyWith<$Res> get version;
 }
 
 /// @nodoc
@@ -239,13 +166,102 @@ class __$VersionCopyWithImpl<$Res> implements _$VersionCopyWith<$Res> {
   @override
   @pragma('vm:prefer-inline')
   $Res call({
+    Object? version = null,
+    Object? took = null,
+  }) {
+    return _then(_Version(
+      version: null == version
+          ? _self.version
+          : version // ignore: cast_nullable_to_non_nullable
+              as VersionData,
+      took: null == took
+          ? _self.took
+          : took // ignore: cast_nullable_to_non_nullable
+              as double,
+    ));
+  }
+
+  /// Create a copy of Version
+  /// with the given fields replaced by the non-null parameter values.
+  @override
+  @pragma('vm:prefer-inline')
+  $VersionDataCopyWith<$Res> get version {
+    return $VersionDataCopyWith<$Res>(_self.version, (value) {
+      return _then(_self.copyWith(version: value));
+    });
+  }
+}
+
+/// @nodoc
+mixin _$VersionData {
+  Core get core;
+  Web get web;
+  FTL get ftl;
+  Docker get docker;
+
+  /// Create a copy of VersionData
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @pragma('vm:prefer-inline')
+  $VersionDataCopyWith<VersionData> get copyWith =>
+      _$VersionDataCopyWithImpl<VersionData>(this as VersionData, _$identity);
+
+  /// Serializes this VersionData to a JSON map.
+  Map<String, dynamic> toJson();
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is VersionData &&
+            (identical(other.core, core) || other.core == core) &&
+            (identical(other.web, web) || other.web == web) &&
+            (identical(other.ftl, ftl) || other.ftl == ftl) &&
+            (identical(other.docker, docker) || other.docker == docker));
+  }
+
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @override
+  int get hashCode => Object.hash(runtimeType, core, web, ftl, docker);
+
+  @override
+  String toString() {
+    return 'VersionData(core: $core, web: $web, ftl: $ftl, docker: $docker)';
+  }
+}
+
+/// @nodoc
+abstract mixin class $VersionDataCopyWith<$Res> {
+  factory $VersionDataCopyWith(
+          VersionData value, $Res Function(VersionData) _then) =
+      _$VersionDataCopyWithImpl;
+  @useResult
+  $Res call({Core core, Web web, FTL ftl, Docker docker});
+
+  $CoreCopyWith<$Res> get core;
+  $WebCopyWith<$Res> get web;
+  $FTLCopyWith<$Res> get ftl;
+  $DockerCopyWith<$Res> get docker;
+}
+
+/// @nodoc
+class _$VersionDataCopyWithImpl<$Res> implements $VersionDataCopyWith<$Res> {
+  _$VersionDataCopyWithImpl(this._self, this._then);
+
+  final VersionData _self;
+  final $Res Function(VersionData) _then;
+
+  /// Create a copy of VersionData
+  /// with the given fields replaced by the non-null parameter values.
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
     Object? core = null,
     Object? web = null,
     Object? ftl = null,
     Object? docker = null,
-    Object? took = null,
   }) {
-    return _then(_Version(
+    return _then(_self.copyWith(
       core: null == core
           ? _self.core
           : core // ignore: cast_nullable_to_non_nullable
@@ -262,14 +278,10 @@ class __$VersionCopyWithImpl<$Res> implements _$VersionCopyWith<$Res> {
           ? _self.docker
           : docker // ignore: cast_nullable_to_non_nullable
               as Docker,
-      took: null == took
-          ? _self.took
-          : took // ignore: cast_nullable_to_non_nullable
-              as double,
     ));
   }
 
-  /// Create a copy of Version
+  /// Create a copy of VersionData
   /// with the given fields replaced by the non-null parameter values.
   @override
   @pragma('vm:prefer-inline')
@@ -279,7 +291,7 @@ class __$VersionCopyWithImpl<$Res> implements _$VersionCopyWith<$Res> {
     });
   }
 
-  /// Create a copy of Version
+  /// Create a copy of VersionData
   /// with the given fields replaced by the non-null parameter values.
   @override
   @pragma('vm:prefer-inline')
@@ -289,7 +301,7 @@ class __$VersionCopyWithImpl<$Res> implements _$VersionCopyWith<$Res> {
     });
   }
 
-  /// Create a copy of Version
+  /// Create a copy of VersionData
   /// with the given fields replaced by the non-null parameter values.
   @override
   @pragma('vm:prefer-inline')
@@ -299,7 +311,161 @@ class __$VersionCopyWithImpl<$Res> implements _$VersionCopyWith<$Res> {
     });
   }
 
-  /// Create a copy of Version
+  /// Create a copy of VersionData
+  /// with the given fields replaced by the non-null parameter values.
+  @override
+  @pragma('vm:prefer-inline')
+  $DockerCopyWith<$Res> get docker {
+    return $DockerCopyWith<$Res>(_self.docker, (value) {
+      return _then(_self.copyWith(docker: value));
+    });
+  }
+}
+
+/// @nodoc
+@JsonSerializable()
+class _VersionData implements VersionData {
+  const _VersionData(
+      {required this.core,
+      required this.web,
+      required this.ftl,
+      required this.docker});
+  factory _VersionData.fromJson(Map<String, dynamic> json) =>
+      _$VersionDataFromJson(json);
+
+  @override
+  final Core core;
+  @override
+  final Web web;
+  @override
+  final FTL ftl;
+  @override
+  final Docker docker;
+
+  /// Create a copy of VersionData
+  /// with the given fields replaced by the non-null parameter values.
+  @override
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @pragma('vm:prefer-inline')
+  _$VersionDataCopyWith<_VersionData> get copyWith =>
+      __$VersionDataCopyWithImpl<_VersionData>(this, _$identity);
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$VersionDataToJson(
+      this,
+    );
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _VersionData &&
+            (identical(other.core, core) || other.core == core) &&
+            (identical(other.web, web) || other.web == web) &&
+            (identical(other.ftl, ftl) || other.ftl == ftl) &&
+            (identical(other.docker, docker) || other.docker == docker));
+  }
+
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @override
+  int get hashCode => Object.hash(runtimeType, core, web, ftl, docker);
+
+  @override
+  String toString() {
+    return 'VersionData(core: $core, web: $web, ftl: $ftl, docker: $docker)';
+  }
+}
+
+/// @nodoc
+abstract mixin class _$VersionDataCopyWith<$Res>
+    implements $VersionDataCopyWith<$Res> {
+  factory _$VersionDataCopyWith(
+          _VersionData value, $Res Function(_VersionData) _then) =
+      __$VersionDataCopyWithImpl;
+  @override
+  @useResult
+  $Res call({Core core, Web web, FTL ftl, Docker docker});
+
+  @override
+  $CoreCopyWith<$Res> get core;
+  @override
+  $WebCopyWith<$Res> get web;
+  @override
+  $FTLCopyWith<$Res> get ftl;
+  @override
+  $DockerCopyWith<$Res> get docker;
+}
+
+/// @nodoc
+class __$VersionDataCopyWithImpl<$Res> implements _$VersionDataCopyWith<$Res> {
+  __$VersionDataCopyWithImpl(this._self, this._then);
+
+  final _VersionData _self;
+  final $Res Function(_VersionData) _then;
+
+  /// Create a copy of VersionData
+  /// with the given fields replaced by the non-null parameter values.
+  @override
+  @pragma('vm:prefer-inline')
+  $Res call({
+    Object? core = null,
+    Object? web = null,
+    Object? ftl = null,
+    Object? docker = null,
+  }) {
+    return _then(_VersionData(
+      core: null == core
+          ? _self.core
+          : core // ignore: cast_nullable_to_non_nullable
+              as Core,
+      web: null == web
+          ? _self.web
+          : web // ignore: cast_nullable_to_non_nullable
+              as Web,
+      ftl: null == ftl
+          ? _self.ftl
+          : ftl // ignore: cast_nullable_to_non_nullable
+              as FTL,
+      docker: null == docker
+          ? _self.docker
+          : docker // ignore: cast_nullable_to_non_nullable
+              as Docker,
+    ));
+  }
+
+  /// Create a copy of VersionData
+  /// with the given fields replaced by the non-null parameter values.
+  @override
+  @pragma('vm:prefer-inline')
+  $CoreCopyWith<$Res> get core {
+    return $CoreCopyWith<$Res>(_self.core, (value) {
+      return _then(_self.copyWith(core: value));
+    });
+  }
+
+  /// Create a copy of VersionData
+  /// with the given fields replaced by the non-null parameter values.
+  @override
+  @pragma('vm:prefer-inline')
+  $WebCopyWith<$Res> get web {
+    return $WebCopyWith<$Res>(_self.web, (value) {
+      return _then(_self.copyWith(web: value));
+    });
+  }
+
+  /// Create a copy of VersionData
+  /// with the given fields replaced by the non-null parameter values.
+  @override
+  @pragma('vm:prefer-inline')
+  $FTLCopyWith<$Res> get ftl {
+    return $FTLCopyWith<$Res>(_self.ftl, (value) {
+      return _then(_self.copyWith(ftl: value));
+    });
+  }
+
+  /// Create a copy of VersionData
   /// with the given fields replaced by the non-null parameter values.
   @override
   @pragma('vm:prefer-inline')

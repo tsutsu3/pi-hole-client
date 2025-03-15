@@ -6,15 +6,25 @@ part 'version.g.dart';
 @freezed
 sealed class Version with _$Version {
   const factory Version({
-    required Core core,
-    required Web web,
-    required FTL ftl,
-    required Docker docker,
+    required VersionData version, // `version` フィールドを追加
     required double took,
   }) = _Version;
 
   factory Version.fromJson(Map<String, dynamic> json) =>
       _$VersionFromJson(json);
+}
+
+@freezed
+sealed class VersionData with _$VersionData {
+  const factory VersionData({
+    required Core core,
+    required Web web,
+    required FTL ftl,
+    required Docker docker,
+  }) = _VersionData;
+
+  factory VersionData.fromJson(Map<String, dynamic> json) =>
+      _$VersionDataFromJson(json);
 }
 
 @freezed

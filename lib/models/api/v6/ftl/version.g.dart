@@ -7,19 +7,28 @@ part of 'version.dart';
 // **************************************************************************
 
 _Version _$VersionFromJson(Map<String, dynamic> json) => _Version(
-      core: Core.fromJson(json['core'] as Map<String, dynamic>),
-      web: Web.fromJson(json['web'] as Map<String, dynamic>),
-      ftl: FTL.fromJson(json['ftl'] as Map<String, dynamic>),
-      docker: Docker.fromJson(json['docker'] as Map<String, dynamic>),
+      version: VersionData.fromJson(json['version'] as Map<String, dynamic>),
       took: (json['took'] as num).toDouble(),
     );
 
 Map<String, dynamic> _$VersionToJson(_Version instance) => <String, dynamic>{
+      'version': instance.version,
+      'took': instance.took,
+    };
+
+_VersionData _$VersionDataFromJson(Map<String, dynamic> json) => _VersionData(
+      core: Core.fromJson(json['core'] as Map<String, dynamic>),
+      web: Web.fromJson(json['web'] as Map<String, dynamic>),
+      ftl: FTL.fromJson(json['ftl'] as Map<String, dynamic>),
+      docker: Docker.fromJson(json['docker'] as Map<String, dynamic>),
+    );
+
+Map<String, dynamic> _$VersionDataToJson(_VersionData instance) =>
+    <String, dynamic>{
       'core': instance.core,
       'web': instance.web,
       'ftl': instance.ftl,
       'docker': instance.docker,
-      'took': instance.took,
     };
 
 _Core _$CoreFromJson(Map<String, dynamic> json) => _Core(

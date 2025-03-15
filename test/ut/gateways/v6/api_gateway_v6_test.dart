@@ -6,9 +6,11 @@ import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
 import 'package:pi_hole_client/constants/api_versions.dart';
 import 'package:pi_hole_client/gateways/v6/api_gateway_v6.dart';
+import 'package:pi_hole_client/models/api/v6/ftl/version.dart';
 import 'package:pi_hole_client/models/domain.dart';
 import 'package:pi_hole_client/models/gateways.dart';
 import 'package:pi_hole_client/models/server.dart';
+import 'package:pi_hole_client/models/version.dart';
 import 'package:pi_hole_client/services/secret_manager.dart';
 
 import 'api_gateway_v6_test.mocks.dart';
@@ -1424,6 +1426,150 @@ void main() async {
           .addDomainToList({'list': 'black', 'domain': 'google.com'});
 
       expect(response.result, APiResponseType.error);
+    });
+  });
+
+  group('fetchVersionInfo', () {
+    late Server server;
+    const url = 'http://example.com/api/info/version';
+    const data = {
+      'version': {
+        'core': {
+          'local': {
+            'version': 'v6.0.5',
+            'branch': 'master',
+            'hash': '9fe687bd',
+          },
+          'remote': {
+            'version': 'v6.0.5',
+            'hash': '9fe687bd',
+          },
+        },
+        'web': {
+          'local': {
+            'version': 'v6.0.2',
+            'branch': 'master',
+            'hash': '25441178',
+          },
+          'remote': {
+            'version': 'v6.0.2',
+            'hash': '25441178',
+          },
+        },
+        'ftl': {
+          'local': {
+            'hash': 'b7eb53bf',
+            'branch': 'master',
+            'version': 'v6.0.4',
+            'date': '2025-03-04 17:22:10 +0000',
+          },
+          'remote': {
+            'version': 'v6.0.4',
+            'hash': 'b7eb53bf',
+          },
+        },
+        'docker': {
+          'local': '2025.03.0',
+          'remote': '2025.03.0',
+        },
+      },
+      'took': 0.014363765716552734,
+    };
+
+    setUp(() {
+      server = Server(
+        address: 'http://example.com',
+        alias: 'example',
+        defaultServer: true,
+        apiVersion: SupportedApiVersions.v6,
+      );
+      server.sm.savePassword('xxx123');
+    });
+
+    test('should return success when use docker', () async {
+      final mockClient = MockClient();
+      final apiGateway = ApiGatewayV6(server, client: mockClient);
+      when(
+        mockClient.get(
+          Uri.parse(url),
+          headers: anyNamed('headers'),
+        ),
+      ).thenAnswer((_) async => http.Response(jsonEncode(data), 200));
+      final response = await apiGateway.fetchVersionInfo();
+
+      expect(response.result, APiResponseType.success);
+      expect(response.message, null);
+      expect(
+        response.data?.toJson(),
+        VersionInfo.fromV6(Version.fromJson(data)).toJson(),
+      );
+    });
+
+    test('should return success when no use docker', () async {
+      const dataNoDocker = {
+        'version': {
+          'core': {
+            'local': {
+              'version': 'v6.0.4',
+              'branch': 'master',
+              'hash': '9fe687xxx',
+            },
+            'remote': {
+              'version': 'v6.0.5',
+              'hash': '9fe687bd',
+            },
+          },
+          'web': {
+            'local': {
+              'version': 'v6.0.1',
+              'branch': 'master',
+              'hash': '254411xxx',
+            },
+            'remote': {
+              'version': 'v6.0.2',
+              'hash': '25441178',
+            },
+          },
+          'ftl': {
+            'local': {
+              'hash': 'b7eb5xxx',
+              'branch': 'master',
+              'version': 'v6.0.3',
+              'date': '2025-03-01 17:22:10 +0000',
+            },
+            'remote': {
+              'version': 'v6.0.4',
+              'hash': 'b7eb53bf',
+            },
+          },
+          'docker': {
+            'local': null,
+            'remote': null,
+          },
+        },
+        'took': 0.014363765716552734,
+      };
+
+      final mockClient = MockClient();
+      final apiGateway = ApiGatewayV6(server, client: mockClient);
+      when(
+        mockClient.get(
+          Uri.parse(url),
+          headers: anyNamed('headers'),
+        ),
+      ).thenAnswer((_) async => http.Response(jsonEncode(dataNoDocker), 200));
+      final response = await apiGateway.fetchVersionInfo();
+
+      expect(response.result, APiResponseType.success);
+      expect(response.message, null);
+      expect(
+        response.data?.toJson(),
+        VersionInfo.fromV6(Version.fromJson(dataNoDocker)).toJson(),
+      );
+      expect(response.data?.core.canUpdate, true);
+      expect(response.data?.web.canUpdate, true);
+      expect(response.data?.ftl.canUpdate, true);
+      expect(response.data?.docker.canUpdate, false);
     });
   });
 }

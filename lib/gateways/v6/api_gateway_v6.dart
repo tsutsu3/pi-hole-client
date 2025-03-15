@@ -10,6 +10,7 @@ import 'package:pi_hole_client/models/api/v6/dns/dns.dart' show Blocking;
 import 'package:pi_hole_client/models/api/v6/domains/domains.dart'
     show AddDomains, Domains;
 import 'package:pi_hole_client/models/api/v6/ftl/ftl.dart' show InfoFtl;
+import 'package:pi_hole_client/models/api/v6/ftl/version.dart';
 import 'package:pi_hole_client/models/api/v6/metrics/history.dart'
     show History, HistoryClients;
 import 'package:pi_hole_client/models/api/v6/metrics/query.dart' show Queries;
@@ -22,6 +23,7 @@ import 'package:pi_hole_client/models/log.dart';
 import 'package:pi_hole_client/models/overtime_data.dart';
 import 'package:pi_hole_client/models/realtime_status.dart';
 import 'package:pi_hole_client/models/server.dart';
+import 'package:pi_hole_client/models/version.dart';
 
 class ApiGatewayV6 implements ApiGateway {
   /// Creates a new instance of the `ApiGatewayV5` class.
@@ -744,8 +746,34 @@ class ApiGatewayV6 implements ApiGateway {
   }
 
   @override
-  Future<VersionResponse> fetchVersionInfo() {
-    throw UnimplementedError();
+  Future<VersionResponse> fetchVersionInfo() async {
+    try {
+      final results = await httpClient(
+        method: 'get',
+        url: '${_server.address}/api/info/version',
+      );
+
+      if (results.statusCode == 200) {
+        final version = Version.fromJson(jsonDecode(results.body));
+
+        return VersionResponse(
+          result: APiResponseType.success,
+          data: VersionInfo.fromV6(version),
+        );
+      } else {
+        return VersionResponse(result: APiResponseType.error);
+      }
+    } on SocketException {
+      return VersionResponse(result: APiResponseType.socket);
+    } on TimeoutException {
+      return VersionResponse(result: APiResponseType.timeout);
+    } on HandshakeException {
+      return VersionResponse(result: APiResponseType.sslError);
+    } on FormatException {
+      return VersionResponse(result: APiResponseType.authError);
+    } catch (e) {
+      return VersionResponse(result: APiResponseType.error);
+    }
   }
 
   @override

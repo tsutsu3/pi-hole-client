@@ -19,10 +19,10 @@ class VersionInfo {
 
   factory VersionInfo.fromV6(Version version) {
     return VersionInfo(
-      core: ComponentVersion.fromV6(version.core),
-      web: ComponentVersion.fromV6(version.web),
-      ftl: ComponentVersion.fromV6(version.ftl),
-      docker: DockerVersion.fromV6(version.docker),
+      core: ComponentVersion.fromV6(version.version.core),
+      web: ComponentVersion.fromV6(version.version.web),
+      ftl: ComponentVersion.fromV6(version.version.ftl),
+      docker: DockerVersion.fromV6(version.version.docker),
     );
   }
 
@@ -96,6 +96,7 @@ class VersionDetail {
     required this.version,
     this.branch,
     this.hash,
+    this.date,
   });
 
   factory VersionDetail.fromJson(Map<String, dynamic> json) {
@@ -113,6 +114,13 @@ class VersionDetail {
         branch: version.branch,
         hash: version.hash,
       );
+    } else if (version is LocalFTL) {
+      return VersionDetail(
+        version: version.version ?? '',
+        branch: version.branch,
+        hash: version.hash,
+        date: version.date,
+      );
     } else if (version is RemoteVersion) {
       return VersionDetail(
         version: version.version ?? '',
@@ -120,13 +128,15 @@ class VersionDetail {
       );
     } else {
       throw ArgumentError(
-          'Unsupported type for VersionDetail: ${version.runtimeType}');
+        'Unsupported type for VersionDetail: ${version.runtimeType}',
+      );
     }
   }
 
   final String version;
   final String? branch;
   final String? hash;
+  final String? date;
 
   Map<String, dynamic> toJson() => {
         'version': version,
