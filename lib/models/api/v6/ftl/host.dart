@@ -6,13 +6,23 @@ part 'host.g.dart';
 @freezed
 sealed class Host with _$Host {
   const factory Host({
-    required HostUname uname,
-    required String? model,
-    required HostDmi dmi,
-    required num took,
+    required HostData host,
+    required double took,
   }) = _Host;
 
   factory Host.fromJson(Map<String, dynamic> json) => _$HostFromJson(json);
+}
+
+@freezed
+sealed class HostData with _$HostData {
+  const factory HostData({
+    required HostUname uname,
+    required String? model,
+    required HostDmi dmi,
+  }) = _HostData;
+
+  factory HostData.fromJson(Map<String, dynamic> json) =>
+      _$HostDataFromJson(json);
 }
 
 @freezed

@@ -6,9 +6,11 @@ import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
 import 'package:pi_hole_client/constants/api_versions.dart';
 import 'package:pi_hole_client/gateways/v6/api_gateway_v6.dart';
+import 'package:pi_hole_client/models/api/v6/ftl/host.dart';
 import 'package:pi_hole_client/models/api/v6/ftl/version.dart';
 import 'package:pi_hole_client/models/domain.dart';
 import 'package:pi_hole_client/models/gateways.dart';
+import 'package:pi_hole_client/models/host.dart';
 import 'package:pi_hole_client/models/server.dart';
 import 'package:pi_hole_client/models/version.dart';
 import 'package:pi_hole_client/services/secret_manager.dart';
@@ -1570,6 +1572,68 @@ void main() async {
       expect(response.data?.web.canUpdate, true);
       expect(response.data?.ftl.canUpdate, true);
       expect(response.data?.docker.canUpdate, false);
+    });
+  });
+
+  group('fetchHostInfo', () {
+    late Server server;
+    const url = 'http://example.com/api/info/host';
+    const data = {
+      'host': {
+        'uname': {
+          'domainname': '(none)',
+          'machine': 'x86_64',
+          'nodename': 'raspberrypi',
+          'release': '5.15.0-52-generic',
+          'sysname': 'Linux',
+          'version': '#58-Ubuntu SMP Thu Oct 13 08:03:55 UTC 2022',
+        },
+        'model': 'Raspberry Pi Model 4B',
+        'dmi': {
+          'bios': {'vendor': 'American Megatrends Inc.'},
+          'board': {
+            'name': 'Raspberry Pi 4 Model B Rev 1.4',
+            'vendor': 'Raspberry Pi Foundation',
+            'version': '0x14',
+          },
+          'product': {
+            'name': 'Raspberry Pi 4 Model B Rev 1.4',
+            'version': '0x14',
+            'family': 'Raspberry Pi 4 Model B Rev 1.4',
+          },
+          'sys': {'vendor': 'Raspberry Pi Foundation'},
+        },
+      },
+      'took': 0.003,
+    };
+
+    setUp(() {
+      server = Server(
+        address: 'http://example.com',
+        alias: 'example',
+        defaultServer: true,
+        apiVersion: SupportedApiVersions.v6,
+      );
+      server.sm.savePassword('xxx123');
+    });
+
+    test('should return success', () async {
+      final mockClient = MockClient();
+      final apiGateway = ApiGatewayV6(server, client: mockClient);
+      when(
+        mockClient.get(
+          Uri.parse(url),
+          headers: anyNamed('headers'),
+        ),
+      ).thenAnswer((_) async => http.Response(jsonEncode(data), 200));
+      final response = await apiGateway.fetchHostInfo();
+
+      expect(response.result, APiResponseType.success);
+      expect(response.message, null);
+      expect(
+        response.data?.toJson(),
+        HostInfo.fromV6(Host.fromJson(data)).toJson(),
+      );
     });
   });
 }

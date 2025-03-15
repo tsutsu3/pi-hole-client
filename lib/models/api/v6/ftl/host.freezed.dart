@@ -15,10 +15,8 @@ T _$identity<T>(T value) => value;
 
 /// @nodoc
 mixin _$Host {
-  HostUname get uname;
-  String? get model;
-  HostDmi get dmi;
-  num get took;
+  HostData get host;
+  double get took;
 
   /// Create a copy of Host
   /// with the given fields replaced by the non-null parameter values.
@@ -35,19 +33,17 @@ mixin _$Host {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is Host &&
-            (identical(other.uname, uname) || other.uname == uname) &&
-            (identical(other.model, model) || other.model == model) &&
-            (identical(other.dmi, dmi) || other.dmi == dmi) &&
+            (identical(other.host, host) || other.host == host) &&
             (identical(other.took, took) || other.took == took));
   }
 
   @JsonKey(includeFromJson: false, includeToJson: false)
   @override
-  int get hashCode => Object.hash(runtimeType, uname, model, dmi, took);
+  int get hashCode => Object.hash(runtimeType, host, took);
 
   @override
   String toString() {
-    return 'Host(uname: $uname, model: $model, dmi: $dmi, took: $took)';
+    return 'Host(host: $host, took: $took)';
   }
 }
 
@@ -56,10 +52,9 @@ abstract mixin class $HostCopyWith<$Res> {
   factory $HostCopyWith(Host value, $Res Function(Host) _then) =
       _$HostCopyWithImpl;
   @useResult
-  $Res call({HostUname uname, String? model, HostDmi dmi, num took});
+  $Res call({HostData host, double took});
 
-  $HostUnameCopyWith<$Res> get uname;
-  $HostDmiCopyWith<$Res> get dmi;
+  $HostDataCopyWith<$Res> get host;
 }
 
 /// @nodoc
@@ -74,28 +69,18 @@ class _$HostCopyWithImpl<$Res> implements $HostCopyWith<$Res> {
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? uname = null,
-    Object? model = freezed,
-    Object? dmi = null,
+    Object? host = null,
     Object? took = null,
   }) {
     return _then(_self.copyWith(
-      uname: null == uname
-          ? _self.uname
-          : uname // ignore: cast_nullable_to_non_nullable
-              as HostUname,
-      model: freezed == model
-          ? _self.model
-          : model // ignore: cast_nullable_to_non_nullable
-              as String?,
-      dmi: null == dmi
-          ? _self.dmi
-          : dmi // ignore: cast_nullable_to_non_nullable
-              as HostDmi,
+      host: null == host
+          ? _self.host
+          : host // ignore: cast_nullable_to_non_nullable
+              as HostData,
       took: null == took
           ? _self.took
           : took // ignore: cast_nullable_to_non_nullable
-              as num,
+              as double,
     ));
   }
 
@@ -103,19 +88,9 @@ class _$HostCopyWithImpl<$Res> implements $HostCopyWith<$Res> {
   /// with the given fields replaced by the non-null parameter values.
   @override
   @pragma('vm:prefer-inline')
-  $HostUnameCopyWith<$Res> get uname {
-    return $HostUnameCopyWith<$Res>(_self.uname, (value) {
-      return _then(_self.copyWith(uname: value));
-    });
-  }
-
-  /// Create a copy of Host
-  /// with the given fields replaced by the non-null parameter values.
-  @override
-  @pragma('vm:prefer-inline')
-  $HostDmiCopyWith<$Res> get dmi {
-    return $HostDmiCopyWith<$Res>(_self.dmi, (value) {
-      return _then(_self.copyWith(dmi: value));
+  $HostDataCopyWith<$Res> get host {
+    return $HostDataCopyWith<$Res>(_self.host, (value) {
+      return _then(_self.copyWith(host: value));
     });
   }
 }
@@ -123,21 +98,13 @@ class _$HostCopyWithImpl<$Res> implements $HostCopyWith<$Res> {
 /// @nodoc
 @JsonSerializable()
 class _Host implements Host {
-  const _Host(
-      {required this.uname,
-      required this.model,
-      required this.dmi,
-      required this.took});
+  const _Host({required this.host, required this.took});
   factory _Host.fromJson(Map<String, dynamic> json) => _$HostFromJson(json);
 
   @override
-  final HostUname uname;
+  final HostData host;
   @override
-  final String? model;
-  @override
-  final HostDmi dmi;
-  @override
-  final num took;
+  final double took;
 
   /// Create a copy of Host
   /// with the given fields replaced by the non-null parameter values.
@@ -159,19 +126,17 @@ class _Host implements Host {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _Host &&
-            (identical(other.uname, uname) || other.uname == uname) &&
-            (identical(other.model, model) || other.model == model) &&
-            (identical(other.dmi, dmi) || other.dmi == dmi) &&
+            (identical(other.host, host) || other.host == host) &&
             (identical(other.took, took) || other.took == took));
   }
 
   @JsonKey(includeFromJson: false, includeToJson: false)
   @override
-  int get hashCode => Object.hash(runtimeType, uname, model, dmi, took);
+  int get hashCode => Object.hash(runtimeType, host, took);
 
   @override
   String toString() {
-    return 'Host(uname: $uname, model: $model, dmi: $dmi, took: $took)';
+    return 'Host(host: $host, took: $took)';
   }
 }
 
@@ -181,12 +146,10 @@ abstract mixin class _$HostCopyWith<$Res> implements $HostCopyWith<$Res> {
       __$HostCopyWithImpl;
   @override
   @useResult
-  $Res call({HostUname uname, String? model, HostDmi dmi, num took});
+  $Res call({HostData host, double took});
 
   @override
-  $HostUnameCopyWith<$Res> get uname;
-  @override
-  $HostDmiCopyWith<$Res> get dmi;
+  $HostDataCopyWith<$Res> get host;
 }
 
 /// @nodoc
@@ -201,12 +164,96 @@ class __$HostCopyWithImpl<$Res> implements _$HostCopyWith<$Res> {
   @override
   @pragma('vm:prefer-inline')
   $Res call({
-    Object? uname = null,
-    Object? model = freezed,
-    Object? dmi = null,
+    Object? host = null,
     Object? took = null,
   }) {
     return _then(_Host(
+      host: null == host
+          ? _self.host
+          : host // ignore: cast_nullable_to_non_nullable
+              as HostData,
+      took: null == took
+          ? _self.took
+          : took // ignore: cast_nullable_to_non_nullable
+              as double,
+    ));
+  }
+
+  /// Create a copy of Host
+  /// with the given fields replaced by the non-null parameter values.
+  @override
+  @pragma('vm:prefer-inline')
+  $HostDataCopyWith<$Res> get host {
+    return $HostDataCopyWith<$Res>(_self.host, (value) {
+      return _then(_self.copyWith(host: value));
+    });
+  }
+}
+
+/// @nodoc
+mixin _$HostData {
+  HostUname get uname;
+  String? get model;
+  HostDmi get dmi;
+
+  /// Create a copy of HostData
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @pragma('vm:prefer-inline')
+  $HostDataCopyWith<HostData> get copyWith =>
+      _$HostDataCopyWithImpl<HostData>(this as HostData, _$identity);
+
+  /// Serializes this HostData to a JSON map.
+  Map<String, dynamic> toJson();
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is HostData &&
+            (identical(other.uname, uname) || other.uname == uname) &&
+            (identical(other.model, model) || other.model == model) &&
+            (identical(other.dmi, dmi) || other.dmi == dmi));
+  }
+
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @override
+  int get hashCode => Object.hash(runtimeType, uname, model, dmi);
+
+  @override
+  String toString() {
+    return 'HostData(uname: $uname, model: $model, dmi: $dmi)';
+  }
+}
+
+/// @nodoc
+abstract mixin class $HostDataCopyWith<$Res> {
+  factory $HostDataCopyWith(HostData value, $Res Function(HostData) _then) =
+      _$HostDataCopyWithImpl;
+  @useResult
+  $Res call({HostUname uname, String? model, HostDmi dmi});
+
+  $HostUnameCopyWith<$Res> get uname;
+  $HostDmiCopyWith<$Res> get dmi;
+}
+
+/// @nodoc
+class _$HostDataCopyWithImpl<$Res> implements $HostDataCopyWith<$Res> {
+  _$HostDataCopyWithImpl(this._self, this._then);
+
+  final HostData _self;
+  final $Res Function(HostData) _then;
+
+  /// Create a copy of HostData
+  /// with the given fields replaced by the non-null parameter values.
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? uname = null,
+    Object? model = freezed,
+    Object? dmi = null,
+  }) {
+    return _then(_self.copyWith(
       uname: null == uname
           ? _self.uname
           : uname // ignore: cast_nullable_to_non_nullable
@@ -219,14 +266,10 @@ class __$HostCopyWithImpl<$Res> implements _$HostCopyWith<$Res> {
           ? _self.dmi
           : dmi // ignore: cast_nullable_to_non_nullable
               as HostDmi,
-      took: null == took
-          ? _self.took
-          : took // ignore: cast_nullable_to_non_nullable
-              as num,
     ));
   }
 
-  /// Create a copy of Host
+  /// Create a copy of HostData
   /// with the given fields replaced by the non-null parameter values.
   @override
   @pragma('vm:prefer-inline')
@@ -236,7 +279,125 @@ class __$HostCopyWithImpl<$Res> implements _$HostCopyWith<$Res> {
     });
   }
 
-  /// Create a copy of Host
+  /// Create a copy of HostData
+  /// with the given fields replaced by the non-null parameter values.
+  @override
+  @pragma('vm:prefer-inline')
+  $HostDmiCopyWith<$Res> get dmi {
+    return $HostDmiCopyWith<$Res>(_self.dmi, (value) {
+      return _then(_self.copyWith(dmi: value));
+    });
+  }
+}
+
+/// @nodoc
+@JsonSerializable()
+class _HostData implements HostData {
+  const _HostData(
+      {required this.uname, required this.model, required this.dmi});
+  factory _HostData.fromJson(Map<String, dynamic> json) =>
+      _$HostDataFromJson(json);
+
+  @override
+  final HostUname uname;
+  @override
+  final String? model;
+  @override
+  final HostDmi dmi;
+
+  /// Create a copy of HostData
+  /// with the given fields replaced by the non-null parameter values.
+  @override
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @pragma('vm:prefer-inline')
+  _$HostDataCopyWith<_HostData> get copyWith =>
+      __$HostDataCopyWithImpl<_HostData>(this, _$identity);
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$HostDataToJson(
+      this,
+    );
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _HostData &&
+            (identical(other.uname, uname) || other.uname == uname) &&
+            (identical(other.model, model) || other.model == model) &&
+            (identical(other.dmi, dmi) || other.dmi == dmi));
+  }
+
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @override
+  int get hashCode => Object.hash(runtimeType, uname, model, dmi);
+
+  @override
+  String toString() {
+    return 'HostData(uname: $uname, model: $model, dmi: $dmi)';
+  }
+}
+
+/// @nodoc
+abstract mixin class _$HostDataCopyWith<$Res>
+    implements $HostDataCopyWith<$Res> {
+  factory _$HostDataCopyWith(_HostData value, $Res Function(_HostData) _then) =
+      __$HostDataCopyWithImpl;
+  @override
+  @useResult
+  $Res call({HostUname uname, String? model, HostDmi dmi});
+
+  @override
+  $HostUnameCopyWith<$Res> get uname;
+  @override
+  $HostDmiCopyWith<$Res> get dmi;
+}
+
+/// @nodoc
+class __$HostDataCopyWithImpl<$Res> implements _$HostDataCopyWith<$Res> {
+  __$HostDataCopyWithImpl(this._self, this._then);
+
+  final _HostData _self;
+  final $Res Function(_HostData) _then;
+
+  /// Create a copy of HostData
+  /// with the given fields replaced by the non-null parameter values.
+  @override
+  @pragma('vm:prefer-inline')
+  $Res call({
+    Object? uname = null,
+    Object? model = freezed,
+    Object? dmi = null,
+  }) {
+    return _then(_HostData(
+      uname: null == uname
+          ? _self.uname
+          : uname // ignore: cast_nullable_to_non_nullable
+              as HostUname,
+      model: freezed == model
+          ? _self.model
+          : model // ignore: cast_nullable_to_non_nullable
+              as String?,
+      dmi: null == dmi
+          ? _self.dmi
+          : dmi // ignore: cast_nullable_to_non_nullable
+              as HostDmi,
+    ));
+  }
+
+  /// Create a copy of HostData
+  /// with the given fields replaced by the non-null parameter values.
+  @override
+  @pragma('vm:prefer-inline')
+  $HostUnameCopyWith<$Res> get uname {
+    return $HostUnameCopyWith<$Res>(_self.uname, (value) {
+      return _then(_self.copyWith(uname: value));
+    });
+  }
+
+  /// Create a copy of HostData
   /// with the given fields replaced by the non-null parameter values.
   @override
   @pragma('vm:prefer-inline')

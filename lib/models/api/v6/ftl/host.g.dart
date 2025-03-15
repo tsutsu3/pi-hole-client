@@ -7,17 +7,25 @@ part of 'host.dart';
 // **************************************************************************
 
 _Host _$HostFromJson(Map<String, dynamic> json) => _Host(
-      uname: HostUname.fromJson(json['uname'] as Map<String, dynamic>),
-      model: json['model'] as String?,
-      dmi: HostDmi.fromJson(json['dmi'] as Map<String, dynamic>),
-      took: json['took'] as num,
+      host: HostData.fromJson(json['host'] as Map<String, dynamic>),
+      took: (json['took'] as num).toDouble(),
     );
 
 Map<String, dynamic> _$HostToJson(_Host instance) => <String, dynamic>{
+      'host': instance.host,
+      'took': instance.took,
+    };
+
+_HostData _$HostDataFromJson(Map<String, dynamic> json) => _HostData(
+      uname: HostUname.fromJson(json['uname'] as Map<String, dynamic>),
+      model: json['model'] as String?,
+      dmi: HostDmi.fromJson(json['dmi'] as Map<String, dynamic>),
+    );
+
+Map<String, dynamic> _$HostDataToJson(_HostData instance) => <String, dynamic>{
       'uname': instance.uname,
       'model': instance.model,
       'dmi': instance.dmi,
-      'took': instance.took,
     };
 
 _HostUname _$HostUnameFromJson(Map<String, dynamic> json) => _HostUname(

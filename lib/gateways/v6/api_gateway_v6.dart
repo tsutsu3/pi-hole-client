@@ -10,6 +10,7 @@ import 'package:pi_hole_client/models/api/v6/dns/dns.dart' show Blocking;
 import 'package:pi_hole_client/models/api/v6/domains/domains.dart'
     show AddDomains, Domains;
 import 'package:pi_hole_client/models/api/v6/ftl/ftl.dart' show InfoFtl;
+import 'package:pi_hole_client/models/api/v6/ftl/host.dart';
 import 'package:pi_hole_client/models/api/v6/ftl/version.dart';
 import 'package:pi_hole_client/models/api/v6/metrics/history.dart'
     show History, HistoryClients;
@@ -19,6 +20,7 @@ import 'package:pi_hole_client/models/api/v6/metrics/stats.dart'
 import 'package:pi_hole_client/models/app_log.dart';
 import 'package:pi_hole_client/models/domain.dart';
 import 'package:pi_hole_client/models/gateways.dart';
+import 'package:pi_hole_client/models/host.dart';
 import 'package:pi_hole_client/models/log.dart';
 import 'package:pi_hole_client/models/overtime_data.dart';
 import 'package:pi_hole_client/models/realtime_status.dart';
@@ -731,8 +733,34 @@ class ApiGatewayV6 implements ApiGateway {
   }
 
   @override
-  Future<HostResponse> fetchHostInfo() {
-    throw UnimplementedError();
+  Future<HostResponse> fetchHostInfo() async {
+    try {
+      final results = await httpClient(
+        method: 'get',
+        url: '${_server.address}/api/info/host',
+      );
+
+      if (results.statusCode == 200) {
+        final host = Host.fromJson(jsonDecode(results.body));
+
+        return HostResponse(
+          result: APiResponseType.success,
+          data: HostInfo.fromV6(host),
+        );
+      } else {
+        return HostResponse(result: APiResponseType.error);
+      }
+    } on SocketException {
+      return HostResponse(result: APiResponseType.socket);
+    } on TimeoutException {
+      return HostResponse(result: APiResponseType.timeout);
+    } on HandshakeException {
+      return HostResponse(result: APiResponseType.sslError);
+    } on FormatException {
+      return HostResponse(result: APiResponseType.authError);
+    } catch (e) {
+      return HostResponse(result: APiResponseType.error);
+    }
   }
 
   @override
