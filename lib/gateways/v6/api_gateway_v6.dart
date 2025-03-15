@@ -727,4 +727,29 @@ class ApiGatewayV6 implements ApiGateway {
             .timeout(Duration(seconds: timeout));
     }
   }
+
+  @override
+  Future<HostResponse> fetchHostInfo() {
+    throw UnimplementedError();
+  }
+
+  @override
+  Future<SensorsResponse> fetchSensorsInfo() {
+    throw UnimplementedError();
+  }
+
+  @override
+  Future<SystemResponse> fetchSystemInfo() {
+    throw UnimplementedError();
+  }
+
+  @override
+  Future<VersionResponse> fetchVersionInfo() {
+    throw UnimplementedError();
+  }
+
+  @override
+  Future<PiHoleServerInfoResponse> fetchAllServerInfo() {
+    throw UnimplementedError();
+  }
 }

@@ -124,6 +124,35 @@ class _FakeAddDomainToListResponse_12 extends _i1.SmartFake
     : super(parent, parentInvocation);
 }
 
+class _FakeHostResponse_13 extends _i1.SmartFake implements _i5.HostResponse {
+  _FakeHostResponse_13(Object parent, Invocation parentInvocation)
+    : super(parent, parentInvocation);
+}
+
+class _FakeSensorsResponse_14 extends _i1.SmartFake
+    implements _i5.SensorsResponse {
+  _FakeSensorsResponse_14(Object parent, Invocation parentInvocation)
+    : super(parent, parentInvocation);
+}
+
+class _FakeSystemResponse_15 extends _i1.SmartFake
+    implements _i5.SystemResponse {
+  _FakeSystemResponse_15(Object parent, Invocation parentInvocation)
+    : super(parent, parentInvocation);
+}
+
+class _FakeVersionResponse_16 extends _i1.SmartFake
+    implements _i5.VersionResponse {
+  _FakeVersionResponse_16(Object parent, Invocation parentInvocation)
+    : super(parent, parentInvocation);
+}
+
+class _FakePiHoleServerInfoResponse_17 extends _i1.SmartFake
+    implements _i5.PiHoleServerInfoResponse {
+  _FakePiHoleServerInfoResponse_17(Object parent, Invocation parentInvocation)
+    : super(parent, parentInvocation);
+}
+
 /// A class which mocks [AppConfigProvider].
 ///
 /// See the documentation for Mockito's code generation for more information.
@@ -1071,6 +1100,17 @@ class MockApiGatewayV5 extends _i1.Mock implements _i26.ApiGatewayV5 {
   }
 
   @override
+  String get notSupportedMessage =>
+      (super.noSuchMethod(
+            Invocation.getter(#notSupportedMessage),
+            returnValue: _i8.dummyValue<String>(
+              this,
+              Invocation.getter(#notSupportedMessage),
+            ),
+          )
+          as String);
+
+  @override
   _i3.Server get server =>
       (super.noSuchMethod(
             Invocation.getter(#server),
@@ -1248,6 +1288,68 @@ class MockApiGatewayV5 extends _i1.Mock implements _i26.ApiGatewayV5 {
             ),
           )
           as _i12.Future<_i5.AddDomainToListResponse>);
+
+  @override
+  _i12.Future<_i5.HostResponse> fetchHostInfo() =>
+      (super.noSuchMethod(
+            Invocation.method(#fetchHostInfo, []),
+            returnValue: _i12.Future<_i5.HostResponse>.value(
+              _FakeHostResponse_13(this, Invocation.method(#fetchHostInfo, [])),
+            ),
+          )
+          as _i12.Future<_i5.HostResponse>);
+
+  @override
+  _i12.Future<_i5.SensorsResponse> fetchSensorsInfo() =>
+      (super.noSuchMethod(
+            Invocation.method(#fetchSensorsInfo, []),
+            returnValue: _i12.Future<_i5.SensorsResponse>.value(
+              _FakeSensorsResponse_14(
+                this,
+                Invocation.method(#fetchSensorsInfo, []),
+              ),
+            ),
+          )
+          as _i12.Future<_i5.SensorsResponse>);
+
+  @override
+  _i12.Future<_i5.SystemResponse> fetchSystemInfo() =>
+      (super.noSuchMethod(
+            Invocation.method(#fetchSystemInfo, []),
+            returnValue: _i12.Future<_i5.SystemResponse>.value(
+              _FakeSystemResponse_15(
+                this,
+                Invocation.method(#fetchSystemInfo, []),
+              ),
+            ),
+          )
+          as _i12.Future<_i5.SystemResponse>);
+
+  @override
+  _i12.Future<_i5.VersionResponse> fetchVersionInfo() =>
+      (super.noSuchMethod(
+            Invocation.method(#fetchVersionInfo, []),
+            returnValue: _i12.Future<_i5.VersionResponse>.value(
+              _FakeVersionResponse_16(
+                this,
+                Invocation.method(#fetchVersionInfo, []),
+              ),
+            ),
+          )
+          as _i12.Future<_i5.VersionResponse>);
+
+  @override
+  _i12.Future<_i5.PiHoleServerInfoResponse> fetchAllServerInfo() =>
+      (super.noSuchMethod(
+            Invocation.method(#fetchAllServerInfo, []),
+            returnValue: _i12.Future<_i5.PiHoleServerInfoResponse>.value(
+              _FakePiHoleServerInfoResponse_17(
+                this,
+                Invocation.method(#fetchAllServerInfo, []),
+              ),
+            ),
+          )
+          as _i12.Future<_i5.PiHoleServerInfoResponse>);
 }
 
 /// A class which mocks [ApiGatewayV6].
@@ -1439,6 +1541,68 @@ class MockApiGatewayV6 extends _i1.Mock implements _i27.ApiGatewayV6 {
             ),
           )
           as _i12.Future<_i5.AddDomainToListResponse>);
+
+  @override
+  _i12.Future<_i5.HostResponse> fetchHostInfo() =>
+      (super.noSuchMethod(
+            Invocation.method(#fetchHostInfo, []),
+            returnValue: _i12.Future<_i5.HostResponse>.value(
+              _FakeHostResponse_13(this, Invocation.method(#fetchHostInfo, [])),
+            ),
+          )
+          as _i12.Future<_i5.HostResponse>);
+
+  @override
+  _i12.Future<_i5.SensorsResponse> fetchSensorsInfo() =>
+      (super.noSuchMethod(
+            Invocation.method(#fetchSensorsInfo, []),
+            returnValue: _i12.Future<_i5.SensorsResponse>.value(
+              _FakeSensorsResponse_14(
+                this,
+                Invocation.method(#fetchSensorsInfo, []),
+              ),
+            ),
+          )
+          as _i12.Future<_i5.SensorsResponse>);
+
+  @override
+  _i12.Future<_i5.SystemResponse> fetchSystemInfo() =>
+      (super.noSuchMethod(
+            Invocation.method(#fetchSystemInfo, []),
+            returnValue: _i12.Future<_i5.SystemResponse>.value(
+              _FakeSystemResponse_15(
+                this,
+                Invocation.method(#fetchSystemInfo, []),
+              ),
+            ),
+          )
+          as _i12.Future<_i5.SystemResponse>);
+
+  @override
+  _i12.Future<_i5.VersionResponse> fetchVersionInfo() =>
+      (super.noSuchMethod(
+            Invocation.method(#fetchVersionInfo, []),
+            returnValue: _i12.Future<_i5.VersionResponse>.value(
+              _FakeVersionResponse_16(
+                this,
+                Invocation.method(#fetchVersionInfo, []),
+              ),
+            ),
+          )
+          as _i12.Future<_i5.VersionResponse>);
+
+  @override
+  _i12.Future<_i5.PiHoleServerInfoResponse> fetchAllServerInfo() =>
+      (super.noSuchMethod(
+            Invocation.method(#fetchAllServerInfo, []),
+            returnValue: _i12.Future<_i5.PiHoleServerInfoResponse>.value(
+              _FakePiHoleServerInfoResponse_17(
+                this,
+                Invocation.method(#fetchAllServerInfo, []),
+              ),
+            ),
+          )
+          as _i12.Future<_i5.PiHoleServerInfoResponse>);
 }
 
 /// A class which mocks [StatusUpdateService].

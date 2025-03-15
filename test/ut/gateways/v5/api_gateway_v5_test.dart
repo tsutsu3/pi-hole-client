@@ -10,6 +10,7 @@ import 'package:pi_hole_client/gateways/v5/api_gateway_v5.dart';
 import 'package:pi_hole_client/models/domain.dart';
 import 'package:pi_hole_client/models/gateways.dart';
 import 'package:pi_hole_client/models/server.dart';
+import 'package:pi_hole_client/models/version.dart';
 
 import 'api_gateway_v5_test.mocks.dart';
 
@@ -1257,6 +1258,178 @@ void main() async {
           .addDomainToList({'list': 'black', 'domain': 'google.com'});
 
       expect(response.result, APiResponseType.error);
+    });
+  });
+
+  group('fetchHostInfo', () {
+    late Server server;
+    const notSupportedMessage = 'Pi-hole v5 does not support this feature.';
+
+    setUp(() async {
+      server = Server(
+        address: 'http://example.com',
+        alias: 'example',
+        defaultServer: true,
+        apiVersion: SupportedApiVersions.v5,
+      );
+      await server.sm.saveToken('xxx123');
+    });
+
+    test('should return notSupported when server is v5', () async {
+      final mockClient = MockClient();
+      final apiGateway = ApiGatewayV5(server, client: mockClient);
+      final response = await apiGateway.fetchHostInfo();
+
+      expect(response.result, APiResponseType.notSupported);
+      expect(response.message, notSupportedMessage);
+    });
+  });
+
+  group('fetchSensorsInfo', () {
+    late Server server;
+    const notSupportedMessage = 'Pi-hole v5 does not support this feature.';
+
+    setUp(() async {
+      server = Server(
+        address: 'http://example.com',
+        alias: 'example',
+        defaultServer: true,
+        apiVersion: SupportedApiVersions.v5,
+      );
+      await server.sm.saveToken('xxx123');
+    });
+
+    test('should return notSupported when server is v5', () async {
+      final mockClient = MockClient();
+      final apiGateway = ApiGatewayV5(server, client: mockClient);
+      final response = await apiGateway.fetchSensorsInfo();
+
+      expect(response.result, APiResponseType.notSupported);
+      expect(response.message, notSupportedMessage);
+    });
+  });
+
+  group('fetchSystemInfo', () {
+    late Server server;
+    const notSupportedMessage = 'Pi-hole v5 does not support this feature.';
+
+    setUp(() async {
+      server = Server(
+        address: 'http://example.com',
+        alias: 'example',
+        defaultServer: true,
+        apiVersion: SupportedApiVersions.v5,
+      );
+      await server.sm.saveToken('xxx123');
+    });
+
+    test('should return notSupported when server is v5', () async {
+      final mockClient = MockClient();
+      final apiGateway = ApiGatewayV5(server, client: mockClient);
+      final response = await apiGateway.fetchSystemInfo();
+
+      expect(response.result, APiResponseType.notSupported);
+      expect(response.message, notSupportedMessage);
+    });
+  });
+
+  group('fetchVersionInfo', () {
+    late Server server;
+    const url = 'http://example.com/admin/api.php?auth=xxx123&versions';
+    const data = {
+      'core_update': false,
+      'web_update': false,
+      'FTL_update': false,
+      'docker_update': true,
+      'core_current': 'v5.18.3',
+      'web_current': 'v5.21',
+      'FTL_current': 'v5.25.2',
+      'docker_current': '2024.07.0',
+      'core_latest': 'v6.0.5',
+      'web_latest': 'v6.0.2',
+      'FTL_latest': 'v6.0.4',
+      'docker_latest': '2025.03.0',
+      'core_branch': 'master',
+      'web_branch': 'master',
+      'FTL_branch': 'master',
+    };
+
+    setUp(() async {
+      server = Server(
+        address: 'http://example.com',
+        alias: 'example',
+        defaultServer: true,
+        apiVersion: SupportedApiVersions.v5,
+      );
+      await server.sm.saveToken('xxx123');
+    });
+
+    test('should return succen when use docker', () async {
+      final mockClient = MockClient();
+      final apiGateway = ApiGatewayV5(server, client: mockClient);
+      when(mockClient.get(Uri.parse(url), headers: {}))
+          .thenAnswer((_) async => http.Response(jsonEncode(data), 200));
+      final response = await apiGateway.fetchVersionInfo();
+
+      expect(response.result, APiResponseType.success);
+      expect(response.message, null);
+      expect(response.data?.toJson(), VersionInfo.fromJson(data).toJson());
+      expect(response.data?.core.canUpdate, true);
+      expect(response.data?.web.canUpdate, true);
+      expect(response.data?.ftl.canUpdate, true);
+      expect(response.data?.docker.canUpdate, true);
+    });
+
+    test('should return succen when no use docker', () async {
+      const dataNoDocker = {
+        'core_update': true,
+        'web_update': true,
+        'FTL_update': true,
+        'core_current': 'v5.18.3',
+        'web_current': 'v5.21',
+        'FTL_current': 'v5.25.2',
+        'core_latest': 'v6.0.5',
+        'web_latest': 'v6.0.2',
+        'FTL_latest': 'v6.0.4',
+        'core_branch': 'master',
+        'web_branch': 'master',
+        'FTL_branch': 'master',
+      };
+
+      const dataExpected = {
+        'core_update': true,
+        'web_update': true,
+        'FTL_update': true,
+        'core_current': 'v5.18.3',
+        'web_current': 'v5.21',
+        'FTL_current': 'v5.25.2',
+        'docker_current': '',
+        'core_latest': 'v6.0.5',
+        'web_latest': 'v6.0.2',
+        'FTL_latest': 'v6.0.4',
+        'docker_latest': '',
+        'core_branch': 'master',
+        'web_branch': 'master',
+        'FTL_branch': 'master',
+      };
+
+      final mockClient = MockClient();
+      final apiGateway = ApiGatewayV5(server, client: mockClient);
+      when(mockClient.get(Uri.parse(url), headers: {})).thenAnswer(
+        (_) async => http.Response(jsonEncode(dataNoDocker), 200),
+      );
+      final response = await apiGateway.fetchVersionInfo();
+
+      expect(response.result, APiResponseType.success);
+      expect(response.message, null);
+      expect(
+        response.data?.toJson(),
+        VersionInfo.fromJson(dataExpected).toJson(),
+      );
+      expect(response.data?.core.canUpdate, true);
+      expect(response.data?.web.canUpdate, true);
+      expect(response.data?.ftl.canUpdate, true);
+      expect(response.data?.docker.canUpdate, false);
     });
   });
 }

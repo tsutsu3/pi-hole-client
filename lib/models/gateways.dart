@@ -1,9 +1,14 @@
 import 'package:pi_hole_client/models/api/v6/domains/domains.dart' as v6;
+import 'package:pi_hole_client/models/api/v6/flt/host.dart';
+import 'package:pi_hole_client/models/api/v6/flt/sensors.dart';
+import 'package:pi_hole_client/models/api/v6/flt/system.dart';
+import 'package:pi_hole_client/models/api/v6/flt/version.dart';
 import 'package:pi_hole_client/models/app_log.dart';
 import 'package:pi_hole_client/models/domain.dart';
 import 'package:pi_hole_client/models/log.dart';
 import 'package:pi_hole_client/models/overtime_data.dart';
 import 'package:pi_hole_client/models/realtime_status.dart';
+import 'package:pi_hole_client/models/version.dart';
 
 enum APiResponseType {
   success,
@@ -13,7 +18,8 @@ enum APiResponseType {
   timeout,
   sslError,
   error,
-  alreadyAdded
+  alreadyAdded,
+  notSupported,
 }
 
 /// A response object for the login query.
@@ -224,4 +230,66 @@ class AddDomainToListResponse {
   });
 
   final APiResponseType result;
+}
+
+abstract class BaseInfoResponse<T> {
+  BaseInfoResponse({
+    required this.result,
+    this.message,
+    this.data,
+  });
+
+  final APiResponseType result;
+  final String? message;
+  final T? data;
+}
+
+class HostResponse extends BaseInfoResponse<Host> {
+  HostResponse({
+    required super.result,
+    super.message,
+    super.data,
+  });
+}
+
+class SensorsResponse extends BaseInfoResponse<Sensors> {
+  SensorsResponse({
+    required super.result,
+    super.message,
+    super.data,
+  });
+}
+
+class SystemResponse extends BaseInfoResponse<System> {
+  SystemResponse({
+    required super.result,
+    super.message,
+    super.data,
+  });
+}
+
+class VersionResponse extends BaseInfoResponse<VersionInfo> {
+  VersionResponse({
+    required super.result,
+    super.message,
+    super.data,
+  });
+}
+
+class PiHoleServerInfoResponse {
+  PiHoleServerInfoResponse({
+    required this.result,
+    this.message,
+    this.host,
+    this.sensors,
+    this.system,
+    this.version,
+  });
+
+  final APiResponseType result;
+  final String? message;
+  final Host? host;
+  final Sensors? sensors;
+  final System? system;
+  final Version? version;
 }
