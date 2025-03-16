@@ -341,6 +341,12 @@ abstract class AppLocalizations {
   /// **'Apply'**
   String get apply;
 
+  /// No description provided for @arch.
+  ///
+  /// In en, this message translates to:
+  /// **'Architecture'**
+  String get arch;
+
   /// No description provided for @areSureRemovePasscode.
   ///
   /// In en, this message translates to:
@@ -569,6 +575,12 @@ abstract class AppLocalizations {
   /// **'Connecting...'**
   String get connecting;
 
+  /// No description provided for @connectingServer.
+  ///
+  /// In en, this message translates to:
+  /// **'Connecting Server'**
+  String get connectingServer;
+
   /// No description provided for @connectingTo.
   ///
   /// In en, this message translates to:
@@ -683,6 +695,18 @@ abstract class AppLocalizations {
   /// **'Logs couldn\'t be loaded'**
   String get couldntLoadLogs;
 
+  /// No description provided for @cpuTemperature.
+  ///
+  /// In en, this message translates to:
+  /// **'CPU Temperature'**
+  String get cpuTemperature;
+
+  /// No description provided for @cpuUsage.
+  ///
+  /// In en, this message translates to:
+  /// **'CPU Usage'**
+  String get cpuUsage;
+
   /// No description provided for @createConnection.
   ///
   /// In en, this message translates to:
@@ -718,6 +742,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Dark'**
   String get dark;
+
+  /// No description provided for @dataFetchFailed.
+  ///
+  /// In en, this message translates to:
+  /// **'Failed to fetch data.'**
+  String get dataFetchFailed;
 
   /// No description provided for @dateAdded.
   ///
@@ -1073,6 +1103,12 @@ abstract class AppLocalizations {
   /// **'Home'**
   String get home;
 
+  /// No description provided for @host.
+  ///
+  /// In en, this message translates to:
+  /// **'Host'**
+  String get host;
+
   /// No description provided for @hour1.
   ///
   /// In en, this message translates to:
@@ -1319,6 +1355,12 @@ abstract class AppLocalizations {
   /// **'Logs will be requested in groups of'**
   String get logsWillBeRequested;
 
+  /// No description provided for @memoryUsage.
+  ///
+  /// In en, this message translates to:
+  /// **'Memory Usage'**
+  String get memoryUsage;
+
   /// No description provided for @minute1.
   ///
   /// In en, this message translates to:
@@ -1348,6 +1390,18 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'5 minutes'**
   String get minutes5;
+
+  /// No description provided for @model.
+  ///
+  /// In en, this message translates to:
+  /// **'Model'**
+  String get model;
+
+  /// No description provided for @moreDetails.
+  ///
+  /// In en, this message translates to:
+  /// **'More Details'**
+  String get moreDetails;
 
   /// No description provided for @next.
   ///
@@ -1547,6 +1601,12 @@ abstract class AppLocalizations {
   /// **'Displays the data on a pie chart with the legend under it.'**
   String get pieChartDescription;
 
+  /// No description provided for @piholeVersion.
+  ///
+  /// In en, this message translates to:
+  /// **'Pi-hole Versions'**
+  String get piholeVersion;
+
   /// No description provided for @port.
   ///
   /// In en, this message translates to:
@@ -1642,6 +1702,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Refreshing data...'**
   String get refreshingData;
+
+  /// No description provided for @release.
+  ///
+  /// In en, this message translates to:
+  /// **'Release'**
+  String get release;
 
   /// No description provided for @remove.
   ///
@@ -1865,6 +1931,18 @@ abstract class AppLocalizations {
   /// **'Server enabled successfully.'**
   String get serverEnabled;
 
+  /// No description provided for @serverInfo.
+  ///
+  /// In en, this message translates to:
+  /// **'Connecting Server Information'**
+  String get serverInfo;
+
+  /// No description provided for @serverInfoShow.
+  ///
+  /// In en, this message translates to:
+  /// **'View detailed information'**
+  String get serverInfoShow;
+
   /// No description provided for @serverInvalidData.
   ///
   /// In en, this message translates to:
@@ -1876,6 +1954,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Server name'**
   String get serverName;
+
+  /// No description provided for @serverSettings.
+  ///
+  /// In en, this message translates to:
+  /// **'Server settings'**
+  String get serverSettings;
 
   /// No description provided for @servers.
   ///
@@ -2003,6 +2087,12 @@ abstract class AppLocalizations {
   /// **'Switch server'**
   String get switchServer;
 
+  /// No description provided for @system.
+  ///
+  /// In en, this message translates to:
+  /// **'System'**
+  String get system;
+
   /// No description provided for @systemLanguage.
   ///
   /// In en, this message translates to:
@@ -2093,6 +2183,12 @@ abstract class AppLocalizations {
   /// **'Total queries last 24 hours'**
   String get totalQueries24;
 
+  /// No description provided for @tryAgainLater.
+  ///
+  /// In en, this message translates to:
+  /// **'Please try again later.'**
+  String get tryAgainLater;
+
   /// No description provided for @tryReconnect.
   ///
   /// In en, this message translates to:
@@ -2110,6 +2206,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Uncheck all'**
   String get uncheckAll;
+
+  /// No description provided for @unknown.
+  ///
+  /// In en, this message translates to:
+  /// **'Unknown'**
+  String get unknown;
 
   /// No description provided for @unknownError.
   ///
@@ -2146,6 +2248,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Upstream servers'**
   String get upstreamServers;
+
+  /// No description provided for @uptime.
+  ///
+  /// In en, this message translates to:
+  /// **'Uptime'**
+  String get uptime;
 
   /// No description provided for @url.
   ///

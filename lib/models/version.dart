@@ -169,8 +169,8 @@ class DockerVersion {
     );
   }
 
-  final String local;
-  final String remote;
+  final String? local;
+  final String? remote;
   final bool? canUpdate;
 
   static bool _canUpdate(String local, String remote) {

@@ -129,6 +129,9 @@ class AppLocalizationsJa extends AppLocalizations {
   String get apply => '適用';
 
   @override
+  String get arch => 'アーキテクチャ';
+
+  @override
   String get areSureRemovePasscode => 'パスコードを削除してもよろしいですか？これによりアプリのロック解除保護が無効になります。';
 
   @override
@@ -243,6 +246,9 @@ class AppLocalizationsJa extends AppLocalizations {
   String get connecting => '接続中...';
 
   @override
+  String get connectingServer => '接続中のサーバー';
+
+  @override
   String get connectingTo => '接続先';
 
   @override
@@ -300,6 +306,12 @@ class AppLocalizationsJa extends AppLocalizations {
   String get couldntLoadLogs => 'ログを読み込めませんでした';
 
   @override
+  String get cpuTemperature => 'CPU温度';
+
+  @override
+  String get cpuUsage => 'CPU使用率';
+
+  @override
   String get createConnection => '接続を作成';
 
   @override
@@ -316,6 +328,9 @@ class AppLocalizationsJa extends AppLocalizations {
 
   @override
   String get dark => 'ダーク';
+
+  @override
+  String get dataFetchFailed => 'データの取得に失敗しました。';
 
   @override
   String get dateAdded => '追加日';
@@ -495,6 +510,9 @@ class AppLocalizationsJa extends AppLocalizations {
   String get home => 'ホーム';
 
   @override
+  String get host => 'ホスト';
+
+  @override
   String get hour1 => '1時間';
 
   @override
@@ -618,6 +636,9 @@ class AppLocalizationsJa extends AppLocalizations {
   String get logsWillBeRequested => 'ログは';
 
   @override
+  String get memoryUsage => 'メモリ使用量';
+
+  @override
   String get minute1 => '1分';
 
   @override
@@ -631,6 +652,12 @@ class AppLocalizationsJa extends AppLocalizations {
 
   @override
   String get minutes5 => '5分';
+
+  @override
+  String get model => 'モデル';
+
+  @override
+  String get moreDetails => '詳細情報';
 
   @override
   String get next => '次へ';
@@ -732,6 +759,9 @@ class AppLocalizationsJa extends AppLocalizations {
   String get pieChartDescription => '円グラフでデータを表示し、その下に凡例を表示します。';
 
   @override
+  String get piholeVersion => 'Pi-holeのバージョン';
+
+  @override
   String get port => 'ポート';
 
   @override
@@ -778,6 +808,9 @@ class AppLocalizationsJa extends AppLocalizations {
 
   @override
   String get refreshingData => 'データを更新中...';
+
+  @override
+  String get release => 'リリース';
 
   @override
   String get remove => '削除';
@@ -891,10 +924,19 @@ class AppLocalizationsJa extends AppLocalizations {
   String get serverEnabled => 'サーバーが正常に有効化されました。';
 
   @override
+  String get serverInfo => '接続中のサーバー情報';
+
+  @override
+  String get serverInfoShow => '詳細情報を表示する';
+
+  @override
   String get serverInvalidData => 'サーバー接続が無効なデータで保存されています。再度接続を追加してください。';
 
   @override
   String get serverName => 'サーバー名';
+
+  @override
+  String get serverSettings => 'サーバー設定';
 
   @override
   String get servers => 'サーバー';
@@ -960,6 +1002,9 @@ class AppLocalizationsJa extends AppLocalizations {
   String get switchServer => 'サーバーを切り替える';
 
   @override
+  String get system => 'システム';
+
+  @override
   String get systemLanguage => 'システム言語';
 
   @override
@@ -1005,6 +1050,9 @@ class AppLocalizationsJa extends AppLocalizations {
   String get totalQueries24 => '過去24時間の総クエリ数';
 
   @override
+  String get tryAgainLater => 'しばらくしてから再度お試しください';
+
+  @override
   String get tryReconnect => '再接続を試みる';
 
   @override
@@ -1012,6 +1060,9 @@ class AppLocalizationsJa extends AppLocalizations {
 
   @override
   String get uncheckAll => 'すべて選択解除';
+
+  @override
+  String get unknown => '不明';
 
   @override
   String get unknownError => '失敗しました。原因不明のエラーです。';
@@ -1030,6 +1081,9 @@ class AppLocalizationsJa extends AppLocalizations {
 
   @override
   String get upstreamServers => '上流サーバー';
+
+  @override
+  String get uptime => '稼働時間';
 
   @override
   String get url => 'URL';

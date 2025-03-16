@@ -12,3 +12,13 @@ Widget listTileTitle(String title, {ColorScheme? colorScheme}) {
     ),
   );
 }
+
+Widget listTileTitleNoPadding(String title, {ColorScheme? colorScheme}) {
+  return Text(
+    title,
+    style: TextStyle(
+      fontSize: 16,
+      color: colorScheme?.onSurface,
+    ),
+  );
+}

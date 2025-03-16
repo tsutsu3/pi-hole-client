@@ -129,6 +129,9 @@ class AppLocalizationsPl extends AppLocalizations {
   String get apply => 'Zastosuj';
 
   @override
+  String get arch => 'Architektura';
+
+  @override
   String get areSureRemovePasscode => 'Czy na pewno chcesz usunąć kod dostępu? Spowoduje to wyłączenie ochrony przed odblokowaniem aplikacji.';
 
   @override
@@ -243,6 +246,9 @@ class AppLocalizationsPl extends AppLocalizations {
   String get connecting => 'Łączenie...';
 
   @override
+  String get connectingServer => 'Łączenie z serwerem';
+
+  @override
   String get connectingTo => 'Łączenie z';
 
   @override
@@ -300,6 +306,12 @@ class AppLocalizationsPl extends AppLocalizations {
   String get couldntLoadLogs => 'Nie udało się załadować logów';
 
   @override
+  String get cpuTemperature => 'Temperatura CPU';
+
+  @override
+  String get cpuUsage => 'Użycie CPU';
+
+  @override
   String get createConnection => 'Tworzenie połączenia';
 
   @override
@@ -316,6 +328,9 @@ class AppLocalizationsPl extends AppLocalizations {
 
   @override
   String get dark => 'Ciemny';
+
+  @override
+  String get dataFetchFailed => 'Nie udało się pobrać danych.';
 
   @override
   String get dateAdded => 'Data dodania';
@@ -495,6 +510,9 @@ class AppLocalizationsPl extends AppLocalizations {
   String get home => 'Strona główna';
 
   @override
+  String get host => 'Host';
+
+  @override
   String get hour1 => '1 godzina';
 
   @override
@@ -618,6 +636,9 @@ class AppLocalizationsPl extends AppLocalizations {
   String get logsWillBeRequested => 'Logi będą wymagane w grupach';
 
   @override
+  String get memoryUsage => 'Użycie pamięci';
+
+  @override
   String get minute1 => '1 minute';
 
   @override
@@ -631,6 +652,12 @@ class AppLocalizationsPl extends AppLocalizations {
 
   @override
   String get minutes5 => '5 minut';
+
+  @override
+  String get model => 'Model';
+
+  @override
+  String get moreDetails => 'Więcej szczegółów';
 
   @override
   String get next => 'Dalej';
@@ -732,6 +759,9 @@ class AppLocalizationsPl extends AppLocalizations {
   String get pieChartDescription => 'Wyświetla dane na wykresie kołowym z legendą pod nimi.';
 
   @override
+  String get piholeVersion => 'Wersje Pi-hole';
+
+  @override
   String get port => 'Port';
 
   @override
@@ -778,6 +808,9 @@ class AppLocalizationsPl extends AppLocalizations {
 
   @override
   String get refreshingData => 'Odświeżanie danych...';
+
+  @override
+  String get release => 'Wydanie';
 
   @override
   String get remove => 'Usuń';
@@ -891,10 +924,19 @@ class AppLocalizationsPl extends AppLocalizations {
   String get serverEnabled => 'Serwer został pomyślnie włączony.';
 
   @override
+  String get serverInfo => 'Informacje o łączonym serwerze';
+
+  @override
+  String get serverInfoShow => 'Wyświetl szczegółowe informacje';
+
+  @override
   String get serverInvalidData => 'Połączenie z serwerem zapisane z nieprawidłowymi danymi. Dodaj połączenie ponownie.';
 
   @override
   String get serverName => 'Nazwa serwera';
+
+  @override
+  String get serverSettings => 'Ustawienia serwera';
 
   @override
   String get servers => 'Serwery';
@@ -960,6 +1002,9 @@ class AppLocalizationsPl extends AppLocalizations {
   String get switchServer => 'Zmień serwer';
 
   @override
+  String get system => 'System';
+
+  @override
   String get systemLanguage => ' Język systemowy';
 
   @override
@@ -1005,6 +1050,9 @@ class AppLocalizationsPl extends AppLocalizations {
   String get totalQueries24 => 'Łączna liczba zapytań w ciągu ostatnich 24 godzin';
 
   @override
+  String get tryAgainLater => 'Spróbuj ponownie później.';
+
+  @override
   String get tryReconnect => 'Spróbuj połączyć się ponownie';
 
   @override
@@ -1012,6 +1060,9 @@ class AppLocalizationsPl extends AppLocalizations {
 
   @override
   String get uncheckAll => 'Odznacz wszystko';
+
+  @override
+  String get unknown => 'Nieznany';
 
   @override
   String get unknownError => 'Nie udało się. Nieznany błąd.';
@@ -1030,6 +1081,9 @@ class AppLocalizationsPl extends AppLocalizations {
 
   @override
   String get upstreamServers => 'Serwery nadrzędne';
+
+  @override
+  String get uptime => 'Czas pracy';
 
   @override
   String get url => 'URL';

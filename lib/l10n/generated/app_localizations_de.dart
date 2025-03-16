@@ -129,6 +129,9 @@ class AppLocalizationsDe extends AppLocalizations {
   String get apply => 'Speichern';
 
   @override
+  String get arch => 'Architektur';
+
+  @override
   String get areSureRemovePasscode => 'Sind Sie sicher, dass Sie das Passwort entfernen möchten? Dadurch wird die App-Sperre deaktiviert.';
 
   @override
@@ -243,6 +246,9 @@ class AppLocalizationsDe extends AppLocalizations {
   String get connecting => 'Verbindet...';
 
   @override
+  String get connectingServer => 'Verbinden mit Server';
+
+  @override
   String get connectingTo => 'Verbindet mit';
 
   @override
@@ -300,6 +306,12 @@ class AppLocalizationsDe extends AppLocalizations {
   String get couldntLoadLogs => 'Logs konnten nicht geladen werden.';
 
   @override
+  String get cpuTemperature => 'CPU-Temperatur';
+
+  @override
+  String get cpuUsage => 'CPU-Auslastung';
+
+  @override
   String get createConnection => 'Neue Verbindung erstellen';
 
   @override
@@ -316,6 +328,9 @@ class AppLocalizationsDe extends AppLocalizations {
 
   @override
   String get dark => 'Dunkel';
+
+  @override
+  String get dataFetchFailed => 'Fehler beim Abrufen der Daten.';
 
   @override
   String get dateAdded => 'Hinzugefügt am';
@@ -495,6 +510,9 @@ class AppLocalizationsDe extends AppLocalizations {
   String get home => 'Home';
 
   @override
+  String get host => 'Host';
+
+  @override
   String get hour1 => '1 Stunde';
 
   @override
@@ -618,6 +636,9 @@ class AppLocalizationsDe extends AppLocalizations {
   String get logsWillBeRequested => 'Logs werden abgerufen im Abstand von';
 
   @override
+  String get memoryUsage => 'Speichernutzung';
+
+  @override
   String get minute1 => '1 Minute';
 
   @override
@@ -631,6 +652,12 @@ class AppLocalizationsDe extends AppLocalizations {
 
   @override
   String get minutes5 => '5 Minuten';
+
+  @override
+  String get model => 'Modell';
+
+  @override
+  String get moreDetails => 'Weitere Details';
 
   @override
   String get next => 'Weiter';
@@ -732,6 +759,9 @@ class AppLocalizationsDe extends AppLocalizations {
   String get pieChartDescription => 'Zeigt die Daten in einem Tortendiagramm mit einer Legende.';
 
   @override
+  String get piholeVersion => 'Pi-hole-Versionen';
+
+  @override
   String get port => 'Port';
 
   @override
@@ -778,6 +808,9 @@ class AppLocalizationsDe extends AppLocalizations {
 
   @override
   String get refreshingData => 'Daten werden aktualisiert...';
+
+  @override
+  String get release => 'Veröffentlichung';
 
   @override
   String get remove => 'Entfernen';
@@ -891,10 +924,19 @@ class AppLocalizationsDe extends AppLocalizations {
   String get serverEnabled => 'Server erfolgreich aktiviert.';
 
   @override
+  String get serverInfo => 'Verbindungsserver-Informationen';
+
+  @override
+  String get serverInfoShow => 'Detaillierte Informationen anzeigen';
+
+  @override
   String get serverInvalidData => 'Verbindung mit ungültigen Daten gespeichert. Fügen Sie die Verbindung erneut hinzu.';
 
   @override
   String get serverName => 'Servername';
+
+  @override
+  String get serverSettings => 'Servereinstellungen';
 
   @override
   String get servers => 'Server';
@@ -960,6 +1002,9 @@ class AppLocalizationsDe extends AppLocalizations {
   String get switchServer => 'Server wechseln';
 
   @override
+  String get system => 'System';
+
+  @override
   String get systemLanguage => 'System Sprache';
 
   @override
@@ -1005,6 +1050,9 @@ class AppLocalizationsDe extends AppLocalizations {
   String get totalQueries24 => 'Gesamte Abfragen der letzten 24h';
 
   @override
+  String get tryAgainLater => 'Bitte versuchen Sie es später noch einmal.';
+
+  @override
   String get tryReconnect => 'Erneut verbinden';
 
   @override
@@ -1012,6 +1060,9 @@ class AppLocalizationsDe extends AppLocalizations {
 
   @override
   String get uncheckAll => 'Alle deaktivieren';
+
+  @override
+  String get unknown => 'Unbekannt';
 
   @override
   String get unknownError => 'Fehlgeschlagen. Unbekannter Fehler.';
@@ -1030,6 +1081,9 @@ class AppLocalizationsDe extends AppLocalizations {
 
   @override
   String get upstreamServers => 'Upstream-Server';
+
+  @override
+  String get uptime => 'Betriebszeit';
 
   @override
   String get url => 'URL';

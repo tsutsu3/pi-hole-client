@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:pi_hole_client/config/theme.dart';
 import 'package:pi_hole_client/constants/query_types.dart';
 import 'package:pi_hole_client/functions/conversions.dart';
+import 'package:pi_hole_client/functions/logger.dart';
 import 'package:pi_hole_client/gateways/api_gateway_factory.dart';
 import 'package:pi_hole_client/gateways/api_gateway_interface.dart';
 import 'package:pi_hole_client/models/query_status.dart';
@@ -146,6 +147,7 @@ class ServersProvider with ChangeNotifier {
         }
       }).toList();
       _serversList = newServers;
+      logger.d('Server edited: ${server.address}');
       notifyListeners();
       return true;
     } else {
