@@ -18,6 +18,18 @@ import 'api_gateway_v5_test.mocks.dart';
 void main() async {
   FlutterSecureStorage.setMockInitialValues({});
 
+  // const unexpectedError = 'An unexpected error occurred.';
+  const fetchError = 'Failed to fetch data from the server.';
+
+  final dataError = {
+    'error': {
+      'key': 'unauthorized',
+      'message': 'Unauthorized',
+      'hint': null,
+    },
+    'took': 0.003,
+  };
+
   group('loginQuery', () {
     late Server server;
     const sessinId = 'n9n9f6c3umrumfq2ese1lvu2pg';
@@ -1430,6 +1442,18 @@ void main() async {
       expect(response.data?.web.canUpdate, true);
       expect(response.data?.ftl.canUpdate, true);
       expect(response.data?.docker.canUpdate, false);
+    });
+
+    test('should return error when fetch fails', () async {
+      final mockClient = MockClient();
+      final apiGateway = ApiGatewayV5(server, client: mockClient);
+      when(mockClient.get(Uri.parse(url), headers: {}))
+          .thenAnswer((_) async => http.Response(jsonEncode(dataError), 401));
+      final response = await apiGateway.fetchVersionInfo();
+
+      expect(response.result, APiResponseType.error);
+      expect(response.message, fetchError);
+      expect(response.data, null);
     });
   });
 

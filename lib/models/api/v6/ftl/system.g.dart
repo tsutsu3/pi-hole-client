@@ -7,19 +7,28 @@ part of 'system.dart';
 // **************************************************************************
 
 _System _$SystemFromJson(Map<String, dynamic> json) => _System(
-      uptime: (json['uptime'] as num).toInt(),
-      memory: Memory.fromJson(json['memory'] as Map<String, dynamic>),
-      procs: (json['procs'] as num).toInt(),
-      cpu: CPU.fromJson(json['cpu'] as Map<String, dynamic>),
+      system: SystemData.fromJson(json['system'] as Map<String, dynamic>),
       took: (json['took'] as num).toDouble(),
     );
 
 Map<String, dynamic> _$SystemToJson(_System instance) => <String, dynamic>{
+      'system': instance.system,
+      'took': instance.took,
+    };
+
+_SystemData _$SystemDataFromJson(Map<String, dynamic> json) => _SystemData(
+      uptime: (json['uptime'] as num).toInt(),
+      memory: Memory.fromJson(json['memory'] as Map<String, dynamic>),
+      procs: (json['procs'] as num).toInt(),
+      cpu: CPU.fromJson(json['cpu'] as Map<String, dynamic>),
+    );
+
+Map<String, dynamic> _$SystemDataToJson(_SystemData instance) =>
+    <String, dynamic>{
       'uptime': instance.uptime,
       'memory': instance.memory,
       'procs': instance.procs,
       'cpu': instance.cpu,
-      'took': instance.took,
     };
 
 _Memory _$MemoryFromJson(Map<String, dynamic> json) => _Memory(

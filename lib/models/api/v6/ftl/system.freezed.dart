@@ -15,10 +15,7 @@ T _$identity<T>(T value) => value;
 
 /// @nodoc
 mixin _$System {
-  int get uptime;
-  Memory get memory;
-  int get procs;
-  CPU get cpu;
+  SystemData get system;
   double get took;
 
   /// Create a copy of System
@@ -36,21 +33,17 @@ mixin _$System {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is System &&
-            (identical(other.uptime, uptime) || other.uptime == uptime) &&
-            (identical(other.memory, memory) || other.memory == memory) &&
-            (identical(other.procs, procs) || other.procs == procs) &&
-            (identical(other.cpu, cpu) || other.cpu == cpu) &&
+            (identical(other.system, system) || other.system == system) &&
             (identical(other.took, took) || other.took == took));
   }
 
   @JsonKey(includeFromJson: false, includeToJson: false)
   @override
-  int get hashCode =>
-      Object.hash(runtimeType, uptime, memory, procs, cpu, took);
+  int get hashCode => Object.hash(runtimeType, system, took);
 
   @override
   String toString() {
-    return 'System(uptime: $uptime, memory: $memory, procs: $procs, cpu: $cpu, took: $took)';
+    return 'System(system: $system, took: $took)';
   }
 }
 
@@ -59,10 +52,9 @@ abstract mixin class $SystemCopyWith<$Res> {
   factory $SystemCopyWith(System value, $Res Function(System) _then) =
       _$SystemCopyWithImpl;
   @useResult
-  $Res call({int uptime, Memory memory, int procs, CPU cpu, double took});
+  $Res call({SystemData system, double took});
 
-  $MemoryCopyWith<$Res> get memory;
-  $CPUCopyWith<$Res> get cpu;
+  $SystemDataCopyWith<$Res> get system;
 }
 
 /// @nodoc
@@ -77,29 +69,14 @@ class _$SystemCopyWithImpl<$Res> implements $SystemCopyWith<$Res> {
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? uptime = null,
-    Object? memory = null,
-    Object? procs = null,
-    Object? cpu = null,
+    Object? system = null,
     Object? took = null,
   }) {
     return _then(_self.copyWith(
-      uptime: null == uptime
-          ? _self.uptime
-          : uptime // ignore: cast_nullable_to_non_nullable
-              as int,
-      memory: null == memory
-          ? _self.memory
-          : memory // ignore: cast_nullable_to_non_nullable
-              as Memory,
-      procs: null == procs
-          ? _self.procs
-          : procs // ignore: cast_nullable_to_non_nullable
-              as int,
-      cpu: null == cpu
-          ? _self.cpu
-          : cpu // ignore: cast_nullable_to_non_nullable
-              as CPU,
+      system: null == system
+          ? _self.system
+          : system // ignore: cast_nullable_to_non_nullable
+              as SystemData,
       took: null == took
           ? _self.took
           : took // ignore: cast_nullable_to_non_nullable
@@ -111,19 +88,9 @@ class _$SystemCopyWithImpl<$Res> implements $SystemCopyWith<$Res> {
   /// with the given fields replaced by the non-null parameter values.
   @override
   @pragma('vm:prefer-inline')
-  $MemoryCopyWith<$Res> get memory {
-    return $MemoryCopyWith<$Res>(_self.memory, (value) {
-      return _then(_self.copyWith(memory: value));
-    });
-  }
-
-  /// Create a copy of System
-  /// with the given fields replaced by the non-null parameter values.
-  @override
-  @pragma('vm:prefer-inline')
-  $CPUCopyWith<$Res> get cpu {
-    return $CPUCopyWith<$Res>(_self.cpu, (value) {
-      return _then(_self.copyWith(cpu: value));
+  $SystemDataCopyWith<$Res> get system {
+    return $SystemDataCopyWith<$Res>(_self.system, (value) {
+      return _then(_self.copyWith(system: value));
     });
   }
 }
@@ -131,22 +98,11 @@ class _$SystemCopyWithImpl<$Res> implements $SystemCopyWith<$Res> {
 /// @nodoc
 @JsonSerializable()
 class _System implements System {
-  const _System(
-      {required this.uptime,
-      required this.memory,
-      required this.procs,
-      required this.cpu,
-      required this.took});
+  const _System({required this.system, required this.took});
   factory _System.fromJson(Map<String, dynamic> json) => _$SystemFromJson(json);
 
   @override
-  final int uptime;
-  @override
-  final Memory memory;
-  @override
-  final int procs;
-  @override
-  final CPU cpu;
+  final SystemData system;
   @override
   final double took;
 
@@ -170,21 +126,17 @@ class _System implements System {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _System &&
-            (identical(other.uptime, uptime) || other.uptime == uptime) &&
-            (identical(other.memory, memory) || other.memory == memory) &&
-            (identical(other.procs, procs) || other.procs == procs) &&
-            (identical(other.cpu, cpu) || other.cpu == cpu) &&
+            (identical(other.system, system) || other.system == system) &&
             (identical(other.took, took) || other.took == took));
   }
 
   @JsonKey(includeFromJson: false, includeToJson: false)
   @override
-  int get hashCode =>
-      Object.hash(runtimeType, uptime, memory, procs, cpu, took);
+  int get hashCode => Object.hash(runtimeType, system, took);
 
   @override
   String toString() {
-    return 'System(uptime: $uptime, memory: $memory, procs: $procs, cpu: $cpu, took: $took)';
+    return 'System(system: $system, took: $took)';
   }
 }
 
@@ -194,12 +146,10 @@ abstract mixin class _$SystemCopyWith<$Res> implements $SystemCopyWith<$Res> {
       __$SystemCopyWithImpl;
   @override
   @useResult
-  $Res call({int uptime, Memory memory, int procs, CPU cpu, double took});
+  $Res call({SystemData system, double took});
 
   @override
-  $MemoryCopyWith<$Res> get memory;
-  @override
-  $CPUCopyWith<$Res> get cpu;
+  $SystemDataCopyWith<$Res> get system;
 }
 
 /// @nodoc
@@ -214,13 +164,100 @@ class __$SystemCopyWithImpl<$Res> implements _$SystemCopyWith<$Res> {
   @override
   @pragma('vm:prefer-inline')
   $Res call({
+    Object? system = null,
+    Object? took = null,
+  }) {
+    return _then(_System(
+      system: null == system
+          ? _self.system
+          : system // ignore: cast_nullable_to_non_nullable
+              as SystemData,
+      took: null == took
+          ? _self.took
+          : took // ignore: cast_nullable_to_non_nullable
+              as double,
+    ));
+  }
+
+  /// Create a copy of System
+  /// with the given fields replaced by the non-null parameter values.
+  @override
+  @pragma('vm:prefer-inline')
+  $SystemDataCopyWith<$Res> get system {
+    return $SystemDataCopyWith<$Res>(_self.system, (value) {
+      return _then(_self.copyWith(system: value));
+    });
+  }
+}
+
+/// @nodoc
+mixin _$SystemData {
+  int get uptime;
+  Memory get memory;
+  int get procs;
+  CPU get cpu;
+
+  /// Create a copy of SystemData
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @pragma('vm:prefer-inline')
+  $SystemDataCopyWith<SystemData> get copyWith =>
+      _$SystemDataCopyWithImpl<SystemData>(this as SystemData, _$identity);
+
+  /// Serializes this SystemData to a JSON map.
+  Map<String, dynamic> toJson();
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is SystemData &&
+            (identical(other.uptime, uptime) || other.uptime == uptime) &&
+            (identical(other.memory, memory) || other.memory == memory) &&
+            (identical(other.procs, procs) || other.procs == procs) &&
+            (identical(other.cpu, cpu) || other.cpu == cpu));
+  }
+
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @override
+  int get hashCode => Object.hash(runtimeType, uptime, memory, procs, cpu);
+
+  @override
+  String toString() {
+    return 'SystemData(uptime: $uptime, memory: $memory, procs: $procs, cpu: $cpu)';
+  }
+}
+
+/// @nodoc
+abstract mixin class $SystemDataCopyWith<$Res> {
+  factory $SystemDataCopyWith(
+          SystemData value, $Res Function(SystemData) _then) =
+      _$SystemDataCopyWithImpl;
+  @useResult
+  $Res call({int uptime, Memory memory, int procs, CPU cpu});
+
+  $MemoryCopyWith<$Res> get memory;
+  $CPUCopyWith<$Res> get cpu;
+}
+
+/// @nodoc
+class _$SystemDataCopyWithImpl<$Res> implements $SystemDataCopyWith<$Res> {
+  _$SystemDataCopyWithImpl(this._self, this._then);
+
+  final SystemData _self;
+  final $Res Function(SystemData) _then;
+
+  /// Create a copy of SystemData
+  /// with the given fields replaced by the non-null parameter values.
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
     Object? uptime = null,
     Object? memory = null,
     Object? procs = null,
     Object? cpu = null,
-    Object? took = null,
   }) {
-    return _then(_System(
+    return _then(_self.copyWith(
       uptime: null == uptime
           ? _self.uptime
           : uptime // ignore: cast_nullable_to_non_nullable
@@ -237,14 +274,10 @@ class __$SystemCopyWithImpl<$Res> implements _$SystemCopyWith<$Res> {
           ? _self.cpu
           : cpu // ignore: cast_nullable_to_non_nullable
               as CPU,
-      took: null == took
-          ? _self.took
-          : took // ignore: cast_nullable_to_non_nullable
-              as double,
     ));
   }
 
-  /// Create a copy of System
+  /// Create a copy of SystemData
   /// with the given fields replaced by the non-null parameter values.
   @override
   @pragma('vm:prefer-inline')
@@ -254,7 +287,137 @@ class __$SystemCopyWithImpl<$Res> implements _$SystemCopyWith<$Res> {
     });
   }
 
-  /// Create a copy of System
+  /// Create a copy of SystemData
+  /// with the given fields replaced by the non-null parameter values.
+  @override
+  @pragma('vm:prefer-inline')
+  $CPUCopyWith<$Res> get cpu {
+    return $CPUCopyWith<$Res>(_self.cpu, (value) {
+      return _then(_self.copyWith(cpu: value));
+    });
+  }
+}
+
+/// @nodoc
+@JsonSerializable()
+class _SystemData implements SystemData {
+  const _SystemData(
+      {required this.uptime,
+      required this.memory,
+      required this.procs,
+      required this.cpu});
+  factory _SystemData.fromJson(Map<String, dynamic> json) =>
+      _$SystemDataFromJson(json);
+
+  @override
+  final int uptime;
+  @override
+  final Memory memory;
+  @override
+  final int procs;
+  @override
+  final CPU cpu;
+
+  /// Create a copy of SystemData
+  /// with the given fields replaced by the non-null parameter values.
+  @override
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @pragma('vm:prefer-inline')
+  _$SystemDataCopyWith<_SystemData> get copyWith =>
+      __$SystemDataCopyWithImpl<_SystemData>(this, _$identity);
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$SystemDataToJson(
+      this,
+    );
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _SystemData &&
+            (identical(other.uptime, uptime) || other.uptime == uptime) &&
+            (identical(other.memory, memory) || other.memory == memory) &&
+            (identical(other.procs, procs) || other.procs == procs) &&
+            (identical(other.cpu, cpu) || other.cpu == cpu));
+  }
+
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @override
+  int get hashCode => Object.hash(runtimeType, uptime, memory, procs, cpu);
+
+  @override
+  String toString() {
+    return 'SystemData(uptime: $uptime, memory: $memory, procs: $procs, cpu: $cpu)';
+  }
+}
+
+/// @nodoc
+abstract mixin class _$SystemDataCopyWith<$Res>
+    implements $SystemDataCopyWith<$Res> {
+  factory _$SystemDataCopyWith(
+          _SystemData value, $Res Function(_SystemData) _then) =
+      __$SystemDataCopyWithImpl;
+  @override
+  @useResult
+  $Res call({int uptime, Memory memory, int procs, CPU cpu});
+
+  @override
+  $MemoryCopyWith<$Res> get memory;
+  @override
+  $CPUCopyWith<$Res> get cpu;
+}
+
+/// @nodoc
+class __$SystemDataCopyWithImpl<$Res> implements _$SystemDataCopyWith<$Res> {
+  __$SystemDataCopyWithImpl(this._self, this._then);
+
+  final _SystemData _self;
+  final $Res Function(_SystemData) _then;
+
+  /// Create a copy of SystemData
+  /// with the given fields replaced by the non-null parameter values.
+  @override
+  @pragma('vm:prefer-inline')
+  $Res call({
+    Object? uptime = null,
+    Object? memory = null,
+    Object? procs = null,
+    Object? cpu = null,
+  }) {
+    return _then(_SystemData(
+      uptime: null == uptime
+          ? _self.uptime
+          : uptime // ignore: cast_nullable_to_non_nullable
+              as int,
+      memory: null == memory
+          ? _self.memory
+          : memory // ignore: cast_nullable_to_non_nullable
+              as Memory,
+      procs: null == procs
+          ? _self.procs
+          : procs // ignore: cast_nullable_to_non_nullable
+              as int,
+      cpu: null == cpu
+          ? _self.cpu
+          : cpu // ignore: cast_nullable_to_non_nullable
+              as CPU,
+    ));
+  }
+
+  /// Create a copy of SystemData
+  /// with the given fields replaced by the non-null parameter values.
+  @override
+  @pragma('vm:prefer-inline')
+  $MemoryCopyWith<$Res> get memory {
+    return $MemoryCopyWith<$Res>(_self.memory, (value) {
+      return _then(_self.copyWith(memory: value));
+    });
+  }
+
+  /// Create a copy of SystemData
   /// with the given fields replaced by the non-null parameter values.
   @override
   @pragma('vm:prefer-inline')

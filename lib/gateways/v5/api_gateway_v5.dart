@@ -27,6 +27,8 @@ class ApiGatewayV5 implements ApiGateway {
   final http.Client _client;
 
   final notSupportedMessage = 'Pi-hole v5 does not support this feature.';
+  final unexpectedError = 'An unexpected error occurred.';
+  final fetchError = 'Failed to fetch data from the server.';
 
   @override
   Server get server => _server;
@@ -689,10 +691,16 @@ class ApiGatewayV5 implements ApiGateway {
           data: version,
         );
       } else {
-        return VersionResponse(result: APiResponseType.error);
+        return VersionResponse(
+          result: APiResponseType.error,
+          message: fetchError,
+        );
       }
     } catch (e) {
-      return VersionResponse(result: APiResponseType.error);
+      return VersionResponse(
+        result: APiResponseType.error,
+        message: unexpectedError,
+      );
     }
   }
 
@@ -715,10 +723,16 @@ class ApiGatewayV5 implements ApiGateway {
           version: results[3].data,
         );
       } else {
-        return PiHoleServerInfoResponse(result: APiResponseType.error);
+        return PiHoleServerInfoResponse(
+          result: APiResponseType.error,
+          message: fetchError,
+        );
       }
     } catch (e) {
-      return PiHoleServerInfoResponse(result: APiResponseType.error);
+      return PiHoleServerInfoResponse(
+        result: APiResponseType.error,
+        message: unexpectedError,
+      );
     }
   }
 }

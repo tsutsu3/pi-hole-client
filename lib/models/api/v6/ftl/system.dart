@@ -6,14 +6,24 @@ part 'system.g.dart';
 @freezed
 sealed class System with _$System {
   const factory System({
-    required int uptime,
-    required Memory memory,
-    required int procs,
-    required CPU cpu,
+    required SystemData system,
     required double took,
   }) = _System;
 
   factory System.fromJson(Map<String, dynamic> json) => _$SystemFromJson(json);
+}
+
+@freezed
+sealed class SystemData with _$SystemData {
+  const factory SystemData({
+    required int uptime,
+    required Memory memory,
+    required int procs,
+    required CPU cpu,
+  }) = _SystemData;
+
+  factory SystemData.fromJson(Map<String, dynamic> json) =>
+      _$SystemDataFromJson(json);
 }
 
 @freezed

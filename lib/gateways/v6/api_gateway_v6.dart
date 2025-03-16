@@ -10,9 +10,10 @@ import 'package:pi_hole_client/models/api/v6/dns/dns.dart' show Blocking;
 import 'package:pi_hole_client/models/api/v6/domains/domains.dart'
     show AddDomains, Domains;
 import 'package:pi_hole_client/models/api/v6/ftl/ftl.dart' show InfoFtl;
-import 'package:pi_hole_client/models/api/v6/ftl/host.dart';
-import 'package:pi_hole_client/models/api/v6/ftl/sensors.dart';
-import 'package:pi_hole_client/models/api/v6/ftl/version.dart';
+import 'package:pi_hole_client/models/api/v6/ftl/host.dart' show Host;
+import 'package:pi_hole_client/models/api/v6/ftl/sensors.dart' show Sensors;
+import 'package:pi_hole_client/models/api/v6/ftl/system.dart' show System;
+import 'package:pi_hole_client/models/api/v6/ftl/version.dart' show Version;
 import 'package:pi_hole_client/models/api/v6/metrics/history.dart'
     show History, HistoryClients;
 import 'package:pi_hole_client/models/api/v6/metrics/query.dart' show Queries;
@@ -27,6 +28,7 @@ import 'package:pi_hole_client/models/overtime_data.dart';
 import 'package:pi_hole_client/models/realtime_status.dart';
 import 'package:pi_hole_client/models/sensors.dart';
 import 'package:pi_hole_client/models/server.dart';
+import 'package:pi_hole_client/models/system.dart';
 import 'package:pi_hole_client/models/version.dart';
 
 class ApiGatewayV6 implements ApiGateway {
@@ -40,6 +42,9 @@ class ApiGatewayV6 implements ApiGateway {
         _client = client ?? http.Client();
   final Server _server;
   final http.Client _client;
+
+  final unexpectedError = 'An unexpected error occurred.';
+  final fetchError = 'Failed to fetch data from the server.';
 
   @override
   Server get server => _server;
@@ -750,10 +755,16 @@ class ApiGatewayV6 implements ApiGateway {
           data: HostInfo.fromV6(host),
         );
       } else {
-        return HostResponse(result: APiResponseType.error);
+        return HostResponse(
+          result: APiResponseType.error,
+          message: fetchError,
+        );
       }
     } catch (e) {
-      return HostResponse(result: APiResponseType.error);
+      return HostResponse(
+        result: APiResponseType.error,
+        message: unexpectedError,
+      );
     }
   }
 
@@ -773,16 +784,46 @@ class ApiGatewayV6 implements ApiGateway {
           data: SensorsInfo.fromV6(sensors),
         );
       } else {
-        return SensorsResponse(result: APiResponseType.error);
+        return SensorsResponse(
+          result: APiResponseType.error,
+          message: fetchError,
+        );
       }
     } catch (e) {
-      return SensorsResponse(result: APiResponseType.error);
+      return SensorsResponse(
+        result: APiResponseType.error,
+        message: unexpectedError,
+      );
     }
   }
 
   @override
-  Future<SystemResponse> fetchSystemInfo() {
-    throw UnimplementedError();
+  Future<SystemResponse> fetchSystemInfo() async {
+    try {
+      final results = await httpClient(
+        method: 'get',
+        url: '${_server.address}/api/info/system',
+      );
+
+      if (results.statusCode == 200) {
+        final system = System.fromJson(jsonDecode(results.body));
+
+        return SystemResponse(
+          result: APiResponseType.success,
+          data: SystemInfo.fromV6(system),
+        );
+      } else {
+        return SystemResponse(
+          result: APiResponseType.error,
+          message: fetchError,
+        );
+      }
+    } catch (e) {
+      return SystemResponse(
+        result: APiResponseType.error,
+        message: unexpectedError,
+      );
+    }
   }
 
   @override
@@ -801,15 +842,51 @@ class ApiGatewayV6 implements ApiGateway {
           data: VersionInfo.fromV6(version),
         );
       } else {
-        return VersionResponse(result: APiResponseType.error);
+        return VersionResponse(
+          result: APiResponseType.error,
+          message: fetchError,
+        );
       }
     } catch (e) {
-      return VersionResponse(result: APiResponseType.error);
+      return VersionResponse(
+        result: APiResponseType.error,
+        message: unexpectedError,
+      );
     }
   }
 
   @override
-  Future<PiHoleServerInfoResponse> fetchAllServerInfo() {
-    throw UnimplementedError();
+  Future<PiHoleServerInfoResponse> fetchAllServerInfo() async {
+    try {
+      final results = await Future.wait<BaseInfoResponse<dynamic>>([
+        fetchHostInfo(),
+        fetchSensorsInfo(),
+        fetchSystemInfo(),
+        fetchVersionInfo(),
+      ]);
+
+      if (results[0].result == APiResponseType.success &&
+          results[1].result == APiResponseType.success &&
+          results[2].result == APiResponseType.success &&
+          results[3].result == APiResponseType.success) {
+        return PiHoleServerInfoResponse(
+          result: APiResponseType.success,
+          host: results[0].data,
+          sensors: results[1].data,
+          system: results[2].data,
+          version: results[3].data,
+        );
+      } else {
+        return PiHoleServerInfoResponse(
+          result: APiResponseType.error,
+          message: fetchError,
+        );
+      }
+    } catch (e) {
+      return PiHoleServerInfoResponse(
+        result: APiResponseType.error,
+        message: unexpectedError,
+      );
+    }
   }
 }

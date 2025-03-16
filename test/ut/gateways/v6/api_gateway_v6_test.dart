@@ -6,14 +6,16 @@ import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
 import 'package:pi_hole_client/constants/api_versions.dart';
 import 'package:pi_hole_client/gateways/v6/api_gateway_v6.dart';
-import 'package:pi_hole_client/models/api/v6/ftl/host.dart';
-import 'package:pi_hole_client/models/api/v6/ftl/sensors.dart';
-import 'package:pi_hole_client/models/api/v6/ftl/version.dart';
+import 'package:pi_hole_client/models/api/v6/ftl/host.dart' show Host;
+import 'package:pi_hole_client/models/api/v6/ftl/sensors.dart' show Sensors;
+import 'package:pi_hole_client/models/api/v6/ftl/system.dart' show System;
+import 'package:pi_hole_client/models/api/v6/ftl/version.dart' show Version;
 import 'package:pi_hole_client/models/domain.dart';
 import 'package:pi_hole_client/models/gateways.dart';
 import 'package:pi_hole_client/models/host.dart';
 import 'package:pi_hole_client/models/sensors.dart';
 import 'package:pi_hole_client/models/server.dart';
+import 'package:pi_hole_client/models/system.dart';
 import 'package:pi_hole_client/models/version.dart';
 import 'package:pi_hole_client/services/secret_manager.dart';
 
@@ -91,6 +93,9 @@ class SecretManagerMock implements SecretManager {
 void main() async {
   TestWidgetsFlutterBinding.ensureInitialized();
   await dotenv.load();
+
+  // const unexpectedError = 'An unexpected error occurred.';
+  const fetchError = 'Failed to fetch data from the server.';
 
   group('loginQuery', () {
     late Server server;
@@ -1694,6 +1699,322 @@ void main() async {
         response.data?.toJson(),
         SensorsInfo.fromV6(Sensors.fromJson(data)).toJson(),
       );
+    });
+  });
+
+  group('fetchSystemInfo', () {
+    late Server server;
+    const url = 'http://example.com/api/info/system';
+    const data = {
+      'system': {
+        'uptime': 67906,
+        'memory': {
+          'ram': {
+            'total': 10317877,
+            'free': 308736,
+            'used': 8920416,
+            'available': 972304,
+            '%used': 26.854,
+          },
+          'swap': {
+            'total': 10317877,
+            'used': 8920416,
+            'free': 308736,
+            '%used': 1.67,
+          },
+        },
+        'procs': 1452,
+        'cpu': {
+          'nprocs': 8,
+          'load': {
+            'raw': [0.58837890625, 0.64990234375, 0.66748046875],
+            'percent': [
+              4.903157711029053,
+              5.415853023529053,
+              5.562337398529053,
+            ],
+          },
+        },
+      },
+      'took': 0.003,
+    };
+
+    setUp(() {
+      server = Server(
+        address: 'http://example.com',
+        alias: 'example',
+        defaultServer: true,
+        apiVersion: SupportedApiVersions.v6,
+      );
+      server.sm.savePassword('xxx123');
+    });
+
+    test('should return success', () async {
+      final mockClient = MockClient();
+      final apiGateway = ApiGatewayV6(server, client: mockClient);
+      when(
+        mockClient.get(
+          Uri.parse(url),
+          headers: anyNamed('headers'),
+        ),
+      ).thenAnswer((_) async => http.Response(jsonEncode(data), 200));
+      final response = await apiGateway.fetchSystemInfo();
+
+      expect(response.result, APiResponseType.success);
+      expect(response.message, null);
+      expect(
+        response.data?.toJson(),
+        SystemInfo.fromV6(System.fromJson(data)).toJson(),
+      );
+    });
+  });
+
+  group('fetchAllServerInfo', () {
+    late Server server;
+    const dataVersion = {
+      'version': {
+        'core': {
+          'local': {
+            'version': 'v6.0.5',
+            'branch': 'master',
+            'hash': '9fe687bd',
+          },
+          'remote': {
+            'version': 'v6.0.5',
+            'hash': '9fe687bd',
+          },
+        },
+        'web': {
+          'local': {
+            'version': 'v6.0.2',
+            'branch': 'master',
+            'hash': '25441178',
+          },
+          'remote': {
+            'version': 'v6.0.2',
+            'hash': '25441178',
+          },
+        },
+        'ftl': {
+          'local': {
+            'hash': 'b7eb53bf',
+            'branch': 'master',
+            'version': 'v6.0.4',
+            'date': '2025-03-04 17:22:10 +0000',
+          },
+          'remote': {
+            'version': 'v6.0.4',
+            'hash': 'b7eb53bf',
+          },
+        },
+        'docker': {
+          'local': 'null',
+          'remote': 'null',
+        },
+      },
+      'took': 0.014363765716552734,
+    };
+    const dataHost = {
+      'host': {
+        'uname': {
+          'domainname': '(none)',
+          'machine': 'x86_64',
+          'nodename': 'raspberrypi',
+          'release': '5.15.0-52-generic',
+          'sysname': 'Linux',
+          'version': '#58-Ubuntu SMP Thu Oct 13 08:03:55 UTC 2022',
+        },
+        'model': 'Raspberry Pi Model 4B',
+        'dmi': {
+          'bios': {'vendor': 'American Megatrends Inc.'},
+          'board': {
+            'name': 'Raspberry Pi 4 Model B Rev 1.4',
+            'vendor': 'Raspberry Pi Foundation',
+            'version': '0x14',
+          },
+          'product': {
+            'name': 'Raspberry Pi 4 Model B Rev 1.4',
+            'version': '0x14',
+            'family': 'Raspberry Pi 4 Model B Rev 1.4',
+          },
+          'sys': {'vendor': 'Raspberry Pi Foundation'},
+        },
+      },
+      'took': 0.003,
+    };
+    const dataSensor = {
+      'sensors': {
+        'list': [
+          {
+            'name': 'amdgpu',
+            'path': 'hwmon1',
+            'source': 'devices/pci0000:00/0000:00:08.1/0000:05:00.0',
+            'temps': [
+              {
+                'name': 'edge',
+                'value': 40,
+                'max': null,
+                'crit': null,
+                'sensor': 'temp1',
+              }
+            ],
+          },
+        ],
+        'cpu_temp': 48,
+        'hot_limit': 60,
+        'unit': 'C',
+      },
+      'took': 0.003,
+    };
+    const dataSystem = {
+      'system': {
+        'uptime': 67906,
+        'memory': {
+          'ram': {
+            'total': 10317877,
+            'free': 308736,
+            'used': 8920416,
+            'available': 972304,
+            '%used': 26.854,
+          },
+          'swap': {
+            'total': 10317877,
+            'used': 8920416,
+            'free': 308736,
+            '%used': 1.67,
+          },
+        },
+        'procs': 1452,
+        'cpu': {
+          'nprocs': 8,
+          'load': {
+            'raw': [0.58837890625, 0.64990234375, 0.66748046875],
+            'percent': [
+              4.903157711029053,
+              5.415853023529053,
+              5.562337398529053,
+            ],
+          },
+        },
+      },
+      'took': 0.003,
+    };
+
+    setUp(() {
+      server = Server(
+        address: 'http://example.com',
+        alias: 'example',
+        defaultServer: true,
+        apiVersion: SupportedApiVersions.v6,
+      );
+      server.sm.savePassword('xxx123');
+    });
+
+    test('should return success', () async {
+      final mockClient = MockClient();
+      final apiGateway = ApiGatewayV6(server, client: mockClient);
+
+      when(
+        mockClient.get(
+          Uri.parse('http://example.com/api/info/sensors'),
+          headers: anyNamed('headers'),
+        ),
+      ).thenAnswer((_) async => http.Response(jsonEncode(dataSensor), 200));
+
+      when(
+        mockClient.get(
+          Uri.parse('http://example.com/api/info/host'),
+          headers: anyNamed('headers'),
+        ),
+      ).thenAnswer((_) async => http.Response(jsonEncode(dataHost), 200));
+
+      when(
+        mockClient.get(
+          Uri.parse('http://example.com/api/info/version'),
+          headers: anyNamed('headers'),
+        ),
+      ).thenAnswer((_) async => http.Response(jsonEncode(dataVersion), 200));
+
+      when(
+        mockClient.get(
+          Uri.parse('http://example.com/api/info/system'),
+          headers: anyNamed('headers'),
+        ),
+      ).thenAnswer((_) async => http.Response(jsonEncode(dataSystem), 200));
+
+      final response = await apiGateway.fetchAllServerInfo();
+
+      expect(response.result, APiResponseType.success);
+      expect(response.message, null);
+      expect(
+        response.version?.toJson(),
+        VersionInfo.fromV6(Version.fromJson(dataVersion)).toJson(),
+      );
+      expect(
+        response.system?.toJson(),
+        SystemInfo.fromV6(System.fromJson(dataSystem)).toJson(),
+      );
+      expect(
+        response.host?.toJson(),
+        HostInfo.fromV6(Host.fromJson(dataHost)).toJson(),
+      );
+      expect(
+        response.sensors?.toJson(),
+        SensorsInfo.fromV6(Sensors.fromJson(dataSensor)).toJson(),
+      );
+    });
+
+    test('should return error when at least one fetch fail', () async {
+      final mockClient = MockClient();
+      final apiGateway = ApiGatewayV6(server, client: mockClient);
+
+      when(
+        mockClient.get(
+          Uri.parse('http://example.com/api/info/sensors'),
+          headers: anyNamed('headers'),
+        ),
+      ).thenAnswer((_) async => http.Response(jsonEncode(dataSensor), 200));
+
+      when(
+        mockClient.get(
+          Uri.parse('http://example.com/api/info/host'),
+          headers: anyNamed('headers'),
+        ),
+      ).thenAnswer((_) async => http.Response(jsonEncode(dataHost), 200));
+
+      when(
+        mockClient.get(
+          Uri.parse('http://example.com/api/info/version'),
+          headers: anyNamed('headers'),
+        ),
+      ).thenAnswer((_) async => http.Response(jsonEncode(dataVersion), 200));
+
+      // failed
+      final dataSystemError = {
+        'error': {
+          'key': 'unauthorized',
+          'message': 'Unauthorized',
+          'hint': null,
+        },
+        'took': 0.003,
+      };
+      when(
+        mockClient.get(
+          Uri.parse('http://example.com/api/info/system'),
+          headers: anyNamed('headers'),
+        ),
+      ).thenAnswer(
+        (_) async => http.Response(jsonEncode(dataSystemError), 401),
+      );
+
+      final response = await apiGateway.fetchAllServerInfo();
+
+      expect(response.result, APiResponseType.error);
+      expect(response.message, fetchError);
+      expect(response.version?.toJson(), null);
+      expect(response.system?.toJson(), null);
+      expect(response.host?.toJson(), null);
+      expect(response.sensors?.toJson(), null);
     });
   });
 }
