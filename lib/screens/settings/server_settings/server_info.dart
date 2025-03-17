@@ -237,7 +237,7 @@ class ServerInfoScreen extends StatelessWidget {
         SectionLabel(label: AppLocalizations.of(context)!.performance),
         ListTile(
           dense: true,
-          leading: const Icon(Icons.memory),
+          leading: const Icon(Icons.memory_rounded),
           title: listTileTitle(
             AppLocalizations.of(context)!.cpuUsage,
             colorScheme: colorScheme,
@@ -261,7 +261,7 @@ class ServerInfoScreen extends StatelessWidget {
         ),
         ListTile(
           dense: true,
-          leading: const Icon(Icons.storage),
+          leading: const Icon(Icons.speed_rounded),
           title: listTileTitle(
             AppLocalizations.of(context)!.memoryUsage,
             colorScheme: colorScheme,
