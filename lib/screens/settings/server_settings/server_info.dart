@@ -3,6 +3,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:pi_hole_client/classes/custom_scroll_behavior.dart';
 import 'package:pi_hole_client/config/theme.dart';
 import 'package:pi_hole_client/functions/logger.dart';
+import 'package:pi_hole_client/functions/misc.dart';
 import 'package:pi_hole_client/gateways/api_gateway_interface.dart';
 import 'package:pi_hole_client/l10n/generated/app_localizations.dart';
 import 'package:pi_hole_client/models/host.dart';
@@ -314,7 +315,7 @@ class ServerInfoScreen extends StatelessWidget {
                 trailing: listTailText(
                   context,
                   sensors?.cpuTemp != null
-                      ? '${sensors?.cpuTemp} ${sensors?.unit}'
+                      ? '${sensors?.cpuTemp} ${convertTemperatureUnit(sensors?.unit)}'
                       : AppLocalizations.of(context)!.unknown,
                 ),
               ),
