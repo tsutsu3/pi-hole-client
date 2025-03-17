@@ -296,6 +296,7 @@
   "selectLogsLeftColumn": "Choose a query log to see its details.",
   "selectOptionLeftColumn": "Select an option from the left column.",
   "selectServer": "Select server",
+  "selectServerThenAccess": "Select a server and then access again.",
   "selectStartTime": "Select start time",
   "selectedDisconnected": "Selected but disconnected",
   "sendCrashReport": "Send Crash Report",

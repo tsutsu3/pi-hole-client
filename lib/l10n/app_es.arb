@@ -297,6 +297,7 @@
   "selectLogsLeftColumn": "Elige un registro de consultas para ver sus detalles.",
   "selectOptionLeftColumn": "Selecciona una opción de la columna de la izquierda.",
   "selectServer": "Seleccionar servidor",
+  "selectServerThenAccess": "Seleccione un servidor y luego acceda nuevamente.",
   "selectStartTime": "Seleccionar tiempo de inicio",
   "selectedDisconnected": "Seleccionado pero desconectado",
   "sendCrashReport": "Enviar informe de fallos",

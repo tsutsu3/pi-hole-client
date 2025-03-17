@@ -900,6 +900,9 @@ class AppLocalizationsJa extends AppLocalizations {
   String get selectServer => 'サーバーを選択';
 
   @override
+  String get selectServerThenAccess => 'サーバーを選択した後、もう一度アクセスしてください。';
+
+  @override
   String get selectStartTime => '開始時間を選択';
 
   @override

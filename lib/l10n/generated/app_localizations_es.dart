@@ -900,6 +900,9 @@ class AppLocalizationsEs extends AppLocalizations {
   String get selectServer => 'Seleccionar servidor';
 
   @override
+  String get selectServerThenAccess => 'Seleccione un servidor y luego acceda nuevamente.';
+
+  @override
   String get selectStartTime => 'Seleccionar tiempo de inicio';
 
   @override

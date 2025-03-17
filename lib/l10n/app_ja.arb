@@ -296,6 +296,7 @@
   "selectLogsLeftColumn": "クエリログを選択して詳細を確認してください。",
   "selectOptionLeftColumn": "左の列からオプションを選択してください。",
   "selectServer": "サーバーを選択",
+  "selectServerThenAccess": "サーバーを選択した後、もう一度アクセスしてください。",
   "selectStartTime": "開始時間を選択",
   "selectedDisconnected": "選択済みだが切断中",
   "sendCrashReport": "クラッシュレポート送信",

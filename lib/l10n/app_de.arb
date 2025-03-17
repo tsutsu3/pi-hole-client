@@ -296,6 +296,7 @@
   "selectLogsLeftColumn": "Wählen Sie ein Abfrageprotokoll aus, um die Details zu sehen.",
   "selectOptionLeftColumn": "Wählen Sie eine Option aus der linken Spalte aus.",
   "selectServer": "Server auswählen",
+  "selectServerThenAccess": "Wählen Sie einen Server aus und greifen Sie dann erneut zu.",
   "selectStartTime": "Startzeit wählen",
   "selectedDisconnected": "Ausgewählt, ohne Verbindung",
   "sendCrashReport": "Senden des Absturzberichts",

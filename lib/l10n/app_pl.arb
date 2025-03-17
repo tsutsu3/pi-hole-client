@@ -296,6 +296,7 @@
   "selectLogsLeftColumn": "Wybierz dziennik zapytań, aby zobaczyć szczegóły.",
   "selectOptionLeftColumn": "Wybierz opcję z lewej kolumny.",
   "selectServer": "Wybierz serwer",
+  "selectServerThenAccess": "Wybierz serwer, a następnie uzyskaj ponowny dostęp.",
   "selectStartTime": "Wybierz godzinę rozpoczęcia",
   "selectedDisconnected": "Wybrano, ale rozłączono",
   "sendCrashReport": "Wyślij raport o awarii",

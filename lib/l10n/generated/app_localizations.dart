@@ -1883,6 +1883,12 @@ abstract class AppLocalizations {
   /// **'Select server'**
   String get selectServer;
 
+  /// No description provided for @selectServerThenAccess.
+  ///
+  /// In en, this message translates to:
+  /// **'Select a server and then access again.'**
+  String get selectServerThenAccess;
+
   /// No description provided for @selectStartTime.
   ///
   /// In en, this message translates to:

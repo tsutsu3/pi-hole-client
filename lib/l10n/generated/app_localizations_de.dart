@@ -900,6 +900,9 @@ class AppLocalizationsDe extends AppLocalizations {
   String get selectServer => 'Server auswählen';
 
   @override
+  String get selectServerThenAccess => 'Wählen Sie einen Server aus und greifen Sie dann erneut zu.';
+
+  @override
   String get selectStartTime => 'Startzeit wählen';
 
   @override
