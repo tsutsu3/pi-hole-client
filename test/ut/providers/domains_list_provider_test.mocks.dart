@@ -8,10 +8,11 @@ import 'dart:ui' as _i12;
 
 import 'package:http/http.dart' as _i4;
 import 'package:mockito/mockito.dart' as _i1;
+import 'package:mockito/src/dummies.dart' as _i14;
 import 'package:pi_hole_client/config/theme.dart' as _i2;
 import 'package:pi_hole_client/gateways/api_gateway_interface.dart' as _i9;
 import 'package:pi_hole_client/gateways/v6/api_gateway_v6.dart' as _i13;
-import 'package:pi_hole_client/models/domain.dart' as _i14;
+import 'package:pi_hole_client/models/domain.dart' as _i15;
 import 'package:pi_hole_client/models/gateways.dart' as _i5;
 import 'package:pi_hole_client/models/query_status.dart' as _i7;
 import 'package:pi_hole_client/models/repository/database.dart' as _i11;
@@ -317,6 +318,28 @@ class MockApiGatewayV6 extends _i1.Mock implements _i13.ApiGatewayV6 {
   }
 
   @override
+  String get unexpectedError =>
+      (super.noSuchMethod(
+            Invocation.getter(#unexpectedError),
+            returnValue: _i14.dummyValue<String>(
+              this,
+              Invocation.getter(#unexpectedError),
+            ),
+          )
+          as String);
+
+  @override
+  String get fetchError =>
+      (super.noSuchMethod(
+            Invocation.getter(#fetchError),
+            returnValue: _i14.dummyValue<String>(
+              this,
+              Invocation.getter(#fetchError),
+            ),
+          )
+          as String);
+
+  @override
   _i3.Server get server =>
       (super.noSuchMethod(
             Invocation.getter(#server),
@@ -470,7 +493,7 @@ class MockApiGatewayV6 extends _i1.Mock implements _i13.ApiGatewayV6 {
 
   @override
   _i10.Future<_i5.RemoveDomainFromListResponse> removeDomainFromList(
-    _i14.Domain? domain,
+    _i15.Domain? domain,
   ) =>
       (super.noSuchMethod(
             Invocation.method(#removeDomainFromList, [domain]),

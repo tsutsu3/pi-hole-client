@@ -1111,6 +1111,28 @@ class MockApiGatewayV5 extends _i1.Mock implements _i26.ApiGatewayV5 {
           as String);
 
   @override
+  String get unexpectedError =>
+      (super.noSuchMethod(
+            Invocation.getter(#unexpectedError),
+            returnValue: _i8.dummyValue<String>(
+              this,
+              Invocation.getter(#unexpectedError),
+            ),
+          )
+          as String);
+
+  @override
+  String get fetchError =>
+      (super.noSuchMethod(
+            Invocation.getter(#fetchError),
+            returnValue: _i8.dummyValue<String>(
+              this,
+              Invocation.getter(#fetchError),
+            ),
+          )
+          as String);
+
+  @override
   _i3.Server get server =>
       (super.noSuchMethod(
             Invocation.getter(#server),
@@ -1359,6 +1381,28 @@ class MockApiGatewayV6 extends _i1.Mock implements _i27.ApiGatewayV6 {
   MockApiGatewayV6() {
     _i1.throwOnMissingStub(this);
   }
+
+  @override
+  String get unexpectedError =>
+      (super.noSuchMethod(
+            Invocation.getter(#unexpectedError),
+            returnValue: _i8.dummyValue<String>(
+              this,
+              Invocation.getter(#unexpectedError),
+            ),
+          )
+          as String);
+
+  @override
+  String get fetchError =>
+      (super.noSuchMethod(
+            Invocation.getter(#fetchError),
+            returnValue: _i8.dummyValue<String>(
+              this,
+              Invocation.getter(#fetchError),
+            ),
+          )
+          as String);
 
   @override
   _i3.Server get server =>

@@ -16,14 +16,22 @@ import 'package:pi_hole_client/gateways/api_gateway_interface.dart';
 import 'package:pi_hole_client/gateways/v5/api_gateway_v5.dart';
 import 'package:pi_hole_client/gateways/v6/api_gateway_v6.dart';
 import 'package:pi_hole_client/l10n/generated/app_localizations.dart';
+import 'package:pi_hole_client/models/api/v6/ftl/host.dart' show Host;
+import 'package:pi_hole_client/models/api/v6/ftl/sensors.dart' show Sensors;
+import 'package:pi_hole_client/models/api/v6/ftl/system.dart' show System;
+import 'package:pi_hole_client/models/api/v6/ftl/version.dart' show Version;
 import 'package:pi_hole_client/models/api/v6/metrics/query.dart';
 import 'package:pi_hole_client/models/app_log.dart';
 import 'package:pi_hole_client/models/domain.dart';
 import 'package:pi_hole_client/models/gateways.dart';
+import 'package:pi_hole_client/models/host.dart';
 import 'package:pi_hole_client/models/log.dart';
 import 'package:pi_hole_client/models/overtime_data.dart';
 import 'package:pi_hole_client/models/realtime_status.dart';
+import 'package:pi_hole_client/models/sensors.dart';
 import 'package:pi_hole_client/models/server.dart';
+import 'package:pi_hole_client/models/system.dart';
+import 'package:pi_hole_client/models/version.dart';
 import 'package:pi_hole_client/providers/app_config_provider.dart';
 import 'package:pi_hole_client/providers/domains_list_provider.dart';
 import 'package:pi_hole_client/providers/filters_provider.dart';
@@ -647,6 +655,146 @@ final realtimeStatus = RealtimeStatus.fromJson(
   },
 );
 
+final host = Host.fromJson(
+  {
+    'host': {
+      'uname': {
+        'domainname': '(none)',
+        'machine': 'x86_64',
+        'nodename': 'raspberrypi',
+        'release': '5.15.0-52-generic',
+        'sysname': 'Linux',
+        'version': '#58-Ubuntu SMP Thu Oct 13 08:03:55 UTC 2022',
+      },
+      'model': 'Raspberry Pi Model 4B',
+      'dmi': {
+        'bios': {'vendor': 'American Megatrends Inc.'},
+        'board': {
+          'name': 'Raspberry Pi 4 Model B Rev 1.4',
+          'vendor': 'Raspberry Pi Foundation',
+          'version': '0x14',
+        },
+        'product': {
+          'name': 'Raspberry Pi 4 Model B Rev 1.4',
+          'version': '0x14',
+          'family': 'Raspberry Pi 4 Model B Rev 1.4',
+        },
+        'sys': {'vendor': 'Raspberry Pi Foundation'},
+      },
+    },
+    'took': 0.003,
+  },
+);
+
+final version = Version.fromJson(
+  {
+    'version': {
+      'core': {
+        'local': {
+          'version': 'v6.0.5',
+          'branch': 'master',
+          'hash': '9fe687bd',
+        },
+        'remote': {
+          'version': 'v6.0.5',
+          'hash': '9fe687bd',
+        },
+      },
+      'web': {
+        'local': {
+          'version': 'v6.0.2',
+          'branch': 'master',
+          'hash': '25441178',
+        },
+        'remote': {
+          'version': 'v6.0.2',
+          'hash': '25441178',
+        },
+      },
+      'ftl': {
+        'local': {
+          'hash': 'b7eb53bf',
+          'branch': 'master',
+          'version': 'v6.0.4',
+          'date': '2025-03-04 17:22:10 +0000',
+        },
+        'remote': {
+          'version': 'v6.0.4',
+          'hash': 'b7eb53bf',
+        },
+      },
+      'docker': {
+        'local': '2025.03.0',
+        'remote': '2025.03.0',
+      },
+    },
+    'took': 0.014363765716552734,
+  },
+);
+
+final sensors = Sensors.fromJson(
+  {
+    'sensors': {
+      'list': [
+        {
+          'name': 'amdgpu',
+          'path': 'hwmon1',
+          'source': 'devices/pci0000:00/0000:00:08.1/0000:05:00.0',
+          'temps': [
+            {
+              'name': 'edge',
+              'value': 40,
+              'max': null,
+              'crit': null,
+              'sensor': 'temp1',
+            }
+          ],
+        },
+      ],
+      'cpu_temp': 48,
+      'hot_limit': 60,
+      'unit': 'C',
+    },
+    'took': 0.003,
+  },
+);
+
+final system = System.fromJson(
+  {
+    'system': {
+      'uptime': 67906,
+      'memory': {
+        'ram': {
+          'total': 10317877,
+          'free': 308736,
+          'used': 8920416,
+          'available': 972304,
+          '%used': 26.854,
+        },
+        'swap': {
+          'total': 10317877,
+          'used': 8920416,
+          'free': 308736,
+          '%used': 1.67,
+        },
+      },
+      'procs': 1452,
+      'cpu': {
+        'nprocs': 8,
+        'load': {
+          'raw': [0.58837890625, 0.64990234375, 0.66748046875],
+          'percent': [
+            4.903157711029053,
+            5.415853023529053,
+            5.562337398529053,
+          ],
+        },
+      },
+    },
+    'took': 0.003,
+  },
+);
+
 /// Initialize the app with the given environment file.
 ///
 /// This function should be called before any other setup.
@@ -1014,9 +1162,34 @@ class TestSetupHelper {
       ),
     );
 
-    when(mockApiGatewayV6.enableServerRequest()).thenAnswer((_) async {
+    when(mockApiGatewayV5.enableServerRequest()).thenAnswer((_) async {
       return EnableServerResponse(result: APiResponseType.success);
     });
+
+    when(mockApiGatewayV5.fetchAllServerInfo()).thenAnswer((_) async {
+      return PiHoleServerInfoResponse(
+        result: APiResponseType.success,
+        version: VersionInfo.fromJson({
+          'core_update': false,
+          'web_update': false,
+          'FTL_update': false,
+          'docker_update': true,
+          'core_current': 'v5.18.3',
+          'web_current': 'v5.21',
+          'FTL_current': 'v5.25.2',
+          'docker_current': '2024.07.0',
+          'core_latest': 'v6.0.5',
+          'web_latest': 'v6.0.2',
+          'FTL_latest': 'v6.0.4',
+          'docker_latest': '2025.03.0',
+          'core_branch': 'master',
+          'web_branch': 'master',
+          'FTL_branch': 'master',
+        }),
+      );
+    });
+
+    when(mockApiGatewayV5.server).thenReturn(serverV5);
   }
 
   void _initApiGatewayV6Mock() {
@@ -1091,6 +1264,18 @@ class TestSetupHelper {
         data: overtimeData,
       ),
     );
+
+    when(mockApiGatewayV6.fetchAllServerInfo()).thenAnswer(
+      (_) async => PiHoleServerInfoResponse(
+        result: APiResponseType.success,
+        version: VersionInfo.fromV6(version),
+        host: HostInfo.fromV6(host),
+        sensors: SensorsInfo.fromV6(sensors),
+        system: SystemInfo.fromV6(system),
+      ),
+    );
+
+    when(mockApiGatewayV6.server).thenReturn(serverV6);
   }
 
   void _initStatusUpdateServiceMock() {
