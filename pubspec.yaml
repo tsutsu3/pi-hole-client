@@ -58,7 +58,7 @@ dependencies:
   flutter_app_lock: ^4.0.0-dev.0
   sqlite3_flutter_libs: ^0.5.31
   sqflite_common_ffi: ^2.2.3
-  sentry_flutter: ^8.13.2
+  sentry_flutter: ^8.14.0
   flutter_dotenv: ^5.0.2
   contextmenu: ^3.0.0
   window_size:
@@ -99,7 +99,7 @@ dev_dependencies:
   # package. See that file for information about deactivating specific lint
   # rules and activating additional ones.
   flutter_lints: ^5.0.0
-  freezed: ^3.0.3
+  freezed: ^3.0.4
   json_serializable: ^6.9.0
   mockito: ^5.4.4
   full_coverage: ^1.0.0
