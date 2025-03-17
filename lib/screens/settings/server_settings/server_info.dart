@@ -254,7 +254,7 @@ class ServerInfoScreen extends StatelessWidget {
               ),
               const SizedBox(height: 4),
               Text(
-                '${(system?.cpuUsage ?? 0.0).toStringAsFixed(1)}%',
+                '${(system?.cpuUsage ?? 0.0).toStringAsFixed(2)}%',
               ),
             ],
           ),
@@ -278,7 +278,7 @@ class ServerInfoScreen extends StatelessWidget {
               ),
               const SizedBox(height: 4),
               Text(
-                '${(system?.ramUsage ?? 0.0).toStringAsFixed(1)}%',
+                '${(system?.ramUsage ?? 0.0).toStringAsFixed(2)}%',
               ),
             ],
           ),
@@ -315,7 +315,7 @@ class ServerInfoScreen extends StatelessWidget {
                 trailing: listTailText(
                   context,
                   sensors?.cpuTemp != null
-                      ? '${sensors?.cpuTemp} ${convertTemperatureUnit(sensors?.unit)}'
+                      ? '${(sensors?.cpuTemp ?? 0.0).toStringAsFixed(2)} ${convertTemperatureUnit(sensors?.unit)}'
                       : AppLocalizations.of(context)!.unknown,
                 ),
               ),
