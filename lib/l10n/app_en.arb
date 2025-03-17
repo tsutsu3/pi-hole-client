@@ -304,7 +304,7 @@
   "serverConnectionGuideDescription": "Learn how to connect to the server.",
   "serverDisabled": "Server disabled successfully.",
   "serverEnabled": "Server enabled successfully.",
-  "serverInfo": "Connecting Server Information",
+  "serverInfo": "Pi-hole Server",
   "serverInfoShow": "View detailed information",
   "serverInvalidData": "Server connection saved with invalid data. Add the connection again.",
   "serverName": "Server name",

@@ -924,7 +924,7 @@ class AppLocalizationsJa extends AppLocalizations {
   String get serverEnabled => 'サーバーが正常に有効化されました。';
 
   @override
-  String get serverInfo => '接続中のサーバー情報';
+  String get serverInfo => 'Pi-holeサーバー';
 
   @override
   String get serverInfoShow => '詳細情報を表示する';

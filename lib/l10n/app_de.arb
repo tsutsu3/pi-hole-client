@@ -304,7 +304,7 @@
   "serverConnectionGuideDescription": "Erfahren Sie, wie Sie eine Verbindung zum Server herstellen.",
   "serverDisabled": "Server erfolgreich deaktiviert.",
   "serverEnabled": "Server erfolgreich aktiviert.",
-  "serverInfo": "Verbindungsserver-Informationen",
+  "serverInfo": "Pi-hole-Server",
   "serverInfoShow": "Detaillierte Informationen anzeigen",
   "serverInvalidData": "Verbindung mit ungültigen Daten gespeichert. Fügen Sie die Verbindung erneut hinzu.",
   "serverName": "Servername",

@@ -924,7 +924,7 @@ class AppLocalizationsPl extends AppLocalizations {
   String get serverEnabled => 'Serwer został pomyślnie włączony.';
 
   @override
-  String get serverInfo => 'Informacje o łączonym serwerze';
+  String get serverInfo => 'Serwer Pi-hole';
 
   @override
   String get serverInfoShow => 'Wyświetl szczegółowe informacje';

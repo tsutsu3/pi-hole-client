@@ -1934,7 +1934,7 @@ abstract class AppLocalizations {
   /// No description provided for @serverInfo.
   ///
   /// In en, this message translates to:
-  /// **'Connecting Server Information'**
+  /// **'Pi-hole Server'**
   String get serverInfo;
 
   /// No description provided for @serverInfoShow.

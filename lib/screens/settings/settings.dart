@@ -189,7 +189,7 @@ class _SettingsWidgetState extends State<SettingsWidget> {
             label: AppLocalizations.of(context)!.serverSettings,
           ),
           settingsTile(
-            icon: Icons.computer_rounded,
+            icon: Icons.connected_tv_rounded,
             title: AppLocalizations.of(context)!.serverInfo,
             subtitle: serversProvider.selectedServer != null
                 ? statusProvider.isServerConnected == true

@@ -924,7 +924,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get serverEnabled => 'Server enabled successfully.';
 
   @override
-  String get serverInfo => 'Connecting Server Information';
+  String get serverInfo => 'Pi-hole Server';
 
   @override
   String get serverInfoShow => 'View detailed information';

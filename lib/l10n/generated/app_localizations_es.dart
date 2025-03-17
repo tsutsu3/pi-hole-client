@@ -924,7 +924,7 @@ class AppLocalizationsEs extends AppLocalizations {
   String get serverEnabled => 'El servidor se activó correctamente.';
 
   @override
-  String get serverInfo => 'Información del Servidor en Conexión';
+  String get serverInfo => 'Servidor de Pi-hole';
 
   @override
   String get serverInfoShow => 'Ver información detallada';

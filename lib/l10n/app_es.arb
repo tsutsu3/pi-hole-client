@@ -305,7 +305,7 @@
   "serverConnectionGuideDescription": "Aprenda cómo conectarse al servidor.",
   "serverDisabled": "El servidor se desactivó correctamente.",
   "serverEnabled": "El servidor se activó correctamente.",
-  "serverInfo": "Información del Servidor en Conexión",
+  "serverInfo": "Servidor de Pi-hole",
   "serverInfoShow": "Ver información detallada",
   "serverInvalidData": "Conexión guardada con valores no válidos. Añade la conexión otra vez.",
   "serverName": "Nombre del servidor",

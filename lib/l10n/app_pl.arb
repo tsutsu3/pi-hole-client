@@ -304,7 +304,7 @@
   "serverConnectionGuideDescription": "Dowiedz się, jak połączyć się z serwerem.",
   "serverDisabled": "Serwer został pomyślnie wyłączony.",
   "serverEnabled": "Serwer został pomyślnie włączony.",
-  "serverInfo": "Informacje o łączonym serwerze",
+  "serverInfo": "Serwer Pi-hole",
   "serverInfoShow": "Wyświetl szczegółowe informacje",
   "serverInvalidData": "Połączenie z serwerem zapisane z nieprawidłowymi danymi. Dodaj połączenie ponownie.",
   "serverName": "Nazwa serwera",
