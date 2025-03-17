@@ -45,17 +45,17 @@ class ComponentVersion {
   factory ComponentVersion.fromJson(Map<String, dynamic> json, String key) {
     return ComponentVersion(
       local: VersionDetail(
-        version: json['${key}_current'],
+        version: json['${key}_current'] ?? '',
         branch: key == 'docker' ? null : json['${key}_branch'] ?? '',
         hash: '',
       ),
       remote: VersionDetail(
-        version: json['${key}_latest'],
+        version: json['${key}_latest'] ?? '',
         hash: '',
       ),
       canUpdate: _canUpdate(
-        json['${key}_current'],
-        json['${key}_latest'],
+        json['${key}_current'] ?? '',
+        json['${key}_latest'] ?? '',
       ),
     );
   }
