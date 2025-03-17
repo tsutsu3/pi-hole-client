@@ -193,7 +193,7 @@ class _SettingsWidgetState extends State<SettingsWidget> {
             title: AppLocalizations.of(context)!.serverInfo,
             subtitle: serversProvider.selectedServer != null
                 ? statusProvider.isServerConnected == true
-                    ? '${AppLocalizations.of(context)!.serverName}: ${serversProvider.selectedServer!.alias}'
+                    ? serversProvider.selectedServer!.alias
                     : AppLocalizations.of(context)!.notConnectServer
                 : AppLocalizations.of(context)!.notSelected,
             screenToNavigate: const ServerInfoScreen(),
