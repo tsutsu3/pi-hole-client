@@ -11,6 +11,7 @@ import 'package:pi_hole_client/models/sensors.dart';
 import 'package:pi_hole_client/models/server.dart';
 import 'package:pi_hole_client/models/system.dart';
 import 'package:pi_hole_client/providers/servers_provider.dart';
+import 'package:pi_hole_client/widgets/adaptive_trailing_text.dart';
 import 'package:pi_hole_client/widgets/empty_data_screen.dart';
 import 'package:pi_hole_client/widgets/error_message_screen.dart';
 import 'package:pi_hole_client/widgets/list_tile_title.dart';
@@ -29,63 +30,6 @@ class ServerInfoScreen extends StatelessWidget {
       ),
       width: 24,
       height: 24,
-    );
-  }
-
-  Widget listTailText(BuildContext context, String title, {double? rate}) {
-    final wRate = rate ?? 0.5;
-
-    return LayoutBuilder(
-      builder: (context, constraints) {
-        final textStyle = TextStyle(
-          fontWeight: FontWeight.normal,
-          fontSize: 16,
-          color: Theme.of(context).colorScheme.onSurfaceVariant,
-        );
-
-        // Calculate the width of the text
-        final textPainter = TextPainter(
-          text: TextSpan(text: title, style: textStyle),
-          maxLines: 1,
-          textDirection: TextDirection.ltr,
-        )..layout();
-
-        final textWidth = textPainter.size.width;
-        final availableWidth = constraints.maxWidth * wRate;
-
-        if (textWidth <= availableWidth) {
-          // Right align if the text is short
-          return Container(
-            width: availableWidth,
-            alignment: Alignment.centerRight,
-            padding: const EdgeInsets.only(bottom: 5.0),
-            child: Text(
-              title,
-              maxLines: 1,
-              style: textStyle,
-              softWrap: false,
-            ),
-          );
-        } else {
-          // Scroll horizontally if the text is long
-          return SizedBox(
-            width: availableWidth,
-            child: SingleChildScrollView(
-              scrollDirection: Axis.horizontal,
-              child: Container(
-                alignment: Alignment.centerLeft,
-                padding: const EdgeInsets.only(bottom: 5.0),
-                child: Text(
-                  title,
-                  maxLines: 1,
-                  style: textStyle,
-                  softWrap: false,
-                ),
-              ),
-            ),
-          );
-        }
-      },
     );
   }
 
@@ -137,9 +81,8 @@ class ServerInfoScreen extends StatelessWidget {
             AppLocalizations.of(context)!.host,
             colorScheme: colorScheme,
           ),
-          trailing: listTailText(
-            context,
-            host?.hostName ?? AppLocalizations.of(context)!.unknown,
+          trailing: AdaptiveTrailingText(
+            text: host?.hostName ?? AppLocalizations.of(context)!.unknown,
           ),
         ),
         ListTile(
@@ -149,9 +92,8 @@ class ServerInfoScreen extends StatelessWidget {
             AppLocalizations.of(context)!.model,
             colorScheme: colorScheme,
           ),
-          trailing: listTailText(
-            context,
-            host?.model ?? AppLocalizations.of(context)!.unknown,
+          trailing: AdaptiveTrailingText(
+            text: host?.model ?? AppLocalizations.of(context)!.unknown,
           ),
         ),
         Theme(
@@ -169,9 +111,8 @@ class ServerInfoScreen extends StatelessWidget {
                   AppLocalizations.of(context)!.system,
                   colorScheme: colorScheme,
                 ),
-                trailing: listTailText(
-                  context,
-                  host?.sysName ?? AppLocalizations.of(context)!.unknown,
+                trailing: AdaptiveTrailingText(
+                  text: host?.sysName ?? AppLocalizations.of(context)!.unknown,
                 ),
               ),
               ListTile(
@@ -181,9 +122,8 @@ class ServerInfoScreen extends StatelessWidget {
                   AppLocalizations.of(context)!.arch,
                   colorScheme: colorScheme,
                 ),
-                trailing: listTailText(
-                  context,
-                  host?.arch ?? AppLocalizations.of(context)!.unknown,
+                trailing: AdaptiveTrailingText(
+                  text: host?.arch ?? AppLocalizations.of(context)!.unknown,
                 ),
               ),
               ListTile(
@@ -193,9 +133,8 @@ class ServerInfoScreen extends StatelessWidget {
                   AppLocalizations.of(context)!.release,
                   colorScheme: colorScheme,
                 ),
-                trailing: listTailText(
-                  context,
-                  host?.release ?? AppLocalizations.of(context)!.unknown,
+                trailing: AdaptiveTrailingText(
+                  text: host?.release ?? AppLocalizations.of(context)!.unknown,
                 ),
               ),
               ListTile(
@@ -205,9 +144,8 @@ class ServerInfoScreen extends StatelessWidget {
                   AppLocalizations.of(context)!.version,
                   colorScheme: colorScheme,
                 ),
-                trailing: listTailText(
-                  context,
-                  host?.version ?? AppLocalizations.of(context)!.unknown,
+                trailing: AdaptiveTrailingText(
+                  text: host?.version ?? AppLocalizations.of(context)!.unknown,
                 ),
               ),
             ],
@@ -298,9 +236,8 @@ class ServerInfoScreen extends StatelessWidget {
                   AppLocalizations.of(context)!.uptime,
                   colorScheme: colorScheme,
                 ),
-                trailing: listTailText(
-                  context,
-                  system != null
+                trailing: AdaptiveTrailingText(
+                  text: system != null
                       ? formatUptime(system.uptime)
                       : AppLocalizations.of(context)!.unknown,
                 ),
@@ -312,9 +249,8 @@ class ServerInfoScreen extends StatelessWidget {
                   AppLocalizations.of(context)!.cpuTemperature,
                   colorScheme: colorScheme,
                 ),
-                trailing: listTailText(
-                  context,
-                  sensors?.cpuTemp != null
+                trailing: AdaptiveTrailingText(
+                  text: sensors?.cpuTemp != null
                       ? '${(sensors?.cpuTemp ?? 0.0).toStringAsFixed(2)} ${convertTemperatureUnit(sensors?.unit)}'
                       : AppLocalizations.of(context)!.unknown,
                 ),
@@ -341,30 +277,32 @@ class ServerInfoScreen extends StatelessWidget {
           leading: piholeIcon(context),
           title: listTileTitleNoPadding('Core', colorScheme: colorScheme),
           subtitle: Text('${version?.core.local.branch ?? '-'}'),
-          trailing: listTailText(context, version?.core.local.version ?? '-'),
+          trailing:
+              AdaptiveTrailingText(text: version?.core.local.version ?? '-'),
         ),
         ListTile(
           dense: true,
           leading: piholeIcon(context),
           title: listTileTitleNoPadding('FTL', colorScheme: colorScheme),
           subtitle: Text('${version?.ftl.local.branch ?? '-'}'),
-          trailing: listTailText(context, version?.ftl.local.version ?? '-'),
+          trailing:
+              AdaptiveTrailingText(text: version?.ftl.local.version ?? '-'),
         ),
         ListTile(
           dense: true,
           leading: piholeIcon(context),
           title: listTileTitleNoPadding('Web', colorScheme: colorScheme),
           subtitle: Text('${version?.web.local.branch ?? '-'}'),
-          trailing: listTailText(context, version?.web.local.version ?? '-'),
+          trailing:
+              AdaptiveTrailingText(text: version?.web.local.version ?? '-'),
         ),
         ListTile(
           dense: true,
           leading: piholeIcon(context),
           title: listTileTitleNoPadding('Docker', colorScheme: colorScheme),
           subtitle: const Text('-'),
-          trailing: listTailText(
-            context,
-            (version?.docker.local?.isNotEmpty ?? false)
+          trailing: AdaptiveTrailingText(
+            text: (version?.docker.local?.isNotEmpty ?? false)
                 ? version!.docker.local!
                 : '-',
           ),
