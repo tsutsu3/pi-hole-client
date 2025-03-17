@@ -12,6 +12,7 @@ import 'package:pi_hole_client/models/log.dart';
 import 'package:pi_hole_client/models/overtime_data.dart';
 import 'package:pi_hole_client/models/realtime_status.dart';
 import 'package:pi_hole_client/models/server.dart';
+import 'package:pi_hole_client/models/version.dart';
 
 class ApiGatewayV5 implements ApiGateway {
   /// Creates a new instance of the `ApiGatewayV5` class.
@@ -24,6 +25,10 @@ class ApiGatewayV5 implements ApiGateway {
         _client = client ?? http.Client();
   final Server _server;
   final http.Client _client;
+
+  final notSupportedMessage = 'Pi-hole v5 does not support this feature.';
+  final unexpectedError = 'An unexpected error occurred.';
+  final fetchError = 'Failed to fetch data from the server.';
 
   @override
   Server get server => _server;
@@ -634,6 +639,100 @@ class ApiGatewayV5 implements ApiGateway {
       return AddDomainToListResponse(result: APiResponseType.authError);
     } catch (e) {
       return AddDomainToListResponse(result: APiResponseType.error);
+    }
+  }
+
+  // =========================================================================
+  // Pi-hole Sever information
+  // =========================================================================
+  @override
+  Future<HostResponse> fetchHostInfo() async {
+    return Future.value(
+      HostResponse(
+        result: APiResponseType.notSupported,
+        message: notSupportedMessage,
+      ),
+    );
+  }
+
+  @override
+  Future<SensorsResponse> fetchSensorsInfo() async {
+    return Future.value(
+      SensorsResponse(
+        result: APiResponseType.notSupported,
+        message: notSupportedMessage,
+      ),
+    );
+  }
+
+  @override
+  Future<SystemResponse> fetchSystemInfo() async {
+    return Future.value(
+      SystemResponse(
+        result: APiResponseType.notSupported,
+        message: notSupportedMessage,
+      ),
+    );
+  }
+
+  @override
+  Future<VersionResponse> fetchVersionInfo() async {
+    try {
+      final response = await httpClient(
+        method: 'get',
+        url:
+            '${_server.address}/admin/api.php?auth=${await _server.sm.token}&versions',
+      );
+      if (response.statusCode == 200) {
+        final body = jsonDecode(response.body);
+        final version = VersionInfo.fromJson(body);
+        return VersionResponse(
+          result: APiResponseType.success,
+          data: version,
+        );
+      } else {
+        return VersionResponse(
+          result: APiResponseType.error,
+          message: fetchError,
+        );
+      }
+    } catch (e) {
+      return VersionResponse(
+        result: APiResponseType.error,
+        message: unexpectedError,
+      );
+    }
+  }
+
+  @override
+  Future<PiHoleServerInfoResponse> fetchAllServerInfo() async {
+    try {
+      final results = await Future.wait<BaseInfoResponse<dynamic>>([
+        fetchHostInfo(),
+        fetchSensorsInfo(),
+        fetchSystemInfo(),
+        fetchVersionInfo(),
+      ]);
+
+      if (results[0].result == APiResponseType.notSupported &&
+          results[1].result == APiResponseType.notSupported &&
+          results[2].result == APiResponseType.notSupported &&
+          results[3].result == APiResponseType.success) {
+        return PiHoleServerInfoResponse(
+          result: APiResponseType.success,
+          version: results[3].data,
+        );
+      } else {
+        return PiHoleServerInfoResponse(
+          result: APiResponseType.error,
+          message: fetchError,
+        );
+      }
+    } catch (e) {
+      return PiHoleServerInfoResponse(
+        result: APiResponseType.error,
+        message: unexpectedError,
+      );
     }
   }
 }

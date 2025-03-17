@@ -17,6 +17,7 @@ import 'package:pi_hole_client/screens/settings/about/privacy_screen.dart';
 import 'package:pi_hole_client/screens/settings/app_settings/advanced_settings/advanced_options.dart';
 import 'package:pi_hole_client/screens/settings/app_settings/language_screen.dart';
 import 'package:pi_hole_client/screens/settings/app_settings/theme_screen.dart';
+import 'package:pi_hole_client/screens/settings/server_settings/server_info.dart';
 import 'package:pi_hole_client/widgets/custom_list_tile.dart';
 import 'package:pi_hole_client/widgets/section_label.dart';
 import 'package:provider/provider.dart';
@@ -137,8 +138,149 @@ class _SettingsWidgetState extends State<SettingsWidget> {
       return selectedLanguageOption.displayName;
     }
 
+    Widget appSettings(BuildContext context) {
+      return Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          SectionLabel(
+            label: AppLocalizations.of(context)!.appSettings,
+          ),
+          settingsTile(
+            icon: Icons.light_mode_rounded,
+            title: AppLocalizations.of(context)!.theme,
+            subtitle: getThemeString(),
+            thisItem: 0,
+            screenToNavigate: const ThemeScreen(),
+          ),
+          settingsTile(
+            icon: Icons.language,
+            title: AppLocalizations.of(context)!.language,
+            subtitle: getLanguageString(),
+            thisItem: 1,
+            screenToNavigate: const LanguageScreen(),
+          ),
+          settingsTile(
+            icon: Icons.storage_rounded,
+            title: AppLocalizations.of(context)!.servers,
+            subtitle: serversProvider.selectedServer != null
+                ? statusProvider.isServerConnected == true
+                    ? '${AppLocalizations.of(context)!.connectedTo} ${serversProvider.selectedServer!.alias}'
+                    : AppLocalizations.of(context)!.notConnectServer
+                : AppLocalizations.of(context)!.notSelected,
+            screenToNavigate: const ServersPage(),
+            thisItem: 2,
+          ),
+          settingsTile(
+            icon: Icons.settings,
+            title: AppLocalizations.of(context)!.advancedSetup,
+            subtitle: AppLocalizations.of(context)!.advancedSetupDescription,
+            screenToNavigate: const AdvancedOptions(),
+            thisItem: 3,
+          ),
+        ],
+      );
+    }
+
+    Widget serverSettings(BuildContext context) {
+      return Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          SectionLabel(
+            label: AppLocalizations.of(context)!.serverSettings,
+          ),
+          settingsTile(
+            icon: Icons.connected_tv_rounded,
+            title: AppLocalizations.of(context)!.serverInfo,
+            subtitle: serversProvider.selectedServer != null
+                ? statusProvider.isServerConnected == true
+                    ? serversProvider.selectedServer!.alias
+                    : AppLocalizations.of(context)!.notConnectServer
+                : AppLocalizations.of(context)!.notSelected,
+            screenToNavigate: const ServerInfoScreen(),
+            thisItem: 4,
+          ),
+        ],
+      );
+    }
+
+    Widget aboutSettings(BuildContext context) {
+      return Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          SectionLabel(
+            label: AppLocalizations.of(context)!.about,
+          ),
+          settingsTile(
+            icon: Icons.phone_android_rounded,
+            title: AppLocalizations.of(context)!.applicationDetail,
+            subtitle: AppLocalizations.of(context)!.aboutThisApp,
+            screenToNavigate: AppDetailScreen(
+              appVersion: appConfigProvider.getAppInfo?.version,
+            ),
+            thisItem: 5,
+          ),
+          settingsTile(
+            icon: Icons.privacy_tip_rounded,
+            title: AppLocalizations.of(context)!.privacy,
+            subtitle: AppLocalizations.of(context)!.privacyInfo,
+            screenToNavigate: const PrivacyScreen(),
+            thisItem: 6,
+          ),
+          settingsTile(
+            icon: Icons.balance_rounded,
+            title: AppLocalizations.of(context)!.legal,
+            subtitle: AppLocalizations.of(context)!.legalInfo,
+            screenToNavigate: const LegalScreen(),
+            thisItem: 7,
+          ),
+          settingsTile(
+            icon: Icons.description_rounded,
+            title: AppLocalizations.of(context)!.licenses,
+            subtitle: AppLocalizations.of(context)!.licensesInfo,
+            screenToNavigate: const LicensesScreen(),
+            thisItem: 8,
+          ),
+          Padding(
+            padding: const EdgeInsets.all(15),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: [
+                IconButton(
+                  onPressed: () => openUrl(Urls.playStore),
+                  icon: SvgPicture.asset(
+                    'assets/resources/google-play.svg',
+                    colorFilter: ColorFilter.mode(
+                      Theme.of(context).colorScheme.onSurface,
+                      BlendMode.srcIn,
+                    ),
+                    width: 30,
+                    height: 30,
+                  ),
+                  tooltip: AppLocalizations.of(context)!.visitGooglePlay,
+                ),
+                IconButton(
+                  onPressed: () => openUrl(Urls.gitHub),
+                  icon: SvgPicture.asset(
+                    'assets/resources/github.svg',
+                    colorFilter: ColorFilter.mode(
+                      Theme.of(context).colorScheme.onSurface,
+                      BlendMode.srcIn,
+                    ),
+                    width: 30,
+                    height: 30,
+                  ),
+                  tooltip: AppLocalizations.of(context)!.gitHub,
+                ),
+              ],
+            ),
+          ),
+        ],
+      );
+    }
+
     return Scaffold(
       body: SafeArea(
+        // minimum: const EdgeInsets.all(16),
         child: NestedScrollView(
           headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled) {
             return <Widget>[
@@ -167,110 +309,9 @@ class _SettingsWidgetState extends State<SettingsWidget> {
                   ),
                   SliverList.list(
                     children: [
-                      SectionLabel(
-                        label: AppLocalizations.of(context)!.appSettings,
-                      ),
-                      settingsTile(
-                        icon: Icons.light_mode_rounded,
-                        title: AppLocalizations.of(context)!.theme,
-                        subtitle: getThemeString(),
-                        thisItem: 0,
-                        screenToNavigate: const ThemeScreen(),
-                      ),
-                      settingsTile(
-                        icon: Icons.language,
-                        title: AppLocalizations.of(context)!.language,
-                        subtitle: getLanguageString(),
-                        thisItem: 1,
-                        screenToNavigate: const LanguageScreen(),
-                      ),
-                      settingsTile(
-                        icon: Icons.storage_rounded,
-                        title: AppLocalizations.of(context)!.servers,
-                        subtitle: serversProvider.selectedServer != null
-                            ? statusProvider.isServerConnected == true
-                                ? '${AppLocalizations.of(context)!.connectedTo} ${serversProvider.selectedServer!.alias}'
-                                : AppLocalizations.of(context)!.notConnectServer
-                            : AppLocalizations.of(context)!.notSelected,
-                        screenToNavigate: const ServersPage(),
-                        thisItem: 2,
-                      ),
-                      settingsTile(
-                        icon: Icons.settings,
-                        title: AppLocalizations.of(context)!.advancedSetup,
-                        subtitle: AppLocalizations.of(context)!
-                            .advancedSetupDescription,
-                        screenToNavigate: const AdvancedOptions(),
-                        thisItem: 3,
-                      ),
-                      SectionLabel(
-                        label: AppLocalizations.of(context)!.about,
-                      ),
-                      settingsTile(
-                        icon: Icons.phone_android_rounded,
-                        title: AppLocalizations.of(context)!.applicationDetail,
-                        subtitle: AppLocalizations.of(context)!.aboutThisApp,
-                        screenToNavigate: AppDetailScreen(
-                          appVersion: appConfigProvider.getAppInfo?.version,
-                        ),
-                        thisItem: 4,
-                      ),
-                      settingsTile(
-                        icon: Icons.privacy_tip_rounded,
-                        title: AppLocalizations.of(context)!.privacy,
-                        subtitle: AppLocalizations.of(context)!.privacyInfo,
-                        screenToNavigate: const PrivacyScreen(),
-                        thisItem: 5,
-                      ),
-                      settingsTile(
-                        icon: Icons.balance_rounded,
-                        title: AppLocalizations.of(context)!.legal,
-                        subtitle: AppLocalizations.of(context)!.legalInfo,
-                        screenToNavigate: const LegalScreen(),
-                        thisItem: 6,
-                      ),
-                      settingsTile(
-                        icon: Icons.description_rounded,
-                        title: AppLocalizations.of(context)!.licenses,
-                        subtitle: AppLocalizations.of(context)!.licensesInfo,
-                        screenToNavigate: const LicensesScreen(),
-                        thisItem: 6,
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.all(15),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                          children: [
-                            IconButton(
-                              onPressed: () => openUrl(Urls.playStore),
-                              icon: SvgPicture.asset(
-                                'assets/resources/google-play.svg',
-                                colorFilter: ColorFilter.mode(
-                                  Theme.of(context).colorScheme.onSurface,
-                                  BlendMode.srcIn,
-                                ),
-                                width: 30,
-                                height: 30,
-                              ),
-                              tooltip:
-                                  AppLocalizations.of(context)!.visitGooglePlay,
-                            ),
-                            IconButton(
-                              onPressed: () => openUrl(Urls.gitHub),
-                              icon: SvgPicture.asset(
-                                'assets/resources/github.svg',
-                                colorFilter: ColorFilter.mode(
-                                  Theme.of(context).colorScheme.onSurface,
-                                  BlendMode.srcIn,
-                                ),
-                                width: 30,
-                                height: 30,
-                              ),
-                              tooltip: AppLocalizations.of(context)!.gitHub,
-                            ),
-                          ],
-                        ),
-                      ),
+                      appSettings(context),
+                      serverSettings(context),
+                      aboutSettings(context),
                     ],
                   ),
                 ],

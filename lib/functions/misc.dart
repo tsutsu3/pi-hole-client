@@ -7,3 +7,16 @@ int getAndroidVersion() {
   }
   return -1;
 }
+
+String convertTemperatureUnit(String? unit) {
+  switch (unit) {
+    case 'C':
+      return '℃';
+    case 'F':
+      return '℉';
+    case 'K':
+      return 'K';
+    default:
+      return '';
+  }
+}

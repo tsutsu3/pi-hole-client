@@ -11,6 +11,7 @@ import 'package:pi_hole_client/screens/settings/about/privacy_screen.dart';
 import 'package:pi_hole_client/screens/settings/app_settings/advanced_settings/advanced_options.dart';
 import 'package:pi_hole_client/screens/settings/app_settings/language_screen.dart';
 import 'package:pi_hole_client/screens/settings/app_settings/theme_screen.dart';
+import 'package:pi_hole_client/screens/settings/server_settings/server_info.dart';
 import 'package:pi_hole_client/screens/settings/settings.dart';
 
 import '../../helpers.dart';
@@ -61,6 +62,10 @@ void main() async {
 
           expect(find.text('Advanced settings'), findsOneWidget);
           expect(find.text('Advanced options'), findsOneWidget);
+
+          expect(find.text('Server settings'), findsOneWidget);
+          expect(find.text('Pi-hole Server'), findsOneWidget);
+          expect(find.text('test v6'), findsOneWidget);
 
           expect(find.text('About'), findsOneWidget);
 
@@ -125,6 +130,10 @@ void main() async {
 
           expect(find.text('Advanced settings'), findsOneWidget);
           expect(find.text('Advanced options'), findsOneWidget);
+
+          expect(find.text('Server settings'), findsOneWidget);
+          expect(find.text('Pi-hole Server'), findsOneWidget);
+          expect(find.text('test v6'), findsOneWidget);
 
           expect(find.text('About'), findsOneWidget);
 
@@ -262,6 +271,32 @@ void main() async {
           await tester.tap(find.text('Advanced settings'));
           await tester.pumpAndSettle();
           expect(find.byType(AdvancedOptions), findsOneWidget);
+        },
+      );
+
+      testWidgets(
+        'should show Pi-hole server screen with tap',
+        (WidgetTester tester) async {
+          tester.view.physicalSize = const Size(1080, 2400);
+          tester.view.devicePixelRatio = 2.0;
+
+          addTearDown(() {
+            tester.view.resetPhysicalSize();
+            tester.view.resetDevicePixelRatio();
+          });
+
+          await tester.pumpWidget(
+            testSetup.buildTestWidget(
+              const Settings(),
+            ),
+          );
+
+          expect(find.byType(Settings), findsOneWidget);
+          await tester.pump();
+
+          await tester.tap(find.text('Pi-hole Server'));
+          await tester.pumpAndSettle();
+          expect(find.byType(ServerInfoScreen), findsOneWidget);
         },
       );
 

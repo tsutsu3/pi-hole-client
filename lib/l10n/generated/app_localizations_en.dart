@@ -129,6 +129,9 @@ class AppLocalizationsEn extends AppLocalizations {
   String get apply => 'Apply';
 
   @override
+  String get arch => 'Architecture';
+
+  @override
   String get areSureRemovePasscode => 'Are you sure you want to remove the passcode? This will disable the app unlock protection.';
 
   @override
@@ -243,6 +246,9 @@ class AppLocalizationsEn extends AppLocalizations {
   String get connecting => 'Connecting...';
 
   @override
+  String get connectingServer => 'Connecting Server';
+
+  @override
   String get connectingTo => 'Connecting to';
 
   @override
@@ -300,6 +306,12 @@ class AppLocalizationsEn extends AppLocalizations {
   String get couldntLoadLogs => 'Logs couldn\'t be loaded';
 
   @override
+  String get cpuTemperature => 'CPU Temperature';
+
+  @override
+  String get cpuUsage => 'CPU Usage';
+
+  @override
   String get createConnection => 'Create a connection';
 
   @override
@@ -316,6 +328,9 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get dark => 'Dark';
+
+  @override
+  String get dataFetchFailed => 'Failed to fetch data.';
 
   @override
   String get dateAdded => 'Date added';
@@ -495,6 +510,9 @@ class AppLocalizationsEn extends AppLocalizations {
   String get home => 'Home';
 
   @override
+  String get host => 'Host';
+
+  @override
   String get hour1 => '1 hour';
 
   @override
@@ -618,6 +636,9 @@ class AppLocalizationsEn extends AppLocalizations {
   String get logsWillBeRequested => 'Logs will be requested in groups of';
 
   @override
+  String get memoryUsage => 'Memory Usage';
+
+  @override
   String get minute1 => '1 minute';
 
   @override
@@ -631,6 +652,12 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get minutes5 => '5 minutes';
+
+  @override
+  String get model => 'Model';
+
+  @override
+  String get moreDetails => 'More Details';
 
   @override
   String get next => 'Next';
@@ -732,6 +759,9 @@ class AppLocalizationsEn extends AppLocalizations {
   String get pieChartDescription => 'Displays the data on a pie chart with the legend under it.';
 
   @override
+  String get piholeVersion => 'Pi-hole Versions';
+
+  @override
   String get port => 'Port';
 
   @override
@@ -778,6 +808,9 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get refreshingData => 'Refreshing data...';
+
+  @override
+  String get release => 'Release';
 
   @override
   String get remove => 'Remove';
@@ -867,6 +900,9 @@ class AppLocalizationsEn extends AppLocalizations {
   String get selectServer => 'Select server';
 
   @override
+  String get selectServerThenAccess => 'Select a server and then access again.';
+
+  @override
   String get selectStartTime => 'Select start time';
 
   @override
@@ -891,10 +927,19 @@ class AppLocalizationsEn extends AppLocalizations {
   String get serverEnabled => 'Server enabled successfully.';
 
   @override
+  String get serverInfo => 'Pi-hole Server';
+
+  @override
+  String get serverInfoShow => 'View detailed information';
+
+  @override
   String get serverInvalidData => 'Server connection saved with invalid data. Add the connection again.';
 
   @override
   String get serverName => 'Server name';
+
+  @override
+  String get serverSettings => 'Server settings';
 
   @override
   String get servers => 'Servers';
@@ -960,6 +1005,9 @@ class AppLocalizationsEn extends AppLocalizations {
   String get switchServer => 'Switch server';
 
   @override
+  String get system => 'System';
+
+  @override
   String get systemLanguage => 'System Language';
 
   @override
@@ -1005,6 +1053,9 @@ class AppLocalizationsEn extends AppLocalizations {
   String get totalQueries24 => 'Total queries last 24 hours';
 
   @override
+  String get tryAgainLater => 'Please try again later.';
+
+  @override
   String get tryReconnect => 'Try reconnect';
 
   @override
@@ -1012,6 +1063,9 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get uncheckAll => 'Uncheck all';
+
+  @override
+  String get unknown => 'Unknown';
 
   @override
   String get unknownError => 'Failed. Unknown error.';
@@ -1030,6 +1084,9 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get upstreamServers => 'Upstream servers';
+
+  @override
+  String get uptime => 'Uptime';
 
   @override
   String get url => 'URL';

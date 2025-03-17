@@ -1,9 +1,13 @@
 import 'package:pi_hole_client/models/api/v6/domains/domains.dart' as v6;
 import 'package:pi_hole_client/models/app_log.dart';
 import 'package:pi_hole_client/models/domain.dart';
+import 'package:pi_hole_client/models/host.dart';
 import 'package:pi_hole_client/models/log.dart';
 import 'package:pi_hole_client/models/overtime_data.dart';
 import 'package:pi_hole_client/models/realtime_status.dart';
+import 'package:pi_hole_client/models/sensors.dart';
+import 'package:pi_hole_client/models/system.dart';
+import 'package:pi_hole_client/models/version.dart';
 
 enum APiResponseType {
   success,
@@ -13,7 +17,8 @@ enum APiResponseType {
   timeout,
   sslError,
   error,
-  alreadyAdded
+  alreadyAdded,
+  notSupported,
 }
 
 /// A response object for the login query.
@@ -224,4 +229,66 @@ class AddDomainToListResponse {
   });
 
   final APiResponseType result;
+}
+
+abstract class BaseInfoResponse<T> {
+  BaseInfoResponse({
+    required this.result,
+    this.message,
+    this.data,
+  });
+
+  final APiResponseType result;
+  final String? message;
+  final T? data;
+}
+
+class HostResponse extends BaseInfoResponse<HostInfo> {
+  HostResponse({
+    required super.result,
+    super.message,
+    super.data,
+  });
+}
+
+class SensorsResponse extends BaseInfoResponse<SensorsInfo> {
+  SensorsResponse({
+    required super.result,
+    super.message,
+    super.data,
+  });
+}
+
+class SystemResponse extends BaseInfoResponse<SystemInfo> {
+  SystemResponse({
+    required super.result,
+    super.message,
+    super.data,
+  });
+}
+
+class VersionResponse extends BaseInfoResponse<VersionInfo> {
+  VersionResponse({
+    required super.result,
+    super.message,
+    super.data,
+  });
+}
+
+class PiHoleServerInfoResponse {
+  PiHoleServerInfoResponse({
+    required this.result,
+    this.message,
+    this.host,
+    this.sensors,
+    this.system,
+    this.version,
+  });
+
+  final APiResponseType result;
+  final String? message;
+  final HostInfo? host;
+  final SensorsInfo? sensors;
+  final SystemInfo? system;
+  final VersionInfo? version;
 }

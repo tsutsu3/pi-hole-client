@@ -2,7 +2,7 @@ import 'dart:convert';
 
 import 'package:pi_hole_client/functions/charts_data_functions.dart';
 import 'package:pi_hole_client/models/api/v6/dns/dns.dart';
-import 'package:pi_hole_client/models/api/v6/flt/ftl.dart';
+import 'package:pi_hole_client/models/api/v6/ftl/ftl.dart';
 import 'package:pi_hole_client/models/api/v6/metrics/stats.dart';
 
 RealtimeStatus realtimeStatusFromJson(String str) =>

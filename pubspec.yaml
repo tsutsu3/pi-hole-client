@@ -152,6 +152,7 @@ flutter:
   assets:
     - assets/resources/google-play.svg
     - assets/resources/github.svg
+    - assets/resources/pihole.svg
     - assets/icon/pi-hole-client-symbol-large.png
     - assets/icon/pi-hole-client-icon-medium-round.png
     - .env
