@@ -13,7 +13,7 @@ class VersionInfo {
       core: ComponentVersion.fromJson(json, 'core'),
       web: ComponentVersion.fromJson(json, 'web'),
       ftl: ComponentVersion.fromJson(json, 'FTL'),
-      docker: DockerVersion.fromJson(json),
+      docker: ComponentVersion.fromJson(json, 'docker'),
     );
   }
 
@@ -22,14 +22,14 @@ class VersionInfo {
       core: ComponentVersion.fromV6(version.version.core),
       web: ComponentVersion.fromV6(version.version.web),
       ftl: ComponentVersion.fromV6(version.version.ftl),
-      docker: DockerVersion.fromV6(version.version.docker),
+      docker: ComponentVersion.fromV6(version.version.docker),
     );
   }
 
   final ComponentVersion core;
   final ComponentVersion web;
   final ComponentVersion ftl;
-  final DockerVersion docker;
+  final ComponentVersion docker;
 
   Map<String, dynamic> toJson() => {
         'core': core.toJson(),
@@ -46,7 +46,7 @@ class ComponentVersion {
     return ComponentVersion(
       local: VersionDetail(
         version: json['${key}_current'],
-        branch: json['${key}_branch'] ?? 'unknown',
+        branch: key == 'docker' ? null : json['${key}_branch'] ?? '',
         hash: '',
       ),
       remote: VersionDetail(
@@ -68,6 +68,15 @@ class ComponentVersion {
         canUpdate: _canUpdate(
           component.local.version,
           component.remote.version,
+        ),
+      );
+    } else if (component is Docker) {
+      return ComponentVersion(
+        local: VersionDetail.fromV6(component.local),
+        remote: VersionDetail.fromV6(component.remote),
+        canUpdate: _canUpdate(
+          component.local ?? '',
+          component.remote ?? '',
         ),
       );
     } else {
@@ -126,6 +135,10 @@ class VersionDetail {
         version: version.version ?? '',
         hash: version.hash,
       );
+    } else if (version is String || version == null) {
+      return VersionDetail(
+        version: version ?? '',
+      );
     } else {
       throw ArgumentError(
         'Unsupported type for VersionDetail: ${version.runtimeType}',
@@ -142,43 +155,5 @@ class VersionDetail {
         'version': version,
         if (branch != null) 'branch': branch,
         if (hash != null) 'hash': hash,
-      };
-}
-
-class DockerVersion {
-  DockerVersion({
-    required this.local,
-    required this.remote,
-    this.canUpdate,
-  });
-
-  factory DockerVersion.fromJson(Map<String, dynamic> json) {
-    return DockerVersion(
-      local: json['docker_current'] ?? '',
-      remote: json['docker_latest'] ?? '',
-      canUpdate:
-          _canUpdate(json['docker_current'] ?? '', json['docker_latest'] ?? ''),
-    );
-  }
-
-  factory DockerVersion.fromV6(Docker docker) {
-    return DockerVersion(
-      local: docker.local ?? '',
-      remote: docker.remote ?? '',
-      canUpdate: _canUpdate(docker.local ?? '', docker.remote ?? ''),
-    );
-  }
-
-  final String? local;
-  final String? remote;
-  final bool? canUpdate;
-
-  static bool _canUpdate(String local, String remote) {
-    return local != remote;
-  }
-
-  Map<String, dynamic> toJson() => {
-        'local': local,
-        'remote': remote,
       };
 }

@@ -47,11 +47,8 @@ class PiholeVersionSection extends StatelessWidget {
           leading: const PiholeIcon(),
           title: listTileTitleNoPadding('Docker', colorScheme: colorScheme),
           subtitle: const Text('-'),
-          trailing: AdaptiveTrailingText(
-            text: (version?.docker.local?.isNotEmpty ?? false)
-                ? version!.docker.local!
-                : '-',
-          ),
+          trailing:
+              AdaptiveTrailingText(text: version?.docker.local.version ?? '-'),
         ),
       ],
     );
