@@ -28,7 +28,7 @@ class EmptyDataScreen extends StatelessWidget {
               ),
               const SizedBox(height: 32),
               Text(
-                AppLocalizations.of(context)!.tryAgainLater,
+                AppLocalizations.of(context)!.selectServerThenAccess,
                 textAlign: TextAlign.center,
                 style: const TextStyle(
                   fontSize: 16,

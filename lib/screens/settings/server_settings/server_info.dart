@@ -5,12 +5,12 @@ import 'package:pi_hole_client/gateways/api_gateway_interface.dart';
 import 'package:pi_hole_client/l10n/generated/app_localizations.dart';
 import 'package:pi_hole_client/models/server.dart';
 import 'package:pi_hole_client/providers/servers_provider.dart';
+import 'package:pi_hole_client/screens/common/empty_data_screen.dart';
+import 'package:pi_hole_client/screens/common/error_message_screen.dart';
 import 'package:pi_hole_client/screens/settings/server_settings/widgets/server_info/host_information_section.dart';
 import 'package:pi_hole_client/screens/settings/server_settings/widgets/server_info/performance_usage_section.dart';
 import 'package:pi_hole_client/screens/settings/server_settings/widgets/server_info/pihole_version_section.dart';
 import 'package:pi_hole_client/screens/settings/server_settings/widgets/server_info/server_connection_section.dart';
-import 'package:pi_hole_client/widgets/empty_data_screen.dart';
-import 'package:pi_hole_client/widgets/error_message_screen.dart';
 import 'package:provider/provider.dart';
 
 class ServerInfoScreen extends StatelessWidget {
