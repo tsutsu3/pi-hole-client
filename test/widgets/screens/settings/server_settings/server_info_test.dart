@@ -118,8 +118,10 @@ void main() async {
 
           expect(find.byIcon(Icons.inbox_rounded), findsOneWidget);
           expect(find.text('No data'), findsOneWidget);
-          expect(find.text('Select a server and then access again.'),
-              findsOneWidget);
+          expect(
+            find.text('Select a server and then access again.'),
+            findsOneWidget,
+          );
         },
       );
 
