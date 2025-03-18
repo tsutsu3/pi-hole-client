@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/annotations.dart';
@@ -90,38 +92,41 @@ void main() async {
       );
     });
 
-    test('startAutoRefresh starts refreshing automatically on first run', () {
-      when(mockAppConfigProvider.getAutoRefreshTime).thenReturn(1);
+    test('startAutoRefresh starts refreshing automatically on first run',
+        () async {
+      when(mockAppConfigProvider.getAutoRefreshTime).thenReturn(5);
 
       statusUpdateService.startAutoRefresh();
 
       // sleep for 2 seconds to allow the timer to run
-      Future.delayed(const Duration(seconds: 2), () {
-        verify(mockAppConfigProvider.getAutoRefreshTime).called(3);
-        verify(mockStatusProvider.setRealtimeStatus(any)).called(1);
-        verify(mockStatusProvider.setOvertimeData(any)).called(1);
-        expect(statusUpdateService.isAutoRefreshRunning, true);
-      });
+      await Future.delayed(const Duration(seconds: 1));
+      verify(mockAppConfigProvider.getAutoRefreshTime).called(3);
+      verify(mockStatusProvider.setRealtimeStatus(any)).called(1);
+      verify(mockStatusProvider.setOvertimeData(any)).called(1);
+      expect(statusUpdateService.isAutoRefreshRunning, true);
+
+      statusUpdateService.dispose();
     });
 
     test(
         'startAutoRefresh does not start refreshing automatically on second run',
-        () {
-      when(mockAppConfigProvider.getAutoRefreshTime).thenReturn(1);
+        () async {
+      when(mockAppConfigProvider.getAutoRefreshTime).thenReturn(5);
 
       statusUpdateService.startAutoRefresh();
       statusUpdateService.startAutoRefresh();
-      Future.delayed(const Duration(seconds: 2), () {
-        verify(mockAppConfigProvider.getAutoRefreshTime).called(3);
-        verify(mockStatusProvider.setRealtimeStatus(any)).called(1);
-        verify(mockStatusProvider.setOvertimeData(any)).called(1);
-        expect(statusUpdateService.isAutoRefreshRunning, true);
-      });
+      await Future.delayed(const Duration(seconds: 1));
+      verify(mockAppConfigProvider.getAutoRefreshTime).called(3);
+      verify(mockStatusProvider.setRealtimeStatus(any)).called(1);
+      verify(mockStatusProvider.setOvertimeData(any)).called(1);
+      expect(statusUpdateService.isAutoRefreshRunning, true);
+
+      statusUpdateService.dispose();
     });
 
     test(
         'startAutoRefresh should fail when fetching data from the server fails',
-        () {
+        () async {
       when(mockApiGatewayV6.realtimeStatus()).thenAnswer(
         (_) async => RealtimeStatusResponse(
           result: APiResponseType.socket,
@@ -138,12 +143,71 @@ void main() async {
       when(mockStatusProvider.getOvertimeDataLoadStatus).thenReturn(0);
 
       statusUpdateService.startAutoRefresh();
-      Future.delayed(const Duration(seconds: 2), () {
-        verify(mockAppConfigProvider.getAutoRefreshTime).called(3);
-        verifyNever(mockStatusProvider.setRealtimeStatus(any)).called(0);
-        verifyNever(mockStatusProvider.setOvertimeData(any)).called(0);
-        expect(statusUpdateService.isAutoRefreshRunning, true);
+      await Future.delayed(const Duration(seconds: 1));
+      verify(mockAppConfigProvider.getAutoRefreshTime).called(3);
+      verifyNever(mockStatusProvider.setRealtimeStatus(any)).called(0);
+      verifyNever(mockStatusProvider.setOvertimeData(any)).called(0);
+      expect(statusUpdateService.isAutoRefreshRunning, true);
+
+      statusUpdateService.dispose();
+    });
+
+    test(
+        'startAutoRefresh should not raise a type error when selectedServer becomes null during asynchronous processing in _setupStatusDataTimer',
+        () async {
+      when(mockApiGatewayV6.realtimeStatus()).thenAnswer((_) async {
+        when(mockServersProvider.selectedServer).thenReturn(null);
+        return RealtimeStatusResponse(
+          result: APiResponseType.socket,
+        );
       });
+
+      when(mockStatusProvider.isServerConnected).thenReturn(true);
+      when(mockStatusProvider.getStatusLoading).thenReturn(LoadStatus.loading);
+      when(mockStatusProvider.getOvertimeDataLoadStatus).thenReturn(0);
+
+      Object? caughtError;
+
+      await runZonedGuarded(() async {
+        statusUpdateService.startAutoRefresh();
+        await Future.delayed(const Duration(seconds: 1));
+      }, (error, stackTrace) {
+        caughtError = error;
+      });
+
+      // No raised error
+      expect(caughtError, isNull);
+
+      statusUpdateService.dispose();
+    });
+
+    test(
+        'startAutoRefresh should not raise a type error when selectedServer becomes null during asynchronous processing in _setupOverTimeDataTimer',
+        () async {
+      when(mockApiGatewayV6.fetchOverTimeData()).thenAnswer((_) async {
+        when(mockServersProvider.selectedServer).thenReturn(null);
+        return FetchOverTimeDataResponse(
+          result: APiResponseType.socket,
+        );
+      });
+
+      when(mockStatusProvider.isServerConnected).thenReturn(true);
+      when(mockStatusProvider.getStatusLoading).thenReturn(LoadStatus.loading);
+      when(mockStatusProvider.getOvertimeDataLoadStatus).thenReturn(0);
+
+      Object? caughtError;
+
+      await runZonedGuarded(() async {
+        statusUpdateService.startAutoRefresh();
+        await Future.delayed(const Duration(seconds: 1));
+      }, (error, stackTrace) {
+        caughtError = error;
+      });
+
+      // No raised error
+      expect(caughtError, isNull);
+
+      statusUpdateService.dispose();
     });
 
     test('refreshOnce should succeed', () async {

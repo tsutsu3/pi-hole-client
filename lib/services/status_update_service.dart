@@ -136,13 +136,14 @@ class StatusUpdateService {
         return;
       }
 
-      if (_serversProvider.selectedServer == null) {
+      final currentServer = _serversProvider.selectedServer;
+      if (currentServer == null) {
         timer?.cancel();
         return;
       }
+      final selectedUrlBefore = currentServer.address;
 
       final apiGateway = _serversProvider.selectedApiGateway;
-      final selectedUrlBefore = _serversProvider.selectedServer!.address;
       final statusResult = await apiGateway?.realtimeStatus();
 
       if (statusResult?.result == APiResponseType.success) {
@@ -155,7 +156,7 @@ class StatusUpdateService {
           _statusProvider.setIsServerConnected(true);
         }
       } else {
-        if (selectedUrlBefore == _serversProvider.selectedServer!.address) {
+        if (selectedUrlBefore == currentServer.address) {
           if (_statusProvider.isServerConnected) {
             _statusProvider.setIsServerConnected(false);
           }
@@ -178,13 +179,14 @@ class StatusUpdateService {
   // ----------------------------------------
   void _setupOverTimeDataTimer() {
     Future<void> timerFn({Timer? timer}) async {
-      if (_serversProvider.selectedServer == null) {
+      final currentServer = _serversProvider.selectedServer;
+      if (currentServer == null) {
         timer?.cancel();
         return;
       }
+      final statusUrlBefore = currentServer.address;
 
       final apiGateway = _serversProvider.selectedApiGateway;
-      final statusUrlBefore = _serversProvider.selectedServer!.address;
       final statusResult = await apiGateway?.fetchOverTimeData();
 
       if (statusResult?.result == APiResponseType.success) {
@@ -201,7 +203,7 @@ class StatusUpdateService {
           _statusProvider.setIsServerConnected(true);
         }
       } else {
-        if (statusUrlBefore == _serversProvider.selectedServer!.address) {
+        if (statusUrlBefore == currentServer.address) {
           if (_statusProvider.isServerConnected) {
             _statusProvider.setIsServerConnected(false);
           }
