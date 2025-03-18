@@ -49,8 +49,10 @@ class StatusUpdateService {
   }
 
   void dispose() {
-    logger.d('Disposing Status Update Service');
-    _stopAutoRefresh();
+    if (_isAutoRefreshRunning) {
+      logger.d('Disposing Status Update Service');
+      _stopAutoRefresh();
+    }
   }
 
   /// Start timer for auto refresh
