@@ -26,13 +26,16 @@ import 'package:provider/provider.dart';
 import 'package:sentry_flutter/sentry_flutter.dart';
 import 'package:sqflite_common_ffi/sqflite_ffi.dart';
 import 'package:vibration/vibration.dart';
+import 'package:window_manager/window_manager.dart';
 import 'package:window_size/window_size.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  await windowManager.ensureInitialized();
   await SystemChrome.setEnabledSystemUIMode(SystemUiMode.edgeToEdge);
 
   if (Platform.isWindows || Platform.isLinux || Platform.isMacOS) {
+    await windowManager.setMinimumSize(const Size(300, 300));
     setWindowMinSize(const Size(500, 500));
   }
 

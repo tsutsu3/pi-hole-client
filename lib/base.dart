@@ -1,10 +1,11 @@
 // ignore_for_file: use_build_context_synchronously
-
+import 'dart:io';
 import 'package:animations/animations.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:pi_hole_client/constants/app_screens.dart';
 import 'package:pi_hole_client/constants/responsive.dart';
+import 'package:pi_hole_client/functions/logger.dart';
 import 'package:pi_hole_client/providers/app_config_provider.dart';
 import 'package:pi_hole_client/providers/domains_list_provider.dart';
 import 'package:pi_hole_client/providers/servers_provider.dart';
@@ -19,6 +20,7 @@ import 'package:pi_hole_client/widgets/bottom_nav_bar.dart';
 import 'package:pi_hole_client/widgets/navigation_rail.dart';
 import 'package:pi_hole_client/widgets/start_warning_modal.dart';
 import 'package:provider/provider.dart';
+import 'package:window_manager/window_manager.dart';
 
 class Base extends StatefulWidget {
   const Base({super.key});
@@ -27,7 +29,8 @@ class Base extends StatefulWidget {
   State<Base> createState() => _BaseState();
 }
 
-class _BaseState extends State<Base> with WidgetsBindingObserver {
+class _BaseState extends State<Base>
+    with WidgetsBindingObserver, WindowListener {
   final List<Widget> pages = [
     const Home(),
     const Statistics(),
@@ -48,6 +51,11 @@ class _BaseState extends State<Base> with WidgetsBindingObserver {
     WidgetsBinding.instance.addObserver(this);
 
     WidgetsBinding.instance.addPostFrameCallback((_) async {
+      if (isDesktopPlatform()) {
+        logger.d('Desktop Platform detected');
+        windowManager.addListener(this);
+      }
+
       final serversProvider = context.read<ServersProvider>();
 
       final appConfigProvider = context.read<AppConfigProvider>();
@@ -61,6 +69,7 @@ class _BaseState extends State<Base> with WidgetsBindingObserver {
       }
 
       if (serversProvider.selectedServer != null) {
+        await serversProvider.selectedApiGateway?.loginQuery();
         context.read<StatusUpdateService>().startAutoRefresh();
       }
     });
@@ -69,7 +78,67 @@ class _BaseState extends State<Base> with WidgetsBindingObserver {
   @override
   void dispose() {
     WidgetsBinding.instance.removeObserver(this);
+
+    if (isDesktopPlatform()) {
+      windowManager.removeListener(this);
+    }
+
     super.dispose();
+  }
+
+  @override
+  Future<void> didChangeAppLifecycleState(AppLifecycleState state) async {
+    if (state == AppLifecycleState.resumed) {
+      // Only for desktop when restored from minimized
+      if (!isDesktopPlatform()) {
+        await onResumed();
+      }
+    } else if (state == AppLifecycleState.paused) {
+      onPaused();
+    }
+  }
+
+  @override
+  void onWindowMinimize() {
+    onPaused();
+  }
+
+  @override
+  void onWindowRestore() {
+    onResumed();
+  }
+
+  bool isDesktopPlatform() {
+    return Platform.isWindows || Platform.isLinux || Platform.isMacOS;
+  }
+
+  /// Start auto-refresh
+  ///
+  /// ## Mobile
+  /// - When the device screen is unlocked/turned on
+  /// - When the app returns from the background
+  /// ## Desktop
+  /// - When the window is restored from being minimized
+  Future<void> onResumed() async {
+    final serversProvider = context.read<ServersProvider>();
+    final statusUpdateService = context.read<StatusUpdateService>();
+
+    if (serversProvider.selectedServer != null) {
+      await serversProvider.selectedApiGateway?.loginQuery();
+      statusUpdateService.startAutoRefresh();
+    }
+  }
+
+  /// Stop auto-refresh
+  ///
+  /// ## Mobile
+  /// - When the device screen is locked/turned off
+  /// - When the app goes to the background
+  /// ## Desktop
+  /// - When the window is minimized
+  void onPaused() {
+    final statusUpdateService = context.read<StatusUpdateService>();
+    statusUpdateService.dispose();
   }
 
   Widget _buildPageTransitionSwitcher(Widget child) {
@@ -144,9 +213,7 @@ class _BaseState extends State<Base> with WidgetsBindingObserver {
                       );
                     },
                   ),
-                  Expanded(
-                    child: _buildPageTransitionSwitcher(currentPage),
-                  ),
+                  Expanded(child: _buildPageTransitionSwitcher(currentPage)),
                 ],
               )
             : _buildPageTransitionSwitcher(currentPage),
