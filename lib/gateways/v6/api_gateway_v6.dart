@@ -159,6 +159,7 @@ class ApiGatewayV6 implements ApiGateway {
       );
 
       if (status.statusCode == 200) {
+        logger.i('Login successful with new session ID');
         final statusParsed = Session.fromJson(jsonDecode(status.body));
         await _server.sm.save(statusParsed.session.sid);
 
