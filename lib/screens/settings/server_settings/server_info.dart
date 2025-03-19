@@ -31,49 +31,51 @@ class ServerInfoScreen extends StatelessWidget {
         appBar: AppBar(
           title: Text(AppLocalizations.of(context)!.serverInfo),
         ),
-        body: FutureBuilder(
-          future: apiGateway?.fetchAllServerInfo(),
-          builder: (context, snapshot) {
-            if (snapshot.connectionState == ConnectionState.waiting) {
-              return const Center(child: CircularProgressIndicator());
-            } else if (snapshot.hasError) {
-              return ErrorMessageScreen(
-                message: AppLocalizations.of(context)!.dataFetchFailed,
-              );
-            } else if (!snapshot.hasData) {
-              return const EmptyDataScreen();
-            }
+        body: SafeArea(
+          child: FutureBuilder(
+            future: apiGateway?.fetchAllServerInfo(),
+            builder: (context, snapshot) {
+              if (snapshot.connectionState == ConnectionState.waiting) {
+                return const Center(child: CircularProgressIndicator());
+              } else if (snapshot.hasError) {
+                return ErrorMessageScreen(
+                  message: AppLocalizations.of(context)!.dataFetchFailed,
+                );
+              } else if (!snapshot.hasData) {
+                return const EmptyDataScreen();
+              }
 
-            final serverInfo = snapshot.data;
-            final version = serverInfo?.version;
-            final host = serverInfo?.host;
-            final system = serverInfo?.system;
-            final sensor = serverInfo?.sensors;
+              final serverInfo = snapshot.data;
+              final version = serverInfo?.version;
+              final host = serverInfo?.host;
+              final system = serverInfo?.system;
+              final sensor = serverInfo?.sensors;
 
-            logger.d('Server Info version: ${version?.toJson()}');
-            logger.d('Server Info host: ${host?.toJson()}');
-            logger.d('Server Info system: ${system?.toJson()}');
-            logger.d('Server Info sensor: ${sensor?.toJson()}');
+              logger.d('Server Info version: ${version?.toJson()}');
+              logger.d('Server Info host: ${host?.toJson()}');
+              logger.d('Server Info system: ${system?.toJson()}');
+              logger.d('Server Info sensor: ${sensor?.toJson()}');
 
-            return SingleChildScrollView(
-              padding: const EdgeInsets.all(16),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  ServerConnectionSection(server: server),
-                  const SizedBox(height: 20),
-                  // v5 API not support host info and usage info
-                  if (apiGateway?.server.apiVersion != 'v5') ...[
-                    HostInformationSection(host: host),
+              return SingleChildScrollView(
+                padding: const EdgeInsets.all(16),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    ServerConnectionSection(server: server),
                     const SizedBox(height: 20),
-                    PerformanceUsageSection(system: system, sensors: sensor),
-                    const SizedBox(height: 20),
+                    // v5 API not support host info and usage info
+                    if (apiGateway?.server.apiVersion != 'v5') ...[
+                      HostInformationSection(host: host),
+                      const SizedBox(height: 20),
+                      PerformanceUsageSection(system: system, sensors: sensor),
+                      const SizedBox(height: 20),
+                    ],
+                    PiholeVersionSection(version: version),
                   ],
-                  PiholeVersionSection(version: version),
-                ],
-              ),
-            );
-          },
+                ),
+              );
+            },
+          ),
         ),
       ),
     );

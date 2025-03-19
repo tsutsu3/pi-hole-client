@@ -21,115 +21,118 @@ class AppDetailScreen extends StatelessWidget {
       appBar: AppBar(
         title: Text(AppLocalizations.of(context)!.applicationDetail),
       ),
-      body: SingleChildScrollView(
-        padding: const EdgeInsets.all(16),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            // App Info
-            SectionLabel(label: AppLocalizations.of(context)!.appInfo),
-            ListTile(
-              leading: const Icon(Icons.label_rounded),
-              title: listTileTitle(
-                AppLocalizations.of(context)!.appVersion,
-                colorScheme: colorScheme,
+      body: SafeArea(
+        child: SingleChildScrollView(
+          padding: const EdgeInsets.all(16),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              // App Info
+              SectionLabel(label: AppLocalizations.of(context)!.appInfo),
+              ListTile(
+                leading: const Icon(Icons.label_rounded),
+                title: listTileTitle(
+                  AppLocalizations.of(context)!.appVersion,
+                  colorScheme: colorScheme,
+                ),
+                subtitle: Text(appVersion),
               ),
-              subtitle: Text(appVersion),
-            ),
-            ListTile(
-              leading: const Icon(Icons.account_circle_rounded),
-              title: listTileTitle(
-                AppLocalizations.of(context)!.createdBy,
-                colorScheme: colorScheme,
+              ListTile(
+                leading: const Icon(Icons.account_circle_rounded),
+                title: listTileTitle(
+                  AppLocalizations.of(context)!.createdBy,
+                  colorScheme: colorScheme,
+                ),
+                subtitle: const Text('tsutsu3'),
               ),
-              subtitle: const Text('tsutsu3'),
-            ),
-            const SizedBox(height: 20),
-            // Support & Feedback
-            SectionLabel(
-              label: AppLocalizations.of(context)!.supportFeedback,
-            ),
-            ListTile(
-              leading: SvgPicture.asset(
-                'assets/resources/github.svg',
-                colorFilter:
-                    ColorFilter.mode(colorScheme.onSurface, BlendMode.srcIn),
-                width: 25,
-                height: 25,
+              const SizedBox(height: 20),
+              // Support & Feedback
+              SectionLabel(
+                label: AppLocalizations.of(context)!.supportFeedback,
               ),
-              title: listTileTitle(
-                'GitHub',
-                colorScheme: colorScheme,
+              ListTile(
+                leading: SvgPicture.asset(
+                  'assets/resources/github.svg',
+                  colorFilter:
+                      ColorFilter.mode(colorScheme.onSurface, BlendMode.srcIn),
+                  width: 25,
+                  height: 25,
+                ),
+                title: listTileTitle(
+                  'GitHub',
+                  colorScheme: colorScheme,
+                ),
+                subtitle: Text(AppLocalizations.of(context)!.openIssueGitHub),
+                onTap: () => openUrl(Urls.issue),
+                trailing: Icon(
+                  Icons.open_in_browser_rounded,
+                  color: colorScheme.onSurfaceVariant.withValues(alpha: 0.8),
+                ),
               ),
-              subtitle: Text(AppLocalizations.of(context)!.openIssueGitHub),
-              onTap: () => openUrl(Urls.issue),
-              trailing: Icon(
-                Icons.open_in_browser_rounded,
-                color: colorScheme.onSurfaceVariant.withValues(alpha: 0.8),
+              ListTile(
+                leading: Icon(
+                  Icons.contact_support_rounded,
+                  color: colorScheme.onSurface,
+                ),
+                title: listTileTitle(
+                  AppLocalizations.of(context)!.supportForm,
+                  colorScheme: colorScheme,
+                ),
+                subtitle: Text(
+                  AppLocalizations.of(context)!.supportFormDescription,
+                ),
+                onTap: () => openUrl(Urls.support),
+                trailing: Icon(
+                  Icons.open_in_browser_rounded,
+                  color: colorScheme.onSurfaceVariant.withValues(alpha: 0.8),
+                ),
               ),
-            ),
-            ListTile(
-              leading: Icon(
-                Icons.contact_support_rounded,
-                color: colorScheme.onSurface,
+              ListTile(
+                leading: Icon(
+                  Icons.add_link_rounded,
+                  color: colorScheme.onSurface,
+                ),
+                title: listTileTitle(
+                  AppLocalizations.of(context)!.serverConnectionGuide,
+                  colorScheme: colorScheme,
+                ),
+                subtitle: Text(
+                  AppLocalizations.of(context)!
+                      .serverConnectionGuideDescription,
+                ),
+                onTap: () => openUrl(Urls.createAConnection),
+                trailing: Icon(
+                  Icons.open_in_browser_rounded,
+                  color: colorScheme.onSurfaceVariant.withValues(alpha: 0.8),
+                ),
               ),
-              title: listTileTitle(
-                AppLocalizations.of(context)!.supportForm,
-                colorScheme: colorScheme,
+              const SizedBox(height: 20),
+              // Version Requirements
+              SectionLabel(
+                label: AppLocalizations.of(context)!.versionRequirements,
               ),
-              subtitle: Text(
-                AppLocalizations.of(context)!.supportFormDescription,
+              Container(
+                width: double.infinity,
+                padding: const EdgeInsets.symmetric(horizontal: 16),
+                child: const Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text('Pi-hole: v5.12+'),
+                    SizedBox(height: 5),
+                    Text('Web interface: v5.14.2+'),
+                  ],
+                ),
               ),
-              onTap: () => openUrl(Urls.support),
-              trailing: Icon(
-                Icons.open_in_browser_rounded,
-                color: colorScheme.onSurfaceVariant.withValues(alpha: 0.8),
+              const SizedBox(height: 10),
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 16),
+                child: Text(
+                  AppLocalizations.of(context)!.olderVersion,
+                  textAlign: TextAlign.justify,
+                ),
               ),
-            ),
-            ListTile(
-              leading: Icon(
-                Icons.add_link_rounded,
-                color: colorScheme.onSurface,
-              ),
-              title: listTileTitle(
-                AppLocalizations.of(context)!.serverConnectionGuide,
-                colorScheme: colorScheme,
-              ),
-              subtitle: Text(
-                AppLocalizations.of(context)!.serverConnectionGuideDescription,
-              ),
-              onTap: () => openUrl(Urls.createAConnection),
-              trailing: Icon(
-                Icons.open_in_browser_rounded,
-                color: colorScheme.onSurfaceVariant.withValues(alpha: 0.8),
-              ),
-            ),
-            const SizedBox(height: 20),
-            // Version Requirements
-            SectionLabel(
-              label: AppLocalizations.of(context)!.versionRequirements,
-            ),
-            Container(
-              width: double.infinity,
-              padding: const EdgeInsets.symmetric(horizontal: 16),
-              child: const Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text('Pi-hole: v5.12+'),
-                  SizedBox(height: 5),
-                  Text('Web interface: v5.14.2+'),
-                ],
-              ),
-            ),
-            const SizedBox(height: 10),
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 16),
-              child: Text(
-                AppLocalizations.of(context)!.olderVersion,
-                textAlign: TextAlign.justify,
-              ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );
