@@ -290,7 +290,7 @@ abstract class AppLocalizations {
   /// No description provided for @appSettings.
   ///
   /// In en, this message translates to:
-  /// **'App settings'**
+  /// **'App Settings'**
   String get appSettings;
 
   /// No description provided for @appUnlock.
@@ -1964,7 +1964,7 @@ abstract class AppLocalizations {
   /// No description provided for @serverSettings.
   ///
   /// In en, this message translates to:
-  /// **'Server settings'**
+  /// **'Server Settings'**
   String get serverSettings;
 
   /// No description provided for @servers.

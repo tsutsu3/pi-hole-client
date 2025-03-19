@@ -102,7 +102,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get appLogs => 'App logs';
 
   @override
-  String get appSettings => 'App settings';
+  String get appSettings => 'App Settings';
 
   @override
   String get appUnlock => 'App unlock';
@@ -939,7 +939,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get serverName => 'Server name';
 
   @override
-  String get serverSettings => 'Server settings';
+  String get serverSettings => 'Server Settings';
 
   @override
   String get servers => 'Servers';

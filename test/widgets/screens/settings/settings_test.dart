@@ -49,7 +49,7 @@ void main() async {
           expect(find.byType(Settings), findsOneWidget);
           expect(find.text('Settings'), findsNWidgets(2)); //title and nav bar
 
-          expect(find.text('App settings'), findsOneWidget);
+          expect(find.text('App Settings'), findsOneWidget);
 
           expect(find.text('Theme'), findsOneWidget);
           expect(find.text('System theme'), findsOneWidget);
@@ -63,7 +63,7 @@ void main() async {
           expect(find.text('Advanced settings'), findsOneWidget);
           expect(find.text('Advanced options'), findsOneWidget);
 
-          expect(find.text('Server settings'), findsOneWidget);
+          expect(find.text('Server Settings'), findsOneWidget);
           expect(find.text('Pi-hole Server'), findsOneWidget);
           expect(find.text('test v6'), findsOneWidget);
 
@@ -117,7 +117,7 @@ void main() async {
           expect(find.byType(Settings), findsOneWidget);
           expect(find.text('Settings'), findsNWidgets(2)); //title and nav bar
 
-          expect(find.text('App settings'), findsOneWidget);
+          expect(find.text('App Settings'), findsOneWidget);
 
           expect(find.text('Theme'), findsOneWidget);
           expect(find.text('System theme'), findsOneWidget);
@@ -131,7 +131,7 @@ void main() async {
           expect(find.text('Advanced settings'), findsOneWidget);
           expect(find.text('Advanced options'), findsOneWidget);
 
-          expect(find.text('Server settings'), findsOneWidget);
+          expect(find.text('Server Settings'), findsOneWidget);
           expect(find.text('Pi-hole Server'), findsOneWidget);
           expect(find.text('test v6'), findsOneWidget);
 
