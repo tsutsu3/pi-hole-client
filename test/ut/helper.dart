@@ -52,7 +52,7 @@ class DbHelper {
               hideZeroValues,
               statisticsVisualizationMode,
               sendCrashReports
-            ) VALUES (5, 0, 'en', 0, 0, 2, 0, 0, 0, 0, 0)
+            ) VALUES (5, 0, 'en', 1, 0, 2, 0, 0, 0, 0, 0)
           ''');
       },
       onOpen: (Database db) async {},

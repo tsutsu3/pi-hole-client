@@ -18,7 +18,7 @@ class AppConfigProvider with ChangeNotifier {
   PackageInfo? _appInfo;
   int? _autoRefreshTime = 2; // secounds
   int _selectedTheme = 0;
-  int _overrideSslCheck = 0;
+  int _overrideSslCheck = 1;
   int _reducedDataCharts = 0;
   double _logsPerQuery = 2; //hours
   String? _passCode;
@@ -420,7 +420,7 @@ class AppConfigProvider with ChangeNotifier {
       _autoRefreshTime = 5;
       _selectedTheme = 0;
       _selectedLanguage = 'en';
-      _overrideSslCheck = 0;
+      _overrideSslCheck = 1;
       _reducedDataCharts = 0;
       _logsPerQuery = 2;
       _passCode = null;

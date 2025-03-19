@@ -52,7 +52,7 @@ void main() async {
       expect(appConfig.autoRefreshTime, 5);
       expect(appConfig.theme, 0);
       expect(appConfig.language, 'en');
-      expect(appConfig.overrideSslCheck, 0);
+      expect(appConfig.overrideSslCheck, 1);
       expect(appConfig.reducedDataCharts, 0);
       expect(appConfig.logsPerQuery, 2);
       expect(appConfig.passCode, isNull);
@@ -76,7 +76,7 @@ void main() async {
       expect(appConfig.autoRefreshTime, 5);
       expect(appConfig.theme, 0);
       expect(appConfig.language, 'en');
-      expect(appConfig.overrideSslCheck, 0);
+      expect(appConfig.overrideSslCheck, 1);
       expect(appConfig.reducedDataCharts, 0);
       expect(appConfig.logsPerQuery, 2);
       expect(appConfig.passCode, isNull);
@@ -119,7 +119,7 @@ void main() async {
       expect(appConfig.autoRefreshTime, 5);
       expect(appConfig.theme, 0);
       expect(appConfig.language, 'en');
-      expect(appConfig.overrideSslCheck, 0);
+      expect(appConfig.overrideSslCheck, 1);
       expect(appConfig.reducedDataCharts, 0);
       expect(appConfig.logsPerQuery, 2);
       expect(appConfig.passCode, isNull);
@@ -163,7 +163,7 @@ void main() async {
       expect(appConfig.autoRefreshTime, 5);
       expect(appConfig.theme, 0);
       expect(appConfig.language, 'en');
-      expect(appConfig.overrideSslCheck, 0);
+      expect(appConfig.overrideSslCheck, 1);
       expect(appConfig.reducedDataCharts, 0);
       expect(appConfig.logsPerQuery, 2);
       expect(appConfig.passCode, '9999');

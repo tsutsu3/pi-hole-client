@@ -127,7 +127,7 @@ class DatabaseRepository {
               hideZeroValues,
               statisticsVisualizationMode,
               sendCrashReports
-            ) VALUES (5, 0, 'en', 0, 0, 2, 0, 0, 0, 0, 0)
+            ) VALUES (5, 0, 'en', 1, 0, 2, 0, 0, 0, 0, 0)
           ''');
         logger.d('Database created');
       },
@@ -461,7 +461,7 @@ class DatabaseRepository {
             'autoRefreshTime': 5,
             'theme': 0,
             'language': 'en',
-            'overrideSslCheck': 0,
+            'overrideSslCheck': 1,
             'reducedDataCharts': 0,
             'logsPerQuery': 2,
             'useBiometricAuth': 0,

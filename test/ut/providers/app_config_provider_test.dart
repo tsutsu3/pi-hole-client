@@ -40,7 +40,7 @@ void main() {
       expect(appConfigProvider.selectedTab, 0);
       expect(appConfigProvider.getAutoRefreshTime, 2);
       expect(appConfigProvider.selectedThemeNumber, 0);
-      expect(appConfigProvider.overrideSslCheck, false);
+      expect(appConfigProvider.overrideSslCheck, true);
       expect(appConfigProvider.reducedDataCharts, false);
       expect(appConfigProvider.logsPerQuery, 2);
       expect(appConfigProvider.passCode, null);
@@ -337,7 +337,7 @@ void main() {
           appConfigProvider.selectedLanguage,
           SchedulerBinding.instance.platformDispatcher.locale.languageCode,
         );
-        expect(appConfigProvider.overrideSslCheck, false);
+        expect(appConfigProvider.overrideSslCheck, true);
         expect(appConfigProvider.reducedDataCharts, false);
         expect(appConfigProvider.logsPerQuery, 2);
         expect(appConfigProvider.passCode, null);

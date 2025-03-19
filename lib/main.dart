@@ -64,6 +64,7 @@ void main() async {
     filtersProvider: filtersProvider,
   );
 
+  // TODO: Allow configuration per server
   if (dbRepository.appConfig.overrideSslCheck == 1) {
     HttpOverrides.global = MyHttpOverrides();
   }
