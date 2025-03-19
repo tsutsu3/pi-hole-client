@@ -28,6 +28,7 @@ class ServersList extends StatelessWidget {
 
     if (serversProvider.getServersList.isNotEmpty) {
       return ListView(
+        padding: const EdgeInsets.only(bottom: 80),
         children: [
           Wrap(
             children: serversProvider.getServersList
