@@ -1023,7 +1023,7 @@ class TestSetupHelper {
     when(mockConfigProvider.logsPerQuery).thenReturn(2);
     when(mockConfigProvider.passCode).thenReturn(null);
     when(mockConfigProvider.useBiometrics).thenReturn(false);
-    when(mockConfigProvider.overrideSslCheck).thenReturn(false);
+    when(mockConfigProvider.overrideSslCheck).thenReturn(true);
     when(mockConfigProvider.reducedDataCharts).thenReturn(false);
     when(mockConfigProvider.hideZeroValues).thenReturn(false);
     when(mockConfigProvider.selectedTheme).thenReturn(ThemeMode.light);
