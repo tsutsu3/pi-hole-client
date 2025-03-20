@@ -235,7 +235,7 @@ jobs:
 
       - name: Extract latest release notes from CHANGELOG.md
         run: |
-          awk '/^## / {if (p) exit; p=1} p' CHANGELOG.md > latest_changelog.md
+          awk '/^## \[/ {if (p) exit; p=1} p' CHANGELOG.md > latest_changelog.md
           cat latest_changelog.md
 
       - name: Release to GitHub
