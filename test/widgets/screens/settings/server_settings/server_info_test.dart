@@ -179,6 +179,38 @@ void main() async {
           expect(find.text('raspberrypi'), findsNothing);
         },
       );
+
+      testWidgets(
+        'should show error when fetch fails',
+        (WidgetTester tester) async {
+          tester.view.physicalSize = const Size(1080, 2400);
+          tester.view.devicePixelRatio = 2.0;
+
+          when(testSetup.mockApiGatewayV6.fetchAllServerInfo()).thenAnswer(
+            (_) async => PiHoleServerInfoResponse(
+              result: APiResponseType.error,
+            ),
+          );
+
+          addTearDown(() {
+            tester.view.resetPhysicalSize();
+            tester.view.resetDevicePixelRatio();
+          });
+
+          await tester.pumpWidget(
+            testSetup.buildTestWidget(
+              const ServerInfoScreen(),
+            ),
+          );
+
+          expect(find.byType(ServerInfoScreen), findsOneWidget);
+          await tester.pump();
+
+          expect(find.byIcon(Icons.error), findsOneWidget);
+          expect(find.text('ERROR'), findsOneWidget);
+          expect(find.text('Failed to fetch data.'), findsOneWidget);
+        },
+      );
     },
   );
 

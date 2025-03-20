@@ -3,6 +3,7 @@ import 'package:pi_hole_client/classes/custom_scroll_behavior.dart';
 import 'package:pi_hole_client/functions/logger.dart';
 import 'package:pi_hole_client/gateways/api_gateway_interface.dart';
 import 'package:pi_hole_client/l10n/generated/app_localizations.dart';
+import 'package:pi_hole_client/models/gateways.dart';
 import 'package:pi_hole_client/models/server.dart';
 import 'package:pi_hole_client/models/version.dart';
 import 'package:pi_hole_client/providers/servers_provider.dart';
@@ -48,10 +49,19 @@ class ServerInfoScreen extends StatelessWidget {
               }
 
               final serverInfo = snapshot.data;
+
+              if (serverInfo?.result != APiResponseType.success) {
+                logger.e('Server Info fetch failed: ${serverInfo?.result}');
+                return ErrorMessageScreen(
+                  message: AppLocalizations.of(context)!.dataFetchFailed,
+                );
+              }
+
               logger.d('Server Info version: ${serverInfo?.version?.toJson()}');
               logger.d('Server Info host: ${serverInfo?.host?.toJson()}');
               logger.d('Server Info system: ${serverInfo?.system?.toJson()}');
               logger.d('Server Info sensor: ${serverInfo?.sensors?.toJson()}');
+
               return _buildServerInfoContent(
                 server: server,
                 apiGateway: apiGateway,
