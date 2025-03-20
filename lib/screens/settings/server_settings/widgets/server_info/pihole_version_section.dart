@@ -79,6 +79,10 @@ class PiholeVersionSection extends StatelessWidget {
                   text: version?.docker.local.version ?? '-',
                 )
               : Skeleton.replace(
+                  replacement: const InfoTrailing(
+                    isUpdate: false,
+                    text: '',
+                  ),
                   child: Text(
                     version?.docker.local.version ?? '-',
                     style: TextStyle(
@@ -86,10 +90,6 @@ class PiholeVersionSection extends StatelessWidget {
                       fontSize: 16,
                       color: Theme.of(context).colorScheme.onSurfaceVariant,
                     ),
-                  ),
-                  replacement: InfoTrailing(
-                    isUpdate: false,
-                    text: '',
                   ),
                 ),
         ),

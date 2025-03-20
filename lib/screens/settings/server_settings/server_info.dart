@@ -69,7 +69,10 @@ class ServerInfoScreen extends StatelessWidget {
 
   // Show a skeleton loading screen while fetching data
   Widget _buildSkeletonLoading(
-      BuildContext context, Server? server, ApiGateway? apiGateway) {
+    BuildContext context,
+    Server? server,
+    ApiGateway? apiGateway,
+  ) {
     return SingleChildScrollView(
       padding: const EdgeInsets.all(16),
       child: Skeletonizer(
