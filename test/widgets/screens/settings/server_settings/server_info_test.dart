@@ -155,7 +155,7 @@ void main() async {
       );
 
       testWidgets(
-        'should show CircularProgressIndicator when Future is not complete',
+        'should show skelton when Future is not complete',
         (WidgetTester tester) async {
           tester.view.physicalSize = const Size(1080, 2400);
           tester.view.devicePixelRatio = 2.0;
@@ -176,7 +176,7 @@ void main() async {
           );
 
           expect(find.byType(ServerInfoScreen), findsOneWidget);
-          expect(find.byType(CircularProgressIndicator), findsOneWidget);
+          expect(find.text('raspberrypi'), findsNothing);
         },
       );
     },
