@@ -4,6 +4,7 @@ import 'package:pi_hole_client/models/host.dart';
 import 'package:pi_hole_client/widgets/adaptive_trailing_text.dart';
 import 'package:pi_hole_client/widgets/list_tile_title.dart';
 import 'package:pi_hole_client/widgets/section_label.dart';
+import 'package:skeletonizer/skeletonizer.dart';
 
 class HostInformationSection extends StatelessWidget {
   const HostInformationSection({required this.host, super.key});
@@ -17,13 +18,19 @@ class HostInformationSection extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        SectionLabel(label: AppLocalizations.of(context)!.host),
+        Skeleton.keep(
+          child: SectionLabel(label: AppLocalizations.of(context)!.host),
+        ),
         ListTile(
           dense: true,
-          leading: const Icon(Icons.connected_tv_rounded),
-          title: listTileTitle(
-            AppLocalizations.of(context)!.host,
-            colorScheme: colorScheme,
+          leading: const Skeleton.keep(
+            child: Icon(Icons.connected_tv_rounded),
+          ),
+          title: Skeleton.keep(
+            child: listTileTitle(
+              AppLocalizations.of(context)!.host,
+              colorScheme: colorScheme,
+            ),
           ),
           trailing: AdaptiveTrailingText(
             text: host?.hostName ?? AppLocalizations.of(context)!.unknown,
@@ -31,10 +38,14 @@ class HostInformationSection extends StatelessWidget {
         ),
         ListTile(
           dense: true,
-          leading: const Icon(Icons.tag_rounded),
-          title: listTileTitle(
-            AppLocalizations.of(context)!.model,
-            colorScheme: colorScheme,
+          leading: const Skeleton.keep(
+            child: Icon(Icons.tag_rounded),
+          ),
+          title: Skeleton.keep(
+            child: listTileTitle(
+              AppLocalizations.of(context)!.model,
+              colorScheme: colorScheme,
+            ),
           ),
           trailing: AdaptiveTrailingText(
             text: host?.model ?? AppLocalizations.of(context)!.unknown,
@@ -43,9 +54,11 @@ class HostInformationSection extends StatelessWidget {
         Theme(
           data: Theme.of(context).copyWith(dividerColor: Colors.transparent),
           child: ExpansionTile(
-            title: listTileTitle(
-              AppLocalizations.of(context)!.moreDetails,
-              colorScheme: colorScheme,
+            title: Skeleton.keep(
+              child: listTileTitle(
+                AppLocalizations.of(context)!.moreDetails,
+                colorScheme: colorScheme,
+              ),
             ),
             children: [
               ListTile(

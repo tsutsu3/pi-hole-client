@@ -83,6 +83,7 @@ dependencies:
   flutter_secure_storage: ^9.2.4
   collection: ^1.18.0
   window_manager: ^0.4.3
+  skeletonizer: ^1.4.3
 
 
 dev_dependencies:

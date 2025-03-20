@@ -4,6 +4,7 @@ import 'package:pi_hole_client/screens/settings/server_settings/widgets/server_i
 import 'package:pi_hole_client/widgets/list_tile_title.dart';
 import 'package:pi_hole_client/widgets/pihole_icon.dart';
 import 'package:pi_hole_client/widgets/section_label.dart';
+import 'package:skeletonizer/skeletonizer.dart';
 
 class PiholeVersionSection extends StatelessWidget {
   const PiholeVersionSection({required this.version, super.key});
@@ -17,11 +18,18 @@ class PiholeVersionSection extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        SectionLabel(label: AppLocalizations.of(context)!.piholeVersion),
+        Skeleton.keep(
+          child:
+              SectionLabel(label: AppLocalizations.of(context)!.piholeVersion),
+        ),
         ListTile(
           dense: true,
-          leading: const PiholeIcon(),
-          title: listTileTitleNoPadding('Core', colorScheme: colorScheme),
+          leading: const Skeleton.keep(
+            child: PiholeIcon(),
+          ),
+          title: Skeleton.keep(
+            child: listTileTitleNoPadding('Core', colorScheme: colorScheme),
+          ),
           subtitle: Text('${version?.core.local.branch ?? '-'}'),
           trailing: InfoTrailing(
             isUpdate: version?.core.canUpdate,
@@ -30,8 +38,12 @@ class PiholeVersionSection extends StatelessWidget {
         ),
         ListTile(
           dense: true,
-          leading: const PiholeIcon(),
-          title: listTileTitleNoPadding('FTL', colorScheme: colorScheme),
+          leading: const Skeleton.keep(
+            child: PiholeIcon(),
+          ),
+          title: Skeleton.keep(
+            child: listTileTitleNoPadding('FTL', colorScheme: colorScheme),
+          ),
           subtitle: Text('${version?.ftl.local.branch ?? '-'}'),
           trailing: InfoTrailing(
             isUpdate: version?.ftl.canUpdate,
@@ -40,8 +52,12 @@ class PiholeVersionSection extends StatelessWidget {
         ),
         ListTile(
           dense: true,
-          leading: const PiholeIcon(),
-          title: listTileTitleNoPadding('Web', colorScheme: colorScheme),
+          leading: const Skeleton.keep(
+            child: PiholeIcon(),
+          ),
+          title: Skeleton.keep(
+            child: listTileTitleNoPadding('Web', colorScheme: colorScheme),
+          ),
           subtitle: Text('${version?.web.local.branch ?? '-'}'),
           trailing: InfoTrailing(
             isUpdate: version?.web.canUpdate,
@@ -50,20 +66,30 @@ class PiholeVersionSection extends StatelessWidget {
         ),
         ListTile(
           dense: true,
-          leading: const PiholeIcon(),
-          title: listTileTitleNoPadding('Docker', colorScheme: colorScheme),
-          subtitle: const Text('-'),
+          leading: const Skeleton.keep(
+            child: PiholeIcon(),
+          ),
+          title: Skeleton.keep(
+            child: listTileTitleNoPadding('Docker', colorScheme: colorScheme),
+          ),
+          subtitle: const Skeleton.replace(child: Text('-')),
           trailing: version?.docker.local.version.isNotEmpty
               ? InfoTrailing(
                   isUpdate: version?.docker.canUpdate,
                   text: version?.docker.local.version ?? '-',
                 )
-              : Text(
-                  version?.docker.local.version ?? '-',
-                  style: TextStyle(
-                    fontWeight: FontWeight.normal,
-                    fontSize: 16,
-                    color: Theme.of(context).colorScheme.onSurfaceVariant,
+              : Skeleton.replace(
+                  child: Text(
+                    version?.docker.local.version ?? '-',
+                    style: TextStyle(
+                      fontWeight: FontWeight.normal,
+                      fontSize: 16,
+                      color: Theme.of(context).colorScheme.onSurfaceVariant,
+                    ),
+                  ),
+                  replacement: InfoTrailing(
+                    isUpdate: false,
+                    text: '',
                   ),
                 ),
         ),
