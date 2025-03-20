@@ -1,0 +1,38 @@
+name: Manual update Winget Manifest
+
+on:
+  workflow_dispatch:
+
+jobs:
+  # Release draftが解除されたら実行
+  get-version:
+    name: Extract Version from pubspec.yaml
+    runs-on: ubuntu-latest
+    outputs:
+      VERSION_NAME: ${{ steps.extract_version.outputs.VERSION_NAME }}
+      VERSION_NUMBER: ${{ steps.extract_version.outputs.VERSION_NUMBER }}
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Extract version from pubspec.yaml
+        id: extract_version
+        run: |
+          VERSION_FULL=$(grep '^version:' pubspec.yaml | sed 's/version: //')
+          VERSION_NAME=$(echo $VERSION_FULL | cut -d '+' -f 1)
+          VERSION_NUMBER=$(echo $VERSION_FULL | cut -d '+' -f 2)
+          echo "VERSION_NAME=$VERSION_NAME" >> $GITHUB_ENV
+          echo "VERSION_NUMBER=$VERSION_NUMBER" >> $GITHUB_ENV
+          echo "VERSION_NAME=$VERSION_NAME" >> $GITHUB_OUTPUT
+          echo "VERSION_NUMBER=$VERSION_NUMBER" >> $GITHUB_OUTPUT
+          echo "Extracted Version Name: $VERSION_NAME"
+          echo "Extracted Version Number: $VERSION_NUMBER"
+
+  # Release draftが解除されたら実行し、manifestを作成。このリポジトリのPRを作成する
+  winget-update:
+    runs-on: windows-latest
+    needs: get-version
+
+  # 上記PRがマージされたら、wingetのリポジトリにPRを作成する
+  winget-submit:
+    runs-on: windows-latest
