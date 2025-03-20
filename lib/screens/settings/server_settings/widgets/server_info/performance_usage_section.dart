@@ -7,6 +7,7 @@ import 'package:pi_hole_client/models/system.dart';
 import 'package:pi_hole_client/widgets/adaptive_trailing_text.dart';
 import 'package:pi_hole_client/widgets/list_tile_title.dart';
 import 'package:pi_hole_client/widgets/section_label.dart';
+import 'package:skeletonizer/skeletonizer.dart';
 
 class PerformanceUsageSection extends StatelessWidget {
   const PerformanceUsageSection({
@@ -25,13 +26,19 @@ class PerformanceUsageSection extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        SectionLabel(label: AppLocalizations.of(context)!.performance),
+        Skeleton.keep(
+          child: SectionLabel(label: AppLocalizations.of(context)!.performance),
+        ),
         ListTile(
           dense: true,
-          leading: const Icon(Icons.memory_rounded),
-          title: listTileTitle(
-            AppLocalizations.of(context)!.cpuUsage,
-            colorScheme: colorScheme,
+          leading: const Skeleton.keep(
+            child: Icon(Icons.memory_rounded),
+          ),
+          title: Skeleton.keep(
+            child: listTileTitle(
+              AppLocalizations.of(context)!.cpuUsage,
+              colorScheme: colorScheme,
+            ),
           ),
           subtitle: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -50,10 +57,14 @@ class PerformanceUsageSection extends StatelessWidget {
         ),
         ListTile(
           dense: true,
-          leading: const Icon(Icons.speed_rounded),
-          title: listTileTitle(
-            AppLocalizations.of(context)!.memoryUsage,
-            colorScheme: colorScheme,
+          leading: const Skeleton.keep(
+            child: Icon(Icons.speed_rounded),
+          ),
+          title: Skeleton.keep(
+            child: listTileTitle(
+              AppLocalizations.of(context)!.memoryUsage,
+              colorScheme: colorScheme,
+            ),
           ),
           subtitle: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -73,9 +84,11 @@ class PerformanceUsageSection extends StatelessWidget {
         Theme(
           data: Theme.of(context).copyWith(dividerColor: Colors.transparent),
           child: ExpansionTile(
-            title: listTileTitle(
-              AppLocalizations.of(context)!.moreDetails,
-              colorScheme: colorScheme,
+            title: Skeleton.keep(
+              child: listTileTitle(
+                AppLocalizations.of(context)!.moreDetails,
+                colorScheme: colorScheme,
+              ),
             ),
             children: [
               ListTile(
