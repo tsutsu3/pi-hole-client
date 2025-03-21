@@ -3,9 +3,35 @@ set -e
 
 case "$1" in
     remove)
+        echo "🧹 Removing Pi-hole client core files..."
+
+        # Not strictly necessary: dpkg -r removes package files and empty dirs; use rm -rf for extra or generated files.
         if [ -d "/usr/local/lib/PiHoleClient" ]; then
             rm -rf /usr/local/lib/PiHoleClient
+            echo "✔️ Removed /usr/local/lib/PiHoleClient"
+        fi
+
+        echo ""
+        echo "⚠️  Note: User-specific data has NOT been deleted automatically."
+        echo ""
+        echo "📁  It may still exist in the following locations for each user:"
+        echo "     - ~/.dart_tool/sqflite_common_ffi/databases/pi_hole_client.db"
+        echo "     - ~/.local/share/io.github.tsutsu3.pi_hole_client/FlutterSecureStorage/"
+        echo "     - ~/.local/share/io.github.tsutsu3/Pi-hole client/"
+        echo ""
+        echo "Please delete these manually if you want to fully remove user data."
+        echo ""
+
+        if [[ "${XDG_CURRENT_DESKTOP,,}" == *kde* ]] || [[ "${DESKTOP_SESSION,,}" == *plasma* ]]; then
+            echo "🔐  KDE Wallet (KWallet) Warning:"
+            echo "    Some secure data may be stored in KWallet."
+            echo "    To manage or delete it:"
+            echo "     - Run: kwalletmanager5"
+            echo "     - Or (if installed): seahorse"
+            echo "     - Or try: secret-tool clear service 'FlutterSecureStorage'"
+            echo ""
         fi
         ;;
 esac
+
 exit 0
