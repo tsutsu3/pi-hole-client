@@ -55,6 +55,11 @@ Source: "..\build\windows\x64\runner\Release\data\*"; DestDir: "{app}\data"; Fla
 Name: "{autoprograms}\{#MyAppName}"; Filename: "{app}\{#MyAppExeName}"
 Name: "{autodesktop}\{#MyAppName}"; Filename: "{app}\{#MyAppExeName}"; Tasks: desktopicon
 
+[UninstallDelete]
+; Delete app folder and secure storage folter
+Type: filesandordirs; Name: "{app}"
+Type: filesandordirs; Name: "{userappdata}\io.github.tsutsu3\Pi-hole client"
+
 [Run]
 Filename: "{app}\{#MyAppExeName}"; Description: "{cm:LaunchProgram,{#StringChange(MyAppName, '&', '&&')}}"; Flags: nowait postinstall skipifsilent
 
