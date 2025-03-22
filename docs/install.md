@@ -28,4 +28,4 @@
 > it likely means the **Visual C++ Redistributable (x64)** is not installed on your system.
 > You can download it from the official Microsoft website:
 >
-> 👉 [https://learn.microsoft.com/en-us/cpp/windows/latest-supported-vc-redist](https://learn.microsoft.com/en-us/cpp/windows/latest-supported-vc-redist)
+> 👉 <https://learn.microsoft.com/en-us/cpp/windows/latest-supported-vc-redist>
