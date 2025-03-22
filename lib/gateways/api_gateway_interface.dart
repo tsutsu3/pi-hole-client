@@ -93,10 +93,6 @@ abstract interface class ApiGateway {
     Map<String, dynamic> domainData,
   );
 
-  // =========================================================================
-  // Pi-hole Sever information
-  // =========================================================================
-
   /// Fetch Pi-hole host information.
   Future<HostResponse> fetchHostInfo();
 
