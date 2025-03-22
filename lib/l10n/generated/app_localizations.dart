@@ -1001,6 +1001,12 @@ abstract class AppLocalizations {
   /// **'Errors registered by the app'**
   String get errorsApp;
 
+  /// No description provided for @featureNotSupportedMessage.
+  ///
+  /// In en, this message translates to:
+  /// **'This feature is not available on Pi-hole v5.\nPlease upgrade to Pi-hole v6 or later.'**
+  String get featureNotSupportedMessage;
+
   /// No description provided for @filters.
   ///
   /// In en, this message translates to:
@@ -2236,6 +2242,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Unlock the app with your fingerprint'**
   String get unlockWithFingerprint;
+
+  /// No description provided for @unsupportedFeatureTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Unsupported Feature'**
+  String get unsupportedFeatureTitle;
 
   /// No description provided for @updatePasscode.
   ///

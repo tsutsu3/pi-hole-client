@@ -459,6 +459,9 @@ class AppLocalizationsDe extends AppLocalizations {
   String get errorsApp => 'Von der App registrierte Fehler';
 
   @override
+  String get featureNotSupportedMessage => 'Diese Funktion ist in Pi-hole v5 nicht verfügbar.\nBitte aktualisieren Sie auf Pi-hole v6 oder höher.';
+
+  @override
   String get filters => 'Filter';
 
   @override
@@ -1075,6 +1078,9 @@ class AppLocalizationsDe extends AppLocalizations {
 
   @override
   String get unlockWithFingerprint => 'Entsperren Sie die App mit Ihrem Fingerabdruck';
+
+  @override
+  String get unsupportedFeatureTitle => 'Nicht unterstützte Funktion';
 
   @override
   String get updatePasscode => 'Passwort ändern';
