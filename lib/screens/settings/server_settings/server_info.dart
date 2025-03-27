@@ -28,6 +28,10 @@ class ServerInfoScreen extends StatelessWidget {
       (provider) => provider.selectedServer,
     );
 
+    if (apiGateway == null || server == null) {
+      return const EmptyDataScreen();
+    }
+
     return ScrollConfiguration(
       behavior: CustomScrollBehavior(),
       child: Scaffold(
@@ -36,7 +40,7 @@ class ServerInfoScreen extends StatelessWidget {
         ),
         body: SafeArea(
           child: FutureBuilder(
-            future: apiGateway?.fetchAllServerInfo(),
+            future: apiGateway.fetchAllServerInfo(),
             builder: (context, snapshot) {
               if (snapshot.connectionState == ConnectionState.waiting) {
                 return _buildSkeletonLoading(context, server, apiGateway);
