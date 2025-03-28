@@ -125,6 +125,12 @@ abstract class AppLocalizations {
   /// **'Add'**
   String get add;
 
+  /// No description provided for @addAdlist.
+  ///
+  /// In en, this message translates to:
+  /// **'Add adlist'**
+  String get addAdlist;
+
   /// No description provided for @addAsWildcard.
   ///
   /// In en, this message translates to:
@@ -155,6 +161,12 @@ abstract class AppLocalizations {
   /// **'Domain added to whitelist.'**
   String get addedWhitelist;
 
+  /// No description provided for @addingAdlist.
+  ///
+  /// In en, this message translates to:
+  /// **'Adding adlist...'**
+  String get addingAdlist;
+
   /// No description provided for @addingBlacklist.
   ///
   /// In en, this message translates to:
@@ -178,6 +190,84 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'IP address or domain'**
   String get address;
+
+  /// No description provided for @adlist.
+  ///
+  /// In en, this message translates to:
+  /// **'Adlist'**
+  String get adlist;
+
+  /// No description provided for @adlistAdded.
+  ///
+  /// In en, this message translates to:
+  /// **'Adlist added successfully'**
+  String get adlistAdded;
+
+  /// No description provided for @adlistAddress.
+  ///
+  /// In en, this message translates to:
+  /// **'Address'**
+  String get adlistAddress;
+
+  /// No description provided for @adlistAlreadyAdded.
+  ///
+  /// In en, this message translates to:
+  /// **'Adlist already added'**
+  String get adlistAlreadyAdded;
+
+  /// No description provided for @adlistDetails.
+  ///
+  /// In en, this message translates to:
+  /// **'Adlist Details'**
+  String get adlistDetails;
+
+  /// No description provided for @adlistInfo.
+  ///
+  /// In en, this message translates to:
+  /// **'Adlist Info'**
+  String get adlistInfo;
+
+  /// No description provided for @adlistManagementDescription.
+  ///
+  /// In en, this message translates to:
+  /// **'Manage and update Adlists'**
+  String get adlistManagementDescription;
+
+  /// No description provided for @adlistManagementTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Adlists'**
+  String get adlistManagementTitle;
+
+  /// No description provided for @adlistNotExists.
+  ///
+  /// In en, this message translates to:
+  /// **'Adlist does not exist'**
+  String get adlistNotExists;
+
+  /// No description provided for @adlistRemoved.
+  ///
+  /// In en, this message translates to:
+  /// **'Adlist removed successfully'**
+  String get adlistRemoved;
+
+  /// No description provided for @adlistSettings.
+  ///
+  /// In en, this message translates to:
+  /// **'Adlist Settings'**
+  String get adlistSettings;
+
+  /// No description provided for @adlistStatus.
+  ///
+  /// In en, this message translates to:
+  /// **'Health Status'**
+  String get adlistStatus;
+
+  /// No description provided for @adlistUpdated.
+  ///
+  /// In en, this message translates to:
+  /// **'Adlist updated successfully'**
+  String get adlistUpdated;
 
   /// No description provided for @advancedSetup.
   ///
@@ -238,6 +328,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Allow crash report submission?'**
   String get allowCrashReport;
+
+  /// No description provided for @allowList.
+  ///
+  /// In en, this message translates to:
+  /// **'Allowlist'**
+  String get allowList;
 
   /// No description provided for @allowed.
   ///
@@ -395,6 +491,12 @@ abstract class AppLocalizations {
   /// **'Add to blacklist'**
   String get blacklist;
 
+  /// No description provided for @blockList.
+  ///
+  /// In en, this message translates to:
+  /// **'Blocklist'**
+  String get blockList;
+
   /// No description provided for @blocked.
   ///
   /// In en, this message translates to:
@@ -412,6 +514,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Cancel'**
   String get cancel;
+
+  /// No description provided for @cannotAddAdlist.
+  ///
+  /// In en, this message translates to:
+  /// **'Adlist couldn\'t be added'**
+  String get cannotAddAdlist;
 
   /// No description provided for @cannotAddDomain.
   ///
@@ -761,6 +869,12 @@ abstract class AppLocalizations {
   /// **'Date modified'**
   String get dateModified;
 
+  /// No description provided for @dateUpdated.
+  ///
+  /// In en, this message translates to:
+  /// **'Date Updated'**
+  String get dateUpdated;
+
   /// No description provided for @dbNotWorking.
   ///
   /// In en, this message translates to:
@@ -778,6 +892,18 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Delete'**
   String get delete;
+
+  /// No description provided for @deleteAdlist.
+  ///
+  /// In en, this message translates to:
+  /// **'Delete adlist'**
+  String get deleteAdlist;
+
+  /// No description provided for @deleteAdlistMessage.
+  ///
+  /// In en, this message translates to:
+  /// **'Are you sure you want to delete this adlist?'**
+  String get deleteAdlistMessage;
 
   /// No description provided for @deleteDomain.
   ///
@@ -905,11 +1031,29 @@ abstract class AppLocalizations {
   /// **'Edit'**
   String get edit;
 
+  /// No description provided for @editAddress.
+  ///
+  /// In en, this message translates to:
+  /// **'Edit address'**
+  String get editAddress;
+
+  /// No description provided for @editComment.
+  ///
+  /// In en, this message translates to:
+  /// **'Edit comment'**
+  String get editComment;
+
   /// No description provided for @editConnection.
   ///
   /// In en, this message translates to:
   /// **'Edit a Connection'**
   String get editConnection;
+
+  /// No description provided for @editGroups.
+  ///
+  /// In en, this message translates to:
+  /// **'Edit groups'**
+  String get editGroups;
 
   /// No description provided for @editServer.
   ///
@@ -988,6 +1132,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Erases all application data'**
   String get erasesAppData;
+
+  /// No description provided for @errorRemovingAdlist.
+  ///
+  /// In en, this message translates to:
+  /// **'Error when removing adlist'**
+  String get errorRemovingAdlist;
 
   /// No description provided for @errorRemovingDomain.
   ///
@@ -1072,6 +1222,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'App code available on GitHub'**
   String get gitHub;
+
+  /// No description provided for @groups.
+  ///
+  /// In en, this message translates to:
+  /// **'Groups'**
+  String get groups;
 
   /// No description provided for @helpUsImprove.
   ///
@@ -1163,6 +1319,18 @@ abstract class AppLocalizations {
   /// **'You can contact me by opening an issue on the GitHub repository or by email. All the details about how to contact are in Settings > Contact.'**
   String get howToContact;
 
+  /// No description provided for @id.
+  ///
+  /// In en, this message translates to:
+  /// **'ID'**
+  String get id;
+
+  /// No description provided for @ignored.
+  ///
+  /// In en, this message translates to:
+  /// **'Ignored'**
+  String get ignored;
+
   /// No description provided for @importantAnnouncement.
   ///
   /// In en, this message translates to:
@@ -1181,6 +1349,12 @@ abstract class AppLocalizations {
   /// **'Indefinitely'**
   String get indefinitely;
 
+  /// No description provided for @invalid.
+  ///
+  /// In en, this message translates to:
+  /// **'Invalid'**
+  String get invalid;
+
   /// No description provided for @invalidAddress.
   ///
   /// In en, this message translates to:
@@ -1192,6 +1366,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Invalid domain'**
   String get invalidDomain;
+
+  /// No description provided for @invalidDomains.
+  ///
+  /// In en, this message translates to:
+  /// **'Invalid Domains'**
+  String get invalidDomains;
 
   /// No description provided for @invalidPort.
   ///
@@ -1414,6 +1594,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Next'**
   String get next;
+
+  /// No description provided for @noAdlists.
+  ///
+  /// In en, this message translates to:
+  /// **'There are no adlists to show here.'**
+  String get noAdlists;
 
   /// No description provided for @noAvailableBiometrics.
   ///
@@ -1793,6 +1979,18 @@ abstract class AppLocalizations {
   /// **'Scan the QR code'**
   String get scanQrCode;
 
+  /// No description provided for @searchAdlistInternet.
+  ///
+  /// In en, this message translates to:
+  /// **'View adlist online'**
+  String get searchAdlistInternet;
+
+  /// No description provided for @searchAdlists.
+  ///
+  /// In en, this message translates to:
+  /// **'Search adlists...'**
+  String get searchAdlists;
+
   /// No description provided for @searchDomainInternet.
   ///
   /// In en, this message translates to:
@@ -1853,6 +2051,12 @@ abstract class AppLocalizations {
   /// **'Security'**
   String get security;
 
+  /// No description provided for @selectAdlistsLeftColumn.
+  ///
+  /// In en, this message translates to:
+  /// **'Choose an adlist to see its details'**
+  String get selectAdlistsLeftColumn;
+
   /// No description provided for @selectConnection.
   ///
   /// In en, this message translates to:
@@ -1870,6 +2074,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Select end time'**
   String get selectEndTime;
+
+  /// No description provided for @selectGroupsMessage.
+  ///
+  /// In en, this message translates to:
+  /// **'Please select a group …'**
+  String get selectGroupsMessage;
 
   /// No description provided for @selectLogsLeftColumn.
   ///
@@ -2290,6 +2500,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Username'**
   String get username;
+
+  /// No description provided for @valid.
+  ///
+  /// In en, this message translates to:
+  /// **'Valid'**
+  String get valid;
 
   /// No description provided for @valueNotValid.
   ///
