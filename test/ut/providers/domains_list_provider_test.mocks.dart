@@ -14,9 +14,11 @@ import 'package:pi_hole_client/gateways/api_gateway_interface.dart' as _i9;
 import 'package:pi_hole_client/gateways/v6/api_gateway_v6.dart' as _i13;
 import 'package:pi_hole_client/models/domain.dart' as _i15;
 import 'package:pi_hole_client/models/gateways.dart' as _i5;
+import 'package:pi_hole_client/models/groups.dart' as _i17;
 import 'package:pi_hole_client/models/query_status.dart' as _i7;
 import 'package:pi_hole_client/models/repository/database.dart' as _i11;
 import 'package:pi_hole_client/models/server.dart' as _i3;
+import 'package:pi_hole_client/models/subscriptions.dart' as _i16;
 import 'package:pi_hole_client/providers/app_config_provider.dart' as _i8;
 import 'package:pi_hole_client/providers/servers_provider.dart' as _i6;
 
@@ -137,6 +139,36 @@ class _FakeVersionResponse_16 extends _i1.SmartFake
 class _FakePiHoleServerInfoResponse_17 extends _i1.SmartFake
     implements _i5.PiHoleServerInfoResponse {
   _FakePiHoleServerInfoResponse_17(Object parent, Invocation parentInvocation)
+    : super(parent, parentInvocation);
+}
+
+class _FakeSubscriptionsResponse_18 extends _i1.SmartFake
+    implements _i5.SubscriptionsResponse {
+  _FakeSubscriptionsResponse_18(Object parent, Invocation parentInvocation)
+    : super(parent, parentInvocation);
+}
+
+class _FakeRemoveSubscriptionResponse_19 extends _i1.SmartFake
+    implements _i5.RemoveSubscriptionResponse {
+  _FakeRemoveSubscriptionResponse_19(Object parent, Invocation parentInvocation)
+    : super(parent, parentInvocation);
+}
+
+class _FakeSearchResponse_20 extends _i1.SmartFake
+    implements _i5.SearchResponse {
+  _FakeSearchResponse_20(Object parent, Invocation parentInvocation)
+    : super(parent, parentInvocation);
+}
+
+class _FakeGroupsResponse_21 extends _i1.SmartFake
+    implements _i5.GroupsResponse {
+  _FakeGroupsResponse_21(Object parent, Invocation parentInvocation)
+    : super(parent, parentInvocation);
+}
+
+class _FakeRemoveGroupResponse_22 extends _i1.SmartFake
+    implements _i5.RemoveGroupResponse {
+  _FakeRemoveGroupResponse_22(Object parent, Invocation parentInvocation)
     : super(parent, parentInvocation);
 }
 
@@ -582,4 +614,172 @@ class MockApiGatewayV6 extends _i1.Mock implements _i13.ApiGatewayV6 {
             ),
           )
           as _i10.Future<_i5.PiHoleServerInfoResponse>);
+
+  @override
+  _i10.Future<_i5.SubscriptionsResponse> getSubscriptions({
+    String? url,
+    String? stype,
+  }) =>
+      (super.noSuchMethod(
+            Invocation.method(#getSubscriptions, [], {
+              #url: url,
+              #stype: stype,
+            }),
+            returnValue: _i10.Future<_i5.SubscriptionsResponse>.value(
+              _FakeSubscriptionsResponse_18(
+                this,
+                Invocation.method(#getSubscriptions, [], {
+                  #url: url,
+                  #stype: stype,
+                }),
+              ),
+            ),
+          )
+          as _i10.Future<_i5.SubscriptionsResponse>);
+
+  @override
+  _i10.Future<_i5.RemoveSubscriptionResponse> removeSubscription({
+    required String? url,
+    String? stype,
+  }) =>
+      (super.noSuchMethod(
+            Invocation.method(#removeSubscription, [], {
+              #url: url,
+              #stype: stype,
+            }),
+            returnValue: _i10.Future<_i5.RemoveSubscriptionResponse>.value(
+              _FakeRemoveSubscriptionResponse_19(
+                this,
+                Invocation.method(#removeSubscription, [], {
+                  #url: url,
+                  #stype: stype,
+                }),
+              ),
+            ),
+          )
+          as _i10.Future<_i5.RemoveSubscriptionResponse>);
+
+  @override
+  _i10.Future<_i5.SubscriptionsResponse> putSubscription({
+    required String? url,
+    required _i16.SubscriptionRequest? body,
+    String? stype,
+  }) =>
+      (super.noSuchMethod(
+            Invocation.method(#putSubscription, [], {
+              #url: url,
+              #body: body,
+              #stype: stype,
+            }),
+            returnValue: _i10.Future<_i5.SubscriptionsResponse>.value(
+              _FakeSubscriptionsResponse_18(
+                this,
+                Invocation.method(#putSubscription, [], {
+                  #url: url,
+                  #body: body,
+                  #stype: stype,
+                }),
+              ),
+            ),
+          )
+          as _i10.Future<_i5.SubscriptionsResponse>);
+
+  @override
+  _i10.Future<_i5.SearchResponse> searchSubscriptions({
+    required String? domain,
+    bool? partial,
+    int? limit,
+    bool? debug,
+  }) =>
+      (super.noSuchMethod(
+            Invocation.method(#searchSubscriptions, [], {
+              #domain: domain,
+              #partial: partial,
+              #limit: limit,
+              #debug: debug,
+            }),
+            returnValue: _i10.Future<_i5.SearchResponse>.value(
+              _FakeSearchResponse_20(
+                this,
+                Invocation.method(#searchSubscriptions, [], {
+                  #domain: domain,
+                  #partial: partial,
+                  #limit: limit,
+                  #debug: debug,
+                }),
+              ),
+            ),
+          )
+          as _i10.Future<_i5.SearchResponse>);
+
+  @override
+  _i10.Future<_i5.GroupsResponse> fetchGroups({String? name}) =>
+      (super.noSuchMethod(
+            Invocation.method(#fetchGroups, [], {#name: name}),
+            returnValue: _i10.Future<_i5.GroupsResponse>.value(
+              _FakeGroupsResponse_21(
+                this,
+                Invocation.method(#fetchGroups, [], {#name: name}),
+              ),
+            ),
+          )
+          as _i10.Future<_i5.GroupsResponse>);
+
+  @override
+  _i10.Future<_i5.RemoveGroupResponse> removeGroup({required String? name}) =>
+      (super.noSuchMethod(
+            Invocation.method(#removeGroup, [], {#name: name}),
+            returnValue: _i10.Future<_i5.RemoveGroupResponse>.value(
+              _FakeRemoveGroupResponse_22(
+                this,
+                Invocation.method(#removeGroup, [], {#name: name}),
+              ),
+            ),
+          )
+          as _i10.Future<_i5.RemoveGroupResponse>);
+
+  @override
+  _i10.Future<_i5.GroupsResponse> createGroup({
+    required _i17.GroupRequest? body,
+  }) =>
+      (super.noSuchMethod(
+            Invocation.method(#createGroup, [], {#body: body}),
+            returnValue: _i10.Future<_i5.GroupsResponse>.value(
+              _FakeGroupsResponse_21(
+                this,
+                Invocation.method(#createGroup, [], {#body: body}),
+              ),
+            ),
+          )
+          as _i10.Future<_i5.GroupsResponse>);
+
+  @override
+  _i10.Future<_i5.GroupsResponse> updateGroup({
+    required _i17.GroupRequest? body,
+  }) =>
+      (super.noSuchMethod(
+            Invocation.method(#updateGroup, [], {#body: body}),
+            returnValue: _i10.Future<_i5.GroupsResponse>.value(
+              _FakeGroupsResponse_21(
+                this,
+                Invocation.method(#updateGroup, [], {#body: body}),
+              ),
+            ),
+          )
+          as _i10.Future<_i5.GroupsResponse>);
+
+  @override
+  _i10.Future<_i5.GroupsResponse> putGroup({
+    required _i17.GroupRequest? body,
+  }) =>
+      (super.noSuchMethod(
+            Invocation.method(#putGroup, [], {#body: body}),
+            returnValue: _i10.Future<_i5.GroupsResponse>.value(
+              _FakeGroupsResponse_21(
+                this,
+                Invocation.method(#putGroup, [], {#body: body}),
+              ),
+            ),
+          )
+          as _i10.Future<_i5.GroupsResponse>);
 }

@@ -10,6 +10,7 @@ import 'package:pi_hole_client/gateways/v5/api_gateway_v5.dart';
 import 'package:pi_hole_client/models/domain.dart';
 import 'package:pi_hole_client/models/gateways.dart';
 import 'package:pi_hole_client/models/server.dart';
+import 'package:pi_hole_client/models/subscriptions.dart';
 import 'package:pi_hole_client/models/version.dart';
 
 import 'api_gateway_v5_test.mocks.dart';
@@ -1515,6 +1516,142 @@ void main() async {
       final response = await apiGateway.fetchAllServerInfo();
 
       expect(response.result, APiResponseType.error);
+    });
+  });
+
+  group('getSubscriptions', () {
+    late Server server;
+    const notSupportedMessage = 'Pi-hole v5 does not support this feature.';
+
+    setUp(() async {
+      server = Server(
+        address: 'http://example.com',
+        alias: 'example',
+        defaultServer: true,
+        apiVersion: SupportedApiVersions.v5,
+      );
+      await server.sm.saveToken('xxx123');
+    });
+
+    test('should return notSupported when server is v5', () async {
+      final mockClient = MockClient();
+      final apiGateway = ApiGatewayV5(server, client: mockClient);
+      final response = await apiGateway.getSubscriptions();
+
+      expect(response.result, APiResponseType.notSupported);
+      expect(response.message, notSupportedMessage);
+    });
+  });
+
+  group('removeSubscription', () {
+    late Server server;
+    const notSupportedMessage = 'Pi-hole v5 does not support this feature.';
+
+    setUp(() async {
+      server = Server(
+        address: 'http://example.com',
+        alias: 'example',
+        defaultServer: true,
+        apiVersion: SupportedApiVersions.v5,
+      );
+      await server.sm.saveToken('xxx123');
+    });
+
+    test('should return notSupported when server is v5', () async {
+      final mockClient = MockClient();
+      final apiGateway = ApiGatewayV5(server, client: mockClient);
+      final response = await apiGateway.removeSubscription(
+        url: 'http://not.exist.example.com',
+      );
+
+      expect(response.result, APiResponseType.notSupported);
+      expect(response.message, notSupportedMessage);
+    });
+  });
+
+  group('createSubscription', () {
+    late Server server;
+    const notSupportedMessage = 'Pi-hole v5 does not support this feature.';
+
+    setUp(() async {
+      server = Server(
+        address: 'http://example.com',
+        alias: 'example',
+        defaultServer: true,
+        apiVersion: SupportedApiVersions.v5,
+      );
+      await server.sm.saveToken('xxx123');
+    });
+
+    test('should return notSupported when server is v5', () async {
+      final mockClient = MockClient();
+      final apiGateway = ApiGatewayV5(server, client: mockClient);
+      final response = await apiGateway.createSubscription(
+        body: SubscriptionRequest(
+          address: 'http://not.exist.example.com',
+          type: 'allow',
+          groups: [0],
+        ),
+      );
+
+      expect(response.result, APiResponseType.notSupported);
+      expect(response.message, notSupportedMessage);
+    });
+  });
+
+  group('updateSubscription', () {
+    late Server server;
+    const notSupportedMessage = 'Pi-hole v5 does not support this feature.';
+
+    setUp(() async {
+      server = Server(
+        address: 'http://example.com',
+        alias: 'example',
+        defaultServer: true,
+        apiVersion: SupportedApiVersions.v5,
+      );
+      await server.sm.saveToken('xxx123');
+    });
+
+    test('should return notSupported when server is v5', () async {
+      final mockClient = MockClient();
+      final apiGateway = ApiGatewayV5(server, client: mockClient);
+      final response = await apiGateway.updateSubscription(
+        body: SubscriptionRequest(
+          address: 'http://not.exist.example.com',
+          type: 'allow',
+          groups: [0],
+        ),
+      );
+
+      expect(response.result, APiResponseType.notSupported);
+      expect(response.message, notSupportedMessage);
+    });
+  });
+
+  group('searchSubscriptions', () {
+    late Server server;
+    const notSupportedMessage = 'Pi-hole v5 does not support this feature.';
+
+    setUp(() async {
+      server = Server(
+        address: 'http://example.com',
+        alias: 'example',
+        defaultServer: true,
+        apiVersion: SupportedApiVersions.v5,
+      );
+      await server.sm.saveToken('xxx123');
+    });
+
+    test('should return notSupported when server is v5', () async {
+      final mockClient = MockClient();
+      final apiGateway = ApiGatewayV5(server, client: mockClient);
+      final response = await apiGateway.searchSubscriptions(
+        domain: 'http://not.exist.example.com',
+      );
+
+      expect(response.result, APiResponseType.notSupported);
+      expect(response.message, notSupportedMessage);
     });
   });
 }

@@ -1,7 +1,9 @@
 import 'dart:async';
 import 'package:pi_hole_client/models/domain.dart';
 import 'package:pi_hole_client/models/gateways.dart';
+import 'package:pi_hole_client/models/groups.dart';
 import 'package:pi_hole_client/models/server.dart';
+import 'package:pi_hole_client/models/subscriptions.dart';
 
 abstract interface class ApiGateway {
   Server get server;
@@ -115,4 +117,64 @@ abstract interface class ApiGateway {
   ///   - Version details
   /// - **v5**: Only retrieves version information
   Future<PiHoleServerInfoResponse> fetchAllServerInfo();
+
+  /// Retrieves subscription list(s) based on the given parameters.
+  ///
+  /// - If neither [url] nor [stype] is specified, all subscriptions are returned.
+  /// - If only [url] is specified, the subscription matching that URL is returned, if it exists.
+  /// - If only [stype] is specified, all subscriptions of that type (block or allow) are returned.
+  /// - If both [url] and [stype] are specified, the subscription matching the URL is returned
+  ///   only if it also matches the specified [stype].
+  Future<SubscriptionsResponse> getSubscriptions({
+    String? url,
+    String? stype,
+  });
+
+  /// Removes the subscription matching the given [url] and [stype].
+  ///
+  /// If no matching subscription is found, the operation has no effect.
+  Future<RemoveSubscriptionResponse> removeSubscription({
+    required String url,
+    String? stype,
+  });
+
+  /// Creates a subscription.
+  Future<SubscriptionsResponse> createSubscription({
+    required SubscriptionRequest body,
+  });
+
+  /// Updates an existing subscription.
+  Future<SubscriptionsResponse> updateSubscription({
+    required SubscriptionRequest body,
+  });
+
+  /// Search domains in Pi-hole's subscription lists
+  ///
+  /// The specified domain is automatically converted to lowercase.
+  /// The optional parameters `limit` and `partial` limit the maximum number of
+  /// returned records and whether partial matches should be returned, respectively.
+  /// There is a hard upper limit of `N` defined in FTL (currently set to 10,000) to
+  /// ensure that the response is not too large.
+  /// ABP matches are not returned when partial matching is requested.
+  /// International domains names (IDNs) are internally converted to punycode before matching.
+  Future<SearchResponse> searchSubscriptions({
+    required String domain,
+    bool? partial,
+    int? limit,
+    bool? debug,
+  });
+
+  /// Fetches group information from the Pi-hole server.
+  Future<GroupsResponse> getGroups({String? name});
+
+  /// Removes a group from the Pi-hole server.
+  Future<RemoveGroupResponse> removeGroup({required String name});
+
+  /// Creates a new group on the Pi-hole server.
+  Future<GroupsResponse> createGroup({required GroupRequest body});
+
+  /// Updates an existing group on the Pi-hole server.
+  Future<GroupsResponse> updateGroup({
+    required GroupRequest body,
+  });
 }

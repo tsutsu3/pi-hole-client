@@ -5,16 +5,21 @@ import 'package:http/http.dart' as http;
 import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
 import 'package:pi_hole_client/constants/api_versions.dart';
+import 'package:pi_hole_client/constants/subscription_types.dart';
 import 'package:pi_hole_client/gateways/v6/api_gateway_v6.dart';
 import 'package:pi_hole_client/models/api/v6/ftl/host.dart' show Host;
 import 'package:pi_hole_client/models/api/v6/ftl/sensors.dart' show Sensors;
 import 'package:pi_hole_client/models/api/v6/ftl/system.dart' show System;
 import 'package:pi_hole_client/models/api/v6/ftl/version.dart' show Version;
+import 'package:pi_hole_client/models/api/v6/lists/lists.dart' show Lists;
+import 'package:pi_hole_client/models/api/v6/lists/search.dart' show Search;
 import 'package:pi_hole_client/models/domain.dart';
 import 'package:pi_hole_client/models/gateways.dart';
 import 'package:pi_hole_client/models/host.dart';
+import 'package:pi_hole_client/models/search.dart';
 import 'package:pi_hole_client/models/sensors.dart';
 import 'package:pi_hole_client/models/server.dart';
+import 'package:pi_hole_client/models/subscriptions.dart';
 import 'package:pi_hole_client/models/system.dart';
 import 'package:pi_hole_client/models/version.dart';
 import 'package:pi_hole_client/services/secret_manager.dart';
@@ -94,7 +99,7 @@ void main() async {
   TestWidgetsFlutterBinding.ensureInitialized();
   await dotenv.load();
 
-  // const unexpectedError = 'An unexpected error occurred.';
+  const unexpectedError = 'An unexpected error occurred.';
   const fetchError = 'Failed to fetch data from the server.';
 
   group('loginQuery', () {
@@ -2015,6 +2020,834 @@ void main() async {
       expect(response.system?.toJson(), null);
       expect(response.host?.toJson(), null);
       expect(response.sensors?.toJson(), null);
+    });
+  });
+
+  group('getSubscriptions', () {
+    late Server server;
+    const multiData = {
+      'lists': [
+        {
+          'address':
+              'https://raw.githubusercontent.com/StevenBlack/hosts/master/hosts',
+          'comment': 'Migrated from /etc/pihole/adlists.list',
+          'groups': [0],
+          'enabled': true,
+          'id': 1,
+          'date_added': 1594670974,
+          'date_modified': 1595279300,
+          'type': 'block',
+          'date_updated': 0,
+          'number': 134553,
+          'invalid_domains': 0,
+          'abp_entries': 0,
+          'status': 1,
+        },
+        {
+          'address': 'https://mirror1.malwaredomains.com/files/justdomains',
+          'comment': 'Migrated from /etc/pihole/adlists.list',
+          'groups': [0],
+          'enabled': true,
+          'id': 2,
+          'date_added': 1594670974,
+          'date_modified': 1594670974,
+          'type': 'block',
+          'date_updated': 0,
+          'number': 100,
+          'invalid_domains': 0,
+          'abp_entries': 0,
+          'status': 3,
+        }
+      ],
+      'took': 0.012,
+    };
+    const singleData = {
+      'lists': [
+        {
+          'address':
+              'https://raw.githubusercontent.com/StevenBlack/hosts/master/hosts',
+          'comment': 'Migrated from /etc/pihole/adlists.list',
+          'groups': [0],
+          'enabled': true,
+          'id': 1,
+          'date_added': 1594670974,
+          'date_modified': 1595279300,
+          'type': 'block',
+          'date_updated': 0,
+          'number': 134553,
+          'invalid_domains': 0,
+          'abp_entries': 0,
+          'status': 1,
+        },
+      ],
+      'took': 0.012,
+    };
+    const noData = {'lists': [], 'took': 0.0006268024444580078};
+    const erroData = {
+      'error': {'key': 'unauthorized', 'message': 'Unauthorized', 'hint': null},
+      'took': 0.003,
+    };
+    const address =
+        'https://raw.githubusercontent.com/StevenBlack/hosts/master/hosts';
+
+    setUp(() {
+      server = Server(
+        address: 'http://example.com',
+        alias: 'example',
+        defaultServer: true,
+        apiVersion: SupportedApiVersions.v6,
+      );
+      server.sm.savePassword('xxx123');
+    });
+
+    test('should return success when retrieving all lists', () async {
+      final mockClient = MockClient();
+      final apiGateway = ApiGatewayV6(server, client: mockClient);
+
+      when(
+        mockClient.get(
+          Uri.parse('http://example.com/api/lists'),
+          headers: anyNamed('headers'),
+        ),
+      ).thenAnswer((_) async => http.Response(jsonEncode(multiData), 200));
+
+      final response = await apiGateway.getSubscriptions();
+
+      expect(response.result, APiResponseType.success);
+      expect(response.message, null);
+      expect(
+        response.data?.toJson(),
+        SubscriptionsInfo.fromV6(Lists.fromJson(multiData)).toJson(),
+      );
+    });
+
+    test('should return success when retrieving a specific list', () async {
+      final mockClient = MockClient();
+      final apiGateway = ApiGatewayV6(server, client: mockClient);
+
+      when(
+        mockClient.get(
+          Uri.parse('http://example.com/api/lists/$address'),
+          headers: anyNamed('headers'),
+        ),
+      ).thenAnswer((_) async => http.Response(jsonEncode(singleData), 200));
+
+      final response = await apiGateway.getSubscriptions(url: address);
+
+      expect(response.result, APiResponseType.success);
+      expect(response.message, null);
+      expect(
+        response.data?.toJson(),
+        SubscriptionsInfo.fromV6(Lists.fromJson(singleData)).toJson(),
+      );
+    });
+
+    test(
+        'should return success when retrieving a specific list with type that matches',
+        () async {
+      final mockClient = MockClient();
+      final apiGateway = ApiGatewayV6(server, client: mockClient);
+
+      when(
+        mockClient.get(
+          Uri.parse('http://example.com/api/lists/$address?type=block'),
+          headers: anyNamed('headers'),
+        ),
+      ).thenAnswer((_) async => http.Response(jsonEncode(singleData), 200));
+
+      final response = await apiGateway.getSubscriptions(
+        url: address,
+        stype: SubscriptionTypes.block,
+      );
+
+      expect(response.result, APiResponseType.success);
+      expect(response.message, null);
+      expect(
+        response.data?.toJson(),
+        SubscriptionsInfo.fromV6(Lists.fromJson(singleData)).toJson(),
+      );
+    });
+
+    test(
+        'should return success when retrieving a specific list with type that does not match',
+        () async {
+      final mockClient = MockClient();
+      final apiGateway = ApiGatewayV6(server, client: mockClient);
+
+      when(
+        mockClient.get(
+          Uri.parse('http://example.com/api/lists/$address?type=allow'),
+          headers: anyNamed('headers'),
+        ),
+      ).thenAnswer((_) async => http.Response(jsonEncode(noData), 200));
+
+      final response = await apiGateway.getSubscriptions(
+        url: address,
+        stype: SubscriptionTypes.allow,
+      );
+
+      expect(response.result, APiResponseType.success);
+      expect(response.message, null);
+      expect(
+        response.data?.toJson(),
+        SubscriptionsInfo.fromV6(
+          Lists.fromJson(noData),
+        ).toJson(),
+      );
+    });
+
+    test('should return an error when status code is 401', () async {
+      final mockClient = MockClient();
+      final apiGateway = ApiGatewayV6(server, client: mockClient);
+
+      when(
+        mockClient.get(
+          Uri.parse('http://example.com/api/lists'),
+          headers: anyNamed('headers'),
+        ),
+      ).thenAnswer((_) async => http.Response(jsonEncode(erroData), 401));
+
+      final response = await apiGateway.getSubscriptions();
+
+      expect(response.result, APiResponseType.error);
+      expect(response.message, fetchError);
+      expect(response.data?.toJson(), null);
+    });
+
+    test('should return an error when an unexpected error occurs', () async {
+      final mockClient = MockClient();
+      final apiGateway = ApiGatewayV6(server, client: mockClient);
+
+      when(
+        mockClient.get(
+          Uri.parse('http://example.com/api/lists'),
+          headers: anyNamed('headers'),
+        ),
+      ).thenThrow(Exception('Unexpected error test'));
+
+      final response = await apiGateway.getSubscriptions();
+
+      expect(response.result, APiResponseType.error);
+      expect(response.message, unexpectedError);
+      expect(response.data?.toJson(), null);
+    });
+  });
+
+  group('removeSubscription', () {
+    late Server server;
+    const notFoundData = {'took': 0.0006268024444580078};
+    const badReqData = {
+      'error': {
+        'key': 'bad_request',
+        'message':
+            'Invalid request: Invalid type parameter (should be either "allow" or "block")',
+        'hint': 'type=blocka',
+      },
+      'took': 0.00033593177795410156,
+    };
+    const address =
+        'https://raw.githubusercontent.com/StevenBlack/hosts/master/hosts';
+    final encodedAddress = Uri.encodeComponent(address);
+
+    setUp(() {
+      server = Server(
+        address: 'http://example.com',
+        alias: 'example',
+        defaultServer: true,
+        apiVersion: SupportedApiVersions.v6,
+      );
+      server.sm.savePassword('xxx123');
+    });
+
+    test('should return success when removing a subscription without type',
+        () async {
+      final mockClient = MockClient();
+      final apiGateway = ApiGatewayV6(server, client: mockClient);
+
+      when(
+        mockClient.delete(
+          Uri.parse('http://example.com/api/lists/$encodedAddress'),
+          headers: anyNamed('headers'),
+        ),
+      ).thenAnswer((_) async => http.Response('', 204));
+
+      final response = await apiGateway.removeSubscription(url: address);
+
+      expect(response.result, APiResponseType.success);
+      expect(response.message, null);
+    });
+
+    test(
+        'should return success when removing a subscription with matching type',
+        () async {
+      final mockClient = MockClient();
+      final apiGateway = ApiGatewayV6(server, client: mockClient);
+
+      when(
+        mockClient.delete(
+          Uri.parse('http://example.com/api/lists/$encodedAddress?type=block'),
+          headers: anyNamed('headers'),
+        ),
+      ).thenAnswer((_) async => http.Response('', 204));
+
+      final response = await apiGateway.removeSubscription(
+        url: address,
+        stype: SubscriptionTypes.block,
+      );
+
+      expect(response.result, APiResponseType.success);
+      expect(response.message, null);
+    });
+
+    test('should return error when status code is 404 (Not Found)', () async {
+      final mockClient = MockClient();
+      final apiGateway = ApiGatewayV6(server, client: mockClient);
+
+      when(
+        mockClient.delete(
+          Uri.parse('http://example.com/api/lists/$encodedAddress'),
+          headers: anyNamed('headers'),
+        ),
+      ).thenAnswer((_) async => http.Response(jsonEncode(notFoundData), 404));
+
+      final response = await apiGateway.removeSubscription(url: address);
+
+      expect(response.result, APiResponseType.notFound);
+      expect(response.message, fetchError);
+    });
+
+    test('should return error when status code is 400 (Bad Request)', () async {
+      final mockClient = MockClient();
+      final apiGateway = ApiGatewayV6(server, client: mockClient);
+
+      when(
+        mockClient.delete(
+          Uri.parse('http://example.com/api/lists/$encodedAddress?type=xxx'),
+          headers: anyNamed('headers'),
+        ),
+      ).thenAnswer((_) async => http.Response(jsonEncode(badReqData), 400));
+
+      final response =
+          await apiGateway.removeSubscription(url: address, stype: 'xxx');
+
+      expect(response.result, APiResponseType.error);
+      expect(response.message, fetchError);
+    });
+
+    test('should return error when an unexpected exception is thrown',
+        () async {
+      final mockClient = MockClient();
+      final apiGateway = ApiGatewayV6(server, client: mockClient);
+
+      when(
+        mockClient.delete(
+          Uri.parse('http://example.com/api/lists/$encodedAddress'),
+          headers: anyNamed('headers'),
+        ),
+      ).thenThrow(Exception('Unexpected error test'));
+
+      final response = await apiGateway.removeSubscription(url: address);
+
+      expect(response.result, APiResponseType.error);
+      expect(response.message, unexpectedError);
+    });
+  });
+
+  group('createSubscription', () {
+    late Server server;
+    const singleData = {
+      'lists': [
+        {
+          'address': 'https://hosts-file.net/ad_servers.txt',
+          'comment': 'Some comment for this list',
+          'groups': [0],
+          'enabled': true,
+          'id': 106,
+          'date_added': 1742739018,
+          'date_modified': 1742739030,
+          'type': 'block',
+          'date_updated': 0,
+          'number': 0,
+          'invalid_domains': 0,
+          'abp_entries': 0,
+          'status': 0,
+        }
+      ],
+      'processed': {
+        'errors': [],
+        'success': [
+          {'item': 'https://hosts-file.net/ad_servers.txt'},
+        ],
+      },
+      'took': 0.019428014755249023,
+    };
+    const badReqData = {
+      'error': {
+        'key': 'bad_request',
+        'message':
+            'Invalid request: Invalid type parameter (should be either "allow" or "block")',
+        'hint': 'type=blocka',
+      },
+      'took': 0.00033593177795410156,
+    };
+    const address =
+        'https://raw.githubusercontent.com/StevenBlack/hosts/master/hosts';
+    final reqData = SubscriptionRequest(
+      address: address,
+      comment: 'Some comment for this list',
+      type: 'block',
+      groups: [0],
+      enabled: true, // ignore: avoid_redundant_argument_values
+    );
+
+    setUp(() {
+      server = Server(
+        address: 'http://example.com',
+        alias: 'example',
+        defaultServer: true,
+        apiVersion: SupportedApiVersions.v6,
+      );
+      server.sm.savePassword('xxx123');
+    });
+
+    test('should return success when adding a subscription', () async {
+      final mockClient = MockClient();
+      final apiGateway = ApiGatewayV6(server, client: mockClient);
+
+      when(
+        mockClient.post(
+          Uri.parse('http://example.com/api/lists'),
+          headers: anyNamed('headers'),
+          body: anyNamed('body'),
+        ),
+      ).thenAnswer((_) async => http.Response(jsonEncode(singleData), 201));
+
+      final response = await apiGateway.createSubscription(
+        body: reqData,
+      );
+
+      expect(response.result, APiResponseType.success);
+      expect(response.message, null);
+      expect(
+        response.data?.toJson(),
+        SubscriptionsInfo.fromV6(Lists.fromJson(singleData)).toJson(),
+      );
+    });
+
+    test(
+        'should return error when status code is 201 (OK) but the subscription already exists',
+        () async {
+      final mockClient = MockClient();
+      final apiGateway = ApiGatewayV6(server, client: mockClient);
+      const alreadyData = {
+        'lists': [
+          {
+            'address': 'https://hosts-file.net/ad_servers.txt',
+            'comment': 'Some comment for this list',
+            'groups': [0],
+            'enabled': true,
+            'id': 106,
+            'date_added': 1742739018,
+            'date_modified': 1742739030,
+            'type': 'block',
+            'date_updated': 0,
+            'number': 0,
+            'invalid_domains': 0,
+            'abp_entries': 0,
+            'status': 0,
+          }
+        ],
+        'processed': {
+          'errors': [
+            {
+              'item': 'https://hosts-file.net/ad_servers.txt',
+              'error': 'UNIQUE constraint failed: adlist.address, adlist.type',
+            },
+          ],
+          'success': [],
+        },
+        'took': 0.019428014755249023,
+      };
+
+      when(
+        mockClient.post(
+          Uri.parse('http://example.com/api/lists'),
+          headers: anyNamed('headers'),
+          body: anyNamed('body'),
+        ),
+      ).thenAnswer((_) async => http.Response(jsonEncode(alreadyData), 201));
+
+      final response = await apiGateway.createSubscription(
+        body: reqData,
+      );
+
+      expect(response.result, APiResponseType.alreadyAdded);
+      expect(response.message, 'Failed to fetch data from the server.');
+      expect(response.data?.toJson(), null);
+    });
+
+    test('should return error when status code is 400 (Bad Request)', () async {
+      final mockClient = MockClient();
+      final apiGateway = ApiGatewayV6(server, client: mockClient);
+
+      when(
+        mockClient.post(
+          Uri.parse('http://example.com/api/lists'),
+          headers: anyNamed('headers'),
+          body: anyNamed('body'),
+        ),
+      ).thenAnswer((_) async => http.Response(jsonEncode(badReqData), 400));
+
+      final response = await apiGateway.createSubscription(
+        body: reqData,
+      );
+
+      expect(response.result, APiResponseType.error);
+      expect(response.message, fetchError);
+      expect(response.data?.toJson(), null);
+    });
+
+    test('should return error when an unexpected exception is thrown',
+        () async {
+      final mockClient = MockClient();
+      final apiGateway = ApiGatewayV6(server, client: mockClient);
+
+      when(
+        mockClient.post(
+          Uri.parse('http://example.com/api/lists'),
+          headers: anyNamed('headers'),
+          body: anyNamed('body'),
+        ),
+      ).thenThrow(Exception('Unexpected error test'));
+
+      final response = await apiGateway.createSubscription(body: reqData);
+
+      expect(response.result, APiResponseType.error);
+      expect(response.message, unexpectedError);
+      expect(response.data?.toJson(), null);
+    });
+  });
+
+  group('updateSubscription', () {
+    late Server server;
+    const singleData = {
+      'lists': [
+        {
+          'address': 'https://hosts-file.net/ad_servers.txt',
+          'comment': 'Some comment for this list',
+          'groups': [0],
+          'enabled': true,
+          'id': 106,
+          'date_added': 1742739018,
+          'date_modified': 1742739030,
+          'type': 'block',
+          'date_updated': 0,
+          'number': 0,
+          'invalid_domains': 0,
+          'abp_entries': 0,
+          'status': 0,
+        }
+      ],
+      'processed': {
+        'errors': [],
+        'success': [
+          {'item': 'https://hosts-file.net/ad_servers.txt'},
+        ],
+      },
+      'took': 0.019428014755249023,
+    };
+    const badReqData = {
+      'error': {
+        'key': 'bad_request',
+        'message':
+            'Invalid request: Invalid type parameter (should be either "allow" or "block")',
+        'hint': 'type=blocka',
+      },
+      'took': 0.00033593177795410156,
+    };
+    const address =
+        'https://raw.githubusercontent.com/StevenBlack/hosts/master/hosts';
+    final encodedAddress = Uri.encodeComponent(address);
+    final reqData = SubscriptionRequest(
+      address: address,
+      comment: 'Some comment for this list',
+      type: 'block',
+      groups: [0],
+      enabled: true, // ignore: avoid_redundant_argument_values
+    );
+
+    setUp(() {
+      server = Server(
+        address: 'http://example.com',
+        alias: 'example',
+        defaultServer: true,
+        apiVersion: SupportedApiVersions.v6,
+      );
+      server.sm.savePassword('xxx123');
+    });
+
+    test('should return success when adding or editing a subscription',
+        () async {
+      final mockClient = MockClient();
+      final apiGateway = ApiGatewayV6(server, client: mockClient);
+
+      when(
+        mockClient.put(
+          Uri.parse('http://example.com/api/lists/$encodedAddress'),
+          headers: anyNamed('headers'),
+          body: anyNamed('body'),
+        ),
+      ).thenAnswer((_) async => http.Response(jsonEncode(singleData), 200));
+
+      final response = await apiGateway.updateSubscription(
+        body: reqData,
+      );
+
+      expect(response.result, APiResponseType.success);
+      expect(response.message, null);
+      expect(
+        response.data?.toJson(),
+        SubscriptionsInfo.fromV6(Lists.fromJson(singleData)).toJson(),
+      );
+    });
+
+    test('should return error when status code is 400 (Bad Request)', () async {
+      final mockClient = MockClient();
+      final apiGateway = ApiGatewayV6(server, client: mockClient);
+
+      when(
+        mockClient.put(
+          Uri.parse('http://example.com/api/lists/$encodedAddress'),
+          headers: anyNamed('headers'),
+          body: anyNamed('body'),
+        ),
+      ).thenAnswer((_) async => http.Response(jsonEncode(badReqData), 400));
+
+      final response = await apiGateway.updateSubscription(
+        body: reqData,
+      );
+
+      expect(response.result, APiResponseType.error);
+      expect(response.message, fetchError);
+      expect(response.data?.toJson(), null);
+    });
+
+    test('should return error when an unexpected exception is thrown',
+        () async {
+      final mockClient = MockClient();
+      final apiGateway = ApiGatewayV6(server, client: mockClient);
+
+      when(
+        mockClient.put(
+          Uri.parse('http://example.com/api/lists'),
+          headers: anyNamed('headers'),
+          body: anyNamed('body'),
+        ),
+      ).thenThrow(Exception('Unexpected error test'));
+
+      final response = await apiGateway.updateSubscription(body: reqData);
+
+      expect(response.result, APiResponseType.error);
+      expect(response.message, unexpectedError);
+      expect(response.data?.toJson(), null);
+    });
+  });
+
+  group('searchSubscriptions', () {
+    late Server server;
+    const data = {
+      'search': {
+        'domains': [
+          {
+            'domain': 'blockeddomain.com',
+            'comment': 'I needed to block this because of XYZ',
+            'enabled': true,
+            'type': 'allow',
+            'kind': 'exact',
+            'id': 7,
+            'date_added': 1664624500,
+            'date_modified': 1664624500,
+            'groups': [0, 1, 2],
+          }
+        ],
+        'gravity': [
+          {
+            'domain': 'doubleclick.net',
+            'address':
+                'https://raw.githubusercontent.com/StevenBlack/hosts/master/hosts',
+            'comment': 'I needed to block this because of XYZ',
+            'enabled': true,
+            'id': 0,
+            'type': 'allow',
+            'date_added': 1664624500,
+            'date_modified': 1664624500,
+            'date_updated': 1664624500,
+            'number': 7,
+            'invalid_domains': 0,
+            'abp_entries': 0,
+            'status': 1,
+            'groups': [0, 1, 2],
+          }
+        ],
+        'parameters': {
+          'partial': false,
+          'N': 20,
+          'domain': 'doubleclick.net',
+          'debug': false,
+        },
+        'results': {
+          'domains': {'exact': 1, 'regex': 2},
+          'gravity': {'allow': 0, 'block': 1},
+          'total': 4,
+        },
+      },
+      'took': 0.003,
+    };
+    const errorData = {
+      'error': {'key': 'unauthorized', 'message': 'Unauthorized', 'hint': null},
+      'took': 0.003,
+    };
+    const domain = 'doubleclick.net';
+    final encodedDomain = Uri.encodeComponent(domain);
+
+    setUp(() {
+      server = Server(
+        address: 'http://example.com',
+        alias: 'example',
+        defaultServer: true,
+        apiVersion: SupportedApiVersions.v6,
+      );
+      server.sm.savePassword('xxx123');
+    });
+
+    test(
+        'should return success when searching for a subscription by exact domain',
+        () async {
+      final mockClient = MockClient();
+      final apiGateway = ApiGatewayV6(server, client: mockClient);
+
+      when(
+        mockClient.get(
+          Uri.parse('http://example.com/api/search/$encodedDomain'),
+          headers: anyNamed('headers'),
+        ),
+      ).thenAnswer((_) async => http.Response(jsonEncode(data), 200));
+
+      final response = await apiGateway.searchSubscriptions(domain: domain);
+
+      expect(response.result, APiResponseType.success);
+      expect(response.message, null);
+      expect(
+        response.data?.toJson(),
+        SearchInfo.fromV6(Search.fromJson(data)).toJson(),
+      );
+    });
+
+    test('should return success when searching for a subscription with params',
+        () async {
+      final mockClient = MockClient();
+      final apiGateway = ApiGatewayV6(server, client: mockClient);
+
+      when(
+        mockClient.get(
+          Uri.parse(
+            'http://example.com/api/search/$encodedDomain?partial=true&N=100&debug=true',
+          ),
+          headers: anyNamed('headers'),
+        ),
+      ).thenAnswer((_) async => http.Response(jsonEncode(data), 200));
+
+      final response = await apiGateway.searchSubscriptions(
+        domain: domain,
+        partial: true,
+        limit: 100,
+        debug: true,
+      );
+
+      expect(response.result, APiResponseType.success);
+      expect(response.message, null);
+      expect(
+        response.data?.toJson(),
+        SearchInfo.fromV6(Search.fromJson(data)).toJson(),
+      );
+    });
+
+    test(
+        'should return success with empty data when no subscription matches the domain',
+        () async {
+      final mockClient = MockClient();
+      final apiGateway = ApiGatewayV6(server, client: mockClient);
+      const emptyData = {
+        'search': {
+          'domains': [],
+          'gravity': [],
+          'results': {
+            'domains': {'exact': 0, 'regex': 0},
+            'gravity': {'allow': 0, 'block': 0},
+            'total': 0,
+          },
+          'parameters': {
+            'N': 20,
+            'partial': false,
+            'domain': 'doubleclic/sssk.neta',
+            'debug': false,
+          },
+        },
+        'took': 0.0039408206939697266,
+      };
+
+      when(
+        mockClient.get(
+          Uri.parse('http://example.com/api/search/$encodedDomain'),
+          headers: anyNamed('headers'),
+        ),
+      ).thenAnswer((_) async => http.Response(jsonEncode(emptyData), 200));
+
+      final response = await apiGateway.searchSubscriptions(domain: domain);
+
+      expect(response.result, APiResponseType.success);
+      expect(response.message, null);
+      expect(
+        response.data?.toJson(),
+        SearchInfo.fromV6(Search.fromJson(emptyData)).toJson(),
+      );
+    });
+
+    test('should return error when status code is 401 (Unauthorized)',
+        () async {
+      final mockClient = MockClient();
+      final apiGateway = ApiGatewayV6(server, client: mockClient);
+
+      when(
+        mockClient.get(
+          Uri.parse('http://example.com/api/search/$encodedDomain'),
+          headers: anyNamed('headers'),
+        ),
+      ).thenAnswer((_) async => http.Response(jsonEncode(errorData), 401));
+
+      final response = await apiGateway.searchSubscriptions(domain: domain);
+
+      expect(response.result, APiResponseType.error);
+      expect(response.message, fetchError);
+      expect(response.data?.toJson(), null);
+    });
+
+    test('should return an error when an unexpected error occurs', () async {
+      final mockClient = MockClient();
+      final apiGateway = ApiGatewayV6(server, client: mockClient);
+
+      when(
+        mockClient.get(
+          Uri.parse('http://example.com/api/search/$encodedDomain'),
+          headers: anyNamed('headers'),
+        ),
+      ).thenThrow(Exception('Unexpected error test'));
+
+      final response = await apiGateway.searchSubscriptions(domain: domain);
+
+      expect(response.result, APiResponseType.error);
+      expect(response.message, unexpectedError);
+      expect(response.data?.toJson(), null);
     });
   });
 }

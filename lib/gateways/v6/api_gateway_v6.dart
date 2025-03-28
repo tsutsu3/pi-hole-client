@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:convert';
 import 'dart:io';
+
 import 'package:http/http.dart' as http;
 import 'package:http/http.dart';
 import 'package:pi_hole_client/functions/logger.dart';
@@ -14,6 +15,9 @@ import 'package:pi_hole_client/models/api/v6/ftl/host.dart' show Host;
 import 'package:pi_hole_client/models/api/v6/ftl/sensors.dart' show Sensors;
 import 'package:pi_hole_client/models/api/v6/ftl/system.dart' show System;
 import 'package:pi_hole_client/models/api/v6/ftl/version.dart' show Version;
+import 'package:pi_hole_client/models/api/v6/groups/groups.dart' show Groups;
+import 'package:pi_hole_client/models/api/v6/lists/lists.dart' show Lists;
+import 'package:pi_hole_client/models/api/v6/lists/search.dart';
 import 'package:pi_hole_client/models/api/v6/metrics/history.dart'
     show History, HistoryClients;
 import 'package:pi_hole_client/models/api/v6/metrics/query.dart' show Queries;
@@ -22,12 +26,15 @@ import 'package:pi_hole_client/models/api/v6/metrics/stats.dart'
 import 'package:pi_hole_client/models/app_log.dart';
 import 'package:pi_hole_client/models/domain.dart';
 import 'package:pi_hole_client/models/gateways.dart';
+import 'package:pi_hole_client/models/groups.dart';
 import 'package:pi_hole_client/models/host.dart';
 import 'package:pi_hole_client/models/log.dart';
 import 'package:pi_hole_client/models/overtime_data.dart';
 import 'package:pi_hole_client/models/realtime_status.dart';
+import 'package:pi_hole_client/models/search.dart';
 import 'package:pi_hole_client/models/sensors.dart';
 import 'package:pi_hole_client/models/server.dart';
+import 'package:pi_hole_client/models/subscriptions.dart';
 import 'package:pi_hole_client/models/system.dart';
 import 'package:pi_hole_client/models/version.dart';
 
@@ -889,5 +896,254 @@ class ApiGatewayV6 implements ApiGateway {
         message: unexpectedError,
       );
     }
+  }
+
+  @override
+  Future<SubscriptionsResponse> getSubscriptions({
+    String? url,
+    String? stype,
+  }) async {
+    try {
+      var requestUrl = '${_server.address}/api/lists';
+      if (url != null) {
+        requestUrl += '/$url';
+      }
+      if (stype != null) {
+        requestUrl += '?type=$stype';
+      }
+
+      final results = await httpClient(
+        method: 'get',
+        url: requestUrl,
+      );
+
+      if (results.statusCode == 200) {
+        final lists = Lists.fromJson(jsonDecode(results.body));
+
+        return SubscriptionsResponse(
+          result: APiResponseType.success,
+          data: SubscriptionsInfo.fromV6(lists),
+        );
+      } else {
+        return SubscriptionsResponse(
+          result: APiResponseType.error,
+          message: fetchError,
+        );
+      }
+    } catch (e) {
+      return SubscriptionsResponse(
+        result: APiResponseType.error,
+        message: unexpectedError,
+      );
+    }
+  }
+
+  @override
+  Future<RemoveSubscriptionResponse> removeSubscription({
+    required String url,
+    String? stype,
+  }) async {
+    try {
+      var requestUrl =
+          '${_server.address}/api/lists/${Uri.encodeComponent(url)}';
+      if (stype != null) {
+        requestUrl += '?type=$stype';
+      }
+
+      final results = await httpClient(
+        method: 'delete',
+        url: requestUrl,
+      );
+
+      if (results.statusCode == 204) {
+        return RemoveSubscriptionResponse(result: APiResponseType.success);
+      } else if (results.statusCode == 404) {
+        return RemoveSubscriptionResponse(
+          result: APiResponseType.notFound,
+          message: fetchError,
+        );
+      } else {
+        return RemoveSubscriptionResponse(
+          result: APiResponseType.error,
+          message: fetchError,
+        );
+      }
+    } catch (e) {
+      return RemoveSubscriptionResponse(
+        result: APiResponseType.error,
+        message: unexpectedError,
+      );
+    }
+  }
+
+  @override
+  Future<SubscriptionsResponse> createSubscription({
+    required SubscriptionRequest body,
+  }) async {
+    try {
+      final results = await httpClient(
+        method: 'post',
+        url: '${_server.address}/api/lists',
+        body: body.toJson(),
+      );
+
+      if (results.statusCode == 201) {
+        final lists = Lists.fromJson(jsonDecode(results.body));
+
+        // e.g. UNIQUE constraint failed
+        if (lists.processed?.errors.isNotEmpty == true) {
+          return SubscriptionsResponse(
+            result: APiResponseType.alreadyAdded,
+            message: fetchError,
+          );
+        }
+
+        return SubscriptionsResponse(
+          result: APiResponseType.success,
+          data: SubscriptionsInfo.fromV6(lists),
+        );
+      } else {
+        return SubscriptionsResponse(
+          result: APiResponseType.error,
+          message: fetchError,
+        );
+      }
+    } catch (e) {
+      return SubscriptionsResponse(
+        result: APiResponseType.error,
+        message: unexpectedError,
+      );
+    }
+  }
+
+  @override
+  Future<SubscriptionsResponse> updateSubscription({
+    required SubscriptionRequest body,
+  }) async {
+    try {
+      final results = await httpClient(
+        method: 'put',
+        url:
+            '${_server.address}/api/lists/${Uri.encodeComponent(body.address)}',
+        body: body.toJson(),
+      );
+
+      if (results.statusCode == 200) {
+        final lists = Lists.fromJson(jsonDecode(results.body));
+
+        return SubscriptionsResponse(
+          result: APiResponseType.success,
+          data: SubscriptionsInfo.fromV6(lists),
+        );
+      } else {
+        return SubscriptionsResponse(
+          result: APiResponseType.error,
+          message: fetchError,
+        );
+      }
+    } catch (e) {
+      return SubscriptionsResponse(
+        result: APiResponseType.error,
+        message: unexpectedError,
+      );
+    }
+  }
+
+  @override
+  Future<SearchResponse> searchSubscriptions({
+    required String domain,
+    bool? partial,
+    int? limit,
+    bool? debug,
+  }) async {
+    try {
+      final queryParams = <String, String>{};
+
+      if (partial != null) queryParams['partial'] = partial.toString();
+      if (limit != null) queryParams['N'] = limit.toString();
+      if (debug != null) queryParams['debug'] = debug.toString();
+
+      final uri = Uri.parse(_server.address).replace(
+        path: '/api/search/${Uri.encodeComponent(domain)}',
+        queryParameters: queryParams.isEmpty ? null : queryParams,
+      );
+
+      final results = await httpClient(
+        method: 'get',
+        url: uri.toString(),
+      );
+
+      if (results.statusCode == 200) {
+        final search = Search.fromJson(jsonDecode(results.body));
+
+        return SearchResponse(
+          result: APiResponseType.success,
+          data: SearchInfo.fromV6(search),
+        );
+      } else {
+        return SearchResponse(
+          result: APiResponseType.error,
+          message: fetchError,
+        );
+      }
+    } catch (e) {
+      return SearchResponse(
+        result: APiResponseType.error,
+        message: unexpectedError,
+      );
+    }
+  }
+
+  @override
+  Future<GroupsResponse> getGroups({String? name}) async {
+    try {
+      var requestUrl = '${_server.address}/api/groups';
+      if (name != null) {
+        requestUrl += '/${Uri.encodeComponent(name)}';
+      }
+
+      final results = await httpClient(
+        method: 'get',
+        url: requestUrl,
+      );
+
+      if (results.statusCode == 200) {
+        final groups = Groups.fromJson(jsonDecode(results.body));
+
+        return GroupsResponse(
+          result: APiResponseType.success,
+          data: GroupsInfo.fromV6(groups),
+        );
+      } else {
+        return GroupsResponse(
+          result: APiResponseType.error,
+          message: fetchError,
+        );
+      }
+    } catch (e) {
+      return GroupsResponse(
+        result: APiResponseType.error,
+        message: unexpectedError,
+      );
+    }
+  }
+
+  @override
+  Future<RemoveGroupResponse> removeGroup({required String name}) async {
+    throw UnimplementedError();
+  }
+
+  @override
+  Future<GroupsResponse> createGroup({
+    required GroupRequest body,
+  }) async {
+    throw UnimplementedError();
+  }
+
+  @override
+  Future<GroupsResponse> updateGroup({
+    required GroupRequest body,
+  }) async {
+    throw UnimplementedError();
   }
 }
