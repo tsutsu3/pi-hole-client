@@ -21,6 +21,9 @@ class AppLocalizationsJa extends AppLocalizations {
   String get add => '追加';
 
   @override
+  String get addAdlist => 'Adlistを追加';
+
+  @override
   String get addAsWildcard => 'ワイルドカードとして追加';
 
   @override
@@ -36,6 +39,9 @@ class AppLocalizationsJa extends AppLocalizations {
   String get addedWhitelist => 'ドメインがホワイトリストに追加されました。';
 
   @override
+  String get addingAdlist => 'Adlistを追加中...';
+
+  @override
   String get addingBlacklist => 'ブラックリストに追加中...';
 
   @override
@@ -46,6 +52,48 @@ class AppLocalizationsJa extends AppLocalizations {
 
   @override
   String get address => 'IPアドレスまたはドメイン';
+
+  @override
+  String get adlist => 'Adlist';
+
+  @override
+  String get adlistAdded => 'Adlistgが正常に追加されました';
+
+  @override
+  String get adlistAddress => 'アドレス';
+
+  @override
+  String get adlistAlreadyAdded => 'Adlistはすでに追加されています';
+
+  @override
+  String get adlistDetails => 'Adlistの詳細';
+
+  @override
+  String get adlistInfo => 'Adlistの情報';
+
+  @override
+  String get adlistManagementDescription => 'Adlistの管理・更新を行います';
+
+  @override
+  String get adlistManagementTitle => 'Adlist';
+
+  @override
+  String get adlistNotExists => 'Adlistが存在しません';
+
+  @override
+  String get adlistRemoved => 'Adlistを正常に削除しました';
+
+  @override
+  String get adlistSettings => 'Adlistの設定';
+
+  @override
+  String get adlistStatus => 'ヘルスステータス';
+
+  @override
+  String get adlistUpdated => 'Adlistの更新に成功しました';
+
+  @override
+  String get adlistsNotLoaded => 'Adlistを読み込めませんでした';
 
   @override
   String get advancedSetup => '高度な設定';
@@ -76,6 +124,9 @@ class AppLocalizationsJa extends AppLocalizations {
 
   @override
   String get allowCrashReport => 'クラッシュレポートの送信を許可しますか？';
+
+  @override
+  String get allowList => '許可リスト';
 
   @override
   String get allowed => '許可済み';
@@ -156,6 +207,9 @@ class AppLocalizationsJa extends AppLocalizations {
   String get blacklist => 'ブラックリストに追加';
 
   @override
+  String get blockList => '拒否リスト';
+
+  @override
   String get blocked => 'ブロック済み';
 
   @override
@@ -163,6 +217,9 @@ class AppLocalizationsJa extends AppLocalizations {
 
   @override
   String get cancel => 'キャンセル';
+
+  @override
+  String get cannotAddAdlist => 'Adlistを追加できませんでした';
 
   @override
   String get cannotAddDomain => 'ドメインを追加できませんでした';
@@ -339,6 +396,9 @@ class AppLocalizationsJa extends AppLocalizations {
   String get dateModified => '変更日';
 
   @override
+  String get dateUpdated => '更新日';
+
+  @override
   String get dbNotWorking => 'データベースが機能していません。アプリケーションを再インストールしてください。';
 
   @override
@@ -346,6 +406,12 @@ class AppLocalizationsJa extends AppLocalizations {
 
   @override
   String get delete => '削除';
+
+  @override
+  String get deleteAdlist => 'Adlistを削除';
+
+  @override
+  String get deleteAdlistMessage => 'このAdlistを削除してもよろしいですか？';
 
   @override
   String get deleteDomain => 'ドメインを削除';
@@ -411,7 +477,16 @@ class AppLocalizationsJa extends AppLocalizations {
   String get edit => '編集';
 
   @override
+  String get editAddress => 'アドレスを編集';
+
+  @override
+  String get editComment => 'コメントを編集';
+
+  @override
   String get editConnection => '接続を編集';
+
+  @override
+  String get editGroups => 'グループを編集';
 
   @override
   String get editServer => 'サーバー接続を編集';
@@ -453,10 +528,16 @@ class AppLocalizationsJa extends AppLocalizations {
   String get erasesAppData => '全てのアプリケーションデータを削除';
 
   @override
+  String get errorRemovingAdlist => 'Adlistの削除中にエラーが発生しました';
+
+  @override
   String get errorRemovingDomain => 'ドメイン削除時にエラーが発生しました';
 
   @override
   String get errorsApp => 'アプリによって登録されたエラー';
+
+  @override
+  String get featureNotSupportedMessage => 'この機能は Pi-hole v5 では使用できません。\nPi-hole v6 以降にアップグレードしてください。';
 
   @override
   String get filters => 'フィルター';
@@ -490,6 +571,9 @@ class AppLocalizationsJa extends AppLocalizations {
 
   @override
   String get gitHub => 'アプリコードはGitHubで利用可能';
+
+  @override
+  String get groups => 'グループ';
 
   @override
   String get helpUsImprove => '改善へのご協力をお願いします';
@@ -537,6 +621,12 @@ class AppLocalizationsJa extends AppLocalizations {
   String get howToContact => 'GitHubリポジトリで問題を開くか、メールで連絡することで、私に連絡できます。連絡方法の詳細は、設定 > 連絡先 にあります。';
 
   @override
+  String get id => 'ID';
+
+  @override
+  String get ignored => '無視';
+
+  @override
   String get importantAnnouncement => '重要なお知らせ';
 
   @override
@@ -546,10 +636,19 @@ class AppLocalizationsJa extends AppLocalizations {
   String get indefinitely => '無期限';
 
   @override
+  String get invalid => '無効';
+
+  @override
   String get invalidAddress => '無効なIPまたはドメイン';
 
   @override
+  String get invalidAdlist => '無効なAdlistのURLです';
+
+  @override
   String get invalidDomain => '無効なドメイン';
+
+  @override
+  String get invalidDomains => '無効なドメイン';
 
   @override
   String get invalidPort => '無効なポート';
@@ -661,6 +760,9 @@ class AppLocalizationsJa extends AppLocalizations {
 
   @override
   String get next => '次へ';
+
+  @override
+  String get noAdlists => '表示するAdlistがありません。';
 
   @override
   String get noAvailableBiometrics => 'デバイスに保存されている指紋がありません。';
@@ -852,6 +954,12 @@ class AppLocalizationsJa extends AppLocalizations {
   String get scanQrCode => 'QRコードをスキャン';
 
   @override
+  String get searchAdlistInternet => 'Adlistをオンラインで表示';
+
+  @override
+  String get searchAdlists => 'Adlistを検索...';
+
+  @override
   String get searchDomainInternet => 'インターネットでドメインを検索';
 
   @override
@@ -882,6 +990,9 @@ class AppLocalizationsJa extends AppLocalizations {
   String get security => 'セキュリティ';
 
   @override
+  String get selectAdlistsLeftColumn => '詳細を表示するにはAdlistを選択してください。';
+
+  @override
   String get selectConnection => '接続を選択';
 
   @override
@@ -889,6 +1000,9 @@ class AppLocalizationsJa extends AppLocalizations {
 
   @override
   String get selectEndTime => '終了時間を選択';
+
+  @override
+  String get selectGroupsMessage => 'グループを選択してください …';
 
   @override
   String get selectLogsLeftColumn => 'クエリログを選択して詳細を確認してください。';
@@ -1077,6 +1191,9 @@ class AppLocalizationsJa extends AppLocalizations {
   String get unlockWithFingerprint => '指紋でアプリのロックを解除';
 
   @override
+  String get unsupportedFeatureTitle => '未対応の機能です';
+
+  @override
   String get updatePasscode => 'パスコードを更新';
 
   @override
@@ -1096,6 +1213,9 @@ class AppLocalizationsJa extends AppLocalizations {
 
   @override
   String get username => 'ユーザー名';
+
+  @override
+  String get valid => '有効';
 
   @override
   String get valueNotValid => '無効な値';

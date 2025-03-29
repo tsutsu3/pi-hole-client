@@ -8,10 +8,12 @@ import 'package:pi_hole_client/gateways/api_gateway_interface.dart';
 import 'package:pi_hole_client/models/app_log.dart';
 import 'package:pi_hole_client/models/domain.dart';
 import 'package:pi_hole_client/models/gateways.dart';
+import 'package:pi_hole_client/models/groups.dart';
 import 'package:pi_hole_client/models/log.dart';
 import 'package:pi_hole_client/models/overtime_data.dart';
 import 'package:pi_hole_client/models/realtime_status.dart';
 import 'package:pi_hole_client/models/server.dart';
+import 'package:pi_hole_client/models/subscriptions.dart';
 import 'package:pi_hole_client/models/version.dart';
 
 class ApiGatewayV5 implements ApiGateway {
@@ -734,5 +736,114 @@ class ApiGatewayV5 implements ApiGateway {
         message: unexpectedError,
       );
     }
+  }
+
+  @override
+  Future<SubscriptionsResponse> getSubscriptions({
+    String? url,
+    String? stype,
+  }) async {
+    return Future.value(
+      SubscriptionsResponse(
+        result: APiResponseType.notSupported,
+        message: notSupportedMessage,
+      ),
+    );
+  }
+
+  @override
+  Future<RemoveSubscriptionResponse> removeSubscription({
+    required String url,
+    String? stype,
+  }) async {
+    return Future.value(
+      RemoveSubscriptionResponse(
+        result: APiResponseType.notSupported,
+        message: notSupportedMessage,
+      ),
+    );
+  }
+
+  @override
+  Future<SubscriptionsResponse> createSubscription({
+    required SubscriptionRequest body,
+  }) async {
+    return Future.value(
+      SubscriptionsResponse(
+        result: APiResponseType.notSupported,
+        message: notSupportedMessage,
+      ),
+    );
+  }
+
+  @override
+  Future<SubscriptionsResponse> updateSubscription({
+    required SubscriptionRequest body,
+  }) async {
+    return Future.value(
+      SubscriptionsResponse(
+        result: APiResponseType.notSupported,
+        message: notSupportedMessage,
+      ),
+    );
+  }
+
+  @override
+  Future<SearchResponse> searchSubscriptions({
+    required String domain,
+    bool? partial,
+    int? limit,
+    bool? debug,
+  }) async {
+    return Future.value(
+      SearchResponse(
+        result: APiResponseType.notSupported,
+        message: notSupportedMessage,
+      ),
+    );
+  }
+
+  @override
+  Future<GroupsResponse> getGroups({String? name}) async {
+    return Future.value(
+      GroupsResponse(
+        result: APiResponseType.notSupported,
+        message: notSupportedMessage,
+      ),
+    );
+  }
+
+  @override
+  Future<RemoveGroupResponse> removeGroup({required String name}) async {
+    return Future.value(
+      RemoveGroupResponse(
+        result: APiResponseType.notSupported,
+        message: notSupportedMessage,
+      ),
+    );
+  }
+
+  @override
+  Future<GroupsResponse> createGroup({
+    required GroupRequest body,
+  }) async {
+    return Future.value(
+      GroupsResponse(
+        result: APiResponseType.notSupported,
+        message: notSupportedMessage,
+      ),
+    );
+  }
+
+  @override
+  Future<GroupsResponse> updateGroup({
+    required GroupRequest body,
+  }) async {
+    return Future.value(
+      GroupsResponse(
+        result: APiResponseType.notSupported,
+        message: notSupportedMessage,
+      ),
+    );
   }
 }

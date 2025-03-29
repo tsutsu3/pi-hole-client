@@ -1,11 +1,14 @@
 import 'package:pi_hole_client/models/api/v6/domains/domains.dart' as v6;
 import 'package:pi_hole_client/models/app_log.dart';
 import 'package:pi_hole_client/models/domain.dart';
+import 'package:pi_hole_client/models/groups.dart';
 import 'package:pi_hole_client/models/host.dart';
 import 'package:pi_hole_client/models/log.dart';
 import 'package:pi_hole_client/models/overtime_data.dart';
 import 'package:pi_hole_client/models/realtime_status.dart';
+import 'package:pi_hole_client/models/search.dart';
 import 'package:pi_hole_client/models/sensors.dart';
+import 'package:pi_hole_client/models/subscriptions.dart';
 import 'package:pi_hole_client/models/system.dart';
 import 'package:pi_hole_client/models/version.dart';
 
@@ -19,6 +22,7 @@ enum APiResponseType {
   error,
   alreadyAdded,
   notSupported,
+  notFound,
 }
 
 /// A response object for the login query.
@@ -291,4 +295,42 @@ class PiHoleServerInfoResponse {
   final SensorsInfo? sensors;
   final SystemInfo? system;
   final VersionInfo? version;
+}
+
+class SubscriptionsResponse extends BaseInfoResponse<SubscriptionsInfo> {
+  SubscriptionsResponse({
+    required super.result,
+    super.message,
+    super.data,
+  });
+}
+
+class RemoveSubscriptionResponse extends BaseInfoResponse<void> {
+  RemoveSubscriptionResponse({
+    required super.result,
+    super.message,
+  });
+}
+
+class SearchResponse extends BaseInfoResponse<SearchInfo> {
+  SearchResponse({
+    required super.result,
+    super.message,
+    super.data,
+  });
+}
+
+class GroupsResponse extends BaseInfoResponse<GroupsInfo> {
+  GroupsResponse({
+    required super.result,
+    super.message,
+    super.data,
+  });
+}
+
+class RemoveGroupResponse extends BaseInfoResponse<void> {
+  RemoveGroupResponse({
+    required super.result,
+    super.message,
+  });
 }

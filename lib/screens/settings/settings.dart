@@ -18,6 +18,7 @@ import 'package:pi_hole_client/screens/settings/app_settings/advanced_settings/a
 import 'package:pi_hole_client/screens/settings/app_settings/language_screen.dart';
 import 'package:pi_hole_client/screens/settings/app_settings/theme_screen.dart';
 import 'package:pi_hole_client/screens/settings/server_settings/server_info.dart';
+import 'package:pi_hole_client/screens/settings/server_settings/subscriptions.dart';
 import 'package:pi_hole_client/widgets/custom_list_tile.dart';
 import 'package:pi_hole_client/widgets/section_label.dart';
 import 'package:provider/provider.dart';
@@ -199,6 +200,13 @@ class _SettingsWidgetState extends State<SettingsWidget> {
             screenToNavigate: const ServerInfoScreen(),
             thisItem: 4,
           ),
+          settingsTile(
+            icon: Icons.security_rounded,
+            title: AppLocalizations.of(context)!.adlistManagementTitle,
+            subtitle: AppLocalizations.of(context)!.adlistManagementDescription,
+            screenToNavigate: const SubscriptionLists(),
+            thisItem: 5,
+          ),
         ],
       );
     }
@@ -217,28 +225,28 @@ class _SettingsWidgetState extends State<SettingsWidget> {
             screenToNavigate: AppDetailScreen(
               appVersion: appConfigProvider.getAppInfo?.version,
             ),
-            thisItem: 5,
+            thisItem: 6,
           ),
           settingsTile(
             icon: Icons.privacy_tip_rounded,
             title: AppLocalizations.of(context)!.privacy,
             subtitle: AppLocalizations.of(context)!.privacyInfo,
             screenToNavigate: const PrivacyScreen(),
-            thisItem: 6,
+            thisItem: 7,
           ),
           settingsTile(
             icon: Icons.balance_rounded,
             title: AppLocalizations.of(context)!.legal,
             subtitle: AppLocalizations.of(context)!.legalInfo,
             screenToNavigate: const LegalScreen(),
-            thisItem: 7,
+            thisItem: 8,
           ),
           settingsTile(
             icon: Icons.description_rounded,
             title: AppLocalizations.of(context)!.licenses,
             subtitle: AppLocalizations.of(context)!.licensesInfo,
             screenToNavigate: const LicensesScreen(),
-            thisItem: 8,
+            thisItem: 9,
           ),
           Padding(
             padding: const EdgeInsets.all(15),

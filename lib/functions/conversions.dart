@@ -83,6 +83,28 @@ String getDomainType(int type) {
   }
 }
 
+String getSubscriptionStatusType(int type) {
+  switch (type) {
+    case 0:
+      return 'List was not downloaded so far';
+
+    case 1:
+      return 'List download was successful (OK)';
+
+    case 2:
+      return 'List unchanged upstream, Pi-hole used a local copy (OK)';
+
+    case 3:
+      return 'List unavailable, Pi-hole used a local copy (check list)';
+
+    case 4:
+      return 'List unavailable, there is no local copy of this list available (replace list)';
+
+    default:
+      return '';
+  }
+}
+
 List<Domain> parseDomainList(List<Map<String, dynamic>> jsonList) {
   return jsonList.map(Domain.fromJson).toList();
 }

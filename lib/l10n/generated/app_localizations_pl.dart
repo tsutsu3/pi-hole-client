@@ -21,6 +21,9 @@ class AppLocalizationsPl extends AppLocalizations {
   String get add => 'Dodawaj';
 
   @override
+  String get addAdlist => 'Dodaj Adlist';
+
+  @override
   String get addAsWildcard => 'Dodaj jako symbol zastępczy';
 
   @override
@@ -36,6 +39,9 @@ class AppLocalizationsPl extends AppLocalizations {
   String get addedWhitelist => 'Domena dodana do białej listy.';
 
   @override
+  String get addingAdlist => 'Trwa dodawanie Adlist...';
+
+  @override
   String get addingBlacklist => 'Dodawanie do czarnej listy...';
 
   @override
@@ -46,6 +52,48 @@ class AppLocalizationsPl extends AppLocalizations {
 
   @override
   String get address => 'Adres IP lub domena';
+
+  @override
+  String get adlist => 'Adlist';
+
+  @override
+  String get adlistAdded => 'Adlist została pomyślnie dodana';
+
+  @override
+  String get adlistAddress => 'Adres';
+
+  @override
+  String get adlistAlreadyAdded => 'Adlist została już dodana';
+
+  @override
+  String get adlistDetails => 'Szczegóły Adlist';
+
+  @override
+  String get adlistInfo => 'Informacje o Adlist';
+
+  @override
+  String get adlistManagementDescription => 'Zarządzaj i aktualizuj Adlisty';
+
+  @override
+  String get adlistManagementTitle => 'Adlists';
+
+  @override
+  String get adlistNotExists => 'Adlist nie istnieje';
+
+  @override
+  String get adlistRemoved => 'Adlist został pomyślnie usunięty';
+
+  @override
+  String get adlistSettings => 'Ustawienia Adlist';
+
+  @override
+  String get adlistStatus => 'Stan kondycji';
+
+  @override
+  String get adlistUpdated => 'Adlist została pomyślnie zaktualizowana';
+
+  @override
+  String get adlistsNotLoaded => 'Nie udało się załadować list Adlist';
 
   @override
   String get advancedSetup => 'Ustawienia zaawansowane';
@@ -76,6 +124,9 @@ class AppLocalizationsPl extends AppLocalizations {
 
   @override
   String get allowCrashReport => 'Zezwolić na przesyłanie raportów o awariach?';
+
+  @override
+  String get allowList => 'Lista dozwolonych';
 
   @override
   String get allowed => 'Dozwolone';
@@ -156,6 +207,9 @@ class AppLocalizationsPl extends AppLocalizations {
   String get blacklist => 'Dodaj do czarnej listy';
 
   @override
+  String get blockList => 'Lista zablokowanych';
+
+  @override
   String get blocked => 'Zablokowane';
 
   @override
@@ -163,6 +217,9 @@ class AppLocalizationsPl extends AppLocalizations {
 
   @override
   String get cancel => 'Anuluj';
+
+  @override
+  String get cannotAddAdlist => 'Nie udało się dodać Adlist';
 
   @override
   String get cannotAddDomain => 'Nie można dodać domeny';
@@ -339,6 +396,9 @@ class AppLocalizationsPl extends AppLocalizations {
   String get dateModified => 'Data modyfikacji';
 
   @override
+  String get dateUpdated => 'Data aktualizacji';
+
+  @override
   String get dbNotWorking => 'Baza danych nie działa. Zainstaluj ponownie aplikację.';
 
   @override
@@ -346,6 +406,12 @@ class AppLocalizationsPl extends AppLocalizations {
 
   @override
   String get delete => 'Usuń';
+
+  @override
+  String get deleteAdlist => 'Usuń Adlist';
+
+  @override
+  String get deleteAdlistMessage => 'Czy na pewno chcesz usunąć tę Adlist?';
 
   @override
   String get deleteDomain => 'Usuń domenę';
@@ -411,7 +477,16 @@ class AppLocalizationsPl extends AppLocalizations {
   String get edit => 'Edytuj';
 
   @override
+  String get editAddress => 'Edytuj adres';
+
+  @override
+  String get editComment => 'Edytuj komentarz';
+
+  @override
   String get editConnection => 'Edytuj połączenie';
+
+  @override
+  String get editGroups => 'Edytuj grupy';
 
   @override
   String get editServer => 'Edytowanie połączenia z serwerem';
@@ -453,10 +528,16 @@ class AppLocalizationsPl extends AppLocalizations {
   String get erasesAppData => 'Usuwa wszystkie dane aplikacji';
 
   @override
+  String get errorRemovingAdlist => 'Błąd podczas usuwania Adlist';
+
+  @override
   String get errorRemovingDomain => 'Błąd podczas usuwania domeny';
 
   @override
   String get errorsApp => 'Błędy zarejestrowane przez aplikację';
+
+  @override
+  String get featureNotSupportedMessage => 'Ta funkcja nie jest dostępna w Pi-hole v5.\nZaktualizuj do Pi-hole v6 lub nowszej wersji.';
 
   @override
   String get filters => 'Filtry';
@@ -490,6 +571,9 @@ class AppLocalizationsPl extends AppLocalizations {
 
   @override
   String get gitHub => 'Kod aplikacji dostępny na GitHubie';
+
+  @override
+  String get groups => 'Grupy';
 
   @override
   String get helpUsImprove => 'Pomóż nam ulepszyć';
@@ -537,6 +621,12 @@ class AppLocalizationsPl extends AppLocalizations {
   String get howToContact => 'Możesz skontaktować się ze mną, otwierając problem w repozytorium GitHub lub przez e-mail. Wszystkie szczegóły dotyczące sposobu kontaktowania się znajdują się w Ustawieniach > Kontakt.';
 
   @override
+  String get id => 'ID';
+
+  @override
+  String get ignored => 'Zignorowano';
+
+  @override
   String get importantAnnouncement => 'Ważne ogłoszenie';
 
   @override
@@ -546,10 +636,19 @@ class AppLocalizationsPl extends AppLocalizations {
   String get indefinitely => 'Bezterminowo';
 
   @override
+  String get invalid => 'Niepoprawny';
+
+  @override
   String get invalidAddress => 'Nieprawidłowy adres IP lub domena';
 
   @override
+  String get invalidAdlist => 'Nieprawidłowy adres URL listy Adlist';
+
+  @override
   String get invalidDomain => 'Nieprawidłowa domena';
+
+  @override
+  String get invalidDomains => 'Nieprawidłowe domeny';
 
   @override
   String get invalidPort => 'Nieprawidłowy port';
@@ -661,6 +760,9 @@ class AppLocalizationsPl extends AppLocalizations {
 
   @override
   String get next => 'Dalej';
+
+  @override
+  String get noAdlists => 'Brak Adlist do wyświetlenia.';
 
   @override
   String get noAvailableBiometrics => 'Na urządzeniu nie są zapisane żadne odciski palców.';
@@ -852,6 +954,12 @@ class AppLocalizationsPl extends AppLocalizations {
   String get scanQrCode => 'Zeskanuj kod QR';
 
   @override
+  String get searchAdlistInternet => 'Zobacz Adlist online';
+
+  @override
+  String get searchAdlists => 'Szukaj adlist...';
+
+  @override
   String get searchDomainInternet => 'Wyszukaj domenę w Internecie';
 
   @override
@@ -882,6 +990,9 @@ class AppLocalizationsPl extends AppLocalizations {
   String get security => 'Bezpieczeństwo';
 
   @override
+  String get selectAdlistsLeftColumn => 'Wybierz Adlist, aby zobaczyć jej szczegóły.';
+
+  @override
   String get selectConnection => 'Wybierz połączenie';
 
   @override
@@ -889,6 +1000,9 @@ class AppLocalizationsPl extends AppLocalizations {
 
   @override
   String get selectEndTime => 'Wybierz godzinę zakończenia';
+
+  @override
+  String get selectGroupsMessage => 'Proszę wybrać grupę …';
 
   @override
   String get selectLogsLeftColumn => 'Wybierz dziennik zapytań, aby zobaczyć szczegóły.';
@@ -1077,6 +1191,9 @@ class AppLocalizationsPl extends AppLocalizations {
   String get unlockWithFingerprint => 'Odblokowywanie aplikacji za pomocą odcisku palca';
 
   @override
+  String get unsupportedFeatureTitle => 'Funkcja nieobsługiwana';
+
+  @override
   String get updatePasscode => 'Aktualizuj kod dostępu';
 
   @override
@@ -1096,6 +1213,9 @@ class AppLocalizationsPl extends AppLocalizations {
 
   @override
   String get username => 'Nazwa użytkownika';
+
+  @override
+  String get valid => 'Poprawny';
 
   @override
   String get valueNotValid => 'Wartość nieprawidłowa';

@@ -17,8 +17,10 @@ import 'package:pi_hole_client/pi_hole_client.dart';
 import 'package:pi_hole_client/providers/app_config_provider.dart';
 import 'package:pi_hole_client/providers/domains_list_provider.dart';
 import 'package:pi_hole_client/providers/filters_provider.dart';
+import 'package:pi_hole_client/providers/groups_provider.dart';
 import 'package:pi_hole_client/providers/servers_provider.dart';
 import 'package:pi_hole_client/providers/status_provider.dart';
+import 'package:pi_hole_client/providers/subscriptions_list_provider.dart';
 import 'package:pi_hole_client/repository/database.dart';
 import 'package:pi_hole_client/repository/secure_storage.dart';
 import 'package:pi_hole_client/services/status_update_service.dart';
@@ -56,6 +58,9 @@ void main() async {
   final filtersProvider = FiltersProvider(serversProvider: serversProvider);
   final domainsListProvider =
       DomainsListProvider(serversProvider: serversProvider);
+  final subscriptionsListProvider =
+      SubscriptionsListProvider(serversProvider: serversProvider);
+  final groupsProvider = GroupsProvider(serversProvider: serversProvider);
 
   final statusUpdateService = StatusUpdateService(
     serversProvider: serversProvider,
@@ -175,6 +180,17 @@ void main() async {
             ),
             ChangeNotifierProxyProvider<ServersProvider, DomainsListProvider>(
               create: (context) => domainsListProvider,
+              update: (context, serverConfig, servers) =>
+                  servers!..update(serverConfig),
+            ),
+            ChangeNotifierProxyProvider<ServersProvider,
+                SubscriptionsListProvider>(
+              create: (context) => subscriptionsListProvider,
+              update: (context, serverConfig, servers) =>
+                  servers!..update(serverConfig),
+            ),
+            ChangeNotifierProxyProvider<ServersProvider, GroupsProvider>(
+              create: (context) => groupsProvider,
               update: (context, serverConfig, servers) =>
                   servers!..update(serverConfig),
             ),

@@ -16,22 +16,27 @@ import 'package:pi_hole_client/config/theme.dart' as _i2;
 import 'package:pi_hole_client/constants/enums.dart' as _i21;
 import 'package:pi_hole_client/gateways/api_gateway_interface.dart' as _i17;
 import 'package:pi_hole_client/gateways/v5/api_gateway_v5.dart' as _i26;
-import 'package:pi_hole_client/gateways/v6/api_gateway_v6.dart' as _i27;
+import 'package:pi_hole_client/gateways/v6/api_gateway_v6.dart' as _i29;
 import 'package:pi_hole_client/models/app_log.dart' as _i9;
 import 'package:pi_hole_client/models/domain.dart' as _i25;
 import 'package:pi_hole_client/models/gateways.dart' as _i5;
+import 'package:pi_hole_client/models/groups.dart' as _i28;
 import 'package:pi_hole_client/models/overtime_data.dart' as _i23;
 import 'package:pi_hole_client/models/query_status.dart' as _i16;
 import 'package:pi_hole_client/models/realtime_status.dart' as _i22;
 import 'package:pi_hole_client/models/repository/database.dart' as _i13;
 import 'package:pi_hole_client/models/server.dart' as _i3;
+import 'package:pi_hole_client/models/subscriptions.dart' as _i27;
 import 'package:pi_hole_client/providers/app_config_provider.dart' as _i6;
 import 'package:pi_hole_client/providers/domains_list_provider.dart' as _i24;
 import 'package:pi_hole_client/providers/filters_provider.dart' as _i18;
+import 'package:pi_hole_client/providers/groups_provider.dart' as _i31;
 import 'package:pi_hole_client/providers/servers_provider.dart' as _i15;
 import 'package:pi_hole_client/providers/status_provider.dart' as _i20;
+import 'package:pi_hole_client/providers/subscriptions_list_provider.dart'
+    as _i32;
 import 'package:pi_hole_client/screens/logs/logs_filters_modal.dart' as _i19;
-import 'package:pi_hole_client/services/status_update_service.dart' as _i28;
+import 'package:pi_hole_client/services/status_update_service.dart' as _i30;
 
 // ignore_for_file: type=lint
 // ignore_for_file: avoid_redundant_argument_values
@@ -150,6 +155,36 @@ class _FakeVersionResponse_16 extends _i1.SmartFake
 class _FakePiHoleServerInfoResponse_17 extends _i1.SmartFake
     implements _i5.PiHoleServerInfoResponse {
   _FakePiHoleServerInfoResponse_17(Object parent, Invocation parentInvocation)
+    : super(parent, parentInvocation);
+}
+
+class _FakeSubscriptionsResponse_18 extends _i1.SmartFake
+    implements _i5.SubscriptionsResponse {
+  _FakeSubscriptionsResponse_18(Object parent, Invocation parentInvocation)
+    : super(parent, parentInvocation);
+}
+
+class _FakeRemoveSubscriptionResponse_19 extends _i1.SmartFake
+    implements _i5.RemoveSubscriptionResponse {
+  _FakeRemoveSubscriptionResponse_19(Object parent, Invocation parentInvocation)
+    : super(parent, parentInvocation);
+}
+
+class _FakeSearchResponse_20 extends _i1.SmartFake
+    implements _i5.SearchResponse {
+  _FakeSearchResponse_20(Object parent, Invocation parentInvocation)
+    : super(parent, parentInvocation);
+}
+
+class _FakeGroupsResponse_21 extends _i1.SmartFake
+    implements _i5.GroupsResponse {
+  _FakeGroupsResponse_21(Object parent, Invocation parentInvocation)
+    : super(parent, parentInvocation);
+}
+
+class _FakeRemoveGroupResponse_22 extends _i1.SmartFake
+    implements _i5.RemoveGroupResponse {
+  _FakeRemoveGroupResponse_22(Object parent, Invocation parentInvocation)
     : super(parent, parentInvocation);
 }
 
@@ -1372,12 +1407,170 @@ class MockApiGatewayV5 extends _i1.Mock implements _i26.ApiGatewayV5 {
             ),
           )
           as _i12.Future<_i5.PiHoleServerInfoResponse>);
+
+  @override
+  _i12.Future<_i5.SubscriptionsResponse> getSubscriptions({
+    String? url,
+    String? stype,
+  }) =>
+      (super.noSuchMethod(
+            Invocation.method(#getSubscriptions, [], {
+              #url: url,
+              #stype: stype,
+            }),
+            returnValue: _i12.Future<_i5.SubscriptionsResponse>.value(
+              _FakeSubscriptionsResponse_18(
+                this,
+                Invocation.method(#getSubscriptions, [], {
+                  #url: url,
+                  #stype: stype,
+                }),
+              ),
+            ),
+          )
+          as _i12.Future<_i5.SubscriptionsResponse>);
+
+  @override
+  _i12.Future<_i5.RemoveSubscriptionResponse> removeSubscription({
+    required String? url,
+    String? stype,
+  }) =>
+      (super.noSuchMethod(
+            Invocation.method(#removeSubscription, [], {
+              #url: url,
+              #stype: stype,
+            }),
+            returnValue: _i12.Future<_i5.RemoveSubscriptionResponse>.value(
+              _FakeRemoveSubscriptionResponse_19(
+                this,
+                Invocation.method(#removeSubscription, [], {
+                  #url: url,
+                  #stype: stype,
+                }),
+              ),
+            ),
+          )
+          as _i12.Future<_i5.RemoveSubscriptionResponse>);
+
+  @override
+  _i12.Future<_i5.SubscriptionsResponse> createSubscription({
+    required _i27.SubscriptionRequest? body,
+  }) =>
+      (super.noSuchMethod(
+            Invocation.method(#createSubscription, [], {#body: body}),
+            returnValue: _i12.Future<_i5.SubscriptionsResponse>.value(
+              _FakeSubscriptionsResponse_18(
+                this,
+                Invocation.method(#createSubscription, [], {#body: body}),
+              ),
+            ),
+          )
+          as _i12.Future<_i5.SubscriptionsResponse>);
+
+  @override
+  _i12.Future<_i5.SubscriptionsResponse> updateSubscription({
+    required _i27.SubscriptionRequest? body,
+  }) =>
+      (super.noSuchMethod(
+            Invocation.method(#updateSubscription, [], {#body: body}),
+            returnValue: _i12.Future<_i5.SubscriptionsResponse>.value(
+              _FakeSubscriptionsResponse_18(
+                this,
+                Invocation.method(#updateSubscription, [], {#body: body}),
+              ),
+            ),
+          )
+          as _i12.Future<_i5.SubscriptionsResponse>);
+
+  @override
+  _i12.Future<_i5.SearchResponse> searchSubscriptions({
+    required String? domain,
+    bool? partial,
+    int? limit,
+    bool? debug,
+  }) =>
+      (super.noSuchMethod(
+            Invocation.method(#searchSubscriptions, [], {
+              #domain: domain,
+              #partial: partial,
+              #limit: limit,
+              #debug: debug,
+            }),
+            returnValue: _i12.Future<_i5.SearchResponse>.value(
+              _FakeSearchResponse_20(
+                this,
+                Invocation.method(#searchSubscriptions, [], {
+                  #domain: domain,
+                  #partial: partial,
+                  #limit: limit,
+                  #debug: debug,
+                }),
+              ),
+            ),
+          )
+          as _i12.Future<_i5.SearchResponse>);
+
+  @override
+  _i12.Future<_i5.GroupsResponse> getGroups({String? name}) =>
+      (super.noSuchMethod(
+            Invocation.method(#getGroups, [], {#name: name}),
+            returnValue: _i12.Future<_i5.GroupsResponse>.value(
+              _FakeGroupsResponse_21(
+                this,
+                Invocation.method(#getGroups, [], {#name: name}),
+              ),
+            ),
+          )
+          as _i12.Future<_i5.GroupsResponse>);
+
+  @override
+  _i12.Future<_i5.RemoveGroupResponse> removeGroup({required String? name}) =>
+      (super.noSuchMethod(
+            Invocation.method(#removeGroup, [], {#name: name}),
+            returnValue: _i12.Future<_i5.RemoveGroupResponse>.value(
+              _FakeRemoveGroupResponse_22(
+                this,
+                Invocation.method(#removeGroup, [], {#name: name}),
+              ),
+            ),
+          )
+          as _i12.Future<_i5.RemoveGroupResponse>);
+
+  @override
+  _i12.Future<_i5.GroupsResponse> createGroup({
+    required _i28.GroupRequest? body,
+  }) =>
+      (super.noSuchMethod(
+            Invocation.method(#createGroup, [], {#body: body}),
+            returnValue: _i12.Future<_i5.GroupsResponse>.value(
+              _FakeGroupsResponse_21(
+                this,
+                Invocation.method(#createGroup, [], {#body: body}),
+              ),
+            ),
+          )
+          as _i12.Future<_i5.GroupsResponse>);
+
+  @override
+  _i12.Future<_i5.GroupsResponse> updateGroup({
+    required _i28.GroupRequest? body,
+  }) =>
+      (super.noSuchMethod(
+            Invocation.method(#updateGroup, [], {#body: body}),
+            returnValue: _i12.Future<_i5.GroupsResponse>.value(
+              _FakeGroupsResponse_21(
+                this,
+                Invocation.method(#updateGroup, [], {#body: body}),
+              ),
+            ),
+          )
+          as _i12.Future<_i5.GroupsResponse>);
 }
 
 /// A class which mocks [ApiGatewayV6].
 ///
 /// See the documentation for Mockito's code generation for more information.
-class MockApiGatewayV6 extends _i1.Mock implements _i27.ApiGatewayV6 {
+class MockApiGatewayV6 extends _i1.Mock implements _i29.ApiGatewayV6 {
   MockApiGatewayV6() {
     _i1.throwOnMissingStub(this);
   }
@@ -1647,13 +1840,171 @@ class MockApiGatewayV6 extends _i1.Mock implements _i27.ApiGatewayV6 {
             ),
           )
           as _i12.Future<_i5.PiHoleServerInfoResponse>);
+
+  @override
+  _i12.Future<_i5.SubscriptionsResponse> getSubscriptions({
+    String? url,
+    String? stype,
+  }) =>
+      (super.noSuchMethod(
+            Invocation.method(#getSubscriptions, [], {
+              #url: url,
+              #stype: stype,
+            }),
+            returnValue: _i12.Future<_i5.SubscriptionsResponse>.value(
+              _FakeSubscriptionsResponse_18(
+                this,
+                Invocation.method(#getSubscriptions, [], {
+                  #url: url,
+                  #stype: stype,
+                }),
+              ),
+            ),
+          )
+          as _i12.Future<_i5.SubscriptionsResponse>);
+
+  @override
+  _i12.Future<_i5.RemoveSubscriptionResponse> removeSubscription({
+    required String? url,
+    String? stype,
+  }) =>
+      (super.noSuchMethod(
+            Invocation.method(#removeSubscription, [], {
+              #url: url,
+              #stype: stype,
+            }),
+            returnValue: _i12.Future<_i5.RemoveSubscriptionResponse>.value(
+              _FakeRemoveSubscriptionResponse_19(
+                this,
+                Invocation.method(#removeSubscription, [], {
+                  #url: url,
+                  #stype: stype,
+                }),
+              ),
+            ),
+          )
+          as _i12.Future<_i5.RemoveSubscriptionResponse>);
+
+  @override
+  _i12.Future<_i5.SubscriptionsResponse> createSubscription({
+    required _i27.SubscriptionRequest? body,
+  }) =>
+      (super.noSuchMethod(
+            Invocation.method(#createSubscription, [], {#body: body}),
+            returnValue: _i12.Future<_i5.SubscriptionsResponse>.value(
+              _FakeSubscriptionsResponse_18(
+                this,
+                Invocation.method(#createSubscription, [], {#body: body}),
+              ),
+            ),
+          )
+          as _i12.Future<_i5.SubscriptionsResponse>);
+
+  @override
+  _i12.Future<_i5.SubscriptionsResponse> updateSubscription({
+    required _i27.SubscriptionRequest? body,
+  }) =>
+      (super.noSuchMethod(
+            Invocation.method(#updateSubscription, [], {#body: body}),
+            returnValue: _i12.Future<_i5.SubscriptionsResponse>.value(
+              _FakeSubscriptionsResponse_18(
+                this,
+                Invocation.method(#updateSubscription, [], {#body: body}),
+              ),
+            ),
+          )
+          as _i12.Future<_i5.SubscriptionsResponse>);
+
+  @override
+  _i12.Future<_i5.SearchResponse> searchSubscriptions({
+    required String? domain,
+    bool? partial,
+    int? limit,
+    bool? debug,
+  }) =>
+      (super.noSuchMethod(
+            Invocation.method(#searchSubscriptions, [], {
+              #domain: domain,
+              #partial: partial,
+              #limit: limit,
+              #debug: debug,
+            }),
+            returnValue: _i12.Future<_i5.SearchResponse>.value(
+              _FakeSearchResponse_20(
+                this,
+                Invocation.method(#searchSubscriptions, [], {
+                  #domain: domain,
+                  #partial: partial,
+                  #limit: limit,
+                  #debug: debug,
+                }),
+              ),
+            ),
+          )
+          as _i12.Future<_i5.SearchResponse>);
+
+  @override
+  _i12.Future<_i5.GroupsResponse> getGroups({String? name}) =>
+      (super.noSuchMethod(
+            Invocation.method(#getGroups, [], {#name: name}),
+            returnValue: _i12.Future<_i5.GroupsResponse>.value(
+              _FakeGroupsResponse_21(
+                this,
+                Invocation.method(#getGroups, [], {#name: name}),
+              ),
+            ),
+          )
+          as _i12.Future<_i5.GroupsResponse>);
+
+  @override
+  _i12.Future<_i5.RemoveGroupResponse> removeGroup({required String? name}) =>
+      (super.noSuchMethod(
+            Invocation.method(#removeGroup, [], {#name: name}),
+            returnValue: _i12.Future<_i5.RemoveGroupResponse>.value(
+              _FakeRemoveGroupResponse_22(
+                this,
+                Invocation.method(#removeGroup, [], {#name: name}),
+              ),
+            ),
+          )
+          as _i12.Future<_i5.RemoveGroupResponse>);
+
+  @override
+  _i12.Future<_i5.GroupsResponse> createGroup({
+    required _i28.GroupRequest? body,
+  }) =>
+      (super.noSuchMethod(
+            Invocation.method(#createGroup, [], {#body: body}),
+            returnValue: _i12.Future<_i5.GroupsResponse>.value(
+              _FakeGroupsResponse_21(
+                this,
+                Invocation.method(#createGroup, [], {#body: body}),
+              ),
+            ),
+          )
+          as _i12.Future<_i5.GroupsResponse>);
+
+  @override
+  _i12.Future<_i5.GroupsResponse> updateGroup({
+    required _i28.GroupRequest? body,
+  }) =>
+      (super.noSuchMethod(
+            Invocation.method(#updateGroup, [], {#body: body}),
+            returnValue: _i12.Future<_i5.GroupsResponse>.value(
+              _FakeGroupsResponse_21(
+                this,
+                Invocation.method(#updateGroup, [], {#body: body}),
+              ),
+            ),
+          )
+          as _i12.Future<_i5.GroupsResponse>);
 }
 
 /// A class which mocks [StatusUpdateService].
 ///
 /// See the documentation for Mockito's code generation for more information.
 class MockStatusUpdateService extends _i1.Mock
-    implements _i28.StatusUpdateService {
+    implements _i30.StatusUpdateService {
   MockStatusUpdateService() {
     _i1.throwOnMissingStub(this);
   }
@@ -1684,6 +2035,257 @@ class MockStatusUpdateService extends _i1.Mock
   @override
   void dispose() => super.noSuchMethod(
     Invocation.method(#dispose, []),
+    returnValueForMissingStub: null,
+  );
+}
+
+/// A class which mocks [GroupsProvider].
+///
+/// See the documentation for Mockito's code generation for more information.
+class MockGroupsProvider extends _i1.Mock implements _i31.GroupsProvider {
+  MockGroupsProvider() {
+    _i1.throwOnMissingStub(this);
+  }
+
+  @override
+  set serversProvider(_i15.ServersProvider? _serversProvider) =>
+      super.noSuchMethod(
+        Invocation.setter(#serversProvider, _serversProvider),
+        returnValueForMissingStub: null,
+      );
+
+  @override
+  List<_i28.Group> get groups =>
+      (super.noSuchMethod(
+            Invocation.getter(#groups),
+            returnValue: <_i28.Group>[],
+          )
+          as List<_i28.Group>);
+
+  @override
+  Map<int, String> get groupItems =>
+      (super.noSuchMethod(
+            Invocation.getter(#groupItems),
+            returnValue: <int, String>{},
+          )
+          as Map<int, String>);
+
+  @override
+  _i21.LoadStatus get loadingStatus =>
+      (super.noSuchMethod(
+            Invocation.getter(#loadingStatus),
+            returnValue: _i21.LoadStatus.loading,
+          )
+          as _i21.LoadStatus);
+
+  @override
+  bool get hasListeners =>
+      (super.noSuchMethod(Invocation.getter(#hasListeners), returnValue: false)
+          as bool);
+
+  @override
+  void update(_i15.ServersProvider? provider) => super.noSuchMethod(
+    Invocation.method(#update, [provider]),
+    returnValueForMissingStub: null,
+  );
+
+  @override
+  void setLoadingStatus(_i21.LoadStatus? status) => super.noSuchMethod(
+    Invocation.method(#setLoadingStatus, [status]),
+    returnValueForMissingStub: null,
+  );
+
+  @override
+  _i12.Future<void> loadGroups() =>
+      (super.noSuchMethod(
+            Invocation.method(#loadGroups, []),
+            returnValue: _i12.Future<void>.value(),
+            returnValueForMissingStub: _i12.Future<void>.value(),
+          )
+          as _i12.Future<void>);
+
+  @override
+  void addListener(_i14.VoidCallback? listener) => super.noSuchMethod(
+    Invocation.method(#addListener, [listener]),
+    returnValueForMissingStub: null,
+  );
+
+  @override
+  void removeListener(_i14.VoidCallback? listener) => super.noSuchMethod(
+    Invocation.method(#removeListener, [listener]),
+    returnValueForMissingStub: null,
+  );
+
+  @override
+  void dispose() => super.noSuchMethod(
+    Invocation.method(#dispose, []),
+    returnValueForMissingStub: null,
+  );
+
+  @override
+  void notifyListeners() => super.noSuchMethod(
+    Invocation.method(#notifyListeners, []),
+    returnValueForMissingStub: null,
+  );
+}
+
+/// A class which mocks [SubscriptionsListProvider].
+///
+/// See the documentation for Mockito's code generation for more information.
+class MockSubscriptionsListProvider extends _i1.Mock
+    implements _i32.SubscriptionsListProvider {
+  MockSubscriptionsListProvider() {
+    _i1.throwOnMissingStub(this);
+  }
+
+  @override
+  set serversProvider(_i15.ServersProvider? _serversProvider) =>
+      super.noSuchMethod(
+        Invocation.setter(#serversProvider, _serversProvider),
+        returnValueForMissingStub: null,
+      );
+
+  @override
+  _i21.LoadStatus get loadingStatus =>
+      (super.noSuchMethod(
+            Invocation.getter(#loadingStatus),
+            returnValue: _i21.LoadStatus.loading,
+          )
+          as _i21.LoadStatus);
+
+  @override
+  List<_i27.Subscription> get whitelistSubscriptions =>
+      (super.noSuchMethod(
+            Invocation.getter(#whitelistSubscriptions),
+            returnValue: <_i27.Subscription>[],
+          )
+          as List<_i27.Subscription>);
+
+  @override
+  List<_i27.Subscription> get blacklistSubscriptions =>
+      (super.noSuchMethod(
+            Invocation.getter(#blacklistSubscriptions),
+            returnValue: <_i27.Subscription>[],
+          )
+          as List<_i27.Subscription>);
+
+  @override
+  List<_i27.Subscription> get filteredWhitelistSubscriptions =>
+      (super.noSuchMethod(
+            Invocation.getter(#filteredWhitelistSubscriptions),
+            returnValue: <_i27.Subscription>[],
+          )
+          as List<_i27.Subscription>);
+
+  @override
+  List<_i27.Subscription> get filteredBlacklistSubscriptions =>
+      (super.noSuchMethod(
+            Invocation.getter(#filteredBlacklistSubscriptions),
+            returnValue: <_i27.Subscription>[],
+          )
+          as List<_i27.Subscription>);
+
+  @override
+  String get searchTerm =>
+      (super.noSuchMethod(
+            Invocation.getter(#searchTerm),
+            returnValue: _i8.dummyValue<String>(
+              this,
+              Invocation.getter(#searchTerm),
+            ),
+          )
+          as String);
+
+  @override
+  bool get searchMode =>
+      (super.noSuchMethod(Invocation.getter(#searchMode), returnValue: false)
+          as bool);
+
+  @override
+  bool get hasListeners =>
+      (super.noSuchMethod(Invocation.getter(#hasListeners), returnValue: false)
+          as bool);
+
+  @override
+  void update(_i15.ServersProvider? provider) => super.noSuchMethod(
+    Invocation.method(#update, [provider]),
+    returnValueForMissingStub: null,
+  );
+
+  @override
+  void setLoadingStatus(_i21.LoadStatus? status) => super.noSuchMethod(
+    Invocation.method(#setLoadingStatus, [status]),
+    returnValueForMissingStub: null,
+  );
+
+  @override
+  void setWhitelistSubscriptions(List<_i27.Subscription>? subscriptions) =>
+      super.noSuchMethod(
+        Invocation.method(#setWhitelistSubscriptions, [subscriptions]),
+        returnValueForMissingStub: null,
+      );
+
+  @override
+  void setBlacklistSubscriptions(List<_i27.Subscription>? subscriptions) =>
+      super.noSuchMethod(
+        Invocation.method(#setBlacklistSubscriptions, [subscriptions]),
+        returnValueForMissingStub: null,
+      );
+
+  @override
+  void setSelectedTab(int? tab) => super.noSuchMethod(
+    Invocation.method(#setSelectedTab, [tab]),
+    returnValueForMissingStub: null,
+  );
+
+  @override
+  void setSearchMode(bool? value) => super.noSuchMethod(
+    Invocation.method(#setSearchMode, [value]),
+    returnValueForMissingStub: null,
+  );
+
+  @override
+  void onSearch(String? value) => super.noSuchMethod(
+    Invocation.method(#onSearch, [value]),
+    returnValueForMissingStub: null,
+  );
+
+  @override
+  _i12.Future<dynamic> fetchSubscriptionsList() =>
+      (super.noSuchMethod(
+            Invocation.method(#fetchSubscriptionsList, []),
+            returnValue: _i12.Future<dynamic>.value(),
+          )
+          as _i12.Future<dynamic>);
+
+  @override
+  void removeSubscriptionFromList(_i27.Subscription? subscription) =>
+      super.noSuchMethod(
+        Invocation.method(#removeSubscriptionFromList, [subscription]),
+        returnValueForMissingStub: null,
+      );
+
+  @override
+  void addListener(_i14.VoidCallback? listener) => super.noSuchMethod(
+    Invocation.method(#addListener, [listener]),
+    returnValueForMissingStub: null,
+  );
+
+  @override
+  void removeListener(_i14.VoidCallback? listener) => super.noSuchMethod(
+    Invocation.method(#removeListener, [listener]),
+    returnValueForMissingStub: null,
+  );
+
+  @override
+  void dispose() => super.noSuchMethod(
+    Invocation.method(#dispose, []),
+    returnValueForMissingStub: null,
+  );
+
+  @override
+  void notifyListeners() => super.noSuchMethod(
+    Invocation.method(#notifyListeners, []),
     returnValueForMissingStub: null,
   );
 }
