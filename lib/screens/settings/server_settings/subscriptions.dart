@@ -100,6 +100,14 @@ class _SubscriptionListsWidgetState extends State<SubscriptionListsWidget>
   }
 
   @override
+  void dispose() {
+    tabController.dispose();
+    scrollController.dispose();
+    searchController.dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     final subscriptionsListProvider =
         Provider.of<SubscriptionsListProvider>(context);
