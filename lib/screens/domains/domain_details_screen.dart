@@ -83,6 +83,7 @@ class DomainDetailsScreen extends StatelessWidget {
                     ? () => {
                           showModal(
                             context: context,
+                            useRootNavigator: false,
                             builder: (context) =>
                                 DomainCommentModal(comment: domain.comment!),
                           ),
