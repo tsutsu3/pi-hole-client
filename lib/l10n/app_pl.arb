@@ -27,6 +27,7 @@
   "adlistSettings": "Ustawienia Adlist",
   "adlistStatus": "Stan kondycji",
   "adlistUpdated": "Adlist została pomyślnie zaktualizowana",
+  "adlistsNotLoaded": "Nie udało się załadować list Adlist",
   "advancedSetup": "Ustawienia zaawansowane",
   "advancedSetupDescription": "Wykresy, bezpieczenstwo i inne",
   "advancedStatusFiltering": "Zaawansowane filtrowanie stanów",

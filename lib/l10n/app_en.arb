@@ -27,6 +27,7 @@
   "adlistSettings": "Adlist Settings",
   "adlistStatus": "Health Status",
   "adlistUpdated": "Adlist updated successfully",
+  "adlistsNotLoaded": "Adlists couldn't be loaded",
   "advancedSetup": "Advanced settings",
   "advancedSetupDescription": "Advanced options",
   "advancedStatusFiltering": "Advanced status filtering",

@@ -93,6 +93,9 @@ class AppLocalizationsEs extends AppLocalizations {
   String get adlistUpdated => 'Adlist actualizada correctamente';
 
   @override
+  String get adlistsNotLoaded => 'No se pudieron cargar las Adlists';
+
+  @override
   String get advancedSetup => 'Configuración avanzada';
 
   @override

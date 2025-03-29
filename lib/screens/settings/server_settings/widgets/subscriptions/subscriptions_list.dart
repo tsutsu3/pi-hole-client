@@ -261,8 +261,7 @@ class _SubscriptionsListState extends State<SubscriptionsList> {
                 ),
                 const SizedBox(height: 50),
                 Text(
-                  // AppLocalizations.of(context)!.subscriptionsNotLoaded,
-                  'Subscriptions not loaded',
+                  AppLocalizations.of(context)!.adlistsNotLoaded,
                   textAlign: TextAlign.center,
                   style: TextStyle(
                     color: Theme.of(context).colorScheme.onSurfaceVariant,

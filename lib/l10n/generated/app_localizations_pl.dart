@@ -93,6 +93,9 @@ class AppLocalizationsPl extends AppLocalizations {
   String get adlistUpdated => 'Adlist została pomyślnie zaktualizowana';
 
   @override
+  String get adlistsNotLoaded => 'Nie udało się załadować list Adlist';
+
+  @override
   String get advancedSetup => 'Ustawienia zaawansowane';
 
   @override

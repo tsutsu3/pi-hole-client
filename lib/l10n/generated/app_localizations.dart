@@ -269,6 +269,12 @@ abstract class AppLocalizations {
   /// **'Adlist updated successfully'**
   String get adlistUpdated;
 
+  /// No description provided for @adlistsNotLoaded.
+  ///
+  /// In en, this message translates to:
+  /// **'Adlists couldn\'t be loaded'**
+  String get adlistsNotLoaded;
+
   /// No description provided for @advancedSetup.
   ///
   /// In en, this message translates to:
