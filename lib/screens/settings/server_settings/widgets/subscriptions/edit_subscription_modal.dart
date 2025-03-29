@@ -41,60 +41,11 @@ class _EditSubscriptionModalState extends State<EditSubscriptionModal> {
   @override
   void initState() {
     super.initState();
-    if (widget.keyItem == 'address') {
-      subscriptionController.text = widget.subscription.address;
-    }
     if (widget.keyItem == 'comment') {
       commentController.text = widget.subscription.comment ?? '';
     }
     if (widget.keyItem == 'groups') {
       selectedGroups = widget.subscription.groups;
-    }
-  }
-
-  void validateAddress(String? value) {
-    if (value != null && value != '') {
-      final subrouteRegexp = RegExp(
-        r'^(https?|ftp):\/\/' // protocol
-        '('
-        'localhost' // localhost
-        r'|(\d{1,3}\.){3}\d{1,3}' // IPv4
-        r'|[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}' // domain
-        ')'
-        r'(:\d+)?' // port
-        r'(\/[^\s]*)?$', // path
-      );
-
-      if (subrouteRegexp.hasMatch(value) == true) {
-        setState(() {
-          subscriptionError = null;
-        });
-      } else {
-        setState(() {
-          subscriptionError = AppLocalizations.of(context)!.invalidAdlist;
-        });
-      }
-    } else {
-      setState(() {
-        subscriptionError = null;
-      });
-    }
-
-    if (value == widget.subscription.address) {
-      setState(() {
-        allDataValid = false;
-      });
-      return;
-    }
-
-    if (value != '' && subscriptionError == null) {
-      setState(() {
-        allDataValid = true;
-      });
-    } else {
-      setState(() {
-        allDataValid = false;
-      });
     }
   }
 
@@ -153,23 +104,6 @@ class _EditSubscriptionModalState extends State<EditSubscriptionModal> {
                   child: Column(
                     mainAxisSize: MainAxisSize.min,
                     children: [
-                      if (widget.keyItem == 'address')
-                        SizedBox(
-                          width: double.infinity,
-                          child: TextField(
-                            controller: subscriptionController,
-                            onChanged: validateAddress,
-                            decoration: InputDecoration(
-                              prefixIcon: const Icon(Icons.public_rounded),
-                              border: const OutlineInputBorder(
-                                borderRadius:
-                                    BorderRadius.all(Radius.circular(10)),
-                              ),
-                              labelText: AppLocalizations.of(context)!.adlist,
-                              errorText: subscriptionError,
-                            ),
-                          ),
-                        ),
                       if (widget.keyItem == 'comment')
                         SizedBox(
                           width: double.infinity,
@@ -218,15 +152,6 @@ class _EditSubscriptionModalState extends State<EditSubscriptionModal> {
                   TextButton(
                     onPressed: allDataValid == true
                         ? () {
-                            if (widget.keyItem == 'address') {
-                              widget.onConfirm(
-                                widget.subscription
-                                    .copyWith(
-                                      address: subscriptionController.text,
-                                    )
-                                    .toJson(),
-                              );
-                            }
                             if (widget.keyItem == 'comment') {
                               widget.onConfirm(
                                 widget.subscription
