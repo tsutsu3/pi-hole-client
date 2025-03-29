@@ -20,23 +20,29 @@ import 'package:pi_hole_client/models/api/v6/ftl/host.dart' show Host;
 import 'package:pi_hole_client/models/api/v6/ftl/sensors.dart' show Sensors;
 import 'package:pi_hole_client/models/api/v6/ftl/system.dart' show System;
 import 'package:pi_hole_client/models/api/v6/ftl/version.dart' show Version;
+import 'package:pi_hole_client/models/api/v6/groups/groups.dart' show Groups;
+import 'package:pi_hole_client/models/api/v6/lists/lists.dart' show Lists;
 import 'package:pi_hole_client/models/api/v6/metrics/query.dart';
 import 'package:pi_hole_client/models/app_log.dart';
 import 'package:pi_hole_client/models/domain.dart';
 import 'package:pi_hole_client/models/gateways.dart';
+import 'package:pi_hole_client/models/groups.dart';
 import 'package:pi_hole_client/models/host.dart';
 import 'package:pi_hole_client/models/log.dart';
 import 'package:pi_hole_client/models/overtime_data.dart';
 import 'package:pi_hole_client/models/realtime_status.dart';
 import 'package:pi_hole_client/models/sensors.dart';
 import 'package:pi_hole_client/models/server.dart';
+import 'package:pi_hole_client/models/subscriptions.dart';
 import 'package:pi_hole_client/models/system.dart';
 import 'package:pi_hole_client/models/version.dart';
 import 'package:pi_hole_client/providers/app_config_provider.dart';
 import 'package:pi_hole_client/providers/domains_list_provider.dart';
 import 'package:pi_hole_client/providers/filters_provider.dart';
+import 'package:pi_hole_client/providers/groups_provider.dart';
 import 'package:pi_hole_client/providers/servers_provider.dart';
 import 'package:pi_hole_client/providers/status_provider.dart';
+import 'package:pi_hole_client/providers/subscriptions_list_provider.dart';
 import 'package:pi_hole_client/screens/logs/logs_filters_modal.dart';
 import 'package:pi_hole_client/services/status_update_service.dart';
 import 'package:provider/provider.dart';
@@ -795,6 +801,59 @@ final system = System.fromJson(
   },
 );
 
+final subscriptions = Lists.fromJson(
+  {
+    'lists': [
+      {
+        'address': 'https://hosts-file.net/ad_servers.txt',
+        'comment': 'Some comment for this list',
+        'groups': [0],
+        'enabled': true,
+        'id': 106,
+        'date_added': 1742739018,
+        'date_modified': 1742739030,
+        'type': 'block',
+        'date_updated': 0,
+        'number': 0,
+        'invalid_domains': 0,
+        'abp_entries': 0,
+        'status': 0,
+      }
+    ],
+    'processed': {
+      'errors': [],
+      'success': [
+        {'item': 'https://hosts-file.net/ad_servers.txt'},
+      ],
+    },
+    'took': 0.019428014755249023,
+  },
+);
+
+final groups = Groups.fromJson(
+  {
+    'groups': [
+      {
+        'name': 'Default',
+        'comment': 'The default group',
+        'enabled': true,
+        'id': 0,
+        'date_added': 1594670974,
+        'date_modified': 1611157897,
+      },
+      {
+        'name': 'a',
+        'comment': null,
+        'enabled': true,
+        'id': 5,
+        'date_added': 1604871899,
+        'date_modified': 1604871899,
+      }
+    ],
+    'took': 0.003,
+  },
+);
+
 /// Initialize the app with the given environment file.
 ///
 /// This function should be called before any other setup.
@@ -856,6 +915,8 @@ Future<void> initializeApp() async {
   ApiGatewayV5,
   ApiGatewayV6,
   StatusUpdateService,
+  GroupsProvider,
+  SubscriptionsListProvider,
 ])
 class TestSetupHelper {
   TestSetupHelper({
@@ -864,6 +925,8 @@ class TestSetupHelper {
     MockFiltersProvider? customFiltersProvider,
     MockStatusProvider? customStatusProvider,
     MockDomainsListProvider? customDomainsListProvider,
+    MockGroupsProvider? customGroupsProvider,
+    MockSubscriptionsListProvider? customSubscriptionsListProvider,
     MockApiGatewayV5? customApiGatewayV5,
     MockApiGatewayV6? customApiGatewayV6,
     MockStatusUpdateService? customStatusUpdateService,
@@ -874,6 +937,9 @@ class TestSetupHelper {
     mockStatusProvider = customStatusProvider ?? MockStatusProvider();
     mockDomainsListProvider =
         customDomainsListProvider ?? MockDomainsListProvider();
+    mockGroupsProvider = customGroupsProvider ?? MockGroupsProvider();
+    mockSubscriptionsListProvider =
+        customSubscriptionsListProvider ?? MockSubscriptionsListProvider();
 
     mockApiGatewayV5 = customApiGatewayV5 ?? MockApiGatewayV5();
     mockApiGatewayV6 = customApiGatewayV6 ?? MockApiGatewayV6();
@@ -887,6 +953,8 @@ class TestSetupHelper {
   late MockFiltersProvider mockFiltersProvider;
   late MockStatusProvider mockStatusProvider;
   late MockDomainsListProvider mockDomainsListProvider;
+  late MockGroupsProvider mockGroupsProvider;
+  late MockSubscriptionsListProvider mockSubscriptionsListProvider;
 
   late MockApiGatewayV5 mockApiGatewayV5;
   late MockApiGatewayV6 mockApiGatewayV6;
@@ -899,6 +967,8 @@ class TestSetupHelper {
     _initFiltersProviderMock(useApiGatewayVersion);
     _initStatusProviderMock(useApiGatewayVersion);
     _initDomainListProviderMock(useApiGatewayVersion);
+    _initGroupsPtoviderMock(useApiGatewayVersion);
+    _initSubscriptionsListProviderMock(useApiGatewayVersion);
     _initApiGatewayV5Mock();
     _initApiGatewayV6Mock();
     _initStatusUpdateServiceMock();
@@ -945,6 +1015,17 @@ class TestSetupHelper {
             ),
             ChangeNotifierProxyProvider<ServersProvider, FiltersProvider>(
               create: (context) => mockFiltersProvider,
+              update: (context, serverConfig, servers) =>
+                  servers!..update(serverConfig),
+            ),
+            ChangeNotifierProxyProvider<ServersProvider,
+                SubscriptionsListProvider>(
+              create: (context) => mockSubscriptionsListProvider,
+              update: (context, serverConfig, servers) =>
+                  servers!..update(serverConfig),
+            ),
+            ChangeNotifierProxyProvider<ServersProvider, GroupsProvider>(
+              create: (context) => mockGroupsProvider,
               update: (context, serverConfig, servers) =>
                   servers!..update(serverConfig),
             ),
@@ -1006,6 +1087,16 @@ class TestSetupHelper {
         ),
         ChangeNotifierProxyProvider<ServersProvider, FiltersProvider>(
           create: (context) => mockFiltersProvider,
+          update: (context, serverConfig, servers) =>
+              servers!..update(serverConfig),
+        ),
+        ChangeNotifierProxyProvider<ServersProvider, SubscriptionsListProvider>(
+          create: (context) => mockSubscriptionsListProvider,
+          update: (context, serverConfig, servers) =>
+              servers!..update(serverConfig),
+        ),
+        ChangeNotifierProxyProvider<ServersProvider, GroupsProvider>(
+          create: (context) => mockGroupsProvider,
           update: (context, serverConfig, servers) =>
               servers!..update(serverConfig),
         ),
@@ -1153,6 +1244,62 @@ class TestSetupHelper {
     when(mockDomainsListProvider.filteredWhitelistDomains).thenReturn(domains);
   }
 
+  void _initGroupsPtoviderMock(useApiGatewayVersion) {
+    when(mockGroupsProvider.groups)
+        .thenReturn(GroupsInfo.fromV6(groups).groups);
+
+    when(mockGroupsProvider.groupItems).thenReturn(
+      {
+        for (final group in GroupsInfo.fromV6(groups).groups)
+          group.id: group.name,
+      },
+    );
+
+    when(mockGroupsProvider.loadingStatus).thenReturn(LoadStatus.loaded);
+
+    when(mockGroupsProvider.setLoadingStatus(any)).thenReturn(null);
+
+    when(mockGroupsProvider.loadGroups()).thenAnswer((_) async => ());
+  }
+
+  void _initSubscriptionsListProviderMock(useApiGatewayVersion) {
+    when(mockSubscriptionsListProvider.loadingStatus)
+        .thenReturn(LoadStatus.loaded);
+
+    when(mockSubscriptionsListProvider.whitelistSubscriptions).thenReturn([]);
+
+    when(mockSubscriptionsListProvider.blacklistSubscriptions)
+        .thenReturn(SubscriptionsInfo.fromV6(subscriptions).subscriptions);
+
+    when(mockSubscriptionsListProvider.filteredWhitelistSubscriptions)
+        .thenReturn([]);
+
+    when(mockSubscriptionsListProvider.filteredBlacklistSubscriptions)
+        .thenReturn(SubscriptionsInfo.fromV6(subscriptions).subscriptions);
+
+    when(mockSubscriptionsListProvider.selectedTab).thenReturn(0);
+
+    when(mockSubscriptionsListProvider.searchMode).thenReturn(false);
+
+    when(mockSubscriptionsListProvider.setLoadingStatus(any)).thenReturn(null);
+
+    when(mockSubscriptionsListProvider.setWhitelistSubscriptions(any))
+        .thenReturn(null);
+
+    when(mockSubscriptionsListProvider.setBlacklistSubscriptions(any))
+        .thenReturn(null);
+
+    when(mockSubscriptionsListProvider.setSelectedTab(any)).thenReturn(null);
+
+    when(mockSubscriptionsListProvider.onSearch(any)).thenReturn(null);
+
+    when(mockSubscriptionsListProvider.fetchSubscriptionsList())
+        .thenAnswer((_) async => ());
+
+    when(mockSubscriptionsListProvider.removeSubscriptionFromList(any))
+        .thenReturn(null);
+  }
+
   void _initApiGatewayV5Mock() {
     when(mockApiGatewayV5.loginQuery()).thenAnswer(
       (_) async => LoginQueryResponse(
@@ -1276,6 +1423,33 @@ class TestSetupHelper {
     );
 
     when(mockApiGatewayV6.server).thenReturn(serverV6);
+
+    when(mockApiGatewayV6.updateSubscription(body: anyNamed('body')))
+        .thenAnswer(
+      (_) async => SubscriptionsResponse(
+        result: APiResponseType.success,
+        data: SubscriptionsInfo.fromV6(subscriptions),
+      ),
+    );
+
+    when(mockApiGatewayV6.createSubscription(body: anyNamed('body')))
+        .thenAnswer(
+      (_) async => SubscriptionsResponse(
+        result: APiResponseType.success,
+        data: SubscriptionsInfo.fromV6(subscriptions),
+      ),
+    );
+
+    when(
+      mockApiGatewayV6.removeSubscription(
+        url: anyNamed('url'),
+        stype: anyNamed('stype'),
+      ),
+    ).thenAnswer(
+      (_) async => RemoveSubscriptionResponse(
+        result: APiResponseType.success,
+      ),
+    );
   }
 
   void _initStatusUpdateServiceMock() {
