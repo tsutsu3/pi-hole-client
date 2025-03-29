@@ -11,10 +11,12 @@ import 'package:pi_hole_client/models/api/v6/ftl/host.dart' show Host;
 import 'package:pi_hole_client/models/api/v6/ftl/sensors.dart' show Sensors;
 import 'package:pi_hole_client/models/api/v6/ftl/system.dart' show System;
 import 'package:pi_hole_client/models/api/v6/ftl/version.dart' show Version;
+import 'package:pi_hole_client/models/api/v6/groups/groups.dart';
 import 'package:pi_hole_client/models/api/v6/lists/lists.dart' show Lists;
 import 'package:pi_hole_client/models/api/v6/lists/search.dart' show Search;
 import 'package:pi_hole_client/models/domain.dart';
 import 'package:pi_hole_client/models/gateways.dart';
+import 'package:pi_hole_client/models/groups.dart';
 import 'package:pi_hole_client/models/host.dart';
 import 'package:pi_hole_client/models/search.dart';
 import 'package:pi_hole_client/models/sensors.dart';
@@ -2844,6 +2846,159 @@ void main() async {
       ).thenThrow(Exception('Unexpected error test'));
 
       final response = await apiGateway.searchSubscriptions(domain: domain);
+
+      expect(response.result, APiResponseType.error);
+      expect(response.message, unexpectedError);
+      expect(response.data?.toJson(), null);
+    });
+  });
+
+  group('getGroups', () {
+    late Server server;
+    const multiData = {
+      'groups': [
+        {
+          'name': 'Default',
+          'comment': 'The default group',
+          'enabled': true,
+          'id': 0,
+          'date_added': 1594670974,
+          'date_modified': 1611157897,
+        },
+        {
+          'name': 'a',
+          'comment': null,
+          'enabled': true,
+          'id': 5,
+          'date_added': 1604871899,
+          'date_modified': 1604871899,
+        }
+      ],
+      'took': 0.003,
+    };
+    const singleData = {
+      'groups': [
+        {
+          'name': 'Default',
+          'comment': 'The default group',
+          'enabled': true,
+          'id': 0,
+          'date_added': 1594670974,
+          'date_modified': 1611157897,
+        },
+      ],
+      'took': 0.003,
+    };
+    const noData = {'groups': [], 'took': 0.0006268024444580078};
+    const erroData = {
+      'error': {'key': 'unauthorized', 'message': 'Unauthorized', 'hint': null},
+      'took': 0.003,
+    };
+    const groupName = 'Default';
+
+    setUp(() {
+      server = Server(
+        address: 'http://example.com',
+        alias: 'example',
+        defaultServer: true,
+        apiVersion: SupportedApiVersions.v6,
+      );
+      server.sm.savePassword('xxx123');
+    });
+
+    test('should return success when retrieving all groups', () async {
+      final mockClient = MockClient();
+      final apiGateway = ApiGatewayV6(server, client: mockClient);
+
+      when(
+        mockClient.get(
+          Uri.parse('http://example.com/api/groups'),
+          headers: anyNamed('headers'),
+        ),
+      ).thenAnswer((_) async => http.Response(jsonEncode(multiData), 200));
+
+      final response = await apiGateway.getGroups();
+
+      expect(response.result, APiResponseType.success);
+      expect(response.message, null);
+      expect(
+        response.data?.toJson(),
+        GroupsInfo.fromV6(Groups.fromJson(multiData)).toJson(),
+      );
+    });
+
+    test('should return success when retrieving a specific group', () async {
+      final mockClient = MockClient();
+      final apiGateway = ApiGatewayV6(server, client: mockClient);
+
+      when(
+        mockClient.get(
+          Uri.parse('http://example.com/api/groups/$groupName'),
+          headers: anyNamed('headers'),
+        ),
+      ).thenAnswer((_) async => http.Response(jsonEncode(singleData), 200));
+
+      final response = await apiGateway.getGroups(name: groupName);
+
+      expect(response.result, APiResponseType.success);
+      expect(response.message, null);
+      expect(
+        response.data?.toJson(),
+        GroupsInfo.fromV6(Groups.fromJson(singleData)).toJson(),
+      );
+    });
+
+    test('should return success when not match', () async {
+      final mockClient = MockClient();
+      final apiGateway = ApiGatewayV6(server, client: mockClient);
+
+      when(
+        mockClient.get(
+          Uri.parse('http://example.com/api/groups/$groupName'),
+          headers: anyNamed('headers'),
+        ),
+      ).thenAnswer((_) async => http.Response(jsonEncode(noData), 200));
+
+      final response = await apiGateway.getGroups(name: groupName);
+
+      expect(response.result, APiResponseType.success);
+      expect(response.message, null);
+      expect(
+        response.data?.toJson(),
+        GroupsInfo.fromV6(Groups.fromJson(noData)).toJson(),
+      );
+    });
+
+    test('should return an error when status code is 401', () async {
+      final mockClient = MockClient();
+      final apiGateway = ApiGatewayV6(server, client: mockClient);
+
+      when(
+        mockClient.get(
+          Uri.parse('http://example.com/api/groups'),
+          headers: anyNamed('headers'),
+        ),
+      ).thenAnswer((_) async => http.Response(jsonEncode(erroData), 401));
+
+      final response = await apiGateway.getGroups();
+
+      expect(response.result, APiResponseType.error);
+      expect(response.message, fetchError);
+      expect(response.data?.toJson(), null);
+    });
+
+    test('should return an error when an unexpected error occurs', () async {
+      final mockClient = MockClient();
+      final apiGateway = ApiGatewayV6(server, client: mockClient);
+
+      when(
+        mockClient.get(
+          Uri.parse('http://example.com/api/groups'),
+          headers: anyNamed('headers'),
+        ),
+      ).thenThrow(Exception('Unexpected error test'));
+
+      final response = await apiGateway.getGroups();
 
       expect(response.result, APiResponseType.error);
       expect(response.message, unexpectedError);
