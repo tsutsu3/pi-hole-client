@@ -85,6 +85,7 @@ class _SubscriptionDetailsScreenState extends State<SubscriptionDetailsScreen> {
           IconButton(
             onPressed: () => showDialog(
               context: context,
+              useRootNavigator: false,
               builder: (context) => DeleteSubscriptionModal(
                 onConfirm: () {
                   Navigator.maybePop(context);
