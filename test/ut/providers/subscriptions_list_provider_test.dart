@@ -140,8 +140,10 @@ void main() {
       await provider.fetchSubscriptionsList();
       expect(provider.loadingStatus, LoadStatus.loaded);
       expect(provider.whitelistSubscriptions, []);
-      expect(provider.blacklistSubscriptions[0].toJson(),
-          subscriptions[0].toJson());
+      expect(
+        provider.blacklistSubscriptions[0].toJson(),
+        subscriptions[0].toJson(),
+      );
       expect(listenerCalled, true);
     });
 
