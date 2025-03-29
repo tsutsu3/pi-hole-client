@@ -187,6 +187,7 @@ class _HomeState extends State<Home> {
           if (width > ResponsiveConstants.medium) {
             await showDialog(
               context: context,
+              useRootNavigator: false,
               builder: (_) => DisableModal(
                 onDisable: (time) => disableServer(time, context),
                 window: true,

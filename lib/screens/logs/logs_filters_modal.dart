@@ -47,6 +47,7 @@ class _LogsFiltersModalState extends State<LogsFiltersModal> {
       if (width > ResponsiveConstants.medium) {
         showDialog(
           context: context,
+          useRootNavigator: false,
           builder: (context) => StatusFiltersModal(
             statusBarHeight: widget.statusBarHeight,
             bottomNavBarHeight: widget.bottomNavBarHeight,
@@ -77,6 +78,7 @@ class _LogsFiltersModalState extends State<LogsFiltersModal> {
       if (width > ResponsiveConstants.medium) {
         showDialog(
           context: context,
+          useRootNavigator: false,
           builder: (context) => ClientsFiltersModal(
             statusBarHeight: widget.statusBarHeight,
             bottomNavBarHeight: widget.bottomNavBarHeight,
@@ -113,6 +115,7 @@ class _LogsFiltersModalState extends State<LogsFiltersModal> {
       final now = DateTime.now();
       final dateValue = await showDatePicker(
         context: context,
+        useRootNavigator: false,
         initialDate: now,
         firstDate: DateTime(now.year, now.month - 1, now.day),
         lastDate: now,
@@ -120,6 +123,7 @@ class _LogsFiltersModalState extends State<LogsFiltersModal> {
       if (dateValue != null) {
         final timeValue = await showTimePicker(
           context: context,
+          useRootNavigator: false,
           initialTime: TimeOfDay.now(),
           helpText: time == 'from'
               ? AppLocalizations.of(context)!.selectStartTime

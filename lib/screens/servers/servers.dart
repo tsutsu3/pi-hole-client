@@ -90,6 +90,7 @@ class _ServersPageState extends State<ServersPage> {
             {
               showDialog(
                 context: context,
+                useRootNavigator: false,
                 builder: (context) => AddServerFullscreen(
                   server: server,
                   window: true,

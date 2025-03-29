@@ -427,6 +427,7 @@ class _AddServerFullscreenState extends State<AddServerFullscreen> {
     void openScanTokenModal() {
       showDialog(
         context: context,
+        useRootNavigator: false,
         builder: (context) => ScanTokenModal(
           qrScanned: (value) =>
               setState(() => tokenFieldController.text = value),

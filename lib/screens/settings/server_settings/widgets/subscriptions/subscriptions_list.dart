@@ -156,6 +156,7 @@ class _SubscriptionsListState extends State<SubscriptionsList> {
       if (MediaQuery.of(context).size.width > ResponsiveConstants.medium) {
         showDialog(
           context: context,
+          useRootNavigator: false,
           builder: (ctx) => AddSubscriptionModal(
             selectedlist: widget.type,
             addSubscription: onAddSubscription,

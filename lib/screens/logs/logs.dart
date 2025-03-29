@@ -309,6 +309,7 @@ class _LogsState extends State<Logs> {
       if (width > ResponsiveConstants.medium) {
         showDialog(
           context: context,
+          useRootNavigator: false,
           builder: (context) => LogsFiltersModal(
             statusBarHeight: statusBarHeight,
             bottomNavBarHeight: bottomNavBarHeight,

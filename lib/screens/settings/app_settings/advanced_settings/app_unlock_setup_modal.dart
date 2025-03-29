@@ -65,6 +65,7 @@ class _AppUnlockSetupModalState extends State<AppUnlockSetupModal> {
     void openRemovePasscode() {
       showDialog(
         context: context,
+        useRootNavigator: false,
         builder: (context) => const RemovePasscodeModal(),
         barrierDismissible: false,
       );

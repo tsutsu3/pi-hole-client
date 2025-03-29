@@ -146,6 +146,7 @@ class _DomainsListState extends State<DomainsList> {
       if (MediaQuery.of(context).size.width > ResponsiveConstants.medium) {
         showDialog(
           context: context,
+          useRootNavigator: false,
           builder: (ctx) => AddDomainModal(
             selectedlist: widget.type,
             addDomain: onAddDomain,

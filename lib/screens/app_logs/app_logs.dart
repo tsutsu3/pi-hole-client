@@ -77,6 +77,7 @@ class AppLogs extends StatelessWidget {
                   onTap: () => {
                     showDialog(
                       context: context,
+                      useRootNavigator: false,
                       builder: (context) => AppLogDetailsModal(
                         log: appConfigProvider.logs[index],
                       ),

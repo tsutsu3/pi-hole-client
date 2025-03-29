@@ -51,6 +51,7 @@ class _ServersTileItemState extends State<ServersTileItem>
         () => {
           showDialog(
             context: context,
+            useRootNavigator: false,
             builder: (context) => DeleteModal(
               serverToDelete: server,
             ),
@@ -69,6 +70,7 @@ class _ServersTileItemState extends State<ServersTileItem>
             {
               showDialog(
                 context: context,
+                useRootNavigator: false,
                 barrierDismissible: false,
                 builder: (context) => AddServerFullscreen(
                   server: server,

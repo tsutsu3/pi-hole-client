@@ -114,6 +114,7 @@ class HomeAppBar extends StatelessWidget implements PreferredSizeWidget {
     void openSwitchServerModal() {
       showDialog(
         context: context,
+        useRootNavigator: false,
         builder: (context) => SwitchServerModal(
           onServerSelect: connectToServer,
         ),

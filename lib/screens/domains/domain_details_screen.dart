@@ -30,6 +30,7 @@ class DomainDetailsScreen extends StatelessWidget {
           IconButton(
             onPressed: () => showDialog(
               context: context,
+              useRootNavigator: false,
               builder: (context) => DeleteDomainModal(
                 onConfirm: () {
                   Navigator.maybePop(context);

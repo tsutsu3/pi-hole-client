@@ -124,6 +124,7 @@ class AdvancedOptions extends StatelessWidget {
         if (width > ResponsiveConstants.medium) {
           showDialog(
             context: context,
+            useRootNavigator: false,
             builder: (context) => AppUnlockSetupModal(
               topBarHeight: topBarHeight,
               useBiometrics: appConfigProvider.useBiometrics,
@@ -148,6 +149,7 @@ class AdvancedOptions extends StatelessWidget {
         if (width > ResponsiveConstants.medium) {
           showDialog(
             context: context,
+            useRootNavigator: false,
             builder: (BuildContext context) => EnterPasscodeModal(
               onConfirm: openModal,
               window: true,

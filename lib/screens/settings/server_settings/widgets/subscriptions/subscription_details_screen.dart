@@ -263,6 +263,7 @@ class _SubscriptionDetailsScreenState extends State<SubscriptionDetailsScreen> {
     if (MediaQuery.of(context).size.width > ResponsiveConstants.medium) {
       showDialog(
         context: context,
+        useRootNavigator: false,
         builder: (ctx) => EditSubscriptionModal(
           subscription: _subscription,
           keyItem: 'comment',
@@ -295,6 +296,7 @@ class _SubscriptionDetailsScreenState extends State<SubscriptionDetailsScreen> {
     if (MediaQuery.of(context).size.width > ResponsiveConstants.medium) {
       showDialog(
         context: context,
+        useRootNavigator: false,
         builder: (ctx) => EditSubscriptionModal(
           subscription: _subscription,
           keyItem: 'groups',
