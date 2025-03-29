@@ -490,6 +490,50 @@ void main() async {
           expect(find.text('Adlist removed successfully'), findsWidgets);
         },
       );
+
+      testWidgets(
+        'should remove adlist when remove button is tapped on tablet',
+        (WidgetTester tester) async {
+          tester.view.physicalSize = const Size(2560, 1600);
+          tester.view.devicePixelRatio = 1.6;
+
+          addTearDown(() {
+            tester.view.resetPhysicalSize();
+            tester.view.resetDevicePixelRatio();
+          });
+
+          await tester.pumpWidget(
+            testSetup.buildTestWidget(
+              const SubscriptionLists(),
+            ),
+          );
+
+          expect(find.byType(SubscriptionLists), findsOneWidget);
+          await tester.pump();
+
+          await tester.tap(find.text('Blocklist'));
+          await tester.pumpAndSettle();
+          await tester.tap(find.text('https://hosts-file.net/ad_servers.txt'));
+          await tester.pumpAndSettle();
+          expect(find.byType(SubscriptionDetailsScreen), findsOneWidget);
+          expect(find.text('Adlist Details'), findsOneWidget);
+
+          expect(find.byIcon(Icons.delete_rounded), findsOneWidget);
+          await tester.tap(find.byIcon(Icons.delete_rounded));
+          await tester.pumpAndSettle();
+
+          // Show remove modal
+          expect(find.byType(DeleteSubscriptionModal), findsOneWidget);
+          expect(find.text('Delete adlist'), findsOneWidget);
+          await tester.tap(find.text('Confirm'));
+          await tester.pumpAndSettle();
+
+          expect(find.byType(SnackBar), findsOneWidget);
+          expect(find.text('Adlist removed successfully'), findsWidgets);
+          expect(
+              find.text('Choose an adlist to see its details'), findsWidgets);
+        },
+      );
     },
   );
 }
