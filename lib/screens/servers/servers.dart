@@ -90,7 +90,8 @@ class _ServersPageState extends State<ServersPage> {
             {
               showDialog(
                 context: context,
-                useRootNavigator: false,
+                useRootNavigator:
+                    false, // Prevents unexpected app exit on mobile when pressing back
                 builder: (context) => AddServerFullscreen(
                   server: server,
                   window: true,

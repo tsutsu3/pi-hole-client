@@ -124,7 +124,8 @@ class AdvancedOptions extends StatelessWidget {
         if (width > ResponsiveConstants.medium) {
           showDialog(
             context: context,
-            useRootNavigator: false,
+            useRootNavigator:
+                false, // Prevents unexpected app exit on mobile when pressing back
             builder: (context) => AppUnlockSetupModal(
               topBarHeight: topBarHeight,
               useBiometrics: appConfigProvider.useBiometrics,
@@ -149,7 +150,8 @@ class AdvancedOptions extends StatelessWidget {
         if (width > ResponsiveConstants.medium) {
           showDialog(
             context: context,
-            useRootNavigator: false,
+            useRootNavigator:
+                false, // Prevents unexpected app exit on mobile when pressing back
             builder: (BuildContext context) => EnterPasscodeModal(
               onConfirm: openModal,
               window: true,

@@ -187,7 +187,8 @@ class _HomeState extends State<Home> {
           if (width > ResponsiveConstants.medium) {
             await showDialog(
               context: context,
-              useRootNavigator: false,
+              useRootNavigator:
+                  false, // Prevents unexpected app exit on mobile when pressing back
               builder: (_) => DisableModal(
                 onDisable: (time) => disableServer(time, context),
                 window: true,
