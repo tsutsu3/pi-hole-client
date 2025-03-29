@@ -77,6 +77,8 @@ class AppLogs extends StatelessWidget {
                   onTap: () => {
                     showDialog(
                       context: context,
+                      useRootNavigator:
+                          false, // Prevents unexpected app exit on mobile when pressing back
                       builder: (context) => AppLogDetailsModal(
                         log: appConfigProvider.logs[index],
                       ),

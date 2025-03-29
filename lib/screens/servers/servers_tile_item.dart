@@ -51,6 +51,8 @@ class _ServersTileItemState extends State<ServersTileItem>
         () => {
           showDialog(
             context: context,
+            useRootNavigator:
+                false, // Prevents unexpected app exit on mobile when pressing back
             builder: (context) => DeleteModal(
               serverToDelete: server,
             ),
@@ -69,6 +71,8 @@ class _ServersTileItemState extends State<ServersTileItem>
             {
               showDialog(
                 context: context,
+                useRootNavigator:
+                    false, // Prevents unexpected app exit on mobile when pressing back
                 barrierDismissible: false,
                 builder: (context) => AddServerFullscreen(
                   server: server,

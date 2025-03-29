@@ -65,6 +65,8 @@ class _AppUnlockSetupModalState extends State<AppUnlockSetupModal> {
     void openRemovePasscode() {
       showDialog(
         context: context,
+        useRootNavigator:
+            false, // Prevents unexpected app exit on mobile when pressing back
         builder: (context) => const RemovePasscodeModal(),
         barrierDismissible: false,
       );

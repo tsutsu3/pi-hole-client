@@ -146,6 +146,8 @@ class _DomainsListState extends State<DomainsList> {
       if (MediaQuery.of(context).size.width > ResponsiveConstants.medium) {
         showDialog(
           context: context,
+          useRootNavigator:
+              false, // Prevents unexpected app exit on mobile when pressing back
           builder: (ctx) => AddDomainModal(
             selectedlist: widget.type,
             addDomain: onAddDomain,

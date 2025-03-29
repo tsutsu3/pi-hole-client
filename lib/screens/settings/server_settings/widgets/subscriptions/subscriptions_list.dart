@@ -156,6 +156,8 @@ class _SubscriptionsListState extends State<SubscriptionsList> {
       if (MediaQuery.of(context).size.width > ResponsiveConstants.medium) {
         showDialog(
           context: context,
+          useRootNavigator:
+              false, // Prevents unexpected app exit on mobile when pressing back
           builder: (ctx) => AddSubscriptionModal(
             selectedlist: widget.type,
             addSubscription: onAddSubscription,

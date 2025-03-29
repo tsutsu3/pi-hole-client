@@ -114,6 +114,8 @@ class HomeAppBar extends StatelessWidget implements PreferredSizeWidget {
     void openSwitchServerModal() {
       showDialog(
         context: context,
+        useRootNavigator:
+            false, // Prevents unexpected app exit on mobile when pressing back
         builder: (context) => SwitchServerModal(
           onServerSelect: connectToServer,
         ),

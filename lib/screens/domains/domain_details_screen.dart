@@ -30,6 +30,8 @@ class DomainDetailsScreen extends StatelessWidget {
           IconButton(
             onPressed: () => showDialog(
               context: context,
+              useRootNavigator:
+                  false, // Prevents unexpected app exit on mobile when pressing back
               builder: (context) => DeleteDomainModal(
                 onConfirm: () {
                   Navigator.maybePop(context);
@@ -82,6 +84,8 @@ class DomainDetailsScreen extends StatelessWidget {
                     ? () => {
                           showModal(
                             context: context,
+                            useRootNavigator:
+                                false, // Prevents unexpected app exit on mobile when pressing back
                             builder: (context) =>
                                 DomainCommentModal(comment: domain.comment!),
                           ),

@@ -427,6 +427,8 @@ class _AddServerFullscreenState extends State<AddServerFullscreen> {
     void openScanTokenModal() {
       showDialog(
         context: context,
+        useRootNavigator:
+            false, // Prevents unexpected app exit on mobile when pressing back
         builder: (context) => ScanTokenModal(
           qrScanned: (value) =>
               setState(() => tokenFieldController.text = value),

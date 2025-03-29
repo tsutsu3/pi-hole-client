@@ -47,6 +47,8 @@ class _LogsFiltersModalState extends State<LogsFiltersModal> {
       if (width > ResponsiveConstants.medium) {
         showDialog(
           context: context,
+          useRootNavigator:
+              false, // Prevents unexpected app exit on mobile when pressing back
           builder: (context) => StatusFiltersModal(
             statusBarHeight: widget.statusBarHeight,
             bottomNavBarHeight: widget.bottomNavBarHeight,
@@ -77,6 +79,8 @@ class _LogsFiltersModalState extends State<LogsFiltersModal> {
       if (width > ResponsiveConstants.medium) {
         showDialog(
           context: context,
+          useRootNavigator:
+              false, // Prevents unexpected app exit on mobile when pressing back
           builder: (context) => ClientsFiltersModal(
             statusBarHeight: widget.statusBarHeight,
             bottomNavBarHeight: widget.bottomNavBarHeight,
@@ -113,6 +117,8 @@ class _LogsFiltersModalState extends State<LogsFiltersModal> {
       final now = DateTime.now();
       final dateValue = await showDatePicker(
         context: context,
+        useRootNavigator:
+            false, // Prevents unexpected app exit on mobile when pressing back
         initialDate: now,
         firstDate: DateTime(now.year, now.month - 1, now.day),
         lastDate: now,
@@ -120,6 +126,8 @@ class _LogsFiltersModalState extends State<LogsFiltersModal> {
       if (dateValue != null) {
         final timeValue = await showTimePicker(
           context: context,
+          useRootNavigator:
+              false, // Prevents unexpected app exit on mobile when pressing back
           initialTime: TimeOfDay.now(),
           helpText: time == 'from'
               ? AppLocalizations.of(context)!.selectStartTime

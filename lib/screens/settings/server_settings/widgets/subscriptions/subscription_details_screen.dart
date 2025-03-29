@@ -85,7 +85,8 @@ class _SubscriptionDetailsScreenState extends State<SubscriptionDetailsScreen> {
           IconButton(
             onPressed: () => showDialog(
               context: context,
-              useRootNavigator: false,
+              useRootNavigator:
+                  false, // Prevents unexpected app exit on mobile when pressing back
               builder: (context) => DeleteSubscriptionModal(
                 onConfirm: () {
                   Navigator.maybePop(context);
@@ -263,6 +264,8 @@ class _SubscriptionDetailsScreenState extends State<SubscriptionDetailsScreen> {
     if (MediaQuery.of(context).size.width > ResponsiveConstants.medium) {
       showDialog(
         context: context,
+        useRootNavigator:
+            false, // Prevents unexpected app exit on mobile when pressing back
         builder: (ctx) => EditSubscriptionModal(
           subscription: _subscription,
           keyItem: 'comment',
@@ -295,6 +298,8 @@ class _SubscriptionDetailsScreenState extends State<SubscriptionDetailsScreen> {
     if (MediaQuery.of(context).size.width > ResponsiveConstants.medium) {
       showDialog(
         context: context,
+        useRootNavigator:
+            false, // Prevents unexpected app exit on mobile when pressing back
         builder: (ctx) => EditSubscriptionModal(
           subscription: _subscription,
           keyItem: 'groups',
