@@ -7,7 +7,7 @@ part 'groups.g.dart';
 sealed class Groups with _$Groups {
   const factory Groups({
     required List<Group> groups,
-    required int took,
+    required double took,
     Processed? processed,
   }) = _Groups;
 

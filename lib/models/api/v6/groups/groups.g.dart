@@ -10,7 +10,7 @@ _Groups _$GroupsFromJson(Map<String, dynamic> json) => _Groups(
       groups: (json['groups'] as List<dynamic>)
           .map((e) => Group.fromJson(e as Map<String, dynamic>))
           .toList(),
-      took: (json['took'] as num).toInt(),
+      took: (json['took'] as num).toDouble(),
       processed: json['processed'] == null
           ? null
           : Processed.fromJson(json['processed'] as Map<String, dynamic>),

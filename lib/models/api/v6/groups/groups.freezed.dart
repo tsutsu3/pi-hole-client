@@ -16,7 +16,7 @@ T _$identity<T>(T value) => value;
 /// @nodoc
 mixin _$Groups {
   List<Group> get groups;
-  int get took;
+  double get took;
   Processed? get processed;
 
   /// Create a copy of Groups
@@ -56,7 +56,7 @@ abstract mixin class $GroupsCopyWith<$Res> {
   factory $GroupsCopyWith(Groups value, $Res Function(Groups) _then) =
       _$GroupsCopyWithImpl;
   @useResult
-  $Res call({List<Group> groups, int took, Processed? processed});
+  $Res call({List<Group> groups, double took, Processed? processed});
 
   $ProcessedCopyWith<$Res>? get processed;
 }
@@ -85,7 +85,7 @@ class _$GroupsCopyWithImpl<$Res> implements $GroupsCopyWith<$Res> {
       took: null == took
           ? _self.took
           : took // ignore: cast_nullable_to_non_nullable
-              as int,
+              as double,
       processed: freezed == processed
           ? _self.processed
           : processed // ignore: cast_nullable_to_non_nullable
@@ -125,7 +125,7 @@ class _Groups implements Groups {
   }
 
   @override
-  final int took;
+  final double took;
   @override
   final Processed? processed;
 
@@ -172,7 +172,7 @@ abstract mixin class _$GroupsCopyWith<$Res> implements $GroupsCopyWith<$Res> {
       __$GroupsCopyWithImpl;
   @override
   @useResult
-  $Res call({List<Group> groups, int took, Processed? processed});
+  $Res call({List<Group> groups, double took, Processed? processed});
 
   @override
   $ProcessedCopyWith<$Res>? get processed;
@@ -202,7 +202,7 @@ class __$GroupsCopyWithImpl<$Res> implements _$GroupsCopyWith<$Res> {
       took: null == took
           ? _self.took
           : took // ignore: cast_nullable_to_non_nullable
-              as int,
+              as double,
       processed: freezed == processed
           ? _self.processed
           : processed // ignore: cast_nullable_to_non_nullable
