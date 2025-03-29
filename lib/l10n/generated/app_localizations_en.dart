@@ -642,6 +642,9 @@ class AppLocalizationsEn extends AppLocalizations {
   String get invalidAddress => 'Invalid IP or domain';
 
   @override
+  String get invalidAdlist => 'Invalid adlist URL';
+
+  @override
   String get invalidDomain => 'Invalid domain';
 
   @override

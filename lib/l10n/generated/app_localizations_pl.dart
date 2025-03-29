@@ -642,6 +642,9 @@ class AppLocalizationsPl extends AppLocalizations {
   String get invalidAddress => 'Nieprawidłowy adres IP lub domena';
 
   @override
+  String get invalidAdlist => 'Nieprawidłowy adres URL listy Adlist';
+
+  @override
   String get invalidDomain => 'Nieprawidłowa domena';
 
   @override

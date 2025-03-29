@@ -210,6 +210,7 @@
   "indefinitely": "Unbegrenzt",
   "invalid": "Ungültig",
   "invalidAddress": "Ungültige IP oder Domain",
+  "invalidAdlist": "Ungültige Adlist-URL",
   "invalidDomain": "Ungültige Domain",
   "invalidDomains": "Ungültige Domains",
   "invalidPort": "Ungültiger Port",

@@ -642,6 +642,9 @@ class AppLocalizationsJa extends AppLocalizations {
   String get invalidAddress => '無効なIPまたはドメイン';
 
   @override
+  String get invalidAdlist => '無効なAdlistのURLです';
+
+  @override
   String get invalidDomain => '無効なドメイン';
 
   @override

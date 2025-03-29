@@ -210,6 +210,7 @@
   "indefinitely": "Indefinitely",
   "invalid": "Invalid",
   "invalidAddress": "Invalid IP or domain",
+  "invalidAdlist": "Invalid adlist URL",
   "invalidDomain": "Invalid domain",
   "invalidDomains": "Invalid Domains",
   "invalidPort": "Invalid port",

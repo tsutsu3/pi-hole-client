@@ -210,6 +210,7 @@
   "indefinitely": "無期限",
   "invalid": "無効",
   "invalidAddress": "無効なIPまたはドメイン",
+  "invalidAdlist": "無効なAdlistのURLです",
   "invalidDomain": "無効なドメイン",
   "invalidDomains": "無効なドメイン",
   "invalidPort": "無効なポート",

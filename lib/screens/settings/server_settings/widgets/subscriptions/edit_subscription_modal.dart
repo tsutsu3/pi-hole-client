@@ -71,8 +71,7 @@ class _EditSubscriptionModalState extends State<EditSubscriptionModal> {
         });
       } else {
         setState(() {
-          // subscriptionError = AppLocalizations.of(context)!.invalidSubscription;
-          subscriptionError = 'Invalid subscription';
+          subscriptionError = AppLocalizations.of(context)!.invalidAdlist;
         });
       }
     } else {

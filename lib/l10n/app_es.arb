@@ -211,6 +211,7 @@
   "indefinitely": "Indefinidamente",
   "invalid": "No válido",
   "invalidAddress": "IP o dominio no válido",
+  "invalidAdlist": "URL de Adlist no válida",
   "invalidDomain": "Dominio no válido",
   "invalidDomains": "Dominios no válidos",
   "invalidPort": "Puerto no válido",

@@ -1367,6 +1367,12 @@ abstract class AppLocalizations {
   /// **'Invalid IP or domain'**
   String get invalidAddress;
 
+  /// No description provided for @invalidAdlist.
+  ///
+  /// In en, this message translates to:
+  /// **'Invalid adlist URL'**
+  String get invalidAdlist;
+
   /// No description provided for @invalidDomain.
   ///
   /// In en, this message translates to:
