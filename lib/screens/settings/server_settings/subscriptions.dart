@@ -173,7 +173,7 @@ class _SubscriptionListsWidgetState extends State<SubscriptionListsWidget>
                 IconButton(
                   onPressed: () =>
                       subscriptionsListProvider.setSearchMode(true),
-                  icon: const Icon(Icons.search),
+                  icon: const Icon(Icons.search_rounded),
                 ),
               if (subscriptionsListProvider.searchMode)
                 IconButton(
