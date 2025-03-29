@@ -1281,25 +1281,30 @@ class MockApiGatewayV6 extends _i1.Mock implements _i24.ApiGatewayV6 {
           as _i12.Future<_i5.RemoveSubscriptionResponse>);
 
   @override
-  _i12.Future<_i5.SubscriptionsResponse> putSubscription({
-    required String? url,
+  _i12.Future<_i5.SubscriptionsResponse> createSubscription({
     required _i26.SubscriptionRequest? body,
-    String? stype,
   }) =>
       (super.noSuchMethod(
-            Invocation.method(#putSubscription, [], {
-              #url: url,
-              #body: body,
-              #stype: stype,
-            }),
+            Invocation.method(#createSubscription, [], {#body: body}),
             returnValue: _i12.Future<_i5.SubscriptionsResponse>.value(
               _FakeSubscriptionsResponse_18(
                 this,
-                Invocation.method(#putSubscription, [], {
-                  #url: url,
-                  #body: body,
-                  #stype: stype,
-                }),
+                Invocation.method(#createSubscription, [], {#body: body}),
+              ),
+            ),
+          )
+          as _i12.Future<_i5.SubscriptionsResponse>);
+
+  @override
+  _i12.Future<_i5.SubscriptionsResponse> updateSubscription({
+    required _i26.SubscriptionRequest? body,
+  }) =>
+      (super.noSuchMethod(
+            Invocation.method(#updateSubscription, [], {#body: body}),
+            returnValue: _i12.Future<_i5.SubscriptionsResponse>.value(
+              _FakeSubscriptionsResponse_18(
+                this,
+                Invocation.method(#updateSubscription, [], {#body: body}),
               ),
             ),
           )
@@ -1334,13 +1339,13 @@ class MockApiGatewayV6 extends _i1.Mock implements _i24.ApiGatewayV6 {
           as _i12.Future<_i5.SearchResponse>);
 
   @override
-  _i12.Future<_i5.GroupsResponse> fetchGroups({String? name}) =>
+  _i12.Future<_i5.GroupsResponse> getGroups({String? name}) =>
       (super.noSuchMethod(
-            Invocation.method(#fetchGroups, [], {#name: name}),
+            Invocation.method(#getGroups, [], {#name: name}),
             returnValue: _i12.Future<_i5.GroupsResponse>.value(
               _FakeGroupsResponse_21(
                 this,
-                Invocation.method(#fetchGroups, [], {#name: name}),
+                Invocation.method(#getGroups, [], {#name: name}),
               ),
             ),
           )
@@ -1384,21 +1389,6 @@ class MockApiGatewayV6 extends _i1.Mock implements _i24.ApiGatewayV6 {
               _FakeGroupsResponse_21(
                 this,
                 Invocation.method(#updateGroup, [], {#body: body}),
-              ),
-            ),
-          )
-          as _i12.Future<_i5.GroupsResponse>);
-
-  @override
-  _i12.Future<_i5.GroupsResponse> putGroup({
-    required _i27.GroupRequest? body,
-  }) =>
-      (super.noSuchMethod(
-            Invocation.method(#putGroup, [], {#body: body}),
-            returnValue: _i12.Future<_i5.GroupsResponse>.value(
-              _FakeGroupsResponse_21(
-                this,
-                Invocation.method(#putGroup, [], {#body: body}),
               ),
             ),
           )
