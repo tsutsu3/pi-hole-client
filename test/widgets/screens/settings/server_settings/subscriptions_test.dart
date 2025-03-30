@@ -531,7 +531,9 @@ void main() async {
           expect(find.byType(SnackBar), findsOneWidget);
           expect(find.text('Adlist removed successfully'), findsWidgets);
           expect(
-              find.text('Choose an adlist to see its details'), findsWidgets);
+            find.text('Choose an adlist to see its details'),
+            findsWidgets,
+          );
         },
       );
     },
