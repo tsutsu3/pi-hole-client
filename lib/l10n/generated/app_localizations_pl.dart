@@ -1197,6 +1197,9 @@ class AppLocalizationsPl extends AppLocalizations {
   String get unsupportedFeatureTitle => 'Funkcja nieobsługiwana';
 
   @override
+  String get updateGravity => 'Aktualizuj Gravity';
+
+  @override
   String get updatePasscode => 'Aktualizuj kod dostępu';
 
   @override

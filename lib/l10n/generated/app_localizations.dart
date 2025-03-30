@@ -2477,6 +2477,12 @@ abstract class AppLocalizations {
   /// **'Unsupported Feature'**
   String get unsupportedFeatureTitle;
 
+  /// No description provided for @updateGravity.
+  ///
+  /// In en, this message translates to:
+  /// **'Update Gravity'**
+  String get updateGravity;
+
   /// No description provided for @updatePasscode.
   ///
   /// In en, this message translates to:

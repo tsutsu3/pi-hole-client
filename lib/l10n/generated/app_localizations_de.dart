@@ -1197,6 +1197,9 @@ class AppLocalizationsDe extends AppLocalizations {
   String get unsupportedFeatureTitle => 'Nicht unterstützte Funktion';
 
   @override
+  String get updateGravity => 'Gravity aktualisieren';
+
+  @override
   String get updatePasscode => 'Passwort ändern';
 
   @override

@@ -1197,6 +1197,9 @@ class AppLocalizationsEs extends AppLocalizations {
   String get unsupportedFeatureTitle => 'Función no compatible';
 
   @override
+  String get updateGravity => 'Actualizar Gravity';
+
+  @override
   String get updatePasscode => 'Actualizar código';
 
   @override
