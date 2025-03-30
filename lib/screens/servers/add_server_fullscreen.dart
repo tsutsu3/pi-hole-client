@@ -207,6 +207,42 @@ class _AddServerFullscreenState extends State<AddServerFullscreen> {
 
     final mediaQuery = MediaQuery.of(context);
 
+    /// Shows a snackbar with an error message
+    void handleApiErrorResult({
+      required BuildContext context,
+      required AppConfigProvider appConfigProvider,
+      required LoginQueryResponse? result,
+      required String version,
+    }) {
+      final loc = AppLocalizations.of(context)!;
+
+      String label;
+
+      if (result?.result == APiResponseType.socket) {
+        label = loc.checkAddress;
+      } else if (result?.result == APiResponseType.timeout) {
+        label = loc.connectionTimeout;
+      } else if (result?.result == APiResponseType.noConnection) {
+        label = loc.cantReachServer;
+      } else if (result?.result == APiResponseType.authError) {
+        label = version == 'v6' ? loc.passwordNotValid : loc.tokenNotValid;
+      } else if (result?.result == APiResponseType.sslError) {
+        label = loc.sslErrorLong;
+      } else {
+        label = loc.unknownError;
+      }
+
+      showErrorSnackBar(
+        context: context,
+        appConfigProvider: appConfigProvider,
+        label: label,
+      );
+
+      if (result?.log != null) {
+        appConfigProvider.addLog(result!.log!);
+      }
+    }
+
     Future<void> connect() async {
       FocusManager.instance.primaryFocus?.unfocus();
       setState(() {
@@ -272,49 +308,12 @@ class _AddServerFullscreenState extends State<AddServerFullscreen> {
             await serverObj.sm.deletePassword();
             await serverObj.sm.deleteToken();
 
-            if (result?.result == APiResponseType.socket) {
-              showErrorSnackBar(
-                context: context,
-                appConfigProvider: appConfigProvider,
-                label: AppLocalizations.of(context)!.checkAddress,
-              );
-              appConfigProvider.addLog(result!.log!);
-            } else if (result?.result == APiResponseType.timeout) {
-              showErrorSnackBar(
-                context: context,
-                appConfigProvider: appConfigProvider,
-                label: AppLocalizations.of(context)!.connectionTimeout,
-              );
-              appConfigProvider.addLog(result!.log!);
-            } else if (result?.result == APiResponseType.noConnection) {
-              showErrorSnackBar(
-                context: context,
-                appConfigProvider: appConfigProvider,
-                label: AppLocalizations.of(context)!.cantReachServer,
-              );
-              appConfigProvider.addLog(result!.log!);
-            } else if (result?.result == APiResponseType.authError) {
-              showErrorSnackBar(
-                context: context,
-                appConfigProvider: appConfigProvider,
-                label: AppLocalizations.of(context)!.tokenNotValid,
-              );
-              appConfigProvider.addLog(result!.log!);
-            } else if (result?.result == APiResponseType.sslError) {
-              showErrorSnackBar(
-                context: context,
-                appConfigProvider: appConfigProvider,
-                label: AppLocalizations.of(context)!.sslErrorLong,
-              );
-              appConfigProvider.addLog(result!.log!);
-            } else {
-              showErrorSnackBar(
-                context: context,
-                appConfigProvider: appConfigProvider,
-                label: AppLocalizations.of(context)!.unknownError,
-              );
-              appConfigProvider.addLog(result!.log!);
-            }
+            handleApiErrorResult(
+              context: context,
+              appConfigProvider: appConfigProvider,
+              result: result,
+              version: piHoleVersion,
+            );
           } else {
             isConnecting = false;
           }
@@ -370,43 +369,13 @@ class _AddServerFullscreenState extends State<AddServerFullscreen> {
             isConnecting = false;
             _restoreSecrets();
           });
-          if (result?.result == APiResponseType.socket) {
-            showErrorSnackBar(
-              context: context,
-              appConfigProvider: appConfigProvider,
-              label: AppLocalizations.of(context)!.checkAddress,
-            );
-          } else if (result?.result == APiResponseType.timeout) {
-            showErrorSnackBar(
-              context: context,
-              appConfigProvider: appConfigProvider,
-              label: AppLocalizations.of(context)!.connectionTimeout,
-            );
-          } else if (result?.result == APiResponseType.noConnection) {
-            showErrorSnackBar(
-              context: context,
-              appConfigProvider: appConfigProvider,
-              label: AppLocalizations.of(context)!.cantReachServer,
-            );
-          } else if (result?.result == APiResponseType.authError) {
-            showErrorSnackBar(
-              context: context,
-              appConfigProvider: appConfigProvider,
-              label: AppLocalizations.of(context)!.tokenNotValid,
-            );
-          } else if (result?.result == APiResponseType.sslError) {
-            showErrorSnackBar(
-              context: context,
-              appConfigProvider: appConfigProvider,
-              label: AppLocalizations.of(context)!.sslErrorLong,
-            );
-          } else {
-            showErrorSnackBar(
-              context: context,
-              appConfigProvider: appConfigProvider,
-              label: AppLocalizations.of(context)!.unknownError,
-            );
-          }
+
+          handleApiErrorResult(
+            context: context,
+            appConfigProvider: appConfigProvider,
+            result: result,
+            version: piHoleVersion,
+          );
         } else {
           isConnecting = false;
         }
