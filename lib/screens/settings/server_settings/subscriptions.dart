@@ -221,11 +221,11 @@ class _SubscriptionListsWidgetState extends State<SubscriptionListsWidget>
                   AppLocalizations.of(context)!.allowList,
                 ),
                 buildIconTab(
-                  Icons.block,
+                  Icons.block_rounded,
                   AppLocalizations.of(context)!.blockList,
                 ),
                 buildIconTab(
-                  Icons.update,
+                  Icons.rocket_launch_rounded,
                   AppLocalizations.of(context)!.updateGravity,
                 ),
               ],
