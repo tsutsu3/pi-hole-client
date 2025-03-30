@@ -335,7 +335,7 @@ void main() async {
         await tester.tap(find.byIcon(Icons.login_rounded));
         await tester.pump(const Duration(milliseconds: 1000));
         expect(find.byType(SnackBar), findsOneWidget);
-        expect(find.text('Token not valid'), findsOneWidget);
+        expect(find.text('Failed. Password not valid.'), findsOneWidget);
       },
     );
 
@@ -749,7 +749,7 @@ void main() async {
         await tester.tap(find.byIcon(Icons.save_rounded));
         await tester.pump(const Duration(milliseconds: 1000));
         expect(find.byType(SnackBar), findsOneWidget);
-        expect(find.text('Token not valid'), findsOneWidget);
+        expect(find.text('Failed. Password not valid.'), findsOneWidget);
       },
     );
 
