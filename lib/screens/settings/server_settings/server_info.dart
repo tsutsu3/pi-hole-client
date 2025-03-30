@@ -29,7 +29,14 @@ class ServerInfoScreen extends StatelessWidget {
     );
 
     if (apiGateway == null || server == null) {
-      return const EmptyDataScreen();
+      return Scaffold(
+        appBar: AppBar(
+          title: Text(AppLocalizations.of(context)!.serverInfo),
+        ),
+        body: const SafeArea(
+          child: EmptyDataScreen(),
+        ),
+      );
     }
 
     return ScrollConfiguration(
