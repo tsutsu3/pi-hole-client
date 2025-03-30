@@ -76,7 +76,7 @@ void main() async {
           'localhost',
         ); // IP Address
         await tester.enterText(
-          find.byType(TextField).at(4),
+          find.byType(TextField).at(3),
           'test123',
         ); // token
 
@@ -123,23 +123,26 @@ void main() async {
         expect(find.byType(AddServerFullscreen), findsOneWidget);
         expect(find.byIcon(Icons.login_rounded), findsOneWidget);
 
+        await tester.tap(find.text('Advanced Options'));
+        await tester.pump();
+
         await tester.enterText(find.byType(TextField).at(0), 'v6'); // Alias
         await tester.enterText(
           find.byType(TextField).at(1),
           'localhost',
-        ); // IP Address
+        );
         await tester.enterText(
-          find.byType(TextField).at(1),
-          '/test',
-        ); // subroute
-        await tester.enterText(
-          find.byType(TextField).at(1),
+          find.byType(TextField).at(2),
           '8080',
-        ); // port
+        );
+        await tester.enterText(
+          find.byType(TextField).at(3),
+          '/test',
+        );
         await tester.enterText(
           find.byType(TextField).at(4),
           'test123',
-        ); // token
+        );
 
         await tester.tap(find.byIcon(Icons.login_rounded));
         await tester.pump(const Duration(milliseconds: 1000));
@@ -184,23 +187,26 @@ void main() async {
         expect(find.byType(AddServerFullscreen), findsOneWidget);
         expect(find.byIcon(Icons.login_rounded), findsOneWidget);
 
+        await tester.tap(find.text('Advanced Options'));
+        await tester.pump();
+
         await tester.enterText(find.byType(TextField).at(0), 'v6'); // Alias
         await tester.enterText(
           find.byType(TextField).at(1),
           'localhost',
-        ); // IP Address
+        );
         await tester.enterText(
-          find.byType(TextField).at(1),
-          '/test',
-        ); // subroute
-        await tester.enterText(
-          find.byType(TextField).at(1),
+          find.byType(TextField).at(2),
           '8080',
-        ); // port
+        );
+        await tester.enterText(
+          find.byType(TextField).at(3),
+          '/test',
+        );
         await tester.enterText(
           find.byType(TextField).at(4),
           'test123',
-        ); // token
+        );
 
         await tester.tap(find.byIcon(Icons.login_rounded));
         await tester.pump(const Duration(milliseconds: 1000));
@@ -250,23 +256,26 @@ void main() async {
         expect(find.byType(AddServerFullscreen), findsOneWidget);
         expect(find.byIcon(Icons.login_rounded), findsOneWidget);
 
+        await tester.tap(find.text('Advanced Options'));
+        await tester.pump();
+
         await tester.enterText(find.byType(TextField).at(0), 'v6'); // Alias
         await tester.enterText(
           find.byType(TextField).at(1),
           'localhost',
-        ); // IP Address
+        );
         await tester.enterText(
-          find.byType(TextField).at(1),
-          '/test',
-        ); // subroute
-        await tester.enterText(
-          find.byType(TextField).at(1),
+          find.byType(TextField).at(2),
           '8080',
-        ); // port
+        );
+        await tester.enterText(
+          find.byType(TextField).at(3),
+          '/test',
+        );
         await tester.enterText(
           find.byType(TextField).at(4),
           'test123',
-        ); // token
+        );
 
         await tester.tap(find.byIcon(Icons.login_rounded));
         await tester.pump(const Duration(milliseconds: 1000));
@@ -314,23 +323,26 @@ void main() async {
         expect(find.byType(AddServerFullscreen), findsOneWidget);
         expect(find.byIcon(Icons.login_rounded), findsOneWidget);
 
+        await tester.tap(find.text('Advanced Options'));
+        await tester.pump();
+
         await tester.enterText(find.byType(TextField).at(0), 'v6'); // Alias
         await tester.enterText(
           find.byType(TextField).at(1),
           'localhost',
-        ); // IP Address
+        );
         await tester.enterText(
-          find.byType(TextField).at(1),
-          '/test',
-        ); // subroute
-        await tester.enterText(
-          find.byType(TextField).at(1),
+          find.byType(TextField).at(2),
           '8080',
-        ); // port
+        );
+        await tester.enterText(
+          find.byType(TextField).at(3),
+          '/test',
+        );
         await tester.enterText(
           find.byType(TextField).at(4),
           'test123',
-        ); // token
+        );
 
         await tester.tap(find.byIcon(Icons.login_rounded));
         await tester.pump(const Duration(milliseconds: 1000));
@@ -375,23 +387,26 @@ void main() async {
         expect(find.byType(AddServerFullscreen), findsOneWidget);
         expect(find.byIcon(Icons.login_rounded), findsOneWidget);
 
+        await tester.tap(find.text('Advanced Options'));
+        await tester.pump();
+
         await tester.enterText(find.byType(TextField).at(0), 'v6'); // Alias
         await tester.enterText(
           find.byType(TextField).at(1),
           'localhost',
-        ); // IP Address
+        );
         await tester.enterText(
-          find.byType(TextField).at(1),
-          '/test',
-        ); // subroute
-        await tester.enterText(
-          find.byType(TextField).at(1),
+          find.byType(TextField).at(2),
           '8080',
-        ); // port
+        );
+        await tester.enterText(
+          find.byType(TextField).at(3),
+          '/test',
+        );
         await tester.enterText(
           find.byType(TextField).at(4),
           'test123',
-        ); // token
+        );
 
         await tester.tap(find.byIcon(Icons.login_rounded));
         await tester.pump(const Duration(milliseconds: 1000));
@@ -439,23 +454,26 @@ void main() async {
         expect(find.byType(AddServerFullscreen), findsOneWidget);
         expect(find.byIcon(Icons.login_rounded), findsOneWidget);
 
+        await tester.tap(find.text('Advanced Options'));
+        await tester.pump();
+
         await tester.enterText(find.byType(TextField).at(0), 'v6'); // Alias
         await tester.enterText(
           find.byType(TextField).at(1),
           'localhost',
-        ); // IP Address
+        );
         await tester.enterText(
-          find.byType(TextField).at(1),
-          '/test',
-        ); // subroute
-        await tester.enterText(
-          find.byType(TextField).at(1),
+          find.byType(TextField).at(2),
           '8080',
-        ); // port
+        );
+        await tester.enterText(
+          find.byType(TextField).at(3),
+          '/test',
+        );
         await tester.enterText(
           find.byType(TextField).at(4),
           'test123',
-        ); // token
+        );
 
         await tester.tap(find.byIcon(Icons.login_rounded));
         await tester.pump(const Duration(milliseconds: 1000));
@@ -487,20 +505,21 @@ void main() async {
         expect(find.byType(AddServerFullscreen), findsOneWidget);
         expect(find.byIcon(Icons.login_rounded), findsOneWidget);
 
+        await tester.tap(find.text('Advanced Options'));
+        await tester.pump();
+
         await tester.enterText(
           find.byType(TextField).at(1),
           '@',
         ); // IP Address
-
         await tester.enterText(
           find.byType(TextField).at(2),
           '@',
-        ); // subroute
-
+        ); // port
         await tester.enterText(
           find.byType(TextField).at(3),
           '@',
-        ); // port
+        ); // subroute
 
         await tester.pump();
         await tester.pump();
@@ -543,7 +562,7 @@ void main() async {
 
         await tester.enterText(find.byType(TextField).at(0), 'v6'); // Alias
         await tester.enterText(
-          find.byType(TextField).at(4),
+          find.byType(TextField).at(3),
           'test123',
         ); // token
 
@@ -590,7 +609,7 @@ void main() async {
 
         await tester.enterText(find.byType(TextField).at(0), 'v6'); // Alias
         await tester.enterText(
-          find.byType(TextField).at(4),
+          find.byType(TextField).at(3),
           'test123',
         ); // token
 
@@ -638,7 +657,7 @@ void main() async {
 
         await tester.enterText(find.byType(TextField).at(0), 'v6'); // Alias
         await tester.enterText(
-          find.byType(TextField).at(4),
+          find.byType(TextField).at(3),
           'test123',
         ); // token
 
@@ -691,7 +710,7 @@ void main() async {
 
         await tester.enterText(find.byType(TextField).at(0), 'v6'); // Alias
         await tester.enterText(
-          find.byType(TextField).at(4),
+          find.byType(TextField).at(3),
           'test123',
         ); // token
 
@@ -742,7 +761,7 @@ void main() async {
 
         await tester.enterText(find.byType(TextField).at(0), 'v6'); // Alias
         await tester.enterText(
-          find.byType(TextField).at(4),
+          find.byType(TextField).at(3),
           'test123',
         ); // token
 
@@ -790,7 +809,7 @@ void main() async {
 
         await tester.enterText(find.byType(TextField).at(0), 'v6'); // Alias
         await tester.enterText(
-          find.byType(TextField).at(4),
+          find.byType(TextField).at(3),
           'test123',
         ); // token
 
@@ -841,7 +860,7 @@ void main() async {
 
         await tester.enterText(find.byType(TextField).at(0), 'v6'); // Alias
         await tester.enterText(
-          find.byType(TextField).at(4),
+          find.byType(TextField).at(3),
           'test123',
         ); // token
 
