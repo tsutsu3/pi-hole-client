@@ -395,6 +395,7 @@
   "unlockFingerprint": "指紋でロック解除",
   "unlockWithFingerprint": "指紋でアプリのロックを解除",
   "unsupportedFeatureTitle": "未対応の機能です",
+  "updateGravity": "Gravityの更新",
   "updatePasscode": "パスコードを更新",
   "updateTimeChanged": "更新時間が正常に変更されました。",
   "updatingAdlist": "Adlistを更新中...",

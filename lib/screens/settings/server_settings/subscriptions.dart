@@ -94,7 +94,7 @@ class _SubscriptionListsWidgetState extends State<SubscriptionListsWidget>
 
     widget.subscriptionsListProvider.setSelectedTab(0);
     tabController = TabController(
-      length: 2,
+      length: 3,
       vsync: this,
     );
   }
@@ -154,9 +154,27 @@ class _SubscriptionListsWidgetState extends State<SubscriptionListsWidget>
       }
     }
 
+    Tab buildIconTab(IconData icon, String label) {
+      return Tab(
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Icon(icon),
+            const SizedBox(width: 4),
+            Flexible(
+              child: Text(
+                label,
+                overflow: TextOverflow.ellipsis,
+              ),
+            ),
+          ],
+        ),
+      );
+    }
+
     Widget scaffold({void Function(Subscription)? onTap}) {
       return DefaultTabController(
-        length: 2,
+        length: 3,
         child: Scaffold(
           appBar: AppBar(
             title: subscriptionsListProvider.searchMode
@@ -198,35 +216,17 @@ class _SubscriptionListsWidgetState extends State<SubscriptionListsWidget>
               controller: tabController,
               onTap: subscriptionsListProvider.setSelectedTab,
               tabs: [
-                Tab(
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      const Icon(Icons.check_circle_rounded),
-                      const Flexible(child: SizedBox(width: 16)),
-                      Flexible(
-                        child: Text(
-                          AppLocalizations.of(context)!.allowList,
-                          overflow: TextOverflow.ellipsis,
-                        ),
-                      ),
-                    ],
-                  ),
+                buildIconTab(
+                  Icons.check_circle_rounded,
+                  AppLocalizations.of(context)!.allowList,
                 ),
-                Tab(
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      const Icon(Icons.block),
-                      const Flexible(child: SizedBox(width: 16)),
-                      Flexible(
-                        child: Text(
-                          AppLocalizations.of(context)!.blockList,
-                          overflow: TextOverflow.ellipsis,
-                        ),
-                      ),
-                    ],
-                  ),
+                buildIconTab(
+                  Icons.block,
+                  AppLocalizations.of(context)!.blockList,
+                ),
+                buildIconTab(
+                  Icons.update,
+                  AppLocalizations.of(context)!.updateGravity,
                 ),
               ],
             ),
@@ -258,6 +258,12 @@ class _SubscriptionListsWidgetState extends State<SubscriptionListsWidget>
                 },
                 selectedSubscription: selectedSubscription,
               ),
+              const Center(
+                child: Text(
+                  'Coming Soon',
+                  style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                ),
+              ),
             ],
           ),
         ),
@@ -265,6 +271,7 @@ class _SubscriptionListsWidgetState extends State<SubscriptionListsWidget>
     }
 
     if (MediaQuery.of(context).size.width > ResponsiveConstants.xxLarge) {
+      // 3 columns layout
       return Row(
         children: [
           Expanded(
@@ -303,6 +310,7 @@ class _SubscriptionListsWidgetState extends State<SubscriptionListsWidget>
         ],
       );
     } else if (MediaQuery.of(context).size.width > ResponsiveConstants.large) {
+      // 2 columns layout
       return scaffold(
         onTap: (subscription) {
           Navigator.push(
@@ -322,6 +330,7 @@ class _SubscriptionListsWidgetState extends State<SubscriptionListsWidget>
         },
       );
     } else {
+      // mobile layout
       return scaffold();
     }
   }
