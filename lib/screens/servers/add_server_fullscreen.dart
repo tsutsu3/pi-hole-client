@@ -66,7 +66,12 @@ class _AddServerFullscreenState extends State<AddServerFullscreen> {
     if (widget.server != null) {
       final splitted = widget.server!.address.split(':');
       addressFieldController.text = splitted[1].split('/')[2];
-      portFieldController.text = splitted.length == 3 ? splitted[2] : '';
+      portFieldController.text =
+          splitted.length > 2 ? splitted[2].split('/')[0] : '';
+      subrouteFieldController.text =
+          widget.server!.address.split('/').length > 3
+              ? '/${widget.server!.address.split('/')[3]}'
+              : '';
       aliasFieldController.text = widget.server!.alias;
       connectionType = widget.server!.address.split(':')[0] == 'https'
           ? ConnectionType.https
