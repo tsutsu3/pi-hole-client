@@ -28,6 +28,7 @@
   "adlistStatus": "ヘルスステータス",
   "adlistUpdated": "Adlistの更新に成功しました",
   "adlistsNotLoaded": "Adlistを読み込めませんでした",
+  "advancedOptions": "詳細オプション",
   "advancedSetup": "高度な設定",
   "advancedSetupDescription": "高度なオプション",
   "advancedStatusFiltering": "高度なステータスフィルタリング",

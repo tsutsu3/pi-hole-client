@@ -275,6 +275,12 @@ abstract class AppLocalizations {
   /// **'Adlists couldn\'t be loaded'**
   String get adlistsNotLoaded;
 
+  /// No description provided for @advancedOptions.
+  ///
+  /// In en, this message translates to:
+  /// **'Advanced Options'**
+  String get advancedOptions;
+
   /// No description provided for @advancedSetup.
   ///
   /// In en, this message translates to:

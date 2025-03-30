@@ -96,6 +96,9 @@ class AppLocalizationsJa extends AppLocalizations {
   String get adlistsNotLoaded => 'Adlistを読み込めませんでした';
 
   @override
+  String get advancedOptions => '詳細オプション';
+
+  @override
   String get advancedSetup => '高度な設定';
 
   @override

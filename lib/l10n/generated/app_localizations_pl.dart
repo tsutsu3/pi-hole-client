@@ -96,6 +96,9 @@ class AppLocalizationsPl extends AppLocalizations {
   String get adlistsNotLoaded => 'Nie udało się załadować list Adlist';
 
   @override
+  String get advancedOptions => 'Zaawansowane opcje';
+
+  @override
   String get advancedSetup => 'Ustawienia zaawansowane';
 
   @override

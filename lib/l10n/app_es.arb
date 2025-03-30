@@ -28,6 +28,7 @@
   "adlistStatus": "Estado de salud",
   "adlistUpdated": "Adlist actualizada correctamente",
   "adlistsNotLoaded": "No se pudieron cargar las Adlists",
+  "advancedOptions": "Opciones avanzadas",
   "advancedSetup": "Configuración avanzada",
   "advancedSetupDescription": "Opciones avanzadas",
   "advancedStatusFiltering": "Filtros de estado avanzados",
