@@ -66,7 +66,12 @@ class _AddServerFullscreenState extends State<AddServerFullscreen> {
     if (widget.server != null) {
       final splitted = widget.server!.address.split(':');
       addressFieldController.text = splitted[1].split('/')[2];
-      portFieldController.text = splitted.length == 3 ? splitted[2] : '';
+      portFieldController.text =
+          splitted.length > 2 ? splitted[2].split('/')[0] : '';
+      subrouteFieldController.text =
+          widget.server!.address.split('/').length > 3
+              ? '/${widget.server!.address.split('/')[3]}'
+              : '';
       aliasFieldController.text = widget.server!.alias;
       connectionType = widget.server!.address.split(':')[0] == 'https'
           ? ConnectionType.https
@@ -533,7 +538,7 @@ class _AddServerFullscreenState extends State<AddServerFullscreen> {
                   padding: const EdgeInsets.symmetric(vertical: 16),
                 ),
                 Padding(
-                  padding: const EdgeInsets.symmetric(vertical: 20),
+                  padding: const EdgeInsets.only(bottom: 20),
                   child: TextField(
                     controller: aliasFieldController,
                     onChanged: (value) => checkDataValid(),
@@ -586,24 +591,6 @@ class _AddServerFullscreenState extends State<AddServerFullscreen> {
                 Padding(
                   padding: const EdgeInsets.only(top: 30),
                   child: TextFormField(
-                    onChanged: validateSubroute,
-                    controller: subrouteFieldController,
-                    enabled: widget.server != null ? false : true,
-                    decoration: InputDecoration(
-                      errorText: subrouteFieldError,
-                      prefixIcon: const Icon(Icons.route_rounded),
-                      border: const OutlineInputBorder(
-                        borderRadius: BorderRadius.all(Radius.circular(10)),
-                      ),
-                      labelText: AppLocalizations.of(context)!.subrouteField,
-                      hintText: AppLocalizations.of(context)!.subrouteExample,
-                      helperText: AppLocalizations.of(context)!.subrouteHelper,
-                    ),
-                  ),
-                ),
-                Padding(
-                  padding: const EdgeInsets.only(top: 30),
-                  child: TextFormField(
                     onChanged: validatePort,
                     controller: portFieldController,
                     enabled: widget.server != null ? false : true,
@@ -618,9 +605,45 @@ class _AddServerFullscreenState extends State<AddServerFullscreen> {
                     ),
                   ),
                 ),
+                Theme(
+                  data: Theme.of(context).copyWith(
+                    dividerColor: Colors.transparent,
+                    hoverColor: Colors.transparent,
+                    splashColor: Colors.transparent,
+                    highlightColor: Colors.transparent,
+                  ),
+                  child: ExpansionTile(
+                    tilePadding: EdgeInsets.zero,
+                    title: SectionLabel(
+                      label: AppLocalizations.of(context)!.advancedOptions,
+                      padding: const EdgeInsets.symmetric(vertical: 16),
+                    ),
+                    children: [
+                      TextFormField(
+                        onChanged: validateSubroute,
+                        controller: subrouteFieldController,
+                        enabled: widget.server != null ? false : true,
+                        decoration: InputDecoration(
+                          errorText: subrouteFieldError,
+                          prefixIcon: const Icon(Icons.route_rounded),
+                          border: const OutlineInputBorder(
+                            borderRadius: BorderRadius.all(Radius.circular(10)),
+                          ),
+                          labelText:
+                              AppLocalizations.of(context)!.subrouteField,
+                          hintText:
+                              AppLocalizations.of(context)!.subrouteExample,
+                          helperText:
+                              AppLocalizations.of(context)!.subrouteHelper,
+                        ),
+                      ),
+                      const SizedBox(height: 20),
+                    ],
+                  ),
+                ),
                 SectionLabel(
                   label: AppLocalizations.of(context)!.version,
-                  padding: const EdgeInsets.only(top: 30, bottom: 10),
+                  padding: const EdgeInsets.only(top: 10, bottom: 10),
                 ),
                 Align(
                   alignment: Alignment.centerLeft,
@@ -652,10 +675,10 @@ class _AddServerFullscreenState extends State<AddServerFullscreen> {
                 ),
                 SectionLabel(
                   label: AppLocalizations.of(context)!.authentication,
-                  padding: const EdgeInsets.only(top: 30),
+                  padding: const EdgeInsets.only(top: 20),
                 ),
                 Padding(
-                  padding: const EdgeInsets.symmetric(vertical: 10),
+                  padding: const EdgeInsets.only(bottom: 10),
                   child: piHoleVersion == SupportedApiVersions.v5
                       ? buildV5Settings(context)
                       : buildV6Settings(context),
