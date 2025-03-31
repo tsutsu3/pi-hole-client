@@ -335,42 +335,42 @@ packages:
     dependency: "direct main"
     description:
       name: flutter_custom_tabs
-      sha256: "34167bd15fa3479855c011f868e0789c9569c12b64358ca7250accc5a24c3312"
+      sha256: ec5424e196f145ac32e92ddfaee07b883cd4f16f9972812fa8f67fb318b34a4c
       url: "https://pub.dev"
     source: hosted
-    version: "2.1.0"
+    version: "2.2.1"
   flutter_custom_tabs_android:
     dependency: transitive
     description:
       name: flutter_custom_tabs_android
-      sha256: cf06fde8c002f326dc6cbf69ee3f97c3feead4436229da02d2e2aa39d5a5dbf4
+      sha256: "09bc6297fca815a721d21fa168335ad9d266ac3df483628e716d788b7caf191e"
       url: "https://pub.dev"
     source: hosted
-    version: "2.1.0"
+    version: "2.2.0"
   flutter_custom_tabs_ios:
     dependency: transitive
     description:
       name: flutter_custom_tabs_ios
-      sha256: ef2de533bc45fb84fefc3854bc8b1e43001671c6bc6bc55faa57942eecd3f70a
+      sha256: "4c93cba13e51e6edafd6f6984811b31fa774ef0ef58a58b93164f7eff18d5dc3"
       url: "https://pub.dev"
     source: hosted
-    version: "2.1.0"
+    version: "2.2.0"
   flutter_custom_tabs_platform_interface:
     dependency: transitive
     description:
       name: flutter_custom_tabs_platform_interface
-      sha256: e18e9b08f92582123bdb84fb6e4c91804b0579700fed6f887d32fd9a1e96a5d5
+      sha256: d6056832fceb163cabb751b3dd8a4919c03677cad7e4728de8ebcf84cfa4a074
       url: "https://pub.dev"
     source: hosted
-    version: "2.1.0"
+    version: "2.2.0"
   flutter_custom_tabs_web:
     dependency: transitive
     description:
       name: flutter_custom_tabs_web
-      sha256: "08ae322b11e1972a233d057542279873d0f9d1d5f8159c2c741457239d9d562c"
+      sha256: f90a09501c8be7db4604da1d504f39b73c7525dc60f2ffce4cdea0f015e42eb0
       url: "https://pub.dev"
     source: hosted
-    version: "2.1.0"
+    version: "2.2.0"
   flutter_dotenv:
     dependency: "direct main"
     description:
@@ -1006,10 +1006,10 @@ packages:
     dependency: "direct main"
     description:
       name: provider
-      sha256: c8a055ee5ce3fd98d6fc872478b03823ffdb448699c6ebdbbc71d59b596fd48c
+      sha256: "489024f942069c2920c844ee18bb3d467c69e48955a4f32d1677f71be103e310"
       url: "https://pub.dev"
     source: hosted
-    version: "6.1.2"
+    version: "6.1.4"
   pub_semver:
     dependency: transitive
     description:
