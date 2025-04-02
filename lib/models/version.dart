@@ -90,7 +90,10 @@ class ComponentVersion {
   final VersionDetail remote;
   final bool? canUpdate;
 
-  static bool _canUpdate(String local, String remote) {
+  static bool _canUpdate(String? local, String? remote) {
+    if (local == null || remote == null) {
+      return false;
+    }
     return local != remote;
   }
 
