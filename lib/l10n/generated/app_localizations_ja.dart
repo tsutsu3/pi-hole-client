@@ -186,7 +186,8 @@ class AppLocalizationsJa extends AppLocalizations {
   String get arch => 'アーキテクチャ';
 
   @override
-  String get areSureRemovePasscode => 'パスコードを削除してもよろしいですか？これによりアプリのロック解除保護が無効になります。';
+  String get areSureRemovePasscode =>
+      'パスコードを削除してもよろしいですか？これによりアプリのロック解除保護が無効になります。';
 
   @override
   String get authentication => '認証';
@@ -216,7 +217,8 @@ class AppLocalizationsJa extends AppLocalizations {
   String get blocked => 'ブロック済み';
 
   @override
-  String get cameraPermission => 'Pi-hole clientにはカメラアクセスの権限がありません。\n\n設定に移動して権限を付与してください。';
+  String get cameraPermission =>
+      'Pi-hole clientにはカメラアクセスの権限がありません。\n\n設定に移動して権限を付与してください。';
 
   @override
   String get cancel => 'キャンセル';
@@ -525,7 +527,8 @@ class AppLocalizationsJa extends AppLocalizations {
   String get eraseAppData => 'アプリデータを消去';
 
   @override
-  String get eraseWarning => '警告！この操作はアプリケーションをリセットし、全てのデータを削除します。\n\n本当に続行しますか？';
+  String get eraseWarning =>
+      '警告！この操作はアプリケーションをリセットし、全てのデータを削除します。\n\n本当に続行しますか？';
 
   @override
   String get erasesAppData => '全てのアプリケーションデータを削除';
@@ -543,7 +546,8 @@ class AppLocalizationsJa extends AppLocalizations {
   String get executionLog => '実行ログ';
 
   @override
-  String get featureNotSupportedMessage => 'この機能は Pi-hole v5 では使用できません。\nPi-hole v6 以降にアップグレードしてください。';
+  String get featureNotSupportedMessage =>
+      'この機能は Pi-hole v5 では使用できません。\nPi-hole v6 以降にアップグレードしてください。';
 
   @override
   String get filters => 'フィルター';
@@ -597,7 +601,8 @@ class AppLocalizationsJa extends AppLocalizations {
   String get helpUsImprove => '改善へのご協力をお願いします';
 
   @override
-  String get helpUsImproveMessage => 'アプリの品質向上のため、問題が発生した際に匿名のクラッシュレポートを収集することがあります。\nこれらのレポートには個人を特定できる情報は含まれません。クラッシュレポートの送信を許可しますか？';
+  String get helpUsImproveMessage =>
+      'アプリの品質向上のため、問題が発生した際に匿名のクラッシュレポートを収集することがあります。\nこれらのレポートには個人を特定できる情報は含まれません。クラッシュレポートの送信を許可しますか？';
 
   @override
   String get hideZeroValues => 'ゼロ値を非表示';
@@ -636,7 +641,8 @@ class AppLocalizationsJa extends AppLocalizations {
   String get howCreateConnection => '接続の作成方法';
 
   @override
-  String get howToContact => 'GitHubリポジトリで問題を開くか、メールで連絡することで、私に連絡できます。連絡方法の詳細は、設定 > 連絡先 にあります。';
+  String get howToContact =>
+      'GitHubリポジトリで問題を開くか、メールで連絡することで、私に連絡できます。連絡方法の詳細は、設定 > 連絡先 にあります。';
 
   @override
   String get id => 'ID';
@@ -696,7 +702,8 @@ class AppLocalizationsJa extends AppLocalizations {
   String get legalText => 'このアプリケーションに含まれる登録商標は、それぞれの所有者に帰属します。';
 
   @override
-  String get letMeKnow => 'Pi-holeチームがこのアプリでデータを取得するためのAPIに変更を加えることがあります。接続の問題やデータが読み込まれない場合で、サーバーが正常に動作していると確信している場合は、お知らせください。調査してできるだけ早く更新をリリースします。';
+  String get letMeKnow =>
+      'Pi-holeチームがこのアプリでデータを取得するためのAPIに変更を加えることがあります。接続の問題やデータが読み込まれない場合で、サーバーが正常に動作していると確信している場合は、お知らせください。調査してできるだけ早く更新をリリースします。';
 
   @override
   String get licenses => 'ライセンス';
@@ -741,7 +748,8 @@ class AppLocalizationsJa extends AppLocalizations {
   String get logsPerQueryUpdated => 'ログ数のリクエストが正常に更新されました';
 
   @override
-  String get logsPerQueryWarning => '長い時間を選択すると、読み込み時間が遅くなることがあります。\nサーバーの速度に依存します。';
+  String get logsPerQueryWarning =>
+      '長い時間を選択すると、読み込み時間が遅くなることがあります。\nサーバーの速度に依存します。';
 
   @override
   String get logsQuantityPerLoad => '1回のリクエストごとのログ数';
@@ -804,7 +812,13 @@ class AppLocalizationsJa extends AppLocalizations {
   String get noDomains => '表示するドメインはありません。';
 
   @override
+  String get noIssuesReported => '問題は報告されていません。';
+
+  @override
   String get noItemsSelected => '項目が選択されていません';
+
+  @override
+  String get noLogs => 'ログはありません。';
 
   @override
   String get noLogsDisplay => 'ここに表示するログはありません';
@@ -930,7 +944,8 @@ class AppLocalizationsJa extends AppLocalizations {
   String get reducedDataCharts => 'データ縮小を使用';
 
   @override
-  String get reducedDataChartsDescription => 'ホームのクライアントチャートに影響します。アプリのパフォーマンスが向上する場合があります';
+  String get reducedDataChartsDescription =>
+      'ホームのクライアントチャートに影響します。アプリのパフォーマンスが向上する場合があります';
 
   @override
   String get refresh => '更新';
@@ -970,6 +985,12 @@ class AppLocalizationsJa extends AppLocalizations {
 
   @override
   String get restartAppTakeEffect => '設定を反映するためにアプリを再起動してください。';
+
+  @override
+  String get runningStatus => '実行中...';
+
+  @override
+  String get runningSubtitle => '処理が完了すると、ここに結果が表示されます。';
 
   @override
   String get save => '保存';
@@ -1167,7 +1188,8 @@ class AppLocalizationsJa extends AppLocalizations {
   String get token => 'トークン';
 
   @override
-  String get tokenInstructions => 'ウェブインターフェースの[設定 > API/Webインターフェース > APIトークンを表示]で取得できます。';
+  String get tokenInstructions =>
+      'ウェブインターフェースの[設定 > API/Webインターフェース > APIトークンを表示]で取得できます。';
 
   @override
   String get tokenNeeded => 'トークンが必要です';
@@ -1231,6 +1253,8 @@ class AppLocalizationsJa extends AppLocalizations {
 
   @override
   String get updatingAdlist => 'Adlistを更新中...';
+  String get updatingInProgressMessage =>
+      '更新中です。少し時間がかかる場合があります。アプリを開いたままにしてください。';
 
   @override
   String get upstreamServers => '上流サーバー';
@@ -1275,5 +1299,6 @@ class AppLocalizationsJa extends AppLocalizations {
   String get writeEmail => 'メールで私に書いてください。';
 
   @override
-  String get writeEmailDetails => 'メール本文には可能な限り詳細を記載してください：Pi-holeおよびWebインターフェースのバージョン、問題の再現方法、スクリーンショットなど。\n\n提供される情報はすべて歓迎します。';
+  String get writeEmailDetails =>
+      'メール本文には可能な限り詳細を記載してください：Pi-holeおよびWebインターフェースのバージョン、問題の再現方法、スクリーンショットなど。\n\n提供される情報はすべて歓迎します。';
 }

@@ -72,7 +72,8 @@ class AppLocalizationsEs extends AppLocalizations {
   String get adlistInfo => 'Información de Adlist';
 
   @override
-  String get adlistManagementDescription => 'Administrar y actualizar las Adlists';
+  String get adlistManagementDescription =>
+      'Administrar y actualizar las Adlists';
 
   @override
   String get adlistManagementTitle => 'Adlists';
@@ -162,7 +163,8 @@ class AppLocalizationsEs extends AppLocalizations {
   String get appUnlock => 'Desbloqueo de la app';
 
   @override
-  String get appUnlockDescription => 'Usar un código o la huella para desbloquear la app';
+  String get appUnlockDescription =>
+      'Usar un código o la huella para desbloquear la app';
 
   @override
   String get appUnlockDisabled => 'Desbloqueo de app desactivado';
@@ -186,7 +188,8 @@ class AppLocalizationsEs extends AppLocalizations {
   String get arch => 'Arquitectura';
 
   @override
-  String get areSureRemovePasscode => 'Estás seguro que deseas eliminar el código? Esto desactivará la protección de desbloqueo de la app.';
+  String get areSureRemovePasscode =>
+      'Estás seguro que deseas eliminar el código? Esto desactivará la protección de desbloqueo de la app.';
 
   @override
   String get authentication => 'Autenticación';
@@ -195,16 +198,19 @@ class AppLocalizationsEs extends AppLocalizations {
   String get autoRefreshTime => 'Tiempo de refresco automático';
 
   @override
-  String get beginAddConnection => 'Para empezar, añade una conexión a un servidor.';
+  String get beginAddConnection =>
+      'Para empezar, añade una conexión a un servidor.';
 
   @override
   String get between => 'entre';
 
   @override
-  String get biometricUnlockNotActivated => 'No se ha podido activar el desbloqueo con huella dactilar.';
+  String get biometricUnlockNotActivated =>
+      'No se ha podido activar el desbloqueo con huella dactilar.';
 
   @override
-  String get biometricUnlockNotDisabled => 'No se ha podido desactivar el desbloqueo con huella dactilar.';
+  String get biometricUnlockNotDisabled =>
+      'No se ha podido desactivar el desbloqueo con huella dactilar.';
 
   @override
   String get blacklist => 'Añadir a lista negra';
@@ -216,7 +222,8 @@ class AppLocalizationsEs extends AppLocalizations {
   String get blocked => 'Bloqueados';
 
   @override
-  String get cameraPermission => 'Pi-hole client no tiene permiso para acceder a la cámara.\n\nVe a los ajustes del teléfono y acepta el permiso.';
+  String get cameraPermission =>
+      'Pi-hole client no tiene permiso para acceder a la cámara.\n\nVe a los ajustes del teléfono y acepta el permiso.';
 
   @override
   String get cancel => 'Cancelar';
@@ -228,10 +235,12 @@ class AppLocalizationsEs extends AppLocalizations {
   String get cannotAddDomain => 'El dominio no ha podido ser añadido';
 
   @override
-  String get cannotChangeUpdateTime => 'No se ha podido cambiar el tiempo de auto actualización.';
+  String get cannotChangeUpdateTime =>
+      'No se ha podido cambiar el tiempo de auto actualización.';
 
   @override
-  String get cannotCheckUrlSaved => 'No se ha podido comprobar si la URL ya existe.';
+  String get cannotCheckUrlSaved =>
+      'No se ha podido comprobar si la URL ya existe.';
 
   @override
   String get cannotConnect => 'No se ha podido conectar al servidor.';
@@ -240,13 +249,16 @@ class AppLocalizationsEs extends AppLocalizations {
   String get cannotUpdateSettings => 'No se han podido actualizar los ajustes.';
 
   @override
-  String get cantReachServer => 'No se puede alcanzar el servidor. Comprueba la dirección IP y el puerto.';
+  String get cantReachServer =>
+      'No se puede alcanzar el servidor. Comprueba la dirección IP y el puerto.';
 
   @override
-  String get cantSaveConnectionData => 'No se han podido guardar los datos de conexión.';
+  String get cantSaveConnectionData =>
+      'No se han podido guardar los datos de conexión.';
 
   @override
-  String get cantUpdateLogsPerQuery => 'No se ha podido actualizar la cantidad de registros por petición.';
+  String get cantUpdateLogsPerQuery =>
+      'No se ha podido actualizar la cantidad de registros por petición.';
 
   @override
   String get changeServer => 'Cambiar servidor';
@@ -297,7 +309,8 @@ class AppLocalizationsEs extends AppLocalizations {
   String get connected => 'Conectado';
 
   @override
-  String get connectedSuccessfully => 'Conectado al servidor satisfactoriamente.';
+  String get connectedSuccessfully =>
+      'Conectado al servidor satisfactoriamente.';
 
   @override
   String get connectedTo => 'Conectado a';
@@ -321,19 +334,23 @@ class AppLocalizationsEs extends AppLocalizations {
   String get connectionAlreadyExists => 'Esta conexión ya existe';
 
   @override
-  String get connectionCannotBeRemoved => 'No se ha podido eliminar la conexión.';
+  String get connectionCannotBeRemoved =>
+      'No se ha podido eliminar la conexión.';
 
   @override
-  String get connectionDefaultFailed => 'No se ha podido definir como conexión por defecto.';
+  String get connectionDefaultFailed =>
+      'No se ha podido definir como conexión por defecto.';
 
   @override
-  String get connectionDefaultSuccessfully => 'Conexión definida como por defecto.';
+  String get connectionDefaultSuccessfully =>
+      'Conexión definida como por defecto.';
 
   @override
   String get connectionRemoved => 'Conexión eliminada satisfactoriamente.';
 
   @override
-  String get connectionTimeout => 'Error. Tiempo de conexión agotado. Comprueba si el servidor está disponible.';
+  String get connectionTimeout =>
+      'Error. Tiempo de conexión agotado. Comprueba si el servidor está disponible.';
 
   @override
   String get contact => 'Contacto';
@@ -348,13 +365,16 @@ class AppLocalizationsEs extends AppLocalizations {
   String get copyLogsClipboard => 'Copiar logs al portapapeles';
 
   @override
-  String get couldNotConnectServer => 'No se ha podido conectar con el servidor';
+  String get couldNotConnectServer =>
+      'No se ha podido conectar con el servidor';
 
   @override
-  String get couldntAddBlacklist => 'No se ha podido añadir el dominio a lista blanca.';
+  String get couldntAddBlacklist =>
+      'No se ha podido añadir el dominio a lista blanca.';
 
   @override
-  String get couldntAddWhitelist => 'No se ha podido añadir el dominio a lista negra.';
+  String get couldntAddWhitelist =>
+      'No se ha podido añadir el dominio a lista negra.';
 
   @override
   String get couldntDisableServer => 'No se pudo desactivar el servidor.';
@@ -402,7 +422,8 @@ class AppLocalizationsEs extends AppLocalizations {
   String get dateUpdated => 'Fecha de actualización';
 
   @override
-  String get dbNotWorking => 'La base de datos no funciona. Reinstala la aplicación.';
+  String get dbNotWorking =>
+      'La base de datos no funciona. Reinstala la aplicación.';
 
   @override
   String get defaultConnection => 'Conexión por defecto';
@@ -414,13 +435,15 @@ class AppLocalizationsEs extends AppLocalizations {
   String get deleteAdlist => 'Eliminar adlist';
 
   @override
-  String get deleteAdlistMessage => '¿Está seguro de que desea eliminar esta adlist?';
+  String get deleteAdlistMessage =>
+      '¿Está seguro de que desea eliminar esta adlist?';
 
   @override
   String get deleteDomain => 'Eliminar dominio';
 
   @override
-  String get deleteDomainMessage => '¿Estás seguro que deseas eliminar este dominio?';
+  String get deleteDomainMessage =>
+      '¿Estás seguro que deseas eliminar este dominio?';
 
   @override
   String get deleting => 'Eliminando...';
@@ -465,7 +488,8 @@ class AppLocalizationsEs extends AppLocalizations {
   String get domainsClientsDataMode => 'Visualización de estadísticas';
 
   @override
-  String get domainsClientsDataModeDescription => 'Cambia la manera en la que se muestran los datos de clientes y dominios';
+  String get domainsClientsDataModeDescription =>
+      'Cambia la manera en la que se muestran los datos de clientes y dominios';
 
   @override
   String get domainsNotLoaded => 'No se ha podido cargar la lista de dominios';
@@ -474,7 +498,8 @@ class AppLocalizationsEs extends AppLocalizations {
   String get dontCheckCertificate => 'No comprobar el certificado SSL';
 
   @override
-  String get dontCheckCertificateDescription => 'Anula la validación del certificado SSL del servidor';
+  String get dontCheckCertificateDescription =>
+      'Anula la validación del certificado SSL del servidor';
 
   @override
   String get edit => 'Editar';
@@ -501,7 +526,8 @@ class AppLocalizationsEs extends AppLocalizations {
   String get enableCrashReport => 'Habilitar informes de fallos';
 
   @override
-  String get enableCrashReportDetail => 'Enviar automáticamente informes anonimados para diagnosticar problemas.';
+  String get enableCrashReportDetail =>
+      'Enviar automáticamente informes anonimados para diagnosticar problemas.';
 
   @override
   String get enabled => 'Activado';
@@ -510,7 +536,8 @@ class AppLocalizationsEs extends AppLocalizations {
   String get enablingServer => 'Activando servidor...';
 
   @override
-  String get endTimeNotAfterStartTime => 'Tiempo de fin no es posterior a tiempo de inicio';
+  String get endTimeNotAfterStartTime =>
+      'Tiempo de fin no es posterior a tiempo de inicio';
 
   @override
   String get enterCodeUnlock => 'Introducir código para desbloquear';
@@ -525,7 +552,8 @@ class AppLocalizationsEs extends AppLocalizations {
   String get eraseAppData => 'Eliminar datos de la app';
 
   @override
-  String get eraseWarning => '¡Advertencia! Esta acción reseteará la aplicación y eliminará todos los datos.\n\n¿Estás seguro de que deseas continuar?';
+  String get eraseWarning =>
+      '¡Advertencia! Esta acción reseteará la aplicación y eliminará todos los datos.\n\n¿Estás seguro de que deseas continuar?';
 
   @override
   String get erasesAppData => 'Borra todos los datos de la aplicación';
@@ -543,16 +571,19 @@ class AppLocalizationsEs extends AppLocalizations {
   String get executionLog => 'Registro de ejecución';
 
   @override
-  String get featureNotSupportedMessage => 'Esta función no está disponible en Pi-hole v5.\nActualice a Pi-hole v6 o posterior.';
+  String get featureNotSupportedMessage =>
+      'Esta función no está disponible en Pi-hole v5.\nActualice a Pi-hole v6 o posterior.';
 
   @override
   String get filters => 'Filtros';
 
   @override
-  String get fingerprintAuthUnavailable => 'Autenticación con huella no disponible.';
+  String get fingerprintAuthUnavailable =>
+      'Autenticación con huella no disponible.';
 
   @override
-  String get fingerprintAuthUnavailableAttempts => 'Autenticación con huella no disponible por múltiples intentos fallidos.';
+  String get fingerprintAuthUnavailableAttempts =>
+      'Autenticación con huella no disponible por múltiples intentos fallidos.';
 
   @override
   String get finish => 'Finalizar';
@@ -582,7 +613,8 @@ class AppLocalizationsEs extends AppLocalizations {
   String get gravityIsRunning => 'Gravity en ejecución...';
 
   @override
-  String get gravityNotYetRun => 'Aún no se ha ejecutado la actualización de Gravity';
+  String get gravityNotYetRun =>
+      'Aún no se ha ejecutado la actualización de Gravity';
 
   @override
   String get gravityUpdateCompleted => 'Actualización de Gravity completada';
@@ -597,13 +629,15 @@ class AppLocalizationsEs extends AppLocalizations {
   String get helpUsImprove => 'Ayúdanos a mejorar';
 
   @override
-  String get helpUsImproveMessage => 'Para mejorar la calidad de la aplicación, podemos recopilar informes de fallos anónimos cuando ocurra un problema.\nEstos informes no contienen información personal identificable. ';
+  String get helpUsImproveMessage =>
+      'Para mejorar la calidad de la aplicación, podemos recopilar informes de fallos anónimos cuando ocurra un problema.\nEstos informes no contienen información personal identificable. ';
 
   @override
   String get hideZeroValues => 'Ocultar valores a cero';
 
   @override
-  String get hideZeroValuesDescription => 'Oculta los valores a cero del gráfico de clientes';
+  String get hideZeroValuesDescription =>
+      'Oculta los valores a cero del gráfico de clientes';
 
   @override
   String get hits => 'Veces:';
@@ -636,7 +670,8 @@ class AppLocalizationsEs extends AppLocalizations {
   String get howCreateConnection => 'Cómo crear una conexión';
 
   @override
-  String get howToContact => 'Puede contactarme abriendo un issue en el repositorio de GitHub o por correo electrónico. Todos los detalles sobre cómo contactar están en Ajustes > Contacto.';
+  String get howToContact =>
+      'Puede contactarme abriendo un issue en el repositorio de GitHub o por correo electrónico. Todos los detalles sobre cómo contactar están en Ajustes > Contacto.';
 
   @override
   String get id => 'ID';
@@ -672,13 +707,15 @@ class AppLocalizationsEs extends AppLocalizations {
   String get invalidPort => 'Puerto no válido';
 
   @override
-  String get invalidSubroute => 'Subruta inválida. Recuerda no terminar con \'/\', \'.\' o \':\'.';
+  String get invalidSubroute =>
+      'Subruta inválida. Recuerda no terminar con \'/\', \'.\' o \':\'.';
 
   @override
   String get ipCannotEmpty => 'IP no puede estar vacío';
 
   @override
-  String get issuesSuggestions => 'Si estás experimentando problemas o tienes sugerencias';
+  String get issuesSuggestions =>
+      'Si estás experimentando problemas o tienes sugerencias';
 
   @override
   String get itemsSelected => 'items seleccionados';
@@ -693,10 +730,12 @@ class AppLocalizationsEs extends AppLocalizations {
   String get legalInfo => 'Información legal';
 
   @override
-  String get legalText => 'Todas las marcas comerciales presentes en esta aplicación son propiedad de sus respectivos dueños.';
+  String get legalText =>
+      'Todas las marcas comerciales presentes en esta aplicación son propiedad de sus respectivos dueños.';
 
   @override
-  String get letMeKnow => 'A veces, el equipo de Pi-hole realiza algunos cambios en la API utilizada por esta aplicación para obtener todos los datos. Si tiene problemas de conexión o los datos no se cargan, y está seguro de que su servidor funciona bien, hágamelo saber para investigarlo y publicar una actualización lo antes posible.';
+  String get letMeKnow =>
+      'A veces, el equipo de Pi-hole realiza algunos cambios en la API utilizada por esta aplicación para obtener todos los datos. Si tiene problemas de conexión o los datos no se cargan, y está seguro de que su servidor funciona bien, hágamelo saber para investigarlo y publicar una actualización lo antes posible.';
 
   @override
   String get licenses => 'Licencias';
@@ -711,7 +750,8 @@ class AppLocalizationsEs extends AppLocalizations {
   String get list => 'Lista';
 
   @override
-  String get listDescription => 'Muestra los datos en una lista con la etiqueta y el valor numérico en el lado izquierdo y una barra en el lado derecho.';
+  String get listDescription =>
+      'Muestra los datos en una lista con la etiqueta y el valor numérico en el lado izquierdo y una barra en el lado derecho.';
 
   @override
   String get loadingCharts => 'Cargando gráficos...';
@@ -735,13 +775,16 @@ class AppLocalizationsEs extends AppLocalizations {
   String get logsCopiedClipboard => 'Logs copiados al portapapeles';
 
   @override
-  String get logsPerQueryLabel => 'Selecciona el intervalo de tiempo que se va a utilizar para cada petición de registros a la API.';
+  String get logsPerQueryLabel =>
+      'Selecciona el intervalo de tiempo que se va a utilizar para cada petición de registros a la API.';
 
   @override
-  String get logsPerQueryUpdated => 'Cantidad de registros por petición actualizado correctamente.';
+  String get logsPerQueryUpdated =>
+      'Cantidad de registros por petición actualizado correctamente.';
 
   @override
-  String get logsPerQueryWarning => 'Seleccionar un tiempo largo podría resultar en tiempos de carga lentos.\nDependerá de la velocidad del servidor.';
+  String get logsPerQueryWarning =>
+      'Seleccionar un tiempo largo podría resultar en tiempos de carga lentos.\nDependerá de la velocidad del servidor.';
 
   @override
   String get logsQuantityPerLoad => 'Cantidad de registros por petición';
@@ -786,7 +829,8 @@ class AppLocalizationsEs extends AppLocalizations {
   String get noAdlists => 'No hay adlists para mostrar aquí.';
 
   @override
-  String get noAvailableBiometrics => 'No tienes huellas dactilares guardadas en el dispositivo.';
+  String get noAvailableBiometrics =>
+      'No tienes huellas dactilares guardadas en el dispositivo.';
 
   @override
   String get noComment => 'Sin comentario';
@@ -804,7 +848,13 @@ class AppLocalizationsEs extends AppLocalizations {
   String get noDomains => 'No hay dominios para mostrar aquí.';
 
   @override
+  String get noIssuesReported => 'No se informaron problemas.';
+
+  @override
   String get noItemsSelected => 'No hay items seleccionados';
+
+  @override
+  String get noLogs => 'No hay registros.';
 
   @override
   String get noLogsDisplay => 'No hay registros para mostrar';
@@ -846,7 +896,8 @@ class AppLocalizationsEs extends AppLocalizations {
   String get now => 'ahora';
 
   @override
-  String get olderVersion => 'Si tienes una versión más antigua, por favor, actualiza tu Pi-hole para seguir usando esta app.';
+  String get olderVersion =>
+      'Si tienes una versión más antigua, por favor, actualiza tu Pi-hole para seguir usando esta app.';
 
   @override
   String get openExternalUrl => 'Abre un enlace externo';
@@ -864,7 +915,8 @@ class AppLocalizationsEs extends AppLocalizations {
   String get passCodeNotSaved => 'No se ha podido guardar el código.';
 
   @override
-  String get passcodesDontMatch => 'El código inicial y el código repetido no coinciden.';
+  String get passcodesDontMatch =>
+      'El código inicial y el código repetido no coinciden.';
 
   @override
   String get password => 'Contraseña';
@@ -885,7 +937,8 @@ class AppLocalizationsEs extends AppLocalizations {
   String get pieChart => 'Gráfico circular';
 
   @override
-  String get pieChartDescription => 'Muestra los datos en un gráfico circular con la leyenda debajo.';
+  String get pieChartDescription =>
+      'Muestra los datos en un gráfico circular con la leyenda debajo.';
 
   @override
   String get piholeVersion => 'Versiones de Pi-hole';
@@ -930,7 +983,8 @@ class AppLocalizationsEs extends AppLocalizations {
   String get reducedDataCharts => 'Usar datos reducidos';
 
   @override
-  String get reducedDataChartsDescription => 'Afecta al gráfico de clientes en Inicio. Puede mejorar el rendimiento de la aplicación';
+  String get reducedDataChartsDescription =>
+      'Afecta al gráfico de clientes en Inicio. Puede mejorar el rendimiento de la aplicación';
 
   @override
   String get refresh => 'Refrescar';
@@ -948,7 +1002,8 @@ class AppLocalizationsEs extends AppLocalizations {
   String get removePasscode => 'Eliminar código';
 
   @override
-  String get removeWarning => '¿Estás seguro de que deseas eliminar la conexión con este servidor?';
+  String get removeWarning =>
+      '¿Estás seguro de que deseas eliminar la conexión con este servidor?';
 
   @override
   String get repeatPasscode => 'Repetir código';
@@ -969,7 +1024,15 @@ class AppLocalizationsEs extends AppLocalizations {
   String get resetApplication => 'Resetear aplicación';
 
   @override
-  String get restartAppTakeEffect => 'Reinicie la aplicación para aplicar la configuración.';
+  String get restartAppTakeEffect =>
+      'Reinicie la aplicación para aplicar la configuración.';
+
+  @override
+  String get runningStatus => 'En ejecución...';
+
+  @override
+  String get runningSubtitle =>
+      'El resultado se mostrará aquí al finalizar la tarea.';
 
   @override
   String get save => 'Guardar';
@@ -1017,13 +1080,15 @@ class AppLocalizationsEs extends AppLocalizations {
   String get security => 'Seguridad';
 
   @override
-  String get selectAdlistsLeftColumn => 'Elija una adlist para ver sus detalles.';
+  String get selectAdlistsLeftColumn =>
+      'Elija una adlist para ver sus detalles.';
 
   @override
   String get selectConnection => 'Seleccionar una conexión';
 
   @override
-  String get selectDomainsLeftColumn => 'Elige un dominio para ver sus detalles.';
+  String get selectDomainsLeftColumn =>
+      'Elige un dominio para ver sus detalles.';
 
   @override
   String get selectEndTime => 'Seleccionar tiempo de fin';
@@ -1032,16 +1097,19 @@ class AppLocalizationsEs extends AppLocalizations {
   String get selectGroupsMessage => 'Por favor, seleccione un grupo …';
 
   @override
-  String get selectLogsLeftColumn => 'Elige un registro de consultas para ver sus detalles.';
+  String get selectLogsLeftColumn =>
+      'Elige un registro de consultas para ver sus detalles.';
 
   @override
-  String get selectOptionLeftColumn => 'Selecciona una opción de la columna de la izquierda.';
+  String get selectOptionLeftColumn =>
+      'Selecciona una opción de la columna de la izquierda.';
 
   @override
   String get selectServer => 'Seleccionar servidor';
 
   @override
-  String get selectServerThenAccess => 'Seleccione un servidor y luego acceda nuevamente.';
+  String get selectServerThenAccess =>
+      'Seleccione un servidor y luego acceda nuevamente.';
 
   @override
   String get selectStartTime => 'Seleccionar tiempo de inicio';
@@ -1059,7 +1127,8 @@ class AppLocalizationsEs extends AppLocalizations {
   String get serverConnectionGuide => 'Guía de conexión al servidor';
 
   @override
-  String get serverConnectionGuideDescription => 'Aprenda cómo conectarse al servidor.';
+  String get serverConnectionGuideDescription =>
+      'Aprenda cómo conectarse al servidor.';
 
   @override
   String get serverDisabled => 'El servidor se desactivó correctamente.';
@@ -1074,7 +1143,8 @@ class AppLocalizationsEs extends AppLocalizations {
   String get serverInfoShow => 'Ver información detallada';
 
   @override
-  String get serverInvalidData => 'Conexión guardada con valores no válidos. Añade la conexión otra vez.';
+  String get serverInvalidData =>
+      'Conexión guardada con valores no válidos. Añade la conexión otra vez.';
 
   @override
   String get serverName => 'Nombre del servidor';
@@ -1095,16 +1165,19 @@ class AppLocalizationsEs extends AppLocalizations {
   String get settings => 'Ajustes';
 
   @override
-  String get settingsUpdatedSuccessfully => 'Ajustes actualizados correctamente.';
+  String get settingsUpdatedSuccessfully =>
+      'Ajustes actualizados correctamente.';
 
   @override
-  String get sslErrorLong => 'Error de SSL. Comprueba si el certificado del servidor es válido.';
+  String get sslErrorLong =>
+      'Error de SSL. Comprueba si el certificado del servidor es válido.';
 
   @override
   String get sslErrorShort => 'Error de SSL.';
 
   @override
-  String get startTimeNotBeforeEndTime => 'Tiempo de inicio no es anterior a tiempo de fin';
+  String get startTimeNotBeforeEndTime =>
+      'Tiempo de inicio no es anterior a tiempo de fin';
 
   @override
   String get statistics => 'Estadísticas';
@@ -1140,7 +1213,8 @@ class AppLocalizationsEs extends AppLocalizations {
   String get supportForm => 'Formulario de soporte';
 
   @override
-  String get supportFormDescription => 'Enviar una petición de soporte usando el formulario de soporte.';
+  String get supportFormDescription =>
+      'Enviar una petición de soporte usando el formulario de soporte.';
 
   @override
   String get switchServer => 'Cambiar de servidor';
@@ -1167,7 +1241,8 @@ class AppLocalizationsEs extends AppLocalizations {
   String get token => 'Token';
 
   @override
-  String get tokenInstructions => 'Puedes obtenerlo en la interfaz web en Settings > API/Web interface > Show API token.';
+  String get tokenInstructions =>
+      'Puedes obtenerlo en la interfaz web en Settings > API/Web interface > Show API token.';
 
   @override
   String get tokenNeeded => 'Se necesita token';
@@ -1215,7 +1290,8 @@ class AppLocalizationsEs extends AppLocalizations {
   String get unlockFingerprint => 'Desbloquear con huella dactilar';
 
   @override
-  String get unlockWithFingerprint => 'Desbloquea la app con tu huella dactilar';
+  String get unlockWithFingerprint =>
+      'Desbloquea la app con tu huella dactilar';
 
   @override
   String get unsupportedFeatureTitle => 'Función no compatible';
@@ -1227,10 +1303,13 @@ class AppLocalizationsEs extends AppLocalizations {
   String get updatePasscode => 'Actualizar código';
 
   @override
-  String get updateTimeChanged => 'Tiempo de auto actualización cambiado satisfactoriamente.';
+  String get updateTimeChanged =>
+      'Tiempo de auto actualización cambiado satisfactoriamente.';
 
   @override
   String get updatingAdlist => 'Actualizando adlist...';
+  String get updatingInProgressMessage =>
+      'Actualizando... esto puede tardar un poco. Por favor, mantén la app abierta.';
 
   @override
   String get upstreamServers => 'Servidores de salida';
@@ -1257,7 +1336,8 @@ class AppLocalizationsEs extends AppLocalizations {
   String get version => 'Versión';
 
   @override
-  String get versionDescription => 'Seleccione la versión de Pi-hole que está utilizando';
+  String get versionDescription =>
+      'Seleccione la versión de Pi-hole que está utilizando';
 
   @override
   String get versionRequirements => 'Requisitos de versión';
@@ -1275,5 +1355,6 @@ class AppLocalizationsEs extends AppLocalizations {
   String get writeEmail => 'Escríbeme por correo electrónico.';
 
   @override
-  String get writeEmailDetails => 'Incluye en el cuerpo del correo todos los detalles posibles: Pi-hole y versión de la interfaz web, cómo reproducir el problema, capturas de pantalla...\n\nToda la información proporcionada será muy bienvenida.';
+  String get writeEmailDetails =>
+      'Incluye en el cuerpo del correo todos los detalles posibles: Pi-hole y versión de la interfaz web, cómo reproducir el problema, capturas de pantalla...\n\nToda la información proporcionada será muy bienvenida.';
 }
