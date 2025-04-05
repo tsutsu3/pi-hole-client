@@ -804,7 +804,13 @@ class AppLocalizationsJa extends AppLocalizations {
   String get noDomains => '表示するドメインはありません。';
 
   @override
+  String get noIssuesReported => '問題は報告されていません。';
+
+  @override
   String get noItemsSelected => '項目が選択されていません';
+
+  @override
+  String get noLogs => 'ログはありません。';
 
   @override
   String get noLogsDisplay => 'ここに表示するログはありません';
@@ -970,6 +976,12 @@ class AppLocalizationsJa extends AppLocalizations {
 
   @override
   String get restartAppTakeEffect => '設定を反映するためにアプリを再起動してください。';
+
+  @override
+  String get runningStatus => '実行中...';
+
+  @override
+  String get runningSubtitle => '処理が完了すると、ここに結果が表示されます。';
 
   @override
   String get save => '保存';
@@ -1228,6 +1240,9 @@ class AppLocalizationsJa extends AppLocalizations {
 
   @override
   String get updateTimeChanged => '更新時間が正常に変更されました。';
+
+  @override
+  String get updatingInProgressMessage => '更新中です。少し時間がかかる場合があります。アプリを開いたままにしてください。';
 
   @override
   String get upstreamServers => '上流サーバー';

@@ -804,7 +804,13 @@ class AppLocalizationsPl extends AppLocalizations {
   String get noDomains => 'Nie ma tutaj domen do wyświetlenia.';
 
   @override
+  String get noIssuesReported => 'Nie zgłoszono żadnych problemów.';
+
+  @override
   String get noItemsSelected => 'Nie wybrano żadnych elementów';
+
+  @override
+  String get noLogs => 'Brak logów.';
 
   @override
   String get noLogsDisplay => 'Nie ma tutaj żadnych logów do wyświetlenia';
@@ -970,6 +976,12 @@ class AppLocalizationsPl extends AppLocalizations {
 
   @override
   String get restartAppTakeEffect => 'Proszę ponownie uruchomić aplikację, aby zastosować ustawienia.';
+
+  @override
+  String get runningStatus => 'Uruchomione...';
+
+  @override
+  String get runningSubtitle => 'Wynik zostanie wyświetlony tutaj po zakończeniu zadania.';
 
   @override
   String get save => 'Zapisać';
@@ -1228,6 +1240,9 @@ class AppLocalizationsPl extends AppLocalizations {
 
   @override
   String get updateTimeChanged => 'Czas aktualizacji został pomyślnie zmieniony.';
+
+  @override
+  String get updatingInProgressMessage => 'Trwa aktualizacja... może to chwilę potrwać. Proszę nie zamykać aplikacji.';
 
   @override
   String get upstreamServers => 'Serwery nadrzędne';

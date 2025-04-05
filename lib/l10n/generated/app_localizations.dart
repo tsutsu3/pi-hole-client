@@ -1691,11 +1691,23 @@ abstract class AppLocalizations {
   /// **'There are no domains to show here.'**
   String get noDomains;
 
+  /// No description provided for @noIssuesReported.
+  ///
+  /// In en, this message translates to:
+  /// **'No issues were reported.'**
+  String get noIssuesReported;
+
   /// No description provided for @noItemsSelected.
   ///
   /// In en, this message translates to:
   /// **'No items selected'**
   String get noItemsSelected;
+
+  /// No description provided for @noLogs.
+  ///
+  /// In en, this message translates to:
+  /// **'No logs.'**
+  String get noLogs;
 
   /// No description provided for @noLogsDisplay.
   ///
@@ -2026,6 +2038,18 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Please restart the application to apply the settings.'**
   String get restartAppTakeEffect;
+
+  /// No description provided for @runningStatus.
+  ///
+  /// In en, this message translates to:
+  /// **'Running...'**
+  String get runningStatus;
+
+  /// No description provided for @runningSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'This section will show the result once the task is complete.'**
+  String get runningSubtitle;
 
   /// No description provided for @save.
   ///
@@ -2542,6 +2566,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Update time changed successfully.'**
   String get updateTimeChanged;
+
+  /// No description provided for @updatingInProgressMessage.
+  ///
+  /// In en, this message translates to:
+  /// **'Updating... this may take a while. Please keep the app open.'**
+  String get updatingInProgressMessage;
 
   /// No description provided for @upstreamServers.
   ///

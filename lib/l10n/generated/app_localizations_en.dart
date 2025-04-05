@@ -804,7 +804,13 @@ class AppLocalizationsEn extends AppLocalizations {
   String get noDomains => 'There are no domains to show here.';
 
   @override
+  String get noIssuesReported => 'No issues were reported.';
+
+  @override
   String get noItemsSelected => 'No items selected';
+
+  @override
+  String get noLogs => 'No logs.';
 
   @override
   String get noLogsDisplay => 'No logs to display here';
@@ -970,6 +976,12 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get restartAppTakeEffect => 'Please restart the application to apply the settings.';
+
+  @override
+  String get runningStatus => 'Running...';
+
+  @override
+  String get runningSubtitle => 'This section will show the result once the task is complete.';
 
   @override
   String get save => 'Save';
@@ -1228,6 +1240,9 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get updateTimeChanged => 'Update time changed successfully.';
+
+  @override
+  String get updatingInProgressMessage => 'Updating... this may take a while. Please keep the app open.';
 
   @override
   String get upstreamServers => 'Upstream servers';

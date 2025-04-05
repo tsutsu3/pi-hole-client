@@ -138,7 +138,7 @@ class _GravityUpdateState extends State<GravityUpdate> {
                     Padding(
                       padding: const EdgeInsets.only(top: 4),
                       child: Text(
-                        'Updating... this may take a while. Please do not navigate away from or close this page.',
+                        AppLocalizations.of(context)!.updatingInProgressMessage,
                         style: Theme.of(context).textTheme.bodyMedium,
                       ),
                     ),
@@ -169,17 +169,17 @@ class _GravityUpdateState extends State<GravityUpdate> {
               else
                 buildMessageTile(
                   title: AppLocalizations.of(context)!.noMessages,
-                  subtitle: 'No issues were reported',
+                  subtitle: AppLocalizations.of(context)!.noIssuesReported,
                 )
             else if (gravityProvider.status == GravityStatus.running)
               buildMessageTile(
-                title: 'Running...',
-                subtitle: 'Waiting for messages...',
+                title: AppLocalizations.of(context)!.runningStatus,
+                subtitle: AppLocalizations.of(context)!.runningSubtitle,
               )
             else
               buildMessageTile(
                 title: AppLocalizations.of(context)!.noMessages,
-                subtitle: 'No issues were reported',
+                subtitle: AppLocalizations.of(context)!.noIssuesReported,
               ),
             const SizedBox(height: 24),
             SectionLabel(
@@ -215,7 +215,7 @@ class _GravityUpdateState extends State<GravityUpdate> {
                           ? gravityProvider.logs.last == ''
                               ? '...'
                               : gravityProvider.logs.last
-                          : 'No logs',
+                          : AppLocalizations.of(context)!.noLogs,
                       style: TextStyle(
                         color: Theme.of(context).colorScheme.onSurface,
                       ),
