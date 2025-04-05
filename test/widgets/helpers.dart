@@ -39,6 +39,7 @@ import 'package:pi_hole_client/models/version.dart';
 import 'package:pi_hole_client/providers/app_config_provider.dart';
 import 'package:pi_hole_client/providers/domains_list_provider.dart';
 import 'package:pi_hole_client/providers/filters_provider.dart';
+import 'package:pi_hole_client/providers/gravity_provider.dart';
 import 'package:pi_hole_client/providers/groups_provider.dart';
 import 'package:pi_hole_client/providers/servers_provider.dart';
 import 'package:pi_hole_client/providers/status_provider.dart';
@@ -917,6 +918,7 @@ Future<void> initializeApp() async {
   StatusUpdateService,
   GroupsProvider,
   SubscriptionsListProvider,
+  GravityUpdateProvider,
 ])
 class TestSetupHelper {
   TestSetupHelper({
@@ -927,6 +929,7 @@ class TestSetupHelper {
     MockDomainsListProvider? customDomainsListProvider,
     MockGroupsProvider? customGroupsProvider,
     MockSubscriptionsListProvider? customSubscriptionsListProvider,
+    MockGravityUpdateProvider? customGravityUpdateProvider,
     MockApiGatewayV5? customApiGatewayV5,
     MockApiGatewayV6? customApiGatewayV6,
     MockStatusUpdateService? customStatusUpdateService,
@@ -940,6 +943,8 @@ class TestSetupHelper {
     mockGroupsProvider = customGroupsProvider ?? MockGroupsProvider();
     mockSubscriptionsListProvider =
         customSubscriptionsListProvider ?? MockSubscriptionsListProvider();
+    mockGravityUpdateProvider =
+        customGravityUpdateProvider ?? MockGravityUpdateProvider();
 
     mockApiGatewayV5 = customApiGatewayV5 ?? MockApiGatewayV5();
     mockApiGatewayV6 = customApiGatewayV6 ?? MockApiGatewayV6();
@@ -955,6 +960,7 @@ class TestSetupHelper {
   late MockDomainsListProvider mockDomainsListProvider;
   late MockGroupsProvider mockGroupsProvider;
   late MockSubscriptionsListProvider mockSubscriptionsListProvider;
+  late MockGravityUpdateProvider mockGravityUpdateProvider;
 
   late MockApiGatewayV5 mockApiGatewayV5;
   late MockApiGatewayV6 mockApiGatewayV6;
@@ -969,6 +975,7 @@ class TestSetupHelper {
     _initDomainListProviderMock(useApiGatewayVersion);
     _initGroupsPtoviderMock(useApiGatewayVersion);
     _initSubscriptionsListProviderMock(useApiGatewayVersion);
+    _initGravityUpdateProviderMock(useApiGatewayVersion);
     _initApiGatewayV5Mock();
     _initApiGatewayV6Mock();
     _initStatusUpdateServiceMock();
@@ -1026,6 +1033,11 @@ class TestSetupHelper {
             ),
             ChangeNotifierProxyProvider<ServersProvider, GroupsProvider>(
               create: (context) => mockGroupsProvider,
+              update: (context, serverConfig, servers) =>
+                  servers!..update(serverConfig),
+            ),
+            ChangeNotifierProxyProvider<ServersProvider, GravityUpdateProvider>(
+              create: (context) => mockGravityUpdateProvider,
               update: (context, serverConfig, servers) =>
                   servers!..update(serverConfig),
             ),
@@ -1097,6 +1109,11 @@ class TestSetupHelper {
         ),
         ChangeNotifierProxyProvider<ServersProvider, GroupsProvider>(
           create: (context) => mockGroupsProvider,
+          update: (context, serverConfig, servers) =>
+              servers!..update(serverConfig),
+        ),
+        ChangeNotifierProxyProvider<ServersProvider, GravityUpdateProvider>(
+          create: (context) => mockGravityUpdateProvider,
           update: (context, serverConfig, servers) =>
               servers!..update(serverConfig),
         ),
@@ -1299,6 +1316,8 @@ class TestSetupHelper {
     when(mockSubscriptionsListProvider.removeSubscriptionFromList(any))
         .thenReturn(null);
   }
+
+  void _initGravityUpdateProviderMock(String useApiGatewayVersion) {}
 
   void _initApiGatewayV5Mock() {
     when(mockApiGatewayV5.loginQuery()).thenAnswer(
