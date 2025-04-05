@@ -1163,6 +1163,12 @@ abstract class AppLocalizations {
   /// **'Errors registered by the app'**
   String get errorsApp;
 
+  /// No description provided for @executionLog.
+  ///
+  /// In en, this message translates to:
+  /// **'Execution Log'**
+  String get executionLog;
+
   /// No description provided for @featureNotSupportedMessage.
   ///
   /// In en, this message translates to:
@@ -1234,6 +1240,30 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'App code available on GitHub'**
   String get gitHub;
+
+  /// No description provided for @gravityIsRunning.
+  ///
+  /// In en, this message translates to:
+  /// **'Gravity is running...'**
+  String get gravityIsRunning;
+
+  /// No description provided for @gravityNotYetRun.
+  ///
+  /// In en, this message translates to:
+  /// **'Gravity update has not run yet'**
+  String get gravityNotYetRun;
+
+  /// No description provided for @gravityUpdateCompleted.
+  ///
+  /// In en, this message translates to:
+  /// **'Gravity update completed'**
+  String get gravityUpdateCompleted;
+
+  /// No description provided for @gravityUpdateFailed.
+  ///
+  /// In en, this message translates to:
+  /// **'Gravity update failed'**
+  String get gravityUpdateFailed;
 
   /// No description provided for @groups.
   ///
@@ -1565,6 +1595,12 @@ abstract class AppLocalizations {
   /// **'Memory Usage'**
   String get memoryUsage;
 
+  /// No description provided for @messages.
+  ///
+  /// In en, this message translates to:
+  /// **'Messages'**
+  String get messages;
+
   /// No description provided for @minute1.
   ///
   /// In en, this message translates to:
@@ -1667,6 +1703,12 @@ abstract class AppLocalizations {
   /// **'No logs to display here'**
   String get noLogsDisplay;
 
+  /// No description provided for @noMessages.
+  ///
+  /// In en, this message translates to:
+  /// **'No messages'**
+  String get noMessages;
+
   /// No description provided for @noSavedConnections.
   ///
   /// In en, this message translates to:
@@ -1708,6 +1750,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Not selected'**
   String get notSelected;
+
+  /// No description provided for @notYetExecuted.
+  ///
+  /// In en, this message translates to:
+  /// **'Not yet executed'**
+  String get notYetExecuted;
 
   /// No description provided for @noticeError.
   ///

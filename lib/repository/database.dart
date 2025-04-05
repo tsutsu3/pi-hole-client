@@ -89,7 +89,7 @@ class DatabaseRepository {
 
     final db = await openDatabase(
       path ?? 'pi_hole_client.db',
-      version: 2,
+      version: 3,
       onCreate: (Database db, int version) async {
         await db.execute('''
             CREATE TABLE servers (
@@ -129,11 +129,44 @@ class DatabaseRepository {
               sendCrashReports
             ) VALUES (5, 0, 'en', 1, 0, 2, 0, 0, 0, 0, 0)
           ''');
+
+        await db.execute('''
+            CREATE TABLE gravity_updates (
+              address TEXT PRIMARY KEY NOT NULL,
+              start_time TEXT NOT NULL,
+              end_time TEXT NOT NULL,
+              status INTEGER NOT NULL
+            )
+          ''');
+
+        await db.execute('''
+            CREATE TABLE gravity_logs (
+              id INTEGER PRIMARY KEY AUTOINCREMENT,
+              address TEXT NOT NULL,
+              line INTEGER NOT NULL,
+              message TEXT NOT NULL,
+              timestamp TEXT NOT NULL,
+              FOREIGN KEY (address) REFERENCES gravity_updates(address) ON DELETE CASCADE
+            )
+          ''');
+
+        await db.execute('''
+            CREATE TABLE gravity_messages (
+              id INTEGER PRIMARY KEY AUTOINCREMENT,
+              address TEXT NOT NULL,
+              message TEXT NOT NULL,
+              url TEXT NOT NULL,
+              timestamp TEXT NOT NULL,
+              FOREIGN KEY (address) REFERENCES gravity_updates(address) ON DELETE CASCADE
+            )
+          ''');
         logger.d('Database created');
       },
       onUpgrade: (Database db, int oldVersion, int newVersion) async {
         if (oldVersion == 1) {
           await _upgradeToV2(db);
+        } else if (oldVersion == 2) {
+          await _upgradeToV3(db);
         }
       },
       onDowngrade: (Database db, int oldVersion, int newVersion) async {},
@@ -329,21 +362,36 @@ class DatabaseRepository {
   ///
   /// Parameters:
   /// - [address]: The address of the server to remove.
+  /// - [txn]: An optional [Transaction] object for executing the delete
   ///
   /// Returns:
   /// - A `Future` that resolves to `true` if the operation is successful, or
   ///   `false` if it fails.
-  Future<bool> removeServerQuery(String address) async {
+  Future<bool> removeServerQuery(String address, {Transaction? txn}) async {
     try {
       await _secureStorage.deleteValue('${address}_token');
       await _secureStorage.deleteValue('${address}_password');
       await _secureStorage.deleteValue('${address}_sid');
+
       logger.d((await _secureStorage.readAll()).toString());
 
-      return await _dbInstance.transaction((txn) async {
-        await txn.delete('servers', where: 'address = ?', whereArgs: [address]);
-        return true;
-      });
+      Future<void> performDelete(DatabaseExecutor db) async {
+        await db.delete(
+          'servers',
+          where: 'address = ?',
+          whereArgs: [address],
+        );
+      }
+
+      if (txn != null) {
+        await performDelete(txn);
+      } else {
+        await _dbInstance.transaction((innerTxn) async {
+          await performDelete(innerTxn);
+        });
+      }
+
+      return true;
     } catch (e) {
       return false;
     }
@@ -353,18 +401,24 @@ class DatabaseRepository {
   ///
   /// This method clears the `servers` table, removing all server entries.
   ///
+  /// Parameters:
+  /// - [txn]: An optional [Transaction] object for executing the delete
+  ///
   /// Returns:
   /// - A `Future` that resolves to `true` if the operation is successful, or
   ///   `false` if it fails.
-  Future<bool> deleteServersDataQuery() async {
+  Future<bool> deleteServersDataQuery({Transaction? txn}) async {
     try {
       await _secureStorage.clearAll();
-      return await _dbInstance.transaction((txn) async {
-        await txn.delete(
-          'servers',
-        );
-        return true;
-      });
+
+      if (txn != null) {
+        await txn.delete('servers');
+      } else {
+        await _dbInstance.transaction((innerTxn) async {
+          await innerTxn.delete('servers');
+        });
+      }
+      return true;
     } catch (e) {
       return false;
     }
@@ -510,6 +564,337 @@ class DatabaseRepository {
     }
   }
 
+  /// Gets the gravity update status for a specific address.
+  ///
+  /// Parameters:
+  /// - [address]: The address of the gravity update to check.
+  ///
+  /// Returns:
+  /// - A `Future` that resolves to a [GravityUpdateData] object if the
+  Future<GravityUpdateData?> getGravityUpdateQuery(String address) async {
+    try {
+      final res = await _dbInstance.transaction((txn) async {
+        final result = await txn.query(
+          'gravity_updates',
+          where: 'address = ?',
+          whereArgs: [address],
+        );
+        if (result.isNotEmpty) {
+          return GravityUpdateData.fromMap(result[0]);
+        }
+        return null;
+      });
+      return res;
+    } catch (e) {
+      return null;
+    }
+  }
+
+  /// Inserts or updates a gravity update entry in the database.
+  ///
+  /// This method performs an upsert operation, inserting a new entry or
+  /// updating an existing one based on the provided address.
+  ///
+  /// Parameters:
+  /// - [gravityUpdateData]: The [GravityUpdateData] object containing the
+  ///
+  /// Returns:
+  /// - A `Future` that resolves to `true` if the operation is successful, or
+  ///  `false` if it fails.
+  Future<bool> upsertGravityUpdateQuery(
+    GravityUpdateData gravityUpdateData,
+  ) async {
+    try {
+      return await _dbInstance.transaction((txn) async {
+        await txn.insert(
+          'gravity_updates',
+          {
+            'address': gravityUpdateData.address,
+            'start_time': gravityUpdateData.startTime.toUtc().toIso8601String(),
+            'end_time': gravityUpdateData.endTime.toUtc().toIso8601String(),
+            'status': gravityUpdateData.status,
+          },
+          conflictAlgorithm: ConflictAlgorithm.replace,
+        );
+        return true;
+      });
+    } catch (e) {
+      return false;
+    }
+  }
+
+  /// Removes a gravity update entry from the database.
+  ///
+  /// Parameters:
+  /// - [address]: The address of the gravity update to remove.
+  ///
+  /// Returns:
+  /// - A `Future` that resolves to `true` if the operation is successful, or
+  ///  `false` if it fails.
+  Future<bool> removeGravityUpdateQuery(String address) async {
+    try {
+      return await _dbInstance.transaction((txn) async {
+        await txn.delete(
+          'gravity_updates',
+          where: 'address = ?',
+          whereArgs: [address],
+        );
+        return true;
+      });
+    } catch (e) {
+      return false;
+    }
+  }
+
+  /// Gets the gravity logs for a specific address.
+  ///
+  /// Parameters:
+  /// - [address]: The address of the gravity update to check.
+  ///
+  /// Returns:
+  /// - A `Future` that resolves to a list of [GravityLogsData] objects if the
+  Future<List<GravityLogsData>?> getGravityLogsQuery(String address) async {
+    try {
+      final res = await _dbInstance.transaction((txn) async {
+        final result = await txn.query(
+          'gravity_logs',
+          where: 'address = ?',
+          whereArgs: [address],
+        );
+        if (result.isNotEmpty) {
+          return result.map(GravityLogsData.fromMap).toList();
+        }
+        return null;
+      });
+      return res;
+    } catch (e) {
+      return null;
+    }
+  }
+
+  /// Inserts a gravity log entry into the database.
+  ///
+  /// Parameters:
+  /// - [gravityLogsDataList]: A list of [GravityLogsData] objects to insert.
+  ///
+  /// Returns:
+  /// - A `Future` that resolves to `true` if the operation is successful, or
+  ///  `false` if it fails.
+  Future<bool> insertGravityLogQuery(
+    List<GravityLogsData> gravityLogsDataList,
+  ) async {
+    try {
+      await _dbInstance.transaction((txn) async {
+        for (final log in gravityLogsDataList) {
+          await txn.insert(
+            'gravity_logs',
+            {
+              'address': log.address,
+              'line': log.line,
+              'message': log.message,
+              'timestamp': log.timestamp.toUtc().toIso8601String(),
+            },
+          );
+        }
+      });
+      return true;
+    } catch (e) {
+      return false;
+    }
+  }
+
+  /// Removes all gravity log entries for a specific address.
+  ///
+  /// Parameters:
+  /// - [address]: The address of the gravity update.
+  ///
+  /// Returns:
+  /// - A `Future` that resolves to `true` if the operation is successful, or
+  /// `false` if it fails.
+  Future<bool> clearGravityLogsQuery(String address) async {
+    try {
+      return await _dbInstance.transaction((txn) async {
+        await txn.delete(
+          'gravity_logs',
+          where: 'address = ?',
+          whereArgs: [address],
+        );
+        return true;
+      });
+    } catch (e) {
+      return false;
+    }
+  }
+
+  /// Gets the gravity messages for a specific address.
+  ///
+  /// Parameters:
+  /// - [address]: The address of the gravity update to check.
+  ///
+  /// Returns:
+  /// - A `Future` that resolves to a list of [GravityMessagesData] objects if the
+  Future<List<GravityMessagesData>?> getGravityMessagesQuery(
+    String address,
+  ) async {
+    try {
+      final res = await _dbInstance.transaction((txn) async {
+        final result = await txn.query(
+          'gravity_messages',
+          where: 'address = ?',
+          whereArgs: [address],
+        );
+        if (result.isNotEmpty) {
+          return result.map(GravityMessagesData.fromMap).toList();
+        }
+        return null;
+      });
+      return res;
+    } catch (e) {
+      return null;
+    }
+  }
+
+  /// Inserts a gravity message entry into the database.
+  ///
+  /// Parameters:
+  /// - [messagesList]: A list of [GravityMessagesData] objects to insert.
+  ///
+  /// Returns:
+  /// - A `Future` that resolves to `true` if the operation is successful, or
+  ///  `false` if it fails.
+  Future<bool> insertGravityMessageQuery(
+    List<GravityMessagesData> messagesList,
+  ) async {
+    try {
+      await _dbInstance.transaction((txn) async {
+        for (final msg in messagesList) {
+          await txn.insert(
+            'gravity_messages',
+            {
+              'address': msg.address,
+              'message': msg.message,
+              'url': msg.url,
+              'timestamp': msg.timestamp.toUtc().toIso8601String(),
+            },
+          );
+        }
+      });
+      return true;
+    } catch (e) {
+      return false;
+    }
+  }
+
+  /// Removes all gravity message entries for a specific address.
+  ///
+  /// Parameters:
+  /// - [address]: The address of the gravity update.
+  ///
+  /// Returns:
+  /// - A `Future` that resolves to `true` if the operation is successful, or
+  ///  `false` if it fails.
+  Future<bool> clearGravityMessagesQuery(String address) async {
+    try {
+      return await _dbInstance.transaction((txn) async {
+        await txn.delete(
+          'gravity_messages',
+          where: 'address = ?',
+          whereArgs: [address],
+        );
+        return true;
+      });
+    } catch (e) {
+      return false;
+    }
+  }
+
+  Future<GravityData?> getGravityDataQuery(String address) async {
+    try {
+      final gravityUpdateData = await getGravityUpdateQuery(address);
+      final gravityLogsData = await getGravityLogsQuery(address);
+      final gravityMessagesData = await getGravityMessagesQuery(address);
+
+      return GravityData(
+        gravityUpdate: gravityUpdateData,
+        gravityLogs: gravityLogsData,
+        gravityMessages: gravityMessagesData,
+      );
+    } catch (e) {
+      return null;
+    }
+  }
+
+  /// Removes all gravity data (status, logs and messages) for a specific address.
+  ///
+  /// Parameters:
+  /// - [address]: The address of the gravity update.
+  /// - [txn]: An optional [Transaction] object for executing the delete
+  ///
+  /// Returns:
+  /// - A `Future` that resolves to `true` if the operation is successful, or
+  /// `false` if it fails.
+  Future<bool> clearGravityDataQuery(String address, {Transaction? txn}) async {
+    try {
+      Future<void> performDelete(DatabaseExecutor db) async {
+        await db.delete(
+          'gravity_updates',
+          where: 'address = ?',
+          whereArgs: [address],
+        );
+        await db.delete(
+          'gravity_logs',
+          where: 'address = ?',
+          whereArgs: [address],
+        );
+        await db.delete(
+          'gravity_messages',
+          where: 'address = ?',
+          whereArgs: [address],
+        );
+      }
+
+      if (txn != null) {
+        await performDelete(txn);
+      } else {
+        await _dbInstance.transaction((innerTxn) async {
+          await performDelete(innerTxn);
+        });
+      }
+
+      return true;
+    } catch (e) {
+      return false;
+    }
+  }
+
+  /// Removes all gravity data (status, logs and messages) from the database.
+  ///
+  /// Parameters:
+  /// - [txn]: An optional [Transaction] object for executing the delete
+  ///
+  /// Returns:
+  /// - A `Future` that resolves to `true` if the operation is successful, or
+  /// `false` if it fails.
+  Future<bool> clearAllGravityDataQuery({Transaction? txn}) async {
+    try {
+      if (txn != null) {
+        await txn.delete('gravity_updates');
+        await txn.delete('gravity_logs');
+        await txn.delete('gravity_messages');
+      } else {
+        await _dbInstance.transaction((innerTxn) async {
+          await innerTxn.delete('gravity_updates');
+          await innerTxn.delete('gravity_logs');
+          await innerTxn.delete('gravity_messages');
+        });
+      }
+
+      return true;
+    } catch (e) {
+      return false;
+    }
+  }
+
   // ==========================================================================
   // MIGRATION METHODS
   // ==========================================================================
@@ -552,5 +937,40 @@ class DatabaseRepository {
 
     // 4. Rename the new table to the old table
     await db.execute('ALTER TABLE appConfig_new RENAME TO appConfig');
+  }
+
+  Future<dynamic> _upgradeToV3(Database db) async {
+    await db.execute('''
+            CREATE TABLE gravity_updates (
+              address TEXT PRIMARY KEY NOT NULL,
+              start_time TEXT NOT NULL,
+              end_time TEXT NOT NULL,
+              status INTEGER NOT NULL
+            )
+          ''');
+
+    await db.execute('''
+            CREATE TABLE gravity_logs (
+              id INTEGER PRIMARY KEY AUTOINCREMENT,
+              address TEXT NOT NULL,
+              line INTEGER NOT NULL,
+              message TEXT NOT NULL,
+              timestamp TEXT NOT NULL,
+              FOREIGN KEY (address) REFERENCES gravity_updates(address) ON DELETE CASCADE
+            )
+          ''');
+
+    await db.execute('''
+            CREATE TABLE gravity_messages (
+              id INTEGER PRIMARY KEY AUTOINCREMENT,
+              address TEXT NOT NULL,
+              message TEXT NOT NULL,
+              url TEXT NOT NULL,
+              timestamp TEXT NOT NULL,
+              FOREIGN KEY (address) REFERENCES gravity_updates(address) ON DELETE CASCADE
+            )
+          ''');
+
+    logger.d('Database upgraded to version 3');
   }
 }

@@ -75,7 +75,7 @@ class Log {
 
   //toJson
   Map<String, dynamic> toJson() => {
-        'dateTime': dateTime.toIso8601String(),
+        'dateTime': dateTime.toUtc().toIso8601String(),
         'type': type,
         'url': url,
         'device': device,

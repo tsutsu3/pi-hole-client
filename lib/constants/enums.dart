@@ -17,3 +17,18 @@ enum ListsStatus {
   /// 4: List unavailable, there is no local copy of this list available (replace list)
   unavailableNoCache;
 }
+
+/// Gravity Status
+enum GravityStatus {
+  /// 0: Gravity is idle
+  idle,
+
+  /// 1: Gravity is running
+  running,
+
+  /// 2: Gravity update was successful
+  success,
+
+  /// 3: Gravity update failed
+  error,
+}

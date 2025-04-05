@@ -1,17 +1,21 @@
 import 'package:flutter/material.dart';
 import 'package:pi_hole_client/classes/process_modal.dart';
+import 'package:pi_hole_client/constants/enums.dart';
 import 'package:pi_hole_client/constants/responsive.dart';
+import 'package:pi_hole_client/functions/logger.dart';
 import 'package:pi_hole_client/functions/snackbar.dart';
 import 'package:pi_hole_client/l10n/generated/app_localizations.dart';
 import 'package:pi_hole_client/models/gateways.dart';
 import 'package:pi_hole_client/models/server.dart';
 import 'package:pi_hole_client/models/subscriptions.dart';
 import 'package:pi_hole_client/providers/app_config_provider.dart';
+import 'package:pi_hole_client/providers/gravity_provider.dart';
 import 'package:pi_hole_client/providers/groups_provider.dart';
 import 'package:pi_hole_client/providers/servers_provider.dart';
 import 'package:pi_hole_client/providers/subscriptions_list_provider.dart';
 import 'package:pi_hole_client/screens/common/empty_data_screen.dart';
 import 'package:pi_hole_client/screens/common/pi_hole_v5_not_supported_screen.dart';
+import 'package:pi_hole_client/screens/settings/server_settings/widgets/subscriptions/gravity_update.dart';
 import 'package:pi_hole_client/screens/settings/server_settings/widgets/subscriptions/subscription_details_screen.dart';
 import 'package:pi_hole_client/screens/settings/server_settings/widgets/subscriptions/subscriptions_list.dart';
 import 'package:provider/provider.dart';
@@ -84,10 +88,13 @@ class _SubscriptionListsWidgetState extends State<SubscriptionListsWidget>
 
     Future.microtask(() async {
       if (!mounted) return;
-
       final groupsProvider = context.read<GroupsProvider>();
       groupsProvider.update(context.read<ServersProvider>());
       await groupsProvider.loadGroups();
+
+      if (!mounted) return;
+      final gravityUpdateProvider = context.read<GravityUpdateProvider>();
+      await gravityUpdateProvider.load();
 
       await widget.subscriptionsListProvider.fetchSubscriptionsList();
     });
@@ -157,16 +164,10 @@ class _SubscriptionListsWidgetState extends State<SubscriptionListsWidget>
     Tab buildIconTab(IconData icon, String label) {
       return Tab(
         child: Row(
-          mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Icon(icon),
             const SizedBox(width: 4),
-            Flexible(
-              child: Text(
-                label,
-                overflow: TextOverflow.ellipsis,
-              ),
-            ),
+            Text(label),
           ],
         ),
       );
@@ -213,6 +214,8 @@ class _SubscriptionListsWidgetState extends State<SubscriptionListsWidget>
               const SizedBox(width: 10),
             ],
             bottom: TabBar(
+              tabAlignment: TabAlignment.center,
+              isScrollable: true,
               controller: tabController,
               onTap: subscriptionsListProvider.setSelectedTab,
               tabs: [
@@ -258,12 +261,7 @@ class _SubscriptionListsWidgetState extends State<SubscriptionListsWidget>
                 },
                 selectedSubscription: selectedSubscription,
               ),
-              const Center(
-                child: Text(
-                  'Coming Soon',
-                  style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-                ),
-              ),
+              const GravityUpdate(),
             ],
           ),
         ),

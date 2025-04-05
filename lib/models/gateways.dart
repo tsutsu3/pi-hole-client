@@ -1,9 +1,11 @@
+import 'package:pi_hole_client/models/api/v6/action/gravity.dart';
 import 'package:pi_hole_client/models/api/v6/domains/domains.dart' as v6;
 import 'package:pi_hole_client/models/app_log.dart';
 import 'package:pi_hole_client/models/domain.dart';
 import 'package:pi_hole_client/models/groups.dart';
 import 'package:pi_hole_client/models/host.dart';
 import 'package:pi_hole_client/models/log.dart';
+import 'package:pi_hole_client/models/messages.dart';
 import 'package:pi_hole_client/models/overtime_data.dart';
 import 'package:pi_hole_client/models/realtime_status.dart';
 import 'package:pi_hole_client/models/search.dart';
@@ -23,6 +25,7 @@ enum APiResponseType {
   alreadyAdded,
   notSupported,
   notFound,
+  progress,
 }
 
 /// A response object for the login query.
@@ -332,5 +335,28 @@ class RemoveGroupResponse extends BaseInfoResponse<void> {
   RemoveGroupResponse({
     required super.result,
     super.message,
+  });
+}
+
+class MessagesResponse extends BaseInfoResponse<MessagesInfo> {
+  MessagesResponse({
+    required super.result,
+    super.message,
+    super.data,
+  });
+}
+
+class RemoveMessagesResponse extends BaseInfoResponse<void> {
+  RemoveMessagesResponse({
+    required super.result,
+    super.message,
+  });
+}
+
+class GravityResponse extends BaseInfoResponse<List<String>> {
+  GravityResponse({
+    required super.result,
+    super.message,
+    super.data,
   });
 }
