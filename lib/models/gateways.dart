@@ -1,4 +1,3 @@
-import 'package:pi_hole_client/models/api/v6/action/gravity.dart';
 import 'package:pi_hole_client/models/api/v6/domains/domains.dart' as v6;
 import 'package:pi_hole_client/models/app_log.dart';
 import 'package:pi_hole_client/models/domain.dart';

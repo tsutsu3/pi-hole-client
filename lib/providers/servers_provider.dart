@@ -166,7 +166,8 @@ class ServersProvider with ChangeNotifier {
 
         if (!isServerRemoved || !isGravityDataCleared) {
           throw Exception(
-              'Failed to remove server or clear gravity-related data');
+            'Failed to remove server or clear gravity-related data',
+          );
         }
 
         return true;

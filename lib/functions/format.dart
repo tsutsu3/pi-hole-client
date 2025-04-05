@@ -59,7 +59,7 @@ String formatWithDuration(DateTime? startedAt, DateTime? completedAt) {
 /// - Only the final state after overwriting is retained and added as a line.
 ///
 /// Example:
-/// ```
+/// ```dart
 /// Input:  "Processing A\rProcessing B\rProcessing C\nDone"
 /// Output:
 /// Processing C
