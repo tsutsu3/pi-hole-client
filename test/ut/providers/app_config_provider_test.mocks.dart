@@ -137,17 +137,17 @@ class MockDatabaseRepository extends _i1.Mock
           as _i5.Future<bool?>);
 
   @override
-  _i5.Future<bool> removeServerQuery(String? address) =>
+  _i5.Future<bool> removeServerQuery(String? address, {_i3.Transaction? txn}) =>
       (super.noSuchMethod(
-            Invocation.method(#removeServerQuery, [address]),
+            Invocation.method(#removeServerQuery, [address], {#txn: txn}),
             returnValue: _i5.Future<bool>.value(false),
           )
           as _i5.Future<bool>);
 
   @override
-  _i5.Future<bool> deleteServersDataQuery() =>
+  _i5.Future<bool> deleteServersDataQuery({_i3.Transaction? txn}) =>
       (super.noSuchMethod(
-            Invocation.method(#deleteServersDataQuery, []),
+            Invocation.method(#deleteServersDataQuery, [], {#txn: txn}),
             returnValue: _i5.Future<bool>.value(false),
           )
           as _i5.Future<bool>);
@@ -192,4 +192,111 @@ class MockDatabaseRepository extends _i1.Mock
             returnValueForMissingStub: _i5.Future<void>.value(),
           )
           as _i5.Future<void>);
+
+  @override
+  _i5.Future<_i2.GravityUpdateData?> getGravityUpdateQuery(String? address) =>
+      (super.noSuchMethod(
+            Invocation.method(#getGravityUpdateQuery, [address]),
+            returnValue: _i5.Future<_i2.GravityUpdateData?>.value(),
+          )
+          as _i5.Future<_i2.GravityUpdateData?>);
+
+  @override
+  _i5.Future<bool> upsertGravityUpdateQuery(
+    _i2.GravityUpdateData? gravityUpdateData,
+  ) =>
+      (super.noSuchMethod(
+            Invocation.method(#upsertGravityUpdateQuery, [gravityUpdateData]),
+            returnValue: _i5.Future<bool>.value(false),
+          )
+          as _i5.Future<bool>);
+
+  @override
+  _i5.Future<bool> removeGravityUpdateQuery(String? address) =>
+      (super.noSuchMethod(
+            Invocation.method(#removeGravityUpdateQuery, [address]),
+            returnValue: _i5.Future<bool>.value(false),
+          )
+          as _i5.Future<bool>);
+
+  @override
+  _i5.Future<List<_i2.GravityLogsData>?> getGravityLogsQuery(String? address) =>
+      (super.noSuchMethod(
+            Invocation.method(#getGravityLogsQuery, [address]),
+            returnValue: _i5.Future<List<_i2.GravityLogsData>?>.value(),
+          )
+          as _i5.Future<List<_i2.GravityLogsData>?>);
+
+  @override
+  _i5.Future<bool> insertGravityLogQuery(
+    List<_i2.GravityLogsData>? gravityLogsDataList,
+  ) =>
+      (super.noSuchMethod(
+            Invocation.method(#insertGravityLogQuery, [gravityLogsDataList]),
+            returnValue: _i5.Future<bool>.value(false),
+          )
+          as _i5.Future<bool>);
+
+  @override
+  _i5.Future<bool> clearGravityLogsQuery(String? address) =>
+      (super.noSuchMethod(
+            Invocation.method(#clearGravityLogsQuery, [address]),
+            returnValue: _i5.Future<bool>.value(false),
+          )
+          as _i5.Future<bool>);
+
+  @override
+  _i5.Future<List<_i2.GravityMessagesData>?> getGravityMessagesQuery(
+    String? address,
+  ) =>
+      (super.noSuchMethod(
+            Invocation.method(#getGravityMessagesQuery, [address]),
+            returnValue: _i5.Future<List<_i2.GravityMessagesData>?>.value(),
+          )
+          as _i5.Future<List<_i2.GravityMessagesData>?>);
+
+  @override
+  _i5.Future<bool> insertGravityMessageQuery(
+    List<_i2.GravityMessagesData>? messagesList,
+  ) =>
+      (super.noSuchMethod(
+            Invocation.method(#insertGravityMessageQuery, [messagesList]),
+            returnValue: _i5.Future<bool>.value(false),
+          )
+          as _i5.Future<bool>);
+
+  @override
+  _i5.Future<bool> clearGravityMessagesQuery(String? address) =>
+      (super.noSuchMethod(
+            Invocation.method(#clearGravityMessagesQuery, [address]),
+            returnValue: _i5.Future<bool>.value(false),
+          )
+          as _i5.Future<bool>);
+
+  @override
+  _i5.Future<_i2.GravityData?> getGravityDataQuery(String? address) =>
+      (super.noSuchMethod(
+            Invocation.method(#getGravityDataQuery, [address]),
+            returnValue: _i5.Future<_i2.GravityData?>.value(),
+          )
+          as _i5.Future<_i2.GravityData?>);
+
+  @override
+  _i5.Future<bool> clearGravityDataQuery(
+    String? address, {
+    _i3.Transaction? txn,
+  }) =>
+      (super.noSuchMethod(
+            Invocation.method(#clearGravityDataQuery, [address], {#txn: txn}),
+            returnValue: _i5.Future<bool>.value(false),
+          )
+          as _i5.Future<bool>);
+
+  @override
+  _i5.Future<bool> clearAllGravityDataQuery({_i3.Transaction? txn}) =>
+      (super.noSuchMethod(
+            Invocation.method(#clearAllGravityDataQuery, [], {#txn: txn}),
+            returnValue: _i5.Future<bool>.value(false),
+          )
+          as _i5.Future<bool>);
 }

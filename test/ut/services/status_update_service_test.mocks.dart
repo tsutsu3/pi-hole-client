@@ -1058,7 +1058,7 @@ class MockApiGatewayV6 extends _i1.Mock implements _i24.ApiGatewayV6 {
     required String? url,
     Map<String, String>? headers,
     Map<String, dynamic>? body,
-    int? timeout = 30,
+    int? timeout = 10,
     int? maxRetries = 1,
   }) =>
       (super.noSuchMethod(
