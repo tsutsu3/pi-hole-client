@@ -2,6 +2,7 @@
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:pi_hole_client/models/repository/database.dart';
 import 'package:pi_hole_client/models/server.dart';
 import 'package:pi_hole_client/repository/database.dart';
 import 'package:pi_hole_client/repository/secure_storage.dart';
@@ -860,5 +861,579 @@ void main() async {
       expect(actual['http://localhost_basicAuthUser'], null);
       expect(actual['http://localhost_basicAuthPassword'], null);
     });
+  });
+
+  // -------------------
+  group('DatabaseRepository.getGravityUpdateQuery', () {
+    late SecureStorageRepository secureStorage;
+    late DatabaseRepository databaseRepository;
+    const address = 'http://localhost';
+    final startTime = DateTime.now().toLocal();
+    final endTime = DateTime.now().add(const Duration(seconds: 10)).toLocal();
+
+    setUp(() async {
+      await deleteDatabase(testDb);
+
+      secureStorage = SecureStorageRepository();
+      databaseRepository = DatabaseRepository(secureStorage);
+      await databaseRepository.initialize(path: testDb);
+    });
+
+    tearDown(() async {
+      await deleteDatabase(testDb);
+    });
+
+    test(
+      'should get gravity update date',
+      () async {
+        final dbHelper = DbHelper(testDb);
+        await dbHelper.loadDb();
+        await dbHelper.insertGravityUpdateQuery(address, startTime, endTime, 2);
+
+        final actual = await databaseRepository.getGravityUpdateQuery(address);
+        await dbHelper.closeDb();
+
+        final expected = {
+          'address': address,
+          'start_time': startTime.toUtc().toIso8601String(),
+          'end_time': endTime.toUtc().toIso8601String(),
+          'status': 2,
+        };
+
+        expect(actual?.toDict(), expected);
+      },
+    );
+  });
+
+  group('DatabaseRepository.upsertGravityUpdateQuery', () {
+    late SecureStorageRepository secureStorage;
+    late DatabaseRepository databaseRepository;
+    const address = 'http://localhost';
+    final startTime = DateTime.now().toLocal();
+    final endTime = DateTime.now().add(const Duration(seconds: 10)).toLocal();
+
+    setUp(() async {
+      await deleteDatabase(testDb);
+
+      secureStorage = SecureStorageRepository();
+      databaseRepository = DatabaseRepository(secureStorage);
+      await databaseRepository.initialize(path: testDb);
+    });
+
+    tearDown(() async {
+      await deleteDatabase(testDb);
+    });
+
+    test(
+      'should insert gravity update data',
+      () async {
+        final dbHelper = DbHelper(testDb);
+        await dbHelper.loadDb();
+
+        final result = await databaseRepository.upsertGravityUpdateQuery(
+          GravityUpdateData(
+            address: address,
+            startTime: startTime,
+            endTime: endTime,
+            status: 2,
+          ),
+        );
+        final actual = await dbHelper.readDb();
+
+        await dbHelper.closeDb();
+
+        expect(result, true);
+        expect(actual['gravity_updates'].length, 1);
+        expect(actual['gravity_updates'][0]['address'], address);
+        expect(
+          actual['gravity_updates'][0]['start_time'],
+          startTime.toUtc().toIso8601String(),
+        );
+        expect(
+          actual['gravity_updates'][0]['end_time'],
+          endTime.toUtc().toIso8601String(),
+        );
+        expect(actual['gravity_updates'][0]['status'], 2);
+      },
+    );
+
+    test(
+      'should update gravity update data',
+      () async {
+        final dbHelper = DbHelper(testDb);
+        await dbHelper.loadDb();
+        await dbHelper.insertGravityUpdateQuery(address, startTime, endTime, 1);
+
+        final result = await databaseRepository.upsertGravityUpdateQuery(
+          GravityUpdateData(
+            address: address,
+            startTime: startTime,
+            endTime: endTime,
+            status: 2,
+          ),
+        );
+        final actual = await dbHelper.readDb();
+
+        await dbHelper.closeDb();
+
+        expect(result, true);
+        expect(actual['gravity_updates'].length, 1);
+        expect(actual['gravity_updates'][0]['address'], address);
+        expect(
+          actual['gravity_updates'][0]['start_time'],
+          startTime.toUtc().toIso8601String(),
+        );
+        expect(
+          actual['gravity_updates'][0]['end_time'],
+          endTime.toUtc().toIso8601String(),
+        );
+        expect(actual['gravity_updates'][0]['status'], 2);
+      },
+    );
+  });
+
+  group('DatabaseRepository.removeGravityUpdateQuery', () {
+    late SecureStorageRepository secureStorage;
+    late DatabaseRepository databaseRepository;
+    const address = 'http://localhost';
+    final startTime = DateTime.now().toLocal();
+    final endTime = DateTime.now().add(const Duration(seconds: 10)).toLocal();
+
+    setUp(() async {
+      await deleteDatabase(testDb);
+
+      secureStorage = SecureStorageRepository();
+      databaseRepository = DatabaseRepository(secureStorage);
+      await databaseRepository.initialize(path: testDb);
+    });
+
+    tearDown(() async {
+      await deleteDatabase(testDb);
+    });
+
+    test(
+      'should delete gravity update data',
+      () async {
+        final dbHelper = DbHelper(testDb);
+        await dbHelper.loadDb();
+        await dbHelper.insertGravityUpdateQuery(address, startTime, endTime, 1);
+
+        final result =
+            await databaseRepository.removeGravityUpdateQuery(address);
+        final actual = await dbHelper.readDb();
+
+        await dbHelper.closeDb();
+
+        expect(result, true);
+        expect(actual['gravity_updates'].length, 0);
+      },
+    );
+  });
+
+  group('DatabaseRepository.insertGravityLogQuery', () {
+    late SecureStorageRepository secureStorage;
+    late DatabaseRepository databaseRepository;
+    const address = 'http://localhost';
+    final startTime = DateTime.now().toLocal();
+    const message = 'test message';
+
+    setUp(() async {
+      await deleteDatabase(testDb);
+
+      secureStorage = SecureStorageRepository();
+      databaseRepository = DatabaseRepository(secureStorage);
+      await databaseRepository.initialize(path: testDb);
+    });
+
+    tearDown(() async {
+      await deleteDatabase(testDb);
+    });
+
+    test(
+      'should insert gravity logs data',
+      () async {
+        final dbHelper = DbHelper(testDb);
+        await dbHelper.loadDb();
+
+        final result = await databaseRepository.insertGravityLogQuery(
+          [
+            GravityLogsData(
+              address: address,
+              line: 1,
+              message: message,
+              timestamp: startTime,
+            ),
+          ],
+        );
+        final actual = await dbHelper.readDb();
+
+        await dbHelper.closeDb();
+
+        expect(result, true);
+        expect(actual['gravity_logs'].length, 1);
+        expect(actual['gravity_logs'][0]['address'], address);
+        expect(actual['gravity_logs'][0]['line'], 1);
+        expect(actual['gravity_logs'][0]['message'], message);
+        expect(
+          actual['gravity_logs'][0]['timestamp'],
+          startTime.toUtc().toIso8601String(),
+        );
+      },
+    );
+  });
+
+  group('DatabaseRepository.clearGravityLogsQuery', () {
+    late SecureStorageRepository secureStorage;
+    late DatabaseRepository databaseRepository;
+    const address = 'http://localhost';
+    final startTime = DateTime.now().toLocal();
+    const message = 'test message';
+
+    setUp(() async {
+      await deleteDatabase(testDb);
+
+      secureStorage = SecureStorageRepository();
+      databaseRepository = DatabaseRepository(secureStorage);
+      await databaseRepository.initialize(path: testDb);
+    });
+
+    tearDown(() async {
+      await deleteDatabase(testDb);
+    });
+
+    test(
+      'should clear gravity logs data',
+      () async {
+        final dbHelper = DbHelper(testDb);
+        await dbHelper.loadDb();
+        await dbHelper.insertGravityLogsQuery(
+          address,
+          1,
+          message,
+          startTime,
+        );
+
+        final result = await databaseRepository.clearGravityLogsQuery(address);
+        final actual = await dbHelper.readDb();
+
+        await dbHelper.closeDb();
+
+        expect(result, true);
+        expect(actual['gravity_logs'].length, 0);
+      },
+    );
+  });
+
+  group('DatabaseRepository.getGravityMessagesQuery', () {
+    late SecureStorageRepository secureStorage;
+    late DatabaseRepository databaseRepository;
+    const address = 'http://localhost';
+    final startTime = DateTime.now().toLocal();
+    const message = 'test message';
+    const url = 'http://localhost/test.txt';
+
+    setUp(() async {
+      await deleteDatabase(testDb);
+
+      secureStorage = SecureStorageRepository();
+      databaseRepository = DatabaseRepository(secureStorage);
+      await databaseRepository.initialize(path: testDb);
+    });
+
+    tearDown(() async {
+      await deleteDatabase(testDb);
+    });
+
+    test(
+      'should get gravity messages date',
+      () async {
+        final dbHelper = DbHelper(testDb);
+        await dbHelper.loadDb();
+        await dbHelper.insertGravityMessagesQuery(
+          address,
+          message,
+          url,
+          startTime,
+        );
+
+        final actual =
+            await databaseRepository.getGravityMessagesQuery(address);
+        await dbHelper.closeDb();
+
+        expect(actual?.length, 1);
+        expect(actual![0].toDict(), {
+          'address': address,
+          'message': message,
+          'url': url,
+          'timestamp': startTime.toUtc().toIso8601String(),
+        });
+      },
+    );
+  });
+
+  group('DatabaseRepository.insertGravityMessageQuery', () {
+    late SecureStorageRepository secureStorage;
+    late DatabaseRepository databaseRepository;
+    const address = 'http://localhost';
+    final startTime = DateTime.now().toLocal();
+    const message = 'test message';
+    const url = 'http://localhost/test.txt';
+
+    setUp(() async {
+      await deleteDatabase(testDb);
+
+      secureStorage = SecureStorageRepository();
+      databaseRepository = DatabaseRepository(secureStorage);
+      await databaseRepository.initialize(path: testDb);
+    });
+
+    tearDown(() async {
+      await deleteDatabase(testDb);
+    });
+
+    test(
+      'should insert gravity messages date',
+      () async {
+        final dbHelper = DbHelper(testDb);
+        await dbHelper.loadDb();
+
+        final result = await databaseRepository.insertGravityMessageQuery([
+          GravityMessagesData(
+            address: address,
+            message: message,
+            url: url,
+            timestamp: startTime,
+          ),
+        ]);
+        final actual = await dbHelper.readDb();
+        await dbHelper.closeDb();
+
+        expect(result, true);
+        expect(actual['gravity_messages'].length, 1);
+        expect(actual['gravity_messages'][0]['address'], address);
+        expect(actual['gravity_messages'][0]['message'], message);
+        expect(actual['gravity_messages'][0]['url'], url);
+        expect(
+          actual['gravity_messages'][0]['timestamp'],
+          startTime.toUtc().toIso8601String(),
+        );
+      },
+    );
+  });
+
+  group('DatabaseRepository.clearGravityMessagesQuery', () {
+    late SecureStorageRepository secureStorage;
+    late DatabaseRepository databaseRepository;
+    const address = 'http://localhost';
+    final startTime = DateTime.now().toLocal();
+    const message = 'test message';
+    const url = 'http://localhost/test.txt';
+
+    setUp(() async {
+      await deleteDatabase(testDb);
+
+      secureStorage = SecureStorageRepository();
+      databaseRepository = DatabaseRepository(secureStorage);
+      await databaseRepository.initialize(path: testDb);
+    });
+
+    tearDown(() async {
+      await deleteDatabase(testDb);
+    });
+
+    test(
+      'should insert gravity messages date',
+      () async {
+        final dbHelper = DbHelper(testDb);
+        await dbHelper.loadDb();
+        await dbHelper.insertGravityMessagesQuery(
+          address,
+          message,
+          url,
+          startTime,
+        );
+
+        final result =
+            await databaseRepository.clearGravityMessagesQuery(address);
+        final actual = await dbHelper.readDb();
+        await dbHelper.closeDb();
+
+        expect(result, true);
+        expect(actual['gravity_messages'].length, 0);
+      },
+    );
+  });
+
+  group('DatabaseRepository.getGravityDataQuery', () {
+    late SecureStorageRepository secureStorage;
+    late DatabaseRepository databaseRepository;
+    const address = 'http://localhost';
+    final startTime = DateTime.now().toLocal();
+    final endTime = DateTime.now().add(const Duration(seconds: 10)).toLocal();
+    const url = 'http://localhost/test.txt';
+    const message = 'test message';
+    const log = 'test log';
+
+    setUp(() async {
+      await deleteDatabase(testDb);
+
+      secureStorage = SecureStorageRepository();
+      databaseRepository = DatabaseRepository(secureStorage);
+      await databaseRepository.initialize(path: testDb);
+    });
+
+    tearDown(() async {
+      await deleteDatabase(testDb);
+    });
+
+    test(
+      'should get gravity date',
+      () async {
+        final dbHelper = DbHelper(testDb);
+        await dbHelper.loadDb();
+        await dbHelper.insertGravityUpdateQuery(address, startTime, endTime, 2);
+        await dbHelper.insertGravityLogsQuery(address, 1, log, startTime);
+        await dbHelper.insertGravityMessagesQuery(
+          address,
+          message,
+          url,
+          startTime,
+        );
+
+        final actual = await databaseRepository.getGravityDataQuery(address);
+        await dbHelper.closeDb();
+
+        expect(actual!.gravityUpdate!.toDict(), {
+          'address': address,
+          'start_time': startTime.toUtc().toIso8601String(),
+          'end_time': endTime.toUtc().toIso8601String(),
+          'status': 2,
+        });
+
+        expect(actual.gravityLogs!.toList()[0].toDict(), {
+          'address': address,
+          'line': 1,
+          'message': log,
+          'timestamp': startTime.toUtc().toIso8601String(),
+        });
+
+        expect(actual.gravityMessages!.toList()[0].toDict(), {
+          'address': address,
+          'message': message,
+          'url': url,
+          'timestamp': startTime.toUtc().toIso8601String(),
+        });
+      },
+    );
+  });
+
+  group('DatabaseRepository.clearGravityDataQuery', () {
+    late SecureStorageRepository secureStorage;
+    late DatabaseRepository databaseRepository;
+    const address = 'http://localhost';
+    final startTime = DateTime.now().toLocal();
+    final endTime = DateTime.now().add(const Duration(seconds: 10)).toLocal();
+    const url = 'http://localhost/test.txt';
+    const message = 'test message';
+    const log = 'test log';
+
+    setUp(() async {
+      await deleteDatabase(testDb);
+
+      secureStorage = SecureStorageRepository();
+      databaseRepository = DatabaseRepository(secureStorage);
+      await databaseRepository.initialize(path: testDb);
+    });
+
+    tearDown(() async {
+      await deleteDatabase(testDb);
+    });
+
+    test(
+      'should clear gravity date',
+      () async {
+        final dbHelper = DbHelper(testDb);
+        await dbHelper.loadDb();
+        await dbHelper.insertGravityUpdateQuery(address, startTime, endTime, 2);
+        await dbHelper.insertGravityLogsQuery(address, 1, log, startTime);
+        await dbHelper.insertGravityMessagesQuery(
+          address,
+          message,
+          url,
+          startTime,
+        );
+
+        final result = await databaseRepository.clearGravityDataQuery(address);
+        final actual = await dbHelper.readDb();
+        await dbHelper.closeDb();
+
+        expect(result, true);
+        expect(actual['gravity_updates'].length, 0);
+        expect(actual['gravity_logs'].length, 0);
+        expect(actual['gravity_messages'].length, 0);
+      },
+    );
+  });
+
+  group('DatabaseRepository.clearAllGravityDataQuery', () {
+    late SecureStorageRepository secureStorage;
+    late DatabaseRepository databaseRepository;
+    const address = 'http://localhost';
+    const address2 = 'http://localhost:8080';
+    final startTime = DateTime.now().toLocal();
+    final endTime = DateTime.now().add(const Duration(seconds: 10)).toLocal();
+    const url = 'http://localhost/test.txt';
+    const message = 'test message';
+    const log = 'test log';
+
+    setUp(() async {
+      await deleteDatabase(testDb);
+
+      secureStorage = SecureStorageRepository();
+      databaseRepository = DatabaseRepository(secureStorage);
+      await databaseRepository.initialize(path: testDb);
+    });
+
+    tearDown(() async {
+      await deleteDatabase(testDb);
+    });
+
+    test(
+      'should clear all gravity date',
+      () async {
+        final dbHelper = DbHelper(testDb);
+        await dbHelper.loadDb();
+        await dbHelper.insertGravityUpdateQuery(address, startTime, endTime, 2);
+        await dbHelper.insertGravityLogsQuery(address, 1, log, startTime);
+        await dbHelper.insertGravityMessagesQuery(
+          address,
+          message,
+          url,
+          startTime,
+        );
+        await dbHelper.insertGravityUpdateQuery(
+          address2,
+          startTime,
+          endTime,
+          2,
+        );
+        await dbHelper.insertGravityLogsQuery(address2, 1, log, startTime);
+        await dbHelper.insertGravityMessagesQuery(
+          address2,
+          message,
+          url,
+          startTime,
+        );
+
+        final result = await databaseRepository.clearAllGravityDataQuery();
+        final actual = await dbHelper.readDb();
+        await dbHelper.closeDb();
+
+        expect(result, true);
+        expect(actual['gravity_updates'].length, 0);
+        expect(actual['gravity_logs'].length, 0);
+        expect(actual['gravity_messages'].length, 0);
+      },
+    );
   });
 }
