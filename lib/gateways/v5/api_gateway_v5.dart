@@ -846,4 +846,38 @@ class ApiGatewayV5 implements ApiGateway {
       ),
     );
   }
+
+  @override
+  Stream<GravityResponse> updateGravity() {
+    return Stream.value(
+      GravityResponse(
+        result: APiResponseType.notSupported,
+        message: notSupportedMessage,
+      ),
+    );
+  }
+
+  /// In v5, messages can be retrieved using `/api_db.php?messages`.
+  /// However, simply retrieving messages is not very meaningful, so it is treated as unsupported.
+  @override
+  Future<MessagesResponse> getMessages() async {
+    return Future.value(
+      MessagesResponse(
+        result: APiResponseType.notSupported,
+        message: notSupportedMessage,
+      ),
+    );
+  }
+
+  @override
+  Future<RemoveMessagesResponse> removeMessage({
+    required String id,
+  }) async {
+    return Future.value(
+      RemoveMessagesResponse(
+        result: APiResponseType.notSupported,
+        message: notSupportedMessage,
+      ),
+    );
+  }
 }

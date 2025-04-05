@@ -540,6 +540,9 @@ class AppLocalizationsDe extends AppLocalizations {
   String get errorsApp => 'Von der App registrierte Fehler';
 
   @override
+  String get executionLog => 'Ausführungsprotokoll';
+
+  @override
   String get featureNotSupportedMessage => 'Diese Funktion ist in Pi-hole v5 nicht verfügbar.\nBitte aktualisieren Sie auf Pi-hole v6 oder höher.';
 
   @override
@@ -574,6 +577,18 @@ class AppLocalizationsDe extends AppLocalizations {
 
   @override
   String get gitHub => 'Code auf GitHub ansehen';
+
+  @override
+  String get gravityIsRunning => 'Gravity wird ausgeführt …';
+
+  @override
+  String get gravityNotYetRun => 'Gravity wurde noch nicht ausgeführt';
+
+  @override
+  String get gravityUpdateCompleted => 'Gravity-Aktualisierung abgeschlossen';
+
+  @override
+  String get gravityUpdateFailed => 'Gravity-Aktualisierung fehlgeschlagen';
 
   @override
   String get groups => 'Gruppen';
@@ -741,6 +756,9 @@ class AppLocalizationsDe extends AppLocalizations {
   String get memoryUsage => 'Speichernutzung';
 
   @override
+  String get messages => 'Nachrichten';
+
+  @override
   String get minute1 => '1 Minute';
 
   @override
@@ -792,6 +810,9 @@ class AppLocalizationsDe extends AppLocalizations {
   String get noLogsDisplay => 'Hier gibt\'s keine Logs, die angezeigt werden können.';
 
   @override
+  String get noMessages => 'Keine Nachrichten';
+
+  @override
   String get noSavedConnections => 'Keine gespeicherten Verbindungen';
 
   @override
@@ -811,6 +832,9 @@ class AppLocalizationsDe extends AppLocalizations {
 
   @override
   String get notSelected => 'Nicht ausgewählt';
+
+  @override
+  String get notYetExecuted => 'Noch nicht ausgeführt';
 
   @override
   String get noticeError => 'FEHLER';

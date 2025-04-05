@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:pi_hole_client/config/theme.dart';
 import 'package:pi_hole_client/constants/query_types.dart';
 import 'package:pi_hole_client/functions/conversions.dart';
+import 'package:pi_hole_client/functions/logger.dart';
 import 'package:pi_hole_client/gateways/api_gateway_factory.dart';
 import 'package:pi_hole_client/gateways/api_gateway_interface.dart';
 import 'package:pi_hole_client/models/query_status.dart';
@@ -153,18 +154,38 @@ class ServersProvider with ChangeNotifier {
     }
   }
 
+  /// Removes a server from the list and clears its related data.
   Future<bool> removeServer(String serverAddress) async {
-    final result = await _repository.removeServerQuery(serverAddress);
-    if (result == true) {
-      _serverGateways.removeWhere((key, _) => key == serverAddress);
-      _selectedServer = null;
-      final newServers = _serversList
-          .where((server) => server.address != serverAddress)
-          .toList();
-      _serversList = newServers;
-      notifyListeners();
-      return true;
-    } else {
+    try {
+      final dbOperationSuccess =
+          await _repository.dbInstance.transaction((txn) async {
+        final isServerRemoved =
+            await _repository.removeServerQuery(serverAddress, txn: txn);
+        final isGravityDataCleared =
+            await _repository.clearGravityDataQuery(serverAddress, txn: txn);
+
+        if (!isServerRemoved || !isGravityDataCleared) {
+          throw Exception(
+              'Failed to remove server or clear gravity-related data');
+        }
+
+        return true;
+      });
+
+      if (dbOperationSuccess) {
+        _serverGateways.removeWhere((address, _) => address == serverAddress);
+        _selectedServer = null;
+        _serversList = _serversList
+            .where((server) => server.address != serverAddress)
+            .toList();
+
+        notifyListeners();
+        return true;
+      }
+
+      return false;
+    } catch (e) {
+      logger.d('Transaction failed: $e');
       return false;
     }
   }
@@ -231,14 +252,26 @@ class ServersProvider with ChangeNotifier {
     }
   }
 
+  /// Deletes all server data from the database.
   Future<bool> deleteDbData() async {
-    final result = await _repository.deleteServersDataQuery();
-    if (result == true) {
-      _serversList = [];
-      _selectedServer = null;
-      notifyListeners();
-      return true;
-    } else {
+    try {
+      return await _repository.dbInstance.transaction((txn) async {
+        final isServerDataDeleted =
+            await _repository.deleteServersDataQuery(txn: txn);
+        final isGravityDataCleared =
+            await _repository.clearAllGravityDataQuery(txn: txn);
+
+        if (isServerDataDeleted && isGravityDataCleared) {
+          _serversList = [];
+          _selectedServer = null;
+          notifyListeners();
+          return true;
+        } else {
+          throw Exception('Partial deletion failed');
+        }
+      });
+    } catch (e) {
+      logger.d('Transaction failed: $e');
       return false;
     }
   }

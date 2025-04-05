@@ -540,6 +540,9 @@ class AppLocalizationsJa extends AppLocalizations {
   String get errorsApp => 'アプリによって登録されたエラー';
 
   @override
+  String get executionLog => '実行ログ';
+
+  @override
   String get featureNotSupportedMessage => 'この機能は Pi-hole v5 では使用できません。\nPi-hole v6 以降にアップグレードしてください。';
 
   @override
@@ -574,6 +577,18 @@ class AppLocalizationsJa extends AppLocalizations {
 
   @override
   String get gitHub => 'アプリコードはGitHubで利用可能';
+
+  @override
+  String get gravityIsRunning => 'Gravityを実行中...';
+
+  @override
+  String get gravityNotYetRun => 'Gravityの更新はまだ実行されていません';
+
+  @override
+  String get gravityUpdateCompleted => 'Gravityの更新が完了しました';
+
+  @override
+  String get gravityUpdateFailed => 'Gravityの更新に失敗しました';
 
   @override
   String get groups => 'グループ';
@@ -741,6 +756,9 @@ class AppLocalizationsJa extends AppLocalizations {
   String get memoryUsage => 'メモリ使用量';
 
   @override
+  String get messages => 'メッセージ';
+
+  @override
   String get minute1 => '1分';
 
   @override
@@ -792,6 +810,9 @@ class AppLocalizationsJa extends AppLocalizations {
   String get noLogsDisplay => 'ここに表示するログはありません';
 
   @override
+  String get noMessages => 'メッセージはありません';
+
+  @override
   String get noSavedConnections => '保存された接続がありません';
 
   @override
@@ -811,6 +832,9 @@ class AppLocalizationsJa extends AppLocalizations {
 
   @override
   String get notSelected => '選択されていません';
+
+  @override
+  String get notYetExecuted => 'まだ実行されていません';
 
   @override
   String get noticeError => 'エラー';
