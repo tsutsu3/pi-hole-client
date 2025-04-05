@@ -212,9 +212,9 @@ class _GravityUpdateState extends State<GravityUpdate> {
                     ),
                     title: Text(
                       gravityProvider.logs.isNotEmpty
-                          ? gravityProvider.logs.last == ''
+                          ? normalizeLogOutput(gravityProvider.logs.last) == ''
                               ? '...'
-                              : gravityProvider.logs.last
+                              : normalizeLogOutput(gravityProvider.logs.last)
                           : AppLocalizations.of(context)!.noLogs,
                       style: TextStyle(
                         color: Theme.of(context).colorScheme.onSurface,
