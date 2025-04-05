@@ -177,4 +177,15 @@ abstract interface class ApiGateway {
   Future<GroupsResponse> updateGroup({
     required GroupRequest body,
   });
+
+  /// Run gravity
+  Stream<GravityResponse> updateGravity();
+
+  /// Get Pi-hole diagnosis messages
+  Future<MessagesResponse> getMessages();
+
+  /// Delete Pi-hole diagnosis message
+  Future<RemoveMessagesResponse> removeMessage({
+    required String id,
+  });
 }

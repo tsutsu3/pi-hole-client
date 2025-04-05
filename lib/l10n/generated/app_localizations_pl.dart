@@ -540,6 +540,9 @@ class AppLocalizationsPl extends AppLocalizations {
   String get errorsApp => 'Błędy zarejestrowane przez aplikację';
 
   @override
+  String get executionLog => 'Dziennik wykonania';
+
+  @override
   String get featureNotSupportedMessage => 'Ta funkcja nie jest dostępna w Pi-hole v5.\nZaktualizuj do Pi-hole v6 lub nowszej wersji.';
 
   @override
@@ -574,6 +577,18 @@ class AppLocalizationsPl extends AppLocalizations {
 
   @override
   String get gitHub => 'Kod aplikacji dostępny na GitHubie';
+
+  @override
+  String get gravityIsRunning => 'Gravity jest uruchomione...';
+
+  @override
+  String get gravityNotYetRun => 'Aktualizacja Gravity jeszcze nie została uruchomiona';
+
+  @override
+  String get gravityUpdateCompleted => 'Aktualizacja Gravity została zakończona';
+
+  @override
+  String get gravityUpdateFailed => 'Aktualizacja Gravity nie powiodła się';
 
   @override
   String get groups => 'Grupy';
@@ -741,6 +756,9 @@ class AppLocalizationsPl extends AppLocalizations {
   String get memoryUsage => 'Użycie pamięci';
 
   @override
+  String get messages => 'Wiadomości';
+
+  @override
   String get minute1 => '1 minute';
 
   @override
@@ -786,10 +804,19 @@ class AppLocalizationsPl extends AppLocalizations {
   String get noDomains => 'Nie ma tutaj domen do wyświetlenia.';
 
   @override
+  String get noIssuesReported => 'Nie zgłoszono żadnych problemów.';
+
+  @override
   String get noItemsSelected => 'Nie wybrano żadnych elementów';
 
   @override
+  String get noLogs => 'Brak logów.';
+
+  @override
   String get noLogsDisplay => 'Nie ma tutaj żadnych logów do wyświetlenia';
+
+  @override
+  String get noMessages => 'Brak wiadomości';
 
   @override
   String get noSavedConnections => 'Brak zapisanych połączeń';
@@ -811,6 +838,9 @@ class AppLocalizationsPl extends AppLocalizations {
 
   @override
   String get notSelected => 'Nie wybrano';
+
+  @override
+  String get notYetExecuted => 'Jeszcze nie wykonano';
 
   @override
   String get noticeError => 'BŁĄD';
@@ -946,6 +976,12 @@ class AppLocalizationsPl extends AppLocalizations {
 
   @override
   String get restartAppTakeEffect => 'Proszę ponownie uruchomić aplikację, aby zastosować ustawienia.';
+
+  @override
+  String get runningStatus => 'Uruchomione...';
+
+  @override
+  String get runningSubtitle => 'Wynik zostanie wyświetlony tutaj po zakończeniu zadania.';
 
   @override
   String get save => 'Zapisać';
@@ -1197,10 +1233,16 @@ class AppLocalizationsPl extends AppLocalizations {
   String get unsupportedFeatureTitle => 'Funkcja nieobsługiwana';
 
   @override
+  String get updateGravity => 'Aktualizuj Gravity';
+
+  @override
   String get updatePasscode => 'Aktualizuj kod dostępu';
 
   @override
   String get updateTimeChanged => 'Czas aktualizacji został pomyślnie zmieniony.';
+
+  @override
+  String get updatingInProgressMessage => 'Trwa aktualizacja... może to chwilę potrwać. Proszę nie zamykać aplikacji.';
 
   @override
   String get upstreamServers => 'Serwery nadrzędne';
