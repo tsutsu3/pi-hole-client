@@ -108,7 +108,6 @@ class GravityUpdateProvider with ChangeNotifier {
     _messages = gravityData?.gravityMessages?.map(
           (data) {
             return Message(
-              id: data.id,
               timestamp: data.timestamp,
               message: data.message,
               url: data.url,
@@ -260,7 +259,6 @@ class GravityUpdateProvider with ChangeNotifier {
 
         final messagesToInsert = messages?.map((entry) {
           return GravityMessagesData(
-            id: entry.id,
             address: address,
             message: entry.message,
             url: entry.url,

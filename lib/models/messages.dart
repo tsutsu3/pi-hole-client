@@ -31,7 +31,6 @@ class MessagesInfo {
 
 class Message {
   Message({
-    required this.id,
     required this.timestamp,
     required this.message,
     required this.url,
@@ -64,21 +63,18 @@ class Message {
     final listUrl = match.group(2);
 
     return Message(
-      id: id,
       timestamp: timestamp,
       message: 'List with ID $listId was inaccessible during last gravity run',
       url: listUrl ?? '',
     );
   }
 
-  final int id;
   final DateTime timestamp;
   final String message;
   final String url;
 
   Map<String, dynamic> toJson() {
     return {
-      'id': id,
       'timestamp': timestamp,
       'message': message,
       'url': url,
