@@ -31,8 +31,6 @@ class GravityUpdateProvider with ChangeNotifier {
 
   DateTime? _completedAt;
 
-  DateTime? lastLogTime;
-
   bool _loaded = false;
 
   StreamSubscription<GravityResponse>? _subscription;
