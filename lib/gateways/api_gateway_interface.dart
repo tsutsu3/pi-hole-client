@@ -184,8 +184,8 @@ abstract interface class ApiGateway {
   /// Get Pi-hole diagnosis messages
   Future<MessagesResponse> getMessages();
 
-  /// Delete Pi-hole diagnosis message
-  Future<RemoveMessagesResponse> removeMessage({
-    required String id,
-  });
+  // /// Delete Pi-hole diagnosis message
+  // Future<RemoveMessagesResponse> removeMessage({
+  //   required String id,
+  // });
 }

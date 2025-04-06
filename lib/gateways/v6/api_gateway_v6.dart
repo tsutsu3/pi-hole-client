@@ -1279,11 +1279,4 @@ class ApiGatewayV6 implements ApiGateway {
       );
     }
   }
-
-  @override
-  Future<RemoveMessagesResponse> removeMessage({
-    required String id,
-  }) async {
-    throw UnimplementedError();
-  }
 }

@@ -868,16 +868,4 @@ class ApiGatewayV5 implements ApiGateway {
       ),
     );
   }
-
-  @override
-  Future<RemoveMessagesResponse> removeMessage({
-    required String id,
-  }) async {
-    return Future.value(
-      RemoveMessagesResponse(
-        result: APiResponseType.notSupported,
-        message: notSupportedMessage,
-      ),
-    );
-  }
 }
