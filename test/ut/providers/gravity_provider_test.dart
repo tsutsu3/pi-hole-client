@@ -119,6 +119,9 @@ void main() async {
       when(mockRepository.insertGravityLogQuery(any)).thenAnswer(
         (_) async => true,
       );
+      when(mockRepository.insertGravityMessageQuery(any)).thenAnswer(
+        (_) async => true,
+      );
 
       gravityUpdateProvider = GravityUpdateProvider(
         repository: mockRepository,
@@ -323,14 +326,33 @@ void main() async {
         ),
       );
       await controller.close();
+      await Future.delayed(const Duration(seconds: 1));
 
       expect(gravityUpdateProvider.status, GravityStatus.success);
       expect(gravityUpdateProvider.logs.length, 1);
       expect(gravityUpdateProvider.logs[0], log);
-      // expect(gravityUpdateProvider.messages.length, 1);
-      // expect(gravityUpdateProvider.messages[0].message, message);
-      // expect(gravityUpdateProvider.startedAtTime, startTime);
-      // expect(gravityUpdateProvider.completedAtTime, endTime);
+      expect(gravityUpdateProvider.messages.length, 1);
+      expect(gravityUpdateProvider.messages[0].message, message);
+      expect(listenerCalled, true);
+    });
+
+    test('start() handles stream error and updates status to error', () async {
+      gravityUpdateProvider.update(mockServersProvider);
+
+      final controller = StreamController<GravityResponse>();
+
+      when(mockApiGatewayV6.updateGravity()).thenAnswer(
+        (_) => controller.stream,
+      );
+
+      await gravityUpdateProvider.start();
+
+      controller.addError(Exception('Test error'));
+
+      await controller.close();
+
+      expect(gravityUpdateProvider.status, GravityStatus.error);
+      expect(gravityUpdateProvider.completedAtTime, isNotNull);
       expect(listenerCalled, true);
     });
 
