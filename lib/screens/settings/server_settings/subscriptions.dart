@@ -87,7 +87,6 @@ class _SubscriptionListsWidgetState extends State<SubscriptionListsWidget>
     Future.microtask(() async {
       if (!mounted) return;
       final groupsProvider = context.read<GroupsProvider>();
-      groupsProvider.update(context.read<ServersProvider>());
       await groupsProvider.loadGroups();
 
       if (!mounted) return;
