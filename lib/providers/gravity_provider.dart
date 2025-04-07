@@ -235,6 +235,11 @@ class GravityUpdateProvider with ChangeNotifier {
         notifyListeners();
       },
       onDone: () async {
+        if (_status == GravityStatus.error) {
+          logger.d('onDone skipped due to error status');
+          return;
+        }
+
         _status = GravityStatus.success;
         _completedAt = DateTime.now();
 
