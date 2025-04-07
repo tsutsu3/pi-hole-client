@@ -27,12 +27,15 @@ class SectionLabel extends StatelessWidget {
           if (icon != null)
             Icon(icon, color: color ?? Theme.of(context).colorScheme.primary),
           if (icon != null) const SizedBox(width: 8),
-          Text(
-            label,
-            style: TextStyle(
-              fontWeight: fontWeight ?? FontWeight.w500,
-              fontSize: fontSize ?? 16,
-              color: color ?? Theme.of(context).colorScheme.primary,
+          Expanded(
+            child: Text(
+              label,
+              overflow: TextOverflow.visible,
+              style: TextStyle(
+                fontWeight: fontWeight ?? FontWeight.w500,
+                fontSize: fontSize ?? 16,
+                color: color ?? Theme.of(context).colorScheme.primary,
+              ),
             ),
           ),
         ],
