@@ -594,7 +594,7 @@ class AppLocalizationsPl extends AppLocalizations {
   String get hits => 'Trafienia:';
 
   @override
-  String get home => 'Strona główna';
+  String get home => 'Główna';
 
   @override
   String get host => 'Host';
