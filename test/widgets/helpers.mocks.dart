@@ -196,15 +196,9 @@ class _FakeMessagesResponse_23 extends _i1.SmartFake
     : super(parent, parentInvocation);
 }
 
-class _FakeRemoveMessagesResponse_24 extends _i1.SmartFake
-    implements _i5.RemoveMessagesResponse {
-  _FakeRemoveMessagesResponse_24(Object parent, Invocation parentInvocation)
-    : super(parent, parentInvocation);
-}
-
-class _FakeStreamedResponse_25 extends _i1.SmartFake
+class _FakeStreamedResponse_24 extends _i1.SmartFake
     implements _i4.StreamedResponse {
-  _FakeStreamedResponse_25(Object parent, Invocation parentInvocation)
+  _FakeStreamedResponse_24(Object parent, Invocation parentInvocation)
     : super(parent, parentInvocation);
 }
 
@@ -1606,21 +1600,6 @@ class MockApiGatewayV5 extends _i1.Mock implements _i26.ApiGatewayV5 {
             ),
           )
           as _i12.Future<_i5.MessagesResponse>);
-
-  @override
-  _i12.Future<_i5.RemoveMessagesResponse> removeMessage({
-    required String? id,
-  }) =>
-      (super.noSuchMethod(
-            Invocation.method(#removeMessage, [], {#id: id}),
-            returnValue: _i12.Future<_i5.RemoveMessagesResponse>.value(
-              _FakeRemoveMessagesResponse_24(
-                this,
-                Invocation.method(#removeMessage, [], {#id: id}),
-              ),
-            ),
-          )
-          as _i12.Future<_i5.RemoveMessagesResponse>);
 }
 
 /// A class which mocks [ApiGatewayV6].
@@ -1714,7 +1693,7 @@ class MockApiGatewayV6 extends _i1.Mock implements _i29.ApiGatewayV6 {
               #maxRetries: maxRetries,
             }),
             returnValue: _i12.Future<_i4.StreamedResponse>.value(
-              _FakeStreamedResponse_25(
+              _FakeStreamedResponse_24(
                 this,
                 Invocation.method(#httpClientStream, [], {
                   #method: method,
@@ -2109,21 +2088,6 @@ class MockApiGatewayV6 extends _i1.Mock implements _i29.ApiGatewayV6 {
             ),
           )
           as _i12.Future<_i5.MessagesResponse>);
-
-  @override
-  _i12.Future<_i5.RemoveMessagesResponse> removeMessage({
-    required String? id,
-  }) =>
-      (super.noSuchMethod(
-            Invocation.method(#removeMessage, [], {#id: id}),
-            returnValue: _i12.Future<_i5.RemoveMessagesResponse>.value(
-              _FakeRemoveMessagesResponse_24(
-                this,
-                Invocation.method(#removeMessage, [], {#id: id}),
-              ),
-            ),
-          )
-          as _i12.Future<_i5.RemoveMessagesResponse>);
 }
 
 /// A class which mocks [StatusUpdateService].
@@ -2424,12 +2388,6 @@ class MockGravityUpdateProvider extends _i1.Mock
   MockGravityUpdateProvider() {
     _i1.throwOnMissingStub(this);
   }
-
-  @override
-  set lastLogTime(DateTime? _lastLogTime) => super.noSuchMethod(
-    Invocation.setter(#lastLogTime, _lastLogTime),
-    returnValueForMissingStub: null,
-  );
 
   @override
   _i21.GravityStatus get status =>

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/mockito.dart';
 import 'package:pi_hole_client/constants/enums.dart';
+import 'package:pi_hole_client/functions/format.dart';
 import 'package:pi_hole_client/screens/common/empty_data_screen.dart';
 import 'package:pi_hole_client/screens/common/pi_hole_v5_not_supported_screen.dart';
 import 'package:pi_hole_client/screens/settings/server_settings/subscriptions.dart';
@@ -534,6 +535,299 @@ void main() async {
             find.text('Choose an adlist to see its details'),
             findsWidgets,
           );
+        },
+      );
+
+      testWidgets(
+        'should shows initial gravity status on first tap',
+        (WidgetTester tester) async {
+          tester.view.physicalSize = const Size(1080, 2400);
+          tester.view.devicePixelRatio = 2.0;
+
+          when(testSetup.mockGravityUpdateProvider.logs).thenReturn([]);
+          when(testSetup.mockGravityUpdateProvider.messages).thenReturn([]);
+
+          addTearDown(() {
+            tester.view.resetPhysicalSize();
+            tester.view.resetDevicePixelRatio();
+          });
+
+          await tester.pumpWidget(
+            testSetup.buildTestWidget(
+              const SubscriptionLists(),
+            ),
+          );
+
+          expect(find.byType(SubscriptionLists), findsOneWidget);
+          await tester.pump();
+
+          await tester.tap(find.text('Update Gravity'));
+          await tester.pumpAndSettle();
+
+          expect(
+            find.text('Gravity update has not run yet'),
+            findsOneWidget,
+          );
+          expect(find.text('Not yet executed'), findsOneWidget);
+
+          expect(find.text('No messages'), findsOneWidget);
+          expect(find.text('No issues were reported.'), findsOneWidget);
+
+          expect(find.text('No logs.'), findsOneWidget);
+        },
+      );
+
+      testWidgets(
+        'should shows running status during gravity update',
+        (WidgetTester tester) async {
+          tester.view.physicalSize = const Size(1080, 2400);
+          tester.view.devicePixelRatio = 2.0;
+
+          when(testSetup.mockGravityUpdateProvider.status)
+              .thenReturn(GravityStatus.running);
+
+          when(testSetup.mockGravityUpdateProvider.logs)
+              .thenReturn(['Log1', 'Log2']);
+
+          when(testSetup.mockGravityUpdateProvider.isLoaded).thenReturn(true);
+
+          addTearDown(() {
+            tester.view.resetPhysicalSize();
+            tester.view.resetDevicePixelRatio();
+          });
+
+          await tester.pumpWidget(
+            testSetup.buildTestWidget(
+              const SubscriptionLists(),
+            ),
+          );
+
+          expect(find.byType(SubscriptionLists), findsOneWidget);
+          await tester.pump();
+
+          await tester.tap(find.text('Update Gravity'));
+          await tester.pumpAndSettle();
+          expect(
+            find.text('Gravity is running...'),
+            findsOneWidget,
+          );
+          expect(
+            find.text(
+              'Updating... this may take a while. Please keep the app open.',
+            ),
+            findsOneWidget,
+          );
+
+          expect(find.text('Running...'), findsOneWidget);
+          expect(
+            find.text(
+              'This section will show the result once the task is complete.',
+            ),
+            findsOneWidget,
+          );
+
+          expect(find.text('Log2'), findsOneWidget);
+        },
+      );
+
+      testWidgets(
+        'should shows failure message when gravity update fails (e.g. app force stop)',
+        (WidgetTester tester) async {
+          tester.view.physicalSize = const Size(1080, 2400);
+          tester.view.devicePixelRatio = 2.0;
+
+          when(testSetup.mockGravityUpdateProvider.messages).thenReturn([]);
+
+          when(testSetup.mockGravityUpdateProvider.logs)
+              .thenReturn(['Log1', 'Log2']);
+
+          when(testSetup.mockGravityUpdateProvider.status)
+              .thenReturn(GravityStatus.error);
+
+          addTearDown(() {
+            tester.view.resetPhysicalSize();
+            tester.view.resetDevicePixelRatio();
+          });
+
+          await tester.pumpWidget(
+            testSetup.buildTestWidget(
+              const SubscriptionLists(),
+            ),
+          );
+
+          expect(find.byType(SubscriptionLists), findsOneWidget);
+          await tester.pump();
+
+          await tester.tap(find.text('Update Gravity'));
+          await tester.pumpAndSettle();
+          expect(
+            find.text('Gravity update failed'),
+            findsOneWidget,
+          );
+          // expect(
+          //   find.text('2024-12-06 15:15 (0.0 seconds)'),
+          //   findsOneWidget,
+          // );
+          expect(
+            find.text(
+              formatWithDuration(
+                testSetup.mockGravityUpdateProvider.startedAtTime,
+                testSetup.mockGravityUpdateProvider.completedAtTime,
+              ),
+            ),
+            findsOneWidget,
+          );
+
+          expect(find.text('No messages'), findsOneWidget);
+          expect(find.text('No issues were reported.'), findsOneWidget);
+
+          expect(find.text('Log2'), findsOneWidget);
+        },
+      );
+
+      testWidgets(
+        'should shows success message after gravity update completes',
+        (WidgetTester tester) async {
+          tester.view.physicalSize = const Size(1080, 2400);
+          tester.view.devicePixelRatio = 2.0;
+
+          when(testSetup.mockGravityUpdateProvider.logs)
+              .thenReturn(['Log1', 'Log2', 'Done']);
+
+          when(testSetup.mockGravityUpdateProvider.status)
+              .thenReturn(GravityStatus.success);
+
+          when(testSetup.mockGravityUpdateProvider.isLoaded).thenReturn(true);
+
+          when(testSetup.mockGravityUpdateProvider.completedAtTime).thenReturn(
+            DateTime.fromMillisecondsSinceEpoch(1733465701 * 1000),
+          );
+
+          addTearDown(() {
+            tester.view.resetPhysicalSize();
+            tester.view.resetDevicePixelRatio();
+          });
+
+          await tester.pumpWidget(
+            testSetup.buildTestWidget(
+              const SubscriptionLists(),
+            ),
+          );
+
+          expect(find.byType(SubscriptionLists), findsOneWidget);
+          await tester.pump();
+
+          await tester.tap(find.text('Update Gravity'));
+          await tester.pumpAndSettle();
+          expect(
+            find.text('Gravity update completed'),
+            findsOneWidget,
+          );
+          // expect(
+          //   find.text('2024-12-06 15:15 (1.0 seconds)'),
+          //   findsOneWidget,
+          // );
+          expect(
+            find.text(
+              formatWithDuration(
+                testSetup.mockGravityUpdateProvider.startedAtTime,
+                testSetup.mockGravityUpdateProvider.completedAtTime,
+              ),
+            ),
+            findsOneWidget,
+          );
+
+          expect(
+            find.text(
+              'List with ID 10 was inaccessible during last gravity run',
+            ),
+            findsOneWidget,
+          );
+          expect(find.text('http://localhost:8989/test.txt'), findsOneWidget);
+
+          expect(find.text('Done'), findsOneWidget);
+        },
+      );
+
+      testWidgets(
+        'should expand logs area when tapped',
+        (WidgetTester tester) async {
+          tester.view.physicalSize = const Size(1080, 2400);
+          tester.view.devicePixelRatio = 2.0;
+
+          when(testSetup.mockGravityUpdateProvider.logs)
+              .thenReturn(['Log1', 'Log2', 'Done']);
+
+          when(testSetup.mockGravityUpdateProvider.status)
+              .thenReturn(GravityStatus.success);
+
+          when(testSetup.mockGravityUpdateProvider.isLoaded).thenReturn(true);
+
+          addTearDown(() {
+            tester.view.resetPhysicalSize();
+            tester.view.resetDevicePixelRatio();
+          });
+
+          await tester.pumpWidget(
+            testSetup.buildTestWidget(
+              const SubscriptionLists(),
+            ),
+          );
+
+          expect(find.byType(SubscriptionLists), findsOneWidget);
+          await tester.pump();
+
+          await tester.tap(find.text('Update Gravity'));
+          await tester.pumpAndSettle();
+
+          expect(find.text('Log1'), findsNothing);
+          expect(find.text('Log2'), findsNothing);
+          expect(find.text('Done'), findsOneWidget);
+
+          await tester.tap(find.text('Done').first);
+          await tester.pumpAndSettle();
+
+          expect(find.text('Log1'), findsOneWidget);
+          expect(find.text('Log2'), findsOneWidget);
+          expect(find.text('Done'), findsNWidgets(2));
+        },
+      );
+
+      testWidgets(
+        'should start update gravity when update button is tapped',
+        (WidgetTester tester) async {
+          tester.view.physicalSize = const Size(1080, 2400);
+          tester.view.devicePixelRatio = 2.0;
+
+          when(testSetup.mockGravityUpdateProvider.status)
+              .thenReturn(GravityStatus.idle);
+
+          when(testSetup.mockGravityUpdateProvider.logs).thenReturn([]);
+          when(testSetup.mockGravityUpdateProvider.messages).thenReturn([]);
+          when(testSetup.mockGravityUpdateProvider.isLoaded).thenReturn(true);
+
+          addTearDown(() {
+            tester.view.resetPhysicalSize();
+            tester.view.resetDevicePixelRatio();
+          });
+
+          await tester.pumpWidget(
+            testSetup.buildTestWidget(
+              const SubscriptionLists(),
+            ),
+          );
+
+          expect(find.byType(SubscriptionLists), findsOneWidget);
+          await tester.pump();
+
+          await tester.tap(find.text('Update Gravity'));
+          await tester.pumpAndSettle();
+
+          // Tap FAB to start update
+          await tester.tap(find.byIcon(Icons.rocket_launch_rounded).first);
+          await tester.pumpAndSettle();
+
+          verify(testSetup.mockGravityUpdateProvider.start()).called(1);
         },
       );
     },
