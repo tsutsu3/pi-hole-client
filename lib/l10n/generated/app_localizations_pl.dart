@@ -1203,6 +1203,9 @@ class AppLocalizationsPl extends AppLocalizations {
   String get updateTimeChanged => 'Czas aktualizacji został pomyślnie zmieniony.';
 
   @override
+  String get updatingAdlist => 'Trwa aktualizacja listy Adlist...';
+
+  @override
   String get upstreamServers => 'Serwery nadrzędne';
 
   @override

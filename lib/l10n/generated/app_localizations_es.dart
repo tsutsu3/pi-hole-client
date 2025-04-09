@@ -1203,6 +1203,9 @@ class AppLocalizationsEs extends AppLocalizations {
   String get updateTimeChanged => 'Tiempo de auto actualización cambiado satisfactoriamente.';
 
   @override
+  String get updatingAdlist => 'Actualizando adlist...';
+
+  @override
   String get upstreamServers => 'Servidores de salida';
 
   @override

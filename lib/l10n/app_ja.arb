@@ -397,6 +397,7 @@
   "unsupportedFeatureTitle": "未対応の機能です",
   "updatePasscode": "パスコードを更新",
   "updateTimeChanged": "更新時間が正常に変更されました。",
+  "updatingAdlist": "Adlistを更新中...",
   "upstreamServers": "上流サーバー",
   "uptime": "稼働時間",
   "url": "URL",

@@ -229,7 +229,7 @@ class _SubscriptionDetailsScreenState extends State<SubscriptionDetailsScreen> {
     final body = SubscriptionRequest.fromJson(value);
 
     final process = ProcessModal(context: context);
-    process.open(AppLocalizations.of(context)!.addingDomain);
+    process.open(AppLocalizations.of(context)!.updatingAdlist);
 
     final result = await apiGateway?.updateSubscription(body: body);
 
