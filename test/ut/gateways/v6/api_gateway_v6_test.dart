@@ -3210,4 +3210,92 @@ void main() async {
       expect(response.data?.toJson(), null);
     });
   });
+
+  group('removeMessages', () {
+    late Server server;
+    const id = 3;
+    const noData = {'took': 0.0006268024444580078};
+    const erroData = {
+      'error': {'key': 'unauthorized', 'message': 'Unauthorized', 'hint': null},
+      'took': 0.003,
+    };
+
+    setUp(() {
+      server = Server(
+        address: 'http://example.com',
+        alias: 'example',
+        defaultServer: true,
+        apiVersion: SupportedApiVersions.v6,
+      );
+      server.sm.savePassword('xxx123');
+    });
+
+    test('should return success when id exist', () async {
+      final mockClient = MockClient();
+      final apiGateway = ApiGatewayV6(server, client: mockClient);
+
+      when(
+        mockClient.delete(
+          Uri.parse('http://example.com/api/info/messages/$id'),
+          headers: anyNamed('headers'),
+        ),
+      ).thenAnswer((_) async => http.Response('', 204));
+
+      final response = await apiGateway.removeMessage(id);
+
+      expect(response.result, APiResponseType.success);
+      expect(response.message, null);
+    });
+
+    test('should return success when no data', () async {
+      final mockClient = MockClient();
+      final apiGateway = ApiGatewayV6(server, client: mockClient);
+
+      when(
+        mockClient.delete(
+          Uri.parse('http://example.com/api/info/messages/$id'),
+          headers: anyNamed('headers'),
+        ),
+      ).thenAnswer((_) async => http.Response(jsonEncode(noData), 404));
+
+      final response = await apiGateway.removeMessage(id);
+
+      expect(response.result, APiResponseType.notFound);
+      expect(response.message, 'Not found');
+    });
+
+    test('should return an error when status code is 401', () async {
+      final mockClient = MockClient();
+      final apiGateway = ApiGatewayV6(server, client: mockClient);
+
+      when(
+        mockClient.delete(
+          Uri.parse('http://example.com/api/info/messages/$id'),
+          headers: anyNamed('headers'),
+        ),
+      ).thenAnswer((_) async => http.Response(jsonEncode(erroData), 401));
+
+      final response = await apiGateway.removeMessage(id);
+
+      expect(response.result, APiResponseType.error);
+      expect(response.message, fetchError);
+    });
+
+    test('should return an error when an unexpected error occurs', () async {
+      final mockClient = MockClient();
+      final apiGateway = ApiGatewayV6(server, client: mockClient);
+
+      when(
+        mockClient.delete(
+          Uri.parse('http://example.com/api/info/messages/$id'),
+          headers: anyNamed('headers'),
+        ),
+      ).thenThrow(Exception('Unexpected error test'));
+
+      final response = await apiGateway.getMessages();
+
+      expect(response.result, APiResponseType.error);
+      expect(response.message, unexpectedError);
+    });
+  });
 }

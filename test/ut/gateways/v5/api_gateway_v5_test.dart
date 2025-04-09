@@ -1806,4 +1806,28 @@ void main() async {
       expect(response.message, notSupportedMessage);
     });
   });
+
+  group('removeMessage', () {
+    late Server server;
+    const notSupportedMessage = 'Pi-hole v5 does not support this feature.';
+
+    setUp(() async {
+      server = Server(
+        address: 'http://example.com',
+        alias: 'example',
+        defaultServer: true,
+        apiVersion: SupportedApiVersions.v5,
+      );
+      await server.sm.saveToken('xxx123');
+    });
+
+    test('should return notSupported when server is v5', () async {
+      final mockClient = MockClient();
+      final apiGateway = ApiGatewayV5(server, client: mockClient);
+      final response = await apiGateway.removeMessage(3);
+
+      expect(response.result, APiResponseType.notSupported);
+      expect(response.message, notSupportedMessage);
+    });
+  });
 }
