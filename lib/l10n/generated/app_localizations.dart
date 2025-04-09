@@ -2489,6 +2489,12 @@ abstract class AppLocalizations {
   /// **'Update time changed successfully.'**
   String get updateTimeChanged;
 
+  /// No description provided for @updatingAdlist.
+  ///
+  /// In en, this message translates to:
+  /// **'Updating adlist...'**
+  String get updatingAdlist;
+
   /// No description provided for @upstreamServers.
   ///
   /// In en, this message translates to:

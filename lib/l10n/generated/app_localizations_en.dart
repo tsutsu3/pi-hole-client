@@ -1203,6 +1203,9 @@ class AppLocalizationsEn extends AppLocalizations {
   String get updateTimeChanged => 'Update time changed successfully.';
 
   @override
+  String get updatingAdlist => 'Updating adlist...';
+
+  @override
   String get upstreamServers => 'Upstream servers';
 
   @override
