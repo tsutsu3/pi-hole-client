@@ -106,6 +106,9 @@ void main() async {
           ),
         ),
       );
+      when(mockApiGatewayV6.removeMessage(any)).thenAnswer(
+        (_) async => RemoveMessageResponse(result: APiResponseType.success),
+      );
 
       when(mockRepository.getGravityUpdateQuery(any)).thenAnswer(
         (_) async => graivtyUpdateData,
@@ -123,6 +126,9 @@ void main() async {
         (_) async => true,
       );
       when(mockRepository.insertGravityMessageQuery(any)).thenAnswer(
+        (_) async => true,
+      );
+      when(mockRepository.deleteMessageQuery(any, any)).thenAnswer(
         (_) async => true,
       );
 
@@ -382,6 +388,29 @@ void main() async {
 
       expect(gravityUpdateProvider.status, GravityStatus.error);
       expect(gravityUpdateProvider.logs.length, 0);
+      expect(listenerCalled, true);
+    });
+
+    test('removeMessage() removes a message and notifies listeners', () async {
+      gravityUpdateProvider.update(mockServersProvider);
+
+      gravityUpdateProvider.setMessages(
+        MessagesInfo(
+          messages: [
+            Message(
+              id: id,
+              timestamp: DateTime.now(),
+              message: 'Test',
+              url: 'http://test.com',
+            ),
+          ],
+        ),
+      );
+
+      final result = await gravityUpdateProvider.removeMessage(id);
+
+      expect(result, true);
+      expect(gravityUpdateProvider.messages, []);
       expect(listenerCalled, true);
     });
   });
