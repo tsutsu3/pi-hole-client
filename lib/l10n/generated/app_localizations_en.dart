@@ -162,8 +162,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get appUnlock => 'App unlock';
 
   @override
-  String get appUnlockDescription =>
-      'Use a code or the fingerprint to unlock the app';
+  String get appUnlockDescription => 'Use a code or the fingerprint to unlock the app';
 
   @override
   String get appUnlockDisabled => 'App unlock disabled';
@@ -187,8 +186,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get arch => 'Architecture';
 
   @override
-  String get areSureRemovePasscode =>
-      'Are you sure you want to remove the passcode? This will disable the app unlock protection.';
+  String get areSureRemovePasscode => 'Are you sure you want to remove the passcode? This will disable the app unlock protection.';
 
   @override
   String get authentication => 'Authentication';
@@ -197,19 +195,16 @@ class AppLocalizationsEn extends AppLocalizations {
   String get autoRefreshTime => 'Auto refresh time';
 
   @override
-  String get beginAddConnection =>
-      'First of all, add a connection to a server.';
+  String get beginAddConnection => 'First of all, add a connection to a server.';
 
   @override
   String get between => 'between';
 
   @override
-  String get biometricUnlockNotActivated =>
-      'Couldn\'t activate unlock with fingerprint.';
+  String get biometricUnlockNotActivated => 'Couldn\'t activate unlock with fingerprint.';
 
   @override
-  String get biometricUnlockNotDisabled =>
-      'Couldn\'t disable unlock with fingerprint.';
+  String get biometricUnlockNotDisabled => 'Couldn\'t disable unlock with fingerprint.';
 
   @override
   String get blacklist => 'Add to blacklist';
@@ -221,8 +216,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get blocked => 'Blocked';
 
   @override
-  String get cameraPermission =>
-      'Pi-hole client does not have permission to access the camera.\n\nGo to settings and grant the permission.';
+  String get cameraPermission => 'Pi-hole client does not have permission to access the camera.\n\nGo to settings and grant the permission.';
 
   @override
   String get cancel => 'Cancel';
@@ -237,8 +231,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get cannotChangeUpdateTime => 'Cannot change update time';
 
   @override
-  String get cannotCheckUrlSaved =>
-      'Cannot check if this URL is already saved.';
+  String get cannotCheckUrlSaved => 'Cannot check if this URL is already saved.';
 
   @override
   String get cannotConnect => 'Cannot connect to server.';
@@ -247,15 +240,13 @@ class AppLocalizationsEn extends AppLocalizations {
   String get cannotUpdateSettings => 'Settings cannot be updated.';
 
   @override
-  String get cantReachServer =>
-      'Can\'t reach the server. Check IP address and port.';
+  String get cantReachServer => 'Can\'t reach the server. Check IP address and port.';
 
   @override
   String get cantSaveConnectionData => 'Connection data couldn\'t be saved';
 
   @override
-  String get cantUpdateLogsPerQuery =>
-      'Logs quantity per request couldn\'t be updated';
+  String get cantUpdateLogsPerQuery => 'Logs quantity per request couldn\'t be updated';
 
   @override
   String get changeServer => 'Change server';
@@ -333,19 +324,16 @@ class AppLocalizationsEn extends AppLocalizations {
   String get connectionCannotBeRemoved => 'Connection cannot be removed.';
 
   @override
-  String get connectionDefaultFailed =>
-      'Connection could not be set as default.';
+  String get connectionDefaultFailed => 'Connection could not be set as default.';
 
   @override
-  String get connectionDefaultSuccessfully =>
-      'Connection set as default successfully.';
+  String get connectionDefaultSuccessfully => 'Connection set as default successfully.';
 
   @override
   String get connectionRemoved => 'Connection removed successfully';
 
   @override
-  String get connectionTimeout =>
-      'Failed. Connection timeout. Check if server is reachable.';
+  String get connectionTimeout => 'Failed. Connection timeout. Check if server is reachable.';
 
   @override
   String get contact => 'Contact';
@@ -414,8 +402,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get dateUpdated => 'Date Updated';
 
   @override
-  String get dbNotWorking =>
-      'Database is not working. Reinstall the application.';
+  String get dbNotWorking => 'Database is not working. Reinstall the application.';
 
   @override
   String get defaultConnection => 'Default connection';
@@ -427,15 +414,13 @@ class AppLocalizationsEn extends AppLocalizations {
   String get deleteAdlist => 'Delete adlist';
 
   @override
-  String get deleteAdlistMessage =>
-      'Are you sure you want to delete this adlist?';
+  String get deleteAdlistMessage => 'Are you sure you want to delete this adlist?';
 
   @override
   String get deleteDomain => 'Delete domain';
 
   @override
-  String get deleteDomainMessage =>
-      'Are you sure you want to delete this domain?';
+  String get deleteDomainMessage => 'Are you sure you want to delete this domain?';
 
   @override
   String get deleting => 'Deleting...';
@@ -480,8 +465,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get domainsClientsDataMode => 'Statistics display mode';
 
   @override
-  String get domainsClientsDataModeDescription =>
-      'Changes the way that domains and clients data is displayed';
+  String get domainsClientsDataModeDescription => 'Changes the way that domains and clients data is displayed';
 
   @override
   String get domainsNotLoaded => 'Domains list couldn\'t be loaded';
@@ -490,8 +474,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get dontCheckCertificate => 'Don\'t check SSL certificate';
 
   @override
-  String get dontCheckCertificateDescription =>
-      'Overrides the server\'s SSL certificate validation';
+  String get dontCheckCertificateDescription => 'Overrides the server\'s SSL certificate validation';
 
   @override
   String get edit => 'Edit';
@@ -518,8 +501,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get enableCrashReport => 'Enable Crash Reporting';
 
   @override
-  String get enableCrashReportDetail =>
-      'Automatically send anonymized reports to diagnose issues.';
+  String get enableCrashReportDetail => 'Automatically send anonymized reports to diagnose issues.';
 
   @override
   String get enabled => 'Enabled';
@@ -543,8 +525,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get eraseAppData => 'Erase app data';
 
   @override
-  String get eraseWarning =>
-      'Warning! This action will reset the application and remove all its data.\n\nAre you sure you want to continue?';
+  String get eraseWarning => 'Warning! This action will reset the application and remove all its data.\n\nAre you sure you want to continue?';
 
   @override
   String get erasesAppData => 'Erases all application data';
@@ -562,19 +543,16 @@ class AppLocalizationsEn extends AppLocalizations {
   String get executionLog => 'Execution Log';
 
   @override
-  String get featureNotSupportedMessage =>
-      'This feature is not available on Pi-hole v5.\nPlease upgrade to Pi-hole v6 or later.';
+  String get featureNotSupportedMessage => 'This feature is not available on Pi-hole v5.\nPlease upgrade to Pi-hole v6 or later.';
 
   @override
   String get filters => 'Filters';
 
   @override
-  String get fingerprintAuthUnavailable =>
-      'Fingerprint authentication unavailable.';
+  String get fingerprintAuthUnavailable => 'Fingerprint authentication unavailable.';
 
   @override
-  String get fingerprintAuthUnavailableAttempts =>
-      'Fingerprint authentication unavailable due to many failed attempts.';
+  String get fingerprintAuthUnavailableAttempts => 'Fingerprint authentication unavailable due to many failed attempts.';
 
   @override
   String get finish => 'Finish';
@@ -619,15 +597,13 @@ class AppLocalizationsEn extends AppLocalizations {
   String get helpUsImprove => 'Help Us Improve';
 
   @override
-  String get helpUsImproveMessage =>
-      'To improve app quality, we may collect anonymous crash reports when an issue occurs.\nThese reports do not contain any personally identifiable information. ';
+  String get helpUsImproveMessage => 'To improve app quality, we may collect anonymous crash reports when an issue occurs.\nThese reports do not contain any personally identifiable information. ';
 
   @override
   String get hideZeroValues => 'Hide zero values';
 
   @override
-  String get hideZeroValuesDescription =>
-      'Hides zero values from clients chart';
+  String get hideZeroValuesDescription => 'Hides zero values from clients chart';
 
   @override
   String get hits => 'Hits:';
@@ -660,8 +636,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get howCreateConnection => 'How to create a connection';
 
   @override
-  String get howToContact =>
-      'You can contact me by opening an issue on the GitHub repository or by email. All the details about how to contact are in Settings > Contact.';
+  String get howToContact => 'You can contact me by opening an issue on the GitHub repository or by email. All the details about how to contact are in Settings > Contact.';
 
   @override
   String get id => 'ID';
@@ -697,15 +672,13 @@ class AppLocalizationsEn extends AppLocalizations {
   String get invalidPort => 'Invalid port';
 
   @override
-  String get invalidSubroute =>
-      'Invalid subroute. Remember not to finish with a \'/\', \'.\' or \':\'.';
+  String get invalidSubroute => 'Invalid subroute. Remember not to finish with a \'/\', \'.\' or \':\'.';
 
   @override
   String get ipCannotEmpty => 'IP field cannot be empty';
 
   @override
-  String get issuesSuggestions =>
-      'If you are experiencing issues or you have suggestions';
+  String get issuesSuggestions => 'If you are experiencing issues or you have suggestions';
 
   @override
   String get itemsSelected => 'items selected';
@@ -720,12 +693,10 @@ class AppLocalizationsEn extends AppLocalizations {
   String get legalInfo => 'Legal information';
 
   @override
-  String get legalText =>
-      'All registered trademarks which are present on this application are property of it\'s respective owners.';
+  String get legalText => 'All registered trademarks which are present on this application are property of it\'s respective owners.';
 
   @override
-  String get letMeKnow =>
-      'Sometimes the Pi-hole team makes some changes to the API used by this app to get all the data. If you are experiencing connection issues or data not loading, and you are sure that your server is working fine, please let me know it to investigate it and release an update as soon as possible.';
+  String get letMeKnow => 'Sometimes the Pi-hole team makes some changes to the API used by this app to get all the data. If you are experiencing connection issues or data not loading, and you are sure that your server is working fine, please let me know it to investigate it and release an update as soon as possible.';
 
   @override
   String get licenses => 'Licenses';
@@ -740,8 +711,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get list => 'List';
 
   @override
-  String get listDescription =>
-      'Displays the data on a list with the label and the numeric value at the left side, and a bar at the right side.';
+  String get listDescription => 'Displays the data on a list with the label and the numeric value at the left side, and a bar at the right side.';
 
   @override
   String get loadingCharts => 'Loading charts...';
@@ -765,16 +735,13 @@ class AppLocalizationsEn extends AppLocalizations {
   String get logsCopiedClipboard => 'Logs copied to clipboard';
 
   @override
-  String get logsPerQueryLabel =>
-      'Select the time interval to be used for each log request to the API.';
+  String get logsPerQueryLabel => 'Select the time interval to be used for each log request to the API.';
 
   @override
-  String get logsPerQueryUpdated =>
-      'Logs quantity per request updated successfully';
+  String get logsPerQueryUpdated => 'Logs quantity per request updated successfully';
 
   @override
-  String get logsPerQueryWarning =>
-      'Selecting a long time could result on slow load times.\nIt will depend on the speed of the server.';
+  String get logsPerQueryWarning => 'Selecting a long time could result on slow load times.\nIt will depend on the speed of the server.';
 
   @override
   String get logsQuantityPerLoad => 'Logs quantity per request';
@@ -825,8 +792,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get noAdlists => 'There are no adlists to show here.';
 
   @override
-  String get noAvailableBiometrics =>
-      'You don\'t have any fingerprints saved on the device.';
+  String get noAvailableBiometrics => 'You don\'t have any fingerprints saved on the device.';
 
   @override
   String get noComment => 'No comment';
@@ -835,8 +801,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get noConnection => 'No connection';
 
   @override
-  String get noConnections =>
-      'Seems that you don\'t have added any connection yet.';
+  String get noConnections => 'Seems that you don\'t have added any connection yet.';
 
   @override
   String get noData => 'No data';
@@ -893,8 +858,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get now => 'now';
 
   @override
-  String get olderVersion =>
-      'If you have an older version, please update your Pi-hole to continue using this app.';
+  String get olderVersion => 'If you have an older version, please update your Pi-hole to continue using this app.';
 
   @override
   String get openExternalUrl => 'Opens an external link';
@@ -912,8 +876,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get passCodeNotSaved => 'Passcode couldn\'t be saved.';
 
   @override
-  String get passcodesDontMatch =>
-      'Initial passcode and repeated passcode do not match.';
+  String get passcodesDontMatch => 'Initial passcode and repeated passcode do not match.';
 
   @override
   String get password => 'Password';
@@ -934,8 +897,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get pieChart => 'Pie chart';
 
   @override
-  String get pieChartDescription =>
-      'Displays the data on a pie chart with the legend under it.';
+  String get pieChartDescription => 'Displays the data on a pie chart with the legend under it.';
 
   @override
   String get piholeVersion => 'Pi-hole Versions';
@@ -980,8 +942,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get reducedDataCharts => 'Use reduced data';
 
   @override
-  String get reducedDataChartsDescription =>
-      'Affects the clients chart at Home. Can improve application performance';
+  String get reducedDataChartsDescription => 'Affects the clients chart at Home. Can improve application performance';
 
   @override
   String get refresh => 'Refresh';
@@ -999,8 +960,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get removePasscode => 'Remove passcode';
 
   @override
-  String get removeWarning =>
-      'Are you sure you want to remove the connection with this PiHole server?';
+  String get removeWarning => 'Are you sure you want to remove the connection with this PiHole server?';
 
   @override
   String get repeatPasscode => 'Repeat passcode';
@@ -1021,15 +981,13 @@ class AppLocalizationsEn extends AppLocalizations {
   String get resetApplication => 'Reset application';
 
   @override
-  String get restartAppTakeEffect =>
-      'Please restart the application to apply the settings.';
+  String get restartAppTakeEffect => 'Please restart the application to apply the settings.';
 
   @override
   String get runningStatus => 'Running...';
 
   @override
-  String get runningSubtitle =>
-      'This section will show the result once the task is complete.';
+  String get runningSubtitle => 'This section will show the result once the task is complete.';
 
   @override
   String get save => 'Save';
@@ -1119,8 +1077,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get serverConnectionGuide => 'Server Connection Guide';
 
   @override
-  String get serverConnectionGuideDescription =>
-      'Learn how to connect to the server.';
+  String get serverConnectionGuideDescription => 'Learn how to connect to the server.';
 
   @override
   String get serverDisabled => 'Server disabled successfully.';
@@ -1135,8 +1092,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get serverInfoShow => 'View detailed information';
 
   @override
-  String get serverInvalidData =>
-      'Server connection saved with invalid data. Add the connection again.';
+  String get serverInvalidData => 'Server connection saved with invalid data. Add the connection again.';
 
   @override
   String get serverName => 'Server name';
@@ -1160,8 +1116,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get settingsUpdatedSuccessfully => 'Settings updated successfully.';
 
   @override
-  String get sslErrorLong =>
-      'SSL error. Check if the server\'s certificate is valid.';
+  String get sslErrorLong => 'SSL error. Check if the server\'s certificate is valid.';
 
   @override
   String get sslErrorShort => 'SSL error.';
@@ -1203,8 +1158,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get supportForm => 'Support form';
 
   @override
-  String get supportFormDescription =>
-      'Send a support request using the support form.';
+  String get supportFormDescription => 'Send a support request using the support form.';
 
   @override
   String get switchServer => 'Switch server';
@@ -1231,8 +1185,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get token => 'Token';
 
   @override
-  String get tokenInstructions =>
-      'You can get it on the web interface on Settings > API/Web interface > Show API token.';
+  String get tokenInstructions => 'You can get it on the web interface on Settings > API/Web interface > Show API token.';
 
   @override
   String get tokenNeeded => 'Token needed';
@@ -1296,8 +1249,9 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get updatingAdlist => 'Updating adlist...';
-  String get updatingInProgressMessage =>
-      'Updating... this may take a while. Please keep the app open.';
+
+  @override
+  String get updatingInProgressMessage => 'Updating... this may take a while. Please keep the app open.';
 
   @override
   String get upstreamServers => 'Upstream servers';
@@ -1324,8 +1278,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get version => 'Version';
 
   @override
-  String get versionDescription =>
-      'Select the version of Pi-hole you are using';
+  String get versionDescription => 'Select the version of Pi-hole you are using';
 
   @override
   String get versionRequirements => 'Version Requirements';
@@ -1343,6 +1296,5 @@ class AppLocalizationsEn extends AppLocalizations {
   String get writeEmail => 'Write me by email.';
 
   @override
-  String get writeEmailDetails =>
-      'Include on the body of the email all the possible details: Pi-hole and web interface version, how to reproduce the issue, screenshots...\n\nAll provided information will be very welcome.';
+  String get writeEmailDetails => 'Include on the body of the email all the possible details: Pi-hole and web interface version, how to reproduce the issue, screenshots...\n\nAll provided information will be very welcome.';
 }
