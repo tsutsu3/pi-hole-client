@@ -1,61 +1,42 @@
-import 'dart:async';
-
 import 'package:flutter/material.dart';
 import 'package:pi_hole_client/constants/enums.dart';
 import 'package:pi_hole_client/functions/logger.dart';
-import 'package:pi_hole_client/gateways/api_gateway_interface.dart';
-import 'package:pi_hole_client/models/gateways.dart';
 import 'package:pi_hole_client/models/messages.dart';
-import 'package:pi_hole_client/models/repository/database.dart';
 import 'package:pi_hole_client/providers/servers_provider.dart';
 import 'package:pi_hole_client/repository/database.dart';
+import 'package:pi_hole_client/services/gravity_update_service.dart';
 
 class GravityUpdateProvider with ChangeNotifier {
   GravityUpdateProvider({
     required DatabaseRepository repository,
     required ServersProvider serversProvider,
   })  : _repository = repository,
-        _serversProvider = serversProvider;
+        _serversProvider = serversProvider {
+    if (_serversProvider.selectedApiGateway != null) {
+      _service = GravityUpdateService(
+        repository: _repository,
+        apiGateway: _serversProvider.selectedApiGateway!,
+      );
+    }
+  }
 
   final DatabaseRepository _repository;
-  ServersProvider? _serversProvider;
-  ApiGateway? _apiGateway;
+  ServersProvider _serversProvider;
+  GravityUpdateService? _service;
 
   GravityStatus _status = GravityStatus.idle;
-
   List<String> _logs = [];
-
   List<Message> _messages = [];
-
   DateTime? _startedAt;
-
   DateTime? _completedAt;
-
   bool _loaded = false;
 
-  StreamSubscription<GravityResponse>? _subscription;
-
   GravityStatus get status => _status;
-
   List<String> get logs => _logs;
-
   DateTime? get startedAtTime => _startedAt;
-
   DateTime? get completedAtTime => _completedAt;
-
   bool get isLoaded => _loaded;
-
   List<Message> get messages => List.unmodifiable(_messages);
-
-  void update(ServersProvider? provider) {
-    _subscription?.cancel();
-    _subscription = null;
-
-    _serversProvider = provider;
-    _apiGateway = _serversProvider?.selectedApiGateway;
-
-    reset();
-  }
 
   void clearMessages() {
     _messages.clear();
@@ -95,235 +76,142 @@ class GravityUpdateProvider with ChangeNotifier {
     notifyListeners();
   }
 
-  Future<bool> removeMessage(int id) async {
-    // Delete from pi-hole server
-    final resp = await _apiGateway?.removeMessage(id);
+  /// Updates the GravityProvider with a new ServersProvider instance.
+  ///
+  /// This method sets the internal `_serversProvider` to the provided [provider].
+  /// If the `selectedApiGateway` in the [provider] is not null, it initializes
+  /// the `_service` with a new instance of `GravityUpdateService` using the
+  /// current `_repository` and the selected API gateway. Otherwise, `_service`
+  /// is set to null.
+  ///
+  /// After updating the `_service`, the `reset` method is called to reset
+  /// the state of the provider.
+  ///
+  /// - Parameter [provider]: The new instance of `ServersProvider` to update
+  ///   the GravityProvider with.
+  void update(ServersProvider provider) {
+    _service?.cancelUpdate();
 
-    if (resp == null || resp.result == APiResponseType.error) {
-      notifyListeners();
-      return false;
+    _serversProvider = provider;
+    if (_serversProvider.selectedApiGateway != null) {
+      _service = GravityUpdateService(
+        repository: _repository,
+        apiGateway: _serversProvider.selectedApiGateway!,
+      );
+    } else {
+      _service = null;
     }
-
-    // Delete from database
-    final address = _serversProvider?.selectedServer?.address ?? '';
-    final respDeleteMsg = await _repository.deleteMessageQuery(address, id);
-    if (!respDeleteMsg) {
-      notifyListeners();
-      return false;
-    }
-
-    // Delete from provider
-    _messages.removeWhere((message) => message.id == id);
-
-    notifyListeners();
-    return true;
+    reset();
   }
 
-  Future<void> load() async {
-    if (_loaded) return;
-
-    final gravityData = await _repository.getGravityDataQuery(
-      _serversProvider?.selectedServer?.address ?? '',
-    );
-    logger.d('Load gravity data');
-
-    _messages = gravityData?.gravityMessages?.map(
-          (data) {
-            return Message(
-              id: data.id,
-              timestamp: data.timestamp,
-              message: data.message,
-              url: data.url,
-            );
-          },
-        ).toList() ??
-        [];
-
-    final logs = gravityData?.gravityLogs;
-    if (logs != null) {
-      final sortedLogs = logs.toList()
-        ..sort((a, b) => a.line.compareTo(b.line));
-      _logs = sortedLogs.map((e) => e.message).toList();
-    } else {
-      _logs = [];
+  /// Removes a message with the specified [id].
+  ///
+  /// This method attempts to remove a message by its [id] from the server
+  /// and the local list of messages. If the `_service` is `null`, the operation
+  /// cannot be performed, and `false` is returned.
+  ///
+  /// Returns `true` if the message was successfully removed, otherwise `false`.
+  ///
+  /// - Parameters:
+  ///   - [id]: The unique identifier of the message to be removed.
+  Future<bool> removeMessage(int id) async {
+    if (_service == null) {
+      logger.d('API Gateway is null. removeMessag() cannot be performed.');
+      return false;
     }
+    final address = _serversProvider.selectedServer?.address ?? '';
+    final result = await _service!.removeMessage(address, id);
+    if (result) {
+      _messages.removeWhere((msg) => msg.id == id);
+    }
+    notifyListeners();
+    return result;
+  }
 
-    _status = gravityData?.gravityUpdate?.status != null
-        ? GravityStatus.values[gravityData!.gravityUpdate!.status]
-        : GravityStatus.idle;
+  /// Loads the gravity data from the service and updates the provider's state.
+  ///
+  /// This method is asynchronous and should be awaited to ensure proper execution.
+  Future<void> load() async {
+    if (_service == null) {
+      logger.d('API Gateway is null. load() cannot be performed.');
+      return;
+    }
+    if (_loaded) return;
+    final address = _serversProvider.selectedServer?.address ?? '';
+    final data = await _service!.loadGravityData(address);
+    _messages = data['messages'];
+    _logs = data['logs'];
+    _status = data['status'];
+    _startedAt = data['startedAt'];
+    _completedAt = data['completedAt'];
 
-    _startedAt = gravityData?.gravityUpdate?.startTime;
-
-    _completedAt = gravityData?.gravityUpdate?.endTime;
-
-    _loaded = true;
-
-    // If the status is running when the app is opened, it means the gravity
-    //update was forcibly stopped, and the status should be set to error.
+    // When the status is running, it means app force killed or the app was
+    // terminated while the gravity update was in progress.
     if (_status == GravityStatus.running) {
       _status = GravityStatus.error;
     }
 
+    _loaded = true;
     notifyListeners();
   }
 
-  /// Start update gravity
+  /// Initiates the update process by calling the `startUpdate` method of the service.
+  ///
+  /// This method is asynchronous and returns a `Future` that completes when the update process is finished.
   Future<void> start() async {
-    if (_status != GravityStatus.running) {
-      _status = GravityStatus.running;
+    if (_service == null) {
+      logger.d('API Gateway is null. start() cannot be performed.');
+      return;
     }
 
-    final address = _serversProvider?.selectedServer?.address ?? '';
+    final address = _serversProvider.selectedServer?.address ?? '';
 
+    // Reset the state before starting the update
     _logs.clear();
     _messages.clear();
     _startedAt = DateTime.now();
     _completedAt = null;
-
-    await _repository.clearGravityDataQuery(address);
-    await _repository.upsertGravityUpdateQuery(
-      GravityUpdateData(
-        address: address,
-        startTime: _startedAt == null ? DateTime.now() : _startedAt!,
-        endTime: _completedAt == null ? DateTime.now() : _completedAt!,
-        status: _status.index,
-      ),
-    );
-
+    _status = GravityStatus.running;
     notifyListeners();
 
-    final stream = _apiGateway?.updateGravity();
-    if (stream == null) {
-      _status = GravityStatus.error;
-      _completedAt = DateTime.now();
-      await _repository.upsertGravityUpdateQuery(
-        GravityUpdateData(
-          address: address,
-          startTime: _startedAt == null ? DateTime.now() : _startedAt!,
-          endTime: _completedAt == null ? DateTime.now() : _completedAt!,
-          status: _status.index,
-        ),
-      );
-      notifyListeners();
-      return;
-    }
-
-    _subscription = stream.listen(
-      (chunk) async {
-        if (chunk.result == APiResponseType.error) {
-          _status = GravityStatus.error;
-          _completedAt = DateTime.now();
-          await _repository.upsertGravityUpdateQuery(
-            GravityUpdateData(
-              address: address,
-              startTime: _startedAt == null ? DateTime.now() : _startedAt!,
-              endTime: _completedAt == null ? DateTime.now() : _completedAt!,
-              status: _status.index,
-            ),
-          );
-          notifyListeners();
-          await _subscription?.cancel();
-          return;
-        }
-
-        final baseIndex = _logs.length;
-
-        if (chunk.data != null && chunk.data!.isNotEmpty) {
-          _logs.addAll(chunk.data!);
-
-          final logsToInsert = chunk.data!.asMap().entries.map((entry) {
-            final index = baseIndex + entry.key;
-            final logMessage = entry.value;
-            return GravityLogsData(
-              address: address,
-              line: index,
-              message: logMessage,
-              timestamp: DateTime.now(),
-            );
-          }).toList();
-
-          await _repository.insertGravityLogQuery(logsToInsert);
-          notifyListeners();
-        }
-      },
-      onError: (e) async {
-        _status = GravityStatus.error;
-        _completedAt = DateTime.now();
-        await _repository.upsertGravityUpdateQuery(
-          GravityUpdateData(
-            address: address,
-            startTime: _startedAt == null ? DateTime.now() : _startedAt!,
-            endTime: _completedAt == null ? DateTime.now() : _completedAt!,
-            status: _status.index,
-          ),
-        );
+    await _service!.startUpdate(
+      address: address,
+      onStarted: (startTime) {
+        _startedAt = startTime;
         notifyListeners();
       },
-      onDone: () async {
-        if (_status == GravityStatus.error) {
-          logger.d('onDone skipped due to error status');
-          return;
-        }
-
-        _status = GravityStatus.success;
-        _completedAt = DateTime.now();
-
-        await _repository.upsertGravityUpdateQuery(
-          GravityUpdateData(
-            address: address,
-            startTime: _startedAt == null ? DateTime.now() : _startedAt!,
-            endTime: _completedAt == null ? DateTime.now() : _completedAt!,
-            status: _status.index,
-          ),
-        );
-
-        await Future.delayed(const Duration(milliseconds: 500));
-        var msgs = await _apiGateway?.getMessages();
-
-        /// Retry fetching messages if the first attempt fails
-        if (msgs == null || msgs.result == APiResponseType.error) {
-          logger.d('Retrying to fetch messages...');
-          await Future.delayed(const Duration(milliseconds: 500));
-          msgs = await _apiGateway?.getMessages();
-        }
-
-        final messages = msgs?.data?.messages;
-
-        if (messages == null || messages.isEmpty) {
-          notifyListeners();
-          return;
-        }
-
-        _messages.addAll(messages);
-
-        final messagesToInsert = messages.map((entry) {
-          return GravityMessagesData(
-            id: entry.id,
-            address: address,
-            message: entry.message,
-            url: entry.url,
-            timestamp: entry.timestamp,
-          );
-        }).toList();
-
-        if (messagesToInsert.isNotEmpty) {
-          await _repository.insertGravityMessageQuery(messagesToInsert);
-        }
-
+      onStatusChanged: (status) {
+        _status = status;
         notifyListeners();
       },
-      cancelOnError: true,
+      onCompleted: (completeTime) {
+        _completedAt = completeTime;
+        notifyListeners();
+      },
+      onLogsUpdated: (logs) {
+        _logs = logs;
+        notifyListeners();
+      },
+      onMessagesUpdated: (messages) {
+        _messages = messages;
+        notifyListeners();
+      },
     );
   }
 
+  /// Resets the state of the GravityUpdateProvider.
   void reset() {
+    if (_service == null) {
+      logger.d('API Gateway is null. reset() cannot be performed.');
+      return;
+    }
     _messages.clear();
     _logs.clear();
     _status = GravityStatus.idle;
     _startedAt = null;
     _completedAt = null;
     _loaded = false;
-    _subscription?.cancel();
-    _subscription = null;
+    _service!.cancelUpdate();
+    notifyListeners();
   }
 }

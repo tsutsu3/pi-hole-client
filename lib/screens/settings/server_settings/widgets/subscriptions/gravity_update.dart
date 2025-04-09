@@ -26,7 +26,6 @@ class _GravityUpdateState extends State<GravityUpdate> {
     final gravityProvider = context.read<GravityUpdateProvider>();
     logger.i('Starting gravity update...');
     await gravityProvider.start();
-    logger.i('Gravity update completed successfully.');
   }
 
   SectionLabel buildStatusLabel(BuildContext context, GravityStatus status) {

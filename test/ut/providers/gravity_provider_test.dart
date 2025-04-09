@@ -163,7 +163,7 @@ void main() async {
       expect(gravityUpdateProvider.startedAtTime, null);
       expect(gravityUpdateProvider.completedAtTime, null);
       expect(gravityUpdateProvider.isLoaded, false);
-      expect(listenerCalled, false);
+      expect(listenerCalled, true);
     });
 
     test('clearMessages() clears messages and notifies listeners', () {
@@ -362,6 +362,8 @@ void main() async {
       controller.addError(Exception('Test error'));
 
       await controller.close();
+
+      await Future.delayed(const Duration(seconds: 1));
 
       expect(gravityUpdateProvider.status, GravityStatus.error);
       expect(gravityUpdateProvider.completedAtTime, isNotNull);
