@@ -249,6 +249,8 @@
   "logsStatus": "Estados de registros",
   "logsWillBeRequested": "Los registros se pedirán en grupos de",
   "memoryUsage": "Uso de memoria",
+  "messageDeleteFailed": "No se pudo eliminar el mensaje",
+  "messageDeleteSuccess": "Mensaje eliminado correctamente",
   "messages": "Mensajes",
   "minute1": "1 minuto",
   "minutes": "minutos",

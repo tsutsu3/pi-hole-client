@@ -95,6 +95,30 @@ class GravityUpdateProvider with ChangeNotifier {
     notifyListeners();
   }
 
+  Future<bool> removeMessage(int id) async {
+    // Delete from pi-hole server
+    final resp = await _apiGateway?.removeMessage(id);
+
+    if (resp == null || resp.result == APiResponseType.error) {
+      notifyListeners();
+      return false;
+    }
+
+    // Delete from database
+    final address = _serversProvider?.selectedServer?.address ?? '';
+    final respDeleteMsg = await _repository.deleteMessageQuery(address, id);
+    if (!respDeleteMsg) {
+      notifyListeners();
+      return false;
+    }
+
+    // Delete from provider
+    _messages.removeWhere((message) => message.id == id);
+
+    notifyListeners();
+    return true;
+  }
+
   Future<void> load() async {
     if (_loaded) return;
 
@@ -106,6 +130,7 @@ class GravityUpdateProvider with ChangeNotifier {
     _messages = gravityData?.gravityMessages?.map(
           (data) {
             return Message(
+              id: data.id,
               timestamp: data.timestamp,
               message: data.message,
               url: data.url,
@@ -253,22 +278,35 @@ class GravityUpdateProvider with ChangeNotifier {
         );
 
         await Future.delayed(const Duration(milliseconds: 500));
-        final msgs = await _apiGateway?.getMessages();
-        final messages = msgs?.data?.messages;
+        var msgs = await _apiGateway?.getMessages();
 
-        if (messages != null && messages.isNotEmpty) {
-          _messages.addAll(messages);
+        /// Retry fetching messages if the first attempt fails
+        if (msgs == null || msgs.result == APiResponseType.error) {
+          logger.d('Retrying to fetch messages...');
+          await Future.delayed(const Duration(milliseconds: 500));
+          msgs = await _apiGateway?.getMessages();
         }
 
-        final messagesToInsert = messages?.map((entry) {
+        final messages = msgs?.data?.messages;
+
+        if (messages == null || messages.isEmpty) {
+          notifyListeners();
+          return;
+        }
+
+        _messages.addAll(messages);
+
+        final messagesToInsert = messages.map((entry) {
           return GravityMessagesData(
+            id: entry.id,
             address: address,
             message: entry.message,
             url: entry.url,
             timestamp: entry.timestamp,
           );
         }).toList();
-        if (messagesToInsert != null && messagesToInsert.isNotEmpty) {
+
+        if (messagesToInsert.isNotEmpty) {
           await _repository.insertGravityMessageQuery(messagesToInsert);
         }
 

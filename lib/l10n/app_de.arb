@@ -248,6 +248,8 @@
   "logsStatus": "Logs Status",
   "logsWillBeRequested": "Logs werden abgerufen im Abstand von",
   "memoryUsage": "Speichernutzung",
+  "messageDeleteFailed": "Löschen der Nachricht ist fehlgeschlagen",
+  "messageDeleteSuccess": "Löschen der Nachricht war erfolgreich",
   "messages": "Nachrichten",
   "minute1": "1 Minute",
   "minutes": "Minuten",

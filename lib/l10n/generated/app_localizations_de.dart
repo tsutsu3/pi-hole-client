@@ -800,6 +800,12 @@ class AppLocalizationsDe extends AppLocalizations {
   String get memoryUsage => 'Speichernutzung';
 
   @override
+  String get messageDeleteFailed => 'Löschen der Nachricht ist fehlgeschlagen';
+
+  @override
+  String get messageDeleteSuccess => 'Löschen der Nachricht war erfolgreich';
+
+  @override
   String get messages => 'Nachrichten';
 
   @override

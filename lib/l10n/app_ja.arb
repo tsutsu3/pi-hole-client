@@ -248,6 +248,8 @@
   "logsStatus": "ログステータス",
   "logsWillBeRequested": "ログは",
   "memoryUsage": "メモリ使用量",
+  "messageDeleteFailed": "メッセージの削除に失敗しました",
+  "messageDeleteSuccess": "メッセージの削除に成功しました",
   "messages": "メッセージ",
   "minute1": "1分",
   "minutes": "分",

@@ -154,6 +154,7 @@ class DatabaseRepository {
             CREATE TABLE gravity_messages (
               id INTEGER PRIMARY KEY AUTOINCREMENT,
               address TEXT NOT NULL,
+              message_id INTEGER NOT NULL,
               message TEXT NOT NULL,
               url TEXT NOT NULL,
               timestamp TEXT NOT NULL,
@@ -772,6 +773,7 @@ class DatabaseRepository {
             'gravity_messages',
             {
               'address': msg.address,
+              'message_id': msg.id,
               'message': msg.message,
               'url': msg.url,
               'timestamp': msg.timestamp.toUtc().toIso8601String(),
@@ -895,6 +897,20 @@ class DatabaseRepository {
     }
   }
 
+  Future<bool> deleteMessageQuery(String address, int id) async {
+    try {
+      return await _dbInstance.transaction((txn) async {
+        await txn.delete(
+          'gravity_messages',
+          where: 'address = ? AND message_id = ?',
+          whereArgs: [address, id],
+        );
+        return true;
+      });
+    } catch (e) {
+      return false;
+    }
+  }
   // ==========================================================================
   // MIGRATION METHODS
   // ==========================================================================
@@ -964,6 +980,7 @@ class DatabaseRepository {
             CREATE TABLE gravity_messages (
               id INTEGER PRIMARY KEY AUTOINCREMENT,
               address TEXT NOT NULL,
+              message_id INTEGER NOT NULL,
               message TEXT NOT NULL,
               url TEXT NOT NULL,
               timestamp TEXT NOT NULL,

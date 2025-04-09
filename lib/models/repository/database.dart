@@ -261,6 +261,7 @@ class GravityLogsData {
 
 class GravityMessagesData {
   GravityMessagesData({
+    required this.id,
     required this.address,
     required this.message,
     required this.url,
@@ -269,6 +270,7 @@ class GravityMessagesData {
 
   factory GravityMessagesData.fromMap(Map<String, Object?> map) {
     return GravityMessagesData(
+      id: map['message_id']! as int,
       address: map['address']! as String,
       message: map['message']! as String,
       url: map['url']! as String,
@@ -276,6 +278,7 @@ class GravityMessagesData {
     );
   }
 
+  final int id;
   final String address;
   final String message;
   final String url;
@@ -283,6 +286,7 @@ class GravityMessagesData {
 
   Map<String, dynamic> toDict() {
     return {
+      'id': id,
       'address': address,
       'message': message,
       'url': url,

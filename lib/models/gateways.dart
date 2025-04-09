@@ -345,8 +345,8 @@ class MessagesResponse extends BaseInfoResponse<MessagesInfo> {
   });
 }
 
-class RemoveMessagesResponse extends BaseInfoResponse<void> {
-  RemoveMessagesResponse({
+class RemoveMessageResponse extends BaseInfoResponse<void> {
+  RemoveMessageResponse({
     required super.result,
     super.message,
   });

@@ -799,6 +799,12 @@ class AppLocalizationsEs extends AppLocalizations {
   String get memoryUsage => 'Uso de memoria';
 
   @override
+  String get messageDeleteFailed => 'No se pudo eliminar el mensaje';
+
+  @override
+  String get messageDeleteSuccess => 'Mensaje eliminado correctamente';
+
+  @override
   String get messages => 'Mensajes';
 
   @override

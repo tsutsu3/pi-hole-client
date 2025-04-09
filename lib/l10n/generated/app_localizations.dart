@@ -1598,6 +1598,18 @@ abstract class AppLocalizations {
   /// **'Memory Usage'**
   String get memoryUsage;
 
+  /// No description provided for @messageDeleteFailed.
+  ///
+  /// In en, this message translates to:
+  /// **'Failed to delete message'**
+  String get messageDeleteFailed;
+
+  /// No description provided for @messageDeleteSuccess.
+  ///
+  /// In en, this message translates to:
+  /// **'Message deleted successfully'**
+  String get messageDeleteSuccess;
+
   /// No description provided for @messages.
   ///
   /// In en, this message translates to:

@@ -764,6 +764,12 @@ class AppLocalizationsJa extends AppLocalizations {
   String get memoryUsage => 'メモリ使用量';
 
   @override
+  String get messageDeleteFailed => 'メッセージの削除に失敗しました';
+
+  @override
+  String get messageDeleteSuccess => 'メッセージの削除に成功しました';
+
+  @override
   String get messages => 'メッセージ';
 
   @override

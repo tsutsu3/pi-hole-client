@@ -1279,4 +1279,33 @@ class ApiGatewayV6 implements ApiGateway {
       );
     }
   }
+
+  @override
+  Future<RemoveMessageResponse> removeMessage(int id) async {
+    try {
+      final results = await httpClient(
+        method: 'delete',
+        url: '${_server.address}/api/info/messages/$id',
+      );
+
+      if (results.statusCode == 204) {
+        return RemoveMessageResponse(result: APiResponseType.success);
+      } else if (results.statusCode == 404) {
+        return RemoveMessageResponse(
+          result: APiResponseType.notFound,
+          message: 'Not found',
+        );
+      } else {
+        return RemoveMessageResponse(
+          result: APiResponseType.error,
+          message: fetchError,
+        );
+      }
+    } catch (e) {
+      return RemoveMessageResponse(
+        result: APiResponseType.error,
+        message: unexpectedError,
+      );
+    }
+  }
 }

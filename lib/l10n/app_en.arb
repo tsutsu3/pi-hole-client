@@ -248,6 +248,8 @@
   "logsStatus": "Logs status",
   "logsWillBeRequested": "Logs will be requested in groups of",
   "memoryUsage": "Memory Usage",
+  "messageDeleteFailed": "Failed to delete message",
+  "messageDeleteSuccess": "Message deleted successfully",
   "messages": "Messages",
   "minute1": "1 minute",
   "minutes": "minutes",

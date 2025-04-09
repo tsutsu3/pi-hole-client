@@ -248,6 +248,8 @@
   "logsStatus": "Stan logów",
   "logsWillBeRequested": "Logi będą wymagane w grupach",
   "memoryUsage": "Użycie pamięci",
+  "messageDeleteFailed": "Nie udało się usunąć wiadomości",
+  "messageDeleteSuccess": "Pomyślnie usunięto wiadomość",
   "messages": "Wiadomości",
   "minute1": "1 minute",
   "minutes": "minuty",

@@ -789,6 +789,12 @@ class AppLocalizationsPl extends AppLocalizations {
   String get memoryUsage => 'Użycie pamięci';
 
   @override
+  String get messageDeleteFailed => 'Nie udało się usunąć wiadomości';
+
+  @override
+  String get messageDeleteSuccess => 'Pomyślnie usunięto wiadomość';
+
+  @override
   String get messages => 'Wiadomości';
 
   @override

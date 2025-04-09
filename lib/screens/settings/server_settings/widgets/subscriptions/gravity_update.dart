@@ -3,6 +3,7 @@ import 'package:pi_hole_client/config/theme.dart';
 import 'package:pi_hole_client/constants/enums.dart';
 import 'package:pi_hole_client/functions/format.dart';
 import 'package:pi_hole_client/functions/logger.dart';
+import 'package:pi_hole_client/functions/snackbar.dart';
 import 'package:pi_hole_client/l10n/generated/app_localizations.dart';
 import 'package:pi_hole_client/providers/app_config_provider.dart';
 import 'package:pi_hole_client/providers/gravity_provider.dart';
@@ -75,6 +76,148 @@ class _GravityUpdateState extends State<GravityUpdate> {
       ),
       subtitle: Text(subtitle),
     );
+  }
+
+  Widget buildMessageCard({
+    required String title,
+    required String subtitle,
+    required VoidCallback onDelete,
+    required Icon icon,
+    Key? key,
+  }) {
+    return Dismissible(
+      key: key ?? UniqueKey(),
+      direction: DismissDirection.endToStart,
+      background: Container(
+        alignment: Alignment.centerRight,
+        padding: const EdgeInsets.symmetric(horizontal: 16),
+        color: Theme.of(context).extension<AppColors>()!.commonRed,
+        child: const Icon(Icons.delete_rounded, color: Colors.white),
+      ),
+      onDismissed: (_) => onDelete(),
+      child: Card(
+        margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+        child: Padding(
+          padding: const EdgeInsets.symmetric(
+            vertical: 12,
+            horizontal: 16,
+          ),
+          child: Row(
+            children: [
+              Padding(
+                padding: const EdgeInsets.only(right: 12),
+                child: icon,
+              ),
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      title,
+                      style: const TextStyle(
+                        fontSize: 12,
+                        fontWeight: FontWeight.w500,
+                      ),
+                    ),
+                    const SizedBox(height: 2),
+                    Text(
+                      subtitle,
+                      style: TextStyle(
+                        fontSize: 12,
+                        color: Theme.of(context).colorScheme.onSurfaceVariant,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              Icon(
+                Icons.swipe_left_alt_rounded,
+                color: Theme.of(context).colorScheme.outlineVariant,
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget buildMessageTilesFromProvider(
+    BuildContext context,
+    GravityUpdateProvider provider,
+  ) {
+    final l10n = AppLocalizations.of(context)!;
+
+    if (provider.status == GravityStatus.success) {
+      if (provider.messages.isNotEmpty) {
+        return Column(
+          children: provider.messages.map((message) {
+            return buildMessageCard(
+              key: ValueKey(message.url),
+              icon: const Icon(Icons.warning_amber_rounded),
+              title: message.message,
+              subtitle: message.url,
+              onDelete: () => handleDeleteMessage(
+                context: context,
+                provider: provider,
+                appConfigProvider: context.read<AppConfigProvider>(),
+                messageId: message.id,
+              ),
+            );
+          }).toList(),
+        );
+      } else {
+        // No messages
+        return buildMessageTile(
+          title: l10n.noMessages,
+          subtitle: l10n.noIssuesReported,
+        );
+      }
+    }
+
+    if (provider.status == GravityStatus.running) {
+      return buildMessageTile(
+        title: l10n.runningStatus,
+        subtitle: l10n.runningSubtitle,
+      );
+    }
+
+    if (provider.status == GravityStatus.error) {
+      return buildMessageTile(
+        title: l10n.noMessages,
+        subtitle: l10n.noIssuesReported,
+      );
+    }
+
+    // GravityStatus.idle
+    return buildMessageTile(
+      title: l10n.noMessages,
+      subtitle: l10n.noIssuesReported,
+    );
+  }
+
+  Future<void> handleDeleteMessage({
+    required BuildContext context,
+    required GravityUpdateProvider provider,
+    required AppConfigProvider appConfigProvider,
+    required int messageId,
+  }) async {
+    final deleted = await provider.removeMessage(messageId);
+    if (deleted == true) {
+      if (!context.mounted) return;
+      showSuccessSnackBar(
+        context: context,
+        appConfigProvider: appConfigProvider,
+        label: AppLocalizations.of(context)!.messageDeleteSuccess,
+      );
+    } else {
+      if (!context.mounted) return;
+      showErrorSnackBar(
+        context: context,
+        appConfigProvider: appConfigProvider,
+        label: AppLocalizations.of(context)!.messageDeleteFailed,
+      );
+    }
   }
 
   @override
@@ -155,31 +298,7 @@ class _GravityUpdateState extends State<GravityUpdate> {
                 bottom: 8,
               ),
             ),
-            if (gravityProvider.status == GravityStatus.success ||
-                gravityProvider.status == GravityStatus.error)
-              if (gravityProvider.messages.isNotEmpty)
-                ...gravityProvider.messages.map((message) {
-                  return buildMessageTile(
-                    icon: const Icon(Icons.warning_amber_rounded),
-                    title: message.message,
-                    subtitle: message.url,
-                  );
-                })
-              else
-                buildMessageTile(
-                  title: AppLocalizations.of(context)!.noMessages,
-                  subtitle: AppLocalizations.of(context)!.noIssuesReported,
-                )
-            else if (gravityProvider.status == GravityStatus.running)
-              buildMessageTile(
-                title: AppLocalizations.of(context)!.runningStatus,
-                subtitle: AppLocalizations.of(context)!.runningSubtitle,
-              )
-            else
-              buildMessageTile(
-                title: AppLocalizations.of(context)!.noMessages,
-                subtitle: AppLocalizations.of(context)!.noIssuesReported,
-              ),
+            buildMessageTilesFromProvider(context, gravityProvider),
             const SizedBox(height: 24),
             SectionLabel(
               icon: Icons.code_rounded,
