@@ -1127,6 +1127,7 @@ void main() async {
   group('DatabaseRepository.getGravityMessagesQuery', () {
     late SecureStorageRepository secureStorage;
     late DatabaseRepository databaseRepository;
+    const id = 3;
     const address = 'http://localhost';
     final startTime = DateTime.now().toLocal();
     const message = 'test message';
@@ -1145,12 +1146,13 @@ void main() async {
     });
 
     test(
-      'should get gravity messages date',
+      'should get gravity messages data',
       () async {
         final dbHelper = DbHelper(testDb);
         await dbHelper.loadDb();
         await dbHelper.insertGravityMessagesQuery(
           address,
+          id,
           message,
           url,
           startTime,
@@ -1162,6 +1164,7 @@ void main() async {
 
         expect(actual?.length, 1);
         expect(actual![0].toDict(), {
+          'id': id,
           'address': address,
           'message': message,
           'url': url,
@@ -1174,6 +1177,7 @@ void main() async {
   group('DatabaseRepository.insertGravityMessageQuery', () {
     late SecureStorageRepository secureStorage;
     late DatabaseRepository databaseRepository;
+    const id = 3;
     const address = 'http://localhost';
     final startTime = DateTime.now().toLocal();
     const message = 'test message';
@@ -1199,6 +1203,7 @@ void main() async {
 
         final result = await databaseRepository.insertGravityMessageQuery([
           GravityMessagesData(
+            id: id,
             address: address,
             message: message,
             url: url,
@@ -1224,6 +1229,7 @@ void main() async {
   group('DatabaseRepository.clearGravityMessagesQuery', () {
     late SecureStorageRepository secureStorage;
     late DatabaseRepository databaseRepository;
+    const id = 3;
     const address = 'http://localhost';
     final startTime = DateTime.now().toLocal();
     const message = 'test message';
@@ -1248,6 +1254,7 @@ void main() async {
         await dbHelper.loadDb();
         await dbHelper.insertGravityMessagesQuery(
           address,
+          id,
           message,
           url,
           startTime,
@@ -1267,6 +1274,7 @@ void main() async {
   group('DatabaseRepository.getGravityDataQuery', () {
     late SecureStorageRepository secureStorage;
     late DatabaseRepository databaseRepository;
+    const id = 3;
     const address = 'http://localhost';
     final startTime = DateTime.now().toLocal();
     final endTime = DateTime.now().add(const Duration(seconds: 10)).toLocal();
@@ -1295,6 +1303,7 @@ void main() async {
         await dbHelper.insertGravityLogsQuery(address, 1, log, startTime);
         await dbHelper.insertGravityMessagesQuery(
           address,
+          id,
           message,
           url,
           startTime,
@@ -1318,6 +1327,7 @@ void main() async {
         });
 
         expect(actual.gravityMessages!.toList()[0].toDict(), {
+          'id': id,
           'address': address,
           'message': message,
           'url': url,
@@ -1330,6 +1340,7 @@ void main() async {
   group('DatabaseRepository.clearGravityDataQuery', () {
     late SecureStorageRepository secureStorage;
     late DatabaseRepository databaseRepository;
+    const id = 3;
     const address = 'http://localhost';
     final startTime = DateTime.now().toLocal();
     final endTime = DateTime.now().add(const Duration(seconds: 10)).toLocal();
@@ -1358,6 +1369,7 @@ void main() async {
         await dbHelper.insertGravityLogsQuery(address, 1, log, startTime);
         await dbHelper.insertGravityMessagesQuery(
           address,
+          id,
           message,
           url,
           startTime,
@@ -1378,6 +1390,8 @@ void main() async {
   group('DatabaseRepository.clearAllGravityDataQuery', () {
     late SecureStorageRepository secureStorage;
     late DatabaseRepository databaseRepository;
+    const id = 3;
+    const id2 = 4;
     const address = 'http://localhost';
     const address2 = 'http://localhost:8080';
     final startTime = DateTime.now().toLocal();
@@ -1407,6 +1421,7 @@ void main() async {
         await dbHelper.insertGravityLogsQuery(address, 1, log, startTime);
         await dbHelper.insertGravityMessagesQuery(
           address,
+          id,
           message,
           url,
           startTime,
@@ -1420,6 +1435,7 @@ void main() async {
         await dbHelper.insertGravityLogsQuery(address2, 1, log, startTime);
         await dbHelper.insertGravityMessagesQuery(
           address2,
+          id2,
           message,
           url,
           startTime,

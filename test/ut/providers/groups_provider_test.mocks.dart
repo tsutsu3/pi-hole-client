@@ -184,6 +184,12 @@ class _FakeMessagesResponse_24 extends _i1.SmartFake
     : super(parent, parentInvocation);
 }
 
+class _FakeRemoveMessageResponse_25 extends _i1.SmartFake
+    implements _i5.RemoveMessageResponse {
+  _FakeRemoveMessageResponse_25(Object parent, Invocation parentInvocation)
+    : super(parent, parentInvocation);
+}
+
 /// A class which mocks [ServersProvider].
 ///
 /// See the documentation for Mockito's code generation for more information.
@@ -839,4 +845,17 @@ class MockApiGatewayV6 extends _i1.Mock implements _i13.ApiGatewayV6 {
             ),
           )
           as _i10.Future<_i5.MessagesResponse>);
+
+  @override
+  _i10.Future<_i5.RemoveMessageResponse> removeMessage(int? id) =>
+      (super.noSuchMethod(
+            Invocation.method(#removeMessage, [id]),
+            returnValue: _i10.Future<_i5.RemoveMessageResponse>.value(
+              _FakeRemoveMessageResponse_25(
+                this,
+                Invocation.method(#removeMessage, [id]),
+              ),
+            ),
+          )
+          as _i10.Future<_i5.RemoveMessageResponse>);
 }

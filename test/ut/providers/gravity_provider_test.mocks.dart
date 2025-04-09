@@ -202,6 +202,12 @@ class _FakeMessagesResponse_27 extends _i1.SmartFake
     : super(parent, parentInvocation);
 }
 
+class _FakeRemoveMessageResponse_28 extends _i1.SmartFake
+    implements _i7.RemoveMessageResponse {
+  _FakeRemoveMessageResponse_28(Object parent, Invocation parentInvocation)
+    : super(parent, parentInvocation);
+}
+
 /// A class which mocks [ServersProvider].
 ///
 /// See the documentation for Mockito's code generation for more information.
@@ -631,6 +637,14 @@ class MockDatabaseRepository extends _i1.Mock
   _i12.Future<bool> clearAllGravityDataQuery({_i4.Transaction? txn}) =>
       (super.noSuchMethod(
             Invocation.method(#clearAllGravityDataQuery, [], {#txn: txn}),
+            returnValue: _i12.Future<bool>.value(false),
+          )
+          as _i12.Future<bool>);
+
+  @override
+  _i12.Future<bool> deleteMessageQuery(String? address, int? id) =>
+      (super.noSuchMethod(
+            Invocation.method(#deleteMessageQuery, [address, id]),
             returnValue: _i12.Future<bool>.value(false),
           )
           as _i12.Future<bool>);
@@ -1122,4 +1136,17 @@ class MockApiGatewayV6 extends _i1.Mock implements _i15.ApiGatewayV6 {
             ),
           )
           as _i12.Future<_i7.MessagesResponse>);
+
+  @override
+  _i12.Future<_i7.RemoveMessageResponse> removeMessage(int? id) =>
+      (super.noSuchMethod(
+            Invocation.method(#removeMessage, [id]),
+            returnValue: _i12.Future<_i7.RemoveMessageResponse>.value(
+              _FakeRemoveMessageResponse_28(
+                this,
+                Invocation.method(#removeMessage, [id]),
+              ),
+            ),
+          )
+          as _i12.Future<_i7.RemoveMessageResponse>);
 }

@@ -196,9 +196,15 @@ class _FakeMessagesResponse_23 extends _i1.SmartFake
     : super(parent, parentInvocation);
 }
 
-class _FakeStreamedResponse_24 extends _i1.SmartFake
+class _FakeRemoveMessageResponse_24 extends _i1.SmartFake
+    implements _i5.RemoveMessageResponse {
+  _FakeRemoveMessageResponse_24(Object parent, Invocation parentInvocation)
+    : super(parent, parentInvocation);
+}
+
+class _FakeStreamedResponse_25 extends _i1.SmartFake
     implements _i4.StreamedResponse {
-  _FakeStreamedResponse_24(Object parent, Invocation parentInvocation)
+  _FakeStreamedResponse_25(Object parent, Invocation parentInvocation)
     : super(parent, parentInvocation);
 }
 
@@ -1600,6 +1606,19 @@ class MockApiGatewayV5 extends _i1.Mock implements _i26.ApiGatewayV5 {
             ),
           )
           as _i12.Future<_i5.MessagesResponse>);
+
+  @override
+  _i12.Future<_i5.RemoveMessageResponse> removeMessage(int? id) =>
+      (super.noSuchMethod(
+            Invocation.method(#removeMessage, [id]),
+            returnValue: _i12.Future<_i5.RemoveMessageResponse>.value(
+              _FakeRemoveMessageResponse_24(
+                this,
+                Invocation.method(#removeMessage, [id]),
+              ),
+            ),
+          )
+          as _i12.Future<_i5.RemoveMessageResponse>);
 }
 
 /// A class which mocks [ApiGatewayV6].
@@ -1693,7 +1712,7 @@ class MockApiGatewayV6 extends _i1.Mock implements _i29.ApiGatewayV6 {
               #maxRetries: maxRetries,
             }),
             returnValue: _i12.Future<_i4.StreamedResponse>.value(
-              _FakeStreamedResponse_24(
+              _FakeStreamedResponse_25(
                 this,
                 Invocation.method(#httpClientStream, [], {
                   #method: method,
@@ -2088,6 +2107,19 @@ class MockApiGatewayV6 extends _i1.Mock implements _i29.ApiGatewayV6 {
             ),
           )
           as _i12.Future<_i5.MessagesResponse>);
+
+  @override
+  _i12.Future<_i5.RemoveMessageResponse> removeMessage(int? id) =>
+      (super.noSuchMethod(
+            Invocation.method(#removeMessage, [id]),
+            returnValue: _i12.Future<_i5.RemoveMessageResponse>.value(
+              _FakeRemoveMessageResponse_24(
+                this,
+                Invocation.method(#removeMessage, [id]),
+              ),
+            ),
+          )
+          as _i12.Future<_i5.RemoveMessageResponse>);
 }
 
 /// A class which mocks [StatusUpdateService].
@@ -2467,6 +2499,14 @@ class MockGravityUpdateProvider extends _i1.Mock
     Invocation.method(#appendLogs, [entries]),
     returnValueForMissingStub: null,
   );
+
+  @override
+  _i12.Future<bool> removeMessage(int? id) =>
+      (super.noSuchMethod(
+            Invocation.method(#removeMessage, [id]),
+            returnValue: _i12.Future<bool>.value(false),
+          )
+          as _i12.Future<bool>);
 
   @override
   _i12.Future<void> load() =>

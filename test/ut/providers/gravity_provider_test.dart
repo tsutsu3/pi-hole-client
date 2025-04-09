@@ -35,6 +35,7 @@ void main() async {
       apiVersion: 'v6',
     );
 
+    const id = 3;
     const address = 'http://localhost:8081';
     final startTime = DateTime.now().subtract(const Duration(hours: 1));
     final endTime = DateTime.now();
@@ -51,6 +52,7 @@ void main() async {
     );
 
     final gravityMessagesData = GravityMessagesData(
+      id: id,
       address: address,
       message: message,
       url: url,
@@ -95,6 +97,7 @@ void main() async {
           data: MessagesInfo(
             messages: [
               Message(
+                id: id,
                 timestamp: startTime,
                 message: message,
                 url: url,
@@ -162,6 +165,7 @@ void main() async {
         MessagesInfo(
           messages: [
             Message(
+              id: id,
               timestamp: DateTime.now(),
               message: 'Test',
               url: 'http://test.com',
@@ -212,6 +216,7 @@ void main() async {
       final messagesInfo = MessagesInfo(
         messages: [
           Message(
+            id: id,
             timestamp: DateTime.now(),
             message: 'Test',
             url: 'http://test.com',
@@ -240,6 +245,7 @@ void main() async {
         MessagesInfo(
           messages: [
             Message(
+              id: id,
               timestamp: DateTime.now(),
               message: 'Test',
               url: 'http://test.com',

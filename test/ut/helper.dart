@@ -78,6 +78,7 @@ class DbHelper {
             CREATE TABLE gravity_messages (
               id INTEGER PRIMARY KEY AUTOINCREMENT,
               address TEXT NOT NULL,
+              message_id INTEGER NOT NULL,
               message TEXT NOT NULL,
               url TEXT NOT NULL,
               timestamp TEXT NOT NULL,
@@ -228,6 +229,7 @@ class DbHelper {
 
   Future<bool> insertGravityMessagesQuery(
     String address,
+    int messageId,
     String message,
     String url,
     DateTime timestamp,
@@ -238,6 +240,7 @@ class DbHelper {
           'gravity_messages',
           {
             'address': address,
+            'message_id': messageId,
             'message': message,
             'url': url,
             'timestamp': timestamp.toUtc().toIso8601String(),

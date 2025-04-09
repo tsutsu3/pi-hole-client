@@ -312,6 +312,14 @@ class MockDatabaseRepository extends _i1.Mock
             returnValue: _i6.Future<bool>.value(false),
           )
           as _i6.Future<bool>);
+
+  @override
+  _i6.Future<bool> deleteMessageQuery(String? address, int? id) =>
+      (super.noSuchMethod(
+            Invocation.method(#deleteMessageQuery, [address, id]),
+            returnValue: _i6.Future<bool>.value(false),
+          )
+          as _i6.Future<bool>);
 }
 
 /// A class which mocks [AppConfigProvider].
