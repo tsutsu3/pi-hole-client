@@ -22,7 +22,8 @@ class ProcessModal {
     _timer = Timer(delay, () {
       if (_isClosed) return;
       _overlayEntry = _createOverlayEntry(message);
-      Overlay.of(context).insert(_overlayEntry!);
+      final overlay = Overlay.of(context, rootOverlay: true);
+      overlay.insert(_overlayEntry!);
     });
   }
 
