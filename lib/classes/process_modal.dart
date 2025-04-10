@@ -22,6 +22,7 @@ class ProcessModal {
     _timer = Timer(delay, () {
       if (_isClosed) return;
       _overlayEntry = _createOverlayEntry(message);
+      // Use rootOverlay to prevent app exit on back press (mobile only)
       final overlay = Overlay.of(context, rootOverlay: true);
       overlay.insert(_overlayEntry!);
     });
