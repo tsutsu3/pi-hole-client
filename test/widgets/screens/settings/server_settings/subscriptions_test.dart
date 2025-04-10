@@ -830,6 +830,70 @@ void main() async {
           verify(testSetup.mockGravityUpdateProvider.start()).called(1);
         },
       );
+
+      testWidgets(
+        'should delete message when swiped',
+        (WidgetTester tester) async {
+          tester.view.physicalSize = const Size(1080, 2400);
+          tester.view.devicePixelRatio = 2.0;
+
+          when(testSetup.mockGravityUpdateProvider.logs)
+              .thenReturn(['Log1', 'Log2', 'Done']);
+
+          when(testSetup.mockGravityUpdateProvider.status)
+              .thenReturn(GravityStatus.success);
+
+          when(testSetup.mockGravityUpdateProvider.isLoaded).thenReturn(true);
+
+          when(testSetup.mockGravityUpdateProvider.completedAtTime).thenReturn(
+            DateTime.fromMillisecondsSinceEpoch(1733465701 * 1000),
+          );
+
+          when(testSetup.mockGravityUpdateProvider.removeMessage(any))
+              .thenAnswer((_) async => true);
+
+          addTearDown(() {
+            tester.view.resetPhysicalSize();
+            tester.view.resetDevicePixelRatio();
+          });
+
+          await tester.pumpWidget(
+            testSetup.buildTestWidget(
+              const SubscriptionLists(),
+            ),
+          );
+
+          expect(find.byType(SubscriptionLists), findsOneWidget);
+          await tester.pump();
+
+          await tester.tap(find.text('Update Gravity'));
+          await tester.pumpAndSettle();
+
+          expect(
+            find.text(
+              'List with ID 10 was inaccessible during last gravity run',
+            ),
+            findsOneWidget,
+          );
+          expect(find.text('http://localhost:8989/test.txt'), findsOneWidget);
+
+          await tester.drag(
+            find.text(
+              'List with ID 10 was inaccessible during last gravity run',
+            ),
+            const Offset(-500, 0),
+          );
+          await tester.pumpAndSettle(const Duration(milliseconds: 500));
+
+          expect(
+            find.text(
+              'List with ID 10 was inaccessible during last gravity run',
+            ),
+            findsNothing,
+          );
+          expect(find.text('http://localhost:8989/test.txt'), findsNothing);
+        },
+      );
     },
   );
 }
