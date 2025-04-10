@@ -12,12 +12,13 @@ import 'package:pi_hole_client/models/api/v6/domains/domains.dart'
     show AddDomains, Domains;
 import 'package:pi_hole_client/models/api/v6/ftl/ftl.dart' show InfoFtl;
 import 'package:pi_hole_client/models/api/v6/ftl/host.dart' show Host;
+import 'package:pi_hole_client/models/api/v6/ftl/messages.dart' show Messages;
 import 'package:pi_hole_client/models/api/v6/ftl/sensors.dart' show Sensors;
 import 'package:pi_hole_client/models/api/v6/ftl/system.dart' show System;
 import 'package:pi_hole_client/models/api/v6/ftl/version.dart' show Version;
 import 'package:pi_hole_client/models/api/v6/groups/groups.dart' show Groups;
 import 'package:pi_hole_client/models/api/v6/lists/lists.dart' show Lists;
-import 'package:pi_hole_client/models/api/v6/lists/search.dart';
+import 'package:pi_hole_client/models/api/v6/lists/search.dart' show Search;
 import 'package:pi_hole_client/models/api/v6/metrics/history.dart'
     show History, HistoryClients;
 import 'package:pi_hole_client/models/api/v6/metrics/query.dart' show Queries;
@@ -29,6 +30,7 @@ import 'package:pi_hole_client/models/gateways.dart';
 import 'package:pi_hole_client/models/groups.dart';
 import 'package:pi_hole_client/models/host.dart';
 import 'package:pi_hole_client/models/log.dart';
+import 'package:pi_hole_client/models/messages.dart';
 import 'package:pi_hole_client/models/overtime_data.dart';
 import 'package:pi_hole_client/models/realtime_status.dart';
 import 'package:pi_hole_client/models/search.dart';
@@ -119,6 +121,51 @@ class ApiGatewayV6 implements ApiGateway {
     }
 
     throw Exception('Failed to execute HTTP request');
+  }
+
+  Future<http.StreamedResponse> httpClientStream({
+    required String method,
+    required String url,
+    Map<String, String>? headers,
+    Map<String, dynamic>? body,
+    int timeout = 10,
+    int maxRetries = 1,
+  }) async {
+    if (_server.sm.sid == null) {
+      await _server.sm.load();
+    }
+    final authHeaders = headers != null ? {...headers} : {};
+    authHeaders['Content-Type'] = 'application/json';
+    if (_server.sm.sid != null && _server.sm.sid!.isNotEmpty) {
+      authHeaders['X-FTL-SID'] = _server.sm.sid;
+    }
+
+    final stringAuthHeaders = authHeaders.map(
+      (key, value) => MapEntry(key.toString(), value.toString()),
+    );
+
+    for (var attempt = 0; attempt <= maxRetries; attempt++) {
+      final request = http.Request(method.toUpperCase(), Uri.parse(url));
+      request.headers.addAll(stringAuthHeaders);
+      if (body != null) {
+        request.body = jsonEncode(body);
+      }
+
+      final streamedResponse = await _client.send(request).timeout(
+            Duration(seconds: timeout),
+          );
+
+      if (streamedResponse.statusCode == 401) {
+        if (attempt >= maxRetries) return streamedResponse;
+
+        await loginQuery();
+        continue;
+      }
+
+      return streamedResponse;
+    }
+
+    throw Exception('Failed to execute streamed HTTP request');
   }
 
   /// Handles the login process to a Pi-hole server using its API.
@@ -1145,5 +1192,120 @@ class ApiGatewayV6 implements ApiGateway {
     required GroupRequest body,
   }) async {
     throw UnimplementedError();
+  }
+
+  @override
+  Stream<GravityResponse> updateGravity() async* {
+    try {
+      final response = await httpClientStream(
+        method: 'POST',
+        url: '${_server.address}/api/action/gravity',
+      );
+
+      if (response.statusCode == 200) {
+        final stream = response.stream.transform(utf8.decoder);
+        final buffer = StringBuffer();
+
+        await for (final chunk in stream) {
+          buffer.write(chunk);
+
+          final rawLines = buffer.toString().split('\n');
+
+          buffer.clear();
+          if (!chunk.endsWith('\n')) {
+            buffer.write(rawLines.removeLast());
+          } else if (rawLines.isNotEmpty && rawLines.last.isEmpty) {
+            rawLines.removeLast();
+          }
+
+          final trimmedLines =
+              rawLines.map((line) => line.trimRight()).toList();
+
+          if (trimmedLines.isNotEmpty) {
+            yield GravityResponse(
+              result: APiResponseType.progress,
+              data: trimmedLines,
+            );
+          }
+        }
+
+        if (buffer.isNotEmpty) {
+          yield GravityResponse(
+            result: APiResponseType.progress,
+            data: [buffer.toString().trimRight()],
+          );
+        }
+
+        yield GravityResponse(result: APiResponseType.success);
+      } else {
+        yield GravityResponse(
+          result: APiResponseType.error,
+          message: fetchError,
+        );
+      }
+    } catch (e) {
+      yield GravityResponse(
+        result: APiResponseType.error,
+        message: unexpectedError,
+      );
+    }
+  }
+
+  @override
+  Future<MessagesResponse> getMessages() async {
+    try {
+      final results = await httpClient(
+        method: 'get',
+        url: '${_server.address}/api/info/messages',
+      );
+
+      if (results.statusCode == 200) {
+        final messages = Messages.fromJson(jsonDecode(results.body));
+
+        return MessagesResponse(
+          result: APiResponseType.success,
+          data: MessagesInfo.fromV6(messages),
+        );
+      } else {
+        return MessagesResponse(
+          result: APiResponseType.error,
+          message: fetchError,
+        );
+      }
+    } catch (e) {
+      return MessagesResponse(
+        result: APiResponseType.error,
+        message: unexpectedError,
+      );
+    }
+  }
+
+  @override
+  Future<RemoveMessageResponse> removeMessage(int id) async {
+    try {
+      final results = await httpClient(
+        method: 'delete',
+        url: '${_server.address}/api/info/messages/$id',
+      );
+
+      if (results.statusCode == 204) {
+        return RemoveMessageResponse(result: APiResponseType.success);
+      } else if (results.statusCode == 404) {
+        return RemoveMessageResponse(
+          result: APiResponseType.notFound,
+          message: 'Not found',
+        );
+      } else {
+        return RemoveMessageResponse(
+          result: APiResponseType.error,
+          message: fetchError,
+        );
+      }
+    } catch (e) {
+      return RemoveMessageResponse(
+        result: APiResponseType.error,
+        message: unexpectedError,
+      );
+    }
   }
 }

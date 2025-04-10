@@ -21,6 +21,7 @@ import 'package:pi_hole_client/models/app_log.dart' as _i9;
 import 'package:pi_hole_client/models/domain.dart' as _i25;
 import 'package:pi_hole_client/models/gateways.dart' as _i5;
 import 'package:pi_hole_client/models/groups.dart' as _i28;
+import 'package:pi_hole_client/models/messages.dart' as _i34;
 import 'package:pi_hole_client/models/overtime_data.dart' as _i23;
 import 'package:pi_hole_client/models/query_status.dart' as _i16;
 import 'package:pi_hole_client/models/realtime_status.dart' as _i22;
@@ -30,6 +31,7 @@ import 'package:pi_hole_client/models/subscriptions.dart' as _i27;
 import 'package:pi_hole_client/providers/app_config_provider.dart' as _i6;
 import 'package:pi_hole_client/providers/domains_list_provider.dart' as _i24;
 import 'package:pi_hole_client/providers/filters_provider.dart' as _i18;
+import 'package:pi_hole_client/providers/gravity_provider.dart' as _i33;
 import 'package:pi_hole_client/providers/groups_provider.dart' as _i31;
 import 'package:pi_hole_client/providers/servers_provider.dart' as _i15;
 import 'package:pi_hole_client/providers/status_provider.dart' as _i20;
@@ -185,6 +187,24 @@ class _FakeGroupsResponse_21 extends _i1.SmartFake
 class _FakeRemoveGroupResponse_22 extends _i1.SmartFake
     implements _i5.RemoveGroupResponse {
   _FakeRemoveGroupResponse_22(Object parent, Invocation parentInvocation)
+    : super(parent, parentInvocation);
+}
+
+class _FakeMessagesResponse_23 extends _i1.SmartFake
+    implements _i5.MessagesResponse {
+  _FakeMessagesResponse_23(Object parent, Invocation parentInvocation)
+    : super(parent, parentInvocation);
+}
+
+class _FakeRemoveMessageResponse_24 extends _i1.SmartFake
+    implements _i5.RemoveMessageResponse {
+  _FakeRemoveMessageResponse_24(Object parent, Invocation parentInvocation)
+    : super(parent, parentInvocation);
+}
+
+class _FakeStreamedResponse_25 extends _i1.SmartFake
+    implements _i4.StreamedResponse {
+  _FakeStreamedResponse_25(Object parent, Invocation parentInvocation)
     : super(parent, parentInvocation);
 }
 
@@ -1565,6 +1585,40 @@ class MockApiGatewayV5 extends _i1.Mock implements _i26.ApiGatewayV5 {
             ),
           )
           as _i12.Future<_i5.GroupsResponse>);
+
+  @override
+  _i12.Stream<_i5.GravityResponse> updateGravity() =>
+      (super.noSuchMethod(
+            Invocation.method(#updateGravity, []),
+            returnValue: _i12.Stream<_i5.GravityResponse>.empty(),
+          )
+          as _i12.Stream<_i5.GravityResponse>);
+
+  @override
+  _i12.Future<_i5.MessagesResponse> getMessages() =>
+      (super.noSuchMethod(
+            Invocation.method(#getMessages, []),
+            returnValue: _i12.Future<_i5.MessagesResponse>.value(
+              _FakeMessagesResponse_23(
+                this,
+                Invocation.method(#getMessages, []),
+              ),
+            ),
+          )
+          as _i12.Future<_i5.MessagesResponse>);
+
+  @override
+  _i12.Future<_i5.RemoveMessageResponse> removeMessage(int? id) =>
+      (super.noSuchMethod(
+            Invocation.method(#removeMessage, [id]),
+            returnValue: _i12.Future<_i5.RemoveMessageResponse>.value(
+              _FakeRemoveMessageResponse_24(
+                this,
+                Invocation.method(#removeMessage, [id]),
+              ),
+            ),
+          )
+          as _i12.Future<_i5.RemoveMessageResponse>);
 }
 
 /// A class which mocks [ApiGatewayV6].
@@ -1638,6 +1692,40 @@ class MockApiGatewayV6 extends _i1.Mock implements _i29.ApiGatewayV6 {
             ),
           )
           as _i12.Future<_i4.Response>);
+
+  @override
+  _i12.Future<_i4.StreamedResponse> httpClientStream({
+    required String? method,
+    required String? url,
+    Map<String, String>? headers,
+    Map<String, dynamic>? body,
+    int? timeout = 10,
+    int? maxRetries = 1,
+  }) =>
+      (super.noSuchMethod(
+            Invocation.method(#httpClientStream, [], {
+              #method: method,
+              #url: url,
+              #headers: headers,
+              #body: body,
+              #timeout: timeout,
+              #maxRetries: maxRetries,
+            }),
+            returnValue: _i12.Future<_i4.StreamedResponse>.value(
+              _FakeStreamedResponse_25(
+                this,
+                Invocation.method(#httpClientStream, [], {
+                  #method: method,
+                  #url: url,
+                  #headers: headers,
+                  #body: body,
+                  #timeout: timeout,
+                  #maxRetries: maxRetries,
+                }),
+              ),
+            ),
+          )
+          as _i12.Future<_i4.StreamedResponse>);
 
   @override
   _i12.Future<_i5.LoginQueryResponse> loginQuery({bool? refresh = false}) =>
@@ -1998,6 +2086,40 @@ class MockApiGatewayV6 extends _i1.Mock implements _i29.ApiGatewayV6 {
             ),
           )
           as _i12.Future<_i5.GroupsResponse>);
+
+  @override
+  _i12.Stream<_i5.GravityResponse> updateGravity() =>
+      (super.noSuchMethod(
+            Invocation.method(#updateGravity, []),
+            returnValue: _i12.Stream<_i5.GravityResponse>.empty(),
+          )
+          as _i12.Stream<_i5.GravityResponse>);
+
+  @override
+  _i12.Future<_i5.MessagesResponse> getMessages() =>
+      (super.noSuchMethod(
+            Invocation.method(#getMessages, []),
+            returnValue: _i12.Future<_i5.MessagesResponse>.value(
+              _FakeMessagesResponse_23(
+                this,
+                Invocation.method(#getMessages, []),
+              ),
+            ),
+          )
+          as _i12.Future<_i5.MessagesResponse>);
+
+  @override
+  _i12.Future<_i5.RemoveMessageResponse> removeMessage(int? id) =>
+      (super.noSuchMethod(
+            Invocation.method(#removeMessage, [id]),
+            returnValue: _i12.Future<_i5.RemoveMessageResponse>.value(
+              _FakeRemoveMessageResponse_24(
+                this,
+                Invocation.method(#removeMessage, [id]),
+              ),
+            ),
+          )
+          as _i12.Future<_i5.RemoveMessageResponse>);
 }
 
 /// A class which mocks [StatusUpdateService].
@@ -2264,6 +2386,151 @@ class MockSubscriptionsListProvider extends _i1.Mock
         Invocation.method(#removeSubscriptionFromList, [subscription]),
         returnValueForMissingStub: null,
       );
+
+  @override
+  void addListener(_i14.VoidCallback? listener) => super.noSuchMethod(
+    Invocation.method(#addListener, [listener]),
+    returnValueForMissingStub: null,
+  );
+
+  @override
+  void removeListener(_i14.VoidCallback? listener) => super.noSuchMethod(
+    Invocation.method(#removeListener, [listener]),
+    returnValueForMissingStub: null,
+  );
+
+  @override
+  void dispose() => super.noSuchMethod(
+    Invocation.method(#dispose, []),
+    returnValueForMissingStub: null,
+  );
+
+  @override
+  void notifyListeners() => super.noSuchMethod(
+    Invocation.method(#notifyListeners, []),
+    returnValueForMissingStub: null,
+  );
+}
+
+/// A class which mocks [GravityUpdateProvider].
+///
+/// See the documentation for Mockito's code generation for more information.
+class MockGravityUpdateProvider extends _i1.Mock
+    implements _i33.GravityUpdateProvider {
+  MockGravityUpdateProvider() {
+    _i1.throwOnMissingStub(this);
+  }
+
+  @override
+  _i21.GravityStatus get status =>
+      (super.noSuchMethod(
+            Invocation.getter(#status),
+            returnValue: _i21.GravityStatus.idle,
+          )
+          as _i21.GravityStatus);
+
+  @override
+  List<String> get logs =>
+      (super.noSuchMethod(Invocation.getter(#logs), returnValue: <String>[])
+          as List<String>);
+
+  @override
+  bool get isLoaded =>
+      (super.noSuchMethod(Invocation.getter(#isLoaded), returnValue: false)
+          as bool);
+
+  @override
+  List<_i34.Message> get messages =>
+      (super.noSuchMethod(
+            Invocation.getter(#messages),
+            returnValue: <_i34.Message>[],
+          )
+          as List<_i34.Message>);
+
+  @override
+  bool get hasListeners =>
+      (super.noSuchMethod(Invocation.getter(#hasListeners), returnValue: false)
+          as bool);
+
+  @override
+  void update(_i15.ServersProvider? provider) => super.noSuchMethod(
+    Invocation.method(#update, [provider]),
+    returnValueForMissingStub: null,
+  );
+
+  @override
+  void clearMessages() => super.noSuchMethod(
+    Invocation.method(#clearMessages, []),
+    returnValueForMissingStub: null,
+  );
+
+  @override
+  void clearLogs() => super.noSuchMethod(
+    Invocation.method(#clearLogs, []),
+    returnValueForMissingStub: null,
+  );
+
+  @override
+  void setStatus(_i21.GravityStatus? status) => super.noSuchMethod(
+    Invocation.method(#setStatus, [status]),
+    returnValueForMissingStub: null,
+  );
+
+  @override
+  void setStartedAt(DateTime? time) => super.noSuchMethod(
+    Invocation.method(#setStartedAt, [time]),
+    returnValueForMissingStub: null,
+  );
+
+  @override
+  void setCompletedAt(DateTime? time) => super.noSuchMethod(
+    Invocation.method(#setCompletedAt, [time]),
+    returnValueForMissingStub: null,
+  );
+
+  @override
+  void setMessages(_i34.MessagesInfo? messagesInfo) => super.noSuchMethod(
+    Invocation.method(#setMessages, [messagesInfo]),
+    returnValueForMissingStub: null,
+  );
+
+  @override
+  void appendLogs(List<String>? entries) => super.noSuchMethod(
+    Invocation.method(#appendLogs, [entries]),
+    returnValueForMissingStub: null,
+  );
+
+  @override
+  _i12.Future<bool> removeMessage(int? id) =>
+      (super.noSuchMethod(
+            Invocation.method(#removeMessage, [id]),
+            returnValue: _i12.Future<bool>.value(false),
+          )
+          as _i12.Future<bool>);
+
+  @override
+  _i12.Future<void> load() =>
+      (super.noSuchMethod(
+            Invocation.method(#load, []),
+            returnValue: _i12.Future<void>.value(),
+            returnValueForMissingStub: _i12.Future<void>.value(),
+          )
+          as _i12.Future<void>);
+
+  @override
+  _i12.Future<void> start() =>
+      (super.noSuchMethod(
+            Invocation.method(#start, []),
+            returnValue: _i12.Future<void>.value(),
+            returnValueForMissingStub: _i12.Future<void>.value(),
+          )
+          as _i12.Future<void>);
+
+  @override
+  void reset() => super.noSuchMethod(
+    Invocation.method(#reset, []),
+    returnValueForMissingStub: null,
+  );
 
   @override
   void addListener(_i14.VoidCallback? listener) => super.noSuchMethod(

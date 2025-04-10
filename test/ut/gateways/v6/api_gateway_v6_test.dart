@@ -8,6 +8,7 @@ import 'package:pi_hole_client/constants/api_versions.dart';
 import 'package:pi_hole_client/constants/subscription_types.dart';
 import 'package:pi_hole_client/gateways/v6/api_gateway_v6.dart';
 import 'package:pi_hole_client/models/api/v6/ftl/host.dart' show Host;
+import 'package:pi_hole_client/models/api/v6/ftl/messages.dart';
 import 'package:pi_hole_client/models/api/v6/ftl/sensors.dart' show Sensors;
 import 'package:pi_hole_client/models/api/v6/ftl/system.dart' show System;
 import 'package:pi_hole_client/models/api/v6/ftl/version.dart' show Version;
@@ -18,6 +19,7 @@ import 'package:pi_hole_client/models/domain.dart';
 import 'package:pi_hole_client/models/gateways.dart';
 import 'package:pi_hole_client/models/groups.dart';
 import 'package:pi_hole_client/models/host.dart';
+import 'package:pi_hole_client/models/messages.dart';
 import 'package:pi_hole_client/models/search.dart';
 import 'package:pi_hole_client/models/sensors.dart';
 import 'package:pi_hole_client/models/server.dart';
@@ -3003,6 +3005,297 @@ void main() async {
       expect(response.result, APiResponseType.error);
       expect(response.message, unexpectedError);
       expect(response.data?.toJson(), null);
+    });
+  });
+
+  group('updateGravity', () {
+    late Server server;
+
+    setUp(() {
+      server = Server(
+        address: 'http://example.com',
+        alias: 'example',
+        defaultServer: true,
+        apiVersion: SupportedApiVersions.v6,
+      );
+      server.sm.savePassword('xxx123');
+    });
+
+    test(
+        'should emit progress and success when response is 200 with stream data',
+        () async {
+      final mockClient = MockClient();
+
+      final bodyStream = Stream<List<int>>.fromIterable([
+        utf8.encode('Line 1\nLine 2\n'),
+        utf8.encode('Line 3\n'),
+      ]);
+
+      final mockResponse = http.StreamedResponse(bodyStream, 200);
+      final apiGateway = ApiGatewayV6(server, client: mockClient);
+
+      when(mockClient.send(any)).thenAnswer((_) async => mockResponse);
+
+      final responses = <GravityResponse>[];
+
+      await for (final res in apiGateway.updateGravity()) {
+        responses.add(res);
+      }
+
+      expect(responses.length, 3); // progress + success
+      expect(responses[0].data, ['Line 1', 'Line 2']);
+      expect(responses[0].result, APiResponseType.progress);
+      expect(responses[1].data, ['Line 3']);
+      expect(responses[1].result, APiResponseType.progress);
+      expect(responses[2].data, null);
+      expect(responses[2].result, APiResponseType.success);
+    });
+
+    test('should emit error when status code is not 200', () async {
+      final mockClient = MockClient();
+
+      final bodyStream = Stream<List<int>>.fromIterable([
+        utf8.encode('Unauthorized\n'),
+      ]);
+
+      final mockResponse = http.StreamedResponse(bodyStream, 401);
+      final apiGateway = ApiGatewayV6(server, client: mockClient);
+
+      when(mockClient.send(any)).thenAnswer((_) async => mockResponse);
+
+      final responses = <GravityResponse>[];
+
+      await for (final res in apiGateway.updateGravity()) {
+        responses.add(res);
+      }
+
+      expect(responses.length, 1);
+      expect(responses[0].result, APiResponseType.error);
+      expect(responses[0].message, fetchError);
+    });
+
+    test('should emit error when an unexpected exception occurs', () async {
+      final mockClient = MockClient();
+      final apiGateway = ApiGatewayV6(server, client: mockClient);
+
+      when(mockClient.send(any)).thenThrow(Exception('Unexpected error test'));
+
+      final responses = <GravityResponse>[];
+
+      await for (final res in apiGateway.updateGravity()) {
+        responses.add(res);
+      }
+
+      expect(responses.length, 1);
+      expect(responses[0].result, APiResponseType.error);
+      expect(responses[0].message, unexpectedError);
+    });
+  });
+
+  group('getMessages', () {
+    late Server server;
+    const data = {
+      'messages': [
+        {
+          'id': 5,
+          'timestamp': 1743936482,
+          'type': 'LIST',
+          'plain':
+              'List with ID 10 (http://localhost:8989/test.txt) was inaccessible during last gravity run',
+          'html':
+              '<a href="groups/lists?listid=10">List with ID <strong>10</strong> (<code>http://localhost:8989/test.txt</code>)</a> was inaccessible during last gravity run',
+        },
+        {
+          'id': 3,
+          'timestamp': 123456789.123,
+          'type': 'SUBNET',
+          'plain': 'Rate-limiting 192.168.2.42 for at least 5 seconds',
+          'html':
+              'Client <code>192.168.2.42</code> has been rate-limited for at least 5 seconds (current limit: 1000 queries per 60 seconds)',
+        }
+      ],
+      'took': 0.0005114078521728516,
+    };
+    const noData = {'messages': [], 'took': 0.0006268024444580078};
+    const erroData = {
+      'error': {'key': 'unauthorized', 'message': 'Unauthorized', 'hint': null},
+      'took': 0.003,
+    };
+
+    setUp(() {
+      server = Server(
+        address: 'http://example.com',
+        alias: 'example',
+        defaultServer: true,
+        apiVersion: SupportedApiVersions.v6,
+      );
+      server.sm.savePassword('xxx123');
+    });
+
+    test('should return success when retrieving all messgaes', () async {
+      final mockClient = MockClient();
+      final apiGateway = ApiGatewayV6(server, client: mockClient);
+
+      when(
+        mockClient.get(
+          Uri.parse('http://example.com/api/info/messages'),
+          headers: anyNamed('headers'),
+        ),
+      ).thenAnswer((_) async => http.Response(jsonEncode(data), 200));
+
+      final response = await apiGateway.getMessages();
+
+      expect(response.result, APiResponseType.success);
+      expect(response.message, null);
+      expect(
+        response.data?.toJson(),
+        MessagesInfo.fromV6(Messages.fromJson(data)).toJson(),
+      );
+    });
+
+    test('should return success when no data', () async {
+      final mockClient = MockClient();
+      final apiGateway = ApiGatewayV6(server, client: mockClient);
+
+      when(
+        mockClient.get(
+          Uri.parse('http://example.com/api/info/messages'),
+          headers: anyNamed('headers'),
+        ),
+      ).thenAnswer((_) async => http.Response(jsonEncode(noData), 200));
+
+      final response = await apiGateway.getMessages();
+
+      expect(response.result, APiResponseType.success);
+      expect(response.message, null);
+      expect(
+        response.data?.toJson(),
+        MessagesInfo.fromV6(Messages.fromJson(noData)).toJson(),
+      );
+    });
+
+    test('should return an error when status code is 401', () async {
+      final mockClient = MockClient();
+      final apiGateway = ApiGatewayV6(server, client: mockClient);
+
+      when(
+        mockClient.get(
+          Uri.parse('http://example.com/api/info/messages'),
+          headers: anyNamed('headers'),
+        ),
+      ).thenAnswer((_) async => http.Response(jsonEncode(erroData), 401));
+
+      final response = await apiGateway.getMessages();
+
+      expect(response.result, APiResponseType.error);
+      expect(response.message, fetchError);
+      expect(response.data?.toJson(), null);
+    });
+
+    test('should return an error when an unexpected error occurs', () async {
+      final mockClient = MockClient();
+      final apiGateway = ApiGatewayV6(server, client: mockClient);
+
+      when(
+        mockClient.get(
+          Uri.parse('http://example.com/api/info/messages'),
+          headers: anyNamed('headers'),
+        ),
+      ).thenThrow(Exception('Unexpected error test'));
+
+      final response = await apiGateway.getMessages();
+
+      expect(response.result, APiResponseType.error);
+      expect(response.message, unexpectedError);
+      expect(response.data?.toJson(), null);
+    });
+  });
+
+  group('removeMessages', () {
+    late Server server;
+    const id = 3;
+    const noData = {'took': 0.0006268024444580078};
+    const erroData = {
+      'error': {'key': 'unauthorized', 'message': 'Unauthorized', 'hint': null},
+      'took': 0.003,
+    };
+
+    setUp(() {
+      server = Server(
+        address: 'http://example.com',
+        alias: 'example',
+        defaultServer: true,
+        apiVersion: SupportedApiVersions.v6,
+      );
+      server.sm.savePassword('xxx123');
+    });
+
+    test('should return success when id exist', () async {
+      final mockClient = MockClient();
+      final apiGateway = ApiGatewayV6(server, client: mockClient);
+
+      when(
+        mockClient.delete(
+          Uri.parse('http://example.com/api/info/messages/$id'),
+          headers: anyNamed('headers'),
+        ),
+      ).thenAnswer((_) async => http.Response('', 204));
+
+      final response = await apiGateway.removeMessage(id);
+
+      expect(response.result, APiResponseType.success);
+      expect(response.message, null);
+    });
+
+    test('should return success when no data', () async {
+      final mockClient = MockClient();
+      final apiGateway = ApiGatewayV6(server, client: mockClient);
+
+      when(
+        mockClient.delete(
+          Uri.parse('http://example.com/api/info/messages/$id'),
+          headers: anyNamed('headers'),
+        ),
+      ).thenAnswer((_) async => http.Response(jsonEncode(noData), 404));
+
+      final response = await apiGateway.removeMessage(id);
+
+      expect(response.result, APiResponseType.notFound);
+      expect(response.message, 'Not found');
+    });
+
+    test('should return an error when status code is 401', () async {
+      final mockClient = MockClient();
+      final apiGateway = ApiGatewayV6(server, client: mockClient);
+
+      when(
+        mockClient.delete(
+          Uri.parse('http://example.com/api/info/messages/$id'),
+          headers: anyNamed('headers'),
+        ),
+      ).thenAnswer((_) async => http.Response(jsonEncode(erroData), 401));
+
+      final response = await apiGateway.removeMessage(id);
+
+      expect(response.result, APiResponseType.error);
+      expect(response.message, fetchError);
+    });
+
+    test('should return an error when an unexpected error occurs', () async {
+      final mockClient = MockClient();
+      final apiGateway = ApiGatewayV6(server, client: mockClient);
+
+      when(
+        mockClient.delete(
+          Uri.parse('http://example.com/api/info/messages/$id'),
+          headers: anyNamed('headers'),
+        ),
+      ).thenThrow(Exception('Unexpected error test'));
+
+      final response = await apiGateway.getMessages();
+
+      expect(response.result, APiResponseType.error);
+      expect(response.message, unexpectedError);
     });
   });
 }

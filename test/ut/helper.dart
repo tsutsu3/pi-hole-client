@@ -11,10 +11,10 @@ class DbHelper {
   final SecureStorageRepository _secureStorage;
   late Database _db;
 
-  Future<void> loadDb() async {
-    _db = await openDatabase(
+  Future<Database> loadDb() async {
+    return _db = await openDatabase(
       _path,
-      version: 2,
+      version: 3,
       onCreate: (Database db, int version) async {
         await db.execute('''
             CREATE TABLE servers (
@@ -53,6 +53,37 @@ class DbHelper {
               statisticsVisualizationMode,
               sendCrashReports
             ) VALUES (5, 0, 'en', 1, 0, 2, 0, 0, 0, 0, 0)
+          ''');
+        await db.execute('''
+            CREATE TABLE gravity_updates (
+              address TEXT PRIMARY KEY NOT NULL,
+              start_time TEXT NOT NULL,
+              end_time TEXT NOT NULL,
+              status INTEGER NOT NULL
+            )
+          ''');
+
+        await db.execute('''
+            CREATE TABLE gravity_logs (
+              id INTEGER PRIMARY KEY AUTOINCREMENT,
+              address TEXT NOT NULL,
+              line INTEGER NOT NULL,
+              message TEXT NOT NULL,
+              timestamp TEXT NOT NULL,
+              FOREIGN KEY (address) REFERENCES gravity_updates(address) ON DELETE CASCADE
+            )
+          ''');
+
+        await db.execute('''
+            CREATE TABLE gravity_messages (
+              id INTEGER PRIMARY KEY AUTOINCREMENT,
+              address TEXT NOT NULL,
+              message_id INTEGER NOT NULL,
+              message TEXT NOT NULL,
+              url TEXT NOT NULL,
+              timestamp TEXT NOT NULL,
+              FOREIGN KEY (address) REFERENCES gravity_updates(address) ON DELETE CASCADE
+            )
           ''');
       },
       onOpen: (Database db) async {},
@@ -115,9 +146,16 @@ class DbHelper {
   Future<Map<String, dynamic>> readDb() async {
     final servers = await _db.query('servers', orderBy: 'address');
     final appConfig = await _db.query('appConfig');
+    final gravityUpdates = await _db.query('gravity_updates');
+    final gravityLogs = await _db.query('gravity_logs');
+    final gravityMessages = await _db.query('gravity_messages');
     return {
       'servers': servers.toList().map(Map<String, dynamic>.from).toList(),
       'appConfig': appConfig.map(Map<String, dynamic>.from).toList(),
+      'gravity_updates': gravityUpdates.map(Map<String, dynamic>.from).toList(),
+      'gravity_logs': gravityLogs.map(Map<String, dynamic>.from).toList(),
+      'gravity_messages':
+          gravityMessages.map(Map<String, dynamic>.from).toList(),
     };
   }
 
@@ -131,8 +169,85 @@ class DbHelper {
       await _db.transaction((txn) async {
         await txn.delete('servers');
         await txn.delete('appConfig');
+        await txn.delete('gravity_updates');
+        await txn.delete('gravity_logs');
+        await txn.delete('gravity_messages');
       });
       return true;
+    } catch (e) {
+      return false;
+    }
+  }
+
+  Future<bool> insertGravityUpdateQuery(
+    String address,
+    DateTime startTime,
+    DateTime endTime,
+    int status,
+  ) async {
+    try {
+      return await _db.transaction((txn) async {
+        await txn.insert(
+          'gravity_updates',
+          {
+            'address': address,
+            'start_time': startTime.toUtc().toIso8601String(),
+            'end_time': endTime.toUtc().toIso8601String(),
+            'status': status,
+          },
+        );
+        return true;
+      });
+    } catch (e) {
+      return false;
+    }
+  }
+
+  Future<bool> insertGravityLogsQuery(
+    String address,
+    int line,
+    String message,
+    DateTime timestamp,
+  ) async {
+    try {
+      return await _db.transaction((txn) async {
+        await txn.insert(
+          'gravity_logs',
+          {
+            'address': address,
+            'line': line,
+            'message': message,
+            'timestamp': timestamp.toUtc().toIso8601String(),
+          },
+        );
+        return true;
+      });
+    } catch (e) {
+      return false;
+    }
+  }
+
+  Future<bool> insertGravityMessagesQuery(
+    String address,
+    int messageId,
+    String message,
+    String url,
+    DateTime timestamp,
+  ) async {
+    try {
+      return await _db.transaction((txn) async {
+        await txn.insert(
+          'gravity_messages',
+          {
+            'address': address,
+            'message_id': messageId,
+            'message': message,
+            'url': url,
+            'timestamp': timestamp.toUtc().toIso8601String(),
+          },
+        );
+        return true;
+      });
     } catch (e) {
       return false;
     }

@@ -7,11 +7,13 @@ import 'package:pi_hole_client/models/gateways.dart';
 import 'package:pi_hole_client/models/server.dart';
 import 'package:pi_hole_client/models/subscriptions.dart';
 import 'package:pi_hole_client/providers/app_config_provider.dart';
+import 'package:pi_hole_client/providers/gravity_provider.dart';
 import 'package:pi_hole_client/providers/groups_provider.dart';
 import 'package:pi_hole_client/providers/servers_provider.dart';
 import 'package:pi_hole_client/providers/subscriptions_list_provider.dart';
 import 'package:pi_hole_client/screens/common/empty_data_screen.dart';
 import 'package:pi_hole_client/screens/common/pi_hole_v5_not_supported_screen.dart';
+import 'package:pi_hole_client/screens/settings/server_settings/widgets/subscriptions/gravity_update.dart';
 import 'package:pi_hole_client/screens/settings/server_settings/widgets/subscriptions/subscription_details_screen.dart';
 import 'package:pi_hole_client/screens/settings/server_settings/widgets/subscriptions/subscriptions_list.dart';
 import 'package:provider/provider.dart';
@@ -84,17 +86,19 @@ class _SubscriptionListsWidgetState extends State<SubscriptionListsWidget>
 
     Future.microtask(() async {
       if (!mounted) return;
-
       final groupsProvider = context.read<GroupsProvider>();
-      groupsProvider.update(context.read<ServersProvider>());
       await groupsProvider.loadGroups();
+
+      if (!mounted) return;
+      final gravityUpdateProvider = context.read<GravityUpdateProvider>();
+      await gravityUpdateProvider.load();
 
       await widget.subscriptionsListProvider.fetchSubscriptionsList();
     });
 
     widget.subscriptionsListProvider.setSelectedTab(0);
     tabController = TabController(
-      length: 2,
+      length: 3,
       vsync: this,
     );
   }
@@ -154,9 +158,21 @@ class _SubscriptionListsWidgetState extends State<SubscriptionListsWidget>
       }
     }
 
+    Tab buildIconTab(IconData icon, String label) {
+      return Tab(
+        child: Row(
+          children: [
+            Icon(icon),
+            const SizedBox(width: 4),
+            Text(label),
+          ],
+        ),
+      );
+    }
+
     Widget scaffold({void Function(Subscription)? onTap}) {
       return DefaultTabController(
-        length: 2,
+        length: 3,
         child: Scaffold(
           appBar: AppBar(
             title: subscriptionsListProvider.searchMode
@@ -195,38 +211,22 @@ class _SubscriptionListsWidgetState extends State<SubscriptionListsWidget>
               const SizedBox(width: 10),
             ],
             bottom: TabBar(
+              tabAlignment: TabAlignment.center,
+              isScrollable: true,
               controller: tabController,
               onTap: subscriptionsListProvider.setSelectedTab,
               tabs: [
-                Tab(
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      const Icon(Icons.check_circle_rounded),
-                      const Flexible(child: SizedBox(width: 16)),
-                      Flexible(
-                        child: Text(
-                          AppLocalizations.of(context)!.allowList,
-                          overflow: TextOverflow.ellipsis,
-                        ),
-                      ),
-                    ],
-                  ),
+                buildIconTab(
+                  Icons.check_circle_rounded,
+                  AppLocalizations.of(context)!.allowList,
                 ),
-                Tab(
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      const Icon(Icons.block),
-                      const Flexible(child: SizedBox(width: 16)),
-                      Flexible(
-                        child: Text(
-                          AppLocalizations.of(context)!.blockList,
-                          overflow: TextOverflow.ellipsis,
-                        ),
-                      ),
-                    ],
-                  ),
+                buildIconTab(
+                  Icons.block_rounded,
+                  AppLocalizations.of(context)!.blockList,
+                ),
+                buildIconTab(
+                  Icons.rocket_launch_rounded,
+                  AppLocalizations.of(context)!.updateGravity,
                 ),
               ],
             ),
@@ -258,6 +258,7 @@ class _SubscriptionListsWidgetState extends State<SubscriptionListsWidget>
                 },
                 selectedSubscription: selectedSubscription,
               ),
+              const GravityUpdate(),
             ],
           ),
         ),
@@ -265,6 +266,7 @@ class _SubscriptionListsWidgetState extends State<SubscriptionListsWidget>
     }
 
     if (MediaQuery.of(context).size.width > ResponsiveConstants.xxLarge) {
+      // 3 columns layout
       return Row(
         children: [
           Expanded(
@@ -303,6 +305,7 @@ class _SubscriptionListsWidgetState extends State<SubscriptionListsWidget>
         ],
       );
     } else if (MediaQuery.of(context).size.width > ResponsiveConstants.large) {
+      // 2 columns layout
       return scaffold(
         onTap: (subscription) {
           Navigator.push(
@@ -322,6 +325,7 @@ class _SubscriptionListsWidgetState extends State<SubscriptionListsWidget>
         },
       );
     } else {
+      // mobile layout
       return scaffold();
     }
   }

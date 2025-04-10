@@ -255,7 +255,7 @@ class _SubscriptionDetailsScreenState extends State<SubscriptionDetailsScreen> {
       showErrorSnackBar(
         context: context,
         appConfigProvider: appConfigProvider,
-        label: AppLocalizations.of(context)!.cannotAddAdlist,
+        label: AppLocalizations.of(context)!.cannotEditAdlist,
       );
     }
   }

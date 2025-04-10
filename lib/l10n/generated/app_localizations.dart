@@ -557,6 +557,12 @@ abstract class AppLocalizations {
   /// **'Cannot connect to server.'**
   String get cannotConnect;
 
+  /// No description provided for @cannotEditAdlist.
+  ///
+  /// In en, this message translates to:
+  /// **'Failed to update the Adlist'**
+  String get cannotEditAdlist;
+
   /// No description provided for @cannotUpdateSettings.
   ///
   /// In en, this message translates to:
@@ -1163,6 +1169,12 @@ abstract class AppLocalizations {
   /// **'Errors registered by the app'**
   String get errorsApp;
 
+  /// No description provided for @executionLog.
+  ///
+  /// In en, this message translates to:
+  /// **'Execution Log'**
+  String get executionLog;
+
   /// No description provided for @featureNotSupportedMessage.
   ///
   /// In en, this message translates to:
@@ -1234,6 +1246,30 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'App code available on GitHub'**
   String get gitHub;
+
+  /// No description provided for @gravityIsRunning.
+  ///
+  /// In en, this message translates to:
+  /// **'Gravity is running...'**
+  String get gravityIsRunning;
+
+  /// No description provided for @gravityNotYetRun.
+  ///
+  /// In en, this message translates to:
+  /// **'Gravity update has not run yet'**
+  String get gravityNotYetRun;
+
+  /// No description provided for @gravityUpdateCompleted.
+  ///
+  /// In en, this message translates to:
+  /// **'Gravity update completed'**
+  String get gravityUpdateCompleted;
+
+  /// No description provided for @gravityUpdateFailed.
+  ///
+  /// In en, this message translates to:
+  /// **'Gravity update failed'**
+  String get gravityUpdateFailed;
 
   /// No description provided for @groups.
   ///
@@ -1565,6 +1601,24 @@ abstract class AppLocalizations {
   /// **'Memory Usage'**
   String get memoryUsage;
 
+  /// No description provided for @messageDeleteFailed.
+  ///
+  /// In en, this message translates to:
+  /// **'Failed to delete message'**
+  String get messageDeleteFailed;
+
+  /// No description provided for @messageDeleteSuccess.
+  ///
+  /// In en, this message translates to:
+  /// **'Message deleted successfully'**
+  String get messageDeleteSuccess;
+
+  /// No description provided for @messages.
+  ///
+  /// In en, this message translates to:
+  /// **'Messages'**
+  String get messages;
+
   /// No description provided for @minute1.
   ///
   /// In en, this message translates to:
@@ -1655,17 +1709,35 @@ abstract class AppLocalizations {
   /// **'There are no domains to show here.'**
   String get noDomains;
 
+  /// No description provided for @noIssuesReported.
+  ///
+  /// In en, this message translates to:
+  /// **'No issues were reported.'**
+  String get noIssuesReported;
+
   /// No description provided for @noItemsSelected.
   ///
   /// In en, this message translates to:
   /// **'No items selected'**
   String get noItemsSelected;
 
+  /// No description provided for @noLogs.
+  ///
+  /// In en, this message translates to:
+  /// **'No logs.'**
+  String get noLogs;
+
   /// No description provided for @noLogsDisplay.
   ///
   /// In en, this message translates to:
   /// **'No logs to display here'**
   String get noLogsDisplay;
+
+  /// No description provided for @noMessages.
+  ///
+  /// In en, this message translates to:
+  /// **'No messages'**
+  String get noMessages;
 
   /// No description provided for @noSavedConnections.
   ///
@@ -1708,6 +1780,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Not selected'**
   String get notSelected;
+
+  /// No description provided for @notYetExecuted.
+  ///
+  /// In en, this message translates to:
+  /// **'Not yet executed'**
+  String get notYetExecuted;
 
   /// No description provided for @noticeError.
   ///
@@ -1978,6 +2056,18 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Please restart the application to apply the settings.'**
   String get restartAppTakeEffect;
+
+  /// No description provided for @runningStatus.
+  ///
+  /// In en, this message translates to:
+  /// **'Running...'**
+  String get runningStatus;
+
+  /// No description provided for @runningSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'This section will show the result once the task is complete.'**
+  String get runningSubtitle;
 
   /// No description provided for @save.
   ///
@@ -2477,6 +2567,12 @@ abstract class AppLocalizations {
   /// **'Unsupported Feature'**
   String get unsupportedFeatureTitle;
 
+  /// No description provided for @updateGravity.
+  ///
+  /// In en, this message translates to:
+  /// **'Update Gravity'**
+  String get updateGravity;
+
   /// No description provided for @updatePasscode.
   ///
   /// In en, this message translates to:
@@ -2494,6 +2590,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Updating adlist...'**
   String get updatingAdlist;
+
+  /// No description provided for @updatingInProgressMessage.
+  ///
+  /// In en, this message translates to:
+  /// **'Updating... this may take a while. Please keep the app open.'**
+  String get updatingInProgressMessage;
 
   /// No description provided for @upstreamServers.
   ///

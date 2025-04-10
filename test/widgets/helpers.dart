@@ -17,6 +17,7 @@ import 'package:pi_hole_client/gateways/v5/api_gateway_v5.dart';
 import 'package:pi_hole_client/gateways/v6/api_gateway_v6.dart';
 import 'package:pi_hole_client/l10n/generated/app_localizations.dart';
 import 'package:pi_hole_client/models/api/v6/ftl/host.dart' show Host;
+import 'package:pi_hole_client/models/api/v6/ftl/messages.dart' show Messages;
 import 'package:pi_hole_client/models/api/v6/ftl/sensors.dart' show Sensors;
 import 'package:pi_hole_client/models/api/v6/ftl/system.dart' show System;
 import 'package:pi_hole_client/models/api/v6/ftl/version.dart' show Version;
@@ -29,6 +30,7 @@ import 'package:pi_hole_client/models/gateways.dart';
 import 'package:pi_hole_client/models/groups.dart';
 import 'package:pi_hole_client/models/host.dart';
 import 'package:pi_hole_client/models/log.dart';
+import 'package:pi_hole_client/models/messages.dart';
 import 'package:pi_hole_client/models/overtime_data.dart';
 import 'package:pi_hole_client/models/realtime_status.dart';
 import 'package:pi_hole_client/models/sensors.dart';
@@ -39,6 +41,7 @@ import 'package:pi_hole_client/models/version.dart';
 import 'package:pi_hole_client/providers/app_config_provider.dart';
 import 'package:pi_hole_client/providers/domains_list_provider.dart';
 import 'package:pi_hole_client/providers/filters_provider.dart';
+import 'package:pi_hole_client/providers/gravity_provider.dart';
 import 'package:pi_hole_client/providers/groups_provider.dart';
 import 'package:pi_hole_client/providers/servers_provider.dart';
 import 'package:pi_hole_client/providers/status_provider.dart';
@@ -854,6 +857,31 @@ final groups = Groups.fromJson(
   },
 );
 
+final messages = Messages.fromJson(
+  {
+    'messages': [
+      {
+        'id': 5,
+        'timestamp': 1743936482,
+        'type': 'LIST',
+        'plain':
+            'List with ID 10 (http://localhost:8989/test.txt) was inaccessible during last gravity run',
+        'html':
+            '<a href="groups/lists?listid=10">List with ID <strong>10</strong> (<code>http://localhost:8989/test.txt</code>)</a> was inaccessible during last gravity run',
+      },
+      {
+        'id': 3,
+        'timestamp': 123456789.123,
+        'type': 'SUBNET',
+        'plain': 'Rate-limiting 192.168.2.42 for at least 5 seconds',
+        'html':
+            'Client <code>192.168.2.42</code> has been rate-limited for at least 5 seconds (current limit: 1000 queries per 60 seconds)',
+      }
+    ],
+    'took': 0.0005114078521728516,
+  },
+);
+
 /// Initialize the app with the given environment file.
 ///
 /// This function should be called before any other setup.
@@ -917,6 +945,7 @@ Future<void> initializeApp() async {
   StatusUpdateService,
   GroupsProvider,
   SubscriptionsListProvider,
+  GravityUpdateProvider,
 ])
 class TestSetupHelper {
   TestSetupHelper({
@@ -927,6 +956,7 @@ class TestSetupHelper {
     MockDomainsListProvider? customDomainsListProvider,
     MockGroupsProvider? customGroupsProvider,
     MockSubscriptionsListProvider? customSubscriptionsListProvider,
+    MockGravityUpdateProvider? customGravityUpdateProvider,
     MockApiGatewayV5? customApiGatewayV5,
     MockApiGatewayV6? customApiGatewayV6,
     MockStatusUpdateService? customStatusUpdateService,
@@ -940,6 +970,8 @@ class TestSetupHelper {
     mockGroupsProvider = customGroupsProvider ?? MockGroupsProvider();
     mockSubscriptionsListProvider =
         customSubscriptionsListProvider ?? MockSubscriptionsListProvider();
+    mockGravityUpdateProvider =
+        customGravityUpdateProvider ?? MockGravityUpdateProvider();
 
     mockApiGatewayV5 = customApiGatewayV5 ?? MockApiGatewayV5();
     mockApiGatewayV6 = customApiGatewayV6 ?? MockApiGatewayV6();
@@ -955,6 +987,7 @@ class TestSetupHelper {
   late MockDomainsListProvider mockDomainsListProvider;
   late MockGroupsProvider mockGroupsProvider;
   late MockSubscriptionsListProvider mockSubscriptionsListProvider;
+  late MockGravityUpdateProvider mockGravityUpdateProvider;
 
   late MockApiGatewayV5 mockApiGatewayV5;
   late MockApiGatewayV6 mockApiGatewayV6;
@@ -969,6 +1002,7 @@ class TestSetupHelper {
     _initDomainListProviderMock(useApiGatewayVersion);
     _initGroupsPtoviderMock(useApiGatewayVersion);
     _initSubscriptionsListProviderMock(useApiGatewayVersion);
+    _initGravityUpdateProviderMock(useApiGatewayVersion);
     _initApiGatewayV5Mock();
     _initApiGatewayV6Mock();
     _initStatusUpdateServiceMock();
@@ -1026,6 +1060,11 @@ class TestSetupHelper {
             ),
             ChangeNotifierProxyProvider<ServersProvider, GroupsProvider>(
               create: (context) => mockGroupsProvider,
+              update: (context, serverConfig, servers) =>
+                  servers!..update(serverConfig),
+            ),
+            ChangeNotifierProxyProvider<ServersProvider, GravityUpdateProvider>(
+              create: (context) => mockGravityUpdateProvider,
               update: (context, serverConfig, servers) =>
                   servers!..update(serverConfig),
             ),
@@ -1097,6 +1136,11 @@ class TestSetupHelper {
         ),
         ChangeNotifierProxyProvider<ServersProvider, GroupsProvider>(
           create: (context) => mockGroupsProvider,
+          update: (context, serverConfig, servers) =>
+              servers!..update(serverConfig),
+        ),
+        ChangeNotifierProxyProvider<ServersProvider, GravityUpdateProvider>(
+          create: (context) => mockGravityUpdateProvider,
           update: (context, serverConfig, servers) =>
               servers!..update(serverConfig),
         ),
@@ -1298,6 +1342,29 @@ class TestSetupHelper {
 
     when(mockSubscriptionsListProvider.removeSubscriptionFromList(any))
         .thenReturn(null);
+  }
+
+  void _initGravityUpdateProviderMock(String useApiGatewayVersion) {
+    when(mockGravityUpdateProvider.status).thenReturn(GravityStatus.idle);
+
+    when(mockGravityUpdateProvider.logs).thenReturn(['log1', 'log2']);
+
+    when(mockGravityUpdateProvider.messages)
+        .thenReturn(MessagesInfo.fromV6(messages).messages);
+
+    when(mockGravityUpdateProvider.startedAtTime).thenReturn(
+      DateTime.fromMillisecondsSinceEpoch(1733465700 * 1000),
+    ); // Convert to milliseconds since epoch
+
+    when(mockGravityUpdateProvider.completedAtTime).thenReturn(
+      DateTime.fromMillisecondsSinceEpoch(1733465700 * 1000),
+    );
+
+    when(mockGravityUpdateProvider.isLoaded).thenReturn(false);
+
+    when(mockGravityUpdateProvider.load()).thenAnswer((_) async => ());
+    when(mockGravityUpdateProvider.start()).thenAnswer((_) async => ());
+    when(mockGravityUpdateProvider.reset()).thenReturn(null);
   }
 
   void _initApiGatewayV5Mock() {

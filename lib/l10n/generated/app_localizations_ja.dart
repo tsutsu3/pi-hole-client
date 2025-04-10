@@ -237,6 +237,9 @@ class AppLocalizationsJa extends AppLocalizations {
   String get cannotConnect => 'サーバーに接続できません。';
 
   @override
+  String get cannotEditAdlist => 'Adlistの更新に失敗しました';
+
+  @override
   String get cannotUpdateSettings => '設定を更新できません。';
 
   @override
@@ -540,6 +543,9 @@ class AppLocalizationsJa extends AppLocalizations {
   String get errorsApp => 'アプリによって登録されたエラー';
 
   @override
+  String get executionLog => '実行ログ';
+
+  @override
   String get featureNotSupportedMessage => 'この機能は Pi-hole v5 では使用できません。\nPi-hole v6 以降にアップグレードしてください。';
 
   @override
@@ -574,6 +580,18 @@ class AppLocalizationsJa extends AppLocalizations {
 
   @override
   String get gitHub => 'アプリコードはGitHubで利用可能';
+
+  @override
+  String get gravityIsRunning => 'Gravityを実行中...';
+
+  @override
+  String get gravityNotYetRun => 'Gravityの更新はまだ実行されていません';
+
+  @override
+  String get gravityUpdateCompleted => 'Gravityの更新が完了しました';
+
+  @override
+  String get gravityUpdateFailed => 'Gravityの更新に失敗しました';
 
   @override
   String get groups => 'グループ';
@@ -741,6 +759,15 @@ class AppLocalizationsJa extends AppLocalizations {
   String get memoryUsage => 'メモリ使用量';
 
   @override
+  String get messageDeleteFailed => 'メッセージの削除に失敗しました';
+
+  @override
+  String get messageDeleteSuccess => 'メッセージの削除に成功しました';
+
+  @override
+  String get messages => 'メッセージ';
+
+  @override
   String get minute1 => '1分';
 
   @override
@@ -786,10 +813,19 @@ class AppLocalizationsJa extends AppLocalizations {
   String get noDomains => '表示するドメインはありません。';
 
   @override
+  String get noIssuesReported => '問題は報告されていません。';
+
+  @override
   String get noItemsSelected => '項目が選択されていません';
 
   @override
+  String get noLogs => 'ログはありません。';
+
+  @override
   String get noLogsDisplay => 'ここに表示するログはありません';
+
+  @override
+  String get noMessages => 'メッセージはありません';
 
   @override
   String get noSavedConnections => '保存された接続がありません';
@@ -811,6 +847,9 @@ class AppLocalizationsJa extends AppLocalizations {
 
   @override
   String get notSelected => '選択されていません';
+
+  @override
+  String get notYetExecuted => 'まだ実行されていません';
 
   @override
   String get noticeError => 'エラー';
@@ -946,6 +985,12 @@ class AppLocalizationsJa extends AppLocalizations {
 
   @override
   String get restartAppTakeEffect => '設定を反映するためにアプリを再起動してください。';
+
+  @override
+  String get runningStatus => '実行中...';
+
+  @override
+  String get runningSubtitle => '処理が完了すると、ここに結果が表示されます。';
 
   @override
   String get save => '保存';
@@ -1197,6 +1242,9 @@ class AppLocalizationsJa extends AppLocalizations {
   String get unsupportedFeatureTitle => '未対応の機能です';
 
   @override
+  String get updateGravity => 'Gravityの更新';
+
+  @override
   String get updatePasscode => 'パスコードを更新';
 
   @override
@@ -1204,6 +1252,9 @@ class AppLocalizationsJa extends AppLocalizations {
 
   @override
   String get updatingAdlist => 'Adlistを更新中...';
+
+  @override
+  String get updatingInProgressMessage => '更新中です。少し時間がかかる場合があります。アプリを開いたままにしてください。';
 
   @override
   String get upstreamServers => '上流サーバー';

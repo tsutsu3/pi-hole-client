@@ -237,6 +237,9 @@ class AppLocalizationsDe extends AppLocalizations {
   String get cannotConnect => 'Es kann keine Verbindung zum Server hergestellt werden.';
 
   @override
+  String get cannotEditAdlist => 'Adlist konnte nicht aktualisiert werden';
+
+  @override
   String get cannotUpdateSettings => 'Einstellungen können nicht aktualisiert werden.';
 
   @override
@@ -540,6 +543,9 @@ class AppLocalizationsDe extends AppLocalizations {
   String get errorsApp => 'Von der App registrierte Fehler';
 
   @override
+  String get executionLog => 'Ausführungsprotokoll';
+
+  @override
   String get featureNotSupportedMessage => 'Diese Funktion ist in Pi-hole v5 nicht verfügbar.\nBitte aktualisieren Sie auf Pi-hole v6 oder höher.';
 
   @override
@@ -574,6 +580,18 @@ class AppLocalizationsDe extends AppLocalizations {
 
   @override
   String get gitHub => 'Code auf GitHub ansehen';
+
+  @override
+  String get gravityIsRunning => 'Gravity wird ausgeführt …';
+
+  @override
+  String get gravityNotYetRun => 'Gravity wurde noch nicht ausgeführt';
+
+  @override
+  String get gravityUpdateCompleted => 'Gravity-Aktualisierung abgeschlossen';
+
+  @override
+  String get gravityUpdateFailed => 'Gravity-Aktualisierung fehlgeschlagen';
 
   @override
   String get groups => 'Gruppen';
@@ -741,6 +759,15 @@ class AppLocalizationsDe extends AppLocalizations {
   String get memoryUsage => 'Speichernutzung';
 
   @override
+  String get messageDeleteFailed => 'Löschen der Nachricht ist fehlgeschlagen';
+
+  @override
+  String get messageDeleteSuccess => 'Löschen der Nachricht war erfolgreich';
+
+  @override
+  String get messages => 'Nachrichten';
+
+  @override
   String get minute1 => '1 Minute';
 
   @override
@@ -786,10 +813,19 @@ class AppLocalizationsDe extends AppLocalizations {
   String get noDomains => 'Es gibt keine anzuzeigenden Domains.';
 
   @override
+  String get noIssuesReported => 'Es wurden keine Probleme gemeldet.';
+
+  @override
   String get noItemsSelected => 'Keine Elemente ausgewählt';
 
   @override
+  String get noLogs => 'Keine Protokolle.';
+
+  @override
   String get noLogsDisplay => 'Hier gibt\'s keine Logs, die angezeigt werden können.';
+
+  @override
+  String get noMessages => 'Keine Nachrichten';
 
   @override
   String get noSavedConnections => 'Keine gespeicherten Verbindungen';
@@ -811,6 +847,9 @@ class AppLocalizationsDe extends AppLocalizations {
 
   @override
   String get notSelected => 'Nicht ausgewählt';
+
+  @override
+  String get notYetExecuted => 'Noch nicht ausgeführt';
 
   @override
   String get noticeError => 'FEHLER';
@@ -946,6 +985,12 @@ class AppLocalizationsDe extends AppLocalizations {
 
   @override
   String get restartAppTakeEffect => 'Bitte starten Sie die Anwendung neu, um die Einstellungen zu übernehmen.';
+
+  @override
+  String get runningStatus => 'Wird ausgeführt …';
+
+  @override
+  String get runningSubtitle => 'Nach Abschluss des Vorgangs wird hier das Ergebnis angezeigt.';
 
   @override
   String get save => 'Speichern';
@@ -1197,6 +1242,9 @@ class AppLocalizationsDe extends AppLocalizations {
   String get unsupportedFeatureTitle => 'Nicht unterstützte Funktion';
 
   @override
+  String get updateGravity => 'Gravity aktualisieren';
+
+  @override
   String get updatePasscode => 'Passwort ändern';
 
   @override
@@ -1204,6 +1252,9 @@ class AppLocalizationsDe extends AppLocalizations {
 
   @override
   String get updatingAdlist => 'Adlist wird aktualisiert …';
+
+  @override
+  String get updatingInProgressMessage => 'Aktualisierung läuft … das kann eine Weile dauern. Bitte lassen Sie die App geöffnet.';
 
   @override
   String get upstreamServers => 'Upstream-Server';

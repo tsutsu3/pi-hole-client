@@ -237,6 +237,9 @@ class AppLocalizationsEn extends AppLocalizations {
   String get cannotConnect => 'Cannot connect to server.';
 
   @override
+  String get cannotEditAdlist => 'Failed to update the Adlist';
+
+  @override
   String get cannotUpdateSettings => 'Settings cannot be updated.';
 
   @override
@@ -540,6 +543,9 @@ class AppLocalizationsEn extends AppLocalizations {
   String get errorsApp => 'Errors registered by the app';
 
   @override
+  String get executionLog => 'Execution Log';
+
+  @override
   String get featureNotSupportedMessage => 'This feature is not available on Pi-hole v5.\nPlease upgrade to Pi-hole v6 or later.';
 
   @override
@@ -574,6 +580,18 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get gitHub => 'App code available on GitHub';
+
+  @override
+  String get gravityIsRunning => 'Gravity is running...';
+
+  @override
+  String get gravityNotYetRun => 'Gravity update has not run yet';
+
+  @override
+  String get gravityUpdateCompleted => 'Gravity update completed';
+
+  @override
+  String get gravityUpdateFailed => 'Gravity update failed';
 
   @override
   String get groups => 'Groups';
@@ -741,6 +759,15 @@ class AppLocalizationsEn extends AppLocalizations {
   String get memoryUsage => 'Memory Usage';
 
   @override
+  String get messageDeleteFailed => 'Failed to delete message';
+
+  @override
+  String get messageDeleteSuccess => 'Message deleted successfully';
+
+  @override
+  String get messages => 'Messages';
+
+  @override
   String get minute1 => '1 minute';
 
   @override
@@ -786,10 +813,19 @@ class AppLocalizationsEn extends AppLocalizations {
   String get noDomains => 'There are no domains to show here.';
 
   @override
+  String get noIssuesReported => 'No issues were reported.';
+
+  @override
   String get noItemsSelected => 'No items selected';
 
   @override
+  String get noLogs => 'No logs.';
+
+  @override
   String get noLogsDisplay => 'No logs to display here';
+
+  @override
+  String get noMessages => 'No messages';
 
   @override
   String get noSavedConnections => 'No saved connections';
@@ -811,6 +847,9 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get notSelected => 'Not selected';
+
+  @override
+  String get notYetExecuted => 'Not yet executed';
 
   @override
   String get noticeError => 'ERROR';
@@ -946,6 +985,12 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get restartAppTakeEffect => 'Please restart the application to apply the settings.';
+
+  @override
+  String get runningStatus => 'Running...';
+
+  @override
+  String get runningSubtitle => 'This section will show the result once the task is complete.';
 
   @override
   String get save => 'Save';
@@ -1197,6 +1242,9 @@ class AppLocalizationsEn extends AppLocalizations {
   String get unsupportedFeatureTitle => 'Unsupported Feature';
 
   @override
+  String get updateGravity => 'Update Gravity';
+
+  @override
   String get updatePasscode => 'Update passcode';
 
   @override
@@ -1204,6 +1252,9 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get updatingAdlist => 'Updating adlist...';
+
+  @override
+  String get updatingInProgressMessage => 'Updating... this may take a while. Please keep the app open.';
 
   @override
   String get upstreamServers => 'Upstream servers';
