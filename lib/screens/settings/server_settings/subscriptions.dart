@@ -211,7 +211,7 @@ class _SubscriptionListsWidgetState extends State<SubscriptionListsWidget>
               const SizedBox(width: 10),
             ],
             bottom: TabBar(
-              tabAlignment: TabAlignment.center,
+              tabAlignment: TabAlignment.start,
               isScrollable: true,
               controller: tabController,
               onTap: subscriptionsListProvider.setSelectedTab,
