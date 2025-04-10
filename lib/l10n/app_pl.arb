@@ -75,6 +75,7 @@
   "cannotChangeUpdateTime": "Nie można zmienić czasu aktualizacji",
   "cannotCheckUrlSaved": "Nie można sprawdzić, czy ten adres URL jest już zapisany.",
   "cannotConnect": "Nie można połączyć się z serwerem.",
+  "cannotEditAdlist": "Nie udało się zaktualizować listy reklam",
   "cannotUpdateSettings": "Nie można zaktualizować ustawień.",
   "cantReachServer": "Nie można połączyć się z serwerem. Sprawdź adres IP i port.",
   "cantSaveConnectionData": "Nie można zapisać danych połączenia",

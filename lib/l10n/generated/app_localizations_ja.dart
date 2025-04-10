@@ -237,6 +237,9 @@ class AppLocalizationsJa extends AppLocalizations {
   String get cannotConnect => 'サーバーに接続できません。';
 
   @override
+  String get cannotEditAdlist => 'Adlistの更新に失敗しました';
+
+  @override
   String get cannotUpdateSettings => '設定を更新できません。';
 
   @override

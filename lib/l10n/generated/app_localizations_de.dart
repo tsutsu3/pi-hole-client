@@ -237,6 +237,9 @@ class AppLocalizationsDe extends AppLocalizations {
   String get cannotConnect => 'Es kann keine Verbindung zum Server hergestellt werden.';
 
   @override
+  String get cannotEditAdlist => 'Adlist konnte nicht aktualisiert werden';
+
+  @override
   String get cannotUpdateSettings => 'Einstellungen können nicht aktualisiert werden.';
 
   @override

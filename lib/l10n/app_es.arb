@@ -75,6 +75,7 @@
   "cannotChangeUpdateTime": "No se ha podido cambiar el tiempo de auto actualización.",
   "cannotCheckUrlSaved": "No se ha podido comprobar si la URL ya existe.",
   "cannotConnect": "No se ha podido conectar al servidor.",
+  "cannotEditAdlist": "No se pudo actualizar la lista de anuncios",
   "cannotUpdateSettings": "No se han podido actualizar los ajustes.",
   "cantReachServer": "No se puede alcanzar el servidor. Comprueba la dirección IP y el puerto.",
   "cantSaveConnectionData": "No se han podido guardar los datos de conexión.",

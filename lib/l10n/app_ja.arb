@@ -75,6 +75,7 @@
   "cannotChangeUpdateTime": "更新時間を変更できません",
   "cannotCheckUrlSaved": "このURLが保存されているか確認できません。",
   "cannotConnect": "サーバーに接続できません。",
+  "cannotEditAdlist": "Adlistの更新に失敗しました",
   "cannotUpdateSettings": "設定を更新できません。",
   "cantReachServer": "サーバーに到達できません。IPアドレスとポートを確認してください。",
   "cantSaveConnectionData": "接続データを保存できませんでした",

@@ -237,6 +237,9 @@ class AppLocalizationsPl extends AppLocalizations {
   String get cannotConnect => 'Nie można połączyć się z serwerem.';
 
   @override
+  String get cannotEditAdlist => 'Nie udało się zaktualizować listy reklam';
+
+  @override
   String get cannotUpdateSettings => 'Nie można zaktualizować ustawień.';
 
   @override

@@ -75,6 +75,7 @@
   "cannotChangeUpdateTime": "Aktualisierungszeit konnte nicht geändert werden",
   "cannotCheckUrlSaved": "Es konnte nicht geprüft werden, ob diese URL bereits gespeichert ist.",
   "cannotConnect": "Es kann keine Verbindung zum Server hergestellt werden.",
+  "cannotEditAdlist": "Adlist konnte nicht aktualisiert werden",
   "cannotUpdateSettings": "Einstellungen können nicht aktualisiert werden.",
   "cantReachServer": "Server kann nicht erreicht werden. Überprüfen Sie die IP oder den Port.",
   "cantSaveConnectionData": "Verbindungsdaten konnten nicht gespeichert werden",

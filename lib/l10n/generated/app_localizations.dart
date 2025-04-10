@@ -557,6 +557,12 @@ abstract class AppLocalizations {
   /// **'Cannot connect to server.'**
   String get cannotConnect;
 
+  /// No description provided for @cannotEditAdlist.
+  ///
+  /// In en, this message translates to:
+  /// **'Failed to update the Adlist'**
+  String get cannotEditAdlist;
+
   /// No description provided for @cannotUpdateSettings.
   ///
   /// In en, this message translates to:
