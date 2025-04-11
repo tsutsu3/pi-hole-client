@@ -58,10 +58,10 @@ packages:
     dependency: transitive
     description:
       name: args
-      sha256: bf9f5caeea8d8fe6721a9c358dd8a5c1947b27f1cfaa18b39c301273594919e6
+      sha256: d0481093c50b1da8910eb0bb301626d4d8eb7284aa739614d2b394ee09e3ea04
       url: "https://pub.dev"
     source: hosted
-    version: "2.6.0"
+    version: "2.7.0"
   async:
     dependency: transitive
     description:
@@ -335,42 +335,42 @@ packages:
     dependency: "direct main"
     description:
       name: flutter_custom_tabs
-      sha256: "34167bd15fa3479855c011f868e0789c9569c12b64358ca7250accc5a24c3312"
+      sha256: ec5424e196f145ac32e92ddfaee07b883cd4f16f9972812fa8f67fb318b34a4c
       url: "https://pub.dev"
     source: hosted
-    version: "2.1.0"
+    version: "2.2.1"
   flutter_custom_tabs_android:
     dependency: transitive
     description:
       name: flutter_custom_tabs_android
-      sha256: cf06fde8c002f326dc6cbf69ee3f97c3feead4436229da02d2e2aa39d5a5dbf4
+      sha256: "09bc6297fca815a721d21fa168335ad9d266ac3df483628e716d788b7caf191e"
       url: "https://pub.dev"
     source: hosted
-    version: "2.1.0"
+    version: "2.2.0"
   flutter_custom_tabs_ios:
     dependency: transitive
     description:
       name: flutter_custom_tabs_ios
-      sha256: ef2de533bc45fb84fefc3854bc8b1e43001671c6bc6bc55faa57942eecd3f70a
+      sha256: "4c93cba13e51e6edafd6f6984811b31fa774ef0ef58a58b93164f7eff18d5dc3"
       url: "https://pub.dev"
     source: hosted
-    version: "2.1.0"
+    version: "2.2.0"
   flutter_custom_tabs_platform_interface:
     dependency: transitive
     description:
       name: flutter_custom_tabs_platform_interface
-      sha256: e18e9b08f92582123bdb84fb6e4c91804b0579700fed6f887d32fd9a1e96a5d5
+      sha256: d6056832fceb163cabb751b3dd8a4919c03677cad7e4728de8ebcf84cfa4a074
       url: "https://pub.dev"
     source: hosted
-    version: "2.1.0"
+    version: "2.2.0"
   flutter_custom_tabs_web:
     dependency: transitive
     description:
       name: flutter_custom_tabs_web
-      sha256: "08ae322b11e1972a233d057542279873d0f9d1d5f8159c2c741457239d9d562c"
+      sha256: f90a09501c8be7db4604da1d504f39b73c7525dc60f2ffce4cdea0f015e42eb0
       url: "https://pub.dev"
     source: hosted
-    version: "2.1.0"
+    version: "2.2.0"
   flutter_dotenv:
     dependency: "direct main"
     description:
@@ -409,10 +409,10 @@ packages:
     dependency: "direct dev"
     description:
       name: flutter_native_splash
-      sha256: edb09c35ee9230c4b03f13dd45bb3a276d0801865f0a4650b7e2a3bba61a803a
+      sha256: "8321a6d11a8d13977fa780c89de8d257cce3d841eecfb7a4cadffcc4f12d82dc"
       url: "https://pub.dev"
     source: hosted
-    version: "2.4.5"
+    version: "2.4.6"
   flutter_phoenix:
     dependency: "direct main"
     description:
@@ -516,10 +516,10 @@ packages:
     dependency: "direct dev"
     description:
       name: freezed
-      sha256: "7ed2ddaa47524976d5f2aa91432a79da36a76969edd84170777ac5bea82d797c"
+      sha256: "6022db4c7bfa626841b2a10f34dd1e1b68e8f8f9650db6112dcdeeca45ca793c"
       url: "https://pub.dev"
     source: hosted
-    version: "3.0.4"
+    version: "3.0.6"
   freezed_annotation:
     dependency: "direct main"
     description:
@@ -601,10 +601,10 @@ packages:
     dependency: transitive
     description:
       name: image
-      sha256: "13d3349ace88f12f4a0d175eb5c12dcdd39d35c4c109a8a13dfeb6d0bd9e31c3"
+      sha256: "4e973fcf4caae1a4be2fa0a13157aa38a8f9cb049db6529aa00b4d71abc4d928"
       url: "https://pub.dev"
     source: hosted
-    version: "4.5.3"
+    version: "4.5.4"
   integration_test:
     dependency: "direct dev"
     description: flutter
@@ -1006,10 +1006,10 @@ packages:
     dependency: "direct main"
     description:
       name: provider
-      sha256: c8a055ee5ce3fd98d6fc872478b03823ffdb448699c6ebdbbc71d59b596fd48c
+      sha256: "489024f942069c2920c844ee18bb3d467c69e48955a4f32d1677f71be103e310"
       url: "https://pub.dev"
     source: hosted
-    version: "6.1.2"
+    version: "6.1.4"
   pub_semver:
     dependency: transitive
     description:

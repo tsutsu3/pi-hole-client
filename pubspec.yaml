@@ -37,7 +37,7 @@ dependencies:
   flutter_localizations:
     sdk: flutter
   cupertino_icons: ^1.0.2
-  provider: ^6.0.3
+  provider: ^6.1.4
   sqflite: ^2.2.5
   http: ^1.3.0
   expandable: ^5.0.1
@@ -75,7 +75,7 @@ dependencies:
   #     url: https://github.com/JGeek00/flutter_split_view
   #     ref: master-alt
   local_auth: ^2.1.6
-  flutter_custom_tabs: ^2.0.0+1
+  flutter_custom_tabs: ^2.2.1
   mobile_scanner: ^6.0.7
   logger: ^2.4.0
   freezed_annotation: ^3.0.0
@@ -92,7 +92,7 @@ dev_dependencies:
   integration_test:
     sdk: flutter
   flutter_launcher_icons: ^0.14.3
-  flutter_native_splash: ^2.4.3
+  flutter_native_splash: ^2.4.6
   build_runner: ^2.4.13
 
   # The "flutter_lints" package below contains a set of recommended lints to
@@ -101,7 +101,7 @@ dev_dependencies:
   # package. See that file for information about deactivating specific lint
   # rules and activating additional ones.
   flutter_lints: ^5.0.0
-  freezed: ^3.0.4
+  freezed: ^3.0.6
   json_serializable: ^6.9.0
   mockito: ^5.4.4
   full_coverage: ^1.0.0
