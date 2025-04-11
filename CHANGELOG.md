@@ -33,10 +33,6 @@
 - *(android)* Disable autoBackup as a tentative fix for app launch … ([#228](https://github.com/tsutsu3/pi-hole-client/issues/228)) - ([31f1cc2](https://github.com/tsutsu3/pi-hole-client/commit/31f1cc2a29ee28707f062a2466f6a0cd3c41c63b))
 - *(workflow)* Include contributors in release changelog extraction - ([e4b5704](https://github.com/tsutsu3/pi-hole-client/commit/e4b57047524b3c706cde43bdba08ba7da5480abb))
 
-## 🎉 New Contributors 🎉
-
-* @tsutsu3 made their first contribution
-* @dependabot[bot] made their first contribution in [#219](https://github.com/tsutsu3/pi-hole-client/pull/219)
 
 ## [1.1.0_(27)](https://github.com/tsutsu3/pi-hole-client/compare/1.0.3_(23)..1.1.0_(27)) - 2025-03-20
 
