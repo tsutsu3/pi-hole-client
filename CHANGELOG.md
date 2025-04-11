@@ -1,6 +1,40 @@
 # Changelog
 
-## [1.1.0](https://github.com/tsutsu3/pi-hole-client/compare/1.0.3_(23)..1.1.0) - 2025-03-19
+## [1.2.0](https://github.com/tsutsu3/pi-hole-client/compare/1.1.0_(27)..1.2.0) - 2025-04-10
+
+### 🚀 Features
+
+- *(adlist)* Add adlist management screen ([#218](https://github.com/tsutsu3/pi-hole-client/issues/218)) - ([48ef9b1](https://github.com/tsutsu3/pi-hole-client/commit/48ef9b172a30a5b9a0932d75c45db46067f62238))
+- *(adlists)* Add update gravity screen ([#226](https://github.com/tsutsu3/pi-hole-client/issues/226)) - ([6abb292](https://github.com/tsutsu3/pi-hole-client/commit/6abb292f2dd4162bba701c865c4c3736d101e4f6))
+- *(server)* Move optional subroute settings to bottom and wrap in accordion ([#223](https://github.com/tsutsu3/pi-hole-client/issues/223)) - ([0466623](https://github.com/tsutsu3/pi-hole-client/commit/046662370f56e1ff8f3bc5029b1e93ee915af9a8))
+- *(ui)* Add skeleton loading to pi-hole server info screen ([#215](https://github.com/tsutsu3/pi-hole-client/issues/215)) - ([5079179](https://github.com/tsutsu3/pi-hole-client/commit/5079179596a834eafa887273f15dd44ca675b205))
+- *(uninstaller)* Delete user data on Windows, show warning only on Linux ([#217](https://github.com/tsutsu3/pi-hole-client/issues/217)) - ([87c52f4](https://github.com/tsutsu3/pi-hole-client/commit/87c52f4c6c8fa692a8f028b335fa6e72fa170b23))
+
+### 🐛 Bug Fixes
+
+- *(dialog)* UseRootNavigator false to handle back navigation correctly on mobile ([#221](https://github.com/tsutsu3/pi-hole-client/issues/221)) - ([f1e87ef](https://github.com/tsutsu3/pi-hole-client/commit/f1e87ef142359ef060b7dc8031436f16a4451438))
+- *(edit_adlist)* Update progress modal message and correct localization key ([#230](https://github.com/tsutsu3/pi-hole-client/issues/230)) - ([738d8dd](https://github.com/tsutsu3/pi-hole-client/commit/738d8dd1c4d20c57270dc746144f3ba4126bd1f2))
+- *(i18n)* Shorten Polish home label to prevent layout issues - ([02da8ec](https://github.com/tsutsu3/pi-hole-client/commit/02da8ec357e38d28621f312b1f1fb4b4c6d7ec30))
+- *(process_modal)* Use rootOverlay to prevent app exit on back press (mobile only) ([#231](https://github.com/tsutsu3/pi-hole-client/issues/231)) - ([ce0458d](https://github.com/tsutsu3/pi-hole-client/commit/ce0458d1472a8db781ee15aa660d31e53f3fd1a9))
+- *(server_info)* Enable back navigation on empty data screen - ([f41afb8](https://github.com/tsutsu3/pi-hole-client/commit/f41afb808e3a3d6f376b43843338c7c7cf23cf08))
+- *(server_info)* Avoid null crash in ServerInfoScreen when no server is selected ([#220](https://github.com/tsutsu3/pi-hole-client/issues/220)) - ([5a42b00](https://github.com/tsutsu3/pi-hole-client/commit/5a42b0004c90c8a2c6e112c3fd1570092650bbe3))
+- *(server_info)* Handle server info fetch failure in ServerInfoScreen ([#216](https://github.com/tsutsu3/pi-hole-client/issues/216)) - ([99473fb](https://github.com/tsutsu3/pi-hole-client/commit/99473fbb77d9b810bed3c0f5fb0dbd893aebf41a))
+- *(subscriptions)* Align tab bar to the start - ([618edbb](https://github.com/tsutsu3/pi-hole-client/commit/618edbb062987a5f7f529a2f9b9cdf7c74b43bd3))
+- *(version_info)* Handle null values in _canUpdate method - ([c2b5f14](https://github.com/tsutsu3/pi-hole-client/commit/c2b5f1460e6776d6e7ee52d36c48c54a7ca69df3))
+- *(windows)* Include missing DLLs in installer to prevent launch failure ([#213](https://github.com/tsutsu3/pi-hole-client/issues/213)) - ([dbf67a7](https://github.com/tsutsu3/pi-hole-client/commit/dbf67a75cd2bc613b5051ba25c1321602a637326))
+- *(workflow)* Fully remove Android release step to fix syntax error - ([6cf7b69](https://github.com/tsutsu3/pi-hole-client/commit/6cf7b69ca5c96b652bb4c0947b50025cbc2c9d97))
+
+### 🚜 Refactor
+
+- *(server)* Extract common API error handling logic ([#222](https://github.com/tsutsu3/pi-hole-client/issues/222)) - ([12d531f](https://github.com/tsutsu3/pi-hole-client/commit/12d531fde3b6d6a13bc13d9fb2165745aecfc39a))
+
+### ⚙️ Miscellaneous Tasks
+
+- *(android)* Disable autoBackup as a tentative fix for app launch … ([#228](https://github.com/tsutsu3/pi-hole-client/issues/228)) - ([31f1cc2](https://github.com/tsutsu3/pi-hole-client/commit/31f1cc2a29ee28707f062a2466f6a0cd3c41c63b))
+- *(workflow)* Include contributors in release changelog extraction - ([e4b5704](https://github.com/tsutsu3/pi-hole-client/commit/e4b57047524b3c706cde43bdba08ba7da5480abb))
+
+
+## [1.1.0_(27)](https://github.com/tsutsu3/pi-hole-client/compare/1.0.3_(23)..1.1.0_(27)) - 2025-03-20
 
 ### 🚀 Features
 
@@ -39,9 +73,7 @@
 
 ## 🎉 New Contributors 🎉
 
-* @tsutsu3 made their first contribution
 * @mwoolweaver made their first contribution in [#197](https://github.com/tsutsu3/pi-hole-client/pull/197)
-* @dependabot[bot] made their first contribution in [#182](https://github.com/tsutsu3/pi-hole-client/pull/182)
 
 ## [1.0.3_(23)](https://github.com/tsutsu3/pi-hole-client/compare/1.0.2_(21)..1.0.3_(23)) - 2025-03-11
 
