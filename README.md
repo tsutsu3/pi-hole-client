@@ -84,6 +84,7 @@ Easily view statistics, enable or disable the server, access logs, and much more
 <p>▶ Add multiple servers and manage them all in one place.</p>
 <p>▶ Explore query logs and access detailed log information.</p>
 <p>▶ Manage your domain lists: add or remove domains from the whitelist or blacklist.</p>
+<p>▶ Update Adlists and apply changes directly from the app.</p>
 <p>▶ Material You interface with dynamic theming (Android 12+ only).</p>
 
 ## 📌 Requirements
@@ -160,7 +161,7 @@ For details on the licenses applicable to this project, please refer to [LICENSE
 [license-url]: https://github.com/tsutsu3/pi-hole-client/blob/master/LICENSE
 [codecov-shield]: https://img.shields.io/codecov/c/github/tsutsu3/pi-hole-client?token=O6MIIYA211&style=for-the-badge&logo=codecov
 [codecov-url]: https://codecov.io/gh/tsutsu3/pi-hole-client
-[codacy-shield]: https://img.shields.io/codacy/grade/a8a50d5271be491ab68c69513f808ada?style=for-the-badge&logo=codacy
+[codacy-shield]: https://img.shields.io/codacy/grade/e4ab48745a654893b4178f13265bc99f?style=for-the-badge&logo=codacy
 [codacy-url]: https://app.codacy.com/gh/tsutsu3/pi-hole-client/dashboard
 [sonar-quality-gate-shield]: https://img.shields.io/sonar/quality_gate/tsutsu3_pi-hole-client?server=https://sonarcloud.io&style=for-the-badge&logo=sonarqube
 [sonar-quality-gate-url]: https://sonarcloud.io/summary/new_code?id=tsutsu3_pi-hole-client
