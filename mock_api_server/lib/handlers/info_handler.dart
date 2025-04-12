@@ -1,0 +1,246 @@
+import 'dart:convert';
+import 'package:shelf/shelf.dart';
+import 'package:shelf_router/shelf_router.dart';
+
+class InfoHandler {
+  Router get router {
+    final router = Router();
+
+    router.get('/ftl', (Request request) {
+      final mockResponse = {
+        "ftl": {
+          "database": {
+            "gravity": 3928700,
+            "groups": 5,
+            "lists": 57,
+            "clients": 0,
+            "domains": {"allowed": 25, "denied": 50},
+            "regex": {"allowed": 1, "denied": 1},
+          },
+          "privacy_level": 0,
+          "query_frequency": 0.3,
+          "clients": {"total": 15, "active": 12},
+          "pid": 870,
+          "uptime": 617665386.798187,
+          "%mem": 2.0177788734436035,
+          "%cpu": 0.91796875,
+          "allow_destructive": true,
+          "dnsmasq": {
+            "dns_cache_inserted": 281197,
+            "dns_cache_live_freed": 0,
+            "dns_queries_forwarded": 82393,
+            "dns_auth_answered": 0,
+            "dns_local_answered": 59486,
+            "dns_stale_answered": 59702,
+            "dns_unanswered": 7,
+            "dnssec_max_crypto_use": 22,
+            "dnssec_max_sig_fail": 0,
+            "dnssec_max_work": 8,
+            "bootp": 0,
+            "pxe": 0,
+            "dhcp_ack": 145,
+            "dhcp_decline": 0,
+            "dhcp_discover": 26,
+            "dhcp_inform": 0,
+            "dhcp_nak": 0,
+            "dhcp_offer": 26,
+            "dhcp_release": 0,
+            "dhcp_request": 145,
+            "noanswer": 0,
+            "leases_allocated_4": 14,
+            "leases_pruned_4": 6,
+            "leases_allocated_6": 0,
+            "leases_pruned_6": 0,
+            "tcp_connections": 0,
+          },
+        },
+        "took": 0.0010387897491455078,
+      };
+
+      return Response.ok(
+        jsonEncode(mockResponse),
+        headers: {'Content-Type': 'application/json'},
+      );
+    });
+
+    router.get('/host', (Request request) {
+      final mockResponse = {
+        "host": {
+          "uname": {
+            "domainname": "(none)",
+            "machine": "aarch64",
+            "nodename": "berry",
+            "release": "6.6.74+rpt-rpi-v8",
+            "sysname": "Linux",
+            "version": "#1 SMP PREEMPT Debian 1:6.6.74-1+rpt1 (2025-01-27)",
+          },
+          "model": "Raspberry Pi 4 Model B Rev 1.5",
+          "dmi": {
+            "bios": {"vendor": null},
+            "board": {"name": null, "vendor": null, "version": null},
+            "product": {"name": null, "family": null, "version": null},
+            "sys": {"vendor": null},
+          },
+        },
+        "took": 0.0003502368927001953,
+      };
+
+      return Response.ok(
+        jsonEncode(mockResponse),
+        headers: {'Content-Type': 'application/json'},
+      );
+    });
+
+    router.get('/sensors', (Request request) {
+      final mockResponse = {
+        "sensors": {
+          "list": [
+            {
+              "name": "cpu_thermal",
+              "path": "hwmon0",
+              "source": "devices/virtual/thermal/thermal_zone0",
+              "temps": [
+                {
+                  "name": null,
+                  "value": 36.998,
+                  "max": null,
+                  "crit": null,
+                  "sensor": "temp1",
+                },
+              ],
+            },
+            {
+              "name": "rpi_volt",
+              "path": "hwmon1",
+              "source": "devices/platform/soc/soc:firmware/raspberrypi-hwmon",
+              "temps": [],
+            },
+          ],
+          "cpu_temp": 36.998,
+          "hot_limit": 60,
+          "unit": "C",
+        },
+        "took": 0.0007462501525878906,
+      };
+
+      return Response.ok(
+        jsonEncode(mockResponse),
+        headers: {'Content-Type': 'application/json'},
+      );
+    });
+
+    router.get('/system', (Request request) {
+      final mockResponse = {
+        "system": {
+          "uptime": 617786,
+          "memory": {
+            "ram": {
+              "total": 3881892,
+              "free": 1160728,
+              "used": 321660,
+              "available": 3469708,
+              "%used": 8.2861656120263,
+            },
+            "swap": {"total": 204796, "free": 204796, "used": 0, "%used": 0},
+          },
+          "procs": 477,
+          "cpu": {
+            "nprocs": 4,
+            "%cpu": 0.8006004691123962,
+            "load": {
+              "raw": [0.05078125, 0.076171875, 0.02587890625],
+              "percent": [1.26953125, 1.904296875, 0.64697265625],
+            },
+          },
+        },
+        "took": 0.0003943443298339844,
+      };
+
+      return Response.ok(
+        jsonEncode(mockResponse),
+        headers: {'Content-Type': 'application/json'},
+      );
+    });
+
+    router.get('/version', (Request request) {
+      final mockResponse = {
+        "version": {
+          "core": {
+            "local": {
+              "version": "v6.0.6",
+              "branch": "master",
+              "hash": "0f7803b7",
+            },
+            "remote": {"version": "v6.0.6", "hash": "0f7803b7"},
+          },
+          "web": {
+            "local": {
+              "version": "v6.1",
+              "branch": "master",
+              "hash": "1eaddca8",
+            },
+            "remote": {"version": "v6.1", "hash": "1eaddca8"},
+          },
+          "ftl": {
+            "local": {
+              "hash": "a3313229",
+              "branch": "master",
+              "version": "v6.1",
+              "date": "2025-03-30 17:53:24 +0100",
+            },
+            "remote": {"version": "v6.1", "hash": "a3313229"},
+          },
+          "docker": {"local": null, "remote": null},
+        },
+        "took": 0.00012445449829101562,
+      };
+
+      return Response.ok(
+        jsonEncode(mockResponse),
+        headers: {'Content-Type': 'application/json'},
+      );
+    });
+
+    router.get('/messages', (Request request) {
+      final mockResponse = {
+        "messages": [
+          {
+            "id": 128,
+            "timestamp": 1744069550,
+            "type": "DNSMASQ_WARN",
+            "plain":
+                "WARNING in dnsmasq core: ignoring query from non-local network 169.254.233.130 (logged only once)",
+            "html":
+                "Warning in <code>dnsmasq</code> core:<pre>ignoring query from non-local network 169.254.233.130 (logged only once)</pre>Check out <a href=\"https://docs.pi-hole.net/ftldns/dnsmasq_warn/\" target=\"_blank\">our documentation</a> for further information.",
+          },
+          {
+            "id": 130,
+            "timestamp": 1744154131,
+            "type": "NTP",
+            "plain":
+                "Warning NTP client: No valid NTP replies received, check server and network connectivity",
+            "html":
+                "Warning in NTP client:<pre>No valid NTP replies received, check server and network connectivity</pre>",
+          },
+          {
+            "id": 131,
+            "timestamp": 1744481022,
+            "type": "CONNECTION_ERROR",
+            "plain":
+                "Connection error (127.0.0.1#5335): TCP connection failed while receiving payload length from upstream (Connection prematurely closed by remote server)",
+            "html":
+                "Connection error (<strong>127.0.0.1#5335</strong>): TCP connection failed while receiving payload length from upstream (<strong>Connection prematurely closed by remote server</strong>)",
+          },
+        ],
+        "took": 0.003072500228881836,
+      };
+
+      return Response.ok(
+        jsonEncode(mockResponse),
+        headers: {'Content-Type': 'application/json'},
+      );
+    });
+
+    return router;
+  }
+}
