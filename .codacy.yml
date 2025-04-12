@@ -1,0 +1,26 @@
+engines:
+  flutter:
+    enabled: true
+
+build:
+  before:
+    - flutter pub get
+
+exclude_paths:
+  - test/**
+  - lib/**/*.g.dart
+  - lib/**/*.freezed.dart
+  - lib/l10n/generated/**
+  - lib/screens/settings/about/about.dart
+  - .github/**
+  - .vscode/**
+  - android/**
+  - assets/**
+  - debian/**
+  - docs/**
+  - ios/**
+  - linux/**
+  - macos/**
+  - mock_api_server/**
+  - windows/**
+  - winget/**
