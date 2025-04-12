@@ -5,9 +5,9 @@ import 'package:pi_hole_client/functions/conversions.dart';
 import 'package:pi_hole_client/functions/format.dart';
 import 'package:pi_hole_client/l10n/generated/app_localizations.dart';
 import 'package:pi_hole_client/models/domain.dart';
-import 'package:pi_hole_client/screens/domains/delete_domain_modal.dart';
 import 'package:pi_hole_client/screens/domains/domain_comment_modal.dart';
 import 'package:pi_hole_client/widgets/custom_list_tile.dart';
+import 'package:pi_hole_client/widgets/delete_modal.dart';
 
 class DomainDetailsScreen extends StatelessWidget {
   const DomainDetailsScreen({
@@ -32,8 +32,10 @@ class DomainDetailsScreen extends StatelessWidget {
               context: context,
               useRootNavigator:
                   false, // Prevents unexpected app exit on mobile when pressing back
-              builder: (context) => DeleteDomainModal(
-                onConfirm: () {
+              builder: (context) => DeleteModal(
+                title: AppLocalizations.of(context)!.deleteDomain,
+                message: AppLocalizations.of(context)!.deleteDomainMessage,
+                onDelete: () {
                   Navigator.maybePop(context);
                   remove(domain);
                 },

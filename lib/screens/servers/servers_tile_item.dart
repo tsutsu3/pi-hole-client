@@ -12,7 +12,7 @@ import 'package:pi_hole_client/providers/app_config_provider.dart';
 import 'package:pi_hole_client/providers/servers_provider.dart';
 import 'package:pi_hole_client/providers/status_provider.dart';
 import 'package:pi_hole_client/screens/servers/add_server_fullscreen.dart';
-import 'package:pi_hole_client/screens/servers/delete_modal.dart';
+import 'package:pi_hole_client/screens/servers/delete_server_modal.dart';
 import 'package:pi_hole_client/services/status_update_service.dart';
 import 'package:provider/provider.dart';
 
@@ -53,7 +53,7 @@ class _ServersTileItemState extends State<ServersTileItem>
             context: context,
             useRootNavigator:
                 false, // Prevents unexpected app exit on mobile when pressing back
-            builder: (context) => DeleteModal(
+            builder: (context) => DeleteServerModal(
               serverToDelete: server,
             ),
             barrierDismissible: false,

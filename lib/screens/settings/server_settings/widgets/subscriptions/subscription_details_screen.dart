@@ -13,9 +13,9 @@ import 'package:pi_hole_client/models/subscriptions.dart';
 import 'package:pi_hole_client/providers/app_config_provider.dart';
 import 'package:pi_hole_client/providers/servers_provider.dart';
 import 'package:pi_hole_client/providers/subscriptions_list_provider.dart';
-import 'package:pi_hole_client/screens/settings/server_settings/widgets/subscriptions/delete_subscription_modal.dart';
 import 'package:pi_hole_client/screens/settings/server_settings/widgets/subscriptions/edit_subscription_modal.dart';
 import 'package:pi_hole_client/widgets/custom_list_tile.dart';
+import 'package:pi_hole_client/widgets/delete_modal.dart';
 import 'package:pi_hole_client/widgets/section_label.dart';
 import 'package:provider/provider.dart';
 
@@ -87,8 +87,10 @@ class _SubscriptionDetailsScreenState extends State<SubscriptionDetailsScreen> {
               context: context,
               useRootNavigator:
                   false, // Prevents unexpected app exit on mobile when pressing back
-              builder: (context) => DeleteSubscriptionModal(
-                onConfirm: () {
+              builder: (context) => DeleteModal(
+                title: AppLocalizations.of(context)!.deleteAdlist,
+                message: AppLocalizations.of(context)!.deleteAdlistMessage,
+                onDelete: () {
                   Navigator.maybePop(context);
                   widget.remove(_subscription);
                 },
