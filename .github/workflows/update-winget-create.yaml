@@ -1,12 +1,8 @@
-name: Update Winget Manifest
+name: Update Winget Manifest - Create
 
 on:
-  push:
-    branches:
-      - main
-  pull_request_target:
-    types:
-      - closed
+  release:
+    types: [published]
   workflow_dispatch:
 
 jobs:
@@ -37,7 +33,6 @@ jobs:
     name: Create winget manifest
     runs-on: windows-latest
     needs: get-version
-    if: github.event_name == 'release' || github.event_name == 'workflow_dispatch'
 
     steps:
       - name: Checkout main branch
@@ -94,26 +89,3 @@ jobs:
             --head winget/update-v${{ needs.get-version.outputs.VERSION_NAME }}
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-
-  winget-submit:
-    name: Submit manifest to winget-pkgs
-    runs-on: windows-latest
-    needs: get-version
-    if: github.event.pull_request.merged == true && startsWith(github.event.pull_request.head.ref, 'winget/update-v')
-    steps:
-      - name: Install winget
-        uses: Cyberboss/install-winget@v1
-        with:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-
-      - name: Install wingetcreate
-        run: |
-          winget install wingetcreate --silent --disable-interactivity --accept-source-agreements --accept-package-agreements
-
-      - name: Run wingetcreate update with submit
-        run: |
-          cd winget
-          wingetcreate update tsutsu3.Pi-hole-client `
-            -u "https://github.com/tsutsu3/pi-hole-client/releases/download/${{ needs.get-version.outputs.VERSION_NAME }}_(${{ needs.get-version.outputs.VERSION_NUMBER }})/PiHoleClient_${{ needs.get-version.outputs.VERSION_NAME }}_Windows_x64.exe" `
-            --version ${{ needs.get-version.outputs.VERSION_NAME }} `
-            --submit
