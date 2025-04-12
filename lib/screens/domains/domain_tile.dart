@@ -37,6 +37,40 @@ class DomainTile extends StatelessWidget {
       );
     }
 
+    final Widget content = Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      children: [
+        Expanded(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                domain.domain,
+                overflow: TextOverflow.ellipsis,
+                style: const TextStyle(
+                  fontWeight: FontWeight.w400,
+                  fontSize: 16,
+                ),
+              ),
+              const SizedBox(height: 10),
+              Text(
+                formatTimestamp(domain.dateAdded, 'yyyy-MM-dd'),
+                overflow: TextOverflow.ellipsis,
+                style: TextStyle(
+                  color: Theme.of(context).listTileTheme.textColor,
+                  fontSize: 14,
+                  height: 1.4,
+                  fontWeight: FontWeight.w400,
+                ),
+              ),
+            ],
+          ),
+        ),
+        const SizedBox(width: 16),
+        domainType(domain.type),
+      ],
+    );
+
     if (MediaQuery.of(context).size.width > ResponsiveConstants.large) {
       return Padding(
         padding: const EdgeInsets.symmetric(horizontal: 12),
@@ -57,43 +91,7 @@ class DomainTile extends StatelessWidget {
                     ? Theme.of(context).colorScheme.primaryContainer
                     : null,
               ),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Expanded(
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        SizedBox(
-                          child: Text(
-                            domain.domain,
-                            overflow: TextOverflow.ellipsis,
-                            style: const TextStyle(
-                              fontWeight: FontWeight.w400,
-                              fontSize: 16,
-                            ),
-                          ),
-                        ),
-                        const SizedBox(height: 10),
-                        SizedBox(
-                          child: Text(
-                            formatTimestamp(domain.dateAdded, 'yyyy-MM-dd'),
-                            overflow: TextOverflow.ellipsis,
-                            style: TextStyle(
-                              color: Theme.of(context).listTileTheme.textColor,
-                              fontSize: 14,
-                              height: 1.4,
-                              fontWeight: FontWeight.w400,
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                  const SizedBox(width: 16),
-                  Flexible(child: domainType(domain.type)),
-                ],
-              ),
+              child: content,
             ),
           ),
         ),
@@ -106,43 +104,7 @@ class DomainTile extends StatelessWidget {
           child: Container(
             width: double.maxFinite,
             padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Expanded(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      SizedBox(
-                        child: Text(
-                          domain.domain,
-                          overflow: TextOverflow.ellipsis,
-                          style: const TextStyle(
-                            fontWeight: FontWeight.w400,
-                            fontSize: 16,
-                          ),
-                        ),
-                      ),
-                      const SizedBox(height: 10),
-                      SizedBox(
-                        child: Text(
-                          formatTimestamp(domain.dateAdded, 'yyyy-MM-dd'),
-                          overflow: TextOverflow.ellipsis,
-                          style: TextStyle(
-                            color: Theme.of(context).listTileTheme.textColor,
-                            fontSize: 14,
-                            height: 1.4,
-                            fontWeight: FontWeight.w400,
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-                const SizedBox(width: 16),
-                domainType(domain.type),
-              ],
-            ),
+            child: content,
           ),
         ),
       );
