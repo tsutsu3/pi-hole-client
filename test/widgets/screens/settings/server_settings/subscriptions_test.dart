@@ -7,9 +7,9 @@ import 'package:pi_hole_client/screens/common/empty_data_screen.dart';
 import 'package:pi_hole_client/screens/common/pi_hole_v5_not_supported_screen.dart';
 import 'package:pi_hole_client/screens/settings/server_settings/subscriptions.dart';
 import 'package:pi_hole_client/screens/settings/server_settings/widgets/subscriptions/add_subscription_modal.dart';
-import 'package:pi_hole_client/screens/settings/server_settings/widgets/subscriptions/delete_subscription_modal.dart';
 import 'package:pi_hole_client/screens/settings/server_settings/widgets/subscriptions/edit_subscription_modal.dart';
 import 'package:pi_hole_client/screens/settings/server_settings/widgets/subscriptions/subscription_details_screen.dart';
+import 'package:pi_hole_client/widgets/delete_modal.dart';
 import 'package:pi_hole_client/widgets/labeled_multi_select_tile.dart';
 
 import '../../../helpers.dart';
@@ -482,9 +482,9 @@ void main() async {
           await tester.pumpAndSettle();
 
           // Show remove modal
-          expect(find.byType(DeleteSubscriptionModal), findsOneWidget);
+          expect(find.byType(DeleteModal), findsOneWidget);
           expect(find.text('Delete adlist'), findsOneWidget);
-          await tester.tap(find.text('Confirm'));
+          await tester.tap(find.text('Delete'));
           await tester.pumpAndSettle();
 
           expect(find.byType(SnackBar), findsOneWidget);
@@ -524,9 +524,9 @@ void main() async {
           await tester.pumpAndSettle();
 
           // Show remove modal
-          expect(find.byType(DeleteSubscriptionModal), findsOneWidget);
+          expect(find.byType(DeleteModal), findsOneWidget);
           expect(find.text('Delete adlist'), findsOneWidget);
-          await tester.tap(find.text('Confirm'));
+          await tester.tap(find.text('Delete'));
           await tester.pumpAndSettle();
 
           expect(find.byType(SnackBar), findsOneWidget);

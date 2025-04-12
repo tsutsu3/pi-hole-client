@@ -2453,12 +2453,6 @@ class MockGravityUpdateProvider extends _i1.Mock
           as bool);
 
   @override
-  void update(_i15.ServersProvider? provider) => super.noSuchMethod(
-    Invocation.method(#update, [provider]),
-    returnValueForMissingStub: null,
-  );
-
-  @override
   void clearMessages() => super.noSuchMethod(
     Invocation.method(#clearMessages, []),
     returnValueForMissingStub: null,
@@ -2497,6 +2491,12 @@ class MockGravityUpdateProvider extends _i1.Mock
   @override
   void appendLogs(List<String>? entries) => super.noSuchMethod(
     Invocation.method(#appendLogs, [entries]),
+    returnValueForMissingStub: null,
+  );
+
+  @override
+  void update(_i15.ServersProvider? provider) => super.noSuchMethod(
+    Invocation.method(#update, [provider]),
     returnValueForMissingStub: null,
   );
 

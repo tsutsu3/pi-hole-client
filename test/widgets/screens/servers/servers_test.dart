@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/mockito.dart';
 import 'package:pi_hole_client/screens/servers/add_server_fullscreen.dart';
-import 'package:pi_hole_client/screens/servers/delete_modal.dart';
+import 'package:pi_hole_client/screens/servers/delete_server_modal.dart';
 import 'package:pi_hole_client/screens/servers/servers.dart';
 
 import '../../helpers.dart';
@@ -194,9 +194,9 @@ void main() async {
         expect(find.text('Delete'), findsOneWidget);
         await tester.tap(find.text('Delete'));
         await tester.pumpAndSettle();
-        expect(find.byType(DeleteModal), findsOneWidget);
-        expect(find.text('Remove'), findsWidgets);
-        await tester.tap(find.text('Remove').last);
+        expect(find.byType(DeleteServerModal), findsOneWidget);
+        expect(find.text('Delete'), findsWidgets);
+        await tester.tap(find.text('Delete').last);
         await tester.pumpAndSettle();
         expect(find.byType(SnackBar), findsOneWidget);
         expect(find.text('Connection removed successfully'), findsOneWidget);
