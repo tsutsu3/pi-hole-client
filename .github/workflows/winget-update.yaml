@@ -1,10 +1,15 @@
-name: Manual update Winget Manifest
+name: Update Winget Manifest
 
 on:
+  push:
+    branches:
+      - main
+  pull_request_target:
+    types:
+      - closed
   workflow_dispatch:
 
 jobs:
-  # Release draftが解除されたら実行
   get-version:
     name: Extract Version from pubspec.yaml
     runs-on: ubuntu-latest
@@ -28,11 +33,87 @@ jobs:
           echo "Extracted Version Name: $VERSION_NAME"
           echo "Extracted Version Number: $VERSION_NUMBER"
 
-  # Release draftが解除されたら実行し、manifestを作成。このリポジトリのPRを作成する
   winget-update:
+    name: Create winget manifest
     runs-on: windows-latest
     needs: get-version
+    if: github.event_name == 'release' || github.event_name == 'workflow_dispatch'
 
-  # 上記PRがマージされたら、wingetのリポジトリにPRを作成する
+    steps:
+      - name: Checkout main branch
+        uses: actions/checkout@v4
+        with:
+          ref: main
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Install winget
+        uses: Cyberboss/install-winget@v1
+        with:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Install wingetcreate
+        run: |
+          winget install wingetcreate --silent --disable-interactivity --accept-source-agreements --accept-package-agreements
+
+      - name: Create manifest using wingetcreate
+        run: |
+          cd winget
+          wingetcreate update tsutsu3.Pi-hole-client `
+            -u "https://github.com/tsutsu3/pi-hole-client/releases/download/${{ needs.get-version.outputs.VERSION_NAME }}_(${{ needs.get-version.outputs.VERSION_NUMBER }})/PiHoleClient_${{ needs.get-version.outputs.VERSION_NAME }}_Windows_x64.exe" `
+            --version ${{ needs.get-version.outputs.VERSION_NAME }} `
+
+      - name: Remove old manifest versions
+        run: |
+          $version = "${{ needs.get-version.outputs.VERSION_NAME }}"
+          $baseDir = "winget/manifests/t/tsutsu3/Pi-hole-client"
+
+          if (Test-Path $baseDir) {
+            Get-ChildItem -Path $baseDir -Directory |
+              Where-Object { $_.Name -ne $version } |
+              Remove-Item -Recurse -Force
+          }
+
+      - name: Create new branch
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git checkout -b winget/update-v${{ needs.get-version.outputs.VERSION_NAME }}
+
+      - name: Commit manifest files
+        run: |
+          git add winget/
+          git commit -m "chore: update winget manifest to v${{ needs.get-version.outputs.VERSION_NAME }}"
+          git push origin winget/update-v${{ needs.get-version.outputs.VERSION_NAME }}
+
+      - name: Create Pull Request using GitHub CLI
+        run: |
+          gh pr create `
+            --title "chore(winget): winget manifest for v${{ needs.get-version.outputs.VERSION_NAME }}" `
+            --body "This PR updates the winget manifest for version v${{ needs.get-version.outputs.VERSION_NAME }}." `
+            --base main `
+            --head winget/update-v${{ needs.get-version.outputs.VERSION_NAME }}
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
   winget-submit:
+    name: Submit manifest to winget-pkgs
     runs-on: windows-latest
+    needs: get-version
+    if: github.event.pull_request.merged == true && startsWith(github.event.pull_request.head.ref, 'winget/update-v')
+    steps:
+      - name: Install winget
+        uses: Cyberboss/install-winget@v1
+        with:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Install wingetcreate
+        run: |
+          winget install wingetcreate --silent --disable-interactivity --accept-source-agreements --accept-package-agreements
+
+      - name: Run wingetcreate update with submit
+        run: |
+          cd winget
+          wingetcreate update tsutsu3.Pi-hole-client `
+            -u "https://github.com/tsutsu3/pi-hole-client/releases/download/${{ needs.get-version.outputs.VERSION_NAME }}_(${{ needs.get-version.outputs.VERSION_NUMBER }})/PiHoleClient_${{ needs.get-version.outputs.VERSION_NAME }}_Windows_x64.exe" `
+            --version ${{ needs.get-version.outputs.VERSION_NAME }} `
+            --submit
