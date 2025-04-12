@@ -251,7 +251,7 @@ class _HomeState extends State<Home> {
                                   tiles(),
                                   const SizedBox(height: 24),
                                   const HomeCharts(),
-                                  const SizedBox(height: 16),
+                                  const SizedBox(height: 90),
                                 ],
                               ),
                             ],
