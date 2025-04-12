@@ -193,10 +193,10 @@ void main() async {
           find.text('Are you sure you want to delete this domain?'),
           findsOneWidget,
         );
-        expect(find.text('Confirm'), findsOneWidget);
+        expect(find.text('Delete'), findsOneWidget);
 
         // Tap confirm button
-        await tester.tap(find.text('Confirm'));
+        await tester.tap(find.text('Delete'));
         // await tester.pump(const Duration(milliseconds: 1000));
         await tester.pumpAndSettle();
         // expect(find.text('Domain removed successfully'), findsWidgets);
@@ -282,10 +282,10 @@ void main() async {
           find.text('Are you sure you want to delete this domain?'),
           findsOneWidget,
         );
-        expect(find.text('Confirm'), findsOneWidget);
+        expect(find.text('Delete'), findsOneWidget);
 
         // Tap confirm button
-        await tester.tap(find.text('Confirm'));
+        await tester.tap(find.text('Delete'));
         await tester.pump(const Duration(milliseconds: 1000));
         expect(find.text('Domain removed successfully'), findsWidgets);
 
