@@ -1,0 +1,91 @@
+name: Update Winget Manifest - Create
+
+on:
+  release:
+    types: [published]
+  workflow_dispatch:
+
+jobs:
+  get-version:
+    name: Extract Version from pubspec.yaml
+    runs-on: ubuntu-latest
+    outputs:
+      VERSION_NAME: ${{ steps.extract_version.outputs.VERSION_NAME }}
+      VERSION_NUMBER: ${{ steps.extract_version.outputs.VERSION_NUMBER }}
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Extract version from pubspec.yaml
+        id: extract_version
+        run: |
+          VERSION_FULL=$(grep '^version:' pubspec.yaml | sed 's/version: //')
+          VERSION_NAME=$(echo $VERSION_FULL | cut -d '+' -f 1)
+          VERSION_NUMBER=$(echo $VERSION_FULL | cut -d '+' -f 2)
+          echo "VERSION_NAME=$VERSION_NAME" >> $GITHUB_ENV
+          echo "VERSION_NUMBER=$VERSION_NUMBER" >> $GITHUB_ENV
+          echo "VERSION_NAME=$VERSION_NAME" >> $GITHUB_OUTPUT
+          echo "VERSION_NUMBER=$VERSION_NUMBER" >> $GITHUB_OUTPUT
+          echo "Extracted Version Name: $VERSION_NAME"
+          echo "Extracted Version Number: $VERSION_NUMBER"
+
+  winget-update:
+    name: Create winget manifest
+    runs-on: windows-latest
+    needs: get-version
+
+    steps:
+      - name: Checkout main branch
+        uses: actions/checkout@v4
+        with:
+          ref: main
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Install winget
+        uses: Cyberboss/install-winget@v1
+        with:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Install wingetcreate
+        run: |
+          winget install wingetcreate --silent --disable-interactivity --accept-source-agreements --accept-package-agreements
+
+      - name: Create manifest using wingetcreate
+        run: |
+          cd winget
+          wingetcreate update tsutsu3.Pi-hole-client `
+            -u "https://github.com/tsutsu3/pi-hole-client/releases/download/${{ needs.get-version.outputs.VERSION_NAME }}_(${{ needs.get-version.outputs.VERSION_NUMBER }})/PiHoleClient_${{ needs.get-version.outputs.VERSION_NAME }}_Windows_x64.exe" `
+            --version ${{ needs.get-version.outputs.VERSION_NAME }} `
+
+      - name: Remove old manifest versions
+        run: |
+          $version = "${{ needs.get-version.outputs.VERSION_NAME }}"
+          $baseDir = "winget/manifests/t/tsutsu3/Pi-hole-client"
+
+          if (Test-Path $baseDir) {
+            Get-ChildItem -Path $baseDir -Directory |
+              Where-Object { $_.Name -ne $version } |
+              Remove-Item -Recurse -Force
+          }
+
+      - name: Create new branch
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git checkout -b winget/update-v${{ needs.get-version.outputs.VERSION_NAME }}
+
+      - name: Commit manifest files
+        run: |
+          git add winget/
+          git commit -m "chore: update winget manifest to v${{ needs.get-version.outputs.VERSION_NAME }}"
+          git push origin winget/update-v${{ needs.get-version.outputs.VERSION_NAME }}
+
+      - name: Create Pull Request using GitHub CLI
+        run: |
+          gh pr create `
+            --title "chore(winget): winget manifest for v${{ needs.get-version.outputs.VERSION_NAME }}" `
+            --body "This PR updates the winget manifest for version v${{ needs.get-version.outputs.VERSION_NAME }}." `
+            --base main `
+            --head winget/update-v${{ needs.get-version.outputs.VERSION_NAME }}
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
