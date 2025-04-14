@@ -49,12 +49,12 @@ dependencies:
   flutter_svg: ^2.0.17
   fl_chart: ^0.70.2
   animations: ^2.0.3
-  permission_handler: ^11.3.1
+  permission_handler: ^12.0.0+1
   dynamic_color: ^1.6.5
   device_info_plus: ^11.3.3
   vibration: ^3.1.1
   url_launcher: ^6.2.4
-  percent_indicator: ^4.2.2
+  percent_indicator: ^4.2.5
   flutter_app_lock: ^4.0.0-dev.0
   sqlite3_flutter_libs: ^0.5.32
   sqflite_common_ffi: ^2.2.3
@@ -75,7 +75,7 @@ dependencies:
   #     url: https://github.com/JGeek00/flutter_split_view
   #     ref: master-alt
   local_auth: ^2.1.6
-  flutter_custom_tabs: ^2.2.1
+  flutter_custom_tabs: ^2.3.0
   mobile_scanner: ^6.0.7
   logger: ^2.4.0
   freezed_annotation: ^3.0.0
