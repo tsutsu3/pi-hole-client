@@ -132,8 +132,8 @@ class _AppUnlockSetupModalState extends State<AppUnlockSetupModal> {
       }
     }
 
-    List<Widget> content() {
-      return [
+    Widget content() {
+      final scrollableContent = <Widget>[
         Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
@@ -337,31 +337,44 @@ class _AppUnlockSetupModalState extends State<AppUnlockSetupModal> {
               ),
             ),
           ),
-        Padding(
-          padding: const EdgeInsets.all(20),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.end,
-            children: [
-              TextButton(
-                onPressed: () => Navigator.maybePop(context),
-                child: Text(AppLocalizations.of(context)!.close),
-              ),
-            ],
-          ),
-        ),
       ];
+
+      return Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Flexible(
+            child: SingleChildScrollView(
+              child: Center(
+                child: ConstrainedBox(
+                  constraints: const BoxConstraints(maxWidth: 400),
+                  child: Column(
+                    children: scrollableContent,
+                  ),
+                ),
+              ),
+            ),
+          ),
+          Padding(
+            padding: const EdgeInsets.all(20),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.end,
+              children: [
+                TextButton(
+                  onPressed: () => Navigator.maybePop(context),
+                  child: Text(AppLocalizations.of(context)!.close),
+                ),
+              ],
+            ),
+          ),
+        ],
+      );
     }
 
     if (widget.window == true) {
       return Dialog(
         child: ConstrainedBox(
           constraints: const BoxConstraints(maxWidth: 400),
-          child: SingleChildScrollView(
-            child: Wrap(
-              alignment: WrapAlignment.center,
-              children: content(),
-            ),
-          ),
+          child: content(),
         ),
       );
     } else {
@@ -376,9 +389,7 @@ class _AppUnlockSetupModalState extends State<AppUnlockSetupModal> {
           ),
           color: Theme.of(context).dialogTheme.backgroundColor,
         ),
-        child: SingleChildScrollView(
-          child: Column(children: content()),
-        ),
+        child: content(),
       );
     }
   }

@@ -186,380 +186,406 @@ class _LogsFiltersModalState extends State<LogsFiltersModal> {
     }
 
     Widget content() {
-      return SingleChildScrollView(
-        child: Wrap(
-          alignment: WrapAlignment.center,
-          children: [
-            Column(
-              children: [
-                Padding(
-                  padding: const EdgeInsets.only(top: 24),
-                  child: Icon(
-                    Icons.filter_list,
-                    size: 24,
-                    color: Theme.of(context).colorScheme.secondary,
-                  ),
-                ),
-                Padding(
-                  padding: const EdgeInsets.symmetric(vertical: 24),
-                  child: Text(
-                    AppLocalizations.of(context)!.filters,
-                    style: const TextStyle(fontSize: 24),
-                  ),
-                ),
-                Padding(
-                  padding:
-                      const EdgeInsets.symmetric(horizontal: 24, vertical: 12),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
+      return Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Flexible(
+            child: SingleChildScrollView(
+              child: Wrap(
+                alignment: WrapAlignment.center,
+                children: [
+                  Column(
                     children: [
-                      Text(
-                        AppLocalizations.of(context)!.time,
-                        style: const TextStyle(
-                          fontWeight: FontWeight.w400,
-                          fontSize: 16,
+                      Padding(
+                        padding: const EdgeInsets.only(top: 24),
+                        child: Icon(
+                          Icons.filter_list,
+                          size: 24,
+                          color: Theme.of(context).colorScheme.secondary,
                         ),
                       ),
-                      const SizedBox(height: 16),
-                      Column(
-                        children: [
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                            children: [
-                              Expanded(
-                                child: Material(
-                                  color: Colors.transparent,
-                                  borderRadius: BorderRadius.circular(10),
-                                  child: InkWell(
-                                    onTap: () => selectTime('from'),
-                                    borderRadius: BorderRadius.circular(10),
-                                    splashColor: Theme.of(context)
-                                        .colorScheme
-                                        .primary
-                                        .withValues(alpha: 0.1),
-                                    highlightColor: Theme.of(context)
-                                        .colorScheme
-                                        .primary
-                                        .withValues(alpha: 0.1),
-                                    child: Container(
-                                      padding: const EdgeInsets.symmetric(
-                                        horizontal: 15,
-                                        vertical: 10,
-                                      ),
-                                      decoration: BoxDecoration(
-                                        borderRadius: BorderRadius.circular(10),
-                                        border: Border.all(
-                                          color: Theme.of(context)
-                                              .colorScheme
-                                              .primary,
-                                        ),
-                                      ),
-                                      child: Column(
-                                        children: [
-                                          Text(
-                                            AppLocalizations.of(context)!
-                                                .fromTime,
-                                            style: TextStyle(
-                                              fontWeight: FontWeight.w500,
-                                              fontSize: 14,
-                                              color: Theme.of(context)
-                                                  .colorScheme
-                                                  .primary,
-                                            ),
-                                          ),
-                                          const SizedBox(height: 5),
-                                          Text(
-                                            filtersProvider.startTime != null
-                                                ? formatTimestamp(
-                                                    filtersProvider.startTime!,
-                                                    'dd/MM/yyyy - HH:mm',
-                                                  )
-                                                : AppLocalizations.of(context)!
-                                                    .notSelected,
-                                            style: TextStyle(
-                                              color: Theme.of(context)
-                                                  .colorScheme
-                                                  .onSurfaceVariant,
-                                              fontSize: 12,
-                                            ),
-                                          ),
-                                        ],
-                                      ),
-                                    ),
-                                  ),
-                                ),
-                              ),
-                              const Padding(
-                                padding: EdgeInsets.symmetric(horizontal: 10),
-                                child: Text(
-                                  '-',
-                                  style: TextStyle(
-                                    fontWeight: FontWeight.bold,
-                                    fontSize: 20,
-                                  ),
-                                ),
-                              ),
-                              Expanded(
-                                child: Material(
-                                  color: Colors.transparent,
-                                  borderRadius: BorderRadius.circular(10),
-                                  child: InkWell(
-                                    onTap: () => selectTime('to'),
-                                    borderRadius: BorderRadius.circular(10),
-                                    splashColor: Theme.of(context)
-                                        .colorScheme
-                                        .primary
-                                        .withValues(alpha: 0.1),
-                                    highlightColor: Theme.of(context)
-                                        .colorScheme
-                                        .primary
-                                        .withValues(alpha: 0.1),
-                                    child: Container(
-                                      padding: const EdgeInsets.symmetric(
-                                        horizontal: 15,
-                                        vertical: 10,
-                                      ),
-                                      decoration: BoxDecoration(
-                                        borderRadius: BorderRadius.circular(10),
-                                        border: Border.all(
-                                          color: Theme.of(context)
-                                              .colorScheme
-                                              .primary,
-                                        ),
-                                      ),
-                                      child: Column(
-                                        children: [
-                                          Text(
-                                            AppLocalizations.of(context)!
-                                                .toTime,
-                                            style: TextStyle(
-                                              fontWeight: FontWeight.w500,
-                                              fontSize: 14,
-                                              color: Theme.of(context)
-                                                  .colorScheme
-                                                  .primary,
-                                            ),
-                                          ),
-                                          const SizedBox(height: 5),
-                                          Text(
-                                            filtersProvider.endTime != null
-                                                ? formatTimestamp(
-                                                    filtersProvider.endTime!,
-                                                    'dd/MM/yyyy - HH:mm',
-                                                  )
-                                                : AppLocalizations.of(context)!
-                                                    .notSelected,
-                                            style: TextStyle(
-                                              color: Theme.of(context)
-                                                  .colorScheme
-                                                  .onSurfaceVariant,
-                                              fontSize: 12,
-                                            ),
-                                          ),
-                                        ],
-                                      ),
-                                    ),
-                                  ),
-                                ),
-                              ),
-                            ],
-                          ),
-                          if (timeError != null) ...[
-                            const SizedBox(height: 5),
+                      Padding(
+                        padding: const EdgeInsets.symmetric(vertical: 24),
+                        child: Text(
+                          AppLocalizations.of(context)!.filters,
+                          style: const TextStyle(fontSize: 24),
+                        ),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.symmetric(
+                            horizontal: 24, vertical: 12),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
                             Text(
-                              timeError!,
+                              AppLocalizations.of(context)!.time,
                               style: const TextStyle(
-                                fontWeight: FontWeight.bold,
-                                fontSize: 13,
-                                color: Colors.red,
+                                fontWeight: FontWeight.w400,
+                                fontSize: 16,
+                              ),
+                            ),
+                            const SizedBox(height: 16),
+                            Column(
+                              children: [
+                                Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceEvenly,
+                                  children: [
+                                    Expanded(
+                                      child: Material(
+                                        color: Colors.transparent,
+                                        borderRadius: BorderRadius.circular(10),
+                                        child: InkWell(
+                                          onTap: () => selectTime('from'),
+                                          borderRadius:
+                                              BorderRadius.circular(10),
+                                          splashColor: Theme.of(context)
+                                              .colorScheme
+                                              .primary
+                                              .withValues(alpha: 0.1),
+                                          highlightColor: Theme.of(context)
+                                              .colorScheme
+                                              .primary
+                                              .withValues(alpha: 0.1),
+                                          child: Container(
+                                            padding: const EdgeInsets.symmetric(
+                                              horizontal: 15,
+                                              vertical: 10,
+                                            ),
+                                            decoration: BoxDecoration(
+                                              borderRadius:
+                                                  BorderRadius.circular(10),
+                                              border: Border.all(
+                                                color: Theme.of(context)
+                                                    .colorScheme
+                                                    .primary,
+                                              ),
+                                            ),
+                                            child: Column(
+                                              children: [
+                                                Text(
+                                                  AppLocalizations.of(context)!
+                                                      .fromTime,
+                                                  style: TextStyle(
+                                                    fontWeight: FontWeight.w500,
+                                                    fontSize: 14,
+                                                    color: Theme.of(context)
+                                                        .colorScheme
+                                                        .primary,
+                                                  ),
+                                                ),
+                                                const SizedBox(height: 5),
+                                                Text(
+                                                  filtersProvider.startTime !=
+                                                          null
+                                                      ? formatTimestamp(
+                                                          filtersProvider
+                                                              .startTime!,
+                                                          'dd/MM/yyyy - HH:mm',
+                                                        )
+                                                      : AppLocalizations.of(
+                                                              context)!
+                                                          .notSelected,
+                                                  style: TextStyle(
+                                                    color: Theme.of(context)
+                                                        .colorScheme
+                                                        .onSurfaceVariant,
+                                                    fontSize: 12,
+                                                  ),
+                                                ),
+                                              ],
+                                            ),
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                    const Padding(
+                                      padding:
+                                          EdgeInsets.symmetric(horizontal: 10),
+                                      child: Text(
+                                        '-',
+                                        style: TextStyle(
+                                          fontWeight: FontWeight.bold,
+                                          fontSize: 20,
+                                        ),
+                                      ),
+                                    ),
+                                    Expanded(
+                                      child: Material(
+                                        color: Colors.transparent,
+                                        borderRadius: BorderRadius.circular(10),
+                                        child: InkWell(
+                                          onTap: () => selectTime('to'),
+                                          borderRadius:
+                                              BorderRadius.circular(10),
+                                          splashColor: Theme.of(context)
+                                              .colorScheme
+                                              .primary
+                                              .withValues(alpha: 0.1),
+                                          highlightColor: Theme.of(context)
+                                              .colorScheme
+                                              .primary
+                                              .withValues(alpha: 0.1),
+                                          child: Container(
+                                            padding: const EdgeInsets.symmetric(
+                                              horizontal: 15,
+                                              vertical: 10,
+                                            ),
+                                            decoration: BoxDecoration(
+                                              borderRadius:
+                                                  BorderRadius.circular(10),
+                                              border: Border.all(
+                                                color: Theme.of(context)
+                                                    .colorScheme
+                                                    .primary,
+                                              ),
+                                            ),
+                                            child: Column(
+                                              children: [
+                                                Text(
+                                                  AppLocalizations.of(context)!
+                                                      .toTime,
+                                                  style: TextStyle(
+                                                    fontWeight: FontWeight.w500,
+                                                    fontSize: 14,
+                                                    color: Theme.of(context)
+                                                        .colorScheme
+                                                        .primary,
+                                                  ),
+                                                ),
+                                                const SizedBox(height: 5),
+                                                Text(
+                                                  filtersProvider.endTime !=
+                                                          null
+                                                      ? formatTimestamp(
+                                                          filtersProvider
+                                                              .endTime!,
+                                                          'dd/MM/yyyy - HH:mm',
+                                                        )
+                                                      : AppLocalizations.of(
+                                                              context)!
+                                                          .notSelected,
+                                                  style: TextStyle(
+                                                    color: Theme.of(context)
+                                                        .colorScheme
+                                                        .onSurfaceVariant,
+                                                    fontSize: 12,
+                                                  ),
+                                                ),
+                                              ],
+                                            ),
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                                if (timeError != null) ...[
+                                  const SizedBox(height: 5),
+                                  Text(
+                                    timeError!,
+                                    style: const TextStyle(
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 13,
+                                      color: Colors.red,
+                                    ),
+                                  ),
+                                ],
+                              ],
+                            ),
+                          ],
+                        ),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.symmetric(
+                            horizontal: 24, vertical: 16),
+                        child: Row(
+                          children: [
+                            Text(
+                              AppLocalizations.of(context)!.status,
+                              style: const TextStyle(
+                                fontWeight: FontWeight.w400,
+                                fontSize: 16,
                               ),
                             ),
                           ],
-                        ],
-                      ),
-                    ],
-                  ),
-                ),
-                Padding(
-                  padding:
-                      const EdgeInsets.symmetric(horizontal: 24, vertical: 16),
-                  child: Row(
-                    children: [
-                      Text(
-                        AppLocalizations.of(context)!.status,
-                        style: const TextStyle(
-                          fontWeight: FontWeight.w400,
-                          fontSize: 16,
                         ),
                       ),
-                    ],
-                  ),
-                ),
-                Container(
-                  padding: const EdgeInsets.symmetric(horizontal: 24),
-                  width: double.maxFinite,
-                  child: SegmentedButton<RequestStatus>(
-                    segments: [
-                      ButtonSegment(
-                        value: RequestStatus.all,
-                        label: Text(AppLocalizations.of(context)!.all),
+                      Container(
+                        padding: const EdgeInsets.symmetric(horizontal: 24),
+                        width: double.maxFinite,
+                        child: SegmentedButton<RequestStatus>(
+                          segments: [
+                            ButtonSegment(
+                              value: RequestStatus.all,
+                              label: Text(AppLocalizations.of(context)!.all),
+                            ),
+                            ButtonSegment(
+                              value: RequestStatus.allowed,
+                              label:
+                                  Text(AppLocalizations.of(context)!.allowed),
+                            ),
+                            ButtonSegment(
+                              value: RequestStatus.blocked,
+                              label:
+                                  Text(AppLocalizations.of(context)!.blocked),
+                            ),
+                          ],
+                          selected: <RequestStatus>{
+                            filtersProvider.requestStatus
+                          },
+                          onSelectionChanged: (value) => setState(
+                            () => filtersProvider.setRequestStatus(value.first),
+                          ),
+                        ),
                       ),
-                      ButtonSegment(
-                        value: RequestStatus.allowed,
-                        label: Text(AppLocalizations.of(context)!.allowed),
-                      ),
-                      ButtonSegment(
-                        value: RequestStatus.blocked,
-                        label: Text(AppLocalizations.of(context)!.blocked),
-                      ),
-                    ],
-                    selected: <RequestStatus>{filtersProvider.requestStatus},
-                    onSelectionChanged: (value) => setState(
-                      () => filtersProvider.setRequestStatus(value.first),
-                    ),
-                  ),
-                ),
-                const SizedBox(height: 8),
-                Material(
-                  color: Colors.transparent,
-                  child: InkWell(
-                    onTap: openStatusModal,
-                    child: Padding(
-                      padding: const EdgeInsets.symmetric(
-                        horizontal: 24,
-                        vertical: 12,
-                      ),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Expanded(
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
+                      const SizedBox(height: 8),
+                      Material(
+                        color: Colors.transparent,
+                        child: InkWell(
+                          onTap: openStatusModal,
+                          child: Padding(
+                            padding: const EdgeInsets.symmetric(
+                              horizontal: 24,
+                              vertical: 12,
+                            ),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
-                                Text(
-                                  AppLocalizations.of(context)!
-                                      .advancedStatusFiltering,
-                                  style: const TextStyle(
-                                    fontWeight: FontWeight.w400,
-                                    fontSize: 16,
+                                Expanded(
+                                  child: Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      Text(
+                                        AppLocalizations.of(context)!
+                                            .advancedStatusFiltering,
+                                        style: const TextStyle(
+                                          fontWeight: FontWeight.w400,
+                                          fontSize: 16,
+                                        ),
+                                      ),
+                                      const SizedBox(height: 5),
+                                      Text(
+                                        statusText(
+                                          filtersProvider.statusSelected.length,
+                                          serverProvider.numShown,
+                                        ),
+                                        style: TextStyle(
+                                          color: Theme.of(context)
+                                              .colorScheme
+                                              .onSurfaceVariant,
+                                        ),
+                                      ),
+                                    ],
                                   ),
                                 ),
-                                const SizedBox(height: 5),
-                                Text(
-                                  statusText(
-                                    filtersProvider.statusSelected.length,
-                                    serverProvider.numShown,
-                                  ),
-                                  style: TextStyle(
-                                    color: Theme.of(context)
-                                        .colorScheme
-                                        .onSurfaceVariant,
-                                  ),
-                                ),
+                                const Icon(Icons.arrow_right),
                               ],
                             ),
                           ),
-                          const Icon(Icons.arrow_right),
-                        ],
+                        ),
                       ),
-                    ),
-                  ),
-                ),
-                Material(
-                  color: Colors.transparent,
-                  child: InkWell(
-                    onTap: openClientsModal,
-                    child: Padding(
-                      padding: const EdgeInsets.symmetric(
-                        horizontal: 24,
-                        vertical: 10,
-                      ),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Expanded(
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
+                      Material(
+                        color: Colors.transparent,
+                        child: InkWell(
+                          onTap: openClientsModal,
+                          child: Padding(
+                            padding: const EdgeInsets.symmetric(
+                              horizontal: 24,
+                              vertical: 10,
+                            ),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
-                                Text(
-                                  AppLocalizations.of(context)!.clients,
-                                  style: const TextStyle(
-                                    fontWeight: FontWeight.w400,
-                                    fontSize: 16,
+                                Expanded(
+                                  child: Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      Text(
+                                        AppLocalizations.of(context)!.clients,
+                                        style: const TextStyle(
+                                          fontWeight: FontWeight.w400,
+                                          fontSize: 16,
+                                        ),
+                                      ),
+                                      const SizedBox(height: 5),
+                                      Text(
+                                        statusText(
+                                          filtersProvider
+                                              .selectedClients.length,
+                                          filtersProvider.totalClients.length,
+                                        ),
+                                        style: TextStyle(
+                                          color: Theme.of(context)
+                                              .colorScheme
+                                              .onSurfaceVariant,
+                                        ),
+                                      ),
+                                    ],
                                   ),
                                 ),
-                                const SizedBox(height: 5),
-                                Text(
-                                  statusText(
-                                    filtersProvider.selectedClients.length,
-                                    filtersProvider.totalClients.length,
-                                  ),
-                                  style: TextStyle(
-                                    color: Theme.of(context)
-                                        .colorScheme
-                                        .onSurfaceVariant,
-                                  ),
-                                ),
+                                const Icon(Icons.arrow_right),
                               ],
                             ),
                           ),
-                          const Icon(Icons.arrow_right),
-                        ],
+                        ),
                       ),
-                    ),
+                    ],
                   ),
-                ),
-              ],
-            ),
-            Padding(
-              padding: const EdgeInsets.all(20),
-              child: Padding(
-                padding: EdgeInsets.only(bottom: Platform.isIOS ? 20 : 0),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    TextButton(
-                      onPressed: resetFilters,
-                      child: Text(AppLocalizations.of(context)!.reset),
-                    ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.end,
-                      children: [
-                        TextButton(
-                          onPressed: () => Navigator.maybePop(context),
-                          child: Text(AppLocalizations.of(context)!.close),
-                        ),
-                        const SizedBox(width: 20),
-                        TextButton(
-                          onPressed: isFilteringValid() == true
-                              ? () {
-                                  widget.filterLogs();
-                                  Navigator.maybePop(context);
-                                }
-                              : null,
-                          style: ButtonStyle(
-                            foregroundColor: WidgetStateProperty.all(
-                              isFilteringValid() == true
-                                  ? Theme.of(context).colorScheme.primary
-                                  : Colors.grey,
-                            ),
-                            overlayColor: WidgetStateProperty.all(
-                              Theme.of(context)
-                                  .colorScheme
-                                  .primary
-                                  .withValues(alpha: 0.1),
-                            ),
-                          ),
-                          child: Text(AppLocalizations.of(context)!.apply),
-                        ),
-                      ],
-                    ),
-                  ],
-                ),
+                ],
               ),
             ),
-          ],
-        ),
+          ),
+          Padding(
+            padding: const EdgeInsets.all(20),
+            child: Padding(
+              padding: EdgeInsets.only(bottom: Platform.isIOS ? 20 : 0),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  TextButton(
+                    onPressed: resetFilters,
+                    child: Text(AppLocalizations.of(context)!.reset),
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.end,
+                    children: [
+                      TextButton(
+                        onPressed: () => Navigator.maybePop(context),
+                        child: Text(AppLocalizations.of(context)!.close),
+                      ),
+                      const SizedBox(width: 20),
+                      TextButton(
+                        onPressed: isFilteringValid() == true
+                            ? () {
+                                widget.filterLogs();
+                                Navigator.maybePop(context);
+                              }
+                            : null,
+                        style: ButtonStyle(
+                          foregroundColor: WidgetStateProperty.all(
+                            isFilteringValid() == true
+                                ? Theme.of(context).colorScheme.primary
+                                : Colors.grey,
+                          ),
+                          overlayColor: WidgetStateProperty.all(
+                            Theme.of(context)
+                                .colorScheme
+                                .primary
+                                .withValues(alpha: 0.1),
+                          ),
+                        ),
+                        child: Text(AppLocalizations.of(context)!.apply),
+                      ),
+                    ],
+                  ),
+                ],
+              ),
+            ),
+          ),
+        ],
       );
     }
 
