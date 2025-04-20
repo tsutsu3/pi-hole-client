@@ -1,3 +1,4 @@
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
@@ -8,19 +9,25 @@ import 'package:pi_hole_client/models/server.dart';
 import 'package:pi_hole_client/providers/app_config_provider.dart';
 import 'package:pi_hole_client/providers/servers_provider.dart';
 import 'package:pi_hole_client/repository/database.dart';
-
+import 'package:sqflite/sqflite.dart';
 import './servers_provider_test.mocks.dart';
 
 @GenerateMocks([
   DatabaseRepository,
   AppConfigProvider,
+  Database,
+  Transaction,
 ])
-void main() {
+void main() async {
+  await dotenv.load();
+
   group('ServersProvider', () {
     late ServersProvider serversProvider;
     late MockDatabaseRepository mockDatabaseRepository;
     late MockAppConfigProvider mockAppConfigProvider;
     late bool listenerCalled;
+    late MockDatabase mockDbInstance;
+    late MockTransaction mockTxn;
 
     final server = Server(
       address: 'http://localhost:8081',
@@ -32,19 +39,33 @@ void main() {
     setUp(() {
       mockDatabaseRepository = MockDatabaseRepository();
       mockAppConfigProvider = MockAppConfigProvider();
+      mockDbInstance = MockDatabase();
+      mockTxn = MockTransaction();
 
       when(mockAppConfigProvider.setSelectedTab(any)).thenReturn(null);
 
+      when(mockDatabaseRepository.dbInstance).thenReturn(mockDbInstance);
       when(mockDatabaseRepository.saveServerQuery(any))
           .thenAnswer((_) async => true);
       when(mockDatabaseRepository.editServerQuery(any))
           .thenAnswer((_) async => true);
       when(mockDatabaseRepository.removeServerQuery(any))
           .thenAnswer((_) async => true);
+      when(
+        mockDatabaseRepository.removeServerQuery(
+          any,
+          txn: anyNamed('txn'),
+        ),
+      ).thenAnswer((_) async => true);
       when(mockDatabaseRepository.setDefaultServerQuery(any))
           .thenAnswer((_) async => true);
       when(mockDatabaseRepository.deleteServersDataQuery())
           .thenAnswer((_) async => true);
+      when(
+        mockDatabaseRepository.deleteServersDataQuery(
+          txn: anyNamed('txn'),
+        ),
+      ).thenAnswer((_) async => true);
       when(mockDatabaseRepository.checkUrlExistsQuery(any))
           .thenAnswer((_) async => {'result': 'success', 'exists': true});
       when(mockDatabaseRepository.clearGravityDataQuery(any))
@@ -62,6 +83,13 @@ void main() {
           txn: anyNamed('txn'),
         ),
       ).thenAnswer((_) async => true);
+
+      // Mocking the transaction method
+      when(mockDbInstance.transaction(any)).thenAnswer((invocation) {
+        final handler = invocation.positionalArguments[0] as Future<bool>
+            Function(Transaction txn);
+        return handler(mockTxn);
+      });
 
       serversProvider = ServersProvider(mockDatabaseRepository);
 
@@ -129,20 +157,15 @@ void main() {
       expect(listenerCalled, true);
     });
 
-    test(
-      'removeServer removes a server and notifies listeners',
-      () async {
-        serversProvider.getServersList.add(server);
+    test('removeServer removes a server and notifies listeners', () async {
+      serversProvider.getServersList.add(server);
 
-        final result = await serversProvider.removeServer(server.address);
+      final result = await serversProvider.removeServer(server.address);
 
-        expect(result, true);
-        expect(serversProvider.getServersList.contains(server), false);
-        expect(listenerCalled, true);
-      },
-      // TODO: mock transaction
-      skip: true,
-    );
+      expect(result, true);
+      expect(serversProvider.getServersList.contains(server), false);
+      expect(listenerCalled, true);
+    });
 
     test(
       'setDefaultServer sets a default server and notifies listeners',
@@ -199,22 +222,17 @@ void main() {
       expect(listenerCalled, true);
     });
 
-    test(
-      'deleteDbData deletes the servers data',
-      () async {
-        await serversProvider.addServer(server);
-        serversProvider.setselectedServer(server: server);
+    test('deleteDbData deletes the servers data', () async {
+      await serversProvider.addServer(server);
+      serversProvider.setselectedServer(server: server);
 
-        final result = await serversProvider.deleteDbData();
+      final result = await serversProvider.deleteDbData();
 
-        expect(result, true);
-        expect(serversProvider.getServersList, []);
-        expect(serversProvider.selectedServer, null);
-        expect(listenerCalled, true);
-      },
-      // TODO: mock transaction
-      skip: true,
-    );
+      expect(result, true);
+      expect(serversProvider.getServersList, []);
+      expect(serversProvider.selectedServer, null);
+      expect(listenerCalled, true);
+    });
 
     test(
       'resetSelectedServer resets the selected server and notifies listeners',

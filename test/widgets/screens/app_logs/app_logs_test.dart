@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/mockito.dart';
 import 'package:pi_hole_client/screens/app_logs/app_log_details_modal.dart';
@@ -25,9 +26,24 @@ void main() async {
           tester.view.physicalSize = const Size(1080, 2400);
           tester.view.devicePixelRatio = 1.0;
 
+          // mock copy to clipboard
+          final log = <MethodCall>[];
+          TestDefaultBinaryMessengerBinding.instance.defaultBinaryMessenger
+              .setMockMethodCallHandler(
+            SystemChannels.platform,
+            (MethodCall methodCall) async {
+              if (methodCall.method == 'Clipboard.setData') {
+                log.add(methodCall);
+              }
+              return null;
+            },
+          );
+
           addTearDown(() {
             tester.view.resetPhysicalSize();
             tester.view.resetDevicePixelRatio();
+            TestDefaultBinaryMessengerBinding.instance.defaultBinaryMessenger
+                .setMockMethodCallHandler(SystemChannels.platform, null);
           });
 
           await tester.pumpWidget(
@@ -46,12 +62,13 @@ void main() async {
           expect(find.text('message'), findsOneWidget);
           expect(find.text('2025-01-22 10:50:31.000'), findsOneWidget);
 
-          // TODO: show snackbar
-          // TODO: check clipboard data
-          // await tester.tap(find.byIcon(Icons.share));
-          // await tester.pump(const Duration(seconds: 1));
-          // await tester.pumpAndSettle(const Duration(seconds: 1));
-          // expect(find.text('Logs copied to clipboard'), findsOneWidget);
+          await tester.tap(find.byIcon(Icons.share));
+          await tester.pump(const Duration(seconds: 1));
+          await tester.pumpAndSettle(const Duration(seconds: 1));
+          expect(find.byType(SnackBar), findsOneWidget);
+          expect(find.text('Logs copied to clipboard'), findsOneWidget);
+          expect(log.length, 1);
+          expect(log.first.method, 'Clipboard.setData');
 
           await tester.tap(find.text('sample'));
           await tester.pumpAndSettle();

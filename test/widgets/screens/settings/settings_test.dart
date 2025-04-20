@@ -1,13 +1,15 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:flutter_svg_test/flutter_svg_test.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/mockito.dart';
+import 'package:package_info_plus/package_info_plus.dart';
 import 'package:pi_hole_client/screens/servers/servers.dart';
+import 'package:pi_hole_client/screens/settings/about/about.dart' as about;
 import 'package:pi_hole_client/screens/settings/about/app_detail_screen.dart';
 import 'package:pi_hole_client/screens/settings/about/legal_screen.dart';
 import 'package:pi_hole_client/screens/settings/about/privacy_screen.dart';
-// import 'package:pi_hole_client/screens/settings/about/licenses_screen.dart';
 import 'package:pi_hole_client/screens/settings/app_settings/advanced_settings/advanced_options.dart';
 import 'package:pi_hole_client/screens/settings/app_settings/language_screen.dart';
 import 'package:pi_hole_client/screens/settings/app_settings/theme_screen.dart';
@@ -421,6 +423,14 @@ void main() async {
           tester.view.physicalSize = const Size(1080, 2400);
           tester.view.devicePixelRatio = 2.0;
 
+          PackageInfo.setMockInitialValues(
+            appName: 'Test App',
+            packageName: 'com.example.test',
+            version: '1.2.3',
+            buildNumber: '456',
+            buildSignature: 'test_build_signature',
+          );
+
           addTearDown(() {
             tester.view.resetPhysicalSize();
             tester.view.resetDevicePixelRatio();
@@ -438,10 +448,8 @@ void main() async {
           await tester.tap(find.text('Licenses'));
           when(testSetup.mockConfigProvider.selectedSettingsScreen)
               .thenReturn(6);
-          await tester.pump(const Duration(seconds: 10));
-
-          // TODO: Not found, always show ircularProgressIndicator????
-          // expect(find.byType(LicensePage), findsOneWidget);
+          await tester.pumpAndSettle();
+          expect(find.byType(about.LicensePage), findsOneWidget);
         },
       );
 
@@ -451,9 +459,24 @@ void main() async {
           tester.view.physicalSize = const Size(1080, 2400);
           tester.view.devicePixelRatio = 2.0;
 
+          final log = <MethodCall>[];
+          const urlLauncherChannel =
+              MethodChannel('plugins.flutter.io/url_launcher');
+
+          TestDefaultBinaryMessengerBinding.instance.defaultBinaryMessenger
+              .setMockMethodCallHandler(
+            urlLauncherChannel,
+            (MethodCall methodCall) async {
+              log.add(methodCall);
+              return true;
+            },
+          );
+
           addTearDown(() {
             tester.view.resetPhysicalSize();
             tester.view.resetDevicePixelRatio();
+            TestDefaultBinaryMessengerBinding.instance.defaultBinaryMessenger
+                .setMockMethodCallHandler(urlLauncherChannel, null);
           });
 
           await tester.pumpWidget(
@@ -470,8 +493,11 @@ void main() async {
           expect(find.svg(googlePlaySvg.bytesLoader), findsOneWidget);
 
           await tester.tap(find.svg(googlePlaySvg.bytesLoader));
-          // await tester.pumpAndSettle();
-          // expect(find.byType(), findsOneWidget); // TODO: open url
+          await tester.pumpAndSettle();
+
+          final launchCall = log.last;
+          final url = (launchCall.arguments as Map)['url'];
+          expect(url, contains('play.google.com'));
         },
       );
 
@@ -481,9 +507,24 @@ void main() async {
           tester.view.physicalSize = const Size(1080, 2400);
           tester.view.devicePixelRatio = 2.0;
 
+          final log = <MethodCall>[];
+          const urlLauncherChannel =
+              MethodChannel('plugins.flutter.io/url_launcher');
+
+          TestDefaultBinaryMessengerBinding.instance.defaultBinaryMessenger
+              .setMockMethodCallHandler(
+            urlLauncherChannel,
+            (MethodCall methodCall) async {
+              log.add(methodCall);
+              return true;
+            },
+          );
+
           addTearDown(() {
             tester.view.resetPhysicalSize();
             tester.view.resetDevicePixelRatio();
+            TestDefaultBinaryMessengerBinding.instance.defaultBinaryMessenger
+                .setMockMethodCallHandler(urlLauncherChannel, null);
           });
 
           await tester.pumpWidget(
@@ -499,8 +540,11 @@ void main() async {
           expect(find.svg(githubSvg.bytesLoader), findsOneWidget);
 
           await tester.tap(find.svg(githubSvg.bytesLoader));
-          // await tester.pumpAndSettle();
-          // expect(find.byType(), findsOneWidget); // TODO: open url
+          await tester.pumpAndSettle();
+
+          final launchCall = log.last;
+          final url = (launchCall.arguments as Map)['url'];
+          expect(url, contains('github.com'));
         },
       );
     },

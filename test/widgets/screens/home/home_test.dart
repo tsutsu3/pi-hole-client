@@ -227,7 +227,7 @@ void main() async {
           await tester.pump();
 
           // show switch server modal
-          expect(find.text('test v6'), findsWidgets); // TODO: find One
+          expect(find.text('test v6'), findsWidgets);
           await tester.tap(find.text('test v6').last);
           await tester.pumpAndSettle();
           expect(find.byType(SwitchServerModal), findsOneWidget);
