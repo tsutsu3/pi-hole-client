@@ -42,18 +42,19 @@ void main() async {
           );
 
           expect(find.byType(Home), findsOneWidget);
-          // await tester.pump();
-          // await tester.pump(const Duration(seconds: 3));
           await tester.pumpAndSettle(const Duration(seconds: 3));
 
           // Home App Bar
-          // expect(find.byIcon(Icons.verified_user_rounded), findsOneWidget); // TODO
-          // expect(find.byIcon(Icons.more_vert), findsOneWidget); // TODO
-          expect(find.text('test v6'), findsWidgets); // TODO findsOne
+          expect(
+            find.byIcon(Icons.verified_user_rounded),
+            findsOneWidget,
+          );
+          expect(find.byIcon(Icons.more_vert), findsOneWidget);
+          expect(find.text('test v6'), findsWidgets);
           expect(
             find.text('http://localhost:8081'),
             findsWidgets,
-          ); // TODO findsOne
+          );
 
           // titles
           expect(find.text('Total queries'), findsOneWidget);
@@ -61,9 +62,11 @@ void main() async {
           expect(find.text('Percentage blocked'), findsOneWidget);
           expect(find.text('Domains on Adlists'), findsOneWidget);
 
-          // queries graph
-          // expect(
-          //     find.text('Total queries lsat 24 hours'), findsOneWidget); // TODO
+          //queries graph
+          expect(
+            find.text('Total queries last 24 hours'),
+            findsOneWidget,
+          );
 
           // clients graph
           expect(find.text('Client activity last 24 hours'), findsOneWidget);
