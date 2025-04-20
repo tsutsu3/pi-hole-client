@@ -68,7 +68,7 @@ class OverTimeData {
     final clients = historyClients.clients.isNotEmpty
         ? historyClients.clients.entries.map((entry) {
             final ip = entry.key;
-            final name = entry.value.name ?? ip;
+            final name = entry.value.name ?? '';
 
             return Client(
               name: name,
