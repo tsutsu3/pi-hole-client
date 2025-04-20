@@ -213,7 +213,9 @@ class _LogsFiltersModalState extends State<LogsFiltersModal> {
                       ),
                       Padding(
                         padding: const EdgeInsets.symmetric(
-                            horizontal: 24, vertical: 12),
+                          horizontal: 24,
+                          vertical: 12,
+                        ),
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
@@ -284,7 +286,8 @@ class _LogsFiltersModalState extends State<LogsFiltersModal> {
                                                           'dd/MM/yyyy - HH:mm',
                                                         )
                                                       : AppLocalizations.of(
-                                                              context)!
+                                                          context,
+                                                        )!
                                                           .notSelected,
                                                   style: TextStyle(
                                                     color: Theme.of(context)
@@ -363,7 +366,8 @@ class _LogsFiltersModalState extends State<LogsFiltersModal> {
                                                           'dd/MM/yyyy - HH:mm',
                                                         )
                                                       : AppLocalizations.of(
-                                                              context)!
+                                                          context,
+                                                        )!
                                                           .notSelected,
                                                   style: TextStyle(
                                                     color: Theme.of(context)
@@ -398,7 +402,9 @@ class _LogsFiltersModalState extends State<LogsFiltersModal> {
                       ),
                       Padding(
                         padding: const EdgeInsets.symmetric(
-                            horizontal: 24, vertical: 16),
+                          horizontal: 24,
+                          vertical: 16,
+                        ),
                         child: Row(
                           children: [
                             Text(
@@ -432,7 +438,7 @@ class _LogsFiltersModalState extends State<LogsFiltersModal> {
                             ),
                           ],
                           selected: <RequestStatus>{
-                            filtersProvider.requestStatus
+                            filtersProvider.requestStatus,
                           },
                           onSelectionChanged: (value) => setState(
                             () => filtersProvider.setRequestStatus(value.first),
