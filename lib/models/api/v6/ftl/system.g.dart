@@ -74,11 +74,13 @@ Map<String, dynamic> _$SwapToJson(_Swap instance) => <String, dynamic>{
 _CPU _$CPUFromJson(Map<String, dynamic> json) => _CPU(
       nprocs: (json['nprocs'] as num).toInt(),
       load: Load.fromJson(json['load'] as Map<String, dynamic>),
+      percentCpu: (json['%cpu'] as num?)?.toDouble(),
     );
 
 Map<String, dynamic> _$CPUToJson(_CPU instance) => <String, dynamic>{
       'nprocs': instance.nprocs,
       'load': instance.load,
+      '%cpu': instance.percentCpu,
     };
 
 _Load _$LoadFromJson(Map<String, dynamic> json) => _Load(

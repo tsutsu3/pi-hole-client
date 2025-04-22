@@ -1748,6 +1748,42 @@ void main() async {
       'took': 0.003,
     };
 
+    // FTL >= 6.1
+    const dataNewV61 = {
+      'system': {
+        'uptime': 67906,
+        'memory': {
+          'ram': {
+            'total': 10317877,
+            'free': 308736,
+            'used': 8920416,
+            'available': 972304,
+            '%used': 26.854,
+          },
+          'swap': {
+            'total': 10317877,
+            'used': 8920416,
+            'free': 308736,
+            '%used': 1.67,
+          },
+        },
+        'procs': 1452,
+        'cpu': {
+          'nprocs': 8,
+          '%cpu': 3.3232043958349604,
+          'load': {
+            'raw': [0.58837890625, 0.64990234375, 0.66748046875],
+            'percent': [
+              4.903157711029053,
+              5.415853023529053,
+              5.562337398529053,
+            ],
+          },
+        },
+      },
+      'took': 0.003,
+    };
+
     setUp(() {
       server = Server(
         address: 'http://example.com',
@@ -1775,6 +1811,27 @@ void main() async {
         response.data?.toJson(),
         SystemInfo.fromV6(System.fromJson(data)).toJson(),
       );
+    });
+
+    test('should return cpuUsage from percentCpu when provided (FTL v6.1)',
+        () async {
+      final mockClient = MockClient();
+      final apiGateway = ApiGatewayV6(server, client: mockClient);
+      when(
+        mockClient.get(
+          Uri.parse(url),
+          headers: anyNamed('headers'),
+        ),
+      ).thenAnswer((_) async => http.Response(jsonEncode(dataNewV61), 200));
+      final response = await apiGateway.fetchSystemInfo();
+
+      expect(response.result, APiResponseType.success);
+      expect(response.message, null);
+      expect(
+        response.data?.toJson(),
+        SystemInfo.fromV6(System.fromJson(dataNewV61)).toJson(),
+      );
+      expect(response.data?.cpuUsage, 3.3232043958349604);
     });
   });
 

@@ -66,6 +66,7 @@ sealed class CPU with _$CPU {
   const factory CPU({
     required int nprocs,
     required Load load,
+    @JsonKey(name: '%cpu') double? percentCpu, // Added in FTL v6.1
   }) = _CPU;
 
   factory CPU.fromJson(Map<String, dynamic> json) => _$CPUFromJson(json);
