@@ -108,9 +108,6 @@ dev_dependencies:
   flutter_svg_test: ^1.0.3
   pub_version_plus: ^3.1.2
 
-dependency_overrides:
-  analyzer: ^6.5.0
-
 flutter_launcher_icons:
   image_path: assets/icon/pi-hole-client-icon-medium.png
   # android
