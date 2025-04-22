@@ -11,7 +11,8 @@ class SystemInfo {
     return SystemInfo(
       uptime: system.system.uptime,
       ramUsage: system.system.memory.ram.percentUsed,
-      cpuUsage: _average(system.system.cpu.load.percent),
+      cpuUsage: system.system.cpu.percentCpu ??
+          _average(system.system.cpu.load.percent),
     );
   }
 

@@ -1049,6 +1049,8 @@ class __$SwapCopyWithImpl<$Res> implements _$SwapCopyWith<$Res> {
 mixin _$CPU {
   int get nprocs;
   Load get load;
+  @JsonKey(name: '%cpu')
+  double? get percentCpu;
 
   /// Create a copy of CPU
   /// with the given fields replaced by the non-null parameter values.
@@ -1066,16 +1068,18 @@ mixin _$CPU {
         (other.runtimeType == runtimeType &&
             other is CPU &&
             (identical(other.nprocs, nprocs) || other.nprocs == nprocs) &&
-            (identical(other.load, load) || other.load == load));
+            (identical(other.load, load) || other.load == load) &&
+            (identical(other.percentCpu, percentCpu) ||
+                other.percentCpu == percentCpu));
   }
 
   @JsonKey(includeFromJson: false, includeToJson: false)
   @override
-  int get hashCode => Object.hash(runtimeType, nprocs, load);
+  int get hashCode => Object.hash(runtimeType, nprocs, load, percentCpu);
 
   @override
   String toString() {
-    return 'CPU(nprocs: $nprocs, load: $load)';
+    return 'CPU(nprocs: $nprocs, load: $load, percentCpu: $percentCpu)';
   }
 }
 
@@ -1083,7 +1087,7 @@ mixin _$CPU {
 abstract mixin class $CPUCopyWith<$Res> {
   factory $CPUCopyWith(CPU value, $Res Function(CPU) _then) = _$CPUCopyWithImpl;
   @useResult
-  $Res call({int nprocs, Load load});
+  $Res call({int nprocs, Load load, @JsonKey(name: '%cpu') double? percentCpu});
 
   $LoadCopyWith<$Res> get load;
 }
@@ -1102,6 +1106,7 @@ class _$CPUCopyWithImpl<$Res> implements $CPUCopyWith<$Res> {
   $Res call({
     Object? nprocs = null,
     Object? load = null,
+    Object? percentCpu = freezed,
   }) {
     return _then(_self.copyWith(
       nprocs: null == nprocs
@@ -1112,6 +1117,10 @@ class _$CPUCopyWithImpl<$Res> implements $CPUCopyWith<$Res> {
           ? _self.load
           : load // ignore: cast_nullable_to_non_nullable
               as Load,
+      percentCpu: freezed == percentCpu
+          ? _self.percentCpu
+          : percentCpu // ignore: cast_nullable_to_non_nullable
+              as double?,
     ));
   }
 
@@ -1129,13 +1138,19 @@ class _$CPUCopyWithImpl<$Res> implements $CPUCopyWith<$Res> {
 /// @nodoc
 @JsonSerializable()
 class _CPU implements CPU {
-  const _CPU({required this.nprocs, required this.load});
+  const _CPU(
+      {required this.nprocs,
+      required this.load,
+      @JsonKey(name: '%cpu') this.percentCpu});
   factory _CPU.fromJson(Map<String, dynamic> json) => _$CPUFromJson(json);
 
   @override
   final int nprocs;
   @override
   final Load load;
+  @override
+  @JsonKey(name: '%cpu')
+  final double? percentCpu;
 
   /// Create a copy of CPU
   /// with the given fields replaced by the non-null parameter values.
@@ -1158,16 +1173,18 @@ class _CPU implements CPU {
         (other.runtimeType == runtimeType &&
             other is _CPU &&
             (identical(other.nprocs, nprocs) || other.nprocs == nprocs) &&
-            (identical(other.load, load) || other.load == load));
+            (identical(other.load, load) || other.load == load) &&
+            (identical(other.percentCpu, percentCpu) ||
+                other.percentCpu == percentCpu));
   }
 
   @JsonKey(includeFromJson: false, includeToJson: false)
   @override
-  int get hashCode => Object.hash(runtimeType, nprocs, load);
+  int get hashCode => Object.hash(runtimeType, nprocs, load, percentCpu);
 
   @override
   String toString() {
-    return 'CPU(nprocs: $nprocs, load: $load)';
+    return 'CPU(nprocs: $nprocs, load: $load, percentCpu: $percentCpu)';
   }
 }
 
@@ -1177,7 +1194,7 @@ abstract mixin class _$CPUCopyWith<$Res> implements $CPUCopyWith<$Res> {
       __$CPUCopyWithImpl;
   @override
   @useResult
-  $Res call({int nprocs, Load load});
+  $Res call({int nprocs, Load load, @JsonKey(name: '%cpu') double? percentCpu});
 
   @override
   $LoadCopyWith<$Res> get load;
@@ -1197,6 +1214,7 @@ class __$CPUCopyWithImpl<$Res> implements _$CPUCopyWith<$Res> {
   $Res call({
     Object? nprocs = null,
     Object? load = null,
+    Object? percentCpu = freezed,
   }) {
     return _then(_CPU(
       nprocs: null == nprocs
@@ -1207,6 +1225,10 @@ class __$CPUCopyWithImpl<$Res> implements _$CPUCopyWith<$Res> {
           ? _self.load
           : load // ignore: cast_nullable_to_non_nullable
               as Load,
+      percentCpu: freezed == percentCpu
+          ? _self.percentCpu
+          : percentCpu // ignore: cast_nullable_to_non_nullable
+              as double?,
     ));
   }
 
