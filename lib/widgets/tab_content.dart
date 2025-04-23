@@ -9,6 +9,7 @@ class CustomTabContent extends StatelessWidget {
     required this.errorGenerator,
     required this.loadStatus,
     required this.onRefresh,
+    this.controller,
     super.key,
   });
 
@@ -17,6 +18,7 @@ class CustomTabContent extends StatelessWidget {
   final Widget Function() errorGenerator;
   final LoadStatus loadStatus;
   final Future<void> Function() onRefresh;
+  final ScrollController? controller;
 
   @override
   Widget build(BuildContext context) {
@@ -27,6 +29,7 @@ class CustomTabContent extends StatelessWidget {
           bottom: false,
           child: Builder(
             builder: (BuildContext context) => CustomScrollView(
+              controller: controller,
               slivers: [
                 SliverOverlapInjector(
                   handle:
@@ -53,6 +56,7 @@ class CustomTabContent extends StatelessWidget {
                 onRefresh: onRefresh,
                 edgeOffset: 95,
                 child: CustomScrollView(
+                  controller: controller,
                   slivers: <Widget>[
                     SliverOverlapInjector(
                       handle: NestedScrollView.sliverOverlapAbsorberHandleFor(
@@ -75,6 +79,7 @@ class CustomTabContent extends StatelessWidget {
           bottom: false,
           child: Builder(
             builder: (BuildContext context) => CustomScrollView(
+              controller: controller,
               slivers: [
                 SliverOverlapInjector(
                   handle:
