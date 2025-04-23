@@ -10,9 +10,14 @@ import 'package:pi_hole_client/widgets/tab_content.dart';
 import 'package:provider/provider.dart';
 
 class QueriesServersTab extends StatelessWidget {
-  const QueriesServersTab({required this.onRefresh, super.key});
+  const QueriesServersTab({
+    required this.onRefresh,
+    this.controller,
+    super.key,
+  });
 
   final Future<void> Function() onRefresh;
+  final ScrollController? controller;
 
   @override
   Widget build(BuildContext context) {
@@ -64,6 +69,7 @@ class QueriesServersTab extends StatelessWidget {
       ),
       loadStatus: statusProvider.getStatusLoading,
       onRefresh: onRefresh,
+      controller: controller,
     );
   }
 }

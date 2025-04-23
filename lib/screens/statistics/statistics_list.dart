@@ -17,12 +17,14 @@ class StatisticsList extends StatelessWidget {
     required this.countLabel,
     required this.type,
     required this.onRefresh,
+    this.controller,
     super.key,
   });
 
   final String countLabel;
   final String type;
   final Future<void> Function() onRefresh;
+  final ScrollController? controller;
 
   @override
   Widget build(BuildContext context) {
@@ -75,6 +77,7 @@ class StatisticsList extends StatelessWidget {
       ),
       loadStatus: statusProvider.getStatusLoading,
       onRefresh: onRefresh,
+      controller: controller,
     );
   }
 }

@@ -11,6 +11,10 @@ class Statistics extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final queriesController = ScrollController();
+    final domainsController = ScrollController();
+    final clientsController = ScrollController();
+
     if (MediaQuery.of(context).size.width > ResponsiveConstants.xxLarge) {
       return const StatisticsTripleColumn();
     } else {
@@ -72,16 +76,19 @@ class Statistics extends StatelessWidget {
               children: [
                 QueriesServersTab(
                   onRefresh: () async => refreshServerStatus(context),
+                  controller: queriesController,
                 ),
                 StatisticsList(
                   countLabel: AppLocalizations.of(context)!.hits,
                   type: 'domains',
                   onRefresh: () async => refreshServerStatus(context),
+                  controller: domainsController,
                 ),
                 StatisticsList(
                   countLabel: AppLocalizations.of(context)!.requests,
                   type: 'clients',
                   onRefresh: () async => refreshServerStatus(context),
+                  controller: clientsController,
                 ),
               ],
             ),
