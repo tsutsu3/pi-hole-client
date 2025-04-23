@@ -6,15 +6,36 @@ import 'package:pi_hole_client/screens/statistics/statistics_list.dart';
 import 'package:pi_hole_client/screens/statistics/statistics_queries_servers_tab.dart';
 import 'package:pi_hole_client/screens/statistics/statistics_triple_column.dart';
 
-class Statistics extends StatelessWidget {
+class Statistics extends StatefulWidget {
   const Statistics({super.key});
 
   @override
-  Widget build(BuildContext context) {
-    final queriesController = ScrollController();
-    final domainsController = ScrollController();
-    final clientsController = ScrollController();
+  State<Statistics> createState() => _StatisticsState();
+}
 
+class _StatisticsState extends State<Statistics> {
+  late final ScrollController queriesController;
+  late final ScrollController domainsController;
+  late final ScrollController clientsController;
+
+  @override
+  void initState() {
+    super.initState();
+    queriesController = ScrollController();
+    domainsController = ScrollController();
+    clientsController = ScrollController();
+  }
+
+  @override
+  void dispose() {
+    queriesController.dispose();
+    domainsController.dispose();
+    clientsController.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
     if (MediaQuery.of(context).size.width > ResponsiveConstants.xxLarge) {
       return const StatisticsTripleColumn();
     } else {
