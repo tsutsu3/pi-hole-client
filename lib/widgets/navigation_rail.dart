@@ -42,22 +42,37 @@ class CustomNavigationRail extends StatelessWidget {
       }
     }
 
-    return NavigationRail(
-      selectedIndex: selectedScreen,
-      onDestinationSelected: onChange,
-      destinations: screens
-          .map(
-            (screen) => NavigationRailDestination(
-              icon: screen.icon,
-              label: Text(getStringLocalization(screen.name)),
+    return LayoutBuilder(
+      builder: (context, constraints) {
+        return SingleChildScrollView(
+          child: ConstrainedBox(
+            constraints: BoxConstraints(
+              minHeight: constraints.maxHeight,
             ),
-          )
-          .toList(),
-      labelType: NavigationRailLabelType.all,
-      useIndicator: true,
-      groupAlignment: 0,
-      backgroundColor:
-          Theme.of(context).colorScheme.primary.withValues(alpha: 0.05),
+            child: IntrinsicHeight(
+              child: NavigationRail(
+                selectedIndex: selectedScreen,
+                onDestinationSelected: onChange,
+                destinations: screens
+                    .map(
+                      (screen) => NavigationRailDestination(
+                        icon: screen.icon,
+                        label: Text(getStringLocalization(screen.name)),
+                      ),
+                    )
+                    .toList(),
+                labelType: NavigationRailLabelType.all,
+                useIndicator: true,
+                groupAlignment: 0,
+                backgroundColor: Theme.of(context)
+                    .colorScheme
+                    .primary
+                    .withValues(alpha: 0.05),
+              ),
+            ),
+          ),
+        );
+      },
     );
   }
 }
