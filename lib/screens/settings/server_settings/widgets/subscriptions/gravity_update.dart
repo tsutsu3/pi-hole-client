@@ -251,145 +251,147 @@ class _GravityUpdateState extends State<GravityUpdate> {
     final appConfigProvider = context.watch<AppConfigProvider>();
     final gravityProvider = context.watch<GravityUpdateProvider>();
 
-    return Stack(
-      children: [
-        ListView(
-          children: [
-            buildStatusLabel(context, gravityProvider.status),
-            Padding(
-              padding: const EdgeInsets.only(left: 32, top: 4),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  if (gravityProvider.status == GravityStatus.success ||
-                      gravityProvider.status == GravityStatus.error)
-                    Text(
-                      formatWithDuration(
-                        gravityProvider.startedAtTime,
-                        gravityProvider.completedAtTime,
-                      ),
-                      style: Theme.of(context).textTheme.bodyMedium,
-                    ),
-                  if (gravityProvider.status == GravityStatus.idle)
-                    Text(
-                      AppLocalizations.of(context)!.notYetExecuted,
-                      style: Theme.of(context).textTheme.bodyMedium,
-                    ),
-                  if (gravityProvider.status == GravityStatus.running)
-                    Padding(
-                      padding: const EdgeInsets.only(top: 4),
-                      child: Text(
-                        AppLocalizations.of(context)!.updatingInProgressMessage,
+    return SafeArea(
+      child: Stack(
+        children: [
+          ListView(
+            children: [
+              buildStatusLabel(context, gravityProvider.status),
+              Padding(
+                padding: const EdgeInsets.only(left: 32, top: 4),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    if (gravityProvider.status == GravityStatus.success ||
+                        gravityProvider.status == GravityStatus.error)
+                      Text(
+                        formatWithDuration(
+                          gravityProvider.startedAtTime,
+                          gravityProvider.completedAtTime,
+                        ),
                         style: Theme.of(context).textTheme.bodyMedium,
                       ),
-                    ),
-                ],
-              ),
-            ),
-            const SizedBox(height: 24),
-            SectionLabel(
-              icon: Icons.circle_notifications_outlined,
-              label: AppLocalizations.of(context)!.messages,
-              padding: const EdgeInsets.only(
-                left: 16,
-                right: 16,
-                top: 16,
-                bottom: 8,
-              ),
-            ),
-            buildMessageTilesFromProvider(context, gravityProvider),
-            const SizedBox(height: 24),
-            SectionLabel(
-              icon: Icons.code_rounded,
-              label: AppLocalizations.of(context)!.executionLog,
-              padding: const EdgeInsets.only(
-                left: 16,
-                right: 16,
-                top: 16,
-                bottom: 8,
-              ),
-            ),
-            Theme(
-              data: Theme.of(context).copyWith(
-                dividerColor: Colors.transparent,
-                hoverColor: Colors.transparent,
-                splashColor: Colors.transparent,
-                highlightColor: Colors.transparent,
-              ),
-              child: Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 16),
-                child: Card(
-                  shape: const RoundedRectangleBorder(
-                    borderRadius: BorderRadius.all(Radius.circular(16)),
-                  ),
-                  child: ExpansionTile(
-                    collapsedIconColor: Theme.of(context).colorScheme.primary,
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(16),
-                    ),
-                    title: Text(
-                      gravityProvider.logs.isNotEmpty
-                          ? normalizeLogOutput(gravityProvider.logs.last) == ''
-                              ? '...'
-                              : normalizeLogOutput(gravityProvider.logs.last)
-                          : AppLocalizations.of(context)!.noLogs,
-                      style: TextStyle(
-                        color: Theme.of(context).colorScheme.onSurface,
+                    if (gravityProvider.status == GravityStatus.idle)
+                      Text(
+                        AppLocalizations.of(context)!.notYetExecuted,
+                        style: Theme.of(context).textTheme.bodyMedium,
                       ),
-                      overflow: TextOverflow.ellipsis,
-                      maxLines: 1,
-                      softWrap: false,
-                    ),
-                    children: [
+                    if (gravityProvider.status == GravityStatus.running)
                       Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 16),
-                        child: Divider(
-                          height: 1,
-                          thickness: 1,
-                          color: Theme.of(context).dividerColor,
+                        padding: const EdgeInsets.only(top: 4),
+                        child: Text(
+                          AppLocalizations.of(context)!
+                              .updatingInProgressMessage,
+                          style: Theme.of(context).textTheme.bodyMedium,
                         ),
                       ),
-                      const SizedBox(height: 16),
-                      SizedBox(
-                        height: MediaQuery.of(context).size.height / 3,
-                        child: Scrollbar(
-                          controller: _logScrollController,
-                          child: ListView.builder(
-                            controller: _logScrollController,
-                            padding: const EdgeInsets.only(
-                              left: 32,
-                              right: 32,
-                              bottom: 8,
-                            ),
-                            itemCount: gravityProvider.logs.length,
-                            itemBuilder: (context, index) {
-                              return Align(
-                                alignment: Alignment.topLeft,
-                                child: Text(
-                                  normalizeLogOutput(
-                                    gravityProvider.logs[index],
-                                  ),
-                                ),
-                              );
-                            },
+                  ],
+                ),
+              ),
+              const SizedBox(height: 24),
+              SectionLabel(
+                icon: Icons.circle_notifications_outlined,
+                label: AppLocalizations.of(context)!.messages,
+                padding: const EdgeInsets.only(
+                  left: 16,
+                  right: 16,
+                  top: 16,
+                  bottom: 8,
+                ),
+              ),
+              buildMessageTilesFromProvider(context, gravityProvider),
+              const SizedBox(height: 24),
+              SectionLabel(
+                icon: Icons.code_rounded,
+                label: AppLocalizations.of(context)!.executionLog,
+                padding: const EdgeInsets.only(
+                  left: 16,
+                  right: 16,
+                  top: 16,
+                  bottom: 8,
+                ),
+              ),
+              Theme(
+                data: Theme.of(context).copyWith(
+                  dividerColor: Colors.transparent,
+                  hoverColor: Colors.transparent,
+                  splashColor: Colors.transparent,
+                  highlightColor: Colors.transparent,
+                ),
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 16),
+                  child: Card(
+                    shape: const RoundedRectangleBorder(
+                      borderRadius: BorderRadius.all(Radius.circular(16)),
+                    ),
+                    child: ExpansionTile(
+                      collapsedIconColor: Theme.of(context).colorScheme.primary,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(16),
+                      ),
+                      title: Text(
+                        gravityProvider.logs.isNotEmpty
+                            ? normalizeLogOutput(gravityProvider.logs.last) ==
+                                    ''
+                                ? '...'
+                                : normalizeLogOutput(gravityProvider.logs.last)
+                            : AppLocalizations.of(context)!.noLogs,
+                        style: TextStyle(
+                          color: Theme.of(context).colorScheme.onSurface,
+                        ),
+                        overflow: TextOverflow.ellipsis,
+                        maxLines: 1,
+                        softWrap: false,
+                      ),
+                      children: [
+                        Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 16),
+                          child: Divider(
+                            height: 1,
+                            thickness: 1,
+                            color: Theme.of(context).dividerColor,
                           ),
                         ),
-                      ),
-                      const SizedBox(
-                        height: 16,
-                      ),
-                    ],
+                        const SizedBox(height: 16),
+                        SizedBox(
+                          height: MediaQuery.of(context).size.height / 3,
+                          child: Scrollbar(
+                            controller: _logScrollController,
+                            child: ListView.builder(
+                              controller: _logScrollController,
+                              padding: const EdgeInsets.only(
+                                left: 32,
+                                right: 32,
+                                bottom: 8,
+                              ),
+                              itemCount: gravityProvider.logs.length,
+                              itemBuilder: (context, index) {
+                                return Align(
+                                  alignment: Alignment.topLeft,
+                                  child: Text(
+                                    normalizeLogOutput(
+                                      gravityProvider.logs[index],
+                                    ),
+                                  ),
+                                );
+                              },
+                            ),
+                          ),
+                        ),
+                        const SizedBox(
+                          height: 16,
+                        ),
+                      ],
+                    ),
                   ),
                 ),
               ),
-            ),
-            const SizedBox(
-              height: 96,
-            ),
-          ],
-        ),
-        SafeArea(
-          child: Stack(
+              const SizedBox(
+                height: 96,
+              ),
+            ],
+          ),
+          Stack(
             children: [
               AnimatedPositioned(
                 duration: const Duration(milliseconds: 200),
@@ -409,8 +411,8 @@ class _GravityUpdateState extends State<GravityUpdate> {
               ),
             ],
           ),
-        ),
-      ],
+        ],
+      ),
     );
   }
 }
