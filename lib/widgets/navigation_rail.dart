@@ -49,6 +49,12 @@ class CustomNavigationRail extends StatelessWidget {
             constraints: BoxConstraints(
               minHeight: constraints.maxHeight,
             ),
+            // IntrinsicHeight is needed because NavigationRail uses a Column with Expanded.
+            // Without it, placing NavigationRail inside a scroll view causes unbounded height,
+            // leading to layout errors. IntrinsicHeight ensures a proper bounded layout.
+            //
+            // TODO: IntrinsicHeight is costly for layout performance.
+            // Consider refactoring to a custom NavigationRail if performance issues are observed.
             child: IntrinsicHeight(
               child: NavigationRail(
                 selectedIndex: selectedScreen,
