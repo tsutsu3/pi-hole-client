@@ -391,25 +391,21 @@ class _GravityUpdateState extends State<GravityUpdate> {
               ),
             ],
           ),
-          Stack(
-            children: [
-              AnimatedPositioned(
-                duration: const Duration(milliseconds: 200),
-                curve: Curves.easeInOut,
-                bottom: gravityProvider.status == GravityStatus.running
-                    ? -70 // running: hide
-                    : appConfigProvider.showingSnackbar
-                        ? 70 // show snackbar: up
-                        : 20, // normal
-                right: 20,
-                child: FloatingActionButton(
-                  onPressed: gravityProvider.status == GravityStatus.running
-                      ? null
-                      : runGravity,
-                  child: const Icon(Icons.rocket_launch_rounded),
-                ),
-              ),
-            ],
+          AnimatedPositioned(
+            duration: const Duration(milliseconds: 200),
+            curve: Curves.easeInOut,
+            bottom: gravityProvider.status == GravityStatus.running
+                ? -70 // running: hide
+                : appConfigProvider.showingSnackbar
+                    ? 70 // show snackbar: up
+                    : 20, // normal
+            right: 20,
+            child: FloatingActionButton(
+              onPressed: gravityProvider.status == GravityStatus.running
+                  ? null
+                  : runGravity,
+              child: const Icon(Icons.rocket_launch_rounded),
+            ),
           ),
         ],
       ),
