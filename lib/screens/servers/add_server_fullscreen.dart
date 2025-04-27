@@ -741,6 +741,7 @@ class _AddServerFullscreenState extends State<AddServerFullscreen> {
 
     if (widget.window == true) {
       return Dialog(
+        insetPadding: const EdgeInsets.symmetric(vertical: 24),
         child: SizedBox(
           width: 400,
           child: Column(
@@ -756,7 +757,6 @@ class _AddServerFullscreenState extends State<AddServerFullscreen> {
                           onPressed: () => Navigator.maybePop(context),
                           icon: const Icon(Icons.clear_rounded),
                         ),
-                        const SizedBox(width: 8),
                         Text(
                           widget.title,
                           style: const TextStyle(fontSize: 20),
@@ -771,21 +771,18 @@ class _AddServerFullscreenState extends State<AddServerFullscreen> {
                           tooltip:
                               AppLocalizations.of(context)!.howCreateConnection,
                         ),
-                        Padding(
-                          padding: const EdgeInsets.only(right: 10),
-                          child: IconButton(
-                            tooltip: widget.server != null
-                                ? AppLocalizations.of(context)!.save
-                                : AppLocalizations.of(context)!.connect,
-                            onPressed: validData()
-                                ? widget.server != null
-                                    ? save
-                                    : connect
-                                : null,
-                            icon: widget.server != null
-                                ? const Icon(Icons.save_rounded)
-                                : const Icon(Icons.login_rounded),
-                          ),
+                        IconButton(
+                          tooltip: widget.server != null
+                              ? AppLocalizations.of(context)!.save
+                              : AppLocalizations.of(context)!.connect,
+                          onPressed: validData()
+                              ? widget.server != null
+                                  ? save
+                                  : connect
+                              : null,
+                          icon: widget.server != null
+                              ? const Icon(Icons.save_rounded)
+                              : const Icon(Icons.login_rounded),
                         ),
                       ],
                     ),

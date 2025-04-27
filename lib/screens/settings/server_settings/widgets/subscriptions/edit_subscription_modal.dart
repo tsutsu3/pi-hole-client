@@ -75,35 +75,38 @@ class _EditSubscriptionModalState extends State<EditSubscriptionModal> {
 
   @override
   Widget build(BuildContext context) {
+    final mediaQuery = MediaQuery.of(context);
+    final isLandscape = mediaQuery.orientation == Orientation.landscape;
+
     Widget content() {
       return Container(
         constraints: const BoxConstraints(minHeight: 360),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            Column(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                Icon(
-                  widget.icon,
-                  size: 24,
-                  color: Theme.of(context).colorScheme.secondary,
-                ),
-                Padding(
-                  padding: const EdgeInsets.all(20),
-                  child: Text(
-                    widget.title,
-                    style: const TextStyle(fontSize: 24),
-                  ),
-                ),
-              ],
-            ),
             Flexible(
               child: Center(
                 child: SingleChildScrollView(
                   child: Column(
                     mainAxisSize: MainAxisSize.min,
                     children: [
+                      Column(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          Icon(
+                            widget.icon,
+                            size: 24,
+                            color: Theme.of(context).colorScheme.secondary,
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.all(20),
+                            child: Text(
+                              widget.title,
+                              style: const TextStyle(fontSize: 24),
+                            ),
+                          ),
+                        ],
+                      ),
                       if (widget.keyItem == 'comment')
                         SizedBox(
                           width: double.infinity,
@@ -140,7 +143,9 @@ class _EditSubscriptionModalState extends State<EditSubscriptionModal> {
               ),
             ),
             Padding(
-              padding: const EdgeInsets.only(top: 20),
+              padding: isLandscape
+                  ? EdgeInsets.zero
+                  : const EdgeInsets.only(top: 20),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.end,
                 children: [
@@ -189,7 +194,9 @@ class _EditSubscriptionModalState extends State<EditSubscriptionModal> {
         child: ConstrainedBox(
           constraints: const BoxConstraints(maxWidth: 600, maxHeight: 480),
           child: Padding(
-            padding: const EdgeInsets.all(16),
+            padding: isLandscape
+                ? const EdgeInsets.symmetric(horizontal: 16)
+                : const EdgeInsets.all(16),
             child: content(),
           ),
         ),
