@@ -77,7 +77,6 @@ class _EditSubscriptionModalState extends State<EditSubscriptionModal> {
   Widget build(BuildContext context) {
     final mediaQuery = MediaQuery.of(context);
     final isLandscape = mediaQuery.orientation == Orientation.landscape;
-    final isKeyboardVisible = mediaQuery.viewInsets.bottom > 0;
 
     Widget content() {
       return Container(
@@ -144,7 +143,7 @@ class _EditSubscriptionModalState extends State<EditSubscriptionModal> {
               ),
             ),
             Padding(
-              padding: (isLandscape && isKeyboardVisible)
+              padding: isLandscape
                   ? EdgeInsets.zero
                   : const EdgeInsets.only(top: 20),
               child: Row(
@@ -195,7 +194,7 @@ class _EditSubscriptionModalState extends State<EditSubscriptionModal> {
         child: ConstrainedBox(
           constraints: const BoxConstraints(maxWidth: 600, maxHeight: 480),
           child: Padding(
-            padding: (isLandscape && isKeyboardVisible)
+            padding: isLandscape
                 ? const EdgeInsets.symmetric(horizontal: 16)
                 : const EdgeInsets.all(16),
             child: content(),

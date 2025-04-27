@@ -99,7 +99,6 @@ class _AddSubscriptionModalState extends State<AddSubscriptionModal> {
   Widget build(BuildContext context) {
     final mediaQuery = MediaQuery.of(context);
     final isLandscape = mediaQuery.orientation == Orientation.landscape;
-    final isKeyboardVisible = mediaQuery.viewInsets.bottom > 0;
 
     Widget content() {
       return Column(
@@ -203,9 +202,8 @@ class _AddSubscriptionModalState extends State<AddSubscriptionModal> {
             ),
           ),
           Padding(
-            padding: (isLandscape && isKeyboardVisible)
-                ? EdgeInsets.zero
-                : const EdgeInsets.only(top: 20),
+            padding:
+                isLandscape ? EdgeInsets.zero : const EdgeInsets.only(top: 20),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.end,
               children: [
@@ -246,7 +244,7 @@ class _AddSubscriptionModalState extends State<AddSubscriptionModal> {
         child: ConstrainedBox(
           constraints: const BoxConstraints(maxWidth: 600),
           child: Padding(
-            padding: (isLandscape && isKeyboardVisible)
+            padding: isLandscape
                 ? const EdgeInsets.symmetric(horizontal: 16)
                 : const EdgeInsets.all(16),
             child: content(),
