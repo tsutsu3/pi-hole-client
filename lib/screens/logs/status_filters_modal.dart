@@ -107,88 +107,90 @@ class _StatusFiltersModalState extends State<StatusFiltersModal> {
     }
 
     Widget content() {
-      return Wrap(
-        alignment: WrapAlignment.center,
-        children: [
-          ConstrainedBox(
-            constraints: BoxConstraints(
-              maxHeight: MediaQuery.of(context).size.height * 0.8,
-            ),
-            child: ListView(
-              children: [
-                Padding(
-                  padding: const EdgeInsets.only(top: 24),
-                  child: Icon(
-                    Icons.shield_rounded,
-                    size: 24,
-                    color: Theme.of(context).colorScheme.secondary,
-                  ),
-                ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Padding(
-                      padding: const EdgeInsets.only(top: 24, bottom: 24),
-                      child: Text(
-                        AppLocalizations.of(context)!.logsStatus,
-                        style: const TextStyle(fontSize: 24),
-                      ),
+      return ConstrainedBox(
+        constraints: BoxConstraints(
+          maxHeight: MediaQuery.of(context).size.height * 0.8,
+        ),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Expanded(
+              child: ListView(
+                shrinkWrap: true,
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.only(top: 24),
+                    child: Icon(
+                      Icons.shield_rounded,
+                      size: 24,
+                      color: Theme.of(context).colorScheme.secondary,
                     ),
-                  ],
-                ),
-                ...generateListItems(),
-              ],
-            ),
-          ),
-          Padding(
-            padding: const EdgeInsets.all(20),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                TextButton(
-                  onPressed: checkUncheckAll,
-                  child: Text(
-                    _statusSelected.length == serversProvider.numShown
-                        ? AppLocalizations.of(context)!.uncheckAll
-                        : AppLocalizations.of(context)!.checkAll,
                   ),
-                ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.end,
-                  children: [
-                    TextButton(
-                      onPressed: () => Navigator.maybePop(context),
-                      child: Text(AppLocalizations.of(context)!.close),
-                    ),
-                    const SizedBox(width: 20),
-                    TextButton(
-                      onPressed: _statusSelected.isNotEmpty
-                          ? () {
-                              updateList();
-                              Navigator.maybePop(context);
-                            }
-                          : null,
-                      style: ButtonStyle(
-                        foregroundColor: WidgetStateProperty.all(
-                          _statusSelected.isNotEmpty
-                              ? Theme.of(context).colorScheme.primary
-                              : Colors.grey,
-                        ),
-                        overlayColor: WidgetStateProperty.all(
-                          Theme.of(context)
-                              .colorScheme
-                              .primary
-                              .withValues(alpha: 0.1),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.only(top: 24, bottom: 24),
+                        child: Text(
+                          AppLocalizations.of(context)!.logsStatus,
+                          style: const TextStyle(fontSize: 24),
                         ),
                       ),
-                      child: Text(AppLocalizations.of(context)!.apply),
-                    ),
-                  ],
-                ),
-              ],
+                    ],
+                  ),
+                  ...generateListItems(),
+                ],
+              ),
             ),
-          ),
-        ],
+            Padding(
+              padding: const EdgeInsets.all(20),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  TextButton(
+                    onPressed: checkUncheckAll,
+                    child: Text(
+                      _statusSelected.length == serversProvider.numShown
+                          ? AppLocalizations.of(context)!.uncheckAll
+                          : AppLocalizations.of(context)!.checkAll,
+                    ),
+                  ),
+                  Row(
+                    children: [
+                      TextButton(
+                        onPressed: () => Navigator.maybePop(context),
+                        child: Text(AppLocalizations.of(context)!.close),
+                      ),
+                      const SizedBox(width: 20),
+                      TextButton(
+                        onPressed: _statusSelected.isNotEmpty
+                            ? () {
+                                updateList();
+                                Navigator.maybePop(context);
+                              }
+                            : null,
+                        style: ButtonStyle(
+                          foregroundColor: WidgetStateProperty.all(
+                            _statusSelected.isNotEmpty
+                                ? Theme.of(context).colorScheme.primary
+                                : Colors.grey,
+                          ),
+                          overlayColor: WidgetStateProperty.all(
+                            Theme.of(context)
+                                .colorScheme
+                                .primary
+                                .withValues(alpha: 0.1),
+                          ),
+                        ),
+                        child: Text(AppLocalizations.of(context)!.apply),
+                      ),
+                    ],
+                  ),
+                ],
+              ),
+            ),
+          ],
+        ),
       );
     }
 
