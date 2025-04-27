@@ -3,6 +3,7 @@ name: Update Winget Manifest - Submit
 on:
   pull_request_target:
     types: [closed]
+  workflow_dispatch:
 
 jobs:
   get-version:
@@ -32,8 +33,11 @@ jobs:
     name: Submit manifest to winget-pkgs
     runs-on: windows-latest
     needs: get-version
-    if: github.event.pull_request.merged == true && startsWith(github.event.pull_request.head.ref, 'winget/update-v')
+    if: (github.event.pull_request.merged == true && startsWith(github.event.pull_request.head.ref, 'winget/update-v')) || github.event_name == 'workflow_dispatch'
     steps:
+      - name: Checkout main branch
+        uses: actions/checkout@v4
+
       - name: Install winget
         uses: Cyberboss/install-winget@v1
         with:
@@ -42,6 +46,9 @@ jobs:
       - name: Install wingetcreate
         run: |
           winget install wingetcreate --silent --disable-interactivity --accept-source-agreements --accept-package-agreements
+
+      - name: Set up environment variables
+        run: echo "WINGET_CREATE_GITHUB_TOKEN=${{ secrets.WINGET_CREATE_GITHUB_TOKEN }}" >> $env:GITHUB_ENV
 
       - name: Run wingetcreate update with submit
         run: |

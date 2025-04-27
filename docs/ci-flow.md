@@ -49,6 +49,36 @@ When a Pull Request (PR) is merged, the following steps are executed:
   3. Uploads the production AAB to the Play Developer Console targeting the
     **product environment**.
 
+## 3. Trigger: Release Publish
+
+When a GitHub Release is published, the following step is executed:
+
+### Step 3.1: `update-winget-create.yaml`
+
+- **Purpose:**
+  - Generates a Winget manifest and automatically creates a Pull Request for
+  version update.
+
+- **Process:**
+  - The pipeline is triggered by the GitHub Release publish event.
+  - A new Winget manifest is generated.
+  - A Pull Request named `winget/update-vx.x.x` is automatically created in the repository.
+
+## 4. Trigger: Merge of `winget/update-vx.x.x` Pull Request
+
+When the `winget/update-vx.x.x` PR is merged into the main branch, the following
+step is executed:
+
+### Step 4.1: `update-winget-submit.yaml`
+
+- **Purpose:**
+  - Submits the updated Winget manifest to the official `winget-pkgs` repository.
+
+- **Process:**
+  - Executes `wingetcreate update` with the `--submit` option.
+  - Automatically creates a PR to the official [winget-pkgs](https://github.com/microsoft/winget-pkgs)
+  repository for version update.
+
 ## Summary of Key Actions
 
 - **Manual Steps:**
@@ -60,3 +90,6 @@ When a Pull Request (PR) is merged, the following steps are executed:
   - `test-release.yaml`: Builds APK and AAB, uploads them to Google Play,
     updates the build version in `pubspec.yaml`, and commits changes.
   - `release.yaml`: Builds and uploads final AAB, and drafts release notes.
+  - `update-winget-create.yaml`: Triggered by **Release publish**, generates
+  Winget manifest, creates update PR.
+  - `update-winget-submit.yaml`: Submits updated manifest to `winget-pkgs`.
