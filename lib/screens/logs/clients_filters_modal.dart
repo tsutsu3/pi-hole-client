@@ -91,88 +91,92 @@ class _ClientsFiltersModalState extends State<ClientsFiltersModal> {
     }
 
     Widget content() {
-      return Wrap(
-        alignment: WrapAlignment.center,
-        children: [
-          ConstrainedBox(
-            constraints: BoxConstraints(
-              maxHeight: MediaQuery.of(context).size.height * 0.8,
-            ),
-            child: ListView(
-              children: [
-                Padding(
-                  padding: const EdgeInsets.only(top: 24),
-                  child: Icon(
-                    Icons.phone_android_rounded,
-                    size: 24,
-                    color: Theme.of(context).colorScheme.secondary,
-                  ),
-                ),
-                Padding(
-                  padding: const EdgeInsets.only(top: 24, bottom: 24),
-                  child: Text(
-                    AppLocalizations.of(context)!.clients,
-                    textAlign: TextAlign.center,
-                    style: const TextStyle(fontSize: 24),
-                  ),
-                ),
-                ...filtersProvider.totalClients.map(
-                  (e) => listItem(
-                    label: e,
-                    value: e,
-                  ),
-                ),
-              ],
-            ),
-          ),
-          Padding(
-            padding: const EdgeInsets.all(20),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                TextButton(
-                  onPressed: checkUncheckAll,
-                  child: _selectedClients.length ==
-                          filtersProvider.totalClients.length
-                      ? Text(AppLocalizations.of(context)!.uncheckAll)
-                      : Text(AppLocalizations.of(context)!.checkAll),
-                ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.end,
-                  children: [
-                    TextButton(
-                      onPressed: () => Navigator.maybePop(context),
-                      child: Text(AppLocalizations.of(context)!.close),
+      return ConstrainedBox(
+        constraints: BoxConstraints(
+          maxHeight: MediaQuery.of(context).size.height * 0.8,
+        ),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Expanded(
+              child: ListView(
+                shrinkWrap: true,
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.only(top: 24),
+                    child: Icon(
+                      Icons.phone_android_rounded,
+                      size: 24,
+                      color: Theme.of(context).colorScheme.secondary,
                     ),
-                    const SizedBox(width: 20),
-                    TextButton(
-                      onPressed: _selectedClients.isNotEmpty
-                          ? () {
-                              updateList();
-                              Navigator.maybePop(context);
-                            }
-                          : null,
-                      style: ButtonStyle(
-                        foregroundColor: WidgetStateProperty.all(
-                          _selectedClients.isNotEmpty
-                              ? Theme.of(context).colorScheme.primary
-                              : Colors.grey,
-                        ),
-                        overlayColor: WidgetStateProperty.all(
-                          Theme.of(context)
-                              .colorScheme
-                              .primary
-                              .withValues(alpha: 0.1),
-                        ),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.only(top: 24, bottom: 24),
+                    child: Text(
+                      AppLocalizations.of(context)!.clients,
+                      textAlign: TextAlign.center,
+                      style: const TextStyle(fontSize: 24),
+                    ),
+                  ),
+                  ...filtersProvider.totalClients.map(
+                    (e) => listItem(
+                      label: e,
+                      value: e,
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.all(20),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  TextButton(
+                    onPressed: checkUncheckAll,
+                    child: Text(
+                      _selectedClients.length ==
+                              filtersProvider.totalClients.length
+                          ? AppLocalizations.of(context)!.uncheckAll
+                          : AppLocalizations.of(context)!.checkAll,
+                    ),
+                  ),
+                  Row(
+                    children: [
+                      TextButton(
+                        onPressed: () => Navigator.maybePop(context),
+                        child: Text(AppLocalizations.of(context)!.close),
                       ),
-                      child: Text(AppLocalizations.of(context)!.apply),
-                    ),
-                  ],
-                ),
-              ],
+                      const SizedBox(width: 20),
+                      TextButton(
+                        onPressed: _selectedClients.isNotEmpty
+                            ? () {
+                                updateList();
+                                Navigator.maybePop(context);
+                              }
+                            : null,
+                        style: ButtonStyle(
+                          foregroundColor: WidgetStateProperty.all(
+                            _selectedClients.isNotEmpty
+                                ? Theme.of(context).colorScheme.primary
+                                : Colors.grey,
+                          ),
+                          overlayColor: WidgetStateProperty.all(
+                            Theme.of(context)
+                                .colorScheme
+                                .primary
+                                .withValues(alpha: 0.1),
+                          ),
+                        ),
+                        child: Text(AppLocalizations.of(context)!.apply),
+                      ),
+                    ],
+                  ),
+                ],
+              ),
             ),
-          ),
-        ],
+          ],
+        ),
       );
     }
 
