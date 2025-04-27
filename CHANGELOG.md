@@ -1,6 +1,49 @@
 # Changelog
 
-## [1.2.0](https://github.com/tsutsu3/pi-hole-client/compare/1.1.0_(27)..1.2.0) - 2025-04-10
+## [1.2.1](https://github.com/tsutsu3/pi-hole-client/compare/1.2.0_(31)..1.2.1) - 2025-04-27
+
+### 🚀 Features
+
+- *(model)* Support %cpu field from FTL v6.1 ([#244](https://github.com/tsutsu3/pi-hole-client/issues/244)) - ([cbcc910](https://github.com/tsutsu3/pi-hole-client/commit/cbcc91067c60e39a2cfef0a040694932751399f9))
+
+### 🐛 Bug Fixes
+
+- *(gravity_update)* Improve layout by applying SafeArea to ListView ([#246](https://github.com/tsutsu3/pi-hole-client/issues/246)) - ([49d8cd6](https://github.com/tsutsu3/pi-hole-client/commit/49d8cd65d50f89bd23b13d4658e71bb125bf26d1))
+- *(home)* Add scroll padding to avoid FAB overlap - ([8e57c96](https://github.com/tsutsu3/pi-hole-client/commit/8e57c96bedad212abf337697eb5312a1201bb8af))
+- *(logs_filter_modal)* Keep action buttons always visible in dialog ([#248](https://github.com/tsutsu3/pi-hole-client/issues/248)) - ([c973b43](https://github.com/tsutsu3/pi-hole-client/commit/c973b438e142ebf8775d03cec6148942e26761eb))
+- *(modal)* Prevent bottom overflow when keyboard is visible in landscape ([#249](https://github.com/tsutsu3/pi-hole-client/issues/249)) - ([b916698](https://github.com/tsutsu3/pi-hole-client/commit/b916698ac3d7a05fa3e1521c423f17dd47ae1a59))
+- *(navrail)* Prevent bottom overflow in CustomNavigationRail with scrollable layout ([#247](https://github.com/tsutsu3/pi-hole-client/issues/247)) - ([1fa3267](https://github.com/tsutsu3/pi-hole-client/commit/1fa3267305bdeb7a0b13144ebc85360baddf4799))
+- *(overtime_data)* Handle null client names by providing an empty string ([#241](https://github.com/tsutsu3/pi-hole-client/issues/241)) - ([fccd11a](https://github.com/tsutsu3/pi-hole-client/commit/fccd11a5c6d57c8bd0c2e52903045788e1057234))
+- *(scroll)* Keep footer buttons fixed at the bottom ([#239](https://github.com/tsutsu3/pi-hole-client/issues/239)) - ([f2beffb](https://github.com/tsutsu3/pi-hole-client/commit/f2beffb583d346ddbbef1065db96c6d60e07f0a3))
+- *(statistics)* Isolate ScrollControllers for each CustomTabContent ([#245](https://github.com/tsutsu3/pi-hole-client/issues/245)) - ([58979db](https://github.com/tsutsu3/pi-hole-client/commit/58979db28dd81600a93ad5e6c8e73741b6c63033))
+
+### 🚜 Refactor
+
+- *(delete_modal)* Unify delete modals into reusable component ([#237](https://github.com/tsutsu3/pi-hole-client/issues/237)) - ([77c284d](https://github.com/tsutsu3/pi-hole-client/commit/77c284df172ecde41a5508e5620295ba7a95f35b))
+- *(domain_tile)* Simplify content layout in DomainTile widget ([#236](https://github.com/tsutsu3/pi-hole-client/issues/236)) - ([0726d37](https://github.com/tsutsu3/pi-hole-client/commit/0726d3732a105f7e0f3d2fba674ae419577f0acd))
+
+### 📚 Documentation
+
+- *(README)* Update features and Codacy badge in README - ([ca74582](https://github.com/tsutsu3/pi-hole-client/commit/ca7458206e9e4a59579e557b044d2b359cbd21e6))
+
+### 🧪 Testing
+
+- *(home)* Improve home screen widget tests for better accuracy - ([7a9f351](https://github.com/tsutsu3/pi-hole-client/commit/7a9f3513981178b3c32a78e3ed540236b19fdd39))
+- *(tests)* Remove TODOs and refine transaction mocks across files - ([eee7d94](https://github.com/tsutsu3/pi-hole-client/commit/eee7d945595459f7b429d3aed6565e12aa5fa991))
+
+### ⚙️ Miscellaneous Tasks
+
+- *(codacy)* Exclude CHANGELOG.md from Codacy analysis - ([3d4e3e4](https://github.com/tsutsu3/pi-hole-client/commit/3d4e3e43fd06853e9d27968008d7d61001624947))
+- *(codacy)* Add Codacy configuration file ([#235](https://github.com/tsutsu3/pi-hole-client/issues/235)) - ([f8730f8](https://github.com/tsutsu3/pi-hole-client/commit/f8730f80530a093495ad8ae30b8c6a97e81eea91))
+- *(format)* Add missing comma to avoid warning - ([e350aa5](https://github.com/tsutsu3/pi-hole-client/commit/e350aa5785aadcb88d652d6f7f78f6104aee0726))
+- *(mock_api_server)* Add mock api server ([#234](https://github.com/tsutsu3/pi-hole-client/issues/234)) - ([edb5abd](https://github.com/tsutsu3/pi-hole-client/commit/edb5abd5f8034a45a7f77c200bd923f48df5eb1a))
+- *(pubspec)* Remove analyzer override ([#243](https://github.com/tsutsu3/pi-hole-client/issues/243)) - ([00847a1](https://github.com/tsutsu3/pi-hole-client/commit/00847a159730c49e049c2014a849c3f86a67f7dc))
+- *(window)* Increase desktop minimum window size to 400x400 - ([83da92e](https://github.com/tsutsu3/pi-hole-client/commit/83da92e3acab49711ba8389cd215091df1fb9949))
+- *(winget)* Add automation for winget package submission ([#214](https://github.com/tsutsu3/pi-hole-client/issues/214)) - ([92c541a](https://github.com/tsutsu3/pi-hole-client/commit/92c541a5ef172fb71c6d96eb70e186507805dfe0))
+- *(workflows)* Update Flutter version to 3.29.3 in all workflow files ([#240](https://github.com/tsutsu3/pi-hole-client/issues/240)) - ([8e5ee8f](https://github.com/tsutsu3/pi-hole-client/commit/8e5ee8fee76540956f56ac43bc2c4d62aa1a6504))
+
+
+## [1.2.0_(31)](https://github.com/tsutsu3/pi-hole-client/compare/1.1.0_(27)..1.2.0_(31)) - 2025-04-11
 
 ### 🚀 Features
 
