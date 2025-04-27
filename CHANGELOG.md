@@ -42,10 +42,6 @@
 - *(winget)* Add automation for winget package submission ([#214](https://github.com/tsutsu3/pi-hole-client/issues/214)) - ([92c541a](https://github.com/tsutsu3/pi-hole-client/commit/92c541a5ef172fb71c6d96eb70e186507805dfe0))
 - *(workflows)* Update Flutter version to 3.29.3 in all workflow files ([#240](https://github.com/tsutsu3/pi-hole-client/issues/240)) - ([8e5ee8f](https://github.com/tsutsu3/pi-hole-client/commit/8e5ee8fee76540956f56ac43bc2c4d62aa1a6504))
 
-## 🎉 New Contributors 🎉
-
-* @tsutsu3 made their first contribution in [#249](https://github.com/tsutsu3/pi-hole-client/pull/249)
-* @dependabot[bot] made their first contribution in [#242](https://github.com/tsutsu3/pi-hole-client/pull/242)
 
 ## [1.2.0_(31)](https://github.com/tsutsu3/pi-hole-client/compare/1.1.0_(27)..1.2.0_(31)) - 2025-04-11
 
