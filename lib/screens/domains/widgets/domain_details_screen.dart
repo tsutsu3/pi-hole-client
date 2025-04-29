@@ -1,4 +1,3 @@
-import 'package:animations/animations.dart';
 import 'package:flutter/material.dart';
 import 'package:pi_hole_client/config/theme.dart';
 import 'package:pi_hole_client/functions/conversions.dart';
@@ -9,7 +8,6 @@ import 'package:pi_hole_client/models/domain.dart';
 import 'package:pi_hole_client/providers/app_config_provider.dart';
 import 'package:pi_hole_client/providers/domains_list_provider.dart';
 import 'package:pi_hole_client/providers/servers_provider.dart';
-import 'package:pi_hole_client/screens/domains/widgets/domain_comment_modal.dart';
 import 'package:pi_hole_client/widgets/custom_list_tile.dart';
 import 'package:pi_hole_client/widgets/delete_modal.dart';
 import 'package:provider/provider.dart';
@@ -115,23 +113,23 @@ class _DomainDetailsScreenState extends State<DomainDetailsScreen> {
                   : null,
             ),
             CustomListTile(
-              leadingIcon: Icons.schedule_rounded,
-              label: AppLocalizations.of(context)!.dateAdded,
-              description:
-                  formatTimestamp(widget.domain.dateAdded, 'yyyy-MM-dd'),
-            ),
-            CustomListTile(
-              leadingIcon: Icons.update_rounded,
-              label: AppLocalizations.of(context)!.dateModified,
-              description:
-                  formatTimestamp(widget.domain.dateModified, 'yyyy-MM-dd'),
-            ),
-            CustomListTile(
               leadingIcon: Icons.check,
               label: AppLocalizations.of(context)!.status,
               description: widget.domain.enabled == 1
                   ? AppLocalizations.of(context)!.enabled
                   : AppLocalizations.of(context)!.disabled,
+              trailing: Switch(
+                value: _domain.enabled == 1,
+                onChanged: (value) {
+                  // onEditDomain(
+                  //   _domain
+                  //       .copyWith(
+                  //         enabled: value,
+                  //       )
+                  //       .toJson(),
+                  // );
+                },
+              ),
             ),
             CustomListTile(
               leadingIcon: Icons.group_rounded,
@@ -143,30 +141,29 @@ class _DomainDetailsScreenState extends State<DomainDetailsScreen> {
               ),
               // onTap: openGroupsModal,
             ),
-            Material(
-              color: Colors.transparent,
-              child: InkWell(
-                onTap:
-                    widget.domain.comment != null && widget.domain.comment != ''
-                        ? () => {
-                              showModal(
-                                context: context,
-                                useRootNavigator:
-                                    false, // Prevents unexpected app exit on mobile when pressing back
-                                builder: (context) => DomainCommentModal(
-                                  comment: widget.domain.comment!,
-                                ),
-                              ),
-                            }
-                        : null,
-                child: CustomListTile(
-                  leadingIcon: Icons.comment_rounded,
-                  label: AppLocalizations.of(context)!.comment,
-                  description: widget.domain.comment == ''
-                      ? AppLocalizations.of(context)!.noComment
-                      : widget.domain.comment,
-                ),
+            CustomListTile(
+              leadingIcon: Icons.comment_rounded,
+              label: AppLocalizations.of(context)!.comment,
+              description: _domain.comment == ''
+                  ? AppLocalizations.of(context)!.noComment
+                  : _domain.comment,
+              trailing: Icon(
+                Icons.edit_rounded,
+                color: Theme.of(context).colorScheme.onSurfaceVariant,
               ),
+              // onTap: openCommentModal,
+            ),
+            CustomListTile(
+              leadingIcon: Icons.schedule_rounded,
+              label: AppLocalizations.of(context)!.dateAdded,
+              description:
+                  formatTimestamp(widget.domain.dateAdded, 'yyyy-MM-dd'),
+            ),
+            CustomListTile(
+              leadingIcon: Icons.update_rounded,
+              label: AppLocalizations.of(context)!.dateModified,
+              description:
+                  formatTimestamp(widget.domain.dateModified, 'yyyy-MM-dd'),
             ),
           ],
         ),
