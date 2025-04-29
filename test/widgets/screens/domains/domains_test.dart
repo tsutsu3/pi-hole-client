@@ -16,8 +16,8 @@ import 'package:pi_hole_client/models/server.dart';
 import 'package:pi_hole_client/providers/app_config_provider.dart';
 import 'package:pi_hole_client/providers/domains_list_provider.dart';
 import 'package:pi_hole_client/providers/servers_provider.dart';
-import 'package:pi_hole_client/screens/domains/domain_details_screen.dart';
 import 'package:pi_hole_client/screens/domains/domains.dart';
+import 'package:pi_hole_client/screens/domains/widgets/domain_details_screen.dart';
 import 'package:provider/provider.dart';
 
 import '../../helpers.dart';
