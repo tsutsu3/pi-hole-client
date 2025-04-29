@@ -60,11 +60,37 @@ class DomainTile extends StatelessWidget {
       );
     }
 
+    Widget domainStatusIcon(int enabled) {
+      final appColors = Theme.of(context).extension<AppColors>()!;
+
+      switch (enabled) {
+        case 0:
+          // Disabled
+          return Icon(
+            Icons.remove_circle_rounded,
+            color: appColors.queryGrey,
+          );
+        case 1:
+          // Enabled
+          return Icon(
+            Icons.check_circle_outline_rounded,
+            color: Theme.of(context).colorScheme.secondary,
+          );
+        default:
+          return Icon(
+            Icons.help_rounded,
+            color: appColors.queryGrey,
+          );
+      }
+    }
+
     /// The content of the tile, which includes the domain address, date added,
     /// and domain type.
     final Widget content = Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
+        domainStatusIcon(domain.enabled),
+        const SizedBox(width: 16),
         Expanded(
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
