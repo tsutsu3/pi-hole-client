@@ -3,26 +3,78 @@ import 'package:flutter/material.dart';
 import 'package:pi_hole_client/config/theme.dart';
 import 'package:pi_hole_client/functions/conversions.dart';
 import 'package:pi_hole_client/functions/format.dart';
+import 'package:pi_hole_client/gateways/api_gateway_interface.dart';
 import 'package:pi_hole_client/l10n/generated/app_localizations.dart';
 import 'package:pi_hole_client/models/domain.dart';
+import 'package:pi_hole_client/providers/app_config_provider.dart';
+import 'package:pi_hole_client/providers/domains_list_provider.dart';
+import 'package:pi_hole_client/providers/servers_provider.dart';
 import 'package:pi_hole_client/screens/domains/widgets/domain_comment_modal.dart';
 import 'package:pi_hole_client/widgets/custom_list_tile.dart';
 import 'package:pi_hole_client/widgets/delete_modal.dart';
+import 'package:provider/provider.dart';
 
-class DomainDetailsScreen extends StatelessWidget {
+class DomainDetailsScreen extends StatefulWidget {
   const DomainDetailsScreen({
     required this.domain,
     required this.remove,
-    super.key,
+    required this.groups,
     this.colors,
+    super.key,
   });
 
   final Domain domain;
   final void Function(Domain) remove;
+  final Map<int, String> groups;
   final AppColors? colors;
 
   @override
+  State<DomainDetailsScreen> createState() => _DomainDetailsScreenState();
+}
+
+class _DomainDetailsScreenState extends State<DomainDetailsScreen> {
+  late Domain _domain;
+  late ServersProvider serversProvider;
+  late ApiGateway? apiGateway;
+  late DomainsListProvider domainsListProvider;
+  late AppConfigProvider appConfigProvider;
+
+  @override
+  void initState() {
+    super.initState();
+    _domain = widget.domain.copyWith();
+  }
+
+  @override
+  void didUpdateWidget(covariant DomainDetailsScreen oldWidget) {
+    super.didUpdateWidget(oldWidget);
+
+    if (oldWidget.domain != widget.domain) {
+      setState(() {
+        _domain = widget.domain.copyWith();
+      });
+    }
+  }
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    appConfigProvider = context.watch<AppConfigProvider>();
+    serversProvider = context.watch<ServersProvider>();
+    domainsListProvider = context.watch<DomainsListProvider>();
+    apiGateway = serversProvider.selectedApiGateway;
+  }
+
+  @override
   Widget build(BuildContext context) {
+    List<String> getGroupNames() {
+      final groupNames = <String>[];
+      for (final group in _domain.groups) {
+        groupNames.add(widget.groups[group]!);
+      }
+      return groupNames;
+    }
+
     return Scaffold(
       appBar: AppBar(
         title: Text(AppLocalizations.of(context)!.domainDetails),
@@ -37,7 +89,7 @@ class DomainDetailsScreen extends StatelessWidget {
                 message: AppLocalizations.of(context)!.deleteDomainMessage,
                 onDelete: () {
                   Navigator.maybePop(context);
-                  remove(domain);
+                  widget.remove(widget.domain);
                 },
               ),
             ),
@@ -52,53 +104,67 @@ class DomainDetailsScreen extends StatelessWidget {
             CustomListTile(
               leadingIcon: Icons.domain,
               label: AppLocalizations.of(context)!.domain,
-              description: domain.domain,
+              description: widget.domain.domain,
             ),
             CustomListTile(
               leadingIcon: Icons.category_rounded,
               label: AppLocalizations.of(context)!.type,
-              description: getDomainType(domain.type),
-              color: colors != null
-                  ? convertColorFromNumber(colors!, domain.type)
+              description: getDomainType(widget.domain.type),
+              color: widget.colors != null
+                  ? convertColorFromNumber(widget.colors!, widget.domain.type)
                   : null,
             ),
             CustomListTile(
               leadingIcon: Icons.schedule_rounded,
               label: AppLocalizations.of(context)!.dateAdded,
-              description: formatTimestamp(domain.dateAdded, 'yyyy-MM-dd'),
+              description:
+                  formatTimestamp(widget.domain.dateAdded, 'yyyy-MM-dd'),
             ),
             CustomListTile(
               leadingIcon: Icons.update_rounded,
               label: AppLocalizations.of(context)!.dateModified,
-              description: formatTimestamp(domain.dateModified, 'yyyy-MM-dd'),
+              description:
+                  formatTimestamp(widget.domain.dateModified, 'yyyy-MM-dd'),
             ),
             CustomListTile(
               leadingIcon: Icons.check,
               label: AppLocalizations.of(context)!.status,
-              description: domain.enabled == 1
+              description: widget.domain.enabled == 1
                   ? AppLocalizations.of(context)!.enabled
                   : AppLocalizations.of(context)!.disabled,
+            ),
+            CustomListTile(
+              leadingIcon: Icons.group_rounded,
+              label: AppLocalizations.of(context)!.groups,
+              description: getGroupNames().join(', '),
+              trailing: Icon(
+                Icons.edit_rounded,
+                color: Theme.of(context).colorScheme.onSurfaceVariant,
+              ),
+              // onTap: openGroupsModal,
             ),
             Material(
               color: Colors.transparent,
               child: InkWell(
-                onTap: domain.comment != null && domain.comment != ''
-                    ? () => {
-                          showModal(
-                            context: context,
-                            useRootNavigator:
-                                false, // Prevents unexpected app exit on mobile when pressing back
-                            builder: (context) =>
-                                DomainCommentModal(comment: domain.comment!),
-                          ),
-                        }
-                    : null,
+                onTap:
+                    widget.domain.comment != null && widget.domain.comment != ''
+                        ? () => {
+                              showModal(
+                                context: context,
+                                useRootNavigator:
+                                    false, // Prevents unexpected app exit on mobile when pressing back
+                                builder: (context) => DomainCommentModal(
+                                  comment: widget.domain.comment!,
+                                ),
+                              ),
+                            }
+                        : null,
                 child: CustomListTile(
                   leadingIcon: Icons.comment_rounded,
                   label: AppLocalizations.of(context)!.comment,
-                  description: domain.comment == ''
+                  description: widget.domain.comment == ''
                       ? AppLocalizations.of(context)!.noComment
-                      : domain.comment,
+                      : widget.domain.comment,
                 ),
               ),
             ),

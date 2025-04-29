@@ -10,6 +10,7 @@ import 'package:pi_hole_client/models/domain.dart';
 import 'package:pi_hole_client/models/gateways.dart';
 import 'package:pi_hole_client/providers/app_config_provider.dart';
 import 'package:pi_hole_client/providers/domains_list_provider.dart';
+import 'package:pi_hole_client/providers/groups_provider.dart';
 import 'package:pi_hole_client/providers/servers_provider.dart';
 import 'package:pi_hole_client/screens/domains/widgets/add_domain_modal.dart';
 import 'package:pi_hole_client/screens/domains/widgets/domain_details_screen.dart';
@@ -73,6 +74,7 @@ class _DomainsListState extends State<DomainsList> {
     final domainsListProvider = Provider.of<DomainsListProvider>(context);
     final appConfigProvider = Provider.of<AppConfigProvider>(context);
     final apiGateway = serversProvider.selectedApiGateway;
+    final groups = context.watch<GroupsProvider>().groupItems;
 
     final domainsList = widget.type == 'blacklist'
         ? domainsListProvider.filteredBlacklistDomains
@@ -217,6 +219,7 @@ class _DomainsListState extends State<DomainsList> {
                         builder: (context) => DomainDetailsScreen(
                           domain: d,
                           remove: removeDomain,
+                          groups: groups,
                           colors: serversProvider.colors,
                         ),
                       ),
