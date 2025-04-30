@@ -563,6 +563,12 @@ abstract class AppLocalizations {
   /// **'Failed to update the Adlist'**
   String get cannotEditAdlist;
 
+  /// No description provided for @cannotEditDomain.
+  ///
+  /// In en, this message translates to:
+  /// **'Failed to update the Domain'**
+  String get cannotEditDomain;
+
   /// No description provided for @cannotUpdateSettings.
   ///
   /// In en, this message translates to:
@@ -1000,6 +1006,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Domain removed successfully'**
   String get domainRemoved;
+
+  /// No description provided for @domainUpdated.
+  ///
+  /// In en, this message translates to:
+  /// **'Domain updated successfully'**
+  String get domainUpdated;
 
   /// No description provided for @domains.
   ///

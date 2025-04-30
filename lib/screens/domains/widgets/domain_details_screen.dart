@@ -1,10 +1,16 @@
 import 'package:flutter/material.dart';
+import 'package:pi_hole_client/classes/process_modal.dart';
+// import 'package:pi_hole_client/classes/process_modal.dart';
 import 'package:pi_hole_client/config/theme.dart';
 import 'package:pi_hole_client/functions/conversions.dart';
 import 'package:pi_hole_client/functions/format.dart';
+import 'package:pi_hole_client/functions/snackbar.dart';
+// import 'package:pi_hole_client/functions/snackbar.dart';
 import 'package:pi_hole_client/gateways/api_gateway_interface.dart';
 import 'package:pi_hole_client/l10n/generated/app_localizations.dart';
 import 'package:pi_hole_client/models/domain.dart';
+import 'package:pi_hole_client/models/gateways.dart';
+// import 'package:pi_hole_client/models/gateways.dart';
 import 'package:pi_hole_client/providers/app_config_provider.dart';
 import 'package:pi_hole_client/providers/domains_list_provider.dart';
 import 'package:pi_hole_client/providers/servers_provider.dart';
@@ -65,14 +71,6 @@ class _DomainDetailsScreenState extends State<DomainDetailsScreen> {
 
   @override
   Widget build(BuildContext context) {
-    List<String> getGroupNames() {
-      final groupNames = <String>[];
-      for (final group in _domain.groups) {
-        groupNames.add(widget.groups[group]!);
-      }
-      return groupNames;
-    }
-
     return Scaffold(
       appBar: AppBar(
         title: Text(AppLocalizations.of(context)!.domainDetails),
@@ -121,13 +119,13 @@ class _DomainDetailsScreenState extends State<DomainDetailsScreen> {
               trailing: Switch(
                 value: _domain.enabled == 1,
                 onChanged: (value) {
-                  // onEditDomain(
-                  //   _domain
-                  //       .copyWith(
-                  //         enabled: value,
-                  //       )
-                  //       .toJson(),
-                  // );
+                  onEditDomain(
+                    _domain
+                        .copyWith(
+                          enabled: value ? 1 : 0,
+                        )
+                        .toJson(),
+                  );
                 },
               ),
             ),
@@ -169,5 +167,48 @@ class _DomainDetailsScreenState extends State<DomainDetailsScreen> {
         ),
       ),
     );
+  }
+
+  List<String> getGroupNames() {
+    final groupNames = <String>[];
+    for (final group in _domain.groups) {
+      groupNames.add(widget.groups[group]!);
+    }
+    return groupNames;
+  }
+
+  Future<void> onEditDomain(Map<String, dynamic> value) async {
+    final body = DomainRequest.fromJson(value);
+
+    final process = ProcessModal(context: context);
+    process.open(AppLocalizations.of(context)!.updatingAdlist);
+
+    final result = await apiGateway?.updateDomain(body: body);
+
+    process.close();
+
+    if (result?.result == APiResponseType.success) {
+      await domainsListProvider.fetchDomainsList();
+
+      setState(() {
+        _domain = result!.data!.copyWith();
+      });
+
+      if (!mounted) return;
+
+      showSuccessSnackBar(
+        context: context,
+        appConfigProvider: appConfigProvider,
+        label: AppLocalizations.of(context)!.domainUpdated,
+      );
+    } else {
+      if (!mounted) return;
+
+      showErrorSnackBar(
+        context: context,
+        appConfigProvider: appConfigProvider,
+        label: AppLocalizations.of(context)!.cannotEditDomain,
+      );
+    }
   }
 }

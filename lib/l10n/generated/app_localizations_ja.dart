@@ -240,6 +240,9 @@ class AppLocalizationsJa extends AppLocalizations {
   String get cannotEditAdlist => 'Adlistの更新に失敗しました';
 
   @override
+  String get cannotEditDomain => 'ドメインの更新に失敗しました';
+
+  @override
   String get cannotUpdateSettings => '設定を更新できません。';
 
   @override
@@ -457,6 +460,9 @@ class AppLocalizationsJa extends AppLocalizations {
 
   @override
   String get domainRemoved => 'ドメインが正常に削除されました';
+
+  @override
+  String get domainUpdated => 'ドメインの更新に成功しました';
 
   @override
   String get domains => 'ドメイン';

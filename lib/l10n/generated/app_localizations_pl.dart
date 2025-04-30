@@ -240,6 +240,9 @@ class AppLocalizationsPl extends AppLocalizations {
   String get cannotEditAdlist => 'Nie udało się zaktualizować listy reklam';
 
   @override
+  String get cannotEditDomain => 'Aktualizacja domeny nie powiodła się';
+
+  @override
   String get cannotUpdateSettings => 'Nie można zaktualizować ustawień.';
 
   @override
@@ -457,6 +460,9 @@ class AppLocalizationsPl extends AppLocalizations {
 
   @override
   String get domainRemoved => 'Domena została pomyślnie usunięta';
+
+  @override
+  String get domainUpdated => 'Domen zaktualizowano pomyślnie';
 
   @override
   String get domains => 'Domeny';
