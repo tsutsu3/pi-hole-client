@@ -122,8 +122,7 @@ class _DomainsListState extends State<DomainsList> {
       process.close();
 
       if (result?.result == APiResponseType.success) {
-        await domainsListProvider
-            .fetchDomainsList(serversProvider.selectedServer!);
+        await domainsListProvider.fetchDomainsList();
         showSuccessSnackBar(
           context: context,
           appConfigProvider: appConfigProvider,
@@ -268,8 +267,7 @@ class _DomainsListState extends State<DomainsList> {
             ),
           ),
           loadStatus: domainsListProvider.loadingStatus,
-          onRefresh: () async => domainsListProvider
-              .fetchDomainsList(serversProvider.selectedServer!),
+          onRefresh: () async => domainsListProvider.fetchDomainsList(),
         ),
         SafeArea(
           child: Stack(

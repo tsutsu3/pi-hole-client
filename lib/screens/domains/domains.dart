@@ -65,7 +65,7 @@ class _DomainListsWidgetState extends State<DomainListsWidget>
       await groupsProvider.loadGroups();
     });
 
-    widget.domainsListProvider.fetchDomainsList(widget.server);
+    widget.domainsListProvider.fetchDomainsList();
     widget.domainsListProvider.setSelectedTab(0);
     tabController = TabController(
       length: 2,
