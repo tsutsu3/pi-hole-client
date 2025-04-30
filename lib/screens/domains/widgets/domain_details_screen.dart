@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:pi_hole_client/classes/process_modal.dart';
 // import 'package:pi_hole_client/classes/process_modal.dart';
 import 'package:pi_hole_client/config/theme.dart';
+import 'package:pi_hole_client/constants/responsive.dart';
 import 'package:pi_hole_client/functions/conversions.dart';
 import 'package:pi_hole_client/functions/format.dart';
 import 'package:pi_hole_client/functions/snackbar.dart';
@@ -14,6 +15,7 @@ import 'package:pi_hole_client/models/gateways.dart';
 import 'package:pi_hole_client/providers/app_config_provider.dart';
 import 'package:pi_hole_client/providers/domains_list_provider.dart';
 import 'package:pi_hole_client/providers/servers_provider.dart';
+import 'package:pi_hole_client/screens/domains/widgets/edit_domain_modal.dart';
 import 'package:pi_hole_client/widgets/custom_list_tile.dart';
 import 'package:pi_hole_client/widgets/delete_modal.dart';
 import 'package:provider/provider.dart';
@@ -137,7 +139,7 @@ class _DomainDetailsScreenState extends State<DomainDetailsScreen> {
                 Icons.edit_rounded,
                 color: Theme.of(context).colorScheme.onSurfaceVariant,
               ),
-              // onTap: openGroupsModal,
+              onTap: openGroupsModal,
             ),
             CustomListTile(
               leadingIcon: Icons.comment_rounded,
@@ -149,19 +151,17 @@ class _DomainDetailsScreenState extends State<DomainDetailsScreen> {
                 Icons.edit_rounded,
                 color: Theme.of(context).colorScheme.onSurfaceVariant,
               ),
-              // onTap: openCommentModal,
+              onTap: openCommentModal,
             ),
             CustomListTile(
               leadingIcon: Icons.schedule_rounded,
               label: AppLocalizations.of(context)!.dateAdded,
-              description:
-                  formatTimestamp(widget.domain.dateAdded, 'yyyy-MM-dd'),
+              description: formatTimestamp(_domain.dateAdded, 'yyyy-MM-dd'),
             ),
             CustomListTile(
               leadingIcon: Icons.update_rounded,
               label: AppLocalizations.of(context)!.dateModified,
-              description:
-                  formatTimestamp(widget.domain.dateModified, 'yyyy-MM-dd'),
+              description: formatTimestamp(_domain.dateModified, 'yyyy-MM-dd'),
             ),
           ],
         ),
@@ -208,6 +208,79 @@ class _DomainDetailsScreenState extends State<DomainDetailsScreen> {
         context: context,
         appConfigProvider: appConfigProvider,
         label: AppLocalizations.of(context)!.cannotEditDomain,
+      );
+    }
+  }
+
+  void openCommentModal() {
+    final mediaQuery = MediaQuery.of(context);
+    final isSmallLandscape = mediaQuery.size.width > mediaQuery.size.height &&
+        mediaQuery.size.height < ResponsiveConstants.medium;
+
+    if (MediaQuery.of(context).size.width > ResponsiveConstants.medium) {
+      showDialog(
+        context: context,
+        useSafeArea: !isSmallLandscape,
+        useRootNavigator:
+            false, // Prevents unexpected app exit on mobile when pressing back
+        builder: (ctx) => EditDomainModal(
+          domain: _domain,
+          keyItem: 'comment',
+          title: AppLocalizations.of(context)!.editComment,
+          icon: Icons.comment_rounded,
+          onConfirm: onEditDomain,
+          groups: widget.groups,
+          window: true,
+        ),
+      );
+    } else {
+      showModalBottomSheet(
+        context: context,
+        builder: (ctx) => EditDomainModal(
+          domain: _domain,
+          keyItem: 'comment',
+          title: AppLocalizations.of(context)!.editComment,
+          icon: Icons.comment_rounded,
+          onConfirm: onEditDomain,
+          groups: widget.groups,
+          window: false,
+        ),
+        backgroundColor: Colors.transparent,
+        isScrollControlled: true,
+      );
+    }
+  }
+
+  void openGroupsModal() {
+    if (MediaQuery.of(context).size.width > ResponsiveConstants.medium) {
+      showDialog(
+        context: context,
+        useRootNavigator:
+            false, // Prevents unexpected app exit on mobile when pressing back
+        builder: (ctx) => EditDomainModal(
+          domain: _domain,
+          keyItem: 'groups',
+          title: AppLocalizations.of(context)!.editGroups,
+          icon: Icons.group_rounded,
+          onConfirm: onEditDomain,
+          groups: widget.groups,
+          window: true,
+        ),
+      );
+    } else {
+      showModalBottomSheet(
+        context: context,
+        builder: (ctx) => EditDomainModal(
+          domain: _domain,
+          keyItem: 'groups',
+          title: AppLocalizations.of(context)!.editGroups,
+          icon: Icons.group_rounded,
+          onConfirm: onEditDomain,
+          groups: widget.groups,
+          window: false,
+        ),
+        backgroundColor: Colors.transparent,
+        isScrollControlled: true,
       );
     }
   }
