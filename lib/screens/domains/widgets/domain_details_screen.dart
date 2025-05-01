@@ -153,7 +153,7 @@ class _DomainDetailsScreenState extends State<DomainDetailsScreen> {
             CustomListTile(
               leadingIcon: Icons.comment_rounded,
               label: AppLocalizations.of(context)!.comment,
-              description: _domain.comment == ''
+              description: _domain.comment == '' || _domain.comment == null
                   ? AppLocalizations.of(context)!.noComment
                   : _domain.comment,
               trailing: Icon(
