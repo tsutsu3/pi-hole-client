@@ -130,6 +130,15 @@ class _DomainDetailsScreenState extends State<DomainDetailsScreen> {
                   );
                 },
               ),
+              onTap: () {
+                onEditDomain(
+                  _domain
+                      .copyWith(
+                        enabled: _domain.enabled == 1 ? 0 : 1,
+                      )
+                      .toJson(),
+                );
+              },
             ),
             CustomListTile(
               leadingIcon: Icons.group_rounded,
