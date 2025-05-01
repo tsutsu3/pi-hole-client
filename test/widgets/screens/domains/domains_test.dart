@@ -401,6 +401,95 @@ void main() async {
         );
       },
     );
+
+    testWidgets(
+      'should show edit domain groups modal (tablet)',
+      (WidgetTester tester) async {
+        tester.view.physicalSize = const Size(2560, 1600);
+        tester.view.devicePixelRatio = 1.6;
+
+        addTearDown(() {
+          tester.view.resetPhysicalSize();
+          tester.view.resetDevicePixelRatio();
+        });
+
+        await tester.pumpWidget(
+          testSetup.buildTestWidget(
+            const DomainLists(),
+          ),
+        );
+
+        expect(find.byType(DomainLists), findsOneWidget);
+        await tester.pumpAndSettle();
+
+        expect(find.text('example.com'), findsOneWidget);
+        await tester.tap(find.text('example.com'));
+        await tester.pumpAndSettle();
+
+        expect(find.byType(DomainDetailsScreen), findsOneWidget);
+        await tester.tap(find.text('Groups'));
+        await tester.pumpAndSettle();
+
+        expect(find.byType(EditDomainModal), findsOneWidget);
+        expect(find.byType(LabeledMultiSelectTile), findsOneWidget);
+        expect(find.text('Edit groups'), findsOneWidget);
+
+        await tester.tap(find.byType(CheckboxListTile).last);
+        await tester.pumpAndSettle();
+        await tester.tap(find.text('Edit'));
+        await tester.pumpAndSettle();
+
+        expect(find.byType(SnackBar), findsOneWidget);
+        expect(
+          find.text('Domain updated successfully'),
+          findsOneWidget,
+        );
+      },
+    );
+
+    testWidgets(
+      'should show edit domain comment modal (tablet)',
+      (WidgetTester tester) async {
+        tester.view.physicalSize = const Size(2560, 1600);
+        tester.view.devicePixelRatio = 1.6;
+
+        addTearDown(() {
+          tester.view.resetPhysicalSize();
+          tester.view.resetDevicePixelRatio();
+        });
+
+        await tester.pumpWidget(
+          testSetup.buildTestWidget(
+            const DomainLists(),
+          ),
+        );
+
+        expect(find.byType(DomainLists), findsOneWidget);
+        await tester.pumpAndSettle();
+
+        expect(find.text('example.com'), findsOneWidget);
+        await tester.tap(find.text('example.com'));
+        await tester.pumpAndSettle();
+
+        expect(find.byType(DomainDetailsScreen), findsOneWidget);
+        await tester.tap(find.text('Comment'));
+        await tester.pumpAndSettle();
+
+        expect(find.byType(EditDomainModal), findsOneWidget);
+        expect(find.text('Edit comment'), findsOneWidget);
+
+        await tester.enterText(find.byType(TextField), 'test123');
+        await tester.pumpAndSettle();
+        await tester.tap(find.text('Edit'));
+        await tester.pumpAndSettle();
+
+        expect(find.byType(SnackBar), findsOneWidget);
+        expect(
+          find.text('Domain updated successfully'),
+          findsOneWidget,
+        );
+      },
+    );
   });
 
   group('DomainLists Widget Tests (v5)', () {
