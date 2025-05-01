@@ -6,6 +6,7 @@ import 'package:http/http.dart' as http;
 import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
 import 'package:pi_hole_client/constants/api_versions.dart';
+import 'package:pi_hole_client/constants/enums.dart';
 import 'package:pi_hole_client/gateways/v5/api_gateway_v5.dart';
 import 'package:pi_hole_client/models/domain.dart';
 import 'package:pi_hole_client/models/gateways.dart';
@@ -1272,6 +1273,38 @@ void main() async {
           .addDomainToList({'list': 'black', 'domain': 'google.com'});
 
       expect(response.result, APiResponseType.error);
+    });
+  });
+
+  group('updateDomain', () {
+    late Server server;
+    const notSupportedMessage = 'Pi-hole v5 does not support this feature.';
+    final data = DomainRequest(
+      domain: 'example.com',
+      type: DomainType.allow,
+      kind: DomainKind.exact,
+      enabled: true,
+      groups: [],
+      comment: '',
+    );
+
+    setUp(() async {
+      server = Server(
+        address: 'http://example.com',
+        alias: 'example',
+        defaultServer: true,
+        apiVersion: SupportedApiVersions.v5,
+      );
+      await server.sm.saveToken('xxx123');
+    });
+
+    test('should return notSupported when server is v5', () async {
+      final mockClient = MockClient();
+      final apiGateway = ApiGatewayV5(server, client: mockClient);
+      final response = await apiGateway.updateDomain(body: data);
+
+      expect(response.result, APiResponseType.notSupported);
+      expect(response.message, notSupportedMessage);
     });
   });
 

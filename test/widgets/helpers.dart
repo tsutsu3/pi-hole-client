@@ -1282,10 +1282,20 @@ class TestSetupHelper {
   }
 
   void _initDomainListProviderMock(String useApiGatewayVersion) {
-    when(mockDomainsListProvider.fetchDomainsList(any))
-        .thenAnswer((_) async {});
+    when(mockDomainsListProvider.fetchDomainsList()).thenAnswer((_) async {});
     when(mockDomainsListProvider.searchMode).thenReturn(false);
+    when(mockDomainsListProvider.searchTerm).thenReturn('');
     when(mockDomainsListProvider.filteredWhitelistDomains).thenReturn(domains);
+    when(mockDomainsListProvider.filteredBlacklistDomains).thenReturn([]);
+    when(mockDomainsListProvider.loadingStatus).thenReturn(LoadStatus.loaded);
+    when(mockDomainsListProvider.whitelistDomains).thenReturn(domains);
+    when(mockDomainsListProvider.blacklistDomains).thenReturn([]);
+    when(mockDomainsListProvider.setLoadingStatus(any)).thenReturn(null);
+    when(mockDomainsListProvider.setWhitelistDomains(any)).thenReturn(null);
+    when(mockDomainsListProvider.setBlacklistDomains(any)).thenReturn(null);
+    when(mockDomainsListProvider.onSearch(any)).thenReturn(null);
+    when(mockDomainsListProvider.removeDomainFromList(any))
+        .thenAnswer((_) async => true);
   }
 
   void _initGroupsPtoviderMock(useApiGatewayVersion) {
