@@ -403,6 +403,51 @@ void main() async {
     );
 
     testWidgets(
+      'should show error snack bar',
+      (WidgetTester tester) async {
+        tester.view.physicalSize = const Size(1080, 2400);
+        tester.view.devicePixelRatio = 2.0;
+
+        when(testSetup.mockApiGatewayV6.updateDomain(body: anyNamed('body')))
+            .thenAnswer(
+          (_) async => DomainResponse(
+            result: APiResponseType.error,
+            message: 'Error',
+          ),
+        );
+
+        addTearDown(() {
+          tester.view.resetPhysicalSize();
+          tester.view.resetDevicePixelRatio();
+        });
+
+        await tester.pumpWidget(
+          testSetup.buildTestWidget(
+            const DomainLists(),
+          ),
+        );
+
+        expect(find.byType(DomainLists), findsOneWidget);
+        await tester.pumpAndSettle();
+
+        expect(find.text('example.com'), findsOneWidget);
+        await tester.tap(find.text('example.com'));
+        await tester.pumpAndSettle();
+
+        expect(find.byType(DomainDetailsScreen), findsOneWidget);
+        expect(find.byType(Switch), findsOneWidget);
+        await tester.tap(find.byType(Switch));
+        await tester.pumpAndSettle();
+
+        expect(find.byType(SnackBar), findsOneWidget);
+        expect(
+          find.text('Failed to update the Domain'),
+          findsOneWidget,
+        );
+      },
+    );
+
+    testWidgets(
       'should show edit domain groups modal (tablet)',
       (WidgetTester tester) async {
         tester.view.physicalSize = const Size(2560, 1600);
