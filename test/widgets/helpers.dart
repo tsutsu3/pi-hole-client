@@ -845,7 +845,7 @@ final groups = Groups.fromJson(
         'date_modified': 1611157897,
       },
       {
-        'name': 'a',
+        'name': 'group1',
         'comment': null,
         'enabled': true,
         'id': 5,
@@ -1414,6 +1414,13 @@ class TestSetupHelper {
     });
 
     when(mockApiGatewayV5.server).thenReturn(serverV5);
+
+    when(mockApiGatewayV5.updateDomain(body: anyNamed('body'))).thenAnswer(
+      (_) async => DomainResponse(
+        result: APiResponseType.success,
+        data: domains[0],
+      ),
+    );
   }
 
   void _initApiGatewayV6Mock() {
@@ -1525,6 +1532,13 @@ class TestSetupHelper {
     ).thenAnswer(
       (_) async => RemoveSubscriptionResponse(
         result: APiResponseType.success,
+      ),
+    );
+
+    when(mockApiGatewayV6.updateDomain(body: anyNamed('body'))).thenAnswer(
+      (_) async => DomainResponse(
+        result: APiResponseType.success,
+        data: domains[0],
       ),
     );
   }

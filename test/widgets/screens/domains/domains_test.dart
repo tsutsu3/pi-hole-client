@@ -5,6 +5,8 @@ import 'package:pi_hole_client/constants/enums.dart';
 import 'package:pi_hole_client/models/gateways.dart';
 import 'package:pi_hole_client/screens/domains/domains.dart';
 import 'package:pi_hole_client/screens/domains/widgets/domain_details_screen.dart';
+import 'package:pi_hole_client/screens/domains/widgets/edit_domain_modal.dart';
+import 'package:pi_hole_client/widgets/labeled_multi_select_tile.dart';
 
 import '../../helpers.dart';
 
@@ -271,6 +273,171 @@ void main() async {
 
         expect(find.byType(DomainLists), findsOneWidget);
         expect(find.text('Loading list...'), findsOneWidget);
+      },
+    );
+
+    testWidgets(
+      'should edit a domain status',
+      (WidgetTester tester) async {
+        tester.view.physicalSize = const Size(1080, 2400);
+        tester.view.devicePixelRatio = 2.0;
+
+        addTearDown(() {
+          tester.view.resetPhysicalSize();
+          tester.view.resetDevicePixelRatio();
+        });
+
+        await tester.pumpWidget(
+          testSetup.buildTestWidget(
+            const DomainLists(),
+          ),
+        );
+
+        expect(find.byType(DomainLists), findsOneWidget);
+        await tester.pumpAndSettle();
+
+        expect(find.text('example.com'), findsOneWidget);
+        await tester.tap(find.text('example.com'));
+        await tester.pumpAndSettle();
+
+        expect(find.byType(DomainDetailsScreen), findsOneWidget);
+        expect(find.byType(Switch), findsOneWidget);
+        await tester.tap(find.byType(Switch));
+        await tester.pumpAndSettle();
+
+        expect(find.byType(SnackBar), findsOneWidget);
+        expect(
+          find.text('Domain updated successfully'),
+          findsOneWidget,
+        );
+      },
+    );
+
+    testWidgets(
+      'should edit a domain groups',
+      (WidgetTester tester) async {
+        tester.view.physicalSize = const Size(1080, 2400);
+        tester.view.devicePixelRatio = 2.0;
+
+        addTearDown(() {
+          tester.view.resetPhysicalSize();
+          tester.view.resetDevicePixelRatio();
+        });
+
+        await tester.pumpWidget(
+          testSetup.buildTestWidget(
+            const DomainLists(),
+          ),
+        );
+
+        expect(find.byType(DomainLists), findsOneWidget);
+        await tester.pumpAndSettle();
+
+        expect(find.text('example.com'), findsOneWidget);
+        await tester.tap(find.text('example.com'));
+        await tester.pumpAndSettle();
+
+        expect(find.byType(DomainDetailsScreen), findsOneWidget);
+        await tester.tap(find.text('Groups'));
+        await tester.pumpAndSettle();
+
+        expect(find.byType(EditDomainModal), findsOneWidget);
+        expect(find.byType(LabeledMultiSelectTile), findsOneWidget);
+        expect(find.text('Edit groups'), findsOneWidget);
+
+        await tester.tap(find.byType(CheckboxListTile).last);
+        await tester.pumpAndSettle();
+        await tester.tap(find.text('Edit'));
+        await tester.pumpAndSettle();
+
+        expect(find.byType(SnackBar), findsOneWidget);
+        expect(
+          find.text('Domain updated successfully'),
+          findsOneWidget,
+        );
+      },
+    );
+
+    testWidgets(
+      'should edit a domain comment',
+      (WidgetTester tester) async {
+        tester.view.physicalSize = const Size(1080, 2400);
+        tester.view.devicePixelRatio = 2.0;
+
+        addTearDown(() {
+          tester.view.resetPhysicalSize();
+          tester.view.resetDevicePixelRatio();
+        });
+
+        await tester.pumpWidget(
+          testSetup.buildTestWidget(
+            const DomainLists(),
+          ),
+        );
+
+        expect(find.byType(DomainLists), findsOneWidget);
+        await tester.pumpAndSettle();
+
+        expect(find.text('example.com'), findsOneWidget);
+        await tester.tap(find.text('example.com'));
+        await tester.pumpAndSettle();
+
+        expect(find.byType(DomainDetailsScreen), findsOneWidget);
+        await tester.tap(find.text('Comment'));
+        await tester.pumpAndSettle();
+
+        expect(find.byType(EditDomainModal), findsOneWidget);
+        expect(find.text('Edit comment'), findsOneWidget);
+
+        await tester.enterText(find.byType(TextField), 'test123');
+        await tester.pumpAndSettle();
+        await tester.tap(find.text('Edit'));
+        await tester.pumpAndSettle();
+
+        expect(find.byType(SnackBar), findsOneWidget);
+        expect(
+          find.text('Domain updated successfully'),
+          findsOneWidget,
+        );
+      },
+    );
+  });
+
+  group('DomainLists Widget Tests (v5)', () {
+    late TestSetupHelper testSetup;
+
+    setUp(() async {
+      testSetup = TestSetupHelper();
+      testSetup.initializeMock();
+    });
+
+    testWidgets(
+      'should not be editable with v5',
+      (WidgetTester tester) async {
+        tester.view.physicalSize = const Size(1080, 2400);
+        tester.view.devicePixelRatio = 2.0;
+
+        addTearDown(() {
+          tester.view.resetPhysicalSize();
+          tester.view.resetDevicePixelRatio();
+        });
+
+        await tester.pumpWidget(
+          testSetup.buildTestWidget(
+            const DomainLists(),
+          ),
+        );
+
+        expect(find.byType(DomainLists), findsOneWidget);
+        await tester.pumpAndSettle();
+
+        expect(find.text('example.com'), findsOneWidget);
+        await tester.tap(find.text('example.com'));
+        await tester.pumpAndSettle();
+
+        expect(find.byType(DomainDetailsScreen), findsOneWidget);
+        expect(find.byType(Switch), findsNothing);
+        expect(find.byIcon(Icons.edit_rounded), findsNothing);
       },
     );
   });
