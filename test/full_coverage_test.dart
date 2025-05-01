@@ -97,7 +97,6 @@ import 'package:pi_hole_client/screens/common/error_message_screen.dart';
 import 'package:pi_hole_client/screens/common/pi_hole_v5_not_supported_screen.dart';
 import 'package:pi_hole_client/screens/domains/domains.dart';
 import 'package:pi_hole_client/screens/domains/widgets/add_domain_modal.dart';
-import 'package:pi_hole_client/screens/domains/widgets/domain_comment_modal.dart';
 import 'package:pi_hole_client/screens/domains/widgets/domain_details_screen.dart';
 import 'package:pi_hole_client/screens/domains/widgets/domain_tile.dart';
 import 'package:pi_hole_client/screens/domains/widgets/domains_list.dart';
