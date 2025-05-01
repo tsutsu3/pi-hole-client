@@ -1,17 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:pi_hole_client/classes/process_modal.dart';
-// import 'package:pi_hole_client/classes/process_modal.dart';
 import 'package:pi_hole_client/config/theme.dart';
+import 'package:pi_hole_client/constants/api_versions.dart';
 import 'package:pi_hole_client/constants/responsive.dart';
 import 'package:pi_hole_client/functions/conversions.dart';
 import 'package:pi_hole_client/functions/format.dart';
 import 'package:pi_hole_client/functions/snackbar.dart';
-// import 'package:pi_hole_client/functions/snackbar.dart';
 import 'package:pi_hole_client/gateways/api_gateway_interface.dart';
 import 'package:pi_hole_client/l10n/generated/app_localizations.dart';
 import 'package:pi_hole_client/models/domain.dart';
 import 'package:pi_hole_client/models/gateways.dart';
-// import 'package:pi_hole_client/models/gateways.dart';
 import 'package:pi_hole_client/providers/app_config_provider.dart';
 import 'package:pi_hole_client/providers/domains_list_provider.dart';
 import 'package:pi_hole_client/providers/servers_provider.dart';
@@ -44,6 +42,7 @@ class _DomainDetailsScreenState extends State<DomainDetailsScreen> {
   late ApiGateway? apiGateway;
   late DomainsListProvider domainsListProvider;
   late AppConfigProvider appConfigProvider;
+  late bool isV5;
 
   @override
   void initState() {
@@ -69,6 +68,8 @@ class _DomainDetailsScreenState extends State<DomainDetailsScreen> {
     serversProvider = context.watch<ServersProvider>();
     domainsListProvider = context.watch<DomainsListProvider>();
     apiGateway = serversProvider.selectedApiGateway;
+    isV5 =
+        serversProvider.selectedServer?.apiVersion == SupportedApiVersions.v5;
   }
 
   @override
@@ -118,37 +119,43 @@ class _DomainDetailsScreenState extends State<DomainDetailsScreen> {
               description: widget.domain.enabled == 1
                   ? AppLocalizations.of(context)!.enabled
                   : AppLocalizations.of(context)!.disabled,
-              trailing: Switch(
-                value: _domain.enabled == 1,
-                onChanged: (value) {
-                  onEditDomain(
-                    _domain
-                        .copyWith(
-                          enabled: value ? 1 : 0,
-                        )
-                        .toJson(),
-                  );
-                },
-              ),
-              onTap: () {
-                onEditDomain(
-                  _domain
-                      .copyWith(
-                        enabled: _domain.enabled == 1 ? 0 : 1,
-                      )
-                      .toJson(),
-                );
-              },
+              trailing: isV5
+                  ? null
+                  : Switch(
+                      value: _domain.enabled == 1,
+                      onChanged: (value) {
+                        onEditDomain(
+                          _domain
+                              .copyWith(
+                                enabled: value ? 1 : 0,
+                              )
+                              .toJson(),
+                        );
+                      },
+                    ),
+              onTap: isV5
+                  ? null
+                  : () {
+                      onEditDomain(
+                        _domain
+                            .copyWith(
+                              enabled: _domain.enabled == 1 ? 0 : 1,
+                            )
+                            .toJson(),
+                      );
+                    },
             ),
             CustomListTile(
               leadingIcon: Icons.group_rounded,
               label: AppLocalizations.of(context)!.groups,
               description: getGroupNames().join(', '),
-              trailing: Icon(
-                Icons.edit_rounded,
-                color: Theme.of(context).colorScheme.onSurfaceVariant,
-              ),
-              onTap: openGroupsModal,
+              trailing: isV5
+                  ? null
+                  : Icon(
+                      Icons.edit_rounded,
+                      color: Theme.of(context).colorScheme.onSurfaceVariant,
+                    ),
+              onTap: isV5 ? null : openGroupsModal,
             ),
             CustomListTile(
               leadingIcon: Icons.comment_rounded,
@@ -156,11 +163,13 @@ class _DomainDetailsScreenState extends State<DomainDetailsScreen> {
               description: _domain.comment == '' || _domain.comment == null
                   ? AppLocalizations.of(context)!.noComment
                   : _domain.comment,
-              trailing: Icon(
-                Icons.edit_rounded,
-                color: Theme.of(context).colorScheme.onSurfaceVariant,
-              ),
-              onTap: openCommentModal,
+              trailing: isV5
+                  ? null
+                  : Icon(
+                      Icons.edit_rounded,
+                      color: Theme.of(context).colorScheme.onSurfaceVariant,
+                    ),
+              onTap: isV5 ? null : openCommentModal,
             ),
             CustomListTile(
               leadingIcon: Icons.schedule_rounded,
