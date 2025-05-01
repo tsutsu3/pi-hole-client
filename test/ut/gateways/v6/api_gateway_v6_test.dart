@@ -5,6 +5,7 @@ import 'package:http/http.dart' as http;
 import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
 import 'package:pi_hole_client/constants/api_versions.dart';
+import 'package:pi_hole_client/constants/enums.dart';
 import 'package:pi_hole_client/constants/subscription_types.dart';
 import 'package:pi_hole_client/gateways/v6/api_gateway_v6.dart';
 import 'package:pi_hole_client/models/api/v6/ftl/host.dart' show Host;
@@ -1444,6 +1445,125 @@ void main() async {
           .addDomainToList({'list': 'black', 'domain': 'google.com'});
 
       expect(response.result, APiResponseType.error);
+    });
+  });
+
+  group('updateDomain', () {
+    late Server server;
+    const singleData = {
+      'domains': [
+        {
+          'domain': 'example.com',
+          'unicode': 'example.com',
+          'type': 'allow',
+          'kind': 'exact',
+          'comment': null,
+          'groups': [],
+          'enabled': true,
+          'id': 299,
+          'date_added': 1611239095,
+          'date_modified': 1612163756,
+        },
+      ],
+      'took': 0.012,
+      'processed': null,
+    };
+    const badReqData = {
+      'error': {
+        'key': 'uri_error',
+        'message': 'Invalid request: Specify list to modify more precisely',
+        'hint': null,
+      },
+    };
+    const domain = 'example.com';
+    final encodedDomain = Uri.encodeComponent(domain);
+    final reqData = DomainRequest(
+      domain: domain,
+      type: DomainType.allow,
+      kind: DomainKind.exact,
+      enabled: true,
+      groups: [],
+    );
+
+    setUp(() {
+      server = Server(
+        address: 'http://example.com',
+        alias: 'example',
+        defaultServer: true,
+        apiVersion: SupportedApiVersions.v6,
+      );
+      server.sm.savePassword('xxx123');
+    });
+
+    test('should return success when adding or editing a subscription',
+        () async {
+      final mockClient = MockClient();
+      final apiGateway = ApiGatewayV6(server, client: mockClient);
+
+      when(
+        mockClient.put(
+          Uri.parse(
+            'http://example.com/api/domains/${reqData.type.name}/${reqData.kind.name}/$encodedDomain',
+          ),
+          headers: anyNamed('headers'),
+          body: anyNamed('body'),
+        ),
+      ).thenAnswer((_) async => http.Response(jsonEncode(singleData), 200));
+
+      final response = await apiGateway.updateDomain(
+        body: reqData,
+      );
+
+      expect(response.result, APiResponseType.success);
+      expect(response.message, null);
+      expect(response.data?.domain, domain);
+      expect(response.data?.type, 0);
+      expect(response.data?.enabled, 1);
+    });
+
+    test('should return error when status code is 400 (Bad Request)', () async {
+      final mockClient = MockClient();
+      final apiGateway = ApiGatewayV6(server, client: mockClient);
+
+      when(
+        mockClient.put(
+          Uri.parse(
+            'http://example.com/api/domains/${reqData.type.name}/${reqData.kind.name}/$encodedDomain',
+          ),
+          headers: anyNamed('headers'),
+          body: anyNamed('body'),
+        ),
+      ).thenAnswer((_) async => http.Response(jsonEncode(badReqData), 400));
+
+      final response = await apiGateway.updateDomain(
+        body: reqData,
+      );
+
+      expect(response.result, APiResponseType.error);
+      expect(response.message, fetchError);
+      expect(response.data?.toJson(), null);
+    });
+
+    test('should return error when an unexpected exception is thrown',
+        () async {
+      final mockClient = MockClient();
+      final apiGateway = ApiGatewayV6(server, client: mockClient);
+
+      when(
+        mockClient.put(
+          Uri.parse('http://example.com/api/domains'),
+          headers: anyNamed('headers'),
+          body: anyNamed('body'),
+        ),
+      ).thenThrow(Exception('Unexpected error test'));
+
+      final response = await apiGateway.updateDomain(
+        body: reqData,
+      );
+
+      expect(response.result, APiResponseType.error);
+      expect(response.message, unexpectedError);
+      expect(response.data?.toJson(), null);
     });
   });
 

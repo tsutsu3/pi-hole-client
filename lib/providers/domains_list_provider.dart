@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:pi_hole_client/constants/enums.dart';
 import 'package:pi_hole_client/models/domain.dart';
 import 'package:pi_hole_client/models/gateways.dart';
-import 'package:pi_hole_client/models/server.dart';
 import 'package:pi_hole_client/providers/servers_provider.dart';
 
 class DomainsListProvider with ChangeNotifier {
@@ -98,7 +97,7 @@ class DomainsListProvider with ChangeNotifier {
     notifyListeners();
   }
 
-  Future<dynamic> fetchDomainsList(Server server) async {
+  Future<void> fetchDomainsList() async {
     final apiGateway = serversProvider?.selectedApiGateway;
     final result = await apiGateway?.getDomainLists();
     if (result?.result == APiResponseType.success) {

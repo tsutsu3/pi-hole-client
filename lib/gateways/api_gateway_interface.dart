@@ -95,6 +95,11 @@ abstract interface class ApiGateway {
     Map<String, dynamic> domainData,
   );
 
+  /// Updates an existing domain.
+  Future<DomainResponse> updateDomain({
+    required DomainRequest body,
+  });
+
   /// Fetch Pi-hole host information.
   Future<HostResponse> fetchHostInfo();
 

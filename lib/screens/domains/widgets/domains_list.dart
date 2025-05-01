@@ -10,10 +10,11 @@ import 'package:pi_hole_client/models/domain.dart';
 import 'package:pi_hole_client/models/gateways.dart';
 import 'package:pi_hole_client/providers/app_config_provider.dart';
 import 'package:pi_hole_client/providers/domains_list_provider.dart';
+import 'package:pi_hole_client/providers/groups_provider.dart';
 import 'package:pi_hole_client/providers/servers_provider.dart';
-import 'package:pi_hole_client/screens/domains/add_domain_modal.dart';
-import 'package:pi_hole_client/screens/domains/domain_details_screen.dart';
-import 'package:pi_hole_client/screens/domains/domain_tile.dart';
+import 'package:pi_hole_client/screens/domains/widgets/add_domain_modal.dart';
+import 'package:pi_hole_client/screens/domains/widgets/domain_details_screen.dart';
+import 'package:pi_hole_client/screens/domains/widgets/domain_tile.dart';
 import 'package:pi_hole_client/widgets/tab_content_list.dart';
 import 'package:provider/provider.dart';
 
@@ -73,6 +74,7 @@ class _DomainsListState extends State<DomainsList> {
     final domainsListProvider = Provider.of<DomainsListProvider>(context);
     final appConfigProvider = Provider.of<AppConfigProvider>(context);
     final apiGateway = serversProvider.selectedApiGateway;
+    final groups = context.watch<GroupsProvider>().groupItems;
 
     final domainsList = widget.type == 'blacklist'
         ? domainsListProvider.filteredBlacklistDomains
@@ -120,8 +122,7 @@ class _DomainsListState extends State<DomainsList> {
       process.close();
 
       if (result?.result == APiResponseType.success) {
-        await domainsListProvider
-            .fetchDomainsList(serversProvider.selectedServer!);
+        await domainsListProvider.fetchDomainsList();
         showSuccessSnackBar(
           context: context,
           appConfigProvider: appConfigProvider,
@@ -217,6 +218,7 @@ class _DomainsListState extends State<DomainsList> {
                         builder: (context) => DomainDetailsScreen(
                           domain: d,
                           remove: removeDomain,
+                          groups: groups,
                           colors: serversProvider.colors,
                         ),
                       ),
@@ -265,8 +267,7 @@ class _DomainsListState extends State<DomainsList> {
             ),
           ),
           loadStatus: domainsListProvider.loadingStatus,
-          onRefresh: () async => domainsListProvider
-              .fetchDomainsList(serversProvider.selectedServer!),
+          onRefresh: () async => domainsListProvider.fetchDomainsList(),
         ),
         SafeArea(
           child: Stack(

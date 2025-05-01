@@ -58,6 +58,54 @@ class ApiGatewayV6 implements ApiGateway {
   @override
   Server get server => _server;
 
+  Future<Response> _sendRequest({
+    required String method,
+    required String url,
+    required Map<String, String> headers,
+    required int timeout,
+    Map<String, dynamic>? body,
+  }) async {
+    switch (method.toUpperCase()) {
+      case 'POST':
+        return _client
+            .post(
+              Uri.parse(url),
+              headers: headers,
+              body: body != null ? jsonEncode(body) : null,
+            )
+            .timeout(Duration(seconds: timeout));
+
+      case 'PUT':
+        return _client
+            .put(
+              Uri.parse(url),
+              headers: headers,
+              body: body != null ? jsonEncode(body) : null,
+            )
+            .timeout(Duration(seconds: timeout));
+
+      case 'PATCH':
+        return _client
+            .patch(
+              Uri.parse(url),
+              headers: headers,
+              body: body != null ? jsonEncode(body) : null,
+            )
+            .timeout(Duration(seconds: timeout));
+
+      case 'DELETE':
+        return _client
+            .delete(Uri.parse(url), headers: headers)
+            .timeout(Duration(seconds: timeout));
+
+      case 'GET':
+      default:
+        return _client
+            .get(Uri.parse(url), headers: headers)
+            .timeout(Duration(seconds: timeout));
+    }
+  }
+
   /// Sends an HTTP request using the specified method and parameters.
   ///
   /// This method sends an HTTP request to the specified URL using the provided
@@ -746,51 +794,37 @@ class ApiGatewayV6 implements ApiGateway {
     }
   }
 
-  Future<Response> _sendRequest({
-    required String method,
-    required String url,
-    required Map<String, String> headers,
-    required int timeout,
-    Map<String, dynamic>? body,
+  /// Updates an existing domain.
+  @override
+  Future<DomainResponse> updateDomain({
+    required DomainRequest body,
   }) async {
-    switch (method.toUpperCase()) {
-      case 'POST':
-        return _client
-            .post(
-              Uri.parse(url),
-              headers: headers,
-              body: body != null ? jsonEncode(body) : null,
-            )
-            .timeout(Duration(seconds: timeout));
+    try {
+      final results = await httpClient(
+        method: 'put',
+        url:
+            '${_server.address}/api/domains/${body.type.name}/${body.kind.name}/${Uri.encodeComponent(body.domain)}',
+        body: body.toJson(),
+      );
 
-      case 'PUT':
-        return _client
-            .put(
-              Uri.parse(url),
-              headers: headers,
-              body: body != null ? jsonEncode(body) : null,
-            )
-            .timeout(Duration(seconds: timeout));
+      if (results.statusCode == 200) {
+        final domains = Domains.fromJson(jsonDecode(results.body));
 
-      case 'PATCH':
-        return _client
-            .patch(
-              Uri.parse(url),
-              headers: headers,
-              body: body != null ? jsonEncode(body) : null,
-            )
-            .timeout(Duration(seconds: timeout));
-
-      case 'DELETE':
-        return _client
-            .delete(Uri.parse(url), headers: headers)
-            .timeout(Duration(seconds: timeout));
-
-      case 'GET':
-      default:
-        return _client
-            .get(Uri.parse(url), headers: headers)
-            .timeout(Duration(seconds: timeout));
+        return DomainResponse(
+          result: APiResponseType.success,
+          data: Domain.fromV6(domains.domains.first),
+        );
+      } else {
+        return DomainResponse(
+          result: APiResponseType.error,
+          message: fetchError,
+        );
+      }
+    } catch (e) {
+      return DomainResponse(
+        result: APiResponseType.error,
+        message: unexpectedError,
+      );
     }
   }
 

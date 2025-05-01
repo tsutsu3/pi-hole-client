@@ -237,6 +237,14 @@ class AddDomainToListResponse {
   final APiResponseType result;
 }
 
+class DomainResponse extends BaseInfoResponse<Domain> {
+  DomainResponse({
+    required super.result,
+    super.message,
+    super.data,
+  });
+}
+
 abstract class BaseInfoResponse<T> {
   BaseInfoResponse({
     required this.result,

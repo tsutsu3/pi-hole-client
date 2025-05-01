@@ -194,8 +194,9 @@ class _FakeAddDomainToListResponse_12 extends _i1.SmartFake
         );
 }
 
-class _FakeHostResponse_13 extends _i1.SmartFake implements _i5.HostResponse {
-  _FakeHostResponse_13(
+class _FakeDomainResponse_13 extends _i1.SmartFake
+    implements _i5.DomainResponse {
+  _FakeDomainResponse_13(
     Object parent,
     Invocation parentInvocation,
   ) : super(
@@ -204,9 +205,19 @@ class _FakeHostResponse_13 extends _i1.SmartFake implements _i5.HostResponse {
         );
 }
 
-class _FakeSensorsResponse_14 extends _i1.SmartFake
+class _FakeHostResponse_14 extends _i1.SmartFake implements _i5.HostResponse {
+  _FakeHostResponse_14(
+    Object parent,
+    Invocation parentInvocation,
+  ) : super(
+          parent,
+          parentInvocation,
+        );
+}
+
+class _FakeSensorsResponse_15 extends _i1.SmartFake
     implements _i5.SensorsResponse {
-  _FakeSensorsResponse_14(
+  _FakeSensorsResponse_15(
     Object parent,
     Invocation parentInvocation,
   ) : super(
@@ -215,9 +226,9 @@ class _FakeSensorsResponse_14 extends _i1.SmartFake
         );
 }
 
-class _FakeSystemResponse_15 extends _i1.SmartFake
+class _FakeSystemResponse_16 extends _i1.SmartFake
     implements _i5.SystemResponse {
-  _FakeSystemResponse_15(
+  _FakeSystemResponse_16(
     Object parent,
     Invocation parentInvocation,
   ) : super(
@@ -226,9 +237,9 @@ class _FakeSystemResponse_15 extends _i1.SmartFake
         );
 }
 
-class _FakeVersionResponse_16 extends _i1.SmartFake
+class _FakeVersionResponse_17 extends _i1.SmartFake
     implements _i5.VersionResponse {
-  _FakeVersionResponse_16(
+  _FakeVersionResponse_17(
     Object parent,
     Invocation parentInvocation,
   ) : super(
@@ -237,9 +248,9 @@ class _FakeVersionResponse_16 extends _i1.SmartFake
         );
 }
 
-class _FakePiHoleServerInfoResponse_17 extends _i1.SmartFake
+class _FakePiHoleServerInfoResponse_18 extends _i1.SmartFake
     implements _i5.PiHoleServerInfoResponse {
-  _FakePiHoleServerInfoResponse_17(
+  _FakePiHoleServerInfoResponse_18(
     Object parent,
     Invocation parentInvocation,
   ) : super(
@@ -248,9 +259,9 @@ class _FakePiHoleServerInfoResponse_17 extends _i1.SmartFake
         );
 }
 
-class _FakeSubscriptionsResponse_18 extends _i1.SmartFake
+class _FakeSubscriptionsResponse_19 extends _i1.SmartFake
     implements _i5.SubscriptionsResponse {
-  _FakeSubscriptionsResponse_18(
+  _FakeSubscriptionsResponse_19(
     Object parent,
     Invocation parentInvocation,
   ) : super(
@@ -259,9 +270,9 @@ class _FakeSubscriptionsResponse_18 extends _i1.SmartFake
         );
 }
 
-class _FakeRemoveSubscriptionResponse_19 extends _i1.SmartFake
+class _FakeRemoveSubscriptionResponse_20 extends _i1.SmartFake
     implements _i5.RemoveSubscriptionResponse {
-  _FakeRemoveSubscriptionResponse_19(
+  _FakeRemoveSubscriptionResponse_20(
     Object parent,
     Invocation parentInvocation,
   ) : super(
@@ -270,9 +281,9 @@ class _FakeRemoveSubscriptionResponse_19 extends _i1.SmartFake
         );
 }
 
-class _FakeSearchResponse_20 extends _i1.SmartFake
+class _FakeSearchResponse_21 extends _i1.SmartFake
     implements _i5.SearchResponse {
-  _FakeSearchResponse_20(
+  _FakeSearchResponse_21(
     Object parent,
     Invocation parentInvocation,
   ) : super(
@@ -281,9 +292,9 @@ class _FakeSearchResponse_20 extends _i1.SmartFake
         );
 }
 
-class _FakeGroupsResponse_21 extends _i1.SmartFake
+class _FakeGroupsResponse_22 extends _i1.SmartFake
     implements _i5.GroupsResponse {
-  _FakeGroupsResponse_21(
+  _FakeGroupsResponse_22(
     Object parent,
     Invocation parentInvocation,
   ) : super(
@@ -292,9 +303,9 @@ class _FakeGroupsResponse_21 extends _i1.SmartFake
         );
 }
 
-class _FakeRemoveGroupResponse_22 extends _i1.SmartFake
+class _FakeRemoveGroupResponse_23 extends _i1.SmartFake
     implements _i5.RemoveGroupResponse {
-  _FakeRemoveGroupResponse_22(
+  _FakeRemoveGroupResponse_23(
     Object parent,
     Invocation parentInvocation,
   ) : super(
@@ -303,9 +314,9 @@ class _FakeRemoveGroupResponse_22 extends _i1.SmartFake
         );
 }
 
-class _FakeMessagesResponse_23 extends _i1.SmartFake
+class _FakeMessagesResponse_24 extends _i1.SmartFake
     implements _i5.MessagesResponse {
-  _FakeMessagesResponse_23(
+  _FakeMessagesResponse_24(
     Object parent,
     Invocation parentInvocation,
   ) : super(
@@ -314,9 +325,9 @@ class _FakeMessagesResponse_23 extends _i1.SmartFake
         );
 }
 
-class _FakeRemoveMessageResponse_24 extends _i1.SmartFake
+class _FakeRemoveMessageResponse_25 extends _i1.SmartFake
     implements _i5.RemoveMessageResponse {
-  _FakeRemoveMessageResponse_24(
+  _FakeRemoveMessageResponse_25(
     Object parent,
     Invocation parentInvocation,
   ) : super(
@@ -325,9 +336,9 @@ class _FakeRemoveMessageResponse_24 extends _i1.SmartFake
         );
 }
 
-class _FakeStreamedResponse_25 extends _i1.SmartFake
+class _FakeStreamedResponse_26 extends _i1.SmartFake
     implements _i4.StreamedResponse {
-  _FakeStreamedResponse_25(
+  _FakeStreamedResponse_26(
     Object parent,
     Invocation parentInvocation,
   ) : super(
@@ -1394,14 +1405,14 @@ class MockDomainsListProvider extends _i1.Mock
       );
 
   @override
-  _i12.Future<dynamic> fetchDomainsList(_i3.Server? server) =>
-      (super.noSuchMethod(
+  _i12.Future<void> fetchDomainsList() => (super.noSuchMethod(
         Invocation.method(
           #fetchDomainsList,
-          [server],
+          [],
         ),
-        returnValue: _i12.Future<dynamic>.value(),
-      ) as _i12.Future<dynamic>);
+        returnValue: _i12.Future<void>.value(),
+        returnValueForMissingStub: _i12.Future<void>.value(),
+      ) as _i12.Future<void>);
 
   @override
   void removeDomainFromList(_i25.Domain? domain) => super.noSuchMethod(
@@ -1721,12 +1732,32 @@ class MockApiGatewayV5 extends _i1.Mock implements _i26.ApiGatewayV5 {
       ) as _i12.Future<_i5.AddDomainToListResponse>);
 
   @override
+  _i12.Future<_i5.DomainResponse> updateDomain(
+          {required _i25.DomainRequest? body}) =>
+      (super.noSuchMethod(
+        Invocation.method(
+          #updateDomain,
+          [],
+          {#body: body},
+        ),
+        returnValue:
+            _i12.Future<_i5.DomainResponse>.value(_FakeDomainResponse_13(
+          this,
+          Invocation.method(
+            #updateDomain,
+            [],
+            {#body: body},
+          ),
+        )),
+      ) as _i12.Future<_i5.DomainResponse>);
+
+  @override
   _i12.Future<_i5.HostResponse> fetchHostInfo() => (super.noSuchMethod(
         Invocation.method(
           #fetchHostInfo,
           [],
         ),
-        returnValue: _i12.Future<_i5.HostResponse>.value(_FakeHostResponse_13(
+        returnValue: _i12.Future<_i5.HostResponse>.value(_FakeHostResponse_14(
           this,
           Invocation.method(
             #fetchHostInfo,
@@ -1742,7 +1773,7 @@ class MockApiGatewayV5 extends _i1.Mock implements _i26.ApiGatewayV5 {
           [],
         ),
         returnValue:
-            _i12.Future<_i5.SensorsResponse>.value(_FakeSensorsResponse_14(
+            _i12.Future<_i5.SensorsResponse>.value(_FakeSensorsResponse_15(
           this,
           Invocation.method(
             #fetchSensorsInfo,
@@ -1758,7 +1789,7 @@ class MockApiGatewayV5 extends _i1.Mock implements _i26.ApiGatewayV5 {
           [],
         ),
         returnValue:
-            _i12.Future<_i5.SystemResponse>.value(_FakeSystemResponse_15(
+            _i12.Future<_i5.SystemResponse>.value(_FakeSystemResponse_16(
           this,
           Invocation.method(
             #fetchSystemInfo,
@@ -1774,7 +1805,7 @@ class MockApiGatewayV5 extends _i1.Mock implements _i26.ApiGatewayV5 {
           [],
         ),
         returnValue:
-            _i12.Future<_i5.VersionResponse>.value(_FakeVersionResponse_16(
+            _i12.Future<_i5.VersionResponse>.value(_FakeVersionResponse_17(
           this,
           Invocation.method(
             #fetchVersionInfo,
@@ -1791,7 +1822,7 @@ class MockApiGatewayV5 extends _i1.Mock implements _i26.ApiGatewayV5 {
           [],
         ),
         returnValue: _i12.Future<_i5.PiHoleServerInfoResponse>.value(
-            _FakePiHoleServerInfoResponse_17(
+            _FakePiHoleServerInfoResponse_18(
           this,
           Invocation.method(
             #fetchAllServerInfo,
@@ -1815,7 +1846,7 @@ class MockApiGatewayV5 extends _i1.Mock implements _i26.ApiGatewayV5 {
           },
         ),
         returnValue: _i12.Future<_i5.SubscriptionsResponse>.value(
-            _FakeSubscriptionsResponse_18(
+            _FakeSubscriptionsResponse_19(
           this,
           Invocation.method(
             #getSubscriptions,
@@ -1843,7 +1874,7 @@ class MockApiGatewayV5 extends _i1.Mock implements _i26.ApiGatewayV5 {
           },
         ),
         returnValue: _i12.Future<_i5.RemoveSubscriptionResponse>.value(
-            _FakeRemoveSubscriptionResponse_19(
+            _FakeRemoveSubscriptionResponse_20(
           this,
           Invocation.method(
             #removeSubscription,
@@ -1866,7 +1897,7 @@ class MockApiGatewayV5 extends _i1.Mock implements _i26.ApiGatewayV5 {
           {#body: body},
         ),
         returnValue: _i12.Future<_i5.SubscriptionsResponse>.value(
-            _FakeSubscriptionsResponse_18(
+            _FakeSubscriptionsResponse_19(
           this,
           Invocation.method(
             #createSubscription,
@@ -1886,7 +1917,7 @@ class MockApiGatewayV5 extends _i1.Mock implements _i26.ApiGatewayV5 {
           {#body: body},
         ),
         returnValue: _i12.Future<_i5.SubscriptionsResponse>.value(
-            _FakeSubscriptionsResponse_18(
+            _FakeSubscriptionsResponse_19(
           this,
           Invocation.method(
             #updateSubscription,
@@ -1915,7 +1946,7 @@ class MockApiGatewayV5 extends _i1.Mock implements _i26.ApiGatewayV5 {
           },
         ),
         returnValue:
-            _i12.Future<_i5.SearchResponse>.value(_FakeSearchResponse_20(
+            _i12.Future<_i5.SearchResponse>.value(_FakeSearchResponse_21(
           this,
           Invocation.method(
             #searchSubscriptions,
@@ -1939,7 +1970,7 @@ class MockApiGatewayV5 extends _i1.Mock implements _i26.ApiGatewayV5 {
           {#name: name},
         ),
         returnValue:
-            _i12.Future<_i5.GroupsResponse>.value(_FakeGroupsResponse_21(
+            _i12.Future<_i5.GroupsResponse>.value(_FakeGroupsResponse_22(
           this,
           Invocation.method(
             #getGroups,
@@ -1958,7 +1989,7 @@ class MockApiGatewayV5 extends _i1.Mock implements _i26.ApiGatewayV5 {
           {#name: name},
         ),
         returnValue: _i12.Future<_i5.RemoveGroupResponse>.value(
-            _FakeRemoveGroupResponse_22(
+            _FakeRemoveGroupResponse_23(
           this,
           Invocation.method(
             #removeGroup,
@@ -1978,7 +2009,7 @@ class MockApiGatewayV5 extends _i1.Mock implements _i26.ApiGatewayV5 {
           {#body: body},
         ),
         returnValue:
-            _i12.Future<_i5.GroupsResponse>.value(_FakeGroupsResponse_21(
+            _i12.Future<_i5.GroupsResponse>.value(_FakeGroupsResponse_22(
           this,
           Invocation.method(
             #createGroup,
@@ -1998,7 +2029,7 @@ class MockApiGatewayV5 extends _i1.Mock implements _i26.ApiGatewayV5 {
           {#body: body},
         ),
         returnValue:
-            _i12.Future<_i5.GroupsResponse>.value(_FakeGroupsResponse_21(
+            _i12.Future<_i5.GroupsResponse>.value(_FakeGroupsResponse_22(
           this,
           Invocation.method(
             #updateGroup,
@@ -2024,7 +2055,7 @@ class MockApiGatewayV5 extends _i1.Mock implements _i26.ApiGatewayV5 {
           [],
         ),
         returnValue:
-            _i12.Future<_i5.MessagesResponse>.value(_FakeMessagesResponse_23(
+            _i12.Future<_i5.MessagesResponse>.value(_FakeMessagesResponse_24(
           this,
           Invocation.method(
             #getMessages,
@@ -2041,7 +2072,7 @@ class MockApiGatewayV5 extends _i1.Mock implements _i26.ApiGatewayV5 {
           [id],
         ),
         returnValue: _i12.Future<_i5.RemoveMessageResponse>.value(
-            _FakeRemoveMessageResponse_24(
+            _FakeRemoveMessageResponse_25(
           this,
           Invocation.method(
             #removeMessage,
@@ -2148,7 +2179,7 @@ class MockApiGatewayV6 extends _i1.Mock implements _i29.ApiGatewayV6 {
           },
         ),
         returnValue:
-            _i12.Future<_i4.StreamedResponse>.value(_FakeStreamedResponse_25(
+            _i12.Future<_i4.StreamedResponse>.value(_FakeStreamedResponse_26(
           this,
           Invocation.method(
             #httpClientStream,
@@ -2357,12 +2388,32 @@ class MockApiGatewayV6 extends _i1.Mock implements _i29.ApiGatewayV6 {
       ) as _i12.Future<_i5.AddDomainToListResponse>);
 
   @override
+  _i12.Future<_i5.DomainResponse> updateDomain(
+          {required _i25.DomainRequest? body}) =>
+      (super.noSuchMethod(
+        Invocation.method(
+          #updateDomain,
+          [],
+          {#body: body},
+        ),
+        returnValue:
+            _i12.Future<_i5.DomainResponse>.value(_FakeDomainResponse_13(
+          this,
+          Invocation.method(
+            #updateDomain,
+            [],
+            {#body: body},
+          ),
+        )),
+      ) as _i12.Future<_i5.DomainResponse>);
+
+  @override
   _i12.Future<_i5.HostResponse> fetchHostInfo() => (super.noSuchMethod(
         Invocation.method(
           #fetchHostInfo,
           [],
         ),
-        returnValue: _i12.Future<_i5.HostResponse>.value(_FakeHostResponse_13(
+        returnValue: _i12.Future<_i5.HostResponse>.value(_FakeHostResponse_14(
           this,
           Invocation.method(
             #fetchHostInfo,
@@ -2378,7 +2429,7 @@ class MockApiGatewayV6 extends _i1.Mock implements _i29.ApiGatewayV6 {
           [],
         ),
         returnValue:
-            _i12.Future<_i5.SensorsResponse>.value(_FakeSensorsResponse_14(
+            _i12.Future<_i5.SensorsResponse>.value(_FakeSensorsResponse_15(
           this,
           Invocation.method(
             #fetchSensorsInfo,
@@ -2394,7 +2445,7 @@ class MockApiGatewayV6 extends _i1.Mock implements _i29.ApiGatewayV6 {
           [],
         ),
         returnValue:
-            _i12.Future<_i5.SystemResponse>.value(_FakeSystemResponse_15(
+            _i12.Future<_i5.SystemResponse>.value(_FakeSystemResponse_16(
           this,
           Invocation.method(
             #fetchSystemInfo,
@@ -2410,7 +2461,7 @@ class MockApiGatewayV6 extends _i1.Mock implements _i29.ApiGatewayV6 {
           [],
         ),
         returnValue:
-            _i12.Future<_i5.VersionResponse>.value(_FakeVersionResponse_16(
+            _i12.Future<_i5.VersionResponse>.value(_FakeVersionResponse_17(
           this,
           Invocation.method(
             #fetchVersionInfo,
@@ -2427,7 +2478,7 @@ class MockApiGatewayV6 extends _i1.Mock implements _i29.ApiGatewayV6 {
           [],
         ),
         returnValue: _i12.Future<_i5.PiHoleServerInfoResponse>.value(
-            _FakePiHoleServerInfoResponse_17(
+            _FakePiHoleServerInfoResponse_18(
           this,
           Invocation.method(
             #fetchAllServerInfo,
@@ -2451,7 +2502,7 @@ class MockApiGatewayV6 extends _i1.Mock implements _i29.ApiGatewayV6 {
           },
         ),
         returnValue: _i12.Future<_i5.SubscriptionsResponse>.value(
-            _FakeSubscriptionsResponse_18(
+            _FakeSubscriptionsResponse_19(
           this,
           Invocation.method(
             #getSubscriptions,
@@ -2479,7 +2530,7 @@ class MockApiGatewayV6 extends _i1.Mock implements _i29.ApiGatewayV6 {
           },
         ),
         returnValue: _i12.Future<_i5.RemoveSubscriptionResponse>.value(
-            _FakeRemoveSubscriptionResponse_19(
+            _FakeRemoveSubscriptionResponse_20(
           this,
           Invocation.method(
             #removeSubscription,
@@ -2502,7 +2553,7 @@ class MockApiGatewayV6 extends _i1.Mock implements _i29.ApiGatewayV6 {
           {#body: body},
         ),
         returnValue: _i12.Future<_i5.SubscriptionsResponse>.value(
-            _FakeSubscriptionsResponse_18(
+            _FakeSubscriptionsResponse_19(
           this,
           Invocation.method(
             #createSubscription,
@@ -2522,7 +2573,7 @@ class MockApiGatewayV6 extends _i1.Mock implements _i29.ApiGatewayV6 {
           {#body: body},
         ),
         returnValue: _i12.Future<_i5.SubscriptionsResponse>.value(
-            _FakeSubscriptionsResponse_18(
+            _FakeSubscriptionsResponse_19(
           this,
           Invocation.method(
             #updateSubscription,
@@ -2551,7 +2602,7 @@ class MockApiGatewayV6 extends _i1.Mock implements _i29.ApiGatewayV6 {
           },
         ),
         returnValue:
-            _i12.Future<_i5.SearchResponse>.value(_FakeSearchResponse_20(
+            _i12.Future<_i5.SearchResponse>.value(_FakeSearchResponse_21(
           this,
           Invocation.method(
             #searchSubscriptions,
@@ -2575,7 +2626,7 @@ class MockApiGatewayV6 extends _i1.Mock implements _i29.ApiGatewayV6 {
           {#name: name},
         ),
         returnValue:
-            _i12.Future<_i5.GroupsResponse>.value(_FakeGroupsResponse_21(
+            _i12.Future<_i5.GroupsResponse>.value(_FakeGroupsResponse_22(
           this,
           Invocation.method(
             #getGroups,
@@ -2594,7 +2645,7 @@ class MockApiGatewayV6 extends _i1.Mock implements _i29.ApiGatewayV6 {
           {#name: name},
         ),
         returnValue: _i12.Future<_i5.RemoveGroupResponse>.value(
-            _FakeRemoveGroupResponse_22(
+            _FakeRemoveGroupResponse_23(
           this,
           Invocation.method(
             #removeGroup,
@@ -2614,7 +2665,7 @@ class MockApiGatewayV6 extends _i1.Mock implements _i29.ApiGatewayV6 {
           {#body: body},
         ),
         returnValue:
-            _i12.Future<_i5.GroupsResponse>.value(_FakeGroupsResponse_21(
+            _i12.Future<_i5.GroupsResponse>.value(_FakeGroupsResponse_22(
           this,
           Invocation.method(
             #createGroup,
@@ -2634,7 +2685,7 @@ class MockApiGatewayV6 extends _i1.Mock implements _i29.ApiGatewayV6 {
           {#body: body},
         ),
         returnValue:
-            _i12.Future<_i5.GroupsResponse>.value(_FakeGroupsResponse_21(
+            _i12.Future<_i5.GroupsResponse>.value(_FakeGroupsResponse_22(
           this,
           Invocation.method(
             #updateGroup,
@@ -2660,7 +2711,7 @@ class MockApiGatewayV6 extends _i1.Mock implements _i29.ApiGatewayV6 {
           [],
         ),
         returnValue:
-            _i12.Future<_i5.MessagesResponse>.value(_FakeMessagesResponse_23(
+            _i12.Future<_i5.MessagesResponse>.value(_FakeMessagesResponse_24(
           this,
           Invocation.method(
             #getMessages,
@@ -2677,7 +2728,7 @@ class MockApiGatewayV6 extends _i1.Mock implements _i29.ApiGatewayV6 {
           [id],
         ),
         returnValue: _i12.Future<_i5.RemoveMessageResponse>.value(
-            _FakeRemoveMessageResponse_24(
+            _FakeRemoveMessageResponse_25(
           this,
           Invocation.method(
             #removeMessage,

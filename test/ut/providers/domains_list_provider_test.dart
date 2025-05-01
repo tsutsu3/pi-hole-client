@@ -5,7 +5,6 @@ import 'package:pi_hole_client/constants/enums.dart';
 import 'package:pi_hole_client/gateways/v6/api_gateway_v6.dart';
 import 'package:pi_hole_client/models/domain.dart';
 import 'package:pi_hole_client/models/gateways.dart';
-import 'package:pi_hole_client/models/server.dart';
 import 'package:pi_hole_client/providers/domains_list_provider.dart';
 import 'package:pi_hole_client/providers/servers_provider.dart';
 
@@ -19,12 +18,6 @@ void main() {
     late MockServersProvider mockServersProvider;
     late MockApiGatewayV6 mockApiGatewayV6;
 
-    final server = Server(
-      address: 'http://localhost:8081',
-      alias: 'test v6',
-      defaultServer: false,
-      apiVersion: 'v6',
-    );
     final domains = [
       Domain(
         id: 1,
@@ -123,7 +116,7 @@ void main() {
       provider.setWhitelistDomains(domains);
       provider.setBlacklistDomains(domains);
 
-      await provider.fetchDomainsList(server);
+      await provider.fetchDomainsList();
       expect(provider.whitelistDomains, domains);
       expect(provider.blacklistDomains, domains);
       expect(listenerCalled, true);

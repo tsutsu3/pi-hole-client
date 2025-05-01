@@ -7,6 +7,7 @@ part 'domains.g.dart';
 sealed class Domains with _$Domains {
   const factory Domains({
     required List<Domain> domains,
+    required Processed? processed,
     required double took, // Time in seconds
   }) = _Domains;
 

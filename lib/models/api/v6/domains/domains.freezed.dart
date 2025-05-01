@@ -16,6 +16,7 @@ T _$identity<T>(T value) => value;
 /// @nodoc
 mixin _$Domains {
   List<Domain> get domains;
+  Processed? get processed;
   double get took;
 
   /// Create a copy of Domains
@@ -34,17 +35,19 @@ mixin _$Domains {
         (other.runtimeType == runtimeType &&
             other is Domains &&
             const DeepCollectionEquality().equals(other.domains, domains) &&
+            (identical(other.processed, processed) ||
+                other.processed == processed) &&
             (identical(other.took, took) || other.took == took));
   }
 
   @JsonKey(includeFromJson: false, includeToJson: false)
   @override
-  int get hashCode => Object.hash(
-      runtimeType, const DeepCollectionEquality().hash(domains), took);
+  int get hashCode => Object.hash(runtimeType,
+      const DeepCollectionEquality().hash(domains), processed, took);
 
   @override
   String toString() {
-    return 'Domains(domains: $domains, took: $took)';
+    return 'Domains(domains: $domains, processed: $processed, took: $took)';
   }
 }
 
@@ -53,7 +56,9 @@ abstract mixin class $DomainsCopyWith<$Res> {
   factory $DomainsCopyWith(Domains value, $Res Function(Domains) _then) =
       _$DomainsCopyWithImpl;
   @useResult
-  $Res call({List<Domain> domains, double took});
+  $Res call({List<Domain> domains, Processed? processed, double took});
+
+  $ProcessedCopyWith<$Res>? get processed;
 }
 
 /// @nodoc
@@ -69,6 +74,7 @@ class _$DomainsCopyWithImpl<$Res> implements $DomainsCopyWith<$Res> {
   @override
   $Res call({
     Object? domains = null,
+    Object? processed = freezed,
     Object? took = null,
   }) {
     return _then(_self.copyWith(
@@ -76,18 +82,39 @@ class _$DomainsCopyWithImpl<$Res> implements $DomainsCopyWith<$Res> {
           ? _self.domains
           : domains // ignore: cast_nullable_to_non_nullable
               as List<Domain>,
+      processed: freezed == processed
+          ? _self.processed
+          : processed // ignore: cast_nullable_to_non_nullable
+              as Processed?,
       took: null == took
           ? _self.took
           : took // ignore: cast_nullable_to_non_nullable
               as double,
     ));
   }
+
+  /// Create a copy of Domains
+  /// with the given fields replaced by the non-null parameter values.
+  @override
+  @pragma('vm:prefer-inline')
+  $ProcessedCopyWith<$Res>? get processed {
+    if (_self.processed == null) {
+      return null;
+    }
+
+    return $ProcessedCopyWith<$Res>(_self.processed!, (value) {
+      return _then(_self.copyWith(processed: value));
+    });
+  }
 }
 
 /// @nodoc
 @JsonSerializable()
 class _Domains implements Domains {
-  const _Domains({required final List<Domain> domains, required this.took})
+  const _Domains(
+      {required final List<Domain> domains,
+      required this.processed,
+      required this.took})
       : _domains = domains;
   factory _Domains.fromJson(Map<String, dynamic> json) =>
       _$DomainsFromJson(json);
@@ -100,6 +127,8 @@ class _Domains implements Domains {
     return EqualUnmodifiableListView(_domains);
   }
 
+  @override
+  final Processed? processed;
   @override
   final double took;
 
@@ -124,17 +153,19 @@ class _Domains implements Domains {
         (other.runtimeType == runtimeType &&
             other is _Domains &&
             const DeepCollectionEquality().equals(other._domains, _domains) &&
+            (identical(other.processed, processed) ||
+                other.processed == processed) &&
             (identical(other.took, took) || other.took == took));
   }
 
   @JsonKey(includeFromJson: false, includeToJson: false)
   @override
-  int get hashCode => Object.hash(
-      runtimeType, const DeepCollectionEquality().hash(_domains), took);
+  int get hashCode => Object.hash(runtimeType,
+      const DeepCollectionEquality().hash(_domains), processed, took);
 
   @override
   String toString() {
-    return 'Domains(domains: $domains, took: $took)';
+    return 'Domains(domains: $domains, processed: $processed, took: $took)';
   }
 }
 
@@ -144,7 +175,10 @@ abstract mixin class _$DomainsCopyWith<$Res> implements $DomainsCopyWith<$Res> {
       __$DomainsCopyWithImpl;
   @override
   @useResult
-  $Res call({List<Domain> domains, double took});
+  $Res call({List<Domain> domains, Processed? processed, double took});
+
+  @override
+  $ProcessedCopyWith<$Res>? get processed;
 }
 
 /// @nodoc
@@ -160,6 +194,7 @@ class __$DomainsCopyWithImpl<$Res> implements _$DomainsCopyWith<$Res> {
   @pragma('vm:prefer-inline')
   $Res call({
     Object? domains = null,
+    Object? processed = freezed,
     Object? took = null,
   }) {
     return _then(_Domains(
@@ -167,11 +202,29 @@ class __$DomainsCopyWithImpl<$Res> implements _$DomainsCopyWith<$Res> {
           ? _self._domains
           : domains // ignore: cast_nullable_to_non_nullable
               as List<Domain>,
+      processed: freezed == processed
+          ? _self.processed
+          : processed // ignore: cast_nullable_to_non_nullable
+              as Processed?,
       took: null == took
           ? _self.took
           : took // ignore: cast_nullable_to_non_nullable
               as double,
     ));
+  }
+
+  /// Create a copy of Domains
+  /// with the given fields replaced by the non-null parameter values.
+  @override
+  @pragma('vm:prefer-inline')
+  $ProcessedCopyWith<$Res>? get processed {
+    if (_self.processed == null) {
+      return null;
+    }
+
+    return $ProcessedCopyWith<$Res>(_self.processed!, (value) {
+      return _then(_self.copyWith(processed: value));
+    });
   }
 }
 

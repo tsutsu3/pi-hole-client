@@ -845,7 +845,7 @@ final groups = Groups.fromJson(
         'date_modified': 1611157897,
       },
       {
-        'name': 'a',
+        'name': 'group1',
         'comment': null,
         'enabled': true,
         'id': 5,
@@ -1282,10 +1282,20 @@ class TestSetupHelper {
   }
 
   void _initDomainListProviderMock(String useApiGatewayVersion) {
-    when(mockDomainsListProvider.fetchDomainsList(any))
-        .thenAnswer((_) async {});
+    when(mockDomainsListProvider.fetchDomainsList()).thenAnswer((_) async {});
     when(mockDomainsListProvider.searchMode).thenReturn(false);
+    when(mockDomainsListProvider.searchTerm).thenReturn('');
     when(mockDomainsListProvider.filteredWhitelistDomains).thenReturn(domains);
+    when(mockDomainsListProvider.filteredBlacklistDomains).thenReturn([]);
+    when(mockDomainsListProvider.loadingStatus).thenReturn(LoadStatus.loaded);
+    when(mockDomainsListProvider.whitelistDomains).thenReturn(domains);
+    when(mockDomainsListProvider.blacklistDomains).thenReturn([]);
+    when(mockDomainsListProvider.setLoadingStatus(any)).thenReturn(null);
+    when(mockDomainsListProvider.setWhitelistDomains(any)).thenReturn(null);
+    when(mockDomainsListProvider.setBlacklistDomains(any)).thenReturn(null);
+    when(mockDomainsListProvider.onSearch(any)).thenReturn(null);
+    when(mockDomainsListProvider.removeDomainFromList(any))
+        .thenAnswer((_) async => true);
   }
 
   void _initGroupsPtoviderMock(useApiGatewayVersion) {
@@ -1404,6 +1414,13 @@ class TestSetupHelper {
     });
 
     when(mockApiGatewayV5.server).thenReturn(serverV5);
+
+    when(mockApiGatewayV5.updateDomain(body: anyNamed('body'))).thenAnswer(
+      (_) async => DomainResponse(
+        result: APiResponseType.success,
+        data: domains[0],
+      ),
+    );
   }
 
   void _initApiGatewayV6Mock() {
@@ -1515,6 +1532,13 @@ class TestSetupHelper {
     ).thenAnswer(
       (_) async => RemoveSubscriptionResponse(
         result: APiResponseType.success,
+      ),
+    );
+
+    when(mockApiGatewayV6.updateDomain(body: anyNamed('body'))).thenAnswer(
+      (_) async => DomainResponse(
+        result: APiResponseType.success,
+        data: domains[0],
       ),
     );
   }

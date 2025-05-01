@@ -644,6 +644,19 @@ class ApiGatewayV5 implements ApiGateway {
     }
   }
 
+  /// Updates an existing domain.
+  @override
+  Future<DomainResponse> updateDomain({
+    required DomainRequest body,
+  }) async {
+    return Future.value(
+      DomainResponse(
+        result: APiResponseType.notSupported,
+        message: notSupportedMessage,
+      ),
+    );
+  }
+
   // =========================================================================
   // Pi-hole Sever information
   // =========================================================================

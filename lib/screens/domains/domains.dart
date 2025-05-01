@@ -10,9 +10,10 @@ import 'package:pi_hole_client/models/gateways.dart';
 import 'package:pi_hole_client/models/server.dart';
 import 'package:pi_hole_client/providers/app_config_provider.dart';
 import 'package:pi_hole_client/providers/domains_list_provider.dart';
+import 'package:pi_hole_client/providers/groups_provider.dart';
 import 'package:pi_hole_client/providers/servers_provider.dart';
-import 'package:pi_hole_client/screens/domains/domain_details_screen.dart';
-import 'package:pi_hole_client/screens/domains/domains_list.dart';
+import 'package:pi_hole_client/screens/domains/widgets/domain_details_screen.dart';
+import 'package:pi_hole_client/screens/domains/widgets/domains_list.dart';
 import 'package:provider/provider.dart';
 
 class DomainLists extends StatelessWidget {
@@ -56,9 +57,16 @@ class _DomainListsWidgetState extends State<DomainListsWidget>
 
   @override
   void initState() {
-    widget.domainsListProvider.fetchDomainsList(widget.server);
-    widget.domainsListProvider.setSelectedTab(0);
     super.initState();
+
+    Future.microtask(() async {
+      if (!mounted) return;
+      final groupsProvider = context.read<GroupsProvider>();
+      await groupsProvider.loadGroups();
+    });
+
+    widget.domainsListProvider.fetchDomainsList();
+    widget.domainsListProvider.setSelectedTab(0);
     tabController = TabController(
       length: 2,
       vsync: this,
@@ -71,6 +79,7 @@ class _DomainListsWidgetState extends State<DomainListsWidget>
     final serversProvider = Provider.of<ServersProvider>(context);
     final appConfigProvider = Provider.of<AppConfigProvider>(context);
     final apiGateway = serversProvider.selectedApiGateway;
+    final groups = context.watch<GroupsProvider>().groupItems;
 
     Future<void> removeDomain(Domain domain) async {
       final process = ProcessModal(context: context);
@@ -236,6 +245,7 @@ class _DomainListsWidgetState extends State<DomainListsWidget>
                       setState(() => selectedDomain = null);
                       removeDomain(domain);
                     },
+                    groups: groups,
                     colors: serversProvider.colors,
                   )
                 : SizedBox(

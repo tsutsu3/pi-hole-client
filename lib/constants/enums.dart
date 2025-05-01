@@ -32,3 +32,21 @@ enum GravityStatus {
   /// 3: Gravity update failed
   error,
 }
+
+/// Domain type
+enum DomainType {
+  /// 0: Allow
+  allow,
+
+  /// 1: Deny
+  deny,
+}
+
+/// Domain kind
+enum DomainKind {
+  /// 0: Exact
+  exact,
+
+  /// 1: Regex
+  regex,
+}
