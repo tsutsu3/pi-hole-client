@@ -10,11 +10,15 @@ _Domains _$DomainsFromJson(Map<String, dynamic> json) => _Domains(
       domains: (json['domains'] as List<dynamic>)
           .map((e) => Domain.fromJson(e as Map<String, dynamic>))
           .toList(),
+      processed: json['processed'] == null
+          ? null
+          : Processed.fromJson(json['processed'] as Map<String, dynamic>),
       took: (json['took'] as num).toDouble(),
     );
 
 Map<String, dynamic> _$DomainsToJson(_Domains instance) => <String, dynamic>{
       'domains': instance.domains,
+      'processed': instance.processed,
       'took': instance.took,
     };
 

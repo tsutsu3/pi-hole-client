@@ -808,7 +808,7 @@ class ApiGatewayV6 implements ApiGateway {
       );
 
       if (results.statusCode == 200) {
-        final domains = AddDomains.fromJson(jsonDecode(results.body));
+        final domains = Domains.fromJson(jsonDecode(results.body));
 
         return DomainResponse(
           result: APiResponseType.success,
