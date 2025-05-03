@@ -1,5 +1,3 @@
-// ignore_for_file: use_build_context_synchronously
-
 import 'dart:io';
 
 import 'package:flutter/material.dart';
@@ -38,6 +36,8 @@ class AdvancedOptions extends StatelessWidget {
 
     Future<void> updateSslCheck(bool newStatus) async {
       final result = await appConfigProvider.setOverrideSslCheck(newStatus);
+      if (!context.mounted) return;
+
       if (result == true) {
         showCautionSnackBar(
           context: context,
@@ -56,6 +56,8 @@ class AdvancedOptions extends StatelessWidget {
 
     Future<void> updateUseReducedData(bool newStatus) async {
       final result = await appConfigProvider.setReducedDataCharts(newStatus);
+      if (!context.mounted) return;
+
       if (result == true) {
         showSuccessSnackBar(
           context: context,
@@ -73,6 +75,8 @@ class AdvancedOptions extends StatelessWidget {
 
     Future<void> updateHideZeroValues(bool newStatus) async {
       final result = await appConfigProvider.setHideZeroValues(newStatus);
+      if (!context.mounted) return;
+
       if (result == true) {
         showSuccessSnackBar(
           context: context,
@@ -94,6 +98,7 @@ class AdvancedOptions extends StatelessWidget {
         process.open(AppLocalizations.of(context)!.deleting);
         await serversProvider.deleteDbData();
         await appConfigProvider.restoreAppConfig();
+        if (!context.mounted) return;
         appConfigProvider.setSelectedTab(0);
         process.close();
         if (appConfigProvider.overrideSslCheck == true) {
