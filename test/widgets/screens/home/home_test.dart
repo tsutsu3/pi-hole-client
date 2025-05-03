@@ -3,10 +3,10 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/mockito.dart';
 import 'package:pi_hole_client/constants/enums.dart';
 import 'package:pi_hole_client/models/server.dart';
-import 'package:pi_hole_client/screens/home/disable_modal.dart';
 import 'package:pi_hole_client/screens/home/home.dart';
-import 'package:pi_hole_client/screens/home/home_appbar.dart';
-import 'package:pi_hole_client/screens/home/switch_server_modal.dart';
+import 'package:pi_hole_client/screens/home/widgets/disable_modal.dart';
+import 'package:pi_hole_client/screens/home/widgets/home_appbar.dart';
+import 'package:pi_hole_client/screens/home/widgets/switch_server_modal.dart';
 
 import '../../helpers.dart';
 

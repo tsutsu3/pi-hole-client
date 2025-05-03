@@ -2,9 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/mockito.dart';
 import 'package:pi_hole_client/models/overtime_data.dart';
-import 'package:pi_hole_client/screens/home/home_charts.dart';
+import 'package:pi_hole_client/screens/home/widgets/home_charts.dart';
 
-import '../../helpers.dart';
+import '../../../helpers.dart';
 
 void main() async {
   await initializeApp();
