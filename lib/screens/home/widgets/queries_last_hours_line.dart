@@ -1,6 +1,7 @@
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:pi_hole_client/config/theme.dart';
+import 'package:pi_hole_client/constants/graph.dart';
 import 'package:pi_hole_client/functions/format.dart';
 import 'package:pi_hole_client/functions/graph.dart';
 import 'package:pi_hole_client/l10n/generated/app_localizations.dart';
@@ -202,6 +203,7 @@ class QueriesLastHoursLine extends StatelessWidget {
       var tmp = 0;
       final List<String> domainsKeys = data['domains_over_time'].keys.toList();
       final List<String> adsKeys = data['ads_over_time'].keys.toList();
+      final interval = reducedData == true ? averageIntervalCount : 1;
 
       if (domainsKeys.length != adsKeys.length) {
         return {
@@ -214,7 +216,7 @@ class QueriesLastHoursLine extends StatelessWidget {
 
       for (var i = 0;
           i < data['domains_over_time'].entries.length;
-          reducedData == true ? i += 6 : i++) {
+          i += interval) {
         tmp = calcTopPoint(data, domainsKeys, adsKeys, i);
         if (tmp > topPoint) {
           topPoint = tmp;
@@ -244,7 +246,7 @@ class QueriesLastHoursLine extends StatelessWidget {
 
       final timestamps = <String>[];
       final List<String> k = data['domains_over_time'].keys.toList();
-      for (var i = 0; i < k.length; reducedData == true ? i += 6 : i++) {
+      for (var i = 0; i < k.length; i += interval) {
         timestamps.add(k[i]);
       }
 

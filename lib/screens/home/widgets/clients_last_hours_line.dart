@@ -1,6 +1,7 @@
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:pi_hole_client/config/theme.dart';
+import 'package:pi_hole_client/constants/graph.dart';
 import 'package:pi_hole_client/functions/format.dart';
 import 'package:pi_hole_client/functions/graph.dart';
 import 'package:pi_hole_client/providers/app_config_provider.dart';
@@ -167,12 +168,12 @@ class ClientsLastHoursLine extends StatelessWidget {
       final clientsColors = <Map<String, dynamic>>[];
       var topPoint = 0;
       final List<String> keys = data['over_time'].keys.toList();
+      final interval = reducedData == true ? averageIntervalCount : 1;
+
       for (var i = 0; i < data['clients'].length; i++) {
         final client = <FlSpot>[];
         var xPosition = 0;
-        for (var j = 0;
-            j < data['over_time'].entries.length;
-            reducedData == true ? j += 6 : j++) {
+        for (var j = 0; j < data['over_time'].entries.length; j += interval) {
           if (data['over_time'][keys[j]][i] > topPoint) {
             topPoint = data['over_time'][keys[j]][i];
           }
@@ -209,16 +210,14 @@ class ClientsLastHoursLine extends StatelessWidget {
 
       final timestamps = <String>[];
       final List<String> k = data['domains_over_time'].keys.toList();
-      for (var i = 0; i < k.length; reducedData == true ? i += 6 : i++) {
+      for (var i = 0; i < k.length; i += interval) {
         timestamps.add(k[i]);
       }
 
       /// Dummy data for legend
       final flatLine = <FlSpot>[];
       var xPosition = 0;
-      for (var j = 0;
-          j < data['over_time'].entries.length;
-          reducedData == true ? j += 6 : j++) {
+      for (var j = 0; j < data['over_time'].entries.length; j += interval) {
         flatLine.add(FlSpot(xPosition.toDouble(), 0));
         xPosition++;
       }
