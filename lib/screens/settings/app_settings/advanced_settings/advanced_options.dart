@@ -16,6 +16,7 @@ import 'package:pi_hole_client/screens/app_logs/app_logs.dart';
 import 'package:pi_hole_client/screens/settings/app_settings/advanced_settings/app_unlock_setup_modal.dart';
 import 'package:pi_hole_client/screens/settings/app_settings/advanced_settings/auto_refresh_time_screen.dart';
 import 'package:pi_hole_client/screens/settings/app_settings/advanced_settings/enter_passcode_modal.dart';
+import 'package:pi_hole_client/screens/settings/app_settings/advanced_settings/home_visualization_screen.dart';
 import 'package:pi_hole_client/screens/settings/app_settings/advanced_settings/logs_quantity_load_screen.dart';
 import 'package:pi_hole_client/screens/settings/app_settings/advanced_settings/reset_screen.dart';
 import 'package:pi_hole_client/screens/settings/app_settings/advanced_settings/statistics_visualization_screen.dart';
@@ -263,6 +264,24 @@ class AdvancedOptions extends StatelessWidget {
                 context,
                 MaterialPageRoute(
                   builder: (context) => const StatisticsVisualizationScreen(),
+                ),
+              ),
+              padding: const EdgeInsets.only(
+                top: 10,
+                bottom: 10,
+                left: 20,
+                right: 10,
+              ),
+            ),
+            CustomListTile(
+              leadingIcon: Icons.bar_chart_rounded,
+              label: AppLocalizations.of(context)!.domainsClientsDataMode,
+              description: AppLocalizations.of(context)!
+                  .domainsClientsDataModeDescription,
+              onTap: () => Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => const HomeVisualizationScreen(),
                 ),
               ),
               padding: const EdgeInsets.only(

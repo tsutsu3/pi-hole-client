@@ -5,7 +5,9 @@ import 'package:pi_hole_client/l10n/generated/app_localizations.dart';
 import 'package:pi_hole_client/models/overtime_data.dart';
 import 'package:pi_hole_client/providers/app_config_provider.dart';
 import 'package:pi_hole_client/providers/status_provider.dart';
+import 'package:pi_hole_client/screens/home/widgets/clients_last_hours_bar.dart';
 import 'package:pi_hole_client/screens/home/widgets/clients_last_hours_line.dart';
+import 'package:pi_hole_client/screens/home/widgets/queries_last_hours_bar.dart';
 import 'package:pi_hole_client/screens/home/widgets/queries_last_hours_line.dart';
 import 'package:pi_hole_client/screens/statistics/no_data_chart.dart';
 import 'package:pi_hole_client/widgets/section_label.dart';
@@ -25,6 +27,45 @@ class HomeCharts extends StatelessWidget {
     return exists;
   }
 
+  Widget _buildQueriesGraph(
+    AppConfigProvider appConfigProvider,
+    StatusProvider statusProvider,
+  ) {
+    if (appConfigProvider.statisticsVisualizationMode == 0) {
+      return QueriesLastHoursLine(
+        data: statusProvider.getOvertimeDataJson!,
+        reducedData: appConfigProvider.reducedDataCharts,
+      );
+    } else {
+      return QueriesLastHoursBar(
+        data: statusProvider.getOvertimeDataJson!,
+        reducedData: appConfigProvider.reducedDataCharts,
+      );
+    }
+  }
+
+  Widget _buildClientsGraph(
+    AppConfigProvider appConfigProvider,
+    StatusProvider statusProvider,
+    List<String> clientsListIps,
+  ) {
+    if (appConfigProvider.statisticsVisualizationMode == 0) {
+      return ClientsLastHoursLine(
+        realtimeListIps: clientsListIps,
+        data: statusProvider.getOvertimeDataJson!,
+        reducedData: appConfigProvider.reducedDataCharts,
+        hideZeroValues: appConfigProvider.hideZeroValues,
+      );
+    } else {
+      return ClientsLastHoursBar(
+        realtimeListIps: clientsListIps,
+        data: statusProvider.getOvertimeDataJson!,
+        reducedData: appConfigProvider.reducedDataCharts,
+        hideZeroValues: appConfigProvider.hideZeroValues,
+      );
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     final statusProvider = Provider.of<StatusProvider>(context);
@@ -36,7 +77,7 @@ class HomeCharts extends StatelessWidget {
         ? statusProvider.getOvertimeData!.clients.map((client) {
             return client.ip;
           }).toList()
-        : [];
+        : <String>[];
 
     Color getColor(Client client, int index) {
       final exists = clientsListIps.indexOf(client.ip);
@@ -90,9 +131,9 @@ class HomeCharts extends StatelessWidget {
                           width: double.maxFinite,
                           height: 350,
                           padding: const EdgeInsets.symmetric(horizontal: 16),
-                          child: QueriesLastHoursLine(
-                            data: statusProvider.getOvertimeDataJson!,
-                            reducedData: appConfigProvider.reducedDataCharts,
+                          child: _buildQueriesGraph(
+                            appConfigProvider,
+                            statusProvider,
                           ),
                         ),
                         Row(
@@ -159,13 +200,10 @@ class HomeCharts extends StatelessWidget {
                               height: 350,
                               padding:
                                   const EdgeInsets.symmetric(horizontal: 16),
-                              child: ClientsLastHoursLine(
-                                realtimeListIps: clientsListIps as List<String>,
-                                data: statusProvider.getOvertimeDataJson!,
-                                reducedData:
-                                    appConfigProvider.reducedDataCharts,
-                                hideZeroValues:
-                                    appConfigProvider.hideZeroValues,
+                              child: _buildClientsGraph(
+                                appConfigProvider,
+                                statusProvider,
+                                clientsListIps,
                               ),
                             ),
                           ],
