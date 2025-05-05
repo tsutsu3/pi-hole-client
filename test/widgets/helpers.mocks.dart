@@ -464,6 +464,12 @@ class MockAppConfigProvider extends _i1.Mock implements _i6.AppConfigProvider {
       ) as int);
 
   @override
+  int get homeVisualizationMode => (super.noSuchMethod(
+        Invocation.getter(#homeVisualizationMode),
+        returnValue: 0,
+      ) as int);
+
+  @override
   bool get sendCrashReports => (super.noSuchMethod(
         Invocation.getter(#sendCrashReports),
         returnValue: false,
@@ -692,6 +698,15 @@ class MockAppConfigProvider extends _i1.Mock implements _i6.AppConfigProvider {
       (super.noSuchMethod(
         Invocation.method(
           #setStatisticsVisualizationMode,
+          [value],
+        ),
+        returnValue: _i12.Future<bool>.value(false),
+      ) as _i12.Future<bool>);
+
+  @override
+  _i12.Future<bool> setHomeVisualizationMode(int? value) => (super.noSuchMethod(
+        Invocation.method(
+          #setHomeVisualizationMode,
           [value],
         ),
         returnValue: _i12.Future<bool>.value(false),

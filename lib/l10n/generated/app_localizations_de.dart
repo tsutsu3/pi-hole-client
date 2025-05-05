@@ -267,7 +267,7 @@ class AppLocalizationsDe extends AppLocalizations {
   String get chartDisplayModeSubtitle => 'Wählen Sie das Diagrammformat für den Start- und Statistikbildschirm aus';
 
   @override
-  String get chartDisplayModeTitle => 'Diagramm-Anzeigemodus';
+  String get chartDisplayModeTitle => 'Diagrammanzeigemodus';
 
   @override
   String get charts => 'Diagramme';

@@ -48,7 +48,7 @@ void main() async {
           expect(find.text('Charts'), findsOneWidget);
           expect(find.text('Use reduced data'), findsOneWidget);
           expect(find.text('Hide zero values'), findsOneWidget);
-          expect(find.text('Statistics display mode'), findsOneWidget);
+          expect(find.text('Chart display mode'), findsOneWidget);
 
           expect(find.text('Others'), findsOneWidget);
           expect(find.text('App logs'), findsOneWidget);
@@ -180,11 +180,13 @@ void main() async {
           );
 
           expect(find.byType(AdvancedOptions), findsOneWidget);
-          expect(find.text('Statistics display mode'), findsOneWidget);
-          await tester.tap(find.text('Statistics display mode'));
+          expect(find.text('Chart display mode'), findsOneWidget);
+          await tester.tap(find.text('Chart display mode'));
           await tester.pumpAndSettle();
           expect(find.byType(ChartVisualizationScreen), findsOneWidget);
-          expect(find.text('Statistics display mode'), findsOneWidget);
+          expect(find.text('Chart display mode'), findsOneWidget);
+          expect(find.text('Home Screen'), findsOneWidget);
+          expect(find.text('Statistics Screen'), findsOneWidget);
         },
       );
 

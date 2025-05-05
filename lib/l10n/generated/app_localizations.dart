@@ -620,7 +620,7 @@ abstract class AppLocalizations {
   /// No description provided for @chartDisplayModeTitle.
   ///
   /// In en, this message translates to:
-  /// **'Chart Display Mode'**
+  /// **'Chart display mode'**
   String get chartDisplayModeTitle;
 
   /// No description provided for @charts.
@@ -1916,7 +1916,7 @@ abstract class AppLocalizations {
   /// No description provided for @pieChart.
   ///
   /// In en, this message translates to:
-  /// **'Pie chart'**
+  /// **'Pie Chart'**
   String get pieChart;
 
   /// No description provided for @pieChartDescription.

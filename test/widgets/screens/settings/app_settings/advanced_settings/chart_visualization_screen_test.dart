@@ -36,11 +36,15 @@ void main() async {
           );
 
           expect(find.byType(ChartVisualizationScreen), findsOneWidget);
-          expect(find.text('Statistics display mode'), findsOneWidget);
+          expect(find.text('Chart display mode'), findsOneWidget);
+
+          expect(find.text('Line Chart'), findsOneWidget);
+          expect(find.text('Bar Chart'), findsOneWidget);
+          await tester.tap(find.text('Bar Chart'));
 
           expect(find.text('List'), findsOneWidget);
-          expect(find.text('Pie chart'), findsOneWidget);
-          await tester.tap(find.text('Pie chart'));
+          expect(find.text('Pie Chart'), findsOneWidget);
+          await tester.tap(find.text('Pie Chart'));
         },
       );
 

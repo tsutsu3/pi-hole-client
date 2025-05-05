@@ -267,7 +267,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get chartDisplayModeSubtitle => 'Choose how graphs are displayed on the Home and Statistics screens';
 
   @override
-  String get chartDisplayModeTitle => 'Chart Display Mode';
+  String get chartDisplayModeTitle => 'Chart display mode';
 
   @override
   String get charts => 'Charts';
@@ -915,7 +915,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get piHoleServers => 'Servers connections';
 
   @override
-  String get pieChart => 'Pie chart';
+  String get pieChart => 'Pie Chart';
 
   @override
   String get pieChartDescription => 'Displays the data on a pie chart with the legend under it.';

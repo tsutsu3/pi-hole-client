@@ -1200,6 +1200,8 @@ class TestSetupHelper {
     when(mockConfigProvider.biometricsSupport).thenReturn(true);
     when(mockConfigProvider.setStatisticsVisualizationMode(any))
         .thenAnswer((_) async => true);
+    when(mockConfigProvider.setHomeVisualizationMode(any))
+        .thenAnswer((_) async => true);
     when(mockConfigProvider.validVibrator).thenReturn(true);
     when(mockConfigProvider.setPassCode(any)).thenAnswer((_) async => true);
     when(mockConfigProvider.selectedTab).thenReturn(0);
