@@ -56,8 +56,8 @@ class ChartVisualizationScreen extends StatelessWidget {
                 color: value == getGraphValue(section)
                     ? Theme.of(context)
                         .colorScheme
-                        .primary
-                        .withValues(alpha: 0.1)
+                        .primaryContainer
+                        .withValues(alpha: 0.6)
                     : Theme.of(context).dialogTheme.backgroundColor,
                 border: Border.all(
                   color: value == getGraphValue(section)
