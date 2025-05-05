@@ -79,7 +79,7 @@ analysis steps:
 To store and manage secrets required for GitHub Actions, refer to the
 dedicated documentation:
 
-📖 **[Managing CI/CD Secrets](./ci-secrets)**
+📖 **[Managing CI/CD Secrets](./ci-secrets.md)**
 
 This document covers:
 
