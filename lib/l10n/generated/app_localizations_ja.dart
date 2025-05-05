@@ -195,6 +195,9 @@ class AppLocalizationsJa extends AppLocalizations {
   String get autoRefreshTime => '自動更新時間';
 
   @override
+  String get barChart => '棒グラフ';
+
+  @override
   String get beginAddConnection => 'まず、サーバーへの接続を追加します。';
 
   @override
@@ -717,6 +720,9 @@ class AppLocalizationsJa extends AppLocalizations {
   String get light => 'ライト';
 
   @override
+  String get lineChart => '折れ線グラフ';
+
+  @override
   String get list => 'リスト';
 
   @override
@@ -1225,6 +1231,12 @@ class AppLocalizationsJa extends AppLocalizations {
 
   @override
   String get tryReconnect => '再接続を試みる';
+
+  @override
+  String get twentyFourHourViewMode => '24時間表示モード';
+
+  @override
+  String get twentyFourHourViewModeSubtitle => 'Home画面の表示方法を変更します';
 
   @override
   String get type => 'タイプ';

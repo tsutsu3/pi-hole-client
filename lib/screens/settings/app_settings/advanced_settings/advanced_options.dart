@@ -275,9 +275,9 @@ class AdvancedOptions extends StatelessWidget {
             ),
             CustomListTile(
               leadingIcon: Icons.bar_chart_rounded,
-              label: AppLocalizations.of(context)!.domainsClientsDataMode,
-              description: AppLocalizations.of(context)!
-                  .domainsClientsDataModeDescription,
+              label: AppLocalizations.of(context)!.twentyFourHourViewMode,
+              description:
+                  AppLocalizations.of(context)!.twentyFourHourViewModeSubtitle,
               onTap: () => Navigator.push(
                 context,
                 MaterialPageRoute(

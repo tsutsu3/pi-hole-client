@@ -51,6 +51,7 @@ void main() {
       expect(appConfigProvider.importantInfoReaden, false);
       expect(appConfigProvider.hideZeroValues, false);
       expect(appConfigProvider.statisticsVisualizationMode, 0);
+      expect(appConfigProvider.homeVisualizationMode, 0);
       expect(appConfigProvider.sendCrashReports, false);
       expect(appConfigProvider.logs, []);
       expect(appConfigProvider.selectedSettingsScreen, null);
@@ -225,6 +226,7 @@ void main() {
           importantInfoReaden: 1,
           hideZeroValues: 1,
           statisticsVisualizationMode: 1,
+          homeVisualizationMode: 1,
           sendCrashReports: 1,
         );
 
@@ -240,6 +242,7 @@ void main() {
         expect(appConfigProvider.importantInfoReaden, true);
         expect(appConfigProvider.hideZeroValues, true);
         expect(appConfigProvider.statisticsVisualizationMode, 1);
+        expect(appConfigProvider.homeVisualizationMode, 1);
         expect(appConfigProvider.sendCrashReports, true);
         expect(listenerCalled, true);
       },
@@ -325,6 +328,22 @@ void main() {
     );
 
     test(
+      'setHomeVisualizationMode updates value and notifies listeners',
+      () async {
+        when(
+          mockDatabaseRepository.updateConfigQuery(
+            column: 'homeVisualizationMode',
+            value: 1,
+          ),
+        ).thenAnswer((_) async => true);
+        final result = await appConfigProvider.setHomeVisualizationMode(1);
+        expect(result, true);
+        expect(appConfigProvider.homeVisualizationMode, 1);
+        expect(listenerCalled, true);
+      },
+    );
+
+    test(
       'restoreAppConfig restores default values and notifies listeners',
       () async {
         when(mockDatabaseRepository.restoreAppConfigQuery())
@@ -345,6 +364,7 @@ void main() {
         expect(appConfigProvider.importantInfoReaden, false);
         expect(appConfigProvider.hideZeroValues, false);
         expect(appConfigProvider.statisticsVisualizationMode, 0);
+        expect(appConfigProvider.homeVisualizationMode, 0);
         expect(appConfigProvider.sendCrashReports, false);
         expect(listenerCalled, true);
       },

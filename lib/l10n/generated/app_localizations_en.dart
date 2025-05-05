@@ -195,6 +195,9 @@ class AppLocalizationsEn extends AppLocalizations {
   String get autoRefreshTime => 'Auto refresh time';
 
   @override
+  String get barChart => 'Bar Chart';
+
+  @override
   String get beginAddConnection => 'First of all, add a connection to a server.';
 
   @override
@@ -717,6 +720,9 @@ class AppLocalizationsEn extends AppLocalizations {
   String get light => 'Light';
 
   @override
+  String get lineChart => 'Line Chart';
+
+  @override
   String get list => 'List';
 
   @override
@@ -1225,6 +1231,12 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get tryReconnect => 'Try reconnect';
+
+  @override
+  String get twentyFourHourViewMode => '24-Hour View Mode';
+
+  @override
+  String get twentyFourHourViewModeSubtitle => 'Changes the display mode for the Home screen';
 
   @override
   String get type => 'Type';

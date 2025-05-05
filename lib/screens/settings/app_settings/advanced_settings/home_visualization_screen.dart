@@ -19,8 +19,7 @@ class HomeVisualizationScreen extends StatelessWidget {
           color: Colors.transparent,
           borderRadius: BorderRadius.circular(28),
           child: InkWell(
-            onTap: () =>
-                appConfigProvider.setStatisticsVisualizationMode(value),
+            onTap: () => appConfigProvider.setHomeVisualizationMode(value),
             borderRadius: BorderRadius.circular(28),
             child: AnimatedContainer(
               duration: const Duration(milliseconds: 250),
@@ -28,14 +27,14 @@ class HomeVisualizationScreen extends StatelessWidget {
               padding: const EdgeInsets.all(20),
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(28),
-                color: value == appConfigProvider.statisticsVisualizationMode
+                color: value == appConfigProvider.homeVisualizationMode
                     ? Theme.of(context)
                         .colorScheme
                         .primary
                         .withValues(alpha: 0.1)
                     : Theme.of(context).dialogTheme.backgroundColor,
                 border: Border.all(
-                  color: value == appConfigProvider.statisticsVisualizationMode
+                  color: value == appConfigProvider.homeVisualizationMode
                       ? Theme.of(context).colorScheme.primary
                       : Colors.grey,
                 ),
@@ -45,10 +44,9 @@ class HomeVisualizationScreen extends StatelessWidget {
                   Icon(
                     icon,
                     size: 50,
-                    color:
-                        value == appConfigProvider.statisticsVisualizationMode
-                            ? Theme.of(context).colorScheme.primary
-                            : Theme.of(context).colorScheme.onSurfaceVariant,
+                    color: value == appConfigProvider.homeVisualizationMode
+                        ? Theme.of(context).colorScheme.primary
+                        : Theme.of(context).colorScheme.onSurfaceVariant,
                   ),
                   const SizedBox(width: 30),
                   Expanded(
@@ -60,13 +58,12 @@ class HomeVisualizationScreen extends StatelessWidget {
                           style: TextStyle(
                             fontSize: 18,
                             fontWeight: FontWeight.bold,
-                            color: value ==
-                                    appConfigProvider
-                                        .statisticsVisualizationMode
-                                ? Theme.of(context).colorScheme.primary
-                                : Theme.of(context)
-                                    .colorScheme
-                                    .onSurfaceVariant,
+                            color:
+                                value == appConfigProvider.homeVisualizationMode
+                                    ? Theme.of(context).colorScheme.primary
+                                    : Theme.of(context)
+                                        .colorScheme
+                                        .onSurfaceVariant,
                           ),
                         ),
                         const SizedBox(height: 10),
@@ -76,8 +73,7 @@ class HomeVisualizationScreen extends StatelessWidget {
                             description,
                             style: TextStyle(
                               color: value ==
-                                      appConfigProvider
-                                          .statisticsVisualizationMode
+                                      appConfigProvider.homeVisualizationMode
                                   ? Theme.of(context).colorScheme.primary
                                   : Theme.of(context)
                                       .colorScheme
@@ -98,21 +94,21 @@ class HomeVisualizationScreen extends StatelessWidget {
 
     return Scaffold(
       appBar: AppBar(
-        title: Text(AppLocalizations.of(context)!.domainsClientsDataMode),
+        title: Text(AppLocalizations.of(context)!.twentyFourHourViewMode),
       ),
       body: SafeArea(
         child: ListView(
           children: [
             const SizedBox(height: 16),
             item(
-              AppLocalizations.of(context)!.list,
+              AppLocalizations.of(context)!.lineChart,
               AppLocalizations.of(context)!.listDescription,
               Icons.show_chart_rounded,
               0,
             ),
             const SizedBox(height: 24),
             item(
-              AppLocalizations.of(context)!.pieChart,
+              AppLocalizations.of(context)!.barChart,
               AppLocalizations.of(context)!.pieChartDescription,
               Icons.bar_chart_rounded,
               1,

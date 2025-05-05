@@ -473,6 +473,12 @@ abstract class AppLocalizations {
   /// **'Auto refresh time'**
   String get autoRefreshTime;
 
+  /// No description provided for @barChart.
+  ///
+  /// In en, this message translates to:
+  /// **'Bar Chart'**
+  String get barChart;
+
   /// No description provided for @beginAddConnection.
   ///
   /// In en, this message translates to:
@@ -1517,6 +1523,12 @@ abstract class AppLocalizations {
   /// **'Light'**
   String get light;
 
+  /// No description provided for @lineChart.
+  ///
+  /// In en, this message translates to:
+  /// **'Line Chart'**
+  String get lineChart;
+
   /// No description provided for @list.
   ///
   /// In en, this message translates to:
@@ -2536,6 +2548,18 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Try reconnect'**
   String get tryReconnect;
+
+  /// No description provided for @twentyFourHourViewMode.
+  ///
+  /// In en, this message translates to:
+  /// **'24-Hour View Mode'**
+  String get twentyFourHourViewMode;
+
+  /// No description provided for @twentyFourHourViewModeSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Changes the display mode for the Home screen'**
+  String get twentyFourHourViewModeSubtitle;
 
   /// No description provided for @type.
   ///

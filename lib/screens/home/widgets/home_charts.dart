@@ -31,7 +31,7 @@ class HomeCharts extends StatelessWidget {
     AppConfigProvider appConfigProvider,
     StatusProvider statusProvider,
   ) {
-    if (appConfigProvider.statisticsVisualizationMode == 0) {
+    if (appConfigProvider.homeVisualizationMode == 0) {
       return QueriesLastHoursLine(
         data: statusProvider.getOvertimeDataJson!,
         reducedData: appConfigProvider.reducedDataCharts,
@@ -49,7 +49,7 @@ class HomeCharts extends StatelessWidget {
     StatusProvider statusProvider,
     List<String> clientsListIps,
   ) {
-    if (appConfigProvider.statisticsVisualizationMode == 0) {
+    if (appConfigProvider.homeVisualizationMode == 0) {
       return ClientsLastHoursLine(
         realtimeListIps: clientsListIps,
         data: statusProvider.getOvertimeDataJson!,
