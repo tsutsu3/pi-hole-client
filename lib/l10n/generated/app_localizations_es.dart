@@ -264,6 +264,12 @@ class AppLocalizationsEs extends AppLocalizations {
   String get changeTheme => 'Cambiar tema de la app';
 
   @override
+  String get chartDisplayModeSubtitle => 'Elige cómo se muestran los gráficos en la pantalla de inicio y estadísticas';
+
+  @override
+  String get chartDisplayModeTitle => 'Modo de visualización de gráficos';
+
+  @override
   String get charts => 'Gráficos';
 
   @override
@@ -474,12 +480,6 @@ class AppLocalizationsEs extends AppLocalizations {
   String get domainsAdlists => 'Dominios en Adlists';
 
   @override
-  String get domainsClientsDataMode => 'Visualización de estadísticas';
-
-  @override
-  String get domainsClientsDataModeDescription => 'Cambia la manera en la que se muestran los datos de clientes y dominios';
-
-  @override
   String get domainsNotLoaded => 'No se ha podido cargar la lista de dominios';
 
   @override
@@ -622,6 +622,12 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String get home => 'Inicio';
+
+  @override
+  String get homeChartModeDescription => 'Elige cómo se visualiza la actividad de 24 horas en la pantalla de inicio.';
+
+  @override
+  String get homeChartModeTitle => 'Pantalla de inicio';
 
   @override
   String get host => 'Anfitrión';
@@ -1143,6 +1149,12 @@ class AppLocalizationsEs extends AppLocalizations {
   String get statistics => 'Estadísticas';
 
   @override
+  String get statsChartModeDescription => 'Elige cómo se muestran las estadísticas de dominios y clientes.';
+
+  @override
+  String get statsChartModeTitle => 'Pantalla de estadísticas';
+
+  @override
   String get statsNotLoaded => 'No se han podido cargar las estadísticas';
 
   @override
@@ -1231,12 +1243,6 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String get tryReconnect => 'Intentar reconectar';
-
-  @override
-  String get twentyFourHourViewMode => 'Modo de vista de 24 horas';
-
-  @override
-  String get twentyFourHourViewModeSubtitle => 'Cambia el modo de visualización de la pantalla de inicio';
 
   @override
   String get type => 'Tipo';

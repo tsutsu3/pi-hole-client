@@ -611,6 +611,18 @@ abstract class AppLocalizations {
   /// **'Change app theme'**
   String get changeTheme;
 
+  /// No description provided for @chartDisplayModeSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Choose how graphs are displayed on the Home and Statistics screens'**
+  String get chartDisplayModeSubtitle;
+
+  /// No description provided for @chartDisplayModeTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Chart Display Mode'**
+  String get chartDisplayModeTitle;
+
   /// No description provided for @charts.
   ///
   /// In en, this message translates to:
@@ -1031,18 +1043,6 @@ abstract class AppLocalizations {
   /// **'Domains on Adlists'**
   String get domainsAdlists;
 
-  /// No description provided for @domainsClientsDataMode.
-  ///
-  /// In en, this message translates to:
-  /// **'Statistics display mode'**
-  String get domainsClientsDataMode;
-
-  /// No description provided for @domainsClientsDataModeDescription.
-  ///
-  /// In en, this message translates to:
-  /// **'Changes the way that domains and clients data is displayed'**
-  String get domainsClientsDataModeDescription;
-
   /// No description provided for @domainsNotLoaded.
   ///
   /// In en, this message translates to:
@@ -1330,6 +1330,18 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Home'**
   String get home;
+
+  /// No description provided for @homeChartModeDescription.
+  ///
+  /// In en, this message translates to:
+  /// **'Choose how the 24-hour activity is visualized on the Home screen.'**
+  String get homeChartModeDescription;
+
+  /// No description provided for @homeChartModeTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Home Screen'**
+  String get homeChartModeTitle;
 
   /// No description provided for @host.
   ///
@@ -2369,6 +2381,18 @@ abstract class AppLocalizations {
   /// **'Statistics'**
   String get statistics;
 
+  /// No description provided for @statsChartModeDescription.
+  ///
+  /// In en, this message translates to:
+  /// **'Choose how statistics are displayed for domains and clients.'**
+  String get statsChartModeDescription;
+
+  /// No description provided for @statsChartModeTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Statistics Screen'**
+  String get statsChartModeTitle;
+
   /// No description provided for @statsNotLoaded.
   ///
   /// In en, this message translates to:
@@ -2548,18 +2572,6 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Try reconnect'**
   String get tryReconnect;
-
-  /// No description provided for @twentyFourHourViewMode.
-  ///
-  /// In en, this message translates to:
-  /// **'24-Hour View Mode'**
-  String get twentyFourHourViewMode;
-
-  /// No description provided for @twentyFourHourViewModeSubtitle.
-  ///
-  /// In en, this message translates to:
-  /// **'Changes the display mode for the Home screen'**
-  String get twentyFourHourViewModeSubtitle;
 
   /// No description provided for @type.
   ///

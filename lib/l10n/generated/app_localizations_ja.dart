@@ -264,6 +264,12 @@ class AppLocalizationsJa extends AppLocalizations {
   String get changeTheme => 'アプリテーマを変更';
 
   @override
+  String get chartDisplayModeSubtitle => 'ホーム画面と統計画面で表示されるグラフの形式を選択できます';
+
+  @override
+  String get chartDisplayModeTitle => 'グラフ表示モード';
+
+  @override
   String get charts => 'チャート';
 
   @override
@@ -474,12 +480,6 @@ class AppLocalizationsJa extends AppLocalizations {
   String get domainsAdlists => 'Adlists上のドメイン';
 
   @override
-  String get domainsClientsDataMode => '統計表示モード';
-
-  @override
-  String get domainsClientsDataModeDescription => 'ドメインとクライアントデータの表示方法を変更します';
-
-  @override
   String get domainsNotLoaded => 'ドメインリストを読み込めませんでした';
 
   @override
@@ -622,6 +622,12 @@ class AppLocalizationsJa extends AppLocalizations {
 
   @override
   String get home => 'ホーム';
+
+  @override
+  String get homeChartModeDescription => 'ホーム画面に表示する24時間のアクティビティの形式を選択してください。';
+
+  @override
+  String get homeChartModeTitle => 'ホーム画面';
 
   @override
   String get host => 'ホスト';
@@ -1143,6 +1149,12 @@ class AppLocalizationsJa extends AppLocalizations {
   String get statistics => '統計';
 
   @override
+  String get statsChartModeDescription => 'ドメインとクライアントの統計情報の表示形式を選択してください。';
+
+  @override
+  String get statsChartModeTitle => '統計画面';
+
+  @override
   String get statsNotLoaded => '統計を読み込めませんでした';
 
   @override
@@ -1231,12 +1243,6 @@ class AppLocalizationsJa extends AppLocalizations {
 
   @override
   String get tryReconnect => '再接続を試みる';
-
-  @override
-  String get twentyFourHourViewMode => '24時間表示モード';
-
-  @override
-  String get twentyFourHourViewModeSubtitle => 'Home画面の表示方法を変更します';
 
   @override
   String get type => 'タイプ';

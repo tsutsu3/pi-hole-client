@@ -264,6 +264,12 @@ class AppLocalizationsPl extends AppLocalizations {
   String get changeTheme => 'Zmień motyw aplikacji';
 
   @override
+  String get chartDisplayModeSubtitle => 'Wybierz sposób wyświetlania wykresów na ekranie głównym i statystyk';
+
+  @override
+  String get chartDisplayModeTitle => 'Tryb wyświetlania wykresu';
+
+  @override
   String get charts => 'Wykresy';
 
   @override
@@ -474,12 +480,6 @@ class AppLocalizationsPl extends AppLocalizations {
   String get domainsAdlists => 'Domeny na listach reklamowych';
 
   @override
-  String get domainsClientsDataMode => 'Tryb wyświetlania statystyk';
-
-  @override
-  String get domainsClientsDataModeDescription => 'Zmienia sposób wyświetlania danych domen i klientów';
-
-  @override
   String get domainsNotLoaded => 'Nie można załadować listy domen';
 
   @override
@@ -622,6 +622,12 @@ class AppLocalizationsPl extends AppLocalizations {
 
   @override
   String get home => 'Główna';
+
+  @override
+  String get homeChartModeDescription => 'Wybierz sposób wyświetlania aktywności z ostatnich 24 godzin na ekranie głównym.';
+
+  @override
+  String get homeChartModeTitle => 'Ekran główny';
 
   @override
   String get host => 'Host';
@@ -1143,6 +1149,12 @@ class AppLocalizationsPl extends AppLocalizations {
   String get statistics => 'Statystyki';
 
   @override
+  String get statsChartModeDescription => 'Wybierz sposób wyświetlania statystyk dla domen i klientów.';
+
+  @override
+  String get statsChartModeTitle => 'Ekran statystyk';
+
+  @override
   String get statsNotLoaded => 'Nie udało się załadować statystyk';
 
   @override
@@ -1231,12 +1243,6 @@ class AppLocalizationsPl extends AppLocalizations {
 
   @override
   String get tryReconnect => 'Spróbuj połączyć się ponownie';
-
-  @override
-  String get twentyFourHourViewMode => 'Tryb widoku 24-godzinnego';
-
-  @override
-  String get twentyFourHourViewModeSubtitle => 'Zmienia sposób wyświetlania ekranu głównego';
 
   @override
   String get type => 'Typ';

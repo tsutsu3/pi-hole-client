@@ -264,6 +264,12 @@ class AppLocalizationsDe extends AppLocalizations {
   String get changeTheme => 'App-Design ändern';
 
   @override
+  String get chartDisplayModeSubtitle => 'Wählen Sie das Diagrammformat für den Start- und Statistikbildschirm aus';
+
+  @override
+  String get chartDisplayModeTitle => 'Diagramm-Anzeigemodus';
+
+  @override
   String get charts => 'Diagramme';
 
   @override
@@ -474,12 +480,6 @@ class AppLocalizationsDe extends AppLocalizations {
   String get domainsAdlists => 'Domains in Adlist';
 
   @override
-  String get domainsClientsDataMode => 'Statistik-Anzeigemodus';
-
-  @override
-  String get domainsClientsDataModeDescription => 'Ändert die Art, wie Domänen- und Client-Daten angezeigt werden';
-
-  @override
   String get domainsNotLoaded => 'Domain-Liste konnte nicht geladen werden';
 
   @override
@@ -622,6 +622,12 @@ class AppLocalizationsDe extends AppLocalizations {
 
   @override
   String get home => 'Home';
+
+  @override
+  String get homeChartModeDescription => 'Wählen Sie aus, wie die 24-Stunden-Aktivität auf dem Startbildschirm dargestellt wird.';
+
+  @override
+  String get homeChartModeTitle => 'Startbildschirm';
 
   @override
   String get host => 'Host';
@@ -1143,6 +1149,12 @@ class AppLocalizationsDe extends AppLocalizations {
   String get statistics => 'Statistiken';
 
   @override
+  String get statsChartModeDescription => 'Wählen Sie aus, wie Statistiken für Domains und Clients angezeigt werden.';
+
+  @override
+  String get statsChartModeTitle => 'Statistikbildschirm';
+
+  @override
   String get statsNotLoaded => 'Statistiken konnten nicht geladen werden.';
 
   @override
@@ -1231,12 +1243,6 @@ class AppLocalizationsDe extends AppLocalizations {
 
   @override
   String get tryReconnect => 'Erneut verbinden';
-
-  @override
-  String get twentyFourHourViewMode => '24-Stunden-Ansichtsmodus';
-
-  @override
-  String get twentyFourHourViewModeSubtitle => 'Ändert die Anzeigeoptionen für den Home-Bildschirm';
 
   @override
   String get type => 'Typ';
