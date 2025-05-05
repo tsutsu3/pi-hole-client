@@ -96,6 +96,7 @@ class StatisticsTripleColumn extends StatelessWidget {
                             StatisticsListContent(
                               type: 'domains',
                               countLabel: AppLocalizations.of(context)!.hits,
+                              pieChartRadiusScale: 6.0,
                             ),
                           ],
                         ),
@@ -131,6 +132,7 @@ class StatisticsTripleColumn extends StatelessWidget {
                               type: 'clients',
                               countLabel:
                                   AppLocalizations.of(context)!.requests,
+                              pieChartRadiusScale: 6.0,
                             ),
                           ],
                         ),

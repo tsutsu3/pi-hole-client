@@ -86,11 +86,13 @@ class StatisticsListContent extends StatelessWidget {
   const StatisticsListContent({
     required this.type,
     required this.countLabel,
+    this.pieChartRadiusScale = 3.0,
     super.key,
   });
 
   final String type;
   final String countLabel;
+  final double pieChartRadiusScale;
 
   @override
   Widget build(BuildContext context) {
@@ -196,7 +198,10 @@ class StatisticsListContent extends StatelessWidget {
       return Column(
         children: [
           const SizedBox(height: 10),
-          CustomPieChart(data: items),
+          CustomPieChart(
+            data: items,
+            radiusScale: pieChartRadiusScale,
+          ),
           const SizedBox(height: 20),
           PieChartLegend(
             data: legend,
