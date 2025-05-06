@@ -36,6 +36,7 @@ class DbHelper {
               importantInfoReaden NUMERIC NOT NULL,
               hideZeroValues NUMERIC NOT NULL,
               statisticsVisualizationMode NUMERIC NOT NULL,
+              homeVisualizationMode NUMERIC NOT NULL,
               sendCrashReports NUMERIC NOT NULL
             )
           ''');
@@ -51,8 +52,9 @@ class DbHelper {
               importantInfoReaden,
               hideZeroValues,
               statisticsVisualizationMode,
+              homeVisualizationMode,
               sendCrashReports
-            ) VALUES (5, 0, 'en', 1, 0, 2, 0, 0, 0, 0, 0)
+            ) VALUES (5, 0, 'en', 1, 0, 2, 0, 0, 0, 0, 0, 0)
           ''');
         await db.execute('''
             CREATE TABLE gravity_updates (

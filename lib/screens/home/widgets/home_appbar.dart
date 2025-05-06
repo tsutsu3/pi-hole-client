@@ -13,7 +13,7 @@ import 'package:pi_hole_client/models/server.dart';
 import 'package:pi_hole_client/providers/app_config_provider.dart';
 import 'package:pi_hole_client/providers/servers_provider.dart';
 import 'package:pi_hole_client/providers/status_provider.dart';
-import 'package:pi_hole_client/screens/home/switch_server_modal.dart';
+import 'package:pi_hole_client/screens/home/widgets/switch_server_modal.dart';
 import 'package:pi_hole_client/screens/servers/servers.dart';
 import 'package:pi_hole_client/services/status_update_service.dart';
 import 'package:provider/provider.dart';

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:pi_hole_client/screens/settings/app_settings/advanced_settings/advanced_options.dart';
-import 'package:pi_hole_client/screens/settings/app_settings/advanced_settings/statistics_visualization_screen.dart';
+import 'package:pi_hole_client/screens/settings/app_settings/advanced_settings/chart_visualization_screen.dart';
 
 import '../../../../helpers.dart';
 
@@ -31,16 +31,20 @@ void main() async {
 
           await tester.pumpWidget(
             testSetup.buildTestWidget(
-              const StatisticsVisualizationScreen(),
+              const ChartVisualizationScreen(),
             ),
           );
 
-          expect(find.byType(StatisticsVisualizationScreen), findsOneWidget);
-          expect(find.text('Statistics display mode'), findsOneWidget);
+          expect(find.byType(ChartVisualizationScreen), findsOneWidget);
+          expect(find.text('Chart display mode'), findsOneWidget);
+
+          expect(find.text('Line Chart'), findsOneWidget);
+          expect(find.text('Bar Chart'), findsOneWidget);
+          await tester.tap(find.text('Bar Chart'));
 
           expect(find.text('List'), findsOneWidget);
-          expect(find.text('Pie chart'), findsOneWidget);
-          await tester.tap(find.text('Pie chart'));
+          expect(find.text('Pie Chart'), findsOneWidget);
+          await tester.tap(find.text('Pie Chart'));
         },
       );
 

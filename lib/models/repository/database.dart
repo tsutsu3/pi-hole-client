@@ -88,6 +88,7 @@ class AppDbData {
     required this.importantInfoReaden,
     required this.hideZeroValues,
     required this.statisticsVisualizationMode,
+    required this.homeVisualizationMode,
     required this.sendCrashReports,
   });
 
@@ -104,6 +105,7 @@ class AppDbData {
       importantInfoReaden: map['importantInfoReaden']! as int,
       hideZeroValues: map['hideZeroValues']! as int,
       statisticsVisualizationMode: map['statisticsVisualizationMode']! as int,
+      homeVisualizationMode: map['homeVisualizationMode']! as int,
       sendCrashReports: map['sendCrashReports']! as int,
     );
   }
@@ -124,6 +126,7 @@ class AppDbData {
       importantInfoReaden: instance.importantInfoReaden,
       hideZeroValues: instance.hideZeroValues,
       statisticsVisualizationMode: instance.statisticsVisualizationMode,
+      homeVisualizationMode: instance.homeVisualizationMode,
       sendCrashReports: instance.sendCrashReports,
     );
   }
@@ -138,7 +141,8 @@ class AppDbData {
   final int useBiometricAuth;
   final int importantInfoReaden;
   final int hideZeroValues;
-  final int statisticsVisualizationMode;
+  final int statisticsVisualizationMode; // 0 = list, 1 = pie
+  final int homeVisualizationMode; // 0 = line area, 1 = bar
   final int sendCrashReports;
 
   Map<String, dynamic> toDict() {
@@ -154,6 +158,7 @@ class AppDbData {
       'importantInfoReaden': importantInfoReaden,
       'hideZeroValues': hideZeroValues,
       'statisticsVisualizationMode': statisticsVisualizationMode,
+      'homeVisualizationMode': homeVisualizationMode,
       'sendCrashReports': sendCrashReports,
     };
   }

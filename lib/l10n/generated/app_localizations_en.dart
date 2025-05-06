@@ -195,6 +195,9 @@ class AppLocalizationsEn extends AppLocalizations {
   String get autoRefreshTime => 'Auto refresh time';
 
   @override
+  String get barChart => 'Bar Chart';
+
+  @override
   String get beginAddConnection => 'First of all, add a connection to a server.';
 
   @override
@@ -259,6 +262,12 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get changeTheme => 'Change app theme';
+
+  @override
+  String get chartDisplayModeSubtitle => 'Choose how graphs are displayed on the Home and Statistics screens';
+
+  @override
+  String get chartDisplayModeTitle => 'Chart display mode';
 
   @override
   String get charts => 'Charts';
@@ -471,12 +480,6 @@ class AppLocalizationsEn extends AppLocalizations {
   String get domainsAdlists => 'Domains on Adlists';
 
   @override
-  String get domainsClientsDataMode => 'Statistics display mode';
-
-  @override
-  String get domainsClientsDataModeDescription => 'Changes the way that domains and clients data is displayed';
-
-  @override
   String get domainsNotLoaded => 'Domains list couldn\'t be loaded';
 
   @override
@@ -621,6 +624,12 @@ class AppLocalizationsEn extends AppLocalizations {
   String get home => 'Home';
 
   @override
+  String get homeChartModeDescription => 'Choose how the 24-hour activity is visualized on the Home screen.';
+
+  @override
+  String get homeChartModeTitle => 'Home Screen';
+
+  @override
   String get host => 'Host';
 
   @override
@@ -715,6 +724,9 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get light => 'Light';
+
+  @override
+  String get lineChart => 'Line Chart';
 
   @override
   String get list => 'List';
@@ -903,7 +915,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get piHoleServers => 'Servers connections';
 
   @override
-  String get pieChart => 'Pie chart';
+  String get pieChart => 'Pie Chart';
 
   @override
   String get pieChartDescription => 'Displays the data on a pie chart with the legend under it.';
@@ -1135,6 +1147,12 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get statistics => 'Statistics';
+
+  @override
+  String get statsChartModeDescription => 'Choose how statistics are displayed for domains and clients.';
+
+  @override
+  String get statsChartModeTitle => 'Statistics Screen';
 
   @override
   String get statsNotLoaded => 'Stats could not be loaded';

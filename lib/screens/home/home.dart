@@ -14,10 +14,10 @@ import 'package:pi_hole_client/l10n/generated/app_localizations.dart';
 import 'package:pi_hole_client/providers/app_config_provider.dart';
 import 'package:pi_hole_client/providers/servers_provider.dart';
 import 'package:pi_hole_client/providers/status_provider.dart';
-import 'package:pi_hole_client/screens/home/disable_modal.dart';
-import 'package:pi_hole_client/screens/home/home_appbar.dart';
-import 'package:pi_hole_client/screens/home/home_charts.dart';
-import 'package:pi_hole_client/screens/home/home_tile.dart';
+import 'package:pi_hole_client/screens/home/widgets/disable_modal.dart';
+import 'package:pi_hole_client/screens/home/widgets/home_appbar.dart';
+import 'package:pi_hole_client/screens/home/widgets/home_charts.dart';
+import 'package:pi_hole_client/screens/home/widgets/home_tile.dart';
 import 'package:provider/provider.dart';
 
 class Home extends StatefulWidget {

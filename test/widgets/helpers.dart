@@ -1163,6 +1163,7 @@ class TestSetupHelper {
     when(mockConfigProvider.hideZeroValues).thenReturn(false);
     when(mockConfigProvider.selectedTheme).thenReturn(ThemeMode.light);
     when(mockConfigProvider.statisticsVisualizationMode).thenReturn(0);
+    when(mockConfigProvider.homeVisualizationMode).thenReturn(0);
     when(mockConfigProvider.setShowingSnackbar(any)).thenReturn(null);
     when(mockConfigProvider.setOverrideSslCheck(any))
         .thenAnswer((_) async => true);
@@ -1198,6 +1199,8 @@ class TestSetupHelper {
     when(mockConfigProvider.colors).thenReturn(lightAppColors);
     when(mockConfigProvider.biometricsSupport).thenReturn(true);
     when(mockConfigProvider.setStatisticsVisualizationMode(any))
+        .thenAnswer((_) async => true);
+    when(mockConfigProvider.setHomeVisualizationMode(any))
         .thenAnswer((_) async => true);
     when(mockConfigProvider.validVibrator).thenReturn(true);
     when(mockConfigProvider.setPassCode(any)).thenAnswer((_) async => true);

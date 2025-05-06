@@ -195,6 +195,9 @@ class AppLocalizationsDe extends AppLocalizations {
   String get autoRefreshTime => 'Aktualisierungsintervall';
 
   @override
+  String get barChart => 'Balkendiagramm';
+
+  @override
   String get beginAddConnection => 'Fügen Sie zunächst eine Verbindung zu einem Server hinzu.';
 
   @override
@@ -259,6 +262,12 @@ class AppLocalizationsDe extends AppLocalizations {
 
   @override
   String get changeTheme => 'App-Design ändern';
+
+  @override
+  String get chartDisplayModeSubtitle => 'Wählen Sie das Diagrammformat für den Start- und Statistikbildschirm aus';
+
+  @override
+  String get chartDisplayModeTitle => 'Diagrammanzeigemodus';
 
   @override
   String get charts => 'Diagramme';
@@ -471,12 +480,6 @@ class AppLocalizationsDe extends AppLocalizations {
   String get domainsAdlists => 'Domains in Adlist';
 
   @override
-  String get domainsClientsDataMode => 'Statistik-Anzeigemodus';
-
-  @override
-  String get domainsClientsDataModeDescription => 'Ändert die Art, wie Domänen- und Client-Daten angezeigt werden';
-
-  @override
   String get domainsNotLoaded => 'Domain-Liste konnte nicht geladen werden';
 
   @override
@@ -621,6 +624,12 @@ class AppLocalizationsDe extends AppLocalizations {
   String get home => 'Home';
 
   @override
+  String get homeChartModeDescription => 'Wählen Sie aus, wie die 24-Stunden-Aktivität auf dem Startbildschirm dargestellt wird.';
+
+  @override
+  String get homeChartModeTitle => 'Startbildschirm';
+
+  @override
   String get host => 'Host';
 
   @override
@@ -715,6 +724,9 @@ class AppLocalizationsDe extends AppLocalizations {
 
   @override
   String get light => 'Hell';
+
+  @override
+  String get lineChart => 'Liniendiagramm';
 
   @override
   String get list => 'Liste';
@@ -1135,6 +1147,12 @@ class AppLocalizationsDe extends AppLocalizations {
 
   @override
   String get statistics => 'Statistiken';
+
+  @override
+  String get statsChartModeDescription => 'Wählen Sie aus, wie Statistiken für Domains und Clients angezeigt werden.';
+
+  @override
+  String get statsChartModeTitle => 'Statistikbildschirm';
 
   @override
   String get statsNotLoaded => 'Statistiken konnten nicht geladen werden.';

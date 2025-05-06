@@ -195,6 +195,9 @@ class AppLocalizationsEs extends AppLocalizations {
   String get autoRefreshTime => 'Tiempo de refresco automático';
 
   @override
+  String get barChart => 'Gráfico de barras';
+
+  @override
   String get beginAddConnection => 'Para empezar, añade una conexión a un servidor.';
 
   @override
@@ -259,6 +262,12 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String get changeTheme => 'Cambiar tema de la app';
+
+  @override
+  String get chartDisplayModeSubtitle => 'Elige cómo se muestran los gráficos en la pantalla de inicio y estadísticas';
+
+  @override
+  String get chartDisplayModeTitle => 'Modo de visualización de gráficos';
 
   @override
   String get charts => 'Gráficos';
@@ -471,12 +480,6 @@ class AppLocalizationsEs extends AppLocalizations {
   String get domainsAdlists => 'Dominios en Adlists';
 
   @override
-  String get domainsClientsDataMode => 'Visualización de estadísticas';
-
-  @override
-  String get domainsClientsDataModeDescription => 'Cambia la manera en la que se muestran los datos de clientes y dominios';
-
-  @override
   String get domainsNotLoaded => 'No se ha podido cargar la lista de dominios';
 
   @override
@@ -621,6 +624,12 @@ class AppLocalizationsEs extends AppLocalizations {
   String get home => 'Inicio';
 
   @override
+  String get homeChartModeDescription => 'Elige cómo se visualiza la actividad de 24 horas en la pantalla de inicio.';
+
+  @override
+  String get homeChartModeTitle => 'Pantalla de inicio';
+
+  @override
   String get host => 'Anfitrión';
 
   @override
@@ -715,6 +724,9 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String get light => 'Claro';
+
+  @override
+  String get lineChart => 'Gráfico de líneas';
 
   @override
   String get list => 'Lista';
@@ -1135,6 +1147,12 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String get statistics => 'Estadísticas';
+
+  @override
+  String get statsChartModeDescription => 'Elige cómo se muestran las estadísticas de dominios y clientes.';
+
+  @override
+  String get statsChartModeTitle => 'Pantalla de estadísticas';
 
   @override
   String get statsNotLoaded => 'No se han podido cargar las estadísticas';

@@ -89,7 +89,7 @@ class DatabaseRepository {
 
     final db = await openDatabase(
       path ?? 'pi_hole_client.db',
-      version: 3,
+      version: 4,
       onCreate: (Database db, int version) async {
         await db.execute('''
             CREATE TABLE servers (
@@ -111,6 +111,7 @@ class DatabaseRepository {
               importantInfoReaden NUMERIC NOT NULL,
               hideZeroValues NUMERIC NOT NULL,
               statisticsVisualizationMode NUMERIC NOT NULL,
+              homeVisualizationMode NUMERIC NOT NULL,
               sendCrashReports NUMERIC NOT NULL
             )
           ''');
@@ -126,8 +127,9 @@ class DatabaseRepository {
               importantInfoReaden,
               hideZeroValues,
               statisticsVisualizationMode,
+              homeVisualizationMode,
               sendCrashReports
-            ) VALUES (5, 0, 'en', 1, 0, 2, 0, 0, 0, 0, 0)
+            ) VALUES (5, 0, 'en', 1, 0, 2, 0, 0, 0, 0, 0, 0)
           ''');
 
         await db.execute('''
@@ -168,6 +170,8 @@ class DatabaseRepository {
           await _upgradeToV2(db);
         } else if (oldVersion == 2) {
           await _upgradeToV3(db);
+        } else if (oldVersion == 3) {
+          await _upgradeToV4(db);
         }
       },
       onDowngrade: (Database db, int oldVersion, int newVersion) async {},
@@ -523,6 +527,7 @@ class DatabaseRepository {
             'importantInfoReaden': 0,
             'hideZeroValues': 0,
             'statisticsVisualizationMode': 0,
+            'homeVisualizationMode': 0,
             'sendCrashReports': 0,
           },
         );
@@ -989,5 +994,45 @@ class DatabaseRepository {
           ''');
 
     logger.d('Database upgraded to version 3');
+  }
+
+  Future<dynamic> _upgradeToV4(Database db) async {
+    // 1. Create a new table
+    await db.execute('''
+    CREATE TABLE appConfig_new (
+      autoRefreshTime NUMERIC NOT NULL,
+      theme NUMERIC NOT NULL,
+      language TEXT NOT NULL,
+      overrideSslCheck NUMERIC NOT NULL,
+      reducedDataCharts NUMERIC NOT NULL,
+      logsPerQuery NUMERIC NOT NULL,
+      useBiometricAuth NUMERIC NOT NULL,
+      importantInfoReaden NUMERIC NOT NULL,
+      hideZeroValues NUMERIC NOT NULL,
+      statisticsVisualizationMode NUMERIC NOT NULL,
+      homeVisualizationMode NUMERIC NOT NULL,
+      sendCrashReports NUMERIC NOT NULL
+    )
+    ''');
+
+    // 2. Copy data from the old table to the new table
+    await db.execute('''
+    INSERT INTO appConfig_new (autoRefreshTime, theme, language,
+      overrideSslCheck, reducedDataCharts, logsPerQuery, useBiometricAuth,
+      importantInfoReaden, hideZeroValues, statisticsVisualizationMode,
+      homeVisualizationMode, sendCrashReports)
+    SELECT autoRefreshTime, theme, language, overrideSslCheck,
+      reducedDataCharts, logsPerQuery, useBiometricAuth, importantInfoReaden,
+      hideZeroValues, statisticsVisualizationMode, 0, sendCrashReports
+    FROM appConfig
+    ''');
+
+    // 3. Drop the old table
+    await db.execute('DROP TABLE appConfig');
+
+    // 4. Rename the new table to the old table
+    await db.execute('ALTER TABLE appConfig_new RENAME TO appConfig');
+
+    logger.d('Database upgraded to version 4');
   }
 }

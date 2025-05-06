@@ -1,5 +1,3 @@
-// ignore_for_file: use_build_context_synchronously
-
 import 'dart:io';
 
 import 'package:flutter/material.dart';
@@ -17,10 +15,10 @@ import 'package:pi_hole_client/providers/servers_provider.dart';
 import 'package:pi_hole_client/screens/app_logs/app_logs.dart';
 import 'package:pi_hole_client/screens/settings/app_settings/advanced_settings/app_unlock_setup_modal.dart';
 import 'package:pi_hole_client/screens/settings/app_settings/advanced_settings/auto_refresh_time_screen.dart';
+import 'package:pi_hole_client/screens/settings/app_settings/advanced_settings/chart_visualization_screen.dart';
 import 'package:pi_hole_client/screens/settings/app_settings/advanced_settings/enter_passcode_modal.dart';
 import 'package:pi_hole_client/screens/settings/app_settings/advanced_settings/logs_quantity_load_screen.dart';
 import 'package:pi_hole_client/screens/settings/app_settings/advanced_settings/reset_screen.dart';
-import 'package:pi_hole_client/screens/settings/app_settings/advanced_settings/statistics_visualization_screen.dart';
 import 'package:pi_hole_client/widgets/custom_list_tile.dart';
 import 'package:pi_hole_client/widgets/section_label.dart';
 import 'package:provider/provider.dart';
@@ -38,6 +36,8 @@ class AdvancedOptions extends StatelessWidget {
 
     Future<void> updateSslCheck(bool newStatus) async {
       final result = await appConfigProvider.setOverrideSslCheck(newStatus);
+      if (!context.mounted) return;
+
       if (result == true) {
         showCautionSnackBar(
           context: context,
@@ -56,6 +56,8 @@ class AdvancedOptions extends StatelessWidget {
 
     Future<void> updateUseReducedData(bool newStatus) async {
       final result = await appConfigProvider.setReducedDataCharts(newStatus);
+      if (!context.mounted) return;
+
       if (result == true) {
         showSuccessSnackBar(
           context: context,
@@ -73,6 +75,8 @@ class AdvancedOptions extends StatelessWidget {
 
     Future<void> updateHideZeroValues(bool newStatus) async {
       final result = await appConfigProvider.setHideZeroValues(newStatus);
+      if (!context.mounted) return;
+
       if (result == true) {
         showSuccessSnackBar(
           context: context,
@@ -94,6 +98,7 @@ class AdvancedOptions extends StatelessWidget {
         process.open(AppLocalizations.of(context)!.deleting);
         await serversProvider.deleteDbData();
         await appConfigProvider.restoreAppConfig();
+        if (!context.mounted) return;
         appConfigProvider.setSelectedTab(0);
         process.close();
         if (appConfigProvider.overrideSslCheck == true) {
@@ -251,13 +256,13 @@ class AdvancedOptions extends StatelessWidget {
             ),
             CustomListTile(
               leadingIcon: Icons.pie_chart_rounded,
-              label: AppLocalizations.of(context)!.domainsClientsDataMode,
-              description: AppLocalizations.of(context)!
-                  .domainsClientsDataModeDescription,
+              label: AppLocalizations.of(context)!.chartDisplayModeTitle,
+              description:
+                  AppLocalizations.of(context)!.chartDisplayModeSubtitle,
               onTap: () => Navigator.push(
                 context,
                 MaterialPageRoute(
-                  builder: (context) => const StatisticsVisualizationScreen(),
+                  builder: (context) => const ChartVisualizationScreen(),
                 ),
               ),
               padding: const EdgeInsets.only(

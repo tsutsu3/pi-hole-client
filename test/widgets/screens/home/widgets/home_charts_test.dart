@@ -2,9 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/mockito.dart';
 import 'package:pi_hole_client/models/overtime_data.dart';
-import 'package:pi_hole_client/screens/home/home_charts.dart';
+import 'package:pi_hole_client/screens/home/widgets/clients_last_hours_bar.dart';
+import 'package:pi_hole_client/screens/home/widgets/clients_last_hours_line.dart';
+import 'package:pi_hole_client/screens/home/widgets/home_charts.dart';
+import 'package:pi_hole_client/screens/home/widgets/queries_last_hours_bar.dart';
+import 'package:pi_hole_client/screens/home/widgets/queries_last_hours_line.dart';
 
-import '../../helpers.dart';
+import '../../../helpers.dart';
 
 void main() async {
   await initializeApp();
@@ -73,7 +77,7 @@ void main() async {
       );
 
       testWidgets(
-        'should show queries graph and clients graph when data is loaded',
+        'should show queries graph and clients graph when data is loaded (line chart)',
         (WidgetTester tester) async {
           tester.view.physicalSize = const Size(1080, 2400);
           tester.view.devicePixelRatio = 1.0;
@@ -92,10 +96,48 @@ void main() async {
           expect(find.byType(HomeCharts), findsOneWidget);
           await tester.pump();
 
+          expect(find.byType(QueriesLastHoursLine), findsOneWidget);
           expect(find.text('Total queries last 24 hours'), findsOneWidget);
           expect(find.text('Blocked'), findsOneWidget);
           expect(find.text('Not blocked'), findsOneWidget);
 
+          expect(find.byType(ClientsLastHoursLine), findsOneWidget);
+          expect(find.text('Client activity last 24 hours'), findsOneWidget);
+          expect(find.text('172.26.0.1'), findsOneWidget);
+          expect(find.text('127.0.0.1'), findsOneWidget);
+          expect(find.text('localhost'), findsOneWidget);
+        },
+      );
+
+      testWidgets(
+        'should show queries graph and clients graph when data is loaded (bar chart)',
+        (WidgetTester tester) async {
+          tester.view.physicalSize = const Size(1080, 2400);
+          tester.view.devicePixelRatio = 1.0;
+
+          when(testSetup.mockConfigProvider.homeVisualizationMode)
+              .thenReturn(1);
+
+          addTearDown(() {
+            tester.view.resetPhysicalSize();
+            tester.view.resetDevicePixelRatio();
+          });
+
+          await tester.pumpWidget(
+            testSetup.buildTestWidget(
+              const HomeCharts(),
+            ),
+          );
+
+          expect(find.byType(HomeCharts), findsOneWidget);
+          await tester.pump();
+
+          expect(find.byType(QueriesLastHoursBar), findsOneWidget);
+          expect(find.text('Total queries last 24 hours'), findsOneWidget);
+          expect(find.text('Blocked'), findsOneWidget);
+          expect(find.text('Not blocked'), findsOneWidget);
+
+          expect(find.byType(ClientsLastHoursBar), findsOneWidget);
           expect(find.text('Client activity last 24 hours'), findsOneWidget);
           expect(find.text('172.26.0.1'), findsOneWidget);
           expect(find.text('127.0.0.1'), findsOneWidget);

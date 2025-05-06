@@ -195,6 +195,9 @@ class AppLocalizationsPl extends AppLocalizations {
   String get autoRefreshTime => 'Czas automatycznego odświeżania';
 
   @override
+  String get barChart => 'Wykres słupkowy';
+
+  @override
   String get beginAddConnection => 'Na początek dodaj połączenie z serwerem.';
 
   @override
@@ -259,6 +262,12 @@ class AppLocalizationsPl extends AppLocalizations {
 
   @override
   String get changeTheme => 'Zmień motyw aplikacji';
+
+  @override
+  String get chartDisplayModeSubtitle => 'Wybierz sposób wyświetlania wykresów na ekranie głównym i statystyk';
+
+  @override
+  String get chartDisplayModeTitle => 'Tryb wyświetlania wykresu';
 
   @override
   String get charts => 'Wykresy';
@@ -471,12 +480,6 @@ class AppLocalizationsPl extends AppLocalizations {
   String get domainsAdlists => 'Domeny na listach reklamowych';
 
   @override
-  String get domainsClientsDataMode => 'Tryb wyświetlania statystyk';
-
-  @override
-  String get domainsClientsDataModeDescription => 'Zmienia sposób wyświetlania danych domen i klientów';
-
-  @override
   String get domainsNotLoaded => 'Nie można załadować listy domen';
 
   @override
@@ -621,6 +624,12 @@ class AppLocalizationsPl extends AppLocalizations {
   String get home => 'Główna';
 
   @override
+  String get homeChartModeDescription => 'Wybierz sposób wyświetlania aktywności z ostatnich 24 godzin na ekranie głównym.';
+
+  @override
+  String get homeChartModeTitle => 'Ekran główny';
+
+  @override
   String get host => 'Host';
 
   @override
@@ -715,6 +724,9 @@ class AppLocalizationsPl extends AppLocalizations {
 
   @override
   String get light => 'Jasny';
+
+  @override
+  String get lineChart => 'Wykres liniowy';
 
   @override
   String get list => 'Lista';
@@ -1135,6 +1147,12 @@ class AppLocalizationsPl extends AppLocalizations {
 
   @override
   String get statistics => 'Statystyki';
+
+  @override
+  String get statsChartModeDescription => 'Wybierz sposób wyświetlania statystyk dla domen i klientów.';
+
+  @override
+  String get statsChartModeTitle => 'Ekran statystyk';
 
   @override
   String get statsNotLoaded => 'Nie udało się załadować statystyk';

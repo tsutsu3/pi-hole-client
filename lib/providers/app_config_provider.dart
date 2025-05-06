@@ -29,6 +29,7 @@ class AppConfigProvider with ChangeNotifier {
   int _importantInfoReaden = 0;
   int _hideZeroValues = 0;
   int _statisticsVisualizationMode = 0;
+  int _homeVisualizationMode = 0;
   int _sendCrashReports = 0;
   int? _selectedSettingsScreen;
   String _selectedLanguage = 'en';
@@ -142,6 +143,10 @@ class AppConfigProvider with ChangeNotifier {
 
   int get statisticsVisualizationMode {
     return _statisticsVisualizationMode;
+  }
+
+  int get homeVisualizationMode {
+    return _homeVisualizationMode;
   }
 
   bool get sendCrashReports {
@@ -325,6 +330,7 @@ class AppConfigProvider with ChangeNotifier {
     _importantInfoReaden = dbData.importantInfoReaden;
     _hideZeroValues = dbData.hideZeroValues;
     _statisticsVisualizationMode = dbData.statisticsVisualizationMode;
+    _homeVisualizationMode = dbData.homeVisualizationMode;
     _sendCrashReports = dbData.sendCrashReports;
 
     if (dbData.passCode != null) {
@@ -414,6 +420,20 @@ class AppConfigProvider with ChangeNotifier {
     }
   }
 
+  Future<bool> setHomeVisualizationMode(int value) async {
+    final updated = await _repository.updateConfigQuery(
+      column: 'homeVisualizationMode',
+      value: value,
+    );
+    if (updated == true) {
+      _homeVisualizationMode = value;
+      notifyListeners();
+      return true;
+    } else {
+      return false;
+    }
+  }
+
   Future<bool> restoreAppConfig() async {
     final result = await _repository.restoreAppConfigQuery();
     if (result == true) {
@@ -428,6 +448,7 @@ class AppConfigProvider with ChangeNotifier {
       _importantInfoReaden = 0;
       _hideZeroValues = 0;
       _statisticsVisualizationMode = 0;
+      _homeVisualizationMode = 0;
       _sendCrashReports = 0;
 
       notifyListeners();

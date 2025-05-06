@@ -50,3 +50,8 @@ enum DomainKind {
   /// 1: Regex
   regex,
 }
+
+enum GraphSection {
+  homeView,
+  statsView,
+}

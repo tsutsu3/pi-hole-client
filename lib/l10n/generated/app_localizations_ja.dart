@@ -195,6 +195,9 @@ class AppLocalizationsJa extends AppLocalizations {
   String get autoRefreshTime => '自動更新時間';
 
   @override
+  String get barChart => '棒グラフ';
+
+  @override
   String get beginAddConnection => 'まず、サーバーへの接続を追加します。';
 
   @override
@@ -259,6 +262,12 @@ class AppLocalizationsJa extends AppLocalizations {
 
   @override
   String get changeTheme => 'アプリテーマを変更';
+
+  @override
+  String get chartDisplayModeSubtitle => 'ホーム画面と統計画面で表示されるグラフの形式を選択できます';
+
+  @override
+  String get chartDisplayModeTitle => 'グラフ表示モード';
 
   @override
   String get charts => 'チャート';
@@ -471,12 +480,6 @@ class AppLocalizationsJa extends AppLocalizations {
   String get domainsAdlists => 'Adlists上のドメイン';
 
   @override
-  String get domainsClientsDataMode => '統計表示モード';
-
-  @override
-  String get domainsClientsDataModeDescription => 'ドメインとクライアントデータの表示方法を変更します';
-
-  @override
   String get domainsNotLoaded => 'ドメインリストを読み込めませんでした';
 
   @override
@@ -621,6 +624,12 @@ class AppLocalizationsJa extends AppLocalizations {
   String get home => 'ホーム';
 
   @override
+  String get homeChartModeDescription => 'ホーム画面に表示する24時間のアクティビティの形式を選択してください。';
+
+  @override
+  String get homeChartModeTitle => 'ホーム画面';
+
+  @override
   String get host => 'ホスト';
 
   @override
@@ -715,6 +724,9 @@ class AppLocalizationsJa extends AppLocalizations {
 
   @override
   String get light => 'ライト';
+
+  @override
+  String get lineChart => '折れ線グラフ';
 
   @override
   String get list => 'リスト';
@@ -1135,6 +1147,12 @@ class AppLocalizationsJa extends AppLocalizations {
 
   @override
   String get statistics => '統計';
+
+  @override
+  String get statsChartModeDescription => 'ドメインとクライアントの統計情報の表示形式を選択してください。';
+
+  @override
+  String get statsChartModeTitle => '統計画面';
 
   @override
   String get statsNotLoaded => '統計を読み込めませんでした';
