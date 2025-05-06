@@ -245,6 +245,21 @@ void main() {
         expect(appConfigProvider.homeVisualizationMode, 1);
         expect(appConfigProvider.sendCrashReports, true);
         expect(listenerCalled, true);
+        expect(appDbData.toDict(), {
+          'autoRefreshTime': 5,
+          'theme': 1,
+          'language': 'ja',
+          'overrideSslCheck': 1,
+          'reducedDataCharts': 1,
+          'logsPerQuery': 5,
+          'passCode': '9999',
+          'useBiometricAuth': 1,
+          'importantInfoReaden': 1,
+          'hideZeroValues': 1,
+          'statisticsVisualizationMode': 1,
+          'homeVisualizationMode': 1,
+          'sendCrashReports': 1,
+        });
       },
     );
 
