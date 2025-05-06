@@ -1,5 +1,6 @@
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
+import 'package:pi_hole_client/config/theme.dart';
 import 'package:pi_hole_client/constants/graph.dart';
 import 'package:pi_hole_client/functions/format.dart';
 import 'package:pi_hole_client/functions/graph.dart';
@@ -131,6 +132,7 @@ class QueriesLastHoursBar extends StatelessWidget {
     Map<String, dynamic> formatData(
       Map<String, dynamic> data,
       double chartWidth,
+      ThemeMode selectedTheme,
     ) {
       final items = <BarChartGroupData>[];
 
@@ -173,7 +175,12 @@ class QueriesLastHoursBar extends StatelessWidget {
           BarChartRodStackItem(
             0.0,
             adsHeight,
-            Colors.blue.withValues(alpha: 0.8),
+            selectedTheme == ThemeMode.light
+                ? Theme.of(context)
+                    .extension<GraphColors>()!
+                    .getColor(0)
+                    .withValues(alpha: 0.8)
+                : Theme.of(context).extension<GraphColors>()!.getColor(0),
           ),
         );
 
@@ -182,7 +189,12 @@ class QueriesLastHoursBar extends StatelessWidget {
           BarChartRodStackItem(
             adsHeight,
             stackedHeight,
-            Colors.green.withValues(alpha: 0.8),
+            selectedTheme == ThemeMode.light
+                ? Theme.of(context)
+                    .extension<GraphColors>()!
+                    .getColor(3)
+                    .withValues(alpha: 0.8)
+                : Theme.of(context).extension<GraphColors>()!.getColor(3),
           ),
         );
 
@@ -226,7 +238,8 @@ class QueriesLastHoursBar extends StatelessWidget {
       child: LayoutBuilder(
         builder: (context, constraints) {
           final chartWidth = constraints.maxWidth;
-          final formattedData = formatData(data, chartWidth);
+          final formattedData =
+              formatData(data, chartWidth, appConfigProvider.selectedTheme);
 
           if (formattedData.containsKey('error')) {
             return Center(
