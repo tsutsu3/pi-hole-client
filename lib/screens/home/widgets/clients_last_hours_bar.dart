@@ -156,6 +156,7 @@ class ClientsLastHoursBar extends StatelessWidget {
     Map<String, dynamic> formatData(
       Map<String, dynamic> data,
       double chartWidth,
+      ThemeMode selectedTheme,
     ) {
       final items = <BarChartGroupData>[];
       final clientsColors = <Map<String, dynamic>>[];
@@ -192,7 +193,9 @@ class ClientsLastHoursBar extends StatelessWidget {
             BarChartRodStackItem(
               stackedHeight,
               stackedHeight + yValue,
-              getColor(data['clients'][i], i).withValues(alpha: 0.8),
+              selectedTheme == ThemeMode.light
+                  ? getColor(data['clients'][i], i).withValues(alpha: 0.8)
+                  : getColor(data['clients'][i], i),
             ),
           );
 
@@ -246,7 +249,7 @@ class ClientsLastHoursBar extends StatelessWidget {
 
           return BarChart(
             mainData(
-              formatData(data, chartWidth),
+              formatData(data, chartWidth, appConfigProvider.selectedTheme),
               appConfigProvider.selectedTheme,
             ),
           );
