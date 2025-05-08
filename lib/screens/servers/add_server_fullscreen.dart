@@ -652,7 +652,8 @@ class _AddServerFullscreenState extends State<AddServerFullscreen> {
                             ? (v) => setState(() => allowSelfSignedCert = v!)
                             : null,
                         title: Text(
-                          AppLocalizations.of(context)!.dontCheckCertificate,
+                          AppLocalizations.of(context)!
+                              .allowSelfSignedCertificates,
                         ),
                         subtitle: Text(
                           AppLocalizations.of(context)!.onlyAvailableWithHttps,
