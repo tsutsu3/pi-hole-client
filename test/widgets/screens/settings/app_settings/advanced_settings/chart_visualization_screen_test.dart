@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:pi_hole_client/screens/settings/app_settings/advanced_settings/advanced_options.dart';
 import 'package:pi_hole_client/screens/settings/app_settings/advanced_settings/chart_visualization_screen.dart';
 
 import '../../../../helpers.dart';
