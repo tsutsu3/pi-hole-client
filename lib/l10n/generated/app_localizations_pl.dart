@@ -132,6 +132,9 @@ class AppLocalizationsPl extends AppLocalizations {
   String get allowList => 'Lista dozwolonych';
 
   @override
+  String get allowSelfSignedCertificates => 'Zezwól na certyfikaty z podpisem własnym';
+
+  @override
   String get allowed => 'Dozwolone';
 
   @override
@@ -486,7 +489,7 @@ class AppLocalizationsPl extends AppLocalizations {
   String get dontCheckCertificate => 'Nie sprawdzaj certyfikatu SSL';
 
   @override
-  String get dontCheckCertificateDescription => 'Zastępuje sprawdzanie poprawności certyfikatu SSL serwera';
+  String get dontCheckCertificateDescription => 'Opcja ta zostanie usunięta w przyszłej wersji. Zarządzaj weryfikacją certyfikatów w ustawieniach poszczególnych serwerów (Ustawienia > Serwery).';
 
   @override
   String get edit => 'Edytuj';
@@ -880,6 +883,9 @@ class AppLocalizationsPl extends AppLocalizations {
 
   @override
   String get olderVersion => 'Jeśli masz starszą wersję, zaktualizuj Pi-hole, aby nadal korzystać z tej aplikacji.';
+
+  @override
+  String get onlyAvailableWithHttps => 'Dostępne tylko przez HTTPS';
 
   @override
   String get openExternalUrl => 'Otwiera zewnętrzny link';

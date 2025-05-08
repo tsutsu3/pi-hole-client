@@ -1,13 +1,9 @@
-import 'dart:io';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_phoenix/flutter_phoenix.dart';
-import 'package:pi_hole_client/classes/http_override.dart';
 import 'package:pi_hole_client/classes/process_modal.dart';
 import 'package:pi_hole_client/config/system_overlay_style.dart';
 import 'package:pi_hole_client/constants/responsive.dart';
 import 'package:pi_hole_client/functions/conversions.dart';
-import 'package:pi_hole_client/functions/logger.dart';
 import 'package:pi_hole_client/functions/snackbar.dart';
 import 'package:pi_hole_client/l10n/generated/app_localizations.dart';
 import 'package:pi_hole_client/providers/app_config_provider.dart';
@@ -33,26 +29,6 @@ class AdvancedOptions extends StatelessWidget {
 
     final topBarHeight = MediaQuery.of(context).viewPadding.top;
     final width = MediaQuery.of(context).size.width;
-
-    Future<void> updateSslCheck(bool newStatus) async {
-      final result = await appConfigProvider.setOverrideSslCheck(newStatus);
-      if (!context.mounted) return;
-
-      if (result == true) {
-        showCautionSnackBar(
-          context: context,
-          appConfigProvider: appConfigProvider,
-          label: AppLocalizations.of(context)!.restartAppTakeEffect,
-          duration: 6,
-        );
-      } else {
-        showErrorSnackBar(
-          context: context,
-          appConfigProvider: appConfigProvider,
-          label: AppLocalizations.of(context)!.cannotUpdateSettings,
-        );
-      }
-    }
 
     Future<void> updateUseReducedData(bool newStatus) async {
       final result = await appConfigProvider.setReducedDataCharts(newStatus);
@@ -101,10 +77,6 @@ class AdvancedOptions extends StatelessWidget {
         if (!context.mounted) return;
         appConfigProvider.setSelectedTab(0);
         process.close();
-        if (appConfigProvider.overrideSslCheck == true) {
-          logger.d('SSL Check Override: ON');
-          HttpOverrides.global = MyHttpOverrides();
-        }
         Phoenix.rebirth(context);
       }
 
@@ -188,16 +160,12 @@ class AdvancedOptions extends StatelessWidget {
         child: ListView(
           children: [
             SectionLabel(label: AppLocalizations.of(context)!.security),
+            // TODO: Delete this option
             CustomListTile(
               leadingIcon: Icons.lock,
               label: AppLocalizations.of(context)!.dontCheckCertificate,
               description:
                   AppLocalizations.of(context)!.dontCheckCertificateDescription,
-              trailing: Switch(
-                value: appConfigProvider.overrideSslCheck,
-                onChanged: updateSslCheck,
-              ),
-              onTap: () => updateSslCheck(!appConfigProvider.overrideSslCheck),
               padding: const EdgeInsets.only(
                 top: 10,
                 bottom: 10,

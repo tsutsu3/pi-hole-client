@@ -28,6 +28,7 @@ class ServerDbData {
     required this.isDefaultServer,
     required this.apiVersion,
     required this.sid,
+    required this.allowSelfSignedCert,
   });
 
   factory ServerDbData.withSecrets(
@@ -42,6 +43,7 @@ class ServerDbData {
       isDefaultServer: instance.isDefaultServer,
       apiVersion: instance.apiVersion,
       sid: sid,
+      allowSelfSignedCert: instance.allowSelfSignedCert,
     );
   }
 
@@ -53,6 +55,7 @@ class ServerDbData {
       isDefaultServer: map['isDefaultServer']! as int,
       apiVersion: map['apiVersion']! as String,
       sid: map['sid'] as String?,
+      allowSelfSignedCert: map['allowSelfSignedCert']! as int == 1,
     );
   }
 
@@ -62,6 +65,7 @@ class ServerDbData {
   final int isDefaultServer;
   final String apiVersion;
   final String? sid;
+  final bool allowSelfSignedCert;
 
   Map<String, dynamic> toDict() {
     return {
@@ -71,6 +75,7 @@ class ServerDbData {
       'isDefaultServer': isDefaultServer,
       'apiVersion': apiVersion,
       'sid': sid,
+      'allowSelfSignedCert': allowSelfSignedCert ? 1 : 0,
     };
   }
 }
@@ -80,7 +85,6 @@ class AppDbData {
     required this.autoRefreshTime,
     required this.theme,
     required this.language,
-    required this.overrideSslCheck,
     required this.reducedDataCharts,
     required this.logsPerQuery,
     required this.passCode,
@@ -97,7 +101,6 @@ class AppDbData {
       autoRefreshTime: map['autoRefreshTime']! as int,
       theme: map['theme']! as int,
       language: map['language']! as String,
-      overrideSslCheck: map['overrideSslCheck']! as int,
       reducedDataCharts: map['reducedDataCharts']! as int,
       logsPerQuery: (map['logsPerQuery']! as num).toDouble(),
       passCode: map['passCode'] as String?,
@@ -118,7 +121,6 @@ class AppDbData {
       autoRefreshTime: instance.autoRefreshTime,
       theme: instance.theme,
       language: instance.language,
-      overrideSslCheck: instance.overrideSslCheck,
       reducedDataCharts: instance.reducedDataCharts,
       logsPerQuery: instance.logsPerQuery,
       passCode: passCode,
@@ -134,7 +136,6 @@ class AppDbData {
   final int autoRefreshTime;
   final int theme;
   final String language;
-  final int overrideSslCheck;
   final int reducedDataCharts;
   final double logsPerQuery;
   final String? passCode;
@@ -150,7 +151,6 @@ class AppDbData {
       'autoRefreshTime': autoRefreshTime,
       'theme': theme,
       'language': language,
-      'overrideSslCheck': overrideSslCheck,
       'reducedDataCharts': reducedDataCharts,
       'logsPerQuery': logsPerQuery,
       'passCode': passCode,

@@ -117,6 +117,7 @@ class _ServersTileItemState extends State<ServersTileItem>
             defaultServer: server.defaultServer,
             apiVersion: server.apiVersion,
             enabled: result.status == 'enabled' ? true : false,
+            allowSelfSignedCert: server.allowSelfSignedCert,
             sm: server.sm,
           ),
         );

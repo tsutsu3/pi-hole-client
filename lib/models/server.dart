@@ -10,6 +10,7 @@ class Server {
     required this.alias,
     required this.defaultServer,
     required this.apiVersion,
+    required this.allowSelfSignedCert,
     this.enabled,
     SecretManager? sm,
   }) : sm = sm ?? SecretManager(SecureStorageRepository(), address);
@@ -29,6 +30,9 @@ class Server {
   /// Pi-hole API version
   final String apiVersion;
 
+  /// Whether to allow self-signed certificates
+  final bool allowSelfSignedCert;
+
   /// Session manager (Use only v5)
   final SecretManager sm;
 
@@ -38,6 +42,7 @@ class Server {
     bool? defaultServer,
     bool? enabled,
     String? apiVersion,
+    bool? allowSelfSignedCert,
     SecretManager? sm,
   }) {
     return Server(
@@ -46,6 +51,7 @@ class Server {
       defaultServer: defaultServer ?? this.defaultServer,
       enabled: enabled ?? this.enabled,
       apiVersion: apiVersion ?? this.apiVersion,
+      allowSelfSignedCert: allowSelfSignedCert ?? this.allowSelfSignedCert,
       sm: sm ?? this.sm,
     );
   }

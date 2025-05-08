@@ -347,6 +347,12 @@ abstract class AppLocalizations {
   /// **'Allowlist'**
   String get allowList;
 
+  /// No description provided for @allowSelfSignedCertificates.
+  ///
+  /// In en, this message translates to:
+  /// **'Allow self-signed certificates'**
+  String get allowSelfSignedCertificates;
+
   /// No description provided for @allowed.
   ///
   /// In en, this message translates to:
@@ -1058,7 +1064,7 @@ abstract class AppLocalizations {
   /// No description provided for @dontCheckCertificateDescription.
   ///
   /// In en, this message translates to:
-  /// **'Overrides the server\'s SSL certificate validation'**
+  /// **'This option will be removed in a future version. Please manage certificate verification from each server\'s settings (Settings > Servers).'**
   String get dontCheckCertificateDescription;
 
   /// No description provided for @edit.
@@ -1846,6 +1852,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'If you have an older version, please update your Pi-hole to continue using this app.'**
   String get olderVersion;
+
+  /// No description provided for @onlyAvailableWithHttps.
+  ///
+  /// In en, this message translates to:
+  /// **'Only available with HTTPS'**
+  String get onlyAvailableWithHttps;
 
   /// No description provided for @openExternalUrl.
   ///

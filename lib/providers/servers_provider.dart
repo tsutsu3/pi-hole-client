@@ -217,6 +217,7 @@ class ServersProvider with ChangeNotifier {
           alias: server.alias,
           defaultServer: convertFromIntToBool(server.isDefaultServer)!,
           apiVersion: server.apiVersion,
+          allowSelfSignedCert: server.allowSelfSignedCert,
         );
         _serversList.add(serverObj);
         _serverGateways[serverObj.address] =
