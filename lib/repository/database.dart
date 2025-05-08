@@ -89,14 +89,15 @@ class DatabaseRepository {
 
     final db = await openDatabase(
       path ?? 'pi_hole_client.db',
-      version: 4,
+      version: 5,
       onCreate: (Database db, int version) async {
         await db.execute('''
             CREATE TABLE servers (
               address TEXT PRIMARY KEY NOT NULL,
               alias TEXT NOT NULL,
               isDefaultServer NUMERIC NOT NULL,
-              apiVersion TEXT NOT NULL
+              apiVersion TEXT NOT NULL,
+              allowSelfSignedCert NUMERIC NOT NULL
             )
           ''');
         await db.execute('''
@@ -104,7 +105,6 @@ class DatabaseRepository {
               autoRefreshTime NUMERIC NOT NULL,
               theme NUMERIC NOT NULL,
               language TEXT NOT NULL,
-              overrideSslCheck NUMERIC NOT NULL,
               reducedDataCharts NUMERIC NOT NULL,
               logsPerQuery NUMERIC NOT NULL,
               useBiometricAuth NUMERIC NOT NULL,
@@ -120,7 +120,6 @@ class DatabaseRepository {
               autoRefreshTime,
               theme,
               language,
-              overrideSslCheck,
               reducedDataCharts,
               logsPerQuery,
               useBiometricAuth,
@@ -129,7 +128,7 @@ class DatabaseRepository {
               statisticsVisualizationMode,
               homeVisualizationMode,
               sendCrashReports
-            ) VALUES (5, 0, 'en', 1, 0, 2, 0, 0, 0, 0, 0, 0)
+            ) VALUES (5, 0, 'en', 0, 2, 0, 0, 0, 0, 0, 0)
           ''');
 
         await db.execute('''
@@ -168,10 +167,18 @@ class DatabaseRepository {
       onUpgrade: (Database db, int oldVersion, int newVersion) async {
         if (oldVersion == 1) {
           await _upgradeToV2(db);
+          await _upgradeToV3(db);
+          await _upgradeToV4(db);
+          await _upgradeToV5(db);
         } else if (oldVersion == 2) {
           await _upgradeToV3(db);
+          await _upgradeToV4(db);
+          await _upgradeToV5(db);
         } else if (oldVersion == 3) {
           await _upgradeToV4(db);
+          await _upgradeToV5(db);
+        } else if (oldVersion == 4) {
+          await _upgradeToV5(db);
         }
       },
       onDowngrade: (Database db, int oldVersion, int newVersion) async {},
@@ -264,6 +271,7 @@ class DatabaseRepository {
           'alias': server.alias,
           'isDefaultServer': 0,
           'apiVersion': server.apiVersion,
+          'allowSelfSignedCert': server.allowSelfSignedCert ? 1 : 0,
         });
       });
       return true;
@@ -315,6 +323,7 @@ class DatabaseRepository {
             'alias': server.alias,
             'isDefaultServer': convertFromBoolToInt(server.defaultServer),
             'apiVersion': server.apiVersion,
+            'allowSelfSignedCert': server.allowSelfSignedCert ? 1 : 0,
           },
           where: 'address = ?',
           whereArgs: [server.address],
@@ -520,7 +529,6 @@ class DatabaseRepository {
             'autoRefreshTime': 5,
             'theme': 0,
             'language': 'en',
-            'overrideSslCheck': 1,
             'reducedDataCharts': 0,
             'logsPerQuery': 2,
             'useBiometricAuth': 0,
@@ -1034,5 +1042,73 @@ class DatabaseRepository {
     await db.execute('ALTER TABLE appConfig_new RENAME TO appConfig');
 
     logger.d('Database upgraded to version 4');
+  }
+
+  Future<dynamic> _upgradeToV5(Database db) async {
+    // 1. Create a new table
+    await db.execute('''
+      CREATE TABLE servers_new (
+        address TEXT PRIMARY KEY NOT NULL,
+        alias TEXT NOT NULL,
+        isDefaultServer NUMERIC NOT NULL,
+        apiVersion TEXT NOT NULL,
+        allowSelfSignedCert NUMERIC NOT NULL
+      )
+    ''');
+    await db.execute('''
+      CREATE TABLE appConfig_new (
+        autoRefreshTime NUMERIC NOT NULL,
+        theme NUMERIC NOT NULL,
+        language TEXT NOT NULL,
+        reducedDataCharts NUMERIC NOT NULL,
+        logsPerQuery NUMERIC NOT NULL,
+        useBiometricAuth NUMERIC NOT NULL,
+        importantInfoReaden NUMERIC NOT NULL,
+        hideZeroValues NUMERIC NOT NULL,
+        statisticsVisualizationMode NUMERIC NOT NULL,
+        homeVisualizationMode NUMERIC NOT NULL,
+        sendCrashReports NUMERIC NOT NULL
+      )
+    ''');
+
+    // 2. Copy data from the old table to the new table
+    var appConfigRows = <Map<String, dynamic>>[];
+    await db.transaction((txn) async {
+      appConfigRows = await txn.rawQuery('SELECT * FROM appConfig');
+    });
+    final allowSelfSignedCert = (appConfigRows.isNotEmpty &&
+            appConfigRows[0].containsKey('overrideSslCheck'))
+        ? appConfigRows[0]['overrideSslCheck']
+        : 1; // Default to 1 if the column doesn't exist
+
+    await db.execute('''
+      INSERT INTO servers_new (
+        address, alias, isDefaultServer, apiVersion, allowSelfSignedCert)
+      SELECT
+        address, alias, isDefaultServer, apiVersion, $allowSelfSignedCert
+      FROM servers
+    ''');
+
+    await db.execute('''
+    INSERT INTO appConfig_new (autoRefreshTime, theme, language,
+      reducedDataCharts, logsPerQuery, useBiometricAuth,
+      importantInfoReaden, hideZeroValues, statisticsVisualizationMode,
+      homeVisualizationMode, sendCrashReports)
+    SELECT autoRefreshTime, theme, language,
+      reducedDataCharts, logsPerQuery, useBiometricAuth, importantInfoReaden,
+      hideZeroValues, statisticsVisualizationMode,
+      homeVisualizationMode, sendCrashReports
+    FROM appConfig
+    ''');
+
+    // 3. Drop the old table
+    await db.execute('DROP TABLE servers');
+    await db.execute('DROP TABLE appConfig');
+
+    // 4. Rename the new table to the old table
+    await db.execute('ALTER TABLE servers_new RENAME TO servers');
+    await db.execute('ALTER TABLE appConfig_new RENAME TO appConfig');
+
+    logger.d('Database upgraded to version 5');
   }
 }

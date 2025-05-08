@@ -4,7 +4,9 @@ import 'dart:io';
 
 import 'package:http/http.dart' as http;
 import 'package:http/http.dart';
+import 'package:http/io_client.dart';
 import 'package:pi_hole_client/functions/logger.dart';
+import 'package:pi_hole_client/functions/misc.dart';
 import 'package:pi_hole_client/gateways/api_gateway_interface.dart';
 import 'package:pi_hole_client/models/api/v6/auth/auth.dart' show Session;
 import 'package:pi_hole_client/models/api/v6/dns/dns.dart' show Blocking;
@@ -48,7 +50,10 @@ class ApiGatewayV6 implements ApiGateway {
   /// - `client` (`http.Client`): An optional HTTP client to use for requests. If not provided, a new client will be created. Add for testing purposes.
   ApiGatewayV6(Server server, {http.Client? client})
       : _server = server,
-        _client = client ?? http.Client();
+        _client = client ??
+            IOClient(
+              createHttpClient(allowSelfSignedCert: server.allowSelfSignedCert),
+            );
   final Server _server;
   final http.Client _client;
 

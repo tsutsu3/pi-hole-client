@@ -18,7 +18,6 @@ class AppConfigProvider with ChangeNotifier {
   PackageInfo? _appInfo;
   int? _autoRefreshTime = 2; // secounds
   int _selectedTheme = 0;
-  int _overrideSslCheck = 1;
   int _reducedDataCharts = 0;
   double _logsPerQuery = 2; //hours
   String? _passCode;
@@ -91,10 +90,6 @@ class AppConfigProvider with ChangeNotifier {
       orElse: () => languageOptions.firstWhere((option) => option.key == 'en'),
     );
     return selectedLanguageOption.index;
-  }
-
-  bool get overrideSslCheck {
-    return _overrideSslCheck == 0 ? false : true;
   }
 
   bool get reducedDataCharts {
@@ -322,7 +317,6 @@ class AppConfigProvider with ChangeNotifier {
     _autoRefreshTime = dbData.autoRefreshTime;
     _selectedTheme = dbData.theme;
     _selectedLanguage = dbData.language;
-    _overrideSslCheck = dbData.overrideSslCheck;
     _reducedDataCharts = dbData.reducedDataCharts;
     _logsPerQuery = dbData.logsPerQuery;
     _passCode = dbData.passCode;
@@ -338,20 +332,6 @@ class AppConfigProvider with ChangeNotifier {
     }
 
     notifyListeners();
-  }
-
-  Future<bool> setOverrideSslCheck(bool status) async {
-    final updated = await _repository.updateConfigQuery(
-      column: 'overrideSslCheck',
-      value: status == true ? 1 : 0,
-    );
-    if (updated == true) {
-      _overrideSslCheck = status == true ? 1 : 0;
-      notifyListeners();
-      return true;
-    } else {
-      return false;
-    }
   }
 
   Future<bool> setReducedDataCharts(bool status) async {
@@ -440,7 +420,6 @@ class AppConfigProvider with ChangeNotifier {
       _autoRefreshTime = 5;
       _selectedTheme = 0;
       _selectedLanguage = 'en';
-      _overrideSslCheck = 1;
       _reducedDataCharts = 0;
       _logsPerQuery = 2;
       _passCode = null;

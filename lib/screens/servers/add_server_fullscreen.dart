@@ -47,6 +47,7 @@ class _AddServerFullscreenState extends State<AddServerFullscreen> {
   ConnectionType connectionType = ConnectionType.http;
   String piHoleVersion = SupportedApiVersions.v6;
   bool defaultCheckbox = false;
+  bool allowSelfSignedCert = true;
 
   String? errorUrl;
   bool allDataValid = false;
@@ -78,6 +79,7 @@ class _AddServerFullscreenState extends State<AddServerFullscreen> {
           : ConnectionType.http;
       piHoleVersion = widget.server!.apiVersion;
       defaultCheckbox = widget.server!.defaultServer;
+      allowSelfSignedCert = widget.server!.allowSelfSignedCert;
       _loadSecrets();
     }
   }
@@ -280,6 +282,7 @@ class _AddServerFullscreenState extends State<AddServerFullscreen> {
           alias: aliasFieldController.text,
           defaultServer: false,
           apiVersion: piHoleVersion,
+          allowSelfSignedCert: allowSelfSignedCert,
         );
         await serverObj.sm.savePassword(passwordFieldController.text);
         await serverObj.sm.saveToken(tokenFieldController.text);
@@ -300,6 +303,7 @@ class _AddServerFullscreenState extends State<AddServerFullscreen> {
               defaultServer: defaultCheckbox,
               apiVersion: piHoleVersion,
               enabled: result!.status == 'enabled' ? true : false,
+              allowSelfSignedCert: allowSelfSignedCert,
               sm: serverObj.sm,
             ),
           );
@@ -338,6 +342,7 @@ class _AddServerFullscreenState extends State<AddServerFullscreen> {
         alias: aliasFieldController.text,
         defaultServer: false,
         apiVersion: piHoleVersion,
+        allowSelfSignedCert: allowSelfSignedCert,
       );
       await serverObj.sm.savePassword(passwordFieldController.text);
       await serverObj.sm.saveToken(tokenFieldController.text);
@@ -350,6 +355,7 @@ class _AddServerFullscreenState extends State<AddServerFullscreen> {
           alias: aliasFieldController.text,
           defaultServer: defaultCheckbox,
           apiVersion: piHoleVersion,
+          allowSelfSignedCert: allowSelfSignedCert,
         );
         await server.sm.savePassword(passwordFieldController.text);
         await server.sm.saveToken(tokenFieldController.text);
@@ -635,6 +641,24 @@ class _AddServerFullscreenState extends State<AddServerFullscreen> {
                               AppLocalizations.of(context)!.subrouteExample,
                           helperText:
                               AppLocalizations.of(context)!.subrouteHelper,
+                        ),
+                      ),
+                      const SizedBox(height: 12),
+                      CheckboxListTile(
+                        contentPadding: const EdgeInsets.only(right: 8),
+                        enabled: widget.server != null ? false : true,
+                        value: allowSelfSignedCert,
+                        onChanged: connectionType == ConnectionType.https
+                            ? (v) => setState(() => allowSelfSignedCert = v!)
+                            : null,
+                        title: Text(
+                          AppLocalizations.of(context)!
+                              .allowSelfSignedCertificates,
+                        ),
+                        subtitle: Text(
+                          AppLocalizations.of(context)!.onlyAvailableWithHttps,
+                          style:
+                              const TextStyle(fontSize: 12, color: Colors.grey),
                         ),
                       ),
                       const SizedBox(height: 20),

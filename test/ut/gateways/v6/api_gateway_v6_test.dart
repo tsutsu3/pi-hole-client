@@ -121,12 +121,86 @@ void main() async {
         alias: 'example',
         defaultServer: true,
         apiVersion: SupportedApiVersions.v6,
+        allowSelfSignedCert: true,
         sm: SecretManagerMock(sessinId, 'xxx123'),
       );
     });
     test('Return success with valid password', () async {
       final mockClient = MockClient();
       final apiGateway = ApiGatewayV6(server, client: mockClient);
+
+      when(
+        mockClient.post(
+          Uri.parse(urls[0]),
+          headers: anyNamed('headers'),
+          body: anyNamed('body'),
+        ),
+      ).thenAnswer(
+        (_) async => http.Response(
+          jsonEncode({
+            'session': {
+              'valid': true,
+              'totp': false,
+              'sid': 'n9n9f6c3umrumfq2ese1lvu2pg',
+              'csrf': 'Ux87YTIiMOf/GKCefVIOMw=',
+              'validity': 300,
+              'message': 'correct password',
+            },
+            'took': 0.039638996124267578,
+          }),
+          200,
+        ),
+      );
+
+      var callCount = 0;
+
+      when(
+        mockClient.get(
+          Uri.parse(urls[1]),
+          headers: anyNamed('headers'),
+        ),
+      ).thenAnswer((_) async {
+        callCount++;
+        if (callCount == 1) {
+          return http.Response(
+            jsonEncode({
+              'error': {
+                'key': 'unauthorized',
+                'message': 'Unauthorized',
+                'hint': null,
+              },
+              'took': 4.1484832763671875e-05,
+            }),
+            401,
+          );
+        } else {
+          // 2回目以降の呼び出し: 正常なレスポンスを返す
+          return http.Response(
+            jsonEncode({'blocking': 'enabled', 'timer': null, 'took': 0.003}),
+            200,
+          );
+        }
+      });
+
+      final response = await apiGateway.loginQuery();
+
+      expect(response.result, APiResponseType.success);
+      expect(response.sid, sessinId);
+      expect(response.status, 'enabled');
+      expect(response.log, isNull);
+    });
+
+    test('Return success with valid password (no self signed cert)', () async {
+      final server2 = Server(
+        address: 'http://example.com',
+        alias: 'example',
+        defaultServer: true,
+        apiVersion: SupportedApiVersions.v6,
+        allowSelfSignedCert: false,
+        sm: SecretManagerMock(sessinId, 'xxx123'),
+      );
+      final mockClient = MockClient();
+      final apiGateway = ApiGatewayV6(server2, client: mockClient);
 
       when(
         mockClient.post(
@@ -501,6 +575,7 @@ void main() async {
         alias: 'example',
         defaultServer: true,
         apiVersion: SupportedApiVersions.v6,
+        allowSelfSignedCert: true,
       );
       server.sm.savePassword('xxx123');
     });
@@ -732,6 +807,7 @@ void main() async {
         alias: 'example',
         defaultServer: true,
         apiVersion: SupportedApiVersions.v6,
+        allowSelfSignedCert: true,
       );
       server.sm.savePassword('xxx123');
     });
@@ -783,6 +859,7 @@ void main() async {
         alias: 'example',
         defaultServer: true,
         apiVersion: SupportedApiVersions.v6,
+        allowSelfSignedCert: true,
       );
     });
 
@@ -835,6 +912,7 @@ void main() async {
         alias: 'example',
         defaultServer: true,
         apiVersion: SupportedApiVersions.v6,
+        allowSelfSignedCert: true,
       );
     });
 
@@ -931,6 +1009,7 @@ void main() async {
         alias: 'example',
         defaultServer: true,
         apiVersion: SupportedApiVersions.v6,
+        allowSelfSignedCert: true,
       );
     });
 
@@ -1011,6 +1090,7 @@ void main() async {
         alias: 'example',
         defaultServer: true,
         apiVersion: SupportedApiVersions.v6,
+        allowSelfSignedCert: true,
       );
     });
 
@@ -1177,6 +1257,7 @@ void main() async {
         alias: 'example',
         defaultServer: true,
         apiVersion: SupportedApiVersions.v6,
+        allowSelfSignedCert: true,
       );
     });
 
@@ -1245,6 +1326,7 @@ void main() async {
         alias: 'example',
         defaultServer: true,
         apiVersion: SupportedApiVersions.v6,
+        allowSelfSignedCert: true,
       );
     });
 
@@ -1307,6 +1389,7 @@ void main() async {
         alias: 'example',
         defaultServer: true,
         apiVersion: SupportedApiVersions.v6,
+        allowSelfSignedCert: true,
       );
     });
 
@@ -1491,6 +1574,7 @@ void main() async {
         alias: 'example',
         defaultServer: true,
         apiVersion: SupportedApiVersions.v6,
+        allowSelfSignedCert: true,
       );
       server.sm.savePassword('xxx123');
     });
@@ -1620,6 +1704,7 @@ void main() async {
         alias: 'example',
         defaultServer: true,
         apiVersion: SupportedApiVersions.v6,
+        allowSelfSignedCert: true,
       );
       server.sm.savePassword('xxx123');
     });
@@ -1749,6 +1834,7 @@ void main() async {
         alias: 'example',
         defaultServer: true,
         apiVersion: SupportedApiVersions.v6,
+        allowSelfSignedCert: true,
       );
       server.sm.savePassword('xxx123');
     });
@@ -1807,6 +1893,7 @@ void main() async {
         alias: 'example',
         defaultServer: true,
         apiVersion: SupportedApiVersions.v6,
+        allowSelfSignedCert: true,
       );
       server.sm.savePassword('xxx123');
     });
@@ -1910,6 +1997,7 @@ void main() async {
         alias: 'example',
         defaultServer: true,
         apiVersion: SupportedApiVersions.v6,
+        allowSelfSignedCert: true,
       );
       server.sm.savePassword('xxx123');
     });
@@ -2092,6 +2180,7 @@ void main() async {
         alias: 'example',
         defaultServer: true,
         apiVersion: SupportedApiVersions.v6,
+        allowSelfSignedCert: true,
       );
       server.sm.savePassword('xxx123');
     });
@@ -2277,6 +2366,7 @@ void main() async {
         alias: 'example',
         defaultServer: true,
         apiVersion: SupportedApiVersions.v6,
+        allowSelfSignedCert: true,
       );
       server.sm.savePassword('xxx123');
     });
@@ -2436,6 +2526,7 @@ void main() async {
         alias: 'example',
         defaultServer: true,
         apiVersion: SupportedApiVersions.v6,
+        allowSelfSignedCert: true,
       );
       server.sm.savePassword('xxx123');
     });
@@ -2587,6 +2678,7 @@ void main() async {
         alias: 'example',
         defaultServer: true,
         apiVersion: SupportedApiVersions.v6,
+        allowSelfSignedCert: true,
       );
       server.sm.savePassword('xxx123');
     });
@@ -2763,6 +2855,7 @@ void main() async {
         alias: 'example',
         defaultServer: true,
         apiVersion: SupportedApiVersions.v6,
+        allowSelfSignedCert: true,
       );
       server.sm.savePassword('xxx123');
     });
@@ -2897,6 +2990,7 @@ void main() async {
         alias: 'example',
         defaultServer: true,
         apiVersion: SupportedApiVersions.v6,
+        allowSelfSignedCert: true,
       );
       server.sm.savePassword('xxx123');
     });
@@ -3081,6 +3175,7 @@ void main() async {
         alias: 'example',
         defaultServer: true,
         apiVersion: SupportedApiVersions.v6,
+        allowSelfSignedCert: true,
       );
       server.sm.savePassword('xxx123');
     });
@@ -3194,6 +3289,7 @@ void main() async {
         alias: 'example',
         defaultServer: true,
         apiVersion: SupportedApiVersions.v6,
+        allowSelfSignedCert: true,
       );
       server.sm.savePassword('xxx123');
     });
@@ -3305,6 +3401,7 @@ void main() async {
         alias: 'example',
         defaultServer: true,
         apiVersion: SupportedApiVersions.v6,
+        allowSelfSignedCert: true,
       );
       server.sm.savePassword('xxx123');
     });
@@ -3403,6 +3500,7 @@ void main() async {
         alias: 'example',
         defaultServer: true,
         apiVersion: SupportedApiVersions.v6,
+        allowSelfSignedCert: true,
       );
       server.sm.savePassword('xxx123');
     });

@@ -58,6 +58,7 @@ final serverV5 = Server(
   defaultServer: false,
   apiVersion: 'v5',
   enabled: false,
+  allowSelfSignedCert: true,
 );
 
 final serverV6 = Server(
@@ -66,6 +67,7 @@ final serverV6 = Server(
   defaultServer: false,
   apiVersion: 'v6',
   enabled: true,
+  allowSelfSignedCert: true,
 );
 
 final domains = [
@@ -1158,15 +1160,12 @@ class TestSetupHelper {
     when(mockConfigProvider.logsPerQuery).thenReturn(2);
     when(mockConfigProvider.passCode).thenReturn(null);
     when(mockConfigProvider.useBiometrics).thenReturn(false);
-    when(mockConfigProvider.overrideSslCheck).thenReturn(true);
     when(mockConfigProvider.reducedDataCharts).thenReturn(false);
     when(mockConfigProvider.hideZeroValues).thenReturn(false);
     when(mockConfigProvider.selectedTheme).thenReturn(ThemeMode.light);
     when(mockConfigProvider.statisticsVisualizationMode).thenReturn(0);
     when(mockConfigProvider.homeVisualizationMode).thenReturn(0);
     when(mockConfigProvider.setShowingSnackbar(any)).thenReturn(null);
-    when(mockConfigProvider.setOverrideSslCheck(any))
-        .thenAnswer((_) async => true);
     when(mockConfigProvider.setReducedDataCharts(any))
         .thenAnswer((_) async => true);
     when(mockConfigProvider.setHideZeroValues(any))

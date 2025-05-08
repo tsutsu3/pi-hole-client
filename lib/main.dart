@@ -11,7 +11,6 @@ import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_phoenix/flutter_phoenix.dart';
 import 'package:local_auth/local_auth.dart';
 import 'package:package_info_plus/package_info_plus.dart';
-import 'package:pi_hole_client/classes/http_override.dart';
 import 'package:pi_hole_client/functions/logger.dart';
 import 'package:pi_hole_client/pi_hole_client.dart';
 import 'package:pi_hole_client/providers/app_config_provider.dart';
@@ -73,11 +72,6 @@ void main() async {
     appConfigProvider: configProvider,
     filtersProvider: filtersProvider,
   );
-
-  // TODO: Allow configuration per server
-  if (dbRepository.appConfig.overrideSslCheck == 1) {
-    HttpOverrides.global = MyHttpOverrides();
-  }
 
   configProvider.saveFromDb(dbRepository.appConfig);
   await serversProvider.saveFromDb(dbRepository.servers);

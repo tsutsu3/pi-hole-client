@@ -25,6 +25,7 @@ void main() {
           alias: 'test v5',
           defaultServer: false,
           apiVersion: 'v5',
+          allowSelfSignedCert: true,
         ),
       );
 
@@ -59,6 +60,7 @@ void main() {
           alias: 'test v6',
           defaultServer: false,
           apiVersion: 'v6',
+          allowSelfSignedCert: true,
         ),
       );
       filtersProvider.update(mockServersProvider);
@@ -199,6 +201,7 @@ void main() {
           alias: 'test v6',
           defaultServer: false,
           apiVersion: 'v6',
+          allowSelfSignedCert: true,
         ),
       );
 
