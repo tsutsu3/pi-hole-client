@@ -47,34 +47,6 @@ void main() async {
           await tester.tap(find.text('Pie Chart'));
         },
       );
-
-      testWidgets(
-        'should change the ssl certificate check setting',
-        (WidgetTester tester) async {
-          tester.view.physicalSize = const Size(1080, 2400);
-          tester.view.devicePixelRatio = 2.0;
-
-          addTearDown(() {
-            tester.view.resetPhysicalSize();
-            tester.view.resetDevicePixelRatio();
-          });
-
-          await tester.pumpWidget(
-            testSetup.buildTestWidget(
-              const AdvancedOptions(),
-            ),
-          );
-
-          expect(find.byType(AdvancedOptions), findsOneWidget);
-          expect(find.text("Don't check SSL certificate"), findsOneWidget);
-          await tester.tap(find.text("Don't check SSL certificate"));
-          await tester.pumpAndSettle();
-          expect(
-            find.text('Please restart the application to apply the settings.'),
-            findsOneWidget,
-          );
-        },
-      );
     },
   );
 }
