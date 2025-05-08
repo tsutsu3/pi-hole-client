@@ -1076,7 +1076,10 @@ class DatabaseRepository {
     await db.transaction((txn) async {
       appConfigRows = await txn.rawQuery('SELECT * FROM appConfig');
     });
-    final allowSelfSignedCert = appConfigRows[0]['overrideSslCheck'];
+    final allowSelfSignedCert = (appConfigRows.isNotEmpty &&
+            appConfigRows[0].containsKey('overrideSslCheck'))
+        ? appConfigRows[0]['overrideSslCheck']
+        : 1; // Default to 1 if the column doesn't exist
 
     await db.execute('''
       INSERT INTO servers_new (
