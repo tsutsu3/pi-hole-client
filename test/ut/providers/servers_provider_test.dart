@@ -34,6 +34,7 @@ void main() async {
       alias: 'test v6',
       defaultServer: false,
       apiVersion: 'v6',
+      allowSelfSignedCert: true,
     );
 
     setUp(() {
@@ -192,6 +193,7 @@ void main() async {
           isDefaultServer: 1,
           apiVersion: server.apiVersion,
           sid: 'sid01',
+          allowSelfSignedCert: server.allowSelfSignedCert,
         ),
       ];
 

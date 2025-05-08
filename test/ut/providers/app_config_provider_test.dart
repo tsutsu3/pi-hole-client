@@ -40,7 +40,6 @@ void main() {
       expect(appConfigProvider.selectedTab, 0);
       expect(appConfigProvider.getAutoRefreshTime, 2);
       expect(appConfigProvider.selectedThemeNumber, 0);
-      expect(appConfigProvider.overrideSslCheck, true);
       expect(appConfigProvider.reducedDataCharts, false);
       expect(appConfigProvider.logsPerQuery, 2);
       expect(appConfigProvider.passCode, null);
@@ -218,7 +217,6 @@ void main() {
           autoRefreshTime: 5,
           theme: 1,
           language: 'ja',
-          overrideSslCheck: 1,
           reducedDataCharts: 1,
           logsPerQuery: 5,
           passCode: '9999',
@@ -234,7 +232,6 @@ void main() {
         expect(appConfigProvider.getAutoRefreshTime, 5);
         expect(appConfigProvider.selectedThemeNumber, 1);
         expect(appConfigProvider.selectedLanguage, 'ja');
-        expect(appConfigProvider.overrideSslCheck, true);
         expect(appConfigProvider.reducedDataCharts, true);
         expect(appConfigProvider.logsPerQuery, 5);
         expect(appConfigProvider.passCode, '9999');
@@ -249,7 +246,6 @@ void main() {
           'autoRefreshTime': 5,
           'theme': 1,
           'language': 'ja',
-          'overrideSslCheck': 1,
           'reducedDataCharts': 1,
           'logsPerQuery': 5,
           'passCode': '9999',
@@ -262,19 +258,6 @@ void main() {
         });
       },
     );
-
-    test('setOverrideSslCheck updates value and notifies listeners', () async {
-      when(
-        mockDatabaseRepository.updateConfigQuery(
-          column: 'overrideSslCheck',
-          value: 1,
-        ),
-      ).thenAnswer((_) async => true);
-      final result = await appConfigProvider.setOverrideSslCheck(true);
-      expect(result, true);
-      expect(appConfigProvider.overrideSslCheck, true);
-      expect(listenerCalled, true);
-    });
 
     test('setReducedDataCharts updates value and notifies listeners', () async {
       when(
@@ -371,7 +354,6 @@ void main() {
           appConfigProvider.selectedLanguage,
           SchedulerBinding.instance.platformDispatcher.locale.languageCode,
         );
-        expect(appConfigProvider.overrideSslCheck, true);
         expect(appConfigProvider.reducedDataCharts, false);
         expect(appConfigProvider.logsPerQuery, 2);
         expect(appConfigProvider.passCode, null);

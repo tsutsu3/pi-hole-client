@@ -44,12 +44,90 @@ void main() async {
         alias: 'example',
         defaultServer: true,
         apiVersion: SupportedApiVersions.v5,
+        allowSelfSignedCert: true,
       );
       await server.sm.saveToken('xxx123');
     });
     test('Return success with valid auth token', () async {
       final mockClient = MockClient();
       final apiGateway = ApiGatewayV5(server, client: mockClient);
+
+      when(mockClient.get(Uri.parse(url), headers: {})).thenAnswer(
+        (_) async => http.Response(
+          jsonEncode({
+            'domains_being_blocked': 121,
+            'dns_queries_today': 12,
+            'ads_blocked_today': 1,
+            'ads_percentage_today': 8.333333,
+            'unique_domains': 11,
+            'queries_forwarded': 9,
+            'queries_cached': 2,
+            'clients_ever_seen': 2,
+            'unique_clients': 2,
+            'dns_queries_all_types': 12,
+            'reply_UNKNOWN': 0,
+            'reply_NODATA': 0,
+            'reply_NXDOMAIN': 1,
+            'reply_CNAME': 0,
+            'reply_IP': 10,
+            'reply_DOMAIN': 1,
+            'reply_RRNAME': 0,
+            'reply_SERVFAIL': 0,
+            'reply_REFUSED': 0,
+            'reply_NOTIMP': 0,
+            'reply_OTHER': 0,
+            'reply_DNSSEC': 0,
+            'reply_NONE': 0,
+            'reply_BLOB': 0,
+            'dns_queries_all_replies': 12,
+            'privacy_level': 0,
+            'status': 'enabled',
+            'gravity_last_updated': {
+              'file_exists': true,
+              'absolute': 17329,
+              'relative': {'days': 4, 'hours': 23, 'minutes': 41},
+            },
+          }),
+          200,
+        ),
+      );
+
+      when(
+        mockClient.get(
+          Uri.parse('http://example.com/admin/api.php?auth=xxx123&enable=0'),
+          headers: {},
+        ),
+      ).thenAnswer(
+        (_) async => http.Response(
+          jsonEncode({'status': 'enabled'}),
+          200,
+          headers: {
+            'set-cookie': 'sid=$sessinId; path=/; HttpOnly; SameSite=Strict',
+          },
+        ),
+      );
+
+      final response = await apiGateway.loginQuery();
+
+      expect(response.result, APiResponseType.success);
+      expect(response.sid, sessinId);
+      expect(response.status, 'enabled');
+      expect(response.log, isNull);
+    });
+
+    test('Return success with valid auth token (not use self signed cert)',
+        () async {
+      final server2 = Server(
+        address: 'http://example.com',
+        alias: 'example',
+        defaultServer: true,
+        apiVersion: SupportedApiVersions.v5,
+        allowSelfSignedCert: false,
+      );
+      await server2.sm.saveToken('xxx123');
+
+      final mockClient = MockClient();
+      final apiGateway = ApiGatewayV5(server2, client: mockClient);
 
       when(mockClient.get(Uri.parse(url), headers: {})).thenAnswer(
         (_) async => http.Response(
@@ -230,6 +308,7 @@ void main() async {
         alias: 'example',
         defaultServer: true,
         apiVersion: SupportedApiVersions.v5,
+        allowSelfSignedCert: true,
       );
       await server.sm.saveToken('xxx123');
     });
@@ -343,6 +422,7 @@ void main() async {
         alias: 'example',
         defaultServer: true,
         apiVersion: SupportedApiVersions.v5,
+        allowSelfSignedCert: true,
       );
       await server.sm.saveToken('xxx123');
     });
@@ -384,6 +464,7 @@ void main() async {
         alias: 'example',
         defaultServer: true,
         apiVersion: SupportedApiVersions.v5,
+        allowSelfSignedCert: true,
       );
       await server.sm.saveToken('xxx123');
     });
@@ -426,6 +507,7 @@ void main() async {
         alias: 'example',
         defaultServer: true,
         apiVersion: SupportedApiVersions.v5,
+        allowSelfSignedCert: true,
       );
       await server.sm.saveToken('xxx123');
     });
@@ -911,6 +993,7 @@ void main() async {
         alias: 'example',
         defaultServer: true,
         apiVersion: SupportedApiVersions.v5,
+        allowSelfSignedCert: true,
       );
       await server.sm.saveToken('xxx123');
     });
@@ -988,6 +1071,7 @@ void main() async {
         alias: 'example',
         defaultServer: true,
         apiVersion: SupportedApiVersions.v5,
+        allowSelfSignedCert: true,
       );
       await server.sm.saveToken('xxx123');
     });
@@ -1072,6 +1156,7 @@ void main() async {
         alias: 'example',
         defaultServer: true,
         apiVersion: SupportedApiVersions.v5,
+        allowSelfSignedCert: true,
       );
       await server.sm.saveToken('xxx123');
     });
@@ -1151,6 +1236,7 @@ void main() async {
         alias: 'example',
         defaultServer: true,
         apiVersion: SupportedApiVersions.v5,
+        allowSelfSignedCert: true,
       );
       await server.sm.saveToken('xxx123');
     });
@@ -1215,6 +1301,7 @@ void main() async {
         alias: 'example',
         defaultServer: true,
         apiVersion: SupportedApiVersions.v5,
+        allowSelfSignedCert: true,
       );
       await server.sm.saveToken('xxx123');
     });
@@ -1294,6 +1381,7 @@ void main() async {
         alias: 'example',
         defaultServer: true,
         apiVersion: SupportedApiVersions.v5,
+        allowSelfSignedCert: true,
       );
       await server.sm.saveToken('xxx123');
     });
@@ -1318,6 +1406,7 @@ void main() async {
         alias: 'example',
         defaultServer: true,
         apiVersion: SupportedApiVersions.v5,
+        allowSelfSignedCert: true,
       );
       await server.sm.saveToken('xxx123');
     });
@@ -1342,6 +1431,7 @@ void main() async {
         alias: 'example',
         defaultServer: true,
         apiVersion: SupportedApiVersions.v5,
+        allowSelfSignedCert: true,
       );
       await server.sm.saveToken('xxx123');
     });
@@ -1366,6 +1456,7 @@ void main() async {
         alias: 'example',
         defaultServer: true,
         apiVersion: SupportedApiVersions.v5,
+        allowSelfSignedCert: true,
       );
       await server.sm.saveToken('xxx123');
     });
@@ -1407,6 +1498,7 @@ void main() async {
         alias: 'example',
         defaultServer: true,
         apiVersion: SupportedApiVersions.v5,
+        allowSelfSignedCert: true,
       );
       await server.sm.saveToken('xxx123');
     });
@@ -1519,6 +1611,7 @@ void main() async {
         alias: 'example',
         defaultServer: true,
         apiVersion: SupportedApiVersions.v5,
+        allowSelfSignedCert: true,
       );
       await server.sm.saveToken('xxx123');
     });
@@ -1563,6 +1656,7 @@ void main() async {
         alias: 'example',
         defaultServer: true,
         apiVersion: SupportedApiVersions.v5,
+        allowSelfSignedCert: true,
       );
       await server.sm.saveToken('xxx123');
     });
@@ -1587,6 +1681,7 @@ void main() async {
         alias: 'example',
         defaultServer: true,
         apiVersion: SupportedApiVersions.v5,
+        allowSelfSignedCert: true,
       );
       await server.sm.saveToken('xxx123');
     });
@@ -1613,6 +1708,7 @@ void main() async {
         alias: 'example',
         defaultServer: true,
         apiVersion: SupportedApiVersions.v5,
+        allowSelfSignedCert: true,
       );
       await server.sm.saveToken('xxx123');
     });
@@ -1643,6 +1739,7 @@ void main() async {
         alias: 'example',
         defaultServer: true,
         apiVersion: SupportedApiVersions.v5,
+        allowSelfSignedCert: true,
       );
       await server.sm.saveToken('xxx123');
     });
@@ -1673,6 +1770,7 @@ void main() async {
         alias: 'example',
         defaultServer: true,
         apiVersion: SupportedApiVersions.v5,
+        allowSelfSignedCert: true,
       );
       await server.sm.saveToken('xxx123');
     });
@@ -1699,6 +1797,7 @@ void main() async {
         alias: 'example',
         defaultServer: true,
         apiVersion: SupportedApiVersions.v5,
+        allowSelfSignedCert: true,
       );
       await server.sm.saveToken('xxx123');
     });
@@ -1723,6 +1822,7 @@ void main() async {
         alias: 'example',
         defaultServer: true,
         apiVersion: SupportedApiVersions.v5,
+        allowSelfSignedCert: true,
       );
       await server.sm.saveToken('xxx123');
     });
@@ -1749,6 +1849,7 @@ void main() async {
         alias: 'example',
         defaultServer: true,
         apiVersion: SupportedApiVersions.v5,
+        allowSelfSignedCert: true,
       );
       await server.sm.saveToken('xxx123');
     });
@@ -1775,6 +1876,7 @@ void main() async {
         alias: 'example',
         defaultServer: true,
         apiVersion: SupportedApiVersions.v5,
+        allowSelfSignedCert: true,
       );
       await server.sm.saveToken('xxx123');
     });
@@ -1801,6 +1903,7 @@ void main() async {
         alias: 'example',
         defaultServer: true,
         apiVersion: SupportedApiVersions.v5,
+        allowSelfSignedCert: true,
       );
       await server.sm.saveToken('xxx123');
     });
@@ -1826,6 +1929,7 @@ void main() async {
         alias: 'example',
         defaultServer: true,
         apiVersion: SupportedApiVersions.v5,
+        allowSelfSignedCert: true,
       );
       await server.sm.saveToken('xxx123');
     });
@@ -1850,6 +1954,7 @@ void main() async {
         alias: 'example',
         defaultServer: true,
         apiVersion: SupportedApiVersions.v5,
+        allowSelfSignedCert: true,
       );
       await server.sm.saveToken('xxx123');
     });

@@ -14,14 +14,15 @@ class DbHelper {
   Future<Database> loadDb() async {
     return _db = await openDatabase(
       _path,
-      version: 3,
+      version: 5,
       onCreate: (Database db, int version) async {
         await db.execute('''
             CREATE TABLE servers (
               address TEXT PRIMARY KEY NOT NULL,
               alias TEXT NOT NULL,
               isDefaultServer NUMERIC NOT NULL,
-              apiVersion TEXT NOT NULL
+              apiVersion TEXT NOT NULL,
+              allowSelfSignedCert NUMERIC NOT NULL
             )
           ''');
         await db.execute('''
@@ -29,7 +30,6 @@ class DbHelper {
               autoRefreshTime NUMERIC NOT NULL,
               theme NUMERIC NOT NULL,
               language TEXT NOT NULL,
-              overrideSslCheck NUMERIC NOT NULL,
               reducedDataCharts NUMERIC NOT NULL,
               logsPerQuery NUMERIC NOT NULL,
               useBiometricAuth NUMERIC NOT NULL,
@@ -45,7 +45,6 @@ class DbHelper {
               autoRefreshTime,
               theme,
               language,
-              overrideSslCheck,
               reducedDataCharts,
               logsPerQuery,
               useBiometricAuth,
@@ -54,7 +53,7 @@ class DbHelper {
               statisticsVisualizationMode,
               homeVisualizationMode,
               sendCrashReports
-            ) VALUES (5, 0, 'en', 1, 0, 2, 0, 0, 0, 0, 0, 0)
+            ) VALUES (5, 0, 'en', 0, 2, 0, 0, 0, 0, 0, 0)
           ''');
         await db.execute('''
             CREATE TABLE gravity_updates (
@@ -120,6 +119,7 @@ class DbHelper {
           'alias': server.alias,
           'isDefaultServer': 0,
           'apiVersion': server.apiVersion,
+          'allowSelfSignedCert': server.allowSelfSignedCert ? 1 : 0,
         });
       });
       return true;

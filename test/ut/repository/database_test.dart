@@ -53,7 +53,6 @@ void main() async {
       expect(appConfig.autoRefreshTime, 5);
       expect(appConfig.theme, 0);
       expect(appConfig.language, 'en');
-      expect(appConfig.overrideSslCheck, 1);
       expect(appConfig.reducedDataCharts, 0);
       expect(appConfig.logsPerQuery, 2);
       expect(appConfig.passCode, isNull);
@@ -77,7 +76,6 @@ void main() async {
       expect(appConfig.autoRefreshTime, 5);
       expect(appConfig.theme, 0);
       expect(appConfig.language, 'en');
-      expect(appConfig.overrideSslCheck, 1);
       expect(appConfig.reducedDataCharts, 0);
       expect(appConfig.logsPerQuery, 2);
       expect(appConfig.passCode, isNull);
@@ -92,6 +90,7 @@ void main() async {
         alias: 'test v6',
         defaultServer: false,
         apiVersion: 'v6',
+        allowSelfSignedCert: true,
         sm: SecretManager(
           secureStorageRepository,
           'http://localhost:8080',
@@ -120,7 +119,6 @@ void main() async {
       expect(appConfig.autoRefreshTime, 5);
       expect(appConfig.theme, 0);
       expect(appConfig.language, 'en');
-      expect(appConfig.overrideSslCheck, 1);
       expect(appConfig.reducedDataCharts, 0);
       expect(appConfig.logsPerQuery, 2);
       expect(appConfig.passCode, isNull);
@@ -135,6 +133,7 @@ void main() async {
         alias: 'test v6',
         defaultServer: false,
         apiVersion: 'v6',
+        allowSelfSignedCert: true,
         sm: SecretManager(
           secureStorageRepository,
           'http://localhost:8080',
@@ -164,7 +163,6 @@ void main() async {
       expect(appConfig.autoRefreshTime, 5);
       expect(appConfig.theme, 0);
       expect(appConfig.language, 'en');
-      expect(appConfig.overrideSslCheck, 1);
       expect(appConfig.reducedDataCharts, 0);
       expect(appConfig.logsPerQuery, 2);
       expect(appConfig.passCode, '9999');
@@ -199,6 +197,7 @@ void main() async {
           alias: 'test v5',
           defaultServer: false,
           apiVersion: 'v5',
+          allowSelfSignedCert: true,
         );
         await server.sm.saveToken('token123');
 
@@ -228,6 +227,7 @@ void main() async {
           alias: 'test v6',
           defaultServer: false,
           apiVersion: 'v6',
+          allowSelfSignedCert: true,
         );
         await server.sm.savePassword('password01');
 
@@ -270,6 +270,7 @@ void main() async {
         alias: 'test v5',
         defaultServer: false,
         apiVersion: 'v5',
+        allowSelfSignedCert: true,
         sm: SecretManager(
           secureStorage,
           'http://localhost:8080',
@@ -281,6 +282,7 @@ void main() async {
         alias: 'test v6',
         defaultServer: false,
         apiVersion: 'v6',
+        allowSelfSignedCert: true,
         sm: SecretManager(
           secureStorage,
           'http://localhost:8081',
@@ -379,6 +381,7 @@ void main() async {
         alias: 'test v5',
         defaultServer: false,
         apiVersion: 'v5',
+        allowSelfSignedCert: true,
       );
 
       defaultServerV6 = Server(
@@ -386,6 +389,7 @@ void main() async {
         alias: 'test v6',
         defaultServer: false,
         apiVersion: 'v6',
+        allowSelfSignedCert: true,
         sm: SecretManager(
           secureStorage,
           'http://localhost:8081',
@@ -472,6 +476,7 @@ void main() async {
         alias: 'test v6',
         defaultServer: false,
         apiVersion: 'v6',
+        allowSelfSignedCert: true,
         sm: SecretManager(
           secureStorage,
           'http://localhost:8081',
@@ -548,6 +553,7 @@ void main() async {
         alias: 'test v6',
         defaultServer: false,
         apiVersion: 'v6',
+        allowSelfSignedCert: true,
         sm: SecretManager(
           secureStorage,
           'http://localhost:8081',
@@ -602,6 +608,7 @@ void main() async {
         alias: 'test v6',
         defaultServer: false,
         apiVersion: 'v6',
+        allowSelfSignedCert: true,
         sm: SecretManager(
           secureStorage,
           'http://localhost:8081',
@@ -778,6 +785,7 @@ void main() async {
         alias: 'test v6',
         defaultServer: false,
         apiVersion: 'v6',
+        allowSelfSignedCert: true,
         sm: SecretManager(
           secureStorageRepository,
           'http://localhost',
@@ -805,6 +813,7 @@ void main() async {
         alias: 'test v6',
         defaultServer: false,
         apiVersion: 'v6',
+        allowSelfSignedCert: true,
         sm: SecretManager(
           secureStorageRepository,
           'http://localhost:8080',
@@ -840,6 +849,7 @@ void main() async {
         alias: 'test v6',
         defaultServer: false,
         apiVersion: 'v6',
+        allowSelfSignedCert: true,
         sm: SecretManager(
           secureStorageRepository,
           'http://localhost',
