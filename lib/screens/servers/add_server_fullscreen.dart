@@ -12,6 +12,7 @@ import 'package:pi_hole_client/models/gateways.dart';
 import 'package:pi_hole_client/models/server.dart';
 import 'package:pi_hole_client/providers/app_config_provider.dart';
 import 'package:pi_hole_client/providers/servers_provider.dart';
+import 'package:pi_hole_client/services/status_update_service.dart';
 import 'package:pi_hole_client/widgets/scan_token_modal.dart';
 import 'package:pi_hole_client/widgets/section_label.dart';
 import 'package:provider/provider.dart';
@@ -211,6 +212,7 @@ class _AddServerFullscreenState extends State<AddServerFullscreen> {
   Widget build(BuildContext context) {
     final serversProvider = Provider.of<ServersProvider>(context);
     final appConfigProvider = Provider.of<AppConfigProvider>(context);
+    final statusUpdateService = context.read<StatusUpdateService>();
 
     final mediaQuery = MediaQuery.of(context);
 
@@ -346,19 +348,17 @@ class _AddServerFullscreenState extends State<AddServerFullscreen> {
       );
       await serverObj.sm.savePassword(passwordFieldController.text);
       await serverObj.sm.saveToken(tokenFieldController.text);
+      if (serversProvider.selectedServer != null) {
+        statusUpdateService.stopAutoRefresh();
+      }
       final result = await serversProvider
-          .loadApiGateway(serverObj)
+          .createApiGateway(serverObj)
           ?.loginQuery(refresh: true);
+
       if (result?.result == APiResponseType.success) {
-        final server = Server(
-          address: widget.server!.address,
-          alias: aliasFieldController.text,
+        final server = serverObj.copyWith(
           defaultServer: defaultCheckbox,
-          apiVersion: piHoleVersion,
-          allowSelfSignedCert: allowSelfSignedCert,
         );
-        await server.sm.savePassword(passwordFieldController.text);
-        await server.sm.saveToken(tokenFieldController.text);
         final result = await serversProvider.editServer(server);
         if (mounted) {
           if (result == true) {
@@ -390,6 +390,10 @@ class _AddServerFullscreenState extends State<AddServerFullscreen> {
         } else {
           isConnecting = false;
         }
+      }
+
+      if (serversProvider.selectedServer != null) {
+        statusUpdateService.startAutoRefresh();
       }
     }
 
