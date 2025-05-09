@@ -510,6 +510,9 @@ class AppLocalizationsEn extends AppLocalizations {
   String get editServer => 'Edit server connection';
 
   @override
+  String get editServerSuccessfully => 'Server settings updated successfully.';
+
+  @override
   String get enable => 'Enable';
 
   @override

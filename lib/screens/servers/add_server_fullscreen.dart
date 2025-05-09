@@ -363,6 +363,12 @@ class _AddServerFullscreenState extends State<AddServerFullscreen> {
         if (mounted) {
           if (result == true) {
             await Navigator.maybePop(context);
+
+            showSuccessSnackBar(
+              context: context,
+              appConfigProvider: appConfigProvider,
+              label: AppLocalizations.of(context)!.editServerSuccessfully,
+            );
           } else {
             setState(() {
               isConnecting = false;
