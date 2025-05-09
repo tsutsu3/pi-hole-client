@@ -48,7 +48,7 @@ class StatusUpdateService {
     await _refreshOnce();
   }
 
-  void dispose() {
+  void stopAutoRefresh() {
     if (_isAutoRefreshRunning) {
       logger.d('Disposing Status Update Service');
       _stopAutoRefresh();

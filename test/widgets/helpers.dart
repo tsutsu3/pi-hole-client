@@ -1072,7 +1072,7 @@ class TestSetupHelper {
             ),
             Provider<StatusUpdateService>(
               create: (_) => mockStatusUpdateService,
-              dispose: (_, service) => service.dispose(),
+              dispose: (_, service) => service.stopAutoRefresh(),
             ),
           ],
           child: Phoenix(
@@ -1148,7 +1148,7 @@ class TestSetupHelper {
         ),
         Provider<StatusUpdateService>(
           create: (_) => mockStatusUpdateService,
-          dispose: (_, service) => service.dispose(),
+          dispose: (_, service) => service.stopAutoRefresh(),
         ),
       ],
       child: child,
