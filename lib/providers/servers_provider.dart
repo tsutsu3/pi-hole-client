@@ -151,14 +151,23 @@ class ServersProvider with ChangeNotifier {
         }
       }).toList();
       _serversList = newServers;
+
       if (_selectedServer != null &&
           _selectedServer!.address == server.address) {
         _selectedServer = server;
       }
 
-      // Update the api gateway if it exists
+      // Update the API gateway if it exists
       if (_serverGateways.containsKey(server.address)) {
         _serverGateways[server.address] = ApiGatewayFactory.create(server);
+      }
+
+      // Handle default server update
+      if (server.defaultServer == true) {
+        final defaultUpdated = await setDefaultServer(server);
+        if (!defaultUpdated) {
+          return false;
+        }
       }
 
       notifyListeners();

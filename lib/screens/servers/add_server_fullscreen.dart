@@ -656,7 +656,6 @@ class _AddServerFullscreenState extends State<AddServerFullscreen> {
                       const SizedBox(height: 12),
                       CheckboxListTile(
                         contentPadding: const EdgeInsets.only(right: 8),
-                        enabled: widget.server != null ? false : true,
                         value: allowSelfSignedCert,
                         onChanged: connectionType == ConnectionType.https
                             ? (v) => setState(() => allowSelfSignedCert = v!)
@@ -722,30 +721,23 @@ class _AddServerFullscreenState extends State<AddServerFullscreen> {
                   children: [
                     Checkbox(
                       value: defaultCheckbox,
-                      onChanged: widget.server == null
-                          ? (value) => {
-                                setState(
-                                  () => defaultCheckbox = !defaultCheckbox,
-                                ),
-                              }
-                          : null,
+                      onChanged: (value) => {
+                        setState(
+                          () => defaultCheckbox = !defaultCheckbox,
+                        ),
+                      },
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(5),
                       ),
                     ),
                     GestureDetector(
-                      onTap: widget.server == null
-                          ? (() => {
-                                setState(
-                                  () => defaultCheckbox = !defaultCheckbox,
-                                ),
-                              })
-                          : null,
+                      onTap: () => {
+                        setState(
+                          () => defaultCheckbox = !defaultCheckbox,
+                        ),
+                      },
                       child: Text(
                         AppLocalizations.of(context)!.defaultConnection,
-                        style: TextStyle(
-                          color: widget.server != null ? Colors.grey : null,
-                        ),
                       ),
                     ),
                   ],
