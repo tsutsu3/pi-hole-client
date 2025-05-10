@@ -570,6 +570,7 @@ void main() async {
         await tester.pumpAndSettle();
 
         expect(find.byType(DomainDetailsScreen), findsOneWidget);
+        expect(find.text('Groups'), findsNothing);
         expect(find.byType(Switch), findsNothing);
         expect(find.byIcon(Icons.edit_rounded), findsNothing);
       },

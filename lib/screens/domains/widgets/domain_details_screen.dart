@@ -145,18 +145,19 @@ class _DomainDetailsScreenState extends State<DomainDetailsScreen> {
                       );
                     },
             ),
-            CustomListTile(
-              leadingIcon: Icons.group_rounded,
-              label: AppLocalizations.of(context)!.groups,
-              description: getGroupNames().join(', '),
-              trailing: isV5
-                  ? null
-                  : Icon(
-                      Icons.edit_rounded,
-                      color: Theme.of(context).colorScheme.onSurfaceVariant,
-                    ),
-              onTap: isV5 ? null : openGroupsModal,
-            ),
+            if (!isV5)
+              CustomListTile(
+                leadingIcon: Icons.group_rounded,
+                label: AppLocalizations.of(context)!.groups,
+                description: getGroupNames().join(', '),
+                trailing: isV5
+                    ? null
+                    : Icon(
+                        Icons.edit_rounded,
+                        color: Theme.of(context).colorScheme.onSurfaceVariant,
+                      ),
+                onTap: isV5 ? null : openGroupsModal,
+              ),
             CustomListTile(
               leadingIcon: Icons.comment_rounded,
               label: AppLocalizations.of(context)!.comment,
