@@ -115,6 +115,16 @@ void main() async {
       expect(listenerCalled, false);
     });
 
+    test('createApiGateway creates the api gateways', () {
+      final result = serversProvider.createApiGateway(server);
+      expect(result?.server.alias, server.alias);
+      expect(result?.server.address, server.address);
+      expect(result?.server.apiVersion, server.apiVersion);
+      expect(result?.server.allowSelfSignedCert, server.allowSelfSignedCert);
+      expect(result?.server.defaultServer, server.defaultServer);
+      expect(listenerCalled, false);
+    });
+
     test('loadApiGateway loads the api gateways', () {
       final result = serversProvider.loadApiGateway(server);
       expect(result!.server, ApiGatewayV6(server).server);
@@ -147,8 +157,25 @@ void main() async {
       expect(listenerCalled, true);
     });
 
+    test(
+        'addServer adds a server (defaultServer: on) option and notifies listeners',
+        () async {
+      final server2 = Server(
+        address: 'http://localhost:8081',
+        alias: 'test v6',
+        defaultServer: true,
+        apiVersion: 'v6',
+        allowSelfSignedCert: true,
+      );
+      final result = await serversProvider.addServer(server2);
+
+      expect(result, true);
+      expect(serversProvider.getServersList.contains(server2), true);
+      expect(listenerCalled, true);
+    });
+
     test('editServer edits a server and notifies listeners', () async {
-      serversProvider.getServersList.add(server);
+      await serversProvider.addServer(server);
       final updatedServer = server.copyWith(alias: 'Updated Server');
 
       final result = await serversProvider.editServer(updatedServer);

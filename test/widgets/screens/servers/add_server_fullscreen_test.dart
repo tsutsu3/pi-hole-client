@@ -536,6 +536,8 @@ void main() async {
       },
     );
 
+    // --------------------- edit ----------------------------
+
     testWidgets(
       'should show the successful snackbar when editing a server',
       (WidgetTester tester) async {
@@ -568,7 +570,11 @@ void main() async {
 
         await tester.tap(find.byIcon(Icons.save_rounded));
         await tester.pump(const Duration(milliseconds: 1000));
-        expect(find.byType(SnackBar), findsNothing);
+        expect(find.byType(SnackBar), findsOneWidget);
+        expect(
+          find.text('Server settings updated successfully.'),
+          findsOneWidget,
+        );
       },
     );
 
