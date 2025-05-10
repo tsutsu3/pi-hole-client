@@ -387,6 +387,13 @@ class MockServersProvider extends _i1.Mock implements _i6.ServersProvider {
       )) as _i9.ApiGateway?);
 
   @override
+  _i9.ApiGateway? createApiGateway(_i3.Server? server) =>
+      (super.noSuchMethod(Invocation.method(
+        #createApiGateway,
+        [server],
+      )) as _i9.ApiGateway?);
+
+  @override
   _i7.QueryStatus? getQueryStatus(String? key) =>
       (super.noSuchMethod(Invocation.method(
         #getQueryStatus,

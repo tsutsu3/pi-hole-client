@@ -166,6 +166,7 @@
   "editConnection": "Verbindung bearbeiten",
   "editGroups": "Gruppen bearbeiten",
   "editServer": "Verbindung bearbeiten",
+  "editServerSuccessfully": "Servereinstellungen wurden erfolgreich aktualisiert.",
   "enable": "Aktivieren",
   "enableCrashReport": "Absturzbericht aktivieren",
   "enableCrashReportDetail": "Automatisch anonymisierte Berichte senden, um Probleme zu diagnostizieren.",

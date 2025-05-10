@@ -200,7 +200,7 @@ void main() async {
             ),
             Provider<StatusUpdateService>(
               create: (_) => statusUpdateService,
-              dispose: (_, service) => service.dispose(),
+              dispose: (_, service) => service.stopAutoRefresh(),
             ),
           ],
           child: SentryWidget(

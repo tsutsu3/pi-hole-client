@@ -510,6 +510,9 @@ class AppLocalizationsJa extends AppLocalizations {
   String get editServer => 'サーバー接続を編集';
 
   @override
+  String get editServerSuccessfully => 'サーバー設定が正常に更新されました。';
+
+  @override
   String get enable => '有効化';
 
   @override

@@ -106,7 +106,7 @@ void main() async {
       verify(mockStatusProvider.setOvertimeData(any)).called(1);
       expect(statusUpdateService.isAutoRefreshRunning, true);
 
-      statusUpdateService.dispose();
+      statusUpdateService.stopAutoRefresh();
     });
 
     test(
@@ -122,7 +122,7 @@ void main() async {
       verify(mockStatusProvider.setOvertimeData(any)).called(1);
       expect(statusUpdateService.isAutoRefreshRunning, true);
 
-      statusUpdateService.dispose();
+      statusUpdateService.stopAutoRefresh();
     });
 
     test(
@@ -150,7 +150,7 @@ void main() async {
       verifyNever(mockStatusProvider.setOvertimeData(any)).called(0);
       expect(statusUpdateService.isAutoRefreshRunning, true);
 
-      statusUpdateService.dispose();
+      statusUpdateService.stopAutoRefresh();
     });
 
     test(
@@ -179,7 +179,7 @@ void main() async {
       // No raised error
       expect(caughtError, isNull);
 
-      statusUpdateService.dispose();
+      statusUpdateService.stopAutoRefresh();
     });
 
     test(
@@ -208,7 +208,7 @@ void main() async {
       // No raised error
       expect(caughtError, isNull);
 
-      statusUpdateService.dispose();
+      statusUpdateService.stopAutoRefresh();
     });
 
     test('refreshOnce should succeed', () async {
@@ -244,7 +244,7 @@ void main() async {
     });
 
     test('dispose should succeed', () {
-      statusUpdateService.dispose();
+      statusUpdateService.stopAutoRefresh();
       expect(statusUpdateService.isAutoRefreshRunning, false);
     });
   });

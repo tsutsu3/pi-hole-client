@@ -166,6 +166,7 @@
   "editConnection": "接続を編集",
   "editGroups": "グループを編集",
   "editServer": "サーバー接続を編集",
+  "editServerSuccessfully": "サーバー設定が正常に更新されました。",
   "enable": "有効化",
   "enableCrashReport": "クラッシュレポートを有効にする",
   "enableCrashReportDetail": "問題を診断するために匿名化されたレポートを自動的に送信します。",

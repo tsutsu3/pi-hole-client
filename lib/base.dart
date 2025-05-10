@@ -138,7 +138,7 @@ class _BaseState extends State<Base>
   /// - When the window is minimized
   void onPaused() {
     final statusUpdateService = context.read<StatusUpdateService>();
-    statusUpdateService.dispose();
+    statusUpdateService.stopAutoRefresh();
   }
 
   Widget _buildPageTransitionSwitcher(Widget child) {

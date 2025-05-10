@@ -1103,6 +1103,12 @@ abstract class AppLocalizations {
   /// **'Edit server connection'**
   String get editServer;
 
+  /// No description provided for @editServerSuccessfully.
+  ///
+  /// In en, this message translates to:
+  /// **'Server settings updated successfully.'**
+  String get editServerSuccessfully;
+
   /// No description provided for @enable.
   ///
   /// In en, this message translates to:

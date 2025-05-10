@@ -510,6 +510,9 @@ class AppLocalizationsPl extends AppLocalizations {
   String get editServer => 'Edytowanie połączenia z serwerem';
 
   @override
+  String get editServerSuccessfully => 'Ustawienia serwera zostały pomyślnie zaktualizowane.';
+
+  @override
   String get enable => 'Włączyć';
 
   @override

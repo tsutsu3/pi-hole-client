@@ -167,6 +167,7 @@
   "editConnection": "Editar una conexión",
   "editGroups": "Editar grupos",
   "editServer": "Editar conexión",
+  "editServerSuccessfully": "La configuración del servidor se actualizó correctamente.",
   "enable": "Activar",
   "enableCrashReport": "Habilitar informes de fallos",
   "enableCrashReportDetail": "Enviar automáticamente informes anonimados para diagnosticar problemas.",

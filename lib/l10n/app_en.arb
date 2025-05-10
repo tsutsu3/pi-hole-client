@@ -166,6 +166,7 @@
   "editConnection": "Edit a Connection",
   "editGroups": "Edit groups",
   "editServer": "Edit server connection",
+  "editServerSuccessfully": "Server settings updated successfully.",
   "enable": "Enable",
   "enableCrashReport": "Enable Crash Reporting",
   "enableCrashReportDetail": "Automatically send anonymized reports to diagnose issues.",

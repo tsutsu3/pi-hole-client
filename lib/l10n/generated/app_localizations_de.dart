@@ -510,6 +510,9 @@ class AppLocalizationsDe extends AppLocalizations {
   String get editServer => 'Verbindung bearbeiten';
 
   @override
+  String get editServerSuccessfully => 'Servereinstellungen wurden erfolgreich aktualisiert.';
+
+  @override
   String get enable => 'Aktivieren';
 
   @override

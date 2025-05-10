@@ -37,7 +37,9 @@ class StatusUpdateService {
   /// Start timer for auto refresh
   void startAutoRefresh() {
     if (!_isAutoRefreshRunning) {
-      logger.d('Starting Auto Refresh');
+      logger.d(
+        'Starting Auto Refresh: (${_serversProvider.selectedServer?.alias}) ${_serversProvider.selectedServer?.address}',
+      );
       _startAutoRefresh();
     }
   }
@@ -48,9 +50,11 @@ class StatusUpdateService {
     await _refreshOnce();
   }
 
-  void dispose() {
+  void stopAutoRefresh() {
     if (_isAutoRefreshRunning) {
-      logger.d('Disposing Status Update Service');
+      logger.d(
+        'Stop Status Update Service. (${_serversProvider.selectedServer?.alias}) ${_serversProvider.selectedServer?.address}',
+      );
       _stopAutoRefresh();
     }
   }

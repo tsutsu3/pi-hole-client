@@ -1072,7 +1072,7 @@ class TestSetupHelper {
             ),
             Provider<StatusUpdateService>(
               create: (_) => mockStatusUpdateService,
-              dispose: (_, service) => service.dispose(),
+              dispose: (_, service) => service.stopAutoRefresh(),
             ),
           ],
           child: Phoenix(
@@ -1148,7 +1148,7 @@ class TestSetupHelper {
         ),
         Provider<StatusUpdateService>(
           create: (_) => mockStatusUpdateService,
-          dispose: (_, service) => service.dispose(),
+          dispose: (_, service) => service.stopAutoRefresh(),
         ),
       ],
       child: child,
@@ -1234,7 +1234,11 @@ class TestSetupHelper {
           ? mockApiGatewayV5 as ApiGateway
           : mockApiGatewayV6 as ApiGateway,
     );
-    when(mockServersProvider.deleteDbData()).thenAnswer((_) async => true);
+    when(mockServersProvider.createApiGateway(any)).thenReturn(
+      useApiGatewayVersion == 'v5'
+          ? mockApiGatewayV5 as ApiGateway
+          : mockApiGatewayV6 as ApiGateway,
+    );
     when(mockServersProvider.getServersList)
         .thenReturn(useApiGatewayVersion == 'v5' ? [serverV5] : [serverV6]);
     when(mockServersProvider.colors).thenReturn(lightAppColors);
@@ -1242,6 +1246,7 @@ class TestSetupHelper {
       useApiGatewayVersion == 'v5' ? queryStatusesV5 : queryStatusesV6,
     );
     when(mockServersProvider.removeServer(any)).thenAnswer((_) async => true);
+    when(mockServersProvider.deleteDbData()).thenAnswer((_) async => true);
   }
 
   void _initFiltersProviderMock(String useApiGatewayVersion) {
