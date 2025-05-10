@@ -183,14 +183,37 @@ class DatabaseRepository {
       },
       onDowngrade: (Database db, int oldVersion, int newVersion) async {},
       onOpen: (Database db) async {
-        await db.transaction((txn) async {
-          final serverRows = await txn.rawQuery('SELECT * FROM servers');
-          servers = serverRows.map(ServerDbData.fromMap).toList();
-        });
-        await db.transaction((txn) async {
-          final appConfigRows = await txn.rawQuery('SELECT * FROM appConfig');
-          appConfig = AppDbData.fromMap(appConfigRows[0]);
-        });
+        const maxRetries = 5;
+        const retryDelay = Duration(milliseconds: 200);
+        var attempt = 0;
+
+        // Retry logic: On some real devices, immediately accessing the database
+        // after a migration can result in a race condition where data is not yet visible.
+        // This loop retries the transaction a few times to ensure that the
+        // appConfig and servers tables are accessible and populated.
+        while (attempt < maxRetries) {
+          try {
+            await db.transaction((txn) async {
+              final serverRows = await txn.rawQuery('SELECT * FROM servers');
+              servers = serverRows.map(ServerDbData.fromMap).toList();
+
+              final appConfigRows =
+                  await txn.rawQuery('SELECT * FROM appConfig');
+              appConfig = AppDbData.fromMap(appConfigRows[0]);
+            });
+            break;
+          } catch (e, stackTrace) {
+            attempt++;
+            logger.w('Attempt $attempt: Failed to read DB config - $e');
+            if (attempt >= maxRetries) {
+              logger.e(
+                'Failed to read DB config after $maxRetries attempts - $e\n$stackTrace',
+              );
+              rethrow;
+            }
+            await Future.delayed(retryDelay);
+          }
+        }
 
         // Load sensitive data from secure storage
         final passCode = await _secureStorage.getValue('passCode');
@@ -210,6 +233,8 @@ class DatabaseRepository {
             );
           }
         }
+
+        logger.d('Database opened');
       },
     );
 
