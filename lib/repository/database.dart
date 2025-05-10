@@ -204,7 +204,7 @@ class DatabaseRepository {
             break;
           } catch (e, stackTrace) {
             attempt++;
-            logger.d('Attempt $attempt: Failed to read DB config - $e');
+            logger.w('Attempt $attempt: Failed to read DB config - $e');
             if (attempt >= maxRetries) {
               logger.e(
                 'Failed to read DB config after $maxRetries attempts - $e\n$stackTrace',
