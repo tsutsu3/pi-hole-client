@@ -19,27 +19,25 @@ class OverTimeData {
   });
 
   factory OverTimeData.fromJson(Map<String, dynamic> json) => OverTimeData(
-        domainsOverTime:
-            (json['domains_over_time'].runtimeType != List<Map<String, int>>)
-                ? Map.from(json['domains_over_time'])
-                    .map((k, v) => MapEntry<String, int>(k, v))
-                : {},
-        adsOverTime:
-            (json['ads_over_time'].runtimeType != List<Map<String, int>>)
-                ? Map.from(json['ads_over_time'])
-                    .map((k, v) => MapEntry<String, int>(k, v))
-                : {},
-        clients:
-            List<Client>.from(json['clients'].map((x) => Client.fromJson(x))),
-        overTime:
-            (json['over_time'].runtimeType != List<MapEntry<String, List<int>>>)
-                ? Map.from(json['over_time']).map(
-                    (k, v) => MapEntry<String, List<int>>(
-                      k,
-                      List<int>.from(v.map((x) => x)),
-                    ),
-                  )
-                : {},
+        domainsOverTime: (json['domains_over_time'] is Map)
+            ? Map<String, int>.from(json['domains_over_time'])
+            : {},
+        adsOverTime: (json['ads_over_time'] is Map)
+            ? Map<String, int>.from(json['ads_over_time'])
+            : {},
+        clients: (json['clients'] is List)
+            ? List<Client>.from(json['clients'].map((x) => Client.fromJson(x)))
+            : [],
+        overTime: (json['over_time'] is Map)
+            ? Map<String, List<int>>.from(
+                json['over_time'].map(
+                  (k, v) => MapEntry<String, List<int>>(
+                    k,
+                    List<int>.from(v),
+                  ),
+                ),
+              )
+            : {},
       );
 
   factory OverTimeData.fromV6(History history, HistoryClients historyClients) {
