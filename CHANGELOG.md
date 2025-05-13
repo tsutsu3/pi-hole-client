@@ -31,11 +31,6 @@
 - *(test)* Ensure coverage artifact upload occurs regardless of test results - ([aeffac9](https://github.com/tsutsu3/pi-hole-client/commit/aeffac968b6ccc4cf2c20e2fb6d37941ce43855b))
 - *(winget)* Winget manifest for v1.2.1 ([#251](https://github.com/tsutsu3/pi-hole-client/issues/251)) - ([69e5ac5](https://github.com/tsutsu3/pi-hole-client/commit/69e5ac535ef5ab738a1e3feb217fc0b2e12e9a3c))
 
-## 🎉 New Contributors 🎉
-
-* @tsutsu3 made their first contribution in [#265](https://github.com/tsutsu3/pi-hole-client/pull/265)
-* @dependabot[bot] made their first contribution in [#257](https://github.com/tsutsu3/pi-hole-client/pull/257)
-* @github-actions[bot] made their first contribution in [#251](https://github.com/tsutsu3/pi-hole-client/pull/251)
 
 ## [1.2.1_(33)](https://github.com/tsutsu3/pi-hole-client/compare/1.2.0_(31)..1.2.1_(33)) - 2025-04-27
 
