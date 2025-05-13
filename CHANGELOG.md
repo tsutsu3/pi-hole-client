@@ -1,6 +1,43 @@
 # Changelog
 
-## [1.2.1](https://github.com/tsutsu3/pi-hole-client/compare/1.2.0_(31)..1.2.1) - 2025-04-27
+## [1.3.0](https://github.com/tsutsu3/pi-hole-client/compare/1.2.1_(33)..1.3.0) - 2025-05-13
+
+### 🚀 Features
+
+- *(chart_vis_screen)* Add chart display mode setting for Home screen ([#256](https://github.com/tsutsu3/pi-hole-client/issues/256)) - ([1ad433c](https://github.com/tsutsu3/pi-hole-client/commit/1ad433cb8c09bf36a1c83661683df44b9b9e321d))
+- *(domains)* Enable editing comment, status, and groups in domain detail screen ([#254](https://github.com/tsutsu3/pi-hole-client/issues/254)) - ([af3a5b9](https://github.com/tsutsu3/pi-hole-client/commit/af3a5b9cece213224b520f2334ae5ebbc00df9e9))
+- *(servers)* Allow editing default connection and SSL cert options on edit page ([#260](https://github.com/tsutsu3/pi-hole-client/issues/260)) - ([be09e77](https://github.com/tsutsu3/pi-hole-client/commit/be09e77cf8a35b8528f2988f16ad1d2d66f0681b))
+- *(settings)* Deprecate global certificate setting in favor of per-server configuration ([#259](https://github.com/tsutsu3/pi-hole-client/issues/259)) - ([5862d21](https://github.com/tsutsu3/pi-hole-client/commit/5862d21026f8148cf46f8a6443dfde32a642837e))
+- *(statistics)* Adjust default donut chart size via constructor ([#255](https://github.com/tsutsu3/pi-hole-client/issues/255)) - ([48c998b](https://github.com/tsutsu3/pi-hole-client/commit/48c998b1b33aa1bb7a6eafb8897383e35f073bc9))
+
+### 🐛 Bug Fixes
+
+- *(database)* Add retry logic after migration to prevent initial access failures on real devices ([#262](https://github.com/tsutsu3/pi-hole-client/issues/262)) - ([56b0f3a](https://github.com/tsutsu3/pi-hole-client/commit/56b0f3aded83cf89fe44458be8116e58e8d420a0))
+- *(domain)* Prevent crash by hiding group list on v5 ([#264](https://github.com/tsutsu3/pi-hole-client/issues/264)) - ([1192bf5](https://github.com/tsutsu3/pi-hole-client/commit/1192bf506be6985562b92ac3e833481de02031d7))
+- *(overtime_data)* Handle empty over_time list to prevent _TypeError on parsing ([#265](https://github.com/tsutsu3/pi-hole-client/issues/265)) - ([fd69ce1](https://github.com/tsutsu3/pi-hole-client/commit/fd69ce1efc09030de9a804f116de42e19d6b1152))
+
+### 📚 Documentation
+
+- *(development)* Fix incorrect markdown link path - ([b1e6e07](https://github.com/tsutsu3/pi-hole-client/commit/b1e6e07fdde1f5761a1af2a7b4688b42be69adb1))
+
+### 🎨 Styling
+
+- *(chart)* Improve colors for dark mode readability ([#258](https://github.com/tsutsu3/pi-hole-client/issues/258)) - ([06ab6d1](https://github.com/tsutsu3/pi-hole-client/commit/06ab6d109b51410ddbb08015eafc2c70de18b670))
+
+### ⚙️ Miscellaneous Tasks
+
+- *(ci)* Update workflow - ([e4d3a6f](https://github.com/tsutsu3/pi-hole-client/commit/e4d3a6fab8591421e24b2d068eec0538d2ea8bbc))
+- *(license)* Update copyright years to 2024 - 2025 in LICENSE and NOTICE files - ([94f82e9](https://github.com/tsutsu3/pi-hole-client/commit/94f82e90c7e96a11cedd67d2491311b4471aae09))
+- *(test)* Ensure coverage artifact upload occurs regardless of test results - ([aeffac9](https://github.com/tsutsu3/pi-hole-client/commit/aeffac968b6ccc4cf2c20e2fb6d37941ce43855b))
+- *(winget)* Winget manifest for v1.2.1 ([#251](https://github.com/tsutsu3/pi-hole-client/issues/251)) - ([69e5ac5](https://github.com/tsutsu3/pi-hole-client/commit/69e5ac535ef5ab738a1e3feb217fc0b2e12e9a3c))
+
+## 🎉 New Contributors 🎉
+
+* @tsutsu3 made their first contribution in [#265](https://github.com/tsutsu3/pi-hole-client/pull/265)
+* @dependabot[bot] made their first contribution in [#257](https://github.com/tsutsu3/pi-hole-client/pull/257)
+* @github-actions[bot] made their first contribution in [#251](https://github.com/tsutsu3/pi-hole-client/pull/251)
+
+## [1.2.1_(33)](https://github.com/tsutsu3/pi-hole-client/compare/1.2.0_(31)..1.2.1_(33)) - 2025-04-27
 
 ### 🚀 Features
 
