@@ -14,7 +14,8 @@ if (keystorePropertiesFile.exists()) {
 android {
     namespace = "io.github.tsutsu3.pi_hole_client"
     compileSdk = flutter.compileSdkVersion
-    ndkVersion = flutter.ndkVersion
+    //ndkVersion = flutter.ndkVersion
+    ndkVersion = "27.2.12479018"
 
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_1_8
@@ -42,6 +43,8 @@ android {
         println("Target SDK: $targetSdk")
         println("Version code: $versionCode")
         println("Version name: $versionName")
+        println("Compile SDK: $compileSdk")
+        println("NDK Version: $ndkVersion")
     }
 
     signingConfigs {
