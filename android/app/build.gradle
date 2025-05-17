@@ -14,7 +14,8 @@ if (keystorePropertiesFile.exists()) {
 android {
     namespace = "io.github.tsutsu3.pi_hole_client"
     compileSdk = flutter.compileSdkVersion
-    ndkVersion = flutter.ndkVersion
+    //ndkVersion = flutter.ndkVersion
+    ndkVersion = "27.2.12479018"
 
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_1_8
@@ -26,6 +27,16 @@ android {
     }
 
     defaultConfig {
+        // This block is different from the one you use to link Gradle
+        // to your CMake or ndk-build script.
+        externalNativeBuild {
+            // For ndk-build, instead use the ndkBuild block.
+            cmake {
+                // Passes optional arguments to CMake.
+                arguments "-DANDROID_SUPPORT_FLEXIBLE_PAGE_SIZES=ON"
+            }
+        }
+
         // TODO: Specify your own unique Application ID (https://developer.android.com/studio/build/application-id.html).
         applicationId = "io.github.tsutsu3.pi_hole_client"
         // You can update the following values to match your application needs.
@@ -42,6 +53,8 @@ android {
         println("Target SDK: $targetSdk")
         println("Version code: $versionCode")
         println("Version name: $versionName")
+        println("Compile SDK: $compileSdk")
+        println("NDK Version: $ndkVersion")
     }
 
     signingConfigs {
