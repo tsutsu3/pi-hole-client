@@ -1,6 +1,6 @@
 # Changelog
 
-## [1.3.0](https://github.com/tsutsu3/pi-hole-client/compare/1.2.1_(33)..1.3.0) - 2025-05-13
+## [1.3.0](https://github.com/tsutsu3/pi-hole-client/compare/1.2.1_(33)..1.3.0) - 2025-05-17
 
 ### 🚀 Features
 
