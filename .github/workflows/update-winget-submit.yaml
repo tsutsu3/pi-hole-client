@@ -48,11 +48,14 @@ jobs:
           winget install wingetcreate --silent --disable-interactivity --accept-source-agreements --accept-package-agreements
 
       - name: Set up environment variables
-        run: echo "WINGET_CREATE_GITHUB_TOKEN=${{ secrets.WINGET_CREATE_GITHUB_TOKEN }}" >> $env:GITHUB_ENV
+        shell: pwsh
+        run: |
+          "WINGET_CREATE_GITHUB_TOKEN=${{ secrets.WINGET_CREATE_GITHUB_TOKEN }}" | Out-File -FilePath $env:GITHUB_ENV -Append
 
       - name: Run wingetcreate update with submit
+        shell: pwsh
+        working-directory: winget
         run: |
-          cd winget
           wingetcreate update tsutsu3.Pi-hole-client `
             -u "https://github.com/tsutsu3/pi-hole-client/releases/download/${{ needs.get-version.outputs.VERSION_NAME }}_(${{ needs.get-version.outputs.VERSION_NUMBER }})/PiHoleClient_${{ needs.get-version.outputs.VERSION_NAME }}_Windows_x64.exe" `
             --version ${{ needs.get-version.outputs.VERSION_NAME }} `
