@@ -1,5 +1,3 @@
-// ignore_for_file: use_build_context_synchronously
-
 import 'package:flutter/material.dart';
 import 'package:pi_hole_client/config/theme.dart';
 import 'package:pi_hole_client/functions/snackbar.dart';
@@ -8,206 +6,118 @@ import 'package:pi_hole_client/providers/app_config_provider.dart';
 import 'package:pi_hole_client/widgets/custom_radio_list_tile.dart';
 import 'package:provider/provider.dart';
 
-class LogsQuantityLoadScreen extends StatefulWidget {
-  const LogsQuantityLoadScreen({super.key});
+class LogOption {
+  const LogOption(this.time, this.labelBuilder);
+  final double time;
+  final String Function(AppLocalizations loc) labelBuilder;
 
-  @override
-  State<LogsQuantityLoadScreen> createState() => _LogsQuantityLoadScreenState();
+  static final List<LogOption> all = [
+    LogOption(0.5, (loc) => loc.minutes30),
+    LogOption(1.0, (loc) => loc.hour1),
+    LogOption(2.0, (loc) => loc.hours2),
+    LogOption(4.0, (loc) => loc.hours4),
+    LogOption(6.0, (loc) => loc.hours6),
+    LogOption(8.0, (loc) => loc.hours8),
+  ];
+
+  static double timeFromIndex(int index) =>
+      (index >= 0 && index < all.length) ? all[index].time : 2.0;
+
+  static int indexFromTime(double time) =>
+      all.indexWhere((opt) => opt.time == time).clamp(0, all.length - 1);
 }
 
-class _LogsQuantityLoadScreenState extends State<LogsQuantityLoadScreen> {
-  int selectedOption = 1;
+class LogsQuantityLoadScreen extends StatelessWidget {
+  const LogsQuantityLoadScreen({super.key});
 
-  @override
-  void initState() {
-    super.initState();
-    selectedOption = _setTime(
-      Provider.of<AppConfigProvider>(context, listen: false).logsPerQuery,
-    );
-  }
+  Future<void> _onChange(BuildContext context, int option) async {
+    final appConfigProvider =
+        Provider.of<AppConfigProvider>(context, listen: false);
+    final result = await appConfigProvider
+        .setLogsPerQuery(LogOption.timeFromIndex(option));
 
-  void _updateRadioValue(int value) {
-    setState(() {
-      selectedOption = value;
-    });
-  }
+    if (!context.mounted) return;
 
-  double _getTime() {
-    switch (selectedOption) {
-      case 0:
-        return 0.5;
-
-      case 1:
-        return 1;
-
-      case 2:
-        return 2;
-
-      case 3:
-        return 4;
-
-      case 4:
-        return 6;
-
-      case 5:
-        return 8;
-
-      default:
-        return 0;
-    }
-  }
-
-  int _setTime(double time) {
-    switch (time.toString()) {
-      case '0.5':
-        return 0;
-
-      case '1.0':
-        return 1;
-
-      case '2.0':
-        return 2;
-
-      case '4.0':
-        return 3;
-
-      case '6.0':
-        return 4;
-
-      default:
-        return 5;
-    }
-  }
-
-  Future<void> onSave() async {
-    final result = await Provider.of<AppConfigProvider>(context, listen: false)
-        .setLogsPerQuery(_getTime());
-    if (result == true) {
+    if (result) {
       showSuccessSnackBar(
         context: context,
-        appConfigProvider:
-            Provider.of<AppConfigProvider>(context, listen: false),
+        appConfigProvider: appConfigProvider,
         label: AppLocalizations.of(context)!.logsPerQueryUpdated,
       );
     } else {
       showErrorSnackBar(
         context: context,
-        appConfigProvider:
-            Provider.of<AppConfigProvider>(context, listen: false),
+        appConfigProvider: appConfigProvider,
         label: AppLocalizations.of(context)!.cantUpdateLogsPerQuery,
       );
     }
   }
 
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text(AppLocalizations.of(context)!.logsQuantityPerLoad),
-        actions: [
-          IconButton(
-            onPressed: onSave,
-            icon: const Icon(Icons.save_rounded),
-            tooltip: AppLocalizations.of(context)!.save,
-          ),
-          const SizedBox(width: 8),
-        ],
+  Widget _buildWarningCard(BuildContext context, AppLocalizations loc) {
+    final appColors = Theme.of(context).extension<AppColors>()!;
+    return Padding(
+      padding: const EdgeInsets.only(
+        top: 10,
+        bottom: 20,
+        left: 20,
+        right: 20,
       ),
-      body: SafeArea(
-        child: ListView(
+      child: Container(
+        padding: const EdgeInsets.all(20),
+        decoration: BoxDecoration(
+          color: appColors.cardWarning,
+          borderRadius: BorderRadius.circular(30),
+        ),
+        child: Row(
           children: [
-            Padding(
-              padding: const EdgeInsets.only(
-                top: 10,
-                bottom: 20,
-                left: 20,
-                right: 20,
-              ),
-              child: Container(
-                padding: const EdgeInsets.all(20),
-                decoration: BoxDecoration(
-                  color: Theme.of(context).extension<AppColors>()!.cardWarning,
-                  borderRadius: BorderRadius.circular(30),
-                ),
-                height: 100,
-                child: Row(
-                  children: [
-                    Icon(
-                      Icons.warning_rounded,
-                      color: Theme.of(context)
-                          .extension<AppColors>()!
-                          .cardWarningText,
-                    ),
-                    const SizedBox(width: 20),
-                    Expanded(
-                      child: Text(
-                        AppLocalizations.of(context)!.logsPerQueryWarning,
-                        style: TextStyle(
-                          color: Theme.of(context)
-                              .extension<AppColors>()!
-                              .cardWarningText,
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
-              ),
+            Icon(
+              Icons.warning_rounded,
+              color: appColors.cardWarningText,
             ),
-            CustomRadioListTile(
-              groupValue: selectedOption,
-              value: 0,
-              radioBackgroundColor: Theme.of(context).colorScheme.surface,
-              title: AppLocalizations.of(context)!.minutes30,
-              onChanged: _updateRadioValue,
-            ),
-            CustomRadioListTile(
-              groupValue: selectedOption,
-              value: 1,
-              radioBackgroundColor: Theme.of(context).colorScheme.surface,
-              title: AppLocalizations.of(context)!.hour1,
-              onChanged: _updateRadioValue,
-            ),
-            CustomRadioListTile(
-              groupValue: selectedOption,
-              value: 2,
-              radioBackgroundColor: Theme.of(context).colorScheme.surface,
-              title: AppLocalizations.of(context)!.hours2,
-              onChanged: _updateRadioValue,
-            ),
-            CustomRadioListTile(
-              groupValue: selectedOption,
-              value: 3,
-              radioBackgroundColor: Theme.of(context).colorScheme.surface,
-              title: AppLocalizations.of(context)!.hours4,
-              onChanged: _updateRadioValue,
-            ),
-            CustomRadioListTile(
-              groupValue: selectedOption,
-              value: 4,
-              radioBackgroundColor: Theme.of(context).colorScheme.surface,
-              title: AppLocalizations.of(context)!.hours6,
-              onChanged: _updateRadioValue,
-            ),
-            CustomRadioListTile(
-              groupValue: selectedOption,
-              value: 5,
-              radioBackgroundColor: Theme.of(context).colorScheme.surface,
-              title: AppLocalizations.of(context)!.hours8,
-              onChanged: _updateRadioValue,
-            ),
-            Padding(
-              padding: const EdgeInsets.only(
-                top: 20,
-                left: 20,
-                bottom: 10,
-                right: 20,
-              ),
+            const SizedBox(width: 20),
+            Expanded(
               child: Text(
-                '${AppLocalizations.of(context)!.logsWillBeRequested} ${_getTime() == 0.5 ? '30' : _getTime().toInt()} ${_getTime() == 0.5 ? AppLocalizations.of(context)!.minutes : AppLocalizations.of(context)!.hours}',
-                style: const TextStyle(fontWeight: FontWeight.bold),
+                loc.logsPerQueryWarning,
+                style: TextStyle(
+                  color: appColors.cardWarningText,
+                ),
               ),
             ),
           ],
+        ),
+      ),
+    );
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final loc = AppLocalizations.of(context)!;
+
+    return Scaffold(
+      appBar: AppBar(
+        title: Text(loc.logsQuantityPerLoad),
+      ),
+      body: SafeArea(
+        child: Selector<AppConfigProvider, double>(
+          selector: (_, provider) => provider.logsPerQuery,
+          builder: (context, logsPerQuery, child) {
+            final selectedOption = LogOption.indexFromTime(logsPerQuery);
+
+            return ListView(
+              children: [
+                _buildWarningCard(context, loc),
+                ...List.generate(LogOption.all.length, (i) {
+                  return CustomRadioListTile(
+                    groupValue: selectedOption,
+                    value: i,
+                    title: LogOption.all[i].labelBuilder(loc),
+                    radioBackgroundColor: Theme.of(context).colorScheme.surface,
+                    onChanged: (val) => _onChange(context, val),
+                  );
+                }),
+              ],
+            );
+          },
         ),
       ),
     );
