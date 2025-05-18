@@ -238,14 +238,18 @@ class StatisticsListContent extends StatelessWidget {
               AppLocalizations.of(context)!.topPermittedDomains,
             )
           else
-            NoDataChart(topLabel: AppLocalizations.of(context)!.noData),
+            NoDataChart(
+              topLabel: AppLocalizations.of(context)!.topPermittedDomains,
+            ),
           if (statusProvider.getRealtimeStatus!.topAds.isNotEmpty)
             generateList(
               statusProvider.getRealtimeStatus!.topAds,
               AppLocalizations.of(context)!.topBlockedDomains,
             )
           else
-            NoDataChart(topLabel: AppLocalizations.of(context)!.noData),
+            NoDataChart(
+              topLabel: AppLocalizations.of(context)!.topBlockedDomains,
+            ),
         ],
       );
     } else if (type == 'clients') {
@@ -257,14 +261,16 @@ class StatisticsListContent extends StatelessWidget {
               AppLocalizations.of(context)!.topClients,
             )
           else
-            NoDataChart(topLabel: AppLocalizations.of(context)!.noData),
+            NoDataChart(topLabel: AppLocalizations.of(context)!.topClients),
           if (statusProvider.getRealtimeStatus!.topSourcesBlocked.isNotEmpty)
             generateList(
               statusProvider.getRealtimeStatus!.topSourcesBlocked,
               AppLocalizations.of(context)!.topClientsBlocked,
             )
           else
-            NoDataChart(topLabel: AppLocalizations.of(context)!.noData),
+            NoDataChart(
+              topLabel: AppLocalizations.of(context)!.topClientsBlocked,
+            ),
         ],
       );
     } else {
