@@ -14,30 +14,44 @@ class NoDataChart extends StatelessWidget {
   Widget build(BuildContext context) {
     final width = MediaQuery.of(context).size.width;
 
-    return Container(
+    return SizedBox(
       width: width,
-      padding: const EdgeInsets.all(20),
       child: Column(
         children: [
           SectionLabel(
             label: topLabel,
           ),
-          const SizedBox(height: 50),
-          Icon(
-            Icons.show_chart_rounded,
-            size: 40,
-            color: Theme.of(context).colorScheme.onSurfaceVariant,
-          ),
-          const SizedBox(height: 30),
-          Text(
-            AppLocalizations.of(context)!.noData,
-            style: TextStyle(
-              color: Theme.of(context).colorScheme.onSurfaceVariant,
-              fontWeight: FontWeight.w700,
-              fontSize: 14,
+          Container(
+            width: width,
+            margin: const EdgeInsets.symmetric(horizontal: 16),
+            decoration: BoxDecoration(
+              color: Theme.of(context)
+                  .colorScheme
+                  .surfaceTint
+                  .withValues(alpha: 0.05),
+              borderRadius: BorderRadius.circular(10),
+            ),
+            child: Column(
+              children: [
+                const SizedBox(height: 80),
+                Icon(
+                  Icons.show_chart_rounded,
+                  size: 40,
+                  color: Theme.of(context).colorScheme.onSurfaceVariant,
+                ),
+                const SizedBox(height: 20),
+                Text(
+                  AppLocalizations.of(context)!.noData,
+                  style: TextStyle(
+                    color: Theme.of(context).colorScheme.onSurfaceVariant,
+                    fontWeight: FontWeight.w700,
+                    fontSize: 14,
+                  ),
+                ),
+                const SizedBox(height: 80),
+              ],
             ),
           ),
-          const SizedBox(height: 30),
         ],
       ),
     );
