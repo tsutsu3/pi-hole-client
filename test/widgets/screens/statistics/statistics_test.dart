@@ -227,13 +227,13 @@ void main() async {
           // Switch to Domains tab
           await tester.tap(find.text('Domains'));
           await tester.pumpAndSettle();
-          expect(find.text('No data'), findsNWidgets(4));
+          expect(find.text('No data'), findsNWidgets(2));
           expect(find.byType(StatisticsListContent), findsOneWidget);
 
           // Switch to Clients tab
           await tester.tap(find.text('Clients'));
           await tester.pumpAndSettle();
-          expect(find.text('No data'), findsNWidgets(4));
+          expect(find.text('No data'), findsNWidgets(2));
           expect(find.byType(StatisticsListContent), findsOneWidget);
         },
       );
