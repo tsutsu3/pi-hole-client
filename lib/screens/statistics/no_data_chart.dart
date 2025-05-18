@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:pi_hole_client/l10n/generated/app_localizations.dart';
+import 'package:pi_hole_client/widgets/section_label.dart';
 
 class NoDataChart extends StatelessWidget {
   const NoDataChart({
@@ -18,13 +19,8 @@ class NoDataChart extends StatelessWidget {
       padding: const EdgeInsets.all(20),
       child: Column(
         children: [
-          Text(
-            topLabel,
-            style: TextStyle(
-              fontSize: 18,
-              fontWeight: FontWeight.w500,
-              color: Theme.of(context).colorScheme.onSurface,
-            ),
+          SectionLabel(
+            label: topLabel,
           ),
           const SizedBox(height: 50),
           Icon(
