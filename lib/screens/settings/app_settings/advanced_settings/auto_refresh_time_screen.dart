@@ -1,6 +1,7 @@
 // ignore_for_file: use_build_context_synchronously
 
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:pi_hole_client/functions/snackbar.dart';
 import 'package:pi_hole_client/l10n/generated/app_localizations.dart';
 import 'package:pi_hole_client/providers/app_config_provider.dart';
@@ -204,6 +205,7 @@ class _AutoRefreshTimeScreenState extends State<AutoRefreshTimeScreen> {
                   onChanged: _validateCustomTime,
                   controller: customTimeController,
                   keyboardType: TextInputType.number,
+                  inputFormatters: [FilteringTextInputFormatter.digitsOnly],
                   decoration: InputDecoration(
                     errorText:
                         !customTimeIsValid && customTimeController.text != ''
