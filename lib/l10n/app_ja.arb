@@ -432,7 +432,7 @@
   "useFingerprint": "指紋を使用",
   "username": "ユーザー名",
   "valid": "有効",
-  "valueNotValid": "無効な値",
+  "valueNotValid": "1〜86400秒の範囲の数値を入力してください",
   "version": "バージョン",
   "versionDescription": "使用している Pi-hole のバージョンを選択してください",
   "versionRequirements": "バージョン要件",

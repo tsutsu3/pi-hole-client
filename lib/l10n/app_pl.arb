@@ -432,7 +432,7 @@
   "useFingerprint": "Użyj odcisku palca",
   "username": "Nazwa użytkownika",
   "valid": "Poprawny",
-  "valueNotValid": "Wartość nieprawidłowa",
+  "valueNotValid": "Wprowadź liczbę od 1 do 86400 sekund",
   "version": "Wersja",
   "versionDescription": "Wybierz wersję Pi-hole, której używasz",
   "versionRequirements": "Wymagania dotyczące wersji",

@@ -1308,7 +1308,7 @@ class AppLocalizationsPl extends AppLocalizations {
   String get valid => 'Poprawny';
 
   @override
-  String get valueNotValid => 'Wartość nieprawidłowa';
+  String get valueNotValid => 'Wprowadź liczbę od 1 do 86400 sekund';
 
   @override
   String get version => 'Wersja';

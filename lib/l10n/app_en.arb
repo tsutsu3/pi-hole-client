@@ -432,7 +432,7 @@
   "useFingerprint": "Use fingerprint",
   "username": "Username",
   "valid": "Valid",
-  "valueNotValid": "Value not valid",
+  "valueNotValid": "Please enter a number between 1 and 86400 seconds",
   "version": "Version",
   "versionDescription": "Select the version of Pi-hole you are using",
   "versionRequirements": "Version Requirements",
