@@ -173,12 +173,12 @@ class _DomainDetailsScreenState extends State<DomainDetailsScreen> {
               onTap: isV5 ? null : openCommentModal,
             ),
             CustomListTile(
-              leadingIcon: Icons.schedule_rounded,
+              leadingIcon: Icons.event_available_rounded,
               label: AppLocalizations.of(context)!.dateAdded,
               description: formatTimestamp(_domain.dateAdded, 'yyyy-MM-dd'),
             ),
             CustomListTile(
-              leadingIcon: Icons.update_rounded,
+              leadingIcon: Icons.edit_calendar_rounded,
               label: AppLocalizations.of(context)!.dateModified,
               description: formatTimestamp(_domain.dateModified, 'yyyy-MM-dd'),
             ),
