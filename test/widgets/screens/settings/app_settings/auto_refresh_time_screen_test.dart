@@ -37,13 +37,10 @@ void main() async {
 
           expect(find.byType(AutoRefreshTimeScreen), findsOneWidget);
           expect(find.text('Auto refresh time'), findsOneWidget);
-          expect(find.byIcon(Icons.save_rounded), findsOneWidget);
 
           await tester.tap(find.text('30 seconds'));
           await tester.pumpAndSettle();
 
-          await tester.tap(find.byIcon(Icons.save_rounded));
-          await tester.pumpAndSettle();
           expect(find.byType(SnackBar), findsOneWidget);
           expect(
             find.text('Update time changed successfully.'),
@@ -74,13 +71,10 @@ void main() async {
 
           expect(find.byType(AutoRefreshTimeScreen), findsOneWidget);
           expect(find.text('Auto refresh time'), findsOneWidget);
-          expect(find.byIcon(Icons.save_rounded), findsOneWidget);
 
           await tester.tap(find.text('30 seconds'));
           await tester.pumpAndSettle();
 
-          await tester.tap(find.byIcon(Icons.save_rounded));
-          await tester.pumpAndSettle();
           expect(find.byType(SnackBar), findsOneWidget);
           expect(find.text('Cannot change update time'), findsOneWidget);
         },
@@ -105,19 +99,20 @@ void main() async {
 
           expect(find.byType(AutoRefreshTimeScreen), findsOneWidget);
           expect(find.text('Auto refresh time'), findsOneWidget);
-          expect(find.byIcon(Icons.save_rounded), findsOneWidget);
 
           await tester.tap(find.text('Custom'));
           await tester.pumpAndSettle();
 
           expect(find.byType(TextField), findsOneWidget);
           await tester.enterText(find.byType(TextField), '11');
+          await tester.testTextInput.receiveAction(TextInputAction.done);
           await tester.pumpAndSettle();
 
-          expect(find.text('Value not valid'), findsNothing);
+          expect(
+            find.text('Please enter a number between 1 and 86400 seconds'),
+            findsNothing,
+          );
 
-          await tester.tap(find.byIcon(Icons.save_rounded));
-          await tester.pumpAndSettle();
           expect(find.byType(SnackBar), findsOneWidget);
 
           expect(
@@ -146,16 +141,19 @@ void main() async {
 
           expect(find.byType(AutoRefreshTimeScreen), findsOneWidget);
           expect(find.text('Auto refresh time'), findsOneWidget);
-          expect(find.byIcon(Icons.save_rounded), findsOneWidget);
 
           await tester.tap(find.text('Custom'));
           await tester.pumpAndSettle();
 
           expect(find.byType(TextField), findsOneWidget);
-          await tester.enterText(find.byType(TextField), 'aa');
+          await tester.enterText(find.byType(TextField), '0');
+          await tester.pump();
           await tester.pumpAndSettle();
 
-          expect(find.text('Value not valid'), findsOneWidget);
+          expect(
+            find.text('Please enter a number between 1 and 86400 seconds'),
+            findsOneWidget,
+          );
         },
       );
     },

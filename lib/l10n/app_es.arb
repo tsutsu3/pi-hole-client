@@ -433,7 +433,7 @@
   "useFingerprint": "Usar huella dactilar",
   "username": "Nombre de usuario",
   "valid": "Válido",
-  "valueNotValid": "Valor no válido",
+  "valueNotValid": "Ingrese un número entre 1 y 86400 segundos",
   "version": "Versión",
   "versionDescription": "Seleccione la versión de Pi-hole que está utilizando",
   "versionRequirements": "Requisitos de versión",

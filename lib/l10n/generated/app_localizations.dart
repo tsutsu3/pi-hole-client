@@ -2702,7 +2702,7 @@ abstract class AppLocalizations {
   /// No description provided for @valueNotValid.
   ///
   /// In en, this message translates to:
-  /// **'Value not valid'**
+  /// **'Please enter a number between 1 and 86400 seconds'**
   String get valueNotValid;
 
   /// No description provided for @version.

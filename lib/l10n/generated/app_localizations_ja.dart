@@ -1308,7 +1308,7 @@ class AppLocalizationsJa extends AppLocalizations {
   String get valid => '有効';
 
   @override
-  String get valueNotValid => '無効な値';
+  String get valueNotValid => '1〜86400秒の範囲の数値を入力してください';
 
   @override
   String get version => 'バージョン';
