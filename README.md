@@ -141,7 +141,7 @@ For installation instructions, please refer to the following document:
 
 ## ⚖️ License
 
-This app distributed under the Apach 2.0 License. See [LICENSE](./LICENSE) for
+This app distributed under the Apache 2.0 License. See [LICENSE](./LICENSE) for
 more information.
 
 ## 🖋️ Credits
