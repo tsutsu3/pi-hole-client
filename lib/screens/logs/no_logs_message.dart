@@ -21,9 +21,9 @@ class NoLogsMessage extends StatelessWidget {
           filtersProvider.endTime != null) {
         return '${AppLocalizations.of(context)!.noLogsDisplay} '
             '${AppLocalizations.of(context)!.between}\n'
-            '${filtersProvider.startTime != null ? formatTimestamp(filtersProvider.startTime!, 'dd/MM/yyyy - HH:mm') : AppLocalizations.of(context)!.now}\n'
+            '${filtersProvider.startTime != null ? formatTimestamp(filtersProvider.startTime!, 'yyyy-MM-dd HH:mm') : AppLocalizations.of(context)!.now}\n'
             '${AppLocalizations.of(context)!.and}\n'
-            '${filtersProvider.startTime != null && filtersProvider.endTime != null ? formatTimestamp(filtersProvider.endTime!, 'dd/MM/yyyy - HH:mm') : AppLocalizations.of(context)!.now} ';
+            '${filtersProvider.startTime != null && filtersProvider.endTime != null ? formatTimestamp(filtersProvider.endTime!, 'yyyy-MM-dd HH:mm') : AppLocalizations.of(context)!.now} ';
       } else {
         return '${AppLocalizations.of(context)!.noLogsDisplay} '
             '${AppLocalizations.of(context)!.fromLast} ${logsPerQuery == 0.5 ? '30' : logsPerQuery.toInt()} ${logsPerQuery == 0.5 ? AppLocalizations.of(context)!.minutes : AppLocalizations.of(context)!.hours}';

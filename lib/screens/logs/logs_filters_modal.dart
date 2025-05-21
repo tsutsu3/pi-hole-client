@@ -283,7 +283,7 @@ class _LogsFiltersModalState extends State<LogsFiltersModal> {
                                                       ? formatTimestamp(
                                                           filtersProvider
                                                               .startTime!,
-                                                          'dd/MM/yyyy - HH:mm',
+                                                          'yyyy-MM-dd HH:mm',
                                                         )
                                                       : AppLocalizations.of(
                                                           context,
@@ -363,7 +363,7 @@ class _LogsFiltersModalState extends State<LogsFiltersModal> {
                                                       ? formatTimestamp(
                                                           filtersProvider
                                                               .endTime!,
-                                                          'dd/MM/yyyy - HH:mm',
+                                                          'yyyy-MM-dd HH:mm',
                                                         )
                                                       : AppLocalizations.of(
                                                           context,
