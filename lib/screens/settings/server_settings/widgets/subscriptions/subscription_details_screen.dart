@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:pi_hole_client/classes/process_modal.dart';
 import 'package:pi_hole_client/config/theme.dart';
+import 'package:pi_hole_client/constants/formats.dart';
 import 'package:pi_hole_client/constants/responsive.dart';
 import 'package:pi_hole_client/functions/conversions.dart';
 import 'package:pi_hole_client/functions/format.dart';
@@ -194,15 +195,17 @@ class _SubscriptionDetailsScreenState extends State<SubscriptionDetailsScreen> {
             CustomListTile(
               leadingIcon: Icons.event_available_rounded,
               label: AppLocalizations.of(context)!.dateAdded,
-              description:
-                  formatTimestamp(_subscription.dateAdded, 'yyyy-MM-dd HH:mm'),
+              description: formatTimestamp(
+                _subscription.dateAdded,
+                kUnifiedDateTimeFormat,
+              ),
             ),
             CustomListTile(
               leadingIcon: Icons.edit_calendar_rounded,
               label: AppLocalizations.of(context)!.dateModified,
               description: formatTimestamp(
                 _subscription.dateModified,
-                'yyyy-MM-dd HH:mm',
+                kUnifiedDateTimeFormat,
               ),
             ),
             CustomListTile(
@@ -210,7 +213,7 @@ class _SubscriptionDetailsScreenState extends State<SubscriptionDetailsScreen> {
               label: AppLocalizations.of(context)!.dateUpdated,
               description: formatTimestamp(
                 _subscription.dateUpdated,
-                'yyyy-MM-dd HH:mm',
+                kUnifiedDateTimeFormat,
               ),
             ),
           ],

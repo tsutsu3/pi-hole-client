@@ -2,6 +2,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:intl/intl.dart';
 import 'package:logger/logger.dart';
+import 'package:pi_hole_client/constants/formats.dart';
 
 Level getLogLevel() {
   if (kReleaseMode) {
@@ -41,7 +42,8 @@ class TimeStampedPrinter extends LogPrinter {
 
   @override
   List<String> log(LogEvent event) {
-    final timestamp = DateFormat('yyyy-MM-dd HH:mm:ss').format(DateTime.now());
+    final timestamp =
+        DateFormat(kUnifiedDateTimeLogFormat).format(DateTime.now());
     return _prettyPrinter
         .log(event)
         .map((line) => '[$timestamp] $line')

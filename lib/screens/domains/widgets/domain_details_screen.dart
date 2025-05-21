@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:pi_hole_client/classes/process_modal.dart';
 import 'package:pi_hole_client/config/theme.dart';
 import 'package:pi_hole_client/constants/api_versions.dart';
+import 'package:pi_hole_client/constants/formats.dart';
 import 'package:pi_hole_client/constants/responsive.dart';
 import 'package:pi_hole_client/functions/conversions.dart';
 import 'package:pi_hole_client/functions/format.dart';
@@ -175,12 +176,14 @@ class _DomainDetailsScreenState extends State<DomainDetailsScreen> {
             CustomListTile(
               leadingIcon: Icons.event_available_rounded,
               label: AppLocalizations.of(context)!.dateAdded,
-              description: formatTimestamp(_domain.dateAdded, 'yyyy-MM-dd'),
+              description:
+                  formatTimestamp(_domain.dateAdded, kUnifiedDateFormat),
             ),
             CustomListTile(
               leadingIcon: Icons.edit_calendar_rounded,
               label: AppLocalizations.of(context)!.dateModified,
-              description: formatTimestamp(_domain.dateModified, 'yyyy-MM-dd'),
+              description:
+                  formatTimestamp(_domain.dateModified, kUnifiedDateFormat),
             ),
           ],
         ),
