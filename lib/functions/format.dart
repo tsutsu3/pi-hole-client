@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:pi_hole_client/constants/formats.dart';
 
 String formatTimestamp(DateTime timestamp, String format) {
   final f = DateFormat(format);
@@ -35,7 +36,7 @@ String formatWithDuration(DateTime? startedAt, DateTime? completedAt) {
   }
 
   final knownTime = (completedAt ?? startedAt)!.toLocal();
-  final formattedTime = DateFormat('yyyy-MM-dd HH:mm').format(knownTime);
+  final formattedTime = DateFormat(kUnifiedDateTimeFormat).format(knownTime);
 
   if (startedAt == null || completedAt == null) {
     return '$formattedTime (... s)';

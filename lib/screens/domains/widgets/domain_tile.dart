@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:pi_hole_client/config/theme.dart';
+import 'package:pi_hole_client/constants/formats.dart';
 import 'package:pi_hole_client/constants/responsive.dart';
 import 'package:pi_hole_client/functions/conversions.dart';
 import 'package:pi_hole_client/functions/format.dart';
@@ -105,7 +106,7 @@ class DomainTile extends StatelessWidget {
               ),
               const SizedBox(height: 10),
               Text(
-                formatTimestamp(domain.dateAdded, 'yyyy-MM-dd'),
+                formatTimestamp(domain.dateAdded, kUnifiedDateFormat),
                 overflow: TextOverflow.ellipsis,
                 style: TextStyle(
                   color: Theme.of(context).listTileTheme.textColor,
