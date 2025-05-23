@@ -1,4 +1,3 @@
-// ignore_for_file: use_build_context_synchronously
 import 'package:expandable/expandable.dart';
 import 'package:flutter/material.dart';
 import 'package:pi_hole_client/l10n/generated/app_localizations.dart';
