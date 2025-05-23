@@ -1,5 +1,3 @@
-// ignore_for_file: use_build_context_synchronously
-
 import 'package:flutter/material.dart';
 import 'package:pi_hole_client/classes/process_modal.dart';
 import 'package:pi_hole_client/constants/responsive.dart';
@@ -46,57 +44,50 @@ class _ServersTileItemState extends State<ServersTileItem>
 
     /// Delete
     Future<void> showDeleteModal(Server server) async {
-      await Future.delayed(
-        Duration.zero,
-        () => {
-          showDialog(
-            context: context,
-            useRootNavigator:
-                false, // Prevents unexpected app exit on mobile when pressing back
-            builder: (context) => DeleteServerModal(
-              serverToDelete: server,
-            ),
-            barrierDismissible: false,
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        if (!context.mounted) return;
+
+        showDialog(
+          context: context,
+          useRootNavigator: false,
+          builder: (context) => DeleteServerModal(
+            serverToDelete: server,
           ),
-        },
-      );
+          barrierDismissible: false,
+        );
+      });
     }
 
     /// Edit
     Future<void> openAddServerBottomSheet({Server? server}) async {
-      await Future.delayed(
-        Duration.zero,
-        () => {
-          if (width > ResponsiveConstants.medium)
-            {
-              showDialog(
-                context: context,
-                useRootNavigator:
-                    false, // Prevents unexpected app exit on mobile when pressing back
-                barrierDismissible: false,
-                builder: (context) => AddServerFullscreen(
-                  server: server,
-                  window: true,
-                  title: AppLocalizations.of(context)!.editConnection,
-                ),
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        if (!context.mounted) return;
+
+        if (width > ResponsiveConstants.medium) {
+          showDialog(
+            context: context,
+            useRootNavigator: false,
+            barrierDismissible: false,
+            builder: (context) => AddServerFullscreen(
+              server: server,
+              window: true,
+              title: AppLocalizations.of(context)!.editConnection,
+            ),
+          );
+        } else {
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              fullscreenDialog: true,
+              builder: (BuildContext context) => AddServerFullscreen(
+                server: server,
+                window: false,
+                title: AppLocalizations.of(context)!.editConnection,
               ),
-            }
-          else
-            {
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                  fullscreenDialog: true,
-                  builder: (BuildContext context) => AddServerFullscreen(
-                    server: server,
-                    window: false,
-                    title: AppLocalizations.of(context)!.editConnection,
-                  ),
-                ),
-              ),
-            },
-        },
-      );
+            ),
+          );
+        }
+      });
     }
 
     /// Connect to the server button
@@ -139,25 +130,31 @@ class _ServersTileItemState extends State<ServersTileItem>
       }
 
       await serversProvider.resetSelectedServer();
+      if (!context.mounted) return;
       final process = ProcessModal(context: context);
       process.open(AppLocalizations.of(context)!.connecting);
 
       final result = await serversProvider.loadApiGateway(server)?.loginQuery();
       if (result?.result == APiResponseType.success) {
         await connectSuccess(result);
-      } else if (mounted) {
+        process.close();
+      } else {
+        process.close();
+
+        if (!context.mounted) return;
         showErrorSnackBar(
           context: context,
           appConfigProvider: appConfigProvider,
           label: AppLocalizations.of(context)!.cannotConnect,
         );
       }
-      process.close();
     }
 
     /// Set default server
     Future<void> setDefaultServer(Server server) async {
       final result = await serversProvider.setDefaultServer(server);
+      if (!context.mounted) return;
+
       if (result == true) {
         showSuccessSnackBar(
           context: context,
