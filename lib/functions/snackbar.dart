@@ -1,5 +1,3 @@
-// ignore_for_file: use_build_context_synchronously
-
 import 'package:flutter/material.dart';
 import 'package:pi_hole_client/config/globals.dart';
 import 'package:pi_hole_client/config/theme.dart';
@@ -82,6 +80,8 @@ Future<void> showSnackBar({
     await Future.delayed(const Duration(milliseconds: 500));
   }
   appConfigProvider.setShowingSnackbar(true);
+
+  if (!context.mounted) return;
 
   final theme = Theme.of(context).extension<AppColors>()!;
   final backgroundColor = colorSelector(theme);

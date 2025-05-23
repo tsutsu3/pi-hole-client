@@ -1,5 +1,3 @@
-// ignore_for_file: use_build_context_synchronously
-
 import 'package:flutter/material.dart';
 import 'package:pi_hole_client/classes/process_modal.dart';
 import 'package:pi_hole_client/functions/snackbar.dart';
@@ -19,6 +17,9 @@ Future<void> enableServer(BuildContext context) async {
   process.open(AppLocalizations.of(context)!.enablingServer);
   final result = await apiGateway?.enableServerRequest();
   process.close();
+
+  if (!context.mounted) return;
+
   if (result?.result == APiResponseType.success) {
     serversProvider.updateselectedServerStatus(true);
     showSuccessSnackBar(

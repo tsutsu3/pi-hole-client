@@ -1,5 +1,3 @@
-// ignore_for_file: use_build_context_synchronously
-
 import 'package:flutter/material.dart';
 import 'package:pi_hole_client/functions/snackbar.dart';
 import 'package:pi_hole_client/l10n/generated/app_localizations.dart';
@@ -17,6 +15,8 @@ class RemovePasscodeModal extends StatelessWidget {
 
     Future<void> removePasscode() async {
       final deleted = await appConfigProvider.setPassCode(null);
+      if (!context.mounted) return;
+
       if (deleted == true) {
         await Navigator.maybePop(context);
       } else {

@@ -1,4 +1,3 @@
-// ignore_for_file: use_build_context_synchronously
 import 'dart:io';
 import 'package:animations/animations.dart';
 import 'package:flutter/material.dart';
@@ -70,6 +69,7 @@ class _BaseState extends State<Base>
 
       if (serversProvider.selectedServer != null) {
         await serversProvider.selectedApiGateway?.loginQuery();
+        if (!mounted) return;
         context.read<StatusUpdateService>().startAutoRefresh();
       }
     });

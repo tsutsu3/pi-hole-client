@@ -1,5 +1,3 @@
-// ignore_for_file: use_build_context_synchronously
-
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
@@ -21,6 +19,8 @@ class AppLogs extends StatelessWidget {
       final logsString =
           appConfigProvider.logs.map((log) => log.toMap()).toList();
       await Clipboard.setData(ClipboardData(text: jsonEncode(logsString)));
+
+      if (!context.mounted) return;
 
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(

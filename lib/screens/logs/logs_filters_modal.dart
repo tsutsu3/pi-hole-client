@@ -1,5 +1,3 @@
-// ignore_for_file: use_build_context_synchronously
-
 import 'dart:io';
 
 import 'package:flutter/material.dart';
@@ -124,6 +122,8 @@ class _LogsFiltersModalState extends State<LogsFiltersModal> {
         firstDate: DateTime(now.year, now.month - 1, now.day),
         lastDate: now,
       );
+      if (!context.mounted) return;
+
       if (dateValue != null) {
         final timeValue = await showTimePicker(
           context: context,
