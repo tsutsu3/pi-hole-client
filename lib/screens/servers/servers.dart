@@ -1,5 +1,3 @@
-// ignore_for_file: use_build_context_synchronously
-
 import 'dart:io';
 
 import 'package:expandable/expandable.dart';
@@ -83,39 +81,35 @@ class _ServersPageState extends State<ServersPage> {
     }
 
     Future<void> openAddServer({Server? server}) async {
-      await Future.delayed(
-        Duration.zero,
-        () => {
-          if (width > ResponsiveConstants.medium)
-            {
-              showDialog(
-                context: context,
-                useRootNavigator:
-                    false, // Prevents unexpected app exit on mobile when pressing back
-                builder: (context) => AddServerFullscreen(
-                  server: server,
-                  window: true,
-                  title: AppLocalizations.of(context)!.createConnection,
-                ),
-                barrierDismissible: false,
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        if (!context.mounted) return;
+
+        if (width > ResponsiveConstants.medium) {
+          showDialog(
+            context: context,
+            useRootNavigator:
+                false, // Prevents unexpected app exit on mobile when pressing back
+            barrierDismissible: false,
+            builder: (context) => AddServerFullscreen(
+              server: server,
+              window: true,
+              title: AppLocalizations.of(context)!.createConnection,
+            ),
+          );
+        } else {
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              fullscreenDialog: true,
+              builder: (BuildContext context) => AddServerFullscreen(
+                server: server,
+                window: false,
+                title: AppLocalizations.of(context)!.createConnection,
               ),
-            }
-          else
-            {
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                  fullscreenDialog: true,
-                  builder: (BuildContext context) => AddServerFullscreen(
-                    server: server,
-                    window: false,
-                    title: AppLocalizations.of(context)!.createConnection,
-                  ),
-                ),
-              ),
-            },
-        },
-      );
+            ),
+          );
+        }
+      });
     }
 
     return PopScope(

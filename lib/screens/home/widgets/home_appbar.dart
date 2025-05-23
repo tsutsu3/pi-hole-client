@@ -1,5 +1,3 @@
-// ignore_for_file: use_build_context_synchronously
-
 import 'package:flutter/material.dart';
 import 'package:pi_hole_client/classes/process_modal.dart';
 import 'package:pi_hole_client/config/system_overlay_style.dart';
@@ -34,6 +32,8 @@ class HomeAppBar extends StatelessWidget implements PreferredSizeWidget {
       process.open(AppLocalizations.of(context)!.refreshingData);
       final result = await serversProvider.selectedApiGateway?.realtimeStatus();
       process.close();
+      if (!context.mounted) return;
+
       if (result?.result == APiResponseType.success) {
         serversProvider.updateselectedServerStatus(
           result!.data!.status == 'enabled' ? true : false,
@@ -54,14 +54,9 @@ class HomeAppBar extends StatelessWidget implements PreferredSizeWidget {
     }
 
     void changeServer() {
-      Future.delayed(
-        Duration.zero,
-        () => {
-          Navigator.push(
-            context,
-            MaterialPageRoute(builder: (context) => const ServersPage()),
-          ),
-        },
+      Navigator.push(
+        context,
+        MaterialPageRoute(builder: (context) => const ServersPage()),
       );
     }
 
@@ -101,6 +96,8 @@ class HomeAppBar extends StatelessWidget implements PreferredSizeWidget {
 
       final result = await serversProvider.loadApiGateway(server)?.loginQuery();
       process.close();
+      if (!context.mounted) return;
+
       if (result?.result == APiResponseType.success) {
         await connectSuccess(result);
       } else {

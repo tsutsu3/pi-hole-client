@@ -1,5 +1,3 @@
-// ignore_for_file: use_build_context_synchronously
-
 import 'package:flutter/material.dart';
 import 'package:flutter_app_lock/flutter_app_lock.dart';
 import 'package:local_auth/local_auth.dart';
@@ -37,6 +35,7 @@ class _UnlockState extends State<Unlock> {
     final biometrics = await auth.getAvailableBiometrics();
     if (appConfigProvider.useBiometrics == true && biometrics.isNotEmpty) {
       await auth.stopAuthentication();
+      if (!mounted) return;
       try {
         final didAuthenticate = await auth.authenticate(
           localizedReason: AppLocalizations.of(context)!.unlockWithFingerprint,

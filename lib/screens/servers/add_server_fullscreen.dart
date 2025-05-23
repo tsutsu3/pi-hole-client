@@ -1,5 +1,3 @@
-// ignore_for_file: use_build_context_synchronously
-
 import 'dart:io';
 
 import 'package:flutter/material.dart';
@@ -260,6 +258,9 @@ class _AddServerFullscreenState extends State<AddServerFullscreen> {
       final url =
           '${connectionType.name}://${addressFieldController.text}${portFieldController.text != '' ? ':${portFieldController.text}' : ''}${subrouteFieldController.text}';
       final exists = await serversProvider.checkUrlExists(url);
+
+      if (!context.mounted) return;
+
       if (exists['result'] == 'success' && exists['exists'] == true) {
         setState(() {
           errorUrl = AppLocalizations.of(context)!.connectionAlreadyExists;
@@ -290,9 +291,10 @@ class _AddServerFullscreenState extends State<AddServerFullscreen> {
         await serverObj.sm.saveToken(tokenFieldController.text);
         final result =
             await serversProvider.loadApiGateway(serverObj)?.loginQuery();
-        if (!mounted) return;
+        if (!context.mounted) return;
         if (result?.result == APiResponseType.success) {
           await Navigator.maybePop(context);
+          if (!context.mounted) return;
           showSuccessSnackBar(
             context: context,
             appConfigProvider: appConfigProvider,
@@ -318,6 +320,7 @@ class _AddServerFullscreenState extends State<AddServerFullscreen> {
 
             await serverObj.sm.deletePassword();
             await serverObj.sm.deleteToken();
+            if (!context.mounted) return;
 
             handleApiErrorResult(
               context: context,
@@ -360,9 +363,10 @@ class _AddServerFullscreenState extends State<AddServerFullscreen> {
           defaultServer: defaultCheckbox,
         );
         final result = await serversProvider.editServer(server);
-        if (mounted) {
+        if (context.mounted) {
           if (result == true) {
             await Navigator.maybePop(context);
+            if (!context.mounted) return;
 
             showSuccessSnackBar(
               context: context,
@@ -381,7 +385,7 @@ class _AddServerFullscreenState extends State<AddServerFullscreen> {
           }
         }
       } else {
-        if (mounted) {
+        if (context.mounted) {
           setState(() {
             isConnecting = false;
             _restoreSecrets();

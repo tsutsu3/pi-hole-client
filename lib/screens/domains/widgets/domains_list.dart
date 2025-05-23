@@ -1,5 +1,3 @@
-// ignore_for_file: use_build_context_synchronously
-
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:pi_hole_client/classes/process_modal.dart';
@@ -88,9 +86,13 @@ class _DomainsListState extends State<DomainsList> {
 
       process.close();
 
+      if (!context.mounted) return;
+
       if (result?.result == APiResponseType.success) {
         domainsListProvider.removeDomainFromList(domain);
         await Navigator.maybePop(context);
+        if (!context.mounted) return;
+
         showSuccessSnackBar(
           context: context,
           appConfigProvider: appConfigProvider,
@@ -121,8 +123,12 @@ class _DomainsListState extends State<DomainsList> {
 
       process.close();
 
+      if (!context.mounted) return;
+
       if (result?.result == APiResponseType.success) {
         await domainsListProvider.fetchDomainsList();
+        if (!context.mounted) return;
+
         showSuccessSnackBar(
           context: context,
           appConfigProvider: appConfigProvider,

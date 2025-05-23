@@ -1,5 +1,3 @@
-// ignore_for_file: use_build_context_synchronously
-
 import 'package:flutter/material.dart';
 import 'package:local_auth/local_auth.dart';
 import 'package:pi_hole_client/functions/conversions.dart';
@@ -88,6 +86,7 @@ class _AppUnlockSetupModalState extends State<AppUnlockSetupModal> {
             );
             if (didAuthenticate == true) {
               final result = await appConfigProvider.setUseBiometrics(true);
+              if (!context.mounted) return;
               if (result == false) {
                 showErrorSnackBar(
                   context: context,
@@ -98,6 +97,7 @@ class _AppUnlockSetupModalState extends State<AppUnlockSetupModal> {
               }
             }
           } catch (e) {
+            if (!context.mounted) return;
             if (e.toString().contains('LockedOut')) {
               showErrorSnackBar(
                 context: context,
@@ -114,6 +114,7 @@ class _AppUnlockSetupModalState extends State<AppUnlockSetupModal> {
             }
           }
         } else {
+          if (!context.mounted) return;
           showNeutralSnackBar(
             context: context,
             appConfigProvider: appConfigProvider,
@@ -122,6 +123,7 @@ class _AppUnlockSetupModalState extends State<AppUnlockSetupModal> {
         }
       } else {
         final result = await appConfigProvider.setUseBiometrics(false);
+        if (!context.mounted) return;
         if (result == false) {
           showErrorSnackBar(
             context: context,

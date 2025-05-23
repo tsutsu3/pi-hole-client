@@ -1,5 +1,3 @@
-// ignore_for_file: use_build_context_synchronously
-
 import 'package:flutter/material.dart';
 import 'package:pi_hole_client/classes/process_modal.dart';
 import 'package:pi_hole_client/constants/responsive.dart';
@@ -88,6 +86,8 @@ class _DomainListsWidgetState extends State<DomainListsWidget>
       final result = await apiGateway?.removeDomainFromList(domain);
 
       process.close();
+
+      if (!context.mounted) return;
 
       if (result?.result == APiResponseType.success) {
         domainsListProvider.removeDomainFromList(domain);

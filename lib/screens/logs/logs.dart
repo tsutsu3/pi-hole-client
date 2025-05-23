@@ -1,5 +1,3 @@
-// ignore_for_file: use_build_context_synchronously
-
 import 'package:flutter/material.dart';
 import 'package:pi_hole_client/classes/process_modal.dart';
 import 'package:pi_hole_client/config/system_overlay_style.dart';
@@ -260,9 +258,11 @@ class _LogsState extends State<Logs> {
       );
       final result = await apiGateway?.setWhiteBlacklist(log.url, list);
       loading.close();
+
+      if (!context.mounted) return;
+
       if (result?.result == APiResponseType.success) {
         if (result!.data!.message.contains('Added')) {
-          if (!mounted) return;
           showSuccessSnackBar(
             context: context,
             appConfigProvider: appConfigProvider,

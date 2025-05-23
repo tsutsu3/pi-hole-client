@@ -1,5 +1,3 @@
-// ignore_for_file: use_build_context_synchronously
-
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:pi_hole_client/constants/urls.dart';
@@ -179,6 +177,7 @@ class StartInfoModal extends StatelessWidget {
                   TextButton(
                     onPressed: () async {
                       await appConfigProvider.setImportantInfoReaden(true);
+                      if (!context.mounted) return;
                       await Navigator.maybePop(context);
                     },
                     child: Text(AppLocalizations.of(context)!.close),
