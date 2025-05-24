@@ -14,11 +14,26 @@ class CustomPieChart extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final defaultColors = Theme.of(context).extension<GraphColors>()!.colors;
+    final greyColor =
+        Theme.of(context).extension<AppColors>()!.commonLightGrey!;
+
+    final colorList = <Color>[];
+    var colorIndex = 0;
+    for (final key in data.keys) {
+      if (key.toLowerCase() == 'empty') {
+        colorList.add(greyColor);
+      } else {
+        colorList.add(defaultColors[colorIndex % defaultColors.length]);
+        colorIndex++;
+      }
+    }
+
     return PieChart(
       dataMap: data,
       animationDuration: const Duration(milliseconds: 800),
       chartRadius: MediaQuery.of(context).size.width / radiusScale,
-      colorList: Theme.of(context).extension<GraphColors>()!.colors,
+      colorList: colorList,
       initialAngleInDegree: 270,
       chartType: ChartType.ring,
       legendOptions: const LegendOptions(showLegends: false),

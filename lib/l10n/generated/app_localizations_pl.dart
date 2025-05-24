@@ -456,6 +456,15 @@ class AppLocalizationsPl extends AppLocalizations {
   String get disablingServer => 'Wyłączanie serwera...';
 
   @override
+  String get dns => 'DNS';
+
+  @override
+  String get dnsCacheMetrics => 'Metryki pamięci podręcznej DNS';
+
+  @override
+  String get dnsReplyMetrics => 'Metryki odpowiedzi DNS';
+
+  @override
   String get domain => 'Domena';
 
   @override

@@ -456,6 +456,15 @@ class AppLocalizationsJa extends AppLocalizations {
   String get disablingServer => 'サーバーを無効化中...';
 
   @override
+  String get dns => 'DNS';
+
+  @override
+  String get dnsCacheMetrics => 'DNSキャッシュメトリクス';
+
+  @override
+  String get dnsReplyMetrics => 'DNSリプライメトリクス';
+
+  @override
   String get domain => 'ドメイン';
 
   @override

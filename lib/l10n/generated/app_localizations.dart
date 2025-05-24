@@ -995,6 +995,24 @@ abstract class AppLocalizations {
   /// **'Disabling server...'**
   String get disablingServer;
 
+  /// No description provided for @dns.
+  ///
+  /// In en, this message translates to:
+  /// **'DNS'**
+  String get dns;
+
+  /// No description provided for @dnsCacheMetrics.
+  ///
+  /// In en, this message translates to:
+  /// **'DNS cache metrics'**
+  String get dnsCacheMetrics;
+
+  /// No description provided for @dnsReplyMetrics.
+  ///
+  /// In en, this message translates to:
+  /// **'DNS reply metrics'**
+  String get dnsReplyMetrics;
+
   /// No description provided for @domain.
   ///
   /// In en, this message translates to:

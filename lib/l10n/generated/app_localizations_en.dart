@@ -456,6 +456,15 @@ class AppLocalizationsEn extends AppLocalizations {
   String get disablingServer => 'Disabling server...';
 
   @override
+  String get dns => 'DNS';
+
+  @override
+  String get dnsCacheMetrics => 'DNS cache metrics';
+
+  @override
+  String get dnsReplyMetrics => 'DNS reply metrics';
+
+  @override
   String get domain => 'Domain';
 
   @override
