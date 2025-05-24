@@ -896,4 +896,14 @@ class ApiGatewayV5 implements ApiGateway {
       ),
     );
   }
+
+  @override
+  Future<MetricsResponse> getMetrics() async {
+    return Future.value(
+      MetricsResponse(
+        result: APiResponseType.notSupported,
+        message: notSupportedMessage,
+      ),
+    );
+  }
 }

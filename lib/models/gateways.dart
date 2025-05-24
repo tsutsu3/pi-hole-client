@@ -5,6 +5,7 @@ import 'package:pi_hole_client/models/groups.dart';
 import 'package:pi_hole_client/models/host.dart';
 import 'package:pi_hole_client/models/log.dart';
 import 'package:pi_hole_client/models/messages.dart';
+import 'package:pi_hole_client/models/metrics.dart';
 import 'package:pi_hole_client/models/overtime_data.dart';
 import 'package:pi_hole_client/models/realtime_status.dart';
 import 'package:pi_hole_client/models/search.dart';
@@ -362,6 +363,14 @@ class RemoveMessageResponse extends BaseInfoResponse<void> {
 
 class GravityResponse extends BaseInfoResponse<List<String>> {
   GravityResponse({
+    required super.result,
+    super.message,
+    super.data,
+  });
+}
+
+class MetricsResponse extends BaseInfoResponse<MetricsInfo> {
+  MetricsResponse({
     required super.result,
     super.message,
     super.data,

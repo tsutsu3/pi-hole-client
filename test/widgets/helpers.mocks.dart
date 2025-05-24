@@ -336,9 +336,20 @@ class _FakeRemoveMessageResponse_25 extends _i1.SmartFake
         );
 }
 
-class _FakeStreamedResponse_26 extends _i1.SmartFake
+class _FakeMetricsResponse_26 extends _i1.SmartFake
+    implements _i5.MetricsResponse {
+  _FakeMetricsResponse_26(
+    Object parent,
+    Invocation parentInvocation,
+  ) : super(
+          parent,
+          parentInvocation,
+        );
+}
+
+class _FakeStreamedResponse_27 extends _i1.SmartFake
     implements _i4.StreamedResponse {
-  _FakeStreamedResponse_26(
+  _FakeStreamedResponse_27(
     Object parent,
     Invocation parentInvocation,
   ) : super(
@@ -2087,6 +2098,22 @@ class MockApiGatewayV5 extends _i1.Mock implements _i26.ApiGatewayV5 {
           ),
         )),
       ) as _i12.Future<_i5.RemoveMessageResponse>);
+
+  @override
+  _i12.Future<_i5.MetricsResponse> getMetrics() => (super.noSuchMethod(
+        Invocation.method(
+          #getMetrics,
+          [],
+        ),
+        returnValue:
+            _i12.Future<_i5.MetricsResponse>.value(_FakeMetricsResponse_26(
+          this,
+          Invocation.method(
+            #getMetrics,
+            [],
+          ),
+        )),
+      ) as _i12.Future<_i5.MetricsResponse>);
 }
 
 /// A class which mocks [ApiGatewayV6].
@@ -2186,7 +2213,7 @@ class MockApiGatewayV6 extends _i1.Mock implements _i29.ApiGatewayV6 {
           },
         ),
         returnValue:
-            _i12.Future<_i4.StreamedResponse>.value(_FakeStreamedResponse_26(
+            _i12.Future<_i4.StreamedResponse>.value(_FakeStreamedResponse_27(
           this,
           Invocation.method(
             #httpClientStream,
@@ -2743,6 +2770,22 @@ class MockApiGatewayV6 extends _i1.Mock implements _i29.ApiGatewayV6 {
           ),
         )),
       ) as _i12.Future<_i5.RemoveMessageResponse>);
+
+  @override
+  _i12.Future<_i5.MetricsResponse> getMetrics() => (super.noSuchMethod(
+        Invocation.method(
+          #getMetrics,
+          [],
+        ),
+        returnValue:
+            _i12.Future<_i5.MetricsResponse>.value(_FakeMetricsResponse_26(
+          this,
+          Invocation.method(
+            #getMetrics,
+            [],
+          ),
+        )),
+      ) as _i12.Future<_i5.MetricsResponse>);
 }
 
 /// A class which mocks [StatusUpdateService].

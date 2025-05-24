@@ -10,6 +10,7 @@ import 'package:pi_hole_client/constants/subscription_types.dart';
 import 'package:pi_hole_client/gateways/v6/api_gateway_v6.dart';
 import 'package:pi_hole_client/models/api/v6/ftl/host.dart' show Host;
 import 'package:pi_hole_client/models/api/v6/ftl/messages.dart';
+import 'package:pi_hole_client/models/api/v6/ftl/metrics.dart';
 import 'package:pi_hole_client/models/api/v6/ftl/sensors.dart' show Sensors;
 import 'package:pi_hole_client/models/api/v6/ftl/system.dart' show System;
 import 'package:pi_hole_client/models/api/v6/ftl/version.dart' show Version;
@@ -21,6 +22,7 @@ import 'package:pi_hole_client/models/gateways.dart';
 import 'package:pi_hole_client/models/groups.dart';
 import 'package:pi_hole_client/models/host.dart';
 import 'package:pi_hole_client/models/messages.dart';
+import 'package:pi_hole_client/models/metrics.dart';
 import 'package:pi_hole_client/models/search.dart';
 import 'package:pi_hole_client/models/sensors.dart';
 import 'package:pi_hole_client/models/server.dart';
@@ -3571,6 +3573,155 @@ void main() async {
 
       expect(response.result, APiResponseType.error);
       expect(response.message, unexpectedError);
+    });
+  });
+
+  group('getMetrics', () {
+    late Server server;
+    const data = {
+      'metrics': {
+        'dns': {
+          'cache': {
+            'size': 10000,
+            'inserted': 4060,
+            'evicted': 0,
+            'expired': 0,
+            'immortal': 0,
+            'content': [
+              {
+                'type': 0,
+                'name': 'OTHER',
+                'count': {'valid': 0, 'stale': 0},
+              },
+              {
+                'type': 1,
+                'name': 'A',
+                'count': {'valid': 14, 'stale': 3},
+              },
+              {
+                'type': 28,
+                'name': 'AAAA',
+                'count': {'valid': 12, 'stale': 1},
+              },
+              {
+                'type': 5,
+                'name': 'CNAME',
+                'count': {'valid': 5, 'stale': 3},
+              },
+              {
+                'type': 43,
+                'name': 'DS',
+                'count': {'valid': 34, 'stale': 21},
+              },
+              {
+                'type': 48,
+                'name': 'DNSKEY',
+                'count': {'valid': 1, 'stale': 0},
+              }
+            ],
+          },
+          'replies': {
+            'optimized': 1,
+            'local': 84,
+            'auth': 0,
+            'forwarded': 46,
+            'unanswered': 0,
+            'sum': 131,
+          },
+        },
+        'dhcp': {
+          'ack': 0,
+          'nak': 0,
+          'decline': 0,
+          'offer': 0,
+          'discover': 0,
+          'inform': 0,
+          'request': 0,
+          'release': 0,
+          'noanswer': 0,
+          'bootp': 0,
+          'pxe': 0,
+          'leases': {
+            'allocated_4': 0,
+            'pruned_4': 0,
+            'allocated_6': 0,
+            'pruned_6': 0,
+          },
+        },
+      },
+      'took': 0.003,
+    };
+    const erroData = {
+      'error': {'key': 'unauthorized', 'message': 'Unauthorized', 'hint': null},
+      'took': 0.003,
+    };
+
+    setUp(() {
+      server = Server(
+        address: 'http://example.com',
+        alias: 'example',
+        defaultServer: true,
+        apiVersion: SupportedApiVersions.v6,
+        allowSelfSignedCert: true,
+      );
+      server.sm.savePassword('xxx123');
+    });
+
+    test('should return success', () async {
+      final mockClient = MockClient();
+      final apiGateway = ApiGatewayV6(server, client: mockClient);
+
+      when(
+        mockClient.get(
+          Uri.parse('http://example.com/api/info/metrics'),
+          headers: anyNamed('headers'),
+        ),
+      ).thenAnswer((_) async => http.Response(jsonEncode(data), 200));
+
+      final response = await apiGateway.getMetrics();
+
+      expect(response.result, APiResponseType.success);
+      expect(response.message, null);
+      expect(
+        response.data?.toJson(),
+        MetricsInfo.fromV6(Metrics.fromJson(data)).toJson(),
+      );
+    });
+
+    test('should return an error when status code is 401', () async {
+      final mockClient = MockClient();
+      final apiGateway = ApiGatewayV6(server, client: mockClient);
+
+      when(
+        mockClient.get(
+          Uri.parse('http://example.com/api/info/metrics'),
+          headers: anyNamed('headers'),
+        ),
+      ).thenAnswer((_) async => http.Response(jsonEncode(erroData), 401));
+
+      final response = await apiGateway.getMetrics();
+
+      expect(response.result, APiResponseType.error);
+      expect(response.message, fetchError);
+      expect(response.data?.toJson(), null);
+    });
+
+    test('should return an error when an unexpected error occurs', () async {
+      final mockClient = MockClient();
+      final apiGateway = ApiGatewayV6(server, client: mockClient);
+
+      when(
+        mockClient.get(
+          Uri.parse('http://example.com/api/info/metrics'),
+          headers: anyNamed('headers'),
+        ),
+      ).thenThrow(Exception('Unexpected error test'));
+
+      final response = await apiGateway.getMetrics();
+
+      expect(response.result, APiResponseType.error);
+      expect(response.message, unexpectedError);
+      expect(response.data?.toJson(), null);
     });
   });
 }
