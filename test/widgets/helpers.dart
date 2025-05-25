@@ -18,6 +18,7 @@ import 'package:pi_hole_client/gateways/v6/api_gateway_v6.dart';
 import 'package:pi_hole_client/l10n/generated/app_localizations.dart';
 import 'package:pi_hole_client/models/api/v6/ftl/host.dart' show Host;
 import 'package:pi_hole_client/models/api/v6/ftl/messages.dart' show Messages;
+import 'package:pi_hole_client/models/api/v6/ftl/metrics.dart';
 import 'package:pi_hole_client/models/api/v6/ftl/sensors.dart' show Sensors;
 import 'package:pi_hole_client/models/api/v6/ftl/system.dart' show System;
 import 'package:pi_hole_client/models/api/v6/ftl/version.dart' show Version;
@@ -31,6 +32,7 @@ import 'package:pi_hole_client/models/groups.dart';
 import 'package:pi_hole_client/models/host.dart';
 import 'package:pi_hole_client/models/log.dart';
 import 'package:pi_hole_client/models/messages.dart';
+import 'package:pi_hole_client/models/metrics.dart';
 import 'package:pi_hole_client/models/overtime_data.dart';
 import 'package:pi_hole_client/models/realtime_status.dart';
 import 'package:pi_hole_client/models/sensors.dart';
@@ -884,6 +886,82 @@ final messages = Messages.fromJson(
   },
 );
 
+final metrics = Metrics.fromJson(
+  {
+    'metrics': {
+      'dns': {
+        'cache': {
+          'size': 10000,
+          'inserted': 4060,
+          'evicted': 0,
+          'expired': 0,
+          'immortal': 0,
+          'content': [
+            {
+              'type': 0,
+              'name': 'OTHER',
+              'count': {'valid': 0, 'stale': 0},
+            },
+            {
+              'type': 1,
+              'name': 'A',
+              'count': {'valid': 14, 'stale': 3},
+            },
+            {
+              'type': 28,
+              'name': 'AAAA',
+              'count': {'valid': 12, 'stale': 1},
+            },
+            {
+              'type': 5,
+              'name': 'CNAME',
+              'count': {'valid': 5, 'stale': 3},
+            },
+            {
+              'type': 43,
+              'name': 'DS',
+              'count': {'valid': 34, 'stale': 21},
+            },
+            {
+              'type': 48,
+              'name': 'DNSKEY',
+              'count': {'valid': 1, 'stale': 0},
+            }
+          ],
+        },
+        'replies': {
+          'optimized': 1,
+          'local': 84,
+          'auth': 0,
+          'forwarded': 46,
+          'unanswered': 0,
+          'sum': 131,
+        },
+      },
+      'dhcp': {
+        'ack': 0,
+        'nak': 0,
+        'decline': 0,
+        'offer': 0,
+        'discover': 0,
+        'inform': 0,
+        'request': 0,
+        'release': 0,
+        'noanswer': 0,
+        'bootp': 0,
+        'pxe': 0,
+        'leases': {
+          'allocated_4': 0,
+          'pruned_4': 0,
+          'allocated_6': 0,
+          'pruned_6': 0,
+        },
+      },
+    },
+    'took': 0.003,
+  },
+);
+
 /// Initialize the app with the given environment file.
 ///
 /// This function should be called before any other setup.
@@ -1286,6 +1364,12 @@ class TestSetupHelper {
     when(mockStatusProvider.getOvertimeDataJson)
         .thenReturn(overtimeData.toJson());
     when(mockStatusProvider.getRealtimeStatus).thenReturn(realtimeStatus);
+    when(mockStatusProvider.getMetricsInfo)
+        .thenReturn(MetricsInfo.fromV6(metrics));
+    when(mockStatusProvider.getDnsCacheInfo)
+        .thenReturn(MetricsInfo.fromV6(metrics).dnsCache);
+    when(mockStatusProvider.getDnsRepliesInfo)
+        .thenReturn(MetricsInfo.fromV6(metrics).dnsReplies);
   }
 
   void _initDomainListProviderMock(String useApiGatewayVersion) {
@@ -1546,6 +1630,13 @@ class TestSetupHelper {
       (_) async => DomainResponse(
         result: APiResponseType.success,
         data: domains[0],
+      ),
+    );
+
+    when(mockApiGatewayV6.getMetrics()).thenAnswer(
+      (_) async => MetricsResponse(
+        result: APiResponseType.success,
+        data: MetricsInfo.fromV6(metrics),
       ),
     );
   }

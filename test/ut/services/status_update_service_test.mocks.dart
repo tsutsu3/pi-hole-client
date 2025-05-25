@@ -15,22 +15,23 @@ import 'package:package_info_plus/package_info_plus.dart' as _i10;
 import 'package:pi_hole_client/config/theme.dart' as _i2;
 import 'package:pi_hole_client/constants/enums.dart' as _i19;
 import 'package:pi_hole_client/gateways/api_gateway_interface.dart' as _i17;
-import 'package:pi_hole_client/gateways/v6/api_gateway_v6.dart' as _i24;
+import 'package:pi_hole_client/gateways/v6/api_gateway_v6.dart' as _i25;
 import 'package:pi_hole_client/models/app_log.dart' as _i9;
-import 'package:pi_hole_client/models/domain.dart' as _i25;
+import 'package:pi_hole_client/models/domain.dart' as _i26;
 import 'package:pi_hole_client/models/gateways.dart' as _i5;
-import 'package:pi_hole_client/models/groups.dart' as _i27;
+import 'package:pi_hole_client/models/groups.dart' as _i28;
+import 'package:pi_hole_client/models/metrics.dart' as _i22;
 import 'package:pi_hole_client/models/overtime_data.dart' as _i21;
 import 'package:pi_hole_client/models/query_status.dart' as _i16;
 import 'package:pi_hole_client/models/realtime_status.dart' as _i20;
 import 'package:pi_hole_client/models/repository/database.dart' as _i13;
 import 'package:pi_hole_client/models/server.dart' as _i3;
-import 'package:pi_hole_client/models/subscriptions.dart' as _i26;
+import 'package:pi_hole_client/models/subscriptions.dart' as _i27;
 import 'package:pi_hole_client/providers/app_config_provider.dart' as _i6;
-import 'package:pi_hole_client/providers/filters_provider.dart' as _i22;
+import 'package:pi_hole_client/providers/filters_provider.dart' as _i23;
 import 'package:pi_hole_client/providers/servers_provider.dart' as _i15;
 import 'package:pi_hole_client/providers/status_provider.dart' as _i18;
-import 'package:pi_hole_client/screens/logs/logs_filters_modal.dart' as _i23;
+import 'package:pi_hole_client/screens/logs/logs_filters_modal.dart' as _i24;
 
 // ignore_for_file: type=lint
 // ignore_for_file: avoid_redundant_argument_values
@@ -1041,6 +1042,15 @@ class MockStatusProvider extends _i1.Mock implements _i18.StatusProvider {
       );
 
   @override
+  void setMetricsInfo(_i22.MetricsInfo? value) => super.noSuchMethod(
+        Invocation.method(
+          #setMetricsInfo,
+          [value],
+        ),
+        returnValueForMissingStub: null,
+      );
+
+  @override
   void addListener(_i14.VoidCallback? listener) => super.noSuchMethod(
         Invocation.method(
           #addListener,
@@ -1080,7 +1090,7 @@ class MockStatusProvider extends _i1.Mock implements _i18.StatusProvider {
 /// A class which mocks [FiltersProvider].
 ///
 /// See the documentation for Mockito's code generation for more information.
-class MockFiltersProvider extends _i1.Mock implements _i22.FiltersProvider {
+class MockFiltersProvider extends _i1.Mock implements _i23.FiltersProvider {
   MockFiltersProvider() {
     _i1.throwOnMissingStub(this);
   }
@@ -1125,10 +1135,10 @@ class MockFiltersProvider extends _i1.Mock implements _i22.FiltersProvider {
       ) as List<String>);
 
   @override
-  _i23.RequestStatus get requestStatus => (super.noSuchMethod(
+  _i24.RequestStatus get requestStatus => (super.noSuchMethod(
         Invocation.getter(#requestStatus),
-        returnValue: _i23.RequestStatus.all,
-      ) as _i23.RequestStatus);
+        returnValue: _i24.RequestStatus.all,
+      ) as _i24.RequestStatus);
 
   @override
   bool get hasListeners => (super.noSuchMethod(
@@ -1236,7 +1246,7 @@ class MockFiltersProvider extends _i1.Mock implements _i22.FiltersProvider {
       );
 
   @override
-  void setRequestStatus(_i23.RequestStatus? status) => super.noSuchMethod(
+  void setRequestStatus(_i24.RequestStatus? status) => super.noSuchMethod(
         Invocation.method(
           #setRequestStatus,
           [status],
@@ -1284,7 +1294,7 @@ class MockFiltersProvider extends _i1.Mock implements _i22.FiltersProvider {
 /// A class which mocks [ApiGatewayV6].
 ///
 /// See the documentation for Mockito's code generation for more information.
-class MockApiGatewayV6 extends _i1.Mock implements _i24.ApiGatewayV6 {
+class MockApiGatewayV6 extends _i1.Mock implements _i25.ApiGatewayV6 {
   MockApiGatewayV6() {
     _i1.throwOnMissingStub(this);
   }
@@ -1552,7 +1562,7 @@ class MockApiGatewayV6 extends _i1.Mock implements _i24.ApiGatewayV6 {
 
   @override
   _i12.Future<_i5.RemoveDomainFromListResponse> removeDomainFromList(
-          _i25.Domain? domain) =>
+          _i26.Domain? domain) =>
       (super.noSuchMethod(
         Invocation.method(
           #removeDomainFromList,
@@ -1588,7 +1598,7 @@ class MockApiGatewayV6 extends _i1.Mock implements _i24.ApiGatewayV6 {
 
   @override
   _i12.Future<_i5.DomainResponse> updateDomain(
-          {required _i25.DomainRequest? body}) =>
+          {required _i26.DomainRequest? body}) =>
       (super.noSuchMethod(
         Invocation.method(
           #updateDomain,
@@ -1744,7 +1754,7 @@ class MockApiGatewayV6 extends _i1.Mock implements _i24.ApiGatewayV6 {
 
   @override
   _i12.Future<_i5.SubscriptionsResponse> createSubscription(
-          {required _i26.SubscriptionRequest? body}) =>
+          {required _i27.SubscriptionRequest? body}) =>
       (super.noSuchMethod(
         Invocation.method(
           #createSubscription,
@@ -1764,7 +1774,7 @@ class MockApiGatewayV6 extends _i1.Mock implements _i24.ApiGatewayV6 {
 
   @override
   _i12.Future<_i5.SubscriptionsResponse> updateSubscription(
-          {required _i26.SubscriptionRequest? body}) =>
+          {required _i27.SubscriptionRequest? body}) =>
       (super.noSuchMethod(
         Invocation.method(
           #updateSubscription,
@@ -1856,7 +1866,7 @@ class MockApiGatewayV6 extends _i1.Mock implements _i24.ApiGatewayV6 {
 
   @override
   _i12.Future<_i5.GroupsResponse> createGroup(
-          {required _i27.GroupRequest? body}) =>
+          {required _i28.GroupRequest? body}) =>
       (super.noSuchMethod(
         Invocation.method(
           #createGroup,
@@ -1876,7 +1886,7 @@ class MockApiGatewayV6 extends _i1.Mock implements _i24.ApiGatewayV6 {
 
   @override
   _i12.Future<_i5.GroupsResponse> updateGroup(
-          {required _i27.GroupRequest? body}) =>
+          {required _i28.GroupRequest? body}) =>
       (super.noSuchMethod(
         Invocation.method(
           #updateGroup,
