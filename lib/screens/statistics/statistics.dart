@@ -124,7 +124,7 @@ class _StatisticsState extends State<Statistics> {
     }
 
     return DefaultTabController(
-      length: 4,
+      length: tabs.length,
       child: Scaffold(
         body: NestedScrollView(
           headerSliverBuilder: (context, innerBoxIsScrolled) {
