@@ -55,8 +55,13 @@ class DnsCacheInfo {
         final stale = item.count.stale;
         final name = item.name;
 
-        percentages[name] = (valid / cache.size) * 100;
-        percentages['$name (stale)'] = (stale / cache.size) * 100;
+        if (cache.size > 0) {
+          percentages[name] = (valid / cache.size) * 100;
+          percentages['$name (stale)'] = (stale / cache.size) * 100;
+        } else {
+          percentages[name] = 0.0;
+          percentages['$name (stale)'] = 0.0;
+        }
       }
     }
 
@@ -104,11 +109,16 @@ class DnsRepliesInfo {
     required this.unanswered,
     required this.auth,
     required this.sum,
-  })  : localPercentage = local.toDouble() / sum.toDouble() * 100.0,
-        forwardedPercentage = forwarded.toDouble() / sum.toDouble() * 100.0,
-        optimizedPercentage = optimized.toDouble() / sum.toDouble() * 100.0,
-        unansweredPercentage = unanswered.toDouble() / sum.toDouble() * 100.0,
-        authPercentage = auth.toDouble() / sum.toDouble() * 100.0;
+  })  : localPercentage =
+            (sum > 0) ? local.toDouble() / sum.toDouble() * 100.0 : 0.0,
+        forwardedPercentage =
+            (sum > 0) ? forwarded.toDouble() / sum.toDouble() * 100.0 : 0.0,
+        optimizedPercentage =
+            (sum > 0) ? optimized.toDouble() / sum.toDouble() * 100.0 : 0.0,
+        unansweredPercentage =
+            (sum > 0) ? unanswered.toDouble() / sum.toDouble() * 100.0 : 0.0,
+        authPercentage =
+            (sum > 0) ? auth.toDouble() / sum.toDouble() * 100.0 : 0.0;
 
   factory DnsRepliesInfo.fromV6(DnsReplies replies) {
     return DnsRepliesInfo(
