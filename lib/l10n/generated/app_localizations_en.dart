@@ -195,6 +195,9 @@ class AppLocalizationsEn extends AppLocalizations {
   String get authentication => 'Authentication';
 
   @override
+  String get authoritativeReplies => 'Authoritative replies\t';
+
+  @override
   String get autoRefreshTime => 'Auto refresh time';
 
   @override
@@ -220,6 +223,9 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get blocked => 'Blocked';
+
+  @override
+  String get cacheOptimizerReplies => 'Cache optimizer replies\t';
 
   @override
   String get cameraPermission => 'Pi-hole client does not have permission to access the camera.\n\nGo to settings and grant the permission.';
@@ -585,6 +591,9 @@ class AppLocalizationsEn extends AppLocalizations {
   String get finish => 'Finish';
 
   @override
+  String get forwardedQueries => 'Forwarded queries\t';
+
+  @override
   String get fromLast => 'from last';
 
   @override
@@ -760,6 +769,9 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get loadingStats => 'Loading stats...';
+
+  @override
+  String get localCacheReplies => 'Local/cache replies\t';
 
   @override
   String get logDetails => 'Log details';
@@ -1270,6 +1282,9 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get type => 'Type';
+
+  @override
+  String get unansweredQueries => 'Unanswered queries\t';
 
   @override
   String get uncheckAll => 'Uncheck all';

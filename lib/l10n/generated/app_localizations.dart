@@ -473,6 +473,12 @@ abstract class AppLocalizations {
   /// **'Authentication'**
   String get authentication;
 
+  /// No description provided for @authoritativeReplies.
+  ///
+  /// In en, this message translates to:
+  /// **'Authoritative replies\t'**
+  String get authoritativeReplies;
+
   /// No description provided for @autoRefreshTime.
   ///
   /// In en, this message translates to:
@@ -526,6 +532,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Blocked'**
   String get blocked;
+
+  /// No description provided for @cacheOptimizerReplies.
+  ///
+  /// In en, this message translates to:
+  /// **'Cache optimizer replies\t'**
+  String get cacheOptimizerReplies;
 
   /// No description provided for @cameraPermission.
   ///
@@ -1253,6 +1265,12 @@ abstract class AppLocalizations {
   /// **'Finish'**
   String get finish;
 
+  /// No description provided for @forwardedQueries.
+  ///
+  /// In en, this message translates to:
+  /// **'Forwarded queries\t'**
+  String get forwardedQueries;
+
   /// No description provided for @fromLast.
   ///
   /// In en, this message translates to:
@@ -1606,6 +1624,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Loading stats...'**
   String get loadingStats;
+
+  /// No description provided for @localCacheReplies.
+  ///
+  /// In en, this message translates to:
+  /// **'Local/cache replies\t'**
+  String get localCacheReplies;
 
   /// No description provided for @logDetails.
   ///
@@ -2626,6 +2650,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Type'**
   String get type;
+
+  /// No description provided for @unansweredQueries.
+  ///
+  /// In en, this message translates to:
+  /// **'Unanswered queries\t'**
+  String get unansweredQueries;
 
   /// No description provided for @uncheckAll.
   ///

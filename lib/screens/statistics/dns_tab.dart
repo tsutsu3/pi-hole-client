@@ -78,13 +78,22 @@ class DnsTab extends StatelessWidget {
 class DnsTabContent extends StatelessWidget {
   const DnsTabContent({super.key});
 
-  Map<String, double> _buildDnsRepliesList(DnsRepliesInfo info) {
+  Map<String, double> _buildDnsRepliesList(
+    DnsRepliesInfo info,
+    BuildContext context,
+  ) {
+    final loc = AppLocalizations.of(context)!;
     final entries = {
-      'Local/cache replies': info.localPercentage,
-      'Forwarded queries:': info.forwardedPercentage,
-      'Cache optimizer replies': info.optimizedPercentage,
-      'Unanswered queries': info.unansweredPercentage,
-      'Authoritative replies': info.authPercentage,
+      // 'Local/cache replies': info.localPercentage,
+      // 'Forwarded queries:': info.forwardedPercentage,
+      // 'Cache optimizer replies': info.optimizedPercentage,
+      // 'Unanswered queries': info.unansweredPercentage,
+      // 'Authoritative replies': info.authPercentage,
+      loc.localCacheReplies: info.localPercentage,
+      loc.forwardedQueries: info.forwardedPercentage,
+      loc.cacheOptimizerReplies: info.optimizedPercentage,
+      loc.unansweredQueries: info.unansweredPercentage,
+      loc.authoritativeReplies: info.authPercentage,
     };
 
     return entries;
@@ -182,6 +191,7 @@ class DnsTabContent extends StatelessWidget {
                             child: CustomPieChart(
                               data: _buildDnsRepliesList(
                                 statusProvider.getDnsRepliesInfo!,
+                                context,
                               ),
                             ),
                           ),
@@ -192,6 +202,7 @@ class DnsTabContent extends StatelessWidget {
                         child: PieChartLegend(
                           data: _buildDnsRepliesList(
                             statusProvider.getDnsRepliesInfo!,
+                            context,
                           ),
                           dataUnit: '%',
                         ),
@@ -204,6 +215,7 @@ class DnsTabContent extends StatelessWidget {
                     child: CustomPieChart(
                       data: _buildDnsRepliesList(
                         statusProvider.getDnsRepliesInfo!,
+                        context,
                       ),
                     ),
                   ),
@@ -211,6 +223,7 @@ class DnsTabContent extends StatelessWidget {
                   PieChartLegend(
                     data: _buildDnsRepliesList(
                       statusProvider.getDnsRepliesInfo!,
+                      context,
                     ),
                     dataUnit: '%',
                   ),
