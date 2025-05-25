@@ -50,7 +50,7 @@ class StatisticsTripleColumn extends StatelessWidget {
       columns.add(
         _buildColumn(
           context: context,
-          title: AppLocalizations.of(context)!.queriesServers,
+          title: AppLocalizations.of(context)!.dns,
           content: const DnsTabContent(),
         ),
       );
