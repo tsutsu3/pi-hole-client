@@ -65,8 +65,9 @@ class DnsCacheInfo {
       }
     }
 
+    // Ensure the 'empty' slice fills the remaining percentage, clamped between 0% and 100%
     final totalPercentage = percentages.values.fold(0.0, (a, b) => a + b);
-    percentages['empty'] = 100.0 - totalPercentage;
+    percentages['empty'] = (100.0 - totalPercentage).clamp(0.0, 100.0);
 
     return DnsCacheInfo(
       size: cache.size,
