@@ -195,7 +195,7 @@ class AppLocalizationsJa extends AppLocalizations {
   String get authentication => '認証';
 
   @override
-  String get authoritativeReplies => '権威応答\t';
+  String get authoritativeReplies => '権威応答';
 
   @override
   String get autoRefreshTime => '自動更新時間';
@@ -225,7 +225,7 @@ class AppLocalizationsJa extends AppLocalizations {
   String get blocked => 'ブロック済み';
 
   @override
-  String get cacheOptimizerReplies => 'キャッシュ最適化応答\t';
+  String get cacheOptimizerReplies => 'キャッシュ最適化応答';
 
   @override
   String get cameraPermission => 'Pi-hole clientにはカメラアクセスの権限がありません。\n\n設定に移動して権限を付与してください。';
@@ -591,7 +591,7 @@ class AppLocalizationsJa extends AppLocalizations {
   String get finish => '完了';
 
   @override
-  String get forwardedQueries => '転送されたクエリ\t';
+  String get forwardedQueries => '転送されたクエリ';
 
   @override
   String get fromLast => '直近の';
@@ -1098,7 +1098,7 @@ class AppLocalizationsJa extends AppLocalizations {
   String get selectEndTime => '終了時間を選択';
 
   @override
-  String get selectGroupsMessage => 'グループを選択してください …';
+  String get selectGroupsMessage => 'グループを選択してください …';
 
   @override
   String get selectLogsLeftColumn => 'クエリログを選択して詳細を確認してください。';
@@ -1284,7 +1284,7 @@ class AppLocalizationsJa extends AppLocalizations {
   String get type => 'タイプ';
 
   @override
-  String get unansweredQueries => '未応答のクエリ\t';
+  String get unansweredQueries => '未応答のクエリ';
 
   @override
   String get uncheckAll => 'すべて選択解除';

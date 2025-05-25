@@ -195,7 +195,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get authentication => 'Authentication';
 
   @override
-  String get authoritativeReplies => 'Authoritative replies\t';
+  String get authoritativeReplies => 'Authoritative replies';
 
   @override
   String get autoRefreshTime => 'Auto refresh time';
@@ -225,7 +225,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get blocked => 'Blocked';
 
   @override
-  String get cacheOptimizerReplies => 'Cache optimizer replies\t';
+  String get cacheOptimizerReplies => 'Cache optimizer replies';
 
   @override
   String get cameraPermission => 'Pi-hole client does not have permission to access the camera.\n\nGo to settings and grant the permission.';
@@ -591,7 +591,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get finish => 'Finish';
 
   @override
-  String get forwardedQueries => 'Forwarded queries\t';
+  String get forwardedQueries => 'Forwarded queries';
 
   @override
   String get fromLast => 'from last';
@@ -771,7 +771,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get loadingStats => 'Loading stats...';
 
   @override
-  String get localCacheReplies => 'Local/cache replies\t';
+  String get localCacheReplies => 'Local/cache replies';
 
   @override
   String get logDetails => 'Log details';
@@ -1098,7 +1098,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get selectEndTime => 'Select end time';
 
   @override
-  String get selectGroupsMessage => 'Please select a group …';
+  String get selectGroupsMessage => 'Please select a group …';
 
   @override
   String get selectLogsLeftColumn => 'Choose a query log to see its details.';
@@ -1284,7 +1284,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get type => 'Type';
 
   @override
-  String get unansweredQueries => 'Unanswered queries\t';
+  String get unansweredQueries => 'Unanswered queries';
 
   @override
   String get uncheckAll => 'Uncheck all';

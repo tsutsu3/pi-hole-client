@@ -180,7 +180,7 @@ class AppLocalizationsPl extends AppLocalizations {
   String get application => 'Aplikacja';
 
   @override
-  String get applicationDetail => '\tSzczegóły aplikacji';
+  String get applicationDetail => 'Szczegóły aplikacji';
 
   @override
   String get apply => 'Zastosuj';
@@ -1098,7 +1098,7 @@ class AppLocalizationsPl extends AppLocalizations {
   String get selectEndTime => 'Wybierz godzinę zakończenia';
 
   @override
-  String get selectGroupsMessage => 'Proszę wybrać grupę …';
+  String get selectGroupsMessage => 'Proszę wybrać grupę …';
 
   @override
   String get selectLogsLeftColumn => 'Wybierz dziennik zapytań, aby zobaczyć szczegóły.';

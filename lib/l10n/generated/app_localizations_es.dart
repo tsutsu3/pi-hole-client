@@ -1098,7 +1098,7 @@ class AppLocalizationsEs extends AppLocalizations {
   String get selectEndTime => 'Seleccionar tiempo de fin';
 
   @override
-  String get selectGroupsMessage => 'Por favor, seleccione un grupo …';
+  String get selectGroupsMessage => 'Por favor, seleccione un grupo …';
 
   @override
   String get selectLogsLeftColumn => 'Elige un registro de consultas para ver sus detalles.';

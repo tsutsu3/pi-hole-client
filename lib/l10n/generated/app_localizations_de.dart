@@ -591,7 +591,7 @@ class AppLocalizationsDe extends AppLocalizations {
   String get finish => 'Fertig';
 
   @override
-  String get forwardedQueries => '\tWeitergeleitete Anfragen';
+  String get forwardedQueries => 'Weitergeleitete Anfragen';
 
   @override
   String get fromLast => 'vom letzten';
@@ -615,7 +615,7 @@ class AppLocalizationsDe extends AppLocalizations {
   String get gitHub => 'Code auf GitHub ansehen';
 
   @override
-  String get gravityIsRunning => 'Gravity wird ausgeführt …';
+  String get gravityIsRunning => 'Gravity wird ausgeführt …';
 
   @override
   String get gravityNotYetRun => 'Gravity wurde noch nicht ausgeführt';
@@ -1035,7 +1035,7 @@ class AppLocalizationsDe extends AppLocalizations {
   String get restartAppTakeEffect => 'Bitte starten Sie die Anwendung neu, um die Einstellungen zu übernehmen.';
 
   @override
-  String get runningStatus => 'Wird ausgeführt …';
+  String get runningStatus => 'Wird ausgeführt …';
 
   @override
   String get runningSubtitle => 'Nach Abschluss des Vorgangs wird hier das Ergebnis angezeigt.';
@@ -1098,7 +1098,7 @@ class AppLocalizationsDe extends AppLocalizations {
   String get selectEndTime => 'Endzeit wählen';
 
   @override
-  String get selectGroupsMessage => 'Bitte wählen Sie eine Gruppe aus …';
+  String get selectGroupsMessage => 'Bitte wählen Sie eine Gruppe aus …';
 
   @override
   String get selectLogsLeftColumn => 'Wählen Sie ein Abfrageprotokoll aus, um die Details zu sehen.';
@@ -1314,7 +1314,7 @@ class AppLocalizationsDe extends AppLocalizations {
   String get updateTimeChanged => 'Aktualisierungszeit erfolgreich geändert.';
 
   @override
-  String get updatingAdlist => 'Adlist wird aktualisiert …';
+  String get updatingAdlist => 'Adlist wird aktualisiert …';
 
   @override
   String get updatingInProgressMessage => 'Aktualisierung läuft … das kann eine Weile dauern. Bitte lassen Sie die App geöffnet.';
