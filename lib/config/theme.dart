@@ -240,7 +240,7 @@ class AppColors extends ThemeExtension<AppColors> {
       queryGrey: queryGrey!.harmonizeWith(dynamic.primary),
       commonRed: commonRed!.harmonizeWith(dynamic.primary),
       commonGreen: commonGreen!.harmonizeWith(dynamic.primary),
-      commonLightGrey: commonGreen!.harmonizeWith(dynamic.primary),
+      commonLightGrey: commonLightGrey!.harmonizeWith(dynamic.primary),
     );
   }
 }
