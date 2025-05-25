@@ -165,8 +165,8 @@ class QueriesServersTabContent extends StatelessWidget {
                               maxHeight: 200,
                             ),
                             child: CustomPieChart(
-                              data:
-                                  statusProvider.getRealtimeStatus!.queryTypes,
+                              data: statusProvider
+                                  .getRealtimeStatus!.forwardDestinations,
                             ),
                           ),
                         ),
