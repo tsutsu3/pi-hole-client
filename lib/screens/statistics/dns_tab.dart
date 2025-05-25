@@ -24,9 +24,6 @@ class DnsTab extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final statusProvider = Provider.of<StatusProvider>(context);
-    final apiGateway = Provider.of<ServersProvider>(context).selectedApiGateway;
-
-    apiGateway?.getMetrics();
 
     return CustomTabContent(
       loadingGenerator: () => SizedBox(
