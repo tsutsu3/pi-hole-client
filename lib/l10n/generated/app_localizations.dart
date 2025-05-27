@@ -2459,6 +2459,18 @@ abstract class AppLocalizations {
   /// **'To be used with a reverse proxy'**
   String get subrouteHelper;
 
+  /// No description provided for @supportDeveloperSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'You will be redirected to the Buy Me a Coffee external page (support is optional).'**
+  String get supportDeveloperSubtitle;
+
+  /// No description provided for @supportDeveloperTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Support the Developer'**
+  String get supportDeveloperTitle;
+
   /// No description provided for @supportFeedback.
   ///
   /// In en, this message translates to:

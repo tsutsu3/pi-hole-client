@@ -392,6 +392,8 @@
   "subrouteExample": "例：/pihole",
   "subrouteField": "サブルート",
   "subrouteHelper": "リバースプロキシで使用",
+  "supportDeveloperSubtitle": "Buy Me a Coffee の外部ページに遷移します（任意の支援です）",
+  "supportDeveloperTitle": "開発者への支援",
   "supportFeedback": "サポート・フィードバック",
   "supportForm": "サポートフォーム",
   "supportFormDescription": "サポートフォームを使用してサポートリクエストを送信してください。",
