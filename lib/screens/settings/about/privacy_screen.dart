@@ -39,7 +39,7 @@ class PrivacyScreen extends StatelessWidget {
                   AppLocalizations.of(context)!.privacyPolicyDescription,
                 ),
                 trailing: Icon(
-                  Icons.open_in_browser_rounded,
+                  Icons.open_in_new_rounded,
                   color: colorScheme.onSurfaceVariant.withValues(alpha: 0.8),
                 ),
                 onTap: () => openUrl(Urls.privacyPolicy),

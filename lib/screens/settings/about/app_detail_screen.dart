@@ -65,7 +65,7 @@ class AppDetailScreen extends StatelessWidget {
                 subtitle: Text(AppLocalizations.of(context)!.openIssueGitHub),
                 onTap: () => openUrl(Urls.issue),
                 trailing: Icon(
-                  Icons.open_in_browser_rounded,
+                  Icons.open_in_new_rounded,
                   color: colorScheme.onSurfaceVariant.withValues(alpha: 0.8),
                 ),
               ),
@@ -83,7 +83,7 @@ class AppDetailScreen extends StatelessWidget {
                 ),
                 onTap: () => openUrl(Urls.support),
                 trailing: Icon(
-                  Icons.open_in_browser_rounded,
+                  Icons.open_in_new_rounded,
                   color: colorScheme.onSurfaceVariant.withValues(alpha: 0.8),
                 ),
               ),
@@ -101,6 +101,24 @@ class AppDetailScreen extends StatelessWidget {
                       .serverConnectionGuideDescription,
                 ),
                 onTap: () => openUrl(Urls.createAConnection),
+                trailing: Icon(
+                  Icons.open_in_new_rounded,
+                  color: colorScheme.onSurfaceVariant.withValues(alpha: 0.8),
+                ),
+              ),
+              ListTile(
+                leading: Icon(
+                  Icons.volunteer_activism,
+                  color: colorScheme.onSurface,
+                ),
+                title: listTileTitle(
+                  AppLocalizations.of(context)!.supportDeveloperTitle,
+                  colorScheme: colorScheme,
+                ),
+                subtitle: Text(
+                  AppLocalizations.of(context)!.supportDeveloperSubtitle,
+                ),
+                onTap: () => openUrl(Urls.buyMeACoffee, externalBrowser: true),
                 trailing: Icon(
                   Icons.open_in_browser_rounded,
                   color: colorScheme.onSurfaceVariant.withValues(alpha: 0.8),

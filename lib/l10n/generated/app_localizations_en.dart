@@ -1188,6 +1188,12 @@ class AppLocalizationsEn extends AppLocalizations {
   String get subrouteHelper => 'To be used with a reverse proxy';
 
   @override
+  String get supportDeveloperSubtitle => 'You will be redirected to the Buy Me a Coffee external page (support is optional).';
+
+  @override
+  String get supportDeveloperTitle => 'Support the Developer';
+
+  @override
   String get supportFeedback => 'Support and Feedback';
 
   @override

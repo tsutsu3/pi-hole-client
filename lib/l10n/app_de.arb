@@ -392,6 +392,8 @@
   "subrouteExample": "Beispiel: /pihole",
   "subrouteField": "Subroute",
   "subrouteHelper": "Zur Verwendung mit einem Reverse-Proxy",
+  "supportDeveloperSubtitle": "Sie werden auf die externe Buy Me a Coffee-Seite weitergeleitet (freiwillige Unterstützung).",
+  "supportDeveloperTitle": "Unterstützen Sie den Entwickler",
   "supportFeedback": "Support und Feedback",
   "supportForm": "Support-Formular",
   "supportFormDescription": "Senden Sie eine Support-Anfrage über das Support-Formular.",

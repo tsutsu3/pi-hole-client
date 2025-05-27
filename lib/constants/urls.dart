@@ -15,4 +15,6 @@ class Urls {
 
   static const String privacyPolicy =
       'https://github.com/tsutsu3/pi-hole-client/wiki/Privacy-policy';
+
+  static const String buyMeACoffee = 'https://buymeacoffee.com/tsutsu3';
 }
