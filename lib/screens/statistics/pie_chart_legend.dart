@@ -18,6 +18,21 @@ class PieChartLegend extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final defaultColors = Theme.of(context).extension<GraphColors>()!.colors;
+    final greyColor =
+        Theme.of(context).extension<AppColors>()!.commonLightGrey!;
+
+    final colorList = <Color>[];
+    var colorIndex = 0;
+    for (final key in data.keys) {
+      if (key.toLowerCase() == 'empty') {
+        colorList.add(greyColor);
+      } else {
+        colorList.add(defaultColors[colorIndex % defaultColors.length]);
+        colorIndex++;
+      }
+    }
+
     List<Widget> generateLegendList(Map<String, dynamic> data) {
       final items = <Widget>[];
       var index = 0;
@@ -41,9 +56,7 @@ class PieChartLegend extends StatelessWidget {
                             height: 15,
                             decoration: BoxDecoration(
                               borderRadius: BorderRadius.circular(15),
-                              color: Theme.of(context)
-                                  .extension<GraphColors>()!
-                                  .getColor(index),
+                              color: colorList[index],
                             ),
                           ),
                           const SizedBox(width: 20),

@@ -122,6 +122,7 @@ class AppColors extends ThemeExtension<AppColors> {
     required this.queryGrey,
     required this.commonRed,
     required this.commonGreen,
+    required this.commonLightGrey,
   });
 
   final Color? snackBarSuccess;
@@ -144,6 +145,7 @@ class AppColors extends ThemeExtension<AppColors> {
 
   final Color? commonRed;
   final Color? commonGreen;
+  final Color? commonLightGrey;
 
   @override
   AppColors copyWith({
@@ -164,6 +166,7 @@ class AppColors extends ThemeExtension<AppColors> {
     Color? queryGrey,
     Color? commonRed,
     Color? commonGreen,
+    Color? commonLightGrey,
   }) {
     return AppColors(
       snackBarSuccess: snackBarSuccess ?? this.snackBarSuccess,
@@ -183,6 +186,7 @@ class AppColors extends ThemeExtension<AppColors> {
       queryGrey: queryGrey ?? this.queryGrey,
       commonRed: commonRed ?? this.commonRed,
       commonGreen: commonGreen ?? this.commonGreen,
+      commonLightGrey: commonLightGrey ?? this.commonLightGrey,
     );
   }
 
@@ -213,6 +217,7 @@ class AppColors extends ThemeExtension<AppColors> {
       queryGrey: Color.lerp(queryGrey, other.queryGrey, t),
       commonRed: Color.lerp(commonRed, other.commonRed, t),
       commonGreen: Color.lerp(commonGreen, other.commonGreen, t),
+      commonLightGrey: Color.lerp(commonLightGrey, other.commonLightGrey, t),
     );
   }
 
@@ -235,6 +240,7 @@ class AppColors extends ThemeExtension<AppColors> {
       queryGrey: queryGrey!.harmonizeWith(dynamic.primary),
       commonRed: commonRed!.harmonizeWith(dynamic.primary),
       commonGreen: commonGreen!.harmonizeWith(dynamic.primary),
+      commonLightGrey: commonLightGrey!.harmonizeWith(dynamic.primary),
     );
   }
 }
@@ -257,6 +263,7 @@ const lightAppColors = AppColors(
   queryGrey: Color(0xFF757575), // shade600
   commonRed: Colors.red,
   commonGreen: Colors.green,
+  commonLightGrey: Color(0xFFBDBDBD), // shade300
 );
 
 const darkAppColors = AppColors(
@@ -277,6 +284,7 @@ const darkAppColors = AppColors(
   queryGrey: Colors.grey,
   commonRed: Colors.redAccent,
   commonGreen: Colors.greenAccent,
+  commonLightGrey: Color(0xFFBDBDBD), // shade300
 );
 
 @immutable
@@ -330,7 +338,7 @@ const lightGraphColors = GraphColors(
     Colors.deepOrange,
     Colors.amberAccent,
     Colors.blueAccent,
-    Colors.grey,
+    Colors.lightGreen,
     Colors.indigo,
     Colors.redAccent,
     Colors.yellowAccent,
@@ -357,7 +365,7 @@ const darkGraphColors = GraphColors(
     Color(0xFFFF7043), // shade400
     Color(0xFFFFD54F), // A200
     Color(0xFF448AFF), // A200
-    Color(0xFFBDBDBD), // shade400
+    Color(0xFF9CCC65), // shade400
     Color(0xFF5C6BC0), // shade400
     Color(0xFFFF5252), // A200
     Color(0xFFFFFF00), // A200

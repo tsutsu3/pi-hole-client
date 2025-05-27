@@ -195,6 +195,9 @@ class AppLocalizationsJa extends AppLocalizations {
   String get authentication => '認証';
 
   @override
+  String get authoritativeReplies => '権威応答';
+
+  @override
   String get autoRefreshTime => '自動更新時間';
 
   @override
@@ -220,6 +223,9 @@ class AppLocalizationsJa extends AppLocalizations {
 
   @override
   String get blocked => 'ブロック済み';
+
+  @override
+  String get cacheOptimizerReplies => 'キャッシュ最適化応答';
 
   @override
   String get cameraPermission => 'Pi-hole clientにはカメラアクセスの権限がありません。\n\n設定に移動して権限を付与してください。';
@@ -456,6 +462,15 @@ class AppLocalizationsJa extends AppLocalizations {
   String get disablingServer => 'サーバーを無効化中...';
 
   @override
+  String get dns => 'DNS';
+
+  @override
+  String get dnsCacheMetrics => 'DNSキャッシュメトリクス';
+
+  @override
+  String get dnsReplyMetrics => 'DNSリプライメトリクス';
+
+  @override
   String get domain => 'ドメイン';
 
   @override
@@ -574,6 +589,9 @@ class AppLocalizationsJa extends AppLocalizations {
 
   @override
   String get finish => '完了';
+
+  @override
+  String get forwardedQueries => '転送されたクエリ';
 
   @override
   String get fromLast => '直近の';
@@ -751,6 +769,9 @@ class AppLocalizationsJa extends AppLocalizations {
 
   @override
   String get loadingStats => '統計を読み込み中...';
+
+  @override
+  String get localCacheReplies => 'ローカル／キャッシュ応答';
 
   @override
   String get logDetails => 'ログの詳細';
@@ -1077,7 +1098,7 @@ class AppLocalizationsJa extends AppLocalizations {
   String get selectEndTime => '終了時間を選択';
 
   @override
-  String get selectGroupsMessage => 'グループを選択してください …';
+  String get selectGroupsMessage => 'グループを選択してください …';
 
   @override
   String get selectLogsLeftColumn => 'クエリログを選択して詳細を確認してください。';
@@ -1261,6 +1282,9 @@ class AppLocalizationsJa extends AppLocalizations {
 
   @override
   String get type => 'タイプ';
+
+  @override
+  String get unansweredQueries => '未応答のクエリ';
 
   @override
   String get uncheckAll => 'すべて選択解除';

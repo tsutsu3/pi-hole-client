@@ -124,6 +124,7 @@ void main() {
       queryGrey: Colors.grey,
       commonRed: Colors.redAccent,
       commonGreen: Colors.greenAccent,
+      commonLightGrey: Color(0xFFBDBDBD),
     );
 
     final modified = original.copyWith(snackBarSuccess: Colors.lightGreen);
@@ -180,6 +181,7 @@ void main() {
       queryGrey: Colors.grey,
       commonRed: Colors.redAccent,
       commonGreen: Colors.greenAccent,
+      commonLightGrey: Color(0xFFBDBDBD), // shade300
     );
 
     const end = AppColors(
@@ -200,6 +202,7 @@ void main() {
       queryGrey: Colors.white,
       commonRed: Colors.black,
       commonGreen: Colors.white,
+      commonLightGrey: Color(0xFFBDBDBD), // shade300
     );
 
     final lerped = start.lerp(end, 0.5);
@@ -276,6 +279,7 @@ void main() {
       queryGrey: Colors.grey,
       commonRed: Colors.redAccent,
       commonGreen: Colors.greenAccent,
+      commonLightGrey: Color(0xFFBDBDBD), // shade300
     );
 
     final colorScheme = ColorScheme.fromSeed(seedColor: Colors.teal);

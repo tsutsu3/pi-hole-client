@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:pi_hole_client/constants/responsive.dart';
 import 'package:pi_hole_client/l10n/generated/app_localizations.dart';
+import 'package:pi_hole_client/models/metrics.dart';
 import 'package:pi_hole_client/providers/status_provider.dart';
 import 'package:pi_hole_client/screens/statistics/custom_pie_chart.dart';
 import 'package:pi_hole_client/screens/statistics/no_data_chart.dart';
@@ -9,8 +10,8 @@ import 'package:pi_hole_client/widgets/section_label.dart';
 import 'package:pi_hole_client/widgets/tab_content.dart';
 import 'package:provider/provider.dart';
 
-class QueriesServersTab extends StatelessWidget {
-  const QueriesServersTab({
+class DnsTab extends StatelessWidget {
+  const DnsTab({
     required this.onRefresh,
     this.controller,
     super.key,
@@ -43,7 +44,7 @@ class QueriesServersTab extends StatelessWidget {
           ],
         ),
       ),
-      contentGenerator: () => [const QueriesServersTabContent()],
+      contentGenerator: () => [const DnsTabContent()],
       errorGenerator: () => SizedBox(
         width: double.maxFinite,
         height: 300,
@@ -74,8 +75,29 @@ class QueriesServersTab extends StatelessWidget {
   }
 }
 
-class QueriesServersTabContent extends StatelessWidget {
-  const QueriesServersTabContent({super.key});
+class DnsTabContent extends StatelessWidget {
+  const DnsTabContent({super.key});
+
+  Map<String, double> _buildDnsRepliesList(
+    DnsRepliesInfo info,
+    BuildContext context,
+  ) {
+    final loc = AppLocalizations.of(context)!;
+    final entries = {
+      // 'Local/cache replies': info.localPercentage,
+      // 'Forwarded queries:': info.forwardedPercentage,
+      // 'Cache optimizer replies': info.optimizedPercentage,
+      // 'Unanswered queries': info.unansweredPercentage,
+      // 'Authoritative replies': info.authPercentage,
+      loc.localCacheReplies: info.localPercentage,
+      loc.forwardedQueries: info.forwardedPercentage,
+      loc.cacheOptimizerReplies: info.optimizedPercentage,
+      loc.unansweredQueries: info.unansweredPercentage,
+      loc.authoritativeReplies: info.authPercentage,
+    };
+
+    return entries;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -85,13 +107,14 @@ class QueriesServersTabContent extends StatelessWidget {
 
     return Column(
       children: [
-        if (statusProvider.getRealtimeStatus!.queryTypes.isEmpty == false)
+        // DNS Cache
+        if (statusProvider.getDnsCacheInfo != null)
           Padding(
             padding: const EdgeInsets.only(top: 20, bottom: 10),
             child: Column(
               children: [
                 SectionLabel(
-                  label: AppLocalizations.of(context)!.queryTypes,
+                  label: AppLocalizations.of(context)!.dnsCacheMetrics,
                   padding: const EdgeInsets.only(top: 8, left: 16, bottom: 24),
                 ),
                 if (width > ResponsiveConstants.medium)
@@ -107,8 +130,8 @@ class QueriesServersTabContent extends StatelessWidget {
                               maxHeight: 200,
                             ),
                             child: CustomPieChart(
-                              data:
-                                  statusProvider.getRealtimeStatus!.queryTypes,
+                              data: statusProvider
+                                  .getDnsCacheInfo!.typePercentages,
                             ),
                           ),
                         ),
@@ -116,7 +139,7 @@ class QueriesServersTabContent extends StatelessWidget {
                       Expanded(
                         flex: 3,
                         child: PieChartLegend(
-                          data: statusProvider.getRealtimeStatus!.queryTypes,
+                          data: statusProvider.getDnsCacheInfo!.typePercentages,
                           dataUnit: '%',
                         ),
                       ),
@@ -126,12 +149,12 @@ class QueriesServersTabContent extends StatelessWidget {
                   SizedBox(
                     width: width - 40,
                     child: CustomPieChart(
-                      data: statusProvider.getRealtimeStatus!.queryTypes,
+                      data: statusProvider.getDnsCacheInfo!.typePercentages,
                     ),
                   ),
                   const SizedBox(height: 20),
                   PieChartLegend(
-                    data: statusProvider.getRealtimeStatus!.queryTypes,
+                    data: statusProvider.getDnsCacheInfo!.typePercentages,
                     dataUnit: '%',
                   ),
                 ],
@@ -142,14 +165,15 @@ class QueriesServersTabContent extends StatelessWidget {
           NoDataChart(
             topLabel: AppLocalizations.of(context)!.queryTypes,
           ),
-        if (statusProvider.getRealtimeStatus!.forwardDestinations.isEmpty ==
-            false)
+
+        // DNS Replies
+        if (statusProvider.getDnsRepliesInfo != null)
           Padding(
             padding: const EdgeInsets.only(top: 20, bottom: 10),
             child: Column(
               children: [
                 SectionLabel(
-                  label: AppLocalizations.of(context)!.upstreamServers,
+                  label: AppLocalizations.of(context)!.dnsReplyMetrics,
                   padding: const EdgeInsets.only(top: 16, left: 16, bottom: 24),
                 ),
                 if (width > ResponsiveConstants.medium)
@@ -165,8 +189,10 @@ class QueriesServersTabContent extends StatelessWidget {
                               maxHeight: 200,
                             ),
                             child: CustomPieChart(
-                              data: statusProvider
-                                  .getRealtimeStatus!.forwardDestinations,
+                              data: _buildDnsRepliesList(
+                                statusProvider.getDnsRepliesInfo!,
+                                context,
+                              ),
                             ),
                           ),
                         ),
@@ -174,8 +200,10 @@ class QueriesServersTabContent extends StatelessWidget {
                       Expanded(
                         flex: 3,
                         child: PieChartLegend(
-                          data: statusProvider
-                              .getRealtimeStatus!.forwardDestinations,
+                          data: _buildDnsRepliesList(
+                            statusProvider.getDnsRepliesInfo!,
+                            context,
+                          ),
                           dataUnit: '%',
                         ),
                       ),
@@ -185,13 +213,18 @@ class QueriesServersTabContent extends StatelessWidget {
                   SizedBox(
                     width: width - 40,
                     child: CustomPieChart(
-                      data:
-                          statusProvider.getRealtimeStatus!.forwardDestinations,
+                      data: _buildDnsRepliesList(
+                        statusProvider.getDnsRepliesInfo!,
+                        context,
+                      ),
                     ),
                   ),
                   const SizedBox(height: 20),
                   PieChartLegend(
-                    data: statusProvider.getRealtimeStatus!.forwardDestinations,
+                    data: _buildDnsRepliesList(
+                      statusProvider.getDnsRepliesInfo!,
+                      context,
+                    ),
                     dataUnit: '%',
                   ),
                 ],

@@ -28,6 +28,7 @@ class StatusUpdateService {
 
   Timer? _statusDataTimer;
   Timer? _overTimeDataTimer;
+  Timer? _metricsDataTimer;
 
   int? _previousRefreshTime;
   bool _isAutoRefreshRunning = false;
@@ -66,6 +67,7 @@ class StatusUpdateService {
 
     _setupStatusDataTimer();
     _setupOverTimeDataTimer();
+    _setupMetricsDataTimer();
   }
 
   /// Stop timer for auto refresh
@@ -73,13 +75,17 @@ class StatusUpdateService {
     _isAutoRefreshRunning = false;
     _statusDataTimer?.cancel();
     _overTimeDataTimer?.cancel();
+    _metricsDataTimer?.cancel();
     _statusDataTimer = null;
     _overTimeDataTimer = null;
+    _metricsDataTimer = null;
   }
 
   /// Refresh the status data once
   Future<void> _refreshOnce() async {
-    if ((await Future.wait([_fetchStatusData(), _fetchOverTimeData()]))
+    if ((await Future.wait(
+      [_fetchStatusData(), _fetchOverTimeData(), _fetchMetricsData()],
+    ))
         .every((result) => result)) {
       _statusProvider.setIsServerConnected(true);
     } else {
@@ -124,6 +130,20 @@ class StatusUpdateService {
       return true;
     } else {
       _statusProvider.setOvertimeDataLoadingStatus(2);
+      return false;
+    }
+  }
+
+  Future<bool> _fetchMetricsData() async {
+    if (_serversProvider.selectedServer == null) return false;
+
+    final apiGateway = _serversProvider.selectedApiGateway;
+    final metricsResult = await apiGateway?.getMetrics();
+
+    if (metricsResult?.result == APiResponseType.success) {
+      _statusProvider.setMetricsInfo(metricsResult!.data!);
+      return true;
+    } else {
       return false;
     }
   }
@@ -224,6 +244,32 @@ class StatusUpdateService {
     timerFn();
     _overTimeDataTimer = Timer.periodic(
       const Duration(minutes: 1),
+      (timer) => timerFn(timer: timer),
+    );
+  }
+
+  // ----------------------------------------
+  // Callbacks for MetricsData
+  // ----------------------------------------
+  void _setupMetricsDataTimer() {
+    Future<void> timerFn({Timer? timer}) async {
+      final currentServer = _serversProvider.selectedServer;
+      if (currentServer == null) {
+        timer?.cancel();
+        return;
+      }
+
+      final apiGateway = _serversProvider.selectedApiGateway;
+      final metricsResult = await apiGateway?.getMetrics();
+
+      if (metricsResult?.result == APiResponseType.success) {
+        _statusProvider.setMetricsInfo(metricsResult!.data!);
+      }
+    }
+
+    timerFn();
+    _metricsDataTimer = Timer.periodic(
+      Duration(seconds: _appConfigProvider.getAutoRefreshTime!),
       (timer) => timerFn(timer: timer),
     );
   }

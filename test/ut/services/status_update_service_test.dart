@@ -7,6 +7,7 @@ import 'package:mockito/mockito.dart';
 import 'package:pi_hole_client/constants/enums.dart';
 import 'package:pi_hole_client/gateways/v6/api_gateway_v6.dart';
 import 'package:pi_hole_client/models/gateways.dart';
+import 'package:pi_hole_client/models/metrics.dart';
 import 'package:pi_hole_client/models/server.dart';
 import 'package:pi_hole_client/providers/app_config_provider.dart';
 import 'package:pi_hole_client/providers/filters_provider.dart';
@@ -14,7 +15,7 @@ import 'package:pi_hole_client/providers/servers_provider.dart';
 import 'package:pi_hole_client/providers/status_provider.dart';
 import 'package:pi_hole_client/services/status_update_service.dart';
 
-import '../../widgets/helpers.dart' show overtimeData, realtimeStatus;
+import '../../widgets/helpers.dart' show metrics, overtimeData, realtimeStatus;
 import './status_update_service_test.mocks.dart' as ut;
 
 @GenerateMocks([
@@ -65,6 +66,7 @@ void main() async {
       when(mockStatusProvider.setRealtimeStatus(any)).thenReturn(null);
       when(mockStatusProvider.setStatusLoading(any)).thenReturn(null);
       when(mockStatusProvider.setOvertimeData(any)).thenReturn(null);
+      when(mockStatusProvider.setMetricsInfo(any)).thenReturn(null);
       when(mockStatusProvider.setOvertimeDataLoadingStatus(any))
           .thenReturn(null);
       when(mockStatusProvider.isServerConnected).thenReturn(false);
@@ -85,6 +87,13 @@ void main() async {
         ),
       );
 
+      when(mockApiGatewayV6.getMetrics()).thenAnswer(
+        (_) async => MetricsResponse(
+          result: APiResponseType.success,
+          data: MetricsInfo.fromV6(metrics),
+        ),
+      );
+
       statusUpdateService = StatusUpdateService(
         serversProvider: mockServersProvider,
         statusProvider: mockStatusProvider,
@@ -101,9 +110,10 @@ void main() async {
 
       // sleep for 2 seconds to allow the timer to run
       await Future.delayed(const Duration(seconds: 1));
-      verify(mockAppConfigProvider.getAutoRefreshTime).called(3);
+      verify(mockAppConfigProvider.getAutoRefreshTime).called(4);
       verify(mockStatusProvider.setRealtimeStatus(any)).called(1);
       verify(mockStatusProvider.setOvertimeData(any)).called(1);
+      verify(mockStatusProvider.setMetricsInfo(any)).called(1);
       expect(statusUpdateService.isAutoRefreshRunning, true);
 
       statusUpdateService.stopAutoRefresh();
@@ -117,9 +127,10 @@ void main() async {
       statusUpdateService.startAutoRefresh();
       statusUpdateService.startAutoRefresh();
       await Future.delayed(const Duration(seconds: 1));
-      verify(mockAppConfigProvider.getAutoRefreshTime).called(3);
+      verify(mockAppConfigProvider.getAutoRefreshTime).called(4);
       verify(mockStatusProvider.setRealtimeStatus(any)).called(1);
       verify(mockStatusProvider.setOvertimeData(any)).called(1);
+      verify(mockStatusProvider.setMetricsInfo(any)).called(1);
       expect(statusUpdateService.isAutoRefreshRunning, true);
 
       statusUpdateService.stopAutoRefresh();
@@ -139,15 +150,23 @@ void main() async {
           result: APiResponseType.socket,
         ),
       );
+
+      when(mockApiGatewayV6.getMetrics()).thenAnswer(
+        (_) async => MetricsResponse(
+          result: APiResponseType.socket,
+        ),
+      );
+
       when(mockStatusProvider.isServerConnected).thenReturn(true);
       when(mockStatusProvider.getStatusLoading).thenReturn(LoadStatus.loading);
       when(mockStatusProvider.getOvertimeDataLoadStatus).thenReturn(0);
 
       statusUpdateService.startAutoRefresh();
       await Future.delayed(const Duration(seconds: 1));
-      verify(mockAppConfigProvider.getAutoRefreshTime).called(3);
+      verify(mockAppConfigProvider.getAutoRefreshTime).called(4);
       verifyNever(mockStatusProvider.setRealtimeStatus(any)).called(0);
       verifyNever(mockStatusProvider.setOvertimeData(any)).called(0);
+      verifyNever(mockStatusProvider.setMetricsInfo(any)).called(0);
       expect(statusUpdateService.isAutoRefreshRunning, true);
 
       statusUpdateService.stopAutoRefresh();

@@ -180,7 +180,7 @@ class AppLocalizationsPl extends AppLocalizations {
   String get application => 'Aplikacja';
 
   @override
-  String get applicationDetail => '\tSzczegóły aplikacji';
+  String get applicationDetail => 'Szczegóły aplikacji';
 
   @override
   String get apply => 'Zastosuj';
@@ -193,6 +193,9 @@ class AppLocalizationsPl extends AppLocalizations {
 
   @override
   String get authentication => 'Uwierzytelnianie';
+
+  @override
+  String get authoritativeReplies => 'Odpowiedzi autorytatywne';
 
   @override
   String get autoRefreshTime => 'Czas automatycznego odświeżania';
@@ -220,6 +223,9 @@ class AppLocalizationsPl extends AppLocalizations {
 
   @override
   String get blocked => 'Zablokowane';
+
+  @override
+  String get cacheOptimizerReplies => 'Odpowiedzi optymalizatora pamięci';
 
   @override
   String get cameraPermission => 'Pi-hole client nie ma uprawnień dostępu do kamery.\n\nPrzejdź do ustawień i przyznaj uprawnienia.';
@@ -456,6 +462,15 @@ class AppLocalizationsPl extends AppLocalizations {
   String get disablingServer => 'Wyłączanie serwera...';
 
   @override
+  String get dns => 'DNS';
+
+  @override
+  String get dnsCacheMetrics => 'Metryki pamięci podręcznej DNS';
+
+  @override
+  String get dnsReplyMetrics => 'Metryki odpowiedzi DNS';
+
+  @override
   String get domain => 'Domena';
 
   @override
@@ -574,6 +589,9 @@ class AppLocalizationsPl extends AppLocalizations {
 
   @override
   String get finish => 'Zakończ';
+
+  @override
+  String get forwardedQueries => 'Zapytania przekazane';
 
   @override
   String get fromLast => 'Od ostatniego';
@@ -751,6 +769,9 @@ class AppLocalizationsPl extends AppLocalizations {
 
   @override
   String get loadingStats => 'Ładowanie statystyk...';
+
+  @override
+  String get localCacheReplies => 'Odpowiedzi lokalne/pamięć podręczna';
 
   @override
   String get logDetails => 'Szczegóły dziennika';
@@ -1077,7 +1098,7 @@ class AppLocalizationsPl extends AppLocalizations {
   String get selectEndTime => 'Wybierz godzinę zakończenia';
 
   @override
-  String get selectGroupsMessage => 'Proszę wybrać grupę …';
+  String get selectGroupsMessage => 'Proszę wybrać grupę …';
 
   @override
   String get selectLogsLeftColumn => 'Wybierz dziennik zapytań, aby zobaczyć szczegóły.';
@@ -1261,6 +1282,9 @@ class AppLocalizationsPl extends AppLocalizations {
 
   @override
   String get type => 'Typ';
+
+  @override
+  String get unansweredQueries => 'Zapytania bez odpowiedzi';
 
   @override
   String get uncheckAll => 'Odznacz wszystko';

@@ -81,6 +81,13 @@ void main() async {
           expect(find.text('Top clients (total)'), findsOneWidget);
           expect(find.text('Top clients (blocked only)'), findsOneWidget);
           expect(find.byType(StatisticsListContent), findsOneWidget);
+
+          // Switch to DNS tab
+          await tester.tap(find.text('DNS'));
+          await tester.pumpAndSettle();
+          expect(find.text('DNS cache metrics'), findsOneWidget);
+          expect(find.text('DNS reply metrics'), findsOneWidget);
+          expect(find.byType(PieChart), findsNWidgets(2));
         },
       );
 
@@ -202,6 +209,10 @@ void main() async {
           when(testSetup.mockStatusProvider.getRealtimeStatus)
               .thenReturn(realtimeStatus);
 
+          when(testSetup.mockStatusProvider.getMetricsInfo).thenReturn(null);
+          when(testSetup.mockStatusProvider.getDnsCacheInfo).thenReturn(null);
+          when(testSetup.mockStatusProvider.getDnsRepliesInfo).thenReturn(null);
+
           addTearDown(() {
             tester.view.resetPhysicalSize();
             tester.view.resetDevicePixelRatio();
@@ -235,6 +246,12 @@ void main() async {
           await tester.pumpAndSettle();
           expect(find.text('No data'), findsNWidgets(2));
           expect(find.byType(StatisticsListContent), findsOneWidget);
+
+          // Switch to DNS tab
+          await tester.tap(find.text('DNS'));
+          await tester.pumpAndSettle();
+          expect(find.text('No data'), findsNWidgets(2));
+          expect(find.byType(PieChart), findsNothing);
         },
       );
 
@@ -260,6 +277,40 @@ void main() async {
           expect(find.text('Queries & servers'), findsWidgets);
           expect(find.text('Domains'), findsWidgets);
           expect(find.text('Clients'), findsWidgets);
+        },
+      );
+
+      testWidgets(
+        'should show triple column statistics screen (loaded, 4th column)',
+        (WidgetTester tester) async {
+          tester.view.physicalSize = const Size(2400, 1080);
+          tester.view.devicePixelRatio = 1.5;
+
+          addTearDown(() {
+            tester.view.resetPhysicalSize();
+            tester.view.resetDevicePixelRatio();
+          });
+
+          await tester.pumpWidget(
+            testSetup.buildTestWidget(
+              const Statistics(),
+            ),
+          );
+
+          expect(find.byType(Statistics), findsOneWidget);
+          expect(find.byType(StatisticsTripleColumn), findsOneWidget);
+          expect(find.byIcon(Icons.chevron_right), findsWidgets);
+
+          // swipe to the right
+          await tester.drag(
+            find.byType(StatisticsTripleColumn),
+            const Offset(-500, 0),
+          );
+          await tester.pumpAndSettle();
+
+          expect(find.text('Domains'), findsWidgets);
+          expect(find.text('Clients'), findsWidgets);
+          expect(find.text('DNS'), findsOneWidget);
         },
       );
 

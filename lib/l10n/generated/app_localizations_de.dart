@@ -195,6 +195,9 @@ class AppLocalizationsDe extends AppLocalizations {
   String get authentication => 'Authentifizierung';
 
   @override
+  String get authoritativeReplies => 'Autoritative Antworten';
+
+  @override
   String get autoRefreshTime => 'Aktualisierungsintervall';
 
   @override
@@ -220,6 +223,9 @@ class AppLocalizationsDe extends AppLocalizations {
 
   @override
   String get blocked => 'Blockiert';
+
+  @override
+  String get cacheOptimizerReplies => 'Cache-Optimierer-Antworten';
 
   @override
   String get cameraPermission => 'Pi-hole client hat keine Berechtigungen, um auf die Kamera zuzugreifen.\n\nGehen Sie in die Einstellungen, um den Zugriff zu erlauben.';
@@ -456,6 +462,15 @@ class AppLocalizationsDe extends AppLocalizations {
   String get disablingServer => 'Deaktiviere Server...';
 
   @override
+  String get dns => 'DNS';
+
+  @override
+  String get dnsCacheMetrics => 'DNS-Cache-Metriken';
+
+  @override
+  String get dnsReplyMetrics => 'DNS-Antwortmetriken';
+
+  @override
   String get domain => 'Domain';
 
   @override
@@ -576,6 +591,9 @@ class AppLocalizationsDe extends AppLocalizations {
   String get finish => 'Fertig';
 
   @override
+  String get forwardedQueries => 'Weitergeleitete Anfragen';
+
+  @override
   String get fromLast => 'vom letzten';
 
   @override
@@ -597,7 +615,7 @@ class AppLocalizationsDe extends AppLocalizations {
   String get gitHub => 'Code auf GitHub ansehen';
 
   @override
-  String get gravityIsRunning => 'Gravity wird ausgeführt …';
+  String get gravityIsRunning => 'Gravity wird ausgeführt …';
 
   @override
   String get gravityNotYetRun => 'Gravity wurde noch nicht ausgeführt';
@@ -751,6 +769,9 @@ class AppLocalizationsDe extends AppLocalizations {
 
   @override
   String get loadingStats => 'Statistiken werden geladen...';
+
+  @override
+  String get localCacheReplies => 'Lokale/Cache-Antworten';
 
   @override
   String get logDetails => 'Log Details';
@@ -1014,7 +1035,7 @@ class AppLocalizationsDe extends AppLocalizations {
   String get restartAppTakeEffect => 'Bitte starten Sie die Anwendung neu, um die Einstellungen zu übernehmen.';
 
   @override
-  String get runningStatus => 'Wird ausgeführt …';
+  String get runningStatus => 'Wird ausgeführt …';
 
   @override
   String get runningSubtitle => 'Nach Abschluss des Vorgangs wird hier das Ergebnis angezeigt.';
@@ -1077,7 +1098,7 @@ class AppLocalizationsDe extends AppLocalizations {
   String get selectEndTime => 'Endzeit wählen';
 
   @override
-  String get selectGroupsMessage => 'Bitte wählen Sie eine Gruppe aus …';
+  String get selectGroupsMessage => 'Bitte wählen Sie eine Gruppe aus …';
 
   @override
   String get selectLogsLeftColumn => 'Wählen Sie ein Abfrageprotokoll aus, um die Details zu sehen.';
@@ -1263,6 +1284,9 @@ class AppLocalizationsDe extends AppLocalizations {
   String get type => 'Typ';
 
   @override
+  String get unansweredQueries => 'Nicht beantwortete Anfragen';
+
+  @override
   String get uncheckAll => 'Alle deaktivieren';
 
   @override
@@ -1290,7 +1314,7 @@ class AppLocalizationsDe extends AppLocalizations {
   String get updateTimeChanged => 'Aktualisierungszeit erfolgreich geändert.';
 
   @override
-  String get updatingAdlist => 'Adlist wird aktualisiert …';
+  String get updatingAdlist => 'Adlist wird aktualisiert …';
 
   @override
   String get updatingInProgressMessage => 'Aktualisierung läuft … das kann eine Weile dauern. Bitte lassen Sie die App geöffnet.';

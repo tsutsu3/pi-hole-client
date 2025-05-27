@@ -195,6 +195,9 @@ class AppLocalizationsEn extends AppLocalizations {
   String get authentication => 'Authentication';
 
   @override
+  String get authoritativeReplies => 'Authoritative replies';
+
+  @override
   String get autoRefreshTime => 'Auto refresh time';
 
   @override
@@ -220,6 +223,9 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get blocked => 'Blocked';
+
+  @override
+  String get cacheOptimizerReplies => 'Cache optimizer replies';
 
   @override
   String get cameraPermission => 'Pi-hole client does not have permission to access the camera.\n\nGo to settings and grant the permission.';
@@ -456,6 +462,15 @@ class AppLocalizationsEn extends AppLocalizations {
   String get disablingServer => 'Disabling server...';
 
   @override
+  String get dns => 'DNS';
+
+  @override
+  String get dnsCacheMetrics => 'DNS cache metrics';
+
+  @override
+  String get dnsReplyMetrics => 'DNS reply metrics';
+
+  @override
   String get domain => 'Domain';
 
   @override
@@ -574,6 +589,9 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get finish => 'Finish';
+
+  @override
+  String get forwardedQueries => 'Forwarded queries';
 
   @override
   String get fromLast => 'from last';
@@ -751,6 +769,9 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get loadingStats => 'Loading stats...';
+
+  @override
+  String get localCacheReplies => 'Local/cache replies';
 
   @override
   String get logDetails => 'Log details';
@@ -1077,7 +1098,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get selectEndTime => 'Select end time';
 
   @override
-  String get selectGroupsMessage => 'Please select a group …';
+  String get selectGroupsMessage => 'Please select a group …';
 
   @override
   String get selectLogsLeftColumn => 'Choose a query log to see its details.';
@@ -1261,6 +1282,9 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get type => 'Type';
+
+  @override
+  String get unansweredQueries => 'Unanswered queries';
 
   @override
   String get uncheckAll => 'Uncheck all';

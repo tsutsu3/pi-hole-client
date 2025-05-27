@@ -473,6 +473,12 @@ abstract class AppLocalizations {
   /// **'Authentication'**
   String get authentication;
 
+  /// No description provided for @authoritativeReplies.
+  ///
+  /// In en, this message translates to:
+  /// **'Authoritative replies'**
+  String get authoritativeReplies;
+
   /// No description provided for @autoRefreshTime.
   ///
   /// In en, this message translates to:
@@ -526,6 +532,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Blocked'**
   String get blocked;
+
+  /// No description provided for @cacheOptimizerReplies.
+  ///
+  /// In en, this message translates to:
+  /// **'Cache optimizer replies'**
+  String get cacheOptimizerReplies;
 
   /// No description provided for @cameraPermission.
   ///
@@ -995,6 +1007,24 @@ abstract class AppLocalizations {
   /// **'Disabling server...'**
   String get disablingServer;
 
+  /// No description provided for @dns.
+  ///
+  /// In en, this message translates to:
+  /// **'DNS'**
+  String get dns;
+
+  /// No description provided for @dnsCacheMetrics.
+  ///
+  /// In en, this message translates to:
+  /// **'DNS cache metrics'**
+  String get dnsCacheMetrics;
+
+  /// No description provided for @dnsReplyMetrics.
+  ///
+  /// In en, this message translates to:
+  /// **'DNS reply metrics'**
+  String get dnsReplyMetrics;
+
   /// No description provided for @domain.
   ///
   /// In en, this message translates to:
@@ -1234,6 +1264,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Finish'**
   String get finish;
+
+  /// No description provided for @forwardedQueries.
+  ///
+  /// In en, this message translates to:
+  /// **'Forwarded queries'**
+  String get forwardedQueries;
 
   /// No description provided for @fromLast.
   ///
@@ -1588,6 +1624,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Loading stats...'**
   String get loadingStats;
+
+  /// No description provided for @localCacheReplies.
+  ///
+  /// In en, this message translates to:
+  /// **'Local/cache replies'**
+  String get localCacheReplies;
 
   /// No description provided for @logDetails.
   ///
@@ -2240,7 +2282,7 @@ abstract class AppLocalizations {
   /// No description provided for @selectGroupsMessage.
   ///
   /// In en, this message translates to:
-  /// **'Please select a group …'**
+  /// **'Please select a group …'**
   String get selectGroupsMessage;
 
   /// No description provided for @selectLogsLeftColumn.
@@ -2608,6 +2650,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Type'**
   String get type;
+
+  /// No description provided for @unansweredQueries.
+  ///
+  /// In en, this message translates to:
+  /// **'Unanswered queries'**
+  String get unansweredQueries;
 
   /// No description provided for @uncheckAll.
   ///

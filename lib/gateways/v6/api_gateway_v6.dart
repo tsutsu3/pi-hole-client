@@ -15,6 +15,7 @@ import 'package:pi_hole_client/models/api/v6/domains/domains.dart'
 import 'package:pi_hole_client/models/api/v6/ftl/ftl.dart' show InfoFtl;
 import 'package:pi_hole_client/models/api/v6/ftl/host.dart' show Host;
 import 'package:pi_hole_client/models/api/v6/ftl/messages.dart' show Messages;
+import 'package:pi_hole_client/models/api/v6/ftl/metrics.dart';
 import 'package:pi_hole_client/models/api/v6/ftl/sensors.dart' show Sensors;
 import 'package:pi_hole_client/models/api/v6/ftl/system.dart' show System;
 import 'package:pi_hole_client/models/api/v6/ftl/version.dart' show Version;
@@ -33,6 +34,7 @@ import 'package:pi_hole_client/models/groups.dart';
 import 'package:pi_hole_client/models/host.dart';
 import 'package:pi_hole_client/models/log.dart';
 import 'package:pi_hole_client/models/messages.dart';
+import 'package:pi_hole_client/models/metrics.dart';
 import 'package:pi_hole_client/models/overtime_data.dart';
 import 'package:pi_hole_client/models/realtime_status.dart';
 import 'package:pi_hole_client/models/search.dart';
@@ -1342,6 +1344,35 @@ class ApiGatewayV6 implements ApiGateway {
       }
     } catch (e) {
       return RemoveMessageResponse(
+        result: APiResponseType.error,
+        message: unexpectedError,
+      );
+    }
+  }
+
+  @override
+  Future<MetricsResponse> getMetrics() async {
+    try {
+      final results = await httpClient(
+        method: 'get',
+        url: '${_server.address}/api/info/metrics',
+      );
+
+      if (results.statusCode == 200) {
+        final metrics = Metrics.fromJson(jsonDecode(results.body));
+
+        return MetricsResponse(
+          result: APiResponseType.success,
+          data: MetricsInfo.fromV6(metrics),
+        );
+      } else {
+        return MetricsResponse(
+          result: APiResponseType.error,
+          message: fetchError,
+        );
+      }
+    } catch (e) {
+      return MetricsResponse(
         result: APiResponseType.error,
         message: unexpectedError,
       );

@@ -191,4 +191,9 @@ abstract interface class ApiGateway {
 
   /// Delete Pi-hole diagnosis message
   Future<RemoveMessageResponse> removeMessage(int id);
+
+  /// Get metrics info
+  ///
+  /// This API hook returns live information about the DNS and DHCP metrics.
+  Future<MetricsResponse> getMetrics();
 }

@@ -1,5 +1,7 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:pi_hole_client/constants/enums.dart';
+import 'package:pi_hole_client/models/api/v6/ftl/metrics.dart';
+import 'package:pi_hole_client/models/metrics.dart';
 import 'package:pi_hole_client/models/overtime_data.dart';
 import 'package:pi_hole_client/models/realtime_status.dart';
 import 'package:pi_hole_client/providers/status_provider.dart';
@@ -23,6 +25,9 @@ void main() {
       expect(statusProvider.getStatusLoading, LoadStatus.loading);
       expect(statusProvider.getOvertimeData, null);
       expect(statusProvider.getOvertimeDataJson, null);
+      expect(statusProvider.getMetricsInfo, null);
+      expect(statusProvider.getDnsCacheInfo, null);
+      expect(statusProvider.getDnsRepliesInfo, null);
       expect(statusProvider.getOvertimeDataLoadStatus, 0);
     });
 
@@ -579,6 +584,92 @@ void main() {
       statusProvider.setOvertimeData(overtimeData);
       expect(statusProvider.getOvertimeData, overtimeData);
       expect(statusProvider.getOvertimeDataJson, overtimeData.toJson());
+      expect(listenerCalled, true);
+    });
+
+    test('setMetricsInfo updates value and notifies listeners', () {
+      final metrics = Metrics.fromJson(
+        {
+          'metrics': {
+            'dns': {
+              'cache': {
+                'size': 10000,
+                'inserted': 4060,
+                'evicted': 0,
+                'expired': 0,
+                'immortal': 0,
+                'content': [
+                  {
+                    'type': 0,
+                    'name': 'OTHER',
+                    'count': {'valid': 0, 'stale': 0},
+                  },
+                  {
+                    'type': 1,
+                    'name': 'A',
+                    'count': {'valid': 14, 'stale': 3},
+                  },
+                  {
+                    'type': 28,
+                    'name': 'AAAA',
+                    'count': {'valid': 12, 'stale': 1},
+                  },
+                  {
+                    'type': 5,
+                    'name': 'CNAME',
+                    'count': {'valid': 5, 'stale': 3},
+                  },
+                  {
+                    'type': 43,
+                    'name': 'DS',
+                    'count': {'valid': 34, 'stale': 21},
+                  },
+                  {
+                    'type': 48,
+                    'name': 'DNSKEY',
+                    'count': {'valid': 1, 'stale': 0},
+                  }
+                ],
+              },
+              'replies': {
+                'optimized': 1,
+                'local': 84,
+                'auth': 0,
+                'forwarded': 46,
+                'unanswered': 0,
+                'sum': 131,
+              },
+            },
+            'dhcp': {
+              'ack': 0,
+              'nak': 0,
+              'decline': 0,
+              'offer': 0,
+              'discover': 0,
+              'inform': 0,
+              'request': 0,
+              'release': 0,
+              'noanswer': 0,
+              'bootp': 0,
+              'pxe': 0,
+              'leases': {
+                'allocated_4': 0,
+                'pruned_4': 0,
+                'allocated_6': 0,
+                'pruned_6': 0,
+              },
+            },
+          },
+          'took': 0.003,
+        },
+      );
+
+      final metricsInfo = MetricsInfo.fromV6(metrics);
+
+      statusProvider.setMetricsInfo(metricsInfo);
+      expect(statusProvider.getMetricsInfo, metricsInfo);
+      expect(statusProvider.getDnsCacheInfo, metricsInfo.dnsCache);
+      expect(statusProvider.getDnsRepliesInfo, metricsInfo.dnsReplies);
       expect(listenerCalled, true);
     });
   });
