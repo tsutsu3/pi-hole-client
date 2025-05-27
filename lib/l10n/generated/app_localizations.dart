@@ -2462,7 +2462,7 @@ abstract class AppLocalizations {
   /// No description provided for @supportDeveloperSubtitle.
   ///
   /// In en, this message translates to:
-  /// **'You will be redirected to the Buy Me a Coffee external page (support is optional).'**
+  /// **'You will be redirected to the Buy Me a Coffee external page.'**
   String get supportDeveloperSubtitle;
 
   /// No description provided for @supportDeveloperTitle.

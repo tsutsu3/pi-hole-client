@@ -1188,7 +1188,7 @@ class AppLocalizationsJa extends AppLocalizations {
   String get subrouteHelper => 'リバースプロキシで使用';
 
   @override
-  String get supportDeveloperSubtitle => 'Buy Me a Coffee の外部ページに遷移します（任意の支援です）';
+  String get supportDeveloperSubtitle => 'Buy Me a Coffee の外部ページに遷移します。';
 
   @override
   String get supportDeveloperTitle => '開発者への支援';
