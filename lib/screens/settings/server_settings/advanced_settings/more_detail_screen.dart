@@ -29,30 +29,30 @@ class MoreDetailsScreen extends StatelessWidget {
                 interfaceData.carrier ? locale.connected : locale.disconnected,
           ),
           CustomListTile(
-            leadingIcon: Icons.link_rounded,
+            leadingIcon: Icons.dns_rounded,
             label: locale.carrierChanges,
             description: interfaceData.carrierChanges.toString(),
           ),
           CustomListTile(
-            leadingIcon: Icons.link_rounded,
+            leadingIcon: Icons.lan_rounded,
             label: locale.state,
             description: interfaceData.state.toUpperCase(),
           ),
           CustomListTile(
-            leadingIcon: Icons.link_rounded,
+            leadingIcon: Icons.sync_alt_rounded,
             label: locale.parentDevice,
             description: interfaceData.parentDevName == null
                 ? 'N/A'
                 : '${interfaceData.parentDevName ?? 'N/A'} @ ${interfaceData.parentDevBusName ?? 'N/A'}',
           ),
           CustomListTile(
-            leadingIcon: Icons.speed_rounded,
+            leadingIcon: Icons.compare_arrows_rounded,
             label: locale.mtu,
             description:
                 '${interfaceData.mtu} ${locale.bytes} (${locale.min}: ${interfaceData.minMtu} ${locale.bytes}, ${locale.max}: ${interfaceData.maxMtu} ${locale.bytes})',
           ),
           CustomListTile(
-            leadingIcon: Icons.speed_rounded,
+            leadingIcon: Icons.upload_file_rounded,
             label: locale.txQueueLength,
             description: interfaceData.txqlen.toString(),
           ),
@@ -67,7 +67,7 @@ class MoreDetailsScreen extends StatelessWidget {
             description: interfaceData.broadcast,
           ),
           CustomListTile(
-            leadingIcon: Icons.wifi_tethering_rounded,
+            leadingIcon: Icons.visibility_rounded,
             label: locale.promiscuityMode,
             description: interfaceData.promiscuity == 0
                 ? locale.disabled

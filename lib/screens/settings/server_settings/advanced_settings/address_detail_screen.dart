@@ -30,12 +30,12 @@ class AddressDetailScreen extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               CustomListTile(
-                leadingIcon: Icons.location_on_outlined,
+                leadingIcon: Icons.location_on_rounded,
                 label: locale.local,
                 description: address.local ?? locale.unknown,
               ),
               CustomListTile(
-                leadingIcon: Icons.location_on_outlined,
+                leadingIcon: Icons.location_on_rounded,
                 label: locale.broadcast,
                 description: address.broadcast ?? 'N/A',
               ),
@@ -64,7 +64,7 @@ class AddressDetailScreen extends StatelessWidget {
                     : address.valid.toString(),
               ),
               CustomListTile(
-                leadingIcon: Icons.access_time_outlined,
+                leadingIcon: Icons.event_available_rounded,
                 label: locale.created,
                 description: formatUnixTime(
                   address.cstamp.round(),
@@ -72,7 +72,7 @@ class AddressDetailScreen extends StatelessWidget {
                 ),
               ),
               CustomListTile(
-                leadingIcon: Icons.access_time_outlined,
+                leadingIcon: Icons.event_repeat_rounded,
                 label: locale.lastUpdated,
                 description: formatUnixTime(
                   address.tstamp.round(),

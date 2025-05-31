@@ -24,42 +24,42 @@ class StatisticsDetailScreen extends StatelessWidget {
           padding: const EdgeInsets.all(16.0),
           children: [
             CustomListTile(
-              leadingIcon: Icons.download,
+              leadingIcon: Icons.move_to_inbox,
               label: locale.rxBytes,
               description: '${stats.rxBytes.value} ${stats.rxBytes.unit}',
             ),
             CustomListTile(
-              leadingIcon: Icons.download,
+              leadingIcon: Icons.move_to_inbox,
               label: locale.rxPackets,
               description: stats.rxPackets.toString(),
             ),
             CustomListTile(
-              leadingIcon: Icons.download,
+              leadingIcon: Icons.download_rounded,
               label: locale.rxErrors,
               description: stats.rxErrors.toString(),
             ),
             CustomListTile(
-              leadingIcon: Icons.download,
+              leadingIcon: Icons.download_rounded,
               label: locale.rxDropped,
               description: stats.rxDropped.toString(),
             ),
             CustomListTile(
-              leadingIcon: Icons.upload,
+              leadingIcon: Icons.outbox_rounded,
               label: locale.txBytes,
               description: '${stats.txBytes.value} ${stats.txBytes.unit}',
             ),
             CustomListTile(
-              leadingIcon: Icons.upload,
+              leadingIcon: Icons.outbox_rounded,
               label: locale.txPackets,
               description: stats.txPackets.toString(),
             ),
             CustomListTile(
-              leadingIcon: Icons.upload,
+              leadingIcon: Icons.upload_rounded,
               label: locale.txErrors,
               description: stats.txErrors.toString(),
             ),
             CustomListTile(
-              leadingIcon: Icons.upload,
+              leadingIcon: Icons.upload_rounded,
               label: locale.txDropped,
               description: stats.txDropped.toString(),
             ),
