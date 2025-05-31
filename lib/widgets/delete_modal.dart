@@ -55,12 +55,33 @@ class DeleteModal extends StatelessWidget {
           children: [
             TextButton(
               onPressed: () => Navigator.maybePop(context),
-              child: Text(AppLocalizations.of(context)!.cancel),
+              style: TextButton.styleFrom(
+                padding: const EdgeInsets.symmetric(horizontal: 24),
+              ),
+              child: Text(
+                AppLocalizations.of(context)!.cancel,
+                style: TextStyle(
+                  color: Theme.of(context)
+                      .colorScheme
+                      .onSurface
+                      .withValues(alpha: 0.8),
+                ),
+              ),
             ),
             const SizedBox(width: 16),
-            TextButton(
+            ElevatedButton(
               onPressed: onDelete,
-              child: Text(AppLocalizations.of(context)!.delete),
+              style: ElevatedButton.styleFrom(
+                backgroundColor: Colors.redAccent,
+                elevation: 0,
+                shadowColor: Colors.transparent,
+              ),
+              child: Text(
+                AppLocalizations.of(context)!.delete,
+                style: TextStyle(
+                  color: Colors.white.withValues(alpha: 0.9),
+                ),
+              ),
             ),
           ],
         ),
