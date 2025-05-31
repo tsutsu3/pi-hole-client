@@ -1,6 +1,7 @@
 import 'package:pi_hole_client/models/api/v6/domains/domains.dart' as v6;
 import 'package:pi_hole_client/models/app_log.dart';
 import 'package:pi_hole_client/models/domain.dart';
+import 'package:pi_hole_client/models/gateway.dart';
 import 'package:pi_hole_client/models/groups.dart';
 import 'package:pi_hole_client/models/host.dart';
 import 'package:pi_hole_client/models/log.dart';
@@ -371,6 +372,14 @@ class GravityResponse extends BaseInfoResponse<List<String>> {
 
 class MetricsResponse extends BaseInfoResponse<MetricsInfo> {
   MetricsResponse({
+    required super.result,
+    super.message,
+    super.data,
+  });
+}
+
+class GatewayResponse extends BaseInfoResponse<GatewayInfo> {
+  GatewayResponse({
     required super.result,
     super.message,
     super.data,

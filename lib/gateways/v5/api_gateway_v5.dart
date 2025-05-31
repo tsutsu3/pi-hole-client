@@ -906,4 +906,14 @@ class ApiGatewayV5 implements ApiGateway {
       ),
     );
   }
+
+  @override
+  Future<GatewayResponse> getGateway({bool? isDetailed}) async {
+    return Future.value(
+      GatewayResponse(
+        result: APiResponseType.notSupported,
+        message: notSupportedMessage,
+      ),
+    );
+  }
 }
