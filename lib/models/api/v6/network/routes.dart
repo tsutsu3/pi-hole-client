@@ -1,4 +1,5 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
+import 'package:pi_hole_client/models/api/v6/network/common.dart';
 
 part 'routes.freezed.dart';
 part 'routes.g.dart';
@@ -40,19 +41,4 @@ sealed class RouteData with _$RouteData {
 
   factory RouteData.fromJson(Map<String, dynamic> json) =>
       _$RouteDataFromJson(json);
-}
-
-enum RouteFamily {
-  @JsonValue('inet')
-  inet,
-  @JsonValue('inet6')
-  inet6,
-  @JsonValue('link')
-  link,
-  @JsonValue('mpls')
-  mpls,
-  @JsonValue('bridge')
-  bridge,
-  @JsonValue('unknown')
-  unknown,
 }
