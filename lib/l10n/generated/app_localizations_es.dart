@@ -18,6 +18,9 @@ class AppLocalizationsEs extends AppLocalizations {
   String get accept => 'Aceptar';
 
   @override
+  String get actions => 'Acciones';
+
+  @override
   String get add => 'Añadir';
 
   @override
@@ -52,6 +55,9 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String get address => 'Dirección IP o dominio';
+
+  @override
+  String get addresses => 'Direcciones';
 
   @override
   String get adlist => 'Adlist';
@@ -96,13 +102,16 @@ class AppLocalizationsEs extends AppLocalizations {
   String get adlistsNotLoaded => 'No se pudieron cargar las Adlists';
 
   @override
+  String get advancedAppSetupDescription => 'Acceder a la configuración avanzada de la aplicación';
+
+  @override
   String get advancedOptions => 'Opciones avanzadas';
 
   @override
-  String get advancedSetup => 'Configuración avanzada';
+  String get advancedServerSetupDescription => 'Acceder a la configuración avanzada del servidor';
 
   @override
-  String get advancedSetupDescription => 'Opciones avanzadas';
+  String get advancedSetup => 'Configuración avanzada';
 
   @override
   String get advancedStatusFiltering => 'Filtros de estado avanzados';
@@ -225,6 +234,12 @@ class AppLocalizationsEs extends AppLocalizations {
   String get blocked => 'Bloqueados';
 
   @override
+  String get broadcast => 'Dirección de difusión';
+
+  @override
+  String get bytes => 'bytes';
+
+  @override
   String get cacheOptimizerReplies => 'Respuestas del optimizador de caché';
 
   @override
@@ -267,6 +282,12 @@ class AppLocalizationsEs extends AppLocalizations {
   String get cantUpdateLogsPerQuery => 'No se ha podido actualizar la cantidad de registros por petición.';
 
   @override
+  String get carrier => 'Portadora';
+
+  @override
+  String get carrierChanges => 'Cambios de portadora';
+
+  @override
   String get changeServer => 'Cambiar servidor';
 
   @override
@@ -304,6 +325,9 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String get close => 'Cerrar';
+
+  @override
+  String get collisions => 'Colisiones';
 
   @override
   String get comment => 'Comentario';
@@ -399,6 +423,9 @@ class AppLocalizationsEs extends AppLocalizations {
   String get createConnection => 'Crear una conexión';
 
   @override
+  String get created => 'Created on';
+
+  @override
   String get createdBy => 'Creado por';
 
   @override
@@ -453,13 +480,25 @@ class AppLocalizationsEs extends AppLocalizations {
   String get device => 'Dispositivo';
 
   @override
+  String get dhcp => 'DHCP';
+
+  @override
+  String get dhcpDescription => 'Muestra todos los arrendamientos DHCP activos actualmente';
+
+  @override
   String get disable => 'Desactivar';
+
+  @override
+  String get disableQueryLogging => 'Desactivar el registro de consultas';
 
   @override
   String get disabled => 'Desactivado';
 
   @override
   String get disablingServer => 'Desactivando servidor...';
+
+  @override
+  String get disconnected => 'Desconectado';
 
   @override
   String get dns => 'DNS';
@@ -591,6 +630,18 @@ class AppLocalizationsEs extends AppLocalizations {
   String get finish => 'Finalizar';
 
   @override
+  String get flags => 'Flags';
+
+  @override
+  String get flushLogs24h => 'Borrar registros (últimas 24 horas)';
+
+  @override
+  String get flushNetworkTable => 'Vaciar tabla de red';
+
+  @override
+  String get forever => 'para siempre';
+
+  @override
   String get forwardedQueries => 'Consultas reenviadas';
 
   @override
@@ -628,6 +679,9 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String get groups => 'Grupos';
+
+  @override
+  String get hardwareAddress => 'Dirección de hardware';
 
   @override
   String get helpUsImprove => 'Ayúdanos a mejorar';
@@ -696,6 +750,12 @@ class AppLocalizationsEs extends AppLocalizations {
   String get indefinitely => 'Indefinidamente';
 
   @override
+  String get interface => 'Interfaz';
+
+  @override
+  String get interfaceDescription => 'Muestra una descripción general de las interfaces de red';
+
+  @override
   String get invalid => 'No válido';
 
   @override
@@ -727,6 +787,9 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String get language => 'Idioma';
+
+  @override
+  String get lastUpdated => 'Última actualización el';
 
   @override
   String get legal => 'Legal';
@@ -771,6 +834,9 @@ class AppLocalizationsEs extends AppLocalizations {
   String get loadingStats => 'Cargando estadísticas...';
 
   @override
+  String get local => 'Dirección local';
+
+  @override
   String get localCacheReplies => 'Respuestas locales/cache';
 
   @override
@@ -801,6 +867,9 @@ class AppLocalizationsEs extends AppLocalizations {
   String get logsWillBeRequested => 'Los registros se pedirán en grupos de';
 
   @override
+  String get max => 'máx';
+
+  @override
   String get memoryUsage => 'Uso de memoria';
 
   @override
@@ -811,6 +880,9 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String get messages => 'Mensajes';
+
+  @override
+  String get min => 'mín';
 
   @override
   String get minute1 => '1 minuto';
@@ -832,6 +904,18 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String get moreDetails => 'Más detalles';
+
+  @override
+  String get mtu => 'MTU';
+
+  @override
+  String get multicast => 'Multidifusión';
+
+  @override
+  String get network => 'Red';
+
+  @override
+  String get networkDescription => 'Muestra una descripción general de la red';
 
   @override
   String get next => 'Siguiente';
@@ -924,6 +1008,9 @@ class AppLocalizationsEs extends AppLocalizations {
   String get others => 'Otros';
 
   @override
+  String get parentDevice => 'Dispositivo principal';
+
+  @override
   String get passCodeNotSaved => 'No se ha podido guardar el código.';
 
   @override
@@ -960,6 +1047,9 @@ class AppLocalizationsEs extends AppLocalizations {
   String get portCannotEmpty => 'Puerto no puede estar vacío';
 
   @override
+  String get preferredLifetime => 'Duración preferida';
+
+  @override
   String get privacy => 'Privacidad';
 
   @override
@@ -970,6 +1060,9 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String get privacyPolicyDescription => 'Ver Política de Privacidad';
+
+  @override
+  String get promiscuityMode => 'Modo promiscuo';
 
   @override
   String get qrScanner => 'Escáner QR';
@@ -1035,10 +1128,25 @@ class AppLocalizationsEs extends AppLocalizations {
   String get restartAppTakeEffect => 'Reinicie la aplicación para aplicar la configuración.';
 
   @override
+  String get restartDnsResolver => 'Reiniciar el resolvedor DNS';
+
+  @override
   String get runningStatus => 'En ejecución...';
 
   @override
   String get runningSubtitle => 'El resultado se mostrará aquí al finalizar la tarea.';
+
+  @override
+  String get rxBytes => 'Bytes recibidos';
+
+  @override
+  String get rxDropped => 'Paquetes descartados (RX)';
+
+  @override
+  String get rxErrors => 'Errores de recepción';
+
+  @override
+  String get rxPackets => 'Paquetes recibidos\"';
 
   @override
   String get save => 'Guardar';
@@ -1050,10 +1158,22 @@ class AppLocalizationsEs extends AppLocalizations {
   String get scanQrCode => 'Escanea el código QR';
 
   @override
+  String get scheduler => 'Planificador';
+
+  @override
+  String get scope => 'Ámbito';
+
+  @override
   String get searchAdlistInternet => 'Ver adlist en línea';
 
   @override
   String get searchAdlists => 'Buscar adlists...';
+
+  @override
+  String get searchAdlistsDescription => 'Buscar dominios incluidos en las adlists';
+
+  @override
+  String get searchAdlistsTitle => 'Buscar Adlists';
 
   @override
   String get searchDomainInternet => 'Buscar el dominio en Internet';
@@ -1155,6 +1275,12 @@ class AppLocalizationsEs extends AppLocalizations {
   String get servers => 'Servidores';
 
   @override
+  String get sessions => 'Sesiones';
+
+  @override
+  String get sessionsDescription => 'Muestra todas las sesiones activas actualmente';
+
+  @override
   String get setDefault => 'Hacer conexión por defecto';
 
   @override
@@ -1174,6 +1300,9 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String get startTimeNotBeforeEndTime => 'Tiempo de inicio no es anterior a tiempo de fin';
+
+  @override
+  String get state => 'Estado';
 
   @override
   String get statistics => 'Estadísticas';
@@ -1257,6 +1386,9 @@ class AppLocalizationsEs extends AppLocalizations {
   String get tokenNotValid => 'Token no válido';
 
   @override
+  String get tools => 'Herramientas';
+
+  @override
   String get topBlockedDomains => 'Top dominios bloqueados';
 
   @override
@@ -1279,6 +1411,21 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String get tryReconnect => 'Intentar reconectar';
+
+  @override
+  String get txBytes => 'Bytes enviados';
+
+  @override
+  String get txDropped => 'Paquetes descartados (TX)';
+
+  @override
+  String get txErrors => 'Errores de transmisión';
+
+  @override
+  String get txPackets => 'Paquetes enviados';
+
+  @override
+  String get txQueueLength => 'Longitud de cola TX';
 
   @override
   String get type => 'Tipo';
@@ -1336,6 +1483,9 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String get valid => 'Válido';
+
+  @override
+  String get validLifetime => 'Duración válida';
 
   @override
   String get valueNotValid => 'Ingrese un número entre 1 y 86400 segundos';

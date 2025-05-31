@@ -17,6 +17,7 @@ import 'package:pi_hole_client/screens/settings/about/privacy_screen.dart';
 import 'package:pi_hole_client/screens/settings/app_settings/advanced_settings/advanced_options.dart';
 import 'package:pi_hole_client/screens/settings/app_settings/language_screen.dart';
 import 'package:pi_hole_client/screens/settings/app_settings/theme_screen.dart';
+import 'package:pi_hole_client/screens/settings/server_settings/advanced_server_options.dart';
 import 'package:pi_hole_client/screens/settings/server_settings/server_info.dart';
 import 'package:pi_hole_client/screens/settings/server_settings/subscriptions.dart';
 import 'package:pi_hole_client/widgets/custom_list_tile.dart';
@@ -172,9 +173,9 @@ class _SettingsWidgetState extends State<SettingsWidget> {
             thisItem: 2,
           ),
           settingsTile(
-            icon: Icons.settings,
+            icon: Icons.settings_rounded,
             title: AppLocalizations.of(context)!.advancedSetup,
-            subtitle: AppLocalizations.of(context)!.advancedSetupDescription,
+            subtitle: AppLocalizations.of(context)!.advancedAppSetupDescription,
             screenToNavigate: const AdvancedOptions(),
             thisItem: 3,
           ),
@@ -207,6 +208,14 @@ class _SettingsWidgetState extends State<SettingsWidget> {
             screenToNavigate: const SubscriptionLists(),
             thisItem: 5,
           ),
+          settingsTile(
+            icon: Icons.build_rounded,
+            title: AppLocalizations.of(context)!.advancedSetup,
+            subtitle:
+                AppLocalizations.of(context)!.advancedServerSetupDescription,
+            screenToNavigate: const AdvancedServerOptions(),
+            thisItem: 6,
+          ),
         ],
       );
     }
@@ -225,28 +234,28 @@ class _SettingsWidgetState extends State<SettingsWidget> {
             screenToNavigate: AppDetailScreen(
               appVersion: appConfigProvider.getAppInfo?.version,
             ),
-            thisItem: 6,
+            thisItem: 7,
           ),
           settingsTile(
             icon: Icons.privacy_tip_rounded,
             title: AppLocalizations.of(context)!.privacy,
             subtitle: AppLocalizations.of(context)!.privacyInfo,
             screenToNavigate: const PrivacyScreen(),
-            thisItem: 7,
+            thisItem: 8,
           ),
           settingsTile(
             icon: Icons.balance_rounded,
             title: AppLocalizations.of(context)!.legal,
             subtitle: AppLocalizations.of(context)!.legalInfo,
             screenToNavigate: const LegalScreen(),
-            thisItem: 8,
+            thisItem: 9,
           ),
           settingsTile(
             icon: Icons.description_rounded,
             title: AppLocalizations.of(context)!.licenses,
             subtitle: AppLocalizations.of(context)!.licensesInfo,
             screenToNavigate: const LicensesScreen(),
-            thisItem: 9,
+            thisItem: 10,
           ),
           Padding(
             padding: const EdgeInsets.all(15),

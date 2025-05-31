@@ -119,6 +119,12 @@ abstract class AppLocalizations {
   /// **'Accept'**
   String get accept;
 
+  /// No description provided for @actions.
+  ///
+  /// In en, this message translates to:
+  /// **'Actions'**
+  String get actions;
+
   /// No description provided for @add.
   ///
   /// In en, this message translates to:
@@ -190,6 +196,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'IP address or domain'**
   String get address;
+
+  /// No description provided for @addresses.
+  ///
+  /// In en, this message translates to:
+  /// **'Addresses'**
+  String get addresses;
 
   /// No description provided for @adlist.
   ///
@@ -275,23 +287,29 @@ abstract class AppLocalizations {
   /// **'Adlists couldn\'t be loaded'**
   String get adlistsNotLoaded;
 
+  /// No description provided for @advancedAppSetupDescription.
+  ///
+  /// In en, this message translates to:
+  /// **'Access advanced app settings'**
+  String get advancedAppSetupDescription;
+
   /// No description provided for @advancedOptions.
   ///
   /// In en, this message translates to:
   /// **'Advanced Options'**
   String get advancedOptions;
 
+  /// No description provided for @advancedServerSetupDescription.
+  ///
+  /// In en, this message translates to:
+  /// **'Access advanced server settings'**
+  String get advancedServerSetupDescription;
+
   /// No description provided for @advancedSetup.
   ///
   /// In en, this message translates to:
   /// **'Advanced settings'**
   String get advancedSetup;
-
-  /// No description provided for @advancedSetupDescription.
-  ///
-  /// In en, this message translates to:
-  /// **'Advanced options'**
-  String get advancedSetupDescription;
 
   /// No description provided for @advancedStatusFiltering.
   ///
@@ -533,6 +551,18 @@ abstract class AppLocalizations {
   /// **'Blocked'**
   String get blocked;
 
+  /// No description provided for @broadcast.
+  ///
+  /// In en, this message translates to:
+  /// **'Broadcast Address'**
+  String get broadcast;
+
+  /// No description provided for @bytes.
+  ///
+  /// In en, this message translates to:
+  /// **'bytes'**
+  String get bytes;
+
   /// No description provided for @cacheOptimizerReplies.
   ///
   /// In en, this message translates to:
@@ -617,6 +647,18 @@ abstract class AppLocalizations {
   /// **'Logs quantity per request couldn\'t be updated'**
   String get cantUpdateLogsPerQuery;
 
+  /// No description provided for @carrier.
+  ///
+  /// In en, this message translates to:
+  /// **'Carrier'**
+  String get carrier;
+
+  /// No description provided for @carrierChanges.
+  ///
+  /// In en, this message translates to:
+  /// **'Carrier changes'**
+  String get carrierChanges;
+
   /// No description provided for @changeServer.
   ///
   /// In en, this message translates to:
@@ -694,6 +736,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Close'**
   String get close;
+
+  /// No description provided for @collisions.
+  ///
+  /// In en, this message translates to:
+  /// **'Collisions'**
+  String get collisions;
 
   /// No description provided for @comment.
   ///
@@ -881,6 +929,12 @@ abstract class AppLocalizations {
   /// **'Create a connection'**
   String get createConnection;
 
+  /// No description provided for @created.
+  ///
+  /// In en, this message translates to:
+  /// **'Created'**
+  String get created;
+
   /// No description provided for @createdBy.
   ///
   /// In en, this message translates to:
@@ -989,11 +1043,29 @@ abstract class AppLocalizations {
   /// **'Device'**
   String get device;
 
+  /// No description provided for @dhcp.
+  ///
+  /// In en, this message translates to:
+  /// **'DHCP'**
+  String get dhcp;
+
+  /// No description provided for @dhcpDescription.
+  ///
+  /// In en, this message translates to:
+  /// **'Displays all currently active DHCP leases'**
+  String get dhcpDescription;
+
   /// No description provided for @disable.
   ///
   /// In en, this message translates to:
   /// **'Disable'**
   String get disable;
+
+  /// No description provided for @disableQueryLogging.
+  ///
+  /// In en, this message translates to:
+  /// **'Disable query logging'**
+  String get disableQueryLogging;
 
   /// No description provided for @disabled.
   ///
@@ -1006,6 +1078,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Disabling server...'**
   String get disablingServer;
+
+  /// No description provided for @disconnected.
+  ///
+  /// In en, this message translates to:
+  /// **'Disconnected'**
+  String get disconnected;
 
   /// No description provided for @dns.
   ///
@@ -1265,6 +1343,30 @@ abstract class AppLocalizations {
   /// **'Finish'**
   String get finish;
 
+  /// No description provided for @flags.
+  ///
+  /// In en, this message translates to:
+  /// **'Flags'**
+  String get flags;
+
+  /// No description provided for @flushLogs24h.
+  ///
+  /// In en, this message translates to:
+  /// **'Flush logs (last 24 hours)'**
+  String get flushLogs24h;
+
+  /// No description provided for @flushNetworkTable.
+  ///
+  /// In en, this message translates to:
+  /// **'Flush network table'**
+  String get flushNetworkTable;
+
+  /// No description provided for @forever.
+  ///
+  /// In en, this message translates to:
+  /// **'forever'**
+  String get forever;
+
   /// No description provided for @forwardedQueries.
   ///
   /// In en, this message translates to:
@@ -1342,6 +1444,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Groups'**
   String get groups;
+
+  /// No description provided for @hardwareAddress.
+  ///
+  /// In en, this message translates to:
+  /// **'Hardware Address'**
+  String get hardwareAddress;
 
   /// No description provided for @helpUsImprove.
   ///
@@ -1475,6 +1583,18 @@ abstract class AppLocalizations {
   /// **'Indefinitely'**
   String get indefinitely;
 
+  /// No description provided for @interface.
+  ///
+  /// In en, this message translates to:
+  /// **'Interface'**
+  String get interface;
+
+  /// No description provided for @interfaceDescription.
+  ///
+  /// In en, this message translates to:
+  /// **'Displays an overview of network interfaces'**
+  String get interfaceDescription;
+
   /// No description provided for @invalid.
   ///
   /// In en, this message translates to:
@@ -1540,6 +1660,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Language'**
   String get language;
+
+  /// No description provided for @lastUpdated.
+  ///
+  /// In en, this message translates to:
+  /// **'Last updated'**
+  String get lastUpdated;
 
   /// No description provided for @legal.
   ///
@@ -1625,6 +1751,12 @@ abstract class AppLocalizations {
   /// **'Loading stats...'**
   String get loadingStats;
 
+  /// No description provided for @local.
+  ///
+  /// In en, this message translates to:
+  /// **'Local Address'**
+  String get local;
+
   /// No description provided for @localCacheReplies.
   ///
   /// In en, this message translates to:
@@ -1685,6 +1817,12 @@ abstract class AppLocalizations {
   /// **'Logs will be requested in groups of'**
   String get logsWillBeRequested;
 
+  /// No description provided for @max.
+  ///
+  /// In en, this message translates to:
+  /// **'max'**
+  String get max;
+
   /// No description provided for @memoryUsage.
   ///
   /// In en, this message translates to:
@@ -1708,6 +1846,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Messages'**
   String get messages;
+
+  /// No description provided for @min.
+  ///
+  /// In en, this message translates to:
+  /// **'min'**
+  String get min;
 
   /// No description provided for @minute1.
   ///
@@ -1750,6 +1894,30 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'More Details'**
   String get moreDetails;
+
+  /// No description provided for @mtu.
+  ///
+  /// In en, this message translates to:
+  /// **'MTU'**
+  String get mtu;
+
+  /// No description provided for @multicast.
+  ///
+  /// In en, this message translates to:
+  /// **'Multicast'**
+  String get multicast;
+
+  /// No description provided for @network.
+  ///
+  /// In en, this message translates to:
+  /// **'Network'**
+  String get network;
+
+  /// No description provided for @networkDescription.
+  ///
+  /// In en, this message translates to:
+  /// **'Displays an overview of the network'**
+  String get networkDescription;
 
   /// No description provided for @next.
   ///
@@ -1931,6 +2099,12 @@ abstract class AppLocalizations {
   /// **'Others'**
   String get others;
 
+  /// No description provided for @parentDevice.
+  ///
+  /// In en, this message translates to:
+  /// **'Parent Device'**
+  String get parentDevice;
+
   /// No description provided for @passCodeNotSaved.
   ///
   /// In en, this message translates to:
@@ -2003,6 +2177,12 @@ abstract class AppLocalizations {
   /// **'Port field cannot be empty'**
   String get portCannotEmpty;
 
+  /// No description provided for @preferredLifetime.
+  ///
+  /// In en, this message translates to:
+  /// **'Preferred Lifetime'**
+  String get preferredLifetime;
+
   /// No description provided for @privacy.
   ///
   /// In en, this message translates to:
@@ -2026,6 +2206,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'View Privacy Policy'**
   String get privacyPolicyDescription;
+
+  /// No description provided for @promiscuityMode.
+  ///
+  /// In en, this message translates to:
+  /// **'Promiscuity Mode'**
+  String get promiscuityMode;
 
   /// No description provided for @qrScanner.
   ///
@@ -2153,6 +2339,12 @@ abstract class AppLocalizations {
   /// **'Please restart the application to apply the settings.'**
   String get restartAppTakeEffect;
 
+  /// No description provided for @restartDnsResolver.
+  ///
+  /// In en, this message translates to:
+  /// **'Restart DNS resolver'**
+  String get restartDnsResolver;
+
   /// No description provided for @runningStatus.
   ///
   /// In en, this message translates to:
@@ -2164,6 +2356,30 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'This section will show the result once the task is complete.'**
   String get runningSubtitle;
+
+  /// No description provided for @rxBytes.
+  ///
+  /// In en, this message translates to:
+  /// **'RX Bytes'**
+  String get rxBytes;
+
+  /// No description provided for @rxDropped.
+  ///
+  /// In en, this message translates to:
+  /// **'RX Dropped'**
+  String get rxDropped;
+
+  /// No description provided for @rxErrors.
+  ///
+  /// In en, this message translates to:
+  /// **'RX Errors'**
+  String get rxErrors;
+
+  /// No description provided for @rxPackets.
+  ///
+  /// In en, this message translates to:
+  /// **'RX Packets'**
+  String get rxPackets;
 
   /// No description provided for @save.
   ///
@@ -2183,6 +2399,18 @@ abstract class AppLocalizations {
   /// **'Scan the QR code'**
   String get scanQrCode;
 
+  /// No description provided for @scheduler.
+  ///
+  /// In en, this message translates to:
+  /// **'Scheduler'**
+  String get scheduler;
+
+  /// No description provided for @scope.
+  ///
+  /// In en, this message translates to:
+  /// **'Scope'**
+  String get scope;
+
   /// No description provided for @searchAdlistInternet.
   ///
   /// In en, this message translates to:
@@ -2194,6 +2422,18 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Search adlists...'**
   String get searchAdlists;
+
+  /// No description provided for @searchAdlistsDescription.
+  ///
+  /// In en, this message translates to:
+  /// **'Search for domains listed in adlists'**
+  String get searchAdlistsDescription;
+
+  /// No description provided for @searchAdlistsTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Search Adlists'**
+  String get searchAdlistsTitle;
 
   /// No description provided for @searchDomainInternet.
   ///
@@ -2393,6 +2633,18 @@ abstract class AppLocalizations {
   /// **'Servers'**
   String get servers;
 
+  /// No description provided for @sessions.
+  ///
+  /// In en, this message translates to:
+  /// **'Sessions'**
+  String get sessions;
+
+  /// No description provided for @sessionsDescription.
+  ///
+  /// In en, this message translates to:
+  /// **'Displays all currently active sessions'**
+  String get sessionsDescription;
+
   /// No description provided for @setDefault.
   ///
   /// In en, this message translates to:
@@ -2434,6 +2686,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Start time is not before end time'**
   String get startTimeNotBeforeEndTime;
+
+  /// No description provided for @state.
+  ///
+  /// In en, this message translates to:
+  /// **'State'**
+  String get state;
 
   /// No description provided for @statistics.
   ///
@@ -2597,6 +2855,12 @@ abstract class AppLocalizations {
   /// **'Token not valid'**
   String get tokenNotValid;
 
+  /// No description provided for @tools.
+  ///
+  /// In en, this message translates to:
+  /// **'Tools'**
+  String get tools;
+
   /// No description provided for @topBlockedDomains.
   ///
   /// In en, this message translates to:
@@ -2644,6 +2908,36 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Try reconnect'**
   String get tryReconnect;
+
+  /// No description provided for @txBytes.
+  ///
+  /// In en, this message translates to:
+  /// **'TX Bytes'**
+  String get txBytes;
+
+  /// No description provided for @txDropped.
+  ///
+  /// In en, this message translates to:
+  /// **'TX Dropped'**
+  String get txDropped;
+
+  /// No description provided for @txErrors.
+  ///
+  /// In en, this message translates to:
+  /// **'TX Errors'**
+  String get txErrors;
+
+  /// No description provided for @txPackets.
+  ///
+  /// In en, this message translates to:
+  /// **'TX Packets'**
+  String get txPackets;
+
+  /// No description provided for @txQueueLength.
+  ///
+  /// In en, this message translates to:
+  /// **'TX Queue Length'**
+  String get txQueueLength;
 
   /// No description provided for @type.
   ///
@@ -2758,6 +3052,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Valid'**
   String get valid;
+
+  /// No description provided for @validLifetime.
+  ///
+  /// In en, this message translates to:
+  /// **'Valid Lifetime'**
+  String get validLifetime;
 
   /// No description provided for @valueNotValid.
   ///
