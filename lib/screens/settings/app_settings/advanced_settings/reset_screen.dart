@@ -91,38 +91,57 @@ class _ResetScreenState extends State<ResetScreen> {
                               _timer.cancel();
                               Navigator.of(context).pop();
                             },
+                            style: TextButton.styleFrom(
+                              padding:
+                                  const EdgeInsets.symmetric(horizontal: 24),
+                            ),
                             child: Text(
                               AppLocalizations.of(context)!.cancel,
                               overflow: TextOverflow.ellipsis,
                               style: TextStyle(
-                                color: Theme.of(context).colorScheme.secondary,
+                                color: Theme.of(context)
+                                    .colorScheme
+                                    .onSurface
+                                    .withValues(alpha: 0.8),
                               ),
                             ),
                           ),
-                          TextButton(
-                            onPressed: _timeRemaining == 0
-                                ? () async {
-                                    await widget.onConfirm.call();
-                                    if (context.mounted) {
-                                      Navigator.pop(context);
-                                    }
-                                  }
-                                : null,
-                            style: ButtonStyle(
-                              foregroundColor: _timeRemaining == 0
-                                  ? WidgetStateProperty.all(Colors.red)
-                                  : WidgetStateProperty.all(Colors.grey),
-                              overlayColor: WidgetStateProperty.all(
-                                Colors.red.withValues(alpha: 0.1),
+                          if (_timeRemaining > 0)
+                            TextButton(
+                              onPressed: null,
+                              style: ButtonStyle(
+                                foregroundColor:
+                                    WidgetStateProperty.all(Colors.grey),
+                                overlayColor: WidgetStateProperty.all(
+                                  Colors.red.withValues(alpha: 0.1),
+                                ),
                               ),
-                            ),
-                            child: Text(
-                              _timeRemaining > 0
-                                  ? '${AppLocalizations.of(context)!.eraseAll} ($_timeRemaining)'
-                                  : AppLocalizations.of(context)!.eraseAll,
-                              overflow: TextOverflow.ellipsis,
-                            ),
-                          ),
+                              child: Text(
+                                '${AppLocalizations.of(context)!.eraseAll} ($_timeRemaining)',
+                                overflow: TextOverflow.ellipsis,
+                              ),
+                            )
+                          else
+                            ElevatedButton(
+                              onPressed: () async {
+                                await widget.onConfirm.call();
+                                if (context.mounted) {
+                                  Navigator.pop(context);
+                                }
+                              },
+                              style: ElevatedButton.styleFrom(
+                                backgroundColor: Colors.redAccent,
+                                elevation: 0,
+                                shadowColor: Colors.transparent,
+                              ),
+                              child: Text(
+                                AppLocalizations.of(context)!.eraseAll,
+                                style: TextStyle(
+                                  color: Colors.white.withValues(alpha: 0.9),
+                                ),
+                                overflow: TextOverflow.ellipsis,
+                              ),
+                            )
                         ],
                       ),
                     ],
