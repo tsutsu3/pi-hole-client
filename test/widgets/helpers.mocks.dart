@@ -348,9 +348,20 @@ class _FakeMetricsResponse_26 extends _i1.SmartFake
         );
 }
 
-class _FakeStreamedResponse_27 extends _i1.SmartFake
+class _FakeGatewayResponse_27 extends _i1.SmartFake
+    implements _i5.GatewayResponse {
+  _FakeGatewayResponse_27(
+    Object parent,
+    Invocation parentInvocation,
+  ) : super(
+          parent,
+          parentInvocation,
+        );
+}
+
+class _FakeStreamedResponse_28 extends _i1.SmartFake
     implements _i4.StreamedResponse {
-  _FakeStreamedResponse_27(
+  _FakeStreamedResponse_28(
     Object parent,
     Invocation parentInvocation,
   ) : super(
@@ -2124,6 +2135,25 @@ class MockApiGatewayV5 extends _i1.Mock implements _i27.ApiGatewayV5 {
           ),
         )),
       ) as _i12.Future<_i5.MetricsResponse>);
+
+  @override
+  _i12.Future<_i5.GatewayResponse> getGateway({bool? isDetailed}) =>
+      (super.noSuchMethod(
+        Invocation.method(
+          #getGateway,
+          [],
+          {#isDetailed: isDetailed},
+        ),
+        returnValue:
+            _i12.Future<_i5.GatewayResponse>.value(_FakeGatewayResponse_27(
+          this,
+          Invocation.method(
+            #getGateway,
+            [],
+            {#isDetailed: isDetailed},
+          ),
+        )),
+      ) as _i12.Future<_i5.GatewayResponse>);
 }
 
 /// A class which mocks [ApiGatewayV6].
@@ -2223,7 +2253,7 @@ class MockApiGatewayV6 extends _i1.Mock implements _i30.ApiGatewayV6 {
           },
         ),
         returnValue:
-            _i12.Future<_i4.StreamedResponse>.value(_FakeStreamedResponse_27(
+            _i12.Future<_i4.StreamedResponse>.value(_FakeStreamedResponse_28(
           this,
           Invocation.method(
             #httpClientStream,
@@ -2796,6 +2826,25 @@ class MockApiGatewayV6 extends _i1.Mock implements _i30.ApiGatewayV6 {
           ),
         )),
       ) as _i12.Future<_i5.MetricsResponse>);
+
+  @override
+  _i12.Future<_i5.GatewayResponse> getGateway({bool? isDetailed}) =>
+      (super.noSuchMethod(
+        Invocation.method(
+          #getGateway,
+          [],
+          {#isDetailed: isDetailed},
+        ),
+        returnValue:
+            _i12.Future<_i5.GatewayResponse>.value(_FakeGatewayResponse_27(
+          this,
+          Invocation.method(
+            #getGateway,
+            [],
+            {#isDetailed: isDetailed},
+          ),
+        )),
+      ) as _i12.Future<_i5.GatewayResponse>);
 }
 
 /// A class which mocks [StatusUpdateService].
