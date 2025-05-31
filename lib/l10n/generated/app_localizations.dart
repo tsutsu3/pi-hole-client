@@ -197,6 +197,12 @@ abstract class AppLocalizations {
   /// **'IP address or domain'**
   String get address;
 
+  /// No description provided for @addressDetails.
+  ///
+  /// In en, this message translates to:
+  /// **'Address Details'**
+  String get addressDetails;
+
   /// No description provided for @addresses.
   ///
   /// In en, this message translates to:
@@ -845,6 +851,12 @@ abstract class AppLocalizations {
   /// **'Connection removed successfully'**
   String get connectionRemoved;
 
+  /// No description provided for @connectionStatus.
+  ///
+  /// In en, this message translates to:
+  /// **'Connection Status'**
+  String get connectionStatus;
+
   /// No description provided for @connectionTimeout.
   ///
   /// In en, this message translates to:
@@ -1042,6 +1054,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Device'**
   String get device;
+
+  /// No description provided for @deviceConfig.
+  ///
+  /// In en, this message translates to:
+  /// **'Device Configuration'**
+  String get deviceConfig;
 
   /// No description provided for @dhcp.
   ///
@@ -1703,6 +1721,12 @@ abstract class AppLocalizations {
   /// **'OSS Information'**
   String get licensesInfo;
 
+  /// No description provided for @lifetimes.
+  ///
+  /// In en, this message translates to:
+  /// **'Lifetimes'**
+  String get lifetimes;
+
   /// No description provided for @light.
   ///
   /// In en, this message translates to:
@@ -1912,6 +1936,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Network'**
   String get network;
+
+  /// No description provided for @networkAttributes.
+  ///
+  /// In en, this message translates to:
+  /// **'Network Attributes'**
+  String get networkAttributes;
 
   /// No description provided for @networkDescription.
   ///
@@ -2375,6 +2405,12 @@ abstract class AppLocalizations {
   /// **'RX Errors'**
   String get rxErrors;
 
+  /// No description provided for @rxInfo.
+  ///
+  /// In en, this message translates to:
+  /// **'RX Info'**
+  String get rxInfo;
+
   /// No description provided for @rxPackets.
   ///
   /// In en, this message translates to:
@@ -2825,6 +2861,12 @@ abstract class AppLocalizations {
   /// **'Time'**
   String get time;
 
+  /// No description provided for @timestamps.
+  ///
+  /// In en, this message translates to:
+  /// **'Timestamps'**
+  String get timestamps;
+
   /// No description provided for @toTime.
   ///
   /// In en, this message translates to:
@@ -2926,6 +2968,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'TX Errors'**
   String get txErrors;
+
+  /// No description provided for @txInfo.
+  ///
+  /// In en, this message translates to:
+  /// **'TX Info'**
+  String get txInfo;
 
   /// No description provided for @txPackets.
   ///

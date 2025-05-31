@@ -57,6 +57,9 @@ class AppLocalizationsJa extends AppLocalizations {
   String get address => 'IPアドレスまたはドメイン';
 
   @override
+  String get addressDetails => 'アドレス情報';
+
+  @override
   String get addresses => 'アドレス';
 
   @override
@@ -381,6 +384,9 @@ class AppLocalizationsJa extends AppLocalizations {
   String get connectionRemoved => '接続が正常に削除されました';
 
   @override
+  String get connectionStatus => '接続状態';
+
+  @override
   String get connectionTimeout => '失敗しました。接続タイムアウト。サーバーが到達可能か確認してください。';
 
   @override
@@ -478,6 +484,9 @@ class AppLocalizationsJa extends AppLocalizations {
 
   @override
   String get device => 'デバイス';
+
+  @override
+  String get deviceConfig => 'デバイス構成';
 
   @override
   String get dhcp => 'DHCP';
@@ -810,6 +819,9 @@ class AppLocalizationsJa extends AppLocalizations {
   String get licensesInfo => 'OSS情報';
 
   @override
+  String get lifetimes => '有効期間';
+
+  @override
   String get light => 'ライト';
 
   @override
@@ -913,6 +925,9 @@ class AppLocalizationsJa extends AppLocalizations {
 
   @override
   String get network => 'ネットワーク';
+
+  @override
+  String get networkAttributes => 'ネットワーク属性';
 
   @override
   String get networkDescription => 'ネットワークの概要を表示します';
@@ -1146,6 +1161,9 @@ class AppLocalizationsJa extends AppLocalizations {
   String get rxErrors => '受信エラー数';
 
   @override
+  String get rxInfo => '受信情報';
+
+  @override
   String get rxPackets => '受信パケット数';
 
   @override
@@ -1371,6 +1389,9 @@ class AppLocalizationsJa extends AppLocalizations {
   String get time => '時間';
 
   @override
+  String get timestamps => 'タイムスタンプ';
+
+  @override
   String get toTime => '終了時刻';
 
   @override
@@ -1420,6 +1441,9 @@ class AppLocalizationsJa extends AppLocalizations {
 
   @override
   String get txErrors => '送信エラー数';
+
+  @override
+  String get txInfo => '送信情報';
 
   @override
   String get txPackets => '送信パケット数';

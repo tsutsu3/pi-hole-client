@@ -57,6 +57,9 @@ class AppLocalizationsDe extends AppLocalizations {
   String get address => 'IP Adresse oder Domain';
 
   @override
+  String get addressDetails => 'Adressdetails';
+
+  @override
   String get addresses => 'Adressen';
 
   @override
@@ -381,6 +384,9 @@ class AppLocalizationsDe extends AppLocalizations {
   String get connectionRemoved => 'Verbindung erfolgreich entfernt';
 
   @override
+  String get connectionStatus => 'Verbindungsstatus';
+
+  @override
   String get connectionTimeout => 'Fehlgeschlagen. Zeitüberschreitung während der Verbindung. Überprüfen Sie, ob der Server erreichbar ist.';
 
   @override
@@ -478,6 +484,9 @@ class AppLocalizationsDe extends AppLocalizations {
 
   @override
   String get device => 'Gerät';
+
+  @override
+  String get deviceConfig => 'Gerätekonfiguration';
 
   @override
   String get dhcp => 'DHCP';
@@ -810,6 +819,9 @@ class AppLocalizationsDe extends AppLocalizations {
   String get licensesInfo => 'OSS-Informationen';
 
   @override
+  String get lifetimes => 'Gültigkeitsdauern';
+
+  @override
   String get light => 'Hell';
 
   @override
@@ -913,6 +925,9 @@ class AppLocalizationsDe extends AppLocalizations {
 
   @override
   String get network => 'Netzwerk';
+
+  @override
+  String get networkAttributes => 'Netzwerkattribute';
 
   @override
   String get networkDescription => 'Zeigt eine Übersicht über das Netzwerk an';
@@ -1146,6 +1161,9 @@ class AppLocalizationsDe extends AppLocalizations {
   String get rxErrors => 'Empfangsfehler';
 
   @override
+  String get rxInfo => 'Empfangsinformation';
+
+  @override
   String get rxPackets => 'Empfangene Pakete';
 
   @override
@@ -1371,6 +1389,9 @@ class AppLocalizationsDe extends AppLocalizations {
   String get time => 'Zeit';
 
   @override
+  String get timestamps => 'Zeitstempel';
+
+  @override
   String get toTime => 'Bis';
 
   @override
@@ -1420,6 +1441,9 @@ class AppLocalizationsDe extends AppLocalizations {
 
   @override
   String get txErrors => 'Sendefehler';
+
+  @override
+  String get txInfo => 'Sendeinformation';
 
   @override
   String get txPackets => 'Gesendete Pakete';

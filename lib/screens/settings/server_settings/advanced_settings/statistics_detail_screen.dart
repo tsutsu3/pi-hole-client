@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:pi_hole_client/l10n/generated/app_localizations.dart';
 import 'package:pi_hole_client/models/api/v6/network/interfaces.dart';
 import 'package:pi_hole_client/widgets/custom_list_tile.dart';
+import 'package:pi_hole_client/widgets/section_label.dart';
 
 class StatisticsDetailScreen extends StatelessWidget {
   const StatisticsDetailScreen({
@@ -23,6 +24,7 @@ class StatisticsDetailScreen extends StatelessWidget {
         child: ListView(
           padding: const EdgeInsets.all(16.0),
           children: [
+            SectionLabel(label: locale.rxInfo),
             CustomListTile(
               leadingIcon: Icons.move_to_inbox,
               label: locale.rxBytes,
@@ -43,6 +45,7 @@ class StatisticsDetailScreen extends StatelessWidget {
               label: locale.rxDropped,
               description: stats.rxDropped.toString(),
             ),
+            SectionLabel(label: locale.txInfo),
             CustomListTile(
               leadingIcon: Icons.outbox_rounded,
               label: locale.txBytes,
@@ -63,6 +66,7 @@ class StatisticsDetailScreen extends StatelessWidget {
               label: locale.txDropped,
               description: stats.txDropped.toString(),
             ),
+            SectionLabel(label: locale.others),
             CustomListTile(
               leadingIcon: Icons.podcasts_rounded,
               label: locale.multicast,

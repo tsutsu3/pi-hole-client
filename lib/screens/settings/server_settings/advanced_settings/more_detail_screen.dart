@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:pi_hole_client/l10n/generated/app_localizations.dart';
 import 'package:pi_hole_client/models/api/v6/network/interfaces.dart';
 import 'package:pi_hole_client/widgets/custom_list_tile.dart';
+import 'package:pi_hole_client/widgets/section_label.dart';
 
 class MoreDetailsScreen extends StatelessWidget {
   const MoreDetailsScreen({
@@ -22,6 +23,7 @@ class MoreDetailsScreen extends StatelessWidget {
       body: ListView(
         padding: const EdgeInsets.all(16.0),
         children: [
+          SectionLabel(label: locale.connectionStatus),
           CustomListTile(
             leadingIcon: Icons.link_rounded,
             label: locale.carrier,
@@ -38,6 +40,14 @@ class MoreDetailsScreen extends StatelessWidget {
             label: locale.state,
             description: interfaceData.state.toUpperCase(),
           ),
+          CustomListTile(
+            leadingIcon: Icons.visibility_rounded,
+            label: locale.promiscuityMode,
+            description: interfaceData.promiscuity == 0
+                ? locale.disabled
+                : locale.enabled,
+          ),
+          SectionLabel(label: locale.deviceConfig),
           CustomListTile(
             leadingIcon: Icons.sync_alt_rounded,
             label: locale.parentDevice,
@@ -56,6 +66,7 @@ class MoreDetailsScreen extends StatelessWidget {
             label: locale.txQueueLength,
             description: interfaceData.txqlen.toString(),
           ),
+          SectionLabel(label: locale.networkAttributes),
           CustomListTile(
             leadingIcon: Icons.speed_rounded,
             label: locale.scheduler,
@@ -65,13 +76,6 @@ class MoreDetailsScreen extends StatelessWidget {
             leadingIcon: Icons.wifi_tethering_rounded,
             label: locale.broadcast,
             description: interfaceData.broadcast,
-          ),
-          CustomListTile(
-            leadingIcon: Icons.visibility_rounded,
-            label: locale.promiscuityMode,
-            description: interfaceData.promiscuity == 0
-                ? locale.disabled
-                : locale.enabled,
           ),
         ],
       ),

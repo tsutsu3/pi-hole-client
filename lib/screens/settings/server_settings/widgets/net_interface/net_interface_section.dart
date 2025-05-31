@@ -65,8 +65,8 @@ class NetInterfaceSection extends StatelessWidget {
                   context,
                   MaterialPageRoute(
                     builder: (_) => AddressDetailScreen(
-                      title: title,
                       address: address,
+                      title: title,
                     ),
                   ),
                 );

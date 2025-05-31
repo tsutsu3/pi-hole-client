@@ -57,6 +57,9 @@ class AppLocalizationsPl extends AppLocalizations {
   String get address => 'Adres IP lub domena';
 
   @override
+  String get addressDetails => 'Szczegóły adresu';
+
+  @override
   String get addresses => 'Adresy';
 
   @override
@@ -381,6 +384,9 @@ class AppLocalizationsPl extends AppLocalizations {
   String get connectionRemoved => 'Połączenie zostało pomyślnie usunięte';
 
   @override
+  String get connectionStatus => 'Stan połączenia';
+
+  @override
   String get connectionTimeout => 'Nie udało się, Przekroczono limit czasu połączenia. Sprawdź czy serwer jest dostępny.';
 
   @override
@@ -478,6 +484,9 @@ class AppLocalizationsPl extends AppLocalizations {
 
   @override
   String get device => 'Urządzenie';
+
+  @override
+  String get deviceConfig => 'Konfiguracja urządzenia';
 
   @override
   String get dhcp => 'DHCP';
@@ -810,6 +819,9 @@ class AppLocalizationsPl extends AppLocalizations {
   String get licensesInfo => 'Informacje o OSS';
 
   @override
+  String get lifetimes => 'Czasy ważności';
+
+  @override
   String get light => 'Jasny';
 
   @override
@@ -913,6 +925,9 @@ class AppLocalizationsPl extends AppLocalizations {
 
   @override
   String get network => 'Sieć';
+
+  @override
+  String get networkAttributes => 'Atrybuty sieciowe';
 
   @override
   String get networkDescription => 'Wyświetla przegląd sieci';
@@ -1146,6 +1161,9 @@ class AppLocalizationsPl extends AppLocalizations {
   String get rxErrors => 'Błędy odbioru';
 
   @override
+  String get rxInfo => 'Informacje odbiorcze';
+
+  @override
   String get rxPackets => 'Odebrane pakiety';
 
   @override
@@ -1371,6 +1389,9 @@ class AppLocalizationsPl extends AppLocalizations {
   String get time => 'Czas';
 
   @override
+  String get timestamps => 'Sygnatury czasowe';
+
+  @override
   String get toTime => 'Do kiedy';
 
   @override
@@ -1420,6 +1441,9 @@ class AppLocalizationsPl extends AppLocalizations {
 
   @override
   String get txErrors => 'Błędy nadawania';
+
+  @override
+  String get txInfo => 'Informacje nadawcze';
 
   @override
   String get txPackets => 'Wysłane pakiety';

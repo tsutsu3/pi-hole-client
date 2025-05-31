@@ -57,6 +57,9 @@ class AppLocalizationsEn extends AppLocalizations {
   String get address => 'IP address or domain';
 
   @override
+  String get addressDetails => 'Address Details';
+
+  @override
   String get addresses => 'Addresses';
 
   @override
@@ -381,6 +384,9 @@ class AppLocalizationsEn extends AppLocalizations {
   String get connectionRemoved => 'Connection removed successfully';
 
   @override
+  String get connectionStatus => 'Connection Status';
+
+  @override
   String get connectionTimeout => 'Failed. Connection timeout. Check if server is reachable.';
 
   @override
@@ -478,6 +484,9 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get device => 'Device';
+
+  @override
+  String get deviceConfig => 'Device Configuration';
 
   @override
   String get dhcp => 'DHCP';
@@ -810,6 +819,9 @@ class AppLocalizationsEn extends AppLocalizations {
   String get licensesInfo => 'OSS Information';
 
   @override
+  String get lifetimes => 'Lifetimes';
+
+  @override
   String get light => 'Light';
 
   @override
@@ -913,6 +925,9 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get network => 'Network';
+
+  @override
+  String get networkAttributes => 'Network Attributes';
 
   @override
   String get networkDescription => 'Displays an overview of the network';
@@ -1146,6 +1161,9 @@ class AppLocalizationsEn extends AppLocalizations {
   String get rxErrors => 'RX Errors';
 
   @override
+  String get rxInfo => 'RX Info';
+
+  @override
   String get rxPackets => 'RX Packets';
 
   @override
@@ -1371,6 +1389,9 @@ class AppLocalizationsEn extends AppLocalizations {
   String get time => 'Time';
 
   @override
+  String get timestamps => 'Timestamps';
+
+  @override
   String get toTime => 'To time';
 
   @override
@@ -1420,6 +1441,9 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get txErrors => 'TX Errors';
+
+  @override
+  String get txInfo => 'TX Info';
 
   @override
   String get txPackets => 'TX Packets';

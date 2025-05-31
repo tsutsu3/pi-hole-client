@@ -4,16 +4,17 @@ import 'package:pi_hole_client/functions/format.dart';
 import 'package:pi_hole_client/l10n/generated/app_localizations.dart';
 import 'package:pi_hole_client/models/api/v6/network/interfaces.dart';
 import 'package:pi_hole_client/widgets/custom_list_tile.dart';
+import 'package:pi_hole_client/widgets/section_label.dart';
 
 class AddressDetailScreen extends StatelessWidget {
   const AddressDetailScreen({
-    required this.title,
     required this.address,
+    required this.title,
     super.key,
   });
 
-  final String title;
   final InterfaceAddress address;
+  final String title;
 
   @override
   Widget build(BuildContext context) {
@@ -21,7 +22,14 @@ class AddressDetailScreen extends StatelessWidget {
 
     return Scaffold(
       appBar: AppBar(
-        title: Text(title),
+        title: Text(locale.adlistAddress),
+        bottom: PreferredSize(
+          preferredSize: const Size.fromHeight(12),
+          child: Text(
+            title,
+            overflow: TextOverflow.ellipsis,
+          ),
+        ),
       ),
       body: SafeArea(
         child: SingleChildScrollView(
@@ -29,6 +37,7 @@ class AddressDetailScreen extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
+              SectionLabel(label: locale.addressDetails),
               CustomListTile(
                 leadingIcon: Icons.location_on_rounded,
                 label: locale.local,
@@ -49,6 +58,7 @@ class AddressDetailScreen extends StatelessWidget {
                 label: locale.flags,
                 description: address.flags.join(', '),
               ),
+              SectionLabel(label: locale.lifetimes),
               CustomListTile(
                 leadingIcon: Icons.access_time_outlined,
                 label: locale.preferredLifetime,
@@ -63,6 +73,7 @@ class AddressDetailScreen extends StatelessWidget {
                     ? locale.forever
                     : address.valid.toString(),
               ),
+              SectionLabel(label: locale.timestamps),
               CustomListTile(
                 leadingIcon: Icons.event_available_rounded,
                 label: locale.created,
