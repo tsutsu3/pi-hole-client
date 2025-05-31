@@ -3,6 +3,7 @@ import 'package:pi_hole_client/classes/custom_scroll_behavior.dart';
 import 'package:pi_hole_client/functions/logger.dart';
 import 'package:pi_hole_client/gateways/api_gateway_interface.dart';
 import 'package:pi_hole_client/l10n/generated/app_localizations.dart';
+import 'package:pi_hole_client/models/api/v6/network/common.dart';
 import 'package:pi_hole_client/models/api/v6/network/interfaces.dart';
 import 'package:pi_hole_client/models/gateway.dart';
 import 'package:pi_hole_client/models/gateways.dart';
