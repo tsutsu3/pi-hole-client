@@ -25,9 +25,16 @@ class AddressDetailScreen extends StatelessWidget {
         title: Text(locale.adlistAddress),
         bottom: PreferredSize(
           preferredSize: const Size.fromHeight(12),
-          child: Text(
-            title,
-            overflow: TextOverflow.ellipsis,
+          child: Align(
+            alignment: Alignment.centerLeft,
+            child: Padding(
+              padding: const EdgeInsets.only(left: 72),
+              child: Text(
+                title,
+                textAlign: TextAlign.left,
+                overflow: TextOverflow.ellipsis,
+              ),
+            ),
           ),
         ),
       ),
