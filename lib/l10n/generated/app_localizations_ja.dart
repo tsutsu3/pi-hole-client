@@ -18,6 +18,9 @@ class AppLocalizationsJa extends AppLocalizations {
   String get accept => '受け入れる';
 
   @override
+  String get actions => 'アクション';
+
+  @override
   String get add => '追加';
 
   @override
@@ -52,6 +55,12 @@ class AppLocalizationsJa extends AppLocalizations {
 
   @override
   String get address => 'IPアドレスまたはドメイン';
+
+  @override
+  String get addressDetails => 'アドレス情報';
+
+  @override
+  String get addresses => 'アドレス';
 
   @override
   String get adlist => 'Adlist';
@@ -96,13 +105,16 @@ class AppLocalizationsJa extends AppLocalizations {
   String get adlistsNotLoaded => 'Adlistを読み込めませんでした';
 
   @override
+  String get advancedAppSetupDescription => '高度なアプリ設定にアクセス';
+
+  @override
   String get advancedOptions => '詳細オプション';
 
   @override
-  String get advancedSetup => '高度な設定';
+  String get advancedServerSetupDescription => '高度なサーバー設定にアクセス';
 
   @override
-  String get advancedSetupDescription => '高度なオプション';
+  String get advancedSetup => '高度な設定';
 
   @override
   String get advancedStatusFiltering => '高度なステータスフィルタリング';
@@ -225,6 +237,12 @@ class AppLocalizationsJa extends AppLocalizations {
   String get blocked => 'ブロック済み';
 
   @override
+  String get broadcast => 'ブロードキャストアドレス';
+
+  @override
+  String get bytes => 'バイト';
+
+  @override
   String get cacheOptimizerReplies => 'キャッシュ最適化応答';
 
   @override
@@ -267,6 +285,12 @@ class AppLocalizationsJa extends AppLocalizations {
   String get cantUpdateLogsPerQuery => 'ログ数のリクエストを更新できません';
 
   @override
+  String get carrier => 'キャリア';
+
+  @override
+  String get carrierChanges => 'キャリア変化回数';
+
+  @override
   String get changeServer => 'サーバーを変更';
 
   @override
@@ -304,6 +328,9 @@ class AppLocalizationsJa extends AppLocalizations {
 
   @override
   String get close => '閉じる';
+
+  @override
+  String get collisions => '衝突回数';
 
   @override
   String get comment => 'コメント';
@@ -357,6 +384,9 @@ class AppLocalizationsJa extends AppLocalizations {
   String get connectionRemoved => '接続が正常に削除されました';
 
   @override
+  String get connectionStatus => '接続状態';
+
+  @override
   String get connectionTimeout => '失敗しました。接続タイムアウト。サーバーが到達可能か確認してください。';
 
   @override
@@ -397,6 +427,9 @@ class AppLocalizationsJa extends AppLocalizations {
 
   @override
   String get createConnection => '接続を作成';
+
+  @override
+  String get created => '作成日時';
 
   @override
   String get createdBy => '作成者';
@@ -453,13 +486,28 @@ class AppLocalizationsJa extends AppLocalizations {
   String get device => 'デバイス';
 
   @override
+  String get deviceConfig => 'デバイス構成';
+
+  @override
+  String get dhcp => 'DHCP';
+
+  @override
+  String get dhcpDescription => '現在有効なDHCPリースをすべて表示します';
+
+  @override
   String get disable => '無効化';
+
+  @override
+  String get disableQueryLogging => 'クエリログを無効化';
 
   @override
   String get disabled => '無効';
 
   @override
   String get disablingServer => 'サーバーを無効化中...';
+
+  @override
+  String get disconnected => '未接続';
 
   @override
   String get dns => 'DNS';
@@ -591,6 +639,18 @@ class AppLocalizationsJa extends AppLocalizations {
   String get finish => '完了';
 
   @override
+  String get flags => 'フラグ';
+
+  @override
+  String get flushLogs24h => 'ログを削除（過去24時間）';
+
+  @override
+  String get flushNetworkTable => 'ネットワークテーブルをクリア';
+
+  @override
+  String get forever => '無期限';
+
+  @override
   String get forwardedQueries => '転送されたクエリ';
 
   @override
@@ -628,6 +688,9 @@ class AppLocalizationsJa extends AppLocalizations {
 
   @override
   String get groups => 'グループ';
+
+  @override
+  String get hardwareAddress => 'ハードウェアアドレス';
 
   @override
   String get helpUsImprove => '改善へのご協力をお願いします';
@@ -696,6 +759,12 @@ class AppLocalizationsJa extends AppLocalizations {
   String get indefinitely => '無期限';
 
   @override
+  String get interface => 'インターフェース';
+
+  @override
+  String get interfaceDescription => 'ネットワークインターフェースの概要を表示します';
+
+  @override
   String get invalid => '無効';
 
   @override
@@ -729,6 +798,9 @@ class AppLocalizationsJa extends AppLocalizations {
   String get language => '言語';
 
   @override
+  String get lastUpdated => '最終更新日時';
+
+  @override
   String get legal => '法的情報';
 
   @override
@@ -745,6 +817,9 @@ class AppLocalizationsJa extends AppLocalizations {
 
   @override
   String get licensesInfo => 'OSS情報';
+
+  @override
+  String get lifetimes => '有効期間';
 
   @override
   String get light => 'ライト';
@@ -769,6 +844,9 @@ class AppLocalizationsJa extends AppLocalizations {
 
   @override
   String get loadingStats => '統計を読み込み中...';
+
+  @override
+  String get local => 'ローカルアドレス';
 
   @override
   String get localCacheReplies => 'ローカル／キャッシュ応答';
@@ -801,6 +879,9 @@ class AppLocalizationsJa extends AppLocalizations {
   String get logsWillBeRequested => 'ログは';
 
   @override
+  String get max => '最大';
+
+  @override
   String get memoryUsage => 'メモリ使用量';
 
   @override
@@ -811,6 +892,9 @@ class AppLocalizationsJa extends AppLocalizations {
 
   @override
   String get messages => 'メッセージ';
+
+  @override
+  String get min => '最小';
 
   @override
   String get minute1 => '1分';
@@ -832,6 +916,21 @@ class AppLocalizationsJa extends AppLocalizations {
 
   @override
   String get moreDetails => '詳細情報';
+
+  @override
+  String get mtu => 'MTU';
+
+  @override
+  String get multicast => 'マルチキャスト';
+
+  @override
+  String get network => 'ネットワーク';
+
+  @override
+  String get networkAttributes => 'ネットワーク属性';
+
+  @override
+  String get networkDescription => 'ネットワークの概要を表示します';
 
   @override
   String get next => '次へ';
@@ -924,6 +1023,9 @@ class AppLocalizationsJa extends AppLocalizations {
   String get others => 'その他';
 
   @override
+  String get parentDevice => '親デバイス';
+
+  @override
   String get passCodeNotSaved => 'パスコードを保存できませんでした。';
 
   @override
@@ -960,6 +1062,9 @@ class AppLocalizationsJa extends AppLocalizations {
   String get portCannotEmpty => 'ポートフィールドを空にすることはできません';
 
   @override
+  String get preferredLifetime => '優先有効期間';
+
+  @override
   String get privacy => 'プライバシー';
 
   @override
@@ -970,6 +1075,9 @@ class AppLocalizationsJa extends AppLocalizations {
 
   @override
   String get privacyPolicyDescription => 'プライバシーポリシーを見る';
+
+  @override
+  String get promiscuityMode => 'プロミスキャスモード';
 
   @override
   String get qrScanner => 'QRスキャナー';
@@ -1035,10 +1143,28 @@ class AppLocalizationsJa extends AppLocalizations {
   String get restartAppTakeEffect => '設定を反映するためにアプリを再起動してください。';
 
   @override
+  String get restartDnsResolver => 'DNSリゾルバーを再起動';
+
+  @override
   String get runningStatus => '実行中...';
 
   @override
   String get runningSubtitle => '処理が完了すると、ここに結果が表示されます。';
+
+  @override
+  String get rxBytes => '受信バイト数';
+
+  @override
+  String get rxDropped => '受信ドロップ数';
+
+  @override
+  String get rxErrors => '受信エラー数';
+
+  @override
+  String get rxInfo => '受信情報';
+
+  @override
+  String get rxPackets => '受信パケット数';
 
   @override
   String get save => '保存';
@@ -1050,10 +1176,22 @@ class AppLocalizationsJa extends AppLocalizations {
   String get scanQrCode => 'QRコードをスキャン';
 
   @override
+  String get scheduler => 'スケジューラ';
+
+  @override
+  String get scope => 'スコープ';
+
+  @override
   String get searchAdlistInternet => 'Adlistをオンラインで表示';
 
   @override
   String get searchAdlists => 'Adlistを検索...';
+
+  @override
+  String get searchAdlistsDescription => 'Adlistに含まれるドメインを検索';
+
+  @override
+  String get searchAdlistsTitle => 'Adlistを検索';
 
   @override
   String get searchDomainInternet => 'インターネットでドメインを検索';
@@ -1155,6 +1293,12 @@ class AppLocalizationsJa extends AppLocalizations {
   String get servers => 'サーバー';
 
   @override
+  String get sessions => 'セッション';
+
+  @override
+  String get sessionsDescription => '現在有効なセッションをすべて表示します';
+
+  @override
   String get setDefault => 'デフォルト接続として設定';
 
   @override
@@ -1174,6 +1318,9 @@ class AppLocalizationsJa extends AppLocalizations {
 
   @override
   String get startTimeNotBeforeEndTime => '開始時間が終了時間よりも前である必要があります';
+
+  @override
+  String get state => '状態';
 
   @override
   String get statistics => '統計';
@@ -1242,6 +1389,9 @@ class AppLocalizationsJa extends AppLocalizations {
   String get time => '時間';
 
   @override
+  String get timestamps => 'タイムスタンプ';
+
+  @override
   String get toTime => '終了時刻';
 
   @override
@@ -1255,6 +1405,9 @@ class AppLocalizationsJa extends AppLocalizations {
 
   @override
   String get tokenNotValid => '無効なトークン';
+
+  @override
+  String get tools => 'ツール';
 
   @override
   String get topBlockedDomains => 'ブロックされたトップドメイン';
@@ -1279,6 +1432,24 @@ class AppLocalizationsJa extends AppLocalizations {
 
   @override
   String get tryReconnect => '再接続を試みる';
+
+  @override
+  String get txBytes => '送信バイト数';
+
+  @override
+  String get txDropped => '送信ドロップ数';
+
+  @override
+  String get txErrors => '送信エラー数';
+
+  @override
+  String get txInfo => '送信情報';
+
+  @override
+  String get txPackets => '送信パケット数';
+
+  @override
+  String get txQueueLength => '送信キュー長';
 
   @override
   String get type => 'タイプ';
@@ -1336,6 +1507,9 @@ class AppLocalizationsJa extends AppLocalizations {
 
   @override
   String get valid => '有効';
+
+  @override
+  String get validLifetime => '有効期間';
 
   @override
   String get valueNotValid => '1〜86400秒の範囲の数値を入力してください';

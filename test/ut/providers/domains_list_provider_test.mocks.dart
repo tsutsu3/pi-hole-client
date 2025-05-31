@@ -340,6 +340,17 @@ class _FakeMetricsResponse_27 extends _i1.SmartFake
         );
 }
 
+class _FakeGatewayResponse_28 extends _i1.SmartFake
+    implements _i5.GatewayResponse {
+  _FakeGatewayResponse_28(
+    Object parent,
+    Invocation parentInvocation,
+  ) : super(
+          parent,
+          parentInvocation,
+        );
+}
+
 /// A class which mocks [ServersProvider].
 ///
 /// See the documentation for Mockito's code generation for more information.
@@ -1226,4 +1237,23 @@ class MockApiGatewayV6 extends _i1.Mock implements _i13.ApiGatewayV6 {
           ),
         )),
       ) as _i10.Future<_i5.MetricsResponse>);
+
+  @override
+  _i10.Future<_i5.GatewayResponse> getGateway({bool? isDetailed}) =>
+      (super.noSuchMethod(
+        Invocation.method(
+          #getGateway,
+          [],
+          {#isDetailed: isDetailed},
+        ),
+        returnValue:
+            _i10.Future<_i5.GatewayResponse>.value(_FakeGatewayResponse_28(
+          this,
+          Invocation.method(
+            #getGateway,
+            [],
+            {#isDetailed: isDetailed},
+          ),
+        )),
+      ) as _i10.Future<_i5.GatewayResponse>);
 }

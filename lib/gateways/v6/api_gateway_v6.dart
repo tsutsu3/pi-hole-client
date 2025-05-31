@@ -27,8 +27,10 @@ import 'package:pi_hole_client/models/api/v6/metrics/history.dart'
 import 'package:pi_hole_client/models/api/v6/metrics/query.dart' show Queries;
 import 'package:pi_hole_client/models/api/v6/metrics/stats.dart'
     show StatsSummary, StatsTopClients, StatsTopDomains, StatsUpstreams;
+import 'package:pi_hole_client/models/api/v6/network/gateway.dart' show Gateway;
 import 'package:pi_hole_client/models/app_log.dart';
 import 'package:pi_hole_client/models/domain.dart';
+import 'package:pi_hole_client/models/gateway.dart';
 import 'package:pi_hole_client/models/gateways.dart';
 import 'package:pi_hole_client/models/groups.dart';
 import 'package:pi_hole_client/models/host.dart';
@@ -1373,6 +1375,36 @@ class ApiGatewayV6 implements ApiGateway {
       }
     } catch (e) {
       return MetricsResponse(
+        result: APiResponseType.error,
+        message: unexpectedError,
+      );
+    }
+  }
+
+  @override
+  Future<GatewayResponse> getGateway({bool? isDetailed}) async {
+    try {
+      final queryParamString = isDetailed == true ? '?detailed=true' : '';
+      final results = await httpClient(
+        method: 'get',
+        url: '${_server.address}/api/network/gateway$queryParamString',
+      );
+
+      if (results.statusCode == 200) {
+        final gateway = Gateway.fromJson(jsonDecode(results.body));
+
+        return GatewayResponse(
+          result: APiResponseType.success,
+          data: GatewayInfo.fromV6(gateway),
+        );
+      } else {
+        return GatewayResponse(
+          result: APiResponseType.error,
+          message: fetchError,
+        );
+      }
+    } catch (e) {
+      return GatewayResponse(
         result: APiResponseType.error,
         message: unexpectedError,
       );

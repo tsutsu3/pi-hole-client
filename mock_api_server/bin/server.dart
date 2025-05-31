@@ -6,6 +6,7 @@ import 'package:mock_api_server/handlers/groups_handler.dart';
 import 'package:mock_api_server/handlers/history_handler.dart';
 import 'package:mock_api_server/handlers/info_handler.dart';
 import 'package:mock_api_server/handlers/lists_handler.dart';
+import 'package:mock_api_server/handlers/network_handler.dart';
 import 'package:mock_api_server/handlers/queries_handler.dart';
 import 'package:mock_api_server/handlers/stats_handler.dart';
 import 'package:shelf/shelf.dart';
@@ -27,6 +28,7 @@ void main() async {
   router.mount('/api/lists', ListsHandler().router.call);
   router.mount('/api/queries', QueriesHandler().router.call);
   router.mount('/api/stats', StatsHandler().router.call);
+  router.mount('/api/network', NetworkHandler().router.call);
 
   final handler = Pipeline()
       .addMiddleware(logRequests())

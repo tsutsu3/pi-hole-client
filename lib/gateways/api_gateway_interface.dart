@@ -196,4 +196,11 @@ abstract interface class ApiGateway {
   ///
   /// This API hook returns live information about the DNS and DHCP metrics.
   Future<MetricsResponse> getMetrics();
+
+  /// Get info about the gateway of your Pi-hole
+  ///
+  /// If the optional parameter `isDetailed` is set to `true`, the response will
+  /// include detailedinformation about the individual interfaces and routes.
+  /// Note that the available information is dependent on the interface type and state.
+  Future<GatewayResponse> getGateway({bool? isDetailed});
 }
