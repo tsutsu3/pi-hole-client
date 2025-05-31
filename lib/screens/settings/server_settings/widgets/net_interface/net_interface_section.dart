@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:pi_hole_client/constants/formats.dart';
-import 'package:pi_hole_client/functions/format.dart';
 import 'package:pi_hole_client/l10n/generated/app_localizations.dart';
 import 'package:pi_hole_client/models/api/v6/network/interfaces.dart';
+import 'package:pi_hole_client/screens/settings/server_settings/advanced_settings/address_detail_screen.dart';
+import 'package:pi_hole_client/screens/settings/server_settings/advanced_settings/more_detail_screen.dart';
+import 'package:pi_hole_client/screens/settings/server_settings/advanced_settings/statistics_detail_screen.dart';
 import 'package:pi_hole_client/widgets/adaptive_trailing_text.dart';
 import 'package:pi_hole_client/widgets/list_tile_title.dart';
 import 'package:pi_hole_client/widgets/section_label.dart';
@@ -49,65 +50,27 @@ class NetInterfaceSection extends StatelessWidget {
           childrenPadding: const EdgeInsets.only(left: 16.0),
           title: listTileTitle(locale.addresses, colorScheme: colorScheme),
           children: interface.addresses.map((address) {
-            return ExpansionTile(
-              childrenPadding: const EdgeInsets.only(left: 16.0),
-              leading: const Icon(Icons.location_on_rounded),
+            final title =
+                '${locale.adlistAddress}: ${address.family.name} ${address.address} / ${address.prefixlen} (${detectAddressType(address.family.name)} ${address.addressType})';
+
+            return ListTile(
+              leading: const Icon(Icons.location_on_outlined),
               title: listTileTitle(
-                '${locale.adlistAddress}: ${address.family.name} ${address.address} / ${address.prefixlen} (${detectAddressType(address.family.name)} ${address.addressType})',
+                title,
                 colorScheme: colorScheme,
               ),
-              children: [
-                buildDetailTile(
-                  icon: Icons.location_on_outlined,
-                  label: locale.local,
-                  value: address.local ?? locale.unknown,
-                ),
-                buildDetailTile(
-                  icon: Icons.location_on_outlined,
-                  label: locale.broadcast,
-                  value: address.broadcast ?? 'N/A',
-                ),
-                buildDetailTile(
-                  icon: Icons.location_on_outlined,
-                  label: locale.scope,
-                  value: address.scope,
-                ),
-                buildDetailTile(
-                  icon: Icons.location_on_outlined,
-                  label: locale.flags,
-                  value: address.flags.join(', '),
-                ),
-                buildDetailTile(
-                  icon: Icons.access_time_outlined,
-                  label: locale.preferredLifetime,
-                  value: address.prefered == 4294967295
-                      ? locale.forever
-                      : address.prefered.toString(),
-                ),
-                buildDetailTile(
-                  icon: Icons.access_time_outlined,
-                  label: locale.validLifetime,
-                  value: address.valid == 4294967295
-                      ? locale.forever
-                      : address.valid.toString(),
-                ),
-                buildDetailTile(
-                  icon: Icons.access_time_outlined,
-                  label: locale.created,
-                  value: formatUnixTime(
-                    address.cstamp.round(),
-                    kUnifiedDateTimeLogFormat,
+              trailing: const Icon(Icons.chevron_right),
+              onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (_) => AddressDetailScreen(
+                      title: title,
+                      address: address,
+                    ),
                   ),
-                ),
-                buildDetailTile(
-                  icon: Icons.access_time_outlined,
-                  label: locale.lastUpdated,
-                  value: formatUnixTime(
-                    address.tstamp.round(),
-                    kUnifiedDateTimeLogFormat,
-                  ),
-                ),
-              ],
+                );
+              },
             );
           }).toList(),
         ),
@@ -115,129 +78,44 @@ class NetInterfaceSection extends StatelessWidget {
     }
 
     Widget buildStatisticsSection() {
-      return Theme(
-        data: Theme.of(context).copyWith(dividerColor: Colors.transparent),
-        child: ExpansionTile(
-          leading: const Icon(Icons.area_chart_rounded),
-          childrenPadding: const EdgeInsets.only(left: 16.0),
-          title: listTileTitle(locale.statistics, colorScheme: colorScheme),
-          children: [
-            buildDetailTile(
-              icon: Icons.download,
-              label: locale.rxBytes,
-              value:
-                  '${interface.stats.rxBytes.value} ${interface.stats.rxBytes.unit}',
-            ),
-            buildDetailTile(
-              icon: Icons.download,
-              label: locale.rxPackets,
-              value: interface.stats.rxPackets.toString(),
-            ),
-            buildDetailTile(
-              icon: Icons.download,
-              label: locale.rxErrors,
-              value: interface.stats.rxErrors.toString(),
-            ),
-            buildDetailTile(
-              icon: Icons.download,
-              label: locale.rxDropped,
-              value: interface.stats.rxDropped.toString(),
-            ),
-            buildDetailTile(
-              icon: Icons.upload,
-              label: locale.txBytes,
-              value:
-                  '${interface.stats.txBytes.value} ${interface.stats.txBytes.unit}',
-            ),
-            buildDetailTile(
-              icon: Icons.upload,
-              label: locale.txPackets,
-              value: interface.stats.txPackets.toString(),
-            ),
-            buildDetailTile(
-              icon: Icons.upload,
-              label: locale.txErrors,
-              value: interface.stats.txErrors.toString(),
-            ),
-            buildDetailTile(
-              icon: Icons.upload,
-              label: locale.txDropped,
-              value: interface.stats.txDropped.toString(),
-            ),
-            buildDetailTile(
-              icon: Icons.podcasts_rounded,
-              label: locale.multicast,
-              value: interface.stats.multicast.toString(),
-            ),
-            buildDetailTile(
-              icon: Icons.sync_alt_rounded,
-              label: locale.collisions,
-              value: interface.stats.collisions.toString(),
-            ),
-          ],
+      return ListTile(
+        leading: const Icon(Icons.area_chart_rounded),
+        title: listTileTitle(
+          locale.statistics,
+          colorScheme: colorScheme,
         ),
+        trailing: const Icon(Icons.chevron_right),
+        onTap: () {
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (_) => StatisticsDetailScreen(
+                stats: interface.stats,
+              ),
+            ),
+          );
+        },
       );
     }
 
     Widget buildDetailsSection() {
-      return Theme(
-        data: Theme.of(context).copyWith(dividerColor: Colors.transparent),
-        child: ExpansionTile(
-          leading: const Icon(Icons.info_rounded),
-          childrenPadding: const EdgeInsets.only(left: 16.0),
-          title: listTileTitle(locale.moreDetails, colorScheme: colorScheme),
-          children: [
-            buildDetailTile(
-              icon: Icons.link_rounded,
-              label: locale.carrier,
-              value: interface.carrier ? locale.connected : locale.disconnected,
-            ),
-            buildDetailTile(
-              icon: Icons.link_rounded,
-              label: locale.carrierChanges,
-              value: interface.carrierChanges.toString(),
-            ),
-            buildDetailTile(
-              icon: Icons.link_rounded,
-              label: locale.state,
-              value: interface.state.toUpperCase(),
-            ),
-            buildDetailTile(
-              icon: Icons.link_rounded,
-              label: locale.parentDevice,
-              value: interface.parentDevName == null
-                  ? 'N/A'
-                  : '${interface.parentDevName ?? 'N/A'} @ ${interface.parentDevBusName ?? 'N/A'}',
-            ),
-            buildDetailTile(
-              icon: Icons.speed_rounded,
-              label: locale.mtu,
-              value:
-                  '${interface.mtu} ${locale.bytes} (${locale.min}: ${interface.minMtu} ${locale.bytes}, ${locale.max}: ${interface.maxMtu} ${locale.bytes})',
-            ),
-            buildDetailTile(
-              icon: Icons.speed_rounded,
-              label: locale.txQueueLength,
-              value: interface.txqlen.toString(),
-            ),
-            buildDetailTile(
-              icon: Icons.speed_rounded,
-              label: locale.scheduler,
-              value: interface.qdisc ?? locale.unknown,
-            ),
-            buildDetailTile(
-              icon: Icons.wifi_tethering_rounded,
-              label: locale.broadcast,
-              value: interface.broadcast,
-            ),
-            buildDetailTile(
-              icon: Icons.wifi_tethering_rounded,
-              label: locale.promiscuityMode,
-              value:
-                  interface.promiscuity == 0 ? locale.disabled : locale.enabled,
-            ),
-          ],
+      return ListTile(
+        leading: const Icon(Icons.info_rounded),
+        title: listTileTitle(
+          locale.moreDetails,
+          colorScheme: colorScheme,
         ),
+        trailing: const Icon(Icons.chevron_right),
+        onTap: () {
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (_) => MoreDetailsScreen(
+                interfaceData: interface,
+              ),
+            ),
+          );
+        },
       );
     }
 

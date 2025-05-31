@@ -1,0 +1,81 @@
+import 'package:flutter/material.dart';
+import 'package:pi_hole_client/l10n/generated/app_localizations.dart';
+import 'package:pi_hole_client/models/api/v6/network/interfaces.dart';
+import 'package:pi_hole_client/widgets/custom_list_tile.dart';
+
+class StatisticsDetailScreen extends StatelessWidget {
+  const StatisticsDetailScreen({
+    required this.stats,
+    super.key,
+  });
+
+  final InterfaceStats stats;
+
+  @override
+  Widget build(BuildContext context) {
+    final locale = AppLocalizations.of(context)!;
+
+    return Scaffold(
+      appBar: AppBar(
+        title: Text(locale.statistics),
+      ),
+      body: SafeArea(
+        child: ListView(
+          padding: const EdgeInsets.all(16.0),
+          children: [
+            CustomListTile(
+              leadingIcon: Icons.download,
+              label: locale.rxBytes,
+              description: '${stats.rxBytes.value} ${stats.rxBytes.unit}',
+            ),
+            CustomListTile(
+              leadingIcon: Icons.download,
+              label: locale.rxPackets,
+              description: stats.rxPackets.toString(),
+            ),
+            CustomListTile(
+              leadingIcon: Icons.download,
+              label: locale.rxErrors,
+              description: stats.rxErrors.toString(),
+            ),
+            CustomListTile(
+              leadingIcon: Icons.download,
+              label: locale.rxDropped,
+              description: stats.rxDropped.toString(),
+            ),
+            CustomListTile(
+              leadingIcon: Icons.upload,
+              label: locale.txBytes,
+              description: '${stats.txBytes.value} ${stats.txBytes.unit}',
+            ),
+            CustomListTile(
+              leadingIcon: Icons.upload,
+              label: locale.txPackets,
+              description: stats.txPackets.toString(),
+            ),
+            CustomListTile(
+              leadingIcon: Icons.upload,
+              label: locale.txErrors,
+              description: stats.txErrors.toString(),
+            ),
+            CustomListTile(
+              leadingIcon: Icons.upload,
+              label: locale.txDropped,
+              description: stats.txDropped.toString(),
+            ),
+            CustomListTile(
+              leadingIcon: Icons.podcasts_rounded,
+              label: locale.multicast,
+              description: stats.multicast.toString(),
+            ),
+            CustomListTile(
+              leadingIcon: Icons.sync_alt_rounded,
+              label: locale.collisions,
+              description: stats.collisions.toString(),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
