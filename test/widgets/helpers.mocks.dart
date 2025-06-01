@@ -16,12 +16,13 @@ import 'package:pi_hole_client/config/theme.dart' as _i2;
 import 'package:pi_hole_client/constants/enums.dart' as _i21;
 import 'package:pi_hole_client/gateways/api_gateway_interface.dart' as _i17;
 import 'package:pi_hole_client/gateways/v5/api_gateway_v5.dart' as _i27;
-import 'package:pi_hole_client/gateways/v6/api_gateway_v6.dart' as _i30;
+import 'package:pi_hole_client/gateways/v6/api_gateway_v6.dart' as _i31;
+import 'package:pi_hole_client/models/api/v6/config/config.dart' as _i30;
 import 'package:pi_hole_client/models/app_log.dart' as _i9;
 import 'package:pi_hole_client/models/domain.dart' as _i26;
 import 'package:pi_hole_client/models/gateways.dart' as _i5;
 import 'package:pi_hole_client/models/groups.dart' as _i29;
-import 'package:pi_hole_client/models/messages.dart' as _i35;
+import 'package:pi_hole_client/models/messages.dart' as _i36;
 import 'package:pi_hole_client/models/metrics.dart' as _i24;
 import 'package:pi_hole_client/models/overtime_data.dart' as _i23;
 import 'package:pi_hole_client/models/query_status.dart' as _i16;
@@ -32,14 +33,14 @@ import 'package:pi_hole_client/models/subscriptions.dart' as _i28;
 import 'package:pi_hole_client/providers/app_config_provider.dart' as _i6;
 import 'package:pi_hole_client/providers/domains_list_provider.dart' as _i25;
 import 'package:pi_hole_client/providers/filters_provider.dart' as _i18;
-import 'package:pi_hole_client/providers/gravity_provider.dart' as _i34;
-import 'package:pi_hole_client/providers/groups_provider.dart' as _i32;
+import 'package:pi_hole_client/providers/gravity_provider.dart' as _i35;
+import 'package:pi_hole_client/providers/groups_provider.dart' as _i33;
 import 'package:pi_hole_client/providers/servers_provider.dart' as _i15;
 import 'package:pi_hole_client/providers/status_provider.dart' as _i20;
 import 'package:pi_hole_client/providers/subscriptions_list_provider.dart'
-    as _i33;
+    as _i34;
 import 'package:pi_hole_client/screens/logs/logs_filters_modal.dart' as _i19;
-import 'package:pi_hole_client/services/status_update_service.dart' as _i31;
+import 'package:pi_hole_client/services/status_update_service.dart' as _i32;
 
 // ignore_for_file: type=lint
 // ignore_for_file: avoid_redundant_argument_values
@@ -359,9 +360,20 @@ class _FakeGatewayResponse_27 extends _i1.SmartFake
         );
 }
 
-class _FakeStreamedResponse_28 extends _i1.SmartFake
+class _FakeConfigurationResponse_28 extends _i1.SmartFake
+    implements _i5.ConfigurationResponse {
+  _FakeConfigurationResponse_28(
+    Object parent,
+    Invocation parentInvocation,
+  ) : super(
+          parent,
+          parentInvocation,
+        );
+}
+
+class _FakeStreamedResponse_29 extends _i1.SmartFake
     implements _i4.StreamedResponse {
-  _FakeStreamedResponse_28(
+  _FakeStreamedResponse_29(
     Object parent,
     Invocation parentInvocation,
   ) : super(
@@ -2154,12 +2166,76 @@ class MockApiGatewayV5 extends _i1.Mock implements _i27.ApiGatewayV5 {
           ),
         )),
       ) as _i12.Future<_i5.GatewayResponse>);
+
+  @override
+  _i12.Future<_i5.ConfigurationResponse> getConfiguration({
+    String? element,
+    bool? isDetailed,
+  }) =>
+      (super.noSuchMethod(
+        Invocation.method(
+          #getConfiguration,
+          [],
+          {
+            #element: element,
+            #isDetailed: isDetailed,
+          },
+        ),
+        returnValue: _i12.Future<_i5.ConfigurationResponse>.value(
+            _FakeConfigurationResponse_28(
+          this,
+          Invocation.method(
+            #getConfiguration,
+            [],
+            {
+              #element: element,
+              #isDetailed: isDetailed,
+            },
+          ),
+        )),
+      ) as _i12.Future<_i5.ConfigurationResponse>);
+
+  @override
+  _i12.Future<_i5.ConfigurationResponse> patchConfiguration(
+          _i30.ConfigData? body) =>
+      (super.noSuchMethod(
+        Invocation.method(
+          #patchConfiguration,
+          [body],
+        ),
+        returnValue: _i12.Future<_i5.ConfigurationResponse>.value(
+            _FakeConfigurationResponse_28(
+          this,
+          Invocation.method(
+            #patchConfiguration,
+            [body],
+          ),
+        )),
+      ) as _i12.Future<_i5.ConfigurationResponse>);
+
+  @override
+  _i12.Future<_i5.ConfigurationResponse> patchDnsQueryLoggingConfig(
+          bool? status) =>
+      (super.noSuchMethod(
+        Invocation.method(
+          #patchDnsQueryLoggingConfig,
+          [status],
+        ),
+        returnValue: _i12.Future<_i5.ConfigurationResponse>.value(
+            _FakeConfigurationResponse_28(
+          this,
+          Invocation.method(
+            #patchDnsQueryLoggingConfig,
+            [status],
+          ),
+        )),
+      ) as _i12.Future<_i5.ConfigurationResponse>);
 }
 
 /// A class which mocks [ApiGatewayV6].
 ///
 /// See the documentation for Mockito's code generation for more information.
-class MockApiGatewayV6 extends _i1.Mock implements _i30.ApiGatewayV6 {
+class MockApiGatewayV6 extends _i1.Mock implements _i31.ApiGatewayV6 {
   MockApiGatewayV6() {
     _i1.throwOnMissingStub(this);
   }
@@ -2179,6 +2255,15 @@ class MockApiGatewayV6 extends _i1.Mock implements _i30.ApiGatewayV6 {
         returnValue: _i8.dummyValue<String>(
           this,
           Invocation.getter(#fetchError),
+        ),
+      ) as String);
+
+  @override
+  String get notImplementedError => (super.noSuchMethod(
+        Invocation.getter(#notImplementedError),
+        returnValue: _i8.dummyValue<String>(
+          this,
+          Invocation.getter(#notImplementedError),
         ),
       ) as String);
 
@@ -2253,7 +2338,7 @@ class MockApiGatewayV6 extends _i1.Mock implements _i30.ApiGatewayV6 {
           },
         ),
         returnValue:
-            _i12.Future<_i4.StreamedResponse>.value(_FakeStreamedResponse_28(
+            _i12.Future<_i4.StreamedResponse>.value(_FakeStreamedResponse_29(
           this,
           Invocation.method(
             #httpClientStream,
@@ -2845,13 +2930,77 @@ class MockApiGatewayV6 extends _i1.Mock implements _i30.ApiGatewayV6 {
           ),
         )),
       ) as _i12.Future<_i5.GatewayResponse>);
+
+  @override
+  _i12.Future<_i5.ConfigurationResponse> getConfiguration({
+    String? element,
+    bool? isDetailed,
+  }) =>
+      (super.noSuchMethod(
+        Invocation.method(
+          #getConfiguration,
+          [],
+          {
+            #element: element,
+            #isDetailed: isDetailed,
+          },
+        ),
+        returnValue: _i12.Future<_i5.ConfigurationResponse>.value(
+            _FakeConfigurationResponse_28(
+          this,
+          Invocation.method(
+            #getConfiguration,
+            [],
+            {
+              #element: element,
+              #isDetailed: isDetailed,
+            },
+          ),
+        )),
+      ) as _i12.Future<_i5.ConfigurationResponse>);
+
+  @override
+  _i12.Future<_i5.ConfigurationResponse> patchConfiguration(
+          _i30.ConfigData? body) =>
+      (super.noSuchMethod(
+        Invocation.method(
+          #patchConfiguration,
+          [body],
+        ),
+        returnValue: _i12.Future<_i5.ConfigurationResponse>.value(
+            _FakeConfigurationResponse_28(
+          this,
+          Invocation.method(
+            #patchConfiguration,
+            [body],
+          ),
+        )),
+      ) as _i12.Future<_i5.ConfigurationResponse>);
+
+  @override
+  _i12.Future<_i5.ConfigurationResponse> patchDnsQueryLoggingConfig(
+          bool? status) =>
+      (super.noSuchMethod(
+        Invocation.method(
+          #patchDnsQueryLoggingConfig,
+          [status],
+        ),
+        returnValue: _i12.Future<_i5.ConfigurationResponse>.value(
+            _FakeConfigurationResponse_28(
+          this,
+          Invocation.method(
+            #patchDnsQueryLoggingConfig,
+            [status],
+          ),
+        )),
+      ) as _i12.Future<_i5.ConfigurationResponse>);
 }
 
 /// A class which mocks [StatusUpdateService].
 ///
 /// See the documentation for Mockito's code generation for more information.
 class MockStatusUpdateService extends _i1.Mock
-    implements _i31.StatusUpdateService {
+    implements _i32.StatusUpdateService {
   MockStatusUpdateService() {
     _i1.throwOnMissingStub(this);
   }
@@ -2894,7 +3043,7 @@ class MockStatusUpdateService extends _i1.Mock
 /// A class which mocks [GroupsProvider].
 ///
 /// See the documentation for Mockito's code generation for more information.
-class MockGroupsProvider extends _i1.Mock implements _i32.GroupsProvider {
+class MockGroupsProvider extends _i1.Mock implements _i33.GroupsProvider {
   MockGroupsProvider() {
     _i1.throwOnMissingStub(this);
   }
@@ -3002,7 +3151,7 @@ class MockGroupsProvider extends _i1.Mock implements _i32.GroupsProvider {
 ///
 /// See the documentation for Mockito's code generation for more information.
 class MockSubscriptionsListProvider extends _i1.Mock
-    implements _i33.SubscriptionsListProvider {
+    implements _i34.SubscriptionsListProvider {
   MockSubscriptionsListProvider() {
     _i1.throwOnMissingStub(this);
   }
@@ -3195,7 +3344,7 @@ class MockSubscriptionsListProvider extends _i1.Mock
 ///
 /// See the documentation for Mockito's code generation for more information.
 class MockGravityUpdateProvider extends _i1.Mock
-    implements _i34.GravityUpdateProvider {
+    implements _i35.GravityUpdateProvider {
   MockGravityUpdateProvider() {
     _i1.throwOnMissingStub(this);
   }
@@ -3219,10 +3368,10 @@ class MockGravityUpdateProvider extends _i1.Mock
       ) as bool);
 
   @override
-  List<_i35.Message> get messages => (super.noSuchMethod(
+  List<_i36.Message> get messages => (super.noSuchMethod(
         Invocation.getter(#messages),
-        returnValue: <_i35.Message>[],
-      ) as List<_i35.Message>);
+        returnValue: <_i36.Message>[],
+      ) as List<_i36.Message>);
 
   @override
   bool get hasListeners => (super.noSuchMethod(
@@ -3276,7 +3425,7 @@ class MockGravityUpdateProvider extends _i1.Mock
       );
 
   @override
-  void setMessages(_i35.MessagesInfo? messagesInfo) => super.noSuchMethod(
+  void setMessages(_i36.MessagesInfo? messagesInfo) => super.noSuchMethod(
         Invocation.method(
           #setMessages,
           [messagesInfo],

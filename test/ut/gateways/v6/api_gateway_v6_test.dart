@@ -8,6 +8,7 @@ import 'package:pi_hole_client/constants/api_versions.dart';
 import 'package:pi_hole_client/constants/enums.dart';
 import 'package:pi_hole_client/constants/subscription_types.dart';
 import 'package:pi_hole_client/gateways/v6/api_gateway_v6.dart';
+import 'package:pi_hole_client/models/api/v6/config/config.dart';
 import 'package:pi_hole_client/models/api/v6/ftl/host.dart' show Host;
 import 'package:pi_hole_client/models/api/v6/ftl/messages.dart';
 import 'package:pi_hole_client/models/api/v6/ftl/metrics.dart';
@@ -18,6 +19,7 @@ import 'package:pi_hole_client/models/api/v6/groups/groups.dart';
 import 'package:pi_hole_client/models/api/v6/lists/lists.dart' show Lists;
 import 'package:pi_hole_client/models/api/v6/lists/search.dart' show Search;
 import 'package:pi_hole_client/models/api/v6/network/gateway.dart';
+import 'package:pi_hole_client/models/config.dart';
 import 'package:pi_hole_client/models/domain.dart';
 import 'package:pi_hole_client/models/gateway.dart';
 import 'package:pi_hole_client/models/gateways.dart';
@@ -110,6 +112,7 @@ void main() async {
 
   const unexpectedError = 'An unexpected error occurred.';
   const fetchError = 'Failed to fetch data from the server.';
+  const notImplementedError = 'This feature is not implemented yet.';
 
   group('loginQuery', () {
     late Server server;
@@ -4488,6 +4491,489 @@ void main() async {
       ).thenThrow(Exception('Unexpected error test'));
 
       final response = await apiGateway.getGateway();
+
+      expect(response.result, APiResponseType.error);
+      expect(response.message, unexpectedError);
+      expect(response.data?.toJson(), null);
+    });
+  });
+
+  group('getConfiguration', () {
+    late Server server;
+    const data = {
+      'config': {
+        'dns': {
+          'upstreams': ['127.0.0.1#5353', '8.8.8.8'],
+          'CNAMEdeepInspect': true,
+          'blockESNI': true,
+          'EDNS0ECS': true,
+          'ignoreLocalhost': false,
+          'showDNSSEC': true,
+          'analyzeOnlyAandAAAA': false,
+          'piholePTR': 'PI.HOLE',
+          'replyWhenBusy': 'ALLOW',
+          'blockTTL': 2,
+          'hosts': ['192.168.2.123 mymusicbox'],
+          'domainNeeded': true,
+          'expandHosts': true,
+          'domain': 'lan',
+          'bogusPriv': true,
+          'dnssec': true,
+          'interface': 'eth0',
+          'hostRecord': '',
+          'listeningMode': 'local',
+          'queryLogging': true,
+          'cnameRecords': [
+            '*.example.com,default.example.com',
+            'hourly.yetanother.com,yetanother.com,3600',
+          ],
+          'port': 53,
+          'cache': {
+            'size': 10000,
+            'optimizer': 3600,
+            'upstreamBlockedTTL': 86400,
+          },
+          'revServers': ['true,192.168.0.0/24,192.168.0.1,lan'],
+          'blocking': {'active': true, 'mode': 'NULL', 'edns': 'NONE'},
+          'specialDomains': {
+            'mozillaCanary': true,
+            'iCloudPrivateRelay': true,
+            'designatedResolver': true,
+          },
+          'reply': {
+            'host': {
+              'force4': false,
+              'force6': false,
+              'IPv4': '0.0.0.0',
+              'IPv6': '::',
+            },
+            'blocking': {
+              'force4': false,
+              'force6': false,
+              'IPv4': '0.0.0.0',
+              'IPv6': '::',
+            },
+          },
+          'rateLimit': {'count': 0, 'interval': 0},
+        },
+        'dhcp': {
+          'active': false,
+          'start': '192.168.0.10',
+          'end': '192.168.0.250',
+          'router': '192.168.0.1',
+          'netmask': '0.0.0.0',
+          'leaseTime': '24h',
+          'ipv6': false,
+          'rapidCommit': false,
+          'multiDNS': false,
+          'logging': false,
+          'ignoreUnknownClients': false,
+          'hosts': [
+            '11:22:33:44:55:66,192.168.1.123',
+            '11:22:33:44:55:67,192.168.1.124,hostname',
+          ],
+        },
+        'ntp': {
+          'ipv4': {'active': true, 'address': ''},
+          'ipv6': {'active': true, 'address': ''},
+          'sync': {
+            'active': true,
+            'server': 'pool.ntp.org',
+            'interval': 3600,
+            'count': 8,
+            'rtc': {'set': true, 'device': '', 'utc': true},
+          },
+        },
+        'resolver': {
+          'resolveIPv4': true,
+          'resolveIPv6': true,
+          'networkNames': true,
+          'refreshNames': 'IPV4_ONLY',
+        },
+        'database': {
+          'DBimport': true,
+          'maxDBdays': 365,
+          'DBinterval': 60,
+          'useWAL': true,
+          'network': {'parseARPcache': true, 'expire': 365},
+        },
+        'webserver': {
+          'domain': 'pi.hole',
+          'acl': '+0.0.0.0/0,::/0',
+          'port': '80,[::]:80',
+          'threads': 0,
+          'headers': [
+            'X-DNS-Prefetch-Control: off',
+            "Content-Security-Policy: default-src 'self' 'unsafe-inline';",
+            'X-Frame-Options: DENY',
+            'X-XSS-Protection: 0',
+            'X-Content-Type-Options: nosniff',
+            'Referrer-Policy: strict-origin-when-cross-origin',
+          ],
+          'serve_all': false,
+          'session': {'timeout': 300, 'restore': true},
+          'tls': {'cert': '/etc/pihole/tls.pem'},
+          'paths': {
+            'webroot': '/var/www/html',
+            'webhome': '/admin/',
+            'prefix': '',
+          },
+          'interface': {'boxed': true, 'theme': 'default-darker'},
+          'api': {
+            'max_sessions': 16,
+            'prettyJSON': false,
+            'password': '********',
+            'pwhash': '',
+            'totp_secret': '',
+            'app_pwhash': '',
+            'app_sudo': false,
+            'cli_pw': true,
+            'excludeClients': [r'1\.2\.3\.4', 'localhost', 'fe80::345'],
+            'excludeDomains': [r'google\\.de', r'pi-hole\.net'],
+            'maxHistory': 86400,
+            'maxClients': 10,
+            'client_history_global_max': true,
+            'allow_destructive': true,
+            'temp': {'limit': 60, 'unit': 'C'},
+          },
+        },
+        'files': {
+          'pid': '/run/pihole-FTL.pid',
+          'database': '/etc/pihole/pihole-FTL.db',
+          'gravity': '/etc/pihole/gravity.db',
+          'gravity_tmp': '/tmp',
+          'macvendor': '/etc/pihole/macvendor.db',
+          'setupVars': '/etc/pihole/setupVars.conf',
+          'pcap': '',
+          'log': {
+            'ftl': '/var/log/pihole/FTL.log',
+            'dnsmasq': '/var/log/pihole/pihole.log',
+            'webserver': '/var/log/pihole/webserver.log',
+          },
+        },
+        'misc': {
+          'nice': -10,
+          'delay_startup': 10,
+          'addr2line': true,
+          'privacylevel': 0,
+          'etc_dnsmasq_d': false,
+          'dnsmasq_lines': [],
+          'extraLogging': false,
+          'readOnly': false,
+          'check': {'load': true, 'shmem': 90, 'disk': 90},
+        },
+        'debug': {
+          'database': false,
+          'networking': false,
+          'locks': false,
+          'queries': false,
+          'flags': false,
+          'shmem': false,
+          'gc': false,
+          'arp': false,
+          'regex': false,
+          'api': false,
+          'tls': false,
+          'overtime': false,
+          'status': false,
+          'caps': false,
+          'dnssec': false,
+          'vectors': false,
+          'resolver': false,
+          'edns0': false,
+          'clients': false,
+          'aliasclients': false,
+          'events': false,
+          'helper': false,
+          'config': false,
+          'inotify': false,
+          'webserver': false,
+          'extra': false,
+          'reserved': false,
+          'ntp': false,
+          'netlink': false,
+          'all': false,
+        },
+      },
+    };
+    const dataPart = {
+      'config': {
+        'dns': {'queryLogging': true},
+      },
+      'took': 0.003,
+    };
+    const erroData = {
+      'error': {'key': 'unauthorized', 'message': 'Unauthorized', 'hint': null},
+      'took': 0.003,
+    };
+
+    setUp(() {
+      server = Server(
+        address: 'http://example.com',
+        alias: 'example',
+        defaultServer: true,
+        apiVersion: SupportedApiVersions.v6,
+        allowSelfSignedCert: true,
+      );
+      server.sm.savePassword('xxx123');
+    });
+
+    test('should return success', () async {
+      final mockClient = MockClient();
+      final apiGateway = ApiGatewayV6(server, client: mockClient);
+
+      when(
+        mockClient.get(
+          Uri.parse('http://example.com/api/config/'),
+          headers: anyNamed('headers'),
+        ),
+      ).thenAnswer((_) async => http.Response(jsonEncode(data), 200));
+
+      final response = await apiGateway.getConfiguration();
+
+      expect(response.result, APiResponseType.success);
+      expect(response.message, null);
+      expect(
+        response.data?.toJson(),
+        ConfigInfo.fromV6(Config.fromJson(data)).toJson(),
+      );
+    });
+
+    test('should return success with element', () async {
+      final mockClient = MockClient();
+      final apiGateway = ApiGatewayV6(server, client: mockClient);
+
+      when(
+        mockClient.get(
+          Uri.parse('http://example.com/api/config/dns/queryLogging'),
+          headers: anyNamed('headers'),
+        ),
+      ).thenAnswer((_) async => http.Response(jsonEncode(dataPart), 200));
+
+      final response =
+          await apiGateway.getConfiguration(element: 'dns/queryLogging');
+
+      expect(response.result, APiResponseType.success);
+      expect(response.message, null);
+      expect(
+        response.data?.toJson(),
+        ConfigInfo.fromV6(Config.fromJson(dataPart)).toJson(),
+      );
+    });
+
+    test('should return an error when isDetailed set true', () async {
+      final mockClient = MockClient();
+      final apiGateway = ApiGatewayV6(server, client: mockClient);
+
+      final response = await apiGateway.getConfiguration(isDetailed: true);
+
+      expect(response.result, APiResponseType.error);
+      expect(response.message, notImplementedError);
+      expect(response.data?.toJson(), null);
+    });
+
+    test('should return an error when status code is 401', () async {
+      final mockClient = MockClient();
+      final apiGateway = ApiGatewayV6(server, client: mockClient);
+
+      when(
+        mockClient.get(
+          Uri.parse('http://example.com/api/config/'),
+          headers: anyNamed('headers'),
+        ),
+      ).thenAnswer((_) async => http.Response(jsonEncode(erroData), 401));
+
+      final response = await apiGateway.getConfiguration();
+
+      expect(response.result, APiResponseType.error);
+      expect(response.message, fetchError);
+      expect(response.data?.toJson(), null);
+    });
+
+    test('should return an error when an unexpected error occurs', () async {
+      final mockClient = MockClient();
+      final apiGateway = ApiGatewayV6(server, client: mockClient);
+
+      when(
+        mockClient.get(
+          Uri.parse('http://example.com/api/config'),
+          headers: anyNamed('headers'),
+        ),
+      ).thenThrow(Exception('Unexpected error test'));
+
+      final response = await apiGateway.getConfiguration();
+
+      expect(response.result, APiResponseType.error);
+      expect(response.message, unexpectedError);
+      expect(response.data?.toJson(), null);
+    });
+  });
+
+  group('patchConfiguration', () {
+    late Server server;
+    const data = {
+      'config': {
+        'dns': {'queryLogging': true},
+      },
+      'took': 0.003,
+    };
+    const erroData = {
+      'error': {'key': 'unauthorized', 'message': 'Unauthorized', 'hint': null},
+      'took': 0.003,
+    };
+    const configData = ConfigData(dns: Dns(queryLogging: true));
+
+    setUp(() {
+      server = Server(
+        address: 'http://example.com',
+        alias: 'example',
+        defaultServer: true,
+        apiVersion: SupportedApiVersions.v6,
+        allowSelfSignedCert: true,
+      );
+      server.sm.savePassword('xxx123');
+    });
+
+    test('should return success', () async {
+      final mockClient = MockClient();
+      final apiGateway = ApiGatewayV6(server, client: mockClient);
+
+      when(
+        mockClient.patch(
+          Uri.parse('http://example.com/api/config'),
+          headers: anyNamed('headers'),
+          body: anyNamed('body'),
+        ),
+      ).thenAnswer((_) async => http.Response(jsonEncode(data), 200));
+
+      final response = await apiGateway.patchConfiguration(configData);
+
+      expect(response.result, APiResponseType.success);
+      expect(response.message, null);
+      expect(
+        response.data?.toJson(),
+        ConfigInfo.fromV6(Config.fromJson(data)).toJson(),
+      );
+    });
+
+    test('should return an error when status code is 401', () async {
+      final mockClient = MockClient();
+      final apiGateway = ApiGatewayV6(server, client: mockClient);
+
+      when(
+        mockClient.patch(
+          Uri.parse('http://example.com/api/config'),
+          headers: anyNamed('headers'),
+          body: anyNamed('body'),
+        ),
+      ).thenAnswer((_) async => http.Response(jsonEncode(erroData), 401));
+
+      final response = await apiGateway.patchConfiguration(configData);
+
+      expect(response.result, APiResponseType.error);
+      expect(response.message, fetchError);
+      expect(response.data?.toJson(), null);
+    });
+
+    test('should return an error when an unexpected error occurs', () async {
+      final mockClient = MockClient();
+      final apiGateway = ApiGatewayV6(server, client: mockClient);
+
+      when(
+        mockClient.patch(
+          Uri.parse('http://example.com/api/config'),
+          headers: anyNamed('headers'),
+          body: anyNamed('body'),
+        ),
+      ).thenThrow(Exception('Unexpected error test'));
+
+      final response = await apiGateway.patchConfiguration(configData);
+
+      expect(response.result, APiResponseType.error);
+      expect(response.message, unexpectedError);
+      expect(response.data?.toJson(), null);
+    });
+  });
+
+  group('patchDnsQueryLoggingConfig', () {
+    late Server server;
+    const data = {
+      'config': {
+        'dns': {'queryLogging': true},
+      },
+      'took': 0.003,
+    };
+    const erroData = {
+      'error': {'key': 'unauthorized', 'message': 'Unauthorized', 'hint': null},
+      'took': 0.003,
+    };
+    // const configData = ConfigData(dns: Dns(queryLogging: true));
+
+    setUp(() {
+      server = Server(
+        address: 'http://example.com',
+        alias: 'example',
+        defaultServer: true,
+        apiVersion: SupportedApiVersions.v6,
+        allowSelfSignedCert: true,
+      );
+      server.sm.savePassword('xxx123');
+    });
+
+    test('should return success', () async {
+      final mockClient = MockClient();
+      final apiGateway = ApiGatewayV6(server, client: mockClient);
+
+      when(
+        mockClient.patch(
+          Uri.parse('http://example.com/api/config'),
+          headers: anyNamed('headers'),
+          body: anyNamed('body'),
+        ),
+      ).thenAnswer((_) async => http.Response(jsonEncode(data), 200));
+
+      final response = await apiGateway.patchDnsQueryLoggingConfig(true);
+
+      expect(response.result, APiResponseType.success);
+      expect(response.message, null);
+      expect(
+        response.data?.toJson(),
+        ConfigInfo.fromV6(Config.fromJson(data)).toJson(),
+      );
+    });
+
+    test('should return an error when status code is 401', () async {
+      final mockClient = MockClient();
+      final apiGateway = ApiGatewayV6(server, client: mockClient);
+
+      when(
+        mockClient.patch(
+          Uri.parse('http://example.com/api/config'),
+          headers: anyNamed('headers'),
+          body: anyNamed('body'),
+        ),
+      ).thenAnswer((_) async => http.Response(jsonEncode(erroData), 401));
+
+      final response = await apiGateway.patchDnsQueryLoggingConfig(true);
+
+      expect(response.result, APiResponseType.error);
+      expect(response.message, fetchError);
+      expect(response.data?.toJson(), null);
+    });
+
+    test('should return an error when an unexpected error occurs', () async {
+      final mockClient = MockClient();
+      final apiGateway = ApiGatewayV6(server, client: mockClient);
+
+      when(
+        mockClient.patch(
+          Uri.parse('http://example.com/api/config'),
+          headers: anyNamed('headers'),
+          body: anyNamed('body'),
+        ),
+      ).thenThrow(Exception('Unexpected error test'));
+
+      final response = await apiGateway.patchDnsQueryLoggingConfig(true);
 
       expect(response.result, APiResponseType.error);
       expect(response.message, unexpectedError);
