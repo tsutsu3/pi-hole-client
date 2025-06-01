@@ -498,6 +498,15 @@ class AppLocalizationsPl extends AppLocalizations {
   String get disable => 'Wyłącz na';
 
   @override
+  String get disableQueryLogFailure => 'Nie udało się wyłączyć logowania zapytań';
+
+  @override
+  String get disableQueryLogInProgress => 'Wyłączanie logowania zapytań...';
+
+  @override
+  String get disableQueryLogSuccess => 'Logowanie zapytań zostało wyłączone';
+
+  @override
   String get disableQueryLogging => 'Wyłącz logowanie zapytań';
 
   @override
@@ -592,6 +601,15 @@ class AppLocalizationsPl extends AppLocalizations {
 
   @override
   String get enableCrashReportDetail => 'Automatycznie wysyłaj anonimowe raporty w celu diagnozowania problemów.';
+
+  @override
+  String get enableQueryLogFailure => 'Nie udało się włączyć logowania zapytań';
+
+  @override
+  String get enableQueryLogInProgress => 'Włączanie logowania zapytań...';
+
+  @override
+  String get enableQueryLogSuccess => 'Logowanie zapytań zostało włączone';
 
   @override
   String get enableQueryLogging => 'Włącz logowanie zapytań';

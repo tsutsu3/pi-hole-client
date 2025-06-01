@@ -1079,6 +1079,24 @@ abstract class AppLocalizations {
   /// **'Disable'**
   String get disable;
 
+  /// No description provided for @disableQueryLogFailure.
+  ///
+  /// In en, this message translates to:
+  /// **'Failed to disable query logging'**
+  String get disableQueryLogFailure;
+
+  /// No description provided for @disableQueryLogInProgress.
+  ///
+  /// In en, this message translates to:
+  /// **'Disabling query logging...'**
+  String get disableQueryLogInProgress;
+
+  /// No description provided for @disableQueryLogSuccess.
+  ///
+  /// In en, this message translates to:
+  /// **'Query logging has been disabled'**
+  String get disableQueryLogSuccess;
+
   /// No description provided for @disableQueryLogging.
   ///
   /// In en, this message translates to:
@@ -1270,6 +1288,24 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Automatically send anonymized reports to diagnose issues.'**
   String get enableCrashReportDetail;
+
+  /// No description provided for @enableQueryLogFailure.
+  ///
+  /// In en, this message translates to:
+  /// **'Failed to enable query logging'**
+  String get enableQueryLogFailure;
+
+  /// No description provided for @enableQueryLogInProgress.
+  ///
+  /// In en, this message translates to:
+  /// **'Enabling query logging...'**
+  String get enableQueryLogInProgress;
+
+  /// No description provided for @enableQueryLogSuccess.
+  ///
+  /// In en, this message translates to:
+  /// **'Query logging has been enabled'**
+  String get enableQueryLogSuccess;
 
   /// No description provided for @enableQueryLogging.
   ///

@@ -498,6 +498,15 @@ class AppLocalizationsEs extends AppLocalizations {
   String get disable => 'Desactivar';
 
   @override
+  String get disableQueryLogFailure => 'Error al deshabilitar el registro de consultas';
+
+  @override
+  String get disableQueryLogInProgress => 'Deshabilitando el registro de consultas...';
+
+  @override
+  String get disableQueryLogSuccess => 'El registro de consultas ha sido deshabilitado';
+
+  @override
   String get disableQueryLogging => 'Desactivar el registro de consultas';
 
   @override
@@ -592,6 +601,15 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String get enableCrashReportDetail => 'Enviar automáticamente informes anonimados para diagnosticar problemas.';
+
+  @override
+  String get enableQueryLogFailure => 'Error al habilitar el registro de consultas';
+
+  @override
+  String get enableQueryLogInProgress => 'Habilitando el registro de consultas...';
+
+  @override
+  String get enableQueryLogSuccess => 'El registro de consultas ha sido habilitado';
 
   @override
   String get enableQueryLogging => 'Habilitar el registro de consultas';

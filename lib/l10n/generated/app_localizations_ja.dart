@@ -498,6 +498,15 @@ class AppLocalizationsJa extends AppLocalizations {
   String get disable => '無効化';
 
   @override
+  String get disableQueryLogFailure => 'クエリログを無効化に失敗しました';
+
+  @override
+  String get disableQueryLogInProgress => 'クエリログを無効化中...';
+
+  @override
+  String get disableQueryLogSuccess => 'クエリログを無効化しました';
+
+  @override
   String get disableQueryLogging => 'クエリログを無効化';
 
   @override
@@ -592,6 +601,15 @@ class AppLocalizationsJa extends AppLocalizations {
 
   @override
   String get enableCrashReportDetail => '問題を診断するために匿名化されたレポートを自動的に送信します。';
+
+  @override
+  String get enableQueryLogFailure => 'クエリログを有効化に失敗しました';
+
+  @override
+  String get enableQueryLogInProgress => 'クエリログを有効化中...';
+
+  @override
+  String get enableQueryLogSuccess => 'クエリログを有効化しました';
 
   @override
   String get enableQueryLogging => 'クエリログを有効化';

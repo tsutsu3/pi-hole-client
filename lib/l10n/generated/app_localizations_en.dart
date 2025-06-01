@@ -498,6 +498,15 @@ class AppLocalizationsEn extends AppLocalizations {
   String get disable => 'Disable';
 
   @override
+  String get disableQueryLogFailure => 'Failed to disable query logging';
+
+  @override
+  String get disableQueryLogInProgress => 'Disabling query logging...';
+
+  @override
+  String get disableQueryLogSuccess => 'Query logging has been disabled';
+
+  @override
   String get disableQueryLogging => 'Disable query logging';
 
   @override
@@ -592,6 +601,15 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get enableCrashReportDetail => 'Automatically send anonymized reports to diagnose issues.';
+
+  @override
+  String get enableQueryLogFailure => 'Failed to enable query logging';
+
+  @override
+  String get enableQueryLogInProgress => 'Enabling query logging...';
+
+  @override
+  String get enableQueryLogSuccess => 'Query logging has been enabled';
 
   @override
   String get enableQueryLogging => 'Enable query logging';

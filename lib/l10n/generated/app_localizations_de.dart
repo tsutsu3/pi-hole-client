@@ -498,6 +498,15 @@ class AppLocalizationsDe extends AppLocalizations {
   String get disable => 'Deaktivieren';
 
   @override
+  String get disableQueryLogFailure => 'Deaktivierung der Abfrageprotokollierung fehlgeschlagen';
+
+  @override
+  String get disableQueryLogInProgress => 'Abfrageprotokollierung wird deaktiviert...';
+
+  @override
+  String get disableQueryLogSuccess => 'Abfrageprotokollierung wurde deaktiviert';
+
+  @override
   String get disableQueryLogging => 'Abfrageprotokollierung deaktivieren';
 
   @override
@@ -592,6 +601,15 @@ class AppLocalizationsDe extends AppLocalizations {
 
   @override
   String get enableCrashReportDetail => 'Automatisch anonymisierte Berichte senden, um Probleme zu diagnostizieren.';
+
+  @override
+  String get enableQueryLogFailure => 'Aktivierung der Abfrageprotokollierung fehlgeschlagen';
+
+  @override
+  String get enableQueryLogInProgress => 'Abfrageprotokollierung wird aktiviert...';
+
+  @override
+  String get enableQueryLogSuccess => 'Abfrageprotokollierung wurde aktiviert';
 
   @override
   String get enableQueryLogging => 'Abfrageprotokoll aktivieren';
