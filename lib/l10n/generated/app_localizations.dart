@@ -1121,6 +1121,12 @@ abstract class AppLocalizations {
   /// **'DNS reply metrics'**
   String get dnsReplyMetrics;
 
+  /// No description provided for @dnsRestartWarning.
+  ///
+  /// In en, this message translates to:
+  /// **'Are you sure you want to restart the DNS server?\n\nThis will clear the DNS cache and may temporarily interrupt your internet connection.\nAdditionally, you will be logged out of the web interface as a result of this action.'**
+  String get dnsRestartWarning;
+
   /// No description provided for @domain.
   ///
   /// In en, this message translates to:
@@ -1253,6 +1259,12 @@ abstract class AppLocalizations {
   /// **'Automatically send anonymized reports to diagnose issues.'**
   String get enableCrashReportDetail;
 
+  /// No description provided for @enableQueryLogging.
+  ///
+  /// In en, this message translates to:
+  /// **'Enable query logging'**
+  String get enableQueryLogging;
+
   /// No description provided for @enabled.
   ///
   /// In en, this message translates to:
@@ -1367,17 +1379,41 @@ abstract class AppLocalizations {
   /// **'Flags'**
   String get flags;
 
+  /// No description provided for @flush.
+  ///
+  /// In en, this message translates to:
+  /// **'Flush'**
+  String get flush;
+
+  /// No description provided for @flushLogs.
+  ///
+  /// In en, this message translates to:
+  /// **'Flush logs'**
+  String get flushLogs;
+
   /// No description provided for @flushLogs24h.
   ///
   /// In en, this message translates to:
   /// **'Flush logs (last 24 hours)'**
   String get flushLogs24h;
 
+  /// No description provided for @flushLogsWarning.
+  ///
+  /// In en, this message translates to:
+  /// **'Are you sure you want to flush the logs?\n\nThis will permanently delete all log entries and cannot be undone.'**
+  String get flushLogsWarning;
+
   /// No description provided for @flushNetworkTable.
   ///
   /// In en, this message translates to:
   /// **'Flush network table'**
   String get flushNetworkTable;
+
+  /// No description provided for @flushNetworkTableWarning.
+  ///
+  /// In en, this message translates to:
+  /// **'Are you sure you want to flush the network table?\n\nThis will remove all entries and cannot be undone.'**
+  String get flushNetworkTableWarning;
 
   /// No description provided for @forever.
   ///
@@ -2261,6 +2297,12 @@ abstract class AppLocalizations {
   /// **'Queries & servers'**
   String get queriesServers;
 
+  /// No description provided for @queryLoggingSwitchWarning.
+  ///
+  /// In en, this message translates to:
+  /// **'Are you sure you want to switch the query logging mode?\n\nThis will restart the DNS server, clear the DNS cache, and may temporarily disconnect your internet.\nYou will also be logged out of the web interface.'**
+  String get queryLoggingSwitchWarning;
+
   /// No description provided for @queryLogs.
   ///
   /// In en, this message translates to:
@@ -2362,6 +2404,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Reset application'**
   String get resetApplication;
+
+  /// No description provided for @restart.
+  ///
+  /// In en, this message translates to:
+  /// **'Restart'**
+  String get restart;
 
   /// No description provided for @restartAppTakeEffect.
   ///

@@ -519,6 +519,9 @@ class AppLocalizationsEs extends AppLocalizations {
   String get dnsReplyMetrics => 'Métricas de respuesta DNS';
 
   @override
+  String get dnsRestartWarning => '¿Está seguro de que desea reiniciar el servidor DNS?\n\nEsto vaciará la caché DNS y puede interrumpir temporalmente su conexión a Internet.\nAdemás, se cerrará su sesión en la interfaz web como resultado de esta acción.';
+
+  @override
   String get domain => 'Dominio';
 
   @override
@@ -585,6 +588,9 @@ class AppLocalizationsEs extends AppLocalizations {
   String get enableCrashReportDetail => 'Enviar automáticamente informes anonimados para diagnosticar problemas.';
 
   @override
+  String get enableQueryLogging => 'Habilitar el registro de consultas';
+
+  @override
   String get enabled => 'Activado';
 
   @override
@@ -642,10 +648,22 @@ class AppLocalizationsEs extends AppLocalizations {
   String get flags => 'Flags';
 
   @override
-  String get flushLogs24h => 'Borrar registros (últimas 24 horas)';
+  String get flush => 'Vaciar';
+
+  @override
+  String get flushLogs => 'Vaciar registros';
+
+  @override
+  String get flushLogs24h => 'Vaciar registros (últimas 24 horas)';
+
+  @override
+  String get flushLogsWarning => '¿Está seguro de que desea vaciar los registros?\n\nEsto eliminará permanentemente todas las entradas de registro y no se podrá deshacer.';
 
   @override
   String get flushNetworkTable => 'Vaciar tabla de red';
+
+  @override
+  String get flushNetworkTableWarning => '¿Está seguro de que desea vaciar la tabla de red?\n\nEsto eliminará todas las entradas y no se podrá deshacer.';
 
   @override
   String get forever => 'para siempre';
@@ -1089,6 +1107,9 @@ class AppLocalizationsEs extends AppLocalizations {
   String get queriesServers => 'Peticiones y servidores';
 
   @override
+  String get queryLoggingSwitchWarning => '¿Está seguro de que desea cambiar el modo de registro de consultas?\n\nEsto reiniciará el servidor DNS, vaciará la caché DNS y puede desconectarlo temporalmente de Internet.\nTambién se cerrará su sesión en la interfaz web.';
+
+  @override
   String get queryLogs => 'Peticiones';
 
   @override
@@ -1138,6 +1159,9 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String get resetApplication => 'Resetear aplicación';
+
+  @override
+  String get restart => 'Reiniciar';
 
   @override
   String get restartAppTakeEffect => 'Reinicie la aplicación para aplicar la configuración.';

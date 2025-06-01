@@ -519,6 +519,9 @@ class AppLocalizationsDe extends AppLocalizations {
   String get dnsReplyMetrics => 'DNS-Antwortmetriken';
 
   @override
+  String get dnsRestartWarning => 'Möchten Sie den DNS-Server wirklich neu starten?\n\nDabei wird der DNS-Cache geleert und Ihre Internetverbindung kann vorübergehend unterbrochen werden.\nAußerdem werden Sie durch diese Aktion von der Weboberfläche abgemeldet.';
+
+  @override
   String get domain => 'Domain';
 
   @override
@@ -585,6 +588,9 @@ class AppLocalizationsDe extends AppLocalizations {
   String get enableCrashReportDetail => 'Automatisch anonymisierte Berichte senden, um Probleme zu diagnostizieren.';
 
   @override
+  String get enableQueryLogging => 'Abfrageprotokoll aktivieren';
+
+  @override
   String get enabled => 'Aktiviert';
 
   @override
@@ -642,10 +648,22 @@ class AppLocalizationsDe extends AppLocalizations {
   String get flags => 'Flaggen';
 
   @override
-  String get flushLogs24h => 'Protokolle der letzten 24 Stunden löschen';
+  String get flush => 'Leeren';
+
+  @override
+  String get flushLogs => 'Logs leeren';
+
+  @override
+  String get flushLogs24h => 'Logs der letzten 24 Stunden leeren';
+
+  @override
+  String get flushLogsWarning => 'Möchten Sie die Protokolle wirklich löschen?\n\nDabei werden alle Protokolleinträge dauerhaft entfernt und dieser Vorgang kann nicht rückgängig gemacht werden.';
 
   @override
   String get flushNetworkTable => 'Netzwerktabelle leeren';
+
+  @override
+  String get flushNetworkTableWarning => 'Möchten Sie die Netzwerktabelle wirklich leeren?\n\nDabei werden alle Einträge entfernt und dieser Vorgang kann nicht rückgängig gemacht werden.';
 
   @override
   String get forever => 'unbegrenzt';
@@ -1089,6 +1107,9 @@ class AppLocalizationsDe extends AppLocalizations {
   String get queriesServers => 'Abfragen & Server';
 
   @override
+  String get queryLoggingSwitchWarning => 'Möchten Sie den Abfrageprotokollierungsmodus wirklich wechseln?\n\nDadurch wird der DNS-Server neu gestartet, der DNS-Cache geleert und Ihre Internetverbindung kann vorübergehend getrennt werden.\nSie werden außerdem von der Weboberfläche abgemeldet.';
+
+  @override
   String get queryLogs => 'Abfragen';
 
   @override
@@ -1138,6 +1159,9 @@ class AppLocalizationsDe extends AppLocalizations {
 
   @override
   String get resetApplication => 'App zurücksetzen';
+
+  @override
+  String get restart => 'Neu starten';
 
   @override
   String get restartAppTakeEffect => 'Bitte starten Sie die Anwendung neu, um die Einstellungen zu übernehmen.';

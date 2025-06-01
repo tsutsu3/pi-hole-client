@@ -519,6 +519,9 @@ class AppLocalizationsJa extends AppLocalizations {
   String get dnsReplyMetrics => 'DNSリプライメトリクス';
 
   @override
+  String get dnsRestartWarning => 'DNSサーバーを再起動してもよろしいですか？\n\nこの操作によりDNSキャッシュがクリアされ、一時的にインターネット接続が中断される可能性があります。\nまた、この操作によりWebインターフェースからログアウトされます。';
+
+  @override
   String get domain => 'ドメイン';
 
   @override
@@ -585,6 +588,9 @@ class AppLocalizationsJa extends AppLocalizations {
   String get enableCrashReportDetail => '問題を診断するために匿名化されたレポートを自動的に送信します。';
 
   @override
+  String get enableQueryLogging => 'クエリログを有効化';
+
+  @override
   String get enabled => '有効';
 
   @override
@@ -642,10 +648,22 @@ class AppLocalizationsJa extends AppLocalizations {
   String get flags => 'フラグ';
 
   @override
-  String get flushLogs24h => 'ログを削除（過去24時間）';
+  String get flush => 'クリア';
+
+  @override
+  String get flushLogs => 'ログをクリア';
+
+  @override
+  String get flushLogs24h => 'ログをクリア（過去24時間）';
+
+  @override
+  String get flushLogsWarning => 'ログをフラッシュしてもよろしいですか？\n\nこの操作によりすべてのログエントリが完全に削除され、元に戻すことはできません。';
 
   @override
   String get flushNetworkTable => 'ネットワークテーブルをクリア';
+
+  @override
+  String get flushNetworkTableWarning => 'ネットワークテーブルをフラッシュしてもよろしいですか？\n\nこの操作によりすべてのエントリが削除され、元に戻すことはできません。';
 
   @override
   String get forever => '無期限';
@@ -1089,6 +1107,9 @@ class AppLocalizationsJa extends AppLocalizations {
   String get queriesServers => 'クエリ＆サーバー';
 
   @override
+  String get queryLoggingSwitchWarning => 'クエリログモードを切り替えてもよろしいですか？\n\nこの操作によりDNSサーバーが再起動され、DNSキャッシュがクリアされ、一時的にインターネット接続が切断される可能性があります。\nまた、Webインターフェースからログアウトされます。';
+
+  @override
   String get queryLogs => 'クエリログ';
 
   @override
@@ -1138,6 +1159,9 @@ class AppLocalizationsJa extends AppLocalizations {
 
   @override
   String get resetApplication => 'アプリケーションをリセット';
+
+  @override
+  String get restart => '再起動';
 
   @override
   String get restartAppTakeEffect => '設定を反映するためにアプリを再起動してください。';
