@@ -7,6 +7,7 @@ import 'package:http/io_client.dart';
 import 'package:pi_hole_client/functions/conversions.dart';
 import 'package:pi_hole_client/functions/misc.dart';
 import 'package:pi_hole_client/gateways/api_gateway_interface.dart';
+import 'package:pi_hole_client/models/api/v6/config/config.dart';
 import 'package:pi_hole_client/models/app_log.dart';
 import 'package:pi_hole_client/models/domain.dart';
 import 'package:pi_hole_client/models/gateways.dart';
@@ -911,6 +912,39 @@ class ApiGatewayV5 implements ApiGateway {
   Future<GatewayResponse> getGateway({bool? isDetailed}) async {
     return Future.value(
       GatewayResponse(
+        result: APiResponseType.notSupported,
+        message: notSupportedMessage,
+      ),
+    );
+  }
+
+  @override
+  Future<ConfigurationResponse> getConfiguration({
+    String? element,
+    bool? isDetailed,
+  }) async {
+    return Future.value(
+      ConfigurationResponse(
+        result: APiResponseType.notSupported,
+        message: notSupportedMessage,
+      ),
+    );
+  }
+
+  @override
+  Future<ConfigurationResponse> patchConfiguration(ConfigData body) async {
+    return Future.value(
+      ConfigurationResponse(
+        result: APiResponseType.notSupported,
+        message: notSupportedMessage,
+      ),
+    );
+  }
+
+  @override
+  Future<ConfigurationResponse> patchDnsQueryLoggingConfig(bool status) async {
+    return Future.value(
+      ConfigurationResponse(
         result: APiResponseType.notSupported,
         message: notSupportedMessage,
       ),

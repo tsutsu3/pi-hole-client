@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'package:pi_hole_client/models/api/v6/config/config.dart';
 import 'package:pi_hole_client/models/domain.dart';
 import 'package:pi_hole_client/models/gateways.dart';
 import 'package:pi_hole_client/models/groups.dart';
@@ -203,4 +204,28 @@ abstract interface class ApiGateway {
   /// include detailedinformation about the individual interfaces and routes.
   /// Note that the available information is dependent on the interface type and state.
   Future<GatewayResponse> getGateway({bool? isDetailed});
+
+  /// Get current configuration of your Pi-hole
+  ///
+  /// Only supports when detailed parameters are set to `false`.
+  /// If the optional parameter `isDetailed` is set to `true`, the response raises an error.
+  ///
+  /// element: If the optional parameter `element` is set, the response will only include
+  /// the configuration for the specified element. If not set, the response will include
+  /// the configuration for all elements.
+  Future<ConfigurationResponse> getConfiguration({
+    String? element,
+    bool? isDetailed,
+  });
+
+  /// Change configuration of your Pi-hole
+  ///
+  /// This API hook allows to modify the config of your Pi-hole. This endpoint
+  /// supports changing multiple properties at once when you specify several in the payload.
+  Future<ConfigurationResponse> patchConfiguration(ConfigData body);
+
+  /// Change only the DNS query logging configuration
+  ///
+  /// Sets the `status` to `true` to enable DNS query logging, or `false` to disable it.
+  Future<ConfigurationResponse> patchDnsQueryLoggingConfig(bool status);
 }

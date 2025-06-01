@@ -9,6 +9,7 @@ import 'package:pi_hole_client/functions/logger.dart';
 import 'package:pi_hole_client/functions/misc.dart';
 import 'package:pi_hole_client/gateways/api_gateway_interface.dart';
 import 'package:pi_hole_client/models/api/v6/auth/auth.dart' show Session;
+import 'package:pi_hole_client/models/api/v6/config/config.dart';
 import 'package:pi_hole_client/models/api/v6/dns/dns.dart' show Blocking;
 import 'package:pi_hole_client/models/api/v6/domains/domains.dart'
     show AddDomains, Domains;
@@ -29,6 +30,7 @@ import 'package:pi_hole_client/models/api/v6/metrics/stats.dart'
     show StatsSummary, StatsTopClients, StatsTopDomains, StatsUpstreams;
 import 'package:pi_hole_client/models/api/v6/network/gateway.dart' show Gateway;
 import 'package:pi_hole_client/models/app_log.dart';
+import 'package:pi_hole_client/models/config.dart';
 import 'package:pi_hole_client/models/domain.dart';
 import 'package:pi_hole_client/models/gateway.dart';
 import 'package:pi_hole_client/models/gateways.dart';
@@ -63,6 +65,7 @@ class ApiGatewayV6 implements ApiGateway {
 
   final unexpectedError = 'An unexpected error occurred.';
   final fetchError = 'Failed to fetch data from the server.';
+  final notImplementedError = 'This feature is not implemented yet.';
 
   @override
   Server get server => _server;
@@ -1409,5 +1412,88 @@ class ApiGatewayV6 implements ApiGateway {
         message: unexpectedError,
       );
     }
+  }
+
+  @override
+  Future<ConfigurationResponse> getConfiguration({
+    String? element,
+    bool? isDetailed,
+  }) async {
+    try {
+      var elem = '';
+      if (element != null && element.startsWith('/')) {
+        elem = element.substring(1);
+      } else {
+        elem = element ?? '';
+      }
+
+      if (isDetailed == true) {
+        return ConfigurationResponse(
+          result: APiResponseType.error,
+          message: notImplementedError,
+        );
+      }
+      final queryParamString = isDetailed == true ? '?detailed=true' : '';
+      final results = await httpClient(
+        method: 'get',
+        url: '${_server.address}/api/config/$elem$queryParamString',
+      );
+
+      if (results.statusCode == 200) {
+        final config = Config.fromJson(jsonDecode(results.body));
+
+        return ConfigurationResponse(
+          result: APiResponseType.success,
+          data: ConfigInfo.fromV6(config),
+        );
+      } else {
+        return ConfigurationResponse(
+          result: APiResponseType.error,
+          message: fetchError,
+        );
+      }
+    } catch (e) {
+      return ConfigurationResponse(
+        result: APiResponseType.error,
+        message: unexpectedError,
+      );
+    }
+  }
+
+  @override
+  Future<ConfigurationResponse> patchConfiguration(ConfigData body) async {
+    try {
+      final results = await httpClient(
+        method: 'patch',
+        url: '${_server.address}/api/config',
+        body: {'config': body.toJson()},
+      );
+
+      if (results.statusCode == 200) {
+        final config = Config.fromJson(jsonDecode(results.body));
+
+        return ConfigurationResponse(
+          result: APiResponseType.success,
+          data: ConfigInfo.fromV6(config),
+        );
+      } else {
+        return ConfigurationResponse(
+          result: APiResponseType.error,
+          message: fetchError,
+        );
+      }
+    } catch (e) {
+      return ConfigurationResponse(
+        result: APiResponseType.error,
+        message: unexpectedError,
+      );
+    }
+  }
+
+  @override
+  Future<ConfigurationResponse> patchDnsQueryLoggingConfig(bool status) async {
+    return patchConfiguration(
+      ConfigData(dns: Dns(queryLogging: status)),
+    );
   }
 }

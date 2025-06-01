@@ -1,5 +1,6 @@
 import 'package:pi_hole_client/models/api/v6/domains/domains.dart' as v6;
 import 'package:pi_hole_client/models/app_log.dart';
+import 'package:pi_hole_client/models/config.dart';
 import 'package:pi_hole_client/models/domain.dart';
 import 'package:pi_hole_client/models/gateway.dart';
 import 'package:pi_hole_client/models/groups.dart';
@@ -380,6 +381,14 @@ class MetricsResponse extends BaseInfoResponse<MetricsInfo> {
 
 class GatewayResponse extends BaseInfoResponse<GatewayInfo> {
   GatewayResponse({
+    required super.result,
+    super.message,
+    super.data,
+  });
+}
+
+class ConfigurationResponse extends BaseInfoResponse<ConfigInfo> {
+  ConfigurationResponse({
     required super.result,
     super.message,
     super.data,
