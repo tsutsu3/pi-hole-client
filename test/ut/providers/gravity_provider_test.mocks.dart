@@ -396,6 +396,17 @@ class _FakeConfigurationResponse_32 extends _i1.SmartFake
         );
 }
 
+class _FakeActionResponse_33 extends _i1.SmartFake
+    implements _i7.ActionResponse {
+  _FakeActionResponse_33(
+    Object parent,
+    Invocation parentInvocation,
+  ) : super(
+          parent,
+          parentInvocation,
+        );
+}
+
 /// A class which mocks [ServersProvider].
 ///
 /// See the documentation for Mockito's code generation for more information.
@@ -1701,4 +1712,52 @@ class MockApiGatewayV6 extends _i1.Mock implements _i15.ApiGatewayV6 {
           ),
         )),
       ) as _i12.Future<_i7.ConfigurationResponse>);
+
+  @override
+  _i12.Future<_i7.ActionResponse> flushArp() => (super.noSuchMethod(
+        Invocation.method(
+          #flushArp,
+          [],
+        ),
+        returnValue:
+            _i12.Future<_i7.ActionResponse>.value(_FakeActionResponse_33(
+          this,
+          Invocation.method(
+            #flushArp,
+            [],
+          ),
+        )),
+      ) as _i12.Future<_i7.ActionResponse>);
+
+  @override
+  _i12.Future<_i7.ActionResponse> flushLogs() => (super.noSuchMethod(
+        Invocation.method(
+          #flushLogs,
+          [],
+        ),
+        returnValue:
+            _i12.Future<_i7.ActionResponse>.value(_FakeActionResponse_33(
+          this,
+          Invocation.method(
+            #flushLogs,
+            [],
+          ),
+        )),
+      ) as _i12.Future<_i7.ActionResponse>);
+
+  @override
+  _i12.Future<_i7.ActionResponse> restartDns() => (super.noSuchMethod(
+        Invocation.method(
+          #restartDns,
+          [],
+        ),
+        returnValue:
+            _i12.Future<_i7.ActionResponse>.value(_FakeActionResponse_33(
+          this,
+          Invocation.method(
+            #restartDns,
+            [],
+          ),
+        )),
+      ) as _i12.Future<_i7.ActionResponse>);
 }

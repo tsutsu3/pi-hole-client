@@ -8,6 +8,7 @@ import 'package:http/io_client.dart';
 import 'package:pi_hole_client/functions/logger.dart';
 import 'package:pi_hole_client/functions/misc.dart';
 import 'package:pi_hole_client/gateways/api_gateway_interface.dart';
+import 'package:pi_hole_client/models/api/v6/action/action.dart';
 import 'package:pi_hole_client/models/api/v6/auth/auth.dart' show Session;
 import 'package:pi_hole_client/models/api/v6/config/config.dart';
 import 'package:pi_hole_client/models/api/v6/dns/dns.dart' show Blocking;
@@ -66,6 +67,7 @@ class ApiGatewayV6 implements ApiGateway {
   final unexpectedError = 'An unexpected error occurred.';
   final fetchError = 'Failed to fetch data from the server.';
   final notImplementedError = 'This feature is not implemented yet.';
+  final postError = 'Failed to post data to the server.';
 
   @override
   Server get server => _server;
@@ -1495,5 +1497,97 @@ class ApiGatewayV6 implements ApiGateway {
     return patchConfiguration(
       ConfigData(dns: Dns(queryLogging: status)),
     );
+  }
+
+  @override
+  Future<ActionResponse> flushArp() async {
+    try {
+      final results = await httpClient(
+        method: 'post',
+        url: '${_server.address}/api/action/flush/arp',
+      );
+
+      if (results.statusCode == 200) {
+        final action = Action.fromJson(jsonDecode(results.body));
+
+        return ActionResponse(
+          result: APiResponseType.success,
+          data: action.status,
+        );
+      } else {
+        logger.e('Flush ARP failed: ${results.statusCode} - ${results.body}');
+        return ActionResponse(
+          result: APiResponseType.error,
+          message: postError,
+        );
+      }
+    } catch (e) {
+      return ActionResponse(
+        result: APiResponseType.error,
+        message: unexpectedError,
+      );
+    }
+  }
+
+  @override
+  Future<ActionResponse> flushLogs() async {
+    try {
+      final results = await httpClient(
+        method: 'post',
+        url: '${_server.address}/api/action/flush/logs',
+      );
+
+      if (results.statusCode == 200) {
+        final action = Action.fromJson(jsonDecode(results.body));
+
+        return ActionResponse(
+          result: APiResponseType.success,
+          data: action.status,
+        );
+      } else {
+        logger.e('Flush logs failed: ${results.statusCode} - ${results.body}');
+        return ActionResponse(
+          result: APiResponseType.error,
+          message: postError,
+        );
+      }
+    } catch (e) {
+      return ActionResponse(
+        result: APiResponseType.error,
+        message: unexpectedError,
+      );
+    }
+  }
+
+  @override
+  Future<ActionResponse> restartDns() async {
+    try {
+      final results = await httpClient(
+        method: 'post',
+        url: '${_server.address}/api/action/restartdns',
+      );
+
+      if (results.statusCode == 200) {
+        final action = Action.fromJson(jsonDecode(results.body));
+
+        return ActionResponse(
+          result: APiResponseType.success,
+          data: action.status,
+        );
+      } else {
+        logger.e(
+          'Failed to restart DNS: ${results.statusCode} - ${results.body}',
+        );
+        return ActionResponse(
+          result: APiResponseType.error,
+          message: postError,
+        );
+      }
+    } catch (e) {
+      return ActionResponse(
+        result: APiResponseType.error,
+        message: unexpectedError,
+      );
+    }
   }
 }

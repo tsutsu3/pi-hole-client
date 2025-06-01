@@ -184,9 +184,6 @@ abstract interface class ApiGateway {
     required GroupRequest body,
   });
 
-  /// Run gravity
-  Stream<GravityResponse> updateGravity();
-
   /// Get Pi-hole diagnosis messages
   Future<MessagesResponse> getMessages();
 
@@ -228,4 +225,25 @@ abstract interface class ApiGateway {
   ///
   /// Sets the `status` to `true` to enable DNS query logging, or `false` to disable it.
   Future<ConfigurationResponse> patchDnsQueryLoggingConfig(bool status);
+
+  // ==========================================================================
+  // Actions
+  // ==========================================================================
+  /// Run gravity
+  Stream<GravityResponse> updateGravity();
+
+  /// Flush the network table
+  ///
+  /// Flushes the network table. This includes emptying the ARP table and removing both all known devices and their associated addresses.
+  Future<ActionResponse> flushArp();
+
+  /// Flush the DNS logs
+  ///
+  /// Flushes the DNS logs. This includes emptying the DNS log file and purging the most recent 24 hours from both the database and FTL's internal memory.
+  Future<ActionResponse> flushLogs();
+
+  /// Restart pihole-FTL
+  ///
+  /// Restarts the pihole-FTL service
+  Future<ActionResponse> restartDns();
 }

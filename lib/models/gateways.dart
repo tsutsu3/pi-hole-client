@@ -394,3 +394,11 @@ class ConfigurationResponse extends BaseInfoResponse<ConfigInfo> {
     super.data,
   });
 }
+
+class ActionResponse extends BaseInfoResponse<String> {
+  ActionResponse({
+    required super.result,
+    super.message,
+    super.data,
+  });
+}

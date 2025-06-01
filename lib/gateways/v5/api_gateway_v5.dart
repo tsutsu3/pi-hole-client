@@ -950,4 +950,34 @@ class ApiGatewayV5 implements ApiGateway {
       ),
     );
   }
+
+  @override
+  Future<ActionResponse> flushArp() async {
+    return Future.value(
+      ActionResponse(
+        result: APiResponseType.notSupported,
+        message: notSupportedMessage,
+      ),
+    );
+  }
+
+  @override
+  Future<ActionResponse> flushLogs() async {
+    return Future.value(
+      ActionResponse(
+        result: APiResponseType.notSupported,
+        message: notSupportedMessage,
+      ),
+    );
+  }
+
+  @override
+  Future<ActionResponse> restartDns() async {
+    return Future.value(
+      ActionResponse(
+        result: APiResponseType.notSupported,
+        message: notSupportedMessage,
+      ),
+    );
+  }
 }

@@ -371,9 +371,20 @@ class _FakeConfigurationResponse_28 extends _i1.SmartFake
         );
 }
 
-class _FakeStreamedResponse_29 extends _i1.SmartFake
+class _FakeActionResponse_29 extends _i1.SmartFake
+    implements _i5.ActionResponse {
+  _FakeActionResponse_29(
+    Object parent,
+    Invocation parentInvocation,
+  ) : super(
+          parent,
+          parentInvocation,
+        );
+}
+
+class _FakeStreamedResponse_30 extends _i1.SmartFake
     implements _i4.StreamedResponse {
-  _FakeStreamedResponse_29(
+  _FakeStreamedResponse_30(
     Object parent,
     Invocation parentInvocation,
   ) : super(
@@ -2230,6 +2241,54 @@ class MockApiGatewayV5 extends _i1.Mock implements _i27.ApiGatewayV5 {
           ),
         )),
       ) as _i12.Future<_i5.ConfigurationResponse>);
+
+  @override
+  _i12.Future<_i5.ActionResponse> flushArp() => (super.noSuchMethod(
+        Invocation.method(
+          #flushArp,
+          [],
+        ),
+        returnValue:
+            _i12.Future<_i5.ActionResponse>.value(_FakeActionResponse_29(
+          this,
+          Invocation.method(
+            #flushArp,
+            [],
+          ),
+        )),
+      ) as _i12.Future<_i5.ActionResponse>);
+
+  @override
+  _i12.Future<_i5.ActionResponse> flushLogs() => (super.noSuchMethod(
+        Invocation.method(
+          #flushLogs,
+          [],
+        ),
+        returnValue:
+            _i12.Future<_i5.ActionResponse>.value(_FakeActionResponse_29(
+          this,
+          Invocation.method(
+            #flushLogs,
+            [],
+          ),
+        )),
+      ) as _i12.Future<_i5.ActionResponse>);
+
+  @override
+  _i12.Future<_i5.ActionResponse> restartDns() => (super.noSuchMethod(
+        Invocation.method(
+          #restartDns,
+          [],
+        ),
+        returnValue:
+            _i12.Future<_i5.ActionResponse>.value(_FakeActionResponse_29(
+          this,
+          Invocation.method(
+            #restartDns,
+            [],
+          ),
+        )),
+      ) as _i12.Future<_i5.ActionResponse>);
 }
 
 /// A class which mocks [ApiGatewayV6].
@@ -2338,7 +2397,7 @@ class MockApiGatewayV6 extends _i1.Mock implements _i31.ApiGatewayV6 {
           },
         ),
         returnValue:
-            _i12.Future<_i4.StreamedResponse>.value(_FakeStreamedResponse_29(
+            _i12.Future<_i4.StreamedResponse>.value(_FakeStreamedResponse_30(
           this,
           Invocation.method(
             #httpClientStream,
@@ -2994,6 +3053,54 @@ class MockApiGatewayV6 extends _i1.Mock implements _i31.ApiGatewayV6 {
           ),
         )),
       ) as _i12.Future<_i5.ConfigurationResponse>);
+
+  @override
+  _i12.Future<_i5.ActionResponse> flushArp() => (super.noSuchMethod(
+        Invocation.method(
+          #flushArp,
+          [],
+        ),
+        returnValue:
+            _i12.Future<_i5.ActionResponse>.value(_FakeActionResponse_29(
+          this,
+          Invocation.method(
+            #flushArp,
+            [],
+          ),
+        )),
+      ) as _i12.Future<_i5.ActionResponse>);
+
+  @override
+  _i12.Future<_i5.ActionResponse> flushLogs() => (super.noSuchMethod(
+        Invocation.method(
+          #flushLogs,
+          [],
+        ),
+        returnValue:
+            _i12.Future<_i5.ActionResponse>.value(_FakeActionResponse_29(
+          this,
+          Invocation.method(
+            #flushLogs,
+            [],
+          ),
+        )),
+      ) as _i12.Future<_i5.ActionResponse>);
+
+  @override
+  _i12.Future<_i5.ActionResponse> restartDns() => (super.noSuchMethod(
+        Invocation.method(
+          #restartDns,
+          [],
+        ),
+        returnValue:
+            _i12.Future<_i5.ActionResponse>.value(_FakeActionResponse_29(
+          this,
+          Invocation.method(
+            #restartDns,
+            [],
+          ),
+        )),
+      ) as _i12.Future<_i5.ActionResponse>);
 }
 
 /// A class which mocks [StatusUpdateService].
