@@ -1,22 +1,32 @@
 import 'package:flutter/material.dart';
+import 'package:pi_hole_client/classes/process_modal.dart';
+import 'package:pi_hole_client/config/theme.dart';
+import 'package:pi_hole_client/functions/snackbar.dart';
 import 'package:pi_hole_client/gateways/api_gateway_interface.dart';
 import 'package:pi_hole_client/l10n/generated/app_localizations.dart';
+import 'package:pi_hole_client/models/gateways.dart';
+import 'package:pi_hole_client/providers/app_config_provider.dart';
 import 'package:pi_hole_client/providers/servers_provider.dart';
 import 'package:pi_hole_client/screens/common/empty_data_screen.dart';
 import 'package:pi_hole_client/screens/common/pi_hole_v5_not_supported_screen.dart';
 import 'package:pi_hole_client/screens/settings/server_settings/advanced_settings/interface_screen.dart';
+import 'package:pi_hole_client/widgets/confirmation_modal.dart';
+import 'package:pi_hole_client/widgets/custom_button_list_tile.dart';
 import 'package:pi_hole_client/widgets/custom_list_tile.dart';
 import 'package:pi_hole_client/widgets/section_label.dart';
 import 'package:provider/provider.dart';
+import 'package:skeletonizer/skeletonizer.dart';
 
 class AdvancedServerOptions extends StatelessWidget {
   const AdvancedServerOptions({super.key});
 
   @override
   Widget build(BuildContext context) {
+    final appConfigProvider = context.watch<AppConfigProvider>();
     final apiGateway = context.select<ServersProvider, ApiGateway?>(
       (provider) => provider.selectedApiGateway,
     );
+    final theme = Theme.of(context).extension<AppColors>()!;
 
     if (apiGateway == null) {
       return Scaffold(
@@ -38,36 +48,207 @@ class AdvancedServerOptions extends StatelessWidget {
       );
     }
 
+    Future<void> onRestartDns() async {
+      final process = ProcessModal(context: context);
+      process.open(AppLocalizations.of(context)!.restartingDnsResolver);
+
+      final result = await apiGateway.restartDns();
+      if (!context.mounted) return;
+
+      process.close();
+
+      await Navigator.maybePop(context);
+      if (!context.mounted) return;
+
+      if (result.result == APiResponseType.success) {
+        showSuccessSnackBar(
+          context: context,
+          appConfigProvider: appConfigProvider,
+          label: AppLocalizations.of(context)!.dnsRestartSuccess,
+        );
+      } else {
+        showErrorSnackBar(
+          context: context,
+          appConfigProvider: appConfigProvider,
+          label: AppLocalizations.of(context)!.dnsRestartFailure,
+        );
+      }
+    }
+
+    Future<void> onFlushArp() async {
+      final process = ProcessModal(context: context);
+      process.open(AppLocalizations.of(context)!.flushingNetworkTable);
+
+      final result = await apiGateway.flushArp();
+      if (!context.mounted) return;
+
+      process.close();
+
+      await Navigator.maybePop(context);
+      if (!context.mounted) return;
+
+      if (result.result == APiResponseType.success) {
+        showSuccessSnackBar(
+          context: context,
+          appConfigProvider: appConfigProvider,
+          label: AppLocalizations.of(context)!.flushedNetworkTableSuccess,
+        );
+      } else {
+        showErrorSnackBar(
+          context: context,
+          appConfigProvider: appConfigProvider,
+          label: AppLocalizations.of(context)!.flushedNetworkTableFailure,
+        );
+      }
+    }
+
+    Future<void> onFlushLogs() async {
+      final process = ProcessModal(context: context);
+      process.open(AppLocalizations.of(context)!.flushingLogs);
+
+      final result = await apiGateway.flushLogs();
+      if (!context.mounted) return;
+
+      process.close();
+
+      await Navigator.maybePop(context);
+      if (!context.mounted) return;
+
+      if (result.result == APiResponseType.success) {
+        showSuccessSnackBar(
+          context: context,
+          appConfigProvider: appConfigProvider,
+          label: AppLocalizations.of(context)!.flushLogsSuccess,
+        );
+      } else {
+        showErrorSnackBar(
+          context: context,
+          appConfigProvider: appConfigProvider,
+          label: AppLocalizations.of(context)!.flushLogsFailure,
+        );
+      }
+    }
+
     return Scaffold(
       appBar: AppBar(
-        title: Text(
-          AppLocalizations.of(context)!.advancedSetup,
-        ),
+        title: Text(AppLocalizations.of(context)!.advancedSetup),
       ),
       body: SafeArea(
         child: Padding(
-          padding: const EdgeInsets.only(
-            left: 16,
-          ),
+          padding: const EdgeInsets.only(left: 16),
           child: ListView(
             children: [
-              // SectionLabel(label: AppLocalizations.of(context)!.actions),
-              // CustomListTile(
-              //   leadingIcon: Icons.restart_alt_rounded,
-              //   label: AppLocalizations.of(context)!.disableQueryLogging,
-              // ),
-              // CustomListTile(
-              //   leadingIcon: Icons.restart_alt_rounded,
-              //   label: AppLocalizations.of(context)!.restartDnsResolver,
-              // ),
-              // CustomListTile(
-              //   leadingIcon: Icons.delete_forever_rounded,
-              //   label: AppLocalizations.of(context)!.flushNetworkTable,
-              // ),
-              // CustomListTile(
-              //   leadingIcon: Icons.delete_forever_rounded,
-              //   label: AppLocalizations.of(context)!.flushLogs24h,
-              // ),
+              SectionLabel(label: AppLocalizations.of(context)!.actions),
+              FutureBuilder(
+                future:
+                    apiGateway.getConfiguration(element: 'dns/queryLogging'),
+                builder: (context, snapshot) {
+                  final isLoading = !snapshot.hasData;
+                  final isLoggingEnabled =
+                      snapshot.data?.data?.dns?.queryLogging ?? true;
+
+                  return Skeletonizer(
+                    effect: ShimmerEffect(
+                      baseColor:
+                          Theme.of(context).colorScheme.secondaryContainer,
+                      highlightColor: Theme.of(context).colorScheme.surface,
+                    ),
+                    enabled: isLoading,
+                    child: CustomButtonListTile(
+                      leadingIcon: isLoggingEnabled
+                          ? Icons.stop_rounded
+                          : Icons.play_arrow_rounded,
+                      label: isLoggingEnabled
+                          ? AppLocalizations.of(context)!.disableQueryLogging
+                          : AppLocalizations.of(context)!.enableQueryLogging,
+                      color: isLoading
+                          ? Theme.of(context).colorScheme.secondaryContainer
+                          : isLoggingEnabled
+                              ? theme.queryOrange
+                              : theme.queryBlue,
+                      onTap: () => showDialog(
+                        context: context,
+                        useRootNavigator: false,
+                        builder: (context) => ConfirmationModal(
+                          icon: isLoggingEnabled
+                              ? Icons.stop_rounded
+                              : Icons.play_arrow_rounded,
+                          title: isLoggingEnabled
+                              ? AppLocalizations.of(context)!
+                                  .disableQueryLogging
+                              : AppLocalizations.of(context)!
+                                  .enableQueryLogging,
+                          message: AppLocalizations.of(context)!
+                              .queryLoggingSwitchWarning,
+                          onConfirm: () => {},
+                          confirmButtonText: isLoggingEnabled
+                              ? AppLocalizations.of(context)!.disable
+                              : AppLocalizations.of(context)!.enable,
+                          confirmButtonColor: isLoggingEnabled
+                              ? theme.queryOrange
+                              : theme.queryBlue,
+                        ),
+                        barrierDismissible: false,
+                      ),
+                    ),
+                  );
+                },
+              ),
+              CustomButtonListTile(
+                leadingIcon: Icons.restart_alt_rounded,
+                label: AppLocalizations.of(context)!.restartDnsResolver,
+                color: theme.queryOrange,
+                onTap: () => showDialog(
+                  context: context,
+                  useRootNavigator: false,
+                  builder: (context) => ConfirmationModal(
+                    icon: Icons.restart_alt_rounded,
+                    title: AppLocalizations.of(context)!.restartDnsResolver,
+                    message: AppLocalizations.of(context)!.dnsRestartWarning,
+                    onConfirm: onRestartDns,
+                    confirmButtonText: AppLocalizations.of(context)!.restart,
+                    confirmButtonColor: theme.queryOrange,
+                  ),
+                  barrierDismissible: false,
+                ),
+              ),
+              CustomButtonListTile(
+                leadingIcon: Icons.delete_rounded,
+                label: AppLocalizations.of(context)!.flushNetworkTable,
+                color: theme.queryRed,
+                onTap: () => showDialog(
+                  context: context,
+                  useRootNavigator: false,
+                  builder: (context) => ConfirmationModal(
+                    icon: Icons.delete_rounded,
+                    title: AppLocalizations.of(context)!.flushNetworkTable,
+                    message:
+                        AppLocalizations.of(context)!.flushNetworkTableWarning,
+                    onConfirm: onFlushArp,
+                    confirmButtonText: AppLocalizations.of(context)!.flush,
+                    confirmButtonColor: theme.queryRed,
+                  ),
+                  barrierDismissible: false,
+                ),
+              ),
+              CustomButtonListTile(
+                leadingIcon: Icons.delete_rounded,
+                label: AppLocalizations.of(context)!.flushLogs24h,
+                color: theme.queryRed,
+                onTap: () => showDialog(
+                  context: context,
+                  useRootNavigator: false,
+                  builder: (context) => ConfirmationModal(
+                    icon: Icons.delete_rounded,
+                    title: AppLocalizations.of(context)!.flushLogs,
+                    message: AppLocalizations.of(context)!.flushLogsWarning,
+                    onConfirm: onFlushLogs,
+                    confirmButtonText: AppLocalizations.of(context)!.flush,
+                    confirmButtonColor: theme.queryRed,
+                  ),
+                  barrierDismissible: false,
+                ),
+              ),
               // SectionLabel(label: AppLocalizations.of(context)!.system),
               // CustomListTile(
               //   leadingIcon: Icons.settings_ethernet_rounded,

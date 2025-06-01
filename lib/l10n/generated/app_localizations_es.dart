@@ -519,6 +519,12 @@ class AppLocalizationsEs extends AppLocalizations {
   String get dnsReplyMetrics => 'Métricas de respuesta DNS';
 
   @override
+  String get dnsRestartFailure => 'Error al reiniciar el servidor DNS.';
+
+  @override
+  String get dnsRestartSuccess => 'Servidor DNS reiniciado.';
+
+  @override
   String get dnsRestartWarning => '¿Está seguro de que desea reiniciar el servidor DNS?\n\nEsto vaciará la caché DNS y puede interrumpir temporalmente su conexión a Internet.\nAdemás, se cerrará su sesión en la interfaz web como resultado de esta acción.';
 
   @override
@@ -657,6 +663,12 @@ class AppLocalizationsEs extends AppLocalizations {
   String get flushLogs24h => 'Vaciar registros (últimas 24 horas)';
 
   @override
+  String get flushLogsFailure => 'No se pudo vaciar los registros.';
+
+  @override
+  String get flushLogsSuccess => 'Registros vaciados correctamente.';
+
+  @override
   String get flushLogsWarning => '¿Está seguro de que desea vaciar los registros?\n\nEsto eliminará permanentemente todas las entradas de registro y no se podrá deshacer.';
 
   @override
@@ -664,6 +676,18 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String get flushNetworkTableWarning => '¿Está seguro de que desea vaciar la tabla de red?\n\nEsto eliminará todas las entradas y no se podrá deshacer.';
+
+  @override
+  String get flushedNetworkTableFailure => 'No se pudo borrar la tabla de red.';
+
+  @override
+  String get flushedNetworkTableSuccess => 'Tabla de red borrada.';
+
+  @override
+  String get flushingLogs => 'Vaciando registros…';
+
+  @override
+  String get flushingNetworkTable => 'Borrando la tabla de red …';
 
   @override
   String get forever => 'para siempre';
@@ -1168,6 +1192,9 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String get restartDnsResolver => 'Reiniciar el resolvedor DNS';
+
+  @override
+  String get restartingDnsResolver => 'Reiniciando el servidor DNS …';
 
   @override
   String get runningStatus => 'En ejecución...';

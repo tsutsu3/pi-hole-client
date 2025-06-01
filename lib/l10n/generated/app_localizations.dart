@@ -1121,6 +1121,18 @@ abstract class AppLocalizations {
   /// **'DNS reply metrics'**
   String get dnsReplyMetrics;
 
+  /// No description provided for @dnsRestartFailure.
+  ///
+  /// In en, this message translates to:
+  /// **'Failed to restart DNS server.'**
+  String get dnsRestartFailure;
+
+  /// No description provided for @dnsRestartSuccess.
+  ///
+  /// In en, this message translates to:
+  /// **'DNS server restarted.'**
+  String get dnsRestartSuccess;
+
   /// No description provided for @dnsRestartWarning.
   ///
   /// In en, this message translates to:
@@ -1397,6 +1409,18 @@ abstract class AppLocalizations {
   /// **'Flush logs (last 24 hours)'**
   String get flushLogs24h;
 
+  /// No description provided for @flushLogsFailure.
+  ///
+  /// In en, this message translates to:
+  /// **'Failed to flush logs.'**
+  String get flushLogsFailure;
+
+  /// No description provided for @flushLogsSuccess.
+  ///
+  /// In en, this message translates to:
+  /// **'Logs flushed successfully.'**
+  String get flushLogsSuccess;
+
   /// No description provided for @flushLogsWarning.
   ///
   /// In en, this message translates to:
@@ -1414,6 +1438,30 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Are you sure you want to flush the network table?\n\nThis will remove all entries and cannot be undone.'**
   String get flushNetworkTableWarning;
+
+  /// No description provided for @flushedNetworkTableFailure.
+  ///
+  /// In en, this message translates to:
+  /// **'Failed to clear network table.'**
+  String get flushedNetworkTableFailure;
+
+  /// No description provided for @flushedNetworkTableSuccess.
+  ///
+  /// In en, this message translates to:
+  /// **'Network table cleared.'**
+  String get flushedNetworkTableSuccess;
+
+  /// No description provided for @flushingLogs.
+  ///
+  /// In en, this message translates to:
+  /// **'Flushing logs…'**
+  String get flushingLogs;
+
+  /// No description provided for @flushingNetworkTable.
+  ///
+  /// In en, this message translates to:
+  /// **'Clearing network table …'**
+  String get flushingNetworkTable;
 
   /// No description provided for @forever.
   ///
@@ -2422,6 +2470,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Restart DNS resolver'**
   String get restartDnsResolver;
+
+  /// No description provided for @restartingDnsResolver.
+  ///
+  /// In en, this message translates to:
+  /// **'Restarting DNS server …'**
+  String get restartingDnsResolver;
 
   /// No description provided for @runningStatus.
   ///

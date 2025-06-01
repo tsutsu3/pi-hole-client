@@ -519,6 +519,12 @@ class AppLocalizationsPl extends AppLocalizations {
   String get dnsReplyMetrics => 'Metryki odpowiedzi DNS';
 
   @override
+  String get dnsRestartFailure => 'Nie udało się zrestartować serwera DNS.';
+
+  @override
+  String get dnsRestartSuccess => 'Serwer DNS został zrestartowany.';
+
+  @override
   String get dnsRestartWarning => 'Czy na pewno chcesz ponownie uruchomić serwer DNS?\n\nSpowoduje to wyczyszczenie pamięci podręcznej DNS i może tymczasowo przerwać połączenie z internetem.\nDodatkowo zostaniesz wylogowany z interfejsu webowego w wyniku tej operacji.';
 
   @override
@@ -657,6 +663,12 @@ class AppLocalizationsPl extends AppLocalizations {
   String get flushLogs24h => 'Wyczyść logi (ostatnie 24 godziny)';
 
   @override
+  String get flushLogsFailure => 'Nie udało się wyczyścić logów.';
+
+  @override
+  String get flushLogsSuccess => 'Logi zostały pomyślnie wyczyszczone.';
+
+  @override
   String get flushLogsWarning => 'Czy na pewno chcesz wyczyścić logi?\n\nSpowoduje to trwałe usunięcie wszystkich wpisów dziennika i nie będzie można tego cofnąć.';
 
   @override
@@ -664,6 +676,18 @@ class AppLocalizationsPl extends AppLocalizations {
 
   @override
   String get flushNetworkTableWarning => 'Czy na pewno chcesz wyczyścić tablicę sieciową?\n\nSpowoduje to usunięcie wszystkich wpisów i operacji nie będzie można cofnąć.';
+
+  @override
+  String get flushedNetworkTableFailure => 'Nie udało się wyczyścić tabeli sieciowej.';
+
+  @override
+  String get flushedNetworkTableSuccess => 'Tabela sieciowa została wyczyszczona.';
+
+  @override
+  String get flushingLogs => 'Trwa czyszczenie logów…';
+
+  @override
+  String get flushingNetworkTable => 'Trwa czyszczenie tabeli sieciowej…';
 
   @override
   String get forever => 'bez ograniczeń';
@@ -1168,6 +1192,9 @@ class AppLocalizationsPl extends AppLocalizations {
 
   @override
   String get restartDnsResolver => 'Zrestartuj resolver DNS';
+
+  @override
+  String get restartingDnsResolver => 'Trwa ponowne uruchamianie serwera DNS…';
 
   @override
   String get runningStatus => 'Uruchomione...';

@@ -66,7 +66,7 @@ class AppLocalizationsJa extends AppLocalizations {
   String get adlist => 'Adlist';
 
   @override
-  String get adlistAdded => 'Adlistgが正常に追加されました';
+  String get adlistAdded => 'Adlistが正常に追加されました';
 
   @override
   String get adlistAddress => 'アドレス';
@@ -519,6 +519,12 @@ class AppLocalizationsJa extends AppLocalizations {
   String get dnsReplyMetrics => 'DNSリプライメトリクス';
 
   @override
+  String get dnsRestartFailure => 'DNSサーバーの再起動に失敗しました。';
+
+  @override
+  String get dnsRestartSuccess => 'DNSサーバーを再起動しました。';
+
+  @override
   String get dnsRestartWarning => 'DNSサーバーを再起動してもよろしいですか？\n\nこの操作によりDNSキャッシュがクリアされ、一時的にインターネット接続が中断される可能性があります。\nまた、この操作によりWebインターフェースからログアウトされます。';
 
   @override
@@ -657,6 +663,12 @@ class AppLocalizationsJa extends AppLocalizations {
   String get flushLogs24h => 'ログをクリア（過去24時間）';
 
   @override
+  String get flushLogsFailure => 'ログのフラッシュに失敗しました。';
+
+  @override
+  String get flushLogsSuccess => 'ログをフラッシュしました。';
+
+  @override
   String get flushLogsWarning => 'ログをフラッシュしてもよろしいですか？\n\nこの操作によりすべてのログエントリが完全に削除され、元に戻すことはできません。';
 
   @override
@@ -664,6 +676,18 @@ class AppLocalizationsJa extends AppLocalizations {
 
   @override
   String get flushNetworkTableWarning => 'ネットワークテーブルをフラッシュしてもよろしいですか？\n\nこの操作によりすべてのエントリが削除され、元に戻すことはできません。';
+
+  @override
+  String get flushedNetworkTableFailure => 'ネットワークテーブルのクリアに失敗しました。';
+
+  @override
+  String get flushedNetworkTableSuccess => 'ネットワークテーブルをクリアしました。';
+
+  @override
+  String get flushingLogs => 'ログをフラッシュ中です…';
+
+  @override
+  String get flushingNetworkTable => 'ネットワークテーブルをクリア中です…';
 
   @override
   String get forever => '無期限';
@@ -1168,6 +1192,9 @@ class AppLocalizationsJa extends AppLocalizations {
 
   @override
   String get restartDnsResolver => 'DNSリゾルバーを再起動';
+
+  @override
+  String get restartingDnsResolver => 'DNSサーバーを再起動中です…';
 
   @override
   String get runningStatus => '実行中...';
