@@ -97,8 +97,6 @@ class _AdvancedServerOptionsState extends State<AdvancedServerOptions> {
     }
 
     final loggingEnabled = isLoggingEnabled;
-    logger.i('loggingEnabled $loggingEnabled');
-    logger.i('isLoading $isLoading');
 
     Future<void> onEnableQueryLogging() async {
       final process = ProcessModal(context: context);
