@@ -226,9 +226,6 @@ abstract interface class ApiGateway {
   /// Sets the `status` to `true` to enable DNS query logging, or `false` to disable it.
   Future<ConfigurationResponse> patchDnsQueryLoggingConfig(bool status);
 
-  // ==========================================================================
-  // Actions
-  // ==========================================================================
   /// Run gravity
   Stream<GravityResponse> updateGravity();
 
@@ -246,4 +243,10 @@ abstract interface class ApiGateway {
   ///
   /// Restarts the pihole-FTL service
   Future<ActionResponse> restartDns();
+
+  /// List of all current sessions
+  Future<SessionsResponse> getSessions();
+
+  /// Delete session by ID
+  Future<DeleteSessionResponse> deleteSession(int id);
 }

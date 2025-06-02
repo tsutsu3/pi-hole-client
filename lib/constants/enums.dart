@@ -55,3 +55,15 @@ enum GraphSection {
   homeView,
   statsView,
 }
+
+/// TLS Status
+enum TlsStatus {
+  /// 0: Session is end-to-end encrypted
+  login,
+
+  /// 1: Session is PARTIALLY end-to-end encrypted
+  mixed,
+
+  /// 2: Session is NOT end-to-end encrypted
+  none,
+}

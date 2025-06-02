@@ -357,17 +357,17 @@ class _AdvancedServerOptionsState extends State<AdvancedServerOptions> {
                   barrierDismissible: false,
                 ),
               ),
-              // SectionLabel(label: AppLocalizations.of(context)!.system),
+              SectionLabel(label: AppLocalizations.of(context)!.system),
               // CustomListTile(
               //   leadingIcon: Icons.settings_ethernet_rounded,
               //   label: AppLocalizations.of(context)!.dhcp,
               //   description: AppLocalizations.of(context)!.dhcpDescription,
               // ),
-              // CustomListTile(
-              //   leadingIcon: Icons.devices_rounded,
-              //   label: AppLocalizations.of(context)!.sessions,
-              //   description: AppLocalizations.of(context)!.sessionsDescription,
-              // ),
+              CustomListTile(
+                leadingIcon: Icons.devices_rounded,
+                label: AppLocalizations.of(context)!.sessions,
+                description: AppLocalizations.of(context)!.sessionsDescription,
+              ),
               SectionLabel(label: AppLocalizations.of(context)!.tools),
               // CustomListTile(
               //   leadingIcon: Icons.manage_search_rounded,

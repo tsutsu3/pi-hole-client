@@ -10,6 +10,7 @@ import 'package:pi_hole_client/functions/misc.dart';
 import 'package:pi_hole_client/gateways/api_gateway_interface.dart';
 import 'package:pi_hole_client/models/api/v6/action/action.dart';
 import 'package:pi_hole_client/models/api/v6/auth/auth.dart' show Session;
+import 'package:pi_hole_client/models/api/v6/auth/sessions.dart';
 import 'package:pi_hole_client/models/api/v6/config/config.dart';
 import 'package:pi_hole_client/models/api/v6/dns/dns.dart' show Blocking;
 import 'package:pi_hole_client/models/api/v6/domains/domains.dart'
@@ -45,6 +46,7 @@ import 'package:pi_hole_client/models/realtime_status.dart';
 import 'package:pi_hole_client/models/search.dart';
 import 'package:pi_hole_client/models/sensors.dart';
 import 'package:pi_hole_client/models/server.dart';
+import 'package:pi_hole_client/models/sessions.dart';
 import 'package:pi_hole_client/models/subscriptions.dart';
 import 'package:pi_hole_client/models/system.dart';
 import 'package:pi_hole_client/models/version.dart';
@@ -1585,6 +1587,64 @@ class ApiGatewayV6 implements ApiGateway {
       }
     } catch (e) {
       return ActionResponse(
+        result: APiResponseType.error,
+        message: unexpectedError,
+      );
+    }
+  }
+
+  @override
+  Future<SessionsResponse> getSessions() async {
+    try {
+      final results = await httpClient(
+        method: 'get',
+        url: '${_server.address}/api/auth/sessions',
+      );
+
+      if (results.statusCode == 200) {
+        final sessions = AuthSessions.fromJson(jsonDecode(results.body));
+
+        return SessionsResponse(
+          result: APiResponseType.success,
+          data: SessionsInfo.fromV6(sessions),
+        );
+      } else {
+        return SessionsResponse(
+          result: APiResponseType.error,
+          message: fetchError,
+        );
+      }
+    } catch (e) {
+      return SessionsResponse(
+        result: APiResponseType.error,
+        message: unexpectedError,
+      );
+    }
+  }
+
+  @override
+  Future<DeleteSessionResponse> deleteSession(int id) async {
+    try {
+      final results = await httpClient(
+        method: 'delete',
+        url: '${_server.address}/api/auth/session/$id',
+      );
+
+      if (results.statusCode == 204) {
+        return DeleteSessionResponse(result: APiResponseType.success);
+      } else if (results.statusCode == 404) {
+        return DeleteSessionResponse(
+          result: APiResponseType.notFound,
+          message: 'Session not found',
+        );
+      } else {
+        return DeleteSessionResponse(
+          result: APiResponseType.error,
+          message: fetchError,
+        );
+      }
+    } catch (e) {
+      return DeleteSessionResponse(
         result: APiResponseType.error,
         message: unexpectedError,
       );

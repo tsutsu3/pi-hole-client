@@ -980,4 +980,24 @@ class ApiGatewayV5 implements ApiGateway {
       ),
     );
   }
+
+  @override
+  Future<SessionsResponse> getSessions() async {
+    return Future.value(
+      SessionsResponse(
+        result: APiResponseType.notSupported,
+        message: notSupportedMessage,
+      ),
+    );
+  }
+
+  @override
+  Future<DeleteSessionResponse> deleteSession(int id) async {
+    return Future.value(
+      DeleteSessionResponse(
+        result: APiResponseType.notSupported,
+        message: notSupportedMessage,
+      ),
+    );
+  }
 }
