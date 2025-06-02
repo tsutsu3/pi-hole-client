@@ -119,11 +119,6 @@ class _AdvancedServerOptionsState extends State<AdvancedServerOptions> {
       if (!context.mounted) return;
 
       if (result.result == APiResponseType.success) {
-        setState(() {
-          isLoggingEnabled =
-              isCurrentlyEnabled == null ? null : !isCurrentlyEnabled;
-        });
-
         showSuccessSnackBar(
           context: context,
           appConfigProvider: appConfigProvider,
@@ -131,6 +126,11 @@ class _AdvancedServerOptionsState extends State<AdvancedServerOptions> {
               ? AppLocalizations.of(context)!.disableQueryLogSuccess
               : AppLocalizations.of(context)!.enableQueryLogSuccess,
         );
+
+        setState(() {
+          isLoggingEnabled =
+              isCurrentlyEnabled == null ? null : !isCurrentlyEnabled;
+        });
       } else {
         showErrorSnackBar(
           context: context,
