@@ -26,32 +26,49 @@ class AdvancedServerOptions extends StatefulWidget {
 }
 
 class _AdvancedServerOptionsState extends State<AdvancedServerOptions> {
-  late ApiGateway? apiGateway;
   late AppConfigProvider appConfigProvider;
+  ApiGateway? apiGateway;
+  ApiGateway? _previousApiGateway;
   bool? isLoggingEnabled;
   bool isLoading = true;
 
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
+    final currentApiGateway =
+        context.watch<ServersProvider>().selectedApiGateway;
     appConfigProvider = context.watch<AppConfigProvider>();
-    apiGateway = context.watch<ServersProvider>().selectedApiGateway;
 
-    // Get the query logging status when the widget is first built
-    if (isLoading && apiGateway != null) {
-      _loadQueryLoggingStatus();
+    // Check if the selected API gateway has changed
+    if (currentApiGateway != _previousApiGateway) {
+      _previousApiGateway = currentApiGateway;
+      apiGateway = currentApiGateway;
+
+      if (apiGateway != null) {
+        _loadQueryLoggingStatus();
+      } else {
+        setState(() {
+          isLoading = false;
+          isLoggingEnabled = null;
+        });
+      }
     }
   }
 
   @override
   void dispose() {
-    super.dispose();
     isLoggingEnabled = null;
     isLoading = true;
+    super.dispose();
   }
 
   Future<void> _loadQueryLoggingStatus() async {
-    setState(() => isLoading = true);
+    if (!mounted) return;
+
+    setState(() {
+      isLoading = true;
+      isLoggingEnabled = null;
+    });
 
     final result =
         await apiGateway?.getConfiguration(element: 'dns/queryLogging');
@@ -62,7 +79,7 @@ class _AdvancedServerOptionsState extends State<AdvancedServerOptions> {
         isLoggingEnabled = result?.data?.dns?.queryLogging;
       } else {
         isLoggingEnabled = null;
-        logger.i('failed ok');
+        logger.i('Failed to fetch query logging status');
       }
       isLoading = false;
     });
