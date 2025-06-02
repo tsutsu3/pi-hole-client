@@ -498,6 +498,15 @@ class AppLocalizationsEn extends AppLocalizations {
   String get disable => 'Disable';
 
   @override
+  String get disableQueryLogFailure => 'Failed to disable query logging';
+
+  @override
+  String get disableQueryLogInProgress => 'Disabling query logging...';
+
+  @override
+  String get disableQueryLogSuccess => 'Query logging has been disabled';
+
+  @override
   String get disableQueryLogging => 'Disable query logging';
 
   @override
@@ -517,6 +526,15 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get dnsReplyMetrics => 'DNS reply metrics';
+
+  @override
+  String get dnsRestartFailure => 'Failed to restart DNS server.';
+
+  @override
+  String get dnsRestartSuccess => 'DNS server restarted.';
+
+  @override
+  String get dnsRestartWarning => 'Are you sure you want to restart the DNS server?\n\nThis will clear the DNS cache and may temporarily interrupt your internet connection.\nAdditionally, you will be logged out of the web interface as a result of this action.';
 
   @override
   String get domain => 'Domain';
@@ -585,6 +603,18 @@ class AppLocalizationsEn extends AppLocalizations {
   String get enableCrashReportDetail => 'Automatically send anonymized reports to diagnose issues.';
 
   @override
+  String get enableQueryLogFailure => 'Failed to enable query logging';
+
+  @override
+  String get enableQueryLogInProgress => 'Enabling query logging...';
+
+  @override
+  String get enableQueryLogSuccess => 'Query logging has been enabled';
+
+  @override
+  String get enableQueryLogging => 'Enable query logging';
+
+  @override
   String get enabled => 'Enabled';
 
   @override
@@ -642,10 +672,40 @@ class AppLocalizationsEn extends AppLocalizations {
   String get flags => 'Flags';
 
   @override
+  String get flush => 'Flush';
+
+  @override
+  String get flushLogs => 'Flush logs';
+
+  @override
   String get flushLogs24h => 'Flush logs (last 24 hours)';
 
   @override
+  String get flushLogsFailure => 'Failed to flush logs.';
+
+  @override
+  String get flushLogsSuccess => 'Logs flushed successfully.';
+
+  @override
+  String get flushLogsWarning => 'Are you sure you want to flush the logs?\n\nThis will permanently delete all log entries and cannot be undone.';
+
+  @override
   String get flushNetworkTable => 'Flush network table';
+
+  @override
+  String get flushNetworkTableWarning => 'Are you sure you want to flush the network table?\n\nThis will remove all entries and cannot be undone.';
+
+  @override
+  String get flushedNetworkTableFailure => 'Failed to clear network table.';
+
+  @override
+  String get flushedNetworkTableSuccess => 'Network table cleared.';
+
+  @override
+  String get flushingLogs => 'Flushing logs…';
+
+  @override
+  String get flushingNetworkTable => 'Clearing network table …';
 
   @override
   String get forever => 'forever';
@@ -1089,6 +1149,9 @@ class AppLocalizationsEn extends AppLocalizations {
   String get queriesServers => 'Queries & servers';
 
   @override
+  String get queryLoggingSwitchWarning => 'Are you sure you want to switch the query logging mode?\n\nThis will restart the DNS server, clear the DNS cache, and may temporarily disconnect your internet.\nYou will also be logged out of the web interface.';
+
+  @override
   String get queryLogs => 'Query logs';
 
   @override
@@ -1140,10 +1203,16 @@ class AppLocalizationsEn extends AppLocalizations {
   String get resetApplication => 'Reset application';
 
   @override
+  String get restart => 'Restart';
+
+  @override
   String get restartAppTakeEffect => 'Please restart the application to apply the settings.';
 
   @override
   String get restartDnsResolver => 'Restart DNS resolver';
+
+  @override
+  String get restartingDnsResolver => 'Restarting DNS server …';
 
   @override
   String get runningStatus => 'Running...';

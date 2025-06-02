@@ -498,6 +498,15 @@ class AppLocalizationsEs extends AppLocalizations {
   String get disable => 'Desactivar';
 
   @override
+  String get disableQueryLogFailure => 'Error al deshabilitar el registro de consultas';
+
+  @override
+  String get disableQueryLogInProgress => 'Deshabilitando el registro de consultas...';
+
+  @override
+  String get disableQueryLogSuccess => 'El registro de consultas ha sido deshabilitado';
+
+  @override
   String get disableQueryLogging => 'Desactivar el registro de consultas';
 
   @override
@@ -517,6 +526,15 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String get dnsReplyMetrics => 'Métricas de respuesta DNS';
+
+  @override
+  String get dnsRestartFailure => 'Error al reiniciar el servidor DNS.';
+
+  @override
+  String get dnsRestartSuccess => 'Servidor DNS reiniciado.';
+
+  @override
+  String get dnsRestartWarning => '¿Está seguro de que desea reiniciar el servidor DNS?\n\nEsto vaciará la caché DNS y puede interrumpir temporalmente su conexión a Internet.\nAdemás, se cerrará su sesión en la interfaz web como resultado de esta acción.';
 
   @override
   String get domain => 'Dominio';
@@ -585,6 +603,18 @@ class AppLocalizationsEs extends AppLocalizations {
   String get enableCrashReportDetail => 'Enviar automáticamente informes anonimados para diagnosticar problemas.';
 
   @override
+  String get enableQueryLogFailure => 'Error al habilitar el registro de consultas';
+
+  @override
+  String get enableQueryLogInProgress => 'Habilitando el registro de consultas...';
+
+  @override
+  String get enableQueryLogSuccess => 'El registro de consultas ha sido habilitado';
+
+  @override
+  String get enableQueryLogging => 'Habilitar el registro de consultas';
+
+  @override
   String get enabled => 'Activado';
 
   @override
@@ -642,10 +672,40 @@ class AppLocalizationsEs extends AppLocalizations {
   String get flags => 'Flags';
 
   @override
-  String get flushLogs24h => 'Borrar registros (últimas 24 horas)';
+  String get flush => 'Vaciar';
+
+  @override
+  String get flushLogs => 'Vaciar registros';
+
+  @override
+  String get flushLogs24h => 'Vaciar registros (últimas 24 horas)';
+
+  @override
+  String get flushLogsFailure => 'No se pudo vaciar los registros.';
+
+  @override
+  String get flushLogsSuccess => 'Registros vaciados correctamente.';
+
+  @override
+  String get flushLogsWarning => '¿Está seguro de que desea vaciar los registros?\n\nEsto eliminará permanentemente todas las entradas de registro y no se podrá deshacer.';
 
   @override
   String get flushNetworkTable => 'Vaciar tabla de red';
+
+  @override
+  String get flushNetworkTableWarning => '¿Está seguro de que desea vaciar la tabla de red?\n\nEsto eliminará todas las entradas y no se podrá deshacer.';
+
+  @override
+  String get flushedNetworkTableFailure => 'No se pudo borrar la tabla de red.';
+
+  @override
+  String get flushedNetworkTableSuccess => 'Tabla de red borrada.';
+
+  @override
+  String get flushingLogs => 'Vaciando registros…';
+
+  @override
+  String get flushingNetworkTable => 'Borrando la tabla de red …';
 
   @override
   String get forever => 'para siempre';
@@ -1089,6 +1149,9 @@ class AppLocalizationsEs extends AppLocalizations {
   String get queriesServers => 'Peticiones y servidores';
 
   @override
+  String get queryLoggingSwitchWarning => '¿Está seguro de que desea cambiar el modo de registro de consultas?\n\nEsto reiniciará el servidor DNS, vaciará la caché DNS y puede desconectarlo temporalmente de Internet.\nTambién se cerrará su sesión en la interfaz web.';
+
+  @override
   String get queryLogs => 'Peticiones';
 
   @override
@@ -1140,10 +1203,16 @@ class AppLocalizationsEs extends AppLocalizations {
   String get resetApplication => 'Resetear aplicación';
 
   @override
+  String get restart => 'Reiniciar';
+
+  @override
   String get restartAppTakeEffect => 'Reinicie la aplicación para aplicar la configuración.';
 
   @override
   String get restartDnsResolver => 'Reiniciar el resolvedor DNS';
+
+  @override
+  String get restartingDnsResolver => 'Reiniciando el servidor DNS …';
 
   @override
   String get runningStatus => 'En ejecución...';

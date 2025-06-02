@@ -6,8 +6,8 @@ import 'package:pi_hole_client/widgets/section_label.dart';
 
 class MoreDetailsScreen extends StatelessWidget {
   const MoreDetailsScreen({
-    super.key,
     required this.interfaceData,
+    super.key,
   });
 
   final InterfaceData interfaceData;

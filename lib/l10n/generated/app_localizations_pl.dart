@@ -498,6 +498,15 @@ class AppLocalizationsPl extends AppLocalizations {
   String get disable => 'Wyłącz na';
 
   @override
+  String get disableQueryLogFailure => 'Nie udało się wyłączyć logowania zapytań';
+
+  @override
+  String get disableQueryLogInProgress => 'Wyłączanie logowania zapytań...';
+
+  @override
+  String get disableQueryLogSuccess => 'Logowanie zapytań zostało wyłączone';
+
+  @override
   String get disableQueryLogging => 'Wyłącz logowanie zapytań';
 
   @override
@@ -517,6 +526,15 @@ class AppLocalizationsPl extends AppLocalizations {
 
   @override
   String get dnsReplyMetrics => 'Metryki odpowiedzi DNS';
+
+  @override
+  String get dnsRestartFailure => 'Nie udało się zrestartować serwera DNS.';
+
+  @override
+  String get dnsRestartSuccess => 'Serwer DNS został zrestartowany.';
+
+  @override
+  String get dnsRestartWarning => 'Czy na pewno chcesz ponownie uruchomić serwer DNS?\n\nSpowoduje to wyczyszczenie pamięci podręcznej DNS i może tymczasowo przerwać połączenie z internetem.\nDodatkowo zostaniesz wylogowany z interfejsu webowego w wyniku tej operacji.';
 
   @override
   String get domain => 'Domena';
@@ -585,6 +603,18 @@ class AppLocalizationsPl extends AppLocalizations {
   String get enableCrashReportDetail => 'Automatycznie wysyłaj anonimowe raporty w celu diagnozowania problemów.';
 
   @override
+  String get enableQueryLogFailure => 'Nie udało się włączyć logowania zapytań';
+
+  @override
+  String get enableQueryLogInProgress => 'Włączanie logowania zapytań...';
+
+  @override
+  String get enableQueryLogSuccess => 'Logowanie zapytań zostało włączone';
+
+  @override
+  String get enableQueryLogging => 'Włącz logowanie zapytań';
+
+  @override
   String get enabled => 'Włączone';
 
   @override
@@ -642,10 +672,40 @@ class AppLocalizationsPl extends AppLocalizations {
   String get flags => 'Flagi';
 
   @override
+  String get flush => 'Wyczyść';
+
+  @override
+  String get flushLogs => 'Wyczyść logi';
+
+  @override
   String get flushLogs24h => 'Wyczyść logi (ostatnie 24 godziny)';
 
   @override
+  String get flushLogsFailure => 'Nie udało się wyczyścić logów.';
+
+  @override
+  String get flushLogsSuccess => 'Logi zostały pomyślnie wyczyszczone.';
+
+  @override
+  String get flushLogsWarning => 'Czy na pewno chcesz wyczyścić logi?\n\nSpowoduje to trwałe usunięcie wszystkich wpisów dziennika i nie będzie można tego cofnąć.';
+
+  @override
   String get flushNetworkTable => 'Wyczyść tablicę sieci';
+
+  @override
+  String get flushNetworkTableWarning => 'Czy na pewno chcesz wyczyścić tablicę sieciową?\n\nSpowoduje to usunięcie wszystkich wpisów i operacji nie będzie można cofnąć.';
+
+  @override
+  String get flushedNetworkTableFailure => 'Nie udało się wyczyścić tabeli sieciowej.';
+
+  @override
+  String get flushedNetworkTableSuccess => 'Tabela sieciowa została wyczyszczona.';
+
+  @override
+  String get flushingLogs => 'Trwa czyszczenie logów…';
+
+  @override
+  String get flushingNetworkTable => 'Trwa czyszczenie tabeli sieciowej…';
 
   @override
   String get forever => 'bez ograniczeń';
@@ -1089,6 +1149,9 @@ class AppLocalizationsPl extends AppLocalizations {
   String get queriesServers => 'Zapytania i serwery';
 
   @override
+  String get queryLoggingSwitchWarning => 'Czy na pewno chcesz zmienić tryb logowania zapytań?\n\nSpowoduje to ponowne uruchomienie serwera DNS, wyczyszczenie pamięci podręcznej DNS i może tymczasowo rozłączyć internet.\nZostaniesz także wylogowany z interfejsu webowego.';
+
+  @override
   String get queryLogs => 'Logi zapytań';
 
   @override
@@ -1140,10 +1203,16 @@ class AppLocalizationsPl extends AppLocalizations {
   String get resetApplication => 'Zresetuj aplikację';
 
   @override
+  String get restart => 'Uruchom ponownie';
+
+  @override
   String get restartAppTakeEffect => 'Proszę ponownie uruchomić aplikację, aby zastosować ustawienia.';
 
   @override
   String get restartDnsResolver => 'Zrestartuj resolver DNS';
+
+  @override
+  String get restartingDnsResolver => 'Trwa ponowne uruchamianie serwera DNS…';
 
   @override
   String get runningStatus => 'Uruchomione...';

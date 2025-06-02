@@ -66,7 +66,7 @@ class AppLocalizationsJa extends AppLocalizations {
   String get adlist => 'Adlist';
 
   @override
-  String get adlistAdded => 'Adlistgが正常に追加されました';
+  String get adlistAdded => 'Adlistが正常に追加されました';
 
   @override
   String get adlistAddress => 'アドレス';
@@ -498,6 +498,15 @@ class AppLocalizationsJa extends AppLocalizations {
   String get disable => '無効化';
 
   @override
+  String get disableQueryLogFailure => 'クエリログを無効化に失敗しました';
+
+  @override
+  String get disableQueryLogInProgress => 'クエリログを無効化中...';
+
+  @override
+  String get disableQueryLogSuccess => 'クエリログを無効化しました';
+
+  @override
   String get disableQueryLogging => 'クエリログを無効化';
 
   @override
@@ -517,6 +526,15 @@ class AppLocalizationsJa extends AppLocalizations {
 
   @override
   String get dnsReplyMetrics => 'DNSリプライメトリクス';
+
+  @override
+  String get dnsRestartFailure => 'DNSサーバーの再起動に失敗しました。';
+
+  @override
+  String get dnsRestartSuccess => 'DNSサーバーを再起動しました。';
+
+  @override
+  String get dnsRestartWarning => 'DNSサーバーを再起動してもよろしいですか？\n\nこの操作によりDNSキャッシュがクリアされ、一時的にインターネット接続が中断される可能性があります。\nまた、この操作によりWebインターフェースからログアウトされます。';
 
   @override
   String get domain => 'ドメイン';
@@ -585,6 +603,18 @@ class AppLocalizationsJa extends AppLocalizations {
   String get enableCrashReportDetail => '問題を診断するために匿名化されたレポートを自動的に送信します。';
 
   @override
+  String get enableQueryLogFailure => 'クエリログを有効化に失敗しました';
+
+  @override
+  String get enableQueryLogInProgress => 'クエリログを有効化中...';
+
+  @override
+  String get enableQueryLogSuccess => 'クエリログを有効化しました';
+
+  @override
+  String get enableQueryLogging => 'クエリログを有効化';
+
+  @override
   String get enabled => '有効';
 
   @override
@@ -642,10 +672,40 @@ class AppLocalizationsJa extends AppLocalizations {
   String get flags => 'フラグ';
 
   @override
-  String get flushLogs24h => 'ログを削除（過去24時間）';
+  String get flush => 'クリア';
+
+  @override
+  String get flushLogs => 'ログをクリア';
+
+  @override
+  String get flushLogs24h => 'ログをクリア（過去24時間）';
+
+  @override
+  String get flushLogsFailure => 'ログのフラッシュに失敗しました。';
+
+  @override
+  String get flushLogsSuccess => 'ログをフラッシュしました。';
+
+  @override
+  String get flushLogsWarning => 'ログをフラッシュしてもよろしいですか？\n\nこの操作によりすべてのログエントリが完全に削除され、元に戻すことはできません。';
 
   @override
   String get flushNetworkTable => 'ネットワークテーブルをクリア';
+
+  @override
+  String get flushNetworkTableWarning => 'ネットワークテーブルをフラッシュしてもよろしいですか？\n\nこの操作によりすべてのエントリが削除され、元に戻すことはできません。';
+
+  @override
+  String get flushedNetworkTableFailure => 'ネットワークテーブルのクリアに失敗しました。';
+
+  @override
+  String get flushedNetworkTableSuccess => 'ネットワークテーブルをクリアしました。';
+
+  @override
+  String get flushingLogs => 'ログをフラッシュ中です…';
+
+  @override
+  String get flushingNetworkTable => 'ネットワークテーブルをクリア中です…';
 
   @override
   String get forever => '無期限';
@@ -1089,6 +1149,9 @@ class AppLocalizationsJa extends AppLocalizations {
   String get queriesServers => 'クエリ＆サーバー';
 
   @override
+  String get queryLoggingSwitchWarning => 'クエリログモードを切り替えてもよろしいですか？\n\nこの操作によりDNSサーバーが再起動され、DNSキャッシュがクリアされ、一時的にインターネット接続が切断される可能性があります。\nまた、Webインターフェースからログアウトされます。';
+
+  @override
   String get queryLogs => 'クエリログ';
 
   @override
@@ -1140,10 +1203,16 @@ class AppLocalizationsJa extends AppLocalizations {
   String get resetApplication => 'アプリケーションをリセット';
 
   @override
+  String get restart => '再起動';
+
+  @override
   String get restartAppTakeEffect => '設定を反映するためにアプリを再起動してください。';
 
   @override
   String get restartDnsResolver => 'DNSリゾルバーを再起動';
+
+  @override
+  String get restartingDnsResolver => 'DNSサーバーを再起動中です…';
 
   @override
   String get runningStatus => '実行中...';

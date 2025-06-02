@@ -16,6 +16,7 @@ import 'package:pi_hole_client/gateways/api_gateway_interface.dart';
 import 'package:pi_hole_client/gateways/v5/api_gateway_v5.dart';
 import 'package:pi_hole_client/gateways/v6/api_gateway_v6.dart';
 import 'package:pi_hole_client/l10n/generated/app_localizations.dart';
+import 'package:pi_hole_client/models/api/v6/config/config.dart';
 import 'package:pi_hole_client/models/api/v6/ftl/host.dart' show Host;
 import 'package:pi_hole_client/models/api/v6/ftl/messages.dart' show Messages;
 import 'package:pi_hole_client/models/api/v6/ftl/metrics.dart';
@@ -27,6 +28,7 @@ import 'package:pi_hole_client/models/api/v6/lists/lists.dart' show Lists;
 import 'package:pi_hole_client/models/api/v6/metrics/query.dart';
 import 'package:pi_hole_client/models/api/v6/network/gateway.dart';
 import 'package:pi_hole_client/models/app_log.dart';
+import 'package:pi_hole_client/models/config.dart';
 import 'package:pi_hole_client/models/domain.dart';
 import 'package:pi_hole_client/models/gateway.dart';
 import 'package:pi_hole_client/models/gateways.dart';
@@ -1252,6 +1254,13 @@ final gateway = Gateway.fromJson(
   },
 );
 
+final configDns = Config.fromJson({
+  'config': {
+    'dns': {'queryLogging': true},
+  },
+  'took': 0.003,
+});
+
 /// Initialize the app with the given environment file.
 ///
 /// This function should be called before any other setup.
@@ -1934,6 +1943,49 @@ class TestSetupHelper {
       (_) async => GatewayResponse(
         result: APiResponseType.success,
         data: GatewayInfo.fromV6(gateway),
+      ),
+    );
+
+    when(mockApiGatewayV6.getConfiguration(element: anyNamed('element')))
+        .thenAnswer(
+      (_) async => ConfigurationResponse(
+        result: APiResponseType.success,
+        data: ConfigInfo.fromV6(configDns),
+      ),
+    );
+
+    when(mockApiGatewayV6.patchConfiguration(any)).thenAnswer(
+      (_) async => ConfigurationResponse(
+        result: APiResponseType.success,
+        data: ConfigInfo.fromV6(configDns),
+      ),
+    );
+
+    when(mockApiGatewayV6.patchDnsQueryLoggingConfig(any)).thenAnswer(
+      (_) async => ConfigurationResponse(
+        result: APiResponseType.success,
+        data: ConfigInfo.fromV6(configDns),
+      ),
+    );
+
+    when(mockApiGatewayV6.flushArp()).thenAnswer(
+      (_) async => ActionResponse(
+        result: APiResponseType.success,
+        data: 'success',
+      ),
+    );
+
+    when(mockApiGatewayV6.flushLogs()).thenAnswer(
+      (_) async => ActionResponse(
+        result: APiResponseType.success,
+        data: 'success',
+      ),
+    );
+
+    when(mockApiGatewayV6.restartDns()).thenAnswer(
+      (_) async => ActionResponse(
+        result: APiResponseType.success,
+        data: 'success',
       ),
     );
   }

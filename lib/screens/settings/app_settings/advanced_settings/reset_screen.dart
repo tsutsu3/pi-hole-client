@@ -141,7 +141,7 @@ class _ResetScreenState extends State<ResetScreen> {
                                 ),
                                 overflow: TextOverflow.ellipsis,
                               ),
-                            )
+                            ),
                         ],
                       ),
                     ],

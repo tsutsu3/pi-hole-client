@@ -498,6 +498,15 @@ class AppLocalizationsDe extends AppLocalizations {
   String get disable => 'Deaktivieren';
 
   @override
+  String get disableQueryLogFailure => 'Deaktivierung der Abfrageprotokollierung fehlgeschlagen';
+
+  @override
+  String get disableQueryLogInProgress => 'Abfrageprotokollierung wird deaktiviert...';
+
+  @override
+  String get disableQueryLogSuccess => 'Abfrageprotokollierung wurde deaktiviert';
+
+  @override
   String get disableQueryLogging => 'Abfrageprotokollierung deaktivieren';
 
   @override
@@ -517,6 +526,15 @@ class AppLocalizationsDe extends AppLocalizations {
 
   @override
   String get dnsReplyMetrics => 'DNS-Antwortmetriken';
+
+  @override
+  String get dnsRestartFailure => 'DNS-Server konnte nicht neu starten.';
+
+  @override
+  String get dnsRestartSuccess => 'DNS-Server neu gestartet.';
+
+  @override
+  String get dnsRestartWarning => 'Möchten Sie den DNS-Server wirklich neu starten?\n\nDabei wird der DNS-Cache geleert und Ihre Internetverbindung kann vorübergehend unterbrochen werden.\nAußerdem werden Sie durch diese Aktion von der Weboberfläche abgemeldet.';
 
   @override
   String get domain => 'Domain';
@@ -585,6 +603,18 @@ class AppLocalizationsDe extends AppLocalizations {
   String get enableCrashReportDetail => 'Automatisch anonymisierte Berichte senden, um Probleme zu diagnostizieren.';
 
   @override
+  String get enableQueryLogFailure => 'Aktivierung der Abfrageprotokollierung fehlgeschlagen';
+
+  @override
+  String get enableQueryLogInProgress => 'Abfrageprotokollierung wird aktiviert...';
+
+  @override
+  String get enableQueryLogSuccess => 'Abfrageprotokollierung wurde aktiviert';
+
+  @override
+  String get enableQueryLogging => 'Abfrageprotokoll aktivieren';
+
+  @override
   String get enabled => 'Aktiviert';
 
   @override
@@ -642,10 +672,40 @@ class AppLocalizationsDe extends AppLocalizations {
   String get flags => 'Flaggen';
 
   @override
-  String get flushLogs24h => 'Protokolle der letzten 24 Stunden löschen';
+  String get flush => 'Leeren';
+
+  @override
+  String get flushLogs => 'Logs leeren';
+
+  @override
+  String get flushLogs24h => 'Logs der letzten 24 Stunden leeren';
+
+  @override
+  String get flushLogsFailure => 'Fehler beim Löschen der Protokolle.';
+
+  @override
+  String get flushLogsSuccess => 'Protokolle wurden erfolgreich gelöscht.';
+
+  @override
+  String get flushLogsWarning => 'Möchten Sie die Protokolle wirklich löschen?\n\nDabei werden alle Protokolleinträge dauerhaft entfernt und dieser Vorgang kann nicht rückgängig gemacht werden.';
 
   @override
   String get flushNetworkTable => 'Netzwerktabelle leeren';
+
+  @override
+  String get flushNetworkTableWarning => 'Möchten Sie die Netzwerktabelle wirklich leeren?\n\nDabei werden alle Einträge entfernt und dieser Vorgang kann nicht rückgängig gemacht werden.';
+
+  @override
+  String get flushedNetworkTableFailure => 'Netzwerktabelle konnte nicht gelöscht werden.';
+
+  @override
+  String get flushedNetworkTableSuccess => 'Netzwerktabelle wurde gelöscht.';
+
+  @override
+  String get flushingLogs => 'Protokolle werden geleert …';
+
+  @override
+  String get flushingNetworkTable => 'Netzwerktabelle wird gelöscht …';
 
   @override
   String get forever => 'unbegrenzt';
@@ -1089,6 +1149,9 @@ class AppLocalizationsDe extends AppLocalizations {
   String get queriesServers => 'Abfragen & Server';
 
   @override
+  String get queryLoggingSwitchWarning => 'Möchten Sie den Abfrageprotokollierungsmodus wirklich wechseln?\n\nDadurch wird der DNS-Server neu gestartet, der DNS-Cache geleert und Ihre Internetverbindung kann vorübergehend getrennt werden.\nSie werden außerdem von der Weboberfläche abgemeldet.';
+
+  @override
   String get queryLogs => 'Abfragen';
 
   @override
@@ -1140,10 +1203,16 @@ class AppLocalizationsDe extends AppLocalizations {
   String get resetApplication => 'App zurücksetzen';
 
   @override
+  String get restart => 'Neu starten';
+
+  @override
   String get restartAppTakeEffect => 'Bitte starten Sie die Anwendung neu, um die Einstellungen zu übernehmen.';
 
   @override
   String get restartDnsResolver => 'DNS-Resolver neu starten';
+
+  @override
+  String get restartingDnsResolver => 'DNS-Server wird neu gestartet …';
 
   @override
   String get runningStatus => 'Wird ausgeführt …';

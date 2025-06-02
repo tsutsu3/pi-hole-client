@@ -16,6 +16,7 @@ import 'package:pi_hole_client/config/theme.dart' as _i2;
 import 'package:pi_hole_client/constants/enums.dart' as _i19;
 import 'package:pi_hole_client/gateways/api_gateway_interface.dart' as _i17;
 import 'package:pi_hole_client/gateways/v6/api_gateway_v6.dart' as _i25;
+import 'package:pi_hole_client/models/api/v6/config/config.dart' as _i29;
 import 'package:pi_hole_client/models/app_log.dart' as _i9;
 import 'package:pi_hole_client/models/domain.dart' as _i26;
 import 'package:pi_hole_client/models/gateways.dart' as _i5;
@@ -354,6 +355,28 @@ class _FakeMetricsResponse_27 extends _i1.SmartFake
 class _FakeGatewayResponse_28 extends _i1.SmartFake
     implements _i5.GatewayResponse {
   _FakeGatewayResponse_28(
+    Object parent,
+    Invocation parentInvocation,
+  ) : super(
+          parent,
+          parentInvocation,
+        );
+}
+
+class _FakeConfigurationResponse_29 extends _i1.SmartFake
+    implements _i5.ConfigurationResponse {
+  _FakeConfigurationResponse_29(
+    Object parent,
+    Invocation parentInvocation,
+  ) : super(
+          parent,
+          parentInvocation,
+        );
+}
+
+class _FakeActionResponse_30 extends _i1.SmartFake
+    implements _i5.ActionResponse {
+  _FakeActionResponse_30(
     Object parent,
     Invocation parentInvocation,
   ) : super(
@@ -1329,6 +1352,24 @@ class MockApiGatewayV6 extends _i1.Mock implements _i25.ApiGatewayV6 {
       ) as String);
 
   @override
+  String get notImplementedError => (super.noSuchMethod(
+        Invocation.getter(#notImplementedError),
+        returnValue: _i8.dummyValue<String>(
+          this,
+          Invocation.getter(#notImplementedError),
+        ),
+      ) as String);
+
+  @override
+  String get postError => (super.noSuchMethod(
+        Invocation.getter(#postError),
+        returnValue: _i8.dummyValue<String>(
+          this,
+          Invocation.getter(#postError),
+        ),
+      ) as String);
+
+  @override
   _i3.Server get server => (super.noSuchMethod(
         Invocation.getter(#server),
         returnValue: _FakeServer_1(
@@ -1991,4 +2032,116 @@ class MockApiGatewayV6 extends _i1.Mock implements _i25.ApiGatewayV6 {
           ),
         )),
       ) as _i12.Future<_i5.GatewayResponse>);
+
+  @override
+  _i12.Future<_i5.ConfigurationResponse> getConfiguration({
+    String? element,
+    bool? isDetailed,
+  }) =>
+      (super.noSuchMethod(
+        Invocation.method(
+          #getConfiguration,
+          [],
+          {
+            #element: element,
+            #isDetailed: isDetailed,
+          },
+        ),
+        returnValue: _i12.Future<_i5.ConfigurationResponse>.value(
+            _FakeConfigurationResponse_29(
+          this,
+          Invocation.method(
+            #getConfiguration,
+            [],
+            {
+              #element: element,
+              #isDetailed: isDetailed,
+            },
+          ),
+        )),
+      ) as _i12.Future<_i5.ConfigurationResponse>);
+
+  @override
+  _i12.Future<_i5.ConfigurationResponse> patchConfiguration(
+          _i29.ConfigData? body) =>
+      (super.noSuchMethod(
+        Invocation.method(
+          #patchConfiguration,
+          [body],
+        ),
+        returnValue: _i12.Future<_i5.ConfigurationResponse>.value(
+            _FakeConfigurationResponse_29(
+          this,
+          Invocation.method(
+            #patchConfiguration,
+            [body],
+          ),
+        )),
+      ) as _i12.Future<_i5.ConfigurationResponse>);
+
+  @override
+  _i12.Future<_i5.ConfigurationResponse> patchDnsQueryLoggingConfig(
+          bool? status) =>
+      (super.noSuchMethod(
+        Invocation.method(
+          #patchDnsQueryLoggingConfig,
+          [status],
+        ),
+        returnValue: _i12.Future<_i5.ConfigurationResponse>.value(
+            _FakeConfigurationResponse_29(
+          this,
+          Invocation.method(
+            #patchDnsQueryLoggingConfig,
+            [status],
+          ),
+        )),
+      ) as _i12.Future<_i5.ConfigurationResponse>);
+
+  @override
+  _i12.Future<_i5.ActionResponse> flushArp() => (super.noSuchMethod(
+        Invocation.method(
+          #flushArp,
+          [],
+        ),
+        returnValue:
+            _i12.Future<_i5.ActionResponse>.value(_FakeActionResponse_30(
+          this,
+          Invocation.method(
+            #flushArp,
+            [],
+          ),
+        )),
+      ) as _i12.Future<_i5.ActionResponse>);
+
+  @override
+  _i12.Future<_i5.ActionResponse> flushLogs() => (super.noSuchMethod(
+        Invocation.method(
+          #flushLogs,
+          [],
+        ),
+        returnValue:
+            _i12.Future<_i5.ActionResponse>.value(_FakeActionResponse_30(
+          this,
+          Invocation.method(
+            #flushLogs,
+            [],
+          ),
+        )),
+      ) as _i12.Future<_i5.ActionResponse>);
+
+  @override
+  _i12.Future<_i5.ActionResponse> restartDns() => (super.noSuchMethod(
+        Invocation.method(
+          #restartDns,
+          [],
+        ),
+        returnValue:
+            _i12.Future<_i5.ActionResponse>.value(_FakeActionResponse_30(
+          this,
+          Invocation.method(
+            #restartDns,
+            [],
+          ),
+        )),
+      ) as _i12.Future<_i5.ActionResponse>);
 }

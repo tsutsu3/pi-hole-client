@@ -1,5 +1,6 @@
 import 'dart:io';
 import 'package:mock_api_server/handlers/action_handler.dart';
+import 'package:mock_api_server/handlers/config_handler.dart';
 import 'package:mock_api_server/handlers/dns_handler.dart';
 import 'package:mock_api_server/handlers/domains_handler.dart';
 import 'package:mock_api_server/handlers/groups_handler.dart';
@@ -29,6 +30,7 @@ void main() async {
   router.mount('/api/queries', QueriesHandler().router.call);
   router.mount('/api/stats', StatsHandler().router.call);
   router.mount('/api/network', NetworkHandler().router.call);
+  router.mount('/api/config', ConfigHandler().router.call);
 
   final handler = Pipeline()
       .addMiddleware(logRequests())

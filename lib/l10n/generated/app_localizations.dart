@@ -1079,6 +1079,24 @@ abstract class AppLocalizations {
   /// **'Disable'**
   String get disable;
 
+  /// No description provided for @disableQueryLogFailure.
+  ///
+  /// In en, this message translates to:
+  /// **'Failed to disable query logging'**
+  String get disableQueryLogFailure;
+
+  /// No description provided for @disableQueryLogInProgress.
+  ///
+  /// In en, this message translates to:
+  /// **'Disabling query logging...'**
+  String get disableQueryLogInProgress;
+
+  /// No description provided for @disableQueryLogSuccess.
+  ///
+  /// In en, this message translates to:
+  /// **'Query logging has been disabled'**
+  String get disableQueryLogSuccess;
+
   /// No description provided for @disableQueryLogging.
   ///
   /// In en, this message translates to:
@@ -1120,6 +1138,24 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'DNS reply metrics'**
   String get dnsReplyMetrics;
+
+  /// No description provided for @dnsRestartFailure.
+  ///
+  /// In en, this message translates to:
+  /// **'Failed to restart DNS server.'**
+  String get dnsRestartFailure;
+
+  /// No description provided for @dnsRestartSuccess.
+  ///
+  /// In en, this message translates to:
+  /// **'DNS server restarted.'**
+  String get dnsRestartSuccess;
+
+  /// No description provided for @dnsRestartWarning.
+  ///
+  /// In en, this message translates to:
+  /// **'Are you sure you want to restart the DNS server?\n\nThis will clear the DNS cache and may temporarily interrupt your internet connection.\nAdditionally, you will be logged out of the web interface as a result of this action.'**
+  String get dnsRestartWarning;
 
   /// No description provided for @domain.
   ///
@@ -1253,6 +1289,30 @@ abstract class AppLocalizations {
   /// **'Automatically send anonymized reports to diagnose issues.'**
   String get enableCrashReportDetail;
 
+  /// No description provided for @enableQueryLogFailure.
+  ///
+  /// In en, this message translates to:
+  /// **'Failed to enable query logging'**
+  String get enableQueryLogFailure;
+
+  /// No description provided for @enableQueryLogInProgress.
+  ///
+  /// In en, this message translates to:
+  /// **'Enabling query logging...'**
+  String get enableQueryLogInProgress;
+
+  /// No description provided for @enableQueryLogSuccess.
+  ///
+  /// In en, this message translates to:
+  /// **'Query logging has been enabled'**
+  String get enableQueryLogSuccess;
+
+  /// No description provided for @enableQueryLogging.
+  ///
+  /// In en, this message translates to:
+  /// **'Enable query logging'**
+  String get enableQueryLogging;
+
   /// No description provided for @enabled.
   ///
   /// In en, this message translates to:
@@ -1367,17 +1427,77 @@ abstract class AppLocalizations {
   /// **'Flags'**
   String get flags;
 
+  /// No description provided for @flush.
+  ///
+  /// In en, this message translates to:
+  /// **'Flush'**
+  String get flush;
+
+  /// No description provided for @flushLogs.
+  ///
+  /// In en, this message translates to:
+  /// **'Flush logs'**
+  String get flushLogs;
+
   /// No description provided for @flushLogs24h.
   ///
   /// In en, this message translates to:
   /// **'Flush logs (last 24 hours)'**
   String get flushLogs24h;
 
+  /// No description provided for @flushLogsFailure.
+  ///
+  /// In en, this message translates to:
+  /// **'Failed to flush logs.'**
+  String get flushLogsFailure;
+
+  /// No description provided for @flushLogsSuccess.
+  ///
+  /// In en, this message translates to:
+  /// **'Logs flushed successfully.'**
+  String get flushLogsSuccess;
+
+  /// No description provided for @flushLogsWarning.
+  ///
+  /// In en, this message translates to:
+  /// **'Are you sure you want to flush the logs?\n\nThis will permanently delete all log entries and cannot be undone.'**
+  String get flushLogsWarning;
+
   /// No description provided for @flushNetworkTable.
   ///
   /// In en, this message translates to:
   /// **'Flush network table'**
   String get flushNetworkTable;
+
+  /// No description provided for @flushNetworkTableWarning.
+  ///
+  /// In en, this message translates to:
+  /// **'Are you sure you want to flush the network table?\n\nThis will remove all entries and cannot be undone.'**
+  String get flushNetworkTableWarning;
+
+  /// No description provided for @flushedNetworkTableFailure.
+  ///
+  /// In en, this message translates to:
+  /// **'Failed to clear network table.'**
+  String get flushedNetworkTableFailure;
+
+  /// No description provided for @flushedNetworkTableSuccess.
+  ///
+  /// In en, this message translates to:
+  /// **'Network table cleared.'**
+  String get flushedNetworkTableSuccess;
+
+  /// No description provided for @flushingLogs.
+  ///
+  /// In en, this message translates to:
+  /// **'Flushing logs…'**
+  String get flushingLogs;
+
+  /// No description provided for @flushingNetworkTable.
+  ///
+  /// In en, this message translates to:
+  /// **'Clearing network table …'**
+  String get flushingNetworkTable;
 
   /// No description provided for @forever.
   ///
@@ -2261,6 +2381,12 @@ abstract class AppLocalizations {
   /// **'Queries & servers'**
   String get queriesServers;
 
+  /// No description provided for @queryLoggingSwitchWarning.
+  ///
+  /// In en, this message translates to:
+  /// **'Are you sure you want to switch the query logging mode?\n\nThis will restart the DNS server, clear the DNS cache, and may temporarily disconnect your internet.\nYou will also be logged out of the web interface.'**
+  String get queryLoggingSwitchWarning;
+
   /// No description provided for @queryLogs.
   ///
   /// In en, this message translates to:
@@ -2363,6 +2489,12 @@ abstract class AppLocalizations {
   /// **'Reset application'**
   String get resetApplication;
 
+  /// No description provided for @restart.
+  ///
+  /// In en, this message translates to:
+  /// **'Restart'**
+  String get restart;
+
   /// No description provided for @restartAppTakeEffect.
   ///
   /// In en, this message translates to:
@@ -2374,6 +2506,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Restart DNS resolver'**
   String get restartDnsResolver;
+
+  /// No description provided for @restartingDnsResolver.
+  ///
+  /// In en, this message translates to:
+  /// **'Restarting DNS server …'**
+  String get restartingDnsResolver;
 
   /// No description provided for @runningStatus.
   ///
