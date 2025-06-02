@@ -2327,6 +2327,15 @@ class MockApiGatewayV6 extends _i1.Mock implements _i31.ApiGatewayV6 {
       ) as String);
 
   @override
+  String get postError => (super.noSuchMethod(
+        Invocation.getter(#postError),
+        returnValue: _i8.dummyValue<String>(
+          this,
+          Invocation.getter(#postError),
+        ),
+      ) as String);
+
+  @override
   _i3.Server get server => (super.noSuchMethod(
         Invocation.getter(#server),
         returnValue: _FakeServer_1(
