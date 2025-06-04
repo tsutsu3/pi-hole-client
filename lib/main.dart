@@ -34,7 +34,7 @@ Future<void> initializeFlutter() async {
   await SystemChrome.setEnabledSystemUIMode(SystemUiMode.edgeToEdge);
 }
 
-Future<void> initializeDatabase() async {
+Future<void> initializeDesktop() async {
   if (Platform.isWindows || Platform.isLinux || Platform.isMacOS) {
     await windowManager.ensureInitialized();
     await windowManager.setMinimumSize(const Size(400, 400));
@@ -128,7 +128,7 @@ Future<PackageInfo> loadAppInfo() async {
 void main() async {
   // Initialize System
   await initializeFlutter();
-  await initializeDatabase();
+  await initializeDesktop();
   await dotenv.load();
 
   // Initialize repositories and providers
