@@ -210,16 +210,15 @@ class AppConfigProvider with ChangeNotifier {
   }
 
   Future<bool> setUseBiometrics(bool biometrics) async {
-    _useBiometrics = biometrics == true ? 1 : 0;
+    final newValue = biometrics == true ? 1 : 0;
 
     final updated = await _repository.updateConfigQuery(
       column: 'useBiometricAuth',
-      value: biometrics == true ? 1 : 0,
+      value: newValue,
     );
-
-    notifyListeners();
-
     if (updated == true) {
+      _useBiometrics = newValue;
+      notifyListeners();
       return true;
     } else {
       logger.w(
