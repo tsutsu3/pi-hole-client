@@ -29,10 +29,12 @@ import 'package:vibration/vibration.dart';
 import 'package:window_manager/window_manager.dart';
 import 'package:window_size/window_size.dart';
 
-void main() async {
+Future<void> initializeFlutter() async {
   WidgetsFlutterBinding.ensureInitialized();
   await SystemChrome.setEnabledSystemUIMode(SystemUiMode.edgeToEdge);
+}
 
+Future<void> initializeDesktop() async {
   if (Platform.isWindows || Platform.isLinux || Platform.isMacOS) {
     await windowManager.ensureInitialized();
     await windowManager.setMinimumSize(const Size(400, 400));
@@ -43,9 +45,93 @@ void main() async {
     sqfliteFfiInit();
     databaseFactory = databaseFactoryFfi;
   }
+}
 
+Future<void> initializeBiometrics(
+  AppConfigProvider configProvider,
+  DatabaseRepository dbRepository,
+) async {
+  try {
+    if (!Platform.isAndroid && !Platform.isIOS) return;
+
+    final auth = LocalAuthentication();
+    final isSupported = await auth.isDeviceSupported();
+    if (!isSupported) {
+      logger.w('Biometrics not supported on this device.');
+      configProvider.setBiometricsSupport(false);
+      await configProvider.setUseBiometrics(false);
+      return;
+    }
+
+    final canAuth = await auth.canCheckBiometrics;
+    configProvider.setBiometricsSupport(canAuth);
+
+    if (!canAuth) {
+      logger.w('Biometrics hardware present but cannot authenticate.');
+      await configProvider.setUseBiometrics(false);
+      return;
+    }
+
+    var available = <BiometricType>[];
+    try {
+      available = await auth.getAvailableBiometrics();
+    } catch (e) {
+      logger.w('Error getting available biometrics: $e');
+    }
+
+    final noSupported = !available.contains(BiometricType.fingerprint) &&
+        !available.contains(BiometricType.strong) &&
+        !available.contains(BiometricType.weak);
+
+    if (noSupported && dbRepository.appConfig.useBiometricAuth == 1) {
+      logger.w('No usable biometrics available, disabling biometric auth.');
+      await configProvider.setUseBiometrics(false);
+    }
+  } catch (e) {
+    logger.w('Error checking biometrics support: $e');
+    configProvider.setBiometricsSupport(false);
+    await configProvider.setUseBiometrics(false);
+  }
+}
+
+Future<void> initializeVibration(AppConfigProvider configProvider) async {
+  try {
+    if (Platform.isAndroid || Platform.isIOS) {
+      final supported = await Vibration.hasCustomVibrationsSupport();
+      configProvider.setValidVibrator(supported);
+    }
+  } catch (e) {
+    logger.w('Error checking vibration support: $e');
+    configProvider.setValidVibrator(false);
+  }
+}
+
+Future<void> initializeDeviceInfo(AppConfigProvider configProvider) async {
+  try {
+    final info = DeviceInfoPlugin();
+    if (Platform.isAndroid) {
+      final androidInfo = await info.androidInfo;
+      configProvider.setAndroidInfo(androidInfo);
+    } else if (Platform.isIOS) {
+      final iosInfo = await info.iosInfo;
+      configProvider.setIosInfo(iosInfo);
+    }
+  } catch (e) {
+    logger.w('Error fetching device info: $e');
+  }
+}
+
+Future<PackageInfo> loadAppInfo() async {
+  return PackageInfo.fromPlatform();
+}
+
+void main() async {
+  // Initialize System
+  await initializeFlutter();
+  await initializeDesktop();
   await dotenv.load();
 
+  // Initialize repositories and providers
   final ssRepository = SecureStorageRepository();
   final dbRepository = DatabaseRepository(ssRepository);
   await dbRepository.initialize();
@@ -74,49 +160,11 @@ void main() async {
   configProvider.saveFromDb(dbRepository.appConfig);
   await serversProvider.saveFromDb(dbRepository.servers);
 
-  try {
-    if (Platform.isAndroid || Platform.isIOS) {
-      final auth = LocalAuthentication();
-      final canAuthenticateWithBiometrics = await auth.canCheckBiometrics;
-      final availableBiometrics = await auth.getAvailableBiometrics();
-      configProvider.setBiometricsSupport(canAuthenticateWithBiometrics);
-
-      if (canAuthenticateWithBiometrics &&
-          !availableBiometrics.contains(BiometricType.fingerprint) &&
-          !availableBiometrics.contains(BiometricType.strong) &&
-          !availableBiometrics.contains(BiometricType.weak) &&
-          dbRepository.appConfig.useBiometricAuth == 1) {
-        await configProvider.setUseBiometrics(false);
-      }
-    }
-  } catch (e) {
-    configProvider.setBiometricsSupport(false);
-  }
-
-  try {
-    if (Platform.isAndroid || Platform.isIOS) {
-      if (await Vibration.hasCustomVibrationsSupport()) {
-        configProvider.setValidVibrator(true);
-      } else {
-        configProvider.setValidVibrator(false);
-      }
-    }
-  } catch (e) {
-    configProvider.setValidVibrator(false);
-  }
-
-  final appInfo = await loadAppInfo();
-  configProvider.setAppInfo(appInfo);
-
-  final deviceInfo = DeviceInfoPlugin();
-  if (Platform.isAndroid) {
-    final androidInfo = await deviceInfo.androidInfo;
-    configProvider.setAndroidInfo(androidInfo);
-  }
-  if (Platform.isIOS) {
-    final iosInfo = await deviceInfo.iosInfo;
-    configProvider.setIosInfo(iosInfo);
-  }
+  // Initialize devices
+  await initializeBiometrics(configProvider, dbRepository);
+  await initializeVibration(configProvider);
+  await initializeDeviceInfo(configProvider);
+  configProvider.setAppInfo(await loadAppInfo());
 
   Future<void> initializeSentry() async {
     if (configProvider.sendCrashReports == false) {
@@ -211,8 +259,4 @@ void main() async {
 
   await initializeSentry();
   startApp();
-}
-
-Future<PackageInfo> loadAppInfo() async {
-  return PackageInfo.fromPlatform();
 }

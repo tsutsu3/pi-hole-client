@@ -4,6 +4,7 @@ import 'package:flutter/scheduler.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 import 'package:pi_hole_client/config/theme.dart';
 import 'package:pi_hole_client/constants/languages.dart';
+import 'package:pi_hole_client/functions/logger.dart';
 import 'package:pi_hole_client/models/app_log.dart';
 import 'package:pi_hole_client/models/repository/database.dart';
 import 'package:pi_hole_client/repository/database.dart';
@@ -209,15 +210,20 @@ class AppConfigProvider with ChangeNotifier {
   }
 
   Future<bool> setUseBiometrics(bool biometrics) async {
+    final newValue = biometrics == true ? 1 : 0;
+
     final updated = await _repository.updateConfigQuery(
       column: 'useBiometricAuth',
-      value: biometrics == true ? 1 : 0,
+      value: newValue,
     );
     if (updated == true) {
-      _useBiometrics = biometrics == true ? 1 : 0;
+      _useBiometrics = newValue;
       notifyListeners();
       return true;
     } else {
+      logger.w(
+        'Failed to persist useBiometrics setting to the database. In-memory state has been updated, but DB and app state may be inconsistent.',
+      );
       return false;
     }
   }
