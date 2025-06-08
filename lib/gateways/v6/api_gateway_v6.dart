@@ -30,9 +30,11 @@ import 'package:pi_hole_client/models/api/v6/metrics/history.dart'
 import 'package:pi_hole_client/models/api/v6/metrics/query.dart' show Queries;
 import 'package:pi_hole_client/models/api/v6/metrics/stats.dart'
     show StatsSummary, StatsTopClients, StatsTopDomains, StatsUpstreams;
+import 'package:pi_hole_client/models/api/v6/network/devices.dart';
 import 'package:pi_hole_client/models/api/v6/network/gateway.dart' show Gateway;
 import 'package:pi_hole_client/models/app_log.dart';
 import 'package:pi_hole_client/models/config.dart';
+import 'package:pi_hole_client/models/devices.dart';
 import 'package:pi_hole_client/models/domain.dart';
 import 'package:pi_hole_client/models/gateway.dart';
 import 'package:pi_hole_client/models/gateways.dart';
@@ -70,6 +72,7 @@ class ApiGatewayV6 implements ApiGateway {
   final fetchError = 'Failed to fetch data from the server.';
   final notImplementedError = 'This feature is not implemented yet.';
   final postError = 'Failed to post data to the server.';
+  final deleteError = 'Failed to delete data from the server.';
 
   @override
   Server get server => _server;
@@ -1412,6 +1415,85 @@ class ApiGatewayV6 implements ApiGateway {
       }
     } catch (e) {
       return GatewayResponse(
+        result: APiResponseType.error,
+        message: unexpectedError,
+      );
+    }
+  }
+
+  @override
+  Future<DevicesResponse> getDevices({
+    int? maxDevices,
+    int? maxAddresses,
+  }) async {
+    try {
+      final queryParams = <String, String>{};
+
+      if (maxDevices != null) {
+        queryParams['max_devices'] = maxDevices.toString();
+      } else {
+        queryParams['max_devices'] = '999'; // Pi-hole web UI default
+      }
+
+      if (maxAddresses != null) {
+        queryParams['max_addresses'] = maxAddresses.toString();
+      } else {
+        queryParams['max_addresses'] = '25'; // Pi-hole web UI default
+      }
+
+      final uri = Uri.parse('${_server.address}/api/network/devices').replace(
+        queryParameters: queryParams.isEmpty ? null : queryParams,
+      );
+
+      final results = await httpClient(
+        method: 'get',
+        url: uri.toString(),
+      );
+
+      if (results.statusCode == 200) {
+        final devices = Devices.fromJson(jsonDecode(results.body));
+
+        return DevicesResponse(
+          result: APiResponseType.success,
+          data: DevicesInfo.fromV6(devices),
+        );
+      } else {
+        return DevicesResponse(
+          result: APiResponseType.error,
+          message: fetchError,
+        );
+      }
+    } catch (e) {
+      return DevicesResponse(
+        result: APiResponseType.error,
+        message: unexpectedError,
+      );
+    }
+  }
+
+  @override
+  Future<DeleteDeviceResponse> deleteDevice(int id) async {
+    try {
+      final results = await httpClient(
+        method: 'delete',
+        url: '${_server.address}/api/network/devices/$id',
+      );
+
+      if (results.statusCode == 204) {
+        return DeleteDeviceResponse(result: APiResponseType.success);
+      } else if (results.statusCode == 404) {
+        return DeleteDeviceResponse(
+          result: APiResponseType.notFound,
+          message: 'Not found',
+        );
+      } else {
+        return DeleteDeviceResponse(
+          result: APiResponseType.error,
+          message: deleteError,
+        );
+      }
+    } catch (e) {
+      return DeleteDeviceResponse(
         result: APiResponseType.error,
         message: unexpectedError,
       );

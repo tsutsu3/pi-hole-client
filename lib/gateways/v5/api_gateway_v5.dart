@@ -919,6 +919,29 @@ class ApiGatewayV5 implements ApiGateway {
   }
 
   @override
+  Future<DevicesResponse> getDevices({
+    int? maxDevices,
+    int? maxAddresses,
+  }) async {
+    return Future.value(
+      DevicesResponse(
+        result: APiResponseType.notSupported,
+        message: notSupportedMessage,
+      ),
+    );
+  }
+
+  @override
+  Future<DeleteDeviceResponse> deleteDevice(int id) async {
+    return Future.value(
+      DeleteDeviceResponse(
+        result: APiResponseType.notSupported,
+        message: notSupportedMessage,
+      ),
+    );
+  }
+
+  @override
   Future<ConfigurationResponse> getConfiguration({
     String? element,
     bool? isDetailed,
