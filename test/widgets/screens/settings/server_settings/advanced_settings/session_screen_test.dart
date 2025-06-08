@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:mockito/mockito.dart';
+import 'package:pi_hole_client/models/gateways.dart';
+import 'package:pi_hole_client/screens/common/error_message_screen.dart';
 import 'package:pi_hole_client/screens/settings/server_settings/advanced_settings/sessions_screen.dart';
 import 'package:pi_hole_client/screens/settings/server_settings/advanced_settings/sessions_screen/session_detail_screen.dart';
 import 'package:pi_hole_client/widgets/delete_modal.dart';
@@ -16,6 +19,35 @@ void main() async {
       testSetup = TestSetupHelper();
       testSetup.initializeMock(useApiGatewayVersion: 'v6');
     });
+
+    testWidgets(
+      'should show error screen when fetching sessions fails',
+      (WidgetTester tester) async {
+        tester.view.physicalSize = const Size(1080, 2400);
+        tester.view.devicePixelRatio = 2.0;
+
+        when(testSetup.mockApiGatewayV6.getSessions()).thenAnswer(
+          (_) async => SessionsResponse(
+            result: APiResponseType.error,
+          ),
+        );
+
+        addTearDown(() {
+          tester.view.resetPhysicalSize();
+          tester.view.resetDevicePixelRatio();
+        });
+
+        await tester.pumpWidget(
+          testSetup.buildTestWidget(
+            const SessionsScreen(),
+          ),
+        );
+
+        expect(find.byType(SessionsScreen), findsOneWidget);
+        await tester.pump();
+        expect(find.byType(ErrorMessageScreen), findsOneWidget);
+      },
+    );
 
     testWidgets(
       'should show detail screen with tap (in use)',
