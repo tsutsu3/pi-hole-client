@@ -382,9 +382,31 @@ class _FakeActionResponse_29 extends _i1.SmartFake
         );
 }
 
-class _FakeStreamedResponse_30 extends _i1.SmartFake
+class _FakeSessionsResponse_30 extends _i1.SmartFake
+    implements _i5.SessionsResponse {
+  _FakeSessionsResponse_30(
+    Object parent,
+    Invocation parentInvocation,
+  ) : super(
+          parent,
+          parentInvocation,
+        );
+}
+
+class _FakeDeleteSessionResponse_31 extends _i1.SmartFake
+    implements _i5.DeleteSessionResponse {
+  _FakeDeleteSessionResponse_31(
+    Object parent,
+    Invocation parentInvocation,
+  ) : super(
+          parent,
+          parentInvocation,
+        );
+}
+
+class _FakeStreamedResponse_32 extends _i1.SmartFake
     implements _i4.StreamedResponse {
-  _FakeStreamedResponse_30(
+  _FakeStreamedResponse_32(
     Object parent,
     Invocation parentInvocation,
   ) : super(
@@ -2289,6 +2311,39 @@ class MockApiGatewayV5 extends _i1.Mock implements _i27.ApiGatewayV5 {
           ),
         )),
       ) as _i12.Future<_i5.ActionResponse>);
+
+  @override
+  _i12.Future<_i5.SessionsResponse> getSessions() => (super.noSuchMethod(
+        Invocation.method(
+          #getSessions,
+          [],
+        ),
+        returnValue:
+            _i12.Future<_i5.SessionsResponse>.value(_FakeSessionsResponse_30(
+          this,
+          Invocation.method(
+            #getSessions,
+            [],
+          ),
+        )),
+      ) as _i12.Future<_i5.SessionsResponse>);
+
+  @override
+  _i12.Future<_i5.DeleteSessionResponse> deleteSession(int? id) =>
+      (super.noSuchMethod(
+        Invocation.method(
+          #deleteSession,
+          [id],
+        ),
+        returnValue: _i12.Future<_i5.DeleteSessionResponse>.value(
+            _FakeDeleteSessionResponse_31(
+          this,
+          Invocation.method(
+            #deleteSession,
+            [id],
+          ),
+        )),
+      ) as _i12.Future<_i5.DeleteSessionResponse>);
 }
 
 /// A class which mocks [ApiGatewayV6].
@@ -2406,7 +2461,7 @@ class MockApiGatewayV6 extends _i1.Mock implements _i31.ApiGatewayV6 {
           },
         ),
         returnValue:
-            _i12.Future<_i4.StreamedResponse>.value(_FakeStreamedResponse_30(
+            _i12.Future<_i4.StreamedResponse>.value(_FakeStreamedResponse_32(
           this,
           Invocation.method(
             #httpClientStream,
@@ -3110,6 +3165,39 @@ class MockApiGatewayV6 extends _i1.Mock implements _i31.ApiGatewayV6 {
           ),
         )),
       ) as _i12.Future<_i5.ActionResponse>);
+
+  @override
+  _i12.Future<_i5.SessionsResponse> getSessions() => (super.noSuchMethod(
+        Invocation.method(
+          #getSessions,
+          [],
+        ),
+        returnValue:
+            _i12.Future<_i5.SessionsResponse>.value(_FakeSessionsResponse_30(
+          this,
+          Invocation.method(
+            #getSessions,
+            [],
+          ),
+        )),
+      ) as _i12.Future<_i5.SessionsResponse>);
+
+  @override
+  _i12.Future<_i5.DeleteSessionResponse> deleteSession(int? id) =>
+      (super.noSuchMethod(
+        Invocation.method(
+          #deleteSession,
+          [id],
+        ),
+        returnValue: _i12.Future<_i5.DeleteSessionResponse>.value(
+            _FakeDeleteSessionResponse_31(
+          this,
+          Invocation.method(
+            #deleteSession,
+            [id],
+          ),
+        )),
+      ) as _i12.Future<_i5.DeleteSessionResponse>);
 }
 
 /// A class which mocks [StatusUpdateService].

@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:pi_hole_client/screens/settings/server_settings/advanced_settings/address_detail_screen.dart';
 import 'package:pi_hole_client/screens/settings/server_settings/advanced_settings/interface_screen.dart';
-import 'package:pi_hole_client/screens/settings/server_settings/advanced_settings/more_detail_screen.dart';
-import 'package:pi_hole_client/screens/settings/server_settings/advanced_settings/statistics_detail_screen.dart';
+import 'package:pi_hole_client/screens/settings/server_settings/advanced_settings/interface_screen/address_detail_screen.dart';
+import 'package:pi_hole_client/screens/settings/server_settings/advanced_settings/interface_screen/more_detail_screen.dart';
+import 'package:pi_hole_client/screens/settings/server_settings/advanced_settings/interface_screen/statistics_detail_screen.dart';
 
 import '../../../../helpers.dart';
 

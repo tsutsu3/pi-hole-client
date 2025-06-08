@@ -374,6 +374,28 @@ class _FakeActionResponse_30 extends _i1.SmartFake
         );
 }
 
+class _FakeSessionsResponse_31 extends _i1.SmartFake
+    implements _i5.SessionsResponse {
+  _FakeSessionsResponse_31(
+    Object parent,
+    Invocation parentInvocation,
+  ) : super(
+          parent,
+          parentInvocation,
+        );
+}
+
+class _FakeDeleteSessionResponse_32 extends _i1.SmartFake
+    implements _i5.DeleteSessionResponse {
+  _FakeDeleteSessionResponse_32(
+    Object parent,
+    Invocation parentInvocation,
+  ) : super(
+          parent,
+          parentInvocation,
+        );
+}
+
 /// A class which mocks [ServersProvider].
 ///
 /// See the documentation for Mockito's code generation for more information.
@@ -1409,4 +1431,37 @@ class MockApiGatewayV6 extends _i1.Mock implements _i13.ApiGatewayV6 {
           ),
         )),
       ) as _i10.Future<_i5.ActionResponse>);
+
+  @override
+  _i10.Future<_i5.SessionsResponse> getSessions() => (super.noSuchMethod(
+        Invocation.method(
+          #getSessions,
+          [],
+        ),
+        returnValue:
+            _i10.Future<_i5.SessionsResponse>.value(_FakeSessionsResponse_31(
+          this,
+          Invocation.method(
+            #getSessions,
+            [],
+          ),
+        )),
+      ) as _i10.Future<_i5.SessionsResponse>);
+
+  @override
+  _i10.Future<_i5.DeleteSessionResponse> deleteSession(int? id) =>
+      (super.noSuchMethod(
+        Invocation.method(
+          #deleteSession,
+          [id],
+        ),
+        returnValue: _i10.Future<_i5.DeleteSessionResponse>.value(
+            _FakeDeleteSessionResponse_32(
+          this,
+          Invocation.method(
+            #deleteSession,
+            [id],
+          ),
+        )),
+      ) as _i10.Future<_i5.DeleteSessionResponse>);
 }

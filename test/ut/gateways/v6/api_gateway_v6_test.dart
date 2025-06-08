@@ -1,3 +1,5 @@
+// ignore_for_file: require_trailing_commas
+
 import 'dart:convert';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -9,6 +11,7 @@ import 'package:pi_hole_client/constants/enums.dart';
 import 'package:pi_hole_client/constants/subscription_types.dart';
 import 'package:pi_hole_client/gateways/v6/api_gateway_v6.dart';
 import 'package:pi_hole_client/models/api/v6/action/action.dart';
+import 'package:pi_hole_client/models/api/v6/auth/sessions.dart';
 import 'package:pi_hole_client/models/api/v6/config/config.dart';
 import 'package:pi_hole_client/models/api/v6/ftl/host.dart' show Host;
 import 'package:pi_hole_client/models/api/v6/ftl/messages.dart';
@@ -31,6 +34,7 @@ import 'package:pi_hole_client/models/metrics.dart';
 import 'package:pi_hole_client/models/search.dart';
 import 'package:pi_hole_client/models/sensors.dart';
 import 'package:pi_hole_client/models/server.dart';
+import 'package:pi_hole_client/models/sessions.dart';
 import 'package:pi_hole_client/models/subscriptions.dart';
 import 'package:pi_hole_client/models/system.dart';
 import 'package:pi_hole_client/models/version.dart';
@@ -5214,6 +5218,225 @@ void main() async {
       expect(response.result, APiResponseType.error);
       expect(response.message, unexpectedError);
       expect(response.data, null);
+    });
+  });
+
+  group('getSessions', () {
+    late Server server;
+    const data = {
+      'sessions': [
+        {
+          'id': 0,
+          'current_session': false,
+          'valid': false,
+          'tls': {'login': false, 'mixed': false},
+          'app': false,
+          'cli': false,
+          'login_at': 1580000000,
+          'last_active': 1580000000,
+          'valid_until': 1580000300,
+          'remote_addr': '192.168.0.30',
+          'user_agent': 'Dart/3.7 (dart:io)',
+          'x_forwarded_for': null,
+        },
+        {
+          'id': 1,
+          'current_session': true,
+          'valid': true,
+          'tls': {'login': true, 'mixed': false},
+          'app': false,
+          'cli': false,
+          'login_at': 1580000000,
+          'last_active': 1580000000,
+          'valid_until': 1580000300,
+          'remote_addr': '192.168.0.31',
+          'user_agent':
+              'Mozilla/5.0 (X11; Linux x86_64; rv:107.0) Gecko/20100101 Firefox/107.0',
+          'x_forwarded_for': null,
+        },
+        {
+          'id': 3,
+          'current_session': false,
+          'valid': false,
+          'tls': {'login': false, 'mixed': true},
+          'app': true,
+          'cli': true,
+          'login_at': 1580000000,
+          'last_active': 1580000000,
+          'valid_until': 1580000300,
+          'remote_addr': '192.168.0.32',
+          'user_agent': 'Dart/3.7 (dart:io)',
+          'x_forwarded_for': null,
+        },
+      ],
+      'took': 0.003,
+    };
+    const erroData = {
+      'error': {'key': 'unauthorized', 'message': 'Unauthorized', 'hint': null},
+      'took': 0.003,
+    };
+
+    setUp(() {
+      server = Server(
+        address: 'http://example.com',
+        alias: 'example',
+        defaultServer: true,
+        apiVersion: SupportedApiVersions.v6,
+        allowSelfSignedCert: true,
+      );
+      server.sm.savePassword('xxx123');
+    });
+
+    test('should return success', () async {
+      final mockClient = MockClient();
+      final apiGateway = ApiGatewayV6(server, client: mockClient);
+
+      when(
+        mockClient.get(
+          Uri.parse('http://example.com/api/auth/sessions'),
+          headers: anyNamed('headers'),
+        ),
+      ).thenAnswer((_) async => http.Response(jsonEncode(data), 200));
+
+      final response = await apiGateway.getSessions();
+
+      expect(response.result, APiResponseType.success);
+      expect(response.message, null);
+      expect(
+        response.data?.toJson(),
+        SessionsInfo.fromV6(AuthSessions.fromJson(data)).toJson(),
+      );
+    });
+
+    test('should return an error when status code is 401', () async {
+      final mockClient = MockClient();
+      final apiGateway = ApiGatewayV6(server, client: mockClient);
+
+      when(
+        mockClient.get(
+          Uri.parse('http://example.com/api/auth/sessions'),
+          headers: anyNamed('headers'),
+        ),
+      ).thenAnswer((_) async => http.Response(jsonEncode(erroData), 401));
+
+      final response = await apiGateway.getSessions();
+
+      expect(response.result, APiResponseType.error);
+      expect(response.message, fetchError);
+      expect(response.data, null);
+    });
+
+    test('should return an error when an unexpected error occurs', () async {
+      final mockClient = MockClient();
+      final apiGateway = ApiGatewayV6(server, client: mockClient);
+
+      when(
+        mockClient.get(
+          Uri.parse('http://example.com/api/auth/sessions'),
+          headers: anyNamed('headers'),
+        ),
+      ).thenThrow(Exception('Unexpected error test'));
+
+      final response = await apiGateway.getSessions();
+
+      expect(response.result, APiResponseType.error);
+      expect(response.message, unexpectedError);
+      expect(response.data, null);
+    });
+  });
+
+  group('deleteSession', () {
+    late Server server;
+    const erroData400 = {
+      'error': {
+        'key': 'bad_request',
+        'message': 'Session ID out of bounds',
+        'hint': null
+      },
+      'took': 0.003
+    };
+    const erroData = {
+      'error': {'key': 'unauthorized', 'message': 'Unauthorized', 'hint': null},
+      'took': 0.003,
+    };
+
+    setUp(() {
+      server = Server(
+        address: 'http://example.com',
+        alias: 'example',
+        defaultServer: true,
+        apiVersion: SupportedApiVersions.v6,
+        allowSelfSignedCert: true,
+      );
+      server.sm.savePassword('xxx123');
+    });
+
+    test('should return success', () async {
+      final mockClient = MockClient();
+      final apiGateway = ApiGatewayV6(server, client: mockClient);
+
+      when(
+        mockClient.delete(
+          Uri.parse('http://example.com/api/auth/session/1'),
+          headers: anyNamed('headers'),
+        ),
+      ).thenAnswer((_) async => http.Response('', 204));
+
+      final response = await apiGateway.deleteSession(1);
+
+      expect(response.result, APiResponseType.success);
+      expect(response.message, null);
+    });
+
+    test('should return an error when status code is 401', () async {
+      final mockClient = MockClient();
+      final apiGateway = ApiGatewayV6(server, client: mockClient);
+
+      when(
+        mockClient.delete(
+          Uri.parse('http://example.com/api/auth/session/1'),
+          headers: anyNamed('headers'),
+        ),
+      ).thenAnswer((_) async => http.Response(jsonEncode(erroData), 401));
+
+      final response = await apiGateway.deleteSession(1);
+
+      expect(response.result, APiResponseType.error);
+      expect(response.message, fetchError);
+    });
+
+    test('should return an error when status code is 400', () async {
+      final mockClient = MockClient();
+      final apiGateway = ApiGatewayV6(server, client: mockClient);
+
+      when(
+        mockClient.delete(
+          Uri.parse('http://example.com/api/auth/session/1'),
+          headers: anyNamed('headers'),
+        ),
+      ).thenAnswer((_) async => http.Response(jsonEncode(erroData400), 400));
+
+      final response = await apiGateway.deleteSession(1);
+
+      expect(response.result, APiResponseType.error);
+      expect(response.message, fetchError);
+    });
+
+    test('should return an error when an unexpected error occurs', () async {
+      final mockClient = MockClient();
+      final apiGateway = ApiGatewayV6(server, client: mockClient);
+
+      when(
+        mockClient.delete(
+          Uri.parse('http://example.com/api/auth/session/1'),
+          headers: anyNamed('headers'),
+        ),
+      ).thenThrow(Exception('Unexpected error test'));
+
+      final response = await apiGateway.deleteSession(1);
+
+      expect(response.result, APiResponseType.error);
+      expect(response.message, unexpectedError);
     });
   });
 }

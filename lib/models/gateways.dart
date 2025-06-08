@@ -12,6 +12,7 @@ import 'package:pi_hole_client/models/overtime_data.dart';
 import 'package:pi_hole_client/models/realtime_status.dart';
 import 'package:pi_hole_client/models/search.dart';
 import 'package:pi_hole_client/models/sensors.dart';
+import 'package:pi_hole_client/models/sessions.dart';
 import 'package:pi_hole_client/models/subscriptions.dart';
 import 'package:pi_hole_client/models/system.dart';
 import 'package:pi_hole_client/models/version.dart';
@@ -400,5 +401,20 @@ class ActionResponse extends BaseInfoResponse<String> {
     required super.result,
     super.message,
     super.data,
+  });
+}
+
+class SessionsResponse extends BaseInfoResponse<SessionsInfo> {
+  SessionsResponse({
+    required super.result,
+    super.message,
+    super.data,
+  });
+}
+
+class DeleteSessionResponse extends BaseInfoResponse<void> {
+  DeleteSessionResponse({
+    required super.result,
+    super.message,
   });
 }
