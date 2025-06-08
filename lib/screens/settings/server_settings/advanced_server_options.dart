@@ -11,6 +11,7 @@ import 'package:pi_hole_client/providers/servers_provider.dart';
 import 'package:pi_hole_client/screens/common/empty_data_screen.dart';
 import 'package:pi_hole_client/screens/common/pi_hole_v5_not_supported_screen.dart';
 import 'package:pi_hole_client/screens/settings/server_settings/advanced_settings/interface_screen.dart';
+import 'package:pi_hole_client/screens/settings/server_settings/advanced_settings/sessions_screen.dart';
 import 'package:pi_hole_client/widgets/confirmation_modal.dart';
 import 'package:pi_hole_client/widgets/custom_button_list_tile.dart';
 import 'package:pi_hole_client/widgets/custom_list_tile.dart';
@@ -367,6 +368,12 @@ class _AdvancedServerOptionsState extends State<AdvancedServerOptions> {
                 leadingIcon: Icons.devices_rounded,
                 label: AppLocalizations.of(context)!.sessions,
                 description: AppLocalizations.of(context)!.sessionsDescription,
+                onTap: () => Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => const SessionsScreen(),
+                  ),
+                ),
               ),
               SectionLabel(label: AppLocalizations.of(context)!.tools),
               // CustomListTile(

@@ -21,6 +21,9 @@ class AppLocalizationsEn extends AppLocalizations {
   String get actions => 'Actions';
 
   @override
+  String get activityLog => 'Activity Log';
+
+  @override
   String get add => 'Add';
 
   @override
@@ -321,6 +324,12 @@ class AppLocalizationsEn extends AppLocalizations {
   String get clientActivity24 => 'Client activity last 24 hours';
 
   @override
+  String get clientInformation => 'Client Information';
+
+  @override
+  String get clientIp => 'Client IP';
+
+  @override
   String get clients => 'Clients';
 
   @override
@@ -435,6 +444,9 @@ class AppLocalizationsEn extends AppLocalizations {
   String get createdBy => 'Created by';
 
   @override
+  String get currentSession => 'Current Session';
+
+  @override
   String get custom => 'Custom';
 
   @override
@@ -478,6 +490,12 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get deleteDomainMessage => 'Are you sure you want to delete this domain?';
+
+  @override
+  String get deleteSession => 'Delete session';
+
+  @override
+  String get deleteSessionMessage => 'Are you sure you want to delete this session?';
 
   @override
   String get deleting => 'Deleting...';
@@ -816,6 +834,9 @@ class AppLocalizationsEn extends AppLocalizations {
   String get importantInformation => 'Important information';
 
   @override
+  String get inUse => 'In use';
+
+  @override
   String get indefinitely => 'Indefinitely';
 
   @override
@@ -856,6 +877,9 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get language => 'Language';
+
+  @override
+  String get lastActive => 'Last Access Time';
 
   @override
   String get lastUpdated => 'Last updated';
@@ -913,6 +937,9 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get logDetails => 'Log details';
+
+  @override
+  String get loginTime => 'Login Time';
 
   @override
   String get logs => 'Logs';
@@ -1065,7 +1092,13 @@ class AppLocalizationsEn extends AppLocalizations {
   String get now => 'now';
 
   @override
+  String get off => 'OFF';
+
+  @override
   String get olderVersion => 'If you have an older version, please update your Pi-hole to continue using this app.';
+
+  @override
+  String get on => 'ON';
 
   @override
   String get onlyAvailableWithHttps => 'Only available with HTTPS';
@@ -1362,6 +1395,18 @@ class AppLocalizationsEn extends AppLocalizations {
   String get servers => 'Servers';
 
   @override
+  String get session => 'Session';
+
+  @override
+  String get sessionRemoveError => 'Error when removing session';
+
+  @override
+  String get sessionRemoved => 'Session removed successfully';
+
+  @override
+  String get sessionStatus => 'Session Status';
+
+  @override
   String get sessions => 'Sessions';
 
   @override
@@ -1459,6 +1504,9 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get timestamps => 'Timestamps';
+
+  @override
+  String get tlsStatus => 'TLS Status';
 
   @override
   String get toTime => 'To time';
@@ -1572,6 +1620,15 @@ class AppLocalizationsEn extends AppLocalizations {
   String get useFingerprint => 'Use fingerprint';
 
   @override
+  String get usedAppPassword => 'Used App Password';
+
+  @override
+  String get usedCLIPassword => 'Used CLI Password';
+
+  @override
+  String get userAgent => 'User Agent';
+
+  @override
   String get username => 'Username';
 
   @override
@@ -1579,6 +1636,12 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get validLifetime => 'Valid Lifetime';
+
+  @override
+  String get validSession => 'Valid Session';
+
+  @override
+  String get validUntil => 'Valid Until';
 
   @override
   String get valueNotValid => 'Please enter a number between 1 and 86400 seconds';

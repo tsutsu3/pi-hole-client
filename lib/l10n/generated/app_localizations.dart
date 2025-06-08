@@ -125,6 +125,12 @@ abstract class AppLocalizations {
   /// **'Actions'**
   String get actions;
 
+  /// No description provided for @activityLog.
+  ///
+  /// In en, this message translates to:
+  /// **'Activity Log'**
+  String get activityLog;
+
   /// No description provided for @add.
   ///
   /// In en, this message translates to:
@@ -725,6 +731,18 @@ abstract class AppLocalizations {
   /// **'Client activity last 24 hours'**
   String get clientActivity24;
 
+  /// No description provided for @clientInformation.
+  ///
+  /// In en, this message translates to:
+  /// **'Client Information'**
+  String get clientInformation;
+
+  /// No description provided for @clientIp.
+  ///
+  /// In en, this message translates to:
+  /// **'Client IP'**
+  String get clientIp;
+
   /// No description provided for @clients.
   ///
   /// In en, this message translates to:
@@ -953,6 +971,12 @@ abstract class AppLocalizations {
   /// **'Created by'**
   String get createdBy;
 
+  /// No description provided for @currentSession.
+  ///
+  /// In en, this message translates to:
+  /// **'Current Session'**
+  String get currentSession;
+
   /// No description provided for @custom.
   ///
   /// In en, this message translates to:
@@ -1042,6 +1066,18 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Are you sure you want to delete this domain?'**
   String get deleteDomainMessage;
+
+  /// No description provided for @deleteSession.
+  ///
+  /// In en, this message translates to:
+  /// **'Delete session'**
+  String get deleteSession;
+
+  /// No description provided for @deleteSessionMessage.
+  ///
+  /// In en, this message translates to:
+  /// **'Are you sure you want to delete this session?'**
+  String get deleteSessionMessage;
 
   /// No description provided for @deleting.
   ///
@@ -1715,6 +1751,12 @@ abstract class AppLocalizations {
   /// **'Important information'**
   String get importantInformation;
 
+  /// No description provided for @inUse.
+  ///
+  /// In en, this message translates to:
+  /// **'In use'**
+  String get inUse;
+
   /// No description provided for @indefinitely.
   ///
   /// In en, this message translates to:
@@ -1798,6 +1840,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Language'**
   String get language;
+
+  /// No description provided for @lastActive.
+  ///
+  /// In en, this message translates to:
+  /// **'Last Access Time'**
+  String get lastActive;
 
   /// No description provided for @lastUpdated.
   ///
@@ -1912,6 +1960,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Log details'**
   String get logDetails;
+
+  /// No description provided for @loginTime.
+  ///
+  /// In en, this message translates to:
+  /// **'Login Time'**
+  String get loginTime;
 
   /// No description provided for @logs.
   ///
@@ -2213,11 +2267,23 @@ abstract class AppLocalizations {
   /// **'now'**
   String get now;
 
+  /// No description provided for @off.
+  ///
+  /// In en, this message translates to:
+  /// **'OFF'**
+  String get off;
+
   /// No description provided for @olderVersion.
   ///
   /// In en, this message translates to:
   /// **'If you have an older version, please update your Pi-hole to continue using this app.'**
   String get olderVersion;
+
+  /// No description provided for @on.
+  ///
+  /// In en, this message translates to:
+  /// **'ON'**
+  String get on;
 
   /// No description provided for @onlyAvailableWithHttps.
   ///
@@ -2807,6 +2873,30 @@ abstract class AppLocalizations {
   /// **'Servers'**
   String get servers;
 
+  /// No description provided for @session.
+  ///
+  /// In en, this message translates to:
+  /// **'Session'**
+  String get session;
+
+  /// No description provided for @sessionRemoveError.
+  ///
+  /// In en, this message translates to:
+  /// **'Error when removing session'**
+  String get sessionRemoveError;
+
+  /// No description provided for @sessionRemoved.
+  ///
+  /// In en, this message translates to:
+  /// **'Session removed successfully'**
+  String get sessionRemoved;
+
+  /// No description provided for @sessionStatus.
+  ///
+  /// In en, this message translates to:
+  /// **'Session Status'**
+  String get sessionStatus;
+
   /// No description provided for @sessions.
   ///
   /// In en, this message translates to:
@@ -3004,6 +3094,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Timestamps'**
   String get timestamps;
+
+  /// No description provided for @tlsStatus.
+  ///
+  /// In en, this message translates to:
+  /// **'TLS Status'**
+  String get tlsStatus;
 
   /// No description provided for @toTime.
   ///
@@ -3227,6 +3323,24 @@ abstract class AppLocalizations {
   /// **'Use fingerprint'**
   String get useFingerprint;
 
+  /// No description provided for @usedAppPassword.
+  ///
+  /// In en, this message translates to:
+  /// **'Used App Password'**
+  String get usedAppPassword;
+
+  /// No description provided for @usedCLIPassword.
+  ///
+  /// In en, this message translates to:
+  /// **'Used CLI Password'**
+  String get usedCLIPassword;
+
+  /// No description provided for @userAgent.
+  ///
+  /// In en, this message translates to:
+  /// **'User Agent'**
+  String get userAgent;
+
   /// No description provided for @username.
   ///
   /// In en, this message translates to:
@@ -3244,6 +3358,18 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Valid Lifetime'**
   String get validLifetime;
+
+  /// No description provided for @validSession.
+  ///
+  /// In en, this message translates to:
+  /// **'Valid Session'**
+  String get validSession;
+
+  /// No description provided for @validUntil.
+  ///
+  /// In en, this message translates to:
+  /// **'Valid Until'**
+  String get validUntil;
 
   /// No description provided for @valueNotValid.
   ///

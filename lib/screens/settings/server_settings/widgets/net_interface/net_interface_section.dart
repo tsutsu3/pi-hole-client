@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:pi_hole_client/l10n/generated/app_localizations.dart';
 import 'package:pi_hole_client/models/api/v6/network/interfaces.dart';
-import 'package:pi_hole_client/screens/settings/server_settings/advanced_settings/address_detail_screen.dart';
-import 'package:pi_hole_client/screens/settings/server_settings/advanced_settings/more_detail_screen.dart';
-import 'package:pi_hole_client/screens/settings/server_settings/advanced_settings/statistics_detail_screen.dart';
+import 'package:pi_hole_client/screens/settings/server_settings/advanced_settings/interface_screen/address_detail_screen.dart';
+import 'package:pi_hole_client/screens/settings/server_settings/advanced_settings/interface_screen/more_detail_screen.dart';
+import 'package:pi_hole_client/screens/settings/server_settings/advanced_settings/interface_screen/statistics_detail_screen.dart';
 import 'package:pi_hole_client/widgets/adaptive_trailing_text.dart';
 import 'package:pi_hole_client/widgets/list_tile_title.dart';
 import 'package:pi_hole_client/widgets/section_label.dart';

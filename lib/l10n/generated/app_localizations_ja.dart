@@ -21,6 +21,9 @@ class AppLocalizationsJa extends AppLocalizations {
   String get actions => 'アクション';
 
   @override
+  String get activityLog => 'アクティビティログ';
+
+  @override
   String get add => '追加';
 
   @override
@@ -321,6 +324,12 @@ class AppLocalizationsJa extends AppLocalizations {
   String get clientActivity24 => '過去24時間のクライアントアクティビティ';
 
   @override
+  String get clientInformation => 'クライアント情報';
+
+  @override
+  String get clientIp => 'クライアントIPアドレス';
+
+  @override
   String get clients => 'クライアント';
 
   @override
@@ -435,6 +444,9 @@ class AppLocalizationsJa extends AppLocalizations {
   String get createdBy => '作成者';
 
   @override
+  String get currentSession => '現在のセッション';
+
+  @override
   String get custom => 'カスタム';
 
   @override
@@ -478,6 +490,12 @@ class AppLocalizationsJa extends AppLocalizations {
 
   @override
   String get deleteDomainMessage => 'このドメインを削除してもよろしいですか？';
+
+  @override
+  String get deleteSession => 'セッションを削除';
+
+  @override
+  String get deleteSessionMessage => 'このセッションを削除してもよろしいですか？';
 
   @override
   String get deleting => '削除中...';
@@ -816,6 +834,9 @@ class AppLocalizationsJa extends AppLocalizations {
   String get importantInformation => '重要な情報';
 
   @override
+  String get inUse => '使用中';
+
+  @override
   String get indefinitely => '無期限';
 
   @override
@@ -856,6 +877,9 @@ class AppLocalizationsJa extends AppLocalizations {
 
   @override
   String get language => '言語';
+
+  @override
+  String get lastActive => '最終アクセス時間';
 
   @override
   String get lastUpdated => '最終更新日時';
@@ -913,6 +937,9 @@ class AppLocalizationsJa extends AppLocalizations {
 
   @override
   String get logDetails => 'ログの詳細';
+
+  @override
+  String get loginTime => 'ログイン時間';
 
   @override
   String get logs => 'ログ';
@@ -1065,7 +1092,13 @@ class AppLocalizationsJa extends AppLocalizations {
   String get now => '現在';
 
   @override
+  String get off => 'オフ';
+
+  @override
   String get olderVersion => '古いバージョンの場合、このアプリを引き続き使用するためにPi-holeを更新してください。';
+
+  @override
+  String get on => 'オン';
 
   @override
   String get onlyAvailableWithHttps => ' HTTPSでのみ利用可能';
@@ -1362,6 +1395,18 @@ class AppLocalizationsJa extends AppLocalizations {
   String get servers => 'サーバー';
 
   @override
+  String get session => 'セッション';
+
+  @override
+  String get sessionRemoveError => 'セッションの削除中にエラーが発生しました';
+
+  @override
+  String get sessionRemoved => 'セッションの削除に成功しました';
+
+  @override
+  String get sessionStatus => 'セッションステータス';
+
+  @override
   String get sessions => 'セッション';
 
   @override
@@ -1459,6 +1504,9 @@ class AppLocalizationsJa extends AppLocalizations {
 
   @override
   String get timestamps => 'タイムスタンプ';
+
+  @override
+  String get tlsStatus => 'TLSステータス';
 
   @override
   String get toTime => '終了時刻';
@@ -1572,6 +1620,15 @@ class AppLocalizationsJa extends AppLocalizations {
   String get useFingerprint => '指紋を使用';
 
   @override
+  String get usedAppPassword => 'アプリパスワードの使用';
+
+  @override
+  String get usedCLIPassword => 'CLIパスワードの使用';
+
+  @override
+  String get userAgent => 'ユーザーエージェント';
+
+  @override
   String get username => 'ユーザー名';
 
   @override
@@ -1579,6 +1636,12 @@ class AppLocalizationsJa extends AppLocalizations {
 
   @override
   String get validLifetime => '有効期間';
+
+  @override
+  String get validSession => '有効なセッション';
+
+  @override
+  String get validUntil => '有効期限';
 
   @override
   String get valueNotValid => '1〜86400秒の範囲の数値を入力してください';
