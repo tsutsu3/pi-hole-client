@@ -16,6 +16,7 @@ import 'package:pi_hole_client/gateways/api_gateway_interface.dart';
 import 'package:pi_hole_client/gateways/v5/api_gateway_v5.dart';
 import 'package:pi_hole_client/gateways/v6/api_gateway_v6.dart';
 import 'package:pi_hole_client/l10n/generated/app_localizations.dart';
+import 'package:pi_hole_client/models/api/v6/auth/sessions.dart';
 import 'package:pi_hole_client/models/api/v6/config/config.dart';
 import 'package:pi_hole_client/models/api/v6/ftl/host.dart' show Host;
 import 'package:pi_hole_client/models/api/v6/ftl/messages.dart' show Messages;
@@ -41,6 +42,7 @@ import 'package:pi_hole_client/models/overtime_data.dart';
 import 'package:pi_hole_client/models/realtime_status.dart';
 import 'package:pi_hole_client/models/sensors.dart';
 import 'package:pi_hole_client/models/server.dart';
+import 'package:pi_hole_client/models/sessions.dart';
 import 'package:pi_hole_client/models/subscriptions.dart';
 import 'package:pi_hole_client/models/system.dart';
 import 'package:pi_hole_client/models/version.dart';
@@ -1261,6 +1263,57 @@ final configDns = Config.fromJson({
   'took': 0.003,
 });
 
+final sessions = AuthSessions.fromJson(
+  {
+    'sessions': [
+      {
+        'id': 0,
+        'current_session': false,
+        'valid': false,
+        'tls': {'login': false, 'mixed': false},
+        'app': false,
+        'cli': false,
+        'login_at': 1580000000,
+        'last_active': 1580000000,
+        'valid_until': 1580000300,
+        'remote_addr': '192.168.0.30',
+        'user_agent': 'Dart/3.7 (dart:io)',
+        'x_forwarded_for': null,
+      },
+      {
+        'id': 1,
+        'current_session': true,
+        'valid': true,
+        'tls': {'login': true, 'mixed': false},
+        'app': false,
+        'cli': false,
+        'login_at': 1580000000,
+        'last_active': 1580000000,
+        'valid_until': 1580000300,
+        'remote_addr': '192.168.0.31',
+        'user_agent':
+            'Mozilla/5.0 (X11; Linux x86_64; rv:107.0) Gecko/20100101 Firefox/107.0',
+        'x_forwarded_for': null,
+      },
+      {
+        'id': 3,
+        'current_session': false,
+        'valid': false,
+        'tls': {'login': false, 'mixed': true},
+        'app': true,
+        'cli': true,
+        'login_at': 1580000000,
+        'last_active': 1580000000,
+        'valid_until': 1580000300,
+        'remote_addr': '192.168.0.32',
+        'user_agent': 'Dart/3.7 (dart:io)',
+        'x_forwarded_for': null,
+      },
+    ],
+    'took': 0.003,
+  },
+);
+
 /// Initialize the app with the given environment file.
 ///
 /// This function should be called before any other setup.
@@ -1986,6 +2039,19 @@ class TestSetupHelper {
       (_) async => ActionResponse(
         result: APiResponseType.success,
         data: 'success',
+      ),
+    );
+
+    when(mockApiGatewayV6.getSessions()).thenAnswer(
+      (_) async => SessionsResponse(
+        result: APiResponseType.success,
+        data: SessionsInfo.fromV6(sessions),
+      ),
+    );
+
+    when(mockApiGatewayV6.deleteSession(any)).thenAnswer(
+      (_) async => DeleteSessionResponse(
+        result: APiResponseType.success,
       ),
     );
   }
