@@ -17,6 +17,14 @@ import 'package:pi_hole_client/screens/common/empty_data_screen.dart';
 import 'package:pi_hole_client/screens/settings/server_settings/advanced_settings/sessions_screen/session_detail_screen.dart';
 import 'package:provider/provider.dart';
 
+/// A screen that displays session information to the user.
+///
+/// Users can view their current sessions and delete them if necessary.
+/// Session information is fetched and displayed only when this screen is accessed.
+///
+/// The displayed session information does not update automatically after session deletion
+/// or when viewing session details. To refresh the session list, users must either
+/// navigate back and reopen this screen, or tap the refresh icon in the top right corner.
 class SessionsScreen extends StatefulWidget {
   const SessionsScreen({super.key});
 
@@ -178,6 +186,16 @@ class _SessionState extends State<SessionsScreen> {
       child: Scaffold(
         appBar: AppBar(
           title: Text(AppLocalizations.of(context)!.sessions),
+          actions: [
+            Padding(
+              padding: const EdgeInsets.only(right: 8),
+              child: IconButton(
+                icon: const Icon(Icons.refresh_rounded),
+                onPressed: _loadSessions,
+                tooltip: AppLocalizations.of(context)!.refresh,
+              ),
+            ),
+          ],
         ),
         body: SafeArea(
           child: isLoading
