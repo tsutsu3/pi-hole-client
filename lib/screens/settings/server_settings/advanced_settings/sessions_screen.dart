@@ -21,10 +21,10 @@ class SessionsScreen extends StatefulWidget {
   const SessionsScreen({super.key});
 
   @override
-  State<SessionsScreen> createState() => _LogsState();
+  State<SessionsScreen> createState() => _SessionState();
 }
 
-class _LogsState extends State<SessionsScreen> {
+class _SessionState extends State<SessionsScreen> {
   late AppConfigProvider appConfigProvider;
   SessionInfo? selectedSession;
   SessionsInfo? sessionsInfo;
