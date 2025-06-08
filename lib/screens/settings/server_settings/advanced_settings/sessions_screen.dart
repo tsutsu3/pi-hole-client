@@ -14,6 +14,7 @@ import 'package:pi_hole_client/models/sessions.dart';
 import 'package:pi_hole_client/providers/app_config_provider.dart';
 import 'package:pi_hole_client/providers/servers_provider.dart';
 import 'package:pi_hole_client/screens/common/empty_data_screen.dart';
+import 'package:pi_hole_client/screens/common/error_message_screen.dart';
 import 'package:pi_hole_client/screens/settings/server_settings/advanced_settings/sessions_screen/session_detail_screen.dart';
 import 'package:provider/provider.dart';
 
@@ -39,6 +40,7 @@ class _SessionState extends State<SessionsScreen> {
   ApiGateway? apiGateway;
   ApiGateway? previousApiGateway;
   bool isLoading = true;
+  bool isFetchError = false;
 
   @override
   void didChangeDependencies() {
@@ -83,6 +85,7 @@ class _SessionState extends State<SessionsScreen> {
       if (result.result == APiResponseType.success) {
         sessionsInfo = result.data;
       } else {
+        isFetchError = true;
         logger.e('Failed to load sessions');
       }
       isLoading = false;
@@ -127,15 +130,15 @@ class _SessionState extends State<SessionsScreen> {
         case TlsStatus.none:
           iconData = Icons.no_encryption_rounded;
           iconColor = theme.queryGrey ?? Colors.grey;
-          statusText = 'OFF';
+          statusText = AppLocalizations.of(context)!.off;
         case TlsStatus.login:
           iconData = Icons.lock_rounded;
           iconColor = theme.queryGreen ?? Colors.green;
-          statusText = 'ON';
+          statusText = AppLocalizations.of(context)!.on;
         case TlsStatus.mixed:
           iconData = Icons.lock_rounded;
           iconColor = theme.queryGreen ?? Colors.green;
-          statusText = 'ON';
+          statusText = AppLocalizations.of(context)!.on;
       }
 
       return Row(
@@ -198,61 +201,76 @@ class _SessionState extends State<SessionsScreen> {
           ],
         ),
         body: SafeArea(
-          child: isLoading
-              ? const Center(child: CircularProgressIndicator())
-              : sessionsInfo == null || sessionsInfo!.sessions.isEmpty
-                  ? const EmptyDataScreen()
-                  : ListView.builder(
-                      padding: const EdgeInsets.only(top: 32),
-                      itemCount: sessionsInfo!.sessions.length,
-                      itemBuilder: (context, index) {
-                        final session = sessionsInfo!.sessions[index];
-                        return ListTile(
-                          leading: buildStatusIcon(session.isValid),
-                          title: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            mainAxisSize: MainAxisSize.min,
-                            children: [
-                              buildTlsLine(session.tlsStatus),
-                              Text(
-                                session.clientIp,
-                                style: const TextStyle(
-                                  fontSize: 16,
-                                  fontWeight: FontWeight.bold,
-                                ),
-                              ),
-                            ],
+          child: Builder(
+            builder: (context) {
+              if (isLoading) {
+                return const Center(
+                  child: CircularProgressIndicator(),
+                );
+              }
+
+              if (isFetchError) {
+                return ErrorMessageScreen(
+                  message: AppLocalizations.of(context)!.dataFetchFailed,
+                );
+              }
+
+              if (sessionsInfo == null || sessionsInfo!.sessions.isEmpty) {
+                return const EmptyDataScreen();
+              }
+
+              return ListView.builder(
+                padding: const EdgeInsets.only(top: 32),
+                itemCount: sessionsInfo!.sessions.length,
+                itemBuilder: (context, index) {
+                  final session = sessionsInfo!.sessions[index];
+                  return ListTile(
+                    leading: buildStatusIcon(session.isValid),
+                    title: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        buildTlsLine(session.tlsStatus),
+                        Text(
+                          session.clientIp,
+                          style: const TextStyle(
+                            fontSize: 16,
+                            fontWeight: FontWeight.bold,
                           ),
-                          subtitle: Text(
-                            formatTimestamp(
-                              session.validUntil,
-                              kUnifiedDateTimeLogFormat,
-                            ),
-                          ),
-                          trailing: session.isCurrentSession
-                              ? Chip(
-                                  avatar: const Icon(Icons.star_rounded),
-                                  label:
-                                      Text(AppLocalizations.of(context)!.inUse),
-                                )
-                              : null,
-                          onTap: () {
-                            setState(() {
-                              selectedSession = session;
-                            });
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                builder: (context) => SessionDetailScreen(
-                                  session: session,
-                                  onDelete: removeSession,
-                                ),
-                              ),
-                            );
-                          },
-                        );
-                      },
+                        ),
+                      ],
                     ),
+                    subtitle: Text(
+                      formatTimestamp(
+                        session.validUntil,
+                        kUnifiedDateTimeLogFormat,
+                      ),
+                    ),
+                    trailing: session.isCurrentSession
+                        ? Chip(
+                            avatar: const Icon(Icons.star_rounded),
+                            label: Text(AppLocalizations.of(context)!.inUse),
+                          )
+                        : null,
+                    onTap: () {
+                      setState(() {
+                        selectedSession = session;
+                      });
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => SessionDetailScreen(
+                            session: session,
+                            onDelete: removeSession,
+                          ),
+                        ),
+                      );
+                    },
+                  );
+                },
+              );
+            },
+          ),
         ),
       ),
     );
