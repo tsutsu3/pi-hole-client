@@ -22,8 +22,10 @@ import 'package:pi_hole_client/models/api/v6/ftl/version.dart' show Version;
 import 'package:pi_hole_client/models/api/v6/groups/groups.dart';
 import 'package:pi_hole_client/models/api/v6/lists/lists.dart' show Lists;
 import 'package:pi_hole_client/models/api/v6/lists/search.dart' show Search;
+import 'package:pi_hole_client/models/api/v6/network/devices.dart';
 import 'package:pi_hole_client/models/api/v6/network/gateway.dart';
 import 'package:pi_hole_client/models/config.dart';
+import 'package:pi_hole_client/models/devices.dart';
 import 'package:pi_hole_client/models/domain.dart';
 import 'package:pi_hole_client/models/gateway.dart';
 import 'package:pi_hole_client/models/gateways.dart';
@@ -119,6 +121,7 @@ void main() async {
   const fetchError = 'Failed to fetch data from the server.';
   const notImplementedError = 'This feature is not implemented yet.';
   const postError = 'Failed to post data to the server.';
+  const deleteError = 'Failed to delete data from the server.';
 
   group('loginQuery', () {
     late Server server;
@@ -4501,6 +4504,267 @@ void main() async {
       expect(response.result, APiResponseType.error);
       expect(response.message, unexpectedError);
       expect(response.data?.toJson(), null);
+    });
+  });
+
+  group('getDevices', () {
+    late Server server;
+    const data = {
+      'devices': [
+        {
+          'id': 1,
+          'hwaddr': '00:11:22:33:44:55',
+          'interface': 'enp2s0',
+          'firstSeen': 1664623620,
+          'lastQuery': 1664688620,
+          'numQueries': 585462,
+          'macVendor': 'Digital Data Communications Asia Co.,Ltd',
+          'ips': [
+            {
+              'ip': '192.168.1.51',
+              'name': 'ubuntu-server',
+              'lastSeen': 1664688620,
+              'nameUpdated': 1664688620
+            }
+          ]
+        },
+        {
+          'id': 2,
+          'hwaddr': '00:11:22:33:44:xx',
+          'interface': 'enp2s0',
+          'firstSeen': 1664523620,
+          'lastQuery': 1664588620,
+          'numQueries': 562,
+          'macVendor': null,
+          'ips': [
+            {
+              'ip': '192.168.1.52',
+              'name': 'ubuntu-server',
+              'lastSeen': 1664588620,
+              'nameUpdated': 1654588620
+            },
+            {
+              'ip': '192.168.1.62',
+              'name': null,
+              'lastSeen': 1664488620,
+              'nameUpdated': 1654488620
+            }
+          ]
+        }
+      ],
+      'took': 0.003
+    };
+    const emptyData = {
+      'devices': [],
+      'took': 0.003,
+    };
+    const erroData = {
+      'error': {'key': 'unauthorized', 'message': 'Unauthorized', 'hint': null},
+      'took': 0.003,
+    };
+
+    setUp(() {
+      server = Server(
+        address: 'http://example.com',
+        alias: 'example',
+        defaultServer: true,
+        apiVersion: SupportedApiVersions.v6,
+        allowSelfSignedCert: true,
+      );
+      server.sm.savePassword('xxx123');
+    });
+
+    test('should return success', () async {
+      final mockClient = MockClient();
+      final apiGateway = ApiGatewayV6(server, client: mockClient);
+
+      when(
+        mockClient.get(
+          Uri.parse(
+              'http://example.com/api/network/devices?max_devices=999&max_addresses=25'),
+          headers: anyNamed('headers'),
+        ),
+      ).thenAnswer((_) async => http.Response(jsonEncode(data), 200));
+
+      final response = await apiGateway.getDevices();
+
+      expect(response.result, APiResponseType.success);
+      expect(response.message, null);
+      expect(
+        response.data?.toJson(),
+        DevicesInfo.fromV6(Devices.fromJson(data)).toJson(),
+      );
+    });
+
+    test('should return success when return empty data', () async {
+      final mockClient = MockClient();
+      final apiGateway = ApiGatewayV6(server, client: mockClient);
+
+      when(
+        mockClient.get(
+          Uri.parse(
+              'http://example.com/api/network/devices?max_devices=999&max_addresses=25'),
+          headers: anyNamed('headers'),
+        ),
+      ).thenAnswer((_) async => http.Response(jsonEncode(emptyData), 200));
+
+      final response = await apiGateway.getDevices();
+
+      expect(response.result, APiResponseType.success);
+      expect(response.message, null);
+      expect(
+        response.data?.toJson(),
+        DevicesInfo.fromV6(Devices.fromJson(emptyData)).toJson(),
+      );
+    });
+
+    test('should return success with params', () async {
+      final mockClient = MockClient();
+      final apiGateway = ApiGatewayV6(server, client: mockClient);
+
+      when(
+        mockClient.get(
+          Uri.parse(
+              'http://example.com/api/network/devices?max_devices=10&max_addresses=2'),
+          headers: anyNamed('headers'),
+        ),
+      ).thenAnswer((_) async => http.Response(jsonEncode(data), 200));
+
+      final response =
+          await apiGateway.getDevices(maxDevices: 10, maxAddresses: 2);
+
+      expect(response.result, APiResponseType.success);
+      expect(response.message, null);
+      expect(
+        response.data?.toJson(),
+        DevicesInfo.fromV6(Devices.fromJson(data)).toJson(),
+      );
+    });
+
+    test('should return an error when status code is 401', () async {
+      final mockClient = MockClient();
+      final apiGateway = ApiGatewayV6(server, client: mockClient);
+
+      when(
+        mockClient.get(
+          Uri.parse(
+              'http://example.com/api/network/devices?max_devices=999&max_addresses=25'),
+          headers: anyNamed('headers'),
+        ),
+      ).thenAnswer((_) async => http.Response(jsonEncode(erroData), 401));
+
+      final response = await apiGateway.getDevices();
+
+      expect(response.result, APiResponseType.error);
+      expect(response.message, fetchError);
+      expect(response.data?.toJson(), null);
+    });
+
+    test('should return an error when an unexpected error occurs', () async {
+      final mockClient = MockClient();
+      final apiGateway = ApiGatewayV6(server, client: mockClient);
+
+      when(
+        mockClient.get(
+          Uri.parse(
+              'http://example.com/api/network/devices?max_devices=999&max_addresses=25'),
+          headers: anyNamed('headers'),
+        ),
+      ).thenThrow(Exception('Unexpected error test'));
+
+      final response = await apiGateway.getDevices();
+
+      expect(response.result, APiResponseType.error);
+      expect(response.message, unexpectedError);
+      expect(response.data?.toJson(), null);
+    });
+  });
+
+  group('deleteDevice', () {
+    late Server server;
+    const erroData404 = {'took': 0.003};
+    const erroData = {
+      'error': {'key': 'unauthorized', 'message': 'Unauthorized', 'hint': null},
+      'took': 0.003,
+    };
+
+    setUp(() {
+      server = Server(
+        address: 'http://example.com',
+        alias: 'example',
+        defaultServer: true,
+        apiVersion: SupportedApiVersions.v6,
+        allowSelfSignedCert: true,
+      );
+      server.sm.savePassword('xxx123');
+    });
+
+    test('should return success', () async {
+      final mockClient = MockClient();
+      final apiGateway = ApiGatewayV6(server, client: mockClient);
+
+      when(
+        mockClient.delete(
+          Uri.parse('http://example.com/api/network/devices/1'),
+          headers: anyNamed('headers'),
+        ),
+      ).thenAnswer((_) async => http.Response('', 204));
+
+      final response = await apiGateway.deleteDevice(1);
+
+      expect(response.result, APiResponseType.success);
+      expect(response.message, null);
+    });
+
+    test('should return an error when status code is 404', () async {
+      final mockClient = MockClient();
+      final apiGateway = ApiGatewayV6(server, client: mockClient);
+
+      when(
+        mockClient.delete(
+          Uri.parse('http://example.com/api/network/devices/1'),
+          headers: anyNamed('headers'),
+        ),
+      ).thenAnswer((_) async => http.Response(jsonEncode(erroData404), 404));
+
+      final response = await apiGateway.deleteDevice(1);
+
+      expect(response.result, APiResponseType.notFound);
+      expect(response.message, 'Not found');
+    });
+
+    test('should return an error when status code is 401', () async {
+      final mockClient = MockClient();
+      final apiGateway = ApiGatewayV6(server, client: mockClient);
+
+      when(
+        mockClient.delete(
+          Uri.parse('http://example.com/api/network/devices/1'),
+          headers: anyNamed('headers'),
+        ),
+      ).thenAnswer((_) async => http.Response(jsonEncode(erroData), 401));
+
+      final response = await apiGateway.deleteDevice(1);
+
+      expect(response.result, APiResponseType.error);
+      expect(response.message, deleteError);
+    });
+
+    test('should return an error when an unexpected error occurs', () async {
+      final mockClient = MockClient();
+      final apiGateway = ApiGatewayV6(server, client: mockClient);
+
+      when(
+        mockClient.delete(
+          Uri.parse('http://example.com/api/network/devices/1'),
+          headers: anyNamed('headers'),
+        ),
+      ).thenThrow(Exception('Unexpected error test'));
+
+      final response = await apiGateway.deleteDevice(1);
+
+      expect(response.result, APiResponseType.error);
+      expect(response.message, unexpectedError);
     });
   });
 
