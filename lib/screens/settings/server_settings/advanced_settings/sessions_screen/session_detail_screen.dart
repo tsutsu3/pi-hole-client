@@ -71,7 +71,9 @@ class SessionDetailScreen extends StatelessWidget {
                 leadingIcon: Icons.event_busy_rounded,
                 label: locale.validUntil,
                 description: formatTimestamp(
-                    session.validUntil, kUnifiedDateTimeLogFormat),
+                  session.validUntil,
+                  kUnifiedDateTimeLogFormat,
+                ),
               ),
               SectionLabel(label: locale.clientInformation),
               CustomListTile(
@@ -110,7 +112,9 @@ class SessionDetailScreen extends StatelessWidget {
                 leadingIcon: Icons.event_repeat_rounded,
                 label: locale.lastActive,
                 description: formatTimestamp(
-                    session.lastActive, kUnifiedDateTimeLogFormat),
+                  session.lastActive,
+                  kUnifiedDateTimeLogFormat,
+                ),
               ),
             ],
           ),
