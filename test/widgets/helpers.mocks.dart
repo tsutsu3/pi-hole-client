@@ -426,9 +426,20 @@ class _FakeDeleteSessionResponse_33 extends _i1.SmartFake
         );
 }
 
-class _FakeStreamedResponse_34 extends _i1.SmartFake
+class _FakeClientResponse_34 extends _i1.SmartFake
+    implements _i5.ClientResponse {
+  _FakeClientResponse_34(
+    Object parent,
+    Invocation parentInvocation,
+  ) : super(
+          parent,
+          parentInvocation,
+        );
+}
+
+class _FakeStreamedResponse_35 extends _i1.SmartFake
     implements _i4.StreamedResponse {
-  _FakeStreamedResponse_34(
+  _FakeStreamedResponse_35(
     Object parent,
     Invocation parentInvocation,
   ) : super(
@@ -2411,6 +2422,22 @@ class MockApiGatewayV5 extends _i1.Mock implements _i27.ApiGatewayV5 {
           ),
         )),
       ) as _i12.Future<_i5.DeleteSessionResponse>);
+
+  @override
+  _i12.Future<_i5.ClientResponse> getClient() => (super.noSuchMethod(
+        Invocation.method(
+          #getClient,
+          [],
+        ),
+        returnValue:
+            _i12.Future<_i5.ClientResponse>.value(_FakeClientResponse_34(
+          this,
+          Invocation.method(
+            #getClient,
+            [],
+          ),
+        )),
+      ) as _i12.Future<_i5.ClientResponse>);
 }
 
 /// A class which mocks [ApiGatewayV6].
@@ -2537,7 +2564,7 @@ class MockApiGatewayV6 extends _i1.Mock implements _i31.ApiGatewayV6 {
           },
         ),
         returnValue:
-            _i12.Future<_i4.StreamedResponse>.value(_FakeStreamedResponse_34(
+            _i12.Future<_i4.StreamedResponse>.value(_FakeStreamedResponse_35(
           this,
           Invocation.method(
             #httpClientStream,
@@ -3319,6 +3346,22 @@ class MockApiGatewayV6 extends _i1.Mock implements _i31.ApiGatewayV6 {
           ),
         )),
       ) as _i12.Future<_i5.DeleteSessionResponse>);
+
+  @override
+  _i12.Future<_i5.ClientResponse> getClient() => (super.noSuchMethod(
+        Invocation.method(
+          #getClient,
+          [],
+        ),
+        returnValue:
+            _i12.Future<_i5.ClientResponse>.value(_FakeClientResponse_34(
+          this,
+          Invocation.method(
+            #getClient,
+            [],
+          ),
+        )),
+      ) as _i12.Future<_i5.ClientResponse>);
 }
 
 /// A class which mocks [StatusUpdateService].

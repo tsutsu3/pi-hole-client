@@ -15,6 +15,8 @@ import 'package:pi_hole_client/models/api/v6/config/config.dart';
 import 'package:pi_hole_client/models/api/v6/dns/dns.dart' show Blocking;
 import 'package:pi_hole_client/models/api/v6/domains/domains.dart'
     show AddDomains, Domains;
+import 'package:pi_hole_client/models/api/v6/ftl/client.dart' as FtlClient
+    show Client; // ignore: library_prefixes
 import 'package:pi_hole_client/models/api/v6/ftl/ftl.dart' show InfoFtl;
 import 'package:pi_hole_client/models/api/v6/ftl/host.dart' show Host;
 import 'package:pi_hole_client/models/api/v6/ftl/messages.dart' show Messages;
@@ -33,6 +35,7 @@ import 'package:pi_hole_client/models/api/v6/metrics/stats.dart'
 import 'package:pi_hole_client/models/api/v6/network/devices.dart';
 import 'package:pi_hole_client/models/api/v6/network/gateway.dart' show Gateway;
 import 'package:pi_hole_client/models/app_log.dart';
+import 'package:pi_hole_client/models/client.dart';
 import 'package:pi_hole_client/models/config.dart';
 import 'package:pi_hole_client/models/devices.dart';
 import 'package:pi_hole_client/models/domain.dart';
@@ -1727,6 +1730,35 @@ class ApiGatewayV6 implements ApiGateway {
       }
     } catch (e) {
       return DeleteSessionResponse(
+        result: APiResponseType.error,
+        message: unexpectedError,
+      );
+    }
+  }
+
+  @override
+  Future<ClientResponse> getClient() async {
+    try {
+      final results = await httpClient(
+        method: 'get',
+        url: '${_server.address}/api/info/client',
+      );
+
+      if (results.statusCode == 200) {
+        final client = FtlClient.Client.fromJson(jsonDecode(results.body));
+
+        return ClientResponse(
+          result: APiResponseType.success,
+          data: ClientInfo.fromV6(client),
+        );
+      } else {
+        return ClientResponse(
+          result: APiResponseType.error,
+          message: fetchError,
+        );
+      }
+    } catch (e) {
+      return ClientResponse(
         result: APiResponseType.error,
         message: unexpectedError,
       );

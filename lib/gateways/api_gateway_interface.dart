@@ -262,4 +262,7 @@ abstract interface class ApiGateway {
 
   /// Delete session by ID
   Future<DeleteSessionResponse> deleteSession(int id);
+
+  /// Get information about requesting client
+  Future<ClientResponse> getClient();
 }

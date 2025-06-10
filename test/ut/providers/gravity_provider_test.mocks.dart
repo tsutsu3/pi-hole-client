@@ -451,6 +451,17 @@ class _FakeDeleteSessionResponse_37 extends _i1.SmartFake
         );
 }
 
+class _FakeClientResponse_38 extends _i1.SmartFake
+    implements _i7.ClientResponse {
+  _FakeClientResponse_38(
+    Object parent,
+    Invocation parentInvocation,
+  ) : super(
+          parent,
+          parentInvocation,
+        );
+}
+
 /// A class which mocks [ServersProvider].
 ///
 /// See the documentation for Mockito's code generation for more information.
@@ -1900,4 +1911,20 @@ class MockApiGatewayV6 extends _i1.Mock implements _i15.ApiGatewayV6 {
           ),
         )),
       ) as _i12.Future<_i7.DeleteSessionResponse>);
+
+  @override
+  _i12.Future<_i7.ClientResponse> getClient() => (super.noSuchMethod(
+        Invocation.method(
+          #getClient,
+          [],
+        ),
+        returnValue:
+            _i12.Future<_i7.ClientResponse>.value(_FakeClientResponse_38(
+          this,
+          Invocation.method(
+            #getClient,
+            [],
+          ),
+        )),
+      ) as _i12.Future<_i7.ClientResponse>);
 }
