@@ -1062,7 +1062,7 @@ class AppLocalizationsDe extends AppLocalizations {
   String get networkDescription => 'Zeigt eine Übersicht über das Netzwerk an';
 
   @override
-  String get never => '\tNie';
+  String get never => 'Nie';
 
   @override
   String get next => 'Weiter';

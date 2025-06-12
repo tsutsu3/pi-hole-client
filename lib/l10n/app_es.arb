@@ -562,7 +562,7 @@
   "validSession": "Sesión válida",
   "validUntil": "Válido hasta",
   "valueNotValid": "Ingrese un número entre 1 y 86400 segundos",
-  "vendor": "Proveedo",
+  "vendor": "Proveedor",
   "version": "Versión",
   "versionDescription": "Seleccione la versión de Pi-hole que está utilizando",
   "versionRequirements": "Requisitos de versión",

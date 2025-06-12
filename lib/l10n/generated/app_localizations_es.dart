@@ -1695,7 +1695,7 @@ class AppLocalizationsEs extends AppLocalizations {
   String get valueNotValid => 'Ingrese un número entre 1 y 86400 segundos';
 
   @override
-  String get vendor => 'Proveedo';
+  String get vendor => 'Proveedor';
 
   @override
   String get version => 'Versión';
