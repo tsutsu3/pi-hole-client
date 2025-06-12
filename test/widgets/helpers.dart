@@ -18,6 +18,9 @@ import 'package:pi_hole_client/gateways/v6/api_gateway_v6.dart';
 import 'package:pi_hole_client/l10n/generated/app_localizations.dart';
 import 'package:pi_hole_client/models/api/v6/auth/sessions.dart';
 import 'package:pi_hole_client/models/api/v6/config/config.dart';
+// ignore: library_prefixes
+import 'package:pi_hole_client/models/api/v6/ftl/client.dart' as FtlClient
+    show Client;
 import 'package:pi_hole_client/models/api/v6/ftl/host.dart' show Host;
 import 'package:pi_hole_client/models/api/v6/ftl/messages.dart' show Messages;
 import 'package:pi_hole_client/models/api/v6/ftl/metrics.dart';
@@ -27,9 +30,12 @@ import 'package:pi_hole_client/models/api/v6/ftl/version.dart' show Version;
 import 'package:pi_hole_client/models/api/v6/groups/groups.dart' show Groups;
 import 'package:pi_hole_client/models/api/v6/lists/lists.dart' show Lists;
 import 'package:pi_hole_client/models/api/v6/metrics/query.dart';
+import 'package:pi_hole_client/models/api/v6/network/devices.dart';
 import 'package:pi_hole_client/models/api/v6/network/gateway.dart';
 import 'package:pi_hole_client/models/app_log.dart';
+import 'package:pi_hole_client/models/client.dart';
 import 'package:pi_hole_client/models/config.dart';
+import 'package:pi_hole_client/models/devices.dart';
 import 'package:pi_hole_client/models/domain.dart';
 import 'package:pi_hole_client/models/gateway.dart';
 import 'package:pi_hole_client/models/gateways.dart';
@@ -1314,6 +1320,66 @@ final sessions = AuthSessions.fromJson(
   },
 );
 
+final client = FtlClient.Client.fromJson(
+  {
+    'remote_addr': '192.168.1.51',
+    'http_version': '1.1',
+    'method': 'GET',
+    'headers': [
+      {'name': 'Accept', 'value': 'application/json'},
+      {'name': 'Connection', 'value': 'keep-alive'},
+      {'name': 'Pragma', 'value': 'no-cache'},
+    ],
+    'took': 0.003,
+  },
+);
+
+final devices = Devices.fromJson({
+  'devices': [
+    {
+      'id': 1,
+      'hwaddr': '00:11:22:33:44:55',
+      'interface': 'enp2s0',
+      'firstSeen': 1664623620,
+      'lastQuery': 1664688620,
+      'numQueries': 585462,
+      'macVendor': 'Digital Data Communications Asia Co.,Ltd',
+      'ips': [
+        {
+          'ip': '192.168.1.51',
+          'name': 'ubuntu-server',
+          'lastSeen': 1664688620,
+          'nameUpdated': 1664688620,
+        }
+      ],
+    },
+    {
+      'id': 2,
+      'hwaddr': '00:11:22:33:44:xx',
+      'interface': 'enp2s0',
+      'firstSeen': 1664523620,
+      'lastQuery': 1664588620,
+      'numQueries': 562,
+      'macVendor': null,
+      'ips': [
+        {
+          'ip': '192.168.1.52',
+          'name': 'ubuntu-server',
+          'lastSeen': 1664588620,
+          'nameUpdated': 1654588620,
+        },
+        {
+          'ip': '192.168.1.62',
+          'name': null,
+          'lastSeen': 1664488620,
+          'nameUpdated': 1654488620,
+        }
+      ],
+    }
+  ],
+  'took': 0.003,
+});
+
 /// Initialize the app with the given environment file.
 ///
 /// This function should be called before any other setup.
@@ -2051,6 +2117,26 @@ class TestSetupHelper {
 
     when(mockApiGatewayV6.deleteSession(any)).thenAnswer(
       (_) async => DeleteSessionResponse(
+        result: APiResponseType.success,
+      ),
+    );
+
+    when(mockApiGatewayV6.getClient()).thenAnswer(
+      (_) async => ClientResponse(
+        result: APiResponseType.success,
+        data: ClientInfo.fromV6(client),
+      ),
+    );
+
+    when(mockApiGatewayV6.getDevices()).thenAnswer(
+      (_) async => DevicesResponse(
+        result: APiResponseType.success,
+        data: DevicesInfo.fromV6(devices),
+      ),
+    );
+
+    when(mockApiGatewayV6.deleteDevice(any)).thenAnswer(
+      (_) async => DeleteDeviceResponse(
         result: APiResponseType.success,
       ),
     );
