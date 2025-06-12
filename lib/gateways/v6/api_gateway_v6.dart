@@ -15,8 +15,9 @@ import 'package:pi_hole_client/models/api/v6/config/config.dart';
 import 'package:pi_hole_client/models/api/v6/dns/dns.dart' show Blocking;
 import 'package:pi_hole_client/models/api/v6/domains/domains.dart'
     show AddDomains, Domains;
+// ignore: library_prefixes
 import 'package:pi_hole_client/models/api/v6/ftl/client.dart' as FtlClient
-    show Client; // ignore: library_prefixes
+    show Client;
 import 'package:pi_hole_client/models/api/v6/ftl/ftl.dart' show InfoFtl;
 import 'package:pi_hole_client/models/api/v6/ftl/host.dart' show Host;
 import 'package:pi_hole_client/models/api/v6/ftl/messages.dart' show Messages;
