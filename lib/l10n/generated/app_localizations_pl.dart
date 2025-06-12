@@ -21,6 +21,9 @@ class AppLocalizationsPl extends AppLocalizations {
   String get actions => 'Działania';
 
   @override
+  String get activity => 'Aktywność';
+
+  @override
   String get activityLog => 'Dziennik aktywności';
 
   @override
@@ -486,6 +489,12 @@ class AppLocalizationsPl extends AppLocalizations {
   String get deleteAdlistMessage => 'Czy na pewno chcesz usunąć tę Adlist?';
 
   @override
+  String get deleteDevice => 'Usuń urządzenie';
+
+  @override
+  String get deleteDeviceMessage => 'Czy na pewno chcesz usunąć to urządzenie?';
+
+  @override
   String get deleteDomain => 'Usuń domenę';
 
   @override
@@ -505,6 +514,12 @@ class AppLocalizationsPl extends AppLocalizations {
 
   @override
   String get deviceConfig => 'Konfiguracja urządzenia';
+
+  @override
+  String get deviceInfo => 'Informacje o urządzeniu';
+
+  @override
+  String get deviceRemoved => 'Urządzenie zostało pomyślnie usunięte';
 
   @override
   String get dhcp => 'DHCP';
@@ -663,6 +678,9 @@ class AppLocalizationsPl extends AppLocalizations {
   String get errorRemovingAdlist => 'Błąd podczas usuwania Adlist';
 
   @override
+  String get errorRemovingDevice => 'Błąd podczas usuwania urządzenia';
+
+  @override
   String get errorRemovingDomain => 'Błąd podczas usuwania domeny';
 
   @override
@@ -685,6 +703,9 @@ class AppLocalizationsPl extends AppLocalizations {
 
   @override
   String get finish => 'Zakończ';
+
+  @override
+  String get firstSeen => 'Pierwsze wystąpienie';
 
   @override
   String get flags => 'Flagi';
@@ -798,6 +819,9 @@ class AppLocalizationsPl extends AppLocalizations {
   String get host => 'Host';
 
   @override
+  String get hostname => 'Nazwa hosta';
+
+  @override
   String get hour1 => '1 godzina';
 
   @override
@@ -867,6 +891,12 @@ class AppLocalizationsPl extends AppLocalizations {
   String get invalidSubroute => 'Nieprawidłowa podtrasa. Pamiętaj, aby nie kończyć znakiem \'/\', \'.\' lub \':\'.';
 
   @override
+  String get ipAddress => 'Adres IP';
+
+  @override
+  String get ipAddresses => 'Adresy IP';
+
+  @override
   String get ipCannotEmpty => 'Pole IP nie może być puste';
 
   @override
@@ -880,6 +910,15 @@ class AppLocalizationsPl extends AppLocalizations {
 
   @override
   String get lastActive => 'Czas ostatniego dostępu';
+
+  @override
+  String get lastNameChange => 'Czas zmiany nazwy';
+
+  @override
+  String get lastQuery => 'Ostatnie zapytanie';
+
+  @override
+  String get lastSeen => 'Ostatnio widziany';
 
   @override
   String get lastUpdated => 'Ostatnia aktualizacja';
@@ -966,6 +1005,9 @@ class AppLocalizationsPl extends AppLocalizations {
   String get logsWillBeRequested => 'Logi będą wymagane w grupach';
 
   @override
+  String get macAddress => 'Adres MAC';
+
+  @override
   String get max => 'Maks';
 
   @override
@@ -1018,6 +1060,9 @@ class AppLocalizationsPl extends AppLocalizations {
 
   @override
   String get networkDescription => 'Wyświetla przegląd sieci';
+
+  @override
+  String get never => 'Nigdy';
 
   @override
   String get next => 'Dalej';
@@ -1180,6 +1225,9 @@ class AppLocalizationsPl extends AppLocalizations {
 
   @override
   String get queriesServers => 'Zapytania i serwery';
+
+  @override
+  String get queryCount => 'Liczba zapytań';
 
   @override
   String get queryLoggingSwitchWarning => 'Czy na pewno chcesz zmienić tryb logowania zapytań?\n\nSpowoduje to ponowne uruchomienie serwera DNS, wyczyszczenie pamięci podręcznej DNS i może tymczasowo rozłączyć internet.\nZostaniesz także wylogowany z interfejsu webowego.';
@@ -1645,6 +1693,9 @@ class AppLocalizationsPl extends AppLocalizations {
 
   @override
   String get valueNotValid => 'Wprowadź liczbę od 1 do 86400 sekund';
+
+  @override
+  String get vendor => 'Producent';
 
   @override
   String get version => 'Wersja';

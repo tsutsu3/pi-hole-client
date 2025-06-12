@@ -202,6 +202,19 @@ abstract interface class ApiGateway {
   /// Note that the available information is dependent on the interface type and state.
   Future<GatewayResponse> getGateway({bool? isDetailed});
 
+  /// Get info about the devices in your local network as seen by your Pi-hole
+  ///
+  /// The optional parameters `maxDevices` and `maxAddresses` limit the number of
+  /// devices and addresses returned in the response, respectively.
+  /// If not set, the default values are `maxDevices = 999` and `maxAddresses = 25` (Pi-hole web UI defaults).
+  Future<DevicesResponse> getDevices({
+    int? maxDevices,
+    int? maxAddresses,
+  });
+
+  /// Delete a device from the network table
+  Future<DeleteDeviceResponse> deleteDevice(int id);
+
   /// Get current configuration of your Pi-hole
   ///
   /// Only supports when detailed parameters are set to `false`.
@@ -249,4 +262,7 @@ abstract interface class ApiGateway {
 
   /// Delete session by ID
   Future<DeleteSessionResponse> deleteSession(int id);
+
+  /// Get information about requesting client
+  Future<ClientResponse> getClient();
 }

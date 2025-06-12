@@ -299,6 +299,63 @@ class NetworkHandler {
       );
     });
 
+    router.get('/devices', (Request request) {
+      final mockResponse = {
+        'devices': [
+          {
+            'id': 1,
+            'hwaddr': '00:11:22:33:44:55',
+            'interface': 'enp2s0',
+            'firstSeen': 1664623620,
+            'lastQuery': 1664688620,
+            'numQueries': 585462,
+            'macVendor': 'Digital Data Communications Asia Co.,Ltd',
+            'ips': [
+              {
+                'ip': '192.168.1.51',
+                'name': 'ubuntu-server',
+                'lastSeen': 1664688620,
+                'nameUpdated': 1664688620,
+              },
+            ],
+          },
+          {
+            'id': 2,
+            'hwaddr': '00:11:22:33:44:xx',
+            'interface': 'enp2s0',
+            'firstSeen': 1664523620,
+            'lastQuery': 1664588620,
+            'numQueries': 562,
+            'macVendor': null,
+            'ips': [
+              {
+                'ip': '192.168.1.52',
+                'name': 'ubuntu-server',
+                'lastSeen': 1664588620,
+                'nameUpdated': 1654588620,
+              },
+              {
+                'ip': '192.168.1.62',
+                'name': null,
+                'lastSeen': 1664488620,
+                'nameUpdated': 1654488620,
+              },
+            ],
+          },
+        ],
+        'took': 0.003,
+      };
+
+      return Response.ok(
+        jsonEncode(mockResponse),
+        headers: {'Content-Type': 'application/json'},
+      );
+    });
+
+    router.delete('/devices/<id>', (Request request, String id) {
+      return Response(204);
+    });
+
     return router;
   }
 }

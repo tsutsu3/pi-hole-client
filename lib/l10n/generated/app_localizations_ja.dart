@@ -21,6 +21,9 @@ class AppLocalizationsJa extends AppLocalizations {
   String get actions => 'アクション';
 
   @override
+  String get activity => 'アクティビティ';
+
+  @override
   String get activityLog => 'アクティビティログ';
 
   @override
@@ -486,6 +489,12 @@ class AppLocalizationsJa extends AppLocalizations {
   String get deleteAdlistMessage => 'このAdlistを削除してもよろしいですか？';
 
   @override
+  String get deleteDevice => 'デバイスの削除';
+
+  @override
+  String get deleteDeviceMessage => 'このデバイスを削除してもよろしいですか？';
+
+  @override
   String get deleteDomain => 'ドメインを削除';
 
   @override
@@ -505,6 +514,12 @@ class AppLocalizationsJa extends AppLocalizations {
 
   @override
   String get deviceConfig => 'デバイス構成';
+
+  @override
+  String get deviceInfo => 'デバイス情報';
+
+  @override
+  String get deviceRemoved => 'デバイスの削除に成功しました';
 
   @override
   String get dhcp => 'DHCP';
@@ -663,6 +678,9 @@ class AppLocalizationsJa extends AppLocalizations {
   String get errorRemovingAdlist => 'Adlistの削除中にエラーが発生しました';
 
   @override
+  String get errorRemovingDevice => 'デバイスの削除中にエラーが発生しました';
+
+  @override
   String get errorRemovingDomain => 'ドメイン削除時にエラーが発生しました';
 
   @override
@@ -685,6 +703,9 @@ class AppLocalizationsJa extends AppLocalizations {
 
   @override
   String get finish => '完了';
+
+  @override
+  String get firstSeen => '初回検出';
 
   @override
   String get flags => 'フラグ';
@@ -798,6 +819,9 @@ class AppLocalizationsJa extends AppLocalizations {
   String get host => 'ホスト';
 
   @override
+  String get hostname => 'ホスト名';
+
+  @override
   String get hour1 => '1時間';
 
   @override
@@ -867,6 +891,12 @@ class AppLocalizationsJa extends AppLocalizations {
   String get invalidSubroute => '無効なサブルートです。「/」、「.」、または「:」で終わらないようにしてください。';
 
   @override
+  String get ipAddress => 'IPアドレス';
+
+  @override
+  String get ipAddresses => 'IPアドレス一覧';
+
+  @override
   String get ipCannotEmpty => 'IPフィールドを空にすることはできません';
 
   @override
@@ -880,6 +910,15 @@ class AppLocalizationsJa extends AppLocalizations {
 
   @override
   String get lastActive => '最終アクセス時間';
+
+  @override
+  String get lastNameChange => '名前の変更時刻';
+
+  @override
+  String get lastQuery => '最終クエリ';
+
+  @override
+  String get lastSeen => '最終検出';
 
   @override
   String get lastUpdated => '最終更新日時';
@@ -966,6 +1005,9 @@ class AppLocalizationsJa extends AppLocalizations {
   String get logsWillBeRequested => 'ログは';
 
   @override
+  String get macAddress => 'MACアドレス';
+
+  @override
   String get max => '最大';
 
   @override
@@ -1018,6 +1060,9 @@ class AppLocalizationsJa extends AppLocalizations {
 
   @override
   String get networkDescription => 'ネットワークの概要を表示します';
+
+  @override
+  String get never => 'なし';
 
   @override
   String get next => '次へ';
@@ -1180,6 +1225,9 @@ class AppLocalizationsJa extends AppLocalizations {
 
   @override
   String get queriesServers => 'クエリ＆サーバー';
+
+  @override
+  String get queryCount => 'クエリ数';
 
   @override
   String get queryLoggingSwitchWarning => 'クエリログモードを切り替えてもよろしいですか？\n\nこの操作によりDNSサーバーが再起動され、DNSキャッシュがクリアされ、一時的にインターネット接続が切断される可能性があります。\nまた、Webインターフェースからログアウトされます。';
@@ -1645,6 +1693,9 @@ class AppLocalizationsJa extends AppLocalizations {
 
   @override
   String get valueNotValid => '1〜86400秒の範囲の数値を入力してください';
+
+  @override
+  String get vendor => 'ベンダー';
 
   @override
   String get version => 'バージョン';

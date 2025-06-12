@@ -125,6 +125,12 @@ abstract class AppLocalizations {
   /// **'Actions'**
   String get actions;
 
+  /// No description provided for @activity.
+  ///
+  /// In en, this message translates to:
+  /// **'Activity'**
+  String get activity;
+
   /// No description provided for @activityLog.
   ///
   /// In en, this message translates to:
@@ -1055,6 +1061,18 @@ abstract class AppLocalizations {
   /// **'Are you sure you want to delete this adlist?'**
   String get deleteAdlistMessage;
 
+  /// No description provided for @deleteDevice.
+  ///
+  /// In en, this message translates to:
+  /// **'Delete device'**
+  String get deleteDevice;
+
+  /// No description provided for @deleteDeviceMessage.
+  ///
+  /// In en, this message translates to:
+  /// **'Are you sure you want to delete this device?'**
+  String get deleteDeviceMessage;
+
   /// No description provided for @deleteDomain.
   ///
   /// In en, this message translates to:
@@ -1096,6 +1114,18 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Device Configuration'**
   String get deviceConfig;
+
+  /// No description provided for @deviceInfo.
+  ///
+  /// In en, this message translates to:
+  /// **'Device Info'**
+  String get deviceInfo;
+
+  /// No description provided for @deviceRemoved.
+  ///
+  /// In en, this message translates to:
+  /// **'Device removed successfully'**
+  String get deviceRemoved;
 
   /// No description provided for @dhcp.
   ///
@@ -1409,6 +1439,12 @@ abstract class AppLocalizations {
   /// **'Error when removing adlist'**
   String get errorRemovingAdlist;
 
+  /// No description provided for @errorRemovingDevice.
+  ///
+  /// In en, this message translates to:
+  /// **'Error when removing device'**
+  String get errorRemovingDevice;
+
   /// No description provided for @errorRemovingDomain.
   ///
   /// In en, this message translates to:
@@ -1456,6 +1492,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Finish'**
   String get finish;
+
+  /// No description provided for @firstSeen.
+  ///
+  /// In en, this message translates to:
+  /// **'First Seen'**
+  String get firstSeen;
 
   /// No description provided for @flags.
   ///
@@ -1679,6 +1721,12 @@ abstract class AppLocalizations {
   /// **'Host'**
   String get host;
 
+  /// No description provided for @hostname.
+  ///
+  /// In en, this message translates to:
+  /// **'Hostname'**
+  String get hostname;
+
   /// No description provided for @hour1.
   ///
   /// In en, this message translates to:
@@ -1817,6 +1865,18 @@ abstract class AppLocalizations {
   /// **'Invalid subroute. Remember not to finish with a \'/\', \'.\' or \':\'.'**
   String get invalidSubroute;
 
+  /// No description provided for @ipAddress.
+  ///
+  /// In en, this message translates to:
+  /// **'IP Address'**
+  String get ipAddress;
+
+  /// No description provided for @ipAddresses.
+  ///
+  /// In en, this message translates to:
+  /// **'IP Addresses'**
+  String get ipAddresses;
+
   /// No description provided for @ipCannotEmpty.
   ///
   /// In en, this message translates to:
@@ -1846,6 +1906,24 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Last Access Time'**
   String get lastActive;
+
+  /// No description provided for @lastNameChange.
+  ///
+  /// In en, this message translates to:
+  /// **'Name Change Time'**
+  String get lastNameChange;
+
+  /// No description provided for @lastQuery.
+  ///
+  /// In en, this message translates to:
+  /// **'Last Query'**
+  String get lastQuery;
+
+  /// No description provided for @lastSeen.
+  ///
+  /// In en, this message translates to:
+  /// **'Last Seen'**
+  String get lastSeen;
 
   /// No description provided for @lastUpdated.
   ///
@@ -2015,6 +2093,12 @@ abstract class AppLocalizations {
   /// **'Logs will be requested in groups of'**
   String get logsWillBeRequested;
 
+  /// No description provided for @macAddress.
+  ///
+  /// In en, this message translates to:
+  /// **'MAC Address'**
+  String get macAddress;
+
   /// No description provided for @max.
   ///
   /// In en, this message translates to:
@@ -2122,6 +2206,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Displays an overview of the network'**
   String get networkDescription;
+
+  /// No description provided for @never.
+  ///
+  /// In en, this message translates to:
+  /// **'Never'**
+  String get never;
 
   /// No description provided for @next.
   ///
@@ -2446,6 +2536,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Queries & servers'**
   String get queriesServers;
+
+  /// No description provided for @queryCount.
+  ///
+  /// In en, this message translates to:
+  /// **'Query Count'**
+  String get queryCount;
 
   /// No description provided for @queryLoggingSwitchWarning.
   ///
@@ -3376,6 +3472,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Please enter a number between 1 and 86400 seconds'**
   String get valueNotValid;
+
+  /// No description provided for @vendor.
+  ///
+  /// In en, this message translates to:
+  /// **'Vendor'**
+  String get vendor;
 
   /// No description provided for @version.
   ///

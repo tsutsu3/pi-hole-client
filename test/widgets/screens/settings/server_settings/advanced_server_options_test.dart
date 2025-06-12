@@ -6,6 +6,7 @@ import 'package:pi_hole_client/models/config.dart';
 import 'package:pi_hole_client/models/gateways.dart';
 import 'package:pi_hole_client/screens/settings/server_settings/advanced_server_options.dart';
 import 'package:pi_hole_client/screens/settings/server_settings/advanced_settings/interface_screen.dart';
+import 'package:pi_hole_client/screens/settings/server_settings/advanced_settings/network_screen.dart';
 import 'package:pi_hole_client/screens/settings/server_settings/advanced_settings/sessions_screen.dart';
 
 import '../../../helpers.dart';
@@ -75,6 +76,32 @@ void main() async {
         await tester.tap(find.text('Interface'));
         await tester.pumpAndSettle();
         expect(find.byType(InterfaceScreen), findsOneWidget);
+      },
+    );
+
+    testWidgets(
+      'should show network screen with tap',
+      (WidgetTester tester) async {
+        tester.view.physicalSize = const Size(1080, 2400);
+        tester.view.devicePixelRatio = 2.0;
+
+        addTearDown(() {
+          tester.view.resetPhysicalSize();
+          tester.view.resetDevicePixelRatio();
+        });
+
+        await tester.pumpWidget(
+          testSetup.buildTestWidget(
+            const AdvancedServerOptions(),
+          ),
+        );
+
+        expect(find.byType(AdvancedServerOptions), findsOneWidget);
+        await tester.pump();
+
+        await tester.tap(find.text('Network'));
+        await tester.pumpAndSettle();
+        expect(find.byType(NetworkScreen), findsOneWidget);
       },
     );
 
