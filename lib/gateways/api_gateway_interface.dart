@@ -206,7 +206,7 @@ abstract interface class ApiGateway {
   ///
   /// The optional parameters `maxDevices` and `maxAddresses` limit the number of
   /// devices and addresses returned in the response, respectively.
-  /// If not set, the default values are `maxDevices = 10` and `maxAddresses = 3`.
+  /// If not set, the default values are `maxDevices = 999` and `maxAddresses = 25` (Pi-hole web UI defaults).
   Future<DevicesResponse> getDevices({
     int? maxDevices,
     int? maxAddresses,
