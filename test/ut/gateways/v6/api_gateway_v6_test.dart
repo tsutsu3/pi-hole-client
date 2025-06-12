@@ -13,6 +13,7 @@ import 'package:pi_hole_client/gateways/v6/api_gateway_v6.dart';
 import 'package:pi_hole_client/models/api/v6/action/action.dart';
 import 'package:pi_hole_client/models/api/v6/auth/sessions.dart';
 import 'package:pi_hole_client/models/api/v6/config/config.dart';
+import 'package:pi_hole_client/models/api/v6/ftl/client.dart';
 import 'package:pi_hole_client/models/api/v6/ftl/host.dart' show Host;
 import 'package:pi_hole_client/models/api/v6/ftl/messages.dart';
 import 'package:pi_hole_client/models/api/v6/ftl/metrics.dart';
@@ -24,6 +25,7 @@ import 'package:pi_hole_client/models/api/v6/lists/lists.dart' show Lists;
 import 'package:pi_hole_client/models/api/v6/lists/search.dart' show Search;
 import 'package:pi_hole_client/models/api/v6/network/devices.dart';
 import 'package:pi_hole_client/models/api/v6/network/gateway.dart';
+import 'package:pi_hole_client/models/client.dart';
 import 'package:pi_hole_client/models/config.dart';
 import 'package:pi_hole_client/models/devices.dart';
 import 'package:pi_hole_client/models/domain.dart';
@@ -5701,6 +5703,93 @@ void main() async {
 
       expect(response.result, APiResponseType.error);
       expect(response.message, unexpectedError);
+    });
+  });
+
+  group('getClient', () {
+    late Server server;
+    const data = {
+      'remote_addr': '127.0.0.1',
+      'http_version': '1.1',
+      'method': 'GET',
+      'headers': [
+        {'name': 'Accept', 'value': 'application/json'},
+        {'name': 'Connection', 'value': 'keep-alive'},
+        {'name': 'Pragma', 'value': 'no-cache'},
+      ],
+      'took': 0.003
+    };
+    const erroData = {
+      'error': {'key': 'unauthorized', 'message': 'Unauthorized', 'hint': null},
+      'took': 0.003,
+    };
+
+    setUp(() {
+      server = Server(
+        address: 'http://example.com',
+        alias: 'example',
+        defaultServer: true,
+        apiVersion: SupportedApiVersions.v6,
+        allowSelfSignedCert: true,
+      );
+      server.sm.savePassword('xxx123');
+    });
+
+    test('should return success', () async {
+      final mockClient = MockClient();
+      final apiGateway = ApiGatewayV6(server, client: mockClient);
+
+      when(
+        mockClient.get(
+          Uri.parse('http://example.com/api/info/client'),
+          headers: anyNamed('headers'),
+        ),
+      ).thenAnswer((_) async => http.Response(jsonEncode(data), 200));
+
+      final response = await apiGateway.getClient();
+
+      expect(response.result, APiResponseType.success);
+      expect(response.message, null);
+      expect(
+        response.data?.toJson(),
+        ClientInfo.fromV6(Client.fromJson(data)).toJson(),
+      );
+    });
+
+    test('should return an error when status code is 401', () async {
+      final mockClient = MockClient();
+      final apiGateway = ApiGatewayV6(server, client: mockClient);
+
+      when(
+        mockClient.get(
+          Uri.parse('http://example.com/api/info/client'),
+          headers: anyNamed('headers'),
+        ),
+      ).thenAnswer((_) async => http.Response(jsonEncode(erroData), 401));
+
+      final response = await apiGateway.getClient();
+
+      expect(response.result, APiResponseType.error);
+      expect(response.message, fetchError);
+      expect(response.data, null);
+    });
+
+    test('should return an error when an unexpected error occurs', () async {
+      final mockClient = MockClient();
+      final apiGateway = ApiGatewayV6(server, client: mockClient);
+
+      when(
+        mockClient.get(
+          Uri.parse('http://example.com/api/info/client'),
+          headers: anyNamed('headers'),
+        ),
+      ).thenThrow(Exception('Unexpected error test'));
+
+      final response = await apiGateway.getClient();
+
+      expect(response.result, APiResponseType.error);
+      expect(response.message, unexpectedError);
+      expect(response.data, null);
     });
   });
 }
