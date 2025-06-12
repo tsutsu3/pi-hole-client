@@ -135,17 +135,21 @@ class _NetworkState extends State<NetworkScreen> {
     }
 
     Widget buildDeviceTitle(DeviceInfo device) {
+      if (device.ips.isEmpty) {
+        return Text(
+          AppLocalizations.of(context)!.unknown,
+          style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+        );
+      }
+
+      final ipLines = device.ips.map((ip) {
+        final namePart = ip.name != null ? ' (${ip.name})' : '';
+        return '${ip.ip}$namePart';
+      }).join('\n');
+
       return Text(
-        device.ips.isNotEmpty
-            ? device.ips.map((ip) {
-                final name = ip.name == null ? '' : ' (${ip.name})';
-                return '${ip.ip}$name';
-              }).join('\n')
-            : AppLocalizations.of(context)!.unknown,
-        style: const TextStyle(
-          fontSize: 16,
-          fontWeight: FontWeight.bold,
-        ),
+        ipLines,
+        style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
       );
     }
 
