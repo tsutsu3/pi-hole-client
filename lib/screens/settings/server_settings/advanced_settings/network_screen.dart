@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:pi_hole_client/classes/custom_scroll_behavior.dart';
 import 'package:pi_hole_client/classes/process_modal.dart';
 import 'package:pi_hole_client/config/theme.dart';
-import 'package:pi_hole_client/constants/enums.dart';
 import 'package:pi_hole_client/constants/formats.dart';
 import 'package:pi_hole_client/functions/format.dart';
 import 'package:pi_hole_client/functions/logger.dart';
@@ -33,6 +32,7 @@ class _NetworkState extends State<NetworkScreen> {
   ApiGateway? previousApiGateway;
   bool isLoading = true;
   bool isFetchError = false;
+  String? currentClientIp;
 
   @override
   void didChangeDependencies() {
@@ -70,15 +70,19 @@ class _NetworkState extends State<NetworkScreen> {
       isLoading = true;
     });
 
-    final result = await apiGateway!.getDevices();
+    final result = await Future.wait<BaseInfoResponse<dynamic>>(
+      [apiGateway!.getDevices(), apiGateway!.getClient()],
+    );
     if (!mounted) return;
 
     setState(() {
-      if (result.result == APiResponseType.success) {
-        devicesInfo = result.data;
+      if (result[0].result == APiResponseType.success &&
+          result[1].result == APiResponseType.success) {
+        devicesInfo = result[0].data;
+        currentClientIp = result[1].data?.addr;
       } else {
         isFetchError = true;
-        logger.e('Failed to load network devies');
+        logger.e('Failed to load network devices or client info');
       }
       isLoading = false;
     });
@@ -162,15 +166,13 @@ class _NetworkState extends State<NetworkScreen> {
         showSuccessSnackBar(
           context: context,
           appConfigProvider: appConfigProvider,
-          // label: AppLocalizations.of(context)!.deviceRemoved,
-          label: "TODO: Device removed", // TODO: Localize this message
+          label: AppLocalizations.of(context)!.deviceRemoved,
         );
       } else {
         showErrorSnackBar(
           context: context,
           appConfigProvider: appConfigProvider,
-          // label: AppLocalizations.of(context)!.deviceRemoveError,
-          label: "TODO: Device remove error", // TODO: Localize this message
+          label: AppLocalizations.of(context)!.errorRemovingDevice,
         );
       }
     }
@@ -226,13 +228,12 @@ class _NetworkState extends State<NetworkScreen> {
                               kUnifiedDateTimeLogFormat,
                             ),
                     ),
-                    // TODO: get current device from /api/sessions or /info/client
-                    // trailing: device.isCurrentDevice
-                    //     ? Chip(
-                    //         avatar: const Icon(Icons.star_rounded),
-                    //         label: Text(AppLocalizations.of(context)!.inUse),
-                    //       )
-                    //     : null,
+                    trailing: device.ips.any((ip) => ip.ip == currentClientIp)
+                        ? Chip(
+                            avatar: const Icon(Icons.star_rounded),
+                            label: Text(AppLocalizations.of(context)!.inUse),
+                          )
+                        : null,
                     onTap: () {
                       setState(() {
                         selectedDevice = device;

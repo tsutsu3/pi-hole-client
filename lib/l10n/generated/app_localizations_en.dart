@@ -489,6 +489,12 @@ class AppLocalizationsEn extends AppLocalizations {
   String get deleteAdlistMessage => 'Are you sure you want to delete this adlist?';
 
   @override
+  String get deleteDevice => 'Delete device';
+
+  @override
+  String get deleteDeviceMessage => 'Are you sure you want to delete this device?';
+
+  @override
   String get deleteDomain => 'Delete domain';
 
   @override
@@ -511,6 +517,9 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get deviceInfo => 'Device Info';
+
+  @override
+  String get deviceRemoved => 'Device removed successfully';
 
   @override
   String get dhcp => 'DHCP';
@@ -667,6 +676,9 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get errorRemovingAdlist => 'Error when removing adlist';
+
+  @override
+  String get errorRemovingDevice => 'Error when removing device';
 
   @override
   String get errorRemovingDomain => 'Error when removing domain';

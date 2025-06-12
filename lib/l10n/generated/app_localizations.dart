@@ -1061,6 +1061,18 @@ abstract class AppLocalizations {
   /// **'Are you sure you want to delete this adlist?'**
   String get deleteAdlistMessage;
 
+  /// No description provided for @deleteDevice.
+  ///
+  /// In en, this message translates to:
+  /// **'Delete device'**
+  String get deleteDevice;
+
+  /// No description provided for @deleteDeviceMessage.
+  ///
+  /// In en, this message translates to:
+  /// **'Are you sure you want to delete this device?'**
+  String get deleteDeviceMessage;
+
   /// No description provided for @deleteDomain.
   ///
   /// In en, this message translates to:
@@ -1108,6 +1120,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Device Info'**
   String get deviceInfo;
+
+  /// No description provided for @deviceRemoved.
+  ///
+  /// In en, this message translates to:
+  /// **'Device removed successfully'**
+  String get deviceRemoved;
 
   /// No description provided for @dhcp.
   ///
@@ -1420,6 +1438,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Error when removing adlist'**
   String get errorRemovingAdlist;
+
+  /// No description provided for @errorRemovingDevice.
+  ///
+  /// In en, this message translates to:
+  /// **'Error when removing device'**
+  String get errorRemovingDevice;
 
   /// No description provided for @errorRemovingDomain.
   ///

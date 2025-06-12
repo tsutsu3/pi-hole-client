@@ -3,7 +3,6 @@ import 'package:pi_hole_client/constants/formats.dart';
 import 'package:pi_hole_client/functions/format.dart';
 import 'package:pi_hole_client/l10n/generated/app_localizations.dart';
 import 'package:pi_hole_client/models/devices.dart';
-import 'package:pi_hole_client/models/devices.dart';
 import 'package:pi_hole_client/widgets/custom_list_tile.dart';
 import 'package:pi_hole_client/widgets/delete_modal.dart';
 import 'package:pi_hole_client/widgets/section_label.dart';
@@ -25,26 +24,25 @@ class NetworkDetailScreen extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: Text(locale.device),
-        // actions: [
-        //   if (!device.isCurrentDevice)
-        //     IconButton(
-        //       onPressed: () => showDialog(
-        //         context: context,
-        //         useRootNavigator:
-        //             false, // Prevents unexpected app exit on mobile when pressing back
-        //         builder: (context) => DeleteModal(
-        //           title: AppLocalizations.of(context)!.deleteDevice,
-        //           message: AppLocalizations.of(context)!.deleteDeviceMessage,
-        //           onDelete: () {
-        //             Navigator.maybePop(context);
-        //             onDelete(device);
-        //           },
-        //         ),
-        //       ),
-        //       icon: const Icon(Icons.delete_rounded),
-        //     ),
-        //   const SizedBox(width: 10),
-        // ],
+        actions: [
+          IconButton(
+            onPressed: () => showDialog(
+              context: context,
+              useRootNavigator:
+                  false, // Prevents unexpected app exit on mobile when pressing back
+              builder: (context) => DeleteModal(
+                title: AppLocalizations.of(context)!.deleteDevice,
+                message: AppLocalizations.of(context)!.deleteDeviceMessage,
+                onDelete: () {
+                  Navigator.maybePop(context);
+                  onDelete(device);
+                },
+              ),
+            ),
+            icon: const Icon(Icons.delete_rounded),
+          ),
+          const SizedBox(width: 10),
+        ],
       ),
       body: SafeArea(
         child: SingleChildScrollView(
@@ -61,7 +59,9 @@ class NetworkDetailScreen extends StatelessWidget {
               CustomListTile(
                 leadingIcon: Icons.business_rounded,
                 label: locale.vendor,
-                description: device.macVendor ?? locale.unknown,
+                description: device.macVendor == '' || device.macVendor == null
+                    ? locale.unknown
+                    : device.macVendor!,
               ),
               CustomListTile(
                 leadingIcon: Icons.device_hub_rounded,
