@@ -1807,7 +1807,7 @@ class TestSetupHelper {
         .thenAnswer((_) async => true);
   }
 
-  void _initGroupsPtoviderMock(useApiGatewayVersion) {
+  void _initGroupsPtoviderMock(String useApiGatewayVersion) {
     when(mockGroupsProvider.groups)
         .thenReturn(GroupsInfo.fromV6(groups).groups);
 
@@ -1825,7 +1825,7 @@ class TestSetupHelper {
     when(mockGroupsProvider.loadGroups()).thenAnswer((_) async => ());
   }
 
-  void _initSubscriptionsListProviderMock(useApiGatewayVersion) {
+  void _initSubscriptionsListProviderMock(String useApiGatewayVersion) {
     when(mockSubscriptionsListProvider.loadingStatus)
         .thenReturn(LoadStatus.loaded);
 

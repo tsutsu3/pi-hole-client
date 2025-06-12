@@ -419,7 +419,7 @@ ThemeData createTheme(
       textColor: colorScheme.onSurfaceVariant,
       iconColor: colorScheme.onSurfaceVariant,
     ),
-    cardTheme: CardTheme(surfaceTintColor: colorScheme.surfaceTint),
+    cardTheme: CardThemeData(surfaceTintColor: colorScheme.surfaceTint),
     popupMenuTheme:
         PopupMenuThemeData(surfaceTintColor: colorScheme.surfaceTint),
     navigationBarTheme:
@@ -429,7 +429,7 @@ ThemeData createTheme(
         TargetPlatform.android: PredictiveBackPageTransitionsBuilder(),
       },
     ),
-    dialogTheme: DialogTheme(
+    dialogTheme: DialogThemeData(
       backgroundColor: colorScheme.surface,
     ),
     extensions: [
