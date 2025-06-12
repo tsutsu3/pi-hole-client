@@ -322,6 +322,25 @@ class InfoHandler {
       );
     });
 
+    router.get('/client', (Request request) {
+      final mockResponse = {
+        "remote_addr": "192.168.1.51",
+        "http_version": "1.1",
+        "method": "GET",
+        "headers": [
+          {"name": "Accept", "value": "application/json"},
+          {"name": "Connection", "value": "keep-alive"},
+          {"name": "Pragma", "value": "no-cache"},
+        ],
+        "took": 0.003,
+      };
+
+      return Response.ok(
+        jsonEncode(mockResponse),
+        headers: {'Content-Type': 'application/json'},
+      );
+    });
+
     return router;
   }
 }
