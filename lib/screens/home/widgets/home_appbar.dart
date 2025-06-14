@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:pi_hole_client/classes/process_modal.dart';
-import 'package:pi_hole_client/config/system_overlay_style.dart';
 import 'package:pi_hole_client/constants/enums.dart';
 import 'package:pi_hole_client/functions/conversions.dart';
 import 'package:pi_hole_client/functions/open_url.dart';
@@ -121,7 +120,6 @@ class HomeAppBar extends StatelessWidget implements PreferredSizeWidget {
     }
 
     return SliverAppBar.large(
-      systemOverlayStyle: systemUiOverlayStyleConfig(context),
       floating: true,
       centerTitle: false,
       forceElevated: innerBoxIsScrolled,

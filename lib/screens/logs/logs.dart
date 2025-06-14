@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:pi_hole_client/classes/process_modal.dart';
-import 'package:pi_hole_client/config/system_overlay_style.dart';
 import 'package:pi_hole_client/constants/responsive.dart';
 import 'package:pi_hole_client/functions/logger.dart';
 import 'package:pi_hole_client/functions/snackbar.dart';
@@ -547,7 +546,6 @@ class _LogsState extends State<Logs> {
                 ),
               )
             : AppBar(
-                systemOverlayStyle: systemUiOverlayStyleConfig(context),
                 title: Text(AppLocalizations.of(context)!.queryLogs),
                 toolbarHeight: 60,
                 actions: [

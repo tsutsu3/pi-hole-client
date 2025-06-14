@@ -1,7 +1,6 @@
 import 'dart:io';
 import 'package:animations/animations.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:pi_hole_client/constants/app_screens.dart';
 import 'package:pi_hole_client/constants/responsive.dart';
 import 'package:pi_hole_client/functions/logger.dart';
@@ -185,52 +184,39 @@ class _BaseState extends State<Base>
         hasSelectedServer ? pages[currentTab] : pagesNotSelected[currentTab];
 
     final width = MediaQuery.of(context).size.width;
-    final brightness = Theme.of(context).brightness;
 
-    return AnnotatedRegion<SystemUiOverlayStyle>(
-      value: SystemUiOverlayStyle(
-        statusBarColor: Colors.transparent,
-        statusBarBrightness:
-            brightness == Brightness.light ? Brightness.light : Brightness.dark,
-        statusBarIconBrightness:
-            brightness == Brightness.light ? Brightness.dark : Brightness.light,
-        systemNavigationBarColor: Theme.of(context).scaffoldBackgroundColor,
-        systemNavigationBarIconBrightness:
-            brightness == Brightness.light ? Brightness.dark : Brightness.light,
-      ),
-      child: Scaffold(
-        body: width > ResponsiveConstants.large
-            ? Row(
-                children: [
-                  CustomNavigationRail(
-                    screens: screens,
-                    selectedScreen: currentTab,
-                    onChange: (selected) {
-                      _handleTabChange(
-                        selected,
-                        domainsListProvider,
-                        context.read<AppConfigProvider>(),
-                      );
-                    },
-                  ),
-                  Expanded(child: _buildPageTransitionSwitcher(currentPage)),
-                ],
-              )
-            : _buildPageTransitionSwitcher(currentPage),
-        bottomNavigationBar: width <= ResponsiveConstants.large
-            ? BottomNavBar(
-                screens: screens,
-                selectedScreen: currentTab,
-                onChange: (selected) {
-                  _handleTabChange(
-                    selected,
-                    domainsListProvider,
-                    context.read<AppConfigProvider>(),
-                  );
-                },
-              )
-            : null,
-      ),
+    return Scaffold(
+      body: width > ResponsiveConstants.large
+          ? Row(
+              children: [
+                CustomNavigationRail(
+                  screens: screens,
+                  selectedScreen: currentTab,
+                  onChange: (selected) {
+                    _handleTabChange(
+                      selected,
+                      domainsListProvider,
+                      context.read<AppConfigProvider>(),
+                    );
+                  },
+                ),
+                Expanded(child: _buildPageTransitionSwitcher(currentPage)),
+              ],
+            )
+          : _buildPageTransitionSwitcher(currentPage),
+      bottomNavigationBar: width <= ResponsiveConstants.large
+          ? BottomNavBar(
+              screens: screens,
+              selectedScreen: currentTab,
+              onChange: (selected) {
+                _handleTabChange(
+                  selected,
+                  domainsListProvider,
+                  context.read<AppConfigProvider>(),
+                );
+              },
+            )
+          : null,
     );
   }
 }
