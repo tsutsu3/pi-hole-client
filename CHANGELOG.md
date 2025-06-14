@@ -1,6 +1,6 @@
 # Changelog
 
-## [1.4.0](https://github.com/tsutsu3/pi-hole-client/compare/1.3.0_(41)..1.4.0) - 2025-06-13
+## [1.4.0](https://github.com/tsutsu3/pi-hole-client/compare/1.3.0_(41)..1.4.0) - 2025-06-15
 
 ### 🚀 Features
 
@@ -35,11 +35,6 @@
 - *(winget)* Update environment variable setup and specify working directory for wingetcreate - ([8b6cb56](https://github.com/tsutsu3/pi-hole-client/commit/8b6cb569724b2f86d633f6637bbf7a62a7c6f171))
 - *(winget)* Winget manifest for v1.3.0 ([#270](https://github.com/tsutsu3/pi-hole-client/issues/270)) - ([f866c59](https://github.com/tsutsu3/pi-hole-client/commit/f866c597a5f35618af779fb57e72200d1f68e049))
 
-## 🎉 New Contributors 🎉
-
-* @tsutsu3 made their first contribution in [#297](https://github.com/tsutsu3/pi-hole-client/pull/297)
-* @dependabot[bot] made their first contribution in [#269](https://github.com/tsutsu3/pi-hole-client/pull/269)
-* @github-actions[bot] made their first contribution in [#270](https://github.com/tsutsu3/pi-hole-client/pull/270)
 
 ## [1.3.0_(41)](https://github.com/tsutsu3/pi-hole-client/compare/1.2.1_(33)..1.3.0_(41)) - 2025-05-17
 
@@ -72,9 +67,6 @@
 - *(test)* Ensure coverage artifact upload occurs regardless of test results - ([aeffac9](https://github.com/tsutsu3/pi-hole-client/commit/aeffac968b6ccc4cf2c20e2fb6d37941ce43855b))
 - *(winget)* Winget manifest for v1.2.1 ([#251](https://github.com/tsutsu3/pi-hole-client/issues/251)) - ([69e5ac5](https://github.com/tsutsu3/pi-hole-client/commit/69e5ac535ef5ab738a1e3feb217fc0b2e12e9a3c))
 
-## 🎉 New Contributors 🎉
-
-* @github-actions[bot] made their first contribution in [#251](https://github.com/tsutsu3/pi-hole-client/pull/251)
 
 ## [1.2.1_(33)](https://github.com/tsutsu3/pi-hole-client/compare/1.2.0_(31)..1.2.1_(33)) - 2025-04-27
 
