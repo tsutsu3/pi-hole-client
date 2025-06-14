@@ -15,6 +15,6 @@ Dependencies:
 Installers:
 - Architecture: x64
   InstallerUrl: https://github.com/tsutsu3/pi-hole-client/releases/download/1.4.0_(43)/PiHoleClient_1.4.0_Windows_x64.exe
-  InstallerSha256: F625F41B8D2361A743AC5ABB5515CD60357C1D208D9A197862813F3DFDCAE85F
+  InstallerSha256: 2E3C34467AF68F0547B040ED1148A34C0DEA96DB2F79130A3943FFDFD557001C
 ManifestType: installer
 ManifestVersion: 1.9.0
