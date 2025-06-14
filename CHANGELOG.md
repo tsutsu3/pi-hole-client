@@ -1,6 +1,42 @@
 # Changelog
 
-## [1.3.0](https://github.com/tsutsu3/pi-hole-client/compare/1.2.1_(33)..1.3.0) - 2025-05-17
+## [1.4.0](https://github.com/tsutsu3/pi-hole-client/compare/1.3.0_(41)..1.4.0) - 2025-06-15
+
+### 🚀 Features
+
+- *(advanced_settings)* Add actions ([#290](https://github.com/tsutsu3/pi-hole-client/issues/290)) - ([543d777](https://github.com/tsutsu3/pi-hole-client/commit/543d7775cc733bc81654abb2ff6fa9253129950f))
+- *(app_detail)* Add support for developer link ([#285](https://github.com/tsutsu3/pi-hole-client/issues/285)) - ([efb07fd](https://github.com/tsutsu3/pi-hole-client/commit/efb07fdcea37edbd45f1e3070e360f61ce6662c3))
+- *(interface)* Add interface screen ([#287](https://github.com/tsutsu3/pi-hole-client/issues/287)) - ([fafe499](https://github.com/tsutsu3/pi-hole-client/commit/fafe499f1bd087c1bd04f449d498ff422841696b))
+- *(options)* Add network screen ([#296](https://github.com/tsutsu3/pi-hole-client/issues/296)) - ([193d747](https://github.com/tsutsu3/pi-hole-client/commit/193d747a13b82f609480ab185e3670214500f664))
+- *(settings)* Add session management screen ([#294](https://github.com/tsutsu3/pi-hole-client/issues/294)) - ([1629219](https://github.com/tsutsu3/pi-hole-client/commit/1629219e50eda38d466b58450a1c02f66022345b))
+- *(statistics)* Add DNS metrics graphs ([#283](https://github.com/tsutsu3/pi-hole-client/issues/283)) - ([e11c7dd](https://github.com/tsutsu3/pi-hole-client/commit/e11c7dd432220283145954b25cae4fa72db24864))
+- *(ui)* Enable auto-save for refresh interval and log quantity in advanced settings ([#273](https://github.com/tsutsu3/pi-hole-client/issues/273)) - ([1bbabbb](https://github.com/tsutsu3/pi-hole-client/commit/1bbabbb7fe4170d1b70dfe047fa6d1dbad5cf678))
+- *(ui)* Improve NoDataChart layout and section labeling on home and statistics pages ([#272](https://github.com/tsutsu3/pi-hole-client/issues/272)) - ([6119943](https://github.com/tsutsu3/pi-hole-client/commit/6119943362933a2c2526f15c5a0e9d80e69171f4))
+
+### 🐛 Bug Fixes
+
+- *(app_details)* Simplify support developer subtitle ([#286](https://github.com/tsutsu3/pi-hole-client/issues/286)) - ([f8400b4](https://github.com/tsutsu3/pi-hole-client/commit/f8400b4dbb7075e668d6bc8c44a341405023b347))
+- *(context)* Ensure safe usage with context.mounted checks ([#282](https://github.com/tsutsu3/pi-hole-client/issues/282)) - ([05a4fc7](https://github.com/tsutsu3/pi-hole-client/commit/05a4fc7a3fbeea3855d437ef47c0fa9c26bb50e1))
+- Improve robustness of biometric and device info initialization ([#292](https://github.com/tsutsu3/pi-hole-client/issues/292)) - ([f2a9e23](https://github.com/tsutsu3/pi-hole-client/commit/f2a9e2375c0d5d9abf7843fa17e7332d6fa1b9fb))
+
+### 📚 Documentation
+
+- *(readme)* Fix typo in Apache 2.0 license notice - ([76f48db](https://github.com/tsutsu3/pi-hole-client/commit/76f48db795ffbcb00b33ee8f1774fd88ee24fb67))
+
+### 🎨 Styling
+
+- *(logs)* Unify datetime display format to yyyy-MM-dd ([#278](https://github.com/tsutsu3/pi-hole-client/issues/278)) - ([4e80882](https://github.com/tsutsu3/pi-hole-client/commit/4e808820b95b08a3c8a89d77c39c1f5af6bea51f))
+- *(ui)* Improve appearance of delete and cancel buttons ([#289](https://github.com/tsutsu3/pi-hole-client/issues/289)) - ([245ff6d](https://github.com/tsutsu3/pi-hole-client/commit/245ff6d7b38cc557c9c0acb32c9f6a3c9fef1f41))
+
+### ⚙️ Miscellaneous Tasks
+
+- *(build)* Update toolchain and dependencies ([#297](https://github.com/tsutsu3/pi-hole-client/issues/297)) - ([9b83bb3](https://github.com/tsutsu3/pi-hole-client/commit/9b83bb3a95e97ec32b253c20352e65378cf21097))
+- *(ui)* Replace icons in domain detail screen ([#274](https://github.com/tsutsu3/pi-hole-client/issues/274)) - ([5e52624](https://github.com/tsutsu3/pi-hole-client/commit/5e526245cbc8e03b1510a76562a869615b61bb11))
+- *(winget)* Update environment variable setup and specify working directory for wingetcreate - ([8b6cb56](https://github.com/tsutsu3/pi-hole-client/commit/8b6cb569724b2f86d633f6637bbf7a62a7c6f171))
+- *(winget)* Winget manifest for v1.3.0 ([#270](https://github.com/tsutsu3/pi-hole-client/issues/270)) - ([f866c59](https://github.com/tsutsu3/pi-hole-client/commit/f866c597a5f35618af779fb57e72200d1f68e049))
+
+
+## [1.3.0_(41)](https://github.com/tsutsu3/pi-hole-client/compare/1.2.1_(33)..1.3.0_(41)) - 2025-05-17
 
 ### 🚀 Features
 
