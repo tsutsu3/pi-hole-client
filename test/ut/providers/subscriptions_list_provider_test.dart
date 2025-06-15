@@ -99,7 +99,7 @@ void main() {
     test('setLoadingStatus updates loading status', () {
       provider.setLoadingStatus(LoadStatus.loaded);
       expect(provider.loadingStatus, LoadStatus.loaded);
-      expect(listenerCalled, false);
+      expect(listenerCalled, true);
     });
 
     test('setWhitelistSubscriptions updates allow adlists', () {

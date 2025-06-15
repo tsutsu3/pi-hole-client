@@ -60,6 +60,7 @@ class SubscriptionsListProvider with ChangeNotifier {
 
   void setLoadingStatus(LoadStatus status) {
     _loadingStatus = status;
+    notifyListeners();
   }
 
   void setWhitelistSubscriptions(List<Subscription> subscriptions) {
