@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:pi_hole_client/classes/process_modal.dart';
+import 'package:pi_hole_client/constants/enums.dart';
 import 'package:pi_hole_client/constants/responsive.dart';
 import 'package:pi_hole_client/functions/snackbar.dart';
 import 'package:pi_hole_client/l10n/generated/app_localizations.dart';
@@ -85,6 +86,11 @@ class _SubscriptionListsWidgetState extends State<SubscriptionListsWidget>
     super.initState();
 
     Future.microtask(() async {
+      widget.subscriptionsListProvider.setLoadingStatus(
+        LoadStatus.loading,
+      );
+      await widget.subscriptionsListProvider.fetchSubscriptionsList();
+
       if (!mounted) return;
       final groupsProvider = context.read<GroupsProvider>();
       await groupsProvider.loadGroups();
@@ -92,8 +98,6 @@ class _SubscriptionListsWidgetState extends State<SubscriptionListsWidget>
       if (!mounted) return;
       final gravityUpdateProvider = context.read<GravityUpdateProvider>();
       await gravityUpdateProvider.load();
-
-      await widget.subscriptionsListProvider.fetchSubscriptionsList();
     });
 
     widget.subscriptionsListProvider.setSelectedTab(0);
