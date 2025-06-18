@@ -7,6 +7,7 @@ import 'package:pi_hole_client/screens/settings/server_settings/advanced_setting
 import 'package:pi_hole_client/widgets/adaptive_trailing_text.dart';
 import 'package:pi_hole_client/widgets/list_tile_title.dart';
 import 'package:pi_hole_client/widgets/section_label.dart';
+import 'package:skeletonizer/skeletonizer.dart';
 
 class NetInterfaceSection extends StatelessWidget {
   const NetInterfaceSection(this.interface, {super.key});
@@ -36,8 +37,10 @@ class NetInterfaceSection extends StatelessWidget {
     }) {
       return ListTile(
         dense: true,
-        leading: Icon(icon),
-        title: listTileTitle(label, colorScheme: colorScheme),
+        leading: Skeleton.keep(child: Icon(icon)),
+        title: Skeleton.keep(
+          child: listTileTitle(label, colorScheme: colorScheme),
+        ),
         trailing: AdaptiveTrailingText(text: value),
       );
     }
@@ -46,9 +49,11 @@ class NetInterfaceSection extends StatelessWidget {
       return Theme(
         data: Theme.of(context).copyWith(dividerColor: Colors.transparent),
         child: ExpansionTile(
-          leading: const Icon(Icons.location_on_rounded),
+          leading: const Skeleton.keep(child: Icon(Icons.location_on_rounded)),
           childrenPadding: const EdgeInsets.only(left: 16.0),
-          title: listTileTitle(locale.addresses, colorScheme: colorScheme),
+          title: Skeleton.keep(
+            child: listTileTitle(locale.addresses, colorScheme: colorScheme),
+          ),
           children: interface.addresses.map((address) {
             final title =
                 '${locale.adlistAddress}: ${address.family.name} ${address.address} / ${address.prefixlen} (${detectAddressType(address.family.name)} ${address.addressType})';
@@ -79,10 +84,12 @@ class NetInterfaceSection extends StatelessWidget {
 
     Widget buildStatisticsSection() {
       return ListTile(
-        leading: const Icon(Icons.area_chart_rounded),
-        title: listTileTitle(
-          locale.statistics,
-          colorScheme: colorScheme,
+        leading: const Skeleton.keep(child: Icon(Icons.area_chart_rounded)),
+        title: Skeleton.keep(
+          child: listTileTitle(
+            locale.statistics,
+            colorScheme: colorScheme,
+          ),
         ),
         trailing: const Icon(Icons.chevron_right),
         onTap: () {
@@ -100,10 +107,12 @@ class NetInterfaceSection extends StatelessWidget {
 
     Widget buildDetailsSection() {
       return ListTile(
-        leading: const Icon(Icons.info_rounded),
-        title: listTileTitle(
-          locale.moreDetails,
-          colorScheme: colorScheme,
+        leading: const Skeleton.keep(child: Icon(Icons.info_rounded)),
+        title: Skeleton.keep(
+          child: listTileTitle(
+            locale.moreDetails,
+            colorScheme: colorScheme,
+          ),
         ),
         trailing: const Icon(Icons.chevron_right),
         onTap: () {
