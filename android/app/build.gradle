@@ -36,12 +36,14 @@ android {
         targetSdk = 35
         versionCode = flutter.versionCode
         versionName = flutter.versionName
+        ndkVersion = flutter.ndkVersion
 
         println("Application ID: $applicationId")
         println("Min SDK: $minSdk")
         println("Target SDK: $targetSdk")
         println("Version code: $versionCode")
         println("Version name: $versionName")
+        println("Ndk version: $ndkVersion")
     }
 
     signingConfigs {
