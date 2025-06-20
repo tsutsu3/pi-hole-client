@@ -89,6 +89,9 @@ class StatusUpdateService {
         .every((result) => result)) {
       _statusProvider.setIsServerConnected(true);
     } else {
+      logger.w(
+        'Failed to fetch all status data. ',
+      );
       _statusProvider.setIsServerConnected(false);
     }
   }
@@ -185,6 +188,9 @@ class StatusUpdateService {
       } else {
         if (selectedUrlBefore == currentServer.address) {
           if (_statusProvider.isServerConnected) {
+            logger.w(
+              'Server disconnected: ${statusResult?.result.name}. ${currentServer.alias} (${currentServer.address})',
+            );
             _statusProvider.setIsServerConnected(false);
           }
           if (_statusProvider.getStatusLoading == LoadStatus.loading) {
@@ -232,6 +238,9 @@ class StatusUpdateService {
       } else {
         if (statusUrlBefore == currentServer.address) {
           if (_statusProvider.isServerConnected) {
+            logger.w(
+              'Server disconnected: ${statusResult?.result.name}. ${currentServer.alias} (${currentServer.address})',
+            );
             _statusProvider.setIsServerConnected(false);
           }
           if (_statusProvider.getOvertimeDataLoadStatus == 0) {

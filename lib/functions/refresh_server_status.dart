@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:pi_hole_client/constants/enums.dart';
+import 'package:pi_hole_client/functions/logger.dart';
 import 'package:pi_hole_client/functions/snackbar.dart';
 import 'package:pi_hole_client/l10n/generated/app_localizations.dart';
 import 'package:pi_hole_client/models/gateways.dart';
@@ -24,6 +25,9 @@ Future<dynamic> refreshServerStatus(BuildContext context) async {
     statusProvider.setIsServerConnected(true);
     statusProvider.setRealtimeStatus(result.data!);
   } else if (result?.result == APiResponseType.sslError) {
+    logger.w(
+      'SSL Error while fetching server status',
+    );
     statusProvider.setIsServerConnected(false);
     if (statusProvider.getStatusLoading == LoadStatus.loading) {
       statusProvider.setStatusLoading(LoadStatus.error);
@@ -34,6 +38,9 @@ Future<dynamic> refreshServerStatus(BuildContext context) async {
       label: AppLocalizations.of(context)!.sslErrorShort,
     );
   } else {
+    logger.w(
+      'Error while fetching server status: ${result?.result.name}',
+    );
     statusProvider.setIsServerConnected(false);
     if (statusProvider.getStatusLoading == LoadStatus.loading) {
       statusProvider.setStatusLoading(LoadStatus.error);

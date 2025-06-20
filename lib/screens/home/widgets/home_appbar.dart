@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:pi_hole_client/classes/process_modal.dart';
 import 'package:pi_hole_client/constants/enums.dart';
 import 'package:pi_hole_client/functions/conversions.dart';
+import 'package:pi_hole_client/functions/logger.dart';
 import 'package:pi_hole_client/functions/open_url.dart';
 import 'package:pi_hole_client/functions/snackbar.dart';
 import 'package:pi_hole_client/l10n/generated/app_localizations.dart';
@@ -40,6 +41,9 @@ class HomeAppBar extends StatelessWidget implements PreferredSizeWidget {
         statusProvider.setIsServerConnected(true);
         statusProvider.setRealtimeStatus(result.data!);
       } else {
+        logger.w(
+          'Error while fetching server status: ${result?.result.name}',
+        );
         statusProvider.setIsServerConnected(false);
         if (statusProvider.getStatusLoading == LoadStatus.loading) {
           statusProvider.setStatusLoading(LoadStatus.error);

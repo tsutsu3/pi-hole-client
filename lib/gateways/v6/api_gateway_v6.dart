@@ -471,6 +471,7 @@ class ApiGatewayV6 implements ApiGateway {
     } on HandshakeException {
       return RealtimeStatusResponse(result: APiResponseType.sslError);
     } catch (e) {
+      logger.e('Error fetching real-time status: $e');
       return RealtimeStatusResponse(result: APiResponseType.error);
     }
   }
