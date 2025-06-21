@@ -113,7 +113,7 @@ class _ServersTileItemState extends State<ServersTileItem>
           ),
         );
         final apiGateway = serversProvider.selectedApiGateway;
-        final statusResult = await apiGateway?.realtimeStatus();
+        final statusResult = await apiGateway?.realtimeStatus(clientCount: 0);
         if (statusResult?.result == APiResponseType.success) {
           statusProvider.setRealtimeStatus(statusResult!.data!);
         }
