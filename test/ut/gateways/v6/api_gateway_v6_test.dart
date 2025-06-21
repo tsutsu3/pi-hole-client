@@ -985,16 +985,92 @@ void main() async {
         },
       ];
 
-      for (var i = 0; i < urls.length; i++) {
-        when(
-          mockClient.get(
-            Uri.parse(urls[i]),
-            headers: anyNamed('headers'),
-          ),
-        ).thenAnswer((_) async => http.Response(jsonEncode(data[i]), 200));
-      }
+      when(
+        mockClient.get(
+          Uri.parse(urls[0]),
+          headers: anyNamed('headers'),
+        ),
+      ).thenAnswer((_) async => http.Response(jsonEncode(data[0]), 200));
+
+      when(
+        mockClient.get(
+          Uri.parse('${urls[1]}?N=10'),
+          headers: anyNamed('headers'),
+        ),
+      ).thenAnswer((_) async => http.Response(jsonEncode(data[1]), 200));
 
       final response = await apiGateway.fetchOverTimeData();
+
+      expect(response.result, APiResponseType.success);
+      expect(response.data, isNotNull);
+    });
+
+    test('Return success with N params', () async {
+      final mockClient = MockClient();
+      final apiGateway = ApiGatewayV6(server, client: mockClient);
+      final data = [
+        {
+          'history': [
+            {
+              'timestamp': 1511819900.539157,
+              'total': 2134,
+              'cached': 525,
+              'blocked': 413,
+              'forwarded': 1196,
+            },
+            {
+              'timestamp': 1511820500.583821,
+              'total': 2014,
+              'cached': 52,
+              'blocked': 43,
+              'forwarded': 1910,
+            },
+          ],
+          'took': 0.003,
+        },
+        {
+          'clients': {
+            '127.0.0.1': {'name': 'localhost', 'total': 13428},
+            '::1': {'name': 'ip6-localnet', 'total': 2100},
+            '192.168.1.1': {'name': null, 'total': 254},
+            '::': {'name': 'pi.hole', 'total': 29},
+            '0.0.0.0': {'name': 'other clients', 'total': 14},
+          },
+          'history': [
+            {
+              'timestamp': 1511819900.539157,
+              'data': {
+                '127.0.0.1': 35,
+                '::1': 63,
+                '192.168.1.1': 20,
+                '::': 9,
+                '0.0.0.0': 0,
+              },
+            },
+            {
+              'timestamp': 1511820500.583821,
+              'data': {'127.0.0.1': 10, '::1': 44, '192.168.1.1': 56, '::': 52},
+            },
+          ],
+          'took': 0.003,
+        },
+      ];
+
+      when(
+        mockClient.get(
+          Uri.parse(urls[0]),
+          headers: anyNamed('headers'),
+        ),
+      ).thenAnswer((_) async => http.Response(jsonEncode(data[0]), 200));
+
+      when(
+        mockClient.get(
+          Uri.parse('${urls[1]}?N=5'),
+          headers: anyNamed('headers'),
+        ),
+      ).thenAnswer((_) async => http.Response(jsonEncode(data[1]), 200));
+
+      final response = await apiGateway.fetchOverTimeData(clientCount: 5);
 
       expect(response.result, APiResponseType.success);
       expect(response.data, isNotNull);

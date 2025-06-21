@@ -550,7 +550,11 @@ class ApiGatewayV6 implements ApiGateway {
   /// Pi-hole server, including queries over time (in 10-minute intervals), client
   /// activity, and client names. The data is parsed and returned in a structured format.
   @override
-  Future<FetchOverTimeDataResponse> fetchOverTimeData() async {
+  Future<FetchOverTimeDataResponse> fetchOverTimeData({
+    int? clientCount,
+  }) async {
+    final count = clientCount ?? 10;
+
     try {
       final response = await Future.wait([
         httpClient(
@@ -559,7 +563,7 @@ class ApiGatewayV6 implements ApiGateway {
         ),
         httpClient(
           method: 'get',
-          url: '${_server.address}/api/history/clients',
+          url: '${_server.address}/api/history/clients?N=$count',
         ),
       ]);
 
