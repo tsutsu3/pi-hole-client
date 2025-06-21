@@ -254,7 +254,7 @@ class ApiGatewayV5 implements ApiGateway {
   /// query sources, and query types. It parses the response and returns the
   /// data in a structured format.
   @override
-  Future<RealtimeStatusResponse> realtimeStatus() async {
+  Future<RealtimeStatusResponse> realtimeStatus({int? clientCount}) async {
     try {
       final response = await httpClient(
         method: 'get',
@@ -349,7 +349,9 @@ class ApiGatewayV5 implements ApiGateway {
   /// Pi-hole server, including queries over time (in 10-minute intervals), client
   /// activity, and client names. The data is parsed and returned in a structured format.
   @override
-  Future<FetchOverTimeDataResponse> fetchOverTimeData() async {
+  Future<FetchOverTimeDataResponse> fetchOverTimeData({
+    int? clientCount,
+  }) async {
     try {
       final response = await httpClient(
         method: 'get',

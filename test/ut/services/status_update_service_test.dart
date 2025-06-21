@@ -73,7 +73,11 @@ void main() async {
 
       when(mockFiltersProvider.setClients(any)).thenReturn(null);
 
-      when(mockApiGatewayV6.realtimeStatus()).thenAnswer(
+      when(
+        mockApiGatewayV6.realtimeStatus(
+          clientCount: anyNamed('clientCount'),
+        ),
+      ).thenAnswer(
         (_) async => RealtimeStatusResponse(
           result: APiResponseType.success,
           data: realtimeStatus,
@@ -139,7 +143,11 @@ void main() async {
     test(
         'startAutoRefresh should fail when fetching data from the server fails',
         () async {
-      when(mockApiGatewayV6.realtimeStatus()).thenAnswer(
+      when(
+        mockApiGatewayV6.realtimeStatus(
+          clientCount: anyNamed('clientCount'),
+        ),
+      ).thenAnswer(
         (_) async => RealtimeStatusResponse(
           result: APiResponseType.socket,
         ),
@@ -175,7 +183,11 @@ void main() async {
     test(
         'startAutoRefresh should not raise a type error when selectedServer becomes null during asynchronous processing in _setupStatusDataTimer',
         () async {
-      when(mockApiGatewayV6.realtimeStatus()).thenAnswer((_) async {
+      when(
+        mockApiGatewayV6.realtimeStatus(
+          clientCount: anyNamed('clientCount'),
+        ),
+      ).thenAnswer((_) async {
         when(mockServersProvider.selectedServer).thenReturn(null);
         return RealtimeStatusResponse(
           result: APiResponseType.socket,
@@ -232,7 +244,11 @@ void main() async {
 
     test('refreshOnce should succeed', () async {
       await statusUpdateService.refreshOnce();
-      verify(mockApiGatewayV6.realtimeStatus()).called(1);
+      verify(
+        mockApiGatewayV6.realtimeStatus(
+          clientCount: anyNamed('clientCount'),
+        ),
+      ).called(1);
       verify(mockApiGatewayV6.fetchOverTimeData()).called(1);
       verify(mockServersProvider.updateselectedServerStatus(any)).called(1);
       verify(mockStatusProvider.setRealtimeStatus(any)).called(1);
@@ -241,7 +257,11 @@ void main() async {
 
     test('refreshOnce should fail when fetching data from the server fails',
         () async {
-      when(mockApiGatewayV6.realtimeStatus()).thenAnswer(
+      when(
+        mockApiGatewayV6.realtimeStatus(
+          clientCount: anyNamed('clientCount'),
+        ),
+      ).thenAnswer(
         (_) async => RealtimeStatusResponse(
           result: APiResponseType.socket,
         ),
@@ -254,7 +274,11 @@ void main() async {
       );
 
       await statusUpdateService.refreshOnce();
-      verify(mockApiGatewayV6.realtimeStatus()).called(1);
+      verify(
+        mockApiGatewayV6.realtimeStatus(
+          clientCount: anyNamed('clientCount'),
+        ),
+      ).called(1);
       verify(mockApiGatewayV6.fetchOverTimeData()).called(1);
       verifyNever(mockServersProvider.updateselectedServerStatus(any))
           .called(0);

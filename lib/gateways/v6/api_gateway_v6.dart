@@ -396,8 +396,10 @@ class ApiGatewayV6 implements ApiGateway {
   /// query sources, and query types. It parses the response and returns the
   /// data in a structured format.
   @override
-  Future<RealtimeStatusResponse> realtimeStatus() async {
+  Future<RealtimeStatusResponse> realtimeStatus({int? clientCount}) async {
     try {
+      final count = clientCount ?? 10;
+
       // To improve stability, split into two batches.
       // Some servers or networks may fail with too many simultaneous connections.
       // This helps avoid "Connection closed before full header was received" errors.
@@ -422,7 +424,7 @@ class ApiGatewayV6 implements ApiGateway {
         ),
         httpClient(
           method: 'get',
-          url: '${_server.address}/api/stats/top_clients',
+          url: '${_server.address}/api/stats/top_clients?count=$count',
         ),
         httpClient(
           method: 'get',
@@ -550,7 +552,11 @@ class ApiGatewayV6 implements ApiGateway {
   /// Pi-hole server, including queries over time (in 10-minute intervals), client
   /// activity, and client names. The data is parsed and returned in a structured format.
   @override
-  Future<FetchOverTimeDataResponse> fetchOverTimeData() async {
+  Future<FetchOverTimeDataResponse> fetchOverTimeData({
+    int? clientCount,
+  }) async {
+    final count = clientCount ?? 10;
+
     try {
       final response = await Future.wait([
         httpClient(
@@ -559,7 +565,7 @@ class ApiGatewayV6 implements ApiGateway {
         ),
         httpClient(
           method: 'get',
-          url: '${_server.address}/api/history/clients',
+          url: '${_server.address}/api/history/clients?N=$count',
         ),
       ]);
 

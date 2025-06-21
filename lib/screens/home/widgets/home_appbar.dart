@@ -30,7 +30,8 @@ class HomeAppBar extends StatelessWidget implements PreferredSizeWidget {
     Future<void> refresh() async {
       final process = ProcessModal(context: context);
       process.open(AppLocalizations.of(context)!.refreshingData);
-      final result = await serversProvider.selectedApiGateway?.realtimeStatus();
+      final result = await serversProvider.selectedApiGateway
+          ?.realtimeStatus(clientCount: 0);
       process.close();
       if (!context.mounted) return;
 
@@ -77,8 +78,8 @@ class HomeAppBar extends StatelessWidget implements PreferredSizeWidget {
             allowSelfSignedCert: server.allowSelfSignedCert,
           ),
         );
-        final statusResult =
-            await serversProvider.selectedApiGateway?.realtimeStatus();
+        final statusResult = await serversProvider.selectedApiGateway
+            ?.realtimeStatus(clientCount: 0);
         if (statusResult?.result == APiResponseType.success) {
           statusProvider.setRealtimeStatus(statusResult!.data!);
         }

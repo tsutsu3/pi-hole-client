@@ -99,6 +99,7 @@ class StatisticsListContent extends StatelessWidget {
     final statusProvider = Provider.of<StatusProvider>(context);
     final appConfigProvider = Provider.of<AppConfigProvider>(context);
     final filtersProvider = Provider.of<FiltersProvider>(context);
+    const topk = 10;
 
     void navigateFilter(String value) {
       if (type == 'clients') {
@@ -257,14 +258,19 @@ class StatisticsListContent extends StatelessWidget {
         children: [
           if (statusProvider.getRealtimeStatus!.topSources.isNotEmpty)
             generateList(
-              statusProvider.getRealtimeStatus!.topSources,
+              Map.fromEntries(
+                statusProvider.getRealtimeStatus!.topSources.entries.take(topk),
+              ),
               AppLocalizations.of(context)!.topClients,
             )
           else
             NoDataChart(topLabel: AppLocalizations.of(context)!.topClients),
           if (statusProvider.getRealtimeStatus!.topSourcesBlocked.isNotEmpty)
             generateList(
-              statusProvider.getRealtimeStatus!.topSourcesBlocked,
+              Map.fromEntries(
+                statusProvider.getRealtimeStatus!.topSourcesBlocked.entries
+                    .take(topk),
+              ),
               AppLocalizations.of(context)!.topClientsBlocked,
             )
           else

@@ -35,6 +35,21 @@ class StatusUpdateService {
 
   bool get isAutoRefreshRunning => _isAutoRefreshRunning;
 
+  /// Extracts client names from the RealtimeStatusResponse and sets them in the filters provider.
+  ///
+  /// In topSources, client keys are formatted as either:
+  /// - `hostname|ip`  (if hostname is available)
+  /// - `ip`           (if no hostname is available)
+  ///
+  /// This method extracts only the hostname part when available.
+  /// If no hostname is present, the IP address is used as-is.
+  void setClientsFromTopSources(RealtimeStatusResponse statusResult) {
+    final clients = statusResult.data!.topSources.keys
+        .map((client) => client.split('|').first)
+        .toList();
+    _filtersProvider.setClients(List<String>.from(clients));
+  }
+
   /// Start timer for auto refresh
   void startAutoRefresh() {
     if (!_isAutoRefreshRunning) {
@@ -100,10 +115,13 @@ class StatusUpdateService {
     if (_serversProvider.selectedServer == null) return false;
 
     final apiGateway = _serversProvider.selectedApiGateway;
-    final statusResult = await apiGateway?.realtimeStatus();
+    final statusResult = await apiGateway?.realtimeStatus(clientCount: 0);
 
     if (statusResult?.result == APiResponseType.success) {
       _statusProvider.setRealtimeStatus(statusResult!.data!);
+
+      setClientsFromTopSources(statusResult);
+
       _serversProvider.updateselectedServerStatus(
         statusResult.data!.status == 'enabled',
       );
@@ -124,11 +142,6 @@ class StatusUpdateService {
       _statusProvider.setOvertimeData(statusResult!.data!);
       _statusProvider.setOvertimeDataLoadingStatus(1);
       _statusProvider.setStatusLoading(LoadStatus.loaded);
-
-      final List<String?> clients = statusResult.data!.clients.map((client) {
-        return client.name.isNotEmpty ? client.name : client.ip;
-      }).toList();
-      _filtersProvider.setClients(List<String>.from(clients));
 
       return true;
     } else {
@@ -174,13 +187,15 @@ class StatusUpdateService {
       final selectedUrlBefore = currentServer.address;
 
       final apiGateway = _serversProvider.selectedApiGateway;
-      final statusResult = await apiGateway?.realtimeStatus();
+      final statusResult = await apiGateway?.realtimeStatus(clientCount: 0);
 
       if (statusResult?.result == APiResponseType.success) {
         _serversProvider.updateselectedServerStatus(
           statusResult!.data!.status == 'enabled',
         );
         _statusProvider.setRealtimeStatus(statusResult.data!);
+
+        setClientsFromTopSources(statusResult);
 
         if (!_statusProvider.isServerConnected) {
           _statusProvider.setIsServerConnected(true);
@@ -224,11 +239,6 @@ class StatusUpdateService {
 
       if (statusResult?.result == APiResponseType.success) {
         _statusProvider.setOvertimeData(statusResult!.data!);
-
-        final List<String?> clients = statusResult.data!.clients.map((client) {
-          return client.name.isNotEmpty ? client.name : client.ip;
-        }).toList();
-        _filtersProvider.setClients(List<String>.from(clients));
 
         _statusProvider.setOvertimeDataLoadingStatus(1);
 

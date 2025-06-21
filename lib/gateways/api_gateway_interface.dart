@@ -28,9 +28,16 @@ abstract interface class ApiGateway {
 
   /// Fetches real-time status information from a Pi-hole server.
   ///
+  /// **Note:** The `clientCount` parameter is only supported for Pi-hole API v6.
+  ///
+  /// ### Parameters
+  /// - [clientCount]: The number of clients to include in the over-time data.
+  ///   - Default is `10` if not specified.
+  ///   - If `clientCount` is `0`, data for all clients will be returned without aggregation.
+  ///
   /// ### Returns
   /// - A [RealtimeStatusResponse] object containing the result of the real-time status query.
-  Future<RealtimeStatusResponse> realtimeStatus();
+  Future<RealtimeStatusResponse> realtimeStatus({int? clientCount});
 
   /// Disables a Pi-hole server
   ///
@@ -49,9 +56,20 @@ abstract interface class ApiGateway {
 
   /// Fetches over-time data from a Pi-hole server.
   ///
+  /// **Note:** The `clientCount` parameter is only supported for Pi-hole API v6.
+  ///
+  /// ### Parameters
+  /// - [clientCount]: The number of clients to include in the over-time data.
+  ///   - Default is `10` if not specified.
+  ///   - If `clientCount` is `0`, data for all clients will be returned without aggregation.
+  ///   - The top (clientCount - 1) clients will be included individually, and
+  ///     the remaining clients will be grouped under "others".
+  ///   - For example, if `clientCount` is 10, the response will contain data
+  ///     for 9 individual clients and one aggregated "others" entry.
+  ///
   /// ### Returns
   /// - A [FetchOverTimeDataResponse] object containing the result of the over-time data query.
-  Future<FetchOverTimeDataResponse> fetchOverTimeData();
+  Future<FetchOverTimeDataResponse> fetchOverTimeData({int? clientCount});
 
   /// Fetches log data from a Pi-hole server within a specified time range.
   ///
