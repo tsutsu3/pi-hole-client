@@ -1658,6 +1658,15 @@ class MockApiGatewayV5 extends _i1.Mock implements _i27.ApiGatewayV5 {
       ) as _i12.Future<_i4.Response>);
 
   @override
+  void close() => super.noSuchMethod(
+        Invocation.method(
+          #close,
+          [],
+        ),
+        returnValueForMissingStub: null,
+      );
+
+  @override
   _i12.Future<_i5.LoginQueryResponse> loginQuery({bool? refresh = false}) =>
       (super.noSuchMethod(
         Invocation.method(
@@ -1677,11 +1686,12 @@ class MockApiGatewayV5 extends _i1.Mock implements _i27.ApiGatewayV5 {
       ) as _i12.Future<_i5.LoginQueryResponse>);
 
   @override
-  _i12.Future<_i5.RealtimeStatusResponse> realtimeStatus() =>
+  _i12.Future<_i5.RealtimeStatusResponse> realtimeStatus({int? clientCount}) =>
       (super.noSuchMethod(
         Invocation.method(
           #realtimeStatus,
           [],
+          {#clientCount: clientCount},
         ),
         returnValue: _i12.Future<_i5.RealtimeStatusResponse>.value(
             _FakeRealtimeStatusResponse_4(
@@ -1689,6 +1699,7 @@ class MockApiGatewayV5 extends _i1.Mock implements _i27.ApiGatewayV5 {
           Invocation.method(
             #realtimeStatus,
             [],
+            {#clientCount: clientCount},
           ),
         )),
       ) as _i12.Future<_i5.RealtimeStatusResponse>);
@@ -1728,11 +1739,13 @@ class MockApiGatewayV5 extends _i1.Mock implements _i27.ApiGatewayV5 {
       ) as _i12.Future<_i5.EnableServerResponse>);
 
   @override
-  _i12.Future<_i5.FetchOverTimeDataResponse> fetchOverTimeData() =>
+  _i12.Future<_i5.FetchOverTimeDataResponse> fetchOverTimeData(
+          {int? clientCount}) =>
       (super.noSuchMethod(
         Invocation.method(
           #fetchOverTimeData,
           [],
+          {#clientCount: clientCount},
         ),
         returnValue: _i12.Future<_i5.FetchOverTimeDataResponse>.value(
             _FakeFetchOverTimeDataResponse_7(
@@ -1740,6 +1753,7 @@ class MockApiGatewayV5 extends _i1.Mock implements _i27.ApiGatewayV5 {
           Invocation.method(
             #fetchOverTimeData,
             [],
+            {#clientCount: clientCount},
           ),
         )),
       ) as _i12.Future<_i5.FetchOverTimeDataResponse>);
@@ -2582,6 +2596,15 @@ class MockApiGatewayV6 extends _i1.Mock implements _i31.ApiGatewayV6 {
       ) as _i12.Future<_i4.StreamedResponse>);
 
   @override
+  void close() => super.noSuchMethod(
+        Invocation.method(
+          #close,
+          [],
+        ),
+        returnValueForMissingStub: null,
+      );
+
+  @override
   _i12.Future<_i5.LoginQueryResponse> loginQuery({bool? refresh = false}) =>
       (super.noSuchMethod(
         Invocation.method(
@@ -2601,11 +2624,12 @@ class MockApiGatewayV6 extends _i1.Mock implements _i31.ApiGatewayV6 {
       ) as _i12.Future<_i5.LoginQueryResponse>);
 
   @override
-  _i12.Future<_i5.RealtimeStatusResponse> realtimeStatus() =>
+  _i12.Future<_i5.RealtimeStatusResponse> realtimeStatus({int? clientCount}) =>
       (super.noSuchMethod(
         Invocation.method(
           #realtimeStatus,
           [],
+          {#clientCount: clientCount},
         ),
         returnValue: _i12.Future<_i5.RealtimeStatusResponse>.value(
             _FakeRealtimeStatusResponse_4(
@@ -2613,6 +2637,7 @@ class MockApiGatewayV6 extends _i1.Mock implements _i31.ApiGatewayV6 {
           Invocation.method(
             #realtimeStatus,
             [],
+            {#clientCount: clientCount},
           ),
         )),
       ) as _i12.Future<_i5.RealtimeStatusResponse>);
@@ -2652,11 +2677,13 @@ class MockApiGatewayV6 extends _i1.Mock implements _i31.ApiGatewayV6 {
       ) as _i12.Future<_i5.EnableServerResponse>);
 
   @override
-  _i12.Future<_i5.FetchOverTimeDataResponse> fetchOverTimeData() =>
+  _i12.Future<_i5.FetchOverTimeDataResponse> fetchOverTimeData(
+          {int? clientCount}) =>
       (super.noSuchMethod(
         Invocation.method(
           #fetchOverTimeData,
           [],
+          {#clientCount: clientCount},
         ),
         returnValue: _i12.Future<_i5.FetchOverTimeDataResponse>.value(
             _FakeFetchOverTimeDataResponse_7(
@@ -2664,6 +2691,7 @@ class MockApiGatewayV6 extends _i1.Mock implements _i31.ApiGatewayV6 {
           Invocation.method(
             #fetchOverTimeData,
             [],
+            {#clientCount: clientCount},
           ),
         )),
       ) as _i12.Future<_i5.FetchOverTimeDataResponse>);
@@ -3378,6 +3406,16 @@ class MockStatusUpdateService extends _i1.Mock
         Invocation.getter(#isAutoRefreshRunning),
         returnValue: false,
       ) as bool);
+
+  @override
+  void setClientsFromTopSources(_i5.RealtimeStatusResponse? statusResult) =>
+      super.noSuchMethod(
+        Invocation.method(
+          #setClientsFromTopSources,
+          [statusResult],
+        ),
+        returnValueForMissingStub: null,
+      );
 
   @override
   void startAutoRefresh() => super.noSuchMethod(

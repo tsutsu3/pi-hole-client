@@ -1147,6 +1147,15 @@ class MockApiGatewayV6 extends _i1.Mock implements _i15.ApiGatewayV6 {
       ) as _i12.Future<_i6.StreamedResponse>);
 
   @override
+  void close() => super.noSuchMethod(
+        Invocation.method(
+          #close,
+          [],
+        ),
+        returnValueForMissingStub: null,
+      );
+
+  @override
   _i12.Future<_i7.LoginQueryResponse> loginQuery({bool? refresh = false}) =>
       (super.noSuchMethod(
         Invocation.method(
@@ -1166,11 +1175,12 @@ class MockApiGatewayV6 extends _i1.Mock implements _i15.ApiGatewayV6 {
       ) as _i12.Future<_i7.LoginQueryResponse>);
 
   @override
-  _i12.Future<_i7.RealtimeStatusResponse> realtimeStatus() =>
+  _i12.Future<_i7.RealtimeStatusResponse> realtimeStatus({int? clientCount}) =>
       (super.noSuchMethod(
         Invocation.method(
           #realtimeStatus,
           [],
+          {#clientCount: clientCount},
         ),
         returnValue: _i12.Future<_i7.RealtimeStatusResponse>.value(
             _FakeRealtimeStatusResponse_8(
@@ -1178,6 +1188,7 @@ class MockApiGatewayV6 extends _i1.Mock implements _i15.ApiGatewayV6 {
           Invocation.method(
             #realtimeStatus,
             [],
+            {#clientCount: clientCount},
           ),
         )),
       ) as _i12.Future<_i7.RealtimeStatusResponse>);
@@ -1217,11 +1228,13 @@ class MockApiGatewayV6 extends _i1.Mock implements _i15.ApiGatewayV6 {
       ) as _i12.Future<_i7.EnableServerResponse>);
 
   @override
-  _i12.Future<_i7.FetchOverTimeDataResponse> fetchOverTimeData() =>
+  _i12.Future<_i7.FetchOverTimeDataResponse> fetchOverTimeData(
+          {int? clientCount}) =>
       (super.noSuchMethod(
         Invocation.method(
           #fetchOverTimeData,
           [],
+          {#clientCount: clientCount},
         ),
         returnValue: _i12.Future<_i7.FetchOverTimeDataResponse>.value(
             _FakeFetchOverTimeDataResponse_11(
@@ -1229,6 +1242,7 @@ class MockApiGatewayV6 extends _i1.Mock implements _i15.ApiGatewayV6 {
           Invocation.method(
             #fetchOverTimeData,
             [],
+            {#clientCount: clientCount},
           ),
         )),
       ) as _i12.Future<_i7.FetchOverTimeDataResponse>);

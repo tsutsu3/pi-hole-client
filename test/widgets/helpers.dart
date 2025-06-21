@@ -1991,7 +1991,8 @@ class TestSetupHelper {
       ),
     );
 
-    when(mockApiGatewayV6.realtimeStatus()).thenAnswer(
+    when(mockApiGatewayV6.realtimeStatus(clientCount: anyNamed('clientCount')))
+        .thenAnswer(
       (_) async => RealtimeStatusResponse(
         result: APiResponseType.success,
         data: realtimeStatus,
