@@ -2006,6 +2006,12 @@ abstract class AppLocalizations {
   /// **'Loading charts...'**
   String get loadingCharts;
 
+  /// No description provided for @loadingDomains.
+  ///
+  /// In en, this message translates to:
+  /// **'Loading domains...'**
+  String get loadingDomains;
+
   /// No description provided for @loadingList.
   ///
   /// In en, this message translates to:

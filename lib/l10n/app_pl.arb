@@ -316,6 +316,7 @@
   "list": "Lista",
   "listDescription": "Wyświetla dane na liście z etykietą i wartością liczbową po lewej stronie oraz paskiem po prawej stronie.",
   "loadingCharts": "Ładowanie wykresów...",
+  "loadingDomains": "Ładowanie domen...",
   "loadingList": "Ładowanie list...",
   "loadingLogs": "Ładowanie logów...",
   "loadingStats": "Ładowanie statystyk...",

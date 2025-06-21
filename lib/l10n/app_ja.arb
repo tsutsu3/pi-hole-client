@@ -316,6 +316,7 @@
   "list": "リスト",
   "listDescription": "ラベルと数値を左側に、バーを右側に表示するリストでデータを表示します。",
   "loadingCharts": "チャートを読み込み中...",
+  "loadingDomains": "ドメインを読み込んでいます...",
   "loadingList": "リストを読み込み中...",
   "loadingLogs": "ログを読み込み中...",
   "loadingStats": "統計を読み込み中...",

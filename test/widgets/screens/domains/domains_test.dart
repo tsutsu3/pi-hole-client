@@ -272,7 +272,7 @@ void main() async {
         );
 
         expect(find.byType(DomainLists), findsOneWidget);
-        expect(find.text('Loading list...'), findsOneWidget);
+        expect(find.text('Loading domains...'), findsOneWidget);
       },
     );
 

@@ -192,7 +192,7 @@ class _DomainsListState extends State<DomainsList> {
                 const CircularProgressIndicator(),
                 const SizedBox(height: 50),
                 Text(
-                  AppLocalizations.of(context)!.loadingList,
+                  AppLocalizations.of(context)!.loadingDomains,
                   textAlign: TextAlign.center,
                   style: TextStyle(
                     color: Theme.of(context).colorScheme.onSurfaceVariant,

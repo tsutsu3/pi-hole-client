@@ -971,6 +971,9 @@ class AppLocalizationsJa extends AppLocalizations {
   String get loadingCharts => 'チャートを読み込み中...';
 
   @override
+  String get loadingDomains => 'ドメインを読み込んでいます...';
+
+  @override
   String get loadingList => 'リストを読み込み中...';
 
   @override
