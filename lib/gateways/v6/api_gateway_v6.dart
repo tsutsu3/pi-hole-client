@@ -396,8 +396,10 @@ class ApiGatewayV6 implements ApiGateway {
   /// query sources, and query types. It parses the response and returns the
   /// data in a structured format.
   @override
-  Future<RealtimeStatusResponse> realtimeStatus() async {
+  Future<RealtimeStatusResponse> realtimeStatus({int? clientCount}) async {
     try {
+      final count = clientCount ?? 10;
+
       // To improve stability, split into two batches.
       // Some servers or networks may fail with too many simultaneous connections.
       // This helps avoid "Connection closed before full header was received" errors.
@@ -422,7 +424,7 @@ class ApiGatewayV6 implements ApiGateway {
         ),
         httpClient(
           method: 'get',
-          url: '${_server.address}/api/stats/top_clients',
+          url: '${_server.address}/api/stats/top_clients?count=$count',
         ),
         httpClient(
           method: 'get',

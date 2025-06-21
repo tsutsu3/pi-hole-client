@@ -254,7 +254,7 @@ class ApiGatewayV5 implements ApiGateway {
   /// query sources, and query types. It parses the response and returns the
   /// data in a structured format.
   @override
-  Future<RealtimeStatusResponse> realtimeStatus() async {
+  Future<RealtimeStatusResponse> realtimeStatus({int? clientCount}) async {
     try {
       final response = await httpClient(
         method: 'get',
