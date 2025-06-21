@@ -239,6 +239,11 @@ class ApiGatewayV6 implements ApiGateway {
     throw Exception('Failed to execute streamed HTTP request');
   }
 
+  @override
+  void close() {
+    _client.close();
+  }
+
   /// Handles the login process to a Pi-hole server using its API.
   @override
   Future<LoginQueryResponse> loginQuery({bool refresh = false}) async {
@@ -393,19 +398,20 @@ class ApiGatewayV6 implements ApiGateway {
   @override
   Future<RealtimeStatusResponse> realtimeStatus() async {
     try {
-      final response = await Future.wait([
+      // To improve stability, split into two batches.
+      // Some servers or networks may fail with too many simultaneous connections.
+      // This helps avoid "Connection closed before full header was received" errors.
+      final batch1 = await Future.wait([
+        httpClient(method: 'get', url: '${_server.address}/api/stats/summary'),
+        httpClient(method: 'get', url: '${_server.address}/api/info/ftl'),
+        httpClient(method: 'get', url: '${_server.address}/api/dns/blocking'),
         httpClient(
           method: 'get',
-          url: '${_server.address}/api/stats/summary',
+          url: '${_server.address}/api/stats/upstreams',
         ),
-        httpClient(
-          method: 'get',
-          url: '${_server.address}/api/info/ftl',
-        ),
-        httpClient(
-          method: 'get',
-          url: '${_server.address}/api/dns/blocking',
-        ),
+      ]);
+
+      final batch2 = await Future.wait([
         httpClient(
           method: 'get',
           url: '${_server.address}/api/stats/top_domains',
@@ -422,11 +428,10 @@ class ApiGatewayV6 implements ApiGateway {
           method: 'get',
           url: '${_server.address}/api/stats/top_clients?blocked=true',
         ),
-        httpClient(
-          method: 'get',
-          url: '${_server.address}/api/stats/upstreams',
-        ),
       ]);
+
+      final response = [...batch1, ...batch2];
+
       if (response[0].statusCode == 200 &&
           response[1].statusCode == 200 &&
           response[2].statusCode == 200 &&
@@ -438,15 +443,16 @@ class ApiGatewayV6 implements ApiGateway {
         final summary = StatsSummary.fromJson(jsonDecode(response[0].body));
         final infoFtl = InfoFtl.fromJson(jsonDecode(response[1].body));
         final blocking = Blocking.fromJson(jsonDecode(response[2].body));
+        final upstreams = StatsUpstreams.fromJson(jsonDecode(response[3].body));
+
         final topPermittedDomains =
-            StatsTopDomains.fromJson(jsonDecode(response[3].body));
-        final topBlockedDomains =
             StatsTopDomains.fromJson(jsonDecode(response[4].body));
+        final topBlockedDomains =
+            StatsTopDomains.fromJson(jsonDecode(response[5].body));
         final topClients =
-            StatsTopClients.fromJson(jsonDecode(response[5].body));
-        final topBlockedClients =
             StatsTopClients.fromJson(jsonDecode(response[6].body));
-        final upstreams = StatsUpstreams.fromJson(jsonDecode(response[7].body));
+        final topBlockedClients =
+            StatsTopClients.fromJson(jsonDecode(response[7].body));
 
         return RealtimeStatusResponse(
           result: APiResponseType.success,
@@ -575,6 +581,7 @@ class ApiGatewayV6 implements ApiGateway {
     } on HandshakeException {
       return FetchOverTimeDataResponse(result: APiResponseType.sslError);
     } catch (e) {
+      logger.e('Error fetching over-time data: $e');
       return FetchOverTimeDataResponse(result: APiResponseType.error);
     }
   }
