@@ -60,6 +60,7 @@ class DomainsListProvider with ChangeNotifier {
 
   void setLoadingStatus(LoadStatus status) {
     _loadingStatus = status;
+    notifyListeners();
   }
 
   void setWhitelistDomains(List<Domain> domains) {

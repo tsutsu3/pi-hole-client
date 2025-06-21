@@ -998,6 +998,9 @@ class AppLocalizationsEn extends AppLocalizations {
   String get loadingCharts => 'Loading charts...';
 
   @override
+  String get loadingDomains => 'Loading domains...';
+
+  @override
   String get loadingList => 'Loading list...';
 
   @override

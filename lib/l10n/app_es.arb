@@ -317,6 +317,7 @@
   "list": "Lista",
   "listDescription": "Muestra los datos en una lista con la etiqueta y el valor numérico en el lado izquierdo y una barra en el lado derecho.",
   "loadingCharts": "Cargando gráficos...",
+  "loadingDomains": "Cargando dominios...",
   "loadingList": "Cargando lista...",
   "loadingLogs": "Cargando registros...",
   "loadingStats": "Cargando estadísticas...",

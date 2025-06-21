@@ -1003,6 +1003,9 @@ class AppLocalizationsPl extends AppLocalizations {
   String get loadingCharts => 'Ładowanie wykresów...';
 
   @override
+  String get loadingDomains => 'Ładowanie domen...';
+
+  @override
   String get loadingList => 'Ładowanie list...';
 
   @override

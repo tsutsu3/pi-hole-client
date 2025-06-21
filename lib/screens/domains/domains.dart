@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:pi_hole_client/classes/process_modal.dart';
+import 'package:pi_hole_client/constants/enums.dart';
 import 'package:pi_hole_client/constants/responsive.dart';
 import 'package:pi_hole_client/functions/snackbar.dart';
 import 'package:pi_hole_client/l10n/generated/app_localizations.dart';
@@ -58,17 +59,30 @@ class _DomainListsWidgetState extends State<DomainListsWidget>
     super.initState();
 
     Future.microtask(() async {
+      widget.domainsListProvider.setLoadingStatus(
+        LoadStatus.loading,
+      );
+
+      await widget.domainsListProvider.fetchDomainsList();
+
       if (!mounted) return;
       final groupsProvider = context.read<GroupsProvider>();
       await groupsProvider.loadGroups();
     });
 
-    widget.domainsListProvider.fetchDomainsList();
     widget.domainsListProvider.setSelectedTab(0);
     tabController = TabController(
       length: 2,
       vsync: this,
     );
+  }
+
+  @override
+  void dispose() {
+    tabController.dispose();
+    scrollController.dispose();
+    searchController.dispose();
+    super.dispose();
   }
 
   @override

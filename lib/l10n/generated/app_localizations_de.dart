@@ -1018,6 +1018,9 @@ class AppLocalizationsDe extends AppLocalizations {
   String get loadingCharts => 'Diagramme werden geladen...';
 
   @override
+  String get loadingDomains => 'Domains werden geladen...';
+
+  @override
   String get loadingList => 'Liste wird geladen...';
 
   @override

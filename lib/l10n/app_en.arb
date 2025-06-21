@@ -316,6 +316,7 @@
   "list": "List",
   "listDescription": "Displays the data on a list with the label and the numeric value at the left side, and a bar at the right side.",
   "loadingCharts": "Loading charts...",
+  "loadingDomains": "Loading domains...",
   "loadingList": "Loading list...",
   "loadingLogs": "Loading logs...",
   "loadingStats": "Loading stats...",
