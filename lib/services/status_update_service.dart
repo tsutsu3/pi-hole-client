@@ -44,14 +44,9 @@ class StatusUpdateService {
   /// This method extracts only the hostname part when available.
   /// If no hostname is present, the IP address is used as-is.
   void setClientsFromTopSources(RealtimeStatusResponse statusResult) {
-    final rawClients = statusResult.data!.topSources.keys.toList();
-    final clients = rawClients.map((client) {
-      if (client.contains('|')) {
-        return client.split('|')[0];
-      } else {
-        return client;
-      }
-    }).toList();
+    final clients = statusResult.data!.topSources.keys
+        .map((client) => client.split('|').first)
+        .toList();
     _filtersProvider.setClients(List<String>.from(clients));
   }
 
