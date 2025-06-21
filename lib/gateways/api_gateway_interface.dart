@@ -9,6 +9,12 @@ import 'package:pi_hole_client/models/subscriptions.dart';
 abstract interface class ApiGateway {
   Server get server;
 
+  /// Closes the underlying HTTP client and releases any associated resources.
+  ///
+  /// This should be called when the API gateway instance is no longer needed
+  /// to ensure that all open connections and resources are properly cleaned up.
+  void close();
+
   /// Handles the login process to a Pi-hole server using its API.
   ///
   /// ### Parameters

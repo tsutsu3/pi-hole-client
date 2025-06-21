@@ -239,6 +239,11 @@ class ApiGatewayV6 implements ApiGateway {
     throw Exception('Failed to execute streamed HTTP request');
   }
 
+  @override
+  void close() {
+    _client.close();
+  }
+
   /// Handles the login process to a Pi-hole server using its API.
   @override
   Future<LoginQueryResponse> loginQuery({bool refresh = false}) async {

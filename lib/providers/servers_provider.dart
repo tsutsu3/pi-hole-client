@@ -159,6 +159,7 @@ class ServersProvider with ChangeNotifier {
 
       // Update the API gateway if it exists
       if (_serverGateways.containsKey(server.address)) {
+        _serverGateways[server.address]?.close();
         _serverGateways[server.address] = ApiGatewayFactory.create(server);
       }
 

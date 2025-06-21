@@ -21,21 +21,29 @@ String convertTemperatureUnit(String? unit) {
   }
 }
 
-/// Creates an instance of [HttpClient] with an optional configuration to allow
-/// self-signed certificates.
+/// Creates an instance of [HttpClient] with configurable certificate validation
+/// and connection keep-alive behavior.
 ///
-/// If [allowSelfSignedCert] is set to `true`, the client will accept all
-/// certificates, including self-signed ones, by overriding the
-/// `badCertificateCallback`. This can be useful for testing or connecting to
-/// servers with self-signed certificates, but it should be used with caution
-/// in production environments as it bypasses certificate validation.
+/// If [allowSelfSignedCert] is `true`, the client will accept all certificates,
+/// including self-signed ones. Use with caution in production.
 ///
-/// - [allowSelfSignedCert]: A boolean flag indicating whether to allow
-///   self-signed certificates. Defaults to `true`.
+/// If [keepAlive] is `true`, idle connections are kept open indefinitely
+/// (by setting `idleTimeout` to `Duration.zero`).
+/// If `false`, the default `HttpClient` idle timeout is used.
+///
+/// - [allowSelfSignedCert]: Whether to allow self-signed certificates. Defaults to `true`.
+/// - [keepAlive]: Whether to keep idle connections alive indefinitely. Defaults to `false`.
 ///
 /// Returns an instance of [HttpClient].
-HttpClient createHttpClient({bool allowSelfSignedCert = true}) {
+HttpClient createHttpClient({
+  bool allowSelfSignedCert = true,
+  bool keepAlive = false,
+}) {
   final client = HttpClient();
+
+  if (keepAlive) {
+    client.idleTimeout = Duration.zero;
+  }
   if (allowSelfSignedCert) {
     client.badCertificateCallback =
         (X509Certificate cert, String host, int port) => true;

@@ -91,6 +91,11 @@ class ApiGatewayV5 implements ApiGateway {
     }
   }
 
+  @override
+  void close() {
+    _client.close();
+  }
+
   /// Handles the login process to a Pi-hole server using its API.
   ///
   /// This function performs the following steps:
