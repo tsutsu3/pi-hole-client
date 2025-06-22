@@ -1343,10 +1343,12 @@ void main() async {
           ],
         ],
       };
-      when(mockClient.get(
-              Uri.parse(url.replaceAll('getAllQueries=100', 'getAllQueries=2')),
-              headers: {}))
-          .thenAnswer((_) async => http.Response(jsonEncode(data), 200));
+      when(
+        mockClient.get(
+          Uri.parse(url.replaceAll('getAllQueries=100', 'getAllQueries=2')),
+          headers: {},
+        ),
+      ).thenAnswer((_) async => http.Response(jsonEncode(data), 200));
 
       final from = DateTime.fromMillisecondsSinceEpoch(1733472267 * 1000);
       final until = DateTime.fromMillisecondsSinceEpoch(1733479467 * 1000);
