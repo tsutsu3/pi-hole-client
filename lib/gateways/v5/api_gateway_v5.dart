@@ -381,22 +381,25 @@ class ApiGatewayV5 implements ApiGateway {
   /// specified time period. The logs are returned in a structured format
   /// for further analysis or display.
   @override
-  Future<FetchLogsResponse> fetchLogs(DateTime from, DateTime until) async {
+  Future<FetchLogsResponse> fetchLogs(
+    DateTime from,
+    DateTime until, {
+    int? size,
+    int? cursor,
+  }) async {
     try {
+      final length = size ?? 100;
+
       final response = await httpClient(
         method: 'get',
         url:
-            '${_server.address}/admin/api.php?auth=${await _server.sm.token}&getAllQueries&from=${from.millisecondsSinceEpoch ~/ 1000}&until=${until.millisecondsSinceEpoch ~/ 1000}',
+            '${_server.address}/admin/api.php?auth=${await _server.sm.token}&getAllQueries=$length&from=${from.millisecondsSinceEpoch ~/ 1000}&until=${until.millisecondsSinceEpoch ~/ 1000}',
         timeout: 20,
       );
       final body = jsonDecode(response.body);
       return FetchLogsResponse(
         result: APiResponseType.success,
-        data: (body['data'] as List)
-            .map(
-              (item) => Log.fromJson(item),
-            )
-            .toList(),
+        data: LogsInfo.fromJson(body['data']),
       );
     } on FormatException {
       return FetchLogsResponse(result: APiResponseType.authError);

@@ -76,10 +76,19 @@ abstract interface class ApiGateway {
   /// ### Parameters
   /// - [from]: The start date and time of the log data to fetch.
   /// - [until]: The end date and time of the log data to fetch.
+  /// - [size]: The number of log entries to fetch. If not specified, a default size will be used.
+  ///   (default: 100). Only supported for Pi-hole API v6.
+  /// - [cursor]: The cursor for pagination. If not specified, the first page of logs will be
+  ///   fetched. Only supported for Pi-hole API v6.
   ///
   /// ### Returns
   /// - A [FetchLogsResponse] object containing the result of the fetch logs query.
-  Future<FetchLogsResponse> fetchLogs(DateTime from, DateTime until);
+  Future<FetchLogsResponse> fetchLogs(
+    DateTime from,
+    DateTime until, {
+    int? size,
+    int? cursor,
+  });
 
   /// Adds a domain to the whitelist or blacklist on a Pi-hole server.
   ///
