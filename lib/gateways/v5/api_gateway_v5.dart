@@ -399,7 +399,7 @@ class ApiGatewayV5 implements ApiGateway {
       final body = jsonDecode(response.body);
       return FetchLogsResponse(
         result: APiResponseType.success,
-        data: LogsInfo.fromJson(body['data']),
+        data: LogsInfo.fromJson(body),
       );
     } on FormatException {
       return FetchLogsResponse(result: APiResponseType.authError);

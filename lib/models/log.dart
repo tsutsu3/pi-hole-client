@@ -10,8 +10,8 @@ class LogsInfo {
   });
 
   factory LogsInfo.fromJson(Map<String, dynamic> json) => LogsInfo(
-        logs: (json['queries'] as List<dynamic>)
-            .map((log) => Log.fromV6(Query.fromJson(log)))
+        logs: (json['data'] as List<dynamic>)
+            .map((log) => Log.fromJson(log as List<dynamic>))
             .toList(),
       );
 
