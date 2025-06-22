@@ -390,6 +390,8 @@ class ApiGatewayV5 implements ApiGateway {
     try {
       final length = size ?? 100;
 
+      // If both 'from' and 'until' are specified, 'size' is ignored and all
+      // data within the period is retrieved.
       final response = await httpClient(
         method: 'get',
         url:

@@ -13,6 +13,7 @@ import 'package:pi_hole_client/screens/logs/log_details_screen.dart';
 import 'package:pi_hole_client/screens/logs/log_tile.dart';
 import 'package:pi_hole_client/screens/logs/logs_filters_modal.dart';
 import 'package:pi_hole_client/screens/logs/no_logs_message.dart';
+import 'package:pi_hole_client/services/logs_pagination_service.dart';
 import 'package:pi_hole_client/widgets/custom_radio.dart';
 import 'package:provider/provider.dart';
 
@@ -24,26 +25,43 @@ class Logs extends StatefulWidget {
 }
 
 class _LogsState extends State<Logs> {
-  Log? selectedLog;
-
-  DateTime? _lastTimestamp;
-  bool _isLoadingMore = false;
-
-  late ScrollController _scrollController;
-
-  bool _showSearchBar = false;
-  final TextEditingController _searchController = TextEditingController();
-
-  int loadStatus = 0;
-  List<Log> logsList = [];
-  int sortStatus = 0;
-
   DateTime? masterStartTime;
   DateTime? masterEndTime;
 
+  int loadStatus = 0;
+  int sortStatus = 0;
+
+  bool showSearchBar = false;
+  bool isLoadingMore = false;
+
+  List<Log> logsList = [];
+  Log? selectedLog;
+
+  bool loadInProgress = false;
+  bool fullyFinished = false;
+
+  late LogsPaginationService? paginationService;
+  late ScrollController _scrollController;
+  final TextEditingController _searchController = TextEditingController();
+
+  /// Loads logs from the API gateway with optional filtering and pagination.
+  ///
+  /// This method fetches logs based on the provided parameters and updates the
+  /// internal logs list. It supports replacing old logs or appending new logs
+  /// for pagination. The method also handles the initialization of the
+  /// pagination service and manages loading state.
+  ///
+  /// Parameters:
+  /// - [replaceOldLogs]: If `true`, replaces the current logs with newly fetched logs.
+  ///   If `false`, appends the new logs to the existing list.
+  /// - [inStartTime]: An optional start time for the logs to be fetched.
+  /// - [inEndTime]: An optional end time for the logs to be fetched.
+  ///
+  /// Returns a [Future] that completes when the logs have been loaded.
+  /// If no API gateway is selected or the pagination service fails to initialize,
+  /// the method returns early.
   Future<dynamic> loadLogs({
     required bool replaceOldLogs,
-    List<int>? statusSelected,
     DateTime? inStartTime,
     DateTime? inEndTime,
   }) async {
@@ -54,101 +72,63 @@ class _LogsState extends State<Logs> {
         Provider.of<ServersProvider>(context, listen: false);
     final apiGateway = serversProvider.selectedApiGateway;
 
-    final startTime = masterStartTime ?? inStartTime;
-    final endTime = masterEndTime ?? inEndTime;
-    late DateTime? timestamp;
-    late DateTime? minusHoursTimestamp;
-    if (replaceOldLogs == true) {
-      _lastTimestamp = null;
-    } else {
-      setState(() => _isLoadingMore = true);
+    if (apiGateway == null) {
+      logger.e('No API Gateway selected.');
+      return;
     }
-    if (_lastTimestamp == null || replaceOldLogs == true) {
-      final now = DateTime.now();
-      timestamp = endTime ?? now;
-      final newOldTimestamp = logsPerQuery == 0.5
-          ? DateTime(
-              timestamp.year,
-              timestamp.month,
-              timestamp.day,
-              timestamp.hour,
-              timestamp.minute - 30,
-              timestamp.second,
-            )
-          : DateTime(
-              timestamp.year,
-              timestamp.month,
-              timestamp.day,
-              timestamp.hour - logsPerQuery.toInt(),
-              timestamp.minute,
-              timestamp.second,
-            );
-      if (startTime != null) {
-        minusHoursTimestamp =
-            newOldTimestamp.isAfter(startTime) ? newOldTimestamp : startTime;
+
+    if (replaceOldLogs ||
+        paginationService == null ||
+        paginationService!.finished) {
+      DateTime endTime;
+
+      if (replaceOldLogs || paginationService == null) {
+        endTime = inEndTime ?? DateTime.now();
       } else {
-        minusHoursTimestamp = newOldTimestamp;
+        // Calculate next window
+        endTime = paginationService!.startTime.subtract(
+          Duration(
+            hours: logsPerQuery.floor(),
+            minutes: ((logsPerQuery - logsPerQuery.floor()) * 60).toInt(),
+          ),
+        );
       }
-    } else {
-      timestamp = _lastTimestamp;
-      final newOldTimestamp = logsPerQuery == 0.5
-          ? DateTime(
-              _lastTimestamp!.year,
-              _lastTimestamp!.month,
-              _lastTimestamp!.day,
-              _lastTimestamp!.hour,
-              _lastTimestamp!.minute - 30,
-              _lastTimestamp!.second,
-            )
-          : DateTime(
-              _lastTimestamp!.year,
-              _lastTimestamp!.month,
-              _lastTimestamp!.day,
-              _lastTimestamp!.hour - logsPerQuery.toInt(),
-              _lastTimestamp!.minute,
-              _lastTimestamp!.second,
-            );
-      if (startTime != null) {
-        minusHoursTimestamp =
-            newOldTimestamp.isAfter(startTime) ? newOldTimestamp : startTime;
+
+      final startTime = inStartTime ??
+          (logsPerQuery == 0.5
+              ? endTime.subtract(const Duration(minutes: 30))
+              : endTime.subtract(Duration(hours: logsPerQuery.toInt())));
+
+      paginationService = LogsPaginationService(
+        apiGateway: apiGateway,
+        startTime: startTime,
+        endTime: endTime,
+        logPeriodHours: logsPerQuery,
+      );
+
+      logger.d('PaginationService initialized with: '
+          'startTime: $startTime, endTime: $endTime');
+    }
+
+    setState(() => isLoadingMore = true);
+
+    final fetchedLogs = await paginationService!.loadNextPage();
+
+    setState(() => isLoadingMore = false);
+
+    if (fetchedLogs.isEmpty) {
+      setState(() => loadStatus = 1);
+      return;
+    }
+
+    setState(() {
+      if (replaceOldLogs) {
+        logsList = fetchedLogs.reversed.toList();
       } else {
-        minusHoursTimestamp = newOldTimestamp;
+        logsList.addAll(fetchedLogs.reversed);
       }
-    }
-    if (startTime != null && minusHoursTimestamp.isBefore(startTime)) {
-      setState(() {
-        _isLoadingMore = false;
-        loadStatus = 1;
-      });
-    } else {
-      final result =
-          await apiGateway?.fetchLogs(minusHoursTimestamp, timestamp!);
-      if (mounted) {
-        setState(() => _isLoadingMore = false);
-        if (result?.result == APiResponseType.success) {
-          final items = <Log>[];
-          if (result!.data != null) {
-            result.data?.logs.forEach(items.add);
-            logger.d('Logs fetched: ${items.map((e) => e.toJson()).toList()}');
-          }
-          if (replaceOldLogs == true) {
-            setState(() {
-              loadStatus = 1;
-              logsList = items.reversed.toList();
-              _lastTimestamp = minusHoursTimestamp;
-            });
-          } else {
-            setState(() {
-              loadStatus = 1;
-              logsList = logsList + items.reversed.toList();
-              _lastTimestamp = minusHoursTimestamp;
-            });
-          }
-        } else {
-          setState(() => loadStatus = 2);
-        }
-      }
-    }
+      loadStatus = 1;
+    });
   }
 
   List<Log> filterLogs({
@@ -210,10 +190,20 @@ class _LogsState extends State<Logs> {
   }
 
   void _scrollListener() {
-    if (_scrollController.position.extentAfter < 500 &&
-        _isLoadingMore == false) {
-      loadLogs(replaceOldLogs: false);
+    if (_scrollController.position.extentAfter < 500 && !isLoadingMore) {
+      _enqueueLoad();
     }
+  }
+
+  Future<void> _enqueueLoad() async {
+    if (loadInProgress) return;
+
+    loadInProgress = true;
+
+    logger.w('calling loadLogs from scroll listener');
+    await loadLogs(replaceOldLogs: false);
+
+    loadInProgress = false;
   }
 
   @override
@@ -388,17 +378,16 @@ class _LogsState extends State<Logs> {
         case 1:
           return RefreshIndicator(
             onRefresh: () async {
-              _lastTimestamp = DateTime.now();
               await loadLogs(replaceOldLogs: true);
             },
             child: logsListDisplay.isNotEmpty
                 ? ListView.builder(
                     controller: _scrollController,
-                    itemCount: _isLoadingMore == true
+                    itemCount: isLoadingMore == true
                         ? logsListDisplay.length + 1
                         : logsListDisplay.length,
                     itemBuilder: (context, index) {
-                      if (_isLoadingMore == true &&
+                      if (isLoadingMore == true &&
                           index == logsListDisplay.length) {
                         return const Padding(
                           padding: EdgeInsets.symmetric(vertical: 20),
@@ -484,13 +473,13 @@ class _LogsState extends State<Logs> {
 
     Widget scaffold() {
       return Scaffold(
-        appBar: _showSearchBar == true
+        appBar: showSearchBar == true
             ? AppBar(
                 toolbarHeight: 60,
                 leading: IconButton(
                   onPressed: () {
                     setState(() {
-                      _showSearchBar = false;
+                      showSearchBar = false;
                       _searchController.text = '';
                     });
                     if (_scrollController.positions.isNotEmpty) {
@@ -552,7 +541,7 @@ class _LogsState extends State<Logs> {
                   IconButton(
                     onPressed: () {
                       setState(() {
-                        _showSearchBar = true;
+                        showSearchBar = true;
                       });
                     },
                     icon: const Icon(Icons.search_rounded),

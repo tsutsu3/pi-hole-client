@@ -38,6 +38,7 @@ class Log {
     required this.replyType,
     required this.replyTime,
     this.answeredBy,
+    this.id,
   });
 
   factory Log.fromJson(List<dynamic> data) => Log(
@@ -58,6 +59,7 @@ class Log {
 
   factory Log.fromV6(Query query) {
     return Log(
+      id: query.id,
       //double to int
       dateTime:
           DateTime.fromMillisecondsSinceEpoch((query.time * 1000).toInt()),
@@ -74,6 +76,7 @@ class Log {
     );
   }
 
+  final int? id;
   final DateTime dateTime;
   final String type;
   final String url;
@@ -102,6 +105,7 @@ class Log {
 
   //toJson
   Map<String, dynamic> toJson() => {
+        'id': id,
         'dateTime': dateTime.toUtc().toIso8601String(),
         'type': type,
         'url': url,
