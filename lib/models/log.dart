@@ -1,6 +1,33 @@
 import 'package:pi_hole_client/constants/query_types.dart';
 import 'package:pi_hole_client/models/api/v6/metrics/query.dart';
 
+class LogsInfo {
+  const LogsInfo({
+    required this.logs,
+    this.cursor,
+    this.recordsTotal,
+    this.recordsFiltered,
+  });
+
+  factory LogsInfo.fromJson(Map<String, dynamic> json) => LogsInfo(
+        logs: (json['queries'] as List<dynamic>)
+            .map((log) => Log.fromV6(Query.fromJson(log)))
+            .toList(),
+      );
+
+  factory LogsInfo.fromV6(Queries queries) => LogsInfo(
+        logs: queries.queries.map(Log.fromV6).toList(),
+        cursor: queries.cursor,
+        recordsTotal: queries.recordsTotal,
+        recordsFiltered: queries.recordsFiltered,
+      );
+
+  final List<Log> logs;
+  final int? cursor;
+  final int? recordsTotal;
+  final int? recordsFiltered;
+}
+
 class Log {
   const Log({
     required this.dateTime,

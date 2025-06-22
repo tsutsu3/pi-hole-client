@@ -128,7 +128,7 @@ class _LogsState extends State<Logs> {
         if (result?.result == APiResponseType.success) {
           final items = <Log>[];
           if (result!.data != null) {
-            result.data?.forEach(items.add);
+            result.data?.logs.forEach(items.add);
             logger.d('Logs fetched: ${items.map((e) => e.toJson()).toList()}');
           }
           if (replaceOldLogs == true) {
