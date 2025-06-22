@@ -1956,7 +1956,7 @@ class TestSetupHelper {
     when(mockApiGatewayV6.fetchLogs(any, any)).thenAnswer((_) async {
       return FetchLogsResponse(
         result: APiResponseType.success,
-        data: queries.queries.map(Log.fromV6).toList(),
+        data: LogsInfo.fromV6(queries),
       );
     });
 

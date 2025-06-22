@@ -1295,7 +1295,7 @@ void main() async {
   group('fetchLogs', () {
     late Server server;
     const url =
-        'http://example.com/admin/api.php?auth=xxx123&getAllQueries&from=1733472267&until=1733479467';
+        'http://example.com/admin/api.php?auth=xxx123&getAllQueries=100&from=1733472267&until=1733479467';
 
     setUp(() async {
       server = Server(
@@ -1343,12 +1343,60 @@ void main() async {
           ],
         ],
       };
+      when(mockClient.get(
+              Uri.parse(url.replaceAll('getAllQueries=100', 'getAllQueries=2')),
+              headers: {}))
+          .thenAnswer((_) async => http.Response(jsonEncode(data), 200));
+
+      final from = DateTime.fromMillisecondsSinceEpoch(1733472267 * 1000);
+      final until = DateTime.fromMillisecondsSinceEpoch(1733479467 * 1000);
+      final response = await apiGateway.fetchLogs(from, until, size: 2);
+
+      expect(response.result, APiResponseType.success);
+      expect(response.data, isNotNull);
+    });
+
+    test('Return success with size param', () async {
+      final mockClient = MockClient();
+      final apiGateway = ApiGatewayV5(server, client: mockClient);
+      final data = {
+        'data': [
+          [
+            '1733479389',
+            'A',
+            'google.com',
+            '172.26.0.1',
+            '2',
+            '0',
+            '4',
+            '324',
+            'N/A',
+            '-1',
+            'dns.google#53',
+            '',
+          ],
+          [
+            '1733479462',
+            'A',
+            'google.co.jp',
+            '172.26.0.1',
+            '2',
+            '0',
+            '4',
+            '742',
+            'N/A',
+            '-1',
+            'dns.google#53',
+            '',
+          ],
+        ],
+      };
       when(mockClient.get(Uri.parse(url), headers: {}))
           .thenAnswer((_) async => http.Response(jsonEncode(data), 200));
 
       final from = DateTime.fromMillisecondsSinceEpoch(1733472267 * 1000);
       final until = DateTime.fromMillisecondsSinceEpoch(1733479467 * 1000);
-      final response = await apiGateway.fetchLogs(from, until);
+      final response = await apiGateway.fetchLogs(from, until, size: 2);
 
       expect(response.result, APiResponseType.success);
       expect(response.data, isNotNull);
