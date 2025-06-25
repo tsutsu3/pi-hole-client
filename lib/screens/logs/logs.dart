@@ -1,8 +1,11 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:pi_hole_client/classes/process_modal.dart';
 import 'package:pi_hole_client/constants/responsive.dart';
 import 'package:pi_hole_client/functions/logger.dart';
 import 'package:pi_hole_client/functions/snackbar.dart';
+import 'package:pi_hole_client/gateways/api_gateway_interface.dart';
 import 'package:pi_hole_client/l10n/generated/app_localizations.dart';
 import 'package:pi_hole_client/models/gateways.dart';
 import 'package:pi_hole_client/models/log.dart';
@@ -32,101 +35,61 @@ class _LogsState extends State<Logs> {
   int sortStatus = 0;
 
   bool showSearchBar = false;
-  bool isLoadingMore = false;
+  bool isLoadingMore = true;
 
   List<Log> logsList = [];
   Log? selectedLog;
 
-  bool loadInProgress = false;
-  bool fullyFinished = false;
-
   late LogsPaginationService? paginationService;
-  late ScrollController _scrollController;
-  final TextEditingController _searchController = TextEditingController();
+  late ApiGateway? apiGateway;
+  late double? logsPerQuery;
+  late ScrollController scrollController;
+  final TextEditingController searchController = TextEditingController();
 
-  /// Loads logs from the API gateway with optional filtering and pagination.
+  Timer? debounce;
+
+  /// Loads logs within a specified time range.
   ///
-  /// This method fetches logs based on the provided parameters and updates the
-  /// internal logs list. It supports replacing old logs or appending new logs
-  /// for pagination. The method also handles the initialization of the
-  /// pagination service and manages loading state.
+  /// If [replaceOldLogs] is `true`, the existing logs in [logsList] will be cleared before adding new logs.
+  /// Optionally, you can specify [inStartTime] and [inEndTime] to define the time range for the logs to load.
+  /// If [inEndTime] is not provided, the current time is used.
+  /// If [inStartTime] is not provided, it is calculated based on [logsPerQuery].
   ///
-  /// Parameters:
-  /// - [replaceOldLogs]: If `true`, replaces the current logs with newly fetched logs.
-  ///   If `false`, appends the new logs to the existing list.
-  /// - [inStartTime]: An optional start time for the logs to be fetched.
-  /// - [inEndTime]: An optional end time for the logs to be fetched.
+  /// The method resets the pagination service with the new time range and loads the next page of logs.
+  /// The loaded logs are then added to [logsList].
   ///
   /// Returns a [Future] that completes when the logs have been loaded.
-  /// If no API gateway is selected or the pagination service fails to initialize,
-  /// the method returns early.
   Future<dynamic> loadLogs({
     required bool replaceOldLogs,
     DateTime? inStartTime,
     DateTime? inEndTime,
   }) async {
-    final logsPerQuery =
-        Provider.of<AppConfigProvider>(context, listen: false).logsPerQuery;
+    setState(() {
+      loadStatus = 0;
+    });
 
-    final serversProvider =
-        Provider.of<ServersProvider>(context, listen: false);
-    final apiGateway = serversProvider.selectedApiGateway;
-
-    if (apiGateway == null) {
-      logger.e('No API Gateway selected.');
-      return;
+    if (inStartTime != null) {
+      isLoadingMore = false;
     }
 
-    if (replaceOldLogs ||
-        paginationService == null ||
-        paginationService!.finished) {
-      DateTime endTime;
+    final endTime = inEndTime ?? DateTime.now();
+    final startTime = inStartTime ??
+        endTime.subtract(Duration(minutes: (logsPerQuery! * 60).toInt()));
 
-      if (replaceOldLogs || paginationService == null) {
-        endTime = inEndTime ?? DateTime.now();
-      } else {
-        // Calculate next window
-        endTime = paginationService!.startTime.subtract(
-          Duration(
-            hours: logsPerQuery.floor(),
-            minutes: ((logsPerQuery - logsPerQuery.floor()) * 60).toInt(),
-          ),
-        );
-      }
+    paginationService!.reset(startTime, endTime);
 
-      final startTime = inStartTime ??
-          (logsPerQuery == 0.5
-              ? endTime.subtract(const Duration(minutes: 30))
-              : endTime.subtract(Duration(hours: logsPerQuery.toInt())));
-
-      paginationService = LogsPaginationService(
-        apiGateway: apiGateway,
-        startTime: startTime,
-        endTime: endTime,
-        logPeriodHours: logsPerQuery,
-      );
-
-      logger.d('PaginationService initialized with: '
-          'startTime: $startTime, endTime: $endTime');
+    if (replaceOldLogs) {
+      setState(() {
+        logsList.clear();
+      });
     }
 
-    setState(() => isLoadingMore = true);
-
-    final fetchedLogs = await paginationService!.loadNextPage();
-
-    setState(() => isLoadingMore = false);
-
-    if (fetchedLogs.isEmpty) {
-      setState(() => loadStatus = 1);
-      return;
-    }
+    final newLogs = await paginationService?.loadNextPage() ?? [];
+    setState(() {
+      logsList.addAll(newLogs);
+    });
 
     setState(() {
-      if (replaceOldLogs) {
-        logsList = fetchedLogs.reversed.toList();
-      } else {
-        logsList.addAll(fetchedLogs.reversed);
-      }
       loadStatus = 1;
     });
   }
@@ -162,9 +125,9 @@ class _LogsState extends State<Logs> {
       tempLogs = tempLogs.where((log) => log.url == selectedDomain).toList();
     }
 
-    if (_searchController.text != '') {
+    if (searchController.text != '') {
       tempLogs = tempLogs.where((log) {
-        if (log.url.contains(_searchController.text)) {
+        if (log.url.contains(searchController.text)) {
           return true;
         } else {
           return false;
@@ -184,26 +147,107 @@ class _LogsState extends State<Logs> {
 
   @override
   void initState() {
-    _scrollController = ScrollController()..addListener(_scrollListener);
-    loadLogs(replaceOldLogs: true);
     super.initState();
+
+    scrollController = ScrollController()..addListener(scrollListener);
+
+    logsPerQuery =
+        Provider.of<AppConfigProvider>(context, listen: false).logsPerQuery;
+
+    apiGateway =
+        Provider.of<ServersProvider>(context, listen: false).selectedApiGateway;
+
+    paginationService = LogsPaginationService(apiGateway: apiGateway!);
+
+    initializeLoad();
   }
 
-  void _scrollListener() {
-    if (_scrollController.position.extentAfter < 500 && !isLoadingMore) {
-      _enqueueLoad();
+  @override
+  void dispose() {
+    scrollController.dispose();
+    debounce?.cancel();
+    super.dispose();
+  }
+
+  Future<void> initializeLoad() async {
+    setState(() {
+      loadStatus = 0;
+    });
+
+    final now = DateTime.now();
+
+    paginationService?.reset(
+      now.subtract(
+        Duration(minutes: (logsPerQuery! * 60).toInt()),
+      ),
+      now,
+    );
+
+    await enqueueLoad();
+
+    setState(() {
+      loadStatus = 1;
+    });
+  }
+
+  void scrollListener() {
+    if (scrollController.position.extentAfter < 500) {
+      if (debounce?.isActive ?? false) debounce?.cancel();
+      debounce = Timer(const Duration(milliseconds: 100), () {
+        logger.w('calling loadLogs from scroll listener');
+        enqueueLoad();
+      });
     }
   }
 
-  Future<void> _enqueueLoad() async {
-    if (loadInProgress) return;
+  /// Loads the next page of logs asynchronously, handling pagination and empty results.
+  ///
+  /// This method attempts to load additional logs using the [paginationService].
+  /// If the pagination window is finished and loading more is enabled, it advances
+  /// the window by a fixed duration and resets the pagination service. It will
+  /// attempt to load logs up to maxEmptyWindows times if no new logs are found,
+  /// incrementing an empty window counter each time. If new logs are loaded, they
+  /// are added to [logsList] and the method returns. If the maximum number of empty
+  /// windows is reached without loading new logs, loading is stopped and an error
+  /// is logged.
+  Future<void> enqueueLoad() async {
+    const maxEmptyWindows = 3;
+    for (var emptyWindowCount = 0; emptyWindowCount < maxEmptyWindows;) {
+      // 1. If pagination has finished, advance the window
+      if (paginationService!.finished) {
+        if (!isLoadingMore) {
+          logger.w('Pagination finished and loading more is disabled.');
+          return;
+        }
 
-    loadInProgress = true;
+        final diff = Duration(minutes: (logsPerQuery! * 60).toInt());
+        final startTime = paginationService!.startTime!.subtract(diff);
+        final endTime = paginationService!.startTime!;
+        logger.d(
+          'Resetting pagination service with new window: $startTime to $endTime',
+        );
+        paginationService!.reset(startTime, endTime);
+      }
 
-    logger.w('calling loadLogs from scroll listener');
-    await loadLogs(replaceOldLogs: false);
+      // 2. Load the next page of logs
+      logger.d('Loading next page of logs...');
+      final newLogs = await paginationService!.loadNextPage();
 
-    loadInProgress = false;
+      if (newLogs.isNotEmpty) {
+        setState(() {
+          logsList.addAll(newLogs);
+        });
+        return;
+      }
+
+      // 3. If no logs were loaded, increment the empty window count
+      if (paginationService!.finished) {
+        emptyWindowCount++;
+        logger.w('Empty window count: $emptyWindowCount');
+      }
+    }
+
+    logger.e('Max empty windows reached. Stop loading.');
   }
 
   @override
@@ -226,7 +270,7 @@ class _LogsState extends State<Logs> {
 
     void updateSortStatus(value) {
       if (sortStatus != value) {
-        _scrollController.animateTo(
+        scrollController.animateTo(
           0,
           duration: const Duration(milliseconds: 250),
           curve: Curves.easeInOut,
@@ -382,7 +426,7 @@ class _LogsState extends State<Logs> {
             },
             child: logsListDisplay.isNotEmpty
                 ? ListView.builder(
-                    controller: _scrollController,
+                    controller: scrollController,
                     itemCount: isLoadingMore == true
                         ? logsListDisplay.length + 1
                         : logsListDisplay.length,
@@ -463,7 +507,7 @@ class _LogsState extends State<Logs> {
 
     void scrollToTop() {
       if (logsListDisplay.isNotEmpty) {
-        _scrollController.animateTo(
+        scrollController.animateTo(
           0,
           duration: const Duration(milliseconds: 250),
           curve: Curves.easeInOut,
@@ -480,10 +524,10 @@ class _LogsState extends State<Logs> {
                   onPressed: () {
                     setState(() {
                       showSearchBar = false;
-                      _searchController.text = '';
+                      searchController.text = '';
                     });
-                    if (_scrollController.positions.isNotEmpty) {
-                      _scrollController.animateTo(
+                    if (scrollController.positions.isNotEmpty) {
+                      scrollController.animateTo(
                         0,
                         duration: const Duration(milliseconds: 250),
                         curve: Curves.easeInOut,
@@ -496,9 +540,9 @@ class _LogsState extends State<Logs> {
                 actions: [
                   IconButton(
                     onPressed: () {
-                      setState(() => _searchController.text = '');
-                      if (_scrollController.positions.isNotEmpty) {
-                        _scrollController.animateTo(
+                      setState(() => searchController.text = '');
+                      if (scrollController.positions.isNotEmpty) {
+                        scrollController.animateTo(
                           0,
                           duration: const Duration(milliseconds: 250),
                           curve: Curves.easeInOut,
@@ -515,7 +559,7 @@ class _LogsState extends State<Logs> {
                   margin: const EdgeInsets.only(bottom: 5),
                   child: Center(
                     child: TextField(
-                      controller: _searchController,
+                      controller: searchController,
                       onChanged: searchLogs,
                       autofocus: true,
                       style: const TextStyle(
