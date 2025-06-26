@@ -39,6 +39,7 @@ class _LogsState extends State<Logs> {
   bool enableNextWindow = true;
 
   List<Log> logsList = [];
+  List<Log> logsListDisplay = [];
   Log? selectedLog;
 
   late LogsPaginationService? paginationService;
@@ -277,25 +278,11 @@ class _LogsState extends State<Logs> {
     final statusBarHeight = MediaQuery.of(context).viewPadding.top;
     final bottomNavBarHeight = MediaQuery.of(context).viewPadding.bottom;
 
-    var logsListDisplay = filterLogs(
+    logsListDisplay = filterLogs(
       statusSelected: filtersProvider.statusSelected,
       devicesSelected: filtersProvider.selectedClients,
       selectedDomain: filtersProvider.selectedDomain,
     );
-
-    void updateSortStatus(value) {
-      if (sortStatus != value) {
-        scrollController.animateTo(
-          0,
-          duration: const Duration(milliseconds: 250),
-          curve: Curves.easeInOut,
-        );
-        setState(() {
-          sortStatus = value;
-          logsListDisplay = logsListDisplay.reversed.toList();
-        });
-      }
-    }
 
     Future<void> whiteBlackList(String list, Log log) async {
       final loading = ProcessModal(context: context);
@@ -411,96 +398,6 @@ class _LogsState extends State<Logs> {
       filtersProvider.resetFilters();
     }
 
-    Widget buildChip(String label, Icon icon, Function() onDeleted) {
-      return Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 5),
-        child: Chip(
-          label: Text(label),
-          avatar: icon,
-          onDeleted: onDeleted,
-        ),
-      );
-    }
-
-    void scrollToTop() {
-      if (logsListDisplay.isNotEmpty) {
-        scrollController.animateTo(
-          0,
-          duration: const Duration(milliseconds: 250),
-          curve: Curves.easeInOut,
-        );
-      }
-    }
-
-    List<Widget> _buildFilterChips() {
-      final chips = <Widget>[];
-
-      if (filtersProvider.startTime != null ||
-          filtersProvider.endTime != null) {
-        chips.add(
-          buildChip(
-            AppLocalizations.of(context)!.time,
-            const Icon(Icons.access_time_rounded),
-            () {
-              filtersProvider.resetTime();
-              setState(() {
-                loadStatus = LoadStatus.loading;
-              });
-              resetLogs();
-            },
-          ),
-        );
-      }
-
-      if (filtersProvider.statusSelected.length <
-          serversProvider.numShown - 1) {
-        chips.add(
-          buildChip(
-            filtersProvider.statusSelected.length == 1
-                ? filtersProvider.statusSelectedString
-                : '${filtersProvider.statusSelected.length} ${AppLocalizations.of(context)!.statusSelected}',
-            const Icon(Icons.shield),
-            () {
-              scrollToTop();
-              filtersProvider.resetStatus();
-            },
-          ),
-        );
-      }
-
-      if (filtersProvider.selectedClients.isNotEmpty &&
-          filtersProvider.selectedClients.length <
-              filtersProvider.totalClients.length) {
-        chips.add(
-          buildChip(
-            filtersProvider.selectedClients.length == 1
-                ? filtersProvider.selectedClients[0]
-                : '${filtersProvider.selectedClients.length} ${AppLocalizations.of(context)!.clientsSelected}',
-            const Icon(Icons.devices),
-            () {
-              scrollToTop();
-              filtersProvider.resetClients();
-            },
-          ),
-        );
-      }
-
-      if (filtersProvider.selectedDomain != null) {
-        chips.add(
-          buildChip(
-            filtersProvider.selectedDomain!,
-            const Icon(Icons.http_rounded),
-            () {
-              scrollToTop();
-              filtersProvider.setSelectedDomain(null);
-            },
-          ),
-        );
-      }
-
-      return chips;
-    }
-
     Widget _buildScaffold(BuildContext context) {
       return Scaffold(
         appBar: LogsAppBar(
@@ -529,9 +426,14 @@ class _LogsState extends State<Logs> {
             setState(() => showSearchBar = true);
           },
           onFilterTap: showFiltersModal,
-          onSortChanged: updateSortStatus,
+          onSortChanged: _updateSortStatus,
           sortStatus: sortStatus,
-          filterChips: _buildFilterChips(),
+          filterChips: _buildFilterChips(
+            context,
+            filtersProvider,
+            serversProvider,
+            logsListDisplay,
+          ),
           searchController: searchController,
           width: width,
         ),
@@ -582,5 +484,140 @@ class _LogsState extends State<Logs> {
     } else {
       return _buildScaffold(context);
     }
+  }
+
+  /// Updates the current sort status of the logs list.
+  ///
+  /// This is typically used to toggle between ascending and descending
+  /// sort orders in the logs display.
+  void _updateSortStatus(int value) {
+    if (sortStatus != value) {
+      scrollController.animateTo(
+        0,
+        duration: const Duration(milliseconds: 250),
+        curve: Curves.easeInOut,
+      );
+      setState(() {
+        sortStatus = value;
+        logsListDisplay = logsListDisplay.reversed.toList();
+      });
+    }
+  }
+
+  /// Scrolls the associated scroll controller to the top of the list view
+  /// if the provided [logsListDisplay] is not empty.
+  void _scrollToTop(List<Log> logsListDisplay) {
+    if (logsListDisplay.isNotEmpty) {
+      scrollController.animateTo(
+        0,
+        duration: const Duration(milliseconds: 250),
+        curve: Curves.easeInOut,
+      );
+    }
+  }
+
+  /// Builds a list of filter chips based on the current filter selections.
+  ///
+  /// This method generates a list of [Widget]s representing the active filters
+  /// applied in the logs screen. Each chip corresponds to a specific filter
+  /// (time, status, clients, or domain) and provides a way for the user to
+  /// remove that filter. When a chip is tapped, the corresponding filter is
+  /// reset and the logs are refreshed as needed.
+  ///
+  /// Parameters:
+  /// - [context]: The build context used for localization and widget building.
+  /// - [filtersProvider]: The provider managing the current filter selections.
+  /// - [serversProvider]: The provider managing server-related data.
+  ///
+  /// Returns:
+  ///   A list of [Widget]s representing the active filter chips.
+  List<Widget> _buildFilterChips(
+    BuildContext context,
+    FiltersProvider filtersProvider,
+    ServersProvider serversProvider,
+    List<Log> logsListDisplay,
+  ) {
+    final chips = <Widget>[];
+
+    if (filtersProvider.startTime != null || filtersProvider.endTime != null) {
+      chips.add(
+        _buildChip(
+          AppLocalizations.of(context)!.time,
+          const Icon(Icons.access_time_rounded),
+          () {
+            filtersProvider.resetTime();
+            setState(() {
+              loadStatus = LoadStatus.loading;
+            });
+            resetLogs();
+          },
+        ),
+      );
+    }
+
+    if (filtersProvider.statusSelected.length < serversProvider.numShown - 1) {
+      chips.add(
+        _buildChip(
+          filtersProvider.statusSelected.length == 1
+              ? filtersProvider.statusSelectedString
+              : '${filtersProvider.statusSelected.length} ${AppLocalizations.of(context)!.statusSelected}',
+          const Icon(Icons.shield),
+          () {
+            _scrollToTop(logsListDisplay);
+            filtersProvider.resetStatus();
+          },
+        ),
+      );
+    }
+
+    if (filtersProvider.selectedClients.isNotEmpty &&
+        filtersProvider.selectedClients.length <
+            filtersProvider.totalClients.length) {
+      chips.add(
+        _buildChip(
+          filtersProvider.selectedClients.length == 1
+              ? filtersProvider.selectedClients[0]
+              : '${filtersProvider.selectedClients.length} ${AppLocalizations.of(context)!.clientsSelected}',
+          const Icon(Icons.devices),
+          () {
+            _scrollToTop(logsListDisplay);
+            filtersProvider.resetClients();
+          },
+        ),
+      );
+    }
+
+    if (filtersProvider.selectedDomain != null) {
+      chips.add(
+        _buildChip(
+          filtersProvider.selectedDomain!,
+          const Icon(Icons.http_rounded),
+          () {
+            _scrollToTop(logsListDisplay);
+            filtersProvider.setSelectedDomain(null);
+          },
+        ),
+      );
+    }
+
+    return chips;
+  }
+
+  /// Builds a styled [Chip] widget with a label, an icon as the avatar, and a delete action.
+  ///
+  /// [label] - The text to display inside the chip.
+  /// [icon] - The icon to display as the chip's avatar.
+  /// [onDeleted] - The callback function to execute when the chip's delete icon is tapped.
+  ///
+  /// Returns a [Padding] widget containing the configured [Chip].
+  Widget _buildChip(String label, Icon icon, Function() onDeleted) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 5),
+      child: Chip(
+        label: Text(label),
+        avatar: icon,
+        onDeleted: onDeleted,
+      ),
+    );
   }
 }
