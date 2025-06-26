@@ -15,10 +15,10 @@ import 'package:pi_hole_client/providers/filters_provider.dart';
 import 'package:pi_hole_client/providers/servers_provider.dart';
 import 'package:pi_hole_client/screens/logs/widgets/log_details_screen.dart';
 import 'package:pi_hole_client/screens/logs/widgets/log_tile.dart';
+import 'package:pi_hole_client/screens/logs/widgets/logs_app_bar.dart';
 import 'package:pi_hole_client/screens/logs/widgets/logs_filters_modal.dart';
 import 'package:pi_hole_client/screens/logs/widgets/no_logs_message.dart';
 import 'package:pi_hole_client/services/logs_pagination_service.dart';
-import 'package:pi_hole_client/widgets/custom_radio.dart';
 import 'package:pi_hole_client/widgets/error_message.dart';
 import 'package:provider/provider.dart';
 
@@ -413,7 +413,28 @@ class _LogsState extends State<Logs> {
       filtersProvider.resetFilters();
     }
 
-    Widget status() {
+    Widget buildChip(String label, Icon icon, Function() onDeleted) {
+      return Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 5),
+        child: Chip(
+          label: Text(label),
+          avatar: icon,
+          onDeleted: onDeleted,
+        ),
+      );
+    }
+
+    void scrollToTop() {
+      if (logsListDisplay.isNotEmpty) {
+        scrollController.animateTo(
+          0,
+          duration: const Duration(milliseconds: 250),
+          curve: Curves.easeInOut,
+        );
+      }
+    }
+
+    Widget _buildStatusContent(BuildContext context) {
       switch (loadStatus) {
         case LoadStatus.loading:
           return SizedBox(
@@ -475,258 +496,111 @@ class _LogsState extends State<Logs> {
       }
     }
 
-    Widget buildChip(String label, Icon icon, Function() onDeleted) {
-      return Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 5),
-        child: Chip(
-          label: Text(label),
-          avatar: icon,
-          onDeleted: onDeleted,
-        ),
-      );
-    }
+    List<Widget> _buildFilterChips() {
+      final chips = <Widget>[];
 
-    bool areFiltersApplied() {
-      if (filtersProvider.statusSelected.length <
-              serversProvider.numShown - 1 ||
-          filtersProvider.startTime != null ||
-          filtersProvider.endTime != null ||
-          filtersProvider.selectedClients.length <
-              filtersProvider.totalClients.length ||
-          filtersProvider.selectedDomain != null) {
-        return true;
-      } else {
-        return false;
-      }
-    }
-
-    void scrollToTop() {
-      if (logsListDisplay.isNotEmpty) {
-        scrollController.animateTo(
-          0,
-          duration: const Duration(milliseconds: 250),
-          curve: Curves.easeInOut,
+      if (filtersProvider.startTime != null ||
+          filtersProvider.endTime != null) {
+        chips.add(
+          buildChip(
+            AppLocalizations.of(context)!.time,
+            const Icon(Icons.access_time_rounded),
+            () {
+              filtersProvider.resetTime();
+              setState(() {
+                loadStatus = LoadStatus.loading;
+              });
+              resetLogs();
+            },
+          ),
         );
       }
+
+      if (filtersProvider.statusSelected.length <
+          serversProvider.numShown - 1) {
+        chips.add(
+          buildChip(
+            filtersProvider.statusSelected.length == 1
+                ? filtersProvider.statusSelectedString
+                : '${filtersProvider.statusSelected.length} ${AppLocalizations.of(context)!.statusSelected}',
+            const Icon(Icons.shield),
+            () {
+              scrollToTop();
+              filtersProvider.resetStatus();
+            },
+          ),
+        );
+      }
+
+      if (filtersProvider.selectedClients.isNotEmpty &&
+          filtersProvider.selectedClients.length <
+              filtersProvider.totalClients.length) {
+        chips.add(
+          buildChip(
+            filtersProvider.selectedClients.length == 1
+                ? filtersProvider.selectedClients[0]
+                : '${filtersProvider.selectedClients.length} ${AppLocalizations.of(context)!.clientsSelected}',
+            const Icon(Icons.devices),
+            () {
+              scrollToTop();
+              filtersProvider.resetClients();
+            },
+          ),
+        );
+      }
+
+      if (filtersProvider.selectedDomain != null) {
+        chips.add(
+          buildChip(
+            filtersProvider.selectedDomain!,
+            const Icon(Icons.http_rounded),
+            () {
+              scrollToTop();
+              filtersProvider.setSelectedDomain(null);
+            },
+          ),
+        );
+      }
+
+      return chips;
     }
 
-    Widget scaffold() {
+    Widget _buildScaffold(BuildContext context) {
       return Scaffold(
-        appBar: showSearchBar == true
-            ? AppBar(
-                toolbarHeight: 60,
-                leading: IconButton(
-                  onPressed: () {
-                    setState(() {
-                      showSearchBar = false;
-                      searchController.text = '';
-                    });
-                    if (scrollController.positions.isNotEmpty) {
-                      scrollController.animateTo(
-                        0,
-                        duration: const Duration(milliseconds: 250),
-                        curve: Curves.easeInOut,
-                      );
-                    }
-                  },
-                  icon: const Icon(Icons.arrow_back),
-                  splashRadius: 20,
-                ),
-                actions: [
-                  IconButton(
-                    onPressed: () {
-                      setState(() => searchController.text = '');
-                      if (scrollController.positions.isNotEmpty) {
-                        scrollController.animateTo(
-                          0,
-                          duration: const Duration(milliseconds: 250),
-                          curve: Curves.easeInOut,
-                        );
-                      }
-                    },
-                    icon: const Icon(Icons.clear_rounded),
-                    splashRadius: 20,
-                  ),
-                ],
-                title: Container(
-                  width: width - 136,
-                  height: 60,
-                  margin: const EdgeInsets.only(bottom: 5),
-                  child: Center(
-                    child: TextField(
-                      controller: searchController,
-                      onChanged: searchLogs,
-                      autofocus: true,
-                      style: const TextStyle(
-                        fontSize: 18,
-                        fontWeight: FontWeight.normal,
-                      ),
-                      decoration: InputDecoration(
-                        border: InputBorder.none,
-                        hintText: AppLocalizations.of(context)!.searchUrl,
-                        hintStyle: const TextStyle(
-                          fontSize: 18,
-                          fontWeight: FontWeight.normal,
-                        ),
-                      ),
-                    ),
-                  ),
-                ),
-              )
-            : AppBar(
-                title: Text(AppLocalizations.of(context)!.queryLogs),
-                toolbarHeight: 60,
-                actions: [
-                  IconButton(
-                    onPressed: () {
-                      setState(() {
-                        showSearchBar = true;
-                      });
-                    },
-                    icon: const Icon(Icons.search_rounded),
-                    splashRadius: 20,
-                  ),
-                  IconButton(
-                    onPressed: showFiltersModal,
-                    icon: const Icon(Icons.filter_list_rounded),
-                    splashRadius: 20,
-                  ),
-                  PopupMenuButton(
-                    splashRadius: 20,
-                    icon: const Icon(Icons.sort_rounded),
-                    onSelected: updateSortStatus,
-                    itemBuilder: (context) => [
-                      PopupMenuItem(
-                        value: 0,
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Expanded(
-                              child: Row(
-                                children: [
-                                  const Icon(Icons.arrow_downward_rounded),
-                                  const SizedBox(width: 15),
-                                  Flexible(
-                                    child: Text(
-                                      AppLocalizations.of(context)!
-                                          .fromLatestToOldest,
-                                      overflow: TextOverflow.ellipsis,
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ),
-                            CustomRadio(
-                              value: 0,
-                              groupValue: sortStatus,
-                              backgroundColor:
-                                  Theme.of(context).scaffoldBackgroundColor,
-                            ),
-                          ],
-                        ),
-                      ),
-                      PopupMenuItem(
-                        value: 1,
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Expanded(
-                              child: Row(
-                                children: [
-                                  const Icon(Icons.arrow_upward_rounded),
-                                  const SizedBox(width: 15),
-                                  Flexible(
-                                    child: Text(
-                                      AppLocalizations.of(context)!
-                                          .fromOldestToLatest,
-                                      overflow: TextOverflow.ellipsis,
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ),
-                            CustomRadio(
-                              value: 1,
-                              groupValue: sortStatus,
-                              backgroundColor:
-                                  Theme.of(context).scaffoldBackgroundColor,
-                            ),
-                          ],
-                        ),
-                      ),
-                    ],
-                  ),
-                ],
-                bottom: areFiltersApplied() == true
-                    ? PreferredSize(
-                        preferredSize: const Size(double.maxFinite, 50),
-                        child: Container(
-                          width: double.maxFinite,
-                          height: 50,
-                          padding: const EdgeInsets.only(bottom: 10),
-                          child: ListView(
-                            scrollDirection: Axis.horizontal,
-                            children: [
-                              const SizedBox(width: 5),
-                              if (filtersProvider.startTime != null ||
-                                  filtersProvider.endTime != null)
-                                buildChip(
-                                  AppLocalizations.of(context)!.time,
-                                  const Icon(Icons.access_time_rounded),
-                                  () {
-                                    filtersProvider.resetTime();
-                                    setState(() {
-                                      loadStatus = LoadStatus.loading;
-                                    });
-                                    resetLogs();
-                                  },
-                                ),
-                              if (filtersProvider.statusSelected.length <
-                                  serversProvider.numShown - 1)
-                                buildChip(
-                                  filtersProvider.statusSelected.length == 1
-                                      ? filtersProvider.statusSelectedString
-                                      : '${filtersProvider.statusSelected.length} ${AppLocalizations.of(context)!.statusSelected}',
-                                  const Icon(Icons.shield),
-                                  () {
-                                    scrollToTop();
-                                    filtersProvider.resetStatus();
-                                  },
-                                ),
-                              if (filtersProvider.selectedClients.isNotEmpty &&
-                                  filtersProvider.selectedClients.length <
-                                      filtersProvider.totalClients.length)
-                                buildChip(
-                                  filtersProvider.selectedClients.length == 1
-                                      ? filtersProvider.selectedClients[0]
-                                      : '${filtersProvider.selectedClients.length} ${AppLocalizations.of(context)!.clientsSelected}',
-                                  const Icon(Icons.devices),
-                                  () {
-                                    scrollToTop();
-                                    filtersProvider.resetClients();
-                                  },
-                                ),
-                              if (filtersProvider.selectedDomain != null)
-                                buildChip(
-                                  filtersProvider.selectedDomain!,
-                                  const Icon(Icons.http_rounded),
-                                  () {
-                                    scrollToTop();
-                                    filtersProvider.setSelectedDomain(null);
-                                  },
-                                ),
-                              const SizedBox(width: 5),
-                            ],
-                          ),
-                        ),
-                      )
-                    : const PreferredSize(
-                        preferredSize: Size.zero,
-                        child: SizedBox(),
-                      ),
-              ),
+        appBar: LogsAppBar(
+          showSearchBar: showSearchBar,
+          onSearchClose: () {
+            setState(() {
+              showSearchBar = false;
+              searchController.text = '';
+            });
+            scrollController.animateTo(
+              0,
+              duration: const Duration(milliseconds: 250),
+              curve: Curves.easeInOut,
+            );
+          },
+          onSearchClear: () {
+            setState(() => searchController.text = '');
+            scrollController.animateTo(
+              0,
+              duration: const Duration(milliseconds: 250),
+              curve: Curves.easeInOut,
+            );
+          },
+          onSearchChanged: searchLogs,
+          onSearchOpen: () {
+            setState(() => showSearchBar = true);
+          },
+          onFilterTap: showFiltersModal,
+          onSortChanged: updateSortStatus,
+          sortStatus: sortStatus,
+          filterChips: _buildFilterChips(),
+          searchController: searchController,
+          width: width,
+        ),
         body: SafeArea(
-          child: status(),
+          child: _buildStatusContent(context),
         ),
       );
     }
@@ -736,7 +610,7 @@ class _LogsState extends State<Logs> {
         children: [
           Expanded(
             flex: width > ResponsiveConstants.xLarge ? 2 : 3,
-            child: scaffold(),
+            child: _buildScaffold(context),
           ),
           Expanded(
             flex: 3,
@@ -761,7 +635,7 @@ class _LogsState extends State<Logs> {
         ],
       );
     } else {
-      return scaffold();
+      return _buildScaffold(context);
     }
   }
 }
