@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:pi_hole_client/classes/process_modal.dart';
+import 'package:pi_hole_client/constants/enums.dart';
 import 'package:pi_hole_client/constants/responsive.dart';
 import 'package:pi_hole_client/functions/logger.dart';
 import 'package:pi_hole_client/functions/snackbar.dart';
@@ -12,10 +13,10 @@ import 'package:pi_hole_client/models/log.dart';
 import 'package:pi_hole_client/providers/app_config_provider.dart';
 import 'package:pi_hole_client/providers/filters_provider.dart';
 import 'package:pi_hole_client/providers/servers_provider.dart';
-import 'package:pi_hole_client/screens/logs/log_details_screen.dart';
-import 'package:pi_hole_client/screens/logs/log_tile.dart';
-import 'package:pi_hole_client/screens/logs/logs_filters_modal.dart';
-import 'package:pi_hole_client/screens/logs/no_logs_message.dart';
+import 'package:pi_hole_client/screens/logs/widgets/log_details_screen.dart';
+import 'package:pi_hole_client/screens/logs/widgets/log_tile.dart';
+import 'package:pi_hole_client/screens/logs/widgets/logs_filters_modal.dart';
+import 'package:pi_hole_client/screens/logs/widgets/no_logs_message.dart';
 import 'package:pi_hole_client/services/logs_pagination_service.dart';
 import 'package:pi_hole_client/widgets/custom_radio.dart';
 import 'package:provider/provider.dart';
@@ -31,11 +32,12 @@ class _LogsState extends State<Logs> {
   DateTime? masterStartTime;
   DateTime? masterEndTime;
 
-  int loadStatus = 0;
+  LoadStatus loadStatus = LoadStatus.loading;
   int sortStatus = 0;
 
   bool showSearchBar = false;
-  bool isLoadingMore = true;
+  bool isLoadingMore = false;
+  bool enableNextWindow = true;
 
   List<Log> logsList = [];
   Log? selectedLog;
@@ -48,49 +50,53 @@ class _LogsState extends State<Logs> {
 
   Timer? debounce;
 
-  /// Loads logs within a specified time range.
-  ///
-  /// If [replaceOldLogs] is `true`, the existing logs in [logsList] will be cleared before adding new logs.
-  /// Optionally, you can specify [inStartTime] and [inEndTime] to define the time range for the logs to load.
-  /// If [inEndTime] is not provided, the current time is used.
-  /// If [inStartTime] is not provided, it is calculated based on [logsPerQuery].
-  ///
-  /// The method resets the pagination service with the new time range and loads the next page of logs.
-  /// The loaded logs are then added to [logsList].
-  ///
-  /// Returns a [Future] that completes when the logs have been loaded.
-  Future<dynamic> loadLogs({
-    required bool replaceOldLogs,
+  Future<void> resetLogs() async {
+    setState(() {
+      enableNextWindow = true;
+      loadStatus = LoadStatus.loaded;
+    });
+  }
+
+  Future<void> applyFilterAndLoad({
     DateTime? inStartTime,
     DateTime? inEndTime,
   }) async {
     setState(() {
-      loadStatus = 0;
+      loadStatus = LoadStatus.loading;
     });
 
-    if (inStartTime != null) {
-      isLoadingMore = false;
-    }
+    enableNextWindow = false;
 
     final endTime = inEndTime ?? DateTime.now();
     final startTime = inStartTime ??
         endTime.subtract(Duration(minutes: (logsPerQuery! * 60).toInt()));
 
-    paginationService!.reset(startTime, endTime);
-
-    if (replaceOldLogs) {
+    if (inStartTime != null || inEndTime != null) {
+      paginationService!.reset(startTime, endTime);
       setState(() {
         logsList.clear();
+        isLoadingMore = true;
+      });
+
+      final newLogs = await paginationService?.loadNextPage() ?? [];
+      logger.d(
+        'Loaded ${newLogs.length} logs from $startTime to $endTime',
+      );
+
+      setState(() {
+        isLoadingMore = false;
+        logsList.addAll(newLogs);
       });
     }
 
-    final newLogs = await paginationService?.loadNextPage() ?? [];
     setState(() {
-      logsList.addAll(newLogs);
-    });
-
-    setState(() {
-      loadStatus = 1;
+      if (paginationService!.finished == LoadStatus.loaded) {
+        loadStatus = LoadStatus.loaded;
+      } else if (paginationService!.finished == LoadStatus.error) {
+        loadStatus = LoadStatus.error;
+      } else {
+        loadStatus = LoadStatus.loading;
+      }
     });
   }
 
@@ -171,7 +177,7 @@ class _LogsState extends State<Logs> {
 
   Future<void> initializeLoad() async {
     setState(() {
-      loadStatus = 0;
+      loadStatus = LoadStatus.loading;
     });
 
     final now = DateTime.now();
@@ -186,17 +192,20 @@ class _LogsState extends State<Logs> {
     await enqueueLoad();
 
     setState(() {
-      loadStatus = 1;
+      if (paginationService!.finished == LoadStatus.loaded) {
+        loadStatus = LoadStatus.loaded;
+      } else if (paginationService!.finished == LoadStatus.error) {
+        loadStatus = LoadStatus.error;
+      } else {
+        loadStatus = LoadStatus.loading;
+      }
     });
   }
 
   void scrollListener() {
     if (scrollController.position.extentAfter < 500) {
       if (debounce?.isActive ?? false) debounce?.cancel();
-      debounce = Timer(const Duration(milliseconds: 100), () {
-        logger.w('calling loadLogs from scroll listener');
-        enqueueLoad();
-      });
+      debounce = Timer(const Duration(milliseconds: 100), enqueueLoad);
     }
   }
 
@@ -214,8 +223,8 @@ class _LogsState extends State<Logs> {
     const maxEmptyWindows = 3;
     for (var emptyWindowCount = 0; emptyWindowCount < maxEmptyWindows;) {
       // 1. If pagination has finished, advance the window
-      if (paginationService!.finished) {
-        if (!isLoadingMore) {
+      if (paginationService!.finished == LoadStatus.loaded) {
+        if (!enableNextWindow) {
           logger.w('Pagination finished and loading more is disabled.');
           return;
         }
@@ -231,7 +240,13 @@ class _LogsState extends State<Logs> {
 
       // 2. Load the next page of logs
       logger.d('Loading next page of logs...');
+      setState(() {
+        isLoadingMore = true;
+      });
       final newLogs = await paginationService!.loadNextPage();
+      setState(() {
+        isLoadingMore = false;
+      });
 
       if (newLogs.isNotEmpty) {
         setState(() {
@@ -241,7 +256,8 @@ class _LogsState extends State<Logs> {
       }
 
       // 3. If no logs were loaded, increment the empty window count
-      if (paginationService!.finished) {
+      if (paginationService!.finished == LoadStatus.loaded ||
+          paginationService!.finished == LoadStatus.error) {
         emptyWindowCount++;
         logger.w('Empty window count: $emptyWindowCount');
       }
@@ -351,10 +367,9 @@ class _LogsState extends State<Logs> {
               setState(() {
                 masterStartTime = filtersProvider.startTime;
                 masterEndTime = filtersProvider.endTime;
-                loadStatus = 0;
+                loadStatus = LoadStatus.loading;
               });
-              loadLogs(
-                replaceOldLogs: true,
+              applyFilterAndLoad(
                 inStartTime: filtersProvider.startTime,
                 inEndTime: filtersProvider.endTime,
               );
@@ -372,10 +387,9 @@ class _LogsState extends State<Logs> {
               setState(() {
                 masterStartTime = filtersProvider.startTime;
                 masterEndTime = filtersProvider.endTime;
-                loadStatus = 0;
+                loadStatus = LoadStatus.loading;
               });
-              loadLogs(
-                replaceOldLogs: true,
+              applyFilterAndLoad(
                 inStartTime: filtersProvider.startTime,
                 inEndTime: filtersProvider.endTime,
               );
@@ -400,7 +414,7 @@ class _LogsState extends State<Logs> {
 
     Widget status() {
       switch (loadStatus) {
-        case 0:
+        case LoadStatus.loading:
           return SizedBox(
             width: double.maxFinite,
             child: Column(
@@ -419,10 +433,10 @@ class _LogsState extends State<Logs> {
               ],
             ),
           );
-        case 1:
+        case LoadStatus.loaded:
           return RefreshIndicator(
             onRefresh: () async {
-              await loadLogs(replaceOldLogs: true);
+              await applyFilterAndLoad();
             },
             child: logsListDisplay.isNotEmpty
                 ? ListView.builder(
@@ -451,7 +465,7 @@ class _LogsState extends State<Logs> {
                 : NoLogsMessage(logsPerQuery: appConfigProvider.logsPerQuery),
           );
 
-        case 2:
+        case LoadStatus.error:
           return SizedBox(
             width: double.maxFinite,
             child: Column(
@@ -474,9 +488,6 @@ class _LogsState extends State<Logs> {
               ],
             ),
           );
-
-        default:
-          return const SizedBox();
       }
     }
 
@@ -681,9 +692,9 @@ class _LogsState extends State<Logs> {
                                   () {
                                     filtersProvider.resetTime();
                                     setState(() {
-                                      loadStatus = 0;
+                                      loadStatus = LoadStatus.loading;
                                     });
-                                    loadLogs(replaceOldLogs: true);
+                                    resetLogs();
                                   },
                                 ),
                               if (filtersProvider.statusSelected.length <

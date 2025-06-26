@@ -32,7 +32,8 @@ import 'package:pi_hole_client/providers/app_config_provider.dart' as _i6;
 import 'package:pi_hole_client/providers/filters_provider.dart' as _i23;
 import 'package:pi_hole_client/providers/servers_provider.dart' as _i15;
 import 'package:pi_hole_client/providers/status_provider.dart' as _i18;
-import 'package:pi_hole_client/screens/logs/logs_filters_modal.dart' as _i24;
+import 'package:pi_hole_client/screens/logs/widgets/logs_filters_modal.dart'
+    as _i24;
 
 // ignore_for_file: type=lint
 // ignore_for_file: avoid_redundant_argument_values

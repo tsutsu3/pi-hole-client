@@ -60,7 +60,7 @@ import 'package:pi_hole_client/providers/groups_provider.dart';
 import 'package:pi_hole_client/providers/servers_provider.dart';
 import 'package:pi_hole_client/providers/status_provider.dart';
 import 'package:pi_hole_client/providers/subscriptions_list_provider.dart';
-import 'package:pi_hole_client/screens/logs/logs_filters_modal.dart';
+import 'package:pi_hole_client/screens/logs/widgets/logs_filters_modal.dart';
 import 'package:pi_hole_client/services/status_update_service.dart';
 import 'package:provider/provider.dart';
 
@@ -1953,7 +1953,14 @@ class TestSetupHelper {
       return AddDomainToListResponse(result: APiResponseType.success);
     });
 
-    when(mockApiGatewayV6.fetchLogs(any, any)).thenAnswer((_) async {
+    when(
+      mockApiGatewayV6.fetchLogs(
+        any,
+        any,
+        size: anyNamed('size'),
+        cursor: anyNamed('cursor'),
+      ),
+    ).thenAnswer((_) async {
       return FetchLogsResponse(
         result: APiResponseType.success,
         data: LogsInfo.fromV6(queries),

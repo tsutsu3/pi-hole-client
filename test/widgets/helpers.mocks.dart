@@ -39,7 +39,8 @@ import 'package:pi_hole_client/providers/servers_provider.dart' as _i15;
 import 'package:pi_hole_client/providers/status_provider.dart' as _i20;
 import 'package:pi_hole_client/providers/subscriptions_list_provider.dart'
     as _i34;
-import 'package:pi_hole_client/screens/logs/logs_filters_modal.dart' as _i19;
+import 'package:pi_hole_client/screens/logs/widgets/logs_filters_modal.dart'
+    as _i19;
 import 'package:pi_hole_client/services/status_update_service.dart' as _i32;
 
 // ignore_for_file: type=lint

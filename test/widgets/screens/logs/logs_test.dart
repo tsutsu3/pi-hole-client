@@ -3,9 +3,10 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/mockito.dart';
 import 'package:pi_hole_client/models/gateways.dart';
 import 'package:pi_hole_client/screens/logs/logs.dart';
-import 'package:pi_hole_client/screens/logs/logs_filters_modal.dart';
+import 'package:pi_hole_client/screens/logs/widgets/logs_filters_modal.dart';
 
 import '../../helpers.dart';
+import '../utils.dart';
 
 void main() async {
   await initializeApp();
@@ -55,7 +56,14 @@ void main() async {
           tester.view.physicalSize = const Size(1080, 2400);
           tester.view.devicePixelRatio = 2.0;
 
-          when(testSetup.mockApiGatewayV6.fetchLogs(any, any)).thenAnswer(
+          when(
+            testSetup.mockApiGatewayV6.fetchLogs(
+              any,
+              any,
+              size: anyNamed('size'),
+              cursor: anyNamed('cursor'),
+            ),
+          ).thenAnswer(
             (_) async => FetchLogsResponse(result: APiResponseType.error),
           );
 
@@ -73,6 +81,7 @@ void main() async {
           expect(find.byType(Logs), findsOneWidget);
           expect(find.text('Query logs'), findsOneWidget);
           await tester.pumpAndSettle();
+          showText();
           expect(find.text("Logs couldn't be loaded"), findsWidgets);
           expect(find.byIcon(Icons.error), findsOneWidget);
         },

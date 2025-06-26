@@ -388,14 +388,12 @@ class ApiGatewayV5 implements ApiGateway {
     int? cursor,
   }) async {
     try {
-      final length = size ?? 100;
-
       // If both 'from' and 'until' are specified, 'size' is ignored and all
       // data within the period is retrieved.
       final response = await httpClient(
         method: 'get',
         url:
-            '${_server.address}/admin/api.php?auth=${await _server.sm.token}&getAllQueries=$length&from=${from.millisecondsSinceEpoch ~/ 1000}&until=${until.millisecondsSinceEpoch ~/ 1000}',
+            '${_server.address}/admin/api.php?auth=${await _server.sm.token}&getAllQueries=&from=${from.millisecondsSinceEpoch ~/ 1000}&until=${until.millisecondsSinceEpoch ~/ 1000}',
         timeout: 20,
       );
       final body = jsonDecode(response.body);

@@ -1,4 +1,5 @@
 import 'package:pi_hole_client/constants/api_versions.dart';
+import 'package:pi_hole_client/constants/enums.dart';
 import 'package:pi_hole_client/functions/logger.dart';
 import 'package:pi_hole_client/gateways/api_gateway_interface.dart';
 import 'package:pi_hole_client/models/gateways.dart';
@@ -18,9 +19,9 @@ class LogsPaginationService {
   DateTime? _endTime;
 
   int? _currentCursor;
-  bool _finished = false;
+  LoadStatus _finished = LoadStatus.loading;
 
-  bool get finished => _finished;
+  LoadStatus get finished => _finished;
   DateTime? get startTime => _startTime;
   DateTime? get endTime => _endTime;
 
@@ -34,7 +35,7 @@ class LogsPaginationService {
   void reset(DateTime start, DateTime until) {
     _startTime = start;
     _endTime = until;
-    _finished = false;
+    _finished = LoadStatus.loading;
     _currentCursor = null;
   }
 
@@ -50,7 +51,7 @@ class LogsPaginationService {
   /// - For API version v6, it delegates to [_loadNextPageV6].
   /// - For other versions, it delegates to [_loadNextPageV5].
   Future<List<Log>> loadNextPage() async {
-    if (_finished) {
+    if (_finished == LoadStatus.loaded) {
       logger.d('No more logs to load, pagination is finished. Please reset.');
       return [];
     }
@@ -95,7 +96,7 @@ class LogsPaginationService {
         retryCount++;
         logger.w('API v6 error: ${result.result.name}, retry $retryCount');
         if (retryCount > maxRetries) {
-          _finished = true;
+          _finished = LoadStatus.error;
           logger.e('Failed to fetch logs after $maxRetries retries.');
           return [];
         }
@@ -104,7 +105,7 @@ class LogsPaginationService {
 
       // Fetched all logs, no more logs to fetch
       if (result.data!.recordsFiltered == 0) {
-        _finished = true;
+        _finished = LoadStatus.loaded;
         logger.d('No logs found in the specified time range.');
         return [];
       }
@@ -118,10 +119,12 @@ class LogsPaginationService {
       // Important: Expected asc order of logs, so the last log is the oldest one.
       _currentCursor = logs.last.id;
 
+      _finished = LoadStatus.loaded;
       return logs;
     }
 
-    _finished = true;
+    logger.e('Failed to load logs after $maxRetries retries.');
+    _finished = LoadStatus.error;
     return [];
   }
 
@@ -150,7 +153,7 @@ class LogsPaginationService {
         retryCount++;
         logger.w('API v5 error: ${result.result.name}, retry $retryCount');
         if (retryCount > maxRetries) {
-          _finished = true;
+          _finished = LoadStatus.error;
           logger.e('Failed to fetch logs after $maxRetries retries.');
           return [];
         }
@@ -161,10 +164,12 @@ class LogsPaginationService {
         'startTime: $_startTime, endTime: $_endTime, cursor: $_currentCursor, nums: ${result.data!.logs.length}',
       );
 
+      _finished = LoadStatus.loaded;
       return result.data!.logs;
     }
 
-    _finished = true;
+    logger.e('Failed to load logs after $maxRetries retries.');
+    _finished = LoadStatus.error;
     return [];
   }
 }

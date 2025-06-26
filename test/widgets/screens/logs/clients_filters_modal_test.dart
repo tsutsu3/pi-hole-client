@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:pi_hole_client/screens/logs/clients_filters_modal.dart';
+import 'package:pi_hole_client/screens/logs/widgets/clients_filters_modal.dart';
 
 import '../../helpers.dart';
 
