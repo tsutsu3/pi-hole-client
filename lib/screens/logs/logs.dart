@@ -14,12 +14,10 @@ import 'package:pi_hole_client/providers/app_config_provider.dart';
 import 'package:pi_hole_client/providers/filters_provider.dart';
 import 'package:pi_hole_client/providers/servers_provider.dart';
 import 'package:pi_hole_client/screens/logs/widgets/log_details_screen.dart';
-import 'package:pi_hole_client/screens/logs/widgets/log_tile.dart';
 import 'package:pi_hole_client/screens/logs/widgets/logs_app_bar.dart';
+import 'package:pi_hole_client/screens/logs/widgets/logs_content_view.dart';
 import 'package:pi_hole_client/screens/logs/widgets/logs_filters_modal.dart';
-import 'package:pi_hole_client/screens/logs/widgets/no_logs_message.dart';
 import 'package:pi_hole_client/services/logs_pagination_service.dart';
-import 'package:pi_hole_client/widgets/error_message.dart';
 import 'package:provider/provider.dart';
 
 class Logs extends StatefulWidget {
@@ -434,68 +432,6 @@ class _LogsState extends State<Logs> {
       }
     }
 
-    Widget _buildStatusContent(BuildContext context) {
-      switch (loadStatus) {
-        case LoadStatus.loading:
-          return SizedBox(
-            width: double.maxFinite,
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                const CircularProgressIndicator(),
-                const SizedBox(height: 50),
-                Text(
-                  AppLocalizations.of(context)!.loadingLogs,
-                  textAlign: TextAlign.center,
-                  style: TextStyle(
-                    fontSize: 24,
-                    color: Theme.of(context).colorScheme.onSurfaceVariant,
-                  ),
-                ),
-              ],
-            ),
-          );
-        case LoadStatus.loaded:
-          return RefreshIndicator(
-            onRefresh: () async {
-              await applyFilterAndLoad();
-            },
-            child: logsListDisplay.isNotEmpty
-                ? ListView.builder(
-                    controller: scrollController,
-                    itemCount: isLoadingMore == true
-                        ? logsListDisplay.length + 1
-                        : logsListDisplay.length,
-                    itemBuilder: (context, index) {
-                      if (isLoadingMore == true &&
-                          index == logsListDisplay.length) {
-                        return const Padding(
-                          padding: EdgeInsets.symmetric(vertical: 20),
-                          child: Center(
-                            child: CircularProgressIndicator(),
-                          ),
-                        );
-                      } else {
-                        return LogTile(
-                          log: logsListDisplay[index],
-                          showLogDetails: showLogDetails,
-                          isLogSelected: logsListDisplay[index] == selectedLog,
-                        );
-                      }
-                    },
-                  )
-                : NoLogsMessage(logsPerQuery: appConfigProvider.logsPerQuery),
-          );
-
-        case LoadStatus.error:
-          return ErrorMessage(
-            message: AppLocalizations.of(context)!.couldntLoadLogs,
-            fontSize: 24,
-            fontColor: Theme.of(context).colorScheme.onSurfaceVariant,
-          );
-      }
-    }
-
     List<Widget> _buildFilterChips() {
       final chips = <Widget>[];
 
@@ -600,7 +536,16 @@ class _LogsState extends State<Logs> {
           width: width,
         ),
         body: SafeArea(
-          child: _buildStatusContent(context),
+          child: LogsContentView(
+            loadStatus: loadStatus,
+            logs: logsListDisplay,
+            isLoadingMore: isLoadingMore,
+            onRefresh: applyFilterAndLoad,
+            onLogTap: showLogDetails,
+            selectedLog: selectedLog,
+            scrollController: scrollController,
+            logsPerQuery: logsPerQuery ?? 0.5,
+          ),
         ),
       );
     }
