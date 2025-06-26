@@ -9,7 +9,7 @@ import 'package:pi_hole_client/models/gateway.dart';
 import 'package:pi_hole_client/models/gateways.dart';
 import 'package:pi_hole_client/providers/servers_provider.dart';
 import 'package:pi_hole_client/screens/common/empty_data_screen.dart';
-import 'package:pi_hole_client/screens/common/error_message_screen.dart';
+import 'package:pi_hole_client/widgets/error_message.dart';
 import 'package:pi_hole_client/screens/settings/server_settings/widgets/net_interface/net_interface_section.dart';
 import 'package:provider/provider.dart';
 import 'package:skeletonizer/skeletonizer.dart';
@@ -144,7 +144,7 @@ class InterfaceScreen extends StatelessWidget {
               if (snapshot.connectionState == ConnectionState.waiting) {
                 return _buildSkeletonLoading(context, apiGateway);
               } else if (snapshot.hasError) {
-                return ErrorMessageScreen(
+                return ErrorMessage(
                   message: AppLocalizations.of(context)!.dataFetchFailed,
                 );
               } else if (!snapshot.hasData) {
@@ -155,7 +155,7 @@ class InterfaceScreen extends StatelessWidget {
 
               if (gatewayInfo?.result != APiResponseType.success) {
                 logger.e('Gateway Info fetch failed: ${gatewayInfo?.result}');
-                return ErrorMessageScreen(
+                return ErrorMessage(
                   message: AppLocalizations.of(context)!.dataFetchFailed,
                 );
               }

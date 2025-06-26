@@ -2,10 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/mockito.dart';
 import 'package:pi_hole_client/models/gateways.dart';
-import 'package:pi_hole_client/screens/common/error_message_screen.dart';
 import 'package:pi_hole_client/screens/settings/server_settings/advanced_settings/network_screen.dart';
 import 'package:pi_hole_client/screens/settings/server_settings/advanced_settings/network_screen/network_detail_screen.dart';
 import 'package:pi_hole_client/widgets/delete_modal.dart';
+import 'package:pi_hole_client/widgets/error_message.dart';
 
 import '../../../../helpers.dart';
 
@@ -45,7 +45,7 @@ void main() async {
 
         expect(find.byType(NetworkScreen), findsOneWidget);
         await tester.pump();
-        expect(find.byType(ErrorMessageScreen), findsOneWidget);
+        expect(find.byType(ErrorMessage), findsOneWidget);
       },
     );
 

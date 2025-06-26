@@ -19,6 +19,7 @@ import 'package:pi_hole_client/screens/logs/widgets/logs_filters_modal.dart';
 import 'package:pi_hole_client/screens/logs/widgets/no_logs_message.dart';
 import 'package:pi_hole_client/services/logs_pagination_service.dart';
 import 'package:pi_hole_client/widgets/custom_radio.dart';
+import 'package:pi_hole_client/widgets/error_message.dart';
 import 'package:provider/provider.dart';
 
 class Logs extends StatefulWidget {
@@ -466,27 +467,10 @@ class _LogsState extends State<Logs> {
           );
 
         case LoadStatus.error:
-          return SizedBox(
-            width: double.maxFinite,
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                const Icon(
-                  Icons.error,
-                  size: 50,
-                  color: Colors.red,
-                ),
-                const SizedBox(height: 50),
-                Text(
-                  AppLocalizations.of(context)!.couldntLoadLogs,
-                  textAlign: TextAlign.center,
-                  style: TextStyle(
-                    fontSize: 24,
-                    color: Theme.of(context).colorScheme.onSurfaceVariant,
-                  ),
-                ),
-              ],
-            ),
+          return ErrorMessage(
+            message: AppLocalizations.of(context)!.couldntLoadLogs,
+            fontSize: 24,
+            fontColor: Theme.of(context).colorScheme.onSurfaceVariant,
           );
       }
     }
