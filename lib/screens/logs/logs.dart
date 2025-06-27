@@ -107,7 +107,11 @@ class _LogsState extends State<Logs> {
     await enqueueLoad();
 
     setState(() {
-      loadStatus = LoadStatus.loaded;
+      if (logsSvc.isError) {
+        loadStatus = LoadStatus.error;
+      } else {
+        loadStatus = LoadStatus.loaded;
+      }
     });
   }
 
@@ -205,6 +209,12 @@ class _LogsState extends State<Logs> {
         emptyWindowCount++;
         logger.w('Empty window count: $emptyWindowCount');
       }
+    }
+
+    if (logsSvc.isError) {
+      setState(() {
+        loadStatus = LoadStatus.error;
+      });
     }
 
     logger.e('Max empty windows reached. Stop loading.');
