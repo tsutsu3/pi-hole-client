@@ -7,8 +7,8 @@ import 'package:pi_hole_client/functions/format.dart';
 import 'package:pi_hole_client/l10n/generated/app_localizations.dart';
 import 'package:pi_hole_client/providers/filters_provider.dart';
 import 'package:pi_hole_client/providers/servers_provider.dart';
-import 'package:pi_hole_client/screens/logs/clients_filters_modal.dart';
-import 'package:pi_hole_client/screens/logs/status_filters_modal.dart';
+import 'package:pi_hole_client/screens/logs/widgets/clients_filters_modal.dart';
+import 'package:pi_hole_client/screens/logs/widgets/status_filters_modal.dart';
 import 'package:pi_hole_client/services/status_update_service.dart';
 import 'package:provider/provider.dart';
 

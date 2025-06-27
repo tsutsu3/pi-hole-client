@@ -39,7 +39,8 @@ import 'package:pi_hole_client/providers/servers_provider.dart' as _i15;
 import 'package:pi_hole_client/providers/status_provider.dart' as _i20;
 import 'package:pi_hole_client/providers/subscriptions_list_provider.dart'
     as _i34;
-import 'package:pi_hole_client/screens/logs/logs_filters_modal.dart' as _i19;
+import 'package:pi_hole_client/screens/logs/widgets/logs_filters_modal.dart'
+    as _i19;
 import 'package:pi_hole_client/services/status_update_service.dart' as _i32;
 
 // ignore_for_file: type=lint
@@ -1761,8 +1762,10 @@ class MockApiGatewayV5 extends _i1.Mock implements _i27.ApiGatewayV5 {
   @override
   _i12.Future<_i5.FetchLogsResponse> fetchLogs(
     DateTime? from,
-    DateTime? until,
-  ) =>
+    DateTime? until, {
+    int? size,
+    int? cursor,
+  }) =>
       (super.noSuchMethod(
         Invocation.method(
           #fetchLogs,
@@ -1770,6 +1773,10 @@ class MockApiGatewayV5 extends _i1.Mock implements _i27.ApiGatewayV5 {
             from,
             until,
           ],
+          {
+            #size: size,
+            #cursor: cursor,
+          },
         ),
         returnValue:
             _i12.Future<_i5.FetchLogsResponse>.value(_FakeFetchLogsResponse_8(
@@ -1780,6 +1787,10 @@ class MockApiGatewayV5 extends _i1.Mock implements _i27.ApiGatewayV5 {
               from,
               until,
             ],
+            {
+              #size: size,
+              #cursor: cursor,
+            },
           ),
         )),
       ) as _i12.Future<_i5.FetchLogsResponse>);
@@ -2699,8 +2710,10 @@ class MockApiGatewayV6 extends _i1.Mock implements _i31.ApiGatewayV6 {
   @override
   _i12.Future<_i5.FetchLogsResponse> fetchLogs(
     DateTime? from,
-    DateTime? until,
-  ) =>
+    DateTime? until, {
+    int? size,
+    int? cursor,
+  }) =>
       (super.noSuchMethod(
         Invocation.method(
           #fetchLogs,
@@ -2708,6 +2721,10 @@ class MockApiGatewayV6 extends _i1.Mock implements _i31.ApiGatewayV6 {
             from,
             until,
           ],
+          {
+            #size: size,
+            #cursor: cursor,
+          },
         ),
         returnValue:
             _i12.Future<_i5.FetchLogsResponse>.value(_FakeFetchLogsResponse_8(
@@ -2718,6 +2735,10 @@ class MockApiGatewayV6 extends _i1.Mock implements _i31.ApiGatewayV6 {
               from,
               until,
             ],
+            {
+              #size: size,
+              #cursor: cursor,
+            },
           ),
         )),
       ) as _i12.Future<_i5.FetchLogsResponse>);

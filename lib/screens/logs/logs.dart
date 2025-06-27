@@ -1,19 +1,22 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
-import 'package:pi_hole_client/classes/process_modal.dart';
+import 'package:pi_hole_client/constants/enums.dart';
 import 'package:pi_hole_client/constants/responsive.dart';
 import 'package:pi_hole_client/functions/logger.dart';
-import 'package:pi_hole_client/functions/snackbar.dart';
 import 'package:pi_hole_client/l10n/generated/app_localizations.dart';
-import 'package:pi_hole_client/models/gateways.dart';
 import 'package:pi_hole_client/models/log.dart';
 import 'package:pi_hole_client/providers/app_config_provider.dart';
 import 'package:pi_hole_client/providers/filters_provider.dart';
 import 'package:pi_hole_client/providers/servers_provider.dart';
-import 'package:pi_hole_client/screens/logs/log_details_screen.dart';
-import 'package:pi_hole_client/screens/logs/log_tile.dart';
-import 'package:pi_hole_client/screens/logs/logs_filters_modal.dart';
-import 'package:pi_hole_client/screens/logs/no_logs_message.dart';
-import 'package:pi_hole_client/widgets/custom_radio.dart';
+import 'package:pi_hole_client/screens/logs/widgets/active_filter_chips.dart';
+import 'package:pi_hole_client/screens/logs/widgets/log_details_screen.dart';
+import 'package:pi_hole_client/screens/logs/widgets/logs_app_bar.dart';
+import 'package:pi_hole_client/screens/logs/widgets/logs_content_view.dart';
+import 'package:pi_hole_client/screens/logs/widgets/logs_filters_modal.dart';
+import 'package:pi_hole_client/services/logs_actions_service.dart';
+import 'package:pi_hole_client/services/logs_pagination_service.dart';
+import 'package:pi_hole_client/services/logs_screen_service.dart';
 import 'package:provider/provider.dart';
 
 class Logs extends StatefulWidget {
@@ -24,270 +27,213 @@ class Logs extends StatefulWidget {
 }
 
 class _LogsState extends State<Logs> {
-  Log? selectedLog;
-
-  DateTime? _lastTimestamp;
-  bool _isLoadingMore = false;
-
-  late ScrollController _scrollController;
-
-  bool _showSearchBar = false;
-  final TextEditingController _searchController = TextEditingController();
-
-  int loadStatus = 0;
-  List<Log> logsList = [];
-  int sortStatus = 0;
-
   DateTime? masterStartTime;
   DateTime? masterEndTime;
 
-  Future<dynamic> loadLogs({
-    required bool replaceOldLogs,
-    List<int>? statusSelected,
-    DateTime? inStartTime,
-    DateTime? inEndTime,
-  }) async {
-    final logsPerQuery =
-        Provider.of<AppConfigProvider>(context, listen: false).logsPerQuery;
+  LoadStatus loadStatus = LoadStatus.loading;
+  int sortStatus = 0;
 
-    final serversProvider =
-        Provider.of<ServersProvider>(context, listen: false);
-    final apiGateway = serversProvider.selectedApiGateway;
+  bool showSearchBar = false;
+  bool isLoadingMore = false;
+  bool enableNextWindow = true;
 
-    final startTime = masterStartTime ?? inStartTime;
-    final endTime = masterEndTime ?? inEndTime;
-    late DateTime? timestamp;
-    late DateTime? minusHoursTimestamp;
-    if (replaceOldLogs == true) {
-      _lastTimestamp = null;
-    } else {
-      setState(() => _isLoadingMore = true);
-    }
-    if (_lastTimestamp == null || replaceOldLogs == true) {
-      final now = DateTime.now();
-      timestamp = endTime ?? now;
-      final newOldTimestamp = logsPerQuery == 0.5
-          ? DateTime(
-              timestamp.year,
-              timestamp.month,
-              timestamp.day,
-              timestamp.hour,
-              timestamp.minute - 30,
-              timestamp.second,
-            )
-          : DateTime(
-              timestamp.year,
-              timestamp.month,
-              timestamp.day,
-              timestamp.hour - logsPerQuery.toInt(),
-              timestamp.minute,
-              timestamp.second,
-            );
-      if (startTime != null) {
-        minusHoursTimestamp =
-            newOldTimestamp.isAfter(startTime) ? newOldTimestamp : startTime;
-      } else {
-        minusHoursTimestamp = newOldTimestamp;
-      }
-    } else {
-      timestamp = _lastTimestamp;
-      final newOldTimestamp = logsPerQuery == 0.5
-          ? DateTime(
-              _lastTimestamp!.year,
-              _lastTimestamp!.month,
-              _lastTimestamp!.day,
-              _lastTimestamp!.hour,
-              _lastTimestamp!.minute - 30,
-              _lastTimestamp!.second,
-            )
-          : DateTime(
-              _lastTimestamp!.year,
-              _lastTimestamp!.month,
-              _lastTimestamp!.day,
-              _lastTimestamp!.hour - logsPerQuery.toInt(),
-              _lastTimestamp!.minute,
-              _lastTimestamp!.second,
-            );
-      if (startTime != null) {
-        minusHoursTimestamp =
-            newOldTimestamp.isAfter(startTime) ? newOldTimestamp : startTime;
-      } else {
-        minusHoursTimestamp = newOldTimestamp;
-      }
-    }
-    if (startTime != null && minusHoursTimestamp.isBefore(startTime)) {
-      setState(() {
-        _isLoadingMore = false;
-        loadStatus = 1;
-      });
-    } else {
-      final result =
-          await apiGateway?.fetchLogs(minusHoursTimestamp, timestamp!);
-      if (mounted) {
-        setState(() => _isLoadingMore = false);
-        if (result?.result == APiResponseType.success) {
-          final items = <Log>[];
-          if (result!.data != null) {
-            result.data?.forEach(items.add);
-            logger.d('Logs fetched: ${items.map((e) => e.toJson()).toList()}');
-          }
-          if (replaceOldLogs == true) {
-            setState(() {
-              loadStatus = 1;
-              logsList = items.reversed.toList();
-              _lastTimestamp = minusHoursTimestamp;
-            });
-          } else {
-            setState(() {
-              loadStatus = 1;
-              logsList = logsList + items.reversed.toList();
-              _lastTimestamp = minusHoursTimestamp;
-            });
-          }
-        } else {
-          setState(() => loadStatus = 2);
-        }
-      }
-    }
-  }
+  List<Log> logsList = [];
+  List<Log> logsListDisplay = [];
+  Log? selectedLog;
 
-  List<Log> filterLogs({
-    required List<int> statusSelected,
-    required List<String> devicesSelected,
-    required String? selectedDomain,
-    List<Log>? logs,
-  }) {
-    var tempLogs = logs != null ? [...logs] : [...logsList];
+  late LogsScreenService logsSvc;
+  late LogActionsService logActSvc;
+  late double? logsPerQuery;
+  late ScrollController scrollController;
+  final TextEditingController searchController = TextEditingController();
+  final maxEmptyWindows = 3;
 
-    tempLogs = tempLogs.where((log) {
-      if (log.status != null &&
-          statusSelected.contains(int.parse(log.status!))) {
-        return true;
-      } else {
-        return false;
-      }
-    }).toList();
-
-    if (devicesSelected.isNotEmpty) {
-      tempLogs = tempLogs.where((log) {
-        if (devicesSelected.contains(log.device)) {
-          return true;
-        } else {
-          return false;
-        }
-      }).toList();
-    }
-
-    if (selectedDomain != null) {
-      tempLogs = tempLogs.where((log) => log.url == selectedDomain).toList();
-    }
-
-    if (_searchController.text != '') {
-      tempLogs = tempLogs.where((log) {
-        if (log.url.contains(_searchController.text)) {
-          return true;
-        } else {
-          return false;
-        }
-      }).toList();
-    }
-
-    if (sortStatus == 1) {
-      tempLogs.sort((a, b) => a.dateTime.compareTo(b.dateTime));
-    } else {
-      tempLogs.sort((a, b) => a.dateTime.compareTo(b.dateTime));
-      tempLogs = tempLogs.reversed.toList();
-    }
-
-    return tempLogs;
-  }
+  Timer? debounce;
 
   @override
   void initState() {
-    _scrollController = ScrollController()..addListener(_scrollListener);
-    loadLogs(replaceOldLogs: true);
     super.initState();
+
+    scrollController = ScrollController()..addListener(scrollListener);
+
+    logsPerQuery =
+        Provider.of<AppConfigProvider>(context, listen: false).logsPerQuery;
+
+    final apiGateway =
+        Provider.of<ServersProvider>(context, listen: false).selectedApiGateway;
+
+    final paginationService = LogsPaginationService(apiGateway: apiGateway!);
+
+    logsSvc = LogsScreenService(
+      scrollController: scrollController,
+      searchController: searchController,
+      logsPerQuery: logsPerQuery!,
+      paginationService: paginationService,
+    );
+
+    logActSvc = LogActionsService(
+      apiGateway: apiGateway,
+      context: context,
+      appConfigProvider: Provider.of<AppConfigProvider>(context, listen: false),
+    );
+
+    initializeLoad();
   }
 
-  void _scrollListener() {
-    if (_scrollController.position.extentAfter < 500 &&
-        _isLoadingMore == false) {
-      loadLogs(replaceOldLogs: false);
+  @override
+  void dispose() {
+    scrollController.dispose();
+    debounce?.cancel();
+    super.dispose();
+  }
+
+  void scrollListener() {
+    if (scrollController.position.extentAfter < 500) {
+      if (debounce?.isActive ?? false) debounce?.cancel();
+      debounce = Timer(const Duration(milliseconds: 100), enqueueLoad);
     }
+  }
+
+  Future<void> initializeLoad() async {
+    setState(() {
+      loadStatus = LoadStatus.loading;
+    });
+
+    final now = DateTime.now();
+    final end = logsSvc.getWindowStart(now);
+
+    logsSvc.resetPagination(now, end);
+
+    await enqueueLoad();
+
+    setState(() {
+      if (logsSvc.isError) {
+        loadStatus = LoadStatus.error;
+      } else {
+        loadStatus = LoadStatus.loaded;
+      }
+    });
+  }
+
+  Future<void> resetLogs() async {
+    setState(() {
+      enableNextWindow = true;
+      loadStatus = LoadStatus.loaded;
+    });
+  }
+
+  /// Applies time-based filtering and reloads logs from the pagination service.
+  ///
+  /// This method is typically triggered when filters are applied or reset.
+  /// It updates the [logsList] by clearing the previous logs and loading new
+  /// logs based on the provided time range.
+  ///
+  /// The time window for loading is determined as follows:
+  /// - If [inStartTime] and/or [inEndTime] are provided, they are used.
+  /// - Otherwise, the end time is set to `DateTime.now()`, and the start time
+  ///   is calculated using [logsSvc] (.getWindowStart).
+  ///
+  /// If the time range is explicitly provided, pagination is reset and new logs
+  /// are fetched immediately. The UI loading indicators ([loadStatus] and
+  /// [isLoadingMore]) are updated using [setState].
+  ///
+  /// After loading, [loadStatus] is updated based on the pagination state.
+  ///
+  /// Parameters:
+  /// - [inStartTime]: Optional start of the time window for filtering logs.
+  /// - [inEndTime]: Optional end of the time window for filtering logs.
+  Future<void> applyFilterAndLoad({
+    DateTime? inStartTime,
+    DateTime? inEndTime,
+  }) async {
+    setState(() {
+      loadStatus = LoadStatus.loading;
+    });
+
+    final endTime = inEndTime ?? DateTime.now();
+    final startTime = inStartTime ?? logsSvc.getWindowStart(endTime);
+
+    if (inStartTime != null || inEndTime != null) {
+      enableNextWindow = false;
+      logsSvc.resetPagination(startTime, endTime);
+      setState(() {
+        logsList.clear();
+        isLoadingMore = true;
+      });
+
+      final newLogs = await logsSvc.loadNextPage() ?? [];
+      logger.d(
+        'Loaded ${newLogs.length} logs from $startTime to $endTime',
+      );
+
+      setState(() {
+        isLoadingMore = false;
+        logsList.addAll(newLogs);
+      });
+    }
+
+    setState(() {
+      loadStatus = LoadStatus.loaded;
+    });
+  }
+
+  /// Loads additional logs with support for time window-based pagination.
+  ///
+  /// This method attempts to load the next page of logs. If the current pagination
+  /// window is exhausted and [enableNextWindow] is true, it shifts the window backward
+  /// and retries. The process continues until new logs are loaded or the maximum number
+  /// of empty windows ([maxEmptyWindows]) is reached.
+  ///
+  /// - On each attempt, if logs are found, they are added to [logsList] and the method returns early.
+  /// - If no logs are returned and pagination is finished, the empty window counter is incremented.
+  /// - When the maximum number of empty windows is hit, an error is logged and loading stops.
+  ///
+  /// The loading state is managed using [isLoadingMore], and diagnostic messages are logged for debugging.
+  Future<void> enqueueLoad() async {
+    const maxEmptyWindows = 3;
+
+    for (var emptyWindowCount = 0; emptyWindowCount < maxEmptyWindows;) {
+      setState(() => isLoadingMore = true);
+      final newLogs = await logsSvc.loadNextWithWindowSupport(
+        enableNextWindow: enableNextWindow,
+      );
+      setState(() => isLoadingMore = false);
+
+      if (newLogs.isNotEmpty) {
+        setState(() => logsList.addAll(newLogs));
+        return;
+      }
+
+      if (logsSvc.isPaginationFinished) {
+        emptyWindowCount++;
+      }
+    }
+
+    if (logsSvc.isError) {
+      setState(() {
+        loadStatus = LoadStatus.error;
+      });
+    }
+
+    logger.w('Max empty windows reached. Stop loading.');
   }
 
   @override
   Widget build(BuildContext context) {
     final serversProvider = Provider.of<ServersProvider>(context);
     final filtersProvider = Provider.of<FiltersProvider>(context);
-    final appConfigProvider = Provider.of<AppConfigProvider>(context);
-
-    final apiGateway = serversProvider.selectedApiGateway;
 
     final width = MediaQuery.of(context).size.width;
     final statusBarHeight = MediaQuery.of(context).viewPadding.top;
     final bottomNavBarHeight = MediaQuery.of(context).viewPadding.bottom;
 
-    var logsListDisplay = filterLogs(
+    logsListDisplay = logsSvc.filterLogs(
+      logs: logsList,
       statusSelected: filtersProvider.statusSelected,
       devicesSelected: filtersProvider.selectedClients,
       selectedDomain: filtersProvider.selectedDomain,
+      sortStatus: sortStatus,
     );
-
-    void updateSortStatus(value) {
-      if (sortStatus != value) {
-        _scrollController.animateTo(
-          0,
-          duration: const Duration(milliseconds: 250),
-          curve: Curves.easeInOut,
-        );
-        setState(() {
-          sortStatus = value;
-          logsListDisplay = logsListDisplay.reversed.toList();
-        });
-      }
-    }
-
-    Future<void> whiteBlackList(String list, Log log) async {
-      final loading = ProcessModal(context: context);
-      loading.open(
-        list == 'white'
-            ? AppLocalizations.of(context)!.addingWhitelist
-            : AppLocalizations.of(context)!.addingBlacklist,
-      );
-      final result = await apiGateway?.setWhiteBlacklist(log.url, list);
-      loading.close();
-
-      if (!context.mounted) return;
-
-      if (result?.result == APiResponseType.success) {
-        if (result!.data!.message.contains('Added')) {
-          showSuccessSnackBar(
-            context: context,
-            appConfigProvider: appConfigProvider,
-            label: list == 'white'
-                ? AppLocalizations.of(context)!.addedWhitelist
-                : AppLocalizations.of(context)!.addedBlacklist,
-          );
-        } else {
-          showSuccessSnackBar(
-            context: context,
-            appConfigProvider: appConfigProvider,
-            label: list == 'white'
-                ? AppLocalizations.of(context)!.alreadyWhitelist
-                : AppLocalizations.of(context)!.alreadyBlacklist,
-          );
-        }
-      } else {
-        showErrorSnackBar(
-          context: context,
-          appConfigProvider: appConfigProvider,
-          label: list == 'white'
-              ? AppLocalizations.of(context)!.couldntAddWhitelist
-              : AppLocalizations.of(context)!.couldntAddBlacklist,
-        );
-      }
-    }
 
     void showLogDetails(Log log) {
       setState(() => selectedLog = log);
@@ -297,7 +243,7 @@ class _LogsState extends State<Logs> {
           MaterialPageRoute(
             builder: (context) => LogDetailsScreen(
               log: log,
-              whiteBlackList: whiteBlackList,
+              whiteBlackList: logActSvc.whiteBlackList,
             ),
           ),
         );
@@ -317,10 +263,9 @@ class _LogsState extends State<Logs> {
               setState(() {
                 masterStartTime = filtersProvider.startTime;
                 masterEndTime = filtersProvider.endTime;
-                loadStatus = 0;
+                loadStatus = LoadStatus.loading;
               });
-              loadLogs(
-                replaceOldLogs: true,
+              applyFilterAndLoad(
                 inStartTime: filtersProvider.startTime,
                 inEndTime: filtersProvider.endTime,
               );
@@ -338,10 +283,9 @@ class _LogsState extends State<Logs> {
               setState(() {
                 masterStartTime = filtersProvider.startTime;
                 masterEndTime = filtersProvider.endTime;
-                loadStatus = 0;
+                loadStatus = LoadStatus.loading;
               });
-              loadLogs(
-                replaceOldLogs: true,
+              applyFilterAndLoad(
                 inStartTime: filtersProvider.startTime,
                 inEndTime: filtersProvider.endTime,
               );
@@ -355,350 +299,92 @@ class _LogsState extends State<Logs> {
     }
 
     void searchLogs(String value) {
-      final searched = logsList
-          .where((log) => log.url.toLowerCase().contains(value.toLowerCase()))
-          .toList();
+      final searched = logsSvc.searchLogs(logsList, value);
       setState(() {
         logsListDisplay = searched;
       });
       filtersProvider.resetFilters();
     }
 
-    Widget status() {
-      switch (loadStatus) {
-        case 0:
-          return SizedBox(
-            width: double.maxFinite,
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                const CircularProgressIndicator(),
-                const SizedBox(height: 50),
-                Text(
-                  AppLocalizations.of(context)!.loadingLogs,
-                  textAlign: TextAlign.center,
-                  style: TextStyle(
-                    fontSize: 24,
-                    color: Theme.of(context).colorScheme.onSurfaceVariant,
-                  ),
-                ),
-              ],
-            ),
-          );
-        case 1:
-          return RefreshIndicator(
-            onRefresh: () async {
-              _lastTimestamp = DateTime.now();
-              await loadLogs(replaceOldLogs: true);
-            },
-            child: logsListDisplay.isNotEmpty
-                ? ListView.builder(
-                    controller: _scrollController,
-                    itemCount: _isLoadingMore == true
-                        ? logsListDisplay.length + 1
-                        : logsListDisplay.length,
-                    itemBuilder: (context, index) {
-                      if (_isLoadingMore == true &&
-                          index == logsListDisplay.length) {
-                        return const Padding(
-                          padding: EdgeInsets.symmetric(vertical: 20),
-                          child: Center(
-                            child: CircularProgressIndicator(),
-                          ),
-                        );
-                      } else {
-                        return LogTile(
-                          log: logsListDisplay[index],
-                          showLogDetails: showLogDetails,
-                          isLogSelected: logsListDisplay[index] == selectedLog,
-                        );
-                      }
-                    },
-                  )
-                : NoLogsMessage(logsPerQuery: appConfigProvider.logsPerQuery),
-          );
+    bool hasActiveChips() {
+      final hasTimeFilter =
+          filtersProvider.startTime != null || filtersProvider.endTime != null;
 
-        case 2:
-          return SizedBox(
-            width: double.maxFinite,
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                const Icon(
-                  Icons.error,
-                  size: 50,
-                  color: Colors.red,
-                ),
-                const SizedBox(height: 50),
-                Text(
-                  AppLocalizations.of(context)!.couldntLoadLogs,
-                  textAlign: TextAlign.center,
-                  style: TextStyle(
-                    fontSize: 24,
-                    color: Theme.of(context).colorScheme.onSurfaceVariant,
-                  ),
-                ),
-              ],
-            ),
-          );
+      final hasStatusFilter =
+          filtersProvider.statusSelected.length < serversProvider.numShown - 1;
 
-        default:
-          return const SizedBox();
-      }
-    }
-
-    Widget buildChip(String label, Icon icon, Function() onDeleted) {
-      return Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 5),
-        child: Chip(
-          label: Text(label),
-          avatar: icon,
-          onDeleted: onDeleted,
-        ),
-      );
-    }
-
-    bool areFiltersApplied() {
-      if (filtersProvider.statusSelected.length <
-              serversProvider.numShown - 1 ||
-          filtersProvider.startTime != null ||
-          filtersProvider.endTime != null ||
+      final hasClientFilter = filtersProvider.selectedClients.isNotEmpty &&
           filtersProvider.selectedClients.length <
-              filtersProvider.totalClients.length ||
-          filtersProvider.selectedDomain != null) {
-        return true;
-      } else {
-        return false;
-      }
+              filtersProvider.totalClients.length;
+
+      final hasDomainFilter = filtersProvider.selectedDomain != null;
+
+      final hasActiveChips = hasTimeFilter ||
+          hasStatusFilter ||
+          hasClientFilter ||
+          hasDomainFilter;
+
+      return hasActiveChips;
     }
 
-    void scrollToTop() {
-      if (logsListDisplay.isNotEmpty) {
-        _scrollController.animateTo(
-          0,
-          duration: const Duration(milliseconds: 250),
-          curve: Curves.easeInOut,
-        );
-      }
-    }
-
-    Widget scaffold() {
+    Widget buildScaffold(BuildContext context) {
       return Scaffold(
-        appBar: _showSearchBar == true
-            ? AppBar(
-                toolbarHeight: 60,
-                leading: IconButton(
-                  onPressed: () {
-                    setState(() {
-                      _showSearchBar = false;
-                      _searchController.text = '';
-                    });
-                    if (_scrollController.positions.isNotEmpty) {
-                      _scrollController.animateTo(
-                        0,
-                        duration: const Duration(milliseconds: 250),
-                        curve: Curves.easeInOut,
-                      );
-                    }
-                  },
-                  icon: const Icon(Icons.arrow_back),
-                  splashRadius: 20,
-                ),
-                actions: [
-                  IconButton(
-                    onPressed: () {
-                      setState(() => _searchController.text = '');
-                      if (_scrollController.positions.isNotEmpty) {
-                        _scrollController.animateTo(
-                          0,
-                          duration: const Duration(milliseconds: 250),
-                          curve: Curves.easeInOut,
-                        );
-                      }
-                    },
-                    icon: const Icon(Icons.clear_rounded),
-                    splashRadius: 20,
-                  ),
-                ],
-                title: Container(
-                  width: width - 136,
-                  height: 60,
-                  margin: const EdgeInsets.only(bottom: 5),
-                  child: Center(
-                    child: TextField(
-                      controller: _searchController,
-                      onChanged: searchLogs,
-                      autofocus: true,
-                      style: const TextStyle(
-                        fontSize: 18,
-                        fontWeight: FontWeight.normal,
-                      ),
-                      decoration: InputDecoration(
-                        border: InputBorder.none,
-                        hintText: AppLocalizations.of(context)!.searchUrl,
-                        hintStyle: const TextStyle(
-                          fontSize: 18,
-                          fontWeight: FontWeight.normal,
-                        ),
-                      ),
-                    ),
-                  ),
-                ),
-              )
-            : AppBar(
-                title: Text(AppLocalizations.of(context)!.queryLogs),
-                toolbarHeight: 60,
-                actions: [
-                  IconButton(
-                    onPressed: () {
-                      setState(() {
-                        _showSearchBar = true;
-                      });
-                    },
-                    icon: const Icon(Icons.search_rounded),
-                    splashRadius: 20,
-                  ),
-                  IconButton(
-                    onPressed: showFiltersModal,
-                    icon: const Icon(Icons.filter_list_rounded),
-                    splashRadius: 20,
-                  ),
-                  PopupMenuButton(
-                    splashRadius: 20,
-                    icon: const Icon(Icons.sort_rounded),
-                    onSelected: updateSortStatus,
-                    itemBuilder: (context) => [
-                      PopupMenuItem(
-                        value: 0,
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Expanded(
-                              child: Row(
-                                children: [
-                                  const Icon(Icons.arrow_downward_rounded),
-                                  const SizedBox(width: 15),
-                                  Flexible(
-                                    child: Text(
-                                      AppLocalizations.of(context)!
-                                          .fromLatestToOldest,
-                                      overflow: TextOverflow.ellipsis,
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ),
-                            CustomRadio(
-                              value: 0,
-                              groupValue: sortStatus,
-                              backgroundColor:
-                                  Theme.of(context).scaffoldBackgroundColor,
-                            ),
-                          ],
-                        ),
-                      ),
-                      PopupMenuItem(
-                        value: 1,
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Expanded(
-                              child: Row(
-                                children: [
-                                  const Icon(Icons.arrow_upward_rounded),
-                                  const SizedBox(width: 15),
-                                  Flexible(
-                                    child: Text(
-                                      AppLocalizations.of(context)!
-                                          .fromOldestToLatest,
-                                      overflow: TextOverflow.ellipsis,
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ),
-                            CustomRadio(
-                              value: 1,
-                              groupValue: sortStatus,
-                              backgroundColor:
-                                  Theme.of(context).scaffoldBackgroundColor,
-                            ),
-                          ],
-                        ),
-                      ),
-                    ],
-                  ),
-                ],
-                bottom: areFiltersApplied() == true
-                    ? PreferredSize(
-                        preferredSize: const Size(double.maxFinite, 50),
-                        child: Container(
-                          width: double.maxFinite,
-                          height: 50,
-                          padding: const EdgeInsets.only(bottom: 10),
-                          child: ListView(
-                            scrollDirection: Axis.horizontal,
-                            children: [
-                              const SizedBox(width: 5),
-                              if (filtersProvider.startTime != null ||
-                                  filtersProvider.endTime != null)
-                                buildChip(
-                                  AppLocalizations.of(context)!.time,
-                                  const Icon(Icons.access_time_rounded),
-                                  () {
-                                    filtersProvider.resetTime();
-                                    setState(() {
-                                      loadStatus = 0;
-                                    });
-                                    loadLogs(replaceOldLogs: true);
-                                  },
-                                ),
-                              if (filtersProvider.statusSelected.length <
-                                  serversProvider.numShown - 1)
-                                buildChip(
-                                  filtersProvider.statusSelected.length == 1
-                                      ? filtersProvider.statusSelectedString
-                                      : '${filtersProvider.statusSelected.length} ${AppLocalizations.of(context)!.statusSelected}',
-                                  const Icon(Icons.shield),
-                                  () {
-                                    scrollToTop();
-                                    filtersProvider.resetStatus();
-                                  },
-                                ),
-                              if (filtersProvider.selectedClients.isNotEmpty &&
-                                  filtersProvider.selectedClients.length <
-                                      filtersProvider.totalClients.length)
-                                buildChip(
-                                  filtersProvider.selectedClients.length == 1
-                                      ? filtersProvider.selectedClients[0]
-                                      : '${filtersProvider.selectedClients.length} ${AppLocalizations.of(context)!.clientsSelected}',
-                                  const Icon(Icons.devices),
-                                  () {
-                                    scrollToTop();
-                                    filtersProvider.resetClients();
-                                  },
-                                ),
-                              if (filtersProvider.selectedDomain != null)
-                                buildChip(
-                                  filtersProvider.selectedDomain!,
-                                  const Icon(Icons.http_rounded),
-                                  () {
-                                    scrollToTop();
-                                    filtersProvider.setSelectedDomain(null);
-                                  },
-                                ),
-                              const SizedBox(width: 5),
-                            ],
-                          ),
-                        ),
-                      )
-                    : const PreferredSize(
-                        preferredSize: Size.zero,
-                        child: SizedBox(),
-                      ),
-              ),
+        appBar: LogsAppBar(
+          showSearchBar: showSearchBar,
+          onSearchClose: () {
+            setState(() {
+              showSearchBar = false;
+              searchController.text = '';
+            });
+            scrollController.animateTo(
+              0,
+              duration: const Duration(milliseconds: 250),
+              curve: Curves.easeInOut,
+            );
+          },
+          onSearchClear: () {
+            setState(() => searchController.text = '');
+            scrollController.animateTo(
+              0,
+              duration: const Duration(milliseconds: 250),
+              curve: Curves.easeInOut,
+            );
+          },
+          onSearchChanged: searchLogs,
+          onSearchOpen: () {
+            setState(() => showSearchBar = true);
+          },
+          onFilterTap: showFiltersModal,
+          onSortChanged: _updateSortStatus,
+          sortStatus: sortStatus,
+          filterChips: ActiveFilterChips(
+            filtersProvider: filtersProvider,
+            serversProvider: serversProvider,
+            logsSvc: logsSvc,
+            logsListDisplay: logsListDisplay,
+            onResetFilters: resetLogs,
+            onResetTimeFilters: () {
+              setState(() {
+                loadStatus = LoadStatus.loading;
+              });
+              resetLogs();
+            },
+          ),
+          searchController: searchController,
+          width: width,
+          hasActiveChips: hasActiveChips(),
+        ),
         body: SafeArea(
-          child: status(),
+          child: LogsContentView(
+            loadStatus: loadStatus,
+            logs: logsListDisplay,
+            isLoadingMore: isLoadingMore,
+            onRefresh: applyFilterAndLoad,
+            onLogTap: showLogDetails,
+            selectedLog: selectedLog,
+            scrollController: scrollController,
+            logsPerQuery: logsPerQuery ?? 0.5,
+          ),
         ),
       );
     }
@@ -708,14 +394,14 @@ class _LogsState extends State<Logs> {
         children: [
           Expanded(
             flex: width > ResponsiveConstants.xLarge ? 2 : 3,
-            child: scaffold(),
+            child: buildScaffold(context),
           ),
           Expanded(
             flex: 3,
             child: selectedLog != null
                 ? LogDetailsScreen(
                     log: selectedLog!,
-                    whiteBlackList: whiteBlackList,
+                    whiteBlackList: logActSvc.whiteBlackList,
                   )
                 : SizedBox(
                     child: SafeArea(
@@ -733,7 +419,21 @@ class _LogsState extends State<Logs> {
         ],
       );
     } else {
-      return scaffold();
+      return buildScaffold(context);
+    }
+  }
+
+  /// Updates the current sort status of the logs list.
+  ///
+  /// This is typically used to toggle between ascending and descending
+  /// sort orders in the logs display.
+  void _updateSortStatus(int value) {
+    if (sortStatus != value) {
+      logsSvc.forceScrollToTop();
+      setState(() {
+        sortStatus = value;
+        logsListDisplay = logsListDisplay.reversed.toList();
+      });
     }
   }
 }

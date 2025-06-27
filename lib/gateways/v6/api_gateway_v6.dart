@@ -598,20 +598,27 @@ class ApiGatewayV6 implements ApiGateway {
   /// specified time period. The logs are returned in a structured format
   /// for further analysis or display.
   @override
-  Future<FetchLogsResponse> fetchLogs(DateTime from, DateTime until) async {
+  Future<FetchLogsResponse> fetchLogs(
+    DateTime from,
+    DateTime until, {
+    int? size,
+    int? cursor,
+  }) async {
     try {
+      final length = size ?? 100;
+      final cursorPram = cursor == null ? '' : '&cursor=$cursor';
+
       final response = await httpClient(
         method: 'get',
         url:
-            '${_server.address}/api/queries?from=${from.millisecondsSinceEpoch ~/ 1000}&until=${until.millisecondsSinceEpoch ~/ 1000}',
+            '${_server.address}/api/queries?from=${from.millisecondsSinceEpoch ~/ 1000}&until=${until.millisecondsSinceEpoch ~/ 1000}&length=$length$cursorPram',
         timeout: 20,
       );
       if (response.statusCode == 200) {
         final queries = Queries.fromJson(jsonDecode(response.body));
-        logger.d('Queries: ${queries.queries.map((e) => e.toJson()).toList()}');
         return FetchLogsResponse(
           result: APiResponseType.success,
-          data: queries.queries.map(Log.fromV6).toList(),
+          data: LogsInfo.fromV6(queries),
         );
       } else {
         return FetchLogsResponse(result: APiResponseType.error);

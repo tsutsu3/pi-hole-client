@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:pi_hole_client/constants/responsive.dart';
 import 'package:pi_hole_client/functions/format.dart';
 import 'package:pi_hole_client/models/log.dart';
-import 'package:pi_hole_client/screens/logs/log_status.dart';
+import 'package:pi_hole_client/screens/logs/widgets/log_status.dart';
 
 class LogTile extends StatelessWidget {
   const LogTile({

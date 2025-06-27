@@ -32,7 +32,8 @@ import 'package:pi_hole_client/providers/app_config_provider.dart' as _i6;
 import 'package:pi_hole_client/providers/filters_provider.dart' as _i23;
 import 'package:pi_hole_client/providers/servers_provider.dart' as _i15;
 import 'package:pi_hole_client/providers/status_provider.dart' as _i18;
-import 'package:pi_hole_client/screens/logs/logs_filters_modal.dart' as _i24;
+import 'package:pi_hole_client/screens/logs/widgets/logs_filters_modal.dart'
+    as _i24;
 
 // ignore_for_file: type=lint
 // ignore_for_file: avoid_redundant_argument_values
@@ -1625,8 +1626,10 @@ class MockApiGatewayV6 extends _i1.Mock implements _i25.ApiGatewayV6 {
   @override
   _i12.Future<_i5.FetchLogsResponse> fetchLogs(
     DateTime? from,
-    DateTime? until,
-  ) =>
+    DateTime? until, {
+    int? size,
+    int? cursor,
+  }) =>
       (super.noSuchMethod(
         Invocation.method(
           #fetchLogs,
@@ -1634,6 +1637,10 @@ class MockApiGatewayV6 extends _i1.Mock implements _i25.ApiGatewayV6 {
             from,
             until,
           ],
+          {
+            #size: size,
+            #cursor: cursor,
+          },
         ),
         returnValue:
             _i12.Future<_i5.FetchLogsResponse>.value(_FakeFetchLogsResponse_9(
@@ -1644,6 +1651,10 @@ class MockApiGatewayV6 extends _i1.Mock implements _i25.ApiGatewayV6 {
               from,
               until,
             ],
+            {
+              #size: size,
+              #cursor: cursor,
+            },
           ),
         )),
       ) as _i12.Future<_i5.FetchLogsResponse>);

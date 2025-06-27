@@ -3,9 +3,10 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/mockito.dart';
 import 'package:pi_hole_client/models/gateways.dart';
 import 'package:pi_hole_client/screens/logs/logs.dart';
-import 'package:pi_hole_client/screens/logs/logs_filters_modal.dart';
+import 'package:pi_hole_client/screens/logs/widgets/logs_filters_modal.dart';
 
 import '../../helpers.dart';
+import '../utils.dart';
 
 void main() async {
   await initializeApp();
@@ -55,7 +56,14 @@ void main() async {
           tester.view.physicalSize = const Size(1080, 2400);
           tester.view.devicePixelRatio = 2.0;
 
-          when(testSetup.mockApiGatewayV6.fetchLogs(any, any)).thenAnswer(
+          when(
+            testSetup.mockApiGatewayV6.fetchLogs(
+              any,
+              any,
+              size: anyNamed('size'),
+              cursor: anyNamed('cursor'),
+            ),
+          ).thenAnswer(
             (_) async => FetchLogsResponse(result: APiResponseType.error),
           );
 
@@ -73,6 +81,7 @@ void main() async {
           expect(find.byType(Logs), findsOneWidget);
           expect(find.text('Query logs'), findsOneWidget);
           await tester.pumpAndSettle();
+          showText();
           expect(find.text("Logs couldn't be loaded"), findsWidgets);
           expect(find.byIcon(Icons.error), findsOneWidget);
         },
@@ -324,6 +333,84 @@ void main() async {
 
           expect(find.byType(Logs), findsOneWidget);
           expect(find.byType(PopupMenuItem), findsNothing);
+        },
+      );
+    },
+  );
+
+  group(
+    'Query logs screen tests (v5)',
+    () {
+      late TestSetupHelper testSetup;
+
+      setUp(() async {
+        testSetup = TestSetupHelper();
+        testSetup.initializeMock();
+      });
+
+      testWidgets(
+        'should show logs screen on mobile layout',
+        (WidgetTester tester) async {
+          tester.view.physicalSize = const Size(1080, 2400);
+          tester.view.devicePixelRatio = 2.0;
+
+          addTearDown(() {
+            tester.view.resetPhysicalSize();
+            tester.view.resetDevicePixelRatio();
+          });
+
+          await tester.pumpWidget(
+            testSetup.buildTestWidget(
+              const Logs(),
+            ),
+          );
+
+          // Show logs screen
+          expect(find.byType(Logs), findsOneWidget);
+          await tester.pumpAndSettle();
+          expect(find.text('Query logs'), findsOneWidget);
+          expect(find.text('white.example.com'), findsWidgets);
+          expect(
+            find.text('Choose a query log to see its details.'),
+            findsNothing,
+          );
+        },
+      );
+
+      testWidgets(
+        'should show error message when logs could not be loaded',
+        (WidgetTester tester) async {
+          tester.view.physicalSize = const Size(1080, 2400);
+          tester.view.devicePixelRatio = 2.0;
+
+          when(
+            testSetup.mockApiGatewayV5.fetchLogs(
+              any,
+              any,
+              size: anyNamed('size'),
+              cursor: anyNamed('cursor'),
+            ),
+          ).thenAnswer(
+            (_) async => FetchLogsResponse(result: APiResponseType.error),
+          );
+
+          addTearDown(() {
+            tester.view.resetPhysicalSize();
+            tester.view.resetDevicePixelRatio();
+          });
+
+          await tester.pumpWidget(
+            testSetup.buildTestWidget(
+              const Logs(),
+            ),
+          );
+
+          expect(find.byType(Logs), findsOneWidget);
+          expect(find.text('Query logs'), findsOneWidget);
+          await tester.pumpAndSettle();
+          showText();
+          expect(find.text("Logs couldn't be loaded"), findsWidgets);
+          expect(find.byIcon(Icons.error), findsOneWidget);
         },
       );
     },

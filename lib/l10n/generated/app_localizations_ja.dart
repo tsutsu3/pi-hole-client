@@ -699,6 +699,10 @@ class AppLocalizationsJa extends AppLocalizations {
       'この機能は Pi-hole v5 では使用できません。\nPi-hole v6 以降にアップグレードしてください。';
 
   @override
+  String get featureNotSupportedMessageLogOption =>
+      'この機能は Pi-hole v6 では適用されません。\nログの管理方法が変更されたため、この設定は不要になりました。';
+
+  @override
   String get filters => 'フィルター';
 
   @override
@@ -1012,6 +1016,9 @@ class AppLocalizationsJa extends AppLocalizations {
 
   @override
   String get logsQuantityPerLoad => '1回のリクエストごとのログ数';
+
+  @override
+  String get logsSettingNotApplicable => 'Pi-hole v6 では適用されません';
 
   @override
   String get logsStatus => 'ログステータス';

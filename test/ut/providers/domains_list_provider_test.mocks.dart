@@ -890,8 +890,10 @@ class MockApiGatewayV6 extends _i1.Mock implements _i13.ApiGatewayV6 {
   @override
   _i10.Future<_i5.FetchLogsResponse> fetchLogs(
     DateTime? from,
-    DateTime? until,
-  ) =>
+    DateTime? until, {
+    int? size,
+    int? cursor,
+  }) =>
       (super.noSuchMethod(
         Invocation.method(
           #fetchLogs,
@@ -899,6 +901,10 @@ class MockApiGatewayV6 extends _i1.Mock implements _i13.ApiGatewayV6 {
             from,
             until,
           ],
+          {
+            #size: size,
+            #cursor: cursor,
+          },
         ),
         returnValue:
             _i10.Future<_i5.FetchLogsResponse>.value(_FakeFetchLogsResponse_9(
@@ -909,6 +915,10 @@ class MockApiGatewayV6 extends _i1.Mock implements _i13.ApiGatewayV6 {
               from,
               until,
             ],
+            {
+              #size: size,
+              #cursor: cursor,
+            },
           ),
         )),
       ) as _i10.Future<_i5.FetchLogsResponse>);

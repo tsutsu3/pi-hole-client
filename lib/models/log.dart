@@ -1,6 +1,33 @@
 import 'package:pi_hole_client/constants/query_types.dart';
 import 'package:pi_hole_client/models/api/v6/metrics/query.dart';
 
+class LogsInfo {
+  const LogsInfo({
+    required this.logs,
+    this.cursor,
+    this.recordsTotal,
+    this.recordsFiltered,
+  });
+
+  factory LogsInfo.fromJson(Map<String, dynamic> json) => LogsInfo(
+        logs: (json['data'] as List<dynamic>)
+            .map((log) => Log.fromJson(log as List<dynamic>))
+            .toList(),
+      );
+
+  factory LogsInfo.fromV6(Queries queries) => LogsInfo(
+        logs: queries.queries.map(Log.fromV6).toList(),
+        cursor: queries.cursor,
+        recordsTotal: queries.recordsTotal,
+        recordsFiltered: queries.recordsFiltered,
+      );
+
+  final List<Log> logs;
+  final int? cursor;
+  final int? recordsTotal;
+  final int? recordsFiltered;
+}
+
 class Log {
   const Log({
     required this.dateTime,
@@ -11,6 +38,7 @@ class Log {
     required this.replyType,
     required this.replyTime,
     this.answeredBy,
+    this.id,
   });
 
   factory Log.fromJson(List<dynamic> data) => Log(
@@ -31,6 +59,7 @@ class Log {
 
   factory Log.fromV6(Query query) {
     return Log(
+      id: query.id,
       //double to int
       dateTime:
           DateTime.fromMillisecondsSinceEpoch((query.time * 1000).toInt()),
@@ -47,6 +76,7 @@ class Log {
     );
   }
 
+  final int? id;
   final DateTime dateTime;
   final String type;
   final String url;
@@ -75,6 +105,7 @@ class Log {
 
   //toJson
   Map<String, dynamic> toJson() => {
+        'id': id,
         'dateTime': dateTime.toUtc().toIso8601String(),
         'type': type,
         'url': url,

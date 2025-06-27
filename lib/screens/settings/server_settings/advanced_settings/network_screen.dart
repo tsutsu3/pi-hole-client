@@ -13,8 +13,8 @@ import 'package:pi_hole_client/models/gateways.dart';
 import 'package:pi_hole_client/providers/app_config_provider.dart';
 import 'package:pi_hole_client/providers/servers_provider.dart';
 import 'package:pi_hole_client/screens/common/empty_data_screen.dart';
-import 'package:pi_hole_client/screens/common/error_message_screen.dart';
 import 'package:pi_hole_client/screens/settings/server_settings/advanced_settings/network_screen/network_detail_screen.dart';
+import 'package:pi_hole_client/widgets/error_message.dart';
 import 'package:provider/provider.dart';
 
 class NetworkScreen extends StatefulWidget {
@@ -207,7 +207,7 @@ class _NetworkState extends State<NetworkScreen> {
               }
 
               if (isFetchError) {
-                return ErrorMessageScreen(
+                return ErrorMessage(
                   message: AppLocalizations.of(context)!.dataFetchFailed,
                 );
               }

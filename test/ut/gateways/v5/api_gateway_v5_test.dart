@@ -1295,7 +1295,7 @@ void main() async {
   group('fetchLogs', () {
     late Server server;
     const url =
-        'http://example.com/admin/api.php?auth=xxx123&getAllQueries&from=1733472267&until=1733479467';
+        'http://example.com/admin/api.php?auth=xxx123&getAllQueries=&from=1733472267&until=1733479467';
 
     setUp(() async {
       server = Server(
@@ -1343,12 +1343,16 @@ void main() async {
           ],
         ],
       };
-      when(mockClient.get(Uri.parse(url), headers: {}))
-          .thenAnswer((_) async => http.Response(jsonEncode(data), 200));
+      when(
+        mockClient.get(
+          Uri.parse(url),
+          headers: {},
+        ),
+      ).thenAnswer((_) async => http.Response(jsonEncode(data), 200));
 
       final from = DateTime.fromMillisecondsSinceEpoch(1733472267 * 1000);
       final until = DateTime.fromMillisecondsSinceEpoch(1733479467 * 1000);
-      final response = await apiGateway.fetchLogs(from, until);
+      final response = await apiGateway.fetchLogs(from, until, size: 2);
 
       expect(response.result, APiResponseType.success);
       expect(response.data, isNotNull);

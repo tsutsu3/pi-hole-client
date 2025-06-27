@@ -98,7 +98,7 @@ class FetchLogsResponse {
   });
 
   final APiResponseType result;
-  final List<Log>? data;
+  final LogsInfo? data;
 }
 
 class DomainResult {

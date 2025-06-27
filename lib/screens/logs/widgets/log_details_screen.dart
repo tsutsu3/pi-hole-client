@@ -8,7 +8,7 @@ import 'package:pi_hole_client/functions/open_url.dart';
 import 'package:pi_hole_client/l10n/generated/app_localizations.dart';
 import 'package:pi_hole_client/models/log.dart';
 import 'package:pi_hole_client/providers/filters_provider.dart';
-import 'package:pi_hole_client/screens/logs/log_status.dart';
+import 'package:pi_hole_client/screens/logs/widgets/log_status.dart';
 import 'package:pi_hole_client/widgets/custom_list_tile.dart';
 import 'package:provider/provider.dart';
 

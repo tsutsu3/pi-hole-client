@@ -1,13 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:pi_hole_client/l10n/generated/app_localizations.dart';
 
-class ErrorMessageScreen extends StatelessWidget {
-  const ErrorMessageScreen({
+class ErrorMessage extends StatelessWidget {
+  const ErrorMessage({
     required this.message,
+    this.fontSize,
+    this.fontColor,
     super.key,
   });
 
   final String message;
+  final double? fontSize;
+  final Color? fontColor;
 
   @override
   Widget build(BuildContext context) {
@@ -33,9 +37,10 @@ class ErrorMessageScreen extends StatelessWidget {
           Text(
             message,
             textAlign: TextAlign.center,
-            style: const TextStyle(
-              fontSize: 16,
+            style: TextStyle(
+              fontSize: fontSize ?? 16,
               height: 1.5,
+              color: fontColor,
             ),
           ),
         ],

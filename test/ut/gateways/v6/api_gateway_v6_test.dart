@@ -1300,7 +1300,7 @@ void main() async {
   group('fetchLogs', () {
     late Server server;
     const url =
-        'http://example.com/api/queries?from=1733472267&until=1733479467';
+        'http://example.com/api/queries?from=1733472267&until=1733479467&length=100';
 
     setUp(() {
       server = Server(
@@ -1358,6 +1358,110 @@ void main() async {
       final from = DateTime.fromMillisecondsSinceEpoch(1733472267 * 1000);
       final until = DateTime.fromMillisecondsSinceEpoch(1733479467 * 1000);
       final response = await apiGateway.fetchLogs(from, until);
+
+      expect(response.result, APiResponseType.success);
+      expect(response.data, isNotNull);
+    });
+
+    test('Return success with length param', () async {
+      final mockClient = MockClient();
+      final apiGateway = ApiGatewayV6(server, client: mockClient);
+      final data = {
+        'queries': [
+          {
+            'id': 1,
+            'time': 1581907991.539157,
+            'type': 'A',
+            'domain': 'community.stoplight.io',
+            'cname': null,
+            'status': 'FORWARDED',
+            'client': {'ip': '192.168.0.14', 'name': 'desktop.lan'},
+            'dnssec': 'INSECURE',
+            'reply': {'type': 'IP', 'time': 19},
+            'list_id': null,
+            'upstream': 'localhost#5353',
+            'dbid': 112421354,
+          },
+          {
+            'id': 2,
+            'time': 1581907871.583821,
+            'type': 'AAAA',
+            'domain': 'api.github.com',
+            'cname': null,
+            'status': 'FORWARDED',
+            'client': {'ip': '127.0.0.1', 'name': 'localhost'},
+            'dnssec': 'UNKNOWN',
+            'reply': {'type': 'IP', 'time': 12.3},
+            'list_id': null,
+            'upstream': 'localhost#5353',
+            'dbid': 112421355,
+          },
+        ],
+        'cursor': 175881,
+        'recordsTotal': 1234,
+        'recordsFiltered': 1234,
+        'draw': 1,
+        'took': 0.003,
+      };
+      when(mockClient.get(Uri.parse(url.replaceAll('length=100', 'length=2')),
+              headers: anyNamed('headers')))
+          .thenAnswer((_) async => http.Response(jsonEncode(data), 200));
+
+      final from = DateTime.fromMillisecondsSinceEpoch(1733472267 * 1000);
+      final until = DateTime.fromMillisecondsSinceEpoch(1733479467 * 1000);
+      final response = await apiGateway.fetchLogs(from, until, size: 2);
+
+      expect(response.result, APiResponseType.success);
+      expect(response.data, isNotNull);
+    });
+
+    test('Return success with cursor param', () async {
+      final mockClient = MockClient();
+      final apiGateway = ApiGatewayV6(server, client: mockClient);
+      final data = {
+        'queries': [
+          {
+            'id': 1,
+            'time': 1581907991.539157,
+            'type': 'A',
+            'domain': 'community.stoplight.io',
+            'cname': null,
+            'status': 'FORWARDED',
+            'client': {'ip': '192.168.0.14', 'name': 'desktop.lan'},
+            'dnssec': 'INSECURE',
+            'reply': {'type': 'IP', 'time': 19},
+            'list_id': null,
+            'upstream': 'localhost#5353',
+            'dbid': 112421354,
+          },
+          {
+            'id': 2,
+            'time': 1581907871.583821,
+            'type': 'AAAA',
+            'domain': 'api.github.com',
+            'cname': null,
+            'status': 'FORWARDED',
+            'client': {'ip': '127.0.0.1', 'name': 'localhost'},
+            'dnssec': 'UNKNOWN',
+            'reply': {'type': 'IP', 'time': 12.3},
+            'list_id': null,
+            'upstream': 'localhost#5353',
+            'dbid': 112421355,
+          },
+        ],
+        'cursor': 175881,
+        'recordsTotal': 1234,
+        'recordsFiltered': 1234,
+        'draw': 1,
+        'took': 0.003,
+      };
+      when(mockClient.get(Uri.parse('$url&cursor=175881'),
+              headers: anyNamed('headers')))
+          .thenAnswer((_) async => http.Response(jsonEncode(data), 200));
+
+      final from = DateTime.fromMillisecondsSinceEpoch(1733472267 * 1000);
+      final until = DateTime.fromMillisecondsSinceEpoch(1733479467 * 1000);
+      final response = await apiGateway.fetchLogs(from, until, cursor: 175881);
 
       expect(response.result, APiResponseType.success);
       expect(response.data, isNotNull);

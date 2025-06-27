@@ -1,4 +1,4 @@
-import 'package:pi_hole_client/screens/logs/logs_filters_modal.dart';
+import 'package:pi_hole_client/screens/logs/widgets/logs_filters_modal.dart';
 
 abstract interface class Filters {
   List<int> get statusAllowedAndRetried;

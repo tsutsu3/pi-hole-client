@@ -8,11 +8,11 @@ import 'package:pi_hole_client/models/server.dart';
 import 'package:pi_hole_client/models/version.dart';
 import 'package:pi_hole_client/providers/servers_provider.dart';
 import 'package:pi_hole_client/screens/common/empty_data_screen.dart';
-import 'package:pi_hole_client/screens/common/error_message_screen.dart';
 import 'package:pi_hole_client/screens/settings/server_settings/widgets/server_info/host_information_section.dart';
 import 'package:pi_hole_client/screens/settings/server_settings/widgets/server_info/performance_usage_section.dart';
 import 'package:pi_hole_client/screens/settings/server_settings/widgets/server_info/pihole_version_section.dart';
 import 'package:pi_hole_client/screens/settings/server_settings/widgets/server_info/server_connection_section.dart';
+import 'package:pi_hole_client/widgets/error_message.dart';
 import 'package:provider/provider.dart';
 import 'package:skeletonizer/skeletonizer.dart';
 
@@ -52,7 +52,7 @@ class ServerInfoScreen extends StatelessWidget {
               if (snapshot.connectionState == ConnectionState.waiting) {
                 return _buildSkeletonLoading(context, server, apiGateway);
               } else if (snapshot.hasError) {
-                return ErrorMessageScreen(
+                return ErrorMessage(
                   message: AppLocalizations.of(context)!.dataFetchFailed,
                 );
               } else if (!snapshot.hasData) {
@@ -63,7 +63,7 @@ class ServerInfoScreen extends StatelessWidget {
 
               if (serverInfo?.result != APiResponseType.success) {
                 logger.e('Server Info fetch failed: ${serverInfo?.result}');
-                return ErrorMessageScreen(
+                return ErrorMessage(
                   message: AppLocalizations.of(context)!.dataFetchFailed,
                 );
               }
