@@ -1930,6 +1930,20 @@ class TestSetupHelper {
         data: domains[0],
       ),
     );
+
+    when(
+      mockApiGatewayV5.fetchLogs(
+        any,
+        any,
+        size: anyNamed('size'),
+        cursor: anyNamed('cursor'),
+      ),
+    ).thenAnswer((_) async {
+      return FetchLogsResponse(
+        result: APiResponseType.success,
+        data: LogsInfo.fromV6(queries),
+      );
+    });
   }
 
   void _initApiGatewayV6Mock() {
