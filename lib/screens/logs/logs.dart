@@ -206,7 +206,6 @@ class _LogsState extends State<Logs> {
 
       if (logsSvc.isPaginationFinished) {
         emptyWindowCount++;
-        logger.w('Empty window count: $emptyWindowCount');
       }
     }
 
