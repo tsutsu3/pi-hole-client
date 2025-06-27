@@ -127,10 +127,13 @@ import 'package:pi_hole_client/screens/home/widgets/queries_last_hours_bar.dart'
 import 'package:pi_hole_client/screens/home/widgets/queries_last_hours_line.dart';
 import 'package:pi_hole_client/screens/home/widgets/switch_server_modal.dart';
 import 'package:pi_hole_client/screens/logs/logs.dart';
+import 'package:pi_hole_client/screens/logs/widgets/active_filter_chips.dart';
 import 'package:pi_hole_client/screens/logs/widgets/clients_filters_modal.dart';
 import 'package:pi_hole_client/screens/logs/widgets/log_details_screen.dart';
 import 'package:pi_hole_client/screens/logs/widgets/log_status.dart';
 import 'package:pi_hole_client/screens/logs/widgets/log_tile.dart';
+import 'package:pi_hole_client/screens/logs/widgets/logs_app_bar.dart';
+import 'package:pi_hole_client/screens/logs/widgets/logs_content_view.dart';
 import 'package:pi_hole_client/screens/logs/widgets/logs_filters_modal.dart';
 import 'package:pi_hole_client/screens/logs/widgets/no_logs_message.dart';
 import 'package:pi_hole_client/screens/logs/widgets/status_filters_modal.dart';
@@ -189,7 +192,9 @@ import 'package:pi_hole_client/screens/statistics/statistics_queries_servers_tab
 import 'package:pi_hole_client/screens/statistics/statistics_triple_column.dart';
 import 'package:pi_hole_client/screens/unlock.dart';
 import 'package:pi_hole_client/services/gravity_update_service.dart';
+import 'package:pi_hole_client/services/logs_actions_service.dart';
 import 'package:pi_hole_client/services/logs_pagination_service.dart';
+import 'package:pi_hole_client/services/logs_screen_service.dart';
 import 'package:pi_hole_client/services/secret_manager.dart';
 import 'package:pi_hole_client/services/status_update_service.dart';
 import 'package:pi_hole_client/widgets/adaptive_trailing_text.dart';
