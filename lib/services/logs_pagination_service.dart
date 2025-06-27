@@ -138,7 +138,7 @@ class LogsPaginationService {
 
       final logs = result.data?.logs ?? [];
 
-      // Important: Expected asc order of logs, so the last log is the oldest one.
+      // Important: Expected desc order of logs, so the last log is the oldest one.
       _currentCursor = logs.last.id;
 
       _finished = LoadStatus.loading;
