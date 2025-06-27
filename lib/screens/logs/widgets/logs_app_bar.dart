@@ -17,6 +17,7 @@ import 'package:pi_hole_client/widgets/custom_radio.dart';
 /// - [filterChips]: List of filter chips to display below the app bar.
 /// - [searchController]: Controller for the search input field.
 /// - [width]: The width of the app bar, used to size the search field appropriately.
+/// - [hasActiveChips]: Whether there are active filter chips to display.
 ///
 /// Implements [PreferredSizeWidget] to allow usage as an AppBar.
 class LogsAppBar extends StatelessWidget implements PreferredSizeWidget {
@@ -32,6 +33,7 @@ class LogsAppBar extends StatelessWidget implements PreferredSizeWidget {
     required this.filterChips,
     required this.searchController,
     required this.width,
+    required this.hasActiveChips,
     super.key,
   });
 
@@ -43,12 +45,13 @@ class LogsAppBar extends StatelessWidget implements PreferredSizeWidget {
   final VoidCallback onFilterTap;
   final ValueChanged<int> onSortChanged;
   final int sortStatus;
-  final List<Widget> filterChips;
+  final Widget filterChips;
   final TextEditingController searchController;
   final double width;
+  final bool hasActiveChips;
 
   @override
-  Size get preferredSize => Size.fromHeight(filterChips.isNotEmpty ? 110 : 60);
+  Size get preferredSize => Size.fromHeight(hasActiveChips ? 110 : 60);
 
   @override
   Widget build(BuildContext context) {
@@ -112,7 +115,7 @@ class LogsAppBar extends StatelessWidget implements PreferredSizeWidget {
           ],
         ),
       ],
-      bottom: filterChips.isNotEmpty
+      bottom: hasActiveChips
           ? PreferredSize(
               preferredSize: const Size(double.maxFinite, 50),
               child: Container(
@@ -123,7 +126,7 @@ class LogsAppBar extends StatelessWidget implements PreferredSizeWidget {
                   scrollDirection: Axis.horizontal,
                   children: [
                     const SizedBox(width: 5),
-                    ...filterChips,
+                    filterChips,
                     const SizedBox(width: 5),
                   ],
                 ),

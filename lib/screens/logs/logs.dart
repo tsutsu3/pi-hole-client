@@ -9,6 +9,7 @@ import 'package:pi_hole_client/models/log.dart';
 import 'package:pi_hole_client/providers/app_config_provider.dart';
 import 'package:pi_hole_client/providers/filters_provider.dart';
 import 'package:pi_hole_client/providers/servers_provider.dart';
+import 'package:pi_hole_client/screens/logs/widgets/active_filter_chips.dart';
 import 'package:pi_hole_client/screens/logs/widgets/log_details_screen.dart';
 import 'package:pi_hole_client/screens/logs/widgets/logs_app_bar.dart';
 import 'package:pi_hole_client/screens/logs/widgets/logs_content_view.dart';
@@ -297,6 +298,27 @@ class _LogsState extends State<Logs> {
       filtersProvider.resetFilters();
     }
 
+    bool hasActiveChips() {
+      final hasTimeFilter =
+          filtersProvider.startTime != null || filtersProvider.endTime != null;
+
+      final hasStatusFilter =
+          filtersProvider.statusSelected.length < serversProvider.numShown - 1;
+
+      final hasClientFilter = filtersProvider.selectedClients.isNotEmpty &&
+          filtersProvider.selectedClients.length <
+              filtersProvider.totalClients.length;
+
+      final hasDomainFilter = filtersProvider.selectedDomain != null;
+
+      final hasActiveChips = hasTimeFilter ||
+          hasStatusFilter ||
+          hasClientFilter ||
+          hasDomainFilter;
+
+      return hasActiveChips;
+    }
+
     Widget _buildScaffold(BuildContext context) {
       return Scaffold(
         appBar: LogsAppBar(
@@ -327,14 +349,22 @@ class _LogsState extends State<Logs> {
           onFilterTap: showFiltersModal,
           onSortChanged: _updateSortStatus,
           sortStatus: sortStatus,
-          filterChips: _buildFilterChips(
-            context,
-            filtersProvider,
-            serversProvider,
-            logsListDisplay,
+          filterChips: ActiveFilterChips(
+            filtersProvider: filtersProvider,
+            serversProvider: serversProvider,
+            logsSvc: logsSvc,
+            logsListDisplay: logsListDisplay,
+            onResetFilters: resetLogs,
+            onResetTimeFilters: () {
+              setState(() {
+                loadStatus = LoadStatus.loading;
+              });
+              resetLogs();
+            },
           ),
           searchController: searchController,
           width: width,
+          hasActiveChips: hasActiveChips(),
         ),
         body: SafeArea(
           child: LogsContentView(
@@ -397,113 +427,5 @@ class _LogsState extends State<Logs> {
         logsListDisplay = logsListDisplay.reversed.toList();
       });
     }
-  }
-
-  /// Builds a list of filter chips based on the current filter selections.
-  ///
-  /// This method generates a list of [Widget]s representing the active filters
-  /// applied in the logs screen. Each chip corresponds to a specific filter
-  /// (time, status, clients, or domain) and provides a way for the user to
-  /// remove that filter. When a chip is tapped, the corresponding filter is
-  /// reset and the logs are refreshed as needed.
-  ///
-  /// Parameters:
-  /// - [context]: The build context used for localization and widget building.
-  /// - [filtersProvider]: The provider managing the current filter selections.
-  /// - [serversProvider]: The provider managing server-related data.
-  ///
-  /// Returns:
-  ///   A list of [Widget]s representing the active filter chips.
-  List<Widget> _buildFilterChips(
-    BuildContext context,
-    FiltersProvider filtersProvider,
-    ServersProvider serversProvider,
-    List<Log> logsListDisplay,
-  ) {
-    final chips = <Widget>[];
-
-    if (filtersProvider.startTime != null || filtersProvider.endTime != null) {
-      chips.add(
-        _buildChip(
-          AppLocalizations.of(context)!.time,
-          const Icon(Icons.access_time_rounded),
-          () {
-            filtersProvider.resetTime();
-            setState(() {
-              loadStatus = LoadStatus.loading;
-            });
-            resetLogs();
-          },
-        ),
-      );
-    }
-
-    if (filtersProvider.statusSelected.length < serversProvider.numShown - 1) {
-      chips.add(
-        _buildChip(
-          filtersProvider.statusSelected.length == 1
-              ? filtersProvider.statusSelectedString
-              : '${filtersProvider.statusSelected.length} ${AppLocalizations.of(context)!.statusSelected}',
-          const Icon(Icons.shield),
-          () {
-            logsSvc.scrollToTop(logsListDisplay);
-            filtersProvider.resetStatus();
-            resetLogs();
-          },
-        ),
-      );
-    }
-
-    if (filtersProvider.selectedClients.isNotEmpty &&
-        filtersProvider.selectedClients.length <
-            filtersProvider.totalClients.length) {
-      chips.add(
-        _buildChip(
-          filtersProvider.selectedClients.length == 1
-              ? filtersProvider.selectedClients[0]
-              : '${filtersProvider.selectedClients.length} ${AppLocalizations.of(context)!.clientsSelected}',
-          const Icon(Icons.devices),
-          () {
-            logsSvc.scrollToTop(logsListDisplay);
-            filtersProvider.resetClients();
-            resetLogs();
-          },
-        ),
-      );
-    }
-
-    if (filtersProvider.selectedDomain != null) {
-      chips.add(
-        _buildChip(
-          filtersProvider.selectedDomain!,
-          const Icon(Icons.http_rounded),
-          () {
-            logsSvc.scrollToTop(logsListDisplay);
-            filtersProvider.setSelectedDomain(null);
-            resetLogs();
-          },
-        ),
-      );
-    }
-
-    return chips;
-  }
-
-  /// Builds a styled [Chip] widget with a label, an icon as the avatar, and a delete action.
-  ///
-  /// [label] - The text to display inside the chip.
-  /// [icon] - The icon to display as the chip's avatar.
-  /// [onDeleted] - The callback function to execute when the chip's delete icon is tapped.
-  ///
-  /// Returns a [Padding] widget containing the configured [Chip].
-  Widget _buildChip(String label, Icon icon, Function() onDeleted) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 5),
-      child: Chip(
-        label: Text(label),
-        avatar: icon,
-        onDeleted: onDeleted,
-      ),
-    );
   }
 }
