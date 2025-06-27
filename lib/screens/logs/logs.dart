@@ -319,7 +319,7 @@ class _LogsState extends State<Logs> {
       return hasActiveChips;
     }
 
-    Widget _buildScaffold(BuildContext context) {
+    Widget buildScaffold(BuildContext context) {
       return Scaffold(
         appBar: LogsAppBar(
           showSearchBar: showSearchBar,
@@ -386,7 +386,7 @@ class _LogsState extends State<Logs> {
         children: [
           Expanded(
             flex: width > ResponsiveConstants.xLarge ? 2 : 3,
-            child: _buildScaffold(context),
+            child: buildScaffold(context),
           ),
           Expanded(
             flex: 3,
@@ -411,7 +411,7 @@ class _LogsState extends State<Logs> {
         ],
       );
     } else {
-      return _buildScaffold(context);
+      return buildScaffold(context);
     }
   }
 
