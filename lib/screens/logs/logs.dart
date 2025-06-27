@@ -1,14 +1,10 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
-import 'package:pi_hole_client/classes/process_modal.dart';
 import 'package:pi_hole_client/constants/enums.dart';
 import 'package:pi_hole_client/constants/responsive.dart';
 import 'package:pi_hole_client/functions/logger.dart';
-import 'package:pi_hole_client/functions/snackbar.dart';
-import 'package:pi_hole_client/gateways/api_gateway_interface.dart';
 import 'package:pi_hole_client/l10n/generated/app_localizations.dart';
-import 'package:pi_hole_client/models/gateways.dart';
 import 'package:pi_hole_client/models/log.dart';
 import 'package:pi_hole_client/providers/app_config_provider.dart';
 import 'package:pi_hole_client/providers/filters_provider.dart';
@@ -17,7 +13,9 @@ import 'package:pi_hole_client/screens/logs/widgets/log_details_screen.dart';
 import 'package:pi_hole_client/screens/logs/widgets/logs_app_bar.dart';
 import 'package:pi_hole_client/screens/logs/widgets/logs_content_view.dart';
 import 'package:pi_hole_client/screens/logs/widgets/logs_filters_modal.dart';
+import 'package:pi_hole_client/services/logs_actions_service.dart';
 import 'package:pi_hole_client/services/logs_pagination_service.dart';
+import 'package:pi_hole_client/services/logs_screen_service.dart';
 import 'package:provider/provider.dart';
 
 class Logs extends StatefulWidget {
@@ -42,114 +40,14 @@ class _LogsState extends State<Logs> {
   List<Log> logsListDisplay = [];
   Log? selectedLog;
 
-  late LogsPaginationService? paginationService;
-  late ApiGateway? apiGateway;
+  late LogsScreenService logsSvc;
+  late LogActionsService logActSvc;
   late double? logsPerQuery;
   late ScrollController scrollController;
   final TextEditingController searchController = TextEditingController();
+  final maxEmptyWindows = 3;
 
   Timer? debounce;
-
-  Future<void> resetLogs() async {
-    setState(() {
-      enableNextWindow = true;
-      loadStatus = LoadStatus.loaded;
-    });
-  }
-
-  Future<void> applyFilterAndLoad({
-    DateTime? inStartTime,
-    DateTime? inEndTime,
-  }) async {
-    setState(() {
-      loadStatus = LoadStatus.loading;
-    });
-
-    enableNextWindow = false;
-
-    final endTime = inEndTime ?? DateTime.now();
-    final startTime = inStartTime ??
-        endTime.subtract(Duration(minutes: (logsPerQuery! * 60).toInt()));
-
-    if (inStartTime != null || inEndTime != null) {
-      paginationService!.reset(startTime, endTime);
-      setState(() {
-        logsList.clear();
-        isLoadingMore = true;
-      });
-
-      final newLogs = await paginationService?.loadNextPage() ?? [];
-      logger.d(
-        'Loaded ${newLogs.length} logs from $startTime to $endTime',
-      );
-
-      setState(() {
-        isLoadingMore = false;
-        logsList.addAll(newLogs);
-      });
-    }
-
-    setState(() {
-      if (paginationService!.finished == LoadStatus.loaded) {
-        loadStatus = LoadStatus.loaded;
-      } else if (paginationService!.finished == LoadStatus.error) {
-        loadStatus = LoadStatus.error;
-      } else {
-        loadStatus = LoadStatus.loading;
-      }
-    });
-  }
-
-  List<Log> filterLogs({
-    required List<int> statusSelected,
-    required List<String> devicesSelected,
-    required String? selectedDomain,
-    List<Log>? logs,
-  }) {
-    var tempLogs = logs != null ? [...logs] : [...logsList];
-
-    tempLogs = tempLogs.where((log) {
-      if (log.status != null &&
-          statusSelected.contains(int.parse(log.status!))) {
-        return true;
-      } else {
-        return false;
-      }
-    }).toList();
-
-    if (devicesSelected.isNotEmpty) {
-      tempLogs = tempLogs.where((log) {
-        if (devicesSelected.contains(log.device)) {
-          return true;
-        } else {
-          return false;
-        }
-      }).toList();
-    }
-
-    if (selectedDomain != null) {
-      tempLogs = tempLogs.where((log) => log.url == selectedDomain).toList();
-    }
-
-    if (searchController.text != '') {
-      tempLogs = tempLogs.where((log) {
-        if (log.url.contains(searchController.text)) {
-          return true;
-        } else {
-          return false;
-        }
-      }).toList();
-    }
-
-    if (sortStatus == 1) {
-      tempLogs.sort((a, b) => a.dateTime.compareTo(b.dateTime));
-    } else {
-      tempLogs.sort((a, b) => a.dateTime.compareTo(b.dateTime));
-      tempLogs = tempLogs.reversed.toList();
-    }
-
-    return tempLogs;
-  }
 
   @override
   void initState() {
@@ -160,10 +58,23 @@ class _LogsState extends State<Logs> {
     logsPerQuery =
         Provider.of<AppConfigProvider>(context, listen: false).logsPerQuery;
 
-    apiGateway =
+    final apiGateway =
         Provider.of<ServersProvider>(context, listen: false).selectedApiGateway;
 
-    paginationService = LogsPaginationService(apiGateway: apiGateway!);
+    final paginationService = LogsPaginationService(apiGateway: apiGateway!);
+
+    logsSvc = LogsScreenService(
+      scrollController: scrollController,
+      searchController: searchController,
+      logsPerQuery: logsPerQuery!,
+      paginationService: paginationService,
+    );
+
+    logActSvc = LogActionsService(
+      apiGateway: apiGateway,
+      context: context,
+      appConfigProvider: Provider.of<AppConfigProvider>(context, listen: false),
+    );
 
     initializeLoad();
   }
@@ -175,33 +86,6 @@ class _LogsState extends State<Logs> {
     super.dispose();
   }
 
-  Future<void> initializeLoad() async {
-    setState(() {
-      loadStatus = LoadStatus.loading;
-    });
-
-    final now = DateTime.now();
-
-    paginationService?.reset(
-      now.subtract(
-        Duration(minutes: (logsPerQuery! * 60).toInt()),
-      ),
-      now,
-    );
-
-    await enqueueLoad();
-
-    setState(() {
-      if (paginationService!.finished == LoadStatus.loaded) {
-        loadStatus = LoadStatus.loaded;
-      } else if (paginationService!.finished == LoadStatus.error) {
-        loadStatus = LoadStatus.error;
-      } else {
-        loadStatus = LoadStatus.loading;
-      }
-    });
-  }
-
   void scrollListener() {
     if (scrollController.position.extentAfter < 500) {
       if (debounce?.isActive ?? false) debounce?.cancel();
@@ -209,55 +93,102 @@ class _LogsState extends State<Logs> {
     }
   }
 
-  /// Loads the next page of logs asynchronously, handling pagination and empty results.
+  Future<void> initializeLoad() async {
+    setState(() {
+      loadStatus = LoadStatus.loading;
+    });
+
+    final now = DateTime.now();
+    final end = logsSvc.getWindowStart(now);
+
+    logsSvc.resetPagination(now, end);
+
+    await enqueueLoad();
+
+    setState(() {
+      loadStatus = LoadStatus.loaded;
+    });
+  }
+
+  Future<void> resetLogs() async {
+    setState(() {
+      enableNextWindow = true;
+      loadStatus = LoadStatus.loaded;
+    });
+  }
+
+  /// Applies time-based filtering and reloads logs from the pagination service.
   ///
-  /// This method attempts to load additional logs using the [paginationService].
-  /// If the pagination window is finished and loading more is enabled, it advances
-  /// the window by a fixed duration and resets the pagination service. It will
-  /// attempt to load logs up to maxEmptyWindows times if no new logs are found,
-  /// incrementing an empty window counter each time. If new logs are loaded, they
-  /// are added to [logsList] and the method returns. If the maximum number of empty
-  /// windows is reached without loading new logs, loading is stopped and an error
-  /// is logged.
-  Future<void> enqueueLoad() async {
-    const maxEmptyWindows = 3;
-    for (var emptyWindowCount = 0; emptyWindowCount < maxEmptyWindows;) {
-      // 1. If pagination has finished, advance the window
-      if (paginationService!.finished == LoadStatus.loaded) {
-        if (!enableNextWindow) {
-          logger.w('Pagination finished and loading more is disabled.');
-          return;
-        }
+  /// This method is typically triggered when filters are applied or reset.
+  /// It updates the [logsList] by clearing the previous logs and loading new
+  /// logs based on the provided time range.
+  ///
+  /// The time window for loading is determined as follows:
+  /// - If [inStartTime] and/or [inEndTime] are provided, they are used.
+  /// - Otherwise, the end time is set to `DateTime.now()`, and the start time
+  ///   is calculated using [logsSvc] (.getWindowStart).
+  ///
+  /// If the time range is explicitly provided, pagination is reset and new logs
+  /// are fetched immediately. The UI loading indicators ([loadStatus] and
+  /// [isLoadingMore]) are updated using [setState].
+  ///
+  /// After loading, [loadStatus] is updated based on the pagination state.
+  ///
+  /// Parameters:
+  /// - [inStartTime]: Optional start of the time window for filtering logs.
+  /// - [inEndTime]: Optional end of the time window for filtering logs.
+  Future<void> applyFilterAndLoad({
+    DateTime? inStartTime,
+    DateTime? inEndTime,
+  }) async {
+    setState(() {
+      loadStatus = LoadStatus.loading;
+    });
 
-        final diff = Duration(minutes: (logsPerQuery! * 60).toInt());
-        final startTime = paginationService!.startTime!.subtract(diff);
-        final endTime = paginationService!.startTime!;
-        logger.d(
-          'Resetting pagination service with new window: $startTime to $endTime',
-        );
-        paginationService!.reset(startTime, endTime);
-      }
+    enableNextWindow = false;
 
-      // 2. Load the next page of logs
-      logger.d('Loading next page of logs...');
+    final endTime = inEndTime ?? DateTime.now();
+    final startTime = inStartTime ?? logsSvc.getWindowStart(endTime);
+
+    if (inStartTime != null || inEndTime != null) {
+      logsSvc.resetPagination(startTime, endTime);
       setState(() {
+        logsList.clear();
         isLoadingMore = true;
       });
-      final newLogs = await paginationService!.loadNextPage();
+
+      final newLogs = await logsSvc.loadNextPage() ?? [];
+      logger.d(
+        'Loaded ${newLogs.length} logs from $startTime to $endTime',
+      );
+
       setState(() {
         isLoadingMore = false;
+        logsList.addAll(newLogs);
       });
+    }
+
+    setState(() {
+      loadStatus = LoadStatus.loaded;
+    });
+  }
+
+  Future<void> enqueueLoad() async {
+    const maxEmptyWindows = 3;
+
+    for (var emptyWindowCount = 0; emptyWindowCount < maxEmptyWindows;) {
+      setState(() => isLoadingMore = true);
+      final newLogs = await logsSvc.loadNextWithWindowSupport(
+        enableNextWindow: enableNextWindow,
+      );
+      setState(() => isLoadingMore = false);
 
       if (newLogs.isNotEmpty) {
-        setState(() {
-          logsList.addAll(newLogs);
-        });
+        setState(() => logsList.addAll(newLogs));
         return;
       }
 
-      // 3. If no logs were loaded, increment the empty window count
-      if (paginationService!.finished == LoadStatus.loaded ||
-          paginationService!.finished == LoadStatus.error) {
+      if (logsSvc.isPaginationFinished) {
         emptyWindowCount++;
         logger.w('Empty window count: $emptyWindowCount');
       }
@@ -270,60 +201,18 @@ class _LogsState extends State<Logs> {
   Widget build(BuildContext context) {
     final serversProvider = Provider.of<ServersProvider>(context);
     final filtersProvider = Provider.of<FiltersProvider>(context);
-    final appConfigProvider = Provider.of<AppConfigProvider>(context);
-
-    final apiGateway = serversProvider.selectedApiGateway;
 
     final width = MediaQuery.of(context).size.width;
     final statusBarHeight = MediaQuery.of(context).viewPadding.top;
     final bottomNavBarHeight = MediaQuery.of(context).viewPadding.bottom;
 
-    logsListDisplay = filterLogs(
+    logsListDisplay = logsSvc.filterLogs(
+      logs: logsList,
       statusSelected: filtersProvider.statusSelected,
       devicesSelected: filtersProvider.selectedClients,
       selectedDomain: filtersProvider.selectedDomain,
+      sortStatus: sortStatus,
     );
-
-    Future<void> whiteBlackList(String list, Log log) async {
-      final loading = ProcessModal(context: context);
-      loading.open(
-        list == 'white'
-            ? AppLocalizations.of(context)!.addingWhitelist
-            : AppLocalizations.of(context)!.addingBlacklist,
-      );
-      final result = await apiGateway?.setWhiteBlacklist(log.url, list);
-      loading.close();
-
-      if (!context.mounted) return;
-
-      if (result?.result == APiResponseType.success) {
-        if (result!.data!.message.contains('Added')) {
-          showSuccessSnackBar(
-            context: context,
-            appConfigProvider: appConfigProvider,
-            label: list == 'white'
-                ? AppLocalizations.of(context)!.addedWhitelist
-                : AppLocalizations.of(context)!.addedBlacklist,
-          );
-        } else {
-          showSuccessSnackBar(
-            context: context,
-            appConfigProvider: appConfigProvider,
-            label: list == 'white'
-                ? AppLocalizations.of(context)!.alreadyWhitelist
-                : AppLocalizations.of(context)!.alreadyBlacklist,
-          );
-        }
-      } else {
-        showErrorSnackBar(
-          context: context,
-          appConfigProvider: appConfigProvider,
-          label: list == 'white'
-              ? AppLocalizations.of(context)!.couldntAddWhitelist
-              : AppLocalizations.of(context)!.couldntAddBlacklist,
-        );
-      }
-    }
 
     void showLogDetails(Log log) {
       setState(() => selectedLog = log);
@@ -333,7 +222,7 @@ class _LogsState extends State<Logs> {
           MaterialPageRoute(
             builder: (context) => LogDetailsScreen(
               log: log,
-              whiteBlackList: whiteBlackList,
+              whiteBlackList: logActSvc.whiteBlackList,
             ),
           ),
         );
@@ -464,7 +353,7 @@ class _LogsState extends State<Logs> {
             child: selectedLog != null
                 ? LogDetailsScreen(
                     log: selectedLog!,
-                    whiteBlackList: whiteBlackList,
+                    whiteBlackList: logActSvc.whiteBlackList,
                   )
                 : SizedBox(
                     child: SafeArea(
@@ -565,6 +454,7 @@ class _LogsState extends State<Logs> {
           () {
             _scrollToTop(logsListDisplay);
             filtersProvider.resetStatus();
+            resetLogs();
           },
         ),
       );
@@ -582,6 +472,7 @@ class _LogsState extends State<Logs> {
           () {
             _scrollToTop(logsListDisplay);
             filtersProvider.resetClients();
+            resetLogs();
           },
         ),
       );
@@ -595,6 +486,7 @@ class _LogsState extends State<Logs> {
           () {
             _scrollToTop(logsListDisplay);
             filtersProvider.setSelectedDomain(null);
+            resetLogs();
           },
         ),
       );

@@ -5,6 +5,28 @@ import 'package:pi_hole_client/gateways/api_gateway_interface.dart';
 import 'package:pi_hole_client/models/gateways.dart';
 import 'package:pi_hole_client/models/log.dart';
 
+/// A service class responsible for paginated retrieval of log entries from an API.
+///
+/// [LogsPaginationService] abstracts the logic required to fetch logs in time-based
+/// windows with support for pagination across API versions (v5 and v6).
+///
+/// It tracks the current time window and cursor, handles retries for transient failures,
+/// and provides a clean interface to reset and iterate over log pages.
+///
+/// - Supports both cursor-based (v6) and time-range-based (v5) pagination strategies.
+/// - Tracks whether loading has finished or failed using [LoadStatus].
+/// - Offers a unified method [loadNextPage] to fetch the next page, delegating
+///   to the appropriate API version implementation.
+///
+/// Typical usage:
+/// ```dart
+/// final service = LogsPaginationService(apiGateway: gateway);
+/// service.reset(start, end);
+/// final logs = await service.loadNextPage();
+/// ```
+///
+/// This service is designed to be consumed by UI-layer helpers like `LogsScreenService`
+/// or other pagination-aware widgets/controllers.
 class LogsPaginationService {
   LogsPaginationService({
     required ApiGateway apiGateway,
@@ -119,7 +141,7 @@ class LogsPaginationService {
       // Important: Expected asc order of logs, so the last log is the oldest one.
       _currentCursor = logs.last.id;
 
-      _finished = LoadStatus.loaded;
+      _finished = LoadStatus.loading;
       return logs;
     }
 
