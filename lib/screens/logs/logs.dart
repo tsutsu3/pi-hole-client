@@ -150,12 +150,11 @@ class _LogsState extends State<Logs> {
       loadStatus = LoadStatus.loading;
     });
 
-    enableNextWindow = false;
-
     final endTime = inEndTime ?? DateTime.now();
     final startTime = inStartTime ?? logsSvc.getWindowStart(endTime);
 
     if (inStartTime != null || inEndTime != null) {
+      enableNextWindow = false;
       logsSvc.resetPagination(startTime, endTime);
       setState(() {
         logsList.clear();
