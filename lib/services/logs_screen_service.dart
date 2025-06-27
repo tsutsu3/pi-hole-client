@@ -174,12 +174,13 @@ class LogsScreenService {
   /// [logsListDisplay] - The list of logs currently displayed. The scroll action only occurs if this list is not empty.
   void scrollToTop(List<Log> logsListDisplay) {
     if (logsListDisplay.isNotEmpty) {
-      scrollController.animateTo(
-        0,
-        duration: const Duration(milliseconds: 250),
-        curve: Curves.easeInOut,
-      );
+      _scrollToTop();
     }
+  }
+
+  /// Scrolls the associated scroll controller to the top
+  void forceScrollToTop() {
+    _scrollToTop();
   }
 
   /// Resets the pagination state using the provided [start] and [end] date range.
@@ -251,5 +252,13 @@ class LogsScreenService {
   /// Returns a [DateTime] representing the start of the window.
   DateTime getWindowStart(DateTime end) {
     return end.subtract(Duration(minutes: (logsPerQuery * 60).toInt()));
+  }
+
+  void _scrollToTop() {
+    scrollController.animateTo(
+      0,
+      duration: const Duration(milliseconds: 250),
+      curve: Curves.easeInOut,
+    );
   }
 }

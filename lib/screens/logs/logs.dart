@@ -173,6 +173,18 @@ class _LogsState extends State<Logs> {
     });
   }
 
+  /// Loads additional logs with support for time window-based pagination.
+  ///
+  /// This method attempts to load the next page of logs. If the current pagination
+  /// window is exhausted and [enableNextWindow] is true, it shifts the window backward
+  /// and retries. The process continues until new logs are loaded or the maximum number
+  /// of empty windows ([maxEmptyWindows]) is reached.
+  ///
+  /// - On each attempt, if logs are found, they are added to [logsList] and the method returns early.
+  /// - If no logs are returned and pagination is finished, the empty window counter is incremented.
+  /// - When the maximum number of empty windows is hit, an error is logged and loading stops.
+  ///
+  /// The loading state is managed using [isLoadingMore], and diagnostic messages are logged for debugging.
   Future<void> enqueueLoad() async {
     const maxEmptyWindows = 3;
 
@@ -278,9 +290,7 @@ class _LogsState extends State<Logs> {
     }
 
     void searchLogs(String value) {
-      final searched = logsList
-          .where((log) => log.url.toLowerCase().contains(value.toLowerCase()))
-          .toList();
+      final searched = logsSvc.searchLogs(logsList, value);
       setState(() {
         logsListDisplay = searched;
       });
@@ -381,27 +391,11 @@ class _LogsState extends State<Logs> {
   /// sort orders in the logs display.
   void _updateSortStatus(int value) {
     if (sortStatus != value) {
-      scrollController.animateTo(
-        0,
-        duration: const Duration(milliseconds: 250),
-        curve: Curves.easeInOut,
-      );
+      logsSvc.forceScrollToTop();
       setState(() {
         sortStatus = value;
         logsListDisplay = logsListDisplay.reversed.toList();
       });
-    }
-  }
-
-  /// Scrolls the associated scroll controller to the top of the list view
-  /// if the provided [logsListDisplay] is not empty.
-  void _scrollToTop(List<Log> logsListDisplay) {
-    if (logsListDisplay.isNotEmpty) {
-      scrollController.animateTo(
-        0,
-        duration: const Duration(milliseconds: 250),
-        curve: Curves.easeInOut,
-      );
     }
   }
 
@@ -452,7 +446,7 @@ class _LogsState extends State<Logs> {
               : '${filtersProvider.statusSelected.length} ${AppLocalizations.of(context)!.statusSelected}',
           const Icon(Icons.shield),
           () {
-            _scrollToTop(logsListDisplay);
+            logsSvc.scrollToTop(logsListDisplay);
             filtersProvider.resetStatus();
             resetLogs();
           },
@@ -470,7 +464,7 @@ class _LogsState extends State<Logs> {
               : '${filtersProvider.selectedClients.length} ${AppLocalizations.of(context)!.clientsSelected}',
           const Icon(Icons.devices),
           () {
-            _scrollToTop(logsListDisplay);
+            logsSvc.scrollToTop(logsListDisplay);
             filtersProvider.resetClients();
             resetLogs();
           },
@@ -484,7 +478,7 @@ class _LogsState extends State<Logs> {
           filtersProvider.selectedDomain!,
           const Icon(Icons.http_rounded),
           () {
-            _scrollToTop(logsListDisplay);
+            logsSvc.scrollToTop(logsListDisplay);
             filtersProvider.setSelectedDomain(null);
             resetLogs();
           },
