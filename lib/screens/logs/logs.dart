@@ -215,7 +215,7 @@ class _LogsState extends State<Logs> {
       });
     }
 
-    logger.e('Max empty windows reached. Stop loading.');
+    logger.w('Max empty windows reached. Stop loading.');
   }
 
   @override
