@@ -29,6 +29,14 @@ class AdvancedOptions extends StatelessWidget {
     final topBarHeight = MediaQuery.of(context).viewPadding.top;
     final width = MediaQuery.of(context).size.width;
 
+    final isV6 =
+        serversProvider.selectedServer?.apiVersion.startsWith('v6') ?? false;
+
+    final logDescription = isV6
+        ? AppLocalizations.of(context)!.logsSettingNotApplicable
+        : '${appConfigProvider.logsPerQuery == 0.5 ? '30' : appConfigProvider.logsPerQuery.toInt()} '
+            '${appConfigProvider.logsPerQuery == 0.5 ? AppLocalizations.of(context)!.minutes : AppLocalizations.of(context)!.hours}';
+
     Future<void> updateUseReducedData(bool newStatus) async {
       final result = await appConfigProvider.setReducedDataCharts(newStatus);
       if (!context.mounted) return;
@@ -260,12 +268,14 @@ class AdvancedOptions extends StatelessWidget {
             CustomListTile(
               leadingIcon: Icons.list_rounded,
               label: AppLocalizations.of(context)!.logsQuantityPerLoad,
-              description:
-                  '${appConfigProvider.logsPerQuery == 0.5 ? '30' : appConfigProvider.logsPerQuery.toInt()} ${appConfigProvider.logsPerQuery == 0.5 ? AppLocalizations.of(context)!.minutes : AppLocalizations.of(context)!.hours}',
+              description: logDescription,
               onTap: () => Navigator.push(
                 context,
                 MaterialPageRoute(
-                  builder: (context) => const LogsQuantityLoadScreen(),
+                  builder: (context) => LogsQuantityLoadScreen(
+                    apiVersion:
+                        serversProvider.selectedServer?.apiVersion ?? '',
+                  ),
                 ),
               ),
               padding: const EdgeInsets.only(

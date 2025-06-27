@@ -1472,6 +1472,12 @@ abstract class AppLocalizations {
   /// **'This feature is not available on Pi-hole v5.\nPlease upgrade to Pi-hole v6 or later.'**
   String get featureNotSupportedMessage;
 
+  /// No description provided for @featureNotSupportedMessageLogOption.
+  ///
+  /// In en, this message translates to:
+  /// **'This feature is no longer applicable in Pi-hole v6.\nLog management has changed and this setting is no longer needed.'**
+  String get featureNotSupportedMessageLogOption;
+
   /// No description provided for @filters.
   ///
   /// In en, this message translates to:
@@ -2089,6 +2095,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Logs quantity per request'**
   String get logsQuantityPerLoad;
+
+  /// No description provided for @logsSettingNotApplicable.
+  ///
+  /// In en, this message translates to:
+  /// **'Not applicable in Pi-hole v6'**
+  String get logsSettingNotApplicable;
 
   /// No description provided for @logsStatus.
   ///

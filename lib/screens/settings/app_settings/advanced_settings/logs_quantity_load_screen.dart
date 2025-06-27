@@ -3,6 +3,7 @@ import 'package:pi_hole_client/config/theme.dart';
 import 'package:pi_hole_client/functions/snackbar.dart';
 import 'package:pi_hole_client/l10n/generated/app_localizations.dart';
 import 'package:pi_hole_client/providers/app_config_provider.dart';
+import 'package:pi_hole_client/screens/common/pi_hole_v6_not_supported_screen.dart';
 import 'package:pi_hole_client/widgets/custom_radio_list_tile.dart';
 import 'package:provider/provider.dart';
 
@@ -28,7 +29,9 @@ class LogOption {
 }
 
 class LogsQuantityLoadScreen extends StatelessWidget {
-  const LogsQuantityLoadScreen({super.key});
+  const LogsQuantityLoadScreen({required this.apiVersion, super.key});
+
+  final String apiVersion;
 
   Future<void> _onChange(BuildContext context, int option) async {
     final appConfigProvider =
@@ -98,27 +101,32 @@ class LogsQuantityLoadScreen extends StatelessWidget {
         title: Text(loc.logsQuantityPerLoad),
       ),
       body: SafeArea(
-        child: Selector<AppConfigProvider, double>(
-          selector: (_, provider) => provider.logsPerQuery,
-          builder: (context, logsPerQuery, child) {
-            final selectedOption = LogOption.indexFromTime(logsPerQuery);
+        child: apiVersion == 'v6'
+            ? PiHoleV6NotSupportedScreen(
+                message: loc.featureNotSupportedMessageLogOption,
+              )
+            : Selector<AppConfigProvider, double>(
+                selector: (_, provider) => provider.logsPerQuery,
+                builder: (context, logsPerQuery, child) {
+                  final selectedOption = LogOption.indexFromTime(logsPerQuery);
 
-            return ListView(
-              children: [
-                _buildWarningCard(context, loc),
-                ...List.generate(LogOption.all.length, (i) {
-                  return CustomRadioListTile(
-                    groupValue: selectedOption,
-                    value: i,
-                    title: LogOption.all[i].labelBuilder(loc),
-                    radioBackgroundColor: Theme.of(context).colorScheme.surface,
-                    onChanged: (val) => _onChange(context, val),
+                  return ListView(
+                    children: [
+                      _buildWarningCard(context, loc),
+                      ...List.generate(LogOption.all.length, (i) {
+                        return CustomRadioListTile(
+                          groupValue: selectedOption,
+                          value: i,
+                          title: LogOption.all[i].labelBuilder(loc),
+                          radioBackgroundColor:
+                              Theme.of(context).colorScheme.surface,
+                          onChanged: (val) => _onChange(context, val),
+                        );
+                      }),
+                    ],
                   );
-                }),
-              ],
-            );
-          },
-        ),
+                },
+              ),
       ),
     );
   }
