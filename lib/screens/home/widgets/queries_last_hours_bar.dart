@@ -192,9 +192,9 @@ class QueriesLastHoursBar extends StatelessWidget {
             selectedTheme == ThemeMode.light
                 ? Theme.of(context)
                     .extension<GraphColors>()!
-                    .getColor(3)
+                    .getColor(1)
                     .withValues(alpha: 0.8)
-                : Theme.of(context).extension<GraphColors>()!.getColor(3),
+                : Theme.of(context).extension<GraphColors>()!.getColor(1),
           ),
         );
 
