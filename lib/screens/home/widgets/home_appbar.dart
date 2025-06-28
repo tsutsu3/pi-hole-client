@@ -100,6 +100,9 @@ class HomeAppBar extends StatelessWidget implements PreferredSizeWidget {
       if (result?.result == APiResponseType.success) {
         await connectSuccess(result);
       } else {
+        logger.w(
+          'Error while connecting to server: ${result?.result.name}',
+        );
         showErrorSnackBar(
           context: context,
           appConfigProvider: appConfigProvider,
