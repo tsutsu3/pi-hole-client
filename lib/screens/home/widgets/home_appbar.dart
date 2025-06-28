@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:pi_hole_client/classes/process_modal.dart';
 import 'package:pi_hole_client/constants/enums.dart';
 import 'package:pi_hole_client/functions/conversions.dart';
 import 'package:pi_hole_client/functions/logger.dart';
@@ -30,11 +29,8 @@ class HomeAppBar extends StatelessWidget implements PreferredSizeWidget {
     Future<void> refresh() async {
       statusProvider.setStatusLoading(LoadStatus.loading);
 
-      final process = ProcessModal(context: context);
-      process.open(AppLocalizations.of(context)!.refreshingData);
       final result = await serversProvider.selectedApiGateway
           ?.realtimeStatus(clientCount: 0);
-      process.close();
       if (!context.mounted) return;
 
       if (result?.result == APiResponseType.success) {
@@ -99,11 +95,7 @@ class HomeAppBar extends StatelessWidget implements PreferredSizeWidget {
         await statusUpdateService.refreshOnce();
       }
 
-      final process = ProcessModal(context: context);
-      process.open(AppLocalizations.of(context)!.connecting);
-
       final result = await serversProvider.loadApiGateway(server)?.loginQuery();
-      process.close();
       if (!context.mounted) return;
 
       if (result?.result == APiResponseType.success) {

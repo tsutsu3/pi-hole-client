@@ -88,7 +88,7 @@ class _ChartSkeletonState extends State<ChartSkeleton>
             alignment: Alignment.center,
             children: [
               _buildWaveSkeleton(time, context, isLight),
-              _buildLoading(context)
+              _buildLoading(context),
             ],
           );
         },
