@@ -80,7 +80,7 @@ class NetworkListView extends StatelessWidget {
     IconData iconData;
     Color iconColor;
 
-    if (lastQuery == DateTime.fromMillisecondsSinceEpoch(0)) {
+    if (lastQuery.millisecondsSinceEpoch == 0) {
       iconData = Icons.question_mark_rounded;
       iconColor = theme.queryGrey ?? Colors.grey;
     } else {
