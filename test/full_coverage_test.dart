@@ -110,6 +110,7 @@ import 'package:pi_hole_client/screens/app_logs/app_log_details_modal.dart';
 import 'package:pi_hole_client/screens/app_logs/app_logs.dart';
 import 'package:pi_hole_client/screens/common/empty_data_screen.dart';
 import 'package:pi_hole_client/screens/common/pi_hole_v5_not_supported_screen.dart';
+import 'package:pi_hole_client/screens/common/pi_hole_v6_not_supported_screen.dart';
 import 'package:pi_hole_client/screens/domains/domains.dart';
 import 'package:pi_hole_client/screens/domains/widgets/add_domain_modal.dart';
 import 'package:pi_hole_client/screens/domains/widgets/domain_details_screen.dart';
@@ -167,6 +168,7 @@ import 'package:pi_hole_client/screens/settings/server_settings/advanced_setting
 import 'package:pi_hole_client/screens/settings/server_settings/advanced_settings/network_screen/network_detail_screen.dart';
 import 'package:pi_hole_client/screens/settings/server_settings/advanced_settings/sessions_screen.dart';
 import 'package:pi_hole_client/screens/settings/server_settings/advanced_settings/sessions_screen/session_detail_screen.dart';
+import 'package:pi_hole_client/screens/settings/server_settings/advanced_settings/sessions_screen/session_list_view.dart';
 import 'package:pi_hole_client/screens/settings/server_settings/server_info.dart';
 import 'package:pi_hole_client/screens/settings/server_settings/subscriptions.dart';
 import 'package:pi_hole_client/screens/settings/server_settings/widgets/net_interface/net_interface_section.dart';
