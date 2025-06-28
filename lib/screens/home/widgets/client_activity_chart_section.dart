@@ -6,6 +6,7 @@ import 'package:pi_hole_client/l10n/generated/app_localizations.dart';
 import 'package:pi_hole_client/models/overtime_data.dart';
 import 'package:pi_hole_client/providers/app_config_provider.dart';
 import 'package:pi_hole_client/providers/status_provider.dart';
+import 'package:pi_hole_client/screens/home/widgets/bar_chart_skeleton.dart';
 import 'package:pi_hole_client/screens/home/widgets/clients_last_hours_bar.dart';
 import 'package:pi_hole_client/screens/home/widgets/clients_last_hours_line.dart';
 import 'package:pi_hole_client/screens/home/widgets/line_chart_skeleton.dart';
@@ -95,10 +96,14 @@ class ClientActivityChartSection extends StatelessWidget {
                 width: double.maxFinite,
                 height: 350,
                 padding: const EdgeInsets.symmetric(horizontal: 16),
-                child: LineChartSkeleton(
-                  selectedTheme: appConfigProvider.selectedTheme,
-                  nums: 3,
-                ),
+                child: appConfigProvider.homeVisualizationMode == 0
+                    ? LineChartSkeleton(
+                        selectedTheme: appConfigProvider.selectedTheme,
+                      )
+                    : BarChartSkeleton(
+                        selectedTheme: appConfigProvider.selectedTheme,
+                        nums: 3,
+                      ),
               ),
             ],
           ),

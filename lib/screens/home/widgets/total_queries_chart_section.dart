@@ -5,6 +5,7 @@ import 'package:pi_hole_client/constants/responsive.dart';
 import 'package:pi_hole_client/l10n/generated/app_localizations.dart';
 import 'package:pi_hole_client/providers/app_config_provider.dart';
 import 'package:pi_hole_client/providers/status_provider.dart';
+import 'package:pi_hole_client/screens/home/widgets/bar_chart_skeleton.dart';
 import 'package:pi_hole_client/screens/home/widgets/line_chart_skeleton.dart';
 import 'package:pi_hole_client/screens/home/widgets/queries_last_hours_bar.dart';
 import 'package:pi_hole_client/screens/home/widgets/queries_last_hours_line.dart';
@@ -80,9 +81,13 @@ class TotalQueriesChartSection extends StatelessWidget {
             width: double.maxFinite,
             height: 350,
             padding: const EdgeInsets.symmetric(horizontal: 16),
-            child: LineChartSkeleton(
-              selectedTheme: appConfigProvider.selectedTheme,
-            ),
+            child: appConfigProvider.homeVisualizationMode == 0
+                ? LineChartSkeleton(
+                    selectedTheme: appConfigProvider.selectedTheme,
+                  )
+                : BarChartSkeleton(
+                    selectedTheme: appConfigProvider.selectedTheme,
+                  ),
           ),
           Skeleton.keep(
             child: Row(
