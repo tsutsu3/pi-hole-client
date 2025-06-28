@@ -166,6 +166,7 @@ import 'package:pi_hole_client/screens/settings/server_settings/advanced_setting
 import 'package:pi_hole_client/screens/settings/server_settings/advanced_settings/interface_screen/statistics_detail_screen.dart';
 import 'package:pi_hole_client/screens/settings/server_settings/advanced_settings/network_screen.dart';
 import 'package:pi_hole_client/screens/settings/server_settings/advanced_settings/network_screen/network_detail_screen.dart';
+import 'package:pi_hole_client/screens/settings/server_settings/advanced_settings/network_screen/network_list_view.dart';
 import 'package:pi_hole_client/screens/settings/server_settings/advanced_settings/sessions_screen.dart';
 import 'package:pi_hole_client/screens/settings/server_settings/advanced_settings/sessions_screen/session_detail_screen.dart';
 import 'package:pi_hole_client/screens/settings/server_settings/advanced_settings/sessions_screen/session_list_view.dart';
