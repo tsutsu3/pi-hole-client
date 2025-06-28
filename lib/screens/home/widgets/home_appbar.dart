@@ -91,7 +91,6 @@ class HomeAppBar extends StatelessWidget implements PreferredSizeWidget {
         } else {
           statusProvider.setOvertimeDataLoadingStatus(2);
         }
-        statusProvider.setIsServerConnected(true);
         await statusUpdateService.refreshOnce();
       }
 

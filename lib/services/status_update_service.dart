@@ -159,6 +159,9 @@ class StatusUpdateService {
     if (metricsResult?.result == APiResponseType.success) {
       _statusProvider.setMetricsInfo(metricsResult!.data!);
       return true;
+    } else if (metricsResult?.result == APiResponseType.notSupported) {
+      // pihole v5
+      return true;
     } else {
       return false;
     }
