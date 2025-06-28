@@ -1,7 +1,6 @@
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:pi_hole_client/config/theme.dart';
-import 'package:pi_hole_client/constants/enums.dart';
 import 'package:pi_hole_client/constants/graph.dart';
 import 'package:pi_hole_client/functions/format.dart';
 import 'package:pi_hole_client/functions/graph.dart';
