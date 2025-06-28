@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:pi_hole_client/classes/process_modal.dart';
+import 'package:pi_hole_client/constants/enums.dart';
 import 'package:pi_hole_client/constants/responsive.dart';
 import 'package:pi_hole_client/functions/conversions.dart';
 import 'package:pi_hole_client/functions/snackbar.dart';
@@ -120,9 +121,9 @@ class _ServersTileItemState extends State<ServersTileItem>
         final overtimeDataResult = await apiGateway?.fetchOverTimeData();
         if (overtimeDataResult?.result == APiResponseType.success) {
           statusProvider.setOvertimeData(overtimeDataResult!.data!);
-          statusProvider.setOvertimeDataLoadingStatus(1);
+          statusProvider.setOvertimeDataLoadingStatus(LoadStatus.loaded);
         } else {
-          statusProvider.setOvertimeDataLoadingStatus(2);
+          statusProvider.setOvertimeDataLoadingStatus(LoadStatus.error);
         }
         statusProvider.setIsServerConnected(true);
         statusUpdateService.startAutoRefresh();

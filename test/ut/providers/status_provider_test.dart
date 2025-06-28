@@ -128,7 +128,7 @@ void main() {
     test(
       'setOvertimeDataLoadingStatus updates value and notifies listeners',
       () {
-        statusProvider.setOvertimeDataLoadingStatus(1);
+        statusProvider.setOvertimeDataLoadingStatus(LoadStatus.loaded);
         expect(statusProvider.getOvertimeDataLoadStatus, 1);
         expect(listenerCalled, true);
       },

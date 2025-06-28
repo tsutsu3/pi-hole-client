@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:pi_hole_client/config/theme.dart';
+import 'package:pi_hole_client/constants/enums.dart';
 import 'package:pi_hole_client/constants/responsive.dart';
 import 'package:pi_hole_client/l10n/generated/app_localizations.dart';
 import 'package:pi_hole_client/models/overtime_data.dart';
@@ -89,7 +90,7 @@ class HomeCharts extends StatelessWidget {
     }
 
     switch (statusProvider.getOvertimeDataLoadStatus) {
-      case 0:
+      case LoadStatus.loading:
         return SizedBox(
           width: double.maxFinite,
           height: 280,
@@ -109,7 +110,7 @@ class HomeCharts extends StatelessWidget {
           ),
         );
 
-      case 1:
+      case LoadStatus.loaded:
         return Wrap(
           children: [
             FractionallySizedBox(
@@ -282,7 +283,7 @@ class HomeCharts extends StatelessWidget {
           ],
         );
 
-      case 2:
+      case LoadStatus.error:
         return SizedBox(
           width: double.maxFinite,
           height: 280,
@@ -305,9 +306,6 @@ class HomeCharts extends StatelessWidget {
             ],
           ),
         );
-
-      default:
-        return const SizedBox();
     }
   }
 }

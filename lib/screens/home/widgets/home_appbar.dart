@@ -28,6 +28,8 @@ class HomeAppBar extends StatelessWidget implements PreferredSizeWidget {
     final appConfigProvider = Provider.of<AppConfigProvider>(context);
 
     Future<void> refresh() async {
+      statusProvider.setStatusLoading(LoadStatus.loading);
+
       final process = ProcessModal(context: context);
       process.open(AppLocalizations.of(context)!.refreshingData);
       final result = await serversProvider.selectedApiGateway
@@ -67,6 +69,9 @@ class HomeAppBar extends StatelessWidget implements PreferredSizeWidget {
     Future<void> connectToServer(Server server) async {
       final statusUpdateService = context.read<StatusUpdateService>();
 
+      statusProvider.setStatusLoading(LoadStatus.loading);
+      statusProvider.setOvertimeDataLoadingStatus(LoadStatus.loading);
+
       Future<dynamic> connectSuccess(result) async {
         serversProvider.setselectedServer(
           server: Server(
@@ -87,9 +92,9 @@ class HomeAppBar extends StatelessWidget implements PreferredSizeWidget {
             await serversProvider.selectedApiGateway?.fetchOverTimeData();
         if (overtimeDataResult?.result == APiResponseType.success) {
           statusProvider.setOvertimeData(overtimeDataResult!.data!);
-          statusProvider.setOvertimeDataLoadingStatus(1);
+          statusProvider.setOvertimeDataLoadingStatus(LoadStatus.loaded);
         } else {
-          statusProvider.setOvertimeDataLoadingStatus(2);
+          statusProvider.setOvertimeDataLoadingStatus(LoadStatus.error);
         }
         await statusUpdateService.refreshOnce();
       }
