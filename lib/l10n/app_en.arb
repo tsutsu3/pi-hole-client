@@ -221,6 +221,7 @@
   "eraseAppData": "Erase app data",
   "eraseWarning": "Warning! This action will reset the application and remove all its data.\n\nAre you sure you want to continue?",
   "erasesAppData": "Erases all application data",
+  "error": "Error",
   "errorRemovingAdlist": "Error when removing adlist",
   "errorRemovingDevice": "Error when removing device",
   "errorRemovingDomain": "Error when removing domain",

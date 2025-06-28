@@ -222,6 +222,7 @@
   "eraseAppData": "Eliminar datos de la app",
   "eraseWarning": "¡Advertencia! Esta acción reseteará la aplicación y eliminará todos los datos.\n\n¿Estás seguro de que deseas continuar?",
   "erasesAppData": "Borra todos los datos de la aplicación",
+  "error": "Error",
   "errorRemovingAdlist": "Error al eliminar la Adlist",
   "errorRemovingDevice": "Error al eliminar el dispositivo",
   "errorRemovingDomain": "No se ha podido eliminar el dominio",

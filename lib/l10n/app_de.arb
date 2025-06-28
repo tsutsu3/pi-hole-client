@@ -221,6 +221,7 @@
   "eraseAppData": "App-Daten löschen",
   "eraseWarning": "Warnung! Diese Aktion wird alles zurücksetzen und alle Daten der App werden gelöscht.\n\nSind Sie sicher, dass Sie fortfahren wollen?",
   "erasesAppData": "Alle App-Daten löschen",
+  "error": "Fehler",
   "errorRemovingAdlist": "Fehler beim Entfernen der Adlist",
   "errorRemovingDevice": "Fehler beim Entfernen des Geräts",
   "errorRemovingDomain": "Fehler beim Entfernen der Domain",

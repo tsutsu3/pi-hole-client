@@ -718,6 +718,9 @@ class AppLocalizationsDe extends AppLocalizations {
   String get erasesAppData => 'Alle App-Daten löschen';
 
   @override
+  String get error => 'Fehler';
+
+  @override
   String get errorRemovingAdlist => 'Fehler beim Entfernen der Adlist';
 
   @override

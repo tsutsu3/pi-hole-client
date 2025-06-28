@@ -1436,6 +1436,12 @@ abstract class AppLocalizations {
   /// **'Erases all application data'**
   String get erasesAppData;
 
+  /// No description provided for @error.
+  ///
+  /// In en, this message translates to:
+  /// **'Error'**
+  String get error;
+
   /// No description provided for @errorRemovingAdlist.
   ///
   /// In en, this message translates to:

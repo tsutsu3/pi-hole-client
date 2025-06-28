@@ -221,6 +221,7 @@
   "eraseAppData": "Usuń dane aplikacji",
   "eraseWarning": "Ostrzeżenie! Ta czynność zresetuje aplikację i usunie wszystkie jej dane.\n\nCzy na pewno chcesz kontynuować?",
   "erasesAppData": "Usuwa wszystkie dane aplikacji",
+  "error": "Błąd",
   "errorRemovingAdlist": "Błąd podczas usuwania Adlist",
   "errorRemovingDevice": "Błąd podczas usuwania urządzenia",
   "errorRemovingDomain": "Błąd podczas usuwania domeny",

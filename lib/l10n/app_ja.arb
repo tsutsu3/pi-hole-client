@@ -221,6 +221,7 @@
   "eraseAppData": "アプリデータを消去",
   "eraseWarning": "警告！この操作はアプリケーションをリセットし、全てのデータを削除します。\n\n本当に続行しますか？",
   "erasesAppData": "全てのアプリケーションデータを削除",
+  "error": "エラー",
   "errorRemovingAdlist": "Adlistの削除中にエラーが発生しました",
   "errorRemovingDevice": "デバイスの削除中にエラーが発生しました",
   "errorRemovingDomain": "ドメイン削除時にエラーが発生しました",

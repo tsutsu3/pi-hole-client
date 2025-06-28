@@ -700,6 +700,9 @@ class AppLocalizationsPl extends AppLocalizations {
   String get erasesAppData => 'Usuwa wszystkie dane aplikacji';
 
   @override
+  String get error => 'Błąd';
+
+  @override
   String get errorRemovingAdlist => 'Błąd podczas usuwania Adlist';
 
   @override

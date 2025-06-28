@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:pi_hole_client/constants/enums.dart';
 import 'package:pi_hole_client/constants/responsive.dart';
+import 'package:pi_hole_client/l10n/generated/app_localizations.dart';
+import 'package:skeletonizer/skeletonizer.dart';
 
 /// Displays a status metric in a responsive tile.
 ///
@@ -13,6 +16,7 @@ import 'package:pi_hole_client/constants/responsive.dart';
 /// - `label`: The label to display in the card.
 /// - `value`: The value to display in the card.
 /// - `width`: The width of the card.
+/// - `loadStatus`: The load state (loading, loaded, error)
 class HomeTileItem extends StatelessWidget {
   const HomeTileItem({
     required this.icon,
@@ -21,6 +25,7 @@ class HomeTileItem extends StatelessWidget {
     required this.label,
     required this.value,
     required this.width,
+    this.loadStatus = LoadStatus.loading,
     super.key,
   });
 
@@ -30,6 +35,7 @@ class HomeTileItem extends StatelessWidget {
   final String label;
   final String value;
   final double width;
+  final LoadStatus loadStatus;
 
   @override
   Widget build(BuildContext context) {
@@ -37,93 +43,95 @@ class HomeTileItem extends StatelessWidget {
       widthFactor: width > ResponsiveConstants.medium ? 0.25 : 0.5,
       child: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 8),
-        child: HomeTile(
-          icon: icon,
-          iconColor: iconColor,
-          color: color,
-          label: label,
-          value: value,
-        ),
-      ),
-    );
-  }
-}
-
-class HomeTile extends StatelessWidget {
-  const HomeTile({
-    required this.icon,
-    required this.iconColor,
-    required this.color,
-    required this.label,
-    required this.value,
-    super.key,
-  });
-
-  final IconData icon;
-  final Color iconColor;
-  final Color color;
-  final String label;
-  final String value;
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(10),
-        color: color,
-      ),
-      child: Stack(
-        children: [
-          Container(
-            height: 100,
-            padding: const EdgeInsets.only(left: 10),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Icon(
-                  icon,
-                  size: 65,
-                  color: iconColor,
-                ),
-              ],
-            ),
+        child: Container(
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(10),
+            color: color,
           ),
-          Container(
-            height: 100,
-            padding: const EdgeInsets.all(10),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.end,
-              children: [
-                Flexible(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.end,
-                    mainAxisAlignment: MainAxisAlignment.spaceAround,
-                    children: [
-                      Flexible(
-                        child: Text(
-                          label,
-                          textAlign: TextAlign.end,
-                          style: const TextStyle(
-                            color: Colors.white,
-                            fontSize: 14,
+          child: Stack(
+            children: [
+              Container(
+                height: 100,
+                padding: const EdgeInsets.only(left: 10),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Icon(
+                      icon,
+                      size: 65,
+                      color: iconColor,
+                    ),
+                  ],
+                ),
+              ),
+              Container(
+                height: 100,
+                padding: const EdgeInsets.all(10),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  children: [
+                    Flexible(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.end,
+                        mainAxisAlignment: MainAxisAlignment.spaceAround,
+                        children: [
+                          Flexible(
+                            child: Text(
+                              label,
+                              textAlign: TextAlign.end,
+                              style: const TextStyle(
+                                color: Colors.white,
+                                fontSize: 14,
+                              ),
+                            ),
                           ),
-                        ),
+                          if (loadStatus == LoadStatus.error)
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.end,
+                              children: [
+                                const Icon(
+                                  Icons.warning_amber_rounded,
+                                  size: 24,
+                                  color: Colors.white,
+                                ),
+                                const SizedBox(width: 4),
+                                Text(
+                                  AppLocalizations.of(context)!.error,
+                                  style: const TextStyle(
+                                    color: Colors.white,
+                                    fontStyle: FontStyle.italic,
+                                    fontSize: 24,
+                                    fontWeight: FontWeight.w500,
+                                  ),
+                                ),
+                              ],
+                            )
+                          else
+                            Skeletonizer(
+                              enabled: loadStatus == LoadStatus.loading,
+                              effect: ShimmerEffect(
+                                baseColor: Colors.white.withValues(alpha: 0.4),
+                                highlightColor:
+                                    Colors.white.withValues(alpha: 0.8),
+                              ),
+                              child: Text(
+                                value,
+                                style: const TextStyle(
+                                  color: Colors.white,
+                                  fontSize: 24,
+                                  fontWeight: FontWeight.w500,
+                                ),
+                              ),
+                            ),
+                        ],
                       ),
-                      Text(
-                        value,
-                        style: const TextStyle(
-                          color: Colors.white,
-                          fontSize: 24,
-                          fontWeight: FontWeight.w500,
-                        ),
-                      ),
-                    ],
-                  ),
+                    ),
+                  ],
                 ),
-              ],
-            ),
+              ),
+            ],
           ),
-        ],
+        ),
       ),
     );
   }

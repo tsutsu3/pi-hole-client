@@ -680,6 +680,9 @@ class AppLocalizationsJa extends AppLocalizations {
   String get erasesAppData => '全てのアプリケーションデータを削除';
 
   @override
+  String get error => 'エラー';
+
+  @override
   String get errorRemovingAdlist => 'Adlistの削除中にエラーが発生しました';
 
   @override
