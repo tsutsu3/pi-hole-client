@@ -14,58 +14,21 @@ import 'package:pi_hole_client/screens/statistics/no_data_chart.dart';
 import 'package:pi_hole_client/widgets/section_label.dart';
 import 'package:provider/provider.dart';
 
+/// A responsive widget that displays two types of Pi-hole charts:
+/// - Total queries and ads over time
+/// - Client activity over time
+///
+/// This widget reacts to the current [LoadStatus] from [StatusProvider]:
+/// - Shows a loading spinner while data is loading
+/// - Shows chart visualizations when data is loaded
+/// - Displays an error icon and message if loading fails
+///
+/// It also includes logic to handle:
+/// - Conditional rendering based on available data
+/// - Responsive layout between full-width and half-width charts
+/// - Graph color assignment based on clients' IP addresses
 class HomeCharts extends StatelessWidget {
   const HomeCharts({super.key});
-
-  bool checkExistsData(Map<String, dynamic> data) {
-    var exists = false;
-    for (final element in data.keys) {
-      if (data[element] > 0) {
-        exists = true;
-        break;
-      }
-    }
-    return exists;
-  }
-
-  Widget _buildQueriesGraph(
-    AppConfigProvider appConfigProvider,
-    StatusProvider statusProvider,
-  ) {
-    if (appConfigProvider.homeVisualizationMode == 0) {
-      return QueriesLastHoursLine(
-        data: statusProvider.getOvertimeDataJson!,
-        reducedData: appConfigProvider.reducedDataCharts,
-      );
-    } else {
-      return QueriesLastHoursBar(
-        data: statusProvider.getOvertimeDataJson!,
-        reducedData: appConfigProvider.reducedDataCharts,
-      );
-    }
-  }
-
-  Widget _buildClientsGraph(
-    AppConfigProvider appConfigProvider,
-    StatusProvider statusProvider,
-    List<String> clientsListIps,
-  ) {
-    if (appConfigProvider.homeVisualizationMode == 0) {
-      return ClientsLastHoursLine(
-        realtimeListIps: clientsListIps,
-        data: statusProvider.getOvertimeDataJson!,
-        reducedData: appConfigProvider.reducedDataCharts,
-        hideZeroValues: appConfigProvider.hideZeroValues,
-      );
-    } else {
-      return ClientsLastHoursBar(
-        realtimeListIps: clientsListIps,
-        data: statusProvider.getOvertimeDataJson!,
-        reducedData: appConfigProvider.reducedDataCharts,
-        hideZeroValues: appConfigProvider.hideZeroValues,
-      );
-    }
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -115,11 +78,11 @@ class HomeCharts extends StatelessWidget {
           children: [
             FractionallySizedBox(
               widthFactor: width > ResponsiveConstants.medium ? 0.5 : 1,
-              child: checkExistsData(
+              child: _checkExistsData(
                         statusProvider
                             .getOvertimeDataJson!['domains_over_time'],
                       ) ||
-                      checkExistsData(
+                      _checkExistsData(
                         statusProvider.getOvertimeDataJson!['ads_over_time'],
                       )
                   ? Column(
@@ -306,6 +269,76 @@ class HomeCharts extends StatelessWidget {
             ],
           ),
         );
+    }
+  }
+
+  /// Checks whether any value in the given [data] map is greater than 0.
+  ///
+  /// Returns `true` if at least one non-zero value exists; otherwise `false`.
+  ///
+  /// Used to determine if sufficient data exists to render a chart.
+  bool _checkExistsData(Map<String, dynamic> data) {
+    var exists = false;
+    for (final element in data.keys) {
+      if (data[element] > 0) {
+        exists = true;
+        break;
+      }
+    }
+    return exists;
+  }
+
+  /// Builds the chart widget for total and blocked queries over the last 24 hours.
+  ///
+  /// The chart type (line or bar) is selected based on
+  /// appConfigProvider.homeVisualizationMode.
+  ///
+  /// Returns either a [QueriesLastHoursLine] or [QueriesLastHoursBar].
+  Widget _buildQueriesGraph(
+    AppConfigProvider appConfigProvider,
+    StatusProvider statusProvider,
+  ) {
+    if (appConfigProvider.homeVisualizationMode == 0) {
+      return QueriesLastHoursLine(
+        data: statusProvider.getOvertimeDataJson!,
+        reducedData: appConfigProvider.reducedDataCharts,
+      );
+    } else {
+      return QueriesLastHoursBar(
+        data: statusProvider.getOvertimeDataJson!,
+        reducedData: appConfigProvider.reducedDataCharts,
+      );
+    }
+  }
+
+  /// Builds the chart widget for client activity over the last 24 hours.
+  ///
+  /// The chart type (line or bar) is selected based on
+  /// appConfigProvider.homeVisualizationMode.
+  ///
+  /// The chart also accounts for configuration settings like
+  /// hideZeroValues and applies colors dynamically by IP.
+  ///
+  /// Returns either a [ClientsLastHoursLine] or [ClientsLastHoursBar].
+  Widget _buildClientsGraph(
+    AppConfigProvider appConfigProvider,
+    StatusProvider statusProvider,
+    List<String> clientsListIps,
+  ) {
+    if (appConfigProvider.homeVisualizationMode == 0) {
+      return ClientsLastHoursLine(
+        realtimeListIps: clientsListIps,
+        data: statusProvider.getOvertimeDataJson!,
+        reducedData: appConfigProvider.reducedDataCharts,
+        hideZeroValues: appConfigProvider.hideZeroValues,
+      );
+    } else {
+      return ClientsLastHoursBar(
+        realtimeListIps: clientsListIps,
+        data: statusProvider.getOvertimeDataJson!,
+        reducedData: appConfigProvider.reducedDataCharts,
+        hideZeroValues: appConfigProvider.hideZeroValues,
+      );
     }
   }
 }
