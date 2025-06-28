@@ -126,9 +126,6 @@ class SessionListView extends StatelessWidget {
         iconColor = theme.queryGrey ?? Colors.grey;
         statusText = AppLocalizations.of(context)!.off;
       case TlsStatus.login:
-        iconData = Icons.lock_rounded;
-        iconColor = theme.queryGreen ?? Colors.green;
-        statusText = AppLocalizations.of(context)!.on;
       case TlsStatus.mixed:
         iconData = Icons.lock_rounded;
         iconColor = theme.queryGreen ?? Colors.green;
