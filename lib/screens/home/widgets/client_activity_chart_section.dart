@@ -88,6 +88,7 @@ class ClientActivityChartSection extends StatelessWidget {
                 padding: const EdgeInsets.symmetric(horizontal: 16),
                 child: ChartSkeleton(
                   selectedTheme: appConfigProvider.selectedTheme,
+                  nums: 3,
                 ),
               ),
             ],

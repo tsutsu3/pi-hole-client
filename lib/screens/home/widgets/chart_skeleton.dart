@@ -9,10 +9,12 @@ import 'package:skeletonizer/skeletonizer.dart';
 class ChartSkeleton extends StatefulWidget {
   const ChartSkeleton({
     required this.selectedTheme,
+    this.nums = 2,
     super.key,
   });
 
   final ThemeMode selectedTheme;
+  final int nums;
 
   @override
   State<ChartSkeleton> createState() => _ChartSkeletonState();
@@ -21,10 +23,8 @@ class ChartSkeleton extends StatefulWidget {
 class _ChartSkeletonState extends State<ChartSkeleton>
     with SingleTickerProviderStateMixin {
   late AnimationController _controller;
-  late final double _waveOffset1;
-  late final double _waveOffset2;
-  late final double _scale1;
-  late final double _scale2;
+  late final List<double> _waveOffsets;
+  late final List<double> _scales;
 
   final _pointCount = 40;
   final _maxY = 100.0;
@@ -38,10 +38,9 @@ class _ChartSkeletonState extends State<ChartSkeleton>
     )..repeat();
 
     final rand = Random();
-    _waveOffset1 = rand.nextDouble() * 2 * pi;
-    _waveOffset2 = rand.nextDouble() * 2 * pi;
-    _scale1 = 1.0 + rand.nextDouble() * 0.5; // 1.0 to 1.5 scale
-    _scale2 = 0.8 + rand.nextDouble() * 0.4; // 0.8 to 1.2 scale
+    _waveOffsets =
+        List.generate(widget.nums, (_) => rand.nextDouble() * 2 * pi);
+    _scales = List.generate(widget.nums, (_) => 0.8 + rand.nextDouble() * 1);
   }
 
   @override
@@ -106,36 +105,22 @@ class _ChartSkeletonState extends State<ChartSkeleton>
         minY: 0,
         maxY: _maxY,
         lineBarsData: [
-          LineChartBarData(
-            spots: _generateWavePoints(time, _waveOffset1, _scale1, 0),
-            color: Theme.of(context).extension<GraphColors>()!.getColor(0),
-            isCurved: true,
-            dotData: const FlDotData(
-              show: false,
+          for (int i = 0; i < widget.nums; i++)
+            LineChartBarData(
+              spots: _generateWavePoints(time, _waveOffsets[i], _scales[i], i),
+              color: Theme.of(context).extension<GraphColors>()!.getColor(i),
+              isCurved: true,
+              dotData: const FlDotData(
+                show: false,
+              ),
+              belowBarData: BarAreaData(
+                show: true,
+                color: Theme.of(context)
+                    .extension<GraphColors>()!
+                    .getColor(i)
+                    .withValues(alpha: 0.2),
+              ),
             ),
-            belowBarData: BarAreaData(
-              show: true,
-              color: Theme.of(context)
-                  .extension<GraphColors>()!
-                  .getColor(0)
-                  .withValues(alpha: 0.2),
-            ),
-          ),
-          LineChartBarData(
-            spots: _generateWavePoints(time, _waveOffset2, _scale2, 1),
-            color: Theme.of(context).extension<GraphColors>()!.getColor(3),
-            isCurved: true,
-            dotData: const FlDotData(
-              show: false,
-            ),
-            belowBarData: BarAreaData(
-              show: true,
-              color: Theme.of(context)
-                  .extension<GraphColors>()!
-                  .getColor(3)
-                  .withValues(alpha: 0.2),
-            ),
-          ),
         ],
         gridData: FlGridData(
           drawVerticalLine: false,
