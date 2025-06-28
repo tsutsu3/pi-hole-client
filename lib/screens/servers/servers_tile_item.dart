@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:pi_hole_client/classes/process_modal.dart';
 import 'package:pi_hole_client/constants/enums.dart';
@@ -89,66 +91,6 @@ class _ServersTileItemState extends State<ServersTileItem>
           );
         }
       });
-    }
-
-    /// Connect to the server button
-    Future<void> connectToServer(Server server) async {
-      final statusUpdateService = context.read<StatusUpdateService>();
-
-      Future<dynamic> connectSuccess(result) async {
-        // appScreensNotSelected Layout only. Go to settings
-        if (serversProvider.selectedServer == null &&
-            appConfigProvider.selectedTab == 1) {
-          appConfigProvider.setSelectedTab(4);
-        }
-
-        serversProvider.setselectedServer(
-          server: Server(
-            address: server.address,
-            alias: server.alias,
-            defaultServer: server.defaultServer,
-            apiVersion: server.apiVersion,
-            enabled: result.status == 'enabled' ? true : false,
-            allowSelfSignedCert: server.allowSelfSignedCert,
-            sm: server.sm,
-          ),
-        );
-        final apiGateway = serversProvider.selectedApiGateway;
-        final statusResult = await apiGateway?.realtimeStatus(clientCount: 0);
-        if (statusResult?.result == APiResponseType.success) {
-          statusProvider.setRealtimeStatus(statusResult!.data!);
-        }
-        final overtimeDataResult = await apiGateway?.fetchOverTimeData();
-        if (overtimeDataResult?.result == APiResponseType.success) {
-          statusProvider.setOvertimeData(overtimeDataResult!.data!);
-          statusProvider.setOvertimeDataLoadingStatus(LoadStatus.loaded);
-        } else {
-          statusProvider.setOvertimeDataLoadingStatus(LoadStatus.error);
-        }
-        statusProvider.setIsServerConnected(true);
-        statusUpdateService.startAutoRefresh();
-        await statusUpdateService.refreshOnce();
-      }
-
-      await serversProvider.resetSelectedServer();
-      if (!context.mounted) return;
-      final process = ProcessModal(context: context);
-      process.open(AppLocalizations.of(context)!.connecting);
-
-      final result = await serversProvider.loadApiGateway(server)?.loginQuery();
-      if (result?.result == APiResponseType.success) {
-        await connectSuccess(result);
-        process.close();
-      } else {
-        process.close();
-
-        if (!context.mounted) return;
-        showErrorSnackBar(
-          context: context,
-          appConfigProvider: appConfigProvider,
-          label: AppLocalizations.of(context)!.cannotConnect,
-        );
-      }
     }
 
     /// Set default server
@@ -375,7 +317,13 @@ class _ServersTileItemState extends State<ServersTileItem>
                         margin: const EdgeInsets.only(right: 10),
                         child: FilledButton.icon(
                           icon: const Icon(Icons.login),
-                          onPressed: () => connectToServer(server),
+                          onPressed: () => _connectToServer(
+                            context,
+                            appConfigProvider,
+                            serversProvider,
+                            statusProvider,
+                            server,
+                          ),
                           label: Text(AppLocalizations.of(context)!.connect),
                         ),
                       ),
@@ -427,5 +375,113 @@ class _ServersTileItemState extends State<ServersTileItem>
         ),
       ),
     );
+  }
+
+  /// Connect to the server button
+  Future<void> _connectToServer(
+    BuildContext context,
+    AppConfigProvider appConfigProvider,
+    ServersProvider serversProvider,
+    StatusProvider statusProvider,
+    Server server,
+  ) async {
+    final statusUpdateService = context.read<StatusUpdateService>();
+
+    // 1. Reset selected server
+    await serversProvider.resetSelectedServer();
+    if (!context.mounted) return;
+
+    // 2. Login to the server
+    final process = ProcessModal(context: context);
+    process.open(AppLocalizations.of(context)!.connecting);
+    final result = await serversProvider.loadApiGateway(server)?.loginQuery();
+
+    if (result?.result == APiResponseType.success) {
+      process.close();
+      if (!context.mounted) return;
+
+      showSuccessSnackBar(
+        context: context,
+        appConfigProvider: appConfigProvider,
+        label: AppLocalizations.of(context)!.connectedSuccessfully,
+      );
+
+      // appScreensNotSelected Layout only. Go to settings
+      if (serversProvider.selectedServer == null &&
+          appConfigProvider.selectedTab == 1) {
+        appConfigProvider.setSelectedTab(4);
+      }
+
+      serversProvider.setselectedServer(
+        server: Server(
+          address: server.address,
+          alias: server.alias,
+          defaultServer: server.defaultServer,
+          apiVersion: server.apiVersion,
+          enabled: result!.status == 'enabled',
+          allowSelfSignedCert: server.allowSelfSignedCert,
+          sm: server.sm,
+        ),
+      );
+
+      // Run background task to handle get data
+      unawaited(
+        _handleConnectionSetup(
+          serversProvider: serversProvider,
+          statusProvider: statusProvider,
+          statusUpdateService: statusUpdateService,
+        ),
+      );
+    } else {
+      process.close();
+      if (!context.mounted) return;
+      showErrorSnackBar(
+        context: context,
+        appConfigProvider: appConfigProvider,
+        label: AppLocalizations.of(context)!.cannotConnect,
+      );
+    }
+  }
+
+  /// Initializes status-related data after a successful server connection.
+  ///
+  /// This method performs the following steps:
+  /// 1. Sets the loading status for overtime data.
+  /// 2. Retrieves the current realtime status from the API and updates the provider.
+  /// 3. Fetches the 24-hour overtime chart data and updates the provider.
+  ///    - If the API call fails, the status is marked as error.
+  /// 4. Marks the server as connected in the [StatusProvider].
+  /// 5. Starts the periodic auto-refresh using [StatusUpdateService].
+  ///
+  /// This should be called immediately after a successful login/authentication.
+  ///
+  /// Parameters:
+  /// - [serversProvider]: Provider that holds the current server and API access.
+  /// - [statusProvider]: Provider that manages server connection status and statistics.
+  /// - [statusUpdateService]: Manages auto-refresh and polling.
+  Future<void> _handleConnectionSetup({
+    required ServersProvider serversProvider,
+    required StatusProvider statusProvider,
+    required StatusUpdateService statusUpdateService,
+  }) async {
+    statusProvider.setOvertimeDataLoadingStatus(LoadStatus.loading);
+
+    final apiGateway = serversProvider.selectedApiGateway;
+
+    final statusResult = await apiGateway?.realtimeStatus(clientCount: 0);
+    if (statusResult?.result == APiResponseType.success) {
+      statusProvider.setRealtimeStatus(statusResult!.data!);
+    }
+
+    final overtimeDataResult = await apiGateway?.fetchOverTimeData();
+    if (overtimeDataResult?.result == APiResponseType.success) {
+      statusProvider.setOvertimeData(overtimeDataResult!.data!);
+      statusProvider.setOvertimeDataLoadingStatus(LoadStatus.loaded);
+    } else {
+      statusProvider.setOvertimeDataLoadingStatus(LoadStatus.error);
+    }
+
+    statusProvider.setIsServerConnected(true);
+    statusUpdateService.startAutoRefresh();
   }
 }
