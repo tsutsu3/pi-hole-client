@@ -1,10 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:pi_hole_client/classes/custom_scroll_behavior.dart';
 import 'package:pi_hole_client/classes/process_modal.dart';
-import 'package:pi_hole_client/config/theme.dart';
 import 'package:pi_hole_client/constants/enums.dart';
-import 'package:pi_hole_client/constants/formats.dart';
-import 'package:pi_hole_client/functions/format.dart';
 import 'package:pi_hole_client/functions/logger.dart';
 import 'package:pi_hole_client/functions/snackbar.dart';
 import 'package:pi_hole_client/gateways/api_gateway_interface.dart';
@@ -15,8 +12,27 @@ import 'package:pi_hole_client/providers/app_config_provider.dart';
 import 'package:pi_hole_client/providers/servers_provider.dart';
 import 'package:pi_hole_client/screens/common/empty_data_screen.dart';
 import 'package:pi_hole_client/screens/settings/server_settings/advanced_settings/sessions_screen/session_detail_screen.dart';
+import 'package:pi_hole_client/screens/settings/server_settings/advanced_settings/sessions_screen/session_list_view.dart';
 import 'package:pi_hole_client/widgets/error_message.dart';
 import 'package:provider/provider.dart';
+import 'package:skeletonizer/skeletonizer.dart';
+
+// fake data for Skeletonizer
+final _fakeSessionInfo = SessionInfo(
+  id: 0,
+  isValid: false,
+  isCurrentSession: false,
+  tlsStatus: TlsStatus.none,
+  isApp: false,
+  isCli: false,
+  loginAt: DateTime(2025, 6, 28, 12),
+  lastActive: DateTime(2025, 6, 28, 15),
+  validUntil: DateTime(2025, 6, 28, 17),
+  clientIp: '192.168.1.100',
+  userAgent: 'Dart/3.7 (dart:io)',
+);
+final _fakeSessionsInfo =
+    SessionsInfo(sessions: List.filled(5, _fakeSessionInfo));
 
 /// A screen that displays session information to the user.
 ///
@@ -71,31 +87,8 @@ class _SessionState extends State<SessionsScreen> {
     isLoading = false;
   }
 
-  Future<void> _loadSessions() async {
-    if (!mounted) return;
-
-    setState(() {
-      isLoading = true;
-    });
-
-    final result = await apiGateway!.getSessions();
-    if (!mounted) return;
-
-    setState(() {
-      if (result.result == APiResponseType.success) {
-        sessionsInfo = result.data;
-      } else {
-        isFetchError = true;
-        logger.e('Failed to load sessions');
-      }
-      isLoading = false;
-    });
-  }
-
   @override
   Widget build(BuildContext context) {
-    final theme = Theme.of(context).extension<AppColors>()!;
-
     if (apiGateway == null) {
       return Scaffold(
         appBar: AppBar(
@@ -104,55 +97,6 @@ class _SessionState extends State<SessionsScreen> {
         body: const SafeArea(
           child: EmptyDataScreen(),
         ),
-      );
-    }
-
-    Widget buildStatusIcon(bool isValid) {
-      if (isValid) {
-        return Icon(
-          Icons.check_rounded,
-          color: theme.queryGreen,
-        );
-      }
-
-      return Icon(
-        Icons.close_rounded,
-        color: theme.queryGrey,
-      );
-    }
-
-    Widget buildTlsLine(TlsStatus tlsStatus) {
-      IconData iconData;
-      Color iconColor;
-      String statusText;
-
-      switch (tlsStatus) {
-        case TlsStatus.none:
-          iconData = Icons.no_encryption_rounded;
-          iconColor = theme.queryGrey ?? Colors.grey;
-          statusText = AppLocalizations.of(context)!.off;
-        case TlsStatus.login:
-          iconData = Icons.lock_rounded;
-          iconColor = theme.queryGreen ?? Colors.green;
-          statusText = AppLocalizations.of(context)!.on;
-        case TlsStatus.mixed:
-          iconData = Icons.lock_rounded;
-          iconColor = theme.queryGreen ?? Colors.green;
-          statusText = AppLocalizations.of(context)!.on;
-      }
-
-      return Row(
-        children: [
-          Icon(iconData, size: 14, color: iconColor),
-          const SizedBox(width: 4),
-          Text(
-            'TLS: $statusText',
-            style: TextStyle(
-              fontSize: 12,
-              color: iconColor,
-            ),
-          ),
-        ],
       );
     }
 
@@ -204,8 +148,15 @@ class _SessionState extends State<SessionsScreen> {
           child: Builder(
             builder: (context) {
               if (isLoading) {
-                return const Center(
-                  child: CircularProgressIndicator(),
+                return Skeletonizer(
+                  effect: ShimmerEffect(
+                    baseColor: Theme.of(context).colorScheme.secondaryContainer,
+                    highlightColor: Theme.of(context).colorScheme.surface,
+                  ),
+                  child: SessionListView(
+                    sessionsInfo: _fakeSessionsInfo,
+                    onSessionTap: (session) {},
+                  ),
                 );
               }
 
@@ -219,53 +170,20 @@ class _SessionState extends State<SessionsScreen> {
                 return const EmptyDataScreen();
               }
 
-              return ListView.builder(
-                padding: const EdgeInsets.only(top: 32),
-                itemCount: sessionsInfo!.sessions.length,
-                itemBuilder: (context, index) {
-                  final session = sessionsInfo!.sessions[index];
-                  return ListTile(
-                    leading: buildStatusIcon(session.isValid),
-                    title: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        buildTlsLine(session.tlsStatus),
-                        Text(
-                          session.clientIp,
-                          style: const TextStyle(
-                            fontSize: 16,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-                      ],
-                    ),
-                    subtitle: Text(
-                      formatTimestamp(
-                        session.validUntil,
-                        kUnifiedDateTimeLogFormat,
+              return SessionListView(
+                sessionsInfo: sessionsInfo!,
+                onSessionTap: (session) {
+                  setState(() {
+                    selectedSession = session;
+                  });
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => SessionDetailScreen(
+                        session: session,
+                        onDelete: removeSession,
                       ),
                     ),
-                    trailing: session.isCurrentSession
-                        ? Chip(
-                            avatar: const Icon(Icons.star_rounded),
-                            label: Text(AppLocalizations.of(context)!.inUse),
-                          )
-                        : null,
-                    onTap: () {
-                      setState(() {
-                        selectedSession = session;
-                      });
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => SessionDetailScreen(
-                            session: session,
-                            onDelete: removeSession,
-                          ),
-                        ),
-                      );
-                    },
                   );
                 },
               );
@@ -274,5 +192,26 @@ class _SessionState extends State<SessionsScreen> {
         ),
       ),
     );
+  }
+
+  Future<void> _loadSessions() async {
+    if (!mounted) return;
+
+    setState(() {
+      isLoading = true;
+    });
+
+    final result = await apiGateway!.getSessions();
+    if (!mounted) return;
+
+    setState(() {
+      if (result.result == APiResponseType.success) {
+        sessionsInfo = result.data;
+      } else {
+        isFetchError = true;
+        logger.e('Failed to load sessions');
+      }
+      isLoading = false;
+    });
   }
 }
