@@ -18,7 +18,7 @@ import 'package:provider/provider.dart';
 import 'package:skeletonizer/skeletonizer.dart';
 
 // fake data for Skeletonizer
-final fakeSessionInfo = SessionInfo(
+final _fakeSessionInfo = SessionInfo(
   id: 0,
   isValid: false,
   isCurrentSession: false,
@@ -31,8 +31,8 @@ final fakeSessionInfo = SessionInfo(
   clientIp: '192.168.1.100',
   userAgent: 'Dart/3.7 (dart:io)',
 );
-final fakeSessionsInfo =
-    SessionsInfo(sessions: List.filled(5, fakeSessionInfo));
+final _fakeSessionsInfo =
+    SessionsInfo(sessions: List.filled(5, _fakeSessionInfo));
 
 /// A screen that displays session information to the user.
 ///
@@ -154,7 +154,7 @@ class _SessionState extends State<SessionsScreen> {
                     highlightColor: Theme.of(context).colorScheme.surface,
                   ),
                   child: SessionListView(
-                    sessionsInfo: fakeSessionsInfo,
+                    sessionsInfo: _fakeSessionsInfo,
                     onSessionTap: (session) {},
                   ),
                 );
