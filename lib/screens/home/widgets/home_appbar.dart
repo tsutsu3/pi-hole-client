@@ -92,7 +92,6 @@ class HomeAppBar extends StatelessWidget implements PreferredSizeWidget {
         } else {
           statusProvider.setOvertimeDataLoadingStatus(LoadStatus.error);
         }
-        await statusUpdateService.refreshOnce();
       }
 
       final result = await serversProvider.loadApiGateway(server)?.loginQuery();
