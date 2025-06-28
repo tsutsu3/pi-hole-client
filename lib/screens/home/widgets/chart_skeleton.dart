@@ -26,7 +26,7 @@ class _ChartSkeletonState extends State<ChartSkeleton>
   late final List<double> _waveOffsets;
   late final List<double> _scales;
 
-  final _pointCount = 40;
+  final _pointCount = 10;
   final _maxY = 100.0;
 
   @override
@@ -57,15 +57,15 @@ class _ChartSkeletonState extends State<ChartSkeleton>
   ) {
     return List.generate(_pointCount, (i) {
       final x = i.toDouble();
-      final t = time * 2 * pi;
+      final t = time * 1.5 * pi;
 
-      final frequency1 = 0.15 + 0.05 * variant;
-      final frequency2 = 0.25 + 0.05 * variant;
-      final timeScale = 1.0 + 0.3 * variant;
+      final frequency1 = 0.6 + 0.15 * variant;
+      final frequency2 = 0.3 + 0.05 * variant;
+      final timeScale = 1.0 + 0.2 * variant;
       const baseY = 50.0;
 
       final y = (sin(frequency1 * x - t * timeScale + offset) * 12 +
-                  cos(frequency2 * x - t * timeScale * 1.2) * 6) *
+                  cos(frequency2 * x - t * timeScale * 1.1) * 8) *
               scale +
           baseY;
 
