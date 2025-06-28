@@ -316,10 +316,8 @@ class GraphColors extends ThemeExtension<GraphColors> {
   }
 
   Color getColor(int index, [Color? defaultColor]) {
-    if (index >= 0 && index < colors.length) {
-      return colors[index];
-    }
-    return defaultColor ?? Colors.black;
+    if (colors.isEmpty) return defaultColor ?? Colors.black;
+    return colors[index % colors.length];
   }
 }
 
