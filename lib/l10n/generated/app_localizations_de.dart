@@ -1022,6 +1022,9 @@ class AppLocalizationsDe extends AppLocalizations {
       'Zeigt die Daten in einer Liste mit Labeln und Nummern auf der linken Seite, sowie einer Anzeige auf der rechten Seite.';
 
   @override
+  String get loading => 'Lädt...';
+
+  @override
   String get loadingCharts => 'Diagramme werden geladen...';
 
   @override

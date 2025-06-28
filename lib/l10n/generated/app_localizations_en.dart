@@ -1002,6 +1002,9 @@ class AppLocalizationsEn extends AppLocalizations {
       'Displays the data on a list with the label and the numeric value at the left side, and a bar at the right side.';
 
   @override
+  String get loading => 'Loading...';
+
+  @override
   String get loadingCharts => 'Loading charts...';
 
   @override

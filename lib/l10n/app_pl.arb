@@ -317,6 +317,7 @@
   "lineChart": "Wykres liniowy",
   "list": "Lista",
   "listDescription": "Wyświetla dane na liście z etykietą i wartością liczbową po lewej stronie oraz paskiem po prawej stronie.",
+  "loading": "Ładowanie...",
   "loadingCharts": "Ładowanie wykresów...",
   "loadingDomains": "Ładowanie domen...",
   "loadingList": "Ładowanie list...",

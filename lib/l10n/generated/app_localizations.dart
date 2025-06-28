@@ -2012,6 +2012,12 @@ abstract class AppLocalizations {
   /// **'Displays the data on a list with the label and the numeric value at the left side, and a bar at the right side.'**
   String get listDescription;
 
+  /// No description provided for @loading.
+  ///
+  /// In en, this message translates to:
+  /// **'Loading...'**
+  String get loading;
+
   /// No description provided for @loadingCharts.
   ///
   /// In en, this message translates to:

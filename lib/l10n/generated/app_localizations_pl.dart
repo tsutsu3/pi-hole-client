@@ -1007,6 +1007,9 @@ class AppLocalizationsPl extends AppLocalizations {
       'Wyświetla dane na liście z etykietą i wartością liczbową po lewej stronie oraz paskiem po prawej stronie.';
 
   @override
+  String get loading => 'Ładowanie...';
+
+  @override
   String get loadingCharts => 'Ładowanie wykresów...';
 
   @override

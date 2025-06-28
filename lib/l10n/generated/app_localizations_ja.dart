@@ -975,6 +975,9 @@ class AppLocalizationsJa extends AppLocalizations {
   String get listDescription => 'ラベルと数値を左側に、バーを右側に表示するリストでデータを表示します。';
 
   @override
+  String get loading => '読み込み中...';
+
+  @override
   String get loadingCharts => 'チャートを読み込み中...';
 
   @override
