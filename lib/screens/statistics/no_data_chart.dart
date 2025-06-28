@@ -14,6 +14,24 @@ class NoDataChart extends StatelessWidget {
   Widget build(BuildContext context) {
     final width = MediaQuery.of(context).size.width;
 
+    // return Column(
+    //   crossAxisAlignment: CrossAxisAlignment.start,
+    //   children: [
+    //     SectionLabel(label: topLabel),
+    //     Padding(
+    //       padding: const EdgeInsets.symmetric(horizontal: 16),
+    //       child: Container(
+    //         width: double.infinity,
+    //         height: 360,
+    //         decoration: BoxDecoration(
+    //           borderRadius: BorderRadius.circular(12),
+    //           color: Theme.of(context).colorScheme.surfaceContainerHighest,
+    //         ),
+    //       ),
+    //     ),
+    //   ],
+    // );
+
     return SizedBox(
       width: width,
       child: Column(
@@ -22,6 +40,7 @@ class NoDataChart extends StatelessWidget {
             label: topLabel,
           ),
           Container(
+            height: 360,
             width: width,
             margin: const EdgeInsets.symmetric(horizontal: 16),
             decoration: BoxDecoration(
@@ -29,11 +48,11 @@ class NoDataChart extends StatelessWidget {
                   .colorScheme
                   .surfaceTint
                   .withValues(alpha: 0.05),
-              borderRadius: BorderRadius.circular(10),
+              borderRadius: BorderRadius.circular(12),
             ),
             child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                const SizedBox(height: 80),
                 Icon(
                   Icons.show_chart_rounded,
                   size: 40,
@@ -48,7 +67,6 @@ class NoDataChart extends StatelessWidget {
                     fontSize: 14,
                   ),
                 ),
-                const SizedBox(height: 80),
               ],
             ),
           ),

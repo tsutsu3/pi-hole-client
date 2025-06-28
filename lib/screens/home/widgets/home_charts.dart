@@ -3,6 +3,7 @@ import 'package:pi_hole_client/constants/enums.dart';
 import 'package:pi_hole_client/l10n/generated/app_localizations.dart';
 import 'package:pi_hole_client/providers/app_config_provider.dart';
 import 'package:pi_hole_client/providers/status_provider.dart';
+import 'package:pi_hole_client/screens/home/widgets/chart_section_skeleton.dart';
 import 'package:pi_hole_client/screens/home/widgets/client_activity_chart_section.dart';
 import 'package:pi_hole_client/screens/home/widgets/total_queries_chart_section.dart';
 import 'package:provider/provider.dart';
@@ -38,23 +39,17 @@ class HomeCharts extends StatelessWidget {
 
     switch (statusProvider.getOvertimeDataLoadStatus) {
       case LoadStatus.loading:
-        return SizedBox(
-          width: double.maxFinite,
-          height: 280,
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              const CircularProgressIndicator(),
-              const SizedBox(height: 50),
-              Text(
-                AppLocalizations.of(context)!.loadingCharts,
-                style: TextStyle(
-                  color: Theme.of(context).colorScheme.onSurfaceVariant,
-                  fontSize: 22,
-                ),
-              ),
-            ],
-          ),
+        return Wrap(
+          children: [
+            ChartSectionSkeleton(
+              label: AppLocalizations.of(context)!.totalQueries24,
+              width: width,
+            ),
+            ChartSectionSkeleton(
+              label: AppLocalizations.of(context)!.clientActivity24,
+              width: width,
+            ),
+          ],
         );
 
       case LoadStatus.loaded:
@@ -77,7 +72,7 @@ class HomeCharts extends StatelessWidget {
       case LoadStatus.error:
         return SizedBox(
           width: double.maxFinite,
-          height: 280,
+          height: 360,
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
