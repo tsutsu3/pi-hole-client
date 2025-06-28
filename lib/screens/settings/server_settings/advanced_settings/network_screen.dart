@@ -200,23 +200,39 @@ class _NetworkState extends State<NetworkScreen> {
 
     setState(() {
       isLoading = true;
+      isFetchError = false;
     });
 
-    final result = await Future.wait<BaseInfoResponse<dynamic>>(
-      [apiGateway!.getDevices(), apiGateway!.getClient()],
-    );
-    if (!mounted) return;
+    try {
+      final result = await Future.wait<BaseInfoResponse<dynamic>>(
+        [apiGateway!.getDevices(), apiGateway!.getClient()],
+      );
+      if (!mounted) return;
 
-    setState(() {
-      if (result[0].result == APiResponseType.success &&
-          result[1].result == APiResponseType.success) {
-        devicesInfo = result[0].data;
-        currentClientIp = result[1].data?.addr;
-      } else {
-        isFetchError = true;
-        logger.e('Failed to load network devices or client info');
+      setState(() {
+        if (result[0].result == APiResponseType.success &&
+            result[1].result == APiResponseType.success) {
+          devicesInfo = result[0].data;
+          currentClientIp = result[1].data?.addr;
+        } else {
+          isFetchError = true;
+          logger.e('Failed to load network devices or client info');
+        }
+      });
+    } catch (e) {
+      logger.e('Failed to load network devices or client info', error: e);
+
+      if (mounted) {
+        setState(() {
+          isFetchError = true;
+        });
       }
-      isLoading = false;
-    });
+    } finally {
+      if (mounted) {
+        setState(() {
+          isLoading = false;
+        });
+      }
+    }
   }
 }
