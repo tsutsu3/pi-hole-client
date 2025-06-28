@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:pi_hole_client/constants/enums.dart';
-import 'package:pi_hole_client/l10n/generated/app_localizations.dart';
 import 'package:pi_hole_client/providers/app_config_provider.dart';
 import 'package:pi_hole_client/providers/status_provider.dart';
-import 'package:pi_hole_client/screens/home/widgets/chart_section_skeleton.dart';
 import 'package:pi_hole_client/screens/home/widgets/client_activity_chart_section.dart';
 import 'package:pi_hole_client/screens/home/widgets/total_queries_chart_section.dart';
 import 'package:provider/provider.dart';
@@ -37,61 +35,20 @@ class HomeCharts extends StatelessWidget {
           }).toList()
         : <String>[];
 
-    switch (statusProvider.getOvertimeDataLoadStatus) {
-      case LoadStatus.loading:
-        return Wrap(
-          children: [
-            ChartSectionSkeleton(
-              label: AppLocalizations.of(context)!.totalQueries24,
-              width: width,
-            ),
-            ChartSectionSkeleton(
-              label: AppLocalizations.of(context)!.clientActivity24,
-              width: width,
-            ),
-          ],
-        );
-
-      case LoadStatus.loaded:
-        return Wrap(
-          children: [
-            TotalQueriesChartSection(
-              width: width,
-              statusProvider: statusProvider,
-              appConfigProvider: appConfigProvider,
-            ),
-            ClientActivityChartSection(
-              width: width,
-              statusProvider: statusProvider,
-              appConfigProvider: appConfigProvider,
-              clientsListIps: clientsListIps,
-            ),
-          ],
-        );
-
-      case LoadStatus.error:
-        return SizedBox(
-          width: double.maxFinite,
-          height: 360,
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              const Icon(
-                Icons.error,
-                size: 50,
-                color: Colors.red,
-              ),
-              const SizedBox(height: 50),
-              Text(
-                AppLocalizations.of(context)!.chartsNotLoaded,
-                style: TextStyle(
-                  color: Theme.of(context).colorScheme.onSurfaceVariant,
-                  fontSize: 22,
-                ),
-              ),
-            ],
-          ),
-        );
-    }
+    return Wrap(
+      children: [
+        TotalQueriesChartSection(
+          width: width,
+          statusProvider: statusProvider,
+          appConfigProvider: appConfigProvider,
+        ),
+        ClientActivityChartSection(
+          width: width,
+          statusProvider: statusProvider,
+          appConfigProvider: appConfigProvider,
+          clientsListIps: clientsListIps,
+        ),
+      ],
+    );
   }
 }

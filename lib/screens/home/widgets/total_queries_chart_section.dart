@@ -1,13 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:pi_hole_client/config/theme.dart';
+import 'package:pi_hole_client/constants/enums.dart';
 import 'package:pi_hole_client/constants/responsive.dart';
 import 'package:pi_hole_client/l10n/generated/app_localizations.dart';
 import 'package:pi_hole_client/providers/app_config_provider.dart';
 import 'package:pi_hole_client/providers/status_provider.dart';
+import 'package:pi_hole_client/screens/home/widgets/chart_skeleton.dart';
 import 'package:pi_hole_client/screens/home/widgets/queries_last_hours_bar.dart';
 import 'package:pi_hole_client/screens/home/widgets/queries_last_hours_line.dart';
 import 'package:pi_hole_client/screens/statistics/no_data_chart.dart';
+import 'package:pi_hole_client/widgets/error_data_chart.dart';
 import 'package:pi_hole_client/widgets/section_label.dart';
+import 'package:skeletonizer/skeletonizer.dart';
 
 /// A responsive widget that renders the total DNS query statistics section.
 ///
@@ -36,44 +40,61 @@ class TotalQueriesChartSection extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final isLoading =
+        statusProvider.getOvertimeDataLoadStatus == LoadStatus.loading;
     return FractionallySizedBox(
       widthFactor: width > ResponsiveConstants.medium ? 0.5 : 1,
-      child: _hasData()
-          ? Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                SectionLabel(
-                  label: AppLocalizations.of(context)!.totalQueries24,
-                ),
-                Container(
-                  width: double.maxFinite,
-                  height: 350,
-                  padding: const EdgeInsets.symmetric(horizontal: 16),
-                  child: _buildQueriesGraph(
-                    appConfigProvider,
-                    statusProvider,
-                  ),
-                ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceAround,
-                  children: [
-                    _buildLegendDot(
-                      context,
-                      0,
-                      AppLocalizations.of(context)!.blocked,
-                    ),
-                    _buildLegendDot(
-                      context,
-                      3,
-                      AppLocalizations.of(context)!.notBlocked,
-                    ),
-                  ],
-                ),
-              ],
-            )
-          : NoDataChart(
+      child: statusProvider.getOvertimeDataLoadStatus == LoadStatus.error
+          ? ErrorDataChart(
               topLabel: AppLocalizations.of(context)!.totalQueries24,
-            ),
+            )
+          : _hasData()
+              ? Skeletonizer(
+                  enabled: isLoading,
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Skeleton.keep(
+                        child: SectionLabel(
+                          label: AppLocalizations.of(context)!.totalQueries24,
+                        ),
+                      ),
+                      Container(
+                        width: double.maxFinite,
+                        height: 350,
+                        padding: const EdgeInsets.symmetric(horizontal: 16),
+                        child: isLoading
+                            ? ChartSkeleton(
+                                selectedTheme: appConfigProvider.selectedTheme,
+                              )
+                            : _buildQueriesGraph(
+                                appConfigProvider,
+                                statusProvider,
+                              ),
+                      ),
+                      Skeleton.keep(
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceAround,
+                          children: [
+                            _buildLegendDot(
+                              context,
+                              0,
+                              AppLocalizations.of(context)!.blocked,
+                            ),
+                            _buildLegendDot(
+                              context,
+                              3,
+                              AppLocalizations.of(context)!.notBlocked,
+                            ),
+                          ],
+                        ),
+                      ),
+                    ],
+                  ),
+                )
+              : NoDataChart(
+                  topLabel: AppLocalizations.of(context)!.totalQueries24,
+                ),
     );
   }
 
