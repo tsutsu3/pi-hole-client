@@ -6,8 +6,8 @@ import 'package:pi_hole_client/config/theme.dart';
 import 'package:pi_hole_client/l10n/generated/app_localizations.dart';
 import 'package:skeletonizer/skeletonizer.dart';
 
-class ChartSkeleton extends StatefulWidget {
-  const ChartSkeleton({
+class LineChartSkeleton extends StatefulWidget {
+  const LineChartSkeleton({
     required this.selectedTheme,
     this.nums = 2,
     super.key,
@@ -17,10 +17,10 @@ class ChartSkeleton extends StatefulWidget {
   final int nums;
 
   @override
-  State<ChartSkeleton> createState() => _ChartSkeletonState();
+  State<LineChartSkeleton> createState() => _LineChartSkeletonState();
 }
 
-class _ChartSkeletonState extends State<ChartSkeleton>
+class _LineChartSkeletonState extends State<LineChartSkeleton>
     with SingleTickerProviderStateMixin {
   late AnimationController _controller;
   late final List<double> _waveOffsets;
