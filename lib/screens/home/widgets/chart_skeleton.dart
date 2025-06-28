@@ -186,8 +186,8 @@ class _ChartSkeletonState extends State<ChartSkeleton>
               padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 16),
               decoration: BoxDecoration(
                 color: Theme.of(context)
-                    .colorScheme
-                    .surface
+                    .dialogTheme
+                    .backgroundColor!
                     .withValues(alpha: 0.85),
                 borderRadius: BorderRadius.circular(12),
                 boxShadow: const [
@@ -204,7 +204,7 @@ class _ChartSkeletonState extends State<ChartSkeleton>
                     width: 28,
                     height: 28,
                     child: CircularProgressIndicator(
-                      strokeWidth: 3,
+                      strokeWidth: 4,
                       valueColor: AlwaysStoppedAnimation<Color>(
                         Theme.of(context).colorScheme.primary,
                       ),
