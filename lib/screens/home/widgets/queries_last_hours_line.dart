@@ -1,6 +1,7 @@
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:pi_hole_client/config/theme.dart';
+import 'package:pi_hole_client/constants/enums.dart';
 import 'package:pi_hole_client/constants/graph.dart';
 import 'package:pi_hole_client/functions/format.dart';
 import 'package:pi_hole_client/functions/graph.dart';
@@ -29,83 +30,7 @@ class QueriesLastHoursLine extends StatelessWidget {
   Widget build(BuildContext context) {
     final appConfigProvider = Provider.of<AppConfigProvider>(context);
 
-    /// Formats raw Pi-hole API data for use in the chart.
-    ///
-    /// - Groups domain and ad query data into `FlSpot` lists.
-    /// - Applies downsampling if [reducedData] is true.
-    /// - Generates flat lines for tooltip legend display.
-    /// - Returns structured chart data, a list of timestamps, and the top Y value.
-    ///
-    /// Returns a map with keys:
-    /// - `'data'`: contains `domains`, `ads`, and `flatLines`
-    /// - `'topPoint'`: max Y value among data
-    /// - `'time'`: list of time labels
-    /// - `'error'`: included if domain/ad data length mismatch
-    Map<String, dynamic> formatData(Map<String, dynamic> data) {
-      final domains = <FlSpot>[];
-      final ads = <FlSpot>[];
-      final flatLines = <FlSpot>[];
-
-      var xPosition = 0;
-      var topPoint = 0;
-      var tmp = 0;
-      final List<String> domainsKeys = data['domains_over_time'].keys.toList();
-      final List<String> adsKeys = data['ads_over_time'].keys.toList();
-      final interval = reducedData == true ? averageIntervalCount : 1;
-
-      if (domainsKeys.length != adsKeys.length) {
-        return {
-          'data': {'domains': [], 'ads': [], 'flatLines': []},
-          'topPoint': 0,
-          'time': [],
-          'error': 'error',
-        };
-      }
-
-      for (var i = 0;
-          i < data['domains_over_time'].entries.length;
-          i += interval) {
-        tmp = _calcTopPoint(data, domainsKeys, adsKeys, i);
-        if (tmp > topPoint) {
-          topPoint = tmp;
-        }
-        domains.add(
-          FlSpot(
-            xPosition.toDouble(),
-            data['domains_over_time'][domainsKeys[i]].toDouble() -
-                data['ads_over_time'][adsKeys[i]].toDouble(),
-          ),
-        );
-        ads.add(
-          FlSpot(
-            xPosition.toDouble(),
-            data['ads_over_time'][adsKeys[i]].toDouble(),
-          ),
-        );
-        // Dummy data for legend
-        flatLines.add(
-          FlSpot(
-            xPosition.toDouble(),
-            0.0,
-          ),
-        );
-        xPosition++;
-      }
-
-      final timestamps = <String>[];
-      final List<String> k = data['domains_over_time'].keys.toList();
-      for (var i = 0; i < k.length; i += interval) {
-        timestamps.add(k[i]);
-      }
-
-      return {
-        'data': {'domains': domains, 'ads': ads, 'flatLines': flatLines},
-        'topPoint': topPoint,
-        'time': timestamps,
-      };
-    }
-
-    final formattedData = formatData(data);
+    final formattedData = _formatData(data);
 
     if (formattedData.containsKey('error')) {
       return Center(
@@ -136,6 +61,82 @@ class QueriesLastHoursLine extends StatelessWidget {
         _mainData(formattedData, appConfigProvider.selectedTheme, context),
       ),
     );
+  }
+
+  /// Formats raw Pi-hole API data for use in the chart.
+  ///
+  /// - Groups domain and ad query data into `FlSpot` lists.
+  /// - Applies downsampling if [reducedData] is true.
+  /// - Generates flat lines for tooltip legend display.
+  /// - Returns structured chart data, a list of timestamps, and the top Y value.
+  ///
+  /// Returns a map with keys:
+  /// - `'data'`: contains `domains`, `ads`, and `flatLines`
+  /// - `'topPoint'`: max Y value among data
+  /// - `'time'`: list of time labels
+  /// - `'error'`: included if domain/ad data length mismatch
+  Map<String, dynamic> _formatData(Map<String, dynamic> data) {
+    final domains = <FlSpot>[];
+    final ads = <FlSpot>[];
+    final flatLines = <FlSpot>[];
+
+    var xPosition = 0;
+    var topPoint = 0;
+    var tmp = 0;
+    final List<String> domainsKeys = data['domains_over_time'].keys.toList();
+    final List<String> adsKeys = data['ads_over_time'].keys.toList();
+    final interval = reducedData == true ? averageIntervalCount : 1;
+
+    if (domainsKeys.length != adsKeys.length) {
+      return {
+        'data': {'domains': [], 'ads': [], 'flatLines': []},
+        'topPoint': 0,
+        'time': [],
+        'error': 'error',
+      };
+    }
+
+    for (var i = 0;
+        i < data['domains_over_time'].entries.length;
+        i += interval) {
+      tmp = _calcTopPoint(data, domainsKeys, adsKeys, i);
+      if (tmp > topPoint) {
+        topPoint = tmp;
+      }
+      domains.add(
+        FlSpot(
+          xPosition.toDouble(),
+          data['domains_over_time'][domainsKeys[i]].toDouble() -
+              data['ads_over_time'][adsKeys[i]].toDouble(),
+        ),
+      );
+      ads.add(
+        FlSpot(
+          xPosition.toDouble(),
+          data['ads_over_time'][adsKeys[i]].toDouble(),
+        ),
+      );
+      // Dummy data for legend
+      flatLines.add(
+        FlSpot(
+          xPosition.toDouble(),
+          0.0,
+        ),
+      );
+      xPosition++;
+    }
+
+    final timestamps = <String>[];
+    final List<String> k = data['domains_over_time'].keys.toList();
+    for (var i = 0; i < k.length; i += interval) {
+      timestamps.add(k[i]);
+    }
+
+    return {
+      'data': {'domains': domains, 'ads': ads, 'flatLines': flatLines},
+      'topPoint': topPoint,
+      'time': timestamps,
+    };
   }
 
   /// Generates tooltip legend entries based on touched chart points.
