@@ -1,9 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:pi_hole_client/classes/custom_scroll_behavior.dart';
 import 'package:pi_hole_client/classes/process_modal.dart';
-import 'package:pi_hole_client/config/theme.dart';
-import 'package:pi_hole_client/constants/formats.dart';
-import 'package:pi_hole_client/functions/format.dart';
 import 'package:pi_hole_client/functions/logger.dart';
 import 'package:pi_hole_client/functions/snackbar.dart';
 import 'package:pi_hole_client/gateways/api_gateway_interface.dart';
@@ -14,9 +11,35 @@ import 'package:pi_hole_client/providers/app_config_provider.dart';
 import 'package:pi_hole_client/providers/servers_provider.dart';
 import 'package:pi_hole_client/screens/common/empty_data_screen.dart';
 import 'package:pi_hole_client/screens/settings/server_settings/advanced_settings/network_screen/network_detail_screen.dart';
+import 'package:pi_hole_client/screens/settings/server_settings/advanced_settings/network_screen/network_list_view.dart';
 import 'package:pi_hole_client/widgets/error_message.dart';
 import 'package:provider/provider.dart';
+import 'package:skeletonizer/skeletonizer.dart';
 
+// fake data for Skeletonizer
+final _fakeDeviceInfo = DeviceInfo(
+  id: 0,
+  hwaddr: '00:11:22:33:44:55',
+  interface: 'eth0',
+  firstSeen: DateTime(2025, 6, 28, 10),
+  lastQuery: DateTime(2025, 6, 28, 12),
+  numQueries: 100,
+  ips: [
+    DeviceAddress(
+      ip: '192.168.1.100',
+      lastSeen: DateTime(2025, 6, 28, 12),
+      nameUpdated: DateTime(2025, 6, 28, 11),
+      name: 'Device1',
+    ),
+  ],
+  macVendor: 'ExampleVendor',
+);
+final _fakeDevicesInfo = DevicesInfo(devices: List.filled(5, _fakeDeviceInfo));
+
+/// A screen that displays network devices from the selected `ApiGateway`.
+///
+/// Loads device and client IP info, shows a device list, and supports
+/// viewing and deleting devices. Handles loading, error, and empty states.
 class NetworkScreen extends StatefulWidget {
   const NetworkScreen({super.key});
 
@@ -63,35 +86,8 @@ class _NetworkState extends State<NetworkScreen> {
     isLoading = false;
   }
 
-  Future<void> _loadDevice() async {
-    if (!mounted) return;
-
-    setState(() {
-      isLoading = true;
-    });
-
-    final result = await Future.wait<BaseInfoResponse<dynamic>>(
-      [apiGateway!.getDevices(), apiGateway!.getClient()],
-    );
-    if (!mounted) return;
-
-    setState(() {
-      if (result[0].result == APiResponseType.success &&
-          result[1].result == APiResponseType.success) {
-        devicesInfo = result[0].data;
-        currentClientIp = result[1].data?.addr;
-      } else {
-        isFetchError = true;
-        logger.e('Failed to load network devices or client info');
-      }
-      isLoading = false;
-    });
-  }
-
   @override
   Widget build(BuildContext context) {
-    final theme = Theme.of(context).extension<AppColors>()!;
-
     if (apiGateway == null) {
       return Scaffold(
         appBar: AppBar(
@@ -100,56 +96,6 @@ class _NetworkState extends State<NetworkScreen> {
         body: const SafeArea(
           child: EmptyDataScreen(),
         ),
-      );
-    }
-
-    /// Builds the status icon based on the device's last query timestamp.
-    /// - Green check: active within 24h
-    /// - Yellow warning: active within 24-48h
-    /// - Red error: inactive >48h
-    /// - Grey unknown: never active (lastQuery == UnixTime(0))
-    Widget buildStatusIcon(DateTime lastQuery) {
-      IconData iconData;
-      Color iconColor;
-
-      if (lastQuery == DateTime.fromMillisecondsSinceEpoch(0)) {
-        iconData = Icons.question_mark_rounded;
-        iconColor = theme.queryGrey ?? Colors.grey;
-      } else {
-        final now = DateTime.now();
-        final hours = now.difference(lastQuery).inHours;
-
-        if (hours < 24) {
-          iconData = Icons.check_rounded;
-          iconColor = theme.queryGreen ?? Colors.green;
-        } else if (hours < 48) {
-          iconData = Icons.access_time_rounded;
-          iconColor = theme.queryOrange ?? Colors.orange;
-        } else {
-          iconData = Icons.hourglass_bottom;
-          iconColor = theme.queryRed ?? Colors.red;
-        }
-      }
-
-      return Icon(iconData, size: 24, color: iconColor);
-    }
-
-    Widget buildDeviceTitle(DeviceInfo device) {
-      if (device.ips.isEmpty) {
-        return Text(
-          AppLocalizations.of(context)!.unknown,
-          style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
-        );
-      }
-
-      final ipLines = device.ips.map((ip) {
-        final namePart = ip.name != null ? ' (${ip.name})' : '';
-        return '${ip.ip}$namePart';
-      }).join('\n');
-
-      return Text(
-        ipLines,
-        style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
       );
     }
 
@@ -201,8 +147,16 @@ class _NetworkState extends State<NetworkScreen> {
           child: Builder(
             builder: (context) {
               if (isLoading) {
-                return const Center(
-                  child: CircularProgressIndicator(),
+                return Skeletonizer(
+                  effect: ShimmerEffect(
+                    baseColor: Theme.of(context).colorScheme.secondaryContainer,
+                    highlightColor: Theme.of(context).colorScheme.surface,
+                  ),
+                  child: NetworkListView(
+                    devicesInfo: _fakeDevicesInfo,
+                    currentClientIp: currentClientIp ?? '',
+                    onDeviceTap: (session) {},
+                  ),
                 );
               }
 
@@ -216,42 +170,21 @@ class _NetworkState extends State<NetworkScreen> {
                 return const EmptyDataScreen();
               }
 
-              return ListView.builder(
-                padding: const EdgeInsets.only(top: 32),
-                itemCount: devicesInfo!.devices.length,
-                itemBuilder: (context, index) {
-                  final device = devicesInfo!.devices[index];
-                  return ListTile(
-                    leading: buildStatusIcon(device.lastQuery),
-                    title: buildDeviceTitle(device),
-                    subtitle: Text(
-                      device.lastQuery == DateTime.fromMillisecondsSinceEpoch(0)
-                          ? AppLocalizations.of(context)!.never
-                          : formatTimestamp(
-                              device.lastQuery,
-                              kUnifiedDateTimeLogFormat,
-                            ),
+              return NetworkListView(
+                devicesInfo: devicesInfo!,
+                currentClientIp: currentClientIp ?? '',
+                onDeviceTap: (device) {
+                  setState(() {
+                    selectedDevice = device;
+                  });
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => NetworkDetailScreen(
+                        device: device,
+                        onDelete: removeDevice,
+                      ),
                     ),
-                    trailing: device.ips.any((ip) => ip.ip == currentClientIp)
-                        ? Chip(
-                            avatar: const Icon(Icons.star_rounded),
-                            label: Text(AppLocalizations.of(context)!.inUse),
-                          )
-                        : null,
-                    onTap: () {
-                      setState(() {
-                        selectedDevice = device;
-                      });
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => NetworkDetailScreen(
-                            device: device,
-                            onDelete: removeDevice,
-                          ),
-                        ),
-                      );
-                    },
                   );
                 },
               );
@@ -260,5 +193,30 @@ class _NetworkState extends State<NetworkScreen> {
         ),
       ),
     );
+  }
+
+  Future<void> _loadDevice() async {
+    if (!mounted) return;
+
+    setState(() {
+      isLoading = true;
+    });
+
+    final result = await Future.wait<BaseInfoResponse<dynamic>>(
+      [apiGateway!.getDevices(), apiGateway!.getClient()],
+    );
+    if (!mounted) return;
+
+    setState(() {
+      if (result[0].result == APiResponseType.success &&
+          result[1].result == APiResponseType.success) {
+        devicesInfo = result[0].data;
+        currentClientIp = result[1].data?.addr;
+      } else {
+        isFetchError = true;
+        logger.e('Failed to load network devices or client info');
+      }
+      isLoading = false;
+    });
   }
 }
