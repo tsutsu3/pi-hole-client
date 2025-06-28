@@ -40,61 +40,110 @@ class TotalQueriesChartSection extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final isLoading =
-        statusProvider.getOvertimeDataLoadStatus == LoadStatus.loading;
+    final status = statusProvider.getOvertimeDataLoadStatus;
+
+    Widget child;
+    switch (status) {
+      case LoadStatus.error:
+        child = _buildErrorChart(context);
+      case LoadStatus.loading:
+        child = _buildSkeleton(context);
+      case LoadStatus.loaded:
+        child = _hasData()
+            ? _buildLoadedContent(context)
+            : _buildNoDataChart(context);
+    }
+
     return FractionallySizedBox(
       widthFactor: width > ResponsiveConstants.medium ? 0.5 : 1,
-      child: statusProvider.getOvertimeDataLoadStatus == LoadStatus.error
-          ? ErrorDataChart(
-              topLabel: AppLocalizations.of(context)!.totalQueries24,
-            )
-          : _hasData()
-              ? Skeletonizer(
-                  enabled: isLoading,
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Skeleton.keep(
-                        child: SectionLabel(
-                          label: AppLocalizations.of(context)!.totalQueries24,
-                        ),
-                      ),
-                      Container(
-                        width: double.maxFinite,
-                        height: 350,
-                        padding: const EdgeInsets.symmetric(horizontal: 16),
-                        child: isLoading
-                            ? ChartSkeleton(
-                                selectedTheme: appConfigProvider.selectedTheme,
-                              )
-                            : _buildQueriesGraph(
-                                appConfigProvider,
-                                statusProvider,
-                              ),
-                      ),
-                      Skeleton.keep(
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceAround,
-                          children: [
-                            _buildLegendDot(
-                              context,
-                              0,
-                              AppLocalizations.of(context)!.blocked,
-                            ),
-                            _buildLegendDot(
-                              context,
-                              3,
-                              AppLocalizations.of(context)!.notBlocked,
-                            ),
-                          ],
-                        ),
-                      ),
-                    ],
-                  ),
-                )
-              : NoDataChart(
-                  topLabel: AppLocalizations.of(context)!.totalQueries24,
+      child: child,
+    );
+  }
+
+  Widget _buildErrorChart(BuildContext context) {
+    return ErrorDataChart(
+      topLabel: AppLocalizations.of(context)!.totalQueries24,
+    );
+  }
+
+  Widget _buildSkeleton(BuildContext context) {
+    return Skeletonizer(
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Skeleton.keep(
+            child: SectionLabel(
+              label: AppLocalizations.of(context)!.totalQueries24,
+            ),
+          ),
+          Container(
+            width: double.maxFinite,
+            height: 350,
+            padding: const EdgeInsets.symmetric(horizontal: 16),
+            child: ChartSkeleton(
+              selectedTheme: appConfigProvider.selectedTheme,
+            ),
+          ),
+          Skeleton.keep(
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              children: [
+                _buildLegendDot(
+                  context,
+                  0,
+                  AppLocalizations.of(context)!.blocked,
                 ),
+                _buildLegendDot(
+                  context,
+                  3,
+                  AppLocalizations.of(context)!.notBlocked,
+                ),
+              ],
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildLoadedContent(BuildContext context) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        SectionLabel(
+          label: AppLocalizations.of(context)!.totalQueries24,
+        ),
+        Container(
+          width: double.maxFinite,
+          height: 350,
+          padding: const EdgeInsets.symmetric(horizontal: 16),
+          child: _buildQueriesGraph(
+            appConfigProvider,
+            statusProvider,
+          ),
+        ),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceAround,
+          children: [
+            _buildLegendDot(
+              context,
+              0,
+              AppLocalizations.of(context)!.blocked,
+            ),
+            _buildLegendDot(
+              context,
+              3,
+              AppLocalizations.of(context)!.notBlocked,
+            ),
+          ],
+        ),
+      ],
+    );
+  }
+
+  Widget _buildNoDataChart(BuildContext context) {
+    return NoDataChart(
+      topLabel: AppLocalizations.of(context)!.totalQueries24,
     );
   }
 

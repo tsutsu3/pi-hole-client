@@ -43,78 +43,116 @@ class ClientActivityChartSection extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final isLoading =
-        statusProvider.getOvertimeDataLoadStatus == LoadStatus.loading;
+    final status = statusProvider.getOvertimeDataLoadStatus;
+
+    Widget child;
+    switch (status) {
+      case LoadStatus.error:
+        child = _buildErrorChart(context);
+      case LoadStatus.loading:
+        child = _buildSkeleton(context);
+      case LoadStatus.loaded:
+        child = _hasData()
+            ? _buildLoadedContent(context)
+            : _buildNoDataChart(context);
+    }
 
     return FractionallySizedBox(
       widthFactor: width > ResponsiveConstants.medium ? 0.5 : 1,
-      child: statusProvider.getOvertimeDataLoadStatus == LoadStatus.error
-          ? ErrorDataChart(
-              topLabel: AppLocalizations.of(context)!.totalQueries24,
-            )
-          : _hasData()
-              ? Skeletonizer(
-                  enabled: isLoading,
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Skeleton.keep(
-                            child: SectionLabel(
-                              label: AppLocalizations.of(context)!
-                                  .clientActivity24,
-                            ),
-                          ),
-                          Container(
-                            width: double.maxFinite,
-                            height: 350,
-                            padding: const EdgeInsets.symmetric(horizontal: 16),
-                            child: isLoading
-                                ? ChartSkeleton(
-                                    selectedTheme:
-                                        appConfigProvider.selectedTheme,
-                                  )
-                                : _buildClientsGraph(
-                                    appConfigProvider,
-                                    statusProvider,
-                                    clientsListIps,
-                                  ),
-                          ),
-                        ],
-                      ),
-                      Container(
-                        width: double.maxFinite,
-                        padding: const EdgeInsets.symmetric(horizontal: 32),
-                        child: Wrap(
-                          runSpacing: 16,
-                          children: statusProvider.getOvertimeData!.clients
-                              .asMap()
-                              .entries
-                              .map(
-                                (entry) => FractionallySizedBox(
-                                  widthFactor:
-                                      width > ResponsiveConstants.xLarge &&
-                                              statusProvider.getOvertimeData!
-                                                      .clients.length >
-                                                  3
-                                          ? 0.33
-                                          : width > 350
-                                              ? 0.5
-                                              : 1,
-                                  child: _buildLegendDot(context, entry),
-                                ),
-                              )
-                              .toList(),
-                        ),
-                      ),
-                    ],
-                  ),
-                )
-              : NoDataChart(
-                  topLabel: AppLocalizations.of(context)!.clientActivity24,
+      child: child,
+    );
+  }
+
+  Widget _buildErrorChart(BuildContext context) {
+    return ErrorDataChart(
+      topLabel: AppLocalizations.of(context)!.totalQueries24,
+    );
+  }
+
+  Widget _buildSkeleton(BuildContext context) {
+    return Skeletonizer(
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Skeleton.keep(
+                child: SectionLabel(
+                  label: AppLocalizations.of(context)!.clientActivity24,
                 ),
+              ),
+              Container(
+                width: double.maxFinite,
+                height: 350,
+                padding: const EdgeInsets.symmetric(horizontal: 16),
+                child: ChartSkeleton(
+                  selectedTheme: appConfigProvider.selectedTheme,
+                ),
+              ),
+            ],
+          ),
+          _buildLegendSection(context),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildLoadedContent(BuildContext context) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            SectionLabel(
+              label: AppLocalizations.of(context)!.clientActivity24,
+            ),
+            Container(
+              width: double.maxFinite,
+              height: 350,
+              padding: const EdgeInsets.symmetric(horizontal: 16),
+              child: _buildClientsGraph(
+                appConfigProvider,
+                statusProvider,
+                clientsListIps,
+              ),
+            ),
+          ],
+        ),
+        _buildLegendSection(context),
+      ],
+    );
+  }
+
+  Widget _buildNoDataChart(BuildContext context) {
+    return NoDataChart(
+      topLabel: AppLocalizations.of(context)!.clientActivity24,
+    );
+  }
+
+  Container _buildLegendSection(BuildContext context) {
+    return Container(
+      width: double.maxFinite,
+      padding: const EdgeInsets.symmetric(horizontal: 32),
+      child: Wrap(
+        runSpacing: 16,
+        children: statusProvider.getOvertimeData!.clients
+            .asMap()
+            .entries
+            .map(
+              (entry) => FractionallySizedBox(
+                widthFactor: width > ResponsiveConstants.xLarge &&
+                        statusProvider.getOvertimeData!.clients.length > 3
+                    ? 0.33
+                    : width > 350
+                        ? 0.5
+                        : 1,
+                child: _buildLegendDot(context, entry),
+              ),
+            )
+            .toList(),
+      ),
     );
   }
 
