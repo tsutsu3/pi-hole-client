@@ -63,8 +63,6 @@ class HomeAppBar extends StatelessWidget implements PreferredSizeWidget {
     }
 
     Future<void> connectToServer(Server server) async {
-      final statusUpdateService = context.read<StatusUpdateService>();
-
       statusProvider.setStatusLoading(LoadStatus.loading);
       statusProvider.setOvertimeDataLoadingStatus(LoadStatus.loading);
 
@@ -79,17 +77,37 @@ class HomeAppBar extends StatelessWidget implements PreferredSizeWidget {
             allowSelfSignedCert: server.allowSelfSignedCert,
           ),
         );
-        final statusResult = await serversProvider.selectedApiGateway
-            ?.realtimeStatus(clientCount: 0);
-        if (statusResult?.result == APiResponseType.success) {
-          statusProvider.setRealtimeStatus(statusResult!.data!);
+        final apiGateway = serversProvider.selectedApiGateway;
+        if (apiGateway == null) {
+          logger.w('Selected API Gateway is null');
+          return;
         }
-        final overtimeDataResult =
-            await serversProvider.selectedApiGateway?.fetchOverTimeData();
-        if (overtimeDataResult?.result == APiResponseType.success) {
-          statusProvider.setOvertimeData(overtimeDataResult!.data!);
+
+        final results = await Future.wait([
+          apiGateway.realtimeStatus(clientCount: 0),
+          apiGateway.fetchOverTimeData(),
+        ]);
+
+        final statusResult = results[0] as RealtimeStatusResponse;
+        final overtimeDataResult = results[1] as FetchOverTimeDataResponse;
+
+        if (statusResult.result == APiResponseType.success) {
+          statusProvider.setRealtimeStatus(statusResult.data!);
+          statusProvider.setStatusLoading(LoadStatus.loaded);
+        } else {
+          logger.w(
+            'Error while fetching realtime status: ${statusResult.result.name}',
+          );
+          statusProvider.setStatusLoading(LoadStatus.error);
+        }
+
+        if (overtimeDataResult.result == APiResponseType.success) {
+          statusProvider.setOvertimeData(overtimeDataResult.data!);
           statusProvider.setOvertimeDataLoadingStatus(LoadStatus.loaded);
         } else {
+          logger.w(
+            'Error while fetching overtime data: ${overtimeDataResult.result.name}',
+          );
           statusProvider.setOvertimeDataLoadingStatus(LoadStatus.error);
         }
       }
