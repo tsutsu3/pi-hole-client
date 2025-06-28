@@ -87,27 +87,6 @@ class _SessionState extends State<SessionsScreen> {
     isLoading = false;
   }
 
-  Future<void> _loadSessions() async {
-    if (!mounted) return;
-
-    setState(() {
-      isLoading = true;
-    });
-
-    final result = await apiGateway!.getSessions();
-    if (!mounted) return;
-
-    setState(() {
-      if (result.result == APiResponseType.success) {
-        sessionsInfo = result.data;
-      } else {
-        isFetchError = true;
-        logger.e('Failed to load sessions');
-      }
-      isLoading = false;
-    });
-  }
-
   @override
   Widget build(BuildContext context) {
     if (apiGateway == null) {
@@ -213,5 +192,26 @@ class _SessionState extends State<SessionsScreen> {
         ),
       ),
     );
+  }
+
+  Future<void> _loadSessions() async {
+    if (!mounted) return;
+
+    setState(() {
+      isLoading = true;
+    });
+
+    final result = await apiGateway!.getSessions();
+    if (!mounted) return;
+
+    setState(() {
+      if (result.result == APiResponseType.success) {
+        sessionsInfo = result.data;
+      } else {
+        isFetchError = true;
+        logger.e('Failed to load sessions');
+      }
+      isLoading = false;
+    });
   }
 }
