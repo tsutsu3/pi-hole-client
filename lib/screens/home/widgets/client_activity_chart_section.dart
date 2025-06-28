@@ -70,6 +70,15 @@ class ClientActivityChartSection extends StatelessWidget {
   }
 
   Widget _buildSkeleton(BuildContext context) {
+    final fakeClients = List.generate(
+      3,
+      (index) => Client(
+        ip: '192.168.0.${index + 1}',
+        name: '',
+        color: Theme.of(context).extension<GraphColors>()!.getColor(index),
+      ),
+    );
+
     return Skeletonizer(
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -93,7 +102,7 @@ class ClientActivityChartSection extends StatelessWidget {
               ),
             ],
           ),
-          _buildLegendSection(context),
+          _buildLegendSection(context, fakeClients: fakeClients),
         ],
       ),
     );
@@ -132,13 +141,18 @@ class ClientActivityChartSection extends StatelessWidget {
     );
   }
 
-  Container _buildLegendSection(BuildContext context) {
+  Container _buildLegendSection(
+    BuildContext context, {
+    List<Client>? fakeClients,
+  }) {
+    final clients = fakeClients ?? statusProvider.getOvertimeData!.clients;
+
     return Container(
       width: double.maxFinite,
       padding: const EdgeInsets.symmetric(horizontal: 32),
       child: Wrap(
         runSpacing: 16,
-        children: statusProvider.getOvertimeData!.clients
+        children: clients
             .asMap()
             .entries
             .map(
