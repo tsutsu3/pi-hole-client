@@ -91,6 +91,7 @@ class AppDbData {
     required this.useBiometricAuth,
     required this.importantInfoReaden,
     required this.hideZeroValues,
+    required this.loadingAnimation,
     required this.statisticsVisualizationMode,
     required this.homeVisualizationMode,
     required this.sendCrashReports,
@@ -107,6 +108,7 @@ class AppDbData {
       useBiometricAuth: map['useBiometricAuth']! as int,
       importantInfoReaden: map['importantInfoReaden']! as int,
       hideZeroValues: map['hideZeroValues']! as int,
+      loadingAnimation: map['loadingAnimation']! as int,
       statisticsVisualizationMode: map['statisticsVisualizationMode']! as int,
       homeVisualizationMode: map['homeVisualizationMode']! as int,
       sendCrashReports: map['sendCrashReports']! as int,
@@ -127,6 +129,7 @@ class AppDbData {
       useBiometricAuth: instance.useBiometricAuth,
       importantInfoReaden: instance.importantInfoReaden,
       hideZeroValues: instance.hideZeroValues,
+      loadingAnimation: instance.loadingAnimation,
       statisticsVisualizationMode: instance.statisticsVisualizationMode,
       homeVisualizationMode: instance.homeVisualizationMode,
       sendCrashReports: instance.sendCrashReports,
@@ -142,6 +145,7 @@ class AppDbData {
   final int useBiometricAuth;
   final int importantInfoReaden;
   final int hideZeroValues;
+  final int loadingAnimation;
   final int statisticsVisualizationMode; // 0 = list, 1 = pie
   final int homeVisualizationMode; // 0 = line area, 1 = bar
   final int sendCrashReports;
@@ -157,6 +161,7 @@ class AppDbData {
       'useBiometricAuth': useBiometricAuth,
       'importantInfoReaden': importantInfoReaden,
       'hideZeroValues': hideZeroValues,
+      'loadingAnimation': loadingAnimation,
       'statisticsVisualizationMode': statisticsVisualizationMode,
       'homeVisualizationMode': homeVisualizationMode,
       'sendCrashReports': sendCrashReports,

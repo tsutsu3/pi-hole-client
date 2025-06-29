@@ -140,12 +140,12 @@ class StatusUpdateService {
 
     if (statusResult?.result == APiResponseType.success) {
       _statusProvider.setOvertimeData(statusResult!.data!);
-      _statusProvider.setOvertimeDataLoadingStatus(1);
+      _statusProvider.setOvertimeDataLoadingStatus(LoadStatus.loaded);
       _statusProvider.setStatusLoading(LoadStatus.loaded);
 
       return true;
     } else {
-      _statusProvider.setOvertimeDataLoadingStatus(2);
+      _statusProvider.setOvertimeDataLoadingStatus(LoadStatus.error);
       return false;
     }
   }
@@ -243,7 +243,7 @@ class StatusUpdateService {
       if (statusResult?.result == APiResponseType.success) {
         _statusProvider.setOvertimeData(statusResult!.data!);
 
-        _statusProvider.setOvertimeDataLoadingStatus(1);
+        _statusProvider.setOvertimeDataLoadingStatus(LoadStatus.loaded);
 
         if (!_statusProvider.isServerConnected) {
           _statusProvider.setIsServerConnected(true);
@@ -256,8 +256,8 @@ class StatusUpdateService {
             );
             _statusProvider.setIsServerConnected(false);
           }
-          if (_statusProvider.getOvertimeDataLoadStatus == 0) {
-            _statusProvider.setOvertimeDataLoadingStatus(2);
+          if (_statusProvider.getOvertimeDataLoadStatus == LoadStatus.loading) {
+            _statusProvider.setOvertimeDataLoadingStatus(LoadStatus.error);
           }
         }
       }

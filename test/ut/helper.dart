@@ -14,7 +14,7 @@ class DbHelper {
   Future<Database> loadDb() async {
     return _db = await openDatabase(
       _path,
-      version: 5,
+      version: 6,
       onCreate: (Database db, int version) async {
         await db.execute('''
             CREATE TABLE servers (
@@ -35,6 +35,7 @@ class DbHelper {
               useBiometricAuth NUMERIC NOT NULL,
               importantInfoReaden NUMERIC NOT NULL,
               hideZeroValues NUMERIC NOT NULL,
+              loadingAnimation NUMERIC NOT NULL,
               statisticsVisualizationMode NUMERIC NOT NULL,
               homeVisualizationMode NUMERIC NOT NULL,
               sendCrashReports NUMERIC NOT NULL
@@ -50,10 +51,11 @@ class DbHelper {
               useBiometricAuth,
               importantInfoReaden,
               hideZeroValues,
+              loadingAnimation,
               statisticsVisualizationMode,
               homeVisualizationMode,
               sendCrashReports
-            ) VALUES (5, 0, 'en', 0, 2, 0, 0, 0, 0, 0, 0)
+            ) VALUES (5, 0, 'en', 0, 2, 0, 0, 0, 1, 0, 0, 0)
           ''');
         await db.execute('''
             CREATE TABLE gravity_updates (

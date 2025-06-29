@@ -67,7 +67,11 @@ class _BaseState extends State<Base>
       }
 
       if (serversProvider.selectedServer != null) {
-        await serversProvider.selectedApiGateway?.loginQuery();
+        final result = await serversProvider.selectedApiGateway?.loginQuery();
+        serversProvider.updateselectedServerStatus(
+          result?.status == 'enabled' ? true : false,
+        );
+
         if (!mounted) return;
         context.read<StatusUpdateService>().startAutoRefresh();
       }

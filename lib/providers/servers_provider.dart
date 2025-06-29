@@ -199,7 +199,8 @@ class ServersProvider with ChangeNotifier {
 
       if (dbOperationSuccess) {
         _serverGateways.removeWhere((address, _) => address == serverAddress);
-        _selectedServer = null;
+        _selectedServer =
+            serverAddress == _selectedServer?.address ? null : _selectedServer;
         _serversList = _serversList
             .where((server) => server.address != serverAddress)
             .toList();

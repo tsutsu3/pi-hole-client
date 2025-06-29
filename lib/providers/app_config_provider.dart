@@ -28,6 +28,7 @@ class AppConfigProvider with ChangeNotifier {
   bool _validVibrator = false;
   int _importantInfoReaden = 0;
   int _hideZeroValues = 0;
+  int _loadingAnimation = 1;
   int _statisticsVisualizationMode = 0;
   int _homeVisualizationMode = 0;
   int _sendCrashReports = 0;
@@ -135,6 +136,10 @@ class AppConfigProvider with ChangeNotifier {
 
   bool get hideZeroValues {
     return _hideZeroValues == 0 ? false : true;
+  }
+
+  bool get loadingAnimation {
+    return _loadingAnimation == 0 ? false : true;
   }
 
   int get statisticsVisualizationMode {
@@ -329,6 +334,7 @@ class AppConfigProvider with ChangeNotifier {
     _useBiometrics = dbData.useBiometricAuth;
     _importantInfoReaden = dbData.importantInfoReaden;
     _hideZeroValues = dbData.hideZeroValues;
+    _loadingAnimation = dbData.loadingAnimation;
     _statisticsVisualizationMode = dbData.statisticsVisualizationMode;
     _homeVisualizationMode = dbData.homeVisualizationMode;
     _sendCrashReports = dbData.sendCrashReports;
@@ -361,6 +367,20 @@ class AppConfigProvider with ChangeNotifier {
     );
     if (updated == true) {
       _hideZeroValues = status == true ? 1 : 0;
+      notifyListeners();
+      return true;
+    } else {
+      return false;
+    }
+  }
+
+  Future<bool> setShowLoadingAnimation(bool status) async {
+    final updated = await _repository.updateConfigQuery(
+      column: 'loadingAnimation',
+      value: status == true ? 1 : 0,
+    );
+    if (updated == true) {
+      _loadingAnimation = status == true ? 1 : 0;
       notifyListeners();
       return true;
     } else {
@@ -432,6 +452,7 @@ class AppConfigProvider with ChangeNotifier {
       _useBiometrics = 0;
       _importantInfoReaden = 0;
       _hideZeroValues = 0;
+      _loadingAnimation = 1;
       _statisticsVisualizationMode = 0;
       _homeVisualizationMode = 0;
       _sendCrashReports = 0;

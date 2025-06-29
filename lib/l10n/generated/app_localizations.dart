@@ -920,6 +920,12 @@ abstract class AppLocalizations {
   /// **'Could not connect to the server'**
   String get couldNotConnectServer;
 
+  /// No description provided for @couldNotConnectServerFallback.
+  ///
+  /// In en, this message translates to:
+  /// **'Could not connect to the server. Restoring the previous server and reloading its data ...'**
+  String get couldNotConnectServerFallback;
+
   /// No description provided for @couldntAddBlacklist.
   ///
   /// In en, this message translates to:
@@ -1435,6 +1441,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Erases all application data'**
   String get erasesAppData;
+
+  /// No description provided for @error.
+  ///
+  /// In en, this message translates to:
+  /// **'Error'**
+  String get error;
 
   /// No description provided for @errorRemovingAdlist.
   ///
@@ -2005,6 +2017,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Displays the data on a list with the label and the numeric value at the left side, and a bar at the right side.'**
   String get listDescription;
+
+  /// No description provided for @loading.
+  ///
+  /// In en, this message translates to:
+  /// **'Loading...'**
+  String get loading;
 
   /// No description provided for @loadingCharts.
   ///
@@ -3049,6 +3067,18 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Settings updated successfully.'**
   String get settingsUpdatedSuccessfully;
+
+  /// No description provided for @showLoadingAnimation.
+  ///
+  /// In en, this message translates to:
+  /// **'Show loading animation'**
+  String get showLoadingAnimation;
+
+  /// No description provided for @showLoadingAnimationDescription.
+  ///
+  /// In en, this message translates to:
+  /// **'Displays animated placeholder graphics while chart data loads.'**
+  String get showLoadingAnimationDescription;
 
   /// No description provided for @sslErrorLong.
   ///

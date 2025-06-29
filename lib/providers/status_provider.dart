@@ -11,7 +11,7 @@ class StatusProvider with ChangeNotifier {
   RealtimeStatus? _realtimeStatus;
   MetricsInfo? _metricsInfo;
 
-  int _overtimeDataLoading = 0;
+  LoadStatus _overtimeDataLoading = LoadStatus.loading;
   OverTimeData? _overtimeData;
 
   bool get isServerConnected {
@@ -58,7 +58,7 @@ class StatusProvider with ChangeNotifier {
     }
   }
 
-  int get getOvertimeDataLoadStatus {
+  LoadStatus get getOvertimeDataLoadStatus {
     return _overtimeDataLoading;
   }
 
@@ -78,7 +78,7 @@ class StatusProvider with ChangeNotifier {
     notifyListeners();
   }
 
-  void setOvertimeDataLoadingStatus(int status) {
+  void setOvertimeDataLoadingStatus(LoadStatus status) {
     _overtimeDataLoading = status;
     notifyListeners();
   }

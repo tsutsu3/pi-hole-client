@@ -48,6 +48,7 @@ void main() async {
           expect(find.text('Charts'), findsOneWidget);
           expect(find.text('Use reduced data'), findsOneWidget);
           expect(find.text('Hide zero values'), findsOneWidget);
+          expect(find.text('Show loading animation'), findsOneWidget);
           expect(find.text('Chart display mode'), findsOneWidget);
 
           expect(find.text('Others'), findsOneWidget);
@@ -149,6 +150,31 @@ void main() async {
           expect(find.byType(AdvancedOptions), findsOneWidget);
           expect(find.text('Hide zero values'), findsOneWidget);
           await tester.tap(find.text('Hide zero values'));
+          await tester.pumpAndSettle();
+          expect(find.text('Settings updated successfully.'), findsOneWidget);
+        },
+      );
+
+      testWidgets(
+        'should show loading animation setting',
+        (WidgetTester tester) async {
+          tester.view.physicalSize = const Size(1080, 2400);
+          tester.view.devicePixelRatio = 2.0;
+
+          addTearDown(() {
+            tester.view.resetPhysicalSize();
+            tester.view.resetDevicePixelRatio();
+          });
+
+          await tester.pumpWidget(
+            testSetup.buildTestWidget(
+              const AdvancedOptions(),
+            ),
+          );
+
+          expect(find.byType(AdvancedOptions), findsOneWidget);
+          expect(find.text('Show loading animation'), findsOneWidget);
+          await tester.tap(find.text('Show loading animation'));
           await tester.pumpAndSettle();
           expect(find.text('Settings updated successfully.'), findsOneWidget);
         },
