@@ -99,6 +99,7 @@ class ClientActivityChartSection extends StatelessWidget {
                 child: appConfigProvider.homeVisualizationMode == 0
                     ? LineChartSkeleton(
                         selectedTheme: appConfigProvider.selectedTheme,
+                        nums: 3,
                       )
                     : BarChartSkeleton(
                         selectedTheme: appConfigProvider.selectedTheme,

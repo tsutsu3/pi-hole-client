@@ -10,12 +10,14 @@ class BarChartSkeleton extends StatefulWidget {
     required this.selectedTheme,
     this.barCount = 24,
     this.nums = 2,
+    this.showAnimation = true,
     super.key,
   });
 
   final ThemeMode selectedTheme;
   final int barCount;
   final int nums;
+  final bool showAnimation;
 
   @override
   State<BarChartSkeleton> createState() => _BarChartSkeletonState();
@@ -148,7 +150,9 @@ class _BarChartSkeletonState extends State<BarChartSkeleton>
       padding: const EdgeInsets.symmetric(vertical: 15),
       child: BarChart(
         BarChartData(
-          barGroups: _generateBarGroups(time, _waveOffsets[0], _scales[0], 0),
+          barGroups: widget.showAnimation
+              ? _generateBarGroups(time, _waveOffsets[0], _scales[0], 0)
+              : [],
           maxY: _maxY,
           gridData: FlGridData(
             drawVerticalLine: false,
@@ -203,13 +207,6 @@ class _BarChartSkeletonState extends State<BarChartSkeleton>
                   .backgroundColor!
                   .withValues(alpha: 0.85),
               borderRadius: BorderRadius.circular(12),
-              boxShadow: const [
-                BoxShadow(
-                  color: Colors.black12,
-                  blurRadius: 10,
-                  offset: Offset(0, 4),
-                ),
-              ],
             ),
             child: Column(
               children: [

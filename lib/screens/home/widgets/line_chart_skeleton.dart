@@ -10,11 +10,13 @@ class LineChartSkeleton extends StatefulWidget {
   const LineChartSkeleton({
     required this.selectedTheme,
     this.nums = 2,
+    this.showAnimation = true,
     super.key,
   });
 
   final ThemeMode selectedTheme;
   final int nums;
+  final bool showAnimation;
 
   @override
   State<LineChartSkeleton> createState() => _LineChartSkeletonState();
@@ -104,24 +106,28 @@ class _LineChartSkeletonState extends State<LineChartSkeleton>
       LineChartData(
         minY: 0,
         maxY: _maxY,
-        lineBarsData: [
-          for (int i = 0; i < widget.nums; i++)
-            LineChartBarData(
-              spots: _generateWavePoints(time, _waveOffsets[i], _scales[i], i),
-              color: Theme.of(context).extension<GraphColors>()!.getColor(i),
-              isCurved: true,
-              dotData: const FlDotData(
-                show: false,
-              ),
-              belowBarData: BarAreaData(
-                show: true,
-                color: Theme.of(context)
-                    .extension<GraphColors>()!
-                    .getColor(i)
-                    .withValues(alpha: 0.2),
-              ),
-            ),
-        ],
+        lineBarsData: widget.showAnimation
+            ? [
+                for (int i = 0; i < widget.nums; i++)
+                  LineChartBarData(
+                    spots: _generateWavePoints(
+                        time, _waveOffsets[i], _scales[i], i),
+                    color:
+                        Theme.of(context).extension<GraphColors>()!.getColor(i),
+                    isCurved: true,
+                    dotData: const FlDotData(
+                      show: false,
+                    ),
+                    belowBarData: BarAreaData(
+                      show: true,
+                      color: Theme.of(context)
+                          .extension<GraphColors>()!
+                          .getColor(i)
+                          .withValues(alpha: 0.2),
+                    ),
+                  ),
+              ]
+            : [],
         gridData: FlGridData(
           drawVerticalLine: false,
           horizontalInterval: 20,
@@ -175,13 +181,6 @@ class _LineChartSkeletonState extends State<LineChartSkeleton>
                     .backgroundColor!
                     .withValues(alpha: 0.85),
                 borderRadius: BorderRadius.circular(12),
-                boxShadow: const [
-                  BoxShadow(
-                    color: Colors.black12,
-                    blurRadius: 10,
-                    offset: Offset(0, 4),
-                  ),
-                ],
               ),
               child: Column(
                 children: [
