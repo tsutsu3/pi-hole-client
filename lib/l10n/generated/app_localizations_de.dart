@@ -442,6 +442,10 @@ class AppLocalizationsDe extends AppLocalizations {
       'Es konnte keine Verbindung zum Server hergestellt werden.';
 
   @override
+  String get couldNotConnectServerFallback =>
+      'Verbindung zum Server fehlgeschlagen.\nVorheriger Server wird wiederhergestellt und seine Daten werden neu geladen ...';
+
+  @override
   String get couldntAddBlacklist =>
       'Domain konnte nicht der Blacklist beigefügt werden.';
 

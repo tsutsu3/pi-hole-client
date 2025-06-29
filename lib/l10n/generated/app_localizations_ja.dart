@@ -419,6 +419,10 @@ class AppLocalizationsJa extends AppLocalizations {
   String get couldNotConnectServer => 'サーバーに接続できませんでした';
 
   @override
+  String get couldNotConnectServerFallback =>
+      'サーバーに接続できませんでした。\n前のサーバーに戻り、データを再取得します...';
+
+  @override
   String get couldntAddBlacklist => 'ドメインをブラックリストに追加できませんでした。';
 
   @override

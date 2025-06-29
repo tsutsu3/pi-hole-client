@@ -135,6 +135,7 @@
   "contactEmail": "Contact by email",
   "copyLogsClipboard": "Copy logs to clipboard",
   "couldNotConnectServer": "Could not connect to the server",
+  "couldNotConnectServerFallback": "Could not connect to the server.\nRestoring the previous server and reloading its data ...",
   "couldntAddBlacklist": "Could not add domain to blacklist.",
   "couldntAddWhitelist": "Could not add domain to whitelist.",
   "couldntDisableServer": "Couldn't disable server.",

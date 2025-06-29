@@ -431,6 +431,10 @@ class AppLocalizationsEn extends AppLocalizations {
   String get couldNotConnectServer => 'Could not connect to the server';
 
   @override
+  String get couldNotConnectServerFallback =>
+      'Could not connect to the server.\nRestoring the previous server and reloading its data ...';
+
+  @override
   String get couldntAddBlacklist => 'Could not add domain to blacklist.';
 
   @override
