@@ -111,7 +111,11 @@ class _LineChartSkeletonState extends State<LineChartSkeleton>
                 for (int i = 0; i < widget.nums; i++)
                   LineChartBarData(
                     spots: _generateWavePoints(
-                        time, _waveOffsets[i], _scales[i], i),
+                      time,
+                      _waveOffsets[i],
+                      _scales[i],
+                      i,
+                    ),
                     color:
                         Theme.of(context).extension<GraphColors>()!.getColor(i),
                     isCurved: true,
