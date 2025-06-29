@@ -145,6 +145,12 @@ class MockAppConfigProvider extends _i1.Mock implements _i3.AppConfigProvider {
       ) as bool);
 
   @override
+  bool get loadingAnimation => (super.noSuchMethod(
+        Invocation.getter(#loadingAnimation),
+        returnValue: false,
+      ) as bool);
+
+  @override
   int get statisticsVisualizationMode => (super.noSuchMethod(
         Invocation.getter(#statisticsVisualizationMode),
         returnValue: 0,
@@ -348,6 +354,15 @@ class MockAppConfigProvider extends _i1.Mock implements _i3.AppConfigProvider {
   _i9.Future<bool> setHideZeroValues(bool? status) => (super.noSuchMethod(
         Invocation.method(
           #setHideZeroValues,
+          [status],
+        ),
+        returnValue: _i9.Future<bool>.value(false),
+      ) as _i9.Future<bool>);
+
+  @override
+  _i9.Future<bool> setShowLoadingAnimation(bool? status) => (super.noSuchMethod(
+        Invocation.method(
+          #setShowLoadingAnimation,
           [status],
         ),
         returnValue: _i9.Future<bool>.value(false),
