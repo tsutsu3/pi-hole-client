@@ -145,7 +145,7 @@ class AppDbData {
   final int useBiometricAuth;
   final int importantInfoReaden;
   final int hideZeroValues;
-  final int loadingAnimation; // 0 = show animation, 1 = hide animation
+  final int loadingAnimation;
   final int statisticsVisualizationMode; // 0 = list, 1 = pie
   final int homeVisualizationMode; // 0 = line area, 1 = bar
   final int sendCrashReports;
