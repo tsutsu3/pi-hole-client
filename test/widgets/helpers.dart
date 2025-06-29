@@ -1703,6 +1703,8 @@ class TestSetupHelper {
     when(mockConfigProvider.importantInfoReaden).thenReturn(true);
     when(mockConfigProvider.sendCrashReports).thenReturn(false);
     when(mockConfigProvider.loadingAnimation).thenReturn(true);
+    when(mockConfigProvider.setShowLoadingAnimation(any))
+        .thenAnswer((_) async => true);
   }
 
   void _initServerProviderMock(String useApiGatewayVersion) {
