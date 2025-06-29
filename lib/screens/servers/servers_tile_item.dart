@@ -387,14 +387,12 @@ class _ServersTileItemState extends State<ServersTileItem>
   ) async {
     final statusUpdateService = context.read<StatusUpdateService>();
 
-    // 1. Reset selected server
-    await serversProvider.resetSelectedServer();
-    if (!context.mounted) return;
-
-    // 2. Login to the server
     final process = ProcessModal(context: context);
     process.open(AppLocalizations.of(context)!.connecting);
     final result = await serversProvider.loadApiGateway(server)?.loginQuery();
+
+    // await serversProvider.resetSelectedServer();
+    // if (!context.mounted) return;
 
     if (result?.result == APiResponseType.success) {
       process.close();
