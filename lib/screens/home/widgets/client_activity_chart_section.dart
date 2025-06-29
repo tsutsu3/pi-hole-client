@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:pi_hole_client/config/theme.dart';
 import 'package:pi_hole_client/constants/enums.dart';
 import 'package:pi_hole_client/constants/responsive.dart';
+import 'package:pi_hole_client/functions/logger.dart';
 import 'package:pi_hole_client/l10n/generated/app_localizations.dart';
 import 'package:pi_hole_client/models/overtime_data.dart';
 import 'package:pi_hole_client/providers/app_config_provider.dart';
@@ -153,7 +154,11 @@ class ClientActivityChartSection extends StatelessWidget {
     BuildContext context, {
     List<Client>? fakeClients,
   }) {
-    final clients = fakeClients ?? statusProvider.getOvertimeData!.clients;
+    final clients =
+        fakeClients ?? statusProvider.getOvertimeData?.clients ?? [];
+    logger.d(
+      'ClientActivityChartSection: Building legend with ${clients.length} clients. width: $width',
+    );
 
     return Container(
       width: double.maxFinite,
@@ -165,12 +170,12 @@ class ClientActivityChartSection extends StatelessWidget {
             .entries
             .map(
               (entry) => FractionallySizedBox(
-                widthFactor: width > ResponsiveConstants.xLarge &&
-                        statusProvider.getOvertimeData!.clients.length > 3
-                    ? 0.33
-                    : width > 350
-                        ? 0.5
-                        : 1,
+                widthFactor:
+                    width > ResponsiveConstants.xLarge && clients.length > 3
+                        ? 0.33
+                        : width > 350
+                            ? 0.5
+                            : 1,
                 child: _buildLegendDot(context, entry),
               ),
             )
