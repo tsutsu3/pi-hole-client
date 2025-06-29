@@ -16,6 +16,17 @@ import 'package:shelf_router/shelf_router.dart';
 
 import 'package:mock_api_server/handlers/auth_handler.dart';
 
+Middleware sleepMiddleware({
+  Duration delay = const Duration(milliseconds: 500),
+}) {
+  return (Handler innerHandler) {
+    return (Request request) async {
+      await Future.delayed(delay);
+      return await innerHandler(request);
+    };
+  };
+}
+
 void main() async {
   final router = Router();
 
@@ -34,6 +45,7 @@ void main() async {
 
   final handler = Pipeline()
       .addMiddleware(logRequests())
+      .addMiddleware(sleepMiddleware(delay: Duration(milliseconds: 500)))
       .addHandler(router.call);
 
   final server = await io.serve(handler, InternetAddress.anyIPv4, 8888);
