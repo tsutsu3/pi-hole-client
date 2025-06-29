@@ -12,6 +12,7 @@ import 'package:pi_hole_client/providers/servers_provider.dart';
 import 'package:pi_hole_client/providers/status_provider.dart';
 import 'package:pi_hole_client/screens/home/widgets/switch_server_modal.dart';
 import 'package:pi_hole_client/screens/servers/servers.dart';
+import 'package:pi_hole_client/services/status_update_service.dart';
 import 'package:provider/provider.dart';
 import 'package:skeletonizer/skeletonizer.dart';
 
@@ -61,6 +62,30 @@ class HomeAppBar extends StatelessWidget implements PreferredSizeWidget {
         MaterialPageRoute(builder: (context) => const ServersPage()),
       );
     }
+
+    /// Attempts to connect to the given [server], updating the UI and relevant status providers accordingly.
+    ///
+    /// This method performs the following steps:
+    ///
+    /// 1. Sets both the main status and overtime data loading indicators to `loading`.
+    /// 2. Attempts to log in to the API gateway associated with the provided [server].
+    /// 3. If the login is successful:
+    ///    - Updates the selected server in the provider.
+    ///    - Concurrently fetches the real-time status and overtime data.
+    ///    - Updates the status provider with the fetched data, or sets an error status if fetching fails.
+    /// 4. If the login fails:
+    ///    - Logs a warning message.
+    ///    - Sets both the main status and overtime data loading statuses to `error`.
+    ///    - Displays an error snackbar to notify the user.
+    ///    - Triggers a one-time status refresh as a fallback (uses previously fetched server data if the refresh is unavailable).
+    ///
+    /// This method ensures UI updates are performed only if the [context] is still mounted.
+    ///
+    /// Parameters:
+    /// - [server]: The [Server] instance to connect to.
+    ///
+    /// Returns:
+    /// A [Future] that completes once the connection and data-fetching process has finished.
 
     Future<void> connectToServer(Server server) async {
       statusProvider.setStatusLoading(LoadStatus.loading);
@@ -123,11 +148,17 @@ class HomeAppBar extends StatelessWidget implements PreferredSizeWidget {
         logger.w(
           'Error while connecting to server: ${result?.result.name}',
         );
+
+        statusProvider.setStatusLoading(LoadStatus.error);
+        statusProvider.setOvertimeDataLoadingStatus(LoadStatus.error);
+
         showErrorSnackBar(
           context: context,
           appConfigProvider: appConfigProvider,
           label: AppLocalizations.of(context)!.couldNotConnectServer,
         );
+
+        await context.read<StatusUpdateService>().refreshOnce();
       }
     }
 
