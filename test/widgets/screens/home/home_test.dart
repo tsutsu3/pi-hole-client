@@ -7,6 +7,7 @@ import 'package:pi_hole_client/screens/home/home.dart';
 import 'package:pi_hole_client/screens/home/widgets/disable_modal.dart';
 import 'package:pi_hole_client/screens/home/widgets/home_appbar.dart';
 import 'package:pi_hole_client/screens/home/widgets/switch_server_modal.dart';
+import 'package:skeletonizer/skeletonizer.dart';
 
 import '../../helpers.dart';
 
@@ -84,8 +85,8 @@ void main() async {
             tester.view.resetDevicePixelRatio();
           });
 
-          when(testSetup.mockStatusProvider.getStatusLoading).thenAnswer(
-            (_) => LoadStatus.loading,
+          when(testSetup.mockStatusProvider.getStatusLoading).thenReturn(
+            LoadStatus.loading,
           );
 
           await tester.pumpWidget(
@@ -95,9 +96,14 @@ void main() async {
           );
 
           expect(find.byType(Home), findsOneWidget);
-          await tester.pump();
+          await tester.pump(const Duration(milliseconds: 500));
 
-          expect(find.text('Loading stats...'), findsOneWidget);
+          final shimmerText = find.descendant(
+            of: find.byType(Skeletonizer),
+            matching: find.byType(Text),
+          );
+
+          expect(shimmerText, findsNothing);
         },
       );
 
@@ -125,7 +131,7 @@ void main() async {
           expect(find.byType(Home), findsOneWidget);
           await tester.pump();
 
-          expect(find.text('Stats could not be loaded'), findsOneWidget);
+          expect(find.text('Error'), findsNWidgets(4));
         },
       );
 

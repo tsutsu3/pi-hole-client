@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/mockito.dart';
+import 'package:pi_hole_client/constants/enums.dart';
 import 'package:pi_hole_client/models/overtime_data.dart';
 import 'package:pi_hole_client/screens/home/widgets/clients_last_hours_bar.dart';
 import 'package:pi_hole_client/screens/home/widgets/clients_last_hours_line.dart';
@@ -36,7 +37,7 @@ void main() async {
           });
 
           when(testSetup.mockStatusProvider.getOvertimeDataLoadStatus)
-              .thenReturn(0);
+              .thenReturn(LoadStatus.loading);
 
           await tester.pumpWidget(
             testSetup.buildTestWidget(
@@ -46,7 +47,7 @@ void main() async {
 
           expect(find.byType(HomeCharts), findsOneWidget);
           await tester.pump();
-          expect(find.text('Loading charts...'), findsWidgets);
+          expect(find.text('Loading...'), findsWidgets);
         },
       );
 
@@ -62,7 +63,7 @@ void main() async {
           });
 
           when(testSetup.mockStatusProvider.getOvertimeDataLoadStatus)
-              .thenReturn(2);
+              .thenReturn(LoadStatus.error);
 
           await tester.pumpWidget(
             testSetup.buildTestWidget(

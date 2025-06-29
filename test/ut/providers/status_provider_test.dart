@@ -28,7 +28,7 @@ void main() {
       expect(statusProvider.getMetricsInfo, null);
       expect(statusProvider.getDnsCacheInfo, null);
       expect(statusProvider.getDnsRepliesInfo, null);
-      expect(statusProvider.getOvertimeDataLoadStatus, 0);
+      expect(statusProvider.getOvertimeDataLoadStatus, LoadStatus.loading);
     });
 
     test('setIsServerConnected updates value and notifies listeners', () {
@@ -129,7 +129,7 @@ void main() {
       'setOvertimeDataLoadingStatus updates value and notifies listeners',
       () {
         statusProvider.setOvertimeDataLoadingStatus(LoadStatus.loaded);
-        expect(statusProvider.getOvertimeDataLoadStatus, 1);
+        expect(statusProvider.getOvertimeDataLoadStatus, LoadStatus.loaded);
         expect(listenerCalled, true);
       },
     );

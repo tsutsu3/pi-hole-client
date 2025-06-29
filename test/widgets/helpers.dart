@@ -1702,6 +1702,7 @@ class TestSetupHelper {
     when(mockConfigProvider.selectedTab).thenReturn(0);
     when(mockConfigProvider.importantInfoReaden).thenReturn(true);
     when(mockConfigProvider.sendCrashReports).thenReturn(false);
+    when(mockConfigProvider.loadingAnimation).thenReturn(true);
   }
 
   void _initServerProviderMock(String useApiGatewayVersion) {
@@ -1778,7 +1779,8 @@ class TestSetupHelper {
     when(mockStatusProvider.getStatusLoading).thenReturn(LoadStatus.loaded);
     when(mockStatusProvider.isServerConnected).thenReturn(true);
     when(mockStatusProvider.getOvertimeData).thenReturn(overtimeData);
-    when(mockStatusProvider.getOvertimeDataLoadStatus).thenReturn(1);
+    when(mockStatusProvider.getOvertimeDataLoadStatus)
+        .thenReturn(LoadStatus.loaded);
     when(mockStatusProvider.getOvertimeDataJson)
         .thenReturn(overtimeData.toJson());
     when(mockStatusProvider.getRealtimeStatus).thenReturn(realtimeStatus);
