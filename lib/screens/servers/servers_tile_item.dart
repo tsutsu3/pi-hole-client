@@ -389,12 +389,17 @@ class _ServersTileItemState extends State<ServersTileItem>
 
     final process = ProcessModal(context: context);
     process.open(AppLocalizations.of(context)!.connecting);
+    // Commented out to prevent the previously selected server from briefly
+    // appearing as "Selected but disconnected" when switching.
+    // statusProvider.setIsServerConnected(false);
     final result = await serversProvider.loadApiGateway(server)?.loginQuery();
-
     // await serversProvider.resetSelectedServer();
     // if (!context.mounted) return;
 
     if (result?.result == APiResponseType.success) {
+      // Prevents the newly selected server from briefly appearing as "Selected
+      // but disconnected" when switching from A to B.
+      statusProvider.setIsServerConnected(true);
       process.close();
       if (!context.mounted) return;
 

@@ -13,6 +13,7 @@ import 'package:pi_hole_client/providers/status_provider.dart';
 import 'package:pi_hole_client/screens/home/widgets/switch_server_modal.dart';
 import 'package:pi_hole_client/screens/servers/servers.dart';
 import 'package:provider/provider.dart';
+import 'package:skeletonizer/skeletonizer.dart';
 
 class HomeAppBar extends StatelessWidget implements PreferredSizeWidget {
   const HomeAppBar({required this.innerBoxIsScrolled, super.key});
@@ -111,10 +112,12 @@ class HomeAppBar extends StatelessWidget implements PreferredSizeWidget {
         }
       }
 
+      statusProvider.setIsServerConnected(false);
       final result = await serversProvider.loadApiGateway(server)?.loginQuery();
       if (!context.mounted) return;
 
       if (result?.result == APiResponseType.success) {
+        statusProvider.setIsServerConnected(true);
         await connectSuccess(result);
       } else {
         logger.w(
@@ -165,31 +168,26 @@ class HomeAppBar extends StatelessWidget implements PreferredSizeWidget {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Expanded(
-                child: serversProvider.selectedServer != null
-                    ? Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            serversProvider.selectedServer!.alias,
-                            style: const TextStyle(fontSize: 20),
-                          ),
-                          Text(
-                            serversProvider.selectedServer!.address,
-                            style: TextStyle(
-                              color: Theme.of(context).listTileTheme.textColor,
-                              fontSize: 14,
-                            ),
-                          ),
-                        ],
-                      )
-                    : Text(
-                        AppLocalizations.of(context)!.noServerSelected,
-                        overflow: TextOverflow.ellipsis,
-                        style: const TextStyle(
-                          fontWeight: FontWeight.bold,
+                child: Skeletonizer(
+                  enabled: !statusProvider.isServerConnected,
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        serversProvider.selectedServer!.alias,
+                        style: const TextStyle(fontSize: 20),
+                      ),
+                      Text(
+                        serversProvider.selectedServer!.address,
+                        style: TextStyle(
+                          color: Theme.of(context).listTileTheme.textColor,
+                          fontSize: 14,
                         ),
                       ),
+                    ],
+                  ),
+                ),
               ),
               Icon(
                 Icons.sync_alt_rounded,
