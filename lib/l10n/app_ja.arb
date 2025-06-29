@@ -135,7 +135,7 @@
   "contactEmail": "メールで連絡",
   "copyLogsClipboard": "ログをクリップボードにコピー",
   "couldNotConnectServer": "サーバーに接続できませんでした",
-  "couldNotConnectServerFallback": "サーバーに接続できませんでした。\n前のサーバーに戻り、データを再取得します...",
+  "couldNotConnectServerFallback": "サーバーに接続できませんでした。前のサーバーに戻り、データを再取得します...",
   "couldntAddBlacklist": "ドメインをブラックリストに追加できませんでした。",
   "couldntAddWhitelist": "ドメインをホワイトリストに追加できませんでした。",
   "couldntDisableServer": "サーバーを無効化できませんでした。",

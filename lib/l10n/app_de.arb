@@ -135,7 +135,7 @@
   "contactEmail": "Per Email kontaktieren",
   "copyLogsClipboard": "Logs in die Zwischenablage kopieren",
   "couldNotConnectServer": "Es konnte keine Verbindung zum Server hergestellt werden.",
-  "couldNotConnectServerFallback": "Verbindung zum Server fehlgeschlagen.\nVorheriger Server wird wiederhergestellt und seine Daten werden neu geladen ...",
+  "couldNotConnectServerFallback": "Verbindung zum Server fehlgeschlagen. Vorheriger Server wird wiederhergestellt und seine Daten werden neu geladen ...",
   "couldntAddBlacklist": "Domain konnte nicht der Blacklist beigefügt werden.",
   "couldntAddWhitelist": "Domain konnte nicht der Whitelist beigefügt werden.",
   "couldntDisableServer": "Server konnte nicht deaktiviert werden.",

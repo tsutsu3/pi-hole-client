@@ -434,7 +434,7 @@ class AppLocalizationsPl extends AppLocalizations {
 
   @override
   String get couldNotConnectServerFallback =>
-      'Nie udało się połączyć z serwerem.\nPrzywracanie poprzedniego serwera i ponowne ładowanie jego danych ...';
+      'Nie udało się połączyć z serwerem. Przywracanie poprzedniego serwera i ponowne ładowanie jego danych ...';
 
   @override
   String get couldntAddBlacklist => 'Nie można dodać domeny do czarnej listy.';

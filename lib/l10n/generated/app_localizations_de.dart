@@ -443,7 +443,7 @@ class AppLocalizationsDe extends AppLocalizations {
 
   @override
   String get couldNotConnectServerFallback =>
-      'Verbindung zum Server fehlgeschlagen.\nVorheriger Server wird wiederhergestellt und seine Daten werden neu geladen ...';
+      'Verbindung zum Server fehlgeschlagen. Vorheriger Server wird wiederhergestellt und seine Daten werden neu geladen ...';
 
   @override
   String get couldntAddBlacklist =>

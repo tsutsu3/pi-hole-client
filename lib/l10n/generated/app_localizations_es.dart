@@ -440,7 +440,7 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String get couldNotConnectServerFallback =>
-      'No se pudo conectar al servidor.\nRestaurando el servidor anterior y recargando sus datos ...';
+      'No se pudo conectar al servidor. Restaurando el servidor anterior y recargando sus datos ...';
 
   @override
   String get couldntAddBlacklist =>

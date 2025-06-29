@@ -923,7 +923,7 @@ abstract class AppLocalizations {
   /// No description provided for @couldNotConnectServerFallback.
   ///
   /// In en, this message translates to:
-  /// **'Could not connect to the server.\nRestoring the previous server and reloading its data ...'**
+  /// **'Could not connect to the server. Restoring the previous server and reloading its data ...'**
   String get couldNotConnectServerFallback;
 
   /// No description provided for @couldntAddBlacklist.

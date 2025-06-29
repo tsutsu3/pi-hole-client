@@ -136,7 +136,7 @@
   "contactEmail": "Contactar por email",
   "copyLogsClipboard": "Copiar logs al portapapeles",
   "couldNotConnectServer": "No se ha podido conectar con el servidor",
-  "couldNotConnectServerFallback": "No se pudo conectar al servidor.\nRestaurando el servidor anterior y recargando sus datos ...",
+  "couldNotConnectServerFallback": "No se pudo conectar al servidor. Restaurando el servidor anterior y recargando sus datos ...",
   "couldntAddBlacklist": "No se ha podido añadir el dominio a lista blanca.",
   "couldntAddWhitelist": "No se ha podido añadir el dominio a lista negra.",
   "couldntDisableServer": "No se pudo desactivar el servidor.",
