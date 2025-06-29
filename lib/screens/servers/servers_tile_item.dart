@@ -464,6 +464,7 @@ class _ServersTileItemState extends State<ServersTileItem>
     required StatusProvider statusProvider,
     required StatusUpdateService statusUpdateService,
   }) async {
+    statusProvider.setStatusLoading(LoadStatus.loading);
     statusProvider.setOvertimeDataLoadingStatus(LoadStatus.loading);
 
     final apiGateway = serversProvider.selectedApiGateway;
@@ -471,6 +472,7 @@ class _ServersTileItemState extends State<ServersTileItem>
     final statusResult = await apiGateway?.realtimeStatus(clientCount: 0);
     if (statusResult?.result == APiResponseType.success) {
       statusProvider.setRealtimeStatus(statusResult!.data!);
+      statusProvider.setStatusLoading(LoadStatus.loaded);
     }
 
     final overtimeDataResult = await apiGateway?.fetchOverTimeData();
