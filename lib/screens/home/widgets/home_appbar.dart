@@ -27,6 +27,26 @@ class HomeAppBar extends StatelessWidget implements PreferredSizeWidget {
     final statusProvider = Provider.of<StatusProvider>(context);
     final appConfigProvider = Provider.of<AppConfigProvider>(context);
 
+    /// Refreshes the real-time status of the currently selected server and updates the UI accordingly.
+    ///
+    /// This method performs the following actions:
+    ///
+    /// 1. Sets the main status loading indicator to `loading`.
+    /// 2. Attempts to fetch the latest real-time status from the currently selected API gateway.
+    /// 3. If the status fetch is successful:
+    ///    - Updates the server's enabled/disabled status in the server provider.
+    ///    - Marks the server as connected.
+    ///    - Updates the real-time status in the status provider.
+    /// 4. If the status fetch fails:
+    ///    - Logs a warning message.
+    ///    - Marks the server as disconnected.
+    ///    - If the loading indicator is still `loading`, sets it to `error`.
+    ///    - Displays an error snackbar to notify the user.
+    ///
+    /// UI updates are performed only if the [context] is still mounted.
+    ///
+    /// Returns:
+    /// A [Future] that completes when the refresh operation is done.
     Future<void> refresh() async {
       statusProvider.setStatusLoading(LoadStatus.loading);
 
@@ -86,7 +106,6 @@ class HomeAppBar extends StatelessWidget implements PreferredSizeWidget {
     ///
     /// Returns:
     /// A [Future] that completes once the connection and data-fetching process has finished.
-
     Future<void> connectToServer(Server server) async {
       statusProvider.setStatusLoading(LoadStatus.loading);
       statusProvider.setOvertimeDataLoadingStatus(LoadStatus.loading);
