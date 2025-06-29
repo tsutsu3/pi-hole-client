@@ -10,6 +10,7 @@ import 'package:pi_hole_client/screens/home/widgets/switch_server_modal.dart';
 import 'package:skeletonizer/skeletonizer.dart';
 
 import '../../helpers.dart';
+import '../utils.dart';
 
 void main() async {
   await initializeApp();
@@ -264,10 +265,10 @@ void main() async {
 
           expect(find.byType(Home), findsOneWidget);
           expect(find.byType(HomeAppBar), findsOneWidget);
-          expect(find.byType(PopupMenuButton), findsOneWidget);
+          expect(find.byIcon(Icons.more_vert), findsOneWidget);
           await tester.pump();
 
-          await tester.tap(find.byType(PopupMenuButton));
+          await tester.tap(find.byIcon(Icons.more_vert));
           await tester.pumpAndSettle();
           expect(find.text('Refresh'), findsOneWidget);
           expect(find.text('Open web panel'), findsOneWidget);
