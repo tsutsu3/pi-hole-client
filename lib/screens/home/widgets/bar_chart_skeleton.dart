@@ -57,6 +57,11 @@ class _BarChartSkeletonState extends State<BarChartSkeleton>
     double scale,
     int variant,
   ) {
+    final colors2 = [
+      Theme.of(context).extension<GraphColors>()!.getColor(0),
+      Theme.of(context).extension<GraphColors>()!.getColor(3),
+    ];
+
     final bars = <BarChartGroupData>[];
 
     for (var i = 0; i < widget.barCount; i++) {
@@ -88,10 +93,12 @@ class _BarChartSkeletonState extends State<BarChartSkeleton>
           BarChartRodStackItem(
             fromY,
             toY,
-            Theme.of(context)
-                .extension<GraphColors>()!
-                .getColor(j)
-                .withValues(alpha: 0.6),
+            widget.nums == 2
+                ? colors2[j].withValues(alpha: 0.6)
+                : Theme.of(context)
+                    .extension<GraphColors>()!
+                    .getColor(j)
+                    .withValues(alpha: 0.6),
           ),
         );
       }

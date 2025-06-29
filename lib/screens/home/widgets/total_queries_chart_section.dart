@@ -102,7 +102,7 @@ class TotalQueriesChartSection extends StatelessWidget {
                 ),
                 _buildLegendDot(
                   context,
-                  1,
+                  3,
                   AppLocalizations.of(context)!.notBlocked,
                 ),
               ],
@@ -139,7 +139,7 @@ class TotalQueriesChartSection extends StatelessWidget {
             ),
             _buildLegendDot(
               context,
-              1,
+              3,
               AppLocalizations.of(context)!.notBlocked,
             ),
           ],

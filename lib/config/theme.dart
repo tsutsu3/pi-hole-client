@@ -324,9 +324,9 @@ class GraphColors extends ThemeExtension<GraphColors> {
 const lightGraphColors = GraphColors(
   colors: [
     Colors.blue,
-    Colors.green,
     Colors.red,
     Colors.amber,
+    Colors.green,
     Colors.cyan,
     Colors.blueGrey,
     Colors.deepPurple,
@@ -351,9 +351,9 @@ const lightGraphColors = GraphColors(
 const darkGraphColors = GraphColors(
   colors: [
     Color(0xFF42A5F5), // shade400
-    Color(0xFF66BB6A), // shade400
     Color(0xFFEF5350), // shade400
     Color(0xFFFFCA28), // shade400
+    Color(0xFF66BB6A), // shade400
     Color(0xFF26C6DA), // shade400
     Color(0xFF78909C), // shade400
     Color(0xFF9575CD), // shade400

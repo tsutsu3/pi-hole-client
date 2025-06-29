@@ -283,7 +283,7 @@ class QueriesLastHoursLine extends StatelessWidget {
         // barIndex: 2
         LineChartBarData(
           spots: data['data']['domains'],
-          color: Theme.of(context).extension<GraphColors>()!.getColor(1),
+          color: Theme.of(context).extension<GraphColors>()!.getColor(3),
           isCurved: true,
           isStrokeCapRound: true,
           preventCurveOverShooting: true,
@@ -294,7 +294,7 @@ class QueriesLastHoursLine extends StatelessWidget {
             show: true,
             color: Theme.of(context)
                 .extension<GraphColors>()!
-                .getColor(1)
+                .getColor(3)
                 .withValues(alpha: 0.2),
           ),
         ),

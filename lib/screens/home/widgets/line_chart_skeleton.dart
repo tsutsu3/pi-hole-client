@@ -102,6 +102,11 @@ class _LineChartSkeletonState extends State<LineChartSkeleton>
     BuildContext context,
     bool isLight,
   ) {
+    final colors2 = [
+      Theme.of(context).extension<GraphColors>()!.getColor(0),
+      Theme.of(context).extension<GraphColors>()!.getColor(3),
+    ];
+
     return LineChart(
       LineChartData(
         minY: 0,
@@ -116,18 +121,23 @@ class _LineChartSkeletonState extends State<LineChartSkeleton>
                       _scales[i],
                       i,
                     ),
-                    color:
-                        Theme.of(context).extension<GraphColors>()!.getColor(i),
+                    color: widget.nums == 2
+                        ? colors2[i]
+                        : Theme.of(context)
+                            .extension<GraphColors>()!
+                            .getColor(i),
                     isCurved: true,
                     dotData: const FlDotData(
                       show: false,
                     ),
                     belowBarData: BarAreaData(
                       show: true,
-                      color: Theme.of(context)
-                          .extension<GraphColors>()!
-                          .getColor(i)
-                          .withValues(alpha: 0.2),
+                      color: widget.nums == 2
+                          ? colors2[i].withValues(alpha: 0.2)
+                          : Theme.of(context)
+                              .extension<GraphColors>()!
+                              .getColor(i)
+                              .withValues(alpha: 0.2),
                     ),
                   ),
               ]
