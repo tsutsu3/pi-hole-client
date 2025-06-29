@@ -100,10 +100,12 @@ class ClientActivityChartSection extends StatelessWidget {
                     ? LineChartSkeleton(
                         selectedTheme: appConfigProvider.selectedTheme,
                         nums: 3,
+                        showAnimation: appConfigProvider.loadingAnimation,
                       )
                     : BarChartSkeleton(
                         selectedTheme: appConfigProvider.selectedTheme,
                         nums: 3,
+                        showAnimation: appConfigProvider.loadingAnimation,
                       ),
               ),
             ],

@@ -1554,6 +1554,13 @@ class AppLocalizationsPl extends AppLocalizations {
       'Ustawienia zostały pomyślnie zaktualizowane.';
 
   @override
+  String get showLoadingAnimation => 'Pokaż animację ładowania';
+
+  @override
+  String get showLoadingAnimationDescription =>
+      'Wyświetla animowane grafiki zastępcze podczas ładowania danych wykresu.';
+
+  @override
   String get sslErrorLong =>
       'Błąd SSL. Sprawdź, czy certyfikat serwera jest prawidłowy.';
 

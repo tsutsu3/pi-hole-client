@@ -493,6 +493,8 @@
   "setPassCode": "Configurar código",
   "settings": "Ajustes",
   "settingsUpdatedSuccessfully": "Ajustes actualizados correctamente.",
+  "showLoadingAnimation": "Mostrar animación de carga",
+  "showLoadingAnimationDescription": "Muestra gráficos animados de marcador de posición mientras se cargan los datos del gráfico.",
   "sslErrorLong": "Error de SSL. Comprueba si el certificado del servidor es válido.",
   "sslErrorShort": "Error de SSL.",
   "startTimeNotBeforeEndTime": "Tiempo de inicio no es anterior a tiempo de fin",

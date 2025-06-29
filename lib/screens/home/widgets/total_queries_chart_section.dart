@@ -84,9 +84,11 @@ class TotalQueriesChartSection extends StatelessWidget {
             child: appConfigProvider.homeVisualizationMode == 0
                 ? LineChartSkeleton(
                     selectedTheme: appConfigProvider.selectedTheme,
+                    showAnimation: appConfigProvider.loadingAnimation,
                   )
                 : BarChartSkeleton(
                     selectedTheme: appConfigProvider.selectedTheme,
+                    showAnimation: appConfigProvider.loadingAnimation,
                   ),
           ),
           Skeleton.keep(

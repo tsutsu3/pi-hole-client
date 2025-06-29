@@ -492,6 +492,8 @@
   "setPassCode": "Passwort setzen",
   "settings": "Optionen",
   "settingsUpdatedSuccessfully": "Einstellungen erfolgreich aktualisiert.",
+  "showLoadingAnimation": "Ladeanimation anzeigen",
+  "showLoadingAnimationDescription": "Zeigt animierte Platzhaltergrafiken an, während Diagrammdaten geladen werden.",
   "sslErrorLong": "SSL Fehler. Überprüfen Sie die Gültigkeit des Zertifikats.",
   "sslErrorShort": "SSL Fehler.",
   "startTimeNotBeforeEndTime": "Die Startzeit liegt nicht vor der Endzeit",

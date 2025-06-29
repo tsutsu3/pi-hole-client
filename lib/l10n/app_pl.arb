@@ -492,6 +492,8 @@
   "setPassCode": "Ustaw hasło",
   "settings": "Ustawienia",
   "settingsUpdatedSuccessfully": "Ustawienia zostały pomyślnie zaktualizowane.",
+  "showLoadingAnimation": "Pokaż animację ładowania",
+  "showLoadingAnimationDescription": "Wyświetla animowane grafiki zastępcze podczas ładowania danych wykresu.",
   "sslErrorLong": "Błąd SSL. Sprawdź, czy certyfikat serwera jest prawidłowy.",
   "sslErrorShort": "Błąd SSL.",
   "startTimeNotBeforeEndTime": "Czas rozpoczęcia nie jest wcześniejszy niż czas zakończenia",

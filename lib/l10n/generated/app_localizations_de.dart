@@ -1572,6 +1572,13 @@ class AppLocalizationsDe extends AppLocalizations {
       'Einstellungen erfolgreich aktualisiert.';
 
   @override
+  String get showLoadingAnimation => 'Ladeanimation anzeigen';
+
+  @override
+  String get showLoadingAnimationDescription =>
+      'Zeigt animierte Platzhaltergrafiken an, während Diagrammdaten geladen werden.';
+
+  @override
   String get sslErrorLong =>
       'SSL Fehler. Überprüfen Sie die Gültigkeit des Zertifikats.';
 

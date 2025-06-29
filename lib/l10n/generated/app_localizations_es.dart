@@ -1569,6 +1569,13 @@ class AppLocalizationsEs extends AppLocalizations {
       'Ajustes actualizados correctamente.';
 
   @override
+  String get showLoadingAnimation => 'Mostrar animación de carga';
+
+  @override
+  String get showLoadingAnimationDescription =>
+      'Muestra gráficos animados de marcador de posición mientras se cargan los datos del gráfico.';
+
+  @override
   String get sslErrorLong =>
       'Error de SSL. Comprueba si el certificado del servidor es válido.';
 

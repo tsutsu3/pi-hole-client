@@ -1503,6 +1503,13 @@ class AppLocalizationsJa extends AppLocalizations {
   String get settingsUpdatedSuccessfully => '設定が正常に更新されました。';
 
   @override
+  String get showLoadingAnimation => '読み込み中のアニメーションを表示';
+
+  @override
+  String get showLoadingAnimationDescription =>
+      'チャートデータの読み込み中にアニメーションのプレースホルダーを表示します。';
+
+  @override
   String get sslErrorLong => 'SSLエラー。サーバーの証明書が有効か確認してください。';
 
   @override

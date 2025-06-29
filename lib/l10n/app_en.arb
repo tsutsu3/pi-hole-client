@@ -492,6 +492,8 @@
   "setPassCode": "Setup passcode",
   "settings": "Settings",
   "settingsUpdatedSuccessfully": "Settings updated successfully.",
+  "showLoadingAnimation": "Show loading animation",
+  "showLoadingAnimationDescription": "Displays animated placeholder graphics while chart data loads.",
   "sslErrorLong": "SSL error. Check if the server's certificate is valid.",
   "sslErrorShort": "SSL error.",
   "startTimeNotBeforeEndTime": "Start time is not before end time",

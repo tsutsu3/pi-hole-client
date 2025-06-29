@@ -1542,6 +1542,13 @@ class AppLocalizationsEn extends AppLocalizations {
   String get settingsUpdatedSuccessfully => 'Settings updated successfully.';
 
   @override
+  String get showLoadingAnimation => 'Show loading animation';
+
+  @override
+  String get showLoadingAnimationDescription =>
+      'Displays animated placeholder graphics while chart data loads.';
+
+  @override
   String get sslErrorLong =>
       'SSL error. Check if the server\'s certificate is valid.';
 

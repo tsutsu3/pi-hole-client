@@ -3062,6 +3062,18 @@ abstract class AppLocalizations {
   /// **'Settings updated successfully.'**
   String get settingsUpdatedSuccessfully;
 
+  /// No description provided for @showLoadingAnimation.
+  ///
+  /// In en, this message translates to:
+  /// **'Show loading animation'**
+  String get showLoadingAnimation;
+
+  /// No description provided for @showLoadingAnimationDescription.
+  ///
+  /// In en, this message translates to:
+  /// **'Displays animated placeholder graphics while chart data loads.'**
+  String get showLoadingAnimationDescription;
+
   /// No description provided for @sslErrorLong.
   ///
   /// In en, this message translates to:
