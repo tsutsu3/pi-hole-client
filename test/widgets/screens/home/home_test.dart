@@ -10,6 +10,7 @@ import 'package:pi_hole_client/screens/home/widgets/switch_server_modal.dart';
 import 'package:skeletonizer/skeletonizer.dart';
 
 import '../../helpers.dart';
+import '../utils.dart';
 
 void main() async {
   await initializeApp();
@@ -272,6 +273,105 @@ void main() async {
           expect(find.text('Refresh'), findsOneWidget);
           expect(find.text('Open web panel'), findsOneWidget);
           expect(find.text('Change server'), findsOneWidget);
+        },
+      );
+
+      testWidgets(
+        'should shows "Connect" and "Change server" options when server is not connected',
+        (WidgetTester tester) async {
+          tester.view.physicalSize = const Size(1080, 2400);
+          tester.view.devicePixelRatio = 2.0;
+
+          when(testSetup.mockStatusProvider.isServerConnected)
+              .thenReturn(false);
+
+          addTearDown(() {
+            tester.view.resetPhysicalSize();
+            tester.view.resetDevicePixelRatio();
+          });
+
+          await tester.pumpWidget(
+            testSetup.buildTestWidget(
+              const Home(),
+            ),
+          );
+
+          expect(find.byType(Home), findsOneWidget);
+          expect(find.byType(HomeAppBar), findsOneWidget);
+          expect(find.byIcon(Icons.more_vert), findsOneWidget);
+          await tester.pump();
+
+          await tester.tap(find.byIcon(Icons.more_vert));
+          await tester.pump();
+          showText();
+          expect(find.text('Try reconnect'), findsOneWidget);
+          expect(find.text('Change server'), findsOneWidget);
+        },
+      );
+
+      testWidgets(
+        'should show refresh server',
+        (WidgetTester tester) async {
+          tester.view.physicalSize = const Size(1080, 2400);
+          tester.view.devicePixelRatio = 2.0;
+
+          addTearDown(() {
+            tester.view.resetPhysicalSize();
+            tester.view.resetDevicePixelRatio();
+          });
+
+          await tester.pumpWidget(
+            testSetup.buildTestWidget(
+              const Home(),
+            ),
+          );
+
+          expect(find.byType(Home), findsOneWidget);
+          expect(find.byType(HomeAppBar), findsOneWidget);
+          expect(find.byIcon(Icons.more_vert), findsOneWidget);
+          await tester.pump();
+
+          await tester.tap(find.byIcon(Icons.more_vert));
+          await tester.pumpAndSettle();
+          expect(find.text('Refresh'), findsOneWidget);
+          expect(find.text('Open web panel'), findsOneWidget);
+          expect(find.text('Change server'), findsOneWidget);
+
+          await tester.tap(find.text('Refresh'));
+        },
+      );
+
+      testWidgets(
+        'should show servers page',
+        (WidgetTester tester) async {
+          tester.view.physicalSize = const Size(1080, 2400);
+          tester.view.devicePixelRatio = 2.0;
+
+          addTearDown(() {
+            tester.view.resetPhysicalSize();
+            tester.view.resetDevicePixelRatio();
+          });
+
+          await tester.pumpWidget(
+            testSetup.buildTestWidget(
+              const Home(),
+            ),
+          );
+
+          expect(find.byType(Home), findsOneWidget);
+          expect(find.byType(HomeAppBar), findsOneWidget);
+          expect(find.byIcon(Icons.more_vert), findsOneWidget);
+          await tester.pump();
+
+          await tester.tap(find.byIcon(Icons.more_vert));
+          await tester.pumpAndSettle();
+          expect(find.text('Refresh'), findsOneWidget);
+          expect(find.text('Open web panel'), findsOneWidget);
+          expect(find.text('Change server'), findsOneWidget);
+
+          await tester.tap(find.text('Change server'));
+          await tester.pumpAndSettle();
+          expect(find.text('Servers'), findsOneWidget);
         },
       );
     },

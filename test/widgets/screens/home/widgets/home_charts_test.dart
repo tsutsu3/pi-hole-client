@@ -1,11 +1,14 @@
+import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/mockito.dart';
 import 'package:pi_hole_client/constants/enums.dart';
 import 'package:pi_hole_client/models/overtime_data.dart';
+import 'package:pi_hole_client/screens/home/widgets/bar_chart_skeleton.dart';
 import 'package:pi_hole_client/screens/home/widgets/clients_last_hours_bar.dart';
 import 'package:pi_hole_client/screens/home/widgets/clients_last_hours_line.dart';
 import 'package:pi_hole_client/screens/home/widgets/home_charts.dart';
+import 'package:pi_hole_client/screens/home/widgets/line_chart_skeleton.dart';
 import 'package:pi_hole_client/screens/home/widgets/queries_last_hours_bar.dart';
 import 'package:pi_hole_client/screens/home/widgets/queries_last_hours_line.dart';
 
@@ -26,7 +29,7 @@ void main() async {
       });
 
       testWidgets(
-        'should show loading text when data is loading',
+        'should show line skelton when data is loading',
         (WidgetTester tester) async {
           tester.view.physicalSize = const Size(1080, 2400);
           tester.view.devicePixelRatio = 1.0;
@@ -47,6 +50,67 @@ void main() async {
 
           expect(find.byType(HomeCharts), findsOneWidget);
           await tester.pump();
+          expect(find.byType(LineChartSkeleton), findsNWidgets(2));
+          expect(find.text('Loading...'), findsWidgets);
+        },
+      );
+
+      testWidgets(
+        'should show bar skelton when data is loading',
+        (WidgetTester tester) async {
+          tester.view.physicalSize = const Size(1080, 2400);
+          tester.view.devicePixelRatio = 1.0;
+
+          when(testSetup.mockConfigProvider.homeVisualizationMode)
+              .thenReturn(1);
+
+          addTearDown(() {
+            tester.view.resetPhysicalSize();
+            tester.view.resetDevicePixelRatio();
+          });
+
+          when(testSetup.mockStatusProvider.getOvertimeDataLoadStatus)
+              .thenReturn(LoadStatus.loading);
+
+          await tester.pumpWidget(
+            testSetup.buildTestWidget(
+              const HomeCharts(),
+            ),
+          );
+
+          expect(find.byType(HomeCharts), findsOneWidget);
+          await tester.pump();
+          expect(find.byType(BarChartSkeleton), findsNWidgets(2));
+          expect(find.text('Loading...'), findsWidgets);
+        },
+      );
+
+      testWidgets(
+        'should show loading when data is loading (no animation)',
+        (WidgetTester tester) async {
+          tester.view.physicalSize = const Size(1080, 2400);
+          tester.view.devicePixelRatio = 1.0;
+
+          when(testSetup.mockConfigProvider.loadingAnimation).thenReturn(false);
+
+          addTearDown(() {
+            tester.view.resetPhysicalSize();
+            tester.view.resetDevicePixelRatio();
+          });
+
+          when(testSetup.mockStatusProvider.getOvertimeDataLoadStatus)
+              .thenReturn(LoadStatus.loading);
+
+          await tester.pumpWidget(
+            testSetup.buildTestWidget(
+              const HomeCharts(),
+            ),
+          );
+
+          expect(find.byType(HomeCharts), findsOneWidget);
+          await tester.pump();
+          expect(find.byType(LineChartBarData), findsNothing);
+          expect(find.byType(BarChartGroupData), findsNothing);
           expect(find.text('Loading...'), findsWidgets);
         },
       );
