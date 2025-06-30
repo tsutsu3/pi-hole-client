@@ -56,10 +56,12 @@ class HomeTileItem extends StatelessWidget {
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    Icon(
-                      icon,
-                      size: 65,
-                      color: iconColor,
+                    Skeleton.keep(
+                      child: Icon(
+                        icon,
+                        size: 65,
+                        color: iconColor,
+                      ),
                     ),
                   ],
                 ),
@@ -76,12 +78,14 @@ class HomeTileItem extends StatelessWidget {
                         mainAxisAlignment: MainAxisAlignment.spaceAround,
                         children: [
                           Flexible(
-                            child: Text(
-                              label,
-                              textAlign: TextAlign.end,
-                              style: const TextStyle(
-                                color: Colors.white,
-                                fontSize: 14,
+                            child: Skeleton.keep(
+                              child: Text(
+                                label,
+                                textAlign: TextAlign.end,
+                                style: const TextStyle(
+                                  color: Colors.white,
+                                  fontSize: 14,
+                                ),
                               ),
                             ),
                           ),
@@ -107,20 +111,12 @@ class HomeTileItem extends StatelessWidget {
                               ],
                             )
                           else
-                            Skeletonizer(
-                              enabled: loadStatus == LoadStatus.loading,
-                              effect: ShimmerEffect(
-                                baseColor: Colors.white.withValues(alpha: 0.4),
-                                highlightColor:
-                                    Colors.white.withValues(alpha: 0.8),
-                              ),
-                              child: Text(
-                                value,
-                                style: const TextStyle(
-                                  color: Colors.white,
-                                  fontSize: 24,
-                                  fontWeight: FontWeight.w500,
-                                ),
+                            Text(
+                              value,
+                              style: const TextStyle(
+                                color: Colors.white,
+                                fontSize: 24,
+                                fontWeight: FontWeight.w500,
                               ),
                             ),
                         ],

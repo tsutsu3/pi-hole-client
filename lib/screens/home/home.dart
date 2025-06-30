@@ -17,6 +17,7 @@ import 'package:pi_hole_client/screens/home/widgets/home_appbar.dart';
 import 'package:pi_hole_client/screens/home/widgets/home_charts.dart';
 import 'package:pi_hole_client/screens/home/widgets/home_tile.dart';
 import 'package:provider/provider.dart';
+import 'package:skeletonizer/skeletonizer.dart';
 
 const _fakeTotal = 12345;
 const _fakeblocked = 1234;
@@ -73,63 +74,74 @@ class _HomeState extends State<Home> {
     final width = MediaQuery.of(context).size.width;
 
     Widget tiles() {
+      final isLoading = statusProvider.getStatusLoading == LoadStatus.loading;
+
       return Padding(
         padding: const EdgeInsets.symmetric(horizontal: 8),
-        child: Wrap(
-          runSpacing: 16,
-          children: [
-            HomeTileItem(
-              icon: Icons.public,
-              iconColor:
-                  Theme.of(context).extension<DataVisColors>()!.blueDark!,
-              color: Theme.of(context).extension<DataVisColors>()!.blue!,
-              label: AppLocalizations.of(context)!.totalQueries,
-              value: intFormat(
-                statusProvider.getRealtimeStatus?.dnsQueriesToday ?? _fakeTotal,
-                Platform.localeName,
+        child: Skeletonizer(
+          enabled: isLoading,
+          effect: ShimmerEffect(
+            baseColor: Colors.white.withValues(alpha: 0.4),
+            highlightColor: Colors.white.withValues(alpha: 0.8),
+          ),
+          child: Wrap(
+            runSpacing: 16,
+            children: [
+              HomeTileItem(
+                icon: Icons.public,
+                iconColor:
+                    Theme.of(context).extension<DataVisColors>()!.blueDark!,
+                color: Theme.of(context).extension<DataVisColors>()!.blue!,
+                label: AppLocalizations.of(context)!.totalQueries,
+                value: intFormat(
+                  statusProvider.getRealtimeStatus?.dnsQueriesToday ??
+                      _fakeTotal,
+                  Platform.localeName,
+                ),
+                width: width,
+                loadStatus: statusProvider.getStatusLoading,
               ),
-              width: width,
-              loadStatus: statusProvider.getStatusLoading,
-            ),
-            HomeTileItem(
-              icon: Icons.block,
-              iconColor: Theme.of(context).extension<DataVisColors>()!.redDark!,
-              color: Theme.of(context).extension<DataVisColors>()!.red!,
-              label: AppLocalizations.of(context)!.queriesBlocked,
-              value: intFormat(
-                statusProvider.getRealtimeStatus?.adsBlockedToday ??
-                    _fakeblocked,
-                Platform.localeName,
+              HomeTileItem(
+                icon: Icons.block,
+                iconColor:
+                    Theme.of(context).extension<DataVisColors>()!.redDark!,
+                color: Theme.of(context).extension<DataVisColors>()!.red!,
+                label: AppLocalizations.of(context)!.queriesBlocked,
+                value: intFormat(
+                  statusProvider.getRealtimeStatus?.adsBlockedToday ??
+                      _fakeblocked,
+                  Platform.localeName,
+                ),
+                width: width,
+                loadStatus: statusProvider.getStatusLoading,
               ),
-              width: width,
-              loadStatus: statusProvider.getStatusLoading,
-            ),
-            HomeTileItem(
-              icon: Icons.pie_chart,
-              iconColor:
-                  Theme.of(context).extension<DataVisColors>()!.orangeDark!,
-              color: Theme.of(context).extension<DataVisColors>()!.orange!,
-              label: AppLocalizations.of(context)!.percentageBlocked,
-              value:
-                  '${formatPercentage(statusProvider.getRealtimeStatus?.adsPercentageToday ?? _fakePercentage, Platform.localeName)}%',
-              width: width,
-              loadStatus: statusProvider.getStatusLoading,
-            ),
-            HomeTileItem(
-              icon: Icons.list,
-              iconColor:
-                  Theme.of(context).extension<DataVisColors>()!.greenDark!,
-              color: Theme.of(context).extension<DataVisColors>()!.green!,
-              label: AppLocalizations.of(context)!.domainsAdlists,
-              value: intFormat(
-                statusProvider.getRealtimeStatus?.domainsBeingBlocked ??
-                    _fakeDomains,
-                Platform.localeName,
+              HomeTileItem(
+                icon: Icons.pie_chart,
+                iconColor:
+                    Theme.of(context).extension<DataVisColors>()!.orangeDark!,
+                color: Theme.of(context).extension<DataVisColors>()!.orange!,
+                label: AppLocalizations.of(context)!.percentageBlocked,
+                value:
+                    '${formatPercentage(statusProvider.getRealtimeStatus?.adsPercentageToday ?? _fakePercentage, Platform.localeName)}%',
+                width: width,
+                loadStatus: statusProvider.getStatusLoading,
               ),
-              width: width,
-              loadStatus: statusProvider.getStatusLoading,
-            ),
-          ],
+              HomeTileItem(
+                icon: Icons.list,
+                iconColor:
+                    Theme.of(context).extension<DataVisColors>()!.greenDark!,
+                color: Theme.of(context).extension<DataVisColors>()!.green!,
+                label: AppLocalizations.of(context)!.domainsAdlists,
+                value: intFormat(
+                  statusProvider.getRealtimeStatus?.domainsBeingBlocked ??
+                      _fakeDomains,
+                  Platform.localeName,
+                ),
+                width: width,
+                loadStatus: statusProvider.getStatusLoading,
+              ),
+            ],
+          ),
         ),
       );
     }
