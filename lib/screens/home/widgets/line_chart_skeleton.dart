@@ -189,13 +189,6 @@ class _LineChartSkeletonState extends State<LineChartSkeleton>
           children: [
             Container(
               padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 16),
-              decoration: BoxDecoration(
-                color: Theme.of(context)
-                    .dialogTheme
-                    .backgroundColor!
-                    .withValues(alpha: 0.85),
-                borderRadius: BorderRadius.circular(12),
-              ),
               child: Column(
                 children: [
                   SizedBox(
