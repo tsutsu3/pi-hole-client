@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:pi_hole_client/config/theme.dart';
 import 'package:pi_hole_client/l10n/generated/app_localizations.dart';
 import 'package:skeletonizer/skeletonizer.dart';
+import 'package:loading_animation_widget/loading_animation_widget.dart';
 
 class LineChartSkeleton extends StatefulWidget {
   const LineChartSkeleton({
@@ -187,30 +188,19 @@ class _LineChartSkeletonState extends State<LineChartSkeleton>
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
-            Container(
-              padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 16),
-              child: Column(
-                children: [
-                  SizedBox(
-                    width: 28,
-                    height: 28,
-                    child: CircularProgressIndicator(
-                      strokeWidth: 4,
-                      valueColor: AlwaysStoppedAnimation<Color>(
-                        Theme.of(context).colorScheme.primary,
-                      ),
-                    ),
-                  ),
-                  const SizedBox(height: 8),
-                  Text(
-                    AppLocalizations.of(context)!.loading,
-                    style: TextStyle(
-                      fontSize: 14,
-                      fontWeight: FontWeight.w600,
-                      color: Theme.of(context).colorScheme.onSurfaceVariant,
-                    ),
-                  ),
-                ],
+            Center(
+              child: LoadingAnimationWidget.staggeredDotsWave(
+                color: Theme.of(context).colorScheme.primary,
+                size: 42,
+              ),
+            ),
+            const SizedBox(height: 8),
+            Text(
+              AppLocalizations.of(context)!.loading,
+              style: TextStyle(
+                fontSize: 14,
+                fontWeight: FontWeight.w600,
+                color: Theme.of(context).colorScheme.onSurfaceVariant,
               ),
             ),
           ],
