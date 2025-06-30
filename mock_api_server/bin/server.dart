@@ -27,7 +27,16 @@ Middleware sleepMiddleware({
   };
 }
 
-void main() async {
+void main(List<String> args) async {
+  var delayMs = 500;
+  final delayArgIndex = args.indexOf('--delay');
+  if (delayArgIndex != -1 && delayArgIndex + 1 < args.length) {
+    final value = int.tryParse(args[delayArgIndex + 1]);
+    if (value != null && value >= 0) {
+      delayMs = value;
+    }
+  }
+
   final router = Router();
 
   router.mount('/api/auth', AuthHandler().router.call);
@@ -45,7 +54,7 @@ void main() async {
 
   final handler = Pipeline()
       .addMiddleware(logRequests())
-      .addMiddleware(sleepMiddleware(delay: Duration(milliseconds: 500)))
+      .addMiddleware(sleepMiddleware(delay: Duration(milliseconds: delayMs)))
       .addHandler(router.call);
 
   final server = await io.serve(handler, InternetAddress.anyIPv4, 8888);
