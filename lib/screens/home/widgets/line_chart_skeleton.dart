@@ -2,10 +2,10 @@ import 'dart:math';
 
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
+import 'package:loading_animation_widget/loading_animation_widget.dart';
 import 'package:pi_hole_client/config/theme.dart';
 import 'package:pi_hole_client/l10n/generated/app_localizations.dart';
 import 'package:skeletonizer/skeletonizer.dart';
-import 'package:loading_animation_widget/loading_animation_widget.dart';
 
 class LineChartSkeleton extends StatefulWidget {
   const LineChartSkeleton({
