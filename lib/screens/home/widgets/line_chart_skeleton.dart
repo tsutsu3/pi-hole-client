@@ -28,6 +28,7 @@ class _LineChartSkeletonState extends State<LineChartSkeleton>
   late AnimationController _controller;
   late final List<double> _waveOffsets;
   late final List<double> _scales;
+  final _titleCache = <int, Widget>{};
 
   final _pointCount = 10;
   final _maxY = 100.0;
@@ -160,10 +161,13 @@ class _LineChartSkeletonState extends State<LineChartSkeleton>
               showTitles: true,
               interval: 20,
               reservedSize: 35,
-              getTitlesWidget: (value, _) => Text(
-                value.toInt().toString(),
-                style: const TextStyle(fontSize: 12),
-              ),
+              getTitlesWidget: (value, _) {
+                final key = value.toInt();
+                return _titleCache.putIfAbsent(
+                  key,
+                  () => Text('$key', style: const TextStyle(fontSize: 12)),
+                );
+              },
             ),
           ),
         ),
