@@ -479,7 +479,19 @@ class HomeAppBar extends StatelessWidget implements PreferredSizeWidget {
     StatusUpdateService statusUpdateService,
     LoginQueryResponse? result,
   ) async {
-    logger.w('Error while connecting to server: ${result?.result.name}');
+    /// Returns immediately if either the main status or overtime data has already finished loading.
+    /// This prevents any actions from being taken if the user has switched to another server while loading.
+    if (statusProvider.getStatusLoading == LoadStatus.loaded ||
+        statusProvider.getOvertimeDataLoadStatus == LoadStatus.loaded) {
+      logger.i(
+        'Status or overtime data already loaded, skipping error handling.',
+      );
+      return;
+    }
+
+    logger.w(
+      'Error while connecting to server: ${result?.result.name}. Falling back to the previous server and triggering refresh.',
+    );
 
     statusProvider.setStatusLoading(LoadStatus.error);
     statusProvider.setOvertimeDataLoadingStatus(LoadStatus.error);
