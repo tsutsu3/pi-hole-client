@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:pi_hole_client/l10n/generated/app_localizations.dart';
 import 'package:pi_hole_client/widgets/section_label.dart';
 
-class NoDataChart extends StatelessWidget {
-  const NoDataChart({
+class ErrorDataChart extends StatelessWidget {
+  const ErrorDataChart({
     required this.topLabel,
     super.key,
   });
@@ -13,24 +13,6 @@ class NoDataChart extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final width = MediaQuery.of(context).size.width;
-
-    // return Column(
-    //   crossAxisAlignment: CrossAxisAlignment.start,
-    //   children: [
-    //     SectionLabel(label: topLabel),
-    //     Padding(
-    //       padding: const EdgeInsets.symmetric(horizontal: 16),
-    //       child: Container(
-    //         width: double.infinity,
-    //         height: 360,
-    //         decoration: BoxDecoration(
-    //           borderRadius: BorderRadius.circular(12),
-    //           color: Theme.of(context).colorScheme.surfaceContainerHighest,
-    //         ),
-    //       ),
-    //     ),
-    //   ],
-    // );
 
     return SizedBox(
       width: width,
@@ -54,13 +36,13 @@ class NoDataChart extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Icon(
-                  Icons.show_chart_rounded,
+                  Icons.error,
                   size: 40,
-                  color: Theme.of(context).colorScheme.onSurfaceVariant,
+                  color: Theme.of(context).colorScheme.error,
                 ),
                 const SizedBox(height: 20),
                 Text(
-                  AppLocalizations.of(context)!.noData,
+                  AppLocalizations.of(context)!.chartsNotLoaded,
                   style: TextStyle(
                     color: Theme.of(context).colorScheme.onSurfaceVariant,
                     fontWeight: FontWeight.w700,

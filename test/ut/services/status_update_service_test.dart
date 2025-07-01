@@ -167,7 +167,8 @@ void main() async {
 
       when(mockStatusProvider.isServerConnected).thenReturn(true);
       when(mockStatusProvider.getStatusLoading).thenReturn(LoadStatus.loading);
-      when(mockStatusProvider.getOvertimeDataLoadStatus).thenReturn(0);
+      when(mockStatusProvider.getOvertimeDataLoadStatus)
+          .thenReturn(LoadStatus.loading);
 
       statusUpdateService.startAutoRefresh();
       await Future.delayed(const Duration(seconds: 1));
@@ -196,7 +197,8 @@ void main() async {
 
       when(mockStatusProvider.isServerConnected).thenReturn(true);
       when(mockStatusProvider.getStatusLoading).thenReturn(LoadStatus.loading);
-      when(mockStatusProvider.getOvertimeDataLoadStatus).thenReturn(0);
+      when(mockStatusProvider.getOvertimeDataLoadStatus)
+          .thenReturn(LoadStatus.loading);
 
       Object? caughtError;
 
@@ -225,7 +227,8 @@ void main() async {
 
       when(mockStatusProvider.isServerConnected).thenReturn(true);
       when(mockStatusProvider.getStatusLoading).thenReturn(LoadStatus.loading);
-      when(mockStatusProvider.getOvertimeDataLoadStatus).thenReturn(0);
+      when(mockStatusProvider.getOvertimeDataLoadStatus)
+          .thenReturn(LoadStatus.loading);
 
       Object? caughtError;
 

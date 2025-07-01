@@ -419,6 +419,10 @@ class AppLocalizationsJa extends AppLocalizations {
   String get couldNotConnectServer => 'サーバーに接続できませんでした';
 
   @override
+  String get couldNotConnectServerFallback =>
+      'サーバーに接続できませんでした。前のサーバーに戻り、データを再取得します...';
+
+  @override
   String get couldntAddBlacklist => 'ドメインをブラックリストに追加できませんでした。';
 
   @override
@@ -678,6 +682,9 @@ class AppLocalizationsJa extends AppLocalizations {
 
   @override
   String get erasesAppData => '全てのアプリケーションデータを削除';
+
+  @override
+  String get error => 'エラー';
 
   @override
   String get errorRemovingAdlist => 'Adlistの削除中にエラーが発生しました';
@@ -970,6 +977,9 @@ class AppLocalizationsJa extends AppLocalizations {
 
   @override
   String get listDescription => 'ラベルと数値を左側に、バーを右側に表示するリストでデータを表示します。';
+
+  @override
+  String get loading => '読み込み中...';
 
   @override
   String get loadingCharts => 'チャートを読み込み中...';
@@ -1495,6 +1505,13 @@ class AppLocalizationsJa extends AppLocalizations {
 
   @override
   String get settingsUpdatedSuccessfully => '設定が正常に更新されました。';
+
+  @override
+  String get showLoadingAnimation => '読み込み中のアニメーションを表示';
+
+  @override
+  String get showLoadingAnimationDescription =>
+      'チャートデータの読み込み中にアニメーションのプレースホルダーを表示します。';
 
   @override
   String get sslErrorLong => 'SSLエラー。サーバーの証明書が有効か確認してください。';

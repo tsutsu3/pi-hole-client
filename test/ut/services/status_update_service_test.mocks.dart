@@ -546,6 +546,12 @@ class MockAppConfigProvider extends _i1.Mock implements _i6.AppConfigProvider {
       ) as bool);
 
   @override
+  bool get loadingAnimation => (super.noSuchMethod(
+        Invocation.getter(#loadingAnimation),
+        returnValue: false,
+      ) as bool);
+
+  @override
   int get statisticsVisualizationMode => (super.noSuchMethod(
         Invocation.getter(#statisticsVisualizationMode),
         returnValue: 0,
@@ -749,6 +755,16 @@ class MockAppConfigProvider extends _i1.Mock implements _i6.AppConfigProvider {
   _i12.Future<bool> setHideZeroValues(bool? status) => (super.noSuchMethod(
         Invocation.method(
           #setHideZeroValues,
+          [status],
+        ),
+        returnValue: _i12.Future<bool>.value(false),
+      ) as _i12.Future<bool>);
+
+  @override
+  _i12.Future<bool> setShowLoadingAnimation(bool? status) =>
+      (super.noSuchMethod(
+        Invocation.method(
+          #setShowLoadingAnimation,
           [status],
         ),
         returnValue: _i12.Future<bool>.value(false),
@@ -1074,10 +1090,10 @@ class MockStatusProvider extends _i1.Mock implements _i18.StatusProvider {
       ) as _i19.LoadStatus);
 
   @override
-  int get getOvertimeDataLoadStatus => (super.noSuchMethod(
+  _i19.LoadStatus get getOvertimeDataLoadStatus => (super.noSuchMethod(
         Invocation.getter(#getOvertimeDataLoadStatus),
-        returnValue: 0,
-      ) as int);
+        returnValue: _i19.LoadStatus.loading,
+      ) as _i19.LoadStatus);
 
   @override
   bool get hasListeners => (super.noSuchMethod(
@@ -1114,7 +1130,8 @@ class MockStatusProvider extends _i1.Mock implements _i18.StatusProvider {
       );
 
   @override
-  void setOvertimeDataLoadingStatus(int? status) => super.noSuchMethod(
+  void setOvertimeDataLoadingStatus(_i19.LoadStatus? status) =>
+      super.noSuchMethod(
         Invocation.method(
           #setOvertimeDataLoadingStatus,
           [status],

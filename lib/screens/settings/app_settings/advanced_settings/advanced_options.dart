@@ -75,6 +75,25 @@ class AdvancedOptions extends StatelessWidget {
       }
     }
 
+    Future<void> updateShowLoadingAnimation(bool newStatus) async {
+      final result = await appConfigProvider.setShowLoadingAnimation(newStatus);
+      if (!context.mounted) return;
+
+      if (result == true) {
+        showSuccessSnackBar(
+          context: context,
+          appConfigProvider: appConfigProvider,
+          label: AppLocalizations.of(context)!.settingsUpdatedSuccessfully,
+        );
+      } else {
+        showErrorSnackBar(
+          context: context,
+          appConfigProvider: appConfigProvider,
+          label: AppLocalizations.of(context)!.cannotUpdateSettings,
+        );
+      }
+    }
+
     Future<void> deleteApplicationData() async {
       Future<void> reset() async {
         final process = ProcessModal(context: context);
@@ -226,6 +245,25 @@ class AdvancedOptions extends StatelessWidget {
               trailing: Switch(
                 value: appConfigProvider.hideZeroValues,
                 onChanged: updateHideZeroValues,
+              ),
+            ),
+            CustomListTile(
+              leadingIcon: Icons.animation_rounded,
+              label: AppLocalizations.of(context)!.showLoadingAnimation,
+              description:
+                  AppLocalizations.of(context)!.showLoadingAnimationDescription,
+              onTap: () => updateShowLoadingAnimation(
+                !appConfigProvider.loadingAnimation,
+              ),
+              padding: const EdgeInsets.only(
+                top: 10,
+                bottom: 10,
+                left: 20,
+                right: 10,
+              ),
+              trailing: Switch(
+                value: appConfigProvider.loadingAnimation,
+                onChanged: updateShowLoadingAnimation,
               ),
             ),
             CustomListTile(

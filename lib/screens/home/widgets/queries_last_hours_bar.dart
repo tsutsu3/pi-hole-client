@@ -17,6 +17,7 @@ class QueriesLastHoursBar extends StatelessWidget {
 
   final Map<String, dynamic> data;
   final bool reducedData;
+  static final Map<int, Widget> _titleCache = {};
 
   BarChartData mainData(
     Map<String, dynamic> data,
@@ -44,12 +45,16 @@ class QueriesLastHoursBar extends StatelessWidget {
             showTitles: true,
             interval: interval,
             reservedSize: 35,
-            getTitlesWidget: (value, widget) => Text(
-              value.toInt().toString(),
-              style: const TextStyle(
-                fontSize: 12,
-              ),
-            ),
+            getTitlesWidget: (value, widget) {
+              final key = value.toInt();
+              return _titleCache.putIfAbsent(
+                key,
+                () => Text(
+                  key.toString(),
+                  style: const TextStyle(fontSize: 12),
+                ),
+              );
+            },
           ),
         ),
       ),

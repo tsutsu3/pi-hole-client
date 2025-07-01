@@ -28,6 +28,7 @@ class AppConfigProvider with ChangeNotifier {
   bool _validVibrator = false;
   int _importantInfoReaden = 0;
   int _hideZeroValues = 0;
+  int _loadingAnimation = 1;
   int _statisticsVisualizationMode = 0;
   int _homeVisualizationMode = 0;
   int _sendCrashReports = 0;
@@ -118,7 +119,7 @@ class AppConfigProvider with ChangeNotifier {
   }
 
   bool get useBiometrics {
-    return _useBiometrics == 0 ? false : true;
+    return _useBiometrics == 1;
   }
 
   bool get appUnlocked {
@@ -130,11 +131,15 @@ class AppConfigProvider with ChangeNotifier {
   }
 
   bool get importantInfoReaden {
-    return _importantInfoReaden == 0 ? false : true;
+    return _importantInfoReaden == 1;
   }
 
   bool get hideZeroValues {
-    return _hideZeroValues == 0 ? false : true;
+    return _hideZeroValues == 1;
+  }
+
+  bool get loadingAnimation {
+    return _loadingAnimation == 1;
   }
 
   int get statisticsVisualizationMode {
@@ -146,7 +151,7 @@ class AppConfigProvider with ChangeNotifier {
   }
 
   bool get sendCrashReports {
-    return _sendCrashReports == 0 ? false : true;
+    return _sendCrashReports == 1;
   }
 
   List<AppLog> get logs {
@@ -216,7 +221,7 @@ class AppConfigProvider with ChangeNotifier {
       column: 'useBiometricAuth',
       value: newValue,
     );
-    if (updated == true) {
+    if (updated) {
       _useBiometrics = newValue;
       notifyListeners();
       return true;
@@ -233,7 +238,7 @@ class AppConfigProvider with ChangeNotifier {
       column: 'importantInfoReaden',
       value: status == true ? 1 : 0,
     );
-    if (updated == true) {
+    if (updated) {
       _importantInfoReaden = status == true ? 1 : 0;
       notifyListeners();
       return true;
@@ -248,7 +253,7 @@ class AppConfigProvider with ChangeNotifier {
         column: 'useBiometricAuth',
         value: 0,
       );
-      if (updated == true) {
+      if (updated) {
         _useBiometrics = 0;
         final updated2 = await _repository.updateConfigQuery(
           column: 'passCode',
@@ -267,7 +272,7 @@ class AppConfigProvider with ChangeNotifier {
     } else {
       final updated =
           await _repository.updateConfigQuery(column: 'passCode', value: code);
-      if (updated == true) {
+      if (updated) {
         _passCode = code;
         notifyListeners();
         return true;
@@ -282,7 +287,7 @@ class AppConfigProvider with ChangeNotifier {
       column: 'autoRefreshTime',
       value: seconds,
     );
-    if (updated == true) {
+    if (updated) {
       _autoRefreshTime = seconds;
       notifyListeners();
       return true;
@@ -296,7 +301,7 @@ class AppConfigProvider with ChangeNotifier {
       column: 'logsPerQuery',
       value: time,
     );
-    if (updated == true) {
+    if (updated) {
       _logsPerQuery = time;
       notifyListeners();
       return true;
@@ -310,7 +315,7 @@ class AppConfigProvider with ChangeNotifier {
       column: 'sendCrashReports',
       value: status == true ? 1 : 0,
     );
-    if (updated == true) {
+    if (updated) {
       _sendCrashReports = status == true ? 1 : 0;
       notifyListeners();
       return true;
@@ -329,6 +334,7 @@ class AppConfigProvider with ChangeNotifier {
     _useBiometrics = dbData.useBiometricAuth;
     _importantInfoReaden = dbData.importantInfoReaden;
     _hideZeroValues = dbData.hideZeroValues;
+    _loadingAnimation = dbData.loadingAnimation;
     _statisticsVisualizationMode = dbData.statisticsVisualizationMode;
     _homeVisualizationMode = dbData.homeVisualizationMode;
     _sendCrashReports = dbData.sendCrashReports;
@@ -345,7 +351,7 @@ class AppConfigProvider with ChangeNotifier {
       column: 'reducedDataCharts',
       value: status == true ? 1 : 0,
     );
-    if (updated == true) {
+    if (updated) {
       _reducedDataCharts = status == true ? 1 : 0;
       notifyListeners();
       return true;
@@ -359,8 +365,23 @@ class AppConfigProvider with ChangeNotifier {
       column: 'hideZeroValues',
       value: status == true ? 1 : 0,
     );
-    if (updated == true) {
+    if (updated) {
       _hideZeroValues = status == true ? 1 : 0;
+      notifyListeners();
+      return true;
+    } else {
+      return false;
+    }
+  }
+
+  Future<bool> setShowLoadingAnimation(bool status) async {
+    final value = status ? 1 : 0;
+    final updated = await _repository.updateConfigQuery(
+      column: 'loadingAnimation',
+      value: value,
+    );
+    if (updated) {
+      _loadingAnimation = value;
       notifyListeners();
       return true;
     } else {
@@ -371,7 +392,7 @@ class AppConfigProvider with ChangeNotifier {
   Future<bool> setSelectedTheme(int value) async {
     final updated =
         await _repository.updateConfigQuery(column: 'theme', value: value);
-    if (updated == true) {
+    if (updated) {
       _selectedTheme = value;
       notifyListeners();
       return true;
@@ -383,7 +404,7 @@ class AppConfigProvider with ChangeNotifier {
   Future<bool> setSelectedLanguage(String value) async {
     final updated =
         await _repository.updateConfigQuery(column: 'language', value: value);
-    if (updated == true) {
+    if (updated) {
       _selectedLanguage = value;
       notifyListeners();
       return true;
@@ -397,7 +418,7 @@ class AppConfigProvider with ChangeNotifier {
       column: 'statisticsVisualizationMode',
       value: value,
     );
-    if (updated == true) {
+    if (updated) {
       _statisticsVisualizationMode = value;
       notifyListeners();
       return true;
@@ -411,7 +432,7 @@ class AppConfigProvider with ChangeNotifier {
       column: 'homeVisualizationMode',
       value: value,
     );
-    if (updated == true) {
+    if (updated) {
       _homeVisualizationMode = value;
       notifyListeners();
       return true;
@@ -432,6 +453,7 @@ class AppConfigProvider with ChangeNotifier {
       _useBiometrics = 0;
       _importantInfoReaden = 0;
       _hideZeroValues = 0;
+      _loadingAnimation = 1;
       _statisticsVisualizationMode = 0;
       _homeVisualizationMode = 0;
       _sendCrashReports = 0;

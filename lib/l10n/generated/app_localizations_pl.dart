@@ -433,6 +433,10 @@ class AppLocalizationsPl extends AppLocalizations {
   String get couldNotConnectServer => 'Nie można połączyć się z serwerem';
 
   @override
+  String get couldNotConnectServerFallback =>
+      'Nie udało się połączyć z serwerem. Przywracanie poprzedniego serwera i ponowne ładowanie jego danych ...';
+
+  @override
   String get couldntAddBlacklist => 'Nie można dodać domeny do czarnej listy.';
 
   @override
@@ -698,6 +702,9 @@ class AppLocalizationsPl extends AppLocalizations {
 
   @override
   String get erasesAppData => 'Usuwa wszystkie dane aplikacji';
+
+  @override
+  String get error => 'Błąd';
 
   @override
   String get errorRemovingAdlist => 'Błąd podczas usuwania Adlist';
@@ -1002,6 +1009,9 @@ class AppLocalizationsPl extends AppLocalizations {
   @override
   String get listDescription =>
       'Wyświetla dane na liście z etykietą i wartością liczbową po lewej stronie oraz paskiem po prawej stronie.';
+
+  @override
+  String get loading => 'Ładowanie...';
 
   @override
   String get loadingCharts => 'Ładowanie wykresów...';
@@ -1546,6 +1556,13 @@ class AppLocalizationsPl extends AppLocalizations {
   @override
   String get settingsUpdatedSuccessfully =>
       'Ustawienia zostały pomyślnie zaktualizowane.';
+
+  @override
+  String get showLoadingAnimation => 'Pokaż animację ładowania';
+
+  @override
+  String get showLoadingAnimationDescription =>
+      'Wyświetla animowane grafiki zastępcze podczas ładowania danych wykresu.';
 
   @override
   String get sslErrorLong =>

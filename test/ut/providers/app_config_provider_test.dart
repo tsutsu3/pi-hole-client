@@ -47,6 +47,7 @@ void main() {
       expect(appConfigProvider.useBiometrics, false);
       expect(appConfigProvider.appUnlocked, true);
       expect(appConfigProvider.validVibrator, false);
+      expect(appConfigProvider.loadingAnimation, true);
       expect(appConfigProvider.importantInfoReaden, false);
       expect(appConfigProvider.hideZeroValues, false);
       expect(appConfigProvider.statisticsVisualizationMode, 0);
@@ -223,6 +224,7 @@ void main() {
           useBiometricAuth: 1,
           importantInfoReaden: 1,
           hideZeroValues: 1,
+          loadingAnimation: 0,
           statisticsVisualizationMode: 1,
           homeVisualizationMode: 1,
           sendCrashReports: 1,
@@ -238,6 +240,7 @@ void main() {
         expect(appConfigProvider.useBiometrics, true);
         expect(appConfigProvider.importantInfoReaden, true);
         expect(appConfigProvider.hideZeroValues, true);
+        expect(appConfigProvider.loadingAnimation, false);
         expect(appConfigProvider.statisticsVisualizationMode, 1);
         expect(appConfigProvider.homeVisualizationMode, 1);
         expect(appConfigProvider.sendCrashReports, true);
@@ -252,6 +255,7 @@ void main() {
           'useBiometricAuth': 1,
           'importantInfoReaden': 1,
           'hideZeroValues': 1,
+          'loadingAnimation': 0,
           'statisticsVisualizationMode': 1,
           'homeVisualizationMode': 1,
           'sendCrashReports': 1,
@@ -282,6 +286,19 @@ void main() {
       final result = await appConfigProvider.setHideZeroValues(true);
       expect(result, true);
       expect(appConfigProvider.hideZeroValues, true);
+      expect(listenerCalled, true);
+    });
+
+    test('setLoadingAnimation updates value and notifies listeners', () async {
+      when(
+        mockDatabaseRepository.updateConfigQuery(
+          column: 'loadingAnimation',
+          value: 0,
+        ),
+      ).thenAnswer((_) async => true);
+      final result = await appConfigProvider.setShowLoadingAnimation(false);
+      expect(result, true);
+      expect(appConfigProvider.loadingAnimation, false);
       expect(listenerCalled, true);
     });
 
@@ -360,6 +377,7 @@ void main() {
         expect(appConfigProvider.useBiometrics, false);
         expect(appConfigProvider.importantInfoReaden, false);
         expect(appConfigProvider.hideZeroValues, false);
+        expect(appConfigProvider.loadingAnimation, true);
         expect(appConfigProvider.statisticsVisualizationMode, 0);
         expect(appConfigProvider.homeVisualizationMode, 0);
         expect(appConfigProvider.sendCrashReports, false);

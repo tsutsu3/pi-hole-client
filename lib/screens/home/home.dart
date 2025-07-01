@@ -17,6 +17,12 @@ import 'package:pi_hole_client/screens/home/widgets/home_appbar.dart';
 import 'package:pi_hole_client/screens/home/widgets/home_charts.dart';
 import 'package:pi_hole_client/screens/home/widgets/home_tile.dart';
 import 'package:provider/provider.dart';
+import 'package:skeletonizer/skeletonizer.dart';
+
+const _fakeTotal = 12345;
+const _fakeblocked = 1234;
+const _fakePercentage = 12.34;
+const _fakeDomains = 123456;
 
 class Home extends StatefulWidget {
   const Home({super.key});
@@ -68,114 +74,76 @@ class _HomeState extends State<Home> {
     final width = MediaQuery.of(context).size.width;
 
     Widget tiles() {
-      switch (statusProvider.getStatusLoading) {
-        case LoadStatus.loading:
-          return Container(
-            padding: const EdgeInsets.symmetric(horizontal: 16),
-            width: double.maxFinite,
-            height: 300,
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                const CircularProgressIndicator(),
-                const SizedBox(height: 50),
-                Text(
-                  AppLocalizations.of(context)!.loadingStats,
-                  textAlign: TextAlign.center,
-                  style: TextStyle(
-                    color: Theme.of(context).colorScheme.onSurfaceVariant,
-                    fontSize: 22,
-                  ),
-                ),
-              ],
-            ),
-          );
+      final isLoading = statusProvider.getStatusLoading == LoadStatus.loading;
 
-        case LoadStatus.loaded:
-          return Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 8),
-            child: Wrap(
-              runSpacing: 16,
-              children: [
-                HomeTileItem(
-                  icon: Icons.public,
-                  iconColor:
-                      Theme.of(context).extension<DataVisColors>()!.blueDark!,
-                  color: Theme.of(context).extension<DataVisColors>()!.blue!,
-                  label: AppLocalizations.of(context)!.totalQueries,
-                  value: intFormat(
-                    statusProvider.getRealtimeStatus!.dnsQueriesToday,
-                    Platform.localeName,
-                  ),
-                  width: width,
+      return Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 8),
+        child: Skeletonizer(
+          enabled: isLoading,
+          effect: ShimmerEffect(
+            baseColor: Colors.white.withValues(alpha: 0.4),
+            highlightColor: Colors.white.withValues(alpha: 0.8),
+          ),
+          child: Wrap(
+            runSpacing: 16,
+            children: [
+              HomeTileItem(
+                icon: Icons.public,
+                iconColor:
+                    Theme.of(context).extension<DataVisColors>()!.blueDark!,
+                color: Theme.of(context).extension<DataVisColors>()!.blue!,
+                label: AppLocalizations.of(context)!.totalQueries,
+                value: intFormat(
+                  statusProvider.getRealtimeStatus?.dnsQueriesToday ??
+                      _fakeTotal,
+                  Platform.localeName,
                 ),
-                HomeTileItem(
-                  icon: Icons.block,
-                  iconColor:
-                      Theme.of(context).extension<DataVisColors>()!.redDark!,
-                  color: Theme.of(context).extension<DataVisColors>()!.red!,
-                  label: AppLocalizations.of(context)!.queriesBlocked,
-                  value: intFormat(
-                    statusProvider.getRealtimeStatus!.adsBlockedToday,
-                    Platform.localeName,
-                  ),
-                  width: width,
+                width: width,
+                loadStatus: statusProvider.getStatusLoading,
+              ),
+              HomeTileItem(
+                icon: Icons.block,
+                iconColor:
+                    Theme.of(context).extension<DataVisColors>()!.redDark!,
+                color: Theme.of(context).extension<DataVisColors>()!.red!,
+                label: AppLocalizations.of(context)!.queriesBlocked,
+                value: intFormat(
+                  statusProvider.getRealtimeStatus?.adsBlockedToday ??
+                      _fakeblocked,
+                  Platform.localeName,
                 ),
-                HomeTileItem(
-                  icon: Icons.pie_chart,
-                  iconColor:
-                      Theme.of(context).extension<DataVisColors>()!.orangeDark!,
-                  color: Theme.of(context).extension<DataVisColors>()!.orange!,
-                  label: AppLocalizations.of(context)!.percentageBlocked,
-                  value:
-                      '${formatPercentage(statusProvider.getRealtimeStatus!.adsPercentageToday, Platform.localeName)}%',
-                  width: width,
+                width: width,
+                loadStatus: statusProvider.getStatusLoading,
+              ),
+              HomeTileItem(
+                icon: Icons.pie_chart,
+                iconColor:
+                    Theme.of(context).extension<DataVisColors>()!.orangeDark!,
+                color: Theme.of(context).extension<DataVisColors>()!.orange!,
+                label: AppLocalizations.of(context)!.percentageBlocked,
+                value:
+                    '${formatPercentage(statusProvider.getRealtimeStatus?.adsPercentageToday ?? _fakePercentage, Platform.localeName)}%',
+                width: width,
+                loadStatus: statusProvider.getStatusLoading,
+              ),
+              HomeTileItem(
+                icon: Icons.list,
+                iconColor:
+                    Theme.of(context).extension<DataVisColors>()!.greenDark!,
+                color: Theme.of(context).extension<DataVisColors>()!.green!,
+                label: AppLocalizations.of(context)!.domainsAdlists,
+                value: intFormat(
+                  statusProvider.getRealtimeStatus?.domainsBeingBlocked ??
+                      _fakeDomains,
+                  Platform.localeName,
                 ),
-                HomeTileItem(
-                  icon: Icons.list,
-                  iconColor:
-                      Theme.of(context).extension<DataVisColors>()!.greenDark!,
-                  color: Theme.of(context).extension<DataVisColors>()!.green!,
-                  label: AppLocalizations.of(context)!.domainsAdlists,
-                  value: intFormat(
-                    statusProvider.getRealtimeStatus!.domainsBeingBlocked,
-                    Platform.localeName,
-                  ),
-                  width: width,
-                ),
-              ],
-            ),
-          );
-
-        case LoadStatus.error:
-          return Container(
-            width: double.maxFinite,
-            padding: const EdgeInsets.symmetric(horizontal: 16),
-            height: 300,
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                const Icon(
-                  Icons.error,
-                  size: 50,
-                  color: Colors.red,
-                ),
-                const SizedBox(height: 50),
-                Text(
-                  AppLocalizations.of(context)!.statsNotLoaded,
-                  textAlign: TextAlign.center,
-                  style: TextStyle(
-                    color: Theme.of(context).colorScheme.onSurfaceVariant,
-                    fontSize: 22,
-                  ),
-                ),
-              ],
-            ),
-          );
-
-        // default:
-        //   return const SizedBox();
-      }
+                width: width,
+                loadStatus: statusProvider.getStatusLoading,
+              ),
+            ],
+          ),
+        ),
+      );
     }
 
     Future<void> enableDisableServer() async {

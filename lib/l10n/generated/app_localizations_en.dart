@@ -431,6 +431,10 @@ class AppLocalizationsEn extends AppLocalizations {
   String get couldNotConnectServer => 'Could not connect to the server';
 
   @override
+  String get couldNotConnectServerFallback =>
+      'Could not connect to the server. Restoring the previous server and reloading its data ...';
+
+  @override
   String get couldntAddBlacklist => 'Could not add domain to blacklist.';
 
   @override
@@ -696,6 +700,9 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get erasesAppData => 'Erases all application data';
+
+  @override
+  String get error => 'Error';
 
   @override
   String get errorRemovingAdlist => 'Error when removing adlist';
@@ -997,6 +1004,9 @@ class AppLocalizationsEn extends AppLocalizations {
   @override
   String get listDescription =>
       'Displays the data on a list with the label and the numeric value at the left side, and a bar at the right side.';
+
+  @override
+  String get loading => 'Loading...';
 
   @override
   String get loadingCharts => 'Loading charts...';
@@ -1534,6 +1544,13 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get settingsUpdatedSuccessfully => 'Settings updated successfully.';
+
+  @override
+  String get showLoadingAnimation => 'Show loading animation';
+
+  @override
+  String get showLoadingAnimationDescription =>
+      'Displays animated placeholder graphics while chart data loads.';
 
   @override
   String get sslErrorLong =>

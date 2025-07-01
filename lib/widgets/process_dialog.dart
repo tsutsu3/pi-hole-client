@@ -13,7 +13,11 @@ class ProcessDialog extends StatelessWidget {
     return PopScope(
       canPop: false,
       child: Dialog(
-        backgroundColor: Theme.of(context).dialogTheme.backgroundColor,
+        backgroundColor: Theme.of(context)
+            .dialogTheme
+            .backgroundColor!
+            .withValues(alpha: 0.85),
+        shadowColor: Colors.black12,
         child: Padding(
           padding: const EdgeInsets.symmetric(vertical: 30, horizontal: 30),
           child: Row(

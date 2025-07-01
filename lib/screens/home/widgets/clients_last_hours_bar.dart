@@ -20,6 +20,7 @@ class ClientsLastHoursBar extends StatelessWidget {
   final Map<String, dynamic> data;
   final bool reducedData;
   final bool hideZeroValues;
+  static final Map<int, Widget> _titleCache = {};
 
   String _getLegendName(
     Map<String, dynamic> data,
@@ -58,12 +59,16 @@ class ClientsLastHoursBar extends StatelessWidget {
             showTitles: true,
             interval: interval,
             reservedSize: 35,
-            getTitlesWidget: (value, widget) => Text(
-              value.toInt().toString(),
-              style: const TextStyle(
-                fontSize: 12,
-              ),
-            ),
+            getTitlesWidget: (value, widget) {
+              final key = value.toInt();
+              return _titleCache.putIfAbsent(
+                key,
+                () => Text(
+                  key.toString(),
+                  style: const TextStyle(fontSize: 12),
+                ),
+              );
+            },
           ),
         ),
       ),

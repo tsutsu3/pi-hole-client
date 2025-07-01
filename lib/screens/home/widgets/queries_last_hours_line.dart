@@ -8,6 +8,13 @@ import 'package:pi_hole_client/l10n/generated/app_localizations.dart';
 import 'package:pi_hole_client/providers/app_config_provider.dart';
 import 'package:provider/provider.dart';
 
+/// Displays a line chart showing query and ad-blocking activity over the past 24 hours.
+///
+/// This widget renders a chart based on the Pi-hole data provided in the `data` map.
+/// It distinguishes between blocked and allowed queries using separate lines and shading.
+/// The chart adapts depending on whether reduced (averaged) data is requested via [reducedData].
+///
+/// If the data is invalid or keys are mismatched, an error message is shown.
 class QueriesLastHoursLine extends StatelessWidget {
   const QueriesLastHoursLine({
     required this.data,
@@ -17,8 +24,129 @@ class QueriesLastHoursLine extends StatelessWidget {
 
   final Map<String, dynamic> data;
   final bool reducedData;
+  static final Map<int, Widget> _titleCache = {};
 
-  /// Create the legend for the tooltip.
+  @override
+  Widget build(BuildContext context) {
+    final appConfigProvider = Provider.of<AppConfigProvider>(context);
+
+    final formattedData = _formatData(data);
+
+    if (formattedData.containsKey('error')) {
+      return Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            const Icon(
+              Icons.error,
+              size: 50,
+              color: Colors.red,
+            ),
+            const SizedBox(height: 50),
+            Text(
+              AppLocalizations.of(context)!.chartsNotLoaded,
+              style: TextStyle(
+                color: Theme.of(context).colorScheme.onSurfaceVariant,
+                fontSize: 22,
+              ),
+            ),
+          ],
+        ),
+      );
+    }
+
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 15),
+      child: LineChart(
+        _mainData(formattedData, appConfigProvider.selectedTheme, context),
+      ),
+    );
+  }
+
+  /// Formats raw Pi-hole API data for use in the chart.
+  ///
+  /// - Groups domain and ad query data into `FlSpot` lists.
+  /// - Applies downsampling if [reducedData] is true.
+  /// - Generates flat lines for tooltip legend display.
+  /// - Returns structured chart data, a list of timestamps, and the top Y value.
+  ///
+  /// Returns a map with keys:
+  /// - `'data'`: contains `domains`, `ads`, and `flatLines`
+  /// - `'topPoint'`: max Y value among data
+  /// - `'time'`: list of time labels
+  /// - `'error'`: included if domain/ad data length mismatch
+  Map<String, dynamic> _formatData(Map<String, dynamic> data) {
+    final domains = <FlSpot>[];
+    final ads = <FlSpot>[];
+    final flatLines = <FlSpot>[];
+
+    var xPosition = 0;
+    var topPoint = 0;
+    var tmp = 0;
+    final List<String> domainsKeys = data['domains_over_time'].keys.toList();
+    final List<String> adsKeys = data['ads_over_time'].keys.toList();
+    final interval = reducedData == true ? averageIntervalCount : 1;
+
+    if (domainsKeys.length != adsKeys.length) {
+      return {
+        'data': {'domains': [], 'ads': [], 'flatLines': []},
+        'topPoint': 0,
+        'time': [],
+        'error': 'error',
+      };
+    }
+
+    for (var i = 0;
+        i < data['domains_over_time'].entries.length;
+        i += interval) {
+      tmp = _calcTopPoint(data, domainsKeys, adsKeys, i);
+      if (tmp > topPoint) {
+        topPoint = tmp;
+      }
+      domains.add(
+        FlSpot(
+          xPosition.toDouble(),
+          data['domains_over_time'][domainsKeys[i]].toDouble() -
+              data['ads_over_time'][adsKeys[i]].toDouble(),
+        ),
+      );
+      ads.add(
+        FlSpot(
+          xPosition.toDouble(),
+          data['ads_over_time'][adsKeys[i]].toDouble(),
+        ),
+      );
+      // Dummy data for legend
+      flatLines.add(
+        FlSpot(
+          xPosition.toDouble(),
+          0.0,
+        ),
+      );
+      xPosition++;
+    }
+
+    final timestamps = <String>[];
+    final List<String> k = data['domains_over_time'].keys.toList();
+    for (var i = 0; i < k.length; i += interval) {
+      timestamps.add(k[i]);
+    }
+
+    return {
+      'data': {'domains': domains, 'ads': ads, 'flatLines': flatLines},
+      'topPoint': topPoint,
+      'time': timestamps,
+    };
+  }
+
+  /// Generates tooltip legend entries based on touched chart points.
+  ///
+  /// Each legend item corresponds to a data series:
+  /// - Index 0: Timestamp
+  /// - Index 1: Blocked queries
+  /// - Index 2: Allowed queries
+  ///
+  /// Colors and text styling depend on [selectedTheme].
   List<LineTooltipItem> _createLegend(
     Map<String, dynamic> data,
     List<LineBarSpot> items,
@@ -68,7 +196,16 @@ class QueriesLastHoursLine extends StatelessWidget {
     return legend;
   }
 
-  LineChartData mainData(
+  /// Builds the [LineChartData] structure used by [LineChart] to render the query graph.
+  ///
+  /// Configures:
+  /// - Grid and axis styles
+  /// - Data series (ads, domains, flat lines)
+  /// - Touch/tooltip behavior
+  /// - Theming based on [selectedTheme]
+  ///
+  /// Uses values from `formattedData`, which includes chart points and top Y value.
+  LineChartData _mainData(
     Map<String, dynamic> data,
     ThemeMode selectedTheme,
     BuildContext context,
@@ -94,12 +231,16 @@ class QueriesLastHoursLine extends StatelessWidget {
             showTitles: true,
             interval: interval,
             reservedSize: 35,
-            getTitlesWidget: (value, widget) => Text(
-              value.toInt().toString(),
-              style: const TextStyle(
-                fontSize: 12,
-              ),
-            ),
+            getTitlesWidget: (value, widget) {
+              final key = value.toInt();
+              return _titleCache.putIfAbsent(
+                key,
+                () => Text(
+                  key.toString(),
+                  style: const TextStyle(fontSize: 12),
+                ),
+              );
+            },
           ),
         ),
       ),
@@ -175,7 +316,14 @@ class QueriesLastHoursLine extends StatelessWidget {
     );
   }
 
-  int calcTopPoint(
+  /// Calculates the higher value between allowed and blocked queries at the given index.
+  ///
+  /// Returns the maximum of:
+  /// - permitted = total domains - ads
+  /// - blocked = number of ads
+  ///
+  /// Used to determine chart Y-axis range.
+  int _calcTopPoint(
     Map<String, dynamic> data,
     List<String> domainsKeys,
     List<String> adsKeys,
@@ -187,106 +335,5 @@ class QueriesLastHoursLine extends StatelessWidget {
     final blocked = data['ads_over_time'][adsKeys[index]];
 
     return permitted > blocked ? permitted : blocked;
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    final appConfigProvider = Provider.of<AppConfigProvider>(context);
-
-    Map<String, dynamic> formatData(Map<String, dynamic> data) {
-      final domains = <FlSpot>[];
-      final ads = <FlSpot>[];
-      final flatLines = <FlSpot>[];
-
-      var xPosition = 0;
-      var topPoint = 0;
-      var tmp = 0;
-      final List<String> domainsKeys = data['domains_over_time'].keys.toList();
-      final List<String> adsKeys = data['ads_over_time'].keys.toList();
-      final interval = reducedData == true ? averageIntervalCount : 1;
-
-      if (domainsKeys.length != adsKeys.length) {
-        return {
-          'data': {'domains': [], 'ads': [], 'flatLines': []},
-          'topPoint': 0,
-          'time': [],
-          'error': 'error',
-        };
-      }
-
-      for (var i = 0;
-          i < data['domains_over_time'].entries.length;
-          i += interval) {
-        tmp = calcTopPoint(data, domainsKeys, adsKeys, i);
-        if (tmp > topPoint) {
-          topPoint = tmp;
-        }
-        domains.add(
-          FlSpot(
-            xPosition.toDouble(),
-            data['domains_over_time'][domainsKeys[i]].toDouble() -
-                data['ads_over_time'][adsKeys[i]].toDouble(),
-          ),
-        );
-        ads.add(
-          FlSpot(
-            xPosition.toDouble(),
-            data['ads_over_time'][adsKeys[i]].toDouble(),
-          ),
-        );
-        // Dummy data for legend
-        flatLines.add(
-          FlSpot(
-            xPosition.toDouble(),
-            0.0,
-          ),
-        );
-        xPosition++;
-      }
-
-      final timestamps = <String>[];
-      final List<String> k = data['domains_over_time'].keys.toList();
-      for (var i = 0; i < k.length; i += interval) {
-        timestamps.add(k[i]);
-      }
-
-      return {
-        'data': {'domains': domains, 'ads': ads, 'flatLines': flatLines},
-        'topPoint': topPoint,
-        'time': timestamps,
-      };
-    }
-
-    final formattedData = formatData(data);
-
-    if (formattedData.containsKey('error')) {
-      return Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            const Icon(
-              Icons.error,
-              size: 50,
-              color: Colors.red,
-            ),
-            const SizedBox(height: 50),
-            Text(
-              AppLocalizations.of(context)!.chartsNotLoaded,
-              style: TextStyle(
-                color: Theme.of(context).colorScheme.onSurfaceVariant,
-                fontSize: 22,
-              ),
-            ),
-          ],
-        ),
-      );
-    }
-
-    return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 15),
-      child: LineChart(
-        mainData(formattedData, appConfigProvider.selectedTheme, context),
-      ),
-    );
   }
 }
