@@ -55,7 +55,7 @@ void main() async {
       expect(appConfig.language, 'en');
       expect(appConfig.reducedDataCharts, 0);
       expect(appConfig.hideZeroValues, 0);
-      expect(appConfig.loadingAnimation, 1);
+      expect(appConfig.loadingAnimation, 0);
       expect(appConfig.logsPerQuery, 2);
       expect(appConfig.passCode, isNull);
       expect(appConfig.useBiometricAuth, 0);
@@ -80,7 +80,7 @@ void main() async {
       expect(appConfig.language, 'en');
       expect(appConfig.reducedDataCharts, 0);
       expect(appConfig.hideZeroValues, 0);
-      expect(appConfig.loadingAnimation, 1);
+      expect(appConfig.loadingAnimation, 0);
       expect(appConfig.logsPerQuery, 2);
       expect(appConfig.passCode, isNull);
       expect(appConfig.useBiometricAuth, 0);
@@ -125,7 +125,7 @@ void main() async {
       expect(appConfig.language, 'en');
       expect(appConfig.reducedDataCharts, 0);
       expect(appConfig.hideZeroValues, 0);
-      expect(appConfig.loadingAnimation, 1);
+      expect(appConfig.loadingAnimation, 0);
       expect(appConfig.logsPerQuery, 2);
       expect(appConfig.passCode, isNull);
       expect(appConfig.useBiometricAuth, 0);
@@ -171,7 +171,7 @@ void main() async {
       expect(appConfig.language, 'en');
       expect(appConfig.reducedDataCharts, 0);
       expect(appConfig.hideZeroValues, 0);
-      expect(appConfig.loadingAnimation, 1);
+      expect(appConfig.loadingAnimation, 0);
       expect(appConfig.logsPerQuery, 2);
       expect(appConfig.passCode, '9999');
       expect(appConfig.useBiometricAuth, 0);

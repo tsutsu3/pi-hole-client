@@ -130,7 +130,7 @@ class DatabaseRepository {
               statisticsVisualizationMode,
               homeVisualizationMode,
               sendCrashReports
-            ) VALUES (5, 0, 'en', 0, 2, 0, 0, 0, 1, 0, 0, 0)
+            ) VALUES (5, 0, 'en', 0, 2, 0, 0, 0, 0, 0, 0, 0)
           ''');
 
         await db.execute('''
@@ -571,7 +571,7 @@ class DatabaseRepository {
             'useBiometricAuth': 0,
             'importantInfoReaden': 0,
             'hideZeroValues': 0,
-            'loadingAnimation': 1,
+            'loadingAnimation': 0,
             'statisticsVisualizationMode': 0,
             'homeVisualizationMode': 0,
             'sendCrashReports': 0,
@@ -1177,7 +1177,7 @@ class DatabaseRepository {
       statisticsVisualizationMode, homeVisualizationMode, sendCrashReports)
     SELECT autoRefreshTime, theme, language,
       reducedDataCharts, logsPerQuery, useBiometricAuth, importantInfoReaden,
-      hideZeroValues, 1, statisticsVisualizationMode,
+      hideZeroValues, 0, statisticsVisualizationMode,
       homeVisualizationMode, sendCrashReports
     FROM appConfig
     ''');

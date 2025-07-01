@@ -55,7 +55,7 @@ class DbHelper {
               statisticsVisualizationMode,
               homeVisualizationMode,
               sendCrashReports
-            ) VALUES (5, 0, 'en', 0, 2, 0, 0, 0, 1, 0, 0, 0)
+            ) VALUES (5, 0, 'en', 0, 2, 0, 0, 0, 0, 0, 0, 0)
           ''');
         await db.execute('''
             CREATE TABLE gravity_updates (
