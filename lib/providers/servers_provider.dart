@@ -198,12 +198,12 @@ class ServersProvider with ChangeNotifier {
       });
 
       if (dbOperationSuccess) {
-        _serverGateways.removeWhere((address, _) => address == serverAddress);
-        _selectedServer =
-            serverAddress == _selectedServer?.address ? null : _selectedServer;
-        _serversList = _serversList
-            .where((server) => server.address != serverAddress)
-            .toList();
+        _serverGateways.remove(serverAddress);
+        _serversList.removeWhere((server) => server.address == serverAddress);
+
+        if (_selectedServer?.address == serverAddress) {
+          _selectedServer = null;
+        }
 
         notifyListeners();
         return true;
