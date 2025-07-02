@@ -29,13 +29,7 @@ class Base extends StatefulWidget {
 
 class _BaseState extends State<Base>
     with WidgetsBindingObserver, WindowListener {
-  final List<Widget> pages = [
-    const Home(),
-    const Statistics(),
-    const Logs(),
-    const DomainLists(),
-    const Settings(),
-  ];
+  late final List<Widget> pages;
 
   final List<Widget> pagesNotSelected = [
     const ServersPage(isFromBase: true),
@@ -45,6 +39,14 @@ class _BaseState extends State<Base>
   @override
   void initState() {
     super.initState();
+
+    pages = [
+      const Home(),
+      const Statistics(),
+      const Logs(),
+      const DomainLists(),
+      const Settings(),
+    ];
 
     WidgetsBinding.instance.addObserver(this);
 
