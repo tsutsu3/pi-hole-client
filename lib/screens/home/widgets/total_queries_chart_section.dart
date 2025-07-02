@@ -12,6 +12,7 @@ import 'package:pi_hole_client/screens/home/widgets/queries_last_hours_line.dart
 import 'package:pi_hole_client/screens/statistics/no_data_chart.dart';
 import 'package:pi_hole_client/widgets/error_data_chart.dart';
 import 'package:pi_hole_client/widgets/section_label.dart';
+import 'package:provider/provider.dart';
 import 'package:skeletonizer/skeletonizer.dart';
 
 /// A responsive widget that renders the total DNS query statistics section.
@@ -30,28 +31,33 @@ import 'package:skeletonizer/skeletonizer.dart';
 class TotalQueriesChartSection extends StatelessWidget {
   const TotalQueriesChartSection({
     required this.width,
-    required this.statusProvider,
-    required this.appConfigProvider,
     super.key,
   });
 
   final double width;
-  final StatusProvider statusProvider;
-  final AppConfigProvider appConfigProvider;
 
   @override
   Widget build(BuildContext context) {
-    final status = statusProvider.getOvertimeDataLoadStatus;
+    final appConfigProvider = context.watch<AppConfigProvider>();
+
+    final overTimeDataLoadStatus = context.select<StatusProvider, LoadStatus>(
+      (provider) => provider.getOvertimeDataLoadStatus,
+    );
+
+    final overtimeDataJson =
+        context.select<StatusProvider, Map<String, dynamic>?>(
+      (provider) => provider.getOvertimeDataJson,
+    );
 
     Widget child;
-    switch (status) {
+    switch (overTimeDataLoadStatus) {
       case LoadStatus.error:
         child = _buildErrorChart(context);
       case LoadStatus.loading:
-        child = _buildSkeleton(context);
+        child = _buildSkeleton(context, appConfigProvider);
       case LoadStatus.loaded:
-        child = _hasData()
-            ? _buildLoadedContent(context)
+        child = _hasData(overtimeDataJson)
+            ? _buildLoadedContent(context, appConfigProvider, overtimeDataJson)
             : _buildNoDataChart(context);
     }
 
@@ -61,13 +67,36 @@ class TotalQueriesChartSection extends StatelessWidget {
     );
   }
 
+  /// Builds a widget that displays an error chart for total queries in the last 24 hours.
+  ///
+  /// This widget uses [ErrorDataChart] and sets the top label to the localized
+  /// string for "total queries in 24 hours".
+  ///
+  /// [context] - The build context used to access localization resources.
+  ///
+  /// Returns an [ErrorDataChart] widget with the appropriate label.
   Widget _buildErrorChart(BuildContext context) {
     return ErrorDataChart(
       topLabel: AppLocalizations.of(context)!.totalQueries24,
     );
   }
 
-  Widget _buildSkeleton(BuildContext context) {
+  /// Builds a skeleton loading widget for the total queries chart section.
+  ///
+  /// This widget displays a placeholder UI while the actual data is loading.
+  /// It includes a section label, a chart skeleton (either line or bar chart based on
+  /// the current visualization mode), and a legend row with dots indicating
+  /// "blocked" and "not blocked" queries.
+  ///
+  /// - [context]: The build context.
+  /// - [appConfigProvider]: Provides app configuration such as theme, visualization mode,
+  ///   and animation settings.
+  ///
+  /// Returns a [Widget] representing the skeleton UI for the total queries chart section.
+  Widget _buildSkeleton(
+    BuildContext context,
+    AppConfigProvider appConfigProvider,
+  ) {
     return Skeletonizer(
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -113,7 +142,22 @@ class TotalQueriesChartSection extends StatelessWidget {
     );
   }
 
-  Widget _buildLoadedContent(BuildContext context) {
+  /// Builds the main content section for displaying the total queries chart.
+  ///
+  /// This widget displays a section label, a chart representing query data over time,
+  /// and a legend indicating blocked and not blocked queries.
+  ///
+  /// Parameters:
+  /// - [context]: The build context.
+  /// - [appConfigProvider]: The provider for app configuration.
+  /// - [overtimeDataJson]: The JSON data containing overtime query statistics.
+  ///
+  /// Returns a [Column] widget containing the section label, chart, and legend.
+  Widget _buildLoadedContent(
+    BuildContext context,
+    AppConfigProvider appConfigProvider,
+    Map<String, dynamic>? overtimeDataJson,
+  ) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -126,7 +170,7 @@ class TotalQueriesChartSection extends StatelessWidget {
           padding: const EdgeInsets.symmetric(horizontal: 16),
           child: _buildQueriesGraph(
             appConfigProvider,
-            statusProvider,
+            overtimeDataJson,
           ),
         ),
         Row(
@@ -148,6 +192,11 @@ class TotalQueriesChartSection extends StatelessWidget {
     );
   }
 
+  /// Builds a widget that displays a chart indicating no data is available.
+  ///
+  /// The [context] parameter is used to access localization resources for the top label.
+  ///
+  /// Returns a [NoDataChart] widget with a localized label for total queries in the last 24 hours.
   Widget _buildNoDataChart(BuildContext context) {
     return NoDataChart(
       topLabel: AppLocalizations.of(context)!.totalQueries24,
@@ -157,13 +206,16 @@ class TotalQueriesChartSection extends StatelessWidget {
   /// Checks whether the query data contains any non-zero values.
   ///
   /// This is used to determine whether to show the chart or the fallback [NoDataChart].
-  bool _hasData() {
-    return statusProvider.getOvertimeDataJson != null &&
+  ///
+  /// Parameters:
+  /// - [overtimeDataJson]: The JSON data containing query statistics.
+  bool _hasData(Map<String, dynamic>? overtimeDataJson) {
+    return overtimeDataJson != null &&
             _checkExistsData(
-              statusProvider.getOvertimeDataJson!['domains_over_time'],
+              overtimeDataJson['domains_over_time'] ?? [],
             ) ||
         _checkExistsData(
-          statusProvider.getOvertimeDataJson!['ads_over_time'],
+          overtimeDataJson?['ads_over_time'] ?? [],
         );
   }
 
@@ -171,8 +223,10 @@ class TotalQueriesChartSection extends StatelessWidget {
   ///
   /// Used to represent "Blocked" or "Not Blocked" in the legend section.
   ///
-  /// [colorIndex] determines the color from the [GraphColors] extension.
-  /// [label] is the translated description of the query type.
+  /// Parameters:
+  /// - [context]: The build context for theme and localization.
+  /// - [colorIndex] determines the color from the [GraphColors] extension.
+  /// - [label] is the translated description of the query type.
   Widget _buildLegendDot(BuildContext context, int colorIndex, String label) {
     return Row(
       children: [
@@ -217,21 +271,21 @@ class TotalQueriesChartSection extends StatelessWidget {
   /// Additional flags like `reducedDataCharts` influence chart rendering.
   ///
   /// - [appConfigProvider]: Provides user config such as visualization mode and flags.
-  /// - [statusProvider]: Supplies parsed client activity data from the server.
+  /// - [overtimeDataJson]: Contains the query data for the last 24 hours.
   ///
   /// Returns either a [QueriesLastHoursLine] or [QueriesLastHoursBar].
   Widget _buildQueriesGraph(
     AppConfigProvider appConfigProvider,
-    StatusProvider statusProvider,
+    Map<String, dynamic>? overtimeDataJson,
   ) {
     if (appConfigProvider.homeVisualizationMode == 0) {
       return QueriesLastHoursLine(
-        data: statusProvider.getOvertimeDataJson!,
+        data: overtimeDataJson!,
         reducedData: appConfigProvider.reducedDataCharts,
       );
     } else {
       return QueriesLastHoursBar(
-        data: statusProvider.getOvertimeDataJson!,
+        data: overtimeDataJson!,
         reducedData: appConfigProvider.reducedDataCharts,
       );
     }
