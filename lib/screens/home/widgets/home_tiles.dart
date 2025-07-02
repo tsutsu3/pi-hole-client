@@ -38,8 +38,6 @@ class HomeTiles extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    debugPrint('HomeTiles rebuild');
-
     final statusLoading = context.select<StatusProvider, LoadStatus>(
       (provider) => provider.getStatusLoading,
     );

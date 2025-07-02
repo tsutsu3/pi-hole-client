@@ -139,8 +139,6 @@ class _ValueSection extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    debugPrint('_ValueSection rebuild');
-
     if (loadStatus == LoadStatus.error) {
       return Row(
         mainAxisAlignment: MainAxisAlignment.end,
