@@ -56,8 +56,10 @@ class _HomeState extends State<Home> {
 
   @override
   Widget build(BuildContext context) {
-    final serversProvider = Provider.of<ServersProvider>(context);
-    final appConfigProvider = Provider.of<AppConfigProvider>(context);
+    debugPrint('Building Home Screen');
+    final serversProvider = context.watch<ServersProvider>();
+
+    final appConfigProvider = context.read<AppConfigProvider>();
 
     final statusLoading = context.select<StatusProvider, LoadStatus>(
       (provider) => provider.getStatusLoading,
