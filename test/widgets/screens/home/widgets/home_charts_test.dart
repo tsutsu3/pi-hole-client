@@ -5,12 +5,12 @@ import 'package:mockito/mockito.dart';
 import 'package:pi_hole_client/constants/enums.dart';
 import 'package:pi_hole_client/models/overtime_data.dart';
 import 'package:pi_hole_client/screens/home/widgets/home_charts.dart';
-import 'package:pi_hole_client/screens/home/widgets/home_charts/bar_chart_skeleton.dart';
-import 'package:pi_hole_client/screens/home/widgets/home_charts/clients_last_hours_bar.dart';
-import 'package:pi_hole_client/screens/home/widgets/home_charts/clients_last_hours_line.dart';
-import 'package:pi_hole_client/screens/home/widgets/home_charts/line_chart_skeleton.dart';
-import 'package:pi_hole_client/screens/home/widgets/home_charts/queries_last_hours_bar.dart';
-import 'package:pi_hole_client/screens/home/widgets/home_charts/queries_last_hours_line.dart';
+import 'package:pi_hole_client/screens/home/widgets/home_charts/clients/clients_last_hours_bar.dart';
+import 'package:pi_hole_client/screens/home/widgets/home_charts/clients/clients_last_hours_line.dart';
+import 'package:pi_hole_client/screens/home/widgets/home_charts/queries/queries_last_hours_bar.dart';
+import 'package:pi_hole_client/screens/home/widgets/home_charts/queries/queries_last_hours_line.dart';
+import 'package:pi_hole_client/screens/home/widgets/home_charts/skeleton/bar_chart_skeleton.dart';
+import 'package:pi_hole_client/screens/home/widgets/home_charts/skeleton/line_chart_skeleton.dart';
 
 import '../../../helpers.dart';
 
