@@ -6,7 +6,7 @@ import 'package:pi_hole_client/constants/enums.dart';
 import 'package:pi_hole_client/functions/conversions.dart';
 import 'package:pi_hole_client/l10n/generated/app_localizations.dart';
 import 'package:pi_hole_client/providers/status_provider.dart';
-import 'package:pi_hole_client/screens/home/widgets/home_tile.dart';
+import 'package:pi_hole_client/screens/home/widgets/home_tiles/home_tile.dart';
 import 'package:provider/provider.dart';
 import 'package:skeletonizer/skeletonizer.dart';
 

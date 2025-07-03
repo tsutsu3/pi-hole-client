@@ -6,7 +6,7 @@ import 'package:pi_hole_client/models/server.dart';
 import 'package:pi_hole_client/screens/home/home.dart';
 import 'package:pi_hole_client/screens/home/widgets/disable_modal.dart';
 import 'package:pi_hole_client/screens/home/widgets/home_appbar.dart';
-import 'package:pi_hole_client/screens/home/widgets/switch_server_modal.dart';
+import 'package:pi_hole_client/screens/home/widgets/home_appbar/switch_server_modal.dart';
 import 'package:skeletonizer/skeletonizer.dart';
 
 import '../../helpers.dart';

@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
-// import 'package:pi_hole_client/providers/status_provider.dart';
-import 'package:pi_hole_client/screens/home/widgets/client_activity_chart_section.dart';
-import 'package:pi_hole_client/screens/home/widgets/total_queries_chart_section.dart';
+import 'package:pi_hole_client/screens/home/widgets/home_charts/client_activity_chart_section.dart';
+import 'package:pi_hole_client/screens/home/widgets/home_charts/total_queries_chart_section.dart';
 
 /// A responsive container widget that displays two types of Pi-hole charts:
 ///

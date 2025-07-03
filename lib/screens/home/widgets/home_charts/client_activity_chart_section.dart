@@ -6,10 +6,10 @@ import 'package:pi_hole_client/l10n/generated/app_localizations.dart';
 import 'package:pi_hole_client/models/overtime_data.dart';
 import 'package:pi_hole_client/providers/app_config_provider.dart';
 import 'package:pi_hole_client/providers/status_provider.dart';
-import 'package:pi_hole_client/screens/home/widgets/bar_chart_skeleton.dart';
-import 'package:pi_hole_client/screens/home/widgets/clients_last_hours_bar.dart';
-import 'package:pi_hole_client/screens/home/widgets/clients_last_hours_line.dart';
-import 'package:pi_hole_client/screens/home/widgets/line_chart_skeleton.dart';
+import 'package:pi_hole_client/screens/home/widgets/home_charts/bar_chart_skeleton.dart';
+import 'package:pi_hole_client/screens/home/widgets/home_charts/clients_last_hours_bar.dart';
+import 'package:pi_hole_client/screens/home/widgets/home_charts/clients_last_hours_line.dart';
+import 'package:pi_hole_client/screens/home/widgets/home_charts/line_chart_skeleton.dart';
 import 'package:pi_hole_client/screens/statistics/no_data_chart.dart';
 import 'package:pi_hole_client/widgets/error_data_chart.dart';
 import 'package:pi_hole_client/widgets/section_label.dart';
@@ -39,7 +39,8 @@ class ClientActivityChartSection extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final appConfigProvider = context.watch<AppConfigProvider>();
+    debugPrint('Building Client Activity Chart Section');
+    final appConfigProvider = context.read<AppConfigProvider>();
 
     final overTimeDataLoadStatus = context.select<StatusProvider, LoadStatus>(
       (provider) => provider.getOvertimeDataLoadStatus,
