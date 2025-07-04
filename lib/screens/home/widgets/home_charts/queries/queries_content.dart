@@ -10,8 +10,8 @@ import 'package:pi_hole_client/widgets/section_label.dart';
 /// - A legend indicating blocked and not blocked queries.
 ///
 /// This widget is intended to be used within the home charts area of the app.
-class QeueriesContent extends StatelessWidget {
-  const QeueriesContent({
+class QueriesContent extends StatelessWidget {
+  const QueriesContent({
     super.key,
   });
 

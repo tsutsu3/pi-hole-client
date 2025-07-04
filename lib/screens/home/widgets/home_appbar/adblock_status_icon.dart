@@ -30,7 +30,7 @@ class AdBlockStatusIcon extends StatelessWidget {
     );
 
     final enableSelectedServer = context.select<ServersProvider, bool>(
-      (p) => p.selectedServer!.enabled ?? false,
+      (p) => p.selectedServer?.enabled ?? false,
     );
 
     return Icon(

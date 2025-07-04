@@ -51,7 +51,7 @@ class TotalQueriesChartSection extends StatelessWidget {
         child = const QueriesSkeleton();
       case LoadStatus.loaded:
         child = _hasData(overtimeDataJson)
-            ? const QeueriesContent()
+            ? const QueriesContent()
             : NoDataChart(
                 topLabel: AppLocalizations.of(context)!.totalQueries24,
               );
@@ -70,12 +70,12 @@ class TotalQueriesChartSection extends StatelessWidget {
   /// Parameters:
   /// - [overtimeDataJson]: The JSON data containing query statistics.
   bool _hasData(Map<String, dynamic>? overtimeDataJson) {
-    return overtimeDataJson != null &&
-            _checkExistsData(
-              overtimeDataJson['domains_over_time'] ?? [],
-            ) ||
+    if (overtimeDataJson == null) return false;
+    return _checkExistsData(
+          overtimeDataJson['domains_over_time'] ?? {},
+        ) ||
         _checkExistsData(
-          overtimeDataJson?['ads_over_time'] ?? [],
+          overtimeDataJson['ads_over_time'] ?? {},
         );
   }
 
