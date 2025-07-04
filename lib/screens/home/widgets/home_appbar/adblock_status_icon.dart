@@ -21,7 +21,6 @@ class AdBlockStatusIcon extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    debugPrint('Building AdBlockStatusIcon');
     final isServerConnected = context.select<StatusProvider, bool>(
       (p) => p.isServerConnected,
     );

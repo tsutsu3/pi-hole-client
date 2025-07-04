@@ -13,8 +13,6 @@ class HomeAppBar extends StatelessWidget implements PreferredSizeWidget {
 
   @override
   Widget build(BuildContext context) {
-    debugPrint('Building HomeAppBar');
-
     return SliverAppBar.large(
       floating: true,
       centerTitle: false,

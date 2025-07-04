@@ -29,7 +29,6 @@ class ServerLabel extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    debugPrint('Building ServerLabel');
     final isServerConnected = context.select<StatusProvider, bool>(
       (p) => p.isServerConnected,
     );

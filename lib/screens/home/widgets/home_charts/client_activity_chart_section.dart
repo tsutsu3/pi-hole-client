@@ -39,7 +39,6 @@ class ClientActivityChartSection extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    debugPrint('Building Client Activity Chart Section');
     final appConfigProvider = context.read<AppConfigProvider>();
 
     final overTimeDataLoadStatus = context.select<StatusProvider, LoadStatus>(

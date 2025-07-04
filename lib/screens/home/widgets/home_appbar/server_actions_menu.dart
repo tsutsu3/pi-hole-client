@@ -39,7 +39,6 @@ class ServerActionsMenu extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    debugPrint('Building ServerActionsMenu');
     final serversProvider = context.watch<ServersProvider>();
     final statusProvider = context.read<StatusProvider>();
     final appConfigProvider = context.read<AppConfigProvider>();
