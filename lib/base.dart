@@ -29,7 +29,7 @@ class Base extends StatefulWidget {
 
 class _BaseState extends State<Base>
     with WidgetsBindingObserver, WindowListener {
-  final List<Widget> pages = [
+  final pages = [
     const Home(),
     const Statistics(),
     const Logs(),

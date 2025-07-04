@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:pi_hole_client/constants/enums.dart';
 import 'package:pi_hole_client/constants/responsive.dart';
 import 'package:pi_hole_client/l10n/generated/app_localizations.dart';
+import 'package:pi_hole_client/providers/status_provider.dart';
+import 'package:provider/provider.dart';
 import 'package:skeletonizer/skeletonizer.dart';
 
 /// Displays a status metric in a responsive tile.
@@ -23,9 +25,8 @@ class HomeTileItem extends StatelessWidget {
     required this.iconColor,
     required this.color,
     required this.label,
-    required this.value,
     required this.width,
-    this.loadStatus = LoadStatus.loading,
+    required this.valueSelector,
     super.key,
   });
 
@@ -33,12 +34,17 @@ class HomeTileItem extends StatelessWidget {
   final Color iconColor;
   final Color color;
   final String label;
-  final String value;
   final double width;
-  final LoadStatus loadStatus;
+
+  /// Realtime value selector (ex: select value from StatusProvider)
+  final String Function(BuildContext context) valueSelector;
 
   @override
   Widget build(BuildContext context) {
+    final loadStatus = context.select<StatusProvider, LoadStatus>(
+      (provider) => provider.getStatusLoading,
+    );
+
     return FractionallySizedBox(
       widthFactor: width > ResponsiveConstants.medium ? 0.25 : 0.5,
       child: Padding(
@@ -89,36 +95,10 @@ class HomeTileItem extends StatelessWidget {
                               ),
                             ),
                           ),
-                          if (loadStatus == LoadStatus.error)
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.end,
-                              children: [
-                                const Icon(
-                                  Icons.warning_amber_rounded,
-                                  size: 24,
-                                  color: Colors.white,
-                                ),
-                                const SizedBox(width: 4),
-                                Text(
-                                  AppLocalizations.of(context)!.error,
-                                  style: const TextStyle(
-                                    color: Colors.white,
-                                    fontStyle: FontStyle.italic,
-                                    fontSize: 24,
-                                    fontWeight: FontWeight.w500,
-                                  ),
-                                ),
-                              ],
-                            )
-                          else
-                            Text(
-                              value,
-                              style: const TextStyle(
-                                color: Colors.white,
-                                fontSize: 24,
-                                fontWeight: FontWeight.w500,
-                              ),
-                            ),
+                          _ValueSection(
+                            loadStatus: loadStatus,
+                            valueSelector: valueSelector,
+                          ),
                         ],
                       ),
                     ),
@@ -128,6 +108,68 @@ class HomeTileItem extends StatelessWidget {
             ],
           ),
         ),
+      ),
+    );
+  }
+}
+
+/// A widget that displays a value or an error indicator based on the [loadStatus].
+///
+/// If [loadStatus] is [LoadStatus.error], it shows a warning icon and an error message.
+/// Otherwise, it displays the value returned by [valueSelector].
+///
+/// The [valueSelector] is a function that takes the current [BuildContext] and returns
+/// a string to be displayed.
+///
+/// Example usage:
+/// ```dart
+/// _ValueSection(
+///   loadStatus: myLoadStatus,
+///   valueSelector: (context) => '42',
+/// )
+/// ```
+class _ValueSection extends StatelessWidget {
+  const _ValueSection({
+    required this.loadStatus,
+    required this.valueSelector,
+  });
+
+  final LoadStatus loadStatus;
+  final String Function(BuildContext context) valueSelector;
+
+  @override
+  Widget build(BuildContext context) {
+    if (loadStatus == LoadStatus.error) {
+      return Row(
+        mainAxisAlignment: MainAxisAlignment.end,
+        children: [
+          const Icon(
+            Icons.warning_amber_rounded,
+            size: 24,
+            color: Colors.white,
+          ),
+          const SizedBox(width: 4),
+          Text(
+            AppLocalizations.of(context)!.error,
+            style: const TextStyle(
+              color: Colors.white,
+              fontStyle: FontStyle.italic,
+              fontSize: 24,
+              fontWeight: FontWeight.w500,
+            ),
+          ),
+        ],
+      );
+    }
+
+    final value = valueSelector(context);
+
+    return Text(
+      value,
+      style: const TextStyle(
+        color: Colors.white,
+        fontSize: 24,
+        fontWeight: FontWeight.w500,
       ),
     );
   }
