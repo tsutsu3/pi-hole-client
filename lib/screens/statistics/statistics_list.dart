@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:percent_indicator/percent_indicator.dart';
+import 'package:pi_hole_client/constants/enums.dart';
 import 'package:pi_hole_client/functions/conversions.dart';
 import 'package:pi_hole_client/l10n/generated/app_localizations.dart';
+import 'package:pi_hole_client/models/realtime_status.dart';
 import 'package:pi_hole_client/providers/app_config_provider.dart';
 import 'package:pi_hole_client/providers/filters_provider.dart';
 import 'package:pi_hole_client/providers/status_provider.dart';
+import 'package:pi_hole_client/screens/statistics/animated_percent_indicator.dart';
 import 'package:pi_hole_client/screens/statistics/custom_pie_chart.dart';
 import 'package:pi_hole_client/screens/statistics/no_data_chart.dart';
 import 'package:pi_hole_client/screens/statistics/pie_chart_legend.dart';
@@ -28,7 +30,9 @@ class StatisticsList extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final statusProvider = Provider.of<StatusProvider>(context);
+    final loadStatus = context.select<StatusProvider, LoadStatus>(
+      (provider) => provider.getStatusLoading,
+    );
 
     return CustomTabContent(
       loadingGenerator: () => SizedBox(
@@ -75,7 +79,7 @@ class StatisticsList extends StatelessWidget {
           ],
         ),
       ),
-      loadStatus: statusProvider.getStatusLoading,
+      loadStatus: loadStatus,
       onRefresh: onRefresh,
       controller: controller,
     );
@@ -96,16 +100,30 @@ class StatisticsListContent extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final statusProvider = Provider.of<StatusProvider>(context);
-    final appConfigProvider = Provider.of<AppConfigProvider>(context);
-    final filtersProvider = Provider.of<FiltersProvider>(context);
     const topk = 10;
 
+    final realtimeStatus = context.select<StatusProvider, RealtimeStatus?>(
+      (p) => p.getRealtimeStatus,
+    );
+
+    final totalClients = context.select<FiltersProvider, List<String>>(
+      (p) => p.totalClients,
+    );
+
+    final visualizationMode = context.select<AppConfigProvider, int>(
+      (p) => p.statisticsVisualizationMode,
+    );
+
+    final theme = Theme.of(context);
+    final loc = AppLocalizations.of(context)!;
+
     void navigateFilter(String value) {
+      final filtersProvider = context.read<FiltersProvider>();
+      final appConfigProvider = context.read<AppConfigProvider>();
+
       if (type == 'clients') {
-        final isContained = filtersProvider.totalClients
-            .where((client) => value.contains(client))
-            .toList();
+        final isContained =
+            totalClients.where((client) => value.contains(client)).toList();
         if (isContained.isNotEmpty) {
           filtersProvider.setSelectedClients([isContained[0]]);
           appConfigProvider.setSelectedTab(2);
@@ -158,9 +176,7 @@ class StatisticsListContent extends StatelessWidget {
                               softWrap: false,
                               style: TextStyle(
                                 fontSize: 14,
-                                color: Theme.of(context)
-                                    .colorScheme
-                                    .onSurfaceVariant,
+                                color: theme.colorScheme.onSurfaceVariant,
                               ),
                             ),
                           ],
@@ -168,15 +184,10 @@ class StatisticsListContent extends StatelessWidget {
                       ),
                       const SizedBox(width: 20),
                       Expanded(
-                        child: LinearPercentIndicator(
-                          animation: true,
-                          lineHeight: 10,
-                          curve: Curves.easeOut,
-                          percent: (item['value'] / totalHits).toDouble(),
-                          barRadius: const Radius.circular(5),
-                          progressColor: Theme.of(context).colorScheme.primary,
-                          backgroundColor:
-                              Theme.of(context).colorScheme.primaryContainer,
+                        child: AnimatedPercentIndicator(
+                          // key: ValueKey('${item['label']}-${item['value']}'),
+                          value: item['value'],
+                          total: totalHits,
                         ),
                       ),
                     ],
@@ -222,7 +233,7 @@ class StatisticsListContent extends StatelessWidget {
             label: label,
             padding: const EdgeInsets.only(top: 24, left: 16, bottom: 16),
           ),
-          if (appConfigProvider.statisticsVisualizationMode == 0)
+          if (visualizationMode == 0)
             listViewMode(topQueriesList)
           else
             pieChertViewMode(topQueriesList),
@@ -233,49 +244,48 @@ class StatisticsListContent extends StatelessWidget {
     if (type == 'domains') {
       return Column(
         children: [
-          if (statusProvider.getRealtimeStatus!.topQueries.isNotEmpty)
+          if (realtimeStatus!.topQueries.isNotEmpty)
             generateList(
-              statusProvider.getRealtimeStatus!.topQueries,
-              AppLocalizations.of(context)!.topPermittedDomains,
+              realtimeStatus.topQueries,
+              loc.topPermittedDomains,
             )
           else
             NoDataChart(
-              topLabel: AppLocalizations.of(context)!.topPermittedDomains,
+              topLabel: loc.topPermittedDomains,
             ),
-          if (statusProvider.getRealtimeStatus!.topAds.isNotEmpty)
+          if (realtimeStatus.topAds.isNotEmpty)
             generateList(
-              statusProvider.getRealtimeStatus!.topAds,
-              AppLocalizations.of(context)!.topBlockedDomains,
+              realtimeStatus.topAds,
+              loc.topBlockedDomains,
             )
           else
             NoDataChart(
-              topLabel: AppLocalizations.of(context)!.topBlockedDomains,
+              topLabel: loc.topBlockedDomains,
             ),
         ],
       );
     } else if (type == 'clients') {
       return Column(
         children: [
-          if (statusProvider.getRealtimeStatus!.topSources.isNotEmpty)
+          if (realtimeStatus!.topSources.isNotEmpty)
             generateList(
               Map.fromEntries(
-                statusProvider.getRealtimeStatus!.topSources.entries.take(topk),
+                realtimeStatus.topSources.entries.take(topk),
               ),
-              AppLocalizations.of(context)!.topClients,
+              loc.topClients,
             )
           else
-            NoDataChart(topLabel: AppLocalizations.of(context)!.topClients),
-          if (statusProvider.getRealtimeStatus!.topSourcesBlocked.isNotEmpty)
+            NoDataChart(topLabel: loc.topClients),
+          if (realtimeStatus.topSourcesBlocked.isNotEmpty)
             generateList(
               Map.fromEntries(
-                statusProvider.getRealtimeStatus!.topSourcesBlocked.entries
-                    .take(topk),
+                realtimeStatus.topSourcesBlocked.entries.take(topk),
               ),
-              AppLocalizations.of(context)!.topClientsBlocked,
+              loc.topClientsBlocked,
             )
           else
             NoDataChart(
-              topLabel: AppLocalizations.of(context)!.topClientsBlocked,
+              topLabel: loc.topClientsBlocked,
             ),
         ],
       );

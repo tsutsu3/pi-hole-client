@@ -197,6 +197,7 @@ import 'package:pi_hole_client/screens/settings/server_settings/widgets/subscrip
 import 'package:pi_hole_client/screens/settings/server_settings/widgets/subscriptions/subscription_tile.dart';
 import 'package:pi_hole_client/screens/settings/server_settings/widgets/subscriptions/subscriptions_list.dart';
 import 'package:pi_hole_client/screens/settings/settings.dart';
+import 'package:pi_hole_client/screens/statistics/animated_percent_indicator.dart';
 import 'package:pi_hole_client/screens/statistics/custom_pie_chart.dart';
 import 'package:pi_hole_client/screens/statistics/dns_tab.dart';
 import 'package:pi_hole_client/screens/statistics/no_data_chart.dart';

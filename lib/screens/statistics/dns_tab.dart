@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:pi_hole_client/constants/enums.dart';
 import 'package:pi_hole_client/constants/responsive.dart';
 import 'package:pi_hole_client/l10n/generated/app_localizations.dart';
 import 'package:pi_hole_client/models/metrics.dart';
@@ -22,7 +23,9 @@ class DnsTab extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final statusProvider = Provider.of<StatusProvider>(context);
+    final statusLoading = context.select<StatusProvider, LoadStatus>(
+      (p) => p.getStatusLoading,
+    );
 
     return CustomTabContent(
       loadingGenerator: () => SizedBox(
@@ -68,7 +71,7 @@ class DnsTab extends StatelessWidget {
           ],
         ),
       ),
-      loadStatus: statusProvider.getStatusLoading,
+      loadStatus: statusLoading,
       onRefresh: onRefresh,
       controller: controller,
     );
@@ -78,43 +81,30 @@ class DnsTab extends StatelessWidget {
 class DnsTabContent extends StatelessWidget {
   const DnsTabContent({super.key});
 
-  Map<String, double> _buildDnsRepliesList(
-    DnsRepliesInfo info,
-    BuildContext context,
-  ) {
-    final loc = AppLocalizations.of(context)!;
-    final entries = {
-      // 'Local/cache replies': info.localPercentage,
-      // 'Forwarded queries:': info.forwardedPercentage,
-      // 'Cache optimizer replies': info.optimizedPercentage,
-      // 'Unanswered queries': info.unansweredPercentage,
-      // 'Authoritative replies': info.authPercentage,
-      loc.localCacheReplies: info.localPercentage,
-      loc.forwardedQueries: info.forwardedPercentage,
-      loc.cacheOptimizerReplies: info.optimizedPercentage,
-      loc.unansweredQueries: info.unansweredPercentage,
-      loc.authoritativeReplies: info.authPercentage,
-    };
-
-    return entries;
-  }
-
   @override
   Widget build(BuildContext context) {
-    final statusProvider = Provider.of<StatusProvider>(context);
+    final dnsCacheInfo = context.select<StatusProvider, DnsCacheInfo?>(
+      (p) => p.getDnsCacheInfo,
+    );
+
+    final dnsRepliesInfo = context.select<StatusProvider, DnsRepliesInfo?>(
+      (p) => p.getDnsRepliesInfo,
+    );
+
+    final loc = AppLocalizations.of(context)!;
 
     final width = MediaQuery.of(context).size.width;
 
     return Column(
       children: [
         // DNS Cache
-        if (statusProvider.getDnsCacheInfo != null)
+        if (dnsCacheInfo != null)
           Padding(
             padding: const EdgeInsets.only(top: 20, bottom: 10),
             child: Column(
               children: [
                 SectionLabel(
-                  label: AppLocalizations.of(context)!.dnsCacheMetrics,
+                  label: loc.dnsCacheMetrics,
                   padding: const EdgeInsets.only(top: 8, left: 16, bottom: 24),
                 ),
                 if (width > ResponsiveConstants.medium)
@@ -130,8 +120,7 @@ class DnsTabContent extends StatelessWidget {
                               maxHeight: 200,
                             ),
                             child: CustomPieChart(
-                              data: statusProvider
-                                  .getDnsCacheInfo!.typePercentages,
+                              data: dnsCacheInfo.typePercentages,
                             ),
                           ),
                         ),
@@ -139,7 +128,7 @@ class DnsTabContent extends StatelessWidget {
                       Expanded(
                         flex: 3,
                         child: PieChartLegend(
-                          data: statusProvider.getDnsCacheInfo!.typePercentages,
+                          data: dnsCacheInfo.typePercentages,
                           dataUnit: '%',
                         ),
                       ),
@@ -149,12 +138,12 @@ class DnsTabContent extends StatelessWidget {
                   SizedBox(
                     width: width - 40,
                     child: CustomPieChart(
-                      data: statusProvider.getDnsCacheInfo!.typePercentages,
+                      data: dnsCacheInfo.typePercentages,
                     ),
                   ),
                   const SizedBox(height: 20),
                   PieChartLegend(
-                    data: statusProvider.getDnsCacheInfo!.typePercentages,
+                    data: dnsCacheInfo.typePercentages,
                     dataUnit: '%',
                   ),
                 ],
@@ -163,17 +152,17 @@ class DnsTabContent extends StatelessWidget {
           )
         else
           NoDataChart(
-            topLabel: AppLocalizations.of(context)!.queryTypes,
+            topLabel: loc.queryTypes,
           ),
 
         // DNS Replies
-        if (statusProvider.getDnsRepliesInfo != null)
+        if (dnsRepliesInfo != null)
           Padding(
             padding: const EdgeInsets.only(top: 20, bottom: 10),
             child: Column(
               children: [
                 SectionLabel(
-                  label: AppLocalizations.of(context)!.dnsReplyMetrics,
+                  label: loc.dnsReplyMetrics,
                   padding: const EdgeInsets.only(top: 16, left: 16, bottom: 24),
                 ),
                 if (width > ResponsiveConstants.medium)
@@ -189,10 +178,7 @@ class DnsTabContent extends StatelessWidget {
                               maxHeight: 200,
                             ),
                             child: CustomPieChart(
-                              data: _buildDnsRepliesList(
-                                statusProvider.getDnsRepliesInfo!,
-                                context,
-                              ),
+                              data: _buildDnsRepliesList(dnsRepliesInfo, loc),
                             ),
                           ),
                         ),
@@ -200,10 +186,7 @@ class DnsTabContent extends StatelessWidget {
                       Expanded(
                         flex: 3,
                         child: PieChartLegend(
-                          data: _buildDnsRepliesList(
-                            statusProvider.getDnsRepliesInfo!,
-                            context,
-                          ),
+                          data: _buildDnsRepliesList(dnsRepliesInfo, loc),
                           dataUnit: '%',
                         ),
                       ),
@@ -213,18 +196,12 @@ class DnsTabContent extends StatelessWidget {
                   SizedBox(
                     width: width - 40,
                     child: CustomPieChart(
-                      data: _buildDnsRepliesList(
-                        statusProvider.getDnsRepliesInfo!,
-                        context,
-                      ),
+                      data: _buildDnsRepliesList(dnsRepliesInfo, loc),
                     ),
                   ),
                   const SizedBox(height: 20),
                   PieChartLegend(
-                    data: _buildDnsRepliesList(
-                      statusProvider.getDnsRepliesInfo!,
-                      context,
-                    ),
+                    data: _buildDnsRepliesList(dnsRepliesInfo, loc),
                     dataUnit: '%',
                   ),
                 ],
@@ -233,9 +210,29 @@ class DnsTabContent extends StatelessWidget {
           )
         else
           NoDataChart(
-            topLabel: AppLocalizations.of(context)!.upstreamServers,
+            topLabel: loc.upstreamServers,
           ),
       ],
     );
+  }
+
+  Map<String, double> _buildDnsRepliesList(
+    DnsRepliesInfo info,
+    AppLocalizations loc,
+  ) {
+    final entries = {
+      // 'Local/cache replies': info.localPercentage,
+      // 'Forwarded queries:': info.forwardedPercentage,
+      // 'Cache optimizer replies': info.optimizedPercentage,
+      // 'Unanswered queries': info.unansweredPercentage,
+      // 'Authoritative replies': info.authPercentage,
+      loc.localCacheReplies: info.localPercentage,
+      loc.forwardedQueries: info.forwardedPercentage,
+      loc.cacheOptimizerReplies: info.optimizedPercentage,
+      loc.unansweredQueries: info.unansweredPercentage,
+      loc.authoritativeReplies: info.authPercentage,
+    };
+
+    return entries;
   }
 }

@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:pi_hole_client/constants/enums.dart';
 import 'package:pi_hole_client/constants/responsive.dart';
 import 'package:pi_hole_client/l10n/generated/app_localizations.dart';
+import 'package:pi_hole_client/models/realtime_status.dart';
 import 'package:pi_hole_client/providers/status_provider.dart';
 import 'package:pi_hole_client/screens/statistics/custom_pie_chart.dart';
 import 'package:pi_hole_client/screens/statistics/no_data_chart.dart';
@@ -21,7 +23,9 @@ class QueriesServersTab extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final statusProvider = Provider.of<StatusProvider>(context);
+    final statusLoading = context.select<StatusProvider, LoadStatus>(
+      (p) => p.getStatusLoading,
+    );
 
     return CustomTabContent(
       loadingGenerator: () => SizedBox(
@@ -67,7 +71,7 @@ class QueriesServersTab extends StatelessWidget {
           ],
         ),
       ),
-      loadStatus: statusProvider.getStatusLoading,
+      loadStatus: statusLoading,
       onRefresh: onRefresh,
       controller: controller,
     );
@@ -79,13 +83,16 @@ class QueriesServersTabContent extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final statusProvider = Provider.of<StatusProvider>(context);
+    // final statusProvider = Provider.of<StatusProvider>(context);
+    final realtimeStatus = context.select<StatusProvider, RealtimeStatus?>(
+      (provider) => provider.getRealtimeStatus,
+    );
 
     final width = MediaQuery.of(context).size.width;
 
     return Column(
       children: [
-        if (statusProvider.getRealtimeStatus!.queryTypes.isEmpty == false)
+        if (realtimeStatus?.queryTypes.isEmpty == false)
           Padding(
             padding: const EdgeInsets.only(top: 20, bottom: 10),
             child: Column(
@@ -107,8 +114,7 @@ class QueriesServersTabContent extends StatelessWidget {
                               maxHeight: 200,
                             ),
                             child: CustomPieChart(
-                              data:
-                                  statusProvider.getRealtimeStatus!.queryTypes,
+                              data: realtimeStatus!.queryTypes,
                             ),
                           ),
                         ),
@@ -116,7 +122,7 @@ class QueriesServersTabContent extends StatelessWidget {
                       Expanded(
                         flex: 3,
                         child: PieChartLegend(
-                          data: statusProvider.getRealtimeStatus!.queryTypes,
+                          data: realtimeStatus.queryTypes,
                           dataUnit: '%',
                         ),
                       ),
@@ -126,12 +132,12 @@ class QueriesServersTabContent extends StatelessWidget {
                   SizedBox(
                     width: width - 40,
                     child: CustomPieChart(
-                      data: statusProvider.getRealtimeStatus!.queryTypes,
+                      data: realtimeStatus!.queryTypes,
                     ),
                   ),
                   const SizedBox(height: 20),
                   PieChartLegend(
-                    data: statusProvider.getRealtimeStatus!.queryTypes,
+                    data: realtimeStatus.queryTypes,
                     dataUnit: '%',
                   ),
                 ],
@@ -142,8 +148,7 @@ class QueriesServersTabContent extends StatelessWidget {
           NoDataChart(
             topLabel: AppLocalizations.of(context)!.queryTypes,
           ),
-        if (statusProvider.getRealtimeStatus!.forwardDestinations.isEmpty ==
-            false)
+        if (realtimeStatus!.forwardDestinations.isEmpty == false)
           Padding(
             padding: const EdgeInsets.only(top: 20, bottom: 10),
             child: Column(
@@ -165,8 +170,7 @@ class QueriesServersTabContent extends StatelessWidget {
                               maxHeight: 200,
                             ),
                             child: CustomPieChart(
-                              data: statusProvider
-                                  .getRealtimeStatus!.forwardDestinations,
+                              data: realtimeStatus.forwardDestinations,
                             ),
                           ),
                         ),
@@ -174,8 +178,7 @@ class QueriesServersTabContent extends StatelessWidget {
                       Expanded(
                         flex: 3,
                         child: PieChartLegend(
-                          data: statusProvider
-                              .getRealtimeStatus!.forwardDestinations,
+                          data: realtimeStatus.forwardDestinations,
                           dataUnit: '%',
                         ),
                       ),
@@ -185,13 +188,12 @@ class QueriesServersTabContent extends StatelessWidget {
                   SizedBox(
                     width: width - 40,
                     child: CustomPieChart(
-                      data:
-                          statusProvider.getRealtimeStatus!.forwardDestinations,
+                      data: realtimeStatus.forwardDestinations,
                     ),
                   ),
                   const SizedBox(height: 20),
                   PieChartLegend(
-                    data: statusProvider.getRealtimeStatus!.forwardDestinations,
+                    data: realtimeStatus.forwardDestinations,
                     dataUnit: '%',
                   ),
                 ],
