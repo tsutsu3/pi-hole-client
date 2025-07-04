@@ -6,6 +6,7 @@ import 'package:pi_hole_client/constants/responsive.dart';
 import 'package:pi_hole_client/constants/urls.dart';
 import 'package:pi_hole_client/functions/open_url.dart';
 import 'package:pi_hole_client/l10n/generated/app_localizations.dart';
+import 'package:pi_hole_client/models/server.dart';
 import 'package:pi_hole_client/providers/app_config_provider.dart';
 import 'package:pi_hole_client/providers/servers_provider.dart';
 import 'package:pi_hole_client/providers/status_provider.dart';
@@ -70,8 +71,12 @@ class _SettingsWidgetState extends State<SettingsWidget> {
 
   @override
   Widget build(BuildContext context) {
-    final serversProvider = Provider.of<ServersProvider>(context);
-    final statusProvider = Provider.of<StatusProvider>(context);
+    final selectedServer = context.select<ServersProvider, Server?>(
+      (p) => p.selectedServer,
+    );
+    final isServerConnected = context.select<StatusProvider, bool?>(
+      (p) => p.isServerConnected,
+    );
     final appConfigProvider = Provider.of<AppConfigProvider>(context);
 
     final width = MediaQuery.of(context).size.width;
@@ -164,9 +169,9 @@ class _SettingsWidgetState extends State<SettingsWidget> {
           settingsTile(
             icon: Icons.storage_rounded,
             title: AppLocalizations.of(context)!.servers,
-            subtitle: serversProvider.selectedServer != null
-                ? statusProvider.isServerConnected == true
-                    ? '${AppLocalizations.of(context)!.connectedTo} ${serversProvider.selectedServer!.alias}'
+            subtitle: selectedServer != null
+                ? isServerConnected == true
+                    ? '${AppLocalizations.of(context)!.connectedTo} ${selectedServer.alias}'
                     : AppLocalizations.of(context)!.notConnectServer
                 : AppLocalizations.of(context)!.notSelected,
             screenToNavigate: const ServersPage(),
@@ -193,9 +198,9 @@ class _SettingsWidgetState extends State<SettingsWidget> {
           settingsTile(
             icon: Icons.connected_tv_rounded,
             title: AppLocalizations.of(context)!.serverInfo,
-            subtitle: serversProvider.selectedServer != null
-                ? statusProvider.isServerConnected == true
-                    ? serversProvider.selectedServer!.alias
+            subtitle: selectedServer != null
+                ? isServerConnected == true
+                    ? selectedServer.alias
                     : AppLocalizations.of(context)!.notConnectServer
                 : AppLocalizations.of(context)!.notSelected,
             screenToNavigate: const ServerInfoScreen(),
