@@ -10,7 +10,6 @@ import 'package:pi_hole_client/providers/filters_provider.dart';
 import 'package:pi_hole_client/providers/servers_provider.dart';
 import 'package:pi_hole_client/providers/status_provider.dart';
 import 'package:pi_hole_client/screens/home/widgets/home_tiles/home_tile.dart';
-import 'package:pi_hole_client/screens/logs/widgets/logs_filters_modal.dart';
 import 'package:pi_hole_client/screens/settings/server_settings/advanced_server_options.dart';
 import 'package:pi_hole_client/screens/settings/server_settings/advanced_settings/network_screen.dart';
 import 'package:pi_hole_client/screens/settings/server_settings/subscriptions.dart';
