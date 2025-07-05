@@ -81,6 +81,8 @@ class HomeTiles extends StatelessWidget {
               width: width,
               onTap: () {
                 final appConfigProvider = context.read<AppConfigProvider>();
+                final serverProvider = context.read<ServersProvider>();
+                final apiVersion = serverProvider.selectedServer?.apiVersion;
                 appConfigProvider.setSelectedTab(4);
                 Navigator.push(
                   context,
@@ -88,8 +90,6 @@ class HomeTiles extends StatelessWidget {
                     builder: (context) => const AdvancedServerOptions(),
                   ),
                 );
-                final serverProvider = context.read<ServersProvider>();
-                final apiVersion = serverProvider.selectedServer?.apiVersion;
                 if (apiVersion == 'v6') {
                   Navigator.push(
                     context,
