@@ -98,7 +98,7 @@ class _AdvancedServerOptionsState extends State<AdvancedServerOptions> {
     if (apiGateway == null) {
       return Scaffold(
         appBar: AppBar(
-          title: Text(AppLocalizations.of(context)!.interface),
+          title: Text(AppLocalizations.of(context)!.advancedSetup),
         ),
         body: const SafeArea(
           child: EmptyDataScreen(),
@@ -109,7 +109,7 @@ class _AdvancedServerOptionsState extends State<AdvancedServerOptions> {
     if (apiGateway.server.apiVersion == 'v5') {
       return Scaffold(
         appBar: AppBar(
-          title: Text(AppLocalizations.of(context)!.adlistManagementTitle),
+          title: Text(AppLocalizations.of(context)!.advancedSetup),
         ),
         body: const SafeArea(child: PiHoleV5NotSupportedScreen()),
       );
