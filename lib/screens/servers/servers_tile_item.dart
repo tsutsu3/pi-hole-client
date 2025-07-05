@@ -39,9 +39,12 @@ class _ServersTileItemState extends State<ServersTileItem>
     with SingleTickerProviderStateMixin {
   @override
   Widget build(BuildContext context) {
-    final serversProvider = Provider.of<ServersProvider>(context);
-    final statusProvider = Provider.of<StatusProvider>(context);
-    final appConfigProvider = Provider.of<AppConfigProvider>(context);
+    final serversProvider = context.watch<ServersProvider>();
+    final statusProvider = context.read<StatusProvider>();
+    final appConfigProvider = context.read<AppConfigProvider>();
+    final isServerConnected = context.select<StatusProvider, bool>(
+      (p) => p.isServerConnected,
+    );
 
     final width = MediaQuery.of(context).size.width;
 
@@ -122,7 +125,7 @@ class _ServersTileItemState extends State<ServersTileItem>
               Icons.storage_rounded,
               color: serversProvider.selectedServer != null &&
                       serversProvider.selectedServer?.address == server.address
-                  ? statusProvider.isServerConnected == true
+                  ? isServerConnected
                       ? Colors.green
                       : Colors.orange
                   : null,
@@ -155,7 +158,7 @@ class _ServersTileItemState extends State<ServersTileItem>
           Icons.storage_rounded,
           color: serversProvider.selectedServer != null &&
                   serversProvider.selectedServer?.address == server.address
-              ? statusProvider.isServerConnected == true
+              ? isServerConnected
                   ? convertColor(serversProvider.colors, Colors.green)
                   : convertColor(serversProvider.colors, Colors.orange)
               : null,
@@ -278,10 +281,8 @@ class _ServersTileItemState extends State<ServersTileItem>
                         child: Row(
                           children: [
                             Icon(
-                              statusProvider.isServerConnected == true
-                                  ? Icons.check
-                                  : Icons.warning,
-                              color: statusProvider.isServerConnected == true
+                              isServerConnected ? Icons.check : Icons.warning,
+                              color: isServerConnected
                                   ? convertColor(
                                       serversProvider.colors,
                                       Colors.green,
@@ -293,12 +294,12 @@ class _ServersTileItemState extends State<ServersTileItem>
                             ),
                             const SizedBox(width: 10),
                             Text(
-                              statusProvider.isServerConnected == true
+                              isServerConnected
                                   ? AppLocalizations.of(context)!.connected
                                   : AppLocalizations.of(context)!
                                       .selectedDisconnected,
                               style: TextStyle(
-                                color: statusProvider.isServerConnected == true
+                                color: isServerConnected
                                     ? convertColor(
                                         serversProvider.colors,
                                         Colors.green,
