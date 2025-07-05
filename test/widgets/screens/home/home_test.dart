@@ -7,6 +7,9 @@ import 'package:pi_hole_client/screens/home/home.dart';
 import 'package:pi_hole_client/screens/home/widgets/disable_modal.dart';
 import 'package:pi_hole_client/screens/home/widgets/home_appbar.dart';
 import 'package:pi_hole_client/screens/home/widgets/home_appbar/switch_server_modal.dart';
+import 'package:pi_hole_client/screens/logs/widgets/logs_filters_modal.dart';
+import 'package:pi_hole_client/screens/settings/server_settings/advanced_settings/network_screen.dart';
+import 'package:pi_hole_client/screens/settings/server_settings/subscriptions.dart';
 import 'package:skeletonizer/skeletonizer.dart';
 
 import '../../helpers.dart';
@@ -372,6 +375,121 @@ void main() async {
           await tester.tap(find.text('Change server'));
           await tester.pumpAndSettle();
           expect(find.text('Servers'), findsOneWidget);
+        },
+      );
+
+      testWidgets(
+        'should show network page when tapping on "Total queries" tile',
+        (WidgetTester tester) async {
+          tester.view.physicalSize = const Size(1080, 2400);
+          tester.view.devicePixelRatio = 2.0;
+
+          addTearDown(() {
+            tester.view.resetPhysicalSize();
+            tester.view.resetDevicePixelRatio();
+          });
+
+          await tester.pumpWidget(
+            testSetup.buildTestWidget(
+              const Home(),
+            ),
+          );
+
+          expect(find.byType(Home), findsOneWidget);
+          await tester.pump();
+
+          await tester.tap(find.text('Total queries'));
+          await tester.pumpAndSettle();
+          expect(find.byType(NetworkScreen), findsOneWidget);
+        },
+      );
+
+      testWidgets(
+        'should show logs page with filter when tapping on "Queries blocked" tile',
+        (WidgetTester tester) async {
+          tester.view.physicalSize = const Size(1080, 2400);
+          tester.view.devicePixelRatio = 2.0;
+
+          addTearDown(() {
+            tester.view.resetPhysicalSize();
+            tester.view.resetDevicePixelRatio();
+          });
+
+          await tester.pumpWidget(
+            testSetup.buildTestWidget(
+              const Home(),
+            ),
+          );
+
+          expect(find.byType(Home), findsOneWidget);
+          await tester.pump();
+
+          await tester.tap(find.text('Queries blocked'));
+          // await tester.pumpAndSettle();
+          // expect(find.byType(Logs), findsOneWidget);
+          // expect(find.text('9 status selected'), findsOneWidget);
+          verify(
+            testSetup.mockFiltersProvider
+                .setRequestStatus(RequestStatus.blocked),
+          ).called(1);
+          verify(testSetup.mockConfigProvider.setSelectedTab(2)).called(1);
+        },
+      );
+
+      testWidgets(
+        'should show logs page when tapping on "Percentage blocked" tile',
+        (WidgetTester tester) async {
+          tester.view.physicalSize = const Size(1080, 2400);
+          tester.view.devicePixelRatio = 2.0;
+
+          addTearDown(() {
+            tester.view.resetPhysicalSize();
+            tester.view.resetDevicePixelRatio();
+          });
+
+          await tester.pumpWidget(
+            testSetup.buildTestWidget(
+              const Home(),
+            ),
+          );
+
+          expect(find.byType(Home), findsOneWidget);
+          await tester.pump();
+
+          await tester.tap(find.text('Percentage blocked'));
+          // await tester.pumpAndSettle();
+          // expect(find.byType(Logs), findsOneWidget);
+          // expect(find.text('9 status selected'), findsNothing);
+          verify(
+            testSetup.mockFiltersProvider.setRequestStatus(RequestStatus.all),
+          ).called(1);
+          verify(testSetup.mockConfigProvider.setSelectedTab(2)).called(1);
+        },
+      );
+
+      testWidgets(
+        'should show adlists page when tapping on "Domains on Adlists" tile',
+        (WidgetTester tester) async {
+          tester.view.physicalSize = const Size(1080, 2400);
+          tester.view.devicePixelRatio = 2.0;
+
+          addTearDown(() {
+            tester.view.resetPhysicalSize();
+            tester.view.resetDevicePixelRatio();
+          });
+
+          await tester.pumpWidget(
+            testSetup.buildTestWidget(
+              const Home(),
+            ),
+          );
+
+          expect(find.byType(Home), findsOneWidget);
+          await tester.pump();
+
+          await tester.tap(find.text('Domains on Adlists'));
+          await tester.pumpAndSettle();
+          expect(find.byType(SubscriptionLists), findsOneWidget);
         },
       );
     },

@@ -5,8 +5,15 @@ import 'package:pi_hole_client/config/theme.dart';
 import 'package:pi_hole_client/constants/enums.dart';
 import 'package:pi_hole_client/functions/conversions.dart';
 import 'package:pi_hole_client/l10n/generated/app_localizations.dart';
+import 'package:pi_hole_client/providers/app_config_provider.dart';
+import 'package:pi_hole_client/providers/filters_provider.dart';
+import 'package:pi_hole_client/providers/servers_provider.dart';
 import 'package:pi_hole_client/providers/status_provider.dart';
 import 'package:pi_hole_client/screens/home/widgets/home_tiles/home_tile.dart';
+import 'package:pi_hole_client/screens/logs/widgets/logs_filters_modal.dart';
+import 'package:pi_hole_client/screens/settings/server_settings/advanced_server_options.dart';
+import 'package:pi_hole_client/screens/settings/server_settings/advanced_settings/network_screen.dart';
+import 'package:pi_hole_client/screens/settings/server_settings/subscriptions.dart';
 import 'package:provider/provider.dart';
 import 'package:skeletonizer/skeletonizer.dart';
 
@@ -72,6 +79,26 @@ class HomeTiles extends StatelessWidget {
                 );
               },
               width: width,
+              onTap: () {
+                final appConfigProvider = context.read<AppConfigProvider>();
+                final serverProvider = context.read<ServersProvider>();
+                final apiVersion = serverProvider.selectedServer?.apiVersion;
+                appConfigProvider.setSelectedTab(4);
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => const AdvancedServerOptions(),
+                  ),
+                );
+                if (apiVersion == 'v6') {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => const NetworkScreen(),
+                    ),
+                  );
+                }
+              },
             ),
             HomeTileItem(
               icon: Icons.block,
@@ -87,6 +114,12 @@ class HomeTiles extends StatelessWidget {
                 );
               },
               width: width,
+              onTap: () {
+                final filtersProvider = context.read<FiltersProvider>();
+                final appConfigProvider = context.read<AppConfigProvider>();
+                filtersProvider.setRequestStatus(RequestStatus.blocked);
+                appConfigProvider.setSelectedTab(2);
+              },
             ),
             HomeTileItem(
               icon: Icons.pie_chart,
@@ -103,6 +136,12 @@ class HomeTiles extends StatelessWidget {
                 );
               },
               width: width,
+              onTap: () {
+                final filtersProvider = context.read<FiltersProvider>();
+                final appConfigProvider = context.read<AppConfigProvider>();
+                filtersProvider.setRequestStatus(RequestStatus.all);
+                appConfigProvider.setSelectedTab(2);
+              },
             ),
             HomeTileItem(
               icon: Icons.list,
@@ -119,6 +158,16 @@ class HomeTiles extends StatelessWidget {
                 );
               },
               width: width,
+              onTap: () {
+                final appConfigProvider = context.read<AppConfigProvider>();
+                appConfigProvider.setSelectedTab(4);
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => const SubscriptionLists(),
+                  ),
+                );
+              },
             ),
           ],
         ),
