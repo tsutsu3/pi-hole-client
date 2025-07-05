@@ -120,14 +120,25 @@ class SubscriptionTile extends StatelessWidget {
           ),
         ),
         const SizedBox(width: 24),
-        Text(
-          subscription.enabled
-              ? AppLocalizations.of(context)!.enabled
-              : AppLocalizations.of(context)!.disabled,
-          style: TextStyle(
-            color: subscription.enabled
-                ? Theme.of(context).colorScheme.primary
-                : colors.queryGrey,
+        Container(
+          padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
+          decoration: subscription.enabled
+              ? BoxDecoration(
+                  color: Theme.of(context).colorScheme.primaryContainer,
+                  borderRadius: BorderRadius.circular(12),
+                )
+              : null,
+          child: Text(
+            subscription.enabled
+                ? AppLocalizations.of(context)!.enabled
+                : AppLocalizations.of(context)!.disabled,
+            style: TextStyle(
+              fontSize: 12,
+              fontWeight: FontWeight.w600,
+              color: subscription.enabled
+                  ? Theme.of(context).colorScheme.primary
+                  : colors.queryGrey,
+            ),
           ),
         ),
       ],
