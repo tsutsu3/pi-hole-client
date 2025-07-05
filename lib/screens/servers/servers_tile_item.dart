@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:pi_hole_client/classes/process_modal.dart';
 import 'package:pi_hole_client/constants/enums.dart';
 import 'package:pi_hole_client/constants/responsive.dart';
-import 'package:pi_hole_client/functions/conversions.dart';
 import 'package:pi_hole_client/functions/snackbar.dart';
 import 'package:pi_hole_client/l10n/generated/app_localizations.dart';
 import 'package:pi_hole_client/models/gateways.dart';
@@ -14,6 +13,7 @@ import 'package:pi_hole_client/providers/servers_provider.dart';
 import 'package:pi_hole_client/providers/status_provider.dart';
 import 'package:pi_hole_client/screens/servers/add_server_fullscreen.dart';
 import 'package:pi_hole_client/screens/servers/delete_server_modal.dart';
+import 'package:pi_hole_client/screens/servers/server_tile_actions.dart';
 import 'package:pi_hole_client/screens/servers/server_tile_header.dart';
 import 'package:pi_hole_client/services/status_update_service.dart';
 import 'package:provider/provider.dart';
@@ -43,9 +43,6 @@ class _ServersTileItemState extends State<ServersTileItem>
     final serversProvider = context.watch<ServersProvider>();
     final statusProvider = context.read<StatusProvider>();
     final appConfigProvider = context.read<AppConfigProvider>();
-    final isServerConnected = context.select<StatusProvider, bool>(
-      (p) => p.isServerConnected,
-    );
 
     final width = MediaQuery.of(context).size.width;
 
@@ -117,123 +114,6 @@ class _ServersTileItemState extends State<ServersTileItem>
       }
     }
 
-    Widget bottomRow(Server server, int index) {
-      return Column(
-        children: [
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              PopupMenuButton(
-                itemBuilder: (context) => [
-                  PopupMenuItem(
-                    enabled: server.defaultServer == false ? true : false,
-                    onTap: server.defaultServer == false
-                        ? (() => setDefaultServer(server))
-                        : null,
-                    child: SizedBox(
-                      width: double.infinity,
-                      child: Row(
-                        children: [
-                          const Icon(Icons.star),
-                          const SizedBox(width: 15),
-                          Expanded(
-                            child: Text(
-                              server.defaultServer == true
-                                  ? AppLocalizations.of(context)!
-                                      .defaultConnection
-                                  : AppLocalizations.of(context)!.setDefault,
-                              overflow: TextOverflow.ellipsis,
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
-                  PopupMenuItem(
-                    onTap: () => openAddServerBottomSheet(server: server),
-                    child: Row(
-                      children: [
-                        const Icon(Icons.edit),
-                        const SizedBox(width: 15),
-                        Text(AppLocalizations.of(context)!.edit),
-                      ],
-                    ),
-                  ),
-                  PopupMenuItem(
-                    onTap: () => showDeleteModal(server),
-                    child: Row(
-                      children: [
-                        const Icon(Icons.delete),
-                        const SizedBox(width: 15),
-                        Text(AppLocalizations.of(context)!.delete),
-                      ],
-                    ),
-                  ),
-                ],
-              ),
-              SizedBox(
-                child: serversProvider.selectedServer != null &&
-                        serversProvider.selectedServer?.address ==
-                            serversProvider.getServersList[index].address
-                    ? Padding(
-                        padding: const EdgeInsets.only(right: 16),
-                        child: Row(
-                          children: [
-                            Icon(
-                              isServerConnected ? Icons.check : Icons.warning,
-                              color: isServerConnected
-                                  ? convertColor(
-                                      serversProvider.colors,
-                                      Colors.green,
-                                    )
-                                  : convertColor(
-                                      serversProvider.colors,
-                                      Colors.orange,
-                                    ),
-                            ),
-                            const SizedBox(width: 10),
-                            Text(
-                              isServerConnected
-                                  ? AppLocalizations.of(context)!.connected
-                                  : AppLocalizations.of(context)!
-                                      .selectedDisconnected,
-                              style: TextStyle(
-                                color: isServerConnected
-                                    ? convertColor(
-                                        serversProvider.colors,
-                                        Colors.green,
-                                      )
-                                    : convertColor(
-                                        serversProvider.colors,
-                                        Colors.orange,
-                                      ),
-                                fontWeight: FontWeight.w500,
-                              ),
-                            ),
-                          ],
-                        ),
-                      )
-                    : Container(
-                        margin: const EdgeInsets.only(right: 10),
-                        child: FilledButton.icon(
-                          icon: const Icon(Icons.login),
-                          onPressed: () => _connectToServer(
-                            context,
-                            appConfigProvider,
-                            serversProvider,
-                            statusProvider,
-                            server,
-                          ),
-                          label: Text(AppLocalizations.of(context)!.connect),
-                        ),
-                      ),
-              ),
-            ],
-          ),
-        ],
-      );
-    }
-
     EdgeInsets generateMargins(int index) {
       if (index == 0) {
         return const EdgeInsets.only(top: 16, left: 16, right: 8, bottom: 8);
@@ -264,11 +144,25 @@ class _ServersTileItemState extends State<ServersTileItem>
         child: Column(
           children: [
             Padding(
-                padding: const EdgeInsets.all(16),
-                child: ServerTileHeader(server: widget.server)),
+              padding: const EdgeInsets.all(16),
+              child: ServerTileHeader(server: widget.server),
+            ),
             Padding(
               padding: const EdgeInsets.only(left: 8, right: 8, bottom: 16),
-              child: bottomRow(widget.server, widget.index),
+              child: ServerTileActions(
+                server: widget.server,
+                index: widget.index,
+                onConnect: () => _connectToServer(
+                  context,
+                  appConfigProvider,
+                  serversProvider,
+                  statusProvider,
+                  widget.server,
+                ),
+                onEdit: () => openAddServerBottomSheet(server: widget.server),
+                onDelete: () => showDeleteModal(widget.server),
+                onSetDefault: () => setDefaultServer(widget.server),
+              ),
             ),
           ],
         ),
