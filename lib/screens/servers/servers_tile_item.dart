@@ -14,6 +14,7 @@ import 'package:pi_hole_client/providers/servers_provider.dart';
 import 'package:pi_hole_client/providers/status_provider.dart';
 import 'package:pi_hole_client/screens/servers/add_server_fullscreen.dart';
 import 'package:pi_hole_client/screens/servers/delete_server_modal.dart';
+import 'package:pi_hole_client/screens/servers/server_tile_header.dart';
 import 'package:pi_hole_client/services/status_update_service.dart';
 import 'package:provider/provider.dart';
 
@@ -114,108 +115,6 @@ class _ServersTileItemState extends State<ServersTileItem>
           label: AppLocalizations.of(context)!.connectionDefaultFailed,
         );
       }
-    }
-
-    Widget leadingIcon(Server server) {
-      if (server.defaultServer == true) {
-        return Stack(
-          alignment: Alignment.center,
-          children: [
-            Icon(
-              Icons.storage_rounded,
-              color: serversProvider.selectedServer != null &&
-                      serversProvider.selectedServer?.address == server.address
-                  ? isServerConnected
-                      ? Colors.green
-                      : Colors.orange
-                  : null,
-            ),
-            SizedBox(
-              width: 25,
-              height: 25,
-              child: Stack(
-                alignment: Alignment.bottomRight,
-                children: [
-                  Container(
-                    padding: const EdgeInsets.all(1),
-                    decoration: BoxDecoration(
-                      color: Theme.of(context).colorScheme.primaryContainer,
-                      borderRadius: BorderRadius.circular(20),
-                    ),
-                    child: Icon(
-                      Icons.star,
-                      color: Theme.of(context).colorScheme.onPrimaryContainer,
-                      size: 10,
-                    ),
-                  ),
-                ],
-              ),
-            ),
-          ],
-        );
-      } else {
-        return Icon(
-          Icons.storage_rounded,
-          color: serversProvider.selectedServer != null &&
-                  serversProvider.selectedServer?.address == server.address
-              ? isServerConnected
-                  ? convertColor(serversProvider.colors, Colors.green)
-                  : convertColor(serversProvider.colors, Colors.orange)
-              : null,
-        );
-      }
-    }
-
-    Widget topRow(Server server, int index) {
-      return Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          Expanded(
-            child: Row(
-              children: [
-                Container(
-                  margin: const EdgeInsets.only(right: 16),
-                  child: leadingIcon(server),
-                ),
-                Expanded(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        server.address,
-                        textAlign: TextAlign.left,
-                        overflow: TextOverflow.ellipsis,
-                        style: TextStyle(
-                          fontSize: 16,
-                          fontWeight: FontWeight.w400,
-                          color: Theme.of(context).colorScheme.onSurface,
-                        ),
-                      ),
-                      Column(
-                        children: [
-                          const SizedBox(height: 3),
-                          Text(
-                            server.alias,
-                            overflow: TextOverflow.ellipsis,
-                            textAlign: TextAlign.left,
-                            style: TextStyle(
-                              fontSize: 14,
-                              fontWeight: FontWeight.w400,
-                              color: Theme.of(context)
-                                  .colorScheme
-                                  .onSurfaceVariant,
-                            ),
-                          ),
-                        ],
-                      ),
-                    ],
-                  ),
-                ),
-              ],
-            ),
-          ),
-        ],
-      );
     }
 
     Widget bottomRow(Server server, int index) {
@@ -365,9 +264,8 @@ class _ServersTileItemState extends State<ServersTileItem>
         child: Column(
           children: [
             Padding(
-              padding: const EdgeInsets.all(16),
-              child: topRow(widget.server, widget.index),
-            ),
+                padding: const EdgeInsets.all(16),
+                child: ServerTileHeader(server: widget.server)),
             Padding(
               padding: const EdgeInsets.only(left: 8, right: 8, bottom: 16),
               child: bottomRow(widget.server, widget.index),
