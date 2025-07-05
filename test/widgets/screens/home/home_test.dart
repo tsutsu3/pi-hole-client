@@ -7,7 +7,6 @@ import 'package:pi_hole_client/screens/home/home.dart';
 import 'package:pi_hole_client/screens/home/widgets/disable_modal.dart';
 import 'package:pi_hole_client/screens/home/widgets/home_appbar.dart';
 import 'package:pi_hole_client/screens/home/widgets/home_appbar/switch_server_modal.dart';
-import 'package:pi_hole_client/screens/logs/logs.dart';
 import 'package:pi_hole_client/screens/logs/widgets/logs_filters_modal.dart';
 import 'package:pi_hole_client/screens/settings/server_settings/advanced_settings/network_screen.dart';
 import 'package:pi_hole_client/screens/settings/server_settings/subscriptions.dart';
