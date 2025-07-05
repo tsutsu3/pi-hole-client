@@ -80,8 +80,11 @@ class _ServersPageState extends State<ServersPage> {
 
     final width = MediaQuery.of(context).size.width;
 
-    for (var i = 0; i < serversList.length; i++) {
-      expandableControllerList.add(ExpandableController());
+    if (expandableControllerList.length != serversList.length) {
+      expandableControllerList = List.generate(
+        serversList.length,
+        (_) => ExpandableController(),
+      );
     }
 
     Future<void> openAddServer({Server? server}) async {
