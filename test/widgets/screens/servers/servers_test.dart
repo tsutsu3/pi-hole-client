@@ -119,7 +119,7 @@ void main() async {
         expect(find.byType(ServersPage), findsOneWidget);
         expect(find.text('Servers'), findsOneWidget);
 
-        await tester.tap(find.byType(PopupMenuButton));
+        await tester.tap(find.byIcon(Icons.more_vert));
         await tester.pumpAndSettle();
 
         expect(find.text('Set as default connection'), findsOneWidget);
@@ -128,7 +128,7 @@ void main() async {
         await tester.tap(find.text('Set as default connection'));
         await tester.pumpAndSettle(const Duration(seconds: 1));
 
-        // expect(find.byType(SnackBar), findsOneWidget);
+        expect(find.byType(SnackBar), findsOneWidget);
         expect(
           find.text('Connection set as default successfully.'),
           findsOneWidget,
@@ -156,7 +156,7 @@ void main() async {
         expect(find.byType(ServersPage), findsOneWidget);
         expect(find.text('Servers'), findsOneWidget);
 
-        await tester.tap(find.byType(PopupMenuButton));
+        await tester.tap(find.byIcon(Icons.more_vert));
         await tester.pumpAndSettle();
 
         expect(find.text('Edit'), findsOneWidget);
@@ -188,7 +188,7 @@ void main() async {
         expect(find.byType(ServersPage), findsOneWidget);
         expect(find.text('Servers'), findsOneWidget);
 
-        await tester.tap(find.byType(PopupMenuButton));
+        await tester.tap(find.byIcon(Icons.more_vert));
         await tester.pumpAndSettle();
 
         expect(find.text('Delete'), findsOneWidget);

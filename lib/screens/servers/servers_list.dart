@@ -1,6 +1,7 @@
 import 'package:expandable/expandable.dart';
 import 'package:flutter/material.dart';
 import 'package:pi_hole_client/l10n/generated/app_localizations.dart';
+import 'package:pi_hole_client/models/server.dart';
 import 'package:pi_hole_client/providers/servers_provider.dart';
 import 'package:pi_hole_client/screens/servers/servers_tile_item.dart';
 import 'package:provider/provider.dart';
@@ -23,20 +24,22 @@ class ServersList extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final serversProvider = Provider.of<ServersProvider>(context);
+    final serversList = context.select<ServersProvider, List<Server>>(
+      (serversProvider) => serversProvider.getServersList,
+    );
 
-    if (serversProvider.getServersList.isNotEmpty) {
+    if (serversList.isNotEmpty) {
       return ListView(
         padding: const EdgeInsets.only(bottom: 80),
         children: [
           Wrap(
-            children: serversProvider.getServersList
+            children: serversList
                 .asMap()
                 .entries
                 .map(
                   (s) => ServersTileItem(
                     breakingWidth: breakingWidth,
-                    server: serversProvider.getServersList[s.key],
+                    server: serversList[s.key],
                     index: s.key,
                     onChange: onChange,
                   ),

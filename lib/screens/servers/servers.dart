@@ -71,13 +71,20 @@ class _ServersPageState extends State<ServersPage> {
 
   @override
   Widget build(BuildContext context) {
-    final serversProvider = Provider.of<ServersProvider>(context);
-    final appConfigProvider = Provider.of<AppConfigProvider>(context);
+    final serversList = context.select<ServersProvider, List<Server>>(
+      (p) => p.getServersList,
+    );
+    final showingSnackbar = context.select<AppConfigProvider, bool>(
+      (p) => p.showingSnackbar,
+    );
 
     final width = MediaQuery.of(context).size.width;
 
-    for (var i = 0; i < serversProvider.getServersList.length; i++) {
-      expandableControllerList.add(ExpandableController());
+    if (expandableControllerList.length != serversList.length) {
+      expandableControllerList = List.generate(
+        serversList.length,
+        (_) => ExpandableController(),
+      );
     }
 
     Future<void> openAddServer({Server? server}) async {
@@ -131,7 +138,7 @@ class _ServersPageState extends State<ServersPage> {
                 duration: const Duration(milliseconds: 100),
                 curve: Curves.easeInOut,
                 bottom: isVisible
-                    ? appConfigProvider.showingSnackbar
+                    ? showingSnackbar
                         ? 70
                         : (Platform.isIOS ? 40 : 20)
                     : -70,
