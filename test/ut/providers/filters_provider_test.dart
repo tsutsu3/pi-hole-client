@@ -1,12 +1,12 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
+import 'package:pi_hole_client/constants/enums.dart';
 import 'package:pi_hole_client/models/server.dart';
 import 'package:pi_hole_client/providers/filters_provider.dart';
 import 'package:pi_hole_client/providers/filters_provider/filters_v5.dart';
 import 'package:pi_hole_client/providers/filters_provider/filters_v6.dart';
 import 'package:pi_hole_client/providers/servers_provider.dart';
-import 'package:pi_hole_client/screens/logs/widgets/logs_filters_modal.dart';
 
 import './filters_provider_test.mocks.dart';
 

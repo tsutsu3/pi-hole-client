@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:pi_hole_client/constants/enums.dart';
 import 'package:pi_hole_client/constants/formats.dart';
 import 'package:pi_hole_client/constants/responsive.dart';
 import 'package:pi_hole_client/functions/format.dart';
@@ -29,8 +30,6 @@ class LogsFiltersModal extends StatefulWidget {
   @override
   State<LogsFiltersModal> createState() => _LogsFiltersModalState();
 }
-
-enum RequestStatus { all, blocked, allowed }
 
 class _LogsFiltersModalState extends State<LogsFiltersModal> {
   String? timeError;

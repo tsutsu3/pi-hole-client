@@ -1,6 +1,6 @@
+import 'package:pi_hole_client/constants/enums.dart';
 import 'package:pi_hole_client/constants/query_types.dart';
 import 'package:pi_hole_client/providers/filters_provider/filters_interface.dart';
-import 'package:pi_hole_client/screens/logs/widgets/logs_filters_modal.dart';
 
 class FiltersV6 implements Filters {
   FiltersV6() : _statusSelected = [] {

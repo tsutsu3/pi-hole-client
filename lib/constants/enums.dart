@@ -67,3 +67,15 @@ enum TlsStatus {
   /// 2: Session is NOT end-to-end encrypted
   none,
 }
+
+/// Log filter status
+enum RequestStatus {
+  /// 0: All requests
+  all,
+
+  /// 1: Blocked requests
+  blocked,
+
+  /// 2: Allowed requests
+  allowed,
+}
