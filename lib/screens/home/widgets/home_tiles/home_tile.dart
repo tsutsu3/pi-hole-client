@@ -18,7 +18,8 @@ import 'package:skeletonizer/skeletonizer.dart';
 /// - `label`: The label to display in the card.
 /// - `value`: The value to display in the card.
 /// - `width`: The width of the card.
-/// - `loadStatus`: The load state (loading, loaded, error)
+/// - `valueSelector`: A function that selects the value to display.
+/// - `onTap`: An optional callback that is called when the card is tapped.
 class HomeTileItem extends StatelessWidget {
   const HomeTileItem({
     required this.icon,
@@ -27,6 +28,7 @@ class HomeTileItem extends StatelessWidget {
     required this.label,
     required this.width,
     required this.valueSelector,
+    this.onTap,
     super.key,
   });
 
@@ -35,6 +37,7 @@ class HomeTileItem extends StatelessWidget {
   final Color color;
   final String label;
   final double width;
+  final VoidCallback? onTap;
 
   /// Realtime value selector (ex: select value from StatusProvider)
   final String Function(BuildContext context) valueSelector;
@@ -49,63 +52,68 @@ class HomeTileItem extends StatelessWidget {
       widthFactor: width > ResponsiveConstants.medium ? 0.25 : 0.5,
       child: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 8),
-        child: Container(
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(10),
-            color: color,
-          ),
-          child: Stack(
-            children: [
-              Container(
-                height: 100,
-                padding: const EdgeInsets.only(left: 10),
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Skeleton.keep(
-                      child: Icon(
-                        icon,
-                        size: 65,
-                        color: iconColor,
-                      ),
-                    ),
-                  ],
-                ),
+        child: Material(
+          child: InkWell(
+            onTap: onTap,
+            child: Container(
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(10),
+                color: color,
               ),
-              Container(
-                height: 100,
-                padding: const EdgeInsets.all(10),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.end,
-                  children: [
-                    Flexible(
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.end,
-                        mainAxisAlignment: MainAxisAlignment.spaceAround,
-                        children: [
-                          Flexible(
-                            child: Skeleton.keep(
-                              child: Text(
-                                label,
-                                textAlign: TextAlign.end,
-                                style: const TextStyle(
-                                  color: Colors.white,
-                                  fontSize: 14,
+              child: Stack(
+                children: [
+                  Container(
+                    height: 100,
+                    padding: const EdgeInsets.only(left: 10),
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Skeleton.keep(
+                          child: Icon(
+                            icon,
+                            size: 65,
+                            color: iconColor,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                  Container(
+                    height: 100,
+                    padding: const EdgeInsets.all(10),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.end,
+                      children: [
+                        Flexible(
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.end,
+                            mainAxisAlignment: MainAxisAlignment.spaceAround,
+                            children: [
+                              Flexible(
+                                child: Skeleton.keep(
+                                  child: Text(
+                                    label,
+                                    textAlign: TextAlign.end,
+                                    style: const TextStyle(
+                                      color: Colors.white,
+                                      fontSize: 14,
+                                    ),
+                                  ),
                                 ),
                               ),
-                            ),
+                              _ValueSection(
+                                loadStatus: loadStatus,
+                                valueSelector: valueSelector,
+                              ),
+                            ],
                           ),
-                          _ValueSection(
-                            loadStatus: loadStatus,
-                            valueSelector: valueSelector,
-                          ),
-                        ],
-                      ),
+                        ),
+                      ],
                     ),
-                  ],
-                ),
+                  ),
+                ],
               ),
-            ],
+            ),
           ),
         ),
       ),
