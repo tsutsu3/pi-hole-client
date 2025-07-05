@@ -51,7 +51,6 @@ class _ServersTileItemState extends State<ServersTileItem>
               padding: const EdgeInsets.only(left: 8, right: 8, bottom: 16),
               child: ServerTileActions(
                 server: widget.server,
-                index: widget.index,
                 onConnect: () => connectToServer(widget.server),
                 onEdit: () => showEditModalOrPage(widget.server, width),
                 onDelete: () => showDeleteModal(widget.server),

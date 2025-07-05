@@ -12,7 +12,6 @@ import 'package:provider/provider.dart';
 ///
 /// Parameters:
 /// - [server]: The server object containing the address and status.
-/// - [index]: The index of the server in the list, used for identifying the server.
 /// - [onConnect]: Callback function to handle connecting to the server.
 /// - [onEdit]: Callback function to handle editing the server.
 /// - [onDelete]: Callback function to handle deleting the server.
@@ -20,7 +19,6 @@ import 'package:provider/provider.dart';
 class ServerTileActions extends StatelessWidget {
   const ServerTileActions({
     required this.server,
-    required this.index,
     required this.onConnect,
     required this.onEdit,
     required this.onDelete,
@@ -29,7 +27,6 @@ class ServerTileActions extends StatelessWidget {
   });
 
   final Server server;
-  final int index;
   final VoidCallback onConnect;
   final VoidCallback onEdit;
   final VoidCallback onDelete;
