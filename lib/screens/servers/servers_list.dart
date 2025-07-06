@@ -25,7 +25,7 @@ class ServersList extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final serversList = context.select<ServersProvider, List<Server>>(
-      (serversProvider) => serversProvider.getServersList,
+      (p) => p.getServersList,
     );
 
     if (serversList.isNotEmpty) {

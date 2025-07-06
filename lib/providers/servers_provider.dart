@@ -124,14 +124,16 @@ class ServersProvider with ChangeNotifier {
       if (server.defaultServer == true) {
         final defaultServer = await setDefaultServer(server);
         if (defaultServer == true) {
-          _serversList.add(server);
+          // Create new list so context.select() can detect the change
+          _serversList = [..._serversList, server];
           notifyListeners();
           return true;
         } else {
           return false;
         }
       } else {
-        _serversList.add(server);
+        // Create new list so context.select() can detect the change
+        _serversList = [..._serversList, server];
         notifyListeners();
         return true;
       }
@@ -199,7 +201,9 @@ class ServersProvider with ChangeNotifier {
 
       if (dbOperationSuccess) {
         _serverGateways.remove(serverAddress);
-        _serversList.removeWhere((server) => server.address == serverAddress);
+        // Create new list so context.select() can detect the change
+        _serversList =
+            _serversList.where((s) => s.address != serverAddress).toList();
 
         if (_selectedServer?.address == serverAddress) {
           _selectedServer = null;
