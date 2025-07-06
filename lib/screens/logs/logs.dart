@@ -95,6 +95,7 @@ class _LogsState extends State<Logs> {
   }
 
   Future<void> initializeLoad() async {
+    if (!mounted) return;
     setState(() {
       loadStatus = LoadStatus.loading;
     });
@@ -106,6 +107,7 @@ class _LogsState extends State<Logs> {
 
     await enqueueLoad();
 
+    if (!mounted) return;
     setState(() {
       if (logsSvc.isError) {
         loadStatus = LoadStatus.error;
@@ -193,13 +195,18 @@ class _LogsState extends State<Logs> {
     const maxEmptyWindows = 3;
 
     for (var emptyWindowCount = 0; emptyWindowCount < maxEmptyWindows;) {
+      if (!mounted) return;
       setState(() => isLoadingMore = true);
+
       final newLogs = await logsSvc.loadNextWithWindowSupport(
         enableNextWindow: enableNextWindow,
       );
+
+      if (!mounted) return;
       setState(() => isLoadingMore = false);
 
       if (newLogs.isNotEmpty) {
+        if (!mounted) return;
         setState(() => logsList.addAll(newLogs));
         return;
       }
@@ -210,6 +217,7 @@ class _LogsState extends State<Logs> {
     }
 
     if (logsSvc.isError) {
+      if (!mounted) return;
       setState(() {
         loadStatus = LoadStatus.error;
       });
