@@ -340,7 +340,7 @@ class StatusUpdateService {
     }
 
     if (isDelay) {
-      Future.delayed(const Duration(milliseconds: 200), start);
+      Future.delayed(const Duration(milliseconds: 100), start);
     } else {
       start();
     }
