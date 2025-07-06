@@ -176,13 +176,10 @@ mixin ServersTileItemController<T extends StatefulWidget> on State<T> {
         ),
       );
 
-      // Run background task to handle get data
-      unawaited(
-        _handleConnectionSetup(
-          serversProvider: serversProvider,
-          statusProvider: statusProvider,
-          statusUpdateService: statusUpdateService,
-        ),
+      await _handleConnectionSetup(
+        serversProvider: serversProvider,
+        statusProvider: statusProvider,
+        statusUpdateService: statusUpdateService,
       );
     } else {
       process.close();
@@ -216,6 +213,7 @@ mixin ServersTileItemController<T extends StatefulWidget> on State<T> {
     required StatusProvider statusProvider,
     required StatusUpdateService statusUpdateService,
   }) async {
+    statusUpdateService.stopAutoRefresh();
     statusProvider.setStatusLoading(LoadStatus.loading);
     statusProvider.setOvertimeDataLoadingStatus(LoadStatus.loading);
 

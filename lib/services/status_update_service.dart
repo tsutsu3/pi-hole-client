@@ -57,7 +57,7 @@ class StatusUpdateService {
   /// - [isDelay]: If true, the refresh will be delayed by a short duration.
   void startAutoRefresh({
     bool runImmediately = true,
-    bool isDelay = true,
+    bool isDelay = false,
   }) {
     if (!_isAutoRefreshRunning) {
       logger.d(
@@ -85,7 +85,7 @@ class StatusUpdateService {
   /// Start timer for auto refresh
   void _startAutoRefresh({
     bool runImmediately = true,
-    bool isDelay = true,
+    bool isDelay = false,
   }) {
     if (_isAutoRefreshRunning) return;
     _isAutoRefreshRunning = true;
@@ -252,7 +252,7 @@ class StatusUpdateService {
   // ----------------------------------------
   void _setupOverTimeDataTimer({
     bool runImmediately = true,
-    bool isDelay = true,
+    bool isDelay = false,
   }) {
     Future<void> timerFn({Timer? timer}) async {
       final currentServer = _serversProvider.selectedServer;
@@ -311,7 +311,7 @@ class StatusUpdateService {
   // ----------------------------------------
   void _setupMetricsDataTimer({
     bool runImmediately = true,
-    bool isDelay = true,
+    bool isDelay = false,
   }) {
     Future<void> timerFn({Timer? timer}) async {
       final currentServer = _serversProvider.selectedServer;
