@@ -51,12 +51,19 @@ class StatusUpdateService {
   }
 
   /// Start timer for auto refresh
-  void startAutoRefresh() {
+  ///
+  /// Parameters:
+  /// - [runImmediately]: If true, the refresh will start immediately.
+  /// - [isDelay]: If true, the refresh will be delayed by a short duration.
+  void startAutoRefresh({
+    bool runImmediately = true,
+    bool isDelay = false,
+  }) {
     if (!_isAutoRefreshRunning) {
       logger.d(
         'Starting Auto Refresh: (${_serversProvider.selectedServer?.alias}) ${_serversProvider.selectedServer?.address}',
       );
-      _startAutoRefresh();
+      _startAutoRefresh(runImmediately: runImmediately, isDelay: isDelay);
     }
   }
 
@@ -76,13 +83,16 @@ class StatusUpdateService {
   }
 
   /// Start timer for auto refresh
-  void _startAutoRefresh() {
+  void _startAutoRefresh({
+    bool runImmediately = true,
+    bool isDelay = false,
+  }) {
     if (_isAutoRefreshRunning) return;
     _isAutoRefreshRunning = true;
 
-    _setupStatusDataTimer();
-    _setupOverTimeDataTimer();
-    _setupMetricsDataTimer();
+    _setupStatusDataTimer(runImmediately: runImmediately);
+    _setupOverTimeDataTimer(runImmediately: runImmediately, isDelay: isDelay);
+    _setupMetricsDataTimer(runImmediately: runImmediately, isDelay: isDelay);
   }
 
   /// Stop timer for auto refresh
@@ -98,8 +108,17 @@ class StatusUpdateService {
 
   /// Refresh the status data once
   Future<void> _refreshOnce() async {
+    // _fetchStatusData issues 8 HTTP requests (4 APIs in 2 batches),
+    // so we start it immediately to give it a head start.
+    // The others are slightly delayed to avoid overwhelming the connection pool.
     if ((await Future.wait(
-      [_fetchStatusData(), _fetchOverTimeData(), _fetchMetricsData()],
+      [
+        _fetchStatusData(),
+        Future.delayed(const Duration(milliseconds: 100))
+            .then((_) => _fetchOverTimeData()),
+        Future.delayed(const Duration(milliseconds: 100))
+            .then((_) => _fetchMetricsData()),
+      ],
     ))
         .every((result) => result)) {
       _statusProvider.setIsServerConnected(true);
@@ -170,7 +189,7 @@ class StatusUpdateService {
   // ----------------------------------------
   // Callbacks for StatusData
   // ----------------------------------------
-  void _setupStatusDataTimer() {
+  void _setupStatusDataTimer({bool runImmediately = true}) {
     _previousRefreshTime ??= _appConfigProvider.getAutoRefreshTime;
 
     Future<void> timerFn({Timer? timer}) async {
@@ -218,7 +237,10 @@ class StatusUpdateService {
       }
     }
 
-    timerFn();
+    if (runImmediately) {
+      timerFn();
+    }
+
     _statusDataTimer = Timer.periodic(
       Duration(seconds: _appConfigProvider.getAutoRefreshTime!),
       (timer) => timerFn(timer: timer),
@@ -228,7 +250,10 @@ class StatusUpdateService {
   // ----------------------------------------
   // Callbacks for OverTimeData
   // ----------------------------------------
-  void _setupOverTimeDataTimer() {
+  void _setupOverTimeDataTimer({
+    bool runImmediately = true,
+    bool isDelay = false,
+  }) {
     Future<void> timerFn({Timer? timer}) async {
       final currentServer = _serversProvider.selectedServer;
       if (currentServer == null) {
@@ -263,17 +288,31 @@ class StatusUpdateService {
       }
     }
 
-    timerFn();
-    _overTimeDataTimer = Timer.periodic(
-      const Duration(minutes: 1),
-      (timer) => timerFn(timer: timer),
-    );
+    void start() {
+      if (runImmediately) {
+        timerFn();
+      }
+
+      _overTimeDataTimer = Timer.periodic(
+        const Duration(minutes: 1),
+        (timer) => timerFn(timer: timer),
+      );
+    }
+
+    if (isDelay) {
+      Future.delayed(const Duration(milliseconds: 100), start);
+    } else {
+      start();
+    }
   }
 
   // ----------------------------------------
   // Callbacks for MetricsData
   // ----------------------------------------
-  void _setupMetricsDataTimer() {
+  void _setupMetricsDataTimer({
+    bool runImmediately = true,
+    bool isDelay = false,
+  }) {
     Future<void> timerFn({Timer? timer}) async {
       final currentServer = _serversProvider.selectedServer;
       if (currentServer == null) {
@@ -289,10 +328,21 @@ class StatusUpdateService {
       }
     }
 
-    timerFn();
-    _metricsDataTimer = Timer.periodic(
-      Duration(seconds: _appConfigProvider.getAutoRefreshTime!),
-      (timer) => timerFn(timer: timer),
-    );
+    void start() {
+      if (runImmediately) {
+        timerFn();
+      }
+
+      _metricsDataTimer = Timer.periodic(
+        Duration(seconds: _appConfigProvider.getAutoRefreshTime!),
+        (timer) => timerFn(timer: timer),
+      );
+    }
+
+    if (isDelay) {
+      Future.delayed(const Duration(milliseconds: 100), start);
+    } else {
+      start();
+    }
   }
 }

@@ -3454,10 +3454,18 @@ class MockStatusUpdateService extends _i1.Mock
       );
 
   @override
-  void startAutoRefresh() => super.noSuchMethod(
+  void startAutoRefresh({
+    bool? runImmediately = true,
+    bool? isDelay = false,
+  }) =>
+      super.noSuchMethod(
         Invocation.method(
           #startAutoRefresh,
           [],
+          {
+            #runImmediately: runImmediately,
+            #isDelay: isDelay,
+          },
         ),
         returnValueForMissingStub: null,
       );
