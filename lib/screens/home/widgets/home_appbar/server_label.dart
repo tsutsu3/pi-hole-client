@@ -113,7 +113,7 @@ class ServerLabel extends StatelessWidget {
             server,
           );
 
-          statusUpdateService.startAutoRefresh();
+          statusUpdateService.startAutoRefresh(runImmediately: false);
         },
       ),
     );

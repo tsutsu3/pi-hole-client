@@ -236,6 +236,6 @@ mixin ServersTileItemController<T extends StatefulWidget> on State<T> {
     }
 
     statusProvider.setIsServerConnected(true);
-    statusUpdateService.startAutoRefresh();
+    statusUpdateService.startAutoRefresh(runImmediately: false);
   }
 }
