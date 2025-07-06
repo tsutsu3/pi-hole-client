@@ -41,6 +41,8 @@ HttpClient createHttpClient({
 }) {
   final client = HttpClient();
 
+  client.maxConnectionsPerHost = 4;
+
   if (keepAlive) {
     client.idleTimeout = Duration.zero;
   }
