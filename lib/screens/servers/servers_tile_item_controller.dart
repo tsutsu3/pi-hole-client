@@ -171,13 +171,6 @@ mixin ServersTileItemController<T extends StatefulWidget> on State<T> {
       statusProvider.setIsServerConnected(true);
 
       statusUpdateService.startAutoRefresh();
-
-      if (!mounted) return;
-      showSuccessSnackBar(
-        context: context,
-        appConfigProvider: appConfigProvider,
-        label: AppLocalizations.of(context)!.connectedSuccessfully,
-      );
     } else {
       process.close();
       logger.d(
