@@ -216,6 +216,7 @@ class StatusUpdateService {
           statusResult!.data!.status == 'enabled',
         );
         _statusProvider.setRealtimeStatus(statusResult.data!);
+        _statusProvider.setStatusLoading(LoadStatus.loaded);
 
         setClientsFromTopSources(statusResult);
 
@@ -267,7 +268,6 @@ class StatusUpdateService {
 
       if (statusResult?.result == APiResponseType.success) {
         _statusProvider.setOvertimeData(statusResult!.data!);
-
         _statusProvider.setOvertimeDataLoadingStatus(LoadStatus.loaded);
 
         if (!_statusProvider.isServerConnected) {

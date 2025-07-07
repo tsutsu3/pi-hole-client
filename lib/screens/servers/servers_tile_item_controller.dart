@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:pi_hole_client/classes/process_modal.dart';
 import 'package:pi_hole_client/constants/enums.dart';
 import 'package:pi_hole_client/constants/responsive.dart';
+import 'package:pi_hole_client/functions/logger.dart';
 import 'package:pi_hole_client/functions/snackbar.dart';
 import 'package:pi_hole_client/l10n/generated/app_localizations.dart';
 import 'package:pi_hole_client/models/gateways.dart';
@@ -135,29 +136,21 @@ mixin ServersTileItemController<T extends StatefulWidget> on State<T> {
     final statusProvider = context.read<StatusProvider>();
     final appConfigProvider = context.read<AppConfigProvider>();
     final statusUpdateService = context.read<StatusUpdateService>();
+    final previouslySelectedServer = serversProvider.selectedServer;
+
+    statusUpdateService.stopAutoRefresh();
+    statusProvider.setIsServerConnected(false);
+    statusProvider.setStatusLoading(LoadStatus.loading);
+    statusProvider.setOvertimeDataLoadingStatus(LoadStatus.loading);
 
     final process = ProcessModal(context: context);
     process.open(AppLocalizations.of(context)!.connecting);
-    // Commented out to prevent the previously selected server from briefly
-    // appearing as "Selected but disconnected" when switching.
-    // statusProvider.setIsServerConnected(false);
     final result = await serversProvider.loadApiGateway(server)?.loginQuery();
-    // await serversProvider.resetSelectedServer();
-    // if (!context.mounted) return;
-
     if (result?.result == APiResponseType.success) {
-      // Prevents the newly selected server from briefly appearing as "Selected
-      // but disconnected" when switching from A to B.
-      statusProvider.setIsServerConnected(true);
       process.close();
-      if (!mounted) return;
-
-      showSuccessSnackBar(
-        context: context,
-        appConfigProvider: appConfigProvider,
-        label: AppLocalizations.of(context)!.connectedSuccessfully,
+      logger.d(
+        '<*> Server connection successful: ${previouslySelectedServer?.address} -> ${server.address}',
       );
-
       // appScreensNotSelected Layout only. Go to settings
       if (serversProvider.selectedServer == null &&
           appConfigProvider.selectedTab == 1) {
@@ -175,14 +168,27 @@ mixin ServersTileItemController<T extends StatefulWidget> on State<T> {
           sm: server.sm,
         ),
       );
+      statusProvider.setIsServerConnected(true);
 
-      await _handleConnectionSetup(
-        serversProvider: serversProvider,
-        statusProvider: statusProvider,
-        statusUpdateService: statusUpdateService,
+      statusUpdateService.startAutoRefresh();
+
+      if (!mounted) return;
+      showSuccessSnackBar(
+        context: context,
+        appConfigProvider: appConfigProvider,
+        label: AppLocalizations.of(context)!.connectedSuccessfully,
       );
     } else {
       process.close();
+      logger.d(
+        'Fallback to previously selected server: ${previouslySelectedServer?.address} <- ${server.address}',
+      );
+      serversProvider.setselectedServer(
+        server: previouslySelectedServer,
+      );
+      statusProvider.setIsServerConnected(true);
+      statusUpdateService.startAutoRefresh();
+
       if (!mounted) return;
       showErrorSnackBar(
         context: context,
@@ -190,50 +196,5 @@ mixin ServersTileItemController<T extends StatefulWidget> on State<T> {
         label: AppLocalizations.of(context)!.cannotConnect,
       );
     }
-  }
-
-  /// Initializes status-related data after a successful server connection.
-  ///
-  /// This method performs the following steps:
-  /// 1. Sets the loading status for overtime data.
-  /// 2. Retrieves the current realtime status from the API and updates the provider.
-  /// 3. Fetches the 24-hour overtime chart data and updates the provider.
-  ///    - If the API call fails, the status is marked as error.
-  /// 4. Marks the server as connected in the [StatusProvider].
-  /// 5. Starts the periodic auto-refresh using [StatusUpdateService].
-  ///
-  /// This should be called immediately after a successful login/authentication.
-  ///
-  /// Parameters:
-  /// - [serversProvider]: Provider that holds the current server and API access.
-  /// - [statusProvider]: Provider that manages server connection status and statistics.
-  /// - [statusUpdateService]: Manages auto-refresh and polling.
-  Future<void> _handleConnectionSetup({
-    required ServersProvider serversProvider,
-    required StatusProvider statusProvider,
-    required StatusUpdateService statusUpdateService,
-  }) async {
-    statusUpdateService.stopAutoRefresh();
-    statusProvider.setStatusLoading(LoadStatus.loading);
-    statusProvider.setOvertimeDataLoadingStatus(LoadStatus.loading);
-
-    final apiGateway = serversProvider.selectedApiGateway;
-
-    final statusResult = await apiGateway?.realtimeStatus(clientCount: 0);
-    if (statusResult?.result == APiResponseType.success) {
-      statusProvider.setRealtimeStatus(statusResult!.data!);
-      statusProvider.setStatusLoading(LoadStatus.loaded);
-    }
-
-    final overtimeDataResult = await apiGateway?.fetchOverTimeData();
-    if (overtimeDataResult?.result == APiResponseType.success) {
-      statusProvider.setOvertimeData(overtimeDataResult!.data!);
-      statusProvider.setOvertimeDataLoadingStatus(LoadStatus.loaded);
-    } else {
-      statusProvider.setOvertimeDataLoadingStatus(LoadStatus.error);
-    }
-
-    statusProvider.setIsServerConnected(true);
-    statusUpdateService.startAutoRefresh(runImmediately: false);
   }
 }
