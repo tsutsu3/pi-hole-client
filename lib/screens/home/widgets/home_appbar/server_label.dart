@@ -151,6 +151,7 @@ class ServerLabel extends StatelessWidget {
               appConfigProvider: appConfigProvider,
               label:
                   AppLocalizations.of(context)!.couldNotConnectServerFallback,
+              duration: 5,
             );
           }
         },
