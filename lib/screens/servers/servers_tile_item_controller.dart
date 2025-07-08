@@ -179,7 +179,7 @@ mixin ServersTileItemController<T extends StatefulWidget> on State<T> {
       serversProvider.setselectedServer(
         server: previouslySelectedServer,
       );
-      statusProvider.setServerStatus(LoadStatus.error);
+      statusProvider.setServerStatus(LoadStatus.loaded);
       statusUpdateService.startAutoRefresh();
 
       if (!mounted) return;
