@@ -138,6 +138,7 @@ mixin ServersTileItemController<T extends StatefulWidget> on State<T> {
     final statusUpdateService = context.read<StatusUpdateService>();
     final previouslySelectedServer = serversProvider.selectedServer;
 
+    serversProvider.setConnectingServer(server);
     statusUpdateService.stopAutoRefresh();
     statusProvider.setServerStatus(LoadStatus.loading);
     statusProvider.setStatusLoading(LoadStatus.loading);
@@ -146,8 +147,24 @@ mixin ServersTileItemController<T extends StatefulWidget> on State<T> {
     final process = ProcessModal(context: context);
     process.open(AppLocalizations.of(context)!.connecting);
     final result = await serversProvider.loadApiGateway(server)?.loginQuery();
+    process.close();
+
+    // If another server (other than B) is selected while switching from server A to B, abort the process.
+    // Without this check, it may appear as if the app is connected to B, even though a different server was actually selected.
+    if (!mounted) return;
+    if (serversProvider.connectingServer != server) {
+      logger.w(
+        'Server switch interrupted: '
+        '${previouslySelectedServer?.address}(${previouslySelectedServer?.alias}) '
+        '-> ${server.address}(${server.alias}) '
+        '-> ${serversProvider.selectedServer?.address}(${serversProvider.selectedServer?.alias})',
+      );
+      return;
+    }
+
+    serversProvider.clearConnectingServer();
+
     if (result?.result == APiResponseType.success) {
-      process.close();
       logger.d(
         '<*> Server connection successful: ${previouslySelectedServer?.address} -> ${server.address}',
       );
@@ -172,7 +189,6 @@ mixin ServersTileItemController<T extends StatefulWidget> on State<T> {
 
       statusUpdateService.startAutoRefresh();
     } else {
-      process.close();
       logger.d(
         'Fallback to previously selected server: ${previouslySelectedServer?.address} <- ${server.address}',
       );

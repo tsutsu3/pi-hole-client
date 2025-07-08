@@ -26,6 +26,8 @@ class ServersProvider with ChangeNotifier {
 
   Server? _selectedServer;
 
+  Server? _connectingServer;
+
   final Map<String, ApiGateway> _serverGateways = {};
 
   AppColors get colors => _appConfigProvider!.selectedTheme == ThemeMode.light
@@ -41,6 +43,8 @@ class ServersProvider with ChangeNotifier {
   Server? get selectedServer {
     return _selectedServer;
   }
+
+  Server? get connectingServer => _connectingServer;
 
   /// Returns the gateway for the selected server if a server is selected,
   /// otherwise returns null.
@@ -72,6 +76,14 @@ class ServersProvider with ChangeNotifier {
 
   void update(AppConfigProvider? provider) {
     _appConfigProvider = provider;
+  }
+
+  void setConnectingServer(Server server) {
+    _connectingServer = server;
+  }
+
+  void clearConnectingServer() {
+    _connectingServer = null;
   }
 
   ApiGateway? loadApiGateway(Server server) {

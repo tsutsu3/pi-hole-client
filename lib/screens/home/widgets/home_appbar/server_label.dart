@@ -104,6 +104,7 @@ class ServerLabel extends StatelessWidget {
 
           final previouslySelectedServer = serversProvider.selectedServer;
 
+          serversProvider.setConnectingServer(server);
           statusUpdateService.stopAutoRefresh();
           statusProvider.setServerStatus(LoadStatus.loading);
           statusProvider.setStatusLoading(LoadStatus.loading);
@@ -114,7 +115,7 @@ class ServerLabel extends StatelessWidget {
 
           // If another server (other than B) is selected while switching from server A to B, abort the process.
           // Without this check, it may appear as if the app is connected to B, even though a different server was actually selected.
-          if (previouslySelectedServer != serversProvider.selectedServer) {
+          if (serversProvider.connectingServer != server) {
             logger.w(
               'Server switch interrupted: '
               '${previouslySelectedServer?.address}(${previouslySelectedServer?.alias}) '
@@ -123,6 +124,8 @@ class ServerLabel extends StatelessWidget {
             );
             return;
           }
+
+          serversProvider.clearConnectingServer();
 
           if (result?.result == APiResponseType.success) {
             logger.d(

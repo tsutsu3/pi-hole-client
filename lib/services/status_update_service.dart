@@ -208,8 +208,22 @@ class StatusUpdateService {
       }
       final selectedUrlBefore = currentServer.address;
 
+      if (_serversProvider.connectingServer != null) {
+        logger.d(
+          'Skipping status data fetch due to ongoing connection attempt: ${_serversProvider.connectingServer?.address}',
+        );
+        return;
+      }
+
       final apiGateway = _serversProvider.selectedApiGateway;
       final statusResult = await apiGateway?.realtimeStatus(clientCount: 0);
+
+      if (_serversProvider.selectedServer?.address != selectedUrlBefore) {
+        logger.d(
+          'Skipping stale status update: server was changed during fetch.',
+        );
+        return;
+      }
 
       if (statusResult?.result == APiResponseType.success) {
         _serversProvider.updateselectedServerStatus(
@@ -261,10 +275,24 @@ class StatusUpdateService {
         timer?.cancel();
         return;
       }
-      final statusUrlBefore = currentServer.address;
+      final selectedUrlBefore = currentServer.address;
+
+      if (_serversProvider.connectingServer != null) {
+        logger.d(
+          'Skipping overtime data fetch due to ongoing connection attempt: ${_serversProvider.connectingServer?.address}',
+        );
+        return;
+      }
 
       final apiGateway = _serversProvider.selectedApiGateway;
       final statusResult = await apiGateway?.fetchOverTimeData();
+
+      if (_serversProvider.selectedServer?.address != selectedUrlBefore) {
+        logger.d(
+          'Skipping stale overtime data update: server was changed during fetch.',
+        );
+        return;
+      }
 
       if (statusResult?.result == APiResponseType.success) {
         _statusProvider.setOvertimeData(statusResult!.data!);
@@ -274,7 +302,7 @@ class StatusUpdateService {
           _statusProvider.setServerStatus(LoadStatus.loaded);
         }
       } else {
-        if (statusUrlBefore == currentServer.address) {
+        if (selectedUrlBefore == currentServer.address) {
           if (_statusProvider.getServerStatus == LoadStatus.loaded) {
             logger.w(
               'Server disconnected: ${statusResult?.result.name}. ${currentServer.alias} (${currentServer.address})',
@@ -319,9 +347,23 @@ class StatusUpdateService {
         timer?.cancel();
         return;
       }
+      final selectedUrlBefore = currentServer.address;
 
+      if (_serversProvider.connectingServer != null) {
+        logger.d(
+          'Skipping metrics data fetch due to ongoing connection attempt: ${_serversProvider.connectingServer?.address}',
+        );
+        return;
+      }
       final apiGateway = _serversProvider.selectedApiGateway;
       final metricsResult = await apiGateway?.getMetrics();
+
+      if (_serversProvider.selectedServer?.address != selectedUrlBefore) {
+        logger.d(
+          'Skipping stale metrics update: server was changed during fetch.',
+        );
+        return;
+      }
 
       if (metricsResult?.result == APiResponseType.success) {
         _statusProvider.setMetricsInfo(metricsResult!.data!);
