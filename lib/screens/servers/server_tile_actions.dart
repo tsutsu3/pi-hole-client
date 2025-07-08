@@ -35,7 +35,7 @@ class ServerTileActions extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final isServerConnected = context.select<StatusProvider, bool>(
-      (p) => p.isServerConnected,
+      (p) => !p.isServerLoading,
     );
     final selectedServer = context.select<ServersProvider, Server?>(
       (p) => p.selectedServer,

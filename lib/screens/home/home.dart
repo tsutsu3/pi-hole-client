@@ -65,7 +65,7 @@ class _HomeState extends State<Home> {
     );
 
     final isServerConnected = context.select<StatusProvider, bool>(
-      (provider) => provider.isServerConnected,
+      (p) => !p.isServerLoading,
     );
 
     final width = MediaQuery.of(context).size.width;

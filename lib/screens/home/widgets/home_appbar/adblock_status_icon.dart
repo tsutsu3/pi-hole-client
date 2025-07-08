@@ -22,7 +22,7 @@ class AdBlockStatusIcon extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final isServerConnected = context.select<StatusProvider, bool>(
-      (p) => p.isServerConnected,
+      (p) => !p.isServerLoading,
     );
 
     final colors = context.select<ServersProvider, AppColors>(

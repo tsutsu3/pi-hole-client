@@ -30,7 +30,7 @@ class ServerTileHeader extends StatelessWidget {
     );
 
     final isServerConnected = context.select<StatusProvider, bool>(
-      (p) => p.isServerConnected,
+      (p) => !p.isServerLoading,
     );
 
     final isSelected = selectedServer?.address == server.address;

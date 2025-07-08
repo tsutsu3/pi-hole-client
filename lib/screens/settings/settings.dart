@@ -75,7 +75,7 @@ class _SettingsWidgetState extends State<SettingsWidget> {
       (p) => p.selectedServer,
     );
     final isServerConnected = context.select<StatusProvider, bool>(
-      (p) => p.isServerConnected,
+      (p) => !p.isServerLoading,
     );
     final appConfigProvider = Provider.of<AppConfigProvider>(context);
 

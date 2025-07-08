@@ -20,7 +20,7 @@ void main() {
     });
 
     test('Initial values are correct', () {
-      expect(statusProvider.isServerConnected, false);
+      expect(statusProvider.getServerStatus, LoadStatus.loading);
       expect(statusProvider.getRealtimeStatus, null);
       expect(statusProvider.getStatusLoading, LoadStatus.loading);
       expect(statusProvider.getOvertimeData, null);
@@ -32,8 +32,8 @@ void main() {
     });
 
     test('setIsServerConnected updates value and notifies listeners', () {
-      statusProvider.setIsServerConnected(true);
-      expect(statusProvider.isServerConnected, true);
+      statusProvider.setServerStatus(LoadStatus.loaded);
+      expect(statusProvider.getServerStatus, LoadStatus.loaded);
       expect(listenerCalled, true);
     });
 

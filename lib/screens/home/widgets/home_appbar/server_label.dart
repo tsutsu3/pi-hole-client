@@ -29,8 +29,8 @@ class ServerLabel extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final isServerConnected = context.select<StatusProvider, bool>(
-      (p) => p.isServerConnected,
+    final isServerLoading = context.select<StatusProvider, bool>(
+      (p) => p.isServerLoading,
     );
 
     final serversProvider = context.watch<ServersProvider>();
@@ -56,7 +56,11 @@ class ServerLabel extends StatelessWidget {
           children: [
             Expanded(
               child: Skeletonizer(
-                enabled: !isServerConnected,
+                enabled: isServerLoading,
+                effect: ShimmerEffect(
+                  baseColor: Theme.of(context).colorScheme.secondaryContainer,
+                  highlightColor: Theme.of(context).colorScheme.surface,
+                ),
                 child: const _ServerLabelText(),
               ),
             ),
@@ -76,7 +80,6 @@ class ServerLabel extends StatelessWidget {
   /// When a server is selected, it:
   /// - Closes the dialog.
   /// - Stops the status auto-refresh to prevent updating the status of the previous server.
-  /// - Connects to the newly selected server by calling [_connectToServer].
   /// - Restarts the status auto-refresh for the new server.
   ///
   /// Parameters:
@@ -102,7 +105,7 @@ class ServerLabel extends StatelessWidget {
           final previouslySelectedServer = serversProvider.selectedServer;
 
           statusUpdateService.stopAutoRefresh();
-          statusProvider.setIsServerConnected(false);
+          statusProvider.setServerStatus(LoadStatus.loading);
           statusProvider.setStatusLoading(LoadStatus.loading);
           statusProvider.setOvertimeDataLoadingStatus(LoadStatus.loading);
 
@@ -129,7 +132,7 @@ class ServerLabel extends StatelessWidget {
                 sm: server.sm,
               ),
             );
-            statusProvider.setIsServerConnected(true);
+            statusProvider.setServerStatus(LoadStatus.loaded);
 
             statusUpdateService.startAutoRefresh();
           } else {
@@ -139,7 +142,7 @@ class ServerLabel extends StatelessWidget {
             serversProvider.setselectedServer(
               server: previouslySelectedServer,
             );
-            statusProvider.setIsServerConnected(true);
+            statusProvider.setServerStatus(LoadStatus.loaded);
             statusUpdateService.startAutoRefresh();
 
             if (!context.mounted) return;

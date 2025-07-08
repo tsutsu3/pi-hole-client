@@ -139,7 +139,7 @@ mixin ServersTileItemController<T extends StatefulWidget> on State<T> {
     final previouslySelectedServer = serversProvider.selectedServer;
 
     statusUpdateService.stopAutoRefresh();
-    statusProvider.setIsServerConnected(false);
+    statusProvider.setServerStatus(LoadStatus.loading);
     statusProvider.setStatusLoading(LoadStatus.loading);
     statusProvider.setOvertimeDataLoadingStatus(LoadStatus.loading);
 
@@ -168,7 +168,7 @@ mixin ServersTileItemController<T extends StatefulWidget> on State<T> {
           sm: server.sm,
         ),
       );
-      statusProvider.setIsServerConnected(true);
+      statusProvider.setServerStatus(LoadStatus.loaded);
 
       statusUpdateService.startAutoRefresh();
     } else {
@@ -179,7 +179,7 @@ mixin ServersTileItemController<T extends StatefulWidget> on State<T> {
       serversProvider.setselectedServer(
         server: previouslySelectedServer,
       );
-      statusProvider.setIsServerConnected(true);
+      statusProvider.setServerStatus(LoadStatus.error);
       statusUpdateService.startAutoRefresh();
 
       if (!mounted) return;

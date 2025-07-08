@@ -121,12 +121,12 @@ class StatusUpdateService {
       ],
     ))
         .every((result) => result)) {
-      _statusProvider.setIsServerConnected(true);
+      _statusProvider.setServerStatus(LoadStatus.loaded);
     } else {
       logger.w(
         'Failed to fetch all status data. ',
       );
-      _statusProvider.setIsServerConnected(false);
+      _statusProvider.setServerStatus(LoadStatus.error);
     }
   }
 
@@ -220,16 +220,16 @@ class StatusUpdateService {
 
         setClientsFromTopSources(statusResult);
 
-        if (!_statusProvider.isServerConnected) {
-          _statusProvider.setIsServerConnected(true);
+        if (_statusProvider.isServerLoading) {
+          _statusProvider.setServerStatus(LoadStatus.loaded);
         }
       } else {
         if (selectedUrlBefore == currentServer.address) {
-          if (_statusProvider.isServerConnected) {
+          if (_statusProvider.getServerStatus == LoadStatus.loaded) {
             logger.w(
               'Server disconnected: ${statusResult?.result.name}. ${currentServer.alias} (${currentServer.address})',
             );
-            _statusProvider.setIsServerConnected(false);
+            _statusProvider.setServerStatus(LoadStatus.error);
           }
           if (_statusProvider.getStatusLoading == LoadStatus.loading) {
             _statusProvider.setStatusLoading(LoadStatus.error);
@@ -270,16 +270,16 @@ class StatusUpdateService {
         _statusProvider.setOvertimeData(statusResult!.data!);
         _statusProvider.setOvertimeDataLoadingStatus(LoadStatus.loaded);
 
-        if (!_statusProvider.isServerConnected) {
-          _statusProvider.setIsServerConnected(true);
+        if (_statusProvider.isServerLoading) {
+          _statusProvider.setServerStatus(LoadStatus.loaded);
         }
       } else {
         if (statusUrlBefore == currentServer.address) {
-          if (_statusProvider.isServerConnected) {
+          if (_statusProvider.getServerStatus == LoadStatus.loaded) {
             logger.w(
               'Server disconnected: ${statusResult?.result.name}. ${currentServer.alias} (${currentServer.address})',
             );
-            _statusProvider.setIsServerConnected(false);
+            _statusProvider.setServerStatus(LoadStatus.error);
           }
           if (_statusProvider.getOvertimeDataLoadStatus == LoadStatus.loading) {
             _statusProvider.setOvertimeDataLoadingStatus(LoadStatus.error);
