@@ -1076,8 +1076,14 @@ class MockStatusProvider extends _i1.Mock implements _i18.StatusProvider {
   }
 
   @override
-  bool get isServerConnected => (super.noSuchMethod(
-        Invocation.getter(#isServerConnected),
+  _i19.LoadStatus get getServerStatus => (super.noSuchMethod(
+        Invocation.getter(#getServerStatus),
+        returnValue: _i19.LoadStatus.loading,
+      ) as _i19.LoadStatus);
+
+  @override
+  bool get isServerLoading => (super.noSuchMethod(
+        Invocation.getter(#isServerLoading),
         returnValue: false,
       ) as bool);
 
@@ -1100,10 +1106,10 @@ class MockStatusProvider extends _i1.Mock implements _i18.StatusProvider {
       ) as bool);
 
   @override
-  void setIsServerConnected(bool? value) => super.noSuchMethod(
+  void setServerStatus(_i19.LoadStatus? status) => super.noSuchMethod(
         Invocation.method(
-          #setIsServerConnected,
-          [value],
+          #setServerStatus,
+          [status],
         ),
         returnValueForMissingStub: null,
       );

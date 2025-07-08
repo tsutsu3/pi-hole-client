@@ -1778,7 +1778,8 @@ class TestSetupHelper {
 
   void _initStatusProviderMock(String useApiGatewayVersion) {
     when(mockStatusProvider.getStatusLoading).thenReturn(LoadStatus.loaded);
-    when(mockStatusProvider.isServerConnected).thenReturn(true);
+    when(mockStatusProvider.getServerStatus).thenReturn(LoadStatus.loaded);
+    when(mockStatusProvider.isServerLoading).thenReturn(false);
     when(mockStatusProvider.getOvertimeData).thenReturn(overtimeData);
     when(mockStatusProvider.getOvertimeDataLoadStatus)
         .thenReturn(LoadStatus.loaded);

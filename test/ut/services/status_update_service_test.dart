@@ -62,14 +62,14 @@ void main() async {
       when(mockServersProvider.updateselectedServerStatus(any))
           .thenReturn(null);
 
-      when(mockStatusProvider.setIsServerConnected(any)).thenReturn(null);
+      when(mockStatusProvider.setServerStatus(any)).thenReturn(null);
       when(mockStatusProvider.setRealtimeStatus(any)).thenReturn(null);
       when(mockStatusProvider.setStatusLoading(any)).thenReturn(null);
       when(mockStatusProvider.setOvertimeData(any)).thenReturn(null);
       when(mockStatusProvider.setMetricsInfo(any)).thenReturn(null);
       when(mockStatusProvider.setOvertimeDataLoadingStatus(any))
           .thenReturn(null);
-      when(mockStatusProvider.isServerConnected).thenReturn(false);
+      when(mockStatusProvider.isServerLoading).thenReturn(true);
 
       when(mockFiltersProvider.setClients(any)).thenReturn(null);
 
@@ -165,7 +165,8 @@ void main() async {
         ),
       );
 
-      when(mockStatusProvider.isServerConnected).thenReturn(true);
+      when(mockStatusProvider.getServerStatus).thenReturn(LoadStatus.loaded);
+      when(mockStatusProvider.isServerLoading).thenReturn(false);
       when(mockStatusProvider.getStatusLoading).thenReturn(LoadStatus.loading);
       when(mockStatusProvider.getOvertimeDataLoadStatus)
           .thenReturn(LoadStatus.loading);
@@ -195,7 +196,8 @@ void main() async {
         );
       });
 
-      when(mockStatusProvider.isServerConnected).thenReturn(true);
+      when(mockStatusProvider.getServerStatus).thenReturn(LoadStatus.loaded);
+      when(mockStatusProvider.isServerLoading).thenReturn(false);
       when(mockStatusProvider.getStatusLoading).thenReturn(LoadStatus.loading);
       when(mockStatusProvider.getOvertimeDataLoadStatus)
           .thenReturn(LoadStatus.loading);
@@ -225,7 +227,8 @@ void main() async {
         );
       });
 
-      when(mockStatusProvider.isServerConnected).thenReturn(true);
+      when(mockStatusProvider.getServerStatus).thenReturn(LoadStatus.loaded);
+      when(mockStatusProvider.isServerLoading).thenReturn(false);
       when(mockStatusProvider.getStatusLoading).thenReturn(LoadStatus.loading);
       when(mockStatusProvider.getOvertimeDataLoadStatus)
           .thenReturn(LoadStatus.loading);

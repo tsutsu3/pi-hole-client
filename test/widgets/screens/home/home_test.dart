@@ -284,8 +284,9 @@ void main() async {
           tester.view.physicalSize = const Size(1080, 2400);
           tester.view.devicePixelRatio = 2.0;
 
-          when(testSetup.mockStatusProvider.isServerConnected)
-              .thenReturn(false);
+          when(testSetup.mockStatusProvider.getServerStatus)
+              .thenReturn(LoadStatus.loading);
+          when(testSetup.mockStatusProvider.isServerLoading).thenReturn(true);
 
           addTearDown(() {
             tester.view.resetPhysicalSize();
