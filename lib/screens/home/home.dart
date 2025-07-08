@@ -64,14 +64,15 @@ class _HomeState extends State<Home> {
       (provider) => provider.getStatusLoading,
     );
 
-    final isServerConnected = context.select<StatusProvider, bool>(
+    final isConnectionAttemptFinished = context.select<StatusProvider, bool>(
       (p) => !p.isServerLoading,
     );
 
     final width = MediaQuery.of(context).size.width;
 
     Future<void> enableDisableServer() async {
-      if (isServerConnected == true && serversProvider.selectedServer != null) {
+      if (isConnectionAttemptFinished == true &&
+          serversProvider.selectedServer != null) {
         if (serversProvider.selectedServer?.enabled == true) {
           if (width > ResponsiveConstants.medium) {
             await showDialog(

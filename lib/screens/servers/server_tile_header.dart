@@ -29,7 +29,7 @@ class ServerTileHeader extends StatelessWidget {
       (p) => p.selectedServer,
     );
 
-    final isServerConnected = context.select<StatusProvider, bool>(
+    final isConnectionAttemptFinished = context.select<StatusProvider, bool>(
       (p) => !p.isServerLoading,
     );
 
@@ -46,7 +46,7 @@ class ServerTileHeader extends StatelessWidget {
                 child: _LeadingIcon(
                   isDefault: server.defaultServer,
                   isSelected: isSelected,
-                  isConnected: isServerConnected,
+                  isConnected: isConnectionAttemptFinished,
                 ),
               ),
               Expanded(

@@ -34,7 +34,7 @@ class ServerTileActions extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final isServerConnected = context.select<StatusProvider, bool>(
+    final isConnectionAttemptFinished = context.select<StatusProvider, bool>(
       (p) => !p.isServerLoading,
     );
     final selectedServer = context.select<ServersProvider, Server?>(
@@ -73,7 +73,7 @@ class ServerTileActions extends StatelessWidget {
           padding: const EdgeInsets.only(right: 16),
           child: isSelected
               ? _ConnectionStatus(
-                  isConnected: isServerConnected,
+                  isConnected: isConnectionAttemptFinished,
                 )
               : FilledButton.icon(
                   onPressed: onConnect,

@@ -74,7 +74,7 @@ class _SettingsWidgetState extends State<SettingsWidget> {
     final selectedServer = context.select<ServersProvider, Server?>(
       (p) => p.selectedServer,
     );
-    final isServerConnected = context.select<StatusProvider, bool>(
+    final isConnectionAttemptFinished = context.select<StatusProvider, bool>(
       (p) => !p.isServerLoading,
     );
     final appConfigProvider = Provider.of<AppConfigProvider>(context);
@@ -170,7 +170,7 @@ class _SettingsWidgetState extends State<SettingsWidget> {
             icon: Icons.storage_rounded,
             title: AppLocalizations.of(context)!.servers,
             subtitle: selectedServer != null
-                ? isServerConnected
+                ? isConnectionAttemptFinished
                     ? '${AppLocalizations.of(context)!.connectedTo} ${selectedServer.alias}'
                     : AppLocalizations.of(context)!.notConnectServer
                 : AppLocalizations.of(context)!.notSelected,
@@ -199,7 +199,7 @@ class _SettingsWidgetState extends State<SettingsWidget> {
             icon: Icons.connected_tv_rounded,
             title: AppLocalizations.of(context)!.serverInfo,
             subtitle: selectedServer != null
-                ? isServerConnected
+                ? isConnectionAttemptFinished
                     ? selectedServer.alias
                     : AppLocalizations.of(context)!.notConnectServer
                 : AppLocalizations.of(context)!.notSelected,

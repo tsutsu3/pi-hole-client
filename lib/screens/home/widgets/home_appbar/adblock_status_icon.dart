@@ -21,7 +21,7 @@ class AdBlockStatusIcon extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final isServerConnected = context.select<StatusProvider, bool>(
+    final isConnectionAttemptFinished = context.select<StatusProvider, bool>(
       (p) => !p.isServerLoading,
     );
 
@@ -34,13 +34,13 @@ class AdBlockStatusIcon extends StatelessWidget {
     );
 
     return Icon(
-      isServerConnected
+      isConnectionAttemptFinished
           ? enableSelectedServer
               ? Icons.verified_user_rounded
               : Icons.gpp_bad_rounded
           : Icons.shield_rounded,
       size: 30,
-      color: isServerConnected
+      color: isConnectionAttemptFinished
           ? enableSelectedServer
               ? convertColor(colors, Colors.green)
               : convertColor(colors, Colors.red)
