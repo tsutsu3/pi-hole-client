@@ -111,19 +111,20 @@ class ServerLabel extends StatelessWidget {
 
           final result =
               await serversProvider.loadApiGateway(server)?.loginQuery();
-          if (result?.result == APiResponseType.success) {
-            // If another server (other than B) is selected while switching from server A to B, abort the process.
-            // Without this check, it may appear as if the app is connected to B, even though a different server was actually selected.
-            if (previouslySelectedServer != serversProvider.selectedServer) {
-              logger.w(
-                'Server switch interrupted: '
-                '${previouslySelectedServer?.address}(${previouslySelectedServer?.alias}) '
-                '-> ${server.address}(${server.alias}) '
-                '-> ${serversProvider.selectedServer?.address}(${serversProvider.selectedServer?.alias})',
-              );
-              return;
-            }
 
+          // If another server (other than B) is selected while switching from server A to B, abort the process.
+          // Without this check, it may appear as if the app is connected to B, even though a different server was actually selected.
+          if (previouslySelectedServer != serversProvider.selectedServer) {
+            logger.w(
+              'Server switch interrupted: '
+              '${previouslySelectedServer?.address}(${previouslySelectedServer?.alias}) '
+              '-> ${server.address}(${server.alias}) '
+              '-> ${serversProvider.selectedServer?.address}(${serversProvider.selectedServer?.alias})',
+            );
+            return;
+          }
+
+          if (result?.result == APiResponseType.success) {
             logger.d(
               '<*> Server connection successful: ${previouslySelectedServer?.address} -> ${server.address}',
             );
