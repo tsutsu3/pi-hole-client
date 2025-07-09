@@ -1,14 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:pi_hole_client/constants/enums.dart';
-import 'package:pi_hole_client/functions/logger.dart';
-import 'package:pi_hole_client/functions/snackbar.dart';
-import 'package:pi_hole_client/l10n/generated/app_localizations.dart';
-import 'package:pi_hole_client/models/gateways.dart';
-import 'package:pi_hole_client/models/server.dart';
 import 'package:pi_hole_client/providers/app_config_provider.dart';
 import 'package:pi_hole_client/providers/servers_provider.dart';
 import 'package:pi_hole_client/providers/status_provider.dart';
 import 'package:pi_hole_client/screens/home/widgets/home_appbar/switch_server_modal.dart';
+import 'package:pi_hole_client/services/server_connection_service.dart';
 import 'package:pi_hole_client/services/status_update_service.dart';
 import 'package:provider/provider.dart';
 import 'package:skeletonizer/skeletonizer.dart';
@@ -102,77 +97,16 @@ class ServerLabel extends StatelessWidget {
         onServerSelect: (server) async {
           Navigator.pop(dialogContext);
 
-          final previouslySelectedServer = serversProvider.selectedServer;
+          final service = ServerConnectionService(
+            context: context,
+            appConfigProvider: appConfigProvider,
+            statusProvider: statusProvider,
+            serversProvider: serversProvider,
+            statusUpdateService: statusUpdateService,
+            server: server,
+          );
 
-          serversProvider.setConnectingServer(server);
-          statusUpdateService.stopAutoRefresh();
-          statusProvider.setServerStatus(LoadStatus.loading);
-
-          final result =
-              await serversProvider.loadApiGateway(server)?.loginQuery();
-
-          // If another server (other than B) is selected while switching from server A to B, abort the process.
-          // Without this check, it may appear as if the app is connected to B, even though a different server was actually selected.
-          if (serversProvider.connectingServer != server) {
-            logger.w(
-              'Server switch interrupted: '
-              '${previouslySelectedServer?.address}(${previouslySelectedServer?.alias}) '
-              '-> ${server.address}(${server.alias}) '
-              '-> ${serversProvider.selectedServer?.address}(${serversProvider.selectedServer?.alias})',
-            );
-            return;
-          }
-
-          serversProvider.clearConnectingServer();
-
-          if (result?.result == APiResponseType.success) {
-            logger.d(
-              '<*> Server connection successful: ${previouslySelectedServer?.address} -> ${server.address}',
-            );
-            // appScreensNotSelected Layout only. Go to settings
-            if (serversProvider.selectedServer == null &&
-                appConfigProvider.selectedTab == 1) {
-              appConfigProvider.setSelectedTab(4);
-            }
-
-            serversProvider.setselectedServer(
-              server: Server(
-                address: server.address,
-                alias: server.alias,
-                defaultServer: server.defaultServer,
-                apiVersion: server.apiVersion,
-                enabled: result!.status == 'enabled',
-                allowSelfSignedCert: server.allowSelfSignedCert,
-                sm: server.sm,
-              ),
-            );
-            statusProvider.setServerStatus(LoadStatus.loaded);
-
-            statusUpdateService.startAutoRefresh();
-          } else {
-            logger.d(
-              'Fallback to previously selected server: ${previouslySelectedServer?.address} <- ${server.address}',
-            );
-
-            if (previouslySelectedServer != null) {
-              serversProvider.setselectedServer(
-                server: previouslySelectedServer,
-              );
-              statusProvider.setServerStatus(LoadStatus.loading);
-              statusUpdateService.startAutoRefresh();
-            } else {
-              statusProvider.setServerStatus(LoadStatus.error);
-            }
-
-            if (!context.mounted) return;
-            showErrorSnackBar(
-              context: context,
-              appConfigProvider: appConfigProvider,
-              label:
-                  AppLocalizations.of(context)!.couldNotConnectServerFallback,
-              duration: 5,
-            );
-          }
+          await service.connect();
         },
       ),
     );

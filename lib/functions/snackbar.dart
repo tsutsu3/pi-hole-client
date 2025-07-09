@@ -1,22 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:pi_hole_client/config/globals.dart';
 import 'package:pi_hole_client/config/theme.dart';
-import 'package:pi_hole_client/l10n/generated/app_localizations.dart';
 import 'package:pi_hole_client/providers/app_config_provider.dart';
-
-void showGlobalConnectServerErrorSnackBar({
-  required AppConfigProvider appConfigProvider,
-}) {
-  final rootContext = globalNavigatorKey.currentContext;
-  if (rootContext == null) return;
-
-  showErrorSnackBar(
-    context: rootContext,
-    appConfigProvider: appConfigProvider,
-    label: AppLocalizations.of(rootContext)!.couldNotConnectServerFallback,
-    duration: 5,
-  );
-}
 
 void showSuccessSnackBar({
   required BuildContext context,
