@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:pi_hole_client/config/theme.dart';
+import 'package:pi_hole_client/constants/enums.dart';
 import 'package:pi_hole_client/models/server.dart';
 import 'package:pi_hole_client/providers/servers_provider.dart';
 import 'package:pi_hole_client/providers/status_provider.dart';
@@ -29,8 +30,8 @@ class ServerTileHeader extends StatelessWidget {
       (p) => p.selectedServer,
     );
 
-    final isConnectionAttemptFinished = context.select<StatusProvider, bool>(
-      (p) => !p.isServerLoading,
+    final isConnected = context.select<StatusProvider, bool>(
+      (p) => p.getServerStatus == LoadStatus.loaded,
     );
 
     final isSelected = selectedServer?.address == server.address;
@@ -46,7 +47,7 @@ class ServerTileHeader extends StatelessWidget {
                 child: _LeadingIcon(
                   isDefault: server.defaultServer,
                   isSelected: isSelected,
-                  isConnected: isConnectionAttemptFinished,
+                  isConnected: isConnected,
                 ),
               ),
               Expanded(
