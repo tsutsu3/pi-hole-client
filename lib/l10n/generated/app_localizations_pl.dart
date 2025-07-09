@@ -388,7 +388,7 @@ class AppLocalizationsPl extends AppLocalizations {
   String get connectingTo => 'Łączenie z';
 
   @override
-  String get connectingToServer => 'Łączenie z serwerem';
+  String get connectingToServer => 'Łączenie z serwerem...';
 
   @override
   String get connection => 'Połączenie';

@@ -839,7 +839,7 @@ abstract class AppLocalizations {
   /// No description provided for @connectingToServer.
   ///
   /// In en, this message translates to:
-  /// **'Connecting to server'**
+  /// **'Connecting to server...'**
   String get connectingToServer;
 
   /// No description provided for @connection.

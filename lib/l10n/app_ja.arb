@@ -121,7 +121,7 @@
   "connecting": "接続中...",
   "connectingServer": "接続中のサーバー",
   "connectingTo": "接続先",
-  "connectingToServer": "サーバーに接続中",
+  "connectingToServer": "サーバーに接続中...",
   "connection": "接続",
   "connectionAlreadyExists": "この接続は既に存在します",
   "connectionCannotBeRemoved": "接続を削除できません。",

@@ -386,7 +386,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get connectingTo => 'Connecting to';
 
   @override
-  String get connectingToServer => 'Connecting to server';
+  String get connectingToServer => 'Connecting to server...';
 
   @override
   String get connection => 'Connection';

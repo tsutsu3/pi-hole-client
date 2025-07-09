@@ -121,7 +121,7 @@
   "connecting": "Łączenie...",
   "connectingServer": "Łączenie z serwerem",
   "connectingTo": "Łączenie z",
-  "connectingToServer": "Łączenie z serwerem",
+  "connectingToServer": "Łączenie z serwerem...",
   "connection": "Połączenie",
   "connectionAlreadyExists": "To połączenie już istnieje",
   "connectionCannotBeRemoved": "Nie można usunąć połączenia.",
