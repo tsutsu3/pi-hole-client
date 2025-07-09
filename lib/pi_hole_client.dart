@@ -33,6 +33,7 @@ class PiHoleClient extends StatelessWidget {
           navigatorObservers: [
             SentryNavigatorObserver(),
           ],
+          navigatorKey: globalNavigatorKey,
           title: 'Pi-hole client',
           theme: lightTheme(lightDynamic),
           darkTheme: darkTheme(darkDynamic),

@@ -200,7 +200,14 @@ mixin ServersTileItemController<T extends StatefulWidget> on State<T> {
         statusProvider.setServerStatus(LoadStatus.error);
       }
 
-      if (!mounted) return;
+      // If the system back button is pressed and returns to HOME before completion (while the modal is displayed)
+      if (!mounted) {
+        showGlobalConnectServerErrorSnackBar(
+          appConfigProvider: appConfigProvider,
+        );
+        return;
+      }
+
       showErrorSnackBar(
         context: context,
         appConfigProvider: appConfigProvider,
