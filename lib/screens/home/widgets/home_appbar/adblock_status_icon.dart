@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:pi_hole_client/config/theme.dart';
+import 'package:pi_hole_client/constants/enums.dart';
 import 'package:pi_hole_client/functions/conversions.dart';
 import 'package:pi_hole_client/providers/servers_provider.dart';
 import 'package:pi_hole_client/providers/status_provider.dart';
@@ -21,8 +22,8 @@ class AdBlockStatusIcon extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final isConnectionAttemptFinished = context.select<StatusProvider, bool>(
-      (p) => !p.isServerLoading,
+    final serverStatus = context.select<StatusProvider, LoadStatus>(
+      (p) => p.getServerStatus,
     );
 
     final colors = context.select<ServersProvider, AppColors>(
@@ -33,18 +34,31 @@ class AdBlockStatusIcon extends StatelessWidget {
       (p) => p.selectedServer?.enabled ?? false,
     );
 
+    IconData iconData;
+    Color iconColor;
+
+    switch (serverStatus) {
+      case LoadStatus.loaded:
+        iconData = enableSelectedServer
+            ? Icons.gpp_good_rounded
+            : Icons.gpp_bad_rounded;
+        iconColor = enableSelectedServer
+            ? convertColor(colors, Colors.green)
+            : convertColor(colors, Colors.red);
+
+      case LoadStatus.loading:
+        iconData = Icons.shield_rounded;
+        iconColor = convertColor(colors, Colors.grey);
+
+      case LoadStatus.error:
+        iconData = Icons.gpp_maybe_rounded;
+        iconColor = convertColor(colors, Colors.orange);
+    }
+
     return Icon(
-      isConnectionAttemptFinished
-          ? enableSelectedServer
-              ? Icons.verified_user_rounded
-              : Icons.gpp_bad_rounded
-          : Icons.shield_rounded,
+      iconData,
       size: 30,
-      color: isConnectionAttemptFinished
-          ? enableSelectedServer
-              ? convertColor(colors, Colors.green)
-              : convertColor(colors, Colors.red)
-          : Colors.grey,
+      color: iconColor,
     );
   }
 }
