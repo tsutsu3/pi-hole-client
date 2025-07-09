@@ -139,18 +139,37 @@ class ServerConnectionService {
       }
     }
 
+    BuildContext? targetContext;
+    String? label;
+    var duration = 3;
+
     if (useRootContextOnFailure) {
-      showErrorSnackBar(
-        context: context,
-        appConfigProvider: appConfigProvider,
-        label: AppLocalizations.of(context)!.cannotConnect,
-      );
+      if (context.mounted) {
+        targetContext = context;
+        label = AppLocalizations.of(context)!.cannotConnect;
+        duration = 3;
+      } else {
+        targetContext = globalNavigatorKey.currentContext;
+        if (targetContext != null) {
+          label =
+              AppLocalizations.of(targetContext)!.couldNotConnectServerFallback;
+          duration = 5;
+        }
+      }
     } else {
+      if (context.mounted) {
+        targetContext = context;
+        label = AppLocalizations.of(context)!.couldNotConnectServerFallback;
+        duration = 5;
+      }
+    }
+
+    if (targetContext != null && label != null) {
       showErrorSnackBar(
-        context: context,
+        context: targetContext,
         appConfigProvider: appConfigProvider,
-        label: AppLocalizations.of(context)!.couldNotConnectServerFallback,
-        duration: 5,
+        label: label,
+        duration: duration,
       );
     }
   }
