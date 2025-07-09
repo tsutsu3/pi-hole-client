@@ -107,8 +107,6 @@ class ServerLabel extends StatelessWidget {
           serversProvider.setConnectingServer(server);
           statusUpdateService.stopAutoRefresh();
           statusProvider.setServerStatus(LoadStatus.loading);
-          statusProvider.setStatusLoading(LoadStatus.loading);
-          statusProvider.setOvertimeDataLoadingStatus(LoadStatus.loading);
 
           final result =
               await serversProvider.loadApiGateway(server)?.loginQuery();
@@ -155,11 +153,16 @@ class ServerLabel extends StatelessWidget {
             logger.d(
               'Fallback to previously selected server: ${previouslySelectedServer?.address} <- ${server.address}',
             );
-            serversProvider.setselectedServer(
-              server: previouslySelectedServer,
-            );
-            statusProvider.setServerStatus(LoadStatus.loaded);
-            statusUpdateService.startAutoRefresh();
+
+            if (previouslySelectedServer != null) {
+              serversProvider.setselectedServer(
+                server: previouslySelectedServer,
+              );
+              statusProvider.setServerStatus(LoadStatus.loading);
+              statusUpdateService.startAutoRefresh();
+            } else {
+              statusProvider.setServerStatus(LoadStatus.error);
+            }
 
             if (!context.mounted) return;
             showErrorSnackBar(

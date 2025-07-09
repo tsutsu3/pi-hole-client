@@ -141,8 +141,6 @@ mixin ServersTileItemController<T extends StatefulWidget> on State<T> {
     serversProvider.setConnectingServer(server);
     statusUpdateService.stopAutoRefresh();
     statusProvider.setServerStatus(LoadStatus.loading);
-    statusProvider.setStatusLoading(LoadStatus.loading);
-    statusProvider.setOvertimeDataLoadingStatus(LoadStatus.loading);
 
     final process = ProcessModal(context: context);
     process.open(AppLocalizations.of(context)!.connecting);
@@ -151,7 +149,6 @@ mixin ServersTileItemController<T extends StatefulWidget> on State<T> {
 
     // If another server (other than B) is selected while switching from server A to B, abort the process.
     // Without this check, it may appear as if the app is connected to B, even though a different server was actually selected.
-    if (!mounted) return;
     if (serversProvider.connectingServer != server) {
       logger.w(
         'Server switch interrupted: '
@@ -192,11 +189,16 @@ mixin ServersTileItemController<T extends StatefulWidget> on State<T> {
       logger.d(
         'Fallback to previously selected server: ${previouslySelectedServer?.address} <- ${server.address}',
       );
-      serversProvider.setselectedServer(
-        server: previouslySelectedServer,
-      );
-      statusProvider.setServerStatus(LoadStatus.loaded);
-      statusUpdateService.startAutoRefresh();
+
+      if (previouslySelectedServer != null) {
+        serversProvider.setselectedServer(
+          server: previouslySelectedServer,
+        );
+        statusProvider.setServerStatus(LoadStatus.loading);
+        statusUpdateService.startAutoRefresh();
+      } else {
+        statusProvider.setServerStatus(LoadStatus.error);
+      }
 
       if (!mounted) return;
       showErrorSnackBar(

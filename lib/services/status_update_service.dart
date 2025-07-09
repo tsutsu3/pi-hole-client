@@ -90,6 +90,9 @@ class StatusUpdateService {
     if (_isAutoRefreshRunning) return;
     _isAutoRefreshRunning = true;
 
+    _statusProvider.setStatusLoading(LoadStatus.loading);
+    _statusProvider.setOvertimeDataLoadingStatus(LoadStatus.loading);
+
     _setupStatusDataTimer(runImmediately: runImmediately);
     _setupOverTimeDataTimer(runImmediately: runImmediately, isDelay: isDelay);
     _setupMetricsDataTimer(runImmediately: runImmediately, isDelay: isDelay);
@@ -97,6 +100,9 @@ class StatusUpdateService {
 
   /// Stop timer for auto refresh
   void _stopAutoRefresh() {
+    _statusProvider.setStatusLoading(LoadStatus.loading);
+    _statusProvider.setOvertimeDataLoadingStatus(LoadStatus.loading);
+
     _isAutoRefreshRunning = false;
     _statusDataTimer?.cancel();
     _overTimeDataTimer?.cancel();
@@ -220,7 +226,8 @@ class StatusUpdateService {
 
       if (_serversProvider.selectedServer?.address != selectedUrlBefore) {
         logger.d(
-          'Skipping stale status update: server was changed during fetch.',
+          'Skipping stale status update: server was changed during fetch. '
+          'Previous: $selectedUrlBefore, Selected: ${_serversProvider.selectedServer?.address}',
         );
         return;
       }
@@ -289,7 +296,8 @@ class StatusUpdateService {
 
       if (_serversProvider.selectedServer?.address != selectedUrlBefore) {
         logger.d(
-          'Skipping stale overtime data update: server was changed during fetch.',
+          'Skipping stale overtime data update: server was changed during fetch. '
+          'Previous: $selectedUrlBefore, Selected: ${_serversProvider.selectedServer?.address}',
         );
         return;
       }
@@ -360,7 +368,8 @@ class StatusUpdateService {
 
       if (_serversProvider.selectedServer?.address != selectedUrlBefore) {
         logger.d(
-          'Skipping stale metrics update: server was changed during fetch.',
+          'Skipping stale metrics update: server was changed during fetch. '
+          'Previous: $selectedUrlBefore, Selected: ${_serversProvider.selectedServer?.address}',
         );
         return;
       }
