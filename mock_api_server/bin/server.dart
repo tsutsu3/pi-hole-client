@@ -29,12 +29,19 @@ Middleware sleepMiddleware({
 
 void main(List<String> args) async {
   var delayMs = 500;
+  var host = 'localhost';
+
   final delayArgIndex = args.indexOf('--delay');
   if (delayArgIndex != -1 && delayArgIndex + 1 < args.length) {
     final value = int.tryParse(args[delayArgIndex + 1]);
     if (value != null && value >= 0) {
       delayMs = value;
     }
+  }
+
+  final hostArgIndex = args.indexOf('--host');
+  if (hostArgIndex != -1 && hostArgIndex + 1 < args.length) {
+    host = args[hostArgIndex + 1];
   }
 
   final router = Router();
@@ -57,7 +64,12 @@ void main(List<String> args) async {
       .addMiddleware(sleepMiddleware(delay: Duration(milliseconds: delayMs)))
       .addHandler(router.call);
 
-  final server = await io.serve(handler, InternetAddress.anyIPv4, 8888);
+  final address =
+      (host == '0.0.0.0')
+          ? InternetAddress.anyIPv4
+          : InternetAddress.loopbackIPv4;
 
-  print('✅ Mock API server running at http://localhost:${server.port}');
+  final server = await io.serve(handler, address, 8888);
+
+  print('✅ Mock API server running at http://$host:${server.port}');
 }
