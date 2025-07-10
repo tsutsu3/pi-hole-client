@@ -49,7 +49,7 @@ dependencies:
   flutter_svg: ^2.2.0
   fl_chart: ^1.0.0
   animations: ^2.0.3
-  permission_handler: ^12.0.0+1
+  permission_handler: ^12.0.1
   dynamic_color: ^1.6.5
   device_info_plus: ^11.5.0
   vibration: ^3.1.1
@@ -58,7 +58,7 @@ dependencies:
   flutter_app_lock: ^4.0.0-dev.0
   sqlite3_flutter_libs: ^0.5.33
   sqflite_common_ffi: ^2.2.3
-  sentry_flutter: ^9.0.0
+  sentry_flutter: ^9.3.0
   flutter_dotenv: ^5.0.2
   contextmenu: ^3.0.0
   window_size:
@@ -83,7 +83,7 @@ dependencies:
   flutter_secure_storage: ^9.2.4
   collection: ^1.18.0
   window_manager: ^0.5.0
-  skeletonizer: ^2.0.1
+  skeletonizer: ^2.1.0+1
   loading_animation_widget: ^1.3.0
 
 
@@ -102,7 +102,7 @@ dev_dependencies:
   # package. See that file for information about deactivating specific lint
   # rules and activating additional ones.
   flutter_lints: ^6.0.0
-  freezed: ^3.0.6
+  freezed: ^3.1.0
   json_serializable: ^6.9.5
   mockito: ^5.4.6
   full_coverage: ^1.0.0
