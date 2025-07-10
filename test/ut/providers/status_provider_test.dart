@@ -29,7 +29,7 @@ void main() {
       expect(statusProvider.getDnsCacheInfo, null);
       expect(statusProvider.getDnsRepliesInfo, null);
       expect(statusProvider.getOvertimeDataLoadStatus, LoadStatus.loading);
-      expect(statusProvider.isServerLoading, LoadStatus.loading);
+      expect(statusProvider.isServerLoading, true);
     });
 
     test('setServerStatus updates value and notifies listeners', () {
