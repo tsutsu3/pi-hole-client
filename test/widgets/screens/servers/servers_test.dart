@@ -242,7 +242,8 @@ void main() async {
         when(testSetup.mockServersProvider.resetSelectedServer())
             .thenAnswer((_) async => true);
         when(testSetup.mockApiGatewayV6.loginQuery()).thenAnswer(
-            (_) async => LoginQueryResponse(result: APiResponseType.error));
+          (_) async => LoginQueryResponse(result: APiResponseType.error),
+        );
 
         addTearDown(() {
           tester.view.resetPhysicalSize();
