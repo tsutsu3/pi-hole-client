@@ -1745,6 +1745,7 @@ class TestSetupHelper {
     );
     when(mockServersProvider.removeServer(any)).thenAnswer((_) async => true);
     when(mockServersProvider.deleteDbData()).thenAnswer((_) async => true);
+    when(mockServersProvider.connectingServer).thenReturn(null);
   }
 
   void _initFiltersProviderMock(String useApiGatewayVersion) {

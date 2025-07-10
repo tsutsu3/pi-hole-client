@@ -50,7 +50,7 @@ void main() async {
 
           // Home App Bar
           expect(
-            find.byIcon(Icons.verified_user_rounded),
+            find.byIcon(Icons.gpp_good_rounded),
             findsOneWidget,
           );
           expect(find.byIcon(Icons.more_vert), findsOneWidget);

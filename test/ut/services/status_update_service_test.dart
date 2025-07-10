@@ -61,6 +61,7 @@ void main() async {
       when(mockServersProvider.selectedApiGateway).thenReturn(mockApiGatewayV6);
       when(mockServersProvider.updateselectedServerStatus(any))
           .thenReturn(null);
+      when(mockServersProvider.connectingServer).thenReturn(null);
 
       when(mockStatusProvider.setServerStatus(any)).thenReturn(null);
       when(mockStatusProvider.setRealtimeStatus(any)).thenReturn(null);
@@ -135,6 +136,21 @@ void main() async {
       verify(mockStatusProvider.setRealtimeStatus(any)).called(1);
       verify(mockStatusProvider.setOvertimeData(any)).called(1);
       verify(mockStatusProvider.setMetricsInfo(any)).called(1);
+      expect(statusUpdateService.isAutoRefreshRunning, true);
+
+      statusUpdateService.stopAutoRefresh();
+    });
+
+    test('startAutoRefresh while switching servers', () async {
+      when(mockServersProvider.connectingServer).thenReturn(server);
+
+      statusUpdateService.startAutoRefresh();
+
+      await Future.delayed(const Duration(seconds: 1));
+      verify(mockAppConfigProvider.getAutoRefreshTime).called(4);
+      verifyNever(mockStatusProvider.setRealtimeStatus(any));
+      verifyNever(mockStatusProvider.setOvertimeData(any));
+      verifyNever(mockStatusProvider.setMetricsInfo(any));
       expect(statusUpdateService.isAutoRefreshRunning, true);
 
       statusUpdateService.stopAutoRefresh();
