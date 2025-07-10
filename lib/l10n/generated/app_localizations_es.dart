@@ -392,7 +392,7 @@ class AppLocalizationsEs extends AppLocalizations {
   String get connectingTo => 'Conectando a';
 
   @override
-  String get connectingToServer => 'Conectando al servidor';
+  String get connectingToServer => 'Conectando al servidor...';
 
   @override
   String get connection => 'Conexión';

@@ -5,7 +5,7 @@ import 'package:pi_hole_client/models/overtime_data.dart';
 import 'package:pi_hole_client/models/realtime_status.dart';
 
 class StatusProvider with ChangeNotifier {
-  bool _isServerConnected = false;
+  LoadStatus _serverStatus = LoadStatus.loading;
 
   LoadStatus _statusLoading = LoadStatus.loading;
   RealtimeStatus? _realtimeStatus;
@@ -14,8 +14,12 @@ class StatusProvider with ChangeNotifier {
   LoadStatus _overtimeDataLoading = LoadStatus.loading;
   OverTimeData? _overtimeData;
 
-  bool get isServerConnected {
-    return _isServerConnected;
+  LoadStatus get getServerStatus {
+    return _serverStatus;
+  }
+
+  bool get isServerLoading {
+    return _serverStatus == LoadStatus.loading;
   }
 
   RealtimeStatus? get getRealtimeStatus {
@@ -62,8 +66,8 @@ class StatusProvider with ChangeNotifier {
     return _overtimeDataLoading;
   }
 
-  void setIsServerConnected(bool value) {
-    _isServerConnected = value;
+  void setServerStatus(LoadStatus status) {
+    _serverStatus = status;
     notifyListeners();
   }
 

@@ -44,7 +44,7 @@ class ServerActionsMenu extends StatelessWidget {
     final appConfigProvider = context.read<AppConfigProvider>();
 
     final isConnected = context.select<StatusProvider, bool>(
-      (p) => p.isServerConnected,
+      (p) => !p.isServerLoading,
     );
     final isServerSelected = context.select<ServersProvider, bool>(
       (p) => p.selectedServer != null,
@@ -208,13 +208,13 @@ class ServerActionsMenu extends StatelessWidget {
       serversProvider.updateselectedServerStatus(
         result!.data!.status == 'enabled' ? true : false,
       );
-      statusProvider.setIsServerConnected(true);
+      statusProvider.setServerStatus(LoadStatus.loaded);
       statusProvider.setRealtimeStatus(result.data!);
     } else {
       logger.w(
         'Error while fetching server status: ${result?.result.name}',
       );
-      statusProvider.setIsServerConnected(false);
+      statusProvider.setServerStatus(LoadStatus.error);
       if (statusProvider.getStatusLoading == LoadStatus.loading) {
         statusProvider.setStatusLoading(LoadStatus.error);
       }

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_split_view/flutter_split_view.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:pi_hole_client/constants/enums.dart';
 import 'package:pi_hole_client/constants/languages.dart';
 import 'package:pi_hole_client/constants/responsive.dart';
 import 'package:pi_hole_client/constants/urls.dart';
@@ -74,8 +75,8 @@ class _SettingsWidgetState extends State<SettingsWidget> {
     final selectedServer = context.select<ServersProvider, Server?>(
       (p) => p.selectedServer,
     );
-    final isServerConnected = context.select<StatusProvider, bool>(
-      (p) => p.isServerConnected,
+    final serverStatus = context.select<StatusProvider, LoadStatus>(
+      (p) => p.getServerStatus,
     );
     final appConfigProvider = Provider.of<AppConfigProvider>(context);
 
@@ -169,11 +170,12 @@ class _SettingsWidgetState extends State<SettingsWidget> {
           settingsTile(
             icon: Icons.storage_rounded,
             title: AppLocalizations.of(context)!.servers,
-            subtitle: selectedServer != null
-                ? isServerConnected
-                    ? '${AppLocalizations.of(context)!.connectedTo} ${selectedServer.alias}'
-                    : AppLocalizations.of(context)!.notConnectServer
-                : AppLocalizations.of(context)!.notSelected,
+            subtitle: _buildServerSubtitle(
+              context: context,
+              selectedServer: selectedServer,
+              serverStatus: serverStatus,
+              isAliasOnly: false,
+            ),
             screenToNavigate: const ServersPage(),
             thisItem: 2,
           ),
@@ -198,11 +200,12 @@ class _SettingsWidgetState extends State<SettingsWidget> {
           settingsTile(
             icon: Icons.connected_tv_rounded,
             title: AppLocalizations.of(context)!.serverInfo,
-            subtitle: selectedServer != null
-                ? isServerConnected
-                    ? selectedServer.alias
-                    : AppLocalizations.of(context)!.notConnectServer
-                : AppLocalizations.of(context)!.notSelected,
+            subtitle: _buildServerSubtitle(
+              context: context,
+              selectedServer: selectedServer,
+              serverStatus: serverStatus,
+              isAliasOnly: true,
+            ),
             screenToNavigate: const ServerInfoScreen(),
             thisItem: 4,
           ),
@@ -343,5 +346,28 @@ class _SettingsWidgetState extends State<SettingsWidget> {
         ),
       ),
     );
+  }
+
+  String _buildServerSubtitle({
+    required BuildContext context,
+    required Server? selectedServer,
+    required LoadStatus serverStatus,
+    required bool isAliasOnly,
+  }) {
+    if (selectedServer == null) {
+      return AppLocalizations.of(context)!.notSelected;
+    }
+
+    switch (serverStatus) {
+      case LoadStatus.loaded:
+        if (isAliasOnly) {
+          return selectedServer.alias;
+        }
+        return '${AppLocalizations.of(context)!.connectedTo} ${selectedServer.alias}';
+      case LoadStatus.loading:
+        return AppLocalizations.of(context)!.connectingToServer;
+      case LoadStatus.error:
+        return AppLocalizations.of(context)!.notConnectServer;
+    }
   }
 }

@@ -22,13 +22,13 @@ Future<dynamic> refreshServerStatus(BuildContext context) async {
     serversProvider.updateselectedServerStatus(
       result!.data?.status == 'enabled' ? true : false,
     );
-    statusProvider.setIsServerConnected(true);
+    statusProvider.setServerStatus(LoadStatus.loaded);
     statusProvider.setRealtimeStatus(result.data!);
   } else if (result?.result == APiResponseType.sslError) {
     logger.w(
       'SSL Error while fetching server status',
     );
-    statusProvider.setIsServerConnected(false);
+    statusProvider.setServerStatus(LoadStatus.error);
     if (statusProvider.getStatusLoading == LoadStatus.loading) {
       statusProvider.setStatusLoading(LoadStatus.error);
     }
@@ -41,7 +41,7 @@ Future<dynamic> refreshServerStatus(BuildContext context) async {
     logger.w(
       'Error while fetching server status: ${result?.result.name}',
     );
-    statusProvider.setIsServerConnected(false);
+    statusProvider.setServerStatus(LoadStatus.error);
     if (statusProvider.getStatusLoading == LoadStatus.loading) {
       statusProvider.setStatusLoading(LoadStatus.error);
     }

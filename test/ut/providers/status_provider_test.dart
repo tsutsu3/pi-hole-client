@@ -20,7 +20,7 @@ void main() {
     });
 
     test('Initial values are correct', () {
-      expect(statusProvider.isServerConnected, false);
+      expect(statusProvider.getServerStatus, LoadStatus.loading);
       expect(statusProvider.getRealtimeStatus, null);
       expect(statusProvider.getStatusLoading, LoadStatus.loading);
       expect(statusProvider.getOvertimeData, null);
@@ -29,11 +29,12 @@ void main() {
       expect(statusProvider.getDnsCacheInfo, null);
       expect(statusProvider.getDnsRepliesInfo, null);
       expect(statusProvider.getOvertimeDataLoadStatus, LoadStatus.loading);
+      expect(statusProvider.isServerLoading, true);
     });
 
-    test('setIsServerConnected updates value and notifies listeners', () {
-      statusProvider.setIsServerConnected(true);
-      expect(statusProvider.isServerConnected, true);
+    test('setServerStatus updates value and notifies listeners', () {
+      statusProvider.setServerStatus(LoadStatus.loaded);
+      expect(statusProvider.getServerStatus, LoadStatus.loaded);
       expect(listenerCalled, true);
     });
 

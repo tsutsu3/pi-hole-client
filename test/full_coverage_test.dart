@@ -215,6 +215,7 @@ import 'package:pi_hole_client/services/logs_actions_service.dart';
 import 'package:pi_hole_client/services/logs_pagination_service.dart';
 import 'package:pi_hole_client/services/logs_screen_service.dart';
 import 'package:pi_hole_client/services/secret_manager.dart';
+import 'package:pi_hole_client/services/server_connection_service.dart';
 import 'package:pi_hole_client/services/status_update_service.dart';
 import 'package:pi_hole_client/widgets/adaptive_trailing_text.dart';
 import 'package:pi_hole_client/widgets/bottom_nav_bar.dart';

@@ -50,7 +50,7 @@ void main() async {
 
           // Home App Bar
           expect(
-            find.byIcon(Icons.verified_user_rounded),
+            find.byIcon(Icons.gpp_good_rounded),
             findsOneWidget,
           );
           expect(find.byIcon(Icons.more_vert), findsOneWidget);
@@ -284,8 +284,9 @@ void main() async {
           tester.view.physicalSize = const Size(1080, 2400);
           tester.view.devicePixelRatio = 2.0;
 
-          when(testSetup.mockStatusProvider.isServerConnected)
-              .thenReturn(false);
+          when(testSetup.mockStatusProvider.getServerStatus)
+              .thenReturn(LoadStatus.loading);
+          when(testSetup.mockStatusProvider.isServerLoading).thenReturn(true);
 
           addTearDown(() {
             tester.view.resetPhysicalSize();

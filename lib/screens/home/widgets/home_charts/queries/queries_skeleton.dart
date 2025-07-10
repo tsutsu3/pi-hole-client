@@ -24,6 +24,10 @@ class QueriesSkeleton extends StatelessWidget {
     final appConfigProvider = context.read<AppConfigProvider>();
 
     return Skeletonizer(
+      effect: ShimmerEffect(
+        baseColor: Theme.of(context).colorScheme.secondaryContainer,
+        highlightColor: Theme.of(context).colorScheme.surface,
+      ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [

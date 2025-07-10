@@ -106,6 +106,7 @@ void main() async {
       expect(serversProvider.selectedApiGateway, null);
       expect(serversProvider.numShown, 0);
       expect(serversProvider.queryStatuses, []);
+      expect(serversProvider.connectingServer, null);
       expect(listenerCalled, false);
     });
 
@@ -275,5 +276,23 @@ void main() async {
         expect(listenerCalled, true);
       },
     );
+
+    test(
+      'setConnectingServer sets the connecting server',
+      () async {
+        serversProvider.setConnectingServer(server);
+
+        expect(serversProvider.connectingServer, server);
+        expect(listenerCalled, false);
+      },
+    );
+
+    test('clearConnectingServer clears the connecting server', () {
+      serversProvider.setConnectingServer(server);
+      serversProvider.clearConnectingServer();
+
+      expect(serversProvider.connectingServer, null);
+      expect(listenerCalled, false);
+    });
   });
 }

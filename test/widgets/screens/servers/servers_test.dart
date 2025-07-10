@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/mockito.dart';
+import 'package:pi_hole_client/models/gateways.dart';
 import 'package:pi_hole_client/screens/servers/add_server_fullscreen.dart';
 import 'package:pi_hole_client/screens/servers/delete_server_modal.dart';
 import 'package:pi_hole_client/screens/servers/servers.dart';
@@ -228,6 +229,40 @@ void main() async {
         await tester.pump(const Duration(milliseconds: 1000));
         await tester.pump(const Duration(milliseconds: 1000));
         expect(find.byType(AddServerFullscreen), findsOneWidget);
+      },
+    );
+
+    testWidgets(
+      'should show error when connecting to server',
+      (WidgetTester tester) async {
+        tester.view.physicalSize = const Size(1080, 2400);
+        tester.view.devicePixelRatio = 2.0;
+
+        when(testSetup.mockServersProvider.selectedServer).thenReturn(null);
+        when(testSetup.mockServersProvider.resetSelectedServer())
+            .thenAnswer((_) async => true);
+        when(testSetup.mockApiGatewayV6.loginQuery()).thenAnswer(
+          (_) async => LoginQueryResponse(result: APiResponseType.error),
+        );
+
+        addTearDown(() {
+          tester.view.resetPhysicalSize();
+          tester.view.resetDevicePixelRatio();
+        });
+
+        await tester.pumpWidget(
+          testSetup.buildTestWidget(
+            const ServersPage(),
+          ),
+        );
+
+        expect(find.byType(ServersPage), findsOneWidget);
+        expect(find.text('Servers'), findsOneWidget);
+        expect(find.text('Connect'), findsOneWidget);
+        await tester.tap(find.text('Connect'));
+        await tester.pumpAndSettle();
+        expect(find.byType(SnackBar), findsOneWidget);
+        expect(find.text('Cannot connect to server.'), findsOneWidget);
       },
     );
   });

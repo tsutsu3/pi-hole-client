@@ -910,6 +910,24 @@ class MockServersProvider extends _i1.Mock implements _i15.ServersProvider {
       );
 
   @override
+  void setConnectingServer(_i3.Server? server) => super.noSuchMethod(
+        Invocation.method(
+          #setConnectingServer,
+          [server],
+        ),
+        returnValueForMissingStub: null,
+      );
+
+  @override
+  void clearConnectingServer() => super.noSuchMethod(
+        Invocation.method(
+          #clearConnectingServer,
+          [],
+        ),
+        returnValueForMissingStub: null,
+      );
+
+  @override
   _i17.ApiGateway? loadApiGateway(_i3.Server? server) =>
       (super.noSuchMethod(Invocation.method(
         #loadApiGateway,
@@ -1288,8 +1306,14 @@ class MockStatusProvider extends _i1.Mock implements _i20.StatusProvider {
   }
 
   @override
-  bool get isServerConnected => (super.noSuchMethod(
-        Invocation.getter(#isServerConnected),
+  _i19.LoadStatus get getServerStatus => (super.noSuchMethod(
+        Invocation.getter(#getServerStatus),
+        returnValue: _i19.LoadStatus.loading,
+      ) as _i19.LoadStatus);
+
+  @override
+  bool get isServerLoading => (super.noSuchMethod(
+        Invocation.getter(#isServerLoading),
         returnValue: false,
       ) as bool);
 
@@ -1312,10 +1336,10 @@ class MockStatusProvider extends _i1.Mock implements _i20.StatusProvider {
       ) as bool);
 
   @override
-  void setIsServerConnected(bool? value) => super.noSuchMethod(
+  void setServerStatus(_i19.LoadStatus? status) => super.noSuchMethod(
         Invocation.method(
-          #setIsServerConnected,
-          [value],
+          #setServerStatus,
+          [status],
         ),
         returnValueForMissingStub: null,
       );

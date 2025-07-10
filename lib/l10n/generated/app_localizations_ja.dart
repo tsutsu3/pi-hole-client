@@ -377,7 +377,7 @@ class AppLocalizationsJa extends AppLocalizations {
   String get connectingTo => '接続先';
 
   @override
-  String get connectingToServer => 'サーバーに接続中';
+  String get connectingToServer => 'サーバーに接続中...';
 
   @override
   String get connection => '接続';

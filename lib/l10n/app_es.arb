@@ -122,7 +122,7 @@
   "connecting": "Conectando...",
   "connectingServer": "Conectando al Servidor",
   "connectingTo": "Conectando a",
-  "connectingToServer": "Conectando al servidor",
+  "connectingToServer": "Conectando al servidor...",
   "connection": "Conexión",
   "connectionAlreadyExists": "Esta conexión ya existe",
   "connectionCannotBeRemoved": "No se ha podido eliminar la conexión.",

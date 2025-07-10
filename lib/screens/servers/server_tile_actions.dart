@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:pi_hole_client/config/theme.dart';
+import 'package:pi_hole_client/constants/enums.dart';
 import 'package:pi_hole_client/l10n/generated/app_localizations.dart';
 import 'package:pi_hole_client/models/server.dart';
 import 'package:pi_hole_client/providers/servers_provider.dart';
@@ -34,8 +35,8 @@ class ServerTileActions extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final isServerConnected = context.select<StatusProvider, bool>(
-      (p) => p.isServerConnected,
+    final isConnected = context.select<StatusProvider, bool>(
+      (p) => p.getServerStatus == LoadStatus.loaded,
     );
     final selectedServer = context.select<ServersProvider, Server?>(
       (p) => p.selectedServer,
@@ -73,7 +74,7 @@ class ServerTileActions extends StatelessWidget {
           padding: const EdgeInsets.only(right: 16),
           child: isSelected
               ? _ConnectionStatus(
-                  isConnected: isServerConnected,
+                  isConnected: isConnected,
                 )
               : FilledButton.icon(
                   onPressed: onConnect,

@@ -1745,6 +1745,7 @@ class TestSetupHelper {
     );
     when(mockServersProvider.removeServer(any)).thenAnswer((_) async => true);
     when(mockServersProvider.deleteDbData()).thenAnswer((_) async => true);
+    when(mockServersProvider.connectingServer).thenReturn(serverV6);
   }
 
   void _initFiltersProviderMock(String useApiGatewayVersion) {
@@ -1778,7 +1779,8 @@ class TestSetupHelper {
 
   void _initStatusProviderMock(String useApiGatewayVersion) {
     when(mockStatusProvider.getStatusLoading).thenReturn(LoadStatus.loaded);
-    when(mockStatusProvider.isServerConnected).thenReturn(true);
+    when(mockStatusProvider.getServerStatus).thenReturn(LoadStatus.loaded);
+    when(mockStatusProvider.isServerLoading).thenReturn(false);
     when(mockStatusProvider.getOvertimeData).thenReturn(overtimeData);
     when(mockStatusProvider.getOvertimeDataLoadStatus)
         .thenReturn(LoadStatus.loaded);

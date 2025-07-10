@@ -90,6 +90,9 @@ class StatusUpdateService {
     if (_isAutoRefreshRunning) return;
     _isAutoRefreshRunning = true;
 
+    _statusProvider.setStatusLoading(LoadStatus.loading);
+    _statusProvider.setOvertimeDataLoadingStatus(LoadStatus.loading);
+
     _setupStatusDataTimer(runImmediately: runImmediately);
     _setupOverTimeDataTimer(runImmediately: runImmediately, isDelay: isDelay);
     _setupMetricsDataTimer(runImmediately: runImmediately, isDelay: isDelay);
@@ -97,6 +100,9 @@ class StatusUpdateService {
 
   /// Stop timer for auto refresh
   void _stopAutoRefresh() {
+    _statusProvider.setStatusLoading(LoadStatus.loading);
+    _statusProvider.setOvertimeDataLoadingStatus(LoadStatus.loading);
+
     _isAutoRefreshRunning = false;
     _statusDataTimer?.cancel();
     _overTimeDataTimer?.cancel();
@@ -121,12 +127,12 @@ class StatusUpdateService {
       ],
     ))
         .every((result) => result)) {
-      _statusProvider.setIsServerConnected(true);
+      _statusProvider.setServerStatus(LoadStatus.loaded);
     } else {
       logger.w(
         'Failed to fetch all status data. ',
       );
-      _statusProvider.setIsServerConnected(false);
+      _statusProvider.setServerStatus(LoadStatus.error);
     }
   }
 
@@ -208,27 +214,43 @@ class StatusUpdateService {
       }
       final selectedUrlBefore = currentServer.address;
 
+      if (_serversProvider.connectingServer != null) {
+        logger.d(
+          'Skipping status data fetch due to ongoing connection attempt: ${_serversProvider.connectingServer?.address}',
+        );
+        return;
+      }
+
       final apiGateway = _serversProvider.selectedApiGateway;
       final statusResult = await apiGateway?.realtimeStatus(clientCount: 0);
+
+      if (_serversProvider.selectedServer?.address != selectedUrlBefore) {
+        logger.d(
+          'Skipping stale status update: server was changed during fetch. '
+          'Previous: $selectedUrlBefore, Selected: ${_serversProvider.selectedServer?.address}',
+        );
+        return;
+      }
 
       if (statusResult?.result == APiResponseType.success) {
         _serversProvider.updateselectedServerStatus(
           statusResult!.data!.status == 'enabled',
         );
         _statusProvider.setRealtimeStatus(statusResult.data!);
+        _statusProvider.setStatusLoading(LoadStatus.loaded);
 
         setClientsFromTopSources(statusResult);
 
-        if (!_statusProvider.isServerConnected) {
-          _statusProvider.setIsServerConnected(true);
+        if (_statusProvider.isServerLoading) {
+          _statusProvider.setServerStatus(LoadStatus.loaded);
         }
       } else {
         if (selectedUrlBefore == currentServer.address) {
-          if (_statusProvider.isServerConnected) {
+          if (_statusProvider.getServerStatus == LoadStatus.loaded) {
             logger.w(
               'Server disconnected: ${statusResult?.result.name}. ${currentServer.alias} (${currentServer.address})',
             );
-            _statusProvider.setIsServerConnected(false);
+            _statusProvider.setServerStatus(LoadStatus.error);
           }
           if (_statusProvider.getStatusLoading == LoadStatus.loading) {
             _statusProvider.setStatusLoading(LoadStatus.error);
@@ -260,26 +282,40 @@ class StatusUpdateService {
         timer?.cancel();
         return;
       }
-      final statusUrlBefore = currentServer.address;
+      final selectedUrlBefore = currentServer.address;
+
+      if (_serversProvider.connectingServer != null) {
+        logger.d(
+          'Skipping overtime data fetch due to ongoing connection attempt: ${_serversProvider.connectingServer?.address}',
+        );
+        return;
+      }
 
       final apiGateway = _serversProvider.selectedApiGateway;
       final statusResult = await apiGateway?.fetchOverTimeData();
 
+      if (_serversProvider.selectedServer?.address != selectedUrlBefore) {
+        logger.d(
+          'Skipping stale overtime data update: server was changed during fetch. '
+          'Previous: $selectedUrlBefore, Selected: ${_serversProvider.selectedServer?.address}',
+        );
+        return;
+      }
+
       if (statusResult?.result == APiResponseType.success) {
         _statusProvider.setOvertimeData(statusResult!.data!);
-
         _statusProvider.setOvertimeDataLoadingStatus(LoadStatus.loaded);
 
-        if (!_statusProvider.isServerConnected) {
-          _statusProvider.setIsServerConnected(true);
+        if (_statusProvider.isServerLoading) {
+          _statusProvider.setServerStatus(LoadStatus.loaded);
         }
       } else {
-        if (statusUrlBefore == currentServer.address) {
-          if (_statusProvider.isServerConnected) {
+        if (selectedUrlBefore == currentServer.address) {
+          if (_statusProvider.getServerStatus == LoadStatus.loaded) {
             logger.w(
               'Server disconnected: ${statusResult?.result.name}. ${currentServer.alias} (${currentServer.address})',
             );
-            _statusProvider.setIsServerConnected(false);
+            _statusProvider.setServerStatus(LoadStatus.error);
           }
           if (_statusProvider.getOvertimeDataLoadStatus == LoadStatus.loading) {
             _statusProvider.setOvertimeDataLoadingStatus(LoadStatus.error);
@@ -319,9 +355,24 @@ class StatusUpdateService {
         timer?.cancel();
         return;
       }
+      final selectedUrlBefore = currentServer.address;
 
+      if (_serversProvider.connectingServer != null) {
+        logger.d(
+          'Skipping metrics data fetch due to ongoing connection attempt: ${_serversProvider.connectingServer?.address}',
+        );
+        return;
+      }
       final apiGateway = _serversProvider.selectedApiGateway;
       final metricsResult = await apiGateway?.getMetrics();
+
+      if (_serversProvider.selectedServer?.address != selectedUrlBefore) {
+        logger.d(
+          'Skipping stale metrics update: server was changed during fetch. '
+          'Previous: $selectedUrlBefore, Selected: ${_serversProvider.selectedServer?.address}',
+        );
+        return;
+      }
 
       if (metricsResult?.result == APiResponseType.success) {
         _statusProvider.setMetricsInfo(metricsResult!.data!);
