@@ -910,6 +910,24 @@ class MockServersProvider extends _i1.Mock implements _i15.ServersProvider {
       );
 
   @override
+  void setConnectingServer(_i3.Server? server) => super.noSuchMethod(
+        Invocation.method(
+          #setConnectingServer,
+          [server],
+        ),
+        returnValueForMissingStub: null,
+      );
+
+  @override
+  void clearConnectingServer() => super.noSuchMethod(
+        Invocation.method(
+          #clearConnectingServer,
+          [],
+        ),
+        returnValueForMissingStub: null,
+      );
+
+  @override
   _i17.ApiGateway? loadApiGateway(_i3.Server? server) =>
       (super.noSuchMethod(Invocation.method(
         #loadApiGateway,
