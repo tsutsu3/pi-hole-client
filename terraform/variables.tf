@@ -1,0 +1,23 @@
+variable "location" {
+  description = "The Azure location to deploy the resources"
+  type        = string
+  default     = "East US"
+}
+
+variable "environment" {
+  description = "The environment for the deployment (e.g., dev, test, prod)"
+  type        = string
+  default     = "dev"
+}
+
+variable "password" {
+  description = "The password for the Pi-hole web interface"
+  type        = string
+  sensitive   = true
+}
+
+variable "timezone" {
+  description = "The timezone for the deployment"
+  type        = string
+  default     = "UTC"
+}
