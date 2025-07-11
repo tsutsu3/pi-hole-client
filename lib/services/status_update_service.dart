@@ -241,7 +241,7 @@ class StatusUpdateService {
 
         setClientsFromTopSources(statusResult);
 
-        if (_statusProvider.isServerLoading) {
+        if (_statusProvider.getServerStatus != LoadStatus.loaded) {
           _statusProvider.setServerStatus(LoadStatus.loaded);
         }
       } else {
@@ -306,7 +306,7 @@ class StatusUpdateService {
         _statusProvider.setOvertimeData(statusResult!.data!);
         _statusProvider.setOvertimeDataLoadingStatus(LoadStatus.loaded);
 
-        if (_statusProvider.isServerLoading) {
+        if (_statusProvider.getServerStatus != LoadStatus.loaded) {
           _statusProvider.setServerStatus(LoadStatus.loaded);
         }
       } else {
