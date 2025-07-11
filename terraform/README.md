@@ -18,6 +18,7 @@ It is **not suitable for production DNS use** or local network filtering.
 - **Resource Group**
 - **Linux App Service Plan** (F1 – Free Tier by default)
 - **App Service (Web App for Containers)** running the `pihole/pihole` Docker image
+- Optional **IP-based access restrictions**
 
 ## 🚀 Quick Start
 
