@@ -32,3 +32,9 @@ variable "ip_restriction" {
   }))
   default = {}
 }
+
+variable "pihole_version" {
+  description = "The version of the Pi-hole Docker image to use"
+  type        = string
+  default     = "latest"
+}

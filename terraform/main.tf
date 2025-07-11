@@ -61,7 +61,7 @@ module "app" {
     use_32_bit_worker = true
     application_stack = {
       docker = {
-        docker_image_name   = "pihole/pihole:latest"
+        docker_image_name   = "pihole/pihole:${var.pihole_version}"
         docker_registry_url = "https://index.docker.io"
       }
     }
