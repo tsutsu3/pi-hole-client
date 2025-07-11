@@ -65,6 +65,8 @@ module "app" {
         docker_registry_url = "https://index.docker.io"
       }
     }
+    ip_restriction_default_action = length(var.ip_restriction) > 0 ? "Deny" : "Allow"
+    ip_restriction                = var.ip_restriction
   }
   app_settings = {
     TZ                             = var.timezone

@@ -19,5 +19,16 @@ variable "password" {
 variable "timezone" {
   description = "The timezone for the deployment"
   type        = string
-  default     = "UTC"
+  default     = "America/New_York"
+}
+
+variable "ip_restriction" {
+  description = "IP restriction settings for the App Service"
+  type = map(object({
+    action     = string
+    priority   = number
+    name       = string
+    ip_address = string
+  }))
+  default = {}
 }
