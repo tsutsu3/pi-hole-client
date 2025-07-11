@@ -1,6 +1,6 @@
 locals {
   tags = {
-    environment = "development"
+    environment = var.environment
     created_by  = "terraform"
     project     = "pi-hole-client"
   }
