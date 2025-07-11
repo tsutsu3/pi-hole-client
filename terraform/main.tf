@@ -49,7 +49,7 @@ module "app" {
   resource_group_name = module.rg.name
   location            = var.location
 
-  name                                     = module.naming.app_service_plan.name_unique
+  name                                     = module.naming.app_service.name_unique
   os_type                                  = local.os_type
   kind                                     = "webapp"
   service_plan_resource_id                 = module.asp.resource_id
