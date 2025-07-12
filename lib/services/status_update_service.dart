@@ -57,7 +57,7 @@ class StatusUpdateService {
   /// - [isDelay]: If true, the refresh will be delayed by a short duration.
   void startAutoRefresh({
     bool runImmediately = true,
-    bool isDelay = false,
+    bool isDelay = true,
   }) {
     if (!_isAutoRefreshRunning) {
       logger.d(
@@ -264,7 +264,11 @@ class StatusUpdateService {
     }
 
     _statusDataTimer = Timer.periodic(
-      Duration(seconds: _appConfigProvider.getAutoRefreshTime!),
+      // Add a small buffer to avoid 'ClientException: Connection closed before full header was received'
+      // This error occurs frequently on certain devices (e.g. Pixel 6a) when using exact intervals (e.g. 5000ms).
+      Duration(
+        milliseconds: _appConfigProvider.getAutoRefreshTime! * 1000 + 300,
+      ),
       (timer) => timerFn(timer: timer),
     );
   }
