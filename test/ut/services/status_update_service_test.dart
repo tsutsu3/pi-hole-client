@@ -71,6 +71,7 @@ void main() async {
       when(mockStatusProvider.setOvertimeDataLoadingStatus(any))
           .thenReturn(null);
       when(mockStatusProvider.isServerLoading).thenReturn(true);
+      when(mockStatusProvider.getServerStatus).thenReturn(LoadStatus.loading);
 
       when(mockFiltersProvider.setClients(any)).thenReturn(null);
 
