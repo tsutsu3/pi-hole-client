@@ -264,10 +264,13 @@ class StatusUpdateService {
     }
 
     _statusDataTimer = Timer.periodic(
-      // Add a small buffer to avoid 'ClientException: Connection closed before full header was received'
+      // Add a slight negative offset to avoid 'ClientException: Connection closed before full header was received'.
       // This error occurs frequently on certain devices (e.g. Pixel 6a) when using exact intervals (e.g. 5000ms).
+      // Using a slightly shorter interval (e.g. 4700ms) prevents hitting the edge of server-side timeout.
+      // Adding instead (+300ms) causes the socket to expire just before reuse,
+      // resulting in every request creating a new TCP handshake and closing the socket immediately.
       Duration(
-        milliseconds: _appConfigProvider.getAutoRefreshTime! * 1000 + 300,
+        milliseconds: _appConfigProvider.getAutoRefreshTime! * 1000 - 300,
       ),
       (timer) => timerFn(timer: timer),
     );
