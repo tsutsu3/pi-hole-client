@@ -20,6 +20,7 @@ import 'package:pi_hole_client/screens/settings/app_settings/advanced_settings/a
 import 'package:pi_hole_client/screens/settings/app_settings/language_screen.dart';
 import 'package:pi_hole_client/screens/settings/app_settings/theme_screen.dart';
 import 'package:pi_hole_client/screens/settings/server_settings/advanced_server_options.dart';
+import 'package:pi_hole_client/screens/settings/server_settings/advanced_settings/network_screen.dart';
 import 'package:pi_hole_client/screens/settings/server_settings/server_info.dart';
 import 'package:pi_hole_client/screens/settings/server_settings/subscriptions.dart';
 import 'package:pi_hole_client/widgets/custom_list_tile.dart';
@@ -69,6 +70,34 @@ class SettingsWidget extends StatefulWidget {
 
 class _SettingsWidgetState extends State<SettingsWidget> {
   int? selectedScreen;
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+
+    final appConfigProvider = context.read<AppConfigProvider>();
+    final width = MediaQuery.of(context).size.width;
+
+    final screenToShow = appConfigProvider.selectedSettingsScreen;
+    if (screenToShow != null && width > ResponsiveConstants.large) {
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        final splitView = context.findAncestorStateOfType<SplitViewState>();
+        if (splitView != null) {
+          switch (screenToShow) {
+            case 5:
+              splitView.setSecondary(const SubscriptionLists());
+            case 6:
+              splitView.setSecondary(const AdvancedServerOptions());
+              final apiVersion =
+                  context.read<ServersProvider>().selectedServer?.apiVersion;
+              if (apiVersion == 'v6') {
+                splitView.push(const NetworkScreen());
+              }
+          }
+        }
+      });
+    }
+  }
 
   @override
   Widget build(BuildContext context) {

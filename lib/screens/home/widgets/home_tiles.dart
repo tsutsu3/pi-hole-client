@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:pi_hole_client/config/theme.dart';
 import 'package:pi_hole_client/constants/enums.dart';
+import 'package:pi_hole_client/constants/responsive.dart';
 import 'package:pi_hole_client/functions/conversions.dart';
 import 'package:pi_hole_client/l10n/generated/app_localizations.dart';
 import 'package:pi_hole_client/providers/app_config_provider.dart';
@@ -81,21 +82,27 @@ class HomeTiles extends StatelessWidget {
               onTap: () {
                 final appConfigProvider = context.read<AppConfigProvider>();
                 final serverProvider = context.read<ServersProvider>();
-                final apiVersion = serverProvider.selectedServer?.apiVersion;
+                final width = MediaQuery.of(context).size.width;
                 appConfigProvider.setSelectedTab(4);
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => const AdvancedServerOptions(),
-                  ),
-                );
-                if (apiVersion == 'v6') {
+
+                if (width > ResponsiveConstants.large) {
+                  appConfigProvider.setSelectedSettingsScreen(screen: 6);
+                } else {
+                  final apiVersion = serverProvider.selectedServer?.apiVersion;
                   Navigator.push(
                     context,
                     MaterialPageRoute(
-                      builder: (context) => const NetworkScreen(),
+                      builder: (context) => const AdvancedServerOptions(),
                     ),
                   );
+                  if (apiVersion == 'v6') {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => const NetworkScreen(),
+                      ),
+                    );
+                  }
                 }
               },
             ),
@@ -159,13 +166,19 @@ class HomeTiles extends StatelessWidget {
               width: width,
               onTap: () {
                 final appConfigProvider = context.read<AppConfigProvider>();
+                final width = MediaQuery.of(context).size.width;
                 appConfigProvider.setSelectedTab(4);
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => const SubscriptionLists(),
-                  ),
-                );
+
+                if (width > ResponsiveConstants.large) {
+                  appConfigProvider.setSelectedSettingsScreen(screen: 5);
+                } else {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => const SubscriptionLists(),
+                    ),
+                  );
+                }
               },
             ),
           ],
