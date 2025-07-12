@@ -5,12 +5,11 @@ on:
     branches:
       - main
   pull_request:
-  workflow_dispatch:
 
 jobs:
   prepare-release:
     runs-on: ubuntu-latest
-    if: startsWith(github.head_ref, 'release-v') || github.event_name == 'workflow_dispatch'
+    if: startsWith(github.head_ref, 'release-v')
     steps:
       - uses: actions/checkout@v4
         with:
