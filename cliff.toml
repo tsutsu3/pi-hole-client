@@ -64,7 +64,7 @@ body = """
       {%- break -%}
     {%- endif -%}
   {%- endfor -%}
-  {% for contributor in github.contributors %}
+  {%- for contributor in github.contributors -%}
      {% if contributor.is_first_time
         and contributor.username != "dependabot[bot]"
         and contributor.username != "github-actions[bot]"
@@ -72,9 +72,9 @@ body = """
 * @{{ contributor.username }} made their first contribution
       {%- if contributor.pr_number -%}
  in [#{{ contributor.pr_number }}]({{ self::remote_url() }}/pull/{{ contributor.pr_number }})
-      {%- endif -%}
-    {%- endif -%}
-  {% endfor %}
+      {% endif %}
+    {%- endif %}
+  {%- endfor %}
 {% endif %}
 """
 # template for the changelog footer
