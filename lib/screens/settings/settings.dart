@@ -88,7 +88,11 @@ class _SettingsWidgetState extends State<SettingsWidget> {
               splitView.setSecondary(const SubscriptionLists());
             case 6:
               splitView.setSecondary(const AdvancedServerOptions());
-              splitView.push(const NetworkScreen());
+              final apiVersion =
+                  context.read<ServersProvider>().selectedServer?.apiVersion;
+              if (apiVersion == 'v6') {
+                splitView.push(const NetworkScreen());
+              }
           }
         }
       });
