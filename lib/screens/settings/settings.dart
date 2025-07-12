@@ -94,6 +94,7 @@ class _SettingsWidgetState extends State<SettingsWidget> {
                 splitView.push(const NetworkScreen());
               }
           }
+          appConfigProvider.setSelectedSettingsScreen(screen: null);
         }
       });
     }
