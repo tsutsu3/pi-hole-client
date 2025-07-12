@@ -64,7 +64,7 @@ body = """
       {%- break -%}
     {%- endif -%}
   {%- endfor -%}
-  {%- for contributor in github.contributors -%}
+  {% for contributor in github.contributors %}
      {% if contributor.is_first_time
         and contributor.username != "dependabot[bot]"
         and contributor.username != "github-actions[bot]"
