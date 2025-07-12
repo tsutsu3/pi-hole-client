@@ -1,6 +1,61 @@
 # Changelog
 
-## [1.4.0](https://github.com/tsutsu3/pi-hole-client/compare/1.3.0_(41)..1.4.0) - 2025-06-15
+## [1.5.0](https://github.com/tsutsu3/pi-hole-client/compare/1.4.0_(43)..1.5.0) - 2025-07-12
+
+### 🚀 Features
+
+- *(home)* Tap tile to navigate to corresponding screen ([#331](https://github.com/tsutsu3/pi-hole-client/issues/331)) - ([5b6fb6e](https://github.com/tsutsu3/pi-hole-client/commit/5b6fb6e6afb265857be94f20161327d6cc2efb07))
+- *(home)* Use skeleton loader instead of spinner ([#323](https://github.com/tsutsu3/pi-hole-client/issues/323)) - ([08ad7d7](https://github.com/tsutsu3/pi-hole-client/commit/08ad7d7a66037545e7c352902e7543f76c023901))
+- *(settings/netowork)* Use skeleton loader instead of spinner ([#321](https://github.com/tsutsu3/pi-hole-client/issues/321)) - ([5f7a132](https://github.com/tsutsu3/pi-hole-client/commit/5f7a1328465cf662e84cb346b3b91e39b4bd17df))
+- *(settings/session)* Use skeleton loader instead of spinner ([#320](https://github.com/tsutsu3/pi-hole-client/issues/320)) - ([1517c72](https://github.com/tsutsu3/pi-hole-client/commit/1517c7241365b683e25aaeb26eb404a52e6f6946))
+
+### 🐛 Bug Fixes
+
+- *(adlist)* Show loading indicator on subscription screen to prevent stale data flash ([#303](https://github.com/tsutsu3/pi-hole-client/issues/303)) - ([3db2f7e](https://github.com/tsutsu3/pi-hole-client/commit/3db2f7e3d59d7a4cf05561ed99cbbc0b997ed4f0))
+- *(api)* Improve realtimeStatus stability by splitting requests into batches ([#314](https://github.com/tsutsu3/pi-hole-client/issues/314)) - ([0ba5699](https://github.com/tsutsu3/pi-hole-client/commit/0ba56999695c8b98b24b1ecec8bcdb3787d7172e))
+- *(auto_refresh)* Avoid 'Connection closed before full header was received' on specific devices ([#343](https://github.com/tsutsu3/pi-hole-client/issues/343)) - ([8954e9d](https://github.com/tsutsu3/pi-hole-client/commit/8954e9ddb1dcf08d84de02475b35b440aa9f448a))
+- *(domains)* Show loading state when switching servers to prevent outdated domain data ([#315](https://github.com/tsutsu3/pi-hole-client/issues/315)) - ([66f3380](https://github.com/tsutsu3/pi-hole-client/commit/66f3380025a5382f2437a93267caf592615b87aa))
+- *(home)* Remove redundant near-simultaneous duplicate calls ([#335](https://github.com/tsutsu3/pi-hole-client/issues/335)) - ([448eac6](https://github.com/tsutsu3/pi-hole-client/commit/448eac64fcc5c3b81a49dc96ed33a3f510af4834))
+- *(home)* Resolved delayed status feedback on server change in v5 ([#322](https://github.com/tsutsu3/pi-hole-client/issues/322)) - ([03a2fe9](https://github.com/tsutsu3/pi-hole-client/commit/03a2fe9adee980d451dd86f3ce768362dc52da29))
+- *(home, servers)* Retain selected server during navigation while connecting  ([#340](https://github.com/tsutsu3/pi-hole-client/issues/340)) - ([2d06351](https://github.com/tsutsu3/pi-hole-client/commit/2d06351e2d44352107e94c850048ebafa15a5e23))
+- *(log)* Display all clients ([#316](https://github.com/tsutsu3/pi-hole-client/issues/316)) - ([9bf013d](https://github.com/tsutsu3/pi-hole-client/commit/9bf013daeed97a71692f8a8552d0b8c5b8a98073))
+- *(logs)* Prevent setState after dispose in enqueueLoad ([#338](https://github.com/tsutsu3/pi-hole-client/issues/338)) - ([0fd4f06](https://github.com/tsutsu3/pi-hole-client/commit/0fd4f06e7516a58a94d0dd67a57b834408af3578))
+- *(logs)* Fully load paginated data within each time window ([#317](https://github.com/tsutsu3/pi-hole-client/issues/317)) - ([a342d9c](https://github.com/tsutsu3/pi-hole-client/commit/a342d9c2d487aca7cdbf7ba99cdbbf8af7d9f444))
+- *(server)* Show server tile immediately after adding by recreating list for context.select() ([#334](https://github.com/tsutsu3/pi-hole-client/issues/334)) - ([73e11dd](https://github.com/tsutsu3/pi-hole-client/commit/73e11dd8fc1f13d6ab824a14cb9c2cfd3a84b798))
+
+### 🚜 Refactor
+
+- *(constants)* Move RequestStatus enum to constants folder ([#332](https://github.com/tsutsu3/pi-hole-client/issues/332)) - ([f3b30a2](https://github.com/tsutsu3/pi-hole-client/commit/f3b30a2749cfcc037215958ced3c50acf6cbf43e))
+- *(skeleton)* Keep icons and labels visible ([#311](https://github.com/tsutsu3/pi-hole-client/issues/311)) - ([8c4ad1b](https://github.com/tsutsu3/pi-hole-client/commit/8c4ad1b62c813d995fa76732c54870583d39b3fa))
+- *(statistics)* Restructure provider access to reduce widget rebuilds ([#327](https://github.com/tsutsu3/pi-hole-client/issues/327)) - ([4fb4268](https://github.com/tsutsu3/pi-hole-client/commit/4fb4268caa6adf10f4f303e229e75c32ad29759b))
+- *(ui)* Remove system UI overlay - ([ec6af0d](https://github.com/tsutsu3/pi-hole-client/commit/ec6af0dab664c9ec712aef50988ff2dcaa3aed5e))
+
+### ⚡ Performance
+
+- *(home)* Optimize rebuild timing of home graphs ([#326](https://github.com/tsutsu3/pi-hole-client/issues/326)) - ([16539f6](https://github.com/tsutsu3/pi-hole-client/commit/16539f679b8c98fd747efe2117ea365463d6dcbc))
+- *(settings)* Reduce unnecessary rebuilds ([#328](https://github.com/tsutsu3/pi-hole-client/issues/328)) - ([5d8d957](https://github.com/tsutsu3/pi-hole-client/commit/5d8d957be8c5b3ac0c97cbcdb7c96b634f6843ea))
+- *(settings/servers)* Reduce unnecessary rebuilds ([#329](https://github.com/tsutsu3/pi-hole-client/issues/329)) - ([0342bb4](https://github.com/tsutsu3/pi-hole-client/commit/0342bb46a06c9da65e8a4a5d45a8b4fdc3d26c3f))
+
+### 🎨 Styling
+
+- *(subscription)* Enhance the appearance of the enabled/disabled status label ([#330](https://github.com/tsutsu3/pi-hole-client/issues/330)) - ([f8a687c](https://github.com/tsutsu3/pi-hole-client/commit/f8a687c75c22c0d61ddc964afb6771abcbad3d8c))
+
+### ⚙️ Miscellaneous Tasks
+
+- *(build)* Update Gradle to 8.7 and AGP to 8.6.1 ([#312](https://github.com/tsutsu3/pi-hole-client/issues/312)) - ([4a369bc](https://github.com/tsutsu3/pi-hole-client/commit/4a369bc39d05bbcb1021adfba3393cf62a8c3a08))
+- *(flutter)* Upgrade Flutter SDK, CI version, and dependencies ([#319](https://github.com/tsutsu3/pi-hole-client/issues/319)) - ([3592a94](https://github.com/tsutsu3/pi-hole-client/commit/3592a94eb736e2d9a19a638a1f11c0f0524908cc))
+- *(logging)* Add additional logs - ([bcb7b9f](https://github.com/tsutsu3/pi-hole-client/commit/bcb7b9f31ef5a02c3b54f05a941b51ecc3963df7))
+- *(mock_ap_server)* Add host and delay options for server configuration - ([5becad2](https://github.com/tsutsu3/pi-hole-client/commit/5becad2accdebe0c2d9049371a3428faee462f23))
+- *(terraform)* Initialize Pi-hole App Service infrastructure ([#341](https://github.com/tsutsu3/pi-hole-client/issues/341)) - ([ac15521](https://github.com/tsutsu3/pi-hole-client/commit/ac15521e42c6dbb09ce8d663de5650efb49e7a3d))
+- *(winget)* Winget manifest for v1.4.0 ([#301](https://github.com/tsutsu3/pi-hole-client/issues/301)) - ([03789e4](https://github.com/tsutsu3/pi-hole-client/commit/03789e43e4e632a8997307aa90bc1f2651425812))
+
+## 🎉 New Contributors 🎉
+
+* @tsutsu3 made their first contribution in [#343](https://github.com/tsutsu3/pi-hole-client/pull/343)
+* @dependabot[bot] made their first contribution in [#339](https://github.com/tsutsu3/pi-hole-client/pull/339)
+* @github-actions[bot] made their first contribution in [#301](https://github.com/tsutsu3/pi-hole-client/pull/301)
+
+## [1.4.0_(43)](https://github.com/tsutsu3/pi-hole-client/compare/1.3.0_(41)..1.4.0_(43)) - 2025-06-14
 
 ### 🚀 Features
 
@@ -67,6 +122,9 @@
 - *(test)* Ensure coverage artifact upload occurs regardless of test results - ([aeffac9](https://github.com/tsutsu3/pi-hole-client/commit/aeffac968b6ccc4cf2c20e2fb6d37941ce43855b))
 - *(winget)* Winget manifest for v1.2.1 ([#251](https://github.com/tsutsu3/pi-hole-client/issues/251)) - ([69e5ac5](https://github.com/tsutsu3/pi-hole-client/commit/69e5ac535ef5ab738a1e3feb217fc0b2e12e9a3c))
 
+## 🎉 New Contributors 🎉
+
+* @github-actions[bot] made their first contribution in [#251](https://github.com/tsutsu3/pi-hole-client/pull/251)
 
 ## [1.2.1_(33)](https://github.com/tsutsu3/pi-hole-client/compare/1.2.0_(31)..1.2.1_(33)) - 2025-04-27
 
