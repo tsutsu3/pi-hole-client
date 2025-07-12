@@ -57,7 +57,7 @@ class StatusUpdateService {
   /// - [isDelay]: If true, the refresh will be delayed by a short duration.
   void startAutoRefresh({
     bool runImmediately = true,
-    bool isDelay = true,
+    bool isDelay = false,
   }) {
     if (!_isAutoRefreshRunning) {
       logger.d(
