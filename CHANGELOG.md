@@ -15,6 +15,7 @@
 - *(api)* Improve realtimeStatus stability by splitting requests into batches ([#314](https://github.com/tsutsu3/pi-hole-client/issues/314)) - ([0ba5699](https://github.com/tsutsu3/pi-hole-client/commit/0ba56999695c8b98b24b1ecec8bcdb3787d7172e))
 - *(auto_refresh)* Avoid 'Connection closed before full header was received' on specific devices ([#343](https://github.com/tsutsu3/pi-hole-client/issues/343)) - ([8954e9d](https://github.com/tsutsu3/pi-hole-client/commit/8954e9ddb1dcf08d84de02475b35b440aa9f448a))
 - *(domains)* Show loading state when switching servers to prevent outdated domain data ([#315](https://github.com/tsutsu3/pi-hole-client/issues/315)) - ([66f3380](https://github.com/tsutsu3/pi-hole-client/commit/66f3380025a5382f2437a93267caf592615b87aa))
+- *(home)* Ensure HomeTile opens correct layout on tablet devices ([#347](https://github.com/tsutsu3/pi-hole-client/issues/347)) - ([b15d98e](https://github.com/tsutsu3/pi-hole-client/commit/b15d98e387fd65efe477489553cfa0f530e04e97))
 - *(home)* Remove redundant near-simultaneous duplicate calls ([#335](https://github.com/tsutsu3/pi-hole-client/issues/335)) - ([448eac6](https://github.com/tsutsu3/pi-hole-client/commit/448eac64fcc5c3b81a49dc96ed33a3f510af4834))
 - *(home)* Resolved delayed status feedback on server change in v5 ([#322](https://github.com/tsutsu3/pi-hole-client/issues/322)) - ([03a2fe9](https://github.com/tsutsu3/pi-hole-client/commit/03a2fe9adee980d451dd86f3ce768362dc52da29))
 - *(home, servers)* Retain selected server during navigation while connecting  ([#340](https://github.com/tsutsu3/pi-hole-client/issues/340)) - ([2d06351](https://github.com/tsutsu3/pi-hole-client/commit/2d06351e2d44352107e94c850048ebafa15a5e23))
@@ -22,6 +23,7 @@
 - *(logs)* Prevent setState after dispose in enqueueLoad ([#338](https://github.com/tsutsu3/pi-hole-client/issues/338)) - ([0fd4f06](https://github.com/tsutsu3/pi-hole-client/commit/0fd4f06e7516a58a94d0dd67a57b834408af3578))
 - *(logs)* Fully load paginated data within each time window ([#317](https://github.com/tsutsu3/pi-hole-client/issues/317)) - ([a342d9c](https://github.com/tsutsu3/pi-hole-client/commit/a342d9c2d487aca7cdbf7ba99cdbbf8af7d9f444))
 - *(server)* Show server tile immediately after adding by recreating list for context.select() ([#334](https://github.com/tsutsu3/pi-hole-client/issues/334)) - ([73e11dd](https://github.com/tsutsu3/pi-hole-client/commit/73e11dd8fc1f13d6ab824a14cb9c2cfd3a84b798))
+- *(settings)* Reset selected settings screen on navigation ([#348](https://github.com/tsutsu3/pi-hole-client/issues/348)) - ([d865c53](https://github.com/tsutsu3/pi-hole-client/commit/d865c53d42bca1db97edf9d347c9ca9775a15074))
 
 ### 🚜 Refactor
 
@@ -48,7 +50,7 @@
 - *(mock_ap_server)* Add host and delay options for server configuration - ([5becad2](https://github.com/tsutsu3/pi-hole-client/commit/5becad2accdebe0c2d9049371a3428faee462f23))
 - *(terraform)* Initialize Pi-hole App Service infrastructure ([#341](https://github.com/tsutsu3/pi-hole-client/issues/341)) - ([ac15521](https://github.com/tsutsu3/pi-hole-client/commit/ac15521e42c6dbb09ce8d663de5650efb49e7a3d))
 - *(winget)* Winget manifest for v1.4.0 ([#301](https://github.com/tsutsu3/pi-hole-client/issues/301)) - ([03789e4](https://github.com/tsutsu3/pi-hole-client/commit/03789e43e4e632a8997307aa90bc1f2651425812))
-
+- Fix new contributor rendering ([#345](https://github.com/tsutsu3/pi-hole-client/issues/345)) - ([aed3c6d](https://github.com/tsutsu3/pi-hole-client/commit/aed3c6d7290b2aee656facc402f960204ec9e04c))
 
 ## [1.4.0_(43)](https://github.com/tsutsu3/pi-hole-client/compare/1.3.0_(41)..1.4.0_(43)) - 2025-06-14
 
@@ -85,7 +87,6 @@
 - *(winget)* Update environment variable setup and specify working directory for wingetcreate - ([8b6cb56](https://github.com/tsutsu3/pi-hole-client/commit/8b6cb569724b2f86d633f6637bbf7a62a7c6f171))
 - *(winget)* Winget manifest for v1.3.0 ([#270](https://github.com/tsutsu3/pi-hole-client/issues/270)) - ([f866c59](https://github.com/tsutsu3/pi-hole-client/commit/f866c597a5f35618af779fb57e72200d1f68e049))
 
-
 ## [1.3.0_(41)](https://github.com/tsutsu3/pi-hole-client/compare/1.2.1_(33)..1.3.0_(41)) - 2025-05-17
 
 ### 🚀 Features
@@ -116,7 +117,6 @@
 - *(license)* Update copyright years to 2024 - 2025 in LICENSE and NOTICE files - ([94f82e9](https://github.com/tsutsu3/pi-hole-client/commit/94f82e90c7e96a11cedd67d2491311b4471aae09))
 - *(test)* Ensure coverage artifact upload occurs regardless of test results - ([aeffac9](https://github.com/tsutsu3/pi-hole-client/commit/aeffac968b6ccc4cf2c20e2fb6d37941ce43855b))
 - *(winget)* Winget manifest for v1.2.1 ([#251](https://github.com/tsutsu3/pi-hole-client/issues/251)) - ([69e5ac5](https://github.com/tsutsu3/pi-hole-client/commit/69e5ac535ef5ab738a1e3feb217fc0b2e12e9a3c))
-
 
 ## [1.2.1_(33)](https://github.com/tsutsu3/pi-hole-client/compare/1.2.0_(31)..1.2.1_(33)) - 2025-04-27
 
@@ -160,7 +160,6 @@
 - *(winget)* Add automation for winget package submission ([#214](https://github.com/tsutsu3/pi-hole-client/issues/214)) - ([92c541a](https://github.com/tsutsu3/pi-hole-client/commit/92c541a5ef172fb71c6d96eb70e186507805dfe0))
 - *(workflows)* Update Flutter version to 3.29.3 in all workflow files ([#240](https://github.com/tsutsu3/pi-hole-client/issues/240)) - ([8e5ee8f](https://github.com/tsutsu3/pi-hole-client/commit/8e5ee8fee76540956f56ac43bc2c4d62aa1a6504))
 
-
 ## [1.2.0_(31)](https://github.com/tsutsu3/pi-hole-client/compare/1.1.0_(27)..1.2.0_(31)) - 2025-04-11
 
 ### 🚀 Features
@@ -193,7 +192,6 @@
 
 - *(android)* Disable autoBackup as a tentative fix for app launch … ([#228](https://github.com/tsutsu3/pi-hole-client/issues/228)) - ([31f1cc2](https://github.com/tsutsu3/pi-hole-client/commit/31f1cc2a29ee28707f062a2466f6a0cd3c41c63b))
 - *(workflow)* Include contributors in release changelog extraction - ([e4b5704](https://github.com/tsutsu3/pi-hole-client/commit/e4b57047524b3c706cde43bdba08ba7da5480abb))
-
 
 ## [1.1.0_(27)](https://github.com/tsutsu3/pi-hole-client/compare/1.0.3_(23)..1.1.0_(27)) - 2025-03-20
 
@@ -246,7 +244,6 @@
 
 - *(README)* Remove status badg - ([524f615](https://github.com/tsutsu3/pi-hole-client/commit/524f61583890eae0d059b1f70ee135330cf5305a))
 
-
 ## [1.0.2_(21)](https://github.com/tsutsu3/pi-hole-client/compare/1.0.1_(19)..1.0.2_(21)) - 2025-03-10
 
 ### 🚀 Features
@@ -257,13 +254,11 @@
 
 - *(lint)* Resolve analyzer warnings - ([ebde72a](https://github.com/tsutsu3/pi-hole-client/commit/ebde72a7c557963813f4c98bae07146cb62f3f19))
 
-
 ## [1.0.1_(19)](https://github.com/tsutsu3/pi-hole-client/compare/1.0.0_(17)..1.0.1_(19)) - 2025-03-09
 
 ### 🐛 Bug Fixes
 
 - *(database)* Change logsPerQuery type from int to double ([#174](https://github.com/tsutsu3/pi-hole-client/issues/174)) - ([81420b9](https://github.com/tsutsu3/pi-hole-client/commit/81420b925341e22e3ec24b98e06c0fd0436d06a5))
-
 
 ## [1.0.0_(17)](https://github.com/tsutsu3/pi-hole-client/compare/0.9.3_(15)..1.0.0_(17)) - 2025-03-09
 
@@ -289,7 +284,6 @@
 - *(flutter)* Upgrade Flutter to 3.29.1 ([#170](https://github.com/tsutsu3/pi-hole-client/issues/170)) - ([b0981ad](https://github.com/tsutsu3/pi-hole-client/commit/b0981ad9442de124f557cc4260cc4cf8542a5d81))
 - *(icon)* Tweak symbol size in app icon ([#168](https://github.com/tsutsu3/pi-hole-client/issues/168)) - ([f3be7bc](https://github.com/tsutsu3/pi-hole-client/commit/f3be7bcbaf40f20376590ba6476126eaaa8c7a5f))
 
-
 ## [0.9.3_(15)](https://github.com/tsutsu3/pi-hole-client/compare/0.9.2_(13)..0.9.3_(15)) - 2025-02-22
 
 ### 🐛 Bug Fixes
@@ -314,7 +308,6 @@
 - *(ui)* Minor UI appearance adjustments ([#132](https://github.com/tsutsu3/pi-hole-client/issues/132)) - ([e60e6c2](https://github.com/tsutsu3/pi-hole-client/commit/e60e6c2cd1dda249f80b58d240ea1eebe18b9ccc))
 - Update Flutter version to 3.27.4 in workflow files ([#145](https://github.com/tsutsu3/pi-hole-client/issues/145)) - ([af3afc7](https://github.com/tsutsu3/pi-hole-client/commit/af3afc728f728ef714e16e1ffeb05a905dab3078))
 - Update sonar coverage exclusions - ([e7bbca0](https://github.com/tsutsu3/pi-hole-client/commit/e7bbca0d584bab50468da225d0f9c5a481a40e7c))
-
 
 ## [0.9.2_(13)](https://github.com/tsutsu3/pi-hole-client/compare/0.9.1_(11)..0.9.2_(13)) - 2025-02-02
 
@@ -347,7 +340,6 @@
 - Refine version extraction condition for release workflows - ([ee1e0a2](https://github.com/tsutsu3/pi-hole-client/commit/ee1e0a2810ea4ddc777d313c86920165b3f53b8f))
 - Add version bump step in test release ([#112](https://github.com/tsutsu3/pi-hole-client/issues/112)) - ([abf324d](https://github.com/tsutsu3/pi-hole-client/commit/abf324db3241727533b3bc96038e399b4debd24b))
 
-
 ## [0.9.1_(11)](https://github.com/tsutsu3/pi-hole-client/compare/0.9.0_(10)..0.9.1_(11)) - 2025-01-25
 
 ### 🐛 Bug Fixes
@@ -362,7 +354,6 @@
 
 - Update test workflow to install system dependencies for snar ([#111](https://github.com/tsutsu3/pi-hole-client/issues/111)) - ([62ebbd5](https://github.com/tsutsu3/pi-hole-client/commit/62ebbd5e523050a0b0f99beccd6a996f7a72c5c4))
 - Add test release workflow ([#105](https://github.com/tsutsu3/pi-hole-client/issues/105)) - ([0dbdb24](https://github.com/tsutsu3/pi-hole-client/commit/0dbdb24cb3caed7da93f6d4009cf78dafe9f35ef))
-
 
 ## [0.9.0_(10)] - 2025-01-16
 
