@@ -7,7 +7,6 @@
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher"
         android:allowBackup="false"
-        android:usesCleartextTraffic="true"
         android:fullBackupContent="@xml/backup_rules">
         <activity
             android:name=".MainActivity"
