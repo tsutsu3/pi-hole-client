@@ -49,11 +49,6 @@
 - *(terraform)* Initialize Pi-hole App Service infrastructure ([#341](https://github.com/tsutsu3/pi-hole-client/issues/341)) - ([ac15521](https://github.com/tsutsu3/pi-hole-client/commit/ac15521e42c6dbb09ce8d663de5650efb49e7a3d))
 - *(winget)* Winget manifest for v1.4.0 ([#301](https://github.com/tsutsu3/pi-hole-client/issues/301)) - ([03789e4](https://github.com/tsutsu3/pi-hole-client/commit/03789e43e4e632a8997307aa90bc1f2651425812))
 
-## 🎉 New Contributors 🎉
-
-* @tsutsu3 made their first contribution in [#343](https://github.com/tsutsu3/pi-hole-client/pull/343)
-* @dependabot[bot] made their first contribution in [#339](https://github.com/tsutsu3/pi-hole-client/pull/339)
-* @github-actions[bot] made their first contribution in [#301](https://github.com/tsutsu3/pi-hole-client/pull/301)
 
 ## [1.4.0_(43)](https://github.com/tsutsu3/pi-hole-client/compare/1.3.0_(41)..1.4.0_(43)) - 2025-06-14
 
@@ -122,9 +117,6 @@
 - *(test)* Ensure coverage artifact upload occurs regardless of test results - ([aeffac9](https://github.com/tsutsu3/pi-hole-client/commit/aeffac968b6ccc4cf2c20e2fb6d37941ce43855b))
 - *(winget)* Winget manifest for v1.2.1 ([#251](https://github.com/tsutsu3/pi-hole-client/issues/251)) - ([69e5ac5](https://github.com/tsutsu3/pi-hole-client/commit/69e5ac535ef5ab738a1e3feb217fc0b2e12e9a3c))
 
-## 🎉 New Contributors 🎉
-
-* @github-actions[bot] made their first contribution in [#251](https://github.com/tsutsu3/pi-hole-client/pull/251)
 
 ## [1.2.1_(33)](https://github.com/tsutsu3/pi-hole-client/compare/1.2.0_(31)..1.2.1_(33)) - 2025-04-27
 
