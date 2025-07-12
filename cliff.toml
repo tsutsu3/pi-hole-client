@@ -70,8 +70,8 @@ body = """
         and contributor.username != "github-actions[bot]"
         and contributor.username != "tsutsu3" %}
 * @{{ contributor.username }} made their first contribution
-      {%- if contributor.pr_number -%}
- in [#{{ contributor.pr_number }}]({{ self::remote_url() }}/pull/{{ contributor.pr_number }})
+      {%- if contributor.pr_number %} in \
+        [#{{ contributor.pr_number }}]({{ self::remote_url() }}/pull/{{ contributor.pr_number }})
       {% endif %}
     {%- endif %}
   {%- endfor %}
