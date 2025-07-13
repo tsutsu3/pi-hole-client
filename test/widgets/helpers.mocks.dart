@@ -3481,6 +3481,7 @@ class MockStatusUpdateService extends _i1.Mock
   void startAutoRefresh({
     bool? runImmediately = true,
     bool? isDelay = false,
+    bool? showLoadingIndicator = true,
   }) =>
       super.noSuchMethod(
         Invocation.method(
@@ -3489,6 +3490,7 @@ class MockStatusUpdateService extends _i1.Mock
           {
             #runImmediately: runImmediately,
             #isDelay: isDelay,
+            #showLoadingIndicator: showLoadingIndicator,
           },
         ),
         returnValueForMissingStub: null,
@@ -3505,10 +3507,12 @@ class MockStatusUpdateService extends _i1.Mock
       ) as _i12.Future<void>);
 
   @override
-  void stopAutoRefresh() => super.noSuchMethod(
+  void stopAutoRefresh({bool? showLoadingIndicator = true}) =>
+      super.noSuchMethod(
         Invocation.method(
           #stopAutoRefresh,
           [],
+          {#showLoadingIndicator: showLoadingIndicator},
         ),
         returnValueForMissingStub: null,
       );
