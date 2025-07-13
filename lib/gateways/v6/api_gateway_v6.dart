@@ -400,10 +400,7 @@ class ApiGatewayV6 implements ApiGateway {
     try {
       final count = clientCount ?? 10;
 
-      // To improve stability, split into two batches.
-      // Some servers or networks may fail with too many simultaneous connections.
-      // This helps avoid "Connection closed before full header was received" errors.
-      final batch1 = await Future.wait([
+      final response = await Future.wait([
         httpClient(method: 'get', url: '${_server.address}/api/stats/summary'),
         httpClient(method: 'get', url: '${_server.address}/api/info/ftl'),
         httpClient(method: 'get', url: '${_server.address}/api/dns/blocking'),
@@ -411,9 +408,6 @@ class ApiGatewayV6 implements ApiGateway {
           method: 'get',
           url: '${_server.address}/api/stats/upstreams',
         ),
-      ]);
-
-      final batch2 = await Future.wait([
         httpClient(
           method: 'get',
           url: '${_server.address}/api/stats/top_domains',
@@ -431,8 +425,6 @@ class ApiGatewayV6 implements ApiGateway {
           url: '${_server.address}/api/stats/top_clients?blocked=true',
         ),
       ]);
-
-      final response = [...batch1, ...batch2];
 
       if (response[0].statusCode == 200 &&
           response[1].statusCode == 200 &&
