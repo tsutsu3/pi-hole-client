@@ -66,9 +66,10 @@ class StatusUpdateService {
         'Starting Auto Refresh: (${_serversProvider.selectedServer?.alias}) ${_serversProvider.selectedServer?.address}',
       );
       _startAutoRefresh(
-          runImmediately: runImmediately,
-          isDelay: isDelay,
-          showLoadingIndicator: showLoadingIndicator);
+        runImmediately: runImmediately,
+        isDelay: isDelay,
+        showLoadingIndicator: showLoadingIndicator,
+      );
     }
   }
 
