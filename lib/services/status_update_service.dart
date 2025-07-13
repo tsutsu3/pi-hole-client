@@ -102,6 +102,12 @@ class StatusUpdateService {
     if (showLoadingIndicator) {
       _statusProvider.setStatusLoading(LoadStatus.loading);
       _statusProvider.setOvertimeDataLoadingStatus(LoadStatus.loading);
+    } else {
+      // Skip loading UI on resume, but still notify listeners to trigger data reload
+      _statusProvider.setStatusLoading(_statusProvider.getStatusLoading);
+      _statusProvider.setOvertimeDataLoadingStatus(
+        _statusProvider.getOvertimeDataLoadStatus,
+      );
     }
 
     _setupStatusDataTimer(runImmediately: runImmediately);
