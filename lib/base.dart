@@ -126,7 +126,7 @@ class _BaseState extends State<Base>
 
     if (serversProvider.selectedServer != null) {
       await serversProvider.selectedApiGateway?.loginQuery();
-      statusUpdateService.startAutoRefresh();
+      statusUpdateService.startAutoRefresh(showLoadingIndicator: false);
     }
   }
 
@@ -139,7 +139,7 @@ class _BaseState extends State<Base>
   /// - When the window is minimized
   void onPaused() {
     final statusUpdateService = context.read<StatusUpdateService>();
-    statusUpdateService.stopAutoRefresh();
+    statusUpdateService.stopAutoRefresh(showLoadingIndicator: false);
   }
 
   Widget _buildPageTransitionSwitcher(Widget child) {

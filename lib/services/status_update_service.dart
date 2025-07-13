@@ -55,15 +55,21 @@ class StatusUpdateService {
   /// Parameters:
   /// - [runImmediately]: If true, the refresh will start immediately.
   /// - [isDelay]: If true, the refresh will be delayed by a short duration.
+  /// - [showLoadingIndicator]: If true, shows a loading indicator during the refresh.
   void startAutoRefresh({
     bool runImmediately = true,
     bool isDelay = false,
+    bool showLoadingIndicator = true,
   }) {
     if (!_isAutoRefreshRunning) {
       logger.d(
         'Starting Auto Refresh: (${_serversProvider.selectedServer?.alias}) ${_serversProvider.selectedServer?.address}',
       );
-      _startAutoRefresh(runImmediately: runImmediately, isDelay: isDelay);
+      _startAutoRefresh(
+        runImmediately: runImmediately,
+        isDelay: isDelay,
+        showLoadingIndicator: showLoadingIndicator,
+      );
     }
   }
 
@@ -73,12 +79,14 @@ class StatusUpdateService {
     await _refreshOnce();
   }
 
-  void stopAutoRefresh() {
+  void stopAutoRefresh({
+    bool showLoadingIndicator = true,
+  }) {
     if (_isAutoRefreshRunning) {
       logger.d(
         'Stop Status Update Service. (${_serversProvider.selectedServer?.alias}) ${_serversProvider.selectedServer?.address}',
       );
-      _stopAutoRefresh();
+      _stopAutoRefresh(showLoadingIndicator: showLoadingIndicator);
     }
   }
 
@@ -86,12 +94,21 @@ class StatusUpdateService {
   void _startAutoRefresh({
     bool runImmediately = true,
     bool isDelay = false,
+    bool showLoadingIndicator = true,
   }) {
     if (_isAutoRefreshRunning) return;
     _isAutoRefreshRunning = true;
 
-    _statusProvider.setStatusLoading(LoadStatus.loading);
-    _statusProvider.setOvertimeDataLoadingStatus(LoadStatus.loading);
+    if (showLoadingIndicator) {
+      _statusProvider.setStatusLoading(LoadStatus.loading);
+      _statusProvider.setOvertimeDataLoadingStatus(LoadStatus.loading);
+    } else {
+      // Skip loading UI on resume, but still notify listeners to trigger data reload
+      _statusProvider.setStatusLoading(_statusProvider.getStatusLoading);
+      _statusProvider.setOvertimeDataLoadingStatus(
+        _statusProvider.getOvertimeDataLoadStatus,
+      );
+    }
 
     _setupStatusDataTimer(runImmediately: runImmediately);
     _setupOverTimeDataTimer(runImmediately: runImmediately, isDelay: isDelay);
@@ -99,9 +116,13 @@ class StatusUpdateService {
   }
 
   /// Stop timer for auto refresh
-  void _stopAutoRefresh() {
-    _statusProvider.setStatusLoading(LoadStatus.loading);
-    _statusProvider.setOvertimeDataLoadingStatus(LoadStatus.loading);
+  void _stopAutoRefresh({
+    bool showLoadingIndicator = true,
+  }) {
+    if (showLoadingIndicator) {
+      _statusProvider.setStatusLoading(LoadStatus.loading);
+      _statusProvider.setOvertimeDataLoadingStatus(LoadStatus.loading);
+    }
 
     _isAutoRefreshRunning = false;
     _statusDataTimer?.cancel();
