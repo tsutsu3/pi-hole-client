@@ -1,6 +1,6 @@
 # Changelog
 
-## [1.5.0](https://github.com/tsutsu3/pi-hole-client/compare/1.4.0_(43)..1.5.0) - 2025-07-12
+## [1.5.0](https://github.com/tsutsu3/pi-hole-client/compare/1.4.0_(43)..1.5.0) - 2025-07-13
 
 ### 🚀 Features
 
@@ -22,11 +22,13 @@
 - *(log)* Display all clients ([#316](https://github.com/tsutsu3/pi-hole-client/issues/316)) - ([9bf013d](https://github.com/tsutsu3/pi-hole-client/commit/9bf013daeed97a71692f8a8552d0b8c5b8a98073))
 - *(logs)* Prevent setState after dispose in enqueueLoad ([#338](https://github.com/tsutsu3/pi-hole-client/issues/338)) - ([0fd4f06](https://github.com/tsutsu3/pi-hole-client/commit/0fd4f06e7516a58a94d0dd67a57b834408af3578))
 - *(logs)* Fully load paginated data within each time window ([#317](https://github.com/tsutsu3/pi-hole-client/issues/317)) - ([a342d9c](https://github.com/tsutsu3/pi-hole-client/commit/a342d9c2d487aca7cdbf7ba99cdbbf8af7d9f444))
+- *(refresh)* Suppress loading indicator on resume ([#350](https://github.com/tsutsu3/pi-hole-client/issues/350)) - ([9e21cb6](https://github.com/tsutsu3/pi-hole-client/commit/9e21cb6f46818e9cd2aef41f75ab4f31713d8407))
 - *(server)* Show server tile immediately after adding by recreating list for context.select() ([#334](https://github.com/tsutsu3/pi-hole-client/issues/334)) - ([73e11dd](https://github.com/tsutsu3/pi-hole-client/commit/73e11dd8fc1f13d6ab824a14cb9c2cfd3a84b798))
 - *(settings)* Reset selected settings screen on navigation ([#348](https://github.com/tsutsu3/pi-hole-client/issues/348)) - ([d865c53](https://github.com/tsutsu3/pi-hole-client/commit/d865c53d42bca1db97edf9d347c9ca9775a15074))
 
 ### 🚜 Refactor
 
+- *(api)* Remove Future.wait and handle requests separately ([#349](https://github.com/tsutsu3/pi-hole-client/issues/349)) - ([ffd68c2](https://github.com/tsutsu3/pi-hole-client/commit/ffd68c2e03277f73ed7e735af297557d0a739bea))
 - *(constants)* Move RequestStatus enum to constants folder ([#332](https://github.com/tsutsu3/pi-hole-client/issues/332)) - ([f3b30a2](https://github.com/tsutsu3/pi-hole-client/commit/f3b30a2749cfcc037215958ced3c50acf6cbf43e))
 - *(skeleton)* Keep icons and labels visible ([#311](https://github.com/tsutsu3/pi-hole-client/issues/311)) - ([8c4ad1b](https://github.com/tsutsu3/pi-hole-client/commit/8c4ad1b62c813d995fa76732c54870583d39b3fa))
 - *(statistics)* Restructure provider access to reduce widget rebuilds ([#327](https://github.com/tsutsu3/pi-hole-client/issues/327)) - ([4fb4268](https://github.com/tsutsu3/pi-hole-client/commit/4fb4268caa6adf10f4f303e229e75c32ad29759b))
