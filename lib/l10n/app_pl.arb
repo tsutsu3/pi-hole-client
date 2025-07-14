@@ -78,6 +78,7 @@
   "blockList": "Lista zablokowanych",
   "blocked": "Zablokowane",
   "broadcast": "Adres rozgłoszeniowy",
+  "buildVersion": "Wersja kompilacji",
   "bytes": "bajty",
   "cacheOptimizerReplies": "Odpowiedzi optymalizatora pamięci",
   "cameraPermission": "Pi-hole client nie ma uprawnień dostępu do kamery.\n\nPrzejdź do ustawień i przyznaj uprawnienia.",

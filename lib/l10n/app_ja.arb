@@ -78,6 +78,7 @@
   "blockList": "拒否リスト",
   "blocked": "ブロック済み",
   "broadcast": "ブロードキャストアドレス",
+  "buildVersion": "ビルドバージョン",
   "bytes": "バイト",
   "cacheOptimizerReplies": "キャッシュ最適化応答",
   "cameraPermission": "Pi-hole clientにはカメラアクセスの権限がありません。\n\n設定に移動して権限を付与してください。",
