@@ -96,3 +96,6 @@ override.tf.json
 # Ignore CLI configuration files
 .terraformrc
 terraform.rc
+
+# Build metadata
+lib/build_info/git_commit.dart
