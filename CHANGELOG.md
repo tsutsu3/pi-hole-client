@@ -1,6 +1,13 @@
 # Changelog
 
-## [1.5.0](https://github.com/tsutsu3/pi-hole-client/compare/1.4.0_(43)..1.5.0) - 2025-07-14
+## [1.5.1](https://github.com/tsutsu3/pi-hole-client/compare/1.5.0_(55)..1.5.1) - 2025-07-14
+
+### ⚙️ Miscellaneous Tasks
+
+- *(freezed)* Rebuild generated models ([#355](https://github.com/tsutsu3/pi-hole-client/issues/355)) - ([2cbd4ea](https://github.com/tsutsu3/pi-hole-client/commit/2cbd4ea6bbd7a2f469019532e1b9e8198d304012))
+- *(sentry)* Upgrade to v9.4.0 to avoid crash on manual Android init ([#354](https://github.com/tsutsu3/pi-hole-client/issues/354)) - ([322e847](https://github.com/tsutsu3/pi-hole-client/commit/322e84759372e212cd44041941669a1c85ae269c))
+
+## [1.5.0_(55)](https://github.com/tsutsu3/pi-hole-client/compare/1.4.0_(43)..1.5.0_(55)) - 2025-07-14
 
 ### 🚀 Features
 
