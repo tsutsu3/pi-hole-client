@@ -1,6 +1,6 @@
 # Changelog
 
-## [1.5.0](https://github.com/tsutsu3/pi-hole-client/compare/1.4.0_(43)..1.5.0) - 2025-07-13
+## [1.5.0](https://github.com/tsutsu3/pi-hole-client/compare/1.4.0_(43)..1.5.0) - 2025-07-14
 
 ### 🚀 Features
 
@@ -49,6 +49,7 @@
 - *(build)* Update Gradle to 8.7 and AGP to 8.6.1 ([#312](https://github.com/tsutsu3/pi-hole-client/issues/312)) - ([4a369bc](https://github.com/tsutsu3/pi-hole-client/commit/4a369bc39d05bbcb1021adfba3393cf62a8c3a08))
 - *(flutter)* Upgrade Flutter SDK, CI version, and dependencies ([#319](https://github.com/tsutsu3/pi-hole-client/issues/319)) - ([3592a94](https://github.com/tsutsu3/pi-hole-client/commit/3592a94eb736e2d9a19a638a1f11c0f0524908cc))
 - *(logging)* Add additional logs - ([bcb7b9f](https://github.com/tsutsu3/pi-hole-client/commit/bcb7b9f31ef5a02c3b54f05a941b51ecc3963df7))
+- *(logs)* Increase fetch size from 100 to 500 - ([f48cd28](https://github.com/tsutsu3/pi-hole-client/commit/f48cd28f24ce4f373f7584f532120d571bf23fbb))
 - *(mock_ap_server)* Add host and delay options for server configuration - ([5becad2](https://github.com/tsutsu3/pi-hole-client/commit/5becad2accdebe0c2d9049371a3428faee462f23))
 - *(terraform)* Initialize Pi-hole App Service infrastructure ([#341](https://github.com/tsutsu3/pi-hole-client/issues/341)) - ([ac15521](https://github.com/tsutsu3/pi-hole-client/commit/ac15521e42c6dbb09ce8d663de5650efb49e7a3d))
 - *(winget)* Winget manifest for v1.4.0 ([#301](https://github.com/tsutsu3/pi-hole-client/issues/301)) - ([03789e4](https://github.com/tsutsu3/pi-hole-client/commit/03789e43e4e632a8997307aa90bc1f2651425812))
