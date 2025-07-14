@@ -57,6 +57,9 @@ jobs:
       - run: flutter clean
       - run: flutter pub get
 
+      - name: Generate Git commit hash
+        run: dart run .\tools\generate_git_commit.dart
+
       - name: Build windows
         run: flutter build windows --release
 
