@@ -10,6 +10,18 @@
    name it `key.properties`
 6. Open the file and fill the variables with the corresponding values
 7. Store your `keystore.jks` file inside `android/app`
+8. Generate the Git commit hash file required for version display:
+
+   ```bash
+   dart run tools/generate_git_commit.dart
+   ```
+
+> [!NOTE]
+> This will generate **lib/build_info/git_commit.dart** with the current Git
+> commit hash.
+>
+> This file is required for the app to compile and is auto-generated, so it is
+> excluded from Git via .gitignore.
 
 ### Compile the production build
 
@@ -19,6 +31,10 @@ Run these commands as needed whenever you update the images.
 
 1. Run `dart run flutter_launcher_icons`
 2. Run `dart run flutter_native_splash:create`
+
+Run the following command before any build.
+
+1. Run `dart run tools/generate_git_commit.dart`
 
 #### Android
 
