@@ -30,7 +30,7 @@ import 'package:pi_hole_client/models/log.dart';
 class LogsPaginationService {
   LogsPaginationService({
     required ApiGateway apiGateway,
-    int pageSize = 100,
+    int pageSize = 500,
   })  : _apiGateway = apiGateway,
         _pageSize = pageSize;
 
