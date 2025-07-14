@@ -1,6 +1,5 @@
-// dart format width=80
-// coverage:ignore-file
 // GENERATED CODE - DO NOT MODIFY BY HAND
+// coverage:ignore-file
 // ignore_for_file: type=lint
 // ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target, unnecessary_question_mark
 
@@ -83,6 +82,159 @@ class _$InterfacesCopyWithImpl<$Res> implements $InterfacesCopyWith<$Res> {
           : took // ignore: cast_nullable_to_non_nullable
               as double,
     ));
+  }
+}
+
+/// Adds pattern-matching-related methods to [Interfaces].
+extension InterfacesPatterns on Interfaces {
+  /// A variant of `map` that fallback to returning `orElse`.
+  ///
+  /// It is equivalent to doing:
+  /// ```dart
+  /// switch (sealedClass) {
+  ///   case final Subclass value:
+  ///     return ...;
+  ///   case _:
+  ///     return orElse();
+  /// }
+  /// ```
+
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object?>(
+    TResult Function(_Interfaces value)? $default, {
+    required TResult orElse(),
+  }) {
+    final _that = this;
+    switch (_that) {
+      case _Interfaces() when $default != null:
+        return $default(_that);
+      case _:
+        return orElse();
+    }
+  }
+
+  /// A `switch`-like method, using callbacks.
+  ///
+  /// Callbacks receives the raw object, upcasted.
+  /// It is equivalent to doing:
+  /// ```dart
+  /// switch (sealedClass) {
+  ///   case final Subclass value:
+  ///     return ...;
+  ///   case final Subclass2 value:
+  ///     return ...;
+  /// }
+  /// ```
+
+  @optionalTypeArgs
+  TResult map<TResult extends Object?>(
+    TResult Function(_Interfaces value) $default,
+  ) {
+    final _that = this;
+    switch (_that) {
+      case _Interfaces():
+        return $default(_that);
+    }
+  }
+
+  /// A variant of `map` that fallback to returning `null`.
+  ///
+  /// It is equivalent to doing:
+  /// ```dart
+  /// switch (sealedClass) {
+  ///   case final Subclass value:
+  ///     return ...;
+  ///   case _:
+  ///     return null;
+  /// }
+  /// ```
+
+  @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>(
+    TResult? Function(_Interfaces value)? $default,
+  ) {
+    final _that = this;
+    switch (_that) {
+      case _Interfaces() when $default != null:
+        return $default(_that);
+      case _:
+        return null;
+    }
+  }
+
+  /// A variant of `when` that fallback to an `orElse` callback.
+  ///
+  /// It is equivalent to doing:
+  /// ```dart
+  /// switch (sealedClass) {
+  ///   case Subclass(:final field):
+  ///     return ...;
+  ///   case _:
+  ///     return orElse();
+  /// }
+  /// ```
+
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object?>(
+    TResult Function(List<InterfaceData> interfaces, double took)? $default, {
+    required TResult orElse(),
+  }) {
+    final _that = this;
+    switch (_that) {
+      case _Interfaces() when $default != null:
+        return $default(_that.interfaces, _that.took);
+      case _:
+        return orElse();
+    }
+  }
+
+  /// A `switch`-like method, using callbacks.
+  ///
+  /// As opposed to `map`, this offers destructuring.
+  /// It is equivalent to doing:
+  /// ```dart
+  /// switch (sealedClass) {
+  ///   case Subclass(:final field):
+  ///     return ...;
+  ///   case Subclass2(:final field2):
+  ///     return ...;
+  /// }
+  /// ```
+
+  @optionalTypeArgs
+  TResult when<TResult extends Object?>(
+    TResult Function(List<InterfaceData> interfaces, double took) $default,
+  ) {
+    final _that = this;
+    switch (_that) {
+      case _Interfaces():
+        return $default(_that.interfaces, _that.took);
+    }
+  }
+
+  /// A variant of `when` that fallback to returning `null`
+  ///
+  /// It is equivalent to doing:
+  /// ```dart
+  /// switch (sealedClass) {
+  ///   case Subclass(:final field):
+  ///     return ...;
+  ///   case _:
+  ///     return null;
+  /// }
+  /// ```
+
+  @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>(
+    TResult? Function(List<InterfaceData> interfaces, double took)? $default,
+  ) {
+    final _that = this;
+    switch (_that) {
+      case _Interfaces() when $default != null:
+        return $default(_that.interfaces, _that.took);
+      case _:
+        return null;
+    }
   }
 }
 
@@ -595,6 +747,372 @@ class _$InterfaceDataCopyWithImpl<$Res>
     return $InterfaceStatsCopyWith<$Res>(_self.stats, (value) {
       return _then(_self.copyWith(stats: value));
     });
+  }
+}
+
+/// Adds pattern-matching-related methods to [InterfaceData].
+extension InterfaceDataPatterns on InterfaceData {
+  /// A variant of `map` that fallback to returning `orElse`.
+  ///
+  /// It is equivalent to doing:
+  /// ```dart
+  /// switch (sealedClass) {
+  ///   case final Subclass value:
+  ///     return ...;
+  ///   case _:
+  ///     return orElse();
+  /// }
+  /// ```
+
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object?>(
+    TResult Function(_InterfaceData value)? $default, {
+    required TResult orElse(),
+  }) {
+    final _that = this;
+    switch (_that) {
+      case _InterfaceData() when $default != null:
+        return $default(_that);
+      case _:
+        return orElse();
+    }
+  }
+
+  /// A `switch`-like method, using callbacks.
+  ///
+  /// Callbacks receives the raw object, upcasted.
+  /// It is equivalent to doing:
+  /// ```dart
+  /// switch (sealedClass) {
+  ///   case final Subclass value:
+  ///     return ...;
+  ///   case final Subclass2 value:
+  ///     return ...;
+  /// }
+  /// ```
+
+  @optionalTypeArgs
+  TResult map<TResult extends Object?>(
+    TResult Function(_InterfaceData value) $default,
+  ) {
+    final _that = this;
+    switch (_that) {
+      case _InterfaceData():
+        return $default(_that);
+    }
+  }
+
+  /// A variant of `map` that fallback to returning `null`.
+  ///
+  /// It is equivalent to doing:
+  /// ```dart
+  /// switch (sealedClass) {
+  ///   case final Subclass value:
+  ///     return ...;
+  ///   case _:
+  ///     return null;
+  /// }
+  /// ```
+
+  @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>(
+    TResult? Function(_InterfaceData value)? $default,
+  ) {
+    final _that = this;
+    switch (_that) {
+      case _InterfaceData() when $default != null:
+        return $default(_that);
+      case _:
+        return null;
+    }
+  }
+
+  /// A variant of `when` that fallback to an `orElse` callback.
+  ///
+  /// It is equivalent to doing:
+  /// ```dart
+  /// switch (sealedClass) {
+  ///   case Subclass(:final field):
+  ///     return ...;
+  ///   case _:
+  ///     return orElse();
+  /// }
+  /// ```
+
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object?>(
+    TResult Function(
+            String name,
+            String type,
+            List<String> flags,
+            String state,
+            @JsonKey(name: 'proto_down') bool protoDown,
+            String address,
+            String broadcast,
+            bool carrier,
+            InterfaceStats stats,
+            List<InterfaceAddress> addresses,
+            int? index,
+            String? family,
+            int? speed,
+            @JsonKey(name: 'perm_address') String? permAddress,
+            String? ifname,
+            int? txqlen,
+            int? linkmode,
+            int? mtu,
+            @JsonKey(name: 'min_mtu') int? minMtu,
+            @JsonKey(name: 'max_mtu') int? maxMtu,
+            int? group,
+            int? promiscuity,
+            List<int>? unknown,
+            @JsonKey(name: 'num_tx_queues') int? numTxQueues,
+            @JsonKey(name: 'num_rx_queues') int? numRxQueues,
+            @JsonKey(name: 'gso_max_segs') int? gsoMaxSegs,
+            @JsonKey(name: 'gso_max_size') int? gsoMaxSize,
+            int? map,
+            @JsonKey(name: 'carrier_changes') int? carrierChanges,
+            @JsonKey(name: 'carrier_up_count') int? carrierUpCount,
+            @JsonKey(name: 'carrier_down_count') int? carrierDownCount,
+            @JsonKey(name: 'link_kind') String? linkKind,
+            String? qdisc,
+            @JsonKey(name: 'parent_dev_name') String? parentDevName,
+            @JsonKey(name: 'parent_dev_bus_name') String? parentDevBusName)?
+        $default, {
+    required TResult orElse(),
+  }) {
+    final _that = this;
+    switch (_that) {
+      case _InterfaceData() when $default != null:
+        return $default(
+            _that.name,
+            _that.type,
+            _that.flags,
+            _that.state,
+            _that.protoDown,
+            _that.address,
+            _that.broadcast,
+            _that.carrier,
+            _that.stats,
+            _that.addresses,
+            _that.index,
+            _that.family,
+            _that.speed,
+            _that.permAddress,
+            _that.ifname,
+            _that.txqlen,
+            _that.linkmode,
+            _that.mtu,
+            _that.minMtu,
+            _that.maxMtu,
+            _that.group,
+            _that.promiscuity,
+            _that.unknown,
+            _that.numTxQueues,
+            _that.numRxQueues,
+            _that.gsoMaxSegs,
+            _that.gsoMaxSize,
+            _that.map,
+            _that.carrierChanges,
+            _that.carrierUpCount,
+            _that.carrierDownCount,
+            _that.linkKind,
+            _that.qdisc,
+            _that.parentDevName,
+            _that.parentDevBusName);
+      case _:
+        return orElse();
+    }
+  }
+
+  /// A `switch`-like method, using callbacks.
+  ///
+  /// As opposed to `map`, this offers destructuring.
+  /// It is equivalent to doing:
+  /// ```dart
+  /// switch (sealedClass) {
+  ///   case Subclass(:final field):
+  ///     return ...;
+  ///   case Subclass2(:final field2):
+  ///     return ...;
+  /// }
+  /// ```
+
+  @optionalTypeArgs
+  TResult when<TResult extends Object?>(
+    TResult Function(
+            String name,
+            String type,
+            List<String> flags,
+            String state,
+            @JsonKey(name: 'proto_down') bool protoDown,
+            String address,
+            String broadcast,
+            bool carrier,
+            InterfaceStats stats,
+            List<InterfaceAddress> addresses,
+            int? index,
+            String? family,
+            int? speed,
+            @JsonKey(name: 'perm_address') String? permAddress,
+            String? ifname,
+            int? txqlen,
+            int? linkmode,
+            int? mtu,
+            @JsonKey(name: 'min_mtu') int? minMtu,
+            @JsonKey(name: 'max_mtu') int? maxMtu,
+            int? group,
+            int? promiscuity,
+            List<int>? unknown,
+            @JsonKey(name: 'num_tx_queues') int? numTxQueues,
+            @JsonKey(name: 'num_rx_queues') int? numRxQueues,
+            @JsonKey(name: 'gso_max_segs') int? gsoMaxSegs,
+            @JsonKey(name: 'gso_max_size') int? gsoMaxSize,
+            int? map,
+            @JsonKey(name: 'carrier_changes') int? carrierChanges,
+            @JsonKey(name: 'carrier_up_count') int? carrierUpCount,
+            @JsonKey(name: 'carrier_down_count') int? carrierDownCount,
+            @JsonKey(name: 'link_kind') String? linkKind,
+            String? qdisc,
+            @JsonKey(name: 'parent_dev_name') String? parentDevName,
+            @JsonKey(name: 'parent_dev_bus_name') String? parentDevBusName)
+        $default,
+  ) {
+    final _that = this;
+    switch (_that) {
+      case _InterfaceData():
+        return $default(
+            _that.name,
+            _that.type,
+            _that.flags,
+            _that.state,
+            _that.protoDown,
+            _that.address,
+            _that.broadcast,
+            _that.carrier,
+            _that.stats,
+            _that.addresses,
+            _that.index,
+            _that.family,
+            _that.speed,
+            _that.permAddress,
+            _that.ifname,
+            _that.txqlen,
+            _that.linkmode,
+            _that.mtu,
+            _that.minMtu,
+            _that.maxMtu,
+            _that.group,
+            _that.promiscuity,
+            _that.unknown,
+            _that.numTxQueues,
+            _that.numRxQueues,
+            _that.gsoMaxSegs,
+            _that.gsoMaxSize,
+            _that.map,
+            _that.carrierChanges,
+            _that.carrierUpCount,
+            _that.carrierDownCount,
+            _that.linkKind,
+            _that.qdisc,
+            _that.parentDevName,
+            _that.parentDevBusName);
+    }
+  }
+
+  /// A variant of `when` that fallback to returning `null`
+  ///
+  /// It is equivalent to doing:
+  /// ```dart
+  /// switch (sealedClass) {
+  ///   case Subclass(:final field):
+  ///     return ...;
+  ///   case _:
+  ///     return null;
+  /// }
+  /// ```
+
+  @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>(
+    TResult? Function(
+            String name,
+            String type,
+            List<String> flags,
+            String state,
+            @JsonKey(name: 'proto_down') bool protoDown,
+            String address,
+            String broadcast,
+            bool carrier,
+            InterfaceStats stats,
+            List<InterfaceAddress> addresses,
+            int? index,
+            String? family,
+            int? speed,
+            @JsonKey(name: 'perm_address') String? permAddress,
+            String? ifname,
+            int? txqlen,
+            int? linkmode,
+            int? mtu,
+            @JsonKey(name: 'min_mtu') int? minMtu,
+            @JsonKey(name: 'max_mtu') int? maxMtu,
+            int? group,
+            int? promiscuity,
+            List<int>? unknown,
+            @JsonKey(name: 'num_tx_queues') int? numTxQueues,
+            @JsonKey(name: 'num_rx_queues') int? numRxQueues,
+            @JsonKey(name: 'gso_max_segs') int? gsoMaxSegs,
+            @JsonKey(name: 'gso_max_size') int? gsoMaxSize,
+            int? map,
+            @JsonKey(name: 'carrier_changes') int? carrierChanges,
+            @JsonKey(name: 'carrier_up_count') int? carrierUpCount,
+            @JsonKey(name: 'carrier_down_count') int? carrierDownCount,
+            @JsonKey(name: 'link_kind') String? linkKind,
+            String? qdisc,
+            @JsonKey(name: 'parent_dev_name') String? parentDevName,
+            @JsonKey(name: 'parent_dev_bus_name') String? parentDevBusName)?
+        $default,
+  ) {
+    final _that = this;
+    switch (_that) {
+      case _InterfaceData() when $default != null:
+        return $default(
+            _that.name,
+            _that.type,
+            _that.flags,
+            _that.state,
+            _that.protoDown,
+            _that.address,
+            _that.broadcast,
+            _that.carrier,
+            _that.stats,
+            _that.addresses,
+            _that.index,
+            _that.family,
+            _that.speed,
+            _that.permAddress,
+            _that.ifname,
+            _that.txqlen,
+            _that.linkmode,
+            _that.mtu,
+            _that.minMtu,
+            _that.maxMtu,
+            _that.group,
+            _that.promiscuity,
+            _that.unknown,
+            _that.numTxQueues,
+            _that.numRxQueues,
+            _that.gsoMaxSegs,
+            _that.gsoMaxSize,
+            _that.map,
+            _that.carrierChanges,
+            _that.carrierUpCount,
+            _that.carrierDownCount,
+            _that.linkKind,
+            _that.qdisc,
+            _that.parentDevName,
+            _that.parentDevBusName);
+      case _:
+        return null;
+    }
   }
 }
 
@@ -1474,6 +1992,312 @@ class _$InterfaceStatsCopyWithImpl<$Res>
   }
 }
 
+/// Adds pattern-matching-related methods to [InterfaceStats].
+extension InterfaceStatsPatterns on InterfaceStats {
+  /// A variant of `map` that fallback to returning `orElse`.
+  ///
+  /// It is equivalent to doing:
+  /// ```dart
+  /// switch (sealedClass) {
+  ///   case final Subclass value:
+  ///     return ...;
+  ///   case _:
+  ///     return orElse();
+  /// }
+  /// ```
+
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object?>(
+    TResult Function(_InterfaceStats value)? $default, {
+    required TResult orElse(),
+  }) {
+    final _that = this;
+    switch (_that) {
+      case _InterfaceStats() when $default != null:
+        return $default(_that);
+      case _:
+        return orElse();
+    }
+  }
+
+  /// A `switch`-like method, using callbacks.
+  ///
+  /// Callbacks receives the raw object, upcasted.
+  /// It is equivalent to doing:
+  /// ```dart
+  /// switch (sealedClass) {
+  ///   case final Subclass value:
+  ///     return ...;
+  ///   case final Subclass2 value:
+  ///     return ...;
+  /// }
+  /// ```
+
+  @optionalTypeArgs
+  TResult map<TResult extends Object?>(
+    TResult Function(_InterfaceStats value) $default,
+  ) {
+    final _that = this;
+    switch (_that) {
+      case _InterfaceStats():
+        return $default(_that);
+    }
+  }
+
+  /// A variant of `map` that fallback to returning `null`.
+  ///
+  /// It is equivalent to doing:
+  /// ```dart
+  /// switch (sealedClass) {
+  ///   case final Subclass value:
+  ///     return ...;
+  ///   case _:
+  ///     return null;
+  /// }
+  /// ```
+
+  @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>(
+    TResult? Function(_InterfaceStats value)? $default,
+  ) {
+    final _that = this;
+    switch (_that) {
+      case _InterfaceStats() when $default != null:
+        return $default(_that);
+      case _:
+        return null;
+    }
+  }
+
+  /// A variant of `when` that fallback to an `orElse` callback.
+  ///
+  /// It is equivalent to doing:
+  /// ```dart
+  /// switch (sealedClass) {
+  ///   case Subclass(:final field):
+  ///     return ...;
+  ///   case _:
+  ///     return orElse();
+  /// }
+  /// ```
+
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object?>(
+    TResult Function(
+            @JsonKey(name: 'rx_bytes') ByteValue rxBytes,
+            @JsonKey(name: 'tx_bytes') ByteValue txBytes,
+            int bits,
+            @JsonKey(name: 'rx_packets') int rxPackets,
+            @JsonKey(name: 'tx_packets') int txPackets,
+            @JsonKey(name: 'rx_errors') int rxErrors,
+            @JsonKey(name: 'tx_errors') int txErrors,
+            @JsonKey(name: 'rx_dropped') int rxDropped,
+            @JsonKey(name: 'tx_dropped') int txDropped,
+            int multicast,
+            int collisions,
+            @JsonKey(name: 'rx_length_errors') int rxLengthErrors,
+            @JsonKey(name: 'rx_over_errors') int rxOverErrors,
+            @JsonKey(name: 'rx_crc_errors') int rxCrcErrors,
+            @JsonKey(name: 'rx_frame_errors') int rxFrameErrors,
+            @JsonKey(name: 'rx_fifo_errors') int rxFifoErrors,
+            @JsonKey(name: 'rx_missed_errors') int rxMissedErrors,
+            @JsonKey(name: 'tx_aborted_errors') int txAbortedErrors,
+            @JsonKey(name: 'tx_carrier_errors') int txCarrierErrors,
+            @JsonKey(name: 'tx_fifo_errors') int txFifoErrors,
+            @JsonKey(name: 'tx_heartbeat_errors') int txHeartbeatErrors,
+            @JsonKey(name: 'tx_window_errors') int txWindowErrors,
+            @JsonKey(name: 'rx_compressed') int rxCompressed,
+            @JsonKey(name: 'tx_compressed') int txCompressed,
+            @JsonKey(name: 'rx_nohandler') int rxNohandler)?
+        $default, {
+    required TResult orElse(),
+  }) {
+    final _that = this;
+    switch (_that) {
+      case _InterfaceStats() when $default != null:
+        return $default(
+            _that.rxBytes,
+            _that.txBytes,
+            _that.bits,
+            _that.rxPackets,
+            _that.txPackets,
+            _that.rxErrors,
+            _that.txErrors,
+            _that.rxDropped,
+            _that.txDropped,
+            _that.multicast,
+            _that.collisions,
+            _that.rxLengthErrors,
+            _that.rxOverErrors,
+            _that.rxCrcErrors,
+            _that.rxFrameErrors,
+            _that.rxFifoErrors,
+            _that.rxMissedErrors,
+            _that.txAbortedErrors,
+            _that.txCarrierErrors,
+            _that.txFifoErrors,
+            _that.txHeartbeatErrors,
+            _that.txWindowErrors,
+            _that.rxCompressed,
+            _that.txCompressed,
+            _that.rxNohandler);
+      case _:
+        return orElse();
+    }
+  }
+
+  /// A `switch`-like method, using callbacks.
+  ///
+  /// As opposed to `map`, this offers destructuring.
+  /// It is equivalent to doing:
+  /// ```dart
+  /// switch (sealedClass) {
+  ///   case Subclass(:final field):
+  ///     return ...;
+  ///   case Subclass2(:final field2):
+  ///     return ...;
+  /// }
+  /// ```
+
+  @optionalTypeArgs
+  TResult when<TResult extends Object?>(
+    TResult Function(
+            @JsonKey(name: 'rx_bytes') ByteValue rxBytes,
+            @JsonKey(name: 'tx_bytes') ByteValue txBytes,
+            int bits,
+            @JsonKey(name: 'rx_packets') int rxPackets,
+            @JsonKey(name: 'tx_packets') int txPackets,
+            @JsonKey(name: 'rx_errors') int rxErrors,
+            @JsonKey(name: 'tx_errors') int txErrors,
+            @JsonKey(name: 'rx_dropped') int rxDropped,
+            @JsonKey(name: 'tx_dropped') int txDropped,
+            int multicast,
+            int collisions,
+            @JsonKey(name: 'rx_length_errors') int rxLengthErrors,
+            @JsonKey(name: 'rx_over_errors') int rxOverErrors,
+            @JsonKey(name: 'rx_crc_errors') int rxCrcErrors,
+            @JsonKey(name: 'rx_frame_errors') int rxFrameErrors,
+            @JsonKey(name: 'rx_fifo_errors') int rxFifoErrors,
+            @JsonKey(name: 'rx_missed_errors') int rxMissedErrors,
+            @JsonKey(name: 'tx_aborted_errors') int txAbortedErrors,
+            @JsonKey(name: 'tx_carrier_errors') int txCarrierErrors,
+            @JsonKey(name: 'tx_fifo_errors') int txFifoErrors,
+            @JsonKey(name: 'tx_heartbeat_errors') int txHeartbeatErrors,
+            @JsonKey(name: 'tx_window_errors') int txWindowErrors,
+            @JsonKey(name: 'rx_compressed') int rxCompressed,
+            @JsonKey(name: 'tx_compressed') int txCompressed,
+            @JsonKey(name: 'rx_nohandler') int rxNohandler)
+        $default,
+  ) {
+    final _that = this;
+    switch (_that) {
+      case _InterfaceStats():
+        return $default(
+            _that.rxBytes,
+            _that.txBytes,
+            _that.bits,
+            _that.rxPackets,
+            _that.txPackets,
+            _that.rxErrors,
+            _that.txErrors,
+            _that.rxDropped,
+            _that.txDropped,
+            _that.multicast,
+            _that.collisions,
+            _that.rxLengthErrors,
+            _that.rxOverErrors,
+            _that.rxCrcErrors,
+            _that.rxFrameErrors,
+            _that.rxFifoErrors,
+            _that.rxMissedErrors,
+            _that.txAbortedErrors,
+            _that.txCarrierErrors,
+            _that.txFifoErrors,
+            _that.txHeartbeatErrors,
+            _that.txWindowErrors,
+            _that.rxCompressed,
+            _that.txCompressed,
+            _that.rxNohandler);
+    }
+  }
+
+  /// A variant of `when` that fallback to returning `null`
+  ///
+  /// It is equivalent to doing:
+  /// ```dart
+  /// switch (sealedClass) {
+  ///   case Subclass(:final field):
+  ///     return ...;
+  ///   case _:
+  ///     return null;
+  /// }
+  /// ```
+
+  @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>(
+    TResult? Function(
+            @JsonKey(name: 'rx_bytes') ByteValue rxBytes,
+            @JsonKey(name: 'tx_bytes') ByteValue txBytes,
+            int bits,
+            @JsonKey(name: 'rx_packets') int rxPackets,
+            @JsonKey(name: 'tx_packets') int txPackets,
+            @JsonKey(name: 'rx_errors') int rxErrors,
+            @JsonKey(name: 'tx_errors') int txErrors,
+            @JsonKey(name: 'rx_dropped') int rxDropped,
+            @JsonKey(name: 'tx_dropped') int txDropped,
+            int multicast,
+            int collisions,
+            @JsonKey(name: 'rx_length_errors') int rxLengthErrors,
+            @JsonKey(name: 'rx_over_errors') int rxOverErrors,
+            @JsonKey(name: 'rx_crc_errors') int rxCrcErrors,
+            @JsonKey(name: 'rx_frame_errors') int rxFrameErrors,
+            @JsonKey(name: 'rx_fifo_errors') int rxFifoErrors,
+            @JsonKey(name: 'rx_missed_errors') int rxMissedErrors,
+            @JsonKey(name: 'tx_aborted_errors') int txAbortedErrors,
+            @JsonKey(name: 'tx_carrier_errors') int txCarrierErrors,
+            @JsonKey(name: 'tx_fifo_errors') int txFifoErrors,
+            @JsonKey(name: 'tx_heartbeat_errors') int txHeartbeatErrors,
+            @JsonKey(name: 'tx_window_errors') int txWindowErrors,
+            @JsonKey(name: 'rx_compressed') int rxCompressed,
+            @JsonKey(name: 'tx_compressed') int txCompressed,
+            @JsonKey(name: 'rx_nohandler') int rxNohandler)?
+        $default,
+  ) {
+    final _that = this;
+    switch (_that) {
+      case _InterfaceStats() when $default != null:
+        return $default(
+            _that.rxBytes,
+            _that.txBytes,
+            _that.bits,
+            _that.rxPackets,
+            _that.txPackets,
+            _that.rxErrors,
+            _that.txErrors,
+            _that.rxDropped,
+            _that.txDropped,
+            _that.multicast,
+            _that.collisions,
+            _that.rxLengthErrors,
+            _that.rxOverErrors,
+            _that.rxCrcErrors,
+            _that.rxFrameErrors,
+            _that.rxFifoErrors,
+            _that.rxMissedErrors,
+            _that.txAbortedErrors,
+            _that.txCarrierErrors,
+            _that.txFifoErrors,
+            _that.txHeartbeatErrors,
+            _that.txWindowErrors,
+            _that.rxCompressed,
+            _that.txCompressed,
+            _that.rxNohandler);
+      case _:
+        return null;
+    }
+  }
+}
+
 /// @nodoc
 @JsonSerializable()
 class _InterfaceStats implements InterfaceStats {
@@ -1960,6 +2784,159 @@ class _$ByteValueCopyWithImpl<$Res> implements $ByteValueCopyWith<$Res> {
   }
 }
 
+/// Adds pattern-matching-related methods to [ByteValue].
+extension ByteValuePatterns on ByteValue {
+  /// A variant of `map` that fallback to returning `orElse`.
+  ///
+  /// It is equivalent to doing:
+  /// ```dart
+  /// switch (sealedClass) {
+  ///   case final Subclass value:
+  ///     return ...;
+  ///   case _:
+  ///     return orElse();
+  /// }
+  /// ```
+
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object?>(
+    TResult Function(_ByteValue value)? $default, {
+    required TResult orElse(),
+  }) {
+    final _that = this;
+    switch (_that) {
+      case _ByteValue() when $default != null:
+        return $default(_that);
+      case _:
+        return orElse();
+    }
+  }
+
+  /// A `switch`-like method, using callbacks.
+  ///
+  /// Callbacks receives the raw object, upcasted.
+  /// It is equivalent to doing:
+  /// ```dart
+  /// switch (sealedClass) {
+  ///   case final Subclass value:
+  ///     return ...;
+  ///   case final Subclass2 value:
+  ///     return ...;
+  /// }
+  /// ```
+
+  @optionalTypeArgs
+  TResult map<TResult extends Object?>(
+    TResult Function(_ByteValue value) $default,
+  ) {
+    final _that = this;
+    switch (_that) {
+      case _ByteValue():
+        return $default(_that);
+    }
+  }
+
+  /// A variant of `map` that fallback to returning `null`.
+  ///
+  /// It is equivalent to doing:
+  /// ```dart
+  /// switch (sealedClass) {
+  ///   case final Subclass value:
+  ///     return ...;
+  ///   case _:
+  ///     return null;
+  /// }
+  /// ```
+
+  @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>(
+    TResult? Function(_ByteValue value)? $default,
+  ) {
+    final _that = this;
+    switch (_that) {
+      case _ByteValue() when $default != null:
+        return $default(_that);
+      case _:
+        return null;
+    }
+  }
+
+  /// A variant of `when` that fallback to an `orElse` callback.
+  ///
+  /// It is equivalent to doing:
+  /// ```dart
+  /// switch (sealedClass) {
+  ///   case Subclass(:final field):
+  ///     return ...;
+  ///   case _:
+  ///     return orElse();
+  /// }
+  /// ```
+
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object?>(
+    TResult Function(double value, String unit)? $default, {
+    required TResult orElse(),
+  }) {
+    final _that = this;
+    switch (_that) {
+      case _ByteValue() when $default != null:
+        return $default(_that.value, _that.unit);
+      case _:
+        return orElse();
+    }
+  }
+
+  /// A `switch`-like method, using callbacks.
+  ///
+  /// As opposed to `map`, this offers destructuring.
+  /// It is equivalent to doing:
+  /// ```dart
+  /// switch (sealedClass) {
+  ///   case Subclass(:final field):
+  ///     return ...;
+  ///   case Subclass2(:final field2):
+  ///     return ...;
+  /// }
+  /// ```
+
+  @optionalTypeArgs
+  TResult when<TResult extends Object?>(
+    TResult Function(double value, String unit) $default,
+  ) {
+    final _that = this;
+    switch (_that) {
+      case _ByteValue():
+        return $default(_that.value, _that.unit);
+    }
+  }
+
+  /// A variant of `when` that fallback to returning `null`
+  ///
+  /// It is equivalent to doing:
+  /// ```dart
+  /// switch (sealedClass) {
+  ///   case Subclass(:final field):
+  ///     return ...;
+  ///   case _:
+  ///     return null;
+  /// }
+  /// ```
+
+  @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>(
+    TResult? Function(double value, String unit)? $default,
+  ) {
+    final _that = this;
+    switch (_that) {
+      case _ByteValue() when $default != null:
+        return $default(_that.value, _that.unit);
+      case _:
+        return null;
+    }
+  }
+}
+
 /// @nodoc
 @JsonSerializable()
 class _ByteValue implements ByteValue {
@@ -2264,6 +3241,264 @@ class _$InterfaceAddressCopyWithImpl<$Res>
           : unknown // ignore: cast_nullable_to_non_nullable
               as List<int>?,
     ));
+  }
+}
+
+/// Adds pattern-matching-related methods to [InterfaceAddress].
+extension InterfaceAddressPatterns on InterfaceAddress {
+  /// A variant of `map` that fallback to returning `orElse`.
+  ///
+  /// It is equivalent to doing:
+  /// ```dart
+  /// switch (sealedClass) {
+  ///   case final Subclass value:
+  ///     return ...;
+  ///   case _:
+  ///     return orElse();
+  /// }
+  /// ```
+
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object?>(
+    TResult Function(_InterfaceAddress value)? $default, {
+    required TResult orElse(),
+  }) {
+    final _that = this;
+    switch (_that) {
+      case _InterfaceAddress() when $default != null:
+        return $default(_that);
+      case _:
+        return orElse();
+    }
+  }
+
+  /// A `switch`-like method, using callbacks.
+  ///
+  /// Callbacks receives the raw object, upcasted.
+  /// It is equivalent to doing:
+  /// ```dart
+  /// switch (sealedClass) {
+  ///   case final Subclass value:
+  ///     return ...;
+  ///   case final Subclass2 value:
+  ///     return ...;
+  /// }
+  /// ```
+
+  @optionalTypeArgs
+  TResult map<TResult extends Object?>(
+    TResult Function(_InterfaceAddress value) $default,
+  ) {
+    final _that = this;
+    switch (_that) {
+      case _InterfaceAddress():
+        return $default(_that);
+    }
+  }
+
+  /// A variant of `map` that fallback to returning `null`.
+  ///
+  /// It is equivalent to doing:
+  /// ```dart
+  /// switch (sealedClass) {
+  ///   case final Subclass value:
+  ///     return ...;
+  ///   case _:
+  ///     return null;
+  /// }
+  /// ```
+
+  @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>(
+    TResult? Function(_InterfaceAddress value)? $default,
+  ) {
+    final _that = this;
+    switch (_that) {
+      case _InterfaceAddress() when $default != null:
+        return $default(_that);
+      case _:
+        return null;
+    }
+  }
+
+  /// A variant of `when` that fallback to an `orElse` callback.
+  ///
+  /// It is equivalent to doing:
+  /// ```dart
+  /// switch (sealedClass) {
+  ///   case Subclass(:final field):
+  ///     return ...;
+  ///   case _:
+  ///     return orElse();
+  /// }
+  /// ```
+
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object?>(
+    TResult Function(
+            String address,
+            @JsonKey(name: 'address_type') String addressType,
+            int index,
+            RouteFamily family,
+            String scope,
+            List<String> flags,
+            int prefixlen,
+            int prefered,
+            int valid,
+            double cstamp,
+            double tstamp,
+            String? label,
+            String? local,
+            @JsonKey(name: 'local_type') String? localType,
+            String? broadcast,
+            @JsonKey(name: 'broadcast_type') String? broadcastType,
+            List<int>? unknown)?
+        $default, {
+    required TResult orElse(),
+  }) {
+    final _that = this;
+    switch (_that) {
+      case _InterfaceAddress() when $default != null:
+        return $default(
+            _that.address,
+            _that.addressType,
+            _that.index,
+            _that.family,
+            _that.scope,
+            _that.flags,
+            _that.prefixlen,
+            _that.prefered,
+            _that.valid,
+            _that.cstamp,
+            _that.tstamp,
+            _that.label,
+            _that.local,
+            _that.localType,
+            _that.broadcast,
+            _that.broadcastType,
+            _that.unknown);
+      case _:
+        return orElse();
+    }
+  }
+
+  /// A `switch`-like method, using callbacks.
+  ///
+  /// As opposed to `map`, this offers destructuring.
+  /// It is equivalent to doing:
+  /// ```dart
+  /// switch (sealedClass) {
+  ///   case Subclass(:final field):
+  ///     return ...;
+  ///   case Subclass2(:final field2):
+  ///     return ...;
+  /// }
+  /// ```
+
+  @optionalTypeArgs
+  TResult when<TResult extends Object?>(
+    TResult Function(
+            String address,
+            @JsonKey(name: 'address_type') String addressType,
+            int index,
+            RouteFamily family,
+            String scope,
+            List<String> flags,
+            int prefixlen,
+            int prefered,
+            int valid,
+            double cstamp,
+            double tstamp,
+            String? label,
+            String? local,
+            @JsonKey(name: 'local_type') String? localType,
+            String? broadcast,
+            @JsonKey(name: 'broadcast_type') String? broadcastType,
+            List<int>? unknown)
+        $default,
+  ) {
+    final _that = this;
+    switch (_that) {
+      case _InterfaceAddress():
+        return $default(
+            _that.address,
+            _that.addressType,
+            _that.index,
+            _that.family,
+            _that.scope,
+            _that.flags,
+            _that.prefixlen,
+            _that.prefered,
+            _that.valid,
+            _that.cstamp,
+            _that.tstamp,
+            _that.label,
+            _that.local,
+            _that.localType,
+            _that.broadcast,
+            _that.broadcastType,
+            _that.unknown);
+    }
+  }
+
+  /// A variant of `when` that fallback to returning `null`
+  ///
+  /// It is equivalent to doing:
+  /// ```dart
+  /// switch (sealedClass) {
+  ///   case Subclass(:final field):
+  ///     return ...;
+  ///   case _:
+  ///     return null;
+  /// }
+  /// ```
+
+  @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>(
+    TResult? Function(
+            String address,
+            @JsonKey(name: 'address_type') String addressType,
+            int index,
+            RouteFamily family,
+            String scope,
+            List<String> flags,
+            int prefixlen,
+            int prefered,
+            int valid,
+            double cstamp,
+            double tstamp,
+            String? label,
+            String? local,
+            @JsonKey(name: 'local_type') String? localType,
+            String? broadcast,
+            @JsonKey(name: 'broadcast_type') String? broadcastType,
+            List<int>? unknown)?
+        $default,
+  ) {
+    final _that = this;
+    switch (_that) {
+      case _InterfaceAddress() when $default != null:
+        return $default(
+            _that.address,
+            _that.addressType,
+            _that.index,
+            _that.family,
+            _that.scope,
+            _that.flags,
+            _that.prefixlen,
+            _that.prefered,
+            _that.valid,
+            _that.cstamp,
+            _that.tstamp,
+            _that.label,
+            _that.local,
+            _that.localType,
+            _that.broadcast,
+            _that.broadcastType,
+            _that.unknown);
+      case _:
+        return null;
+    }
   }
 }
 

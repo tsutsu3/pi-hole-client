@@ -1,6 +1,5 @@
-// dart format width=80
-// coverage:ignore-file
 // GENERATED CODE - DO NOT MODIFY BY HAND
+// coverage:ignore-file
 // ignore_for_file: type=lint
 // ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target, unnecessary_question_mark
 
@@ -81,6 +80,159 @@ class _$RoutesCopyWithImpl<$Res> implements $RoutesCopyWith<$Res> {
           : took // ignore: cast_nullable_to_non_nullable
               as double,
     ));
+  }
+}
+
+/// Adds pattern-matching-related methods to [Routes].
+extension RoutesPatterns on Routes {
+  /// A variant of `map` that fallback to returning `orElse`.
+  ///
+  /// It is equivalent to doing:
+  /// ```dart
+  /// switch (sealedClass) {
+  ///   case final Subclass value:
+  ///     return ...;
+  ///   case _:
+  ///     return orElse();
+  /// }
+  /// ```
+
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object?>(
+    TResult Function(_Routes value)? $default, {
+    required TResult orElse(),
+  }) {
+    final _that = this;
+    switch (_that) {
+      case _Routes() when $default != null:
+        return $default(_that);
+      case _:
+        return orElse();
+    }
+  }
+
+  /// A `switch`-like method, using callbacks.
+  ///
+  /// Callbacks receives the raw object, upcasted.
+  /// It is equivalent to doing:
+  /// ```dart
+  /// switch (sealedClass) {
+  ///   case final Subclass value:
+  ///     return ...;
+  ///   case final Subclass2 value:
+  ///     return ...;
+  /// }
+  /// ```
+
+  @optionalTypeArgs
+  TResult map<TResult extends Object?>(
+    TResult Function(_Routes value) $default,
+  ) {
+    final _that = this;
+    switch (_that) {
+      case _Routes():
+        return $default(_that);
+    }
+  }
+
+  /// A variant of `map` that fallback to returning `null`.
+  ///
+  /// It is equivalent to doing:
+  /// ```dart
+  /// switch (sealedClass) {
+  ///   case final Subclass value:
+  ///     return ...;
+  ///   case _:
+  ///     return null;
+  /// }
+  /// ```
+
+  @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>(
+    TResult? Function(_Routes value)? $default,
+  ) {
+    final _that = this;
+    switch (_that) {
+      case _Routes() when $default != null:
+        return $default(_that);
+      case _:
+        return null;
+    }
+  }
+
+  /// A variant of `when` that fallback to an `orElse` callback.
+  ///
+  /// It is equivalent to doing:
+  /// ```dart
+  /// switch (sealedClass) {
+  ///   case Subclass(:final field):
+  ///     return ...;
+  ///   case _:
+  ///     return orElse();
+  /// }
+  /// ```
+
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object?>(
+    TResult Function(List<RouteData> routes, double took)? $default, {
+    required TResult orElse(),
+  }) {
+    final _that = this;
+    switch (_that) {
+      case _Routes() when $default != null:
+        return $default(_that.routes, _that.took);
+      case _:
+        return orElse();
+    }
+  }
+
+  /// A `switch`-like method, using callbacks.
+  ///
+  /// As opposed to `map`, this offers destructuring.
+  /// It is equivalent to doing:
+  /// ```dart
+  /// switch (sealedClass) {
+  ///   case Subclass(:final field):
+  ///     return ...;
+  ///   case Subclass2(:final field2):
+  ///     return ...;
+  /// }
+  /// ```
+
+  @optionalTypeArgs
+  TResult when<TResult extends Object?>(
+    TResult Function(List<RouteData> routes, double took) $default,
+  ) {
+    final _that = this;
+    switch (_that) {
+      case _Routes():
+        return $default(_that.routes, _that.took);
+    }
+  }
+
+  /// A variant of `when` that fallback to returning `null`
+  ///
+  /// It is equivalent to doing:
+  /// ```dart
+  /// switch (sealedClass) {
+  ///   case Subclass(:final field):
+  ///     return ...;
+  ///   case _:
+  ///     return null;
+  /// }
+  /// ```
+
+  @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>(
+    TResult? Function(List<RouteData> routes, double took)? $default,
+  ) {
+    final _that = this;
+    switch (_that) {
+      case _Routes() when $default != null:
+        return $default(_that.routes, _that.took);
+      case _:
+        return null;
+    }
   }
 }
 
@@ -411,6 +563,282 @@ class _$RouteDataCopyWithImpl<$Res> implements $RouteDataCopyWith<$Res> {
           : used // ignore: cast_nullable_to_non_nullable
               as int?,
     ));
+  }
+}
+
+/// Adds pattern-matching-related methods to [RouteData].
+extension RouteDataPatterns on RouteData {
+  /// A variant of `map` that fallback to returning `orElse`.
+  ///
+  /// It is equivalent to doing:
+  /// ```dart
+  /// switch (sealedClass) {
+  ///   case final Subclass value:
+  ///     return ...;
+  ///   case _:
+  ///     return orElse();
+  /// }
+  /// ```
+
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object?>(
+    TResult Function(_RouteData value)? $default, {
+    required TResult orElse(),
+  }) {
+    final _that = this;
+    switch (_that) {
+      case _RouteData() when $default != null:
+        return $default(_that);
+      case _:
+        return orElse();
+    }
+  }
+
+  /// A `switch`-like method, using callbacks.
+  ///
+  /// Callbacks receives the raw object, upcasted.
+  /// It is equivalent to doing:
+  /// ```dart
+  /// switch (sealedClass) {
+  ///   case final Subclass value:
+  ///     return ...;
+  ///   case final Subclass2 value:
+  ///     return ...;
+  /// }
+  /// ```
+
+  @optionalTypeArgs
+  TResult map<TResult extends Object?>(
+    TResult Function(_RouteData value) $default,
+  ) {
+    final _that = this;
+    switch (_that) {
+      case _RouteData():
+        return $default(_that);
+    }
+  }
+
+  /// A variant of `map` that fallback to returning `null`.
+  ///
+  /// It is equivalent to doing:
+  /// ```dart
+  /// switch (sealedClass) {
+  ///   case final Subclass value:
+  ///     return ...;
+  ///   case _:
+  ///     return null;
+  /// }
+  /// ```
+
+  @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>(
+    TResult? Function(_RouteData value)? $default,
+  ) {
+    final _that = this;
+    switch (_that) {
+      case _RouteData() when $default != null:
+        return $default(_that);
+      case _:
+        return null;
+    }
+  }
+
+  /// A variant of `when` that fallback to an `orElse` callback.
+  ///
+  /// It is equivalent to doing:
+  /// ```dart
+  /// switch (sealedClass) {
+  ///   case Subclass(:final field):
+  ///     return ...;
+  ///   case _:
+  ///     return orElse();
+  /// }
+  /// ```
+
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object?>(
+    TResult Function(
+            int table,
+            RouteFamily family,
+            String protocol,
+            String scope,
+            String type,
+            List<String> flags,
+            String dst,
+            int? iflags,
+            String? gateway,
+            String? oif,
+            String? iif,
+            String? src,
+            String? prefsrc,
+            int? priority,
+            int? pref,
+            double? cstamp,
+            double? tstamp,
+            int? expires,
+            int? error,
+            int? used)?
+        $default, {
+    required TResult orElse(),
+  }) {
+    final _that = this;
+    switch (_that) {
+      case _RouteData() when $default != null:
+        return $default(
+            _that.table,
+            _that.family,
+            _that.protocol,
+            _that.scope,
+            _that.type,
+            _that.flags,
+            _that.dst,
+            _that.iflags,
+            _that.gateway,
+            _that.oif,
+            _that.iif,
+            _that.src,
+            _that.prefsrc,
+            _that.priority,
+            _that.pref,
+            _that.cstamp,
+            _that.tstamp,
+            _that.expires,
+            _that.error,
+            _that.used);
+      case _:
+        return orElse();
+    }
+  }
+
+  /// A `switch`-like method, using callbacks.
+  ///
+  /// As opposed to `map`, this offers destructuring.
+  /// It is equivalent to doing:
+  /// ```dart
+  /// switch (sealedClass) {
+  ///   case Subclass(:final field):
+  ///     return ...;
+  ///   case Subclass2(:final field2):
+  ///     return ...;
+  /// }
+  /// ```
+
+  @optionalTypeArgs
+  TResult when<TResult extends Object?>(
+    TResult Function(
+            int table,
+            RouteFamily family,
+            String protocol,
+            String scope,
+            String type,
+            List<String> flags,
+            String dst,
+            int? iflags,
+            String? gateway,
+            String? oif,
+            String? iif,
+            String? src,
+            String? prefsrc,
+            int? priority,
+            int? pref,
+            double? cstamp,
+            double? tstamp,
+            int? expires,
+            int? error,
+            int? used)
+        $default,
+  ) {
+    final _that = this;
+    switch (_that) {
+      case _RouteData():
+        return $default(
+            _that.table,
+            _that.family,
+            _that.protocol,
+            _that.scope,
+            _that.type,
+            _that.flags,
+            _that.dst,
+            _that.iflags,
+            _that.gateway,
+            _that.oif,
+            _that.iif,
+            _that.src,
+            _that.prefsrc,
+            _that.priority,
+            _that.pref,
+            _that.cstamp,
+            _that.tstamp,
+            _that.expires,
+            _that.error,
+            _that.used);
+    }
+  }
+
+  /// A variant of `when` that fallback to returning `null`
+  ///
+  /// It is equivalent to doing:
+  /// ```dart
+  /// switch (sealedClass) {
+  ///   case Subclass(:final field):
+  ///     return ...;
+  ///   case _:
+  ///     return null;
+  /// }
+  /// ```
+
+  @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>(
+    TResult? Function(
+            int table,
+            RouteFamily family,
+            String protocol,
+            String scope,
+            String type,
+            List<String> flags,
+            String dst,
+            int? iflags,
+            String? gateway,
+            String? oif,
+            String? iif,
+            String? src,
+            String? prefsrc,
+            int? priority,
+            int? pref,
+            double? cstamp,
+            double? tstamp,
+            int? expires,
+            int? error,
+            int? used)?
+        $default,
+  ) {
+    final _that = this;
+    switch (_that) {
+      case _RouteData() when $default != null:
+        return $default(
+            _that.table,
+            _that.family,
+            _that.protocol,
+            _that.scope,
+            _that.type,
+            _that.flags,
+            _that.dst,
+            _that.iflags,
+            _that.gateway,
+            _that.oif,
+            _that.iif,
+            _that.src,
+            _that.prefsrc,
+            _that.priority,
+            _that.pref,
+            _that.cstamp,
+            _that.tstamp,
+            _that.expires,
+            _that.error,
+            _that.used);
+      case _:
+        return null;
+    }
   }
 }
 

@@ -1,6 +1,5 @@
-// dart format width=80
-// coverage:ignore-file
 // GENERATED CODE - DO NOT MODIFY BY HAND
+// coverage:ignore-file
 // ignore_for_file: type=lint
 // ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target, unnecessary_question_mark
 
@@ -92,6 +91,159 @@ class _$InfoFtlCopyWithImpl<$Res> implements $InfoFtlCopyWith<$Res> {
     return $FtlCopyWith<$Res>(_self.ftl, (value) {
       return _then(_self.copyWith(ftl: value));
     });
+  }
+}
+
+/// Adds pattern-matching-related methods to [InfoFtl].
+extension InfoFtlPatterns on InfoFtl {
+  /// A variant of `map` that fallback to returning `orElse`.
+  ///
+  /// It is equivalent to doing:
+  /// ```dart
+  /// switch (sealedClass) {
+  ///   case final Subclass value:
+  ///     return ...;
+  ///   case _:
+  ///     return orElse();
+  /// }
+  /// ```
+
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object?>(
+    TResult Function(_InfoFtl value)? $default, {
+    required TResult orElse(),
+  }) {
+    final _that = this;
+    switch (_that) {
+      case _InfoFtl() when $default != null:
+        return $default(_that);
+      case _:
+        return orElse();
+    }
+  }
+
+  /// A `switch`-like method, using callbacks.
+  ///
+  /// Callbacks receives the raw object, upcasted.
+  /// It is equivalent to doing:
+  /// ```dart
+  /// switch (sealedClass) {
+  ///   case final Subclass value:
+  ///     return ...;
+  ///   case final Subclass2 value:
+  ///     return ...;
+  /// }
+  /// ```
+
+  @optionalTypeArgs
+  TResult map<TResult extends Object?>(
+    TResult Function(_InfoFtl value) $default,
+  ) {
+    final _that = this;
+    switch (_that) {
+      case _InfoFtl():
+        return $default(_that);
+    }
+  }
+
+  /// A variant of `map` that fallback to returning `null`.
+  ///
+  /// It is equivalent to doing:
+  /// ```dart
+  /// switch (sealedClass) {
+  ///   case final Subclass value:
+  ///     return ...;
+  ///   case _:
+  ///     return null;
+  /// }
+  /// ```
+
+  @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>(
+    TResult? Function(_InfoFtl value)? $default,
+  ) {
+    final _that = this;
+    switch (_that) {
+      case _InfoFtl() when $default != null:
+        return $default(_that);
+      case _:
+        return null;
+    }
+  }
+
+  /// A variant of `when` that fallback to an `orElse` callback.
+  ///
+  /// It is equivalent to doing:
+  /// ```dart
+  /// switch (sealedClass) {
+  ///   case Subclass(:final field):
+  ///     return ...;
+  ///   case _:
+  ///     return orElse();
+  /// }
+  /// ```
+
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object?>(
+    TResult Function(Ftl ftl, double took)? $default, {
+    required TResult orElse(),
+  }) {
+    final _that = this;
+    switch (_that) {
+      case _InfoFtl() when $default != null:
+        return $default(_that.ftl, _that.took);
+      case _:
+        return orElse();
+    }
+  }
+
+  /// A `switch`-like method, using callbacks.
+  ///
+  /// As opposed to `map`, this offers destructuring.
+  /// It is equivalent to doing:
+  /// ```dart
+  /// switch (sealedClass) {
+  ///   case Subclass(:final field):
+  ///     return ...;
+  ///   case Subclass2(:final field2):
+  ///     return ...;
+  /// }
+  /// ```
+
+  @optionalTypeArgs
+  TResult when<TResult extends Object?>(
+    TResult Function(Ftl ftl, double took) $default,
+  ) {
+    final _that = this;
+    switch (_that) {
+      case _InfoFtl():
+        return $default(_that.ftl, _that.took);
+    }
+  }
+
+  /// A variant of `when` that fallback to returning `null`
+  ///
+  /// It is equivalent to doing:
+  /// ```dart
+  /// switch (sealedClass) {
+  ///   case Subclass(:final field):
+  ///     return ...;
+  ///   case _:
+  ///     return null;
+  /// }
+  /// ```
+
+  @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>(
+    TResult? Function(Ftl ftl, double took)? $default,
+  ) {
+    final _that = this;
+    switch (_that) {
+      case _InfoFtl() when $default != null:
+        return $default(_that.ftl, _that.took);
+      case _:
+        return null;
+    }
   }
 }
 
@@ -359,6 +511,216 @@ class _$FtlCopyWithImpl<$Res> implements $FtlCopyWith<$Res> {
     return $DnsmasqCopyWith<$Res>(_self.dnsmasq, (value) {
       return _then(_self.copyWith(dnsmasq: value));
     });
+  }
+}
+
+/// Adds pattern-matching-related methods to [Ftl].
+extension FtlPatterns on Ftl {
+  /// A variant of `map` that fallback to returning `orElse`.
+  ///
+  /// It is equivalent to doing:
+  /// ```dart
+  /// switch (sealedClass) {
+  ///   case final Subclass value:
+  ///     return ...;
+  ///   case _:
+  ///     return orElse();
+  /// }
+  /// ```
+
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object?>(
+    TResult Function(_Ftl value)? $default, {
+    required TResult orElse(),
+  }) {
+    final _that = this;
+    switch (_that) {
+      case _Ftl() when $default != null:
+        return $default(_that);
+      case _:
+        return orElse();
+    }
+  }
+
+  /// A `switch`-like method, using callbacks.
+  ///
+  /// Callbacks receives the raw object, upcasted.
+  /// It is equivalent to doing:
+  /// ```dart
+  /// switch (sealedClass) {
+  ///   case final Subclass value:
+  ///     return ...;
+  ///   case final Subclass2 value:
+  ///     return ...;
+  /// }
+  /// ```
+
+  @optionalTypeArgs
+  TResult map<TResult extends Object?>(
+    TResult Function(_Ftl value) $default,
+  ) {
+    final _that = this;
+    switch (_that) {
+      case _Ftl():
+        return $default(_that);
+    }
+  }
+
+  /// A variant of `map` that fallback to returning `null`.
+  ///
+  /// It is equivalent to doing:
+  /// ```dart
+  /// switch (sealedClass) {
+  ///   case final Subclass value:
+  ///     return ...;
+  ///   case _:
+  ///     return null;
+  /// }
+  /// ```
+
+  @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>(
+    TResult? Function(_Ftl value)? $default,
+  ) {
+    final _that = this;
+    switch (_that) {
+      case _Ftl() when $default != null:
+        return $default(_that);
+      case _:
+        return null;
+    }
+  }
+
+  /// A variant of `when` that fallback to an `orElse` callback.
+  ///
+  /// It is equivalent to doing:
+  /// ```dart
+  /// switch (sealedClass) {
+  ///   case Subclass(:final field):
+  ///     return ...;
+  ///   case _:
+  ///     return orElse();
+  /// }
+  /// ```
+
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object?>(
+    TResult Function(
+            Database database,
+            @JsonKey(name: 'privacy_level') int privacyLevel,
+            Clients clients,
+            int pid,
+            int uptime,
+            @JsonKey(name: '%mem') double memPercentage,
+            @JsonKey(name: '%cpu') double cpuPercentage,
+            @JsonKey(name: 'allow_destructive') bool allowDestructive,
+            Dnsmasq dnsmasq)?
+        $default, {
+    required TResult orElse(),
+  }) {
+    final _that = this;
+    switch (_that) {
+      case _Ftl() when $default != null:
+        return $default(
+            _that.database,
+            _that.privacyLevel,
+            _that.clients,
+            _that.pid,
+            _that.uptime,
+            _that.memPercentage,
+            _that.cpuPercentage,
+            _that.allowDestructive,
+            _that.dnsmasq);
+      case _:
+        return orElse();
+    }
+  }
+
+  /// A `switch`-like method, using callbacks.
+  ///
+  /// As opposed to `map`, this offers destructuring.
+  /// It is equivalent to doing:
+  /// ```dart
+  /// switch (sealedClass) {
+  ///   case Subclass(:final field):
+  ///     return ...;
+  ///   case Subclass2(:final field2):
+  ///     return ...;
+  /// }
+  /// ```
+
+  @optionalTypeArgs
+  TResult when<TResult extends Object?>(
+    TResult Function(
+            Database database,
+            @JsonKey(name: 'privacy_level') int privacyLevel,
+            Clients clients,
+            int pid,
+            int uptime,
+            @JsonKey(name: '%mem') double memPercentage,
+            @JsonKey(name: '%cpu') double cpuPercentage,
+            @JsonKey(name: 'allow_destructive') bool allowDestructive,
+            Dnsmasq dnsmasq)
+        $default,
+  ) {
+    final _that = this;
+    switch (_that) {
+      case _Ftl():
+        return $default(
+            _that.database,
+            _that.privacyLevel,
+            _that.clients,
+            _that.pid,
+            _that.uptime,
+            _that.memPercentage,
+            _that.cpuPercentage,
+            _that.allowDestructive,
+            _that.dnsmasq);
+    }
+  }
+
+  /// A variant of `when` that fallback to returning `null`
+  ///
+  /// It is equivalent to doing:
+  /// ```dart
+  /// switch (sealedClass) {
+  ///   case Subclass(:final field):
+  ///     return ...;
+  ///   case _:
+  ///     return null;
+  /// }
+  /// ```
+
+  @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>(
+    TResult? Function(
+            Database database,
+            @JsonKey(name: 'privacy_level') int privacyLevel,
+            Clients clients,
+            int pid,
+            int uptime,
+            @JsonKey(name: '%mem') double memPercentage,
+            @JsonKey(name: '%cpu') double cpuPercentage,
+            @JsonKey(name: 'allow_destructive') bool allowDestructive,
+            Dnsmasq dnsmasq)?
+        $default,
+  ) {
+    final _that = this;
+    switch (_that) {
+      case _Ftl() when $default != null:
+        return $default(
+            _that.database,
+            _that.privacyLevel,
+            _that.clients,
+            _that.pid,
+            _that.uptime,
+            _that.memPercentage,
+            _that.cpuPercentage,
+            _that.allowDestructive,
+            _that.dnsmasq);
+      case _:
+        return null;
+    }
   }
 }
 
@@ -669,6 +1031,168 @@ class _$DatabaseCopyWithImpl<$Res> implements $DatabaseCopyWith<$Res> {
   }
 }
 
+/// Adds pattern-matching-related methods to [Database].
+extension DatabasePatterns on Database {
+  /// A variant of `map` that fallback to returning `orElse`.
+  ///
+  /// It is equivalent to doing:
+  /// ```dart
+  /// switch (sealedClass) {
+  ///   case final Subclass value:
+  ///     return ...;
+  ///   case _:
+  ///     return orElse();
+  /// }
+  /// ```
+
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object?>(
+    TResult Function(_Database value)? $default, {
+    required TResult orElse(),
+  }) {
+    final _that = this;
+    switch (_that) {
+      case _Database() when $default != null:
+        return $default(_that);
+      case _:
+        return orElse();
+    }
+  }
+
+  /// A `switch`-like method, using callbacks.
+  ///
+  /// Callbacks receives the raw object, upcasted.
+  /// It is equivalent to doing:
+  /// ```dart
+  /// switch (sealedClass) {
+  ///   case final Subclass value:
+  ///     return ...;
+  ///   case final Subclass2 value:
+  ///     return ...;
+  /// }
+  /// ```
+
+  @optionalTypeArgs
+  TResult map<TResult extends Object?>(
+    TResult Function(_Database value) $default,
+  ) {
+    final _that = this;
+    switch (_that) {
+      case _Database():
+        return $default(_that);
+    }
+  }
+
+  /// A variant of `map` that fallback to returning `null`.
+  ///
+  /// It is equivalent to doing:
+  /// ```dart
+  /// switch (sealedClass) {
+  ///   case final Subclass value:
+  ///     return ...;
+  ///   case _:
+  ///     return null;
+  /// }
+  /// ```
+
+  @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>(
+    TResult? Function(_Database value)? $default,
+  ) {
+    final _that = this;
+    switch (_that) {
+      case _Database() when $default != null:
+        return $default(_that);
+      case _:
+        return null;
+    }
+  }
+
+  /// A variant of `when` that fallback to an `orElse` callback.
+  ///
+  /// It is equivalent to doing:
+  /// ```dart
+  /// switch (sealedClass) {
+  ///   case Subclass(:final field):
+  ///     return ...;
+  ///   case _:
+  ///     return orElse();
+  /// }
+  /// ```
+
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object?>(
+    TResult Function(
+            int gravity, int groups, int lists, int clients, Domains domains)?
+        $default, {
+    required TResult orElse(),
+  }) {
+    final _that = this;
+    switch (_that) {
+      case _Database() when $default != null:
+        return $default(_that.gravity, _that.groups, _that.lists, _that.clients,
+            _that.domains);
+      case _:
+        return orElse();
+    }
+  }
+
+  /// A `switch`-like method, using callbacks.
+  ///
+  /// As opposed to `map`, this offers destructuring.
+  /// It is equivalent to doing:
+  /// ```dart
+  /// switch (sealedClass) {
+  ///   case Subclass(:final field):
+  ///     return ...;
+  ///   case Subclass2(:final field2):
+  ///     return ...;
+  /// }
+  /// ```
+
+  @optionalTypeArgs
+  TResult when<TResult extends Object?>(
+    TResult Function(
+            int gravity, int groups, int lists, int clients, Domains domains)
+        $default,
+  ) {
+    final _that = this;
+    switch (_that) {
+      case _Database():
+        return $default(_that.gravity, _that.groups, _that.lists, _that.clients,
+            _that.domains);
+    }
+  }
+
+  /// A variant of `when` that fallback to returning `null`
+  ///
+  /// It is equivalent to doing:
+  /// ```dart
+  /// switch (sealedClass) {
+  ///   case Subclass(:final field):
+  ///     return ...;
+  ///   case _:
+  ///     return null;
+  /// }
+  /// ```
+
+  @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>(
+    TResult? Function(
+            int gravity, int groups, int lists, int clients, Domains domains)?
+        $default,
+  ) {
+    final _that = this;
+    switch (_that) {
+      case _Database() when $default != null:
+        return $default(_that.gravity, _that.groups, _that.lists, _that.clients,
+            _that.domains);
+      case _:
+        return null;
+    }
+  }
+}
+
 /// @nodoc
 @JsonSerializable()
 class _Database implements Database {
@@ -866,6 +1390,159 @@ class _$DomainsCopyWithImpl<$Res> implements $DomainsCopyWith<$Res> {
   }
 }
 
+/// Adds pattern-matching-related methods to [Domains].
+extension DomainsPatterns on Domains {
+  /// A variant of `map` that fallback to returning `orElse`.
+  ///
+  /// It is equivalent to doing:
+  /// ```dart
+  /// switch (sealedClass) {
+  ///   case final Subclass value:
+  ///     return ...;
+  ///   case _:
+  ///     return orElse();
+  /// }
+  /// ```
+
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object?>(
+    TResult Function(_Domains value)? $default, {
+    required TResult orElse(),
+  }) {
+    final _that = this;
+    switch (_that) {
+      case _Domains() when $default != null:
+        return $default(_that);
+      case _:
+        return orElse();
+    }
+  }
+
+  /// A `switch`-like method, using callbacks.
+  ///
+  /// Callbacks receives the raw object, upcasted.
+  /// It is equivalent to doing:
+  /// ```dart
+  /// switch (sealedClass) {
+  ///   case final Subclass value:
+  ///     return ...;
+  ///   case final Subclass2 value:
+  ///     return ...;
+  /// }
+  /// ```
+
+  @optionalTypeArgs
+  TResult map<TResult extends Object?>(
+    TResult Function(_Domains value) $default,
+  ) {
+    final _that = this;
+    switch (_that) {
+      case _Domains():
+        return $default(_that);
+    }
+  }
+
+  /// A variant of `map` that fallback to returning `null`.
+  ///
+  /// It is equivalent to doing:
+  /// ```dart
+  /// switch (sealedClass) {
+  ///   case final Subclass value:
+  ///     return ...;
+  ///   case _:
+  ///     return null;
+  /// }
+  /// ```
+
+  @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>(
+    TResult? Function(_Domains value)? $default,
+  ) {
+    final _that = this;
+    switch (_that) {
+      case _Domains() when $default != null:
+        return $default(_that);
+      case _:
+        return null;
+    }
+  }
+
+  /// A variant of `when` that fallback to an `orElse` callback.
+  ///
+  /// It is equivalent to doing:
+  /// ```dart
+  /// switch (sealedClass) {
+  ///   case Subclass(:final field):
+  ///     return ...;
+  ///   case _:
+  ///     return orElse();
+  /// }
+  /// ```
+
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object?>(
+    TResult Function(int allowed, int denied)? $default, {
+    required TResult orElse(),
+  }) {
+    final _that = this;
+    switch (_that) {
+      case _Domains() when $default != null:
+        return $default(_that.allowed, _that.denied);
+      case _:
+        return orElse();
+    }
+  }
+
+  /// A `switch`-like method, using callbacks.
+  ///
+  /// As opposed to `map`, this offers destructuring.
+  /// It is equivalent to doing:
+  /// ```dart
+  /// switch (sealedClass) {
+  ///   case Subclass(:final field):
+  ///     return ...;
+  ///   case Subclass2(:final field2):
+  ///     return ...;
+  /// }
+  /// ```
+
+  @optionalTypeArgs
+  TResult when<TResult extends Object?>(
+    TResult Function(int allowed, int denied) $default,
+  ) {
+    final _that = this;
+    switch (_that) {
+      case _Domains():
+        return $default(_that.allowed, _that.denied);
+    }
+  }
+
+  /// A variant of `when` that fallback to returning `null`
+  ///
+  /// It is equivalent to doing:
+  /// ```dart
+  /// switch (sealedClass) {
+  ///   case Subclass(:final field):
+  ///     return ...;
+  ///   case _:
+  ///     return null;
+  /// }
+  /// ```
+
+  @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>(
+    TResult? Function(int allowed, int denied)? $default,
+  ) {
+    final _that = this;
+    switch (_that) {
+      case _Domains() when $default != null:
+        return $default(_that.allowed, _that.denied);
+      case _:
+        return null;
+    }
+  }
+}
+
 /// @nodoc
 @JsonSerializable()
 class _Domains implements Domains {
@@ -1016,6 +1693,159 @@ class _$ClientsCopyWithImpl<$Res> implements $ClientsCopyWith<$Res> {
           : active // ignore: cast_nullable_to_non_nullable
               as int,
     ));
+  }
+}
+
+/// Adds pattern-matching-related methods to [Clients].
+extension ClientsPatterns on Clients {
+  /// A variant of `map` that fallback to returning `orElse`.
+  ///
+  /// It is equivalent to doing:
+  /// ```dart
+  /// switch (sealedClass) {
+  ///   case final Subclass value:
+  ///     return ...;
+  ///   case _:
+  ///     return orElse();
+  /// }
+  /// ```
+
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object?>(
+    TResult Function(_Clients value)? $default, {
+    required TResult orElse(),
+  }) {
+    final _that = this;
+    switch (_that) {
+      case _Clients() when $default != null:
+        return $default(_that);
+      case _:
+        return orElse();
+    }
+  }
+
+  /// A `switch`-like method, using callbacks.
+  ///
+  /// Callbacks receives the raw object, upcasted.
+  /// It is equivalent to doing:
+  /// ```dart
+  /// switch (sealedClass) {
+  ///   case final Subclass value:
+  ///     return ...;
+  ///   case final Subclass2 value:
+  ///     return ...;
+  /// }
+  /// ```
+
+  @optionalTypeArgs
+  TResult map<TResult extends Object?>(
+    TResult Function(_Clients value) $default,
+  ) {
+    final _that = this;
+    switch (_that) {
+      case _Clients():
+        return $default(_that);
+    }
+  }
+
+  /// A variant of `map` that fallback to returning `null`.
+  ///
+  /// It is equivalent to doing:
+  /// ```dart
+  /// switch (sealedClass) {
+  ///   case final Subclass value:
+  ///     return ...;
+  ///   case _:
+  ///     return null;
+  /// }
+  /// ```
+
+  @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>(
+    TResult? Function(_Clients value)? $default,
+  ) {
+    final _that = this;
+    switch (_that) {
+      case _Clients() when $default != null:
+        return $default(_that);
+      case _:
+        return null;
+    }
+  }
+
+  /// A variant of `when` that fallback to an `orElse` callback.
+  ///
+  /// It is equivalent to doing:
+  /// ```dart
+  /// switch (sealedClass) {
+  ///   case Subclass(:final field):
+  ///     return ...;
+  ///   case _:
+  ///     return orElse();
+  /// }
+  /// ```
+
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object?>(
+    TResult Function(int total, int active)? $default, {
+    required TResult orElse(),
+  }) {
+    final _that = this;
+    switch (_that) {
+      case _Clients() when $default != null:
+        return $default(_that.total, _that.active);
+      case _:
+        return orElse();
+    }
+  }
+
+  /// A `switch`-like method, using callbacks.
+  ///
+  /// As opposed to `map`, this offers destructuring.
+  /// It is equivalent to doing:
+  /// ```dart
+  /// switch (sealedClass) {
+  ///   case Subclass(:final field):
+  ///     return ...;
+  ///   case Subclass2(:final field2):
+  ///     return ...;
+  /// }
+  /// ```
+
+  @optionalTypeArgs
+  TResult when<TResult extends Object?>(
+    TResult Function(int total, int active) $default,
+  ) {
+    final _that = this;
+    switch (_that) {
+      case _Clients():
+        return $default(_that.total, _that.active);
+    }
+  }
+
+  /// A variant of `when` that fallback to returning `null`
+  ///
+  /// It is equivalent to doing:
+  /// ```dart
+  /// switch (sealedClass) {
+  ///   case Subclass(:final field):
+  ///     return ...;
+  ///   case _:
+  ///     return null;
+  /// }
+  /// ```
+
+  @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>(
+    TResult? Function(int total, int active)? $default,
+  ) {
+    final _that = this;
+    switch (_that) {
+      case _Clients() when $default != null:
+        return $default(_that.total, _that.active);
+      case _:
+        return null;
+    }
   }
 }
 
@@ -1439,6 +2269,318 @@ class _$DnsmasqCopyWithImpl<$Res> implements $DnsmasqCopyWith<$Res> {
           : dnssecMaxWork // ignore: cast_nullable_to_non_nullable
               as int,
     ));
+  }
+}
+
+/// Adds pattern-matching-related methods to [Dnsmasq].
+extension DnsmasqPatterns on Dnsmasq {
+  /// A variant of `map` that fallback to returning `orElse`.
+  ///
+  /// It is equivalent to doing:
+  /// ```dart
+  /// switch (sealedClass) {
+  ///   case final Subclass value:
+  ///     return ...;
+  ///   case _:
+  ///     return orElse();
+  /// }
+  /// ```
+
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object?>(
+    TResult Function(_Dnsmasq value)? $default, {
+    required TResult orElse(),
+  }) {
+    final _that = this;
+    switch (_that) {
+      case _Dnsmasq() when $default != null:
+        return $default(_that);
+      case _:
+        return orElse();
+    }
+  }
+
+  /// A `switch`-like method, using callbacks.
+  ///
+  /// Callbacks receives the raw object, upcasted.
+  /// It is equivalent to doing:
+  /// ```dart
+  /// switch (sealedClass) {
+  ///   case final Subclass value:
+  ///     return ...;
+  ///   case final Subclass2 value:
+  ///     return ...;
+  /// }
+  /// ```
+
+  @optionalTypeArgs
+  TResult map<TResult extends Object?>(
+    TResult Function(_Dnsmasq value) $default,
+  ) {
+    final _that = this;
+    switch (_that) {
+      case _Dnsmasq():
+        return $default(_that);
+    }
+  }
+
+  /// A variant of `map` that fallback to returning `null`.
+  ///
+  /// It is equivalent to doing:
+  /// ```dart
+  /// switch (sealedClass) {
+  ///   case final Subclass value:
+  ///     return ...;
+  ///   case _:
+  ///     return null;
+  /// }
+  /// ```
+
+  @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>(
+    TResult? Function(_Dnsmasq value)? $default,
+  ) {
+    final _that = this;
+    switch (_that) {
+      case _Dnsmasq() when $default != null:
+        return $default(_that);
+      case _:
+        return null;
+    }
+  }
+
+  /// A variant of `when` that fallback to an `orElse` callback.
+  ///
+  /// It is equivalent to doing:
+  /// ```dart
+  /// switch (sealedClass) {
+  ///   case Subclass(:final field):
+  ///     return ...;
+  ///   case _:
+  ///     return orElse();
+  /// }
+  /// ```
+
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object?>(
+    TResult Function(
+            @JsonKey(name: 'dns_cache_inserted') int dnsCacheInserted,
+            @JsonKey(name: 'dns_cache_live_freed') int dnsCacheLiveFreed,
+            @JsonKey(name: 'dns_queries_forwarded') int dnsQueriesForwarded,
+            @JsonKey(name: 'dns_auth_answered') int dnsAuthAnswered,
+            @JsonKey(name: 'dns_local_answered') int dnsLocalAnswered,
+            @JsonKey(name: 'dns_stale_answered') int dnsStaleAnswered,
+            @JsonKey(name: 'dns_unanswered') int dnsUnanswered,
+            @JsonKey(name: 'bootp') int bootp,
+            @JsonKey(name: 'pxe') int pxe,
+            @JsonKey(name: 'dhcp_ack') int dhcpAck,
+            @JsonKey(name: 'dhcp_decline') int dhcpDecline,
+            @JsonKey(name: 'dhcp_discover') int dhcpDiscover,
+            @JsonKey(name: 'dhcp_inform') int dhcpInform,
+            @JsonKey(name: 'dhcp_nak') int dhcpNak,
+            @JsonKey(name: 'dhcp_offer') int dhcpOffer,
+            @JsonKey(name: 'dhcp_release') int dhcpRelease,
+            @JsonKey(name: 'dhcp_request') int dhcpRequest,
+            @JsonKey(name: 'noanswer') int noAnswer,
+            @JsonKey(name: 'leases_allocated_4') int leasesAllocated4,
+            @JsonKey(name: 'leases_pruned_4') int leasesPruned4,
+            @JsonKey(name: 'leases_allocated_6') int leasesAllocated6,
+            @JsonKey(name: 'leases_pruned_6') int leasesPruned6,
+            @JsonKey(name: 'tcp_connections') int tcpConnections,
+            @JsonKey(name: 'dnssec_max_crypto_use') int dnssecMaxCryptoUse,
+            @JsonKey(name: 'dnssec_max_sig_fail') int dnssecMaxSigFail,
+            @JsonKey(name: 'dnssec_max_work') int dnssecMaxWork)?
+        $default, {
+    required TResult orElse(),
+  }) {
+    final _that = this;
+    switch (_that) {
+      case _Dnsmasq() when $default != null:
+        return $default(
+            _that.dnsCacheInserted,
+            _that.dnsCacheLiveFreed,
+            _that.dnsQueriesForwarded,
+            _that.dnsAuthAnswered,
+            _that.dnsLocalAnswered,
+            _that.dnsStaleAnswered,
+            _that.dnsUnanswered,
+            _that.bootp,
+            _that.pxe,
+            _that.dhcpAck,
+            _that.dhcpDecline,
+            _that.dhcpDiscover,
+            _that.dhcpInform,
+            _that.dhcpNak,
+            _that.dhcpOffer,
+            _that.dhcpRelease,
+            _that.dhcpRequest,
+            _that.noAnswer,
+            _that.leasesAllocated4,
+            _that.leasesPruned4,
+            _that.leasesAllocated6,
+            _that.leasesPruned6,
+            _that.tcpConnections,
+            _that.dnssecMaxCryptoUse,
+            _that.dnssecMaxSigFail,
+            _that.dnssecMaxWork);
+      case _:
+        return orElse();
+    }
+  }
+
+  /// A `switch`-like method, using callbacks.
+  ///
+  /// As opposed to `map`, this offers destructuring.
+  /// It is equivalent to doing:
+  /// ```dart
+  /// switch (sealedClass) {
+  ///   case Subclass(:final field):
+  ///     return ...;
+  ///   case Subclass2(:final field2):
+  ///     return ...;
+  /// }
+  /// ```
+
+  @optionalTypeArgs
+  TResult when<TResult extends Object?>(
+    TResult Function(
+            @JsonKey(name: 'dns_cache_inserted') int dnsCacheInserted,
+            @JsonKey(name: 'dns_cache_live_freed') int dnsCacheLiveFreed,
+            @JsonKey(name: 'dns_queries_forwarded') int dnsQueriesForwarded,
+            @JsonKey(name: 'dns_auth_answered') int dnsAuthAnswered,
+            @JsonKey(name: 'dns_local_answered') int dnsLocalAnswered,
+            @JsonKey(name: 'dns_stale_answered') int dnsStaleAnswered,
+            @JsonKey(name: 'dns_unanswered') int dnsUnanswered,
+            @JsonKey(name: 'bootp') int bootp,
+            @JsonKey(name: 'pxe') int pxe,
+            @JsonKey(name: 'dhcp_ack') int dhcpAck,
+            @JsonKey(name: 'dhcp_decline') int dhcpDecline,
+            @JsonKey(name: 'dhcp_discover') int dhcpDiscover,
+            @JsonKey(name: 'dhcp_inform') int dhcpInform,
+            @JsonKey(name: 'dhcp_nak') int dhcpNak,
+            @JsonKey(name: 'dhcp_offer') int dhcpOffer,
+            @JsonKey(name: 'dhcp_release') int dhcpRelease,
+            @JsonKey(name: 'dhcp_request') int dhcpRequest,
+            @JsonKey(name: 'noanswer') int noAnswer,
+            @JsonKey(name: 'leases_allocated_4') int leasesAllocated4,
+            @JsonKey(name: 'leases_pruned_4') int leasesPruned4,
+            @JsonKey(name: 'leases_allocated_6') int leasesAllocated6,
+            @JsonKey(name: 'leases_pruned_6') int leasesPruned6,
+            @JsonKey(name: 'tcp_connections') int tcpConnections,
+            @JsonKey(name: 'dnssec_max_crypto_use') int dnssecMaxCryptoUse,
+            @JsonKey(name: 'dnssec_max_sig_fail') int dnssecMaxSigFail,
+            @JsonKey(name: 'dnssec_max_work') int dnssecMaxWork)
+        $default,
+  ) {
+    final _that = this;
+    switch (_that) {
+      case _Dnsmasq():
+        return $default(
+            _that.dnsCacheInserted,
+            _that.dnsCacheLiveFreed,
+            _that.dnsQueriesForwarded,
+            _that.dnsAuthAnswered,
+            _that.dnsLocalAnswered,
+            _that.dnsStaleAnswered,
+            _that.dnsUnanswered,
+            _that.bootp,
+            _that.pxe,
+            _that.dhcpAck,
+            _that.dhcpDecline,
+            _that.dhcpDiscover,
+            _that.dhcpInform,
+            _that.dhcpNak,
+            _that.dhcpOffer,
+            _that.dhcpRelease,
+            _that.dhcpRequest,
+            _that.noAnswer,
+            _that.leasesAllocated4,
+            _that.leasesPruned4,
+            _that.leasesAllocated6,
+            _that.leasesPruned6,
+            _that.tcpConnections,
+            _that.dnssecMaxCryptoUse,
+            _that.dnssecMaxSigFail,
+            _that.dnssecMaxWork);
+    }
+  }
+
+  /// A variant of `when` that fallback to returning `null`
+  ///
+  /// It is equivalent to doing:
+  /// ```dart
+  /// switch (sealedClass) {
+  ///   case Subclass(:final field):
+  ///     return ...;
+  ///   case _:
+  ///     return null;
+  /// }
+  /// ```
+
+  @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>(
+    TResult? Function(
+            @JsonKey(name: 'dns_cache_inserted') int dnsCacheInserted,
+            @JsonKey(name: 'dns_cache_live_freed') int dnsCacheLiveFreed,
+            @JsonKey(name: 'dns_queries_forwarded') int dnsQueriesForwarded,
+            @JsonKey(name: 'dns_auth_answered') int dnsAuthAnswered,
+            @JsonKey(name: 'dns_local_answered') int dnsLocalAnswered,
+            @JsonKey(name: 'dns_stale_answered') int dnsStaleAnswered,
+            @JsonKey(name: 'dns_unanswered') int dnsUnanswered,
+            @JsonKey(name: 'bootp') int bootp,
+            @JsonKey(name: 'pxe') int pxe,
+            @JsonKey(name: 'dhcp_ack') int dhcpAck,
+            @JsonKey(name: 'dhcp_decline') int dhcpDecline,
+            @JsonKey(name: 'dhcp_discover') int dhcpDiscover,
+            @JsonKey(name: 'dhcp_inform') int dhcpInform,
+            @JsonKey(name: 'dhcp_nak') int dhcpNak,
+            @JsonKey(name: 'dhcp_offer') int dhcpOffer,
+            @JsonKey(name: 'dhcp_release') int dhcpRelease,
+            @JsonKey(name: 'dhcp_request') int dhcpRequest,
+            @JsonKey(name: 'noanswer') int noAnswer,
+            @JsonKey(name: 'leases_allocated_4') int leasesAllocated4,
+            @JsonKey(name: 'leases_pruned_4') int leasesPruned4,
+            @JsonKey(name: 'leases_allocated_6') int leasesAllocated6,
+            @JsonKey(name: 'leases_pruned_6') int leasesPruned6,
+            @JsonKey(name: 'tcp_connections') int tcpConnections,
+            @JsonKey(name: 'dnssec_max_crypto_use') int dnssecMaxCryptoUse,
+            @JsonKey(name: 'dnssec_max_sig_fail') int dnssecMaxSigFail,
+            @JsonKey(name: 'dnssec_max_work') int dnssecMaxWork)?
+        $default,
+  ) {
+    final _that = this;
+    switch (_that) {
+      case _Dnsmasq() when $default != null:
+        return $default(
+            _that.dnsCacheInserted,
+            _that.dnsCacheLiveFreed,
+            _that.dnsQueriesForwarded,
+            _that.dnsAuthAnswered,
+            _that.dnsLocalAnswered,
+            _that.dnsStaleAnswered,
+            _that.dnsUnanswered,
+            _that.bootp,
+            _that.pxe,
+            _that.dhcpAck,
+            _that.dhcpDecline,
+            _that.dhcpDiscover,
+            _that.dhcpInform,
+            _that.dhcpNak,
+            _that.dhcpOffer,
+            _that.dhcpRelease,
+            _that.dhcpRequest,
+            _that.noAnswer,
+            _that.leasesAllocated4,
+            _that.leasesPruned4,
+            _that.leasesAllocated6,
+            _that.leasesPruned6,
+            _that.tcpConnections,
+            _that.dnssecMaxCryptoUse,
+            _that.dnssecMaxSigFail,
+            _that.dnssecMaxWork);
+      case _:
+        return null;
+    }
   }
 }
 
