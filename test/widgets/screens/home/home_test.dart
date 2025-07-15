@@ -12,7 +12,6 @@ import 'package:pi_hole_client/screens/settings/server_settings/subscriptions.da
 import 'package:skeletonizer/skeletonizer.dart';
 
 import '../../helpers.dart';
-import '../utils.dart';
 
 void main() async {
   await initializeApp();
@@ -306,7 +305,6 @@ void main() async {
 
           await tester.tap(find.byIcon(Icons.more_vert));
           await tester.pump();
-          showText();
           expect(find.text('Try reconnect'), findsOneWidget);
           expect(find.text('Change server'), findsOneWidget);
         },

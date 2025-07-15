@@ -13,7 +13,6 @@ import 'package:pi_hole_client/widgets/delete_modal.dart';
 import 'package:pi_hole_client/widgets/labeled_multi_select_tile.dart';
 
 import '../../../helpers.dart';
-import '../../utils.dart';
 
 void main() async {
   await initializeApp();
@@ -179,7 +178,6 @@ void main() async {
           expect(find.text('Allowlist'), findsOneWidget);
           expect(find.text('Blocklist'), findsOneWidget);
           expect(find.text('Loading list...'), findsOneWidget);
-          showText();
         },
       );
 

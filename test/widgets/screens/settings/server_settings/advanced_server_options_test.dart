@@ -10,7 +10,6 @@ import 'package:pi_hole_client/screens/settings/server_settings/advanced_setting
 import 'package:pi_hole_client/screens/settings/server_settings/advanced_settings/sessions_screen.dart';
 
 import '../../../helpers.dart';
-import '../../utils.dart';
 
 void main() async {
   await initializeApp();
@@ -212,8 +211,6 @@ void main() async {
 
         expect(find.byType(AdvancedServerOptions), findsOneWidget);
         await tester.pump();
-
-        showText();
 
         expect(find.text('Please try again later.'), findsOneWidget);
       },

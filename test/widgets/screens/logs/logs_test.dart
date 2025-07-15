@@ -6,7 +6,6 @@ import 'package:pi_hole_client/screens/logs/logs.dart';
 import 'package:pi_hole_client/screens/logs/widgets/logs_filters_modal.dart';
 
 import '../../helpers.dart';
-import '../utils.dart';
 
 void main() async {
   await initializeApp();
@@ -81,7 +80,6 @@ void main() async {
           expect(find.byType(Logs), findsOneWidget);
           expect(find.text('Query logs'), findsOneWidget);
           await tester.pumpAndSettle();
-          showText();
           expect(find.text("Logs couldn't be loaded"), findsWidgets);
           expect(find.byIcon(Icons.error), findsOneWidget);
         },
@@ -408,7 +406,7 @@ void main() async {
           expect(find.byType(Logs), findsOneWidget);
           expect(find.text('Query logs'), findsOneWidget);
           await tester.pumpAndSettle();
-          showText();
+
           expect(find.text("Logs couldn't be loaded"), findsWidgets);
           expect(find.byIcon(Icons.error), findsOneWidget);
         },
