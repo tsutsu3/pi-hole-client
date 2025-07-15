@@ -9,6 +9,7 @@
 [![SonarQube][sonar-quality-gate-shield]][sonar-quality-gate-url]
 [![Pihole V6][pihole-v6-shield]][pihole-url]
 [![Pihole V5][pihole-v5-shield]][pihole-url]
+[![Releases][releases-shield]][releases-url]
 <!-- [![CodeClimate][codeclimate-shield]][codeclimate-url] -->
 
 <!-- PROJECT LOGO -->
@@ -163,8 +164,10 @@ For details on the licenses applicable to this project, please refer to [LICENSE
 [codecov-url]: https://codecov.io/gh/tsutsu3/pi-hole-client
 [codacy-shield]: https://img.shields.io/codacy/grade/e4ab48745a654893b4178f13265bc99f?style=for-the-badge&logo=codacy
 [codacy-url]: https://app.codacy.com/gh/tsutsu3/pi-hole-client/dashboard
-[sonar-quality-gate-shield]: https://img.shields.io/sonar/quality_gate/tsutsu3_pi-hole-client?server=https://sonarcloud.io&style=for-the-badge&logo=sonarqube
+[sonar-quality-gate-shield]: https://img.shields.io/sonar/quality_gate/tsutsu3_pi-hole-client?server=https://sonarcloud.io&style=for-the-badge&logo=sonarqubecloud
 [sonar-quality-gate-url]: https://sonarcloud.io/summary/new_code?id=tsutsu3_pi-hole-client
 [pihole-v6-shield]: https://img.shields.io/badge/Pi--hole-v6-green?style=for-the-badge&logo=pihole
 [pihole-v5-shield]: https://img.shields.io/badge/Pi--hole-v5-orange?style=for-the-badge&logo=pihole
 [pihole-url]: https://pi-hole.net
+[releases-shield]: https://img.shields.io/github/v/release/tsutsu3/pi-hole-client?style=for-the-badge&logo=github&display_name=release
+[releases-url]: https://github.com/tsutsu3/pi-hole-client/releases
