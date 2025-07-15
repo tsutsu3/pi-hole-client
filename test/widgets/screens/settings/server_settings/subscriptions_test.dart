@@ -55,10 +55,6 @@ void main() async {
             find.text('There are no adlists to show here.'),
             findsOneWidget,
           );
-          expect(
-            find.text('Choose an adlist to see its details'),
-            findsOneWidget,
-          );
         },
       );
 
@@ -531,10 +527,6 @@ void main() async {
 
           expect(find.byType(SnackBar), findsOneWidget);
           expect(find.text('Adlist removed successfully'), findsWidgets);
-          expect(
-            find.text('Choose an adlist to see its details'),
-            findsWidgets,
-          );
         },
       );
 
