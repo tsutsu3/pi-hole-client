@@ -1,5 +1,6 @@
 // ignore_for_file: unused_import
 import 'package:pi_hole_client/base.dart';
+import 'package:pi_hole_client/build_info/git_commit.dart';
 import 'package:pi_hole_client/classes/custom_scroll_behavior.dart';
 import 'package:pi_hole_client/classes/no_scroll_behavior.dart';
 import 'package:pi_hole_client/classes/process_modal.dart';
