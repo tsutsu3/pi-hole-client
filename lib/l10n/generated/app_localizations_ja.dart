@@ -247,6 +247,9 @@ class AppLocalizationsJa extends AppLocalizations {
   String get broadcast => 'ブロードキャストアドレス';
 
   @override
+  String get buildVersion => 'ビルドバージョン';
+
+  @override
   String get bytes => 'バイト';
 
   @override

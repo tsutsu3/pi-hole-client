@@ -35,6 +35,9 @@ jobs:
     - name: Prepare env file
       run: cp .env.sample .env
 
+    - name: Generate Git commit hash
+      run: dart run tools/generate_git_commit.dart
+
     - name: Run tests
       run: |
         dart run full_coverage

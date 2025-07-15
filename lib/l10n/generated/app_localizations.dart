@@ -578,6 +578,12 @@ abstract class AppLocalizations {
   /// **'Broadcast Address'**
   String get broadcast;
 
+  /// No description provided for @buildVersion.
+  ///
+  /// In en, this message translates to:
+  /// **'Build version'**
+  String get buildVersion;
+
   /// No description provided for @bytes.
   ///
   /// In en, this message translates to:

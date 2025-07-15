@@ -78,6 +78,7 @@
   "blockList": "Lista de bloqueo",
   "blocked": "Bloqueados",
   "broadcast": "Dirección de difusión",
+  "buildVersion": "Versión de compilación",
   "bytes": "bytes",
   "cacheOptimizerReplies": "Respuestas del optimizador de caché",
   "cameraPermission": "Pi-hole client no tiene permiso para acceder a la cámara.\n\nVe a los ajustes del teléfono y acepta el permiso.",

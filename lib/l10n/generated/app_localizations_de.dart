@@ -256,6 +256,9 @@ class AppLocalizationsDe extends AppLocalizations {
   String get broadcast => 'Broadcast-Adresse';
 
   @override
+  String get buildVersion => 'Build-Version';
+
+  @override
   String get bytes => 'bytes';
 
   @override

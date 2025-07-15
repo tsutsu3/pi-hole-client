@@ -252,6 +252,9 @@ class AppLocalizationsEn extends AppLocalizations {
   String get broadcast => 'Broadcast Address';
 
   @override
+  String get buildVersion => 'Build version';
+
+  @override
   String get bytes => 'bytes';
 
   @override

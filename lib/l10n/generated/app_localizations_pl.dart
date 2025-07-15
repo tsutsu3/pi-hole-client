@@ -253,6 +253,9 @@ class AppLocalizationsPl extends AppLocalizations {
   String get broadcast => 'Adres rozgłoszeniowy';
 
   @override
+  String get buildVersion => 'Wersja kompilacji';
+
+  @override
   String get bytes => 'bajty';
 
   @override

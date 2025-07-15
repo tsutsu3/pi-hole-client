@@ -78,6 +78,7 @@
   "blockList": "Blocklist",
   "blocked": "Blocked",
   "broadcast": "Broadcast Address",
+  "buildVersion": "Build version",
   "bytes": "bytes",
   "cacheOptimizerReplies": "Cache optimizer replies",
   "cameraPermission": "Pi-hole client does not have permission to access the camera.\n\nGo to settings and grant the permission.",

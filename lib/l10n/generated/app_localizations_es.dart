@@ -255,6 +255,9 @@ class AppLocalizationsEs extends AppLocalizations {
   String get broadcast => 'Dirección de difusión';
 
   @override
+  String get buildVersion => 'Versión de compilación';
+
+  @override
   String get bytes => 'bytes';
 
   @override

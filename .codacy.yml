@@ -25,4 +25,5 @@ exclude_paths:
   - mock_api_server/**
   - windows/**
   - winget/**
+  - tools/**
   - CHANGELOG.md
