@@ -3,3 +3,4 @@ ignore:
   - "lib/**/*.g.dart"
   - "lib/l10n/generated/**"
   - "mock_api_server/**"
+  - "tools/**"
