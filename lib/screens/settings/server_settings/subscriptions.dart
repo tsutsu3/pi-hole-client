@@ -269,47 +269,7 @@ class _SubscriptionListsWidgetState extends State<SubscriptionListsWidget>
       );
     }
 
-    if (MediaQuery.of(context).size.width > ResponsiveConstants.xxLarge) {
-      // 3 columns layout
-      return Row(
-        children: [
-          Expanded(
-            child: scaffold(),
-          ),
-          Expanded(
-            child: selectedSubscription != null
-                ? SubscriptionDetailsScreen(
-                    subscription: selectedSubscription!,
-                    remove: (subscription) {
-                      setState(() => selectedSubscription = null);
-                      removeSubscription(subscription);
-                    },
-                    groups: groups,
-                    colors: serversProvider.colors,
-                  )
-                : ColoredBox(
-                    color: Theme.of(context).scaffoldBackgroundColor,
-                    child: SafeArea(
-                      child: Center(
-                        child: Text(
-                          AppLocalizations.of(context)!.selectAdlistsLeftColumn,
-                          textAlign: TextAlign.center,
-                          style: TextStyle(
-                            fontSize: 24,
-                            fontWeight: FontWeight.normal,
-                            decoration: TextDecoration.none,
-                            color:
-                                Theme.of(context).colorScheme.onSurfaceVariant,
-                          ),
-                        ),
-                      ),
-                    ),
-                  ),
-          ),
-        ],
-      );
-    } else if (MediaQuery.of(context).size.width > ResponsiveConstants.large) {
-      // 2 columns layout
+    if (MediaQuery.of(context).size.width > ResponsiveConstants.large) {
       return scaffold(
         onTap: (subscription) {
           Navigator.push(
