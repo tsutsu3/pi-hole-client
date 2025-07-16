@@ -3,6 +3,7 @@ import 'package:pi_hole_client/models/app_log.dart';
 import 'package:pi_hole_client/models/client.dart';
 import 'package:pi_hole_client/models/config.dart';
 import 'package:pi_hole_client/models/devices.dart';
+import 'package:pi_hole_client/models/dhcp.dart';
 import 'package:pi_hole_client/models/domain.dart';
 import 'package:pi_hole_client/models/gateway.dart';
 import 'package:pi_hole_client/models/groups.dart';
@@ -441,5 +442,20 @@ class ClientResponse extends BaseInfoResponse<ClientInfo> {
     required super.result,
     super.message,
     super.data,
+  });
+}
+
+class DhcpResponse extends BaseInfoResponse<DhcpsInfo> {
+  DhcpResponse({
+    required super.result,
+    super.message,
+    super.data,
+  });
+}
+
+class DeleteDhcpResponse extends BaseInfoResponse<void> {
+  DeleteDhcpResponse({
+    required super.result,
+    super.message,
   });
 }
