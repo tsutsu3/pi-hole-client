@@ -11,7 +11,9 @@ import 'package:pi_hole_client/gateways/api_gateway_interface.dart';
 import 'package:pi_hole_client/models/api/v6/action/action.dart';
 import 'package:pi_hole_client/models/api/v6/auth/auth.dart' show Session;
 import 'package:pi_hole_client/models/api/v6/auth/sessions.dart';
-import 'package:pi_hole_client/models/api/v6/config/config.dart';
+import 'package:pi_hole_client/models/api/v6/config/config.dart'
+    show Config, ConfigData, Dns;
+import 'package:pi_hole_client/models/api/v6/dhcp/dhcp.dart' show Dhcp;
 import 'package:pi_hole_client/models/api/v6/dns/dns.dart' show Blocking;
 import 'package:pi_hole_client/models/api/v6/domains/domains.dart'
     show AddDomains, Domains;
@@ -39,6 +41,7 @@ import 'package:pi_hole_client/models/app_log.dart';
 import 'package:pi_hole_client/models/client.dart';
 import 'package:pi_hole_client/models/config.dart';
 import 'package:pi_hole_client/models/devices.dart';
+import 'package:pi_hole_client/models/dhcp.dart';
 import 'package:pi_hole_client/models/domain.dart';
 import 'package:pi_hole_client/models/gateway.dart';
 import 'package:pi_hole_client/models/gateways.dart';
@@ -1773,6 +1776,64 @@ class ApiGatewayV6 implements ApiGateway {
       }
     } catch (e) {
       return ClientResponse(
+        result: APiResponseType.error,
+        message: unexpectedError,
+      );
+    }
+  }
+
+  @override
+  Future<DhcpResponse> getDhcps() async {
+    try {
+      final results = await httpClient(
+        method: 'get',
+        url: '${_server.address}/api/dhcp/leases',
+      );
+
+      if (results.statusCode == 200) {
+        final dhcp = Dhcp.fromJson(jsonDecode(results.body));
+
+        return DhcpResponse(
+          result: APiResponseType.success,
+          data: DhcpsInfo.fromV6(dhcp),
+        );
+      } else {
+        return DhcpResponse(
+          result: APiResponseType.error,
+          message: fetchError,
+        );
+      }
+    } catch (e) {
+      return DhcpResponse(
+        result: APiResponseType.error,
+        message: unexpectedError,
+      );
+    }
+  }
+
+  @override
+  Future<DeleteDhcpResponse> deleteDhcp(String ip) async {
+    try {
+      final results = await httpClient(
+        method: 'delete',
+        url: '${_server.address}/api/dhcp/leases/$ip',
+      );
+
+      if (results.statusCode == 204) {
+        return DeleteDhcpResponse(result: APiResponseType.success);
+      } else if (results.statusCode == 404) {
+        return DeleteDhcpResponse(
+          result: APiResponseType.notFound,
+          message: 'Lease not found',
+        );
+      } else {
+        return DeleteDhcpResponse(
+          result: APiResponseType.error,
+          message: fetchError,
+        );
+      }
+    } catch (e) {
+      return DeleteDhcpResponse(
         result: APiResponseType.error,
         message: unexpectedError,
       );
