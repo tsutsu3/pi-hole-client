@@ -20,8 +20,6 @@ class NetworkDetailScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final locale = AppLocalizations.of(context)!;
-    final isUnknown =
-        device.lastQuery == DateTime.fromMillisecondsSinceEpoch(0);
 
     return Scaffold(
       appBar: AppBar(
@@ -80,10 +78,7 @@ class NetworkDetailScreen extends StatelessWidget {
               CustomListTile(
                 leadingIcon: Icons.query_stats_rounded,
                 label: locale.lastQuery,
-                description: isUnknown
-                    ? locale.unknown
-                    : '${formatTimestamp(device.lastQuery, kUnifiedDateTimeLogFormat)} '
-                        '(${locale.timeHoursAgo(DateTime.now().difference(device.lastQuery).inHours)})',
+                description: _buildLastQueryValue(locale),
               ),
               CustomListTile(
                 leadingIcon: Icons.bar_chart_rounded,
@@ -151,5 +146,15 @@ class NetworkDetailScreen extends StatelessWidget {
         ),
       ),
     );
+  }
+
+  String _buildLastQueryValue(AppLocalizations locale) {
+    final isUnknown =
+        device.lastQuery == DateTime.fromMillisecondsSinceEpoch(0);
+
+    return isUnknown
+        ? locale.unknown
+        : '${formatTimestamp(device.lastQuery, kUnifiedDateTimeLogFormat)} '
+            '(${locale.timeHoursAgo(DateTime.now().difference(device.lastQuery).inHours)})';
   }
 }

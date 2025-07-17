@@ -1638,8 +1638,15 @@ class AppLocalizationsEn extends AppLocalizations {
   String get time => 'Time';
 
   @override
-  String timeHoursAgo(Object hours) {
-    return '$hours hours ago';
+  String timeHoursAgo(num hours) {
+    String _temp0 = intl.Intl.pluralLogic(
+      hours,
+      locale: localeName,
+      other: '$hours hours ago',
+      one: '1 hour ago',
+      zero: 'just now',
+    );
+    return '$_temp0';
   }
 
   @override

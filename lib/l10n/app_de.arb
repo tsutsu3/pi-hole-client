@@ -522,7 +522,7 @@
   "systemTheme": "System Standard",
   "theme": "Design",
   "time": "Zeit",
-  "timeHoursAgo": "vor {hours} Stunden",
+  "timeHoursAgo": "{hours, plural, =0{gerade eben} =1{vor 1 Stunde} other{vor {hours} Stunden}}",
   "timestamps": "Zeitstempel",
   "tlsStatus": "TLS-Status",
   "toTime": "Bis",

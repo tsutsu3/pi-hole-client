@@ -3245,8 +3245,8 @@ abstract class AppLocalizations {
   /// No description provided for @timeHoursAgo.
   ///
   /// In en, this message translates to:
-  /// **'{hours} hours ago'**
-  String timeHoursAgo(Object hours);
+  /// **'{hours, plural, =0{just now} =1{1 hour ago} other{{hours} hours ago}}'**
+  String timeHoursAgo(num hours);
 
   /// No description provided for @timestamps.
   ///
