@@ -332,6 +332,9 @@ class AppLocalizationsJa extends AppLocalizations {
   String get clientActivity24 => '過去24時間のクライアントアクティビティ';
 
   @override
+  String get clientId => 'クライアントID';
+
+  @override
   String get clientInformation => 'クライアント情報';
 
   @override
@@ -504,6 +507,12 @@ class AppLocalizationsJa extends AppLocalizations {
   String get deleteDeviceMessage => 'このデバイスを削除してもよろしいですか？';
 
   @override
+  String get deleteDhcp => 'DHCPリースを削除';
+
+  @override
+  String get deleteDhcpMessage => 'このDHCPリースを削除してもよろしいですか？';
+
+  @override
   String get deleteDomain => 'ドメインを削除';
 
   @override
@@ -535,6 +544,9 @@ class AppLocalizationsJa extends AppLocalizations {
 
   @override
   String get dhcpDescription => '現在有効なDHCPリースをすべて表示します';
+
+  @override
+  String get dhcpRemoved => 'DHCPリースを正常に削除しました';
 
   @override
   String get disable => '無効化';
@@ -703,6 +715,9 @@ class AppLocalizationsJa extends AppLocalizations {
 
   @override
   String get executionLog => '実行ログ';
+
+  @override
+  String get expire => '有効期限';
 
   @override
   String get featureNotSupportedMessage =>
@@ -946,6 +961,9 @@ class AppLocalizationsJa extends AppLocalizations {
 
   @override
   String get lastUpdated => '最終更新日時';
+
+  @override
+  String get leaseInfo => 'リース情報';
 
   @override
   String get legal => '法的情報';
@@ -1602,6 +1620,18 @@ class AppLocalizationsJa extends AppLocalizations {
       other: '$hours時間前',
       one: '1時間前',
       zero: 'たった今',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String timeHoursIn(num hours) {
+    String _temp0 = intl.Intl.pluralLogic(
+      hours,
+      locale: localeName,
+      other: 'あと$hours時間',
+      one: 'あと1時間',
+      zero: '1時間未満',
     );
     return '$_temp0';
   }

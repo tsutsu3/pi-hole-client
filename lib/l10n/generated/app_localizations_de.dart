@@ -349,7 +349,10 @@ class AppLocalizationsDe extends AppLocalizations {
   String get clientActivity24 => 'Client Aktivitäten der letzten 24h';
 
   @override
-  String get clientInformation => 'Kundeninformationen';
+  String get clientId => 'Client-ID';
+
+  @override
+  String get clientInformation => 'Client-Informationen';
 
   @override
   String get clientIp => 'Client-IP-Adresse';
@@ -532,6 +535,13 @@ class AppLocalizationsDe extends AppLocalizations {
       'Möchten Sie dieses Gerät wirklich löschen?';
 
   @override
+  String get deleteDhcp => 'DHCP-Lease löschen';
+
+  @override
+  String get deleteDhcpMessage =>
+      'Möchten Sie dieses DHCP-Lease wirklich löschen?';
+
+  @override
   String get deleteDomain => 'Domain löschen';
 
   @override
@@ -565,6 +575,9 @@ class AppLocalizationsDe extends AppLocalizations {
 
   @override
   String get dhcpDescription => 'Zeigt alle derzeit aktiven DHCP-Leases an';
+
+  @override
+  String get dhcpRemoved => 'DHCP-Lease wurde erfolgreich entfernt';
 
   @override
   String get disable => 'Deaktivieren';
@@ -741,6 +754,9 @@ class AppLocalizationsDe extends AppLocalizations {
 
   @override
   String get executionLog => 'Ausführungsprotokoll';
+
+  @override
+  String get expire => 'Ablauf';
 
   @override
   String get featureNotSupportedMessage =>
@@ -991,6 +1007,9 @@ class AppLocalizationsDe extends AppLocalizations {
 
   @override
   String get lastUpdated => 'Zuletzt aktualisiert am';
+
+  @override
+  String get leaseInfo => 'Lease-Informationen';
 
   @override
   String get legal => 'Rechtliches';
@@ -1676,6 +1695,18 @@ class AppLocalizationsDe extends AppLocalizations {
       other: 'vor $hours Stunden',
       one: 'vor 1 Stunde',
       zero: 'gerade eben',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String timeHoursIn(num hours) {
+    String _temp0 = intl.Intl.pluralLogic(
+      hours,
+      locale: localeName,
+      other: 'in $hours Stunden',
+      one: 'in 1 Stunde',
+      zero: 'unter 1 Stunde',
     );
     return '$_temp0';
   }
