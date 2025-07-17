@@ -1651,6 +1651,11 @@ class AppLocalizationsPl extends AppLocalizations {
   String get time => 'Czas';
 
   @override
+  String timeHoursAgo(Object hours) {
+    return '$hours godzin temu';
+  }
+
+  @override
   String get timestamps => 'Sygnatury czasowe';
 
   @override

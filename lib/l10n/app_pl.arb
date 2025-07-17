@@ -522,6 +522,7 @@
   "systemTheme": "Motyw systemowy",
   "theme": "Motyw",
   "time": "Czas",
+  "timeHoursAgo": "{hours} godzin temu",
   "timestamps": "Sygnatury czasowe",
   "tlsStatus": "Status TLS",
   "toTime": "Do kiedy",

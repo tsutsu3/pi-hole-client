@@ -1669,6 +1669,11 @@ class AppLocalizationsDe extends AppLocalizations {
   String get time => 'Zeit';
 
   @override
+  String timeHoursAgo(Object hours) {
+    return 'vor $hours Stunden';
+  }
+
+  @override
   String get timestamps => 'Zeitstempel';
 
   @override

@@ -1595,6 +1595,11 @@ class AppLocalizationsJa extends AppLocalizations {
   String get time => '時間';
 
   @override
+  String timeHoursAgo(Object hours) {
+    return '$hours時間前';
+  }
+
+  @override
   String get timestamps => 'タイムスタンプ';
 
   @override

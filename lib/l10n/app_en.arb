@@ -522,6 +522,7 @@
   "systemTheme": "System theme",
   "theme": "Theme",
   "time": "Time",
+  "timeHoursAgo": "{hours} hours ago",
   "timestamps": "Timestamps",
   "tlsStatus": "TLS Status",
   "toTime": "To time",

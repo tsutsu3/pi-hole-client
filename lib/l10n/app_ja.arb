@@ -524,6 +524,7 @@
   "systemTheme": "システムテーマ",
   "theme": "テーマ",
   "time": "時間",
+  "timeHoursAgo": "{hours}時間前",
   "timestamps": "タイムスタンプ",
   "tlsStatus": "TLSステータス",
   "toTime": "終了時刻",

@@ -523,6 +523,7 @@
   "systemTheme": "Tema del sistema",
   "theme": "Tema",
   "time": "Hora",
+  "timeHoursAgo": "hace {hours} horas",
   "timestamps": "Marcas de tiempo",
   "tlsStatus": "Estado de TLS",
   "toTime": "Hasta",

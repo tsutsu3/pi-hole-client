@@ -522,6 +522,7 @@
   "systemTheme": "System Standard",
   "theme": "Design",
   "time": "Zeit",
+  "timeHoursAgo": "vor {hours} Stunden",
   "timestamps": "Zeitstempel",
   "tlsStatus": "TLS-Status",
   "toTime": "Bis",

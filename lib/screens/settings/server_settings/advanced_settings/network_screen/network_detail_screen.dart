@@ -20,6 +20,8 @@ class NetworkDetailScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final locale = AppLocalizations.of(context)!;
+    final isUnknown =
+        device.lastQuery == DateTime.fromMillisecondsSinceEpoch(0);
 
     return Scaffold(
       appBar: AppBar(
@@ -78,10 +80,10 @@ class NetworkDetailScreen extends StatelessWidget {
               CustomListTile(
                 leadingIcon: Icons.query_stats_rounded,
                 label: locale.lastQuery,
-                description: formatTimestamp(
-                  device.lastQuery,
-                  kUnifiedDateTimeLogFormat,
-                ),
+                description: isUnknown
+                    ? locale.unknown
+                    : '${formatTimestamp(device.lastQuery, kUnifiedDateTimeLogFormat)} '
+                        '(${locale.timeHoursAgo(DateTime.now().difference(device.lastQuery).inHours)})',
               ),
               CustomListTile(
                 leadingIcon: Icons.bar_chart_rounded,
