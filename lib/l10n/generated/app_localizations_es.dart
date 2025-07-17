@@ -1666,6 +1666,18 @@ class AppLocalizationsEs extends AppLocalizations {
   String get time => 'Hora';
 
   @override
+  String timeHoursAgo(num hours) {
+    String _temp0 = intl.Intl.pluralLogic(
+      hours,
+      locale: localeName,
+      other: 'hace $hours horas',
+      one: 'hace 1 hora',
+      zero: 'justo ahora',
+    );
+    return '$_temp0';
+  }
+
+  @override
   String get timestamps => 'Marcas de tiempo';
 
   @override

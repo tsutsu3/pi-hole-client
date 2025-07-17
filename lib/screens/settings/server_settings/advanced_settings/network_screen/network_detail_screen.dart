@@ -78,10 +78,7 @@ class NetworkDetailScreen extends StatelessWidget {
               CustomListTile(
                 leadingIcon: Icons.query_stats_rounded,
                 label: locale.lastQuery,
-                description: formatTimestamp(
-                  device.lastQuery,
-                  kUnifiedDateTimeLogFormat,
-                ),
+                description: _buildLastQueryValue(locale),
               ),
               CustomListTile(
                 leadingIcon: Icons.bar_chart_rounded,
@@ -149,5 +146,20 @@ class NetworkDetailScreen extends StatelessWidget {
         ),
       ),
     );
+  }
+
+  String _buildLastQueryValue(AppLocalizations locale) {
+    final isUnknown = device.lastQuery.millisecondsSinceEpoch == 0;
+    if (isUnknown) {
+      return locale.unknown;
+    }
+
+    final timestamp =
+        formatTimestamp(device.lastQuery, kUnifiedDateTimeLogFormat);
+    final hoursAgo =
+        (DateTime.now().difference(device.lastQuery).inMinutes / 60).round();
+    final relativeTime = locale.timeHoursAgo(hoursAgo);
+
+    return '$timestamp ($relativeTime)';
   }
 }

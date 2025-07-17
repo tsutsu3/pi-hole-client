@@ -1651,6 +1651,19 @@ class AppLocalizationsPl extends AppLocalizations {
   String get time => 'Czas';
 
   @override
+  String timeHoursAgo(num hours) {
+    String _temp0 = intl.Intl.pluralLogic(
+      hours,
+      locale: localeName,
+      other: '$hours godzin temu',
+      few: '$hours godziny temu',
+      one: '1 godzinę temu',
+      zero: 'przed chwilą',
+    );
+    return '$_temp0';
+  }
+
+  @override
   String get timestamps => 'Sygnatury czasowe';
 
   @override
