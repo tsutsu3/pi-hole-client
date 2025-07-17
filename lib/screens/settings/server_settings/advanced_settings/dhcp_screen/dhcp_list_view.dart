@@ -56,10 +56,10 @@ class DhcpListView extends StatelessWidget {
   }
 
   /// Builds the status icon based on the dhcp's last query timestamp.
-  /// - Green check: active within 24h
-  /// - Yellow warning: active within 24-48h
-  /// - Red error: inactive >48h
-  /// - Grey unknown: never active (expire == UnixTime(0))
+  /// - Green hourglass: lease expires in more than 16 hours.
+  /// - Orange hourglass: lease expires in 8-16 hours.
+  /// - Red hourglass: lease expires in less than 8 hours.
+  /// - Grey question mark: lease has never been active (expire == UnixTime(0))
   Widget _buildStatusIcon(BuildContext context, DateTime expire) {
     final theme = Theme.of(context).extension<AppColors>()!;
 
