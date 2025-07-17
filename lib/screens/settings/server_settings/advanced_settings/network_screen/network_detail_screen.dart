@@ -149,12 +149,17 @@ class NetworkDetailScreen extends StatelessWidget {
   }
 
   String _buildLastQueryValue(AppLocalizations locale) {
-    final isUnknown =
-        device.lastQuery == DateTime.fromMillisecondsSinceEpoch(0);
+    final isUnknown = device.lastQuery.millisecondsSinceEpoch == 0;
+    if (isUnknown) {
+      return locale.unknown;
+    }
 
-    return isUnknown
-        ? locale.unknown
-        : '${formatTimestamp(device.lastQuery, kUnifiedDateTimeLogFormat)} '
-            '(${locale.timeHoursAgo(DateTime.now().difference(device.lastQuery).inHours)})';
+    final timestamp =
+        formatTimestamp(device.lastQuery, kUnifiedDateTimeLogFormat);
+    final hoursAgo =
+        (DateTime.now().difference(device.lastQuery).inMinutes / 60).round();
+    final relativeTime = locale.timeHoursAgo(hoursAgo);
+
+    return '$timestamp ($relativeTime)';
   }
 }
