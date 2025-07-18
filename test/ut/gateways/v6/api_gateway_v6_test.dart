@@ -1,5 +1,3 @@
-// ignore_for_file: require_trailing_commas
-
 import 'dart:convert';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -1403,9 +1401,12 @@ void main() async {
         'draw': 1,
         'took': 0.003,
       };
-      when(mockClient.get(Uri.parse(url.replaceAll('length=100', 'length=2')),
-              headers: anyNamed('headers')))
-          .thenAnswer((_) async => http.Response(jsonEncode(data), 200));
+      when(
+        mockClient.get(
+          Uri.parse(url.replaceAll('length=100', 'length=2')),
+          headers: anyNamed('headers'),
+        ),
+      ).thenAnswer((_) async => http.Response(jsonEncode(data), 200));
 
       final from = DateTime.fromMillisecondsSinceEpoch(1733472267 * 1000);
       final until = DateTime.fromMillisecondsSinceEpoch(1733479467 * 1000);
@@ -1455,9 +1456,12 @@ void main() async {
         'draw': 1,
         'took': 0.003,
       };
-      when(mockClient.get(Uri.parse('$url&cursor=175881'),
-              headers: anyNamed('headers')))
-          .thenAnswer((_) async => http.Response(jsonEncode(data), 200));
+      when(
+        mockClient.get(
+          Uri.parse('$url&cursor=175881'),
+          headers: anyNamed('headers'),
+        ),
+      ).thenAnswer((_) async => http.Response(jsonEncode(data), 200));
 
       final from = DateTime.fromMillisecondsSinceEpoch(1733472267 * 1000);
       final until = DateTime.fromMillisecondsSinceEpoch(1733479467 * 1000);
@@ -4911,9 +4915,9 @@ void main() async {
               'ip': '192.168.1.51',
               'name': 'ubuntu-server',
               'lastSeen': 1664688620,
-              'nameUpdated': 1664688620
+              'nameUpdated': 1664688620,
             }
-          ]
+          ],
         },
         {
           'id': 2,
@@ -4928,18 +4932,18 @@ void main() async {
               'ip': '192.168.1.52',
               'name': 'ubuntu-server',
               'lastSeen': 1664588620,
-              'nameUpdated': 1654588620
+              'nameUpdated': 1654588620,
             },
             {
               'ip': '192.168.1.62',
               'name': null,
               'lastSeen': 1664488620,
-              'nameUpdated': 1654488620
+              'nameUpdated': 1654488620,
             }
-          ]
+          ],
         }
       ],
-      'took': 0.003
+      'took': 0.003,
     };
     const emptyData = {
       'devices': [],
@@ -4968,7 +4972,8 @@ void main() async {
       when(
         mockClient.get(
           Uri.parse(
-              'http://example.com/api/network/devices?max_devices=999&max_addresses=25'),
+            'http://example.com/api/network/devices?max_devices=999&max_addresses=25',
+          ),
           headers: anyNamed('headers'),
         ),
       ).thenAnswer((_) async => http.Response(jsonEncode(data), 200));
@@ -4990,7 +4995,8 @@ void main() async {
       when(
         mockClient.get(
           Uri.parse(
-              'http://example.com/api/network/devices?max_devices=999&max_addresses=25'),
+            'http://example.com/api/network/devices?max_devices=999&max_addresses=25',
+          ),
           headers: anyNamed('headers'),
         ),
       ).thenAnswer((_) async => http.Response(jsonEncode(emptyData), 200));
@@ -5012,7 +5018,8 @@ void main() async {
       when(
         mockClient.get(
           Uri.parse(
-              'http://example.com/api/network/devices?max_devices=10&max_addresses=2'),
+            'http://example.com/api/network/devices?max_devices=10&max_addresses=2',
+          ),
           headers: anyNamed('headers'),
         ),
       ).thenAnswer((_) async => http.Response(jsonEncode(data), 200));
@@ -5035,7 +5042,8 @@ void main() async {
       when(
         mockClient.get(
           Uri.parse(
-              'http://example.com/api/network/devices?max_devices=999&max_addresses=25'),
+            'http://example.com/api/network/devices?max_devices=999&max_addresses=25',
+          ),
           headers: anyNamed('headers'),
         ),
       ).thenAnswer((_) async => http.Response(jsonEncode(erroData), 401));
@@ -5054,7 +5062,8 @@ void main() async {
       when(
         mockClient.get(
           Uri.parse(
-              'http://example.com/api/network/devices?max_devices=999&max_addresses=25'),
+            'http://example.com/api/network/devices?max_devices=999&max_addresses=25',
+          ),
           headers: anyNamed('headers'),
         ),
       ).thenThrow(Exception('Unexpected error test'));
@@ -6002,9 +6011,9 @@ void main() async {
       'error': {
         'key': 'bad_request',
         'message': 'Session ID out of bounds',
-        'hint': null
+        'hint': null,
       },
-      'took': 0.003
+      'took': 0.003,
     };
     const erroData = {
       'error': {'key': 'unauthorized', 'message': 'Unauthorized', 'hint': null},
@@ -6102,7 +6111,7 @@ void main() async {
         {'name': 'Connection', 'value': 'keep-alive'},
         {'name': 'Pragma', 'value': 'no-cache'},
       ],
-      'took': 0.003
+      'took': 0.003,
     };
     const erroData = {
       'error': {'key': 'unauthorized', 'message': 'Unauthorized', 'hint': null},
