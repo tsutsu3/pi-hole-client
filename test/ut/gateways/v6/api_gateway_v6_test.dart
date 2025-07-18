@@ -6200,7 +6200,7 @@ void main() async {
           'name': 'raspberrypi',
           'hwaddr': '00:00:00:00:00:00',
           'ip': '192.168.2.111',
-          'clientid': '00:00:00:00:00:00'
+          'clientid': '00:00:00:00:00:00',
         },
       ],
       'took': 0.003,
