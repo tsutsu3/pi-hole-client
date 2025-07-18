@@ -1,4 +1,5 @@
 import 'dart:convert';
+
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:http/http.dart' as http;
@@ -10,7 +11,9 @@ import 'package:pi_hole_client/constants/subscription_types.dart';
 import 'package:pi_hole_client/gateways/v6/api_gateway_v6.dart';
 import 'package:pi_hole_client/models/api/v6/action/action.dart';
 import 'package:pi_hole_client/models/api/v6/auth/sessions.dart';
-import 'package:pi_hole_client/models/api/v6/config/config.dart';
+import 'package:pi_hole_client/models/api/v6/config/config.dart'
+    show Config, ConfigData, Dns;
+import 'package:pi_hole_client/models/api/v6/dhcp/dhcp.dart' show Dhcp;
 import 'package:pi_hole_client/models/api/v6/ftl/client.dart';
 import 'package:pi_hole_client/models/api/v6/ftl/host.dart' show Host;
 import 'package:pi_hole_client/models/api/v6/ftl/messages.dart';
@@ -26,6 +29,7 @@ import 'package:pi_hole_client/models/api/v6/network/gateway.dart';
 import 'package:pi_hole_client/models/client.dart';
 import 'package:pi_hole_client/models/config.dart';
 import 'package:pi_hole_client/models/devices.dart';
+import 'package:pi_hole_client/models/dhcp.dart';
 import 'package:pi_hole_client/models/domain.dart';
 import 'package:pi_hole_client/models/gateway.dart';
 import 'package:pi_hole_client/models/gateways.dart';
@@ -6184,6 +6188,189 @@ void main() async {
       expect(response.result, APiResponseType.error);
       expect(response.message, unexpectedError);
       expect(response.data, null);
+    });
+  });
+
+  group('getDhcps', () {
+    late Server server;
+    const data = {
+      'leases': [
+        {
+          'expires': 1675671991,
+          'name': 'raspberrypi',
+          'hwaddr': '00:00:00:00:00:00',
+          'ip': '192.168.2.111',
+          'clientid': '00:00:00:00:00:00'
+        },
+      ],
+      'took': 0.003,
+    };
+    const erroData = {
+      'error': {'key': 'unauthorized', 'message': 'Unauthorized', 'hint': null},
+      'took': 0.003,
+    };
+
+    setUp(() {
+      server = Server(
+        address: 'http://example.com',
+        alias: 'example',
+        defaultServer: true,
+        apiVersion: SupportedApiVersions.v6,
+        allowSelfSignedCert: true,
+      );
+      server.sm.savePassword('xxx123');
+    });
+
+    test('should return success', () async {
+      final mockClient = MockClient();
+      final apiGateway = ApiGatewayV6(server, client: mockClient);
+
+      when(
+        mockClient.get(
+          Uri.parse('http://example.com/api/dhcp/leases'),
+          headers: anyNamed('headers'),
+        ),
+      ).thenAnswer((_) async => http.Response(jsonEncode(data), 200));
+
+      final response = await apiGateway.getDhcps();
+
+      expect(response.result, APiResponseType.success);
+      expect(response.message, null);
+      expect(
+        response.data?.toJson(),
+        DhcpsInfo.fromV6(Dhcp.fromJson(data)).toJson(),
+      );
+    });
+
+    test('should return an error when status code is 401', () async {
+      final mockClient = MockClient();
+      final apiGateway = ApiGatewayV6(server, client: mockClient);
+
+      when(
+        mockClient.get(
+          Uri.parse('http://example.com/api/dhcp/leases'),
+          headers: anyNamed('headers'),
+        ),
+      ).thenAnswer((_) async => http.Response(jsonEncode(erroData), 401));
+
+      final response = await apiGateway.getDhcps();
+
+      expect(response.result, APiResponseType.error);
+      expect(response.message, fetchError);
+      expect(response.data, null);
+    });
+
+    test('should return an error when an unexpected error occurs', () async {
+      final mockClient = MockClient();
+      final apiGateway = ApiGatewayV6(server, client: mockClient);
+
+      when(
+        mockClient.get(
+          Uri.parse('http://example.com/api/dhcp/leases'),
+          headers: anyNamed('headers'),
+        ),
+      ).thenThrow(Exception('Unexpected error test'));
+
+      final response = await apiGateway.getDhcps();
+
+      expect(response.result, APiResponseType.error);
+      expect(response.message, unexpectedError);
+      expect(response.data, null);
+    });
+  });
+
+  group('deleteDhcp', () {
+    late Server server;
+    const erroData400 = {
+      'error': {
+        'key': 'uri_error',
+        'message': 'No ip in URI',
+        'hint': null,
+      },
+      'took': 0.003,
+    };
+    const erroData = {
+      'error': {'key': 'unauthorized', 'message': 'Unauthorized', 'hint': null},
+      'took': 0.003,
+    };
+
+    setUp(() {
+      server = Server(
+        address: 'http://example.com',
+        alias: 'example',
+        defaultServer: true,
+        apiVersion: SupportedApiVersions.v6,
+        allowSelfSignedCert: true,
+      );
+      server.sm.savePassword('xxx123');
+    });
+
+    test('should return success', () async {
+      final mockClient = MockClient();
+      final apiGateway = ApiGatewayV6(server, client: mockClient);
+
+      when(
+        mockClient.delete(
+          Uri.parse('http://example.com/api/dhcp/leases/192.168.2.111'),
+          headers: anyNamed('headers'),
+        ),
+      ).thenAnswer((_) async => http.Response('', 204));
+
+      final response = await apiGateway.deleteDhcp('192.168.2.111');
+
+      expect(response.result, APiResponseType.success);
+      expect(response.message, null);
+    });
+
+    test('should return an error when status code is 401', () async {
+      final mockClient = MockClient();
+      final apiGateway = ApiGatewayV6(server, client: mockClient);
+
+      when(
+        mockClient.delete(
+          Uri.parse('http://example.com/api/dhcp/leases/192.168.2.111'),
+          headers: anyNamed('headers'),
+        ),
+      ).thenAnswer((_) async => http.Response(jsonEncode(erroData), 401));
+
+      final response = await apiGateway.deleteDhcp('192.168.2.111');
+
+      expect(response.result, APiResponseType.error);
+      expect(response.message, fetchError);
+    });
+
+    test('should return an error when status code is 400', () async {
+      final mockClient = MockClient();
+      final apiGateway = ApiGatewayV6(server, client: mockClient);
+
+      when(
+        mockClient.delete(
+          Uri.parse('http://example.com/api/dhcp/leases/192.168.2.111'),
+          headers: anyNamed('headers'),
+        ),
+      ).thenAnswer((_) async => http.Response(jsonEncode(erroData400), 400));
+
+      final response = await apiGateway.deleteDhcp('192.168.2.111');
+
+      expect(response.result, APiResponseType.error);
+      expect(response.message, fetchError);
+    });
+
+    test('should return an error when an unexpected error occurs', () async {
+      final mockClient = MockClient();
+      final apiGateway = ApiGatewayV6(server, client: mockClient);
+
+      when(
+        mockClient.delete(
+          Uri.parse('http://example.com/api/dhcp/leases/192.168.2.111'),
+          headers: anyNamed('headers'),
+        ),
+      ).thenThrow(Exception('Unexpected error test'));
+
+      final response = await apiGateway.deleteDhcp('192.168.2.111');
+
+      expect(response.result, APiResponseType.error);
+      expect(response.message, unexpectedError);
     });
   });
 }
