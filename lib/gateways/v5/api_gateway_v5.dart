@@ -1043,4 +1043,24 @@ class ApiGatewayV5 implements ApiGateway {
       ),
     );
   }
+
+  @override
+  Future<DhcpResponse> getDhcps() async {
+    return Future.value(
+      DhcpResponse(
+        result: APiResponseType.notSupported,
+        message: notSupportedMessage,
+      ),
+    );
+  }
+
+  @override
+  Future<DeleteDhcpResponse> deleteDhcp(String ip) async {
+    return Future.value(
+      DeleteDhcpResponse(
+        result: APiResponseType.notSupported,
+        message: notSupportedMessage,
+      ),
+    );
+  }
 }

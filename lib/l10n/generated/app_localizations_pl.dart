@@ -343,6 +343,9 @@ class AppLocalizationsPl extends AppLocalizations {
       'Aktywność klienta w ciągu ostatnich 24 godzin';
 
   @override
+  String get clientId => 'ID klienta';
+
+  @override
   String get clientInformation => 'Informacje o kliencie';
 
   @override
@@ -519,6 +522,13 @@ class AppLocalizationsPl extends AppLocalizations {
   String get deleteDeviceMessage => 'Czy na pewno chcesz usunąć to urządzenie?';
 
   @override
+  String get deleteDhcp => 'Usuń dzierżawę DHCP';
+
+  @override
+  String get deleteDhcpMessage =>
+      'Czy na pewno chcesz usunąć tę dzierżawę DHCP?';
+
+  @override
   String get deleteDomain => 'Usuń domenę';
 
   @override
@@ -551,6 +561,9 @@ class AppLocalizationsPl extends AppLocalizations {
   @override
   String get dhcpDescription =>
       'Wyświetla wszystkie aktualnie aktywne dzierżawy DHCP';
+
+  @override
+  String get dhcpRemoved => 'Dzierżawa DHCP została pomyślnie usunięta';
 
   @override
   String get disable => 'Wyłącz na';
@@ -723,6 +736,9 @@ class AppLocalizationsPl extends AppLocalizations {
 
   @override
   String get executionLog => 'Dziennik wykonania';
+
+  @override
+  String get expire => 'Wygasa';
 
   @override
   String get featureNotSupportedMessage =>
@@ -976,6 +992,9 @@ class AppLocalizationsPl extends AppLocalizations {
 
   @override
   String get lastUpdated => 'Ostatnia aktualizacja';
+
+  @override
+  String get leaseInfo => 'Informacje o dzierżawie';
 
   @override
   String get legal => 'Legalność';
@@ -1659,6 +1678,19 @@ class AppLocalizationsPl extends AppLocalizations {
       few: '$hours godziny temu',
       one: '1 godzinę temu',
       zero: 'przed chwilą',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String timeHoursIn(num hours) {
+    String _temp0 = intl.Intl.pluralLogic(
+      hours,
+      locale: localeName,
+      other: 'za $hours godzin',
+      few: 'za $hours godziny',
+      one: 'za 1 godzinę',
+      zero: 'mniej niż 1 godzina',
     );
     return '$_temp0';
   }

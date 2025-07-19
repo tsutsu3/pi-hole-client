@@ -10,6 +10,7 @@ import 'package:pi_hole_client/providers/app_config_provider.dart';
 import 'package:pi_hole_client/providers/servers_provider.dart';
 import 'package:pi_hole_client/screens/common/empty_data_screen.dart';
 import 'package:pi_hole_client/screens/common/pi_hole_v5_not_supported_screen.dart';
+import 'package:pi_hole_client/screens/settings/server_settings/advanced_settings/dhcp_screen.dart';
 import 'package:pi_hole_client/screens/settings/server_settings/advanced_settings/interface_screen.dart';
 import 'package:pi_hole_client/screens/settings/server_settings/advanced_settings/network_screen.dart';
 import 'package:pi_hole_client/screens/settings/server_settings/advanced_settings/sessions_screen.dart';
@@ -360,11 +361,6 @@ class _AdvancedServerOptionsState extends State<AdvancedServerOptions> {
                 ),
               ),
               SectionLabel(label: AppLocalizations.of(context)!.system),
-              // CustomListTile(
-              //   leadingIcon: Icons.settings_ethernet_rounded,
-              //   label: AppLocalizations.of(context)!.dhcp,
-              //   description: AppLocalizations.of(context)!.dhcpDescription,
-              // ),
               CustomListTile(
                 leadingIcon: Icons.devices_rounded,
                 label: AppLocalizations.of(context)!.sessions,
@@ -373,6 +369,17 @@ class _AdvancedServerOptionsState extends State<AdvancedServerOptions> {
                   context,
                   MaterialPageRoute(
                     builder: (context) => const SessionsScreen(),
+                  ),
+                ),
+              ),
+              CustomListTile(
+                leadingIcon: Icons.settings_ethernet_rounded,
+                label: AppLocalizations.of(context)!.dhcp,
+                description: AppLocalizations.of(context)!.dhcpDescription,
+                onTap: () => Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => const DhcpScreen(),
                   ),
                 ),
               ),

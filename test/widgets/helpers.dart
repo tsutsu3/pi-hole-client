@@ -17,7 +17,8 @@ import 'package:pi_hole_client/gateways/v5/api_gateway_v5.dart';
 import 'package:pi_hole_client/gateways/v6/api_gateway_v6.dart';
 import 'package:pi_hole_client/l10n/generated/app_localizations.dart';
 import 'package:pi_hole_client/models/api/v6/auth/sessions.dart';
-import 'package:pi_hole_client/models/api/v6/config/config.dart';
+import 'package:pi_hole_client/models/api/v6/config/config.dart' show Config;
+import 'package:pi_hole_client/models/api/v6/dhcp/dhcp.dart' show Dhcp;
 // ignore: library_prefixes
 import 'package:pi_hole_client/models/api/v6/ftl/client.dart' as FtlClient
     show Client;
@@ -36,6 +37,7 @@ import 'package:pi_hole_client/models/app_log.dart';
 import 'package:pi_hole_client/models/client.dart';
 import 'package:pi_hole_client/models/config.dart';
 import 'package:pi_hole_client/models/devices.dart';
+import 'package:pi_hole_client/models/dhcp.dart';
 import 'package:pi_hole_client/models/domain.dart';
 import 'package:pi_hole_client/models/gateway.dart';
 import 'package:pi_hole_client/models/gateways.dart';
@@ -1379,6 +1381,26 @@ final devices = Devices.fromJson({
   'took': 0.003,
 });
 
+final dhcp = Dhcp.fromJson({
+  'leases': [
+    {
+      'expires': 1675671991,
+      'name': 'raspberrypi',
+      'hwaddr': '00:00:00:00:00:00',
+      'ip': '192.168.1.51',
+      'clientid': '00:00:00:00:00:00',
+    },
+    {
+      'expires': 1675671992,
+      'name': '*',
+      'hwaddr': '00:00:00:00:00:11',
+      'ip': '192.168.1.52',
+      'clientid': '00:00:00:00:00:11',
+    },
+  ],
+  'took': 0.003,
+});
+
 /// Initialize the app with the given environment file.
 ///
 /// This function should be called before any other setup.
@@ -2164,6 +2186,19 @@ class TestSetupHelper {
 
     when(mockApiGatewayV6.deleteDevice(any)).thenAnswer(
       (_) async => DeleteDeviceResponse(
+        result: APiResponseType.success,
+      ),
+    );
+
+    when(mockApiGatewayV6.getDhcps()).thenAnswer(
+      (_) async => DhcpResponse(
+        result: APiResponseType.success,
+        data: DhcpsInfo.fromV6(dhcp),
+      ),
+    );
+
+    when(mockApiGatewayV6.deleteDhcp(any)).thenAnswer(
+      (_) async => DeleteDhcpResponse(
         result: APiResponseType.success,
       ),
     );

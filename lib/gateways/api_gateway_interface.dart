@@ -298,4 +298,10 @@ abstract interface class ApiGateway {
 
   /// Get information about requesting client
   Future<ClientResponse> getClient();
+
+  /// Get DHCP leases from the Pi-hole server.
+  Future<DhcpResponse> getDhcps();
+
+  /// Delete a DHCP lease by ID.
+  Future<DeleteDhcpResponse> deleteDhcp(String ip);
 }

@@ -436,9 +436,30 @@ class _FakeClientResponse_34 extends _i1.SmartFake
         );
 }
 
-class _FakeStreamedResponse_35 extends _i1.SmartFake
+class _FakeDhcpResponse_35 extends _i1.SmartFake implements _i5.DhcpResponse {
+  _FakeDhcpResponse_35(
+    Object parent,
+    Invocation parentInvocation,
+  ) : super(
+          parent,
+          parentInvocation,
+        );
+}
+
+class _FakeDeleteDhcpResponse_36 extends _i1.SmartFake
+    implements _i5.DeleteDhcpResponse {
+  _FakeDeleteDhcpResponse_36(
+    Object parent,
+    Invocation parentInvocation,
+  ) : super(
+          parent,
+          parentInvocation,
+        );
+}
+
+class _FakeStreamedResponse_37 extends _i1.SmartFake
     implements _i4.StreamedResponse {
-  _FakeStreamedResponse_35(
+  _FakeStreamedResponse_37(
     Object parent,
     Invocation parentInvocation,
   ) : super(
@@ -2502,6 +2523,38 @@ class MockApiGatewayV5 extends _i1.Mock implements _i26.ApiGatewayV5 {
           ),
         )),
       ) as _i12.Future<_i5.ClientResponse>);
+
+  @override
+  _i12.Future<_i5.DhcpResponse> getDhcps() => (super.noSuchMethod(
+        Invocation.method(
+          #getDhcps,
+          [],
+        ),
+        returnValue: _i12.Future<_i5.DhcpResponse>.value(_FakeDhcpResponse_35(
+          this,
+          Invocation.method(
+            #getDhcps,
+            [],
+          ),
+        )),
+      ) as _i12.Future<_i5.DhcpResponse>);
+
+  @override
+  _i12.Future<_i5.DeleteDhcpResponse> deleteDhcp(String? ip) =>
+      (super.noSuchMethod(
+        Invocation.method(
+          #deleteDhcp,
+          [ip],
+        ),
+        returnValue: _i12.Future<_i5.DeleteDhcpResponse>.value(
+            _FakeDeleteDhcpResponse_36(
+          this,
+          Invocation.method(
+            #deleteDhcp,
+            [ip],
+          ),
+        )),
+      ) as _i12.Future<_i5.DeleteDhcpResponse>);
 }
 
 /// A class which mocks [ApiGatewayV6].
@@ -2628,7 +2681,7 @@ class MockApiGatewayV6 extends _i1.Mock implements _i30.ApiGatewayV6 {
           },
         ),
         returnValue:
-            _i12.Future<_i4.StreamedResponse>.value(_FakeStreamedResponse_35(
+            _i12.Future<_i4.StreamedResponse>.value(_FakeStreamedResponse_37(
           this,
           Invocation.method(
             #httpClientStream,
@@ -3450,6 +3503,38 @@ class MockApiGatewayV6 extends _i1.Mock implements _i30.ApiGatewayV6 {
           ),
         )),
       ) as _i12.Future<_i5.ClientResponse>);
+
+  @override
+  _i12.Future<_i5.DhcpResponse> getDhcps() => (super.noSuchMethod(
+        Invocation.method(
+          #getDhcps,
+          [],
+        ),
+        returnValue: _i12.Future<_i5.DhcpResponse>.value(_FakeDhcpResponse_35(
+          this,
+          Invocation.method(
+            #getDhcps,
+            [],
+          ),
+        )),
+      ) as _i12.Future<_i5.DhcpResponse>);
+
+  @override
+  _i12.Future<_i5.DeleteDhcpResponse> deleteDhcp(String? ip) =>
+      (super.noSuchMethod(
+        Invocation.method(
+          #deleteDhcp,
+          [ip],
+        ),
+        returnValue: _i12.Future<_i5.DeleteDhcpResponse>.value(
+            _FakeDeleteDhcpResponse_36(
+          this,
+          Invocation.method(
+            #deleteDhcp,
+            [ip],
+          ),
+        )),
+      ) as _i12.Future<_i5.DeleteDhcpResponse>);
 }
 
 /// A class which mocks [StatusUpdateService].

@@ -341,6 +341,9 @@ class AppLocalizationsEn extends AppLocalizations {
   String get clientActivity24 => 'Client activity last 24 hours';
 
   @override
+  String get clientId => 'Client ID';
+
+  @override
   String get clientInformation => 'Client Information';
 
   @override
@@ -519,6 +522,13 @@ class AppLocalizationsEn extends AppLocalizations {
       'Are you sure you want to delete this device?';
 
   @override
+  String get deleteDhcp => 'Delete DHCP lease';
+
+  @override
+  String get deleteDhcpMessage =>
+      'Are you sure you want to delete this DHCP lease?';
+
+  @override
   String get deleteDomain => 'Delete domain';
 
   @override
@@ -552,6 +562,9 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get dhcpDescription => 'Displays all currently active DHCP leases';
+
+  @override
+  String get dhcpRemoved => 'DHCP lease removed successfully';
 
   @override
   String get disable => 'Disable';
@@ -721,6 +734,9 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get executionLog => 'Execution Log';
+
+  @override
+  String get expire => 'Expire';
 
   @override
   String get featureNotSupportedMessage =>
@@ -971,6 +987,9 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get lastUpdated => 'Last updated';
+
+  @override
+  String get leaseInfo => 'Lease Information';
 
   @override
   String get legal => 'Legal';
@@ -1645,6 +1664,18 @@ class AppLocalizationsEn extends AppLocalizations {
       other: '$hours hours ago',
       one: '1 hour ago',
       zero: 'just now',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String timeHoursIn(num hours) {
+    String _temp0 = intl.Intl.pluralLogic(
+      hours,
+      locale: localeName,
+      other: 'in $hours hours',
+      one: 'in 1 hour',
+      zero: 'less than 1 hour',
     );
     return '$_temp0';
   }

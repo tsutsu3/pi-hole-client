@@ -5,6 +5,7 @@ import 'package:pi_hole_client/models/api/v6/config/config.dart';
 import 'package:pi_hole_client/models/config.dart';
 import 'package:pi_hole_client/models/gateways.dart';
 import 'package:pi_hole_client/screens/settings/server_settings/advanced_server_options.dart';
+import 'package:pi_hole_client/screens/settings/server_settings/advanced_settings/dhcp_screen.dart';
 import 'package:pi_hole_client/screens/settings/server_settings/advanced_settings/interface_screen.dart';
 import 'package:pi_hole_client/screens/settings/server_settings/advanced_settings/network_screen.dart';
 import 'package:pi_hole_client/screens/settings/server_settings/advanced_settings/sessions_screen.dart';
@@ -49,6 +50,34 @@ void main() async {
         expect(find.text('192.168.0.30'), findsOneWidget);
         expect(find.text('192.168.0.31'), findsOneWidget);
         expect(find.text('192.168.0.32'), findsOneWidget);
+      },
+    );
+
+    testWidgets(
+      'should show dhcp screen with tap',
+      (WidgetTester tester) async {
+        tester.view.physicalSize = const Size(1080, 2400);
+        tester.view.devicePixelRatio = 2.0;
+
+        addTearDown(() {
+          tester.view.resetPhysicalSize();
+          tester.view.resetDevicePixelRatio();
+        });
+
+        await tester.pumpWidget(
+          testSetup.buildTestWidget(
+            const AdvancedServerOptions(),
+          ),
+        );
+
+        expect(find.byType(AdvancedServerOptions), findsOneWidget);
+        await tester.pump();
+
+        await tester.tap(find.text('DHCP'));
+        await tester.pumpAndSettle();
+        expect(find.byType(DhcpScreen), findsOneWidget);
+
+        expect(find.text('192.168.1.51'), findsOneWidget);
       },
     );
 

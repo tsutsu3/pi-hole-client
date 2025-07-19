@@ -439,6 +439,27 @@ class _FakeClientResponse_35 extends _i1.SmartFake
         );
 }
 
+class _FakeDhcpResponse_36 extends _i1.SmartFake implements _i5.DhcpResponse {
+  _FakeDhcpResponse_36(
+    Object parent,
+    Invocation parentInvocation,
+  ) : super(
+          parent,
+          parentInvocation,
+        );
+}
+
+class _FakeDeleteDhcpResponse_37 extends _i1.SmartFake
+    implements _i5.DeleteDhcpResponse {
+  _FakeDeleteDhcpResponse_37(
+    Object parent,
+    Invocation parentInvocation,
+  ) : super(
+          parent,
+          parentInvocation,
+        );
+}
+
 /// A class which mocks [AppConfigProvider].
 ///
 /// See the documentation for Mockito's code generation for more information.
@@ -2366,4 +2387,36 @@ class MockApiGatewayV6 extends _i1.Mock implements _i24.ApiGatewayV6 {
           ),
         )),
       ) as _i12.Future<_i5.ClientResponse>);
+
+  @override
+  _i12.Future<_i5.DhcpResponse> getDhcps() => (super.noSuchMethod(
+        Invocation.method(
+          #getDhcps,
+          [],
+        ),
+        returnValue: _i12.Future<_i5.DhcpResponse>.value(_FakeDhcpResponse_36(
+          this,
+          Invocation.method(
+            #getDhcps,
+            [],
+          ),
+        )),
+      ) as _i12.Future<_i5.DhcpResponse>);
+
+  @override
+  _i12.Future<_i5.DeleteDhcpResponse> deleteDhcp(String? ip) =>
+      (super.noSuchMethod(
+        Invocation.method(
+          #deleteDhcp,
+          [ip],
+        ),
+        returnValue: _i12.Future<_i5.DeleteDhcpResponse>.value(
+            _FakeDeleteDhcpResponse_37(
+          this,
+          Invocation.method(
+            #deleteDhcp,
+            [ip],
+          ),
+        )),
+      ) as _i12.Future<_i5.DeleteDhcpResponse>);
 }

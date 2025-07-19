@@ -746,6 +746,12 @@ abstract class AppLocalizations {
   /// **'Client activity last 24 hours'**
   String get clientActivity24;
 
+  /// No description provided for @clientId.
+  ///
+  /// In en, this message translates to:
+  /// **'Client ID'**
+  String get clientId;
+
   /// No description provided for @clientInformation.
   ///
   /// In en, this message translates to:
@@ -1088,6 +1094,18 @@ abstract class AppLocalizations {
   /// **'Are you sure you want to delete this device?'**
   String get deleteDeviceMessage;
 
+  /// No description provided for @deleteDhcp.
+  ///
+  /// In en, this message translates to:
+  /// **'Delete DHCP lease'**
+  String get deleteDhcp;
+
+  /// No description provided for @deleteDhcpMessage.
+  ///
+  /// In en, this message translates to:
+  /// **'Are you sure you want to delete this DHCP lease?'**
+  String get deleteDhcpMessage;
+
   /// No description provided for @deleteDomain.
   ///
   /// In en, this message translates to:
@@ -1153,6 +1171,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Displays all currently active DHCP leases'**
   String get dhcpDescription;
+
+  /// No description provided for @dhcpRemoved.
+  ///
+  /// In en, this message translates to:
+  /// **'DHCP lease removed successfully'**
+  String get dhcpRemoved;
 
   /// No description provided for @disable.
   ///
@@ -1483,6 +1507,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Execution Log'**
   String get executionLog;
+
+  /// No description provided for @expire.
+  ///
+  /// In en, this message translates to:
+  /// **'Expire'**
+  String get expire;
 
   /// No description provided for @featureNotSupportedMessage.
   ///
@@ -1957,6 +1987,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Last updated'**
   String get lastUpdated;
+
+  /// No description provided for @leaseInfo.
+  ///
+  /// In en, this message translates to:
+  /// **'Lease Information'**
+  String get leaseInfo;
 
   /// No description provided for @legal.
   ///
@@ -3247,6 +3283,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'{hours, plural, =0{just now} =1{1 hour ago} other{{hours} hours ago}}'**
   String timeHoursAgo(num hours);
+
+  /// No description provided for @timeHoursIn.
+  ///
+  /// In en, this message translates to:
+  /// **'{hours, plural, =0{less than 1 hour} =1{in 1 hour} other{in {hours} hours}}'**
+  String timeHoursIn(num hours);
 
   /// No description provided for @timestamps.
   ///
