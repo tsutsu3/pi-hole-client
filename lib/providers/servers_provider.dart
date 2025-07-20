@@ -2,7 +2,6 @@ import 'dart:async';
 
 import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
-import 'package:pi_hole_client/config/theme.dart';
 import 'package:pi_hole_client/constants/query_types.dart';
 import 'package:pi_hole_client/functions/conversions.dart';
 import 'package:pi_hole_client/functions/logger.dart';
@@ -13,6 +12,7 @@ import 'package:pi_hole_client/models/repository/database.dart';
 import 'package:pi_hole_client/models/server.dart';
 import 'package:pi_hole_client/providers/app_config_provider.dart';
 import 'package:pi_hole_client/repository/database.dart';
+import 'package:pi_hole_client/ui2/core/themes/theme.dart';
 
 class ServersProvider with ChangeNotifier {
   ServersProvider(this._repository);

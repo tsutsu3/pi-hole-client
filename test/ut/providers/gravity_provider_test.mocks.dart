@@ -9,7 +9,6 @@ import 'dart:ui' as _i13;
 import 'package:http/http.dart' as _i6;
 import 'package:mockito/mockito.dart' as _i1;
 import 'package:mockito/src/dummies.dart' as _i16;
-import 'package:pi_hole_client/config/theme.dart' as _i2;
 import 'package:pi_hole_client/gateways/api_gateway_interface.dart' as _i11;
 import 'package:pi_hole_client/gateways/v6/api_gateway_v6.dart' as _i15;
 import 'package:pi_hole_client/models/api/v6/config/config.dart' as _i20;
@@ -23,6 +22,7 @@ import 'package:pi_hole_client/models/subscriptions.dart' as _i18;
 import 'package:pi_hole_client/providers/app_config_provider.dart' as _i10;
 import 'package:pi_hole_client/providers/servers_provider.dart' as _i8;
 import 'package:pi_hole_client/repository/database.dart' as _i14;
+import 'package:pi_hole_client/ui2/core/themes/theme.dart' as _i2;
 import 'package:sqflite/sqflite.dart' as _i4;
 
 // ignore_for_file: type=lint

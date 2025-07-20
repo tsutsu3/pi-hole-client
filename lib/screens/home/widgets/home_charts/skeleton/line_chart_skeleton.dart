@@ -3,8 +3,8 @@ import 'dart:math';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:loading_animation_widget/loading_animation_widget.dart';
-import 'package:pi_hole_client/config/theme.dart';
 import 'package:pi_hole_client/ui2/core/l10n/generated/app_localizations.dart';
+import 'package:pi_hole_client/ui2/core/themes/theme.dart';
 import 'package:skeletonizer/skeletonizer.dart';
 
 class LineChartSkeleton extends StatefulWidget {

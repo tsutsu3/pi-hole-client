@@ -9,7 +9,6 @@ import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 import 'package:pi_hole_client/config/globals.dart';
-import 'package:pi_hole_client/config/theme.dart';
 import 'package:pi_hole_client/constants/enums.dart';
 import 'package:pi_hole_client/constants/query_types.dart';
 import 'package:pi_hole_client/gateways/api_gateway_interface.dart';
@@ -63,6 +62,7 @@ import 'package:pi_hole_client/providers/status_provider.dart';
 import 'package:pi_hole_client/providers/subscriptions_list_provider.dart';
 import 'package:pi_hole_client/services/status_update_service.dart';
 import 'package:pi_hole_client/ui2/core/l10n/generated/app_localizations.dart';
+import 'package:pi_hole_client/ui2/core/themes/theme.dart';
 import 'package:provider/provider.dart';
 
 import './helpers.mocks.dart';

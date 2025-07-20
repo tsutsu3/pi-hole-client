@@ -5,7 +5,6 @@ import 'package:pi_hole_client/classes/custom_scroll_behavior.dart';
 import 'package:pi_hole_client/classes/no_scroll_behavior.dart';
 import 'package:pi_hole_client/classes/process_modal.dart';
 import 'package:pi_hole_client/config/globals.dart';
-import 'package:pi_hole_client/config/theme.dart';
 import 'package:pi_hole_client/constants/api_versions.dart';
 import 'package:pi_hole_client/constants/app_screens.dart';
 import 'package:pi_hole_client/constants/enums.dart';
@@ -223,6 +222,7 @@ import 'package:pi_hole_client/ui2/core/l10n/generated/app_localizations_en.dart
 import 'package:pi_hole_client/ui2/core/l10n/generated/app_localizations_es.dart';
 import 'package:pi_hole_client/ui2/core/l10n/generated/app_localizations_ja.dart';
 import 'package:pi_hole_client/ui2/core/l10n/generated/app_localizations_pl.dart';
+import 'package:pi_hole_client/ui2/core/themes/theme.dart';
 import 'package:pi_hole_client/widgets/adaptive_trailing_text.dart';
 import 'package:pi_hole_client/widgets/bottom_nav_bar.dart';
 import 'package:pi_hole_client/widgets/confirmation_modal.dart';

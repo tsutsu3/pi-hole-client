@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:pi_hole_client/config/theme.dart';
 import 'package:pi_hole_client/models/dhcp.dart';
 import 'package:pi_hole_client/ui2/core/l10n/generated/app_localizations.dart';
+import 'package:pi_hole_client/ui2/core/themes/theme.dart';
 
 /// A widget that displays a list of DHCP leases in a scrollable view.
 ///

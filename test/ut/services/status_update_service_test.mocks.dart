@@ -12,7 +12,6 @@ import 'package:http/http.dart' as _i4;
 import 'package:mockito/mockito.dart' as _i1;
 import 'package:mockito/src/dummies.dart' as _i8;
 import 'package:package_info_plus/package_info_plus.dart' as _i10;
-import 'package:pi_hole_client/config/theme.dart' as _i2;
 import 'package:pi_hole_client/constants/enums.dart' as _i19;
 import 'package:pi_hole_client/gateways/api_gateway_interface.dart' as _i17;
 import 'package:pi_hole_client/gateways/v6/api_gateway_v6.dart' as _i24;
@@ -32,6 +31,7 @@ import 'package:pi_hole_client/providers/app_config_provider.dart' as _i6;
 import 'package:pi_hole_client/providers/filters_provider.dart' as _i23;
 import 'package:pi_hole_client/providers/servers_provider.dart' as _i15;
 import 'package:pi_hole_client/providers/status_provider.dart' as _i18;
+import 'package:pi_hole_client/ui2/core/themes/theme.dart' as _i2;
 
 // ignore_for_file: type=lint
 // ignore_for_file: avoid_redundant_argument_values

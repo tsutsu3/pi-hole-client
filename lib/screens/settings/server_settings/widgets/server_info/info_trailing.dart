@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:pi_hole_client/config/theme.dart';
+import 'package:pi_hole_client/ui2/core/themes/theme.dart';
 
 class InfoTrailing extends StatelessWidget {
   const InfoTrailing({
