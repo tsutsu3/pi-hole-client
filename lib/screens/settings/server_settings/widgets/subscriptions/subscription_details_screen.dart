@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:pi_hole_client/classes/process_modal.dart';
 import 'package:pi_hole_client/constants/formats.dart';
 import 'package:pi_hole_client/constants/responsive.dart';
 import 'package:pi_hole_client/functions/conversions.dart';
@@ -15,9 +14,10 @@ import 'package:pi_hole_client/providers/subscriptions_list_provider.dart';
 import 'package:pi_hole_client/screens/settings/server_settings/widgets/subscriptions/edit_subscription_modal.dart';
 import 'package:pi_hole_client/ui2/core/l10n/generated/app_localizations.dart';
 import 'package:pi_hole_client/ui2/core/themes/theme.dart';
-import 'package:pi_hole_client/ui2/core/ui/custom_list_tile.dart';
-import 'package:pi_hole_client/ui2/core/ui/delete_modal.dart';
-import 'package:pi_hole_client/ui2/core/ui/section_label.dart';
+import 'package:pi_hole_client/ui2/core/ui/components/custom_list_tile.dart';
+import 'package:pi_hole_client/ui2/core/ui/components/section_label.dart';
+import 'package:pi_hole_client/ui2/core/ui/modals/delete_modal.dart';
+import 'package:pi_hole_client/ui2/core/ui/modals/process_modal.dart';
 import 'package:provider/provider.dart';
 
 class SubscriptionDetailsScreen extends StatefulWidget {

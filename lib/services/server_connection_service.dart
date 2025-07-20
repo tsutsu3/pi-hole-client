@@ -1,7 +1,6 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
-import 'package:pi_hole_client/classes/process_modal.dart';
 import 'package:pi_hole_client/config/globals.dart';
 import 'package:pi_hole_client/constants/enums.dart';
 import 'package:pi_hole_client/functions/logger.dart';
@@ -13,6 +12,7 @@ import 'package:pi_hole_client/providers/servers_provider.dart';
 import 'package:pi_hole_client/providers/status_provider.dart';
 import 'package:pi_hole_client/services/status_update_service.dart';
 import 'package:pi_hole_client/ui2/core/l10n/generated/app_localizations.dart';
+import 'package:pi_hole_client/ui2/core/ui/modals/process_modal.dart';
 
 class ServerConnectionService {
   ServerConnectionService({

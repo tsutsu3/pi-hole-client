@@ -6,7 +6,7 @@ import 'package:pi_hole_client/models/gateways.dart';
 import 'package:pi_hole_client/screens/domains/domains.dart';
 import 'package:pi_hole_client/screens/domains/widgets/domain_details_screen.dart';
 import 'package:pi_hole_client/screens/domains/widgets/edit_domain_modal.dart';
-import 'package:pi_hole_client/ui2/core/ui/labeled_multi_select_tile.dart';
+import 'package:pi_hole_client/ui2/core/ui/components/labeled_multi_select_tile.dart';
 
 import '../../helpers.dart';
 

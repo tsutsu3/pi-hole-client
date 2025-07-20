@@ -7,8 +7,8 @@ import 'package:pi_hole_client/screens/statistics/custom_pie_chart.dart';
 import 'package:pi_hole_client/screens/statistics/no_data_chart.dart';
 import 'package:pi_hole_client/screens/statistics/pie_chart_legend.dart';
 import 'package:pi_hole_client/ui2/core/l10n/generated/app_localizations.dart';
-import 'package:pi_hole_client/ui2/core/ui/section_label.dart';
-import 'package:pi_hole_client/ui2/core/ui/tab_content.dart';
+import 'package:pi_hole_client/ui2/core/ui/components/section_label.dart';
+import 'package:pi_hole_client/ui2/core/ui/components/tab_content.dart';
 import 'package:provider/provider.dart';
 
 class DnsTab extends StatelessWidget {

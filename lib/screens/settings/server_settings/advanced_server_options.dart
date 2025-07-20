@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:pi_hole_client/classes/process_modal.dart';
 import 'package:pi_hole_client/functions/logger.dart';
 import 'package:pi_hole_client/functions/snackbar.dart';
 import 'package:pi_hole_client/gateways/api_gateway_interface.dart';
@@ -14,10 +13,11 @@ import 'package:pi_hole_client/screens/settings/server_settings/advanced_setting
 import 'package:pi_hole_client/screens/settings/server_settings/advanced_settings/sessions_screen.dart';
 import 'package:pi_hole_client/ui2/core/l10n/generated/app_localizations.dart';
 import 'package:pi_hole_client/ui2/core/themes/theme.dart';
-import 'package:pi_hole_client/ui2/core/ui/confirmation_modal.dart';
-import 'package:pi_hole_client/ui2/core/ui/custom_button_list_tile.dart';
-import 'package:pi_hole_client/ui2/core/ui/custom_list_tile.dart';
-import 'package:pi_hole_client/ui2/core/ui/section_label.dart';
+import 'package:pi_hole_client/ui2/core/ui/components/custom_button_list_tile.dart';
+import 'package:pi_hole_client/ui2/core/ui/components/custom_list_tile.dart';
+import 'package:pi_hole_client/ui2/core/ui/components/section_label.dart';
+import 'package:pi_hole_client/ui2/core/ui/modals/confirmation_modal.dart';
+import 'package:pi_hole_client/ui2/core/ui/modals/process_modal.dart';
 import 'package:provider/provider.dart';
 import 'package:skeletonizer/skeletonizer.dart';
 

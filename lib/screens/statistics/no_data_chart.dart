@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:pi_hole_client/ui2/core/l10n/generated/app_localizations.dart';
-import 'package:pi_hole_client/ui2/core/ui/section_label.dart';
+import 'package:pi_hole_client/ui2/core/ui/components/section_label.dart';
 
 class NoDataChart extends StatelessWidget {
   const NoDataChart({

@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
-
-import 'package:pi_hole_client/ui2/core/ui/custom_radio.dart';
+import 'package:pi_hole_client/ui2/core/ui/components/custom_radio.dart';
 
 class CustomRadioListTile extends StatelessWidget {
   const CustomRadioListTile({

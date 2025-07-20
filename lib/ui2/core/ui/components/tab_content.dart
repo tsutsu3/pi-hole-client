@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-
 import 'package:pi_hole_client/constants/enums.dart';
 
 class CustomTabContent extends StatelessWidget {

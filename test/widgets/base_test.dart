@@ -3,9 +3,9 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/mockito.dart';
 import 'package:pi_hole_client/base.dart';
 import 'package:pi_hole_client/screens/home/home.dart';
-import 'package:pi_hole_client/ui2/core/ui/bottom_nav_bar.dart';
-import 'package:pi_hole_client/ui2/core/ui/navigation_rail.dart';
-import 'package:pi_hole_client/ui2/core/ui/start_warning_modal.dart';
+import 'package:pi_hole_client/ui2/core/ui/layout/bottom_nav_bar.dart';
+import 'package:pi_hole_client/ui2/core/ui/layout/navigation_rail.dart';
+import 'package:pi_hole_client/ui2/core/ui/modals/start_warning_modal.dart';
 
 import './helpers.dart';
 

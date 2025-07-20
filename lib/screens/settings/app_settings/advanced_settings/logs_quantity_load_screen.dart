@@ -4,7 +4,7 @@ import 'package:pi_hole_client/providers/app_config_provider.dart';
 import 'package:pi_hole_client/screens/common/pi_hole_v6_not_supported_screen.dart';
 import 'package:pi_hole_client/ui2/core/l10n/generated/app_localizations.dart';
 import 'package:pi_hole_client/ui2/core/themes/theme.dart';
-import 'package:pi_hole_client/ui2/core/ui/custom_radio_list_tile.dart';
+import 'package:pi_hole_client/ui2/core/ui/components/custom_radio_list_tile.dart';
 import 'package:provider/provider.dart';
 
 class LogOption {

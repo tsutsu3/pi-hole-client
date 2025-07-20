@@ -4,8 +4,8 @@ import 'package:mockito/mockito.dart';
 import 'package:pi_hole_client/models/gateways.dart';
 import 'package:pi_hole_client/screens/settings/server_settings/advanced_settings/sessions_screen.dart';
 import 'package:pi_hole_client/screens/settings/server_settings/advanced_settings/sessions_screen/session_detail_screen.dart';
-import 'package:pi_hole_client/ui2/core/ui/delete_modal.dart';
-import 'package:pi_hole_client/ui2/core/ui/error_message.dart';
+import 'package:pi_hole_client/ui2/core/ui/components/error_message.dart';
+import 'package:pi_hole_client/ui2/core/ui/modals/delete_modal.dart';
 
 import '../../../../helpers.dart';
 

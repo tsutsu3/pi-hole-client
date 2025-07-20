@@ -1,8 +1,7 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
-
-import 'package:pi_hole_client/ui2/core/ui/process_dialog.dart';
+import 'package:pi_hole_client/ui2/core/ui/modals/process_dialog.dart';
 
 class ProcessModal {
   ProcessModal({required this.context});

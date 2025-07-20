@@ -11,8 +11,8 @@ import 'package:pi_hole_client/providers/app_config_provider.dart';
 import 'package:pi_hole_client/providers/servers_provider.dart';
 import 'package:pi_hole_client/services/status_update_service.dart';
 import 'package:pi_hole_client/ui2/core/l10n/generated/app_localizations.dart';
-import 'package:pi_hole_client/ui2/core/ui/scan_token_modal.dart';
-import 'package:pi_hole_client/ui2/core/ui/section_label.dart';
+import 'package:pi_hole_client/ui2/core/ui/components/section_label.dart';
+import 'package:pi_hole_client/ui2/core/ui/modals/scan_token_modal.dart';
 import 'package:provider/provider.dart';
 
 class AddServerFullscreen extends StatefulWidget {

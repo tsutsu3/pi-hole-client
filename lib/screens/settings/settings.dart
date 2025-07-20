@@ -23,8 +23,8 @@ import 'package:pi_hole_client/screens/settings/server_settings/advanced_setting
 import 'package:pi_hole_client/screens/settings/server_settings/server_info.dart';
 import 'package:pi_hole_client/screens/settings/server_settings/subscriptions.dart';
 import 'package:pi_hole_client/ui2/core/l10n/generated/app_localizations.dart';
-import 'package:pi_hole_client/ui2/core/ui/custom_list_tile.dart';
-import 'package:pi_hole_client/ui2/core/ui/section_label.dart';
+import 'package:pi_hole_client/ui2/core/ui/components/custom_list_tile.dart';
+import 'package:pi_hole_client/ui2/core/ui/components/section_label.dart';
 import 'package:provider/provider.dart';
 
 class Settings extends StatelessWidget {

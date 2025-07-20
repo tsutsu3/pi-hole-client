@@ -1,7 +1,7 @@
 import 'package:expandable/expandable.dart';
 import 'package:flutter/material.dart';
 import 'package:pi_hole_client/ui2/core/l10n/generated/app_localizations.dart';
-import 'package:pi_hole_client/ui2/core/ui/option_box.dart';
+import 'package:pi_hole_client/ui2/core/ui/components/option_box.dart';
 
 class DisableModal extends StatefulWidget {
   const DisableModal({

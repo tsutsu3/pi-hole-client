@@ -9,8 +9,8 @@ import 'package:pi_hole_client/screens/settings/server_settings/subscriptions.da
 import 'package:pi_hole_client/screens/settings/server_settings/widgets/subscriptions/add_subscription_modal.dart';
 import 'package:pi_hole_client/screens/settings/server_settings/widgets/subscriptions/edit_subscription_modal.dart';
 import 'package:pi_hole_client/screens/settings/server_settings/widgets/subscriptions/subscription_details_screen.dart';
-import 'package:pi_hole_client/ui2/core/ui/delete_modal.dart';
-import 'package:pi_hole_client/ui2/core/ui/labeled_multi_select_tile.dart';
+import 'package:pi_hole_client/ui2/core/ui/components/labeled_multi_select_tile.dart';
+import 'package:pi_hole_client/ui2/core/ui/modals/delete_modal.dart';
 
 import '../../../helpers.dart';
 
