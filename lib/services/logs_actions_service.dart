@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:pi_hole_client/gateways/api_gateway_interface.dart';
-import 'package:pi_hole_client/models/gateways.dart';
-import 'package:pi_hole_client/models/log.dart';
+import 'package:pi_hole_client/data2/services/gateways/api_gateway_interface.dart';
+import 'package:pi_hole_client/data2/services/gateways/shared/models/gateways.dart';
+import 'package:pi_hole_client/data2/services/gateways/shared/models/log.dart';
 import 'package:pi_hole_client/providers/app_config_provider.dart';
 import 'package:pi_hole_client/ui2/core/l10n/generated/app_localizations.dart';
 import 'package:pi_hole_client/ui2/core/ui/helpers/snackbar.dart';

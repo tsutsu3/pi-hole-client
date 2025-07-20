@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:pi_hole_client/config2/enums.dart';
 import 'package:pi_hole_client/config2/responsive.dart';
-import 'package:pi_hole_client/models/realtime_status.dart';
+import 'package:pi_hole_client/data2/services/gateways/shared/models/realtime_status.dart';
 import 'package:pi_hole_client/providers/status_provider.dart';
 import 'package:pi_hole_client/screens/statistics/custom_pie_chart.dart';
 import 'package:pi_hole_client/screens/statistics/no_data_chart.dart';

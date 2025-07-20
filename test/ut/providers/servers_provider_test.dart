@@ -3,13 +3,14 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
 import 'package:pi_hole_client/config2/query_types.dart';
-import 'package:pi_hole_client/gateways/v6/api_gateway_v6.dart';
-import 'package:pi_hole_client/models/repository/database.dart';
-import 'package:pi_hole_client/models/server.dart';
+import 'package:pi_hole_client/data2/repositories/database.dart';
+import 'package:pi_hole_client/data2/services/database/models/database.dart';
+import 'package:pi_hole_client/data2/services/gateways/shared/models/server.dart';
+import 'package:pi_hole_client/data2/services/gateways/v6/api_gateway_v6.dart';
 import 'package:pi_hole_client/providers/app_config_provider.dart';
 import 'package:pi_hole_client/providers/servers_provider.dart';
-import 'package:pi_hole_client/repository/database.dart';
 import 'package:sqflite/sqflite.dart';
+
 import './servers_provider_test.mocks.dart';
 
 @GenerateMocks([

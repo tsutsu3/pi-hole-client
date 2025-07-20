@@ -2,9 +2,9 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
 import 'package:pi_hole_client/config2/enums.dart';
-import 'package:pi_hole_client/gateways/v6/api_gateway_v6.dart';
-import 'package:pi_hole_client/models/domain.dart';
-import 'package:pi_hole_client/models/gateways.dart';
+import 'package:pi_hole_client/data2/services/gateways/shared/models/domain.dart';
+import 'package:pi_hole_client/data2/services/gateways/shared/models/gateways.dart';
+import 'package:pi_hole_client/data2/services/gateways/v6/api_gateway_v6.dart';
 import 'package:pi_hole_client/providers/domains_list_provider.dart';
 import 'package:pi_hole_client/providers/servers_provider.dart';
 

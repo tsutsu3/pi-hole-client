@@ -1,11 +1,11 @@
 import 'dart:async';
 
 import 'package:pi_hole_client/config2/enums.dart';
-import 'package:pi_hole_client/gateways/api_gateway_interface.dart';
-import 'package:pi_hole_client/models/gateways.dart';
-import 'package:pi_hole_client/models/messages.dart';
-import 'package:pi_hole_client/models/repository/database.dart';
-import 'package:pi_hole_client/repository/database.dart';
+import 'package:pi_hole_client/data2/repositories/database.dart';
+import 'package:pi_hole_client/data2/services/database/models/database.dart';
+import 'package:pi_hole_client/data2/services/gateways/api_gateway_interface.dart';
+import 'package:pi_hole_client/data2/services/gateways/shared/models/gateways.dart';
+import 'package:pi_hole_client/data2/services/gateways/shared/models/messages.dart';
 
 /// A service responsible for managing gravity updates by interacting with
 /// the database repository and API gateway.

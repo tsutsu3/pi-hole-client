@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:pi_hole_client/models/app_screen.dart';
+import 'package:pi_hole_client/data2/services/gateways/shared/models/app_screen.dart';
 import 'package:pi_hole_client/ui2/core/l10n/generated/app_localizations.dart';
 
 class BottomNavBar extends StatelessWidget {

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:pi_hole_client/config2/formats.dart';
 import 'package:pi_hole_client/config2/search_domain_base_url.dart';
-import 'package:pi_hole_client/models/log.dart';
+import 'package:pi_hole_client/data2/services/gateways/shared/models/log.dart';
 import 'package:pi_hole_client/providers/filters_provider.dart';
 import 'package:pi_hole_client/screens/logs/widgets/log_status.dart';
 import 'package:pi_hole_client/ui2/core/l10n/generated/app_localizations.dart';

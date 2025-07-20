@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:pi_hole_client/config2/enums.dart';
 import 'package:pi_hole_client/config2/formats.dart';
-import 'package:pi_hole_client/models/sessions.dart';
+import 'package:pi_hole_client/data2/services/gateways/shared/models/sessions.dart';
 import 'package:pi_hole_client/ui2/core/l10n/generated/app_localizations.dart';
 import 'package:pi_hole_client/ui2/core/themes/theme.dart';
 import 'package:pi_hole_client/utils2/format.dart';

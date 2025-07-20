@@ -2,7 +2,7 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:pi_hole_client/config2/enums.dart';
-import 'package:pi_hole_client/models/log.dart';
+import 'package:pi_hole_client/data2/services/gateways/shared/models/log.dart';
 import 'package:pi_hole_client/services/logs_pagination_service.dart';
 import 'package:pi_hole_client/utils2/logger.dart';
 

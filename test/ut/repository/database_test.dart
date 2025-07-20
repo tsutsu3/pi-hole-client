@@ -2,10 +2,10 @@
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:pi_hole_client/models/repository/database.dart';
-import 'package:pi_hole_client/models/server.dart';
-import 'package:pi_hole_client/repository/database.dart';
-import 'package:pi_hole_client/repository/secure_storage.dart';
+import 'package:pi_hole_client/data2/repositories/database.dart';
+import 'package:pi_hole_client/data2/services/database/models/database.dart';
+import 'package:pi_hole_client/data2/services/gateways/shared/models/server.dart';
+import 'package:pi_hole_client/data2/services/storage/secure_storage.dart';
 import 'package:pi_hole_client/services/secret_manager.dart';
 import 'package:sqflite_common_ffi/sqflite_ffi.dart';
 

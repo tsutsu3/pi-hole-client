@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:pi_hole_client/config2/enums.dart';
-import 'package:pi_hole_client/models/metrics.dart';
-import 'package:pi_hole_client/models/overtime_data.dart';
-import 'package:pi_hole_client/models/realtime_status.dart';
+import 'package:pi_hole_client/data2/services/gateways/shared/models/metrics.dart';
+import 'package:pi_hole_client/data2/services/gateways/shared/models/overtime_data.dart';
+import 'package:pi_hole_client/data2/services/gateways/shared/models/realtime_status.dart';
 
 class StatusProvider with ChangeNotifier {
   LoadStatus _serverStatus = LoadStatus.loading;

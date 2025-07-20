@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:pi_hole_client/config2/enums.dart';
-import 'package:pi_hole_client/models/domain.dart';
-import 'package:pi_hole_client/models/gateways.dart';
+import 'package:pi_hole_client/data2/services/gateways/shared/models/domain.dart';
+import 'package:pi_hole_client/data2/services/gateways/shared/models/gateways.dart';
 import 'package:pi_hole_client/providers/servers_provider.dart';
 
 class DomainsListProvider with ChangeNotifier {

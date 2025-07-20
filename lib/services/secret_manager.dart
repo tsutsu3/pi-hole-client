@@ -1,4 +1,4 @@
-import 'package:pi_hole_client/repository/secure_storage.dart';
+import 'package:pi_hole_client/data2/services/storage/secure_storage.dart';
 
 class SecretManager {
   SecretManager(this._storage, this._address);

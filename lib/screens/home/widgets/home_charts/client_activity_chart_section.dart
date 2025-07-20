@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:pi_hole_client/config2/enums.dart';
 import 'package:pi_hole_client/config2/responsive.dart';
-import 'package:pi_hole_client/models/overtime_data.dart';
+import 'package:pi_hole_client/data2/services/gateways/shared/models/overtime_data.dart';
 import 'package:pi_hole_client/providers/app_config_provider.dart';
 import 'package:pi_hole_client/providers/status_provider.dart';
 import 'package:pi_hole_client/screens/home/widgets/home_charts/clients/clients_last_hours_bar.dart';

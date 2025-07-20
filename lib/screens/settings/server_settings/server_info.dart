@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:pi_hole_client/gateways/api_gateway_interface.dart';
-import 'package:pi_hole_client/models/gateways.dart';
-import 'package:pi_hole_client/models/server.dart';
-import 'package:pi_hole_client/models/version.dart';
+import 'package:pi_hole_client/data2/services/gateways/api_gateway_interface.dart';
+import 'package:pi_hole_client/data2/services/gateways/shared/models/gateways.dart';
+import 'package:pi_hole_client/data2/services/gateways/shared/models/server.dart';
+import 'package:pi_hole_client/data2/services/gateways/shared/models/version.dart';
 import 'package:pi_hole_client/providers/servers_provider.dart';
 import 'package:pi_hole_client/screens/common/empty_data_screen.dart';
 import 'package:pi_hole_client/screens/settings/server_settings/widgets/server_info/host_information_section.dart';

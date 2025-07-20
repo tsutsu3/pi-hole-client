@@ -3,9 +3,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 import 'package:pi_hole_client/config2/languages.dart';
-import 'package:pi_hole_client/models/app_log.dart';
-import 'package:pi_hole_client/models/repository/database.dart';
-import 'package:pi_hole_client/repository/database.dart';
+import 'package:pi_hole_client/data2/repositories/database.dart';
+import 'package:pi_hole_client/data2/services/database/models/database.dart';
+import 'package:pi_hole_client/data2/services/gateways/shared/models/app_log.dart';
 import 'package:pi_hole_client/ui2/core/themes/theme.dart';
 import 'package:pi_hole_client/utils2/logger.dart';
 

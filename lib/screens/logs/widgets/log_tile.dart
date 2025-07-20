@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:pi_hole_client/config2/responsive.dart';
-import 'package:pi_hole_client/models/log.dart';
+import 'package:pi_hole_client/data2/services/gateways/shared/models/log.dart';
 import 'package:pi_hole_client/screens/logs/widgets/log_status.dart';
 import 'package:pi_hole_client/utils2/format.dart';
 

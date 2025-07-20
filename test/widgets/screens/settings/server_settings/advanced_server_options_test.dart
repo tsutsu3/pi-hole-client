@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/mockito.dart';
-import 'package:pi_hole_client/models/api/v6/config/config.dart';
-import 'package:pi_hole_client/models/config.dart';
-import 'package:pi_hole_client/models/gateways.dart';
+import 'package:pi_hole_client/data2/services/gateways/shared/models/config.dart';
+import 'package:pi_hole_client/data2/services/gateways/shared/models/gateways.dart';
+import 'package:pi_hole_client/data2/services/gateways/v6/models/config/config.dart';
 import 'package:pi_hole_client/screens/settings/server_settings/advanced_server_options.dart';
 import 'package:pi_hole_client/screens/settings/server_settings/advanced_settings/dhcp_screen.dart';
 import 'package:pi_hole_client/screens/settings/server_settings/advanced_settings/interface_screen.dart';
