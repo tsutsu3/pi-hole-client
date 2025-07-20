@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:pi_hole_client/constants/responsive.dart';
-import 'package:pi_hole_client/functions/refresh_server_status.dart';
+import 'package:pi_hole_client/config2/responsive.dart';
 import 'package:pi_hole_client/providers/servers_provider.dart';
 import 'package:pi_hole_client/screens/statistics/dns_tab.dart';
 import 'package:pi_hole_client/screens/statistics/statistics_list.dart';
 import 'package:pi_hole_client/screens/statistics/statistics_queries_servers_tab.dart';
 import 'package:pi_hole_client/screens/statistics/statistics_triple_column.dart';
 import 'package:pi_hole_client/ui2/core/l10n/generated/app_localizations.dart';
+import 'package:pi_hole_client/ui2/core/logic/refresh_server_status.dart';
 import 'package:provider/provider.dart';
 
 class Statistics extends StatefulWidget {

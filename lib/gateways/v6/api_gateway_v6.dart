@@ -5,8 +5,6 @@ import 'dart:io';
 import 'package:http/http.dart' as http;
 import 'package:http/http.dart';
 import 'package:http/io_client.dart';
-import 'package:pi_hole_client/functions/logger.dart';
-import 'package:pi_hole_client/functions/misc.dart';
 import 'package:pi_hole_client/gateways/api_gateway_interface.dart';
 import 'package:pi_hole_client/models/api/v6/action/action.dart';
 import 'package:pi_hole_client/models/api/v6/auth/auth.dart' show Session;
@@ -59,6 +57,8 @@ import 'package:pi_hole_client/models/sessions.dart';
 import 'package:pi_hole_client/models/subscriptions.dart';
 import 'package:pi_hole_client/models/system.dart';
 import 'package:pi_hole_client/models/version.dart';
+import 'package:pi_hole_client/utils2/logger.dart';
+import 'package:pi_hole_client/utils2/misc.dart';
 
 class ApiGatewayV6 implements ApiGateway {
   /// Creates a new instance of the `ApiGatewayV5` class.

@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
-import 'package:pi_hole_client/constants/enums.dart';
-import 'package:pi_hole_client/functions/logger.dart';
-import 'package:pi_hole_client/functions/open_url.dart';
-import 'package:pi_hole_client/functions/snackbar.dart';
+import 'package:pi_hole_client/config2/enums.dart';
 import 'package:pi_hole_client/models/gateways.dart';
 import 'package:pi_hole_client/providers/app_config_provider.dart';
 import 'package:pi_hole_client/providers/servers_provider.dart';
 import 'package:pi_hole_client/providers/status_provider.dart';
 import 'package:pi_hole_client/screens/servers/servers.dart';
 import 'package:pi_hole_client/ui2/core/l10n/generated/app_localizations.dart';
+import 'package:pi_hole_client/ui2/core/ui/helpers/snackbar.dart';
+import 'package:pi_hole_client/utils2/logger.dart';
+import 'package:pi_hole_client/utils2/open_url.dart';
 import 'package:provider/provider.dart';
 
 /// A popup menu widget for server-related actions in the app bar.

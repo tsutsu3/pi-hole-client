@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:pi_hole_client/constants/enums.dart';
+import 'package:pi_hole_client/config2/enums.dart';
 import 'package:pi_hole_client/models/log.dart';
 import 'package:pi_hole_client/screens/logs/widgets/log_tile.dart';
 import 'package:pi_hole_client/screens/logs/widgets/no_logs_message.dart';

@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:pi_hole_client/constants/enums.dart';
-import 'package:pi_hole_client/functions/conversions.dart';
+import 'package:pi_hole_client/config2/enums.dart';
 import 'package:pi_hole_client/providers/servers_provider.dart';
 import 'package:pi_hole_client/providers/status_provider.dart';
 import 'package:pi_hole_client/ui2/core/themes/theme.dart';
+import 'package:pi_hole_client/utils2/conversions.dart';
 import 'package:provider/provider.dart';
 
 /// A widget that displays an icon representing the current ad-block server status.

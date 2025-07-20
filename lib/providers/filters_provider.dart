@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:pi_hole_client/constants/enums.dart';
+import 'package:pi_hole_client/config2/enums.dart';
 import 'package:pi_hole_client/providers/filters_provider/filters_interface.dart';
 import 'package:pi_hole_client/providers/filters_provider/filters_v5.dart';
 import 'package:pi_hole_client/providers/filters_provider/filters_v6.dart';

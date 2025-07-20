@@ -1,8 +1,8 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
-import 'package:pi_hole_client/functions/conversions.dart';
 import 'package:pi_hole_client/ui2/core/themes/theme.dart';
+import 'package:pi_hole_client/utils2/conversions.dart';
 
 class PieChartLegend extends StatelessWidget {
   const PieChartLegend({

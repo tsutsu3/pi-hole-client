@@ -1,9 +1,9 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
-import 'package:pi_hole_client/constants/urls.dart';
-import 'package:pi_hole_client/functions/open_url.dart';
+import 'package:pi_hole_client/config2/urls.dart';
 import 'package:pi_hole_client/providers/app_config_provider.dart';
 import 'package:pi_hole_client/ui2/core/l10n/generated/app_localizations.dart';
+import 'package:pi_hole_client/utils2/open_url.dart';
 import 'package:provider/provider.dart';
 
 class StartInfoModal extends StatelessWidget {

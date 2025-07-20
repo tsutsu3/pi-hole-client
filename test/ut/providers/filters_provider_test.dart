@@ -1,7 +1,7 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
-import 'package:pi_hole_client/constants/enums.dart';
+import 'package:pi_hole_client/config2/enums.dart';
 import 'package:pi_hole_client/models/server.dart';
 import 'package:pi_hole_client/providers/filters_provider.dart';
 import 'package:pi_hole_client/providers/filters_provider/filters_v5.dart';

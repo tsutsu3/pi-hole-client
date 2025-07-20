@@ -1,6 +1,6 @@
 import 'dart:async';
 
-import 'package:pi_hole_client/constants/enums.dart';
+import 'package:pi_hole_client/config2/enums.dart';
 import 'package:pi_hole_client/gateways/api_gateway_interface.dart';
 import 'package:pi_hole_client/models/gateways.dart';
 import 'package:pi_hole_client/models/messages.dart';

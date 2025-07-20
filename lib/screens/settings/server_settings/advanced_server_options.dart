@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:pi_hole_client/functions/logger.dart';
-import 'package:pi_hole_client/functions/snackbar.dart';
 import 'package:pi_hole_client/gateways/api_gateway_interface.dart';
 import 'package:pi_hole_client/models/gateways.dart';
 import 'package:pi_hole_client/providers/app_config_provider.dart';
@@ -16,8 +14,10 @@ import 'package:pi_hole_client/ui2/core/themes/theme.dart';
 import 'package:pi_hole_client/ui2/core/ui/components/custom_button_list_tile.dart';
 import 'package:pi_hole_client/ui2/core/ui/components/custom_list_tile.dart';
 import 'package:pi_hole_client/ui2/core/ui/components/section_label.dart';
+import 'package:pi_hole_client/ui2/core/ui/helpers/snackbar.dart';
 import 'package:pi_hole_client/ui2/core/ui/modals/confirmation_modal.dart';
 import 'package:pi_hole_client/ui2/core/ui/modals/process_modal.dart';
+import 'package:pi_hole_client/utils2/logger.dart';
 import 'package:provider/provider.dart';
 import 'package:skeletonizer/skeletonizer.dart';
 

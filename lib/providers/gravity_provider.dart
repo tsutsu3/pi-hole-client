@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:pi_hole_client/constants/enums.dart';
-import 'package:pi_hole_client/functions/logger.dart';
+import 'package:pi_hole_client/config2/enums.dart';
 import 'package:pi_hole_client/models/messages.dart';
 import 'package:pi_hole_client/providers/servers_provider.dart';
 import 'package:pi_hole_client/repository/database.dart';
 import 'package:pi_hole_client/services/gravity_update_service.dart';
+import 'package:pi_hole_client/utils2/logger.dart';
 
 class GravityUpdateProvider with ChangeNotifier {
   GravityUpdateProvider({

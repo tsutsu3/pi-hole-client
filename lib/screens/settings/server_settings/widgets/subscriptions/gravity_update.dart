@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
-import 'package:pi_hole_client/constants/enums.dart';
-import 'package:pi_hole_client/functions/format.dart';
-import 'package:pi_hole_client/functions/logger.dart';
-import 'package:pi_hole_client/functions/snackbar.dart';
+import 'package:pi_hole_client/config2/enums.dart';
 import 'package:pi_hole_client/providers/app_config_provider.dart';
 import 'package:pi_hole_client/providers/gravity_provider.dart';
 import 'package:pi_hole_client/ui2/core/l10n/generated/app_localizations.dart';
 import 'package:pi_hole_client/ui2/core/themes/theme.dart';
 import 'package:pi_hole_client/ui2/core/ui/components/section_label.dart';
+import 'package:pi_hole_client/ui2/core/ui/helpers/snackbar.dart';
+import 'package:pi_hole_client/utils2/format.dart';
+import 'package:pi_hole_client/utils2/logger.dart';
 import 'package:provider/provider.dart';
 
 class GravityUpdate extends StatefulWidget {

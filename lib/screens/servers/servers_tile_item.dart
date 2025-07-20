@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:pi_hole_client/constants/responsive.dart';
+import 'package:pi_hole_client/config2/responsive.dart';
 import 'package:pi_hole_client/models/server.dart';
 import 'package:pi_hole_client/providers/servers_provider.dart';
 import 'package:pi_hole_client/screens/servers/server_tile_actions.dart';

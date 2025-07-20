@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/mockito.dart';
-import 'package:pi_hole_client/constants/enums.dart';
-import 'package:pi_hole_client/functions/format.dart';
+import 'package:pi_hole_client/config2/enums.dart';
 import 'package:pi_hole_client/screens/common/empty_data_screen.dart';
 import 'package:pi_hole_client/screens/common/pi_hole_v5_not_supported_screen.dart';
 import 'package:pi_hole_client/screens/settings/server_settings/subscriptions.dart';
@@ -11,6 +10,7 @@ import 'package:pi_hole_client/screens/settings/server_settings/widgets/subscrip
 import 'package:pi_hole_client/screens/settings/server_settings/widgets/subscriptions/subscription_details_screen.dart';
 import 'package:pi_hole_client/ui2/core/ui/components/labeled_multi_select_tile.dart';
 import 'package:pi_hole_client/ui2/core/ui/modals/delete_modal.dart';
+import 'package:pi_hole_client/utils2/format.dart';
 
 import '../../../helpers.dart';
 

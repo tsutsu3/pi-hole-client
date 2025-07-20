@@ -1,4 +1,4 @@
-import 'package:pi_hole_client/constants/query_types.dart';
+import 'package:pi_hole_client/config2/query_types.dart';
 import 'package:pi_hole_client/models/api/v6/metrics/query.dart';
 
 class LogsInfo {

@@ -1,11 +1,10 @@
 import 'dart:async';
 import 'dart:convert';
 import 'dart:io';
+
 import 'package:http/http.dart' as http;
 import 'package:http/http.dart';
 import 'package:http/io_client.dart';
-import 'package:pi_hole_client/functions/conversions.dart';
-import 'package:pi_hole_client/functions/misc.dart';
 import 'package:pi_hole_client/gateways/api_gateway_interface.dart';
 import 'package:pi_hole_client/models/api/v6/config/config.dart';
 import 'package:pi_hole_client/models/app_log.dart';
@@ -18,6 +17,8 @@ import 'package:pi_hole_client/models/realtime_status.dart';
 import 'package:pi_hole_client/models/server.dart';
 import 'package:pi_hole_client/models/subscriptions.dart';
 import 'package:pi_hole_client/models/version.dart';
+import 'package:pi_hole_client/utils2/conversions.dart';
+import 'package:pi_hole_client/utils2/misc.dart';
 
 class ApiGatewayV5 implements ApiGateway {
   /// Creates a new instance of the `ApiGatewayV5` class.

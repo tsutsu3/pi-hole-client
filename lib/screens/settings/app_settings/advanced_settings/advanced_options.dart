@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_phoenix/flutter_phoenix.dart';
-import 'package:pi_hole_client/constants/responsive.dart';
-import 'package:pi_hole_client/functions/conversions.dart';
-import 'package:pi_hole_client/functions/snackbar.dart';
+import 'package:pi_hole_client/config2/responsive.dart';
 import 'package:pi_hole_client/providers/app_config_provider.dart';
 import 'package:pi_hole_client/providers/servers_provider.dart';
 import 'package:pi_hole_client/screens/app_logs/app_logs.dart';
@@ -15,7 +13,9 @@ import 'package:pi_hole_client/screens/settings/app_settings/advanced_settings/r
 import 'package:pi_hole_client/ui2/core/l10n/generated/app_localizations.dart';
 import 'package:pi_hole_client/ui2/core/ui/components/custom_list_tile.dart';
 import 'package:pi_hole_client/ui2/core/ui/components/section_label.dart';
+import 'package:pi_hole_client/ui2/core/ui/helpers/snackbar.dart';
 import 'package:pi_hole_client/ui2/core/ui/modals/process_modal.dart';
+import 'package:pi_hole_client/utils2/conversions.dart';
 import 'package:provider/provider.dart';
 
 class AdvancedOptions extends StatelessWidget {

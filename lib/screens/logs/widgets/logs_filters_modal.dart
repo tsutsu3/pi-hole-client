@@ -1,16 +1,16 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
-import 'package:pi_hole_client/constants/enums.dart';
-import 'package:pi_hole_client/constants/formats.dart';
-import 'package:pi_hole_client/constants/responsive.dart';
-import 'package:pi_hole_client/functions/format.dart';
+import 'package:pi_hole_client/config2/enums.dart';
+import 'package:pi_hole_client/config2/formats.dart';
+import 'package:pi_hole_client/config2/responsive.dart';
 import 'package:pi_hole_client/providers/filters_provider.dart';
 import 'package:pi_hole_client/providers/servers_provider.dart';
 import 'package:pi_hole_client/screens/logs/widgets/clients_filters_modal.dart';
 import 'package:pi_hole_client/screens/logs/widgets/status_filters_modal.dart';
 import 'package:pi_hole_client/services/status_update_service.dart';
 import 'package:pi_hole_client/ui2/core/l10n/generated/app_localizations.dart';
+import 'package:pi_hole_client/utils2/format.dart';
 import 'package:provider/provider.dart';
 
 class LogsFiltersModal extends StatefulWidget {

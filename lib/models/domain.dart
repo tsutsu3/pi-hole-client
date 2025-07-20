@@ -1,4 +1,4 @@
-import 'package:pi_hole_client/constants/enums.dart';
+import 'package:pi_hole_client/config2/enums.dart';
 import 'package:pi_hole_client/models/api/v6/domains/domains.dart' as v6;
 
 class DomainRequest {

@@ -1,11 +1,11 @@
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
-import 'package:pi_hole_client/constants/graph.dart';
-import 'package:pi_hole_client/functions/format.dart';
-import 'package:pi_hole_client/functions/graph.dart';
+import 'package:pi_hole_client/config2/graph.dart';
 import 'package:pi_hole_client/providers/app_config_provider.dart';
 import 'package:pi_hole_client/ui2/core/l10n/generated/app_localizations.dart';
 import 'package:pi_hole_client/ui2/core/themes/theme.dart';
+import 'package:pi_hole_client/utils2/format.dart';
+import 'package:pi_hole_client/utils2/graph.dart';
 import 'package:provider/provider.dart';
 
 /// Displays a line chart showing query and ad-blocking activity over the past 24 hours.

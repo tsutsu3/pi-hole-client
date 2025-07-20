@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:pi_hole_client/constants/formats.dart';
-import 'package:pi_hole_client/constants/responsive.dart';
-import 'package:pi_hole_client/functions/conversions.dart';
-import 'package:pi_hole_client/functions/format.dart';
+import 'package:pi_hole_client/config2/formats.dart';
+import 'package:pi_hole_client/config2/responsive.dart';
 import 'package:pi_hole_client/models/domain.dart';
 import 'package:pi_hole_client/ui2/core/themes/theme.dart';
+import 'package:pi_hole_client/utils2/conversions.dart';
+import 'package:pi_hole_client/utils2/format.dart';
 
 /// A widget that displays a domain item with its type, address, date added.
 ///

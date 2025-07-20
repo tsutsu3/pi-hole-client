@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
-import 'package:pi_hole_client/constants/enums.dart';
-import 'package:pi_hole_client/constants/responsive.dart';
-import 'package:pi_hole_client/functions/refresh_server_status.dart';
-import 'package:pi_hole_client/functions/server_management.dart';
+import 'package:pi_hole_client/config2/enums.dart';
+import 'package:pi_hole_client/config2/responsive.dart';
 import 'package:pi_hole_client/providers/app_config_provider.dart';
 import 'package:pi_hole_client/providers/servers_provider.dart';
 import 'package:pi_hole_client/providers/status_provider.dart';
@@ -11,6 +9,8 @@ import 'package:pi_hole_client/screens/home/widgets/disable_modal.dart';
 import 'package:pi_hole_client/screens/home/widgets/home_appbar.dart';
 import 'package:pi_hole_client/screens/home/widgets/home_charts.dart';
 import 'package:pi_hole_client/screens/home/widgets/home_tiles.dart';
+import 'package:pi_hole_client/ui2/core/logic/refresh_server_status.dart';
+import 'package:pi_hole_client/ui2/core/logic/server_management.dart';
 import 'package:provider/provider.dart';
 
 class Home extends StatefulWidget {

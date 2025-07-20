@@ -1,9 +1,9 @@
 import 'dart:io';
+
 import 'package:animations/animations.dart';
 import 'package:flutter/material.dart';
-import 'package:pi_hole_client/constants/app_screens.dart';
-import 'package:pi_hole_client/constants/responsive.dart';
-import 'package:pi_hole_client/functions/logger.dart';
+import 'package:pi_hole_client/config2/app_screens.dart';
+import 'package:pi_hole_client/config2/responsive.dart';
 import 'package:pi_hole_client/providers/app_config_provider.dart';
 import 'package:pi_hole_client/providers/domains_list_provider.dart';
 import 'package:pi_hole_client/providers/servers_provider.dart';
@@ -17,6 +17,7 @@ import 'package:pi_hole_client/services/status_update_service.dart';
 import 'package:pi_hole_client/ui2/core/ui/layout/bottom_nav_bar.dart';
 import 'package:pi_hole_client/ui2/core/ui/layout/navigation_rail.dart';
 import 'package:pi_hole_client/ui2/core/ui/modals/start_warning_modal.dart';
+import 'package:pi_hole_client/utils2/logger.dart';
 import 'package:provider/provider.dart';
 import 'package:window_manager/window_manager.dart';
 

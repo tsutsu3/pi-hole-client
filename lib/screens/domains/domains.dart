@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:pi_hole_client/constants/enums.dart';
-import 'package:pi_hole_client/constants/responsive.dart';
-import 'package:pi_hole_client/functions/snackbar.dart';
+import 'package:pi_hole_client/config2/enums.dart';
+import 'package:pi_hole_client/config2/responsive.dart';
 import 'package:pi_hole_client/models/domain.dart';
 import 'package:pi_hole_client/models/gateways.dart';
 import 'package:pi_hole_client/models/server.dart';
@@ -12,6 +11,7 @@ import 'package:pi_hole_client/providers/servers_provider.dart';
 import 'package:pi_hole_client/screens/domains/widgets/domain_details_screen.dart';
 import 'package:pi_hole_client/screens/domains/widgets/domains_list.dart';
 import 'package:pi_hole_client/ui2/core/l10n/generated/app_localizations.dart';
+import 'package:pi_hole_client/ui2/core/ui/helpers/snackbar.dart';
 import 'package:pi_hole_client/ui2/core/ui/modals/process_modal.dart';
 import 'package:provider/provider.dart';
 

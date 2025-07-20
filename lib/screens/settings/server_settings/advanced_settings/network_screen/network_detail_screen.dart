@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:pi_hole_client/constants/formats.dart';
-import 'package:pi_hole_client/functions/format.dart';
+import 'package:pi_hole_client/config2/formats.dart';
 import 'package:pi_hole_client/models/devices.dart';
 import 'package:pi_hole_client/ui2/core/l10n/generated/app_localizations.dart';
 import 'package:pi_hole_client/ui2/core/ui/components/custom_list_tile.dart';
 import 'package:pi_hole_client/ui2/core/ui/components/section_label.dart';
 import 'package:pi_hole_client/ui2/core/ui/modals/delete_modal.dart';
+import 'package:pi_hole_client/utils2/format.dart';
 
 class NetworkDetailScreen extends StatelessWidget {
   const NetworkDetailScreen({

@@ -1,8 +1,8 @@
-import 'package:pi_hole_client/functions/conversions.dart';
-import 'package:pi_hole_client/functions/logger.dart';
 import 'package:pi_hole_client/models/repository/database.dart';
 import 'package:pi_hole_client/models/server.dart';
 import 'package:pi_hole_client/repository/secure_storage.dart';
+import 'package:pi_hole_client/utils2/conversions.dart';
+import 'package:pi_hole_client/utils2/logger.dart';
 import 'package:sqflite/sqflite.dart';
 
 class DatabaseRepository {

@@ -1,7 +1,7 @@
 import 'dart:math';
 
 import 'package:flutter/material.dart';
-import 'package:pi_hole_client/functions/misc.dart';
+import 'package:pi_hole_client/utils2/misc.dart';
 
 Color generateRandomColor() {
   final rnd = Random();

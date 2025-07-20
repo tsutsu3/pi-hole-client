@@ -1,10 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:pi_hole_client/constants/formats.dart';
-import 'package:pi_hole_client/constants/responsive.dart';
-import 'package:pi_hole_client/functions/conversions.dart';
-import 'package:pi_hole_client/functions/format.dart';
-import 'package:pi_hole_client/functions/open_url.dart';
-import 'package:pi_hole_client/functions/snackbar.dart';
+import 'package:pi_hole_client/config2/formats.dart';
+import 'package:pi_hole_client/config2/responsive.dart';
 import 'package:pi_hole_client/gateways/api_gateway_interface.dart';
 import 'package:pi_hole_client/models/gateways.dart';
 import 'package:pi_hole_client/models/subscriptions.dart';
@@ -16,8 +12,12 @@ import 'package:pi_hole_client/ui2/core/l10n/generated/app_localizations.dart';
 import 'package:pi_hole_client/ui2/core/themes/theme.dart';
 import 'package:pi_hole_client/ui2/core/ui/components/custom_list_tile.dart';
 import 'package:pi_hole_client/ui2/core/ui/components/section_label.dart';
+import 'package:pi_hole_client/ui2/core/ui/helpers/snackbar.dart';
 import 'package:pi_hole_client/ui2/core/ui/modals/delete_modal.dart';
 import 'package:pi_hole_client/ui2/core/ui/modals/process_modal.dart';
+import 'package:pi_hole_client/utils2/conversions.dart';
+import 'package:pi_hole_client/utils2/format.dart';
+import 'package:pi_hole_client/utils2/open_url.dart';
 import 'package:provider/provider.dart';
 
 class SubscriptionDetailsScreen extends StatefulWidget {

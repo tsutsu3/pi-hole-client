@@ -1,4 +1,4 @@
-import 'package:pi_hole_client/constants/enums.dart';
+import 'package:pi_hole_client/config2/enums.dart';
 
 abstract interface class Filters {
   List<int> get statusAllowedAndRetried;

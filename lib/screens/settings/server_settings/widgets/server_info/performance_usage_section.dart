@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:pi_hole_client/functions/format.dart';
-import 'package:pi_hole_client/functions/misc.dart';
 import 'package:pi_hole_client/models/sensors.dart';
 import 'package:pi_hole_client/models/system.dart';
 import 'package:pi_hole_client/ui2/core/l10n/generated/app_localizations.dart';
 import 'package:pi_hole_client/ui2/core/ui/components/adaptive_trailing_text.dart';
 import 'package:pi_hole_client/ui2/core/ui/components/list_tile_title.dart';
 import 'package:pi_hole_client/ui2/core/ui/components/section_label.dart';
+import 'package:pi_hole_client/utils2/format.dart';
+import 'package:pi_hole_client/utils2/misc.dart';
 import 'package:skeletonizer/skeletonizer.dart';
 
 class PerformanceUsageSection extends StatelessWidget {
