@@ -6,9 +6,11 @@
 import 'dart:async' as _i5;
 
 import 'package:mockito/mockito.dart' as _i1;
-import 'package:pi_hole_client/models/repository/database.dart' as _i2;
-import 'package:pi_hole_client/models/server.dart' as _i6;
-import 'package:pi_hole_client/repository/database.dart' as _i4;
+import 'package:pi_hole_client/data2/repositories/database.dart' as _i4;
+import 'package:pi_hole_client/data2/services/database/models/database.dart'
+    as _i2;
+import 'package:pi_hole_client/data2/services/gateways/shared/models/server.dart'
+    as _i6;
 import 'package:sqflite/sqflite.dart' as _i3;
 
 // ignore_for_file: type=lint
