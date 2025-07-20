@@ -53,7 +53,7 @@ untranslated.txt
 .env
 
 coverage/
-metrics/
+/metrics/
 .sentry-native/
 
 # Ignore generated credentials from google-github-actions/auth

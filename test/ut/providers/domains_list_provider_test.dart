@@ -1,12 +1,12 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
-import 'package:pi_hole_client/constants/enums.dart';
-import 'package:pi_hole_client/gateways/v6/api_gateway_v6.dart';
-import 'package:pi_hole_client/models/domain.dart';
-import 'package:pi_hole_client/models/gateways.dart';
-import 'package:pi_hole_client/providers/domains_list_provider.dart';
-import 'package:pi_hole_client/providers/servers_provider.dart';
+import 'package:pi_hole_client/config/enums.dart';
+import 'package:pi_hole_client/data/services/gateways/shared/models/domain.dart';
+import 'package:pi_hole_client/data/services/gateways/shared/models/gateways.dart';
+import 'package:pi_hole_client/data/services/gateways/v6/api_gateway_v6.dart';
+import 'package:pi_hole_client/ui/core/viewmodel/domains_list_provider.dart';
+import 'package:pi_hole_client/ui/core/viewmodel/servers_provider.dart';
 
 import './domains_list_provider_test.mocks.dart';
 

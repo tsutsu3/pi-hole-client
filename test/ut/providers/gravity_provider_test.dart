@@ -4,15 +4,15 @@ import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
-import 'package:pi_hole_client/constants/enums.dart';
-import 'package:pi_hole_client/gateways/v6/api_gateway_v6.dart';
-import 'package:pi_hole_client/models/gateways.dart';
-import 'package:pi_hole_client/models/messages.dart';
-import 'package:pi_hole_client/models/repository/database.dart';
-import 'package:pi_hole_client/models/server.dart';
-import 'package:pi_hole_client/providers/gravity_provider.dart';
-import 'package:pi_hole_client/providers/servers_provider.dart';
-import 'package:pi_hole_client/repository/database.dart';
+import 'package:pi_hole_client/config/enums.dart';
+import 'package:pi_hole_client/data/repositories/database.dart';
+import 'package:pi_hole_client/data/services/database/models/database.dart';
+import 'package:pi_hole_client/data/services/gateways/shared/models/gateways.dart';
+import 'package:pi_hole_client/data/services/gateways/shared/models/messages.dart';
+import 'package:pi_hole_client/data/services/gateways/shared/models/server.dart';
+import 'package:pi_hole_client/data/services/gateways/v6/api_gateway_v6.dart';
+import 'package:pi_hole_client/ui/core/viewmodel/gravity_provider.dart';
+import 'package:pi_hole_client/ui/core/viewmodel/servers_provider.dart';
 
 import './gravity_provider_test.mocks.dart';
 

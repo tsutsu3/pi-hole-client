@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/mockito.dart';
-import 'package:pi_hole_client/models/gateways.dart';
-import 'package:pi_hole_client/screens/settings/server_settings/advanced_settings/network_screen.dart';
-import 'package:pi_hole_client/screens/settings/server_settings/advanced_settings/network_screen/network_detail_screen.dart';
-import 'package:pi_hole_client/widgets/delete_modal.dart';
-import 'package:pi_hole_client/widgets/error_message.dart';
+import 'package:pi_hole_client/data/services/gateways/shared/models/gateways.dart';
+import 'package:pi_hole_client/ui/core/ui/components/error_message.dart';
+import 'package:pi_hole_client/ui/core/ui/modals/delete_modal.dart';
+import 'package:pi_hole_client/ui/settings/server_settings/advanced_settings/network_screen.dart';
+import 'package:pi_hole_client/ui/settings/server_settings/advanced_settings/network_screen/network_detail_screen.dart';
 
 import '../../../../helpers.dart';
 

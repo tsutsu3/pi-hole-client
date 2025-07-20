@@ -12,34 +12,53 @@ import 'package:http/http.dart' as _i4;
 import 'package:mockito/mockito.dart' as _i1;
 import 'package:mockito/src/dummies.dart' as _i8;
 import 'package:package_info_plus/package_info_plus.dart' as _i10;
-import 'package:pi_hole_client/config/theme.dart' as _i2;
-import 'package:pi_hole_client/constants/enums.dart' as _i19;
-import 'package:pi_hole_client/gateways/api_gateway_interface.dart' as _i17;
-import 'package:pi_hole_client/gateways/v5/api_gateway_v5.dart' as _i26;
-import 'package:pi_hole_client/gateways/v6/api_gateway_v6.dart' as _i30;
-import 'package:pi_hole_client/models/api/v6/config/config.dart' as _i29;
-import 'package:pi_hole_client/models/app_log.dart' as _i9;
-import 'package:pi_hole_client/models/domain.dart' as _i25;
-import 'package:pi_hole_client/models/gateways.dart' as _i5;
-import 'package:pi_hole_client/models/groups.dart' as _i28;
-import 'package:pi_hole_client/models/messages.dart' as _i35;
-import 'package:pi_hole_client/models/metrics.dart' as _i23;
-import 'package:pi_hole_client/models/overtime_data.dart' as _i22;
-import 'package:pi_hole_client/models/query_status.dart' as _i16;
-import 'package:pi_hole_client/models/realtime_status.dart' as _i21;
-import 'package:pi_hole_client/models/repository/database.dart' as _i13;
-import 'package:pi_hole_client/models/server.dart' as _i3;
-import 'package:pi_hole_client/models/subscriptions.dart' as _i27;
-import 'package:pi_hole_client/providers/app_config_provider.dart' as _i6;
-import 'package:pi_hole_client/providers/domains_list_provider.dart' as _i24;
-import 'package:pi_hole_client/providers/filters_provider.dart' as _i18;
-import 'package:pi_hole_client/providers/gravity_provider.dart' as _i34;
-import 'package:pi_hole_client/providers/groups_provider.dart' as _i32;
-import 'package:pi_hole_client/providers/servers_provider.dart' as _i15;
-import 'package:pi_hole_client/providers/status_provider.dart' as _i20;
-import 'package:pi_hole_client/providers/subscriptions_list_provider.dart'
+import 'package:pi_hole_client/config/enums.dart' as _i19;
+import 'package:pi_hole_client/data/services/database/models/database.dart'
+    as _i13;
+import 'package:pi_hole_client/data/services/gateways/api_gateway_interface.dart'
+    as _i17;
+import 'package:pi_hole_client/data/services/gateways/shared/models/app_log.dart'
+    as _i9;
+import 'package:pi_hole_client/data/services/gateways/shared/models/domain.dart'
+    as _i25;
+import 'package:pi_hole_client/data/services/gateways/shared/models/gateways.dart'
+    as _i5;
+import 'package:pi_hole_client/data/services/gateways/shared/models/groups.dart'
+    as _i28;
+import 'package:pi_hole_client/data/services/gateways/shared/models/messages.dart'
+    as _i35;
+import 'package:pi_hole_client/data/services/gateways/shared/models/metrics.dart'
+    as _i23;
+import 'package:pi_hole_client/data/services/gateways/shared/models/overtime_data.dart'
+    as _i22;
+import 'package:pi_hole_client/data/services/gateways/shared/models/query_status.dart'
+    as _i16;
+import 'package:pi_hole_client/data/services/gateways/shared/models/realtime_status.dart'
+    as _i21;
+import 'package:pi_hole_client/data/services/gateways/shared/models/server.dart'
+    as _i3;
+import 'package:pi_hole_client/data/services/gateways/shared/models/subscriptions.dart'
+    as _i27;
+import 'package:pi_hole_client/data/services/gateways/v5/api_gateway_v5.dart'
+    as _i26;
+import 'package:pi_hole_client/data/services/gateways/v6/api_gateway_v6.dart'
+    as _i30;
+import 'package:pi_hole_client/data/services/gateways/v6/models/config/config.dart'
+    as _i29;
+import 'package:pi_hole_client/domain/use_cases/status_update_service.dart'
+    as _i31;
+import 'package:pi_hole_client/ui/core/themes/theme.dart' as _i2;
+import 'package:pi_hole_client/ui/core/viewmodel/app_config_provider.dart'
+    as _i6;
+import 'package:pi_hole_client/ui/core/viewmodel/domains_list_provider.dart'
+    as _i24;
+import 'package:pi_hole_client/ui/core/viewmodel/filters_provider.dart' as _i18;
+import 'package:pi_hole_client/ui/core/viewmodel/gravity_provider.dart' as _i34;
+import 'package:pi_hole_client/ui/core/viewmodel/groups_provider.dart' as _i32;
+import 'package:pi_hole_client/ui/core/viewmodel/servers_provider.dart' as _i15;
+import 'package:pi_hole_client/ui/core/viewmodel/status_provider.dart' as _i20;
+import 'package:pi_hole_client/ui/core/viewmodel/subscriptions_list_provider.dart'
     as _i33;
-import 'package:pi_hole_client/services/status_update_service.dart' as _i31;
 
 // ignore_for_file: type=lint
 // ignore_for_file: avoid_redundant_argument_values

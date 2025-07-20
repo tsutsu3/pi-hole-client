@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/mockito.dart';
-import 'package:pi_hole_client/constants/enums.dart';
-import 'package:pi_hole_client/models/realtime_status.dart';
-import 'package:pi_hole_client/screens/statistics/statistics.dart';
-import 'package:pi_hole_client/screens/statistics/statistics_list.dart';
-import 'package:pi_hole_client/screens/statistics/statistics_triple_column.dart';
+import 'package:pi_hole_client/config/enums.dart';
+import 'package:pi_hole_client/data/services/gateways/shared/models/realtime_status.dart';
+import 'package:pi_hole_client/ui/statistics/statistics.dart';
+import 'package:pi_hole_client/ui/statistics/statistics_list.dart';
+import 'package:pi_hole_client/ui/statistics/statistics_triple_column.dart';
 import 'package:pie_chart/pie_chart.dart';
 
 import '../../helpers.dart';

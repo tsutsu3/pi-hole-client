@@ -1,5 +1,5 @@
-import 'package:pi_hole_client/models/server.dart';
-import 'package:pi_hole_client/repository/secure_storage.dart';
+import 'package:pi_hole_client/data/services/gateways/shared/models/server.dart';
+import 'package:pi_hole_client/data/services/storage/secure_storage.dart';
 import 'package:sqflite/sqflite.dart';
 
 class DbHelper {
