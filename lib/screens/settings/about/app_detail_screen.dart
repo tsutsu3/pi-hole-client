@@ -3,7 +3,7 @@ import 'package:flutter_svg/svg.dart';
 import 'package:pi_hole_client/build_info/git_commit.dart';
 import 'package:pi_hole_client/constants/urls.dart';
 import 'package:pi_hole_client/functions/open_url.dart';
-import 'package:pi_hole_client/l10n/generated/app_localizations.dart';
+import 'package:pi_hole_client/ui2/core/l10n/generated/app_localizations.dart';
 import 'package:pi_hole_client/widgets/list_tile_title.dart';
 import 'package:pi_hole_client/widgets/section_label.dart';
 

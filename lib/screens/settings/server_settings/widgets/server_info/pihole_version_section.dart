@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:pi_hole_client/l10n/generated/app_localizations.dart';
 import 'package:pi_hole_client/screens/settings/server_settings/widgets/server_info/info_trailing.dart';
+import 'package:pi_hole_client/ui2/core/l10n/generated/app_localizations.dart';
 import 'package:pi_hole_client/widgets/list_tile_title.dart';
 import 'package:pi_hole_client/widgets/pihole_icon.dart';
 import 'package:pi_hole_client/widgets/section_label.dart';

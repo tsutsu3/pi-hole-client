@@ -5,7 +5,6 @@ import 'package:pi_hole_client/config/theme.dart';
 import 'package:pi_hole_client/constants/enums.dart';
 import 'package:pi_hole_client/constants/responsive.dart';
 import 'package:pi_hole_client/functions/conversions.dart';
-import 'package:pi_hole_client/l10n/generated/app_localizations.dart';
 import 'package:pi_hole_client/providers/app_config_provider.dart';
 import 'package:pi_hole_client/providers/filters_provider.dart';
 import 'package:pi_hole_client/providers/servers_provider.dart';
@@ -14,6 +13,7 @@ import 'package:pi_hole_client/screens/home/widgets/home_tiles/home_tile.dart';
 import 'package:pi_hole_client/screens/settings/server_settings/advanced_server_options.dart';
 import 'package:pi_hole_client/screens/settings/server_settings/advanced_settings/network_screen.dart';
 import 'package:pi_hole_client/screens/settings/server_settings/subscriptions.dart';
+import 'package:pi_hole_client/ui2/core/l10n/generated/app_localizations.dart';
 import 'package:provider/provider.dart';
 import 'package:skeletonizer/skeletonizer.dart';
 

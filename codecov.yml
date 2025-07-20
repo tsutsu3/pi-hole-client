@@ -1,6 +1,6 @@
 ignore:
   - "lib/screens/settings/about/about.dart"
   - "lib/**/*.g.dart"
-  - "lib/l10n/generated/**"
+  - "lib/ui2/core/l10n/generated/**"
   - "mock_api_server/**"
   - "tools/**"

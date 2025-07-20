@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:pi_hole_client/config/theme.dart';
 import 'package:pi_hole_client/constants/enums.dart';
-import 'package:pi_hole_client/l10n/generated/app_localizations.dart';
 import 'package:pi_hole_client/models/server.dart';
 import 'package:pi_hole_client/providers/servers_provider.dart';
 import 'package:pi_hole_client/providers/status_provider.dart';
+import 'package:pi_hole_client/ui2/core/l10n/generated/app_localizations.dart';
 import 'package:provider/provider.dart';
 
 /// A widget that displays action buttons for a server tile, including options to

@@ -3,7 +3,6 @@ import 'package:flutter/rendering.dart';
 import 'package:pi_hole_client/classes/process_modal.dart';
 import 'package:pi_hole_client/constants/responsive.dart';
 import 'package:pi_hole_client/functions/snackbar.dart';
-import 'package:pi_hole_client/l10n/generated/app_localizations.dart';
 import 'package:pi_hole_client/models/domain.dart';
 import 'package:pi_hole_client/models/gateways.dart';
 import 'package:pi_hole_client/providers/app_config_provider.dart';
@@ -13,6 +12,7 @@ import 'package:pi_hole_client/providers/servers_provider.dart';
 import 'package:pi_hole_client/screens/domains/widgets/add_domain_modal.dart';
 import 'package:pi_hole_client/screens/domains/widgets/domain_details_screen.dart';
 import 'package:pi_hole_client/screens/domains/widgets/domain_tile.dart';
+import 'package:pi_hole_client/ui2/core/l10n/generated/app_localizations.dart';
 import 'package:pi_hole_client/widgets/tab_content_list.dart';
 import 'package:provider/provider.dart';
 

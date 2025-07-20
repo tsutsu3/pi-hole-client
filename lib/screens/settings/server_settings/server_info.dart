@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:pi_hole_client/classes/custom_scroll_behavior.dart';
 import 'package:pi_hole_client/functions/logger.dart';
 import 'package:pi_hole_client/gateways/api_gateway_interface.dart';
-import 'package:pi_hole_client/l10n/generated/app_localizations.dart';
 import 'package:pi_hole_client/models/gateways.dart';
 import 'package:pi_hole_client/models/server.dart';
 import 'package:pi_hole_client/models/version.dart';
@@ -12,6 +11,7 @@ import 'package:pi_hole_client/screens/settings/server_settings/widgets/server_i
 import 'package:pi_hole_client/screens/settings/server_settings/widgets/server_info/performance_usage_section.dart';
 import 'package:pi_hole_client/screens/settings/server_settings/widgets/server_info/pihole_version_section.dart';
 import 'package:pi_hole_client/screens/settings/server_settings/widgets/server_info/server_connection_section.dart';
+import 'package:pi_hole_client/ui2/core/l10n/generated/app_localizations.dart';
 import 'package:pi_hole_client/widgets/error_message.dart';
 import 'package:provider/provider.dart';
 import 'package:skeletonizer/skeletonizer.dart';

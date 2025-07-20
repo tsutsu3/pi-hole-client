@@ -6,7 +6,6 @@ import 'package:pi_hole_client/constants/languages.dart';
 import 'package:pi_hole_client/constants/responsive.dart';
 import 'package:pi_hole_client/constants/urls.dart';
 import 'package:pi_hole_client/functions/open_url.dart';
-import 'package:pi_hole_client/l10n/generated/app_localizations.dart';
 import 'package:pi_hole_client/models/server.dart';
 import 'package:pi_hole_client/providers/app_config_provider.dart';
 import 'package:pi_hole_client/providers/servers_provider.dart';
@@ -23,6 +22,7 @@ import 'package:pi_hole_client/screens/settings/server_settings/advanced_server_
 import 'package:pi_hole_client/screens/settings/server_settings/advanced_settings/network_screen.dart';
 import 'package:pi_hole_client/screens/settings/server_settings/server_info.dart';
 import 'package:pi_hole_client/screens/settings/server_settings/subscriptions.dart';
+import 'package:pi_hole_client/ui2/core/l10n/generated/app_localizations.dart';
 import 'package:pi_hole_client/widgets/custom_list_tile.dart';
 import 'package:pi_hole_client/widgets/section_label.dart';
 import 'package:provider/provider.dart';

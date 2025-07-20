@@ -1,9 +1,9 @@
 import 'package:expandable/expandable.dart';
 import 'package:flutter/material.dart';
-import 'package:pi_hole_client/l10n/generated/app_localizations.dart';
 import 'package:pi_hole_client/models/server.dart';
 import 'package:pi_hole_client/providers/servers_provider.dart';
 import 'package:pi_hole_client/screens/servers/servers_tile_item.dart';
+import 'package:pi_hole_client/ui2/core/l10n/generated/app_localizations.dart';
 import 'package:provider/provider.dart';
 
 class ServersList extends StatelessWidget {

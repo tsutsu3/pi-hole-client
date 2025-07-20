@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:pi_hole_client/constants/enums.dart';
 import 'package:pi_hole_client/functions/conversions.dart';
-import 'package:pi_hole_client/l10n/generated/app_localizations.dart';
 import 'package:pi_hole_client/models/realtime_status.dart';
 import 'package:pi_hole_client/providers/app_config_provider.dart';
 import 'package:pi_hole_client/providers/filters_provider.dart';
@@ -10,6 +9,7 @@ import 'package:pi_hole_client/screens/statistics/animated_percent_indicator.dar
 import 'package:pi_hole_client/screens/statistics/custom_pie_chart.dart';
 import 'package:pi_hole_client/screens/statistics/no_data_chart.dart';
 import 'package:pi_hole_client/screens/statistics/pie_chart_legend.dart';
+import 'package:pi_hole_client/ui2/core/l10n/generated/app_localizations.dart';
 import 'package:pi_hole_client/widgets/section_label.dart';
 import 'package:pi_hole_client/widgets/tab_content.dart';
 import 'package:provider/provider.dart';

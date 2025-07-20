@@ -4,7 +4,6 @@ import 'package:pi_hole_client/config/theme.dart';
 import 'package:pi_hole_client/functions/logger.dart';
 import 'package:pi_hole_client/functions/snackbar.dart';
 import 'package:pi_hole_client/gateways/api_gateway_interface.dart';
-import 'package:pi_hole_client/l10n/generated/app_localizations.dart';
 import 'package:pi_hole_client/models/gateways.dart';
 import 'package:pi_hole_client/providers/app_config_provider.dart';
 import 'package:pi_hole_client/providers/servers_provider.dart';
@@ -14,6 +13,7 @@ import 'package:pi_hole_client/screens/settings/server_settings/advanced_setting
 import 'package:pi_hole_client/screens/settings/server_settings/advanced_settings/interface_screen.dart';
 import 'package:pi_hole_client/screens/settings/server_settings/advanced_settings/network_screen.dart';
 import 'package:pi_hole_client/screens/settings/server_settings/advanced_settings/sessions_screen.dart';
+import 'package:pi_hole_client/ui2/core/l10n/generated/app_localizations.dart';
 import 'package:pi_hole_client/widgets/confirmation_modal.dart';
 import 'package:pi_hole_client/widgets/custom_button_list_tile.dart';
 import 'package:pi_hole_client/widgets/custom_list_tile.dart';

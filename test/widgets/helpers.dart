@@ -15,7 +15,6 @@ import 'package:pi_hole_client/constants/query_types.dart';
 import 'package:pi_hole_client/gateways/api_gateway_interface.dart';
 import 'package:pi_hole_client/gateways/v5/api_gateway_v5.dart';
 import 'package:pi_hole_client/gateways/v6/api_gateway_v6.dart';
-import 'package:pi_hole_client/l10n/generated/app_localizations.dart';
 import 'package:pi_hole_client/models/api/v6/auth/sessions.dart';
 import 'package:pi_hole_client/models/api/v6/config/config.dart' show Config;
 import 'package:pi_hole_client/models/api/v6/dhcp/dhcp.dart' show Dhcp;
@@ -63,6 +62,7 @@ import 'package:pi_hole_client/providers/servers_provider.dart';
 import 'package:pi_hole_client/providers/status_provider.dart';
 import 'package:pi_hole_client/providers/subscriptions_list_provider.dart';
 import 'package:pi_hole_client/services/status_update_service.dart';
+import 'package:pi_hole_client/ui2/core/l10n/generated/app_localizations.dart';
 import 'package:provider/provider.dart';
 
 import './helpers.mocks.dart';

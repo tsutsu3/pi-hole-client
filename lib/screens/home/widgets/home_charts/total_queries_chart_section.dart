@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:pi_hole_client/constants/enums.dart';
 import 'package:pi_hole_client/constants/responsive.dart';
-import 'package:pi_hole_client/l10n/generated/app_localizations.dart';
 import 'package:pi_hole_client/providers/status_provider.dart';
 import 'package:pi_hole_client/screens/home/widgets/home_charts/queries/queries_content.dart';
 import 'package:pi_hole_client/screens/home/widgets/home_charts/queries/queries_skeleton.dart';
 import 'package:pi_hole_client/screens/statistics/no_data_chart.dart';
+import 'package:pi_hole_client/ui2/core/l10n/generated/app_localizations.dart';
 import 'package:pi_hole_client/widgets/error_data_chart.dart';
 import 'package:provider/provider.dart';
 

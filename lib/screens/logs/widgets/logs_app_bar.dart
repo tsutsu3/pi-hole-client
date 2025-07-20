@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:pi_hole_client/l10n/generated/app_localizations.dart';
+import 'package:pi_hole_client/ui2/core/l10n/generated/app_localizations.dart';
 import 'package:pi_hole_client/widgets/custom_radio.dart';
 
 /// A custom AppBar widget for the logs screen, supporting search, filter, and sort functionalities.
