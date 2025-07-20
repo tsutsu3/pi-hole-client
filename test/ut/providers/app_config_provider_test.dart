@@ -3,9 +3,9 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
 import 'package:package_info_plus/package_info_plus.dart';
-import 'package:pi_hole_client/data2/repositories/database.dart';
-import 'package:pi_hole_client/data2/services/database/models/database.dart';
-import 'package:pi_hole_client/providers/app_config_provider.dart';
+import 'package:pi_hole_client/data/repositories/database.dart';
+import 'package:pi_hole_client/data/services/database/models/database.dart';
+import 'package:pi_hole_client/ui/core/viewmodel/app_config_provider.dart';
 
 import './app_config_provider_test.mocks.dart';
 

@@ -1,10 +1,10 @@
 import 'package:flutter_test/flutter_test.dart';
-import 'package:pi_hole_client/config2/enums.dart';
-import 'package:pi_hole_client/data2/services/gateways/shared/models/metrics.dart';
-import 'package:pi_hole_client/data2/services/gateways/shared/models/overtime_data.dart';
-import 'package:pi_hole_client/data2/services/gateways/shared/models/realtime_status.dart';
-import 'package:pi_hole_client/data2/services/gateways/v6/models/ftl/metrics.dart';
-import 'package:pi_hole_client/providers/status_provider.dart';
+import 'package:pi_hole_client/config/enums.dart';
+import 'package:pi_hole_client/data/services/gateways/shared/models/metrics.dart';
+import 'package:pi_hole_client/data/services/gateways/shared/models/overtime_data.dart';
+import 'package:pi_hole_client/data/services/gateways/shared/models/realtime_status.dart';
+import 'package:pi_hole_client/data/services/gateways/v6/models/ftl/metrics.dart';
+import 'package:pi_hole_client/ui/core/viewmodel/status_provider.dart';
 
 void main() {
   group('StatusProvider Tests', () {

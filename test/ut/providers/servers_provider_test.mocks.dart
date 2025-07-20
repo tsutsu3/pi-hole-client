@@ -11,15 +11,16 @@ import 'package:flutter/material.dart' as _i9;
 import 'package:mockito/mockito.dart' as _i1;
 import 'package:mockito/src/dummies.dart' as _i10;
 import 'package:package_info_plus/package_info_plus.dart' as _i12;
-import 'package:pi_hole_client/data2/repositories/database.dart' as _i6;
-import 'package:pi_hole_client/data2/services/database/models/database.dart'
+import 'package:pi_hole_client/data/repositories/database.dart' as _i6;
+import 'package:pi_hole_client/data/services/database/models/database.dart'
     as _i2;
-import 'package:pi_hole_client/data2/services/gateways/shared/models/app_log.dart'
+import 'package:pi_hole_client/data/services/gateways/shared/models/app_log.dart'
     as _i11;
-import 'package:pi_hole_client/data2/services/gateways/shared/models/server.dart'
+import 'package:pi_hole_client/data/services/gateways/shared/models/server.dart'
     as _i7;
-import 'package:pi_hole_client/providers/app_config_provider.dart' as _i8;
-import 'package:pi_hole_client/ui2/core/themes/theme.dart' as _i4;
+import 'package:pi_hole_client/ui/core/themes/theme.dart' as _i4;
+import 'package:pi_hole_client/ui/core/viewmodel/app_config_provider.dart'
+    as _i8;
 import 'package:sqflite/sqflite.dart' as _i3;
 
 // ignore_for_file: type=lint

@@ -6,10 +6,10 @@
 import 'dart:async' as _i5;
 
 import 'package:mockito/mockito.dart' as _i1;
-import 'package:pi_hole_client/data2/repositories/database.dart' as _i4;
-import 'package:pi_hole_client/data2/services/database/models/database.dart'
+import 'package:pi_hole_client/data/repositories/database.dart' as _i4;
+import 'package:pi_hole_client/data/services/database/models/database.dart'
     as _i2;
-import 'package:pi_hole_client/data2/services/gateways/shared/models/server.dart'
+import 'package:pi_hole_client/data/services/gateways/shared/models/server.dart'
     as _i6;
 import 'package:sqflite/sqflite.dart' as _i3;
 

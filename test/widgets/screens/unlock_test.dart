@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:pi_hole_client/screens/unlock.dart';
-import 'package:pi_hole_client/ui2/core/ui/components/numeric_pad.dart';
+import 'package:pi_hole_client/ui/common/unlock.dart';
+import 'package:pi_hole_client/ui/core/ui/components/numeric_pad.dart';
 
 import '../helpers.dart';
 

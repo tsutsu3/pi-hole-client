@@ -5,16 +5,16 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:http/http.dart' as http;
 import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
-import 'package:pi_hole_client/config2/api_versions.dart';
-import 'package:pi_hole_client/config2/enums.dart';
-import 'package:pi_hole_client/data2/services/gateways/shared/models/domain.dart';
-import 'package:pi_hole_client/data2/services/gateways/shared/models/gateways.dart';
-import 'package:pi_hole_client/data2/services/gateways/shared/models/groups.dart';
-import 'package:pi_hole_client/data2/services/gateways/shared/models/server.dart';
-import 'package:pi_hole_client/data2/services/gateways/shared/models/subscriptions.dart';
-import 'package:pi_hole_client/data2/services/gateways/shared/models/version.dart';
-import 'package:pi_hole_client/data2/services/gateways/v5/api_gateway_v5.dart';
-import 'package:pi_hole_client/data2/services/gateways/v6/models/config/config.dart';
+import 'package:pi_hole_client/config/api_versions.dart';
+import 'package:pi_hole_client/config/enums.dart';
+import 'package:pi_hole_client/data/services/gateways/shared/models/domain.dart';
+import 'package:pi_hole_client/data/services/gateways/shared/models/gateways.dart';
+import 'package:pi_hole_client/data/services/gateways/shared/models/groups.dart';
+import 'package:pi_hole_client/data/services/gateways/shared/models/server.dart';
+import 'package:pi_hole_client/data/services/gateways/shared/models/subscriptions.dart';
+import 'package:pi_hole_client/data/services/gateways/shared/models/version.dart';
+import 'package:pi_hole_client/data/services/gateways/v5/api_gateway_v5.dart';
+import 'package:pi_hole_client/data/services/gateways/v6/models/config/config.dart';
 
 import 'api_gateway_v5_test.mocks.dart';
 

@@ -9,30 +9,31 @@ import 'dart:ui' as _i13;
 import 'package:http/http.dart' as _i6;
 import 'package:mockito/mockito.dart' as _i1;
 import 'package:mockito/src/dummies.dart' as _i16;
-import 'package:pi_hole_client/data2/repositories/database.dart' as _i14;
-import 'package:pi_hole_client/data2/services/database/models/database.dart'
+import 'package:pi_hole_client/data/repositories/database.dart' as _i14;
+import 'package:pi_hole_client/data/services/database/models/database.dart'
     as _i3;
-import 'package:pi_hole_client/data2/services/gateways/api_gateway_interface.dart'
+import 'package:pi_hole_client/data/services/gateways/api_gateway_interface.dart'
     as _i11;
-import 'package:pi_hole_client/data2/services/gateways/shared/models/domain.dart'
+import 'package:pi_hole_client/data/services/gateways/shared/models/domain.dart'
     as _i17;
-import 'package:pi_hole_client/data2/services/gateways/shared/models/gateways.dart'
+import 'package:pi_hole_client/data/services/gateways/shared/models/gateways.dart'
     as _i7;
-import 'package:pi_hole_client/data2/services/gateways/shared/models/groups.dart'
+import 'package:pi_hole_client/data/services/gateways/shared/models/groups.dart'
     as _i19;
-import 'package:pi_hole_client/data2/services/gateways/shared/models/query_status.dart'
+import 'package:pi_hole_client/data/services/gateways/shared/models/query_status.dart'
     as _i9;
-import 'package:pi_hole_client/data2/services/gateways/shared/models/server.dart'
+import 'package:pi_hole_client/data/services/gateways/shared/models/server.dart'
     as _i5;
-import 'package:pi_hole_client/data2/services/gateways/shared/models/subscriptions.dart'
+import 'package:pi_hole_client/data/services/gateways/shared/models/subscriptions.dart'
     as _i18;
-import 'package:pi_hole_client/data2/services/gateways/v6/api_gateway_v6.dart'
+import 'package:pi_hole_client/data/services/gateways/v6/api_gateway_v6.dart'
     as _i15;
-import 'package:pi_hole_client/data2/services/gateways/v6/models/config/config.dart'
+import 'package:pi_hole_client/data/services/gateways/v6/models/config/config.dart'
     as _i20;
-import 'package:pi_hole_client/providers/app_config_provider.dart' as _i10;
-import 'package:pi_hole_client/providers/servers_provider.dart' as _i8;
-import 'package:pi_hole_client/ui2/core/themes/theme.dart' as _i2;
+import 'package:pi_hole_client/ui/core/themes/theme.dart' as _i2;
+import 'package:pi_hole_client/ui/core/viewmodel/app_config_provider.dart'
+    as _i10;
+import 'package:pi_hole_client/ui/core/viewmodel/servers_provider.dart' as _i8;
 import 'package:sqflite/sqflite.dart' as _i4;
 
 // ignore_for_file: type=lint

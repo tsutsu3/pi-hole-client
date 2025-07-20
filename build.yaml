@@ -4,8 +4,10 @@ targets:
       freezed:
         generate_for:
           include:
-            - lib/models/**/*.dart
+            - lib/domain/**/*.dart
+            - lib/data/**/*.dart
       json_serializable:
         generate_for:
           include:
-            - lib/models/**/*.dart
+            - lib/domain/**/*.dart
+            - lib/data/**/*.dart
