@@ -13,7 +13,7 @@ import 'package:pi_hole_client/screens/domains/widgets/add_domain_modal.dart';
 import 'package:pi_hole_client/screens/domains/widgets/domain_details_screen.dart';
 import 'package:pi_hole_client/screens/domains/widgets/domain_tile.dart';
 import 'package:pi_hole_client/ui2/core/l10n/generated/app_localizations.dart';
-import 'package:pi_hole_client/widgets/tab_content_list.dart';
+import 'package:pi_hole_client/ui2/core/ui/tab_content_list.dart';
 import 'package:provider/provider.dart';
 
 class DomainsList extends StatefulWidget {

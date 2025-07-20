@@ -12,7 +12,7 @@ import 'package:pi_hole_client/screens/settings/server_settings/widgets/server_i
 import 'package:pi_hole_client/screens/settings/server_settings/widgets/server_info/pihole_version_section.dart';
 import 'package:pi_hole_client/screens/settings/server_settings/widgets/server_info/server_connection_section.dart';
 import 'package:pi_hole_client/ui2/core/l10n/generated/app_localizations.dart';
-import 'package:pi_hole_client/widgets/error_message.dart';
+import 'package:pi_hole_client/ui2/core/ui/error_message.dart';
 import 'package:provider/provider.dart';
 import 'package:skeletonizer/skeletonizer.dart';
 

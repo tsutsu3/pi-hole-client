@@ -14,9 +14,9 @@ import 'package:pi_hole_client/screens/servers/servers.dart';
 import 'package:pi_hole_client/screens/settings/settings.dart';
 import 'package:pi_hole_client/screens/statistics/statistics.dart';
 import 'package:pi_hole_client/services/status_update_service.dart';
-import 'package:pi_hole_client/widgets/bottom_nav_bar.dart';
-import 'package:pi_hole_client/widgets/navigation_rail.dart';
-import 'package:pi_hole_client/widgets/start_warning_modal.dart';
+import 'package:pi_hole_client/ui2/core/ui/bottom_nav_bar.dart';
+import 'package:pi_hole_client/ui2/core/ui/navigation_rail.dart';
+import 'package:pi_hole_client/ui2/core/ui/start_warning_modal.dart';
 import 'package:provider/provider.dart';
 import 'package:window_manager/window_manager.dart';
 

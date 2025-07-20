@@ -4,7 +4,7 @@ import 'package:pi_hole_client/screens/home/widgets/home_charts/queries/queries_
 import 'package:pi_hole_client/screens/home/widgets/home_charts/skeleton/bar_chart_skeleton.dart';
 import 'package:pi_hole_client/screens/home/widgets/home_charts/skeleton/line_chart_skeleton.dart';
 import 'package:pi_hole_client/ui2/core/l10n/generated/app_localizations.dart';
-import 'package:pi_hole_client/widgets/section_label.dart';
+import 'package:pi_hole_client/ui2/core/ui/section_label.dart';
 import 'package:provider/provider.dart';
 import 'package:skeletonizer/skeletonizer.dart';
 

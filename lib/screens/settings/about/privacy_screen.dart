@@ -4,8 +4,8 @@ import 'package:pi_hole_client/functions/open_url.dart';
 import 'package:pi_hole_client/functions/snackbar.dart';
 import 'package:pi_hole_client/providers/app_config_provider.dart';
 import 'package:pi_hole_client/ui2/core/l10n/generated/app_localizations.dart';
-import 'package:pi_hole_client/widgets/list_tile_title.dart';
-import 'package:pi_hole_client/widgets/section_label.dart';
+import 'package:pi_hole_client/ui2/core/ui/list_tile_title.dart';
+import 'package:pi_hole_client/ui2/core/ui/section_label.dart';
 import 'package:provider/provider.dart';
 
 class PrivacyScreen extends StatelessWidget {

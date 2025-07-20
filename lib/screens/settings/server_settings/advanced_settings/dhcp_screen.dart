@@ -12,7 +12,7 @@ import 'package:pi_hole_client/screens/common/empty_data_screen.dart';
 import 'package:pi_hole_client/screens/settings/server_settings/advanced_settings/dhcp_screen/dhcp_detail_screen.dart';
 import 'package:pi_hole_client/screens/settings/server_settings/advanced_settings/dhcp_screen/dhcp_list_view.dart';
 import 'package:pi_hole_client/ui2/core/l10n/generated/app_localizations.dart';
-import 'package:pi_hole_client/widgets/error_message.dart';
+import 'package:pi_hole_client/ui2/core/ui/error_message.dart';
 import 'package:provider/provider.dart';
 import 'package:skeletonizer/skeletonizer.dart';
 

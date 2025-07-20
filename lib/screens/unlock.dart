@@ -5,8 +5,8 @@ import 'package:pi_hole_client/constants/responsive.dart';
 import 'package:pi_hole_client/functions/snackbar.dart';
 import 'package:pi_hole_client/providers/app_config_provider.dart';
 import 'package:pi_hole_client/ui2/core/l10n/generated/app_localizations.dart';
-import 'package:pi_hole_client/widgets/numeric_pad.dart';
-import 'package:pi_hole_client/widgets/shake_animation.dart';
+import 'package:pi_hole_client/ui2/core/ui/numeric_pad.dart';
+import 'package:pi_hole_client/ui2/core/ui/shake_animation.dart';
 import 'package:provider/provider.dart';
 
 class Unlock extends StatefulWidget {

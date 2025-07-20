@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:pi_hole_client/models/subscriptions.dart';
 import 'package:pi_hole_client/ui2/core/l10n/generated/app_localizations.dart';
-import 'package:pi_hole_client/widgets/labeled_multi_select_tile.dart';
+import 'package:pi_hole_client/ui2/core/ui/labeled_multi_select_tile.dart';
 
 class EditSubscriptionModal extends StatefulWidget {
   const EditSubscriptionModal({

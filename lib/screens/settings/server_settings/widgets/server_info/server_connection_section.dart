@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:pi_hole_client/models/server.dart';
 import 'package:pi_hole_client/ui2/core/l10n/generated/app_localizations.dart';
 import 'package:pi_hole_client/ui2/core/themes/theme.dart';
-import 'package:pi_hole_client/widgets/list_tile_title.dart';
-import 'package:pi_hole_client/widgets/section_label.dart';
+import 'package:pi_hole_client/ui2/core/ui/list_tile_title.dart';
+import 'package:pi_hole_client/ui2/core/ui/section_label.dart';
 import 'package:skeletonizer/skeletonizer.dart';
 
 class ServerConnectionSection extends StatelessWidget {

@@ -11,8 +11,8 @@ import 'package:pi_hole_client/screens/home/widgets/home_charts/skeleton/line_ch
 import 'package:pi_hole_client/screens/statistics/no_data_chart.dart';
 import 'package:pi_hole_client/ui2/core/l10n/generated/app_localizations.dart';
 import 'package:pi_hole_client/ui2/core/themes/theme.dart';
-import 'package:pi_hole_client/widgets/error_data_chart.dart';
-import 'package:pi_hole_client/widgets/section_label.dart';
+import 'package:pi_hole_client/ui2/core/ui/error_data_chart.dart';
+import 'package:pi_hole_client/ui2/core/ui/section_label.dart';
 import 'package:provider/provider.dart';
 import 'package:skeletonizer/skeletonizer.dart';
 
