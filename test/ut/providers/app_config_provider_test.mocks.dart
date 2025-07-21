@@ -6,11 +6,12 @@
 import 'dart:async' as _i5;
 
 import 'package:mockito/mockito.dart' as _i1;
-import 'package:pi_hole_client/data/repositories/database.dart' as _i4;
-import 'package:pi_hole_client/data/services/database/models/database.dart'
-    as _i2;
-import 'package:pi_hole_client/data/services/gateways/shared/models/server.dart'
-    as _i6;
+import 'package:mockito/src/dummies.dart' as _i7;
+import 'package:pi_hole_client/data/repositories/database_repository.dart'
+    as _i4;
+import 'package:pi_hole_client/domain/models/database.dart' as _i2;
+import 'package:pi_hole_client/domain/models/server.dart' as _i8;
+import 'package:result_dart/result_dart.dart' as _i6;
 import 'package:sqflite/sqflite.dart' as _i3;
 
 // ignore_for_file: type=lint
@@ -39,17 +40,6 @@ class _FakeAppDbData_0 extends _i1.SmartFake implements _i2.AppDbData {
 
 class _FakeDatabase_1 extends _i1.SmartFake implements _i3.Database {
   _FakeDatabase_1(
-    Object parent,
-    Invocation parentInvocation,
-  ) : super(
-          parent,
-          parentInvocation,
-        );
-}
-
-class _FakePiHoleClientData_2 extends _i1.SmartFake
-    implements _i2.PiHoleClientData {
-  _FakePiHoleClientData_2(
     Object parent,
     Invocation parentInvocation,
   ) : super(
@@ -92,43 +82,21 @@ class MockDatabaseRepository extends _i1.Mock
       ) as _i3.Database);
 
   @override
-  _i5.Future<void> initialize({String? path}) => (super.noSuchMethod(
+  _i5.Future<_i6.ResultDart<void, Exception>> initialize() =>
+      (super.noSuchMethod(
         Invocation.method(
           #initialize,
           [],
-          {#path: path},
         ),
-        returnValue: _i5.Future<void>.value(),
-        returnValueForMissingStub: _i5.Future<void>.value(),
-      ) as _i5.Future<void>);
-
-  @override
-  Map<String, dynamic> toDict() => (super.noSuchMethod(
-        Invocation.method(
-          #toDict,
-          [],
-        ),
-        returnValue: <String, dynamic>{},
-      ) as Map<String, dynamic>);
-
-  @override
-  _i5.Future<_i2.PiHoleClientData> loadDb({String? path}) =>
-      (super.noSuchMethod(
-        Invocation.method(
-          #loadDb,
-          [],
-          {#path: path},
-        ),
-        returnValue:
-            _i5.Future<_i2.PiHoleClientData>.value(_FakePiHoleClientData_2(
+        returnValue: _i5.Future<_i6.ResultDart<void, Exception>>.value(
+            _i7.dummyValue<_i6.ResultDart<void, Exception>>(
           this,
           Invocation.method(
-            #loadDb,
+            #initialize,
             [],
-            {#path: path},
           ),
         )),
-      ) as _i5.Future<_i2.PiHoleClientData>);
+      ) as _i5.Future<_i6.ResultDart<void, Exception>>);
 
   @override
   _i5.Future<bool> closeDb() => (super.noSuchMethod(
@@ -140,34 +108,61 @@ class MockDatabaseRepository extends _i1.Mock
       ) as _i5.Future<bool>);
 
   @override
-  _i5.Future<bool?> saveServerQuery(_i6.Server? server) => (super.noSuchMethod(
+  _i5.Future<_i6.ResultDart<void, Exception>> saveServerQuery(
+          _i8.Server? server) =>
+      (super.noSuchMethod(
         Invocation.method(
           #saveServerQuery,
           [server],
         ),
-        returnValue: _i5.Future<bool?>.value(),
-      ) as _i5.Future<bool?>);
+        returnValue: _i5.Future<_i6.ResultDart<void, Exception>>.value(
+            _i7.dummyValue<_i6.ResultDart<void, Exception>>(
+          this,
+          Invocation.method(
+            #saveServerQuery,
+            [server],
+          ),
+        )),
+      ) as _i5.Future<_i6.ResultDart<void, Exception>>);
 
   @override
-  _i5.Future<bool> editServerQuery(_i6.Server? server) => (super.noSuchMethod(
+  _i5.Future<_i6.ResultDart<void, Exception>> editServerQuery(
+          _i8.Server? server) =>
+      (super.noSuchMethod(
         Invocation.method(
           #editServerQuery,
           [server],
         ),
-        returnValue: _i5.Future<bool>.value(false),
-      ) as _i5.Future<bool>);
+        returnValue: _i5.Future<_i6.ResultDart<void, Exception>>.value(
+            _i7.dummyValue<_i6.ResultDart<void, Exception>>(
+          this,
+          Invocation.method(
+            #editServerQuery,
+            [server],
+          ),
+        )),
+      ) as _i5.Future<_i6.ResultDart<void, Exception>>);
 
   @override
-  _i5.Future<bool?> setDefaultServerQuery(String? url) => (super.noSuchMethod(
+  _i5.Future<_i6.ResultDart<void, Exception>> setDefaultServerQuery(
+          String? url) =>
+      (super.noSuchMethod(
         Invocation.method(
           #setDefaultServerQuery,
           [url],
         ),
-        returnValue: _i5.Future<bool?>.value(),
-      ) as _i5.Future<bool?>);
+        returnValue: _i5.Future<_i6.ResultDart<void, Exception>>.value(
+            _i7.dummyValue<_i6.ResultDart<void, Exception>>(
+          this,
+          Invocation.method(
+            #setDefaultServerQuery,
+            [url],
+          ),
+        )),
+      ) as _i5.Future<_i6.ResultDart<void, Exception>>);
 
   @override
-  _i5.Future<bool> removeServerQuery(
+  _i5.Future<_i6.ResultDart<void, Exception>> removeServerQuery(
     String? address, {
     _i3.Transaction? txn,
   }) =>
@@ -177,33 +172,57 @@ class MockDatabaseRepository extends _i1.Mock
           [address],
           {#txn: txn},
         ),
-        returnValue: _i5.Future<bool>.value(false),
-      ) as _i5.Future<bool>);
+        returnValue: _i5.Future<_i6.ResultDart<void, Exception>>.value(
+            _i7.dummyValue<_i6.ResultDart<void, Exception>>(
+          this,
+          Invocation.method(
+            #removeServerQuery,
+            [address],
+            {#txn: txn},
+          ),
+        )),
+      ) as _i5.Future<_i6.ResultDart<void, Exception>>);
 
   @override
-  _i5.Future<bool> deleteServersDataQuery({_i3.Transaction? txn}) =>
+  _i5.Future<_i6.ResultDart<void, Exception>> deleteServersDataQuery(
+          {_i3.Transaction? txn}) =>
       (super.noSuchMethod(
         Invocation.method(
           #deleteServersDataQuery,
           [],
           {#txn: txn},
         ),
-        returnValue: _i5.Future<bool>.value(false),
-      ) as _i5.Future<bool>);
+        returnValue: _i5.Future<_i6.ResultDart<void, Exception>>.value(
+            _i7.dummyValue<_i6.ResultDart<void, Exception>>(
+          this,
+          Invocation.method(
+            #deleteServersDataQuery,
+            [],
+            {#txn: txn},
+          ),
+        )),
+      ) as _i5.Future<_i6.ResultDart<void, Exception>>);
 
   @override
-  _i5.Future<Map<String, dynamic>> checkUrlExistsQuery(String? url) =>
+  _i5.Future<_i6.ResultDart<bool, Exception>> checkUrlExistsQuery(
+          String? url) =>
       (super.noSuchMethod(
         Invocation.method(
           #checkUrlExistsQuery,
           [url],
         ),
-        returnValue:
-            _i5.Future<Map<String, dynamic>>.value(<String, dynamic>{}),
-      ) as _i5.Future<Map<String, dynamic>>);
+        returnValue: _i5.Future<_i6.ResultDart<bool, Exception>>.value(
+            _i7.dummyValue<_i6.ResultDart<bool, Exception>>(
+          this,
+          Invocation.method(
+            #checkUrlExistsQuery,
+            [url],
+          ),
+        )),
+      ) as _i5.Future<_i6.ResultDart<bool, Exception>>);
 
   @override
-  _i5.Future<bool> updateConfigQuery({
+  _i5.Future<_i6.ResultDart<void, Exception>> updateConfigQuery({
     required String? column,
     required Object? value,
   }) =>
@@ -216,134 +235,244 @@ class MockDatabaseRepository extends _i1.Mock
             #value: value,
           },
         ),
-        returnValue: _i5.Future<bool>.value(false),
-      ) as _i5.Future<bool>);
+        returnValue: _i5.Future<_i6.ResultDart<void, Exception>>.value(
+            _i7.dummyValue<_i6.ResultDart<void, Exception>>(
+          this,
+          Invocation.method(
+            #updateConfigQuery,
+            [],
+            {
+              #column: column,
+              #value: value,
+            },
+          ),
+        )),
+      ) as _i5.Future<_i6.ResultDart<void, Exception>>);
 
   @override
-  _i5.Future<bool> restoreAppConfigQuery() => (super.noSuchMethod(
+  _i5.Future<_i6.ResultDart<void, Exception>> restoreAppConfigQuery() =>
+      (super.noSuchMethod(
         Invocation.method(
           #restoreAppConfigQuery,
           [],
         ),
-        returnValue: _i5.Future<bool>.value(false),
-      ) as _i5.Future<bool>);
+        returnValue: _i5.Future<_i6.ResultDart<void, Exception>>.value(
+            _i7.dummyValue<_i6.ResultDart<void, Exception>>(
+          this,
+          Invocation.method(
+            #restoreAppConfigQuery,
+            [],
+          ),
+        )),
+      ) as _i5.Future<_i6.ResultDart<void, Exception>>);
 
   @override
-  _i5.Future<void> cleanUpSecureStorage() => (super.noSuchMethod(
+  _i5.Future<_i6.ResultDart<void, Exception>> cleanUpSecureStorage() =>
+      (super.noSuchMethod(
         Invocation.method(
           #cleanUpSecureStorage,
           [],
         ),
-        returnValue: _i5.Future<void>.value(),
-        returnValueForMissingStub: _i5.Future<void>.value(),
-      ) as _i5.Future<void>);
+        returnValue: _i5.Future<_i6.ResultDart<void, Exception>>.value(
+            _i7.dummyValue<_i6.ResultDart<void, Exception>>(
+          this,
+          Invocation.method(
+            #cleanUpSecureStorage,
+            [],
+          ),
+        )),
+      ) as _i5.Future<_i6.ResultDart<void, Exception>>);
 
   @override
-  _i5.Future<_i2.GravityUpdateData?> getGravityUpdateQuery(String? address) =>
+  _i5.Future<
+      _i6.ResultDart<_i2.GravityUpdateData, Exception>> getGravityUpdateQuery(
+          String? address) =>
       (super.noSuchMethod(
         Invocation.method(
           #getGravityUpdateQuery,
           [address],
         ),
-        returnValue: _i5.Future<_i2.GravityUpdateData?>.value(),
-      ) as _i5.Future<_i2.GravityUpdateData?>);
+        returnValue: _i5
+            .Future<_i6.ResultDart<_i2.GravityUpdateData, Exception>>.value(
+            _i7.dummyValue<_i6.ResultDart<_i2.GravityUpdateData, Exception>>(
+          this,
+          Invocation.method(
+            #getGravityUpdateQuery,
+            [address],
+          ),
+        )),
+      ) as _i5.Future<_i6.ResultDart<_i2.GravityUpdateData, Exception>>);
 
   @override
-  _i5.Future<bool> upsertGravityUpdateQuery(
+  _i5.Future<_i6.ResultDart<void, Exception>> upsertGravityUpdateQuery(
           _i2.GravityUpdateData? gravityUpdateData) =>
       (super.noSuchMethod(
         Invocation.method(
           #upsertGravityUpdateQuery,
           [gravityUpdateData],
         ),
-        returnValue: _i5.Future<bool>.value(false),
-      ) as _i5.Future<bool>);
+        returnValue: _i5.Future<_i6.ResultDart<void, Exception>>.value(
+            _i7.dummyValue<_i6.ResultDart<void, Exception>>(
+          this,
+          Invocation.method(
+            #upsertGravityUpdateQuery,
+            [gravityUpdateData],
+          ),
+        )),
+      ) as _i5.Future<_i6.ResultDart<void, Exception>>);
 
   @override
-  _i5.Future<bool> removeGravityUpdateQuery(String? address) =>
+  _i5.Future<_i6.ResultDart<void, Exception>> removeGravityUpdateQuery(
+          String? address) =>
       (super.noSuchMethod(
         Invocation.method(
           #removeGravityUpdateQuery,
           [address],
         ),
-        returnValue: _i5.Future<bool>.value(false),
-      ) as _i5.Future<bool>);
+        returnValue: _i5.Future<_i6.ResultDart<void, Exception>>.value(
+            _i7.dummyValue<_i6.ResultDart<void, Exception>>(
+          this,
+          Invocation.method(
+            #removeGravityUpdateQuery,
+            [address],
+          ),
+        )),
+      ) as _i5.Future<_i6.ResultDart<void, Exception>>);
 
   @override
-  _i5.Future<List<_i2.GravityLogsData>?> getGravityLogsQuery(String? address) =>
+  _i5.Future<
+      _i6.ResultDart<List<_i2.GravityLogsData>, Exception>> getGravityLogsQuery(
+          String? address) =>
       (super.noSuchMethod(
         Invocation.method(
           #getGravityLogsQuery,
           [address],
         ),
-        returnValue: _i5.Future<List<_i2.GravityLogsData>?>.value(),
-      ) as _i5.Future<List<_i2.GravityLogsData>?>);
+        returnValue: _i5
+            .Future<_i6.ResultDart<List<_i2.GravityLogsData>, Exception>>.value(
+            _i7.dummyValue<
+                _i6.ResultDart<List<_i2.GravityLogsData>, Exception>>(
+          this,
+          Invocation.method(
+            #getGravityLogsQuery,
+            [address],
+          ),
+        )),
+      ) as _i5.Future<_i6.ResultDart<List<_i2.GravityLogsData>, Exception>>);
 
   @override
-  _i5.Future<bool> insertGravityLogQuery(
+  _i5.Future<_i6.ResultDart<void, Exception>> insertGravityLogQuery(
           List<_i2.GravityLogsData>? gravityLogsDataList) =>
       (super.noSuchMethod(
         Invocation.method(
           #insertGravityLogQuery,
           [gravityLogsDataList],
         ),
-        returnValue: _i5.Future<bool>.value(false),
-      ) as _i5.Future<bool>);
+        returnValue: _i5.Future<_i6.ResultDart<void, Exception>>.value(
+            _i7.dummyValue<_i6.ResultDart<void, Exception>>(
+          this,
+          Invocation.method(
+            #insertGravityLogQuery,
+            [gravityLogsDataList],
+          ),
+        )),
+      ) as _i5.Future<_i6.ResultDart<void, Exception>>);
 
   @override
-  _i5.Future<bool> clearGravityLogsQuery(String? address) =>
+  _i5.Future<_i6.ResultDart<void, Exception>> clearGravityLogsQuery(
+          String? address) =>
       (super.noSuchMethod(
         Invocation.method(
           #clearGravityLogsQuery,
           [address],
         ),
-        returnValue: _i5.Future<bool>.value(false),
-      ) as _i5.Future<bool>);
+        returnValue: _i5.Future<_i6.ResultDart<void, Exception>>.value(
+            _i7.dummyValue<_i6.ResultDart<void, Exception>>(
+          this,
+          Invocation.method(
+            #clearGravityLogsQuery,
+            [address],
+          ),
+        )),
+      ) as _i5.Future<_i6.ResultDart<void, Exception>>);
 
   @override
-  _i5.Future<List<_i2.GravityMessagesData>?> getGravityMessagesQuery(
-          String? address) =>
-      (super.noSuchMethod(
-        Invocation.method(
-          #getGravityMessagesQuery,
-          [address],
-        ),
-        returnValue: _i5.Future<List<_i2.GravityMessagesData>?>.value(),
-      ) as _i5.Future<List<_i2.GravityMessagesData>?>);
+  _i5.Future<_i6.ResultDart<List<_i2.GravityMessagesData>, Exception>>
+      getGravityMessagesQuery(String? address) => (super.noSuchMethod(
+            Invocation.method(
+              #getGravityMessagesQuery,
+              [address],
+            ),
+            returnValue: _i5.Future<
+                _i6.ResultDart<List<_i2.GravityMessagesData>,
+                    Exception>>.value(_i7.dummyValue<
+                _i6.ResultDart<List<_i2.GravityMessagesData>, Exception>>(
+              this,
+              Invocation.method(
+                #getGravityMessagesQuery,
+                [address],
+              ),
+            )),
+          ) as _i5.Future<
+              _i6.ResultDart<List<_i2.GravityMessagesData>, Exception>>);
 
   @override
-  _i5.Future<bool> insertGravityMessageQuery(
+  _i5.Future<_i6.ResultDart<void, Exception>> insertGravityMessageQuery(
           List<_i2.GravityMessagesData>? messagesList) =>
       (super.noSuchMethod(
         Invocation.method(
           #insertGravityMessageQuery,
           [messagesList],
         ),
-        returnValue: _i5.Future<bool>.value(false),
-      ) as _i5.Future<bool>);
+        returnValue: _i5.Future<_i6.ResultDart<void, Exception>>.value(
+            _i7.dummyValue<_i6.ResultDart<void, Exception>>(
+          this,
+          Invocation.method(
+            #insertGravityMessageQuery,
+            [messagesList],
+          ),
+        )),
+      ) as _i5.Future<_i6.ResultDart<void, Exception>>);
 
   @override
-  _i5.Future<bool> clearGravityMessagesQuery(String? address) =>
+  _i5.Future<_i6.ResultDart<void, Exception>> clearGravityMessagesQuery(
+          String? address) =>
       (super.noSuchMethod(
         Invocation.method(
           #clearGravityMessagesQuery,
           [address],
         ),
-        returnValue: _i5.Future<bool>.value(false),
-      ) as _i5.Future<bool>);
+        returnValue: _i5.Future<_i6.ResultDart<void, Exception>>.value(
+            _i7.dummyValue<_i6.ResultDart<void, Exception>>(
+          this,
+          Invocation.method(
+            #clearGravityMessagesQuery,
+            [address],
+          ),
+        )),
+      ) as _i5.Future<_i6.ResultDart<void, Exception>>);
 
   @override
-  _i5.Future<_i2.GravityData?> getGravityDataQuery(String? address) =>
+  _i5.Future<_i6.ResultDart<_i2.GravityData, Exception>> getGravityDataQuery(
+          String? address) =>
       (super.noSuchMethod(
         Invocation.method(
           #getGravityDataQuery,
           [address],
         ),
-        returnValue: _i5.Future<_i2.GravityData?>.value(),
-      ) as _i5.Future<_i2.GravityData?>);
+        returnValue:
+            _i5.Future<_i6.ResultDart<_i2.GravityData, Exception>>.value(
+                _i7.dummyValue<_i6.ResultDart<_i2.GravityData, Exception>>(
+          this,
+          Invocation.method(
+            #getGravityDataQuery,
+            [address],
+          ),
+        )),
+      ) as _i5.Future<_i6.ResultDart<_i2.GravityData, Exception>>);
 
   @override
-  _i5.Future<bool> clearGravityDataQuery(
+  _i5.Future<_i6.ResultDart<void, Exception>> clearGravityDataQuery(
     String? address, {
     _i3.Transaction? txn,
   }) =>
@@ -353,22 +482,39 @@ class MockDatabaseRepository extends _i1.Mock
           [address],
           {#txn: txn},
         ),
-        returnValue: _i5.Future<bool>.value(false),
-      ) as _i5.Future<bool>);
+        returnValue: _i5.Future<_i6.ResultDart<void, Exception>>.value(
+            _i7.dummyValue<_i6.ResultDart<void, Exception>>(
+          this,
+          Invocation.method(
+            #clearGravityDataQuery,
+            [address],
+            {#txn: txn},
+          ),
+        )),
+      ) as _i5.Future<_i6.ResultDart<void, Exception>>);
 
   @override
-  _i5.Future<bool> clearAllGravityDataQuery({_i3.Transaction? txn}) =>
+  _i5.Future<_i6.ResultDart<void, Exception>> clearAllGravityDataQuery(
+          {_i3.Transaction? txn}) =>
       (super.noSuchMethod(
         Invocation.method(
           #clearAllGravityDataQuery,
           [],
           {#txn: txn},
         ),
-        returnValue: _i5.Future<bool>.value(false),
-      ) as _i5.Future<bool>);
+        returnValue: _i5.Future<_i6.ResultDart<void, Exception>>.value(
+            _i7.dummyValue<_i6.ResultDart<void, Exception>>(
+          this,
+          Invocation.method(
+            #clearAllGravityDataQuery,
+            [],
+            {#txn: txn},
+          ),
+        )),
+      ) as _i5.Future<_i6.ResultDart<void, Exception>>);
 
   @override
-  _i5.Future<bool> deleteMessageQuery(
+  _i5.Future<_i6.ResultDart<void, Exception>> deleteMessageQuery(
     String? address,
     int? id,
   ) =>
@@ -380,6 +526,16 @@ class MockDatabaseRepository extends _i1.Mock
             id,
           ],
         ),
-        returnValue: _i5.Future<bool>.value(false),
-      ) as _i5.Future<bool>);
+        returnValue: _i5.Future<_i6.ResultDart<void, Exception>>.value(
+            _i7.dummyValue<_i6.ResultDart<void, Exception>>(
+          this,
+          Invocation.method(
+            #deleteMessageQuery,
+            [
+              address,
+              id,
+            ],
+          ),
+        )),
+      ) as _i5.Future<_i6.ResultDart<void, Exception>>);
 }

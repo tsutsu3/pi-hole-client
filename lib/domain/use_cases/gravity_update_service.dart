@@ -1,11 +1,11 @@
 import 'dart:async';
 
 import 'package:pi_hole_client/config/enums.dart';
-import 'package:pi_hole_client/data/repositories/database.dart';
-import 'package:pi_hole_client/data/services/database/models/database.dart';
+import 'package:pi_hole_client/data/repositories/gravity_repository.dart';
 import 'package:pi_hole_client/data/services/gateways/api_gateway_interface.dart';
 import 'package:pi_hole_client/data/services/gateways/shared/models/gateways.dart';
 import 'package:pi_hole_client/data/services/gateways/shared/models/messages.dart';
+import 'package:pi_hole_client/domain/models/database.dart';
 
 /// A service responsible for managing gravity updates by interacting with
 /// the database repository and API gateway.
@@ -14,16 +14,17 @@ import 'package:pi_hole_client/data/services/gateways/shared/models/messages.dar
 /// a subscription to listen for gravity responses.
 ///
 /// Parameters:
-/// - [repository]: The database repository used for storing and retrieving data.
-/// - [apiGateway]: The API gateway used for making network requests.
+/// - [_repository]: The database repository used for storing and retrieving data.
+/// - [_apiGateway]: The API gateway used for making network requests.
 class GravityUpdateService {
   GravityUpdateService({
-    required this.repository,
-    required this.apiGateway,
-  });
+    required GravityRepository repository,
+    required ApiGateway apiGateway,
+  })  : _repository = repository,
+        _apiGateway = apiGateway;
 
-  final DatabaseRepository repository;
-  final ApiGateway apiGateway;
+  final GravityRepository _repository;
+  final ApiGateway _apiGateway;
 
   StreamSubscription<GravityResponse>? _subscription;
 
@@ -66,8 +67,8 @@ class GravityUpdateService {
     DateTime? completedAt;
 
     // Clear previous gravity data from the database
-    await repository.clearGravityDataQuery(address);
-    await repository.upsertGravityUpdateQuery(
+    await _repository.deleteGravityData(address);
+    await _repository.upsertGravityUpdate(
       GravityUpdateData(
         address: address,
         startTime: startedAt,
@@ -79,7 +80,7 @@ class GravityUpdateService {
     onStatusChanged(status);
 
     // Start the gravity update process
-    final stream = apiGateway.updateGravity();
+    final stream = _apiGateway.updateGravity();
 
     _subscription = stream.listen(
       (chunk) async {
@@ -87,7 +88,7 @@ class GravityUpdateService {
         if (chunk.result == APiResponseType.error) {
           status = GravityStatus.error;
           completedAt = DateTime.now();
-          await repository.upsertGravityUpdateQuery(
+          await _repository.upsertGravityUpdate(
             GravityUpdateData(
               address: address,
               startTime: startedAt,
@@ -115,14 +116,14 @@ class GravityUpdateService {
               timestamp: DateTime.now(),
             );
           }).toList();
-          await repository.insertGravityLogQuery(logsToInsert);
+          await _repository.insertGravityLogs(logsToInsert);
           onLogsUpdated(logs);
         }
       },
       onError: (error) async {
         status = GravityStatus.error;
         completedAt = DateTime.now();
-        await repository.upsertGravityUpdateQuery(
+        await _repository.upsertGravityUpdate(
           GravityUpdateData(
             address: address,
             startTime: startedAt,
@@ -138,7 +139,7 @@ class GravityUpdateService {
 
         status = GravityStatus.success;
         completedAt = DateTime.now();
-        await repository.upsertGravityUpdateQuery(
+        await _repository.upsertGravityUpdate(
           GravityUpdateData(
             address: address,
             startTime: startedAt,
@@ -149,7 +150,7 @@ class GravityUpdateService {
 
         // Delay to ensure the messages are fetched after the update is complete
         await Future.delayed(const Duration(milliseconds: 500));
-        final msgs = await apiGateway.getMessages();
+        final msgs = await _apiGateway.getMessages();
         final messages = msgs.data?.messages ?? [];
         if (messages.isNotEmpty) {
           final messagesToInsert = messages.map((entry) {
@@ -161,7 +162,7 @@ class GravityUpdateService {
               timestamp: entry.timestamp,
             );
           }).toList();
-          await repository.insertGravityMessageQuery(messagesToInsert);
+          await _repository.insertGravityMessages(messagesToInsert);
           onMessagesUpdated(messages);
         }
         onStatusChanged(status);
@@ -189,12 +190,12 @@ class GravityUpdateService {
   /// - Returns: A `Future<bool>` indicating the success or failure of the operation.
   /// Removes a message from the database and pi-hole server.
   Future<bool> removeMessage(String address, int id) async {
-    final resp = await apiGateway.removeMessage(id);
+    final resp = await _apiGateway.removeMessage(id);
     if (resp.result == APiResponseType.error) {
       return false;
     }
-    final respDeleteMsg = await repository.deleteMessageQuery(address, id);
-    if (!respDeleteMsg) {
+    final respDeleteMsg = await _repository.deleteGravityMessage(address, id);
+    if (respDeleteMsg.isError()) {
       return false;
     }
     return true;
@@ -221,7 +222,9 @@ class GravityUpdateService {
   /// - An empty list for messages and logs.
   /// - `GravityStatus.idle` for the status.
   Future<Map<String, dynamic>> loadGravityData(String address) async {
-    final gravityData = await repository.getGravityDataQuery(address);
+    final data = await _repository.fetchGravityData(address);
+    final gravityData = data.getOrNull();
+
     final messages = gravityData?.gravityMessages?.map((data) {
           return Message(
             id: data.id,
@@ -243,6 +246,7 @@ class GravityUpdateService {
         : GravityStatus.idle;
     final startedAt = gravityData?.gravityUpdate?.startTime;
     final completedAt = gravityData?.gravityUpdate?.endTime;
+
     return {
       'messages': messages,
       'logs': logs,

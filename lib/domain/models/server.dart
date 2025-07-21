@@ -1,5 +1,5 @@
-import 'package:pi_hole_client/data/repositories/secret_manager.dart';
-import 'package:pi_hole_client/data/services/storage/secure_storage.dart';
+import 'package:pi_hole_client/data/repositories/secure_data_repository.dart';
+import 'package:pi_hole_client/data/services/storage/secure_storage_service.dart';
 
 /// Model class for Pi-hole server
 ///
@@ -12,8 +12,8 @@ class Server {
     required this.apiVersion,
     required this.allowSelfSignedCert,
     this.enabled,
-    SecretManager? sm,
-  }) : sm = sm ?? SecretManager(SecureStorageRepository(), address);
+    SecureDataRepository? sm,
+  }) : sm = sm ?? SecureDataRepository(SecureStorageService(), address);
 
   /// Pi-hole server IP address with port. Expected unique.
   final String address;
@@ -34,7 +34,7 @@ class Server {
   final bool allowSelfSignedCert;
 
   /// Session manager (Use only v5)
-  final SecretManager sm;
+  final SecureDataRepository sm;
 
   Server copyWith({
     String? address,
@@ -43,7 +43,7 @@ class Server {
     bool? enabled,
     String? apiVersion,
     bool? allowSelfSignedCert,
-    SecretManager? sm,
+    SecureDataRepository? sm,
   }) {
     return Server(
       address: address ?? this.address,

@@ -5,14 +5,15 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
 import 'package:pi_hole_client/config/enums.dart';
-import 'package:pi_hole_client/data/repositories/database.dart';
-import 'package:pi_hole_client/data/services/database/models/database.dart';
+import 'package:pi_hole_client/data/repositories/database_repository.dart';
 import 'package:pi_hole_client/data/services/gateways/shared/models/gateways.dart';
 import 'package:pi_hole_client/data/services/gateways/shared/models/messages.dart';
-import 'package:pi_hole_client/data/services/gateways/shared/models/server.dart';
 import 'package:pi_hole_client/data/services/gateways/v6/api_gateway_v6.dart';
+import 'package:pi_hole_client/domain/models/database.dart';
+import 'package:pi_hole_client/domain/models/server.dart';
 import 'package:pi_hole_client/ui/core/viewmodel/gravity_provider.dart';
 import 'package:pi_hole_client/ui/core/viewmodel/servers_provider.dart';
+import 'package:result_dart/result_dart.dart';
 
 import './gravity_provider_test.mocks.dart';
 
@@ -112,25 +113,25 @@ void main() async {
       );
 
       when(mockRepository.getGravityUpdateQuery(any)).thenAnswer(
-        (_) async => graivtyUpdateData,
+        (_) async => Success(graivtyUpdateData),
       );
 
       when(mockRepository.getGravityDataQuery(any))
-          .thenAnswer((_) async => gravityData);
+          .thenAnswer((_) async => Success(gravityData));
       when(mockRepository.clearGravityDataQuery(any)).thenAnswer(
-        (_) async => true,
+        (_) async => Success.unit(),
       );
       when(mockRepository.upsertGravityUpdateQuery(any)).thenAnswer(
-        (_) async => true,
+        (_) async => Success.unit(),
       );
       when(mockRepository.insertGravityLogQuery(any)).thenAnswer(
-        (_) async => true,
+        (_) async => Success.unit(),
       );
       when(mockRepository.insertGravityMessageQuery(any)).thenAnswer(
-        (_) async => true,
+        (_) async => Success.unit(),
       );
       when(mockRepository.deleteMessageQuery(any, any)).thenAnswer(
-        (_) async => true,
+        (_) async => Success.unit(),
       );
 
       gravityUpdateProvider = GravityUpdateProvider(
@@ -291,7 +292,7 @@ void main() async {
         'load() resumes with running status from previous session and handles as error',
         () async {
       when(mockRepository.getGravityDataQuery(any))
-          .thenAnswer((_) async => gravityDataRunning);
+          .thenAnswer((_) async => Success(gravityDataRunning));
       await gravityUpdateProvider.load();
 
       expect(gravityUpdateProvider.status, GravityStatus.error);

@@ -3,12 +3,12 @@ import 'dart:async';
 import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
 import 'package:pi_hole_client/config/query_types.dart';
-import 'package:pi_hole_client/data/repositories/database.dart';
-import 'package:pi_hole_client/data/services/database/models/database.dart';
+import 'package:pi_hole_client/data/repositories/database_repository.dart';
 import 'package:pi_hole_client/data/services/gateways/api_gateway_factory.dart';
 import 'package:pi_hole_client/data/services/gateways/api_gateway_interface.dart';
 import 'package:pi_hole_client/data/services/gateways/shared/models/query_status.dart';
-import 'package:pi_hole_client/data/services/gateways/shared/models/server.dart';
+import 'package:pi_hole_client/domain/models/database.dart';
+import 'package:pi_hole_client/domain/models/server.dart';
 import 'package:pi_hole_client/ui/core/themes/theme.dart';
 import 'package:pi_hole_client/ui/core/viewmodel/app_config_provider.dart';
 import 'package:pi_hole_client/utils/conversions.dart';
@@ -131,7 +131,7 @@ class ServersProvider with ChangeNotifier {
 
   Future<bool> addServer(Server server) async {
     final saved = await _repository.saveServerQuery(server);
-    if (saved == true) {
+    if (saved.isSuccess()) {
       _serverGateways[server.address] = ApiGatewayFactory.create(server);
       if (server.defaultServer == true) {
         final defaultServer = await setDefaultServer(server);
@@ -156,7 +156,7 @@ class ServersProvider with ChangeNotifier {
 
   Future<bool> editServer(Server server) async {
     final result = await _repository.editServerQuery(server);
-    if (result == true) {
+    if (result.isSuccess()) {
       final newServers = _serversList.map((s) {
         if (s.address == server.address) {
           return server;
@@ -202,7 +202,7 @@ class ServersProvider with ChangeNotifier {
         final isGravityDataCleared =
             await _repository.clearGravityDataQuery(serverAddress, txn: txn);
 
-        if (!isServerRemoved || !isGravityDataCleared) {
+        if (isServerRemoved.isError() || isGravityDataCleared.isError()) {
           throw Exception(
             'Failed to remove server or clear gravity-related data',
           );
@@ -234,7 +234,7 @@ class ServersProvider with ChangeNotifier {
 
   Future<bool> setDefaultServer(Server server) async {
     final updated = await _repository.setDefaultServerQuery(server.address);
-    if (updated == true) {
+    if (updated.isSuccess()) {
       _serversList = _serversList.map((s) {
         if (s.address == server.address) {
           return s.copyWith(defaultServer: true);
@@ -279,7 +279,19 @@ class ServersProvider with ChangeNotifier {
   }
 
   FutureOr<Map<String, dynamic>> checkUrlExists(String url) async {
-    return await _repository.checkUrlExistsQuery(url);
+    final result = await _repository.checkUrlExistsQuery(url);
+    return result.fold(
+      (success) {
+        if (success) {
+          return {'result': 'success', 'exists': true};
+        } else {
+          return {'result': 'success', 'exists': false};
+        }
+      },
+      (failure) {
+        return {'result': 'fail', 'exists': false};
+      },
+    );
   }
 
   void setselectedServer({required Server? server, bool? toHomeTab}) {
@@ -304,7 +316,8 @@ class ServersProvider with ChangeNotifier {
         final isGravityDataCleared =
             await _repository.clearAllGravityDataQuery(txn: txn);
 
-        if (isServerDataDeleted && isGravityDataCleared) {
+        if (isServerDataDeleted.isSuccess() &&
+            isGravityDataCleared.isSuccess()) {
           _serversList = [];
           _selectedServer = null;
           notifyListeners();

@@ -1,14 +1,14 @@
-import 'package:pi_hole_client/data/services/gateways/shared/models/server.dart';
-import 'package:pi_hole_client/data/services/storage/secure_storage.dart';
+import 'package:pi_hole_client/data/services/storage/secure_storage_service.dart';
+import 'package:pi_hole_client/domain/models/server.dart';
 import 'package:sqflite/sqflite.dart';
 
 class DbHelper {
   DbHelper(String path)
       : _path = path,
-        _secureStorage = SecureStorageRepository();
+        _secureStorage = SecureStorageService();
 
   final String _path;
-  final SecureStorageRepository _secureStorage;
+  final SecureStorageService _secureStorage;
   late Database _db;
 
   Future<Database> loadDb() async {
@@ -100,13 +100,19 @@ class DbHelper {
   Future<bool> saveDb(Server server) async {
     try {
       final token = await server.sm.token;
-      if (token != null) {
-        await _secureStorage.saveValue('${server.address}_token', token);
+      if (token.isSuccess()) {
+        await _secureStorage.saveValue(
+          '${server.address}_token',
+          token.getOrThrow(),
+        );
       }
 
       final password = await server.sm.password;
-      if (password != null) {
-        await _secureStorage.saveValue('${server.address}_password', password);
+      if (password.isSuccess()) {
+        await _secureStorage.saveValue(
+          '${server.address}_password',
+          password.getOrThrow(),
+        );
       }
       if (server.sm.sid != null) {
         await _secureStorage.saveValue(

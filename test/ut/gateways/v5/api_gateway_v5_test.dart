@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:http/http.dart' as http;
@@ -10,17 +11,18 @@ import 'package:pi_hole_client/config/enums.dart';
 import 'package:pi_hole_client/data/services/gateways/shared/models/domain.dart';
 import 'package:pi_hole_client/data/services/gateways/shared/models/gateways.dart';
 import 'package:pi_hole_client/data/services/gateways/shared/models/groups.dart';
-import 'package:pi_hole_client/data/services/gateways/shared/models/server.dart';
 import 'package:pi_hole_client/data/services/gateways/shared/models/subscriptions.dart';
 import 'package:pi_hole_client/data/services/gateways/shared/models/version.dart';
 import 'package:pi_hole_client/data/services/gateways/v5/api_gateway_v5.dart';
 import 'package:pi_hole_client/data/services/gateways/v6/models/config/config.dart';
+import 'package:pi_hole_client/domain/models/server.dart';
 
 import 'api_gateway_v5_test.mocks.dart';
 
 @GenerateMocks([http.Client])
 void main() async {
   FlutterSecureStorage.setMockInitialValues({});
+  await dotenv.load();
 
   // const unexpectedError = 'An unexpected error occurred.';
   const fetchError = 'Failed to fetch data from the server.';

@@ -28,7 +28,6 @@ import 'package:pi_hole_client/data/services/gateways/shared/models/metrics.dart
 import 'package:pi_hole_client/data/services/gateways/shared/models/overtime_data.dart';
 import 'package:pi_hole_client/data/services/gateways/shared/models/realtime_status.dart';
 import 'package:pi_hole_client/data/services/gateways/shared/models/sensors.dart';
-import 'package:pi_hole_client/data/services/gateways/shared/models/server.dart';
 import 'package:pi_hole_client/data/services/gateways/shared/models/sessions.dart';
 import 'package:pi_hole_client/data/services/gateways/shared/models/subscriptions.dart';
 import 'package:pi_hole_client/data/services/gateways/shared/models/system.dart';
@@ -61,6 +60,7 @@ import 'package:pi_hole_client/data/services/gateways/v6/models/lists/lists.dart
 import 'package:pi_hole_client/data/services/gateways/v6/models/metrics/query.dart';
 import 'package:pi_hole_client/data/services/gateways/v6/models/network/devices.dart';
 import 'package:pi_hole_client/data/services/gateways/v6/models/network/gateway.dart';
+import 'package:pi_hole_client/domain/models/server.dart';
 import 'package:pi_hole_client/domain/use_cases/status_update_service.dart';
 import 'package:pi_hole_client/ui/core/l10n/generated/app_localizations.dart';
 import 'package:pi_hole_client/ui/core/themes/theme.dart';

@@ -9,7 +9,9 @@ Level getLogLevel() {
     return Level.off; // Disable logging in release mode
   }
 
-  final logLevel = dotenv.env['LOG_LEVEL']?.toLowerCase() ?? 'info';
+  final logLevel =
+      dotenv.isInitialized ? dotenv.env['LOG_LEVEL']?.toLowerCase() : 'info';
+
   switch (logLevel) {
     case 'debug':
       return Level.debug;

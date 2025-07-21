@@ -8,7 +8,7 @@ import 'package:mockito/mockito.dart';
 import 'package:pi_hole_client/config/api_versions.dart';
 import 'package:pi_hole_client/config/enums.dart';
 import 'package:pi_hole_client/config/subscription_types.dart';
-import 'package:pi_hole_client/data/repositories/secret_manager.dart';
+import 'package:pi_hole_client/data/repositories/secure_data_repository.dart';
 import 'package:pi_hole_client/data/services/gateways/shared/models/client.dart';
 import 'package:pi_hole_client/data/services/gateways/shared/models/config.dart';
 import 'package:pi_hole_client/data/services/gateways/shared/models/devices.dart';
@@ -22,7 +22,6 @@ import 'package:pi_hole_client/data/services/gateways/shared/models/messages.dar
 import 'package:pi_hole_client/data/services/gateways/shared/models/metrics.dart';
 import 'package:pi_hole_client/data/services/gateways/shared/models/search.dart';
 import 'package:pi_hole_client/data/services/gateways/shared/models/sensors.dart';
-import 'package:pi_hole_client/data/services/gateways/shared/models/server.dart';
 import 'package:pi_hole_client/data/services/gateways/shared/models/sessions.dart';
 import 'package:pi_hole_client/data/services/gateways/shared/models/subscriptions.dart';
 import 'package:pi_hole_client/data/services/gateways/shared/models/system.dart';
@@ -52,10 +51,12 @@ import 'package:pi_hole_client/data/services/gateways/v6/models/lists/search.dar
     show Search;
 import 'package:pi_hole_client/data/services/gateways/v6/models/network/devices.dart';
 import 'package:pi_hole_client/data/services/gateways/v6/models/network/gateway.dart';
+import 'package:pi_hole_client/domain/models/server.dart';
+import 'package:result_dart/result_dart.dart';
 
 import 'api_gateway_v6_test.mocks.dart';
 
-class SecretManagerMock implements SecretManager {
+class SecretManagerMock implements SecureDataRepository {
   SecretManagerMock(this._sid, this._password);
   String? _sid;
   String? _password;
@@ -64,62 +65,63 @@ class SecretManagerMock implements SecretManager {
   String? get sid => _sid;
 
   @override
-  Future<String?>? get password async {
+  Future<Result<String>> get password async {
     try {
-      return _password;
+      return Success(_password!);
     } catch (e) {
-      return null;
+      return Failure(Exception('Failed to get password: $e'));
     }
   }
 
   @override
-  Future<String?>? get token async {
+  Future<Result<String>> get token async {
     try {
-      return _sid;
+      return Success(_sid!);
     } catch (e) {
-      return null;
+      return Failure(Exception('Failed to get token: $e'));
     }
   }
 
   @override
-  Future<bool> save(String sid) async {
+  Future<Result<void>> saveSid(String sid) async {
     _sid = sid;
-    return true;
+    return Success.unit();
   }
 
   @override
-  Future<bool> load() async {
-    return true;
+  Future<Result<String>> loadSid() async {
+    _sid = 'xxx123';
+    return const Success('xxx123');
   }
 
   @override
-  Future<bool> delete() async {
+  Future<Result<void>> deleteSid() async {
     _sid = null;
-    return true;
+    return Success.unit();
   }
 
   @override
-  Future<bool> savePassword(String password) async {
+  Future<Result<void>> savePassword(String password) async {
     _password = password;
-    return true;
+    return Success.unit();
   }
 
   @override
-  Future<bool> saveToken(String token) async {
+  Future<Result<void>> saveToken(String token) async {
     _sid = token;
-    return true;
+    return Success.unit();
   }
 
   @override
-  Future<bool> deletePassword() async {
+  Future<Result<void>> deletePassword() async {
     _password = null;
-    return true;
+    return Success.unit();
   }
 
   @override
-  Future<bool> deleteToken() async {
+  Future<Result<void>> deleteToken() async {
     _sid = null;
-    return true;
+    return Success.unit();
   }
 }
 

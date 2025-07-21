@@ -23,7 +23,7 @@ import 'package:pi_hole_client/data/services/gateways/shared/models/overtime_dat
 import 'package:pi_hole_client/data/services/gateways/shared/models/realtime_status.dart';
 import 'package:pi_hole_client/data/services/gateways/shared/models/search.dart';
 import 'package:pi_hole_client/data/services/gateways/shared/models/sensors.dart';
-import 'package:pi_hole_client/data/services/gateways/shared/models/server.dart';
+import 'package:pi_hole_client/domain/models/server.dart';
 import 'package:pi_hole_client/data/services/gateways/shared/models/sessions.dart';
 import 'package:pi_hole_client/data/services/gateways/shared/models/subscriptions.dart';
 import 'package:pi_hole_client/data/services/gateways/shared/models/system.dart';
@@ -73,6 +73,7 @@ import 'package:pi_hole_client/data/services/gateways/v6/models/network/gateway.
     show Gateway;
 import 'package:pi_hole_client/utils/logger.dart';
 import 'package:pi_hole_client/utils/misc.dart';
+import 'package:result_dart/result_dart.dart';
 
 class ApiGatewayV6 implements ApiGateway {
   /// Creates a new instance of the `ApiGatewayV5` class.
@@ -175,7 +176,7 @@ class ApiGatewayV6 implements ApiGateway {
     int maxRetries = 1,
   }) async {
     if (_server.sm.sid == null) {
-      await _server.sm.load();
+      await _server.sm.loadSid();
     }
     final authHeaders = headers != null ? {...headers} : {};
     authHeaders['Content-Type'] = 'application/json';
@@ -220,7 +221,7 @@ class ApiGatewayV6 implements ApiGateway {
     int maxRetries = 1,
   }) async {
     if (_server.sm.sid == null) {
-      await _server.sm.load();
+      await _server.sm.loadSid();
     }
     final authHeaders = headers != null ? {...headers} : {};
     authHeaders['Content-Type'] = 'application/json';
@@ -273,7 +274,7 @@ class ApiGatewayV6 implements ApiGateway {
           maxRetries: 0,
         );
         if (deleteResp.statusCode == 204) {
-          await _server.sm.delete();
+          await _server.sm.deleteSid();
           logger.d('Logout successful. Session deleted.');
         }
       }
@@ -301,14 +302,14 @@ class ApiGatewayV6 implements ApiGateway {
       final status = await httpClient(
         method: 'post',
         url: '${_server.address}/api/auth',
-        body: {'password': await _server.sm.password},
+        body: {'password': await _server.sm.password.getOrNull()},
         maxRetries: 0,
       );
 
       if (status.statusCode == 200) {
         logger.i('Login successful with new session ID');
         final statusParsed = Session.fromJson(jsonDecode(status.body));
-        await _server.sm.save(statusParsed.session.sid);
+        await _server.sm.saveSid(statusParsed.session.sid);
 
         // 3. Get DNS blocking status
         final enableOrDisable = await httpClient(

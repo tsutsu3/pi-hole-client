@@ -2,11 +2,12 @@
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:pi_hole_client/data/repositories/database.dart';
-import 'package:pi_hole_client/data/repositories/secret_manager.dart';
-import 'package:pi_hole_client/data/services/database/models/database.dart';
-import 'package:pi_hole_client/data/services/gateways/shared/models/server.dart';
-import 'package:pi_hole_client/data/services/storage/secure_storage.dart';
+import 'package:pi_hole_client/data/repositories/database_repository.dart';
+import 'package:pi_hole_client/data/repositories/secure_data_repository.dart';
+import 'package:pi_hole_client/data/services/database/database_service.dart';
+import 'package:pi_hole_client/data/services/storage/secure_storage_service.dart';
+import 'package:pi_hole_client/domain/models/database.dart';
+import 'package:pi_hole_client/domain/models/server.dart';
 import 'package:sqflite_common_ffi/sqflite_ffi.dart';
 
 import '../helper.dart';
@@ -42,9 +43,14 @@ void main() async {
     });
 
     test('should initialize database', () async {
-      final secureStorageRepository = SecureStorageRepository();
-      final databaseRepository = DatabaseRepository(secureStorageRepository);
-      await databaseRepository.initialize(path: testDb);
+      final secureStorageService = SecureStorageService();
+      final databaseService = DatabaseService();
+      final databaseRepository = DatabaseRepository(
+        databaseService,
+        secureStorageService,
+        path: testDb,
+      );
+      await databaseRepository.initialize();
 
       final servers = databaseRepository.servers;
       final appConfig = databaseRepository.appConfig;
@@ -67,9 +73,13 @@ void main() async {
       await dbHelper.loadDb();
       await dbHelper.closeDb();
 
-      final secureStorageRepository = SecureStorageRepository();
-      final databaseRepository = DatabaseRepository(secureStorageRepository);
-      await databaseRepository.initialize(path: testDb);
+      final secureStorageService = SecureStorageService();
+      final databaseService = DatabaseService();
+      final databaseRepository = DatabaseRepository(
+        databaseService,
+        secureStorageService,
+        path: testDb,
+      );
 
       final servers = databaseRepository.servers;
       final appConfig = databaseRepository.appConfig;
@@ -88,15 +98,15 @@ void main() async {
     });
 
     test('should return one registered server without passcode', () async {
-      final secureStorageRepository = SecureStorageRepository();
+      final secureStorageService = SecureStorageService();
       final server = Server(
         address: 'http://localhost:8080',
         alias: 'test v6',
         defaultServer: false,
         apiVersion: 'v6',
         allowSelfSignedCert: true,
-        sm: SecretManager(
-          secureStorageRepository,
+        sm: SecureDataRepository(
+          secureStorageService,
           'http://localhost:8080',
         ),
       );
@@ -106,8 +116,13 @@ void main() async {
       await dbHelper.saveDb(server);
       await dbHelper.closeDb();
 
-      final databaseRepository = DatabaseRepository(secureStorageRepository);
-      await databaseRepository.initialize(path: testDb);
+      final databaseService = DatabaseService();
+      final databaseRepository = DatabaseRepository(
+        databaseService,
+        secureStorageService,
+        path: testDb,
+      );
+      await databaseRepository.initialize();
 
       // Assert the returned data
       final servers = databaseRepository.servers;
@@ -133,27 +148,29 @@ void main() async {
     });
 
     test('should return one registered server with passcode', () async {
-      final secureStorageRepository = SecureStorageRepository();
+      final secureStorageService = SecureStorageService();
       final server = Server(
         address: 'http://localhost:8080',
         alias: 'test v6',
         defaultServer: false,
         apiVersion: 'v6',
         allowSelfSignedCert: true,
-        sm: SecretManager(
-          secureStorageRepository,
+        sm: SecureDataRepository(
+          secureStorageService,
           'http://localhost:8080',
         ),
       );
-      await secureStorageRepository.saveValue('passCode', '9999');
+      await secureStorageService.saveValue('passCode', '9999');
 
       dbHelper = DbHelper(testDb);
       await dbHelper.loadDb();
       await dbHelper.saveDb(server);
       await dbHelper.closeDb();
 
-      final databaseRepository = DatabaseRepository(secureStorageRepository);
-      await databaseRepository.initialize(path: testDb);
+      final databaseService = DatabaseService();
+      final databaseRepository =
+          DatabaseRepository(databaseService, secureStorageService);
+      await databaseRepository.initialize();
 
       // Assert the returned data
       final servers = databaseRepository.servers;
@@ -181,16 +198,17 @@ void main() async {
 
   group('DatabaseRepository.saveServerQuery', () {
     late DbHelper dbHelper;
-    late SecureStorageRepository secureStorage;
+    late SecureStorageService secureStorage;
     late DatabaseRepository databaseRepository;
 
     setUp(() async {
       FlutterSecureStorage.setMockInitialValues({});
       await deleteDatabase(testDb);
 
-      secureStorage = SecureStorageRepository();
-      databaseRepository = DatabaseRepository(secureStorage);
-      await databaseRepository.initialize(path: testDb);
+      secureStorage = SecureStorageService();
+      final databaseService = DatabaseService();
+      databaseRepository = DatabaseRepository(databaseService, secureStorage);
+      await databaseRepository.initialize();
     });
 
     tearDown(() async {
@@ -223,7 +241,7 @@ void main() async {
         expect(actualD['servers'][0]['alias'], 'test v5');
         expect(actualD['servers'][0]['apiVersion'], 'v5');
         expect(actualD['servers'][0]['isDefaultServer'], 0);
-        expect(actuslS['http://localhost:8080_token'], 'token123');
+        expect(actuslS.getOrNull()?['http://localhost:8080_token'], 'token123');
       },
     );
 
@@ -253,14 +271,17 @@ void main() async {
         expect(actualD['servers'][0]['alias'], 'test v6');
         expect(actualD['servers'][0]['apiVersion'], 'v6');
         expect(actualD['servers'][0]['isDefaultServer'], 0);
-        expect(actuslS['http://localhost:8080_password'], 'password01');
+        expect(
+          actuslS.getOrNull()?['http://localhost:8080_password'],
+          'password01',
+        );
       },
     );
   });
 
   group('DatabaseRepository.editServerQuery', () {
     late DbHelper dbHelper;
-    late SecureStorageRepository secureStorage;
+    late SecureStorageService secureStorage;
     late DatabaseRepository databaseRepository;
     late Server defaultServerV5;
     late Server defaultServerV6;
@@ -269,9 +290,10 @@ void main() async {
       FlutterSecureStorage.setMockInitialValues({});
       await deleteDatabase(testDb);
 
-      secureStorage = SecureStorageRepository();
-      databaseRepository = DatabaseRepository(secureStorage);
-      await databaseRepository.initialize(path: testDb);
+      secureStorage = SecureStorageService();
+      final databaseService = DatabaseService();
+      databaseRepository = DatabaseRepository(databaseService, secureStorage);
+      await databaseRepository.initialize();
 
       defaultServerV5 = Server(
         address: 'http://localhost:8080',
@@ -279,7 +301,7 @@ void main() async {
         defaultServer: false,
         apiVersion: 'v5',
         allowSelfSignedCert: true,
-        sm: SecretManager(
+        sm: SecureDataRepository(
           secureStorage,
           'http://localhost:8080',
         ),
@@ -291,7 +313,7 @@ void main() async {
         defaultServer: false,
         apiVersion: 'v6',
         allowSelfSignedCert: true,
-        sm: SecretManager(
+        sm: SecureDataRepository(
           secureStorage,
           'http://localhost:8081',
         ),
@@ -306,7 +328,7 @@ void main() async {
       'should edit token (v5)',
       () async {
         final server = defaultServerV5.copyWith(
-          sm: SecretManager(
+          sm: SecureDataRepository(
             secureStorage,
             'http://localhost:8080',
           ),
@@ -330,7 +352,7 @@ void main() async {
         expect(actualD['servers'][0]['alias'], 'test v5');
         expect(actualD['servers'][0]['apiVersion'], 'v5');
         expect(actualD['servers'][0]['isDefaultServer'], 0);
-        expect(actuslS['http://localhost:8080_token'], 'token123');
+        expect(actuslS.getOrNull()?['http://localhost:8080_token'], 'token123');
       },
     );
 
@@ -338,13 +360,13 @@ void main() async {
       'should save server with password (v6)',
       () async {
         final server = defaultServerV6.copyWith(
-          sm: SecretManager(
+          sm: SecureDataRepository(
             secureStorage,
             'http://localhost:8081',
           ),
         );
         await server.sm.savePassword('password02');
-        await server.sm.save('sid02');
+        await server.sm.saveSid('sid02');
 
         dbHelper = DbHelper(testDb);
         await dbHelper.loadDb();
@@ -363,15 +385,18 @@ void main() async {
         expect(actualD['servers'][0]['alias'], 'test v6');
         expect(actualD['servers'][0]['apiVersion'], 'v6');
         expect(actualD['servers'][0]['isDefaultServer'], 0);
-        expect(actuslS['http://localhost:8081_password'], 'password02');
-        expect(actuslS['http://localhost:8081_sid'], 'sid02');
+        expect(
+          actuslS.getOrNull()?['http://localhost:8081_password'],
+          'password02',
+        );
+        expect(actuslS.getOrNull()?['http://localhost:8081_sid'], 'sid02');
       },
     );
   });
 
   group('DatabaseRepository.setDefaultServerQuery', () {
     late DbHelper dbHelper;
-    late SecureStorageRepository secureStorage;
+    late SecureStorageService secureStorage;
     late DatabaseRepository databaseRepository;
     late Server defaultServerV5;
     late Server defaultServerV6;
@@ -380,9 +405,10 @@ void main() async {
       FlutterSecureStorage.setMockInitialValues({});
       await deleteDatabase(testDb);
 
-      secureStorage = SecureStorageRepository();
-      databaseRepository = DatabaseRepository(secureStorage);
-      await databaseRepository.initialize(path: testDb);
+      secureStorage = SecureStorageService();
+      final databaseService = DatabaseService();
+      databaseRepository = DatabaseRepository(databaseService, secureStorage);
+      await databaseRepository.initialize();
 
       defaultServerV5 = Server(
         address: 'http://localhost:8080',
@@ -398,7 +424,7 @@ void main() async {
         defaultServer: false,
         apiVersion: 'v6',
         allowSelfSignedCert: true,
-        sm: SecretManager(
+        sm: SecureDataRepository(
           secureStorage,
           'http://localhost:8081',
         ),
@@ -467,7 +493,7 @@ void main() async {
 
   group('DatabaseRepository.removeServerQuery', () {
     late DbHelper dbHelper;
-    late SecureStorageRepository secureStorage;
+    late SecureStorageService secureStorage;
     late DatabaseRepository databaseRepository;
     late Server defaultServerV6;
 
@@ -475,9 +501,10 @@ void main() async {
       FlutterSecureStorage.setMockInitialValues({});
       await deleteDatabase(testDb);
 
-      secureStorage = SecureStorageRepository();
-      databaseRepository = DatabaseRepository(secureStorage);
-      await databaseRepository.initialize(path: testDb);
+      secureStorage = SecureStorageService();
+      final databaseService = DatabaseService();
+      databaseRepository = DatabaseRepository(databaseService, secureStorage);
+      await databaseRepository.initialize();
 
       defaultServerV6 = Server(
         address: 'http://localhost:8081',
@@ -485,13 +512,13 @@ void main() async {
         defaultServer: false,
         apiVersion: 'v6',
         allowSelfSignedCert: true,
-        sm: SecretManager(
+        sm: SecureDataRepository(
           secureStorage,
           'http://localhost:8081',
         ),
       );
       await defaultServerV6.sm.savePassword('password02');
-      await defaultServerV6.sm.save('sid02');
+      await defaultServerV6.sm.saveSid('sid02');
     });
 
     tearDown(() async {
@@ -515,8 +542,8 @@ void main() async {
 
         expect(result, true);
         expect(actualD['servers'].length, 0);
-        expect(actualS['http://localhost:8081_password'], null);
-        expect(actualS['http://localhost:8081_sid'], null);
+        expect(actualS.getOrNull()?['http://localhost:8081_password'], null);
+        expect(actualS.getOrNull()?['http://localhost:8081_sid'], null);
       },
     );
 
@@ -536,15 +563,15 @@ void main() async {
 
         expect(result, true);
         expect(actualD['servers'].length, 0);
-        expect(actualS['http://localhost:8081_password'], null);
-        expect(actualS['http://localhost:8081_sid'], null);
+        expect(actualS.getOrNull()?['http://localhost:8081_password'], null);
+        expect(actualS.getOrNull()?['http://localhost:8081_sid'], null);
       },
     );
   });
 
   group('DatabaseRepository.deleteServersDataQuery', () {
     late DbHelper dbHelper;
-    late SecureStorageRepository secureStorage;
+    late SecureStorageService secureStorage;
     late DatabaseRepository databaseRepository;
     late Server defaultServerV6;
 
@@ -552,9 +579,10 @@ void main() async {
       FlutterSecureStorage.setMockInitialValues({});
       await deleteDatabase(testDb);
 
-      secureStorage = SecureStorageRepository();
-      databaseRepository = DatabaseRepository(secureStorage);
-      await databaseRepository.initialize(path: testDb);
+      secureStorage = SecureStorageService();
+      final databaseService = DatabaseService();
+      databaseRepository = DatabaseRepository(databaseService, secureStorage);
+      await databaseRepository.initialize();
 
       defaultServerV6 = Server(
         address: 'http://localhost:8081',
@@ -562,13 +590,13 @@ void main() async {
         defaultServer: false,
         apiVersion: 'v6',
         allowSelfSignedCert: true,
-        sm: SecretManager(
+        sm: SecureDataRepository(
           secureStorage,
           'http://localhost:8081',
         ),
       );
       await defaultServerV6.sm.savePassword('password02');
-      await defaultServerV6.sm.save('sid02');
+      await defaultServerV6.sm.saveSid('sid02');
     });
 
     tearDown(() async {
@@ -591,15 +619,15 @@ void main() async {
 
         expect(result, true);
         expect(actualD['servers'].length, 0);
-        expect(actualS['http://localhost:8081_password'], null);
-        expect(actualS['http://localhost:8081_sid'], null);
+        expect(actualS.getOrNull()?['http://localhost:8081_password'], null);
+        expect(actualS.getOrNull()?['http://localhost:8081_sid'], null);
       },
     );
   });
 
   group('DatabaseRepository.checkUrlExistsQuery', () {
     late DbHelper dbHelper;
-    late SecureStorageRepository secureStorage;
+    late SecureStorageService secureStorage;
     late DatabaseRepository databaseRepository;
     late Server defaultServerV6;
 
@@ -607,9 +635,10 @@ void main() async {
       FlutterSecureStorage.setMockInitialValues({});
       await deleteDatabase(testDb);
 
-      secureStorage = SecureStorageRepository();
-      databaseRepository = DatabaseRepository(secureStorage);
-      await databaseRepository.initialize(path: testDb);
+      secureStorage = SecureStorageService();
+      final databaseService = DatabaseService();
+      databaseRepository = DatabaseRepository(databaseService, secureStorage);
+      await databaseRepository.initialize();
 
       defaultServerV6 = Server(
         address: 'http://localhost:8081',
@@ -617,13 +646,13 @@ void main() async {
         defaultServer: false,
         apiVersion: 'v6',
         allowSelfSignedCert: true,
-        sm: SecretManager(
+        sm: SecureDataRepository(
           secureStorage,
           'http://localhost:8081',
         ),
       );
       await defaultServerV6.sm.savePassword('password02');
-      await defaultServerV6.sm.save('sid02');
+      await defaultServerV6.sm.saveSid('sid02');
     });
 
     tearDown(() async {
@@ -663,15 +692,16 @@ void main() async {
   });
 
   group('DatabaseRepository.updateConfigQuery', () {
-    late SecureStorageRepository secureStorage;
+    late SecureStorageService secureStorage;
     late DatabaseRepository databaseRepository;
 
     setUp(() async {
-      secureStorage = SecureStorageRepository();
-      databaseRepository = DatabaseRepository(secureStorage);
+      secureStorage = SecureStorageService();
+      final databaseService = DatabaseService();
+      databaseRepository = DatabaseRepository(databaseService, secureStorage);
 
       // Use test sqflite database. Before each test, initialize the database
-      await databaseRepository.initialize(path: testDb);
+      await databaseRepository.initialize();
     });
 
     tearDown(() async {
@@ -732,14 +762,15 @@ void main() async {
   });
 
   group('DatabaseRepository.restoreAppConfigQuery', () {
-    late SecureStorageRepository secureStorage;
+    late SecureStorageService secureStorage;
     late DatabaseRepository databaseRepository;
 
     setUp(() async {
-      secureStorage = SecureStorageRepository();
-      databaseRepository = DatabaseRepository(secureStorage);
+      secureStorage = SecureStorageService();
+      final databaseService = DatabaseService();
+      databaseRepository = DatabaseRepository(databaseService, secureStorage);
 
-      await databaseRepository.initialize(path: testDb);
+      await databaseRepository.initialize();
     });
 
     tearDown(() async {
@@ -765,7 +796,7 @@ void main() async {
 
         expect(result, true);
         expect(actualD['appConfig'][0][testColumn], 5);
-        expect(actualS['passCode'], null);
+        expect(actualS.getOrNull()?['passCode'], null);
       },
     );
   });
@@ -787,15 +818,15 @@ void main() async {
     });
 
     test('should not cleanup secure storage', () async {
-      final secureStorageRepository = SecureStorageRepository();
+      final secureStorageService = SecureStorageService();
       final server = Server(
         address: 'http://localhost',
         alias: 'test v6',
         defaultServer: false,
         apiVersion: 'v6',
         allowSelfSignedCert: true,
-        sm: SecretManager(
-          secureStorageRepository,
+        sm: SecureDataRepository(
+          secureStorageService,
           'http://localhost',
         ),
       );
@@ -805,25 +836,27 @@ void main() async {
       await dbHelper.saveDb(server);
       await dbHelper.closeDb();
 
-      final databaseRepository = DatabaseRepository(secureStorageRepository);
-      await databaseRepository.initialize(path: testDb);
+      final databaseService = DatabaseService();
+      final databaseRepository =
+          DatabaseRepository(databaseService, secureStorageService);
+      await databaseRepository.initialize();
 
-      final actual = await secureStorageRepository.readAll();
-      expect(actual['http://localhost_password'], 'test123');
-      expect(actual['http://localhost_token'], '');
-      expect(actual['http://localhost_sid'], 'XXXXXxxx1234Q=');
+      final actual = await secureStorageService.readAll();
+      expect(actual.getOrNull()?['http://localhost_password'], 'test123');
+      expect(actual.getOrNull()?['http://localhost_token'], '');
+      expect(actual.getOrNull()?['http://localhost_sid'], 'XXXXXxxx1234Q=');
     });
 
     test('should cleanup secure storage', () async {
-      final secureStorageRepository = SecureStorageRepository();
+      final secureStorageService = SecureStorageService();
       final server = Server(
         address: 'http://localhost:8080',
         alias: 'test v6',
         defaultServer: false,
         apiVersion: 'v6',
         allowSelfSignedCert: true,
-        sm: SecretManager(
-          secureStorageRepository,
+        sm: SecureDataRepository(
+          secureStorageService,
           'http://localhost:8080',
         ),
       );
@@ -833,13 +866,15 @@ void main() async {
       await dbHelper.saveDb(server);
       await dbHelper.closeDb();
 
-      final databaseRepository = DatabaseRepository(secureStorageRepository);
-      await databaseRepository.initialize(path: testDb);
+      final databaseService = DatabaseService();
+      final databaseRepository =
+          DatabaseRepository(databaseService, secureStorageService);
+      await databaseRepository.initialize();
 
-      final actual = await secureStorageRepository.readAll();
-      expect(actual['http://localhost_password'], null);
-      expect(actual['http://localhost_token'], null);
-      expect(actual['http://localhost_sid'], null);
+      final actual = await secureStorageService.readAll();
+      expect(actual.getOrNull()?['http://localhost_password'], null);
+      expect(actual.getOrNull()?['http://localhost_token'], null);
+      expect(actual.getOrNull()?['http://localhost_sid'], null);
     });
 
     test('should cleanup secure storage (basic auth)', () async {
@@ -851,15 +886,15 @@ void main() async {
         'http://localhost_basicAuthPassword': 'pss123',
       });
 
-      final secureStorageRepository = SecureStorageRepository();
+      final secureStorageService = SecureStorageService();
       final server = Server(
         address: 'http://localhost',
         alias: 'test v6',
         defaultServer: false,
         apiVersion: 'v6',
         allowSelfSignedCert: true,
-        sm: SecretManager(
-          secureStorageRepository,
+        sm: SecureDataRepository(
+          secureStorageService,
           'http://localhost',
         ),
       );
@@ -869,21 +904,23 @@ void main() async {
       await dbHelper.saveDb(server);
       await dbHelper.closeDb();
 
-      final databaseRepository = DatabaseRepository(secureStorageRepository);
-      await databaseRepository.initialize(path: testDb);
+      final databaseService = DatabaseService();
+      final databaseRepository =
+          DatabaseRepository(databaseService, secureStorageService);
+      await databaseRepository.initialize();
 
-      final actual = await secureStorageRepository.readAll();
-      expect(actual['http://localhost_password'], 'test123');
-      expect(actual['http://localhost_token'], '');
-      expect(actual['http://localhost_sid'], 'XXXXXxxx1234Q=');
-      expect(actual['http://localhost_basicAuthUser'], null);
-      expect(actual['http://localhost_basicAuthPassword'], null);
+      final actual = await secureStorageService.readAll();
+      expect(actual.getOrNull()?['http://localhost_password'], 'test123');
+      expect(actual.getOrNull()?['http://localhost_token'], '');
+      expect(actual.getOrNull()?['http://localhost_sid'], 'XXXXXxxx1234Q=');
+      expect(actual.getOrNull()?['http://localhost_basicAuthUser'], null);
+      expect(actual.getOrNull()?['http://localhost_basicAuthPassword'], null);
     });
   });
 
   // -------------------
   group('DatabaseRepository.getGravityUpdateQuery', () {
-    late SecureStorageRepository secureStorage;
+    late SecureStorageService secureStorage;
     late DatabaseRepository databaseRepository;
     const address = 'http://localhost';
     final startTime = DateTime.now().toLocal();
@@ -892,9 +929,10 @@ void main() async {
     setUp(() async {
       await deleteDatabase(testDb);
 
-      secureStorage = SecureStorageRepository();
-      databaseRepository = DatabaseRepository(secureStorage);
-      await databaseRepository.initialize(path: testDb);
+      final databaseService = DatabaseService();
+      secureStorage = SecureStorageService();
+      databaseRepository = DatabaseRepository(databaseService, secureStorage);
+      await databaseRepository.initialize();
     });
 
     tearDown(() async {
@@ -918,13 +956,13 @@ void main() async {
           'status': 2,
         };
 
-        expect(actual?.toDict(), expected);
+        expect(actual.getOrNull()?.toDict(), expected);
       },
     );
   });
 
   group('DatabaseRepository.upsertGravityUpdateQuery', () {
-    late SecureStorageRepository secureStorage;
+    late SecureStorageService secureStorage;
     late DatabaseRepository databaseRepository;
     const address = 'http://localhost';
     final startTime = DateTime.now().toLocal();
@@ -933,9 +971,10 @@ void main() async {
     setUp(() async {
       await deleteDatabase(testDb);
 
-      secureStorage = SecureStorageRepository();
-      databaseRepository = DatabaseRepository(secureStorage);
-      await databaseRepository.initialize(path: testDb);
+      final databaseService = DatabaseService();
+      secureStorage = SecureStorageService();
+      databaseRepository = DatabaseRepository(databaseService, secureStorage);
+      await databaseRepository.initialize();
     });
 
     tearDown(() async {
@@ -1011,7 +1050,7 @@ void main() async {
   });
 
   group('DatabaseRepository.removeGravityUpdateQuery', () {
-    late SecureStorageRepository secureStorage;
+    late SecureStorageService secureStorage;
     late DatabaseRepository databaseRepository;
     const address = 'http://localhost';
     final startTime = DateTime.now().toLocal();
@@ -1020,9 +1059,10 @@ void main() async {
     setUp(() async {
       await deleteDatabase(testDb);
 
-      secureStorage = SecureStorageRepository();
-      databaseRepository = DatabaseRepository(secureStorage);
-      await databaseRepository.initialize(path: testDb);
+      final databaseService = DatabaseService();
+      secureStorage = SecureStorageService();
+      databaseRepository = DatabaseRepository(databaseService, secureStorage);
+      await databaseRepository.initialize();
     });
 
     tearDown(() async {
@@ -1049,7 +1089,7 @@ void main() async {
   });
 
   group('DatabaseRepository.insertGravityLogQuery', () {
-    late SecureStorageRepository secureStorage;
+    late SecureStorageService secureStorage;
     late DatabaseRepository databaseRepository;
     const address = 'http://localhost';
     final startTime = DateTime.now().toLocal();
@@ -1058,9 +1098,10 @@ void main() async {
     setUp(() async {
       await deleteDatabase(testDb);
 
-      secureStorage = SecureStorageRepository();
-      databaseRepository = DatabaseRepository(secureStorage);
-      await databaseRepository.initialize(path: testDb);
+      final databaseService = DatabaseService();
+      secureStorage = SecureStorageService();
+      databaseRepository = DatabaseRepository(databaseService, secureStorage);
+      await databaseRepository.initialize();
     });
 
     tearDown(() async {
@@ -1101,7 +1142,7 @@ void main() async {
   });
 
   group('DatabaseRepository.clearGravityLogsQuery', () {
-    late SecureStorageRepository secureStorage;
+    late SecureStorageService secureStorage;
     late DatabaseRepository databaseRepository;
     const address = 'http://localhost';
     final startTime = DateTime.now().toLocal();
@@ -1110,9 +1151,10 @@ void main() async {
     setUp(() async {
       await deleteDatabase(testDb);
 
-      secureStorage = SecureStorageRepository();
-      databaseRepository = DatabaseRepository(secureStorage);
-      await databaseRepository.initialize(path: testDb);
+      final databaseService = DatabaseService();
+      secureStorage = SecureStorageService();
+      databaseRepository = DatabaseRepository(databaseService, secureStorage);
+      await databaseRepository.initialize();
     });
 
     tearDown(() async {
@@ -1143,7 +1185,7 @@ void main() async {
   });
 
   group('DatabaseRepository.getGravityMessagesQuery', () {
-    late SecureStorageRepository secureStorage;
+    late SecureStorageService secureStorage;
     late DatabaseRepository databaseRepository;
     const id = 3;
     const address = 'http://localhost';
@@ -1154,9 +1196,10 @@ void main() async {
     setUp(() async {
       await deleteDatabase(testDb);
 
-      secureStorage = SecureStorageRepository();
-      databaseRepository = DatabaseRepository(secureStorage);
-      await databaseRepository.initialize(path: testDb);
+      final databaseService = DatabaseService();
+      secureStorage = SecureStorageService();
+      databaseRepository = DatabaseRepository(databaseService, secureStorage);
+      await databaseRepository.initialize();
     });
 
     tearDown(() async {
@@ -1180,8 +1223,8 @@ void main() async {
             await databaseRepository.getGravityMessagesQuery(address);
         await dbHelper.closeDb();
 
-        expect(actual?.length, 1);
-        expect(actual![0].toDict(), {
+        expect(actual.getOrNull()?.length, 1);
+        expect(actual.getOrNull()![0].toDict(), {
           'id': id,
           'address': address,
           'message': message,
@@ -1193,7 +1236,7 @@ void main() async {
   });
 
   group('DatabaseRepository.insertGravityMessageQuery', () {
-    late SecureStorageRepository secureStorage;
+    late SecureStorageService secureStorage;
     late DatabaseRepository databaseRepository;
     const id = 3;
     const address = 'http://localhost';
@@ -1204,9 +1247,10 @@ void main() async {
     setUp(() async {
       await deleteDatabase(testDb);
 
-      secureStorage = SecureStorageRepository();
-      databaseRepository = DatabaseRepository(secureStorage);
-      await databaseRepository.initialize(path: testDb);
+      final databaseService = DatabaseService();
+      secureStorage = SecureStorageService();
+      databaseRepository = DatabaseRepository(databaseService, secureStorage);
+      await databaseRepository.initialize();
     });
 
     tearDown(() async {
@@ -1245,7 +1289,7 @@ void main() async {
   });
 
   group('DatabaseRepository.clearGravityMessagesQuery', () {
-    late SecureStorageRepository secureStorage;
+    late SecureStorageService secureStorage;
     late DatabaseRepository databaseRepository;
     const id = 3;
     const address = 'http://localhost';
@@ -1256,9 +1300,10 @@ void main() async {
     setUp(() async {
       await deleteDatabase(testDb);
 
-      secureStorage = SecureStorageRepository();
-      databaseRepository = DatabaseRepository(secureStorage);
-      await databaseRepository.initialize(path: testDb);
+      final databaseService = DatabaseService();
+      secureStorage = SecureStorageService();
+      databaseRepository = DatabaseRepository(databaseService, secureStorage);
+      await databaseRepository.initialize();
     });
 
     tearDown(() async {
@@ -1290,7 +1335,7 @@ void main() async {
   });
 
   group('DatabaseRepository.getGravityDataQuery', () {
-    late SecureStorageRepository secureStorage;
+    late SecureStorageService secureStorage;
     late DatabaseRepository databaseRepository;
     const id = 3;
     const address = 'http://localhost';
@@ -1303,9 +1348,10 @@ void main() async {
     setUp(() async {
       await deleteDatabase(testDb);
 
-      secureStorage = SecureStorageRepository();
-      databaseRepository = DatabaseRepository(secureStorage);
-      await databaseRepository.initialize(path: testDb);
+      final databaseService = DatabaseService();
+      secureStorage = SecureStorageService();
+      databaseRepository = DatabaseRepository(databaseService, secureStorage);
+      await databaseRepository.initialize();
     });
 
     tearDown(() async {
@@ -1330,21 +1376,21 @@ void main() async {
         final actual = await databaseRepository.getGravityDataQuery(address);
         await dbHelper.closeDb();
 
-        expect(actual!.gravityUpdate!.toDict(), {
+        expect(actual.getOrNull()?.gravityUpdate!.toDict(), {
           'address': address,
           'start_time': startTime.toUtc().toIso8601String(),
           'end_time': endTime.toUtc().toIso8601String(),
           'status': 2,
         });
 
-        expect(actual.gravityLogs!.toList()[0].toDict(), {
+        expect(actual.getOrNull()?.gravityLogs!.toList()[0].toDict(), {
           'address': address,
           'line': 1,
           'message': log,
           'timestamp': startTime.toUtc().toIso8601String(),
         });
 
-        expect(actual.gravityMessages!.toList()[0].toDict(), {
+        expect(actual.getOrNull()?.gravityMessages!.toList()[0].toDict(), {
           'id': id,
           'address': address,
           'message': message,
@@ -1356,7 +1402,7 @@ void main() async {
   });
 
   group('DatabaseRepository.clearGravityDataQuery', () {
-    late SecureStorageRepository secureStorage;
+    late SecureStorageService secureStorage;
     late DatabaseRepository databaseRepository;
     const id = 3;
     const address = 'http://localhost';
@@ -1369,9 +1415,10 @@ void main() async {
     setUp(() async {
       await deleteDatabase(testDb);
 
-      secureStorage = SecureStorageRepository();
-      databaseRepository = DatabaseRepository(secureStorage);
-      await databaseRepository.initialize(path: testDb);
+      final databaseService = DatabaseService();
+      secureStorage = SecureStorageService();
+      databaseRepository = DatabaseRepository(databaseService, secureStorage);
+      await databaseRepository.initialize();
     });
 
     tearDown(() async {
@@ -1406,7 +1453,7 @@ void main() async {
   });
 
   group('DatabaseRepository.clearAllGravityDataQuery', () {
-    late SecureStorageRepository secureStorage;
+    late SecureStorageService secureStorage;
     late DatabaseRepository databaseRepository;
     const id = 3;
     const id2 = 4;
@@ -1421,9 +1468,10 @@ void main() async {
     setUp(() async {
       await deleteDatabase(testDb);
 
-      secureStorage = SecureStorageRepository();
-      databaseRepository = DatabaseRepository(secureStorage);
-      await databaseRepository.initialize(path: testDb);
+      final databaseService = DatabaseService();
+      secureStorage = SecureStorageService();
+      databaseRepository = DatabaseRepository(databaseService, secureStorage);
+      await databaseRepository.initialize();
     });
 
     tearDown(() async {

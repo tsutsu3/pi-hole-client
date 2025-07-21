@@ -3,12 +3,13 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
 import 'package:pi_hole_client/config/query_types.dart';
-import 'package:pi_hole_client/data/repositories/database.dart';
-import 'package:pi_hole_client/data/services/database/models/database.dart';
-import 'package:pi_hole_client/data/services/gateways/shared/models/server.dart';
+import 'package:pi_hole_client/data/repositories/database_repository.dart';
 import 'package:pi_hole_client/data/services/gateways/v6/api_gateway_v6.dart';
+import 'package:pi_hole_client/domain/models/database.dart';
+import 'package:pi_hole_client/domain/models/server.dart';
 import 'package:pi_hole_client/ui/core/viewmodel/app_config_provider.dart';
 import 'package:pi_hole_client/ui/core/viewmodel/servers_provider.dart';
+import 'package:result_dart/result_dart.dart';
 import 'package:sqflite/sqflite.dart';
 
 import './servers_provider_test.mocks.dart';
@@ -48,43 +49,43 @@ void main() async {
 
       when(mockDatabaseRepository.dbInstance).thenReturn(mockDbInstance);
       when(mockDatabaseRepository.saveServerQuery(any))
-          .thenAnswer((_) async => true);
+          .thenAnswer((_) async => Success.unit());
       when(mockDatabaseRepository.editServerQuery(any))
-          .thenAnswer((_) async => true);
+          .thenAnswer((_) async => Success.unit());
       when(mockDatabaseRepository.removeServerQuery(any))
-          .thenAnswer((_) async => true);
+          .thenAnswer((_) async => Success.unit());
       when(
         mockDatabaseRepository.removeServerQuery(
           any,
           txn: anyNamed('txn'),
         ),
-      ).thenAnswer((_) async => true);
+      ).thenAnswer((_) async => Success.unit());
       when(mockDatabaseRepository.setDefaultServerQuery(any))
-          .thenAnswer((_) async => true);
+          .thenAnswer((_) async => Success.unit());
       when(mockDatabaseRepository.deleteServersDataQuery())
-          .thenAnswer((_) async => true);
+          .thenAnswer((_) async => Success.unit());
       when(
         mockDatabaseRepository.deleteServersDataQuery(
           txn: anyNamed('txn'),
         ),
-      ).thenAnswer((_) async => true);
+      ).thenAnswer((_) async => Success.unit());
       when(mockDatabaseRepository.checkUrlExistsQuery(any))
-          .thenAnswer((_) async => {'result': 'success', 'exists': true});
+          .thenAnswer((_) async => const Success(true));
       when(mockDatabaseRepository.clearGravityDataQuery(any))
-          .thenAnswer((_) async => true);
+          .thenAnswer((_) async => Success.unit());
       when(
         mockDatabaseRepository.clearGravityDataQuery(
           any,
           txn: anyNamed('txn'),
         ),
-      ).thenAnswer((_) async => true);
+      ).thenAnswer((_) async => Success.unit());
       when(mockDatabaseRepository.clearAllGravityDataQuery())
-          .thenAnswer((_) async => true);
+          .thenAnswer((_) async => Success.unit());
       when(
         mockDatabaseRepository.clearAllGravityDataQuery(
           txn: anyNamed('txn'),
         ),
-      ).thenAnswer((_) async => true);
+      ).thenAnswer((_) async => Success.unit());
 
       // Mocking the transaction method
       when(mockDbInstance.transaction(any)).thenAnswer((invocation) {
@@ -218,7 +219,7 @@ void main() async {
         ServerDbData(
           address: server.address,
           alias: server.alias,
-          token: await server.sm.token,
+          token: await server.sm.token.getOrNull(),
           isDefaultServer: 1,
           apiVersion: server.apiVersion,
           sid: 'sid01',

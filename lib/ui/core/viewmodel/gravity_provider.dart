@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:pi_hole_client/config/enums.dart';
-import 'package:pi_hole_client/data/repositories/database.dart';
+import 'package:pi_hole_client/data/repositories/gravity_repository.dart';
 import 'package:pi_hole_client/data/services/gateways/shared/models/messages.dart';
 import 'package:pi_hole_client/domain/use_cases/gravity_update_service.dart';
 import 'package:pi_hole_client/ui/core/viewmodel/servers_provider.dart';
@@ -8,7 +8,7 @@ import 'package:pi_hole_client/utils/logger.dart';
 
 class GravityUpdateProvider with ChangeNotifier {
   GravityUpdateProvider({
-    required DatabaseRepository repository,
+    required GravityRepository repository,
     required ServersProvider serversProvider,
   })  : _repository = repository,
         _serversProvider = serversProvider {
@@ -20,7 +20,7 @@ class GravityUpdateProvider with ChangeNotifier {
     }
   }
 
-  final DatabaseRepository _repository;
+  final GravityRepository _repository;
   ServersProvider _serversProvider;
   GravityUpdateService? _service;
 

@@ -235,6 +235,10 @@ class GravityUpdateData {
       'status': status,
     };
   }
+
+  bool isInitial() {
+    return address == '';
+  }
 }
 
 class GravityLogsData {

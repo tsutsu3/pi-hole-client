@@ -3,9 +3,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 import 'package:pi_hole_client/config/languages.dart';
-import 'package:pi_hole_client/data/repositories/database.dart';
-import 'package:pi_hole_client/data/services/database/models/database.dart';
+import 'package:pi_hole_client/data/repositories/database_repository.dart';
 import 'package:pi_hole_client/data/services/gateways/shared/models/app_log.dart';
+import 'package:pi_hole_client/domain/models/database.dart';
 import 'package:pi_hole_client/ui/core/themes/theme.dart';
 import 'package:pi_hole_client/utils/logger.dart';
 
@@ -221,7 +221,7 @@ class AppConfigProvider with ChangeNotifier {
       column: 'useBiometricAuth',
       value: newValue,
     );
-    if (updated) {
+    if (updated.isSuccess()) {
       _useBiometrics = newValue;
       notifyListeners();
       return true;
@@ -238,7 +238,7 @@ class AppConfigProvider with ChangeNotifier {
       column: 'importantInfoReaden',
       value: status == true ? 1 : 0,
     );
-    if (updated) {
+    if (updated.isSuccess()) {
       _importantInfoReaden = status == true ? 1 : 0;
       notifyListeners();
       return true;
@@ -253,13 +253,13 @@ class AppConfigProvider with ChangeNotifier {
         column: 'useBiometricAuth',
         value: 0,
       );
-      if (updated) {
+      if (updated.isSuccess()) {
         _useBiometrics = 0;
         final updated2 = await _repository.updateConfigQuery(
           column: 'passCode',
           value: code,
         );
-        if (updated2 == true) {
+        if (updated2.isSuccess()) {
           _passCode = code;
           notifyListeners();
           return true;
@@ -272,7 +272,7 @@ class AppConfigProvider with ChangeNotifier {
     } else {
       final updated =
           await _repository.updateConfigQuery(column: 'passCode', value: code);
-      if (updated) {
+      if (updated.isSuccess()) {
         _passCode = code;
         notifyListeners();
         return true;
@@ -287,7 +287,7 @@ class AppConfigProvider with ChangeNotifier {
       column: 'autoRefreshTime',
       value: seconds,
     );
-    if (updated) {
+    if (updated.isSuccess()) {
       _autoRefreshTime = seconds;
       notifyListeners();
       return true;
@@ -301,7 +301,7 @@ class AppConfigProvider with ChangeNotifier {
       column: 'logsPerQuery',
       value: time,
     );
-    if (updated) {
+    if (updated.isSuccess()) {
       _logsPerQuery = time;
       notifyListeners();
       return true;
@@ -315,7 +315,7 @@ class AppConfigProvider with ChangeNotifier {
       column: 'sendCrashReports',
       value: status == true ? 1 : 0,
     );
-    if (updated) {
+    if (updated.isSuccess()) {
       _sendCrashReports = status == true ? 1 : 0;
       notifyListeners();
       return true;
@@ -351,7 +351,7 @@ class AppConfigProvider with ChangeNotifier {
       column: 'reducedDataCharts',
       value: status == true ? 1 : 0,
     );
-    if (updated) {
+    if (updated.isSuccess()) {
       _reducedDataCharts = status == true ? 1 : 0;
       notifyListeners();
       return true;
@@ -365,7 +365,7 @@ class AppConfigProvider with ChangeNotifier {
       column: 'hideZeroValues',
       value: status == true ? 1 : 0,
     );
-    if (updated) {
+    if (updated.isSuccess()) {
       _hideZeroValues = status == true ? 1 : 0;
       notifyListeners();
       return true;
@@ -380,7 +380,7 @@ class AppConfigProvider with ChangeNotifier {
       column: 'loadingAnimation',
       value: value,
     );
-    if (updated) {
+    if (updated.isSuccess()) {
       _loadingAnimation = value;
       notifyListeners();
       return true;
@@ -392,7 +392,7 @@ class AppConfigProvider with ChangeNotifier {
   Future<bool> setSelectedTheme(int value) async {
     final updated =
         await _repository.updateConfigQuery(column: 'theme', value: value);
-    if (updated) {
+    if (updated.isSuccess()) {
       _selectedTheme = value;
       notifyListeners();
       return true;
@@ -404,7 +404,7 @@ class AppConfigProvider with ChangeNotifier {
   Future<bool> setSelectedLanguage(String value) async {
     final updated =
         await _repository.updateConfigQuery(column: 'language', value: value);
-    if (updated) {
+    if (updated.isSuccess()) {
       _selectedLanguage = value;
       notifyListeners();
       return true;
@@ -418,7 +418,7 @@ class AppConfigProvider with ChangeNotifier {
       column: 'statisticsVisualizationMode',
       value: value,
     );
-    if (updated) {
+    if (updated.isSuccess()) {
       _statisticsVisualizationMode = value;
       notifyListeners();
       return true;
@@ -432,7 +432,7 @@ class AppConfigProvider with ChangeNotifier {
       column: 'homeVisualizationMode',
       value: value,
     );
-    if (updated) {
+    if (updated.isSuccess()) {
       _homeVisualizationMode = value;
       notifyListeners();
       return true;
@@ -443,7 +443,7 @@ class AppConfigProvider with ChangeNotifier {
 
   Future<bool> restoreAppConfig() async {
     final result = await _repository.restoreAppConfigQuery();
-    if (result == true) {
+    if (result.isSuccess()) {
       _autoRefreshTime = 5;
       _selectedTheme = 0;
       _selectedLanguage = 'en';

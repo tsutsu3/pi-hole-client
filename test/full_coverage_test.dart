@@ -13,9 +13,12 @@ import 'package:pi_hole_client/config/responsive.dart';
 import 'package:pi_hole_client/config/search_domain_base_url.dart';
 import 'package:pi_hole_client/config/subscription_types.dart';
 import 'package:pi_hole_client/config/urls.dart';
-import 'package:pi_hole_client/data/repositories/database.dart';
-import 'package:pi_hole_client/data/repositories/secret_manager.dart';
-import 'package:pi_hole_client/data/services/database/models/database.dart';
+import 'package:pi_hole_client/data/repositories/app_config_repository.dart';
+import 'package:pi_hole_client/data/repositories/database_repository.dart';
+import 'package:pi_hole_client/data/repositories/gravity_repository.dart';
+import 'package:pi_hole_client/data/repositories/secure_data_repository.dart';
+import 'package:pi_hole_client/data/repositories/server_repository.dart';
+import 'package:pi_hole_client/data/services/database/database_service.dart';
 import 'package:pi_hole_client/data/services/gateways/api_gateway_factory.dart';
 import 'package:pi_hole_client/data/services/gateways/api_gateway_interface.dart';
 import 'package:pi_hole_client/data/services/gateways/shared/models/app_log.dart';
@@ -40,7 +43,6 @@ import 'package:pi_hole_client/data/services/gateways/shared/models/query_status
 import 'package:pi_hole_client/data/services/gateways/shared/models/realtime_status.dart';
 import 'package:pi_hole_client/data/services/gateways/shared/models/search.dart';
 import 'package:pi_hole_client/data/services/gateways/shared/models/sensors.dart';
-import 'package:pi_hole_client/data/services/gateways/shared/models/server.dart';
 import 'package:pi_hole_client/data/services/gateways/shared/models/sessions.dart';
 import 'package:pi_hole_client/data/services/gateways/shared/models/subscriptions.dart';
 import 'package:pi_hole_client/data/services/gateways/shared/models/system.dart';
@@ -75,7 +77,9 @@ import 'package:pi_hole_client/data/services/gateways/v6/models/network/devices.
 import 'package:pi_hole_client/data/services/gateways/v6/models/network/gateway.dart';
 import 'package:pi_hole_client/data/services/gateways/v6/models/network/interfaces.dart';
 import 'package:pi_hole_client/data/services/gateways/v6/models/network/routes.dart';
-import 'package:pi_hole_client/data/services/storage/secure_storage.dart';
+import 'package:pi_hole_client/data/services/storage/secure_storage_service.dart';
+import 'package:pi_hole_client/domain/models/database.dart';
+import 'package:pi_hole_client/domain/models/server.dart';
 import 'package:pi_hole_client/domain/use_cases/gravity_update_service.dart';
 import 'package:pi_hole_client/domain/use_cases/logs_pagination_service.dart';
 import 'package:pi_hole_client/domain/use_cases/logs_screen_service.dart';
@@ -247,10 +251,13 @@ import 'package:pi_hole_client/ui/statistics/statistics_triple_column.dart';
 import 'package:pi_hole_client/utils/charts_data_functions.dart';
 import 'package:pi_hole_client/utils/colors.dart';
 import 'package:pi_hole_client/utils/conversions.dart';
+import 'package:pi_hole_client/utils/database_utils.dart';
 import 'package:pi_hole_client/utils/format.dart';
 import 'package:pi_hole_client/utils/graph.dart';
 import 'package:pi_hole_client/utils/logger.dart';
 import 'package:pi_hole_client/utils/misc.dart';
 import 'package:pi_hole_client/utils/open_url.dart';
+import 'package:pi_hole_client/utils/option.dart';
+import 'package:pi_hole_client/utils/retry.dart';
 
 void main() {}

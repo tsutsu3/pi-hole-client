@@ -13,8 +13,6 @@ import 'package:mockito/mockito.dart' as _i1;
 import 'package:mockito/src/dummies.dart' as _i8;
 import 'package:package_info_plus/package_info_plus.dart' as _i10;
 import 'package:pi_hole_client/config/enums.dart' as _i19;
-import 'package:pi_hole_client/data/services/database/models/database.dart'
-    as _i13;
 import 'package:pi_hole_client/data/services/gateways/api_gateway_interface.dart'
     as _i17;
 import 'package:pi_hole_client/data/services/gateways/shared/models/app_log.dart'
@@ -35,8 +33,6 @@ import 'package:pi_hole_client/data/services/gateways/shared/models/query_status
     as _i16;
 import 'package:pi_hole_client/data/services/gateways/shared/models/realtime_status.dart'
     as _i21;
-import 'package:pi_hole_client/data/services/gateways/shared/models/server.dart'
-    as _i3;
 import 'package:pi_hole_client/data/services/gateways/shared/models/subscriptions.dart'
     as _i27;
 import 'package:pi_hole_client/data/services/gateways/v5/api_gateway_v5.dart'
@@ -45,6 +41,8 @@ import 'package:pi_hole_client/data/services/gateways/v6/api_gateway_v6.dart'
     as _i30;
 import 'package:pi_hole_client/data/services/gateways/v6/models/config/config.dart'
     as _i29;
+import 'package:pi_hole_client/domain/models/database.dart' as _i13;
+import 'package:pi_hole_client/domain/models/server.dart' as _i3;
 import 'package:pi_hole_client/domain/use_cases/status_update_service.dart'
     as _i31;
 import 'package:pi_hole_client/ui/core/themes/theme.dart' as _i2;

@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:pi_hole_client/config/api_versions.dart';
 import 'package:pi_hole_client/config/urls.dart';
 import 'package:pi_hole_client/data/services/gateways/shared/models/gateways.dart';
-import 'package:pi_hole_client/data/services/gateways/shared/models/server.dart';
+import 'package:pi_hole_client/domain/models/server.dart';
 import 'package:pi_hole_client/domain/use_cases/status_update_service.dart';
 import 'package:pi_hole_client/ui/core/l10n/generated/app_localizations.dart';
 import 'package:pi_hole_client/ui/core/ui/components/section_label.dart';
@@ -171,10 +171,10 @@ class _AddServerFullscreenState extends State<AddServerFullscreen> {
 
         if (mounted) {
           setState(() {
-            passwordFieldController.text = password ?? '';
-            tokenFieldController.text = token ?? '';
-            initToken = token ?? '';
-            initPassword = password ?? '';
+            passwordFieldController.text = password.getOrNull() ?? '';
+            tokenFieldController.text = token.getOrNull() ?? '';
+            initToken = token.getOrNull() ?? '';
+            initPassword = password.getOrNull() ?? '';
           });
         }
       } catch (e) {
