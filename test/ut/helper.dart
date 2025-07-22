@@ -114,10 +114,10 @@ class DbHelper {
           password.getOrThrow(),
         );
       }
-      if (server.sm.sid != null) {
+      if (server.sm.sid.isSuccess()) {
         await _secureStorage.saveValue(
           '${server.address}_sid',
-          server.sm.sid ?? '',
+          server.sm.sid.getOrDefault(''),
         );
       }
 

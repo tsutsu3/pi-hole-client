@@ -63,7 +63,7 @@ class AppConfigRepository {
       appConfig = AppDbData.fromMap(rows.getOrThrow()[0]);
 
       final passCode = await _secureStorage.getValue('passCode');
-      appConfig = AppDbData.withSecrets(appConfig, passCode.getOrThrow());
+      appConfig = AppDbData.withSecrets(appConfig, passCode.getOrNull());
 
       _appConfig = appConfig;
 

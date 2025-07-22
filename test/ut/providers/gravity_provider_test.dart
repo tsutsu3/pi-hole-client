@@ -6,9 +6,10 @@ import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
 import 'package:pi_hole_client/config/enums.dart';
 import 'package:pi_hole_client/data/repositories/database_repository.dart';
-import 'package:pi_hole_client/data/services/gateways/shared/models/gateways.dart';
-import 'package:pi_hole_client/data/services/gateways/shared/models/messages.dart';
-import 'package:pi_hole_client/data/services/gateways/v6/api_gateway_v6.dart';
+import 'package:pi_hole_client/data/repositories/gravity_repository.dart';
+import 'package:pi_hole_client/data/services/api/shared/models/gateways.dart';
+import 'package:pi_hole_client/data/services/api/shared/models/messages.dart';
+import 'package:pi_hole_client/data/services/api/v6/api_gateway_v6.dart';
 import 'package:pi_hole_client/domain/models/database.dart';
 import 'package:pi_hole_client/domain/models/server.dart';
 import 'package:pi_hole_client/ui/core/viewmodel/gravity_provider.dart';
@@ -17,7 +18,12 @@ import 'package:result_dart/result_dart.dart';
 
 import './gravity_provider_test.mocks.dart';
 
-@GenerateMocks([ServersProvider, DatabaseRepository, ApiGatewayV6])
+@GenerateMocks([
+  ServersProvider,
+  DatabaseRepository,
+  GravityRepository,
+  ApiGatewayV6,
+])
 void main() async {
   TestWidgetsFlutterBinding.ensureInitialized();
   await dotenv.load();
@@ -25,6 +31,7 @@ void main() async {
   group('GravityUpdateProvider', () {
     late GravityUpdateProvider gravityUpdateProvider;
     late MockDatabaseRepository mockRepository;
+    late MockGravityRepository mockGravityRepository;
     late MockServersProvider mockServersProvider;
     late MockApiGatewayV6 mockApiGatewayV6;
     late bool listenerCalled;
@@ -88,6 +95,7 @@ void main() async {
     setUp(() {
       mockRepository = MockDatabaseRepository();
       mockServersProvider = MockServersProvider();
+      mockGravityRepository = MockGravityRepository();
       mockApiGatewayV6 = MockApiGatewayV6();
 
       when(mockServersProvider.selectedServer).thenReturn(server);
@@ -134,8 +142,30 @@ void main() async {
         (_) async => Success.unit(),
       );
 
+      when(mockRepository.getGravityUpdateQuery(any)).thenAnswer(
+        (_) async => Success(graivtyUpdateData),
+      );
+
+      when(mockGravityRepository.fetchGravityData(any))
+          .thenAnswer((_) async => Success(gravityData));
+      when(mockGravityRepository.deleteGravityData(any)).thenAnswer(
+        (_) async => const Success(1),
+      );
+      when(mockGravityRepository.upsertGravityUpdate(any)).thenAnswer(
+        (_) async => const Success(1),
+      );
+      when(mockGravityRepository.insertGravityLogs(any)).thenAnswer(
+        (_) async => const Success(1),
+      );
+      when(mockGravityRepository.insertGravityMessages(any)).thenAnswer(
+        (_) async => const Success(1),
+      );
+      when(mockGravityRepository.deleteGravityMessage(any, any)).thenAnswer(
+        (_) async => const Success(1),
+      );
+
       gravityUpdateProvider = GravityUpdateProvider(
-        repository: mockRepository,
+        repository: mockGravityRepository,
         serversProvider: mockServersProvider,
       );
       listenerCalled = false;

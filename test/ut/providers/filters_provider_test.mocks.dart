@@ -7,9 +7,9 @@ import 'dart:async' as _i8;
 import 'dart:ui' as _i10;
 
 import 'package:mockito/mockito.dart' as _i1;
-import 'package:pi_hole_client/data/services/gateways/api_gateway_interface.dart'
+import 'package:pi_hole_client/data/services/api/api_gateway_interface.dart'
     as _i7;
-import 'package:pi_hole_client/data/services/gateways/shared/models/query_status.dart'
+import 'package:pi_hole_client/data/services/api/shared/models/query_status.dart'
     as _i5;
 import 'package:pi_hole_client/domain/models/database.dart' as _i9;
 import 'package:pi_hole_client/domain/models/server.dart' as _i4;

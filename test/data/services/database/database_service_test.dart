@@ -8,7 +8,7 @@ void sqfliteTestInit() {
 }
 
 void main() {
-  const dbName = 'test_pi_hole_client.db';
+  const dbName = inMemoryDatabasePath;
 
   sqfliteTestInit();
 
@@ -204,7 +204,8 @@ void main() {
         where: 'address = ?',
         whereArgs: ['notfound'],
       );
-      expect(result.isError(), isTrue);
+      expect(result.isSuccess(), isTrue);
+      expect(result.getOrNull(), 0);
     });
   });
 }

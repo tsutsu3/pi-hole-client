@@ -2,14 +2,20 @@ import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:pi_hole_client/utils/logger.dart';
 import 'package:result_dart/result_dart.dart';
 
-/// A service for securely storing, retrieving, and managing key-value pairs
-/// using [FlutterSecureStorage].
+/// A service for securely managing key-value pairs using [FlutterSecureStorage].
 ///
-/// This service abstracts secure storage access and provides convenient methods
-/// to save, read, delete, and clear values, all wrapped in [Result] objects for
-/// robust error handling without relying on exceptions directly.
+/// This service provides a simple and consistent API for performing secure
+/// storage operations such as saving, reading, deleting, and clearing data.
+///
+/// All methods return [Result] objects to encapsulate success or failure,
+/// allowing robust error handling without throwing exceptions directly.
+///
+/// The underlying [FlutterSecureStorage] instance can be injected, which is
+/// useful for testing or customization. If not provided, a default instance
+/// is created internally.
 class SecureStorageService {
-  SecureStorageService() : _secureStorage = const FlutterSecureStorage();
+  SecureStorageService({FlutterSecureStorage? secureStorage})
+      : _secureStorage = secureStorage ?? const FlutterSecureStorage();
 
   final FlutterSecureStorage _secureStorage;
 

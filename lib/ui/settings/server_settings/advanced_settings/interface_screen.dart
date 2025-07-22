@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:pi_hole_client/data/services/gateways/api_gateway_interface.dart';
-import 'package:pi_hole_client/data/services/gateways/shared/models/gateway.dart';
-import 'package:pi_hole_client/data/services/gateways/shared/models/gateways.dart';
-import 'package:pi_hole_client/data/services/gateways/v6/models/network/common.dart';
-import 'package:pi_hole_client/data/services/gateways/v6/models/network/interfaces.dart';
+import 'package:pi_hole_client/data/services/api/api_gateway_interface.dart';
+import 'package:pi_hole_client/data/services/api/shared/models/gateway.dart';
+import 'package:pi_hole_client/data/services/api/shared/models/gateways.dart';
+import 'package:pi_hole_client/data/services/api/v6/models/network/common.dart';
+import 'package:pi_hole_client/data/services/api/v6/models/network/interfaces.dart';
 import 'package:pi_hole_client/ui/common/empty_data_screen.dart';
 import 'package:pi_hole_client/ui/core/l10n/generated/app_localizations.dart';
 import 'package:pi_hole_client/ui/core/ui/behavior/custom_scroll_behavior.dart';

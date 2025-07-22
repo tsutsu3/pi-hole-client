@@ -13,7 +13,7 @@ import 'package:mockito/src/dummies.dart' as _i8;
 import 'package:package_info_plus/package_info_plus.dart' as _i13;
 import 'package:pi_hole_client/data/repositories/database_repository.dart'
     as _i6;
-import 'package:pi_hole_client/data/services/gateways/shared/models/app_log.dart'
+import 'package:pi_hole_client/data/services/api/shared/models/app_log.dart'
     as _i12;
 import 'package:pi_hole_client/domain/models/database.dart' as _i2;
 import 'package:pi_hole_client/domain/models/server.dart' as _i9;

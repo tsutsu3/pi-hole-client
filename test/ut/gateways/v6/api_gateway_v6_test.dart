@@ -9,48 +9,48 @@ import 'package:pi_hole_client/config/api_versions.dart';
 import 'package:pi_hole_client/config/enums.dart';
 import 'package:pi_hole_client/config/subscription_types.dart';
 import 'package:pi_hole_client/data/repositories/secure_data_repository.dart';
-import 'package:pi_hole_client/data/services/gateways/shared/models/client.dart';
-import 'package:pi_hole_client/data/services/gateways/shared/models/config.dart';
-import 'package:pi_hole_client/data/services/gateways/shared/models/devices.dart';
-import 'package:pi_hole_client/data/services/gateways/shared/models/dhcp.dart';
-import 'package:pi_hole_client/data/services/gateways/shared/models/domain.dart';
-import 'package:pi_hole_client/data/services/gateways/shared/models/gateway.dart';
-import 'package:pi_hole_client/data/services/gateways/shared/models/gateways.dart';
-import 'package:pi_hole_client/data/services/gateways/shared/models/groups.dart';
-import 'package:pi_hole_client/data/services/gateways/shared/models/host.dart';
-import 'package:pi_hole_client/data/services/gateways/shared/models/messages.dart';
-import 'package:pi_hole_client/data/services/gateways/shared/models/metrics.dart';
-import 'package:pi_hole_client/data/services/gateways/shared/models/search.dart';
-import 'package:pi_hole_client/data/services/gateways/shared/models/sensors.dart';
-import 'package:pi_hole_client/data/services/gateways/shared/models/sessions.dart';
-import 'package:pi_hole_client/data/services/gateways/shared/models/subscriptions.dart';
-import 'package:pi_hole_client/data/services/gateways/shared/models/system.dart';
-import 'package:pi_hole_client/data/services/gateways/shared/models/version.dart';
-import 'package:pi_hole_client/data/services/gateways/v6/api_gateway_v6.dart';
-import 'package:pi_hole_client/data/services/gateways/v6/models/action/action.dart';
-import 'package:pi_hole_client/data/services/gateways/v6/models/auth/sessions.dart';
-import 'package:pi_hole_client/data/services/gateways/v6/models/config/config.dart'
+import 'package:pi_hole_client/data/services/api/shared/models/client.dart';
+import 'package:pi_hole_client/data/services/api/shared/models/config.dart';
+import 'package:pi_hole_client/data/services/api/shared/models/devices.dart';
+import 'package:pi_hole_client/data/services/api/shared/models/dhcp.dart';
+import 'package:pi_hole_client/data/services/api/shared/models/domain.dart';
+import 'package:pi_hole_client/data/services/api/shared/models/gateway.dart';
+import 'package:pi_hole_client/data/services/api/shared/models/gateways.dart';
+import 'package:pi_hole_client/data/services/api/shared/models/groups.dart';
+import 'package:pi_hole_client/data/services/api/shared/models/host.dart';
+import 'package:pi_hole_client/data/services/api/shared/models/messages.dart';
+import 'package:pi_hole_client/data/services/api/shared/models/metrics.dart';
+import 'package:pi_hole_client/data/services/api/shared/models/search.dart';
+import 'package:pi_hole_client/data/services/api/shared/models/sensors.dart';
+import 'package:pi_hole_client/data/services/api/shared/models/sessions.dart';
+import 'package:pi_hole_client/data/services/api/shared/models/subscriptions.dart';
+import 'package:pi_hole_client/data/services/api/shared/models/system.dart';
+import 'package:pi_hole_client/data/services/api/shared/models/version.dart';
+import 'package:pi_hole_client/data/services/api/v6/api_gateway_v6.dart';
+import 'package:pi_hole_client/data/services/api/v6/models/action/action.dart';
+import 'package:pi_hole_client/data/services/api/v6/models/auth/sessions.dart';
+import 'package:pi_hole_client/data/services/api/v6/models/config/config.dart'
     show Config, ConfigData, Dns;
-import 'package:pi_hole_client/data/services/gateways/v6/models/dhcp/dhcp.dart'
+import 'package:pi_hole_client/data/services/api/v6/models/dhcp/dhcp.dart'
     show Dhcp;
-import 'package:pi_hole_client/data/services/gateways/v6/models/ftl/client.dart';
-import 'package:pi_hole_client/data/services/gateways/v6/models/ftl/host.dart'
+import 'package:pi_hole_client/data/services/api/v6/models/ftl/client.dart';
+import 'package:pi_hole_client/data/services/api/v6/models/ftl/host.dart'
     show Host;
-import 'package:pi_hole_client/data/services/gateways/v6/models/ftl/messages.dart';
-import 'package:pi_hole_client/data/services/gateways/v6/models/ftl/metrics.dart';
-import 'package:pi_hole_client/data/services/gateways/v6/models/ftl/sensors.dart'
+import 'package:pi_hole_client/data/services/api/v6/models/ftl/messages.dart';
+import 'package:pi_hole_client/data/services/api/v6/models/ftl/metrics.dart';
+import 'package:pi_hole_client/data/services/api/v6/models/ftl/sensors.dart'
     show Sensors;
-import 'package:pi_hole_client/data/services/gateways/v6/models/ftl/system.dart'
+import 'package:pi_hole_client/data/services/api/v6/models/ftl/system.dart'
     show System;
-import 'package:pi_hole_client/data/services/gateways/v6/models/ftl/version.dart'
+import 'package:pi_hole_client/data/services/api/v6/models/ftl/version.dart'
     show Version;
-import 'package:pi_hole_client/data/services/gateways/v6/models/groups/groups.dart';
-import 'package:pi_hole_client/data/services/gateways/v6/models/lists/lists.dart'
+import 'package:pi_hole_client/data/services/api/v6/models/groups/groups.dart';
+import 'package:pi_hole_client/data/services/api/v6/models/lists/lists.dart'
     show Lists;
-import 'package:pi_hole_client/data/services/gateways/v6/models/lists/search.dart'
+import 'package:pi_hole_client/data/services/api/v6/models/lists/search.dart'
     show Search;
-import 'package:pi_hole_client/data/services/gateways/v6/models/network/devices.dart';
-import 'package:pi_hole_client/data/services/gateways/v6/models/network/gateway.dart';
+import 'package:pi_hole_client/data/services/api/v6/models/network/devices.dart';
+import 'package:pi_hole_client/data/services/api/v6/models/network/gateway.dart';
 import 'package:pi_hole_client/domain/models/server.dart';
 import 'package:result_dart/result_dart.dart';
 
@@ -62,7 +62,12 @@ class SecretManagerMock implements SecureDataRepository {
   String? _password;
 
   @override
-  String? get sid => _sid;
+  Result<String> get sid {
+    if (_sid == null) {
+      return Failure(Exception('SID not found'));
+    }
+    return Success(_sid!);
+  }
 
   @override
   Future<Result<String>> get password async {

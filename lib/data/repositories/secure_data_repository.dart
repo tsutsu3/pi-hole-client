@@ -18,7 +18,12 @@ class SecureDataRepository {
   String? _sid;
 
   /// Returns the currently cached session ID (`sid`).
-  String? get sid => _sid;
+  Result<String> get sid {
+    if (_sid == null) {
+      return Failure(Exception('SID not loaded. Call loadSid() first.'));
+    }
+    return Success(_sid!);
+  }
 
   /// Retrieves the stored password for the server (v6).
   ///

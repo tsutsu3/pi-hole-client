@@ -236,6 +236,20 @@ class GravityUpdateData {
     };
   }
 
+  GravityUpdateData copyWith({
+    String? address,
+    DateTime? startTime,
+    DateTime? endTime,
+    int? status,
+  }) {
+    return GravityUpdateData(
+      address: address ?? this.address,
+      startTime: startTime ?? this.startTime,
+      endTime: endTime ?? this.endTime,
+      status: status ?? this.status,
+    );
+  }
+
   bool isInitial() {
     return address == '';
   }

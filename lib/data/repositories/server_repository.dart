@@ -95,17 +95,18 @@ class ServerRepository {
           password.getOrThrow(),
         );
       }
-      if (server.sm.sid != null) {
+      if (server.sm.sid.isSuccess()) {
         await _secureStorage.saveValue(
           '${server.address}_sid',
-          server.sm.sid ?? '',
+          server.sm.sid.getOrDefault(''),
         );
       }
 
       return await _database.insert('servers', {
         'address': server.address,
         'alias': server.alias,
-        'isDefaultServer': 0,
+        'isDefaultServer':
+            server.defaultServer ? 1 : 0, // TODO: Warning: before const 0
         'apiVersion': server.apiVersion,
         'allowSelfSignedCert': server.allowSelfSignedCert ? 1 : 0,
       });
@@ -142,10 +143,10 @@ class ServerRepository {
           password.getOrThrow(),
         );
       }
-      if (server.sm.sid != null) {
+      if (server.sm.sid.isSuccess()) {
         await _secureStorage.saveValue(
           '${server.address}_sid',
-          server.sm.sid!,
+          server.sm.sid.getOrThrow(),
         );
       }
 
@@ -232,7 +233,7 @@ class ServerRepository {
   /// on secure storage to delete all stored credentials.
   ///
   /// Returns the number of rows deleted, or a failure if the deletion fails.
-  Future<Result<int>> deleteAllServer() async {
+  Future<Result<int>> deleteAllServers() async {
     try {
       await openDbIfNeeded(_database);
 
@@ -240,8 +241,8 @@ class ServerRepository {
 
       return await _database.delete('servers');
     } catch (e, st) {
-      logger.e('Failed to delete servers data: $e\n$st');
-      return Failure(Exception('Failed to delete servers data: $e\n$st'));
+      logger.e('Failed to delete all servers data: $e\n$st');
+      return Failure(Exception('Failed to delete all servers data: $e\n$st'));
     }
   }
 
@@ -255,20 +256,18 @@ class ServerRepository {
     try {
       await openDbIfNeeded(_database);
 
-      return await _database.transaction<bool>((txn) async {
-        final res = await txn.query(
-          'servers',
-          columns: ['count(address) as quantity'],
-          where: 'address = ?',
-          whereArgs: [url],
-        );
+      final result = await _database.query(
+        'servers',
+        columns: ['count(address) as quantity'],
+        where: 'address = ?',
+        whereArgs: [url],
+      );
 
-        if (res[0]['quantity'] == 0) {
-          return false;
-        } else {
-          return true;
-        }
-      });
+      if (result.isError()) return Failure(result.exceptionOrNull()!);
+
+      final quantity = result.getOrNull()?.first['quantity'] as int? ?? 0;
+
+      return Success(quantity > 0);
     } catch (e, st) {
       logger.e('Failed to check if URL exists: $e\n$st');
       return Failure(Exception('Failed to check if URL exists: $e\n$st'));
@@ -291,11 +290,7 @@ class ServerRepository {
           servers.getOrThrow().map((e) => e.address).toList();
       final keys = await _secureStorage.readAll();
 
-      if (keys.isError()) {
-        logger
-            .e('Failed to read secure storage keys: ${keys.exceptionOrNull()}');
-        return Failure(Exception('Failed to read secure storage keys'));
-      }
+      if (keys.isError()) return Failure(keys.exceptionOrNull()!);
 
       // Collect keys to be deleted
       final keysToDelete = <String>[];

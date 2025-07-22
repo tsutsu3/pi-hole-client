@@ -13,29 +13,29 @@ import 'package:mockito/mockito.dart' as _i1;
 import 'package:mockito/src/dummies.dart' as _i8;
 import 'package:package_info_plus/package_info_plus.dart' as _i10;
 import 'package:pi_hole_client/config/enums.dart' as _i19;
-import 'package:pi_hole_client/data/services/gateways/api_gateway_interface.dart'
+import 'package:pi_hole_client/data/services/api/api_gateway_interface.dart'
     as _i17;
-import 'package:pi_hole_client/data/services/gateways/shared/models/app_log.dart'
+import 'package:pi_hole_client/data/services/api/shared/models/app_log.dart'
     as _i9;
-import 'package:pi_hole_client/data/services/gateways/shared/models/domain.dart'
+import 'package:pi_hole_client/data/services/api/shared/models/domain.dart'
     as _i25;
-import 'package:pi_hole_client/data/services/gateways/shared/models/gateways.dart'
+import 'package:pi_hole_client/data/services/api/shared/models/gateways.dart'
     as _i5;
-import 'package:pi_hole_client/data/services/gateways/shared/models/groups.dart'
+import 'package:pi_hole_client/data/services/api/shared/models/groups.dart'
     as _i27;
-import 'package:pi_hole_client/data/services/gateways/shared/models/metrics.dart'
+import 'package:pi_hole_client/data/services/api/shared/models/metrics.dart'
     as _i22;
-import 'package:pi_hole_client/data/services/gateways/shared/models/overtime_data.dart'
+import 'package:pi_hole_client/data/services/api/shared/models/overtime_data.dart'
     as _i21;
-import 'package:pi_hole_client/data/services/gateways/shared/models/query_status.dart'
+import 'package:pi_hole_client/data/services/api/shared/models/query_status.dart'
     as _i16;
-import 'package:pi_hole_client/data/services/gateways/shared/models/realtime_status.dart'
+import 'package:pi_hole_client/data/services/api/shared/models/realtime_status.dart'
     as _i20;
-import 'package:pi_hole_client/data/services/gateways/shared/models/subscriptions.dart'
+import 'package:pi_hole_client/data/services/api/shared/models/subscriptions.dart'
     as _i26;
-import 'package:pi_hole_client/data/services/gateways/v6/api_gateway_v6.dart'
+import 'package:pi_hole_client/data/services/api/v6/api_gateway_v6.dart'
     as _i24;
-import 'package:pi_hole_client/data/services/gateways/v6/models/config/config.dart'
+import 'package:pi_hole_client/data/services/api/v6/models/config/config.dart'
     as _i28;
 import 'package:pi_hole_client/domain/models/database.dart' as _i13;
 import 'package:pi_hole_client/domain/models/server.dart' as _i3;

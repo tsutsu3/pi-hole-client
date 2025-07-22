@@ -33,20 +33,22 @@ class DatabaseService {
     return _db!;
   }
 
-  /// Opens the SQLite database at the specified [_path].
+  /// Opens the SQLite database at the specified [_path], optionally using a specific schema [version].
   ///
-  /// This method wraps `openDatabase` and sets up internal lifecycle callbacks for
-  /// [_onCreate], [_onUpgrade], and [_onDowngrade], which are defined internally in the service.
-
+  /// This method wraps [openDatabase] and sets up internal lifecycle callbacks for
+  /// [_onCreate], [_onUpgrade], [_onDowngrade], and [_onOpen] as defined within this service.
+  ///
+  /// You can optionally provide a [latestVersion] to simulate opening the database
+  /// at a specific version. This is especially useful for testing schema upgrades and migrations.
+  ///
   /// Returns:
   /// - [Success] containing the opened [Database] instance if successful.
   /// - [Failure] containing an [Exception] if an error occurs during opening.
-
-  Future<Result<Database>> open() async {
+  Future<Result<Database>> open({int? latestVersion = 6}) async {
     try {
       _db = await openDatabase(
         _path,
-        version: 6,
+        version: latestVersion,
         onCreate: _onCreate,
         onUpgrade: _onUpgrade,
         onDowngrade: _onDowngrade,
@@ -218,8 +220,7 @@ class DatabaseService {
         whereArgs: whereArgs,
       );
       if (count == 0) {
-        logger.e('Delete failed: no rows affected');
-        return Failure(Exception('Delete failed: no rows affected'));
+        return const Success(0);
       }
       logger.d('Delete success: $count rows affected');
       return Success(count);

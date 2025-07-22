@@ -11,22 +11,24 @@ import 'package:mockito/mockito.dart' as _i1;
 import 'package:mockito/src/dummies.dart' as _i16;
 import 'package:pi_hole_client/data/repositories/database_repository.dart'
     as _i14;
-import 'package:pi_hole_client/data/services/gateways/api_gateway_interface.dart'
-    as _i11;
-import 'package:pi_hole_client/data/services/gateways/shared/models/domain.dart'
-    as _i18;
-import 'package:pi_hole_client/data/services/gateways/shared/models/gateways.dart'
-    as _i7;
-import 'package:pi_hole_client/data/services/gateways/shared/models/groups.dart'
-    as _i20;
-import 'package:pi_hole_client/data/services/gateways/shared/models/query_status.dart'
-    as _i9;
-import 'package:pi_hole_client/data/services/gateways/shared/models/subscriptions.dart'
-    as _i19;
-import 'package:pi_hole_client/data/services/gateways/v6/api_gateway_v6.dart'
+import 'package:pi_hole_client/data/repositories/gravity_repository.dart'
     as _i17;
-import 'package:pi_hole_client/data/services/gateways/v6/models/config/config.dart'
+import 'package:pi_hole_client/data/services/api/api_gateway_interface.dart'
+    as _i11;
+import 'package:pi_hole_client/data/services/api/shared/models/domain.dart'
+    as _i19;
+import 'package:pi_hole_client/data/services/api/shared/models/gateways.dart'
+    as _i7;
+import 'package:pi_hole_client/data/services/api/shared/models/groups.dart'
     as _i21;
+import 'package:pi_hole_client/data/services/api/shared/models/query_status.dart'
+    as _i9;
+import 'package:pi_hole_client/data/services/api/shared/models/subscriptions.dart'
+    as _i20;
+import 'package:pi_hole_client/data/services/api/v6/api_gateway_v6.dart'
+    as _i18;
+import 'package:pi_hole_client/data/services/api/v6/models/config/config.dart'
+    as _i22;
 import 'package:pi_hole_client/domain/models/database.dart' as _i3;
 import 'package:pi_hole_client/domain/models/server.dart' as _i5;
 import 'package:pi_hole_client/ui/core/themes/theme.dart' as _i2;
@@ -1209,10 +1211,268 @@ class MockDatabaseRepository extends _i1.Mock
       ) as _i12.Future<_i15.ResultDart<void, Exception>>);
 }
 
+/// A class which mocks [GravityRepository].
+///
+/// See the documentation for Mockito's code generation for more information.
+class MockGravityRepository extends _i1.Mock implements _i17.GravityRepository {
+  MockGravityRepository() {
+    _i1.throwOnMissingStub(this);
+  }
+
+  @override
+  _i12.Future<
+      _i15.ResultDart<_i3.GravityUpdateData, Exception>> fetchGravityUpdate(
+          String? address) =>
+      (super.noSuchMethod(
+        Invocation.method(
+          #fetchGravityUpdate,
+          [address],
+        ),
+        returnValue: _i12
+            .Future<_i15.ResultDart<_i3.GravityUpdateData, Exception>>.value(
+            _i16.dummyValue<_i15.ResultDart<_i3.GravityUpdateData, Exception>>(
+          this,
+          Invocation.method(
+            #fetchGravityUpdate,
+            [address],
+          ),
+        )),
+      ) as _i12.Future<_i15.ResultDart<_i3.GravityUpdateData, Exception>>);
+
+  @override
+  _i12.Future<_i15.ResultDart<int, Exception>> upsertGravityUpdate(
+          _i3.GravityUpdateData? gravityUpdateData) =>
+      (super.noSuchMethod(
+        Invocation.method(
+          #upsertGravityUpdate,
+          [gravityUpdateData],
+        ),
+        returnValue: _i12.Future<_i15.ResultDart<int, Exception>>.value(
+            _i16.dummyValue<_i15.ResultDart<int, Exception>>(
+          this,
+          Invocation.method(
+            #upsertGravityUpdate,
+            [gravityUpdateData],
+          ),
+        )),
+      ) as _i12.Future<_i15.ResultDart<int, Exception>>);
+
+  @override
+  _i12.Future<_i15.ResultDart<int, Exception>> deleteGravityUpdate(
+          String? address) =>
+      (super.noSuchMethod(
+        Invocation.method(
+          #deleteGravityUpdate,
+          [address],
+        ),
+        returnValue: _i12.Future<_i15.ResultDart<int, Exception>>.value(
+            _i16.dummyValue<_i15.ResultDart<int, Exception>>(
+          this,
+          Invocation.method(
+            #deleteGravityUpdate,
+            [address],
+          ),
+        )),
+      ) as _i12.Future<_i15.ResultDart<int, Exception>>);
+
+  @override
+  _i12.Future<
+      _i15.ResultDart<List<_i3.GravityLogsData>, Exception>> fetchGravityLogs(
+          String? address) =>
+      (super.noSuchMethod(
+        Invocation.method(
+          #fetchGravityLogs,
+          [address],
+        ),
+        returnValue: _i12.Future<
+                _i15.ResultDart<List<_i3.GravityLogsData>, Exception>>.value(
+            _i16.dummyValue<
+                _i15.ResultDart<List<_i3.GravityLogsData>, Exception>>(
+          this,
+          Invocation.method(
+            #fetchGravityLogs,
+            [address],
+          ),
+        )),
+      ) as _i12.Future<_i15.ResultDart<List<_i3.GravityLogsData>, Exception>>);
+
+  @override
+  _i12.Future<_i15.ResultDart<int, Exception>> insertGravityLogs(
+          List<_i3.GravityLogsData>? gravityLogsDataList) =>
+      (super.noSuchMethod(
+        Invocation.method(
+          #insertGravityLogs,
+          [gravityLogsDataList],
+        ),
+        returnValue: _i12.Future<_i15.ResultDart<int, Exception>>.value(
+            _i16.dummyValue<_i15.ResultDart<int, Exception>>(
+          this,
+          Invocation.method(
+            #insertGravityLogs,
+            [gravityLogsDataList],
+          ),
+        )),
+      ) as _i12.Future<_i15.ResultDart<int, Exception>>);
+
+  @override
+  _i12.Future<_i15.ResultDart<int, Exception>> deleteGravityLogs(
+          String? address) =>
+      (super.noSuchMethod(
+        Invocation.method(
+          #deleteGravityLogs,
+          [address],
+        ),
+        returnValue: _i12.Future<_i15.ResultDart<int, Exception>>.value(
+            _i16.dummyValue<_i15.ResultDart<int, Exception>>(
+          this,
+          Invocation.method(
+            #deleteGravityLogs,
+            [address],
+          ),
+        )),
+      ) as _i12.Future<_i15.ResultDart<int, Exception>>);
+
+  @override
+  _i12.Future<_i15.ResultDart<List<_i3.GravityMessagesData>, Exception>>
+      fetchGravityMessages(String? address) => (super.noSuchMethod(
+            Invocation.method(
+              #fetchGravityMessages,
+              [address],
+            ),
+            returnValue: _i12.Future<
+                _i15.ResultDart<List<_i3.GravityMessagesData>,
+                    Exception>>.value(_i16.dummyValue<
+                _i15.ResultDart<List<_i3.GravityMessagesData>, Exception>>(
+              this,
+              Invocation.method(
+                #fetchGravityMessages,
+                [address],
+              ),
+            )),
+          ) as _i12.Future<
+              _i15.ResultDart<List<_i3.GravityMessagesData>, Exception>>);
+
+  @override
+  _i12.Future<_i15.ResultDart<int, Exception>> insertGravityMessages(
+          List<_i3.GravityMessagesData>? messagesList) =>
+      (super.noSuchMethod(
+        Invocation.method(
+          #insertGravityMessages,
+          [messagesList],
+        ),
+        returnValue: _i12.Future<_i15.ResultDart<int, Exception>>.value(
+            _i16.dummyValue<_i15.ResultDart<int, Exception>>(
+          this,
+          Invocation.method(
+            #insertGravityMessages,
+            [messagesList],
+          ),
+        )),
+      ) as _i12.Future<_i15.ResultDart<int, Exception>>);
+
+  @override
+  _i12.Future<_i15.ResultDart<int, Exception>> deleteGravityMessages(
+          String? address) =>
+      (super.noSuchMethod(
+        Invocation.method(
+          #deleteGravityMessages,
+          [address],
+        ),
+        returnValue: _i12.Future<_i15.ResultDart<int, Exception>>.value(
+            _i16.dummyValue<_i15.ResultDart<int, Exception>>(
+          this,
+          Invocation.method(
+            #deleteGravityMessages,
+            [address],
+          ),
+        )),
+      ) as _i12.Future<_i15.ResultDart<int, Exception>>);
+
+  @override
+  _i12.Future<_i15.ResultDart<int, Exception>> deleteGravityMessage(
+    String? address,
+    int? id,
+  ) =>
+      (super.noSuchMethod(
+        Invocation.method(
+          #deleteGravityMessage,
+          [
+            address,
+            id,
+          ],
+        ),
+        returnValue: _i12.Future<_i15.ResultDart<int, Exception>>.value(
+            _i16.dummyValue<_i15.ResultDart<int, Exception>>(
+          this,
+          Invocation.method(
+            #deleteGravityMessage,
+            [
+              address,
+              id,
+            ],
+          ),
+        )),
+      ) as _i12.Future<_i15.ResultDart<int, Exception>>);
+
+  @override
+  _i12.Future<_i15.ResultDart<_i3.GravityData, Exception>> fetchGravityData(
+          String? address) =>
+      (super.noSuchMethod(
+        Invocation.method(
+          #fetchGravityData,
+          [address],
+        ),
+        returnValue:
+            _i12.Future<_i15.ResultDart<_i3.GravityData, Exception>>.value(
+                _i16.dummyValue<_i15.ResultDart<_i3.GravityData, Exception>>(
+          this,
+          Invocation.method(
+            #fetchGravityData,
+            [address],
+          ),
+        )),
+      ) as _i12.Future<_i15.ResultDart<_i3.GravityData, Exception>>);
+
+  @override
+  _i12.Future<_i15.ResultDart<int, Exception>> deleteGravityData(
+          String? address) =>
+      (super.noSuchMethod(
+        Invocation.method(
+          #deleteGravityData,
+          [address],
+        ),
+        returnValue: _i12.Future<_i15.ResultDart<int, Exception>>.value(
+            _i16.dummyValue<_i15.ResultDart<int, Exception>>(
+          this,
+          Invocation.method(
+            #deleteGravityData,
+            [address],
+          ),
+        )),
+      ) as _i12.Future<_i15.ResultDart<int, Exception>>);
+
+  @override
+  _i12.Future<_i15.ResultDart<int, Exception>> deleteAllGravityData() =>
+      (super.noSuchMethod(
+        Invocation.method(
+          #deleteAllGravityData,
+          [],
+        ),
+        returnValue: _i12.Future<_i15.ResultDart<int, Exception>>.value(
+            _i16.dummyValue<_i15.ResultDart<int, Exception>>(
+          this,
+          Invocation.method(
+            #deleteAllGravityData,
+            [],
+          ),
+        )),
+      ) as _i12.Future<_i15.ResultDart<int, Exception>>);
+}
+
 /// A class which mocks [ApiGatewayV6].
 ///
 /// See the documentation for Mockito's code generation for more information.
-class MockApiGatewayV6 extends _i1.Mock implements _i17.ApiGatewayV6 {
+class MockApiGatewayV6 extends _i1.Mock implements _i18.ApiGatewayV6 {
   MockApiGatewayV6() {
     _i1.throwOnMissingStub(this);
   }
@@ -1531,7 +1791,7 @@ class MockApiGatewayV6 extends _i1.Mock implements _i17.ApiGatewayV6 {
 
   @override
   _i12.Future<_i7.RemoveDomainFromListResponse> removeDomainFromList(
-          _i18.Domain? domain) =>
+          _i19.Domain? domain) =>
       (super.noSuchMethod(
         Invocation.method(
           #removeDomainFromList,
@@ -1567,7 +1827,7 @@ class MockApiGatewayV6 extends _i1.Mock implements _i17.ApiGatewayV6 {
 
   @override
   _i12.Future<_i7.DomainResponse> updateDomain(
-          {required _i18.DomainRequest? body}) =>
+          {required _i19.DomainRequest? body}) =>
       (super.noSuchMethod(
         Invocation.method(
           #updateDomain,
@@ -1723,7 +1983,7 @@ class MockApiGatewayV6 extends _i1.Mock implements _i17.ApiGatewayV6 {
 
   @override
   _i12.Future<_i7.SubscriptionsResponse> createSubscription(
-          {required _i19.SubscriptionRequest? body}) =>
+          {required _i20.SubscriptionRequest? body}) =>
       (super.noSuchMethod(
         Invocation.method(
           #createSubscription,
@@ -1743,7 +2003,7 @@ class MockApiGatewayV6 extends _i1.Mock implements _i17.ApiGatewayV6 {
 
   @override
   _i12.Future<_i7.SubscriptionsResponse> updateSubscription(
-          {required _i19.SubscriptionRequest? body}) =>
+          {required _i20.SubscriptionRequest? body}) =>
       (super.noSuchMethod(
         Invocation.method(
           #updateSubscription,
@@ -1835,7 +2095,7 @@ class MockApiGatewayV6 extends _i1.Mock implements _i17.ApiGatewayV6 {
 
   @override
   _i12.Future<_i7.GroupsResponse> createGroup(
-          {required _i20.GroupRequest? body}) =>
+          {required _i21.GroupRequest? body}) =>
       (super.noSuchMethod(
         Invocation.method(
           #createGroup,
@@ -1855,7 +2115,7 @@ class MockApiGatewayV6 extends _i1.Mock implements _i17.ApiGatewayV6 {
 
   @override
   _i12.Future<_i7.GroupsResponse> updateGroup(
-          {required _i20.GroupRequest? body}) =>
+          {required _i21.GroupRequest? body}) =>
       (super.noSuchMethod(
         Invocation.method(
           #updateGroup,
@@ -2025,7 +2285,7 @@ class MockApiGatewayV6 extends _i1.Mock implements _i17.ApiGatewayV6 {
 
   @override
   _i12.Future<_i7.ConfigurationResponse> patchConfiguration(
-          _i21.ConfigData? body) =>
+          _i22.ConfigData? body) =>
       (super.noSuchMethod(
         Invocation.method(
           #patchConfiguration,

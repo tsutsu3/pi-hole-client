@@ -223,10 +223,10 @@ class DatabaseRepository {
           password.getOrThrow(),
         );
       }
-      if (server.sm.sid != null) {
+      if (server.sm.sid.isSuccess()) {
         await _secureStorageService.saveValue(
           '${server.address}_sid',
-          server.sm.sid ?? '',
+          server.sm.sid.getOrDefault(''),
         );
       }
 
@@ -288,10 +288,10 @@ class DatabaseRepository {
           password.getOrThrow(),
         );
       }
-      if (server.sm.sid != null) {
+      if (server.sm.sid.isSuccess()) {
         await _secureStorageService.saveValue(
           '${server.address}_sid',
-          server.sm.sid!,
+          server.sm.sid.getOrThrow(),
         );
       }
 
