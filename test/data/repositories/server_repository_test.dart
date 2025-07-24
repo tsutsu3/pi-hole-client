@@ -23,7 +23,7 @@ void main() {
     enabled: true,
     sm: SecureDataRepository(
       FakeSecureStorageService(),
-      'http://localhost',
+      'http://localhost:8080',
     ),
   );
   final serverV6 = Server(
@@ -108,11 +108,14 @@ void main() {
     });
 
     test('inserts server when user logged in v6', () async {
-      secureDataRepository = SecureDataRepository(ssSerivce, serverV6.address);
+      final serverV62 = serverV6.copyWith(
+        sm: SecureDataRepository(ssSerivce, serverV6.address),
+      );
+      secureDataRepository = SecureDataRepository(ssSerivce, serverV62.address);
       await secureDataRepository.savePassword('pass123');
       await secureDataRepository.saveSid('sid123');
 
-      final result = await repository.insertServer(serverV6);
+      final result = await repository.insertServer(serverV62);
       expect(result.isSuccess(), true);
       expect(result.getOrNull(), 1);
 
@@ -130,17 +133,20 @@ void main() {
     });
 
     test('inserts server when user logged in v5', () async {
-      secureDataRepository = SecureDataRepository(ssSerivce, serverV5.address);
+      final serverV52 = serverV5.copyWith(
+        sm: SecureDataRepository(ssSerivce, serverV5.address),
+      );
+      secureDataRepository = SecureDataRepository(ssSerivce, serverV52.address);
       await secureDataRepository.saveToken('token123');
 
-      final result = await repository.insertServer(serverV6);
+      final result = await repository.insertServer(serverV52);
       expect(result.isSuccess(), true);
       expect(result.getOrNull(), 1);
 
       final servers = await repository.fetchServers();
       expect(servers.isSuccess(), true);
       expect(servers.getOrNull()?.length, 1);
-      expect(servers.getOrNull()?.first.address, 'http://localhost');
+      expect(servers.getOrNull()?.first.address, 'http://localhost:8080');
 
       expect((await secureDataRepository.token).isSuccess(), true);
       expect((await secureDataRepository.password).isError(), true);
@@ -182,12 +188,15 @@ void main() {
     });
 
     test('updates server when user logged in v6', () async {
-      secureDataRepository = SecureDataRepository(ssSerivce, serverV6.address);
+      final serverV62 = serverV6.copyWith(
+        sm: SecureDataRepository(ssSerivce, serverV6.address),
+      );
+      secureDataRepository = SecureDataRepository(ssSerivce, serverV62.address);
       await secureDataRepository.savePassword('pass123');
       await secureDataRepository.saveSid('sid123');
-      await repository.insertServer(serverV6);
+      await repository.insertServer(serverV62);
 
-      final updatedServer = serverV6.copyWith(alias: 'updated6');
+      final updatedServer = serverV62.copyWith(alias: 'updated6');
       final result = await repository.updateServer(updatedServer);
       expect(result.isSuccess(), true);
       expect(result.getOrNull(), 1);
@@ -199,11 +208,14 @@ void main() {
     });
 
     test('updates server when user logged in v5', () async {
-      secureDataRepository = SecureDataRepository(ssSerivce, serverV5.address);
+      final serverV52 = serverV5.copyWith(
+        sm: SecureDataRepository(ssSerivce, serverV5.address),
+      );
+      secureDataRepository = SecureDataRepository(ssSerivce, serverV52.address);
       await secureDataRepository.saveToken('token123');
-      await repository.insertServer(serverV5);
+      await repository.insertServer(serverV52);
 
-      final updatedServer = serverV5.copyWith(alias: 'updated5');
+      final updatedServer = serverV52.copyWith(alias: 'updated5');
       final result = await repository.updateServer(updatedServer);
       expect(result.isSuccess(), true);
       expect(result.getOrNull(), 1);
