@@ -76,8 +76,7 @@ void main() {
     });
 
     test('returns Failure when database raw query fails', () async {
-      dbService.shouldFailRawQuery = true;
-      // dbService.shouldThrowOnRawQuery = true;  // Run retry logic
+      dbService.shouldThrowOnRawQuery = true;
 
       final result = await repository.fetchServers();
       expect(result.isError(), true);
@@ -108,12 +107,13 @@ void main() {
     });
 
     test('inserts server when user logged in v6', () async {
-      final serverV62 = serverV6.copyWith(
-        sm: SecureDataRepository(ssSerivce, serverV6.address),
-      );
-      secureDataRepository = SecureDataRepository(ssSerivce, serverV62.address);
+      secureDataRepository = SecureDataRepository(ssSerivce, serverV6.address);
       await secureDataRepository.savePassword('pass123');
       await secureDataRepository.saveSid('sid123');
+      final serverV62 = serverV6.copyWith(
+        sm: secureDataRepository,
+      );
+      await secureDataRepository.loadSid();
 
       final result = await repository.insertServer(serverV62);
       expect(result.isSuccess(), true);
@@ -188,12 +188,13 @@ void main() {
     });
 
     test('updates server when user logged in v6', () async {
-      final serverV62 = serverV6.copyWith(
-        sm: SecureDataRepository(ssSerivce, serverV6.address),
-      );
-      secureDataRepository = SecureDataRepository(ssSerivce, serverV62.address);
+      secureDataRepository = SecureDataRepository(ssSerivce, serverV6.address);
       await secureDataRepository.savePassword('pass123');
       await secureDataRepository.saveSid('sid123');
+      await secureDataRepository.loadSid();
+      final serverV62 = serverV6.copyWith(
+        sm: secureDataRepository,
+      );
       await repository.insertServer(serverV62);
 
       final updatedServer = serverV62.copyWith(alias: 'updated6');
