@@ -109,11 +109,11 @@ class GravityRepository {
   /// Fetches gravity logs for the specified [address].
   ///
   /// Queries the `gravity_logs` table and returns all matching entries as
-  /// a list of [GravityLogsData]. If no records are found, an empty list
+  /// a list of [GravityLogData]. If no records are found, an empty list
   /// is returned.
   ///
   /// Returns a [Success] with the list of logs, or a [Failure] if the query fails.
-  Future<Result<List<GravityLogsData>>> fetchGravityLogs(
+  Future<Result<List<GravityLogData>>> fetchGravityLogs(
     String address,
   ) async {
     try {
@@ -126,7 +126,7 @@ class GravityRepository {
       );
 
       if (rows.getOrThrow().isNotEmpty) {
-        return Success(rows.getOrThrow().map(GravityLogsData.fromMap).toList());
+        return Success(rows.getOrThrow().map(GravityLogData.fromMap).toList());
       }
 
       return const Success([]);
@@ -145,12 +145,12 @@ class GravityRepository {
   /// Returns a [Success] with the number of inserted rows,
   /// or a [Failure] if the operation fails.
   Future<Result<int>> insertGravityLogs(
-    List<GravityLogsData> gravityLogsDataList,
+    List<GravityLogData> gravityLogsDataList,
   ) async {
     try {
       await openDbIfNeeded(_database);
 
-      return _database.transaction<int>((txn) async {
+      return await _database.transaction<int>((txn) async {
         var total = 0;
         for (final log in gravityLogsDataList) {
           final count = await txn.insert(
@@ -167,8 +167,8 @@ class GravityRepository {
         return total;
       });
     } catch (e, st) {
-      logger.e('Failed to insert gravity log: $e\n$st');
-      return Failure(Exception('Failed to insert gravity log: $e\n$st'));
+      logger.e('Failed to insert gravity logs: $e\n$st');
+      return Failure(Exception('Failed to insert gravity logs: $e\n$st'));
     }
   }
 
@@ -189,18 +189,18 @@ class GravityRepository {
         whereArgs: [address],
       );
     } catch (e, st) {
-      logger.e('Failed to clear gravity logs: $e\n$st');
-      return Failure(Exception('Failed to clear gravity logs: $e\n$st'));
+      logger.e('Failed to delete gravity logs: $e\n$st');
+      return Failure(Exception('Failed to delete gravity logs: $e\n$st'));
     }
   }
 
   /// Fetches gravity messages for the given [address].
   ///
   /// Queries the `gravity_messages` table and returns all matching entries as a
-  /// list of [GravityMessagesData]. Returns an empty list if no records are found.
+  /// list of [GravityMessageData]. Returns an empty list if no records are found.
   ///
   /// Returns a [Success] with the list of messages, or a [Failure] if the query fails.
-  Future<Result<List<GravityMessagesData>>> fetchGravityMessages(
+  Future<Result<List<GravityMessageData>>> fetchGravityMessages(
     String address,
   ) async {
     try {
@@ -214,7 +214,7 @@ class GravityRepository {
 
       if (rows.getOrThrow().isNotEmpty) {
         return Success(
-          rows.getOrThrow().map(GravityMessagesData.fromMap).toList(),
+          rows.getOrThrow().map(GravityMessageData.fromMap).toList(),
         );
       }
       return const Success([]);
@@ -232,7 +232,7 @@ class GravityRepository {
   /// Returns a [Success] with the number of inserted rows,
   /// or a [Failure] if the operation fails.
   Future<Result<int>> insertGravityMessages(
-    List<GravityMessagesData> messagesList,
+    List<GravityMessageData> messagesList,
   ) async {
     try {
       await openDbIfNeeded(_database);
@@ -255,8 +255,8 @@ class GravityRepository {
         return total;
       });
     } catch (e, st) {
-      logger.e('Failed to insert gravity message: $e\n$st');
-      return Failure(Exception('Failed to insert gravity message: $e\n$st'));
+      logger.e('Failed to insert gravity messages: $e\n$st');
+      return Failure(Exception('Failed to insert gravity messages: $e\n$st'));
     }
   }
 
@@ -277,8 +277,8 @@ class GravityRepository {
         whereArgs: [address],
       );
     } catch (e, st) {
-      logger.e('Failed to clear gravity messages: $e\n$st');
-      return Failure(Exception('Failed to clear gravity messages: $e\n$st'));
+      logger.e('Failed to delete gravity messages: $e\n$st');
+      return Failure(Exception('Failed to delete gravity messages: $e\n$st'));
     }
   }
 
@@ -299,8 +299,8 @@ class GravityRepository {
         whereArgs: [address, id],
       );
     } catch (e, st) {
-      logger.e('Failed to delete message: $e\n$st');
-      return Failure(Exception('Failed to delete message: $e\n$st'));
+      logger.e('Failed to delete gravity message: $e\n$st');
+      return Failure(Exception('Failed to delete gravity message: $e\n$st'));
     }
   }
 
@@ -319,9 +319,9 @@ class GravityRepository {
 
       return Success(
         GravityData(
-          gravityUpdate: gravityUpdateData.getOrNull(),
-          gravityLogs: gravityLogsData.getOrNull(),
-          gravityMessages: gravityMessagesData.getOrNull(),
+          gravityUpdate: gravityUpdateData.getOrThrow(),
+          gravityLogs: gravityLogsData.getOrThrow(),
+          gravityMessages: gravityMessagesData.getOrThrow(),
         ),
       );
     } catch (e, st) {
@@ -360,8 +360,8 @@ class GravityRepository {
         return count1 + count2 + count3;
       });
     } catch (e, st) {
-      logger.e('Failed to clear gravity data: $e\n$st');
-      return Failure(Exception('Failed to clear gravity data: $e\n$st'));
+      logger.e('Failed to delete gravity data: $e\n$st');
+      return Failure(Exception('Failed to delete gravity data: $e\n$st'));
     }
   }
 
@@ -383,7 +383,7 @@ class GravityRepository {
         return count1 + count2 + count23;
       });
     } catch (e) {
-      return Failure(Exception('Failed to clear all gravity data: $e'));
+      return Failure(Exception('Failed to delete all gravity data: $e'));
     }
   }
 }

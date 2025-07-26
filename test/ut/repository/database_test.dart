@@ -1116,7 +1116,7 @@ void main() async {
 
         final result = await databaseRepository.insertGravityLogQuery(
           [
-            GravityLogsData(
+            GravityLogData(
               address: address,
               line: 1,
               message: message,
@@ -1264,7 +1264,7 @@ void main() async {
         await dbHelper.loadDb();
 
         final result = await databaseRepository.insertGravityMessageQuery([
-          GravityMessagesData(
+          GravityMessageData(
             id: id,
             address: address,
             message: message,

@@ -184,17 +184,17 @@ class GravityData {
             )
           : null,
       gravityLogs: (map['gravityLogs']! as List<Map<String, Object?>>)
-          .map(GravityLogsData.fromMap)
+          .map(GravityLogData.fromMap)
           .toList(),
       gravityMessages: (map['gravityMessages']! as List<Map<String, Object?>>)
-          .map(GravityMessagesData.fromMap)
+          .map(GravityMessageData.fromMap)
           .toList(),
     );
   }
 
   final GravityUpdateData? gravityUpdate;
-  final List<GravityLogsData>? gravityLogs;
-  final List<GravityMessagesData>? gravityMessages;
+  final List<GravityLogData>? gravityLogs;
+  final List<GravityMessageData>? gravityMessages;
 
   Map<String, dynamic> toDict() {
     return {
@@ -255,16 +255,16 @@ class GravityUpdateData {
   }
 }
 
-class GravityLogsData {
-  GravityLogsData({
+class GravityLogData {
+  GravityLogData({
     required this.address,
     required this.line,
     required this.message,
     required this.timestamp,
   });
 
-  factory GravityLogsData.fromMap(Map<String, Object?> map) {
-    return GravityLogsData(
+  factory GravityLogData.fromMap(Map<String, Object?> map) {
+    return GravityLogData(
       address: map['address']! as String,
       line: map['line']! as int,
       message: map['message']! as String,
@@ -287,8 +287,8 @@ class GravityLogsData {
   }
 }
 
-class GravityMessagesData {
-  GravityMessagesData({
+class GravityMessageData {
+  GravityMessageData({
     required this.id,
     required this.address,
     required this.message,
@@ -296,8 +296,8 @@ class GravityMessagesData {
     required this.timestamp,
   });
 
-  factory GravityMessagesData.fromMap(Map<String, Object?> map) {
-    return GravityMessagesData(
+  factory GravityMessageData.fromMap(Map<String, Object?> map) {
+    return GravityMessageData(
       id: map['message_id']! as int,
       address: map['address']! as String,
       message: map['message']! as String,

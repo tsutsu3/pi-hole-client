@@ -697,8 +697,8 @@ class DatabaseRepository {
   /// - [address]: The address of the gravity update to check.
   ///
   /// Returns:
-  /// - A `Future` that resolves to a list of [GravityLogsData] objects if the
-  Future<Result<List<GravityLogsData>>> getGravityLogsQuery(
+  /// - A `Future` that resolves to a list of [GravityLogData] objects if the
+  Future<Result<List<GravityLogData>>> getGravityLogsQuery(
     String address,
   ) async {
     try {
@@ -713,7 +713,7 @@ class DatabaseRepository {
           whereArgs: [address],
         );
         if (result.isNotEmpty) {
-          return result.map(GravityLogsData.fromMap).toList();
+          return result.map(GravityLogData.fromMap).toList();
         }
         return null;
       });
@@ -727,13 +727,13 @@ class DatabaseRepository {
   /// Inserts a gravity log entry into the database.
   ///
   /// Parameters:
-  /// - [gravityLogsDataList]: A list of [GravityLogsData] objects to insert.
+  /// - [gravityLogsDataList]: A list of [GravityLogData] objects to insert.
   ///
   /// Returns:
   /// - A `Future` that resolves to `true` if the operation is successful, or
   ///  `false` if it fails.
   Future<Result<void>> insertGravityLogQuery(
-    List<GravityLogsData> gravityLogsDataList,
+    List<GravityLogData> gravityLogsDataList,
   ) async {
     try {
       await _dbInstance?.transaction((txn) async {
@@ -790,8 +790,8 @@ class DatabaseRepository {
   /// - [address]: The address of the gravity update to check.
   ///
   /// Returns:
-  /// - A `Future` that resolves to a list of [GravityMessagesData] objects if the
-  Future<Result<List<GravityMessagesData>>> getGravityMessagesQuery(
+  /// - A `Future` that resolves to a list of [GravityMessageData] objects if the
+  Future<Result<List<GravityMessageData>>> getGravityMessagesQuery(
     String address,
   ) async {
     try {
@@ -806,7 +806,7 @@ class DatabaseRepository {
           whereArgs: [address],
         );
         if (result.isNotEmpty) {
-          return result.map(GravityMessagesData.fromMap).toList();
+          return result.map(GravityMessageData.fromMap).toList();
         }
         return null;
       });
@@ -820,13 +820,13 @@ class DatabaseRepository {
   /// Inserts a gravity message entry into the database.
   ///
   /// Parameters:
-  /// - [messagesList]: A list of [GravityMessagesData] objects to insert.
+  /// - [messagesList]: A list of [GravityMessageData] objects to insert.
   ///
   /// Returns:
   /// - A `Future` that resolves to `true` if the operation is successful, or
   ///  `false` if it fails.
   Future<Result<void>> insertGravityMessageQuery(
-    List<GravityMessagesData> messagesList,
+    List<GravityMessageData> messagesList,
   ) async {
     try {
       if (_dbInstance == null) {

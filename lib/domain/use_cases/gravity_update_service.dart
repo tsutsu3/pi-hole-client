@@ -109,7 +109,7 @@ class GravityUpdateService {
 
           final logsToInsert = chunk.data!.asMap().entries.map((entry) {
             final index = baseIndex + entry.key;
-            return GravityLogsData(
+            return GravityLogData(
               address: address,
               line: index,
               message: entry.value,
@@ -154,7 +154,7 @@ class GravityUpdateService {
         final messages = msgs.data?.messages ?? [];
         if (messages.isNotEmpty) {
           final messagesToInsert = messages.map((entry) {
-            return GravityMessagesData(
+            return GravityMessageData(
               id: entry.id,
               address: address,
               message: entry.message,

@@ -390,7 +390,7 @@ class MockDatabaseRepository extends _i1.Mock
 
   @override
   _i5.Future<
-      _i7.ResultDart<List<_i2.GravityLogsData>, Exception>> getGravityLogsQuery(
+      _i7.ResultDart<List<_i2.GravityLogData>, Exception>> getGravityLogsQuery(
           String? address) =>
       (super.noSuchMethod(
         Invocation.method(
@@ -398,20 +398,19 @@ class MockDatabaseRepository extends _i1.Mock
           [address],
         ),
         returnValue: _i5
-            .Future<_i7.ResultDart<List<_i2.GravityLogsData>, Exception>>.value(
-            _i8.dummyValue<
-                _i7.ResultDart<List<_i2.GravityLogsData>, Exception>>(
+            .Future<_i7.ResultDart<List<_i2.GravityLogData>, Exception>>.value(
+            _i8.dummyValue<_i7.ResultDart<List<_i2.GravityLogData>, Exception>>(
           this,
           Invocation.method(
             #getGravityLogsQuery,
             [address],
           ),
         )),
-      ) as _i5.Future<_i7.ResultDart<List<_i2.GravityLogsData>, Exception>>);
+      ) as _i5.Future<_i7.ResultDart<List<_i2.GravityLogData>, Exception>>);
 
   @override
   _i5.Future<_i7.ResultDart<void, Exception>> insertGravityLogQuery(
-          List<_i2.GravityLogsData>? gravityLogsDataList) =>
+          List<_i2.GravityLogData>? gravityLogsDataList) =>
       (super.noSuchMethod(
         Invocation.method(
           #insertGravityLogQuery,
@@ -446,28 +445,29 @@ class MockDatabaseRepository extends _i1.Mock
       ) as _i5.Future<_i7.ResultDart<void, Exception>>);
 
   @override
-  _i5.Future<_i7.ResultDart<List<_i2.GravityMessagesData>, Exception>>
+  _i5.Future<_i7.ResultDart<List<_i2.GravityMessageData>, Exception>>
       getGravityMessagesQuery(String? address) => (super.noSuchMethod(
             Invocation.method(
               #getGravityMessagesQuery,
               [address],
             ),
             returnValue: _i5.Future<
-                _i7.ResultDart<List<_i2.GravityMessagesData>,
-                    Exception>>.value(_i8.dummyValue<
-                _i7.ResultDart<List<_i2.GravityMessagesData>, Exception>>(
+                    _i7
+                    .ResultDart<List<_i2.GravityMessageData>, Exception>>.value(
+                _i8.dummyValue<
+                    _i7.ResultDart<List<_i2.GravityMessageData>, Exception>>(
               this,
               Invocation.method(
                 #getGravityMessagesQuery,
                 [address],
               ),
             )),
-          ) as _i5.Future<
-              _i7.ResultDart<List<_i2.GravityMessagesData>, Exception>>);
+          ) as _i5
+              .Future<_i7.ResultDart<List<_i2.GravityMessageData>, Exception>>);
 
   @override
   _i5.Future<_i7.ResultDart<void, Exception>> insertGravityMessageQuery(
-          List<_i2.GravityMessagesData>? messagesList) =>
+          List<_i2.GravityMessageData>? messagesList) =>
       (super.noSuchMethod(
         Invocation.method(
           #insertGravityMessageQuery,

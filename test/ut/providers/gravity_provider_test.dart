@@ -60,7 +60,7 @@ void main() async {
       status: status.index,
     );
 
-    final gravityMessagesData = GravityMessagesData(
+    final gravityMessagesData = GravityMessageData(
       id: id,
       address: address,
       message: message,
@@ -68,7 +68,7 @@ void main() async {
       timestamp: startTime,
     );
 
-    final gravityLogsData = GravityLogsData(
+    final gravityLogsData = GravityLogData(
       address: address,
       line: 1,
       message: log,
