@@ -1,7 +1,11 @@
+import 'package:flutter/rendering.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:pi_hole_client/config/enums.dart';
 import 'package:pi_hole_client/data/repositories/secure_data_repository.dart';
 import 'package:pi_hole_client/data/repositories/server_repository.dart';
+import 'package:pi_hole_client/domain/models/database.dart';
 import 'package:pi_hole_client/domain/models/server.dart';
+import 'package:result_dart/result_dart.dart';
 import 'package:sqflite_common_ffi/sqflite_ffi.dart';
 
 import '../../../testing/fakes/services/fake_database_service.dart';
@@ -38,6 +42,25 @@ void main() {
       'http://localhost',
     ),
   );
+  final gravityUpdateDataJson = {
+    'address': 'http://localhost',
+    'start_time': '2025-03-04 17:22:10',
+    'end_time': '2025-03-04 17:22:40',
+    'status': GravityStatus.idle.index,
+  };
+  final gravityLogsDataJson = {
+    'address': 'http://localhost',
+    'line': 1,
+    'message': 'Test log 1',
+    'timestamp': '2025-03-04 17:22:10',
+  };
+  final gravityMessagesDataJson = {
+    'address': 'http://localhost',
+    'message_id': 1,
+    'message': 'Test message 1',
+    'url': 'http://example.com',
+    'timestamp': '2025-03-04 17:22:10',
+  };
 
   sqfliteTestInit();
 
@@ -314,6 +337,7 @@ void main() {
       ssSerivce = FakeSecureStorageService();
       repository = ServerRepository(dbService, ssSerivce);
       secureDataRepository = SecureDataRepository(ssSerivce, serverV6.address);
+      await dbService.open();
     });
 
     tearDown(() async {
@@ -338,6 +362,27 @@ void main() {
       expect(sid.isError(), true);
       final password = await secureDataRepository.password;
       expect(password.isError(), true);
+    });
+
+    test('deletes cascade data', () async {
+      await repository.insertServer(serverV6);
+      await dbService.insert('gravity_updates', gravityUpdateDataJson);
+      await dbService.insert('gravity_messages', gravityMessagesDataJson);
+      await dbService.insert('gravity_logs', gravityLogsDataJson);
+
+      final result = await repository.deleteServer(serverV6.address);
+      expect(result.isSuccess(), true);
+      expect(result.getOrNull(), 1);
+
+      final gu = await dbService.query('gravity_updates');
+      expect(gu.isSuccess(), true);
+      expect(gu.getOrNull()?.length, 0);
+      final gm = await dbService.query('gravity_messages');
+      expect(gm.isSuccess(), true);
+      expect(gm.getOrNull()?.length, 0);
+      final gl = await dbService.query('gravity_logs');
+      expect(gl.isSuccess(), true);
+      expect(gl.getOrNull()?.length, 0);
     });
 
     test('returns Failure when unexpected error', () async {
@@ -391,6 +436,27 @@ void main() {
       expect(password.isError(), true);
       final token = await secureDataRepository.token;
       expect(token.isError(), true);
+    });
+
+    test('deletes all servers cascade data', () async {
+      await repository.insertServer(serverV6);
+      await dbService.insert('gravity_updates', gravityUpdateDataJson);
+      await dbService.insert('gravity_messages', gravityMessagesDataJson);
+      await dbService.insert('gravity_logs', gravityLogsDataJson);
+
+      final result = await repository.deleteAllServers();
+      expect(result.isSuccess(), true);
+      expect(result.getOrNull(), 1);
+
+      final gu = await dbService.query('gravity_updates');
+      expect(gu.isSuccess(), true);
+      expect(gu.getOrNull()?.length, 0);
+      final gm = await dbService.query('gravity_messages');
+      expect(gm.isSuccess(), true);
+      expect(gm.getOrNull()?.length, 0);
+      final gl = await dbService.query('gravity_logs');
+      expect(gl.isSuccess(), true);
+      expect(gl.getOrNull()?.length, 0);
     });
 
     test('returns Failure when unexpected error', () async {

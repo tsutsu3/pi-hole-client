@@ -2,6 +2,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:pi_hole_client/config/enums.dart';
 import 'package:pi_hole_client/data/repositories/gravity_repository.dart';
 import 'package:pi_hole_client/domain/models/database.dart';
+import 'package:pi_hole_client/domain/models/server.dart';
 import 'package:sqflite_common_ffi/sqflite_ffi.dart';
 
 import '../../../testing/fakes/services/fake_database_service.dart';
@@ -34,6 +35,13 @@ void main() {
     'url': 'http://example.com',
     'timestamp': '2025-03-04 17:22:10',
   };
+  final serverV6 = {
+    'address': address,
+    'alias': 'test6',
+    'isDefaultServer': 1,
+    'apiVersion': 'v6',
+    'allowSelfSignedCert': 1,
+  };
 
   final gravityUpdateData = GravityUpdateData.fromMap(gravityUpdateDataJson);
   final gravityLogsData = GravityLogData.fromMap(gravityLogsDataJson);
@@ -50,6 +58,7 @@ void main() {
       dbService = FakeDatabaseService(path: dbName);
       repository = GravityRepository(dbService);
       await dbService.open();
+      await dbService.insert('servers', serverV6);
     });
 
     tearDown(() async {
@@ -92,6 +101,7 @@ void main() {
       dbService = FakeDatabaseService(path: dbName);
       repository = GravityRepository(dbService);
       await dbService.open();
+      await dbService.insert('servers', serverV6);
     });
 
     tearDown(() async {
@@ -141,6 +151,7 @@ void main() {
       dbService = FakeDatabaseService(path: dbName);
       repository = GravityRepository(dbService);
       await dbService.open();
+      await dbService.insert('servers', serverV6);
     });
 
     tearDown(() async {
@@ -187,6 +198,7 @@ void main() {
       dbService = FakeDatabaseService(path: dbName);
       repository = GravityRepository(dbService);
       await dbService.open();
+      await dbService.insert('servers', serverV6);
     });
 
     tearDown(() async {
@@ -230,6 +242,7 @@ void main() {
       dbService = FakeDatabaseService(path: dbName);
       repository = GravityRepository(dbService);
       await dbService.open();
+      await dbService.insert('servers', serverV6);
     });
 
     tearDown(() async {
@@ -278,6 +291,7 @@ void main() {
       dbService = FakeDatabaseService(path: dbName);
       repository = GravityRepository(dbService);
       await dbService.open();
+      await dbService.insert('servers', serverV6);
     });
 
     tearDown(() async {
@@ -324,6 +338,7 @@ void main() {
       dbService = FakeDatabaseService(path: dbName);
       repository = GravityRepository(dbService);
       await dbService.open();
+      await dbService.insert('servers', serverV6);
     });
 
     tearDown(() async {
@@ -367,6 +382,7 @@ void main() {
       dbService = FakeDatabaseService(path: dbName);
       repository = GravityRepository(dbService);
       await dbService.open();
+      await dbService.insert('servers', serverV6);
     });
 
     tearDown(() async {
@@ -427,6 +443,7 @@ void main() {
       dbService = FakeDatabaseService(path: dbName);
       repository = GravityRepository(dbService);
       await dbService.open();
+      await dbService.insert('servers', serverV6);
     });
 
     tearDown(() async {
@@ -473,6 +490,7 @@ void main() {
       dbService = FakeDatabaseService(path: dbName);
       repository = GravityRepository(dbService);
       await dbService.open();
+      await dbService.insert('servers', serverV6);
     });
 
     tearDown(() async {
@@ -519,6 +537,7 @@ void main() {
       dbService = FakeDatabaseService(path: dbName);
       repository = GravityRepository(dbService);
       await dbService.open();
+      await dbService.insert('servers', serverV6);
     });
 
     tearDown(() async {
@@ -578,6 +597,7 @@ void main() {
       dbService = FakeDatabaseService(path: dbName);
       repository = GravityRepository(dbService);
       await dbService.open();
+      await dbService.insert('servers', serverV6);
     });
 
     tearDown(() async {
@@ -630,6 +650,7 @@ void main() {
       dbService = FakeDatabaseService(path: dbName);
       repository = GravityRepository(dbService);
       await dbService.open();
+      await dbService.insert('servers', serverV6);
     });
 
     tearDown(() async {

@@ -44,11 +44,12 @@ class DatabaseService {
   /// Returns:
   /// - [Success] containing the opened [Database] instance if successful.
   /// - [Failure] containing an [Exception] if an error occurs during opening.
-  Future<Result<Database>> open({int? latestVersion = 6}) async {
+  Future<Result<Database>> open({int? latestVersion = 7}) async {
     try {
       _db = await openDatabase(
         _path,
         version: latestVersion,
+        onConfigure: _onConfigure,
         onCreate: _onCreate,
         onUpgrade: _onUpgrade,
         onDowngrade: _onDowngrade,
@@ -253,6 +254,10 @@ class DatabaseService {
   // ==========================================================================
   // Lifecycle Hooks
   // ==========================================================================
+  Future<void> _onConfigure(Database db) async {
+    await db.execute('PRAGMA foreign_keys = ON');
+  }
+
   Future<void> _onCreate(Database db, int version) async {
     await db.execute('''
       CREATE TABLE servers (
@@ -303,7 +308,8 @@ class DatabaseService {
         address TEXT PRIMARY KEY NOT NULL,
         start_time TEXT NOT NULL,
         end_time TEXT NOT NULL,
-        status INTEGER NOT NULL
+        status INTEGER NOT NULL,
+        FOREIGN KEY (address) REFERENCES servers(address) ON DELETE CASCADE
       )
     ''');
 
@@ -314,7 +320,7 @@ class DatabaseService {
         line INTEGER NOT NULL,
         message TEXT NOT NULL,
         timestamp TEXT NOT NULL,
-        FOREIGN KEY (address) REFERENCES gravity_updates(address) ON DELETE CASCADE
+        FOREIGN KEY (address) REFERENCES servers(address) ON DELETE CASCADE
       )
     ''');
 
@@ -326,7 +332,7 @@ class DatabaseService {
         message TEXT NOT NULL,
         url TEXT NOT NULL,
         timestamp TEXT NOT NULL,
-        FOREIGN KEY (address) REFERENCES gravity_updates(address) ON DELETE CASCADE
+        FOREIGN KEY (address) REFERENCES servers(address) ON DELETE CASCADE
       )
     ''');
 
@@ -340,20 +346,27 @@ class DatabaseService {
       await _upgradeToV4(db);
       await _upgradeToV5(db);
       await _upgradeToV6(db);
+      await _upgradeToV7(db);
     } else if (oldVersion == 2) {
       await _upgradeToV3(db);
       await _upgradeToV4(db);
       await _upgradeToV5(db);
       await _upgradeToV6(db);
+      await _upgradeToV7(db);
     } else if (oldVersion == 3) {
       await _upgradeToV4(db);
       await _upgradeToV5(db);
       await _upgradeToV6(db);
+      await _upgradeToV7(db);
     } else if (oldVersion == 4) {
       await _upgradeToV5(db);
       await _upgradeToV6(db);
+      await _upgradeToV7(db);
     } else if (oldVersion == 5) {
       await _upgradeToV6(db);
+      await _upgradeToV7(db);
+    } else if (oldVersion == 6) {
+      await _upgradeToV7(db);
     } else {
       logger.w(
         'Database upgrade from version $oldVersion to $newVersion is not handled.',
@@ -597,5 +610,72 @@ class DatabaseService {
     await db.execute('ALTER TABLE appConfig_new RENAME TO appConfig');
 
     logger.d('Database upgraded to version 6');
+  }
+
+  /// Migrates the database to version 7.
+  ///
+  /// Add garvity_update table foreign key constraints.
+  /// Change the foreign key constraints in gravity_logs and gravity_messages tables.
+  Future<dynamic> _upgradeToV7(Database db) async {
+    await db.execute('''
+      CREATE TABLE gravity_updates (
+        address TEXT PRIMARY KEY NOT NULL,
+        start_time TEXT NOT NULL,
+        end_time TEXT NOT NULL,
+        status INTEGER NOT NULL,
+        FOREIGN KEY (address) REFERENCES servers(address) ON DELETE CASCADE
+      )
+    ''');
+
+    await db.execute('''
+      INSERT INTO gravity_updates_new (address, start_time, end_time, status)
+      SELECT address, start_time, end_time, status FROM gravity_updates
+    ''');
+
+    await db.execute('DROP TABLE gravity_updates');
+    await db
+        .execute('ALTER TABLE gravity_updates_new RENAME TO gravity_updates');
+
+    await db.execute('''
+      CREATE TABLE gravity_logs (
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        address TEXT NOT NULL,
+        line INTEGER NOT NULL,
+        message TEXT NOT NULL,
+        timestamp TEXT NOT NULL,
+        FOREIGN KEY (address) REFERENCES servers(address) ON DELETE CASCADE
+      )
+    ''');
+
+    await db.execute('''
+      INSERT INTO gravity_logs_new (id, address, line, message, timestamp)
+      SELECT id, address, line, message, timestamp FROM gravity_logs
+    ''');
+
+    await db.execute('DROP TABLE gravity_logs');
+    await db.execute('ALTER TABLE gravity_logs_new RENAME TO gravity_logs');
+
+    await db.execute('''
+      CREATE TABLE gravity_messages (
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        address TEXT NOT NULL,
+        message_id INTEGER NOT NULL,
+        message TEXT NOT NULL,
+        url TEXT NOT NULL,
+        timestamp TEXT NOT NULL,
+        FOREIGN KEY (address) REFERENCES servers(address) ON DELETE CASCADE
+      )
+    ''');
+
+    await db.execute('''
+      INSERT INTO gravity_messages_new (id, address, message_id, message, url, timestamp)
+      SELECT id, address, message_id, message, url, timestamp FROM gravity_messages
+    ''');
+
+    await db.execute('DROP TABLE gravity_messages');
+    await db
+        .execute('ALTER TABLE gravity_messages_new RENAME TO gravity_messages');
+
+    logger.d('Database upgraded to version 7');
   }
 }
