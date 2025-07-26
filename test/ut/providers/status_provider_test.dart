@@ -1,9 +1,9 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:pi_hole_client/config/enums.dart';
+import 'package:pi_hole_client/data/services/api/model/v6/ftl/metrics.dart';
 import 'package:pi_hole_client/data/services/api/shared/models/metrics.dart';
 import 'package:pi_hole_client/data/services/api/shared/models/overtime_data.dart';
 import 'package:pi_hole_client/data/services/api/shared/models/realtime_status.dart';
-import 'package:pi_hole_client/data/services/api/v6/models/ftl/metrics.dart';
 import 'package:pi_hole_client/ui/core/viewmodel/status_provider.dart';
 
 void main() {

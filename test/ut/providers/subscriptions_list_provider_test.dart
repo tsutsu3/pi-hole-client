@@ -2,10 +2,10 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
 import 'package:pi_hole_client/config/enums.dart';
+import 'package:pi_hole_client/data/services/api/model/v6/lists/lists.dart';
 import 'package:pi_hole_client/data/services/api/shared/models/gateways.dart';
 import 'package:pi_hole_client/data/services/api/shared/models/subscriptions.dart';
 import 'package:pi_hole_client/data/services/api/v6/api_gateway_v6.dart';
-import 'package:pi_hole_client/data/services/api/v6/models/lists/lists.dart';
 import 'package:pi_hole_client/ui/core/viewmodel/servers_provider.dart';
 import 'package:pi_hole_client/ui/core/viewmodel/subscriptions_list_provider.dart';
 

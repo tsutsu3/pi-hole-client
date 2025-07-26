@@ -1,6 +1,6 @@
-import 'package:pi_hole_client/data/services/api/v6/models/network/gateway.dart';
-import 'package:pi_hole_client/data/services/api/v6/models/network/interfaces.dart';
-import 'package:pi_hole_client/data/services/api/v6/models/network/routes.dart';
+import 'package:pi_hole_client/data/services/api/model/v6/network/gateway.dart';
+import 'package:pi_hole_client/data/services/api/model/v6/network/interfaces.dart';
+import 'package:pi_hole_client/data/services/api/model/v6/network/routes.dart';
 
 class GatewayInfo {
   GatewayInfo({

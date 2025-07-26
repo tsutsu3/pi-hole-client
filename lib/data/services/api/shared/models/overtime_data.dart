@@ -1,7 +1,7 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
-import 'package:pi_hole_client/data/services/api/v6/models/metrics/history.dart';
+import 'package:pi_hole_client/data/services/api/model/v6/metrics/history.dart';
 import 'package:pi_hole_client/utils/colors.dart';
 
 OverTimeData overTimeDataFromJson(String str) =>

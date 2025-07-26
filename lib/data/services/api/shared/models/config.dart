@@ -1,4 +1,4 @@
-import 'package:pi_hole_client/data/services/api/v6/models/config/config.dart';
+import 'package:pi_hole_client/data/services/api/model/v6/config/config.dart';
 
 class ConfigInfo {
   ConfigInfo({

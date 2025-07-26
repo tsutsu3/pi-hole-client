@@ -1,4 +1,4 @@
-import 'package:pi_hole_client/data/services/api/v6/models/ftl/host.dart';
+import 'package:pi_hole_client/data/services/api/model/v6/ftl/host.dart';
 
 class HostInfo {
   HostInfo({

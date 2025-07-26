@@ -1,10 +1,10 @@
 import 'dart:async';
 
+import 'package:pi_hole_client/data/services/api/model/v6/config/config.dart';
 import 'package:pi_hole_client/data/services/api/shared/models/domain.dart';
 import 'package:pi_hole_client/data/services/api/shared/models/gateways.dart';
 import 'package:pi_hole_client/data/services/api/shared/models/groups.dart';
 import 'package:pi_hole_client/data/services/api/shared/models/subscriptions.dart';
-import 'package:pi_hole_client/data/services/api/v6/models/config/config.dart';
 import 'package:pi_hole_client/domain/models/server.dart';
 
 abstract interface class ApiGateway {

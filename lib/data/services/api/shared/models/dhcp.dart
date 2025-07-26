@@ -1,4 +1,4 @@
-import 'package:pi_hole_client/data/services/api/v6/models/dhcp/dhcp.dart';
+import 'package:pi_hole_client/data/services/api/model/v6/dhcp/dhcp.dart';
 
 class DhcpsInfo {
   DhcpsInfo({required this.leases});

@@ -12,6 +12,32 @@ import 'package:pi_hole_client/config/enums.dart';
 import 'package:pi_hole_client/config/globals.dart';
 import 'package:pi_hole_client/config/query_types.dart';
 import 'package:pi_hole_client/data/services/api/api_gateway_interface.dart';
+import 'package:pi_hole_client/data/services/api/model/v6/auth/sessions.dart';
+import 'package:pi_hole_client/data/services/api/model/v6/config/config.dart'
+    show Config;
+import 'package:pi_hole_client/data/services/api/model/v6/dhcp/dhcp.dart'
+    show Dhcp;
+import 'package:pi_hole_client/data/services/api/model/v6/ftl/client.dart'
+// ignore: library_prefixes
+    as FtlClient show Client;
+import 'package:pi_hole_client/data/services/api/model/v6/ftl/host.dart'
+    show Host;
+import 'package:pi_hole_client/data/services/api/model/v6/ftl/messages.dart'
+    show Messages;
+import 'package:pi_hole_client/data/services/api/model/v6/ftl/metrics.dart';
+import 'package:pi_hole_client/data/services/api/model/v6/ftl/sensors.dart'
+    show Sensors;
+import 'package:pi_hole_client/data/services/api/model/v6/ftl/system.dart'
+    show System;
+import 'package:pi_hole_client/data/services/api/model/v6/ftl/version.dart'
+    show Version;
+import 'package:pi_hole_client/data/services/api/model/v6/groups/groups.dart'
+    show Groups;
+import 'package:pi_hole_client/data/services/api/model/v6/lists/lists.dart'
+    show Lists;
+import 'package:pi_hole_client/data/services/api/model/v6/metrics/query.dart';
+import 'package:pi_hole_client/data/services/api/model/v6/network/devices.dart';
+import 'package:pi_hole_client/data/services/api/model/v6/network/gateway.dart';
 import 'package:pi_hole_client/data/services/api/shared/models/app_log.dart';
 import 'package:pi_hole_client/data/services/api/shared/models/client.dart';
 import 'package:pi_hole_client/data/services/api/shared/models/config.dart';
@@ -34,32 +60,6 @@ import 'package:pi_hole_client/data/services/api/shared/models/system.dart';
 import 'package:pi_hole_client/data/services/api/shared/models/version.dart';
 import 'package:pi_hole_client/data/services/api/v5/api_gateway_v5.dart';
 import 'package:pi_hole_client/data/services/api/v6/api_gateway_v6.dart';
-import 'package:pi_hole_client/data/services/api/v6/models/auth/sessions.dart';
-import 'package:pi_hole_client/data/services/api/v6/models/config/config.dart'
-    show Config;
-import 'package:pi_hole_client/data/services/api/v6/models/dhcp/dhcp.dart'
-    show Dhcp;
-import 'package:pi_hole_client/data/services/api/v6/models/ftl/client.dart'
-// ignore: library_prefixes
-    as FtlClient show Client;
-import 'package:pi_hole_client/data/services/api/v6/models/ftl/host.dart'
-    show Host;
-import 'package:pi_hole_client/data/services/api/v6/models/ftl/messages.dart'
-    show Messages;
-import 'package:pi_hole_client/data/services/api/v6/models/ftl/metrics.dart';
-import 'package:pi_hole_client/data/services/api/v6/models/ftl/sensors.dart'
-    show Sensors;
-import 'package:pi_hole_client/data/services/api/v6/models/ftl/system.dart'
-    show System;
-import 'package:pi_hole_client/data/services/api/v6/models/ftl/version.dart'
-    show Version;
-import 'package:pi_hole_client/data/services/api/v6/models/groups/groups.dart'
-    show Groups;
-import 'package:pi_hole_client/data/services/api/v6/models/lists/lists.dart'
-    show Lists;
-import 'package:pi_hole_client/data/services/api/v6/models/metrics/query.dart';
-import 'package:pi_hole_client/data/services/api/v6/models/network/devices.dart';
-import 'package:pi_hole_client/data/services/api/v6/models/network/gateway.dart';
 import 'package:pi_hole_client/domain/models/server.dart';
 import 'package:pi_hole_client/domain/use_cases/status_update_service.dart';
 import 'package:pi_hole_client/ui/core/l10n/generated/app_localizations.dart';

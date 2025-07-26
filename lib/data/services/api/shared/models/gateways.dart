@@ -1,3 +1,5 @@
+import 'package:pi_hole_client/data/services/api/model/v6/domains/domains.dart'
+    as v6;
 import 'package:pi_hole_client/data/services/api/shared/models/app_log.dart';
 import 'package:pi_hole_client/data/services/api/shared/models/client.dart';
 import 'package:pi_hole_client/data/services/api/shared/models/config.dart';
@@ -18,8 +20,6 @@ import 'package:pi_hole_client/data/services/api/shared/models/sessions.dart';
 import 'package:pi_hole_client/data/services/api/shared/models/subscriptions.dart';
 import 'package:pi_hole_client/data/services/api/shared/models/system.dart';
 import 'package:pi_hole_client/data/services/api/shared/models/version.dart';
-import 'package:pi_hole_client/data/services/api/v6/models/domains/domains.dart'
-    as v6;
 
 enum APiResponseType {
   success,

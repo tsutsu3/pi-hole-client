@@ -1,5 +1,5 @@
 import 'package:pi_hole_client/config/enums.dart';
-import 'package:pi_hole_client/data/services/api/v6/models/auth/sessions.dart';
+import 'package:pi_hole_client/data/services/api/model/v6/auth/sessions.dart';
 
 class SessionsInfo {
   SessionsInfo({

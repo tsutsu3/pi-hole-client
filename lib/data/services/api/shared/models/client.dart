@@ -1,4 +1,4 @@
-import 'package:pi_hole_client/data/services/api/v6/models/ftl/client.dart';
+import 'package:pi_hole_client/data/services/api/model/v6/ftl/client.dart';
 
 class ClientInfo {
   ClientInfo({

@@ -1,8 +1,8 @@
 import 'dart:convert';
 
-import 'package:pi_hole_client/data/services/api/v6/models/dns/dns.dart';
-import 'package:pi_hole_client/data/services/api/v6/models/ftl/ftl.dart';
-import 'package:pi_hole_client/data/services/api/v6/models/metrics/stats.dart';
+import 'package:pi_hole_client/data/services/api/model/v6/dns/dns.dart';
+import 'package:pi_hole_client/data/services/api/model/v6/ftl/ftl.dart';
+import 'package:pi_hole_client/data/services/api/model/v6/metrics/stats.dart';
 import 'package:pi_hole_client/utils/charts_data_functions.dart';
 
 RealtimeStatus realtimeStatusFromJson(String str) =>

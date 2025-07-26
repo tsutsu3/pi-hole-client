@@ -1,4 +1,4 @@
-import 'package:pi_hole_client/data/services/api/v6/models/network/devices.dart';
+import 'package:pi_hole_client/data/services/api/model/v6/network/devices.dart';
 
 /// Application-specific model representing a list of devices.
 ///

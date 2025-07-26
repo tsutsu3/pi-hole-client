@@ -1,4 +1,4 @@
-import 'package:pi_hole_client/data/services/api/v6/models/groups/groups.dart';
+import 'package:pi_hole_client/data/services/api/model/v6/groups/groups.dart';
 
 class GroupRequest {
   GroupRequest({

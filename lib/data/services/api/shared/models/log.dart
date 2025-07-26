@@ -1,5 +1,5 @@
 import 'package:pi_hole_client/config/query_types.dart';
-import 'package:pi_hole_client/data/services/api/v6/models/metrics/query.dart';
+import 'package:pi_hole_client/data/services/api/model/v6/metrics/query.dart';
 
 class LogsInfo {
   const LogsInfo({

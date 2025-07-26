@@ -6,6 +6,7 @@ import 'package:http/http.dart' as http;
 import 'package:http/http.dart';
 import 'package:http/io_client.dart';
 import 'package:pi_hole_client/data/services/api/api_gateway_interface.dart';
+import 'package:pi_hole_client/data/services/api/model/v6/config/config.dart';
 import 'package:pi_hole_client/data/services/api/shared/models/app_log.dart';
 import 'package:pi_hole_client/data/services/api/shared/models/domain.dart';
 import 'package:pi_hole_client/data/services/api/shared/models/gateways.dart';
@@ -15,7 +16,6 @@ import 'package:pi_hole_client/data/services/api/shared/models/overtime_data.dar
 import 'package:pi_hole_client/data/services/api/shared/models/realtime_status.dart';
 import 'package:pi_hole_client/data/services/api/shared/models/subscriptions.dart';
 import 'package:pi_hole_client/data/services/api/shared/models/version.dart';
-import 'package:pi_hole_client/data/services/api/v6/models/config/config.dart';
 import 'package:pi_hole_client/domain/models/server.dart';
 import 'package:pi_hole_client/utils/conversions.dart';
 import 'package:pi_hole_client/utils/misc.dart';
