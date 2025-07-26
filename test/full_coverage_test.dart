@@ -14,7 +14,6 @@ import 'package:pi_hole_client/config/search_domain_base_url.dart';
 import 'package:pi_hole_client/config/subscription_types.dart';
 import 'package:pi_hole_client/config/urls.dart';
 import 'package:pi_hole_client/data/repositories/app_config_repository.dart';
-import 'package:pi_hole_client/data/repositories/database_repository.dart';
 import 'package:pi_hole_client/data/repositories/gravity_repository.dart';
 import 'package:pi_hole_client/data/repositories/secure_data_repository.dart';
 import 'package:pi_hole_client/data/repositories/server_repository.dart';

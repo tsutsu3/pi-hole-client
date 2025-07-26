@@ -74,37 +74,122 @@ class AppConfigRepository {
     }
   }
 
-  /// Updates a configuration value in the database or secure storage.
+  /// Updates the auto-refresh interval in seconds.
+  Future<Result<void>> updateAutoRefreshTime(int time) async {
+    return _updateConfigValue(
+      column: 'autoRefreshTime',
+      value: time,
+    );
+  }
+
+  // TODO: Consider using an enum for themes
+  /// Updates the application theme mode.
   ///
-  /// If the [column] is `passCode`, the [value] is written to secure storage instead
-  /// of the database. If the [value] is `null`, the key is deleted from secure storage.
-  /// For any other [column], the [value] is updated in the `appConfig` table.
+  /// The [theme] parameter is an integer representing the desired theme:
+  /// - `0`: Follow system theme
+  /// - `1`: Light mode
+  /// - `2`: Dark mode
+  Future<Result<void>> updateTheme(int theme) async {
+    return _updateConfigValue(
+      column: 'theme',
+      value: theme,
+    );
+  }
+
+  // TODO: Consider using an enum for languages
+  Future<Result<void>> updateLanguage(String language) async {
+    return _updateConfigValue(
+      column: 'language',
+      value: language,
+    );
+  }
+
+  Future<Result<void>> updateReducedDataCharts(bool enabled) async {
+    return _updateConfigValue(
+      column: 'reducedDataCharts',
+      value: enabled ? 1 : 0,
+    );
+  }
+
+  /// Updates the duration allocated for logs per query, in hours.
   ///
-  /// Returns a [Result] that completes with [Success.unit] on success,
-  /// or [Failure] with an [Exception] if the operation fails.
-  Future<Result<void>> updateConfigValue({
-    required String column,
-    required Object? value,
-  }) async {
-    try {
-      await openDbIfNeeded(_database);
+  /// The [logsPerQuery] value represents the number of hours used when
+  /// querying logs. For example:
+  /// - `0.5` means 30 minutes
+  /// - `1.0` means 1 hour
+  Future<Result<void>> updateLogsPerQuery(double logsPerQuery) async {
+    return _updateConfigValue(
+      column: 'logsPerQuery',
+      value: logsPerQuery,
+    );
+  }
 
-      if (column == 'passCode') {
-        if (value == null) {
-          return await _secureStorage.deleteValue('passCode');
-        }
+  Future<Result<void>> updateUseBiometricAuth(bool useBiometricAuth) async {
+    return _updateConfigValue(
+      column: 'useBiometricAuth',
+      value: useBiometricAuth ? 1 : 0,
+    );
+  }
 
-        return await _secureStorage.saveValue('passCode', value.toString());
-      }
+  Future<Result<void>> updateImportantInfoReaden(bool readen) async {
+    return _updateConfigValue(
+      column: 'importantInfoReaden',
+      value: readen ? 1 : 0,
+    );
+  }
 
-      return await _database.update('appConfig', {column: value}).fold(
-        (_) => Success.unit(),
-        Failure.new,
-      );
-    } catch (e, st) {
-      logger.e('Failed to update config: $e\n$st');
-      return Failure(Exception('Failed to update config: $e\n$st'));
-    }
+  Future<Result<void>> updateHideZeroValues(bool hideZeroValues) async {
+    return _updateConfigValue(
+      column: 'hideZeroValues',
+      value: hideZeroValues ? 1 : 0,
+    );
+  }
+
+  Future<Result<void>> updateLoadingAnimation(bool loadingAnimation) async {
+    return _updateConfigValue(
+      column: 'loadingAnimation',
+      value: loadingAnimation ? 1 : 0,
+    );
+  }
+
+  // TODO: Consider using an enum for visualization modes
+  /// Updates the visualization mode for statistics.
+  ///
+  /// The [mode] parameter controls how statistics are displayed:
+  /// - `0`: List view
+  /// - `1`:  Pie chart view
+  Future<Result<void>> updateStatisticsVisualizationMode(int mode) async {
+    return _updateConfigValue(
+      column: 'statisticsVisualizationMode',
+      value: mode,
+    );
+  }
+
+  // TODO: Consider using an enum for home visualization modes
+  /// Updates the visualization mode for the home screen chart.
+  ///
+  /// The [mode] parameter defines the chart type:
+  /// - `0`: Line + Area chart
+  /// - `1`: Bar chart
+  Future<Result<void>> updateHomeVisualizationMode(int mode) async {
+    return _updateConfigValue(
+      column: 'homeVisualizationMode',
+      value: mode,
+    );
+  }
+
+  Future<Result<void>> updateSendCrashReports(bool sendCrashReports) async {
+    return _updateConfigValue(
+      column: 'sendCrashReports',
+      value: sendCrashReports ? 1 : 0,
+    );
+  }
+
+  Future<Result<void>> updatePassCode(String? passCode) async {
+    return _updateSecretConfigValue(
+      key: 'passCode',
+      value: passCode,
+    );
   }
 
   /// Restores the default values in the app configuration.
@@ -114,7 +199,7 @@ class AppConfigRepository {
   ///
   /// Returns a [Result] that completes with [Success.unit] on success,
   /// or [Failure] if the update fails.
-  Future<Result<void>> resetAppConfig() async {
+  Future<Result<int>> resetAppConfig() async {
     try {
       await openDbIfNeeded(_database);
 
@@ -135,13 +220,55 @@ class AppConfigRepository {
           'homeVisualizationMode': 0,
           'sendCrashReports': 0,
         },
-      ).fold(
-        (_) => Success.unit(),
-        Failure.new,
       );
     } catch (e, st) {
       logger.e('Failed to restore app config: $e\n$st');
       return Failure(Exception('Failed to restore app config: $e\n$st'));
+    }
+  }
+
+  /// Updates a configuration value in the `appConfig` table.
+  ///
+  /// Writes the given [column] with the provided [value] using an SQL
+  /// `UPDATE` operation. This method is intended for non-sensitive
+  /// configuration data.
+  ///
+  /// Returns a [Result] containing the number of affected rows on success,
+  /// or a [Failure] with an exception on error.
+  Future<Result<int>> _updateConfigValue({
+    required String column,
+    required Object value,
+  }) async {
+    try {
+      await openDbIfNeeded(_database);
+
+      return await _database.update('appConfig', {column: value});
+    } catch (e, st) {
+      logger.e('Failed to update $column: $e\n$st');
+      return Failure(Exception('Failed to update $column: $e\n$st'));
+    }
+  }
+
+  /// Updates or deletes a sensitive configuration value in secure storage.
+  ///
+  /// Saves the given [value] as a string under the specified [key] if it is
+  /// non-null. If [value] is `null`, deletes the entry associated with [key].
+  ///
+  /// Returns a [Success] if the operation succeeds, or a [Failure] with an
+  /// exception on error.
+  Future<Result<void>> _updateSecretConfigValue({
+    required String key,
+    required Object? value,
+  }) async {
+    try {
+      if (value == null) {
+        return await _secureStorage.deleteValue('passCode');
+      } else {
+        return await _secureStorage.saveValue('passCode', value.toString());
+      }
+    } catch (e, st) {
+      logger.e('Failed to update secret $key: $e\n$st');
+      return Failure(Exception('Failed to update secret $key: $e\n$st'));
     }
   }
 }

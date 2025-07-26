@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 import 'package:pi_hole_client/config/languages.dart';
-import 'package:pi_hole_client/data/repositories/database_repository.dart';
+import 'package:pi_hole_client/data/repositories/app_config_repository.dart';
 import 'package:pi_hole_client/data/services/api/shared/models/app_log.dart';
 import 'package:pi_hole_client/domain/models/database.dart';
 import 'package:pi_hole_client/ui/core/themes/theme.dart';
@@ -37,7 +37,7 @@ class AppConfigProvider with ChangeNotifier {
   // SchedulerBinding.instance.platformDispatcher.locale.languageCode;
 
   final List<AppLog> _logs = [];
-  final DatabaseRepository _repository;
+  final AppConfigRepository _repository;
 
   AppColors get colors =>
       selectedTheme == ThemeMode.light ? lightAppColors : darkAppColors;
@@ -215,14 +215,9 @@ class AppConfigProvider with ChangeNotifier {
   }
 
   Future<bool> setUseBiometrics(bool biometrics) async {
-    final newValue = biometrics == true ? 1 : 0;
-
-    final updated = await _repository.updateConfigQuery(
-      column: 'useBiometricAuth',
-      value: newValue,
-    );
+    final updated = await _repository.updateUseBiometricAuth(biometrics);
     if (updated.isSuccess()) {
-      _useBiometrics = newValue;
+      _useBiometrics = biometrics == true ? 1 : 0;
       notifyListeners();
       return true;
     } else {
@@ -234,10 +229,7 @@ class AppConfigProvider with ChangeNotifier {
   }
 
   Future<bool> setImportantInfoReaden(bool status) async {
-    final updated = await _repository.updateConfigQuery(
-      column: 'importantInfoReaden',
-      value: status == true ? 1 : 0,
-    );
+    final updated = await _repository.updateImportantInfoReaden(status);
     if (updated.isSuccess()) {
       _importantInfoReaden = status == true ? 1 : 0;
       notifyListeners();
@@ -249,16 +241,10 @@ class AppConfigProvider with ChangeNotifier {
 
   Future<bool> setPassCode(String? code) async {
     if (_useBiometrics == 1) {
-      final updated = await _repository.updateConfigQuery(
-        column: 'useBiometricAuth',
-        value: 0,
-      );
+      final updated = await _repository.updateUseBiometricAuth(false);
       if (updated.isSuccess()) {
         _useBiometrics = 0;
-        final updated2 = await _repository.updateConfigQuery(
-          column: 'passCode',
-          value: code,
-        );
+        final updated2 = await _repository.updatePassCode(code);
         if (updated2.isSuccess()) {
           _passCode = code;
           notifyListeners();
@@ -270,8 +256,7 @@ class AppConfigProvider with ChangeNotifier {
         return false;
       }
     } else {
-      final updated =
-          await _repository.updateConfigQuery(column: 'passCode', value: code);
+      final updated = await _repository.updatePassCode(code);
       if (updated.isSuccess()) {
         _passCode = code;
         notifyListeners();
@@ -283,10 +268,7 @@ class AppConfigProvider with ChangeNotifier {
   }
 
   Future<bool> setAutoRefreshTime(int seconds) async {
-    final updated = await _repository.updateConfigQuery(
-      column: 'autoRefreshTime',
-      value: seconds,
-    );
+    final updated = await _repository.updateAutoRefreshTime(seconds);
     if (updated.isSuccess()) {
       _autoRefreshTime = seconds;
       notifyListeners();
@@ -297,10 +279,7 @@ class AppConfigProvider with ChangeNotifier {
   }
 
   Future<bool> setLogsPerQuery(double time) async {
-    final updated = await _repository.updateConfigQuery(
-      column: 'logsPerQuery',
-      value: time,
-    );
+    final updated = await _repository.updateLogsPerQuery(time);
     if (updated.isSuccess()) {
       _logsPerQuery = time;
       notifyListeners();
@@ -311,10 +290,7 @@ class AppConfigProvider with ChangeNotifier {
   }
 
   Future<bool> setSendCrashReports(bool status) async {
-    final updated = await _repository.updateConfigQuery(
-      column: 'sendCrashReports',
-      value: status == true ? 1 : 0,
-    );
+    final updated = await _repository.updateSendCrashReports(status);
     if (updated.isSuccess()) {
       _sendCrashReports = status == true ? 1 : 0;
       notifyListeners();
@@ -347,10 +323,7 @@ class AppConfigProvider with ChangeNotifier {
   }
 
   Future<bool> setReducedDataCharts(bool status) async {
-    final updated = await _repository.updateConfigQuery(
-      column: 'reducedDataCharts',
-      value: status == true ? 1 : 0,
-    );
+    final updated = await _repository.updateReducedDataCharts(status);
     if (updated.isSuccess()) {
       _reducedDataCharts = status == true ? 1 : 0;
       notifyListeners();
@@ -361,10 +334,7 @@ class AppConfigProvider with ChangeNotifier {
   }
 
   Future<bool> setHideZeroValues(bool status) async {
-    final updated = await _repository.updateConfigQuery(
-      column: 'hideZeroValues',
-      value: status == true ? 1 : 0,
-    );
+    final updated = await _repository.updateHideZeroValues(status);
     if (updated.isSuccess()) {
       _hideZeroValues = status == true ? 1 : 0;
       notifyListeners();
@@ -375,13 +345,9 @@ class AppConfigProvider with ChangeNotifier {
   }
 
   Future<bool> setShowLoadingAnimation(bool status) async {
-    final value = status ? 1 : 0;
-    final updated = await _repository.updateConfigQuery(
-      column: 'loadingAnimation',
-      value: value,
-    );
+    final updated = await _repository.updateLoadingAnimation(status);
     if (updated.isSuccess()) {
-      _loadingAnimation = value;
+      _loadingAnimation = status ? 1 : 0;
       notifyListeners();
       return true;
     } else {
@@ -390,8 +356,7 @@ class AppConfigProvider with ChangeNotifier {
   }
 
   Future<bool> setSelectedTheme(int value) async {
-    final updated =
-        await _repository.updateConfigQuery(column: 'theme', value: value);
+    final updated = await _repository.updateTheme(value);
     if (updated.isSuccess()) {
       _selectedTheme = value;
       notifyListeners();
@@ -402,8 +367,7 @@ class AppConfigProvider with ChangeNotifier {
   }
 
   Future<bool> setSelectedLanguage(String value) async {
-    final updated =
-        await _repository.updateConfigQuery(column: 'language', value: value);
+    final updated = await _repository.updateLanguage(value);
     if (updated.isSuccess()) {
       _selectedLanguage = value;
       notifyListeners();
@@ -414,10 +378,7 @@ class AppConfigProvider with ChangeNotifier {
   }
 
   Future<bool> setStatisticsVisualizationMode(int value) async {
-    final updated = await _repository.updateConfigQuery(
-      column: 'statisticsVisualizationMode',
-      value: value,
-    );
+    final updated = await _repository.updateStatisticsVisualizationMode(value);
     if (updated.isSuccess()) {
       _statisticsVisualizationMode = value;
       notifyListeners();
@@ -428,10 +389,7 @@ class AppConfigProvider with ChangeNotifier {
   }
 
   Future<bool> setHomeVisualizationMode(int value) async {
-    final updated = await _repository.updateConfigQuery(
-      column: 'homeVisualizationMode',
-      value: value,
-    );
+    final updated = await _repository.updateHomeVisualizationMode(value);
     if (updated.isSuccess()) {
       _homeVisualizationMode = value;
       notifyListeners();
@@ -442,7 +400,7 @@ class AppConfigProvider with ChangeNotifier {
   }
 
   Future<bool> restoreAppConfig() async {
-    final result = await _repository.restoreAppConfigQuery();
+    final result = await _repository.resetAppConfig();
     if (result.isSuccess()) {
       _autoRefreshTime = 5;
       _selectedTheme = 0;

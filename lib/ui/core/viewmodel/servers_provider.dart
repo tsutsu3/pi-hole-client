@@ -3,7 +3,7 @@ import 'dart:async';
 import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
 import 'package:pi_hole_client/config/query_types.dart';
-import 'package:pi_hole_client/data/repositories/database_repository.dart';
+import 'package:pi_hole_client/data/repositories/server_repository.dart';
 import 'package:pi_hole_client/data/services/api/api_gateway_factory.dart';
 import 'package:pi_hole_client/data/services/api/api_gateway_interface.dart';
 import 'package:pi_hole_client/data/services/api/shared/models/query_status.dart';
@@ -18,7 +18,7 @@ class ServersProvider with ChangeNotifier {
   ServersProvider(this._repository);
 
   AppConfigProvider? _appConfigProvider;
-  final DatabaseRepository _repository;
+  final ServerRepository _repository;
   final List<QueryStatus> _queryStatusesV5 = queryStatusesV5;
   final List<QueryStatus> _queryStatusesV6 = queryStatusesV6;
 
@@ -130,7 +130,7 @@ class ServersProvider with ChangeNotifier {
   }
 
   Future<bool> addServer(Server server) async {
-    final saved = await _repository.saveServerQuery(server);
+    final saved = await _repository.insertServer(server);
     if (saved.isSuccess()) {
       _serverGateways[server.address] = ApiGatewayFactory.create(server);
       if (server.defaultServer == true) {
@@ -155,7 +155,7 @@ class ServersProvider with ChangeNotifier {
   }
 
   Future<bool> editServer(Server server) async {
-    final result = await _repository.editServerQuery(server);
+    final result = await _repository.updateServer(server);
     if (result.isSuccess()) {
       final newServers = _serversList.map((s) {
         if (s.address == server.address) {
@@ -195,23 +195,9 @@ class ServersProvider with ChangeNotifier {
   /// Removes a server from the list and clears its related data.
   Future<bool> removeServer(String serverAddress) async {
     try {
-      final dbOperationSuccess =
-          await _repository.dbInstance.transaction((txn) async {
-        final isServerRemoved =
-            await _repository.removeServerQuery(serverAddress, txn: txn);
-        final isGravityDataCleared =
-            await _repository.clearGravityDataQuery(serverAddress, txn: txn);
+      final result = await _repository.deleteServer(serverAddress);
 
-        if (isServerRemoved.isError() || isGravityDataCleared.isError()) {
-          throw Exception(
-            'Failed to remove server or clear gravity-related data',
-          );
-        }
-
-        return true;
-      });
-
-      if (dbOperationSuccess) {
+      if (result.isSuccess()) {
         _serverGateways.remove(serverAddress);
         // Create new list so context.select() can detect the change
         _serversList =
@@ -233,7 +219,7 @@ class ServersProvider with ChangeNotifier {
   }
 
   Future<bool> setDefaultServer(Server server) async {
-    final updated = await _repository.setDefaultServerQuery(server.address);
+    final updated = await _repository.updateDefaultServer(server.address);
     if (updated.isSuccess()) {
       _serversList = _serversList.map((s) {
         if (s.address == server.address) {
@@ -279,7 +265,7 @@ class ServersProvider with ChangeNotifier {
   }
 
   FutureOr<Map<String, dynamic>> checkUrlExists(String url) async {
-    final result = await _repository.checkUrlExistsQuery(url);
+    final result = await _repository.doesServerExist(url);
     return result.fold(
       (success) {
         if (success) {
@@ -310,22 +296,17 @@ class ServersProvider with ChangeNotifier {
   /// Deletes all server data from the database.
   Future<bool> deleteDbData() async {
     try {
-      return await _repository.dbInstance.transaction((txn) async {
-        final isServerDataDeleted =
-            await _repository.deleteServersDataQuery(txn: txn);
-        final isGravityDataCleared =
-            await _repository.clearAllGravityDataQuery(txn: txn);
+      final result = await _repository.deleteAllServers();
 
-        if (isServerDataDeleted.isSuccess() &&
-            isGravityDataCleared.isSuccess()) {
-          _serversList = [];
-          _selectedServer = null;
-          notifyListeners();
-          return true;
-        } else {
-          throw Exception('Partial deletion failed');
-        }
-      });
+      if (result.isSuccess()) {
+        _serversList = [];
+        _selectedServer = null;
+        notifyListeners();
+        return true;
+      } else {
+        logger.d('Failed to delete server data');
+        return false;
+      }
     } catch (e) {
       logger.d('Transaction failed: $e');
       return false;

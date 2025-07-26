@@ -33,7 +33,7 @@ class DatabaseService {
     return _db!;
   }
 
-  /// Opens the SQLite database at the specified [_path], optionally using a specific schema [version].
+  /// Opens the SQLite database at the specified [_path], optionally using a specific schema [latestVersion].
   ///
   /// This method wraps [openDatabase] and sets up internal lifecycle callbacks for
   /// [_onCreate], [_onUpgrade], [_onDowngrade], and [_onOpen] as defined within this service.
@@ -618,7 +618,7 @@ class DatabaseService {
   /// Change the foreign key constraints in gravity_logs and gravity_messages tables.
   Future<dynamic> _upgradeToV7(Database db) async {
     await db.execute('''
-      CREATE TABLE gravity_updates (
+      CREATE TABLE gravity_updates_new (
         address TEXT PRIMARY KEY NOT NULL,
         start_time TEXT NOT NULL,
         end_time TEXT NOT NULL,
@@ -637,7 +637,7 @@ class DatabaseService {
         .execute('ALTER TABLE gravity_updates_new RENAME TO gravity_updates');
 
     await db.execute('''
-      CREATE TABLE gravity_logs (
+      CREATE TABLE gravity_logs_new (
         id INTEGER PRIMARY KEY AUTOINCREMENT,
         address TEXT NOT NULL,
         line INTEGER NOT NULL,
@@ -656,7 +656,7 @@ class DatabaseService {
     await db.execute('ALTER TABLE gravity_logs_new RENAME TO gravity_logs');
 
     await db.execute('''
-      CREATE TABLE gravity_messages (
+      CREATE TABLE gravity_messages_new (
         id INTEGER PRIMARY KEY AUTOINCREMENT,
         address TEXT NOT NULL,
         message_id INTEGER NOT NULL,

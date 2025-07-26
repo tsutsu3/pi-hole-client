@@ -10,9 +10,8 @@ import 'package:flutter_phoenix/flutter_phoenix.dart';
 import 'package:local_auth/local_auth.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 import 'package:pi_hole_client/data/repositories/app_config_repository.dart';
-import 'package:pi_hole_client/data/repositories/database_repository.dart';
 import 'package:pi_hole_client/data/repositories/gravity_repository.dart';
-// import 'package:pi_hole_client/data/repositories/server_repository.dart';
+import 'package:pi_hole_client/data/repositories/server_repository.dart';
 import 'package:pi_hole_client/data/services/database/database_service.dart';
 import 'package:pi_hole_client/data/services/storage/secure_storage_service.dart';
 import 'package:pi_hole_client/domain/use_cases/status_update_service.dart';
@@ -141,16 +140,13 @@ void main() async {
   await dbService.open();
 
   final secureStorageSercie = SecureStorageService();
-  final dbRepository =
-      DatabaseRepository(dbService, secureStorageSercie); // TODO: delte
   final appConfigRepository =
       AppConfigRepository(dbService, secureStorageSercie);
   final gravityRepository = GravityRepository(dbService);
-  // final serverRepository = ServerRepository(dbService, secureStorageSercie);
-  await dbRepository.initialize();
+  final serverRepository = ServerRepository(dbService, secureStorageSercie);
 
-  final serversProvider = ServersProvider(dbRepository);
-  final configProvider = AppConfigProvider(dbRepository);
+  final serversProvider = ServersProvider(serverRepository);
+  final configProvider = AppConfigProvider(appConfigRepository);
   final statusProvider = StatusProvider();
   final filtersProvider = FiltersProvider(serversProvider: serversProvider);
   final domainsListProvider =
@@ -170,8 +166,10 @@ void main() async {
     filtersProvider: filtersProvider,
   );
 
-  configProvider.saveFromDb(dbRepository.appConfig);
-  await serversProvider.saveFromDb(dbRepository.servers);
+  final appdata = await appConfigRepository.fetchAppConfig();
+  final servers = await serverRepository.fetchServers();
+  configProvider.saveFromDb(appdata.getOrThrow());
+  await serversProvider.saveFromDb(servers.getOrThrow());
 
   // Initialize devices
   await initializeBiometrics(configProvider, appConfigRepository);

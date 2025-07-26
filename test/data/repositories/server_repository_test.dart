@@ -1,11 +1,8 @@
-import 'package:flutter/rendering.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:pi_hole_client/config/enums.dart';
 import 'package:pi_hole_client/data/repositories/secure_data_repository.dart';
 import 'package:pi_hole_client/data/repositories/server_repository.dart';
-import 'package:pi_hole_client/domain/models/database.dart';
 import 'package:pi_hole_client/domain/models/server.dart';
-import 'package:result_dart/result_dart.dart';
 import 'package:sqflite_common_ffi/sqflite_ffi.dart';
 
 import '../../../testing/fakes/services/fake_database_service.dart';
@@ -540,7 +537,9 @@ void main() {
       await ssSerivce.saveValue('http://127.0.0.1_password', 'pass123');
       await ssSerivce.saveValue('http://127.0.0.1_basicAuthUser', 'user123');
       await ssSerivce.saveValue(
-          'http://127.0.0.1_basicAuthPassword', 'basic123');
+        'http://127.0.0.1_basicAuthPassword',
+        'basic123',
+      );
 
       final result = await repository.deleteUnusedServerSecrets();
       expect(result.isSuccess(), true);
