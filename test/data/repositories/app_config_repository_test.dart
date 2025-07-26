@@ -1,4 +1,3 @@
-import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:pi_hole_client/data/repositories/app_config_repository.dart';
 import 'package:result_dart/result_dart.dart';
@@ -31,7 +30,6 @@ void main() {
   };
 
   sqfliteTestInit();
-  FlutterSecureStorage.setMockInitialValues({});
 
   group('AppConfigRepository.getter', () {
     late AppConfigRepository repository;
@@ -165,7 +163,7 @@ void main() {
     test('deletes passCode from secure storage when value is null', () async {
       await ssSerivce.saveValue('passCode', '1234');
 
-      final result = await repository.updatePassCode('passCode');
+      final result = await repository.updatePassCode(null);
       expect(result.isSuccess(), true);
       expect(
         await ssSerivce.getValue('passCode').isError(),
@@ -180,7 +178,7 @@ void main() {
       expect(result.isError(), true);
       expect(
         result.exceptionOrNull()?.toString(),
-        contains('Exception: Failed to update config'),
+        contains('Exception: Failed to update autoRefreshTime'),
       );
     });
   });
