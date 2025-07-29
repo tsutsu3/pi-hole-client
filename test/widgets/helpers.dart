@@ -157,7 +157,8 @@ final queries = Queries.fromJson({
       'reply': {'type': 'IP', 'time': 19},
       'list_id': null,
       'upstream': 'localhost#5353',
-      'dbid': 112421354,
+      'dbid': 112421354, // Not exist
+      'ede': {'code': -1, 'text': null},
     },
   ],
   'cursor': 175881,
