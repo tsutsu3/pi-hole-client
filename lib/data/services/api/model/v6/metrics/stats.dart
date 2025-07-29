@@ -5,6 +5,7 @@ part 'stats.g.dart';
 
 @freezed
 sealed class StatsSummary with _$StatsSummary {
+  @JsonSerializable(explicitToJson: true)
   const factory StatsSummary({
     required Queries queries,
     required Clients clients,
@@ -18,6 +19,7 @@ sealed class StatsSummary with _$StatsSummary {
 
 @freezed
 sealed class Queries with _$Queries {
+  @JsonSerializable(explicitToJson: true)
   const factory Queries({
     required int total,
     required int blocked,
@@ -132,6 +134,7 @@ sealed class Gravity with _$Gravity {
 //api/stats/top_tomains
 @freezed
 sealed class StatsTopDomains with _$StatsTopDomains {
+  @JsonSerializable(explicitToJson: true)
   const factory StatsTopDomains({
     required List<Domain> domains,
     @JsonKey(name: 'total_queries') required int totalQueries,
@@ -156,6 +159,7 @@ sealed class Domain with _$Domain {
 // api/stats/top_clients
 @freezed
 sealed class StatsTopClients with _$StatsTopClients {
+  @JsonSerializable(explicitToJson: true)
   const factory StatsTopClients({
     required List<Client> clients,
     @JsonKey(name: 'total_queries') required int totalQueries,
@@ -181,6 +185,7 @@ sealed class Client with _$Client {
 // api/stats/StatsUpstreams
 @freezed
 sealed class StatsUpstreams with _$StatsUpstreams {
+  @JsonSerializable(explicitToJson: true)
   const factory StatsUpstreams({
     required List<Upstream> upstreams,
     @JsonKey(name: 'forwarded_queries') required int forwardedQueries,
@@ -194,6 +199,7 @@ sealed class StatsUpstreams with _$StatsUpstreams {
 
 @freezed
 sealed class Upstream with _$Upstream {
+  @JsonSerializable(explicitToJson: true)
   const factory Upstream({
     required String ip,
     required String name,

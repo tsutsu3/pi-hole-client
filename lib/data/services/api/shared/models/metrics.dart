@@ -6,7 +6,7 @@ class MetricsInfo {
     required this.dnsReplies,
   });
 
-  factory MetricsInfo.fromV6(Metrics metrics) {
+  factory MetricsInfo.fromV6(InfoMetrics metrics) {
     return MetricsInfo(
       dnsCache: DnsCacheInfo.fromV6(metrics.metrics.dns.cache),
       dnsReplies: DnsRepliesInfo.fromV6(metrics.metrics.dns.replies),

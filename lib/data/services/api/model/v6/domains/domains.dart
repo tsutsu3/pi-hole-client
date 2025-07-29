@@ -5,8 +5,9 @@ part 'domains.g.dart';
 
 @freezed
 sealed class Domains with _$Domains {
+  @JsonSerializable(explicitToJson: true)
   const factory Domains({
-    required List<Domain> domains,
+    required List<DomainData> domains,
     required Processed? processed,
     required double took, // Time in seconds
   }) = _Domains;
@@ -16,20 +17,8 @@ sealed class Domains with _$Domains {
 }
 
 @freezed
-sealed class AddDomains with _$AddDomains {
-  const factory AddDomains({
-    required List<Domain> domains,
-    required Processed processed,
-    required double took, // Time in seconds
-  }) = _AddDomains;
-
-  factory AddDomains.fromJson(Map<String, dynamic> json) =>
-      _$AddDomainsFromJson(json);
-}
-
-@freezed
-sealed class Domain with _$Domain {
-  const factory Domain({
+sealed class DomainData with _$DomainData {
+  const factory DomainData({
     required String domain, // Domain
     required String unicode, // Unicode domain
     required String type, // Domain type (allow | deny)
@@ -40,13 +29,15 @@ sealed class Domain with _$Domain {
     required int id, // Database ID
     @JsonKey(name: 'date_added') required int dateAdded,
     @JsonKey(name: 'date_modified') required int dateModified,
-  }) = _Domain;
+  }) = _DomainData;
 
-  factory Domain.fromJson(Map<String, dynamic> json) => _$DomainFromJson(json);
+  factory DomainData.fromJson(Map<String, dynamic> json) =>
+      _$DomainDataFromJson(json);
 }
 
 @freezed
 sealed class Processed with _$Processed {
+  @JsonSerializable(explicitToJson: true)
   const factory Processed({
     required List<ProcessedItem> success,
     required List<ProcessedError> errors,

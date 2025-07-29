@@ -18,7 +18,7 @@ _Queries _$QueriesFromJson(Map<String, dynamic> json) => _Queries(
     );
 
 Map<String, dynamic> _$QueriesToJson(_Queries instance) => <String, dynamic>{
-      'queries': instance.queries,
+      'queries': instance.queries.map((e) => e.toJson()).toList(),
       'cursor': instance.cursor,
       'recordsTotal': instance.recordsTotal,
       'recordsFiltered': instance.recordsFiltered,
@@ -33,6 +33,7 @@ _Query _$QueryFromJson(Map<String, dynamic> json) => _Query(
       domain: json['domain'] as String,
       client: Client.fromJson(json['client'] as Map<String, dynamic>),
       reply: Reply.fromJson(json['reply'] as Map<String, dynamic>),
+      ede: Ede.fromJson(json['ede'] as Map<String, dynamic>),
       cname: json['cname'] as String?,
       status: json['status'] as String?,
       dnssec: json['dnssec'] as String?,
@@ -45,8 +46,9 @@ Map<String, dynamic> _$QueryToJson(_Query instance) => <String, dynamic>{
       'time': instance.time,
       'type': instance.type,
       'domain': instance.domain,
-      'client': instance.client,
-      'reply': instance.reply,
+      'client': instance.client.toJson(),
+      'reply': instance.reply.toJson(),
+      'ede': instance.ede.toJson(),
       'cname': instance.cname,
       'status': instance.status,
       'dnssec': instance.dnssec,
@@ -72,4 +74,14 @@ _Reply _$ReplyFromJson(Map<String, dynamic> json) => _Reply(
 Map<String, dynamic> _$ReplyToJson(_Reply instance) => <String, dynamic>{
       'time': instance.time,
       'type': instance.type,
+    };
+
+_Ede _$EdeFromJson(Map<String, dynamic> json) => _Ede(
+      code: (json['code'] as num).toInt(),
+      text: json['text'] as String?,
+    );
+
+Map<String, dynamic> _$EdeToJson(_Ede instance) => <String, dynamic>{
+      'code': instance.code,
+      'text': instance.text,
     };

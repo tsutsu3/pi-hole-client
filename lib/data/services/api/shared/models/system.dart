@@ -7,7 +7,7 @@ class SystemInfo {
     required this.cpuUsage,
   });
 
-  factory SystemInfo.fromV6(System system) {
+  factory SystemInfo.fromV6(InfoSystem system) {
     return SystemInfo(
       uptime: system.system.uptime,
       ramUsage: system.system.memory.ram.percentUsed,

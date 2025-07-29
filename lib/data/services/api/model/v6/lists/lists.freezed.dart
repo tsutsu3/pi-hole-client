@@ -264,7 +264,8 @@ extension ListsPatterns on Lists {
 }
 
 /// @nodoc
-@JsonSerializable()
+
+@JsonSerializable(explicitToJson: true)
 class _Lists implements Lists {
   const _Lists(
       {required final List<ListItem> lists, required this.took, this.processed})
@@ -1257,7 +1258,8 @@ extension ProcessedPatterns on Processed {
 }
 
 /// @nodoc
-@JsonSerializable()
+
+@JsonSerializable(explicitToJson: true)
 class _Processed implements Processed {
   const _Processed(
       {required final List<SuccessItem> success,

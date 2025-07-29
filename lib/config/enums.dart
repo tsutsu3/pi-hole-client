@@ -1,3 +1,21 @@
+/// Http methods
+enum HttpMethod {
+  //0: Get
+  get,
+
+  //1: Post
+  post,
+
+  //2: Put
+  put,
+
+  //3: Patch
+  patch,
+
+  //4: Delete
+  delete,
+}
+
 enum LoadStatus { loading, loaded, error }
 
 /// Lists status (Supscription status)
@@ -15,7 +33,7 @@ enum ListsStatus {
   unavailableCached,
 
   /// 4: List unavailable, there is no local copy of this list available (replace list)
-  unavailableNoCache;
+  unavailableNoCache,
 }
 
 /// Gravity Status
@@ -40,6 +58,15 @@ enum DomainType {
 
   /// 1: Deny
   deny,
+}
+
+/// List type
+enum ListType {
+  /// 0: Allow
+  allow,
+
+  /// 1: Deny
+  block,
 }
 
 /// Domain kind

@@ -13,25 +13,26 @@ part of 'messages.dart';
 T _$identity<T>(T value) => value;
 
 /// @nodoc
-mixin _$Messages {
+mixin _$InfoMessages {
   List<Message> get messages;
   double get took;
 
-  /// Create a copy of Messages
+  /// Create a copy of InfoMessages
   /// with the given fields replaced by the non-null parameter values.
   @JsonKey(includeFromJson: false, includeToJson: false)
   @pragma('vm:prefer-inline')
-  $MessagesCopyWith<Messages> get copyWith =>
-      _$MessagesCopyWithImpl<Messages>(this as Messages, _$identity);
+  $InfoMessagesCopyWith<InfoMessages> get copyWith =>
+      _$InfoMessagesCopyWithImpl<InfoMessages>(
+          this as InfoMessages, _$identity);
 
-  /// Serializes this Messages to a JSON map.
+  /// Serializes this InfoMessages to a JSON map.
   Map<String, dynamic> toJson();
 
   @override
   bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is Messages &&
+            other is InfoMessages &&
             const DeepCollectionEquality().equals(other.messages, messages) &&
             (identical(other.took, took) || other.took == took));
   }
@@ -43,26 +44,27 @@ mixin _$Messages {
 
   @override
   String toString() {
-    return 'Messages(messages: $messages, took: $took)';
+    return 'InfoMessages(messages: $messages, took: $took)';
   }
 }
 
 /// @nodoc
-abstract mixin class $MessagesCopyWith<$Res> {
-  factory $MessagesCopyWith(Messages value, $Res Function(Messages) _then) =
-      _$MessagesCopyWithImpl;
+abstract mixin class $InfoMessagesCopyWith<$Res> {
+  factory $InfoMessagesCopyWith(
+          InfoMessages value, $Res Function(InfoMessages) _then) =
+      _$InfoMessagesCopyWithImpl;
   @useResult
   $Res call({List<Message> messages, double took});
 }
 
 /// @nodoc
-class _$MessagesCopyWithImpl<$Res> implements $MessagesCopyWith<$Res> {
-  _$MessagesCopyWithImpl(this._self, this._then);
+class _$InfoMessagesCopyWithImpl<$Res> implements $InfoMessagesCopyWith<$Res> {
+  _$InfoMessagesCopyWithImpl(this._self, this._then);
 
-  final Messages _self;
-  final $Res Function(Messages) _then;
+  final InfoMessages _self;
+  final $Res Function(InfoMessages) _then;
 
-  /// Create a copy of Messages
+  /// Create a copy of InfoMessages
   /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
@@ -83,8 +85,8 @@ class _$MessagesCopyWithImpl<$Res> implements $MessagesCopyWith<$Res> {
   }
 }
 
-/// Adds pattern-matching-related methods to [Messages].
-extension MessagesPatterns on Messages {
+/// Adds pattern-matching-related methods to [InfoMessages].
+extension InfoMessagesPatterns on InfoMessages {
   /// A variant of `map` that fallback to returning `orElse`.
   ///
   /// It is equivalent to doing:
@@ -99,12 +101,12 @@ extension MessagesPatterns on Messages {
 
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>(
-    TResult Function(_Messages value)? $default, {
+    TResult Function(_InfoMessages value)? $default, {
     required TResult orElse(),
   }) {
     final _that = this;
     switch (_that) {
-      case _Messages() when $default != null:
+      case _InfoMessages() when $default != null:
         return $default(_that);
       case _:
         return orElse();
@@ -126,11 +128,11 @@ extension MessagesPatterns on Messages {
 
   @optionalTypeArgs
   TResult map<TResult extends Object?>(
-    TResult Function(_Messages value) $default,
+    TResult Function(_InfoMessages value) $default,
   ) {
     final _that = this;
     switch (_that) {
-      case _Messages():
+      case _InfoMessages():
         return $default(_that);
     }
   }
@@ -149,11 +151,11 @@ extension MessagesPatterns on Messages {
 
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>(
-    TResult? Function(_Messages value)? $default,
+    TResult? Function(_InfoMessages value)? $default,
   ) {
     final _that = this;
     switch (_that) {
-      case _Messages() when $default != null:
+      case _InfoMessages() when $default != null:
         return $default(_that);
       case _:
         return null;
@@ -179,7 +181,7 @@ extension MessagesPatterns on Messages {
   }) {
     final _that = this;
     switch (_that) {
-      case _Messages() when $default != null:
+      case _InfoMessages() when $default != null:
         return $default(_that.messages, _that.took);
       case _:
         return orElse();
@@ -205,7 +207,7 @@ extension MessagesPatterns on Messages {
   ) {
     final _that = this;
     switch (_that) {
-      case _Messages():
+      case _InfoMessages():
         return $default(_that.messages, _that.took);
     }
   }
@@ -228,7 +230,7 @@ extension MessagesPatterns on Messages {
   ) {
     final _that = this;
     switch (_that) {
-      case _Messages() when $default != null:
+      case _InfoMessages() when $default != null:
         return $default(_that.messages, _that.took);
       case _:
         return null;
@@ -237,12 +239,14 @@ extension MessagesPatterns on Messages {
 }
 
 /// @nodoc
-@JsonSerializable()
-class _Messages implements Messages {
-  const _Messages({required final List<Message> messages, required this.took})
+
+@JsonSerializable(explicitToJson: true)
+class _InfoMessages implements InfoMessages {
+  const _InfoMessages(
+      {required final List<Message> messages, required this.took})
       : _messages = messages;
-  factory _Messages.fromJson(Map<String, dynamic> json) =>
-      _$MessagesFromJson(json);
+  factory _InfoMessages.fromJson(Map<String, dynamic> json) =>
+      _$InfoMessagesFromJson(json);
 
   final List<Message> _messages;
   @override
@@ -255,17 +259,17 @@ class _Messages implements Messages {
   @override
   final double took;
 
-  /// Create a copy of Messages
+  /// Create a copy of InfoMessages
   /// with the given fields replaced by the non-null parameter values.
   @override
   @JsonKey(includeFromJson: false, includeToJson: false)
   @pragma('vm:prefer-inline')
-  _$MessagesCopyWith<_Messages> get copyWith =>
-      __$MessagesCopyWithImpl<_Messages>(this, _$identity);
+  _$InfoMessagesCopyWith<_InfoMessages> get copyWith =>
+      __$InfoMessagesCopyWithImpl<_InfoMessages>(this, _$identity);
 
   @override
   Map<String, dynamic> toJson() {
-    return _$MessagesToJson(
+    return _$InfoMessagesToJson(
       this,
     );
   }
@@ -274,7 +278,7 @@ class _Messages implements Messages {
   bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _Messages &&
+            other is _InfoMessages &&
             const DeepCollectionEquality().equals(other._messages, _messages) &&
             (identical(other.took, took) || other.took == took));
   }
@@ -286,28 +290,30 @@ class _Messages implements Messages {
 
   @override
   String toString() {
-    return 'Messages(messages: $messages, took: $took)';
+    return 'InfoMessages(messages: $messages, took: $took)';
   }
 }
 
 /// @nodoc
-abstract mixin class _$MessagesCopyWith<$Res>
-    implements $MessagesCopyWith<$Res> {
-  factory _$MessagesCopyWith(_Messages value, $Res Function(_Messages) _then) =
-      __$MessagesCopyWithImpl;
+abstract mixin class _$InfoMessagesCopyWith<$Res>
+    implements $InfoMessagesCopyWith<$Res> {
+  factory _$InfoMessagesCopyWith(
+          _InfoMessages value, $Res Function(_InfoMessages) _then) =
+      __$InfoMessagesCopyWithImpl;
   @override
   @useResult
   $Res call({List<Message> messages, double took});
 }
 
 /// @nodoc
-class __$MessagesCopyWithImpl<$Res> implements _$MessagesCopyWith<$Res> {
-  __$MessagesCopyWithImpl(this._self, this._then);
+class __$InfoMessagesCopyWithImpl<$Res>
+    implements _$InfoMessagesCopyWith<$Res> {
+  __$InfoMessagesCopyWithImpl(this._self, this._then);
 
-  final _Messages _self;
-  final $Res Function(_Messages) _then;
+  final _InfoMessages _self;
+  final $Res Function(_InfoMessages) _then;
 
-  /// Create a copy of Messages
+  /// Create a copy of InfoMessages
   /// with the given fields replaced by the non-null parameter values.
   @override
   @pragma('vm:prefer-inline')
@@ -315,7 +321,7 @@ class __$MessagesCopyWithImpl<$Res> implements _$MessagesCopyWith<$Res> {
     Object? messages = null,
     Object? took = null,
   }) {
-    return _then(_Messages(
+    return _then(_InfoMessages(
       messages: null == messages
           ? _self._messages
           : messages // ignore: cast_nullable_to_non_nullable

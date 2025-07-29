@@ -237,7 +237,8 @@ extension DevicesPatterns on Devices {
 }
 
 /// @nodoc
-@JsonSerializable()
+
+@JsonSerializable(explicitToJson: true)
 class _Devices implements Devices {
   const _Devices({required final List<DeviceData> devices, required this.took})
       : _devices = devices;
@@ -667,7 +668,8 @@ extension DeviceDataPatterns on DeviceData {
 }
 
 /// @nodoc
-@JsonSerializable()
+
+@JsonSerializable(explicitToJson: true)
 class _DeviceData implements DeviceData {
   const _DeviceData(
       {required this.id,

@@ -6,13 +6,14 @@ part of 'system.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-_System _$SystemFromJson(Map<String, dynamic> json) => _System(
+_InfoSystem _$InfoSystemFromJson(Map<String, dynamic> json) => _InfoSystem(
       system: SystemData.fromJson(json['system'] as Map<String, dynamic>),
       took: (json['took'] as num).toDouble(),
     );
 
-Map<String, dynamic> _$SystemToJson(_System instance) => <String, dynamic>{
-      'system': instance.system,
+Map<String, dynamic> _$InfoSystemToJson(_InfoSystem instance) =>
+    <String, dynamic>{
+      'system': instance.system.toJson(),
       'took': instance.took,
     };
 
@@ -26,9 +27,9 @@ _SystemData _$SystemDataFromJson(Map<String, dynamic> json) => _SystemData(
 Map<String, dynamic> _$SystemDataToJson(_SystemData instance) =>
     <String, dynamic>{
       'uptime': instance.uptime,
-      'memory': instance.memory,
+      'memory': instance.memory.toJson(),
       'procs': instance.procs,
-      'cpu': instance.cpu,
+      'cpu': instance.cpu.toJson(),
     };
 
 _Memory _$MemoryFromJson(Map<String, dynamic> json) => _Memory(
@@ -37,8 +38,8 @@ _Memory _$MemoryFromJson(Map<String, dynamic> json) => _Memory(
     );
 
 Map<String, dynamic> _$MemoryToJson(_Memory instance) => <String, dynamic>{
-      'ram': instance.ram,
-      'swap': instance.swap,
+      'ram': instance.ram.toJson(),
+      'swap': instance.swap.toJson(),
     };
 
 _RAM _$RAMFromJson(Map<String, dynamic> json) => _RAM(
@@ -79,7 +80,7 @@ _CPU _$CPUFromJson(Map<String, dynamic> json) => _CPU(
 
 Map<String, dynamic> _$CPUToJson(_CPU instance) => <String, dynamic>{
       'nprocs': instance.nprocs,
-      'load': instance.load,
+      'load': instance.load.toJson(),
       '%cpu': instance.percentCpu,
     };
 

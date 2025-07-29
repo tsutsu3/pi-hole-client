@@ -10,7 +10,7 @@ _Config _$ConfigFromJson(Map<String, dynamic> json) => _Config(
       config: json['config'] == null
           ? null
           : ConfigData.fromJson(json['config'] as Map<String, dynamic>),
-      took: (json['took'] as num?)?.toInt(),
+      took: (json['took'] as num?)?.toDouble(),
     );
 
 Map<String, dynamic> _$ConfigToJson(_Config instance) => <String, dynamic>{
@@ -596,7 +596,7 @@ _Debug _$DebugFromJson(Map<String, dynamic> json) => _Debug(
       aliasclients: json['aliasclients'] as bool?,
       events: json['events'] as bool?,
       helper: json['helper'] as bool?,
-      configData: json['ConfigData'] as bool?,
+      config: json['config'] as bool?,
       inotify: json['inotify'] as bool?,
       webserver: json['webserver'] as bool?,
       extra: json['extra'] as bool?,
@@ -629,7 +629,7 @@ Map<String, dynamic> _$DebugToJson(_Debug instance) => <String, dynamic>{
       if (instance.aliasclients case final value?) 'aliasclients': value,
       if (instance.events case final value?) 'events': value,
       if (instance.helper case final value?) 'helper': value,
-      if (instance.configData case final value?) 'ConfigData': value,
+      if (instance.config case final value?) 'config': value,
       if (instance.inotify case final value?) 'inotify': value,
       if (instance.webserver case final value?) 'webserver': value,
       if (instance.extra case final value?) 'extra': value,

@@ -115,25 +115,25 @@ class DomainResult {
     );
   }
 
-  /// Converts a [v6.AddDomains] object to a [DomainResult] object.
+  /// Converts a [v6.Domains] object to a [DomainResult] object.
   ///
-  /// Warning: This method assumes that the [v6.AddDomains] object has exactly 1 domain.
-  factory DomainResult.fromV6(v6.AddDomains domains) {
-    if (domains.domains.length != 1) {
+  /// Warning: This method assumes that the [v6.Domains] object has exactly 1 domain.
+  factory DomainResult.fromV6(v6.Domains domains) {
+    if (domains.domains.length != 1 || domains.processed == null) {
       throw ArgumentError('domains must have exactly 1 item');
     }
 
-    if (domains.processed.success.isNotEmpty) {
+    if (domains.processed!.success.isNotEmpty) {
       return DomainResult(
         success: true,
-        message: 'Added ${domains.processed.success[0].item}',
+        message: 'Added ${domains.processed!.success[0].item}',
       );
     }
 
-    if (domains.processed.errors.isNotEmpty) {
+    if (domains.processed!.errors.isNotEmpty) {
       return DomainResult(
         success: false,
-        message: domains.processed.errors[0].error,
+        message: domains.processed!.errors[0].error,
       );
     }
 

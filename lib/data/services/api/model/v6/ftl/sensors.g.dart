@@ -6,13 +6,14 @@ part of 'sensors.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-_Sensors _$SensorsFromJson(Map<String, dynamic> json) => _Sensors(
+_InfoSensors _$InfoSensorsFromJson(Map<String, dynamic> json) => _InfoSensors(
       sensors: SensorsData.fromJson(json['sensors'] as Map<String, dynamic>),
       took: (json['took'] as num).toDouble(),
     );
 
-Map<String, dynamic> _$SensorsToJson(_Sensors instance) => <String, dynamic>{
-      'sensors': instance.sensors,
+Map<String, dynamic> _$InfoSensorsToJson(_InfoSensors instance) =>
+    <String, dynamic>{
+      'sensors': instance.sensors.toJson(),
       'took': instance.took,
     };
 
@@ -27,7 +28,7 @@ _SensorsData _$SensorsDataFromJson(Map<String, dynamic> json) => _SensorsData(
 
 Map<String, dynamic> _$SensorsDataToJson(_SensorsData instance) =>
     <String, dynamic>{
-      'list': instance.list,
+      'list': instance.list.map((e) => e.toJson()).toList(),
       'cpu_temp': instance.cpuTemp,
       'hot_limit': instance.hotLimit,
       'unit': instance.unit,
@@ -47,7 +48,7 @@ Map<String, dynamic> _$SensorDataToJson(_SensorData instance) =>
       'name': instance.name,
       'path': instance.path,
       'source': instance.source,
-      'temps': instance.temps,
+      'temps': instance.temps.map((e) => e.toJson()).toList(),
     };
 
 _TempData _$TempDataFromJson(Map<String, dynamic> json) => _TempData(

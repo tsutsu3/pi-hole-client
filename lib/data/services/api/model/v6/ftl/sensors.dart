@@ -4,18 +4,20 @@ part 'sensors.freezed.dart';
 part 'sensors.g.dart';
 
 @freezed
-sealed class Sensors with _$Sensors {
-  const factory Sensors({
+sealed class InfoSensors with _$InfoSensors {
+  @JsonSerializable(explicitToJson: true)
+  const factory InfoSensors({
     required SensorsData sensors,
     required double took,
-  }) = _Sensors;
+  }) = _InfoSensors;
 
-  factory Sensors.fromJson(Map<String, dynamic> json) =>
-      _$SensorsFromJson(json);
+  factory InfoSensors.fromJson(Map<String, dynamic> json) =>
+      _$InfoSensorsFromJson(json);
 }
 
 @freezed
 sealed class SensorsData with _$SensorsData {
+  @JsonSerializable(explicitToJson: true)
   const factory SensorsData({
     required List<SensorData> list,
     @JsonKey(name: 'cpu_temp') required double? cpuTemp,
@@ -29,6 +31,7 @@ sealed class SensorsData with _$SensorsData {
 
 @freezed
 sealed class SensorData with _$SensorData {
+  @JsonSerializable(explicitToJson: true)
   const factory SensorData({
     required String? name,
     required String path,

@@ -16,9 +16,9 @@ _StatsSummary _$StatsSummaryFromJson(Map<String, dynamic> json) =>
 
 Map<String, dynamic> _$StatsSummaryToJson(_StatsSummary instance) =>
     <String, dynamic>{
-      'queries': instance.queries,
-      'clients': instance.clients,
-      'gravity': instance.gravity,
+      'queries': instance.queries.toJson(),
+      'clients': instance.clients.toJson(),
+      'gravity': instance.gravity.toJson(),
       'took': instance.took,
     };
 
@@ -41,9 +41,9 @@ Map<String, dynamic> _$QueriesToJson(_Queries instance) => <String, dynamic>{
       'unique_domains': instance.uniqueDomains,
       'forwarded': instance.forwarded,
       'cached': instance.cached,
-      'types': instance.types,
-      'status': instance.status,
-      'replies': instance.replies,
+      'types': instance.types.toJson(),
+      'status': instance.status.toJson(),
+      'replies': instance.replies.toJson(),
     };
 
 _Types _$TypesFromJson(Map<String, dynamic> json) => _Types(
@@ -192,7 +192,7 @@ _StatsTopDomains _$StatsTopDomainsFromJson(Map<String, dynamic> json) =>
 
 Map<String, dynamic> _$StatsTopDomainsToJson(_StatsTopDomains instance) =>
     <String, dynamic>{
-      'domains': instance.domains,
+      'domains': instance.domains.map((e) => e.toJson()).toList(),
       'total_queries': instance.totalQueries,
       'blocked_queries': instance.blockedQueries,
       'took': instance.took,
@@ -220,7 +220,7 @@ _StatsTopClients _$StatsTopClientsFromJson(Map<String, dynamic> json) =>
 
 Map<String, dynamic> _$StatsTopClientsToJson(_StatsTopClients instance) =>
     <String, dynamic>{
-      'clients': instance.clients,
+      'clients': instance.clients.map((e) => e.toJson()).toList(),
       'total_queries': instance.totalQueries,
       'blocked_queries': instance.blockedQueries,
       'took': instance.took,
@@ -250,7 +250,7 @@ _StatsUpstreams _$StatsUpstreamsFromJson(Map<String, dynamic> json) =>
 
 Map<String, dynamic> _$StatsUpstreamsToJson(_StatsUpstreams instance) =>
     <String, dynamic>{
-      'upstreams': instance.upstreams,
+      'upstreams': instance.upstreams.map((e) => e.toJson()).toList(),
       'forwarded_queries': instance.forwardedQueries,
       'total_queries': instance.totalQueries,
       'took': instance.took,
@@ -270,7 +270,7 @@ Map<String, dynamic> _$UpstreamToJson(_Upstream instance) => <String, dynamic>{
       'name': instance.name,
       'port': instance.port,
       'count': instance.count,
-      'statistics': instance.statistics,
+      'statistics': instance.statistics.toJson(),
     };
 
 _Statistics _$StatisticsFromJson(Map<String, dynamic> json) => _Statistics(

@@ -13,25 +13,25 @@ part of 'system.dart';
 T _$identity<T>(T value) => value;
 
 /// @nodoc
-mixin _$System {
+mixin _$InfoSystem {
   SystemData get system;
   double get took;
 
-  /// Create a copy of System
+  /// Create a copy of InfoSystem
   /// with the given fields replaced by the non-null parameter values.
   @JsonKey(includeFromJson: false, includeToJson: false)
   @pragma('vm:prefer-inline')
-  $SystemCopyWith<System> get copyWith =>
-      _$SystemCopyWithImpl<System>(this as System, _$identity);
+  $InfoSystemCopyWith<InfoSystem> get copyWith =>
+      _$InfoSystemCopyWithImpl<InfoSystem>(this as InfoSystem, _$identity);
 
-  /// Serializes this System to a JSON map.
+  /// Serializes this InfoSystem to a JSON map.
   Map<String, dynamic> toJson();
 
   @override
   bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is System &&
+            other is InfoSystem &&
             (identical(other.system, system) || other.system == system) &&
             (identical(other.took, took) || other.took == took));
   }
@@ -42,14 +42,15 @@ mixin _$System {
 
   @override
   String toString() {
-    return 'System(system: $system, took: $took)';
+    return 'InfoSystem(system: $system, took: $took)';
   }
 }
 
 /// @nodoc
-abstract mixin class $SystemCopyWith<$Res> {
-  factory $SystemCopyWith(System value, $Res Function(System) _then) =
-      _$SystemCopyWithImpl;
+abstract mixin class $InfoSystemCopyWith<$Res> {
+  factory $InfoSystemCopyWith(
+          InfoSystem value, $Res Function(InfoSystem) _then) =
+      _$InfoSystemCopyWithImpl;
   @useResult
   $Res call({SystemData system, double took});
 
@@ -57,13 +58,13 @@ abstract mixin class $SystemCopyWith<$Res> {
 }
 
 /// @nodoc
-class _$SystemCopyWithImpl<$Res> implements $SystemCopyWith<$Res> {
-  _$SystemCopyWithImpl(this._self, this._then);
+class _$InfoSystemCopyWithImpl<$Res> implements $InfoSystemCopyWith<$Res> {
+  _$InfoSystemCopyWithImpl(this._self, this._then);
 
-  final System _self;
-  final $Res Function(System) _then;
+  final InfoSystem _self;
+  final $Res Function(InfoSystem) _then;
 
-  /// Create a copy of System
+  /// Create a copy of InfoSystem
   /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
@@ -83,7 +84,7 @@ class _$SystemCopyWithImpl<$Res> implements $SystemCopyWith<$Res> {
     ));
   }
 
-  /// Create a copy of System
+  /// Create a copy of InfoSystem
   /// with the given fields replaced by the non-null parameter values.
   @override
   @pragma('vm:prefer-inline')
@@ -94,8 +95,8 @@ class _$SystemCopyWithImpl<$Res> implements $SystemCopyWith<$Res> {
   }
 }
 
-/// Adds pattern-matching-related methods to [System].
-extension SystemPatterns on System {
+/// Adds pattern-matching-related methods to [InfoSystem].
+extension InfoSystemPatterns on InfoSystem {
   /// A variant of `map` that fallback to returning `orElse`.
   ///
   /// It is equivalent to doing:
@@ -110,12 +111,12 @@ extension SystemPatterns on System {
 
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>(
-    TResult Function(_System value)? $default, {
+    TResult Function(_InfoSystem value)? $default, {
     required TResult orElse(),
   }) {
     final _that = this;
     switch (_that) {
-      case _System() when $default != null:
+      case _InfoSystem() when $default != null:
         return $default(_that);
       case _:
         return orElse();
@@ -137,11 +138,11 @@ extension SystemPatterns on System {
 
   @optionalTypeArgs
   TResult map<TResult extends Object?>(
-    TResult Function(_System value) $default,
+    TResult Function(_InfoSystem value) $default,
   ) {
     final _that = this;
     switch (_that) {
-      case _System():
+      case _InfoSystem():
         return $default(_that);
     }
   }
@@ -160,11 +161,11 @@ extension SystemPatterns on System {
 
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>(
-    TResult? Function(_System value)? $default,
+    TResult? Function(_InfoSystem value)? $default,
   ) {
     final _that = this;
     switch (_that) {
-      case _System() when $default != null:
+      case _InfoSystem() when $default != null:
         return $default(_that);
       case _:
         return null;
@@ -190,7 +191,7 @@ extension SystemPatterns on System {
   }) {
     final _that = this;
     switch (_that) {
-      case _System() when $default != null:
+      case _InfoSystem() when $default != null:
         return $default(_that.system, _that.took);
       case _:
         return orElse();
@@ -216,7 +217,7 @@ extension SystemPatterns on System {
   ) {
     final _that = this;
     switch (_that) {
-      case _System():
+      case _InfoSystem():
         return $default(_that.system, _that.took);
     }
   }
@@ -239,7 +240,7 @@ extension SystemPatterns on System {
   ) {
     final _that = this;
     switch (_that) {
-      case _System() when $default != null:
+      case _InfoSystem() when $default != null:
         return $default(_that.system, _that.took);
       case _:
         return null;
@@ -248,27 +249,29 @@ extension SystemPatterns on System {
 }
 
 /// @nodoc
-@JsonSerializable()
-class _System implements System {
-  const _System({required this.system, required this.took});
-  factory _System.fromJson(Map<String, dynamic> json) => _$SystemFromJson(json);
+
+@JsonSerializable(explicitToJson: true)
+class _InfoSystem implements InfoSystem {
+  const _InfoSystem({required this.system, required this.took});
+  factory _InfoSystem.fromJson(Map<String, dynamic> json) =>
+      _$InfoSystemFromJson(json);
 
   @override
   final SystemData system;
   @override
   final double took;
 
-  /// Create a copy of System
+  /// Create a copy of InfoSystem
   /// with the given fields replaced by the non-null parameter values.
   @override
   @JsonKey(includeFromJson: false, includeToJson: false)
   @pragma('vm:prefer-inline')
-  _$SystemCopyWith<_System> get copyWith =>
-      __$SystemCopyWithImpl<_System>(this, _$identity);
+  _$InfoSystemCopyWith<_InfoSystem> get copyWith =>
+      __$InfoSystemCopyWithImpl<_InfoSystem>(this, _$identity);
 
   @override
   Map<String, dynamic> toJson() {
-    return _$SystemToJson(
+    return _$InfoSystemToJson(
       this,
     );
   }
@@ -277,7 +280,7 @@ class _System implements System {
   bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _System &&
+            other is _InfoSystem &&
             (identical(other.system, system) || other.system == system) &&
             (identical(other.took, took) || other.took == took));
   }
@@ -288,14 +291,16 @@ class _System implements System {
 
   @override
   String toString() {
-    return 'System(system: $system, took: $took)';
+    return 'InfoSystem(system: $system, took: $took)';
   }
 }
 
 /// @nodoc
-abstract mixin class _$SystemCopyWith<$Res> implements $SystemCopyWith<$Res> {
-  factory _$SystemCopyWith(_System value, $Res Function(_System) _then) =
-      __$SystemCopyWithImpl;
+abstract mixin class _$InfoSystemCopyWith<$Res>
+    implements $InfoSystemCopyWith<$Res> {
+  factory _$InfoSystemCopyWith(
+          _InfoSystem value, $Res Function(_InfoSystem) _then) =
+      __$InfoSystemCopyWithImpl;
   @override
   @useResult
   $Res call({SystemData system, double took});
@@ -305,13 +310,13 @@ abstract mixin class _$SystemCopyWith<$Res> implements $SystemCopyWith<$Res> {
 }
 
 /// @nodoc
-class __$SystemCopyWithImpl<$Res> implements _$SystemCopyWith<$Res> {
-  __$SystemCopyWithImpl(this._self, this._then);
+class __$InfoSystemCopyWithImpl<$Res> implements _$InfoSystemCopyWith<$Res> {
+  __$InfoSystemCopyWithImpl(this._self, this._then);
 
-  final _System _self;
-  final $Res Function(_System) _then;
+  final _InfoSystem _self;
+  final $Res Function(_InfoSystem) _then;
 
-  /// Create a copy of System
+  /// Create a copy of InfoSystem
   /// with the given fields replaced by the non-null parameter values.
   @override
   @pragma('vm:prefer-inline')
@@ -319,7 +324,7 @@ class __$SystemCopyWithImpl<$Res> implements _$SystemCopyWith<$Res> {
     Object? system = null,
     Object? took = null,
   }) {
-    return _then(_System(
+    return _then(_InfoSystem(
       system: null == system
           ? _self.system
           : system // ignore: cast_nullable_to_non_nullable
@@ -331,7 +336,7 @@ class __$SystemCopyWithImpl<$Res> implements _$SystemCopyWith<$Res> {
     ));
   }
 
-  /// Create a copy of System
+  /// Create a copy of InfoSystem
   /// with the given fields replaced by the non-null parameter values.
   @override
   @pragma('vm:prefer-inline')
@@ -604,7 +609,8 @@ extension SystemDataPatterns on SystemData {
 }
 
 /// @nodoc
-@JsonSerializable()
+
+@JsonSerializable(explicitToJson: true)
 class _SystemData implements SystemData {
   const _SystemData(
       {required this.uptime,
@@ -980,7 +986,8 @@ extension MemoryPatterns on Memory {
 }
 
 /// @nodoc
-@JsonSerializable()
+
+@JsonSerializable(explicitToJson: true)
 class _Memory implements Memory {
   const _Memory({required this.ram, required this.swap});
   factory _Memory.fromJson(Map<String, dynamic> json) => _$MemoryFromJson(json);
@@ -2074,7 +2081,8 @@ extension CPUPatterns on CPU {
 }
 
 /// @nodoc
-@JsonSerializable()
+
+@JsonSerializable(explicitToJson: true)
 class _CPU implements CPU {
   const _CPU(
       {required this.nprocs,

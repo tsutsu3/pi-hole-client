@@ -237,7 +237,8 @@ extension HistoryPatterns on History {
 }
 
 /// @nodoc
-@JsonSerializable()
+
+@JsonSerializable(explicitToJson: true)
 class _History implements History {
   const _History({required final List<HistoryData> history, required this.took})
       : _history = history;
@@ -948,7 +949,8 @@ extension HistoryClientsPatterns on HistoryClients {
 }
 
 /// @nodoc
-@JsonSerializable()
+
+@JsonSerializable(explicitToJson: true)
 class _HistoryClients implements HistoryClients {
   const _HistoryClients(
       {required final Map<String, Client> clients,

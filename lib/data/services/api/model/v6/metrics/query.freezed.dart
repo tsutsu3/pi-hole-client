@@ -288,7 +288,8 @@ extension QueriesPatterns on Queries {
 }
 
 /// @nodoc
-@JsonSerializable()
+
+@JsonSerializable(explicitToJson: true)
 class _Queries implements Queries {
   const _Queries(
       {required final List<Query> queries,
@@ -438,6 +439,7 @@ mixin _$Query {
   String get domain;
   Client get client;
   Reply get reply;
+  Ede get ede;
   String? get cname;
   String? get status;
   String? get dnssec;
@@ -466,6 +468,7 @@ mixin _$Query {
             (identical(other.domain, domain) || other.domain == domain) &&
             (identical(other.client, client) || other.client == client) &&
             (identical(other.reply, reply) || other.reply == reply) &&
+            (identical(other.ede, ede) || other.ede == ede) &&
             (identical(other.cname, cname) || other.cname == cname) &&
             (identical(other.status, status) || other.status == status) &&
             (identical(other.dnssec, dnssec) || other.dnssec == dnssec) &&
@@ -477,11 +480,11 @@ mixin _$Query {
   @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode => Object.hash(runtimeType, id, time, type, domain, client,
-      reply, cname, status, dnssec, listId, upstream);
+      reply, ede, cname, status, dnssec, listId, upstream);
 
   @override
   String toString() {
-    return 'Query(id: $id, time: $time, type: $type, domain: $domain, client: $client, reply: $reply, cname: $cname, status: $status, dnssec: $dnssec, listId: $listId, upstream: $upstream)';
+    return 'Query(id: $id, time: $time, type: $type, domain: $domain, client: $client, reply: $reply, ede: $ede, cname: $cname, status: $status, dnssec: $dnssec, listId: $listId, upstream: $upstream)';
   }
 }
 
@@ -497,6 +500,7 @@ abstract mixin class $QueryCopyWith<$Res> {
       String domain,
       Client client,
       Reply reply,
+      Ede ede,
       String? cname,
       String? status,
       String? dnssec,
@@ -505,6 +509,7 @@ abstract mixin class $QueryCopyWith<$Res> {
 
   $ClientCopyWith<$Res> get client;
   $ReplyCopyWith<$Res> get reply;
+  $EdeCopyWith<$Res> get ede;
 }
 
 /// @nodoc
@@ -525,6 +530,7 @@ class _$QueryCopyWithImpl<$Res> implements $QueryCopyWith<$Res> {
     Object? domain = null,
     Object? client = null,
     Object? reply = null,
+    Object? ede = null,
     Object? cname = freezed,
     Object? status = freezed,
     Object? dnssec = freezed,
@@ -556,6 +562,10 @@ class _$QueryCopyWithImpl<$Res> implements $QueryCopyWith<$Res> {
           ? _self.reply
           : reply // ignore: cast_nullable_to_non_nullable
               as Reply,
+      ede: null == ede
+          ? _self.ede
+          : ede // ignore: cast_nullable_to_non_nullable
+              as Ede,
       cname: freezed == cname
           ? _self.cname
           : cname // ignore: cast_nullable_to_non_nullable
@@ -596,6 +606,16 @@ class _$QueryCopyWithImpl<$Res> implements $QueryCopyWith<$Res> {
   $ReplyCopyWith<$Res> get reply {
     return $ReplyCopyWith<$Res>(_self.reply, (value) {
       return _then(_self.copyWith(reply: value));
+    });
+  }
+
+  /// Create a copy of Query
+  /// with the given fields replaced by the non-null parameter values.
+  @override
+  @pragma('vm:prefer-inline')
+  $EdeCopyWith<$Res> get ede {
+    return $EdeCopyWith<$Res>(_self.ede, (value) {
+      return _then(_self.copyWith(ede: value));
     });
   }
 }
@@ -698,6 +718,7 @@ extension QueryPatterns on Query {
             String domain,
             Client client,
             Reply reply,
+            Ede ede,
             String? cname,
             String? status,
             String? dnssec,
@@ -716,6 +737,7 @@ extension QueryPatterns on Query {
             _that.domain,
             _that.client,
             _that.reply,
+            _that.ede,
             _that.cname,
             _that.status,
             _that.dnssec,
@@ -748,6 +770,7 @@ extension QueryPatterns on Query {
             String domain,
             Client client,
             Reply reply,
+            Ede ede,
             String? cname,
             String? status,
             String? dnssec,
@@ -765,6 +788,7 @@ extension QueryPatterns on Query {
             _that.domain,
             _that.client,
             _that.reply,
+            _that.ede,
             _that.cname,
             _that.status,
             _that.dnssec,
@@ -794,6 +818,7 @@ extension QueryPatterns on Query {
             String domain,
             Client client,
             Reply reply,
+            Ede ede,
             String? cname,
             String? status,
             String? dnssec,
@@ -811,6 +836,7 @@ extension QueryPatterns on Query {
             _that.domain,
             _that.client,
             _that.reply,
+            _that.ede,
             _that.cname,
             _that.status,
             _that.dnssec,
@@ -823,7 +849,8 @@ extension QueryPatterns on Query {
 }
 
 /// @nodoc
-@JsonSerializable()
+
+@JsonSerializable(explicitToJson: true)
 class _Query implements Query {
   const _Query(
       {required this.id,
@@ -832,6 +859,7 @@ class _Query implements Query {
       required this.domain,
       required this.client,
       required this.reply,
+      required this.ede,
       this.cname,
       this.status,
       this.dnssec,
@@ -851,6 +879,8 @@ class _Query implements Query {
   final Client client;
   @override
   final Reply reply;
+  @override
+  final Ede ede;
   @override
   final String? cname;
   @override
@@ -889,6 +919,7 @@ class _Query implements Query {
             (identical(other.domain, domain) || other.domain == domain) &&
             (identical(other.client, client) || other.client == client) &&
             (identical(other.reply, reply) || other.reply == reply) &&
+            (identical(other.ede, ede) || other.ede == ede) &&
             (identical(other.cname, cname) || other.cname == cname) &&
             (identical(other.status, status) || other.status == status) &&
             (identical(other.dnssec, dnssec) || other.dnssec == dnssec) &&
@@ -900,11 +931,11 @@ class _Query implements Query {
   @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode => Object.hash(runtimeType, id, time, type, domain, client,
-      reply, cname, status, dnssec, listId, upstream);
+      reply, ede, cname, status, dnssec, listId, upstream);
 
   @override
   String toString() {
-    return 'Query(id: $id, time: $time, type: $type, domain: $domain, client: $client, reply: $reply, cname: $cname, status: $status, dnssec: $dnssec, listId: $listId, upstream: $upstream)';
+    return 'Query(id: $id, time: $time, type: $type, domain: $domain, client: $client, reply: $reply, ede: $ede, cname: $cname, status: $status, dnssec: $dnssec, listId: $listId, upstream: $upstream)';
   }
 }
 
@@ -921,6 +952,7 @@ abstract mixin class _$QueryCopyWith<$Res> implements $QueryCopyWith<$Res> {
       String domain,
       Client client,
       Reply reply,
+      Ede ede,
       String? cname,
       String? status,
       String? dnssec,
@@ -931,6 +963,8 @@ abstract mixin class _$QueryCopyWith<$Res> implements $QueryCopyWith<$Res> {
   $ClientCopyWith<$Res> get client;
   @override
   $ReplyCopyWith<$Res> get reply;
+  @override
+  $EdeCopyWith<$Res> get ede;
 }
 
 /// @nodoc
@@ -951,6 +985,7 @@ class __$QueryCopyWithImpl<$Res> implements _$QueryCopyWith<$Res> {
     Object? domain = null,
     Object? client = null,
     Object? reply = null,
+    Object? ede = null,
     Object? cname = freezed,
     Object? status = freezed,
     Object? dnssec = freezed,
@@ -982,6 +1017,10 @@ class __$QueryCopyWithImpl<$Res> implements _$QueryCopyWith<$Res> {
           ? _self.reply
           : reply // ignore: cast_nullable_to_non_nullable
               as Reply,
+      ede: null == ede
+          ? _self.ede
+          : ede // ignore: cast_nullable_to_non_nullable
+              as Ede,
       cname: freezed == cname
           ? _self.cname
           : cname // ignore: cast_nullable_to_non_nullable
@@ -1022,6 +1061,16 @@ class __$QueryCopyWithImpl<$Res> implements _$QueryCopyWith<$Res> {
   $ReplyCopyWith<$Res> get reply {
     return $ReplyCopyWith<$Res>(_self.reply, (value) {
       return _then(_self.copyWith(reply: value));
+    });
+  }
+
+  /// Create a copy of Query
+  /// with the given fields replaced by the non-null parameter values.
+  @override
+  @pragma('vm:prefer-inline')
+  $EdeCopyWith<$Res> get ede {
+    return $EdeCopyWith<$Res>(_self.ede, (value) {
+      return _then(_self.copyWith(ede: value));
     });
   }
 }
@@ -1631,6 +1680,310 @@ class __$ReplyCopyWithImpl<$Res> implements _$ReplyCopyWith<$Res> {
       type: freezed == type
           ? _self.type
           : type // ignore: cast_nullable_to_non_nullable
+              as String?,
+    ));
+  }
+}
+
+/// @nodoc
+mixin _$Ede {
+  int get code;
+  String? get text;
+
+  /// Create a copy of Ede
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @pragma('vm:prefer-inline')
+  $EdeCopyWith<Ede> get copyWith =>
+      _$EdeCopyWithImpl<Ede>(this as Ede, _$identity);
+
+  /// Serializes this Ede to a JSON map.
+  Map<String, dynamic> toJson();
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is Ede &&
+            (identical(other.code, code) || other.code == code) &&
+            (identical(other.text, text) || other.text == text));
+  }
+
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @override
+  int get hashCode => Object.hash(runtimeType, code, text);
+
+  @override
+  String toString() {
+    return 'Ede(code: $code, text: $text)';
+  }
+}
+
+/// @nodoc
+abstract mixin class $EdeCopyWith<$Res> {
+  factory $EdeCopyWith(Ede value, $Res Function(Ede) _then) = _$EdeCopyWithImpl;
+  @useResult
+  $Res call({int code, String? text});
+}
+
+/// @nodoc
+class _$EdeCopyWithImpl<$Res> implements $EdeCopyWith<$Res> {
+  _$EdeCopyWithImpl(this._self, this._then);
+
+  final Ede _self;
+  final $Res Function(Ede) _then;
+
+  /// Create a copy of Ede
+  /// with the given fields replaced by the non-null parameter values.
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? code = null,
+    Object? text = freezed,
+  }) {
+    return _then(_self.copyWith(
+      code: null == code
+          ? _self.code
+          : code // ignore: cast_nullable_to_non_nullable
+              as int,
+      text: freezed == text
+          ? _self.text
+          : text // ignore: cast_nullable_to_non_nullable
+              as String?,
+    ));
+  }
+}
+
+/// Adds pattern-matching-related methods to [Ede].
+extension EdePatterns on Ede {
+  /// A variant of `map` that fallback to returning `orElse`.
+  ///
+  /// It is equivalent to doing:
+  /// ```dart
+  /// switch (sealedClass) {
+  ///   case final Subclass value:
+  ///     return ...;
+  ///   case _:
+  ///     return orElse();
+  /// }
+  /// ```
+
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object?>(
+    TResult Function(_Ede value)? $default, {
+    required TResult orElse(),
+  }) {
+    final _that = this;
+    switch (_that) {
+      case _Ede() when $default != null:
+        return $default(_that);
+      case _:
+        return orElse();
+    }
+  }
+
+  /// A `switch`-like method, using callbacks.
+  ///
+  /// Callbacks receives the raw object, upcasted.
+  /// It is equivalent to doing:
+  /// ```dart
+  /// switch (sealedClass) {
+  ///   case final Subclass value:
+  ///     return ...;
+  ///   case final Subclass2 value:
+  ///     return ...;
+  /// }
+  /// ```
+
+  @optionalTypeArgs
+  TResult map<TResult extends Object?>(
+    TResult Function(_Ede value) $default,
+  ) {
+    final _that = this;
+    switch (_that) {
+      case _Ede():
+        return $default(_that);
+    }
+  }
+
+  /// A variant of `map` that fallback to returning `null`.
+  ///
+  /// It is equivalent to doing:
+  /// ```dart
+  /// switch (sealedClass) {
+  ///   case final Subclass value:
+  ///     return ...;
+  ///   case _:
+  ///     return null;
+  /// }
+  /// ```
+
+  @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>(
+    TResult? Function(_Ede value)? $default,
+  ) {
+    final _that = this;
+    switch (_that) {
+      case _Ede() when $default != null:
+        return $default(_that);
+      case _:
+        return null;
+    }
+  }
+
+  /// A variant of `when` that fallback to an `orElse` callback.
+  ///
+  /// It is equivalent to doing:
+  /// ```dart
+  /// switch (sealedClass) {
+  ///   case Subclass(:final field):
+  ///     return ...;
+  ///   case _:
+  ///     return orElse();
+  /// }
+  /// ```
+
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object?>(
+    TResult Function(int code, String? text)? $default, {
+    required TResult orElse(),
+  }) {
+    final _that = this;
+    switch (_that) {
+      case _Ede() when $default != null:
+        return $default(_that.code, _that.text);
+      case _:
+        return orElse();
+    }
+  }
+
+  /// A `switch`-like method, using callbacks.
+  ///
+  /// As opposed to `map`, this offers destructuring.
+  /// It is equivalent to doing:
+  /// ```dart
+  /// switch (sealedClass) {
+  ///   case Subclass(:final field):
+  ///     return ...;
+  ///   case Subclass2(:final field2):
+  ///     return ...;
+  /// }
+  /// ```
+
+  @optionalTypeArgs
+  TResult when<TResult extends Object?>(
+    TResult Function(int code, String? text) $default,
+  ) {
+    final _that = this;
+    switch (_that) {
+      case _Ede():
+        return $default(_that.code, _that.text);
+    }
+  }
+
+  /// A variant of `when` that fallback to returning `null`
+  ///
+  /// It is equivalent to doing:
+  /// ```dart
+  /// switch (sealedClass) {
+  ///   case Subclass(:final field):
+  ///     return ...;
+  ///   case _:
+  ///     return null;
+  /// }
+  /// ```
+
+  @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>(
+    TResult? Function(int code, String? text)? $default,
+  ) {
+    final _that = this;
+    switch (_that) {
+      case _Ede() when $default != null:
+        return $default(_that.code, _that.text);
+      case _:
+        return null;
+    }
+  }
+}
+
+/// @nodoc
+@JsonSerializable()
+class _Ede implements Ede {
+  const _Ede({required this.code, this.text});
+  factory _Ede.fromJson(Map<String, dynamic> json) => _$EdeFromJson(json);
+
+  @override
+  final int code;
+  @override
+  final String? text;
+
+  /// Create a copy of Ede
+  /// with the given fields replaced by the non-null parameter values.
+  @override
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @pragma('vm:prefer-inline')
+  _$EdeCopyWith<_Ede> get copyWith =>
+      __$EdeCopyWithImpl<_Ede>(this, _$identity);
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$EdeToJson(
+      this,
+    );
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _Ede &&
+            (identical(other.code, code) || other.code == code) &&
+            (identical(other.text, text) || other.text == text));
+  }
+
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @override
+  int get hashCode => Object.hash(runtimeType, code, text);
+
+  @override
+  String toString() {
+    return 'Ede(code: $code, text: $text)';
+  }
+}
+
+/// @nodoc
+abstract mixin class _$EdeCopyWith<$Res> implements $EdeCopyWith<$Res> {
+  factory _$EdeCopyWith(_Ede value, $Res Function(_Ede) _then) =
+      __$EdeCopyWithImpl;
+  @override
+  @useResult
+  $Res call({int code, String? text});
+}
+
+/// @nodoc
+class __$EdeCopyWithImpl<$Res> implements _$EdeCopyWith<$Res> {
+  __$EdeCopyWithImpl(this._self, this._then);
+
+  final _Ede _self;
+  final $Res Function(_Ede) _then;
+
+  /// Create a copy of Ede
+  /// with the given fields replaced by the non-null parameter values.
+  @override
+  @pragma('vm:prefer-inline')
+  $Res call({
+    Object? code = null,
+    Object? text = freezed,
+  }) {
+    return _then(_Ede(
+      code: null == code
+          ? _self.code
+          : code // ignore: cast_nullable_to_non_nullable
+              as int,
+      text: freezed == text
+          ? _self.text
+          : text // ignore: cast_nullable_to_non_nullable
               as String?,
     ));
   }

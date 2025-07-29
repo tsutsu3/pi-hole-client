@@ -14,7 +14,7 @@ _Devices _$DevicesFromJson(Map<String, dynamic> json) => _Devices(
     );
 
 Map<String, dynamic> _$DevicesToJson(_Devices instance) => <String, dynamic>{
-      'devices': instance.devices,
+      'devices': instance.devices.map((e) => e.toJson()).toList(),
       'took': instance.took,
     };
 
@@ -39,7 +39,7 @@ Map<String, dynamic> _$DeviceDataToJson(_DeviceData instance) =>
       'firstSeen': instance.firstSeen,
       'lastQuery': instance.lastQuery,
       'numQueries': instance.numQueries,
-      'ips': instance.ips,
+      'ips': instance.ips.map((e) => e.toJson()).toList(),
       'macVendor': instance.macVendor,
     };
 

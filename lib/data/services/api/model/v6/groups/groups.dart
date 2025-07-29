@@ -5,6 +5,7 @@ part 'groups.g.dart';
 
 @freezed
 sealed class Groups with _$Groups {
+  @JsonSerializable(explicitToJson: true)
   const factory Groups({
     required List<Group> groups,
     required double took,
@@ -30,6 +31,7 @@ sealed class Group with _$Group {
 
 @freezed
 sealed class Processed with _$Processed {
+  @JsonSerializable(explicitToJson: true)
   const factory Processed({
     required List<ProcessedSuccess> success,
     required List<ProcessedError> errors,

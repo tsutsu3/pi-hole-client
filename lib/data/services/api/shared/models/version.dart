@@ -17,7 +17,7 @@ class VersionInfo {
     );
   }
 
-  factory VersionInfo.fromV6(Version version) {
+  factory VersionInfo.fromV6(InfoVersion version) {
     return VersionInfo(
       core: ComponentVersion.fromV6(version.version.core),
       web: ComponentVersion.fromV6(version.version.web),

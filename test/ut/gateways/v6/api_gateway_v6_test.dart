@@ -15,17 +15,20 @@ import 'package:pi_hole_client/data/services/api/model/v6/config/config.dart'
     show Config, ConfigData, Dns;
 import 'package:pi_hole_client/data/services/api/model/v6/dhcp/dhcp.dart'
     show Dhcp;
-import 'package:pi_hole_client/data/services/api/model/v6/ftl/client.dart';
+import 'package:pi_hole_client/data/services/api/model/v6/ftl/client.dart'
+    show InfoClient;
 import 'package:pi_hole_client/data/services/api/model/v6/ftl/host.dart'
-    show Host;
-import 'package:pi_hole_client/data/services/api/model/v6/ftl/messages.dart';
-import 'package:pi_hole_client/data/services/api/model/v6/ftl/metrics.dart';
+    show InfoHost;
+import 'package:pi_hole_client/data/services/api/model/v6/ftl/messages.dart'
+    show InfoMessages;
+import 'package:pi_hole_client/data/services/api/model/v6/ftl/metrics.dart'
+    show InfoMetrics;
 import 'package:pi_hole_client/data/services/api/model/v6/ftl/sensors.dart'
-    show Sensors;
+    show InfoSensors;
 import 'package:pi_hole_client/data/services/api/model/v6/ftl/system.dart'
-    show System;
+    show InfoSystem;
 import 'package:pi_hole_client/data/services/api/model/v6/ftl/version.dart'
-    show Version;
+    show InfoVersion;
 import 'package:pi_hole_client/data/services/api/model/v6/groups/groups.dart';
 import 'package:pi_hole_client/data/services/api/model/v6/lists/lists.dart'
     show Lists;
@@ -1346,6 +1349,7 @@ void main() async {
             'list_id': null,
             'upstream': 'localhost#5353',
             'dbid': 112421354,
+            'ede': {'code': 0, 'text': null},
           },
           {
             'id': 2,
@@ -1360,6 +1364,7 @@ void main() async {
             'list_id': null,
             'upstream': 'localhost#5353',
             'dbid': 112421355,
+            'ede': {'code': 0, 'text': null},
           },
         ],
         'cursor': 175881,
@@ -1397,6 +1402,7 @@ void main() async {
             'list_id': null,
             'upstream': 'localhost#5353',
             'dbid': 112421354,
+            'ede': {'code': 0, 'text': null},
           },
           {
             'id': 2,
@@ -1411,6 +1417,7 @@ void main() async {
             'list_id': null,
             'upstream': 'localhost#5353',
             'dbid': 112421355,
+            'ede': {'code': 0, 'text': null},
           },
         ],
         'cursor': 175881,
@@ -1452,6 +1459,7 @@ void main() async {
             'list_id': null,
             'upstream': 'localhost#5353',
             'dbid': 112421354,
+            'ede': {'code': 0, 'text': null},
           },
           {
             'id': 2,
@@ -1466,6 +1474,7 @@ void main() async {
             'list_id': null,
             'upstream': 'localhost#5353',
             'dbid': 112421355,
+            'ede': {'code': 0, 'text': null},
           },
         ],
         'cursor': 175881,
@@ -2149,7 +2158,7 @@ void main() async {
       expect(response.message, null);
       expect(
         response.data?.toJson(),
-        VersionInfo.fromV6(Version.fromJson(data)).toJson(),
+        VersionInfo.fromV6(InfoVersion.fromJson(data)).toJson(),
       );
     });
 
@@ -2212,7 +2221,7 @@ void main() async {
       expect(response.message, null);
       expect(
         response.data?.toJson(),
-        VersionInfo.fromV6(Version.fromJson(dataNoDocker)).toJson(),
+        VersionInfo.fromV6(InfoVersion.fromJson(dataNoDocker)).toJson(),
       );
       expect(response.data?.core.canUpdate, true);
       expect(response.data?.web.canUpdate, true);
@@ -2279,7 +2288,7 @@ void main() async {
       expect(response.message, null);
       expect(
         response.data?.toJson(),
-        HostInfo.fromV6(Host.fromJson(data)).toJson(),
+        HostInfo.fromV6(InfoHost.fromJson(data)).toJson(),
       );
     });
   });
@@ -2338,7 +2347,7 @@ void main() async {
       expect(response.message, null);
       expect(
         response.data?.toJson(),
-        SensorsInfo.fromV6(Sensors.fromJson(data)).toJson(),
+        SensorsInfo.fromV6(InfoSensors.fromJson(data)).toJson(),
       );
     });
   });
@@ -2442,7 +2451,7 @@ void main() async {
       expect(response.message, null);
       expect(
         response.data?.toJson(),
-        SystemInfo.fromV6(System.fromJson(data)).toJson(),
+        SystemInfo.fromV6(InfoSystem.fromJson(data)).toJson(),
       );
     });
 
@@ -2462,7 +2471,7 @@ void main() async {
       expect(response.message, null);
       expect(
         response.data?.toJson(),
-        SystemInfo.fromV6(System.fromJson(dataNewV61)).toJson(),
+        SystemInfo.fromV6(InfoSystem.fromJson(dataNewV61)).toJson(),
       );
       expect(response.data?.cpuUsage, 3.3232043958349604);
     });
@@ -2648,19 +2657,19 @@ void main() async {
       expect(response.message, null);
       expect(
         response.version?.toJson(),
-        VersionInfo.fromV6(Version.fromJson(dataVersion)).toJson(),
+        VersionInfo.fromV6(InfoVersion.fromJson(dataVersion)).toJson(),
       );
       expect(
         response.system?.toJson(),
-        SystemInfo.fromV6(System.fromJson(dataSystem)).toJson(),
+        SystemInfo.fromV6(InfoSystem.fromJson(dataSystem)).toJson(),
       );
       expect(
         response.host?.toJson(),
-        HostInfo.fromV6(Host.fromJson(dataHost)).toJson(),
+        HostInfo.fromV6(InfoHost.fromJson(dataHost)).toJson(),
       );
       expect(
         response.sensors?.toJson(),
-        SensorsInfo.fromV6(Sensors.fromJson(dataSensor)).toJson(),
+        SensorsInfo.fromV6(InfoSensors.fromJson(dataSensor)).toJson(),
       );
     });
 
@@ -3848,7 +3857,7 @@ void main() async {
       expect(response.message, null);
       expect(
         response.data?.toJson(),
-        MessagesInfo.fromV6(Messages.fromJson(data)).toJson(),
+        MessagesInfo.fromV6(InfoMessages.fromJson(data)).toJson(),
       );
     });
 
@@ -3869,7 +3878,7 @@ void main() async {
       expect(response.message, null);
       expect(
         response.data?.toJson(),
-        MessagesInfo.fromV6(Messages.fromJson(noData)).toJson(),
+        MessagesInfo.fromV6(InfoMessages.fromJson(noData)).toJson(),
       );
     });
 
@@ -4107,7 +4116,7 @@ void main() async {
       expect(response.message, null);
       expect(
         response.data?.toJson(),
-        MetricsInfo.fromV6(Metrics.fromJson(data)).toJson(),
+        MetricsInfo.fromV6(InfoMetrics.fromJson(data)).toJson(),
       );
     });
 
@@ -6164,7 +6173,7 @@ void main() async {
       expect(response.message, null);
       expect(
         response.data?.toJson(),
-        ClientInfo.fromV6(Client.fromJson(data)).toJson(),
+        ClientInfo.fromV6(InfoClient.fromJson(data)).toJson(),
       );
     });
 

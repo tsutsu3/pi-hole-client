@@ -4,18 +4,20 @@ part 'metrics.freezed.dart';
 part 'metrics.g.dart';
 
 @freezed
-sealed class Metrics with _$Metrics {
-  const factory Metrics({
+sealed class InfoMetrics with _$InfoMetrics {
+  @JsonSerializable(explicitToJson: true)
+  const factory InfoMetrics({
     required MetricsData metrics,
     required double took,
-  }) = _Metrics;
+  }) = _InfoMetrics;
 
-  factory Metrics.fromJson(Map<String, dynamic> json) =>
-      _$MetricsFromJson(json);
+  factory InfoMetrics.fromJson(Map<String, dynamic> json) =>
+      _$InfoMetricsFromJson(json);
 }
 
 @freezed
 sealed class MetricsData with _$MetricsData {
+  @JsonSerializable(explicitToJson: true)
   const factory MetricsData({
     required DnsMetrics dns,
     required DhcpMetrics dhcp,
@@ -27,6 +29,7 @@ sealed class MetricsData with _$MetricsData {
 
 @freezed
 sealed class DnsMetrics with _$DnsMetrics {
+  @JsonSerializable(explicitToJson: true)
   const factory DnsMetrics({
     required DnsCache cache,
     required DnsReplies replies,
@@ -38,6 +41,7 @@ sealed class DnsMetrics with _$DnsMetrics {
 
 @freezed
 sealed class DnsCache with _$DnsCache {
+  @JsonSerializable(explicitToJson: true)
   const factory DnsCache({
     required int size,
     required int inserted,
@@ -53,6 +57,7 @@ sealed class DnsCache with _$DnsCache {
 
 @freezed
 sealed class DnsCacheEntry with _$DnsCacheEntry {
+  @JsonSerializable(explicitToJson: true)
   const factory DnsCacheEntry({
     required int type,
     required String name,
@@ -91,6 +96,7 @@ sealed class DnsReplies with _$DnsReplies {
 
 @freezed
 sealed class DhcpMetrics with _$DhcpMetrics {
+  @JsonSerializable(explicitToJson: true)
   const factory DhcpMetrics({
     required int ack,
     required int nak,

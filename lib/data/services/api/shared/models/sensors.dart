@@ -7,7 +7,7 @@ class SensorsInfo {
     required this.unit,
   });
 
-  factory SensorsInfo.fromV6(Sensors sensors) {
+  factory SensorsInfo.fromV6(InfoSensors sensors) {
     return SensorsInfo(
       cpuTemp: sensors.sensors.cpuTemp,
       hostLimit: sensors.sensors.hotLimit,

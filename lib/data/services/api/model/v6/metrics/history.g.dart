@@ -14,7 +14,7 @@ _History _$HistoryFromJson(Map<String, dynamic> json) => _History(
     );
 
 Map<String, dynamic> _$HistoryToJson(_History instance) => <String, dynamic>{
-      'history': instance.history,
+      'history': instance.history.map((e) => e.toJson()).toList(),
       'took': instance.took,
     };
 
@@ -48,8 +48,8 @@ _HistoryClients _$HistoryClientsFromJson(Map<String, dynamic> json) =>
 
 Map<String, dynamic> _$HistoryClientsToJson(_HistoryClients instance) =>
     <String, dynamic>{
-      'clients': instance.clients,
-      'history': instance.history,
+      'clients': instance.clients.map((k, e) => MapEntry(k, e.toJson())),
+      'history': instance.history.map((e) => e.toJson()).toList(),
       'took': instance.took,
     };
 

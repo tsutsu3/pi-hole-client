@@ -5,6 +5,7 @@ part 'devices.g.dart';
 
 @freezed
 sealed class Devices with _$Devices {
+  @JsonSerializable(explicitToJson: true)
   const factory Devices({
     required List<DeviceData> devices,
     required double took,
@@ -16,6 +17,7 @@ sealed class Devices with _$Devices {
 
 @freezed
 sealed class DeviceData with _$DeviceData {
+  @JsonSerializable(explicitToJson: true)
   const factory DeviceData({
     required int id,
     required String hwaddr,

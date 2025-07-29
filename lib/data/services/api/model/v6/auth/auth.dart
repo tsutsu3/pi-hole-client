@@ -15,6 +15,7 @@ sealed class Password with _$Password {
 
 @freezed
 sealed class Session with _$Session {
+  @JsonSerializable(explicitToJson: true)
   factory Session({
     required SessionDetail session,
     required double took,

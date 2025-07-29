@@ -6,15 +6,17 @@ part of 'messages.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-_Messages _$MessagesFromJson(Map<String, dynamic> json) => _Messages(
+_InfoMessages _$InfoMessagesFromJson(Map<String, dynamic> json) =>
+    _InfoMessages(
       messages: (json['messages'] as List<dynamic>)
           .map((e) => Message.fromJson(e as Map<String, dynamic>))
           .toList(),
       took: (json['took'] as num).toDouble(),
     );
 
-Map<String, dynamic> _$MessagesToJson(_Messages instance) => <String, dynamic>{
-      'messages': instance.messages,
+Map<String, dynamic> _$InfoMessagesToJson(_InfoMessages instance) =>
+    <String, dynamic>{
+      'messages': instance.messages.map((e) => e.toJson()).toList(),
       'took': instance.took,
     };
 

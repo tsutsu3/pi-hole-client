@@ -269,7 +269,8 @@ extension GatewayPatterns on Gateway {
 }
 
 /// @nodoc
-@JsonSerializable()
+
+@JsonSerializable(explicitToJson: true)
 class _Gateway implements Gateway {
   const _Gateway(
       {required final List<GatewayData> gateway,

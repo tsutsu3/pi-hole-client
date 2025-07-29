@@ -7,6 +7,7 @@ part 'gateway.g.dart';
 
 @freezed
 sealed class Gateway with _$Gateway {
+  @JsonSerializable(explicitToJson: true)
   const factory Gateway({
     required List<GatewayData> gateway,
     required double took,

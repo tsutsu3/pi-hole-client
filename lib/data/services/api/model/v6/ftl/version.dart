@@ -4,18 +4,20 @@ part 'version.freezed.dart';
 part 'version.g.dart';
 
 @freezed
-sealed class Version with _$Version {
-  const factory Version({
-    required VersionData version, // `version` フィールドを追加
+sealed class InfoVersion with _$InfoVersion {
+  @JsonSerializable(explicitToJson: true)
+  const factory InfoVersion({
+    required VersionData version,
     required double took,
-  }) = _Version;
+  }) = _InfoVersion;
 
-  factory Version.fromJson(Map<String, dynamic> json) =>
-      _$VersionFromJson(json);
+  factory InfoVersion.fromJson(Map<String, dynamic> json) =>
+      _$InfoVersionFromJson(json);
 }
 
 @freezed
 sealed class VersionData with _$VersionData {
+  @JsonSerializable(explicitToJson: true)
   const factory VersionData({
     required Core core,
     required Web web,
@@ -29,6 +31,7 @@ sealed class VersionData with _$VersionData {
 
 @freezed
 sealed class Core with _$Core {
+  @JsonSerializable(explicitToJson: true)
   const factory Core({
     required LocalVersion local,
     required RemoteVersion remote,
@@ -39,6 +42,7 @@ sealed class Core with _$Core {
 
 @freezed
 sealed class Web with _$Web {
+  @JsonSerializable(explicitToJson: true)
   const factory Web({
     required LocalVersion local,
     required RemoteVersion remote,
@@ -49,6 +53,7 @@ sealed class Web with _$Web {
 
 @freezed
 sealed class FTL with _$FTL {
+  @JsonSerializable(explicitToJson: true)
   const factory FTL({
     required LocalFTL local,
     required RemoteVersion remote,

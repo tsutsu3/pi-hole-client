@@ -15,7 +15,7 @@ T _$identity<T>(T value) => value;
 /// @nodoc
 mixin _$Config {
   ConfigData? get config;
-  int? get took;
+  double? get took;
 
   /// Create a copy of Config
   /// with the given fields replaced by the non-null parameter values.
@@ -51,7 +51,7 @@ abstract mixin class $ConfigCopyWith<$Res> {
   factory $ConfigCopyWith(Config value, $Res Function(Config) _then) =
       _$ConfigCopyWithImpl;
   @useResult
-  $Res call({ConfigData? config, int? took});
+  $Res call({ConfigData? config, double? took});
 
   $ConfigDataCopyWith<$Res>? get config;
 }
@@ -79,7 +79,7 @@ class _$ConfigCopyWithImpl<$Res> implements $ConfigCopyWith<$Res> {
       took: freezed == took
           ? _self.took
           : took // ignore: cast_nullable_to_non_nullable
-              as int?,
+              as double?,
     ));
   }
 
@@ -189,7 +189,7 @@ extension ConfigPatterns on Config {
 
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>(
-    TResult Function(ConfigData? config, int? took)? $default, {
+    TResult Function(ConfigData? config, double? took)? $default, {
     required TResult orElse(),
   }) {
     final _that = this;
@@ -216,7 +216,7 @@ extension ConfigPatterns on Config {
 
   @optionalTypeArgs
   TResult when<TResult extends Object?>(
-    TResult Function(ConfigData? config, int? took) $default,
+    TResult Function(ConfigData? config, double? took) $default,
   ) {
     final _that = this;
     switch (_that) {
@@ -239,7 +239,7 @@ extension ConfigPatterns on Config {
 
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>(
-    TResult? Function(ConfigData? config, int? took)? $default,
+    TResult? Function(ConfigData? config, double? took)? $default,
   ) {
     final _that = this;
     switch (_that) {
@@ -261,7 +261,7 @@ class _Config implements Config {
   @override
   final ConfigData? config;
   @override
-  final int? took;
+  final double? took;
 
   /// Create a copy of Config
   /// with the given fields replaced by the non-null parameter values.
@@ -303,7 +303,7 @@ abstract mixin class _$ConfigCopyWith<$Res> implements $ConfigCopyWith<$Res> {
       __$ConfigCopyWithImpl;
   @override
   @useResult
-  $Res call({ConfigData? config, int? took});
+  $Res call({ConfigData? config, double? took});
 
   @override
   $ConfigDataCopyWith<$Res>? get config;
@@ -332,7 +332,7 @@ class __$ConfigCopyWithImpl<$Res> implements _$ConfigCopyWith<$Res> {
       took: freezed == took
           ? _self.took
           : took // ignore: cast_nullable_to_non_nullable
-              as int?,
+              as double?,
     ));
   }
 
@@ -12459,8 +12459,7 @@ mixin _$Debug {
   bool? get aliasclients;
   bool? get events;
   bool? get helper;
-  @JsonKey(name: 'ConfigData')
-  bool? get configData;
+  bool? get config;
   bool? get inotify;
   bool? get webserver;
   bool? get extra;
@@ -12511,8 +12510,7 @@ mixin _$Debug {
                 other.aliasclients == aliasclients) &&
             (identical(other.events, events) || other.events == events) &&
             (identical(other.helper, helper) || other.helper == helper) &&
-            (identical(other.configData, configData) ||
-                other.configData == configData) &&
+            (identical(other.config, config) || other.config == config) &&
             (identical(other.inotify, inotify) || other.inotify == inotify) &&
             (identical(other.webserver, webserver) ||
                 other.webserver == webserver) &&
@@ -12550,7 +12548,7 @@ mixin _$Debug {
         aliasclients,
         events,
         helper,
-        configData,
+        config,
         inotify,
         webserver,
         extra,
@@ -12562,7 +12560,7 @@ mixin _$Debug {
 
   @override
   String toString() {
-    return 'Debug(database: $database, networking: $networking, locks: $locks, queries: $queries, flags: $flags, shmem: $shmem, gc: $gc, arp: $arp, regex: $regex, api: $api, tls: $tls, overtime: $overtime, status: $status, caps: $caps, dnssec: $dnssec, vectors: $vectors, resolver: $resolver, edns0: $edns0, clients: $clients, aliasclients: $aliasclients, events: $events, helper: $helper, configData: $configData, inotify: $inotify, webserver: $webserver, extra: $extra, reserved: $reserved, ntp: $ntp, netlink: $netlink, all: $all)';
+    return 'Debug(database: $database, networking: $networking, locks: $locks, queries: $queries, flags: $flags, shmem: $shmem, gc: $gc, arp: $arp, regex: $regex, api: $api, tls: $tls, overtime: $overtime, status: $status, caps: $caps, dnssec: $dnssec, vectors: $vectors, resolver: $resolver, edns0: $edns0, clients: $clients, aliasclients: $aliasclients, events: $events, helper: $helper, config: $config, inotify: $inotify, webserver: $webserver, extra: $extra, reserved: $reserved, ntp: $ntp, netlink: $netlink, all: $all)';
   }
 }
 
@@ -12594,7 +12592,7 @@ abstract mixin class $DebugCopyWith<$Res> {
       bool? aliasclients,
       bool? events,
       bool? helper,
-      @JsonKey(name: 'ConfigData') bool? configData,
+      bool? config,
       bool? inotify,
       bool? webserver,
       bool? extra,
@@ -12638,7 +12636,7 @@ class _$DebugCopyWithImpl<$Res> implements $DebugCopyWith<$Res> {
     Object? aliasclients = freezed,
     Object? events = freezed,
     Object? helper = freezed,
-    Object? configData = freezed,
+    Object? config = freezed,
     Object? inotify = freezed,
     Object? webserver = freezed,
     Object? extra = freezed,
@@ -12736,9 +12734,9 @@ class _$DebugCopyWithImpl<$Res> implements $DebugCopyWith<$Res> {
           ? _self.helper
           : helper // ignore: cast_nullable_to_non_nullable
               as bool?,
-      configData: freezed == configData
-          ? _self.configData
-          : configData // ignore: cast_nullable_to_non_nullable
+      config: freezed == config
+          ? _self.config
+          : config // ignore: cast_nullable_to_non_nullable
               as bool?,
       inotify: freezed == inotify
           ? _self.inotify
@@ -12886,7 +12884,7 @@ extension DebugPatterns on Debug {
             bool? aliasclients,
             bool? events,
             bool? helper,
-            @JsonKey(name: 'ConfigData') bool? configData,
+            bool? config,
             bool? inotify,
             bool? webserver,
             bool? extra,
@@ -12923,7 +12921,7 @@ extension DebugPatterns on Debug {
             _that.aliasclients,
             _that.events,
             _that.helper,
-            _that.configData,
+            _that.config,
             _that.inotify,
             _that.webserver,
             _that.extra,
@@ -12974,7 +12972,7 @@ extension DebugPatterns on Debug {
             bool? aliasclients,
             bool? events,
             bool? helper,
-            @JsonKey(name: 'ConfigData') bool? configData,
+            bool? config,
             bool? inotify,
             bool? webserver,
             bool? extra,
@@ -13010,7 +13008,7 @@ extension DebugPatterns on Debug {
             _that.aliasclients,
             _that.events,
             _that.helper,
-            _that.configData,
+            _that.config,
             _that.inotify,
             _that.webserver,
             _that.extra,
@@ -13058,7 +13056,7 @@ extension DebugPatterns on Debug {
             bool? aliasclients,
             bool? events,
             bool? helper,
-            @JsonKey(name: 'ConfigData') bool? configData,
+            bool? config,
             bool? inotify,
             bool? webserver,
             bool? extra,
@@ -13094,7 +13092,7 @@ extension DebugPatterns on Debug {
             _that.aliasclients,
             _that.events,
             _that.helper,
-            _that.configData,
+            _that.config,
             _that.inotify,
             _that.webserver,
             _that.extra,
@@ -13135,7 +13133,7 @@ class _Debug implements Debug {
       this.aliasclients,
       this.events,
       this.helper,
-      @JsonKey(name: 'ConfigData') this.configData,
+      this.config,
       this.inotify,
       this.webserver,
       this.extra,
@@ -13190,8 +13188,7 @@ class _Debug implements Debug {
   @override
   final bool? helper;
   @override
-  @JsonKey(name: 'ConfigData')
-  final bool? configData;
+  final bool? config;
   @override
   final bool? inotify;
   @override
@@ -13254,8 +13251,7 @@ class _Debug implements Debug {
                 other.aliasclients == aliasclients) &&
             (identical(other.events, events) || other.events == events) &&
             (identical(other.helper, helper) || other.helper == helper) &&
-            (identical(other.configData, configData) ||
-                other.configData == configData) &&
+            (identical(other.config, config) || other.config == config) &&
             (identical(other.inotify, inotify) || other.inotify == inotify) &&
             (identical(other.webserver, webserver) ||
                 other.webserver == webserver) &&
@@ -13293,7 +13289,7 @@ class _Debug implements Debug {
         aliasclients,
         events,
         helper,
-        configData,
+        config,
         inotify,
         webserver,
         extra,
@@ -13305,7 +13301,7 @@ class _Debug implements Debug {
 
   @override
   String toString() {
-    return 'Debug(database: $database, networking: $networking, locks: $locks, queries: $queries, flags: $flags, shmem: $shmem, gc: $gc, arp: $arp, regex: $regex, api: $api, tls: $tls, overtime: $overtime, status: $status, caps: $caps, dnssec: $dnssec, vectors: $vectors, resolver: $resolver, edns0: $edns0, clients: $clients, aliasclients: $aliasclients, events: $events, helper: $helper, configData: $configData, inotify: $inotify, webserver: $webserver, extra: $extra, reserved: $reserved, ntp: $ntp, netlink: $netlink, all: $all)';
+    return 'Debug(database: $database, networking: $networking, locks: $locks, queries: $queries, flags: $flags, shmem: $shmem, gc: $gc, arp: $arp, regex: $regex, api: $api, tls: $tls, overtime: $overtime, status: $status, caps: $caps, dnssec: $dnssec, vectors: $vectors, resolver: $resolver, edns0: $edns0, clients: $clients, aliasclients: $aliasclients, events: $events, helper: $helper, config: $config, inotify: $inotify, webserver: $webserver, extra: $extra, reserved: $reserved, ntp: $ntp, netlink: $netlink, all: $all)';
   }
 }
 
@@ -13338,7 +13334,7 @@ abstract mixin class _$DebugCopyWith<$Res> implements $DebugCopyWith<$Res> {
       bool? aliasclients,
       bool? events,
       bool? helper,
-      @JsonKey(name: 'ConfigData') bool? configData,
+      bool? config,
       bool? inotify,
       bool? webserver,
       bool? extra,
@@ -13382,7 +13378,7 @@ class __$DebugCopyWithImpl<$Res> implements _$DebugCopyWith<$Res> {
     Object? aliasclients = freezed,
     Object? events = freezed,
     Object? helper = freezed,
-    Object? configData = freezed,
+    Object? config = freezed,
     Object? inotify = freezed,
     Object? webserver = freezed,
     Object? extra = freezed,
@@ -13480,9 +13476,9 @@ class __$DebugCopyWithImpl<$Res> implements _$DebugCopyWith<$Res> {
           ? _self.helper
           : helper // ignore: cast_nullable_to_non_nullable
               as bool?,
-      configData: freezed == configData
-          ? _self.configData
-          : configData // ignore: cast_nullable_to_non_nullable
+      config: freezed == config
+          ? _self.config
+          : config // ignore: cast_nullable_to_non_nullable
               as bool?,
       inotify: freezed == inotify
           ? _self.inotify

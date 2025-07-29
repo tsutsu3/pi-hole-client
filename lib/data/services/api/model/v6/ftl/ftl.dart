@@ -5,6 +5,7 @@ part 'ftl.g.dart';
 
 @freezed
 sealed class InfoFtl with _$InfoFtl {
+  @JsonSerializable(explicitToJson: true)
   const factory InfoFtl({
     required Ftl ftl,
     required double took,
@@ -16,6 +17,7 @@ sealed class InfoFtl with _$InfoFtl {
 
 @freezed
 sealed class Ftl with _$Ftl {
+  @JsonSerializable(explicitToJson: true)
   const factory Ftl({
     required Database database,
     @JsonKey(name: 'privacy_level') required int privacyLevel,
@@ -33,6 +35,7 @@ sealed class Ftl with _$Ftl {
 
 @freezed
 sealed class Database with _$Database {
+  @JsonSerializable(explicitToJson: true)
   const factory Database({
     required int gravity,
     required int groups,

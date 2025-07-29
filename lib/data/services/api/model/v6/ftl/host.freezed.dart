@@ -13,25 +13,25 @@ part of 'host.dart';
 T _$identity<T>(T value) => value;
 
 /// @nodoc
-mixin _$Host {
+mixin _$InfoHost {
   HostData get host;
   double get took;
 
-  /// Create a copy of Host
+  /// Create a copy of InfoHost
   /// with the given fields replaced by the non-null parameter values.
   @JsonKey(includeFromJson: false, includeToJson: false)
   @pragma('vm:prefer-inline')
-  $HostCopyWith<Host> get copyWith =>
-      _$HostCopyWithImpl<Host>(this as Host, _$identity);
+  $InfoHostCopyWith<InfoHost> get copyWith =>
+      _$InfoHostCopyWithImpl<InfoHost>(this as InfoHost, _$identity);
 
-  /// Serializes this Host to a JSON map.
+  /// Serializes this InfoHost to a JSON map.
   Map<String, dynamic> toJson();
 
   @override
   bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is Host &&
+            other is InfoHost &&
             (identical(other.host, host) || other.host == host) &&
             (identical(other.took, took) || other.took == took));
   }
@@ -42,14 +42,14 @@ mixin _$Host {
 
   @override
   String toString() {
-    return 'Host(host: $host, took: $took)';
+    return 'InfoHost(host: $host, took: $took)';
   }
 }
 
 /// @nodoc
-abstract mixin class $HostCopyWith<$Res> {
-  factory $HostCopyWith(Host value, $Res Function(Host) _then) =
-      _$HostCopyWithImpl;
+abstract mixin class $InfoHostCopyWith<$Res> {
+  factory $InfoHostCopyWith(InfoHost value, $Res Function(InfoHost) _then) =
+      _$InfoHostCopyWithImpl;
   @useResult
   $Res call({HostData host, double took});
 
@@ -57,13 +57,13 @@ abstract mixin class $HostCopyWith<$Res> {
 }
 
 /// @nodoc
-class _$HostCopyWithImpl<$Res> implements $HostCopyWith<$Res> {
-  _$HostCopyWithImpl(this._self, this._then);
+class _$InfoHostCopyWithImpl<$Res> implements $InfoHostCopyWith<$Res> {
+  _$InfoHostCopyWithImpl(this._self, this._then);
 
-  final Host _self;
-  final $Res Function(Host) _then;
+  final InfoHost _self;
+  final $Res Function(InfoHost) _then;
 
-  /// Create a copy of Host
+  /// Create a copy of InfoHost
   /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
@@ -83,7 +83,7 @@ class _$HostCopyWithImpl<$Res> implements $HostCopyWith<$Res> {
     ));
   }
 
-  /// Create a copy of Host
+  /// Create a copy of InfoHost
   /// with the given fields replaced by the non-null parameter values.
   @override
   @pragma('vm:prefer-inline')
@@ -94,8 +94,8 @@ class _$HostCopyWithImpl<$Res> implements $HostCopyWith<$Res> {
   }
 }
 
-/// Adds pattern-matching-related methods to [Host].
-extension HostPatterns on Host {
+/// Adds pattern-matching-related methods to [InfoHost].
+extension InfoHostPatterns on InfoHost {
   /// A variant of `map` that fallback to returning `orElse`.
   ///
   /// It is equivalent to doing:
@@ -110,12 +110,12 @@ extension HostPatterns on Host {
 
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>(
-    TResult Function(_Host value)? $default, {
+    TResult Function(_InfoHost value)? $default, {
     required TResult orElse(),
   }) {
     final _that = this;
     switch (_that) {
-      case _Host() when $default != null:
+      case _InfoHost() when $default != null:
         return $default(_that);
       case _:
         return orElse();
@@ -137,11 +137,11 @@ extension HostPatterns on Host {
 
   @optionalTypeArgs
   TResult map<TResult extends Object?>(
-    TResult Function(_Host value) $default,
+    TResult Function(_InfoHost value) $default,
   ) {
     final _that = this;
     switch (_that) {
-      case _Host():
+      case _InfoHost():
         return $default(_that);
     }
   }
@@ -160,11 +160,11 @@ extension HostPatterns on Host {
 
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>(
-    TResult? Function(_Host value)? $default,
+    TResult? Function(_InfoHost value)? $default,
   ) {
     final _that = this;
     switch (_that) {
-      case _Host() when $default != null:
+      case _InfoHost() when $default != null:
         return $default(_that);
       case _:
         return null;
@@ -190,7 +190,7 @@ extension HostPatterns on Host {
   }) {
     final _that = this;
     switch (_that) {
-      case _Host() when $default != null:
+      case _InfoHost() when $default != null:
         return $default(_that.host, _that.took);
       case _:
         return orElse();
@@ -216,7 +216,7 @@ extension HostPatterns on Host {
   ) {
     final _that = this;
     switch (_that) {
-      case _Host():
+      case _InfoHost():
         return $default(_that.host, _that.took);
     }
   }
@@ -239,7 +239,7 @@ extension HostPatterns on Host {
   ) {
     final _that = this;
     switch (_that) {
-      case _Host() when $default != null:
+      case _InfoHost() when $default != null:
         return $default(_that.host, _that.took);
       case _:
         return null;
@@ -248,27 +248,29 @@ extension HostPatterns on Host {
 }
 
 /// @nodoc
-@JsonSerializable()
-class _Host implements Host {
-  const _Host({required this.host, required this.took});
-  factory _Host.fromJson(Map<String, dynamic> json) => _$HostFromJson(json);
+
+@JsonSerializable(explicitToJson: true)
+class _InfoHost implements InfoHost {
+  const _InfoHost({required this.host, required this.took});
+  factory _InfoHost.fromJson(Map<String, dynamic> json) =>
+      _$InfoHostFromJson(json);
 
   @override
   final HostData host;
   @override
   final double took;
 
-  /// Create a copy of Host
+  /// Create a copy of InfoHost
   /// with the given fields replaced by the non-null parameter values.
   @override
   @JsonKey(includeFromJson: false, includeToJson: false)
   @pragma('vm:prefer-inline')
-  _$HostCopyWith<_Host> get copyWith =>
-      __$HostCopyWithImpl<_Host>(this, _$identity);
+  _$InfoHostCopyWith<_InfoHost> get copyWith =>
+      __$InfoHostCopyWithImpl<_InfoHost>(this, _$identity);
 
   @override
   Map<String, dynamic> toJson() {
-    return _$HostToJson(
+    return _$InfoHostToJson(
       this,
     );
   }
@@ -277,7 +279,7 @@ class _Host implements Host {
   bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _Host &&
+            other is _InfoHost &&
             (identical(other.host, host) || other.host == host) &&
             (identical(other.took, took) || other.took == took));
   }
@@ -288,14 +290,15 @@ class _Host implements Host {
 
   @override
   String toString() {
-    return 'Host(host: $host, took: $took)';
+    return 'InfoHost(host: $host, took: $took)';
   }
 }
 
 /// @nodoc
-abstract mixin class _$HostCopyWith<$Res> implements $HostCopyWith<$Res> {
-  factory _$HostCopyWith(_Host value, $Res Function(_Host) _then) =
-      __$HostCopyWithImpl;
+abstract mixin class _$InfoHostCopyWith<$Res>
+    implements $InfoHostCopyWith<$Res> {
+  factory _$InfoHostCopyWith(_InfoHost value, $Res Function(_InfoHost) _then) =
+      __$InfoHostCopyWithImpl;
   @override
   @useResult
   $Res call({HostData host, double took});
@@ -305,13 +308,13 @@ abstract mixin class _$HostCopyWith<$Res> implements $HostCopyWith<$Res> {
 }
 
 /// @nodoc
-class __$HostCopyWithImpl<$Res> implements _$HostCopyWith<$Res> {
-  __$HostCopyWithImpl(this._self, this._then);
+class __$InfoHostCopyWithImpl<$Res> implements _$InfoHostCopyWith<$Res> {
+  __$InfoHostCopyWithImpl(this._self, this._then);
 
-  final _Host _self;
-  final $Res Function(_Host) _then;
+  final _InfoHost _self;
+  final $Res Function(_InfoHost) _then;
 
-  /// Create a copy of Host
+  /// Create a copy of InfoHost
   /// with the given fields replaced by the non-null parameter values.
   @override
   @pragma('vm:prefer-inline')
@@ -319,7 +322,7 @@ class __$HostCopyWithImpl<$Res> implements _$HostCopyWith<$Res> {
     Object? host = null,
     Object? took = null,
   }) {
-    return _then(_Host(
+    return _then(_InfoHost(
       host: null == host
           ? _self.host
           : host // ignore: cast_nullable_to_non_nullable
@@ -331,7 +334,7 @@ class __$HostCopyWithImpl<$Res> implements _$HostCopyWith<$Res> {
     ));
   }
 
-  /// Create a copy of Host
+  /// Create a copy of InfoHost
   /// with the given fields replaced by the non-null parameter values.
   @override
   @pragma('vm:prefer-inline')
@@ -596,7 +599,8 @@ extension HostDataPatterns on HostData {
 }
 
 /// @nodoc
-@JsonSerializable()
+
+@JsonSerializable(explicitToJson: true)
 class _HostData implements HostData {
   const _HostData(
       {required this.uname, required this.model, required this.dmi});
@@ -1404,7 +1408,8 @@ extension HostDmiPatterns on HostDmi {
 }
 
 /// @nodoc
-@JsonSerializable()
+
+@JsonSerializable(explicitToJson: true)
 class _HostDmi implements HostDmi {
   const _HostDmi(
       {required this.bios,

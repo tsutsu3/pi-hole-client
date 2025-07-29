@@ -542,7 +542,8 @@ extension SessionPatterns on Session {
 }
 
 /// @nodoc
-@JsonSerializable()
+
+@JsonSerializable(explicitToJson: true)
 class _Session implements Session {
   _Session({required this.session, required this.took});
   factory _Session.fromJson(Map<String, dynamic> json) =>

@@ -5,7 +5,7 @@ class MessagesInfo {
     required this.messages,
   });
 
-  factory MessagesInfo.fromV6(Messages messages) {
+  factory MessagesInfo.fromV6(InfoMessages messages) {
     final list = messages.messages
         .map((m) {
           return Message.tryParsePlain(

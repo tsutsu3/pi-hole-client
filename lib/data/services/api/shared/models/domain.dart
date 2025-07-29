@@ -77,7 +77,7 @@ class Domain {
     required this.groups,
   });
 
-  factory Domain.fromV6(v6.Domain domain) {
+  factory Domain.fromV6(v6.DomainData domain) {
     final types = {
       'allow_exact': 0,
       'deny_exact': 1,

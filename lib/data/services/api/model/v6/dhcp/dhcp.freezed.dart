@@ -237,7 +237,8 @@ extension DhcpPatterns on Dhcp {
 }
 
 /// @nodoc
-@JsonSerializable()
+
+@JsonSerializable(explicitToJson: true)
 class _Dhcp implements Dhcp {
   const _Dhcp({required final List<DhcpData> leases, required this.took})
       : _leases = leases;

@@ -6,13 +6,14 @@ part of 'metrics.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-_Metrics _$MetricsFromJson(Map<String, dynamic> json) => _Metrics(
+_InfoMetrics _$InfoMetricsFromJson(Map<String, dynamic> json) => _InfoMetrics(
       metrics: MetricsData.fromJson(json['metrics'] as Map<String, dynamic>),
       took: (json['took'] as num).toDouble(),
     );
 
-Map<String, dynamic> _$MetricsToJson(_Metrics instance) => <String, dynamic>{
-      'metrics': instance.metrics,
+Map<String, dynamic> _$InfoMetricsToJson(_InfoMetrics instance) =>
+    <String, dynamic>{
+      'metrics': instance.metrics.toJson(),
       'took': instance.took,
     };
 
@@ -23,8 +24,8 @@ _MetricsData _$MetricsDataFromJson(Map<String, dynamic> json) => _MetricsData(
 
 Map<String, dynamic> _$MetricsDataToJson(_MetricsData instance) =>
     <String, dynamic>{
-      'dns': instance.dns,
-      'dhcp': instance.dhcp,
+      'dns': instance.dns.toJson(),
+      'dhcp': instance.dhcp.toJson(),
     };
 
 _DnsMetrics _$DnsMetricsFromJson(Map<String, dynamic> json) => _DnsMetrics(
@@ -34,8 +35,8 @@ _DnsMetrics _$DnsMetricsFromJson(Map<String, dynamic> json) => _DnsMetrics(
 
 Map<String, dynamic> _$DnsMetricsToJson(_DnsMetrics instance) =>
     <String, dynamic>{
-      'cache': instance.cache,
-      'replies': instance.replies,
+      'cache': instance.cache.toJson(),
+      'replies': instance.replies.toJson(),
     };
 
 _DnsCache _$DnsCacheFromJson(Map<String, dynamic> json) => _DnsCache(
@@ -55,7 +56,7 @@ Map<String, dynamic> _$DnsCacheToJson(_DnsCache instance) => <String, dynamic>{
       'evicted': instance.evicted,
       'expired': instance.expired,
       'immortal': instance.immortal,
-      'content': instance.content,
+      'content': instance.content.map((e) => e.toJson()).toList(),
     };
 
 _DnsCacheEntry _$DnsCacheEntryFromJson(Map<String, dynamic> json) =>
@@ -69,7 +70,7 @@ Map<String, dynamic> _$DnsCacheEntryToJson(_DnsCacheEntry instance) =>
     <String, dynamic>{
       'type': instance.type,
       'name': instance.name,
-      'count': instance.count,
+      'count': instance.count.toJson(),
     };
 
 _DnsCacheCount _$DnsCacheCountFromJson(Map<String, dynamic> json) =>
@@ -131,7 +132,7 @@ Map<String, dynamic> _$DhcpMetricsToJson(_DhcpMetrics instance) =>
       'noanswer': instance.noanswer,
       'bootp': instance.bootp,
       'pxe': instance.pxe,
-      'leases': instance.leases,
+      'leases': instance.leases.toJson(),
     };
 
 _DhcpLeases _$DhcpLeasesFromJson(Map<String, dynamic> json) => _DhcpLeases(

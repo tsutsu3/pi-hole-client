@@ -20,10 +20,10 @@ _Gateway _$GatewayFromJson(Map<String, dynamic> json) => _Gateway(
     );
 
 Map<String, dynamic> _$GatewayToJson(_Gateway instance) => <String, dynamic>{
-      'gateway': instance.gateway,
+      'gateway': instance.gateway.map((e) => e.toJson()).toList(),
       'took': instance.took,
-      'interfaces': instance.interfaces,
-      'routes': instance.routes,
+      'interfaces': instance.interfaces?.map((e) => e.toJson()).toList(),
+      'routes': instance.routes?.map((e) => e.toJson()).toList(),
     };
 
 _GatewayData _$GatewayDataFromJson(Map<String, dynamic> json) => _GatewayData(

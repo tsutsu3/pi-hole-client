@@ -14,7 +14,7 @@ _Dhcp _$DhcpFromJson(Map<String, dynamic> json) => _Dhcp(
     );
 
 Map<String, dynamic> _$DhcpToJson(_Dhcp instance) => <String, dynamic>{
-      'leases': instance.leases,
+      'leases': instance.leases.map((e) => e.toJson()).toList(),
       'took': instance.took,
     };
 

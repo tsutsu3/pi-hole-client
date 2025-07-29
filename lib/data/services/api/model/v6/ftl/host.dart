@@ -4,17 +4,20 @@ part 'host.freezed.dart';
 part 'host.g.dart';
 
 @freezed
-sealed class Host with _$Host {
-  const factory Host({
+sealed class InfoHost with _$InfoHost {
+  @JsonSerializable(explicitToJson: true)
+  const factory InfoHost({
     required HostData host,
     required double took,
-  }) = _Host;
+  }) = _InfoHost;
 
-  factory Host.fromJson(Map<String, dynamic> json) => _$HostFromJson(json);
+  factory InfoHost.fromJson(Map<String, dynamic> json) =>
+      _$InfoHostFromJson(json);
 }
 
 @freezed
 sealed class HostData with _$HostData {
+  @JsonSerializable(explicitToJson: true)
   const factory HostData({
     required HostUname uname,
     required String? model,
@@ -42,6 +45,7 @@ sealed class HostUname with _$HostUname {
 
 @freezed
 sealed class HostDmi with _$HostDmi {
+  @JsonSerializable(explicitToJson: true)
   const factory HostDmi({
     required BiosInfo bios,
     required BoardInfo board,

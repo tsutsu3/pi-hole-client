@@ -14,7 +14,7 @@ T _$identity<T>(T value) => value;
 
 /// @nodoc
 mixin _$Domains {
-  List<Domain> get domains;
+  List<DomainData> get domains;
   Processed? get processed;
   double get took;
 
@@ -55,7 +55,7 @@ abstract mixin class $DomainsCopyWith<$Res> {
   factory $DomainsCopyWith(Domains value, $Res Function(Domains) _then) =
       _$DomainsCopyWithImpl;
   @useResult
-  $Res call({List<Domain> domains, Processed? processed, double took});
+  $Res call({List<DomainData> domains, Processed? processed, double took});
 
   $ProcessedCopyWith<$Res>? get processed;
 }
@@ -80,7 +80,7 @@ class _$DomainsCopyWithImpl<$Res> implements $DomainsCopyWith<$Res> {
       domains: null == domains
           ? _self.domains
           : domains // ignore: cast_nullable_to_non_nullable
-              as List<Domain>,
+              as List<DomainData>,
       processed: freezed == processed
           ? _self.processed
           : processed // ignore: cast_nullable_to_non_nullable
@@ -198,7 +198,8 @@ extension DomainsPatterns on Domains {
 
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>(
-    TResult Function(List<Domain> domains, Processed? processed, double took)?
+    TResult Function(
+            List<DomainData> domains, Processed? processed, double took)?
         $default, {
     required TResult orElse(),
   }) {
@@ -226,7 +227,8 @@ extension DomainsPatterns on Domains {
 
   @optionalTypeArgs
   TResult when<TResult extends Object?>(
-    TResult Function(List<Domain> domains, Processed? processed, double took)
+    TResult Function(
+            List<DomainData> domains, Processed? processed, double took)
         $default,
   ) {
     final _that = this;
@@ -250,7 +252,8 @@ extension DomainsPatterns on Domains {
 
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>(
-    TResult? Function(List<Domain> domains, Processed? processed, double took)?
+    TResult? Function(
+            List<DomainData> domains, Processed? processed, double took)?
         $default,
   ) {
     final _that = this;
@@ -264,19 +267,20 @@ extension DomainsPatterns on Domains {
 }
 
 /// @nodoc
-@JsonSerializable()
+
+@JsonSerializable(explicitToJson: true)
 class _Domains implements Domains {
   const _Domains(
-      {required final List<Domain> domains,
+      {required final List<DomainData> domains,
       required this.processed,
       required this.took})
       : _domains = domains;
   factory _Domains.fromJson(Map<String, dynamic> json) =>
       _$DomainsFromJson(json);
 
-  final List<Domain> _domains;
+  final List<DomainData> _domains;
   @override
-  List<Domain> get domains {
+  List<DomainData> get domains {
     if (_domains is EqualUnmodifiableListView) return _domains;
     // ignore: implicit_dynamic_type
     return EqualUnmodifiableListView(_domains);
@@ -330,7 +334,7 @@ abstract mixin class _$DomainsCopyWith<$Res> implements $DomainsCopyWith<$Res> {
       __$DomainsCopyWithImpl;
   @override
   @useResult
-  $Res call({List<Domain> domains, Processed? processed, double took});
+  $Res call({List<DomainData> domains, Processed? processed, double took});
 
   @override
   $ProcessedCopyWith<$Res>? get processed;
@@ -356,7 +360,7 @@ class __$DomainsCopyWithImpl<$Res> implements _$DomainsCopyWith<$Res> {
       domains: null == domains
           ? _self._domains
           : domains // ignore: cast_nullable_to_non_nullable
-              as List<Domain>,
+              as List<DomainData>,
       processed: freezed == processed
           ? _self.processed
           : processed // ignore: cast_nullable_to_non_nullable
@@ -384,373 +388,7 @@ class __$DomainsCopyWithImpl<$Res> implements _$DomainsCopyWith<$Res> {
 }
 
 /// @nodoc
-mixin _$AddDomains {
-  List<Domain> get domains;
-  Processed get processed;
-  double get took;
-
-  /// Create a copy of AddDomains
-  /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
-  @pragma('vm:prefer-inline')
-  $AddDomainsCopyWith<AddDomains> get copyWith =>
-      _$AddDomainsCopyWithImpl<AddDomains>(this as AddDomains, _$identity);
-
-  /// Serializes this AddDomains to a JSON map.
-  Map<String, dynamic> toJson();
-
-  @override
-  bool operator ==(Object other) {
-    return identical(this, other) ||
-        (other.runtimeType == runtimeType &&
-            other is AddDomains &&
-            const DeepCollectionEquality().equals(other.domains, domains) &&
-            (identical(other.processed, processed) ||
-                other.processed == processed) &&
-            (identical(other.took, took) || other.took == took));
-  }
-
-  @JsonKey(includeFromJson: false, includeToJson: false)
-  @override
-  int get hashCode => Object.hash(runtimeType,
-      const DeepCollectionEquality().hash(domains), processed, took);
-
-  @override
-  String toString() {
-    return 'AddDomains(domains: $domains, processed: $processed, took: $took)';
-  }
-}
-
-/// @nodoc
-abstract mixin class $AddDomainsCopyWith<$Res> {
-  factory $AddDomainsCopyWith(
-          AddDomains value, $Res Function(AddDomains) _then) =
-      _$AddDomainsCopyWithImpl;
-  @useResult
-  $Res call({List<Domain> domains, Processed processed, double took});
-
-  $ProcessedCopyWith<$Res> get processed;
-}
-
-/// @nodoc
-class _$AddDomainsCopyWithImpl<$Res> implements $AddDomainsCopyWith<$Res> {
-  _$AddDomainsCopyWithImpl(this._self, this._then);
-
-  final AddDomains _self;
-  final $Res Function(AddDomains) _then;
-
-  /// Create a copy of AddDomains
-  /// with the given fields replaced by the non-null parameter values.
-  @pragma('vm:prefer-inline')
-  @override
-  $Res call({
-    Object? domains = null,
-    Object? processed = null,
-    Object? took = null,
-  }) {
-    return _then(_self.copyWith(
-      domains: null == domains
-          ? _self.domains
-          : domains // ignore: cast_nullable_to_non_nullable
-              as List<Domain>,
-      processed: null == processed
-          ? _self.processed
-          : processed // ignore: cast_nullable_to_non_nullable
-              as Processed,
-      took: null == took
-          ? _self.took
-          : took // ignore: cast_nullable_to_non_nullable
-              as double,
-    ));
-  }
-
-  /// Create a copy of AddDomains
-  /// with the given fields replaced by the non-null parameter values.
-  @override
-  @pragma('vm:prefer-inline')
-  $ProcessedCopyWith<$Res> get processed {
-    return $ProcessedCopyWith<$Res>(_self.processed, (value) {
-      return _then(_self.copyWith(processed: value));
-    });
-  }
-}
-
-/// Adds pattern-matching-related methods to [AddDomains].
-extension AddDomainsPatterns on AddDomains {
-  /// A variant of `map` that fallback to returning `orElse`.
-  ///
-  /// It is equivalent to doing:
-  /// ```dart
-  /// switch (sealedClass) {
-  ///   case final Subclass value:
-  ///     return ...;
-  ///   case _:
-  ///     return orElse();
-  /// }
-  /// ```
-
-  @optionalTypeArgs
-  TResult maybeMap<TResult extends Object?>(
-    TResult Function(_AddDomains value)? $default, {
-    required TResult orElse(),
-  }) {
-    final _that = this;
-    switch (_that) {
-      case _AddDomains() when $default != null:
-        return $default(_that);
-      case _:
-        return orElse();
-    }
-  }
-
-  /// A `switch`-like method, using callbacks.
-  ///
-  /// Callbacks receives the raw object, upcasted.
-  /// It is equivalent to doing:
-  /// ```dart
-  /// switch (sealedClass) {
-  ///   case final Subclass value:
-  ///     return ...;
-  ///   case final Subclass2 value:
-  ///     return ...;
-  /// }
-  /// ```
-
-  @optionalTypeArgs
-  TResult map<TResult extends Object?>(
-    TResult Function(_AddDomains value) $default,
-  ) {
-    final _that = this;
-    switch (_that) {
-      case _AddDomains():
-        return $default(_that);
-    }
-  }
-
-  /// A variant of `map` that fallback to returning `null`.
-  ///
-  /// It is equivalent to doing:
-  /// ```dart
-  /// switch (sealedClass) {
-  ///   case final Subclass value:
-  ///     return ...;
-  ///   case _:
-  ///     return null;
-  /// }
-  /// ```
-
-  @optionalTypeArgs
-  TResult? mapOrNull<TResult extends Object?>(
-    TResult? Function(_AddDomains value)? $default,
-  ) {
-    final _that = this;
-    switch (_that) {
-      case _AddDomains() when $default != null:
-        return $default(_that);
-      case _:
-        return null;
-    }
-  }
-
-  /// A variant of `when` that fallback to an `orElse` callback.
-  ///
-  /// It is equivalent to doing:
-  /// ```dart
-  /// switch (sealedClass) {
-  ///   case Subclass(:final field):
-  ///     return ...;
-  ///   case _:
-  ///     return orElse();
-  /// }
-  /// ```
-
-  @optionalTypeArgs
-  TResult maybeWhen<TResult extends Object?>(
-    TResult Function(List<Domain> domains, Processed processed, double took)?
-        $default, {
-    required TResult orElse(),
-  }) {
-    final _that = this;
-    switch (_that) {
-      case _AddDomains() when $default != null:
-        return $default(_that.domains, _that.processed, _that.took);
-      case _:
-        return orElse();
-    }
-  }
-
-  /// A `switch`-like method, using callbacks.
-  ///
-  /// As opposed to `map`, this offers destructuring.
-  /// It is equivalent to doing:
-  /// ```dart
-  /// switch (sealedClass) {
-  ///   case Subclass(:final field):
-  ///     return ...;
-  ///   case Subclass2(:final field2):
-  ///     return ...;
-  /// }
-  /// ```
-
-  @optionalTypeArgs
-  TResult when<TResult extends Object?>(
-    TResult Function(List<Domain> domains, Processed processed, double took)
-        $default,
-  ) {
-    final _that = this;
-    switch (_that) {
-      case _AddDomains():
-        return $default(_that.domains, _that.processed, _that.took);
-    }
-  }
-
-  /// A variant of `when` that fallback to returning `null`
-  ///
-  /// It is equivalent to doing:
-  /// ```dart
-  /// switch (sealedClass) {
-  ///   case Subclass(:final field):
-  ///     return ...;
-  ///   case _:
-  ///     return null;
-  /// }
-  /// ```
-
-  @optionalTypeArgs
-  TResult? whenOrNull<TResult extends Object?>(
-    TResult? Function(List<Domain> domains, Processed processed, double took)?
-        $default,
-  ) {
-    final _that = this;
-    switch (_that) {
-      case _AddDomains() when $default != null:
-        return $default(_that.domains, _that.processed, _that.took);
-      case _:
-        return null;
-    }
-  }
-}
-
-/// @nodoc
-@JsonSerializable()
-class _AddDomains implements AddDomains {
-  const _AddDomains(
-      {required final List<Domain> domains,
-      required this.processed,
-      required this.took})
-      : _domains = domains;
-  factory _AddDomains.fromJson(Map<String, dynamic> json) =>
-      _$AddDomainsFromJson(json);
-
-  final List<Domain> _domains;
-  @override
-  List<Domain> get domains {
-    if (_domains is EqualUnmodifiableListView) return _domains;
-    // ignore: implicit_dynamic_type
-    return EqualUnmodifiableListView(_domains);
-  }
-
-  @override
-  final Processed processed;
-  @override
-  final double took;
-
-  /// Create a copy of AddDomains
-  /// with the given fields replaced by the non-null parameter values.
-  @override
-  @JsonKey(includeFromJson: false, includeToJson: false)
-  @pragma('vm:prefer-inline')
-  _$AddDomainsCopyWith<_AddDomains> get copyWith =>
-      __$AddDomainsCopyWithImpl<_AddDomains>(this, _$identity);
-
-  @override
-  Map<String, dynamic> toJson() {
-    return _$AddDomainsToJson(
-      this,
-    );
-  }
-
-  @override
-  bool operator ==(Object other) {
-    return identical(this, other) ||
-        (other.runtimeType == runtimeType &&
-            other is _AddDomains &&
-            const DeepCollectionEquality().equals(other._domains, _domains) &&
-            (identical(other.processed, processed) ||
-                other.processed == processed) &&
-            (identical(other.took, took) || other.took == took));
-  }
-
-  @JsonKey(includeFromJson: false, includeToJson: false)
-  @override
-  int get hashCode => Object.hash(runtimeType,
-      const DeepCollectionEquality().hash(_domains), processed, took);
-
-  @override
-  String toString() {
-    return 'AddDomains(domains: $domains, processed: $processed, took: $took)';
-  }
-}
-
-/// @nodoc
-abstract mixin class _$AddDomainsCopyWith<$Res>
-    implements $AddDomainsCopyWith<$Res> {
-  factory _$AddDomainsCopyWith(
-          _AddDomains value, $Res Function(_AddDomains) _then) =
-      __$AddDomainsCopyWithImpl;
-  @override
-  @useResult
-  $Res call({List<Domain> domains, Processed processed, double took});
-
-  @override
-  $ProcessedCopyWith<$Res> get processed;
-}
-
-/// @nodoc
-class __$AddDomainsCopyWithImpl<$Res> implements _$AddDomainsCopyWith<$Res> {
-  __$AddDomainsCopyWithImpl(this._self, this._then);
-
-  final _AddDomains _self;
-  final $Res Function(_AddDomains) _then;
-
-  /// Create a copy of AddDomains
-  /// with the given fields replaced by the non-null parameter values.
-  @override
-  @pragma('vm:prefer-inline')
-  $Res call({
-    Object? domains = null,
-    Object? processed = null,
-    Object? took = null,
-  }) {
-    return _then(_AddDomains(
-      domains: null == domains
-          ? _self._domains
-          : domains // ignore: cast_nullable_to_non_nullable
-              as List<Domain>,
-      processed: null == processed
-          ? _self.processed
-          : processed // ignore: cast_nullable_to_non_nullable
-              as Processed,
-      took: null == took
-          ? _self.took
-          : took // ignore: cast_nullable_to_non_nullable
-              as double,
-    ));
-  }
-
-  /// Create a copy of AddDomains
-  /// with the given fields replaced by the non-null parameter values.
-  @override
-  @pragma('vm:prefer-inline')
-  $ProcessedCopyWith<$Res> get processed {
-    return $ProcessedCopyWith<$Res>(_self.processed, (value) {
-      return _then(_self.copyWith(processed: value));
-    });
-  }
-}
-
-/// @nodoc
-mixin _$Domain {
+mixin _$DomainData {
   String get domain; // Domain
   String get unicode; // Unicode domain
   String get type; // Domain type (allow | deny)
@@ -764,21 +402,21 @@ mixin _$Domain {
   @JsonKey(name: 'date_modified')
   int get dateModified;
 
-  /// Create a copy of Domain
+  /// Create a copy of DomainData
   /// with the given fields replaced by the non-null parameter values.
   @JsonKey(includeFromJson: false, includeToJson: false)
   @pragma('vm:prefer-inline')
-  $DomainCopyWith<Domain> get copyWith =>
-      _$DomainCopyWithImpl<Domain>(this as Domain, _$identity);
+  $DomainDataCopyWith<DomainData> get copyWith =>
+      _$DomainDataCopyWithImpl<DomainData>(this as DomainData, _$identity);
 
-  /// Serializes this Domain to a JSON map.
+  /// Serializes this DomainData to a JSON map.
   Map<String, dynamic> toJson();
 
   @override
   bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is Domain &&
+            other is DomainData &&
             (identical(other.domain, domain) || other.domain == domain) &&
             (identical(other.unicode, unicode) || other.unicode == unicode) &&
             (identical(other.type, type) || other.type == type) &&
@@ -810,14 +448,15 @@ mixin _$Domain {
 
   @override
   String toString() {
-    return 'Domain(domain: $domain, unicode: $unicode, type: $type, kind: $kind, comment: $comment, groups: $groups, enabled: $enabled, id: $id, dateAdded: $dateAdded, dateModified: $dateModified)';
+    return 'DomainData(domain: $domain, unicode: $unicode, type: $type, kind: $kind, comment: $comment, groups: $groups, enabled: $enabled, id: $id, dateAdded: $dateAdded, dateModified: $dateModified)';
   }
 }
 
 /// @nodoc
-abstract mixin class $DomainCopyWith<$Res> {
-  factory $DomainCopyWith(Domain value, $Res Function(Domain) _then) =
-      _$DomainCopyWithImpl;
+abstract mixin class $DomainDataCopyWith<$Res> {
+  factory $DomainDataCopyWith(
+          DomainData value, $Res Function(DomainData) _then) =
+      _$DomainDataCopyWithImpl;
   @useResult
   $Res call(
       {String domain,
@@ -833,13 +472,13 @@ abstract mixin class $DomainCopyWith<$Res> {
 }
 
 /// @nodoc
-class _$DomainCopyWithImpl<$Res> implements $DomainCopyWith<$Res> {
-  _$DomainCopyWithImpl(this._self, this._then);
+class _$DomainDataCopyWithImpl<$Res> implements $DomainDataCopyWith<$Res> {
+  _$DomainDataCopyWithImpl(this._self, this._then);
 
-  final Domain _self;
-  final $Res Function(Domain) _then;
+  final DomainData _self;
+  final $Res Function(DomainData) _then;
 
-  /// Create a copy of Domain
+  /// Create a copy of DomainData
   /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
@@ -900,8 +539,8 @@ class _$DomainCopyWithImpl<$Res> implements $DomainCopyWith<$Res> {
   }
 }
 
-/// Adds pattern-matching-related methods to [Domain].
-extension DomainPatterns on Domain {
+/// Adds pattern-matching-related methods to [DomainData].
+extension DomainDataPatterns on DomainData {
   /// A variant of `map` that fallback to returning `orElse`.
   ///
   /// It is equivalent to doing:
@@ -916,12 +555,12 @@ extension DomainPatterns on Domain {
 
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>(
-    TResult Function(_Domain value)? $default, {
+    TResult Function(_DomainData value)? $default, {
     required TResult orElse(),
   }) {
     final _that = this;
     switch (_that) {
-      case _Domain() when $default != null:
+      case _DomainData() when $default != null:
         return $default(_that);
       case _:
         return orElse();
@@ -943,11 +582,11 @@ extension DomainPatterns on Domain {
 
   @optionalTypeArgs
   TResult map<TResult extends Object?>(
-    TResult Function(_Domain value) $default,
+    TResult Function(_DomainData value) $default,
   ) {
     final _that = this;
     switch (_that) {
-      case _Domain():
+      case _DomainData():
         return $default(_that);
     }
   }
@@ -966,11 +605,11 @@ extension DomainPatterns on Domain {
 
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>(
-    TResult? Function(_Domain value)? $default,
+    TResult? Function(_DomainData value)? $default,
   ) {
     final _that = this;
     switch (_that) {
-      case _Domain() when $default != null:
+      case _DomainData() when $default != null:
         return $default(_that);
       case _:
         return null;
@@ -1007,7 +646,7 @@ extension DomainPatterns on Domain {
   }) {
     final _that = this;
     switch (_that) {
-      case _Domain() when $default != null:
+      case _DomainData() when $default != null:
         return $default(
             _that.domain,
             _that.unicode,
@@ -1054,7 +693,7 @@ extension DomainPatterns on Domain {
   ) {
     final _that = this;
     switch (_that) {
-      case _Domain():
+      case _DomainData():
         return $default(
             _that.domain,
             _that.unicode,
@@ -1098,7 +737,7 @@ extension DomainPatterns on Domain {
   ) {
     final _that = this;
     switch (_that) {
-      case _Domain() when $default != null:
+      case _DomainData() when $default != null:
         return $default(
             _that.domain,
             _that.unicode,
@@ -1118,8 +757,8 @@ extension DomainPatterns on Domain {
 
 /// @nodoc
 @JsonSerializable()
-class _Domain implements Domain {
-  const _Domain(
+class _DomainData implements DomainData {
+  const _DomainData(
       {required this.domain,
       required this.unicode,
       required this.type,
@@ -1131,7 +770,8 @@ class _Domain implements Domain {
       @JsonKey(name: 'date_added') required this.dateAdded,
       @JsonKey(name: 'date_modified') required this.dateModified})
       : _groups = groups;
-  factory _Domain.fromJson(Map<String, dynamic> json) => _$DomainFromJson(json);
+  factory _DomainData.fromJson(Map<String, dynamic> json) =>
+      _$DomainDataFromJson(json);
 
   @override
   final String domain;
@@ -1171,17 +811,17 @@ class _Domain implements Domain {
   @JsonKey(name: 'date_modified')
   final int dateModified;
 
-  /// Create a copy of Domain
+  /// Create a copy of DomainData
   /// with the given fields replaced by the non-null parameter values.
   @override
   @JsonKey(includeFromJson: false, includeToJson: false)
   @pragma('vm:prefer-inline')
-  _$DomainCopyWith<_Domain> get copyWith =>
-      __$DomainCopyWithImpl<_Domain>(this, _$identity);
+  _$DomainDataCopyWith<_DomainData> get copyWith =>
+      __$DomainDataCopyWithImpl<_DomainData>(this, _$identity);
 
   @override
   Map<String, dynamic> toJson() {
-    return _$DomainToJson(
+    return _$DomainDataToJson(
       this,
     );
   }
@@ -1190,7 +830,7 @@ class _Domain implements Domain {
   bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _Domain &&
+            other is _DomainData &&
             (identical(other.domain, domain) || other.domain == domain) &&
             (identical(other.unicode, unicode) || other.unicode == unicode) &&
             (identical(other.type, type) || other.type == type) &&
@@ -1222,14 +862,16 @@ class _Domain implements Domain {
 
   @override
   String toString() {
-    return 'Domain(domain: $domain, unicode: $unicode, type: $type, kind: $kind, comment: $comment, groups: $groups, enabled: $enabled, id: $id, dateAdded: $dateAdded, dateModified: $dateModified)';
+    return 'DomainData(domain: $domain, unicode: $unicode, type: $type, kind: $kind, comment: $comment, groups: $groups, enabled: $enabled, id: $id, dateAdded: $dateAdded, dateModified: $dateModified)';
   }
 }
 
 /// @nodoc
-abstract mixin class _$DomainCopyWith<$Res> implements $DomainCopyWith<$Res> {
-  factory _$DomainCopyWith(_Domain value, $Res Function(_Domain) _then) =
-      __$DomainCopyWithImpl;
+abstract mixin class _$DomainDataCopyWith<$Res>
+    implements $DomainDataCopyWith<$Res> {
+  factory _$DomainDataCopyWith(
+          _DomainData value, $Res Function(_DomainData) _then) =
+      __$DomainDataCopyWithImpl;
   @override
   @useResult
   $Res call(
@@ -1246,13 +888,13 @@ abstract mixin class _$DomainCopyWith<$Res> implements $DomainCopyWith<$Res> {
 }
 
 /// @nodoc
-class __$DomainCopyWithImpl<$Res> implements _$DomainCopyWith<$Res> {
-  __$DomainCopyWithImpl(this._self, this._then);
+class __$DomainDataCopyWithImpl<$Res> implements _$DomainDataCopyWith<$Res> {
+  __$DomainDataCopyWithImpl(this._self, this._then);
 
-  final _Domain _self;
-  final $Res Function(_Domain) _then;
+  final _DomainData _self;
+  final $Res Function(_DomainData) _then;
 
-  /// Create a copy of Domain
+  /// Create a copy of DomainData
   /// with the given fields replaced by the non-null parameter values.
   @override
   @pragma('vm:prefer-inline')
@@ -1268,7 +910,7 @@ class __$DomainCopyWithImpl<$Res> implements _$DomainCopyWith<$Res> {
     Object? dateAdded = null,
     Object? dateModified = null,
   }) {
-    return _then(_Domain(
+    return _then(_DomainData(
       domain: null == domain
           ? _self.domain
           : domain // ignore: cast_nullable_to_non_nullable
@@ -1543,7 +1185,8 @@ extension ProcessedPatterns on Processed {
 }
 
 /// @nodoc
-@JsonSerializable()
+
+@JsonSerializable(explicitToJson: true)
 class _Processed implements Processed {
   const _Processed(
       {required final List<ProcessedItem> success,

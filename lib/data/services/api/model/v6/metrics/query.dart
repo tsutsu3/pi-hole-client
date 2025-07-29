@@ -5,6 +5,7 @@ part 'query.g.dart';
 
 @freezed
 sealed class Queries with _$Queries {
+  @JsonSerializable(explicitToJson: true)
   const factory Queries({
     required List<Query> queries,
     required int cursor,
@@ -20,6 +21,7 @@ sealed class Queries with _$Queries {
 
 @freezed
 sealed class Query with _$Query {
+  @JsonSerializable(explicitToJson: true)
   const factory Query({
     required int id,
     required double time,
@@ -27,6 +29,7 @@ sealed class Query with _$Query {
     required String domain,
     required Client client,
     required Reply reply,
+    required Ede ede,
     String? cname,
     String? status,
     String? dnssec,
@@ -55,4 +58,14 @@ sealed class Reply with _$Reply {
   }) = _Reply;
 
   factory Reply.fromJson(Map<String, dynamic> json) => _$ReplyFromJson(json);
+}
+
+@freezed
+sealed class Ede with _$Ede {
+  const factory Ede({
+    required int code,
+    String? text,
+  }) = _Ede;
+
+  factory Ede.fromJson(Map<String, dynamic> json) => _$EdeFromJson(json);
 }

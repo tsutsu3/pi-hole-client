@@ -13,25 +13,25 @@ part of 'version.dart';
 T _$identity<T>(T value) => value;
 
 /// @nodoc
-mixin _$Version {
-  VersionData get version; // `version` フィールドを追加
+mixin _$InfoVersion {
+  VersionData get version;
   double get took;
 
-  /// Create a copy of Version
+  /// Create a copy of InfoVersion
   /// with the given fields replaced by the non-null parameter values.
   @JsonKey(includeFromJson: false, includeToJson: false)
   @pragma('vm:prefer-inline')
-  $VersionCopyWith<Version> get copyWith =>
-      _$VersionCopyWithImpl<Version>(this as Version, _$identity);
+  $InfoVersionCopyWith<InfoVersion> get copyWith =>
+      _$InfoVersionCopyWithImpl<InfoVersion>(this as InfoVersion, _$identity);
 
-  /// Serializes this Version to a JSON map.
+  /// Serializes this InfoVersion to a JSON map.
   Map<String, dynamic> toJson();
 
   @override
   bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is Version &&
+            other is InfoVersion &&
             (identical(other.version, version) || other.version == version) &&
             (identical(other.took, took) || other.took == took));
   }
@@ -42,14 +42,15 @@ mixin _$Version {
 
   @override
   String toString() {
-    return 'Version(version: $version, took: $took)';
+    return 'InfoVersion(version: $version, took: $took)';
   }
 }
 
 /// @nodoc
-abstract mixin class $VersionCopyWith<$Res> {
-  factory $VersionCopyWith(Version value, $Res Function(Version) _then) =
-      _$VersionCopyWithImpl;
+abstract mixin class $InfoVersionCopyWith<$Res> {
+  factory $InfoVersionCopyWith(
+          InfoVersion value, $Res Function(InfoVersion) _then) =
+      _$InfoVersionCopyWithImpl;
   @useResult
   $Res call({VersionData version, double took});
 
@@ -57,13 +58,13 @@ abstract mixin class $VersionCopyWith<$Res> {
 }
 
 /// @nodoc
-class _$VersionCopyWithImpl<$Res> implements $VersionCopyWith<$Res> {
-  _$VersionCopyWithImpl(this._self, this._then);
+class _$InfoVersionCopyWithImpl<$Res> implements $InfoVersionCopyWith<$Res> {
+  _$InfoVersionCopyWithImpl(this._self, this._then);
 
-  final Version _self;
-  final $Res Function(Version) _then;
+  final InfoVersion _self;
+  final $Res Function(InfoVersion) _then;
 
-  /// Create a copy of Version
+  /// Create a copy of InfoVersion
   /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
@@ -83,7 +84,7 @@ class _$VersionCopyWithImpl<$Res> implements $VersionCopyWith<$Res> {
     ));
   }
 
-  /// Create a copy of Version
+  /// Create a copy of InfoVersion
   /// with the given fields replaced by the non-null parameter values.
   @override
   @pragma('vm:prefer-inline')
@@ -94,8 +95,8 @@ class _$VersionCopyWithImpl<$Res> implements $VersionCopyWith<$Res> {
   }
 }
 
-/// Adds pattern-matching-related methods to [Version].
-extension VersionPatterns on Version {
+/// Adds pattern-matching-related methods to [InfoVersion].
+extension InfoVersionPatterns on InfoVersion {
   /// A variant of `map` that fallback to returning `orElse`.
   ///
   /// It is equivalent to doing:
@@ -110,12 +111,12 @@ extension VersionPatterns on Version {
 
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>(
-    TResult Function(_Version value)? $default, {
+    TResult Function(_InfoVersion value)? $default, {
     required TResult orElse(),
   }) {
     final _that = this;
     switch (_that) {
-      case _Version() when $default != null:
+      case _InfoVersion() when $default != null:
         return $default(_that);
       case _:
         return orElse();
@@ -137,11 +138,11 @@ extension VersionPatterns on Version {
 
   @optionalTypeArgs
   TResult map<TResult extends Object?>(
-    TResult Function(_Version value) $default,
+    TResult Function(_InfoVersion value) $default,
   ) {
     final _that = this;
     switch (_that) {
-      case _Version():
+      case _InfoVersion():
         return $default(_that);
     }
   }
@@ -160,11 +161,11 @@ extension VersionPatterns on Version {
 
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>(
-    TResult? Function(_Version value)? $default,
+    TResult? Function(_InfoVersion value)? $default,
   ) {
     final _that = this;
     switch (_that) {
-      case _Version() when $default != null:
+      case _InfoVersion() when $default != null:
         return $default(_that);
       case _:
         return null;
@@ -190,7 +191,7 @@ extension VersionPatterns on Version {
   }) {
     final _that = this;
     switch (_that) {
-      case _Version() when $default != null:
+      case _InfoVersion() when $default != null:
         return $default(_that.version, _that.took);
       case _:
         return orElse();
@@ -216,7 +217,7 @@ extension VersionPatterns on Version {
   ) {
     final _that = this;
     switch (_that) {
-      case _Version():
+      case _InfoVersion():
         return $default(_that.version, _that.took);
     }
   }
@@ -239,7 +240,7 @@ extension VersionPatterns on Version {
   ) {
     final _that = this;
     switch (_that) {
-      case _Version() when $default != null:
+      case _InfoVersion() when $default != null:
         return $default(_that.version, _that.took);
       case _:
         return null;
@@ -248,29 +249,29 @@ extension VersionPatterns on Version {
 }
 
 /// @nodoc
-@JsonSerializable()
-class _Version implements Version {
-  const _Version({required this.version, required this.took});
-  factory _Version.fromJson(Map<String, dynamic> json) =>
-      _$VersionFromJson(json);
+
+@JsonSerializable(explicitToJson: true)
+class _InfoVersion implements InfoVersion {
+  const _InfoVersion({required this.version, required this.took});
+  factory _InfoVersion.fromJson(Map<String, dynamic> json) =>
+      _$InfoVersionFromJson(json);
 
   @override
   final VersionData version;
-// `version` フィールドを追加
   @override
   final double took;
 
-  /// Create a copy of Version
+  /// Create a copy of InfoVersion
   /// with the given fields replaced by the non-null parameter values.
   @override
   @JsonKey(includeFromJson: false, includeToJson: false)
   @pragma('vm:prefer-inline')
-  _$VersionCopyWith<_Version> get copyWith =>
-      __$VersionCopyWithImpl<_Version>(this, _$identity);
+  _$InfoVersionCopyWith<_InfoVersion> get copyWith =>
+      __$InfoVersionCopyWithImpl<_InfoVersion>(this, _$identity);
 
   @override
   Map<String, dynamic> toJson() {
-    return _$VersionToJson(
+    return _$InfoVersionToJson(
       this,
     );
   }
@@ -279,7 +280,7 @@ class _Version implements Version {
   bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _Version &&
+            other is _InfoVersion &&
             (identical(other.version, version) || other.version == version) &&
             (identical(other.took, took) || other.took == took));
   }
@@ -290,14 +291,16 @@ class _Version implements Version {
 
   @override
   String toString() {
-    return 'Version(version: $version, took: $took)';
+    return 'InfoVersion(version: $version, took: $took)';
   }
 }
 
 /// @nodoc
-abstract mixin class _$VersionCopyWith<$Res> implements $VersionCopyWith<$Res> {
-  factory _$VersionCopyWith(_Version value, $Res Function(_Version) _then) =
-      __$VersionCopyWithImpl;
+abstract mixin class _$InfoVersionCopyWith<$Res>
+    implements $InfoVersionCopyWith<$Res> {
+  factory _$InfoVersionCopyWith(
+          _InfoVersion value, $Res Function(_InfoVersion) _then) =
+      __$InfoVersionCopyWithImpl;
   @override
   @useResult
   $Res call({VersionData version, double took});
@@ -307,13 +310,13 @@ abstract mixin class _$VersionCopyWith<$Res> implements $VersionCopyWith<$Res> {
 }
 
 /// @nodoc
-class __$VersionCopyWithImpl<$Res> implements _$VersionCopyWith<$Res> {
-  __$VersionCopyWithImpl(this._self, this._then);
+class __$InfoVersionCopyWithImpl<$Res> implements _$InfoVersionCopyWith<$Res> {
+  __$InfoVersionCopyWithImpl(this._self, this._then);
 
-  final _Version _self;
-  final $Res Function(_Version) _then;
+  final _InfoVersion _self;
+  final $Res Function(_InfoVersion) _then;
 
-  /// Create a copy of Version
+  /// Create a copy of InfoVersion
   /// with the given fields replaced by the non-null parameter values.
   @override
   @pragma('vm:prefer-inline')
@@ -321,7 +324,7 @@ class __$VersionCopyWithImpl<$Res> implements _$VersionCopyWith<$Res> {
     Object? version = null,
     Object? took = null,
   }) {
-    return _then(_Version(
+    return _then(_InfoVersion(
       version: null == version
           ? _self.version
           : version // ignore: cast_nullable_to_non_nullable
@@ -333,7 +336,7 @@ class __$VersionCopyWithImpl<$Res> implements _$VersionCopyWith<$Res> {
     ));
   }
 
-  /// Create a copy of Version
+  /// Create a copy of InfoVersion
   /// with the given fields replaced by the non-null parameter values.
   @override
   @pragma('vm:prefer-inline')
@@ -628,7 +631,8 @@ extension VersionDataPatterns on VersionData {
 }
 
 /// @nodoc
-@JsonSerializable()
+
+@JsonSerializable(explicitToJson: true)
 class _VersionData implements VersionData {
   const _VersionData(
       {required this.core,
@@ -1028,7 +1032,8 @@ extension CorePatterns on Core {
 }
 
 /// @nodoc
-@JsonSerializable()
+
+@JsonSerializable(explicitToJson: true)
 class _Core implements Core {
   const _Core({required this.local, required this.remote});
   factory _Core.fromJson(Map<String, dynamic> json) => _$CoreFromJson(json);
@@ -1380,7 +1385,8 @@ extension WebPatterns on Web {
 }
 
 /// @nodoc
-@JsonSerializable()
+
+@JsonSerializable(explicitToJson: true)
 class _Web implements Web {
   const _Web({required this.local, required this.remote});
   factory _Web.fromJson(Map<String, dynamic> json) => _$WebFromJson(json);
@@ -1732,7 +1738,8 @@ extension FTLPatterns on FTL {
 }
 
 /// @nodoc
-@JsonSerializable()
+
+@JsonSerializable(explicitToJson: true)
 class _FTL implements FTL {
   const _FTL({required this.local, required this.remote});
   factory _FTL.fromJson(Map<String, dynamic> json) => _$FTLFromJson(json);

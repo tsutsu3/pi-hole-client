@@ -589,7 +589,7 @@ void main() {
     });
 
     test('setMetricsInfo updates value and notifies listeners', () {
-      final metrics = Metrics.fromJson(
+      final metrics = InfoMetrics.fromJson(
         {
           'metrics': {
             'dns': {

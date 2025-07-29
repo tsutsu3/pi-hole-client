@@ -5,6 +5,7 @@ part 'sessions.g.dart';
 
 @freezed
 sealed class AuthSessions with _$AuthSessions {
+  @JsonSerializable(explicitToJson: true)
   const factory AuthSessions({
     required List<SessionData> sessions,
     required double took,
@@ -16,6 +17,7 @@ sealed class AuthSessions with _$AuthSessions {
 
 @freezed
 sealed class SessionData with _$SessionData {
+  @JsonSerializable(explicitToJson: true)
   const factory SessionData({
     required int id,
     @JsonKey(name: 'current_session') required bool currentSession,

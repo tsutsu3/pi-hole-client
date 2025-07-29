@@ -16,7 +16,7 @@ _AuthSessions _$AuthSessionsFromJson(Map<String, dynamic> json) =>
 
 Map<String, dynamic> _$AuthSessionsToJson(_AuthSessions instance) =>
     <String, dynamic>{
-      'sessions': instance.sessions,
+      'sessions': instance.sessions.map((e) => e.toJson()).toList(),
       'took': instance.took,
     };
 
@@ -40,7 +40,7 @@ Map<String, dynamic> _$SessionDataToJson(_SessionData instance) =>
       'id': instance.id,
       'current_session': instance.currentSession,
       'valid': instance.valid,
-      'tls': instance.tls,
+      'tls': instance.tls.toJson(),
       'app': instance.app,
       'cli': instance.cli,
       'login_at': instance.loginAt,

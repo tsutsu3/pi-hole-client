@@ -4,14 +4,15 @@ part 'messages.freezed.dart';
 part 'messages.g.dart';
 
 @freezed
-sealed class Messages with _$Messages {
-  const factory Messages({
+sealed class InfoMessages with _$InfoMessages {
+  @JsonSerializable(explicitToJson: true)
+  const factory InfoMessages({
     required List<Message> messages,
     required double took,
-  }) = _Messages;
+  }) = _InfoMessages;
 
-  factory Messages.fromJson(Map<String, dynamic> json) =>
-      _$MessagesFromJson(json);
+  factory InfoMessages.fromJson(Map<String, dynamic> json) =>
+      _$InfoMessagesFromJson(json);
 }
 
 @freezed

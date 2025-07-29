@@ -6,13 +6,14 @@ part of 'version.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-_Version _$VersionFromJson(Map<String, dynamic> json) => _Version(
+_InfoVersion _$InfoVersionFromJson(Map<String, dynamic> json) => _InfoVersion(
       version: VersionData.fromJson(json['version'] as Map<String, dynamic>),
       took: (json['took'] as num).toDouble(),
     );
 
-Map<String, dynamic> _$VersionToJson(_Version instance) => <String, dynamic>{
-      'version': instance.version,
+Map<String, dynamic> _$InfoVersionToJson(_InfoVersion instance) =>
+    <String, dynamic>{
+      'version': instance.version.toJson(),
       'took': instance.took,
     };
 
@@ -25,10 +26,10 @@ _VersionData _$VersionDataFromJson(Map<String, dynamic> json) => _VersionData(
 
 Map<String, dynamic> _$VersionDataToJson(_VersionData instance) =>
     <String, dynamic>{
-      'core': instance.core,
-      'web': instance.web,
-      'ftl': instance.ftl,
-      'docker': instance.docker,
+      'core': instance.core.toJson(),
+      'web': instance.web.toJson(),
+      'ftl': instance.ftl.toJson(),
+      'docker': instance.docker.toJson(),
     };
 
 _Core _$CoreFromJson(Map<String, dynamic> json) => _Core(
@@ -37,8 +38,8 @@ _Core _$CoreFromJson(Map<String, dynamic> json) => _Core(
     );
 
 Map<String, dynamic> _$CoreToJson(_Core instance) => <String, dynamic>{
-      'local': instance.local,
-      'remote': instance.remote,
+      'local': instance.local.toJson(),
+      'remote': instance.remote.toJson(),
     };
 
 _Web _$WebFromJson(Map<String, dynamic> json) => _Web(
@@ -47,8 +48,8 @@ _Web _$WebFromJson(Map<String, dynamic> json) => _Web(
     );
 
 Map<String, dynamic> _$WebToJson(_Web instance) => <String, dynamic>{
-      'local': instance.local,
-      'remote': instance.remote,
+      'local': instance.local.toJson(),
+      'remote': instance.remote.toJson(),
     };
 
 _FTL _$FTLFromJson(Map<String, dynamic> json) => _FTL(
@@ -57,8 +58,8 @@ _FTL _$FTLFromJson(Map<String, dynamic> json) => _FTL(
     );
 
 Map<String, dynamic> _$FTLToJson(_FTL instance) => <String, dynamic>{
-      'local': instance.local,
-      'remote': instance.remote,
+      'local': instance.local.toJson(),
+      'remote': instance.remote.toJson(),
     };
 
 _Docker _$DockerFromJson(Map<String, dynamic> json) => _Docker(

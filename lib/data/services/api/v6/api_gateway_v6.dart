@@ -17,23 +17,23 @@ import 'package:pi_hole_client/data/services/api/model/v6/dhcp/dhcp.dart'
 import 'package:pi_hole_client/data/services/api/model/v6/dns/dns.dart'
     show Blocking;
 import 'package:pi_hole_client/data/services/api/model/v6/domains/domains.dart'
-    show AddDomains, Domains;
+    show Domains;
 import 'package:pi_hole_client/data/services/api/model/v6/ftl/client.dart'
-// ignore: library_prefixes
-    as FtlClient show Client;
+    show InfoClient;
 import 'package:pi_hole_client/data/services/api/model/v6/ftl/ftl.dart'
     show InfoFtl;
 import 'package:pi_hole_client/data/services/api/model/v6/ftl/host.dart'
-    show Host;
+    show InfoHost;
 import 'package:pi_hole_client/data/services/api/model/v6/ftl/messages.dart'
-    show Messages;
-import 'package:pi_hole_client/data/services/api/model/v6/ftl/metrics.dart';
+    show InfoMessages;
+import 'package:pi_hole_client/data/services/api/model/v6/ftl/metrics.dart'
+    show InfoMetrics;
 import 'package:pi_hole_client/data/services/api/model/v6/ftl/sensors.dart'
-    show Sensors;
+    show InfoSensors;
 import 'package:pi_hole_client/data/services/api/model/v6/ftl/system.dart'
-    show System;
+    show InfoSystem;
 import 'package:pi_hole_client/data/services/api/model/v6/ftl/version.dart'
-    show Version;
+    show InfoVersion;
 import 'package:pi_hole_client/data/services/api/model/v6/groups/groups.dart'
     show Groups;
 import 'package:pi_hole_client/data/services/api/model/v6/lists/lists.dart'
@@ -675,7 +675,7 @@ class ApiGatewayV6 implements ApiGateway {
         },
       );
       if (response.statusCode == 201) {
-        final domains = AddDomains.fromJson(jsonDecode(response.body));
+        final domains = Domains.fromJson(jsonDecode(response.body));
         return SetWhiteBlacklistResponse(
           result: APiResponseType.success,
           data: DomainResult.fromV6(domains),
@@ -818,18 +818,18 @@ class ApiGatewayV6 implements ApiGateway {
         },
       );
       if (response.statusCode == 201) {
-        final domains = AddDomains.fromJson(jsonDecode(response.body));
+        final domains = Domains.fromJson(jsonDecode(response.body));
 
-        if (domains.domains.length != 1) {
+        if (domains.domains.length != 1 || domains.processed == null) {
           return AddDomainToListResponse(result: APiResponseType.error);
         }
 
-        if (domains.processed.success.isNotEmpty) {
+        if (domains.processed!.success.isNotEmpty) {
           return AddDomainToListResponse(result: APiResponseType.success);
         }
 
-        if (domains.processed.errors.isNotEmpty &&
-            domains.processed.errors[0].error
+        if (domains.processed!.errors.isNotEmpty &&
+            domains.processed!.errors[0].error
                 .contains('UNIQUE constraint failed:')) {
           return AddDomainToListResponse(result: APiResponseType.alreadyAdded);
         }
@@ -891,7 +891,7 @@ class ApiGatewayV6 implements ApiGateway {
       );
 
       if (results.statusCode == 200) {
-        final host = Host.fromJson(jsonDecode(results.body));
+        final host = InfoHost.fromJson(jsonDecode(results.body));
 
         return HostResponse(
           result: APiResponseType.success,
@@ -920,7 +920,7 @@ class ApiGatewayV6 implements ApiGateway {
       );
 
       if (results.statusCode == 200) {
-        final sensors = Sensors.fromJson(jsonDecode(results.body));
+        final sensors = InfoSensors.fromJson(jsonDecode(results.body));
 
         return SensorsResponse(
           result: APiResponseType.success,
@@ -949,7 +949,7 @@ class ApiGatewayV6 implements ApiGateway {
       );
 
       if (results.statusCode == 200) {
-        final system = System.fromJson(jsonDecode(results.body));
+        final system = InfoSystem.fromJson(jsonDecode(results.body));
 
         return SystemResponse(
           result: APiResponseType.success,
@@ -978,7 +978,7 @@ class ApiGatewayV6 implements ApiGateway {
       );
 
       if (results.statusCode == 200) {
-        final version = Version.fromJson(jsonDecode(results.body));
+        final version = InfoVersion.fromJson(jsonDecode(results.body));
 
         return VersionResponse(
           result: APiResponseType.success,
@@ -1348,7 +1348,7 @@ class ApiGatewayV6 implements ApiGateway {
       );
 
       if (results.statusCode == 200) {
-        final messages = Messages.fromJson(jsonDecode(results.body));
+        final messages = InfoMessages.fromJson(jsonDecode(results.body));
 
         return MessagesResponse(
           result: APiResponseType.success,
@@ -1406,7 +1406,7 @@ class ApiGatewayV6 implements ApiGateway {
       );
 
       if (results.statusCode == 200) {
-        final metrics = Metrics.fromJson(jsonDecode(results.body));
+        final metrics = InfoMetrics.fromJson(jsonDecode(results.body));
 
         return MetricsResponse(
           result: APiResponseType.success,
@@ -1777,7 +1777,7 @@ class ApiGatewayV6 implements ApiGateway {
       );
 
       if (results.statusCode == 200) {
-        final client = FtlClient.Client.fromJson(jsonDecode(results.body));
+        final client = InfoClient.fromJson(jsonDecode(results.body));
 
         return ClientResponse(
           result: APiResponseType.success,

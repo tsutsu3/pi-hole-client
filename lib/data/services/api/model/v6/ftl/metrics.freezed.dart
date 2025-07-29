@@ -13,25 +13,25 @@ part of 'metrics.dart';
 T _$identity<T>(T value) => value;
 
 /// @nodoc
-mixin _$Metrics {
+mixin _$InfoMetrics {
   MetricsData get metrics;
   double get took;
 
-  /// Create a copy of Metrics
+  /// Create a copy of InfoMetrics
   /// with the given fields replaced by the non-null parameter values.
   @JsonKey(includeFromJson: false, includeToJson: false)
   @pragma('vm:prefer-inline')
-  $MetricsCopyWith<Metrics> get copyWith =>
-      _$MetricsCopyWithImpl<Metrics>(this as Metrics, _$identity);
+  $InfoMetricsCopyWith<InfoMetrics> get copyWith =>
+      _$InfoMetricsCopyWithImpl<InfoMetrics>(this as InfoMetrics, _$identity);
 
-  /// Serializes this Metrics to a JSON map.
+  /// Serializes this InfoMetrics to a JSON map.
   Map<String, dynamic> toJson();
 
   @override
   bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is Metrics &&
+            other is InfoMetrics &&
             (identical(other.metrics, metrics) || other.metrics == metrics) &&
             (identical(other.took, took) || other.took == took));
   }
@@ -42,14 +42,15 @@ mixin _$Metrics {
 
   @override
   String toString() {
-    return 'Metrics(metrics: $metrics, took: $took)';
+    return 'InfoMetrics(metrics: $metrics, took: $took)';
   }
 }
 
 /// @nodoc
-abstract mixin class $MetricsCopyWith<$Res> {
-  factory $MetricsCopyWith(Metrics value, $Res Function(Metrics) _then) =
-      _$MetricsCopyWithImpl;
+abstract mixin class $InfoMetricsCopyWith<$Res> {
+  factory $InfoMetricsCopyWith(
+          InfoMetrics value, $Res Function(InfoMetrics) _then) =
+      _$InfoMetricsCopyWithImpl;
   @useResult
   $Res call({MetricsData metrics, double took});
 
@@ -57,13 +58,13 @@ abstract mixin class $MetricsCopyWith<$Res> {
 }
 
 /// @nodoc
-class _$MetricsCopyWithImpl<$Res> implements $MetricsCopyWith<$Res> {
-  _$MetricsCopyWithImpl(this._self, this._then);
+class _$InfoMetricsCopyWithImpl<$Res> implements $InfoMetricsCopyWith<$Res> {
+  _$InfoMetricsCopyWithImpl(this._self, this._then);
 
-  final Metrics _self;
-  final $Res Function(Metrics) _then;
+  final InfoMetrics _self;
+  final $Res Function(InfoMetrics) _then;
 
-  /// Create a copy of Metrics
+  /// Create a copy of InfoMetrics
   /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
@@ -83,7 +84,7 @@ class _$MetricsCopyWithImpl<$Res> implements $MetricsCopyWith<$Res> {
     ));
   }
 
-  /// Create a copy of Metrics
+  /// Create a copy of InfoMetrics
   /// with the given fields replaced by the non-null parameter values.
   @override
   @pragma('vm:prefer-inline')
@@ -94,8 +95,8 @@ class _$MetricsCopyWithImpl<$Res> implements $MetricsCopyWith<$Res> {
   }
 }
 
-/// Adds pattern-matching-related methods to [Metrics].
-extension MetricsPatterns on Metrics {
+/// Adds pattern-matching-related methods to [InfoMetrics].
+extension InfoMetricsPatterns on InfoMetrics {
   /// A variant of `map` that fallback to returning `orElse`.
   ///
   /// It is equivalent to doing:
@@ -110,12 +111,12 @@ extension MetricsPatterns on Metrics {
 
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>(
-    TResult Function(_Metrics value)? $default, {
+    TResult Function(_InfoMetrics value)? $default, {
     required TResult orElse(),
   }) {
     final _that = this;
     switch (_that) {
-      case _Metrics() when $default != null:
+      case _InfoMetrics() when $default != null:
         return $default(_that);
       case _:
         return orElse();
@@ -137,11 +138,11 @@ extension MetricsPatterns on Metrics {
 
   @optionalTypeArgs
   TResult map<TResult extends Object?>(
-    TResult Function(_Metrics value) $default,
+    TResult Function(_InfoMetrics value) $default,
   ) {
     final _that = this;
     switch (_that) {
-      case _Metrics():
+      case _InfoMetrics():
         return $default(_that);
     }
   }
@@ -160,11 +161,11 @@ extension MetricsPatterns on Metrics {
 
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>(
-    TResult? Function(_Metrics value)? $default,
+    TResult? Function(_InfoMetrics value)? $default,
   ) {
     final _that = this;
     switch (_that) {
-      case _Metrics() when $default != null:
+      case _InfoMetrics() when $default != null:
         return $default(_that);
       case _:
         return null;
@@ -190,7 +191,7 @@ extension MetricsPatterns on Metrics {
   }) {
     final _that = this;
     switch (_that) {
-      case _Metrics() when $default != null:
+      case _InfoMetrics() when $default != null:
         return $default(_that.metrics, _that.took);
       case _:
         return orElse();
@@ -216,7 +217,7 @@ extension MetricsPatterns on Metrics {
   ) {
     final _that = this;
     switch (_that) {
-      case _Metrics():
+      case _InfoMetrics():
         return $default(_that.metrics, _that.took);
     }
   }
@@ -239,7 +240,7 @@ extension MetricsPatterns on Metrics {
   ) {
     final _that = this;
     switch (_that) {
-      case _Metrics() when $default != null:
+      case _InfoMetrics() when $default != null:
         return $default(_that.metrics, _that.took);
       case _:
         return null;
@@ -248,28 +249,29 @@ extension MetricsPatterns on Metrics {
 }
 
 /// @nodoc
-@JsonSerializable()
-class _Metrics implements Metrics {
-  const _Metrics({required this.metrics, required this.took});
-  factory _Metrics.fromJson(Map<String, dynamic> json) =>
-      _$MetricsFromJson(json);
+
+@JsonSerializable(explicitToJson: true)
+class _InfoMetrics implements InfoMetrics {
+  const _InfoMetrics({required this.metrics, required this.took});
+  factory _InfoMetrics.fromJson(Map<String, dynamic> json) =>
+      _$InfoMetricsFromJson(json);
 
   @override
   final MetricsData metrics;
   @override
   final double took;
 
-  /// Create a copy of Metrics
+  /// Create a copy of InfoMetrics
   /// with the given fields replaced by the non-null parameter values.
   @override
   @JsonKey(includeFromJson: false, includeToJson: false)
   @pragma('vm:prefer-inline')
-  _$MetricsCopyWith<_Metrics> get copyWith =>
-      __$MetricsCopyWithImpl<_Metrics>(this, _$identity);
+  _$InfoMetricsCopyWith<_InfoMetrics> get copyWith =>
+      __$InfoMetricsCopyWithImpl<_InfoMetrics>(this, _$identity);
 
   @override
   Map<String, dynamic> toJson() {
-    return _$MetricsToJson(
+    return _$InfoMetricsToJson(
       this,
     );
   }
@@ -278,7 +280,7 @@ class _Metrics implements Metrics {
   bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _Metrics &&
+            other is _InfoMetrics &&
             (identical(other.metrics, metrics) || other.metrics == metrics) &&
             (identical(other.took, took) || other.took == took));
   }
@@ -289,14 +291,16 @@ class _Metrics implements Metrics {
 
   @override
   String toString() {
-    return 'Metrics(metrics: $metrics, took: $took)';
+    return 'InfoMetrics(metrics: $metrics, took: $took)';
   }
 }
 
 /// @nodoc
-abstract mixin class _$MetricsCopyWith<$Res> implements $MetricsCopyWith<$Res> {
-  factory _$MetricsCopyWith(_Metrics value, $Res Function(_Metrics) _then) =
-      __$MetricsCopyWithImpl;
+abstract mixin class _$InfoMetricsCopyWith<$Res>
+    implements $InfoMetricsCopyWith<$Res> {
+  factory _$InfoMetricsCopyWith(
+          _InfoMetrics value, $Res Function(_InfoMetrics) _then) =
+      __$InfoMetricsCopyWithImpl;
   @override
   @useResult
   $Res call({MetricsData metrics, double took});
@@ -306,13 +310,13 @@ abstract mixin class _$MetricsCopyWith<$Res> implements $MetricsCopyWith<$Res> {
 }
 
 /// @nodoc
-class __$MetricsCopyWithImpl<$Res> implements _$MetricsCopyWith<$Res> {
-  __$MetricsCopyWithImpl(this._self, this._then);
+class __$InfoMetricsCopyWithImpl<$Res> implements _$InfoMetricsCopyWith<$Res> {
+  __$InfoMetricsCopyWithImpl(this._self, this._then);
 
-  final _Metrics _self;
-  final $Res Function(_Metrics) _then;
+  final _InfoMetrics _self;
+  final $Res Function(_InfoMetrics) _then;
 
-  /// Create a copy of Metrics
+  /// Create a copy of InfoMetrics
   /// with the given fields replaced by the non-null parameter values.
   @override
   @pragma('vm:prefer-inline')
@@ -320,7 +324,7 @@ class __$MetricsCopyWithImpl<$Res> implements _$MetricsCopyWith<$Res> {
     Object? metrics = null,
     Object? took = null,
   }) {
-    return _then(_Metrics(
+    return _then(_InfoMetrics(
       metrics: null == metrics
           ? _self.metrics
           : metrics // ignore: cast_nullable_to_non_nullable
@@ -332,7 +336,7 @@ class __$MetricsCopyWithImpl<$Res> implements _$MetricsCopyWith<$Res> {
     ));
   }
 
-  /// Create a copy of Metrics
+  /// Create a copy of InfoMetrics
   /// with the given fields replaced by the non-null parameter values.
   @override
   @pragma('vm:prefer-inline')
@@ -591,7 +595,8 @@ extension MetricsDataPatterns on MetricsData {
 }
 
 /// @nodoc
-@JsonSerializable()
+
+@JsonSerializable(explicitToJson: true)
 class _MetricsData implements MetricsData {
   const _MetricsData({required this.dns, required this.dhcp});
   factory _MetricsData.fromJson(Map<String, dynamic> json) =>
@@ -948,7 +953,8 @@ extension DnsMetricsPatterns on DnsMetrics {
 }
 
 /// @nodoc
-@JsonSerializable()
+
+@JsonSerializable(explicitToJson: true)
 class _DnsMetrics implements DnsMetrics {
   const _DnsMetrics({required this.cache, required this.replies});
   factory _DnsMetrics.fromJson(Map<String, dynamic> json) =>
@@ -1327,7 +1333,8 @@ extension DnsCachePatterns on DnsCache {
 }
 
 /// @nodoc
-@JsonSerializable()
+
+@JsonSerializable(explicitToJson: true)
 class _DnsCache implements DnsCache {
   const _DnsCache(
       {required this.size,
@@ -1709,7 +1716,8 @@ extension DnsCacheEntryPatterns on DnsCacheEntry {
 }
 
 /// @nodoc
-@JsonSerializable()
+
+@JsonSerializable(explicitToJson: true)
 class _DnsCacheEntry implements DnsCacheEntry {
   const _DnsCacheEntry(
       {required this.type, required this.name, required this.count});
@@ -2929,7 +2937,8 @@ extension DhcpMetricsPatterns on DhcpMetrics {
 }
 
 /// @nodoc
-@JsonSerializable()
+
+@JsonSerializable(explicitToJson: true)
 class _DhcpMetrics implements DhcpMetrics {
   const _DhcpMetrics(
       {required this.ack,

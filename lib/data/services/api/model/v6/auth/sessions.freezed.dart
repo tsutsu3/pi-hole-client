@@ -239,7 +239,8 @@ extension AuthSessionsPatterns on AuthSessions {
 }
 
 /// @nodoc
-@JsonSerializable()
+
+@JsonSerializable(explicitToJson: true)
 class _AuthSessions implements AuthSessions {
   const _AuthSessions(
       {required final List<SessionData> sessions, required this.took})
@@ -753,7 +754,8 @@ extension SessionDataPatterns on SessionData {
 }
 
 /// @nodoc
-@JsonSerializable()
+
+@JsonSerializable(explicitToJson: true)
 class _SessionData implements SessionData {
   const _SessionData(
       {required this.id,

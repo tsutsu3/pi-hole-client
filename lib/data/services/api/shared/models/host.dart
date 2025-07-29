@@ -11,7 +11,7 @@ class HostInfo {
     required this.model,
   });
 
-  factory HostInfo.fromV6(Host host) {
+  factory HostInfo.fromV6(InfoHost host) {
     return HostInfo(
       domainName: host.host.uname.domainname,
       arch: host.host.uname.machine,

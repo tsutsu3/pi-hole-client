@@ -5,6 +5,7 @@ part 'lists.g.dart';
 
 @freezed
 sealed class Lists with _$Lists {
+  @JsonSerializable(explicitToJson: true)
   const factory Lists({
     required List<ListItem> lists,
     required double took,
@@ -38,6 +39,7 @@ sealed class ListItem with _$ListItem {
 
 @freezed
 sealed class Processed with _$Processed {
+  @JsonSerializable(explicitToJson: true)
   const factory Processed({
     required List<SuccessItem> success,
     required List<ErrorItem> errors,

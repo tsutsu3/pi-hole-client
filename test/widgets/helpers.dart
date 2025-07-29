@@ -18,19 +18,19 @@ import 'package:pi_hole_client/data/services/api/model/v6/config/config.dart'
 import 'package:pi_hole_client/data/services/api/model/v6/dhcp/dhcp.dart'
     show Dhcp;
 import 'package:pi_hole_client/data/services/api/model/v6/ftl/client.dart'
-// ignore: library_prefixes
-    as FtlClient show Client;
+    show InfoClient;
 import 'package:pi_hole_client/data/services/api/model/v6/ftl/host.dart'
-    show Host;
+    show InfoHost;
 import 'package:pi_hole_client/data/services/api/model/v6/ftl/messages.dart'
-    show Messages;
-import 'package:pi_hole_client/data/services/api/model/v6/ftl/metrics.dart';
+    show InfoMessages;
+import 'package:pi_hole_client/data/services/api/model/v6/ftl/metrics.dart'
+    show InfoMetrics;
 import 'package:pi_hole_client/data/services/api/model/v6/ftl/sensors.dart'
-    show Sensors;
+    show InfoSensors;
 import 'package:pi_hole_client/data/services/api/model/v6/ftl/system.dart'
-    show System;
+    show InfoSystem;
 import 'package:pi_hole_client/data/services/api/model/v6/ftl/version.dart'
-    show Version;
+    show InfoVersion;
 import 'package:pi_hole_client/data/services/api/model/v6/groups/groups.dart'
     show Groups;
 import 'package:pi_hole_client/data/services/api/model/v6/lists/lists.dart'
@@ -690,7 +690,7 @@ final realtimeStatus = RealtimeStatus.fromJson(
   },
 );
 
-final host = Host.fromJson(
+final host = InfoHost.fromJson(
   {
     'host': {
       'uname': {
@@ -721,7 +721,7 @@ final host = Host.fromJson(
   },
 );
 
-final version = Version.fromJson(
+final version = InfoVersion.fromJson(
   {
     'version': {
       'core': {
@@ -767,7 +767,7 @@ final version = Version.fromJson(
   },
 );
 
-final sensors = Sensors.fromJson(
+final sensors = InfoSensors.fromJson(
   {
     'sensors': {
       'list': [
@@ -794,7 +794,7 @@ final sensors = Sensors.fromJson(
   },
 );
 
-final system = System.fromJson(
+final system = InfoSystem.fromJson(
   {
     'system': {
       'uptime': 67906,
@@ -883,7 +883,7 @@ final groups = Groups.fromJson(
   },
 );
 
-final messages = Messages.fromJson(
+final messages = InfoMessages.fromJson(
   {
     'messages': [
       {
@@ -908,7 +908,7 @@ final messages = Messages.fromJson(
   },
 );
 
-final metrics = Metrics.fromJson(
+final metrics = InfoMetrics.fromJson(
   {
     'metrics': {
       'dns': {
@@ -1330,7 +1330,7 @@ final sessions = AuthSessions.fromJson(
   },
 );
 
-final client = FtlClient.Client.fromJson(
+final client = InfoClient.fromJson(
   {
     'remote_addr': '192.168.1.51',
     'http_version': '1.1',

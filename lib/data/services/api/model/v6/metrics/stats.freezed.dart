@@ -295,7 +295,8 @@ extension StatsSummaryPatterns on StatsSummary {
 }
 
 /// @nodoc
-@JsonSerializable()
+
+@JsonSerializable(explicitToJson: true)
 class _StatsSummary implements StatsSummary {
   const _StatsSummary(
       {required this.queries,
@@ -816,7 +817,8 @@ extension QueriesPatterns on Queries {
 }
 
 /// @nodoc
-@JsonSerializable()
+
+@JsonSerializable(explicitToJson: true)
 class _Queries implements Queries {
   const _Queries(
       {required this.total,
@@ -4076,7 +4078,8 @@ extension StatsTopDomainsPatterns on StatsTopDomains {
 }
 
 /// @nodoc
-@JsonSerializable()
+
+@JsonSerializable(explicitToJson: true)
 class _StatsTopDomains implements StatsTopDomains {
   const _StatsTopDomains(
       {required final List<Domain> domains,
@@ -4778,7 +4781,8 @@ extension StatsTopClientsPatterns on StatsTopClients {
 }
 
 /// @nodoc
-@JsonSerializable()
+
+@JsonSerializable(explicitToJson: true)
 class _StatsTopClients implements StatsTopClients {
   const _StatsTopClients(
       {required final List<Client> clients,
@@ -5495,7 +5499,8 @@ extension StatsUpstreamsPatterns on StatsUpstreams {
 }
 
 /// @nodoc
-@JsonSerializable()
+
+@JsonSerializable(explicitToJson: true)
 class _StatsUpstreams implements StatsUpstreams {
   const _StatsUpstreams(
       {required final List<Upstream> upstreams,
@@ -5890,7 +5895,8 @@ extension UpstreamPatterns on Upstream {
 }
 
 /// @nodoc
-@JsonSerializable()
+
+@JsonSerializable(explicitToJson: true)
 class _Upstream implements Upstream {
   const _Upstream(
       {required this.ip,

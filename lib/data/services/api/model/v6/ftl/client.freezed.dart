@@ -13,7 +13,7 @@ part of 'client.dart';
 T _$identity<T>(T value) => value;
 
 /// @nodoc
-mixin _$Client {
+mixin _$InfoClient {
   @JsonKey(name: 'remote_addr')
   String get remoteAddr;
   @JsonKey(name: 'http_version')
@@ -22,21 +22,21 @@ mixin _$Client {
   List<Header> get headers;
   double get took;
 
-  /// Create a copy of Client
+  /// Create a copy of InfoClient
   /// with the given fields replaced by the non-null parameter values.
   @JsonKey(includeFromJson: false, includeToJson: false)
   @pragma('vm:prefer-inline')
-  $ClientCopyWith<Client> get copyWith =>
-      _$ClientCopyWithImpl<Client>(this as Client, _$identity);
+  $InfoClientCopyWith<InfoClient> get copyWith =>
+      _$InfoClientCopyWithImpl<InfoClient>(this as InfoClient, _$identity);
 
-  /// Serializes this Client to a JSON map.
+  /// Serializes this InfoClient to a JSON map.
   Map<String, dynamic> toJson();
 
   @override
   bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is Client &&
+            other is InfoClient &&
             (identical(other.remoteAddr, remoteAddr) ||
                 other.remoteAddr == remoteAddr) &&
             (identical(other.httpVersion, httpVersion) ||
@@ -53,14 +53,15 @@ mixin _$Client {
 
   @override
   String toString() {
-    return 'Client(remoteAddr: $remoteAddr, httpVersion: $httpVersion, method: $method, headers: $headers, took: $took)';
+    return 'InfoClient(remoteAddr: $remoteAddr, httpVersion: $httpVersion, method: $method, headers: $headers, took: $took)';
   }
 }
 
 /// @nodoc
-abstract mixin class $ClientCopyWith<$Res> {
-  factory $ClientCopyWith(Client value, $Res Function(Client) _then) =
-      _$ClientCopyWithImpl;
+abstract mixin class $InfoClientCopyWith<$Res> {
+  factory $InfoClientCopyWith(
+          InfoClient value, $Res Function(InfoClient) _then) =
+      _$InfoClientCopyWithImpl;
   @useResult
   $Res call(
       {@JsonKey(name: 'remote_addr') String remoteAddr,
@@ -71,13 +72,13 @@ abstract mixin class $ClientCopyWith<$Res> {
 }
 
 /// @nodoc
-class _$ClientCopyWithImpl<$Res> implements $ClientCopyWith<$Res> {
-  _$ClientCopyWithImpl(this._self, this._then);
+class _$InfoClientCopyWithImpl<$Res> implements $InfoClientCopyWith<$Res> {
+  _$InfoClientCopyWithImpl(this._self, this._then);
 
-  final Client _self;
-  final $Res Function(Client) _then;
+  final InfoClient _self;
+  final $Res Function(InfoClient) _then;
 
-  /// Create a copy of Client
+  /// Create a copy of InfoClient
   /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
@@ -113,8 +114,8 @@ class _$ClientCopyWithImpl<$Res> implements $ClientCopyWith<$Res> {
   }
 }
 
-/// Adds pattern-matching-related methods to [Client].
-extension ClientPatterns on Client {
+/// Adds pattern-matching-related methods to [InfoClient].
+extension InfoClientPatterns on InfoClient {
   /// A variant of `map` that fallback to returning `orElse`.
   ///
   /// It is equivalent to doing:
@@ -129,12 +130,12 @@ extension ClientPatterns on Client {
 
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>(
-    TResult Function(_Client value)? $default, {
+    TResult Function(_InfoClient value)? $default, {
     required TResult orElse(),
   }) {
     final _that = this;
     switch (_that) {
-      case _Client() when $default != null:
+      case _InfoClient() when $default != null:
         return $default(_that);
       case _:
         return orElse();
@@ -156,11 +157,11 @@ extension ClientPatterns on Client {
 
   @optionalTypeArgs
   TResult map<TResult extends Object?>(
-    TResult Function(_Client value) $default,
+    TResult Function(_InfoClient value) $default,
   ) {
     final _that = this;
     switch (_that) {
-      case _Client():
+      case _InfoClient():
         return $default(_that);
     }
   }
@@ -179,11 +180,11 @@ extension ClientPatterns on Client {
 
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>(
-    TResult? Function(_Client value)? $default,
+    TResult? Function(_InfoClient value)? $default,
   ) {
     final _that = this;
     switch (_that) {
-      case _Client() when $default != null:
+      case _InfoClient() when $default != null:
         return $default(_that);
       case _:
         return null;
@@ -215,7 +216,7 @@ extension ClientPatterns on Client {
   }) {
     final _that = this;
     switch (_that) {
-      case _Client() when $default != null:
+      case _InfoClient() when $default != null:
         return $default(_that.remoteAddr, _that.httpVersion, _that.method,
             _that.headers, _that.took);
       case _:
@@ -248,7 +249,7 @@ extension ClientPatterns on Client {
   ) {
     final _that = this;
     switch (_that) {
-      case _Client():
+      case _InfoClient():
         return $default(_that.remoteAddr, _that.httpVersion, _that.method,
             _that.headers, _that.took);
     }
@@ -278,7 +279,7 @@ extension ClientPatterns on Client {
   ) {
     final _that = this;
     switch (_that) {
-      case _Client() when $default != null:
+      case _InfoClient() when $default != null:
         return $default(_that.remoteAddr, _that.httpVersion, _that.method,
             _that.headers, _that.took);
       case _:
@@ -288,16 +289,18 @@ extension ClientPatterns on Client {
 }
 
 /// @nodoc
-@JsonSerializable()
-class _Client implements Client {
-  const _Client(
+
+@JsonSerializable(explicitToJson: true)
+class _InfoClient implements InfoClient {
+  const _InfoClient(
       {@JsonKey(name: 'remote_addr') required this.remoteAddr,
       @JsonKey(name: 'http_version') required this.httpVersion,
       required this.method,
       required final List<Header> headers,
       required this.took})
       : _headers = headers;
-  factory _Client.fromJson(Map<String, dynamic> json) => _$ClientFromJson(json);
+  factory _InfoClient.fromJson(Map<String, dynamic> json) =>
+      _$InfoClientFromJson(json);
 
   @override
   @JsonKey(name: 'remote_addr')
@@ -318,17 +321,17 @@ class _Client implements Client {
   @override
   final double took;
 
-  /// Create a copy of Client
+  /// Create a copy of InfoClient
   /// with the given fields replaced by the non-null parameter values.
   @override
   @JsonKey(includeFromJson: false, includeToJson: false)
   @pragma('vm:prefer-inline')
-  _$ClientCopyWith<_Client> get copyWith =>
-      __$ClientCopyWithImpl<_Client>(this, _$identity);
+  _$InfoClientCopyWith<_InfoClient> get copyWith =>
+      __$InfoClientCopyWithImpl<_InfoClient>(this, _$identity);
 
   @override
   Map<String, dynamic> toJson() {
-    return _$ClientToJson(
+    return _$InfoClientToJson(
       this,
     );
   }
@@ -337,7 +340,7 @@ class _Client implements Client {
   bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _Client &&
+            other is _InfoClient &&
             (identical(other.remoteAddr, remoteAddr) ||
                 other.remoteAddr == remoteAddr) &&
             (identical(other.httpVersion, httpVersion) ||
@@ -354,14 +357,16 @@ class _Client implements Client {
 
   @override
   String toString() {
-    return 'Client(remoteAddr: $remoteAddr, httpVersion: $httpVersion, method: $method, headers: $headers, took: $took)';
+    return 'InfoClient(remoteAddr: $remoteAddr, httpVersion: $httpVersion, method: $method, headers: $headers, took: $took)';
   }
 }
 
 /// @nodoc
-abstract mixin class _$ClientCopyWith<$Res> implements $ClientCopyWith<$Res> {
-  factory _$ClientCopyWith(_Client value, $Res Function(_Client) _then) =
-      __$ClientCopyWithImpl;
+abstract mixin class _$InfoClientCopyWith<$Res>
+    implements $InfoClientCopyWith<$Res> {
+  factory _$InfoClientCopyWith(
+          _InfoClient value, $Res Function(_InfoClient) _then) =
+      __$InfoClientCopyWithImpl;
   @override
   @useResult
   $Res call(
@@ -373,13 +378,13 @@ abstract mixin class _$ClientCopyWith<$Res> implements $ClientCopyWith<$Res> {
 }
 
 /// @nodoc
-class __$ClientCopyWithImpl<$Res> implements _$ClientCopyWith<$Res> {
-  __$ClientCopyWithImpl(this._self, this._then);
+class __$InfoClientCopyWithImpl<$Res> implements _$InfoClientCopyWith<$Res> {
+  __$InfoClientCopyWithImpl(this._self, this._then);
 
-  final _Client _self;
-  final $Res Function(_Client) _then;
+  final _InfoClient _self;
+  final $Res Function(_InfoClient) _then;
 
-  /// Create a copy of Client
+  /// Create a copy of InfoClient
   /// with the given fields replaced by the non-null parameter values.
   @override
   @pragma('vm:prefer-inline')
@@ -390,7 +395,7 @@ class __$ClientCopyWithImpl<$Res> implements _$ClientCopyWith<$Res> {
     Object? headers = null,
     Object? took = null,
   }) {
-    return _then(_Client(
+    return _then(_InfoClient(
       remoteAddr: null == remoteAddr
           ? _self.remoteAddr
           : remoteAddr // ignore: cast_nullable_to_non_nullable

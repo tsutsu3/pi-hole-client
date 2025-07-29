@@ -12,7 +12,7 @@ _InfoFtl _$InfoFtlFromJson(Map<String, dynamic> json) => _InfoFtl(
     );
 
 Map<String, dynamic> _$InfoFtlToJson(_InfoFtl instance) => <String, dynamic>{
-      'ftl': instance.ftl,
+      'ftl': instance.ftl.toJson(),
       'took': instance.took,
     };
 
@@ -29,15 +29,15 @@ _Ftl _$FtlFromJson(Map<String, dynamic> json) => _Ftl(
     );
 
 Map<String, dynamic> _$FtlToJson(_Ftl instance) => <String, dynamic>{
-      'database': instance.database,
+      'database': instance.database.toJson(),
       'privacy_level': instance.privacyLevel,
-      'clients': instance.clients,
+      'clients': instance.clients.toJson(),
       'pid': instance.pid,
       'uptime': instance.uptime,
       '%mem': instance.memPercentage,
       '%cpu': instance.cpuPercentage,
       'allow_destructive': instance.allowDestructive,
-      'dnsmasq': instance.dnsmasq,
+      'dnsmasq': instance.dnsmasq.toJson(),
     };
 
 _Database _$DatabaseFromJson(Map<String, dynamic> json) => _Database(
@@ -53,7 +53,7 @@ Map<String, dynamic> _$DatabaseToJson(_Database instance) => <String, dynamic>{
       'groups': instance.groups,
       'lists': instance.lists,
       'clients': instance.clients,
-      'domains': instance.domains,
+      'domains': instance.domains.toJson(),
     };
 
 _Domains _$DomainsFromJson(Map<String, dynamic> json) => _Domains(

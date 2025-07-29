@@ -17,9 +17,9 @@ _Lists _$ListsFromJson(Map<String, dynamic> json) => _Lists(
     );
 
 Map<String, dynamic> _$ListsToJson(_Lists instance) => <String, dynamic>{
-      'lists': instance.lists,
+      'lists': instance.lists.map((e) => e.toJson()).toList(),
       'took': instance.took,
-      'processed': instance.processed,
+      'processed': instance.processed?.toJson(),
     };
 
 _ListItem _$ListItemFromJson(Map<String, dynamic> json) => _ListItem(
@@ -67,8 +67,8 @@ _Processed _$ProcessedFromJson(Map<String, dynamic> json) => _Processed(
 
 Map<String, dynamic> _$ProcessedToJson(_Processed instance) =>
     <String, dynamic>{
-      'success': instance.success,
-      'errors': instance.errors,
+      'success': instance.success.map((e) => e.toJson()).toList(),
+      'errors': instance.errors.map((e) => e.toJson()).toList(),
     };
 
 _SuccessItem _$SuccessItemFromJson(Map<String, dynamic> json) => _SuccessItem(

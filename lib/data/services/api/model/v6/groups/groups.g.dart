@@ -17,9 +17,9 @@ _Groups _$GroupsFromJson(Map<String, dynamic> json) => _Groups(
     );
 
 Map<String, dynamic> _$GroupsToJson(_Groups instance) => <String, dynamic>{
-      'groups': instance.groups,
+      'groups': instance.groups.map((e) => e.toJson()).toList(),
       'took': instance.took,
-      'processed': instance.processed,
+      'processed': instance.processed?.toJson(),
     };
 
 _Group _$GroupFromJson(Map<String, dynamic> json) => _Group(
@@ -51,8 +51,8 @@ _Processed _$ProcessedFromJson(Map<String, dynamic> json) => _Processed(
 
 Map<String, dynamic> _$ProcessedToJson(_Processed instance) =>
     <String, dynamic>{
-      'success': instance.success,
-      'errors': instance.errors,
+      'success': instance.success.map((e) => e.toJson()).toList(),
+      'errors': instance.errors.map((e) => e.toJson()).toList(),
     };
 
 _ProcessedSuccess _$ProcessedSuccessFromJson(Map<String, dynamic> json) =>

@@ -4,16 +4,18 @@ part 'client.freezed.dart';
 part 'client.g.dart';
 
 @freezed
-sealed class Client with _$Client {
-  const factory Client({
+sealed class InfoClient with _$InfoClient {
+  @JsonSerializable(explicitToJson: true)
+  const factory InfoClient({
     @JsonKey(name: 'remote_addr') required String remoteAddr,
     @JsonKey(name: 'http_version') required String httpVersion,
     required String method,
     required List<Header> headers,
     required double took,
-  }) = _Client;
+  }) = _InfoClient;
 
-  factory Client.fromJson(Map<String, dynamic> json) => _$ClientFromJson(json);
+  factory InfoClient.fromJson(Map<String, dynamic> json) =>
+      _$InfoClientFromJson(json);
 }
 
 @freezed

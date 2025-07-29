@@ -8,7 +8,7 @@ part of 'domains.dart';
 
 _Domains _$DomainsFromJson(Map<String, dynamic> json) => _Domains(
       domains: (json['domains'] as List<dynamic>)
-          .map((e) => Domain.fromJson(e as Map<String, dynamic>))
+          .map((e) => DomainData.fromJson(e as Map<String, dynamic>))
           .toList(),
       processed: json['processed'] == null
           ? null
@@ -17,27 +17,12 @@ _Domains _$DomainsFromJson(Map<String, dynamic> json) => _Domains(
     );
 
 Map<String, dynamic> _$DomainsToJson(_Domains instance) => <String, dynamic>{
-      'domains': instance.domains,
-      'processed': instance.processed,
+      'domains': instance.domains.map((e) => e.toJson()).toList(),
+      'processed': instance.processed?.toJson(),
       'took': instance.took,
     };
 
-_AddDomains _$AddDomainsFromJson(Map<String, dynamic> json) => _AddDomains(
-      domains: (json['domains'] as List<dynamic>)
-          .map((e) => Domain.fromJson(e as Map<String, dynamic>))
-          .toList(),
-      processed: Processed.fromJson(json['processed'] as Map<String, dynamic>),
-      took: (json['took'] as num).toDouble(),
-    );
-
-Map<String, dynamic> _$AddDomainsToJson(_AddDomains instance) =>
-    <String, dynamic>{
-      'domains': instance.domains,
-      'processed': instance.processed,
-      'took': instance.took,
-    };
-
-_Domain _$DomainFromJson(Map<String, dynamic> json) => _Domain(
+_DomainData _$DomainDataFromJson(Map<String, dynamic> json) => _DomainData(
       domain: json['domain'] as String,
       unicode: json['unicode'] as String,
       type: json['type'] as String,
@@ -52,7 +37,8 @@ _Domain _$DomainFromJson(Map<String, dynamic> json) => _Domain(
       dateModified: (json['date_modified'] as num).toInt(),
     );
 
-Map<String, dynamic> _$DomainToJson(_Domain instance) => <String, dynamic>{
+Map<String, dynamic> _$DomainDataToJson(_DomainData instance) =>
+    <String, dynamic>{
       'domain': instance.domain,
       'unicode': instance.unicode,
       'type': instance.type,
@@ -76,8 +62,8 @@ _Processed _$ProcessedFromJson(Map<String, dynamic> json) => _Processed(
 
 Map<String, dynamic> _$ProcessedToJson(_Processed instance) =>
     <String, dynamic>{
-      'success': instance.success,
-      'errors': instance.errors,
+      'success': instance.success.map((e) => e.toJson()).toList(),
+      'errors': instance.errors.map((e) => e.toJson()).toList(),
     };
 
 _ProcessedItem _$ProcessedItemFromJson(Map<String, dynamic> json) =>

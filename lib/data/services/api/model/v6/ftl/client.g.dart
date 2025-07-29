@@ -6,7 +6,7 @@ part of 'client.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-_Client _$ClientFromJson(Map<String, dynamic> json) => _Client(
+_InfoClient _$InfoClientFromJson(Map<String, dynamic> json) => _InfoClient(
       remoteAddr: json['remote_addr'] as String,
       httpVersion: json['http_version'] as String,
       method: json['method'] as String,
@@ -16,11 +16,12 @@ _Client _$ClientFromJson(Map<String, dynamic> json) => _Client(
       took: (json['took'] as num).toDouble(),
     );
 
-Map<String, dynamic> _$ClientToJson(_Client instance) => <String, dynamic>{
+Map<String, dynamic> _$InfoClientToJson(_InfoClient instance) =>
+    <String, dynamic>{
       'remote_addr': instance.remoteAddr,
       'http_version': instance.httpVersion,
       'method': instance.method,
-      'headers': instance.headers,
+      'headers': instance.headers.map((e) => e.toJson()).toList(),
       'took': instance.took,
     };
 

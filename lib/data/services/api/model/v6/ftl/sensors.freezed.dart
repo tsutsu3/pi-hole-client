@@ -13,25 +13,25 @@ part of 'sensors.dart';
 T _$identity<T>(T value) => value;
 
 /// @nodoc
-mixin _$Sensors {
+mixin _$InfoSensors {
   SensorsData get sensors;
   double get took;
 
-  /// Create a copy of Sensors
+  /// Create a copy of InfoSensors
   /// with the given fields replaced by the non-null parameter values.
   @JsonKey(includeFromJson: false, includeToJson: false)
   @pragma('vm:prefer-inline')
-  $SensorsCopyWith<Sensors> get copyWith =>
-      _$SensorsCopyWithImpl<Sensors>(this as Sensors, _$identity);
+  $InfoSensorsCopyWith<InfoSensors> get copyWith =>
+      _$InfoSensorsCopyWithImpl<InfoSensors>(this as InfoSensors, _$identity);
 
-  /// Serializes this Sensors to a JSON map.
+  /// Serializes this InfoSensors to a JSON map.
   Map<String, dynamic> toJson();
 
   @override
   bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is Sensors &&
+            other is InfoSensors &&
             (identical(other.sensors, sensors) || other.sensors == sensors) &&
             (identical(other.took, took) || other.took == took));
   }
@@ -42,14 +42,15 @@ mixin _$Sensors {
 
   @override
   String toString() {
-    return 'Sensors(sensors: $sensors, took: $took)';
+    return 'InfoSensors(sensors: $sensors, took: $took)';
   }
 }
 
 /// @nodoc
-abstract mixin class $SensorsCopyWith<$Res> {
-  factory $SensorsCopyWith(Sensors value, $Res Function(Sensors) _then) =
-      _$SensorsCopyWithImpl;
+abstract mixin class $InfoSensorsCopyWith<$Res> {
+  factory $InfoSensorsCopyWith(
+          InfoSensors value, $Res Function(InfoSensors) _then) =
+      _$InfoSensorsCopyWithImpl;
   @useResult
   $Res call({SensorsData sensors, double took});
 
@@ -57,13 +58,13 @@ abstract mixin class $SensorsCopyWith<$Res> {
 }
 
 /// @nodoc
-class _$SensorsCopyWithImpl<$Res> implements $SensorsCopyWith<$Res> {
-  _$SensorsCopyWithImpl(this._self, this._then);
+class _$InfoSensorsCopyWithImpl<$Res> implements $InfoSensorsCopyWith<$Res> {
+  _$InfoSensorsCopyWithImpl(this._self, this._then);
 
-  final Sensors _self;
-  final $Res Function(Sensors) _then;
+  final InfoSensors _self;
+  final $Res Function(InfoSensors) _then;
 
-  /// Create a copy of Sensors
+  /// Create a copy of InfoSensors
   /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
@@ -83,7 +84,7 @@ class _$SensorsCopyWithImpl<$Res> implements $SensorsCopyWith<$Res> {
     ));
   }
 
-  /// Create a copy of Sensors
+  /// Create a copy of InfoSensors
   /// with the given fields replaced by the non-null parameter values.
   @override
   @pragma('vm:prefer-inline')
@@ -94,8 +95,8 @@ class _$SensorsCopyWithImpl<$Res> implements $SensorsCopyWith<$Res> {
   }
 }
 
-/// Adds pattern-matching-related methods to [Sensors].
-extension SensorsPatterns on Sensors {
+/// Adds pattern-matching-related methods to [InfoSensors].
+extension InfoSensorsPatterns on InfoSensors {
   /// A variant of `map` that fallback to returning `orElse`.
   ///
   /// It is equivalent to doing:
@@ -110,12 +111,12 @@ extension SensorsPatterns on Sensors {
 
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>(
-    TResult Function(_Sensors value)? $default, {
+    TResult Function(_InfoSensors value)? $default, {
     required TResult orElse(),
   }) {
     final _that = this;
     switch (_that) {
-      case _Sensors() when $default != null:
+      case _InfoSensors() when $default != null:
         return $default(_that);
       case _:
         return orElse();
@@ -137,11 +138,11 @@ extension SensorsPatterns on Sensors {
 
   @optionalTypeArgs
   TResult map<TResult extends Object?>(
-    TResult Function(_Sensors value) $default,
+    TResult Function(_InfoSensors value) $default,
   ) {
     final _that = this;
     switch (_that) {
-      case _Sensors():
+      case _InfoSensors():
         return $default(_that);
     }
   }
@@ -160,11 +161,11 @@ extension SensorsPatterns on Sensors {
 
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>(
-    TResult? Function(_Sensors value)? $default,
+    TResult? Function(_InfoSensors value)? $default,
   ) {
     final _that = this;
     switch (_that) {
-      case _Sensors() when $default != null:
+      case _InfoSensors() when $default != null:
         return $default(_that);
       case _:
         return null;
@@ -190,7 +191,7 @@ extension SensorsPatterns on Sensors {
   }) {
     final _that = this;
     switch (_that) {
-      case _Sensors() when $default != null:
+      case _InfoSensors() when $default != null:
         return $default(_that.sensors, _that.took);
       case _:
         return orElse();
@@ -216,7 +217,7 @@ extension SensorsPatterns on Sensors {
   ) {
     final _that = this;
     switch (_that) {
-      case _Sensors():
+      case _InfoSensors():
         return $default(_that.sensors, _that.took);
     }
   }
@@ -239,7 +240,7 @@ extension SensorsPatterns on Sensors {
   ) {
     final _that = this;
     switch (_that) {
-      case _Sensors() when $default != null:
+      case _InfoSensors() when $default != null:
         return $default(_that.sensors, _that.took);
       case _:
         return null;
@@ -248,28 +249,29 @@ extension SensorsPatterns on Sensors {
 }
 
 /// @nodoc
-@JsonSerializable()
-class _Sensors implements Sensors {
-  const _Sensors({required this.sensors, required this.took});
-  factory _Sensors.fromJson(Map<String, dynamic> json) =>
-      _$SensorsFromJson(json);
+
+@JsonSerializable(explicitToJson: true)
+class _InfoSensors implements InfoSensors {
+  const _InfoSensors({required this.sensors, required this.took});
+  factory _InfoSensors.fromJson(Map<String, dynamic> json) =>
+      _$InfoSensorsFromJson(json);
 
   @override
   final SensorsData sensors;
   @override
   final double took;
 
-  /// Create a copy of Sensors
+  /// Create a copy of InfoSensors
   /// with the given fields replaced by the non-null parameter values.
   @override
   @JsonKey(includeFromJson: false, includeToJson: false)
   @pragma('vm:prefer-inline')
-  _$SensorsCopyWith<_Sensors> get copyWith =>
-      __$SensorsCopyWithImpl<_Sensors>(this, _$identity);
+  _$InfoSensorsCopyWith<_InfoSensors> get copyWith =>
+      __$InfoSensorsCopyWithImpl<_InfoSensors>(this, _$identity);
 
   @override
   Map<String, dynamic> toJson() {
-    return _$SensorsToJson(
+    return _$InfoSensorsToJson(
       this,
     );
   }
@@ -278,7 +280,7 @@ class _Sensors implements Sensors {
   bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _Sensors &&
+            other is _InfoSensors &&
             (identical(other.sensors, sensors) || other.sensors == sensors) &&
             (identical(other.took, took) || other.took == took));
   }
@@ -289,14 +291,16 @@ class _Sensors implements Sensors {
 
   @override
   String toString() {
-    return 'Sensors(sensors: $sensors, took: $took)';
+    return 'InfoSensors(sensors: $sensors, took: $took)';
   }
 }
 
 /// @nodoc
-abstract mixin class _$SensorsCopyWith<$Res> implements $SensorsCopyWith<$Res> {
-  factory _$SensorsCopyWith(_Sensors value, $Res Function(_Sensors) _then) =
-      __$SensorsCopyWithImpl;
+abstract mixin class _$InfoSensorsCopyWith<$Res>
+    implements $InfoSensorsCopyWith<$Res> {
+  factory _$InfoSensorsCopyWith(
+          _InfoSensors value, $Res Function(_InfoSensors) _then) =
+      __$InfoSensorsCopyWithImpl;
   @override
   @useResult
   $Res call({SensorsData sensors, double took});
@@ -306,13 +310,13 @@ abstract mixin class _$SensorsCopyWith<$Res> implements $SensorsCopyWith<$Res> {
 }
 
 /// @nodoc
-class __$SensorsCopyWithImpl<$Res> implements _$SensorsCopyWith<$Res> {
-  __$SensorsCopyWithImpl(this._self, this._then);
+class __$InfoSensorsCopyWithImpl<$Res> implements _$InfoSensorsCopyWith<$Res> {
+  __$InfoSensorsCopyWithImpl(this._self, this._then);
 
-  final _Sensors _self;
-  final $Res Function(_Sensors) _then;
+  final _InfoSensors _self;
+  final $Res Function(_InfoSensors) _then;
 
-  /// Create a copy of Sensors
+  /// Create a copy of InfoSensors
   /// with the given fields replaced by the non-null parameter values.
   @override
   @pragma('vm:prefer-inline')
@@ -320,7 +324,7 @@ class __$SensorsCopyWithImpl<$Res> implements _$SensorsCopyWith<$Res> {
     Object? sensors = null,
     Object? took = null,
   }) {
-    return _then(_Sensors(
+    return _then(_InfoSensors(
       sensors: null == sensors
           ? _self.sensors
           : sensors // ignore: cast_nullable_to_non_nullable
@@ -332,7 +336,7 @@ class __$SensorsCopyWithImpl<$Res> implements _$SensorsCopyWith<$Res> {
     ));
   }
 
-  /// Create a copy of Sensors
+  /// Create a copy of InfoSensors
   /// with the given fields replaced by the non-null parameter values.
   @override
   @pragma('vm:prefer-inline')
@@ -605,7 +609,8 @@ extension SensorsDataPatterns on SensorsData {
 }
 
 /// @nodoc
-@JsonSerializable()
+
+@JsonSerializable(explicitToJson: true)
 class _SensorsData implements SensorsData {
   const _SensorsData(
       {required final List<SensorData> list,
@@ -970,7 +975,8 @@ extension SensorDataPatterns on SensorData {
 }
 
 /// @nodoc
-@JsonSerializable()
+
+@JsonSerializable(explicitToJson: true)
 class _SensorData implements SensorData {
   const _SensorData(
       {required this.name,

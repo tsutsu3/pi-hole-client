@@ -15,6 +15,8 @@ import 'package:package_info_plus/package_info_plus.dart' as _i10;
 import 'package:pi_hole_client/config/enums.dart' as _i19;
 import 'package:pi_hole_client/data/services/api/api_gateway_interface.dart'
     as _i17;
+import 'package:pi_hole_client/data/services/api/model/v6/config/config.dart'
+    as _i28;
 import 'package:pi_hole_client/data/services/api/shared/models/app_log.dart'
     as _i9;
 import 'package:pi_hole_client/data/services/api/shared/models/domain.dart'
@@ -35,8 +37,6 @@ import 'package:pi_hole_client/data/services/api/shared/models/subscriptions.dar
     as _i26;
 import 'package:pi_hole_client/data/services/api/v6/api_gateway_v6.dart'
     as _i24;
-import 'package:pi_hole_client/data/services/api/v6/models/config/config.dart'
-    as _i28;
 import 'package:pi_hole_client/domain/models/database.dart' as _i13;
 import 'package:pi_hole_client/domain/models/server.dart' as _i3;
 import 'package:pi_hole_client/ui/core/themes/theme.dart' as _i2;

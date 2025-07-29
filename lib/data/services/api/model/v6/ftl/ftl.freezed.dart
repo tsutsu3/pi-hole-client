@@ -248,7 +248,8 @@ extension InfoFtlPatterns on InfoFtl {
 }
 
 /// @nodoc
-@JsonSerializable()
+
+@JsonSerializable(explicitToJson: true)
 class _InfoFtl implements InfoFtl {
   const _InfoFtl({required this.ftl, required this.took});
   factory _InfoFtl.fromJson(Map<String, dynamic> json) =>
@@ -725,7 +726,8 @@ extension FtlPatterns on Ftl {
 }
 
 /// @nodoc
-@JsonSerializable()
+
+@JsonSerializable(explicitToJson: true)
 class _Ftl implements Ftl {
   const _Ftl(
       {required this.database,
@@ -1194,7 +1196,8 @@ extension DatabasePatterns on Database {
 }
 
 /// @nodoc
-@JsonSerializable()
+
+@JsonSerializable(explicitToJson: true)
 class _Database implements Database {
   const _Database(
       {required this.gravity,

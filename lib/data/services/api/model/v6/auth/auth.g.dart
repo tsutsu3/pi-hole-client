@@ -20,7 +20,7 @@ _Session _$SessionFromJson(Map<String, dynamic> json) => _Session(
     );
 
 Map<String, dynamic> _$SessionToJson(_Session instance) => <String, dynamic>{
-      'session': instance.session,
+      'session': instance.session.toJson(),
       'took': instance.took,
     };
 

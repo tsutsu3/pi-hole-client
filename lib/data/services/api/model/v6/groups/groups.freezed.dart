@@ -264,7 +264,8 @@ extension GroupsPatterns on Groups {
 }
 
 /// @nodoc
-@JsonSerializable()
+
+@JsonSerializable(explicitToJson: true)
 class _Groups implements Groups {
   const _Groups(
       {required final List<Group> groups, required this.took, this.processed})
@@ -1030,7 +1031,8 @@ extension ProcessedPatterns on Processed {
 }
 
 /// @nodoc
-@JsonSerializable()
+
+@JsonSerializable(explicitToJson: true)
 class _Processed implements Processed {
   const _Processed(
       {required final List<ProcessedSuccess> success,

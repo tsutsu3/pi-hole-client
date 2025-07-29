@@ -8,7 +8,7 @@ sealed class Config with _$Config {
   @JsonSerializable(explicitToJson: true, includeIfNull: false)
   const factory Config({
     ConfigData? config,
-    int? took,
+    double? took,
   }) = _Config;
 
   factory Config.fromJson(Map<String, dynamic> json) => _$ConfigFromJson(json);
@@ -448,7 +448,7 @@ sealed class Debug with _$Debug {
     bool? aliasclients,
     bool? events,
     bool? helper,
-    @JsonKey(name: 'ConfigData') bool? configData,
+    bool? config,
     bool? inotify,
     bool? webserver,
     bool? extra,

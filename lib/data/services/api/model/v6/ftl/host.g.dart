@@ -6,13 +6,13 @@ part of 'host.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-_Host _$HostFromJson(Map<String, dynamic> json) => _Host(
+_InfoHost _$InfoHostFromJson(Map<String, dynamic> json) => _InfoHost(
       host: HostData.fromJson(json['host'] as Map<String, dynamic>),
       took: (json['took'] as num).toDouble(),
     );
 
-Map<String, dynamic> _$HostToJson(_Host instance) => <String, dynamic>{
-      'host': instance.host,
+Map<String, dynamic> _$InfoHostToJson(_InfoHost instance) => <String, dynamic>{
+      'host': instance.host.toJson(),
       'took': instance.took,
     };
 
@@ -23,9 +23,9 @@ _HostData _$HostDataFromJson(Map<String, dynamic> json) => _HostData(
     );
 
 Map<String, dynamic> _$HostDataToJson(_HostData instance) => <String, dynamic>{
-      'uname': instance.uname,
+      'uname': instance.uname.toJson(),
       'model': instance.model,
-      'dmi': instance.dmi,
+      'dmi': instance.dmi.toJson(),
     };
 
 _HostUname _$HostUnameFromJson(Map<String, dynamic> json) => _HostUname(
@@ -55,10 +55,10 @@ _HostDmi _$HostDmiFromJson(Map<String, dynamic> json) => _HostDmi(
     );
 
 Map<String, dynamic> _$HostDmiToJson(_HostDmi instance) => <String, dynamic>{
-      'bios': instance.bios,
-      'board': instance.board,
-      'product': instance.product,
-      'sys': instance.sys,
+      'bios': instance.bios.toJson(),
+      'board': instance.board.toJson(),
+      'product': instance.product.toJson(),
+      'sys': instance.sys.toJson(),
     };
 
 _BiosInfo _$BiosInfoFromJson(Map<String, dynamic> json) => _BiosInfo(

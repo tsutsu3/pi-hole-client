@@ -6,6 +6,7 @@ part 'history.g.dart';
 // api/history
 @freezed
 sealed class History with _$History {
+  @JsonSerializable(explicitToJson: true)
   const factory History({
     required List<HistoryData> history,
     required double took,
@@ -32,6 +33,7 @@ sealed class HistoryData with _$HistoryData {
 // api/history/clients
 @freezed
 sealed class HistoryClients with _$HistoryClients {
+  @JsonSerializable(explicitToJson: true)
   const factory HistoryClients({
     required Map<String, Client> clients,
     required List<HistoryEntry> history,

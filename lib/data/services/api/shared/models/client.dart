@@ -5,7 +5,7 @@ class ClientInfo {
     required this.addr,
   });
 
-  factory ClientInfo.fromV6(Client client) {
+  factory ClientInfo.fromV6(InfoClient client) {
     return ClientInfo(
       addr: client.remoteAddr,
     );
