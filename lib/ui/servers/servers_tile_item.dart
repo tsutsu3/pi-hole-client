@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:pi_hole_client/config/responsive.dart';
-import 'package:pi_hole_client/domain/models/server.dart';
+import 'package:pi_hole_client/domain/models_old/server.dart';
 import 'package:pi_hole_client/ui/core/viewmodel/servers_provider.dart';
 import 'package:pi_hole_client/ui/servers/server_tile_actions.dart';
 import 'package:pi_hole_client/ui/servers/server_tile_header.dart';

@@ -1,6 +1,6 @@
 import 'package:pi_hole_client/config/enums.dart';
 import 'package:pi_hole_client/data/services/local/database_service.dart';
-import 'package:pi_hole_client/domain/models/database.dart';
+import 'package:pi_hole_client/domain/models_old/database.dart';
 import 'package:pi_hole_client/utils/database_utils.dart';
 import 'package:pi_hole_client/utils/logger.dart';
 import 'package:result_dart/result_dart.dart';

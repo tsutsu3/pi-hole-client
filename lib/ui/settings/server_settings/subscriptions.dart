@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:pi_hole_client/config/enums.dart';
 import 'package:pi_hole_client/config/responsive.dart';
-import 'package:pi_hole_client/domain/models/gateways.dart';
-import 'package:pi_hole_client/domain/models/server.dart';
-import 'package:pi_hole_client/domain/models/subscriptions.dart';
+import 'package:pi_hole_client/domain/models_old/gateways.dart';
+import 'package:pi_hole_client/domain/models_old/server.dart';
+import 'package:pi_hole_client/domain/models_old/subscriptions.dart';
 import 'package:pi_hole_client/ui/common/empty_data_screen.dart';
 import 'package:pi_hole_client/ui/common/pi_hole_v5_not_supported_screen.dart';
 import 'package:pi_hole_client/ui/core/l10n/generated/app_localizations.dart';

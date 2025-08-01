@@ -4,7 +4,7 @@ import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 import 'package:pi_hole_client/data/repositories/database_repository.dart';
-import 'package:pi_hole_client/domain/models/database.dart';
+import 'package:pi_hole_client/domain/models_old/database.dart';
 import 'package:pi_hole_client/ui/core/viewmodel/app_config_provider.dart';
 import 'package:result_dart/result_dart.dart';
 

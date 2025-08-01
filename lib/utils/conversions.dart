@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-import 'package:pi_hole_client/domain/models/domain.dart';
+import 'package:pi_hole_client/domain/models_old/domain.dart';
 import 'package:pi_hole_client/ui/core/themes/theme.dart';
 
 /// Converts a given [color] to the corresponding theme-based color defined in

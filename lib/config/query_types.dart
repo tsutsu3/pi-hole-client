@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:pi_hole_client/domain/models/query_status.dart';
+import 'package:pi_hole_client/domain/models_old/query_status.dart';
 
 final List<QueryStatus> queryStatusesV5 = [
   const QueryStatus(

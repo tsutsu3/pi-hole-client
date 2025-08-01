@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:pi_hole_client/config/enums.dart';
 import 'package:pi_hole_client/data/repositories/local/gravity_repository.dart';
-import 'package:pi_hole_client/domain/models/messages.dart';
+import 'package:pi_hole_client/domain/models_old/messages.dart';
 import 'package:pi_hole_client/domain/use_cases/gravity_update_service.dart';
 import 'package:pi_hole_client/ui/core/viewmodel/servers_provider.dart';
 import 'package:pi_hole_client/utils/logger.dart';

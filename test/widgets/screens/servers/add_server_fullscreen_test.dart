@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/mockito.dart';
-import 'package:pi_hole_client/domain/models/app_log.dart';
-import 'package:pi_hole_client/domain/models/gateways.dart';
+import 'package:pi_hole_client/domain/models_old/app_log.dart';
+import 'package:pi_hole_client/domain/models_old/gateways.dart';
 import 'package:pi_hole_client/ui/servers/add_server_fullscreen.dart';
 
 import '../../helpers.dart';

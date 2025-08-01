@@ -19,17 +19,17 @@ import 'package:pi_hole_client/data/services/api/model/v6/config/config.dart'
     as _i28;
 import 'package:pi_hole_client/data/services/api/v6/api_gateway_v6.dart'
     as _i24;
-import 'package:pi_hole_client/domain/models/app_log.dart' as _i9;
-import 'package:pi_hole_client/domain/models/database.dart' as _i13;
-import 'package:pi_hole_client/domain/models/domain.dart' as _i25;
-import 'package:pi_hole_client/domain/models/gateways.dart' as _i5;
-import 'package:pi_hole_client/domain/models/groups.dart' as _i27;
-import 'package:pi_hole_client/domain/models/metrics.dart' as _i22;
-import 'package:pi_hole_client/domain/models/overtime_data.dart' as _i21;
-import 'package:pi_hole_client/domain/models/query_status.dart' as _i16;
-import 'package:pi_hole_client/domain/models/realtime_status.dart' as _i20;
-import 'package:pi_hole_client/domain/models/server.dart' as _i3;
-import 'package:pi_hole_client/domain/models/subscriptions.dart' as _i26;
+import 'package:pi_hole_client/domain/models_old/app_log.dart' as _i9;
+import 'package:pi_hole_client/domain/models_old/database.dart' as _i13;
+import 'package:pi_hole_client/domain/models_old/domain.dart' as _i25;
+import 'package:pi_hole_client/domain/models_old/gateways.dart' as _i5;
+import 'package:pi_hole_client/domain/models_old/groups.dart' as _i27;
+import 'package:pi_hole_client/domain/models_old/metrics.dart' as _i22;
+import 'package:pi_hole_client/domain/models_old/overtime_data.dart' as _i21;
+import 'package:pi_hole_client/domain/models_old/query_status.dart' as _i16;
+import 'package:pi_hole_client/domain/models_old/realtime_status.dart' as _i20;
+import 'package:pi_hole_client/domain/models_old/server.dart' as _i3;
+import 'package:pi_hole_client/domain/models_old/subscriptions.dart' as _i26;
 import 'package:pi_hole_client/ui/core/themes/theme.dart' as _i2;
 import 'package:pi_hole_client/ui/core/viewmodel/app_config_provider.dart'
     as _i6;

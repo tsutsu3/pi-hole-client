@@ -9,9 +9,9 @@ import 'dart:ui' as _i10;
 import 'package:mockito/mockito.dart' as _i1;
 import 'package:pi_hole_client/data/services/api/api_gateway_interface.dart'
     as _i7;
-import 'package:pi_hole_client/domain/models/database.dart' as _i9;
-import 'package:pi_hole_client/domain/models/query_status.dart' as _i5;
-import 'package:pi_hole_client/domain/models/server.dart' as _i4;
+import 'package:pi_hole_client/domain/models_old/database.dart' as _i9;
+import 'package:pi_hole_client/domain/models_old/query_status.dart' as _i5;
+import 'package:pi_hole_client/domain/models_old/server.dart' as _i4;
 import 'package:pi_hole_client/ui/core/themes/theme.dart' as _i2;
 import 'package:pi_hole_client/ui/core/viewmodel/app_config_provider.dart'
     as _i6;

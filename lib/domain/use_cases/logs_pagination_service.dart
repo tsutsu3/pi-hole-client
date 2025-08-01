@@ -1,8 +1,8 @@
 import 'package:pi_hole_client/config/api_versions.dart';
 import 'package:pi_hole_client/config/enums.dart';
 import 'package:pi_hole_client/data/services/api/api_gateway_interface.dart';
-import 'package:pi_hole_client/domain/models/gateways.dart';
-import 'package:pi_hole_client/domain/models/log.dart';
+import 'package:pi_hole_client/domain/models_old/gateways.dart';
+import 'package:pi_hole_client/domain/models_old/log.dart';
 import 'package:pi_hole_client/utils/logger.dart';
 
 /// A service class responsible for paginated retrieval of log entries from an API.

@@ -11,8 +11,8 @@ import 'package:flutter/material.dart' as _i4;
 import 'package:mockito/mockito.dart' as _i1;
 import 'package:mockito/src/dummies.dart' as _i5;
 import 'package:package_info_plus/package_info_plus.dart' as _i7;
-import 'package:pi_hole_client/domain/models/app_log.dart' as _i6;
-import 'package:pi_hole_client/domain/models/database.dart' as _i10;
+import 'package:pi_hole_client/domain/models_old/app_log.dart' as _i6;
+import 'package:pi_hole_client/domain/models_old/database.dart' as _i10;
 import 'package:pi_hole_client/ui/core/themes/theme.dart' as _i2;
 import 'package:pi_hole_client/ui/core/viewmodel/app_config_provider.dart'
     as _i3;
