@@ -1,4 +1,3 @@
-import 'package:http/http.dart' as http;
 import 'package:pi_hole_client/data/repositories/api/interfaces/auth_repository.dart';
 import 'package:pi_hole_client/data/repositories/utils/constants.dart';
 import 'package:pi_hole_client/data/repositories/utils/exceptions.dart';
