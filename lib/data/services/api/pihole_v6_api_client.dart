@@ -94,6 +94,22 @@ class PiholeV6ApiClient {
     });
   }
 
+  Future<Result<Unit>> deleteAuth(String sid) async {
+    return safeApiCall<Unit>(() async {
+      final resp = await _sendRequest(
+        method: HttpMethod.delete,
+        path: '/api/auth',
+        sid: sid,
+      );
+
+      if (resp.statusCode == 204) {
+        return unit;
+      }
+
+      throw HttpStatusCodeException(resp.statusCode, resp.body);
+    });
+  }
+
   Future<Result<AuthSessions>> getAuthSessions(String sid) async {
     return safeApiCall<AuthSessions>(() async {
       final resp = await _sendRequest(

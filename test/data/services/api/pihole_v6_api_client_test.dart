@@ -78,6 +78,43 @@ void main() {
     });
   });
 
+  group('deleteAuth', () {
+    final url = Uri.parse('$baseUrl/api/auth');
+
+    test('deletes current session successfully', () async {
+      final response = http.Response('', 204);
+
+      mockDelete(mockClient, url, response);
+
+      final result = await apiClient.deleteAuth(sid);
+
+      expectSuccess(result);
+    });
+
+    test('returns error when unauthorized (401)', () async {
+      const data = {
+        'error': {
+          'key': 'unauthorized',
+          'message': 'Unauthorized',
+          'hint': null,
+        },
+        'took': 0.003,
+      };
+
+      final response = http.Response(jsonEncode(data), 401);
+
+      mockDelete(mockClient, url, response);
+
+      final result = await apiClient.deleteAuth(sid);
+
+      expectError(
+        result,
+        statusCode: 401,
+        messageContains: 'Unauthorized',
+      );
+    });
+  });
+
   group('getAuthSessions', () {
     final url = Uri.parse('$baseUrl/api/auth/sessions');
 
