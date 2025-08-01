@@ -1,5 +1,5 @@
 import 'package:flutter_test/flutter_test.dart';
-import 'package:pi_hole_client/data/repositories/app_config_repository.dart';
+import 'package:pi_hole_client/data/repositories/local/app_config_repository.dart';
 import 'package:result_dart/result_dart.dart';
 import 'package:sqflite_common_ffi/sqflite_ffi.dart';
 

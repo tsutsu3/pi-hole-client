@@ -1,4 +1,4 @@
-import 'package:pi_hole_client/data/services/storage/secure_storage_service.dart';
+import 'package:pi_hole_client/data/services/local/secure_storage_service.dart';
 import 'package:result_dart/result_dart.dart';
 
 /// A repository for securely storing, retrieving, and managing

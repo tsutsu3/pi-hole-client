@@ -1,7 +1,7 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:pi_hole_client/config/enums.dart';
-import 'package:pi_hole_client/data/repositories/secure_data_repository.dart';
-import 'package:pi_hole_client/data/repositories/server_repository.dart';
+import 'package:pi_hole_client/data/repositories/local/secure_data_repository.dart';
+import 'package:pi_hole_client/data/repositories/local/server_repository.dart';
 import 'package:pi_hole_client/domain/models/server.dart';
 import 'package:sqflite_common_ffi/sqflite_ffi.dart';
 

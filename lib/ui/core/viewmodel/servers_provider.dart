@@ -3,7 +3,7 @@ import 'dart:async';
 import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
 import 'package:pi_hole_client/config/query_types.dart';
-import 'package:pi_hole_client/data/repositories/server_repository.dart';
+import 'package:pi_hole_client/data/repositories/local/server_repository.dart';
 import 'package:pi_hole_client/data/services/api/api_gateway_factory.dart';
 import 'package:pi_hole_client/data/services/api/api_gateway_interface.dart';
 import 'package:pi_hole_client/data/services/api/shared/models/query_status.dart';

@@ -1,4 +1,4 @@
-import 'package:pi_hole_client/data/services/storage/secure_storage_service.dart';
+import 'package:pi_hole_client/data/services/local/secure_storage_service.dart';
 import 'package:pi_hole_client/domain/models/server.dart';
 import 'package:sqflite/sqflite.dart';
 

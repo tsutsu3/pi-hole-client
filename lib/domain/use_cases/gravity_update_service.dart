@@ -1,7 +1,7 @@
 import 'dart:async';
 
 import 'package:pi_hole_client/config/enums.dart';
-import 'package:pi_hole_client/data/repositories/gravity_repository.dart';
+import 'package:pi_hole_client/data/repositories/local/gravity_repository.dart';
 import 'package:pi_hole_client/data/services/api/api_gateway_interface.dart';
 import 'package:pi_hole_client/data/services/api/shared/models/gateways.dart';
 import 'package:pi_hole_client/data/services/api/shared/models/messages.dart';

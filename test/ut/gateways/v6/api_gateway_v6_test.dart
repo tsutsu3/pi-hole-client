@@ -8,7 +8,7 @@ import 'package:mockito/mockito.dart';
 import 'package:pi_hole_client/config/api_versions.dart';
 import 'package:pi_hole_client/config/enums.dart';
 import 'package:pi_hole_client/config/subscription_types.dart';
-import 'package:pi_hole_client/data/repositories/secure_data_repository.dart';
+import 'package:pi_hole_client/data/repositories/local/secure_data_repository.dart';
 import 'package:pi_hole_client/data/services/api/model/v6/action/action.dart';
 import 'package:pi_hole_client/data/services/api/model/v6/auth/sessions.dart';
 import 'package:pi_hole_client/data/services/api/model/v6/config/config.dart'

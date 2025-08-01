@@ -1,4 +1,4 @@
-import 'package:pi_hole_client/data/services/database/database_service.dart';
+import 'package:pi_hole_client/data/services/local/database_service.dart';
 import 'package:result_dart/result_dart.dart';
 import 'package:sqflite/sqflite.dart';
 
