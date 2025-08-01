@@ -48,9 +48,9 @@ import 'package:pi_hole_client/data/services/api/model/v6/network/devices.dart'
     show Devices;
 import 'package:pi_hole_client/data/services/api/model/v6/network/gateway.dart'
     show Gateway;
-import 'package:pi_hole_client/utils/http_status_code_exception.dart';
+import 'package:pi_hole_client/data/services/utils/exceptions.dart';
+import 'package:pi_hole_client/data/services/utils/safe_api_call.dart';
 import 'package:pi_hole_client/utils/misc.dart';
-import 'package:pi_hole_client/utils/safe_api_call.dart';
 import 'package:result_dart/result_dart.dart';
 
 class PiholeV6ApiClient {

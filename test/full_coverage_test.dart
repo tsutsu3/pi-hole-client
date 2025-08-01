@@ -51,6 +51,8 @@ import 'package:pi_hole_client/data/repositories/local/app_config_repository.dar
 import 'package:pi_hole_client/data/repositories/local/gravity_repository.dart';
 import 'package:pi_hole_client/data/repositories/local/secure_data_repository.dart';
 import 'package:pi_hole_client/data/repositories/local/server_repository.dart';
+import 'package:pi_hole_client/data/repositories/utils/call_with_retry.dart';
+import 'package:pi_hole_client/data/repositories/utils/exceptions.dart';
 import 'package:pi_hole_client/data/services/api/api_gateway_factory.dart';
 import 'package:pi_hole_client/data/services/api/api_gateway_interface.dart';
 import 'package:pi_hole_client/data/services/api/model/v5/dns.dart';
@@ -95,6 +97,9 @@ import 'package:pi_hole_client/data/services/api/v5/api_gateway_v5.dart';
 import 'package:pi_hole_client/data/services/api/v6/api_gateway_v6.dart';
 import 'package:pi_hole_client/data/services/local/database_service.dart';
 import 'package:pi_hole_client/data/services/local/secure_storage_service.dart';
+import 'package:pi_hole_client/data/services/utils/database_utils.dart';
+import 'package:pi_hole_client/data/services/utils/exceptions.dart';
+import 'package:pi_hole_client/data/services/utils/safe_api_call.dart';
 import 'package:pi_hole_client/domain/models/auth.dart';
 import 'package:pi_hole_client/domain/models/auth_session.dart';
 import 'package:pi_hole_client/domain/models_old/app_log.dart';
@@ -296,15 +301,10 @@ import 'package:pi_hole_client/ui/statistics/statistics_triple_column.dart';
 import 'package:pi_hole_client/utils/charts_data_functions.dart';
 import 'package:pi_hole_client/utils/colors.dart';
 import 'package:pi_hole_client/utils/conversions.dart';
-import 'package:pi_hole_client/utils/database_utils.dart';
 import 'package:pi_hole_client/utils/format.dart';
 import 'package:pi_hole_client/utils/graph.dart';
-import 'package:pi_hole_client/utils/http_status_code_exception.dart';
 import 'package:pi_hole_client/utils/logger.dart';
 import 'package:pi_hole_client/utils/misc.dart';
 import 'package:pi_hole_client/utils/open_url.dart';
-import 'package:pi_hole_client/utils/option.dart';
-import 'package:pi_hole_client/utils/retry.dart';
-import 'package:pi_hole_client/utils/safe_api_call.dart';
 
 void main() {}

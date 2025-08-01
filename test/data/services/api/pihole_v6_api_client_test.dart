@@ -6,7 +6,7 @@ import 'package:pi_hole_client/config/enums.dart';
 import 'package:pi_hole_client/data/services/api/model/v6/config/config.dart';
 import 'package:pi_hole_client/data/services/api/model/v6/network/gateway.dart';
 import 'package:pi_hole_client/data/services/api/pihole_v6_api_client.dart';
-import 'package:pi_hole_client/utils/http_status_code_exception.dart';
+import 'package:pi_hole_client/data/services/utils/exceptions.dart';
 import 'package:result_dart/result_dart.dart';
 
 import '../utils/mocks.mocks.dart';
