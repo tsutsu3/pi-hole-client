@@ -3,8 +3,8 @@ import 'package:pi_hole_client/data/repositories/local/app_config_repository.dar
 import 'package:result_dart/result_dart.dart';
 import 'package:sqflite_common_ffi/sqflite_ffi.dart';
 
-import '../../../testing/fakes/services/fake_database_service.dart';
-import '../../../testing/fakes/services/fake_secure_storage_service.dart';
+import '../../../../testing/fakes/services/fake_database_service.dart';
+import '../../../../testing/fakes/services/fake_secure_storage_service.dart';
 
 void sqfliteTestInit() {
   sqfliteFfiInit();

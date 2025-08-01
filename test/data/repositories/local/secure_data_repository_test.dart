@@ -1,7 +1,7 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:pi_hole_client/data/repositories/local/secure_data_repository.dart';
 
-import '../../../testing/fakes/services/fake_secure_storage_service.dart';
+import '../../../../testing/fakes/services/fake_secure_storage_service.dart';
 
 void main() {
   const address = 'http://localhost';
