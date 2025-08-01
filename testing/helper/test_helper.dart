@@ -3,7 +3,7 @@ import 'package:http/http.dart';
 import 'package:mockito/mockito.dart';
 import 'package:pi_hole_client/data/services/utils/exceptions.dart';
 import 'package:result_dart/result_dart.dart';
-import 'mocks.mocks.dart';
+import '../../test/data/services/utils/mocks.mocks.dart';
 
 // ============================================================================
 // Mocking utilities for API client tests
@@ -88,7 +88,29 @@ void expectSuccess<T extends Object>(
   }
 }
 
-void expectError<T extends Object>(
+void expectListSuccess<T extends Object>(
+  Result<T> result, [
+  List<Map<String, dynamic>>? expectedJsonList,
+]) {
+  expect(result.isSuccess(), true);
+
+  final value = result.getOrNull();
+
+  if (value is List) {
+    if (expectedJsonList != null) {
+      expect(
+        value.map((e) => (e as dynamic).toJson()).toList(),
+        expectedJsonList,
+      );
+    } else {
+      fail('Missing expectedJsonList for List result');
+    }
+  } else {
+    fail('Expected a List result, but got ${value.runtimeType}');
+  }
+}
+
+void expectHttpError<T extends Object>(
   Result<T> result, {
   required int statusCode,
   required String messageContains,
@@ -102,6 +124,20 @@ void expectError<T extends Object>(
           e is HttpStatusCodeException &&
           e.statusCode == statusCode &&
           e.message.contains(messageContains),
+    ),
+  );
+}
+
+void expectError<T extends Object>(
+  Result<T> result, {
+  required String messageContains,
+}) {
+  expect(result.isError(), true);
+  final error = result.exceptionOrNull();
+  expect(
+    error,
+    predicate(
+      (e) => e is Exception && e.toString().contains(messageContains),
     ),
   );
 }

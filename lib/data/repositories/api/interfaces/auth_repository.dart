@@ -1,15 +1,17 @@
+import 'package:pi_hole_client/domain/models/auth.dart';
+import 'package:pi_hole_client/domain/models/auth_session.dart';
 import 'package:result_dart/result_dart.dart';
 
 abstract interface class AuthRepository {
   /// Submit password for login
-  Future<Result<void>> createSession(String password);
+  Future<Result<Auth>> createSession(String password);
 
   /// Get current session
-  Future<Result<void>> deleteCurrentSession();
+  Future<Result<Unit>> deleteCurrentSession();
 
   /// Get all sessions
-  Future<Result<void>> getAllSessions();
+  Future<Result<List<AuthSession>>> getAllSessions();
 
   /// Delete session by ID
-  Future<Result<void>> deleteSessionById(int id);
+  Future<Result<Unit>> deleteSessionById(int id);
 }

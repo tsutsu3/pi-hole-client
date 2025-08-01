@@ -4,8 +4,8 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:http/http.dart' as http;
 import 'package:pi_hole_client/data/services/api/pihole_v5_api_client.dart';
 
+import '../../../../testing/helper/test_helper.dart';
 import '../utils/mocks.mocks.dart';
-import '../utils/test_helper.dart';
 
 void main() {
   const baseUrl = 'http://localhost:8080';
@@ -71,7 +71,7 @@ void main() {
 
       final result = await apiClient.getSummaryRaw(sid);
 
-      expectError(
+      expectHttpError(
         result,
         statusCode: 500,
         messageContains: 'Internal Server Error',
@@ -115,7 +115,7 @@ void main() {
       final result =
           await apiClient.postDnsBlocking(sid, enabled: false, timer: 0);
 
-      expectError(
+      expectHttpError(
         result,
         statusCode: 500,
         messageContains: 'Internal Server Error',
@@ -286,7 +286,7 @@ void main() {
 
       final result = await apiClient.getRealTimeStatus(sid);
 
-      expectError(
+      expectHttpError(
         result,
         statusCode: 500,
         messageContains: 'Internal Server Error',
@@ -1063,7 +1063,7 @@ void main() {
 
       final result = await apiClient.getOverTimeData(sid);
 
-      expectError(
+      expectHttpError(
         result,
         statusCode: 500,
         messageContains: 'Internal Server Error',
@@ -1149,7 +1149,7 @@ void main() {
         until: DateTime.fromMillisecondsSinceEpoch(until * 1000),
       );
 
-      expectError(
+      expectHttpError(
         result,
         statusCode: 500,
         messageContains: 'Internal Server Error',
@@ -1189,7 +1189,7 @@ void main() {
         domainType: V5DomainType.white,
       );
 
-      expectError(
+      expectHttpError(
         result,
         statusCode: 500,
         messageContains: 'Internal Server Error',
@@ -1233,7 +1233,7 @@ void main() {
       final result =
           await apiClient.getDomains(sid, domainType: V5DomainType.white);
 
-      expectError(
+      expectHttpError(
         result,
         statusCode: 500,
         messageContains: 'Internal Server Error',
@@ -1273,7 +1273,7 @@ void main() {
         domainType: V5DomainType.white,
       );
 
-      expectError(
+      expectHttpError(
         result,
         statusCode: 500,
         messageContains: 'Internal Server Error',
@@ -1347,7 +1347,7 @@ void main() {
 
       final result = await apiClient.getVersions(sid);
 
-      expectError(
+      expectHttpError(
         result,
         statusCode: 500,
         messageContains: 'Internal Server Error',

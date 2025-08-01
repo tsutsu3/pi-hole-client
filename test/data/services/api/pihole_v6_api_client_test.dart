@@ -9,8 +9,8 @@ import 'package:pi_hole_client/data/services/api/pihole_v6_api_client.dart';
 import 'package:pi_hole_client/data/services/utils/exceptions.dart';
 import 'package:result_dart/result_dart.dart';
 
+import '../../../../testing/helper/test_helper.dart';
 import '../utils/mocks.mocks.dart';
-import '../utils/test_helper.dart';
 
 void main() {
   const baseUrl = 'http://localhost:8080';
@@ -70,7 +70,7 @@ void main() {
 
       final result = await apiClient.postAuth(password: 'wrongpass');
 
-      expectError(
+      expectHttpError(
         result,
         statusCode: 401,
         messageContains: 'password incorrect',
@@ -107,7 +107,7 @@ void main() {
 
       final result = await apiClient.deleteAuth(sid);
 
-      expectError(
+      expectHttpError(
         result,
         statusCode: 401,
         messageContains: 'Unauthorized',
@@ -193,7 +193,7 @@ void main() {
 
       final result = await apiClient.getAuthSessions(sid);
 
-      expectError(
+      expectHttpError(
         result,
         statusCode: 401,
         messageContains: 'Unauthorized',
@@ -230,7 +230,7 @@ void main() {
 
       final result = await apiClient.deleteAuthSession(sid, id: 1);
 
-      expectError(
+      expectHttpError(
         result,
         statusCode: 400,
         messageContains: 'Session ID not in use',
@@ -290,7 +290,7 @@ void main() {
 
       final result = await apiClient.getHistory(sid);
 
-      expectError(
+      expectHttpError(
         result,
         statusCode: 401,
         messageContains: 'Unauthorized',
@@ -354,7 +354,7 @@ void main() {
 
       final result = await apiClient.getHistoryClient(sid);
 
-      expectError(
+      expectHttpError(
         result,
         statusCode: 401,
         messageContains: 'Unauthorized',
@@ -433,7 +433,7 @@ void main() {
       final until = DateTime.fromMillisecondsSinceEpoch(1733479467 * 1000);
       final result = await apiClient.getQueries(sid, from: from, until: until);
 
-      expectError(
+      expectHttpError(
         result,
         statusCode: 401,
         messageContains: 'Unauthorized',
@@ -539,7 +539,7 @@ void main() {
 
       final result = await apiClient.getStatsSummary(sid);
 
-      expectError(
+      expectHttpError(
         result,
         statusCode: 401,
         messageContains: 'Unauthorized',
@@ -605,7 +605,7 @@ void main() {
 
       final result = await apiClient.getStatsUpstreams(sid);
 
-      expectError(
+      expectHttpError(
         result,
         statusCode: 401,
         messageContains: 'Unauthorized',
@@ -668,7 +668,7 @@ void main() {
 
       final result = await apiClient.getStatsTopDomains(sid);
 
-      expectError(
+      expectHttpError(
         result,
         statusCode: 401,
         messageContains: 'Unauthorized',
@@ -747,7 +747,7 @@ void main() {
 
       final result = await apiClient.getDnsBlocking(sid);
 
-      expectError(
+      expectHttpError(
         result,
         statusCode: 401,
         messageContains: 'Unauthorized',
@@ -796,7 +796,7 @@ void main() {
 
       final result = await apiClient.postDnsBlocking(sid);
 
-      expectError(
+      expectHttpError(
         result,
         statusCode: 401,
         messageContains: 'Unauthorized',
@@ -858,7 +858,7 @@ void main() {
 
       final result = await apiClient.getGroups(sid);
 
-      expectError(
+      expectHttpError(
         result,
         statusCode: 401,
         messageContains: 'Unauthorized',
@@ -925,7 +925,7 @@ void main() {
 
       final result = await apiClient.getDomains(sid);
 
-      expectError(
+      expectHttpError(
         result,
         statusCode: 401,
         messageContains: 'Unauthorized',
@@ -1040,7 +1040,7 @@ void main() {
         domain: 'example.com',
       );
 
-      expectError(
+      expectHttpError(
         result,
         statusCode: 401,
         messageContains: 'Unauthorized',
@@ -1117,7 +1117,7 @@ void main() {
         domain: 'example.com',
       );
 
-      expectError(
+      expectHttpError(
         result,
         statusCode: 401,
         messageContains: 'Unauthorized',
@@ -1168,7 +1168,7 @@ void main() {
         domain: 'example.com',
       );
 
-      expectError(
+      expectHttpError(
         result,
         statusCode: 401,
         messageContains: 'Unauthorized',
@@ -1262,7 +1262,7 @@ void main() {
 
       final result = await apiClient.getLists(sid);
 
-      expectError(
+      expectHttpError(
         result,
         statusCode: 401,
         messageContains: 'Unauthorized',
@@ -1330,7 +1330,7 @@ void main() {
         type: ListType.allow,
       );
 
-      expectError(
+      expectHttpError(
         result,
         statusCode: 401,
         messageContains: 'Unauthorized',
@@ -1408,7 +1408,7 @@ void main() {
         type: ListType.allow,
       );
 
-      expectError(
+      expectHttpError(
         result,
         statusCode: 401,
         messageContains: 'Unauthorized',
@@ -1457,7 +1457,7 @@ void main() {
         type: ListType.allow,
       );
 
-      expectError(
+      expectHttpError(
         result,
         statusCode: 401,
         messageContains: 'Unauthorized',
@@ -1505,7 +1505,7 @@ void main() {
 
       final result = await apiClient.getInfoClient(sid);
 
-      expectError(
+      expectHttpError(
         result,
         statusCode: 401,
         messageContains: 'Unauthorized',
@@ -1586,7 +1586,7 @@ void main() {
 
       final result = await apiClient.getInfoFtl(sid);
 
-      expectError(
+      expectHttpError(
         result,
         statusCode: 401,
         messageContains: 'Unauthorized',
@@ -1648,7 +1648,7 @@ void main() {
 
       final result = await apiClient.getInfoHost(sid);
 
-      expectError(
+      expectHttpError(
         result,
         statusCode: 401,
         messageContains: 'Unauthorized',
@@ -1704,7 +1704,7 @@ void main() {
 
       final result = await apiClient.getInfoMessages(sid);
 
-      expectError(
+      expectHttpError(
         result,
         statusCode: 401,
         messageContains: 'Unauthorized',
@@ -1738,7 +1738,7 @@ void main() {
 
       final result = await apiClient.deleteInfoMessages(sid, messageId: 1);
 
-      expectError(
+      expectHttpError(
         result,
         statusCode: 401,
         messageContains: 'Unauthorized',
@@ -1845,7 +1845,7 @@ void main() {
 
       final result = await apiClient.getInfoMetrics(sid);
 
-      expectError(
+      expectHttpError(
         result,
         statusCode: 401,
         messageContains: 'Unauthorized',
@@ -1903,7 +1903,7 @@ void main() {
 
       final result = await apiClient.getInfoSensors(sid);
 
-      expectError(
+      expectHttpError(
         result,
         statusCode: 401,
         messageContains: 'Unauthorized',
@@ -2025,7 +2025,7 @@ void main() {
 
       final result = await apiClient.getInfoSystem(sid);
 
-      expectError(
+      expectHttpError(
         result,
         statusCode: 401,
         messageContains: 'Unauthorized',
@@ -2102,7 +2102,7 @@ void main() {
 
       final result = await apiClient.getInfoVersion(sid);
 
-      expectError(
+      expectHttpError(
         result,
         statusCode: 401,
         messageContains: 'Unauthorized',
@@ -2186,7 +2186,7 @@ void main() {
 
       final result = await apiClient.getNetworkDevices(sid);
 
-      expectError(
+      expectHttpError(
         result,
         statusCode: 401,
         messageContains: 'Unauthorized',
@@ -2224,7 +2224,7 @@ void main() {
 
       final result = await apiClient.deleteNetworkDevices(sid, deviceId: 1);
 
-      expectError(
+      expectHttpError(
         result,
         statusCode: 401,
         messageContains: 'Unauthorized',
@@ -2942,7 +2942,7 @@ void main() {
 
       final result = await apiClient.getNetworkGateway(sid);
 
-      expectError(
+      expectHttpError(
         result,
         statusCode: 401,
         messageContains: 'Unauthorized',
@@ -2980,7 +2980,7 @@ void main() {
 
       final result = await apiClient.postActionFlushArp(sid);
 
-      expectError(
+      expectHttpError(
         result,
         statusCode: 401,
         messageContains: 'Unauthorized',
@@ -3015,7 +3015,7 @@ void main() {
 
       final result = await apiClient.postActionFlushLogs(sid);
 
-      expectError(
+      expectHttpError(
         result,
         statusCode: 401,
         messageContains: 'Unauthorized',
@@ -3107,7 +3107,7 @@ void main() {
 
       final result = await apiClient.postActionRestartdns(sid);
 
-      expectError(
+      expectHttpError(
         result,
         statusCode: 401,
         messageContains: 'Unauthorized',
@@ -3357,7 +3357,7 @@ void main() {
 
       final result = await apiClient.getConfigElement(sid);
 
-      expectError(
+      expectHttpError(
         result,
         statusCode: 401,
         messageContains: 'Unauthorized',
@@ -3403,7 +3403,7 @@ void main() {
       });
       final result = await apiClient.patchConfig(sid, body: configData);
 
-      expectError(
+      expectHttpError(
         result,
         statusCode: 401,
         messageContains: 'Unauthorized',
@@ -3452,7 +3452,7 @@ void main() {
 
       final result = await apiClient.getDhcpLeases(sid);
 
-      expectError(
+      expectHttpError(
         result,
         statusCode: 401,
         messageContains: 'Unauthorized',
@@ -3488,7 +3488,7 @@ void main() {
 
       final result = await apiClient.deleteDhcpLeases(sid, ip: ip);
 
-      expectError(
+      expectHttpError(
         result,
         statusCode: 401,
         messageContains: 'Unauthorized',
