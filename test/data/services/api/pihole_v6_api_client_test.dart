@@ -9,8 +9,8 @@ import 'package:pi_hole_client/data/services/api/pihole_v6_api_client.dart';
 import 'package:pi_hole_client/utils/http_status_code_exception.dart';
 import 'package:result_dart/result_dart.dart';
 
-import '../../../../testing/fakes/utils/test_helper.dart';
-import 'mock_http_client.mocks.dart';
+import '../utils/mocks.mocks.dart';
+import '../utils/test_helper.dart';
 
 void main() {
   const baseUrl = 'http://localhost:8080';
@@ -1360,7 +1360,8 @@ void main() {
         'took': 0.003,
       };
       final fullUrl = Uri.parse(
-          '$url/${Uri.encodeComponent('https://example.com/list.txt')}?type=${ListType.allow.name}');
+        '$url/${Uri.encodeComponent('https://example.com/list.txt')}?type=${ListType.allow.name}',
+      );
       final response = http.Response(jsonEncode(data), 401);
       mockPut(mockClient, fullUrl, response);
 
@@ -1408,7 +1409,8 @@ void main() {
         'took': 0.003,
       };
       final fullUrl = Uri.parse(
-          '$url/${Uri.encodeComponent('https://example.com/list.txt')}?type=${ListType.allow.name}');
+        '$url/${Uri.encodeComponent('https://example.com/list.txt')}?type=${ListType.allow.name}',
+      );
       final response = http.Response(jsonEncode(data), 401);
       mockDelete(mockClient, fullUrl, response);
 
@@ -2214,7 +2216,7 @@ void main() {
         ],
         'took': 0.003,
         'interfaces': null,
-        'routes': null
+        'routes': null,
       };
       final response = http.Response(jsonEncode(data), 200);
       mockGet(mockClient, url, response);

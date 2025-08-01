@@ -105,8 +105,7 @@ class ServerRepository {
       return await _database.insert('servers', {
         'address': server.address,
         'alias': server.alias,
-        'isDefaultServer':
-            server.defaultServer ? 1 : 0, // TODO: Warning: before const 0
+        'isDefaultServer': server.defaultServer ? 1 : 0,
         'apiVersion': server.apiVersion,
         'allowSelfSignedCert': server.allowSelfSignedCert ? 1 : 0,
       });

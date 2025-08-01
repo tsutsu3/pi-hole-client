@@ -3,7 +3,7 @@ import 'package:http/http.dart';
 import 'package:mockito/mockito.dart';
 import 'package:pi_hole_client/utils/http_status_code_exception.dart';
 import 'package:result_dart/result_dart.dart';
-import '../../../test/data/services/api/mock_http_client.mocks.dart';
+import 'mocks.mocks.dart';
 
 // ============================================================================
 // Mocking utilities for API client tests

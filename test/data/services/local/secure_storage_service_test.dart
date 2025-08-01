@@ -1,11 +1,8 @@
-import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
 import 'package:pi_hole_client/data/services/local/secure_storage_service.dart';
-import '../local/secure_storage_service_test.mocks.dart';
+import '../utils/mocks.mocks.dart';
 
-@GenerateMocks([FlutterSecureStorage])
 void main() {
   late MockFlutterSecureStorage mockStorage;
   late SecureStorageService service;

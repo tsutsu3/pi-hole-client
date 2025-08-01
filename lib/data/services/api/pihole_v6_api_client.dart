@@ -1062,8 +1062,10 @@ class PiholeV6ApiClient {
   String _buildQueryString(Map<String, dynamic> params) {
     return params.entries
         .where((e) => e.value != null && e.value.toString().isNotEmpty)
-        .map((e) =>
-            '${Uri.encodeComponent(e.key)}=${Uri.encodeComponent(e.value.toString())}')
+        .map(
+          (e) =>
+              '${Uri.encodeComponent(e.key)}=${Uri.encodeComponent(e.value.toString())}',
+        )
         .join('&');
   }
 

@@ -4,8 +4,8 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:http/http.dart' as http;
 import 'package:pi_hole_client/data/services/api/pihole_v5_api_client.dart';
 
-import '../../../../testing/fakes/utils/test_helper.dart';
-import 'mock_http_client.mocks.dart';
+import '../utils/mocks.mocks.dart';
+import '../utils/test_helper.dart';
 
 void main() {
   const baseUrl = 'http://localhost:8080';
