@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/mockito.dart';
 import 'package:pi_hole_client/config/enums.dart';
-import 'package:pi_hole_client/data/services/api/shared/models/realtime_status.dart';
+import 'package:pi_hole_client/domain/models/realtime_status.dart';
 import 'package:pi_hole_client/ui/statistics/statistics.dart';
 import 'package:pi_hole_client/ui/statistics/statistics_list.dart';
 import 'package:pi_hole_client/ui/statistics/statistics_triple_column.dart';

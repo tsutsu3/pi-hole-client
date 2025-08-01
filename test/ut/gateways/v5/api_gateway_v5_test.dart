@@ -9,13 +9,13 @@ import 'package:mockito/mockito.dart';
 import 'package:pi_hole_client/config/api_versions.dart';
 import 'package:pi_hole_client/config/enums.dart';
 import 'package:pi_hole_client/data/services/api/model/v6/config/config.dart';
-import 'package:pi_hole_client/data/services/api/shared/models/domain.dart';
-import 'package:pi_hole_client/data/services/api/shared/models/gateways.dart';
-import 'package:pi_hole_client/data/services/api/shared/models/groups.dart';
-import 'package:pi_hole_client/data/services/api/shared/models/subscriptions.dart';
-import 'package:pi_hole_client/data/services/api/shared/models/version.dart';
 import 'package:pi_hole_client/data/services/api/v5/api_gateway_v5.dart';
+import 'package:pi_hole_client/domain/models/domain.dart';
+import 'package:pi_hole_client/domain/models/gateways.dart';
+import 'package:pi_hole_client/domain/models/groups.dart';
 import 'package:pi_hole_client/domain/models/server.dart';
+import 'package:pi_hole_client/domain/models/subscriptions.dart';
+import 'package:pi_hole_client/domain/models/version.dart';
 
 import 'api_gateway_v5_test.mocks.dart';
 

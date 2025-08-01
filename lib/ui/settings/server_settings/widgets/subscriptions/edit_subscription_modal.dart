@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:pi_hole_client/data/services/api/shared/models/subscriptions.dart';
+import 'package:pi_hole_client/domain/models/subscriptions.dart';
 import 'package:pi_hole_client/ui/core/l10n/generated/app_localizations.dart';
 import 'package:pi_hole_client/ui/core/ui/components/labeled_multi_select_tile.dart';
 

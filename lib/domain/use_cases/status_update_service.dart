@@ -1,7 +1,7 @@
 import 'dart:async';
 
 import 'package:pi_hole_client/config/enums.dart';
-import 'package:pi_hole_client/data/services/api/shared/models/gateways.dart';
+import 'package:pi_hole_client/domain/models/gateways.dart';
 import 'package:pi_hole_client/ui/core/viewmodel/app_config_provider.dart';
 import 'package:pi_hole_client/ui/core/viewmodel/filters_provider.dart';
 import 'package:pi_hole_client/ui/core/viewmodel/servers_provider.dart';

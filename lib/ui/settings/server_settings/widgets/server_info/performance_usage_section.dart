@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:pi_hole_client/data/services/api/shared/models/sensors.dart';
-import 'package:pi_hole_client/data/services/api/shared/models/system.dart';
+import 'package:pi_hole_client/domain/models/sensors.dart';
+import 'package:pi_hole_client/domain/models/system.dart';
 import 'package:pi_hole_client/ui/core/l10n/generated/app_localizations.dart';
 import 'package:pi_hole_client/ui/core/ui/components/adaptive_trailing_text.dart';
 import 'package:pi_hole_client/ui/core/ui/components/list_tile_title.dart';

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:pi_hole_client/config/formats.dart';
 import 'package:pi_hole_client/config/responsive.dart';
-import 'package:pi_hole_client/data/services/api/shared/models/domain.dart';
+import 'package:pi_hole_client/domain/models/domain.dart';
 import 'package:pi_hole_client/ui/core/themes/theme.dart';
 import 'package:pi_hole_client/utils/conversions.dart';
 import 'package:pi_hole_client/utils/format.dart';

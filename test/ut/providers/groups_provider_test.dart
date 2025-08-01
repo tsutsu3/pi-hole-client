@@ -4,9 +4,9 @@ import 'package:mockito/mockito.dart';
 import 'package:pi_hole_client/config/enums.dart';
 import 'package:pi_hole_client/data/services/api/model/v6/groups/groups.dart'
     show Groups;
-import 'package:pi_hole_client/data/services/api/shared/models/gateways.dart';
-import 'package:pi_hole_client/data/services/api/shared/models/groups.dart';
 import 'package:pi_hole_client/data/services/api/v6/api_gateway_v6.dart';
+import 'package:pi_hole_client/domain/models/gateways.dart';
+import 'package:pi_hole_client/domain/models/groups.dart';
 import 'package:pi_hole_client/ui/core/viewmodel/groups_provider.dart';
 import 'package:pi_hole_client/ui/core/viewmodel/servers_provider.dart';
 

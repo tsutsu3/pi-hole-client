@@ -1,25 +1,25 @@
 import 'package:pi_hole_client/data/services/api/model/v6/domains/domains.dart'
     as v6;
-import 'package:pi_hole_client/data/services/api/shared/models/app_log.dart';
-import 'package:pi_hole_client/data/services/api/shared/models/client.dart';
-import 'package:pi_hole_client/data/services/api/shared/models/config.dart';
-import 'package:pi_hole_client/data/services/api/shared/models/devices.dart';
-import 'package:pi_hole_client/data/services/api/shared/models/dhcp.dart';
-import 'package:pi_hole_client/data/services/api/shared/models/domain.dart';
-import 'package:pi_hole_client/data/services/api/shared/models/gateway.dart';
-import 'package:pi_hole_client/data/services/api/shared/models/groups.dart';
-import 'package:pi_hole_client/data/services/api/shared/models/host.dart';
-import 'package:pi_hole_client/data/services/api/shared/models/log.dart';
-import 'package:pi_hole_client/data/services/api/shared/models/messages.dart';
-import 'package:pi_hole_client/data/services/api/shared/models/metrics.dart';
-import 'package:pi_hole_client/data/services/api/shared/models/overtime_data.dart';
-import 'package:pi_hole_client/data/services/api/shared/models/realtime_status.dart';
-import 'package:pi_hole_client/data/services/api/shared/models/search.dart';
-import 'package:pi_hole_client/data/services/api/shared/models/sensors.dart';
-import 'package:pi_hole_client/data/services/api/shared/models/sessions.dart';
-import 'package:pi_hole_client/data/services/api/shared/models/subscriptions.dart';
-import 'package:pi_hole_client/data/services/api/shared/models/system.dart';
-import 'package:pi_hole_client/data/services/api/shared/models/version.dart';
+import 'package:pi_hole_client/domain/models/app_log.dart';
+import 'package:pi_hole_client/domain/models/client.dart';
+import 'package:pi_hole_client/domain/models/config.dart';
+import 'package:pi_hole_client/domain/models/devices.dart';
+import 'package:pi_hole_client/domain/models/dhcp.dart';
+import 'package:pi_hole_client/domain/models/domain.dart';
+import 'package:pi_hole_client/domain/models/gateway.dart';
+import 'package:pi_hole_client/domain/models/groups.dart';
+import 'package:pi_hole_client/domain/models/host.dart';
+import 'package:pi_hole_client/domain/models/log.dart';
+import 'package:pi_hole_client/domain/models/messages.dart';
+import 'package:pi_hole_client/domain/models/metrics.dart';
+import 'package:pi_hole_client/domain/models/overtime_data.dart';
+import 'package:pi_hole_client/domain/models/realtime_status.dart';
+import 'package:pi_hole_client/domain/models/search.dart';
+import 'package:pi_hole_client/domain/models/sensors.dart';
+import 'package:pi_hole_client/domain/models/sessions.dart';
+import 'package:pi_hole_client/domain/models/subscriptions.dart';
+import 'package:pi_hole_client/domain/models/system.dart';
+import 'package:pi_hole_client/domain/models/version.dart';
 
 enum APiResponseType {
   success,

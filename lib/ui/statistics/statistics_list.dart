@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:pi_hole_client/config/enums.dart';
-import 'package:pi_hole_client/data/services/api/shared/models/realtime_status.dart';
+import 'package:pi_hole_client/domain/models/realtime_status.dart';
 import 'package:pi_hole_client/ui/core/l10n/generated/app_localizations.dart';
 import 'package:pi_hole_client/ui/core/ui/components/section_label.dart';
 import 'package:pi_hole_client/ui/core/ui/components/tab_content.dart';
