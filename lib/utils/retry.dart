@@ -1,5 +1,7 @@
 import 'dart:async';
 
+import 'package:result_dart/result_dart.dart';
+
 /// Executes an asynchronous [action] with retry logic.
 ///
 /// This utility function is useful for operations that might fail transiently,
@@ -53,4 +55,30 @@ Future<T> runWithRetry<T>({
       await Future.delayed(delay);
     }
   }
+}
+
+Future<Result<T>> runWithResultRetry<T extends Object>({
+  required Future<Result<T>> Function() action,
+  int maxRetries = 1,
+  Duration delay = const Duration(milliseconds: 100),
+}) async {
+  var attempt = 0;
+
+  while (attempt <= maxRetries) {
+    try {
+      final result = await action();
+      if (result.isSuccess()) {
+        return result;
+      }
+    } catch (e, st) {
+      return Failure(Exception('Exception on attempt $attempt: $e\n$st'));
+    }
+
+    attempt++;
+    if (attempt <= maxRetries) {
+      await Future.delayed(delay);
+    }
+  }
+
+  return Failure(Exception('Failed after $maxRetries attempts'));
 }
