@@ -2,7 +2,6 @@ import 'dart:convert';
 
 import 'package:flutter_test/flutter_test.dart';
 import 'package:http/http.dart' as http;
-import 'package:mockito/annotations.dart';
 import 'package:pi_hole_client/config/enums.dart';
 import 'package:pi_hole_client/data/services/api/model/v6/config/config.dart';
 import 'package:pi_hole_client/data/services/api/model/v6/network/gateway.dart';
@@ -11,9 +10,8 @@ import 'package:pi_hole_client/utils/http_status_code_exception.dart';
 import 'package:result_dart/result_dart.dart';
 
 import '../../../../testing/fakes/utils/test_helper.dart';
-import 'pihole_v6_api_client_test.mocks.dart';
+import 'mock_http_client.mocks.dart';
 
-@GenerateMocks([http.Client])
 void main() {
   const baseUrl = 'http://localhost:8080';
   const sid = 'sid12345';
