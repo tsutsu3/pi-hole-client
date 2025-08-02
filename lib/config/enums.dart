@@ -106,3 +106,18 @@ enum RequestStatus {
   /// 2: Allowed requests
   allowed,
 }
+
+/// DNS blocking status
+enum DnsBlockingStatus {
+  /// 0: DNS blocking is enabled
+  enabled,
+
+  /// 1: DNS blocking is disabled
+  disabled,
+
+  /// 2: DNS blocking is failed
+  failed,
+
+  /// 3: DNS blocking is unknown
+  unknown,
+}

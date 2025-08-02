@@ -894,7 +894,7 @@ class PiholeV6ApiClient {
     });
   }
 
-  Future<Result<Action>> postActionRestartdns(String sid) async {
+  Future<Result<Action>> postActionRestartDns(String sid) async {
     return safeApiCall<Action>(() async {
       final resp = await _sendRequest(
         method: HttpMethod.post,

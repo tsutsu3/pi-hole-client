@@ -1,5 +1,5 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
-import 'package:pi_hole_client/data/services/api/model/v6/auth/auth.dart';
+import 'package:pi_hole_client/config/enums.dart';
 
 part 'auth.freezed.dart';
 part 'auth.g.dart';
@@ -16,15 +16,24 @@ sealed class Auth with _$Auth {
   }) = _Auth;
 
   factory Auth.fromJson(Map<String, dynamic> json) => _$AuthFromJson(json);
+}
 
-  factory Auth.fromV6(Session session) {
-    return Auth(
-      valid: session.session.valid,
-      totp: session.session.totp,
-      sid: session.session.sid,
-      csrf: session.session.csrf,
-      validity: session.session.validity,
-      message: session.session.message,
-    );
-  }
+@freezed
+sealed class AuthSession with _$AuthSession {
+  const factory AuthSession({
+    required int id,
+    required bool isValid,
+    required bool isCurrentSession,
+    required TlsStatus tlsStatus,
+    required bool isApp,
+    required bool isCli,
+    required DateTime loginAt,
+    required DateTime lastActive,
+    required DateTime validUntil,
+    required String clientIp,
+    String? userAgent,
+  }) = _AuthSession;
+
+  factory AuthSession.fromJson(Map<String, dynamic> json) =>
+      _$AuthSessionFromJson(json);
 }

@@ -367,7 +367,7 @@ class FakePiholeV6ApiClient implements PiholeV6ApiClient {
   Stream<Result<List<String>>> postActionGravity(String sid) async* {}
 
   @override
-  Future<Result<Action>> postActionRestartdns(String sid) async {
+  Future<Result<Action>> postActionRestartDns(String sid) async {
     throw UnimplementedError();
   }
 

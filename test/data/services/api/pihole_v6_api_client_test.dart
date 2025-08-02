@@ -3080,7 +3080,7 @@ void main() {
     });
   });
 
-  group('postActionRestartdns', () {
+  group('postActionRestartDns', () {
     final url = Uri.parse('$baseUrl/api/action/restartdns');
 
     test('restarts DNS successfully', () async {
@@ -3088,7 +3088,7 @@ void main() {
       final response = http.Response(jsonEncode(data), 200);
       mockPost(mockClient, url, response);
 
-      final result = await apiClient.postActionRestartdns(sid);
+      final result = await apiClient.postActionRestartDns(sid);
 
       expectSuccess(result, data);
     });
@@ -3105,7 +3105,7 @@ void main() {
       final response = http.Response(jsonEncode(data), 401);
       mockPost(mockClient, url, response);
 
-      final result = await apiClient.postActionRestartdns(sid);
+      final result = await apiClient.postActionRestartDns(sid);
 
       expectHttpError(
         result,

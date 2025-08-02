@@ -3028,7 +3028,7 @@ mixin _$InterfaceAddress {
   @JsonKey(name: 'address_type')
   String get addressType;
   int get index;
-  RouteFamily get family;
+  RouteFamily get family; // TODO: string, no conversion
   String get scope;
   List<String> get flags;
   int get prefixlen;
@@ -3537,6 +3537,7 @@ class _InterfaceAddress implements InterfaceAddress {
   final int index;
   @override
   final RouteFamily family;
+// TODO: string, no conversion
   @override
   final String scope;
   final List<String> _flags;

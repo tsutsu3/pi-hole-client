@@ -110,7 +110,7 @@ sealed class InterfaceAddress with _$InterfaceAddress {
     required String address,
     @JsonKey(name: 'address_type') required String addressType,
     required int index,
-    required RouteFamily family,
+    required RouteFamily family, // TODO: string, no conversion
     required String scope,
     required List<String> flags,
     required int prefixlen,

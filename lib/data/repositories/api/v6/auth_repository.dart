@@ -1,8 +1,8 @@
+import 'package:pi_hole_client/data/mapper/auth_mapper.dart';
 import 'package:pi_hole_client/data/repositories/api/interfaces/auth_repository.dart';
 import 'package:pi_hole_client/data/repositories/utils/call_with_retry.dart';
 import 'package:pi_hole_client/data/services/api/pihole_v6_api_client.dart';
 import 'package:pi_hole_client/domain/models/auth.dart';
-import 'package:pi_hole_client/domain/models/auth_session.dart';
 import 'package:result_dart/result_dart.dart';
 
 class AuthRepositoryV6 implements AuthRepository {
@@ -20,7 +20,7 @@ class AuthRepositoryV6 implements AuthRepository {
     return runWithResultRetry<Auth>(
       action: () async {
         final result = await _client.postAuth(password: password);
-        return Success(Auth.fromV6(result.getOrThrow()));
+        return Success(result.getOrThrow().toDomain());
       },
     );
   }
@@ -40,9 +40,7 @@ class AuthRepositoryV6 implements AuthRepository {
     return runWithResultRetry<List<AuthSession>>(
       action: () async {
         final result = await _client.getAuthSessions(_sid);
-        return Success(
-          result.getOrThrow().sessions.map(AuthSession.fromV6).toList(),
-        );
+        return Success(result.getOrThrow().toDomain());
       },
     );
   }

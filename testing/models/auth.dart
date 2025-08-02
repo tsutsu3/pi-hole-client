@@ -1,10 +1,6 @@
-import 'package:pi_hole_client/data/services/api/model/v6/auth/auth.dart'
-    as s_auth;
-import 'package:pi_hole_client/data/services/api/model/v6/auth/sessions.dart'
-    as s_auth_sessions;
-import 'package:pi_hole_client/domain/models/auth.dart' as d_auth;
-import 'package:pi_hole_client/domain/models/auth_session.dart'
-    as d_auth_session;
+import 'package:pi_hole_client/data/mapper/auth_mapper.dart';
+import 'package:pi_hole_client/data/services/api/model/v6/auth/auth.dart';
+import 'package:pi_hole_client/data/services/api/model/v6/auth/sessions.dart';
 
 // ===========================================================================
 // Json data for testing
@@ -73,15 +69,13 @@ final kGetAuthSessionsJson = {
 // ===========================================================================
 // Service response data
 // ===========================================================================
-final kPostAuth = s_auth.Session.fromJson(kPostAuthJson);
+final kPostAuth = Session.fromJson(kPostAuthJson);
 
-final kGetAuthSessions =
-    s_auth_sessions.AuthSessions.fromJson(kGetAuthSessionsJson);
+final kGetAuthSessions = AuthSessions.fromJson(kGetAuthSessionsJson);
 
 // ===========================================================================
 // Repository response data
 // ===========================================================================
-final kCreateSession = d_auth.Auth.fromV6(kPostAuth);
+final kCreateSession = kPostAuth.toDomain();
 
-final kGetAllSessions =
-    kGetAuthSessions.sessions.map(d_auth_session.AuthSession.fromV6).toList();
+final kGetAllSessions = kGetAuthSessions.toDomain();

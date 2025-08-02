@@ -3,7 +3,7 @@
 // ignore_for_file: type=lint
 // ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target, unnecessary_question_mark
 
-part of 'gravity.dart';
+part of 'config.dart';
 
 // **************************************************************************
 // FreezedGenerator
@@ -13,71 +13,86 @@ part of 'gravity.dart';
 T _$identity<T>(T value) => value;
 
 /// @nodoc
-mixin _$Gravity {
-  List<GravityEntry> get entries;
+mixin _$Config {
+  Dns? get dns;
 
-  /// Create a copy of Gravity
+  /// Create a copy of Config
   /// with the given fields replaced by the non-null parameter values.
   @JsonKey(includeFromJson: false, includeToJson: false)
   @pragma('vm:prefer-inline')
-  $GravityCopyWith<Gravity> get copyWith =>
-      _$GravityCopyWithImpl<Gravity>(this as Gravity, _$identity);
+  $ConfigCopyWith<Config> get copyWith =>
+      _$ConfigCopyWithImpl<Config>(this as Config, _$identity);
 
-  /// Serializes this Gravity to a JSON map.
+  /// Serializes this Config to a JSON map.
   Map<String, dynamic> toJson();
 
   @override
   bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is Gravity &&
-            const DeepCollectionEquality().equals(other.entries, entries));
+            other is Config &&
+            (identical(other.dns, dns) || other.dns == dns));
   }
 
   @JsonKey(includeFromJson: false, includeToJson: false)
   @override
-  int get hashCode =>
-      Object.hash(runtimeType, const DeepCollectionEquality().hash(entries));
+  int get hashCode => Object.hash(runtimeType, dns);
 
   @override
   String toString() {
-    return 'Gravity(entries: $entries)';
+    return 'Config(dns: $dns)';
   }
 }
 
 /// @nodoc
-abstract mixin class $GravityCopyWith<$Res> {
-  factory $GravityCopyWith(Gravity value, $Res Function(Gravity) _then) =
-      _$GravityCopyWithImpl;
+abstract mixin class $ConfigCopyWith<$Res> {
+  factory $ConfigCopyWith(Config value, $Res Function(Config) _then) =
+      _$ConfigCopyWithImpl;
   @useResult
-  $Res call({List<GravityEntry> entries});
+  $Res call({Dns? dns});
+
+  $DnsCopyWith<$Res>? get dns;
 }
 
 /// @nodoc
-class _$GravityCopyWithImpl<$Res> implements $GravityCopyWith<$Res> {
-  _$GravityCopyWithImpl(this._self, this._then);
+class _$ConfigCopyWithImpl<$Res> implements $ConfigCopyWith<$Res> {
+  _$ConfigCopyWithImpl(this._self, this._then);
 
-  final Gravity _self;
-  final $Res Function(Gravity) _then;
+  final Config _self;
+  final $Res Function(Config) _then;
 
-  /// Create a copy of Gravity
+  /// Create a copy of Config
   /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? entries = null,
+    Object? dns = freezed,
   }) {
     return _then(_self.copyWith(
-      entries: null == entries
-          ? _self.entries
-          : entries // ignore: cast_nullable_to_non_nullable
-              as List<GravityEntry>,
+      dns: freezed == dns
+          ? _self.dns
+          : dns // ignore: cast_nullable_to_non_nullable
+              as Dns?,
     ));
+  }
+
+  /// Create a copy of Config
+  /// with the given fields replaced by the non-null parameter values.
+  @override
+  @pragma('vm:prefer-inline')
+  $DnsCopyWith<$Res>? get dns {
+    if (_self.dns == null) {
+      return null;
+    }
+
+    return $DnsCopyWith<$Res>(_self.dns!, (value) {
+      return _then(_self.copyWith(dns: value));
+    });
   }
 }
 
-/// Adds pattern-matching-related methods to [Gravity].
-extension GravityPatterns on Gravity {
+/// Adds pattern-matching-related methods to [Config].
+extension ConfigPatterns on Config {
   /// A variant of `map` that fallback to returning `orElse`.
   ///
   /// It is equivalent to doing:
@@ -92,12 +107,12 @@ extension GravityPatterns on Gravity {
 
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>(
-    TResult Function(_Gravity value)? $default, {
+    TResult Function(_Config value)? $default, {
     required TResult orElse(),
   }) {
     final _that = this;
     switch (_that) {
-      case _Gravity() when $default != null:
+      case _Config() when $default != null:
         return $default(_that);
       case _:
         return orElse();
@@ -119,11 +134,11 @@ extension GravityPatterns on Gravity {
 
   @optionalTypeArgs
   TResult map<TResult extends Object?>(
-    TResult Function(_Gravity value) $default,
+    TResult Function(_Config value) $default,
   ) {
     final _that = this;
     switch (_that) {
-      case _Gravity():
+      case _Config():
         return $default(_that);
     }
   }
@@ -142,11 +157,11 @@ extension GravityPatterns on Gravity {
 
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>(
-    TResult? Function(_Gravity value)? $default,
+    TResult? Function(_Config value)? $default,
   ) {
     final _that = this;
     switch (_that) {
-      case _Gravity() when $default != null:
+      case _Config() when $default != null:
         return $default(_that);
       case _:
         return null;
@@ -167,13 +182,13 @@ extension GravityPatterns on Gravity {
 
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>(
-    TResult Function(List<GravityEntry> entries)? $default, {
+    TResult Function(Dns? dns)? $default, {
     required TResult orElse(),
   }) {
     final _that = this;
     switch (_that) {
-      case _Gravity() when $default != null:
-        return $default(_that.entries);
+      case _Config() when $default != null:
+        return $default(_that.dns);
       case _:
         return orElse();
     }
@@ -194,12 +209,12 @@ extension GravityPatterns on Gravity {
 
   @optionalTypeArgs
   TResult when<TResult extends Object?>(
-    TResult Function(List<GravityEntry> entries) $default,
+    TResult Function(Dns? dns) $default,
   ) {
     final _that = this;
     switch (_that) {
-      case _Gravity():
-        return $default(_that.entries);
+      case _Config():
+        return $default(_that.dns);
     }
   }
 
@@ -217,12 +232,12 @@ extension GravityPatterns on Gravity {
 
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>(
-    TResult? Function(List<GravityEntry> entries)? $default,
+    TResult? Function(Dns? dns)? $default,
   ) {
     final _that = this;
     switch (_that) {
-      case _Gravity() when $default != null:
-        return $default(_that.entries);
+      case _Config() when $default != null:
+        return $default(_that.dns);
       case _:
         return null;
     }
@@ -230,33 +245,26 @@ extension GravityPatterns on Gravity {
 }
 
 /// @nodoc
-@JsonSerializable()
-class _Gravity implements Gravity {
-  const _Gravity({final List<GravityEntry> entries = const []})
-      : _entries = entries;
-  factory _Gravity.fromJson(Map<String, dynamic> json) =>
-      _$GravityFromJson(json);
 
-  final List<GravityEntry> _entries;
+@JsonSerializable(explicitToJson: true, includeIfNull: false)
+class _Config implements Config {
+  const _Config({this.dns});
+  factory _Config.fromJson(Map<String, dynamic> json) => _$ConfigFromJson(json);
+
   @override
-  @JsonKey()
-  List<GravityEntry> get entries {
-    if (_entries is EqualUnmodifiableListView) return _entries;
-    // ignore: implicit_dynamic_type
-    return EqualUnmodifiableListView(_entries);
-  }
+  final Dns? dns;
 
-  /// Create a copy of Gravity
+  /// Create a copy of Config
   /// with the given fields replaced by the non-null parameter values.
   @override
   @JsonKey(includeFromJson: false, includeToJson: false)
   @pragma('vm:prefer-inline')
-  _$GravityCopyWith<_Gravity> get copyWith =>
-      __$GravityCopyWithImpl<_Gravity>(this, _$identity);
+  _$ConfigCopyWith<_Config> get copyWith =>
+      __$ConfigCopyWithImpl<_Config>(this, _$identity);
 
   @override
   Map<String, dynamic> toJson() {
-    return _$GravityToJson(
+    return _$ConfigToJson(
       this,
     );
   }
@@ -265,120 +273,134 @@ class _Gravity implements Gravity {
   bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _Gravity &&
-            const DeepCollectionEquality().equals(other._entries, _entries));
+            other is _Config &&
+            (identical(other.dns, dns) || other.dns == dns));
   }
 
   @JsonKey(includeFromJson: false, includeToJson: false)
   @override
-  int get hashCode =>
-      Object.hash(runtimeType, const DeepCollectionEquality().hash(_entries));
+  int get hashCode => Object.hash(runtimeType, dns);
 
   @override
   String toString() {
-    return 'Gravity(entries: $entries)';
+    return 'Config(dns: $dns)';
   }
 }
 
 /// @nodoc
-abstract mixin class _$GravityCopyWith<$Res> implements $GravityCopyWith<$Res> {
-  factory _$GravityCopyWith(_Gravity value, $Res Function(_Gravity) _then) =
-      __$GravityCopyWithImpl;
+abstract mixin class _$ConfigCopyWith<$Res> implements $ConfigCopyWith<$Res> {
+  factory _$ConfigCopyWith(_Config value, $Res Function(_Config) _then) =
+      __$ConfigCopyWithImpl;
   @override
   @useResult
-  $Res call({List<GravityEntry> entries});
+  $Res call({Dns? dns});
+
+  @override
+  $DnsCopyWith<$Res>? get dns;
 }
 
 /// @nodoc
-class __$GravityCopyWithImpl<$Res> implements _$GravityCopyWith<$Res> {
-  __$GravityCopyWithImpl(this._self, this._then);
+class __$ConfigCopyWithImpl<$Res> implements _$ConfigCopyWith<$Res> {
+  __$ConfigCopyWithImpl(this._self, this._then);
 
-  final _Gravity _self;
-  final $Res Function(_Gravity) _then;
+  final _Config _self;
+  final $Res Function(_Config) _then;
 
-  /// Create a copy of Gravity
+  /// Create a copy of Config
   /// with the given fields replaced by the non-null parameter values.
   @override
   @pragma('vm:prefer-inline')
   $Res call({
-    Object? entries = null,
+    Object? dns = freezed,
   }) {
-    return _then(_Gravity(
-      entries: null == entries
-          ? _self._entries
-          : entries // ignore: cast_nullable_to_non_nullable
-              as List<GravityEntry>,
+    return _then(_Config(
+      dns: freezed == dns
+          ? _self.dns
+          : dns // ignore: cast_nullable_to_non_nullable
+              as Dns?,
     ));
+  }
+
+  /// Create a copy of Config
+  /// with the given fields replaced by the non-null parameter values.
+  @override
+  @pragma('vm:prefer-inline')
+  $DnsCopyWith<$Res>? get dns {
+    if (_self.dns == null) {
+      return null;
+    }
+
+    return $DnsCopyWith<$Res>(_self.dns!, (value) {
+      return _then(_self.copyWith(dns: value));
+    });
   }
 }
 
 /// @nodoc
-mixin _$GravityEntry {
-  String get message;
+mixin _$Dns {
+  bool? get queryLogging;
 
-  /// Create a copy of GravityEntry
+  /// Create a copy of Dns
   /// with the given fields replaced by the non-null parameter values.
   @JsonKey(includeFromJson: false, includeToJson: false)
   @pragma('vm:prefer-inline')
-  $GravityEntryCopyWith<GravityEntry> get copyWith =>
-      _$GravityEntryCopyWithImpl<GravityEntry>(
-          this as GravityEntry, _$identity);
+  $DnsCopyWith<Dns> get copyWith =>
+      _$DnsCopyWithImpl<Dns>(this as Dns, _$identity);
 
-  /// Serializes this GravityEntry to a JSON map.
+  /// Serializes this Dns to a JSON map.
   Map<String, dynamic> toJson();
 
   @override
   bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is GravityEntry &&
-            (identical(other.message, message) || other.message == message));
+            other is Dns &&
+            (identical(other.queryLogging, queryLogging) ||
+                other.queryLogging == queryLogging));
   }
 
   @JsonKey(includeFromJson: false, includeToJson: false)
   @override
-  int get hashCode => Object.hash(runtimeType, message);
+  int get hashCode => Object.hash(runtimeType, queryLogging);
 
   @override
   String toString() {
-    return 'GravityEntry(message: $message)';
+    return 'Dns(queryLogging: $queryLogging)';
   }
 }
 
 /// @nodoc
-abstract mixin class $GravityEntryCopyWith<$Res> {
-  factory $GravityEntryCopyWith(
-          GravityEntry value, $Res Function(GravityEntry) _then) =
-      _$GravityEntryCopyWithImpl;
+abstract mixin class $DnsCopyWith<$Res> {
+  factory $DnsCopyWith(Dns value, $Res Function(Dns) _then) = _$DnsCopyWithImpl;
   @useResult
-  $Res call({String message});
+  $Res call({bool? queryLogging});
 }
 
 /// @nodoc
-class _$GravityEntryCopyWithImpl<$Res> implements $GravityEntryCopyWith<$Res> {
-  _$GravityEntryCopyWithImpl(this._self, this._then);
+class _$DnsCopyWithImpl<$Res> implements $DnsCopyWith<$Res> {
+  _$DnsCopyWithImpl(this._self, this._then);
 
-  final GravityEntry _self;
-  final $Res Function(GravityEntry) _then;
+  final Dns _self;
+  final $Res Function(Dns) _then;
 
-  /// Create a copy of GravityEntry
+  /// Create a copy of Dns
   /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? message = null,
+    Object? queryLogging = freezed,
   }) {
     return _then(_self.copyWith(
-      message: null == message
-          ? _self.message
-          : message // ignore: cast_nullable_to_non_nullable
-              as String,
+      queryLogging: freezed == queryLogging
+          ? _self.queryLogging
+          : queryLogging // ignore: cast_nullable_to_non_nullable
+              as bool?,
     ));
   }
 }
 
-/// Adds pattern-matching-related methods to [GravityEntry].
-extension GravityEntryPatterns on GravityEntry {
+/// Adds pattern-matching-related methods to [Dns].
+extension DnsPatterns on Dns {
   /// A variant of `map` that fallback to returning `orElse`.
   ///
   /// It is equivalent to doing:
@@ -393,12 +415,12 @@ extension GravityEntryPatterns on GravityEntry {
 
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>(
-    TResult Function(_GravityEntry value)? $default, {
+    TResult Function(_Dns value)? $default, {
     required TResult orElse(),
   }) {
     final _that = this;
     switch (_that) {
-      case _GravityEntry() when $default != null:
+      case _Dns() when $default != null:
         return $default(_that);
       case _:
         return orElse();
@@ -420,11 +442,11 @@ extension GravityEntryPatterns on GravityEntry {
 
   @optionalTypeArgs
   TResult map<TResult extends Object?>(
-    TResult Function(_GravityEntry value) $default,
+    TResult Function(_Dns value) $default,
   ) {
     final _that = this;
     switch (_that) {
-      case _GravityEntry():
+      case _Dns():
         return $default(_that);
     }
   }
@@ -443,11 +465,11 @@ extension GravityEntryPatterns on GravityEntry {
 
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>(
-    TResult? Function(_GravityEntry value)? $default,
+    TResult? Function(_Dns value)? $default,
   ) {
     final _that = this;
     switch (_that) {
-      case _GravityEntry() when $default != null:
+      case _Dns() when $default != null:
         return $default(_that);
       case _:
         return null;
@@ -468,13 +490,13 @@ extension GravityEntryPatterns on GravityEntry {
 
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>(
-    TResult Function(String message)? $default, {
+    TResult Function(bool? queryLogging)? $default, {
     required TResult orElse(),
   }) {
     final _that = this;
     switch (_that) {
-      case _GravityEntry() when $default != null:
-        return $default(_that.message);
+      case _Dns() when $default != null:
+        return $default(_that.queryLogging);
       case _:
         return orElse();
     }
@@ -495,12 +517,12 @@ extension GravityEntryPatterns on GravityEntry {
 
   @optionalTypeArgs
   TResult when<TResult extends Object?>(
-    TResult Function(String message) $default,
+    TResult Function(bool? queryLogging) $default,
   ) {
     final _that = this;
     switch (_that) {
-      case _GravityEntry():
-        return $default(_that.message);
+      case _Dns():
+        return $default(_that.queryLogging);
     }
   }
 
@@ -518,12 +540,12 @@ extension GravityEntryPatterns on GravityEntry {
 
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>(
-    TResult? Function(String message)? $default,
+    TResult? Function(bool? queryLogging)? $default,
   ) {
     final _that = this;
     switch (_that) {
-      case _GravityEntry() when $default != null:
-        return $default(_that.message);
+      case _Dns() when $default != null:
+        return $default(_that.queryLogging);
       case _:
         return null;
     }
@@ -531,26 +553,26 @@ extension GravityEntryPatterns on GravityEntry {
 }
 
 /// @nodoc
-@JsonSerializable()
-class _GravityEntry implements GravityEntry {
-  const _GravityEntry({required this.message});
-  factory _GravityEntry.fromJson(Map<String, dynamic> json) =>
-      _$GravityEntryFromJson(json);
+
+@JsonSerializable(explicitToJson: true, includeIfNull: false)
+class _Dns implements Dns {
+  const _Dns({this.queryLogging});
+  factory _Dns.fromJson(Map<String, dynamic> json) => _$DnsFromJson(json);
 
   @override
-  final String message;
+  final bool? queryLogging;
 
-  /// Create a copy of GravityEntry
+  /// Create a copy of Dns
   /// with the given fields replaced by the non-null parameter values.
   @override
   @JsonKey(includeFromJson: false, includeToJson: false)
   @pragma('vm:prefer-inline')
-  _$GravityEntryCopyWith<_GravityEntry> get copyWith =>
-      __$GravityEntryCopyWithImpl<_GravityEntry>(this, _$identity);
+  _$DnsCopyWith<_Dns> get copyWith =>
+      __$DnsCopyWithImpl<_Dns>(this, _$identity);
 
   @override
   Map<String, dynamic> toJson() {
-    return _$GravityEntryToJson(
+    return _$DnsToJson(
       this,
     );
   }
@@ -559,51 +581,49 @@ class _GravityEntry implements GravityEntry {
   bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _GravityEntry &&
-            (identical(other.message, message) || other.message == message));
+            other is _Dns &&
+            (identical(other.queryLogging, queryLogging) ||
+                other.queryLogging == queryLogging));
   }
 
   @JsonKey(includeFromJson: false, includeToJson: false)
   @override
-  int get hashCode => Object.hash(runtimeType, message);
+  int get hashCode => Object.hash(runtimeType, queryLogging);
 
   @override
   String toString() {
-    return 'GravityEntry(message: $message)';
+    return 'Dns(queryLogging: $queryLogging)';
   }
 }
 
 /// @nodoc
-abstract mixin class _$GravityEntryCopyWith<$Res>
-    implements $GravityEntryCopyWith<$Res> {
-  factory _$GravityEntryCopyWith(
-          _GravityEntry value, $Res Function(_GravityEntry) _then) =
-      __$GravityEntryCopyWithImpl;
+abstract mixin class _$DnsCopyWith<$Res> implements $DnsCopyWith<$Res> {
+  factory _$DnsCopyWith(_Dns value, $Res Function(_Dns) _then) =
+      __$DnsCopyWithImpl;
   @override
   @useResult
-  $Res call({String message});
+  $Res call({bool? queryLogging});
 }
 
 /// @nodoc
-class __$GravityEntryCopyWithImpl<$Res>
-    implements _$GravityEntryCopyWith<$Res> {
-  __$GravityEntryCopyWithImpl(this._self, this._then);
+class __$DnsCopyWithImpl<$Res> implements _$DnsCopyWith<$Res> {
+  __$DnsCopyWithImpl(this._self, this._then);
 
-  final _GravityEntry _self;
-  final $Res Function(_GravityEntry) _then;
+  final _Dns _self;
+  final $Res Function(_Dns) _then;
 
-  /// Create a copy of GravityEntry
+  /// Create a copy of Dns
   /// with the given fields replaced by the non-null parameter values.
   @override
   @pragma('vm:prefer-inline')
   $Res call({
-    Object? message = null,
+    Object? queryLogging = freezed,
   }) {
-    return _then(_GravityEntry(
-      message: null == message
-          ? _self.message
-          : message // ignore: cast_nullable_to_non_nullable
-              as String,
+    return _then(_Dns(
+      queryLogging: freezed == queryLogging
+          ? _self.queryLogging
+          : queryLogging // ignore: cast_nullable_to_non_nullable
+              as bool?,
     ));
   }
 }
