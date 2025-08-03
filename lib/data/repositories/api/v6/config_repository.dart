@@ -1,4 +1,4 @@
-import 'package:pi_hole_client/data/mapper/config_mapper.dart';
+import 'package:pi_hole_client/data/mapper/v6/config_mapper.dart';
 import 'package:pi_hole_client/data/repositories/api/interfaces/config_repository.dart';
 import 'package:pi_hole_client/data/repositories/utils/call_with_retry.dart';
 import 'package:pi_hole_client/data/services/api/pihole_v6_api_client.dart';

@@ -6,7 +6,7 @@ import '../../../../../testing/fakes/services/fake_pihole_v5_api_client.dart';
 import '../../../../../testing/helper/test_helper.dart';
 
 void main() {
-  const sid = 'sid12345';
+  const token = 'token12345';
 
   late AuthRepositoryV5 repository;
   late FakePiholeV5ApiClient client;
@@ -14,7 +14,7 @@ void main() {
   setUp(() {
     client = FakePiholeV5ApiClient();
     repository = AuthRepositoryV5(
-      sid: sid,
+      token: token,
       client: client,
     );
   });

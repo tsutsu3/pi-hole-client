@@ -7,11 +7,11 @@ import 'package:result_dart/result_dart.dart';
 
 class AuthRepositoryV5 implements AuthRepository {
   AuthRepositoryV5({
-    required String sid,
+    required String token,
     required PiholeV5ApiClient client,
   }) {
     // "Use" the parameters to suppress Lint
-    sid.hashCode;
+    token.hashCode;
     client.hashCode;
   }
 

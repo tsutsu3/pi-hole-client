@@ -3,6 +3,7 @@ import 'dart:convert';
 
 import 'package:http/http.dart' as http;
 import 'package:http/io_client.dart';
+import 'package:pi_hole_client/config/enums.dart';
 import 'package:pi_hole_client/data/services/api/model/v5/dns.dart';
 import 'package:pi_hole_client/data/services/api/model/v5/domains.dart';
 import 'package:pi_hole_client/data/services/api/model/v5/over_time_data.dart';
@@ -14,13 +15,6 @@ import 'package:pi_hole_client/data/services/utils/exceptions.dart';
 import 'package:pi_hole_client/data/services/utils/safe_api_call.dart';
 import 'package:pi_hole_client/utils/misc.dart';
 import 'package:result_dart/result_dart.dart';
-
-enum V5DomainType {
-  white,
-  regex_white, // ignore: constant_identifier_names
-  black,
-  regex_black, // ignore: constant_identifier_names
-}
 
 class PiholeV5ApiClient {
   PiholeV5ApiClient({

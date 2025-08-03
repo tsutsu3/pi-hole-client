@@ -1,4 +1,4 @@
-import 'package:pi_hole_client/data/mapper/auth_mapper.dart';
+import 'package:pi_hole_client/data/mapper/v6/auth_mapper.dart';
 import 'package:pi_hole_client/data/services/api/model/v6/auth/auth.dart';
 import 'package:pi_hole_client/data/services/api/model/v6/auth/sessions.dart';
 

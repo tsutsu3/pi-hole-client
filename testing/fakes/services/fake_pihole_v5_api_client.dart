@@ -1,3 +1,4 @@
+import 'package:pi_hole_client/config/enums.dart';
 import 'package:pi_hole_client/data/services/api/model/v5/dns.dart';
 import 'package:pi_hole_client/data/services/api/model/v5/domains.dart';
 import 'package:pi_hole_client/data/services/api/model/v5/over_time_data.dart';

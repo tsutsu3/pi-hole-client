@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:flutter_test/flutter_test.dart';
 import 'package:http/http.dart' as http;
+import 'package:pi_hole_client/config/enums.dart';
 import 'package:pi_hole_client/data/services/api/pihole_v5_api_client.dart';
 
 import '../../../../testing/helper/test_helper.dart';

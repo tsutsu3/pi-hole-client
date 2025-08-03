@@ -6,11 +6,11 @@ import 'package:result_dart/result_dart.dart';
 
 class ActionsRepositoryV5 implements ActionsRepository {
   ActionsRepositoryV5({
-    required String sid,
+    required String token,
     required PiholeV5ApiClient client,
   }) {
     // "Use" the parameters to suppress Lint
-    sid.hashCode;
+    token.hashCode;
     client.hashCode;
   }
 

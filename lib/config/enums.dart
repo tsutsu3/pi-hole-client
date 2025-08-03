@@ -60,6 +60,20 @@ enum DomainType {
   deny,
 }
 
+enum V5DomainType {
+  /// 0: White list
+  white,
+
+  /// 1. Black list
+  black,
+
+  /// 2: Regex white list
+  regex_white, // ignore: constant_identifier_names
+
+  /// 3: Regex black list
+  regex_black, // ignore: constant_identifier_names
+}
+
 /// List type
 enum ListType {
   /// 0: Allow

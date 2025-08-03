@@ -7,11 +7,11 @@ import 'package:result_dart/result_dart.dart';
 
 class ConfigRepositoryV5 implements ConfigRepository {
   ConfigRepositoryV5({
-    required String sid,
+    required String token,
     required PiholeV5ApiClient client,
   }) {
     // "Use" the parameters to suppress Lint
-    sid.hashCode;
+    token.hashCode;
     client.hashCode;
   }
 
