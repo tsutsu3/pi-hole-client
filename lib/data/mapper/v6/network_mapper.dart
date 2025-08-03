@@ -8,7 +8,7 @@ import 'package:pi_hole_client/data/services/api/model/v6/network/interfaces.dar
     as s;
 import 'package:pi_hole_client/data/services/api/model/v6/network/routes.dart'
     as s;
-import 'package:pi_hole_client/domain/models/network.dart' as d;
+import 'package:pi_hole_client/domain/models/network/network.dart' as d;
 
 extension DevicesMapper on s.Devices {
   List<d.Device> toDomain() {

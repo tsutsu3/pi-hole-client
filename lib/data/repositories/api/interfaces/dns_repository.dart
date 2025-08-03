@@ -1,4 +1,4 @@
-import 'package:pi_hole_client/domain/models/dns.dart';
+import 'package:pi_hole_client/domain/models/dns/dns.dart';
 import 'package:result_dart/result_dart.dart';
 
 abstract interface class DnsRepository {

@@ -1,5 +1,5 @@
 import 'package:pi_hole_client/config/enums.dart';
-import 'package:pi_hole_client/domain/models/domain.dart';
+import 'package:pi_hole_client/domain/models/domain/domain.dart';
 import 'package:result_dart/result_dart.dart';
 
 abstract interface class DomainRepository {

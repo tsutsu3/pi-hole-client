@@ -2,7 +2,7 @@ import 'package:pi_hole_client/data/repositories/api/interfaces/config_repositor
 import 'package:pi_hole_client/data/repositories/utils/constants.dart';
 import 'package:pi_hole_client/data/repositories/utils/exceptions.dart';
 import 'package:pi_hole_client/data/services/api/pihole_v5_api_client.dart';
-import 'package:pi_hole_client/domain/models/config.dart';
+import 'package:pi_hole_client/domain/models/config/config.dart';
 import 'package:result_dart/result_dart.dart';
 
 class ConfigRepositoryV5 implements ConfigRepository {

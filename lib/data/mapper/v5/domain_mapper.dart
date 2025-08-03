@@ -1,7 +1,7 @@
 import 'package:pi_hole_client/config/enums.dart';
 import 'package:pi_hole_client/config/mapper.dart';
 import 'package:pi_hole_client/data/services/api/model/v5/domains.dart' as s;
-import 'package:pi_hole_client/domain/models/domain.dart' as d;
+import 'package:pi_hole_client/domain/models/domain/domain.dart' as d;
 
 extension DomainsMapper on s.Domains {
   List<d.Domain> toDomain() {

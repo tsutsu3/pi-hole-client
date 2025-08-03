@@ -1,4 +1,4 @@
-import 'package:pi_hole_client/domain/models/dhcp.dart';
+import 'package:pi_hole_client/domain/models/dhcp/dhcp.dart';
 import 'package:result_dart/result_dart.dart';
 
 abstract interface class DhcpRepository {

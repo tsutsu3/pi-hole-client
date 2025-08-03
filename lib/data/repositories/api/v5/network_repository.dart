@@ -2,7 +2,7 @@ import 'package:pi_hole_client/data/repositories/api/interfaces/network_reposito
 import 'package:pi_hole_client/data/repositories/utils/constants.dart';
 import 'package:pi_hole_client/data/repositories/utils/exceptions.dart';
 import 'package:pi_hole_client/data/services/api/pihole_v5_api_client.dart';
-import 'package:pi_hole_client/domain/models/network.dart';
+import 'package:pi_hole_client/domain/models/network/network.dart';
 import 'package:result_dart/result_dart.dart';
 
 class NetworkRepositoryV5 implements NetworkRepository {

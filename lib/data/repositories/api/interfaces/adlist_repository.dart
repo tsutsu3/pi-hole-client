@@ -1,5 +1,5 @@
 import 'package:pi_hole_client/config/enums.dart';
-import 'package:pi_hole_client/domain/models/adlist.dart';
+import 'package:pi_hole_client/domain/models/list/adlist.dart';
 import 'package:result_dart/result_dart.dart';
 
 abstract interface class AdListRepository {

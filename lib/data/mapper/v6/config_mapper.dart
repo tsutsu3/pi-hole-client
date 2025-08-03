@@ -1,6 +1,6 @@
 import 'package:pi_hole_client/data/services/api/model/v6/config/config.dart'
     as s;
-import 'package:pi_hole_client/domain/models/config.dart' as d;
+import 'package:pi_hole_client/domain/models/config/config.dart' as d;
 
 extension ConfigMapper on s.Config {
   d.Config toDomain() {

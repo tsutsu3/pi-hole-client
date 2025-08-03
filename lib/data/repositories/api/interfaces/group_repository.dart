@@ -1,4 +1,4 @@
-import 'package:pi_hole_client/domain/models/group.dart';
+import 'package:pi_hole_client/domain/models/group/group.dart';
 import 'package:result_dart/result_dart.dart';
 
 // ignore: one_member_abstracts

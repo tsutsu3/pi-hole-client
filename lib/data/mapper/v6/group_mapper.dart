@@ -1,6 +1,6 @@
 import 'package:pi_hole_client/data/services/api/model/v6/groups/groups.dart'
     as s;
-import 'package:pi_hole_client/domain/models/group.dart' as d;
+import 'package:pi_hole_client/domain/models/group/group.dart' as d;
 
 extension GroupsMapper on s.Groups {
   List<d.Group> toDomain() {

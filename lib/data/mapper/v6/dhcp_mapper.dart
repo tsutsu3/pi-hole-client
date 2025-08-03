@@ -1,5 +1,5 @@
 import 'package:pi_hole_client/data/services/api/model/v6/dhcp/dhcp.dart' as s;
-import 'package:pi_hole_client/domain/models/dhcp.dart' as d;
+import 'package:pi_hole_client/domain/models/dhcp/dhcp.dart' as d;
 
 extension DhcpMapper on s.Dhcp {
   List<d.DhcpLease> toDomain() {

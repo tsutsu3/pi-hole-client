@@ -2,7 +2,7 @@ import 'package:pi_hole_client/data/repositories/api/interfaces/group_repository
 import 'package:pi_hole_client/data/repositories/utils/constants.dart';
 import 'package:pi_hole_client/data/repositories/utils/exceptions.dart';
 import 'package:pi_hole_client/data/services/api/pihole_v5_api_client.dart';
-import 'package:pi_hole_client/domain/models/group.dart';
+import 'package:pi_hole_client/domain/models/group/group.dart';
 import 'package:result_dart/result_dart.dart';
 
 class GroupRepositoryV5 implements GroupRepository {

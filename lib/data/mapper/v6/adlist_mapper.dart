@@ -1,7 +1,7 @@
 import 'package:pi_hole_client/config/enums.dart';
 import 'package:pi_hole_client/data/services/api/model/v6/lists/lists.dart'
     as s;
-import 'package:pi_hole_client/domain/models/adlist.dart' as d;
+import 'package:pi_hole_client/domain/models/list/adlist.dart' as d;
 
 extension ListsMapper on s.Lists {
   List<d.Adlist> toDomain() {
