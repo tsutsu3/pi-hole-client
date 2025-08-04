@@ -16,21 +16,19 @@ _OverTimeData _$OverTimeDataFromJson(Map<String, dynamic> json) =>
       overTime: const MapListOrEmptyListConverter().fromJson(json['over_time']),
     );
 
-Map<String, dynamic> _$OverTimeDataToJson(_OverTimeData instance) =>
-    <String, dynamic>{
-      'domains_over_time': instance.domainsOverTime,
-      'ads_over_time': instance.adsOverTime,
-      'clients': instance.clients.map((e) => e.toJson()).toList(),
-      'over_time':
-          const MapListOrEmptyListConverter().toJson(instance.overTime),
-    };
+Map<String, dynamic> _$OverTimeDataToJson(
+  _OverTimeData instance,
+) => <String, dynamic>{
+  'domains_over_time': instance.domainsOverTime,
+  'ads_over_time': instance.adsOverTime,
+  'clients': instance.clients.map((e) => e.toJson()).toList(),
+  'over_time': const MapListOrEmptyListConverter().toJson(instance.overTime),
+};
 
-_Client _$ClientFromJson(Map<String, dynamic> json) => _Client(
-      name: json['name'] as String,
-      ip: json['ip'] as String,
-    );
+_Client _$ClientFromJson(Map<String, dynamic> json) =>
+    _Client(name: json['name'] as String, ip: json['ip'] as String);
 
 Map<String, dynamic> _$ClientToJson(_Client instance) => <String, dynamic>{
-      'name': instance.name,
-      'ip': instance.ip,
-    };
+  'name': instance.name,
+  'ip': instance.ip,
+};

@@ -7,10 +7,10 @@ part of 'system.dart';
 // **************************************************************************
 
 _InfoSystem _$InfoSystemFromJson(Map<String, dynamic> json) => _InfoSystem(
-      uptime: (json['uptime'] as num).toInt(),
-      ramUsage: (json['ramUsage'] as num).toDouble(),
-      cpuUsage: (json['cpuUsage'] as num).toDouble(),
-    );
+  uptime: (json['uptime'] as num).toInt(),
+  ramUsage: (json['ramUsage'] as num).toDouble(),
+  cpuUsage: (json['cpuUsage'] as num).toDouble(),
+);
 
 Map<String, dynamic> _$InfoSystemToJson(_InfoSystem instance) =>
     <String, dynamic>{

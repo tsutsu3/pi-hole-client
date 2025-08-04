@@ -23,27 +23,11 @@ sealed class ComponentVersion with _$ComponentVersion {
   const factory ComponentVersion({
     required VersionDetail local,
     required VersionDetail remote,
+    bool? canUpdate,
   }) = _ComponentVersion;
-
-  const ComponentVersion._();
 
   factory ComponentVersion.fromJson(Map<String, dynamic> json) =>
       _$ComponentVersionFromJson(json);
-
-  bool get canUpdate {
-    if (local.version.isEmpty || remote.version.isEmpty) {
-      return false;
-    }
-    return local != remote;
-  }
-
-  Map<String, dynamic> toFormattedJson() {
-    return {
-      'local': local.toJson(),
-      'remote': remote.toJson(),
-      'canUpdate': canUpdate,
-    };
-  }
 }
 
 @freezed

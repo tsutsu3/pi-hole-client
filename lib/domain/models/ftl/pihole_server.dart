@@ -11,10 +11,10 @@ part 'pihole_server.g.dart';
 sealed class InfoPiholeServer with _$InfoPiholeServer {
   @JsonSerializable(explicitToJson: true)
   const factory InfoPiholeServer({
-    required InfoHost? host,
-    required InfoSensor? sensor,
-    required InfoSystem? system,
-    required InfoVersion? version,
+    InfoHost? host,
+    InfoSensor? sensor,
+    InfoSystem? system,
+    InfoVersion? version,
   }) = _InfoPiholeServer;
 
   factory InfoPiholeServer.fromJson(Map<String, dynamic> json) =>

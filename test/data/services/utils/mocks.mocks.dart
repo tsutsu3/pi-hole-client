@@ -28,86 +28,46 @@ import 'package:mockito/src/dummies.dart' as _i6;
 // ignore_for_file: subtype_of_sealed_class
 
 class _FakeResponse_0 extends _i1.SmartFake implements _i2.Response {
-  _FakeResponse_0(
-    Object parent,
-    Invocation parentInvocation,
-  ) : super(
-          parent,
-          parentInvocation,
-        );
+  _FakeResponse_0(Object parent, Invocation parentInvocation)
+    : super(parent, parentInvocation);
 }
 
 class _FakeStreamedResponse_1 extends _i1.SmartFake
     implements _i2.StreamedResponse {
-  _FakeStreamedResponse_1(
-    Object parent,
-    Invocation parentInvocation,
-  ) : super(
-          parent,
-          parentInvocation,
-        );
+  _FakeStreamedResponse_1(Object parent, Invocation parentInvocation)
+    : super(parent, parentInvocation);
 }
 
 class _FakeIOSOptions_2 extends _i1.SmartFake implements _i3.IOSOptions {
-  _FakeIOSOptions_2(
-    Object parent,
-    Invocation parentInvocation,
-  ) : super(
-          parent,
-          parentInvocation,
-        );
+  _FakeIOSOptions_2(Object parent, Invocation parentInvocation)
+    : super(parent, parentInvocation);
 }
 
 class _FakeAndroidOptions_3 extends _i1.SmartFake
     implements _i3.AndroidOptions {
-  _FakeAndroidOptions_3(
-    Object parent,
-    Invocation parentInvocation,
-  ) : super(
-          parent,
-          parentInvocation,
-        );
+  _FakeAndroidOptions_3(Object parent, Invocation parentInvocation)
+    : super(parent, parentInvocation);
 }
 
 class _FakeLinuxOptions_4 extends _i1.SmartFake implements _i3.LinuxOptions {
-  _FakeLinuxOptions_4(
-    Object parent,
-    Invocation parentInvocation,
-  ) : super(
-          parent,
-          parentInvocation,
-        );
+  _FakeLinuxOptions_4(Object parent, Invocation parentInvocation)
+    : super(parent, parentInvocation);
 }
 
 class _FakeWindowsOptions_5 extends _i1.SmartFake
     implements _i3.WindowsOptions {
-  _FakeWindowsOptions_5(
-    Object parent,
-    Invocation parentInvocation,
-  ) : super(
-          parent,
-          parentInvocation,
-        );
+  _FakeWindowsOptions_5(Object parent, Invocation parentInvocation)
+    : super(parent, parentInvocation);
 }
 
 class _FakeWebOptions_6 extends _i1.SmartFake implements _i3.WebOptions {
-  _FakeWebOptions_6(
-    Object parent,
-    Invocation parentInvocation,
-  ) : super(
-          parent,
-          parentInvocation,
-        );
+  _FakeWebOptions_6(Object parent, Invocation parentInvocation)
+    : super(parent, parentInvocation);
 }
 
 class _FakeMacOsOptions_7 extends _i1.SmartFake implements _i3.MacOsOptions {
-  _FakeMacOsOptions_7(
-    Object parent,
-    Invocation parentInvocation,
-  ) : super(
-          parent,
-          parentInvocation,
-        );
+  _FakeMacOsOptions_7(Object parent, Invocation parentInvocation)
+    : super(parent, parentInvocation);
 }
 
 /// A class which mocks [Client].
@@ -119,46 +79,30 @@ class MockClient extends _i1.Mock implements _i2.Client {
   }
 
   @override
-  _i4.Future<_i2.Response> head(
-    Uri? url, {
-    Map<String, String>? headers,
-  }) =>
+  _i4.Future<_i2.Response> head(Uri? url, {Map<String, String>? headers}) =>
       (super.noSuchMethod(
-        Invocation.method(
-          #head,
-          [url],
-          {#headers: headers},
-        ),
-        returnValue: _i4.Future<_i2.Response>.value(_FakeResponse_0(
-          this,
-          Invocation.method(
-            #head,
-            [url],
-            {#headers: headers},
-          ),
-        )),
-      ) as _i4.Future<_i2.Response>);
+            Invocation.method(#head, [url], {#headers: headers}),
+            returnValue: _i4.Future<_i2.Response>.value(
+              _FakeResponse_0(
+                this,
+                Invocation.method(#head, [url], {#headers: headers}),
+              ),
+            ),
+          )
+          as _i4.Future<_i2.Response>);
 
   @override
-  _i4.Future<_i2.Response> get(
-    Uri? url, {
-    Map<String, String>? headers,
-  }) =>
+  _i4.Future<_i2.Response> get(Uri? url, {Map<String, String>? headers}) =>
       (super.noSuchMethod(
-        Invocation.method(
-          #get,
-          [url],
-          {#headers: headers},
-        ),
-        returnValue: _i4.Future<_i2.Response>.value(_FakeResponse_0(
-          this,
-          Invocation.method(
-            #get,
-            [url],
-            {#headers: headers},
-          ),
-        )),
-      ) as _i4.Future<_i2.Response>);
+            Invocation.method(#get, [url], {#headers: headers}),
+            returnValue: _i4.Future<_i2.Response>.value(
+              _FakeResponse_0(
+                this,
+                Invocation.method(#get, [url], {#headers: headers}),
+              ),
+            ),
+          )
+          as _i4.Future<_i2.Response>);
 
   @override
   _i4.Future<_i2.Response> post(
@@ -168,28 +112,23 @@ class MockClient extends _i1.Mock implements _i2.Client {
     _i5.Encoding? encoding,
   }) =>
       (super.noSuchMethod(
-        Invocation.method(
-          #post,
-          [url],
-          {
-            #headers: headers,
-            #body: body,
-            #encoding: encoding,
-          },
-        ),
-        returnValue: _i4.Future<_i2.Response>.value(_FakeResponse_0(
-          this,
-          Invocation.method(
-            #post,
-            [url],
-            {
-              #headers: headers,
-              #body: body,
-              #encoding: encoding,
-            },
-          ),
-        )),
-      ) as _i4.Future<_i2.Response>);
+            Invocation.method(
+              #post,
+              [url],
+              {#headers: headers, #body: body, #encoding: encoding},
+            ),
+            returnValue: _i4.Future<_i2.Response>.value(
+              _FakeResponse_0(
+                this,
+                Invocation.method(
+                  #post,
+                  [url],
+                  {#headers: headers, #body: body, #encoding: encoding},
+                ),
+              ),
+            ),
+          )
+          as _i4.Future<_i2.Response>);
 
   @override
   _i4.Future<_i2.Response> put(
@@ -199,28 +138,23 @@ class MockClient extends _i1.Mock implements _i2.Client {
     _i5.Encoding? encoding,
   }) =>
       (super.noSuchMethod(
-        Invocation.method(
-          #put,
-          [url],
-          {
-            #headers: headers,
-            #body: body,
-            #encoding: encoding,
-          },
-        ),
-        returnValue: _i4.Future<_i2.Response>.value(_FakeResponse_0(
-          this,
-          Invocation.method(
-            #put,
-            [url],
-            {
-              #headers: headers,
-              #body: body,
-              #encoding: encoding,
-            },
-          ),
-        )),
-      ) as _i4.Future<_i2.Response>);
+            Invocation.method(
+              #put,
+              [url],
+              {#headers: headers, #body: body, #encoding: encoding},
+            ),
+            returnValue: _i4.Future<_i2.Response>.value(
+              _FakeResponse_0(
+                this,
+                Invocation.method(
+                  #put,
+                  [url],
+                  {#headers: headers, #body: body, #encoding: encoding},
+                ),
+              ),
+            ),
+          )
+          as _i4.Future<_i2.Response>);
 
   @override
   _i4.Future<_i2.Response> patch(
@@ -230,28 +164,23 @@ class MockClient extends _i1.Mock implements _i2.Client {
     _i5.Encoding? encoding,
   }) =>
       (super.noSuchMethod(
-        Invocation.method(
-          #patch,
-          [url],
-          {
-            #headers: headers,
-            #body: body,
-            #encoding: encoding,
-          },
-        ),
-        returnValue: _i4.Future<_i2.Response>.value(_FakeResponse_0(
-          this,
-          Invocation.method(
-            #patch,
-            [url],
-            {
-              #headers: headers,
-              #body: body,
-              #encoding: encoding,
-            },
-          ),
-        )),
-      ) as _i4.Future<_i2.Response>);
+            Invocation.method(
+              #patch,
+              [url],
+              {#headers: headers, #body: body, #encoding: encoding},
+            ),
+            returnValue: _i4.Future<_i2.Response>.value(
+              _FakeResponse_0(
+                this,
+                Invocation.method(
+                  #patch,
+                  [url],
+                  {#headers: headers, #body: body, #encoding: encoding},
+                ),
+              ),
+            ),
+          )
+          as _i4.Future<_i2.Response>);
 
   @override
   _i4.Future<_i2.Response> delete(
@@ -261,49 +190,36 @@ class MockClient extends _i1.Mock implements _i2.Client {
     _i5.Encoding? encoding,
   }) =>
       (super.noSuchMethod(
-        Invocation.method(
-          #delete,
-          [url],
-          {
-            #headers: headers,
-            #body: body,
-            #encoding: encoding,
-          },
-        ),
-        returnValue: _i4.Future<_i2.Response>.value(_FakeResponse_0(
-          this,
-          Invocation.method(
-            #delete,
-            [url],
-            {
-              #headers: headers,
-              #body: body,
-              #encoding: encoding,
-            },
-          ),
-        )),
-      ) as _i4.Future<_i2.Response>);
+            Invocation.method(
+              #delete,
+              [url],
+              {#headers: headers, #body: body, #encoding: encoding},
+            ),
+            returnValue: _i4.Future<_i2.Response>.value(
+              _FakeResponse_0(
+                this,
+                Invocation.method(
+                  #delete,
+                  [url],
+                  {#headers: headers, #body: body, #encoding: encoding},
+                ),
+              ),
+            ),
+          )
+          as _i4.Future<_i2.Response>);
 
   @override
-  _i4.Future<String> read(
-    Uri? url, {
-    Map<String, String>? headers,
-  }) =>
+  _i4.Future<String> read(Uri? url, {Map<String, String>? headers}) =>
       (super.noSuchMethod(
-        Invocation.method(
-          #read,
-          [url],
-          {#headers: headers},
-        ),
-        returnValue: _i4.Future<String>.value(_i6.dummyValue<String>(
-          this,
-          Invocation.method(
-            #read,
-            [url],
-            {#headers: headers},
-          ),
-        )),
-      ) as _i4.Future<String>);
+            Invocation.method(#read, [url], {#headers: headers}),
+            returnValue: _i4.Future<String>.value(
+              _i6.dummyValue<String>(
+                this,
+                Invocation.method(#read, [url], {#headers: headers}),
+              ),
+            ),
+          )
+          as _i4.Future<String>);
 
   @override
   _i4.Future<_i7.Uint8List> readBytes(
@@ -311,39 +227,29 @@ class MockClient extends _i1.Mock implements _i2.Client {
     Map<String, String>? headers,
   }) =>
       (super.noSuchMethod(
-        Invocation.method(
-          #readBytes,
-          [url],
-          {#headers: headers},
-        ),
-        returnValue: _i4.Future<_i7.Uint8List>.value(_i7.Uint8List(0)),
-      ) as _i4.Future<_i7.Uint8List>);
+            Invocation.method(#readBytes, [url], {#headers: headers}),
+            returnValue: _i4.Future<_i7.Uint8List>.value(_i7.Uint8List(0)),
+          )
+          as _i4.Future<_i7.Uint8List>);
 
   @override
   _i4.Future<_i2.StreamedResponse> send(_i2.BaseRequest? request) =>
       (super.noSuchMethod(
-        Invocation.method(
-          #send,
-          [request],
-        ),
-        returnValue:
-            _i4.Future<_i2.StreamedResponse>.value(_FakeStreamedResponse_1(
-          this,
-          Invocation.method(
-            #send,
-            [request],
-          ),
-        )),
-      ) as _i4.Future<_i2.StreamedResponse>);
+            Invocation.method(#send, [request]),
+            returnValue: _i4.Future<_i2.StreamedResponse>.value(
+              _FakeStreamedResponse_1(
+                this,
+                Invocation.method(#send, [request]),
+              ),
+            ),
+          )
+          as _i4.Future<_i2.StreamedResponse>);
 
   @override
   void close() => super.noSuchMethod(
-        Invocation.method(
-          #close,
-          [],
-        ),
-        returnValueForMissingStub: null,
-      );
+    Invocation.method(#close, []),
+    returnValueForMissingStub: null,
+  );
 }
 
 /// A class which mocks [FlutterSecureStorage].
@@ -356,112 +262,101 @@ class MockFlutterSecureStorage extends _i1.Mock
   }
 
   @override
-  _i3.IOSOptions get iOptions => (super.noSuchMethod(
-        Invocation.getter(#iOptions),
-        returnValue: _FakeIOSOptions_2(
-          this,
-          Invocation.getter(#iOptions),
-        ),
-      ) as _i3.IOSOptions);
+  _i3.IOSOptions get iOptions =>
+      (super.noSuchMethod(
+            Invocation.getter(#iOptions),
+            returnValue: _FakeIOSOptions_2(this, Invocation.getter(#iOptions)),
+          )
+          as _i3.IOSOptions);
 
   @override
-  _i3.AndroidOptions get aOptions => (super.noSuchMethod(
-        Invocation.getter(#aOptions),
-        returnValue: _FakeAndroidOptions_3(
-          this,
-          Invocation.getter(#aOptions),
-        ),
-      ) as _i3.AndroidOptions);
+  _i3.AndroidOptions get aOptions =>
+      (super.noSuchMethod(
+            Invocation.getter(#aOptions),
+            returnValue: _FakeAndroidOptions_3(
+              this,
+              Invocation.getter(#aOptions),
+            ),
+          )
+          as _i3.AndroidOptions);
 
   @override
-  _i3.LinuxOptions get lOptions => (super.noSuchMethod(
-        Invocation.getter(#lOptions),
-        returnValue: _FakeLinuxOptions_4(
-          this,
-          Invocation.getter(#lOptions),
-        ),
-      ) as _i3.LinuxOptions);
+  _i3.LinuxOptions get lOptions =>
+      (super.noSuchMethod(
+            Invocation.getter(#lOptions),
+            returnValue: _FakeLinuxOptions_4(
+              this,
+              Invocation.getter(#lOptions),
+            ),
+          )
+          as _i3.LinuxOptions);
 
   @override
-  _i3.WindowsOptions get wOptions => (super.noSuchMethod(
-        Invocation.getter(#wOptions),
-        returnValue: _FakeWindowsOptions_5(
-          this,
-          Invocation.getter(#wOptions),
-        ),
-      ) as _i3.WindowsOptions);
+  _i3.WindowsOptions get wOptions =>
+      (super.noSuchMethod(
+            Invocation.getter(#wOptions),
+            returnValue: _FakeWindowsOptions_5(
+              this,
+              Invocation.getter(#wOptions),
+            ),
+          )
+          as _i3.WindowsOptions);
 
   @override
-  _i3.WebOptions get webOptions => (super.noSuchMethod(
-        Invocation.getter(#webOptions),
-        returnValue: _FakeWebOptions_6(
-          this,
-          Invocation.getter(#webOptions),
-        ),
-      ) as _i3.WebOptions);
+  _i3.WebOptions get webOptions =>
+      (super.noSuchMethod(
+            Invocation.getter(#webOptions),
+            returnValue: _FakeWebOptions_6(
+              this,
+              Invocation.getter(#webOptions),
+            ),
+          )
+          as _i3.WebOptions);
 
   @override
-  _i3.MacOsOptions get mOptions => (super.noSuchMethod(
-        Invocation.getter(#mOptions),
-        returnValue: _FakeMacOsOptions_7(
-          this,
-          Invocation.getter(#mOptions),
-        ),
-      ) as _i3.MacOsOptions);
+  _i3.MacOsOptions get mOptions =>
+      (super.noSuchMethod(
+            Invocation.getter(#mOptions),
+            returnValue: _FakeMacOsOptions_7(
+              this,
+              Invocation.getter(#mOptions),
+            ),
+          )
+          as _i3.MacOsOptions);
 
   @override
   void registerListener({
     required String? key,
     required _i8.ValueChanged<String?>? listener,
-  }) =>
-      super.noSuchMethod(
-        Invocation.method(
-          #registerListener,
-          [],
-          {
-            #key: key,
-            #listener: listener,
-          },
-        ),
-        returnValueForMissingStub: null,
-      );
+  }) => super.noSuchMethod(
+    Invocation.method(#registerListener, [], {#key: key, #listener: listener}),
+    returnValueForMissingStub: null,
+  );
 
   @override
   void unregisterListener({
     required String? key,
     required _i8.ValueChanged<String?>? listener,
-  }) =>
-      super.noSuchMethod(
-        Invocation.method(
-          #unregisterListener,
-          [],
-          {
-            #key: key,
-            #listener: listener,
-          },
-        ),
-        returnValueForMissingStub: null,
-      );
+  }) => super.noSuchMethod(
+    Invocation.method(#unregisterListener, [], {
+      #key: key,
+      #listener: listener,
+    }),
+    returnValueForMissingStub: null,
+  );
 
   @override
   void unregisterAllListenersForKey({required String? key}) =>
       super.noSuchMethod(
-        Invocation.method(
-          #unregisterAllListenersForKey,
-          [],
-          {#key: key},
-        ),
+        Invocation.method(#unregisterAllListenersForKey, [], {#key: key}),
         returnValueForMissingStub: null,
       );
 
   @override
   void unregisterAllListeners() => super.noSuchMethod(
-        Invocation.method(
-          #unregisterAllListeners,
-          [],
-        ),
-        returnValueForMissingStub: null,
-      );
+    Invocation.method(#unregisterAllListeners, []),
+    returnValueForMissingStub: null,
+  );
 
   @override
   _i4.Future<void> write({
@@ -475,23 +370,20 @@ class MockFlutterSecureStorage extends _i1.Mock
     _i3.WindowsOptions? wOptions,
   }) =>
       (super.noSuchMethod(
-        Invocation.method(
-          #write,
-          [],
-          {
-            #key: key,
-            #value: value,
-            #iOptions: iOptions,
-            #aOptions: aOptions,
-            #lOptions: lOptions,
-            #webOptions: webOptions,
-            #mOptions: mOptions,
-            #wOptions: wOptions,
-          },
-        ),
-        returnValue: _i4.Future<void>.value(),
-        returnValueForMissingStub: _i4.Future<void>.value(),
-      ) as _i4.Future<void>);
+            Invocation.method(#write, [], {
+              #key: key,
+              #value: value,
+              #iOptions: iOptions,
+              #aOptions: aOptions,
+              #lOptions: lOptions,
+              #webOptions: webOptions,
+              #mOptions: mOptions,
+              #wOptions: wOptions,
+            }),
+            returnValue: _i4.Future<void>.value(),
+            returnValueForMissingStub: _i4.Future<void>.value(),
+          )
+          as _i4.Future<void>);
 
   @override
   _i4.Future<String?> read({
@@ -504,21 +396,18 @@ class MockFlutterSecureStorage extends _i1.Mock
     _i3.WindowsOptions? wOptions,
   }) =>
       (super.noSuchMethod(
-        Invocation.method(
-          #read,
-          [],
-          {
-            #key: key,
-            #iOptions: iOptions,
-            #aOptions: aOptions,
-            #lOptions: lOptions,
-            #webOptions: webOptions,
-            #mOptions: mOptions,
-            #wOptions: wOptions,
-          },
-        ),
-        returnValue: _i4.Future<String?>.value(),
-      ) as _i4.Future<String?>);
+            Invocation.method(#read, [], {
+              #key: key,
+              #iOptions: iOptions,
+              #aOptions: aOptions,
+              #lOptions: lOptions,
+              #webOptions: webOptions,
+              #mOptions: mOptions,
+              #wOptions: wOptions,
+            }),
+            returnValue: _i4.Future<String?>.value(),
+          )
+          as _i4.Future<String?>);
 
   @override
   _i4.Future<bool> containsKey({
@@ -531,21 +420,18 @@ class MockFlutterSecureStorage extends _i1.Mock
     _i3.WindowsOptions? wOptions,
   }) =>
       (super.noSuchMethod(
-        Invocation.method(
-          #containsKey,
-          [],
-          {
-            #key: key,
-            #iOptions: iOptions,
-            #aOptions: aOptions,
-            #lOptions: lOptions,
-            #webOptions: webOptions,
-            #mOptions: mOptions,
-            #wOptions: wOptions,
-          },
-        ),
-        returnValue: _i4.Future<bool>.value(false),
-      ) as _i4.Future<bool>);
+            Invocation.method(#containsKey, [], {
+              #key: key,
+              #iOptions: iOptions,
+              #aOptions: aOptions,
+              #lOptions: lOptions,
+              #webOptions: webOptions,
+              #mOptions: mOptions,
+              #wOptions: wOptions,
+            }),
+            returnValue: _i4.Future<bool>.value(false),
+          )
+          as _i4.Future<bool>);
 
   @override
   _i4.Future<void> delete({
@@ -558,22 +444,19 @@ class MockFlutterSecureStorage extends _i1.Mock
     _i3.WindowsOptions? wOptions,
   }) =>
       (super.noSuchMethod(
-        Invocation.method(
-          #delete,
-          [],
-          {
-            #key: key,
-            #iOptions: iOptions,
-            #aOptions: aOptions,
-            #lOptions: lOptions,
-            #webOptions: webOptions,
-            #mOptions: mOptions,
-            #wOptions: wOptions,
-          },
-        ),
-        returnValue: _i4.Future<void>.value(),
-        returnValueForMissingStub: _i4.Future<void>.value(),
-      ) as _i4.Future<void>);
+            Invocation.method(#delete, [], {
+              #key: key,
+              #iOptions: iOptions,
+              #aOptions: aOptions,
+              #lOptions: lOptions,
+              #webOptions: webOptions,
+              #mOptions: mOptions,
+              #wOptions: wOptions,
+            }),
+            returnValue: _i4.Future<void>.value(),
+            returnValueForMissingStub: _i4.Future<void>.value(),
+          )
+          as _i4.Future<void>);
 
   @override
   _i4.Future<Map<String, String>> readAll({
@@ -585,20 +468,19 @@ class MockFlutterSecureStorage extends _i1.Mock
     _i3.WindowsOptions? wOptions,
   }) =>
       (super.noSuchMethod(
-        Invocation.method(
-          #readAll,
-          [],
-          {
-            #iOptions: iOptions,
-            #aOptions: aOptions,
-            #lOptions: lOptions,
-            #webOptions: webOptions,
-            #mOptions: mOptions,
-            #wOptions: wOptions,
-          },
-        ),
-        returnValue: _i4.Future<Map<String, String>>.value(<String, String>{}),
-      ) as _i4.Future<Map<String, String>>);
+            Invocation.method(#readAll, [], {
+              #iOptions: iOptions,
+              #aOptions: aOptions,
+              #lOptions: lOptions,
+              #webOptions: webOptions,
+              #mOptions: mOptions,
+              #wOptions: wOptions,
+            }),
+            returnValue: _i4.Future<Map<String, String>>.value(
+              <String, String>{},
+            ),
+          )
+          as _i4.Future<Map<String, String>>);
 
   @override
   _i4.Future<void> deleteAll({
@@ -610,28 +492,24 @@ class MockFlutterSecureStorage extends _i1.Mock
     _i3.WindowsOptions? wOptions,
   }) =>
       (super.noSuchMethod(
-        Invocation.method(
-          #deleteAll,
-          [],
-          {
-            #iOptions: iOptions,
-            #aOptions: aOptions,
-            #lOptions: lOptions,
-            #webOptions: webOptions,
-            #mOptions: mOptions,
-            #wOptions: wOptions,
-          },
-        ),
-        returnValue: _i4.Future<void>.value(),
-        returnValueForMissingStub: _i4.Future<void>.value(),
-      ) as _i4.Future<void>);
+            Invocation.method(#deleteAll, [], {
+              #iOptions: iOptions,
+              #aOptions: aOptions,
+              #lOptions: lOptions,
+              #webOptions: webOptions,
+              #mOptions: mOptions,
+              #wOptions: wOptions,
+            }),
+            returnValue: _i4.Future<void>.value(),
+            returnValueForMissingStub: _i4.Future<void>.value(),
+          )
+          as _i4.Future<void>);
 
   @override
-  _i4.Future<bool?> isCupertinoProtectedDataAvailable() => (super.noSuchMethod(
-        Invocation.method(
-          #isCupertinoProtectedDataAvailable,
-          [],
-        ),
-        returnValue: _i4.Future<bool?>.value(),
-      ) as _i4.Future<bool?>);
+  _i4.Future<bool?> isCupertinoProtectedDataAvailable() =>
+      (super.noSuchMethod(
+            Invocation.method(#isCupertinoProtectedDataAvailable, []),
+            returnValue: _i4.Future<bool?>.value(),
+          )
+          as _i4.Future<bool?>);
 }

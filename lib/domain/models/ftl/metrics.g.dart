@@ -19,24 +19,24 @@ Map<String, dynamic> _$InfoDnsMetricsToJson(_InfoDnsMetrics instance) =>
     };
 
 _DnsCache _$DnsCacheFromJson(Map<String, dynamic> json) => _DnsCache(
-      size: (json['size'] as num).toInt(),
-      inserted: (json['inserted'] as num).toInt(),
-      evicted: (json['evicted'] as num).toInt(),
-      expired: (json['expired'] as num).toInt(),
-      immortal: (json['immortal'] as num).toInt(),
-      content: (json['content'] as List<dynamic>)
-          .map((e) => DnsCacheEntry.fromJson(e as Map<String, dynamic>))
-          .toList(),
-    );
+  size: (json['size'] as num).toInt(),
+  inserted: (json['inserted'] as num).toInt(),
+  evicted: (json['evicted'] as num).toInt(),
+  expired: (json['expired'] as num).toInt(),
+  immortal: (json['immortal'] as num).toInt(),
+  content: (json['content'] as List<dynamic>)
+      .map((e) => DnsCacheEntry.fromJson(e as Map<String, dynamic>))
+      .toList(),
+);
 
 Map<String, dynamic> _$DnsCacheToJson(_DnsCache instance) => <String, dynamic>{
-      'size': instance.size,
-      'inserted': instance.inserted,
-      'evicted': instance.evicted,
-      'expired': instance.expired,
-      'immortal': instance.immortal,
-      'content': instance.content.map((e) => e.toJson()).toList(),
-    };
+  'size': instance.size,
+  'inserted': instance.inserted,
+  'evicted': instance.evicted,
+  'expired': instance.expired,
+  'immortal': instance.immortal,
+  'content': instance.content.map((e) => e.toJson()).toList(),
+};
 
 _DnsCacheEntry _$DnsCacheEntryFromJson(Map<String, dynamic> json) =>
     _DnsCacheEntry(
@@ -59,19 +59,16 @@ _DnsCacheCount _$DnsCacheCountFromJson(Map<String, dynamic> json) =>
     );
 
 Map<String, dynamic> _$DnsCacheCountToJson(_DnsCacheCount instance) =>
-    <String, dynamic>{
-      'valid': instance.valid,
-      'stale': instance.stale,
-    };
+    <String, dynamic>{'valid': instance.valid, 'stale': instance.stale};
 
 _DnsReplies _$DnsRepliesFromJson(Map<String, dynamic> json) => _DnsReplies(
-      forwarded: (json['forwarded'] as num).toInt(),
-      unanswered: (json['unanswered'] as num).toInt(),
-      local: (json['local'] as num).toInt(),
-      optimized: (json['optimized'] as num).toInt(),
-      auth: (json['auth'] as num).toInt(),
-      sum: (json['sum'] as num).toInt(),
-    );
+  forwarded: (json['forwarded'] as num).toInt(),
+  unanswered: (json['unanswered'] as num).toInt(),
+  local: (json['local'] as num).toInt(),
+  optimized: (json['optimized'] as num).toInt(),
+  auth: (json['auth'] as num).toInt(),
+  sum: (json['sum'] as num).toInt(),
+);
 
 Map<String, dynamic> _$DnsRepliesToJson(_DnsReplies instance) =>
     <String, dynamic>{

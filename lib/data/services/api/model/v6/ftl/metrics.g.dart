@@ -7,9 +7,9 @@ part of 'metrics.dart';
 // **************************************************************************
 
 _InfoMetrics _$InfoMetricsFromJson(Map<String, dynamic> json) => _InfoMetrics(
-      metrics: MetricsData.fromJson(json['metrics'] as Map<String, dynamic>),
-      took: (json['took'] as num).toDouble(),
-    );
+  metrics: MetricsData.fromJson(json['metrics'] as Map<String, dynamic>),
+  took: (json['took'] as num).toDouble(),
+);
 
 Map<String, dynamic> _$InfoMetricsToJson(_InfoMetrics instance) =>
     <String, dynamic>{
@@ -18,9 +18,9 @@ Map<String, dynamic> _$InfoMetricsToJson(_InfoMetrics instance) =>
     };
 
 _MetricsData _$MetricsDataFromJson(Map<String, dynamic> json) => _MetricsData(
-      dns: DnsMetrics.fromJson(json['dns'] as Map<String, dynamic>),
-      dhcp: DhcpMetrics.fromJson(json['dhcp'] as Map<String, dynamic>),
-    );
+  dns: DnsMetrics.fromJson(json['dns'] as Map<String, dynamic>),
+  dhcp: DhcpMetrics.fromJson(json['dhcp'] as Map<String, dynamic>),
+);
 
 Map<String, dynamic> _$MetricsDataToJson(_MetricsData instance) =>
     <String, dynamic>{
@@ -29,9 +29,9 @@ Map<String, dynamic> _$MetricsDataToJson(_MetricsData instance) =>
     };
 
 _DnsMetrics _$DnsMetricsFromJson(Map<String, dynamic> json) => _DnsMetrics(
-      cache: DnsCache.fromJson(json['cache'] as Map<String, dynamic>),
-      replies: DnsReplies.fromJson(json['replies'] as Map<String, dynamic>),
-    );
+  cache: DnsCache.fromJson(json['cache'] as Map<String, dynamic>),
+  replies: DnsReplies.fromJson(json['replies'] as Map<String, dynamic>),
+);
 
 Map<String, dynamic> _$DnsMetricsToJson(_DnsMetrics instance) =>
     <String, dynamic>{
@@ -40,24 +40,24 @@ Map<String, dynamic> _$DnsMetricsToJson(_DnsMetrics instance) =>
     };
 
 _DnsCache _$DnsCacheFromJson(Map<String, dynamic> json) => _DnsCache(
-      size: (json['size'] as num).toInt(),
-      inserted: (json['inserted'] as num).toInt(),
-      evicted: (json['evicted'] as num).toInt(),
-      expired: (json['expired'] as num).toInt(),
-      immortal: (json['immortal'] as num).toInt(),
-      content: (json['content'] as List<dynamic>)
-          .map((e) => DnsCacheEntry.fromJson(e as Map<String, dynamic>))
-          .toList(),
-    );
+  size: (json['size'] as num).toInt(),
+  inserted: (json['inserted'] as num).toInt(),
+  evicted: (json['evicted'] as num).toInt(),
+  expired: (json['expired'] as num).toInt(),
+  immortal: (json['immortal'] as num).toInt(),
+  content: (json['content'] as List<dynamic>)
+      .map((e) => DnsCacheEntry.fromJson(e as Map<String, dynamic>))
+      .toList(),
+);
 
 Map<String, dynamic> _$DnsCacheToJson(_DnsCache instance) => <String, dynamic>{
-      'size': instance.size,
-      'inserted': instance.inserted,
-      'evicted': instance.evicted,
-      'expired': instance.expired,
-      'immortal': instance.immortal,
-      'content': instance.content.map((e) => e.toJson()).toList(),
-    };
+  'size': instance.size,
+  'inserted': instance.inserted,
+  'evicted': instance.evicted,
+  'expired': instance.expired,
+  'immortal': instance.immortal,
+  'content': instance.content.map((e) => e.toJson()).toList(),
+};
 
 _DnsCacheEntry _$DnsCacheEntryFromJson(Map<String, dynamic> json) =>
     _DnsCacheEntry(
@@ -80,19 +80,16 @@ _DnsCacheCount _$DnsCacheCountFromJson(Map<String, dynamic> json) =>
     );
 
 Map<String, dynamic> _$DnsCacheCountToJson(_DnsCacheCount instance) =>
-    <String, dynamic>{
-      'valid': instance.valid,
-      'stale': instance.stale,
-    };
+    <String, dynamic>{'valid': instance.valid, 'stale': instance.stale};
 
 _DnsReplies _$DnsRepliesFromJson(Map<String, dynamic> json) => _DnsReplies(
-      forwarded: (json['forwarded'] as num).toInt(),
-      unanswered: (json['unanswered'] as num).toInt(),
-      local: (json['local'] as num).toInt(),
-      optimized: (json['optimized'] as num).toInt(),
-      auth: (json['auth'] as num).toInt(),
-      sum: (json['sum'] as num).toInt(),
-    );
+  forwarded: (json['forwarded'] as num).toInt(),
+  unanswered: (json['unanswered'] as num).toInt(),
+  local: (json['local'] as num).toInt(),
+  optimized: (json['optimized'] as num).toInt(),
+  auth: (json['auth'] as num).toInt(),
+  sum: (json['sum'] as num).toInt(),
+);
 
 Map<String, dynamic> _$DnsRepliesToJson(_DnsReplies instance) =>
     <String, dynamic>{
@@ -105,19 +102,19 @@ Map<String, dynamic> _$DnsRepliesToJson(_DnsReplies instance) =>
     };
 
 _DhcpMetrics _$DhcpMetricsFromJson(Map<String, dynamic> json) => _DhcpMetrics(
-      ack: (json['ack'] as num).toInt(),
-      nak: (json['nak'] as num).toInt(),
-      decline: (json['decline'] as num).toInt(),
-      offer: (json['offer'] as num).toInt(),
-      discover: (json['discover'] as num).toInt(),
-      inform: (json['inform'] as num).toInt(),
-      request: (json['request'] as num).toInt(),
-      release: (json['release'] as num).toInt(),
-      noanswer: (json['noanswer'] as num).toInt(),
-      bootp: (json['bootp'] as num).toInt(),
-      pxe: (json['pxe'] as num).toInt(),
-      leases: DhcpLeases.fromJson(json['leases'] as Map<String, dynamic>),
-    );
+  ack: (json['ack'] as num).toInt(),
+  nak: (json['nak'] as num).toInt(),
+  decline: (json['decline'] as num).toInt(),
+  offer: (json['offer'] as num).toInt(),
+  discover: (json['discover'] as num).toInt(),
+  inform: (json['inform'] as num).toInt(),
+  request: (json['request'] as num).toInt(),
+  release: (json['release'] as num).toInt(),
+  noanswer: (json['noanswer'] as num).toInt(),
+  bootp: (json['bootp'] as num).toInt(),
+  pxe: (json['pxe'] as num).toInt(),
+  leases: DhcpLeases.fromJson(json['leases'] as Map<String, dynamic>),
+);
 
 Map<String, dynamic> _$DhcpMetricsToJson(_DhcpMetrics instance) =>
     <String, dynamic>{
@@ -136,11 +133,11 @@ Map<String, dynamic> _$DhcpMetricsToJson(_DhcpMetrics instance) =>
     };
 
 _DhcpLeases _$DhcpLeasesFromJson(Map<String, dynamic> json) => _DhcpLeases(
-      allocated4: (json['allocated_4'] as num).toInt(),
-      pruned4: (json['pruned_4'] as num).toInt(),
-      allocated6: (json['allocated_6'] as num).toInt(),
-      pruned6: (json['pruned_6'] as num).toInt(),
-    );
+  allocated4: (json['allocated_4'] as num).toInt(),
+  pruned4: (json['pruned_4'] as num).toInt(),
+  allocated6: (json['allocated_6'] as num).toInt(),
+  pruned6: (json['pruned_6'] as num).toInt(),
+);
 
 Map<String, dynamic> _$DhcpLeasesToJson(_DhcpLeases instance) =>
     <String, dynamic>{

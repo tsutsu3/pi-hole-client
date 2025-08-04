@@ -7,13 +7,13 @@ part of 'dns.dart';
 // **************************************************************************
 
 _Blocking _$BlockingFromJson(Map<String, dynamic> json) => _Blocking(
-      blocking: json['blocking'] as String,
-      timer: (json['timer'] as num?)?.toInt(),
-      took: (json['took'] as num).toDouble(),
-    );
+  blocking: json['blocking'] as String,
+  timer: (json['timer'] as num?)?.toInt(),
+  took: (json['took'] as num).toDouble(),
+);
 
 Map<String, dynamic> _$BlockingToJson(_Blocking instance) => <String, dynamic>{
-      'blocking': instance.blocking,
-      'timer': instance.timer,
-      'took': instance.took,
-    };
+  'blocking': instance.blocking,
+  'timer': instance.timer,
+  'took': instance.took,
+};

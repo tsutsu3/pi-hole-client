@@ -7,10 +7,10 @@ part of 'sensor.dart';
 // **************************************************************************
 
 _InfoSensor _$InfoSensorFromJson(Map<String, dynamic> json) => _InfoSensor(
-      hotLimit: (json['hotLimit'] as num).toDouble(),
-      unit: json['unit'] as String,
-      cpuTemp: (json['cpuTemp'] as num?)?.toDouble(),
-    );
+  hotLimit: (json['hotLimit'] as num).toDouble(),
+  unit: json['unit'] as String,
+  cpuTemp: (json['cpuTemp'] as num?)?.toDouble(),
+);
 
 Map<String, dynamic> _$InfoSensorToJson(_InfoSensor instance) =>
     <String, dynamic>{

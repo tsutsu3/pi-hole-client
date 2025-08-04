@@ -7,11 +7,11 @@ part of 'version.dart';
 // **************************************************************************
 
 _InfoVersion _$InfoVersionFromJson(Map<String, dynamic> json) => _InfoVersion(
-      core: ComponentVersion.fromJson(json['core'] as Map<String, dynamic>),
-      web: ComponentVersion.fromJson(json['web'] as Map<String, dynamic>),
-      ftl: ComponentVersion.fromJson(json['ftl'] as Map<String, dynamic>),
-      docker: ComponentVersion.fromJson(json['docker'] as Map<String, dynamic>),
-    );
+  core: ComponentVersion.fromJson(json['core'] as Map<String, dynamic>),
+  web: ComponentVersion.fromJson(json['web'] as Map<String, dynamic>),
+  ftl: ComponentVersion.fromJson(json['ftl'] as Map<String, dynamic>),
+  docker: ComponentVersion.fromJson(json['docker'] as Map<String, dynamic>),
+);
 
 Map<String, dynamic> _$InfoVersionToJson(_InfoVersion instance) =>
     <String, dynamic>{
@@ -25,12 +25,14 @@ _ComponentVersion _$ComponentVersionFromJson(Map<String, dynamic> json) =>
     _ComponentVersion(
       local: VersionDetail.fromJson(json['local'] as Map<String, dynamic>),
       remote: VersionDetail.fromJson(json['remote'] as Map<String, dynamic>),
+      canUpdate: json['canUpdate'] as bool?,
     );
 
 Map<String, dynamic> _$ComponentVersionToJson(_ComponentVersion instance) =>
     <String, dynamic>{
       'local': instance.local.toJson(),
       'remote': instance.remote.toJson(),
+      'canUpdate': instance.canUpdate,
     };
 
 _VersionDetail _$VersionDetailFromJson(Map<String, dynamic> json) =>

@@ -7,9 +7,9 @@ part of 'queries.dart';
 // **************************************************************************
 
 _Queries _$QueriesFromJson(Map<String, dynamic> json) => _Queries(
-      data: const ListOfListStringOrEmptyConverter().fromJson(json['data']),
-    );
+  data: const ListOfListStringOrEmptyConverter().fromJson(json['data']),
+);
 
 Map<String, dynamic> _$QueriesToJson(_Queries instance) => <String, dynamic>{
-      'data': const ListOfListStringOrEmptyConverter().toJson(instance.data),
-    };
+  'data': const ListOfListStringOrEmptyConverter().toJson(instance.data),
+};

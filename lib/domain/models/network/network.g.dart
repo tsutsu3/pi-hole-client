@@ -7,36 +7,36 @@ part of 'network.dart';
 // **************************************************************************
 
 _Gateways _$GatewaysFromJson(Map<String, dynamic> json) => _Gateways(
-      gateway: (json['gateway'] as List<dynamic>)
-          .map((e) => Gateway.fromJson(e as Map<String, dynamic>))
-          .toList(),
-      interfaces: (json['interfaces'] as List<dynamic>?)
-          ?.map((e) => NetInterface.fromJson(e as Map<String, dynamic>))
-          .toList(),
-      routes: (json['routes'] as List<dynamic>?)
-          ?.map((e) => Route.fromJson(e as Map<String, dynamic>))
-          .toList(),
-    );
+  gateway: (json['gateway'] as List<dynamic>)
+      .map((e) => Gateway.fromJson(e as Map<String, dynamic>))
+      .toList(),
+  interfaces: (json['interfaces'] as List<dynamic>?)
+      ?.map((e) => NetInterface.fromJson(e as Map<String, dynamic>))
+      .toList(),
+  routes: (json['routes'] as List<dynamic>?)
+      ?.map((e) => Route.fromJson(e as Map<String, dynamic>))
+      .toList(),
+);
 
 Map<String, dynamic> _$GatewaysToJson(_Gateways instance) => <String, dynamic>{
-      'gateway': instance.gateway.map((e) => e.toJson()).toList(),
-      'interfaces': instance.interfaces?.map((e) => e.toJson()).toList(),
-      'routes': instance.routes?.map((e) => e.toJson()).toList(),
-    };
+  'gateway': instance.gateway.map((e) => e.toJson()).toList(),
+  'interfaces': instance.interfaces?.map((e) => e.toJson()).toList(),
+  'routes': instance.routes?.map((e) => e.toJson()).toList(),
+};
 
 _Gateway _$GatewayFromJson(Map<String, dynamic> json) => _Gateway(
-      family: json['family'] as String,
-      interface: json['interface'] as String,
-      address: json['address'] as String,
-      local: (json['local'] as List<dynamic>).map((e) => e as String).toList(),
-    );
+  family: json['family'] as String,
+  interface: json['interface'] as String,
+  address: json['address'] as String,
+  local: (json['local'] as List<dynamic>).map((e) => e as String).toList(),
+);
 
 Map<String, dynamic> _$GatewayToJson(_Gateway instance) => <String, dynamic>{
-      'family': instance.family,
-      'interface': instance.interface,
-      'address': instance.address,
-      'local': instance.local,
-    };
+  'family': instance.family,
+  'interface': instance.interface,
+  'address': instance.address,
+  'local': instance.local,
+};
 
 _NetInterface _$NetInterfaceFromJson(Map<String, dynamic> json) =>
     _NetInterface(
@@ -179,15 +179,12 @@ Map<String, dynamic> _$InterfaceStatsToJson(_InterfaceStats instance) =>
     };
 
 _ByteValue _$ByteValueFromJson(Map<String, dynamic> json) => _ByteValue(
-      value: (json['value'] as num).toDouble(),
-      unit: json['unit'] as String,
-    );
+  value: (json['value'] as num).toDouble(),
+  unit: json['unit'] as String,
+);
 
 Map<String, dynamic> _$ByteValueToJson(_ByteValue instance) =>
-    <String, dynamic>{
-      'value': instance.value,
-      'unit': instance.unit,
-    };
+    <String, dynamic>{'value': instance.value, 'unit': instance.unit};
 
 _InterfaceAddress _$InterfaceAddressFromJson(Map<String, dynamic> json) =>
     _InterfaceAddress(
@@ -243,85 +240,85 @@ const _$RouteFamilyEnumMap = {
 };
 
 _Device _$DeviceFromJson(Map<String, dynamic> json) => _Device(
-      id: (json['id'] as num).toInt(),
-      hwaddr: json['hwaddr'] as String,
-      interface: json['interface'] as String,
-      firstSeen: DateTime.parse(json['firstSeen'] as String),
-      lastQuery: DateTime.parse(json['lastQuery'] as String),
-      numQueries: (json['numQueries'] as num).toInt(),
-      ips: (json['ips'] as List<dynamic>)
-          .map((e) => DeviceIp.fromJson(e as Map<String, dynamic>))
-          .toList(),
-      macVendor: json['macVendor'] as String?,
-    );
+  id: (json['id'] as num).toInt(),
+  hwaddr: json['hwaddr'] as String,
+  interface: json['interface'] as String,
+  firstSeen: DateTime.parse(json['firstSeen'] as String),
+  lastQuery: DateTime.parse(json['lastQuery'] as String),
+  numQueries: (json['numQueries'] as num).toInt(),
+  ips: (json['ips'] as List<dynamic>)
+      .map((e) => DeviceIp.fromJson(e as Map<String, dynamic>))
+      .toList(),
+  macVendor: json['macVendor'] as String?,
+);
 
 Map<String, dynamic> _$DeviceToJson(_Device instance) => <String, dynamic>{
-      'id': instance.id,
-      'hwaddr': instance.hwaddr,
-      'interface': instance.interface,
-      'firstSeen': instance.firstSeen.toIso8601String(),
-      'lastQuery': instance.lastQuery.toIso8601String(),
-      'numQueries': instance.numQueries,
-      'ips': instance.ips.map((e) => e.toJson()).toList(),
-      'macVendor': instance.macVendor,
-    };
+  'id': instance.id,
+  'hwaddr': instance.hwaddr,
+  'interface': instance.interface,
+  'firstSeen': instance.firstSeen.toIso8601String(),
+  'lastQuery': instance.lastQuery.toIso8601String(),
+  'numQueries': instance.numQueries,
+  'ips': instance.ips.map((e) => e.toJson()).toList(),
+  'macVendor': instance.macVendor,
+};
 
 _DeviceIp _$DeviceIpFromJson(Map<String, dynamic> json) => _DeviceIp(
-      ip: json['ip'] as String,
-      lastSeen: DateTime.parse(json['lastSeen'] as String),
-      nameUpdated: DateTime.parse(json['nameUpdated'] as String),
-      name: json['name'] as String?,
-    );
+  ip: json['ip'] as String,
+  lastSeen: DateTime.parse(json['lastSeen'] as String),
+  nameUpdated: DateTime.parse(json['nameUpdated'] as String),
+  name: json['name'] as String?,
+);
 
 Map<String, dynamic> _$DeviceIpToJson(_DeviceIp instance) => <String, dynamic>{
-      'ip': instance.ip,
-      'lastSeen': instance.lastSeen.toIso8601String(),
-      'nameUpdated': instance.nameUpdated.toIso8601String(),
-      'name': instance.name,
-    };
+  'ip': instance.ip,
+  'lastSeen': instance.lastSeen.toIso8601String(),
+  'nameUpdated': instance.nameUpdated.toIso8601String(),
+  'name': instance.name,
+};
 
 _Route _$RouteFromJson(Map<String, dynamic> json) => _Route(
-      table: (json['table'] as num).toInt(),
-      family: $enumDecode(_$RouteFamilyEnumMap, json['family']),
-      protocol: json['protocol'] as String,
-      scope: json['scope'] as String,
-      type: json['type'] as String,
-      flags: (json['flags'] as List<dynamic>).map((e) => e as String).toList(),
-      dst: json['dst'] as String,
-      iflags: (json['iflags'] as num?)?.toInt(),
-      gateway: json['gateway'] as String?,
-      oif: json['oif'] as String?,
-      iif: json['iif'] as String?,
-      src: json['src'] as String?,
-      prefsrc: json['prefsrc'] as String?,
-      priority: (json['priority'] as num?)?.toInt(),
-      pref: (json['pref'] as num?)?.toInt(),
-      cstamp: (json['cstamp'] as num?)?.toDouble(),
-      tstamp: (json['tstamp'] as num?)?.toDouble(),
-      expires: (json['expires'] as num?)?.toInt(),
-      error: (json['error'] as num?)?.toInt(),
-      used: (json['used'] as num?)?.toInt(),
-    );
+  table: (json['table'] as num).toInt(),
+  family: $enumDecode(_$RouteFamilyEnumMap, json['family']),
+  protocol: json['protocol'] as String,
+  scope: json['scope'] as String,
+  type: json['type'] as String,
+  flags: (json['flags'] as List<dynamic>).map((e) => e as String).toList(),
+  dst: json['dst'] as String,
+  iflags: (json['iflags'] as num?)?.toInt(),
+  gateway: json['gateway'] as String?,
+  oif: json['oif'] as String?,
+  iif: json['iif'] as String?,
+  src: json['src'] as String?,
+  prefsrc: json['prefsrc'] as String?,
+  priority: (json['priority'] as num?)?.toInt(),
+  pref: (json['pref'] as num?)?.toInt(),
+  cstamp: (json['cstamp'] as num?)?.toDouble(),
+  tstamp: (json['tstamp'] as num?)?.toDouble(),
+  expires: (json['expires'] as num?)?.toInt(),
+  error: (json['error'] as num?)?.toInt(),
+  used: (json['used'] as num?)?.toInt(),
+);
 
 Map<String, dynamic> _$RouteToJson(_Route instance) => <String, dynamic>{
-      'table': instance.table,
-      'family': _$RouteFamilyEnumMap[instance.family]!,
-      'protocol': instance.protocol,
-      'scope': instance.scope,
-      'type': instance.type,
-      'flags': instance.flags,
-      'dst': instance.dst,
-      'iflags': instance.iflags,
-      'gateway': instance.gateway,
-      'oif': instance.oif,
-      'iif': instance.iif,
-      'src': instance.src,
-      'prefsrc': instance.prefsrc,
-      'priority': instance.priority,
-      'pref': instance.pref,
-      'cstamp': instance.cstamp,
-      'tstamp': instance.tstamp,
-      'expires': instance.expires,
-      'error': instance.error,
-      'used': instance.used,
-    };
+  'table': instance.table,
+  'family': _$RouteFamilyEnumMap[instance.family]!,
+  'protocol': instance.protocol,
+  'scope': instance.scope,
+  'type': instance.type,
+  'flags': instance.flags,
+  'dst': instance.dst,
+  'iflags': instance.iflags,
+  'gateway': instance.gateway,
+  'oif': instance.oif,
+  'iif': instance.iif,
+  'src': instance.src,
+  'prefsrc': instance.prefsrc,
+  'priority': instance.priority,
+  'pref': instance.pref,
+  'cstamp': instance.cstamp,
+  'tstamp': instance.tstamp,
+  'expires': instance.expires,
+  'error': instance.error,
+  'used': instance.used,
+};

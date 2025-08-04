@@ -7,26 +7,27 @@ part of 'search.dart';
 // **************************************************************************
 
 _Search _$SearchFromJson(Map<String, dynamic> json) => _Search(
-      search: SearchData.fromJson(json['search'] as Map<String, dynamic>),
-      took: (json['took'] as num).toDouble(),
-    );
+  search: SearchData.fromJson(json['search'] as Map<String, dynamic>),
+  took: (json['took'] as num).toDouble(),
+);
 
 Map<String, dynamic> _$SearchToJson(_Search instance) => <String, dynamic>{
-      'search': instance.search,
-      'took': instance.took,
-    };
+  'search': instance.search,
+  'took': instance.took,
+};
 
 _SearchData _$SearchDataFromJson(Map<String, dynamic> json) => _SearchData(
-      domains: (json['domains'] as List<dynamic>)
-          .map((e) => DomainEntry.fromJson(e as Map<String, dynamic>))
-          .toList(),
-      gravity: (json['gravity'] as List<dynamic>)
-          .map((e) => GravityEntry.fromJson(e as Map<String, dynamic>))
-          .toList(),
-      parameters:
-          SearchParameters.fromJson(json['parameters'] as Map<String, dynamic>),
-      results: SearchResults.fromJson(json['results'] as Map<String, dynamic>),
-    );
+  domains: (json['domains'] as List<dynamic>)
+      .map((e) => DomainEntry.fromJson(e as Map<String, dynamic>))
+      .toList(),
+  gravity: (json['gravity'] as List<dynamic>)
+      .map((e) => GravityEntry.fromJson(e as Map<String, dynamic>))
+      .toList(),
+  parameters: SearchParameters.fromJson(
+    json['parameters'] as Map<String, dynamic>,
+  ),
+  results: SearchResults.fromJson(json['results'] as Map<String, dynamic>),
+);
 
 Map<String, dynamic> _$SearchDataToJson(_SearchData instance) =>
     <String, dynamic>{
@@ -37,18 +38,18 @@ Map<String, dynamic> _$SearchDataToJson(_SearchData instance) =>
     };
 
 _DomainEntry _$DomainEntryFromJson(Map<String, dynamic> json) => _DomainEntry(
-      domain: json['domain'] as String,
-      enabled: json['enabled'] as bool,
-      type: $enumDecode(_$DomainTypeEnumMap, json['type']),
-      kind: $enumDecode(_$DomainKindEnumMap, json['kind']),
-      id: (json['id'] as num).toInt(),
-      dateAdded: (json['date_added'] as num).toInt(),
-      dateModified: (json['date_modified'] as num).toInt(),
-      groups: (json['groups'] as List<dynamic>)
-          .map((e) => (e as num).toInt())
-          .toList(),
-      comment: json['comment'] as String?,
-    );
+  domain: json['domain'] as String,
+  enabled: json['enabled'] as bool,
+  type: $enumDecode(_$DomainTypeEnumMap, json['type']),
+  kind: $enumDecode(_$DomainKindEnumMap, json['kind']),
+  id: (json['id'] as num).toInt(),
+  dateAdded: (json['date_added'] as num).toInt(),
+  dateModified: (json['date_modified'] as num).toInt(),
+  groups: (json['groups'] as List<dynamic>)
+      .map((e) => (e as num).toInt())
+      .toList(),
+  comment: json['comment'] as String?,
+);
 
 Map<String, dynamic> _$DomainEntryToJson(_DomainEntry instance) =>
     <String, dynamic>{
@@ -132,14 +133,13 @@ Map<String, dynamic> _$SearchParametersToJson(_SearchParameters instance) =>
       'debug': instance.debug,
     };
 
-_SearchResults _$SearchResultsFromJson(Map<String, dynamic> json) =>
-    _SearchResults(
-      domains:
-          DomainMatchCount.fromJson(json['domains'] as Map<String, dynamic>),
-      gravity:
-          GravityMatchCount.fromJson(json['gravity'] as Map<String, dynamic>),
-      total: (json['total'] as num).toInt(),
-    );
+_SearchResults _$SearchResultsFromJson(
+  Map<String, dynamic> json,
+) => _SearchResults(
+  domains: DomainMatchCount.fromJson(json['domains'] as Map<String, dynamic>),
+  gravity: GravityMatchCount.fromJson(json['gravity'] as Map<String, dynamic>),
+  total: (json['total'] as num).toInt(),
+);
 
 Map<String, dynamic> _$SearchResultsToJson(_SearchResults instance) =>
     <String, dynamic>{
@@ -155,10 +155,7 @@ _DomainMatchCount _$DomainMatchCountFromJson(Map<String, dynamic> json) =>
     );
 
 Map<String, dynamic> _$DomainMatchCountToJson(_DomainMatchCount instance) =>
-    <String, dynamic>{
-      'exact': instance.exact,
-      'regex': instance.regex,
-    };
+    <String, dynamic>{'exact': instance.exact, 'regex': instance.regex};
 
 _GravityMatchCount _$GravityMatchCountFromJson(Map<String, dynamic> json) =>
     _GravityMatchCount(
@@ -167,7 +164,4 @@ _GravityMatchCount _$GravityMatchCountFromJson(Map<String, dynamic> json) =>
     );
 
 Map<String, dynamic> _$GravityMatchCountToJson(_GravityMatchCount instance) =>
-    <String, dynamic>{
-      'allow': instance.allow,
-      'block': instance.block,
-    };
+    <String, dynamic>{'allow': instance.allow, 'block': instance.block};

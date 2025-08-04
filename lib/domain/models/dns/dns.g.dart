@@ -7,16 +7,16 @@ part of 'dns.dart';
 // **************************************************************************
 
 _Blocking _$BlockingFromJson(Map<String, dynamic> json) => _Blocking(
-      status: $enumDecode(_$DnsBlockingStatusEnumMap, json['status']),
-      timer: (json['timer'] as num?)?.toInt(),
-      took: (json['took'] as num).toDouble(),
-    );
+  status: $enumDecode(_$DnsBlockingStatusEnumMap, json['status']),
+  timer: (json['timer'] as num?)?.toInt(),
+  took: (json['took'] as num).toDouble(),
+);
 
 Map<String, dynamic> _$BlockingToJson(_Blocking instance) => <String, dynamic>{
-      'status': _$DnsBlockingStatusEnumMap[instance.status]!,
-      'timer': instance.timer,
-      'took': instance.took,
-    };
+  'status': _$DnsBlockingStatusEnumMap[instance.status]!,
+  'timer': instance.timer,
+  'took': instance.took,
+};
 
 const _$DnsBlockingStatusEnumMap = {
   DnsBlockingStatus.enabled: 'enabled',

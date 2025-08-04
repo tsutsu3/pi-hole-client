@@ -7,11 +7,11 @@ part of 'message.dart';
 // **************************************************************************
 
 _InfoMessage _$InfoMessageFromJson(Map<String, dynamic> json) => _InfoMessage(
-      id: (json['id'] as num).toInt(),
-      timestamp: DateTime.parse(json['timestamp'] as String),
-      message: json['message'] as String,
-      url: json['url'] as String,
-    );
+  id: (json['id'] as num).toInt(),
+  timestamp: DateTime.parse(json['timestamp'] as String),
+  message: json['message'] as String,
+  url: json['url'] as String,
+);
 
 Map<String, dynamic> _$InfoMessageToJson(_InfoMessage instance) =>
     <String, dynamic>{

@@ -21,17 +21,17 @@ Map<String, dynamic> _$InfoMessagesToJson(_InfoMessages instance) =>
     };
 
 _Message _$MessageFromJson(Map<String, dynamic> json) => _Message(
-      id: (json['id'] as num).toInt(),
-      timestamp: (json['timestamp'] as num).toInt(),
-      type: json['type'] as String,
-      plain: json['plain'] as String,
-      html: json['html'] as String,
-    );
+  id: (json['id'] as num).toInt(),
+  timestamp: (json['timestamp'] as num).toInt(),
+  type: json['type'] as String,
+  plain: json['plain'] as String,
+  html: json['html'] as String,
+);
 
 Map<String, dynamic> _$MessageToJson(_Message instance) => <String, dynamic>{
-      'id': instance.id,
-      'timestamp': instance.timestamp,
-      'type': instance.type,
-      'plain': instance.plain,
-      'html': instance.html,
-    };
+  'id': instance.id,
+  'timestamp': instance.timestamp,
+  'type': instance.type,
+  'plain': instance.plain,
+  'html': instance.html,
+};

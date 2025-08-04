@@ -42,132 +42,72 @@ import 'package:pi_hole_client/ui/core/viewmodel/servers_provider.dart' as _i6;
 // ignore_for_file: subtype_of_sealed_class
 
 class _FakeAppColors_0 extends _i1.SmartFake implements _i2.AppColors {
-  _FakeAppColors_0(
-    Object parent,
-    Invocation parentInvocation,
-  ) : super(
-          parent,
-          parentInvocation,
-        );
+  _FakeAppColors_0(Object parent, Invocation parentInvocation)
+    : super(parent, parentInvocation);
 }
 
 class _FakeServer_1 extends _i1.SmartFake implements _i3.Server {
-  _FakeServer_1(
-    Object parent,
-    Invocation parentInvocation,
-  ) : super(
-          parent,
-          parentInvocation,
-        );
+  _FakeServer_1(Object parent, Invocation parentInvocation)
+    : super(parent, parentInvocation);
 }
 
 class _FakeResponse_2 extends _i1.SmartFake implements _i4.Response {
-  _FakeResponse_2(
-    Object parent,
-    Invocation parentInvocation,
-  ) : super(
-          parent,
-          parentInvocation,
-        );
+  _FakeResponse_2(Object parent, Invocation parentInvocation)
+    : super(parent, parentInvocation);
 }
 
 class _FakeStreamedResponse_3 extends _i1.SmartFake
     implements _i4.StreamedResponse {
-  _FakeStreamedResponse_3(
-    Object parent,
-    Invocation parentInvocation,
-  ) : super(
-          parent,
-          parentInvocation,
-        );
+  _FakeStreamedResponse_3(Object parent, Invocation parentInvocation)
+    : super(parent, parentInvocation);
 }
 
 class _FakeLoginQueryResponse_4 extends _i1.SmartFake
     implements _i5.LoginQueryResponse {
-  _FakeLoginQueryResponse_4(
-    Object parent,
-    Invocation parentInvocation,
-  ) : super(
-          parent,
-          parentInvocation,
-        );
+  _FakeLoginQueryResponse_4(Object parent, Invocation parentInvocation)
+    : super(parent, parentInvocation);
 }
 
 class _FakeRealtimeStatusResponse_5 extends _i1.SmartFake
     implements _i5.RealtimeStatusResponse {
-  _FakeRealtimeStatusResponse_5(
-    Object parent,
-    Invocation parentInvocation,
-  ) : super(
-          parent,
-          parentInvocation,
-        );
+  _FakeRealtimeStatusResponse_5(Object parent, Invocation parentInvocation)
+    : super(parent, parentInvocation);
 }
 
 class _FakeDisableServerResponse_6 extends _i1.SmartFake
     implements _i5.DisableServerResponse {
-  _FakeDisableServerResponse_6(
-    Object parent,
-    Invocation parentInvocation,
-  ) : super(
-          parent,
-          parentInvocation,
-        );
+  _FakeDisableServerResponse_6(Object parent, Invocation parentInvocation)
+    : super(parent, parentInvocation);
 }
 
 class _FakeEnableServerResponse_7 extends _i1.SmartFake
     implements _i5.EnableServerResponse {
-  _FakeEnableServerResponse_7(
-    Object parent,
-    Invocation parentInvocation,
-  ) : super(
-          parent,
-          parentInvocation,
-        );
+  _FakeEnableServerResponse_7(Object parent, Invocation parentInvocation)
+    : super(parent, parentInvocation);
 }
 
 class _FakeFetchOverTimeDataResponse_8 extends _i1.SmartFake
     implements _i5.FetchOverTimeDataResponse {
-  _FakeFetchOverTimeDataResponse_8(
-    Object parent,
-    Invocation parentInvocation,
-  ) : super(
-          parent,
-          parentInvocation,
-        );
+  _FakeFetchOverTimeDataResponse_8(Object parent, Invocation parentInvocation)
+    : super(parent, parentInvocation);
 }
 
 class _FakeFetchLogsResponse_9 extends _i1.SmartFake
     implements _i5.FetchLogsResponse {
-  _FakeFetchLogsResponse_9(
-    Object parent,
-    Invocation parentInvocation,
-  ) : super(
-          parent,
-          parentInvocation,
-        );
+  _FakeFetchLogsResponse_9(Object parent, Invocation parentInvocation)
+    : super(parent, parentInvocation);
 }
 
 class _FakeSetWhiteBlacklistResponse_10 extends _i1.SmartFake
     implements _i5.SetWhiteBlacklistResponse {
-  _FakeSetWhiteBlacklistResponse_10(
-    Object parent,
-    Invocation parentInvocation,
-  ) : super(
-          parent,
-          parentInvocation,
-        );
+  _FakeSetWhiteBlacklistResponse_10(Object parent, Invocation parentInvocation)
+    : super(parent, parentInvocation);
 }
 
 class _FakeGetDomainLists_11 extends _i1.SmartFake
     implements _i5.GetDomainLists {
-  _FakeGetDomainLists_11(
-    Object parent,
-    Invocation parentInvocation,
-  ) : super(
-          parent,
-          parentInvocation,
-        );
+  _FakeGetDomainLists_11(Object parent, Invocation parentInvocation)
+    : super(parent, parentInvocation);
 }
 
 class _FakeRemoveDomainFromListResponse_12 extends _i1.SmartFake
@@ -175,283 +115,155 @@ class _FakeRemoveDomainFromListResponse_12 extends _i1.SmartFake
   _FakeRemoveDomainFromListResponse_12(
     Object parent,
     Invocation parentInvocation,
-  ) : super(
-          parent,
-          parentInvocation,
-        );
+  ) : super(parent, parentInvocation);
 }
 
 class _FakeAddDomainToListResponse_13 extends _i1.SmartFake
     implements _i5.AddDomainToListResponse {
-  _FakeAddDomainToListResponse_13(
-    Object parent,
-    Invocation parentInvocation,
-  ) : super(
-          parent,
-          parentInvocation,
-        );
+  _FakeAddDomainToListResponse_13(Object parent, Invocation parentInvocation)
+    : super(parent, parentInvocation);
 }
 
 class _FakeDomainResponse_14 extends _i1.SmartFake
     implements _i5.DomainResponse {
-  _FakeDomainResponse_14(
-    Object parent,
-    Invocation parentInvocation,
-  ) : super(
-          parent,
-          parentInvocation,
-        );
+  _FakeDomainResponse_14(Object parent, Invocation parentInvocation)
+    : super(parent, parentInvocation);
 }
 
 class _FakeHostResponse_15 extends _i1.SmartFake implements _i5.HostResponse {
-  _FakeHostResponse_15(
-    Object parent,
-    Invocation parentInvocation,
-  ) : super(
-          parent,
-          parentInvocation,
-        );
+  _FakeHostResponse_15(Object parent, Invocation parentInvocation)
+    : super(parent, parentInvocation);
 }
 
 class _FakeSensorsResponse_16 extends _i1.SmartFake
     implements _i5.SensorsResponse {
-  _FakeSensorsResponse_16(
-    Object parent,
-    Invocation parentInvocation,
-  ) : super(
-          parent,
-          parentInvocation,
-        );
+  _FakeSensorsResponse_16(Object parent, Invocation parentInvocation)
+    : super(parent, parentInvocation);
 }
 
 class _FakeSystemResponse_17 extends _i1.SmartFake
     implements _i5.SystemResponse {
-  _FakeSystemResponse_17(
-    Object parent,
-    Invocation parentInvocation,
-  ) : super(
-          parent,
-          parentInvocation,
-        );
+  _FakeSystemResponse_17(Object parent, Invocation parentInvocation)
+    : super(parent, parentInvocation);
 }
 
 class _FakeVersionResponse_18 extends _i1.SmartFake
     implements _i5.VersionResponse {
-  _FakeVersionResponse_18(
-    Object parent,
-    Invocation parentInvocation,
-  ) : super(
-          parent,
-          parentInvocation,
-        );
+  _FakeVersionResponse_18(Object parent, Invocation parentInvocation)
+    : super(parent, parentInvocation);
 }
 
 class _FakePiHoleServerInfoResponse_19 extends _i1.SmartFake
     implements _i5.PiHoleServerInfoResponse {
-  _FakePiHoleServerInfoResponse_19(
-    Object parent,
-    Invocation parentInvocation,
-  ) : super(
-          parent,
-          parentInvocation,
-        );
+  _FakePiHoleServerInfoResponse_19(Object parent, Invocation parentInvocation)
+    : super(parent, parentInvocation);
 }
 
 class _FakeSubscriptionsResponse_20 extends _i1.SmartFake
     implements _i5.SubscriptionsResponse {
-  _FakeSubscriptionsResponse_20(
-    Object parent,
-    Invocation parentInvocation,
-  ) : super(
-          parent,
-          parentInvocation,
-        );
+  _FakeSubscriptionsResponse_20(Object parent, Invocation parentInvocation)
+    : super(parent, parentInvocation);
 }
 
 class _FakeRemoveSubscriptionResponse_21 extends _i1.SmartFake
     implements _i5.RemoveSubscriptionResponse {
-  _FakeRemoveSubscriptionResponse_21(
-    Object parent,
-    Invocation parentInvocation,
-  ) : super(
-          parent,
-          parentInvocation,
-        );
+  _FakeRemoveSubscriptionResponse_21(Object parent, Invocation parentInvocation)
+    : super(parent, parentInvocation);
 }
 
 class _FakeSearchResponse_22 extends _i1.SmartFake
     implements _i5.SearchResponse {
-  _FakeSearchResponse_22(
-    Object parent,
-    Invocation parentInvocation,
-  ) : super(
-          parent,
-          parentInvocation,
-        );
+  _FakeSearchResponse_22(Object parent, Invocation parentInvocation)
+    : super(parent, parentInvocation);
 }
 
 class _FakeGroupsResponse_23 extends _i1.SmartFake
     implements _i5.GroupsResponse {
-  _FakeGroupsResponse_23(
-    Object parent,
-    Invocation parentInvocation,
-  ) : super(
-          parent,
-          parentInvocation,
-        );
+  _FakeGroupsResponse_23(Object parent, Invocation parentInvocation)
+    : super(parent, parentInvocation);
 }
 
 class _FakeRemoveGroupResponse_24 extends _i1.SmartFake
     implements _i5.RemoveGroupResponse {
-  _FakeRemoveGroupResponse_24(
-    Object parent,
-    Invocation parentInvocation,
-  ) : super(
-          parent,
-          parentInvocation,
-        );
+  _FakeRemoveGroupResponse_24(Object parent, Invocation parentInvocation)
+    : super(parent, parentInvocation);
 }
 
 class _FakeMessagesResponse_25 extends _i1.SmartFake
     implements _i5.MessagesResponse {
-  _FakeMessagesResponse_25(
-    Object parent,
-    Invocation parentInvocation,
-  ) : super(
-          parent,
-          parentInvocation,
-        );
+  _FakeMessagesResponse_25(Object parent, Invocation parentInvocation)
+    : super(parent, parentInvocation);
 }
 
 class _FakeRemoveMessageResponse_26 extends _i1.SmartFake
     implements _i5.RemoveMessageResponse {
-  _FakeRemoveMessageResponse_26(
-    Object parent,
-    Invocation parentInvocation,
-  ) : super(
-          parent,
-          parentInvocation,
-        );
+  _FakeRemoveMessageResponse_26(Object parent, Invocation parentInvocation)
+    : super(parent, parentInvocation);
 }
 
 class _FakeMetricsResponse_27 extends _i1.SmartFake
     implements _i5.MetricsResponse {
-  _FakeMetricsResponse_27(
-    Object parent,
-    Invocation parentInvocation,
-  ) : super(
-          parent,
-          parentInvocation,
-        );
+  _FakeMetricsResponse_27(Object parent, Invocation parentInvocation)
+    : super(parent, parentInvocation);
 }
 
 class _FakeGatewayResponse_28 extends _i1.SmartFake
     implements _i5.GatewayResponse {
-  _FakeGatewayResponse_28(
-    Object parent,
-    Invocation parentInvocation,
-  ) : super(
-          parent,
-          parentInvocation,
-        );
+  _FakeGatewayResponse_28(Object parent, Invocation parentInvocation)
+    : super(parent, parentInvocation);
 }
 
 class _FakeDevicesResponse_29 extends _i1.SmartFake
     implements _i5.DevicesResponse {
-  _FakeDevicesResponse_29(
-    Object parent,
-    Invocation parentInvocation,
-  ) : super(
-          parent,
-          parentInvocation,
-        );
+  _FakeDevicesResponse_29(Object parent, Invocation parentInvocation)
+    : super(parent, parentInvocation);
 }
 
 class _FakeDeleteDeviceResponse_30 extends _i1.SmartFake
     implements _i5.DeleteDeviceResponse {
-  _FakeDeleteDeviceResponse_30(
-    Object parent,
-    Invocation parentInvocation,
-  ) : super(
-          parent,
-          parentInvocation,
-        );
+  _FakeDeleteDeviceResponse_30(Object parent, Invocation parentInvocation)
+    : super(parent, parentInvocation);
 }
 
 class _FakeConfigurationResponse_31 extends _i1.SmartFake
     implements _i5.ConfigurationResponse {
-  _FakeConfigurationResponse_31(
-    Object parent,
-    Invocation parentInvocation,
-  ) : super(
-          parent,
-          parentInvocation,
-        );
+  _FakeConfigurationResponse_31(Object parent, Invocation parentInvocation)
+    : super(parent, parentInvocation);
 }
 
 class _FakeActionResponse_32 extends _i1.SmartFake
     implements _i5.ActionResponse {
-  _FakeActionResponse_32(
-    Object parent,
-    Invocation parentInvocation,
-  ) : super(
-          parent,
-          parentInvocation,
-        );
+  _FakeActionResponse_32(Object parent, Invocation parentInvocation)
+    : super(parent, parentInvocation);
 }
 
 class _FakeSessionsResponse_33 extends _i1.SmartFake
     implements _i5.SessionsResponse {
-  _FakeSessionsResponse_33(
-    Object parent,
-    Invocation parentInvocation,
-  ) : super(
-          parent,
-          parentInvocation,
-        );
+  _FakeSessionsResponse_33(Object parent, Invocation parentInvocation)
+    : super(parent, parentInvocation);
 }
 
 class _FakeDeleteSessionResponse_34 extends _i1.SmartFake
     implements _i5.DeleteSessionResponse {
-  _FakeDeleteSessionResponse_34(
-    Object parent,
-    Invocation parentInvocation,
-  ) : super(
-          parent,
-          parentInvocation,
-        );
+  _FakeDeleteSessionResponse_34(Object parent, Invocation parentInvocation)
+    : super(parent, parentInvocation);
 }
 
 class _FakeClientResponse_35 extends _i1.SmartFake
     implements _i5.ClientResponse {
-  _FakeClientResponse_35(
-    Object parent,
-    Invocation parentInvocation,
-  ) : super(
-          parent,
-          parentInvocation,
-        );
+  _FakeClientResponse_35(Object parent, Invocation parentInvocation)
+    : super(parent, parentInvocation);
 }
 
 class _FakeDhcpResponse_36 extends _i1.SmartFake implements _i5.DhcpResponse {
-  _FakeDhcpResponse_36(
-    Object parent,
-    Invocation parentInvocation,
-  ) : super(
-          parent,
-          parentInvocation,
-        );
+  _FakeDhcpResponse_36(Object parent, Invocation parentInvocation)
+    : super(parent, parentInvocation);
 }
 
 class _FakeDeleteDhcpResponse_37 extends _i1.SmartFake
     implements _i5.DeleteDhcpResponse {
-  _FakeDeleteDhcpResponse_37(
-    Object parent,
-    Invocation parentInvocation,
-  ) : super(
-          parent,
-          parentInvocation,
-        );
+  _FakeDeleteDhcpResponse_37(Object parent, Invocation parentInvocation)
+    : super(parent, parentInvocation);
 }
 
 /// A class which mocks [ServersProvider].
@@ -463,229 +275,181 @@ class MockServersProvider extends _i1.Mock implements _i6.ServersProvider {
   }
 
   @override
-  _i2.AppColors get colors => (super.noSuchMethod(
-        Invocation.getter(#colors),
-        returnValue: _FakeAppColors_0(
-          this,
-          Invocation.getter(#colors),
-        ),
-      ) as _i2.AppColors);
+  _i2.AppColors get colors =>
+      (super.noSuchMethod(
+            Invocation.getter(#colors),
+            returnValue: _FakeAppColors_0(this, Invocation.getter(#colors)),
+          )
+          as _i2.AppColors);
 
   @override
-  List<_i3.Server> get getServersList => (super.noSuchMethod(
-        Invocation.getter(#getServersList),
-        returnValue: <_i3.Server>[],
-      ) as List<_i3.Server>);
+  List<_i3.Server> get getServersList =>
+      (super.noSuchMethod(
+            Invocation.getter(#getServersList),
+            returnValue: <_i3.Server>[],
+          )
+          as List<_i3.Server>);
 
   @override
-  int get numShown => (super.noSuchMethod(
-        Invocation.getter(#numShown),
-        returnValue: 0,
-      ) as int);
+  int get numShown =>
+      (super.noSuchMethod(Invocation.getter(#numShown), returnValue: 0) as int);
 
   @override
-  List<_i7.QueryStatus> get queryStatuses => (super.noSuchMethod(
-        Invocation.getter(#queryStatuses),
-        returnValue: <_i7.QueryStatus>[],
-      ) as List<_i7.QueryStatus>);
+  List<_i7.QueryStatus> get queryStatuses =>
+      (super.noSuchMethod(
+            Invocation.getter(#queryStatuses),
+            returnValue: <_i7.QueryStatus>[],
+          )
+          as List<_i7.QueryStatus>);
 
   @override
-  bool get hasListeners => (super.noSuchMethod(
-        Invocation.getter(#hasListeners),
-        returnValue: false,
-      ) as bool);
+  bool get hasListeners =>
+      (super.noSuchMethod(Invocation.getter(#hasListeners), returnValue: false)
+          as bool);
 
   @override
   void update(_i8.AppConfigProvider? provider) => super.noSuchMethod(
-        Invocation.method(
-          #update,
-          [provider],
-        ),
-        returnValueForMissingStub: null,
-      );
+    Invocation.method(#update, [provider]),
+    returnValueForMissingStub: null,
+  );
 
   @override
   void setConnectingServer(_i3.Server? server) => super.noSuchMethod(
-        Invocation.method(
-          #setConnectingServer,
-          [server],
-        ),
-        returnValueForMissingStub: null,
-      );
+    Invocation.method(#setConnectingServer, [server]),
+    returnValueForMissingStub: null,
+  );
 
   @override
   void clearConnectingServer() => super.noSuchMethod(
-        Invocation.method(
-          #clearConnectingServer,
-          [],
-        ),
-        returnValueForMissingStub: null,
-      );
+    Invocation.method(#clearConnectingServer, []),
+    returnValueForMissingStub: null,
+  );
 
   @override
   _i9.ApiGateway? loadApiGateway(_i3.Server? server) =>
-      (super.noSuchMethod(Invocation.method(
-        #loadApiGateway,
-        [server],
-      )) as _i9.ApiGateway?);
+      (super.noSuchMethod(Invocation.method(#loadApiGateway, [server]))
+          as _i9.ApiGateway?);
 
   @override
   _i9.ApiGateway? createApiGateway(_i3.Server? server) =>
-      (super.noSuchMethod(Invocation.method(
-        #createApiGateway,
-        [server],
-      )) as _i9.ApiGateway?);
+      (super.noSuchMethod(Invocation.method(#createApiGateway, [server]))
+          as _i9.ApiGateway?);
 
   @override
   _i7.QueryStatus? getQueryStatus(String? key) =>
-      (super.noSuchMethod(Invocation.method(
-        #getQueryStatus,
-        [key],
-      )) as _i7.QueryStatus?);
+      (super.noSuchMethod(Invocation.method(#getQueryStatus, [key]))
+          as _i7.QueryStatus?);
 
   @override
   _i7.QueryStatus? findQueryStatus(String? key) =>
-      (super.noSuchMethod(Invocation.method(
-        #findQueryStatus,
-        [key],
-      )) as _i7.QueryStatus?);
+      (super.noSuchMethod(Invocation.method(#findQueryStatus, [key]))
+          as _i7.QueryStatus?);
 
   @override
-  _i10.Future<bool> addServer(_i3.Server? server) => (super.noSuchMethod(
-        Invocation.method(
-          #addServer,
-          [server],
-        ),
-        returnValue: _i10.Future<bool>.value(false),
-      ) as _i10.Future<bool>);
+  _i10.Future<bool> addServer(_i3.Server? server) =>
+      (super.noSuchMethod(
+            Invocation.method(#addServer, [server]),
+            returnValue: _i10.Future<bool>.value(false),
+          )
+          as _i10.Future<bool>);
 
   @override
-  _i10.Future<bool> editServer(_i3.Server? server) => (super.noSuchMethod(
-        Invocation.method(
-          #editServer,
-          [server],
-        ),
-        returnValue: _i10.Future<bool>.value(false),
-      ) as _i10.Future<bool>);
+  _i10.Future<bool> editServer(_i3.Server? server) =>
+      (super.noSuchMethod(
+            Invocation.method(#editServer, [server]),
+            returnValue: _i10.Future<bool>.value(false),
+          )
+          as _i10.Future<bool>);
 
   @override
-  _i10.Future<bool> removeServer(String? serverAddress) => (super.noSuchMethod(
-        Invocation.method(
-          #removeServer,
-          [serverAddress],
-        ),
-        returnValue: _i10.Future<bool>.value(false),
-      ) as _i10.Future<bool>);
+  _i10.Future<bool> removeServer(String? serverAddress) =>
+      (super.noSuchMethod(
+            Invocation.method(#removeServer, [serverAddress]),
+            returnValue: _i10.Future<bool>.value(false),
+          )
+          as _i10.Future<bool>);
 
   @override
-  _i10.Future<bool> setDefaultServer(_i3.Server? server) => (super.noSuchMethod(
-        Invocation.method(
-          #setDefaultServer,
-          [server],
-        ),
-        returnValue: _i10.Future<bool>.value(false),
-      ) as _i10.Future<bool>);
+  _i10.Future<bool> setDefaultServer(_i3.Server? server) =>
+      (super.noSuchMethod(
+            Invocation.method(#setDefaultServer, [server]),
+            returnValue: _i10.Future<bool>.value(false),
+          )
+          as _i10.Future<bool>);
 
   @override
   _i10.Future<dynamic> saveFromDb(List<_i11.ServerDbData>? servers) =>
       (super.noSuchMethod(
-        Invocation.method(
-          #saveFromDb,
-          [servers],
-        ),
-        returnValue: _i10.Future<dynamic>.value(),
-      ) as _i10.Future<dynamic>);
+            Invocation.method(#saveFromDb, [servers]),
+            returnValue: _i10.Future<dynamic>.value(),
+          )
+          as _i10.Future<dynamic>);
 
   @override
   _i10.FutureOr<Map<String, dynamic>> checkUrlExists(String? url) =>
       (super.noSuchMethod(
-        Invocation.method(
-          #checkUrlExists,
-          [url],
-        ),
-        returnValue:
-            _i10.Future<Map<String, dynamic>>.value(<String, dynamic>{}),
-      ) as _i10.FutureOr<Map<String, dynamic>>);
+            Invocation.method(#checkUrlExists, [url]),
+            returnValue: _i10.Future<Map<String, dynamic>>.value(
+              <String, dynamic>{},
+            ),
+          )
+          as _i10.FutureOr<Map<String, dynamic>>);
 
   @override
-  void setselectedServer({
-    required _i3.Server? server,
-    bool? toHomeTab,
-  }) =>
+  void setselectedServer({required _i3.Server? server, bool? toHomeTab}) =>
       super.noSuchMethod(
-        Invocation.method(
-          #setselectedServer,
-          [],
-          {
-            #server: server,
-            #toHomeTab: toHomeTab,
-          },
-        ),
+        Invocation.method(#setselectedServer, [], {
+          #server: server,
+          #toHomeTab: toHomeTab,
+        }),
         returnValueForMissingStub: null,
       );
 
   @override
   void updateselectedServerStatus(bool? enabled) => super.noSuchMethod(
-        Invocation.method(
-          #updateselectedServerStatus,
-          [enabled],
-        ),
-        returnValueForMissingStub: null,
-      );
+    Invocation.method(#updateselectedServerStatus, [enabled]),
+    returnValueForMissingStub: null,
+  );
 
   @override
-  _i10.Future<bool> deleteDbData() => (super.noSuchMethod(
-        Invocation.method(
-          #deleteDbData,
-          [],
-        ),
-        returnValue: _i10.Future<bool>.value(false),
-      ) as _i10.Future<bool>);
+  _i10.Future<bool> deleteDbData() =>
+      (super.noSuchMethod(
+            Invocation.method(#deleteDbData, []),
+            returnValue: _i10.Future<bool>.value(false),
+          )
+          as _i10.Future<bool>);
 
   @override
-  _i10.Future<bool> resetSelectedServer() => (super.noSuchMethod(
-        Invocation.method(
-          #resetSelectedServer,
-          [],
-        ),
-        returnValue: _i10.Future<bool>.value(false),
-      ) as _i10.Future<bool>);
+  _i10.Future<bool> resetSelectedServer() =>
+      (super.noSuchMethod(
+            Invocation.method(#resetSelectedServer, []),
+            returnValue: _i10.Future<bool>.value(false),
+          )
+          as _i10.Future<bool>);
 
   @override
   void addListener(_i12.VoidCallback? listener) => super.noSuchMethod(
-        Invocation.method(
-          #addListener,
-          [listener],
-        ),
-        returnValueForMissingStub: null,
-      );
+    Invocation.method(#addListener, [listener]),
+    returnValueForMissingStub: null,
+  );
 
   @override
   void removeListener(_i12.VoidCallback? listener) => super.noSuchMethod(
-        Invocation.method(
-          #removeListener,
-          [listener],
-        ),
-        returnValueForMissingStub: null,
-      );
+    Invocation.method(#removeListener, [listener]),
+    returnValueForMissingStub: null,
+  );
 
   @override
   void dispose() => super.noSuchMethod(
-        Invocation.method(
-          #dispose,
-          [],
-        ),
-        returnValueForMissingStub: null,
-      );
+    Invocation.method(#dispose, []),
+    returnValueForMissingStub: null,
+  );
 
   @override
   void notifyListeners() => super.noSuchMethod(
-        Invocation.method(
-          #notifyListeners,
-          [],
-        ),
-        returnValueForMissingStub: null,
-      );
+    Invocation.method(#notifyListeners, []),
+    returnValueForMissingStub: null,
+  );
 }
 
 /// A class which mocks [ApiGatewayV6].
@@ -697,58 +461,67 @@ class MockApiGatewayV6 extends _i1.Mock implements _i13.ApiGatewayV6 {
   }
 
   @override
-  String get unexpectedError => (super.noSuchMethod(
-        Invocation.getter(#unexpectedError),
-        returnValue: _i14.dummyValue<String>(
-          this,
-          Invocation.getter(#unexpectedError),
-        ),
-      ) as String);
+  String get unexpectedError =>
+      (super.noSuchMethod(
+            Invocation.getter(#unexpectedError),
+            returnValue: _i14.dummyValue<String>(
+              this,
+              Invocation.getter(#unexpectedError),
+            ),
+          )
+          as String);
 
   @override
-  String get fetchError => (super.noSuchMethod(
-        Invocation.getter(#fetchError),
-        returnValue: _i14.dummyValue<String>(
-          this,
-          Invocation.getter(#fetchError),
-        ),
-      ) as String);
+  String get fetchError =>
+      (super.noSuchMethod(
+            Invocation.getter(#fetchError),
+            returnValue: _i14.dummyValue<String>(
+              this,
+              Invocation.getter(#fetchError),
+            ),
+          )
+          as String);
 
   @override
-  String get notImplementedError => (super.noSuchMethod(
-        Invocation.getter(#notImplementedError),
-        returnValue: _i14.dummyValue<String>(
-          this,
-          Invocation.getter(#notImplementedError),
-        ),
-      ) as String);
+  String get notImplementedError =>
+      (super.noSuchMethod(
+            Invocation.getter(#notImplementedError),
+            returnValue: _i14.dummyValue<String>(
+              this,
+              Invocation.getter(#notImplementedError),
+            ),
+          )
+          as String);
 
   @override
-  String get postError => (super.noSuchMethod(
-        Invocation.getter(#postError),
-        returnValue: _i14.dummyValue<String>(
-          this,
-          Invocation.getter(#postError),
-        ),
-      ) as String);
+  String get postError =>
+      (super.noSuchMethod(
+            Invocation.getter(#postError),
+            returnValue: _i14.dummyValue<String>(
+              this,
+              Invocation.getter(#postError),
+            ),
+          )
+          as String);
 
   @override
-  String get deleteError => (super.noSuchMethod(
-        Invocation.getter(#deleteError),
-        returnValue: _i14.dummyValue<String>(
-          this,
-          Invocation.getter(#deleteError),
-        ),
-      ) as String);
+  String get deleteError =>
+      (super.noSuchMethod(
+            Invocation.getter(#deleteError),
+            returnValue: _i14.dummyValue<String>(
+              this,
+              Invocation.getter(#deleteError),
+            ),
+          )
+          as String);
 
   @override
-  _i3.Server get server => (super.noSuchMethod(
-        Invocation.getter(#server),
-        returnValue: _FakeServer_1(
-          this,
-          Invocation.getter(#server),
-        ),
-      ) as _i3.Server);
+  _i3.Server get server =>
+      (super.noSuchMethod(
+            Invocation.getter(#server),
+            returnValue: _FakeServer_1(this, Invocation.getter(#server)),
+          )
+          as _i3.Server);
 
   @override
   _i10.Future<_i4.Response> httpClient({
@@ -760,34 +533,29 @@ class MockApiGatewayV6 extends _i1.Mock implements _i13.ApiGatewayV6 {
     int? maxRetries = 1,
   }) =>
       (super.noSuchMethod(
-        Invocation.method(
-          #httpClient,
-          [],
-          {
-            #method: method,
-            #url: url,
-            #headers: headers,
-            #body: body,
-            #timeout: timeout,
-            #maxRetries: maxRetries,
-          },
-        ),
-        returnValue: _i10.Future<_i4.Response>.value(_FakeResponse_2(
-          this,
-          Invocation.method(
-            #httpClient,
-            [],
-            {
+            Invocation.method(#httpClient, [], {
               #method: method,
               #url: url,
               #headers: headers,
               #body: body,
               #timeout: timeout,
               #maxRetries: maxRetries,
-            },
-          ),
-        )),
-      ) as _i10.Future<_i4.Response>);
+            }),
+            returnValue: _i10.Future<_i4.Response>.value(
+              _FakeResponse_2(
+                this,
+                Invocation.method(#httpClient, [], {
+                  #method: method,
+                  #url: url,
+                  #headers: headers,
+                  #body: body,
+                  #timeout: timeout,
+                  #maxRetries: maxRetries,
+                }),
+              ),
+            ),
+          )
+          as _i10.Future<_i4.Response>);
 
   @override
   _i10.Future<_i4.StreamedResponse> httpClientStream({
@@ -799,136 +567,108 @@ class MockApiGatewayV6 extends _i1.Mock implements _i13.ApiGatewayV6 {
     int? maxRetries = 1,
   }) =>
       (super.noSuchMethod(
-        Invocation.method(
-          #httpClientStream,
-          [],
-          {
-            #method: method,
-            #url: url,
-            #headers: headers,
-            #body: body,
-            #timeout: timeout,
-            #maxRetries: maxRetries,
-          },
-        ),
-        returnValue:
-            _i10.Future<_i4.StreamedResponse>.value(_FakeStreamedResponse_3(
-          this,
-          Invocation.method(
-            #httpClientStream,
-            [],
-            {
+            Invocation.method(#httpClientStream, [], {
               #method: method,
               #url: url,
               #headers: headers,
               #body: body,
               #timeout: timeout,
               #maxRetries: maxRetries,
-            },
-          ),
-        )),
-      ) as _i10.Future<_i4.StreamedResponse>);
+            }),
+            returnValue: _i10.Future<_i4.StreamedResponse>.value(
+              _FakeStreamedResponse_3(
+                this,
+                Invocation.method(#httpClientStream, [], {
+                  #method: method,
+                  #url: url,
+                  #headers: headers,
+                  #body: body,
+                  #timeout: timeout,
+                  #maxRetries: maxRetries,
+                }),
+              ),
+            ),
+          )
+          as _i10.Future<_i4.StreamedResponse>);
 
   @override
   void close() => super.noSuchMethod(
-        Invocation.method(
-          #close,
-          [],
-        ),
-        returnValueForMissingStub: null,
-      );
+    Invocation.method(#close, []),
+    returnValueForMissingStub: null,
+  );
 
   @override
   _i10.Future<_i5.LoginQueryResponse> loginQuery({bool? refresh = false}) =>
       (super.noSuchMethod(
-        Invocation.method(
-          #loginQuery,
-          [],
-          {#refresh: refresh},
-        ),
-        returnValue:
-            _i10.Future<_i5.LoginQueryResponse>.value(_FakeLoginQueryResponse_4(
-          this,
-          Invocation.method(
-            #loginQuery,
-            [],
-            {#refresh: refresh},
-          ),
-        )),
-      ) as _i10.Future<_i5.LoginQueryResponse>);
+            Invocation.method(#loginQuery, [], {#refresh: refresh}),
+            returnValue: _i10.Future<_i5.LoginQueryResponse>.value(
+              _FakeLoginQueryResponse_4(
+                this,
+                Invocation.method(#loginQuery, [], {#refresh: refresh}),
+              ),
+            ),
+          )
+          as _i10.Future<_i5.LoginQueryResponse>);
 
   @override
   _i10.Future<_i5.RealtimeStatusResponse> realtimeStatus({int? clientCount}) =>
       (super.noSuchMethod(
-        Invocation.method(
-          #realtimeStatus,
-          [],
-          {#clientCount: clientCount},
-        ),
-        returnValue: _i10.Future<_i5.RealtimeStatusResponse>.value(
-            _FakeRealtimeStatusResponse_5(
-          this,
-          Invocation.method(
-            #realtimeStatus,
-            [],
-            {#clientCount: clientCount},
-          ),
-        )),
-      ) as _i10.Future<_i5.RealtimeStatusResponse>);
+            Invocation.method(#realtimeStatus, [], {#clientCount: clientCount}),
+            returnValue: _i10.Future<_i5.RealtimeStatusResponse>.value(
+              _FakeRealtimeStatusResponse_5(
+                this,
+                Invocation.method(#realtimeStatus, [], {
+                  #clientCount: clientCount,
+                }),
+              ),
+            ),
+          )
+          as _i10.Future<_i5.RealtimeStatusResponse>);
 
   @override
   _i10.Future<_i5.DisableServerResponse> disableServerRequest(int? time) =>
       (super.noSuchMethod(
-        Invocation.method(
-          #disableServerRequest,
-          [time],
-        ),
-        returnValue: _i10.Future<_i5.DisableServerResponse>.value(
-            _FakeDisableServerResponse_6(
-          this,
-          Invocation.method(
-            #disableServerRequest,
-            [time],
-          ),
-        )),
-      ) as _i10.Future<_i5.DisableServerResponse>);
+            Invocation.method(#disableServerRequest, [time]),
+            returnValue: _i10.Future<_i5.DisableServerResponse>.value(
+              _FakeDisableServerResponse_6(
+                this,
+                Invocation.method(#disableServerRequest, [time]),
+              ),
+            ),
+          )
+          as _i10.Future<_i5.DisableServerResponse>);
 
   @override
   _i10.Future<_i5.EnableServerResponse> enableServerRequest() =>
       (super.noSuchMethod(
-        Invocation.method(
-          #enableServerRequest,
-          [],
-        ),
-        returnValue: _i10.Future<_i5.EnableServerResponse>.value(
-            _FakeEnableServerResponse_7(
-          this,
-          Invocation.method(
-            #enableServerRequest,
-            [],
-          ),
-        )),
-      ) as _i10.Future<_i5.EnableServerResponse>);
+            Invocation.method(#enableServerRequest, []),
+            returnValue: _i10.Future<_i5.EnableServerResponse>.value(
+              _FakeEnableServerResponse_7(
+                this,
+                Invocation.method(#enableServerRequest, []),
+              ),
+            ),
+          )
+          as _i10.Future<_i5.EnableServerResponse>);
 
   @override
-  _i10.Future<_i5.FetchOverTimeDataResponse> fetchOverTimeData(
-          {int? clientCount}) =>
+  _i10.Future<_i5.FetchOverTimeDataResponse> fetchOverTimeData({
+    int? clientCount,
+  }) =>
       (super.noSuchMethod(
-        Invocation.method(
-          #fetchOverTimeData,
-          [],
-          {#clientCount: clientCount},
-        ),
-        returnValue: _i10.Future<_i5.FetchOverTimeDataResponse>.value(
-            _FakeFetchOverTimeDataResponse_8(
-          this,
-          Invocation.method(
-            #fetchOverTimeData,
-            [],
-            {#clientCount: clientCount},
-          ),
-        )),
-      ) as _i10.Future<_i5.FetchOverTimeDataResponse>);
+            Invocation.method(#fetchOverTimeData, [], {
+              #clientCount: clientCount,
+            }),
+            returnValue: _i10.Future<_i5.FetchOverTimeDataResponse>.value(
+              _FakeFetchOverTimeDataResponse_8(
+                this,
+                Invocation.method(#fetchOverTimeData, [], {
+                  #clientCount: clientCount,
+                }),
+              ),
+            ),
+          )
+          as _i10.Future<_i5.FetchOverTimeDataResponse>);
 
   @override
   _i10.Future<_i5.FetchLogsResponse> fetchLogs(
@@ -938,33 +678,23 @@ class MockApiGatewayV6 extends _i1.Mock implements _i13.ApiGatewayV6 {
     int? cursor,
   }) =>
       (super.noSuchMethod(
-        Invocation.method(
-          #fetchLogs,
-          [
-            from,
-            until,
-          ],
-          {
-            #size: size,
-            #cursor: cursor,
-          },
-        ),
-        returnValue:
-            _i10.Future<_i5.FetchLogsResponse>.value(_FakeFetchLogsResponse_9(
-          this,
-          Invocation.method(
-            #fetchLogs,
-            [
-              from,
-              until,
-            ],
-            {
-              #size: size,
-              #cursor: cursor,
-            },
-          ),
-        )),
-      ) as _i10.Future<_i5.FetchLogsResponse>);
+            Invocation.method(
+              #fetchLogs,
+              [from, until],
+              {#size: size, #cursor: cursor},
+            ),
+            returnValue: _i10.Future<_i5.FetchLogsResponse>.value(
+              _FakeFetchLogsResponse_9(
+                this,
+                Invocation.method(
+                  #fetchLogs,
+                  [from, until],
+                  {#size: size, #cursor: cursor},
+                ),
+              ),
+            ),
+          )
+          as _i10.Future<_i5.FetchLogsResponse>);
 
   @override
   _i10.Future<_i5.SetWhiteBlacklistResponse> setWhiteBlacklist(
@@ -972,177 +702,135 @@ class MockApiGatewayV6 extends _i1.Mock implements _i13.ApiGatewayV6 {
     String? list,
   ) =>
       (super.noSuchMethod(
-        Invocation.method(
-          #setWhiteBlacklist,
-          [
-            domain,
-            list,
-          ],
-        ),
-        returnValue: _i10.Future<_i5.SetWhiteBlacklistResponse>.value(
-            _FakeSetWhiteBlacklistResponse_10(
-          this,
-          Invocation.method(
-            #setWhiteBlacklist,
-            [
-              domain,
-              list,
-            ],
-          ),
-        )),
-      ) as _i10.Future<_i5.SetWhiteBlacklistResponse>);
+            Invocation.method(#setWhiteBlacklist, [domain, list]),
+            returnValue: _i10.Future<_i5.SetWhiteBlacklistResponse>.value(
+              _FakeSetWhiteBlacklistResponse_10(
+                this,
+                Invocation.method(#setWhiteBlacklist, [domain, list]),
+              ),
+            ),
+          )
+          as _i10.Future<_i5.SetWhiteBlacklistResponse>);
 
   @override
-  _i10.Future<_i5.GetDomainLists> getDomainLists() => (super.noSuchMethod(
-        Invocation.method(
-          #getDomainLists,
-          [],
-        ),
-        returnValue:
-            _i10.Future<_i5.GetDomainLists>.value(_FakeGetDomainLists_11(
-          this,
-          Invocation.method(
-            #getDomainLists,
-            [],
-          ),
-        )),
-      ) as _i10.Future<_i5.GetDomainLists>);
+  _i10.Future<_i5.GetDomainLists> getDomainLists() =>
+      (super.noSuchMethod(
+            Invocation.method(#getDomainLists, []),
+            returnValue: _i10.Future<_i5.GetDomainLists>.value(
+              _FakeGetDomainLists_11(
+                this,
+                Invocation.method(#getDomainLists, []),
+              ),
+            ),
+          )
+          as _i10.Future<_i5.GetDomainLists>);
 
   @override
   _i10.Future<_i5.RemoveDomainFromListResponse> removeDomainFromList(
-          _i15.Domain? domain) =>
+    _i15.Domain? domain,
+  ) =>
       (super.noSuchMethod(
-        Invocation.method(
-          #removeDomainFromList,
-          [domain],
-        ),
-        returnValue: _i10.Future<_i5.RemoveDomainFromListResponse>.value(
-            _FakeRemoveDomainFromListResponse_12(
-          this,
-          Invocation.method(
-            #removeDomainFromList,
-            [domain],
-          ),
-        )),
-      ) as _i10.Future<_i5.RemoveDomainFromListResponse>);
+            Invocation.method(#removeDomainFromList, [domain]),
+            returnValue: _i10.Future<_i5.RemoveDomainFromListResponse>.value(
+              _FakeRemoveDomainFromListResponse_12(
+                this,
+                Invocation.method(#removeDomainFromList, [domain]),
+              ),
+            ),
+          )
+          as _i10.Future<_i5.RemoveDomainFromListResponse>);
 
   @override
   _i10.Future<_i5.AddDomainToListResponse> addDomainToList(
-          Map<String, dynamic>? domainData) =>
+    Map<String, dynamic>? domainData,
+  ) =>
       (super.noSuchMethod(
-        Invocation.method(
-          #addDomainToList,
-          [domainData],
-        ),
-        returnValue: _i10.Future<_i5.AddDomainToListResponse>.value(
-            _FakeAddDomainToListResponse_13(
-          this,
-          Invocation.method(
-            #addDomainToList,
-            [domainData],
-          ),
-        )),
-      ) as _i10.Future<_i5.AddDomainToListResponse>);
+            Invocation.method(#addDomainToList, [domainData]),
+            returnValue: _i10.Future<_i5.AddDomainToListResponse>.value(
+              _FakeAddDomainToListResponse_13(
+                this,
+                Invocation.method(#addDomainToList, [domainData]),
+              ),
+            ),
+          )
+          as _i10.Future<_i5.AddDomainToListResponse>);
 
   @override
-  _i10.Future<_i5.DomainResponse> updateDomain(
-          {required _i15.DomainRequest? body}) =>
+  _i10.Future<_i5.DomainResponse> updateDomain({
+    required _i15.DomainRequest? body,
+  }) =>
       (super.noSuchMethod(
-        Invocation.method(
-          #updateDomain,
-          [],
-          {#body: body},
-        ),
-        returnValue:
-            _i10.Future<_i5.DomainResponse>.value(_FakeDomainResponse_14(
-          this,
-          Invocation.method(
-            #updateDomain,
-            [],
-            {#body: body},
-          ),
-        )),
-      ) as _i10.Future<_i5.DomainResponse>);
+            Invocation.method(#updateDomain, [], {#body: body}),
+            returnValue: _i10.Future<_i5.DomainResponse>.value(
+              _FakeDomainResponse_14(
+                this,
+                Invocation.method(#updateDomain, [], {#body: body}),
+              ),
+            ),
+          )
+          as _i10.Future<_i5.DomainResponse>);
 
   @override
-  _i10.Future<_i5.HostResponse> fetchHostInfo() => (super.noSuchMethod(
-        Invocation.method(
-          #fetchHostInfo,
-          [],
-        ),
-        returnValue: _i10.Future<_i5.HostResponse>.value(_FakeHostResponse_15(
-          this,
-          Invocation.method(
-            #fetchHostInfo,
-            [],
-          ),
-        )),
-      ) as _i10.Future<_i5.HostResponse>);
+  _i10.Future<_i5.HostResponse> fetchHostInfo() =>
+      (super.noSuchMethod(
+            Invocation.method(#fetchHostInfo, []),
+            returnValue: _i10.Future<_i5.HostResponse>.value(
+              _FakeHostResponse_15(this, Invocation.method(#fetchHostInfo, [])),
+            ),
+          )
+          as _i10.Future<_i5.HostResponse>);
 
   @override
-  _i10.Future<_i5.SensorsResponse> fetchSensorsInfo() => (super.noSuchMethod(
-        Invocation.method(
-          #fetchSensorsInfo,
-          [],
-        ),
-        returnValue:
-            _i10.Future<_i5.SensorsResponse>.value(_FakeSensorsResponse_16(
-          this,
-          Invocation.method(
-            #fetchSensorsInfo,
-            [],
-          ),
-        )),
-      ) as _i10.Future<_i5.SensorsResponse>);
+  _i10.Future<_i5.SensorsResponse> fetchSensorsInfo() =>
+      (super.noSuchMethod(
+            Invocation.method(#fetchSensorsInfo, []),
+            returnValue: _i10.Future<_i5.SensorsResponse>.value(
+              _FakeSensorsResponse_16(
+                this,
+                Invocation.method(#fetchSensorsInfo, []),
+              ),
+            ),
+          )
+          as _i10.Future<_i5.SensorsResponse>);
 
   @override
-  _i10.Future<_i5.SystemResponse> fetchSystemInfo() => (super.noSuchMethod(
-        Invocation.method(
-          #fetchSystemInfo,
-          [],
-        ),
-        returnValue:
-            _i10.Future<_i5.SystemResponse>.value(_FakeSystemResponse_17(
-          this,
-          Invocation.method(
-            #fetchSystemInfo,
-            [],
-          ),
-        )),
-      ) as _i10.Future<_i5.SystemResponse>);
+  _i10.Future<_i5.SystemResponse> fetchSystemInfo() =>
+      (super.noSuchMethod(
+            Invocation.method(#fetchSystemInfo, []),
+            returnValue: _i10.Future<_i5.SystemResponse>.value(
+              _FakeSystemResponse_17(
+                this,
+                Invocation.method(#fetchSystemInfo, []),
+              ),
+            ),
+          )
+          as _i10.Future<_i5.SystemResponse>);
 
   @override
-  _i10.Future<_i5.VersionResponse> fetchVersionInfo() => (super.noSuchMethod(
-        Invocation.method(
-          #fetchVersionInfo,
-          [],
-        ),
-        returnValue:
-            _i10.Future<_i5.VersionResponse>.value(_FakeVersionResponse_18(
-          this,
-          Invocation.method(
-            #fetchVersionInfo,
-            [],
-          ),
-        )),
-      ) as _i10.Future<_i5.VersionResponse>);
+  _i10.Future<_i5.VersionResponse> fetchVersionInfo() =>
+      (super.noSuchMethod(
+            Invocation.method(#fetchVersionInfo, []),
+            returnValue: _i10.Future<_i5.VersionResponse>.value(
+              _FakeVersionResponse_18(
+                this,
+                Invocation.method(#fetchVersionInfo, []),
+              ),
+            ),
+          )
+          as _i10.Future<_i5.VersionResponse>);
 
   @override
   _i10.Future<_i5.PiHoleServerInfoResponse> fetchAllServerInfo() =>
       (super.noSuchMethod(
-        Invocation.method(
-          #fetchAllServerInfo,
-          [],
-        ),
-        returnValue: _i10.Future<_i5.PiHoleServerInfoResponse>.value(
-            _FakePiHoleServerInfoResponse_19(
-          this,
-          Invocation.method(
-            #fetchAllServerInfo,
-            [],
-          ),
-        )),
-      ) as _i10.Future<_i5.PiHoleServerInfoResponse>);
+            Invocation.method(#fetchAllServerInfo, []),
+            returnValue: _i10.Future<_i5.PiHoleServerInfoResponse>.value(
+              _FakePiHoleServerInfoResponse_19(
+                this,
+                Invocation.method(#fetchAllServerInfo, []),
+              ),
+            ),
+          )
+          as _i10.Future<_i5.PiHoleServerInfoResponse>);
 
   @override
   _i10.Future<_i5.SubscriptionsResponse> getSubscriptions({
@@ -1150,27 +838,21 @@ class MockApiGatewayV6 extends _i1.Mock implements _i13.ApiGatewayV6 {
     String? stype,
   }) =>
       (super.noSuchMethod(
-        Invocation.method(
-          #getSubscriptions,
-          [],
-          {
-            #url: url,
-            #stype: stype,
-          },
-        ),
-        returnValue: _i10.Future<_i5.SubscriptionsResponse>.value(
-            _FakeSubscriptionsResponse_20(
-          this,
-          Invocation.method(
-            #getSubscriptions,
-            [],
-            {
+            Invocation.method(#getSubscriptions, [], {
               #url: url,
               #stype: stype,
-            },
-          ),
-        )),
-      ) as _i10.Future<_i5.SubscriptionsResponse>);
+            }),
+            returnValue: _i10.Future<_i5.SubscriptionsResponse>.value(
+              _FakeSubscriptionsResponse_20(
+                this,
+                Invocation.method(#getSubscriptions, [], {
+                  #url: url,
+                  #stype: stype,
+                }),
+              ),
+            ),
+          )
+          as _i10.Future<_i5.SubscriptionsResponse>);
 
   @override
   _i10.Future<_i5.RemoveSubscriptionResponse> removeSubscription({
@@ -1178,67 +860,51 @@ class MockApiGatewayV6 extends _i1.Mock implements _i13.ApiGatewayV6 {
     String? stype,
   }) =>
       (super.noSuchMethod(
-        Invocation.method(
-          #removeSubscription,
-          [],
-          {
-            #url: url,
-            #stype: stype,
-          },
-        ),
-        returnValue: _i10.Future<_i5.RemoveSubscriptionResponse>.value(
-            _FakeRemoveSubscriptionResponse_21(
-          this,
-          Invocation.method(
-            #removeSubscription,
-            [],
-            {
+            Invocation.method(#removeSubscription, [], {
               #url: url,
               #stype: stype,
-            },
-          ),
-        )),
-      ) as _i10.Future<_i5.RemoveSubscriptionResponse>);
+            }),
+            returnValue: _i10.Future<_i5.RemoveSubscriptionResponse>.value(
+              _FakeRemoveSubscriptionResponse_21(
+                this,
+                Invocation.method(#removeSubscription, [], {
+                  #url: url,
+                  #stype: stype,
+                }),
+              ),
+            ),
+          )
+          as _i10.Future<_i5.RemoveSubscriptionResponse>);
 
   @override
-  _i10.Future<_i5.SubscriptionsResponse> createSubscription(
-          {required _i16.SubscriptionRequest? body}) =>
+  _i10.Future<_i5.SubscriptionsResponse> createSubscription({
+    required _i16.SubscriptionRequest? body,
+  }) =>
       (super.noSuchMethod(
-        Invocation.method(
-          #createSubscription,
-          [],
-          {#body: body},
-        ),
-        returnValue: _i10.Future<_i5.SubscriptionsResponse>.value(
-            _FakeSubscriptionsResponse_20(
-          this,
-          Invocation.method(
-            #createSubscription,
-            [],
-            {#body: body},
-          ),
-        )),
-      ) as _i10.Future<_i5.SubscriptionsResponse>);
+            Invocation.method(#createSubscription, [], {#body: body}),
+            returnValue: _i10.Future<_i5.SubscriptionsResponse>.value(
+              _FakeSubscriptionsResponse_20(
+                this,
+                Invocation.method(#createSubscription, [], {#body: body}),
+              ),
+            ),
+          )
+          as _i10.Future<_i5.SubscriptionsResponse>);
 
   @override
-  _i10.Future<_i5.SubscriptionsResponse> updateSubscription(
-          {required _i16.SubscriptionRequest? body}) =>
+  _i10.Future<_i5.SubscriptionsResponse> updateSubscription({
+    required _i16.SubscriptionRequest? body,
+  }) =>
       (super.noSuchMethod(
-        Invocation.method(
-          #updateSubscription,
-          [],
-          {#body: body},
-        ),
-        returnValue: _i10.Future<_i5.SubscriptionsResponse>.value(
-            _FakeSubscriptionsResponse_20(
-          this,
-          Invocation.method(
-            #updateSubscription,
-            [],
-            {#body: body},
-          ),
-        )),
-      ) as _i10.Future<_i5.SubscriptionsResponse>);
+            Invocation.method(#updateSubscription, [], {#body: body}),
+            returnValue: _i10.Future<_i5.SubscriptionsResponse>.value(
+              _FakeSubscriptionsResponse_20(
+                this,
+                Invocation.method(#updateSubscription, [], {#body: body}),
+              ),
+            ),
+          )
+          as _i10.Future<_i5.SubscriptionsResponse>);
 
   @override
   _i10.Future<_i5.SearchResponse> searchSubscriptions({
@@ -1248,186 +914,138 @@ class MockApiGatewayV6 extends _i1.Mock implements _i13.ApiGatewayV6 {
     bool? debug,
   }) =>
       (super.noSuchMethod(
-        Invocation.method(
-          #searchSubscriptions,
-          [],
-          {
-            #domain: domain,
-            #partial: partial,
-            #limit: limit,
-            #debug: debug,
-          },
-        ),
-        returnValue:
-            _i10.Future<_i5.SearchResponse>.value(_FakeSearchResponse_22(
-          this,
-          Invocation.method(
-            #searchSubscriptions,
-            [],
-            {
+            Invocation.method(#searchSubscriptions, [], {
               #domain: domain,
               #partial: partial,
               #limit: limit,
               #debug: debug,
-            },
-          ),
-        )),
-      ) as _i10.Future<_i5.SearchResponse>);
+            }),
+            returnValue: _i10.Future<_i5.SearchResponse>.value(
+              _FakeSearchResponse_22(
+                this,
+                Invocation.method(#searchSubscriptions, [], {
+                  #domain: domain,
+                  #partial: partial,
+                  #limit: limit,
+                  #debug: debug,
+                }),
+              ),
+            ),
+          )
+          as _i10.Future<_i5.SearchResponse>);
 
   @override
   _i10.Future<_i5.GroupsResponse> getGroups({String? name}) =>
       (super.noSuchMethod(
-        Invocation.method(
-          #getGroups,
-          [],
-          {#name: name},
-        ),
-        returnValue:
-            _i10.Future<_i5.GroupsResponse>.value(_FakeGroupsResponse_23(
-          this,
-          Invocation.method(
-            #getGroups,
-            [],
-            {#name: name},
-          ),
-        )),
-      ) as _i10.Future<_i5.GroupsResponse>);
+            Invocation.method(#getGroups, [], {#name: name}),
+            returnValue: _i10.Future<_i5.GroupsResponse>.value(
+              _FakeGroupsResponse_23(
+                this,
+                Invocation.method(#getGroups, [], {#name: name}),
+              ),
+            ),
+          )
+          as _i10.Future<_i5.GroupsResponse>);
 
   @override
   _i10.Future<_i5.RemoveGroupResponse> removeGroup({required String? name}) =>
       (super.noSuchMethod(
-        Invocation.method(
-          #removeGroup,
-          [],
-          {#name: name},
-        ),
-        returnValue: _i10.Future<_i5.RemoveGroupResponse>.value(
-            _FakeRemoveGroupResponse_24(
-          this,
-          Invocation.method(
-            #removeGroup,
-            [],
-            {#name: name},
-          ),
-        )),
-      ) as _i10.Future<_i5.RemoveGroupResponse>);
+            Invocation.method(#removeGroup, [], {#name: name}),
+            returnValue: _i10.Future<_i5.RemoveGroupResponse>.value(
+              _FakeRemoveGroupResponse_24(
+                this,
+                Invocation.method(#removeGroup, [], {#name: name}),
+              ),
+            ),
+          )
+          as _i10.Future<_i5.RemoveGroupResponse>);
 
   @override
-  _i10.Future<_i5.GroupsResponse> createGroup(
-          {required _i17.GroupRequest? body}) =>
+  _i10.Future<_i5.GroupsResponse> createGroup({
+    required _i17.GroupRequest? body,
+  }) =>
       (super.noSuchMethod(
-        Invocation.method(
-          #createGroup,
-          [],
-          {#body: body},
-        ),
-        returnValue:
-            _i10.Future<_i5.GroupsResponse>.value(_FakeGroupsResponse_23(
-          this,
-          Invocation.method(
-            #createGroup,
-            [],
-            {#body: body},
-          ),
-        )),
-      ) as _i10.Future<_i5.GroupsResponse>);
+            Invocation.method(#createGroup, [], {#body: body}),
+            returnValue: _i10.Future<_i5.GroupsResponse>.value(
+              _FakeGroupsResponse_23(
+                this,
+                Invocation.method(#createGroup, [], {#body: body}),
+              ),
+            ),
+          )
+          as _i10.Future<_i5.GroupsResponse>);
 
   @override
-  _i10.Future<_i5.GroupsResponse> updateGroup(
-          {required _i17.GroupRequest? body}) =>
+  _i10.Future<_i5.GroupsResponse> updateGroup({
+    required _i17.GroupRequest? body,
+  }) =>
       (super.noSuchMethod(
-        Invocation.method(
-          #updateGroup,
-          [],
-          {#body: body},
-        ),
-        returnValue:
-            _i10.Future<_i5.GroupsResponse>.value(_FakeGroupsResponse_23(
-          this,
-          Invocation.method(
-            #updateGroup,
-            [],
-            {#body: body},
-          ),
-        )),
-      ) as _i10.Future<_i5.GroupsResponse>);
+            Invocation.method(#updateGroup, [], {#body: body}),
+            returnValue: _i10.Future<_i5.GroupsResponse>.value(
+              _FakeGroupsResponse_23(
+                this,
+                Invocation.method(#updateGroup, [], {#body: body}),
+              ),
+            ),
+          )
+          as _i10.Future<_i5.GroupsResponse>);
 
   @override
-  _i10.Stream<_i5.GravityResponse> updateGravity() => (super.noSuchMethod(
-        Invocation.method(
-          #updateGravity,
-          [],
-        ),
-        returnValue: _i10.Stream<_i5.GravityResponse>.empty(),
-      ) as _i10.Stream<_i5.GravityResponse>);
+  _i10.Stream<_i5.GravityResponse> updateGravity() =>
+      (super.noSuchMethod(
+            Invocation.method(#updateGravity, []),
+            returnValue: _i10.Stream<_i5.GravityResponse>.empty(),
+          )
+          as _i10.Stream<_i5.GravityResponse>);
 
   @override
-  _i10.Future<_i5.MessagesResponse> getMessages() => (super.noSuchMethod(
-        Invocation.method(
-          #getMessages,
-          [],
-        ),
-        returnValue:
-            _i10.Future<_i5.MessagesResponse>.value(_FakeMessagesResponse_25(
-          this,
-          Invocation.method(
-            #getMessages,
-            [],
-          ),
-        )),
-      ) as _i10.Future<_i5.MessagesResponse>);
+  _i10.Future<_i5.MessagesResponse> getMessages() =>
+      (super.noSuchMethod(
+            Invocation.method(#getMessages, []),
+            returnValue: _i10.Future<_i5.MessagesResponse>.value(
+              _FakeMessagesResponse_25(
+                this,
+                Invocation.method(#getMessages, []),
+              ),
+            ),
+          )
+          as _i10.Future<_i5.MessagesResponse>);
 
   @override
   _i10.Future<_i5.RemoveMessageResponse> removeMessage(int? id) =>
       (super.noSuchMethod(
-        Invocation.method(
-          #removeMessage,
-          [id],
-        ),
-        returnValue: _i10.Future<_i5.RemoveMessageResponse>.value(
-            _FakeRemoveMessageResponse_26(
-          this,
-          Invocation.method(
-            #removeMessage,
-            [id],
-          ),
-        )),
-      ) as _i10.Future<_i5.RemoveMessageResponse>);
+            Invocation.method(#removeMessage, [id]),
+            returnValue: _i10.Future<_i5.RemoveMessageResponse>.value(
+              _FakeRemoveMessageResponse_26(
+                this,
+                Invocation.method(#removeMessage, [id]),
+              ),
+            ),
+          )
+          as _i10.Future<_i5.RemoveMessageResponse>);
 
   @override
-  _i10.Future<_i5.MetricsResponse> getMetrics() => (super.noSuchMethod(
-        Invocation.method(
-          #getMetrics,
-          [],
-        ),
-        returnValue:
-            _i10.Future<_i5.MetricsResponse>.value(_FakeMetricsResponse_27(
-          this,
-          Invocation.method(
-            #getMetrics,
-            [],
-          ),
-        )),
-      ) as _i10.Future<_i5.MetricsResponse>);
+  _i10.Future<_i5.MetricsResponse> getMetrics() =>
+      (super.noSuchMethod(
+            Invocation.method(#getMetrics, []),
+            returnValue: _i10.Future<_i5.MetricsResponse>.value(
+              _FakeMetricsResponse_27(this, Invocation.method(#getMetrics, [])),
+            ),
+          )
+          as _i10.Future<_i5.MetricsResponse>);
 
   @override
   _i10.Future<_i5.GatewayResponse> getGateway({bool? isDetailed}) =>
       (super.noSuchMethod(
-        Invocation.method(
-          #getGateway,
-          [],
-          {#isDetailed: isDetailed},
-        ),
-        returnValue:
-            _i10.Future<_i5.GatewayResponse>.value(_FakeGatewayResponse_28(
-          this,
-          Invocation.method(
-            #getGateway,
-            [],
-            {#isDetailed: isDetailed},
-          ),
-        )),
-      ) as _i10.Future<_i5.GatewayResponse>);
+            Invocation.method(#getGateway, [], {#isDetailed: isDetailed}),
+            returnValue: _i10.Future<_i5.GatewayResponse>.value(
+              _FakeGatewayResponse_28(
+                this,
+                Invocation.method(#getGateway, [], {#isDetailed: isDetailed}),
+              ),
+            ),
+          )
+          as _i10.Future<_i5.GatewayResponse>);
 
   @override
   _i10.Future<_i5.DevicesResponse> getDevices({
@@ -1435,44 +1053,34 @@ class MockApiGatewayV6 extends _i1.Mock implements _i13.ApiGatewayV6 {
     int? maxAddresses,
   }) =>
       (super.noSuchMethod(
-        Invocation.method(
-          #getDevices,
-          [],
-          {
-            #maxDevices: maxDevices,
-            #maxAddresses: maxAddresses,
-          },
-        ),
-        returnValue:
-            _i10.Future<_i5.DevicesResponse>.value(_FakeDevicesResponse_29(
-          this,
-          Invocation.method(
-            #getDevices,
-            [],
-            {
+            Invocation.method(#getDevices, [], {
               #maxDevices: maxDevices,
               #maxAddresses: maxAddresses,
-            },
-          ),
-        )),
-      ) as _i10.Future<_i5.DevicesResponse>);
+            }),
+            returnValue: _i10.Future<_i5.DevicesResponse>.value(
+              _FakeDevicesResponse_29(
+                this,
+                Invocation.method(#getDevices, [], {
+                  #maxDevices: maxDevices,
+                  #maxAddresses: maxAddresses,
+                }),
+              ),
+            ),
+          )
+          as _i10.Future<_i5.DevicesResponse>);
 
   @override
   _i10.Future<_i5.DeleteDeviceResponse> deleteDevice(int? id) =>
       (super.noSuchMethod(
-        Invocation.method(
-          #deleteDevice,
-          [id],
-        ),
-        returnValue: _i10.Future<_i5.DeleteDeviceResponse>.value(
-            _FakeDeleteDeviceResponse_30(
-          this,
-          Invocation.method(
-            #deleteDevice,
-            [id],
-          ),
-        )),
-      ) as _i10.Future<_i5.DeleteDeviceResponse>);
+            Invocation.method(#deleteDevice, [id]),
+            returnValue: _i10.Future<_i5.DeleteDeviceResponse>.value(
+              _FakeDeleteDeviceResponse_30(
+                this,
+                Invocation.method(#deleteDevice, [id]),
+              ),
+            ),
+          )
+          as _i10.Future<_i5.DeleteDeviceResponse>);
 
   @override
   _i10.Future<_i5.ConfigurationResponse> getConfiguration({
@@ -1480,190 +1088,138 @@ class MockApiGatewayV6 extends _i1.Mock implements _i13.ApiGatewayV6 {
     bool? isDetailed,
   }) =>
       (super.noSuchMethod(
-        Invocation.method(
-          #getConfiguration,
-          [],
-          {
-            #element: element,
-            #isDetailed: isDetailed,
-          },
-        ),
-        returnValue: _i10.Future<_i5.ConfigurationResponse>.value(
-            _FakeConfigurationResponse_31(
-          this,
-          Invocation.method(
-            #getConfiguration,
-            [],
-            {
+            Invocation.method(#getConfiguration, [], {
               #element: element,
               #isDetailed: isDetailed,
-            },
-          ),
-        )),
-      ) as _i10.Future<_i5.ConfigurationResponse>);
+            }),
+            returnValue: _i10.Future<_i5.ConfigurationResponse>.value(
+              _FakeConfigurationResponse_31(
+                this,
+                Invocation.method(#getConfiguration, [], {
+                  #element: element,
+                  #isDetailed: isDetailed,
+                }),
+              ),
+            ),
+          )
+          as _i10.Future<_i5.ConfigurationResponse>);
 
   @override
   _i10.Future<_i5.ConfigurationResponse> patchConfiguration(
-          _i18.ConfigData? body) =>
+    _i18.ConfigData? body,
+  ) =>
       (super.noSuchMethod(
-        Invocation.method(
-          #patchConfiguration,
-          [body],
-        ),
-        returnValue: _i10.Future<_i5.ConfigurationResponse>.value(
-            _FakeConfigurationResponse_31(
-          this,
-          Invocation.method(
-            #patchConfiguration,
-            [body],
-          ),
-        )),
-      ) as _i10.Future<_i5.ConfigurationResponse>);
+            Invocation.method(#patchConfiguration, [body]),
+            returnValue: _i10.Future<_i5.ConfigurationResponse>.value(
+              _FakeConfigurationResponse_31(
+                this,
+                Invocation.method(#patchConfiguration, [body]),
+              ),
+            ),
+          )
+          as _i10.Future<_i5.ConfigurationResponse>);
 
   @override
   _i10.Future<_i5.ConfigurationResponse> patchDnsQueryLoggingConfig(
-          bool? status) =>
+    bool? status,
+  ) =>
       (super.noSuchMethod(
-        Invocation.method(
-          #patchDnsQueryLoggingConfig,
-          [status],
-        ),
-        returnValue: _i10.Future<_i5.ConfigurationResponse>.value(
-            _FakeConfigurationResponse_31(
-          this,
-          Invocation.method(
-            #patchDnsQueryLoggingConfig,
-            [status],
-          ),
-        )),
-      ) as _i10.Future<_i5.ConfigurationResponse>);
+            Invocation.method(#patchDnsQueryLoggingConfig, [status]),
+            returnValue: _i10.Future<_i5.ConfigurationResponse>.value(
+              _FakeConfigurationResponse_31(
+                this,
+                Invocation.method(#patchDnsQueryLoggingConfig, [status]),
+              ),
+            ),
+          )
+          as _i10.Future<_i5.ConfigurationResponse>);
 
   @override
-  _i10.Future<_i5.ActionResponse> flushArp() => (super.noSuchMethod(
-        Invocation.method(
-          #flushArp,
-          [],
-        ),
-        returnValue:
-            _i10.Future<_i5.ActionResponse>.value(_FakeActionResponse_32(
-          this,
-          Invocation.method(
-            #flushArp,
-            [],
-          ),
-        )),
-      ) as _i10.Future<_i5.ActionResponse>);
+  _i10.Future<_i5.ActionResponse> flushArp() =>
+      (super.noSuchMethod(
+            Invocation.method(#flushArp, []),
+            returnValue: _i10.Future<_i5.ActionResponse>.value(
+              _FakeActionResponse_32(this, Invocation.method(#flushArp, [])),
+            ),
+          )
+          as _i10.Future<_i5.ActionResponse>);
 
   @override
-  _i10.Future<_i5.ActionResponse> flushLogs() => (super.noSuchMethod(
-        Invocation.method(
-          #flushLogs,
-          [],
-        ),
-        returnValue:
-            _i10.Future<_i5.ActionResponse>.value(_FakeActionResponse_32(
-          this,
-          Invocation.method(
-            #flushLogs,
-            [],
-          ),
-        )),
-      ) as _i10.Future<_i5.ActionResponse>);
+  _i10.Future<_i5.ActionResponse> flushLogs() =>
+      (super.noSuchMethod(
+            Invocation.method(#flushLogs, []),
+            returnValue: _i10.Future<_i5.ActionResponse>.value(
+              _FakeActionResponse_32(this, Invocation.method(#flushLogs, [])),
+            ),
+          )
+          as _i10.Future<_i5.ActionResponse>);
 
   @override
-  _i10.Future<_i5.ActionResponse> restartDns() => (super.noSuchMethod(
-        Invocation.method(
-          #restartDns,
-          [],
-        ),
-        returnValue:
-            _i10.Future<_i5.ActionResponse>.value(_FakeActionResponse_32(
-          this,
-          Invocation.method(
-            #restartDns,
-            [],
-          ),
-        )),
-      ) as _i10.Future<_i5.ActionResponse>);
+  _i10.Future<_i5.ActionResponse> restartDns() =>
+      (super.noSuchMethod(
+            Invocation.method(#restartDns, []),
+            returnValue: _i10.Future<_i5.ActionResponse>.value(
+              _FakeActionResponse_32(this, Invocation.method(#restartDns, [])),
+            ),
+          )
+          as _i10.Future<_i5.ActionResponse>);
 
   @override
-  _i10.Future<_i5.SessionsResponse> getSessions() => (super.noSuchMethod(
-        Invocation.method(
-          #getSessions,
-          [],
-        ),
-        returnValue:
-            _i10.Future<_i5.SessionsResponse>.value(_FakeSessionsResponse_33(
-          this,
-          Invocation.method(
-            #getSessions,
-            [],
-          ),
-        )),
-      ) as _i10.Future<_i5.SessionsResponse>);
+  _i10.Future<_i5.SessionsResponse> getSessions() =>
+      (super.noSuchMethod(
+            Invocation.method(#getSessions, []),
+            returnValue: _i10.Future<_i5.SessionsResponse>.value(
+              _FakeSessionsResponse_33(
+                this,
+                Invocation.method(#getSessions, []),
+              ),
+            ),
+          )
+          as _i10.Future<_i5.SessionsResponse>);
 
   @override
   _i10.Future<_i5.DeleteSessionResponse> deleteSession(int? id) =>
       (super.noSuchMethod(
-        Invocation.method(
-          #deleteSession,
-          [id],
-        ),
-        returnValue: _i10.Future<_i5.DeleteSessionResponse>.value(
-            _FakeDeleteSessionResponse_34(
-          this,
-          Invocation.method(
-            #deleteSession,
-            [id],
-          ),
-        )),
-      ) as _i10.Future<_i5.DeleteSessionResponse>);
+            Invocation.method(#deleteSession, [id]),
+            returnValue: _i10.Future<_i5.DeleteSessionResponse>.value(
+              _FakeDeleteSessionResponse_34(
+                this,
+                Invocation.method(#deleteSession, [id]),
+              ),
+            ),
+          )
+          as _i10.Future<_i5.DeleteSessionResponse>);
 
   @override
-  _i10.Future<_i5.ClientResponse> getClient() => (super.noSuchMethod(
-        Invocation.method(
-          #getClient,
-          [],
-        ),
-        returnValue:
-            _i10.Future<_i5.ClientResponse>.value(_FakeClientResponse_35(
-          this,
-          Invocation.method(
-            #getClient,
-            [],
-          ),
-        )),
-      ) as _i10.Future<_i5.ClientResponse>);
+  _i10.Future<_i5.ClientResponse> getClient() =>
+      (super.noSuchMethod(
+            Invocation.method(#getClient, []),
+            returnValue: _i10.Future<_i5.ClientResponse>.value(
+              _FakeClientResponse_35(this, Invocation.method(#getClient, [])),
+            ),
+          )
+          as _i10.Future<_i5.ClientResponse>);
 
   @override
-  _i10.Future<_i5.DhcpResponse> getDhcps() => (super.noSuchMethod(
-        Invocation.method(
-          #getDhcps,
-          [],
-        ),
-        returnValue: _i10.Future<_i5.DhcpResponse>.value(_FakeDhcpResponse_36(
-          this,
-          Invocation.method(
-            #getDhcps,
-            [],
-          ),
-        )),
-      ) as _i10.Future<_i5.DhcpResponse>);
+  _i10.Future<_i5.DhcpResponse> getDhcps() =>
+      (super.noSuchMethod(
+            Invocation.method(#getDhcps, []),
+            returnValue: _i10.Future<_i5.DhcpResponse>.value(
+              _FakeDhcpResponse_36(this, Invocation.method(#getDhcps, [])),
+            ),
+          )
+          as _i10.Future<_i5.DhcpResponse>);
 
   @override
   _i10.Future<_i5.DeleteDhcpResponse> deleteDhcp(String? ip) =>
       (super.noSuchMethod(
-        Invocation.method(
-          #deleteDhcp,
-          [ip],
-        ),
-        returnValue: _i10.Future<_i5.DeleteDhcpResponse>.value(
-            _FakeDeleteDhcpResponse_37(
-          this,
-          Invocation.method(
-            #deleteDhcp,
-            [ip],
-          ),
-        )),
-      ) as _i10.Future<_i5.DeleteDhcpResponse>);
+            Invocation.method(#deleteDhcp, [ip]),
+            returnValue: _i10.Future<_i5.DeleteDhcpResponse>.value(
+              _FakeDeleteDhcpResponse_37(
+                this,
+                Invocation.method(#deleteDhcp, [ip]),
+              ),
+            ),
+          )
+          as _i10.Future<_i5.DeleteDhcpResponse>);
 }

@@ -6,11 +6,8 @@ part of 'client.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-_InfoClient _$InfoClientFromJson(Map<String, dynamic> json) => _InfoClient(
-      addr: json['addr'] as String,
-    );
+_InfoClient _$InfoClientFromJson(Map<String, dynamic> json) =>
+    _InfoClient(addr: json['addr'] as String);
 
 Map<String, dynamic> _$InfoClientToJson(_InfoClient instance) =>
-    <String, dynamic>{
-      'addr': instance.addr,
-    };
+    <String, dynamic>{'addr': instance.addr};

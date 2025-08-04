@@ -14,350 +14,267 @@ T _$identity<T>(T value) => value;
 
 /// @nodoc
 mixin _$InfoMessage {
-  int get id;
-  DateTime get timestamp;
-  String get message;
-  String get url;
 
-  /// Create a copy of InfoMessage
-  /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
-  @pragma('vm:prefer-inline')
-  $InfoMessageCopyWith<InfoMessage> get copyWith =>
-      _$InfoMessageCopyWithImpl<InfoMessage>(this as InfoMessage, _$identity);
+ int get id; DateTime get timestamp; String get message; String get url;
+/// Create a copy of InfoMessage
+/// with the given fields replaced by the non-null parameter values.
+@JsonKey(includeFromJson: false, includeToJson: false)
+@pragma('vm:prefer-inline')
+$InfoMessageCopyWith<InfoMessage> get copyWith => _$InfoMessageCopyWithImpl<InfoMessage>(this as InfoMessage, _$identity);
 
   /// Serializes this InfoMessage to a JSON map.
   Map<String, dynamic> toJson();
 
-  @override
-  bool operator ==(Object other) {
-    return identical(this, other) ||
-        (other.runtimeType == runtimeType &&
-            other is InfoMessage &&
-            (identical(other.id, id) || other.id == id) &&
-            (identical(other.timestamp, timestamp) ||
-                other.timestamp == timestamp) &&
-            (identical(other.message, message) || other.message == message) &&
-            (identical(other.url, url) || other.url == url));
-  }
 
-  @JsonKey(includeFromJson: false, includeToJson: false)
-  @override
-  int get hashCode => Object.hash(runtimeType, id, timestamp, message, url);
+@override
+bool operator ==(Object other) {
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is InfoMessage&&(identical(other.id, id) || other.id == id)&&(identical(other.timestamp, timestamp) || other.timestamp == timestamp)&&(identical(other.message, message) || other.message == message)&&(identical(other.url, url) || other.url == url));
+}
 
-  @override
-  String toString() {
-    return 'InfoMessage(id: $id, timestamp: $timestamp, message: $message, url: $url)';
-  }
+@JsonKey(includeFromJson: false, includeToJson: false)
+@override
+int get hashCode => Object.hash(runtimeType,id,timestamp,message,url);
+
+@override
+String toString() {
+  return 'InfoMessage(id: $id, timestamp: $timestamp, message: $message, url: $url)';
+}
+
+
 }
 
 /// @nodoc
-abstract mixin class $InfoMessageCopyWith<$Res> {
-  factory $InfoMessageCopyWith(
-          InfoMessage value, $Res Function(InfoMessage) _then) =
-      _$InfoMessageCopyWithImpl;
-  @useResult
-  $Res call({int id, DateTime timestamp, String message, String url});
-}
+abstract mixin class $InfoMessageCopyWith<$Res>  {
+  factory $InfoMessageCopyWith(InfoMessage value, $Res Function(InfoMessage) _then) = _$InfoMessageCopyWithImpl;
+@useResult
+$Res call({
+ int id, DateTime timestamp, String message, String url
+});
 
+
+
+
+}
 /// @nodoc
-class _$InfoMessageCopyWithImpl<$Res> implements $InfoMessageCopyWith<$Res> {
+class _$InfoMessageCopyWithImpl<$Res>
+    implements $InfoMessageCopyWith<$Res> {
   _$InfoMessageCopyWithImpl(this._self, this._then);
 
   final InfoMessage _self;
   final $Res Function(InfoMessage) _then;
 
-  /// Create a copy of InfoMessage
-  /// with the given fields replaced by the non-null parameter values.
-  @pragma('vm:prefer-inline')
-  @override
-  $Res call({
-    Object? id = null,
-    Object? timestamp = null,
-    Object? message = null,
-    Object? url = null,
-  }) {
-    return _then(_self.copyWith(
-      id: null == id
-          ? _self.id
-          : id // ignore: cast_nullable_to_non_nullable
-              as int,
-      timestamp: null == timestamp
-          ? _self.timestamp
-          : timestamp // ignore: cast_nullable_to_non_nullable
-              as DateTime,
-      message: null == message
-          ? _self.message
-          : message // ignore: cast_nullable_to_non_nullable
-              as String,
-      url: null == url
-          ? _self.url
-          : url // ignore: cast_nullable_to_non_nullable
-              as String,
-    ));
-  }
+/// Create a copy of InfoMessage
+/// with the given fields replaced by the non-null parameter values.
+@pragma('vm:prefer-inline') @override $Res call({Object? id = null,Object? timestamp = null,Object? message = null,Object? url = null,}) {
+  return _then(_self.copyWith(
+id: null == id ? _self.id : id // ignore: cast_nullable_to_non_nullable
+as int,timestamp: null == timestamp ? _self.timestamp : timestamp // ignore: cast_nullable_to_non_nullable
+as DateTime,message: null == message ? _self.message : message // ignore: cast_nullable_to_non_nullable
+as String,url: null == url ? _self.url : url // ignore: cast_nullable_to_non_nullable
+as String,
+  ));
 }
+
+}
+
 
 /// Adds pattern-matching-related methods to [InfoMessage].
 extension InfoMessagePatterns on InfoMessage {
-  /// A variant of `map` that fallback to returning `orElse`.
-  ///
-  /// It is equivalent to doing:
-  /// ```dart
-  /// switch (sealedClass) {
-  ///   case final Subclass value:
-  ///     return ...;
-  ///   case _:
-  ///     return orElse();
-  /// }
-  /// ```
+/// A variant of `map` that fallback to returning `orElse`.
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case final Subclass value:
+///     return ...;
+///   case _:
+///     return orElse();
+/// }
+/// ```
 
-  @optionalTypeArgs
-  TResult maybeMap<TResult extends Object?>(
-    TResult Function(_InfoMessage value)? $default, {
-    required TResult orElse(),
-  }) {
-    final _that = this;
-    switch (_that) {
-      case _InfoMessage() when $default != null:
-        return $default(_that);
-      case _:
-        return orElse();
-    }
-  }
+@optionalTypeArgs TResult maybeMap<TResult extends Object?>(TResult Function( _InfoMessage value)?  $default,{required TResult orElse(),}){
+final _that = this;
+switch (_that) {
+case _InfoMessage() when $default != null:
+return $default(_that);case _:
+  return orElse();
 
-  /// A `switch`-like method, using callbacks.
-  ///
-  /// Callbacks receives the raw object, upcasted.
-  /// It is equivalent to doing:
-  /// ```dart
-  /// switch (sealedClass) {
-  ///   case final Subclass value:
-  ///     return ...;
-  ///   case final Subclass2 value:
-  ///     return ...;
-  /// }
-  /// ```
+}
+}
+/// A `switch`-like method, using callbacks.
+///
+/// Callbacks receives the raw object, upcasted.
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case final Subclass value:
+///     return ...;
+///   case final Subclass2 value:
+///     return ...;
+/// }
+/// ```
 
-  @optionalTypeArgs
-  TResult map<TResult extends Object?>(
-    TResult Function(_InfoMessage value) $default,
-  ) {
-    final _that = this;
-    switch (_that) {
-      case _InfoMessage():
-        return $default(_that);
-    }
-  }
+@optionalTypeArgs TResult map<TResult extends Object?>(TResult Function( _InfoMessage value)  $default,){
+final _that = this;
+switch (_that) {
+case _InfoMessage():
+return $default(_that);}
+}
+/// A variant of `map` that fallback to returning `null`.
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case final Subclass value:
+///     return ...;
+///   case _:
+///     return null;
+/// }
+/// ```
 
-  /// A variant of `map` that fallback to returning `null`.
-  ///
-  /// It is equivalent to doing:
-  /// ```dart
-  /// switch (sealedClass) {
-  ///   case final Subclass value:
-  ///     return ...;
-  ///   case _:
-  ///     return null;
-  /// }
-  /// ```
+@optionalTypeArgs TResult? mapOrNull<TResult extends Object?>(TResult? Function( _InfoMessage value)?  $default,){
+final _that = this;
+switch (_that) {
+case _InfoMessage() when $default != null:
+return $default(_that);case _:
+  return null;
 
-  @optionalTypeArgs
-  TResult? mapOrNull<TResult extends Object?>(
-    TResult? Function(_InfoMessage value)? $default,
-  ) {
-    final _that = this;
-    switch (_that) {
-      case _InfoMessage() when $default != null:
-        return $default(_that);
-      case _:
-        return null;
-    }
-  }
+}
+}
+/// A variant of `when` that fallback to an `orElse` callback.
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case Subclass(:final field):
+///     return ...;
+///   case _:
+///     return orElse();
+/// }
+/// ```
 
-  /// A variant of `when` that fallback to an `orElse` callback.
-  ///
-  /// It is equivalent to doing:
-  /// ```dart
-  /// switch (sealedClass) {
-  ///   case Subclass(:final field):
-  ///     return ...;
-  ///   case _:
-  ///     return orElse();
-  /// }
-  /// ```
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( int id,  DateTime timestamp,  String message,  String url)?  $default,{required TResult orElse(),}) {final _that = this;
+switch (_that) {
+case _InfoMessage() when $default != null:
+return $default(_that.id,_that.timestamp,_that.message,_that.url);case _:
+  return orElse();
 
-  @optionalTypeArgs
-  TResult maybeWhen<TResult extends Object?>(
-    TResult Function(int id, DateTime timestamp, String message, String url)?
-        $default, {
-    required TResult orElse(),
-  }) {
-    final _that = this;
-    switch (_that) {
-      case _InfoMessage() when $default != null:
-        return $default(_that.id, _that.timestamp, _that.message, _that.url);
-      case _:
-        return orElse();
-    }
-  }
+}
+}
+/// A `switch`-like method, using callbacks.
+///
+/// As opposed to `map`, this offers destructuring.
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case Subclass(:final field):
+///     return ...;
+///   case Subclass2(:final field2):
+///     return ...;
+/// }
+/// ```
 
-  /// A `switch`-like method, using callbacks.
-  ///
-  /// As opposed to `map`, this offers destructuring.
-  /// It is equivalent to doing:
-  /// ```dart
-  /// switch (sealedClass) {
-  ///   case Subclass(:final field):
-  ///     return ...;
-  ///   case Subclass2(:final field2):
-  ///     return ...;
-  /// }
-  /// ```
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( int id,  DateTime timestamp,  String message,  String url)  $default,) {final _that = this;
+switch (_that) {
+case _InfoMessage():
+return $default(_that.id,_that.timestamp,_that.message,_that.url);}
+}
+/// A variant of `when` that fallback to returning `null`
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case Subclass(:final field):
+///     return ...;
+///   case _:
+///     return null;
+/// }
+/// ```
 
-  @optionalTypeArgs
-  TResult when<TResult extends Object?>(
-    TResult Function(int id, DateTime timestamp, String message, String url)
-        $default,
-  ) {
-    final _that = this;
-    switch (_that) {
-      case _InfoMessage():
-        return $default(_that.id, _that.timestamp, _that.message, _that.url);
-    }
-  }
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( int id,  DateTime timestamp,  String message,  String url)?  $default,) {final _that = this;
+switch (_that) {
+case _InfoMessage() when $default != null:
+return $default(_that.id,_that.timestamp,_that.message,_that.url);case _:
+  return null;
 
-  /// A variant of `when` that fallback to returning `null`
-  ///
-  /// It is equivalent to doing:
-  /// ```dart
-  /// switch (sealedClass) {
-  ///   case Subclass(:final field):
-  ///     return ...;
-  ///   case _:
-  ///     return null;
-  /// }
-  /// ```
+}
+}
 
-  @optionalTypeArgs
-  TResult? whenOrNull<TResult extends Object?>(
-    TResult? Function(int id, DateTime timestamp, String message, String url)?
-        $default,
-  ) {
-    final _that = this;
-    switch (_that) {
-      case _InfoMessage() when $default != null:
-        return $default(_that.id, _that.timestamp, _that.message, _that.url);
-      case _:
-        return null;
-    }
-  }
 }
 
 /// @nodoc
 @JsonSerializable()
+
 class _InfoMessage implements InfoMessage {
-  const _InfoMessage(
-      {required this.id,
-      required this.timestamp,
-      required this.message,
-      required this.url});
-  factory _InfoMessage.fromJson(Map<String, dynamic> json) =>
-      _$InfoMessageFromJson(json);
+  const _InfoMessage({required this.id, required this.timestamp, required this.message, required this.url});
+  factory _InfoMessage.fromJson(Map<String, dynamic> json) => _$InfoMessageFromJson(json);
 
-  @override
-  final int id;
-  @override
-  final DateTime timestamp;
-  @override
-  final String message;
-  @override
-  final String url;
+@override final  int id;
+@override final  DateTime timestamp;
+@override final  String message;
+@override final  String url;
 
-  /// Create a copy of InfoMessage
-  /// with the given fields replaced by the non-null parameter values.
-  @override
-  @JsonKey(includeFromJson: false, includeToJson: false)
-  @pragma('vm:prefer-inline')
-  _$InfoMessageCopyWith<_InfoMessage> get copyWith =>
-      __$InfoMessageCopyWithImpl<_InfoMessage>(this, _$identity);
+/// Create a copy of InfoMessage
+/// with the given fields replaced by the non-null parameter values.
+@override @JsonKey(includeFromJson: false, includeToJson: false)
+@pragma('vm:prefer-inline')
+_$InfoMessageCopyWith<_InfoMessage> get copyWith => __$InfoMessageCopyWithImpl<_InfoMessage>(this, _$identity);
 
-  @override
-  Map<String, dynamic> toJson() {
-    return _$InfoMessageToJson(
-      this,
-    );
-  }
+@override
+Map<String, dynamic> toJson() {
+  return _$InfoMessageToJson(this, );
+}
 
-  @override
-  bool operator ==(Object other) {
-    return identical(this, other) ||
-        (other.runtimeType == runtimeType &&
-            other is _InfoMessage &&
-            (identical(other.id, id) || other.id == id) &&
-            (identical(other.timestamp, timestamp) ||
-                other.timestamp == timestamp) &&
-            (identical(other.message, message) || other.message == message) &&
-            (identical(other.url, url) || other.url == url));
-  }
+@override
+bool operator ==(Object other) {
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _InfoMessage&&(identical(other.id, id) || other.id == id)&&(identical(other.timestamp, timestamp) || other.timestamp == timestamp)&&(identical(other.message, message) || other.message == message)&&(identical(other.url, url) || other.url == url));
+}
 
-  @JsonKey(includeFromJson: false, includeToJson: false)
-  @override
-  int get hashCode => Object.hash(runtimeType, id, timestamp, message, url);
+@JsonKey(includeFromJson: false, includeToJson: false)
+@override
+int get hashCode => Object.hash(runtimeType,id,timestamp,message,url);
 
-  @override
-  String toString() {
-    return 'InfoMessage(id: $id, timestamp: $timestamp, message: $message, url: $url)';
-  }
+@override
+String toString() {
+  return 'InfoMessage(id: $id, timestamp: $timestamp, message: $message, url: $url)';
+}
+
+
 }
 
 /// @nodoc
-abstract mixin class _$InfoMessageCopyWith<$Res>
-    implements $InfoMessageCopyWith<$Res> {
-  factory _$InfoMessageCopyWith(
-          _InfoMessage value, $Res Function(_InfoMessage) _then) =
-      __$InfoMessageCopyWithImpl;
-  @override
-  @useResult
-  $Res call({int id, DateTime timestamp, String message, String url});
-}
+abstract mixin class _$InfoMessageCopyWith<$Res> implements $InfoMessageCopyWith<$Res> {
+  factory _$InfoMessageCopyWith(_InfoMessage value, $Res Function(_InfoMessage) _then) = __$InfoMessageCopyWithImpl;
+@override @useResult
+$Res call({
+ int id, DateTime timestamp, String message, String url
+});
 
+
+
+
+}
 /// @nodoc
-class __$InfoMessageCopyWithImpl<$Res> implements _$InfoMessageCopyWith<$Res> {
+class __$InfoMessageCopyWithImpl<$Res>
+    implements _$InfoMessageCopyWith<$Res> {
   __$InfoMessageCopyWithImpl(this._self, this._then);
 
   final _InfoMessage _self;
   final $Res Function(_InfoMessage) _then;
 
-  /// Create a copy of InfoMessage
-  /// with the given fields replaced by the non-null parameter values.
-  @override
-  @pragma('vm:prefer-inline')
-  $Res call({
-    Object? id = null,
-    Object? timestamp = null,
-    Object? message = null,
-    Object? url = null,
-  }) {
-    return _then(_InfoMessage(
-      id: null == id
-          ? _self.id
-          : id // ignore: cast_nullable_to_non_nullable
-              as int,
-      timestamp: null == timestamp
-          ? _self.timestamp
-          : timestamp // ignore: cast_nullable_to_non_nullable
-              as DateTime,
-      message: null == message
-          ? _self.message
-          : message // ignore: cast_nullable_to_non_nullable
-              as String,
-      url: null == url
-          ? _self.url
-          : url // ignore: cast_nullable_to_non_nullable
-              as String,
-    ));
-  }
+/// Create a copy of InfoMessage
+/// with the given fields replaced by the non-null parameter values.
+@override @pragma('vm:prefer-inline') $Res call({Object? id = null,Object? timestamp = null,Object? message = null,Object? url = null,}) {
+  return _then(_InfoMessage(
+id: null == id ? _self.id : id // ignore: cast_nullable_to_non_nullable
+as int,timestamp: null == timestamp ? _self.timestamp : timestamp // ignore: cast_nullable_to_non_nullable
+as DateTime,message: null == message ? _self.message : message // ignore: cast_nullable_to_non_nullable
+as String,url: null == url ? _self.url : url // ignore: cast_nullable_to_non_nullable
+as String,
+  ));
+}
+
+
 }
 
 // dart format on

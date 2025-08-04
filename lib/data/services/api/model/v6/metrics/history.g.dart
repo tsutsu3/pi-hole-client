@@ -7,24 +7,24 @@ part of 'history.dart';
 // **************************************************************************
 
 _History _$HistoryFromJson(Map<String, dynamic> json) => _History(
-      history: (json['history'] as List<dynamic>)
-          .map((e) => HistoryData.fromJson(e as Map<String, dynamic>))
-          .toList(),
-      took: (json['took'] as num).toDouble(),
-    );
+  history: (json['history'] as List<dynamic>)
+      .map((e) => HistoryData.fromJson(e as Map<String, dynamic>))
+      .toList(),
+  took: (json['took'] as num).toDouble(),
+);
 
 Map<String, dynamic> _$HistoryToJson(_History instance) => <String, dynamic>{
-      'history': instance.history.map((e) => e.toJson()).toList(),
-      'took': instance.took,
-    };
+  'history': instance.history.map((e) => e.toJson()).toList(),
+  'took': instance.took,
+};
 
 _HistoryData _$HistoryDataFromJson(Map<String, dynamic> json) => _HistoryData(
-      timestamp: (json['timestamp'] as num).toDouble(),
-      total: (json['total'] as num).toInt(),
-      cached: (json['cached'] as num).toInt(),
-      blocked: (json['blocked'] as num).toInt(),
-      forwarded: (json['forwarded'] as num).toInt(),
-    );
+  timestamp: (json['timestamp'] as num).toDouble(),
+  total: (json['total'] as num).toInt(),
+  cached: (json['cached'] as num).toInt(),
+  blocked: (json['blocked'] as num).toInt(),
+  forwarded: (json['forwarded'] as num).toInt(),
+);
 
 Map<String, dynamic> _$HistoryDataToJson(_HistoryData instance) =>
     <String, dynamic>{
@@ -54,14 +54,14 @@ Map<String, dynamic> _$HistoryClientsToJson(_HistoryClients instance) =>
     };
 
 _Client _$ClientFromJson(Map<String, dynamic> json) => _Client(
-      name: json['name'] as String?,
-      total: (json['total'] as num).toInt(),
-    );
+  name: json['name'] as String?,
+  total: (json['total'] as num).toInt(),
+);
 
 Map<String, dynamic> _$ClientToJson(_Client instance) => <String, dynamic>{
-      'name': instance.name,
-      'total': instance.total,
-    };
+  'name': instance.name,
+  'total': instance.total,
+};
 
 _HistoryEntry _$HistoryEntryFromJson(Map<String, dynamic> json) =>
     _HistoryEntry(
@@ -70,7 +70,4 @@ _HistoryEntry _$HistoryEntryFromJson(Map<String, dynamic> json) =>
     );
 
 Map<String, dynamic> _$HistoryEntryToJson(_HistoryEntry instance) =>
-    <String, dynamic>{
-      'timestamp': instance.timestamp,
-      'data': instance.data,
-    };
+    <String, dynamic>{'timestamp': instance.timestamp, 'data': instance.data};

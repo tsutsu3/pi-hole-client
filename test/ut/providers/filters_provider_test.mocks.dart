@@ -32,13 +32,8 @@ import 'package:pi_hole_client/ui/core/viewmodel/servers_provider.dart' as _i3;
 // ignore_for_file: subtype_of_sealed_class
 
 class _FakeAppColors_0 extends _i1.SmartFake implements _i2.AppColors {
-  _FakeAppColors_0(
-    Object parent,
-    Invocation parentInvocation,
-  ) : super(
-          parent,
-          parentInvocation,
-        );
+  _FakeAppColors_0(Object parent, Invocation parentInvocation)
+    : super(parent, parentInvocation);
 }
 
 /// A class which mocks [ServersProvider].
@@ -50,227 +45,179 @@ class MockServersProvider extends _i1.Mock implements _i3.ServersProvider {
   }
 
   @override
-  _i2.AppColors get colors => (super.noSuchMethod(
-        Invocation.getter(#colors),
-        returnValue: _FakeAppColors_0(
-          this,
-          Invocation.getter(#colors),
-        ),
-      ) as _i2.AppColors);
+  _i2.AppColors get colors =>
+      (super.noSuchMethod(
+            Invocation.getter(#colors),
+            returnValue: _FakeAppColors_0(this, Invocation.getter(#colors)),
+          )
+          as _i2.AppColors);
 
   @override
-  List<_i4.Server> get getServersList => (super.noSuchMethod(
-        Invocation.getter(#getServersList),
-        returnValue: <_i4.Server>[],
-      ) as List<_i4.Server>);
+  List<_i4.Server> get getServersList =>
+      (super.noSuchMethod(
+            Invocation.getter(#getServersList),
+            returnValue: <_i4.Server>[],
+          )
+          as List<_i4.Server>);
 
   @override
-  int get numShown => (super.noSuchMethod(
-        Invocation.getter(#numShown),
-        returnValue: 0,
-      ) as int);
+  int get numShown =>
+      (super.noSuchMethod(Invocation.getter(#numShown), returnValue: 0) as int);
 
   @override
-  List<_i5.QueryStatus> get queryStatuses => (super.noSuchMethod(
-        Invocation.getter(#queryStatuses),
-        returnValue: <_i5.QueryStatus>[],
-      ) as List<_i5.QueryStatus>);
+  List<_i5.QueryStatus> get queryStatuses =>
+      (super.noSuchMethod(
+            Invocation.getter(#queryStatuses),
+            returnValue: <_i5.QueryStatus>[],
+          )
+          as List<_i5.QueryStatus>);
 
   @override
-  bool get hasListeners => (super.noSuchMethod(
-        Invocation.getter(#hasListeners),
-        returnValue: false,
-      ) as bool);
+  bool get hasListeners =>
+      (super.noSuchMethod(Invocation.getter(#hasListeners), returnValue: false)
+          as bool);
 
   @override
   void update(_i6.AppConfigProvider? provider) => super.noSuchMethod(
-        Invocation.method(
-          #update,
-          [provider],
-        ),
-        returnValueForMissingStub: null,
-      );
+    Invocation.method(#update, [provider]),
+    returnValueForMissingStub: null,
+  );
 
   @override
   void setConnectingServer(_i4.Server? server) => super.noSuchMethod(
-        Invocation.method(
-          #setConnectingServer,
-          [server],
-        ),
-        returnValueForMissingStub: null,
-      );
+    Invocation.method(#setConnectingServer, [server]),
+    returnValueForMissingStub: null,
+  );
 
   @override
   void clearConnectingServer() => super.noSuchMethod(
-        Invocation.method(
-          #clearConnectingServer,
-          [],
-        ),
-        returnValueForMissingStub: null,
-      );
+    Invocation.method(#clearConnectingServer, []),
+    returnValueForMissingStub: null,
+  );
 
   @override
   _i7.ApiGateway? loadApiGateway(_i4.Server? server) =>
-      (super.noSuchMethod(Invocation.method(
-        #loadApiGateway,
-        [server],
-      )) as _i7.ApiGateway?);
+      (super.noSuchMethod(Invocation.method(#loadApiGateway, [server]))
+          as _i7.ApiGateway?);
 
   @override
   _i7.ApiGateway? createApiGateway(_i4.Server? server) =>
-      (super.noSuchMethod(Invocation.method(
-        #createApiGateway,
-        [server],
-      )) as _i7.ApiGateway?);
+      (super.noSuchMethod(Invocation.method(#createApiGateway, [server]))
+          as _i7.ApiGateway?);
 
   @override
   _i5.QueryStatus? getQueryStatus(String? key) =>
-      (super.noSuchMethod(Invocation.method(
-        #getQueryStatus,
-        [key],
-      )) as _i5.QueryStatus?);
+      (super.noSuchMethod(Invocation.method(#getQueryStatus, [key]))
+          as _i5.QueryStatus?);
 
   @override
   _i5.QueryStatus? findQueryStatus(String? key) =>
-      (super.noSuchMethod(Invocation.method(
-        #findQueryStatus,
-        [key],
-      )) as _i5.QueryStatus?);
+      (super.noSuchMethod(Invocation.method(#findQueryStatus, [key]))
+          as _i5.QueryStatus?);
 
   @override
-  _i8.Future<bool> addServer(_i4.Server? server) => (super.noSuchMethod(
-        Invocation.method(
-          #addServer,
-          [server],
-        ),
-        returnValue: _i8.Future<bool>.value(false),
-      ) as _i8.Future<bool>);
+  _i8.Future<bool> addServer(_i4.Server? server) =>
+      (super.noSuchMethod(
+            Invocation.method(#addServer, [server]),
+            returnValue: _i8.Future<bool>.value(false),
+          )
+          as _i8.Future<bool>);
 
   @override
-  _i8.Future<bool> editServer(_i4.Server? server) => (super.noSuchMethod(
-        Invocation.method(
-          #editServer,
-          [server],
-        ),
-        returnValue: _i8.Future<bool>.value(false),
-      ) as _i8.Future<bool>);
+  _i8.Future<bool> editServer(_i4.Server? server) =>
+      (super.noSuchMethod(
+            Invocation.method(#editServer, [server]),
+            returnValue: _i8.Future<bool>.value(false),
+          )
+          as _i8.Future<bool>);
 
   @override
-  _i8.Future<bool> removeServer(String? serverAddress) => (super.noSuchMethod(
-        Invocation.method(
-          #removeServer,
-          [serverAddress],
-        ),
-        returnValue: _i8.Future<bool>.value(false),
-      ) as _i8.Future<bool>);
+  _i8.Future<bool> removeServer(String? serverAddress) =>
+      (super.noSuchMethod(
+            Invocation.method(#removeServer, [serverAddress]),
+            returnValue: _i8.Future<bool>.value(false),
+          )
+          as _i8.Future<bool>);
 
   @override
-  _i8.Future<bool> setDefaultServer(_i4.Server? server) => (super.noSuchMethod(
-        Invocation.method(
-          #setDefaultServer,
-          [server],
-        ),
-        returnValue: _i8.Future<bool>.value(false),
-      ) as _i8.Future<bool>);
+  _i8.Future<bool> setDefaultServer(_i4.Server? server) =>
+      (super.noSuchMethod(
+            Invocation.method(#setDefaultServer, [server]),
+            returnValue: _i8.Future<bool>.value(false),
+          )
+          as _i8.Future<bool>);
 
   @override
   _i8.Future<dynamic> saveFromDb(List<_i9.ServerDbData>? servers) =>
       (super.noSuchMethod(
-        Invocation.method(
-          #saveFromDb,
-          [servers],
-        ),
-        returnValue: _i8.Future<dynamic>.value(),
-      ) as _i8.Future<dynamic>);
+            Invocation.method(#saveFromDb, [servers]),
+            returnValue: _i8.Future<dynamic>.value(),
+          )
+          as _i8.Future<dynamic>);
 
   @override
   _i8.FutureOr<Map<String, dynamic>> checkUrlExists(String? url) =>
       (super.noSuchMethod(
-        Invocation.method(
-          #checkUrlExists,
-          [url],
-        ),
-        returnValue:
-            _i8.Future<Map<String, dynamic>>.value(<String, dynamic>{}),
-      ) as _i8.FutureOr<Map<String, dynamic>>);
+            Invocation.method(#checkUrlExists, [url]),
+            returnValue: _i8.Future<Map<String, dynamic>>.value(
+              <String, dynamic>{},
+            ),
+          )
+          as _i8.FutureOr<Map<String, dynamic>>);
 
   @override
-  void setselectedServer({
-    required _i4.Server? server,
-    bool? toHomeTab,
-  }) =>
+  void setselectedServer({required _i4.Server? server, bool? toHomeTab}) =>
       super.noSuchMethod(
-        Invocation.method(
-          #setselectedServer,
-          [],
-          {
-            #server: server,
-            #toHomeTab: toHomeTab,
-          },
-        ),
+        Invocation.method(#setselectedServer, [], {
+          #server: server,
+          #toHomeTab: toHomeTab,
+        }),
         returnValueForMissingStub: null,
       );
 
   @override
   void updateselectedServerStatus(bool? enabled) => super.noSuchMethod(
-        Invocation.method(
-          #updateselectedServerStatus,
-          [enabled],
-        ),
-        returnValueForMissingStub: null,
-      );
+    Invocation.method(#updateselectedServerStatus, [enabled]),
+    returnValueForMissingStub: null,
+  );
 
   @override
-  _i8.Future<bool> deleteDbData() => (super.noSuchMethod(
-        Invocation.method(
-          #deleteDbData,
-          [],
-        ),
-        returnValue: _i8.Future<bool>.value(false),
-      ) as _i8.Future<bool>);
+  _i8.Future<bool> deleteDbData() =>
+      (super.noSuchMethod(
+            Invocation.method(#deleteDbData, []),
+            returnValue: _i8.Future<bool>.value(false),
+          )
+          as _i8.Future<bool>);
 
   @override
-  _i8.Future<bool> resetSelectedServer() => (super.noSuchMethod(
-        Invocation.method(
-          #resetSelectedServer,
-          [],
-        ),
-        returnValue: _i8.Future<bool>.value(false),
-      ) as _i8.Future<bool>);
+  _i8.Future<bool> resetSelectedServer() =>
+      (super.noSuchMethod(
+            Invocation.method(#resetSelectedServer, []),
+            returnValue: _i8.Future<bool>.value(false),
+          )
+          as _i8.Future<bool>);
 
   @override
   void addListener(_i10.VoidCallback? listener) => super.noSuchMethod(
-        Invocation.method(
-          #addListener,
-          [listener],
-        ),
-        returnValueForMissingStub: null,
-      );
+    Invocation.method(#addListener, [listener]),
+    returnValueForMissingStub: null,
+  );
 
   @override
   void removeListener(_i10.VoidCallback? listener) => super.noSuchMethod(
-        Invocation.method(
-          #removeListener,
-          [listener],
-        ),
-        returnValueForMissingStub: null,
-      );
+    Invocation.method(#removeListener, [listener]),
+    returnValueForMissingStub: null,
+  );
 
   @override
   void dispose() => super.noSuchMethod(
-        Invocation.method(
-          #dispose,
-          [],
-        ),
-        returnValueForMissingStub: null,
-      );
+    Invocation.method(#dispose, []),
+    returnValueForMissingStub: null,
+  );
 
   @override
   void notifyListeners() => super.noSuchMethod(
-        Invocation.method(
-          #notifyListeners,
-          [],
-        ),
-        returnValueForMissingStub: null,
-      );
+    Invocation.method(#notifyListeners, []),
+    returnValueForMissingStub: null,
+  );
 }

@@ -7,17 +7,14 @@ part of 'interfaces.dart';
 // **************************************************************************
 
 _Interfaces _$InterfacesFromJson(Map<String, dynamic> json) => _Interfaces(
-      interfaces: (json['interfaces'] as List<dynamic>)
-          .map((e) => InterfaceData.fromJson(e as Map<String, dynamic>))
-          .toList(),
-      took: (json['took'] as num).toDouble(),
-    );
+  interfaces: (json['interfaces'] as List<dynamic>)
+      .map((e) => InterfaceData.fromJson(e as Map<String, dynamic>))
+      .toList(),
+  took: (json['took'] as num).toDouble(),
+);
 
 Map<String, dynamic> _$InterfacesToJson(_Interfaces instance) =>
-    <String, dynamic>{
-      'interfaces': instance.interfaces,
-      'took': instance.took,
-    };
+    <String, dynamic>{'interfaces': instance.interfaces, 'took': instance.took};
 
 _InterfaceData _$InterfaceDataFromJson(Map<String, dynamic> json) =>
     _InterfaceData(
@@ -160,15 +157,12 @@ Map<String, dynamic> _$InterfaceStatsToJson(_InterfaceStats instance) =>
     };
 
 _ByteValue _$ByteValueFromJson(Map<String, dynamic> json) => _ByteValue(
-      value: (json['value'] as num).toDouble(),
-      unit: json['unit'] as String,
-    );
+  value: (json['value'] as num).toDouble(),
+  unit: json['unit'] as String,
+);
 
 Map<String, dynamic> _$ByteValueToJson(_ByteValue instance) =>
-    <String, dynamic>{
-      'value': instance.value,
-      'unit': instance.unit,
-    };
+    <String, dynamic>{'value': instance.value, 'unit': instance.unit};
 
 _InterfaceAddress _$InterfaceAddressFromJson(Map<String, dynamic> json) =>
     _InterfaceAddress(

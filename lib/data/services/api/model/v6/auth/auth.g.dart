@@ -6,23 +6,22 @@ part of 'auth.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-_Password _$PasswordFromJson(Map<String, dynamic> json) => _Password(
-      password: json['password'] as String,
-    );
+_Password _$PasswordFromJson(Map<String, dynamic> json) =>
+    _Password(password: json['password'] as String);
 
 Map<String, dynamic> _$PasswordToJson(_Password instance) => <String, dynamic>{
-      'password': instance.password,
-    };
+  'password': instance.password,
+};
 
 _Session _$SessionFromJson(Map<String, dynamic> json) => _Session(
-      session: SessionDetail.fromJson(json['session'] as Map<String, dynamic>),
-      took: (json['took'] as num).toDouble(),
-    );
+  session: SessionDetail.fromJson(json['session'] as Map<String, dynamic>),
+  took: (json['took'] as num).toDouble(),
+);
 
 Map<String, dynamic> _$SessionToJson(_Session instance) => <String, dynamic>{
-      'session': instance.session.toJson(),
-      'took': instance.took,
-    };
+  'session': instance.session.toJson(),
+  'took': instance.took,
+};
 
 _SessionDetail _$SessionDetailFromJson(Map<String, dynamic> json) =>
     _SessionDetail(

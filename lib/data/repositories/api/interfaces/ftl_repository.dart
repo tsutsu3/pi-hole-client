@@ -28,5 +28,5 @@ abstract interface class FtlRepository {
 
   Future<Result<InfoVersion>> getInfoVersion();
 
-  Future<InfoPiholeServer> fetchAllServerInfo();
+  Future<Result<InfoPiholeServer>> fetchAllServerInfo();
 }
