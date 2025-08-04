@@ -30,9 +30,7 @@ class PiHoleClient extends StatelessWidget {
     return DynamicColorBuilder(
       builder: (lightDynamic, darkDynamic) {
         return MaterialApp(
-          navigatorObservers: [
-            SentryNavigatorObserver(),
-          ],
+          navigatorObservers: [SentryNavigatorObserver()],
           navigatorKey: globalNavigatorKey,
           title: 'Pi-hole client',
           theme: lightTheme(lightDynamic),
@@ -56,7 +54,7 @@ class PiHoleClient extends StatelessWidget {
           scaffoldMessengerKey: scaffoldMessengerKey,
           builder: (context, child) {
             return AppLock(
-              builder: (_, __) => child!,
+              builder: (_, _) => child!,
               lockScreenBuilder: (context) => const Unlock(),
               initiallyEnabled: passCode != null,
               initialBackgroundLockLatency: Duration.zero,
