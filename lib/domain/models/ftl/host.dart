@@ -7,7 +7,7 @@ part 'host.g.dart';
 sealed class InfoHost with _$InfoHost {
   @JsonSerializable(explicitToJson: true)
   const factory InfoHost({
-    required String domainname,
+    required String domainName,
     required String arch,
     required String hostName,
     required String release,

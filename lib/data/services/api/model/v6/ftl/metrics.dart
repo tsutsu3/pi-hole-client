@@ -70,10 +70,8 @@ sealed class DnsCacheEntry with _$DnsCacheEntry {
 
 @freezed
 sealed class DnsCacheCount with _$DnsCacheCount {
-  const factory DnsCacheCount({
-    required int valid,
-    required int stale,
-  }) = _DnsCacheCount;
+  const factory DnsCacheCount({required int valid, required int stale}) =
+      _DnsCacheCount;
 
   factory DnsCacheCount.fromJson(Map<String, dynamic> json) =>
       _$DnsCacheCountFromJson(json);

@@ -1708,7 +1708,7 @@ return $default(_that.local,_that.remote);case _:
 @JsonSerializable()
 
 class _Docker implements Docker {
-  const _Docker({required this.local, required this.remote});
+  const _Docker({this.local, this.remote});
   factory _Docker.fromJson(Map<String, dynamic> json) => _$DockerFromJson(json);
 
 @override final  String? local;
@@ -1969,7 +1969,7 @@ return $default(_that.branch,_that.version,_that.hash);case _:
 @JsonSerializable()
 
 class _LocalVersion implements LocalVersion {
-  const _LocalVersion({required this.branch, required this.version, required this.hash});
+  const _LocalVersion({this.branch, this.version, this.hash});
   factory _LocalVersion.fromJson(Map<String, dynamic> json) => _$LocalVersionFromJson(json);
 
 @override final  String? branch;
@@ -2231,7 +2231,7 @@ return $default(_that.version,_that.hash);case _:
 @JsonSerializable()
 
 class _RemoteVersion implements RemoteVersion {
-  const _RemoteVersion({required this.version, required this.hash});
+  const _RemoteVersion({this.version, this.hash});
   factory _RemoteVersion.fromJson(Map<String, dynamic> json) => _$RemoteVersionFromJson(json);
 
 @override final  String? version;
@@ -2493,7 +2493,7 @@ return $default(_that.branch,_that.version,_that.hash,_that.date);case _:
 @JsonSerializable()
 
 class _LocalFTL implements LocalFTL {
-  const _LocalFTL({required this.branch, required this.version, required this.hash, required this.date});
+  const _LocalFTL({this.branch, this.version, this.hash, this.date});
   factory _LocalFTL.fromJson(Map<String, dynamic> json) => _$LocalFTLFromJson(json);
 
 @override final  String? branch;

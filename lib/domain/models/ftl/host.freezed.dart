@@ -15,7 +15,7 @@ T _$identity<T>(T value) => value;
 /// @nodoc
 mixin _$InfoHost {
 
- String get domainname; String get arch; String get hostName; String get release; String get sysName; String get version; String? get model;
+ String get domainName; String get arch; String get hostName; String get release; String get sysName; String get version; String? get model;
 /// Create a copy of InfoHost
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -28,16 +28,16 @@ $InfoHostCopyWith<InfoHost> get copyWith => _$InfoHostCopyWithImpl<InfoHost>(thi
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is InfoHost&&(identical(other.domainname, domainname) || other.domainname == domainname)&&(identical(other.arch, arch) || other.arch == arch)&&(identical(other.hostName, hostName) || other.hostName == hostName)&&(identical(other.release, release) || other.release == release)&&(identical(other.sysName, sysName) || other.sysName == sysName)&&(identical(other.version, version) || other.version == version)&&(identical(other.model, model) || other.model == model));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is InfoHost&&(identical(other.domainName, domainName) || other.domainName == domainName)&&(identical(other.arch, arch) || other.arch == arch)&&(identical(other.hostName, hostName) || other.hostName == hostName)&&(identical(other.release, release) || other.release == release)&&(identical(other.sysName, sysName) || other.sysName == sysName)&&(identical(other.version, version) || other.version == version)&&(identical(other.model, model) || other.model == model));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,domainname,arch,hostName,release,sysName,version,model);
+int get hashCode => Object.hash(runtimeType,domainName,arch,hostName,release,sysName,version,model);
 
 @override
 String toString() {
-  return 'InfoHost(domainname: $domainname, arch: $arch, hostName: $hostName, release: $release, sysName: $sysName, version: $version, model: $model)';
+  return 'InfoHost(domainName: $domainName, arch: $arch, hostName: $hostName, release: $release, sysName: $sysName, version: $version, model: $model)';
 }
 
 
@@ -48,7 +48,7 @@ abstract mixin class $InfoHostCopyWith<$Res>  {
   factory $InfoHostCopyWith(InfoHost value, $Res Function(InfoHost) _then) = _$InfoHostCopyWithImpl;
 @useResult
 $Res call({
- String domainname, String arch, String hostName, String release, String sysName, String version, String? model
+ String domainName, String arch, String hostName, String release, String sysName, String version, String? model
 });
 
 
@@ -65,9 +65,9 @@ class _$InfoHostCopyWithImpl<$Res>
 
 /// Create a copy of InfoHost
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? domainname = null,Object? arch = null,Object? hostName = null,Object? release = null,Object? sysName = null,Object? version = null,Object? model = freezed,}) {
+@pragma('vm:prefer-inline') @override $Res call({Object? domainName = null,Object? arch = null,Object? hostName = null,Object? release = null,Object? sysName = null,Object? version = null,Object? model = freezed,}) {
   return _then(_self.copyWith(
-domainname: null == domainname ? _self.domainname : domainname // ignore: cast_nullable_to_non_nullable
+domainName: null == domainName ? _self.domainName : domainName // ignore: cast_nullable_to_non_nullable
 as String,arch: null == arch ? _self.arch : arch // ignore: cast_nullable_to_non_nullable
 as String,hostName: null == hostName ? _self.hostName : hostName // ignore: cast_nullable_to_non_nullable
 as String,release: null == release ? _self.release : release // ignore: cast_nullable_to_non_nullable
@@ -156,10 +156,10 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( String domainname,  String arch,  String hostName,  String release,  String sysName,  String version,  String? model)?  $default,{required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( String domainName,  String arch,  String hostName,  String release,  String sysName,  String version,  String? model)?  $default,{required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _InfoHost() when $default != null:
-return $default(_that.domainname,_that.arch,_that.hostName,_that.release,_that.sysName,_that.version,_that.model);case _:
+return $default(_that.domainName,_that.arch,_that.hostName,_that.release,_that.sysName,_that.version,_that.model);case _:
   return orElse();
 
 }
@@ -177,10 +177,10 @@ return $default(_that.domainname,_that.arch,_that.hostName,_that.release,_that.s
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( String domainname,  String arch,  String hostName,  String release,  String sysName,  String version,  String? model)  $default,) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( String domainName,  String arch,  String hostName,  String release,  String sysName,  String version,  String? model)  $default,) {final _that = this;
 switch (_that) {
 case _InfoHost():
-return $default(_that.domainname,_that.arch,_that.hostName,_that.release,_that.sysName,_that.version,_that.model);}
+return $default(_that.domainName,_that.arch,_that.hostName,_that.release,_that.sysName,_that.version,_that.model);}
 }
 /// A variant of `when` that fallback to returning `null`
 ///
@@ -194,10 +194,10 @@ return $default(_that.domainname,_that.arch,_that.hostName,_that.release,_that.s
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( String domainname,  String arch,  String hostName,  String release,  String sysName,  String version,  String? model)?  $default,) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( String domainName,  String arch,  String hostName,  String release,  String sysName,  String version,  String? model)?  $default,) {final _that = this;
 switch (_that) {
 case _InfoHost() when $default != null:
-return $default(_that.domainname,_that.arch,_that.hostName,_that.release,_that.sysName,_that.version,_that.model);case _:
+return $default(_that.domainName,_that.arch,_that.hostName,_that.release,_that.sysName,_that.version,_that.model);case _:
   return null;
 
 }
@@ -209,10 +209,10 @@ return $default(_that.domainname,_that.arch,_that.hostName,_that.release,_that.s
 
 @JsonSerializable(explicitToJson: true)
 class _InfoHost implements InfoHost {
-  const _InfoHost({required this.domainname, required this.arch, required this.hostName, required this.release, required this.sysName, required this.version, this.model});
+  const _InfoHost({required this.domainName, required this.arch, required this.hostName, required this.release, required this.sysName, required this.version, this.model});
   factory _InfoHost.fromJson(Map<String, dynamic> json) => _$InfoHostFromJson(json);
 
-@override final  String domainname;
+@override final  String domainName;
 @override final  String arch;
 @override final  String hostName;
 @override final  String release;
@@ -233,16 +233,16 @@ Map<String, dynamic> toJson() {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _InfoHost&&(identical(other.domainname, domainname) || other.domainname == domainname)&&(identical(other.arch, arch) || other.arch == arch)&&(identical(other.hostName, hostName) || other.hostName == hostName)&&(identical(other.release, release) || other.release == release)&&(identical(other.sysName, sysName) || other.sysName == sysName)&&(identical(other.version, version) || other.version == version)&&(identical(other.model, model) || other.model == model));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _InfoHost&&(identical(other.domainName, domainName) || other.domainName == domainName)&&(identical(other.arch, arch) || other.arch == arch)&&(identical(other.hostName, hostName) || other.hostName == hostName)&&(identical(other.release, release) || other.release == release)&&(identical(other.sysName, sysName) || other.sysName == sysName)&&(identical(other.version, version) || other.version == version)&&(identical(other.model, model) || other.model == model));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,domainname,arch,hostName,release,sysName,version,model);
+int get hashCode => Object.hash(runtimeType,domainName,arch,hostName,release,sysName,version,model);
 
 @override
 String toString() {
-  return 'InfoHost(domainname: $domainname, arch: $arch, hostName: $hostName, release: $release, sysName: $sysName, version: $version, model: $model)';
+  return 'InfoHost(domainName: $domainName, arch: $arch, hostName: $hostName, release: $release, sysName: $sysName, version: $version, model: $model)';
 }
 
 
@@ -253,7 +253,7 @@ abstract mixin class _$InfoHostCopyWith<$Res> implements $InfoHostCopyWith<$Res>
   factory _$InfoHostCopyWith(_InfoHost value, $Res Function(_InfoHost) _then) = __$InfoHostCopyWithImpl;
 @override @useResult
 $Res call({
- String domainname, String arch, String hostName, String release, String sysName, String version, String? model
+ String domainName, String arch, String hostName, String release, String sysName, String version, String? model
 });
 
 
@@ -270,9 +270,9 @@ class __$InfoHostCopyWithImpl<$Res>
 
 /// Create a copy of InfoHost
 /// with the given fields replaced by the non-null parameter values.
-@override @pragma('vm:prefer-inline') $Res call({Object? domainname = null,Object? arch = null,Object? hostName = null,Object? release = null,Object? sysName = null,Object? version = null,Object? model = freezed,}) {
+@override @pragma('vm:prefer-inline') $Res call({Object? domainName = null,Object? arch = null,Object? hostName = null,Object? release = null,Object? sysName = null,Object? version = null,Object? model = freezed,}) {
   return _then(_InfoHost(
-domainname: null == domainname ? _self.domainname : domainname // ignore: cast_nullable_to_non_nullable
+domainName: null == domainName ? _self.domainName : domainName // ignore: cast_nullable_to_non_nullable
 as String,arch: null == arch ? _self.arch : arch // ignore: cast_nullable_to_non_nullable
 as String,hostName: null == hostName ? _self.hostName : hostName // ignore: cast_nullable_to_non_nullable
 as String,release: null == release ? _self.release : release // ignore: cast_nullable_to_non_nullable

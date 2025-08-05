@@ -39,14 +39,7 @@ _VersionDetail _$VersionDetailFromJson(Map<String, dynamic> json) =>
     _VersionDetail(
       version: json['version'] as String,
       branch: json['branch'] as String?,
-      hash: json['hash'] as String?,
-      date: json['date'] as String?,
     );
 
 Map<String, dynamic> _$VersionDetailToJson(_VersionDetail instance) =>
-    <String, dynamic>{
-      'version': instance.version,
-      'branch': instance.branch,
-      'hash': instance.hash,
-      'date': instance.date,
-    };
+    <String, dynamic>{'version': instance.version, 'branch': instance.branch};

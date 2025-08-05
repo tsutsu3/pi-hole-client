@@ -311,7 +311,7 @@ $DnsRepliesCopyWith<$Res> get replies {
 /// @nodoc
 mixin _$DnsCache {
 
- int get size; int get inserted; int get evicted; int get expired; int get immortal; List<DnsCacheEntry> get content;
+ int get size; int get records; int get inserted; int get evicted; int get expired; int get immortal; List<DnsTypePercentage> get typePercentages;
 /// Create a copy of DnsCache
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -324,16 +324,16 @@ $DnsCacheCopyWith<DnsCache> get copyWith => _$DnsCacheCopyWithImpl<DnsCache>(thi
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is DnsCache&&(identical(other.size, size) || other.size == size)&&(identical(other.inserted, inserted) || other.inserted == inserted)&&(identical(other.evicted, evicted) || other.evicted == evicted)&&(identical(other.expired, expired) || other.expired == expired)&&(identical(other.immortal, immortal) || other.immortal == immortal)&&const DeepCollectionEquality().equals(other.content, content));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is DnsCache&&(identical(other.size, size) || other.size == size)&&(identical(other.records, records) || other.records == records)&&(identical(other.inserted, inserted) || other.inserted == inserted)&&(identical(other.evicted, evicted) || other.evicted == evicted)&&(identical(other.expired, expired) || other.expired == expired)&&(identical(other.immortal, immortal) || other.immortal == immortal)&&const DeepCollectionEquality().equals(other.typePercentages, typePercentages));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,size,inserted,evicted,expired,immortal,const DeepCollectionEquality().hash(content));
+int get hashCode => Object.hash(runtimeType,size,records,inserted,evicted,expired,immortal,const DeepCollectionEquality().hash(typePercentages));
 
 @override
 String toString() {
-  return 'DnsCache(size: $size, inserted: $inserted, evicted: $evicted, expired: $expired, immortal: $immortal, content: $content)';
+  return 'DnsCache(size: $size, records: $records, inserted: $inserted, evicted: $evicted, expired: $expired, immortal: $immortal, typePercentages: $typePercentages)';
 }
 
 
@@ -344,7 +344,7 @@ abstract mixin class $DnsCacheCopyWith<$Res>  {
   factory $DnsCacheCopyWith(DnsCache value, $Res Function(DnsCache) _then) = _$DnsCacheCopyWithImpl;
 @useResult
 $Res call({
- int size, int inserted, int evicted, int expired, int immortal, List<DnsCacheEntry> content
+ int size, int records, int inserted, int evicted, int expired, int immortal, List<DnsTypePercentage> typePercentages
 });
 
 
@@ -361,15 +361,16 @@ class _$DnsCacheCopyWithImpl<$Res>
 
 /// Create a copy of DnsCache
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? size = null,Object? inserted = null,Object? evicted = null,Object? expired = null,Object? immortal = null,Object? content = null,}) {
+@pragma('vm:prefer-inline') @override $Res call({Object? size = null,Object? records = null,Object? inserted = null,Object? evicted = null,Object? expired = null,Object? immortal = null,Object? typePercentages = null,}) {
   return _then(_self.copyWith(
 size: null == size ? _self.size : size // ignore: cast_nullable_to_non_nullable
+as int,records: null == records ? _self.records : records // ignore: cast_nullable_to_non_nullable
 as int,inserted: null == inserted ? _self.inserted : inserted // ignore: cast_nullable_to_non_nullable
 as int,evicted: null == evicted ? _self.evicted : evicted // ignore: cast_nullable_to_non_nullable
 as int,expired: null == expired ? _self.expired : expired // ignore: cast_nullable_to_non_nullable
 as int,immortal: null == immortal ? _self.immortal : immortal // ignore: cast_nullable_to_non_nullable
-as int,content: null == content ? _self.content : content // ignore: cast_nullable_to_non_nullable
-as List<DnsCacheEntry>,
+as int,typePercentages: null == typePercentages ? _self.typePercentages : typePercentages // ignore: cast_nullable_to_non_nullable
+as List<DnsTypePercentage>,
   ));
 }
 
@@ -451,10 +452,10 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( int size,  int inserted,  int evicted,  int expired,  int immortal,  List<DnsCacheEntry> content)?  $default,{required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( int size,  int records,  int inserted,  int evicted,  int expired,  int immortal,  List<DnsTypePercentage> typePercentages)?  $default,{required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _DnsCache() when $default != null:
-return $default(_that.size,_that.inserted,_that.evicted,_that.expired,_that.immortal,_that.content);case _:
+return $default(_that.size,_that.records,_that.inserted,_that.evicted,_that.expired,_that.immortal,_that.typePercentages);case _:
   return orElse();
 
 }
@@ -472,10 +473,10 @@ return $default(_that.size,_that.inserted,_that.evicted,_that.expired,_that.immo
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( int size,  int inserted,  int evicted,  int expired,  int immortal,  List<DnsCacheEntry> content)  $default,) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( int size,  int records,  int inserted,  int evicted,  int expired,  int immortal,  List<DnsTypePercentage> typePercentages)  $default,) {final _that = this;
 switch (_that) {
 case _DnsCache():
-return $default(_that.size,_that.inserted,_that.evicted,_that.expired,_that.immortal,_that.content);}
+return $default(_that.size,_that.records,_that.inserted,_that.evicted,_that.expired,_that.immortal,_that.typePercentages);}
 }
 /// A variant of `when` that fallback to returning `null`
 ///
@@ -489,10 +490,10 @@ return $default(_that.size,_that.inserted,_that.evicted,_that.expired,_that.immo
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( int size,  int inserted,  int evicted,  int expired,  int immortal,  List<DnsCacheEntry> content)?  $default,) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( int size,  int records,  int inserted,  int evicted,  int expired,  int immortal,  List<DnsTypePercentage> typePercentages)?  $default,) {final _that = this;
 switch (_that) {
 case _DnsCache() when $default != null:
-return $default(_that.size,_that.inserted,_that.evicted,_that.expired,_that.immortal,_that.content);case _:
+return $default(_that.size,_that.records,_that.inserted,_that.evicted,_that.expired,_that.immortal,_that.typePercentages);case _:
   return null;
 
 }
@@ -503,20 +504,21 @@ return $default(_that.size,_that.inserted,_that.evicted,_that.expired,_that.immo
 /// @nodoc
 
 @JsonSerializable(explicitToJson: true)
-class _DnsCache extends DnsCache {
-  const _DnsCache({required this.size, required this.inserted, required this.evicted, required this.expired, required this.immortal, required final  List<DnsCacheEntry> content}): _content = content,super._();
+class _DnsCache implements DnsCache {
+  const _DnsCache({required this.size, required this.records, required this.inserted, required this.evicted, required this.expired, required this.immortal, required final  List<DnsTypePercentage> typePercentages}): _typePercentages = typePercentages;
   factory _DnsCache.fromJson(Map<String, dynamic> json) => _$DnsCacheFromJson(json);
 
 @override final  int size;
+@override final  int records;
 @override final  int inserted;
 @override final  int evicted;
 @override final  int expired;
 @override final  int immortal;
- final  List<DnsCacheEntry> _content;
-@override List<DnsCacheEntry> get content {
-  if (_content is EqualUnmodifiableListView) return _content;
+ final  List<DnsTypePercentage> _typePercentages;
+@override List<DnsTypePercentage> get typePercentages {
+  if (_typePercentages is EqualUnmodifiableListView) return _typePercentages;
   // ignore: implicit_dynamic_type
-  return EqualUnmodifiableListView(_content);
+  return EqualUnmodifiableListView(_typePercentages);
 }
 
 
@@ -533,16 +535,16 @@ Map<String, dynamic> toJson() {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _DnsCache&&(identical(other.size, size) || other.size == size)&&(identical(other.inserted, inserted) || other.inserted == inserted)&&(identical(other.evicted, evicted) || other.evicted == evicted)&&(identical(other.expired, expired) || other.expired == expired)&&(identical(other.immortal, immortal) || other.immortal == immortal)&&const DeepCollectionEquality().equals(other._content, _content));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _DnsCache&&(identical(other.size, size) || other.size == size)&&(identical(other.records, records) || other.records == records)&&(identical(other.inserted, inserted) || other.inserted == inserted)&&(identical(other.evicted, evicted) || other.evicted == evicted)&&(identical(other.expired, expired) || other.expired == expired)&&(identical(other.immortal, immortal) || other.immortal == immortal)&&const DeepCollectionEquality().equals(other._typePercentages, _typePercentages));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,size,inserted,evicted,expired,immortal,const DeepCollectionEquality().hash(_content));
+int get hashCode => Object.hash(runtimeType,size,records,inserted,evicted,expired,immortal,const DeepCollectionEquality().hash(_typePercentages));
 
 @override
 String toString() {
-  return 'DnsCache(size: $size, inserted: $inserted, evicted: $evicted, expired: $expired, immortal: $immortal, content: $content)';
+  return 'DnsCache(size: $size, records: $records, inserted: $inserted, evicted: $evicted, expired: $expired, immortal: $immortal, typePercentages: $typePercentages)';
 }
 
 
@@ -553,7 +555,7 @@ abstract mixin class _$DnsCacheCopyWith<$Res> implements $DnsCacheCopyWith<$Res>
   factory _$DnsCacheCopyWith(_DnsCache value, $Res Function(_DnsCache) _then) = __$DnsCacheCopyWithImpl;
 @override @useResult
 $Res call({
- int size, int inserted, int evicted, int expired, int immortal, List<DnsCacheEntry> content
+ int size, int records, int inserted, int evicted, int expired, int immortal, List<DnsTypePercentage> typePercentages
 });
 
 
@@ -570,15 +572,16 @@ class __$DnsCacheCopyWithImpl<$Res>
 
 /// Create a copy of DnsCache
 /// with the given fields replaced by the non-null parameter values.
-@override @pragma('vm:prefer-inline') $Res call({Object? size = null,Object? inserted = null,Object? evicted = null,Object? expired = null,Object? immortal = null,Object? content = null,}) {
+@override @pragma('vm:prefer-inline') $Res call({Object? size = null,Object? records = null,Object? inserted = null,Object? evicted = null,Object? expired = null,Object? immortal = null,Object? typePercentages = null,}) {
   return _then(_DnsCache(
 size: null == size ? _self.size : size // ignore: cast_nullable_to_non_nullable
+as int,records: null == records ? _self.records : records // ignore: cast_nullable_to_non_nullable
 as int,inserted: null == inserted ? _self.inserted : inserted // ignore: cast_nullable_to_non_nullable
 as int,evicted: null == evicted ? _self.evicted : evicted // ignore: cast_nullable_to_non_nullable
 as int,expired: null == expired ? _self.expired : expired // ignore: cast_nullable_to_non_nullable
 as int,immortal: null == immortal ? _self.immortal : immortal // ignore: cast_nullable_to_non_nullable
-as int,content: null == content ? _self._content : content // ignore: cast_nullable_to_non_nullable
-as List<DnsCacheEntry>,
+as int,typePercentages: null == typePercentages ? _self._typePercentages : typePercentages // ignore: cast_nullable_to_non_nullable
+as List<DnsTypePercentage>,
   ));
 }
 
@@ -587,81 +590,71 @@ as List<DnsCacheEntry>,
 
 
 /// @nodoc
-mixin _$DnsCacheEntry {
+mixin _$DnsTypePercentage {
 
- int get type; String get name; DnsCacheCount get count;
-/// Create a copy of DnsCacheEntry
+ String get name; double get percentage;
+/// Create a copy of DnsTypePercentage
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
 @pragma('vm:prefer-inline')
-$DnsCacheEntryCopyWith<DnsCacheEntry> get copyWith => _$DnsCacheEntryCopyWithImpl<DnsCacheEntry>(this as DnsCacheEntry, _$identity);
+$DnsTypePercentageCopyWith<DnsTypePercentage> get copyWith => _$DnsTypePercentageCopyWithImpl<DnsTypePercentage>(this as DnsTypePercentage, _$identity);
 
-  /// Serializes this DnsCacheEntry to a JSON map.
+  /// Serializes this DnsTypePercentage to a JSON map.
   Map<String, dynamic> toJson();
 
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is DnsCacheEntry&&(identical(other.type, type) || other.type == type)&&(identical(other.name, name) || other.name == name)&&(identical(other.count, count) || other.count == count));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is DnsTypePercentage&&(identical(other.name, name) || other.name == name)&&(identical(other.percentage, percentage) || other.percentage == percentage));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,type,name,count);
+int get hashCode => Object.hash(runtimeType,name,percentage);
 
 @override
 String toString() {
-  return 'DnsCacheEntry(type: $type, name: $name, count: $count)';
+  return 'DnsTypePercentage(name: $name, percentage: $percentage)';
 }
 
 
 }
 
 /// @nodoc
-abstract mixin class $DnsCacheEntryCopyWith<$Res>  {
-  factory $DnsCacheEntryCopyWith(DnsCacheEntry value, $Res Function(DnsCacheEntry) _then) = _$DnsCacheEntryCopyWithImpl;
+abstract mixin class $DnsTypePercentageCopyWith<$Res>  {
+  factory $DnsTypePercentageCopyWith(DnsTypePercentage value, $Res Function(DnsTypePercentage) _then) = _$DnsTypePercentageCopyWithImpl;
 @useResult
 $Res call({
- int type, String name, DnsCacheCount count
+ String name, double percentage
 });
 
 
-$DnsCacheCountCopyWith<$Res> get count;
+
 
 }
 /// @nodoc
-class _$DnsCacheEntryCopyWithImpl<$Res>
-    implements $DnsCacheEntryCopyWith<$Res> {
-  _$DnsCacheEntryCopyWithImpl(this._self, this._then);
+class _$DnsTypePercentageCopyWithImpl<$Res>
+    implements $DnsTypePercentageCopyWith<$Res> {
+  _$DnsTypePercentageCopyWithImpl(this._self, this._then);
 
-  final DnsCacheEntry _self;
-  final $Res Function(DnsCacheEntry) _then;
+  final DnsTypePercentage _self;
+  final $Res Function(DnsTypePercentage) _then;
 
-/// Create a copy of DnsCacheEntry
+/// Create a copy of DnsTypePercentage
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? type = null,Object? name = null,Object? count = null,}) {
+@pragma('vm:prefer-inline') @override $Res call({Object? name = null,Object? percentage = null,}) {
   return _then(_self.copyWith(
-type: null == type ? _self.type : type // ignore: cast_nullable_to_non_nullable
-as int,name: null == name ? _self.name : name // ignore: cast_nullable_to_non_nullable
-as String,count: null == count ? _self.count : count // ignore: cast_nullable_to_non_nullable
-as DnsCacheCount,
+name: null == name ? _self.name : name // ignore: cast_nullable_to_non_nullable
+as String,percentage: null == percentage ? _self.percentage : percentage // ignore: cast_nullable_to_non_nullable
+as double,
   ));
 }
-/// Create a copy of DnsCacheEntry
-/// with the given fields replaced by the non-null parameter values.
-@override
-@pragma('vm:prefer-inline')
-$DnsCacheCountCopyWith<$Res> get count {
-  
-  return $DnsCacheCountCopyWith<$Res>(_self.count, (value) {
-    return _then(_self.copyWith(count: value));
-  });
-}
+
 }
 
 
-/// Adds pattern-matching-related methods to [DnsCacheEntry].
-extension DnsCacheEntryPatterns on DnsCacheEntry {
+/// Adds pattern-matching-related methods to [DnsTypePercentage].
+extension DnsTypePercentagePatterns on DnsTypePercentage {
 /// A variant of `map` that fallback to returning `orElse`.
 ///
 /// It is equivalent to doing:
@@ -674,10 +667,10 @@ extension DnsCacheEntryPatterns on DnsCacheEntry {
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeMap<TResult extends Object?>(TResult Function( _DnsCacheEntry value)?  $default,{required TResult orElse(),}){
+@optionalTypeArgs TResult maybeMap<TResult extends Object?>(TResult Function( _DnsTypePercentage value)?  $default,{required TResult orElse(),}){
 final _that = this;
 switch (_that) {
-case _DnsCacheEntry() when $default != null:
+case _DnsTypePercentage() when $default != null:
 return $default(_that);case _:
   return orElse();
 
@@ -696,10 +689,10 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult map<TResult extends Object?>(TResult Function( _DnsCacheEntry value)  $default,){
+@optionalTypeArgs TResult map<TResult extends Object?>(TResult Function( _DnsTypePercentage value)  $default,){
 final _that = this;
 switch (_that) {
-case _DnsCacheEntry():
+case _DnsTypePercentage():
 return $default(_that);}
 }
 /// A variant of `map` that fallback to returning `null`.
@@ -714,10 +707,10 @@ return $default(_that);}
 /// }
 /// ```
 
-@optionalTypeArgs TResult? mapOrNull<TResult extends Object?>(TResult? Function( _DnsCacheEntry value)?  $default,){
+@optionalTypeArgs TResult? mapOrNull<TResult extends Object?>(TResult? Function( _DnsTypePercentage value)?  $default,){
 final _that = this;
 switch (_that) {
-case _DnsCacheEntry() when $default != null:
+case _DnsTypePercentage() when $default != null:
 return $default(_that);case _:
   return null;
 
@@ -735,10 +728,10 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( int type,  String name,  DnsCacheCount count)?  $default,{required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( String name,  double percentage)?  $default,{required TResult orElse(),}) {final _that = this;
 switch (_that) {
-case _DnsCacheEntry() when $default != null:
-return $default(_that.type,_that.name,_that.count);case _:
+case _DnsTypePercentage() when $default != null:
+return $default(_that.name,_that.percentage);case _:
   return orElse();
 
 }
@@ -756,10 +749,10 @@ return $default(_that.type,_that.name,_that.count);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( int type,  String name,  DnsCacheCount count)  $default,) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( String name,  double percentage)  $default,) {final _that = this;
 switch (_that) {
-case _DnsCacheEntry():
-return $default(_that.type,_that.name,_that.count);}
+case _DnsTypePercentage():
+return $default(_that.name,_that.percentage);}
 }
 /// A variant of `when` that fallback to returning `null`
 ///
@@ -773,10 +766,10 @@ return $default(_that.type,_that.name,_that.count);}
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( int type,  String name,  DnsCacheCount count)?  $default,) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( String name,  double percentage)?  $default,) {final _that = this;
 switch (_that) {
-case _DnsCacheEntry() when $default != null:
-return $default(_that.type,_that.name,_that.count);case _:
+case _DnsTypePercentage() when $default != null:
+return $default(_that.name,_that.percentage);case _:
   return null;
 
 }
@@ -787,123 +780,47 @@ return $default(_that.type,_that.name,_that.count);case _:
 /// @nodoc
 
 @JsonSerializable(explicitToJson: true)
-class _DnsCacheEntry implements DnsCacheEntry {
-  const _DnsCacheEntry({required this.type, required this.name, required this.count});
-  factory _DnsCacheEntry.fromJson(Map<String, dynamic> json) => _$DnsCacheEntryFromJson(json);
+class _DnsTypePercentage implements DnsTypePercentage {
+  const _DnsTypePercentage({required this.name, required this.percentage});
+  factory _DnsTypePercentage.fromJson(Map<String, dynamic> json) => _$DnsTypePercentageFromJson(json);
 
-@override final  int type;
 @override final  String name;
-@override final  DnsCacheCount count;
+@override final  double percentage;
 
-/// Create a copy of DnsCacheEntry
+/// Create a copy of DnsTypePercentage
 /// with the given fields replaced by the non-null parameter values.
 @override @JsonKey(includeFromJson: false, includeToJson: false)
 @pragma('vm:prefer-inline')
-_$DnsCacheEntryCopyWith<_DnsCacheEntry> get copyWith => __$DnsCacheEntryCopyWithImpl<_DnsCacheEntry>(this, _$identity);
+_$DnsTypePercentageCopyWith<_DnsTypePercentage> get copyWith => __$DnsTypePercentageCopyWithImpl<_DnsTypePercentage>(this, _$identity);
 
 @override
 Map<String, dynamic> toJson() {
-  return _$DnsCacheEntryToJson(this, );
+  return _$DnsTypePercentageToJson(this, );
 }
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _DnsCacheEntry&&(identical(other.type, type) || other.type == type)&&(identical(other.name, name) || other.name == name)&&(identical(other.count, count) || other.count == count));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _DnsTypePercentage&&(identical(other.name, name) || other.name == name)&&(identical(other.percentage, percentage) || other.percentage == percentage));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,type,name,count);
+int get hashCode => Object.hash(runtimeType,name,percentage);
 
 @override
 String toString() {
-  return 'DnsCacheEntry(type: $type, name: $name, count: $count)';
+  return 'DnsTypePercentage(name: $name, percentage: $percentage)';
 }
 
 
 }
 
 /// @nodoc
-abstract mixin class _$DnsCacheEntryCopyWith<$Res> implements $DnsCacheEntryCopyWith<$Res> {
-  factory _$DnsCacheEntryCopyWith(_DnsCacheEntry value, $Res Function(_DnsCacheEntry) _then) = __$DnsCacheEntryCopyWithImpl;
+abstract mixin class _$DnsTypePercentageCopyWith<$Res> implements $DnsTypePercentageCopyWith<$Res> {
+  factory _$DnsTypePercentageCopyWith(_DnsTypePercentage value, $Res Function(_DnsTypePercentage) _then) = __$DnsTypePercentageCopyWithImpl;
 @override @useResult
 $Res call({
- int type, String name, DnsCacheCount count
-});
-
-
-@override $DnsCacheCountCopyWith<$Res> get count;
-
-}
-/// @nodoc
-class __$DnsCacheEntryCopyWithImpl<$Res>
-    implements _$DnsCacheEntryCopyWith<$Res> {
-  __$DnsCacheEntryCopyWithImpl(this._self, this._then);
-
-  final _DnsCacheEntry _self;
-  final $Res Function(_DnsCacheEntry) _then;
-
-/// Create a copy of DnsCacheEntry
-/// with the given fields replaced by the non-null parameter values.
-@override @pragma('vm:prefer-inline') $Res call({Object? type = null,Object? name = null,Object? count = null,}) {
-  return _then(_DnsCacheEntry(
-type: null == type ? _self.type : type // ignore: cast_nullable_to_non_nullable
-as int,name: null == name ? _self.name : name // ignore: cast_nullable_to_non_nullable
-as String,count: null == count ? _self.count : count // ignore: cast_nullable_to_non_nullable
-as DnsCacheCount,
-  ));
-}
-
-/// Create a copy of DnsCacheEntry
-/// with the given fields replaced by the non-null parameter values.
-@override
-@pragma('vm:prefer-inline')
-$DnsCacheCountCopyWith<$Res> get count {
-  
-  return $DnsCacheCountCopyWith<$Res>(_self.count, (value) {
-    return _then(_self.copyWith(count: value));
-  });
-}
-}
-
-
-/// @nodoc
-mixin _$DnsCacheCount {
-
- int get valid; int get stale;
-/// Create a copy of DnsCacheCount
-/// with the given fields replaced by the non-null parameter values.
-@JsonKey(includeFromJson: false, includeToJson: false)
-@pragma('vm:prefer-inline')
-$DnsCacheCountCopyWith<DnsCacheCount> get copyWith => _$DnsCacheCountCopyWithImpl<DnsCacheCount>(this as DnsCacheCount, _$identity);
-
-  /// Serializes this DnsCacheCount to a JSON map.
-  Map<String, dynamic> toJson();
-
-
-@override
-bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is DnsCacheCount&&(identical(other.valid, valid) || other.valid == valid)&&(identical(other.stale, stale) || other.stale == stale));
-}
-
-@JsonKey(includeFromJson: false, includeToJson: false)
-@override
-int get hashCode => Object.hash(runtimeType,valid,stale);
-
-@override
-String toString() {
-  return 'DnsCacheCount(valid: $valid, stale: $stale)';
-}
-
-
-}
-
-/// @nodoc
-abstract mixin class $DnsCacheCountCopyWith<$Res>  {
-  factory $DnsCacheCountCopyWith(DnsCacheCount value, $Res Function(DnsCacheCount) _then) = _$DnsCacheCountCopyWithImpl;
-@useResult
-$Res call({
- int valid, int stale
+ String name, double percentage
 });
 
 
@@ -911,215 +828,20 @@ $Res call({
 
 }
 /// @nodoc
-class _$DnsCacheCountCopyWithImpl<$Res>
-    implements $DnsCacheCountCopyWith<$Res> {
-  _$DnsCacheCountCopyWithImpl(this._self, this._then);
+class __$DnsTypePercentageCopyWithImpl<$Res>
+    implements _$DnsTypePercentageCopyWith<$Res> {
+  __$DnsTypePercentageCopyWithImpl(this._self, this._then);
 
-  final DnsCacheCount _self;
-  final $Res Function(DnsCacheCount) _then;
+  final _DnsTypePercentage _self;
+  final $Res Function(_DnsTypePercentage) _then;
 
-/// Create a copy of DnsCacheCount
+/// Create a copy of DnsTypePercentage
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? valid = null,Object? stale = null,}) {
-  return _then(_self.copyWith(
-valid: null == valid ? _self.valid : valid // ignore: cast_nullable_to_non_nullable
-as int,stale: null == stale ? _self.stale : stale // ignore: cast_nullable_to_non_nullable
-as int,
-  ));
-}
-
-}
-
-
-/// Adds pattern-matching-related methods to [DnsCacheCount].
-extension DnsCacheCountPatterns on DnsCacheCount {
-/// A variant of `map` that fallback to returning `orElse`.
-///
-/// It is equivalent to doing:
-/// ```dart
-/// switch (sealedClass) {
-///   case final Subclass value:
-///     return ...;
-///   case _:
-///     return orElse();
-/// }
-/// ```
-
-@optionalTypeArgs TResult maybeMap<TResult extends Object?>(TResult Function( _DnsCacheCount value)?  $default,{required TResult orElse(),}){
-final _that = this;
-switch (_that) {
-case _DnsCacheCount() when $default != null:
-return $default(_that);case _:
-  return orElse();
-
-}
-}
-/// A `switch`-like method, using callbacks.
-///
-/// Callbacks receives the raw object, upcasted.
-/// It is equivalent to doing:
-/// ```dart
-/// switch (sealedClass) {
-///   case final Subclass value:
-///     return ...;
-///   case final Subclass2 value:
-///     return ...;
-/// }
-/// ```
-
-@optionalTypeArgs TResult map<TResult extends Object?>(TResult Function( _DnsCacheCount value)  $default,){
-final _that = this;
-switch (_that) {
-case _DnsCacheCount():
-return $default(_that);}
-}
-/// A variant of `map` that fallback to returning `null`.
-///
-/// It is equivalent to doing:
-/// ```dart
-/// switch (sealedClass) {
-///   case final Subclass value:
-///     return ...;
-///   case _:
-///     return null;
-/// }
-/// ```
-
-@optionalTypeArgs TResult? mapOrNull<TResult extends Object?>(TResult? Function( _DnsCacheCount value)?  $default,){
-final _that = this;
-switch (_that) {
-case _DnsCacheCount() when $default != null:
-return $default(_that);case _:
-  return null;
-
-}
-}
-/// A variant of `when` that fallback to an `orElse` callback.
-///
-/// It is equivalent to doing:
-/// ```dart
-/// switch (sealedClass) {
-///   case Subclass(:final field):
-///     return ...;
-///   case _:
-///     return orElse();
-/// }
-/// ```
-
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( int valid,  int stale)?  $default,{required TResult orElse(),}) {final _that = this;
-switch (_that) {
-case _DnsCacheCount() when $default != null:
-return $default(_that.valid,_that.stale);case _:
-  return orElse();
-
-}
-}
-/// A `switch`-like method, using callbacks.
-///
-/// As opposed to `map`, this offers destructuring.
-/// It is equivalent to doing:
-/// ```dart
-/// switch (sealedClass) {
-///   case Subclass(:final field):
-///     return ...;
-///   case Subclass2(:final field2):
-///     return ...;
-/// }
-/// ```
-
-@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( int valid,  int stale)  $default,) {final _that = this;
-switch (_that) {
-case _DnsCacheCount():
-return $default(_that.valid,_that.stale);}
-}
-/// A variant of `when` that fallback to returning `null`
-///
-/// It is equivalent to doing:
-/// ```dart
-/// switch (sealedClass) {
-///   case Subclass(:final field):
-///     return ...;
-///   case _:
-///     return null;
-/// }
-/// ```
-
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( int valid,  int stale)?  $default,) {final _that = this;
-switch (_that) {
-case _DnsCacheCount() when $default != null:
-return $default(_that.valid,_that.stale);case _:
-  return null;
-
-}
-}
-
-}
-
-/// @nodoc
-@JsonSerializable()
-
-class _DnsCacheCount implements DnsCacheCount {
-  const _DnsCacheCount({required this.valid, required this.stale});
-  factory _DnsCacheCount.fromJson(Map<String, dynamic> json) => _$DnsCacheCountFromJson(json);
-
-@override final  int valid;
-@override final  int stale;
-
-/// Create a copy of DnsCacheCount
-/// with the given fields replaced by the non-null parameter values.
-@override @JsonKey(includeFromJson: false, includeToJson: false)
-@pragma('vm:prefer-inline')
-_$DnsCacheCountCopyWith<_DnsCacheCount> get copyWith => __$DnsCacheCountCopyWithImpl<_DnsCacheCount>(this, _$identity);
-
-@override
-Map<String, dynamic> toJson() {
-  return _$DnsCacheCountToJson(this, );
-}
-
-@override
-bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _DnsCacheCount&&(identical(other.valid, valid) || other.valid == valid)&&(identical(other.stale, stale) || other.stale == stale));
-}
-
-@JsonKey(includeFromJson: false, includeToJson: false)
-@override
-int get hashCode => Object.hash(runtimeType,valid,stale);
-
-@override
-String toString() {
-  return 'DnsCacheCount(valid: $valid, stale: $stale)';
-}
-
-
-}
-
-/// @nodoc
-abstract mixin class _$DnsCacheCountCopyWith<$Res> implements $DnsCacheCountCopyWith<$Res> {
-  factory _$DnsCacheCountCopyWith(_DnsCacheCount value, $Res Function(_DnsCacheCount) _then) = __$DnsCacheCountCopyWithImpl;
-@override @useResult
-$Res call({
- int valid, int stale
-});
-
-
-
-
-}
-/// @nodoc
-class __$DnsCacheCountCopyWithImpl<$Res>
-    implements _$DnsCacheCountCopyWith<$Res> {
-  __$DnsCacheCountCopyWithImpl(this._self, this._then);
-
-  final _DnsCacheCount _self;
-  final $Res Function(_DnsCacheCount) _then;
-
-/// Create a copy of DnsCacheCount
-/// with the given fields replaced by the non-null parameter values.
-@override @pragma('vm:prefer-inline') $Res call({Object? valid = null,Object? stale = null,}) {
-  return _then(_DnsCacheCount(
-valid: null == valid ? _self.valid : valid // ignore: cast_nullable_to_non_nullable
-as int,stale: null == stale ? _self.stale : stale // ignore: cast_nullable_to_non_nullable
-as int,
+@override @pragma('vm:prefer-inline') $Res call({Object? name = null,Object? percentage = null,}) {
+  return _then(_DnsTypePercentage(
+name: null == name ? _self.name : name // ignore: cast_nullable_to_non_nullable
+as String,percentage: null == percentage ? _self.percentage : percentage // ignore: cast_nullable_to_non_nullable
+as double,
   ));
 }
 
@@ -1130,7 +852,7 @@ as int,
 /// @nodoc
 mixin _$DnsReplies {
 
- int get forwarded; int get unanswered; int get local; int get optimized; int get auth; int get sum;
+ int get forwarded; int get unanswered; int get local; int get optimized; int get auth; int get sum; double get forwardedPercentage; double get unansweredPercentage; double get localPercentage; double get optimizedPercentage; double get authPercentage;
 /// Create a copy of DnsReplies
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -1143,16 +865,16 @@ $DnsRepliesCopyWith<DnsReplies> get copyWith => _$DnsRepliesCopyWithImpl<DnsRepl
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is DnsReplies&&(identical(other.forwarded, forwarded) || other.forwarded == forwarded)&&(identical(other.unanswered, unanswered) || other.unanswered == unanswered)&&(identical(other.local, local) || other.local == local)&&(identical(other.optimized, optimized) || other.optimized == optimized)&&(identical(other.auth, auth) || other.auth == auth)&&(identical(other.sum, sum) || other.sum == sum));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is DnsReplies&&(identical(other.forwarded, forwarded) || other.forwarded == forwarded)&&(identical(other.unanswered, unanswered) || other.unanswered == unanswered)&&(identical(other.local, local) || other.local == local)&&(identical(other.optimized, optimized) || other.optimized == optimized)&&(identical(other.auth, auth) || other.auth == auth)&&(identical(other.sum, sum) || other.sum == sum)&&(identical(other.forwardedPercentage, forwardedPercentage) || other.forwardedPercentage == forwardedPercentage)&&(identical(other.unansweredPercentage, unansweredPercentage) || other.unansweredPercentage == unansweredPercentage)&&(identical(other.localPercentage, localPercentage) || other.localPercentage == localPercentage)&&(identical(other.optimizedPercentage, optimizedPercentage) || other.optimizedPercentage == optimizedPercentage)&&(identical(other.authPercentage, authPercentage) || other.authPercentage == authPercentage));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,forwarded,unanswered,local,optimized,auth,sum);
+int get hashCode => Object.hash(runtimeType,forwarded,unanswered,local,optimized,auth,sum,forwardedPercentage,unansweredPercentage,localPercentage,optimizedPercentage,authPercentage);
 
 @override
 String toString() {
-  return 'DnsReplies(forwarded: $forwarded, unanswered: $unanswered, local: $local, optimized: $optimized, auth: $auth, sum: $sum)';
+  return 'DnsReplies(forwarded: $forwarded, unanswered: $unanswered, local: $local, optimized: $optimized, auth: $auth, sum: $sum, forwardedPercentage: $forwardedPercentage, unansweredPercentage: $unansweredPercentage, localPercentage: $localPercentage, optimizedPercentage: $optimizedPercentage, authPercentage: $authPercentage)';
 }
 
 
@@ -1163,7 +885,7 @@ abstract mixin class $DnsRepliesCopyWith<$Res>  {
   factory $DnsRepliesCopyWith(DnsReplies value, $Res Function(DnsReplies) _then) = _$DnsRepliesCopyWithImpl;
 @useResult
 $Res call({
- int forwarded, int unanswered, int local, int optimized, int auth, int sum
+ int forwarded, int unanswered, int local, int optimized, int auth, int sum, double forwardedPercentage, double unansweredPercentage, double localPercentage, double optimizedPercentage, double authPercentage
 });
 
 
@@ -1180,7 +902,7 @@ class _$DnsRepliesCopyWithImpl<$Res>
 
 /// Create a copy of DnsReplies
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? forwarded = null,Object? unanswered = null,Object? local = null,Object? optimized = null,Object? auth = null,Object? sum = null,}) {
+@pragma('vm:prefer-inline') @override $Res call({Object? forwarded = null,Object? unanswered = null,Object? local = null,Object? optimized = null,Object? auth = null,Object? sum = null,Object? forwardedPercentage = null,Object? unansweredPercentage = null,Object? localPercentage = null,Object? optimizedPercentage = null,Object? authPercentage = null,}) {
   return _then(_self.copyWith(
 forwarded: null == forwarded ? _self.forwarded : forwarded // ignore: cast_nullable_to_non_nullable
 as int,unanswered: null == unanswered ? _self.unanswered : unanswered // ignore: cast_nullable_to_non_nullable
@@ -1188,7 +910,12 @@ as int,local: null == local ? _self.local : local // ignore: cast_nullable_to_no
 as int,optimized: null == optimized ? _self.optimized : optimized // ignore: cast_nullable_to_non_nullable
 as int,auth: null == auth ? _self.auth : auth // ignore: cast_nullable_to_non_nullable
 as int,sum: null == sum ? _self.sum : sum // ignore: cast_nullable_to_non_nullable
-as int,
+as int,forwardedPercentage: null == forwardedPercentage ? _self.forwardedPercentage : forwardedPercentage // ignore: cast_nullable_to_non_nullable
+as double,unansweredPercentage: null == unansweredPercentage ? _self.unansweredPercentage : unansweredPercentage // ignore: cast_nullable_to_non_nullable
+as double,localPercentage: null == localPercentage ? _self.localPercentage : localPercentage // ignore: cast_nullable_to_non_nullable
+as double,optimizedPercentage: null == optimizedPercentage ? _self.optimizedPercentage : optimizedPercentage // ignore: cast_nullable_to_non_nullable
+as double,authPercentage: null == authPercentage ? _self.authPercentage : authPercentage // ignore: cast_nullable_to_non_nullable
+as double,
   ));
 }
 
@@ -1270,10 +997,10 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( int forwarded,  int unanswered,  int local,  int optimized,  int auth,  int sum)?  $default,{required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( int forwarded,  int unanswered,  int local,  int optimized,  int auth,  int sum,  double forwardedPercentage,  double unansweredPercentage,  double localPercentage,  double optimizedPercentage,  double authPercentage)?  $default,{required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _DnsReplies() when $default != null:
-return $default(_that.forwarded,_that.unanswered,_that.local,_that.optimized,_that.auth,_that.sum);case _:
+return $default(_that.forwarded,_that.unanswered,_that.local,_that.optimized,_that.auth,_that.sum,_that.forwardedPercentage,_that.unansweredPercentage,_that.localPercentage,_that.optimizedPercentage,_that.authPercentage);case _:
   return orElse();
 
 }
@@ -1291,10 +1018,10 @@ return $default(_that.forwarded,_that.unanswered,_that.local,_that.optimized,_th
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( int forwarded,  int unanswered,  int local,  int optimized,  int auth,  int sum)  $default,) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( int forwarded,  int unanswered,  int local,  int optimized,  int auth,  int sum,  double forwardedPercentage,  double unansweredPercentage,  double localPercentage,  double optimizedPercentage,  double authPercentage)  $default,) {final _that = this;
 switch (_that) {
 case _DnsReplies():
-return $default(_that.forwarded,_that.unanswered,_that.local,_that.optimized,_that.auth,_that.sum);}
+return $default(_that.forwarded,_that.unanswered,_that.local,_that.optimized,_that.auth,_that.sum,_that.forwardedPercentage,_that.unansweredPercentage,_that.localPercentage,_that.optimizedPercentage,_that.authPercentage);}
 }
 /// A variant of `when` that fallback to returning `null`
 ///
@@ -1308,10 +1035,10 @@ return $default(_that.forwarded,_that.unanswered,_that.local,_that.optimized,_th
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( int forwarded,  int unanswered,  int local,  int optimized,  int auth,  int sum)?  $default,) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( int forwarded,  int unanswered,  int local,  int optimized,  int auth,  int sum,  double forwardedPercentage,  double unansweredPercentage,  double localPercentage,  double optimizedPercentage,  double authPercentage)?  $default,) {final _that = this;
 switch (_that) {
 case _DnsReplies() when $default != null:
-return $default(_that.forwarded,_that.unanswered,_that.local,_that.optimized,_that.auth,_that.sum);case _:
+return $default(_that.forwarded,_that.unanswered,_that.local,_that.optimized,_that.auth,_that.sum,_that.forwardedPercentage,_that.unansweredPercentage,_that.localPercentage,_that.optimizedPercentage,_that.authPercentage);case _:
   return null;
 
 }
@@ -1322,8 +1049,8 @@ return $default(_that.forwarded,_that.unanswered,_that.local,_that.optimized,_th
 /// @nodoc
 @JsonSerializable()
 
-class _DnsReplies extends DnsReplies {
-  const _DnsReplies({required this.forwarded, required this.unanswered, required this.local, required this.optimized, required this.auth, required this.sum}): super._();
+class _DnsReplies implements DnsReplies {
+  const _DnsReplies({required this.forwarded, required this.unanswered, required this.local, required this.optimized, required this.auth, required this.sum, required this.forwardedPercentage, required this.unansweredPercentage, required this.localPercentage, required this.optimizedPercentage, required this.authPercentage});
   factory _DnsReplies.fromJson(Map<String, dynamic> json) => _$DnsRepliesFromJson(json);
 
 @override final  int forwarded;
@@ -1332,6 +1059,11 @@ class _DnsReplies extends DnsReplies {
 @override final  int optimized;
 @override final  int auth;
 @override final  int sum;
+@override final  double forwardedPercentage;
+@override final  double unansweredPercentage;
+@override final  double localPercentage;
+@override final  double optimizedPercentage;
+@override final  double authPercentage;
 
 /// Create a copy of DnsReplies
 /// with the given fields replaced by the non-null parameter values.
@@ -1346,16 +1078,16 @@ Map<String, dynamic> toJson() {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _DnsReplies&&(identical(other.forwarded, forwarded) || other.forwarded == forwarded)&&(identical(other.unanswered, unanswered) || other.unanswered == unanswered)&&(identical(other.local, local) || other.local == local)&&(identical(other.optimized, optimized) || other.optimized == optimized)&&(identical(other.auth, auth) || other.auth == auth)&&(identical(other.sum, sum) || other.sum == sum));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _DnsReplies&&(identical(other.forwarded, forwarded) || other.forwarded == forwarded)&&(identical(other.unanswered, unanswered) || other.unanswered == unanswered)&&(identical(other.local, local) || other.local == local)&&(identical(other.optimized, optimized) || other.optimized == optimized)&&(identical(other.auth, auth) || other.auth == auth)&&(identical(other.sum, sum) || other.sum == sum)&&(identical(other.forwardedPercentage, forwardedPercentage) || other.forwardedPercentage == forwardedPercentage)&&(identical(other.unansweredPercentage, unansweredPercentage) || other.unansweredPercentage == unansweredPercentage)&&(identical(other.localPercentage, localPercentage) || other.localPercentage == localPercentage)&&(identical(other.optimizedPercentage, optimizedPercentage) || other.optimizedPercentage == optimizedPercentage)&&(identical(other.authPercentage, authPercentage) || other.authPercentage == authPercentage));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,forwarded,unanswered,local,optimized,auth,sum);
+int get hashCode => Object.hash(runtimeType,forwarded,unanswered,local,optimized,auth,sum,forwardedPercentage,unansweredPercentage,localPercentage,optimizedPercentage,authPercentage);
 
 @override
 String toString() {
-  return 'DnsReplies(forwarded: $forwarded, unanswered: $unanswered, local: $local, optimized: $optimized, auth: $auth, sum: $sum)';
+  return 'DnsReplies(forwarded: $forwarded, unanswered: $unanswered, local: $local, optimized: $optimized, auth: $auth, sum: $sum, forwardedPercentage: $forwardedPercentage, unansweredPercentage: $unansweredPercentage, localPercentage: $localPercentage, optimizedPercentage: $optimizedPercentage, authPercentage: $authPercentage)';
 }
 
 
@@ -1366,7 +1098,7 @@ abstract mixin class _$DnsRepliesCopyWith<$Res> implements $DnsRepliesCopyWith<$
   factory _$DnsRepliesCopyWith(_DnsReplies value, $Res Function(_DnsReplies) _then) = __$DnsRepliesCopyWithImpl;
 @override @useResult
 $Res call({
- int forwarded, int unanswered, int local, int optimized, int auth, int sum
+ int forwarded, int unanswered, int local, int optimized, int auth, int sum, double forwardedPercentage, double unansweredPercentage, double localPercentage, double optimizedPercentage, double authPercentage
 });
 
 
@@ -1383,7 +1115,7 @@ class __$DnsRepliesCopyWithImpl<$Res>
 
 /// Create a copy of DnsReplies
 /// with the given fields replaced by the non-null parameter values.
-@override @pragma('vm:prefer-inline') $Res call({Object? forwarded = null,Object? unanswered = null,Object? local = null,Object? optimized = null,Object? auth = null,Object? sum = null,}) {
+@override @pragma('vm:prefer-inline') $Res call({Object? forwarded = null,Object? unanswered = null,Object? local = null,Object? optimized = null,Object? auth = null,Object? sum = null,Object? forwardedPercentage = null,Object? unansweredPercentage = null,Object? localPercentage = null,Object? optimizedPercentage = null,Object? authPercentage = null,}) {
   return _then(_DnsReplies(
 forwarded: null == forwarded ? _self.forwarded : forwarded // ignore: cast_nullable_to_non_nullable
 as int,unanswered: null == unanswered ? _self.unanswered : unanswered // ignore: cast_nullable_to_non_nullable
@@ -1391,7 +1123,12 @@ as int,local: null == local ? _self.local : local // ignore: cast_nullable_to_no
 as int,optimized: null == optimized ? _self.optimized : optimized // ignore: cast_nullable_to_non_nullable
 as int,auth: null == auth ? _self.auth : auth // ignore: cast_nullable_to_non_nullable
 as int,sum: null == sum ? _self.sum : sum // ignore: cast_nullable_to_non_nullable
-as int,
+as int,forwardedPercentage: null == forwardedPercentage ? _self.forwardedPercentage : forwardedPercentage // ignore: cast_nullable_to_non_nullable
+as double,unansweredPercentage: null == unansweredPercentage ? _self.unansweredPercentage : unansweredPercentage // ignore: cast_nullable_to_non_nullable
+as double,localPercentage: null == localPercentage ? _self.localPercentage : localPercentage // ignore: cast_nullable_to_non_nullable
+as double,optimizedPercentage: null == optimizedPercentage ? _self.optimizedPercentage : optimizedPercentage // ignore: cast_nullable_to_non_nullable
+as double,authPercentage: null == authPercentage ? _self.authPercentage : authPercentage // ignore: cast_nullable_to_non_nullable
+as double,
   ));
 }
 

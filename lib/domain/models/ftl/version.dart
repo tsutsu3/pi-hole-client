@@ -32,12 +32,8 @@ sealed class ComponentVersion with _$ComponentVersion {
 
 @freezed
 sealed class VersionDetail with _$VersionDetail {
-  const factory VersionDetail({
-    required String version,
-    String? branch,
-    String? hash,
-    String? date,
-  }) = _VersionDetail;
+  const factory VersionDetail({required String version, String? branch}) =
+      _VersionDetail;
 
   factory VersionDetail.fromJson(Map<String, dynamic> json) =>
       _$VersionDetailFromJson(json);

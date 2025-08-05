@@ -7,7 +7,7 @@ part of 'host.dart';
 // **************************************************************************
 
 _InfoHost _$InfoHostFromJson(Map<String, dynamic> json) => _InfoHost(
-  domainname: json['domainname'] as String,
+  domainName: json['domainName'] as String,
   arch: json['arch'] as String,
   hostName: json['hostName'] as String,
   release: json['release'] as String,
@@ -17,7 +17,7 @@ _InfoHost _$InfoHostFromJson(Map<String, dynamic> json) => _InfoHost(
 );
 
 Map<String, dynamic> _$InfoHostToJson(_InfoHost instance) => <String, dynamic>{
-  'domainname': instance.domainname,
+  'domainName': instance.domainName,
   'arch': instance.arch,
   'hostName': instance.hostName,
   'release': instance.release,

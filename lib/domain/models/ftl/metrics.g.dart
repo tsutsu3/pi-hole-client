@@ -20,46 +20,34 @@ Map<String, dynamic> _$InfoDnsMetricsToJson(_InfoDnsMetrics instance) =>
 
 _DnsCache _$DnsCacheFromJson(Map<String, dynamic> json) => _DnsCache(
   size: (json['size'] as num).toInt(),
+  records: (json['records'] as num).toInt(),
   inserted: (json['inserted'] as num).toInt(),
   evicted: (json['evicted'] as num).toInt(),
   expired: (json['expired'] as num).toInt(),
   immortal: (json['immortal'] as num).toInt(),
-  content: (json['content'] as List<dynamic>)
-      .map((e) => DnsCacheEntry.fromJson(e as Map<String, dynamic>))
+  typePercentages: (json['typePercentages'] as List<dynamic>)
+      .map((e) => DnsTypePercentage.fromJson(e as Map<String, dynamic>))
       .toList(),
 );
 
 Map<String, dynamic> _$DnsCacheToJson(_DnsCache instance) => <String, dynamic>{
   'size': instance.size,
+  'records': instance.records,
   'inserted': instance.inserted,
   'evicted': instance.evicted,
   'expired': instance.expired,
   'immortal': instance.immortal,
-  'content': instance.content.map((e) => e.toJson()).toList(),
+  'typePercentages': instance.typePercentages.map((e) => e.toJson()).toList(),
 };
 
-_DnsCacheEntry _$DnsCacheEntryFromJson(Map<String, dynamic> json) =>
-    _DnsCacheEntry(
-      type: (json['type'] as num).toInt(),
+_DnsTypePercentage _$DnsTypePercentageFromJson(Map<String, dynamic> json) =>
+    _DnsTypePercentage(
       name: json['name'] as String,
-      count: DnsCacheCount.fromJson(json['count'] as Map<String, dynamic>),
+      percentage: (json['percentage'] as num).toDouble(),
     );
 
-Map<String, dynamic> _$DnsCacheEntryToJson(_DnsCacheEntry instance) =>
-    <String, dynamic>{
-      'type': instance.type,
-      'name': instance.name,
-      'count': instance.count.toJson(),
-    };
-
-_DnsCacheCount _$DnsCacheCountFromJson(Map<String, dynamic> json) =>
-    _DnsCacheCount(
-      valid: (json['valid'] as num).toInt(),
-      stale: (json['stale'] as num).toInt(),
-    );
-
-Map<String, dynamic> _$DnsCacheCountToJson(_DnsCacheCount instance) =>
-    <String, dynamic>{'valid': instance.valid, 'stale': instance.stale};
+Map<String, dynamic> _$DnsTypePercentageToJson(_DnsTypePercentage instance) =>
+    <String, dynamic>{'name': instance.name, 'percentage': instance.percentage};
 
 _DnsReplies _$DnsRepliesFromJson(Map<String, dynamic> json) => _DnsReplies(
   forwarded: (json['forwarded'] as num).toInt(),
@@ -68,6 +56,11 @@ _DnsReplies _$DnsRepliesFromJson(Map<String, dynamic> json) => _DnsReplies(
   optimized: (json['optimized'] as num).toInt(),
   auth: (json['auth'] as num).toInt(),
   sum: (json['sum'] as num).toInt(),
+  forwardedPercentage: (json['forwardedPercentage'] as num).toDouble(),
+  unansweredPercentage: (json['unansweredPercentage'] as num).toDouble(),
+  localPercentage: (json['localPercentage'] as num).toDouble(),
+  optimizedPercentage: (json['optimizedPercentage'] as num).toDouble(),
+  authPercentage: (json['authPercentage'] as num).toDouble(),
 );
 
 Map<String, dynamic> _$DnsRepliesToJson(_DnsReplies instance) =>
@@ -78,4 +71,9 @@ Map<String, dynamic> _$DnsRepliesToJson(_DnsReplies instance) =>
       'optimized': instance.optimized,
       'auth': instance.auth,
       'sum': instance.sum,
+      'forwardedPercentage': instance.forwardedPercentage,
+      'unansweredPercentage': instance.unansweredPercentage,
+      'localPercentage': instance.localPercentage,
+      'optimizedPercentage': instance.optimizedPercentage,
+      'authPercentage': instance.authPercentage,
     };

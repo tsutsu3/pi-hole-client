@@ -54,31 +54,23 @@ sealed class Web with _$Web {
 @freezed
 sealed class FTL with _$FTL {
   @JsonSerializable(explicitToJson: true)
-  const factory FTL({
-    required LocalFTL local,
-    required RemoteVersion remote,
-  }) = _FTL;
+  const factory FTL({required LocalFTL local, required RemoteVersion remote}) =
+      _FTL;
 
   factory FTL.fromJson(Map<String, dynamic> json) => _$FTLFromJson(json);
 }
 
 @freezed
 sealed class Docker with _$Docker {
-  const factory Docker({
-    required String? local,
-    required String? remote,
-  }) = _Docker;
+  const factory Docker({String? local, String? remote}) = _Docker;
 
   factory Docker.fromJson(Map<String, dynamic> json) => _$DockerFromJson(json);
 }
 
 @freezed
 sealed class LocalVersion with _$LocalVersion {
-  const factory LocalVersion({
-    required String? branch,
-    required String? version,
-    required String? hash,
-  }) = _LocalVersion;
+  const factory LocalVersion({String? branch, String? version, String? hash}) =
+      _LocalVersion;
 
   factory LocalVersion.fromJson(Map<String, dynamic> json) =>
       _$LocalVersionFromJson(json);
@@ -86,10 +78,7 @@ sealed class LocalVersion with _$LocalVersion {
 
 @freezed
 sealed class RemoteVersion with _$RemoteVersion {
-  const factory RemoteVersion({
-    required String? version,
-    required String? hash,
-  }) = _RemoteVersion;
+  const factory RemoteVersion({String? version, String? hash}) = _RemoteVersion;
 
   factory RemoteVersion.fromJson(Map<String, dynamic> json) =>
       _$RemoteVersionFromJson(json);
@@ -98,10 +87,10 @@ sealed class RemoteVersion with _$RemoteVersion {
 @freezed
 sealed class LocalFTL with _$LocalFTL {
   const factory LocalFTL({
-    required String? branch,
-    required String? version,
-    required String? hash,
-    required String? date,
+    String? branch,
+    String? version,
+    String? hash,
+    String? date,
   }) = _LocalFTL;
 
   factory LocalFTL.fromJson(Map<String, dynamic> json) =>

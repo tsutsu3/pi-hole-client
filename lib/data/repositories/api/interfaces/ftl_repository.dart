@@ -18,7 +18,7 @@ abstract interface class FtlRepository {
 
   Future<Result<List<InfoMessage>>> getInfoMessages();
 
-  Future<Result<Unit>> deleteInfoMessages(int messageId);
+  Future<Result<Unit>> deleteInfoMessage(int messageId);
 
   Future<Result<InfoDnsMetrics>> getInfoMetrics();
 

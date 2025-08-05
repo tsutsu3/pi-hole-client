@@ -652,7 +652,7 @@ $VersionDetailCopyWith<$Res> get remote {
 /// @nodoc
 mixin _$VersionDetail {
 
- String get version; String? get branch; String? get hash; String? get date;
+ String get version; String? get branch;
 /// Create a copy of VersionDetail
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -665,16 +665,16 @@ $VersionDetailCopyWith<VersionDetail> get copyWith => _$VersionDetailCopyWithImp
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is VersionDetail&&(identical(other.version, version) || other.version == version)&&(identical(other.branch, branch) || other.branch == branch)&&(identical(other.hash, hash) || other.hash == hash)&&(identical(other.date, date) || other.date == date));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is VersionDetail&&(identical(other.version, version) || other.version == version)&&(identical(other.branch, branch) || other.branch == branch));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,version,branch,hash,date);
+int get hashCode => Object.hash(runtimeType,version,branch);
 
 @override
 String toString() {
-  return 'VersionDetail(version: $version, branch: $branch, hash: $hash, date: $date)';
+  return 'VersionDetail(version: $version, branch: $branch)';
 }
 
 
@@ -685,7 +685,7 @@ abstract mixin class $VersionDetailCopyWith<$Res>  {
   factory $VersionDetailCopyWith(VersionDetail value, $Res Function(VersionDetail) _then) = _$VersionDetailCopyWithImpl;
 @useResult
 $Res call({
- String version, String? branch, String? hash, String? date
+ String version, String? branch
 });
 
 
@@ -702,12 +702,10 @@ class _$VersionDetailCopyWithImpl<$Res>
 
 /// Create a copy of VersionDetail
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? version = null,Object? branch = freezed,Object? hash = freezed,Object? date = freezed,}) {
+@pragma('vm:prefer-inline') @override $Res call({Object? version = null,Object? branch = freezed,}) {
   return _then(_self.copyWith(
 version: null == version ? _self.version : version // ignore: cast_nullable_to_non_nullable
 as String,branch: freezed == branch ? _self.branch : branch // ignore: cast_nullable_to_non_nullable
-as String?,hash: freezed == hash ? _self.hash : hash // ignore: cast_nullable_to_non_nullable
-as String?,date: freezed == date ? _self.date : date // ignore: cast_nullable_to_non_nullable
 as String?,
   ));
 }
@@ -790,10 +788,10 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( String version,  String? branch,  String? hash,  String? date)?  $default,{required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( String version,  String? branch)?  $default,{required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _VersionDetail() when $default != null:
-return $default(_that.version,_that.branch,_that.hash,_that.date);case _:
+return $default(_that.version,_that.branch);case _:
   return orElse();
 
 }
@@ -811,10 +809,10 @@ return $default(_that.version,_that.branch,_that.hash,_that.date);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( String version,  String? branch,  String? hash,  String? date)  $default,) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( String version,  String? branch)  $default,) {final _that = this;
 switch (_that) {
 case _VersionDetail():
-return $default(_that.version,_that.branch,_that.hash,_that.date);}
+return $default(_that.version,_that.branch);}
 }
 /// A variant of `when` that fallback to returning `null`
 ///
@@ -828,10 +826,10 @@ return $default(_that.version,_that.branch,_that.hash,_that.date);}
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( String version,  String? branch,  String? hash,  String? date)?  $default,) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( String version,  String? branch)?  $default,) {final _that = this;
 switch (_that) {
 case _VersionDetail() when $default != null:
-return $default(_that.version,_that.branch,_that.hash,_that.date);case _:
+return $default(_that.version,_that.branch);case _:
   return null;
 
 }
@@ -843,13 +841,11 @@ return $default(_that.version,_that.branch,_that.hash,_that.date);case _:
 @JsonSerializable()
 
 class _VersionDetail implements VersionDetail {
-  const _VersionDetail({required this.version, this.branch, this.hash, this.date});
+  const _VersionDetail({required this.version, this.branch});
   factory _VersionDetail.fromJson(Map<String, dynamic> json) => _$VersionDetailFromJson(json);
 
 @override final  String version;
 @override final  String? branch;
-@override final  String? hash;
-@override final  String? date;
 
 /// Create a copy of VersionDetail
 /// with the given fields replaced by the non-null parameter values.
@@ -864,16 +860,16 @@ Map<String, dynamic> toJson() {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _VersionDetail&&(identical(other.version, version) || other.version == version)&&(identical(other.branch, branch) || other.branch == branch)&&(identical(other.hash, hash) || other.hash == hash)&&(identical(other.date, date) || other.date == date));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _VersionDetail&&(identical(other.version, version) || other.version == version)&&(identical(other.branch, branch) || other.branch == branch));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,version,branch,hash,date);
+int get hashCode => Object.hash(runtimeType,version,branch);
 
 @override
 String toString() {
-  return 'VersionDetail(version: $version, branch: $branch, hash: $hash, date: $date)';
+  return 'VersionDetail(version: $version, branch: $branch)';
 }
 
 
@@ -884,7 +880,7 @@ abstract mixin class _$VersionDetailCopyWith<$Res> implements $VersionDetailCopy
   factory _$VersionDetailCopyWith(_VersionDetail value, $Res Function(_VersionDetail) _then) = __$VersionDetailCopyWithImpl;
 @override @useResult
 $Res call({
- String version, String? branch, String? hash, String? date
+ String version, String? branch
 });
 
 
@@ -901,12 +897,10 @@ class __$VersionDetailCopyWithImpl<$Res>
 
 /// Create a copy of VersionDetail
 /// with the given fields replaced by the non-null parameter values.
-@override @pragma('vm:prefer-inline') $Res call({Object? version = null,Object? branch = freezed,Object? hash = freezed,Object? date = freezed,}) {
+@override @pragma('vm:prefer-inline') $Res call({Object? version = null,Object? branch = freezed,}) {
   return _then(_VersionDetail(
 version: null == version ? _self.version : version // ignore: cast_nullable_to_non_nullable
 as String,branch: freezed == branch ? _self.branch : branch // ignore: cast_nullable_to_non_nullable
-as String?,hash: freezed == hash ? _self.hash : hash // ignore: cast_nullable_to_non_nullable
-as String?,date: freezed == date ? _self.date : date // ignore: cast_nullable_to_non_nullable
 as String?,
   ));
 }

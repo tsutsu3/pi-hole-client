@@ -16,11 +16,9 @@ import 'package:pi_hole_client/domain/models/ftl/version.dart';
 import 'package:result_dart/result_dart.dart';
 
 class FtlRepositoryV5 implements FtlRepository {
-  FtlRepositoryV5({
-    required String token,
-    required PiholeV5ApiClient client,
-  })  : _token = token,
-        _client = client;
+  FtlRepositoryV5({required String token, required PiholeV5ApiClient client})
+    : _token = token,
+      _client = client;
 
   final String _token;
   final PiholeV5ApiClient _client;
@@ -54,7 +52,7 @@ class FtlRepositoryV5 implements FtlRepository {
   }
 
   @override
-  Future<Result<Unit>> deleteInfoMessages(int messageId) {
+  Future<Result<Unit>> deleteInfoMessage(int messageId) {
     return Future.value(
       Failure(NotSupportedException(kNotSupportedInV5Message)),
     );
@@ -83,17 +81,23 @@ class FtlRepositoryV5 implements FtlRepository {
 
   @override
   Future<Result<InfoVersion>> getInfoVersion() {
-    return runWithResultRetry(action: () async {
-      final result = await _client.getVersions(_token);
-      return Success(result.getOrThrow().toDomain());
-    });
+    return runWithResultRetry(
+      action: () async {
+        final result = await _client.getVersions(_token);
+        return Success(result.getOrThrow().toDomain());
+      },
+    );
   }
 
   @override
   Future<Result<InfoPiholeServer>> fetchAllServerInfo() {
-    return runWithResultRetry(action: () async {
-      final result = await _client.getVersions(_token);
-      return Success(InfoPiholeServer(version: result.getOrThrow().toDomain()));
-    });
+    return runWithResultRetry(
+      action: () async {
+        final result = await _client.getVersions(_token);
+        return Success(
+          InfoPiholeServer(version: result.getOrThrow().toDomain()),
+        );
+      },
+    );
   }
 }
