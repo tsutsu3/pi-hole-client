@@ -46,6 +46,7 @@ import 'package:pi_hole_client/data/services/api/model/v6/network/gateway.dart'
 import 'package:pi_hole_client/data/services/api/pihole_v6_api_client.dart';
 import 'package:result_dart/result_dart.dart';
 
+import '../../models/actions.dart';
 import '../../models/auth.dart';
 
 class FakePiholeV6ApiClient implements PiholeV6ApiClient {
@@ -53,6 +54,10 @@ class FakePiholeV6ApiClient implements PiholeV6ApiClient {
   bool shouldFailDeleteAuth = false;
   bool shouldFailGetAuthSessions = false;
   bool shouldFailDeleteAuthSession = false;
+  bool shouldFailPostActionFlushArp = false;
+  bool shouldFailPostActionFlushLogs = false;
+  bool shouldFailPostActionRestartDns = false;
+  bool shouldFailPostActionGravity = false;
 
   @override
   void close() {}
@@ -350,20 +355,39 @@ class FakePiholeV6ApiClient implements PiholeV6ApiClient {
   // ==========================================================================
   @override
   Future<Result<Action>> postActionFlushArp(String sid) async {
-    throw UnimplementedError();
+    if (shouldFailPostActionFlushArp) {
+      return Failure(Exception('Forced postActionFlushArp failure'));
+    }
+    return Success(kSrvPostActionFlushArp);
   }
 
   @override
   Future<Result<Action>> postActionFlushLogs(String sid) async {
-    throw UnimplementedError();
+    if (shouldFailPostActionFlushLogs) {
+      return Failure(Exception('Forced postActionFlushLogs failure'));
+    }
+    return Success(kSrvPostActionFlushLogs);
   }
 
   @override
-  Stream<Result<List<String>>> postActionGravity(String sid) async* {}
+  Stream<Result<List<String>>> postActionGravity(String sid) async* {
+    if (shouldFailPostActionGravity) {
+      yield Failure(Exception('Forced postActionGravity failure'));
+    }
+
+    yield* Stream.fromIterable(
+      kSrvPostActionGravity.map(
+        (e) => Success(e.map((item) => item as String).toList()),
+      ),
+    );
+  }
 
   @override
   Future<Result<Action>> postActionRestartDns(String sid) async {
-    throw UnimplementedError();
+    if (shouldFailPostActionRestartDns) {
+      return Failure(Exception('Forced postActionRestartDns failure'));
+    }
+    return Success(kSrvPostActionRestartDns);
   }
 
   // ==========================================================================
