@@ -61,13 +61,11 @@ class FakePiholeV6ApiClient implements PiholeV6ApiClient {
   // Authentication
   // ==========================================================================
   @override
-  Future<Result<Session>> postAuth({
-    required String password,
-  }) async {
+  Future<Result<Session>> postAuth({required String password}) async {
     if (shouldFailPostAuth) {
       return Failure(Exception('Forced postAuth failure'));
     }
-    return Success(kPostAuth);
+    return Success(kSrvPostAuth);
   }
 
   @override
@@ -83,14 +81,11 @@ class FakePiholeV6ApiClient implements PiholeV6ApiClient {
     if (shouldFailGetAuthSessions) {
       return Failure(Exception('Forced getAuthSessions failure'));
     }
-    return Success(kGetAuthSessions);
+    return Success(kSrvGetAuthSessions);
   }
 
   @override
-  Future<Result<Unit>> deleteAuthSession(
-    String sid, {
-    required int id,
-  }) async {
+  Future<Result<Unit>> deleteAuthSession(String sid, {required int id}) async {
     if (shouldFailDeleteAuthSession) {
       return Failure(Exception('Forced deleteAuthSession failure'));
     }

@@ -1,81 +1,122 @@
-import 'package:pi_hole_client/data/mapper/v6/auth_mapper.dart';
-import 'package:pi_hole_client/data/services/api/model/v6/auth/auth.dart';
-import 'package:pi_hole_client/data/services/api/model/v6/auth/sessions.dart';
-
-// ===========================================================================
-// Json data for testing
-// ===========================================================================
-final kPostAuthJson = {
-  'session': {
-    'valid': true,
-    'totp': false,
-    'sid': 'n9n9f6c3umrumfq2ese1lvu2pg',
-    'csrf': 'Ux87YTIiMOf/GKCefVIOMw=',
-    'validity': 300,
-    'message': 'correct password',
-  },
-  'took': 0.03,
-};
-
-final kGetAuthSessionsJson = {
-  'sessions': [
-    {
-      'id': 0,
-      'current_session': false,
-      'valid': false,
-      'tls': {'login': false, 'mixed': false},
-      'app': false,
-      'cli': false,
-      'login_at': 1580000000,
-      'last_active': 1580000000,
-      'valid_until': 1580000300,
-      'remote_addr': '192.168.0.30',
-      'user_agent': 'Dart/3.7 (dart:io)',
-      'x_forwarded_for': null,
-    },
-    {
-      'id': 1,
-      'current_session': true,
-      'valid': true,
-      'tls': {'login': true, 'mixed': false},
-      'app': false,
-      'cli': false,
-      'login_at': 1580000000,
-      'last_active': 1580000000,
-      'valid_until': 1580000300,
-      'remote_addr': '192.168.0.31',
-      'user_agent':
-          'Mozilla/5.0 (X11; Linux x86_64; rv:107.0) Gecko/20100101 Firefox/107.0',
-      'x_forwarded_for': null,
-    },
-    {
-      'id': 3,
-      'current_session': false,
-      'valid': false,
-      'tls': {'login': false, 'mixed': true},
-      'app': true,
-      'cli': true,
-      'login_at': 1580000000,
-      'last_active': 1580000000,
-      'valid_until': 1580000300,
-      'remote_addr': '192.168.0.32',
-      'user_agent': 'Dart/3.7 (dart:io)',
-      'x_forwarded_for': null,
-    },
-  ],
-  'took': 0.003,
-};
+// ignore_for_file: prefer_const_constructors
+import 'package:pi_hole_client/config/enums.dart';
+import 'package:pi_hole_client/data/services/api/model/v6/auth/auth.dart' as s;
+import 'package:pi_hole_client/data/services/api/model/v6/auth/sessions.dart'
+    as s;
+import 'package:pi_hole_client/domain/models/auth/auth.dart' as d;
 
 // ===========================================================================
 // Service response data
 // ===========================================================================
-final kPostAuth = Session.fromJson(kPostAuthJson);
+final kSrvPostAuth = s.Session(
+  session: s.SessionDetail(
+    valid: true,
+    totp: false,
+    sid: 'n9n9f6c3umrumfq2ese1lvu2pg',
+    csrf: 'Ux87YTIiMOf/GKCefVIOMw=',
+    validity: 300,
+    message: 'correct password',
+  ),
+  took: 0.003,
+);
 
-final kGetAuthSessions = AuthSessions.fromJson(kGetAuthSessionsJson);
+final kSrvGetAuthSessions = s.AuthSessions(
+  sessions: [
+    s.SessionData(
+      id: 0,
+      currentSession: false,
+      valid: false,
+      tls: s.Tls(login: false, mixed: false),
+      app: false,
+      cli: false,
+      loginAt: 1580000000,
+      lastActive: 1580000000,
+      validUntil: 1580000300,
+      remoteAddr: '192.168.0.30',
+      userAgent: 'Dart/3.7 (dart:io)',
+    ),
+    s.SessionData(
+      id: 1,
+      currentSession: true,
+      valid: true,
+      tls: s.Tls(login: true, mixed: false),
+      app: false,
+      cli: false,
+      loginAt: 1580000000,
+      lastActive: 1580000000,
+      validUntil: 1580000300,
+      remoteAddr: '192.168.0.31',
+      userAgent:
+          'Mozilla/5.0 (X11; Linux x86_64; rv:107.0) Gecko/20100101 Firefox/107.0',
+    ),
+    s.SessionData(
+      id: 2,
+      currentSession: false,
+      valid: false,
+      tls: s.Tls(login: false, mixed: true),
+      app: true,
+      cli: true,
+      loginAt: 1580000000,
+      lastActive: 1580000000,
+      validUntil: 1580000300,
+      remoteAddr: '192.168.0.32',
+      userAgent: 'Dart/3.7 (dart:io)',
+    ),
+  ],
+  took: 0.003,
+);
 
 // ===========================================================================
 // Repository response data
 // ===========================================================================
-final kCreateSession = kPostAuth.toDomain();
+final kRepoCreateSession = d.Auth(
+  valid: true,
+  totp: false,
+  sid: 'n9n9f6c3umrumfq2ese1lvu2pg',
+  csrf: 'Ux87YTIiMOf/GKCefVIOMw=',
+  validity: 300,
+  message: 'correct password',
+);
 
-final kGetAllSessions = kGetAuthSessions.toDomain();
+final kRepoGetAllSessions = [
+  d.AuthSession(
+    id: 0,
+    isValid: false,
+    isCurrentSession: false,
+    tlsStatus: TlsStatus.none,
+    isApp: false,
+    isCli: false,
+    loginAt: DateTime.fromMillisecondsSinceEpoch(1580000000 * 1000),
+    lastActive: DateTime.fromMillisecondsSinceEpoch(1580000000 * 1000),
+    validUntil: DateTime.fromMillisecondsSinceEpoch(1580000300 * 1000),
+    clientIp: '192.168.0.30',
+    userAgent: 'Dart/3.7 (dart:io)',
+  ),
+  d.AuthSession(
+    id: 1,
+    isValid: true,
+    isCurrentSession: true,
+    tlsStatus: TlsStatus.login,
+    isApp: false,
+    isCli: false,
+    loginAt: DateTime.fromMillisecondsSinceEpoch(1580000000 * 1000),
+    lastActive: DateTime.fromMillisecondsSinceEpoch(1580000000 * 1000),
+    validUntil: DateTime.fromMillisecondsSinceEpoch(1580000300 * 1000),
+    clientIp: '192.168.0.31',
+    userAgent:
+        'Mozilla/5.0 (X11; Linux x86_64; rv:107.0) Gecko/20100101 Firefox/107.0',
+  ),
+  d.AuthSession(
+    id: 2,
+    isValid: false,
+    isCurrentSession: false,
+    tlsStatus: TlsStatus.mixed,
+    isApp: true,
+    isCli: true,
+    loginAt: DateTime.fromMillisecondsSinceEpoch(1580000000 * 1000),
+    lastActive: DateTime.fromMillisecondsSinceEpoch(1580000000 * 1000),
+    validUntil: DateTime.fromMillisecondsSinceEpoch(1580000300 * 1000),
+    clientIp: '192.168.0.32',
+    userAgent: 'Dart/3.7 (dart:io)',
+  ),
+];

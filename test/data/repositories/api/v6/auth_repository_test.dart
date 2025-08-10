@@ -13,16 +13,13 @@ void main() {
 
   setUp(() {
     client = FakePiholeV6ApiClient();
-    repository = AuthRepositoryV6(
-      sid: sid,
-      client: client,
-    );
+    repository = AuthRepositoryV6(sid: sid, client: client);
   });
 
   group('createSession', () {
     test('should create a session successfully', () async {
       final result = await repository.createSession('password123');
-      expectSuccess(result, kCreateSession.toJson());
+      expectSuccess(result, kRepoCreateSession.toJson());
     });
 
     test('retries on failure', () async {
@@ -52,7 +49,7 @@ void main() {
       final result = await repository.getAllSessions();
       expectListSuccess(
         result,
-        kGetAllSessions.map((s) => s.toJson()).toList(),
+        kRepoGetAllSessions.map((s) => s.toJson()).toList(),
       );
     });
 
