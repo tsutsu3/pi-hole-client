@@ -2,10 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/mockito.dart';
 import 'package:pi_hole_client/base.dart';
-import 'package:pi_hole_client/screens/home/home.dart';
-import 'package:pi_hole_client/widgets/bottom_nav_bar.dart';
-import 'package:pi_hole_client/widgets/navigation_rail.dart';
-import 'package:pi_hole_client/widgets/start_warning_modal.dart';
+import 'package:pi_hole_client/ui/core/ui/layout/bottom_nav_bar.dart';
+import 'package:pi_hole_client/ui/core/ui/layout/navigation_rail.dart';
+import 'package:pi_hole_client/ui/core/ui/modals/start_warning_modal.dart';
+import 'package:pi_hole_client/ui/home/home.dart';
 
 import './helpers.dart';
 

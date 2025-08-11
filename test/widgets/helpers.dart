@@ -8,61 +8,70 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
 import 'package:package_info_plus/package_info_plus.dart';
+import 'package:pi_hole_client/config/enums.dart';
 import 'package:pi_hole_client/config/globals.dart';
-import 'package:pi_hole_client/config/theme.dart';
-import 'package:pi_hole_client/constants/enums.dart';
-import 'package:pi_hole_client/constants/query_types.dart';
-import 'package:pi_hole_client/gateways/api_gateway_interface.dart';
-import 'package:pi_hole_client/gateways/v5/api_gateway_v5.dart';
-import 'package:pi_hole_client/gateways/v6/api_gateway_v6.dart';
-import 'package:pi_hole_client/l10n/generated/app_localizations.dart';
-import 'package:pi_hole_client/models/api/v6/auth/sessions.dart';
-import 'package:pi_hole_client/models/api/v6/config/config.dart' show Config;
-import 'package:pi_hole_client/models/api/v6/dhcp/dhcp.dart' show Dhcp;
-// ignore: library_prefixes
-import 'package:pi_hole_client/models/api/v6/ftl/client.dart' as FtlClient
-    show Client;
-import 'package:pi_hole_client/models/api/v6/ftl/host.dart' show Host;
-import 'package:pi_hole_client/models/api/v6/ftl/messages.dart' show Messages;
-import 'package:pi_hole_client/models/api/v6/ftl/metrics.dart';
-import 'package:pi_hole_client/models/api/v6/ftl/sensors.dart' show Sensors;
-import 'package:pi_hole_client/models/api/v6/ftl/system.dart' show System;
-import 'package:pi_hole_client/models/api/v6/ftl/version.dart' show Version;
-import 'package:pi_hole_client/models/api/v6/groups/groups.dart' show Groups;
-import 'package:pi_hole_client/models/api/v6/lists/lists.dart' show Lists;
-import 'package:pi_hole_client/models/api/v6/metrics/query.dart';
-import 'package:pi_hole_client/models/api/v6/network/devices.dart';
-import 'package:pi_hole_client/models/api/v6/network/gateway.dart';
-import 'package:pi_hole_client/models/app_log.dart';
-import 'package:pi_hole_client/models/client.dart';
-import 'package:pi_hole_client/models/config.dart';
-import 'package:pi_hole_client/models/devices.dart';
-import 'package:pi_hole_client/models/dhcp.dart';
-import 'package:pi_hole_client/models/domain.dart';
-import 'package:pi_hole_client/models/gateway.dart';
-import 'package:pi_hole_client/models/gateways.dart';
-import 'package:pi_hole_client/models/groups.dart';
-import 'package:pi_hole_client/models/host.dart';
-import 'package:pi_hole_client/models/log.dart';
-import 'package:pi_hole_client/models/messages.dart';
-import 'package:pi_hole_client/models/metrics.dart';
-import 'package:pi_hole_client/models/overtime_data.dart';
-import 'package:pi_hole_client/models/realtime_status.dart';
-import 'package:pi_hole_client/models/sensors.dart';
-import 'package:pi_hole_client/models/server.dart';
-import 'package:pi_hole_client/models/sessions.dart';
-import 'package:pi_hole_client/models/subscriptions.dart';
-import 'package:pi_hole_client/models/system.dart';
-import 'package:pi_hole_client/models/version.dart';
-import 'package:pi_hole_client/providers/app_config_provider.dart';
-import 'package:pi_hole_client/providers/domains_list_provider.dart';
-import 'package:pi_hole_client/providers/filters_provider.dart';
-import 'package:pi_hole_client/providers/gravity_provider.dart';
-import 'package:pi_hole_client/providers/groups_provider.dart';
-import 'package:pi_hole_client/providers/servers_provider.dart';
-import 'package:pi_hole_client/providers/status_provider.dart';
-import 'package:pi_hole_client/providers/subscriptions_list_provider.dart';
-import 'package:pi_hole_client/services/status_update_service.dart';
+import 'package:pi_hole_client/config/query_types.dart';
+import 'package:pi_hole_client/data/gateway/api_gateway_interface.dart';
+import 'package:pi_hole_client/data/gateway/v5/api_gateway_v5.dart';
+import 'package:pi_hole_client/data/gateway/v6/api_gateway_v6.dart';
+import 'package:pi_hole_client/data/services/api/model/v6/auth/sessions.dart';
+import 'package:pi_hole_client/data/services/api/model/v6/config/config.dart'
+    show Config;
+import 'package:pi_hole_client/data/services/api/model/v6/dhcp/dhcp.dart'
+    show Dhcp;
+import 'package:pi_hole_client/data/services/api/model/v6/ftl/client.dart'
+    show InfoClient;
+import 'package:pi_hole_client/data/services/api/model/v6/ftl/host.dart'
+    show InfoHost;
+import 'package:pi_hole_client/data/services/api/model/v6/ftl/messages.dart'
+    show InfoMessages;
+import 'package:pi_hole_client/data/services/api/model/v6/ftl/metrics.dart'
+    show InfoMetrics;
+import 'package:pi_hole_client/data/services/api/model/v6/ftl/sensors.dart'
+    show InfoSensors;
+import 'package:pi_hole_client/data/services/api/model/v6/ftl/system.dart'
+    show InfoSystem;
+import 'package:pi_hole_client/data/services/api/model/v6/ftl/version.dart'
+    show InfoVersion;
+import 'package:pi_hole_client/data/services/api/model/v6/groups/groups.dart'
+    show Groups;
+import 'package:pi_hole_client/data/services/api/model/v6/lists/lists.dart'
+    show Lists;
+import 'package:pi_hole_client/data/services/api/model/v6/metrics/query.dart';
+import 'package:pi_hole_client/data/services/api/model/v6/network/devices.dart';
+import 'package:pi_hole_client/data/services/api/model/v6/network/gateway.dart';
+import 'package:pi_hole_client/domain/models_old/app_log.dart';
+import 'package:pi_hole_client/domain/models_old/client.dart';
+import 'package:pi_hole_client/domain/models_old/config.dart';
+import 'package:pi_hole_client/domain/models_old/devices.dart';
+import 'package:pi_hole_client/domain/models_old/dhcp.dart';
+import 'package:pi_hole_client/domain/models_old/domain.dart';
+import 'package:pi_hole_client/domain/models_old/gateway.dart';
+import 'package:pi_hole_client/domain/models_old/gateways.dart';
+import 'package:pi_hole_client/domain/models_old/groups.dart';
+import 'package:pi_hole_client/domain/models_old/host.dart';
+import 'package:pi_hole_client/domain/models_old/log.dart';
+import 'package:pi_hole_client/domain/models_old/messages.dart';
+import 'package:pi_hole_client/domain/models_old/metrics.dart';
+import 'package:pi_hole_client/domain/models_old/overtime_data.dart';
+import 'package:pi_hole_client/domain/models_old/realtime_status.dart';
+import 'package:pi_hole_client/domain/models_old/sensors.dart';
+import 'package:pi_hole_client/domain/models_old/server.dart';
+import 'package:pi_hole_client/domain/models_old/sessions.dart';
+import 'package:pi_hole_client/domain/models_old/subscriptions.dart';
+import 'package:pi_hole_client/domain/models_old/system.dart';
+import 'package:pi_hole_client/domain/models_old/version.dart';
+import 'package:pi_hole_client/domain/use_cases/status_update_service.dart';
+import 'package:pi_hole_client/ui/core/l10n/generated/app_localizations.dart';
+import 'package:pi_hole_client/ui/core/themes/theme.dart';
+import 'package:pi_hole_client/ui/core/viewmodel/app_config_provider.dart';
+import 'package:pi_hole_client/ui/core/viewmodel/domains_list_provider.dart';
+import 'package:pi_hole_client/ui/core/viewmodel/filters_provider.dart';
+import 'package:pi_hole_client/ui/core/viewmodel/gravity_provider.dart';
+import 'package:pi_hole_client/ui/core/viewmodel/groups_provider.dart';
+import 'package:pi_hole_client/ui/core/viewmodel/servers_provider.dart';
+import 'package:pi_hole_client/ui/core/viewmodel/status_provider.dart';
+import 'package:pi_hole_client/ui/core/viewmodel/subscriptions_list_provider.dart';
 import 'package:provider/provider.dart';
 
 import './helpers.mocks.dart';
@@ -148,7 +157,8 @@ final queries = Queries.fromJson({
       'reply': {'type': 'IP', 'time': 19},
       'list_id': null,
       'upstream': 'localhost#5353',
-      'dbid': 112421354,
+      'dbid': 112421354, // Not exist
+      'ede': {'code': -1, 'text': null},
     },
   ],
   'cursor': 175881,
@@ -158,1110 +168,1064 @@ final queries = Queries.fromJson({
   'took': 0.003,
 });
 
-final overtimeData = OverTimeData.fromJson(
-  {
-    'domains_over_time': {
-      '1733391300': 0,
-      '1733391900': 0,
-      '1733392500': 0,
-      '1733393100': 0,
-      '1733393700': 0,
-      '1733394300': 0,
-      '1733394900': 0,
-      '1733395500': 0,
-      '1733396100': 0,
-      '1733396700': 3,
-      '1733397300': 0,
-      '1733397900': 0,
-      '1733398500': 0,
-      '1733399100': 0,
-      '1733399700': 0,
-      '1733400300': 2,
-      '1733400900': 7,
-      '1733401500': 0,
-      '1733402100': 0,
-      '1733402700': 0,
-      '1733403300': 0,
-      '1733403900': 2,
-      '1733404500': 0,
-      '1733405100': 0,
-      '1733405700': 0,
-      '1733406300': 0,
-      '1733406900': 0,
-      '1733407500': 2,
-      '1733408100': 0,
-      '1733408700': 0,
-      '1733409300': 0,
-      '1733409900': 0,
-      '1733410500': 0,
-      '1733411100': 0,
-      '1733411700': 0,
-      '1733412300': 0,
-      '1733412900': 0,
-      '1733413500': 0,
-      '1733414100': 0,
-      '1733414700': 0,
-      '1733415300': 0,
-      '1733415900': 0,
-      '1733416500': 0,
-      '1733417100': 0,
-      '1733417700': 0,
-      '1733418300': 0,
-      '1733418900': 0,
-      '1733419500': 0,
-      '1733420100': 0,
-      '1733420700': 0,
-      '1733421300': 0,
-      '1733421900': 0,
-      '1733422500': 0,
-      '1733423100': 0,
-      '1733423700': 0,
-      '1733424300': 0,
-      '1733424900': 0,
-      '1733425500': 0,
-      '1733426100': 0,
-      '1733426700': 0,
-      '1733427300': 0,
-      '1733427900': 0,
-      '1733428500': 0,
-      '1733429100': 0,
-      '1733429700': 0,
-      '1733430300': 0,
-      '1733430900': 0,
-      '1733431500': 0,
-      '1733432100': 0,
-      '1733432700': 0,
-      '1733433300': 0,
-      '1733433900': 0,
-      '1733434500': 0,
-      '1733435100': 0,
-      '1733435700': 0,
-      '1733436300': 0,
-      '1733436900': 0,
-      '1733437500': 0,
-      '1733438100': 0,
-      '1733438700': 0,
-      '1733439300': 0,
-      '1733439900': 0,
-      '1733440500': 0,
-      '1733441100': 0,
-      '1733441700': 0,
-      '1733442300': 0,
-      '1733442900': 0,
-      '1733443500': 0,
-      '1733444100': 0,
-      '1733444700': 0,
-      '1733445300': 0,
-      '1733445900': 0,
-      '1733446500': 0,
-      '1733447100': 0,
-      '1733447700': 0,
-      '1733448300': 0,
-      '1733448900': 0,
-      '1733449500': 0,
-      '1733450100': 0,
-      '1733450700': 0,
-      '1733451300': 0,
-      '1733451900': 0,
-      '1733452500': 0,
-      '1733453100': 0,
-      '1733453700': 0,
-      '1733454300': 0,
-      '1733454900': 0,
-      '1733455500': 0,
-      '1733456100': 0,
-      '1733456700': 0,
-      '1733457300': 0,
-      '1733457900': 0,
-      '1733458500': 0,
-      '1733459100': 0,
-      '1733459700': 0,
-      '1733460300': 0,
-      '1733460900': 0,
-      '1733461500': 0,
-      '1733462100': 0,
-      '1733462700': 0,
-      '1733463300': 0,
-      '1733463900': 0,
-      '1733464500': 0,
-      '1733465100': 0,
-      '1733465700': 0,
-      '1733466300': 0,
-      '1733466900': 0,
-      '1733467500': 0,
-      '1733468100': 0,
-      '1733468700': 0,
-      '1733469300': 0,
-      '1733469900': 0,
-      '1733470500': 0,
-      '1733471100': 0,
-      '1733471700': 0,
-      '1733472300': 0,
-      '1733472900': 0,
-      '1733473500': 0,
-      '1733474100': 0,
-      '1733474700': 0,
-      '1733475300': 0,
-      '1733475900': 0,
-      '1733476500': 0,
-      '1733477100': 0,
+final overtimeData = OverTimeData.fromJson({
+  'domains_over_time': {
+    '1733391300': 0,
+    '1733391900': 0,
+    '1733392500': 0,
+    '1733393100': 0,
+    '1733393700': 0,
+    '1733394300': 0,
+    '1733394900': 0,
+    '1733395500': 0,
+    '1733396100': 0,
+    '1733396700': 3,
+    '1733397300': 0,
+    '1733397900': 0,
+    '1733398500': 0,
+    '1733399100': 0,
+    '1733399700': 0,
+    '1733400300': 2,
+    '1733400900': 7,
+    '1733401500': 0,
+    '1733402100': 0,
+    '1733402700': 0,
+    '1733403300': 0,
+    '1733403900': 2,
+    '1733404500': 0,
+    '1733405100': 0,
+    '1733405700': 0,
+    '1733406300': 0,
+    '1733406900': 0,
+    '1733407500': 2,
+    '1733408100': 0,
+    '1733408700': 0,
+    '1733409300': 0,
+    '1733409900': 0,
+    '1733410500': 0,
+    '1733411100': 0,
+    '1733411700': 0,
+    '1733412300': 0,
+    '1733412900': 0,
+    '1733413500': 0,
+    '1733414100': 0,
+    '1733414700': 0,
+    '1733415300': 0,
+    '1733415900': 0,
+    '1733416500': 0,
+    '1733417100': 0,
+    '1733417700': 0,
+    '1733418300': 0,
+    '1733418900': 0,
+    '1733419500': 0,
+    '1733420100': 0,
+    '1733420700': 0,
+    '1733421300': 0,
+    '1733421900': 0,
+    '1733422500': 0,
+    '1733423100': 0,
+    '1733423700': 0,
+    '1733424300': 0,
+    '1733424900': 0,
+    '1733425500': 0,
+    '1733426100': 0,
+    '1733426700': 0,
+    '1733427300': 0,
+    '1733427900': 0,
+    '1733428500': 0,
+    '1733429100': 0,
+    '1733429700': 0,
+    '1733430300': 0,
+    '1733430900': 0,
+    '1733431500': 0,
+    '1733432100': 0,
+    '1733432700': 0,
+    '1733433300': 0,
+    '1733433900': 0,
+    '1733434500': 0,
+    '1733435100': 0,
+    '1733435700': 0,
+    '1733436300': 0,
+    '1733436900': 0,
+    '1733437500': 0,
+    '1733438100': 0,
+    '1733438700': 0,
+    '1733439300': 0,
+    '1733439900': 0,
+    '1733440500': 0,
+    '1733441100': 0,
+    '1733441700': 0,
+    '1733442300': 0,
+    '1733442900': 0,
+    '1733443500': 0,
+    '1733444100': 0,
+    '1733444700': 0,
+    '1733445300': 0,
+    '1733445900': 0,
+    '1733446500': 0,
+    '1733447100': 0,
+    '1733447700': 0,
+    '1733448300': 0,
+    '1733448900': 0,
+    '1733449500': 0,
+    '1733450100': 0,
+    '1733450700': 0,
+    '1733451300': 0,
+    '1733451900': 0,
+    '1733452500': 0,
+    '1733453100': 0,
+    '1733453700': 0,
+    '1733454300': 0,
+    '1733454900': 0,
+    '1733455500': 0,
+    '1733456100': 0,
+    '1733456700': 0,
+    '1733457300': 0,
+    '1733457900': 0,
+    '1733458500': 0,
+    '1733459100': 0,
+    '1733459700': 0,
+    '1733460300': 0,
+    '1733460900': 0,
+    '1733461500': 0,
+    '1733462100': 0,
+    '1733462700': 0,
+    '1733463300': 0,
+    '1733463900': 0,
+    '1733464500': 0,
+    '1733465100': 0,
+    '1733465700': 0,
+    '1733466300': 0,
+    '1733466900': 0,
+    '1733467500': 0,
+    '1733468100': 0,
+    '1733468700': 0,
+    '1733469300': 0,
+    '1733469900': 0,
+    '1733470500': 0,
+    '1733471100': 0,
+    '1733471700': 0,
+    '1733472300': 0,
+    '1733472900': 0,
+    '1733473500': 0,
+    '1733474100': 0,
+    '1733474700': 0,
+    '1733475300': 0,
+    '1733475900': 0,
+    '1733476500': 0,
+    '1733477100': 0,
+  },
+  'ads_over_time': {
+    '1733391300': 0,
+    '1733391900': 0,
+    '1733392500': 0,
+    '1733393100': 0,
+    '1733393700': 0,
+    '1733394300': 0,
+    '1733394900': 0,
+    '1733395500': 0,
+    '1733396100': 0,
+    '1733396700': 0,
+    '1733397300': 0,
+    '1733397900': 0,
+    '1733398500': 0,
+    '1733399100': 0,
+    '1733399700': 0,
+    '1733400300': 0,
+    '1733400900': 1,
+    '1733401500': 0,
+    '1733402100': 0,
+    '1733402700': 0,
+    '1733403300': 0,
+    '1733403900': 0,
+    '1733404500': 0,
+    '1733405100': 0,
+    '1733405700': 0,
+    '1733406300': 0,
+    '1733406900': 0,
+    '1733407500': 0,
+    '1733408100': 0,
+    '1733408700': 0,
+    '1733409300': 0,
+    '1733409900': 0,
+    '1733410500': 0,
+    '1733411100': 0,
+    '1733411700': 0,
+    '1733412300': 0,
+    '1733412900': 0,
+    '1733413500': 0,
+    '1733414100': 0,
+    '1733414700': 0,
+    '1733415300': 0,
+    '1733415900': 0,
+    '1733416500': 0,
+    '1733417100': 0,
+    '1733417700': 0,
+    '1733418300': 0,
+    '1733418900': 0,
+    '1733419500': 0,
+    '1733420100': 0,
+    '1733420700': 0,
+    '1733421300': 0,
+    '1733421900': 0,
+    '1733422500': 0,
+    '1733423100': 0,
+    '1733423700': 0,
+    '1733424300': 0,
+    '1733424900': 0,
+    '1733425500': 0,
+    '1733426100': 0,
+    '1733426700': 0,
+    '1733427300': 0,
+    '1733427900': 0,
+    '1733428500': 0,
+    '1733429100': 0,
+    '1733429700': 0,
+    '1733430300': 0,
+    '1733430900': 0,
+    '1733431500': 0,
+    '1733432100': 0,
+    '1733432700': 0,
+    '1733433300': 0,
+    '1733433900': 0,
+    '1733434500': 0,
+    '1733435100': 0,
+    '1733435700': 0,
+    '1733436300': 0,
+    '1733436900': 0,
+    '1733437500': 0,
+    '1733438100': 0,
+    '1733438700': 0,
+    '1733439300': 0,
+    '1733439900': 0,
+    '1733440500': 0,
+    '1733441100': 0,
+    '1733441700': 0,
+    '1733442300': 0,
+    '1733442900': 0,
+    '1733443500': 0,
+    '1733444100': 0,
+    '1733444700': 0,
+    '1733445300': 0,
+    '1733445900': 0,
+    '1733446500': 0,
+    '1733447100': 0,
+    '1733447700': 0,
+    '1733448300': 0,
+    '1733448900': 0,
+    '1733449500': 0,
+    '1733450100': 0,
+    '1733450700': 0,
+    '1733451300': 0,
+    '1733451900': 0,
+    '1733452500': 0,
+    '1733453100': 0,
+    '1733453700': 0,
+    '1733454300': 0,
+    '1733454900': 0,
+    '1733455500': 0,
+    '1733456100': 0,
+    '1733456700': 0,
+    '1733457300': 0,
+    '1733457900': 0,
+    '1733458500': 0,
+    '1733459100': 0,
+    '1733459700': 0,
+    '1733460300': 0,
+    '1733460900': 0,
+    '1733461500': 0,
+    '1733462100': 0,
+    '1733462700': 0,
+    '1733463300': 0,
+    '1733463900': 0,
+    '1733464500': 0,
+    '1733465100': 0,
+    '1733465700': 0,
+    '1733466300': 0,
+    '1733466900': 0,
+    '1733467500': 0,
+    '1733468100': 0,
+    '1733468700': 0,
+    '1733469300': 0,
+    '1733469900': 0,
+    '1733470500': 0,
+    '1733471100': 0,
+    '1733471700': 0,
+    '1733472300': 0,
+    '1733472900': 0,
+    '1733473500': 0,
+    '1733474100': 0,
+    '1733474700': 0,
+    '1733475300': 0,
+    '1733475900': 0,
+    '1733476500': 0,
+    '1733477100': 0,
+  },
+  'clients': [
+    {'name': '', 'ip': '172.26.0.1'},
+    {'name': 'localhost', 'ip': '127.0.0.1'},
+  ],
+  'over_time': {
+    '1733391300': [0, 0],
+    '1733391900': [0, 0],
+    '1733392500': [0, 0],
+    '1733393100': [0, 0],
+    '1733393700': [0, 0],
+    '1733394300': [0, 0],
+    '1733394900': [0, 0],
+    '1733395500': [0, 0],
+    '1733396100': [0, 0],
+    '1733396700': [3, 0],
+    '1733397300': [0, 0],
+    '1733397900': [0, 0],
+    '1733398500': [0, 0],
+    '1733399100': [0, 0],
+    '1733399700': [0, 0],
+    '1733400300': [0, 2],
+    '1733400900': [7, 0],
+    '1733401500': [0, 0],
+    '1733402100': [0, 0],
+    '1733402700': [0, 0],
+    '1733403300': [0, 0],
+    '1733403900': [0, 2],
+    '1733404500': [0, 0],
+    '1733405100': [0, 0],
+    '1733405700': [0, 0],
+    '1733406300': [0, 0],
+    '1733406900': [0, 0],
+    '1733407500': [0, 2],
+    '1733408100': [0, 0],
+    '1733408700': [0, 0],
+    '1733409300': [0, 0],
+    '1733409900': [0, 0],
+    '1733410500': [0, 0],
+    '1733411100': [0, 0],
+    '1733411700': [0, 0],
+    '1733412300': [0, 0],
+    '1733412900': [0, 0],
+    '1733413500': [0, 0],
+    '1733414100': [0, 0],
+    '1733414700': [0, 0],
+    '1733415300': [0, 0],
+    '1733415900': [0, 0],
+    '1733416500': [0, 0],
+    '1733417100': [0, 0],
+    '1733417700': [0, 0],
+    '1733418300': [0, 0],
+    '1733418900': [0, 0],
+    '1733419500': [0, 0],
+    '1733420100': [0, 0],
+    '1733420700': [0, 0],
+    '1733421300': [0, 0],
+    '1733421900': [0, 0],
+    '1733422500': [0, 0],
+    '1733423100': [0, 0],
+    '1733423700': [0, 0],
+    '1733424300': [0, 0],
+    '1733424900': [0, 0],
+    '1733425500': [0, 0],
+    '1733426100': [0, 0],
+    '1733426700': [0, 0],
+    '1733427300': [0, 0],
+    '1733427900': [0, 0],
+    '1733428500': [0, 0],
+    '1733429100': [0, 0],
+    '1733429700': [0, 0],
+    '1733430300': [0, 0],
+    '1733430900': [0, 0],
+    '1733431500': [0, 0],
+    '1733432100': [0, 0],
+    '1733432700': [0, 0],
+    '1733433300': [0, 0],
+    '1733433900': [0, 0],
+    '1733434500': [0, 0],
+    '1733435100': [0, 0],
+    '1733435700': [0, 0],
+    '1733436300': [0, 0],
+    '1733436900': [0, 0],
+    '1733437500': [0, 0],
+    '1733438100': [0, 0],
+    '1733438700': [0, 0],
+    '1733439300': [0, 0],
+    '1733439900': [0, 0],
+    '1733440500': [0, 0],
+    '1733441100': [0, 0],
+    '1733441700': [0, 0],
+    '1733442300': [0, 0],
+    '1733442900': [0, 0],
+    '1733443500': [0, 0],
+    '1733444100': [0, 0],
+    '1733444700': [0, 0],
+    '1733445300': [0, 0],
+    '1733445900': [0, 0],
+    '1733446500': [0, 0],
+    '1733447100': [0, 0],
+    '1733447700': [0, 0],
+    '1733448300': [0, 0],
+    '1733448900': [0, 0],
+    '1733449500': [0, 0],
+    '1733450100': [0, 0],
+    '1733450700': [0, 0],
+    '1733451300': [0, 0],
+    '1733451900': [0, 0],
+    '1733452500': [0, 0],
+    '1733453100': [0, 0],
+    '1733453700': [0, 0],
+    '1733454300': [0, 0],
+    '1733454900': [0, 0],
+    '1733455500': [0, 0],
+    '1733456100': [0, 0],
+    '1733456700': [0, 0],
+    '1733457300': [0, 0],
+    '1733457900': [0, 0],
+    '1733458500': [0, 0],
+    '1733459100': [0, 0],
+    '1733459700': [0, 0],
+    '1733460300': [0, 0],
+    '1733460900': [0, 0],
+    '1733461500': [0, 0],
+    '1733462100': [0, 0],
+    '1733462700': [0, 0],
+    '1733463300': [0, 0],
+    '1733463900': [0, 0],
+    '1733464500': [0, 0],
+    '1733465100': [0, 0],
+    '1733465700': [0, 0],
+    '1733466300': [0, 0],
+    '1733466900': [0, 0],
+    '1733467500': [0, 0],
+    '1733468100': [0, 0],
+    '1733468700': [0, 0],
+    '1733469300': [0, 0],
+    '1733469900': [0, 0],
+    '1733470500': [0, 0],
+    '1733471100': [0, 0],
+    '1733471700': [0, 0],
+    '1733472300': [0, 0],
+    '1733472900': [0, 0],
+    '1733473500': [0, 0],
+    '1733474100': [0, 0],
+    '1733474700': [0, 0],
+    '1733475300': [0, 0],
+    '1733475900': [0, 0],
+    '1733476500': [0, 0],
+    '1733477100': [0, 0],
+  },
+});
+
+final realtimeStatus = RealtimeStatus.fromJson({
+  'domains_being_blocked': 121860,
+  'dns_queries_today': 16,
+  'ads_blocked_today': 1,
+  'ads_percentage_today': 6.25,
+  'unique_domains': 11,
+  'queries_forwarded': 9,
+  'queries_cached': 6,
+  'clients_ever_seen': 2,
+  'unique_clients': 2,
+  'dns_queries_all_types': 16,
+  'reply_UNKNOWN': 0,
+  'reply_NODATA': 0,
+  'reply_NXDOMAIN': 3,
+  'reply_CNAME': 0,
+  'reply_IP': 10,
+  'reply_DOMAIN': 3,
+  'reply_RRNAME': 0,
+  'reply_SERVFAIL': 0,
+  'reply_REFUSED': 0,
+  'reply_NOTIMP': 0,
+  'reply_OTHER': 0,
+  'reply_DNSSEC': 0,
+  'reply_NONE': 0,
+  'reply_BLOB': 0,
+  'dns_queries_all_replies': 16,
+  'privacy_level': 0,
+  'status': 'enabled',
+  'gravity_last_updated': {
+    'file_exists': true,
+    'absolute': 1732972589,
+    'relative': {'days': 5, 'hours': 18, 'minutes': 14},
+  },
+  'top_queries': {
+    '1.0.26.172.in-addr.arpa': 3,
+    '8.8.8.8.in-addr.arpa': 3,
+    'github.com': 2,
+    'gitlab.com': 1,
+    'sample.com': 1,
+    'test.com': 1,
+    'google.com': 1,
+    'google.co.jp': 1,
+    'yahoo.co.jp': 1,
+    'fix.test.com': 1,
+  },
+  'top_ads': {'test.com': 1},
+  'top_sources': {'172.26.0.1': 10, 'localhost|127.0.0.1': 6},
+  'top_sources_blocked': {'172.26.0.1': 1},
+  'forward_destinations': {
+    'blocked|blocked': 6.25,
+    'cached|cached': 37.5,
+    'other|other': 0,
+    'dns.google#53|8.8.8.8#53': 56.25,
+  },
+  'querytypes': {
+    'A (IPv4)': 62.5,
+    'AAAA (IPv6)': 0,
+    'ANY': 0,
+    'SRV': 0,
+    'SOA': 0,
+    'PTR': 37.5,
+    'TXT': 0,
+    'NAPTR': 0,
+    'MX': 0,
+    'DS': 0,
+    'RRSIG': 0,
+    'DNSKEY': 0,
+    'NS': 0,
+    'OTHER': 0,
+    'SVCB': 0,
+    'HTTPS': 0,
+  },
+});
+
+final host = InfoHost.fromJson({
+  'host': {
+    'uname': {
+      'domainname': '(none)',
+      'machine': 'x86_64',
+      'nodename': 'raspberrypi',
+      'release': '5.15.0-52-generic',
+      'sysname': 'Linux',
+      'version': '#58-Ubuntu SMP Thu Oct 13 08:03:55 UTC 2022',
     },
-    'ads_over_time': {
-      '1733391300': 0,
-      '1733391900': 0,
-      '1733392500': 0,
-      '1733393100': 0,
-      '1733393700': 0,
-      '1733394300': 0,
-      '1733394900': 0,
-      '1733395500': 0,
-      '1733396100': 0,
-      '1733396700': 0,
-      '1733397300': 0,
-      '1733397900': 0,
-      '1733398500': 0,
-      '1733399100': 0,
-      '1733399700': 0,
-      '1733400300': 0,
-      '1733400900': 1,
-      '1733401500': 0,
-      '1733402100': 0,
-      '1733402700': 0,
-      '1733403300': 0,
-      '1733403900': 0,
-      '1733404500': 0,
-      '1733405100': 0,
-      '1733405700': 0,
-      '1733406300': 0,
-      '1733406900': 0,
-      '1733407500': 0,
-      '1733408100': 0,
-      '1733408700': 0,
-      '1733409300': 0,
-      '1733409900': 0,
-      '1733410500': 0,
-      '1733411100': 0,
-      '1733411700': 0,
-      '1733412300': 0,
-      '1733412900': 0,
-      '1733413500': 0,
-      '1733414100': 0,
-      '1733414700': 0,
-      '1733415300': 0,
-      '1733415900': 0,
-      '1733416500': 0,
-      '1733417100': 0,
-      '1733417700': 0,
-      '1733418300': 0,
-      '1733418900': 0,
-      '1733419500': 0,
-      '1733420100': 0,
-      '1733420700': 0,
-      '1733421300': 0,
-      '1733421900': 0,
-      '1733422500': 0,
-      '1733423100': 0,
-      '1733423700': 0,
-      '1733424300': 0,
-      '1733424900': 0,
-      '1733425500': 0,
-      '1733426100': 0,
-      '1733426700': 0,
-      '1733427300': 0,
-      '1733427900': 0,
-      '1733428500': 0,
-      '1733429100': 0,
-      '1733429700': 0,
-      '1733430300': 0,
-      '1733430900': 0,
-      '1733431500': 0,
-      '1733432100': 0,
-      '1733432700': 0,
-      '1733433300': 0,
-      '1733433900': 0,
-      '1733434500': 0,
-      '1733435100': 0,
-      '1733435700': 0,
-      '1733436300': 0,
-      '1733436900': 0,
-      '1733437500': 0,
-      '1733438100': 0,
-      '1733438700': 0,
-      '1733439300': 0,
-      '1733439900': 0,
-      '1733440500': 0,
-      '1733441100': 0,
-      '1733441700': 0,
-      '1733442300': 0,
-      '1733442900': 0,
-      '1733443500': 0,
-      '1733444100': 0,
-      '1733444700': 0,
-      '1733445300': 0,
-      '1733445900': 0,
-      '1733446500': 0,
-      '1733447100': 0,
-      '1733447700': 0,
-      '1733448300': 0,
-      '1733448900': 0,
-      '1733449500': 0,
-      '1733450100': 0,
-      '1733450700': 0,
-      '1733451300': 0,
-      '1733451900': 0,
-      '1733452500': 0,
-      '1733453100': 0,
-      '1733453700': 0,
-      '1733454300': 0,
-      '1733454900': 0,
-      '1733455500': 0,
-      '1733456100': 0,
-      '1733456700': 0,
-      '1733457300': 0,
-      '1733457900': 0,
-      '1733458500': 0,
-      '1733459100': 0,
-      '1733459700': 0,
-      '1733460300': 0,
-      '1733460900': 0,
-      '1733461500': 0,
-      '1733462100': 0,
-      '1733462700': 0,
-      '1733463300': 0,
-      '1733463900': 0,
-      '1733464500': 0,
-      '1733465100': 0,
-      '1733465700': 0,
-      '1733466300': 0,
-      '1733466900': 0,
-      '1733467500': 0,
-      '1733468100': 0,
-      '1733468700': 0,
-      '1733469300': 0,
-      '1733469900': 0,
-      '1733470500': 0,
-      '1733471100': 0,
-      '1733471700': 0,
-      '1733472300': 0,
-      '1733472900': 0,
-      '1733473500': 0,
-      '1733474100': 0,
-      '1733474700': 0,
-      '1733475300': 0,
-      '1733475900': 0,
-      '1733476500': 0,
-      '1733477100': 0,
-    },
-    'clients': [
-      {'name': '', 'ip': '172.26.0.1'},
-      {'name': 'localhost', 'ip': '127.0.0.1'},
-    ],
-    'over_time': {
-      '1733391300': [0, 0],
-      '1733391900': [0, 0],
-      '1733392500': [0, 0],
-      '1733393100': [0, 0],
-      '1733393700': [0, 0],
-      '1733394300': [0, 0],
-      '1733394900': [0, 0],
-      '1733395500': [0, 0],
-      '1733396100': [0, 0],
-      '1733396700': [3, 0],
-      '1733397300': [0, 0],
-      '1733397900': [0, 0],
-      '1733398500': [0, 0],
-      '1733399100': [0, 0],
-      '1733399700': [0, 0],
-      '1733400300': [0, 2],
-      '1733400900': [7, 0],
-      '1733401500': [0, 0],
-      '1733402100': [0, 0],
-      '1733402700': [0, 0],
-      '1733403300': [0, 0],
-      '1733403900': [0, 2],
-      '1733404500': [0, 0],
-      '1733405100': [0, 0],
-      '1733405700': [0, 0],
-      '1733406300': [0, 0],
-      '1733406900': [0, 0],
-      '1733407500': [0, 2],
-      '1733408100': [0, 0],
-      '1733408700': [0, 0],
-      '1733409300': [0, 0],
-      '1733409900': [0, 0],
-      '1733410500': [0, 0],
-      '1733411100': [0, 0],
-      '1733411700': [0, 0],
-      '1733412300': [0, 0],
-      '1733412900': [0, 0],
-      '1733413500': [0, 0],
-      '1733414100': [0, 0],
-      '1733414700': [0, 0],
-      '1733415300': [0, 0],
-      '1733415900': [0, 0],
-      '1733416500': [0, 0],
-      '1733417100': [0, 0],
-      '1733417700': [0, 0],
-      '1733418300': [0, 0],
-      '1733418900': [0, 0],
-      '1733419500': [0, 0],
-      '1733420100': [0, 0],
-      '1733420700': [0, 0],
-      '1733421300': [0, 0],
-      '1733421900': [0, 0],
-      '1733422500': [0, 0],
-      '1733423100': [0, 0],
-      '1733423700': [0, 0],
-      '1733424300': [0, 0],
-      '1733424900': [0, 0],
-      '1733425500': [0, 0],
-      '1733426100': [0, 0],
-      '1733426700': [0, 0],
-      '1733427300': [0, 0],
-      '1733427900': [0, 0],
-      '1733428500': [0, 0],
-      '1733429100': [0, 0],
-      '1733429700': [0, 0],
-      '1733430300': [0, 0],
-      '1733430900': [0, 0],
-      '1733431500': [0, 0],
-      '1733432100': [0, 0],
-      '1733432700': [0, 0],
-      '1733433300': [0, 0],
-      '1733433900': [0, 0],
-      '1733434500': [0, 0],
-      '1733435100': [0, 0],
-      '1733435700': [0, 0],
-      '1733436300': [0, 0],
-      '1733436900': [0, 0],
-      '1733437500': [0, 0],
-      '1733438100': [0, 0],
-      '1733438700': [0, 0],
-      '1733439300': [0, 0],
-      '1733439900': [0, 0],
-      '1733440500': [0, 0],
-      '1733441100': [0, 0],
-      '1733441700': [0, 0],
-      '1733442300': [0, 0],
-      '1733442900': [0, 0],
-      '1733443500': [0, 0],
-      '1733444100': [0, 0],
-      '1733444700': [0, 0],
-      '1733445300': [0, 0],
-      '1733445900': [0, 0],
-      '1733446500': [0, 0],
-      '1733447100': [0, 0],
-      '1733447700': [0, 0],
-      '1733448300': [0, 0],
-      '1733448900': [0, 0],
-      '1733449500': [0, 0],
-      '1733450100': [0, 0],
-      '1733450700': [0, 0],
-      '1733451300': [0, 0],
-      '1733451900': [0, 0],
-      '1733452500': [0, 0],
-      '1733453100': [0, 0],
-      '1733453700': [0, 0],
-      '1733454300': [0, 0],
-      '1733454900': [0, 0],
-      '1733455500': [0, 0],
-      '1733456100': [0, 0],
-      '1733456700': [0, 0],
-      '1733457300': [0, 0],
-      '1733457900': [0, 0],
-      '1733458500': [0, 0],
-      '1733459100': [0, 0],
-      '1733459700': [0, 0],
-      '1733460300': [0, 0],
-      '1733460900': [0, 0],
-      '1733461500': [0, 0],
-      '1733462100': [0, 0],
-      '1733462700': [0, 0],
-      '1733463300': [0, 0],
-      '1733463900': [0, 0],
-      '1733464500': [0, 0],
-      '1733465100': [0, 0],
-      '1733465700': [0, 0],
-      '1733466300': [0, 0],
-      '1733466900': [0, 0],
-      '1733467500': [0, 0],
-      '1733468100': [0, 0],
-      '1733468700': [0, 0],
-      '1733469300': [0, 0],
-      '1733469900': [0, 0],
-      '1733470500': [0, 0],
-      '1733471100': [0, 0],
-      '1733471700': [0, 0],
-      '1733472300': [0, 0],
-      '1733472900': [0, 0],
-      '1733473500': [0, 0],
-      '1733474100': [0, 0],
-      '1733474700': [0, 0],
-      '1733475300': [0, 0],
-      '1733475900': [0, 0],
-      '1733476500': [0, 0],
-      '1733477100': [0, 0],
+    'model': 'Raspberry Pi Model 4B',
+    'dmi': {
+      'bios': {'vendor': 'American Megatrends Inc.'},
+      'board': {
+        'name': 'Raspberry Pi 4 Model B Rev 1.4',
+        'vendor': 'Raspberry Pi Foundation',
+        'version': '0x14',
+      },
+      'product': {
+        'name': 'Raspberry Pi 4 Model B Rev 1.4',
+        'version': '0x14',
+        'family': 'Raspberry Pi 4 Model B Rev 1.4',
+      },
+      'sys': {'vendor': 'Raspberry Pi Foundation'},
     },
   },
-);
+  'took': 0.003,
+});
 
-final realtimeStatus = RealtimeStatus.fromJson(
-  {
-    'domains_being_blocked': 121860,
-    'dns_queries_today': 16,
-    'ads_blocked_today': 1,
-    'ads_percentage_today': 6.25,
-    'unique_domains': 11,
-    'queries_forwarded': 9,
-    'queries_cached': 6,
-    'clients_ever_seen': 2,
-    'unique_clients': 2,
-    'dns_queries_all_types': 16,
-    'reply_UNKNOWN': 0,
-    'reply_NODATA': 0,
-    'reply_NXDOMAIN': 3,
-    'reply_CNAME': 0,
-    'reply_IP': 10,
-    'reply_DOMAIN': 3,
-    'reply_RRNAME': 0,
-    'reply_SERVFAIL': 0,
-    'reply_REFUSED': 0,
-    'reply_NOTIMP': 0,
-    'reply_OTHER': 0,
-    'reply_DNSSEC': 0,
-    'reply_NONE': 0,
-    'reply_BLOB': 0,
-    'dns_queries_all_replies': 16,
-    'privacy_level': 0,
-    'status': 'enabled',
-    'gravity_last_updated': {
-      'file_exists': true,
-      'absolute': 1732972589,
-      'relative': {'days': 5, 'hours': 18, 'minutes': 14},
+final version = InfoVersion.fromJson({
+  'version': {
+    'core': {
+      'local': {'version': 'v6.0.5', 'branch': 'master', 'hash': '9fe687bd'},
+      'remote': {'version': 'v6.0.5', 'hash': '9fe687bd'},
     },
-    'top_queries': {
-      '1.0.26.172.in-addr.arpa': 3,
-      '8.8.8.8.in-addr.arpa': 3,
-      'github.com': 2,
-      'gitlab.com': 1,
-      'sample.com': 1,
-      'test.com': 1,
-      'google.com': 1,
-      'google.co.jp': 1,
-      'yahoo.co.jp': 1,
-      'fix.test.com': 1,
+    'web': {
+      'local': {'version': 'v6.0.2', 'branch': 'master', 'hash': '25441178'},
+      'remote': {'version': 'v6.0.2', 'hash': '25441178'},
     },
-    'top_ads': {'test.com': 1},
-    'top_sources': {'172.26.0.1': 10, 'localhost|127.0.0.1': 6},
-    'top_sources_blocked': {'172.26.0.1': 1},
-    'forward_destinations': {
-      'blocked|blocked': 6.25,
-      'cached|cached': 37.5,
-      'other|other': 0,
-      'dns.google#53|8.8.8.8#53': 56.25,
+    'ftl': {
+      'local': {
+        'hash': 'b7eb53bf',
+        'branch': 'master',
+        'version': 'v6.0.4',
+        'date': '2025-03-04 17:22:10 +0000',
+      },
+      'remote': {'version': 'v6.0.4', 'hash': 'b7eb53bf'},
     },
-    'querytypes': {
-      'A (IPv4)': 62.5,
-      'AAAA (IPv6)': 0,
-      'ANY': 0,
-      'SRV': 0,
-      'SOA': 0,
-      'PTR': 37.5,
-      'TXT': 0,
-      'NAPTR': 0,
-      'MX': 0,
-      'DS': 0,
-      'RRSIG': 0,
-      'DNSKEY': 0,
-      'NS': 0,
-      'OTHER': 0,
-      'SVCB': 0,
-      'HTTPS': 0,
-    },
+    'docker': {'local': '2025.03.0', 'remote': '2025.03.0'},
   },
-);
+  'took': 0.014363765716552734,
+});
 
-final host = Host.fromJson(
-  {
-    'host': {
-      'uname': {
-        'domainname': '(none)',
-        'machine': 'x86_64',
-        'nodename': 'raspberrypi',
-        'release': '5.15.0-52-generic',
-        'sysname': 'Linux',
-        'version': '#58-Ubuntu SMP Thu Oct 13 08:03:55 UTC 2022',
-      },
-      'model': 'Raspberry Pi Model 4B',
-      'dmi': {
-        'bios': {'vendor': 'American Megatrends Inc.'},
-        'board': {
-          'name': 'Raspberry Pi 4 Model B Rev 1.4',
-          'vendor': 'Raspberry Pi Foundation',
-          'version': '0x14',
-        },
-        'product': {
-          'name': 'Raspberry Pi 4 Model B Rev 1.4',
-          'version': '0x14',
-          'family': 'Raspberry Pi 4 Model B Rev 1.4',
-        },
-        'sys': {'vendor': 'Raspberry Pi Foundation'},
-      },
-    },
-    'took': 0.003,
-  },
-);
-
-final version = Version.fromJson(
-  {
-    'version': {
-      'core': {
-        'local': {
-          'version': 'v6.0.5',
-          'branch': 'master',
-          'hash': '9fe687bd',
-        },
-        'remote': {
-          'version': 'v6.0.5',
-          'hash': '9fe687bd',
-        },
-      },
-      'web': {
-        'local': {
-          'version': 'v6.0.2',
-          'branch': 'master',
-          'hash': '25441178',
-        },
-        'remote': {
-          'version': 'v6.0.2',
-          'hash': '25441178',
-        },
-      },
-      'ftl': {
-        'local': {
-          'hash': 'b7eb53bf',
-          'branch': 'master',
-          'version': 'v6.0.4',
-          'date': '2025-03-04 17:22:10 +0000',
-        },
-        'remote': {
-          'version': 'v6.0.4',
-          'hash': 'b7eb53bf',
-        },
-      },
-      'docker': {
-        'local': '2025.03.0',
-        'remote': '2025.03.0',
-      },
-    },
-    'took': 0.014363765716552734,
-  },
-);
-
-final sensors = Sensors.fromJson(
-  {
-    'sensors': {
-      'list': [
-        {
-          'name': 'amdgpu',
-          'path': 'hwmon1',
-          'source': 'devices/pci0000:00/0000:00:08.1/0000:05:00.0',
-          'temps': [
-            {
-              'name': 'edge',
-              'value': 40,
-              'max': null,
-              'crit': null,
-              'sensor': 'temp1',
-            }
-          ],
-        },
-      ],
-      'cpu_temp': 48,
-      'hot_limit': 60,
-      'unit': 'C',
-    },
-    'took': 0.003,
-  },
-);
-
-final system = System.fromJson(
-  {
-    'system': {
-      'uptime': 67906,
-      'memory': {
-        'ram': {
-          'total': 10317877,
-          'free': 308736,
-          'used': 8920416,
-          'available': 972304,
-          '%used': 26.854,
-        },
-        'swap': {
-          'total': 10317877,
-          'used': 8920416,
-          'free': 308736,
-          '%used': 1.67,
-        },
-      },
-      'procs': 1452,
-      'cpu': {
-        'nprocs': 8,
-        'load': {
-          'raw': [0.58837890625, 0.64990234375, 0.66748046875],
-          'percent': [
-            4.903157711029053,
-            5.415853023529053,
-            5.562337398529053,
-          ],
-        },
-      },
-    },
-    'took': 0.003,
-  },
-);
-
-final subscriptions = Lists.fromJson(
-  {
-    'lists': [
+final sensors = InfoSensors.fromJson({
+  'sensors': {
+    'list': [
       {
-        'address': 'https://hosts-file.net/ad_servers.txt',
-        'comment': 'Some comment for this list',
-        'groups': [0],
-        'enabled': true,
-        'id': 106,
-        'date_added': 1742739018,
-        'date_modified': 1742739030,
-        'type': 'block',
-        'date_updated': 0,
-        'number': 0,
-        'invalid_domains': 0,
-        'abp_entries': 0,
-        'status': 0,
-      }
-    ],
-    'processed': {
-      'errors': [],
-      'success': [
-        {'item': 'https://hosts-file.net/ad_servers.txt'},
-      ],
-    },
-    'took': 0.019428014755249023,
-  },
-);
-
-final groups = Groups.fromJson(
-  {
-    'groups': [
-      {
-        'name': 'Default',
-        'comment': 'The default group',
-        'enabled': true,
-        'id': 0,
-        'date_added': 1594670974,
-        'date_modified': 1611157897,
-      },
-      {
-        'name': 'group1',
-        'comment': null,
-        'enabled': true,
-        'id': 5,
-        'date_added': 1604871899,
-        'date_modified': 1604871899,
-      }
-    ],
-    'took': 0.003,
-  },
-);
-
-final messages = Messages.fromJson(
-  {
-    'messages': [
-      {
-        'id': 5,
-        'timestamp': 1743936482,
-        'type': 'LIST',
-        'plain':
-            'List with ID 10 (http://localhost:8989/test.txt) was inaccessible during last gravity run',
-        'html':
-            '<a href="groups/lists?listid=10">List with ID <strong>10</strong> (<code>http://localhost:8989/test.txt</code>)</a> was inaccessible during last gravity run',
-      },
-      {
-        'id': 3,
-        'timestamp': 123456789.123,
-        'type': 'SUBNET',
-        'plain': 'Rate-limiting 192.168.2.42 for at least 5 seconds',
-        'html':
-            'Client <code>192.168.2.42</code> has been rate-limited for at least 5 seconds (current limit: 1000 queries per 60 seconds)',
-      }
-    ],
-    'took': 0.0005114078521728516,
-  },
-);
-
-final metrics = Metrics.fromJson(
-  {
-    'metrics': {
-      'dns': {
-        'cache': {
-          'size': 10000,
-          'inserted': 4060,
-          'evicted': 0,
-          'expired': 0,
-          'immortal': 0,
-          'content': [
-            {
-              'type': 0,
-              'name': 'OTHER',
-              'count': {'valid': 0, 'stale': 0},
-            },
-            {
-              'type': 1,
-              'name': 'A',
-              'count': {'valid': 14, 'stale': 3},
-            },
-            {
-              'type': 28,
-              'name': 'AAAA',
-              'count': {'valid': 12, 'stale': 1},
-            },
-            {
-              'type': 5,
-              'name': 'CNAME',
-              'count': {'valid': 5, 'stale': 3},
-            },
-            {
-              'type': 43,
-              'name': 'DS',
-              'count': {'valid': 34, 'stale': 21},
-            },
-            {
-              'type': 48,
-              'name': 'DNSKEY',
-              'count': {'valid': 1, 'stale': 0},
-            }
-          ],
-        },
-        'replies': {
-          'optimized': 1,
-          'local': 84,
-          'auth': 0,
-          'forwarded': 46,
-          'unanswered': 0,
-          'sum': 131,
-        },
-      },
-      'dhcp': {
-        'ack': 0,
-        'nak': 0,
-        'decline': 0,
-        'offer': 0,
-        'discover': 0,
-        'inform': 0,
-        'request': 0,
-        'release': 0,
-        'noanswer': 0,
-        'bootp': 0,
-        'pxe': 0,
-        'leases': {
-          'allocated_4': 0,
-          'pruned_4': 0,
-          'allocated_6': 0,
-          'pruned_6': 0,
-        },
-      },
-    },
-    'took': 0.003,
-  },
-);
-
-final gateway = Gateway.fromJson(
-  {
-    'gateway': [
-      {
-        'family': 'inet',
-        'interface': 'eth0',
-        'address': '172.26.0.1',
-        'local': ['172.26.0.5'],
-      }
-    ],
-    'routes': [
-      {
-        'table': 254,
-        'family': 'inet',
-        'protocol': 'boot',
-        'scope': 'universe',
-        'type': 'unicast',
-        'flags': [],
-        'iflags': 0,
-        'gateway': '172.26.0.1',
-        'oif': 'eth0',
-        'dst': 'default',
-      },
-      {
-        'table': 254,
-        'family': 'inet',
-        'protocol': 'kernel',
-        'scope': 'link',
-        'type': 'unicast',
-        'flags': [],
-        'iflags': 0,
-        'dst': '172.26.0.0',
-        'prefsrc': '172.26.0.5',
-        'oif': 'eth0',
-      },
-      {
-        'table': 255,
-        'family': 'inet',
-        'protocol': 'kernel',
-        'scope': 'host',
-        'type': 'local',
-        'flags': [],
-        'iflags': 0,
-        'dst': '127.0.0.0',
-        'prefsrc': '127.0.0.1',
-        'oif': 'lo',
-      },
-      {
-        'table': 255,
-        'family': 'inet',
-        'protocol': 'kernel',
-        'scope': 'host',
-        'type': 'local',
-        'flags': [],
-        'iflags': 0,
-        'dst': '127.0.0.1',
-        'prefsrc': '127.0.0.1',
-        'oif': 'lo',
-      },
-      {
-        'table': 255,
-        'family': 'inet',
-        'protocol': 'kernel',
-        'scope': 'link',
-        'type': 'broadcast',
-        'flags': [],
-        'iflags': 0,
-        'dst': '127.255.255.255',
-        'prefsrc': '127.0.0.1',
-        'oif': 'lo',
-      },
-      {
-        'table': 255,
-        'family': 'inet',
-        'protocol': 'kernel',
-        'scope': 'host',
-        'type': 'local',
-        'flags': [],
-        'iflags': 0,
-        'dst': '172.26.0.5',
-        'prefsrc': '172.26.0.5',
-        'oif': 'eth0',
-      },
-      {
-        'table': 255,
-        'family': 'inet',
-        'protocol': 'kernel',
-        'scope': 'link',
-        'type': 'broadcast',
-        'flags': [],
-        'iflags': 0,
-        'dst': '172.26.255.255',
-        'prefsrc': '172.26.0.5',
-        'oif': 'eth0',
-      },
-      {
-        'table': 255,
-        'family': 'inet6',
-        'protocol': 'kernel',
-        'scope': 'universe',
-        'type': 'local',
-        'flags': [],
-        'iflags': 0,
-        'dst': '::1',
-        'priority': 0,
-        'oif': 'lo',
-        'cstamp': 1748575809,
-        'tstamp': 1748575809,
-        'expires': 0,
-        'error': 0,
-        'used': 0,
-        'pref': 0,
-      }
-    ],
-    'interfaces': [
-      {
-        'name': 'lo',
-        'index': 1,
-        'family': 'unspec',
-        'speed': null,
-        'type': 'loopback',
-        'flags': ['up', 'loopback', 'running', 'lower_up'],
-        'ifname': 'lo',
-        'txqlen': 1000,
-        'state': 'unknown',
-        'linkmode': 0,
-        'mtu': 65536,
-        'min_mtu': 0,
-        'max_mtu': 0,
-        'group': 0,
-        'promiscuity': 0,
-        'num_tx_queues': 1,
-        'gso_max_segs': 65535,
-        'gso_max_size': 65536,
-        'num_rx_queues': 1,
-        'carrier': true,
-        'qdisc': 'noqueue',
-        'carrier_changes': 0,
-        'carrier_up_count': 0,
-        'carrier_down_count': 0,
-        'proto_down': false,
-        'map': 0,
-        'address': '00:00:00:00:00:00',
-        'broadcast': '00:00:00:00:00:00',
-        'stats': {
-          'rx_bytes': {'value': 631.882, 'unit': 'K'},
-          'tx_bytes': {'value': 631.882, 'unit': 'K'},
-          'bits': 64,
-          'rx_packets': 7318,
-          'tx_packets': 7318,
-          'rx_errors': 0,
-          'tx_errors': 0,
-          'rx_dropped': 0,
-          'tx_dropped': 0,
-          'multicast': 0,
-          'collisions': 0,
-          'rx_length_errors': 0,
-          'rx_over_errors': 0,
-          'rx_crc_errors': 0,
-          'rx_frame_errors': 0,
-          'rx_fifo_errors': 0,
-          'rx_missed_errors': 0,
-          'tx_aborted_errors': 0,
-          'tx_carrier_errors': 0,
-          'tx_fifo_errors': 0,
-          'tx_heartbeat_errors': 0,
-          'tx_window_errors': 0,
-          'rx_compressed': 0,
-          'tx_compressed': 0,
-          'rx_nohandler': 0,
-        },
-        'addresses': [
+        'name': 'amdgpu',
+        'path': 'hwmon1',
+        'source': 'devices/pci0000:00/0000:00:08.1/0000:05:00.0',
+        'temps': [
           {
-            'index': 1,
-            'family': 'inet',
-            'scope': 'host',
-            'flags': ['permanent'],
-            'prefixlen': 8,
-            'address': '127.0.0.1',
-            'address_type': 'loopback',
-            'local': '127.0.0.1',
-            'local_type': 'loopback',
-            'label': 'lo',
-            'prefered': 4294967295,
-            'valid': 4294967295,
-            'cstamp': 1748575822.73,
-            'tstamp': 1748575822.73,
+            'name': 'edge',
+            'value': 40,
+            'max': null,
+            'crit': null,
+            'sensor': 'temp1',
+          },
+        ],
+      },
+    ],
+    'cpu_temp': 48,
+    'hot_limit': 60,
+    'unit': 'C',
+  },
+  'took': 0.003,
+});
+
+final system = InfoSystem.fromJson({
+  'system': {
+    'uptime': 67906,
+    'memory': {
+      'ram': {
+        'total': 10317877,
+        'free': 308736,
+        'used': 8920416,
+        'available': 972304,
+        '%used': 26.854,
+      },
+      'swap': {
+        'total': 10317877,
+        'used': 8920416,
+        'free': 308736,
+        '%used': 1.67,
+      },
+    },
+    'procs': 1452,
+    'cpu': {
+      'nprocs': 8,
+      'load': {
+        'raw': [0.58837890625, 0.64990234375, 0.66748046875],
+        'percent': [4.903157711029053, 5.415853023529053, 5.562337398529053],
+      },
+    },
+  },
+  'took': 0.003,
+});
+
+final subscriptions = Lists.fromJson({
+  'lists': [
+    {
+      'address': 'https://hosts-file.net/ad_servers.txt',
+      'comment': 'Some comment for this list',
+      'groups': [0],
+      'enabled': true,
+      'id': 106,
+      'date_added': 1742739018,
+      'date_modified': 1742739030,
+      'type': 'block',
+      'date_updated': 0,
+      'number': 0,
+      'invalid_domains': 0,
+      'abp_entries': 0,
+      'status': 0,
+    },
+  ],
+  'processed': {
+    'errors': [],
+    'success': [
+      {'item': 'https://hosts-file.net/ad_servers.txt'},
+    ],
+  },
+  'took': 0.019428014755249023,
+});
+
+final groups = Groups.fromJson({
+  'groups': [
+    {
+      'name': 'Default',
+      'comment': 'The default group',
+      'enabled': true,
+      'id': 0,
+      'date_added': 1594670974,
+      'date_modified': 1611157897,
+    },
+    {
+      'name': 'group1',
+      'comment': null,
+      'enabled': true,
+      'id': 5,
+      'date_added': 1604871899,
+      'date_modified': 1604871899,
+    },
+  ],
+  'took': 0.003,
+});
+
+final messages = InfoMessages.fromJson({
+  'messages': [
+    {
+      'id': 5,
+      'timestamp': 1743936482,
+      'type': 'LIST',
+      'plain':
+          'List with ID 10 (http://localhost:8989/test.txt) was inaccessible during last gravity run',
+      'html':
+          '<a href="groups/lists?listid=10">List with ID <strong>10</strong> (<code>http://localhost:8989/test.txt</code>)</a> was inaccessible during last gravity run',
+    },
+    {
+      'id': 3,
+      'timestamp': 123456789.123,
+      'type': 'SUBNET',
+      'plain': 'Rate-limiting 192.168.2.42 for at least 5 seconds',
+      'html':
+          'Client <code>192.168.2.42</code> has been rate-limited for at least 5 seconds (current limit: 1000 queries per 60 seconds)',
+    },
+  ],
+  'took': 0.0005114078521728516,
+});
+
+final metrics = InfoMetrics.fromJson({
+  'metrics': {
+    'dns': {
+      'cache': {
+        'size': 10000,
+        'inserted': 4060,
+        'evicted': 0,
+        'expired': 0,
+        'immortal': 0,
+        'content': [
+          {
+            'type': 0,
+            'name': 'OTHER',
+            'count': {'valid': 0, 'stale': 0},
           },
           {
-            'index': 1,
-            'family': 'inet6',
-            'scope': 'host',
-            'flags': ['permanent'],
-            'prefixlen': 128,
-            'address': '::1',
-            'address_type': 'loopback',
-            'prefered': 4294967295,
-            'valid': 4294967295,
-            'cstamp': 1748575822.73,
-            'tstamp': 1748575822.73,
-          }
+            'type': 1,
+            'name': 'A',
+            'count': {'valid': 14, 'stale': 3},
+          },
+          {
+            'type': 28,
+            'name': 'AAAA',
+            'count': {'valid': 12, 'stale': 1},
+          },
+          {
+            'type': 5,
+            'name': 'CNAME',
+            'count': {'valid': 5, 'stale': 3},
+          },
+          {
+            'type': 43,
+            'name': 'DS',
+            'count': {'valid': 34, 'stale': 21},
+          },
+          {
+            'type': 48,
+            'name': 'DNSKEY',
+            'count': {'valid': 1, 'stale': 0},
+          },
         ],
       },
-      {
-        'name': 'eth0',
-        'index': 23,
-        'family': 'unspec',
-        'speed': 10000,
-        'type': 'ether',
-        'flags': ['up', 'broadcast', 'running', 'multicast', 'lower_up'],
-        'ifname': 'eth0',
-        'txqlen': 0,
-        'state': 'up',
-        'linkmode': 0,
-        'mtu': 1500,
-        'min_mtu': 68,
-        'max_mtu': 65535,
-        'group': 0,
-        'promiscuity': 0,
-        'num_tx_queues': 12,
-        'gso_max_segs': 65535,
-        'gso_max_size': 65536,
-        'num_rx_queues': 12,
-        'carrier': true,
-        'qdisc': 'noqueue',
-        'carrier_changes': 2,
-        'carrier_up_count': 1,
-        'carrier_down_count': 1,
-        'proto_down': false,
-        'map': 0,
-        'address': '02:43:ad:1a:00:09',
-        'broadcast': 'ff:ff:ff:ff:ff:ff',
-        'link_kind': 'veth',
-        'link_netnsid': 0,
-        'link': 24,
-        'stats': {
-          'rx_bytes': {'value': 17.927896, 'unit': 'M'},
-          'tx_bytes': {'value': 32.886229, 'unit': 'M'},
-          'bits': 64,
-          'rx_packets': 215497,
-          'tx_packets': 203769,
-          'rx_errors': 0,
-          'tx_errors': 0,
-          'rx_dropped': 0,
-          'tx_dropped': 0,
-          'multicast': 0,
-          'collisions': 0,
-          'rx_length_errors': 0,
-          'rx_over_errors': 0,
-          'rx_crc_errors': 0,
-          'rx_frame_errors': 0,
-          'rx_fifo_errors': 0,
-          'rx_missed_errors': 0,
-          'tx_aborted_errors': 0,
-          'tx_carrier_errors': 0,
-          'tx_fifo_errors': 0,
-          'tx_heartbeat_errors': 0,
-          'tx_window_errors': 0,
-          'rx_compressed': 0,
-          'tx_compressed': 0,
-          'rx_nohandler': 0,
-        },
-        'addresses': [
-          {
-            'index': 23,
-            'family': 'inet',
-            'scope': 'universe',
-            'flags': ['permanent'],
-            'prefixlen': 16,
-            'address': '172.26.0.5',
-            'address_type': 'private',
-            'local': '172.26.0.5',
-            'local_type': 'private',
-            'broadcast': '172.26.255.255',
-            'broadcast_type': 'private',
-            'label': 'eth0',
-            'prefered': 4294967295,
-            'valid': 4294967295,
-            'cstamp': 1748575822.99,
-            'tstamp': 1748575822.99,
-          }
-        ],
-      }
-    ],
-    'took': 0.00055408477783203125,
+      'replies': {
+        'optimized': 1,
+        'local': 84,
+        'auth': 0,
+        'forwarded': 46,
+        'unanswered': 0,
+        'sum': 131,
+      },
+    },
+    'dhcp': {
+      'ack': 0,
+      'nak': 0,
+      'decline': 0,
+      'offer': 0,
+      'discover': 0,
+      'inform': 0,
+      'request': 0,
+      'release': 0,
+      'noanswer': 0,
+      'bootp': 0,
+      'pxe': 0,
+      'leases': {
+        'allocated_4': 0,
+        'pruned_4': 0,
+        'allocated_6': 0,
+        'pruned_6': 0,
+      },
+    },
   },
-);
+  'took': 0.003,
+});
+
+final gateway = Gateway.fromJson({
+  'gateway': [
+    {
+      'family': 'inet',
+      'interface': 'eth0',
+      'address': '172.26.0.1',
+      'local': ['172.26.0.5'],
+    },
+  ],
+  'routes': [
+    {
+      'table': 254,
+      'family': 'inet',
+      'protocol': 'boot',
+      'scope': 'universe',
+      'type': 'unicast',
+      'flags': [],
+      'iflags': 0,
+      'gateway': '172.26.0.1',
+      'oif': 'eth0',
+      'dst': 'default',
+    },
+    {
+      'table': 254,
+      'family': 'inet',
+      'protocol': 'kernel',
+      'scope': 'link',
+      'type': 'unicast',
+      'flags': [],
+      'iflags': 0,
+      'dst': '172.26.0.0',
+      'prefsrc': '172.26.0.5',
+      'oif': 'eth0',
+    },
+    {
+      'table': 255,
+      'family': 'inet',
+      'protocol': 'kernel',
+      'scope': 'host',
+      'type': 'local',
+      'flags': [],
+      'iflags': 0,
+      'dst': '127.0.0.0',
+      'prefsrc': '127.0.0.1',
+      'oif': 'lo',
+    },
+    {
+      'table': 255,
+      'family': 'inet',
+      'protocol': 'kernel',
+      'scope': 'host',
+      'type': 'local',
+      'flags': [],
+      'iflags': 0,
+      'dst': '127.0.0.1',
+      'prefsrc': '127.0.0.1',
+      'oif': 'lo',
+    },
+    {
+      'table': 255,
+      'family': 'inet',
+      'protocol': 'kernel',
+      'scope': 'link',
+      'type': 'broadcast',
+      'flags': [],
+      'iflags': 0,
+      'dst': '127.255.255.255',
+      'prefsrc': '127.0.0.1',
+      'oif': 'lo',
+    },
+    {
+      'table': 255,
+      'family': 'inet',
+      'protocol': 'kernel',
+      'scope': 'host',
+      'type': 'local',
+      'flags': [],
+      'iflags': 0,
+      'dst': '172.26.0.5',
+      'prefsrc': '172.26.0.5',
+      'oif': 'eth0',
+    },
+    {
+      'table': 255,
+      'family': 'inet',
+      'protocol': 'kernel',
+      'scope': 'link',
+      'type': 'broadcast',
+      'flags': [],
+      'iflags': 0,
+      'dst': '172.26.255.255',
+      'prefsrc': '172.26.0.5',
+      'oif': 'eth0',
+    },
+    {
+      'table': 255,
+      'family': 'inet6',
+      'protocol': 'kernel',
+      'scope': 'universe',
+      'type': 'local',
+      'flags': [],
+      'iflags': 0,
+      'dst': '::1',
+      'priority': 0,
+      'oif': 'lo',
+      'cstamp': 1748575809,
+      'tstamp': 1748575809,
+      'expires': 0,
+      'error': 0,
+      'used': 0,
+      'pref': 0,
+    },
+  ],
+  'interfaces': [
+    {
+      'name': 'lo',
+      'index': 1,
+      'family': 'unspec',
+      'speed': null,
+      'type': 'loopback',
+      'flags': ['up', 'loopback', 'running', 'lower_up'],
+      'ifname': 'lo',
+      'txqlen': 1000,
+      'state': 'unknown',
+      'linkmode': 0,
+      'mtu': 65536,
+      'min_mtu': 0,
+      'max_mtu': 0,
+      'group': 0,
+      'promiscuity': 0,
+      'num_tx_queues': 1,
+      'gso_max_segs': 65535,
+      'gso_max_size': 65536,
+      'num_rx_queues': 1,
+      'carrier': true,
+      'qdisc': 'noqueue',
+      'carrier_changes': 0,
+      'carrier_up_count': 0,
+      'carrier_down_count': 0,
+      'proto_down': false,
+      'map': 0,
+      'address': '00:00:00:00:00:00',
+      'broadcast': '00:00:00:00:00:00',
+      'stats': {
+        'rx_bytes': {'value': 631.882, 'unit': 'K'},
+        'tx_bytes': {'value': 631.882, 'unit': 'K'},
+        'bits': 64,
+        'rx_packets': 7318,
+        'tx_packets': 7318,
+        'rx_errors': 0,
+        'tx_errors': 0,
+        'rx_dropped': 0,
+        'tx_dropped': 0,
+        'multicast': 0,
+        'collisions': 0,
+        'rx_length_errors': 0,
+        'rx_over_errors': 0,
+        'rx_crc_errors': 0,
+        'rx_frame_errors': 0,
+        'rx_fifo_errors': 0,
+        'rx_missed_errors': 0,
+        'tx_aborted_errors': 0,
+        'tx_carrier_errors': 0,
+        'tx_fifo_errors': 0,
+        'tx_heartbeat_errors': 0,
+        'tx_window_errors': 0,
+        'rx_compressed': 0,
+        'tx_compressed': 0,
+        'rx_nohandler': 0,
+      },
+      'addresses': [
+        {
+          'index': 1,
+          'family': 'inet',
+          'scope': 'host',
+          'flags': ['permanent'],
+          'prefixlen': 8,
+          'address': '127.0.0.1',
+          'address_type': 'loopback',
+          'local': '127.0.0.1',
+          'local_type': 'loopback',
+          'label': 'lo',
+          'prefered': 4294967295,
+          'valid': 4294967295,
+          'cstamp': 1748575822.73,
+          'tstamp': 1748575822.73,
+        },
+        {
+          'index': 1,
+          'family': 'inet6',
+          'scope': 'host',
+          'flags': ['permanent'],
+          'prefixlen': 128,
+          'address': '::1',
+          'address_type': 'loopback',
+          'prefered': 4294967295,
+          'valid': 4294967295,
+          'cstamp': 1748575822.73,
+          'tstamp': 1748575822.73,
+        },
+      ],
+    },
+    {
+      'name': 'eth0',
+      'index': 23,
+      'family': 'unspec',
+      'speed': 10000,
+      'type': 'ether',
+      'flags': ['up', 'broadcast', 'running', 'multicast', 'lower_up'],
+      'ifname': 'eth0',
+      'txqlen': 0,
+      'state': 'up',
+      'linkmode': 0,
+      'mtu': 1500,
+      'min_mtu': 68,
+      'max_mtu': 65535,
+      'group': 0,
+      'promiscuity': 0,
+      'num_tx_queues': 12,
+      'gso_max_segs': 65535,
+      'gso_max_size': 65536,
+      'num_rx_queues': 12,
+      'carrier': true,
+      'qdisc': 'noqueue',
+      'carrier_changes': 2,
+      'carrier_up_count': 1,
+      'carrier_down_count': 1,
+      'proto_down': false,
+      'map': 0,
+      'address': '02:43:ad:1a:00:09',
+      'broadcast': 'ff:ff:ff:ff:ff:ff',
+      'link_kind': 'veth',
+      'link_netnsid': 0,
+      'link': 24,
+      'stats': {
+        'rx_bytes': {'value': 17.927896, 'unit': 'M'},
+        'tx_bytes': {'value': 32.886229, 'unit': 'M'},
+        'bits': 64,
+        'rx_packets': 215497,
+        'tx_packets': 203769,
+        'rx_errors': 0,
+        'tx_errors': 0,
+        'rx_dropped': 0,
+        'tx_dropped': 0,
+        'multicast': 0,
+        'collisions': 0,
+        'rx_length_errors': 0,
+        'rx_over_errors': 0,
+        'rx_crc_errors': 0,
+        'rx_frame_errors': 0,
+        'rx_fifo_errors': 0,
+        'rx_missed_errors': 0,
+        'tx_aborted_errors': 0,
+        'tx_carrier_errors': 0,
+        'tx_fifo_errors': 0,
+        'tx_heartbeat_errors': 0,
+        'tx_window_errors': 0,
+        'rx_compressed': 0,
+        'tx_compressed': 0,
+        'rx_nohandler': 0,
+      },
+      'addresses': [
+        {
+          'index': 23,
+          'family': 'inet',
+          'scope': 'universe',
+          'flags': ['permanent'],
+          'prefixlen': 16,
+          'address': '172.26.0.5',
+          'address_type': 'private',
+          'local': '172.26.0.5',
+          'local_type': 'private',
+          'broadcast': '172.26.255.255',
+          'broadcast_type': 'private',
+          'label': 'eth0',
+          'prefered': 4294967295,
+          'valid': 4294967295,
+          'cstamp': 1748575822.99,
+          'tstamp': 1748575822.99,
+        },
+      ],
+    },
+  ],
+  'took': 0.00055408477783203125,
+});
 
 final configDns = Config.fromJson({
   'config': {
@@ -1270,70 +1234,66 @@ final configDns = Config.fromJson({
   'took': 0.003,
 });
 
-final sessions = AuthSessions.fromJson(
-  {
-    'sessions': [
-      {
-        'id': 0,
-        'current_session': false,
-        'valid': false,
-        'tls': {'login': false, 'mixed': false},
-        'app': false,
-        'cli': false,
-        'login_at': 1580000000,
-        'last_active': 1580000000,
-        'valid_until': 1580000300,
-        'remote_addr': '192.168.0.30',
-        'user_agent': 'Dart/3.7 (dart:io)',
-        'x_forwarded_for': null,
-      },
-      {
-        'id': 1,
-        'current_session': true,
-        'valid': true,
-        'tls': {'login': true, 'mixed': false},
-        'app': false,
-        'cli': false,
-        'login_at': 1580000000,
-        'last_active': 1580000000,
-        'valid_until': 1580000300,
-        'remote_addr': '192.168.0.31',
-        'user_agent':
-            'Mozilla/5.0 (X11; Linux x86_64; rv:107.0) Gecko/20100101 Firefox/107.0',
-        'x_forwarded_for': null,
-      },
-      {
-        'id': 3,
-        'current_session': false,
-        'valid': false,
-        'tls': {'login': false, 'mixed': true},
-        'app': true,
-        'cli': true,
-        'login_at': 1580000000,
-        'last_active': 1580000000,
-        'valid_until': 1580000300,
-        'remote_addr': '192.168.0.32',
-        'user_agent': 'Dart/3.7 (dart:io)',
-        'x_forwarded_for': null,
-      },
-    ],
-    'took': 0.003,
-  },
-);
+final sessions = AuthSessions.fromJson({
+  'sessions': [
+    {
+      'id': 0,
+      'current_session': false,
+      'valid': false,
+      'tls': {'login': false, 'mixed': false},
+      'app': false,
+      'cli': false,
+      'login_at': 1580000000,
+      'last_active': 1580000000,
+      'valid_until': 1580000300,
+      'remote_addr': '192.168.0.30',
+      'user_agent': 'Dart/3.7 (dart:io)',
+      'x_forwarded_for': null,
+    },
+    {
+      'id': 1,
+      'current_session': true,
+      'valid': true,
+      'tls': {'login': true, 'mixed': false},
+      'app': false,
+      'cli': false,
+      'login_at': 1580000000,
+      'last_active': 1580000000,
+      'valid_until': 1580000300,
+      'remote_addr': '192.168.0.31',
+      'user_agent':
+          'Mozilla/5.0 (X11; Linux x86_64; rv:107.0) Gecko/20100101 Firefox/107.0',
+      'x_forwarded_for': null,
+    },
+    {
+      'id': 3,
+      'current_session': false,
+      'valid': false,
+      'tls': {'login': false, 'mixed': true},
+      'app': true,
+      'cli': true,
+      'login_at': 1580000000,
+      'last_active': 1580000000,
+      'valid_until': 1580000300,
+      'remote_addr': '192.168.0.32',
+      'user_agent': 'Dart/3.7 (dart:io)',
+      'x_forwarded_for': null,
+    },
+  ],
+  'took': 0.003,
+});
 
-final client = FtlClient.Client.fromJson(
-  {
-    'remote_addr': '192.168.1.51',
-    'http_version': '1.1',
-    'method': 'GET',
-    'headers': [
-      {'name': 'Accept', 'value': 'application/json'},
-      {'name': 'Connection', 'value': 'keep-alive'},
-      {'name': 'Pragma', 'value': 'no-cache'},
-    ],
-    'took': 0.003,
-  },
-);
+final client = InfoClient.fromJson({
+  'remote_addr': '192.168.1.51',
+  'http_version': '1.1',
+  'method': 'GET',
+  'headers': [
+    {'name': 'Accept', 'value': 'application/json'},
+    {'name': 'Connection', 'value': 'keep-alive'},
+    {'name': 'Pragma', 'value': 'no-cache'},
+  ],
+  'took': 0.003,
+});
 
 final devices = Devices.fromJson({
   'devices': [
@@ -1351,7 +1311,7 @@ final devices = Devices.fromJson({
           'name': 'ubuntu-server',
           'lastSeen': 1664688620,
           'nameUpdated': 1664688620,
-        }
+        },
       ],
     },
     {
@@ -1374,9 +1334,9 @@ final devices = Devices.fromJson({
           'name': null,
           'lastSeen': 1664488620,
           'nameUpdated': 1654488620,
-        }
+        },
       ],
-    }
+    },
   ],
   'took': 0.003,
 });
@@ -1571,8 +1531,10 @@ class TestSetupHelper {
               update: (context, serverConfig, servers) =>
                   servers!..update(serverConfig),
             ),
-            ChangeNotifierProxyProvider<ServersProvider,
-                SubscriptionsListProvider>(
+            ChangeNotifierProxyProvider<
+              ServersProvider,
+              SubscriptionsListProvider
+            >(
               create: (context) => mockSubscriptionsListProvider,
               update: (context, serverConfig, servers) =>
                   servers!..update(serverConfig),
@@ -1597,9 +1559,7 @@ class TestSetupHelper {
               theme: lightTheme(lightDynamic),
               darkTheme: darkTheme(darkDynamic),
               themeMode: mockConfigProvider.selectedTheme,
-              home: Scaffold(
-                body: child,
-              ),
+              home: Scaffold(body: child),
               locale: Locale(mockConfigProvider.selectedLanguage),
               supportedLocales: const [
                 Locale('en', ''),
@@ -1683,10 +1643,12 @@ class TestSetupHelper {
     when(mockConfigProvider.statisticsVisualizationMode).thenReturn(0);
     when(mockConfigProvider.homeVisualizationMode).thenReturn(0);
     when(mockConfigProvider.setShowingSnackbar(any)).thenReturn(null);
-    when(mockConfigProvider.setReducedDataCharts(any))
-        .thenAnswer((_) async => true);
-    when(mockConfigProvider.setHideZeroValues(any))
-        .thenAnswer((_) async => true);
+    when(
+      mockConfigProvider.setReducedDataCharts(any),
+    ).thenAnswer((_) async => true);
+    when(
+      mockConfigProvider.setHideZeroValues(any),
+    ).thenAnswer((_) async => true);
     when(mockConfigProvider.restoreAppConfig()).thenAnswer((_) async => true);
     when(mockConfigProvider.logs).thenReturn([
       AppLog(
@@ -1710,22 +1672,26 @@ class TestSetupHelper {
         buildNumber: '1',
       ),
     );
-    when(mockConfigProvider.setAutoRefreshTime(any))
-        .thenAnswer((_) async => true);
+    when(
+      mockConfigProvider.setAutoRefreshTime(any),
+    ).thenAnswer((_) async => true);
     when(mockConfigProvider.colors).thenReturn(lightAppColors);
     when(mockConfigProvider.biometricsSupport).thenReturn(true);
-    when(mockConfigProvider.setStatisticsVisualizationMode(any))
-        .thenAnswer((_) async => true);
-    when(mockConfigProvider.setHomeVisualizationMode(any))
-        .thenAnswer((_) async => true);
+    when(
+      mockConfigProvider.setStatisticsVisualizationMode(any),
+    ).thenAnswer((_) async => true);
+    when(
+      mockConfigProvider.setHomeVisualizationMode(any),
+    ).thenAnswer((_) async => true);
     when(mockConfigProvider.validVibrator).thenReturn(true);
     when(mockConfigProvider.setPassCode(any)).thenAnswer((_) async => true);
     when(mockConfigProvider.selectedTab).thenReturn(0);
     when(mockConfigProvider.importantInfoReaden).thenReturn(true);
     when(mockConfigProvider.sendCrashReports).thenReturn(false);
     when(mockConfigProvider.loadingAnimation).thenReturn(true);
-    when(mockConfigProvider.setShowLoadingAnimation(any))
-        .thenAnswer((_) async => true);
+    when(
+      mockConfigProvider.setShowLoadingAnimation(any),
+    ).thenAnswer((_) async => true);
   }
 
   void _initServerProviderMock(String useApiGatewayVersion) {
@@ -1734,19 +1700,20 @@ class TestSetupHelper {
           ? mockApiGatewayV5 as ApiGateway
           : mockApiGatewayV6 as ApiGateway,
     );
-    when(mockServersProvider.selectedServer).thenReturn(
-      useApiGatewayVersion == 'v5' ? serverV5 : serverV6,
-    );
+    when(
+      mockServersProvider.selectedServer,
+    ).thenReturn(useApiGatewayVersion == 'v5' ? serverV5 : serverV6);
     when(mockServersProvider.colors).thenReturn(lightAppColors);
-    when(mockServersProvider.numShown).thenReturn(
-      useApiGatewayVersion == 'v5' ? 12 : 14,
-    );
+    when(
+      mockServersProvider.numShown,
+    ).thenReturn(useApiGatewayVersion == 'v5' ? 12 : 14);
     when(mockServersProvider.getQueryStatus(any)).thenReturn(
       // forwarded
       useApiGatewayVersion == 'v5' ? queryStatusesV5[1] : queryStatusesV6[2],
     );
-    when(mockServersProvider.checkUrlExists(any))
-        .thenAnswer((_) async => {'result': 'success', 'exists': false});
+    when(
+      mockServersProvider.checkUrlExists(any),
+    ).thenAnswer((_) async => {'result': 'success', 'exists': false});
     when(mockServersProvider.addServer(any)).thenAnswer((_) async => true);
     when(mockServersProvider.editServer(any)).thenAnswer((_) async => true);
     when(mockServersProvider.loadApiGateway(any)).thenReturn(
@@ -1759,8 +1726,9 @@ class TestSetupHelper {
           ? mockApiGatewayV5 as ApiGateway
           : mockApiGatewayV6 as ApiGateway,
     );
-    when(mockServersProvider.getServersList)
-        .thenReturn(useApiGatewayVersion == 'v5' ? [serverV5] : [serverV6]);
+    when(
+      mockServersProvider.getServersList,
+    ).thenReturn(useApiGatewayVersion == 'v5' ? [serverV5] : [serverV6]);
     when(mockServersProvider.colors).thenReturn(lightAppColors);
     when(mockServersProvider.queryStatuses).thenReturn(
       useApiGatewayVersion == 'v5' ? queryStatusesV5 : queryStatusesV6,
@@ -1779,11 +1747,13 @@ class TestSetupHelper {
     when(mockFiltersProvider.selectedClients).thenReturn(['192.168.100.2']);
     when(mockFiltersProvider.selectedDomain).thenReturn('white.example.com');
     when(mockFiltersProvider.startTime).thenReturn(DateTime.now());
-    when(mockFiltersProvider.endTime)
-        .thenReturn(DateTime.now().add(const Duration(hours: 2)));
+    when(
+      mockFiltersProvider.endTime,
+    ).thenReturn(DateTime.now().add(const Duration(hours: 2)));
     when(mockFiltersProvider.resetFilters()).thenReturn(null);
-    when(mockFiltersProvider.totalClients)
-        .thenReturn(['localhost', '192.168.100.2']);
+    when(
+      mockFiltersProvider.totalClients,
+    ).thenReturn(['localhost', '192.168.100.2']);
     when(mockFiltersProvider.resetTime()).thenReturn(null);
     when(mockFiltersProvider.resetStatus()).thenReturn(null);
     when(mockFiltersProvider.resetClients()).thenReturn(null);
@@ -1804,17 +1774,22 @@ class TestSetupHelper {
     when(mockStatusProvider.getServerStatus).thenReturn(LoadStatus.loaded);
     when(mockStatusProvider.isServerLoading).thenReturn(false);
     when(mockStatusProvider.getOvertimeData).thenReturn(overtimeData);
-    when(mockStatusProvider.getOvertimeDataLoadStatus)
-        .thenReturn(LoadStatus.loaded);
-    when(mockStatusProvider.getOvertimeDataJson)
-        .thenReturn(overtimeData.toJson());
+    when(
+      mockStatusProvider.getOvertimeDataLoadStatus,
+    ).thenReturn(LoadStatus.loaded);
+    when(
+      mockStatusProvider.getOvertimeDataJson,
+    ).thenReturn(overtimeData.toJson());
     when(mockStatusProvider.getRealtimeStatus).thenReturn(realtimeStatus);
-    when(mockStatusProvider.getMetricsInfo)
-        .thenReturn(MetricsInfo.fromV6(metrics));
-    when(mockStatusProvider.getDnsCacheInfo)
-        .thenReturn(MetricsInfo.fromV6(metrics).dnsCache);
-    when(mockStatusProvider.getDnsRepliesInfo)
-        .thenReturn(MetricsInfo.fromV6(metrics).dnsReplies);
+    when(
+      mockStatusProvider.getMetricsInfo,
+    ).thenReturn(MetricsInfo.fromV6(metrics));
+    when(
+      mockStatusProvider.getDnsCacheInfo,
+    ).thenReturn(MetricsInfo.fromV6(metrics).dnsCache);
+    when(
+      mockStatusProvider.getDnsRepliesInfo,
+    ).thenReturn(MetricsInfo.fromV6(metrics).dnsReplies);
   }
 
   void _initDomainListProviderMock(String useApiGatewayVersion) {
@@ -1830,20 +1805,20 @@ class TestSetupHelper {
     when(mockDomainsListProvider.setWhitelistDomains(any)).thenReturn(null);
     when(mockDomainsListProvider.setBlacklistDomains(any)).thenReturn(null);
     when(mockDomainsListProvider.onSearch(any)).thenReturn(null);
-    when(mockDomainsListProvider.removeDomainFromList(any))
-        .thenAnswer((_) async => true);
+    when(
+      mockDomainsListProvider.removeDomainFromList(any),
+    ).thenAnswer((_) async => true);
   }
 
   void _initGroupsPtoviderMock(String useApiGatewayVersion) {
-    when(mockGroupsProvider.groups)
-        .thenReturn(GroupsInfo.fromV6(groups).groups);
+    when(
+      mockGroupsProvider.groups,
+    ).thenReturn(GroupsInfo.fromV6(groups).groups);
 
-    when(mockGroupsProvider.groupItems).thenReturn(
-      {
-        for (final group in GroupsInfo.fromV6(groups).groups)
-          group.id: group.name,
-      },
-    );
+    when(mockGroupsProvider.groupItems).thenReturn({
+      for (final group in GroupsInfo.fromV6(groups).groups)
+        group.id: group.name,
+    });
 
     when(mockGroupsProvider.loadingStatus).thenReturn(LoadStatus.loaded);
 
@@ -1853,19 +1828,23 @@ class TestSetupHelper {
   }
 
   void _initSubscriptionsListProviderMock(String useApiGatewayVersion) {
-    when(mockSubscriptionsListProvider.loadingStatus)
-        .thenReturn(LoadStatus.loaded);
+    when(
+      mockSubscriptionsListProvider.loadingStatus,
+    ).thenReturn(LoadStatus.loaded);
 
     when(mockSubscriptionsListProvider.whitelistSubscriptions).thenReturn([]);
 
-    when(mockSubscriptionsListProvider.blacklistSubscriptions)
-        .thenReturn(SubscriptionsInfo.fromV6(subscriptions).subscriptions);
+    when(
+      mockSubscriptionsListProvider.blacklistSubscriptions,
+    ).thenReturn(SubscriptionsInfo.fromV6(subscriptions).subscriptions);
 
-    when(mockSubscriptionsListProvider.filteredWhitelistSubscriptions)
-        .thenReturn([]);
+    when(
+      mockSubscriptionsListProvider.filteredWhitelistSubscriptions,
+    ).thenReturn([]);
 
-    when(mockSubscriptionsListProvider.filteredBlacklistSubscriptions)
-        .thenReturn(SubscriptionsInfo.fromV6(subscriptions).subscriptions);
+    when(
+      mockSubscriptionsListProvider.filteredBlacklistSubscriptions,
+    ).thenReturn(SubscriptionsInfo.fromV6(subscriptions).subscriptions);
 
     when(mockSubscriptionsListProvider.selectedTab).thenReturn(0);
 
@@ -1873,21 +1852,25 @@ class TestSetupHelper {
 
     when(mockSubscriptionsListProvider.setLoadingStatus(any)).thenReturn(null);
 
-    when(mockSubscriptionsListProvider.setWhitelistSubscriptions(any))
-        .thenReturn(null);
+    when(
+      mockSubscriptionsListProvider.setWhitelistSubscriptions(any),
+    ).thenReturn(null);
 
-    when(mockSubscriptionsListProvider.setBlacklistSubscriptions(any))
-        .thenReturn(null);
+    when(
+      mockSubscriptionsListProvider.setBlacklistSubscriptions(any),
+    ).thenReturn(null);
 
     when(mockSubscriptionsListProvider.setSelectedTab(any)).thenReturn(null);
 
     when(mockSubscriptionsListProvider.onSearch(any)).thenReturn(null);
 
-    when(mockSubscriptionsListProvider.fetchSubscriptionsList())
-        .thenAnswer((_) async => ());
+    when(
+      mockSubscriptionsListProvider.fetchSubscriptionsList(),
+    ).thenAnswer((_) async => ());
 
-    when(mockSubscriptionsListProvider.removeSubscriptionFromList(any))
-        .thenReturn(null);
+    when(
+      mockSubscriptionsListProvider.removeSubscriptionFromList(any),
+    ).thenReturn(null);
   }
 
   void _initGravityUpdateProviderMock(String useApiGatewayVersion) {
@@ -1895,16 +1878,17 @@ class TestSetupHelper {
 
     when(mockGravityUpdateProvider.logs).thenReturn(['log1', 'log2']);
 
-    when(mockGravityUpdateProvider.messages)
-        .thenReturn(MessagesInfo.fromV6(messages).messages);
+    when(
+      mockGravityUpdateProvider.messages,
+    ).thenReturn(MessagesInfo.fromV6(messages).messages);
 
     when(mockGravityUpdateProvider.startedAtTime).thenReturn(
       DateTime.fromMillisecondsSinceEpoch(1733465700 * 1000),
     ); // Convert to milliseconds since epoch
 
-    when(mockGravityUpdateProvider.completedAtTime).thenReturn(
-      DateTime.fromMillisecondsSinceEpoch(1733465700 * 1000),
-    );
+    when(
+      mockGravityUpdateProvider.completedAtTime,
+    ).thenReturn(DateTime.fromMillisecondsSinceEpoch(1733465700 * 1000));
 
     when(mockGravityUpdateProvider.isLoaded).thenReturn(false);
 
@@ -1952,10 +1936,8 @@ class TestSetupHelper {
     when(mockApiGatewayV5.server).thenReturn(serverV5);
 
     when(mockApiGatewayV5.updateDomain(body: anyNamed('body'))).thenAnswer(
-      (_) async => DomainResponse(
-        result: APiResponseType.success,
-        data: domains[0],
-      ),
+      (_) async =>
+          DomainResponse(result: APiResponseType.success, data: domains[0]),
     );
 
     when(
@@ -2039,8 +2021,9 @@ class TestSetupHelper {
       ),
     );
 
-    when(mockApiGatewayV6.realtimeStatus(clientCount: anyNamed('clientCount')))
-        .thenAnswer(
+    when(
+      mockApiGatewayV6.realtimeStatus(clientCount: anyNamed('clientCount')),
+    ).thenAnswer(
       (_) async => RealtimeStatusResponse(
         result: APiResponseType.success,
         data: realtimeStatus,
@@ -2066,16 +2049,18 @@ class TestSetupHelper {
 
     when(mockApiGatewayV6.server).thenReturn(serverV6);
 
-    when(mockApiGatewayV6.updateSubscription(body: anyNamed('body')))
-        .thenAnswer(
+    when(
+      mockApiGatewayV6.updateSubscription(body: anyNamed('body')),
+    ).thenAnswer(
       (_) async => SubscriptionsResponse(
         result: APiResponseType.success,
         data: SubscriptionsInfo.fromV6(subscriptions),
       ),
     );
 
-    when(mockApiGatewayV6.createSubscription(body: anyNamed('body')))
-        .thenAnswer(
+    when(
+      mockApiGatewayV6.createSubscription(body: anyNamed('body')),
+    ).thenAnswer(
       (_) async => SubscriptionsResponse(
         result: APiResponseType.success,
         data: SubscriptionsInfo.fromV6(subscriptions),
@@ -2088,16 +2073,12 @@ class TestSetupHelper {
         stype: anyNamed('stype'),
       ),
     ).thenAnswer(
-      (_) async => RemoveSubscriptionResponse(
-        result: APiResponseType.success,
-      ),
+      (_) async => RemoveSubscriptionResponse(result: APiResponseType.success),
     );
 
     when(mockApiGatewayV6.updateDomain(body: anyNamed('body'))).thenAnswer(
-      (_) async => DomainResponse(
-        result: APiResponseType.success,
-        data: domains[0],
-      ),
+      (_) async =>
+          DomainResponse(result: APiResponseType.success, data: domains[0]),
     );
 
     when(mockApiGatewayV6.getMetrics()).thenAnswer(
@@ -2114,8 +2095,9 @@ class TestSetupHelper {
       ),
     );
 
-    when(mockApiGatewayV6.getConfiguration(element: anyNamed('element')))
-        .thenAnswer(
+    when(
+      mockApiGatewayV6.getConfiguration(element: anyNamed('element')),
+    ).thenAnswer(
       (_) async => ConfigurationResponse(
         result: APiResponseType.success,
         data: ConfigInfo.fromV6(configDns),
@@ -2137,24 +2119,18 @@ class TestSetupHelper {
     );
 
     when(mockApiGatewayV6.flushArp()).thenAnswer(
-      (_) async => ActionResponse(
-        result: APiResponseType.success,
-        data: 'success',
-      ),
+      (_) async =>
+          ActionResponse(result: APiResponseType.success, data: 'success'),
     );
 
     when(mockApiGatewayV6.flushLogs()).thenAnswer(
-      (_) async => ActionResponse(
-        result: APiResponseType.success,
-        data: 'success',
-      ),
+      (_) async =>
+          ActionResponse(result: APiResponseType.success, data: 'success'),
     );
 
     when(mockApiGatewayV6.restartDns()).thenAnswer(
-      (_) async => ActionResponse(
-        result: APiResponseType.success,
-        data: 'success',
-      ),
+      (_) async =>
+          ActionResponse(result: APiResponseType.success, data: 'success'),
     );
 
     when(mockApiGatewayV6.getSessions()).thenAnswer(
@@ -2165,9 +2141,7 @@ class TestSetupHelper {
     );
 
     when(mockApiGatewayV6.deleteSession(any)).thenAnswer(
-      (_) async => DeleteSessionResponse(
-        result: APiResponseType.success,
-      ),
+      (_) async => DeleteSessionResponse(result: APiResponseType.success),
     );
 
     when(mockApiGatewayV6.getClient()).thenAnswer(
@@ -2185,9 +2159,7 @@ class TestSetupHelper {
     );
 
     when(mockApiGatewayV6.deleteDevice(any)).thenAnswer(
-      (_) async => DeleteDeviceResponse(
-        result: APiResponseType.success,
-      ),
+      (_) async => DeleteDeviceResponse(result: APiResponseType.success),
     );
 
     when(mockApiGatewayV6.getDhcps()).thenAnswer(
@@ -2198,9 +2170,7 @@ class TestSetupHelper {
     );
 
     when(mockApiGatewayV6.deleteDhcp(any)).thenAnswer(
-      (_) async => DeleteDhcpResponse(
-        result: APiResponseType.success,
-      ),
+      (_) async => DeleteDhcpResponse(result: APiResponseType.success),
     );
   }
 
