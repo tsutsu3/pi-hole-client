@@ -10,8 +10,8 @@ class GravityUpdateProvider with ChangeNotifier {
   GravityUpdateProvider({
     required GravityRepository repository,
     required ServersProvider serversProvider,
-  })  : _repository = repository,
-        _serversProvider = serversProvider {
+  }) : _repository = repository,
+       _serversProvider = serversProvider {
     if (_serversProvider.selectedApiGateway != null) {
       _service = GravityUpdateService(
         repository: _repository,
