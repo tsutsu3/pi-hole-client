@@ -5,6 +5,7 @@ import 'package:pi_hole_client/domain/models/metrics/summary.dart';
 import 'package:pi_hole_client/domain/models/metrics/top_clients.dart';
 import 'package:pi_hole_client/domain/models/metrics/top_domains.dart';
 import 'package:pi_hole_client/domain/models/metrics/upstreams.dart';
+import 'package:pi_hole_client/domain/models/overtime/overtime.dart';
 import 'package:result_dart/result_dart.dart';
 
 abstract interface class MetricsRepository {
@@ -38,4 +39,6 @@ abstract interface class MetricsRepository {
   Future<Result<List<SourceStat>>> fetchStatsTopClientsAllowed({
     int? count = 10,
   });
+
+  Future<Result<OverTime>> fetchOverTime({int? count = 10});
 }

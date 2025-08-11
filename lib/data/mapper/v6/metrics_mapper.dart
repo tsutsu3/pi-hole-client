@@ -12,6 +12,7 @@ import 'package:pi_hole_client/domain/models/metrics/summary.dart' as d;
 import 'package:pi_hole_client/domain/models/metrics/top_clients.dart' as d;
 import 'package:pi_hole_client/domain/models/metrics/top_domains.dart' as d;
 import 'package:pi_hole_client/domain/models/metrics/upstreams.dart' as d;
+import 'package:pi_hole_client/domain/models/overtime/overtime.dart' as d;
 
 extension HistoryMapper on sh.History {
   d.History toDomain() {
@@ -37,30 +38,6 @@ extension HistoryDataMapper on sh.HistoryData {
     );
   }
 }
-
-// extension ClientsMapper on s.HistoryClients {
-//   d.Clients toDomain() {
-//     return d.Clients(
-//       history: history.map((e) => e.toDomain()).toList(),
-//       clients: clients.map((e) => e.toDomain()).toList(),
-//     );
-//   }
-// }
-
-// extension ClientMapper on s.Client {
-//   d.Client toDomain() {
-//     return d.Client(name: name ?? '', ip: ip);
-//   }
-// }
-
-// extension HistoryClientsMapper on s.HistoryClients {
-//   d.Client toDomain() {
-//     return d.HistoryClients(
-//       history: history.map((e) => e.toDomain()).toList(),
-//       clients: clients.map((e) => e.toDomain()).toList(),
-//     );
-//   }
-// }
 
 extension QueriesMapper on sq.Queries {
   d.Logs toDomain() {
@@ -200,5 +177,16 @@ extension ListHistoryEntryMapper on List<sh.HistoryEntry> {
         values: entry.data.values.toList(),
       );
     }).toList();
+  }
+}
+
+extension OverTimeDataMapper on (d.History, d.Clients) {
+  d.OverTime toDomain() {
+    return d.OverTime(
+      adsOverTime: $1.adsOverTime,
+      domainsOverTime: $1.domainsOverTime,
+      clients: $2.clients,
+      overTime: $2.overTime,
+    );
   }
 }

@@ -11,6 +11,7 @@ import 'package:pi_hole_client/domain/models/metrics/summary.dart';
 import 'package:pi_hole_client/domain/models/metrics/top_clients.dart';
 import 'package:pi_hole_client/domain/models/metrics/top_domains.dart';
 import 'package:pi_hole_client/domain/models/metrics/upstreams.dart';
+import 'package:pi_hole_client/domain/models/overtime/overtime.dart';
 import 'package:result_dart/result_dart.dart';
 
 class MetricsRepositoryV5 implements MetricsRepository {
@@ -103,6 +104,16 @@ class MetricsRepositoryV5 implements MetricsRepository {
   }) async {
     return Future.value(
       Failure(NotSupportedException(kHandledByRealtimeRepositoryInV5Message)),
+    );
+  }
+
+  @override
+  Future<Result<OverTime>> fetchOverTime({int? count = 10}) async {
+    return runWithResultRetry(
+      action: () async {
+        final response = await _client.getOverTimeData(_token);
+        return Success(response.getOrThrow().toDomain());
+      },
     );
   }
 }
