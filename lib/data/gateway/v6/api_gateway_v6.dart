@@ -73,7 +73,6 @@ import 'package:pi_hole_client/domain/models_old/system.dart';
 import 'package:pi_hole_client/domain/models_old/version.dart';
 import 'package:pi_hole_client/utils/logger.dart';
 import 'package:pi_hole_client/utils/misc.dart';
-import 'package:result_dart/result_dart.dart';
 
 class ApiGatewayV6 implements ApiGateway {
   /// Creates a new instance of the `ApiGatewayV5` class.
