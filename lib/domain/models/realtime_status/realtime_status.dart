@@ -37,7 +37,7 @@ sealed class RealtimeStatus with _$RealtimeStatus {
     required int replyBlob,
     required int dnsQueriesAllReplies,
     required int privacyLevel,
-    required String status,
+    required String status, // TODO: use DnsBlockingStatus enum
     required List<QueryStat> topQueries,
     required List<QueryStat> topAds,
     required List<SourceStat> topSources,

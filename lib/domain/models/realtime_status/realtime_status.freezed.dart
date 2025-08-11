@@ -15,7 +15,8 @@ T _$identity<T>(T value) => value;
 /// @nodoc
 mixin _$RealtimeStatus {
 
- int get domainsBeingBlocked; int get dnsQueriesToday; int get adsBlockedToday; double get adsPercentageToday; int get uniqueDomains; int get queriesForwarded; int get queriesCached; int get clientsEverSeen; int get uniqueClients; int get dnsQueriesAllTypes; int get replyUnknown; int get replyNodata; int get replyNxDomain; int get replyCname; int get replyIp; int get replyDomain; int get replyRrname; int get replyServfail; int get replyRefused; int get replyNotimp; int get replyOther; int get replyDnssec; int get replyNone; int get replyBlob; int get dnsQueriesAllReplies; int get privacyLevel; String get status; List<QueryStat> get topQueries; List<QueryStat> get topAds; List<SourceStat> get topSources; List<SourceStat> get topSourcesBlocked; List<DestinationStat> get forwardDestinations; List<QueryTypeStat> get queryTypes;
+ int get domainsBeingBlocked; int get dnsQueriesToday; int get adsBlockedToday; double get adsPercentageToday; int get uniqueDomains; int get queriesForwarded; int get queriesCached; int get clientsEverSeen; int get uniqueClients; int get dnsQueriesAllTypes; int get replyUnknown; int get replyNodata; int get replyNxDomain; int get replyCname; int get replyIp; int get replyDomain; int get replyRrname; int get replyServfail; int get replyRefused; int get replyNotimp; int get replyOther; int get replyDnssec; int get replyNone; int get replyBlob; int get dnsQueriesAllReplies; int get privacyLevel; String get status;// TODO: use DnsBlockingStatus enum
+ List<QueryStat> get topQueries; List<QueryStat> get topAds; List<SourceStat> get topSources; List<SourceStat> get topSourcesBlocked; List<DestinationStat> get forwardDestinations; List<QueryTypeStat> get queryTypes;
 /// Create a copy of RealtimeStatus
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -265,7 +266,9 @@ class _RealtimeStatus implements RealtimeStatus {
 @override final  int dnsQueriesAllReplies;
 @override final  int privacyLevel;
 @override final  String status;
+// TODO: use DnsBlockingStatus enum
  final  List<QueryStat> _topQueries;
+// TODO: use DnsBlockingStatus enum
 @override List<QueryStat> get topQueries {
   if (_topQueries is EqualUnmodifiableListView) return _topQueries;
   // ignore: implicit_dynamic_type

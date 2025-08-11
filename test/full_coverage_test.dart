@@ -39,7 +39,6 @@ import 'package:pi_hole_client/data/repositories/api/interfaces/ftl_repository.d
 import 'package:pi_hole_client/data/repositories/api/interfaces/group_repository.dart';
 import 'package:pi_hole_client/data/repositories/api/interfaces/metrics_repository.dart';
 import 'package:pi_hole_client/data/repositories/api/interfaces/network_repository.dart';
-import 'package:pi_hole_client/data/repositories/api/interfaces/overtime_repository.dart';
 import 'package:pi_hole_client/data/repositories/api/interfaces/realtime_status_repository.dart';
 import 'package:pi_hole_client/data/repositories/api/repository_factory.dart';
 import 'package:pi_hole_client/data/repositories/api/v5/actions_respository.dart';
@@ -118,6 +117,7 @@ import 'package:pi_hole_client/data/services/local/secure_storage_service.dart';
 import 'package:pi_hole_client/data/services/utils/database_utils.dart';
 import 'package:pi_hole_client/data/services/utils/exceptions.dart';
 import 'package:pi_hole_client/data/services/utils/safe_api_call.dart';
+import 'package:pi_hole_client/domain/mapper/realtime_status_mapper.dart';
 import 'package:pi_hole_client/domain/models/auth/auth.dart';
 import 'package:pi_hole_client/domain/models/config/config.dart';
 import 'package:pi_hole_client/domain/models/dhcp/dhcp.dart';
