@@ -8,61 +8,70 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
 import 'package:package_info_plus/package_info_plus.dart';
+import 'package:pi_hole_client/config/enums.dart';
 import 'package:pi_hole_client/config/globals.dart';
-import 'package:pi_hole_client/config/theme.dart';
-import 'package:pi_hole_client/constants/enums.dart';
-import 'package:pi_hole_client/constants/query_types.dart';
-import 'package:pi_hole_client/gateways/api_gateway_interface.dart';
-import 'package:pi_hole_client/gateways/v5/api_gateway_v5.dart';
-import 'package:pi_hole_client/gateways/v6/api_gateway_v6.dart';
-import 'package:pi_hole_client/l10n/generated/app_localizations.dart';
-import 'package:pi_hole_client/models/api/v6/auth/sessions.dart';
-import 'package:pi_hole_client/models/api/v6/config/config.dart' show Config;
-import 'package:pi_hole_client/models/api/v6/dhcp/dhcp.dart' show Dhcp;
-// ignore: library_prefixes
-import 'package:pi_hole_client/models/api/v6/ftl/client.dart' as FtlClient
-    show Client;
-import 'package:pi_hole_client/models/api/v6/ftl/host.dart' show Host;
-import 'package:pi_hole_client/models/api/v6/ftl/messages.dart' show Messages;
-import 'package:pi_hole_client/models/api/v6/ftl/metrics.dart';
-import 'package:pi_hole_client/models/api/v6/ftl/sensors.dart' show Sensors;
-import 'package:pi_hole_client/models/api/v6/ftl/system.dart' show System;
-import 'package:pi_hole_client/models/api/v6/ftl/version.dart' show Version;
-import 'package:pi_hole_client/models/api/v6/groups/groups.dart' show Groups;
-import 'package:pi_hole_client/models/api/v6/lists/lists.dart' show Lists;
-import 'package:pi_hole_client/models/api/v6/metrics/query.dart';
-import 'package:pi_hole_client/models/api/v6/network/devices.dart';
-import 'package:pi_hole_client/models/api/v6/network/gateway.dart';
-import 'package:pi_hole_client/models/app_log.dart';
-import 'package:pi_hole_client/models/client.dart';
-import 'package:pi_hole_client/models/config.dart';
-import 'package:pi_hole_client/models/devices.dart';
-import 'package:pi_hole_client/models/dhcp.dart';
-import 'package:pi_hole_client/models/domain.dart';
-import 'package:pi_hole_client/models/gateway.dart';
-import 'package:pi_hole_client/models/gateways.dart';
-import 'package:pi_hole_client/models/groups.dart';
-import 'package:pi_hole_client/models/host.dart';
-import 'package:pi_hole_client/models/log.dart';
-import 'package:pi_hole_client/models/messages.dart';
-import 'package:pi_hole_client/models/metrics.dart';
-import 'package:pi_hole_client/models/overtime_data.dart';
-import 'package:pi_hole_client/models/realtime_status.dart';
-import 'package:pi_hole_client/models/sensors.dart';
-import 'package:pi_hole_client/models/server.dart';
-import 'package:pi_hole_client/models/sessions.dart';
-import 'package:pi_hole_client/models/subscriptions.dart';
-import 'package:pi_hole_client/models/system.dart';
-import 'package:pi_hole_client/models/version.dart';
-import 'package:pi_hole_client/providers/app_config_provider.dart';
-import 'package:pi_hole_client/providers/domains_list_provider.dart';
-import 'package:pi_hole_client/providers/filters_provider.dart';
-import 'package:pi_hole_client/providers/gravity_provider.dart';
-import 'package:pi_hole_client/providers/groups_provider.dart';
-import 'package:pi_hole_client/providers/servers_provider.dart';
-import 'package:pi_hole_client/providers/status_provider.dart';
-import 'package:pi_hole_client/providers/subscriptions_list_provider.dart';
-import 'package:pi_hole_client/services/status_update_service.dart';
+import 'package:pi_hole_client/config/query_types.dart';
+import 'package:pi_hole_client/data/services/api/api_gateway_interface.dart';
+import 'package:pi_hole_client/data/services/api/model/v6/auth/sessions.dart';
+import 'package:pi_hole_client/data/services/api/model/v6/config/config.dart'
+    show Config;
+import 'package:pi_hole_client/data/services/api/model/v6/dhcp/dhcp.dart'
+    show Dhcp;
+import 'package:pi_hole_client/data/services/api/model/v6/ftl/client.dart'
+    show InfoClient;
+import 'package:pi_hole_client/data/services/api/model/v6/ftl/host.dart'
+    show InfoHost;
+import 'package:pi_hole_client/data/services/api/model/v6/ftl/messages.dart'
+    show InfoMessages;
+import 'package:pi_hole_client/data/services/api/model/v6/ftl/metrics.dart'
+    show InfoMetrics;
+import 'package:pi_hole_client/data/services/api/model/v6/ftl/sensors.dart'
+    show InfoSensors;
+import 'package:pi_hole_client/data/services/api/model/v6/ftl/system.dart'
+    show InfoSystem;
+import 'package:pi_hole_client/data/services/api/model/v6/ftl/version.dart'
+    show InfoVersion;
+import 'package:pi_hole_client/data/services/api/model/v6/groups/groups.dart'
+    show Groups;
+import 'package:pi_hole_client/data/services/api/model/v6/lists/lists.dart'
+    show Lists;
+import 'package:pi_hole_client/data/services/api/model/v6/metrics/query.dart';
+import 'package:pi_hole_client/data/services/api/model/v6/network/devices.dart';
+import 'package:pi_hole_client/data/services/api/model/v6/network/gateway.dart';
+import 'package:pi_hole_client/data/services/api/v5/api_gateway_v5.dart';
+import 'package:pi_hole_client/data/services/api/v6/api_gateway_v6.dart';
+import 'package:pi_hole_client/domain/models_old/app_log.dart';
+import 'package:pi_hole_client/domain/models_old/client.dart';
+import 'package:pi_hole_client/domain/models_old/config.dart';
+import 'package:pi_hole_client/domain/models_old/devices.dart';
+import 'package:pi_hole_client/domain/models_old/dhcp.dart';
+import 'package:pi_hole_client/domain/models_old/domain.dart';
+import 'package:pi_hole_client/domain/models_old/gateway.dart';
+import 'package:pi_hole_client/domain/models_old/gateways.dart';
+import 'package:pi_hole_client/domain/models_old/groups.dart';
+import 'package:pi_hole_client/domain/models_old/host.dart';
+import 'package:pi_hole_client/domain/models_old/log.dart';
+import 'package:pi_hole_client/domain/models_old/messages.dart';
+import 'package:pi_hole_client/domain/models_old/metrics.dart';
+import 'package:pi_hole_client/domain/models_old/overtime_data.dart';
+import 'package:pi_hole_client/domain/models_old/realtime_status.dart';
+import 'package:pi_hole_client/domain/models_old/sensors.dart';
+import 'package:pi_hole_client/domain/models_old/server.dart';
+import 'package:pi_hole_client/domain/models_old/sessions.dart';
+import 'package:pi_hole_client/domain/models_old/subscriptions.dart';
+import 'package:pi_hole_client/domain/models_old/system.dart';
+import 'package:pi_hole_client/domain/models_old/version.dart';
+import 'package:pi_hole_client/domain/use_cases/status_update_service.dart';
+import 'package:pi_hole_client/ui/core/l10n/generated/app_localizations.dart';
+import 'package:pi_hole_client/ui/core/themes/theme.dart';
+import 'package:pi_hole_client/ui/core/viewmodel/app_config_provider.dart';
+import 'package:pi_hole_client/ui/core/viewmodel/domains_list_provider.dart';
+import 'package:pi_hole_client/ui/core/viewmodel/filters_provider.dart';
+import 'package:pi_hole_client/ui/core/viewmodel/gravity_provider.dart';
+import 'package:pi_hole_client/ui/core/viewmodel/groups_provider.dart';
+import 'package:pi_hole_client/ui/core/viewmodel/servers_provider.dart';
+import 'package:pi_hole_client/ui/core/viewmodel/status_provider.dart';
+import 'package:pi_hole_client/ui/core/viewmodel/subscriptions_list_provider.dart';
 import 'package:provider/provider.dart';
 
 import './helpers.mocks.dart';
@@ -148,7 +157,8 @@ final queries = Queries.fromJson({
       'reply': {'type': 'IP', 'time': 19},
       'list_id': null,
       'upstream': 'localhost#5353',
-      'dbid': 112421354,
+      'dbid': 112421354, // Not exist
+      'ede': {'code': -1, 'text': null},
     },
   ],
   'cursor': 175881,
@@ -681,7 +691,7 @@ final realtimeStatus = RealtimeStatus.fromJson(
   },
 );
 
-final host = Host.fromJson(
+final host = InfoHost.fromJson(
   {
     'host': {
       'uname': {
@@ -712,7 +722,7 @@ final host = Host.fromJson(
   },
 );
 
-final version = Version.fromJson(
+final version = InfoVersion.fromJson(
   {
     'version': {
       'core': {
@@ -758,7 +768,7 @@ final version = Version.fromJson(
   },
 );
 
-final sensors = Sensors.fromJson(
+final sensors = InfoSensors.fromJson(
   {
     'sensors': {
       'list': [
@@ -785,7 +795,7 @@ final sensors = Sensors.fromJson(
   },
 );
 
-final system = System.fromJson(
+final system = InfoSystem.fromJson(
   {
     'system': {
       'uptime': 67906,
@@ -874,7 +884,7 @@ final groups = Groups.fromJson(
   },
 );
 
-final messages = Messages.fromJson(
+final messages = InfoMessages.fromJson(
   {
     'messages': [
       {
@@ -899,7 +909,7 @@ final messages = Messages.fromJson(
   },
 );
 
-final metrics = Metrics.fromJson(
+final metrics = InfoMetrics.fromJson(
   {
     'metrics': {
       'dns': {
@@ -1321,7 +1331,7 @@ final sessions = AuthSessions.fromJson(
   },
 );
 
-final client = FtlClient.Client.fromJson(
+final client = InfoClient.fromJson(
   {
     'remote_addr': '192.168.1.51',
     'http_version': '1.1',

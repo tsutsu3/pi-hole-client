@@ -1,10 +1,10 @@
 import 'package:flutter_test/flutter_test.dart';
-import 'package:pi_hole_client/constants/enums.dart';
-import 'package:pi_hole_client/models/api/v6/ftl/metrics.dart';
-import 'package:pi_hole_client/models/metrics.dart';
-import 'package:pi_hole_client/models/overtime_data.dart';
-import 'package:pi_hole_client/models/realtime_status.dart';
-import 'package:pi_hole_client/providers/status_provider.dart';
+import 'package:pi_hole_client/config/enums.dart';
+import 'package:pi_hole_client/data/services/api/model/v6/ftl/metrics.dart';
+import 'package:pi_hole_client/domain/models_old/metrics.dart';
+import 'package:pi_hole_client/domain/models_old/overtime_data.dart';
+import 'package:pi_hole_client/domain/models_old/realtime_status.dart';
+import 'package:pi_hole_client/ui/core/viewmodel/status_provider.dart';
 
 void main() {
   group('StatusProvider Tests', () {
@@ -589,7 +589,7 @@ void main() {
     });
 
     test('setMetricsInfo updates value and notifies listeners', () {
-      final metrics = Metrics.fromJson(
+      final metrics = InfoMetrics.fromJson(
         {
           'metrics': {
             'dns': {

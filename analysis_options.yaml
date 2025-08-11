@@ -235,4 +235,4 @@ analyzer:
   exclude:
     - test/**/*.mocks.dart
     - lib/**/*.g.dart
-    - lib/screens/settings/about/about.dart
+    - lib/ui/settings/about/about.dart

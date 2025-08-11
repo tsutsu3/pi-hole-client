@@ -1,26 +1,28 @@
 import 'dart:convert';
 
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:http/http.dart' as http;
 import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
-import 'package:pi_hole_client/constants/api_versions.dart';
-import 'package:pi_hole_client/constants/enums.dart';
-import 'package:pi_hole_client/gateways/v5/api_gateway_v5.dart';
-import 'package:pi_hole_client/models/api/v6/config/config.dart';
-import 'package:pi_hole_client/models/domain.dart';
-import 'package:pi_hole_client/models/gateways.dart';
-import 'package:pi_hole_client/models/groups.dart';
-import 'package:pi_hole_client/models/server.dart';
-import 'package:pi_hole_client/models/subscriptions.dart';
-import 'package:pi_hole_client/models/version.dart';
+import 'package:pi_hole_client/config/api_versions.dart';
+import 'package:pi_hole_client/config/enums.dart';
+import 'package:pi_hole_client/data/services/api/model/v6/config/config.dart';
+import 'package:pi_hole_client/data/services/api/v5/api_gateway_v5.dart';
+import 'package:pi_hole_client/domain/models_old/domain.dart';
+import 'package:pi_hole_client/domain/models_old/gateways.dart';
+import 'package:pi_hole_client/domain/models_old/groups.dart';
+import 'package:pi_hole_client/domain/models_old/server.dart';
+import 'package:pi_hole_client/domain/models_old/subscriptions.dart';
+import 'package:pi_hole_client/domain/models_old/version.dart';
 
 import 'api_gateway_v5_test.mocks.dart';
 
 @GenerateMocks([http.Client])
 void main() async {
   FlutterSecureStorage.setMockInitialValues({});
+  await dotenv.load();
 
   // const unexpectedError = 'An unexpected error occurred.';
   const fetchError = 'Failed to fetch data from the server.';

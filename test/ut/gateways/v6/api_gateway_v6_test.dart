@@ -5,114 +5,131 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:http/http.dart' as http;
 import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
-import 'package:pi_hole_client/constants/api_versions.dart';
-import 'package:pi_hole_client/constants/enums.dart';
-import 'package:pi_hole_client/constants/subscription_types.dart';
-import 'package:pi_hole_client/gateways/v6/api_gateway_v6.dart';
-import 'package:pi_hole_client/models/api/v6/action/action.dart';
-import 'package:pi_hole_client/models/api/v6/auth/sessions.dart';
-import 'package:pi_hole_client/models/api/v6/config/config.dart'
+import 'package:pi_hole_client/config/api_versions.dart';
+import 'package:pi_hole_client/config/enums.dart';
+import 'package:pi_hole_client/config/subscription_types.dart';
+import 'package:pi_hole_client/data/repositories/local/secure_data_repository.dart';
+import 'package:pi_hole_client/data/services/api/model/v6/action/action.dart';
+import 'package:pi_hole_client/data/services/api/model/v6/auth/sessions.dart';
+import 'package:pi_hole_client/data/services/api/model/v6/config/config.dart'
     show Config, ConfigData, Dns;
-import 'package:pi_hole_client/models/api/v6/dhcp/dhcp.dart' show Dhcp;
-import 'package:pi_hole_client/models/api/v6/ftl/client.dart';
-import 'package:pi_hole_client/models/api/v6/ftl/host.dart' show Host;
-import 'package:pi_hole_client/models/api/v6/ftl/messages.dart';
-import 'package:pi_hole_client/models/api/v6/ftl/metrics.dart';
-import 'package:pi_hole_client/models/api/v6/ftl/sensors.dart' show Sensors;
-import 'package:pi_hole_client/models/api/v6/ftl/system.dart' show System;
-import 'package:pi_hole_client/models/api/v6/ftl/version.dart' show Version;
-import 'package:pi_hole_client/models/api/v6/groups/groups.dart';
-import 'package:pi_hole_client/models/api/v6/lists/lists.dart' show Lists;
-import 'package:pi_hole_client/models/api/v6/lists/search.dart' show Search;
-import 'package:pi_hole_client/models/api/v6/network/devices.dart';
-import 'package:pi_hole_client/models/api/v6/network/gateway.dart';
-import 'package:pi_hole_client/models/client.dart';
-import 'package:pi_hole_client/models/config.dart';
-import 'package:pi_hole_client/models/devices.dart';
-import 'package:pi_hole_client/models/dhcp.dart';
-import 'package:pi_hole_client/models/domain.dart';
-import 'package:pi_hole_client/models/gateway.dart';
-import 'package:pi_hole_client/models/gateways.dart';
-import 'package:pi_hole_client/models/groups.dart';
-import 'package:pi_hole_client/models/host.dart';
-import 'package:pi_hole_client/models/messages.dart';
-import 'package:pi_hole_client/models/metrics.dart';
-import 'package:pi_hole_client/models/search.dart';
-import 'package:pi_hole_client/models/sensors.dart';
-import 'package:pi_hole_client/models/server.dart';
-import 'package:pi_hole_client/models/sessions.dart';
-import 'package:pi_hole_client/models/subscriptions.dart';
-import 'package:pi_hole_client/models/system.dart';
-import 'package:pi_hole_client/models/version.dart';
-import 'package:pi_hole_client/services/secret_manager.dart';
+import 'package:pi_hole_client/data/services/api/model/v6/dhcp/dhcp.dart'
+    show Dhcp;
+import 'package:pi_hole_client/data/services/api/model/v6/ftl/client.dart'
+    show InfoClient;
+import 'package:pi_hole_client/data/services/api/model/v6/ftl/host.dart'
+    show InfoHost;
+import 'package:pi_hole_client/data/services/api/model/v6/ftl/messages.dart'
+    show InfoMessages;
+import 'package:pi_hole_client/data/services/api/model/v6/ftl/metrics.dart'
+    show InfoMetrics;
+import 'package:pi_hole_client/data/services/api/model/v6/ftl/sensors.dart'
+    show InfoSensors;
+import 'package:pi_hole_client/data/services/api/model/v6/ftl/system.dart'
+    show InfoSystem;
+import 'package:pi_hole_client/data/services/api/model/v6/ftl/version.dart'
+    show InfoVersion;
+import 'package:pi_hole_client/data/services/api/model/v6/groups/groups.dart';
+import 'package:pi_hole_client/data/services/api/model/v6/lists/lists.dart'
+    show Lists;
+import 'package:pi_hole_client/data/services/api/model/v6/lists/search.dart'
+    show Search;
+import 'package:pi_hole_client/data/services/api/model/v6/network/devices.dart';
+import 'package:pi_hole_client/data/services/api/model/v6/network/gateway.dart';
+import 'package:pi_hole_client/data/services/api/v6/api_gateway_v6.dart';
+import 'package:pi_hole_client/domain/models_old/client.dart';
+import 'package:pi_hole_client/domain/models_old/config.dart';
+import 'package:pi_hole_client/domain/models_old/devices.dart';
+import 'package:pi_hole_client/domain/models_old/dhcp.dart';
+import 'package:pi_hole_client/domain/models_old/domain.dart';
+import 'package:pi_hole_client/domain/models_old/gateway.dart';
+import 'package:pi_hole_client/domain/models_old/gateways.dart';
+import 'package:pi_hole_client/domain/models_old/groups.dart';
+import 'package:pi_hole_client/domain/models_old/host.dart';
+import 'package:pi_hole_client/domain/models_old/messages.dart';
+import 'package:pi_hole_client/domain/models_old/metrics.dart';
+import 'package:pi_hole_client/domain/models_old/search.dart';
+import 'package:pi_hole_client/domain/models_old/sensors.dart';
+import 'package:pi_hole_client/domain/models_old/server.dart';
+import 'package:pi_hole_client/domain/models_old/sessions.dart';
+import 'package:pi_hole_client/domain/models_old/subscriptions.dart';
+import 'package:pi_hole_client/domain/models_old/system.dart';
+import 'package:pi_hole_client/domain/models_old/version.dart';
+import 'package:result_dart/result_dart.dart';
 
 import 'api_gateway_v6_test.mocks.dart';
 
-class SecretManagerMock implements SecretManager {
+class SecretManagerMock implements SecureDataRepository {
   SecretManagerMock(this._sid, this._password);
   String? _sid;
   String? _password;
 
   @override
-  String? get sid => _sid;
+  Result<String> get sid {
+    if (_sid == null) {
+      return Failure(Exception('SID not found'));
+    }
+    return Success(_sid!);
+  }
 
   @override
-  Future<String?>? get password async {
+  Future<Result<String>> get password async {
     try {
-      return _password;
+      return Success(_password!);
     } catch (e) {
-      return null;
+      return Failure(Exception('Failed to get password: $e'));
     }
   }
 
   @override
-  Future<String?>? get token async {
+  Future<Result<String>> get token async {
     try {
-      return _sid;
+      return Success(_sid!);
     } catch (e) {
-      return null;
+      return Failure(Exception('Failed to get token: $e'));
     }
   }
 
   @override
-  Future<bool> save(String sid) async {
+  Future<Result<void>> saveSid(String sid) async {
     _sid = sid;
-    return true;
+    return Success.unit();
   }
 
   @override
-  Future<bool> load() async {
-    return true;
+  Future<Result<String>> loadSid() async {
+    _sid = 'xxx123';
+    return const Success('xxx123');
   }
 
   @override
-  Future<bool> delete() async {
+  Future<Result<void>> deleteSid() async {
     _sid = null;
-    return true;
+    return Success.unit();
   }
 
   @override
-  Future<bool> savePassword(String password) async {
+  Future<Result<void>> savePassword(String password) async {
     _password = password;
-    return true;
+    return Success.unit();
   }
 
   @override
-  Future<bool> saveToken(String token) async {
+  Future<Result<void>> saveToken(String token) async {
     _sid = token;
-    return true;
+    return Success.unit();
   }
 
   @override
-  Future<bool> deletePassword() async {
+  Future<Result<void>> deletePassword() async {
     _password = null;
-    return true;
+    return Success.unit();
   }
 
   @override
-  Future<bool> deleteToken() async {
+  Future<Result<void>> deleteToken() async {
     _sid = null;
-    return true;
+    return Success.unit();
   }
 }
 
@@ -1332,6 +1349,7 @@ void main() async {
             'list_id': null,
             'upstream': 'localhost#5353',
             'dbid': 112421354,
+            'ede': {'code': 0, 'text': null},
           },
           {
             'id': 2,
@@ -1346,6 +1364,7 @@ void main() async {
             'list_id': null,
             'upstream': 'localhost#5353',
             'dbid': 112421355,
+            'ede': {'code': 0, 'text': null},
           },
         ],
         'cursor': 175881,
@@ -1383,6 +1402,7 @@ void main() async {
             'list_id': null,
             'upstream': 'localhost#5353',
             'dbid': 112421354,
+            'ede': {'code': 0, 'text': null},
           },
           {
             'id': 2,
@@ -1397,6 +1417,7 @@ void main() async {
             'list_id': null,
             'upstream': 'localhost#5353',
             'dbid': 112421355,
+            'ede': {'code': 0, 'text': null},
           },
         ],
         'cursor': 175881,
@@ -1438,6 +1459,7 @@ void main() async {
             'list_id': null,
             'upstream': 'localhost#5353',
             'dbid': 112421354,
+            'ede': {'code': 0, 'text': null},
           },
           {
             'id': 2,
@@ -1452,6 +1474,7 @@ void main() async {
             'list_id': null,
             'upstream': 'localhost#5353',
             'dbid': 112421355,
+            'ede': {'code': 0, 'text': null},
           },
         ],
         'cursor': 175881,
@@ -2135,7 +2158,7 @@ void main() async {
       expect(response.message, null);
       expect(
         response.data?.toJson(),
-        VersionInfo.fromV6(Version.fromJson(data)).toJson(),
+        VersionInfo.fromV6(InfoVersion.fromJson(data)).toJson(),
       );
     });
 
@@ -2198,7 +2221,7 @@ void main() async {
       expect(response.message, null);
       expect(
         response.data?.toJson(),
-        VersionInfo.fromV6(Version.fromJson(dataNoDocker)).toJson(),
+        VersionInfo.fromV6(InfoVersion.fromJson(dataNoDocker)).toJson(),
       );
       expect(response.data?.core.canUpdate, true);
       expect(response.data?.web.canUpdate, true);
@@ -2265,7 +2288,7 @@ void main() async {
       expect(response.message, null);
       expect(
         response.data?.toJson(),
-        HostInfo.fromV6(Host.fromJson(data)).toJson(),
+        HostInfo.fromV6(InfoHost.fromJson(data)).toJson(),
       );
     });
   });
@@ -2324,7 +2347,7 @@ void main() async {
       expect(response.message, null);
       expect(
         response.data?.toJson(),
-        SensorsInfo.fromV6(Sensors.fromJson(data)).toJson(),
+        SensorsInfo.fromV6(InfoSensors.fromJson(data)).toJson(),
       );
     });
   });
@@ -2428,7 +2451,7 @@ void main() async {
       expect(response.message, null);
       expect(
         response.data?.toJson(),
-        SystemInfo.fromV6(System.fromJson(data)).toJson(),
+        SystemInfo.fromV6(InfoSystem.fromJson(data)).toJson(),
       );
     });
 
@@ -2448,7 +2471,7 @@ void main() async {
       expect(response.message, null);
       expect(
         response.data?.toJson(),
-        SystemInfo.fromV6(System.fromJson(dataNewV61)).toJson(),
+        SystemInfo.fromV6(InfoSystem.fromJson(dataNewV61)).toJson(),
       );
       expect(response.data?.cpuUsage, 3.3232043958349604);
     });
@@ -2634,19 +2657,19 @@ void main() async {
       expect(response.message, null);
       expect(
         response.version?.toJson(),
-        VersionInfo.fromV6(Version.fromJson(dataVersion)).toJson(),
+        VersionInfo.fromV6(InfoVersion.fromJson(dataVersion)).toJson(),
       );
       expect(
         response.system?.toJson(),
-        SystemInfo.fromV6(System.fromJson(dataSystem)).toJson(),
+        SystemInfo.fromV6(InfoSystem.fromJson(dataSystem)).toJson(),
       );
       expect(
         response.host?.toJson(),
-        HostInfo.fromV6(Host.fromJson(dataHost)).toJson(),
+        HostInfo.fromV6(InfoHost.fromJson(dataHost)).toJson(),
       );
       expect(
         response.sensors?.toJson(),
-        SensorsInfo.fromV6(Sensors.fromJson(dataSensor)).toJson(),
+        SensorsInfo.fromV6(InfoSensors.fromJson(dataSensor)).toJson(),
       );
     });
 
@@ -3834,7 +3857,7 @@ void main() async {
       expect(response.message, null);
       expect(
         response.data?.toJson(),
-        MessagesInfo.fromV6(Messages.fromJson(data)).toJson(),
+        MessagesInfo.fromV6(InfoMessages.fromJson(data)).toJson(),
       );
     });
 
@@ -3855,7 +3878,7 @@ void main() async {
       expect(response.message, null);
       expect(
         response.data?.toJson(),
-        MessagesInfo.fromV6(Messages.fromJson(noData)).toJson(),
+        MessagesInfo.fromV6(InfoMessages.fromJson(noData)).toJson(),
       );
     });
 
@@ -4093,7 +4116,7 @@ void main() async {
       expect(response.message, null);
       expect(
         response.data?.toJson(),
-        MetricsInfo.fromV6(Metrics.fromJson(data)).toJson(),
+        MetricsInfo.fromV6(InfoMetrics.fromJson(data)).toJson(),
       );
     });
 
@@ -6150,7 +6173,7 @@ void main() async {
       expect(response.message, null);
       expect(
         response.data?.toJson(),
-        ClientInfo.fromV6(Client.fromJson(data)).toJson(),
+        ClientInfo.fromV6(InfoClient.fromJson(data)).toJson(),
       );
     });
 

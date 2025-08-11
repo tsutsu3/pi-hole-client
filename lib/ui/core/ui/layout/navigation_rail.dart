@@ -1,0 +1,83 @@
+import 'package:flutter/material.dart';
+import 'package:pi_hole_client/domain/models_old/app_screen.dart';
+import 'package:pi_hole_client/ui/core/l10n/generated/app_localizations.dart';
+
+class CustomNavigationRail extends StatelessWidget {
+  const CustomNavigationRail({
+    required this.screens,
+    required this.selectedScreen,
+    required this.onChange,
+    super.key,
+  });
+
+  final List<AppScreen> screens;
+  final int selectedScreen;
+  final Function(int) onChange;
+
+  @override
+  Widget build(BuildContext context) {
+    String getStringLocalization(String name) {
+      switch (name) {
+        case 'home':
+          return AppLocalizations.of(context)!.home;
+
+        case 'statistics':
+          return AppLocalizations.of(context)!.statistics;
+
+        case 'logs':
+          return AppLocalizations.of(context)!.logs;
+
+        case 'domains':
+          return AppLocalizations.of(context)!.domains;
+
+        case 'settings':
+          return AppLocalizations.of(context)!.settings;
+
+        case 'connect':
+          return AppLocalizations.of(context)!.connect;
+
+        default:
+          return '';
+      }
+    }
+
+    return LayoutBuilder(
+      builder: (context, constraints) {
+        return SingleChildScrollView(
+          child: ConstrainedBox(
+            constraints: BoxConstraints(
+              minHeight: constraints.maxHeight,
+            ),
+            // IntrinsicHeight is needed because NavigationRail uses a Column with Expanded.
+            // Without it, placing NavigationRail inside a scroll view causes unbounded height,
+            // leading to layout errors. IntrinsicHeight ensures a proper bounded layout.
+            //
+            // TODO: IntrinsicHeight is costly for layout performance.
+            // Consider refactoring to a custom NavigationRail if performance issues are observed.
+            child: IntrinsicHeight(
+              child: NavigationRail(
+                selectedIndex: selectedScreen,
+                onDestinationSelected: onChange,
+                destinations: screens
+                    .map(
+                      (screen) => NavigationRailDestination(
+                        icon: screen.icon,
+                        label: Text(getStringLocalization(screen.name)),
+                      ),
+                    )
+                    .toList(),
+                labelType: NavigationRailLabelType.all,
+                useIndicator: true,
+                groupAlignment: 0,
+                backgroundColor: Theme.of(context)
+                    .colorScheme
+                    .primary
+                    .withValues(alpha: 0.05),
+              ),
+            ),
+          ),
+        );
+      },
+    );
+  }
+}

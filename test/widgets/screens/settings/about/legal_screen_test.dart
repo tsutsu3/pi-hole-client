@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:pi_hole_client/screens/settings/about/legal_screen.dart';
+import 'package:pi_hole_client/ui/settings/about/legal_screen.dart';
 
 import '../../../helpers.dart';
 

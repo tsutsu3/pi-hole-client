@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/mockito.dart';
-import 'package:pi_hole_client/screens/settings/app_settings/advanced_settings/advanced_options.dart';
-import 'package:pi_hole_client/screens/settings/app_settings/advanced_settings/app_lock/create_pass_code_modal.dart';
-import 'package:pi_hole_client/screens/settings/app_settings/advanced_settings/app_lock/remove_passcode_modal.dart';
-import 'package:pi_hole_client/screens/settings/app_settings/advanced_settings/app_unlock_setup_modal.dart';
-import 'package:pi_hole_client/screens/settings/app_settings/advanced_settings/enter_passcode_modal.dart';
+import 'package:pi_hole_client/ui/settings/app_settings/advanced_settings/advanced_options.dart';
+import 'package:pi_hole_client/ui/settings/app_settings/advanced_settings/app_lock/create_pass_code_modal.dart';
+import 'package:pi_hole_client/ui/settings/app_settings/advanced_settings/app_lock/remove_passcode_modal.dart';
+import 'package:pi_hole_client/ui/settings/app_settings/advanced_settings/app_unlock_setup_modal.dart';
+import 'package:pi_hole_client/ui/settings/app_settings/advanced_settings/enter_passcode_modal.dart';
 
 import '../../../../helpers.dart';
 

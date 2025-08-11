@@ -9,19 +9,22 @@ import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_phoenix/flutter_phoenix.dart';
 import 'package:local_auth/local_auth.dart';
 import 'package:package_info_plus/package_info_plus.dart';
-import 'package:pi_hole_client/functions/logger.dart';
+import 'package:pi_hole_client/data/repositories/local/app_config_repository.dart';
+import 'package:pi_hole_client/data/repositories/local/gravity_repository.dart';
+import 'package:pi_hole_client/data/repositories/local/server_repository.dart';
+import 'package:pi_hole_client/data/services/local/database_service.dart';
+import 'package:pi_hole_client/data/services/local/secure_storage_service.dart';
+import 'package:pi_hole_client/domain/use_cases/status_update_service.dart';
 import 'package:pi_hole_client/pi_hole_client.dart';
-import 'package:pi_hole_client/providers/app_config_provider.dart';
-import 'package:pi_hole_client/providers/domains_list_provider.dart';
-import 'package:pi_hole_client/providers/filters_provider.dart';
-import 'package:pi_hole_client/providers/gravity_provider.dart';
-import 'package:pi_hole_client/providers/groups_provider.dart';
-import 'package:pi_hole_client/providers/servers_provider.dart';
-import 'package:pi_hole_client/providers/status_provider.dart';
-import 'package:pi_hole_client/providers/subscriptions_list_provider.dart';
-import 'package:pi_hole_client/repository/database.dart';
-import 'package:pi_hole_client/repository/secure_storage.dart';
-import 'package:pi_hole_client/services/status_update_service.dart';
+import 'package:pi_hole_client/ui/core/viewmodel/app_config_provider.dart';
+import 'package:pi_hole_client/ui/core/viewmodel/domains_list_provider.dart';
+import 'package:pi_hole_client/ui/core/viewmodel/filters_provider.dart';
+import 'package:pi_hole_client/ui/core/viewmodel/gravity_provider.dart';
+import 'package:pi_hole_client/ui/core/viewmodel/groups_provider.dart';
+import 'package:pi_hole_client/ui/core/viewmodel/servers_provider.dart';
+import 'package:pi_hole_client/ui/core/viewmodel/status_provider.dart';
+import 'package:pi_hole_client/ui/core/viewmodel/subscriptions_list_provider.dart';
+import 'package:pi_hole_client/utils/logger.dart';
 import 'package:provider/provider.dart';
 import 'package:sentry_flutter/sentry_flutter.dart';
 import 'package:sqflite_common_ffi/sqflite_ffi.dart';
@@ -49,7 +52,7 @@ Future<void> initializeDesktop() async {
 
 Future<void> initializeBiometrics(
   AppConfigProvider configProvider,
-  DatabaseRepository dbRepository,
+  AppConfigRepository repository,
 ) async {
   try {
     if (!Platform.isAndroid && !Platform.isIOS) return;
@@ -83,7 +86,8 @@ Future<void> initializeBiometrics(
         !available.contains(BiometricType.strong) &&
         !available.contains(BiometricType.weak);
 
-    if (noSupported && dbRepository.appConfig.useBiometricAuth == 1) {
+    if (noSupported &&
+        repository.appConfig.getOrThrow().useBiometricAuth == 1) {
       logger.w('No usable biometrics available, disabling biometric auth.');
       await configProvider.setUseBiometrics(false);
     }
@@ -132,12 +136,17 @@ void main() async {
   await dotenv.load();
 
   // Initialize repositories and providers
-  final ssRepository = SecureStorageRepository();
-  final dbRepository = DatabaseRepository(ssRepository);
-  await dbRepository.initialize();
+  final dbService = DatabaseService();
+  await dbService.open();
 
-  final serversProvider = ServersProvider(dbRepository);
-  final configProvider = AppConfigProvider(dbRepository);
+  final secureStorageSercie = SecureStorageService();
+  final appConfigRepository =
+      AppConfigRepository(dbService, secureStorageSercie);
+  final gravityRepository = GravityRepository(dbService);
+  final serverRepository = ServerRepository(dbService, secureStorageSercie);
+
+  final serversProvider = ServersProvider(serverRepository);
+  final configProvider = AppConfigProvider(appConfigRepository);
   final statusProvider = StatusProvider();
   final filtersProvider = FiltersProvider(serversProvider: serversProvider);
   final domainsListProvider =
@@ -146,7 +155,7 @@ void main() async {
       SubscriptionsListProvider(serversProvider: serversProvider);
   final groupsProvider = GroupsProvider(serversProvider: serversProvider);
   final gravityUpdateProvider = GravityUpdateProvider(
-    repository: dbRepository,
+    repository: gravityRepository,
     serversProvider: serversProvider,
   );
 
@@ -157,11 +166,13 @@ void main() async {
     filtersProvider: filtersProvider,
   );
 
-  configProvider.saveFromDb(dbRepository.appConfig);
-  await serversProvider.saveFromDb(dbRepository.servers);
+  final appdata = await appConfigRepository.fetchAppConfig();
+  final servers = await serverRepository.fetchServers();
+  configProvider.saveFromDb(appdata.getOrThrow());
+  await serversProvider.saveFromDb(servers.getOrThrow());
 
   // Initialize devices
-  await initializeBiometrics(configProvider, dbRepository);
+  await initializeBiometrics(configProvider, appConfigRepository);
   await initializeVibration(configProvider);
   await initializeDeviceInfo(configProvider);
   configProvider.setAppInfo(await loadAppInfo());
