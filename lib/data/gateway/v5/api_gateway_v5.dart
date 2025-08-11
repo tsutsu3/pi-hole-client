@@ -262,7 +262,7 @@ class ApiGatewayV5 implements ApiGateway {
       final response = await httpClient(
         method: 'get',
         url:
-            '${_server.address}/admin/api.php?auth=${await _server.sm.token.getOrNull()}&summaryRaw&topItems&getForwardDestinations&getQuerySources&topClientsBlocked&getQueryTypes',
+            '${_server.address}/admin/api.php?auth=${(await _server.sm.token).getOrNull()}&summaryRaw&topItems&getForwardDestinations&getQuerySources&topClientsBlocked&getQueryTypes',
       );
       final body = jsonDecode(response.body);
       if (body['status'] != null) {
@@ -293,7 +293,7 @@ class ApiGatewayV5 implements ApiGateway {
       final response = await httpClient(
         method: 'get',
         url:
-            '${_server.address}/admin/api.php?auth=${await _server.sm.token.getOrNull()}&disable=$time',
+            '${_server.address}/admin/api.php?auth=${(await _server.sm.token).getOrNull()}&disable=$time',
       );
       final body = jsonDecode(response.body);
       if (body.runtimeType != List && body['status'] != null) {
@@ -324,7 +324,7 @@ class ApiGatewayV5 implements ApiGateway {
       final response = await httpClient(
         method: 'get',
         url:
-            '${_server.address}/admin/api.php?auth=${await _server.sm.token.getOrNull()}&enable',
+            '${_server.address}/admin/api.php?auth=${(await _server.sm.token).getOrNull()}&enable',
       );
       final body = jsonDecode(response.body);
       if (body.runtimeType != List && body['status'] != null) {
@@ -359,7 +359,7 @@ class ApiGatewayV5 implements ApiGateway {
       final response = await httpClient(
         method: 'get',
         url:
-            '${_server.address}/admin/api.php?auth=${await _server.sm.token.getOrNull()}&overTimeData10mins&overTimeDataClients&getClientNames',
+            '${_server.address}/admin/api.php?auth=${(await _server.sm.token).getOrNull()}&overTimeData10mins&overTimeDataClients&getClientNames',
       );
       final body = jsonDecode(response.body);
       final data = OverTimeData.fromJson(body);
@@ -396,7 +396,7 @@ class ApiGatewayV5 implements ApiGateway {
       final response = await httpClient(
         method: 'get',
         url:
-            '${_server.address}/admin/api.php?auth=${await _server.sm.token.getOrNull()}&getAllQueries=&from=${from.millisecondsSinceEpoch ~/ 1000}&until=${until.millisecondsSinceEpoch ~/ 1000}',
+            '${_server.address}/admin/api.php?auth=${(await _server.sm.token).getOrNull()}&getAllQueries=&from=${from.millisecondsSinceEpoch ~/ 1000}&until=${until.millisecondsSinceEpoch ~/ 1000}',
         timeout: 20,
       );
       final body = jsonDecode(response.body);
@@ -431,7 +431,7 @@ class ApiGatewayV5 implements ApiGateway {
       final response = await httpClient(
         method: 'get',
         url:
-            '${_server.address}/admin/api.php?auth=${await _server.sm.token.getOrNull()}&list=$list&add=$domain',
+            '${_server.address}/admin/api.php?auth=${(await _server.sm.token).getOrNull()}&list=$list&add=$domain',
       );
       if (response.statusCode == 200) {
         final json = jsonDecode(response.body);
@@ -572,7 +572,7 @@ class ApiGatewayV5 implements ApiGateway {
       final response = await httpClient(
         method: 'get',
         url:
-            '${_server.address}/admin/api.php?auth=${await _server.sm.token.getOrNull()}&list=${getType(domain.type)}&sub=${domain.domain}',
+            '${_server.address}/admin/api.php?auth=${(await _server.sm.token).getOrNull()}&list=${getType(domain.type)}&sub=${domain.domain}',
       );
       if (response.statusCode == 200) {
         final json = jsonDecode(response.body);
@@ -623,7 +623,7 @@ class ApiGatewayV5 implements ApiGateway {
       final response = await httpClient(
         method: 'get',
         url:
-            '${_server.address}/admin/api.php?auth=${await _server.sm.token.getOrNull()}&list=${domainData['list']}&add=${domainData['domain']}',
+            '${_server.address}/admin/api.php?auth=${(await _server.sm.token).getOrNull()}&list=${domainData['list']}&add=${domainData['domain']}',
       );
       if (response.statusCode == 200) {
         final json = jsonDecode(response.body);
@@ -711,7 +711,7 @@ class ApiGatewayV5 implements ApiGateway {
       final response = await httpClient(
         method: 'get',
         url:
-            '${_server.address}/admin/api.php?auth=${await _server.sm.token.getOrNull()}&versions',
+            '${_server.address}/admin/api.php?auth=${(await _server.sm.token).getOrNull()}&versions',
       );
       if (response.statusCode == 200) {
         final body = jsonDecode(response.body);
