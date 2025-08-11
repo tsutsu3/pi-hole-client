@@ -148,12 +148,12 @@ class MetricsRepositoryV6 implements MetricsRepository {
 
   @override
   Future<Result<OverTime>> fetchOverTime({int? count = 10}) async {
-    final response = await Future.wait([
-      fetchHistory(),
-      fetchHistoryClient(count: count),
-    ]);
-
     try {
+      final response = await Future.wait([
+        fetchHistory(),
+        fetchHistoryClient(count: count),
+      ]);
+
       final history = response[0] as Result<History>;
       final historyClients = response[1] as Result<Clients>;
 
