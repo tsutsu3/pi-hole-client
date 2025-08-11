@@ -3,9 +3,11 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
 import 'package:package_info_plus/package_info_plus.dart';
-import 'package:pi_hole_client/models/repository/database.dart';
-import 'package:pi_hole_client/providers/app_config_provider.dart';
-import 'package:pi_hole_client/repository/database.dart';
+import 'package:pi_hole_client/data/repositories/database_repository.dart';
+import 'package:pi_hole_client/domain/models_old/database.dart';
+import 'package:pi_hole_client/ui/core/viewmodel/app_config_provider.dart';
+import 'package:result_dart/result_dart.dart';
+
 import './app_config_provider_test.mocks.dart';
 
 @GenerateMocks([DatabaseRepository])
@@ -24,9 +26,9 @@ void main() {
           column: anyNamed('column'),
           value: anyNamed('value'),
         ),
-      ).thenAnswer((_) async => true);
+      ).thenAnswer((_) async => Success.unit());
       when(mockDatabaseRepository.restoreAppConfigQuery())
-          .thenAnswer((_) async => true);
+          .thenAnswer((_) async => Success.unit());
       appConfigProvider = AppConfigProvider(mockDatabaseRepository);
 
       listenerCalled = false;
@@ -118,7 +120,7 @@ void main() {
           column: 'useBiometricAuth',
           value: 1,
         ),
-      ).thenAnswer((_) async => true);
+      ).thenAnswer((_) async => Success.unit());
       final result = await appConfigProvider.setUseBiometrics(true);
       expect(result, true);
       expect(appConfigProvider.useBiometrics, true);
@@ -133,7 +135,7 @@ void main() {
             column: 'importantInfoReaden',
             value: 1,
           ),
-        ).thenAnswer((_) async => true);
+        ).thenAnswer((_) async => Success.unit());
         final result = await appConfigProvider.setImportantInfoReaden(true);
         expect(result, true);
         expect(appConfigProvider.importantInfoReaden, true);
@@ -147,7 +149,7 @@ void main() {
           column: 'passCode',
           value: '1234',
         ),
-      ).thenAnswer((_) async => true);
+      ).thenAnswer((_) async => Success.unit());
       final result = await appConfigProvider.setPassCode('1234');
       expect(result, true);
       expect(appConfigProvider.passCode, '1234');
@@ -164,7 +166,7 @@ void main() {
             column: 'passCode',
             value: '1234',
           ),
-        ).thenAnswer((_) async => true);
+        ).thenAnswer((_) async => Success.unit());
         final result = await appConfigProvider.setPassCode('1234');
         expect(result, true);
         expect(appConfigProvider.passCode, '1234');
@@ -178,7 +180,7 @@ void main() {
           column: 'autoRefreshTime',
           value: 10,
         ),
-      ).thenAnswer((_) async => true);
+      ).thenAnswer((_) async => Success.unit());
       final result = await appConfigProvider.setAutoRefreshTime(10);
       expect(result, true);
       expect(appConfigProvider.getAutoRefreshTime, 10);
@@ -191,7 +193,7 @@ void main() {
           column: 'logsPerQuery',
           value: 5.0,
         ),
-      ).thenAnswer((_) async => true);
+      ).thenAnswer((_) async => Success.unit());
       final result = await appConfigProvider.setLogsPerQuery(5.0);
       expect(result, true);
       expect(appConfigProvider.logsPerQuery, 5.0);
@@ -204,7 +206,7 @@ void main() {
           column: 'sendCrashReports',
           value: 1,
         ),
-      ).thenAnswer((_) async => true);
+      ).thenAnswer((_) async => Success.unit());
       final result = await appConfigProvider.setSendCrashReports(true);
       expect(result, true);
       expect(appConfigProvider.sendCrashReports, true);
@@ -269,7 +271,7 @@ void main() {
           column: 'reducedDataCharts',
           value: 1,
         ),
-      ).thenAnswer((_) async => true);
+      ).thenAnswer((_) async => Success.unit());
       final result = await appConfigProvider.setReducedDataCharts(true);
       expect(result, true);
       expect(appConfigProvider.reducedDataCharts, true);
@@ -282,7 +284,7 @@ void main() {
           column: 'hideZeroValues',
           value: 1,
         ),
-      ).thenAnswer((_) async => true);
+      ).thenAnswer((_) async => Success.unit());
       final result = await appConfigProvider.setHideZeroValues(true);
       expect(result, true);
       expect(appConfigProvider.hideZeroValues, true);
@@ -295,7 +297,7 @@ void main() {
           column: 'loadingAnimation',
           value: 0,
         ),
-      ).thenAnswer((_) async => true);
+      ).thenAnswer((_) async => Success.unit());
       final result = await appConfigProvider.setShowLoadingAnimation(false);
       expect(result, true);
       expect(appConfigProvider.loadingAnimation, false);
@@ -304,7 +306,7 @@ void main() {
 
     test('setSelectedTheme updates value and notifies listeners', () async {
       when(mockDatabaseRepository.updateConfigQuery(column: 'theme', value: 1))
-          .thenAnswer((_) async => true);
+          .thenAnswer((_) async => Success.unit());
       final result = await appConfigProvider.setSelectedTheme(1);
       expect(result, true);
       expect(appConfigProvider.selectedThemeNumber, 1);
@@ -317,7 +319,7 @@ void main() {
           column: 'language',
           value: 'en',
         ),
-      ).thenAnswer((_) async => true);
+      ).thenAnswer((_) async => Success.unit());
       final result = await appConfigProvider.setSelectedLanguage('en');
       expect(result, true);
       expect(appConfigProvider.selectedLanguage, 'en');
@@ -333,7 +335,7 @@ void main() {
             column: 'statisticsVisualizationMode',
             value: 1,
           ),
-        ).thenAnswer((_) async => true);
+        ).thenAnswer((_) async => Success.unit());
         final result =
             await appConfigProvider.setStatisticsVisualizationMode(1);
         expect(result, true);
@@ -350,7 +352,7 @@ void main() {
             column: 'homeVisualizationMode',
             value: 1,
           ),
-        ).thenAnswer((_) async => true);
+        ).thenAnswer((_) async => Success.unit());
         final result = await appConfigProvider.setHomeVisualizationMode(1);
         expect(result, true);
         expect(appConfigProvider.homeVisualizationMode, 1);
@@ -362,7 +364,7 @@ void main() {
       'restoreAppConfig restores default values and notifies listeners',
       () async {
         when(mockDatabaseRepository.restoreAppConfigQuery())
-            .thenAnswer((_) async => true);
+            .thenAnswer((_) async => Success.unit());
         final result = await appConfigProvider.restoreAppConfig();
         expect(result, true);
         expect(appConfigProvider.getAutoRefreshTime, 5);

@@ -1,36 +1,34 @@
 import 'dart:convert';
 
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:http/http.dart' as http;
 import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
-import 'package:pi_hole_client/constants/api_versions.dart';
-import 'package:pi_hole_client/constants/enums.dart';
-import 'package:pi_hole_client/gateways/v5/api_gateway_v5.dart';
-import 'package:pi_hole_client/models/api/v6/config/config.dart';
-import 'package:pi_hole_client/models/domain.dart';
-import 'package:pi_hole_client/models/gateways.dart';
-import 'package:pi_hole_client/models/groups.dart';
-import 'package:pi_hole_client/models/server.dart';
-import 'package:pi_hole_client/models/subscriptions.dart';
-import 'package:pi_hole_client/models/version.dart';
+import 'package:pi_hole_client/config/api_versions.dart';
+import 'package:pi_hole_client/config/enums.dart';
+import 'package:pi_hole_client/data/gateway/v5/api_gateway_v5.dart';
+import 'package:pi_hole_client/data/services/api/model/v6/config/config.dart';
+import 'package:pi_hole_client/domain/models_old/domain.dart';
+import 'package:pi_hole_client/domain/models_old/gateways.dart';
+import 'package:pi_hole_client/domain/models_old/groups.dart';
+import 'package:pi_hole_client/domain/models_old/server.dart';
+import 'package:pi_hole_client/domain/models_old/subscriptions.dart';
+import 'package:pi_hole_client/domain/models_old/version.dart';
 
 import 'api_gateway_v5_test.mocks.dart';
 
 @GenerateMocks([http.Client])
 void main() async {
   FlutterSecureStorage.setMockInitialValues({});
+  await dotenv.load();
 
   // const unexpectedError = 'An unexpected error occurred.';
   const fetchError = 'Failed to fetch data from the server.';
 
   final dataError = {
-    'error': {
-      'key': 'unauthorized',
-      'message': 'Unauthorized',
-      'hint': null,
-    },
+    'error': {'key': 'unauthorized', 'message': 'Unauthorized', 'hint': null},
     'took': 0.003,
   };
 
@@ -116,89 +114,92 @@ void main() async {
       expect(response.log, isNull);
     });
 
-    test('Return success with valid auth token (not use self signed cert)',
-        () async {
-      final server2 = Server(
-        address: 'http://example.com',
-        alias: 'example',
-        defaultServer: true,
-        apiVersion: SupportedApiVersions.v5,
-        allowSelfSignedCert: false,
-      );
-      await server2.sm.saveToken('xxx123');
+    test(
+      'Return success with valid auth token (not use self signed cert)',
+      () async {
+        final server2 = Server(
+          address: 'http://example.com',
+          alias: 'example',
+          defaultServer: true,
+          apiVersion: SupportedApiVersions.v5,
+          allowSelfSignedCert: false,
+        );
+        await server2.sm.saveToken('xxx123');
 
-      final mockClient = MockClient();
-      final apiGateway = ApiGatewayV5(server2, client: mockClient);
+        final mockClient = MockClient();
+        final apiGateway = ApiGatewayV5(server2, client: mockClient);
 
-      when(mockClient.get(Uri.parse(url), headers: {})).thenAnswer(
-        (_) async => http.Response(
-          jsonEncode({
-            'domains_being_blocked': 121,
-            'dns_queries_today': 12,
-            'ads_blocked_today': 1,
-            'ads_percentage_today': 8.333333,
-            'unique_domains': 11,
-            'queries_forwarded': 9,
-            'queries_cached': 2,
-            'clients_ever_seen': 2,
-            'unique_clients': 2,
-            'dns_queries_all_types': 12,
-            'reply_UNKNOWN': 0,
-            'reply_NODATA': 0,
-            'reply_NXDOMAIN': 1,
-            'reply_CNAME': 0,
-            'reply_IP': 10,
-            'reply_DOMAIN': 1,
-            'reply_RRNAME': 0,
-            'reply_SERVFAIL': 0,
-            'reply_REFUSED': 0,
-            'reply_NOTIMP': 0,
-            'reply_OTHER': 0,
-            'reply_DNSSEC': 0,
-            'reply_NONE': 0,
-            'reply_BLOB': 0,
-            'dns_queries_all_replies': 12,
-            'privacy_level': 0,
-            'status': 'enabled',
-            'gravity_last_updated': {
-              'file_exists': true,
-              'absolute': 17329,
-              'relative': {'days': 4, 'hours': 23, 'minutes': 41},
+        when(mockClient.get(Uri.parse(url), headers: {})).thenAnswer(
+          (_) async => http.Response(
+            jsonEncode({
+              'domains_being_blocked': 121,
+              'dns_queries_today': 12,
+              'ads_blocked_today': 1,
+              'ads_percentage_today': 8.333333,
+              'unique_domains': 11,
+              'queries_forwarded': 9,
+              'queries_cached': 2,
+              'clients_ever_seen': 2,
+              'unique_clients': 2,
+              'dns_queries_all_types': 12,
+              'reply_UNKNOWN': 0,
+              'reply_NODATA': 0,
+              'reply_NXDOMAIN': 1,
+              'reply_CNAME': 0,
+              'reply_IP': 10,
+              'reply_DOMAIN': 1,
+              'reply_RRNAME': 0,
+              'reply_SERVFAIL': 0,
+              'reply_REFUSED': 0,
+              'reply_NOTIMP': 0,
+              'reply_OTHER': 0,
+              'reply_DNSSEC': 0,
+              'reply_NONE': 0,
+              'reply_BLOB': 0,
+              'dns_queries_all_replies': 12,
+              'privacy_level': 0,
+              'status': 'enabled',
+              'gravity_last_updated': {
+                'file_exists': true,
+                'absolute': 17329,
+                'relative': {'days': 4, 'hours': 23, 'minutes': 41},
+              },
+            }),
+            200,
+          ),
+        );
+
+        when(
+          mockClient.get(
+            Uri.parse('http://example.com/admin/api.php?auth=xxx123&enable=0'),
+            headers: {},
+          ),
+        ).thenAnswer(
+          (_) async => http.Response(
+            jsonEncode({'status': 'enabled'}),
+            200,
+            headers: {
+              'set-cookie': 'sid=$sessinId; path=/; HttpOnly; SameSite=Strict',
             },
-          }),
-          200,
-        ),
-      );
+          ),
+        );
 
-      when(
-        mockClient.get(
-          Uri.parse('http://example.com/admin/api.php?auth=xxx123&enable=0'),
-          headers: {},
-        ),
-      ).thenAnswer(
-        (_) async => http.Response(
-          jsonEncode({'status': 'enabled'}),
-          200,
-          headers: {
-            'set-cookie': 'sid=$sessinId; path=/; HttpOnly; SameSite=Strict',
-          },
-        ),
-      );
+        final response = await apiGateway.loginQuery();
 
-      final response = await apiGateway.loginQuery();
-
-      expect(response.result, APiResponseType.success);
-      expect(response.sid, sessinId);
-      expect(response.status, 'enabled');
-      expect(response.log, isNull);
-    });
+        expect(response.result, APiResponseType.success);
+        expect(response.sid, sessinId);
+        expect(response.status, 'enabled');
+        expect(response.log, isNull);
+      },
+    );
 
     test('Return error with invalid auth token', () async {
       final mockClient = MockClient();
       final apiGateway = ApiGatewayV5(server, client: mockClient);
 
-      when(mockClient.get(Uri.parse(url), headers: {}))
-          .thenAnswer((_) async => http.Response(jsonEncode([]), 200));
+      when(
+        mockClient.get(Uri.parse(url), headers: {}),
+      ).thenAnswer((_) async => http.Response(jsonEncode([]), 200));
 
       final response = await apiGateway.loginQuery();
 
@@ -216,7 +217,8 @@ void main() async {
       final mockClient = MockClient();
       final apiGateway = ApiGatewayV5(server, client: mockClient);
       // example.com's 404 page
-      final htmlString = '''
+      final htmlString =
+          '''
         <!doctype html>
         <html>
         <head>
@@ -264,10 +266,11 @@ void main() async {
         </body>
         </html>
       '''
-          .trimLeft();
+              .trimLeft();
 
-      when(mockClient.get(Uri.parse(url), headers: {}))
-          .thenAnswer((_) async => http.Response(htmlString, 404));
+      when(
+        mockClient.get(Uri.parse(url), headers: {}),
+      ).thenAnswer((_) async => http.Response(htmlString, 404));
 
       final response = await apiGateway.loginQuery();
 
@@ -285,8 +288,9 @@ void main() async {
       final mockClient = MockClient();
       final apiGateway = ApiGatewayV5(server, client: mockClient);
 
-      when(mockClient.get(Uri.parse(url), headers: {}))
-          .thenThrow(Exception('Unexpected error test'));
+      when(
+        mockClient.get(Uri.parse(url), headers: {}),
+      ).thenThrow(Exception('Unexpected error test'));
 
       final response = await apiGateway.loginQuery();
 
@@ -390,8 +394,9 @@ void main() async {
           'HTTPS': 0,
         },
       };
-      when(mockClient.get(Uri.parse(url), headers: {}))
-          .thenAnswer((_) async => http.Response(jsonEncode(data), 200));
+      when(
+        mockClient.get(Uri.parse(url), headers: {}),
+      ).thenAnswer((_) async => http.Response(jsonEncode(data), 200));
 
       final response = await apiGateway.realtimeStatus();
 
@@ -403,8 +408,9 @@ void main() async {
       final mockClient = MockClient();
       final apiGateway = ApiGatewayV5(server, client: mockClient);
 
-      when(mockClient.get(Uri.parse(url), headers: {}))
-          .thenThrow(Exception('Unexpected error test'));
+      when(
+        mockClient.get(Uri.parse(url), headers: {}),
+      ).thenThrow(Exception('Unexpected error test'));
 
       final response = await apiGateway.realtimeStatus();
 
@@ -432,8 +438,9 @@ void main() async {
       final mockClient = MockClient();
       final apiGateway = ApiGatewayV5(server, client: mockClient);
       final data = {'status': 'disabled'};
-      when(mockClient.get(Uri.parse(url), headers: {}))
-          .thenAnswer((_) async => http.Response(jsonEncode(data), 200));
+      when(
+        mockClient.get(Uri.parse(url), headers: {}),
+      ).thenAnswer((_) async => http.Response(jsonEncode(data), 200));
 
       final response = await apiGateway.disableServerRequest(5);
 
@@ -445,8 +452,9 @@ void main() async {
       final mockClient = MockClient();
       final apiGateway = ApiGatewayV5(server, client: mockClient);
 
-      when(mockClient.get(Uri.parse(url), headers: {}))
-          .thenThrow(Exception('Unexpected error test'));
+      when(
+        mockClient.get(Uri.parse(url), headers: {}),
+      ).thenThrow(Exception('Unexpected error test'));
 
       final response = await apiGateway.disableServerRequest(5);
 
@@ -474,8 +482,9 @@ void main() async {
       final mockClient = MockClient();
       final apiGateway = ApiGatewayV5(server, client: mockClient);
       final data = {'status': 'enabled'};
-      when(mockClient.get(Uri.parse(url), headers: {}))
-          .thenAnswer((_) async => http.Response(jsonEncode(data), 200));
+      when(
+        mockClient.get(Uri.parse(url), headers: {}),
+      ).thenAnswer((_) async => http.Response(jsonEncode(data), 200));
 
       final response = await apiGateway.enableServerRequest();
 
@@ -487,8 +496,9 @@ void main() async {
       final mockClient = MockClient();
       final apiGateway = ApiGatewayV5(server, client: mockClient);
 
-      when(mockClient.get(Uri.parse(url), headers: {}))
-          .thenThrow(Exception('Unexpected error test'));
+      when(
+        mockClient.get(Uri.parse(url), headers: {}),
+      ).thenThrow(Exception('Unexpected error test'));
 
       final response = await apiGateway.enableServerRequest();
 
@@ -960,8 +970,9 @@ void main() async {
           '1733477100': [0, 0],
         },
       };
-      when(mockClient.get(Uri.parse(url), headers: {}))
-          .thenAnswer((_) async => http.Response(jsonEncode(data), 200));
+      when(
+        mockClient.get(Uri.parse(url), headers: {}),
+      ).thenAnswer((_) async => http.Response(jsonEncode(data), 200));
 
       final response = await apiGateway.fetchOverTimeData();
 
@@ -969,321 +980,325 @@ void main() async {
       expect(response.data, isNotNull);
     });
 
-    test('should return success if clients list is empty and overtime is empty',
-        () async {
-      final mockClient = MockClient();
-      final apiGateway = ApiGatewayV5(server, client: mockClient);
-      final data = {
-        'domains_over_time': {
-          '1733391300': 0,
-          '1733391900': 0,
-          '1733392500': 0,
-          '1733393100': 0,
-          '1733393700': 0,
-          '1733394300': 0,
-          '1733394900': 0,
-          '1733395500': 0,
-          '1733396100': 0,
-          '1733396700': 3,
-          '1733397300': 0,
-          '1733397900': 0,
-          '1733398500': 0,
-          '1733399100': 0,
-          '1733399700': 0,
-          '1733400300': 2,
-          '1733400900': 7,
-          '1733401500': 0,
-          '1733402100': 0,
-          '1733402700': 0,
-          '1733403300': 0,
-          '1733403900': 2,
-          '1733404500': 0,
-          '1733405100': 0,
-          '1733405700': 0,
-          '1733406300': 0,
-          '1733406900': 0,
-          '1733407500': 2,
-          '1733408100': 0,
-          '1733408700': 0,
-          '1733409300': 0,
-          '1733409900': 0,
-          '1733410500': 0,
-          '1733411100': 0,
-          '1733411700': 0,
-          '1733412300': 0,
-          '1733412900': 0,
-          '1733413500': 0,
-          '1733414100': 0,
-          '1733414700': 0,
-          '1733415300': 0,
-          '1733415900': 0,
-          '1733416500': 0,
-          '1733417100': 0,
-          '1733417700': 0,
-          '1733418300': 0,
-          '1733418900': 0,
-          '1733419500': 0,
-          '1733420100': 0,
-          '1733420700': 0,
-          '1733421300': 0,
-          '1733421900': 0,
-          '1733422500': 0,
-          '1733423100': 0,
-          '1733423700': 0,
-          '1733424300': 0,
-          '1733424900': 0,
-          '1733425500': 0,
-          '1733426100': 0,
-          '1733426700': 0,
-          '1733427300': 0,
-          '1733427900': 0,
-          '1733428500': 0,
-          '1733429100': 0,
-          '1733429700': 0,
-          '1733430300': 0,
-          '1733430900': 0,
-          '1733431500': 0,
-          '1733432100': 0,
-          '1733432700': 0,
-          '1733433300': 0,
-          '1733433900': 0,
-          '1733434500': 0,
-          '1733435100': 0,
-          '1733435700': 0,
-          '1733436300': 0,
-          '1733436900': 0,
-          '1733437500': 0,
-          '1733438100': 0,
-          '1733438700': 0,
-          '1733439300': 0,
-          '1733439900': 0,
-          '1733440500': 0,
-          '1733441100': 0,
-          '1733441700': 0,
-          '1733442300': 0,
-          '1733442900': 0,
-          '1733443500': 0,
-          '1733444100': 0,
-          '1733444700': 0,
-          '1733445300': 0,
-          '1733445900': 0,
-          '1733446500': 0,
-          '1733447100': 0,
-          '1733447700': 0,
-          '1733448300': 0,
-          '1733448900': 0,
-          '1733449500': 0,
-          '1733450100': 0,
-          '1733450700': 0,
-          '1733451300': 0,
-          '1733451900': 0,
-          '1733452500': 0,
-          '1733453100': 0,
-          '1733453700': 0,
-          '1733454300': 0,
-          '1733454900': 0,
-          '1733455500': 0,
-          '1733456100': 0,
-          '1733456700': 0,
-          '1733457300': 0,
-          '1733457900': 0,
-          '1733458500': 0,
-          '1733459100': 0,
-          '1733459700': 0,
-          '1733460300': 0,
-          '1733460900': 0,
-          '1733461500': 0,
-          '1733462100': 0,
-          '1733462700': 0,
-          '1733463300': 0,
-          '1733463900': 0,
-          '1733464500': 0,
-          '1733465100': 0,
-          '1733465700': 0,
-          '1733466300': 0,
-          '1733466900': 0,
-          '1733467500': 0,
-          '1733468100': 0,
-          '1733468700': 0,
-          '1733469300': 0,
-          '1733469900': 0,
-          '1733470500': 0,
-          '1733471100': 0,
-          '1733471700': 0,
-          '1733472300': 0,
-          '1733472900': 0,
-          '1733473500': 0,
-          '1733474100': 0,
-          '1733474700': 0,
-          '1733475300': 0,
-          '1733475900': 0,
-          '1733476500': 0,
-          '1733477100': 0,
-        },
-        'ads_over_time': {
-          '1733391300': 0,
-          '1733391900': 0,
-          '1733392500': 0,
-          '1733393100': 0,
-          '1733393700': 0,
-          '1733394300': 0,
-          '1733394900': 0,
-          '1733395500': 0,
-          '1733396100': 0,
-          '1733396700': 0,
-          '1733397300': 0,
-          '1733397900': 0,
-          '1733398500': 0,
-          '1733399100': 0,
-          '1733399700': 0,
-          '1733400300': 0,
-          '1733400900': 1,
-          '1733401500': 0,
-          '1733402100': 0,
-          '1733402700': 0,
-          '1733403300': 0,
-          '1733403900': 0,
-          '1733404500': 0,
-          '1733405100': 0,
-          '1733405700': 0,
-          '1733406300': 0,
-          '1733406900': 0,
-          '1733407500': 0,
-          '1733408100': 0,
-          '1733408700': 0,
-          '1733409300': 0,
-          '1733409900': 0,
-          '1733410500': 0,
-          '1733411100': 0,
-          '1733411700': 0,
-          '1733412300': 0,
-          '1733412900': 0,
-          '1733413500': 0,
-          '1733414100': 0,
-          '1733414700': 0,
-          '1733415300': 0,
-          '1733415900': 0,
-          '1733416500': 0,
-          '1733417100': 0,
-          '1733417700': 0,
-          '1733418300': 0,
-          '1733418900': 0,
-          '1733419500': 0,
-          '1733420100': 0,
-          '1733420700': 0,
-          '1733421300': 0,
-          '1733421900': 0,
-          '1733422500': 0,
-          '1733423100': 0,
-          '1733423700': 0,
-          '1733424300': 0,
-          '1733424900': 0,
-          '1733425500': 0,
-          '1733426100': 0,
-          '1733426700': 0,
-          '1733427300': 0,
-          '1733427900': 0,
-          '1733428500': 0,
-          '1733429100': 0,
-          '1733429700': 0,
-          '1733430300': 0,
-          '1733430900': 0,
-          '1733431500': 0,
-          '1733432100': 0,
-          '1733432700': 0,
-          '1733433300': 0,
-          '1733433900': 0,
-          '1733434500': 0,
-          '1733435100': 0,
-          '1733435700': 0,
-          '1733436300': 0,
-          '1733436900': 0,
-          '1733437500': 0,
-          '1733438100': 0,
-          '1733438700': 0,
-          '1733439300': 0,
-          '1733439900': 0,
-          '1733440500': 0,
-          '1733441100': 0,
-          '1733441700': 0,
-          '1733442300': 0,
-          '1733442900': 0,
-          '1733443500': 0,
-          '1733444100': 0,
-          '1733444700': 0,
-          '1733445300': 0,
-          '1733445900': 0,
-          '1733446500': 0,
-          '1733447100': 0,
-          '1733447700': 0,
-          '1733448300': 0,
-          '1733448900': 0,
-          '1733449500': 0,
-          '1733450100': 0,
-          '1733450700': 0,
-          '1733451300': 0,
-          '1733451900': 0,
-          '1733452500': 0,
-          '1733453100': 0,
-          '1733453700': 0,
-          '1733454300': 0,
-          '1733454900': 0,
-          '1733455500': 0,
-          '1733456100': 0,
-          '1733456700': 0,
-          '1733457300': 0,
-          '1733457900': 0,
-          '1733458500': 0,
-          '1733459100': 0,
-          '1733459700': 0,
-          '1733460300': 0,
-          '1733460900': 0,
-          '1733461500': 0,
-          '1733462100': 0,
-          '1733462700': 0,
-          '1733463300': 0,
-          '1733463900': 0,
-          '1733464500': 0,
-          '1733465100': 0,
-          '1733465700': 0,
-          '1733466300': 0,
-          '1733466900': 0,
-          '1733467500': 0,
-          '1733468100': 0,
-          '1733468700': 0,
-          '1733469300': 0,
-          '1733469900': 0,
-          '1733470500': 0,
-          '1733471100': 0,
-          '1733471700': 0,
-          '1733472300': 0,
-          '1733472900': 0,
-          '1733473500': 0,
-          '1733474100': 0,
-          '1733474700': 0,
-          '1733475300': 0,
-          '1733475900': 0,
-          '1733476500': 0,
-          '1733477100': 0,
-        },
-        'clients': [],
-        'over_time': [],
-      };
-      when(mockClient.get(Uri.parse(url), headers: {}))
-          .thenAnswer((_) async => http.Response(jsonEncode(data), 200));
+    test(
+      'should return success if clients list is empty and overtime is empty',
+      () async {
+        final mockClient = MockClient();
+        final apiGateway = ApiGatewayV5(server, client: mockClient);
+        final data = {
+          'domains_over_time': {
+            '1733391300': 0,
+            '1733391900': 0,
+            '1733392500': 0,
+            '1733393100': 0,
+            '1733393700': 0,
+            '1733394300': 0,
+            '1733394900': 0,
+            '1733395500': 0,
+            '1733396100': 0,
+            '1733396700': 3,
+            '1733397300': 0,
+            '1733397900': 0,
+            '1733398500': 0,
+            '1733399100': 0,
+            '1733399700': 0,
+            '1733400300': 2,
+            '1733400900': 7,
+            '1733401500': 0,
+            '1733402100': 0,
+            '1733402700': 0,
+            '1733403300': 0,
+            '1733403900': 2,
+            '1733404500': 0,
+            '1733405100': 0,
+            '1733405700': 0,
+            '1733406300': 0,
+            '1733406900': 0,
+            '1733407500': 2,
+            '1733408100': 0,
+            '1733408700': 0,
+            '1733409300': 0,
+            '1733409900': 0,
+            '1733410500': 0,
+            '1733411100': 0,
+            '1733411700': 0,
+            '1733412300': 0,
+            '1733412900': 0,
+            '1733413500': 0,
+            '1733414100': 0,
+            '1733414700': 0,
+            '1733415300': 0,
+            '1733415900': 0,
+            '1733416500': 0,
+            '1733417100': 0,
+            '1733417700': 0,
+            '1733418300': 0,
+            '1733418900': 0,
+            '1733419500': 0,
+            '1733420100': 0,
+            '1733420700': 0,
+            '1733421300': 0,
+            '1733421900': 0,
+            '1733422500': 0,
+            '1733423100': 0,
+            '1733423700': 0,
+            '1733424300': 0,
+            '1733424900': 0,
+            '1733425500': 0,
+            '1733426100': 0,
+            '1733426700': 0,
+            '1733427300': 0,
+            '1733427900': 0,
+            '1733428500': 0,
+            '1733429100': 0,
+            '1733429700': 0,
+            '1733430300': 0,
+            '1733430900': 0,
+            '1733431500': 0,
+            '1733432100': 0,
+            '1733432700': 0,
+            '1733433300': 0,
+            '1733433900': 0,
+            '1733434500': 0,
+            '1733435100': 0,
+            '1733435700': 0,
+            '1733436300': 0,
+            '1733436900': 0,
+            '1733437500': 0,
+            '1733438100': 0,
+            '1733438700': 0,
+            '1733439300': 0,
+            '1733439900': 0,
+            '1733440500': 0,
+            '1733441100': 0,
+            '1733441700': 0,
+            '1733442300': 0,
+            '1733442900': 0,
+            '1733443500': 0,
+            '1733444100': 0,
+            '1733444700': 0,
+            '1733445300': 0,
+            '1733445900': 0,
+            '1733446500': 0,
+            '1733447100': 0,
+            '1733447700': 0,
+            '1733448300': 0,
+            '1733448900': 0,
+            '1733449500': 0,
+            '1733450100': 0,
+            '1733450700': 0,
+            '1733451300': 0,
+            '1733451900': 0,
+            '1733452500': 0,
+            '1733453100': 0,
+            '1733453700': 0,
+            '1733454300': 0,
+            '1733454900': 0,
+            '1733455500': 0,
+            '1733456100': 0,
+            '1733456700': 0,
+            '1733457300': 0,
+            '1733457900': 0,
+            '1733458500': 0,
+            '1733459100': 0,
+            '1733459700': 0,
+            '1733460300': 0,
+            '1733460900': 0,
+            '1733461500': 0,
+            '1733462100': 0,
+            '1733462700': 0,
+            '1733463300': 0,
+            '1733463900': 0,
+            '1733464500': 0,
+            '1733465100': 0,
+            '1733465700': 0,
+            '1733466300': 0,
+            '1733466900': 0,
+            '1733467500': 0,
+            '1733468100': 0,
+            '1733468700': 0,
+            '1733469300': 0,
+            '1733469900': 0,
+            '1733470500': 0,
+            '1733471100': 0,
+            '1733471700': 0,
+            '1733472300': 0,
+            '1733472900': 0,
+            '1733473500': 0,
+            '1733474100': 0,
+            '1733474700': 0,
+            '1733475300': 0,
+            '1733475900': 0,
+            '1733476500': 0,
+            '1733477100': 0,
+          },
+          'ads_over_time': {
+            '1733391300': 0,
+            '1733391900': 0,
+            '1733392500': 0,
+            '1733393100': 0,
+            '1733393700': 0,
+            '1733394300': 0,
+            '1733394900': 0,
+            '1733395500': 0,
+            '1733396100': 0,
+            '1733396700': 0,
+            '1733397300': 0,
+            '1733397900': 0,
+            '1733398500': 0,
+            '1733399100': 0,
+            '1733399700': 0,
+            '1733400300': 0,
+            '1733400900': 1,
+            '1733401500': 0,
+            '1733402100': 0,
+            '1733402700': 0,
+            '1733403300': 0,
+            '1733403900': 0,
+            '1733404500': 0,
+            '1733405100': 0,
+            '1733405700': 0,
+            '1733406300': 0,
+            '1733406900': 0,
+            '1733407500': 0,
+            '1733408100': 0,
+            '1733408700': 0,
+            '1733409300': 0,
+            '1733409900': 0,
+            '1733410500': 0,
+            '1733411100': 0,
+            '1733411700': 0,
+            '1733412300': 0,
+            '1733412900': 0,
+            '1733413500': 0,
+            '1733414100': 0,
+            '1733414700': 0,
+            '1733415300': 0,
+            '1733415900': 0,
+            '1733416500': 0,
+            '1733417100': 0,
+            '1733417700': 0,
+            '1733418300': 0,
+            '1733418900': 0,
+            '1733419500': 0,
+            '1733420100': 0,
+            '1733420700': 0,
+            '1733421300': 0,
+            '1733421900': 0,
+            '1733422500': 0,
+            '1733423100': 0,
+            '1733423700': 0,
+            '1733424300': 0,
+            '1733424900': 0,
+            '1733425500': 0,
+            '1733426100': 0,
+            '1733426700': 0,
+            '1733427300': 0,
+            '1733427900': 0,
+            '1733428500': 0,
+            '1733429100': 0,
+            '1733429700': 0,
+            '1733430300': 0,
+            '1733430900': 0,
+            '1733431500': 0,
+            '1733432100': 0,
+            '1733432700': 0,
+            '1733433300': 0,
+            '1733433900': 0,
+            '1733434500': 0,
+            '1733435100': 0,
+            '1733435700': 0,
+            '1733436300': 0,
+            '1733436900': 0,
+            '1733437500': 0,
+            '1733438100': 0,
+            '1733438700': 0,
+            '1733439300': 0,
+            '1733439900': 0,
+            '1733440500': 0,
+            '1733441100': 0,
+            '1733441700': 0,
+            '1733442300': 0,
+            '1733442900': 0,
+            '1733443500': 0,
+            '1733444100': 0,
+            '1733444700': 0,
+            '1733445300': 0,
+            '1733445900': 0,
+            '1733446500': 0,
+            '1733447100': 0,
+            '1733447700': 0,
+            '1733448300': 0,
+            '1733448900': 0,
+            '1733449500': 0,
+            '1733450100': 0,
+            '1733450700': 0,
+            '1733451300': 0,
+            '1733451900': 0,
+            '1733452500': 0,
+            '1733453100': 0,
+            '1733453700': 0,
+            '1733454300': 0,
+            '1733454900': 0,
+            '1733455500': 0,
+            '1733456100': 0,
+            '1733456700': 0,
+            '1733457300': 0,
+            '1733457900': 0,
+            '1733458500': 0,
+            '1733459100': 0,
+            '1733459700': 0,
+            '1733460300': 0,
+            '1733460900': 0,
+            '1733461500': 0,
+            '1733462100': 0,
+            '1733462700': 0,
+            '1733463300': 0,
+            '1733463900': 0,
+            '1733464500': 0,
+            '1733465100': 0,
+            '1733465700': 0,
+            '1733466300': 0,
+            '1733466900': 0,
+            '1733467500': 0,
+            '1733468100': 0,
+            '1733468700': 0,
+            '1733469300': 0,
+            '1733469900': 0,
+            '1733470500': 0,
+            '1733471100': 0,
+            '1733471700': 0,
+            '1733472300': 0,
+            '1733472900': 0,
+            '1733473500': 0,
+            '1733474100': 0,
+            '1733474700': 0,
+            '1733475300': 0,
+            '1733475900': 0,
+            '1733476500': 0,
+            '1733477100': 0,
+          },
+          'clients': [],
+          'over_time': [],
+        };
+        when(
+          mockClient.get(Uri.parse(url), headers: {}),
+        ).thenAnswer((_) async => http.Response(jsonEncode(data), 200));
 
-      final response = await apiGateway.fetchOverTimeData();
+        final response = await apiGateway.fetchOverTimeData();
 
-      expect(response.result, APiResponseType.success);
-      expect(response.data, isNotNull);
-    });
+        expect(response.result, APiResponseType.success);
+        expect(response.data, isNotNull);
+      },
+    );
 
     test('Return error when unexpected exception occurs', () async {
       final mockClient = MockClient();
       final apiGateway = ApiGatewayV5(server, client: mockClient);
 
-      when(mockClient.get(Uri.parse(url), headers: {}))
-          .thenThrow(Exception('Unexpected error test'));
+      when(
+        mockClient.get(Uri.parse(url), headers: {}),
+      ).thenThrow(Exception('Unexpected error test'));
 
       final response = await apiGateway.fetchOverTimeData();
 
@@ -1344,10 +1359,7 @@ void main() async {
         ],
       };
       when(
-        mockClient.get(
-          Uri.parse(url),
-          headers: {},
-        ),
+        mockClient.get(Uri.parse(url), headers: {}),
       ).thenAnswer((_) async => http.Response(jsonEncode(data), 200));
 
       final from = DateTime.fromMillisecondsSinceEpoch(1733472267 * 1000);
@@ -1362,8 +1374,9 @@ void main() async {
       final mockClient = MockClient();
       final apiGateway = ApiGatewayV5(server, client: mockClient);
 
-      when(mockClient.get(Uri.parse(url), headers: {}))
-          .thenThrow(Exception('Unexpected error test'));
+      when(
+        mockClient.get(Uri.parse(url), headers: {}),
+      ).thenThrow(Exception('Unexpected error test'));
 
       final from = DateTime.fromMillisecondsSinceEpoch(1733472267 * 1000);
       final until = DateTime.fromMillisecondsSinceEpoch(1733479467 * 1000);
@@ -1394,11 +1407,14 @@ void main() async {
       final mockClient = MockClient();
       final apiGateway = ApiGatewayV5(server, client: mockClient);
       final data = {'success': true, 'message': 'Added google.com'};
-      when(mockClient.get(Uri.parse(url), headers: {}))
-          .thenAnswer((_) async => http.Response(jsonEncode(data), 200));
+      when(
+        mockClient.get(Uri.parse(url), headers: {}),
+      ).thenAnswer((_) async => http.Response(jsonEncode(data), 200));
 
-      final response =
-          await apiGateway.setWhiteBlacklist('google.com', 'black');
+      final response = await apiGateway.setWhiteBlacklist(
+        'google.com',
+        'black',
+      );
 
       expect(response.result, APiResponseType.success);
       expect(response.data!.toJson(), data);
@@ -1412,11 +1428,14 @@ void main() async {
         'success': true,
         'message': 'Not adding google.com as it is already on the list',
       };
-      when(mockClient.get(Uri.parse(url), headers: {}))
-          .thenAnswer((_) async => http.Response(jsonEncode(data), 200));
+      when(
+        mockClient.get(Uri.parse(url), headers: {}),
+      ).thenAnswer((_) async => http.Response(jsonEncode(data), 200));
 
-      final response =
-          await apiGateway.setWhiteBlacklist('google.com', 'black');
+      final response = await apiGateway.setWhiteBlacklist(
+        'google.com',
+        'black',
+      );
 
       expect(response.result, APiResponseType.success);
       expect(response.data!.toJson(), data);
@@ -1428,11 +1447,14 @@ void main() async {
       final apiGateway = ApiGatewayV5(server, client: mockClient);
       const data =
           'Invalid list [supported: black, regex_black, white, regex_white]';
-      when(mockClient.get(Uri.parse(url), headers: {}))
-          .thenAnswer((_) async => http.Response(jsonEncode(data), 200));
+      when(
+        mockClient.get(Uri.parse(url), headers: {}),
+      ).thenAnswer((_) async => http.Response(jsonEncode(data), 200));
 
-      final response =
-          await apiGateway.setWhiteBlacklist('google.com', 'black');
+      final response = await apiGateway.setWhiteBlacklist(
+        'google.com',
+        'black',
+      );
 
       expect(response.result, APiResponseType.error);
       expect(response.data, isNull);
@@ -1443,11 +1465,14 @@ void main() async {
       final mockClient = MockClient();
       final apiGateway = ApiGatewayV5(server, client: mockClient);
 
-      when(mockClient.get(Uri.parse(url), headers: {}))
-          .thenThrow(Exception('Unexpected error test'));
+      when(
+        mockClient.get(Uri.parse(url), headers: {}),
+      ).thenThrow(Exception('Unexpected error test'));
 
-      final response =
-          await apiGateway.setWhiteBlacklist('google.com', 'black');
+      final response = await apiGateway.setWhiteBlacklist(
+        'google.com',
+        'black',
+      );
 
       expect(response.result, APiResponseType.error);
       expect(response.data, isNull);
@@ -1511,8 +1536,9 @@ void main() async {
         {'data': []},
       ];
       for (var i = 0; i < urls.length; i++) {
-        when(mockClient.get(Uri.parse(urls[i]), headers: {}))
-            .thenAnswer((_) async => http.Response(jsonEncode(data[i]), 200));
+        when(
+          mockClient.get(Uri.parse(urls[i]), headers: {}),
+        ).thenAnswer((_) async => http.Response(jsonEncode(data[i]), 200));
       }
 
       final response = await apiGateway.getDomainLists();
@@ -1526,11 +1552,13 @@ void main() async {
       final apiGateway = ApiGatewayV5(server, client: mockClient);
       final data = {'data': []};
       for (var i = 0; i < urls.length - 1; i++) {
-        when(mockClient.get(Uri.parse(urls[i]), headers: {}))
-            .thenAnswer((_) async => http.Response(jsonEncode(data), 200));
+        when(
+          mockClient.get(Uri.parse(urls[i]), headers: {}),
+        ).thenAnswer((_) async => http.Response(jsonEncode(data), 200));
       }
-      when(mockClient.get(Uri.parse(urls[3]), headers: {}))
-          .thenThrow(Exception('Unexpected error test'));
+      when(
+        mockClient.get(Uri.parse(urls[3]), headers: {}),
+      ).thenThrow(Exception('Unexpected error test'));
 
       final response = await apiGateway.getDomainLists();
 
@@ -1559,8 +1587,9 @@ void main() async {
       final mockClient = MockClient();
       final apiGateway = ApiGatewayV5(server, client: mockClient);
       final data = {'success': true, 'message': null};
-      when(mockClient.get(Uri.parse(url), headers: {}))
-          .thenAnswer((_) async => http.Response(jsonEncode(data), 200));
+      when(
+        mockClient.get(Uri.parse(url), headers: {}),
+      ).thenAnswer((_) async => http.Response(jsonEncode(data), 200));
 
       final response = await apiGateway.removeDomainFromList(
         Domain(
@@ -1583,8 +1612,9 @@ void main() async {
       final mockClient = MockClient();
       final apiGateway = ApiGatewayV5(server, client: mockClient);
 
-      when(mockClient.get(Uri.parse(url), headers: {}))
-          .thenThrow(Exception('Unexpected error test'));
+      when(
+        mockClient.get(Uri.parse(url), headers: {}),
+      ).thenThrow(Exception('Unexpected error test'));
 
       final response = await apiGateway.removeDomainFromList(
         Domain(
@@ -1624,11 +1654,14 @@ void main() async {
       final mockClient = MockClient();
       final apiGateway = ApiGatewayV5(server, client: mockClient);
       final data = {'success': true, 'message': 'Added google.com'};
-      when(mockClient.get(Uri.parse(url), headers: {}))
-          .thenAnswer((_) async => http.Response(jsonEncode(data), 200));
+      when(
+        mockClient.get(Uri.parse(url), headers: {}),
+      ).thenAnswer((_) async => http.Response(jsonEncode(data), 200));
 
-      final response = await apiGateway
-          .addDomainToList({'list': 'black', 'domain': 'google.com'});
+      final response = await apiGateway.addDomainToList({
+        'list': 'black',
+        'domain': 'google.com',
+      });
 
       expect(response.result, APiResponseType.success);
     });
@@ -1640,11 +1673,14 @@ void main() async {
         'success': true,
         'message': 'Not adding google.com as it is already on the list',
       };
-      when(mockClient.get(Uri.parse(url), headers: {}))
-          .thenAnswer((_) async => http.Response(jsonEncode(data), 200));
+      when(
+        mockClient.get(Uri.parse(url), headers: {}),
+      ).thenAnswer((_) async => http.Response(jsonEncode(data), 200));
 
-      final response = await apiGateway
-          .addDomainToList({'list': 'black', 'domain': 'google.com'});
+      final response = await apiGateway.addDomainToList({
+        'list': 'black',
+        'domain': 'google.com',
+      });
 
       expect(response.result, APiResponseType.alreadyAdded);
     });
@@ -1654,11 +1690,14 @@ void main() async {
       final apiGateway = ApiGatewayV5(server, client: mockClient);
       const data =
           'Invalid list [supported: black, regex_black, white, regex_white]';
-      when(mockClient.get(Uri.parse(url), headers: {}))
-          .thenAnswer((_) async => http.Response(jsonEncode(data), 200));
+      when(
+        mockClient.get(Uri.parse(url), headers: {}),
+      ).thenAnswer((_) async => http.Response(jsonEncode(data), 200));
 
-      final response = await apiGateway
-          .addDomainToList({'list': 'black', 'domain': 'google.com'});
+      final response = await apiGateway.addDomainToList({
+        'list': 'black',
+        'domain': 'google.com',
+      });
 
       expect(response.result, APiResponseType.error);
     });
@@ -1667,11 +1706,14 @@ void main() async {
       final mockClient = MockClient();
       final apiGateway = ApiGatewayV5(server, client: mockClient);
 
-      when(mockClient.get(Uri.parse(url), headers: {}))
-          .thenThrow(Exception('Unexpected error test'));
+      when(
+        mockClient.get(Uri.parse(url), headers: {}),
+      ).thenThrow(Exception('Unexpected error test'));
 
-      final response = await apiGateway
-          .addDomainToList({'list': 'black', 'domain': 'google.com'});
+      final response = await apiGateway.addDomainToList({
+        'list': 'black',
+        'domain': 'google.com',
+      });
 
       expect(response.result, APiResponseType.error);
     });
@@ -1820,8 +1862,9 @@ void main() async {
     test('should return success when use docker', () async {
       final mockClient = MockClient();
       final apiGateway = ApiGatewayV5(server, client: mockClient);
-      when(mockClient.get(Uri.parse(url), headers: {}))
-          .thenAnswer((_) async => http.Response(jsonEncode(data), 200));
+      when(
+        mockClient.get(Uri.parse(url), headers: {}),
+      ).thenAnswer((_) async => http.Response(jsonEncode(data), 200));
       final response = await apiGateway.fetchVersionInfo();
 
       expect(response.result, APiResponseType.success);
@@ -1868,9 +1911,9 @@ void main() async {
 
       final mockClient = MockClient();
       final apiGateway = ApiGatewayV5(server, client: mockClient);
-      when(mockClient.get(Uri.parse(url), headers: {})).thenAnswer(
-        (_) async => http.Response(jsonEncode(dataNoDocker), 200),
-      );
+      when(
+        mockClient.get(Uri.parse(url), headers: {}),
+      ).thenAnswer((_) async => http.Response(jsonEncode(dataNoDocker), 200));
       final response = await apiGateway.fetchVersionInfo();
 
       expect(response.result, APiResponseType.success);
@@ -1888,8 +1931,9 @@ void main() async {
     test('should return error when fetch fails', () async {
       final mockClient = MockClient();
       final apiGateway = ApiGatewayV5(server, client: mockClient);
-      when(mockClient.get(Uri.parse(url), headers: {}))
-          .thenAnswer((_) async => http.Response(jsonEncode(dataError), 401));
+      when(
+        mockClient.get(Uri.parse(url), headers: {}),
+      ).thenAnswer((_) async => http.Response(jsonEncode(dataError), 401));
       final response = await apiGateway.fetchVersionInfo();
 
       expect(response.result, APiResponseType.error);
@@ -1933,8 +1977,9 @@ void main() async {
     test('should return success', () async {
       final mockClient = MockClient();
       final apiGateway = ApiGatewayV5(server, client: mockClient);
-      when(mockClient.get(Uri.parse(url), headers: {}))
-          .thenAnswer((_) async => http.Response(jsonEncode(data), 200));
+      when(
+        mockClient.get(Uri.parse(url), headers: {}),
+      ).thenAnswer((_) async => http.Response(jsonEncode(data), 200));
       final response = await apiGateway.fetchAllServerInfo();
 
       expect(response.result, APiResponseType.success);
@@ -1948,11 +1993,13 @@ void main() async {
     test('should return error when unexpected exception occurs', () async {
       final mockClient = MockClient();
       final apiGateway = ApiGatewayV5(server, client: mockClient);
-      when(mockClient.get(Uri.parse(url), headers: {}))
-          .thenAnswer((_) async => http.Response(jsonEncode(data), 200));
+      when(
+        mockClient.get(Uri.parse(url), headers: {}),
+      ).thenAnswer((_) async => http.Response(jsonEncode(data), 200));
 
-      when(mockClient.get(Uri.parse(url), headers: {}))
-          .thenThrow(Exception('Unexpected error test'));
+      when(
+        mockClient.get(Uri.parse(url), headers: {}),
+      ).thenThrow(Exception('Unexpected error test'));
 
       final response = await apiGateway.fetchAllServerInfo();
 

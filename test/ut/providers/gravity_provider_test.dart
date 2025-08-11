@@ -4,19 +4,25 @@ import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
-import 'package:pi_hole_client/constants/enums.dart';
-import 'package:pi_hole_client/gateways/v6/api_gateway_v6.dart';
-import 'package:pi_hole_client/models/gateways.dart';
-import 'package:pi_hole_client/models/messages.dart';
-import 'package:pi_hole_client/models/repository/database.dart';
-import 'package:pi_hole_client/models/server.dart';
-import 'package:pi_hole_client/providers/gravity_provider.dart';
-import 'package:pi_hole_client/providers/servers_provider.dart';
-import 'package:pi_hole_client/repository/database.dart';
+import 'package:pi_hole_client/config/enums.dart';
+import 'package:pi_hole_client/data/gateway/v6/api_gateway_v6.dart';
+import 'package:pi_hole_client/data/repositories/local/gravity_repository.dart';
+import 'package:pi_hole_client/domain/models_old/database.dart';
+import 'package:pi_hole_client/domain/models_old/gateways.dart';
+import 'package:pi_hole_client/domain/models_old/messages.dart';
+import 'package:pi_hole_client/domain/models_old/server.dart';
+import 'package:pi_hole_client/ui/core/viewmodel/gravity_provider.dart';
+import 'package:pi_hole_client/ui/core/viewmodel/servers_provider.dart';
+import 'package:result_dart/result_dart.dart';
 
 import './gravity_provider_test.mocks.dart';
 
-@GenerateMocks([ServersProvider, DatabaseRepository, ApiGatewayV6])
+@GenerateMocks([
+  ServersProvider,
+  DatabaseRepository,
+  GravityRepository,
+  ApiGatewayV6,
+])
 void main() async {
   TestWidgetsFlutterBinding.ensureInitialized();
   await dotenv.load();
@@ -24,6 +30,7 @@ void main() async {
   group('GravityUpdateProvider', () {
     late GravityUpdateProvider gravityUpdateProvider;
     late MockDatabaseRepository mockRepository;
+    late MockGravityRepository mockGravityRepository;
     late MockServersProvider mockServersProvider;
     late MockApiGatewayV6 mockApiGatewayV6;
     late bool listenerCalled;
@@ -52,7 +59,7 @@ void main() async {
       status: status.index,
     );
 
-    final gravityMessagesData = GravityMessagesData(
+    final gravityMessagesData = GravityMessageData(
       id: id,
       address: address,
       message: message,
@@ -60,7 +67,7 @@ void main() async {
       timestamp: startTime,
     );
 
-    final gravityLogsData = GravityLogsData(
+    final gravityLogsData = GravityLogData(
       address: address,
       line: 1,
       message: log,
@@ -87,6 +94,7 @@ void main() async {
     setUp(() {
       mockRepository = MockDatabaseRepository();
       mockServersProvider = MockServersProvider();
+      mockGravityRepository = MockGravityRepository();
       mockApiGatewayV6 = MockApiGatewayV6();
 
       when(mockServersProvider.selectedServer).thenReturn(server);
@@ -97,12 +105,7 @@ void main() async {
           result: APiResponseType.success,
           data: MessagesInfo(
             messages: [
-              Message(
-                id: id,
-                timestamp: startTime,
-                message: message,
-                url: url,
-              ),
+              Message(id: id, timestamp: startTime, message: message, url: url),
             ],
           ),
         ),
@@ -111,30 +114,54 @@ void main() async {
         (_) async => RemoveMessageResponse(result: APiResponseType.success),
       );
 
-      when(mockRepository.getGravityUpdateQuery(any)).thenAnswer(
-        (_) async => graivtyUpdateData,
-      );
+      when(
+        mockRepository.getGravityUpdateQuery(any),
+      ).thenAnswer((_) async => Success(graivtyUpdateData));
 
-      when(mockRepository.getGravityDataQuery(any))
-          .thenAnswer((_) async => gravityData);
-      when(mockRepository.clearGravityDataQuery(any)).thenAnswer(
-        (_) async => true,
-      );
-      when(mockRepository.upsertGravityUpdateQuery(any)).thenAnswer(
-        (_) async => true,
-      );
-      when(mockRepository.insertGravityLogQuery(any)).thenAnswer(
-        (_) async => true,
-      );
-      when(mockRepository.insertGravityMessageQuery(any)).thenAnswer(
-        (_) async => true,
-      );
-      when(mockRepository.deleteMessageQuery(any, any)).thenAnswer(
-        (_) async => true,
-      );
+      when(
+        mockRepository.getGravityDataQuery(any),
+      ).thenAnswer((_) async => Success(gravityData));
+      when(
+        mockRepository.clearGravityDataQuery(any),
+      ).thenAnswer((_) async => Success.unit());
+      when(
+        mockRepository.upsertGravityUpdateQuery(any),
+      ).thenAnswer((_) async => Success.unit());
+      when(
+        mockRepository.insertGravityLogQuery(any),
+      ).thenAnswer((_) async => Success.unit());
+      when(
+        mockRepository.insertGravityMessageQuery(any),
+      ).thenAnswer((_) async => Success.unit());
+      when(
+        mockRepository.deleteMessageQuery(any, any),
+      ).thenAnswer((_) async => Success.unit());
+
+      when(
+        mockRepository.getGravityUpdateQuery(any),
+      ).thenAnswer((_) async => Success(graivtyUpdateData));
+
+      when(
+        mockGravityRepository.fetchGravityData(any),
+      ).thenAnswer((_) async => Success(gravityData));
+      when(
+        mockGravityRepository.deleteGravityData(any),
+      ).thenAnswer((_) async => const Success(1));
+      when(
+        mockGravityRepository.upsertGravityUpdate(any),
+      ).thenAnswer((_) async => const Success(1));
+      when(
+        mockGravityRepository.insertGravityLogs(any),
+      ).thenAnswer((_) async => const Success(1));
+      when(
+        mockGravityRepository.insertGravityMessages(any),
+      ).thenAnswer((_) async => const Success(1));
+      when(
+        mockGravityRepository.deleteGravityMessage(any, any),
+      ).thenAnswer((_) async => const Success(1));
 
       gravityUpdateProvider = GravityUpdateProvider(
-        repository: mockRepository,
+        repository: mockGravityRepository,
         serversProvider: mockServersProvider,
       );
       listenerCalled = false;
@@ -288,22 +315,24 @@ void main() async {
     });
 
     test(
-        'load() resumes with running status from previous session and handles as error',
-        () async {
-      when(mockRepository.getGravityDataQuery(any))
-          .thenAnswer((_) async => gravityDataRunning);
-      await gravityUpdateProvider.load();
+      'load() resumes with running status from previous session and handles as error',
+      () async {
+        when(
+          mockRepository.getGravityDataQuery(any),
+        ).thenAnswer((_) async => Success(gravityDataRunning));
+        await gravityUpdateProvider.load();
 
-      expect(gravityUpdateProvider.status, GravityStatus.error);
-      expect(gravityUpdateProvider.logs.length, 1);
-      expect(gravityUpdateProvider.logs[0], log);
-      expect(gravityUpdateProvider.messages.length, 1);
-      expect(gravityUpdateProvider.messages[0].message, message);
-      expect(gravityUpdateProvider.startedAtTime, startTime);
-      expect(gravityUpdateProvider.completedAtTime, endTime);
-      expect(gravityUpdateProvider.isLoaded, true);
-      expect(listenerCalled, true);
-    });
+        expect(gravityUpdateProvider.status, GravityStatus.error);
+        expect(gravityUpdateProvider.logs.length, 1);
+        expect(gravityUpdateProvider.logs[0], log);
+        expect(gravityUpdateProvider.messages.length, 1);
+        expect(gravityUpdateProvider.messages[0].message, message);
+        expect(gravityUpdateProvider.startedAtTime, startTime);
+        expect(gravityUpdateProvider.completedAtTime, endTime);
+        expect(gravityUpdateProvider.isLoaded, true);
+        expect(listenerCalled, true);
+      },
+    );
 
     test('load() does not reload if already loaded', () async {
       await gravityUpdateProvider.load();
@@ -327,16 +356,13 @@ void main() async {
 
       final controller = StreamController<GravityResponse>();
 
-      when(mockApiGatewayV6.updateGravity()).thenAnswer(
-        (_) => controller.stream,
-      );
+      when(
+        mockApiGatewayV6.updateGravity(),
+      ).thenAnswer((_) => controller.stream);
 
       await gravityUpdateProvider.start();
       controller.add(
-        GravityResponse(
-          result: APiResponseType.success,
-          data: [log],
-        ),
+        GravityResponse(result: APiResponseType.success, data: [log]),
       );
       await controller.close();
       await Future.delayed(const Duration(seconds: 1));
@@ -354,9 +380,9 @@ void main() async {
 
       final controller = StreamController<GravityResponse>();
 
-      when(mockApiGatewayV6.updateGravity()).thenAnswer(
-        (_) => controller.stream,
-      );
+      when(
+        mockApiGatewayV6.updateGravity(),
+      ).thenAnswer((_) => controller.stream);
 
       await gravityUpdateProvider.start();
 
@@ -376,16 +402,13 @@ void main() async {
 
       final controller = StreamController<GravityResponse>();
 
-      when(mockApiGatewayV6.updateGravity()).thenAnswer(
-        (_) => controller.stream,
-      );
+      when(
+        mockApiGatewayV6.updateGravity(),
+      ).thenAnswer((_) => controller.stream);
 
       await gravityUpdateProvider.start();
       controller.add(
-        GravityResponse(
-          result: APiResponseType.error,
-          data: [log],
-        ),
+        GravityResponse(result: APiResponseType.error, data: [log]),
       );
       await controller.close();
 

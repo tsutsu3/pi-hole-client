@@ -11,8 +11,8 @@ exclude_paths:
   - test/**
   - lib/**/*.g.dart
   - lib/**/*.freezed.dart
-  - lib/l10n/generated/**
-  - lib/screens/settings/about/about.dart
+  - lib/ui/core/l10n/generated/**
+  - lib/ui/settings/about/about.dart
   - .github/**
   - .vscode/**
   - android/**

@@ -2,22 +2,19 @@ import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
-import 'package:pi_hole_client/constants/query_types.dart';
-import 'package:pi_hole_client/gateways/v6/api_gateway_v6.dart';
-import 'package:pi_hole_client/models/repository/database.dart';
-import 'package:pi_hole_client/models/server.dart';
-import 'package:pi_hole_client/providers/app_config_provider.dart';
-import 'package:pi_hole_client/providers/servers_provider.dart';
-import 'package:pi_hole_client/repository/database.dart';
+import 'package:pi_hole_client/config/query_types.dart';
+import 'package:pi_hole_client/data/gateway/v6/api_gateway_v6.dart';
+import 'package:pi_hole_client/data/repositories/database_repository.dart';
+import 'package:pi_hole_client/domain/models_old/database.dart';
+import 'package:pi_hole_client/domain/models_old/server.dart';
+import 'package:pi_hole_client/ui/core/viewmodel/app_config_provider.dart';
+import 'package:pi_hole_client/ui/core/viewmodel/servers_provider.dart';
+import 'package:result_dart/result_dart.dart';
 import 'package:sqflite/sqflite.dart';
+
 import './servers_provider_test.mocks.dart';
 
-@GenerateMocks([
-  DatabaseRepository,
-  AppConfigProvider,
-  Database,
-  Transaction,
-])
+@GenerateMocks([DatabaseRepository, AppConfigProvider, Database, Transaction])
 void main() async {
   await dotenv.load();
 
@@ -46,49 +43,48 @@ void main() async {
       when(mockAppConfigProvider.setSelectedTab(any)).thenReturn(null);
 
       when(mockDatabaseRepository.dbInstance).thenReturn(mockDbInstance);
-      when(mockDatabaseRepository.saveServerQuery(any))
-          .thenAnswer((_) async => true);
-      when(mockDatabaseRepository.editServerQuery(any))
-          .thenAnswer((_) async => true);
-      when(mockDatabaseRepository.removeServerQuery(any))
-          .thenAnswer((_) async => true);
       when(
-        mockDatabaseRepository.removeServerQuery(
-          any,
-          txn: anyNamed('txn'),
-        ),
-      ).thenAnswer((_) async => true);
-      when(mockDatabaseRepository.setDefaultServerQuery(any))
-          .thenAnswer((_) async => true);
-      when(mockDatabaseRepository.deleteServersDataQuery())
-          .thenAnswer((_) async => true);
+        mockDatabaseRepository.saveServerQuery(any),
+      ).thenAnswer((_) async => Success.unit());
       when(
-        mockDatabaseRepository.deleteServersDataQuery(
-          txn: anyNamed('txn'),
-        ),
-      ).thenAnswer((_) async => true);
-      when(mockDatabaseRepository.checkUrlExistsQuery(any))
-          .thenAnswer((_) async => {'result': 'success', 'exists': true});
-      when(mockDatabaseRepository.clearGravityDataQuery(any))
-          .thenAnswer((_) async => true);
+        mockDatabaseRepository.editServerQuery(any),
+      ).thenAnswer((_) async => Success.unit());
       when(
-        mockDatabaseRepository.clearGravityDataQuery(
-          any,
-          txn: anyNamed('txn'),
-        ),
-      ).thenAnswer((_) async => true);
-      when(mockDatabaseRepository.clearAllGravityDataQuery())
-          .thenAnswer((_) async => true);
+        mockDatabaseRepository.removeServerQuery(any),
+      ).thenAnswer((_) async => Success.unit());
       when(
-        mockDatabaseRepository.clearAllGravityDataQuery(
-          txn: anyNamed('txn'),
-        ),
-      ).thenAnswer((_) async => true);
+        mockDatabaseRepository.removeServerQuery(any, txn: anyNamed('txn')),
+      ).thenAnswer((_) async => Success.unit());
+      when(
+        mockDatabaseRepository.setDefaultServerQuery(any),
+      ).thenAnswer((_) async => Success.unit());
+      when(
+        mockDatabaseRepository.deleteServersDataQuery(),
+      ).thenAnswer((_) async => Success.unit());
+      when(
+        mockDatabaseRepository.deleteServersDataQuery(txn: anyNamed('txn')),
+      ).thenAnswer((_) async => Success.unit());
+      when(
+        mockDatabaseRepository.checkUrlExistsQuery(any),
+      ).thenAnswer((_) async => const Success(true));
+      when(
+        mockDatabaseRepository.clearGravityDataQuery(any),
+      ).thenAnswer((_) async => Success.unit());
+      when(
+        mockDatabaseRepository.clearGravityDataQuery(any, txn: anyNamed('txn')),
+      ).thenAnswer((_) async => Success.unit());
+      when(
+        mockDatabaseRepository.clearAllGravityDataQuery(),
+      ).thenAnswer((_) async => Success.unit());
+      when(
+        mockDatabaseRepository.clearAllGravityDataQuery(txn: anyNamed('txn')),
+      ).thenAnswer((_) async => Success.unit());
 
       // Mocking the transaction method
       when(mockDbInstance.transaction(any)).thenAnswer((invocation) {
-        final handler = invocation.positionalArguments[0] as Future<bool>
-            Function(Transaction txn);
+        final handler =
+            invocation.positionalArguments[0]
+                as Future<bool> Function(Transaction txn);
         return handler(mockTxn);
       });
 
@@ -159,21 +155,22 @@ void main() async {
     });
 
     test(
-        'addServer adds a server (defaultServer: on) option and notifies listeners',
-        () async {
-      final server2 = Server(
-        address: 'http://localhost:8081',
-        alias: 'test v6',
-        defaultServer: true,
-        apiVersion: 'v6',
-        allowSelfSignedCert: true,
-      );
-      final result = await serversProvider.addServer(server2);
+      'addServer adds a server (defaultServer: on) option and notifies listeners',
+      () async {
+        final server2 = Server(
+          address: 'http://localhost:8081',
+          alias: 'test v6',
+          defaultServer: true,
+          apiVersion: 'v6',
+          allowSelfSignedCert: true,
+        );
+        final result = await serversProvider.addServer(server2);
 
-      expect(result, true);
-      expect(serversProvider.getServersList.contains(server2), true);
-      expect(listenerCalled, true);
-    });
+        expect(result, true);
+        expect(serversProvider.getServersList.contains(server2), true);
+        expect(listenerCalled, true);
+      },
+    );
 
     test('editServer edits a server and notifies listeners', () async {
       await serversProvider.addServer(server);
@@ -204,10 +201,7 @@ void main() async {
         final result = await serversProvider.setDefaultServer(server);
 
         expect(result, true);
-        expect(
-          serversProvider.getServersList[0].defaultServer,
-          true,
-        );
+        expect(serversProvider.getServersList[0].defaultServer, true);
         expect(listenerCalled, true);
       },
     );
@@ -217,7 +211,7 @@ void main() async {
         ServerDbData(
           address: server.address,
           alias: server.alias,
-          token: await server.sm.token,
+          token: await server.sm.token.getOrNull(),
           isDefaultServer: 1,
           apiVersion: server.apiVersion,
           sid: 'sid01',
@@ -277,15 +271,12 @@ void main() async {
       },
     );
 
-    test(
-      'setConnectingServer sets the connecting server',
-      () async {
-        serversProvider.setConnectingServer(server);
+    test('setConnectingServer sets the connecting server', () async {
+      serversProvider.setConnectingServer(server);
 
-        expect(serversProvider.connectingServer, server);
-        expect(listenerCalled, false);
-      },
-    );
+      expect(serversProvider.connectingServer, server);
+      expect(listenerCalled, false);
+    });
 
     test('clearConnectingServer clears the connecting server', () {
       serversProvider.setConnectingServer(server);

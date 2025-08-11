@@ -5,114 +5,131 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:http/http.dart' as http;
 import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
-import 'package:pi_hole_client/constants/api_versions.dart';
-import 'package:pi_hole_client/constants/enums.dart';
-import 'package:pi_hole_client/constants/subscription_types.dart';
-import 'package:pi_hole_client/gateways/v6/api_gateway_v6.dart';
-import 'package:pi_hole_client/models/api/v6/action/action.dart';
-import 'package:pi_hole_client/models/api/v6/auth/sessions.dart';
-import 'package:pi_hole_client/models/api/v6/config/config.dart'
+import 'package:pi_hole_client/config/api_versions.dart';
+import 'package:pi_hole_client/config/enums.dart';
+import 'package:pi_hole_client/config/subscription_types.dart';
+import 'package:pi_hole_client/data/gateway/v6/api_gateway_v6.dart';
+import 'package:pi_hole_client/data/repositories/local/secure_data_repository.dart';
+import 'package:pi_hole_client/data/services/api/model/v6/action/action.dart';
+import 'package:pi_hole_client/data/services/api/model/v6/auth/sessions.dart';
+import 'package:pi_hole_client/data/services/api/model/v6/config/config.dart'
     show Config, ConfigData, Dns;
-import 'package:pi_hole_client/models/api/v6/dhcp/dhcp.dart' show Dhcp;
-import 'package:pi_hole_client/models/api/v6/ftl/client.dart';
-import 'package:pi_hole_client/models/api/v6/ftl/host.dart' show Host;
-import 'package:pi_hole_client/models/api/v6/ftl/messages.dart';
-import 'package:pi_hole_client/models/api/v6/ftl/metrics.dart';
-import 'package:pi_hole_client/models/api/v6/ftl/sensors.dart' show Sensors;
-import 'package:pi_hole_client/models/api/v6/ftl/system.dart' show System;
-import 'package:pi_hole_client/models/api/v6/ftl/version.dart' show Version;
-import 'package:pi_hole_client/models/api/v6/groups/groups.dart';
-import 'package:pi_hole_client/models/api/v6/lists/lists.dart' show Lists;
-import 'package:pi_hole_client/models/api/v6/lists/search.dart' show Search;
-import 'package:pi_hole_client/models/api/v6/network/devices.dart';
-import 'package:pi_hole_client/models/api/v6/network/gateway.dart';
-import 'package:pi_hole_client/models/client.dart';
-import 'package:pi_hole_client/models/config.dart';
-import 'package:pi_hole_client/models/devices.dart';
-import 'package:pi_hole_client/models/dhcp.dart';
-import 'package:pi_hole_client/models/domain.dart';
-import 'package:pi_hole_client/models/gateway.dart';
-import 'package:pi_hole_client/models/gateways.dart';
-import 'package:pi_hole_client/models/groups.dart';
-import 'package:pi_hole_client/models/host.dart';
-import 'package:pi_hole_client/models/messages.dart';
-import 'package:pi_hole_client/models/metrics.dart';
-import 'package:pi_hole_client/models/search.dart';
-import 'package:pi_hole_client/models/sensors.dart';
-import 'package:pi_hole_client/models/server.dart';
-import 'package:pi_hole_client/models/sessions.dart';
-import 'package:pi_hole_client/models/subscriptions.dart';
-import 'package:pi_hole_client/models/system.dart';
-import 'package:pi_hole_client/models/version.dart';
-import 'package:pi_hole_client/services/secret_manager.dart';
+import 'package:pi_hole_client/data/services/api/model/v6/dhcp/dhcp.dart'
+    show Dhcp;
+import 'package:pi_hole_client/data/services/api/model/v6/ftl/client.dart'
+    show InfoClient;
+import 'package:pi_hole_client/data/services/api/model/v6/ftl/host.dart'
+    show InfoHost;
+import 'package:pi_hole_client/data/services/api/model/v6/ftl/messages.dart'
+    show InfoMessages;
+import 'package:pi_hole_client/data/services/api/model/v6/ftl/metrics.dart'
+    show InfoMetrics;
+import 'package:pi_hole_client/data/services/api/model/v6/ftl/sensors.dart'
+    show InfoSensors;
+import 'package:pi_hole_client/data/services/api/model/v6/ftl/system.dart'
+    show InfoSystem;
+import 'package:pi_hole_client/data/services/api/model/v6/ftl/version.dart'
+    show InfoVersion;
+import 'package:pi_hole_client/data/services/api/model/v6/groups/groups.dart';
+import 'package:pi_hole_client/data/services/api/model/v6/lists/lists.dart'
+    show Lists;
+import 'package:pi_hole_client/data/services/api/model/v6/lists/search.dart'
+    show Search;
+import 'package:pi_hole_client/data/services/api/model/v6/network/devices.dart';
+import 'package:pi_hole_client/data/services/api/model/v6/network/gateway.dart';
+import 'package:pi_hole_client/domain/models_old/client.dart';
+import 'package:pi_hole_client/domain/models_old/config.dart';
+import 'package:pi_hole_client/domain/models_old/devices.dart';
+import 'package:pi_hole_client/domain/models_old/dhcp.dart';
+import 'package:pi_hole_client/domain/models_old/domain.dart';
+import 'package:pi_hole_client/domain/models_old/gateway.dart';
+import 'package:pi_hole_client/domain/models_old/gateways.dart';
+import 'package:pi_hole_client/domain/models_old/groups.dart';
+import 'package:pi_hole_client/domain/models_old/host.dart';
+import 'package:pi_hole_client/domain/models_old/messages.dart';
+import 'package:pi_hole_client/domain/models_old/metrics.dart';
+import 'package:pi_hole_client/domain/models_old/search.dart';
+import 'package:pi_hole_client/domain/models_old/sensors.dart';
+import 'package:pi_hole_client/domain/models_old/server.dart';
+import 'package:pi_hole_client/domain/models_old/sessions.dart';
+import 'package:pi_hole_client/domain/models_old/subscriptions.dart';
+import 'package:pi_hole_client/domain/models_old/system.dart';
+import 'package:pi_hole_client/domain/models_old/version.dart';
+import 'package:result_dart/result_dart.dart';
 
 import 'api_gateway_v6_test.mocks.dart';
 
-class SecretManagerMock implements SecretManager {
+class SecretManagerMock implements SecureDataRepository {
   SecretManagerMock(this._sid, this._password);
   String? _sid;
   String? _password;
 
   @override
-  String? get sid => _sid;
+  Result<String> get sid {
+    if (_sid == null) {
+      return Failure(Exception('SID not found'));
+    }
+    return Success(_sid!);
+  }
 
   @override
-  Future<String?>? get password async {
+  Future<Result<String>> get password async {
     try {
-      return _password;
+      return Success(_password!);
     } catch (e) {
-      return null;
+      return Failure(Exception('Failed to get password: $e'));
     }
   }
 
   @override
-  Future<String?>? get token async {
+  Future<Result<String>> get token async {
     try {
-      return _sid;
+      return Success(_sid!);
     } catch (e) {
-      return null;
+      return Failure(Exception('Failed to get token: $e'));
     }
   }
 
   @override
-  Future<bool> save(String sid) async {
+  Future<Result<void>> saveSid(String sid) async {
     _sid = sid;
-    return true;
+    return Success.unit();
   }
 
   @override
-  Future<bool> load() async {
-    return true;
+  Future<Result<String>> loadSid() async {
+    _sid = 'xxx123';
+    return const Success('xxx123');
   }
 
   @override
-  Future<bool> delete() async {
+  Future<Result<void>> deleteSid() async {
     _sid = null;
-    return true;
+    return Success.unit();
   }
 
   @override
-  Future<bool> savePassword(String password) async {
+  Future<Result<void>> savePassword(String password) async {
     _password = password;
-    return true;
+    return Success.unit();
   }
 
   @override
-  Future<bool> saveToken(String token) async {
+  Future<Result<void>> saveToken(String token) async {
     _sid = token;
-    return true;
+    return Success.unit();
   }
 
   @override
-  Future<bool> deletePassword() async {
+  Future<Result<void>> deletePassword() async {
     _password = null;
-    return true;
+    return Success.unit();
   }
 
   @override
-  Future<bool> deleteToken() async {
+  Future<Result<void>> deleteToken() async {
     _sid = null;
-    return true;
+    return Success.unit();
   }
 }
 
@@ -175,10 +192,7 @@ void main() async {
       var callCount = 0;
 
       when(
-        mockClient.get(
-          Uri.parse(urls[1]),
-          headers: anyNamed('headers'),
-        ),
+        mockClient.get(Uri.parse(urls[1]), headers: anyNamed('headers')),
       ).thenAnswer((_) async {
         callCount++;
         if (callCount == 1) {
@@ -248,10 +262,7 @@ void main() async {
       var callCount = 0;
 
       when(
-        mockClient.get(
-          Uri.parse(urls[1]),
-          headers: anyNamed('headers'),
-        ),
+        mockClient.get(Uri.parse(urls[1]), headers: anyNamed('headers')),
       ).thenAnswer((_) async {
         callCount++;
         if (callCount == 1) {
@@ -288,10 +299,7 @@ void main() async {
       final apiGateway = ApiGatewayV6(server, client: mockClient);
 
       when(
-        mockClient.get(
-          Uri.parse(urls[1]),
-          headers: anyNamed('headers'),
-        ),
+        mockClient.get(Uri.parse(urls[1]), headers: anyNamed('headers')),
       ).thenAnswer((_) async {
         return http.Response(
           jsonEncode({'blocking': 'enabled', 'timer': null, 'took': 0.003}),
@@ -312,10 +320,7 @@ void main() async {
       final apiGateway = ApiGatewayV6(server, client: mockClient);
 
       when(
-        mockClient.get(
-          Uri.parse(urls[1]),
-          headers: anyNamed('headers'),
-        ),
+        mockClient.get(Uri.parse(urls[1]), headers: anyNamed('headers')),
       ).thenAnswer((_) async {
         return http.Response(
           jsonEncode({
@@ -368,7 +373,8 @@ void main() async {
       final mockClient = MockClient();
       final apiGateway = ApiGatewayV6(server, client: mockClient);
       // example.com's 404 page
-      final htmlString = '''
+      final htmlString =
+          '''
         <!doctype html>
         <html>
         <head>
@@ -416,13 +422,10 @@ void main() async {
         </body>
         </html>
       '''
-          .trimLeft();
+              .trimLeft();
 
       when(
-        mockClient.get(
-          Uri.parse(urls[1]),
-          headers: anyNamed('headers'),
-        ),
+        mockClient.get(Uri.parse(urls[1]), headers: anyNamed('headers')),
       ).thenAnswer((_) async {
         return http.Response(
           jsonEncode({
@@ -462,10 +465,7 @@ void main() async {
       final apiGateway = ApiGatewayV6(server, client: mockClient);
 
       when(
-        mockClient.get(
-          Uri.parse(urls[1]),
-          headers: anyNamed('headers'),
-        ),
+        mockClient.get(Uri.parse(urls[1]), headers: anyNamed('headers')),
       ).thenAnswer((_) async {
         return http.Response(
           jsonEncode({
@@ -507,12 +507,7 @@ void main() async {
           headers: anyNamed('headers'),
           body: anyNamed('body'),
         ),
-      ).thenAnswer(
-        (_) async => http.Response(
-          '',
-          204,
-        ),
-      );
+      ).thenAnswer((_) async => http.Response('', 204));
 
       when(
         mockClient.post(
@@ -540,10 +535,7 @@ void main() async {
       var callCount = 0;
 
       when(
-        mockClient.get(
-          Uri.parse(urls[1]),
-          headers: anyNamed('headers'),
-        ),
+        mockClient.get(Uri.parse(urls[1]), headers: anyNamed('headers')),
       ).thenAnswer((_) async {
         callCount++;
         if (callCount == 1) {
@@ -1011,8 +1003,9 @@ void main() async {
       final apiGateway = ApiGatewayV6(server, client: mockClient);
 
       for (final url in urls) {
-        when(mockClient.get(Uri.parse(url), headers: {}))
-            .thenThrow(Exception('Unexpected error test'));
+        when(
+          mockClient.get(Uri.parse(url), headers: {}),
+        ).thenThrow(Exception('Unexpected error test'));
       }
 
       final response = await apiGateway.realtimeStatus();
@@ -1193,10 +1186,7 @@ void main() async {
       ];
 
       when(
-        mockClient.get(
-          Uri.parse(urls[0]),
-          headers: anyNamed('headers'),
-        ),
+        mockClient.get(Uri.parse(urls[0]), headers: anyNamed('headers')),
       ).thenAnswer((_) async => http.Response(jsonEncode(data[0]), 200));
 
       when(
@@ -1264,10 +1254,7 @@ void main() async {
       ];
 
       when(
-        mockClient.get(
-          Uri.parse(urls[0]),
-          headers: anyNamed('headers'),
-        ),
+        mockClient.get(Uri.parse(urls[0]), headers: anyNamed('headers')),
       ).thenAnswer((_) async => http.Response(jsonEncode(data[0]), 200));
 
       when(
@@ -1288,8 +1275,9 @@ void main() async {
       final apiGateway = ApiGatewayV6(server, client: mockClient);
 
       for (final url in urls) {
-        when(mockClient.get(Uri.parse(url), headers: {}))
-            .thenThrow(Exception('Unexpected error test'));
+        when(
+          mockClient.get(Uri.parse(url), headers: {}),
+        ).thenThrow(Exception('Unexpected error test'));
       }
 
       final response = await apiGateway.fetchOverTimeData();
@@ -1332,6 +1320,7 @@ void main() async {
             'list_id': null,
             'upstream': 'localhost#5353',
             'dbid': 112421354,
+            'ede': {'code': 0, 'text': null},
           },
           {
             'id': 2,
@@ -1346,6 +1335,7 @@ void main() async {
             'list_id': null,
             'upstream': 'localhost#5353',
             'dbid': 112421355,
+            'ede': {'code': 0, 'text': null},
           },
         ],
         'cursor': 175881,
@@ -1354,8 +1344,9 @@ void main() async {
         'draw': 1,
         'took': 0.003,
       };
-      when(mockClient.get(Uri.parse(url), headers: anyNamed('headers')))
-          .thenAnswer((_) async => http.Response(jsonEncode(data), 200));
+      when(
+        mockClient.get(Uri.parse(url), headers: anyNamed('headers')),
+      ).thenAnswer((_) async => http.Response(jsonEncode(data), 200));
 
       final from = DateTime.fromMillisecondsSinceEpoch(1733472267 * 1000);
       final until = DateTime.fromMillisecondsSinceEpoch(1733479467 * 1000);
@@ -1383,6 +1374,7 @@ void main() async {
             'list_id': null,
             'upstream': 'localhost#5353',
             'dbid': 112421354,
+            'ede': {'code': 0, 'text': null},
           },
           {
             'id': 2,
@@ -1397,6 +1389,7 @@ void main() async {
             'list_id': null,
             'upstream': 'localhost#5353',
             'dbid': 112421355,
+            'ede': {'code': 0, 'text': null},
           },
         ],
         'cursor': 175881,
@@ -1438,6 +1431,7 @@ void main() async {
             'list_id': null,
             'upstream': 'localhost#5353',
             'dbid': 112421354,
+            'ede': {'code': 0, 'text': null},
           },
           {
             'id': 2,
@@ -1452,6 +1446,7 @@ void main() async {
             'list_id': null,
             'upstream': 'localhost#5353',
             'dbid': 112421355,
+            'ede': {'code': 0, 'text': null},
           },
         ],
         'cursor': 175881,
@@ -1479,8 +1474,9 @@ void main() async {
       final mockClient = MockClient();
       final apiGateway = ApiGatewayV6(server, client: mockClient);
 
-      when(mockClient.get(Uri.parse(url), headers: anyNamed('headers')))
-          .thenThrow(Exception('Unexpected error test'));
+      when(
+        mockClient.get(Uri.parse(url), headers: anyNamed('headers')),
+      ).thenThrow(Exception('Unexpected error test'));
 
       final from = DateTime.fromMillisecondsSinceEpoch(1733472267 * 1000);
       final until = DateTime.fromMillisecondsSinceEpoch(1733479467 * 1000);
@@ -1544,14 +1540,16 @@ void main() async {
         ),
       ).thenAnswer((_) async => http.Response(jsonEncode(data), 201));
 
-      final response =
-          await apiGateway.setWhiteBlacklist('google.com', 'black');
+      final response = await apiGateway.setWhiteBlacklist(
+        'google.com',
+        'black',
+      );
 
       expect(response.result, APiResponseType.success);
-      expect(
-        response.data!.toJson(),
-        {'success': true, 'message': 'Added google.com'},
-      );
+      expect(response.data!.toJson(), {
+        'success': true,
+        'message': 'Added google.com',
+      });
       expect(response.message, isNull);
     });
 
@@ -1598,8 +1596,10 @@ void main() async {
         ),
       ).thenAnswer((_) async => http.Response(jsonEncode(data), 201));
 
-      final response =
-          await apiGateway.setWhiteBlacklist('google.com', 'black');
+      final response = await apiGateway.setWhiteBlacklist(
+        'google.com',
+        'black',
+      );
 
       expect(response.result, APiResponseType.success);
       expect(response.data!.toJson(), {
@@ -1634,8 +1634,10 @@ void main() async {
         ),
       ).thenAnswer((_) async => http.Response(jsonEncode(data), 200));
 
-      final response =
-          await apiGateway.setWhiteBlacklist('google.com', 'black');
+      final response = await apiGateway.setWhiteBlacklist(
+        'google.com',
+        'black',
+      );
 
       expect(response.result, APiResponseType.error);
       expect(response.data, isNull);
@@ -1646,11 +1648,14 @@ void main() async {
       final mockClient = MockClient();
       final apiGateway = ApiGatewayV6(server, client: mockClient);
 
-      when(mockClient.get(Uri.parse(url), headers: {}))
-          .thenThrow(Exception('Unexpected error test'));
+      when(
+        mockClient.get(Uri.parse(url), headers: {}),
+      ).thenThrow(Exception('Unexpected error test'));
 
-      final response =
-          await apiGateway.setWhiteBlacklist('google.com', 'black');
+      final response = await apiGateway.setWhiteBlacklist(
+        'google.com',
+        'black',
+      );
 
       expect(response.result, APiResponseType.error);
       expect(response.data, isNull);
@@ -1705,8 +1710,9 @@ void main() async {
         'took': 0.012,
         'processed': null,
       };
-      when(mockClient.get(Uri.parse(url), headers: anyNamed('headers')))
-          .thenAnswer((_) async => http.Response(jsonEncode(data), 200));
+      when(
+        mockClient.get(Uri.parse(url), headers: anyNamed('headers')),
+      ).thenAnswer((_) async => http.Response(jsonEncode(data), 200));
 
       final response = await apiGateway.getDomainLists();
 
@@ -1717,8 +1723,9 @@ void main() async {
     test('Return error when unexpected exception occurs', () async {
       final mockClient = MockClient();
       final apiGateway = ApiGatewayV6(server, client: mockClient);
-      when(mockClient.get(Uri.parse(url), headers: {}))
-          .thenThrow(Exception('Unexpected error test'));
+      when(
+        mockClient.get(Uri.parse(url), headers: {}),
+      ).thenThrow(Exception('Unexpected error test'));
 
       final response = await apiGateway.getDomainLists();
 
@@ -1745,8 +1752,9 @@ void main() async {
       final mockClient = MockClient();
       final apiGateway = ApiGatewayV6(server, client: mockClient);
       final data = {'success': true, 'message': null};
-      when(mockClient.delete(Uri.parse(url), headers: anyNamed('headers')))
-          .thenAnswer((_) async => http.Response(jsonEncode(data), 204));
+      when(
+        mockClient.delete(Uri.parse(url), headers: anyNamed('headers')),
+      ).thenAnswer((_) async => http.Response(jsonEncode(data), 204));
 
       final response = await apiGateway.removeDomainFromList(
         Domain(
@@ -1769,8 +1777,9 @@ void main() async {
       final mockClient = MockClient();
       final apiGateway = ApiGatewayV6(server, client: mockClient);
 
-      when(mockClient.delete(Uri.parse(url), headers: anyNamed('headers')))
-          .thenThrow(Exception('Unexpected error test'));
+      when(
+        mockClient.delete(Uri.parse(url), headers: anyNamed('headers')),
+      ).thenThrow(Exception('Unexpected error test'));
 
       final response = await apiGateway.removeDomainFromList(
         Domain(
@@ -1843,8 +1852,10 @@ void main() async {
         ),
       ).thenAnswer((_) async => http.Response(jsonEncode(data), 201));
 
-      final response = await apiGateway
-          .addDomainToList({'list': 'black', 'domain': 'google.com'});
+      final response = await apiGateway.addDomainToList({
+        'list': 'black',
+        'domain': 'google.com',
+      });
 
       expect(response.result, APiResponseType.success);
     });
@@ -1892,8 +1903,10 @@ void main() async {
         ),
       ).thenAnswer((_) async => http.Response(jsonEncode(data), 201));
 
-      final response = await apiGateway
-          .addDomainToList({'list': 'black', 'domain': 'google.com'});
+      final response = await apiGateway.addDomainToList({
+        'list': 'black',
+        'domain': 'google.com',
+      });
 
       expect(response.result, APiResponseType.alreadyAdded);
     });
@@ -1922,8 +1935,10 @@ void main() async {
         ),
       ).thenAnswer((_) async => http.Response(jsonEncode(data), 200));
 
-      final response = await apiGateway
-          .addDomainToList({'list': 'black', 'domain': 'google.com'});
+      final response = await apiGateway.addDomainToList({
+        'list': 'black',
+        'domain': 'google.com',
+      });
 
       expect(response.result, APiResponseType.error);
     });
@@ -1932,11 +1947,14 @@ void main() async {
       final mockClient = MockClient();
       final apiGateway = ApiGatewayV6(server, client: mockClient);
 
-      when(mockClient.get(Uri.parse(url), headers: {}))
-          .thenThrow(Exception('Unexpected error test'));
+      when(
+        mockClient.get(Uri.parse(url), headers: {}),
+      ).thenThrow(Exception('Unexpected error test'));
 
-      final response = await apiGateway
-          .addDomainToList({'list': 'black', 'domain': 'google.com'});
+      final response = await apiGateway.addDomainToList({
+        'list': 'black',
+        'domain': 'google.com',
+      });
 
       expect(response.result, APiResponseType.error);
     });
@@ -1990,8 +2008,7 @@ void main() async {
       server.sm.savePassword('xxx123');
     });
 
-    test('should return success when adding or editing a subscription',
-        () async {
+    test('should return success when adding or editing a subscription', () async {
       final mockClient = MockClient();
       final apiGateway = ApiGatewayV6(server, client: mockClient);
 
@@ -2005,9 +2022,7 @@ void main() async {
         ),
       ).thenAnswer((_) async => http.Response(jsonEncode(singleData), 200));
 
-      final response = await apiGateway.updateDomain(
-        body: reqData,
-      );
+      final response = await apiGateway.updateDomain(body: reqData);
 
       expect(response.result, APiResponseType.success);
       expect(response.message, null);
@@ -2030,36 +2045,34 @@ void main() async {
         ),
       ).thenAnswer((_) async => http.Response(jsonEncode(badReqData), 400));
 
-      final response = await apiGateway.updateDomain(
-        body: reqData,
-      );
+      final response = await apiGateway.updateDomain(body: reqData);
 
       expect(response.result, APiResponseType.error);
       expect(response.message, fetchError);
       expect(response.data?.toJson(), null);
     });
 
-    test('should return error when an unexpected exception is thrown',
-        () async {
-      final mockClient = MockClient();
-      final apiGateway = ApiGatewayV6(server, client: mockClient);
+    test(
+      'should return error when an unexpected exception is thrown',
+      () async {
+        final mockClient = MockClient();
+        final apiGateway = ApiGatewayV6(server, client: mockClient);
 
-      when(
-        mockClient.put(
-          Uri.parse('http://example.com/api/domains'),
-          headers: anyNamed('headers'),
-          body: anyNamed('body'),
-        ),
-      ).thenThrow(Exception('Unexpected error test'));
+        when(
+          mockClient.put(
+            Uri.parse('http://example.com/api/domains'),
+            headers: anyNamed('headers'),
+            body: anyNamed('body'),
+          ),
+        ).thenThrow(Exception('Unexpected error test'));
 
-      final response = await apiGateway.updateDomain(
-        body: reqData,
-      );
+        final response = await apiGateway.updateDomain(body: reqData);
 
-      expect(response.result, APiResponseType.error);
-      expect(response.message, unexpectedError);
-      expect(response.data?.toJson(), null);
-    });
+        expect(response.result, APiResponseType.error);
+        expect(response.message, unexpectedError);
+        expect(response.data?.toJson(), null);
+      },
+    );
   });
 
   group('fetchVersionInfo', () {
@@ -2073,10 +2086,7 @@ void main() async {
             'branch': 'master',
             'hash': '9fe687bd',
           },
-          'remote': {
-            'version': 'v6.0.5',
-            'hash': '9fe687bd',
-          },
+          'remote': {'version': 'v6.0.5', 'hash': '9fe687bd'},
         },
         'web': {
           'local': {
@@ -2084,10 +2094,7 @@ void main() async {
             'branch': 'master',
             'hash': '25441178',
           },
-          'remote': {
-            'version': 'v6.0.2',
-            'hash': '25441178',
-          },
+          'remote': {'version': 'v6.0.2', 'hash': '25441178'},
         },
         'ftl': {
           'local': {
@@ -2096,15 +2103,9 @@ void main() async {
             'version': 'v6.0.4',
             'date': '2025-03-04 17:22:10 +0000',
           },
-          'remote': {
-            'version': 'v6.0.4',
-            'hash': 'b7eb53bf',
-          },
+          'remote': {'version': 'v6.0.4', 'hash': 'b7eb53bf'},
         },
-        'docker': {
-          'local': '2025.03.0',
-          'remote': '2025.03.0',
-        },
+        'docker': {'local': '2025.03.0', 'remote': '2025.03.0'},
       },
       'took': 0.014363765716552734,
     };
@@ -2124,10 +2125,7 @@ void main() async {
       final mockClient = MockClient();
       final apiGateway = ApiGatewayV6(server, client: mockClient);
       when(
-        mockClient.get(
-          Uri.parse(url),
-          headers: anyNamed('headers'),
-        ),
+        mockClient.get(Uri.parse(url), headers: anyNamed('headers')),
       ).thenAnswer((_) async => http.Response(jsonEncode(data), 200));
       final response = await apiGateway.fetchVersionInfo();
 
@@ -2135,7 +2133,7 @@ void main() async {
       expect(response.message, null);
       expect(
         response.data?.toJson(),
-        VersionInfo.fromV6(Version.fromJson(data)).toJson(),
+        VersionInfo.fromV6(InfoVersion.fromJson(data)).toJson(),
       );
     });
 
@@ -2148,10 +2146,7 @@ void main() async {
               'branch': 'master',
               'hash': '9fe687xxx',
             },
-            'remote': {
-              'version': 'v6.0.5',
-              'hash': '9fe687bd',
-            },
+            'remote': {'version': 'v6.0.5', 'hash': '9fe687bd'},
           },
           'web': {
             'local': {
@@ -2159,10 +2154,7 @@ void main() async {
               'branch': 'master',
               'hash': '254411xxx',
             },
-            'remote': {
-              'version': 'v6.0.2',
-              'hash': '25441178',
-            },
+            'remote': {'version': 'v6.0.2', 'hash': '25441178'},
           },
           'ftl': {
             'local': {
@@ -2171,15 +2163,9 @@ void main() async {
               'version': 'v6.0.3',
               'date': '2025-03-01 17:22:10 +0000',
             },
-            'remote': {
-              'version': 'v6.0.4',
-              'hash': 'b7eb53bf',
-            },
+            'remote': {'version': 'v6.0.4', 'hash': 'b7eb53bf'},
           },
-          'docker': {
-            'local': null,
-            'remote': null,
-          },
+          'docker': {'local': null, 'remote': null},
         },
         'took': 0.014363765716552734,
       };
@@ -2187,10 +2173,7 @@ void main() async {
       final mockClient = MockClient();
       final apiGateway = ApiGatewayV6(server, client: mockClient);
       when(
-        mockClient.get(
-          Uri.parse(url),
-          headers: anyNamed('headers'),
-        ),
+        mockClient.get(Uri.parse(url), headers: anyNamed('headers')),
       ).thenAnswer((_) async => http.Response(jsonEncode(dataNoDocker), 200));
       final response = await apiGateway.fetchVersionInfo();
 
@@ -2198,7 +2181,7 @@ void main() async {
       expect(response.message, null);
       expect(
         response.data?.toJson(),
-        VersionInfo.fromV6(Version.fromJson(dataNoDocker)).toJson(),
+        VersionInfo.fromV6(InfoVersion.fromJson(dataNoDocker)).toJson(),
       );
       expect(response.data?.core.canUpdate, true);
       expect(response.data?.web.canUpdate, true);
@@ -2254,10 +2237,7 @@ void main() async {
       final mockClient = MockClient();
       final apiGateway = ApiGatewayV6(server, client: mockClient);
       when(
-        mockClient.get(
-          Uri.parse(url),
-          headers: anyNamed('headers'),
-        ),
+        mockClient.get(Uri.parse(url), headers: anyNamed('headers')),
       ).thenAnswer((_) async => http.Response(jsonEncode(data), 200));
       final response = await apiGateway.fetchHostInfo();
 
@@ -2265,7 +2245,7 @@ void main() async {
       expect(response.message, null);
       expect(
         response.data?.toJson(),
-        HostInfo.fromV6(Host.fromJson(data)).toJson(),
+        HostInfo.fromV6(InfoHost.fromJson(data)).toJson(),
       );
     });
   });
@@ -2287,7 +2267,7 @@ void main() async {
                 'max': null,
                 'crit': null,
                 'sensor': 'temp1',
-              }
+              },
             ],
           },
         ],
@@ -2313,10 +2293,7 @@ void main() async {
       final mockClient = MockClient();
       final apiGateway = ApiGatewayV6(server, client: mockClient);
       when(
-        mockClient.get(
-          Uri.parse(url),
-          headers: anyNamed('headers'),
-        ),
+        mockClient.get(Uri.parse(url), headers: anyNamed('headers')),
       ).thenAnswer((_) async => http.Response(jsonEncode(data), 200));
       final response = await apiGateway.fetchSensorsInfo();
 
@@ -2324,7 +2301,7 @@ void main() async {
       expect(response.message, null);
       expect(
         response.data?.toJson(),
-        SensorsInfo.fromV6(Sensors.fromJson(data)).toJson(),
+        SensorsInfo.fromV6(InfoSensors.fromJson(data)).toJson(),
       );
     });
   });
@@ -2417,10 +2394,7 @@ void main() async {
       final mockClient = MockClient();
       final apiGateway = ApiGatewayV6(server, client: mockClient);
       when(
-        mockClient.get(
-          Uri.parse(url),
-          headers: anyNamed('headers'),
-        ),
+        mockClient.get(Uri.parse(url), headers: anyNamed('headers')),
       ).thenAnswer((_) async => http.Response(jsonEncode(data), 200));
       final response = await apiGateway.fetchSystemInfo();
 
@@ -2428,30 +2402,29 @@ void main() async {
       expect(response.message, null);
       expect(
         response.data?.toJson(),
-        SystemInfo.fromV6(System.fromJson(data)).toJson(),
+        SystemInfo.fromV6(InfoSystem.fromJson(data)).toJson(),
       );
     });
 
-    test('should return cpuUsage from percentCpu when provided (FTL v6.1)',
-        () async {
-      final mockClient = MockClient();
-      final apiGateway = ApiGatewayV6(server, client: mockClient);
-      when(
-        mockClient.get(
-          Uri.parse(url),
-          headers: anyNamed('headers'),
-        ),
-      ).thenAnswer((_) async => http.Response(jsonEncode(dataNewV61), 200));
-      final response = await apiGateway.fetchSystemInfo();
+    test(
+      'should return cpuUsage from percentCpu when provided (FTL v6.1)',
+      () async {
+        final mockClient = MockClient();
+        final apiGateway = ApiGatewayV6(server, client: mockClient);
+        when(
+          mockClient.get(Uri.parse(url), headers: anyNamed('headers')),
+        ).thenAnswer((_) async => http.Response(jsonEncode(dataNewV61), 200));
+        final response = await apiGateway.fetchSystemInfo();
 
-      expect(response.result, APiResponseType.success);
-      expect(response.message, null);
-      expect(
-        response.data?.toJson(),
-        SystemInfo.fromV6(System.fromJson(dataNewV61)).toJson(),
-      );
-      expect(response.data?.cpuUsage, 3.3232043958349604);
-    });
+        expect(response.result, APiResponseType.success);
+        expect(response.message, null);
+        expect(
+          response.data?.toJson(),
+          SystemInfo.fromV6(InfoSystem.fromJson(dataNewV61)).toJson(),
+        );
+        expect(response.data?.cpuUsage, 3.3232043958349604);
+      },
+    );
   });
 
   group('fetchAllServerInfo', () {
@@ -2464,10 +2437,7 @@ void main() async {
             'branch': 'master',
             'hash': '9fe687bd',
           },
-          'remote': {
-            'version': 'v6.0.5',
-            'hash': '9fe687bd',
-          },
+          'remote': {'version': 'v6.0.5', 'hash': '9fe687bd'},
         },
         'web': {
           'local': {
@@ -2475,10 +2445,7 @@ void main() async {
             'branch': 'master',
             'hash': '25441178',
           },
-          'remote': {
-            'version': 'v6.0.2',
-            'hash': '25441178',
-          },
+          'remote': {'version': 'v6.0.2', 'hash': '25441178'},
         },
         'ftl': {
           'local': {
@@ -2487,15 +2454,9 @@ void main() async {
             'version': 'v6.0.4',
             'date': '2025-03-04 17:22:10 +0000',
           },
-          'remote': {
-            'version': 'v6.0.4',
-            'hash': 'b7eb53bf',
-          },
+          'remote': {'version': 'v6.0.4', 'hash': 'b7eb53bf'},
         },
-        'docker': {
-          'local': 'null',
-          'remote': 'null',
-        },
+        'docker': {'local': 'null', 'remote': 'null'},
       },
       'took': 0.014363765716552734,
     };
@@ -2541,7 +2502,7 @@ void main() async {
                 'max': null,
                 'crit': null,
                 'sensor': 'temp1',
-              }
+              },
             ],
           },
         ],
@@ -2634,19 +2595,19 @@ void main() async {
       expect(response.message, null);
       expect(
         response.version?.toJson(),
-        VersionInfo.fromV6(Version.fromJson(dataVersion)).toJson(),
+        VersionInfo.fromV6(InfoVersion.fromJson(dataVersion)).toJson(),
       );
       expect(
         response.system?.toJson(),
-        SystemInfo.fromV6(System.fromJson(dataSystem)).toJson(),
+        SystemInfo.fromV6(InfoSystem.fromJson(dataSystem)).toJson(),
       );
       expect(
         response.host?.toJson(),
-        HostInfo.fromV6(Host.fromJson(dataHost)).toJson(),
+        HostInfo.fromV6(InfoHost.fromJson(dataHost)).toJson(),
       );
       expect(
         response.sensors?.toJson(),
-        SensorsInfo.fromV6(Sensors.fromJson(dataSensor)).toJson(),
+        SensorsInfo.fromV6(InfoSensors.fromJson(dataSensor)).toJson(),
       );
     });
 
@@ -2738,7 +2699,7 @@ void main() async {
           'invalid_domains': 0,
           'abp_entries': 0,
           'status': 3,
-        }
+        },
       ],
       'took': 0.012,
     };
@@ -2825,58 +2786,58 @@ void main() async {
     });
 
     test(
-        'should return success when retrieving a specific list with type that matches',
-        () async {
-      final mockClient = MockClient();
-      final apiGateway = ApiGatewayV6(server, client: mockClient);
+      'should return success when retrieving a specific list with type that matches',
+      () async {
+        final mockClient = MockClient();
+        final apiGateway = ApiGatewayV6(server, client: mockClient);
 
-      when(
-        mockClient.get(
-          Uri.parse('http://example.com/api/lists/$address?type=block'),
-          headers: anyNamed('headers'),
-        ),
-      ).thenAnswer((_) async => http.Response(jsonEncode(singleData), 200));
+        when(
+          mockClient.get(
+            Uri.parse('http://example.com/api/lists/$address?type=block'),
+            headers: anyNamed('headers'),
+          ),
+        ).thenAnswer((_) async => http.Response(jsonEncode(singleData), 200));
 
-      final response = await apiGateway.getSubscriptions(
-        url: address,
-        stype: SubscriptionTypes.block,
-      );
+        final response = await apiGateway.getSubscriptions(
+          url: address,
+          stype: SubscriptionTypes.block,
+        );
 
-      expect(response.result, APiResponseType.success);
-      expect(response.message, null);
-      expect(
-        response.data?.toJson(),
-        SubscriptionsInfo.fromV6(Lists.fromJson(singleData)).toJson(),
-      );
-    });
+        expect(response.result, APiResponseType.success);
+        expect(response.message, null);
+        expect(
+          response.data?.toJson(),
+          SubscriptionsInfo.fromV6(Lists.fromJson(singleData)).toJson(),
+        );
+      },
+    );
 
     test(
-        'should return success when retrieving a specific list with type that does not match',
-        () async {
-      final mockClient = MockClient();
-      final apiGateway = ApiGatewayV6(server, client: mockClient);
+      'should return success when retrieving a specific list with type that does not match',
+      () async {
+        final mockClient = MockClient();
+        final apiGateway = ApiGatewayV6(server, client: mockClient);
 
-      when(
-        mockClient.get(
-          Uri.parse('http://example.com/api/lists/$address?type=allow'),
-          headers: anyNamed('headers'),
-        ),
-      ).thenAnswer((_) async => http.Response(jsonEncode(noData), 200));
+        when(
+          mockClient.get(
+            Uri.parse('http://example.com/api/lists/$address?type=allow'),
+            headers: anyNamed('headers'),
+          ),
+        ).thenAnswer((_) async => http.Response(jsonEncode(noData), 200));
 
-      final response = await apiGateway.getSubscriptions(
-        url: address,
-        stype: SubscriptionTypes.allow,
-      );
+        final response = await apiGateway.getSubscriptions(
+          url: address,
+          stype: SubscriptionTypes.allow,
+        );
 
-      expect(response.result, APiResponseType.success);
-      expect(response.message, null);
-      expect(
-        response.data?.toJson(),
-        SubscriptionsInfo.fromV6(
-          Lists.fromJson(noData),
-        ).toJson(),
-      );
-    });
+        expect(response.result, APiResponseType.success);
+        expect(response.message, null);
+        expect(
+          response.data?.toJson(),
+          SubscriptionsInfo.fromV6(Lists.fromJson(noData)).toJson(),
+        );
+      },
+    );
 
     test('should return an error when status code is 401', () async {
       final mockClient = MockClient();
@@ -2942,45 +2903,50 @@ void main() async {
       server.sm.savePassword('xxx123');
     });
 
-    test('should return success when removing a subscription without type',
-        () async {
-      final mockClient = MockClient();
-      final apiGateway = ApiGatewayV6(server, client: mockClient);
+    test(
+      'should return success when removing a subscription without type',
+      () async {
+        final mockClient = MockClient();
+        final apiGateway = ApiGatewayV6(server, client: mockClient);
 
-      when(
-        mockClient.delete(
-          Uri.parse('http://example.com/api/lists/$encodedAddress'),
-          headers: anyNamed('headers'),
-        ),
-      ).thenAnswer((_) async => http.Response('', 204));
+        when(
+          mockClient.delete(
+            Uri.parse('http://example.com/api/lists/$encodedAddress'),
+            headers: anyNamed('headers'),
+          ),
+        ).thenAnswer((_) async => http.Response('', 204));
 
-      final response = await apiGateway.removeSubscription(url: address);
+        final response = await apiGateway.removeSubscription(url: address);
 
-      expect(response.result, APiResponseType.success);
-      expect(response.message, null);
-    });
+        expect(response.result, APiResponseType.success);
+        expect(response.message, null);
+      },
+    );
 
     test(
-        'should return success when removing a subscription with matching type',
-        () async {
-      final mockClient = MockClient();
-      final apiGateway = ApiGatewayV6(server, client: mockClient);
+      'should return success when removing a subscription with matching type',
+      () async {
+        final mockClient = MockClient();
+        final apiGateway = ApiGatewayV6(server, client: mockClient);
 
-      when(
-        mockClient.delete(
-          Uri.parse('http://example.com/api/lists/$encodedAddress?type=block'),
-          headers: anyNamed('headers'),
-        ),
-      ).thenAnswer((_) async => http.Response('', 204));
+        when(
+          mockClient.delete(
+            Uri.parse(
+              'http://example.com/api/lists/$encodedAddress?type=block',
+            ),
+            headers: anyNamed('headers'),
+          ),
+        ).thenAnswer((_) async => http.Response('', 204));
 
-      final response = await apiGateway.removeSubscription(
-        url: address,
-        stype: SubscriptionTypes.block,
-      );
+        final response = await apiGateway.removeSubscription(
+          url: address,
+          stype: SubscriptionTypes.block,
+        );
 
-      expect(response.result, APiResponseType.success);
-      expect(response.message, null);
-    });
+        expect(response.result, APiResponseType.success);
+        expect(response.message, null);
+      },
+    );
 
     test('should return error when status code is 404 (Not Found)', () async {
       final mockClient = MockClient();
@@ -3010,30 +2976,34 @@ void main() async {
         ),
       ).thenAnswer((_) async => http.Response(jsonEncode(badReqData), 400));
 
-      final response =
-          await apiGateway.removeSubscription(url: address, stype: 'xxx');
+      final response = await apiGateway.removeSubscription(
+        url: address,
+        stype: 'xxx',
+      );
 
       expect(response.result, APiResponseType.error);
       expect(response.message, fetchError);
     });
 
-    test('should return error when an unexpected exception is thrown',
-        () async {
-      final mockClient = MockClient();
-      final apiGateway = ApiGatewayV6(server, client: mockClient);
+    test(
+      'should return error when an unexpected exception is thrown',
+      () async {
+        final mockClient = MockClient();
+        final apiGateway = ApiGatewayV6(server, client: mockClient);
 
-      when(
-        mockClient.delete(
-          Uri.parse('http://example.com/api/lists/$encodedAddress'),
-          headers: anyNamed('headers'),
-        ),
-      ).thenThrow(Exception('Unexpected error test'));
+        when(
+          mockClient.delete(
+            Uri.parse('http://example.com/api/lists/$encodedAddress'),
+            headers: anyNamed('headers'),
+          ),
+        ).thenThrow(Exception('Unexpected error test'));
 
-      final response = await apiGateway.removeSubscription(url: address);
+        final response = await apiGateway.removeSubscription(url: address);
 
-      expect(response.result, APiResponseType.error);
-      expect(response.message, unexpectedError);
-    });
+        expect(response.result, APiResponseType.error);
+        expect(response.message, unexpectedError);
+      },
+    );
   });
 
   group('createSubscription', () {
@@ -3054,7 +3024,7 @@ void main() async {
           'invalid_domains': 0,
           'abp_entries': 0,
           'status': 0,
-        }
+        },
       ],
       'processed': {
         'errors': [],
@@ -3106,9 +3076,7 @@ void main() async {
         ),
       ).thenAnswer((_) async => http.Response(jsonEncode(singleData), 201));
 
-      final response = await apiGateway.createSubscription(
-        body: reqData,
-      );
+      final response = await apiGateway.createSubscription(body: reqData);
 
       expect(response.result, APiResponseType.success);
       expect(response.message, null);
@@ -3119,56 +3087,56 @@ void main() async {
     });
 
     test(
-        'should return error when status code is 201 (OK) but the subscription already exists',
-        () async {
-      final mockClient = MockClient();
-      final apiGateway = ApiGatewayV6(server, client: mockClient);
-      const alreadyData = {
-        'lists': [
-          {
-            'address': 'https://hosts-file.net/ad_servers.txt',
-            'comment': 'Some comment for this list',
-            'groups': [0],
-            'enabled': true,
-            'id': 106,
-            'date_added': 1742739018,
-            'date_modified': 1742739030,
-            'type': 'block',
-            'date_updated': 0,
-            'number': 0,
-            'invalid_domains': 0,
-            'abp_entries': 0,
-            'status': 0,
-          }
-        ],
-        'processed': {
-          'errors': [
+      'should return error when status code is 201 (OK) but the subscription already exists',
+      () async {
+        final mockClient = MockClient();
+        final apiGateway = ApiGatewayV6(server, client: mockClient);
+        const alreadyData = {
+          'lists': [
             {
-              'item': 'https://hosts-file.net/ad_servers.txt',
-              'error': 'UNIQUE constraint failed: adlist.address, adlist.type',
+              'address': 'https://hosts-file.net/ad_servers.txt',
+              'comment': 'Some comment for this list',
+              'groups': [0],
+              'enabled': true,
+              'id': 106,
+              'date_added': 1742739018,
+              'date_modified': 1742739030,
+              'type': 'block',
+              'date_updated': 0,
+              'number': 0,
+              'invalid_domains': 0,
+              'abp_entries': 0,
+              'status': 0,
             },
           ],
-          'success': [],
-        },
-        'took': 0.019428014755249023,
-      };
+          'processed': {
+            'errors': [
+              {
+                'item': 'https://hosts-file.net/ad_servers.txt',
+                'error':
+                    'UNIQUE constraint failed: adlist.address, adlist.type',
+              },
+            ],
+            'success': [],
+          },
+          'took': 0.019428014755249023,
+        };
 
-      when(
-        mockClient.post(
-          Uri.parse('http://example.com/api/lists'),
-          headers: anyNamed('headers'),
-          body: anyNamed('body'),
-        ),
-      ).thenAnswer((_) async => http.Response(jsonEncode(alreadyData), 201));
+        when(
+          mockClient.post(
+            Uri.parse('http://example.com/api/lists'),
+            headers: anyNamed('headers'),
+            body: anyNamed('body'),
+          ),
+        ).thenAnswer((_) async => http.Response(jsonEncode(alreadyData), 201));
 
-      final response = await apiGateway.createSubscription(
-        body: reqData,
-      );
+        final response = await apiGateway.createSubscription(body: reqData);
 
-      expect(response.result, APiResponseType.alreadyAdded);
-      expect(response.message, 'Failed to fetch data from the server.');
-      expect(response.data?.toJson(), null);
-    });
+        expect(response.result, APiResponseType.alreadyAdded);
+        expect(response.message, 'Failed to fetch data from the server.');
+        expect(response.data?.toJson(), null);
+      },
+    );
 
     test('should return error when status code is 400 (Bad Request)', () async {
       final mockClient = MockClient();
@@ -3182,34 +3150,34 @@ void main() async {
         ),
       ).thenAnswer((_) async => http.Response(jsonEncode(badReqData), 400));
 
-      final response = await apiGateway.createSubscription(
-        body: reqData,
-      );
+      final response = await apiGateway.createSubscription(body: reqData);
 
       expect(response.result, APiResponseType.error);
       expect(response.message, fetchError);
       expect(response.data?.toJson(), null);
     });
 
-    test('should return error when an unexpected exception is thrown',
-        () async {
-      final mockClient = MockClient();
-      final apiGateway = ApiGatewayV6(server, client: mockClient);
+    test(
+      'should return error when an unexpected exception is thrown',
+      () async {
+        final mockClient = MockClient();
+        final apiGateway = ApiGatewayV6(server, client: mockClient);
 
-      when(
-        mockClient.post(
-          Uri.parse('http://example.com/api/lists'),
-          headers: anyNamed('headers'),
-          body: anyNamed('body'),
-        ),
-      ).thenThrow(Exception('Unexpected error test'));
+        when(
+          mockClient.post(
+            Uri.parse('http://example.com/api/lists'),
+            headers: anyNamed('headers'),
+            body: anyNamed('body'),
+          ),
+        ).thenThrow(Exception('Unexpected error test'));
 
-      final response = await apiGateway.createSubscription(body: reqData);
+        final response = await apiGateway.createSubscription(body: reqData);
 
-      expect(response.result, APiResponseType.error);
-      expect(response.message, unexpectedError);
-      expect(response.data?.toJson(), null);
-    });
+        expect(response.result, APiResponseType.error);
+        expect(response.message, unexpectedError);
+        expect(response.data?.toJson(), null);
+      },
+    );
   });
 
   group('updateSubscription', () {
@@ -3230,7 +3198,7 @@ void main() async {
           'invalid_domains': 0,
           'abp_entries': 0,
           'status': 0,
-        }
+        },
       ],
       'processed': {
         'errors': [],
@@ -3271,30 +3239,30 @@ void main() async {
       server.sm.savePassword('xxx123');
     });
 
-    test('should return success when adding or editing a subscription',
-        () async {
-      final mockClient = MockClient();
-      final apiGateway = ApiGatewayV6(server, client: mockClient);
+    test(
+      'should return success when adding or editing a subscription',
+      () async {
+        final mockClient = MockClient();
+        final apiGateway = ApiGatewayV6(server, client: mockClient);
 
-      when(
-        mockClient.put(
-          Uri.parse('http://example.com/api/lists/$encodedAddress'),
-          headers: anyNamed('headers'),
-          body: anyNamed('body'),
-        ),
-      ).thenAnswer((_) async => http.Response(jsonEncode(singleData), 200));
+        when(
+          mockClient.put(
+            Uri.parse('http://example.com/api/lists/$encodedAddress'),
+            headers: anyNamed('headers'),
+            body: anyNamed('body'),
+          ),
+        ).thenAnswer((_) async => http.Response(jsonEncode(singleData), 200));
 
-      final response = await apiGateway.updateSubscription(
-        body: reqData,
-      );
+        final response = await apiGateway.updateSubscription(body: reqData);
 
-      expect(response.result, APiResponseType.success);
-      expect(response.message, null);
-      expect(
-        response.data?.toJson(),
-        SubscriptionsInfo.fromV6(Lists.fromJson(singleData)).toJson(),
-      );
-    });
+        expect(response.result, APiResponseType.success);
+        expect(response.message, null);
+        expect(
+          response.data?.toJson(),
+          SubscriptionsInfo.fromV6(Lists.fromJson(singleData)).toJson(),
+        );
+      },
+    );
 
     test('should return error when status code is 400 (Bad Request)', () async {
       final mockClient = MockClient();
@@ -3308,34 +3276,34 @@ void main() async {
         ),
       ).thenAnswer((_) async => http.Response(jsonEncode(badReqData), 400));
 
-      final response = await apiGateway.updateSubscription(
-        body: reqData,
-      );
+      final response = await apiGateway.updateSubscription(body: reqData);
 
       expect(response.result, APiResponseType.error);
       expect(response.message, fetchError);
       expect(response.data?.toJson(), null);
     });
 
-    test('should return error when an unexpected exception is thrown',
-        () async {
-      final mockClient = MockClient();
-      final apiGateway = ApiGatewayV6(server, client: mockClient);
+    test(
+      'should return error when an unexpected exception is thrown',
+      () async {
+        final mockClient = MockClient();
+        final apiGateway = ApiGatewayV6(server, client: mockClient);
 
-      when(
-        mockClient.put(
-          Uri.parse('http://example.com/api/lists'),
-          headers: anyNamed('headers'),
-          body: anyNamed('body'),
-        ),
-      ).thenThrow(Exception('Unexpected error test'));
+        when(
+          mockClient.put(
+            Uri.parse('http://example.com/api/lists'),
+            headers: anyNamed('headers'),
+            body: anyNamed('body'),
+          ),
+        ).thenThrow(Exception('Unexpected error test'));
 
-      final response = await apiGateway.updateSubscription(body: reqData);
+        final response = await apiGateway.updateSubscription(body: reqData);
 
-      expect(response.result, APiResponseType.error);
-      expect(response.message, unexpectedError);
-      expect(response.data?.toJson(), null);
-    });
+        expect(response.result, APiResponseType.error);
+        expect(response.message, unexpectedError);
+        expect(response.data?.toJson(), null);
+      },
+    );
   });
 
   group('searchSubscriptions', () {
@@ -3353,7 +3321,7 @@ void main() async {
             'date_added': 1664624500,
             'date_modified': 1664624500,
             'groups': [0, 1, 2],
-          }
+          },
         ],
         'gravity': [
           {
@@ -3372,7 +3340,7 @@ void main() async {
             'abp_entries': 0,
             'status': 1,
             'groups': [0, 1, 2],
-          }
+          },
         ],
         'parameters': {
           'partial': false,
@@ -3407,116 +3375,122 @@ void main() async {
     });
 
     test(
-        'should return success when searching for a subscription by exact domain',
-        () async {
-      final mockClient = MockClient();
-      final apiGateway = ApiGatewayV6(server, client: mockClient);
+      'should return success when searching for a subscription by exact domain',
+      () async {
+        final mockClient = MockClient();
+        final apiGateway = ApiGatewayV6(server, client: mockClient);
 
-      when(
-        mockClient.get(
-          Uri.parse('http://example.com/api/search/$encodedDomain'),
-          headers: anyNamed('headers'),
-        ),
-      ).thenAnswer((_) async => http.Response(jsonEncode(data), 200));
-
-      final response = await apiGateway.searchSubscriptions(domain: domain);
-
-      expect(response.result, APiResponseType.success);
-      expect(response.message, null);
-      expect(
-        response.data?.toJson(),
-        SearchInfo.fromV6(Search.fromJson(data)).toJson(),
-      );
-    });
-
-    test('should return success when searching for a subscription with params',
-        () async {
-      final mockClient = MockClient();
-      final apiGateway = ApiGatewayV6(server, client: mockClient);
-
-      when(
-        mockClient.get(
-          Uri.parse(
-            'http://example.com/api/search/$encodedDomain?partial=true&N=100&debug=true',
+        when(
+          mockClient.get(
+            Uri.parse('http://example.com/api/search/$encodedDomain'),
+            headers: anyNamed('headers'),
           ),
-          headers: anyNamed('headers'),
-        ),
-      ).thenAnswer((_) async => http.Response(jsonEncode(data), 200));
+        ).thenAnswer((_) async => http.Response(jsonEncode(data), 200));
 
-      final response = await apiGateway.searchSubscriptions(
-        domain: domain,
-        partial: true,
-        limit: 100,
-        debug: true,
-      );
+        final response = await apiGateway.searchSubscriptions(domain: domain);
 
-      expect(response.result, APiResponseType.success);
-      expect(response.message, null);
-      expect(
-        response.data?.toJson(),
-        SearchInfo.fromV6(Search.fromJson(data)).toJson(),
-      );
-    });
+        expect(response.result, APiResponseType.success);
+        expect(response.message, null);
+        expect(
+          response.data?.toJson(),
+          SearchInfo.fromV6(Search.fromJson(data)).toJson(),
+        );
+      },
+    );
 
     test(
-        'should return success with empty data when no subscription matches the domain',
-        () async {
-      final mockClient = MockClient();
-      final apiGateway = ApiGatewayV6(server, client: mockClient);
-      const emptyData = {
-        'search': {
-          'domains': [],
-          'gravity': [],
-          'results': {
-            'domains': {'exact': 0, 'regex': 0},
-            'gravity': {'allow': 0, 'block': 0},
-            'total': 0,
+      'should return success when searching for a subscription with params',
+      () async {
+        final mockClient = MockClient();
+        final apiGateway = ApiGatewayV6(server, client: mockClient);
+
+        when(
+          mockClient.get(
+            Uri.parse(
+              'http://example.com/api/search/$encodedDomain?partial=true&N=100&debug=true',
+            ),
+            headers: anyNamed('headers'),
+          ),
+        ).thenAnswer((_) async => http.Response(jsonEncode(data), 200));
+
+        final response = await apiGateway.searchSubscriptions(
+          domain: domain,
+          partial: true,
+          limit: 100,
+          debug: true,
+        );
+
+        expect(response.result, APiResponseType.success);
+        expect(response.message, null);
+        expect(
+          response.data?.toJson(),
+          SearchInfo.fromV6(Search.fromJson(data)).toJson(),
+        );
+      },
+    );
+
+    test(
+      'should return success with empty data when no subscription matches the domain',
+      () async {
+        final mockClient = MockClient();
+        final apiGateway = ApiGatewayV6(server, client: mockClient);
+        const emptyData = {
+          'search': {
+            'domains': [],
+            'gravity': [],
+            'results': {
+              'domains': {'exact': 0, 'regex': 0},
+              'gravity': {'allow': 0, 'block': 0},
+              'total': 0,
+            },
+            'parameters': {
+              'N': 20,
+              'partial': false,
+              'domain': 'doubleclic/sssk.neta',
+              'debug': false,
+            },
           },
-          'parameters': {
-            'N': 20,
-            'partial': false,
-            'domain': 'doubleclic/sssk.neta',
-            'debug': false,
-          },
-        },
-        'took': 0.0039408206939697266,
-      };
+          'took': 0.0039408206939697266,
+        };
 
-      when(
-        mockClient.get(
-          Uri.parse('http://example.com/api/search/$encodedDomain'),
-          headers: anyNamed('headers'),
-        ),
-      ).thenAnswer((_) async => http.Response(jsonEncode(emptyData), 200));
+        when(
+          mockClient.get(
+            Uri.parse('http://example.com/api/search/$encodedDomain'),
+            headers: anyNamed('headers'),
+          ),
+        ).thenAnswer((_) async => http.Response(jsonEncode(emptyData), 200));
 
-      final response = await apiGateway.searchSubscriptions(domain: domain);
+        final response = await apiGateway.searchSubscriptions(domain: domain);
 
-      expect(response.result, APiResponseType.success);
-      expect(response.message, null);
-      expect(
-        response.data?.toJson(),
-        SearchInfo.fromV6(Search.fromJson(emptyData)).toJson(),
-      );
-    });
+        expect(response.result, APiResponseType.success);
+        expect(response.message, null);
+        expect(
+          response.data?.toJson(),
+          SearchInfo.fromV6(Search.fromJson(emptyData)).toJson(),
+        );
+      },
+    );
 
-    test('should return error when status code is 401 (Unauthorized)',
-        () async {
-      final mockClient = MockClient();
-      final apiGateway = ApiGatewayV6(server, client: mockClient);
+    test(
+      'should return error when status code is 401 (Unauthorized)',
+      () async {
+        final mockClient = MockClient();
+        final apiGateway = ApiGatewayV6(server, client: mockClient);
 
-      when(
-        mockClient.get(
-          Uri.parse('http://example.com/api/search/$encodedDomain'),
-          headers: anyNamed('headers'),
-        ),
-      ).thenAnswer((_) async => http.Response(jsonEncode(errorData), 401));
+        when(
+          mockClient.get(
+            Uri.parse('http://example.com/api/search/$encodedDomain'),
+            headers: anyNamed('headers'),
+          ),
+        ).thenAnswer((_) async => http.Response(jsonEncode(errorData), 401));
 
-      final response = await apiGateway.searchSubscriptions(domain: domain);
+        final response = await apiGateway.searchSubscriptions(domain: domain);
 
-      expect(response.result, APiResponseType.error);
-      expect(response.message, fetchError);
-      expect(response.data?.toJson(), null);
-    });
+        expect(response.result, APiResponseType.error);
+        expect(response.message, fetchError);
+        expect(response.data?.toJson(), null);
+      },
+    );
 
     test('should return an error when an unexpected error occurs', () async {
       final mockClient = MockClient();
@@ -3556,7 +3530,7 @@ void main() async {
           'id': 5,
           'date_added': 1604871899,
           'date_modified': 1604871899,
-        }
+        },
       ],
       'took': 0.003,
     };
@@ -3706,34 +3680,35 @@ void main() async {
     });
 
     test(
-        'should emit progress and success when response is 200 with stream data',
-        () async {
-      final mockClient = MockClient();
+      'should emit progress and success when response is 200 with stream data',
+      () async {
+        final mockClient = MockClient();
 
-      final bodyStream = Stream<List<int>>.fromIterable([
-        utf8.encode('Line 1\nLine 2\n'),
-        utf8.encode('Line 3\n'),
-      ]);
+        final bodyStream = Stream<List<int>>.fromIterable([
+          utf8.encode('Line 1\nLine 2\n'),
+          utf8.encode('Line 3\n'),
+        ]);
 
-      final mockResponse = http.StreamedResponse(bodyStream, 200);
-      final apiGateway = ApiGatewayV6(server, client: mockClient);
+        final mockResponse = http.StreamedResponse(bodyStream, 200);
+        final apiGateway = ApiGatewayV6(server, client: mockClient);
 
-      when(mockClient.send(any)).thenAnswer((_) async => mockResponse);
+        when(mockClient.send(any)).thenAnswer((_) async => mockResponse);
 
-      final responses = <GravityResponse>[];
+        final responses = <GravityResponse>[];
 
-      await for (final res in apiGateway.updateGravity()) {
-        responses.add(res);
-      }
+        await for (final res in apiGateway.updateGravity()) {
+          responses.add(res);
+        }
 
-      expect(responses.length, 3); // progress + success
-      expect(responses[0].data, ['Line 1', 'Line 2']);
-      expect(responses[0].result, APiResponseType.progress);
-      expect(responses[1].data, ['Line 3']);
-      expect(responses[1].result, APiResponseType.progress);
-      expect(responses[2].data, null);
-      expect(responses[2].result, APiResponseType.success);
-    });
+        expect(responses.length, 3); // progress + success
+        expect(responses[0].data, ['Line 1', 'Line 2']);
+        expect(responses[0].result, APiResponseType.progress);
+        expect(responses[1].data, ['Line 3']);
+        expect(responses[1].result, APiResponseType.progress);
+        expect(responses[2].data, null);
+        expect(responses[2].result, APiResponseType.success);
+      },
+    );
 
     test('should emit error when status code is not 200', () async {
       final mockClient = MockClient();
@@ -3796,7 +3771,7 @@ void main() async {
           'plain': 'Rate-limiting 192.168.2.42 for at least 5 seconds',
           'html':
               'Client <code>192.168.2.42</code> has been rate-limited for at least 5 seconds (current limit: 1000 queries per 60 seconds)',
-        }
+        },
       ],
       'took': 0.0005114078521728516,
     };
@@ -3834,7 +3809,7 @@ void main() async {
       expect(response.message, null);
       expect(
         response.data?.toJson(),
-        MessagesInfo.fromV6(Messages.fromJson(data)).toJson(),
+        MessagesInfo.fromV6(InfoMessages.fromJson(data)).toJson(),
       );
     });
 
@@ -3855,7 +3830,7 @@ void main() async {
       expect(response.message, null);
       expect(
         response.data?.toJson(),
-        MessagesInfo.fromV6(Messages.fromJson(noData)).toJson(),
+        MessagesInfo.fromV6(InfoMessages.fromJson(noData)).toJson(),
       );
     });
 
@@ -4026,7 +4001,7 @@ void main() async {
                 'type': 48,
                 'name': 'DNSKEY',
                 'count': {'valid': 1, 'stale': 0},
-              }
+              },
             ],
           },
           'replies': {
@@ -4093,7 +4068,7 @@ void main() async {
       expect(response.message, null);
       expect(
         response.data?.toJson(),
-        MetricsInfo.fromV6(Metrics.fromJson(data)).toJson(),
+        MetricsInfo.fromV6(InfoMetrics.fromJson(data)).toJson(),
       );
     });
 
@@ -4149,7 +4124,7 @@ void main() async {
           'interface': 'eth0',
           'address': 'fe80::3587:2fff:f11a:1',
           'local': ['fe80::3587:2fff:f11a:4321'],
-        }
+        },
       ],
       'took': 0.003,
     };
@@ -4160,7 +4135,7 @@ void main() async {
           'interface': 'eth0',
           'address': '192.168.0.1',
           'local': ['192.168.0.22'],
-        }
+        },
       ],
       'routes': [
         {
@@ -4444,7 +4419,7 @@ void main() async {
           'error': 0,
           'used': 0,
           'pref': 0,
-        }
+        },
       ],
       'interfaces': [
         {
@@ -4533,7 +4508,7 @@ void main() async {
               'valid': 4294967295,
               'cstamp': 1745897376.65,
               'tstamp': 1745897376.65,
-            }
+            },
           ],
         },
         {
@@ -4628,7 +4603,7 @@ void main() async {
               'cstamp': 1745897382.89,
               'tstamp': 1745897382.89,
               'unknown': [11],
-            }
+            },
           ],
         },
         {
@@ -4721,7 +4696,7 @@ void main() async {
               'cstamp': 1745897443.92,
               'tstamp': 1745897443.92,
               'unknown': [11],
-            }
+            },
           ],
         },
         {
@@ -4800,9 +4775,9 @@ void main() async {
               'valid': 4294967295,
               'cstamp': 1745897381.93,
               'tstamp': 1745897381.93,
-            }
+            },
           ],
-        }
+        },
       ],
       'took': 0.003313302993774414,
     };
@@ -4920,7 +4895,7 @@ void main() async {
               'name': 'ubuntu-server',
               'lastSeen': 1664688620,
               'nameUpdated': 1664688620,
-            }
+            },
           ],
         },
         {
@@ -4943,16 +4918,13 @@ void main() async {
               'name': null,
               'lastSeen': 1664488620,
               'nameUpdated': 1654488620,
-            }
+            },
           ],
-        }
+        },
       ],
       'took': 0.003,
     };
-    const emptyData = {
-      'devices': [],
-      'took': 0.003,
-    };
+    const emptyData = {'devices': [], 'took': 0.003};
     const erroData = {
       'error': {'key': 'unauthorized', 'message': 'Unauthorized', 'hint': null},
       'took': 0.003,
@@ -5028,8 +5000,10 @@ void main() async {
         ),
       ).thenAnswer((_) async => http.Response(jsonEncode(data), 200));
 
-      final response =
-          await apiGateway.getDevices(maxDevices: 10, maxAddresses: 2);
+      final response = await apiGateway.getDevices(
+        maxDevices: 10,
+        maxAddresses: 2,
+      );
 
       expect(response.result, APiResponseType.success);
       expect(response.message, null);
@@ -5420,8 +5394,9 @@ void main() async {
         ),
       ).thenAnswer((_) async => http.Response(jsonEncode(dataPart), 200));
 
-      final response =
-          await apiGateway.getConfiguration(element: 'dns/queryLogging');
+      final response = await apiGateway.getConfiguration(
+        element: 'dns/queryLogging',
+      );
 
       expect(response.result, APiResponseType.success);
       expect(response.message, null);
@@ -5685,10 +5660,7 @@ void main() async {
 
       expect(response.result, APiResponseType.success);
       expect(response.message, null);
-      expect(
-        response.data,
-        Action.fromJson(data).status,
-      );
+      expect(response.data, Action.fromJson(data).status);
     });
 
     test('should return an error when status code is 401', () async {
@@ -5763,10 +5735,7 @@ void main() async {
 
       expect(response.result, APiResponseType.success);
       expect(response.message, null);
-      expect(
-        response.data,
-        Action.fromJson(data).status,
-      );
+      expect(response.data, Action.fromJson(data).status);
     });
 
     test('should return an error when status code is 401', () async {
@@ -5841,10 +5810,7 @@ void main() async {
 
       expect(response.result, APiResponseType.success);
       expect(response.message, null);
-      expect(
-        response.data,
-        Action.fromJson(data).status,
-      );
+      expect(response.data, Action.fromJson(data).status);
     });
 
     test('should return an error when status code is 401', () async {
@@ -6150,7 +6116,7 @@ void main() async {
       expect(response.message, null);
       expect(
         response.data?.toJson(),
-        ClientInfo.fromV6(Client.fromJson(data)).toJson(),
+        ClientInfo.fromV6(InfoClient.fromJson(data)).toJson(),
       );
     });
 
@@ -6282,11 +6248,7 @@ void main() async {
   group('deleteDhcp', () {
     late Server server;
     const erroData400 = {
-      'error': {
-        'key': 'uri_error',
-        'message': 'No ip in URI',
-        'hint': null,
-      },
+      'error': {'key': 'uri_error', 'message': 'No ip in URI', 'hint': null},
       'took': 0.003,
     };
     const erroData = {
