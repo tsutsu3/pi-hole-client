@@ -4,7 +4,7 @@ import 'package:package_info_plus/package_info_plus.dart';
 import 'package:pi_hole_client/domain/models_old/database.dart';
 import 'package:pi_hole_client/ui/core/viewmodel/app_config_provider.dart';
 
-import '../../../testing/fakes/repositories/local/fake_app_config_repository.dart.dart';
+import '../../../testing/fakes/repositories/local/fake_app_config_repository.dart';
 
 void main() {
   TestWidgetsFlutterBinding.ensureInitialized();
