@@ -95,22 +95,24 @@ void main() {
       expect(repository.appConfig.getOrNull()?.toDict(), appConfigMap);
     });
 
-    test('loads and caches config when passcode is set in secure storage',
-        () async {
-      await ssSerivce.saveValue('passCode', '1234');
+    test(
+      'loads and caches config when passcode is set in secure storage',
+      () async {
+        await ssSerivce.saveValue('passCode', '1234');
 
-      final result = await repository.fetchAppConfig();
-      expect(result.isSuccess(), true);
-      expect(result.getOrNull()?.toDict(), {
-        ...appConfigMap,
-        'passCode': '1234',
-      });
-      expect(repository.appConfig.isSuccess(), true);
-      expect(repository.appConfig.getOrNull()?.toDict(), {
-        ...appConfigMap,
-        'passCode': '1234',
-      });
-    });
+        final result = await repository.fetchAppConfig();
+        expect(result.isSuccess(), true);
+        expect(result.getOrNull()?.toDict(), {
+          ...appConfigMap,
+          'passCode': '1234',
+        });
+        expect(repository.appConfig.isSuccess(), true);
+        expect(repository.appConfig.getOrNull()?.toDict(), {
+          ...appConfigMap,
+          'passCode': '1234',
+        });
+      },
+    );
 
     test('returns Failure when database read fails', () async {
       dbService.shouldFailRawQuery = true;
@@ -125,7 +127,7 @@ void main() {
     });
   });
 
-  group('AppConfigRepository.updateConfigValue', () {
+  group('AppConfigRepository.updateMethods', () {
     late AppConfigRepository repository;
     late FakeDatabaseService dbService;
     late FakeSecureStorageService ssSerivce;
@@ -151,13 +153,90 @@ void main() {
       expect(data.getOrNull()?.autoRefreshTime, 10);
     });
 
+    test('updates theme in database', () async {
+      final result = await repository.updateTheme(1);
+      expect(result.isSuccess(), true);
+      final data = await repository.fetchAppConfig();
+      expect(data.isSuccess(), true);
+      expect(data.getOrNull()?.theme, 1);
+    });
+
+    test('updates language in database', () async {
+      final result = await repository.updateLanguage('ja');
+      expect(result.isSuccess(), true);
+      final data = await repository.fetchAppConfig();
+      expect(data.isSuccess(), true);
+      expect(data.getOrNull()?.language, 'ja');
+    });
+
+    test('updates reducedDataCharts in database', () async {
+      final result = await repository.updateReducedDataCharts(true);
+      expect(result.isSuccess(), true);
+      final data = await repository.fetchAppConfig();
+      expect(data.isSuccess(), true);
+      expect(data.getOrNull()?.reducedDataCharts, 1);
+    });
+
+    test('updates logsPerQuery in database', () async {
+      final result = await repository.updateLogsPerQuery(0.5);
+      expect(result.isSuccess(), true);
+      final data = await repository.fetchAppConfig();
+      expect(data.isSuccess(), true);
+      expect(data.getOrNull()?.logsPerQuery, 0.5);
+    });
+
+    test('updates useBiometricAuth in database', () async {
+      final result = await repository.updateUseBiometricAuth(true);
+      expect(result.isSuccess(), true);
+      final data = await repository.fetchAppConfig();
+      expect(data.isSuccess(), true);
+      expect(data.getOrNull()?.useBiometricAuth, 1);
+    });
+
+    test('updates importantInfoReaden in database', () async {
+      final result = await repository.updateImportantInfoReaden(true);
+      expect(result.isSuccess(), true);
+      final data = await repository.fetchAppConfig();
+      expect(data.isSuccess(), true);
+      expect(data.getOrNull()?.importantInfoReaden, 1);
+    });
+
+    test('updates hideZeroValues in database', () async {
+      final result = await repository.updateHideZeroValues(true);
+      expect(result.isSuccess(), true);
+      final data = await repository.fetchAppConfig();
+      expect(data.isSuccess(), true);
+      expect(data.getOrNull()?.hideZeroValues, 1);
+    });
+
+    test('updates loadingAnimation in database', () async {
+      final result = await repository.updateLoadingAnimation(true);
+      expect(result.isSuccess(), true);
+      final data = await repository.fetchAppConfig();
+      expect(data.isSuccess(), true);
+      expect(data.getOrNull()?.loadingAnimation, 1);
+    });
+
+    test('updates statisticsVisualizationMode in database', () async {
+      final result = await repository.updateStatisticsVisualizationMode(1);
+      expect(result.isSuccess(), true);
+      final data = await repository.fetchAppConfig();
+      expect(data.isSuccess(), true);
+      expect(data.getOrNull()?.statisticsVisualizationMode, 1);
+    });
+
+    test('updates sendCrashReports in database', () async {
+      final result = await repository.updateSendCrashReports(true);
+      expect(result.isSuccess(), true);
+      final data = await repository.fetchAppConfig();
+      expect(data.isSuccess(), true);
+      expect(data.getOrNull()?.sendCrashReports, 1);
+    });
+
     test('updates passCode in secure storage', () async {
       final result = await repository.updatePassCode('1234');
       expect(result.isSuccess(), true);
-      expect(
-        await ssSerivce.getValue('passCode').getOrNull(),
-        '1234',
-      );
+      expect(await ssSerivce.getValue('passCode').getOrNull(), '1234');
     });
 
     test('deletes passCode from secure storage when value is null', () async {
@@ -165,10 +244,7 @@ void main() {
 
       final result = await repository.updatePassCode(null);
       expect(result.isSuccess(), true);
-      expect(
-        await ssSerivce.getValue('passCode').isError(),
-        true,
-      );
+      expect(await ssSerivce.getValue('passCode').isError(), true);
     });
 
     test('returns Failure when unexpected error', () async {
@@ -211,10 +287,7 @@ void main() {
       final data = await repository.fetchAppConfig();
       expect(data.isSuccess(), true);
       expect(data.getOrNull()?.toDict(), appConfigMap);
-      expect(
-        await ssSerivce.getValue('passCode').isError(),
-        true,
-      );
+      expect(await ssSerivce.getValue('passCode').isError(), true);
     });
 
     test('returns Failure when unexpected error', () async {
