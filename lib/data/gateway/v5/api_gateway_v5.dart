@@ -111,7 +111,7 @@ class ApiGatewayV5 implements ApiGateway {
   @override
   Future<LoginQueryResponse> loginQuery({bool refresh = false}) async {
     try {
-      final token = await _server.sm.token.getOrNull();
+      final token = (await _server.sm.token).getOrNull();
       final status = await httpClient(
         method: 'get',
         url: '${_server.address}/admin/api.php?auth=$token&summaryRaw',
@@ -478,7 +478,7 @@ class ApiGatewayV5 implements ApiGateway {
     Map<String, String>? headers;
 
     try {
-      final token = await _server.sm.token.getOrNull();
+      final token = (await _server.sm.token).getOrNull();
       final results = await Future.wait([
         httpClient(
           method: 'get',

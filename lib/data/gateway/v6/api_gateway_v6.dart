@@ -304,7 +304,7 @@ class ApiGatewayV6 implements ApiGateway {
       final status = await httpClient(
         method: 'post',
         url: '${_server.address}/api/auth',
-        body: {'password': await _server.sm.password.getOrNull()},
+        body: {'password': (await _server.sm.password).getOrThrow()},
         maxRetries: 0,
       );
 
