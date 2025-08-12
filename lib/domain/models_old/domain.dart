@@ -1,6 +1,5 @@
 import 'package:pi_hole_client/config/enums.dart';
-import 'package:pi_hole_client/data/services/api/model/v6/domains/domains.dart'
-    as v6;
+import 'package:pi_hole_client/data/model/v6/domains/domains.dart' as v6;
 
 class DomainRequest {
   DomainRequest({
@@ -13,17 +12,17 @@ class DomainRequest {
   });
 
   factory DomainRequest.fromJson(Map<String, dynamic> json) => DomainRequest(
-        domain: json['domain'],
-        type: DomainType.values.firstWhere(
-          (e) => e.name == _getTypeAndKind(json['type'])!['type'],
-        ),
-        kind: DomainKind.values.firstWhere(
-          (e) => e.name == _getTypeAndKind(json['type'])!['kind'],
-        ),
-        enabled: json['enabled'] == 1 ? true : false,
-        groups: List<int>.from(json['groups'].map((x) => x)),
-        comment: json['comment'],
-      );
+    domain: json['domain'],
+    type: DomainType.values.firstWhere(
+      (e) => e.name == _getTypeAndKind(json['type'])!['type'],
+    ),
+    kind: DomainKind.values.firstWhere(
+      (e) => e.name == _getTypeAndKind(json['type'])!['kind'],
+    ),
+    enabled: json['enabled'] == 1 ? true : false,
+    groups: List<int>.from(json['groups'].map((x) => x)),
+    comment: json['comment'],
+  );
 
   String domain;
   DomainType type;
@@ -56,13 +55,13 @@ class DomainRequest {
   }
 
   Map<String, dynamic> toJson() => {
-        'domain': domain,
-        'type': type.name,
-        'kind': kind.name,
-        'enabled': enabled,
-        'comment': comment,
-        'groups': groups,
-      };
+    'domain': domain,
+    'type': type.name,
+    'kind': kind.name,
+    'enabled': enabled,
+    'comment': comment,
+    'groups': groups,
+  };
 }
 
 class Domain {
@@ -91,25 +90,26 @@ class Domain {
       domain: domain.domain,
       enabled: domain.enabled ? 1 : 0,
       dateAdded: DateTime.fromMillisecondsSinceEpoch(domain.dateAdded * 1000),
-      dateModified:
-          DateTime.fromMillisecondsSinceEpoch(domain.dateModified * 1000),
+      dateModified: DateTime.fromMillisecondsSinceEpoch(
+        domain.dateModified * 1000,
+      ),
       comment: domain.comment,
       groups: domain.groups,
     );
   }
 
   factory Domain.fromJson(Map<String, dynamic> json) => Domain(
-        id: json['id'],
-        type: json['type'],
-        domain: json['domain'],
-        enabled: json['enabled'],
-        dateAdded:
-            DateTime.fromMillisecondsSinceEpoch(json['date_added'] * 1000),
-        dateModified:
-            DateTime.fromMillisecondsSinceEpoch(json['date_modified'] * 1000),
-        comment: json['comment'],
-        groups: List<int>.from(json['groups'].map((x) => x)),
-      );
+    id: json['id'],
+    type: json['type'],
+    domain: json['domain'],
+    enabled: json['enabled'],
+    dateAdded: DateTime.fromMillisecondsSinceEpoch(json['date_added'] * 1000),
+    dateModified: DateTime.fromMillisecondsSinceEpoch(
+      json['date_modified'] * 1000,
+    ),
+    comment: json['comment'],
+    groups: List<int>.from(json['groups'].map((x) => x)),
+  );
 
   int id;
   int type;
@@ -121,15 +121,15 @@ class Domain {
   List<int> groups;
 
   Map<String, dynamic> toJson() => {
-        'id': id,
-        'type': type,
-        'domain': domain,
-        'enabled': enabled,
-        'date_added': dateAdded,
-        'date_modified': dateModified,
-        'comment': comment,
-        'groups': groups,
-      };
+    'id': id,
+    'type': type,
+    'domain': domain,
+    'enabled': enabled,
+    'date_added': dateAdded,
+    'date_modified': dateModified,
+    'comment': comment,
+    'groups': groups,
+  };
 
   Domain copyWith({
     int? id,

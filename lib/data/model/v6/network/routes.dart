@@ -1,5 +1,5 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
-import 'package:pi_hole_client/data/services/api/model/v6/network/common.dart';
+import 'package:pi_hole_client/data/model/v6/network/common.dart';
 
 part 'routes.freezed.dart';
 part 'routes.g.dart';

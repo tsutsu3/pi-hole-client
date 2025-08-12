@@ -4,50 +4,33 @@ import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:http/io_client.dart';
 import 'package:pi_hole_client/config/enums.dart';
-import 'package:pi_hole_client/data/services/api/model/v6/action/action.dart'
-    show Action;
-import 'package:pi_hole_client/data/services/api/model/v6/auth/auth.dart'
-    show Session;
-import 'package:pi_hole_client/data/services/api/model/v6/auth/sessions.dart'
+import 'package:pi_hole_client/data/model/v6/action/action.dart' show Action;
+import 'package:pi_hole_client/data/model/v6/auth/auth.dart' show Session;
+import 'package:pi_hole_client/data/model/v6/auth/sessions.dart'
     show AuthSessions;
-import 'package:pi_hole_client/data/services/api/model/v6/config/config.dart'
+import 'package:pi_hole_client/data/model/v6/config/config.dart'
     show Config, ConfigData;
-import 'package:pi_hole_client/data/services/api/model/v6/dhcp/dhcp.dart'
-    show Dhcp;
-import 'package:pi_hole_client/data/services/api/model/v6/dns/dns.dart'
-    show Blocking;
-import 'package:pi_hole_client/data/services/api/model/v6/domains/domains.dart'
-    show Domains;
-import 'package:pi_hole_client/data/services/api/model/v6/ftl/client.dart'
-    show InfoClient;
-import 'package:pi_hole_client/data/services/api/model/v6/ftl/ftl.dart'
-    show InfoFtl;
-import 'package:pi_hole_client/data/services/api/model/v6/ftl/host.dart'
-    show InfoHost;
-import 'package:pi_hole_client/data/services/api/model/v6/ftl/messages.dart'
+import 'package:pi_hole_client/data/model/v6/dhcp/dhcp.dart' show Dhcp;
+import 'package:pi_hole_client/data/model/v6/dns/dns.dart' show Blocking;
+import 'package:pi_hole_client/data/model/v6/domains/domains.dart' show Domains;
+import 'package:pi_hole_client/data/model/v6/ftl/client.dart' show InfoClient;
+import 'package:pi_hole_client/data/model/v6/ftl/ftl.dart' show InfoFtl;
+import 'package:pi_hole_client/data/model/v6/ftl/host.dart' show InfoHost;
+import 'package:pi_hole_client/data/model/v6/ftl/messages.dart'
     show InfoMessages;
-import 'package:pi_hole_client/data/services/api/model/v6/ftl/metrics.dart'
-    show InfoMetrics;
-import 'package:pi_hole_client/data/services/api/model/v6/ftl/sensors.dart'
-    show InfoSensors;
-import 'package:pi_hole_client/data/services/api/model/v6/ftl/system.dart'
-    show InfoSystem;
-import 'package:pi_hole_client/data/services/api/model/v6/ftl/version.dart'
-    show InfoVersion;
-import 'package:pi_hole_client/data/services/api/model/v6/groups/groups.dart'
-    show Groups;
-import 'package:pi_hole_client/data/services/api/model/v6/lists/lists.dart'
-    show Lists;
-import 'package:pi_hole_client/data/services/api/model/v6/metrics/history.dart'
+import 'package:pi_hole_client/data/model/v6/ftl/metrics.dart' show InfoMetrics;
+import 'package:pi_hole_client/data/model/v6/ftl/sensors.dart' show InfoSensors;
+import 'package:pi_hole_client/data/model/v6/ftl/system.dart' show InfoSystem;
+import 'package:pi_hole_client/data/model/v6/ftl/version.dart' show InfoVersion;
+import 'package:pi_hole_client/data/model/v6/groups/groups.dart' show Groups;
+import 'package:pi_hole_client/data/model/v6/lists/lists.dart' show Lists;
+import 'package:pi_hole_client/data/model/v6/metrics/history.dart'
     show History, HistoryClients;
-import 'package:pi_hole_client/data/services/api/model/v6/metrics/query.dart'
-    show Queries;
-import 'package:pi_hole_client/data/services/api/model/v6/metrics/stats.dart'
+import 'package:pi_hole_client/data/model/v6/metrics/query.dart' show Queries;
+import 'package:pi_hole_client/data/model/v6/metrics/stats.dart'
     show StatsSummary, StatsTopClients, StatsTopDomains, StatsUpstreams;
-import 'package:pi_hole_client/data/services/api/model/v6/network/devices.dart'
-    show Devices;
-import 'package:pi_hole_client/data/services/api/model/v6/network/gateway.dart'
-    show Gateway;
+import 'package:pi_hole_client/data/model/v6/network/devices.dart' show Devices;
+import 'package:pi_hole_client/data/model/v6/network/gateway.dart' show Gateway;
 import 'package:pi_hole_client/data/services/utils/exceptions.dart';
 import 'package:pi_hole_client/data/services/utils/safe_api_call.dart';
 import 'package:pi_hole_client/utils/misc.dart';
@@ -58,13 +41,12 @@ class PiholeV6ApiClient {
     required String url,
     http.Client? client,
     bool? allowSelfSignedCert,
-  })  : _url = url,
-        _client = client ??
-            IOClient(
-              createHttpClient(
-                allowSelfSignedCert: allowSelfSignedCert ?? true,
-              ),
-            );
+  }) : _url = url,
+       _client =
+           client ??
+           IOClient(
+             createHttpClient(allowSelfSignedCert: allowSelfSignedCert ?? true),
+           );
 
   final String _url;
   final http.Client _client;
@@ -76,9 +58,7 @@ class PiholeV6ApiClient {
   // ==========================================================================
   // Authentication
   // ==========================================================================
-  Future<Result<Session>> postAuth({
-    required String password,
-  }) async {
+  Future<Result<Session>> postAuth({required String password}) async {
     return safeApiCall<Session>(() async {
       final resp = await _sendRequest(
         method: HttpMethod.post,
@@ -126,10 +106,7 @@ class PiholeV6ApiClient {
     });
   }
 
-  Future<Result<Unit>> deleteAuthSession(
-    String sid, {
-    required int id,
-  }) async {
+  Future<Result<Unit>> deleteAuthSession(String sid, {required int id}) async {
     return safeApiCall<Unit>(() async {
       final resp = await _sendRequest(
         method: HttpMethod.delete,
@@ -354,8 +331,9 @@ class PiholeV6ApiClient {
       if (domain != null) Uri.encodeComponent(domain),
     ]);
 
-    final path =
-        pathString.isNotEmpty ? '/api/domains/$pathString' : '/api/domains';
+    final path = pathString.isNotEmpty
+        ? '/api/domains/$pathString'
+        : '/api/domains';
 
     return safeApiCall<Domains>(() async {
       final resp = await _sendRequest(
@@ -472,8 +450,9 @@ class PiholeV6ApiClient {
       if (type != null) 'type': type.name,
     });
 
-    final tmpPath =
-        pathString.isEmpty ? '/api/lists' : '/api/lists/$pathString';
+    final tmpPath = pathString.isEmpty
+        ? '/api/lists'
+        : '/api/lists/$pathString';
 
     final path = queryString.isEmpty ? tmpPath : '$tmpPath?$queryString';
 
@@ -530,9 +509,7 @@ class PiholeV6ApiClient {
     String? comment = '',
     bool? enabled = true,
   }) async {
-    final queryString = _buildQueryString({
-      'type': type.name,
-    });
+    final queryString = _buildQueryString({'type': type.name});
 
     final tmpPath = '/api/lists/${Uri.encodeComponent(adlist)}';
 
@@ -874,8 +851,9 @@ class PiholeV6ApiClient {
             rawLines.removeLast();
           }
 
-          final trimmedLines =
-              rawLines.map((line) => line.trimRight()).toList();
+          final trimmedLines = rawLines
+              .map((line) => line.trimRight())
+              .toList();
 
           if (trimmedLines.isNotEmpty) {
             yield trimmedLines;
@@ -924,8 +902,9 @@ class PiholeV6ApiClient {
         if (isDetailed != null) 'detailed': isDetailed.toString(),
       });
 
-      final tmp =
-          pathString.isEmpty ? '/api/config' : '/api/config/$pathString';
+      final tmp = pathString.isEmpty
+          ? '/api/config'
+          : '/api/config/$pathString';
 
       final path = queryString.isEmpty ? tmp : '$tmp?$queryString';
 

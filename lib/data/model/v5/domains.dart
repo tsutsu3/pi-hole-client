@@ -1,5 +1,5 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
-import 'package:pi_hole_client/data/services/api/model/v5/json_converter.dart';
+import 'package:pi_hole_client/data/model/v5/json_converter.dart';
 
 part 'domains.freezed.dart';
 part 'domains.g.dart';
@@ -33,10 +33,8 @@ sealed class Domain with _$Domain {
 
 @freezed
 sealed class DomainResponse with _$DomainResponse {
-  const factory DomainResponse({
-    required bool success,
-    String? message,
-  }) = _DomainResponse;
+  const factory DomainResponse({required bool success, String? message}) =
+      _DomainResponse;
 
   factory DomainResponse.fromJson(Map<String, dynamic> json) =>
       _$DomainResponseFromJson(json);

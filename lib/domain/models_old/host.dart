@@ -1,4 +1,4 @@
-import 'package:pi_hole_client/data/services/api/model/v6/ftl/host.dart';
+import 'package:pi_hole_client/data/model/v6/ftl/host.dart';
 
 class HostInfo {
   HostInfo({
@@ -32,12 +32,12 @@ class HostInfo {
   final String? model;
 
   Map<String, dynamic> toJson() => {
-        'domainName': domainName,
-        'arch': arch,
-        'hostName': hostName,
-        'release': release,
-        'sysName': sysName,
-        'version': version,
-        'model': model,
-      };
+    'domainName': domainName,
+    'arch': arch,
+    'hostName': hostName,
+    'release': release,
+    'sysName': sysName,
+    'version': version,
+    'model': model,
+  };
 }

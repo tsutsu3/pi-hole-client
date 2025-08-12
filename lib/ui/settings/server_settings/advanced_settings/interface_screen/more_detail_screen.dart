@@ -1,14 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:pi_hole_client/data/services/api/model/v6/network/interfaces.dart';
+import 'package:pi_hole_client/data/model/v6/network/interfaces.dart';
 import 'package:pi_hole_client/ui/core/l10n/generated/app_localizations.dart';
 import 'package:pi_hole_client/ui/core/ui/components/custom_list_tile.dart';
 import 'package:pi_hole_client/ui/core/ui/components/section_label.dart';
 
 class MoreDetailsScreen extends StatelessWidget {
-  const MoreDetailsScreen({
-    required this.interfaceData,
-    super.key,
-  });
+  const MoreDetailsScreen({required this.interfaceData, super.key});
 
   final InterfaceData interfaceData;
 
@@ -17,9 +14,7 @@ class MoreDetailsScreen extends StatelessWidget {
     final locale = AppLocalizations.of(context)!;
 
     return Scaffold(
-      appBar: AppBar(
-        title: Text(locale.moreDetails),
-      ),
+      appBar: AppBar(title: Text(locale.moreDetails)),
       body: ListView(
         padding: const EdgeInsets.all(16.0),
         children: [
@@ -27,8 +22,9 @@ class MoreDetailsScreen extends StatelessWidget {
           CustomListTile(
             leadingIcon: Icons.link_rounded,
             label: locale.carrier,
-            description:
-                interfaceData.carrier ? locale.connected : locale.disconnected,
+            description: interfaceData.carrier
+                ? locale.connected
+                : locale.disconnected,
           ),
           CustomListTile(
             leadingIcon: Icons.dns_rounded,

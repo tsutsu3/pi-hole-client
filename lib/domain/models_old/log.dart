@@ -1,5 +1,5 @@
 import 'package:pi_hole_client/config/query_types.dart';
-import 'package:pi_hole_client/data/services/api/model/v6/metrics/query.dart';
+import 'package:pi_hole_client/data/model/v6/metrics/query.dart';
 
 class LogsInfo {
   const LogsInfo({
@@ -10,17 +10,17 @@ class LogsInfo {
   });
 
   factory LogsInfo.fromJson(Map<String, dynamic> json) => LogsInfo(
-        logs: (json['data'] as List<dynamic>)
-            .map((log) => Log.fromJson(log as List<dynamic>))
-            .toList(),
-      );
+    logs: (json['data'] as List<dynamic>)
+        .map((log) => Log.fromJson(log as List<dynamic>))
+        .toList(),
+  );
 
   factory LogsInfo.fromV6(Queries queries) => LogsInfo(
-        logs: queries.queries.map(Log.fromV6).toList(),
-        cursor: queries.cursor,
-        recordsTotal: queries.recordsTotal,
-        recordsFiltered: queries.recordsFiltered,
-      );
+    logs: queries.queries.map(Log.fromV6).toList(),
+    cursor: queries.cursor,
+    recordsTotal: queries.recordsTotal,
+    recordsFiltered: queries.recordsFiltered,
+  );
 
   final List<Log> logs;
   final int? cursor;
@@ -42,27 +42,27 @@ class Log {
   });
 
   factory Log.fromJson(List<dynamic> data) => Log(
-        dateTime:
-            DateTime.fromMillisecondsSinceEpoch((int.parse(data[0])) * 1000),
-        type: data[1],
-        url: data[2],
-        device: data[3],
-        status: data[4],
-        replyType: data[6] != null ? replyTypes[int.parse(data[6])] : null,
-        replyTime: BigInt.parse(data[7]),
-        answeredBy: data[4] == '2'
-            ? data.length >= 10
-                ? data[10]
-                : null
-            : null,
-      );
+    dateTime: DateTime.fromMillisecondsSinceEpoch((int.parse(data[0])) * 1000),
+    type: data[1],
+    url: data[2],
+    device: data[3],
+    status: data[4],
+    replyType: data[6] != null ? replyTypes[int.parse(data[6])] : null,
+    replyTime: BigInt.parse(data[7]),
+    answeredBy: data[4] == '2'
+        ? data.length >= 10
+              ? data[10]
+              : null
+        : null,
+  );
 
   factory Log.fromV6(Query query) {
     return Log(
       id: query.id,
       //double to int
-      dateTime:
-          DateTime.fromMillisecondsSinceEpoch((query.time * 1000).toInt()),
+      dateTime: DateTime.fromMillisecondsSinceEpoch(
+        (query.time * 1000).toInt(),
+      ),
       type: query.type,
       url: query.domain,
       device: query.client.name ?? query.client.ip,
@@ -105,14 +105,14 @@ class Log {
 
   //toJson
   Map<String, dynamic> toJson() => {
-        'id': id,
-        'dateTime': dateTime.toUtc().toIso8601String(),
-        'type': type,
-        'url': url,
-        'device': device,
-        'status': status,
-        'replyType': replyType,
-        'replyTime': replyTime.toString(),
-        'answeredBy': answeredBy,
-      };
+    'id': id,
+    'dateTime': dateTime.toUtc().toIso8601String(),
+    'type': type,
+    'url': url,
+    'device': device,
+    'status': status,
+    'replyType': replyType,
+    'replyTime': replyTime.toString(),
+    'answeredBy': answeredBy,
+  };
 }

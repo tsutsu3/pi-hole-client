@@ -1,20 +1,16 @@
-import 'package:pi_hole_client/data/services/api/model/v6/dhcp/dhcp.dart';
+import 'package:pi_hole_client/data/model/v6/dhcp/dhcp.dart';
 
 class DhcpsInfo {
   DhcpsInfo({required this.leases});
 
   factory DhcpsInfo.fromV6(Dhcp dhcp) {
-    return DhcpsInfo(
-      leases: dhcp.leases.map(DhcpInfo.fromV6).toList(),
-    );
+    return DhcpsInfo(leases: dhcp.leases.map(DhcpInfo.fromV6).toList());
   }
 
   final List<DhcpInfo> leases;
 
   Map<String, dynamic> toJson() {
-    return {
-      'leases': leases.map((lease) => lease.toJson()).toList(),
-    };
+    return {'leases': leases.map((lease) => lease.toJson()).toList()};
   }
 }
 

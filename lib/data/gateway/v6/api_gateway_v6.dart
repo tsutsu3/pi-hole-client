@@ -6,49 +6,33 @@ import 'package:http/http.dart' as http;
 import 'package:http/http.dart';
 import 'package:http/io_client.dart';
 import 'package:pi_hole_client/data/gateway/api_gateway_interface.dart';
-import 'package:pi_hole_client/data/services/api/model/v6/action/action.dart';
-import 'package:pi_hole_client/data/services/api/model/v6/auth/auth.dart'
-    show Session;
-import 'package:pi_hole_client/data/services/api/model/v6/auth/sessions.dart';
-import 'package:pi_hole_client/data/services/api/model/v6/config/config.dart'
+import 'package:pi_hole_client/data/model/v6/action/action.dart';
+import 'package:pi_hole_client/data/model/v6/auth/auth.dart' show Session;
+import 'package:pi_hole_client/data/model/v6/auth/sessions.dart';
+import 'package:pi_hole_client/data/model/v6/config/config.dart'
     show Config, ConfigData, Dns;
-import 'package:pi_hole_client/data/services/api/model/v6/dhcp/dhcp.dart'
-    show Dhcp;
-import 'package:pi_hole_client/data/services/api/model/v6/dns/dns.dart'
-    show Blocking;
-import 'package:pi_hole_client/data/services/api/model/v6/domains/domains.dart'
-    show Domains;
-import 'package:pi_hole_client/data/services/api/model/v6/ftl/client.dart'
-    show InfoClient;
-import 'package:pi_hole_client/data/services/api/model/v6/ftl/ftl.dart'
-    show InfoFtl;
-import 'package:pi_hole_client/data/services/api/model/v6/ftl/host.dart'
-    show InfoHost;
-import 'package:pi_hole_client/data/services/api/model/v6/ftl/messages.dart'
+import 'package:pi_hole_client/data/model/v6/dhcp/dhcp.dart' show Dhcp;
+import 'package:pi_hole_client/data/model/v6/dns/dns.dart' show Blocking;
+import 'package:pi_hole_client/data/model/v6/domains/domains.dart' show Domains;
+import 'package:pi_hole_client/data/model/v6/ftl/client.dart' show InfoClient;
+import 'package:pi_hole_client/data/model/v6/ftl/ftl.dart' show InfoFtl;
+import 'package:pi_hole_client/data/model/v6/ftl/host.dart' show InfoHost;
+import 'package:pi_hole_client/data/model/v6/ftl/messages.dart'
     show InfoMessages;
-import 'package:pi_hole_client/data/services/api/model/v6/ftl/metrics.dart'
-    show InfoMetrics;
-import 'package:pi_hole_client/data/services/api/model/v6/ftl/sensors.dart'
-    show InfoSensors;
-import 'package:pi_hole_client/data/services/api/model/v6/ftl/system.dart'
-    show InfoSystem;
-import 'package:pi_hole_client/data/services/api/model/v6/ftl/version.dart'
-    show InfoVersion;
-import 'package:pi_hole_client/data/services/api/model/v6/groups/groups.dart'
-    show Groups;
-import 'package:pi_hole_client/data/services/api/model/v6/lists/lists.dart'
-    show Lists;
-import 'package:pi_hole_client/data/services/api/model/v6/lists/search.dart'
-    show Search;
-import 'package:pi_hole_client/data/services/api/model/v6/metrics/history.dart'
+import 'package:pi_hole_client/data/model/v6/ftl/metrics.dart' show InfoMetrics;
+import 'package:pi_hole_client/data/model/v6/ftl/sensors.dart' show InfoSensors;
+import 'package:pi_hole_client/data/model/v6/ftl/system.dart' show InfoSystem;
+import 'package:pi_hole_client/data/model/v6/ftl/version.dart' show InfoVersion;
+import 'package:pi_hole_client/data/model/v6/groups/groups.dart' show Groups;
+import 'package:pi_hole_client/data/model/v6/lists/lists.dart' show Lists;
+import 'package:pi_hole_client/data/model/v6/lists/search.dart' show Search;
+import 'package:pi_hole_client/data/model/v6/metrics/history.dart'
     show History, HistoryClients;
-import 'package:pi_hole_client/data/services/api/model/v6/metrics/query.dart'
-    show Queries;
-import 'package:pi_hole_client/data/services/api/model/v6/metrics/stats.dart'
+import 'package:pi_hole_client/data/model/v6/metrics/query.dart' show Queries;
+import 'package:pi_hole_client/data/model/v6/metrics/stats.dart'
     show StatsSummary, StatsTopClients, StatsTopDomains, StatsUpstreams;
-import 'package:pi_hole_client/data/services/api/model/v6/network/devices.dart';
-import 'package:pi_hole_client/data/services/api/model/v6/network/gateway.dart'
-    show Gateway;
+import 'package:pi_hole_client/data/model/v6/network/devices.dart';
+import 'package:pi_hole_client/data/model/v6/network/gateway.dart' show Gateway;
 import 'package:pi_hole_client/domain/models_old/app_log.dart';
 import 'package:pi_hole_client/domain/models_old/client.dart';
 import 'package:pi_hole_client/domain/models_old/config.dart';

@@ -1,4 +1,4 @@
-import 'package:pi_hole_client/data/services/api/model/v6/network/devices.dart';
+import 'package:pi_hole_client/data/model/v6/network/devices.dart';
 
 /// Application-specific model representing a list of devices.
 ///
@@ -6,9 +6,7 @@ import 'package:pi_hole_client/data/services/api/model/v6/network/devices.dart';
 /// Instead, the data is converted into this app-specific model for clearer separation of concerns
 /// and to maintain flexibility within the app layer.
 class DevicesInfo {
-  DevicesInfo({
-    required this.devices,
-  });
+  DevicesInfo({required this.devices});
 
   factory DevicesInfo.fromV6(Devices devices) {
     return DevicesInfo(
@@ -19,9 +17,7 @@ class DevicesInfo {
   final List<DeviceInfo> devices;
 
   Map<String, dynamic> toJson() {
-    return {
-      'devices': devices.map((device) => device.toJson()).toList(),
-    };
+    return {'devices': devices.map((device) => device.toJson()).toList()};
   }
 }
 
@@ -42,10 +38,12 @@ class DeviceInfo {
       id: deviceData.id,
       hwaddr: deviceData.hwaddr,
       interface: deviceData.interface,
-      firstSeen:
-          DateTime.fromMillisecondsSinceEpoch(deviceData.firstSeen * 1000),
-      lastQuery:
-          DateTime.fromMillisecondsSinceEpoch(deviceData.lastQuery * 1000),
+      firstSeen: DateTime.fromMillisecondsSinceEpoch(
+        deviceData.firstSeen * 1000,
+      ),
+      lastQuery: DateTime.fromMillisecondsSinceEpoch(
+        deviceData.lastQuery * 1000,
+      ),
       numQueries: deviceData.numQueries,
       ips: deviceData.ips.map(DeviceAddress.fromV6).toList(),
       macVendor: deviceData.macVendor,
@@ -87,8 +85,9 @@ class DeviceAddress {
     return DeviceAddress(
       ip: deviceIp.ip,
       lastSeen: DateTime.fromMillisecondsSinceEpoch(deviceIp.lastSeen * 1000),
-      nameUpdated:
-          DateTime.fromMillisecondsSinceEpoch(deviceIp.nameUpdated * 1000),
+      nameUpdated: DateTime.fromMillisecondsSinceEpoch(
+        deviceIp.nameUpdated * 1000,
+      ),
       name: deviceIp.name,
     );
   }

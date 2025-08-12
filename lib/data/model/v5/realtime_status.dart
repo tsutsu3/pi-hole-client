@@ -1,5 +1,5 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
-import 'package:pi_hole_client/data/services/api/model/v5/json_converter.dart';
+import 'package:pi_hole_client/data/model/v5/json_converter.dart';
 
 part 'realtime_status.freezed.dart';
 part 'realtime_status.g.dart';

@@ -1,5 +1,5 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
-import 'package:pi_hole_client/data/services/api/model/v5/json_converter.dart';
+import 'package:pi_hole_client/data/model/v5/json_converter.dart';
 
 part 'over_time_data.freezed.dart';
 part 'over_time_data.g.dart';
@@ -23,10 +23,7 @@ sealed class OverTimeData with _$OverTimeData {
 
 @freezed
 sealed class Client with _$Client {
-  const factory Client({
-    required String name,
-    required String ip,
-  }) = _Client;
+  const factory Client({required String name, required String ip}) = _Client;
 
   factory Client.fromJson(Map<String, dynamic> json) => _$ClientFromJson(json);
 }

@@ -3,8 +3,8 @@ import 'dart:convert';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:http/http.dart' as http;
 import 'package:pi_hole_client/config/enums.dart';
-import 'package:pi_hole_client/data/services/api/model/v6/config/config.dart';
-import 'package:pi_hole_client/data/services/api/model/v6/network/gateway.dart';
+import 'package:pi_hole_client/data/model/v6/config/config.dart';
+import 'package:pi_hole_client/data/model/v6/network/gateway.dart';
 import 'package:pi_hole_client/data/services/api/pihole_v6_api_client.dart';
 import 'package:pi_hole_client/data/services/utils/exceptions.dart';
 import 'package:result_dart/result_dart.dart';
@@ -107,11 +107,7 @@ void main() {
 
       final result = await apiClient.deleteAuth(sid);
 
-      expectHttpError(
-        result,
-        statusCode: 401,
-        messageContains: 'Unauthorized',
-      );
+      expectHttpError(result, statusCode: 401, messageContains: 'Unauthorized');
     });
   });
 
@@ -193,11 +189,7 @@ void main() {
 
       final result = await apiClient.getAuthSessions(sid);
 
-      expectHttpError(
-        result,
-        statusCode: 401,
-        messageContains: 'Unauthorized',
-      );
+      expectHttpError(result, statusCode: 401, messageContains: 'Unauthorized');
     });
   });
 
@@ -290,11 +282,7 @@ void main() {
 
       final result = await apiClient.getHistory(sid);
 
-      expectHttpError(
-        result,
-        statusCode: 401,
-        messageContains: 'Unauthorized',
-      );
+      expectHttpError(result, statusCode: 401, messageContains: 'Unauthorized');
     });
   });
 
@@ -354,11 +342,7 @@ void main() {
 
       final result = await apiClient.getHistoryClient(sid);
 
-      expectHttpError(
-        result,
-        statusCode: 401,
-        messageContains: 'Unauthorized',
-      );
+      expectHttpError(result, statusCode: 401, messageContains: 'Unauthorized');
     });
   });
 
@@ -397,7 +381,7 @@ void main() {
             'upstream': 'localhost#5353',
             'id': 112421355,
             'ede': {'code': 0, 'text': null},
-          }
+          },
         ],
         'cursor': 175881,
         'recordsTotal': 1234,
@@ -433,11 +417,7 @@ void main() {
       final until = DateTime.fromMillisecondsSinceEpoch(1733479467 * 1000);
       final result = await apiClient.getQueries(sid, from: from, until: until);
 
-      expectHttpError(
-        result,
-        statusCode: 401,
-        messageContains: 'Unauthorized',
-      );
+      expectHttpError(result, statusCode: 401, messageContains: 'Unauthorized');
     });
   });
 
@@ -509,10 +489,7 @@ void main() {
           },
         },
         'clients': {'active': 10, 'total': 22},
-        'gravity': {
-          'domains_being_blocked': 104756,
-          'last_update': 1725194639,
-        },
+        'gravity': {'domains_being_blocked': 104756, 'last_update': 1725194639},
         'took': 0.003,
       };
 
@@ -539,11 +516,7 @@ void main() {
 
       final result = await apiClient.getStatsSummary(sid);
 
-      expectHttpError(
-        result,
-        statusCode: 401,
-        messageContains: 'Unauthorized',
-      );
+      expectHttpError(result, statusCode: 401, messageContains: 'Unauthorized');
     });
   });
 
@@ -605,11 +578,7 @@ void main() {
 
       final result = await apiClient.getStatsUpstreams(sid);
 
-      expectHttpError(
-        result,
-        statusCode: 401,
-        messageContains: 'Unauthorized',
-      );
+      expectHttpError(result, statusCode: 401, messageContains: 'Unauthorized');
     });
   });
 
@@ -668,11 +637,7 @@ void main() {
 
       final result = await apiClient.getStatsTopDomains(sid);
 
-      expectHttpError(
-        result,
-        statusCode: 401,
-        messageContains: 'Unauthorized',
-      );
+      expectHttpError(result, statusCode: 401, messageContains: 'Unauthorized');
     });
   });
 
@@ -747,11 +712,7 @@ void main() {
 
       final result = await apiClient.getDnsBlocking(sid);
 
-      expectHttpError(
-        result,
-        statusCode: 401,
-        messageContains: 'Unauthorized',
-      );
+      expectHttpError(result, statusCode: 401, messageContains: 'Unauthorized');
     });
   });
 
@@ -796,11 +757,7 @@ void main() {
 
       final result = await apiClient.postDnsBlocking(sid);
 
-      expectHttpError(
-        result,
-        statusCode: 401,
-        messageContains: 'Unauthorized',
-      );
+      expectHttpError(result, statusCode: 401, messageContains: 'Unauthorized');
     });
   });
 
@@ -828,7 +785,7 @@ void main() {
             'id': 2,
             'date_added': 1604871899,
             'date_modified': 1604871899,
-          }
+          },
         ],
         'took': 0.003,
       };
@@ -858,11 +815,7 @@ void main() {
 
       final result = await apiClient.getGroups(sid);
 
-      expectHttpError(
-        result,
-        statusCode: 401,
-        messageContains: 'Unauthorized',
-      );
+      expectHttpError(result, statusCode: 401, messageContains: 'Unauthorized');
     });
   });
 
@@ -925,11 +878,7 @@ void main() {
 
       final result = await apiClient.getDomains(sid);
 
-      expectHttpError(
-        result,
-        statusCode: 401,
-        messageContains: 'Unauthorized',
-      );
+      expectHttpError(result, statusCode: 401, messageContains: 'Unauthorized');
     });
   });
   group('postDomains', () {
@@ -1040,11 +989,7 @@ void main() {
         domain: 'example.com',
       );
 
-      expectHttpError(
-        result,
-        statusCode: 401,
-        messageContains: 'Unauthorized',
-      );
+      expectHttpError(result, statusCode: 401, messageContains: 'Unauthorized');
     });
   });
 
@@ -1117,11 +1062,7 @@ void main() {
         domain: 'example.com',
       );
 
-      expectHttpError(
-        result,
-        statusCode: 401,
-        messageContains: 'Unauthorized',
-      );
+      expectHttpError(result, statusCode: 401, messageContains: 'Unauthorized');
     });
   });
 
@@ -1168,11 +1109,7 @@ void main() {
         domain: 'example.com',
       );
 
-      expectHttpError(
-        result,
-        statusCode: 401,
-        messageContains: 'Unauthorized',
-      );
+      expectHttpError(result, statusCode: 401, messageContains: 'Unauthorized');
     });
   });
 
@@ -1199,7 +1136,7 @@ void main() {
             'invalid_domains': 0,
             'abp_entries': 0,
             'status': 3,
-          }
+          },
         ],
         'took': 0.012,
       };
@@ -1232,7 +1169,7 @@ void main() {
             'invalid_domains': 0,
             'abp_entries': 0,
             'status': 1,
-          }
+          },
         ],
         'took': 0.012,
       };
@@ -1262,11 +1199,7 @@ void main() {
 
       final result = await apiClient.getLists(sid);
 
-      expectHttpError(
-        result,
-        statusCode: 401,
-        messageContains: 'Unauthorized',
-      );
+      expectHttpError(result, statusCode: 401, messageContains: 'Unauthorized');
     });
   });
 
@@ -1290,7 +1223,7 @@ void main() {
             'invalid_domains': 0,
             'abp_entries': 0,
             'status': 3,
-          }
+          },
         ],
         'processed': {
           'errors': [],
@@ -1330,11 +1263,7 @@ void main() {
         type: ListType.allow,
       );
 
-      expectHttpError(
-        result,
-        statusCode: 401,
-        messageContains: 'Unauthorized',
-      );
+      expectHttpError(result, statusCode: 401, messageContains: 'Unauthorized');
     });
   });
 
@@ -1359,7 +1288,7 @@ void main() {
             'invalid_domains': 0,
             'abp_entries': 0,
             'status': 3,
-          }
+          },
         ],
         'processed': {
           'errors': [],
@@ -1408,11 +1337,7 @@ void main() {
         type: ListType.allow,
       );
 
-      expectHttpError(
-        result,
-        statusCode: 401,
-        messageContains: 'Unauthorized',
-      );
+      expectHttpError(result, statusCode: 401, messageContains: 'Unauthorized');
     });
   });
 
@@ -1457,11 +1382,7 @@ void main() {
         type: ListType.allow,
       );
 
-      expectHttpError(
-        result,
-        statusCode: 401,
-        messageContains: 'Unauthorized',
-      );
+      expectHttpError(result, statusCode: 401, messageContains: 'Unauthorized');
     });
   });
 
@@ -1505,11 +1426,7 @@ void main() {
 
       final result = await apiClient.getInfoClient(sid);
 
-      expectHttpError(
-        result,
-        statusCode: 401,
-        messageContains: 'Unauthorized',
-      );
+      expectHttpError(result, statusCode: 401, messageContains: 'Unauthorized');
     });
   });
 
@@ -1586,11 +1503,7 @@ void main() {
 
       final result = await apiClient.getInfoFtl(sid);
 
-      expectHttpError(
-        result,
-        statusCode: 401,
-        messageContains: 'Unauthorized',
-      );
+      expectHttpError(result, statusCode: 401, messageContains: 'Unauthorized');
     });
   });
 
@@ -1648,11 +1561,7 @@ void main() {
 
       final result = await apiClient.getInfoHost(sid);
 
-      expectHttpError(
-        result,
-        statusCode: 401,
-        messageContains: 'Unauthorized',
-      );
+      expectHttpError(result, statusCode: 401, messageContains: 'Unauthorized');
     });
   });
 
@@ -1678,7 +1587,7 @@ void main() {
             'plain': 'Rate-limiting 192.168.2.42 for at least 5 seconds',
             'html':
                 'Client <code>192.168.2.42</code> has been rate-limited for at least 5 seconds (current limit: 1000 queries per 60 seconds)',
-          }
+          },
         ],
         'took': 0.0005114078521728516,
       };
@@ -1704,11 +1613,7 @@ void main() {
 
       final result = await apiClient.getInfoMessages(sid);
 
-      expectHttpError(
-        result,
-        statusCode: 401,
-        messageContains: 'Unauthorized',
-      );
+      expectHttpError(result, statusCode: 401, messageContains: 'Unauthorized');
     });
   });
 
@@ -1738,11 +1643,7 @@ void main() {
 
       final result = await apiClient.deleteInfoMessages(sid, messageId: 1);
 
-      expectHttpError(
-        result,
-        statusCode: 401,
-        messageContains: 'Unauthorized',
-      );
+      expectHttpError(result, statusCode: 401, messageContains: 'Unauthorized');
     });
   });
 
@@ -1789,7 +1690,7 @@ void main() {
                   'type': 48,
                   'name': 'DNSKEY',
                   'count': {'valid': 1, 'stale': 0},
-                }
+                },
               ],
             },
             'replies': {
@@ -1845,11 +1746,7 @@ void main() {
 
       final result = await apiClient.getInfoMetrics(sid);
 
-      expectHttpError(
-        result,
-        statusCode: 401,
-        messageContains: 'Unauthorized',
-      );
+      expectHttpError(result, statusCode: 401, messageContains: 'Unauthorized');
     });
   });
 
@@ -1871,7 +1768,7 @@ void main() {
                   'max': null,
                   'crit': null,
                   'sensor': 'temp1',
-                }
+                },
               ],
             },
           ],
@@ -1903,11 +1800,7 @@ void main() {
 
       final result = await apiClient.getInfoSensors(sid);
 
-      expectHttpError(
-        result,
-        statusCode: 401,
-        messageContains: 'Unauthorized',
-      );
+      expectHttpError(result, statusCode: 401, messageContains: 'Unauthorized');
     });
   });
 
@@ -2025,11 +1918,7 @@ void main() {
 
       final result = await apiClient.getInfoSystem(sid);
 
-      expectHttpError(
-        result,
-        statusCode: 401,
-        messageContains: 'Unauthorized',
-      );
+      expectHttpError(result, statusCode: 401, messageContains: 'Unauthorized');
     });
   });
 
@@ -2045,10 +1934,7 @@ void main() {
               'branch': 'master',
               'hash': '9fe687bd',
             },
-            'remote': {
-              'version': 'v6.0.5',
-              'hash': '9fe687bd',
-            },
+            'remote': {'version': 'v6.0.5', 'hash': '9fe687bd'},
           },
           'web': {
             'local': {
@@ -2056,10 +1942,7 @@ void main() {
               'branch': 'master',
               'hash': '25441178',
             },
-            'remote': {
-              'version': 'v6.0.2',
-              'hash': '25441178',
-            },
+            'remote': {'version': 'v6.0.2', 'hash': '25441178'},
           },
           'ftl': {
             'local': {
@@ -2068,15 +1951,9 @@ void main() {
               'version': 'v6.0.4',
               'date': '2025-03-04 17:22:10 +0000',
             },
-            'remote': {
-              'version': 'v6.0.4',
-              'hash': 'b7eb53bf',
-            },
+            'remote': {'version': 'v6.0.4', 'hash': 'b7eb53bf'},
           },
-          'docker': {
-            'local': 'null',
-            'remote': 'null',
-          },
+          'docker': {'local': 'null', 'remote': 'null'},
         },
         'took': 0.014363765716552734,
       };
@@ -2102,11 +1979,7 @@ void main() {
 
       final result = await apiClient.getInfoVersion(sid);
 
-      expectHttpError(
-        result,
-        statusCode: 401,
-        messageContains: 'Unauthorized',
-      );
+      expectHttpError(result, statusCode: 401, messageContains: 'Unauthorized');
     });
   });
 
@@ -2135,7 +2008,7 @@ void main() {
                 'name': 'ubuntu-server',
                 'lastSeen': 1664688620,
                 'nameUpdated': 1664688620,
-              }
+              },
             ],
           },
           {
@@ -2158,9 +2031,9 @@ void main() {
                 'name': null,
                 'lastSeen': 1664488620,
                 'nameUpdated': 1654488620,
-              }
+              },
             ],
-          }
+          },
         ],
         'took': 0.003,
       };
@@ -2186,11 +2059,7 @@ void main() {
 
       final result = await apiClient.getNetworkDevices(sid);
 
-      expectHttpError(
-        result,
-        statusCode: 401,
-        messageContains: 'Unauthorized',
-      );
+      expectHttpError(result, statusCode: 401, messageContains: 'Unauthorized');
     });
   });
 
@@ -2203,8 +2072,10 @@ void main() {
       final response = http.Response('', 204);
       mockDelete(mockClient, fullUrl, response);
 
-      final result =
-          await apiClient.deleteNetworkDevices(sid, deviceId: deviceId);
+      final result = await apiClient.deleteNetworkDevices(
+        sid,
+        deviceId: deviceId,
+      );
 
       expectSuccess(result);
     });
@@ -2224,11 +2095,7 @@ void main() {
 
       final result = await apiClient.deleteNetworkDevices(sid, deviceId: 1);
 
-      expectHttpError(
-        result,
-        statusCode: 401,
-        messageContains: 'Unauthorized',
-      );
+      expectHttpError(result, statusCode: 401, messageContains: 'Unauthorized');
     });
   });
 
@@ -2249,7 +2116,7 @@ void main() {
             'interface': 'eth0',
             'address': 'fe80::3587:2fff:f11a:1',
             'local': ['fe80::3587:2fff:f11a:4321'],
-          }
+          },
         ],
         'took': 0.003,
         'interfaces': null,
@@ -2271,7 +2138,7 @@ void main() {
             'interface': 'eth0',
             'address': '192.168.0.1',
             'local': ['192.168.0.22'],
-          }
+          },
         ],
         'routes': [
           {
@@ -2555,7 +2422,7 @@ void main() {
             'error': 0,
             'used': 0,
             'pref': 0,
-          }
+          },
         ],
         'interfaces': [
           {
@@ -2644,7 +2511,7 @@ void main() {
                 'valid': 4294967295,
                 'cstamp': 1745897376.65,
                 'tstamp': 1745897376.65,
-              }
+              },
             ],
           },
           {
@@ -2739,7 +2606,7 @@ void main() {
                 'cstamp': 1745897382.89,
                 'tstamp': 1745897382.89,
                 'unknown': [11],
-              }
+              },
             ],
           },
           {
@@ -2832,7 +2699,7 @@ void main() {
                 'cstamp': 1745897443.92,
                 'tstamp': 1745897443.92,
                 'unknown': [11],
-              }
+              },
             ],
           },
           {
@@ -2911,9 +2778,9 @@ void main() {
                 'valid': 4294967295,
                 'cstamp': 1745897381.93,
                 'tstamp': 1745897381.93,
-              }
+              },
             ],
-          }
+          },
         ],
         'took': 0.003313302993774414,
       };
@@ -2942,11 +2809,7 @@ void main() {
 
       final result = await apiClient.getNetworkGateway(sid);
 
-      expectHttpError(
-        result,
-        statusCode: 401,
-        messageContains: 'Unauthorized',
-      );
+      expectHttpError(result, statusCode: 401, messageContains: 'Unauthorized');
     });
   });
 
@@ -2980,11 +2843,7 @@ void main() {
 
       final result = await apiClient.postActionFlushArp(sid);
 
-      expectHttpError(
-        result,
-        statusCode: 401,
-        messageContains: 'Unauthorized',
-      );
+      expectHttpError(result, statusCode: 401, messageContains: 'Unauthorized');
     });
   });
 
@@ -3015,11 +2874,7 @@ void main() {
 
       final result = await apiClient.postActionFlushLogs(sid);
 
-      expectHttpError(
-        result,
-        statusCode: 401,
-        messageContains: 'Unauthorized',
-      );
+      expectHttpError(result, statusCode: 401, messageContains: 'Unauthorized');
     });
   });
 
@@ -3107,11 +2962,7 @@ void main() {
 
       final result = await apiClient.postActionRestartDns(sid);
 
-      expectHttpError(
-        result,
-        statusCode: 401,
-        messageContains: 'Unauthorized',
-      );
+      expectHttpError(result, statusCode: 401, messageContains: 'Unauthorized');
     });
   });
 
@@ -3337,8 +3188,10 @@ void main() {
       final response = http.Response(jsonEncode(data), 200);
       mockGet(mockClient, fullUrl, response);
 
-      final result =
-          await apiClient.getConfigElement(sid, element: 'dns/queryLogging');
+      final result = await apiClient.getConfigElement(
+        sid,
+        element: 'dns/queryLogging',
+      );
 
       expectSuccess(result, data);
     });
@@ -3357,11 +3210,7 @@ void main() {
 
       final result = await apiClient.getConfigElement(sid);
 
-      expectHttpError(
-        result,
-        statusCode: 401,
-        messageContains: 'Unauthorized',
-      );
+      expectHttpError(result, statusCode: 401, messageContains: 'Unauthorized');
     });
   });
 
@@ -3403,11 +3252,7 @@ void main() {
       });
       final result = await apiClient.patchConfig(sid, body: configData);
 
-      expectHttpError(
-        result,
-        statusCode: 401,
-        messageContains: 'Unauthorized',
-      );
+      expectHttpError(result, statusCode: 401, messageContains: 'Unauthorized');
     });
   });
 
@@ -3452,18 +3297,15 @@ void main() {
 
       final result = await apiClient.getDhcpLeases(sid);
 
-      expectHttpError(
-        result,
-        statusCode: 401,
-        messageContains: 'Unauthorized',
-      );
+      expectHttpError(result, statusCode: 401, messageContains: 'Unauthorized');
     });
   });
 
   group('deleteDhcpLeases', () {
     const ip = '192.168.1.100';
-    final url =
-        Uri.parse('$baseUrl/api/dhcp/leases/${Uri.encodeComponent(ip)}');
+    final url = Uri.parse(
+      '$baseUrl/api/dhcp/leases/${Uri.encodeComponent(ip)}',
+    );
 
     test('deletes DHCP leases successfully', () async {
       final response = http.Response(jsonEncode(''), 204);
@@ -3488,11 +3330,7 @@ void main() {
 
       final result = await apiClient.deleteDhcpLeases(sid, ip: ip);
 
-      expectHttpError(
-        result,
-        statusCode: 401,
-        messageContains: 'Unauthorized',
-      );
+      expectHttpError(result, statusCode: 401, messageContains: 'Unauthorized');
     });
   });
 }

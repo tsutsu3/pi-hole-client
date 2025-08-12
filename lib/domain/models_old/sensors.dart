@@ -1,4 +1,4 @@
-import 'package:pi_hole_client/data/services/api/model/v6/ftl/sensors.dart';
+import 'package:pi_hole_client/data/model/v6/ftl/sensors.dart';
 
 class SensorsInfo {
   SensorsInfo({
@@ -20,10 +20,6 @@ class SensorsInfo {
   final String unit;
 
   Map<String, dynamic> toJson() {
-    return {
-      'cpu_temp': cpuTemp,
-      'hot_limit': hostLimit,
-      'unit': unit,
-    };
+    return {'cpu_temp': cpuTemp, 'hot_limit': hostLimit, 'unit': unit};
   }
 }

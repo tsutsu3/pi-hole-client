@@ -1,10 +1,7 @@
-import 'package:pi_hole_client/data/services/api/model/v6/ftl/metrics.dart';
+import 'package:pi_hole_client/data/model/v6/ftl/metrics.dart';
 
 class MetricsInfo {
-  MetricsInfo({
-    required this.dnsCache,
-    required this.dnsReplies,
-  });
+  MetricsInfo({required this.dnsCache, required this.dnsReplies});
 
   factory MetricsInfo.fromV6(InfoMetrics metrics) {
     return MetricsInfo(
@@ -17,10 +14,7 @@ class MetricsInfo {
   final DnsRepliesInfo dnsReplies;
 
   Map<String, dynamic> toJson() {
-    return {
-      'dns_cache': dnsCache.toJson(),
-      'dns_replies': dnsReplies.toJson(),
-    };
+    return {'dns_cache': dnsCache.toJson(), 'dns_replies': dnsReplies.toJson()};
   }
 }
 
@@ -96,8 +90,9 @@ class DnsCacheInfo {
       'evicted': evicted,
       'expired': expired,
       'immortal': immortal,
-      'typePercentages':
-          typePercentages.map((k, v) => MapEntry(k, v.toStringAsFixed(2))),
+      'typePercentages': typePercentages.map(
+        (k, v) => MapEntry(k, v.toStringAsFixed(2)),
+      ),
     };
   }
 }
@@ -110,16 +105,21 @@ class DnsRepliesInfo {
     required this.unanswered,
     required this.auth,
     required this.sum,
-  })  : localPercentage =
-            (sum > 0) ? local.toDouble() / sum.toDouble() * 100.0 : 0.0,
-        forwardedPercentage =
-            (sum > 0) ? forwarded.toDouble() / sum.toDouble() * 100.0 : 0.0,
-        optimizedPercentage =
-            (sum > 0) ? optimized.toDouble() / sum.toDouble() * 100.0 : 0.0,
-        unansweredPercentage =
-            (sum > 0) ? unanswered.toDouble() / sum.toDouble() * 100.0 : 0.0,
-        authPercentage =
-            (sum > 0) ? auth.toDouble() / sum.toDouble() * 100.0 : 0.0;
+  }) : localPercentage = (sum > 0)
+           ? local.toDouble() / sum.toDouble() * 100.0
+           : 0.0,
+       forwardedPercentage = (sum > 0)
+           ? forwarded.toDouble() / sum.toDouble() * 100.0
+           : 0.0,
+       optimizedPercentage = (sum > 0)
+           ? optimized.toDouble() / sum.toDouble() * 100.0
+           : 0.0,
+       unansweredPercentage = (sum > 0)
+           ? unanswered.toDouble() / sum.toDouble() * 100.0
+           : 0.0,
+       authPercentage = (sum > 0)
+           ? auth.toDouble() / sum.toDouble() * 100.0
+           : 0.0;
 
   factory DnsRepliesInfo.fromV6(DnsReplies replies) {
     return DnsRepliesInfo(
