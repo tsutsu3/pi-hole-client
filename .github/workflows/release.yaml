@@ -19,7 +19,7 @@ jobs:
       VERSION_NUMBER: ${{ steps.extract_version.outputs.VERSION_NUMBER }}
     steps:
       - name: Checkout code
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
 
       - name: Extract version from pubspec.yaml
         id: extract_version
@@ -45,7 +45,7 @@ jobs:
       VERSION_NUMBER: ${{ needs.get-version.outputs.VERSION_NUMBER }}
     steps:
       - name: Checkout code
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
 
       - name: Decode android/app/keystore.jks
         run: echo "${{ secrets.KEYSTORE_JKS }}" | base64 --decode > android/app/keystore.jks
@@ -105,7 +105,7 @@ jobs:
       VERSION_NUMBER: ${{ needs.get-version.outputs.VERSION_NUMBER }}
     steps:
       - name: Checkout code
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
 
       - name: Decode .env
         run: echo "${{ secrets.ENV }}" | base64 --decode > .env
@@ -170,7 +170,7 @@ jobs:
       VERSION_NUMBER: ${{ needs.get-version.outputs.VERSION_NUMBER }}
     steps:
       - name: Checkout code
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
 
       - name: Decode .env
         shell: pwsh
@@ -219,25 +219,25 @@ jobs:
       VERSION_NUMBER: ${{ needs.get-version.outputs.VERSION_NUMBER }}
     steps:
       - name: Checkout code
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
 
       - name: Create builds directory
         run: mkdir releases
 
       - name: Download Android artifacts
-        uses: actions/download-artifact@v4
+        uses: actions/download-artifact@v5
         with:
           name: android
           path: releases/
 
       - name: Download Linux artifacts
-        uses: actions/download-artifact@v4
+        uses: actions/download-artifact@v5
         with:
           name: linux
           path: releases/
 
       - name: Download Windows artifacts
-        uses: actions/download-artifact@v4
+        uses: actions/download-artifact@v5
         with:
           name: windows
           path: releases/
@@ -271,10 +271,10 @@ jobs:
       VERSION_NUMBER: ${{ needs.get-version.outputs.VERSION_NUMBER }}
     steps:
       - name: Checkout code
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
 
       - name: Download Android artifacts
-        uses: actions/download-artifact@v4
+        uses: actions/download-artifact@v5
         with:
           name: android
 
