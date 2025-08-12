@@ -10,7 +10,7 @@ import 'package:http/http.dart' as _i4;
 import 'package:mockito/mockito.dart' as _i1;
 import 'package:mockito/src/dummies.dart' as _i14;
 import 'package:pi_hole_client/data/gateway/api_gateway_interface.dart' as _i9;
-import 'package:pi_hole_client/data/gateway/v6/api_gateway_v6.dart' as _i13;
+import 'package:pi_hole_client/data/gateway/api_gateway_v6.dart' as _i13;
 import 'package:pi_hole_client/data/model/v6/config/config.dart' as _i18;
 import 'package:pi_hole_client/domain/models_old/database.dart' as _i11;
 import 'package:pi_hole_client/domain/models_old/domain.dart' as _i15;
