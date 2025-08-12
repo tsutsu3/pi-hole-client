@@ -15,7 +15,7 @@ jobs:
 
     steps:
     - name: Checkout code
-      uses: actions/checkout@v4
+      uses: actions/checkout@v5
 
     - name: Install system dependencies
       run: |
@@ -56,7 +56,7 @@ jobs:
 
   #   steps:
   #   - name: Checkout code
-  #     uses: actions/checkout@v4
+  #     uses: actions/checkout@v5
 
   #   - name: Setup Flutter (use cache)
   #     uses: subosito/flutter-action@v2
@@ -126,16 +126,16 @@ jobs:
 
     steps:
     - name: Checkout code
-      uses: actions/checkout@v4
+      uses: actions/checkout@v5
 
     - name: Download unit test coverage artifact
-      uses: actions/download-artifact@v4
+      uses: actions/download-artifact@v5
       with:
         name: unit-test-coverage
         path: coverage
 
     # - name: Download integration test coverage artifact
-    #   uses: actions/download-artifact@v4
+    #   uses: actions/download-artifact@v5
     #   with:
     #     name: integration-test-coverage
     #     path: coverage
@@ -154,7 +154,7 @@ jobs:
     if: always()
 
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
         with:
           fetch-depth: 0  # Shallow clones should be disabled for a better relevancy of analysis
 
@@ -177,13 +177,13 @@ jobs:
         run: cp .env.sample .env
 
       - name: Download unit test coverage artifact
-        uses: actions/download-artifact@v4
+        uses: actions/download-artifact@v5
         with:
           name: unit-test-coverage
           path: coverage
 
       # - name: Download integration test coverage artifact
-      #   uses: actions/download-artifact@v4
+      #   uses: actions/download-artifact@v5
       #   with:
       #     name: integration-test-coverage
       #     path: coverage
