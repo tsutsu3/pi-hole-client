@@ -91,10 +91,9 @@ class _AppLogDetailsModalState extends State<AppLogDetailsModal> {
                       ),
                       color: valueToShow == 'message'
                           ? Theme.of(context).colorScheme.primary
-                          : Theme.of(context)
-                              .colorScheme
-                              .primary
-                              .withValues(alpha: 0.05),
+                          : Theme.of(
+                              context,
+                            ).colorScheme.primary.withValues(alpha: 0.05),
                     ),
                     child: Text(
                       'Message',
@@ -127,16 +126,16 @@ class _AppLogDetailsModalState extends State<AppLogDetailsModal> {
                       ),
                       color: valueToShow == 'statusCode'
                           ? Theme.of(context).colorScheme.primary
-                          : Theme.of(context)
-                              .colorScheme
-                              .primary
-                              .withValues(alpha: 0.05),
+                          : Theme.of(
+                              context,
+                            ).colorScheme.primary.withValues(alpha: 0.05),
                     ),
                     child: Text(
                       'Status code',
                       style: TextStyle(
-                        color:
-                            valueToShow == 'statusCode' ? Colors.white : null,
+                        color: valueToShow == 'statusCode'
+                            ? Colors.white
+                            : null,
                       ),
                     ),
                   ),
@@ -171,10 +170,9 @@ class _AppLogDetailsModalState extends State<AppLogDetailsModal> {
                       ),
                       color: valueToShow == 'body'
                           ? Theme.of(context).colorScheme.primary
-                          : Theme.of(context)
-                              .colorScheme
-                              .primary
-                              .withValues(alpha: 0.05),
+                          : Theme.of(
+                              context,
+                            ).colorScheme.primary.withValues(alpha: 0.05),
                     ),
                     child: Text(
                       'Body',

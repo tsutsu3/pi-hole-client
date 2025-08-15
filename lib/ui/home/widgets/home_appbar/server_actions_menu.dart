@@ -33,9 +33,7 @@ import 'package:provider/provider.dart';
 /// - [StatusProvider] for server connection status.
 /// - [AppConfigProvider] for app configuration and error handling.
 class ServerActionsMenu extends StatelessWidget {
-  const ServerActionsMenu({
-    super.key,
-  });
+  const ServerActionsMenu({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -112,15 +110,18 @@ class ServerActionsMenu extends StatelessWidget {
             statusProvider,
             serversProvider,
           ),
-          child:
-              _menuItem(Icons.refresh, AppLocalizations.of(context)!.refresh),
+          child: _menuItem(
+            Icons.refresh,
+            AppLocalizations.of(context)!.refresh,
+          ),
         ),
         PopupMenuItem(
-          onTap: () => openUrl(
-            '${serversProvider.selectedServer!.address}/admin/',
+          onTap: () =>
+              openUrl('${serversProvider.selectedServer!.address}/admin/'),
+          child: _menuItem(
+            Icons.web,
+            AppLocalizations.of(context)!.openWebPanel,
           ),
-          child:
-              _menuItem(Icons.web, AppLocalizations.of(context)!.openWebPanel),
         ),
         PopupMenuItem(
           onTap: () => _changeServer(context),
@@ -157,13 +158,7 @@ class ServerActionsMenu extends StatelessWidget {
 
   /// Returns a standard icon + label row used in popup menu items.
   Widget _menuItem(IconData icon, String label) {
-    return Row(
-      children: [
-        Icon(icon),
-        const SizedBox(width: 15),
-        Text(label),
-      ],
-    );
+    return Row(children: [Icon(icon), const SizedBox(width: 15), Text(label)]);
   }
 
   /// Refreshes the real-time status of the currently selected server and updates the UI accordingly.
@@ -200,8 +195,9 @@ class ServerActionsMenu extends StatelessWidget {
   ) async {
     statusProvider.setStatusLoading(LoadStatus.loading);
 
-    final result = await serversProvider.selectedApiGateway
-        ?.realtimeStatus(clientCount: 0);
+    final result = await serversProvider.selectedApiGateway?.realtimeStatus(
+      clientCount: 0,
+    );
     if (!context.mounted) return;
 
     if (result?.result == APiResponseType.success) {
@@ -211,9 +207,7 @@ class ServerActionsMenu extends StatelessWidget {
       statusProvider.setServerStatus(LoadStatus.loaded);
       statusProvider.setRealtimeStatus(result.data!);
     } else {
-      logger.w(
-        'Error while fetching server status: ${result?.result.name}',
-      );
+      logger.w('Error while fetching server status: ${result?.result.name}');
       statusProvider.setServerStatus(LoadStatus.error);
       if (statusProvider.getStatusLoading == LoadStatus.loading) {
         statusProvider.setStatusLoading(LoadStatus.error);

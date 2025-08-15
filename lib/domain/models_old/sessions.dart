@@ -1,10 +1,8 @@
 import 'package:pi_hole_client/config/enums.dart';
-import 'package:pi_hole_client/data/services/api/model/v6/auth/sessions.dart';
+import 'package:pi_hole_client/data/model/v6/auth/sessions.dart';
 
 class SessionsInfo {
-  SessionsInfo({
-    required this.sessions,
-  });
+  SessionsInfo({required this.sessions});
 
   factory SessionsInfo.fromV6(AuthSessions authSessions) {
     return SessionsInfo(
@@ -15,9 +13,7 @@ class SessionsInfo {
   final List<SessionInfo> sessions;
 
   Map<String, dynamic> toJson() {
-    return {
-      'sessions': sessions.map((session) => session.toJson()).toList(),
-    };
+    return {'sessions': sessions.map((session) => session.toJson()).toList()};
   }
 }
 
@@ -45,10 +41,12 @@ class SessionInfo {
       isApp: session.app,
       isCli: session.cli,
       loginAt: DateTime.fromMillisecondsSinceEpoch(session.loginAt * 1000),
-      lastActive:
-          DateTime.fromMillisecondsSinceEpoch(session.lastActive * 1000),
-      validUntil:
-          DateTime.fromMillisecondsSinceEpoch(session.validUntil * 1000),
+      lastActive: DateTime.fromMillisecondsSinceEpoch(
+        session.lastActive * 1000,
+      ),
+      validUntil: DateTime.fromMillisecondsSinceEpoch(
+        session.validUntil * 1000,
+      ),
       clientIp: session.remoteAddr,
       userAgent: session.userAgent,
     );

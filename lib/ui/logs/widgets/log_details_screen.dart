@@ -29,10 +29,7 @@ class LogDetailsScreen extends StatelessWidget {
         padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
         child: Row(
           children: [
-            Icon(
-              icon,
-              color: Theme.of(context).colorScheme.onSurface,
-            ),
+            Icon(icon, color: Theme.of(context).colorScheme.onSurface),
             const SizedBox(width: 20),
             Column(
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -54,8 +51,9 @@ class LogDetailsScreen extends StatelessWidget {
     }
 
     Widget blackWhiteListButton() {
-      if (filterProvider.statusAllowedAndRetried
-          .contains(int.parse(log.status!))) {
+      if (filterProvider.statusAllowedAndRetried.contains(
+        int.parse(log.status!),
+      )) {
         return IconButton(
           onPressed: () {
             Navigator.maybePop(context);
@@ -110,8 +108,10 @@ class LogDetailsScreen extends StatelessWidget {
             CustomListTile(
               leadingIcon: Icons.access_time_outlined,
               label: AppLocalizations.of(context)!.time,
-              description:
-                  formatTimestamp(log.dateTime, kUnifiedDateTimeLogFormat),
+              description: formatTimestamp(
+                log.dateTime,
+                kUnifiedDateTimeLogFormat,
+              ),
             ),
             if (log.status != null)
               item(

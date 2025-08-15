@@ -12,11 +12,7 @@ import 'package:pi_hole_client/ui/statistics/pie_chart_legend.dart';
 import 'package:provider/provider.dart';
 
 class DnsTab extends StatelessWidget {
-  const DnsTab({
-    required this.onRefresh,
-    this.controller,
-    super.key,
-  });
+  const DnsTab({required this.onRefresh, this.controller, super.key});
 
   final Future<void> Function() onRefresh;
   final ScrollController? controller;
@@ -54,11 +50,7 @@ class DnsTab extends StatelessWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            const Icon(
-              Icons.error,
-              size: 50,
-              color: Colors.red,
-            ),
+            const Icon(Icons.error, size: 50, color: Colors.red),
             const SizedBox(height: 50),
             Text(
               AppLocalizations.of(context)!.statsNotLoaded,
@@ -137,9 +129,7 @@ class DnsTabContent extends StatelessWidget {
                 if (width <= ResponsiveConstants.medium) ...[
                   SizedBox(
                     width: width - 40,
-                    child: CustomPieChart(
-                      data: dnsCacheInfo.typePercentages,
-                    ),
+                    child: CustomPieChart(data: dnsCacheInfo.typePercentages),
                   ),
                   const SizedBox(height: 20),
                   PieChartLegend(
@@ -151,9 +141,7 @@ class DnsTabContent extends StatelessWidget {
             ),
           )
         else
-          NoDataChart(
-            topLabel: loc.queryTypes,
-          ),
+          NoDataChart(topLabel: loc.queryTypes),
 
         // DNS Replies
         if (dnsRepliesInfo != null)
@@ -209,9 +197,7 @@ class DnsTabContent extends StatelessWidget {
             ),
           )
         else
-          NoDataChart(
-            topLabel: loc.upstreamServers,
-          ),
+          NoDataChart(topLabel: loc.upstreamServers),
       ],
     );
   }

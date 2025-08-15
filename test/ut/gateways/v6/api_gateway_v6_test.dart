@@ -8,35 +8,27 @@ import 'package:mockito/mockito.dart';
 import 'package:pi_hole_client/config/api_versions.dart';
 import 'package:pi_hole_client/config/enums.dart';
 import 'package:pi_hole_client/config/subscription_types.dart';
-import 'package:pi_hole_client/data/gateway/v6/api_gateway_v6.dart';
-import 'package:pi_hole_client/data/repositories/local/secure_data_repository.dart';
-import 'package:pi_hole_client/data/services/api/model/v6/action/action.dart';
-import 'package:pi_hole_client/data/services/api/model/v6/auth/sessions.dart';
-import 'package:pi_hole_client/data/services/api/model/v6/config/config.dart'
+import 'package:pi_hole_client/data/gateway/api_gateway_v6.dart';
+import 'package:pi_hole_client/data/model/v6/action/action.dart';
+import 'package:pi_hole_client/data/model/v6/auth/sessions.dart';
+import 'package:pi_hole_client/data/model/v6/config/config.dart'
     show Config, ConfigData, Dns;
-import 'package:pi_hole_client/data/services/api/model/v6/dhcp/dhcp.dart'
-    show Dhcp;
-import 'package:pi_hole_client/data/services/api/model/v6/ftl/client.dart'
-    show InfoClient;
-import 'package:pi_hole_client/data/services/api/model/v6/ftl/host.dart'
-    show InfoHost;
-import 'package:pi_hole_client/data/services/api/model/v6/ftl/messages.dart'
+import 'package:pi_hole_client/data/model/v6/dhcp/dhcp.dart' show Dhcp;
+import 'package:pi_hole_client/data/model/v6/ftl/client.dart' show InfoClient;
+import 'package:pi_hole_client/data/model/v6/ftl/host.dart' show InfoHost;
+import 'package:pi_hole_client/data/model/v6/ftl/messages.dart'
     show InfoMessages;
-import 'package:pi_hole_client/data/services/api/model/v6/ftl/metrics.dart'
-    show InfoMetrics;
-import 'package:pi_hole_client/data/services/api/model/v6/ftl/sensors.dart'
-    show InfoSensors;
-import 'package:pi_hole_client/data/services/api/model/v6/ftl/system.dart'
-    show InfoSystem;
-import 'package:pi_hole_client/data/services/api/model/v6/ftl/version.dart'
-    show InfoVersion;
-import 'package:pi_hole_client/data/services/api/model/v6/groups/groups.dart';
-import 'package:pi_hole_client/data/services/api/model/v6/lists/lists.dart'
-    show Lists;
-import 'package:pi_hole_client/data/services/api/model/v6/lists/search.dart'
-    show Search;
-import 'package:pi_hole_client/data/services/api/model/v6/network/devices.dart';
-import 'package:pi_hole_client/data/services/api/model/v6/network/gateway.dart';
+import 'package:pi_hole_client/data/model/v6/ftl/metrics.dart' show InfoMetrics;
+import 'package:pi_hole_client/data/model/v6/ftl/sensors.dart' show InfoSensors;
+import 'package:pi_hole_client/data/model/v6/ftl/system.dart' show InfoSystem;
+import 'package:pi_hole_client/data/model/v6/ftl/version.dart' show InfoVersion;
+import 'package:pi_hole_client/data/model/v6/groups/groups.dart';
+import 'package:pi_hole_client/data/model/v6/lists/lists.dart' show Lists;
+import 'package:pi_hole_client/data/model/v6/lists/search.dart' show Search;
+import 'package:pi_hole_client/data/model/v6/network/devices.dart';
+import 'package:pi_hole_client/data/model/v6/network/gateway.dart';
+import 'package:pi_hole_client/data/repositories/local/secure_data_repository.dart';
+// import 'package:pi_hole_client/data/services/local/session_credential_service.dart';
 import 'package:pi_hole_client/domain/models_old/client.dart';
 import 'package:pi_hole_client/domain/models_old/config.dart';
 import 'package:pi_hole_client/domain/models_old/devices.dart';

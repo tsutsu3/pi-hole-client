@@ -10,8 +10,8 @@ import 'package:result_dart/result_dart.dart';
 /// It maintains an in-memory cache for the `sid` value and exposes a getter.
 class SecureDataRepository {
   SecureDataRepository(SecureStorageService storage, String address)
-      : _storage = storage,
-        _address = address;
+    : _storage = storage,
+      _address = address;
 
   final SecureStorageService _storage;
   final String _address;

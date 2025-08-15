@@ -88,8 +88,10 @@ class _SettingsWidgetState extends State<SettingsWidget> {
               splitView.setSecondary(const SubscriptionLists());
             case 6:
               splitView.setSecondary(const AdvancedServerOptions());
-              final apiVersion =
-                  context.read<ServersProvider>().selectedServer?.apiVersion;
+              final apiVersion = context
+                  .read<ServersProvider>()
+                  .selectedServer
+                  ?.apiVersion;
               if (apiVersion == 'v6') {
                 splitView.push(const NetworkScreen());
               }
@@ -143,9 +145,9 @@ class _SettingsWidgetState extends State<SettingsWidget> {
           leadingIcon: icon,
           trailing: trailing,
           onTap: () {
-            Navigator.of(context).push(
-              MaterialPageRoute(builder: (context) => screenToNavigate),
-            );
+            Navigator.of(
+              context,
+            ).push(MaterialPageRoute(builder: (context) => screenToNavigate));
           },
         );
       }
@@ -180,9 +182,7 @@ class _SettingsWidgetState extends State<SettingsWidget> {
       return Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          SectionLabel(
-            label: AppLocalizations.of(context)!.appSettings,
-          ),
+          SectionLabel(label: AppLocalizations.of(context)!.appSettings),
           settingsTile(
             icon: Icons.light_mode_rounded,
             title: AppLocalizations.of(context)!.theme,
@@ -224,9 +224,7 @@ class _SettingsWidgetState extends State<SettingsWidget> {
       return Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          SectionLabel(
-            label: AppLocalizations.of(context)!.serverSettings,
-          ),
+          SectionLabel(label: AppLocalizations.of(context)!.serverSettings),
           settingsTile(
             icon: Icons.connected_tv_rounded,
             title: AppLocalizations.of(context)!.serverInfo,
@@ -249,8 +247,9 @@ class _SettingsWidgetState extends State<SettingsWidget> {
           settingsTile(
             icon: Icons.build_rounded,
             title: AppLocalizations.of(context)!.advancedSetup,
-            subtitle:
-                AppLocalizations.of(context)!.advancedServerSetupDescription,
+            subtitle: AppLocalizations.of(
+              context,
+            )!.advancedServerSetupDescription,
             screenToNavigate: const AdvancedServerOptions(),
             thisItem: 6,
           ),
@@ -262,9 +261,7 @@ class _SettingsWidgetState extends State<SettingsWidget> {
       return Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          SectionLabel(
-            label: AppLocalizations.of(context)!.about,
-          ),
+          SectionLabel(label: AppLocalizations.of(context)!.about),
           settingsTile(
             icon: Icons.phone_android_rounded,
             title: AppLocalizations.of(context)!.applicationDetail,
@@ -340,8 +337,9 @@ class _SettingsWidgetState extends State<SettingsWidget> {
           headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled) {
             return <Widget>[
               SliverOverlapAbsorber(
-                handle:
-                    NestedScrollView.sliverOverlapAbsorberHandleFor(context),
+                handle: NestedScrollView.sliverOverlapAbsorberHandleFor(
+                  context,
+                ),
                 sliver: SliverAppBar.large(
                   floating: true,
                   centerTitle: false,

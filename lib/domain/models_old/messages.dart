@@ -1,9 +1,7 @@
-import 'package:pi_hole_client/data/services/api/model/v6/ftl/messages.dart';
+import 'package:pi_hole_client/data/model/v6/ftl/messages.dart';
 
 class MessagesInfo {
-  MessagesInfo({
-    required this.messages,
-  });
+  MessagesInfo({required this.messages});
 
   factory MessagesInfo.fromV6(InfoMessages messages) {
     final list = messages.messages
@@ -23,9 +21,7 @@ class MessagesInfo {
   final List<Message> messages;
 
   Map<String, dynamic> toJson() {
-    return {
-      'messages': messages.map((m) => m.toJson()).toList(),
-    };
+    return {'messages': messages.map((m) => m.toJson()).toList()};
   }
 }
 
@@ -77,11 +73,6 @@ class Message {
   final String url;
 
   Map<String, dynamic> toJson() {
-    return {
-      'id': id,
-      'timestamp': timestamp,
-      'message': message,
-      'url': url,
-    };
+    return {'id': id, 'timestamp': timestamp, 'message': message, 'url': url};
   }
 }

@@ -19,251 +19,200 @@ void main() async {
       testSetup.initializeMock(useApiGatewayVersion: 'v6');
     });
 
-    testWidgets(
-      'should show servers page',
-      (WidgetTester tester) async {
-        tester.view.physicalSize = const Size(1080, 2400);
-        tester.view.devicePixelRatio = 2.0;
+    testWidgets('should show servers page', (WidgetTester tester) async {
+      tester.view.physicalSize = const Size(1080, 2400);
+      tester.view.devicePixelRatio = 2.0;
 
-        addTearDown(() {
-          tester.view.resetPhysicalSize();
-          tester.view.resetDevicePixelRatio();
-        });
+      addTearDown(() {
+        tester.view.resetPhysicalSize();
+        tester.view.resetDevicePixelRatio();
+      });
 
-        await tester.pumpWidget(
-          testSetup.buildTestWidget(
-            const ServersPage(),
-          ),
-        );
+      await tester.pumpWidget(testSetup.buildTestWidget(const ServersPage()));
 
-        expect(find.byType(ServersPage), findsOneWidget);
-        expect(find.text('Servers'), findsOneWidget);
+      expect(find.byType(ServersPage), findsOneWidget);
+      expect(find.text('Servers'), findsOneWidget);
 
-        // show default server
-        expect(find.text('test v6'), findsOneWidget);
-        expect(find.text('Connected'), findsOneWidget);
-      },
-    );
+      // show default server
+      expect(find.text('test v6'), findsOneWidget);
+      expect(find.text('Connected'), findsOneWidget);
+    });
 
-    testWidgets(
-      'should show blank page',
-      (WidgetTester tester) async {
-        tester.view.physicalSize = const Size(1080, 2400);
-        tester.view.devicePixelRatio = 2.0;
+    testWidgets('should show blank page', (WidgetTester tester) async {
+      tester.view.physicalSize = const Size(1080, 2400);
+      tester.view.devicePixelRatio = 2.0;
 
-        when(testSetup.mockServersProvider.getServersList).thenReturn([]);
+      when(testSetup.mockServersProvider.getServersList).thenReturn([]);
 
-        addTearDown(() {
-          tester.view.resetPhysicalSize();
-          tester.view.resetDevicePixelRatio();
-        });
+      addTearDown(() {
+        tester.view.resetPhysicalSize();
+        tester.view.resetDevicePixelRatio();
+      });
 
-        await tester.pumpWidget(
-          testSetup.buildTestWidget(
-            const ServersPage(),
-          ),
-        );
+      await tester.pumpWidget(testSetup.buildTestWidget(const ServersPage()));
 
-        expect(find.byType(ServersPage), findsOneWidget);
-        expect(find.text('Servers'), findsOneWidget);
+      expect(find.byType(ServersPage), findsOneWidget);
+      expect(find.text('Servers'), findsOneWidget);
 
-        expect(find.text('test v6'), findsNothing);
-      },
-    );
+      expect(find.text('test v6'), findsNothing);
+    });
 
-    testWidgets(
-      'should connect to server',
-      (WidgetTester tester) async {
-        tester.view.physicalSize = const Size(1080, 2400);
-        tester.view.devicePixelRatio = 2.0;
+    testWidgets('should connect to server', (WidgetTester tester) async {
+      tester.view.physicalSize = const Size(1080, 2400);
+      tester.view.devicePixelRatio = 2.0;
 
-        when(testSetup.mockServersProvider.selectedServer).thenReturn(null);
-        when(testSetup.mockServersProvider.resetSelectedServer())
-            .thenAnswer((_) async => true);
+      when(testSetup.mockServersProvider.selectedServer).thenReturn(null);
+      when(
+        testSetup.mockServersProvider.resetSelectedServer(),
+      ).thenAnswer((_) async => true);
 
-        addTearDown(() {
-          tester.view.resetPhysicalSize();
-          tester.view.resetDevicePixelRatio();
-        });
+      addTearDown(() {
+        tester.view.resetPhysicalSize();
+        tester.view.resetDevicePixelRatio();
+      });
 
-        await tester.pumpWidget(
-          testSetup.buildTestWidget(
-            const ServersPage(),
-          ),
-        );
+      await tester.pumpWidget(testSetup.buildTestWidget(const ServersPage()));
 
-        expect(find.byType(ServersPage), findsOneWidget);
-        expect(find.text('Servers'), findsOneWidget);
-        expect(find.text('Connect'), findsOneWidget);
-        await tester.tap(find.text('Connect'));
-        await tester.pumpAndSettle();
-      },
-    );
+      expect(find.byType(ServersPage), findsOneWidget);
+      expect(find.text('Servers'), findsOneWidget);
+      expect(find.text('Connect'), findsOneWidget);
+      await tester.tap(find.text('Connect'));
+      await tester.pumpAndSettle();
+    });
 
-    testWidgets(
-      'should set default server',
-      (WidgetTester tester) async {
-        tester.view.physicalSize = const Size(1080, 2400);
-        tester.view.devicePixelRatio = 2.0;
+    testWidgets('should set default server', (WidgetTester tester) async {
+      tester.view.physicalSize = const Size(1080, 2400);
+      tester.view.devicePixelRatio = 2.0;
 
-        addTearDown(() {
-          tester.view.resetPhysicalSize();
-          tester.view.resetDevicePixelRatio();
-        });
+      addTearDown(() {
+        tester.view.resetPhysicalSize();
+        tester.view.resetDevicePixelRatio();
+      });
 
-        await tester.pumpWidget(
-          testSetup.buildTestWidget(
-            const ServersPage(),
-          ),
-        );
+      await tester.pumpWidget(testSetup.buildTestWidget(const ServersPage()));
 
-        expect(find.byType(ServersPage), findsOneWidget);
-        expect(find.text('Servers'), findsOneWidget);
+      expect(find.byType(ServersPage), findsOneWidget);
+      expect(find.text('Servers'), findsOneWidget);
 
-        await tester.tap(find.byIcon(Icons.more_vert));
-        await tester.pumpAndSettle();
+      await tester.tap(find.byIcon(Icons.more_vert));
+      await tester.pumpAndSettle();
 
-        expect(find.text('Set as default connection'), findsOneWidget);
-        when(testSetup.mockServersProvider.setDefaultServer(any))
-            .thenAnswer((_) async => true);
-        await tester.tap(find.text('Set as default connection'));
-        await tester.pumpAndSettle(const Duration(seconds: 1));
+      expect(find.text('Set as default connection'), findsOneWidget);
+      when(
+        testSetup.mockServersProvider.setDefaultServer(any),
+      ).thenAnswer((_) async => true);
+      await tester.tap(find.text('Set as default connection'));
+      await tester.pumpAndSettle(const Duration(seconds: 1));
 
-        expect(find.byType(SnackBar), findsOneWidget);
-        expect(
-          find.text('Connection set as default successfully.'),
-          findsOneWidget,
-        );
-      },
-    );
+      expect(find.byType(SnackBar), findsOneWidget);
+      expect(
+        find.text('Connection set as default successfully.'),
+        findsOneWidget,
+      );
+    });
 
-    testWidgets(
-      'should show edit server',
-      (WidgetTester tester) async {
-        tester.view.physicalSize = const Size(1080, 2400);
-        tester.view.devicePixelRatio = 2.0;
+    testWidgets('should show edit server', (WidgetTester tester) async {
+      tester.view.physicalSize = const Size(1080, 2400);
+      tester.view.devicePixelRatio = 2.0;
 
-        addTearDown(() {
-          tester.view.resetPhysicalSize();
-          tester.view.resetDevicePixelRatio();
-        });
+      addTearDown(() {
+        tester.view.resetPhysicalSize();
+        tester.view.resetDevicePixelRatio();
+      });
 
-        await tester.pumpWidget(
-          testSetup.buildTestWidget(
-            const ServersPage(),
-          ),
-        );
+      await tester.pumpWidget(testSetup.buildTestWidget(const ServersPage()));
 
-        expect(find.byType(ServersPage), findsOneWidget);
-        expect(find.text('Servers'), findsOneWidget);
+      expect(find.byType(ServersPage), findsOneWidget);
+      expect(find.text('Servers'), findsOneWidget);
 
-        await tester.tap(find.byIcon(Icons.more_vert));
-        await tester.pumpAndSettle();
+      await tester.tap(find.byIcon(Icons.more_vert));
+      await tester.pumpAndSettle();
 
-        expect(find.text('Edit'), findsOneWidget);
-        await tester.tap(find.text('Edit'));
-        await tester.pump(const Duration(milliseconds: 1000));
-        await tester.pump(const Duration(milliseconds: 1000));
-        await tester.pump(const Duration(milliseconds: 1000));
-        expect(find.byType(AddServerFullscreen), findsOneWidget);
-      },
-    );
+      expect(find.text('Edit'), findsOneWidget);
+      await tester.tap(find.text('Edit'));
+      await tester.pump(const Duration(milliseconds: 1000));
+      await tester.pump(const Duration(milliseconds: 1000));
+      await tester.pump(const Duration(milliseconds: 1000));
+      expect(find.byType(AddServerFullscreen), findsOneWidget);
+    });
 
-    testWidgets(
-      'should delete server',
-      (WidgetTester tester) async {
-        tester.view.physicalSize = const Size(1080, 2400);
-        tester.view.devicePixelRatio = 2.0;
+    testWidgets('should delete server', (WidgetTester tester) async {
+      tester.view.physicalSize = const Size(1080, 2400);
+      tester.view.devicePixelRatio = 2.0;
 
-        addTearDown(() {
-          tester.view.resetPhysicalSize();
-          tester.view.resetDevicePixelRatio();
-        });
+      addTearDown(() {
+        tester.view.resetPhysicalSize();
+        tester.view.resetDevicePixelRatio();
+      });
 
-        await tester.pumpWidget(
-          testSetup.buildTestWidget(
-            const ServersPage(),
-          ),
-        );
+      await tester.pumpWidget(testSetup.buildTestWidget(const ServersPage()));
 
-        expect(find.byType(ServersPage), findsOneWidget);
-        expect(find.text('Servers'), findsOneWidget);
+      expect(find.byType(ServersPage), findsOneWidget);
+      expect(find.text('Servers'), findsOneWidget);
 
-        await tester.tap(find.byIcon(Icons.more_vert));
-        await tester.pumpAndSettle();
+      await tester.tap(find.byIcon(Icons.more_vert));
+      await tester.pumpAndSettle();
 
-        expect(find.text('Delete'), findsOneWidget);
-        await tester.tap(find.text('Delete'));
-        await tester.pumpAndSettle();
-        expect(find.byType(DeleteServerModal), findsOneWidget);
-        expect(find.text('Delete'), findsWidgets);
-        await tester.tap(find.text('Delete').last);
-        await tester.pumpAndSettle();
-        expect(find.byType(SnackBar), findsOneWidget);
-        expect(find.text('Connection removed successfully'), findsOneWidget);
-      },
-    );
+      expect(find.text('Delete'), findsOneWidget);
+      await tester.tap(find.text('Delete'));
+      await tester.pumpAndSettle();
+      expect(find.byType(DeleteServerModal), findsOneWidget);
+      expect(find.text('Delete'), findsWidgets);
+      await tester.tap(find.text('Delete').last);
+      await tester.pumpAndSettle();
+      expect(find.byType(SnackBar), findsOneWidget);
+      expect(find.text('Connection removed successfully'), findsOneWidget);
+    });
 
-    testWidgets(
-      'should show add server window',
-      (WidgetTester tester) async {
-        tester.view.physicalSize = const Size(1080, 2400);
-        tester.view.devicePixelRatio = 2.0;
+    testWidgets('should show add server window', (WidgetTester tester) async {
+      tester.view.physicalSize = const Size(1080, 2400);
+      tester.view.devicePixelRatio = 2.0;
 
-        addTearDown(() {
-          tester.view.resetPhysicalSize();
-          tester.view.resetDevicePixelRatio();
-        });
+      addTearDown(() {
+        tester.view.resetPhysicalSize();
+        tester.view.resetDevicePixelRatio();
+      });
 
-        await tester.pumpWidget(
-          testSetup.buildTestWidget(
-            const ServersPage(),
-          ),
-        );
+      await tester.pumpWidget(testSetup.buildTestWidget(const ServersPage()));
 
-        expect(find.byType(ServersPage), findsOneWidget);
-        expect(find.text('Servers'), findsOneWidget);
+      expect(find.byType(ServersPage), findsOneWidget);
+      expect(find.text('Servers'), findsOneWidget);
 
-        await tester.tap(find.byType(FloatingActionButton));
-        await tester.pump(const Duration(milliseconds: 1000));
-        await tester.pump(const Duration(milliseconds: 1000));
-        await tester.pump(const Duration(milliseconds: 1000));
-        expect(find.byType(AddServerFullscreen), findsOneWidget);
-      },
-    );
+      await tester.tap(find.byType(FloatingActionButton));
+      await tester.pump(const Duration(milliseconds: 1000));
+      await tester.pump(const Duration(milliseconds: 1000));
+      await tester.pump(const Duration(milliseconds: 1000));
+      expect(find.byType(AddServerFullscreen), findsOneWidget);
+    });
 
-    testWidgets(
-      'should show error when connecting to server',
-      (WidgetTester tester) async {
-        tester.view.physicalSize = const Size(1080, 2400);
-        tester.view.devicePixelRatio = 2.0;
+    testWidgets('should show error when connecting to server', (
+      WidgetTester tester,
+    ) async {
+      tester.view.physicalSize = const Size(1080, 2400);
+      tester.view.devicePixelRatio = 2.0;
 
-        when(testSetup.mockServersProvider.selectedServer).thenReturn(null);
-        when(testSetup.mockServersProvider.resetSelectedServer())
-            .thenAnswer((_) async => true);
-        when(testSetup.mockApiGatewayV6.loginQuery()).thenAnswer(
-          (_) async => LoginQueryResponse(result: APiResponseType.error),
-        );
+      when(testSetup.mockServersProvider.selectedServer).thenReturn(null);
+      when(
+        testSetup.mockServersProvider.resetSelectedServer(),
+      ).thenAnswer((_) async => true);
+      when(testSetup.mockApiGatewayV6.loginQuery()).thenAnswer(
+        (_) async => LoginQueryResponse(result: APiResponseType.error),
+      );
 
-        addTearDown(() {
-          tester.view.resetPhysicalSize();
-          tester.view.resetDevicePixelRatio();
-        });
+      addTearDown(() {
+        tester.view.resetPhysicalSize();
+        tester.view.resetDevicePixelRatio();
+      });
 
-        await tester.pumpWidget(
-          testSetup.buildTestWidget(
-            const ServersPage(),
-          ),
-        );
+      await tester.pumpWidget(testSetup.buildTestWidget(const ServersPage()));
 
-        expect(find.byType(ServersPage), findsOneWidget);
-        expect(find.text('Servers'), findsOneWidget);
-        expect(find.text('Connect'), findsOneWidget);
-        await tester.tap(find.text('Connect'));
-        await tester.pumpAndSettle();
-        expect(find.byType(SnackBar), findsOneWidget);
-        expect(find.text('Cannot connect to server.'), findsOneWidget);
-      },
-    );
+      expect(find.byType(ServersPage), findsOneWidget);
+      expect(find.text('Servers'), findsOneWidget);
+      expect(find.text('Connect'), findsOneWidget);
+      await tester.tap(find.text('Connect'));
+      await tester.pumpAndSettle();
+      expect(find.byType(SnackBar), findsOneWidget);
+      expect(find.text('Cannot connect to server.'), findsOneWidget);
+    });
   });
 }

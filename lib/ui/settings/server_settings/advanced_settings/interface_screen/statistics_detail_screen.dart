@@ -1,14 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:pi_hole_client/data/services/api/model/v6/network/interfaces.dart';
+import 'package:pi_hole_client/data/model/v6/network/interfaces.dart';
 import 'package:pi_hole_client/ui/core/l10n/generated/app_localizations.dart';
 import 'package:pi_hole_client/ui/core/ui/components/custom_list_tile.dart';
 import 'package:pi_hole_client/ui/core/ui/components/section_label.dart';
 
 class StatisticsDetailScreen extends StatelessWidget {
-  const StatisticsDetailScreen({
-    required this.stats,
-    super.key,
-  });
+  const StatisticsDetailScreen({required this.stats, super.key});
 
   final InterfaceStats stats;
 
@@ -17,9 +14,7 @@ class StatisticsDetailScreen extends StatelessWidget {
     final locale = AppLocalizations.of(context)!;
 
     return Scaffold(
-      appBar: AppBar(
-        title: Text(locale.statistics),
-      ),
+      appBar: AppBar(title: Text(locale.statistics)),
       body: SafeArea(
         child: ListView(
           padding: const EdgeInsets.all(16.0),

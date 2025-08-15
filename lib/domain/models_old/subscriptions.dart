@@ -1,5 +1,5 @@
 import 'package:pi_hole_client/config/enums.dart';
-import 'package:pi_hole_client/data/services/api/model/v6/lists/lists.dart';
+import 'package:pi_hole_client/data/model/v6/lists/lists.dart';
 
 class SubscriptionRequest {
   SubscriptionRequest({
@@ -54,9 +54,7 @@ class SubscriptionRequest {
 }
 
 class SubscriptionsInfo {
-  SubscriptionsInfo({
-    required this.subscriptions,
-  });
+  SubscriptionsInfo({required this.subscriptions});
 
   factory SubscriptionsInfo.fromV6(Lists lists) {
     return SubscriptionsInfo(
@@ -69,12 +67,15 @@ class SubscriptionsInfo {
               groups: e.groups,
               enabled: e.enabled,
               id: e.id,
-              dateAdded:
-                  DateTime.fromMillisecondsSinceEpoch(e.dateAdded * 1000),
-              dateModified:
-                  DateTime.fromMillisecondsSinceEpoch(e.dateModified * 1000),
-              dateUpdated:
-                  DateTime.fromMillisecondsSinceEpoch(e.dateUpdated * 1000),
+              dateAdded: DateTime.fromMillisecondsSinceEpoch(
+                e.dateAdded * 1000,
+              ),
+              dateModified: DateTime.fromMillisecondsSinceEpoch(
+                e.dateModified * 1000,
+              ),
+              dateUpdated: DateTime.fromMillisecondsSinceEpoch(
+                e.dateUpdated * 1000,
+              ),
               number: e.number,
               invalidDomains: e.invalidDomains,
               abpEntries: e.abpEntries,
@@ -88,9 +89,7 @@ class SubscriptionsInfo {
   final List<Subscription> subscriptions;
 
   Map<String, dynamic> toJson() {
-    return {
-      'lists': subscriptions.map((e) => e.toJson()).toList(),
-    };
+    return {'lists': subscriptions.map((e) => e.toJson()).toList()};
   }
 }
 

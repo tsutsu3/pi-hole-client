@@ -13,10 +13,7 @@ import 'package:pi_hole_client/ui/servers/servers_list.dart';
 import 'package:provider/provider.dart';
 
 class ServersPage extends StatefulWidget {
-  const ServersPage({
-    super.key,
-    this.isFromBase,
-  });
+  const ServersPage({super.key, this.isFromBase});
 
   final bool? isFromBase;
 
@@ -121,9 +118,7 @@ class _ServersPageState extends State<ServersPage> {
 
     return PopScope(
       child: Scaffold(
-        appBar: AppBar(
-          title: Text(AppLocalizations.of(context)!.servers),
-        ),
+        appBar: AppBar(title: Text(AppLocalizations.of(context)!.servers)),
         body: SafeArea(
           child: Stack(
             children: [
@@ -139,8 +134,8 @@ class _ServersPageState extends State<ServersPage> {
                 curve: Curves.easeInOut,
                 bottom: isVisible
                     ? showingSnackbar
-                        ? 70
-                        : (Platform.isIOS ? 40 : 20)
+                          ? 70
+                          : (Platform.isIOS ? 40 : 20)
                     : -70,
                 right: 20,
                 child: FloatingActionButton(

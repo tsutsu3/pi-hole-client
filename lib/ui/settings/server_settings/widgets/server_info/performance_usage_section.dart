@@ -31,9 +31,7 @@ class PerformanceUsageSection extends StatelessWidget {
         ),
         ListTile(
           dense: true,
-          leading: const Skeleton.keep(
-            child: Icon(Icons.memory_rounded),
-          ),
+          leading: const Skeleton.keep(child: Icon(Icons.memory_rounded)),
           title: Skeleton.keep(
             child: listTileTitle(
               AppLocalizations.of(context)!.cpuUsage,
@@ -57,9 +55,7 @@ class PerformanceUsageSection extends StatelessWidget {
         ),
         ListTile(
           dense: true,
-          leading: const Skeleton.keep(
-            child: Icon(Icons.speed_rounded),
-          ),
+          leading: const Skeleton.keep(child: Icon(Icons.speed_rounded)),
           title: Skeleton.keep(
             child: listTileTitle(
               AppLocalizations.of(context)!.memoryUsage,

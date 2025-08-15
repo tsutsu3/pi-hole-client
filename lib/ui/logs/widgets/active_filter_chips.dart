@@ -62,16 +62,11 @@ class ActiveFilterChips extends StatelessWidget {
           : '${filtersProvider.statusSelected.length} ${loc.statusSelected}';
 
       chips.add(
-        _buildChip(
-          context,
-          label,
-          const Icon(Icons.shield),
-          () {
-            logsSvc.scrollToTop(logsListDisplay);
-            filtersProvider.resetStatus();
-            onResetFilters();
-          },
-        ),
+        _buildChip(context, label, const Icon(Icons.shield), () {
+          logsSvc.scrollToTop(logsListDisplay);
+          filtersProvider.resetStatus();
+          onResetFilters();
+        }),
       );
     }
 
@@ -83,16 +78,11 @@ class ActiveFilterChips extends StatelessWidget {
           : '${filtersProvider.selectedClients.length} ${loc.clientsSelected}';
 
       chips.add(
-        _buildChip(
-          context,
-          label,
-          const Icon(Icons.devices),
-          () {
-            logsSvc.scrollToTop(logsListDisplay);
-            filtersProvider.resetClients();
-            onResetFilters();
-          },
-        ),
+        _buildChip(context, label, const Icon(Icons.devices), () {
+          logsSvc.scrollToTop(logsListDisplay);
+          filtersProvider.resetClients();
+          onResetFilters();
+        }),
       );
     }
 
@@ -129,11 +119,7 @@ class ActiveFilterChips extends StatelessWidget {
   ) {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 5),
-      child: Chip(
-        label: Text(label),
-        avatar: icon,
-        onDeleted: onDeleted,
-      ),
+      child: Chip(label: Text(label), avatar: icon, onDeleted: onDeleted),
     );
   }
 }

@@ -52,10 +52,7 @@ class NetworkListView extends StatelessWidget {
           subtitle: Text(
             device.lastQuery == DateTime.fromMillisecondsSinceEpoch(0)
                 ? AppLocalizations.of(context)!.never
-                : formatTimestamp(
-                    device.lastQuery,
-                    kUnifiedDateTimeLogFormat,
-                  ),
+                : formatTimestamp(device.lastQuery, kUnifiedDateTimeLogFormat),
           ),
           trailing: device.ips.any((ip) => ip.ip == currentClientIp)
               ? Chip(
@@ -119,10 +116,12 @@ class NetworkListView extends StatelessWidget {
       );
     }
 
-    final ipLines = device.ips.map((ip) {
-      final namePart = ip.name != null ? ' (${ip.name})' : '';
-      return '${ip.ip}$namePart';
-    }).join('\n');
+    final ipLines = device.ips
+        .map((ip) {
+          final namePart = ip.name != null ? ' (${ip.name})' : '';
+          return '${ip.ip}$namePart';
+        })
+        .join('\n');
 
     return Text(
       ipLines,

@@ -55,35 +55,17 @@ class SubscriptionTile extends StatelessWidget {
 
       switch (type) {
         case 0:
-          return Icon(
-            Icons.help_rounded,
-            color: appColors.queryGrey,
-          );
+          return Icon(Icons.help_rounded, color: appColors.queryGrey);
         case 1:
-          return Icon(
-            Icons.check_circle_rounded,
-            color: appColors.commonGreen,
-          );
+          return Icon(Icons.check_circle_rounded, color: appColors.commonGreen);
         case 2:
-          return Icon(
-            Icons.update_rounded,
-            color: appColors.commonGreen,
-          );
+          return Icon(Icons.update_rounded, color: appColors.commonGreen);
         case 3:
-          return Icon(
-            Icons.error_rounded,
-            color: appColors.queryGrey,
-          );
+          return Icon(Icons.error_rounded, color: appColors.queryGrey);
         case 4:
-          return Icon(
-            Icons.cancel_rounded,
-            color: appColors.commonRed,
-          );
+          return Icon(Icons.cancel_rounded, color: appColors.commonRed);
         default:
-          return Icon(
-            Icons.question_mark_rounded,
-            color: appColors.queryGrey,
-          );
+          return Icon(Icons.question_mark_rounded, color: appColors.queryGrey);
       }
     }
 
@@ -145,8 +127,9 @@ class SubscriptionTile extends StatelessWidget {
     );
 
     return Padding(
-      padding:
-          isWide ? const EdgeInsets.symmetric(horizontal: 12) : EdgeInsets.zero,
+      padding: isWide
+          ? const EdgeInsets.symmetric(horizontal: 12)
+          : EdgeInsets.zero,
       child: Material(
         borderRadius: isWide ? BorderRadius.circular(28) : null,
         color: Colors.transparent,

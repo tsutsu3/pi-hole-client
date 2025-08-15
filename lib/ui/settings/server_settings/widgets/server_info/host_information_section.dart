@@ -23,9 +23,7 @@ class HostInformationSection extends StatelessWidget {
         ),
         ListTile(
           dense: true,
-          leading: const Skeleton.keep(
-            child: Icon(Icons.connected_tv_rounded),
-          ),
+          leading: const Skeleton.keep(child: Icon(Icons.connected_tv_rounded)),
           title: Skeleton.keep(
             child: listTileTitle(
               AppLocalizations.of(context)!.host,
@@ -38,9 +36,7 @@ class HostInformationSection extends StatelessWidget {
         ),
         ListTile(
           dense: true,
-          leading: const Skeleton.keep(
-            child: Icon(Icons.tag_rounded),
-          ),
+          leading: const Skeleton.keep(child: Icon(Icons.tag_rounded)),
           title: Skeleton.keep(
             child: listTileTitle(
               AppLocalizations.of(context)!.model,

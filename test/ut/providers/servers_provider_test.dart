@@ -3,7 +3,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
 import 'package:pi_hole_client/config/query_types.dart';
-import 'package:pi_hole_client/data/gateway/v6/api_gateway_v6.dart';
+import 'package:pi_hole_client/data/gateway/api_gateway_v6.dart';
 import 'package:pi_hole_client/domain/models_old/database.dart';
 import 'package:pi_hole_client/domain/models_old/server.dart';
 import 'package:pi_hole_client/ui/core/viewmodel/app_config_provider.dart';

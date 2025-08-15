@@ -1,6 +1,6 @@
 import 'dart:async';
 
-import 'package:pi_hole_client/data/services/api/model/v6/config/config.dart';
+import 'package:pi_hole_client/data/model/v6/config/config.dart';
 import 'package:pi_hole_client/domain/models_old/domain.dart';
 import 'package:pi_hole_client/domain/models_old/gateways.dart';
 import 'package:pi_hole_client/domain/models_old/groups.dart';

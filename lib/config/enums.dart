@@ -34,6 +34,9 @@ enum ListsStatus {
 
   /// 4: List unavailable, there is no local copy of this list available (replace list)
   unavailableNoCache,
+
+  /// 5. Fallback status
+  unknown,
 }
 
 /// Gravity Status
@@ -69,7 +72,6 @@ enum V5DomainType {
 
   /// 2: Regex white list
   regex_white, // ignore: constant_identifier_names
-
   /// 3: Regex black list
   regex_black, // ignore: constant_identifier_names
 }
@@ -92,10 +94,7 @@ enum DomainKind {
   regex,
 }
 
-enum GraphSection {
-  homeView,
-  statsView,
-}
+enum GraphSection { homeView, statsView }
 
 /// TLS Status
 enum TlsStatus {

@@ -1,8 +1,8 @@
 import 'dart:convert';
 
-import 'package:pi_hole_client/data/services/api/model/v6/dns/dns.dart';
-import 'package:pi_hole_client/data/services/api/model/v6/ftl/ftl.dart';
-import 'package:pi_hole_client/data/services/api/model/v6/metrics/stats.dart';
+import 'package:pi_hole_client/data/model/v6/dns/dns.dart';
+import 'package:pi_hole_client/data/model/v6/ftl/ftl.dart';
+import 'package:pi_hole_client/data/model/v6/metrics/stats.dart';
 import 'package:pi_hole_client/utils/charts_data_functions.dart';
 
 RealtimeStatus realtimeStatusFromJson(String str) =>
@@ -46,74 +46,80 @@ class RealtimeStatus {
   });
 
   factory RealtimeStatus.fromJson(Map<String, dynamic> json) => RealtimeStatus(
-        domainsBeingBlocked: json['domains_being_blocked'],
-        dnsQueriesToday: json['dns_queries_today'],
-        adsBlockedToday: json['ads_blocked_today'],
-        adsPercentageToday: json['ads_percentage_today'].toDouble(),
-        uniqueDomains: json['unique_domains'],
-        queriesForwarded: json['queries_forwarded'],
-        queriesCached: json['queries_cached'],
-        clientsEverSeen: json['clients_ever_seen'],
-        uniqueClients: json['unique_clients'],
-        dnsQueriesAllTypes: json['dns_queries_all_types'],
-        replyUnknown: json['reply_UNKNOWN'],
-        replyNodata: json['reply_NODATA'],
-        replyNxdomain: json['reply_NXDOMAIN'],
-        replyCname: json['reply_CNAME'],
-        replyIp: json['reply_IP'],
-        replyDomain: json['reply_DOMAIN'],
-        replyRrname: json['reply_RRNAME'],
-        replyServfail: json['reply_SERVFAIL'],
-        replyRefused: json['reply_REFUSED'],
-        replyNotimp: json['reply_NOTIMP'],
-        replyOther: json['reply_OTHER'],
-        replyDnssec: json['reply_DNSSEC'],
-        replyNone: json['reply_NONE'],
-        replyBlob: json['reply_BLOB'],
-        dnsQueriesAllReplies: json['dns_queries_all_replies'],
-        privacyLevel: json['privacy_level'],
-        status: json['status'],
-        topQueries: (json['top_queries'] is Map<String, dynamic> &&
-                json['top_queries'] != null)
-            ? Map.from(json['top_queries'])
-                .map((k, v) => MapEntry<String, int>(k, v))
-            : {},
-        topAds:
-            (json['top_ads'] is Map<String, dynamic> && json['top_ads'] != null)
-                ? Map.from(json['top_ads'])
-                    .map((k, v) => MapEntry<String, int>(k, v))
-                : {},
-        topSources: (json['top_sources'] is Map<String, dynamic> &&
-                json['top_sources'] != null)
-            ? Map.from(json['top_sources'])
-                .map((k, v) => MapEntry<String, int>(k, v))
-            : {},
-        topSourcesBlocked:
-            (json['top_sources_blocked'] is Map<String, dynamic> &&
-                    json['top_sources_blocked'] != null)
-                ? Map.from(json['top_sources_blocked'])
-                    .map((k, v) => MapEntry<String, int>(k, v))
-                : {},
-        forwardDestinations: (json['forward_destinations']
-                    is Map<String, dynamic> &&
-                json['forward_destinations'] != null)
-            ? sortValues(
-                removeZeroValues(
-                  Map.from(json['forward_destinations'])
-                      .map((k, v) => MapEntry<String, double>(k, v.toDouble())),
-                ),
-              )
-            : {},
-        queryTypes: (json['querytypes'] is Map<String, dynamic> &&
-                json['querytypes'] != null)
-            ? sortValues(
-                removeZeroValues(
-                  Map.from(json['querytypes'])
-                      .map((k, v) => MapEntry<String, double>(k, v.toDouble())),
-                ),
-              )
-            : {},
-      );
+    domainsBeingBlocked: json['domains_being_blocked'],
+    dnsQueriesToday: json['dns_queries_today'],
+    adsBlockedToday: json['ads_blocked_today'],
+    adsPercentageToday: json['ads_percentage_today'].toDouble(),
+    uniqueDomains: json['unique_domains'],
+    queriesForwarded: json['queries_forwarded'],
+    queriesCached: json['queries_cached'],
+    clientsEverSeen: json['clients_ever_seen'],
+    uniqueClients: json['unique_clients'],
+    dnsQueriesAllTypes: json['dns_queries_all_types'],
+    replyUnknown: json['reply_UNKNOWN'],
+    replyNodata: json['reply_NODATA'],
+    replyNxdomain: json['reply_NXDOMAIN'],
+    replyCname: json['reply_CNAME'],
+    replyIp: json['reply_IP'],
+    replyDomain: json['reply_DOMAIN'],
+    replyRrname: json['reply_RRNAME'],
+    replyServfail: json['reply_SERVFAIL'],
+    replyRefused: json['reply_REFUSED'],
+    replyNotimp: json['reply_NOTIMP'],
+    replyOther: json['reply_OTHER'],
+    replyDnssec: json['reply_DNSSEC'],
+    replyNone: json['reply_NONE'],
+    replyBlob: json['reply_BLOB'],
+    dnsQueriesAllReplies: json['dns_queries_all_replies'],
+    privacyLevel: json['privacy_level'],
+    status: json['status'],
+    topQueries:
+        (json['top_queries'] is Map<String, dynamic> &&
+            json['top_queries'] != null)
+        ? Map.from(
+            json['top_queries'],
+          ).map((k, v) => MapEntry<String, int>(k, v))
+        : {},
+    topAds: (json['top_ads'] is Map<String, dynamic> && json['top_ads'] != null)
+        ? Map.from(json['top_ads']).map((k, v) => MapEntry<String, int>(k, v))
+        : {},
+    topSources:
+        (json['top_sources'] is Map<String, dynamic> &&
+            json['top_sources'] != null)
+        ? Map.from(
+            json['top_sources'],
+          ).map((k, v) => MapEntry<String, int>(k, v))
+        : {},
+    topSourcesBlocked:
+        (json['top_sources_blocked'] is Map<String, dynamic> &&
+            json['top_sources_blocked'] != null)
+        ? Map.from(
+            json['top_sources_blocked'],
+          ).map((k, v) => MapEntry<String, int>(k, v))
+        : {},
+    forwardDestinations:
+        (json['forward_destinations'] is Map<String, dynamic> &&
+            json['forward_destinations'] != null)
+        ? sortValues(
+            removeZeroValues(
+              Map.from(
+                json['forward_destinations'],
+              ).map((k, v) => MapEntry<String, double>(k, v.toDouble())),
+            ),
+          )
+        : {},
+    queryTypes:
+        (json['querytypes'] is Map<String, dynamic> &&
+            json['querytypes'] != null)
+        ? sortValues(
+            removeZeroValues(
+              Map.from(
+                json['querytypes'],
+              ).map((k, v) => MapEntry<String, double>(k, v.toDouble())),
+            ),
+          )
+        : {},
+  );
 
   factory RealtimeStatus.fromV6(
     StatsSummary summary,
@@ -126,13 +132,14 @@ class RealtimeStatus {
     StatsUpstreams upstreams,
   ) {
     // Calculate the percentage of each query type
-    final totalQueryTypes =
-        summary.queries.types.toJson().values.reduce((a, b) => a + b);
+    final totalQueryTypes = summary.queries.types.toJson().values.reduce(
+      (a, b) => a + b,
+    );
     final queryTypes = sortValues(
       removeZeroValues(
         summary.queries.types.toJson().map(
-              (key, value) => MapEntry(key, (value / totalQueryTypes) * 100),
-            ),
+          (key, value) => MapEntry(key, (value / totalQueryTypes) * 100),
+        ),
       ),
     );
 
@@ -180,8 +187,8 @@ class RealtimeStatus {
 
     final totalForwardDestinations = upstreams.upstreams.isNotEmpty
         ? upstreams.upstreams
-            .map((upstream) => upstream.count)
-            .reduce((a, b) => a + b)
+              .map((upstream) => upstream.count)
+              .reduce((a, b) => a + b)
         : 0;
     final forwardDestinations = upstreams.upstreams.isNotEmpty
         ? sortValues(

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:pi_hole_client/config/formats.dart';
-import 'package:pi_hole_client/data/services/api/model/v6/network/interfaces.dart';
+import 'package:pi_hole_client/data/model/v6/network/interfaces.dart';
 import 'package:pi_hole_client/ui/core/l10n/generated/app_localizations.dart';
 import 'package:pi_hole_client/ui/core/ui/components/custom_list_tile.dart';
 import 'package:pi_hole_client/ui/core/ui/components/section_label.dart';

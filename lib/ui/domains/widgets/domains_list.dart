@@ -151,7 +151,8 @@ class _DomainsListState extends State<DomainsList> {
 
     void openModalAddDomainToList() {
       final mediaQuery = MediaQuery.of(context);
-      final isSmallLandscape = mediaQuery.size.width > mediaQuery.size.height &&
+      final isSmallLandscape =
+          mediaQuery.size.width > mediaQuery.size.height &&
           mediaQuery.size.height < ResponsiveConstants.medium;
 
       if (MediaQuery.of(context).size.width > ResponsiveConstants.medium) {
@@ -206,7 +207,8 @@ class _DomainsListState extends State<DomainsList> {
           contentWidget: (index) {
             final thisDomain = domainsList[index];
             return Padding(
-              padding: index == 0 &&
+              padding:
+                  index == 0 &&
                       MediaQuery.of(context).size.width >
                           ResponsiveConstants.large
                   ? const EdgeInsets.only(top: 16)
@@ -255,11 +257,7 @@ class _DomainsListState extends State<DomainsList> {
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                const Icon(
-                  Icons.error,
-                  size: 50,
-                  color: Colors.red,
-                ),
+                const Icon(Icons.error, size: 50, color: Colors.red),
                 const SizedBox(height: 50),
                 Text(
                   AppLocalizations.of(context)!.domainsNotLoaded,
@@ -283,8 +281,8 @@ class _DomainsListState extends State<DomainsList> {
                 curve: Curves.easeInOut,
                 bottom: isVisible
                     ? appConfigProvider.showingSnackbar
-                        ? 70
-                        : 20
+                          ? 70
+                          : 20
                     : -70,
                 right: 20,
                 child: FloatingActionButton(

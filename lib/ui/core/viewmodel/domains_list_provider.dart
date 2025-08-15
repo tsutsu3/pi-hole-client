@@ -86,10 +86,12 @@ class DomainsListProvider with ChangeNotifier {
     _searchTerm = value;
 
     if (value != '') {
-      _filteredBlacklistDomains =
-          _blacklistDomains.where((i) => i.domain.contains(value)).toList();
-      _filteredWhitelistDomains =
-          _whitelistDomains.where((i) => i.domain.contains(value)).toList();
+      _filteredBlacklistDomains = _blacklistDomains
+          .where((i) => i.domain.contains(value))
+          .toList();
+      _filteredWhitelistDomains = _whitelistDomains
+          .where((i) => i.domain.contains(value))
+          .toList();
     } else {
       _filteredBlacklistDomains = _blacklistDomains;
       _filteredWhitelistDomains = _whitelistDomains;
@@ -107,16 +109,18 @@ class DomainsListProvider with ChangeNotifier {
         ...result.data!.whitelistRegex,
       ];
       _whitelistDomains = whitelist;
-      _filteredWhitelistDomains =
-          whitelist.where((i) => i.domain.contains(_searchTerm)).toList();
+      _filteredWhitelistDomains = whitelist
+          .where((i) => i.domain.contains(_searchTerm))
+          .toList();
 
       final blacklist = <Domain>[
         ...result.data!.blacklist,
         ...result.data!.blacklistRegex,
       ];
       _blacklistDomains = blacklist;
-      _filteredBlacklistDomains =
-          blacklist.where((i) => i.domain.contains(_searchTerm)).toList();
+      _filteredBlacklistDomains = blacklist
+          .where((i) => i.domain.contains(_searchTerm))
+          .toList();
 
       _loadingStatus = LoadStatus.loaded;
     } else {
@@ -127,14 +131,16 @@ class DomainsListProvider with ChangeNotifier {
 
   void removeDomainFromList(Domain domain) {
     if (domain.type == 0 || domain.type == 2) {
-      _whitelistDomains =
-          _whitelistDomains.where((item) => item.id != domain.id).toList();
+      _whitelistDomains = _whitelistDomains
+          .where((item) => item.id != domain.id)
+          .toList();
       _filteredWhitelistDomains = _filteredWhitelistDomains
           .where((item) => item.id != domain.id)
           .toList();
     } else if (domain.type == 1 || domain.type == 3) {
-      _blacklistDomains =
-          _blacklistDomains.where((item) => item.id != domain.id).toList();
+      _blacklistDomains = _blacklistDomains
+          .where((item) => item.id != domain.id)
+          .toList();
       _filteredBlacklistDomains = _filteredBlacklistDomains
           .where((item) => item.id != domain.id)
           .toList();

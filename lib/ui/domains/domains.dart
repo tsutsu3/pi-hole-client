@@ -21,8 +21,10 @@ class DomainLists extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final serversProvider = Provider.of<ServersProvider>(context);
-    final domainsListProvider =
-        Provider.of<DomainsListProvider>(context, listen: false);
+    final domainsListProvider = Provider.of<DomainsListProvider>(
+      context,
+      listen: false,
+    );
 
     return DomainListsWidget(
       server: serversProvider.selectedServer!,
@@ -59,9 +61,7 @@ class _DomainListsWidgetState extends State<DomainListsWidget>
     super.initState();
 
     Future.microtask(() async {
-      widget.domainsListProvider.setLoadingStatus(
-        LoadStatus.loading,
-      );
+      widget.domainsListProvider.setLoadingStatus(LoadStatus.loading);
 
       await widget.domainsListProvider.fetchDomainsList();
 
@@ -71,10 +71,7 @@ class _DomainListsWidgetState extends State<DomainListsWidget>
     });
 
     widget.domainsListProvider.setSelectedTab(0);
-    tabController = TabController(
-      length: 2,
-      vsync: this,
-    );
+    tabController = TabController(length: 2, vsync: this);
   }
 
   @override
@@ -136,25 +133,27 @@ class _DomainListsWidgetState extends State<DomainListsWidget>
           headerSliverBuilder: (context, innerBoxIsScrolled) {
             return [
               SliverOverlapAbsorber(
-                handle:
-                    NestedScrollView.sliverOverlapAbsorberHandleFor(context),
+                handle: NestedScrollView.sliverOverlapAbsorberHandleFor(
+                  context,
+                ),
                 sliver: SliverAppBar(
                   title: domainsListProvider.searchMode
                       ? TextFormField(
                           initialValue: domainsListProvider.searchTerm,
                           onChanged: domainsListProvider.onSearch,
                           decoration: InputDecoration(
-                            hintText:
-                                AppLocalizations.of(context)!.searchDomains,
+                            hintText: AppLocalizations.of(
+                              context,
+                            )!.searchDomains,
                             hintStyle: const TextStyle(
                               fontWeight: FontWeight.w400,
                             ),
                             border: InputBorder.none,
                             prefixIcon: Icon(
                               Icons.search_rounded,
-                              color: Theme.of(context)
-                                  .colorScheme
-                                  .onSurfaceVariant,
+                              color: Theme.of(
+                                context,
+                              ).colorScheme.onSurfaceVariant,
                             ),
                           ),
                         )

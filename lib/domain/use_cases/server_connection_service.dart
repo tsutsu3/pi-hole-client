@@ -130,8 +130,9 @@ class ServerConnectionService {
         showErrorSnackBar(
           context: fallbackContext,
           appConfigProvider: appConfigProvider,
-          label: AppLocalizations.of(fallbackContext)!
-              .couldNotConnectServerFallback,
+          label: AppLocalizations.of(
+            fallbackContext,
+          )!.couldNotConnectServerFallback,
           duration: 5,
         );
       } else {
@@ -151,8 +152,9 @@ class ServerConnectionService {
       } else {
         targetContext = globalNavigatorKey.currentContext;
         if (targetContext != null) {
-          label =
-              AppLocalizations.of(targetContext)!.couldNotConnectServerFallback;
+          label = AppLocalizations.of(
+            targetContext,
+          )!.couldNotConnectServerFallback;
           duration = 5;
         }
       }

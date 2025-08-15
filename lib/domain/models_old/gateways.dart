@@ -1,5 +1,4 @@
-import 'package:pi_hole_client/data/services/api/model/v6/domains/domains.dart'
-    as v6;
+import 'package:pi_hole_client/data/model/v6/domains/domains.dart' as v6;
 import 'package:pi_hole_client/domain/models_old/app_log.dart';
 import 'package:pi_hole_client/domain/models_old/client.dart';
 import 'package:pi_hole_client/domain/models_old/config.dart';
@@ -40,12 +39,7 @@ enum APiResponseType {
 /// When Successful [result], [status] and [sid] are returned.
 /// When error, [result] and [log] are returned.
 class LoginQueryResponse {
-  LoginQueryResponse({
-    required this.result,
-    this.log,
-    this.status,
-    this.sid,
-  });
+  LoginQueryResponse({required this.result, this.log, this.status, this.sid});
 
   final APiResponseType result;
   final AppLog? log;
@@ -54,65 +48,44 @@ class LoginQueryResponse {
 }
 
 class RealtimeStatusResponse {
-  RealtimeStatusResponse({
-    required this.result,
-    this.data,
-  });
+  RealtimeStatusResponse({required this.result, this.data});
 
   final APiResponseType result;
   final RealtimeStatus? data;
 }
 
 class DisableServerResponse {
-  DisableServerResponse({
-    required this.result,
-    this.status,
-  });
+  DisableServerResponse({required this.result, this.status});
 
   final APiResponseType result;
   final String? status;
 }
 
 class EnableServerResponse {
-  EnableServerResponse({
-    required this.result,
-    this.status,
-  });
+  EnableServerResponse({required this.result, this.status});
 
   final APiResponseType result;
   final String? status;
 }
 
 class FetchOverTimeDataResponse {
-  FetchOverTimeDataResponse({
-    required this.result,
-    this.data,
-  });
+  FetchOverTimeDataResponse({required this.result, this.data});
 
   final APiResponseType result;
   final OverTimeData? data;
 }
 
 class FetchLogsResponse {
-  FetchLogsResponse({
-    required this.result,
-    this.data,
-  });
+  FetchLogsResponse({required this.result, this.data});
 
   final APiResponseType result;
   final LogsInfo? data;
 }
 
 class DomainResult {
-  DomainResult({
-    required this.success,
-    required this.message,
-  });
+  DomainResult({required this.success, required this.message});
   factory DomainResult.fromJson(Map<String, dynamic> json) {
-    return DomainResult(
-      success: json['success'],
-      message: json['message'],
-    );
+    return DomainResult(success: json['success'], message: json['message']);
   }
 
   /// Converts a [v6.Domains] object to a [DomainResult] object.
@@ -144,19 +117,12 @@ class DomainResult {
   final String message;
 
   Map<String, dynamic> toJson() {
-    return {
-      'success': success,
-      'message': message,
-    };
+    return {'success': success, 'message': message};
   }
 }
 
 class SetWhiteBlacklistResponse {
-  SetWhiteBlacklistResponse({
-    required this.result,
-    this.message,
-    this.data,
-  });
+  SetWhiteBlacklistResponse({required this.result, this.message, this.data});
 
   final APiResponseType result;
   final String? message;
@@ -188,19 +154,22 @@ class DomainListResult {
           .where((domain) => domain.type == type && domain.kind == kind)
           .toList()
           .map((domain) {
-        return Domain(
-          id: domain.id,
-          type: types['${domain.type}_${domain.kind}']!,
-          domain: domain.domain,
-          enabled: domain.enabled ? 1 : 0,
-          dateAdded:
-              DateTime.fromMillisecondsSinceEpoch(domain.dateAdded * 1000),
-          dateModified:
-              DateTime.fromMillisecondsSinceEpoch(domain.dateModified * 1000),
-          comment: domain.comment,
-          groups: domain.groups,
-        );
-      }).toList();
+            return Domain(
+              id: domain.id,
+              type: types['${domain.type}_${domain.kind}']!,
+              domain: domain.domain,
+              enabled: domain.enabled ? 1 : 0,
+              dateAdded: DateTime.fromMillisecondsSinceEpoch(
+                domain.dateAdded * 1000,
+              ),
+              dateModified: DateTime.fromMillisecondsSinceEpoch(
+                domain.dateModified * 1000,
+              ),
+              comment: domain.comment,
+              groups: domain.groups,
+            );
+          })
+          .toList();
     }
 
     return DomainListResult(
@@ -218,47 +187,31 @@ class DomainListResult {
 }
 
 class GetDomainLists {
-  GetDomainLists({
-    required this.result,
-    this.data,
-  });
+  GetDomainLists({required this.result, this.data});
 
   final APiResponseType result;
   final DomainListResult? data;
 }
 
 class RemoveDomainFromListResponse {
-  RemoveDomainFromListResponse({
-    required this.result,
-    this.message,
-  });
+  RemoveDomainFromListResponse({required this.result, this.message});
 
   final APiResponseType result;
   final String? message;
 }
 
 class AddDomainToListResponse {
-  AddDomainToListResponse({
-    required this.result,
-  });
+  AddDomainToListResponse({required this.result});
 
   final APiResponseType result;
 }
 
 class DomainResponse extends BaseInfoResponse<Domain> {
-  DomainResponse({
-    required super.result,
-    super.message,
-    super.data,
-  });
+  DomainResponse({required super.result, super.message, super.data});
 }
 
 abstract class BaseInfoResponse<T> {
-  BaseInfoResponse({
-    required this.result,
-    this.message,
-    this.data,
-  });
+  BaseInfoResponse({required this.result, this.message, this.data});
 
   final APiResponseType result;
   final String? message;
@@ -266,35 +219,19 @@ abstract class BaseInfoResponse<T> {
 }
 
 class HostResponse extends BaseInfoResponse<HostInfo> {
-  HostResponse({
-    required super.result,
-    super.message,
-    super.data,
-  });
+  HostResponse({required super.result, super.message, super.data});
 }
 
 class SensorsResponse extends BaseInfoResponse<SensorsInfo> {
-  SensorsResponse({
-    required super.result,
-    super.message,
-    super.data,
-  });
+  SensorsResponse({required super.result, super.message, super.data});
 }
 
 class SystemResponse extends BaseInfoResponse<SystemInfo> {
-  SystemResponse({
-    required super.result,
-    super.message,
-    super.data,
-  });
+  SystemResponse({required super.result, super.message, super.data});
 }
 
 class VersionResponse extends BaseInfoResponse<VersionInfo> {
-  VersionResponse({
-    required super.result,
-    super.message,
-    super.data,
-  });
+  VersionResponse({required super.result, super.message, super.data});
 }
 
 class PiHoleServerInfoResponse {
@@ -316,147 +253,77 @@ class PiHoleServerInfoResponse {
 }
 
 class SubscriptionsResponse extends BaseInfoResponse<SubscriptionsInfo> {
-  SubscriptionsResponse({
-    required super.result,
-    super.message,
-    super.data,
-  });
+  SubscriptionsResponse({required super.result, super.message, super.data});
 }
 
 class RemoveSubscriptionResponse extends BaseInfoResponse<void> {
-  RemoveSubscriptionResponse({
-    required super.result,
-    super.message,
-  });
+  RemoveSubscriptionResponse({required super.result, super.message});
 }
 
 class SearchResponse extends BaseInfoResponse<SearchInfo> {
-  SearchResponse({
-    required super.result,
-    super.message,
-    super.data,
-  });
+  SearchResponse({required super.result, super.message, super.data});
 }
 
 class GroupsResponse extends BaseInfoResponse<GroupsInfo> {
-  GroupsResponse({
-    required super.result,
-    super.message,
-    super.data,
-  });
+  GroupsResponse({required super.result, super.message, super.data});
 }
 
 class RemoveGroupResponse extends BaseInfoResponse<void> {
-  RemoveGroupResponse({
-    required super.result,
-    super.message,
-  });
+  RemoveGroupResponse({required super.result, super.message});
 }
 
 class MessagesResponse extends BaseInfoResponse<MessagesInfo> {
-  MessagesResponse({
-    required super.result,
-    super.message,
-    super.data,
-  });
+  MessagesResponse({required super.result, super.message, super.data});
 }
 
 class RemoveMessageResponse extends BaseInfoResponse<void> {
-  RemoveMessageResponse({
-    required super.result,
-    super.message,
-  });
+  RemoveMessageResponse({required super.result, super.message});
 }
 
 class GravityResponse extends BaseInfoResponse<List<String>> {
-  GravityResponse({
-    required super.result,
-    super.message,
-    super.data,
-  });
+  GravityResponse({required super.result, super.message, super.data});
 }
 
 class MetricsResponse extends BaseInfoResponse<MetricsInfo> {
-  MetricsResponse({
-    required super.result,
-    super.message,
-    super.data,
-  });
+  MetricsResponse({required super.result, super.message, super.data});
 }
 
 class GatewayResponse extends BaseInfoResponse<GatewayInfo> {
-  GatewayResponse({
-    required super.result,
-    super.message,
-    super.data,
-  });
+  GatewayResponse({required super.result, super.message, super.data});
 }
 
 class DevicesResponse extends BaseInfoResponse<DevicesInfo> {
-  DevicesResponse({
-    required super.result,
-    super.message,
-    super.data,
-  });
+  DevicesResponse({required super.result, super.message, super.data});
 }
 
 class DeleteDeviceResponse extends BaseInfoResponse<void> {
-  DeleteDeviceResponse({
-    required super.result,
-    super.message,
-  });
+  DeleteDeviceResponse({required super.result, super.message});
 }
 
 class ConfigurationResponse extends BaseInfoResponse<ConfigInfo> {
-  ConfigurationResponse({
-    required super.result,
-    super.message,
-    super.data,
-  });
+  ConfigurationResponse({required super.result, super.message, super.data});
 }
 
 class ActionResponse extends BaseInfoResponse<String> {
-  ActionResponse({
-    required super.result,
-    super.message,
-    super.data,
-  });
+  ActionResponse({required super.result, super.message, super.data});
 }
 
 class SessionsResponse extends BaseInfoResponse<SessionsInfo> {
-  SessionsResponse({
-    required super.result,
-    super.message,
-    super.data,
-  });
+  SessionsResponse({required super.result, super.message, super.data});
 }
 
 class DeleteSessionResponse extends BaseInfoResponse<void> {
-  DeleteSessionResponse({
-    required super.result,
-    super.message,
-  });
+  DeleteSessionResponse({required super.result, super.message});
 }
 
 class ClientResponse extends BaseInfoResponse<ClientInfo> {
-  ClientResponse({
-    required super.result,
-    super.message,
-    super.data,
-  });
+  ClientResponse({required super.result, super.message, super.data});
 }
 
 class DhcpResponse extends BaseInfoResponse<DhcpsInfo> {
-  DhcpResponse({
-    required super.result,
-    super.message,
-    super.data,
-  });
+  DhcpResponse({required super.result, super.message, super.data});
 }
 
 class DeleteDhcpResponse extends BaseInfoResponse<void> {
-  DeleteDhcpResponse({
-    required super.result,
-    super.message,
-  });
+  DeleteDhcpResponse({required super.result, super.message});
 }

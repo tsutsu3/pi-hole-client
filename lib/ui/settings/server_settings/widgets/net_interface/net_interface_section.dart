@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:pi_hole_client/data/services/api/model/v6/network/interfaces.dart';
+import 'package:pi_hole_client/data/model/v6/network/interfaces.dart';
 import 'package:pi_hole_client/ui/core/l10n/generated/app_localizations.dart';
 import 'package:pi_hole_client/ui/core/ui/components/adaptive_trailing_text.dart';
 import 'package:pi_hole_client/ui/core/ui/components/list_tile_title.dart';
@@ -60,19 +60,14 @@ class NetInterfaceSection extends StatelessWidget {
 
             return ListTile(
               leading: const Icon(Icons.location_on_outlined),
-              title: listTileTitle(
-                title,
-                colorScheme: colorScheme,
-              ),
+              title: listTileTitle(title, colorScheme: colorScheme),
               trailing: const Icon(Icons.chevron_right),
               onTap: () {
                 Navigator.push(
                   context,
                   MaterialPageRoute(
-                    builder: (_) => AddressDetailScreen(
-                      address: address,
-                      title: title,
-                    ),
+                    builder: (_) =>
+                        AddressDetailScreen(address: address, title: title),
                   ),
                 );
               },
@@ -86,19 +81,14 @@ class NetInterfaceSection extends StatelessWidget {
       return ListTile(
         leading: const Skeleton.keep(child: Icon(Icons.area_chart_rounded)),
         title: Skeleton.keep(
-          child: listTileTitle(
-            locale.statistics,
-            colorScheme: colorScheme,
-          ),
+          child: listTileTitle(locale.statistics, colorScheme: colorScheme),
         ),
         trailing: const Icon(Icons.chevron_right),
         onTap: () {
           Navigator.push(
             context,
             MaterialPageRoute(
-              builder: (_) => StatisticsDetailScreen(
-                stats: interface.stats,
-              ),
+              builder: (_) => StatisticsDetailScreen(stats: interface.stats),
             ),
           );
         },
@@ -109,19 +99,14 @@ class NetInterfaceSection extends StatelessWidget {
       return ListTile(
         leading: const Skeleton.keep(child: Icon(Icons.info_rounded)),
         title: Skeleton.keep(
-          child: listTileTitle(
-            locale.moreDetails,
-            colorScheme: colorScheme,
-          ),
+          child: listTileTitle(locale.moreDetails, colorScheme: colorScheme),
         ),
         trailing: const Icon(Icons.chevron_right),
         onTap: () {
           Navigator.push(
             context,
             MaterialPageRoute(
-              builder: (_) => MoreDetailsScreen(
-                interfaceData: interface,
-              ),
+              builder: (_) => MoreDetailsScreen(interfaceData: interface),
             ),
           );
         },

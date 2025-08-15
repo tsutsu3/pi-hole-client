@@ -1,5 +1,5 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
-import 'package:pi_hole_client/data/services/api/model/v6/network/common.dart';
+import 'package:pi_hole_client/data/model/v6/network/common.dart';
 
 part 'interfaces.freezed.dart';
 part 'interfaces.g.dart';
@@ -95,10 +95,8 @@ sealed class InterfaceStats with _$InterfaceStats {
 
 @freezed
 sealed class ByteValue with _$ByteValue {
-  const factory ByteValue({
-    required double value,
-    required String unit,
-  }) = _ByteValue;
+  const factory ByteValue({required double value, required String unit}) =
+      _ByteValue;
 
   factory ByteValue.fromJson(Map<String, dynamic> json) =>
       _$ByteValueFromJson(json);

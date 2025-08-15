@@ -1,4 +1,4 @@
-import 'package:pi_hole_client/data/services/api/model/v6/ftl/system.dart';
+import 'package:pi_hole_client/data/model/v6/ftl/system.dart';
 
 class SystemInfo {
   SystemInfo({
@@ -11,7 +11,8 @@ class SystemInfo {
     return SystemInfo(
       uptime: system.system.uptime,
       ramUsage: system.system.memory.ram.percentUsed,
-      cpuUsage: system.system.cpu.percentCpu ??
+      cpuUsage:
+          system.system.cpu.percentCpu ??
           _average(system.system.cpu.load.percent),
     );
   }
@@ -25,10 +26,6 @@ class SystemInfo {
   final double cpuUsage;
 
   Map<String, dynamic> toJson() {
-    return {
-      'uptime': uptime,
-      'ram_usage': ramUsage,
-      'cpu_usage': cpuUsage,
-    };
+    return {'uptime': uptime, 'ram_usage': ramUsage, 'cpu_usage': cpuUsage};
   }
 }

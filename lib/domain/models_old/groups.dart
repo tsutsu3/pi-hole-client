@@ -1,11 +1,7 @@
-import 'package:pi_hole_client/data/services/api/model/v6/groups/groups.dart';
+import 'package:pi_hole_client/data/model/v6/groups/groups.dart';
 
 class GroupRequest {
-  GroupRequest({
-    required this.name,
-    required this.enabled,
-    this.comment,
-  });
+  GroupRequest({required this.name, required this.enabled, this.comment});
 
   factory GroupRequest.fromJson(Map<String, dynamic> json) {
     return GroupRequest(
@@ -20,18 +16,12 @@ class GroupRequest {
   final String? comment;
 
   Map<String, dynamic> toJson() {
-    return {
-      'name': name,
-      'comment': comment,
-      'enabled': enabled,
-    };
+    return {'name': name, 'comment': comment, 'enabled': enabled};
   }
 }
 
 class GroupsInfo {
-  GroupsInfo({
-    required this.groups,
-  });
+  GroupsInfo({required this.groups});
 
   factory GroupsInfo.fromV6(Groups groups) {
     return GroupsInfo(
@@ -42,8 +32,9 @@ class GroupsInfo {
           comment: g.comment,
           enabled: g.enabled,
           dateAdded: DateTime.fromMillisecondsSinceEpoch(g.dateAdded * 1000),
-          dateModified:
-              DateTime.fromMillisecondsSinceEpoch(g.dateModified * 1000),
+          dateModified: DateTime.fromMillisecondsSinceEpoch(
+            g.dateModified * 1000,
+          ),
         );
       }).toList(),
     );
@@ -52,9 +43,7 @@ class GroupsInfo {
   final List<Group> groups;
 
   Map<String, dynamic> toJson() {
-    return {
-      'groups': groups.map((g) => g.toJson()).toList(),
-    };
+    return {'groups': groups.map((g) => g.toJson()).toList()};
   }
 }
 

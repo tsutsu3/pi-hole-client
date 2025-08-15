@@ -1,4 +1,4 @@
-import 'package:pi_hole_client/data/services/api/model/v6/ftl/version.dart';
+import 'package:pi_hole_client/data/model/v6/ftl/version.dart';
 
 class VersionInfo {
   VersionInfo({
@@ -32,11 +32,11 @@ class VersionInfo {
   final ComponentVersion docker;
 
   Map<String, dynamic> toJson() => {
-        'core': core.toJson(),
-        'web': web.toJson(),
-        'ftl': ftl.toJson(),
-        'docker': docker.toJson(),
-      };
+    'core': core.toJson(),
+    'web': web.toJson(),
+    'ftl': ftl.toJson(),
+    'docker': docker.toJson(),
+  };
 }
 
 class ComponentVersion {
@@ -49,10 +49,7 @@ class ComponentVersion {
         branch: key == 'docker' ? null : json['${key}_branch'] ?? '',
         hash: '',
       ),
-      remote: VersionDetail(
-        version: json['${key}_latest'] ?? '',
-        hash: '',
-      ),
+      remote: VersionDetail(version: json['${key}_latest'] ?? '', hash: ''),
       canUpdate: _canUpdate(
         json['${key}_current'] ?? '',
         json['${key}_latest'] ?? '',
@@ -74,10 +71,7 @@ class ComponentVersion {
       return ComponentVersion(
         local: VersionDetail.fromV6(component.local),
         remote: VersionDetail.fromV6(component.remote),
-        canUpdate: _canUpdate(
-          component.local ?? '',
-          component.remote ?? '',
-        ),
+        canUpdate: _canUpdate(component.local ?? '', component.remote ?? ''),
       );
     } else {
       throw ArgumentError(
@@ -98,18 +92,13 @@ class ComponentVersion {
   }
 
   Map<String, dynamic> toJson() => {
-        'local': local.toJson(),
-        'remote': remote.toJson(),
-      };
+    'local': local.toJson(),
+    'remote': remote.toJson(),
+  };
 }
 
 class VersionDetail {
-  VersionDetail({
-    required this.version,
-    this.branch,
-    this.hash,
-    this.date,
-  });
+  VersionDetail({required this.version, this.branch, this.hash, this.date});
 
   factory VersionDetail.fromJson(Map<String, dynamic> json) {
     return VersionDetail(
@@ -134,14 +123,9 @@ class VersionDetail {
         date: version.date,
       );
     } else if (version is RemoteVersion) {
-      return VersionDetail(
-        version: version.version ?? '',
-        hash: version.hash,
-      );
+      return VersionDetail(version: version.version ?? '', hash: version.hash);
     } else if (version is String || version == null) {
-      return VersionDetail(
-        version: version ?? '',
-      );
+      return VersionDetail(version: version ?? '');
     } else {
       throw ArgumentError(
         'Unsupported type for VersionDetail: ${version.runtimeType}',
@@ -155,8 +139,8 @@ class VersionDetail {
   final String? date;
 
   Map<String, dynamic> toJson() => {
-        'version': version,
-        if (branch != null) 'branch': branch,
-        if (hash != null) 'hash': hash,
-      };
+    'version': version,
+    if (branch != null) 'branch': branch,
+    if (hash != null) 'hash': hash,
+  };
 }

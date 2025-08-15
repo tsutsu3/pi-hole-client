@@ -54,19 +54,16 @@ class StatisticsList extends StatelessWidget {
           ],
         ),
       ),
-      contentGenerator: () =>
-          [StatisticsListContent(type: type, countLabel: countLabel)],
+      contentGenerator: () => [
+        StatisticsListContent(type: type, countLabel: countLabel),
+      ],
       errorGenerator: () => SizedBox(
         width: double.maxFinite,
         height: 300,
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            const Icon(
-              Icons.error,
-              size: 50,
-              color: Colors.red,
-            ),
+            const Icon(Icons.error, size: 50, color: Colors.red),
             const SizedBox(height: 50),
             Text(
               AppLocalizations.of(context)!.statsNotLoaded,
@@ -122,8 +119,9 @@ class StatisticsListContent extends StatelessWidget {
       final appConfigProvider = context.read<AppConfigProvider>();
 
       if (type == 'clients') {
-        final isContained =
-            totalClients.where((client) => value.contains(client)).toList();
+        final isContained = totalClients
+            .where((client) => value.contains(client))
+            .toList();
         if (isContained.isNotEmpty) {
           filtersProvider.setSelectedClients([isContained[0]]);
           appConfigProvider.setSelectedTab(2);
@@ -210,15 +208,9 @@ class StatisticsListContent extends StatelessWidget {
       return Column(
         children: [
           const SizedBox(height: 10),
-          CustomPieChart(
-            data: items,
-            radiusScale: pieChartRadiusScale,
-          ),
+          CustomPieChart(data: items, radiusScale: pieChartRadiusScale),
           const SizedBox(height: 20),
-          PieChartLegend(
-            data: legend,
-            onValueTap: navigateFilter,
-          ),
+          PieChartLegend(data: legend, onValueTap: navigateFilter),
           const SizedBox(height: 10),
         ],
       );
@@ -245,23 +237,13 @@ class StatisticsListContent extends StatelessWidget {
       return Column(
         children: [
           if (realtimeStatus!.topQueries.isNotEmpty)
-            generateList(
-              realtimeStatus.topQueries,
-              loc.topPermittedDomains,
-            )
+            generateList(realtimeStatus.topQueries, loc.topPermittedDomains)
           else
-            NoDataChart(
-              topLabel: loc.topPermittedDomains,
-            ),
+            NoDataChart(topLabel: loc.topPermittedDomains),
           if (realtimeStatus.topAds.isNotEmpty)
-            generateList(
-              realtimeStatus.topAds,
-              loc.topBlockedDomains,
-            )
+            generateList(realtimeStatus.topAds, loc.topBlockedDomains)
           else
-            NoDataChart(
-              topLabel: loc.topBlockedDomains,
-            ),
+            NoDataChart(topLabel: loc.topBlockedDomains),
         ],
       );
     } else if (type == 'clients') {
@@ -269,9 +251,7 @@ class StatisticsListContent extends StatelessWidget {
         children: [
           if (realtimeStatus!.topSources.isNotEmpty)
             generateList(
-              Map.fromEntries(
-                realtimeStatus.topSources.entries.take(topk),
-              ),
+              Map.fromEntries(realtimeStatus.topSources.entries.take(topk)),
               loc.topClients,
             )
           else
@@ -284,9 +264,7 @@ class StatisticsListContent extends StatelessWidget {
               loc.topClientsBlocked,
             )
           else
-            NoDataChart(
-              topLabel: loc.topClientsBlocked,
-            ),
+            NoDataChart(topLabel: loc.topClientsBlocked),
         ],
       );
     } else {

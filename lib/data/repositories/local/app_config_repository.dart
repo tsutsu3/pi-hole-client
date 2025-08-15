@@ -15,8 +15,8 @@ class AppConfigRepository {
   AppConfigRepository(
     DatabaseService database,
     SecureStorageService secureStorage,
-  )   : _database = database,
-        _secureStorage = secureStorage;
+  ) : _database = database,
+      _secureStorage = secureStorage;
 
   final DatabaseService _database;
   final SecureStorageService _secureStorage;
@@ -56,9 +56,8 @@ class AppConfigRepository {
 
       final rows = await runWithRetry<Result<List<Map<String, dynamic>>>>(
         action: () => _database.rawQuery('SELECT * FROM appConfig'),
-        onRetry: (attempt, error, _) => logger.w(
-          'Attempt $attempt: Failed to read appConfig - $error',
-        ),
+        onRetry: (attempt, error, _) =>
+            logger.w('Attempt $attempt: Failed to read appConfig - $error'),
       );
       appConfig = AppDbData.fromMap(rows.getOrThrow()[0]);
 
@@ -76,10 +75,7 @@ class AppConfigRepository {
 
   /// Updates the auto-refresh interval in seconds.
   Future<Result<void>> updateAutoRefreshTime(int time) async {
-    return _updateConfigValue(
-      column: 'autoRefreshTime',
-      value: time,
-    );
+    return _updateConfigValue(column: 'autoRefreshTime', value: time);
   }
 
   // TODO: Consider using an enum for themes
@@ -90,18 +86,12 @@ class AppConfigRepository {
   /// - `1`: Light mode
   /// - `2`: Dark mode
   Future<Result<void>> updateTheme(int theme) async {
-    return _updateConfigValue(
-      column: 'theme',
-      value: theme,
-    );
+    return _updateConfigValue(column: 'theme', value: theme);
   }
 
   // TODO: Consider using an enum for languages
   Future<Result<void>> updateLanguage(String language) async {
-    return _updateConfigValue(
-      column: 'language',
-      value: language,
-    );
+    return _updateConfigValue(column: 'language', value: language);
   }
 
   Future<Result<void>> updateReducedDataCharts(bool enabled) async {
@@ -118,10 +108,7 @@ class AppConfigRepository {
   /// - `0.5` means 30 minutes
   /// - `1.0` means 1 hour
   Future<Result<void>> updateLogsPerQuery(double logsPerQuery) async {
-    return _updateConfigValue(
-      column: 'logsPerQuery',
-      value: logsPerQuery,
-    );
+    return _updateConfigValue(column: 'logsPerQuery', value: logsPerQuery);
   }
 
   Future<Result<void>> updateUseBiometricAuth(bool useBiometricAuth) async {
@@ -172,10 +159,7 @@ class AppConfigRepository {
   /// - `0`: Line + Area chart
   /// - `1`: Bar chart
   Future<Result<void>> updateHomeVisualizationMode(int mode) async {
-    return _updateConfigValue(
-      column: 'homeVisualizationMode',
-      value: mode,
-    );
+    return _updateConfigValue(column: 'homeVisualizationMode', value: mode);
   }
 
   Future<Result<void>> updateSendCrashReports(bool sendCrashReports) async {
@@ -186,10 +170,7 @@ class AppConfigRepository {
   }
 
   Future<Result<void>> updatePassCode(String? passCode) async {
-    return _updateSecretConfigValue(
-      key: 'passCode',
-      value: passCode,
-    );
+    return _updateSecretConfigValue(key: 'passCode', value: passCode);
   }
 
   /// Restores the default values in the app configuration.
@@ -204,23 +185,20 @@ class AppConfigRepository {
       await openDbIfNeeded(_database);
 
       await _secureStorage.deleteValue('passCode');
-      return await _database.update(
-        'appConfig',
-        {
-          'autoRefreshTime': 5,
-          'theme': 0,
-          'language': 'en',
-          'reducedDataCharts': 0,
-          'logsPerQuery': 2,
-          'useBiometricAuth': 0,
-          'importantInfoReaden': 0,
-          'hideZeroValues': 0,
-          'loadingAnimation': 0,
-          'statisticsVisualizationMode': 0,
-          'homeVisualizationMode': 0,
-          'sendCrashReports': 0,
-        },
-      );
+      return await _database.update('appConfig', {
+        'autoRefreshTime': 5,
+        'theme': 0,
+        'language': 'en',
+        'reducedDataCharts': 0,
+        'logsPerQuery': 2,
+        'useBiometricAuth': 0,
+        'importantInfoReaden': 0,
+        'hideZeroValues': 0,
+        'loadingAnimation': 0,
+        'statisticsVisualizationMode': 0,
+        'homeVisualizationMode': 0,
+        'sendCrashReports': 0,
+      });
     } catch (e, st) {
       logger.e('Failed to restore app config: $e\n$st');
       return Failure(Exception('Failed to restore app config: $e\n$st'));

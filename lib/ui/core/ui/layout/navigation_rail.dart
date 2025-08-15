@@ -45,9 +45,7 @@ class CustomNavigationRail extends StatelessWidget {
       builder: (context, constraints) {
         return SingleChildScrollView(
           child: ConstrainedBox(
-            constraints: BoxConstraints(
-              minHeight: constraints.maxHeight,
-            ),
+            constraints: BoxConstraints(minHeight: constraints.maxHeight),
             // IntrinsicHeight is needed because NavigationRail uses a Column with Expanded.
             // Without it, placing NavigationRail inside a scroll view causes unbounded height,
             // leading to layout errors. IntrinsicHeight ensures a proper bounded layout.
@@ -69,10 +67,9 @@ class CustomNavigationRail extends StatelessWidget {
                 labelType: NavigationRailLabelType.all,
                 useIndicator: true,
                 groupAlignment: 0,
-                backgroundColor: Theme.of(context)
-                    .colorScheme
-                    .primary
-                    .withValues(alpha: 0.05),
+                backgroundColor: Theme.of(
+                  context,
+                ).colorScheme.primary.withValues(alpha: 0.05),
               ),
             ),
           ),

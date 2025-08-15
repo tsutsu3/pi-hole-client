@@ -17,10 +17,7 @@ import 'package:provider/provider.dart';
 /// Parameters:
 /// - [server]: The server object containing the address, alias, and status.
 class ServerTileHeader extends StatelessWidget {
-  const ServerTileHeader({
-    required this.server,
-    super.key,
-  });
+  const ServerTileHeader({required this.server, super.key});
 
   final Server server;
 
@@ -74,8 +71,9 @@ class ServerTileHeader extends StatelessWidget {
                           style: TextStyle(
                             fontSize: 14,
                             fontWeight: FontWeight.w400,
-                            color:
-                                Theme.of(context).colorScheme.onSurfaceVariant,
+                            color: Theme.of(
+                              context,
+                            ).colorScheme.onSurfaceVariant,
                           ),
                         ),
                       ],
@@ -119,8 +117,8 @@ class _LeadingIcon extends StatelessWidget {
     final appColors = theme.extension<AppColors>()!;
     final color = isSelected
         ? isConnected
-            ? appColors.queryGreen
-            : appColors.queryOrange
+              ? appColors.queryGreen
+              : appColors.queryOrange
         : null;
 
     final icon = Icon(Icons.storage_rounded, color: color);

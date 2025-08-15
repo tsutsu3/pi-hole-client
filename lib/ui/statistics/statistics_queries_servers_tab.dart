@@ -54,11 +54,7 @@ class QueriesServersTab extends StatelessWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            const Icon(
-              Icons.error,
-              size: 50,
-              color: Colors.red,
-            ),
+            const Icon(Icons.error, size: 50, color: Colors.red),
             const SizedBox(height: 50),
             Text(
               AppLocalizations.of(context)!.statsNotLoaded,
@@ -131,9 +127,7 @@ class QueriesServersTabContent extends StatelessWidget {
                 if (width <= ResponsiveConstants.medium) ...[
                   SizedBox(
                     width: width - 40,
-                    child: CustomPieChart(
-                      data: realtimeStatus!.queryTypes,
-                    ),
+                    child: CustomPieChart(data: realtimeStatus!.queryTypes),
                   ),
                   const SizedBox(height: 20),
                   PieChartLegend(
@@ -145,9 +139,7 @@ class QueriesServersTabContent extends StatelessWidget {
             ),
           )
         else
-          NoDataChart(
-            topLabel: AppLocalizations.of(context)!.queryTypes,
-          ),
+          NoDataChart(topLabel: AppLocalizations.of(context)!.queryTypes),
         if (realtimeStatus!.forwardDestinations.isEmpty == false)
           Padding(
             padding: const EdgeInsets.only(top: 20, bottom: 10),
@@ -201,9 +193,7 @@ class QueriesServersTabContent extends StatelessWidget {
             ),
           )
         else
-          NoDataChart(
-            topLabel: AppLocalizations.of(context)!.upstreamServers,
-          ),
+          NoDataChart(topLabel: AppLocalizations.of(context)!.upstreamServers),
       ],
     );
   }

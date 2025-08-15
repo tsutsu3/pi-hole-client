@@ -69,8 +69,9 @@ class _SubscriptionsListState extends State<SubscriptionsList> {
   @override
   Widget build(BuildContext context) {
     final serversProvider = Provider.of<ServersProvider>(context);
-    final subscriptionsListProvider =
-        Provider.of<SubscriptionsListProvider>(context);
+    final subscriptionsListProvider = Provider.of<SubscriptionsListProvider>(
+      context,
+    );
     final appConfigProvider = Provider.of<AppConfigProvider>(context);
     final apiGateway = serversProvider.selectedApiGateway;
     final groups = context.watch<GroupsProvider>().groupItems;
@@ -154,7 +155,8 @@ class _SubscriptionsListState extends State<SubscriptionsList> {
 
     void openModalAddSubscriptionToList() {
       final mediaQuery = MediaQuery.of(context);
-      final isSmallLandscape = mediaQuery.size.width > mediaQuery.size.height &&
+      final isSmallLandscape =
+          mediaQuery.size.width > mediaQuery.size.height &&
           mediaQuery.size.height < ResponsiveConstants.medium;
 
       if (MediaQuery.of(context).size.width > ResponsiveConstants.medium) {
@@ -211,7 +213,8 @@ class _SubscriptionsListState extends State<SubscriptionsList> {
           contentWidget: (index) {
             final thisSubscription = subscriptionsList[index];
             return Padding(
-              padding: index == 0 &&
+              padding:
+                  index == 0 &&
                       MediaQuery.of(context).size.width >
                           ResponsiveConstants.large
                   ? const EdgeInsets.only(top: 16)
@@ -261,11 +264,7 @@ class _SubscriptionsListState extends State<SubscriptionsList> {
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                const Icon(
-                  Icons.error,
-                  size: 50,
-                  color: Colors.red,
-                ),
+                const Icon(Icons.error, size: 50, color: Colors.red),
                 const SizedBox(height: 50),
                 Text(
                   AppLocalizations.of(context)!.adlistsNotLoaded,
@@ -291,8 +290,8 @@ class _SubscriptionsListState extends State<SubscriptionsList> {
                 curve: Curves.easeInOut,
                 bottom: isVisible
                     ? appConfigProvider.showingSnackbar
-                        ? 70
-                        : 20
+                          ? 70
+                          : 20
                     : -70,
                 right: 20,
                 child: FloatingActionButton(

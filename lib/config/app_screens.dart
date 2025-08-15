@@ -8,11 +8,7 @@ import 'package:pi_hole_client/ui/settings/settings.dart';
 import 'package:pi_hole_client/ui/statistics/statistics.dart';
 
 final List<AppScreen> appScreens = [
-  const AppScreen(
-    icon: Icon(Icons.home),
-    name: 'home',
-    widget: Home(),
-  ),
+  const AppScreen(icon: Icon(Icons.home), name: 'home', widget: Home()),
   const AppScreen(
     icon: Icon(Icons.analytics_rounded),
     name: 'statistics',

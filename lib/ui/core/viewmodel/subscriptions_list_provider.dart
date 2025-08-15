@@ -126,15 +126,17 @@ class SubscriptionsListProvider with ChangeNotifier {
         ...result!.data!.subscriptions.where((i) => i.type == 'allow'),
       ];
       _whitelistSubscriptions = whitelist;
-      _filteredWhitelistSubscriptions =
-          whitelist.where((i) => i.address.contains(_searchTerm)).toList();
+      _filteredWhitelistSubscriptions = whitelist
+          .where((i) => i.address.contains(_searchTerm))
+          .toList();
 
       final blacklist = <Subscription>[
         ...result.data!.subscriptions.where((i) => i.type == 'block'),
       ];
       _blacklistSubscriptions = blacklist;
-      _filteredBlacklistSubscriptions =
-          blacklist.where((i) => i.address.contains(_searchTerm)).toList();
+      _filteredBlacklistSubscriptions = blacklist
+          .where((i) => i.address.contains(_searchTerm))
+          .toList();
 
       _loadingStatus = LoadStatus.loaded;
     } else {

@@ -1,4 +1,4 @@
-import 'package:pi_hole_client/data/services/api/model/v6/lists/search.dart';
+import 'package:pi_hole_client/data/model/v6/lists/search.dart';
 
 class SearchInfo {
   SearchInfo({

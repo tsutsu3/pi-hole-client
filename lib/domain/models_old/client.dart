@@ -1,21 +1,15 @@
-import 'package:pi_hole_client/data/services/api/model/v6/ftl/client.dart';
+import 'package:pi_hole_client/data/model/v6/ftl/client.dart';
 
 class ClientInfo {
-  ClientInfo({
-    required this.addr,
-  });
+  ClientInfo({required this.addr});
 
   factory ClientInfo.fromV6(InfoClient client) {
-    return ClientInfo(
-      addr: client.remoteAddr,
-    );
+    return ClientInfo(addr: client.remoteAddr);
   }
 
   final String addr;
 
   Map<String, dynamic> toJson() {
-    return {
-      'addr': addr,
-    };
+    return {'addr': addr};
   }
 }

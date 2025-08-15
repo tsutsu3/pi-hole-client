@@ -1,7 +1,7 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
-import 'package:pi_hole_client/data/services/api/model/v6/metrics/history.dart';
+import 'package:pi_hole_client/data/model/v6/metrics/history.dart';
 import 'package:pi_hole_client/utils/colors.dart';
 
 OverTimeData overTimeDataFromJson(String str) =>
@@ -19,26 +19,23 @@ class OverTimeData {
   });
 
   factory OverTimeData.fromJson(Map<String, dynamic> json) => OverTimeData(
-        domainsOverTime: (json['domains_over_time'] is Map)
-            ? Map<String, int>.from(json['domains_over_time'])
-            : {},
-        adsOverTime: (json['ads_over_time'] is Map)
-            ? Map<String, int>.from(json['ads_over_time'])
-            : {},
-        clients: (json['clients'] is List)
-            ? List<Client>.from(json['clients'].map((x) => Client.fromJson(x)))
-            : [],
-        overTime: (json['over_time'] is Map)
-            ? Map<String, List<int>>.from(
-                json['over_time'].map(
-                  (k, v) => MapEntry<String, List<int>>(
-                    k,
-                    List<int>.from(v),
-                  ),
-                ),
-              )
-            : {},
-      );
+    domainsOverTime: (json['domains_over_time'] is Map)
+        ? Map<String, int>.from(json['domains_over_time'])
+        : {},
+    adsOverTime: (json['ads_over_time'] is Map)
+        ? Map<String, int>.from(json['ads_over_time'])
+        : {},
+    clients: (json['clients'] is List)
+        ? List<Client>.from(json['clients'].map((x) => Client.fromJson(x)))
+        : [],
+    overTime: (json['over_time'] is Map)
+        ? Map<String, List<int>>.from(
+            json['over_time'].map(
+              (k, v) => MapEntry<String, List<int>>(k, List<int>.from(v)),
+            ),
+          )
+        : {},
+  );
 
   factory OverTimeData.fromV6(History history, HistoryClients historyClients) {
     final domainsOverTime = history.history.isNotEmpty
@@ -68,11 +65,7 @@ class OverTimeData {
             final ip = entry.key;
             final name = entry.value.name ?? '';
 
-            return Client(
-              name: name,
-              ip: ip,
-              color: generateRandomColor(),
-            );
+            return Client(name: name, ip: ip, color: generateRandomColor());
           }).toList()
         : <Client>[];
 
@@ -106,25 +99,21 @@ class OverTimeData {
   final Map<String, List<int>> overTime;
 
   Map<String, dynamic> toJson() => {
-        'domains_over_time': Map.from(domainsOverTime)
-            .map((k, v) => MapEntry<String, dynamic>(k, v)),
-        'ads_over_time': Map.from(adsOverTime)
-            .map((k, v) => MapEntry<String, dynamic>(k, v)),
-        'clients':
-            List<Map<String, dynamic>>.from(clients.map((x) => x.toJson())),
-        'over_time': Map.from(overTime).map(
-          (k, v) =>
-              MapEntry<String, dynamic>(k, List<int>.from(v.map((x) => x))),
-        ),
-      };
+    'domains_over_time': Map.from(
+      domainsOverTime,
+    ).map((k, v) => MapEntry<String, dynamic>(k, v)),
+    'ads_over_time': Map.from(
+      adsOverTime,
+    ).map((k, v) => MapEntry<String, dynamic>(k, v)),
+    'clients': List<Map<String, dynamic>>.from(clients.map((x) => x.toJson())),
+    'over_time': Map.from(overTime).map(
+      (k, v) => MapEntry<String, dynamic>(k, List<int>.from(v.map((x) => x))),
+    ),
+  };
 }
 
 class Client {
-  Client({
-    required this.name,
-    required this.ip,
-    required this.color,
-  });
+  Client({required this.name, required this.ip, required this.color});
 
   factory Client.fromJson(Map<String, dynamic> json) =>
       Client(name: json['name'], ip: json['ip'], color: generateRandomColor());
@@ -133,9 +122,5 @@ class Client {
   final String ip;
   final Color color;
 
-  Map<String, dynamic> toJson() => {
-        'name': name,
-        'ip': ip,
-        'color': color,
-      };
+  Map<String, dynamic> toJson() => {'name': name, 'ip': ip, 'color': color};
 }

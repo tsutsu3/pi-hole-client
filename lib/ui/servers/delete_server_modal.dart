@@ -8,10 +8,7 @@ import 'package:pi_hole_client/ui/core/viewmodel/servers_provider.dart';
 import 'package:provider/provider.dart';
 
 class DeleteServerModal extends StatelessWidget {
-  const DeleteServerModal({
-    required this.serverToDelete,
-    super.key,
-  });
+  const DeleteServerModal({required this.serverToDelete, super.key});
 
   final Server serverToDelete;
 
@@ -21,8 +18,9 @@ class DeleteServerModal extends StatelessWidget {
     final appConfigProvider = Provider.of<AppConfigProvider>(context);
 
     Future<void> removeServer() async {
-      final deleted =
-          await serversProvider.removeServer(serverToDelete.address);
+      final deleted = await serversProvider.removeServer(
+        serverToDelete.address,
+      );
 
       if (!context.mounted) return;
       await Navigator.maybePop(context);
