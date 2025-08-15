@@ -10,7 +10,7 @@ import '../utils/mocks.mocks.dart';
 
 void main() {
   const baseUrl = 'http://localhost:8080';
-  const sid = 'sid12345';
+  const token = 'token12345';
 
   late PiholeV5ApiClient apiClient;
   late MockClient mockClient;
@@ -21,7 +21,7 @@ void main() {
   });
 
   group('getSummaryRaw', () {
-    final url = Uri.parse('$baseUrl/admin/api.php?auth=$sid&summaryRaw');
+    final url = Uri.parse('$baseUrl/admin/api.php?auth=$token&summaryRaw');
 
     test('gets summary raw data successfully', () async {
       final data = {
@@ -61,7 +61,7 @@ void main() {
       final response = http.Response(jsonEncode(data), 200);
       mockGet(mockClient, url, response);
 
-      final result = await apiClient.getSummaryRaw(sid);
+      final result = await apiClient.getSummaryRaw(token);
 
       expectSuccess(result, data);
     });
@@ -70,7 +70,7 @@ void main() {
       final response = http.Response('Internal Server Error', 500);
       mockGet(mockClient, url, response);
 
-      final result = await apiClient.getSummaryRaw(sid);
+      final result = await apiClient.getSummaryRaw(token);
 
       expectHttpError(
         result,
@@ -81,30 +81,29 @@ void main() {
   });
 
   group('postDnsBlocking', () {
-    final url = Uri.parse('$baseUrl/admin/api.php?auth=$sid');
+    final url = Uri.parse('$baseUrl/admin/api.php?auth=$token');
 
     test('enables DNS blocking successfully', () async {
       final fullUrl = Uri.parse('$url&enable');
-      final data = {
-        'status': 'enable',
-      };
+      final data = {'status': 'enable'};
       final response = http.Response(jsonEncode(data), 200);
       mockGet(mockClient, fullUrl, response);
 
-      final result = await apiClient.postDnsBlocking(sid, enabled: true);
+      final result = await apiClient.postDnsBlocking(token, enabled: true);
       expectSuccess(result, data);
     });
 
     test('disables DNS blocking successfully', () async {
       final fullUrl = Uri.parse('$url&disable=0');
-      final data = {
-        'status': 'disable',
-      };
+      final data = {'status': 'disable'};
       final response = http.Response(jsonEncode(data), 200);
       mockGet(mockClient, fullUrl, response);
 
-      final result =
-          await apiClient.postDnsBlocking(sid, enabled: false, timer: 0);
+      final result = await apiClient.postDnsBlocking(
+        token,
+        enabled: false,
+        timer: 0,
+      );
       expectSuccess(result, data);
     });
 
@@ -113,8 +112,11 @@ void main() {
       final response = http.Response('Internal Server Error', 500);
       mockGet(mockClient, fullUrl, response);
 
-      final result =
-          await apiClient.postDnsBlocking(sid, enabled: false, timer: 0);
+      final result = await apiClient.postDnsBlocking(
+        token,
+        enabled: false,
+        timer: 0,
+      );
 
       expectHttpError(
         result,
@@ -126,7 +128,7 @@ void main() {
 
   group('getRealTimeStatus', () {
     final url = Uri.parse(
-      '$baseUrl/admin/api.php?auth=$sid&summaryRaw&topItems&getForwardDestinations&getQuerySources&topClientsBlocked&getQueryTypes',
+      '$baseUrl/admin/api.php?auth=$token&summaryRaw&topItems&getForwardDestinations&getQuerySources&topClientsBlocked&getQueryTypes',
     );
 
     test('gets real-time status successfully', () async {
@@ -206,7 +208,7 @@ void main() {
       final response = http.Response(jsonEncode(data), 200);
       mockGet(mockClient, url, response);
 
-      final result = await apiClient.getRealTimeStatus(sid);
+      final result = await apiClient.getRealTimeStatus(token);
 
       expectSuccess(result, data);
     });
@@ -276,7 +278,7 @@ void main() {
       final response = http.Response(jsonEncode(data), 200);
       mockGet(mockClient, url, response);
 
-      final result = await apiClient.getRealTimeStatus(sid);
+      final result = await apiClient.getRealTimeStatus(token);
 
       expectSuccess(result, data);
     });
@@ -285,7 +287,7 @@ void main() {
       final response = http.Response('Internal Server Error', 500);
       mockGet(mockClient, url, response);
 
-      final result = await apiClient.getRealTimeStatus(sid);
+      final result = await apiClient.getRealTimeStatus(token);
 
       expectHttpError(
         result,
@@ -297,7 +299,7 @@ void main() {
 
   group('getOverTimeData', () {
     final url = Uri.parse(
-      '$baseUrl/admin/api.php?auth=$sid&overTimeData10mins&overTimeDataClients&getClientNames',
+      '$baseUrl/admin/api.php?auth=$token&overTimeData10mins&overTimeDataClients&getClientNames',
     );
 
     test('gets over time data successfully', () async {
@@ -748,7 +750,7 @@ void main() {
       final response = http.Response(jsonEncode(data), 200);
       mockGet(mockClient, url, response);
 
-      final result = await apiClient.getOverTimeData(sid);
+      final result = await apiClient.getOverTimeData(token);
 
       expectSuccess(result, data);
     });
@@ -1053,7 +1055,7 @@ void main() {
       final response = http.Response(jsonEncode(data), 200);
       mockGet(mockClient, url, response);
 
-      final result = await apiClient.getOverTimeData(sid);
+      final result = await apiClient.getOverTimeData(token);
 
       expectSuccess(result, data);
     });
@@ -1062,7 +1064,7 @@ void main() {
       final response = http.Response('Internal Server Error', 500);
       mockGet(mockClient, url, response);
 
-      final result = await apiClient.getOverTimeData(sid);
+      final result = await apiClient.getOverTimeData(token);
 
       expectHttpError(
         result,
@@ -1076,7 +1078,7 @@ void main() {
     const from = 1733472267;
     const until = 1733479467;
     final url = Uri.parse(
-      '$baseUrl/admin/api.php?auth=$sid&getAllQueries&from=$from&until=$until',
+      '$baseUrl/admin/api.php?auth=$token&getAllQueries&from=$from&until=$until',
     );
 
     test('gets queries', () async {
@@ -1116,7 +1118,7 @@ void main() {
       mockGet(mockClient, url, response);
 
       final result = await apiClient.getQueries(
-        sid,
+        token,
         from: DateTime.fromMillisecondsSinceEpoch(from * 1000),
         until: DateTime.fromMillisecondsSinceEpoch(until * 1000),
       );
@@ -1125,14 +1127,12 @@ void main() {
     });
 
     test('get queries with init data', () async {
-      final data = {
-        'data': [],
-      };
+      final data = {'data': []};
       final response = http.Response(jsonEncode(data), 200);
       mockGet(mockClient, url, response);
 
       final result = await apiClient.getQueries(
-        sid,
+        token,
         from: DateTime.fromMillisecondsSinceEpoch(from * 1000),
         until: DateTime.fromMillisecondsSinceEpoch(until * 1000),
       );
@@ -1145,7 +1145,7 @@ void main() {
       mockGet(mockClient, url, response);
 
       final result = await apiClient.getQueries(
-        sid,
+        token,
         from: DateTime.fromMillisecondsSinceEpoch(from * 1000),
         until: DateTime.fromMillisecondsSinceEpoch(until * 1000),
       );
@@ -1160,19 +1160,16 @@ void main() {
 
   group('postDomain', () {
     final url = Uri.parse(
-      '$baseUrl/admin/api.php?auth=$sid&list=white&add=${Uri.encodeComponent('example.com')}',
+      '$baseUrl/admin/api.php?auth=$token&list=white&add=${Uri.encodeComponent('example.com')}',
     );
 
     test('adds domain', () async {
-      final data = {
-        'success': true,
-        'message': 'Added example.com',
-      };
+      final data = {'success': true, 'message': 'Added example.com'};
       final response = http.Response(jsonEncode(data), 200);
       mockGet(mockClient, url, response);
 
       final result = await apiClient.postDomain(
-        sid,
+        token,
         domain: 'example.com',
         domainType: V5DomainType.white,
       );
@@ -1185,7 +1182,7 @@ void main() {
       mockGet(mockClient, url, response);
 
       final result = await apiClient.postDomain(
-        sid,
+        token,
         domain: 'example.com',
         domainType: V5DomainType.white,
       );
@@ -1199,9 +1196,7 @@ void main() {
   });
 
   group('getDomains', () {
-    final url = Uri.parse(
-      '$baseUrl/admin/api.php?auth=$sid&list=white',
-    );
+    final url = Uri.parse('$baseUrl/admin/api.php?auth=$token&list=white');
 
     test('gets domains', () async {
       final data = {
@@ -1221,8 +1216,10 @@ void main() {
       final response = http.Response(jsonEncode(data), 200);
       mockGet(mockClient, url, response);
 
-      final result =
-          await apiClient.getDomains(sid, domainType: V5DomainType.white);
+      final result = await apiClient.getDomains(
+        token,
+        domainType: V5DomainType.white,
+      );
 
       expectSuccess(result, data);
     });
@@ -1231,8 +1228,10 @@ void main() {
       final response = http.Response('Internal Server Error', 500);
       mockGet(mockClient, url, response);
 
-      final result =
-          await apiClient.getDomains(sid, domainType: V5DomainType.white);
+      final result = await apiClient.getDomains(
+        token,
+        domainType: V5DomainType.white,
+      );
 
       expectHttpError(
         result,
@@ -1244,19 +1243,16 @@ void main() {
 
   group('deleteDomain', () {
     final url = Uri.parse(
-      '$baseUrl/admin/api.php?auth=$sid&list=white&sub=${Uri.encodeComponent('example.com')}',
+      '$baseUrl/admin/api.php?auth=$token&list=white&sub=${Uri.encodeComponent('example.com')}',
     );
 
     test('deletes domain', () async {
-      final data = {
-        'success': true,
-        'message': null,
-      };
+      final data = {'success': true, 'message': null};
       final response = http.Response(jsonEncode(data), 200);
       mockGet(mockClient, url, response);
 
       final result = await apiClient.deleteDomain(
-        sid,
+        token,
         domain: 'example.com',
         domainType: V5DomainType.white,
       );
@@ -1269,7 +1265,7 @@ void main() {
       mockGet(mockClient, url, response);
 
       final result = await apiClient.deleteDomain(
-        sid,
+        token,
         domain: 'example.com',
         domainType: V5DomainType.white,
       );
@@ -1283,9 +1279,7 @@ void main() {
   });
 
   group('getVersions', () {
-    final url = Uri.parse(
-      '$baseUrl/admin/api.php?auth=$sid&versions',
-    );
+    final url = Uri.parse('$baseUrl/admin/api.php?auth=$token&versions');
 
     test('gets versions with docker', () async {
       final data = {
@@ -1308,7 +1302,7 @@ void main() {
       final response = http.Response(jsonEncode(data), 200);
       mockGet(mockClient, url, response);
 
-      final result = await apiClient.getVersions(sid);
+      final result = await apiClient.getVersions(token);
 
       expectSuccess(result, data);
     });
@@ -1331,7 +1325,7 @@ void main() {
       final response = http.Response(jsonEncode(data), 200);
       mockGet(mockClient, url, response);
 
-      final result = await apiClient.getVersions(sid);
+      final result = await apiClient.getVersions(token);
 
       final expected = {
         'docker_update': null,
@@ -1346,7 +1340,7 @@ void main() {
       final response = http.Response('Internal Server Error', 500);
       mockGet(mockClient, url, response);
 
-      final result = await apiClient.getVersions(sid);
+      final result = await apiClient.getVersions(token);
 
       expectHttpError(
         result,
