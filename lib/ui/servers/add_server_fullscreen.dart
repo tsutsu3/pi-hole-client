@@ -66,12 +66,13 @@ class _AddServerFullscreenState extends State<AddServerFullscreen> {
     if (widget.server != null) {
       final splitted = widget.server!.address.split(':');
       addressFieldController.text = splitted[1].split('/')[2];
-      portFieldController.text =
-          splitted.length > 2 ? splitted[2].split('/')[0] : '';
+      portFieldController.text = splitted.length > 2
+          ? splitted[2].split('/')[0]
+          : '';
       subrouteFieldController.text =
           widget.server!.address.split('/').length > 3
-              ? '/${widget.server!.address.split('/')[3]}'
-              : '';
+          ? '/${widget.server!.address.split('/')[3]}'
+          : '';
       aliasFieldController.text = widget.server!.alias;
       connectionType = widget.server!.address.split(':')[0] == 'https'
           ? ConnectionType.https
@@ -103,10 +104,12 @@ class _AddServerFullscreenState extends State<AddServerFullscreen> {
 
   void validateAddress(String? value) {
     if (value != null && value != '') {
-      final ipAddress =
-          RegExp(r'^((25[0-5]|(2[0-4]|1\d|[1-9]|)\d)(\.(?!$)|$)){4}$');
-      final domain =
-          RegExp(r'^(([a-z0-9|-]+\.)*[a-z0-9|-]+\.[a-z]+)|((\w|-)+)$');
+      final ipAddress = RegExp(
+        r'^((25[0-5]|(2[0-4]|1\d|[1-9]|)\d)(\.(?!$)|$)){4}$',
+      );
+      final domain = RegExp(
+        r'^(([a-z0-9|-]+\.)*[a-z0-9|-]+\.[a-z]+)|((\w|-)+)$',
+      );
       if (ipAddress.hasMatch(value) == true || domain.hasMatch(value) == true) {
         setState(() {
           addressFieldError = null;
@@ -289,8 +292,9 @@ class _AddServerFullscreenState extends State<AddServerFullscreen> {
         );
         await serverObj.sm.savePassword(passwordFieldController.text);
         await serverObj.sm.saveToken(tokenFieldController.text);
-        final result =
-            await serversProvider.loadApiGateway(serverObj)?.loginQuery();
+        final result = await serversProvider
+            .loadApiGateway(serverObj)
+            ?.loginQuery();
         if (!context.mounted) return;
         if (result?.result == APiResponseType.success) {
           await Navigator.maybePop(context);
@@ -359,9 +363,7 @@ class _AddServerFullscreenState extends State<AddServerFullscreen> {
           ?.loginQuery(refresh: true);
 
       if (result?.result == APiResponseType.success) {
-        final server = serverObj.copyWith(
-          defaultServer: defaultCheckbox,
-        );
+        final server = serverObj.copyWith(defaultServer: defaultCheckbox);
         final result = await serversProvider.editServer(server);
         if (context.mounted) {
           if (result == true) {
@@ -528,18 +530,19 @@ class _AddServerFullscreenState extends State<AddServerFullscreen> {
             child: Column(
               children: [
                 Container(
-                  padding:
-                      const EdgeInsets.symmetric(horizontal: 15, vertical: 10),
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 15,
+                    vertical: 10,
+                  ),
                   margin: const EdgeInsets.only(bottom: 10),
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(50),
                     border: Border.all(
                       color: Theme.of(context).colorScheme.primary,
                     ),
-                    color: Theme.of(context)
-                        .colorScheme
-                        .primary
-                        .withValues(alpha: 0.05),
+                    color: Theme.of(
+                      context,
+                    ).colorScheme.primary.withValues(alpha: 0.05),
                   ),
                   child: Column(
                     children: [
@@ -649,12 +652,15 @@ class _AddServerFullscreenState extends State<AddServerFullscreen> {
                           border: const OutlineInputBorder(
                             borderRadius: BorderRadius.all(Radius.circular(10)),
                           ),
-                          labelText:
-                              AppLocalizations.of(context)!.subrouteField,
-                          hintText:
-                              AppLocalizations.of(context)!.subrouteExample,
-                          helperText:
-                              AppLocalizations.of(context)!.subrouteHelper,
+                          labelText: AppLocalizations.of(
+                            context,
+                          )!.subrouteField,
+                          hintText: AppLocalizations.of(
+                            context,
+                          )!.subrouteExample,
+                          helperText: AppLocalizations.of(
+                            context,
+                          )!.subrouteHelper,
                         ),
                       ),
                       const SizedBox(height: 12),
@@ -665,13 +671,16 @@ class _AddServerFullscreenState extends State<AddServerFullscreen> {
                             ? (v) => setState(() => allowSelfSignedCert = v!)
                             : null,
                         title: Text(
-                          AppLocalizations.of(context)!
-                              .allowSelfSignedCertificates,
+                          AppLocalizations.of(
+                            context,
+                          )!.allowSelfSignedCertificates,
                         ),
                         subtitle: Text(
                           AppLocalizations.of(context)!.onlyAvailableWithHttps,
-                          style:
-                              const TextStyle(fontSize: 12, color: Colors.grey),
+                          style: const TextStyle(
+                            fontSize: 12,
+                            color: Colors.grey,
+                          ),
                         ),
                       ),
                       const SizedBox(height: 20),
@@ -726,9 +735,7 @@ class _AddServerFullscreenState extends State<AddServerFullscreen> {
                     Checkbox(
                       value: defaultCheckbox,
                       onChanged: (value) => {
-                        setState(
-                          () => defaultCheckbox = !defaultCheckbox,
-                        ),
+                        setState(() => defaultCheckbox = !defaultCheckbox),
                       },
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(5),
@@ -736,9 +743,7 @@ class _AddServerFullscreenState extends State<AddServerFullscreen> {
                     ),
                     GestureDetector(
                       onTap: () => {
-                        setState(
-                          () => defaultCheckbox = !defaultCheckbox,
-                        ),
+                        setState(() => defaultCheckbox = !defaultCheckbox),
                       },
                       child: Text(
                         AppLocalizations.of(context)!.defaultConnection,
@@ -798,8 +803,9 @@ class _AddServerFullscreenState extends State<AddServerFullscreen> {
                         IconButton(
                           onPressed: () => openUrl(Urls.createAConnection),
                           icon: const Icon(Icons.help_outline_rounded),
-                          tooltip:
-                              AppLocalizations.of(context)!.howCreateConnection,
+                          tooltip: AppLocalizations.of(
+                            context,
+                          )!.howCreateConnection,
                         ),
                         IconButton(
                           tooltip: widget.server != null
@@ -807,8 +813,8 @@ class _AddServerFullscreenState extends State<AddServerFullscreen> {
                               : AppLocalizations.of(context)!.connect,
                           onPressed: validData()
                               ? widget.server != null
-                                  ? save
-                                  : connect
+                                    ? save
+                                    : connect
                               : null,
                           icon: widget.server != null
                               ? const Icon(Icons.save_rounded)
@@ -844,8 +850,8 @@ class _AddServerFullscreenState extends State<AddServerFullscreen> {
                         : AppLocalizations.of(context)!.connect,
                     onPressed: validData()
                         ? widget.server != null
-                            ? save
-                            : connect
+                              ? save
+                              : connect
                         : null,
                     icon: widget.server != null
                         ? const Icon(Icons.save_rounded)
@@ -872,9 +878,7 @@ class _AddServerFullscreenState extends State<AddServerFullscreen> {
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      const CircularProgressIndicator(
-                        color: Colors.white,
-                      ),
+                      const CircularProgressIndicator(color: Colors.white),
                       const SizedBox(height: 30),
                       Text(
                         AppLocalizations.of(context)!.connecting,

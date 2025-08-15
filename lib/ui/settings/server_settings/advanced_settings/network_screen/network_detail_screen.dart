@@ -90,11 +90,11 @@ class NetworkDetailScreen extends StatelessWidget {
                 label: locale.firstSeen,
                 description:
                     device.firstSeen == DateTime.fromMillisecondsSinceEpoch(0)
-                        ? locale.never
-                        : formatTimestamp(
-                            device.firstSeen,
-                            kUnifiedDateTimeLogFormat,
-                          ),
+                    ? locale.never
+                    : formatTimestamp(
+                        device.firstSeen,
+                        kUnifiedDateTimeLogFormat,
+                      ),
               ),
               const SizedBox(height: 16),
               SectionLabel(label: locale.ipAddresses),
@@ -104,8 +104,9 @@ class NetworkDetailScreen extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Theme(
-                        data: Theme.of(context)
-                            .copyWith(dividerColor: Colors.transparent),
+                        data: Theme.of(
+                          context,
+                        ).copyWith(dividerColor: Colors.transparent),
                         child: ExpansionTile(
                           title: CustomListTile(
                             leadingIcon: Icons.location_on_outlined,
@@ -154,8 +155,10 @@ class NetworkDetailScreen extends StatelessWidget {
       return locale.unknown;
     }
 
-    final timestamp =
-        formatTimestamp(device.lastQuery, kUnifiedDateTimeLogFormat);
+    final timestamp = formatTimestamp(
+      device.lastQuery,
+      kUnifiedDateTimeLogFormat,
+    );
     final hoursAgo =
         (DateTime.now().difference(device.lastQuery).inMinutes / 60).round();
     final relativeTime = locale.timeHoursAgo(hoursAgo);

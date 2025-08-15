@@ -19,8 +19,8 @@ import 'package:result_dart/result_dart.dart';
 /// sensitive values securely stored outside of the main database.
 class ServerRepository {
   ServerRepository(DatabaseService database, SecureStorageService secureStorage)
-      : _database = database,
-        _secureStorage = secureStorage;
+    : _database = database,
+      _secureStorage = secureStorage;
 
   final DatabaseService _database;
   final SecureStorageService _secureStorage;
@@ -41,9 +41,8 @@ class ServerRepository {
 
       final rows = await runWithRetry<Result<List<Map<String, dynamic>>>>(
         action: () => _database.rawQuery('SELECT * FROM servers'),
-        onRetry: (attempt, error, _) => logger.w(
-          'Attempt $attempt: Failed to read servers - $error',
-        ),
+        onRetry: (attempt, error, _) =>
+            logger.w('Attempt $attempt: Failed to read servers - $error'),
       );
       servers = rows.getOrThrow().map(ServerDbData.fromMap).toList();
 
@@ -203,9 +202,7 @@ class ServerRepository {
   /// for the given [address], and deletes the corresponding row from the `servers` table.
   ///
   /// Returns the number of rows deleted, or a failure if the operation fails.
-  Future<Result<int>> deleteServer(
-    String address,
-  ) async {
+  Future<Result<int>> deleteServer(String address) async {
     try {
       await openDbIfNeeded(_database);
 
@@ -285,8 +282,10 @@ class ServerRepository {
   Future<Result<void>> deleteUnusedServerSecrets() async {
     try {
       final servers = await fetchServers();
-      final serverAddresses =
-          servers.getOrThrow().map((e) => e.address).toList();
+      final serverAddresses = servers
+          .getOrThrow()
+          .map((e) => e.address)
+          .toList();
       final keys = await _secureStorage.readAll();
 
       if (keys.isError()) return Failure(keys.exceptionOrNull()!);

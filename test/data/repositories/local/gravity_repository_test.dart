@@ -44,8 +44,9 @@ void main() {
 
   final gravityUpdateData = GravityUpdateData.fromMap(gravityUpdateDataJson);
   final gravityLogsData = GravityLogData.fromMap(gravityLogsDataJson);
-  final gravityMessagesData =
-      GravityMessageData.fromMap(gravityMessagesDataJson);
+  final gravityMessagesData = GravityMessageData.fromMap(
+    gravityMessagesDataJson,
+  );
 
   sqfliteTestInit();
 
@@ -392,8 +393,9 @@ void main() {
     });
 
     test('insert gravity messages when they do not exist', () async {
-      final result =
-          await repository.insertGravityMessages([gravityMessagesData]);
+      final result = await repository.insertGravityMessages([
+        gravityMessagesData,
+      ]);
       expect(result.isSuccess(), true);
 
       final fetchedResult = await repository.fetchGravityMessages(address);
@@ -406,8 +408,9 @@ void main() {
 
     test('insert gravity messages when they exist', () async {
       await repository.insertGravityMessages([gravityMessagesData]);
-      final result =
-          await repository.insertGravityMessages([gravityMessagesData]);
+      final result = await repository.insertGravityMessages([
+        gravityMessagesData,
+      ]);
       expect(result.isSuccess(), true);
 
       final fetchedResult = await repository.fetchGravityMessages(address);
@@ -424,8 +427,9 @@ void main() {
 
     test('returns Failure when unexpected error', () async {
       dbService.shouldThrowOnTransaction = true;
-      final result =
-          await repository.insertGravityMessages([gravityMessagesData]);
+      final result = await repository.insertGravityMessages([
+        gravityMessagesData,
+      ]);
       expect(result.isError(), true);
       expect(
         result.exceptionOrNull().toString(),

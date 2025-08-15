@@ -20,128 +20,104 @@ void main() async {
       testSetup.initializeMock(useApiGatewayVersion: 'v6');
     });
 
-    testWidgets(
-      'should show error screen when fetching sessions fails',
-      (WidgetTester tester) async {
-        tester.view.physicalSize = const Size(1080, 2400);
-        tester.view.devicePixelRatio = 2.0;
+    testWidgets('should show error screen when fetching sessions fails', (
+      WidgetTester tester,
+    ) async {
+      tester.view.physicalSize = const Size(1080, 2400);
+      tester.view.devicePixelRatio = 2.0;
 
-        when(testSetup.mockApiGatewayV6.getDevices()).thenAnswer(
-          (_) async => DevicesResponse(
-            result: APiResponseType.error,
-          ),
-        );
+      when(
+        testSetup.mockApiGatewayV6.getDevices(),
+      ).thenAnswer((_) async => DevicesResponse(result: APiResponseType.error));
 
-        addTearDown(() {
-          tester.view.resetPhysicalSize();
-          tester.view.resetDevicePixelRatio();
-        });
+      addTearDown(() {
+        tester.view.resetPhysicalSize();
+        tester.view.resetDevicePixelRatio();
+      });
 
-        await tester.pumpWidget(
-          testSetup.buildTestWidget(
-            const NetworkScreen(),
-          ),
-        );
+      await tester.pumpWidget(testSetup.buildTestWidget(const NetworkScreen()));
 
-        expect(find.byType(NetworkScreen), findsOneWidget);
-        await tester.pump();
-        expect(find.byType(ErrorMessage), findsOneWidget);
-      },
-    );
+      expect(find.byType(NetworkScreen), findsOneWidget);
+      await tester.pump();
+      expect(find.byType(ErrorMessage), findsOneWidget);
+    });
 
-    testWidgets(
-      'should show detail screen with tap (in use)',
-      (WidgetTester tester) async {
-        tester.view.physicalSize = const Size(1080, 2400);
-        tester.view.devicePixelRatio = 2.0;
+    testWidgets('should show detail screen with tap (in use)', (
+      WidgetTester tester,
+    ) async {
+      tester.view.physicalSize = const Size(1080, 2400);
+      tester.view.devicePixelRatio = 2.0;
 
-        addTearDown(() {
-          tester.view.resetPhysicalSize();
-          tester.view.resetDevicePixelRatio();
-        });
+      addTearDown(() {
+        tester.view.resetPhysicalSize();
+        tester.view.resetDevicePixelRatio();
+      });
 
-        await tester.pumpWidget(
-          testSetup.buildTestWidget(
-            const NetworkScreen(),
-          ),
-        );
+      await tester.pumpWidget(testSetup.buildTestWidget(const NetworkScreen()));
 
-        expect(find.byType(NetworkScreen), findsOneWidget);
-        await tester.pump();
+      expect(find.byType(NetworkScreen), findsOneWidget);
+      await tester.pump();
 
-        await tester.tap(find.text('192.168.1.51 (ubuntu-server)'));
-        await tester.pumpAndSettle();
-        await tester.pump();
+      await tester.tap(find.text('192.168.1.51 (ubuntu-server)'));
+      await tester.pumpAndSettle();
+      await tester.pump();
 
-        expect(find.byType(NetworkDetailScreen), findsOneWidget);
-        expect(find.byIcon(Icons.delete_rounded), findsOneWidget);
-      },
-    );
+      expect(find.byType(NetworkDetailScreen), findsOneWidget);
+      expect(find.byIcon(Icons.delete_rounded), findsOneWidget);
+    });
 
-    testWidgets(
-      'should refresh sessions on tap',
-      (WidgetTester tester) async {
-        tester.view.physicalSize = const Size(1080, 2400);
-        tester.view.devicePixelRatio = 2.0;
+    testWidgets('should refresh sessions on tap', (WidgetTester tester) async {
+      tester.view.physicalSize = const Size(1080, 2400);
+      tester.view.devicePixelRatio = 2.0;
 
-        addTearDown(() {
-          tester.view.resetPhysicalSize();
-          tester.view.resetDevicePixelRatio();
-        });
+      addTearDown(() {
+        tester.view.resetPhysicalSize();
+        tester.view.resetDevicePixelRatio();
+      });
 
-        await tester.pumpWidget(
-          testSetup.buildTestWidget(
-            const NetworkScreen(),
-          ),
-        );
+      await tester.pumpWidget(testSetup.buildTestWidget(const NetworkScreen()));
 
-        expect(find.byType(NetworkScreen), findsOneWidget);
-        await tester.pump();
+      expect(find.byType(NetworkScreen), findsOneWidget);
+      await tester.pump();
 
-        expect(find.byIcon(Icons.refresh_rounded), findsOneWidget);
-        await tester.tap(find.byIcon(Icons.refresh_rounded));
-        await tester.pumpAndSettle();
-      },
-    );
+      expect(find.byIcon(Icons.refresh_rounded), findsOneWidget);
+      await tester.tap(find.byIcon(Icons.refresh_rounded));
+      await tester.pumpAndSettle();
+    });
 
-    testWidgets(
-      'should show delete session button with tap (not in use)',
-      (WidgetTester tester) async {
-        tester.view.physicalSize = const Size(1080, 2400);
-        tester.view.devicePixelRatio = 2.0;
+    testWidgets('should show delete session button with tap (not in use)', (
+      WidgetTester tester,
+    ) async {
+      tester.view.physicalSize = const Size(1080, 2400);
+      tester.view.devicePixelRatio = 2.0;
 
-        addTearDown(() {
-          tester.view.resetPhysicalSize();
-          tester.view.resetDevicePixelRatio();
-        });
+      addTearDown(() {
+        tester.view.resetPhysicalSize();
+        tester.view.resetDevicePixelRatio();
+      });
 
-        await tester.pumpWidget(
-          testSetup.buildTestWidget(
-            const NetworkScreen(),
-          ),
-        );
+      await tester.pumpWidget(testSetup.buildTestWidget(const NetworkScreen()));
 
-        expect(find.byType(NetworkScreen), findsOneWidget);
-        await tester.pump();
+      expect(find.byType(NetworkScreen), findsOneWidget);
+      await tester.pump();
 
-        await tester.tap(find.text('192.168.1.51 (ubuntu-server)'));
-        await tester.pumpAndSettle();
+      await tester.tap(find.text('192.168.1.51 (ubuntu-server)'));
+      await tester.pumpAndSettle();
 
-        expect(find.byType(NetworkDetailScreen), findsOneWidget);
-        expect(find.byIcon(Icons.delete_rounded), findsOneWidget);
+      expect(find.byType(NetworkDetailScreen), findsOneWidget);
+      expect(find.byIcon(Icons.delete_rounded), findsOneWidget);
 
-        await tester.tap(find.byIcon(Icons.delete_rounded));
-        await tester.pumpAndSettle();
+      await tester.tap(find.byIcon(Icons.delete_rounded));
+      await tester.pumpAndSettle();
 
-        // Show remove modal
-        expect(find.byType(DeleteModal), findsOneWidget);
-        expect(find.text('Delete device'), findsOneWidget);
-        await tester.tap(find.text('Delete'));
-        await tester.pumpAndSettle();
+      // Show remove modal
+      expect(find.byType(DeleteModal), findsOneWidget);
+      expect(find.text('Delete device'), findsOneWidget);
+      await tester.tap(find.text('Delete'));
+      await tester.pumpAndSettle();
 
-        expect(find.byType(SnackBar), findsOneWidget);
-        expect(find.text('Device removed successfully'), findsWidgets);
-      },
-    );
+      expect(find.byType(SnackBar), findsOneWidget);
+      expect(find.text('Device removed successfully'), findsWidgets);
+    });
   });
 }

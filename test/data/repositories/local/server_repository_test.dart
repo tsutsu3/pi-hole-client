@@ -2,6 +2,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:pi_hole_client/config/enums.dart';
 import 'package:pi_hole_client/data/repositories/local/secure_data_repository.dart';
 import 'package:pi_hole_client/data/repositories/local/server_repository.dart';
+// import 'package:pi_hole_client/data/services/local/session_credential_service.dart';
 import 'package:pi_hole_client/domain/models_old/server.dart';
 import 'package:sqflite_common_ffi/sqflite_ffi.dart';
 
@@ -34,10 +35,7 @@ void main() {
     apiVersion: 'v6',
     allowSelfSignedCert: true,
     enabled: true,
-    sm: SecureDataRepository(
-      FakeSecureStorageService(),
-      'http://localhost',
-    ),
+    sm: SecureDataRepository(FakeSecureStorageService(), 'http://localhost'),
   );
   final gravityUpdateDataJson = {
     'address': 'http://localhost',
@@ -130,9 +128,7 @@ void main() {
       secureDataRepository = SecureDataRepository(ssSerivce, serverV6.address);
       await secureDataRepository.savePassword('pass123');
       await secureDataRepository.saveSid('sid123');
-      final serverV62 = serverV6.copyWith(
-        sm: secureDataRepository,
-      );
+      final serverV62 = serverV6.copyWith(sm: secureDataRepository);
       await secureDataRepository.loadSid();
 
       final result = await repository.insertServer(serverV62);
@@ -212,9 +208,7 @@ void main() {
       await secureDataRepository.savePassword('pass123');
       await secureDataRepository.saveSid('sid123');
       await secureDataRepository.loadSid();
-      final serverV62 = serverV6.copyWith(
-        sm: secureDataRepository,
-      );
+      final serverV62 = serverV6.copyWith(sm: secureDataRepository);
       await repository.insertServer(serverV62);
 
       final updatedServer = serverV62.copyWith(alias: 'updated6');
@@ -293,18 +287,14 @@ void main() {
       expect(
         servers
             .getOrNull()
-            ?.firstWhere(
-              (s) => s.address == serverV6.address,
-            )
+            ?.firstWhere((s) => s.address == serverV6.address)
             .isDefaultServer,
         0,
       );
       expect(
         servers
             .getOrNull()
-            ?.firstWhere(
-              (s) => s.address == serverV5.address,
-            )
+            ?.firstWhere((s) => s.address == serverV5.address)
             .isDefaultServer,
         1,
       );
@@ -561,8 +551,9 @@ void main() {
         true,
       );
       expect(
-        (await ssSerivce.getValue('http://127.0.0.1_basicAuthPassword'))
-            .isError(),
+        (await ssSerivce.getValue(
+          'http://127.0.0.1_basicAuthPassword',
+        )).isError(),
         true,
       );
     });

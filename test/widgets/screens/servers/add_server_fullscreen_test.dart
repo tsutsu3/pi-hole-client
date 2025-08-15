@@ -18,74 +18,63 @@ void main() async {
       testSetup.initializeMock(useApiGatewayVersion: 'v6');
     });
 
-    testWidgets(
-      'should show the page with window',
-      (WidgetTester tester) async {
-        tester.view.physicalSize = const Size(1080, 2400);
-        tester.view.devicePixelRatio = 2.0;
+    testWidgets('should show the page with window', (
+      WidgetTester tester,
+    ) async {
+      tester.view.physicalSize = const Size(1080, 2400);
+      tester.view.devicePixelRatio = 2.0;
 
-        addTearDown(() {
-          tester.view.resetPhysicalSize();
-          tester.view.resetDevicePixelRatio();
-        });
+      addTearDown(() {
+        tester.view.resetPhysicalSize();
+        tester.view.resetDevicePixelRatio();
+      });
 
-        await tester.pumpWidget(
-          testSetup.buildTestWidget(
-            const AddServerFullscreen(
-              window: true,
-              title: 'test',
-            ),
-          ),
-        );
+      await tester.pumpWidget(
+        testSetup.buildTestWidget(
+          const AddServerFullscreen(window: true, title: 'test'),
+        ),
+      );
 
-        expect(find.byType(AddServerFullscreen), findsOneWidget);
-        expect(find.byIcon(Icons.login_rounded), findsOneWidget);
-        expect(find.text('Token'), findsNothing);
-        expect(find.text('Password'), findsOne);
-      },
-    );
+      expect(find.byType(AddServerFullscreen), findsOneWidget);
+      expect(find.byIcon(Icons.login_rounded), findsOneWidget);
+      expect(find.text('Token'), findsNothing);
+      expect(find.text('Password'), findsOne);
+    });
 
-    testWidgets(
-      'should show the successful snackbar when adding a server',
-      (WidgetTester tester) async {
-        tester.view.physicalSize = const Size(1080, 2400);
-        tester.view.devicePixelRatio = 2.0;
+    testWidgets('should show the successful snackbar when adding a server', (
+      WidgetTester tester,
+    ) async {
+      tester.view.physicalSize = const Size(1080, 2400);
+      tester.view.devicePixelRatio = 2.0;
 
-        addTearDown(() {
-          tester.view.resetPhysicalSize();
-          tester.view.resetDevicePixelRatio();
-        });
+      addTearDown(() {
+        tester.view.resetPhysicalSize();
+        tester.view.resetDevicePixelRatio();
+      });
 
-        await tester.pumpWidget(
-          testSetup.buildTestWidget(
-            const AddServerFullscreen(
-              window: false,
-              title: 'test',
-            ),
-          ),
-        );
+      await tester.pumpWidget(
+        testSetup.buildTestWidget(
+          const AddServerFullscreen(window: false, title: 'test'),
+        ),
+      );
 
-        expect(find.byType(AddServerFullscreen), findsOneWidget);
-        expect(find.byIcon(Icons.login_rounded), findsOneWidget);
+      expect(find.byType(AddServerFullscreen), findsOneWidget);
+      expect(find.byIcon(Icons.login_rounded), findsOneWidget);
 
-        await tester.enterText(find.byType(TextField).at(0), 'v5'); // Alias
-        await tester.tap(find.text('v5').last);
-        await tester.pump();
-        await tester.enterText(
-          find.byType(TextField).at(1),
-          'localhost',
-        ); // IP Address
-        await tester.enterText(
-          find.byType(TextField).at(3),
-          'test123',
-        ); // token
+      await tester.enterText(find.byType(TextField).at(0), 'v5'); // Alias
+      await tester.tap(find.text('v5').last);
+      await tester.pump();
+      await tester.enterText(
+        find.byType(TextField).at(1),
+        'localhost',
+      ); // IP Address
+      await tester.enterText(find.byType(TextField).at(3), 'test123'); // token
 
-        await tester.tap(find.byIcon(Icons.login_rounded));
-        await tester.pump(const Duration(milliseconds: 1000));
-        expect(find.byType(SnackBar), findsOneWidget);
-        expect(find.text('Connected to server successfully.'), findsOneWidget);
-      },
-    );
+      await tester.tap(find.byIcon(Icons.login_rounded));
+      await tester.pump(const Duration(milliseconds: 1000));
+      expect(find.byType(SnackBar), findsOneWidget);
+      expect(find.text('Connected to server successfully.'), findsOneWidget);
+    });
 
     testWidgets(
       'should show the error snackbar when adding a server (socket exception)',
@@ -93,8 +82,9 @@ void main() async {
         tester.view.physicalSize = const Size(1080, 2400);
         tester.view.devicePixelRatio = 2.0;
 
-        when(testSetup.mockServersProvider.addServer(any))
-            .thenAnswer((_) async => false);
+        when(
+          testSetup.mockServersProvider.addServer(any),
+        ).thenAnswer((_) async => false);
         when(testSetup.mockApiGatewayV6.loginQuery()).thenAnswer(
           (_) async => LoginQueryResponse(
             result: APiResponseType.socket,
@@ -113,10 +103,7 @@ void main() async {
 
         await tester.pumpWidget(
           testSetup.buildTestWidget(
-            const AddServerFullscreen(
-              window: false,
-              title: 'test',
-            ),
+            const AddServerFullscreen(window: false, title: 'test'),
           ),
         );
 
@@ -127,22 +114,10 @@ void main() async {
         await tester.pump();
 
         await tester.enterText(find.byType(TextField).at(0), 'v6'); // Alias
-        await tester.enterText(
-          find.byType(TextField).at(1),
-          'localhost',
-        );
-        await tester.enterText(
-          find.byType(TextField).at(2),
-          '8080',
-        );
-        await tester.enterText(
-          find.byType(TextField).at(3),
-          '/test',
-        );
-        await tester.enterText(
-          find.byType(TextField).at(4),
-          'test123',
-        );
+        await tester.enterText(find.byType(TextField).at(1), 'localhost');
+        await tester.enterText(find.byType(TextField).at(2), '8080');
+        await tester.enterText(find.byType(TextField).at(3), '/test');
+        await tester.enterText(find.byType(TextField).at(4), 'test123');
 
         await tester.tap(find.byIcon(Icons.login_rounded));
         await tester.pump(const Duration(milliseconds: 1000));
@@ -157,8 +132,9 @@ void main() async {
         tester.view.physicalSize = const Size(1080, 2400);
         tester.view.devicePixelRatio = 2.0;
 
-        when(testSetup.mockServersProvider.addServer(any))
-            .thenAnswer((_) async => false);
+        when(
+          testSetup.mockServersProvider.addServer(any),
+        ).thenAnswer((_) async => false);
         when(testSetup.mockApiGatewayV6.loginQuery()).thenAnswer(
           (_) async => LoginQueryResponse(
             result: APiResponseType.timeout,
@@ -177,10 +153,7 @@ void main() async {
 
         await tester.pumpWidget(
           testSetup.buildTestWidget(
-            const AddServerFullscreen(
-              window: false,
-              title: 'test',
-            ),
+            const AddServerFullscreen(window: false, title: 'test'),
           ),
         );
 
@@ -191,22 +164,10 @@ void main() async {
         await tester.pump();
 
         await tester.enterText(find.byType(TextField).at(0), 'v6'); // Alias
-        await tester.enterText(
-          find.byType(TextField).at(1),
-          'localhost',
-        );
-        await tester.enterText(
-          find.byType(TextField).at(2),
-          '8080',
-        );
-        await tester.enterText(
-          find.byType(TextField).at(3),
-          '/test',
-        );
-        await tester.enterText(
-          find.byType(TextField).at(4),
-          'test123',
-        );
+        await tester.enterText(find.byType(TextField).at(1), 'localhost');
+        await tester.enterText(find.byType(TextField).at(2), '8080');
+        await tester.enterText(find.byType(TextField).at(3), '/test');
+        await tester.enterText(find.byType(TextField).at(4), 'test123');
 
         await tester.tap(find.byIcon(Icons.login_rounded));
         await tester.pump(const Duration(milliseconds: 1000));
@@ -226,8 +187,9 @@ void main() async {
         tester.view.physicalSize = const Size(1080, 2400);
         tester.view.devicePixelRatio = 2.0;
 
-        when(testSetup.mockServersProvider.addServer(any))
-            .thenAnswer((_) async => false);
+        when(
+          testSetup.mockServersProvider.addServer(any),
+        ).thenAnswer((_) async => false);
         when(testSetup.mockApiGatewayV6.loginQuery()).thenAnswer(
           (_) async => LoginQueryResponse(
             result: APiResponseType.noConnection,
@@ -246,10 +208,7 @@ void main() async {
 
         await tester.pumpWidget(
           testSetup.buildTestWidget(
-            const AddServerFullscreen(
-              window: false,
-              title: 'test',
-            ),
+            const AddServerFullscreen(window: false, title: 'test'),
           ),
         );
 
@@ -260,22 +219,10 @@ void main() async {
         await tester.pump();
 
         await tester.enterText(find.byType(TextField).at(0), 'v6'); // Alias
-        await tester.enterText(
-          find.byType(TextField).at(1),
-          'localhost',
-        );
-        await tester.enterText(
-          find.byType(TextField).at(2),
-          '8080',
-        );
-        await tester.enterText(
-          find.byType(TextField).at(3),
-          '/test',
-        );
-        await tester.enterText(
-          find.byType(TextField).at(4),
-          'test123',
-        );
+        await tester.enterText(find.byType(TextField).at(1), 'localhost');
+        await tester.enterText(find.byType(TextField).at(2), '8080');
+        await tester.enterText(find.byType(TextField).at(3), '/test');
+        await tester.enterText(find.byType(TextField).at(4), 'test123');
 
         await tester.tap(find.byIcon(Icons.login_rounded));
         await tester.pump(const Duration(milliseconds: 1000));
@@ -293,8 +240,9 @@ void main() async {
         tester.view.physicalSize = const Size(1080, 2400);
         tester.view.devicePixelRatio = 2.0;
 
-        when(testSetup.mockServersProvider.addServer(any))
-            .thenAnswer((_) async => false);
+        when(
+          testSetup.mockServersProvider.addServer(any),
+        ).thenAnswer((_) async => false);
         when(testSetup.mockApiGatewayV6.loginQuery()).thenAnswer(
           (_) async => LoginQueryResponse(
             result: APiResponseType.authError,
@@ -313,10 +261,7 @@ void main() async {
 
         await tester.pumpWidget(
           testSetup.buildTestWidget(
-            const AddServerFullscreen(
-              window: false,
-              title: 'test',
-            ),
+            const AddServerFullscreen(window: false, title: 'test'),
           ),
         );
 
@@ -327,22 +272,10 @@ void main() async {
         await tester.pump();
 
         await tester.enterText(find.byType(TextField).at(0), 'v6'); // Alias
-        await tester.enterText(
-          find.byType(TextField).at(1),
-          'localhost',
-        );
-        await tester.enterText(
-          find.byType(TextField).at(2),
-          '8080',
-        );
-        await tester.enterText(
-          find.byType(TextField).at(3),
-          '/test',
-        );
-        await tester.enterText(
-          find.byType(TextField).at(4),
-          'test123',
-        );
+        await tester.enterText(find.byType(TextField).at(1), 'localhost');
+        await tester.enterText(find.byType(TextField).at(2), '8080');
+        await tester.enterText(find.byType(TextField).at(3), '/test');
+        await tester.enterText(find.byType(TextField).at(4), 'test123');
 
         await tester.tap(find.byIcon(Icons.login_rounded));
         await tester.pump(const Duration(milliseconds: 1000));
@@ -357,8 +290,9 @@ void main() async {
         tester.view.physicalSize = const Size(1080, 2400);
         tester.view.devicePixelRatio = 2.0;
 
-        when(testSetup.mockServersProvider.addServer(any))
-            .thenAnswer((_) async => false);
+        when(
+          testSetup.mockServersProvider.addServer(any),
+        ).thenAnswer((_) async => false);
         when(testSetup.mockApiGatewayV6.loginQuery()).thenAnswer(
           (_) async => LoginQueryResponse(
             result: APiResponseType.sslError,
@@ -377,10 +311,7 @@ void main() async {
 
         await tester.pumpWidget(
           testSetup.buildTestWidget(
-            const AddServerFullscreen(
-              window: false,
-              title: 'test',
-            ),
+            const AddServerFullscreen(window: false, title: 'test'),
           ),
         );
 
@@ -391,22 +322,10 @@ void main() async {
         await tester.pump();
 
         await tester.enterText(find.byType(TextField).at(0), 'v6'); // Alias
-        await tester.enterText(
-          find.byType(TextField).at(1),
-          'localhost',
-        );
-        await tester.enterText(
-          find.byType(TextField).at(2),
-          '8080',
-        );
-        await tester.enterText(
-          find.byType(TextField).at(3),
-          '/test',
-        );
-        await tester.enterText(
-          find.byType(TextField).at(4),
-          'test123',
-        );
+        await tester.enterText(find.byType(TextField).at(1), 'localhost');
+        await tester.enterText(find.byType(TextField).at(2), '8080');
+        await tester.enterText(find.byType(TextField).at(3), '/test');
+        await tester.enterText(find.byType(TextField).at(4), 'test123');
 
         await tester.tap(find.byIcon(Icons.login_rounded));
         await tester.pump(const Duration(milliseconds: 1000));
@@ -424,8 +343,9 @@ void main() async {
         tester.view.physicalSize = const Size(1080, 2400);
         tester.view.devicePixelRatio = 2.0;
 
-        when(testSetup.mockServersProvider.addServer(any))
-            .thenAnswer((_) async => false);
+        when(
+          testSetup.mockServersProvider.addServer(any),
+        ).thenAnswer((_) async => false);
         when(testSetup.mockApiGatewayV6.loginQuery()).thenAnswer(
           (_) async => LoginQueryResponse(
             result: APiResponseType.alreadyAdded,
@@ -444,10 +364,7 @@ void main() async {
 
         await tester.pumpWidget(
           testSetup.buildTestWidget(
-            const AddServerFullscreen(
-              window: false,
-              title: 'test',
-            ),
+            const AddServerFullscreen(window: false, title: 'test'),
           ),
         );
 
@@ -458,22 +375,10 @@ void main() async {
         await tester.pump();
 
         await tester.enterText(find.byType(TextField).at(0), 'v6'); // Alias
-        await tester.enterText(
-          find.byType(TextField).at(1),
-          'localhost',
-        );
-        await tester.enterText(
-          find.byType(TextField).at(2),
-          '8080',
-        );
-        await tester.enterText(
-          find.byType(TextField).at(3),
-          '/test',
-        );
-        await tester.enterText(
-          find.byType(TextField).at(4),
-          'test123',
-        );
+        await tester.enterText(find.byType(TextField).at(1), 'localhost');
+        await tester.enterText(find.byType(TextField).at(2), '8080');
+        await tester.enterText(find.byType(TextField).at(3), '/test');
+        await tester.enterText(find.byType(TextField).at(4), 'test123');
 
         await tester.tap(find.byIcon(Icons.login_rounded));
         await tester.pump(const Duration(milliseconds: 1000));
@@ -482,101 +387,80 @@ void main() async {
       },
     );
 
-    testWidgets(
-      'should show validation error when adding a server',
-      (WidgetTester tester) async {
-        tester.view.physicalSize = const Size(1080, 2400);
-        tester.view.devicePixelRatio = 2.0;
+    testWidgets('should show validation error when adding a server', (
+      WidgetTester tester,
+    ) async {
+      tester.view.physicalSize = const Size(1080, 2400);
+      tester.view.devicePixelRatio = 2.0;
 
-        addTearDown(() {
-          tester.view.resetPhysicalSize();
-          tester.view.resetDevicePixelRatio();
-        });
+      addTearDown(() {
+        tester.view.resetPhysicalSize();
+        tester.view.resetDevicePixelRatio();
+      });
 
-        await tester.pumpWidget(
-          testSetup.buildTestWidget(
-            const AddServerFullscreen(
-              window: false,
-              title: 'test',
-            ),
-          ),
-        );
+      await tester.pumpWidget(
+        testSetup.buildTestWidget(
+          const AddServerFullscreen(window: false, title: 'test'),
+        ),
+      );
 
-        expect(find.byType(AddServerFullscreen), findsOneWidget);
-        expect(find.byIcon(Icons.login_rounded), findsOneWidget);
+      expect(find.byType(AddServerFullscreen), findsOneWidget);
+      expect(find.byIcon(Icons.login_rounded), findsOneWidget);
 
-        await tester.tap(find.text('Advanced Options'));
-        await tester.pump();
+      await tester.tap(find.text('Advanced Options'));
+      await tester.pump();
 
-        await tester.enterText(
-          find.byType(TextField).at(1),
-          '@',
-        ); // IP Address
-        await tester.enterText(
-          find.byType(TextField).at(2),
-          '@',
-        ); // port
-        await tester.enterText(
-          find.byType(TextField).at(3),
-          '@',
-        ); // subroute
+      await tester.enterText(find.byType(TextField).at(1), '@'); // IP Address
+      await tester.enterText(find.byType(TextField).at(2), '@'); // port
+      await tester.enterText(find.byType(TextField).at(3), '@'); // subroute
 
-        await tester.pump();
-        await tester.pump();
-        await tester.pump();
+      await tester.pump();
+      await tester.pump();
+      await tester.pump();
 
-        expect(find.text('Invalid IP or domain'), findsOneWidget);
-        expect(
-          find.text(
-            "Invalid subroute. Remember not to finish with a '/', '.' or ':'.",
-          ),
-          findsOneWidget,
-        );
-        expect(find.text('Invalid port'), findsOneWidget);
-      },
-    );
+      expect(find.text('Invalid IP or domain'), findsOneWidget);
+      expect(
+        find.text(
+          "Invalid subroute. Remember not to finish with a '/', '.' or ':'.",
+        ),
+        findsOneWidget,
+      );
+      expect(find.text('Invalid port'), findsOneWidget);
+    });
 
     // --------------------- edit ----------------------------
 
-    testWidgets(
-      'should show the successful snackbar when editing a server',
-      (WidgetTester tester) async {
-        tester.view.physicalSize = const Size(1080, 2400);
-        tester.view.devicePixelRatio = 2.0;
+    testWidgets('should show the successful snackbar when editing a server', (
+      WidgetTester tester,
+    ) async {
+      tester.view.physicalSize = const Size(1080, 2400);
+      tester.view.devicePixelRatio = 2.0;
 
-        addTearDown(() {
-          tester.view.resetPhysicalSize();
-          tester.view.resetDevicePixelRatio();
-        });
+      addTearDown(() {
+        tester.view.resetPhysicalSize();
+        tester.view.resetDevicePixelRatio();
+      });
 
-        await tester.pumpWidget(
-          testSetup.buildTestWidget(
-            AddServerFullscreen(
-              window: false,
-              title: 'test',
-              server: serverV6,
-            ),
-          ),
-        );
+      await tester.pumpWidget(
+        testSetup.buildTestWidget(
+          AddServerFullscreen(window: false, title: 'test', server: serverV6),
+        ),
+      );
 
-        expect(find.byType(AddServerFullscreen), findsOneWidget);
-        expect(find.byIcon(Icons.save_rounded), findsOneWidget);
+      expect(find.byType(AddServerFullscreen), findsOneWidget);
+      expect(find.byIcon(Icons.save_rounded), findsOneWidget);
 
-        await tester.enterText(find.byType(TextField).at(0), 'v6'); // Alias
-        await tester.enterText(
-          find.byType(TextField).at(3),
-          'test123',
-        ); // token
+      await tester.enterText(find.byType(TextField).at(0), 'v6'); // Alias
+      await tester.enterText(find.byType(TextField).at(3), 'test123'); // token
 
-        await tester.tap(find.byIcon(Icons.save_rounded));
-        await tester.pump(const Duration(milliseconds: 1000));
-        expect(find.byType(SnackBar), findsOneWidget);
-        expect(
-          find.text('Server settings updated successfully.'),
-          findsOneWidget,
-        );
-      },
-    );
+      await tester.tap(find.byIcon(Icons.save_rounded));
+      await tester.pump(const Duration(milliseconds: 1000));
+      expect(find.byType(SnackBar), findsOneWidget);
+      expect(
+        find.text('Server settings updated successfully.'),
+        findsOneWidget,
+      );
+    });
 
     testWidgets(
       'should show the failed snackbar when editing a server (socketError)',
@@ -602,11 +486,7 @@ void main() async {
 
         await tester.pumpWidget(
           testSetup.buildTestWidget(
-            AddServerFullscreen(
-              window: false,
-              title: 'test',
-              server: serverV6,
-            ),
+            AddServerFullscreen(window: false, title: 'test', server: serverV6),
           ),
         );
 
@@ -650,11 +530,7 @@ void main() async {
 
         await tester.pumpWidget(
           testSetup.buildTestWidget(
-            AddServerFullscreen(
-              window: false,
-              title: 'test',
-              server: serverV6,
-            ),
+            AddServerFullscreen(window: false, title: 'test', server: serverV6),
           ),
         );
 
@@ -703,11 +579,7 @@ void main() async {
 
         await tester.pumpWidget(
           testSetup.buildTestWidget(
-            AddServerFullscreen(
-              window: false,
-              title: 'test',
-              server: serverV6,
-            ),
+            AddServerFullscreen(window: false, title: 'test', server: serverV6),
           ),
         );
 
@@ -754,11 +626,7 @@ void main() async {
 
         await tester.pumpWidget(
           testSetup.buildTestWidget(
-            AddServerFullscreen(
-              window: false,
-              title: 'test',
-              server: serverV6,
-            ),
+            AddServerFullscreen(window: false, title: 'test', server: serverV6),
           ),
         );
 
@@ -802,11 +670,7 @@ void main() async {
 
         await tester.pumpWidget(
           testSetup.buildTestWidget(
-            AddServerFullscreen(
-              window: false,
-              title: 'test',
-              server: serverV6,
-            ),
+            AddServerFullscreen(window: false, title: 'test', server: serverV6),
           ),
         );
 
@@ -853,11 +717,7 @@ void main() async {
 
         await tester.pumpWidget(
           testSetup.buildTestWidget(
-            AddServerFullscreen(
-              window: false,
-              title: 'test',
-              server: serverV6,
-            ),
+            AddServerFullscreen(window: false, title: 'test', server: serverV6),
           ),
         );
 

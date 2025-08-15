@@ -12,9 +12,7 @@ import 'package:sqflite/sqflite.dart';
 /// and messages. It encapsulates all persistence logic related to
 /// gravity execution results per server.
 class GravityRepository {
-  GravityRepository(
-    DatabaseService database,
-  ) : _database = database;
+  GravityRepository(DatabaseService database) : _database = database;
 
   final DatabaseService _database;
 
@@ -25,9 +23,7 @@ class GravityRepository {
   /// with an empty address, zero timestamps, and an idle status.
   ///
   /// Returns a [Success] with the result or a [Failure] if the query fails.
-  Future<Result<GravityUpdateData>> fetchGravityUpdate(
-    String address,
-  ) async {
+  Future<Result<GravityUpdateData>> fetchGravityUpdate(String address) async {
     try {
       await openDbIfNeeded(_database);
 
@@ -69,16 +65,12 @@ class GravityRepository {
     try {
       await openDbIfNeeded(_database);
 
-      return await _database.insert(
-        'gravity_updates',
-        {
-          'address': gravityUpdateData.address,
-          'start_time': gravityUpdateData.startTime.toUtc().toIso8601String(),
-          'end_time': gravityUpdateData.endTime.toUtc().toIso8601String(),
-          'status': gravityUpdateData.status,
-        },
-        conflictAlgorithm: ConflictAlgorithm.replace,
-      );
+      return await _database.insert('gravity_updates', {
+        'address': gravityUpdateData.address,
+        'start_time': gravityUpdateData.startTime.toUtc().toIso8601String(),
+        'end_time': gravityUpdateData.endTime.toUtc().toIso8601String(),
+        'status': gravityUpdateData.status,
+      }, conflictAlgorithm: ConflictAlgorithm.replace);
     } catch (e, st) {
       logger.e('Failed to upsert gravity update: $e\n$st');
       return Failure(Exception('Failed to upsert gravity update: $e\n$st'));
@@ -113,9 +105,7 @@ class GravityRepository {
   /// is returned.
   ///
   /// Returns a [Success] with the list of logs, or a [Failure] if the query fails.
-  Future<Result<List<GravityLogData>>> fetchGravityLogs(
-    String address,
-  ) async {
+  Future<Result<List<GravityLogData>>> fetchGravityLogs(String address) async {
     try {
       await openDbIfNeeded(_database);
 
@@ -153,15 +143,12 @@ class GravityRepository {
       return await _database.transaction<int>((txn) async {
         var total = 0;
         for (final log in gravityLogsDataList) {
-          final count = await txn.insert(
-            'gravity_logs',
-            {
-              'address': log.address,
-              'line': log.line,
-              'message': log.message,
-              'timestamp': log.timestamp.toUtc().toIso8601String(),
-            },
-          );
+          final count = await txn.insert('gravity_logs', {
+            'address': log.address,
+            'line': log.line,
+            'message': log.message,
+            'timestamp': log.timestamp.toUtc().toIso8601String(),
+          });
           total += count;
         }
         return total;
@@ -240,16 +227,13 @@ class GravityRepository {
       return await _database.transaction<int>((txn) async {
         var total = 0;
         for (final msg in messagesList) {
-          final count = await txn.insert(
-            'gravity_messages',
-            {
-              'address': msg.address,
-              'message_id': msg.id,
-              'message': msg.message,
-              'url': msg.url,
-              'timestamp': msg.timestamp.toUtc().toIso8601String(),
-            },
-          );
+          final count = await txn.insert('gravity_messages', {
+            'address': msg.address,
+            'message_id': msg.id,
+            'message': msg.message,
+            'url': msg.url,
+            'timestamp': msg.timestamp.toUtc().toIso8601String(),
+          });
           total += count;
         }
         return total;

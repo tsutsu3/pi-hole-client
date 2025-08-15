@@ -58,11 +58,7 @@ class ServerTileActions extends StatelessWidget {
               enabled: server.defaultServer == false,
               onTap: server.defaultServer == false ? onSetDefault : null,
             ),
-            _buildMenuItem(
-              icon: Icons.edit,
-              text: loc.edit,
-              onTap: onEdit,
-            ),
+            _buildMenuItem(icon: Icons.edit, text: loc.edit, onTap: onEdit),
             _buildMenuItem(
               icon: Icons.delete,
               text: loc.delete,
@@ -73,9 +69,7 @@ class ServerTileActions extends StatelessWidget {
         Padding(
           padding: const EdgeInsets.only(right: 16),
           child: isSelected
-              ? _ConnectionStatus(
-                  isConnected: isConnected,
-                )
+              ? _ConnectionStatus(isConnected: isConnected)
               : FilledButton.icon(
                   onPressed: onConnect,
                   icon: const Icon(Icons.login),
@@ -114,9 +108,7 @@ class ServerTileActions extends StatelessWidget {
 /// Parameters:
 /// - [isConnected]: Whether the server is currently connected.
 class _ConnectionStatus extends StatelessWidget {
-  const _ConnectionStatus({
-    required this.isConnected,
-  });
+  const _ConnectionStatus({required this.isConnected});
 
   final bool isConnected;
 
@@ -137,10 +129,7 @@ class _ConnectionStatus extends StatelessWidget {
         const SizedBox(width: 10),
         Text(
           label,
-          style: TextStyle(
-            color: color,
-            fontWeight: FontWeight.w500,
-          ),
+          style: TextStyle(color: color, fontWeight: FontWeight.w500),
         ),
       ],
     );

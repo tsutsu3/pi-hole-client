@@ -1,24 +1,20 @@
 import 'dart:async';
-
 import 'package:result_dart/result_dart.dart';
 
-/// Executes an asynchronous [action] with retry logic.
+/// Executes an asynchronous [action] with retry logic until it succeeds or the retry limit is reached.
 ///
-/// This utility function is useful for operations that might fail transiently,
-/// such as database queries or network requests. If the [action] throws an
-/// exception, it will retry up to [maxRetries] times, waiting [delay] between attempts.
-///
-/// The retry loop stops as soon as [action] completes successfully. If the maximum
-/// number of attempts is exceeded, the last exception will be rethrown.
+/// This utility is useful for transient failures such as network calls or database operations
+/// where a retry can often succeed. The loop stops immediately if [action] completes successfully.
+/// If the maximum retry count is reached, the last exception is rethrown.
 ///
 /// Example:
 /// ```dart
-/// final result = await runWithRetry(
-///   action: () => db.query('SELECT * FROM appConfig'),
-///   maxRetries: 5,
-///   delay: Duration(milliseconds: 200),
+/// final data = await runWithRetry(
+///   action: () => api.fetchData(),
+///   maxRetries: 3,
+///   delay: Duration(seconds: 1),
 ///   onRetry: (attempt, error, st) {
-///     logger.w('Retry $attempt failed: $error');
+///     logger.w('Retry #$attempt failed: $error');
 ///   },
 /// );
 /// ```
@@ -27,16 +23,16 @@ import 'package:result_dart/result_dart.dart';
 /// - [T]: The return type of the asynchronous [action].
 ///
 /// Parameters:
-/// - [action]: The asynchronous operation to execute. It must return a [Future<T>] and may throw an exception.
+/// - [action]: The asynchronous operation to execute. Must return a [Future<T>] and may throw an exception.
 /// - [maxRetries]: Maximum number of retry attempts before giving up. Defaults to 5.
-/// - [delay]: Delay between retries. Defaults to 200 milliseconds.
-/// - [onRetry]: Optional callback invoked on each failed attempt with the current attempt count, error, and [StackTrace].
+/// - [delay]: Delay between retry attempts. Defaults to 200 milliseconds.
+/// - [onRetry]: Optional callback invoked after each failed attempt, with the current attempt count, the thrown error, and its [StackTrace].
 ///
 /// Returns:
-/// - A [Future<T>] that resolves to the result of [action] if it succeeds within the retry limit.
+/// - A [Future<T>] that resolves to the successful result of [action].
 ///
 /// Throws:
-/// - Rethrows the last exception if all retry attempts fail.
+/// - The last caught exception if all retry attempts fail.
 Future<T> runWithRetry<T>({
   required Future<T> Function() action,
   int maxRetries = 5,
@@ -57,12 +53,51 @@ Future<T> runWithRetry<T>({
   }
 }
 
+/// Executes an asynchronous [action] returning a [Result] with retry logic.
+///
+/// Similar to [runWithRetry], but specialized for functions that return a [Result] type
+/// (such as from the `result_dart` package). Retries are only performed if the result is a [Failure].
+/// If [action] throws an exception, the retry loop stops and returns a [Failure] containing the exception.
+///
+/// This is useful when the operation itself already captures domain-specific failures in [Result]
+/// but still may need retrying for transient errors.
+///
+/// Example:
+/// ```dart
+/// final result = await runWithResultRetry(
+///   action: () => repository.fetchData(),
+///   maxRetries: 2,
+///   delay: Duration(milliseconds: 100),
+///   onRetry: (attempt) => repository.clearCache(),
+/// );
+/// if (result.isError()) {
+///   logger.e('Operation failed: ${result.asError().error}');
+/// }
+/// ```
+///
+/// Type parameter:
+/// - [T]: The value type inside the [Result].
+///
+/// Parameters:
+/// - [action]: The asynchronous operation to execute. Must return a [Future<Result<T>>].
+/// - [maxRetries]: Maximum number of retry attempts before giving up. Defaults to 1.
+/// - [delay]: Delay between retry attempts. Defaults to 10 milliseconds.
+/// - [onRetry]: Optional callback invoked after each failed attempt, with the current attempt count.
+///
+/// Returns:
+/// - A [Future<Result<T>>] that resolves to the first [Success] returned by [action],
+///   or the last [Failure] if all retry attempts fail.
+///
+/// Exceptions:
+/// - If [action] throws, returns a [Failure] containing the thrown exception without further retries.
 Future<Result<T>> runWithResultRetry<T extends Object>({
   required Future<Result<T>> Function() action,
   int maxRetries = 1,
-  Duration delay = const Duration(milliseconds: 100),
+  Duration delay = const Duration(milliseconds: 10),
+  Future<void> Function(int attempt)? onRetry,
 }) async {
   var attempt = 0;
+  Result<T>? lastFailure;
 
   while (attempt <= maxRetries) {
     try {
@@ -70,15 +105,24 @@ Future<Result<T>> runWithResultRetry<T extends Object>({
       if (result.isSuccess()) {
         return result;
       }
+      lastFailure = result;
     } catch (e, st) {
       return Failure(Exception('Exception on attempt $attempt: $e\n$st'));
     }
 
     attempt++;
     if (attempt <= maxRetries) {
+      if (onRetry != null) {
+        try {
+          await onRetry(attempt);
+        } catch (e, st) {
+          return Failure(Exception('Exception on onRetry $attempt: $e\n$st'));
+        }
+      }
       await Future.delayed(delay);
     }
   }
 
-  return Failure(Exception('Failed after $maxRetries attempts'));
+  return lastFailure ??
+      Failure(Exception('Failed after $maxRetries retries with no result'));
 }

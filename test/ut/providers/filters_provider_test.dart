@@ -42,14 +42,23 @@ void main() {
         filtersProvider.statusAllowedAndRetried,
         FiltersV5().statusAllowedAndRetried,
       );
-      expect(
-        filtersProvider.defaultSelected,
-        [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14],
-      );
-      expect(
-        filtersProvider.statusSelectedString,
-        'Blocked (gravity)',
-      );
+      expect(filtersProvider.defaultSelected, [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12,
+        13,
+        14,
+      ]);
+      expect(filtersProvider.statusSelectedString, 'Blocked (gravity)');
       expect(listenerCalled, false);
     });
 
@@ -96,29 +105,38 @@ void main() {
         filtersProvider.setStatusSelected([1, 2, 3]);
 
         filtersProvider.resetFilters();
-        expect(
-          filtersProvider.statusSelected,
-          [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14],
-        );
+        expect(filtersProvider.statusSelected, [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          14,
+        ]);
 
         expect(listenerCalled, true);
       },
     );
 
-    test(
-      'resetTime calls resetTime on _filters and notifies listeners',
-      () {
-        final dateTime = DateTime.now();
-        filtersProvider.setStartTime(dateTime);
-        filtersProvider.setEndTime(dateTime);
+    test('resetTime calls resetTime on _filters and notifies listeners', () {
+      final dateTime = DateTime.now();
+      filtersProvider.setStartTime(dateTime);
+      filtersProvider.setEndTime(dateTime);
 
-        filtersProvider.resetTime();
-        expect(filtersProvider.startTime, null);
-        expect(filtersProvider.endTime, null);
+      filtersProvider.resetTime();
+      expect(filtersProvider.startTime, null);
+      expect(filtersProvider.endTime, null);
 
-        expect(listenerCalled, true);
-      },
-    );
+      expect(listenerCalled, true);
+    });
 
     test(
       'resetStatus calls resetStatus on _filters and notifies listeners',
@@ -126,25 +144,34 @@ void main() {
         filtersProvider.setStatusSelected([1, 2, 3]);
 
         filtersProvider.resetStatus();
-        expect(
-          filtersProvider.statusSelected,
-          [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14],
-        );
+        expect(filtersProvider.statusSelected, [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          14,
+        ]);
 
         expect(listenerCalled, true);
       },
     );
 
-    test(
-      'setClients updates clients and notifies listeners',
-      () {
-        final clients = ['client1', 'client2'];
-        filtersProvider.setClients(clients);
-        expect(filtersProvider.totalClients, clients);
+    test('setClients updates clients and notifies listeners', () {
+      final clients = ['client1', 'client2'];
+      filtersProvider.setClients(clients);
+      expect(filtersProvider.totalClients, clients);
 
-        expect(listenerCalled, true);
-      },
-    );
+      expect(listenerCalled, true);
+    });
 
     test(
       'setSelectedClients updates selectedClients and notifies listeners',
@@ -217,14 +244,23 @@ void main() {
         filtersProvider.statusAllowedAndRetried,
         FiltersV6().statusAllowedAndRetried,
       );
-      expect(
-        filtersProvider.defaultSelected,
-        [2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15],
-      );
-      expect(
-        filtersProvider.statusSelectedString,
-        'Blocked (gravity)',
-      );
+      expect(filtersProvider.defaultSelected, [
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12,
+        13,
+        14,
+        15,
+      ]);
+      expect(filtersProvider.statusSelectedString, 'Blocked (gravity)');
     });
 
     test('setStatusSelected updates statusSelected and notifies listeners', () {
@@ -256,29 +292,38 @@ void main() {
         filtersProvider.setStatusSelected([1, 2, 3]);
 
         filtersProvider.resetFilters();
-        expect(
-          filtersProvider.statusSelected,
-          [2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15],
-        );
+        expect(filtersProvider.statusSelected, [
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          14,
+          15,
+        ]);
 
         expect(listenerCalled, true);
       },
     );
 
-    test(
-      'resetTime calls resetTime on _filters and notifies listeners',
-      () {
-        final dateTime = DateTime.now();
-        filtersProvider.setStartTime(dateTime);
-        filtersProvider.setEndTime(dateTime);
+    test('resetTime calls resetTime on _filters and notifies listeners', () {
+      final dateTime = DateTime.now();
+      filtersProvider.setStartTime(dateTime);
+      filtersProvider.setEndTime(dateTime);
 
-        filtersProvider.resetTime();
-        expect(filtersProvider.startTime, null);
-        expect(filtersProvider.endTime, null);
+      filtersProvider.resetTime();
+      expect(filtersProvider.startTime, null);
+      expect(filtersProvider.endTime, null);
 
-        expect(listenerCalled, true);
-      },
-    );
+      expect(listenerCalled, true);
+    });
 
     test(
       'resetStatus calls resetStatus on _filters and notifies listeners',
@@ -286,25 +331,34 @@ void main() {
         filtersProvider.setStatusSelected([1, 2, 3]);
 
         filtersProvider.resetStatus();
-        expect(
-          filtersProvider.statusSelected,
-          [2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15],
-        );
+        expect(filtersProvider.statusSelected, [
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          14,
+          15,
+        ]);
 
         expect(listenerCalled, true);
       },
     );
 
-    test(
-      'setClients updates clients and notifies listeners',
-      () {
-        final clients = ['client1', 'client2'];
-        filtersProvider.setClients(clients);
-        expect(filtersProvider.totalClients, clients);
+    test('setClients updates clients and notifies listeners', () {
+      final clients = ['client1', 'client2'];
+      filtersProvider.setClients(clients);
+      expect(filtersProvider.totalClients, clients);
 
-        expect(listenerCalled, true);
-      },
-    );
+      expect(listenerCalled, true);
+    });
 
     test(
       'setSelectedClients updates selectedClients and notifies listeners',

@@ -113,8 +113,9 @@ class _EditDomainModalState extends State<EditDomainModal> {
                             decoration: InputDecoration(
                               prefixIcon: const Icon(Icons.comment_rounded),
                               border: const OutlineInputBorder(
-                                borderRadius:
-                                    BorderRadius.all(Radius.circular(10)),
+                                borderRadius: BorderRadius.all(
+                                  Radius.circular(10),
+                                ),
                               ),
                               labelText: AppLocalizations.of(context)!.comment,
                             ),
@@ -125,8 +126,9 @@ class _EditDomainModalState extends State<EditDomainModal> {
                           isExpanded: true,
                           initiallySelectedItems: widget.domain.groups,
                           labelText: AppLocalizations.of(context)!.groups,
-                          hintText:
-                              AppLocalizations.of(context)!.selectGroupsMessage,
+                          hintText: AppLocalizations.of(
+                            context,
+                          )!.selectGroupsMessage,
                           icon: Icons.group_rounded,
                           options: widget.groups,
                           onSelectionChanged: (list) {

@@ -25,8 +25,10 @@ class SubscriptionLists extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final serversProvider = Provider.of<ServersProvider>(context);
-    final subscriptionsListProvider =
-        Provider.of<SubscriptionsListProvider>(context, listen: false);
+    final subscriptionsListProvider = Provider.of<SubscriptionsListProvider>(
+      context,
+      listen: false,
+    );
 
     final selectedServer = serversProvider.selectedServer;
 
@@ -86,9 +88,7 @@ class _SubscriptionListsWidgetState extends State<SubscriptionListsWidget>
     super.initState();
 
     Future.microtask(() async {
-      widget.subscriptionsListProvider.setLoadingStatus(
-        LoadStatus.loading,
-      );
+      widget.subscriptionsListProvider.setLoadingStatus(LoadStatus.loading);
       await widget.subscriptionsListProvider.fetchSubscriptionsList();
 
       if (!mounted) return;
@@ -101,10 +101,7 @@ class _SubscriptionListsWidgetState extends State<SubscriptionListsWidget>
     });
 
     widget.subscriptionsListProvider.setSelectedTab(0);
-    tabController = TabController(
-      length: 3,
-      vsync: this,
-    );
+    tabController = TabController(length: 3, vsync: this);
   }
 
   @override
@@ -117,8 +114,9 @@ class _SubscriptionListsWidgetState extends State<SubscriptionListsWidget>
 
   @override
   Widget build(BuildContext context) {
-    final subscriptionsListProvider =
-        Provider.of<SubscriptionsListProvider>(context);
+    final subscriptionsListProvider = Provider.of<SubscriptionsListProvider>(
+      context,
+    );
     final serversProvider = Provider.of<ServersProvider>(context);
     final appConfigProvider = Provider.of<AppConfigProvider>(context);
     final apiGateway = serversProvider.selectedApiGateway;
@@ -165,11 +163,7 @@ class _SubscriptionListsWidgetState extends State<SubscriptionListsWidget>
     Tab buildIconTab(IconData icon, String label) {
       return Tab(
         child: Row(
-          children: [
-            Icon(icon),
-            const SizedBox(width: 4),
-            Text(label),
-          ],
+          children: [Icon(icon), const SizedBox(width: 4), Text(label)],
         ),
       );
     }
@@ -185,9 +179,7 @@ class _SubscriptionListsWidgetState extends State<SubscriptionListsWidget>
                     onChanged: subscriptionsListProvider.onSearch,
                     decoration: InputDecoration(
                       hintText: AppLocalizations.of(context)!.searchAdlists,
-                      hintStyle: const TextStyle(
-                        fontWeight: FontWeight.w400,
-                      ),
+                      hintStyle: const TextStyle(fontWeight: FontWeight.w400),
                       border: InputBorder.none,
                       prefixIcon: Icon(
                         Icons.search_rounded,
@@ -273,9 +265,7 @@ class _SubscriptionListsWidgetState extends State<SubscriptionListsWidget>
       // 3 columns layout
       return Row(
         children: [
-          Expanded(
-            child: scaffold(),
-          ),
+          Expanded(child: scaffold()),
           Expanded(
             child: selectedSubscription != null
                 ? SubscriptionDetailsScreen(
@@ -298,8 +288,9 @@ class _SubscriptionListsWidgetState extends State<SubscriptionListsWidget>
                             fontSize: 24,
                             fontWeight: FontWeight.normal,
                             decoration: TextDecoration.none,
-                            color:
-                                Theme.of(context).colorScheme.onSurfaceVariant,
+                            color: Theme.of(
+                              context,
+                            ).colorScheme.onSurfaceVariant,
                           ),
                         ),
                       ),

@@ -25,9 +25,7 @@ class ServerConnectionSection extends StatelessWidget {
         ),
         ListTile(
           dense: true,
-          leading: const Skeleton.keep(
-            child: Icon(Icons.storage_outlined),
-          ),
+          leading: const Skeleton.keep(child: Icon(Icons.storage_outlined)),
           title: Skeleton.keep(
             child: listTileTitle(
               server?.alias ?? AppLocalizations.of(context)!.unknown,

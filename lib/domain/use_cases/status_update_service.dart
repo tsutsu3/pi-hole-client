@@ -17,10 +17,10 @@ class StatusUpdateService {
     required StatusProvider statusProvider,
     required AppConfigProvider appConfigProvider,
     required FiltersProvider filtersProvider,
-  })  : _serversProvider = serversProvider,
-        _statusProvider = statusProvider,
-        _appConfigProvider = appConfigProvider,
-        _filtersProvider = filtersProvider;
+  }) : _serversProvider = serversProvider,
+       _statusProvider = statusProvider,
+       _appConfigProvider = appConfigProvider,
+       _filtersProvider = filtersProvider;
 
   final ServersProvider _serversProvider;
   final StatusProvider _statusProvider;
@@ -80,9 +80,7 @@ class StatusUpdateService {
     await _refreshOnce();
   }
 
-  void stopAutoRefresh({
-    bool showLoadingIndicator = true,
-  }) {
+  void stopAutoRefresh({bool showLoadingIndicator = true}) {
     if (_isAutoRefreshRunning) {
       logger.d(
         'Stop Status Update Service. (${_serversProvider.selectedServer?.alias}) ${_serversProvider.selectedServer?.address}',
@@ -117,9 +115,7 @@ class StatusUpdateService {
   }
 
   /// Stop timer for auto refresh
-  void _stopAutoRefresh({
-    bool showLoadingIndicator = true,
-  }) {
+  void _stopAutoRefresh({bool showLoadingIndicator = true}) {
     if (showLoadingIndicator) {
       _statusProvider.setStatusLoading(LoadStatus.loading);
       _statusProvider.setOvertimeDataLoadingStatus(LoadStatus.loading);
@@ -139,21 +135,18 @@ class StatusUpdateService {
     // _fetchStatusData issues 8 HTTP requests (4 APIs in 2 batches),
     // so we start it immediately to give it a head start.
     // The others are slightly delayed to avoid overwhelming the connection pool.
-    if ((await Future.wait(
-      [
-        _fetchStatusData(),
-        Future.delayed(const Duration(milliseconds: 100))
-            .then((_) => _fetchOverTimeData()),
-        Future.delayed(const Duration(milliseconds: 100))
-            .then((_) => _fetchMetricsData()),
-      ],
-    ))
-        .every((result) => result)) {
+    if ((await Future.wait([
+      _fetchStatusData(),
+      Future.delayed(
+        const Duration(milliseconds: 100),
+      ).then((_) => _fetchOverTimeData()),
+      Future.delayed(
+        const Duration(milliseconds: 100),
+      ).then((_) => _fetchMetricsData()),
+    ])).every((result) => result)) {
       _statusProvider.setServerStatus(LoadStatus.loaded);
     } else {
-      logger.w(
-        'Failed to fetch all status data. ',
-      );
+      logger.w('Failed to fetch all status data. ');
       _statusProvider.setServerStatus(LoadStatus.error);
     }
   }

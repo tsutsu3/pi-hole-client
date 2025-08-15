@@ -62,7 +62,9 @@ class AppConfigProvider with ChangeNotifier {
     switch (_selectedTheme) {
       case 0:
         return SchedulerBinding
-                    .instance.platformDispatcher.platformBrightness ==
+                    .instance
+                    .platformDispatcher
+                    .platformBrightness ==
                 Brightness.light
             ? ThemeMode.light
             : ThemeMode.dark;

@@ -50,7 +50,7 @@ sealed class RealTimeStatus with _$RealTimeStatus {
     @MapOrEmptyListConverter()
     required Map<String, int> topSourcesBlocked,
     @JsonKey(name: 'forward_destinations')
-    @MapOrEmptyListConverter()
+    @MapDoubleOrEmptyListConverter()
     required Map<String, double> forwardDestinations,
     @JsonKey(name: 'querytypes') required QueryTypes queryTypes,
   }) = _RealTimeStatus;

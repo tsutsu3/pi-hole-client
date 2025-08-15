@@ -56,11 +56,15 @@ class _LogsState extends State<Logs> {
 
     scrollController = ScrollController()..addListener(scrollListener);
 
-    logsPerQuery =
-        Provider.of<AppConfigProvider>(context, listen: false).logsPerQuery;
+    logsPerQuery = Provider.of<AppConfigProvider>(
+      context,
+      listen: false,
+    ).logsPerQuery;
 
-    final apiGateway =
-        Provider.of<ServersProvider>(context, listen: false).selectedApiGateway;
+    final apiGateway = Provider.of<ServersProvider>(
+      context,
+      listen: false,
+    ).selectedApiGateway;
 
     final paginationService = LogsPaginationService(apiGateway: apiGateway!);
 
@@ -164,9 +168,7 @@ class _LogsState extends State<Logs> {
       });
 
       final newLogs = await logsSvc.loadNextPage() ?? [];
-      logger.d(
-        'Loaded ${newLogs.length} logs from $startTime to $endTime',
-      );
+      logger.d('Loaded ${newLogs.length} logs from $startTime to $endTime');
 
       setState(() {
         isLoadingMore = false;
@@ -321,13 +323,15 @@ class _LogsState extends State<Logs> {
       final hasStatusFilter =
           filtersProvider.statusSelected.length < serversProvider.numShown - 1;
 
-      final hasClientFilter = filtersProvider.selectedClients.isNotEmpty &&
+      final hasClientFilter =
+          filtersProvider.selectedClients.isNotEmpty &&
           filtersProvider.selectedClients.length <
               filtersProvider.totalClients.length;
 
       final hasDomainFilter = filtersProvider.selectedDomain != null;
 
-      final hasActiveChips = hasTimeFilter ||
+      final hasActiveChips =
+          hasTimeFilter ||
           hasStatusFilter ||
           hasClientFilter ||
           hasDomainFilter;

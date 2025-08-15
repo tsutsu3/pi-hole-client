@@ -67,10 +67,7 @@ class DomainTile extends StatelessWidget {
       switch (enabled) {
         case 0:
           // Disabled
-          return Icon(
-            Icons.remove_circle_rounded,
-            color: appColors.queryGrey,
-          );
+          return Icon(Icons.remove_circle_rounded, color: appColors.queryGrey);
         case 1:
           // Enabled
           return Icon(
@@ -78,10 +75,7 @@ class DomainTile extends StatelessWidget {
             color: Theme.of(context).colorScheme.secondary,
           );
         default:
-          return Icon(
-            Icons.help_rounded,
-            color: appColors.queryGrey,
-          );
+          return Icon(Icons.help_rounded, color: appColors.queryGrey);
       }
     }
 

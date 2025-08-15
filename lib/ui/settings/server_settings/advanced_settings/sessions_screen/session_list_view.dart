@@ -91,16 +91,10 @@ class SessionListView extends StatelessWidget {
     final theme = Theme.of(context).extension<AppColors>()!;
 
     if (isValid) {
-      return Icon(
-        Icons.check_rounded,
-        color: theme.queryGreen,
-      );
+      return Icon(Icons.check_rounded, color: theme.queryGreen);
     }
 
-    return Icon(
-      Icons.close_rounded,
-      color: theme.queryGrey,
-    );
+    return Icon(Icons.close_rounded, color: theme.queryGrey);
   }
 
   /// Builds a row widget displaying the TLS (Transport Layer Security) status.
@@ -138,10 +132,7 @@ class SessionListView extends StatelessWidget {
         const SizedBox(width: 4),
         Text(
           'TLS: $statusText',
-          style: TextStyle(
-            fontSize: 12,
-            color: iconColor,
-          ),
+          style: TextStyle(fontSize: 12, color: iconColor),
         ),
       ],
     );

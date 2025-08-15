@@ -6,49 +6,51 @@ part of 'realtime_status.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-_RealTimeStatus _$RealTimeStatusFromJson(
-  Map<String, dynamic> json,
-) => _RealTimeStatus(
-  domainsBeingBlocked: (json['domains_being_blocked'] as num).toInt(),
-  dnsQueriesToday: (json['dns_queries_today'] as num).toInt(),
-  adsBlockedToday: (json['ads_blocked_today'] as num).toInt(),
-  adsPercentageToday: (json['ads_percentage_today'] as num).toDouble(),
-  uniqueDomains: (json['unique_domains'] as num).toInt(),
-  queriesForwarded: (json['queries_forwarded'] as num).toInt(),
-  queriesCached: (json['queries_cached'] as num).toInt(),
-  clientsEverSeen: (json['clients_ever_seen'] as num).toInt(),
-  uniqueClients: (json['unique_clients'] as num).toInt(),
-  dnsQueriesAllTypes: (json['dns_queries_all_types'] as num).toInt(),
-  replyUnknown: (json['reply_UNKNOWN'] as num).toInt(),
-  replyNodata: (json['reply_NODATA'] as num).toInt(),
-  replyNxDomain: (json['reply_NXDOMAIN'] as num).toInt(),
-  replyCname: (json['reply_CNAME'] as num).toInt(),
-  replyIp: (json['reply_IP'] as num).toInt(),
-  replyDomain: (json['reply_DOMAIN'] as num).toInt(),
-  replyRrname: (json['reply_RRNAME'] as num).toInt(),
-  replyServfail: (json['reply_SERVFAIL'] as num).toInt(),
-  replyRefused: (json['reply_REFUSED'] as num).toInt(),
-  replyNotimp: (json['reply_NOTIMP'] as num).toInt(),
-  replyOther: (json['reply_OTHER'] as num).toInt(),
-  replyDnssec: (json['reply_DNSSEC'] as num).toInt(),
-  replyNone: (json['reply_NONE'] as num).toInt(),
-  replyBlob: (json['reply_BLOB'] as num).toInt(),
-  dnsQueriesAllReplies: (json['dns_queries_all_replies'] as num).toInt(),
-  privacyLevel: (json['privacy_level'] as num).toInt(),
-  status: json['status'] as String,
-  gravityLastUpdated: GravityLastUpdated.fromJson(
-    json['gravity_last_updated'] as Map<String, dynamic>,
-  ),
-  topQueries: const MapOrEmptyListConverter().fromJson(json['top_queries']),
-  topAds: const MapOrEmptyListConverter().fromJson(json['top_ads']),
-  topSources: const MapOrEmptyListConverter().fromJson(json['top_sources']),
-  topSourcesBlocked: const MapOrEmptyListConverter().fromJson(
-    json['top_sources_blocked'],
-  ),
-  forwardDestinations: (json['forward_destinations'] as Map<String, dynamic>)
-      .map((k, e) => MapEntry(k, (e as num).toDouble())),
-  queryTypes: QueryTypes.fromJson(json['querytypes'] as Map<String, dynamic>),
-);
+_RealTimeStatus _$RealTimeStatusFromJson(Map<String, dynamic> json) =>
+    _RealTimeStatus(
+      domainsBeingBlocked: (json['domains_being_blocked'] as num).toInt(),
+      dnsQueriesToday: (json['dns_queries_today'] as num).toInt(),
+      adsBlockedToday: (json['ads_blocked_today'] as num).toInt(),
+      adsPercentageToday: (json['ads_percentage_today'] as num).toDouble(),
+      uniqueDomains: (json['unique_domains'] as num).toInt(),
+      queriesForwarded: (json['queries_forwarded'] as num).toInt(),
+      queriesCached: (json['queries_cached'] as num).toInt(),
+      clientsEverSeen: (json['clients_ever_seen'] as num).toInt(),
+      uniqueClients: (json['unique_clients'] as num).toInt(),
+      dnsQueriesAllTypes: (json['dns_queries_all_types'] as num).toInt(),
+      replyUnknown: (json['reply_UNKNOWN'] as num).toInt(),
+      replyNodata: (json['reply_NODATA'] as num).toInt(),
+      replyNxDomain: (json['reply_NXDOMAIN'] as num).toInt(),
+      replyCname: (json['reply_CNAME'] as num).toInt(),
+      replyIp: (json['reply_IP'] as num).toInt(),
+      replyDomain: (json['reply_DOMAIN'] as num).toInt(),
+      replyRrname: (json['reply_RRNAME'] as num).toInt(),
+      replyServfail: (json['reply_SERVFAIL'] as num).toInt(),
+      replyRefused: (json['reply_REFUSED'] as num).toInt(),
+      replyNotimp: (json['reply_NOTIMP'] as num).toInt(),
+      replyOther: (json['reply_OTHER'] as num).toInt(),
+      replyDnssec: (json['reply_DNSSEC'] as num).toInt(),
+      replyNone: (json['reply_NONE'] as num).toInt(),
+      replyBlob: (json['reply_BLOB'] as num).toInt(),
+      dnsQueriesAllReplies: (json['dns_queries_all_replies'] as num).toInt(),
+      privacyLevel: (json['privacy_level'] as num).toInt(),
+      status: json['status'] as String,
+      gravityLastUpdated: GravityLastUpdated.fromJson(
+        json['gravity_last_updated'] as Map<String, dynamic>,
+      ),
+      topQueries: const MapOrEmptyListConverter().fromJson(json['top_queries']),
+      topAds: const MapOrEmptyListConverter().fromJson(json['top_ads']),
+      topSources: const MapOrEmptyListConverter().fromJson(json['top_sources']),
+      topSourcesBlocked: const MapOrEmptyListConverter().fromJson(
+        json['top_sources_blocked'],
+      ),
+      forwardDestinations: const MapDoubleOrEmptyListConverter().fromJson(
+        json['forward_destinations'],
+      ),
+      queryTypes: QueryTypes.fromJson(
+        json['querytypes'] as Map<String, dynamic>,
+      ),
+    );
 
 Map<String, dynamic> _$RealTimeStatusToJson(
   _RealTimeStatus instance,
@@ -87,7 +89,9 @@ Map<String, dynamic> _$RealTimeStatusToJson(
   'top_sources_blocked': const MapOrEmptyListConverter().toJson(
     instance.topSourcesBlocked,
   ),
-  'forward_destinations': instance.forwardDestinations,
+  'forward_destinations': const MapDoubleOrEmptyListConverter().toJson(
+    instance.forwardDestinations,
+  ),
   'querytypes': instance.queryTypes.toJson(),
 };
 

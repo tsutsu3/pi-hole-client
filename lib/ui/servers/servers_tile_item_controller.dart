@@ -29,9 +29,7 @@ mixin ServersTileItemController<T extends StatefulWidget> on State<T> {
       showDialog(
         context: context,
         useRootNavigator: false,
-        builder: (context) => DeleteServerModal(
-          serverToDelete: server,
-        ),
+        builder: (context) => DeleteServerModal(serverToDelete: server),
         barrierDismissible: false,
       );
     });

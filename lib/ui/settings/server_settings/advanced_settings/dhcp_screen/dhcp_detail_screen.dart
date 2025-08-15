@@ -92,8 +92,8 @@ class DhcpDetailScreen extends StatelessWidget {
     }
 
     final timestamp = formatTimestamp(dhcp.expires, kUnifiedDateTimeLogFormat);
-    final hoursAgo =
-        (dhcp.expires.difference(DateTime.now()).inMinutes / 60).round();
+    final hoursAgo = (dhcp.expires.difference(DateTime.now()).inMinutes / 60)
+        .round();
     final relativeTime = locale.timeHoursIn(hoursAgo);
 
     return '$timestamp ($relativeTime)';

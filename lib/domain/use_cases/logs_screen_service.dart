@@ -130,7 +130,8 @@ class LogsScreenService {
       final deviceMatch =
           devicesSelected.isEmpty || devicesSelected.contains(log.device);
       final domainMatch = selectedDomain == null || log.url == selectedDomain;
-      final searchMatch = searchController.text.isEmpty ||
+      final searchMatch =
+          searchController.text.isEmpty ||
           log.url.contains(searchController.text);
       return statusMatch && deviceMatch && domainMatch && searchMatch;
     }).toList();

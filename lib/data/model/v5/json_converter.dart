@@ -35,6 +35,30 @@ class MapOrEmptyListConverter extends JsonConverter<Map<String, int>, dynamic> {
   }
 }
 
+class MapDoubleOrEmptyListConverter
+    extends JsonConverter<Map<String, double>, dynamic> {
+  const MapDoubleOrEmptyListConverter();
+
+  @override
+  Map<String, double> fromJson(dynamic json) {
+    if (json is Map<String, dynamic>) {
+      return json.map((k, v) => MapEntry(k, v as double));
+    } else if (json is List) {
+      return {};
+    } else {
+      throw FormatException('Invalid format for Map<String, double>: $json');
+    }
+  }
+
+  @override
+  dynamic toJson(Map<String, double> object) {
+    if (object.isEmpty) {
+      return [];
+    }
+    return object;
+  }
+}
+
 class MapListOrEmptyListConverter
     extends JsonConverter<Map<String, List<int>>, dynamic> {
   const MapListOrEmptyListConverter();
@@ -43,10 +67,14 @@ class MapListOrEmptyListConverter
   Map<String, List<int>> fromJson(dynamic json) {
     if (json is Map<String, dynamic>) {
       return json.map((k, v) {
-        final list = (v as List).map((e) => e as int).toList();
-        return MapEntry(k, list);
+        if (v is List) {
+          final list = v.whereType<int>().map((e) => e).toList();
+          return MapEntry(k, list);
+        }
+        return MapEntry(k, <int>[]);
       });
     } else if (json is List) {
+      // In some API specifications, an empty array may be returned
       return {};
     } else {
       throw FormatException('Invalid format for Map<String, List<int>>: $json');

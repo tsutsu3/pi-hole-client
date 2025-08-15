@@ -3,9 +3,7 @@ import 'package:pi_hole_client/domain/models_old/server.dart';
 import 'package:sqflite/sqflite.dart';
 
 class DbHelper {
-  DbHelper(String path)
-      : _path = path,
-        _secureStorage = SecureStorageService();
+  DbHelper(String path) : _path = path, _secureStorage = SecureStorageService();
 
   final String _path;
   final SecureStorageService _secureStorage;
@@ -142,10 +140,7 @@ class DbHelper {
   }) async {
     try {
       return await _db.transaction((txn) async {
-        await txn.update(
-          'appConfig',
-          {column: value},
-        );
+        await txn.update('appConfig', {column: value});
         return true;
       });
     } catch (e) {
@@ -164,8 +159,9 @@ class DbHelper {
       'appConfig': appConfig.map(Map<String, dynamic>.from).toList(),
       'gravity_updates': gravityUpdates.map(Map<String, dynamic>.from).toList(),
       'gravity_logs': gravityLogs.map(Map<String, dynamic>.from).toList(),
-      'gravity_messages':
-          gravityMessages.map(Map<String, dynamic>.from).toList(),
+      'gravity_messages': gravityMessages
+          .map(Map<String, dynamic>.from)
+          .toList(),
     };
   }
 
@@ -197,15 +193,12 @@ class DbHelper {
   ) async {
     try {
       return await _db.transaction((txn) async {
-        await txn.insert(
-          'gravity_updates',
-          {
-            'address': address,
-            'start_time': startTime.toUtc().toIso8601String(),
-            'end_time': endTime.toUtc().toIso8601String(),
-            'status': status,
-          },
-        );
+        await txn.insert('gravity_updates', {
+          'address': address,
+          'start_time': startTime.toUtc().toIso8601String(),
+          'end_time': endTime.toUtc().toIso8601String(),
+          'status': status,
+        });
         return true;
       });
     } catch (e) {
@@ -221,15 +214,12 @@ class DbHelper {
   ) async {
     try {
       return await _db.transaction((txn) async {
-        await txn.insert(
-          'gravity_logs',
-          {
-            'address': address,
-            'line': line,
-            'message': message,
-            'timestamp': timestamp.toUtc().toIso8601String(),
-          },
-        );
+        await txn.insert('gravity_logs', {
+          'address': address,
+          'line': line,
+          'message': message,
+          'timestamp': timestamp.toUtc().toIso8601String(),
+        });
         return true;
       });
     } catch (e) {
@@ -246,16 +236,13 @@ class DbHelper {
   ) async {
     try {
       return await _db.transaction((txn) async {
-        await txn.insert(
-          'gravity_messages',
-          {
-            'address': address,
-            'message_id': messageId,
-            'message': message,
-            'url': url,
-            'timestamp': timestamp.toUtc().toIso8601String(),
-          },
-        );
+        await txn.insert('gravity_messages', {
+          'address': address,
+          'message_id': messageId,
+          'message': message,
+          'url': url,
+          'timestamp': timestamp.toUtc().toIso8601String(),
+        });
         return true;
       });
     } catch (e) {

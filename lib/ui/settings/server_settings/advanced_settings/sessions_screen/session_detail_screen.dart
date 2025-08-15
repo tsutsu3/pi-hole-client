@@ -105,8 +105,10 @@ class SessionDetailScreen extends StatelessWidget {
               CustomListTile(
                 leadingIcon: Icons.event_available_rounded,
                 label: locale.loginTime,
-                description:
-                    formatTimestamp(session.loginAt, kUnifiedDateTimeLogFormat),
+                description: formatTimestamp(
+                  session.loginAt,
+                  kUnifiedDateTimeLogFormat,
+                ),
               ),
               CustomListTile(
                 leadingIcon: Icons.event_repeat_rounded,

@@ -30,10 +30,7 @@ import 'package:skeletonizer/skeletonizer.dart';
 /// The layout adjusts based on screen size using [FractionallySizedBox] and [Wrap].
 /// If no client data is available, a [NoDataChart] is displayed instead.
 class ClientActivityChartSection extends StatelessWidget {
-  const ClientActivityChartSection({
-    required this.width,
-    super.key,
-  });
+  const ClientActivityChartSection({required this.width, super.key});
 
   final double width;
 
@@ -45,10 +42,10 @@ class ClientActivityChartSection extends StatelessWidget {
       (provider) => provider.getOvertimeDataLoadStatus,
     );
 
-    final overtimeDataJson =
-        context.select<StatusProvider, Map<String, dynamic>?>(
-      (provider) => provider.getOvertimeDataJson,
-    );
+    final overtimeDataJson = context
+        .select<StatusProvider, Map<String, dynamic>?>(
+          (provider) => provider.getOvertimeDataJson,
+        );
 
     final overtimeData = context.select<StatusProvider, OverTimeData?>(
       (provider) => provider.getOvertimeData,
@@ -198,9 +195,7 @@ class ClientActivityChartSection extends StatelessWidget {
         Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            SectionLabel(
-              label: AppLocalizations.of(context)!.clientActivity24,
-            ),
+            SectionLabel(label: AppLocalizations.of(context)!.clientActivity24),
             Container(
               width: double.maxFinite,
               height: 350,
@@ -263,10 +258,10 @@ class ClientActivityChartSection extends StatelessWidget {
               (entry) => FractionallySizedBox(
                 widthFactor:
                     width > ResponsiveConstants.xLarge && clients.length > 3
-                        ? 0.33
-                        : width > 350
-                            ? 0.5
-                            : 1,
+                    ? 0.33
+                    : width > 350
+                    ? 0.5
+                    : 1,
                 child: _buildLegendDot(context, entry, clientsListIps),
               ),
             )
@@ -309,10 +304,7 @@ class ClientActivityChartSection extends StatelessWidget {
         Container(
           width: 10,
           height: 10,
-          margin: const EdgeInsets.symmetric(
-            horizontal: 10,
-            vertical: 10,
-          ),
+          margin: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(10),
             color: _getColor(context, entry.value, entry.key, clientsListIps),
@@ -324,16 +316,10 @@ class ClientActivityChartSection extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               if (entry.value.name != '') ...[
-                Text(
-                  entry.value.name,
-                  overflow: TextOverflow.ellipsis,
-                ),
+                Text(entry.value.name, overflow: TextOverflow.ellipsis),
                 const SizedBox(height: 2),
               ],
-              Text(
-                entry.value.ip,
-                overflow: TextOverflow.ellipsis,
-              ),
+              Text(entry.value.ip, overflow: TextOverflow.ellipsis),
             ],
           ),
         ),
