@@ -42,7 +42,7 @@ class MapDoubleOrEmptyListConverter
   @override
   Map<String, double> fromJson(dynamic json) {
     if (json is Map<String, dynamic>) {
-      return json.map((k, v) => MapEntry(k, v as double));
+      return json.map((k, v) => MapEntry(k, v.toDouble()));
     } else if (json is List) {
       return {};
     } else {
