@@ -134,3 +134,95 @@ enum DnsBlockingStatus {
   /// 3: DNS blocking is unknown
   unknown,
 }
+
+enum DnsRecordType {
+  a,
+  aaaa,
+  cname,
+  ptr,
+  txt,
+  srv,
+  https,
+  mx,
+  ns,
+  soa,
+  unknown,
+}
+
+enum ReplyType {
+  na,
+  nodata,
+  nxdomain,
+  cname,
+  ip,
+  domain,
+  rrname,
+  servfail,
+  refused,
+  notimp,
+  upstreamError,
+  dnssec,
+  none,
+  blob,
+  unknown,
+}
+
+/// Query status type (unified for Pi-hole v5 and v6).
+enum QueryStatusType {
+  /// v5=1, v6=GRAVITY
+  gravity,
+
+  /// v5=2, v6=FORWARDED
+  forwarded,
+
+  /// v5=3, v6=CACHE
+  cache,
+
+  /// v5=4, v6=REGEX
+  regex,
+
+  /// v5=5, v6=DENYLIST
+  denylist,
+
+  /// v5=9, v6=GRAVITY_CNAME
+  gravityCname,
+
+  /// v5=10, v6=REGEX_CNAME
+  regexCname,
+
+  /// v5=11, v6=DENYLIST_CNAME
+  denylistCname,
+
+  /// v5=6, v6=EXTERNAL_BLOCKED_IP
+  externalBlockedIp,
+
+  /// v5=7, v6=EXTERNAL_BLOCKED_NULL
+  externalBlockedNull,
+
+  /// v5=8, v6=EXTERNAL_BLOCKED_NXRA
+  externalBlockedNxra,
+
+  /// v6=EXTERNAL_BLOCKED_EDE15
+  externalBlockedEde15,
+
+  /// v5=12, v6=RETRIED
+  retried,
+
+  /// v5=13, v6=RETRIED_DNSSEC
+  retriedDnssec,
+
+  /// v5=14, v6=IN_PROGRESS
+  inProgress,
+
+  /// v5=15, v6=DBBUSY
+  dbBusy,
+
+  /// v6=SPECIAL_DOMAIN
+  specialDomain,
+
+  /// v6=CACHE_STALE
+  cacheStale,
+
+  /// v6=UNKNOWN, or unmapped value
+  unknown,
+}

@@ -7,3 +7,21 @@ class NotSupportedException implements Exception {
   @override
   String toString() => 'NotSupportedException: $message';
 }
+
+class TokenNotFoundException implements Exception {
+  /// Creates a TokenNotFoundException with an optional [message].
+  TokenNotFoundException([this.message = 'Token not found.']);
+  final String message;
+
+  @override
+  String toString() => 'TokenNotFoundException: $message';
+}
+
+class SidNotFoundException implements Exception {
+  /// Creates a SidNotFoundException with an optional [message].
+  SidNotFoundException([this.message = 'SID not found.']);
+  final String message;
+
+  @override
+  String toString() => 'SidNotFoundException: $message';
+}
