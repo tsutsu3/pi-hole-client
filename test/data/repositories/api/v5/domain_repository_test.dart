@@ -64,6 +64,29 @@ void main() async {
       creds = FakeSessionCredentialService();
       repository = DomainRepositoryV5(client: client, creds: creds);
     });
+
+    test('should add domain successfully', () async {
+      final result = await repository.addDomain(
+        DomainType.allow,
+        DomainKind.exact,
+        'example.com',
+        comment: 'test comment',
+        groups: [1, 2],
+        enabled: false,
+      );
+      expect(result.isSuccess(), true);
+      expect(result.getOrNull(), kRepoAddDomain);
+    });
+
+    test('should return an error if add fails', () async {
+      client.shouldAddFail = true;
+      final result = await repository.addDomain(
+        DomainType.allow,
+        DomainKind.exact,
+        'example.com',
+      );
+      expect(result.isError(), true);
+    });
   });
 
   group('deleteDomain', () {
@@ -75,6 +98,26 @@ void main() async {
       client = FakePiholeV5ApiClient();
       creds = FakeSessionCredentialService();
       repository = DomainRepositoryV5(client: client, creds: creds);
+    });
+
+    test('should delete domain successfully', () async {
+      final result = await repository.deleteDomain(
+        DomainType.allow,
+        DomainKind.exact,
+        'example.com',
+      );
+      expect(result.isSuccess(), true);
+    });
+
+    test('should return an error if delete fails', () async {
+      client.shouldDeleteFail = true;
+      final result = await repository.deleteDomain(
+        DomainType.allow,
+        DomainKind.exact,
+        'example.com',
+      );
+      expect(result.isError(), true);
+      expectError(result, messageContains: 'Failed to delete domain');
     });
   });
 }

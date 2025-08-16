@@ -12,6 +12,8 @@ import 'package:result_dart/result_dart.dart';
 import '../models/v5/domain.dart';
 
 class FakePiholeV5ApiClient implements PiholeV5ApiClient {
+  bool shouldAddFail = false;
+  bool shouldDeleteFail = false;
   bool shouldFail = false;
 
   @override
@@ -56,7 +58,10 @@ class FakePiholeV5ApiClient implements PiholeV5ApiClient {
     required String domain,
     required V5DomainType domainType,
   }) async {
-    throw UnimplementedError();
+    if (shouldAddFail) {
+      return Failure(Exception('Failed to add domain'));
+    }
+    return const Success(DomainResponse(success: true));
   }
 
   @override
@@ -86,7 +91,10 @@ class FakePiholeV5ApiClient implements PiholeV5ApiClient {
     required String domain,
     required V5DomainType domainType,
   }) async {
-    throw UnimplementedError();
+    if (shouldDeleteFail) {
+      return Failure(Exception('Failed to delete domain'));
+    }
+    return const Success(DomainResponse(success: true));
   }
 
   @override

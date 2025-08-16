@@ -116,11 +116,14 @@ class DomainRepositoryV5 extends BaseV5TokenRepository
     return runWithResultRetry<Unit>(
       action: () async {
         final token = await getToken();
-        await _client.deleteDomain(
+        final result = await _client.deleteDomain(
           token,
           domain: domain,
           domainType: type.toV5DomainType(kind),
         );
+        if (result.isError()) {
+          return Failure(result.exceptionOrNull()!);
+        }
         return Success.unit();
       },
       onRetry: (_) => clearToken(),

@@ -107,3 +107,15 @@ final kRepoGetDomains = repo.DomainLists(
   blacklist: [kRepoGetDomainsBlack],
   blacklistRegex: [kRepoGetDomainsBlackRegex],
 );
+
+final kRepoAddDomain = repo.Domain(
+  id: -1,
+  name: 'example.com',
+  type: DomainType.allow,
+  kind: DomainKind.exact,
+  comment: 'test comment',
+  groups: [1, 2],
+  enabled: false,
+  dateAdded: DateTime.fromMillisecondsSinceEpoch(0),
+  dateModified: DateTime.fromMillisecondsSinceEpoch(0),
+);
