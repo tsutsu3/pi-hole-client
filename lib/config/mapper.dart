@@ -18,6 +18,15 @@ extension StringToDomainKindMapper on String {
   }
 }
 
+extension StringToDnsBlockingStatusMapper on String {
+  DnsBlockingStatus toDnsBlockingStatus() {
+    return DnsBlockingStatus.values.firstWhere(
+      (e) => e.name == this,
+      orElse: () => DnsBlockingStatus.unknown,
+    );
+  }
+}
+
 extension DomainTypeToV5DomainTypeMapper on DomainType {
   V5DomainType toV5DomainType(DomainKind kind) {
     return switch ((this, kind)) {

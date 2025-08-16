@@ -1,3 +1,4 @@
+import 'package:pi_hole_client/config/enums.dart';
 import 'package:pi_hole_client/data/model/v5/realtime_status.dart' as srv;
 import 'package:pi_hole_client/domain/model/metrics/summary.dart' as repo;
 import 'package:pi_hole_client/domain/model/metrics/top_clients.dart' as repo;
@@ -107,7 +108,7 @@ final kRepoFetchRealTimeStatus = repo.RealtimeStatus(
   replyBlob: 0,
   dnsQueriesAllReplies: 16,
   privacyLevel: 0,
-  status: 'enabled',
+  status: DnsBlockingStatus.enabled,
   topQueries: const [
     repo.QueryStat(domain: '1.0.26.172.in-addr.arpa', count: 3),
     repo.QueryStat(domain: '8.8.8.8.in-addr.arpa', count: 3),

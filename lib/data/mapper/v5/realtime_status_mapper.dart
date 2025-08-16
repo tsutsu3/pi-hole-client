@@ -1,3 +1,4 @@
+import 'package:pi_hole_client/config/mapper.dart';
 import 'package:pi_hole_client/data/model/v5/realtime_status.dart' as s;
 import 'package:pi_hole_client/domain/model/metrics/summary.dart' as d;
 import 'package:pi_hole_client/domain/model/metrics/top_clients.dart' as d;
@@ -35,7 +36,7 @@ extension RealTimeStatusMapper on s.RealTimeStatus {
       replyBlob: replyBlob,
       dnsQueriesAllReplies: dnsQueriesAllReplies,
       privacyLevel: privacyLevel,
-      status: status,
+      status: status.toDnsBlockingStatus(),
       topQueries: topQueries.entries
           .map((e) => QueryStatMapper(e).toDomain())
           .toList(),

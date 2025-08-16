@@ -1,4 +1,5 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
+import 'package:pi_hole_client/config/enums.dart';
 import 'package:pi_hole_client/domain/model/metrics/summary.dart';
 import 'package:pi_hole_client/domain/model/metrics/top_clients.dart';
 import 'package:pi_hole_client/domain/model/metrics/top_domains.dart';
@@ -37,7 +38,7 @@ sealed class RealtimeStatus with _$RealtimeStatus {
     required int replyBlob,
     required int dnsQueriesAllReplies,
     required int privacyLevel,
-    required String status, // TODO: use DnsBlockingStatus enum
+    required DnsBlockingStatus status,
     required List<QueryStat> topQueries,
     required List<QueryStat> topAds,
     required List<SourceStat> topSources,

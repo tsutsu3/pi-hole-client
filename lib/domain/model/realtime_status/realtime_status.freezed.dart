@@ -15,8 +15,7 @@ T _$identity<T>(T value) => value;
 /// @nodoc
 mixin _$RealtimeStatus {
 
- int get domainsBeingBlocked; int get dnsQueriesToday; int get adsBlockedToday; double get adsPercentageToday; int get uniqueDomains; int get queriesForwarded; int get queriesCached; int get clientsEverSeen; int get uniqueClients; int get dnsQueriesAllTypes; int get replyUnknown; int get replyNodata; int get replyNxDomain; int get replyCname; int get replyIp; int get replyDomain; int get replyRrname; int get replyServfail; int get replyRefused; int get replyNotimp; int get replyOther; int get replyDnssec; int get replyNone; int get replyBlob; int get dnsQueriesAllReplies; int get privacyLevel; String get status;// TODO: use DnsBlockingStatus enum
- List<QueryStat> get topQueries; List<QueryStat> get topAds; List<SourceStat> get topSources; List<SourceStat> get topSourcesBlocked; List<DestinationStat> get forwardDestinations; List<QueryTypeStat> get queryTypes;
+ int get domainsBeingBlocked; int get dnsQueriesToday; int get adsBlockedToday; double get adsPercentageToday; int get uniqueDomains; int get queriesForwarded; int get queriesCached; int get clientsEverSeen; int get uniqueClients; int get dnsQueriesAllTypes; int get replyUnknown; int get replyNodata; int get replyNxDomain; int get replyCname; int get replyIp; int get replyDomain; int get replyRrname; int get replyServfail; int get replyRefused; int get replyNotimp; int get replyOther; int get replyDnssec; int get replyNone; int get replyBlob; int get dnsQueriesAllReplies; int get privacyLevel; DnsBlockingStatus get status; List<QueryStat> get topQueries; List<QueryStat> get topAds; List<SourceStat> get topSources; List<SourceStat> get topSourcesBlocked; List<DestinationStat> get forwardDestinations; List<QueryTypeStat> get queryTypes;
 /// Create a copy of RealtimeStatus
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -49,7 +48,7 @@ abstract mixin class $RealtimeStatusCopyWith<$Res>  {
   factory $RealtimeStatusCopyWith(RealtimeStatus value, $Res Function(RealtimeStatus) _then) = _$RealtimeStatusCopyWithImpl;
 @useResult
 $Res call({
- int domainsBeingBlocked, int dnsQueriesToday, int adsBlockedToday, double adsPercentageToday, int uniqueDomains, int queriesForwarded, int queriesCached, int clientsEverSeen, int uniqueClients, int dnsQueriesAllTypes, int replyUnknown, int replyNodata, int replyNxDomain, int replyCname, int replyIp, int replyDomain, int replyRrname, int replyServfail, int replyRefused, int replyNotimp, int replyOther, int replyDnssec, int replyNone, int replyBlob, int dnsQueriesAllReplies, int privacyLevel, String status, List<QueryStat> topQueries, List<QueryStat> topAds, List<SourceStat> topSources, List<SourceStat> topSourcesBlocked, List<DestinationStat> forwardDestinations, List<QueryTypeStat> queryTypes
+ int domainsBeingBlocked, int dnsQueriesToday, int adsBlockedToday, double adsPercentageToday, int uniqueDomains, int queriesForwarded, int queriesCached, int clientsEverSeen, int uniqueClients, int dnsQueriesAllTypes, int replyUnknown, int replyNodata, int replyNxDomain, int replyCname, int replyIp, int replyDomain, int replyRrname, int replyServfail, int replyRefused, int replyNotimp, int replyOther, int replyDnssec, int replyNone, int replyBlob, int dnsQueriesAllReplies, int privacyLevel, DnsBlockingStatus status, List<QueryStat> topQueries, List<QueryStat> topAds, List<SourceStat> topSources, List<SourceStat> topSourcesBlocked, List<DestinationStat> forwardDestinations, List<QueryTypeStat> queryTypes
 });
 
 
@@ -95,7 +94,7 @@ as int,replyBlob: null == replyBlob ? _self.replyBlob : replyBlob // ignore: cas
 as int,dnsQueriesAllReplies: null == dnsQueriesAllReplies ? _self.dnsQueriesAllReplies : dnsQueriesAllReplies // ignore: cast_nullable_to_non_nullable
 as int,privacyLevel: null == privacyLevel ? _self.privacyLevel : privacyLevel // ignore: cast_nullable_to_non_nullable
 as int,status: null == status ? _self.status : status // ignore: cast_nullable_to_non_nullable
-as String,topQueries: null == topQueries ? _self.topQueries : topQueries // ignore: cast_nullable_to_non_nullable
+as DnsBlockingStatus,topQueries: null == topQueries ? _self.topQueries : topQueries // ignore: cast_nullable_to_non_nullable
 as List<QueryStat>,topAds: null == topAds ? _self.topAds : topAds // ignore: cast_nullable_to_non_nullable
 as List<QueryStat>,topSources: null == topSources ? _self.topSources : topSources // ignore: cast_nullable_to_non_nullable
 as List<SourceStat>,topSourcesBlocked: null == topSourcesBlocked ? _self.topSourcesBlocked : topSourcesBlocked // ignore: cast_nullable_to_non_nullable
@@ -183,7 +182,7 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( int domainsBeingBlocked,  int dnsQueriesToday,  int adsBlockedToday,  double adsPercentageToday,  int uniqueDomains,  int queriesForwarded,  int queriesCached,  int clientsEverSeen,  int uniqueClients,  int dnsQueriesAllTypes,  int replyUnknown,  int replyNodata,  int replyNxDomain,  int replyCname,  int replyIp,  int replyDomain,  int replyRrname,  int replyServfail,  int replyRefused,  int replyNotimp,  int replyOther,  int replyDnssec,  int replyNone,  int replyBlob,  int dnsQueriesAllReplies,  int privacyLevel,  String status,  List<QueryStat> topQueries,  List<QueryStat> topAds,  List<SourceStat> topSources,  List<SourceStat> topSourcesBlocked,  List<DestinationStat> forwardDestinations,  List<QueryTypeStat> queryTypes)?  $default,{required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( int domainsBeingBlocked,  int dnsQueriesToday,  int adsBlockedToday,  double adsPercentageToday,  int uniqueDomains,  int queriesForwarded,  int queriesCached,  int clientsEverSeen,  int uniqueClients,  int dnsQueriesAllTypes,  int replyUnknown,  int replyNodata,  int replyNxDomain,  int replyCname,  int replyIp,  int replyDomain,  int replyRrname,  int replyServfail,  int replyRefused,  int replyNotimp,  int replyOther,  int replyDnssec,  int replyNone,  int replyBlob,  int dnsQueriesAllReplies,  int privacyLevel,  DnsBlockingStatus status,  List<QueryStat> topQueries,  List<QueryStat> topAds,  List<SourceStat> topSources,  List<SourceStat> topSourcesBlocked,  List<DestinationStat> forwardDestinations,  List<QueryTypeStat> queryTypes)?  $default,{required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _RealtimeStatus() when $default != null:
 return $default(_that.domainsBeingBlocked,_that.dnsQueriesToday,_that.adsBlockedToday,_that.adsPercentageToday,_that.uniqueDomains,_that.queriesForwarded,_that.queriesCached,_that.clientsEverSeen,_that.uniqueClients,_that.dnsQueriesAllTypes,_that.replyUnknown,_that.replyNodata,_that.replyNxDomain,_that.replyCname,_that.replyIp,_that.replyDomain,_that.replyRrname,_that.replyServfail,_that.replyRefused,_that.replyNotimp,_that.replyOther,_that.replyDnssec,_that.replyNone,_that.replyBlob,_that.dnsQueriesAllReplies,_that.privacyLevel,_that.status,_that.topQueries,_that.topAds,_that.topSources,_that.topSourcesBlocked,_that.forwardDestinations,_that.queryTypes);case _:
@@ -204,7 +203,7 @@ return $default(_that.domainsBeingBlocked,_that.dnsQueriesToday,_that.adsBlocked
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( int domainsBeingBlocked,  int dnsQueriesToday,  int adsBlockedToday,  double adsPercentageToday,  int uniqueDomains,  int queriesForwarded,  int queriesCached,  int clientsEverSeen,  int uniqueClients,  int dnsQueriesAllTypes,  int replyUnknown,  int replyNodata,  int replyNxDomain,  int replyCname,  int replyIp,  int replyDomain,  int replyRrname,  int replyServfail,  int replyRefused,  int replyNotimp,  int replyOther,  int replyDnssec,  int replyNone,  int replyBlob,  int dnsQueriesAllReplies,  int privacyLevel,  String status,  List<QueryStat> topQueries,  List<QueryStat> topAds,  List<SourceStat> topSources,  List<SourceStat> topSourcesBlocked,  List<DestinationStat> forwardDestinations,  List<QueryTypeStat> queryTypes)  $default,) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( int domainsBeingBlocked,  int dnsQueriesToday,  int adsBlockedToday,  double adsPercentageToday,  int uniqueDomains,  int queriesForwarded,  int queriesCached,  int clientsEverSeen,  int uniqueClients,  int dnsQueriesAllTypes,  int replyUnknown,  int replyNodata,  int replyNxDomain,  int replyCname,  int replyIp,  int replyDomain,  int replyRrname,  int replyServfail,  int replyRefused,  int replyNotimp,  int replyOther,  int replyDnssec,  int replyNone,  int replyBlob,  int dnsQueriesAllReplies,  int privacyLevel,  DnsBlockingStatus status,  List<QueryStat> topQueries,  List<QueryStat> topAds,  List<SourceStat> topSources,  List<SourceStat> topSourcesBlocked,  List<DestinationStat> forwardDestinations,  List<QueryTypeStat> queryTypes)  $default,) {final _that = this;
 switch (_that) {
 case _RealtimeStatus():
 return $default(_that.domainsBeingBlocked,_that.dnsQueriesToday,_that.adsBlockedToday,_that.adsPercentageToday,_that.uniqueDomains,_that.queriesForwarded,_that.queriesCached,_that.clientsEverSeen,_that.uniqueClients,_that.dnsQueriesAllTypes,_that.replyUnknown,_that.replyNodata,_that.replyNxDomain,_that.replyCname,_that.replyIp,_that.replyDomain,_that.replyRrname,_that.replyServfail,_that.replyRefused,_that.replyNotimp,_that.replyOther,_that.replyDnssec,_that.replyNone,_that.replyBlob,_that.dnsQueriesAllReplies,_that.privacyLevel,_that.status,_that.topQueries,_that.topAds,_that.topSources,_that.topSourcesBlocked,_that.forwardDestinations,_that.queryTypes);}
@@ -221,7 +220,7 @@ return $default(_that.domainsBeingBlocked,_that.dnsQueriesToday,_that.adsBlocked
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( int domainsBeingBlocked,  int dnsQueriesToday,  int adsBlockedToday,  double adsPercentageToday,  int uniqueDomains,  int queriesForwarded,  int queriesCached,  int clientsEverSeen,  int uniqueClients,  int dnsQueriesAllTypes,  int replyUnknown,  int replyNodata,  int replyNxDomain,  int replyCname,  int replyIp,  int replyDomain,  int replyRrname,  int replyServfail,  int replyRefused,  int replyNotimp,  int replyOther,  int replyDnssec,  int replyNone,  int replyBlob,  int dnsQueriesAllReplies,  int privacyLevel,  String status,  List<QueryStat> topQueries,  List<QueryStat> topAds,  List<SourceStat> topSources,  List<SourceStat> topSourcesBlocked,  List<DestinationStat> forwardDestinations,  List<QueryTypeStat> queryTypes)?  $default,) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( int domainsBeingBlocked,  int dnsQueriesToday,  int adsBlockedToday,  double adsPercentageToday,  int uniqueDomains,  int queriesForwarded,  int queriesCached,  int clientsEverSeen,  int uniqueClients,  int dnsQueriesAllTypes,  int replyUnknown,  int replyNodata,  int replyNxDomain,  int replyCname,  int replyIp,  int replyDomain,  int replyRrname,  int replyServfail,  int replyRefused,  int replyNotimp,  int replyOther,  int replyDnssec,  int replyNone,  int replyBlob,  int dnsQueriesAllReplies,  int privacyLevel,  DnsBlockingStatus status,  List<QueryStat> topQueries,  List<QueryStat> topAds,  List<SourceStat> topSources,  List<SourceStat> topSourcesBlocked,  List<DestinationStat> forwardDestinations,  List<QueryTypeStat> queryTypes)?  $default,) {final _that = this;
 switch (_that) {
 case _RealtimeStatus() when $default != null:
 return $default(_that.domainsBeingBlocked,_that.dnsQueriesToday,_that.adsBlockedToday,_that.adsPercentageToday,_that.uniqueDomains,_that.queriesForwarded,_that.queriesCached,_that.clientsEverSeen,_that.uniqueClients,_that.dnsQueriesAllTypes,_that.replyUnknown,_that.replyNodata,_that.replyNxDomain,_that.replyCname,_that.replyIp,_that.replyDomain,_that.replyRrname,_that.replyServfail,_that.replyRefused,_that.replyNotimp,_that.replyOther,_that.replyDnssec,_that.replyNone,_that.replyBlob,_that.dnsQueriesAllReplies,_that.privacyLevel,_that.status,_that.topQueries,_that.topAds,_that.topSources,_that.topSourcesBlocked,_that.forwardDestinations,_that.queryTypes);case _:
@@ -265,10 +264,8 @@ class _RealtimeStatus implements RealtimeStatus {
 @override final  int replyBlob;
 @override final  int dnsQueriesAllReplies;
 @override final  int privacyLevel;
-@override final  String status;
-// TODO: use DnsBlockingStatus enum
+@override final  DnsBlockingStatus status;
  final  List<QueryStat> _topQueries;
-// TODO: use DnsBlockingStatus enum
 @override List<QueryStat> get topQueries {
   if (_topQueries is EqualUnmodifiableListView) return _topQueries;
   // ignore: implicit_dynamic_type
@@ -344,7 +341,7 @@ abstract mixin class _$RealtimeStatusCopyWith<$Res> implements $RealtimeStatusCo
   factory _$RealtimeStatusCopyWith(_RealtimeStatus value, $Res Function(_RealtimeStatus) _then) = __$RealtimeStatusCopyWithImpl;
 @override @useResult
 $Res call({
- int domainsBeingBlocked, int dnsQueriesToday, int adsBlockedToday, double adsPercentageToday, int uniqueDomains, int queriesForwarded, int queriesCached, int clientsEverSeen, int uniqueClients, int dnsQueriesAllTypes, int replyUnknown, int replyNodata, int replyNxDomain, int replyCname, int replyIp, int replyDomain, int replyRrname, int replyServfail, int replyRefused, int replyNotimp, int replyOther, int replyDnssec, int replyNone, int replyBlob, int dnsQueriesAllReplies, int privacyLevel, String status, List<QueryStat> topQueries, List<QueryStat> topAds, List<SourceStat> topSources, List<SourceStat> topSourcesBlocked, List<DestinationStat> forwardDestinations, List<QueryTypeStat> queryTypes
+ int domainsBeingBlocked, int dnsQueriesToday, int adsBlockedToday, double adsPercentageToday, int uniqueDomains, int queriesForwarded, int queriesCached, int clientsEverSeen, int uniqueClients, int dnsQueriesAllTypes, int replyUnknown, int replyNodata, int replyNxDomain, int replyCname, int replyIp, int replyDomain, int replyRrname, int replyServfail, int replyRefused, int replyNotimp, int replyOther, int replyDnssec, int replyNone, int replyBlob, int dnsQueriesAllReplies, int privacyLevel, DnsBlockingStatus status, List<QueryStat> topQueries, List<QueryStat> topAds, List<SourceStat> topSources, List<SourceStat> topSourcesBlocked, List<DestinationStat> forwardDestinations, List<QueryTypeStat> queryTypes
 });
 
 
@@ -390,7 +387,7 @@ as int,replyBlob: null == replyBlob ? _self.replyBlob : replyBlob // ignore: cas
 as int,dnsQueriesAllReplies: null == dnsQueriesAllReplies ? _self.dnsQueriesAllReplies : dnsQueriesAllReplies // ignore: cast_nullable_to_non_nullable
 as int,privacyLevel: null == privacyLevel ? _self.privacyLevel : privacyLevel // ignore: cast_nullable_to_non_nullable
 as int,status: null == status ? _self.status : status // ignore: cast_nullable_to_non_nullable
-as String,topQueries: null == topQueries ? _self._topQueries : topQueries // ignore: cast_nullable_to_non_nullable
+as DnsBlockingStatus,topQueries: null == topQueries ? _self._topQueries : topQueries // ignore: cast_nullable_to_non_nullable
 as List<QueryStat>,topAds: null == topAds ? _self._topAds : topAds // ignore: cast_nullable_to_non_nullable
 as List<QueryStat>,topSources: null == topSources ? _self._topSources : topSources // ignore: cast_nullable_to_non_nullable
 as List<SourceStat>,topSourcesBlocked: null == topSourcesBlocked ? _self._topSourcesBlocked : topSourcesBlocked // ignore: cast_nullable_to_non_nullable

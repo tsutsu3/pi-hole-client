@@ -34,7 +34,7 @@ _RealtimeStatus _$RealtimeStatusFromJson(Map<String, dynamic> json) =>
       replyBlob: (json['replyBlob'] as num).toInt(),
       dnsQueriesAllReplies: (json['dnsQueriesAllReplies'] as num).toInt(),
       privacyLevel: (json['privacyLevel'] as num).toInt(),
-      status: json['status'] as String,
+      status: $enumDecode(_$DnsBlockingStatusEnumMap, json['status']),
       topQueries: (json['topQueries'] as List<dynamic>)
           .map((e) => QueryStat.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -83,7 +83,7 @@ Map<String, dynamic> _$RealtimeStatusToJson(_RealtimeStatus instance) =>
       'replyBlob': instance.replyBlob,
       'dnsQueriesAllReplies': instance.dnsQueriesAllReplies,
       'privacyLevel': instance.privacyLevel,
-      'status': instance.status,
+      'status': _$DnsBlockingStatusEnumMap[instance.status]!,
       'topQueries': instance.topQueries.map((e) => e.toJson()).toList(),
       'topAds': instance.topAds.map((e) => e.toJson()).toList(),
       'topSources': instance.topSources.map((e) => e.toJson()).toList(),
@@ -95,3 +95,10 @@ Map<String, dynamic> _$RealtimeStatusToJson(_RealtimeStatus instance) =>
           .toList(),
       'queryTypes': instance.queryTypes.map((e) => e.toJson()).toList(),
     };
+
+const _$DnsBlockingStatusEnumMap = {
+  DnsBlockingStatus.enabled: 'enabled',
+  DnsBlockingStatus.disabled: 'disabled',
+  DnsBlockingStatus.failed: 'failed',
+  DnsBlockingStatus.unknown: 'unknown',
+};
