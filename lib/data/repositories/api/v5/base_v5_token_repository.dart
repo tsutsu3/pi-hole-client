@@ -8,7 +8,7 @@ import 'package:pi_hole_client/data/services/local/session_credential_service.da
 /// - Retrieve a token from the provided [SessionCredentialService]
 /// - Cache the token for subsequent calls to avoid redundant network requests
 /// - Prevent concurrent token requests by sharing the same pending [Future]
-/// - Clear the cached token to force a refresh on the nex
+/// - Clear the cached token to force a refresh on the next request
 abstract class BaseV5TokenRepository {
   BaseV5TokenRepository({
     required SessionCredentialService creds,
