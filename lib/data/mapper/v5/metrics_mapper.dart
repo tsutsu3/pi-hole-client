@@ -95,7 +95,7 @@ extension LogMapper on List<String> {
     return _replyTypes[i];
   }
 
-  List<String> get _replyTypes => [
+  static const _replyTypes = [
     'N/A',
     'NODATA',
     'NXDOMAIN',

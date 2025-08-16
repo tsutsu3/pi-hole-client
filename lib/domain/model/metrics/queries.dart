@@ -1,4 +1,5 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
+// import 'package:pi_hole_client/config/enums.dart';
 
 part 'queries.freezed.dart';
 part 'queries.g.dart';
@@ -16,10 +17,10 @@ sealed class Logs with _$Logs {
   factory Logs.fromJson(Map<String, dynamic> json) => _$LogsFromJson(json);
 }
 
+// TODO: use enumm (type, status, replyType)
 @freezed
 sealed class Log with _$Log {
   const factory Log({
-    // TODO: nullable or not? (status, replyType, id, answeredBy)
     required DateTime dateTime,
     required String type,
     required String url,
@@ -33,3 +34,20 @@ sealed class Log with _$Log {
 
   factory Log.fromJson(Map<String, dynamic> json) => _$LogFromJson(json);
 }
+
+// @freezed
+// sealed class Log with _$Log {
+//   const factory Log({
+//     required DateTime dateTime,
+//     required DnsRecordType type,
+//     required String url,
+//     required String device,
+//     required BigInt replyTime,
+//     QueryStatusType? status,
+//     ReplyType? replyType,
+//     int? id,
+//     String? answeredBy,
+//   }) = _Log;
+
+//   factory Log.fromJson(Map<String, dynamic> json) => _$LogFromJson(json);
+// }

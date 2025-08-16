@@ -134,3 +134,75 @@ enum DnsBlockingStatus {
   /// 3: DNS blocking is unknown
   unknown,
 }
+
+enum DnsRecordType {
+  a,
+  aaaa,
+  cname,
+  ptr,
+  txt,
+  srv,
+  https,
+  mx,
+  ns,
+  soa,
+  unknown,
+}
+
+enum ReplyType {
+  na,
+  nodata,
+  nxdomain,
+  cname,
+  ip,
+  domain,
+  rrname,
+  servfail,
+  refused,
+  notimp,
+  upstreamError,
+  dnssec,
+  none,
+  blob,
+}
+
+enum QueryStatusType {
+  // v5
+  unknown(0),
+
+  // Allowed / OK
+  forwarded(200),
+  cache(201),
+  inProgress(202),
+  alreadyForwarded(203),
+
+  // Blocked
+  gravity(300),
+  regex(301),
+  denylist(302),
+  gravityCname(310),
+  regexCname(311),
+  denylistCname(312),
+
+  // External / Dropped
+  externalBlockedIp(400),
+  externalBlockedNull(401),
+  externalBlockedNxra(402),
+  externalBlockedEde15(403),
+
+  // Retry
+  retried(500),
+  retriedDnssec(501),
+
+  // Others
+  dbBusy(600),
+  specialDomain(601),
+  cacheStale(602);
+
+  const QueryStatusType(this.code);
+
+  final int code;
+
+  static QueryStatusType fromCode(int code) => QueryStatusType.values
+      .firstWhere((e) => e.code == code, orElse: () => QueryStatusType.unknown);
+}

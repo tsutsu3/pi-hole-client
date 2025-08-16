@@ -10,6 +10,7 @@ import 'package:pi_hole_client/data/services/api/pihole_v5_api_client.dart';
 import 'package:result_dart/result_dart.dart';
 
 import '../models/v5/domain.dart';
+import '../models/v5/merics.dart';
 import '../models/v5/versions.dart';
 
 class FakePiholeV5ApiClient implements PiholeV5ApiClient {
@@ -40,7 +41,10 @@ class FakePiholeV5ApiClient implements PiholeV5ApiClient {
 
   @override
   Future<Result<OverTimeData>> getOverTimeData(String token) async {
-    throw UnimplementedError();
+    if (shouldFail) {
+      return Failure(Exception('Failed to fetch over time data'));
+    }
+    return const Success(kSrvGetOverTimeData);
   }
 
   @override
@@ -49,7 +53,10 @@ class FakePiholeV5ApiClient implements PiholeV5ApiClient {
     DateTime? from,
     DateTime? until,
   }) async {
-    throw UnimplementedError();
+    if (shouldFail) {
+      return Failure(Exception('Failed to fetch queries'));
+    }
+    return const Success(kSrvGetQueries);
   }
 
   @override

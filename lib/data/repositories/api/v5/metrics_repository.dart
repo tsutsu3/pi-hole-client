@@ -54,7 +54,7 @@ class MetricsRepositoryV5 extends BaseV5TokenRepository
           from: from,
           until: until,
         );
-        return Success(response.getOrThrow().toDomain());
+        return response.map((q) => q.toDomain());
       },
       onRetry: (_) => clearToken(),
     );
@@ -116,7 +116,7 @@ class MetricsRepositoryV5 extends BaseV5TokenRepository
       action: () async {
         final token = await getToken();
         final response = await _client.getOverTimeData(token);
-        return Success(response.getOrThrow().toDomain());
+        return response.map((o) => o.toDomain());
       },
       onRetry: (_) => clearToken(),
     );
