@@ -71,7 +71,7 @@ extension LogMapper on List<String> {
 
     return d.Log(
       dateTime: DateTime.fromMillisecondsSinceEpoch((tsSec ?? 0) * 1000),
-      type: convertDnsRecordTypeV5(type),
+      type: convertDnsRecordType(type),
       url: url ?? '',
       device: device ?? '',
       replyTime: replyTime ?? BigInt.zero,

@@ -40,7 +40,11 @@ Map<String, dynamic> _$AdlistToJson(_Adlist instance) => <String, dynamic>{
   'comment': instance.comment,
 };
 
-const _$ListTypeEnumMap = {ListType.allow: 'allow', ListType.block: 'block'};
+const _$ListTypeEnumMap = {
+  ListType.allow: 'allow',
+  ListType.block: 'block',
+  ListType.unknown: 'unknown',
+};
 
 const _$ListsStatusEnumMap = {
   ListsStatus.notDownloaded: 'notDownloaded',

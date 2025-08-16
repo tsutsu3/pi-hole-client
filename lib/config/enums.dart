@@ -83,6 +83,9 @@ enum ListType {
 
   /// 1: Deny
   block,
+
+  /// 2: Unknown
+  unknown,
 }
 
 /// Domain kind
@@ -226,3 +229,5 @@ enum QueryStatusType {
   /// v6=UNKNOWN, or unmapped value
   unknown,
 }
+
+enum RouteFamilyType { inet, inet6, link, mpls, bridge, unknown }

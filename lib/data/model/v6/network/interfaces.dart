@@ -1,5 +1,4 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
-import 'package:pi_hole_client/data/model/v6/network/common.dart';
 
 part 'interfaces.freezed.dart';
 part 'interfaces.g.dart';
@@ -108,7 +107,7 @@ sealed class InterfaceAddress with _$InterfaceAddress {
     required String address,
     @JsonKey(name: 'address_type') required String addressType,
     required int index,
-    required RouteFamily family, // TODO: string, no conversion
+    required String family,
     required String scope,
     required List<String> flags,
     required int prefixlen,

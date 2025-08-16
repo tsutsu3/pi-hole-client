@@ -1,22 +1,8 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
+import 'package:pi_hole_client/config/enums.dart';
 
 part 'network.freezed.dart';
 part 'network.g.dart';
-
-enum RouteFamily {
-  @JsonValue('inet')
-  inet,
-  @JsonValue('inet6')
-  inet6,
-  @JsonValue('link')
-  link,
-  @JsonValue('mpls')
-  mpls,
-  @JsonValue('bridge')
-  bridge,
-  @JsonValue('unknown')
-  unknown,
-}
 
 @freezed
 sealed class Gateways with _$Gateways {
@@ -124,10 +110,8 @@ sealed class InterfaceStats with _$InterfaceStats {
 
 @freezed
 sealed class ByteValue with _$ByteValue {
-  const factory ByteValue({
-    required double value,
-    required String unit,
-  }) = _ByteValue;
+  const factory ByteValue({required double value, required String unit}) =
+      _ByteValue;
 
   factory ByteValue.fromJson(Map<String, dynamic> json) =>
       _$ByteValueFromJson(json);
@@ -139,7 +123,7 @@ sealed class InterfaceAddress with _$InterfaceAddress {
     required String address,
     required String addressType,
     required int index,
-    required RouteFamily family,
+    required RouteFamilyType family,
     required String scope,
     required List<String> flags,
     required int prefixlen,
@@ -193,7 +177,7 @@ sealed class DeviceIp with _$DeviceIp {
 sealed class Route with _$Route {
   const factory Route({
     required int table,
-    required RouteFamily family,
+    required RouteFamilyType family,
     required String protocol,
     required String scope,
     required String type,

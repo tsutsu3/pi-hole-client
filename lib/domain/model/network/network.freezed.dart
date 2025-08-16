@@ -1594,7 +1594,7 @@ as String,
 /// @nodoc
 mixin _$InterfaceAddress {
 
- String get address; String get addressType; int get index; RouteFamily get family; String get scope; List<String> get flags; int get prefixlen; int get prefered; int get valid; double get cstamp; double get tstamp; String? get label; String? get local; String? get localType; String? get broadcast; String? get broadcastType; List<int>? get unknown;
+ String get address; String get addressType; int get index; RouteFamilyType get family; String get scope; List<String> get flags; int get prefixlen; int get prefered; int get valid; double get cstamp; double get tstamp; String? get label; String? get local; String? get localType; String? get broadcast; String? get broadcastType; List<int>? get unknown;
 /// Create a copy of InterfaceAddress
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -1627,7 +1627,7 @@ abstract mixin class $InterfaceAddressCopyWith<$Res>  {
   factory $InterfaceAddressCopyWith(InterfaceAddress value, $Res Function(InterfaceAddress) _then) = _$InterfaceAddressCopyWithImpl;
 @useResult
 $Res call({
- String address, String addressType, int index, RouteFamily family, String scope, List<String> flags, int prefixlen, int prefered, int valid, double cstamp, double tstamp, String? label, String? local, String? localType, String? broadcast, String? broadcastType, List<int>? unknown
+ String address, String addressType, int index, RouteFamilyType family, String scope, List<String> flags, int prefixlen, int prefered, int valid, double cstamp, double tstamp, String? label, String? local, String? localType, String? broadcast, String? broadcastType, List<int>? unknown
 });
 
 
@@ -1650,7 +1650,7 @@ address: null == address ? _self.address : address // ignore: cast_nullable_to_n
 as String,addressType: null == addressType ? _self.addressType : addressType // ignore: cast_nullable_to_non_nullable
 as String,index: null == index ? _self.index : index // ignore: cast_nullable_to_non_nullable
 as int,family: null == family ? _self.family : family // ignore: cast_nullable_to_non_nullable
-as RouteFamily,scope: null == scope ? _self.scope : scope // ignore: cast_nullable_to_non_nullable
+as RouteFamilyType,scope: null == scope ? _self.scope : scope // ignore: cast_nullable_to_non_nullable
 as String,flags: null == flags ? _self.flags : flags // ignore: cast_nullable_to_non_nullable
 as List<String>,prefixlen: null == prefixlen ? _self.prefixlen : prefixlen // ignore: cast_nullable_to_non_nullable
 as int,prefered: null == prefered ? _self.prefered : prefered // ignore: cast_nullable_to_non_nullable
@@ -1745,7 +1745,7 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( String address,  String addressType,  int index,  RouteFamily family,  String scope,  List<String> flags,  int prefixlen,  int prefered,  int valid,  double cstamp,  double tstamp,  String? label,  String? local,  String? localType,  String? broadcast,  String? broadcastType,  List<int>? unknown)?  $default,{required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( String address,  String addressType,  int index,  RouteFamilyType family,  String scope,  List<String> flags,  int prefixlen,  int prefered,  int valid,  double cstamp,  double tstamp,  String? label,  String? local,  String? localType,  String? broadcast,  String? broadcastType,  List<int>? unknown)?  $default,{required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _InterfaceAddress() when $default != null:
 return $default(_that.address,_that.addressType,_that.index,_that.family,_that.scope,_that.flags,_that.prefixlen,_that.prefered,_that.valid,_that.cstamp,_that.tstamp,_that.label,_that.local,_that.localType,_that.broadcast,_that.broadcastType,_that.unknown);case _:
@@ -1766,7 +1766,7 @@ return $default(_that.address,_that.addressType,_that.index,_that.family,_that.s
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( String address,  String addressType,  int index,  RouteFamily family,  String scope,  List<String> flags,  int prefixlen,  int prefered,  int valid,  double cstamp,  double tstamp,  String? label,  String? local,  String? localType,  String? broadcast,  String? broadcastType,  List<int>? unknown)  $default,) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( String address,  String addressType,  int index,  RouteFamilyType family,  String scope,  List<String> flags,  int prefixlen,  int prefered,  int valid,  double cstamp,  double tstamp,  String? label,  String? local,  String? localType,  String? broadcast,  String? broadcastType,  List<int>? unknown)  $default,) {final _that = this;
 switch (_that) {
 case _InterfaceAddress():
 return $default(_that.address,_that.addressType,_that.index,_that.family,_that.scope,_that.flags,_that.prefixlen,_that.prefered,_that.valid,_that.cstamp,_that.tstamp,_that.label,_that.local,_that.localType,_that.broadcast,_that.broadcastType,_that.unknown);}
@@ -1783,7 +1783,7 @@ return $default(_that.address,_that.addressType,_that.index,_that.family,_that.s
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( String address,  String addressType,  int index,  RouteFamily family,  String scope,  List<String> flags,  int prefixlen,  int prefered,  int valid,  double cstamp,  double tstamp,  String? label,  String? local,  String? localType,  String? broadcast,  String? broadcastType,  List<int>? unknown)?  $default,) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( String address,  String addressType,  int index,  RouteFamilyType family,  String scope,  List<String> flags,  int prefixlen,  int prefered,  int valid,  double cstamp,  double tstamp,  String? label,  String? local,  String? localType,  String? broadcast,  String? broadcastType,  List<int>? unknown)?  $default,) {final _that = this;
 switch (_that) {
 case _InterfaceAddress() when $default != null:
 return $default(_that.address,_that.addressType,_that.index,_that.family,_that.scope,_that.flags,_that.prefixlen,_that.prefered,_that.valid,_that.cstamp,_that.tstamp,_that.label,_that.local,_that.localType,_that.broadcast,_that.broadcastType,_that.unknown);case _:
@@ -1804,7 +1804,7 @@ class _InterfaceAddress implements InterfaceAddress {
 @override final  String address;
 @override final  String addressType;
 @override final  int index;
-@override final  RouteFamily family;
+@override final  RouteFamilyType family;
 @override final  String scope;
  final  List<String> _flags;
 @override List<String> get flags {
@@ -1866,7 +1866,7 @@ abstract mixin class _$InterfaceAddressCopyWith<$Res> implements $InterfaceAddre
   factory _$InterfaceAddressCopyWith(_InterfaceAddress value, $Res Function(_InterfaceAddress) _then) = __$InterfaceAddressCopyWithImpl;
 @override @useResult
 $Res call({
- String address, String addressType, int index, RouteFamily family, String scope, List<String> flags, int prefixlen, int prefered, int valid, double cstamp, double tstamp, String? label, String? local, String? localType, String? broadcast, String? broadcastType, List<int>? unknown
+ String address, String addressType, int index, RouteFamilyType family, String scope, List<String> flags, int prefixlen, int prefered, int valid, double cstamp, double tstamp, String? label, String? local, String? localType, String? broadcast, String? broadcastType, List<int>? unknown
 });
 
 
@@ -1889,7 +1889,7 @@ address: null == address ? _self.address : address // ignore: cast_nullable_to_n
 as String,addressType: null == addressType ? _self.addressType : addressType // ignore: cast_nullable_to_non_nullable
 as String,index: null == index ? _self.index : index // ignore: cast_nullable_to_non_nullable
 as int,family: null == family ? _self.family : family // ignore: cast_nullable_to_non_nullable
-as RouteFamily,scope: null == scope ? _self.scope : scope // ignore: cast_nullable_to_non_nullable
+as RouteFamilyType,scope: null == scope ? _self.scope : scope // ignore: cast_nullable_to_non_nullable
 as String,flags: null == flags ? _self._flags : flags // ignore: cast_nullable_to_non_nullable
 as List<String>,prefixlen: null == prefixlen ? _self.prefixlen : prefixlen // ignore: cast_nullable_to_non_nullable
 as int,prefered: null == prefered ? _self.prefered : prefered // ignore: cast_nullable_to_non_nullable
@@ -2463,7 +2463,7 @@ as String?,
 /// @nodoc
 mixin _$Route {
 
- int get table; RouteFamily get family; String get protocol; String get scope; String get type; List<String> get flags; String get dst; int? get iflags; String? get gateway; String? get oif; String? get iif; String? get src; String? get prefsrc; int? get priority; int? get pref; double? get cstamp; double? get tstamp; int? get expires; int? get error; int? get used;
+ int get table; RouteFamilyType get family; String get protocol; String get scope; String get type; List<String> get flags; String get dst; int? get iflags; String? get gateway; String? get oif; String? get iif; String? get src; String? get prefsrc; int? get priority; int? get pref; double? get cstamp; double? get tstamp; int? get expires; int? get error; int? get used;
 /// Create a copy of Route
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -2496,7 +2496,7 @@ abstract mixin class $RouteCopyWith<$Res>  {
   factory $RouteCopyWith(Route value, $Res Function(Route) _then) = _$RouteCopyWithImpl;
 @useResult
 $Res call({
- int table, RouteFamily family, String protocol, String scope, String type, List<String> flags, String dst, int? iflags, String? gateway, String? oif, String? iif, String? src, String? prefsrc, int? priority, int? pref, double? cstamp, double? tstamp, int? expires, int? error, int? used
+ int table, RouteFamilyType family, String protocol, String scope, String type, List<String> flags, String dst, int? iflags, String? gateway, String? oif, String? iif, String? src, String? prefsrc, int? priority, int? pref, double? cstamp, double? tstamp, int? expires, int? error, int? used
 });
 
 
@@ -2517,7 +2517,7 @@ class _$RouteCopyWithImpl<$Res>
   return _then(_self.copyWith(
 table: null == table ? _self.table : table // ignore: cast_nullable_to_non_nullable
 as int,family: null == family ? _self.family : family // ignore: cast_nullable_to_non_nullable
-as RouteFamily,protocol: null == protocol ? _self.protocol : protocol // ignore: cast_nullable_to_non_nullable
+as RouteFamilyType,protocol: null == protocol ? _self.protocol : protocol // ignore: cast_nullable_to_non_nullable
 as String,scope: null == scope ? _self.scope : scope // ignore: cast_nullable_to_non_nullable
 as String,type: null == type ? _self.type : type // ignore: cast_nullable_to_non_nullable
 as String,flags: null == flags ? _self.flags : flags // ignore: cast_nullable_to_non_nullable
@@ -2617,7 +2617,7 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( int table,  RouteFamily family,  String protocol,  String scope,  String type,  List<String> flags,  String dst,  int? iflags,  String? gateway,  String? oif,  String? iif,  String? src,  String? prefsrc,  int? priority,  int? pref,  double? cstamp,  double? tstamp,  int? expires,  int? error,  int? used)?  $default,{required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( int table,  RouteFamilyType family,  String protocol,  String scope,  String type,  List<String> flags,  String dst,  int? iflags,  String? gateway,  String? oif,  String? iif,  String? src,  String? prefsrc,  int? priority,  int? pref,  double? cstamp,  double? tstamp,  int? expires,  int? error,  int? used)?  $default,{required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _Route() when $default != null:
 return $default(_that.table,_that.family,_that.protocol,_that.scope,_that.type,_that.flags,_that.dst,_that.iflags,_that.gateway,_that.oif,_that.iif,_that.src,_that.prefsrc,_that.priority,_that.pref,_that.cstamp,_that.tstamp,_that.expires,_that.error,_that.used);case _:
@@ -2638,7 +2638,7 @@ return $default(_that.table,_that.family,_that.protocol,_that.scope,_that.type,_
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( int table,  RouteFamily family,  String protocol,  String scope,  String type,  List<String> flags,  String dst,  int? iflags,  String? gateway,  String? oif,  String? iif,  String? src,  String? prefsrc,  int? priority,  int? pref,  double? cstamp,  double? tstamp,  int? expires,  int? error,  int? used)  $default,) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( int table,  RouteFamilyType family,  String protocol,  String scope,  String type,  List<String> flags,  String dst,  int? iflags,  String? gateway,  String? oif,  String? iif,  String? src,  String? prefsrc,  int? priority,  int? pref,  double? cstamp,  double? tstamp,  int? expires,  int? error,  int? used)  $default,) {final _that = this;
 switch (_that) {
 case _Route():
 return $default(_that.table,_that.family,_that.protocol,_that.scope,_that.type,_that.flags,_that.dst,_that.iflags,_that.gateway,_that.oif,_that.iif,_that.src,_that.prefsrc,_that.priority,_that.pref,_that.cstamp,_that.tstamp,_that.expires,_that.error,_that.used);}
@@ -2655,7 +2655,7 @@ return $default(_that.table,_that.family,_that.protocol,_that.scope,_that.type,_
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( int table,  RouteFamily family,  String protocol,  String scope,  String type,  List<String> flags,  String dst,  int? iflags,  String? gateway,  String? oif,  String? iif,  String? src,  String? prefsrc,  int? priority,  int? pref,  double? cstamp,  double? tstamp,  int? expires,  int? error,  int? used)?  $default,) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( int table,  RouteFamilyType family,  String protocol,  String scope,  String type,  List<String> flags,  String dst,  int? iflags,  String? gateway,  String? oif,  String? iif,  String? src,  String? prefsrc,  int? priority,  int? pref,  double? cstamp,  double? tstamp,  int? expires,  int? error,  int? used)?  $default,) {final _that = this;
 switch (_that) {
 case _Route() when $default != null:
 return $default(_that.table,_that.family,_that.protocol,_that.scope,_that.type,_that.flags,_that.dst,_that.iflags,_that.gateway,_that.oif,_that.iif,_that.src,_that.prefsrc,_that.priority,_that.pref,_that.cstamp,_that.tstamp,_that.expires,_that.error,_that.used);case _:
@@ -2674,7 +2674,7 @@ class _Route implements Route {
   factory _Route.fromJson(Map<String, dynamic> json) => _$RouteFromJson(json);
 
 @override final  int table;
-@override final  RouteFamily family;
+@override final  RouteFamilyType family;
 @override final  String protocol;
 @override final  String scope;
 @override final  String type;
@@ -2733,7 +2733,7 @@ abstract mixin class _$RouteCopyWith<$Res> implements $RouteCopyWith<$Res> {
   factory _$RouteCopyWith(_Route value, $Res Function(_Route) _then) = __$RouteCopyWithImpl;
 @override @useResult
 $Res call({
- int table, RouteFamily family, String protocol, String scope, String type, List<String> flags, String dst, int? iflags, String? gateway, String? oif, String? iif, String? src, String? prefsrc, int? priority, int? pref, double? cstamp, double? tstamp, int? expires, int? error, int? used
+ int table, RouteFamilyType family, String protocol, String scope, String type, List<String> flags, String dst, int? iflags, String? gateway, String? oif, String? iif, String? src, String? prefsrc, int? priority, int? pref, double? cstamp, double? tstamp, int? expires, int? error, int? used
 });
 
 
@@ -2754,7 +2754,7 @@ class __$RouteCopyWithImpl<$Res>
   return _then(_Route(
 table: null == table ? _self.table : table // ignore: cast_nullable_to_non_nullable
 as int,family: null == family ? _self.family : family // ignore: cast_nullable_to_non_nullable
-as RouteFamily,protocol: null == protocol ? _self.protocol : protocol // ignore: cast_nullable_to_non_nullable
+as RouteFamilyType,protocol: null == protocol ? _self.protocol : protocol // ignore: cast_nullable_to_non_nullable
 as String,scope: null == scope ? _self.scope : scope // ignore: cast_nullable_to_non_nullable
 as String,type: null == type ? _self.type : type // ignore: cast_nullable_to_non_nullable
 as String,flags: null == flags ? _self._flags : flags // ignore: cast_nullable_to_non_nullable

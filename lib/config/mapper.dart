@@ -27,6 +27,24 @@ extension StringToDnsBlockingStatusMapper on String {
   }
 }
 
+extension StringToListTypeMapper on String {
+  ListType toListType() {
+    return ListType.values.firstWhere(
+      (e) => e.name == this,
+      orElse: () => ListType.unknown,
+    );
+  }
+}
+
+extension StringToRouteFamilyTypeMapper on String {
+  RouteFamilyType toRouteFamilyType() {
+    return RouteFamilyType.values.firstWhere(
+      (e) => e.name == this,
+      orElse: () => RouteFamilyType.unknown,
+    );
+  }
+}
+
 extension DomainTypeToV5DomainTypeMapper on DomainType {
   V5DomainType toV5DomainType(DomainKind kind) {
     return switch ((this, kind)) {
@@ -62,7 +80,7 @@ extension V5DomainTypeToDomainTypeMapper on V5DomainType {
   }
 }
 
-DnsRecordType convertDnsRecordTypeV5(String? type) {
+DnsRecordType convertDnsRecordType(String? type) {
   switch (type) {
     case 'A':
       return DnsRecordType.a;
@@ -118,6 +136,41 @@ ReplyType convertReplyTypeV5(int? code) {
     case 12:
       return ReplyType.none;
     case 13:
+      return ReplyType.blob;
+    default:
+      return ReplyType.unknown;
+  }
+}
+
+ReplyType convertReplyTypeV6(String? type) {
+  switch (type) {
+    case 'NA':
+      return ReplyType.na;
+    case 'NODATA':
+      return ReplyType.nodata;
+    case 'NXDOMAIN':
+      return ReplyType.nxdomain;
+    case 'CNAME':
+      return ReplyType.cname;
+    case 'IP':
+      return ReplyType.ip;
+    case 'DOMAIN':
+      return ReplyType.domain;
+    case 'RRNAME':
+      return ReplyType.rrname;
+    case 'SERVFAIL':
+      return ReplyType.servfail;
+    case 'REFUSED':
+      return ReplyType.refused;
+    case 'NOTIMP':
+      return ReplyType.notimp;
+    case 'UPSTREAM_ERROR':
+      return ReplyType.upstreamError;
+    case 'DNSSEC':
+      return ReplyType.dnssec;
+    case 'NONE':
+      return ReplyType.none;
+    case 'BLOB':
       return ReplyType.blob;
     default:
       return ReplyType.unknown;

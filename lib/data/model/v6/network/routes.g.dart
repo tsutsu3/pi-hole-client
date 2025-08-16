@@ -20,7 +20,7 @@ Map<String, dynamic> _$RoutesToJson(_Routes instance) => <String, dynamic>{
 
 _RouteData _$RouteDataFromJson(Map<String, dynamic> json) => _RouteData(
   table: (json['table'] as num).toInt(),
-  family: $enumDecode(_$RouteFamilyEnumMap, json['family']),
+  family: json['family'] as String,
   protocol: json['protocol'] as String,
   scope: json['scope'] as String,
   type: json['type'] as String,
@@ -44,7 +44,7 @@ _RouteData _$RouteDataFromJson(Map<String, dynamic> json) => _RouteData(
 Map<String, dynamic> _$RouteDataToJson(_RouteData instance) =>
     <String, dynamic>{
       'table': instance.table,
-      'family': _$RouteFamilyEnumMap[instance.family]!,
+      'family': instance.family,
       'protocol': instance.protocol,
       'scope': instance.scope,
       'type': instance.type,
@@ -64,12 +64,3 @@ Map<String, dynamic> _$RouteDataToJson(_RouteData instance) =>
       'error': instance.error,
       'used': instance.used,
     };
-
-const _$RouteFamilyEnumMap = {
-  RouteFamily.inet: 'inet',
-  RouteFamily.inet6: 'inet6',
-  RouteFamily.link: 'link',
-  RouteFamily.mpls: 'mpls',
-  RouteFamily.bridge: 'bridge',
-  RouteFamily.unknown: 'unknown',
-};
