@@ -49,6 +49,11 @@ void main() {
       expectError(result, messageContains: kNotSupportedInV5Message);
     });
 
+    test('getInfoSensors should return NotSupportedException', () async {
+      final result = await repository.getInfoSensors();
+      expectError(result, messageContains: kNotSupportedInV5Message);
+    });
+
     test('getInfoSystem should return NotSupportedException', () async {
       final result = await repository.getInfoSystem();
       expectError(result, messageContains: kNotSupportedInV5Message);

@@ -21,7 +21,7 @@ class RealTimeStatusRepositoryV5 extends BaseV5TokenRepository
       action: () async {
         final token = await getToken();
         final response = await _client.getRealTimeStatus(token);
-        return Success(response.getOrThrow().toDomain());
+        return response.map((status) => status.toDomain());
       },
       onRetry: (_) => clearToken(),
     );

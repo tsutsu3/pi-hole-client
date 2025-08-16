@@ -43,6 +43,28 @@ void main() {
       );
     });
 
+    test(
+      'fetchStatsTopDomainsBlocked should return NotSupportedException',
+      () async {
+        final result = await repository.fetchStatsTopDomainsBlocked();
+        expectError(
+          result,
+          messageContains: kHandledByRealtimeRepositoryInV5Message,
+        );
+      },
+    );
+
+    test(
+      'fetchStatsTopDomainsAllowed should return NotSupportedException',
+      () async {
+        final result = await repository.fetchStatsTopDomainsAllowed();
+        expectError(
+          result,
+          messageContains: kHandledByRealtimeRepositoryInV5Message,
+        );
+      },
+    );
+
     test('fetchStatsUpstreams should return NotSupportedException', () async {
       final result = await repository.fetchStatsUpstreams();
       expectError(

@@ -37,7 +37,7 @@ void main() {
     });
 
     test('deleteAdlist should return NotSupportedException', () async {
-      final result = await repository.updateAdlist(address, ListType.allow);
+      final result = await repository.deleteAdlist(address);
       expectError(result, messageContains: kNotSupportedInV5Message);
     });
   });
