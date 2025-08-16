@@ -10,11 +10,11 @@ import 'package:pi_hole_client/data/services/api/pihole_v5_api_client.dart';
 import 'package:result_dart/result_dart.dart';
 
 import '../models/v5/domain.dart';
+import '../models/v5/versions.dart';
 
 class FakePiholeV5ApiClient implements PiholeV5ApiClient {
-  bool shouldAddFail = false;
-  bool shouldDeleteFail = false;
   bool shouldFail = false;
+  bool isDocker = false;
 
   @override
   void close() {}
@@ -58,7 +58,7 @@ class FakePiholeV5ApiClient implements PiholeV5ApiClient {
     required String domain,
     required V5DomainType domainType,
   }) async {
-    if (shouldAddFail) {
+    if (shouldFail) {
       return Failure(Exception('Failed to add domain'));
     }
     return const Success(DomainResponse(success: true));
@@ -75,13 +75,13 @@ class FakePiholeV5ApiClient implements PiholeV5ApiClient {
 
     switch (domainType) {
       case V5DomainType.white:
-        return Success(kSrvGetDomainsWhite);
+        return const Success(kSrvGetDomainsWhite);
       case V5DomainType.regex_white:
-        return Success(kSrvGetDomainsWhiteRegex);
+        return const Success(kSrvGetDomainsWhiteRegex);
       case V5DomainType.black:
-        return Success(kSrvGetDomainsBlack);
+        return const Success(kSrvGetDomainsBlack);
       case V5DomainType.regex_black:
-        return Success(kSrvGetDomainsBlackRegex);
+        return const Success(kSrvGetDomainsBlackRegex);
     }
   }
 
@@ -91,7 +91,7 @@ class FakePiholeV5ApiClient implements PiholeV5ApiClient {
     required String domain,
     required V5DomainType domainType,
   }) async {
-    if (shouldDeleteFail) {
+    if (shouldFail) {
       return Failure(Exception('Failed to delete domain'));
     }
     return const Success(DomainResponse(success: true));
@@ -99,6 +99,13 @@ class FakePiholeV5ApiClient implements PiholeV5ApiClient {
 
   @override
   Future<Result<Versions>> getVersions(String token) async {
-    throw UnimplementedError();
+    if (shouldFail) {
+      return Failure(Exception('Failed to fetch versions'));
+    }
+
+    if (isDocker) {
+      return const Success(kSrvVersionsWithDocker);
+    }
+    return const Success(kSrvVersions);
   }
 }
