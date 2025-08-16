@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'package:pi_hole_client/data/repositories/utils/exceptions.dart';
 import 'package:pi_hole_client/data/services/local/session_credential_service.dart';
 
 /// An abstract base class that manages retrieval and caching of a V5 token
@@ -36,7 +37,7 @@ abstract class BaseV5TokenRepository {
     _loadingToken = c.future;
     try {
       final r = await _creds.token;
-      if (r.isError()) throw Exception('Token not found');
+      if (r.isError()) throw TokenNotFoundException();
       _token = r.getOrThrow();
       c.complete(_token!);
       return _token!;
