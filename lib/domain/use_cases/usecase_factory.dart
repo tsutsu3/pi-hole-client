@@ -25,7 +25,7 @@ class UseCaseFactory {
       //     dnsRepository: dnsRepository,
       //   );
       default:
-        return RealtimeStatusUseCaseV5(repository: realTimeStatusRepository);
+        throw UnsupportedError('Unsupported API version: $apiVersion');
     }
   }
 }
