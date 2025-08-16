@@ -8,7 +8,7 @@ part 'adlist.g.dart';
 sealed class Adlist with _$Adlist {
   const factory Adlist({
     required String address,
-    required String type, //TODO: enum
+    required ListType type,
     required List<int> groups,
     required bool enabled,
     required int id,

@@ -287,7 +287,6 @@ as int?,
 /// @nodoc
 mixin _$Log {
 
-// TODO: nullable or not? (status, replyType, id, answeredBy)
  DateTime get dateTime; String get type; String get url; String get device; BigInt get replyTime; String? get status; String? get replyType; int? get id; String? get answeredBy;
 /// Create a copy of Log
 /// with the given fields replaced by the non-null parameter values.
@@ -487,7 +486,6 @@ class _Log implements Log {
   const _Log({required this.dateTime, required this.type, required this.url, required this.device, required this.replyTime, this.status, this.replyType, this.id, this.answeredBy});
   factory _Log.fromJson(Map<String, dynamic> json) => _$LogFromJson(json);
 
-// TODO: nullable or not? (status, replyType, id, answeredBy)
 @override final  DateTime dateTime;
 @override final  String type;
 @override final  String url;

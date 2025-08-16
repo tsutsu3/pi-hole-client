@@ -8,7 +8,7 @@ part of 'adlist.dart';
 
 _Adlist _$AdlistFromJson(Map<String, dynamic> json) => _Adlist(
   address: json['address'] as String,
-  type: json['type'] as String,
+  type: $enumDecode(_$ListTypeEnumMap, json['type']),
   groups: (json['groups'] as List<dynamic>)
       .map((e) => (e as num).toInt())
       .toList(),
@@ -26,7 +26,7 @@ _Adlist _$AdlistFromJson(Map<String, dynamic> json) => _Adlist(
 
 Map<String, dynamic> _$AdlistToJson(_Adlist instance) => <String, dynamic>{
   'address': instance.address,
-  'type': instance.type,
+  'type': _$ListTypeEnumMap[instance.type]!,
   'groups': instance.groups,
   'enabled': instance.enabled,
   'id': instance.id,
@@ -39,6 +39,8 @@ Map<String, dynamic> _$AdlistToJson(_Adlist instance) => <String, dynamic>{
   'status': _$ListsStatusEnumMap[instance.status]!,
   'comment': instance.comment,
 };
+
+const _$ListTypeEnumMap = {ListType.allow: 'allow', ListType.block: 'block'};
 
 const _$ListsStatusEnumMap = {
   ListsStatus.notDownloaded: 'notDownloaded',

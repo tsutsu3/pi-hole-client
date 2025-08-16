@@ -15,8 +15,7 @@ T _$identity<T>(T value) => value;
 /// @nodoc
 mixin _$Adlist {
 
- String get address; String get type;//TODO: enum
- List<int> get groups; bool get enabled; int get id; DateTime get dateAdded; DateTime get dateModified; DateTime get dateUpdated; int get number; int get invalidDomains; int get abpEntries; ListsStatus get status; String? get comment;
+ String get address; ListType get type; List<int> get groups; bool get enabled; int get id; DateTime get dateAdded; DateTime get dateModified; DateTime get dateUpdated; int get number; int get invalidDomains; int get abpEntries; ListsStatus get status; String? get comment;
 /// Create a copy of Adlist
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -49,7 +48,7 @@ abstract mixin class $AdlistCopyWith<$Res>  {
   factory $AdlistCopyWith(Adlist value, $Res Function(Adlist) _then) = _$AdlistCopyWithImpl;
 @useResult
 $Res call({
- String address, String type, List<int> groups, bool enabled, int id, DateTime dateAdded, DateTime dateModified, DateTime dateUpdated, int number, int invalidDomains, int abpEntries, ListsStatus status, String? comment
+ String address, ListType type, List<int> groups, bool enabled, int id, DateTime dateAdded, DateTime dateModified, DateTime dateUpdated, int number, int invalidDomains, int abpEntries, ListsStatus status, String? comment
 });
 
 
@@ -70,7 +69,7 @@ class _$AdlistCopyWithImpl<$Res>
   return _then(_self.copyWith(
 address: null == address ? _self.address : address // ignore: cast_nullable_to_non_nullable
 as String,type: null == type ? _self.type : type // ignore: cast_nullable_to_non_nullable
-as String,groups: null == groups ? _self.groups : groups // ignore: cast_nullable_to_non_nullable
+as ListType,groups: null == groups ? _self.groups : groups // ignore: cast_nullable_to_non_nullable
 as List<int>,enabled: null == enabled ? _self.enabled : enabled // ignore: cast_nullable_to_non_nullable
 as bool,id: null == id ? _self.id : id // ignore: cast_nullable_to_non_nullable
 as int,dateAdded: null == dateAdded ? _self.dateAdded : dateAdded // ignore: cast_nullable_to_non_nullable
@@ -163,7 +162,7 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( String address,  String type,  List<int> groups,  bool enabled,  int id,  DateTime dateAdded,  DateTime dateModified,  DateTime dateUpdated,  int number,  int invalidDomains,  int abpEntries,  ListsStatus status,  String? comment)?  $default,{required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( String address,  ListType type,  List<int> groups,  bool enabled,  int id,  DateTime dateAdded,  DateTime dateModified,  DateTime dateUpdated,  int number,  int invalidDomains,  int abpEntries,  ListsStatus status,  String? comment)?  $default,{required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _Adlist() when $default != null:
 return $default(_that.address,_that.type,_that.groups,_that.enabled,_that.id,_that.dateAdded,_that.dateModified,_that.dateUpdated,_that.number,_that.invalidDomains,_that.abpEntries,_that.status,_that.comment);case _:
@@ -184,7 +183,7 @@ return $default(_that.address,_that.type,_that.groups,_that.enabled,_that.id,_th
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( String address,  String type,  List<int> groups,  bool enabled,  int id,  DateTime dateAdded,  DateTime dateModified,  DateTime dateUpdated,  int number,  int invalidDomains,  int abpEntries,  ListsStatus status,  String? comment)  $default,) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( String address,  ListType type,  List<int> groups,  bool enabled,  int id,  DateTime dateAdded,  DateTime dateModified,  DateTime dateUpdated,  int number,  int invalidDomains,  int abpEntries,  ListsStatus status,  String? comment)  $default,) {final _that = this;
 switch (_that) {
 case _Adlist():
 return $default(_that.address,_that.type,_that.groups,_that.enabled,_that.id,_that.dateAdded,_that.dateModified,_that.dateUpdated,_that.number,_that.invalidDomains,_that.abpEntries,_that.status,_that.comment);}
@@ -201,7 +200,7 @@ return $default(_that.address,_that.type,_that.groups,_that.enabled,_that.id,_th
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( String address,  String type,  List<int> groups,  bool enabled,  int id,  DateTime dateAdded,  DateTime dateModified,  DateTime dateUpdated,  int number,  int invalidDomains,  int abpEntries,  ListsStatus status,  String? comment)?  $default,) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( String address,  ListType type,  List<int> groups,  bool enabled,  int id,  DateTime dateAdded,  DateTime dateModified,  DateTime dateUpdated,  int number,  int invalidDomains,  int abpEntries,  ListsStatus status,  String? comment)?  $default,) {final _that = this;
 switch (_that) {
 case _Adlist() when $default != null:
 return $default(_that.address,_that.type,_that.groups,_that.enabled,_that.id,_that.dateAdded,_that.dateModified,_that.dateUpdated,_that.number,_that.invalidDomains,_that.abpEntries,_that.status,_that.comment);case _:
@@ -220,10 +219,8 @@ class _Adlist implements Adlist {
   factory _Adlist.fromJson(Map<String, dynamic> json) => _$AdlistFromJson(json);
 
 @override final  String address;
-@override final  String type;
-//TODO: enum
+@override final  ListType type;
  final  List<int> _groups;
-//TODO: enum
 @override List<int> get groups {
   if (_groups is EqualUnmodifiableListView) return _groups;
   // ignore: implicit_dynamic_type
@@ -274,7 +271,7 @@ abstract mixin class _$AdlistCopyWith<$Res> implements $AdlistCopyWith<$Res> {
   factory _$AdlistCopyWith(_Adlist value, $Res Function(_Adlist) _then) = __$AdlistCopyWithImpl;
 @override @useResult
 $Res call({
- String address, String type, List<int> groups, bool enabled, int id, DateTime dateAdded, DateTime dateModified, DateTime dateUpdated, int number, int invalidDomains, int abpEntries, ListsStatus status, String? comment
+ String address, ListType type, List<int> groups, bool enabled, int id, DateTime dateAdded, DateTime dateModified, DateTime dateUpdated, int number, int invalidDomains, int abpEntries, ListsStatus status, String? comment
 });
 
 
@@ -295,7 +292,7 @@ class __$AdlistCopyWithImpl<$Res>
   return _then(_Adlist(
 address: null == address ? _self.address : address // ignore: cast_nullable_to_non_nullable
 as String,type: null == type ? _self.type : type // ignore: cast_nullable_to_non_nullable
-as String,groups: null == groups ? _self._groups : groups // ignore: cast_nullable_to_non_nullable
+as ListType,groups: null == groups ? _self._groups : groups // ignore: cast_nullable_to_non_nullable
 as List<int>,enabled: null == enabled ? _self.enabled : enabled // ignore: cast_nullable_to_non_nullable
 as bool,id: null == id ? _self.id : id // ignore: cast_nullable_to_non_nullable
 as int,dateAdded: null == dateAdded ? _self.dateAdded : dateAdded // ignore: cast_nullable_to_non_nullable
