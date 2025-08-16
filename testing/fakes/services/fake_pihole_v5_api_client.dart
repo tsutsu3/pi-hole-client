@@ -11,6 +11,7 @@ import 'package:result_dart/result_dart.dart';
 
 import '../models/v5/domain.dart';
 import '../models/v5/merics.dart';
+import '../models/v5/realtime_status.dart';
 import '../models/v5/versions.dart';
 
 class FakePiholeV5ApiClient implements PiholeV5ApiClient {
@@ -36,7 +37,10 @@ class FakePiholeV5ApiClient implements PiholeV5ApiClient {
 
   @override
   Future<Result<RealTimeStatus>> getRealTimeStatus(String token) async {
-    throw UnimplementedError();
+    if (shouldFail) {
+      return Failure(Exception('Failed to fetch real-time status'));
+    }
+    return const Success(kSrvGetRealTimeStatus);
   }
 
   @override

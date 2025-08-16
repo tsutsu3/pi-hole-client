@@ -2,7 +2,7 @@ import 'package:pi_hole_client/data/mapper/v5/metrics_mapper.dart';
 import 'package:pi_hole_client/data/model/v5/over_time_data.dart' as srv;
 import 'package:pi_hole_client/data/model/v5/queries.dart' as srv;
 import 'package:pi_hole_client/domain/model/metrics/queries.dart' as repo;
-import 'package:pi_hole_client/domain/model/overtime/overtime.dart' as repo;
+// import 'package:pi_hole_client/domain/model/overtime/overtime.dart' as repo;
 
 const kSrvGetOverTimeData = srv.OverTimeData(
   domainsOverTime: {
