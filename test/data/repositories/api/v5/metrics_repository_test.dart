@@ -83,6 +83,17 @@ void main() {
         );
       },
     );
+
+    test(
+      'fetchStatsTopClientsBlocked should return NotSupportedException',
+      () async {
+        final result = await repository.fetchStatsTopClientsBlocked();
+        expectError(
+          result,
+          messageContains: kHandledByRealtimeRepositoryInV5Message,
+        );
+      },
+    );
   });
 
   group('fetchQueries', () {
