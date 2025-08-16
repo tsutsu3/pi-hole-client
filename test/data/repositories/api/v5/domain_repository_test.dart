@@ -79,7 +79,7 @@ void main() async {
     });
 
     test('should return an error if add fails', () async {
-      client.shouldAddFail = true;
+      client.shouldFail = true;
       final result = await repository.addDomain(
         DomainType.allow,
         DomainKind.exact,
@@ -110,7 +110,7 @@ void main() async {
     });
 
     test('should return an error if delete fails', () async {
-      client.shouldDeleteFail = true;
+      client.shouldFail = true;
       final result = await repository.deleteDomain(
         DomainType.allow,
         DomainKind.exact,
