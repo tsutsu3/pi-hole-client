@@ -1,3 +1,4 @@
+import 'package:pi_hole_client/config/mapper.dart';
 import 'package:pi_hole_client/data/model/v5/over_time_data.dart' as s;
 import 'package:pi_hole_client/data/model/v5/queries.dart' as s;
 import 'package:pi_hole_client/domain/model/metrics/clients.dart' as d;
@@ -62,7 +63,7 @@ extension LogMapper on List<String> {
     final status = _at(4);
 
     final replyIndex = _tryParseInt(_at(6));
-    final replyType = _safeReplyTypeOrNull(replyIndex);
+    final replyType = convertReplyTypeV5(replyIndex);
 
     final replyTime = _tryParseBigInt(_at(7));
 
@@ -70,11 +71,11 @@ extension LogMapper on List<String> {
 
     return d.Log(
       dateTime: DateTime.fromMillisecondsSinceEpoch((tsSec ?? 0) * 1000),
-      type: type ?? '',
+      type: convertDnsRecordTypeV5(type),
       url: url ?? '',
       device: device ?? '',
       replyTime: replyTime ?? BigInt.zero,
-      status: status,
+      status: convertQueryStatusTypeV5(_tryParseInt(status)),
       replyType: replyType,
       answeredBy: answeredBy,
     );
@@ -88,27 +89,4 @@ extension LogMapper on List<String> {
   int? _tryParseInt(String? s) => (s == null) ? null : int.tryParse(s);
 
   BigInt? _tryParseBigInt(String? s) => (s == null) ? null : BigInt.tryParse(s);
-
-  /// Returns a reply type string for the given enum-like index, or null if invalid.
-  String? _safeReplyTypeOrNull(int? i) {
-    if (i == null || i < 0 || i >= _replyTypes.length) return null;
-    return _replyTypes[i];
-  }
-
-  static const _replyTypes = [
-    'N/A',
-    'NODATA',
-    'NXDOMAIN',
-    'CNAME',
-    'IP',
-    'DOMAIN',
-    'RRNAME',
-    'SERVFAIL',
-    'REFUSED',
-    'NOTIMP',
-    'upstream error',
-    'DNSSEC',
-    'NONE',
-    'BLOB',
-  ];
 }

@@ -1,3 +1,4 @@
+import 'package:pi_hole_client/config/enums.dart';
 import 'package:pi_hole_client/data/mapper/v5/metrics_mapper.dart';
 import 'package:pi_hole_client/data/model/v5/over_time_data.dart' as srv;
 import 'package:pi_hole_client/data/model/v5/queries.dart' as srv;
@@ -489,22 +490,22 @@ final kRepoFetchQueries = repo.Logs(
   logs: [
     repo.Log(
       dateTime: DateTime.fromMillisecondsSinceEpoch(1733479389 * 1000),
-      type: 'A',
+      type: DnsRecordType.a,
       url: 'google.com',
       device: '172.26.0.1',
       replyTime: BigInt.from(324),
-      status: '2',
-      replyType: 'IP',
+      status: QueryStatusType.forwarded,
+      replyType: ReplyType.ip,
       answeredBy: 'dns.google#53',
     ),
     repo.Log(
       dateTime: DateTime.fromMillisecondsSinceEpoch(1733479462 * 1000),
-      type: 'A',
+      type: DnsRecordType.a,
       url: 'google.co.jp',
       device: '172.26.0.1',
       replyTime: BigInt.from(742),
-      status: '2',
-      replyType: 'IP',
+      status: QueryStatusType.forwarded,
+      replyType: ReplyType.ip,
       answeredBy: 'dns.google#53',
     ),
   ],

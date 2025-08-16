@@ -287,7 +287,7 @@ as int?,
 /// @nodoc
 mixin _$Log {
 
- DateTime get dateTime; String get type; String get url; String get device; BigInt get replyTime; String? get status; String? get replyType; int? get id; String? get answeredBy;
+ DateTime get dateTime; DnsRecordType get type; String get url; String get device; BigInt get replyTime; QueryStatusType? get status; ReplyType? get replyType; int? get id; String? get answeredBy;
 /// Create a copy of Log
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -320,7 +320,7 @@ abstract mixin class $LogCopyWith<$Res>  {
   factory $LogCopyWith(Log value, $Res Function(Log) _then) = _$LogCopyWithImpl;
 @useResult
 $Res call({
- DateTime dateTime, String type, String url, String device, BigInt replyTime, String? status, String? replyType, int? id, String? answeredBy
+ DateTime dateTime, DnsRecordType type, String url, String device, BigInt replyTime, QueryStatusType? status, ReplyType? replyType, int? id, String? answeredBy
 });
 
 
@@ -341,12 +341,12 @@ class _$LogCopyWithImpl<$Res>
   return _then(_self.copyWith(
 dateTime: null == dateTime ? _self.dateTime : dateTime // ignore: cast_nullable_to_non_nullable
 as DateTime,type: null == type ? _self.type : type // ignore: cast_nullable_to_non_nullable
-as String,url: null == url ? _self.url : url // ignore: cast_nullable_to_non_nullable
+as DnsRecordType,url: null == url ? _self.url : url // ignore: cast_nullable_to_non_nullable
 as String,device: null == device ? _self.device : device // ignore: cast_nullable_to_non_nullable
 as String,replyTime: null == replyTime ? _self.replyTime : replyTime // ignore: cast_nullable_to_non_nullable
 as BigInt,status: freezed == status ? _self.status : status // ignore: cast_nullable_to_non_nullable
-as String?,replyType: freezed == replyType ? _self.replyType : replyType // ignore: cast_nullable_to_non_nullable
-as String?,id: freezed == id ? _self.id : id // ignore: cast_nullable_to_non_nullable
+as QueryStatusType?,replyType: freezed == replyType ? _self.replyType : replyType // ignore: cast_nullable_to_non_nullable
+as ReplyType?,id: freezed == id ? _self.id : id // ignore: cast_nullable_to_non_nullable
 as int?,answeredBy: freezed == answeredBy ? _self.answeredBy : answeredBy // ignore: cast_nullable_to_non_nullable
 as String?,
   ));
@@ -430,7 +430,7 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( DateTime dateTime,  String type,  String url,  String device,  BigInt replyTime,  String? status,  String? replyType,  int? id,  String? answeredBy)?  $default,{required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( DateTime dateTime,  DnsRecordType type,  String url,  String device,  BigInt replyTime,  QueryStatusType? status,  ReplyType? replyType,  int? id,  String? answeredBy)?  $default,{required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _Log() when $default != null:
 return $default(_that.dateTime,_that.type,_that.url,_that.device,_that.replyTime,_that.status,_that.replyType,_that.id,_that.answeredBy);case _:
@@ -451,7 +451,7 @@ return $default(_that.dateTime,_that.type,_that.url,_that.device,_that.replyTime
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( DateTime dateTime,  String type,  String url,  String device,  BigInt replyTime,  String? status,  String? replyType,  int? id,  String? answeredBy)  $default,) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( DateTime dateTime,  DnsRecordType type,  String url,  String device,  BigInt replyTime,  QueryStatusType? status,  ReplyType? replyType,  int? id,  String? answeredBy)  $default,) {final _that = this;
 switch (_that) {
 case _Log():
 return $default(_that.dateTime,_that.type,_that.url,_that.device,_that.replyTime,_that.status,_that.replyType,_that.id,_that.answeredBy);}
@@ -468,7 +468,7 @@ return $default(_that.dateTime,_that.type,_that.url,_that.device,_that.replyTime
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( DateTime dateTime,  String type,  String url,  String device,  BigInt replyTime,  String? status,  String? replyType,  int? id,  String? answeredBy)?  $default,) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( DateTime dateTime,  DnsRecordType type,  String url,  String device,  BigInt replyTime,  QueryStatusType? status,  ReplyType? replyType,  int? id,  String? answeredBy)?  $default,) {final _that = this;
 switch (_that) {
 case _Log() when $default != null:
 return $default(_that.dateTime,_that.type,_that.url,_that.device,_that.replyTime,_that.status,_that.replyType,_that.id,_that.answeredBy);case _:
@@ -487,12 +487,12 @@ class _Log implements Log {
   factory _Log.fromJson(Map<String, dynamic> json) => _$LogFromJson(json);
 
 @override final  DateTime dateTime;
-@override final  String type;
+@override final  DnsRecordType type;
 @override final  String url;
 @override final  String device;
 @override final  BigInt replyTime;
-@override final  String? status;
-@override final  String? replyType;
+@override final  QueryStatusType? status;
+@override final  ReplyType? replyType;
 @override final  int? id;
 @override final  String? answeredBy;
 
@@ -529,7 +529,7 @@ abstract mixin class _$LogCopyWith<$Res> implements $LogCopyWith<$Res> {
   factory _$LogCopyWith(_Log value, $Res Function(_Log) _then) = __$LogCopyWithImpl;
 @override @useResult
 $Res call({
- DateTime dateTime, String type, String url, String device, BigInt replyTime, String? status, String? replyType, int? id, String? answeredBy
+ DateTime dateTime, DnsRecordType type, String url, String device, BigInt replyTime, QueryStatusType? status, ReplyType? replyType, int? id, String? answeredBy
 });
 
 
@@ -550,12 +550,12 @@ class __$LogCopyWithImpl<$Res>
   return _then(_Log(
 dateTime: null == dateTime ? _self.dateTime : dateTime // ignore: cast_nullable_to_non_nullable
 as DateTime,type: null == type ? _self.type : type // ignore: cast_nullable_to_non_nullable
-as String,url: null == url ? _self.url : url // ignore: cast_nullable_to_non_nullable
+as DnsRecordType,url: null == url ? _self.url : url // ignore: cast_nullable_to_non_nullable
 as String,device: null == device ? _self.device : device // ignore: cast_nullable_to_non_nullable
 as String,replyTime: null == replyTime ? _self.replyTime : replyTime // ignore: cast_nullable_to_non_nullable
 as BigInt,status: freezed == status ? _self.status : status // ignore: cast_nullable_to_non_nullable
-as String?,replyType: freezed == replyType ? _self.replyType : replyType // ignore: cast_nullable_to_non_nullable
-as String?,id: freezed == id ? _self.id : id // ignore: cast_nullable_to_non_nullable
+as QueryStatusType?,replyType: freezed == replyType ? _self.replyType : replyType // ignore: cast_nullable_to_non_nullable
+as ReplyType?,id: freezed == id ? _self.id : id // ignore: cast_nullable_to_non_nullable
 as int?,answeredBy: freezed == answeredBy ? _self.answeredBy : answeredBy // ignore: cast_nullable_to_non_nullable
 as String?,
   ));

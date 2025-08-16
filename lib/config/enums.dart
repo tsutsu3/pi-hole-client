@@ -164,45 +164,65 @@ enum ReplyType {
   dnssec,
   none,
   blob,
+  unknown,
 }
 
+/// Query status type (unified for Pi-hole v5 and v6).
 enum QueryStatusType {
-  // v5
-  unknown(0),
+  /// v5=1, v6=GRAVITY
+  gravity,
 
-  // Allowed / OK
-  forwarded(200),
-  cache(201),
-  inProgress(202),
-  alreadyForwarded(203),
+  /// v5=2, v6=FORWARDED
+  forwarded,
 
-  // Blocked
-  gravity(300),
-  regex(301),
-  denylist(302),
-  gravityCname(310),
-  regexCname(311),
-  denylistCname(312),
+  /// v5=3, v6=CACHE
+  cache,
 
-  // External / Dropped
-  externalBlockedIp(400),
-  externalBlockedNull(401),
-  externalBlockedNxra(402),
-  externalBlockedEde15(403),
+  /// v5=4, v6=REGEX
+  regex,
 
-  // Retry
-  retried(500),
-  retriedDnssec(501),
+  /// v5=5, v6=DENYLIST
+  denylist,
 
-  // Others
-  dbBusy(600),
-  specialDomain(601),
-  cacheStale(602);
+  /// v5=9, v6=GRAVITY_CNAME
+  gravityCname,
 
-  const QueryStatusType(this.code);
+  /// v5=10, v6=REGEX_CNAME
+  regexCname,
 
-  final int code;
+  /// v5=11, v6=DENYLIST_CNAME
+  denylistCname,
 
-  static QueryStatusType fromCode(int code) => QueryStatusType.values
-      .firstWhere((e) => e.code == code, orElse: () => QueryStatusType.unknown);
+  /// v5=6, v6=EXTERNAL_BLOCKED_IP
+  externalBlockedIp,
+
+  /// v5=7, v6=EXTERNAL_BLOCKED_NULL
+  externalBlockedNull,
+
+  /// v5=8, v6=EXTERNAL_BLOCKED_NXRA
+  externalBlockedNxra,
+
+  /// v6=EXTERNAL_BLOCKED_EDE15
+  externalBlockedEde15,
+
+  /// v5=12, v6=RETRIED
+  retried,
+
+  /// v5=13, v6=RETRIED_DNSSEC
+  retriedDnssec,
+
+  /// v5=14, v6=IN_PROGRESS
+  inProgress,
+
+  /// v5=15, v6=DBBUSY
+  dbBusy,
+
+  /// v6=SPECIAL_DOMAIN
+  specialDomain,
+
+  /// v6=CACHE_STALE
+  cacheStale,
+
+  /// v6=UNKNOWN, or unmapped value
+  unknown,
 }
