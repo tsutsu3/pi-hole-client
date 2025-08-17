@@ -8,8 +8,8 @@ sealed class Domains with _$Domains {
   @JsonSerializable(explicitToJson: true)
   const factory Domains({
     required List<DomainData> domains,
-    required Processed? processed,
     required double took, // Time in seconds
+    Processed? processed,
   }) = _Domains;
 
   factory Domains.fromJson(Map<String, dynamic> json) =>
@@ -23,12 +23,12 @@ sealed class DomainData with _$DomainData {
     required String unicode, // Unicode domain
     required String type, // Domain type (allow | deny)
     required String kind, // Domain kind (exact | regex)
-    required String? comment, // Optional user-provided comment
     required List<int> groups, // Array of group IDs
     required bool enabled, // Status of domain (default true)
     required int id, // Database ID
     @JsonKey(name: 'date_added') required int dateAdded,
     @JsonKey(name: 'date_modified') required int dateModified,
+    String? comment, // Optional user-provided comment
   }) = _DomainData;
 
   factory DomainData.fromJson(Map<String, dynamic> json) =>
@@ -49,9 +49,7 @@ sealed class Processed with _$Processed {
 
 @freezed
 sealed class ProcessedItem with _$ProcessedItem {
-  const factory ProcessedItem({
-    required String item,
-  }) = _ProcessedItem;
+  const factory ProcessedItem({required String item}) = _ProcessedItem;
 
   factory ProcessedItem.fromJson(Map<String, dynamic> json) =>
       _$ProcessedItemFromJson(json);
@@ -59,10 +57,8 @@ sealed class ProcessedItem with _$ProcessedItem {
 
 @freezed
 sealed class ProcessedError with _$ProcessedError {
-  const factory ProcessedError({
-    required String item,
-    required String error,
-  }) = _ProcessedError;
+  const factory ProcessedError({required String item, required String error}) =
+      _ProcessedError;
 
   factory ProcessedError.fromJson(Map<String, dynamic> json) =>
       _$ProcessedErrorFromJson(json);

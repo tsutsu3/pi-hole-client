@@ -35,6 +35,7 @@ import '../../models/v6/auth.dart';
 import '../../models/v6/config.dart';
 import '../../models/v6/dhcp.dart';
 import '../../models/v6/dns.dart';
+import '../../models/v6/domain.dart';
 
 class FakePiholeV6ApiClient implements PiholeV6ApiClient {
   bool shouldFail = false;
@@ -178,7 +179,10 @@ class FakePiholeV6ApiClient implements PiholeV6ApiClient {
     DomainKind? kind,
     String? domain,
   }) async {
-    throw UnimplementedError();
+    if (shouldFail) {
+      return Failure(Exception('Forced getDomains failure'));
+    }
+    return const Success(kSrvGetDomains);
   }
 
   @override
@@ -191,7 +195,10 @@ class FakePiholeV6ApiClient implements PiholeV6ApiClient {
     List<int>? groups = const [0],
     bool? enabled = true,
   }) async {
-    throw UnimplementedError();
+    if (shouldFail) {
+      return Failure(Exception('Forced postDomains failure'));
+    }
+    return const Success(kSrvPostDomains);
   }
 
   @override
@@ -204,7 +211,10 @@ class FakePiholeV6ApiClient implements PiholeV6ApiClient {
     List<int>? groups = const [0],
     bool? enabled = true,
   }) async {
-    throw UnimplementedError();
+    if (shouldFail) {
+      return Failure(Exception('Forced putDomains failure'));
+    }
+    return const Success(kSrvPutDomains);
   }
 
   @override
