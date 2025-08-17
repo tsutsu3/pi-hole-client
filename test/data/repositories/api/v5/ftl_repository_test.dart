@@ -2,10 +2,10 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:pi_hole_client/data/repositories/api/v5/ftl_repository.dart';
 import 'package:pi_hole_client/data/repositories/utils/constants.dart';
 
-import '../../../../../testing/fakes/models/v5/versions.dart';
 import '../../../../../testing/fakes/services/fake_pihole_v5_api_client.dart';
 import '../../../../../testing/fakes/services/fake_session_credential_service.dart';
 import '../../../../../testing/helper/test_helper.dart';
+import '../../../../../testing/models/v5/versions.dart';
 
 void main() {
   group('NotSupportedException', () {

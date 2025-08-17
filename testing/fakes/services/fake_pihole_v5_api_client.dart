@@ -9,10 +9,10 @@ import 'package:pi_hole_client/data/model/v5/versions.dart';
 import 'package:pi_hole_client/data/services/api/pihole_v5_api_client.dart';
 import 'package:result_dart/result_dart.dart';
 
-import '../models/v5/domain.dart';
-import '../models/v5/merics.dart';
-import '../models/v5/realtime_status.dart';
-import '../models/v5/versions.dart';
+import '../../models/v5/domain.dart';
+import '../../models/v5/merics.dart';
+import '../../models/v5/realtime_status.dart';
+import '../../models/v5/versions.dart';
 
 class FakePiholeV5ApiClient implements PiholeV5ApiClient {
   bool shouldFail = false;

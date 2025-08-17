@@ -2,7 +2,7 @@ import 'package:pi_hole_client/data/repositories/api/v5/realtime_status_reposito
 import 'package:pi_hole_client/domain/model/realtime_status/realtime_status.dart';
 import 'package:result_dart/result_dart.dart';
 
-import '../../../models/v5/realtime_status.dart';
+import '../../../../models/v5/realtime_status.dart';
 import 'fake_base_v5_token_repository.dart';
 
 class FakeRealTimeStatusRepositoryV5 extends FakeBaseV5TokenRepository
