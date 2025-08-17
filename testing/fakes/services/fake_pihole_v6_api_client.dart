@@ -32,6 +32,7 @@ import 'package:result_dart/result_dart.dart';
 import '../../models/v6/actions.dart';
 import '../../models/v6/adlist.dart';
 import '../../models/v6/auth.dart';
+import '../../models/v6/config.dart';
 
 class FakePiholeV6ApiClient implements PiholeV6ApiClient {
   bool shouldFail = false;
@@ -397,7 +398,10 @@ class FakePiholeV6ApiClient implements PiholeV6ApiClient {
     String? element,
     bool? isDetailed,
   }) async {
-    throw UnimplementedError();
+    if (shouldFail) {
+      return Failure(Exception('Forced getConfigElement failure'));
+    }
+    return const Success(kSrvGetConfigElement);
   }
 
   @override
@@ -405,7 +409,10 @@ class FakePiholeV6ApiClient implements PiholeV6ApiClient {
     String sid, {
     required ConfigData body,
   }) async {
-    throw UnimplementedError();
+    if (shouldFail) {
+      return Failure(Exception('Forced patchConfig failure'));
+    }
+    return Success(kSrvPatchConfig);
   }
 
   // ==========================================================================
