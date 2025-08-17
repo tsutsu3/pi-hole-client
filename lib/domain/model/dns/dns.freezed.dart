@@ -15,7 +15,7 @@ T _$identity<T>(T value) => value;
 /// @nodoc
 mixin _$Blocking {
 
- DnsBlockingStatus get status; int? get timer; double get took;
+ DnsBlockingStatus get status; int? get timer;
 /// Create a copy of Blocking
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -28,16 +28,16 @@ $BlockingCopyWith<Blocking> get copyWith => _$BlockingCopyWithImpl<Blocking>(thi
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is Blocking&&(identical(other.status, status) || other.status == status)&&(identical(other.timer, timer) || other.timer == timer)&&(identical(other.took, took) || other.took == took));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is Blocking&&(identical(other.status, status) || other.status == status)&&(identical(other.timer, timer) || other.timer == timer));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,status,timer,took);
+int get hashCode => Object.hash(runtimeType,status,timer);
 
 @override
 String toString() {
-  return 'Blocking(status: $status, timer: $timer, took: $took)';
+  return 'Blocking(status: $status, timer: $timer)';
 }
 
 
@@ -48,7 +48,7 @@ abstract mixin class $BlockingCopyWith<$Res>  {
   factory $BlockingCopyWith(Blocking value, $Res Function(Blocking) _then) = _$BlockingCopyWithImpl;
 @useResult
 $Res call({
- DnsBlockingStatus status, int? timer, double took
+ DnsBlockingStatus status, int? timer
 });
 
 
@@ -65,12 +65,11 @@ class _$BlockingCopyWithImpl<$Res>
 
 /// Create a copy of Blocking
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? status = null,Object? timer = freezed,Object? took = null,}) {
+@pragma('vm:prefer-inline') @override $Res call({Object? status = null,Object? timer = freezed,}) {
   return _then(_self.copyWith(
 status: null == status ? _self.status : status // ignore: cast_nullable_to_non_nullable
 as DnsBlockingStatus,timer: freezed == timer ? _self.timer : timer // ignore: cast_nullable_to_non_nullable
-as int?,took: null == took ? _self.took : took // ignore: cast_nullable_to_non_nullable
-as double,
+as int?,
   ));
 }
 
@@ -152,10 +151,10 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( DnsBlockingStatus status,  int? timer,  double took)?  $default,{required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( DnsBlockingStatus status,  int? timer)?  $default,{required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _Blocking() when $default != null:
-return $default(_that.status,_that.timer,_that.took);case _:
+return $default(_that.status,_that.timer);case _:
   return orElse();
 
 }
@@ -173,10 +172,10 @@ return $default(_that.status,_that.timer,_that.took);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( DnsBlockingStatus status,  int? timer,  double took)  $default,) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( DnsBlockingStatus status,  int? timer)  $default,) {final _that = this;
 switch (_that) {
 case _Blocking():
-return $default(_that.status,_that.timer,_that.took);}
+return $default(_that.status,_that.timer);}
 }
 /// A variant of `when` that fallback to returning `null`
 ///
@@ -190,10 +189,10 @@ return $default(_that.status,_that.timer,_that.took);}
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( DnsBlockingStatus status,  int? timer,  double took)?  $default,) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( DnsBlockingStatus status,  int? timer)?  $default,) {final _that = this;
 switch (_that) {
 case _Blocking() when $default != null:
-return $default(_that.status,_that.timer,_that.took);case _:
+return $default(_that.status,_that.timer);case _:
   return null;
 
 }
@@ -205,12 +204,11 @@ return $default(_that.status,_that.timer,_that.took);case _:
 @JsonSerializable()
 
 class _Blocking implements Blocking {
-   _Blocking({required this.status, required this.timer, required this.took});
+   _Blocking({required this.status, required this.timer});
   factory _Blocking.fromJson(Map<String, dynamic> json) => _$BlockingFromJson(json);
 
 @override final  DnsBlockingStatus status;
 @override final  int? timer;
-@override final  double took;
 
 /// Create a copy of Blocking
 /// with the given fields replaced by the non-null parameter values.
@@ -225,16 +223,16 @@ Map<String, dynamic> toJson() {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _Blocking&&(identical(other.status, status) || other.status == status)&&(identical(other.timer, timer) || other.timer == timer)&&(identical(other.took, took) || other.took == took));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _Blocking&&(identical(other.status, status) || other.status == status)&&(identical(other.timer, timer) || other.timer == timer));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,status,timer,took);
+int get hashCode => Object.hash(runtimeType,status,timer);
 
 @override
 String toString() {
-  return 'Blocking(status: $status, timer: $timer, took: $took)';
+  return 'Blocking(status: $status, timer: $timer)';
 }
 
 
@@ -245,7 +243,7 @@ abstract mixin class _$BlockingCopyWith<$Res> implements $BlockingCopyWith<$Res>
   factory _$BlockingCopyWith(_Blocking value, $Res Function(_Blocking) _then) = __$BlockingCopyWithImpl;
 @override @useResult
 $Res call({
- DnsBlockingStatus status, int? timer, double took
+ DnsBlockingStatus status, int? timer
 });
 
 
@@ -262,12 +260,11 @@ class __$BlockingCopyWithImpl<$Res>
 
 /// Create a copy of Blocking
 /// with the given fields replaced by the non-null parameter values.
-@override @pragma('vm:prefer-inline') $Res call({Object? status = null,Object? timer = freezed,Object? took = null,}) {
+@override @pragma('vm:prefer-inline') $Res call({Object? status = null,Object? timer = freezed,}) {
   return _then(_Blocking(
 status: null == status ? _self.status : status // ignore: cast_nullable_to_non_nullable
 as DnsBlockingStatus,timer: freezed == timer ? _self.timer : timer // ignore: cast_nullable_to_non_nullable
-as int?,took: null == took ? _self.took : took // ignore: cast_nullable_to_non_nullable
-as double,
+as int?,
   ));
 }
 

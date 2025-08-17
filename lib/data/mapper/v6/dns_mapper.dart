@@ -4,11 +4,7 @@ import 'package:pi_hole_client/domain/model/dns/dns.dart' as d;
 
 extension BlockingMapper on s.Blocking {
   d.Blocking toDomain() {
-    return d.Blocking(
-      status: convertBlockingStatus(blocking),
-      timer: timer,
-      took: took,
-    );
+    return d.Blocking(status: convertBlockingStatus(blocking), timer: timer);
   }
 }
 

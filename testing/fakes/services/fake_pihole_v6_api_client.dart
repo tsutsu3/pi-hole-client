@@ -34,9 +34,11 @@ import '../../models/v6/adlist.dart';
 import '../../models/v6/auth.dart';
 import '../../models/v6/config.dart';
 import '../../models/v6/dhcp.dart';
+import '../../models/v6/dns.dart';
 
 class FakePiholeV6ApiClient implements PiholeV6ApiClient {
   bool shouldFail = false;
+  bool shouldPostDnsBlockingReturnEnabled = false;
 
   @override
   void close() {}
@@ -136,7 +138,10 @@ class FakePiholeV6ApiClient implements PiholeV6ApiClient {
   // ==========================================================================
   @override
   Future<Result<Blocking>> getDnsBlocking(String sid) async {
-    throw UnimplementedError();
+    if (shouldFail) {
+      return Failure(Exception('Forced getDnsBlocking failure'));
+    }
+    return Success(kSrvGetDnsBlocking);
   }
 
   @override
@@ -145,7 +150,14 @@ class FakePiholeV6ApiClient implements PiholeV6ApiClient {
     bool? enabled = true,
     int? timer,
   }) async {
-    throw UnimplementedError();
+    if (shouldFail) {
+      return Failure(Exception('Forced postDnsBlocking failure'));
+    }
+
+    if (shouldPostDnsBlockingReturnEnabled) {
+      return Success(kSrvPostDnsBlockingEnabled);
+    }
+    return Success(kSrvPostDnsBlockingDisabled);
   }
 
   // ==========================================================================
