@@ -31,6 +31,7 @@ import 'package:result_dart/result_dart.dart';
 
 import '../../models/v6/actions.dart';
 import '../../models/v6/adlist.dart';
+import '../../models/v6/auth.dart';
 
 class FakePiholeV6ApiClient implements PiholeV6ApiClient {
   bool shouldFail = false;
@@ -46,7 +47,7 @@ class FakePiholeV6ApiClient implements PiholeV6ApiClient {
     if (shouldFail) {
       return Failure(Exception('Forced postAuth failure'));
     }
-    throw UnimplementedError();
+    return Success(kSrvPostAuth);
   }
 
   @override
@@ -59,7 +60,10 @@ class FakePiholeV6ApiClient implements PiholeV6ApiClient {
 
   @override
   Future<Result<AuthSessions>> getAuthSessions(String sid) async {
-    throw UnimplementedError();
+    if (shouldFail) {
+      return Failure(Exception('Forced getAuthSessions failure'));
+    }
+    return const Success(kSrvGetAuthSessions);
   }
 
   @override
