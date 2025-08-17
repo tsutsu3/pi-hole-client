@@ -30,6 +30,7 @@ import 'package:pi_hole_client/data/services/api/pihole_v6_api_client.dart';
 import 'package:result_dart/result_dart.dart';
 
 import '../../models/v6/actions.dart';
+import '../../models/v6/adlist.dart';
 
 class FakePiholeV6ApiClient implements PiholeV6ApiClient {
   bool shouldFail = false;
@@ -210,7 +211,10 @@ class FakePiholeV6ApiClient implements PiholeV6ApiClient {
     String? adlist,
     ListType? type,
   }) async {
-    throw UnimplementedError();
+    if (shouldFail) {
+      return Failure(Exception('Forced getLists failure'));
+    }
+    return const Success(kSrvGetLists);
   }
 
   @override
@@ -222,7 +226,10 @@ class FakePiholeV6ApiClient implements PiholeV6ApiClient {
     String? comment = '',
     bool? enabled = true,
   }) async {
-    throw UnimplementedError();
+    if (shouldFail) {
+      return Failure(Exception('Forced postLists failure'));
+    }
+    return Success(kSrvPostLists);
   }
 
   @override
@@ -234,7 +241,10 @@ class FakePiholeV6ApiClient implements PiholeV6ApiClient {
     String? comment = '',
     bool? enabled = true,
   }) async {
-    throw UnimplementedError();
+    if (shouldFail) {
+      return Failure(Exception('Forced putLists failure'));
+    }
+    return Success(kSrvPutLists);
   }
 
   @override

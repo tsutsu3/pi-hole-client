@@ -1,5 +1,14 @@
 import 'package:pi_hole_client/config/enums.dart';
 
+extension IntToLListsStatusMapper on int {
+  ListsStatus toListsStatus() {
+    return ListsStatus.values.firstWhere(
+      (e) => e.index == this,
+      orElse: () => ListsStatus.unknown,
+    );
+  }
+}
+
 extension StringToDomainTypeMapper on String {
   DomainType toDomainType() {
     return DomainType.values.firstWhere(
