@@ -139,16 +139,26 @@ enum DnsBlockingStatus {
 }
 
 enum DnsRecordType {
+  none,
   a,
   aaaa,
-  cname,
+  any,
+  srv,
+  soa,
   ptr,
   txt,
-  srv,
-  https,
+  naprt,
   mx,
+  ds,
+  rrsig,
+  dnskey,
   ns,
-  soa,
+  svcb,
+  https,
+  na,
+  cname,
+  other,
+  empty,
   unknown,
 }
 

@@ -1,3 +1,4 @@
+import 'package:pi_hole_client/config/mapper.dart';
 import 'package:pi_hole_client/data/model/v6/ftl/client.dart' as s;
 import 'package:pi_hole_client/data/model/v6/ftl/ftl.dart' as s;
 import 'package:pi_hole_client/data/model/v6/ftl/host.dart' as s;
@@ -183,25 +184,41 @@ extension DnsCacheMapper on s.DnsCache {
 
       if (size > 0) {
         percentages.add(
-          d.DnsTypePercentage(name: name, percentage: (valid / size) * 100),
+          d.DnsTypePercentage(
+            type: convertDnsRecordType(name),
+            isStale: false,
+            percentage: (valid / size) * 100,
+          ),
         );
         percentages.add(
           d.DnsTypePercentage(
-            name: '$name (stale)',
+            type: convertDnsRecordType(name),
+            isStale: true,
             percentage: (stale / size) * 100,
           ),
         );
       } else {
-        percentages.add(d.DnsTypePercentage(name: name, percentage: 0.0));
         percentages.add(
-          d.DnsTypePercentage(name: '$name (stale)', percentage: 0.0),
+          d.DnsTypePercentage(
+            type: convertDnsRecordType(name),
+            isStale: false,
+            percentage: 0.0,
+          ),
+        );
+        percentages.add(
+          d.DnsTypePercentage(
+            type: convertDnsRecordType(name),
+            isStale: true,
+            percentage: 0.0,
+          ),
         );
       }
     }
     final total = percentages.fold(0.0, (sum, item) => sum + item.percentage);
     percentages.add(
       d.DnsTypePercentage(
-        name: 'empty',
+        type: convertDnsRecordType('empty'),
+        isStale: false,
         percentage: (100.0 - total).clamp(0.0, 100.0),
       ),
     );

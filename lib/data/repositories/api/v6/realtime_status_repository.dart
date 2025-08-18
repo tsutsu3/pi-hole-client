@@ -29,7 +29,7 @@ import 'package:result_dart/result_dart.dart';
 /// - [MetricsRepository.fetchStatsTopClientsBlocked]
 /// - [MetricsRepository.fetchStatsTopClientsAllowed]
 /// - [DnsRepository.fetchBlockingStatus]
-/// - [FtlRepository.getInfoFtl]
+/// - [FtlRepository.fetchInfoFtl]
 ///
 /// This implementation intentionally returns a [NotSupportedException].
 /// Use cases should handle v6 compatibility by orchestrating the above API calls.

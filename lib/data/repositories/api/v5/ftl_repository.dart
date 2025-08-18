@@ -26,28 +26,28 @@ class FtlRepositoryV5 extends BaseV5TokenRepository implements FtlRepository {
   final PiholeV5ApiClient _client;
 
   @override
-  Future<Result<InfoClient>> getInfoClient() {
+  Future<Result<InfoClient>> fetchInfoClient() {
     return Future.value(
       Failure(NotSupportedException(kNotSupportedInV5Message)),
     );
   }
 
   @override
-  Future<Result<InfoFtl>> getInfoFtl() {
+  Future<Result<InfoFtl>> fetchInfoFtl() {
     return Future.value(
       Failure(NotSupportedException(kNotSupportedInV5Message)),
     );
   }
 
   @override
-  Future<Result<InfoHost>> getInfoHost() {
+  Future<Result<InfoHost>> fetchInfoHost() {
     return Future.value(
       Failure(NotSupportedException(kNotSupportedInV5Message)),
     );
   }
 
   @override
-  Future<Result<List<InfoMessage>>> getInfoMessages() {
+  Future<Result<List<InfoMessage>>> fetchInfoMessages() {
     return Future.value(
       Failure(NotSupportedException(kNotSupportedInV5Message)),
     );
@@ -61,28 +61,28 @@ class FtlRepositoryV5 extends BaseV5TokenRepository implements FtlRepository {
   }
 
   @override
-  Future<Result<InfoDnsMetrics>> getInfoMetrics() {
+  Future<Result<InfoDnsMetrics>> fetchInfoMetrics() {
     return Future.value(
       Failure(NotSupportedException(kNotSupportedInV5Message)),
     );
   }
 
   @override
-  Future<Result<InfoSensor>> getInfoSensors() {
+  Future<Result<InfoSensor>> fetchInfoSensors() {
     return Future.value(
       Failure(NotSupportedException(kNotSupportedInV5Message)),
     );
   }
 
   @override
-  Future<Result<InfoSystem>> getInfoSystem() {
+  Future<Result<InfoSystem>> fetchInfoSystem() {
     return Future.value(
       Failure(NotSupportedException(kNotSupportedInV5Message)),
     );
   }
 
   @override
-  Future<Result<InfoVersion>> getInfoVersion() {
+  Future<Result<InfoVersion>> fetchInfoVersion() {
     return runWithResultRetry(
       action: () async {
         final token = await getToken();

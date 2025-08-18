@@ -36,10 +36,14 @@ import '../../models/v6/config.dart';
 import '../../models/v6/dhcp.dart';
 import '../../models/v6/dns.dart';
 import '../../models/v6/domain.dart';
+import '../../models/v6/ftl.dart';
+import '../../models/v6/group.dart';
 
 class FakePiholeV6ApiClient implements PiholeV6ApiClient {
   bool shouldFail = false;
   bool shouldPostDnsBlockingReturnEnabled = false;
+  bool shouldGetInfoVersionWithDocker = false;
+  bool shouldGetInfoSystemOld = false;
 
   @override
   void close() {}
@@ -166,7 +170,10 @@ class FakePiholeV6ApiClient implements PiholeV6ApiClient {
   // ==========================================================================
   @override
   Future<Result<Groups>> getGroups(String sid) async {
-    throw UnimplementedError();
+    if (shouldFail) {
+      return Failure(Exception('Forced getGroups failure'));
+    }
+    return const Success(kSrvGetGroups);
   }
 
   // ==========================================================================
@@ -292,22 +299,34 @@ class FakePiholeV6ApiClient implements PiholeV6ApiClient {
   // ==========================================================================
   @override
   Future<Result<InfoClient>> getInfoClient(String sid) async {
-    throw UnimplementedError();
+    if (shouldFail) {
+      return Failure(Exception('Forced getInfoClient failure'));
+    }
+    return const Success(kSrvGetInfoClient);
   }
 
   @override
   Future<Result<InfoFtl>> getInfoFtl(String sid) async {
-    throw UnimplementedError();
+    if (shouldFail) {
+      return Failure(Exception('Forced getInfoFtl failure'));
+    }
+    return const Success(kSrvGetInfoFtl);
   }
 
   @override
   Future<Result<InfoHost>> getInfoHost(String sid) async {
-    throw UnimplementedError();
+    if (shouldFail) {
+      return Failure(Exception('Forced getInfoHost failure'));
+    }
+    return const Success(kSrvGetInfoHost);
   }
 
   @override
   Future<Result<InfoMessages>> getInfoMessages(String sid) async {
-    throw UnimplementedError();
+    if (shouldFail) {
+      return Failure(Exception('Forced getInfoMessages failure'));
+    }
+    return const Success(kSrvGetInfoMessages);
   }
 
   @override
@@ -323,22 +342,40 @@ class FakePiholeV6ApiClient implements PiholeV6ApiClient {
 
   @override
   Future<Result<InfoMetrics>> getInfoMetrics(String sid) async {
-    throw UnimplementedError();
+    if (shouldFail) {
+      return Failure(Exception('Forced getInfoMetrics failure'));
+    }
+    return const Success(kSrvGetInfoMetrics);
   }
 
   @override
   Future<Result<InfoSensors>> getInfoSensors(String sid) async {
-    throw UnimplementedError();
+    if (shouldFail) {
+      return Failure(Exception('Forced getInfoSensors failure'));
+    }
+    return const Success(kSrvGetInfoSensors);
   }
 
   @override
   Future<Result<InfoSystem>> getInfoSystem(String sid) async {
-    throw UnimplementedError();
+    if (shouldFail) {
+      return Failure(Exception('Forced getInfoSystem failure'));
+    }
+    if (shouldGetInfoSystemOld) {
+      return const Success(kSrvGetInfoSystemOld);
+    }
+    return const Success(kSrvGetInfoSystem);
   }
 
   @override
   Future<Result<InfoVersion>> getInfoVersion(String sid) async {
-    throw UnimplementedError();
+    if (shouldFail) {
+      return Failure(Exception('Forced getInfoVersion failure'));
+    }
+    if (shouldGetInfoVersionWithDocker) {
+      return const Success(kSrvGetInfoVersionWithDocker);
+    }
+    return const Success(kSrvGetInfoVersion);
   }
 
   // ==========================================================================

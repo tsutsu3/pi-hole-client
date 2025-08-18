@@ -10,23 +10,23 @@ import 'package:pi_hole_client/domain/model/ftl/version.dart';
 import 'package:result_dart/result_dart.dart';
 
 abstract interface class FtlRepository {
-  Future<Result<InfoClient>> getInfoClient();
+  Future<Result<InfoClient>> fetchInfoClient();
 
-  Future<Result<InfoFtl>> getInfoFtl();
+  Future<Result<InfoFtl>> fetchInfoFtl();
 
-  Future<Result<InfoHost>> getInfoHost();
+  Future<Result<InfoHost>> fetchInfoHost();
 
-  Future<Result<List<InfoMessage>>> getInfoMessages();
+  Future<Result<List<InfoMessage>>> fetchInfoMessages();
 
   Future<Result<Unit>> deleteInfoMessage(int messageId);
 
-  Future<Result<InfoDnsMetrics>> getInfoMetrics();
+  Future<Result<InfoDnsMetrics>> fetchInfoMetrics();
 
-  Future<Result<InfoSensor>> getInfoSensors();
+  Future<Result<InfoSensor>> fetchInfoSensors();
 
-  Future<Result<InfoSystem>> getInfoSystem();
+  Future<Result<InfoSystem>> fetchInfoSystem();
 
-  Future<Result<InfoVersion>> getInfoVersion();
+  Future<Result<InfoVersion>> fetchInfoVersion();
 
   Future<Result<InfoPiholeServer>> fetchAllServerInfo();
 }

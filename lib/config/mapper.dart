@@ -90,27 +90,45 @@ extension V5DomainTypeToDomainTypeMapper on V5DomainType {
 }
 
 DnsRecordType convertDnsRecordType(String? type) {
-  switch (type) {
+  switch (type?.toUpperCase()) {
     case 'A':
       return DnsRecordType.a;
     case 'AAAA':
       return DnsRecordType.aaaa;
-    case 'CNAME':
-      return DnsRecordType.cname;
+    case 'ANY':
+      return DnsRecordType.any;
+    case 'SRV':
+      return DnsRecordType.srv;
+    case 'SOA':
+      return DnsRecordType.soa;
     case 'PTR':
       return DnsRecordType.ptr;
     case 'TXT':
       return DnsRecordType.txt;
-    case 'SRV':
-      return DnsRecordType.srv;
-    case 'HTTPS':
-      return DnsRecordType.https;
+    case 'NAPTR':
+      return DnsRecordType.naprt;
     case 'MX':
       return DnsRecordType.mx;
+    case 'DS':
+      return DnsRecordType.ds;
+    case 'RRSIG':
+      return DnsRecordType.rrsig;
+    case 'DNSKEY':
+      return DnsRecordType.dnskey;
     case 'NS':
       return DnsRecordType.ns;
-    case 'SOA':
-      return DnsRecordType.soa;
+    case 'SVCB':
+      return DnsRecordType.svcb;
+    case 'HTTPS':
+      return DnsRecordType.https;
+    case 'NA':
+      return DnsRecordType.na;
+    case 'CNAME':
+      return DnsRecordType.cname;
+    case 'OTHER':
+      return DnsRecordType.other;
+    case 'EMPTY':
+      return DnsRecordType.empty;
     default:
       return DnsRecordType.unknown;
   }

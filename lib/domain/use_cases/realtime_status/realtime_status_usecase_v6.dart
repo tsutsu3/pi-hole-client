@@ -30,7 +30,7 @@ class RealtimeStatusUseCaseV6 implements RealtimeStatusUseCase {
     try {
       final response = await Future.wait([
         _metricsRepository.fetchStatsSummary(),
-        _ftlRepository.getInfoFtl(),
+        _ftlRepository.fetchInfoFtl(),
         _dnsRepository.fetchBlockingStatus(),
         _metricsRepository.fetchStatsUpstreams(),
         _metricsRepository.fetchStatsTopDomainsAllowed(),
