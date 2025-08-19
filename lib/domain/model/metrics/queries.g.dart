@@ -55,7 +55,7 @@ const _$DnsRecordTypeEnumMap = {
   DnsRecordType.soa: 'soa',
   DnsRecordType.ptr: 'ptr',
   DnsRecordType.txt: 'txt',
-  DnsRecordType.naprt: 'naprt',
+  DnsRecordType.naptr: 'naptr',
   DnsRecordType.mx: 'mx',
   DnsRecordType.ds: 'ds',
   DnsRecordType.rrsig: 'rrsig',

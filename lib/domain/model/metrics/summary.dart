@@ -1,4 +1,5 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
+import 'package:pi_hole_client/config/enums.dart';
 
 part 'summary.freezed.dart';
 part 'summary.g.dart';
@@ -39,10 +40,11 @@ sealed class Summary with _$Summary {
       _$SummaryFromJson(json);
 }
 
+// ToDO: add int count
 @freezed
 sealed class QueryTypeStat with _$QueryTypeStat {
   const factory QueryTypeStat({
-    required String type,
+    required DnsRecordType type,
     required double percentage,
   }) = _QueryTypeStat;
 

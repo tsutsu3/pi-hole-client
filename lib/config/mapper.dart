@@ -106,7 +106,7 @@ DnsRecordType convertDnsRecordType(String? type) {
     case 'TXT':
       return DnsRecordType.txt;
     case 'NAPTR':
-      return DnsRecordType.naprt;
+      return DnsRecordType.naptr;
     case 'MX':
       return DnsRecordType.mx;
     case 'DS':

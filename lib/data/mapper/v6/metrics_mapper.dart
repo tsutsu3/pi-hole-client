@@ -96,13 +96,13 @@ extension StatsSummaryMapper on ss.StatsSummary {
   }
 }
 
-extension TypesMapper on ss.Types {
+extension TypesMapper on ss.StatsTypes {
   List<d.QueryTypeStat> toDomain() {
     if (toJson().values.isEmpty) return [];
     final total = toJson().values.reduce((a, b) => a + b);
     return toJson().entries.map((e) {
       return d.QueryTypeStat(
-        type: e.key,
+        type: convertDnsRecordType(e.key),
         percentage: total > 0 ? e.value / total * 100 : 0.0,
       );
     }).toList();
@@ -132,13 +132,13 @@ extension StatsUpstreamsMapper on ss.StatsUpstreams {
   }
 }
 
-extension DomainMapper on ss.Domain {
+extension DomainMapper on ss.StatsDomain {
   d.QueryStat toDomain() {
     return d.QueryStat(domain: domain, count: count);
   }
 }
 
-extension ClientMapper on ss.Client {
+extension ClientMapper on ss.StatsClient {
   d.SourceStat toDomain() {
     return d.SourceStat(
       source: name.isNotEmpty ? '$name|$ip' : ip,
@@ -149,14 +149,36 @@ extension ClientMapper on ss.Client {
 
 extension HistoryClientsMapper on sh.HistoryClients {
   d.Clients toDomain() {
-    return d.Clients(clients: clients.toDomain(), overTime: history.toDomain());
+    final orderedClients = clients.entries.map((e) {
+      final ip = e.key;
+      final name = e.value.name ?? '';
+      return d.Client(name: name, ip: ip);
+    }).toList();
+
+    final overTime = <d.ClientOverTimeEntry>[];
+    for (final entry in history) {
+      final data = entry.data;
+
+      final values = orderedClients.map((c) => data[c.ip] ?? 0).toList();
+
+      overTime.add(
+        d.ClientOverTimeEntry(
+          time: DateTime.fromMillisecondsSinceEpoch(
+            entry.timestamp.toInt() * 1000,
+          ),
+          values: values,
+        ),
+      );
+    }
+
+    return d.Clients(clients: orderedClients, overTime: overTime);
   }
 }
 
 extension MapStringClientMapper on Map<String, sh.Client> {
   List<d.Client> toDomain() {
     return entries.map((entry) {
-      return d.Client(name: entry.value.name ?? '', ip: entry.key);
+      return d.Client(name: entry.value.name, ip: entry.key);
     }).toList();
   }
 }

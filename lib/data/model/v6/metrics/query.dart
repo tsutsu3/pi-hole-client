@@ -27,7 +27,7 @@ sealed class Query with _$Query {
     required double time,
     required String type,
     required String domain,
-    required Client client,
+    required QueryClient client,
     required Reply reply,
     required Ede ede,
     String? cname,
@@ -41,31 +41,23 @@ sealed class Query with _$Query {
 }
 
 @freezed
-sealed class Client with _$Client {
-  const factory Client({
-    required String ip,
-    String? name,
-  }) = _Client;
+sealed class QueryClient with _$QueryClient {
+  const factory QueryClient({required String ip, String? name}) = _QueryClient;
 
-  factory Client.fromJson(Map<String, dynamic> json) => _$ClientFromJson(json);
+  factory QueryClient.fromJson(Map<String, dynamic> json) =>
+      _$QueryClientFromJson(json);
 }
 
 @freezed
 sealed class Reply with _$Reply {
-  const factory Reply({
-    required double time,
-    String? type,
-  }) = _Reply;
+  const factory Reply({required double time, String? type}) = _Reply;
 
   factory Reply.fromJson(Map<String, dynamic> json) => _$ReplyFromJson(json);
 }
 
 @freezed
 sealed class Ede with _$Ede {
-  const factory Ede({
-    required int code,
-    String? text,
-  }) = _Ede;
+  const factory Ede({required int code, String? text}) = _Ede;
 
   factory Ede.fromJson(Map<String, dynamic> json) => _$EdeFromJson(json);
 }

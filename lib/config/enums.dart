@@ -147,7 +147,7 @@ enum DnsRecordType {
   soa,
   ptr,
   txt,
-  naprt,
+  naptr,
   mx,
   ds,
   rrsig,

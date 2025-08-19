@@ -38,6 +38,7 @@ import '../../models/v6/dns.dart';
 import '../../models/v6/domain.dart';
 import '../../models/v6/ftl.dart';
 import '../../models/v6/group.dart';
+import '../../models/v6/metrics.dart';
 
 class FakePiholeV6ApiClient implements PiholeV6ApiClient {
   bool shouldFail = false;
@@ -88,7 +89,10 @@ class FakePiholeV6ApiClient implements PiholeV6ApiClient {
   // ==========================================================================
   @override
   Future<Result<History>> getHistory(String sid) async {
-    throw UnimplementedError();
+    if (shouldFail) {
+      return Failure(Exception('Forced getHistory failure'));
+    }
+    return const Success(kSrvGetHistory);
   }
 
   @override
@@ -96,7 +100,10 @@ class FakePiholeV6ApiClient implements PiholeV6ApiClient {
     String sid, {
     int? count = 10,
   }) async {
-    throw UnimplementedError();
+    if (shouldFail) {
+      return Failure(Exception('Forced getHistoryClient failure'));
+    }
+    return const Success(kSrvGetHistoryClient);
   }
 
   @override
@@ -107,17 +114,26 @@ class FakePiholeV6ApiClient implements PiholeV6ApiClient {
     int? length = 100,
     int? cursor,
   }) async {
-    throw UnimplementedError();
+    if (shouldFail) {
+      return Failure(Exception('Forced getQueries failure'));
+    }
+    return const Success(kSrvGetQueries);
   }
 
   @override
   Future<Result<StatsSummary>> getStatsSummary(String sid) async {
-    throw UnimplementedError();
+    if (shouldFail) {
+      return Failure(Exception('Forced getStatsSummary failure'));
+    }
+    return const Success(kSrvGetStatsSummary);
   }
 
   @override
   Future<Result<StatsUpstreams>> getStatsUpstreams(String sid) async {
-    throw UnimplementedError();
+    if (shouldFail) {
+      return Failure(Exception('Forced getStatsUpstreams failure'));
+    }
+    return const Success(kSrvGetStatsUpstreams);
   }
 
   @override
@@ -126,7 +142,13 @@ class FakePiholeV6ApiClient implements PiholeV6ApiClient {
     bool? blocked = false,
     int? count = 10,
   }) async {
-    throw UnimplementedError();
+    if (shouldFail) {
+      return Failure(Exception('Forced getStatsTopDomains failure'));
+    }
+    if (blocked == true) {
+      return const Success(kSrvGetStatsTopDomainsBlocked);
+    }
+    return const Success(kSrvGetStatsTopDomains);
   }
 
   @override
@@ -135,7 +157,13 @@ class FakePiholeV6ApiClient implements PiholeV6ApiClient {
     bool? blocked = false,
     int? count = 10,
   }) async {
-    throw UnimplementedError();
+    if (shouldFail) {
+      return Failure(Exception('Forced getStatsTopClients failure'));
+    }
+    if (blocked == true) {
+      return const Success(kSrvGetStatsTopClientsBlocked);
+    }
+    return const Success(kSrvGetStatsTopClients);
   }
 
   // ==========================================================================

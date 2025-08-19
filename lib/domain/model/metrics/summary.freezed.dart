@@ -353,7 +353,7 @@ as List<QueryTypeStat>,
 /// @nodoc
 mixin _$QueryTypeStat {
 
- String get type; double get percentage;
+ DnsRecordType get type; double get percentage;
 /// Create a copy of QueryTypeStat
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -386,7 +386,7 @@ abstract mixin class $QueryTypeStatCopyWith<$Res>  {
   factory $QueryTypeStatCopyWith(QueryTypeStat value, $Res Function(QueryTypeStat) _then) = _$QueryTypeStatCopyWithImpl;
 @useResult
 $Res call({
- String type, double percentage
+ DnsRecordType type, double percentage
 });
 
 
@@ -406,7 +406,7 @@ class _$QueryTypeStatCopyWithImpl<$Res>
 @pragma('vm:prefer-inline') @override $Res call({Object? type = null,Object? percentage = null,}) {
   return _then(_self.copyWith(
 type: null == type ? _self.type : type // ignore: cast_nullable_to_non_nullable
-as String,percentage: null == percentage ? _self.percentage : percentage // ignore: cast_nullable_to_non_nullable
+as DnsRecordType,percentage: null == percentage ? _self.percentage : percentage // ignore: cast_nullable_to_non_nullable
 as double,
   ));
 }
@@ -489,7 +489,7 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( String type,  double percentage)?  $default,{required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( DnsRecordType type,  double percentage)?  $default,{required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _QueryTypeStat() when $default != null:
 return $default(_that.type,_that.percentage);case _:
@@ -510,7 +510,7 @@ return $default(_that.type,_that.percentage);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( String type,  double percentage)  $default,) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( DnsRecordType type,  double percentage)  $default,) {final _that = this;
 switch (_that) {
 case _QueryTypeStat():
 return $default(_that.type,_that.percentage);}
@@ -527,7 +527,7 @@ return $default(_that.type,_that.percentage);}
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( String type,  double percentage)?  $default,) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( DnsRecordType type,  double percentage)?  $default,) {final _that = this;
 switch (_that) {
 case _QueryTypeStat() when $default != null:
 return $default(_that.type,_that.percentage);case _:
@@ -545,7 +545,7 @@ class _QueryTypeStat implements QueryTypeStat {
   const _QueryTypeStat({required this.type, required this.percentage});
   factory _QueryTypeStat.fromJson(Map<String, dynamic> json) => _$QueryTypeStatFromJson(json);
 
-@override final  String type;
+@override final  DnsRecordType type;
 @override final  double percentage;
 
 /// Create a copy of QueryTypeStat
@@ -581,7 +581,7 @@ abstract mixin class _$QueryTypeStatCopyWith<$Res> implements $QueryTypeStatCopy
   factory _$QueryTypeStatCopyWith(_QueryTypeStat value, $Res Function(_QueryTypeStat) _then) = __$QueryTypeStatCopyWithImpl;
 @override @useResult
 $Res call({
- String type, double percentage
+ DnsRecordType type, double percentage
 });
 
 
@@ -601,7 +601,7 @@ class __$QueryTypeStatCopyWithImpl<$Res>
 @override @pragma('vm:prefer-inline') $Res call({Object? type = null,Object? percentage = null,}) {
   return _then(_QueryTypeStat(
 type: null == type ? _self.type : type // ignore: cast_nullable_to_non_nullable
-as String,percentage: null == percentage ? _self.percentage : percentage // ignore: cast_nullable_to_non_nullable
+as DnsRecordType,percentage: null == percentage ? _self.percentage : percentage // ignore: cast_nullable_to_non_nullable
 as double,
   ));
 }

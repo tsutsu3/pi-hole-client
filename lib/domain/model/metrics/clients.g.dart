@@ -21,11 +21,11 @@ Map<String, dynamic> _$ClientsToJson(_Clients instance) => <String, dynamic>{
 };
 
 _Client _$ClientFromJson(Map<String, dynamic> json) =>
-    _Client(name: json['name'] as String, ip: json['ip'] as String);
+    _Client(ip: json['ip'] as String, name: json['name'] as String?);
 
 Map<String, dynamic> _$ClientToJson(_Client instance) => <String, dynamic>{
-  'name': instance.name,
   'ip': instance.ip,
+  'name': instance.name,
 };
 
 _ClientOverTimeEntry _$ClientOverTimeEntryFromJson(Map<String, dynamic> json) =>
