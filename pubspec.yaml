@@ -96,7 +96,7 @@ dev_dependencies:
     sdk: flutter
   flutter_launcher_icons: ^0.14.3
   flutter_native_splash: ^2.4.6
-  build_runner: ^2.6.0
+  build_runner: ^2.7.0
 
   # The "flutter_lints" package below contains a set of recommended lints to
   # encourage good coding practices. The lint set provided by the package is
