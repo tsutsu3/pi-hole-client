@@ -1,3 +1,4 @@
+import 'package:flutter/widgets.dart';
 import 'package:pi_hole_client/config/enums.dart';
 
 extension IntToLListsStatusMapper on int {
@@ -92,8 +93,10 @@ extension V5DomainTypeToDomainTypeMapper on V5DomainType {
 DnsRecordType convertDnsRecordType(String? type) {
   switch (type?.toUpperCase()) {
     case 'A':
+    case 'A (IPV4)':
       return DnsRecordType.a;
     case 'AAAA':
+    case 'AAAA (IPV6)':
       return DnsRecordType.aaaa;
     case 'ANY':
       return DnsRecordType.any;
