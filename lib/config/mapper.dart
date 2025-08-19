@@ -1,4 +1,3 @@
-import 'package:flutter/widgets.dart';
 import 'package:pi_hole_client/config/enums.dart';
 
 extension IntToLListsStatusMapper on int {

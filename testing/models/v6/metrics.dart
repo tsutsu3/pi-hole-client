@@ -257,7 +257,7 @@ final kRepoFetchHistoryClient = repo.Clients(
   clients: const [
     repo.Client(name: 'localhost', ip: '127.0.0.1'),
     repo.Client(name: 'ip6-localnet', ip: '::1'),
-    repo.Client(ip: '192.168.1.1'),
+    repo.Client(name: '', ip: '192.168.1.1'), // TODO: name null, not empty
     repo.Client(name: 'pi.hole', ip: '::'),
     repo.Client(name: 'other clients', ip: '0.0.0.0'),
   ],
@@ -268,7 +268,7 @@ final kRepoFetchHistoryClient = repo.Clients(
     ),
     repo.ClientOverTimeEntry(
       time: DateTime.fromMillisecondsSinceEpoch(1511820500 * 1000),
-      values: [10, 44, 56, 52],
+      values: [10, 44, 56, 0, 52],
     ),
   ],
 );
