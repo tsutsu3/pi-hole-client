@@ -8,6 +8,7 @@ import 'package:mock_api_server/handlers/history_handler.dart';
 import 'package:mock_api_server/handlers/info_handler.dart';
 import 'package:mock_api_server/handlers/lists_handler.dart';
 import 'package:mock_api_server/handlers/network_handler.dart';
+import 'package:mock_api_server/handlers/pihole_v5_handler.dart';
 import 'package:mock_api_server/handlers/queries_handler.dart';
 import 'package:mock_api_server/handlers/stats_handler.dart';
 import 'package:shelf/shelf.dart';
@@ -46,6 +47,10 @@ void main(List<String> args) async {
 
   final router = Router();
 
+  // v5 api
+  router.mount('/admin', PiholeV5Handler().router.call);
+
+  // v6 api
   router.mount('/api/auth', AuthHandler().router.call);
   router.mount('/api/action', ActionHandler().router.call);
   router.mount('/api/dns', DnsHandler().router.call);
