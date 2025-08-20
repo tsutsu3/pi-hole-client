@@ -6,11 +6,8 @@ part 'dns.g.dart';
 
 @freezed
 sealed class Blocking with _$Blocking {
-  factory Blocking({
-    required DnsBlockingStatus status,
-    required int? timer,
-    required double took,
-  }) = _Blocking;
+  factory Blocking({required DnsBlockingStatus status, required int? timer}) =
+      _Blocking;
 
   factory Blocking.fromJson(Map<String, dynamic> json) =>
       _$BlockingFromJson(json);

@@ -15,6 +15,8 @@ T _$identity<T>(T value) => value;
 /// @nodoc
 mixin _$Gateway {
 
+// NOTE: According to Pi-hole v6 API specification, the key is "gateway".
+// Even though it represents a list, it must not be renamed to "gateways".
  List<GatewayData> get gateway; double get took; List<InterfaceData>? get interfaces; List<RouteData>? get routes;
 /// Create a copy of Gateway
 /// with the given fields replaced by the non-null parameter values.
@@ -209,7 +211,11 @@ class _Gateway implements Gateway {
   const _Gateway({required final  List<GatewayData> gateway, required this.took, final  List<InterfaceData>? interfaces, final  List<RouteData>? routes}): _gateway = gateway,_interfaces = interfaces,_routes = routes;
   factory _Gateway.fromJson(Map<String, dynamic> json) => _$GatewayFromJson(json);
 
+// NOTE: According to Pi-hole v6 API specification, the key is "gateway".
+// Even though it represents a list, it must not be renamed to "gateways".
  final  List<GatewayData> _gateway;
+// NOTE: According to Pi-hole v6 API specification, the key is "gateway".
+// Even though it represents a list, it must not be renamed to "gateways".
 @override List<GatewayData> get gateway {
   if (_gateway is EqualUnmodifiableListView) return _gateway;
   // ignore: implicit_dynamic_type

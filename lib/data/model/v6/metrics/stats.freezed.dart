@@ -15,7 +15,7 @@ T _$identity<T>(T value) => value;
 /// @nodoc
 mixin _$StatsSummary {
 
- Queries get queries; Clients get clients; Gravity get gravity; double get took;
+ StatsQueries get queries; StatsClients get clients; StatsGravity get gravity; double get took;
 /// Create a copy of StatsSummary
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -48,11 +48,11 @@ abstract mixin class $StatsSummaryCopyWith<$Res>  {
   factory $StatsSummaryCopyWith(StatsSummary value, $Res Function(StatsSummary) _then) = _$StatsSummaryCopyWithImpl;
 @useResult
 $Res call({
- Queries queries, Clients clients, Gravity gravity, double took
+ StatsQueries queries, StatsClients clients, StatsGravity gravity, double took
 });
 
 
-$QueriesCopyWith<$Res> get queries;$ClientsCopyWith<$Res> get clients;$GravityCopyWith<$Res> get gravity;
+$StatsQueriesCopyWith<$Res> get queries;$StatsClientsCopyWith<$Res> get clients;$StatsGravityCopyWith<$Res> get gravity;
 
 }
 /// @nodoc
@@ -68,9 +68,9 @@ class _$StatsSummaryCopyWithImpl<$Res>
 @pragma('vm:prefer-inline') @override $Res call({Object? queries = null,Object? clients = null,Object? gravity = null,Object? took = null,}) {
   return _then(_self.copyWith(
 queries: null == queries ? _self.queries : queries // ignore: cast_nullable_to_non_nullable
-as Queries,clients: null == clients ? _self.clients : clients // ignore: cast_nullable_to_non_nullable
-as Clients,gravity: null == gravity ? _self.gravity : gravity // ignore: cast_nullable_to_non_nullable
-as Gravity,took: null == took ? _self.took : took // ignore: cast_nullable_to_non_nullable
+as StatsQueries,clients: null == clients ? _self.clients : clients // ignore: cast_nullable_to_non_nullable
+as StatsClients,gravity: null == gravity ? _self.gravity : gravity // ignore: cast_nullable_to_non_nullable
+as StatsGravity,took: null == took ? _self.took : took // ignore: cast_nullable_to_non_nullable
 as double,
   ));
 }
@@ -78,27 +78,27 @@ as double,
 /// with the given fields replaced by the non-null parameter values.
 @override
 @pragma('vm:prefer-inline')
-$QueriesCopyWith<$Res> get queries {
+$StatsQueriesCopyWith<$Res> get queries {
   
-  return $QueriesCopyWith<$Res>(_self.queries, (value) {
+  return $StatsQueriesCopyWith<$Res>(_self.queries, (value) {
     return _then(_self.copyWith(queries: value));
   });
 }/// Create a copy of StatsSummary
 /// with the given fields replaced by the non-null parameter values.
 @override
 @pragma('vm:prefer-inline')
-$ClientsCopyWith<$Res> get clients {
+$StatsClientsCopyWith<$Res> get clients {
   
-  return $ClientsCopyWith<$Res>(_self.clients, (value) {
+  return $StatsClientsCopyWith<$Res>(_self.clients, (value) {
     return _then(_self.copyWith(clients: value));
   });
 }/// Create a copy of StatsSummary
 /// with the given fields replaced by the non-null parameter values.
 @override
 @pragma('vm:prefer-inline')
-$GravityCopyWith<$Res> get gravity {
+$StatsGravityCopyWith<$Res> get gravity {
   
-  return $GravityCopyWith<$Res>(_self.gravity, (value) {
+  return $StatsGravityCopyWith<$Res>(_self.gravity, (value) {
     return _then(_self.copyWith(gravity: value));
   });
 }
@@ -180,7 +180,7 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( Queries queries,  Clients clients,  Gravity gravity,  double took)?  $default,{required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( StatsQueries queries,  StatsClients clients,  StatsGravity gravity,  double took)?  $default,{required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _StatsSummary() when $default != null:
 return $default(_that.queries,_that.clients,_that.gravity,_that.took);case _:
@@ -201,7 +201,7 @@ return $default(_that.queries,_that.clients,_that.gravity,_that.took);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( Queries queries,  Clients clients,  Gravity gravity,  double took)  $default,) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( StatsQueries queries,  StatsClients clients,  StatsGravity gravity,  double took)  $default,) {final _that = this;
 switch (_that) {
 case _StatsSummary():
 return $default(_that.queries,_that.clients,_that.gravity,_that.took);}
@@ -218,7 +218,7 @@ return $default(_that.queries,_that.clients,_that.gravity,_that.took);}
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( Queries queries,  Clients clients,  Gravity gravity,  double took)?  $default,) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( StatsQueries queries,  StatsClients clients,  StatsGravity gravity,  double took)?  $default,) {final _that = this;
 switch (_that) {
 case _StatsSummary() when $default != null:
 return $default(_that.queries,_that.clients,_that.gravity,_that.took);case _:
@@ -236,9 +236,9 @@ class _StatsSummary implements StatsSummary {
   const _StatsSummary({required this.queries, required this.clients, required this.gravity, required this.took});
   factory _StatsSummary.fromJson(Map<String, dynamic> json) => _$StatsSummaryFromJson(json);
 
-@override final  Queries queries;
-@override final  Clients clients;
-@override final  Gravity gravity;
+@override final  StatsQueries queries;
+@override final  StatsClients clients;
+@override final  StatsGravity gravity;
 @override final  double took;
 
 /// Create a copy of StatsSummary
@@ -274,11 +274,11 @@ abstract mixin class _$StatsSummaryCopyWith<$Res> implements $StatsSummaryCopyWi
   factory _$StatsSummaryCopyWith(_StatsSummary value, $Res Function(_StatsSummary) _then) = __$StatsSummaryCopyWithImpl;
 @override @useResult
 $Res call({
- Queries queries, Clients clients, Gravity gravity, double took
+ StatsQueries queries, StatsClients clients, StatsGravity gravity, double took
 });
 
 
-@override $QueriesCopyWith<$Res> get queries;@override $ClientsCopyWith<$Res> get clients;@override $GravityCopyWith<$Res> get gravity;
+@override $StatsQueriesCopyWith<$Res> get queries;@override $StatsClientsCopyWith<$Res> get clients;@override $StatsGravityCopyWith<$Res> get gravity;
 
 }
 /// @nodoc
@@ -294,9 +294,9 @@ class __$StatsSummaryCopyWithImpl<$Res>
 @override @pragma('vm:prefer-inline') $Res call({Object? queries = null,Object? clients = null,Object? gravity = null,Object? took = null,}) {
   return _then(_StatsSummary(
 queries: null == queries ? _self.queries : queries // ignore: cast_nullable_to_non_nullable
-as Queries,clients: null == clients ? _self.clients : clients // ignore: cast_nullable_to_non_nullable
-as Clients,gravity: null == gravity ? _self.gravity : gravity // ignore: cast_nullable_to_non_nullable
-as Gravity,took: null == took ? _self.took : took // ignore: cast_nullable_to_non_nullable
+as StatsQueries,clients: null == clients ? _self.clients : clients // ignore: cast_nullable_to_non_nullable
+as StatsClients,gravity: null == gravity ? _self.gravity : gravity // ignore: cast_nullable_to_non_nullable
+as StatsGravity,took: null == took ? _self.took : took // ignore: cast_nullable_to_non_nullable
 as double,
   ));
 }
@@ -305,27 +305,27 @@ as double,
 /// with the given fields replaced by the non-null parameter values.
 @override
 @pragma('vm:prefer-inline')
-$QueriesCopyWith<$Res> get queries {
+$StatsQueriesCopyWith<$Res> get queries {
   
-  return $QueriesCopyWith<$Res>(_self.queries, (value) {
+  return $StatsQueriesCopyWith<$Res>(_self.queries, (value) {
     return _then(_self.copyWith(queries: value));
   });
 }/// Create a copy of StatsSummary
 /// with the given fields replaced by the non-null parameter values.
 @override
 @pragma('vm:prefer-inline')
-$ClientsCopyWith<$Res> get clients {
+$StatsClientsCopyWith<$Res> get clients {
   
-  return $ClientsCopyWith<$Res>(_self.clients, (value) {
+  return $StatsClientsCopyWith<$Res>(_self.clients, (value) {
     return _then(_self.copyWith(clients: value));
   });
 }/// Create a copy of StatsSummary
 /// with the given fields replaced by the non-null parameter values.
 @override
 @pragma('vm:prefer-inline')
-$GravityCopyWith<$Res> get gravity {
+$StatsGravityCopyWith<$Res> get gravity {
   
-  return $GravityCopyWith<$Res>(_self.gravity, (value) {
+  return $StatsGravityCopyWith<$Res>(_self.gravity, (value) {
     return _then(_self.copyWith(gravity: value));
   });
 }
@@ -333,22 +333,22 @@ $GravityCopyWith<$Res> get gravity {
 
 
 /// @nodoc
-mixin _$Queries {
+mixin _$StatsQueries {
 
- int get total; int get blocked;@JsonKey(name: 'percent_blocked') double get percentBlocked;@JsonKey(name: 'unique_domains') int get uniqueDomains; int get forwarded; int get cached; Types get types; Status get status; Replies get replies;
-/// Create a copy of Queries
+ int get total; int get blocked;@JsonKey(name: 'percent_blocked') double get percentBlocked;@JsonKey(name: 'unique_domains') int get uniqueDomains; int get forwarded; int get cached; StatsTypes get types; StatsStatus get status; StatsReplies get replies;
+/// Create a copy of StatsQueries
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
 @pragma('vm:prefer-inline')
-$QueriesCopyWith<Queries> get copyWith => _$QueriesCopyWithImpl<Queries>(this as Queries, _$identity);
+$StatsQueriesCopyWith<StatsQueries> get copyWith => _$StatsQueriesCopyWithImpl<StatsQueries>(this as StatsQueries, _$identity);
 
-  /// Serializes this Queries to a JSON map.
+  /// Serializes this StatsQueries to a JSON map.
   Map<String, dynamic> toJson();
 
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is Queries&&(identical(other.total, total) || other.total == total)&&(identical(other.blocked, blocked) || other.blocked == blocked)&&(identical(other.percentBlocked, percentBlocked) || other.percentBlocked == percentBlocked)&&(identical(other.uniqueDomains, uniqueDomains) || other.uniqueDomains == uniqueDomains)&&(identical(other.forwarded, forwarded) || other.forwarded == forwarded)&&(identical(other.cached, cached) || other.cached == cached)&&(identical(other.types, types) || other.types == types)&&(identical(other.status, status) || other.status == status)&&(identical(other.replies, replies) || other.replies == replies));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is StatsQueries&&(identical(other.total, total) || other.total == total)&&(identical(other.blocked, blocked) || other.blocked == blocked)&&(identical(other.percentBlocked, percentBlocked) || other.percentBlocked == percentBlocked)&&(identical(other.uniqueDomains, uniqueDomains) || other.uniqueDomains == uniqueDomains)&&(identical(other.forwarded, forwarded) || other.forwarded == forwarded)&&(identical(other.cached, cached) || other.cached == cached)&&(identical(other.types, types) || other.types == types)&&(identical(other.status, status) || other.status == status)&&(identical(other.replies, replies) || other.replies == replies));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -357,33 +357,33 @@ int get hashCode => Object.hash(runtimeType,total,blocked,percentBlocked,uniqueD
 
 @override
 String toString() {
-  return 'Queries(total: $total, blocked: $blocked, percentBlocked: $percentBlocked, uniqueDomains: $uniqueDomains, forwarded: $forwarded, cached: $cached, types: $types, status: $status, replies: $replies)';
+  return 'StatsQueries(total: $total, blocked: $blocked, percentBlocked: $percentBlocked, uniqueDomains: $uniqueDomains, forwarded: $forwarded, cached: $cached, types: $types, status: $status, replies: $replies)';
 }
 
 
 }
 
 /// @nodoc
-abstract mixin class $QueriesCopyWith<$Res>  {
-  factory $QueriesCopyWith(Queries value, $Res Function(Queries) _then) = _$QueriesCopyWithImpl;
+abstract mixin class $StatsQueriesCopyWith<$Res>  {
+  factory $StatsQueriesCopyWith(StatsQueries value, $Res Function(StatsQueries) _then) = _$StatsQueriesCopyWithImpl;
 @useResult
 $Res call({
- int total, int blocked,@JsonKey(name: 'percent_blocked') double percentBlocked,@JsonKey(name: 'unique_domains') int uniqueDomains, int forwarded, int cached, Types types, Status status, Replies replies
+ int total, int blocked,@JsonKey(name: 'percent_blocked') double percentBlocked,@JsonKey(name: 'unique_domains') int uniqueDomains, int forwarded, int cached, StatsTypes types, StatsStatus status, StatsReplies replies
 });
 
 
-$TypesCopyWith<$Res> get types;$StatusCopyWith<$Res> get status;$RepliesCopyWith<$Res> get replies;
+$StatsTypesCopyWith<$Res> get types;$StatsStatusCopyWith<$Res> get status;$StatsRepliesCopyWith<$Res> get replies;
 
 }
 /// @nodoc
-class _$QueriesCopyWithImpl<$Res>
-    implements $QueriesCopyWith<$Res> {
-  _$QueriesCopyWithImpl(this._self, this._then);
+class _$StatsQueriesCopyWithImpl<$Res>
+    implements $StatsQueriesCopyWith<$Res> {
+  _$StatsQueriesCopyWithImpl(this._self, this._then);
 
-  final Queries _self;
-  final $Res Function(Queries) _then;
+  final StatsQueries _self;
+  final $Res Function(StatsQueries) _then;
 
-/// Create a copy of Queries
+/// Create a copy of StatsQueries
 /// with the given fields replaced by the non-null parameter values.
 @pragma('vm:prefer-inline') @override $Res call({Object? total = null,Object? blocked = null,Object? percentBlocked = null,Object? uniqueDomains = null,Object? forwarded = null,Object? cached = null,Object? types = null,Object? status = null,Object? replies = null,}) {
   return _then(_self.copyWith(
@@ -394,44 +394,44 @@ as double,uniqueDomains: null == uniqueDomains ? _self.uniqueDomains : uniqueDom
 as int,forwarded: null == forwarded ? _self.forwarded : forwarded // ignore: cast_nullable_to_non_nullable
 as int,cached: null == cached ? _self.cached : cached // ignore: cast_nullable_to_non_nullable
 as int,types: null == types ? _self.types : types // ignore: cast_nullable_to_non_nullable
-as Types,status: null == status ? _self.status : status // ignore: cast_nullable_to_non_nullable
-as Status,replies: null == replies ? _self.replies : replies // ignore: cast_nullable_to_non_nullable
-as Replies,
+as StatsTypes,status: null == status ? _self.status : status // ignore: cast_nullable_to_non_nullable
+as StatsStatus,replies: null == replies ? _self.replies : replies // ignore: cast_nullable_to_non_nullable
+as StatsReplies,
   ));
 }
-/// Create a copy of Queries
+/// Create a copy of StatsQueries
 /// with the given fields replaced by the non-null parameter values.
 @override
 @pragma('vm:prefer-inline')
-$TypesCopyWith<$Res> get types {
+$StatsTypesCopyWith<$Res> get types {
   
-  return $TypesCopyWith<$Res>(_self.types, (value) {
+  return $StatsTypesCopyWith<$Res>(_self.types, (value) {
     return _then(_self.copyWith(types: value));
   });
-}/// Create a copy of Queries
+}/// Create a copy of StatsQueries
 /// with the given fields replaced by the non-null parameter values.
 @override
 @pragma('vm:prefer-inline')
-$StatusCopyWith<$Res> get status {
+$StatsStatusCopyWith<$Res> get status {
   
-  return $StatusCopyWith<$Res>(_self.status, (value) {
+  return $StatsStatusCopyWith<$Res>(_self.status, (value) {
     return _then(_self.copyWith(status: value));
   });
-}/// Create a copy of Queries
+}/// Create a copy of StatsQueries
 /// with the given fields replaced by the non-null parameter values.
 @override
 @pragma('vm:prefer-inline')
-$RepliesCopyWith<$Res> get replies {
+$StatsRepliesCopyWith<$Res> get replies {
   
-  return $RepliesCopyWith<$Res>(_self.replies, (value) {
+  return $StatsRepliesCopyWith<$Res>(_self.replies, (value) {
     return _then(_self.copyWith(replies: value));
   });
 }
 }
 
 
-/// Adds pattern-matching-related methods to [Queries].
-extension QueriesPatterns on Queries {
+/// Adds pattern-matching-related methods to [StatsQueries].
+extension StatsQueriesPatterns on StatsQueries {
 /// A variant of `map` that fallback to returning `orElse`.
 ///
 /// It is equivalent to doing:
@@ -444,10 +444,10 @@ extension QueriesPatterns on Queries {
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeMap<TResult extends Object?>(TResult Function( _Queries value)?  $default,{required TResult orElse(),}){
+@optionalTypeArgs TResult maybeMap<TResult extends Object?>(TResult Function( _StatsQueries value)?  $default,{required TResult orElse(),}){
 final _that = this;
 switch (_that) {
-case _Queries() when $default != null:
+case _StatsQueries() when $default != null:
 return $default(_that);case _:
   return orElse();
 
@@ -466,10 +466,10 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult map<TResult extends Object?>(TResult Function( _Queries value)  $default,){
+@optionalTypeArgs TResult map<TResult extends Object?>(TResult Function( _StatsQueries value)  $default,){
 final _that = this;
 switch (_that) {
-case _Queries():
+case _StatsQueries():
 return $default(_that);}
 }
 /// A variant of `map` that fallback to returning `null`.
@@ -484,10 +484,10 @@ return $default(_that);}
 /// }
 /// ```
 
-@optionalTypeArgs TResult? mapOrNull<TResult extends Object?>(TResult? Function( _Queries value)?  $default,){
+@optionalTypeArgs TResult? mapOrNull<TResult extends Object?>(TResult? Function( _StatsQueries value)?  $default,){
 final _that = this;
 switch (_that) {
-case _Queries() when $default != null:
+case _StatsQueries() when $default != null:
 return $default(_that);case _:
   return null;
 
@@ -505,9 +505,9 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( int total,  int blocked, @JsonKey(name: 'percent_blocked')  double percentBlocked, @JsonKey(name: 'unique_domains')  int uniqueDomains,  int forwarded,  int cached,  Types types,  Status status,  Replies replies)?  $default,{required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( int total,  int blocked, @JsonKey(name: 'percent_blocked')  double percentBlocked, @JsonKey(name: 'unique_domains')  int uniqueDomains,  int forwarded,  int cached,  StatsTypes types,  StatsStatus status,  StatsReplies replies)?  $default,{required TResult orElse(),}) {final _that = this;
 switch (_that) {
-case _Queries() when $default != null:
+case _StatsQueries() when $default != null:
 return $default(_that.total,_that.blocked,_that.percentBlocked,_that.uniqueDomains,_that.forwarded,_that.cached,_that.types,_that.status,_that.replies);case _:
   return orElse();
 
@@ -526,9 +526,9 @@ return $default(_that.total,_that.blocked,_that.percentBlocked,_that.uniqueDomai
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( int total,  int blocked, @JsonKey(name: 'percent_blocked')  double percentBlocked, @JsonKey(name: 'unique_domains')  int uniqueDomains,  int forwarded,  int cached,  Types types,  Status status,  Replies replies)  $default,) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( int total,  int blocked, @JsonKey(name: 'percent_blocked')  double percentBlocked, @JsonKey(name: 'unique_domains')  int uniqueDomains,  int forwarded,  int cached,  StatsTypes types,  StatsStatus status,  StatsReplies replies)  $default,) {final _that = this;
 switch (_that) {
-case _Queries():
+case _StatsQueries():
 return $default(_that.total,_that.blocked,_that.percentBlocked,_that.uniqueDomains,_that.forwarded,_that.cached,_that.types,_that.status,_that.replies);}
 }
 /// A variant of `when` that fallback to returning `null`
@@ -543,9 +543,9 @@ return $default(_that.total,_that.blocked,_that.percentBlocked,_that.uniqueDomai
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( int total,  int blocked, @JsonKey(name: 'percent_blocked')  double percentBlocked, @JsonKey(name: 'unique_domains')  int uniqueDomains,  int forwarded,  int cached,  Types types,  Status status,  Replies replies)?  $default,) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( int total,  int blocked, @JsonKey(name: 'percent_blocked')  double percentBlocked, @JsonKey(name: 'unique_domains')  int uniqueDomains,  int forwarded,  int cached,  StatsTypes types,  StatsStatus status,  StatsReplies replies)?  $default,) {final _that = this;
 switch (_that) {
-case _Queries() when $default != null:
+case _StatsQueries() when $default != null:
 return $default(_that.total,_that.blocked,_that.percentBlocked,_that.uniqueDomains,_that.forwarded,_that.cached,_that.types,_that.status,_that.replies);case _:
   return null;
 
@@ -557,9 +557,9 @@ return $default(_that.total,_that.blocked,_that.percentBlocked,_that.uniqueDomai
 /// @nodoc
 
 @JsonSerializable(explicitToJson: true)
-class _Queries implements Queries {
-  const _Queries({required this.total, required this.blocked, @JsonKey(name: 'percent_blocked') required this.percentBlocked, @JsonKey(name: 'unique_domains') required this.uniqueDomains, required this.forwarded, required this.cached, required this.types, required this.status, required this.replies});
-  factory _Queries.fromJson(Map<String, dynamic> json) => _$QueriesFromJson(json);
+class _StatsQueries implements StatsQueries {
+  const _StatsQueries({required this.total, required this.blocked, @JsonKey(name: 'percent_blocked') required this.percentBlocked, @JsonKey(name: 'unique_domains') required this.uniqueDomains, required this.forwarded, required this.cached, required this.types, required this.status, required this.replies});
+  factory _StatsQueries.fromJson(Map<String, dynamic> json) => _$StatsQueriesFromJson(json);
 
 @override final  int total;
 @override final  int blocked;
@@ -567,24 +567,24 @@ class _Queries implements Queries {
 @override@JsonKey(name: 'unique_domains') final  int uniqueDomains;
 @override final  int forwarded;
 @override final  int cached;
-@override final  Types types;
-@override final  Status status;
-@override final  Replies replies;
+@override final  StatsTypes types;
+@override final  StatsStatus status;
+@override final  StatsReplies replies;
 
-/// Create a copy of Queries
+/// Create a copy of StatsQueries
 /// with the given fields replaced by the non-null parameter values.
 @override @JsonKey(includeFromJson: false, includeToJson: false)
 @pragma('vm:prefer-inline')
-_$QueriesCopyWith<_Queries> get copyWith => __$QueriesCopyWithImpl<_Queries>(this, _$identity);
+_$StatsQueriesCopyWith<_StatsQueries> get copyWith => __$StatsQueriesCopyWithImpl<_StatsQueries>(this, _$identity);
 
 @override
 Map<String, dynamic> toJson() {
-  return _$QueriesToJson(this, );
+  return _$StatsQueriesToJson(this, );
 }
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _Queries&&(identical(other.total, total) || other.total == total)&&(identical(other.blocked, blocked) || other.blocked == blocked)&&(identical(other.percentBlocked, percentBlocked) || other.percentBlocked == percentBlocked)&&(identical(other.uniqueDomains, uniqueDomains) || other.uniqueDomains == uniqueDomains)&&(identical(other.forwarded, forwarded) || other.forwarded == forwarded)&&(identical(other.cached, cached) || other.cached == cached)&&(identical(other.types, types) || other.types == types)&&(identical(other.status, status) || other.status == status)&&(identical(other.replies, replies) || other.replies == replies));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _StatsQueries&&(identical(other.total, total) || other.total == total)&&(identical(other.blocked, blocked) || other.blocked == blocked)&&(identical(other.percentBlocked, percentBlocked) || other.percentBlocked == percentBlocked)&&(identical(other.uniqueDomains, uniqueDomains) || other.uniqueDomains == uniqueDomains)&&(identical(other.forwarded, forwarded) || other.forwarded == forwarded)&&(identical(other.cached, cached) || other.cached == cached)&&(identical(other.types, types) || other.types == types)&&(identical(other.status, status) || other.status == status)&&(identical(other.replies, replies) || other.replies == replies));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -593,36 +593,36 @@ int get hashCode => Object.hash(runtimeType,total,blocked,percentBlocked,uniqueD
 
 @override
 String toString() {
-  return 'Queries(total: $total, blocked: $blocked, percentBlocked: $percentBlocked, uniqueDomains: $uniqueDomains, forwarded: $forwarded, cached: $cached, types: $types, status: $status, replies: $replies)';
+  return 'StatsQueries(total: $total, blocked: $blocked, percentBlocked: $percentBlocked, uniqueDomains: $uniqueDomains, forwarded: $forwarded, cached: $cached, types: $types, status: $status, replies: $replies)';
 }
 
 
 }
 
 /// @nodoc
-abstract mixin class _$QueriesCopyWith<$Res> implements $QueriesCopyWith<$Res> {
-  factory _$QueriesCopyWith(_Queries value, $Res Function(_Queries) _then) = __$QueriesCopyWithImpl;
+abstract mixin class _$StatsQueriesCopyWith<$Res> implements $StatsQueriesCopyWith<$Res> {
+  factory _$StatsQueriesCopyWith(_StatsQueries value, $Res Function(_StatsQueries) _then) = __$StatsQueriesCopyWithImpl;
 @override @useResult
 $Res call({
- int total, int blocked,@JsonKey(name: 'percent_blocked') double percentBlocked,@JsonKey(name: 'unique_domains') int uniqueDomains, int forwarded, int cached, Types types, Status status, Replies replies
+ int total, int blocked,@JsonKey(name: 'percent_blocked') double percentBlocked,@JsonKey(name: 'unique_domains') int uniqueDomains, int forwarded, int cached, StatsTypes types, StatsStatus status, StatsReplies replies
 });
 
 
-@override $TypesCopyWith<$Res> get types;@override $StatusCopyWith<$Res> get status;@override $RepliesCopyWith<$Res> get replies;
+@override $StatsTypesCopyWith<$Res> get types;@override $StatsStatusCopyWith<$Res> get status;@override $StatsRepliesCopyWith<$Res> get replies;
 
 }
 /// @nodoc
-class __$QueriesCopyWithImpl<$Res>
-    implements _$QueriesCopyWith<$Res> {
-  __$QueriesCopyWithImpl(this._self, this._then);
+class __$StatsQueriesCopyWithImpl<$Res>
+    implements _$StatsQueriesCopyWith<$Res> {
+  __$StatsQueriesCopyWithImpl(this._self, this._then);
 
-  final _Queries _self;
-  final $Res Function(_Queries) _then;
+  final _StatsQueries _self;
+  final $Res Function(_StatsQueries) _then;
 
-/// Create a copy of Queries
+/// Create a copy of StatsQueries
 /// with the given fields replaced by the non-null parameter values.
 @override @pragma('vm:prefer-inline') $Res call({Object? total = null,Object? blocked = null,Object? percentBlocked = null,Object? uniqueDomains = null,Object? forwarded = null,Object? cached = null,Object? types = null,Object? status = null,Object? replies = null,}) {
-  return _then(_Queries(
+  return _then(_StatsQueries(
 total: null == total ? _self.total : total // ignore: cast_nullable_to_non_nullable
 as int,blocked: null == blocked ? _self.blocked : blocked // ignore: cast_nullable_to_non_nullable
 as int,percentBlocked: null == percentBlocked ? _self.percentBlocked : percentBlocked // ignore: cast_nullable_to_non_nullable
@@ -630,37 +630,37 @@ as double,uniqueDomains: null == uniqueDomains ? _self.uniqueDomains : uniqueDom
 as int,forwarded: null == forwarded ? _self.forwarded : forwarded // ignore: cast_nullable_to_non_nullable
 as int,cached: null == cached ? _self.cached : cached // ignore: cast_nullable_to_non_nullable
 as int,types: null == types ? _self.types : types // ignore: cast_nullable_to_non_nullable
-as Types,status: null == status ? _self.status : status // ignore: cast_nullable_to_non_nullable
-as Status,replies: null == replies ? _self.replies : replies // ignore: cast_nullable_to_non_nullable
-as Replies,
+as StatsTypes,status: null == status ? _self.status : status // ignore: cast_nullable_to_non_nullable
+as StatsStatus,replies: null == replies ? _self.replies : replies // ignore: cast_nullable_to_non_nullable
+as StatsReplies,
   ));
 }
 
-/// Create a copy of Queries
+/// Create a copy of StatsQueries
 /// with the given fields replaced by the non-null parameter values.
 @override
 @pragma('vm:prefer-inline')
-$TypesCopyWith<$Res> get types {
+$StatsTypesCopyWith<$Res> get types {
   
-  return $TypesCopyWith<$Res>(_self.types, (value) {
+  return $StatsTypesCopyWith<$Res>(_self.types, (value) {
     return _then(_self.copyWith(types: value));
   });
-}/// Create a copy of Queries
+}/// Create a copy of StatsQueries
 /// with the given fields replaced by the non-null parameter values.
 @override
 @pragma('vm:prefer-inline')
-$StatusCopyWith<$Res> get status {
+$StatsStatusCopyWith<$Res> get status {
   
-  return $StatusCopyWith<$Res>(_self.status, (value) {
+  return $StatsStatusCopyWith<$Res>(_self.status, (value) {
     return _then(_self.copyWith(status: value));
   });
-}/// Create a copy of Queries
+}/// Create a copy of StatsQueries
 /// with the given fields replaced by the non-null parameter values.
 @override
 @pragma('vm:prefer-inline')
-$RepliesCopyWith<$Res> get replies {
+$StatsRepliesCopyWith<$Res> get replies {
   
-  return $RepliesCopyWith<$Res>(_self.replies, (value) {
+  return $StatsRepliesCopyWith<$Res>(_self.replies, (value) {
     return _then(_self.copyWith(replies: value));
   });
 }
@@ -668,22 +668,22 @@ $RepliesCopyWith<$Res> get replies {
 
 
 /// @nodoc
-mixin _$Types {
+mixin _$StatsTypes {
 
 @JsonKey(name: 'A') int get a;@JsonKey(name: 'AAAA') int get aaaa;@JsonKey(name: 'ANY') int get any;@JsonKey(name: 'SRV') int get srv;@JsonKey(name: 'SOA') int get soa;@JsonKey(name: 'PTR') int get ptr;@JsonKey(name: 'TXT') int get txt;@JsonKey(name: 'NAPTR') int get naptr;@JsonKey(name: 'MX') int get mx;@JsonKey(name: 'DS') int get ds;@JsonKey(name: 'RRSIG') int get rrsig;@JsonKey(name: 'DNSKEY') int get dnskey;@JsonKey(name: 'NS') int get ns;@JsonKey(name: 'SVCB') int get svcb;@JsonKey(name: 'HTTPS') int get https;@JsonKey(name: 'OTHER') int get other;
-/// Create a copy of Types
+/// Create a copy of StatsTypes
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
 @pragma('vm:prefer-inline')
-$TypesCopyWith<Types> get copyWith => _$TypesCopyWithImpl<Types>(this as Types, _$identity);
+$StatsTypesCopyWith<StatsTypes> get copyWith => _$StatsTypesCopyWithImpl<StatsTypes>(this as StatsTypes, _$identity);
 
-  /// Serializes this Types to a JSON map.
+  /// Serializes this StatsTypes to a JSON map.
   Map<String, dynamic> toJson();
 
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is Types&&(identical(other.a, a) || other.a == a)&&(identical(other.aaaa, aaaa) || other.aaaa == aaaa)&&(identical(other.any, any) || other.any == any)&&(identical(other.srv, srv) || other.srv == srv)&&(identical(other.soa, soa) || other.soa == soa)&&(identical(other.ptr, ptr) || other.ptr == ptr)&&(identical(other.txt, txt) || other.txt == txt)&&(identical(other.naptr, naptr) || other.naptr == naptr)&&(identical(other.mx, mx) || other.mx == mx)&&(identical(other.ds, ds) || other.ds == ds)&&(identical(other.rrsig, rrsig) || other.rrsig == rrsig)&&(identical(other.dnskey, dnskey) || other.dnskey == dnskey)&&(identical(other.ns, ns) || other.ns == ns)&&(identical(other.svcb, svcb) || other.svcb == svcb)&&(identical(other.https, https) || other.https == https)&&(identical(other.other, this.other) || other.other == this.other));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is StatsTypes&&(identical(other.a, a) || other.a == a)&&(identical(other.aaaa, aaaa) || other.aaaa == aaaa)&&(identical(other.any, any) || other.any == any)&&(identical(other.srv, srv) || other.srv == srv)&&(identical(other.soa, soa) || other.soa == soa)&&(identical(other.ptr, ptr) || other.ptr == ptr)&&(identical(other.txt, txt) || other.txt == txt)&&(identical(other.naptr, naptr) || other.naptr == naptr)&&(identical(other.mx, mx) || other.mx == mx)&&(identical(other.ds, ds) || other.ds == ds)&&(identical(other.rrsig, rrsig) || other.rrsig == rrsig)&&(identical(other.dnskey, dnskey) || other.dnskey == dnskey)&&(identical(other.ns, ns) || other.ns == ns)&&(identical(other.svcb, svcb) || other.svcb == svcb)&&(identical(other.https, https) || other.https == https)&&(identical(other.other, this.other) || other.other == this.other));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -692,15 +692,15 @@ int get hashCode => Object.hash(runtimeType,a,aaaa,any,srv,soa,ptr,txt,naptr,mx,
 
 @override
 String toString() {
-  return 'Types(a: $a, aaaa: $aaaa, any: $any, srv: $srv, soa: $soa, ptr: $ptr, txt: $txt, naptr: $naptr, mx: $mx, ds: $ds, rrsig: $rrsig, dnskey: $dnskey, ns: $ns, svcb: $svcb, https: $https, other: $other)';
+  return 'StatsTypes(a: $a, aaaa: $aaaa, any: $any, srv: $srv, soa: $soa, ptr: $ptr, txt: $txt, naptr: $naptr, mx: $mx, ds: $ds, rrsig: $rrsig, dnskey: $dnskey, ns: $ns, svcb: $svcb, https: $https, other: $other)';
 }
 
 
 }
 
 /// @nodoc
-abstract mixin class $TypesCopyWith<$Res>  {
-  factory $TypesCopyWith(Types value, $Res Function(Types) _then) = _$TypesCopyWithImpl;
+abstract mixin class $StatsTypesCopyWith<$Res>  {
+  factory $StatsTypesCopyWith(StatsTypes value, $Res Function(StatsTypes) _then) = _$StatsTypesCopyWithImpl;
 @useResult
 $Res call({
 @JsonKey(name: 'A') int a,@JsonKey(name: 'AAAA') int aaaa,@JsonKey(name: 'ANY') int any,@JsonKey(name: 'SRV') int srv,@JsonKey(name: 'SOA') int soa,@JsonKey(name: 'PTR') int ptr,@JsonKey(name: 'TXT') int txt,@JsonKey(name: 'NAPTR') int naptr,@JsonKey(name: 'MX') int mx,@JsonKey(name: 'DS') int ds,@JsonKey(name: 'RRSIG') int rrsig,@JsonKey(name: 'DNSKEY') int dnskey,@JsonKey(name: 'NS') int ns,@JsonKey(name: 'SVCB') int svcb,@JsonKey(name: 'HTTPS') int https,@JsonKey(name: 'OTHER') int other
@@ -711,14 +711,14 @@ $Res call({
 
 }
 /// @nodoc
-class _$TypesCopyWithImpl<$Res>
-    implements $TypesCopyWith<$Res> {
-  _$TypesCopyWithImpl(this._self, this._then);
+class _$StatsTypesCopyWithImpl<$Res>
+    implements $StatsTypesCopyWith<$Res> {
+  _$StatsTypesCopyWithImpl(this._self, this._then);
 
-  final Types _self;
-  final $Res Function(Types) _then;
+  final StatsTypes _self;
+  final $Res Function(StatsTypes) _then;
 
-/// Create a copy of Types
+/// Create a copy of StatsTypes
 /// with the given fields replaced by the non-null parameter values.
 @pragma('vm:prefer-inline') @override $Res call({Object? a = null,Object? aaaa = null,Object? any = null,Object? srv = null,Object? soa = null,Object? ptr = null,Object? txt = null,Object? naptr = null,Object? mx = null,Object? ds = null,Object? rrsig = null,Object? dnskey = null,Object? ns = null,Object? svcb = null,Object? https = null,Object? other = null,}) {
   return _then(_self.copyWith(
@@ -745,8 +745,8 @@ as int,
 }
 
 
-/// Adds pattern-matching-related methods to [Types].
-extension TypesPatterns on Types {
+/// Adds pattern-matching-related methods to [StatsTypes].
+extension StatsTypesPatterns on StatsTypes {
 /// A variant of `map` that fallback to returning `orElse`.
 ///
 /// It is equivalent to doing:
@@ -759,10 +759,10 @@ extension TypesPatterns on Types {
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeMap<TResult extends Object?>(TResult Function( _Types value)?  $default,{required TResult orElse(),}){
+@optionalTypeArgs TResult maybeMap<TResult extends Object?>(TResult Function( _StatsTypes value)?  $default,{required TResult orElse(),}){
 final _that = this;
 switch (_that) {
-case _Types() when $default != null:
+case _StatsTypes() when $default != null:
 return $default(_that);case _:
   return orElse();
 
@@ -781,10 +781,10 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult map<TResult extends Object?>(TResult Function( _Types value)  $default,){
+@optionalTypeArgs TResult map<TResult extends Object?>(TResult Function( _StatsTypes value)  $default,){
 final _that = this;
 switch (_that) {
-case _Types():
+case _StatsTypes():
 return $default(_that);}
 }
 /// A variant of `map` that fallback to returning `null`.
@@ -799,10 +799,10 @@ return $default(_that);}
 /// }
 /// ```
 
-@optionalTypeArgs TResult? mapOrNull<TResult extends Object?>(TResult? Function( _Types value)?  $default,){
+@optionalTypeArgs TResult? mapOrNull<TResult extends Object?>(TResult? Function( _StatsTypes value)?  $default,){
 final _that = this;
 switch (_that) {
-case _Types() when $default != null:
+case _StatsTypes() when $default != null:
 return $default(_that);case _:
   return null;
 
@@ -822,7 +822,7 @@ return $default(_that);case _:
 
 @optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function(@JsonKey(name: 'A')  int a, @JsonKey(name: 'AAAA')  int aaaa, @JsonKey(name: 'ANY')  int any, @JsonKey(name: 'SRV')  int srv, @JsonKey(name: 'SOA')  int soa, @JsonKey(name: 'PTR')  int ptr, @JsonKey(name: 'TXT')  int txt, @JsonKey(name: 'NAPTR')  int naptr, @JsonKey(name: 'MX')  int mx, @JsonKey(name: 'DS')  int ds, @JsonKey(name: 'RRSIG')  int rrsig, @JsonKey(name: 'DNSKEY')  int dnskey, @JsonKey(name: 'NS')  int ns, @JsonKey(name: 'SVCB')  int svcb, @JsonKey(name: 'HTTPS')  int https, @JsonKey(name: 'OTHER')  int other)?  $default,{required TResult orElse(),}) {final _that = this;
 switch (_that) {
-case _Types() when $default != null:
+case _StatsTypes() when $default != null:
 return $default(_that.a,_that.aaaa,_that.any,_that.srv,_that.soa,_that.ptr,_that.txt,_that.naptr,_that.mx,_that.ds,_that.rrsig,_that.dnskey,_that.ns,_that.svcb,_that.https,_that.other);case _:
   return orElse();
 
@@ -843,7 +843,7 @@ return $default(_that.a,_that.aaaa,_that.any,_that.srv,_that.soa,_that.ptr,_that
 
 @optionalTypeArgs TResult when<TResult extends Object?>(TResult Function(@JsonKey(name: 'A')  int a, @JsonKey(name: 'AAAA')  int aaaa, @JsonKey(name: 'ANY')  int any, @JsonKey(name: 'SRV')  int srv, @JsonKey(name: 'SOA')  int soa, @JsonKey(name: 'PTR')  int ptr, @JsonKey(name: 'TXT')  int txt, @JsonKey(name: 'NAPTR')  int naptr, @JsonKey(name: 'MX')  int mx, @JsonKey(name: 'DS')  int ds, @JsonKey(name: 'RRSIG')  int rrsig, @JsonKey(name: 'DNSKEY')  int dnskey, @JsonKey(name: 'NS')  int ns, @JsonKey(name: 'SVCB')  int svcb, @JsonKey(name: 'HTTPS')  int https, @JsonKey(name: 'OTHER')  int other)  $default,) {final _that = this;
 switch (_that) {
-case _Types():
+case _StatsTypes():
 return $default(_that.a,_that.aaaa,_that.any,_that.srv,_that.soa,_that.ptr,_that.txt,_that.naptr,_that.mx,_that.ds,_that.rrsig,_that.dnskey,_that.ns,_that.svcb,_that.https,_that.other);}
 }
 /// A variant of `when` that fallback to returning `null`
@@ -860,7 +860,7 @@ return $default(_that.a,_that.aaaa,_that.any,_that.srv,_that.soa,_that.ptr,_that
 
 @optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function(@JsonKey(name: 'A')  int a, @JsonKey(name: 'AAAA')  int aaaa, @JsonKey(name: 'ANY')  int any, @JsonKey(name: 'SRV')  int srv, @JsonKey(name: 'SOA')  int soa, @JsonKey(name: 'PTR')  int ptr, @JsonKey(name: 'TXT')  int txt, @JsonKey(name: 'NAPTR')  int naptr, @JsonKey(name: 'MX')  int mx, @JsonKey(name: 'DS')  int ds, @JsonKey(name: 'RRSIG')  int rrsig, @JsonKey(name: 'DNSKEY')  int dnskey, @JsonKey(name: 'NS')  int ns, @JsonKey(name: 'SVCB')  int svcb, @JsonKey(name: 'HTTPS')  int https, @JsonKey(name: 'OTHER')  int other)?  $default,) {final _that = this;
 switch (_that) {
-case _Types() when $default != null:
+case _StatsTypes() when $default != null:
 return $default(_that.a,_that.aaaa,_that.any,_that.srv,_that.soa,_that.ptr,_that.txt,_that.naptr,_that.mx,_that.ds,_that.rrsig,_that.dnskey,_that.ns,_that.svcb,_that.https,_that.other);case _:
   return null;
 
@@ -872,9 +872,9 @@ return $default(_that.a,_that.aaaa,_that.any,_that.srv,_that.soa,_that.ptr,_that
 /// @nodoc
 @JsonSerializable()
 
-class _Types implements Types {
-  const _Types({@JsonKey(name: 'A') required this.a, @JsonKey(name: 'AAAA') required this.aaaa, @JsonKey(name: 'ANY') required this.any, @JsonKey(name: 'SRV') required this.srv, @JsonKey(name: 'SOA') required this.soa, @JsonKey(name: 'PTR') required this.ptr, @JsonKey(name: 'TXT') required this.txt, @JsonKey(name: 'NAPTR') required this.naptr, @JsonKey(name: 'MX') required this.mx, @JsonKey(name: 'DS') required this.ds, @JsonKey(name: 'RRSIG') required this.rrsig, @JsonKey(name: 'DNSKEY') required this.dnskey, @JsonKey(name: 'NS') required this.ns, @JsonKey(name: 'SVCB') required this.svcb, @JsonKey(name: 'HTTPS') required this.https, @JsonKey(name: 'OTHER') required this.other});
-  factory _Types.fromJson(Map<String, dynamic> json) => _$TypesFromJson(json);
+class _StatsTypes implements StatsTypes {
+  const _StatsTypes({@JsonKey(name: 'A') required this.a, @JsonKey(name: 'AAAA') required this.aaaa, @JsonKey(name: 'ANY') required this.any, @JsonKey(name: 'SRV') required this.srv, @JsonKey(name: 'SOA') required this.soa, @JsonKey(name: 'PTR') required this.ptr, @JsonKey(name: 'TXT') required this.txt, @JsonKey(name: 'NAPTR') required this.naptr, @JsonKey(name: 'MX') required this.mx, @JsonKey(name: 'DS') required this.ds, @JsonKey(name: 'RRSIG') required this.rrsig, @JsonKey(name: 'DNSKEY') required this.dnskey, @JsonKey(name: 'NS') required this.ns, @JsonKey(name: 'SVCB') required this.svcb, @JsonKey(name: 'HTTPS') required this.https, @JsonKey(name: 'OTHER') required this.other});
+  factory _StatsTypes.fromJson(Map<String, dynamic> json) => _$StatsTypesFromJson(json);
 
 @override@JsonKey(name: 'A') final  int a;
 @override@JsonKey(name: 'AAAA') final  int aaaa;
@@ -893,20 +893,20 @@ class _Types implements Types {
 @override@JsonKey(name: 'HTTPS') final  int https;
 @override@JsonKey(name: 'OTHER') final  int other;
 
-/// Create a copy of Types
+/// Create a copy of StatsTypes
 /// with the given fields replaced by the non-null parameter values.
 @override @JsonKey(includeFromJson: false, includeToJson: false)
 @pragma('vm:prefer-inline')
-_$TypesCopyWith<_Types> get copyWith => __$TypesCopyWithImpl<_Types>(this, _$identity);
+_$StatsTypesCopyWith<_StatsTypes> get copyWith => __$StatsTypesCopyWithImpl<_StatsTypes>(this, _$identity);
 
 @override
 Map<String, dynamic> toJson() {
-  return _$TypesToJson(this, );
+  return _$StatsTypesToJson(this, );
 }
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _Types&&(identical(other.a, a) || other.a == a)&&(identical(other.aaaa, aaaa) || other.aaaa == aaaa)&&(identical(other.any, any) || other.any == any)&&(identical(other.srv, srv) || other.srv == srv)&&(identical(other.soa, soa) || other.soa == soa)&&(identical(other.ptr, ptr) || other.ptr == ptr)&&(identical(other.txt, txt) || other.txt == txt)&&(identical(other.naptr, naptr) || other.naptr == naptr)&&(identical(other.mx, mx) || other.mx == mx)&&(identical(other.ds, ds) || other.ds == ds)&&(identical(other.rrsig, rrsig) || other.rrsig == rrsig)&&(identical(other.dnskey, dnskey) || other.dnskey == dnskey)&&(identical(other.ns, ns) || other.ns == ns)&&(identical(other.svcb, svcb) || other.svcb == svcb)&&(identical(other.https, https) || other.https == https)&&(identical(other.other, this.other) || other.other == this.other));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _StatsTypes&&(identical(other.a, a) || other.a == a)&&(identical(other.aaaa, aaaa) || other.aaaa == aaaa)&&(identical(other.any, any) || other.any == any)&&(identical(other.srv, srv) || other.srv == srv)&&(identical(other.soa, soa) || other.soa == soa)&&(identical(other.ptr, ptr) || other.ptr == ptr)&&(identical(other.txt, txt) || other.txt == txt)&&(identical(other.naptr, naptr) || other.naptr == naptr)&&(identical(other.mx, mx) || other.mx == mx)&&(identical(other.ds, ds) || other.ds == ds)&&(identical(other.rrsig, rrsig) || other.rrsig == rrsig)&&(identical(other.dnskey, dnskey) || other.dnskey == dnskey)&&(identical(other.ns, ns) || other.ns == ns)&&(identical(other.svcb, svcb) || other.svcb == svcb)&&(identical(other.https, https) || other.https == https)&&(identical(other.other, this.other) || other.other == this.other));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -915,15 +915,15 @@ int get hashCode => Object.hash(runtimeType,a,aaaa,any,srv,soa,ptr,txt,naptr,mx,
 
 @override
 String toString() {
-  return 'Types(a: $a, aaaa: $aaaa, any: $any, srv: $srv, soa: $soa, ptr: $ptr, txt: $txt, naptr: $naptr, mx: $mx, ds: $ds, rrsig: $rrsig, dnskey: $dnskey, ns: $ns, svcb: $svcb, https: $https, other: $other)';
+  return 'StatsTypes(a: $a, aaaa: $aaaa, any: $any, srv: $srv, soa: $soa, ptr: $ptr, txt: $txt, naptr: $naptr, mx: $mx, ds: $ds, rrsig: $rrsig, dnskey: $dnskey, ns: $ns, svcb: $svcb, https: $https, other: $other)';
 }
 
 
 }
 
 /// @nodoc
-abstract mixin class _$TypesCopyWith<$Res> implements $TypesCopyWith<$Res> {
-  factory _$TypesCopyWith(_Types value, $Res Function(_Types) _then) = __$TypesCopyWithImpl;
+abstract mixin class _$StatsTypesCopyWith<$Res> implements $StatsTypesCopyWith<$Res> {
+  factory _$StatsTypesCopyWith(_StatsTypes value, $Res Function(_StatsTypes) _then) = __$StatsTypesCopyWithImpl;
 @override @useResult
 $Res call({
 @JsonKey(name: 'A') int a,@JsonKey(name: 'AAAA') int aaaa,@JsonKey(name: 'ANY') int any,@JsonKey(name: 'SRV') int srv,@JsonKey(name: 'SOA') int soa,@JsonKey(name: 'PTR') int ptr,@JsonKey(name: 'TXT') int txt,@JsonKey(name: 'NAPTR') int naptr,@JsonKey(name: 'MX') int mx,@JsonKey(name: 'DS') int ds,@JsonKey(name: 'RRSIG') int rrsig,@JsonKey(name: 'DNSKEY') int dnskey,@JsonKey(name: 'NS') int ns,@JsonKey(name: 'SVCB') int svcb,@JsonKey(name: 'HTTPS') int https,@JsonKey(name: 'OTHER') int other
@@ -934,17 +934,17 @@ $Res call({
 
 }
 /// @nodoc
-class __$TypesCopyWithImpl<$Res>
-    implements _$TypesCopyWith<$Res> {
-  __$TypesCopyWithImpl(this._self, this._then);
+class __$StatsTypesCopyWithImpl<$Res>
+    implements _$StatsTypesCopyWith<$Res> {
+  __$StatsTypesCopyWithImpl(this._self, this._then);
 
-  final _Types _self;
-  final $Res Function(_Types) _then;
+  final _StatsTypes _self;
+  final $Res Function(_StatsTypes) _then;
 
-/// Create a copy of Types
+/// Create a copy of StatsTypes
 /// with the given fields replaced by the non-null parameter values.
 @override @pragma('vm:prefer-inline') $Res call({Object? a = null,Object? aaaa = null,Object? any = null,Object? srv = null,Object? soa = null,Object? ptr = null,Object? txt = null,Object? naptr = null,Object? mx = null,Object? ds = null,Object? rrsig = null,Object? dnskey = null,Object? ns = null,Object? svcb = null,Object? https = null,Object? other = null,}) {
-  return _then(_Types(
+  return _then(_StatsTypes(
 a: null == a ? _self.a : a // ignore: cast_nullable_to_non_nullable
 as int,aaaa: null == aaaa ? _self.aaaa : aaaa // ignore: cast_nullable_to_non_nullable
 as int,any: null == any ? _self.any : any // ignore: cast_nullable_to_non_nullable
@@ -970,22 +970,22 @@ as int,
 
 
 /// @nodoc
-mixin _$Status {
+mixin _$StatsStatus {
 
 @JsonKey(name: 'UNKNOWN') int get unknown;@JsonKey(name: 'GRAVITY') int get gravity;@JsonKey(name: 'FORWARDED') int get forwarded;@JsonKey(name: 'CACHE') int get cache;@JsonKey(name: 'REGEX') int get regex;@JsonKey(name: 'DENYLIST') int get denylist;@JsonKey(name: 'EXTERNAL_BLOCKED_IP') int get externalBlockedIp;@JsonKey(name: 'EXTERNAL_BLOCKED_NULL') int get externalBlockedNull;@JsonKey(name: 'EXTERNAL_BLOCKED_NXRA') int get externalBlockedNxra;@JsonKey(name: 'GRAVITY_CNAME') int get gravityCname;@JsonKey(name: 'REGEX_CNAME') int get regexCname;@JsonKey(name: 'DENYLIST_CNAME') int get denylistCname;@JsonKey(name: 'RETRIED') int get retried;@JsonKey(name: 'RETRIED_DNSSEC') int get retriedDnssec;@JsonKey(name: 'IN_PROGRESS') int get inProgress;@JsonKey(name: 'DBBUSY') int get dbbusy;@JsonKey(name: 'SPECIAL_DOMAIN') int get specialDomain;@JsonKey(name: 'CACHE_STALE') int get cacheStale;
-/// Create a copy of Status
+/// Create a copy of StatsStatus
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
 @pragma('vm:prefer-inline')
-$StatusCopyWith<Status> get copyWith => _$StatusCopyWithImpl<Status>(this as Status, _$identity);
+$StatsStatusCopyWith<StatsStatus> get copyWith => _$StatsStatusCopyWithImpl<StatsStatus>(this as StatsStatus, _$identity);
 
-  /// Serializes this Status to a JSON map.
+  /// Serializes this StatsStatus to a JSON map.
   Map<String, dynamic> toJson();
 
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is Status&&(identical(other.unknown, unknown) || other.unknown == unknown)&&(identical(other.gravity, gravity) || other.gravity == gravity)&&(identical(other.forwarded, forwarded) || other.forwarded == forwarded)&&(identical(other.cache, cache) || other.cache == cache)&&(identical(other.regex, regex) || other.regex == regex)&&(identical(other.denylist, denylist) || other.denylist == denylist)&&(identical(other.externalBlockedIp, externalBlockedIp) || other.externalBlockedIp == externalBlockedIp)&&(identical(other.externalBlockedNull, externalBlockedNull) || other.externalBlockedNull == externalBlockedNull)&&(identical(other.externalBlockedNxra, externalBlockedNxra) || other.externalBlockedNxra == externalBlockedNxra)&&(identical(other.gravityCname, gravityCname) || other.gravityCname == gravityCname)&&(identical(other.regexCname, regexCname) || other.regexCname == regexCname)&&(identical(other.denylistCname, denylistCname) || other.denylistCname == denylistCname)&&(identical(other.retried, retried) || other.retried == retried)&&(identical(other.retriedDnssec, retriedDnssec) || other.retriedDnssec == retriedDnssec)&&(identical(other.inProgress, inProgress) || other.inProgress == inProgress)&&(identical(other.dbbusy, dbbusy) || other.dbbusy == dbbusy)&&(identical(other.specialDomain, specialDomain) || other.specialDomain == specialDomain)&&(identical(other.cacheStale, cacheStale) || other.cacheStale == cacheStale));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is StatsStatus&&(identical(other.unknown, unknown) || other.unknown == unknown)&&(identical(other.gravity, gravity) || other.gravity == gravity)&&(identical(other.forwarded, forwarded) || other.forwarded == forwarded)&&(identical(other.cache, cache) || other.cache == cache)&&(identical(other.regex, regex) || other.regex == regex)&&(identical(other.denylist, denylist) || other.denylist == denylist)&&(identical(other.externalBlockedIp, externalBlockedIp) || other.externalBlockedIp == externalBlockedIp)&&(identical(other.externalBlockedNull, externalBlockedNull) || other.externalBlockedNull == externalBlockedNull)&&(identical(other.externalBlockedNxra, externalBlockedNxra) || other.externalBlockedNxra == externalBlockedNxra)&&(identical(other.gravityCname, gravityCname) || other.gravityCname == gravityCname)&&(identical(other.regexCname, regexCname) || other.regexCname == regexCname)&&(identical(other.denylistCname, denylistCname) || other.denylistCname == denylistCname)&&(identical(other.retried, retried) || other.retried == retried)&&(identical(other.retriedDnssec, retriedDnssec) || other.retriedDnssec == retriedDnssec)&&(identical(other.inProgress, inProgress) || other.inProgress == inProgress)&&(identical(other.dbbusy, dbbusy) || other.dbbusy == dbbusy)&&(identical(other.specialDomain, specialDomain) || other.specialDomain == specialDomain)&&(identical(other.cacheStale, cacheStale) || other.cacheStale == cacheStale));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -994,15 +994,15 @@ int get hashCode => Object.hash(runtimeType,unknown,gravity,forwarded,cache,rege
 
 @override
 String toString() {
-  return 'Status(unknown: $unknown, gravity: $gravity, forwarded: $forwarded, cache: $cache, regex: $regex, denylist: $denylist, externalBlockedIp: $externalBlockedIp, externalBlockedNull: $externalBlockedNull, externalBlockedNxra: $externalBlockedNxra, gravityCname: $gravityCname, regexCname: $regexCname, denylistCname: $denylistCname, retried: $retried, retriedDnssec: $retriedDnssec, inProgress: $inProgress, dbbusy: $dbbusy, specialDomain: $specialDomain, cacheStale: $cacheStale)';
+  return 'StatsStatus(unknown: $unknown, gravity: $gravity, forwarded: $forwarded, cache: $cache, regex: $regex, denylist: $denylist, externalBlockedIp: $externalBlockedIp, externalBlockedNull: $externalBlockedNull, externalBlockedNxra: $externalBlockedNxra, gravityCname: $gravityCname, regexCname: $regexCname, denylistCname: $denylistCname, retried: $retried, retriedDnssec: $retriedDnssec, inProgress: $inProgress, dbbusy: $dbbusy, specialDomain: $specialDomain, cacheStale: $cacheStale)';
 }
 
 
 }
 
 /// @nodoc
-abstract mixin class $StatusCopyWith<$Res>  {
-  factory $StatusCopyWith(Status value, $Res Function(Status) _then) = _$StatusCopyWithImpl;
+abstract mixin class $StatsStatusCopyWith<$Res>  {
+  factory $StatsStatusCopyWith(StatsStatus value, $Res Function(StatsStatus) _then) = _$StatsStatusCopyWithImpl;
 @useResult
 $Res call({
 @JsonKey(name: 'UNKNOWN') int unknown,@JsonKey(name: 'GRAVITY') int gravity,@JsonKey(name: 'FORWARDED') int forwarded,@JsonKey(name: 'CACHE') int cache,@JsonKey(name: 'REGEX') int regex,@JsonKey(name: 'DENYLIST') int denylist,@JsonKey(name: 'EXTERNAL_BLOCKED_IP') int externalBlockedIp,@JsonKey(name: 'EXTERNAL_BLOCKED_NULL') int externalBlockedNull,@JsonKey(name: 'EXTERNAL_BLOCKED_NXRA') int externalBlockedNxra,@JsonKey(name: 'GRAVITY_CNAME') int gravityCname,@JsonKey(name: 'REGEX_CNAME') int regexCname,@JsonKey(name: 'DENYLIST_CNAME') int denylistCname,@JsonKey(name: 'RETRIED') int retried,@JsonKey(name: 'RETRIED_DNSSEC') int retriedDnssec,@JsonKey(name: 'IN_PROGRESS') int inProgress,@JsonKey(name: 'DBBUSY') int dbbusy,@JsonKey(name: 'SPECIAL_DOMAIN') int specialDomain,@JsonKey(name: 'CACHE_STALE') int cacheStale
@@ -1013,14 +1013,14 @@ $Res call({
 
 }
 /// @nodoc
-class _$StatusCopyWithImpl<$Res>
-    implements $StatusCopyWith<$Res> {
-  _$StatusCopyWithImpl(this._self, this._then);
+class _$StatsStatusCopyWithImpl<$Res>
+    implements $StatsStatusCopyWith<$Res> {
+  _$StatsStatusCopyWithImpl(this._self, this._then);
 
-  final Status _self;
-  final $Res Function(Status) _then;
+  final StatsStatus _self;
+  final $Res Function(StatsStatus) _then;
 
-/// Create a copy of Status
+/// Create a copy of StatsStatus
 /// with the given fields replaced by the non-null parameter values.
 @pragma('vm:prefer-inline') @override $Res call({Object? unknown = null,Object? gravity = null,Object? forwarded = null,Object? cache = null,Object? regex = null,Object? denylist = null,Object? externalBlockedIp = null,Object? externalBlockedNull = null,Object? externalBlockedNxra = null,Object? gravityCname = null,Object? regexCname = null,Object? denylistCname = null,Object? retried = null,Object? retriedDnssec = null,Object? inProgress = null,Object? dbbusy = null,Object? specialDomain = null,Object? cacheStale = null,}) {
   return _then(_self.copyWith(
@@ -1049,8 +1049,8 @@ as int,
 }
 
 
-/// Adds pattern-matching-related methods to [Status].
-extension StatusPatterns on Status {
+/// Adds pattern-matching-related methods to [StatsStatus].
+extension StatsStatusPatterns on StatsStatus {
 /// A variant of `map` that fallback to returning `orElse`.
 ///
 /// It is equivalent to doing:
@@ -1063,10 +1063,10 @@ extension StatusPatterns on Status {
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeMap<TResult extends Object?>(TResult Function( _Status value)?  $default,{required TResult orElse(),}){
+@optionalTypeArgs TResult maybeMap<TResult extends Object?>(TResult Function( _StatsStatus value)?  $default,{required TResult orElse(),}){
 final _that = this;
 switch (_that) {
-case _Status() when $default != null:
+case _StatsStatus() when $default != null:
 return $default(_that);case _:
   return orElse();
 
@@ -1085,10 +1085,10 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult map<TResult extends Object?>(TResult Function( _Status value)  $default,){
+@optionalTypeArgs TResult map<TResult extends Object?>(TResult Function( _StatsStatus value)  $default,){
 final _that = this;
 switch (_that) {
-case _Status():
+case _StatsStatus():
 return $default(_that);}
 }
 /// A variant of `map` that fallback to returning `null`.
@@ -1103,10 +1103,10 @@ return $default(_that);}
 /// }
 /// ```
 
-@optionalTypeArgs TResult? mapOrNull<TResult extends Object?>(TResult? Function( _Status value)?  $default,){
+@optionalTypeArgs TResult? mapOrNull<TResult extends Object?>(TResult? Function( _StatsStatus value)?  $default,){
 final _that = this;
 switch (_that) {
-case _Status() when $default != null:
+case _StatsStatus() when $default != null:
 return $default(_that);case _:
   return null;
 
@@ -1126,7 +1126,7 @@ return $default(_that);case _:
 
 @optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function(@JsonKey(name: 'UNKNOWN')  int unknown, @JsonKey(name: 'GRAVITY')  int gravity, @JsonKey(name: 'FORWARDED')  int forwarded, @JsonKey(name: 'CACHE')  int cache, @JsonKey(name: 'REGEX')  int regex, @JsonKey(name: 'DENYLIST')  int denylist, @JsonKey(name: 'EXTERNAL_BLOCKED_IP')  int externalBlockedIp, @JsonKey(name: 'EXTERNAL_BLOCKED_NULL')  int externalBlockedNull, @JsonKey(name: 'EXTERNAL_BLOCKED_NXRA')  int externalBlockedNxra, @JsonKey(name: 'GRAVITY_CNAME')  int gravityCname, @JsonKey(name: 'REGEX_CNAME')  int regexCname, @JsonKey(name: 'DENYLIST_CNAME')  int denylistCname, @JsonKey(name: 'RETRIED')  int retried, @JsonKey(name: 'RETRIED_DNSSEC')  int retriedDnssec, @JsonKey(name: 'IN_PROGRESS')  int inProgress, @JsonKey(name: 'DBBUSY')  int dbbusy, @JsonKey(name: 'SPECIAL_DOMAIN')  int specialDomain, @JsonKey(name: 'CACHE_STALE')  int cacheStale)?  $default,{required TResult orElse(),}) {final _that = this;
 switch (_that) {
-case _Status() when $default != null:
+case _StatsStatus() when $default != null:
 return $default(_that.unknown,_that.gravity,_that.forwarded,_that.cache,_that.regex,_that.denylist,_that.externalBlockedIp,_that.externalBlockedNull,_that.externalBlockedNxra,_that.gravityCname,_that.regexCname,_that.denylistCname,_that.retried,_that.retriedDnssec,_that.inProgress,_that.dbbusy,_that.specialDomain,_that.cacheStale);case _:
   return orElse();
 
@@ -1147,7 +1147,7 @@ return $default(_that.unknown,_that.gravity,_that.forwarded,_that.cache,_that.re
 
 @optionalTypeArgs TResult when<TResult extends Object?>(TResult Function(@JsonKey(name: 'UNKNOWN')  int unknown, @JsonKey(name: 'GRAVITY')  int gravity, @JsonKey(name: 'FORWARDED')  int forwarded, @JsonKey(name: 'CACHE')  int cache, @JsonKey(name: 'REGEX')  int regex, @JsonKey(name: 'DENYLIST')  int denylist, @JsonKey(name: 'EXTERNAL_BLOCKED_IP')  int externalBlockedIp, @JsonKey(name: 'EXTERNAL_BLOCKED_NULL')  int externalBlockedNull, @JsonKey(name: 'EXTERNAL_BLOCKED_NXRA')  int externalBlockedNxra, @JsonKey(name: 'GRAVITY_CNAME')  int gravityCname, @JsonKey(name: 'REGEX_CNAME')  int regexCname, @JsonKey(name: 'DENYLIST_CNAME')  int denylistCname, @JsonKey(name: 'RETRIED')  int retried, @JsonKey(name: 'RETRIED_DNSSEC')  int retriedDnssec, @JsonKey(name: 'IN_PROGRESS')  int inProgress, @JsonKey(name: 'DBBUSY')  int dbbusy, @JsonKey(name: 'SPECIAL_DOMAIN')  int specialDomain, @JsonKey(name: 'CACHE_STALE')  int cacheStale)  $default,) {final _that = this;
 switch (_that) {
-case _Status():
+case _StatsStatus():
 return $default(_that.unknown,_that.gravity,_that.forwarded,_that.cache,_that.regex,_that.denylist,_that.externalBlockedIp,_that.externalBlockedNull,_that.externalBlockedNxra,_that.gravityCname,_that.regexCname,_that.denylistCname,_that.retried,_that.retriedDnssec,_that.inProgress,_that.dbbusy,_that.specialDomain,_that.cacheStale);}
 }
 /// A variant of `when` that fallback to returning `null`
@@ -1164,7 +1164,7 @@ return $default(_that.unknown,_that.gravity,_that.forwarded,_that.cache,_that.re
 
 @optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function(@JsonKey(name: 'UNKNOWN')  int unknown, @JsonKey(name: 'GRAVITY')  int gravity, @JsonKey(name: 'FORWARDED')  int forwarded, @JsonKey(name: 'CACHE')  int cache, @JsonKey(name: 'REGEX')  int regex, @JsonKey(name: 'DENYLIST')  int denylist, @JsonKey(name: 'EXTERNAL_BLOCKED_IP')  int externalBlockedIp, @JsonKey(name: 'EXTERNAL_BLOCKED_NULL')  int externalBlockedNull, @JsonKey(name: 'EXTERNAL_BLOCKED_NXRA')  int externalBlockedNxra, @JsonKey(name: 'GRAVITY_CNAME')  int gravityCname, @JsonKey(name: 'REGEX_CNAME')  int regexCname, @JsonKey(name: 'DENYLIST_CNAME')  int denylistCname, @JsonKey(name: 'RETRIED')  int retried, @JsonKey(name: 'RETRIED_DNSSEC')  int retriedDnssec, @JsonKey(name: 'IN_PROGRESS')  int inProgress, @JsonKey(name: 'DBBUSY')  int dbbusy, @JsonKey(name: 'SPECIAL_DOMAIN')  int specialDomain, @JsonKey(name: 'CACHE_STALE')  int cacheStale)?  $default,) {final _that = this;
 switch (_that) {
-case _Status() when $default != null:
+case _StatsStatus() when $default != null:
 return $default(_that.unknown,_that.gravity,_that.forwarded,_that.cache,_that.regex,_that.denylist,_that.externalBlockedIp,_that.externalBlockedNull,_that.externalBlockedNxra,_that.gravityCname,_that.regexCname,_that.denylistCname,_that.retried,_that.retriedDnssec,_that.inProgress,_that.dbbusy,_that.specialDomain,_that.cacheStale);case _:
   return null;
 
@@ -1176,9 +1176,9 @@ return $default(_that.unknown,_that.gravity,_that.forwarded,_that.cache,_that.re
 /// @nodoc
 @JsonSerializable()
 
-class _Status implements Status {
-  const _Status({@JsonKey(name: 'UNKNOWN') required this.unknown, @JsonKey(name: 'GRAVITY') required this.gravity, @JsonKey(name: 'FORWARDED') required this.forwarded, @JsonKey(name: 'CACHE') required this.cache, @JsonKey(name: 'REGEX') required this.regex, @JsonKey(name: 'DENYLIST') required this.denylist, @JsonKey(name: 'EXTERNAL_BLOCKED_IP') required this.externalBlockedIp, @JsonKey(name: 'EXTERNAL_BLOCKED_NULL') required this.externalBlockedNull, @JsonKey(name: 'EXTERNAL_BLOCKED_NXRA') required this.externalBlockedNxra, @JsonKey(name: 'GRAVITY_CNAME') required this.gravityCname, @JsonKey(name: 'REGEX_CNAME') required this.regexCname, @JsonKey(name: 'DENYLIST_CNAME') required this.denylistCname, @JsonKey(name: 'RETRIED') required this.retried, @JsonKey(name: 'RETRIED_DNSSEC') required this.retriedDnssec, @JsonKey(name: 'IN_PROGRESS') required this.inProgress, @JsonKey(name: 'DBBUSY') required this.dbbusy, @JsonKey(name: 'SPECIAL_DOMAIN') required this.specialDomain, @JsonKey(name: 'CACHE_STALE') required this.cacheStale});
-  factory _Status.fromJson(Map<String, dynamic> json) => _$StatusFromJson(json);
+class _StatsStatus implements StatsStatus {
+  const _StatsStatus({@JsonKey(name: 'UNKNOWN') required this.unknown, @JsonKey(name: 'GRAVITY') required this.gravity, @JsonKey(name: 'FORWARDED') required this.forwarded, @JsonKey(name: 'CACHE') required this.cache, @JsonKey(name: 'REGEX') required this.regex, @JsonKey(name: 'DENYLIST') required this.denylist, @JsonKey(name: 'EXTERNAL_BLOCKED_IP') required this.externalBlockedIp, @JsonKey(name: 'EXTERNAL_BLOCKED_NULL') required this.externalBlockedNull, @JsonKey(name: 'EXTERNAL_BLOCKED_NXRA') required this.externalBlockedNxra, @JsonKey(name: 'GRAVITY_CNAME') required this.gravityCname, @JsonKey(name: 'REGEX_CNAME') required this.regexCname, @JsonKey(name: 'DENYLIST_CNAME') required this.denylistCname, @JsonKey(name: 'RETRIED') required this.retried, @JsonKey(name: 'RETRIED_DNSSEC') required this.retriedDnssec, @JsonKey(name: 'IN_PROGRESS') required this.inProgress, @JsonKey(name: 'DBBUSY') required this.dbbusy, @JsonKey(name: 'SPECIAL_DOMAIN') required this.specialDomain, @JsonKey(name: 'CACHE_STALE') required this.cacheStale});
+  factory _StatsStatus.fromJson(Map<String, dynamic> json) => _$StatsStatusFromJson(json);
 
 @override@JsonKey(name: 'UNKNOWN') final  int unknown;
 @override@JsonKey(name: 'GRAVITY') final  int gravity;
@@ -1199,20 +1199,20 @@ class _Status implements Status {
 @override@JsonKey(name: 'SPECIAL_DOMAIN') final  int specialDomain;
 @override@JsonKey(name: 'CACHE_STALE') final  int cacheStale;
 
-/// Create a copy of Status
+/// Create a copy of StatsStatus
 /// with the given fields replaced by the non-null parameter values.
 @override @JsonKey(includeFromJson: false, includeToJson: false)
 @pragma('vm:prefer-inline')
-_$StatusCopyWith<_Status> get copyWith => __$StatusCopyWithImpl<_Status>(this, _$identity);
+_$StatsStatusCopyWith<_StatsStatus> get copyWith => __$StatsStatusCopyWithImpl<_StatsStatus>(this, _$identity);
 
 @override
 Map<String, dynamic> toJson() {
-  return _$StatusToJson(this, );
+  return _$StatsStatusToJson(this, );
 }
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _Status&&(identical(other.unknown, unknown) || other.unknown == unknown)&&(identical(other.gravity, gravity) || other.gravity == gravity)&&(identical(other.forwarded, forwarded) || other.forwarded == forwarded)&&(identical(other.cache, cache) || other.cache == cache)&&(identical(other.regex, regex) || other.regex == regex)&&(identical(other.denylist, denylist) || other.denylist == denylist)&&(identical(other.externalBlockedIp, externalBlockedIp) || other.externalBlockedIp == externalBlockedIp)&&(identical(other.externalBlockedNull, externalBlockedNull) || other.externalBlockedNull == externalBlockedNull)&&(identical(other.externalBlockedNxra, externalBlockedNxra) || other.externalBlockedNxra == externalBlockedNxra)&&(identical(other.gravityCname, gravityCname) || other.gravityCname == gravityCname)&&(identical(other.regexCname, regexCname) || other.regexCname == regexCname)&&(identical(other.denylistCname, denylistCname) || other.denylistCname == denylistCname)&&(identical(other.retried, retried) || other.retried == retried)&&(identical(other.retriedDnssec, retriedDnssec) || other.retriedDnssec == retriedDnssec)&&(identical(other.inProgress, inProgress) || other.inProgress == inProgress)&&(identical(other.dbbusy, dbbusy) || other.dbbusy == dbbusy)&&(identical(other.specialDomain, specialDomain) || other.specialDomain == specialDomain)&&(identical(other.cacheStale, cacheStale) || other.cacheStale == cacheStale));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _StatsStatus&&(identical(other.unknown, unknown) || other.unknown == unknown)&&(identical(other.gravity, gravity) || other.gravity == gravity)&&(identical(other.forwarded, forwarded) || other.forwarded == forwarded)&&(identical(other.cache, cache) || other.cache == cache)&&(identical(other.regex, regex) || other.regex == regex)&&(identical(other.denylist, denylist) || other.denylist == denylist)&&(identical(other.externalBlockedIp, externalBlockedIp) || other.externalBlockedIp == externalBlockedIp)&&(identical(other.externalBlockedNull, externalBlockedNull) || other.externalBlockedNull == externalBlockedNull)&&(identical(other.externalBlockedNxra, externalBlockedNxra) || other.externalBlockedNxra == externalBlockedNxra)&&(identical(other.gravityCname, gravityCname) || other.gravityCname == gravityCname)&&(identical(other.regexCname, regexCname) || other.regexCname == regexCname)&&(identical(other.denylistCname, denylistCname) || other.denylistCname == denylistCname)&&(identical(other.retried, retried) || other.retried == retried)&&(identical(other.retriedDnssec, retriedDnssec) || other.retriedDnssec == retriedDnssec)&&(identical(other.inProgress, inProgress) || other.inProgress == inProgress)&&(identical(other.dbbusy, dbbusy) || other.dbbusy == dbbusy)&&(identical(other.specialDomain, specialDomain) || other.specialDomain == specialDomain)&&(identical(other.cacheStale, cacheStale) || other.cacheStale == cacheStale));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -1221,15 +1221,15 @@ int get hashCode => Object.hash(runtimeType,unknown,gravity,forwarded,cache,rege
 
 @override
 String toString() {
-  return 'Status(unknown: $unknown, gravity: $gravity, forwarded: $forwarded, cache: $cache, regex: $regex, denylist: $denylist, externalBlockedIp: $externalBlockedIp, externalBlockedNull: $externalBlockedNull, externalBlockedNxra: $externalBlockedNxra, gravityCname: $gravityCname, regexCname: $regexCname, denylistCname: $denylistCname, retried: $retried, retriedDnssec: $retriedDnssec, inProgress: $inProgress, dbbusy: $dbbusy, specialDomain: $specialDomain, cacheStale: $cacheStale)';
+  return 'StatsStatus(unknown: $unknown, gravity: $gravity, forwarded: $forwarded, cache: $cache, regex: $regex, denylist: $denylist, externalBlockedIp: $externalBlockedIp, externalBlockedNull: $externalBlockedNull, externalBlockedNxra: $externalBlockedNxra, gravityCname: $gravityCname, regexCname: $regexCname, denylistCname: $denylistCname, retried: $retried, retriedDnssec: $retriedDnssec, inProgress: $inProgress, dbbusy: $dbbusy, specialDomain: $specialDomain, cacheStale: $cacheStale)';
 }
 
 
 }
 
 /// @nodoc
-abstract mixin class _$StatusCopyWith<$Res> implements $StatusCopyWith<$Res> {
-  factory _$StatusCopyWith(_Status value, $Res Function(_Status) _then) = __$StatusCopyWithImpl;
+abstract mixin class _$StatsStatusCopyWith<$Res> implements $StatsStatusCopyWith<$Res> {
+  factory _$StatsStatusCopyWith(_StatsStatus value, $Res Function(_StatsStatus) _then) = __$StatsStatusCopyWithImpl;
 @override @useResult
 $Res call({
 @JsonKey(name: 'UNKNOWN') int unknown,@JsonKey(name: 'GRAVITY') int gravity,@JsonKey(name: 'FORWARDED') int forwarded,@JsonKey(name: 'CACHE') int cache,@JsonKey(name: 'REGEX') int regex,@JsonKey(name: 'DENYLIST') int denylist,@JsonKey(name: 'EXTERNAL_BLOCKED_IP') int externalBlockedIp,@JsonKey(name: 'EXTERNAL_BLOCKED_NULL') int externalBlockedNull,@JsonKey(name: 'EXTERNAL_BLOCKED_NXRA') int externalBlockedNxra,@JsonKey(name: 'GRAVITY_CNAME') int gravityCname,@JsonKey(name: 'REGEX_CNAME') int regexCname,@JsonKey(name: 'DENYLIST_CNAME') int denylistCname,@JsonKey(name: 'RETRIED') int retried,@JsonKey(name: 'RETRIED_DNSSEC') int retriedDnssec,@JsonKey(name: 'IN_PROGRESS') int inProgress,@JsonKey(name: 'DBBUSY') int dbbusy,@JsonKey(name: 'SPECIAL_DOMAIN') int specialDomain,@JsonKey(name: 'CACHE_STALE') int cacheStale
@@ -1240,17 +1240,17 @@ $Res call({
 
 }
 /// @nodoc
-class __$StatusCopyWithImpl<$Res>
-    implements _$StatusCopyWith<$Res> {
-  __$StatusCopyWithImpl(this._self, this._then);
+class __$StatsStatusCopyWithImpl<$Res>
+    implements _$StatsStatusCopyWith<$Res> {
+  __$StatsStatusCopyWithImpl(this._self, this._then);
 
-  final _Status _self;
-  final $Res Function(_Status) _then;
+  final _StatsStatus _self;
+  final $Res Function(_StatsStatus) _then;
 
-/// Create a copy of Status
+/// Create a copy of StatsStatus
 /// with the given fields replaced by the non-null parameter values.
 @override @pragma('vm:prefer-inline') $Res call({Object? unknown = null,Object? gravity = null,Object? forwarded = null,Object? cache = null,Object? regex = null,Object? denylist = null,Object? externalBlockedIp = null,Object? externalBlockedNull = null,Object? externalBlockedNxra = null,Object? gravityCname = null,Object? regexCname = null,Object? denylistCname = null,Object? retried = null,Object? retriedDnssec = null,Object? inProgress = null,Object? dbbusy = null,Object? specialDomain = null,Object? cacheStale = null,}) {
-  return _then(_Status(
+  return _then(_StatsStatus(
 unknown: null == unknown ? _self.unknown : unknown // ignore: cast_nullable_to_non_nullable
 as int,gravity: null == gravity ? _self.gravity : gravity // ignore: cast_nullable_to_non_nullable
 as int,forwarded: null == forwarded ? _self.forwarded : forwarded // ignore: cast_nullable_to_non_nullable
@@ -1278,22 +1278,22 @@ as int,
 
 
 /// @nodoc
-mixin _$Replies {
+mixin _$StatsReplies {
 
 @JsonKey(name: 'UNKNOWN') int get unknown;@JsonKey(name: 'NODATA') int get nodata;@JsonKey(name: 'NXDOMAIN') int get nxdomain;@JsonKey(name: 'CNAME') int get cname;@JsonKey(name: 'IP') int get ip;@JsonKey(name: 'DOMAIN') int get domain;@JsonKey(name: 'RRNAME') int get rrname;@JsonKey(name: 'SERVFAIL') int get servfail;@JsonKey(name: 'REFUSED') int get refused;@JsonKey(name: 'NOTIMP') int get notimp;@JsonKey(name: 'OTHER') int get other;@JsonKey(name: 'DNSSEC') int get dnssec;@JsonKey(name: 'NONE') int get none;@JsonKey(name: 'BLOB') int get blob;
-/// Create a copy of Replies
+/// Create a copy of StatsReplies
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
 @pragma('vm:prefer-inline')
-$RepliesCopyWith<Replies> get copyWith => _$RepliesCopyWithImpl<Replies>(this as Replies, _$identity);
+$StatsRepliesCopyWith<StatsReplies> get copyWith => _$StatsRepliesCopyWithImpl<StatsReplies>(this as StatsReplies, _$identity);
 
-  /// Serializes this Replies to a JSON map.
+  /// Serializes this StatsReplies to a JSON map.
   Map<String, dynamic> toJson();
 
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is Replies&&(identical(other.unknown, unknown) || other.unknown == unknown)&&(identical(other.nodata, nodata) || other.nodata == nodata)&&(identical(other.nxdomain, nxdomain) || other.nxdomain == nxdomain)&&(identical(other.cname, cname) || other.cname == cname)&&(identical(other.ip, ip) || other.ip == ip)&&(identical(other.domain, domain) || other.domain == domain)&&(identical(other.rrname, rrname) || other.rrname == rrname)&&(identical(other.servfail, servfail) || other.servfail == servfail)&&(identical(other.refused, refused) || other.refused == refused)&&(identical(other.notimp, notimp) || other.notimp == notimp)&&(identical(other.other, this.other) || other.other == this.other)&&(identical(other.dnssec, dnssec) || other.dnssec == dnssec)&&(identical(other.none, none) || other.none == none)&&(identical(other.blob, blob) || other.blob == blob));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is StatsReplies&&(identical(other.unknown, unknown) || other.unknown == unknown)&&(identical(other.nodata, nodata) || other.nodata == nodata)&&(identical(other.nxdomain, nxdomain) || other.nxdomain == nxdomain)&&(identical(other.cname, cname) || other.cname == cname)&&(identical(other.ip, ip) || other.ip == ip)&&(identical(other.domain, domain) || other.domain == domain)&&(identical(other.rrname, rrname) || other.rrname == rrname)&&(identical(other.servfail, servfail) || other.servfail == servfail)&&(identical(other.refused, refused) || other.refused == refused)&&(identical(other.notimp, notimp) || other.notimp == notimp)&&(identical(other.other, this.other) || other.other == this.other)&&(identical(other.dnssec, dnssec) || other.dnssec == dnssec)&&(identical(other.none, none) || other.none == none)&&(identical(other.blob, blob) || other.blob == blob));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -1302,15 +1302,15 @@ int get hashCode => Object.hash(runtimeType,unknown,nodata,nxdomain,cname,ip,dom
 
 @override
 String toString() {
-  return 'Replies(unknown: $unknown, nodata: $nodata, nxdomain: $nxdomain, cname: $cname, ip: $ip, domain: $domain, rrname: $rrname, servfail: $servfail, refused: $refused, notimp: $notimp, other: $other, dnssec: $dnssec, none: $none, blob: $blob)';
+  return 'StatsReplies(unknown: $unknown, nodata: $nodata, nxdomain: $nxdomain, cname: $cname, ip: $ip, domain: $domain, rrname: $rrname, servfail: $servfail, refused: $refused, notimp: $notimp, other: $other, dnssec: $dnssec, none: $none, blob: $blob)';
 }
 
 
 }
 
 /// @nodoc
-abstract mixin class $RepliesCopyWith<$Res>  {
-  factory $RepliesCopyWith(Replies value, $Res Function(Replies) _then) = _$RepliesCopyWithImpl;
+abstract mixin class $StatsRepliesCopyWith<$Res>  {
+  factory $StatsRepliesCopyWith(StatsReplies value, $Res Function(StatsReplies) _then) = _$StatsRepliesCopyWithImpl;
 @useResult
 $Res call({
 @JsonKey(name: 'UNKNOWN') int unknown,@JsonKey(name: 'NODATA') int nodata,@JsonKey(name: 'NXDOMAIN') int nxdomain,@JsonKey(name: 'CNAME') int cname,@JsonKey(name: 'IP') int ip,@JsonKey(name: 'DOMAIN') int domain,@JsonKey(name: 'RRNAME') int rrname,@JsonKey(name: 'SERVFAIL') int servfail,@JsonKey(name: 'REFUSED') int refused,@JsonKey(name: 'NOTIMP') int notimp,@JsonKey(name: 'OTHER') int other,@JsonKey(name: 'DNSSEC') int dnssec,@JsonKey(name: 'NONE') int none,@JsonKey(name: 'BLOB') int blob
@@ -1321,14 +1321,14 @@ $Res call({
 
 }
 /// @nodoc
-class _$RepliesCopyWithImpl<$Res>
-    implements $RepliesCopyWith<$Res> {
-  _$RepliesCopyWithImpl(this._self, this._then);
+class _$StatsRepliesCopyWithImpl<$Res>
+    implements $StatsRepliesCopyWith<$Res> {
+  _$StatsRepliesCopyWithImpl(this._self, this._then);
 
-  final Replies _self;
-  final $Res Function(Replies) _then;
+  final StatsReplies _self;
+  final $Res Function(StatsReplies) _then;
 
-/// Create a copy of Replies
+/// Create a copy of StatsReplies
 /// with the given fields replaced by the non-null parameter values.
 @pragma('vm:prefer-inline') @override $Res call({Object? unknown = null,Object? nodata = null,Object? nxdomain = null,Object? cname = null,Object? ip = null,Object? domain = null,Object? rrname = null,Object? servfail = null,Object? refused = null,Object? notimp = null,Object? other = null,Object? dnssec = null,Object? none = null,Object? blob = null,}) {
   return _then(_self.copyWith(
@@ -1353,8 +1353,8 @@ as int,
 }
 
 
-/// Adds pattern-matching-related methods to [Replies].
-extension RepliesPatterns on Replies {
+/// Adds pattern-matching-related methods to [StatsReplies].
+extension StatsRepliesPatterns on StatsReplies {
 /// A variant of `map` that fallback to returning `orElse`.
 ///
 /// It is equivalent to doing:
@@ -1367,10 +1367,10 @@ extension RepliesPatterns on Replies {
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeMap<TResult extends Object?>(TResult Function( _Replies value)?  $default,{required TResult orElse(),}){
+@optionalTypeArgs TResult maybeMap<TResult extends Object?>(TResult Function( _StatsReplies value)?  $default,{required TResult orElse(),}){
 final _that = this;
 switch (_that) {
-case _Replies() when $default != null:
+case _StatsReplies() when $default != null:
 return $default(_that);case _:
   return orElse();
 
@@ -1389,10 +1389,10 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult map<TResult extends Object?>(TResult Function( _Replies value)  $default,){
+@optionalTypeArgs TResult map<TResult extends Object?>(TResult Function( _StatsReplies value)  $default,){
 final _that = this;
 switch (_that) {
-case _Replies():
+case _StatsReplies():
 return $default(_that);}
 }
 /// A variant of `map` that fallback to returning `null`.
@@ -1407,10 +1407,10 @@ return $default(_that);}
 /// }
 /// ```
 
-@optionalTypeArgs TResult? mapOrNull<TResult extends Object?>(TResult? Function( _Replies value)?  $default,){
+@optionalTypeArgs TResult? mapOrNull<TResult extends Object?>(TResult? Function( _StatsReplies value)?  $default,){
 final _that = this;
 switch (_that) {
-case _Replies() when $default != null:
+case _StatsReplies() when $default != null:
 return $default(_that);case _:
   return null;
 
@@ -1430,7 +1430,7 @@ return $default(_that);case _:
 
 @optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function(@JsonKey(name: 'UNKNOWN')  int unknown, @JsonKey(name: 'NODATA')  int nodata, @JsonKey(name: 'NXDOMAIN')  int nxdomain, @JsonKey(name: 'CNAME')  int cname, @JsonKey(name: 'IP')  int ip, @JsonKey(name: 'DOMAIN')  int domain, @JsonKey(name: 'RRNAME')  int rrname, @JsonKey(name: 'SERVFAIL')  int servfail, @JsonKey(name: 'REFUSED')  int refused, @JsonKey(name: 'NOTIMP')  int notimp, @JsonKey(name: 'OTHER')  int other, @JsonKey(name: 'DNSSEC')  int dnssec, @JsonKey(name: 'NONE')  int none, @JsonKey(name: 'BLOB')  int blob)?  $default,{required TResult orElse(),}) {final _that = this;
 switch (_that) {
-case _Replies() when $default != null:
+case _StatsReplies() when $default != null:
 return $default(_that.unknown,_that.nodata,_that.nxdomain,_that.cname,_that.ip,_that.domain,_that.rrname,_that.servfail,_that.refused,_that.notimp,_that.other,_that.dnssec,_that.none,_that.blob);case _:
   return orElse();
 
@@ -1451,7 +1451,7 @@ return $default(_that.unknown,_that.nodata,_that.nxdomain,_that.cname,_that.ip,_
 
 @optionalTypeArgs TResult when<TResult extends Object?>(TResult Function(@JsonKey(name: 'UNKNOWN')  int unknown, @JsonKey(name: 'NODATA')  int nodata, @JsonKey(name: 'NXDOMAIN')  int nxdomain, @JsonKey(name: 'CNAME')  int cname, @JsonKey(name: 'IP')  int ip, @JsonKey(name: 'DOMAIN')  int domain, @JsonKey(name: 'RRNAME')  int rrname, @JsonKey(name: 'SERVFAIL')  int servfail, @JsonKey(name: 'REFUSED')  int refused, @JsonKey(name: 'NOTIMP')  int notimp, @JsonKey(name: 'OTHER')  int other, @JsonKey(name: 'DNSSEC')  int dnssec, @JsonKey(name: 'NONE')  int none, @JsonKey(name: 'BLOB')  int blob)  $default,) {final _that = this;
 switch (_that) {
-case _Replies():
+case _StatsReplies():
 return $default(_that.unknown,_that.nodata,_that.nxdomain,_that.cname,_that.ip,_that.domain,_that.rrname,_that.servfail,_that.refused,_that.notimp,_that.other,_that.dnssec,_that.none,_that.blob);}
 }
 /// A variant of `when` that fallback to returning `null`
@@ -1468,7 +1468,7 @@ return $default(_that.unknown,_that.nodata,_that.nxdomain,_that.cname,_that.ip,_
 
 @optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function(@JsonKey(name: 'UNKNOWN')  int unknown, @JsonKey(name: 'NODATA')  int nodata, @JsonKey(name: 'NXDOMAIN')  int nxdomain, @JsonKey(name: 'CNAME')  int cname, @JsonKey(name: 'IP')  int ip, @JsonKey(name: 'DOMAIN')  int domain, @JsonKey(name: 'RRNAME')  int rrname, @JsonKey(name: 'SERVFAIL')  int servfail, @JsonKey(name: 'REFUSED')  int refused, @JsonKey(name: 'NOTIMP')  int notimp, @JsonKey(name: 'OTHER')  int other, @JsonKey(name: 'DNSSEC')  int dnssec, @JsonKey(name: 'NONE')  int none, @JsonKey(name: 'BLOB')  int blob)?  $default,) {final _that = this;
 switch (_that) {
-case _Replies() when $default != null:
+case _StatsReplies() when $default != null:
 return $default(_that.unknown,_that.nodata,_that.nxdomain,_that.cname,_that.ip,_that.domain,_that.rrname,_that.servfail,_that.refused,_that.notimp,_that.other,_that.dnssec,_that.none,_that.blob);case _:
   return null;
 
@@ -1480,9 +1480,9 @@ return $default(_that.unknown,_that.nodata,_that.nxdomain,_that.cname,_that.ip,_
 /// @nodoc
 @JsonSerializable()
 
-class _Replies implements Replies {
-  const _Replies({@JsonKey(name: 'UNKNOWN') required this.unknown, @JsonKey(name: 'NODATA') required this.nodata, @JsonKey(name: 'NXDOMAIN') required this.nxdomain, @JsonKey(name: 'CNAME') required this.cname, @JsonKey(name: 'IP') required this.ip, @JsonKey(name: 'DOMAIN') required this.domain, @JsonKey(name: 'RRNAME') required this.rrname, @JsonKey(name: 'SERVFAIL') required this.servfail, @JsonKey(name: 'REFUSED') required this.refused, @JsonKey(name: 'NOTIMP') required this.notimp, @JsonKey(name: 'OTHER') required this.other, @JsonKey(name: 'DNSSEC') required this.dnssec, @JsonKey(name: 'NONE') required this.none, @JsonKey(name: 'BLOB') required this.blob});
-  factory _Replies.fromJson(Map<String, dynamic> json) => _$RepliesFromJson(json);
+class _StatsReplies implements StatsReplies {
+  const _StatsReplies({@JsonKey(name: 'UNKNOWN') required this.unknown, @JsonKey(name: 'NODATA') required this.nodata, @JsonKey(name: 'NXDOMAIN') required this.nxdomain, @JsonKey(name: 'CNAME') required this.cname, @JsonKey(name: 'IP') required this.ip, @JsonKey(name: 'DOMAIN') required this.domain, @JsonKey(name: 'RRNAME') required this.rrname, @JsonKey(name: 'SERVFAIL') required this.servfail, @JsonKey(name: 'REFUSED') required this.refused, @JsonKey(name: 'NOTIMP') required this.notimp, @JsonKey(name: 'OTHER') required this.other, @JsonKey(name: 'DNSSEC') required this.dnssec, @JsonKey(name: 'NONE') required this.none, @JsonKey(name: 'BLOB') required this.blob});
+  factory _StatsReplies.fromJson(Map<String, dynamic> json) => _$StatsRepliesFromJson(json);
 
 @override@JsonKey(name: 'UNKNOWN') final  int unknown;
 @override@JsonKey(name: 'NODATA') final  int nodata;
@@ -1499,20 +1499,20 @@ class _Replies implements Replies {
 @override@JsonKey(name: 'NONE') final  int none;
 @override@JsonKey(name: 'BLOB') final  int blob;
 
-/// Create a copy of Replies
+/// Create a copy of StatsReplies
 /// with the given fields replaced by the non-null parameter values.
 @override @JsonKey(includeFromJson: false, includeToJson: false)
 @pragma('vm:prefer-inline')
-_$RepliesCopyWith<_Replies> get copyWith => __$RepliesCopyWithImpl<_Replies>(this, _$identity);
+_$StatsRepliesCopyWith<_StatsReplies> get copyWith => __$StatsRepliesCopyWithImpl<_StatsReplies>(this, _$identity);
 
 @override
 Map<String, dynamic> toJson() {
-  return _$RepliesToJson(this, );
+  return _$StatsRepliesToJson(this, );
 }
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _Replies&&(identical(other.unknown, unknown) || other.unknown == unknown)&&(identical(other.nodata, nodata) || other.nodata == nodata)&&(identical(other.nxdomain, nxdomain) || other.nxdomain == nxdomain)&&(identical(other.cname, cname) || other.cname == cname)&&(identical(other.ip, ip) || other.ip == ip)&&(identical(other.domain, domain) || other.domain == domain)&&(identical(other.rrname, rrname) || other.rrname == rrname)&&(identical(other.servfail, servfail) || other.servfail == servfail)&&(identical(other.refused, refused) || other.refused == refused)&&(identical(other.notimp, notimp) || other.notimp == notimp)&&(identical(other.other, this.other) || other.other == this.other)&&(identical(other.dnssec, dnssec) || other.dnssec == dnssec)&&(identical(other.none, none) || other.none == none)&&(identical(other.blob, blob) || other.blob == blob));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _StatsReplies&&(identical(other.unknown, unknown) || other.unknown == unknown)&&(identical(other.nodata, nodata) || other.nodata == nodata)&&(identical(other.nxdomain, nxdomain) || other.nxdomain == nxdomain)&&(identical(other.cname, cname) || other.cname == cname)&&(identical(other.ip, ip) || other.ip == ip)&&(identical(other.domain, domain) || other.domain == domain)&&(identical(other.rrname, rrname) || other.rrname == rrname)&&(identical(other.servfail, servfail) || other.servfail == servfail)&&(identical(other.refused, refused) || other.refused == refused)&&(identical(other.notimp, notimp) || other.notimp == notimp)&&(identical(other.other, this.other) || other.other == this.other)&&(identical(other.dnssec, dnssec) || other.dnssec == dnssec)&&(identical(other.none, none) || other.none == none)&&(identical(other.blob, blob) || other.blob == blob));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -1521,15 +1521,15 @@ int get hashCode => Object.hash(runtimeType,unknown,nodata,nxdomain,cname,ip,dom
 
 @override
 String toString() {
-  return 'Replies(unknown: $unknown, nodata: $nodata, nxdomain: $nxdomain, cname: $cname, ip: $ip, domain: $domain, rrname: $rrname, servfail: $servfail, refused: $refused, notimp: $notimp, other: $other, dnssec: $dnssec, none: $none, blob: $blob)';
+  return 'StatsReplies(unknown: $unknown, nodata: $nodata, nxdomain: $nxdomain, cname: $cname, ip: $ip, domain: $domain, rrname: $rrname, servfail: $servfail, refused: $refused, notimp: $notimp, other: $other, dnssec: $dnssec, none: $none, blob: $blob)';
 }
 
 
 }
 
 /// @nodoc
-abstract mixin class _$RepliesCopyWith<$Res> implements $RepliesCopyWith<$Res> {
-  factory _$RepliesCopyWith(_Replies value, $Res Function(_Replies) _then) = __$RepliesCopyWithImpl;
+abstract mixin class _$StatsRepliesCopyWith<$Res> implements $StatsRepliesCopyWith<$Res> {
+  factory _$StatsRepliesCopyWith(_StatsReplies value, $Res Function(_StatsReplies) _then) = __$StatsRepliesCopyWithImpl;
 @override @useResult
 $Res call({
 @JsonKey(name: 'UNKNOWN') int unknown,@JsonKey(name: 'NODATA') int nodata,@JsonKey(name: 'NXDOMAIN') int nxdomain,@JsonKey(name: 'CNAME') int cname,@JsonKey(name: 'IP') int ip,@JsonKey(name: 'DOMAIN') int domain,@JsonKey(name: 'RRNAME') int rrname,@JsonKey(name: 'SERVFAIL') int servfail,@JsonKey(name: 'REFUSED') int refused,@JsonKey(name: 'NOTIMP') int notimp,@JsonKey(name: 'OTHER') int other,@JsonKey(name: 'DNSSEC') int dnssec,@JsonKey(name: 'NONE') int none,@JsonKey(name: 'BLOB') int blob
@@ -1540,17 +1540,17 @@ $Res call({
 
 }
 /// @nodoc
-class __$RepliesCopyWithImpl<$Res>
-    implements _$RepliesCopyWith<$Res> {
-  __$RepliesCopyWithImpl(this._self, this._then);
+class __$StatsRepliesCopyWithImpl<$Res>
+    implements _$StatsRepliesCopyWith<$Res> {
+  __$StatsRepliesCopyWithImpl(this._self, this._then);
 
-  final _Replies _self;
-  final $Res Function(_Replies) _then;
+  final _StatsReplies _self;
+  final $Res Function(_StatsReplies) _then;
 
-/// Create a copy of Replies
+/// Create a copy of StatsReplies
 /// with the given fields replaced by the non-null parameter values.
 @override @pragma('vm:prefer-inline') $Res call({Object? unknown = null,Object? nodata = null,Object? nxdomain = null,Object? cname = null,Object? ip = null,Object? domain = null,Object? rrname = null,Object? servfail = null,Object? refused = null,Object? notimp = null,Object? other = null,Object? dnssec = null,Object? none = null,Object? blob = null,}) {
-  return _then(_Replies(
+  return _then(_StatsReplies(
 unknown: null == unknown ? _self.unknown : unknown // ignore: cast_nullable_to_non_nullable
 as int,nodata: null == nodata ? _self.nodata : nodata // ignore: cast_nullable_to_non_nullable
 as int,nxdomain: null == nxdomain ? _self.nxdomain : nxdomain // ignore: cast_nullable_to_non_nullable
@@ -1574,22 +1574,22 @@ as int,
 
 
 /// @nodoc
-mixin _$Clients {
+mixin _$StatsClients {
 
  int get active; int get total;
-/// Create a copy of Clients
+/// Create a copy of StatsClients
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
 @pragma('vm:prefer-inline')
-$ClientsCopyWith<Clients> get copyWith => _$ClientsCopyWithImpl<Clients>(this as Clients, _$identity);
+$StatsClientsCopyWith<StatsClients> get copyWith => _$StatsClientsCopyWithImpl<StatsClients>(this as StatsClients, _$identity);
 
-  /// Serializes this Clients to a JSON map.
+  /// Serializes this StatsClients to a JSON map.
   Map<String, dynamic> toJson();
 
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is Clients&&(identical(other.active, active) || other.active == active)&&(identical(other.total, total) || other.total == total));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is StatsClients&&(identical(other.active, active) || other.active == active)&&(identical(other.total, total) || other.total == total));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -1598,15 +1598,15 @@ int get hashCode => Object.hash(runtimeType,active,total);
 
 @override
 String toString() {
-  return 'Clients(active: $active, total: $total)';
+  return 'StatsClients(active: $active, total: $total)';
 }
 
 
 }
 
 /// @nodoc
-abstract mixin class $ClientsCopyWith<$Res>  {
-  factory $ClientsCopyWith(Clients value, $Res Function(Clients) _then) = _$ClientsCopyWithImpl;
+abstract mixin class $StatsClientsCopyWith<$Res>  {
+  factory $StatsClientsCopyWith(StatsClients value, $Res Function(StatsClients) _then) = _$StatsClientsCopyWithImpl;
 @useResult
 $Res call({
  int active, int total
@@ -1617,14 +1617,14 @@ $Res call({
 
 }
 /// @nodoc
-class _$ClientsCopyWithImpl<$Res>
-    implements $ClientsCopyWith<$Res> {
-  _$ClientsCopyWithImpl(this._self, this._then);
+class _$StatsClientsCopyWithImpl<$Res>
+    implements $StatsClientsCopyWith<$Res> {
+  _$StatsClientsCopyWithImpl(this._self, this._then);
 
-  final Clients _self;
-  final $Res Function(Clients) _then;
+  final StatsClients _self;
+  final $Res Function(StatsClients) _then;
 
-/// Create a copy of Clients
+/// Create a copy of StatsClients
 /// with the given fields replaced by the non-null parameter values.
 @pragma('vm:prefer-inline') @override $Res call({Object? active = null,Object? total = null,}) {
   return _then(_self.copyWith(
@@ -1637,8 +1637,8 @@ as int,
 }
 
 
-/// Adds pattern-matching-related methods to [Clients].
-extension ClientsPatterns on Clients {
+/// Adds pattern-matching-related methods to [StatsClients].
+extension StatsClientsPatterns on StatsClients {
 /// A variant of `map` that fallback to returning `orElse`.
 ///
 /// It is equivalent to doing:
@@ -1651,10 +1651,10 @@ extension ClientsPatterns on Clients {
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeMap<TResult extends Object?>(TResult Function( _Clients value)?  $default,{required TResult orElse(),}){
+@optionalTypeArgs TResult maybeMap<TResult extends Object?>(TResult Function( _StatsClients value)?  $default,{required TResult orElse(),}){
 final _that = this;
 switch (_that) {
-case _Clients() when $default != null:
+case _StatsClients() when $default != null:
 return $default(_that);case _:
   return orElse();
 
@@ -1673,10 +1673,10 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult map<TResult extends Object?>(TResult Function( _Clients value)  $default,){
+@optionalTypeArgs TResult map<TResult extends Object?>(TResult Function( _StatsClients value)  $default,){
 final _that = this;
 switch (_that) {
-case _Clients():
+case _StatsClients():
 return $default(_that);}
 }
 /// A variant of `map` that fallback to returning `null`.
@@ -1691,10 +1691,10 @@ return $default(_that);}
 /// }
 /// ```
 
-@optionalTypeArgs TResult? mapOrNull<TResult extends Object?>(TResult? Function( _Clients value)?  $default,){
+@optionalTypeArgs TResult? mapOrNull<TResult extends Object?>(TResult? Function( _StatsClients value)?  $default,){
 final _that = this;
 switch (_that) {
-case _Clients() when $default != null:
+case _StatsClients() when $default != null:
 return $default(_that);case _:
   return null;
 
@@ -1714,7 +1714,7 @@ return $default(_that);case _:
 
 @optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( int active,  int total)?  $default,{required TResult orElse(),}) {final _that = this;
 switch (_that) {
-case _Clients() when $default != null:
+case _StatsClients() when $default != null:
 return $default(_that.active,_that.total);case _:
   return orElse();
 
@@ -1735,7 +1735,7 @@ return $default(_that.active,_that.total);case _:
 
 @optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( int active,  int total)  $default,) {final _that = this;
 switch (_that) {
-case _Clients():
+case _StatsClients():
 return $default(_that.active,_that.total);}
 }
 /// A variant of `when` that fallback to returning `null`
@@ -1752,7 +1752,7 @@ return $default(_that.active,_that.total);}
 
 @optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( int active,  int total)?  $default,) {final _that = this;
 switch (_that) {
-case _Clients() when $default != null:
+case _StatsClients() when $default != null:
 return $default(_that.active,_that.total);case _:
   return null;
 
@@ -1764,27 +1764,27 @@ return $default(_that.active,_that.total);case _:
 /// @nodoc
 @JsonSerializable()
 
-class _Clients implements Clients {
-  const _Clients({required this.active, required this.total});
-  factory _Clients.fromJson(Map<String, dynamic> json) => _$ClientsFromJson(json);
+class _StatsClients implements StatsClients {
+  const _StatsClients({required this.active, required this.total});
+  factory _StatsClients.fromJson(Map<String, dynamic> json) => _$StatsClientsFromJson(json);
 
 @override final  int active;
 @override final  int total;
 
-/// Create a copy of Clients
+/// Create a copy of StatsClients
 /// with the given fields replaced by the non-null parameter values.
 @override @JsonKey(includeFromJson: false, includeToJson: false)
 @pragma('vm:prefer-inline')
-_$ClientsCopyWith<_Clients> get copyWith => __$ClientsCopyWithImpl<_Clients>(this, _$identity);
+_$StatsClientsCopyWith<_StatsClients> get copyWith => __$StatsClientsCopyWithImpl<_StatsClients>(this, _$identity);
 
 @override
 Map<String, dynamic> toJson() {
-  return _$ClientsToJson(this, );
+  return _$StatsClientsToJson(this, );
 }
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _Clients&&(identical(other.active, active) || other.active == active)&&(identical(other.total, total) || other.total == total));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _StatsClients&&(identical(other.active, active) || other.active == active)&&(identical(other.total, total) || other.total == total));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -1793,15 +1793,15 @@ int get hashCode => Object.hash(runtimeType,active,total);
 
 @override
 String toString() {
-  return 'Clients(active: $active, total: $total)';
+  return 'StatsClients(active: $active, total: $total)';
 }
 
 
 }
 
 /// @nodoc
-abstract mixin class _$ClientsCopyWith<$Res> implements $ClientsCopyWith<$Res> {
-  factory _$ClientsCopyWith(_Clients value, $Res Function(_Clients) _then) = __$ClientsCopyWithImpl;
+abstract mixin class _$StatsClientsCopyWith<$Res> implements $StatsClientsCopyWith<$Res> {
+  factory _$StatsClientsCopyWith(_StatsClients value, $Res Function(_StatsClients) _then) = __$StatsClientsCopyWithImpl;
 @override @useResult
 $Res call({
  int active, int total
@@ -1812,17 +1812,17 @@ $Res call({
 
 }
 /// @nodoc
-class __$ClientsCopyWithImpl<$Res>
-    implements _$ClientsCopyWith<$Res> {
-  __$ClientsCopyWithImpl(this._self, this._then);
+class __$StatsClientsCopyWithImpl<$Res>
+    implements _$StatsClientsCopyWith<$Res> {
+  __$StatsClientsCopyWithImpl(this._self, this._then);
 
-  final _Clients _self;
-  final $Res Function(_Clients) _then;
+  final _StatsClients _self;
+  final $Res Function(_StatsClients) _then;
 
-/// Create a copy of Clients
+/// Create a copy of StatsClients
 /// with the given fields replaced by the non-null parameter values.
 @override @pragma('vm:prefer-inline') $Res call({Object? active = null,Object? total = null,}) {
-  return _then(_Clients(
+  return _then(_StatsClients(
 active: null == active ? _self.active : active // ignore: cast_nullable_to_non_nullable
 as int,total: null == total ? _self.total : total // ignore: cast_nullable_to_non_nullable
 as int,
@@ -1834,22 +1834,22 @@ as int,
 
 
 /// @nodoc
-mixin _$Gravity {
+mixin _$StatsGravity {
 
 @JsonKey(name: 'domains_being_blocked') int get domainsBeingBlocked;@JsonKey(name: 'last_update') int get lastUpdate;
-/// Create a copy of Gravity
+/// Create a copy of StatsGravity
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
 @pragma('vm:prefer-inline')
-$GravityCopyWith<Gravity> get copyWith => _$GravityCopyWithImpl<Gravity>(this as Gravity, _$identity);
+$StatsGravityCopyWith<StatsGravity> get copyWith => _$StatsGravityCopyWithImpl<StatsGravity>(this as StatsGravity, _$identity);
 
-  /// Serializes this Gravity to a JSON map.
+  /// Serializes this StatsGravity to a JSON map.
   Map<String, dynamic> toJson();
 
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is Gravity&&(identical(other.domainsBeingBlocked, domainsBeingBlocked) || other.domainsBeingBlocked == domainsBeingBlocked)&&(identical(other.lastUpdate, lastUpdate) || other.lastUpdate == lastUpdate));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is StatsGravity&&(identical(other.domainsBeingBlocked, domainsBeingBlocked) || other.domainsBeingBlocked == domainsBeingBlocked)&&(identical(other.lastUpdate, lastUpdate) || other.lastUpdate == lastUpdate));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -1858,15 +1858,15 @@ int get hashCode => Object.hash(runtimeType,domainsBeingBlocked,lastUpdate);
 
 @override
 String toString() {
-  return 'Gravity(domainsBeingBlocked: $domainsBeingBlocked, lastUpdate: $lastUpdate)';
+  return 'StatsGravity(domainsBeingBlocked: $domainsBeingBlocked, lastUpdate: $lastUpdate)';
 }
 
 
 }
 
 /// @nodoc
-abstract mixin class $GravityCopyWith<$Res>  {
-  factory $GravityCopyWith(Gravity value, $Res Function(Gravity) _then) = _$GravityCopyWithImpl;
+abstract mixin class $StatsGravityCopyWith<$Res>  {
+  factory $StatsGravityCopyWith(StatsGravity value, $Res Function(StatsGravity) _then) = _$StatsGravityCopyWithImpl;
 @useResult
 $Res call({
 @JsonKey(name: 'domains_being_blocked') int domainsBeingBlocked,@JsonKey(name: 'last_update') int lastUpdate
@@ -1877,14 +1877,14 @@ $Res call({
 
 }
 /// @nodoc
-class _$GravityCopyWithImpl<$Res>
-    implements $GravityCopyWith<$Res> {
-  _$GravityCopyWithImpl(this._self, this._then);
+class _$StatsGravityCopyWithImpl<$Res>
+    implements $StatsGravityCopyWith<$Res> {
+  _$StatsGravityCopyWithImpl(this._self, this._then);
 
-  final Gravity _self;
-  final $Res Function(Gravity) _then;
+  final StatsGravity _self;
+  final $Res Function(StatsGravity) _then;
 
-/// Create a copy of Gravity
+/// Create a copy of StatsGravity
 /// with the given fields replaced by the non-null parameter values.
 @pragma('vm:prefer-inline') @override $Res call({Object? domainsBeingBlocked = null,Object? lastUpdate = null,}) {
   return _then(_self.copyWith(
@@ -1897,8 +1897,8 @@ as int,
 }
 
 
-/// Adds pattern-matching-related methods to [Gravity].
-extension GravityPatterns on Gravity {
+/// Adds pattern-matching-related methods to [StatsGravity].
+extension StatsGravityPatterns on StatsGravity {
 /// A variant of `map` that fallback to returning `orElse`.
 ///
 /// It is equivalent to doing:
@@ -1911,10 +1911,10 @@ extension GravityPatterns on Gravity {
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeMap<TResult extends Object?>(TResult Function( _Gravity value)?  $default,{required TResult orElse(),}){
+@optionalTypeArgs TResult maybeMap<TResult extends Object?>(TResult Function( _StatsGravity value)?  $default,{required TResult orElse(),}){
 final _that = this;
 switch (_that) {
-case _Gravity() when $default != null:
+case _StatsGravity() when $default != null:
 return $default(_that);case _:
   return orElse();
 
@@ -1933,10 +1933,10 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult map<TResult extends Object?>(TResult Function( _Gravity value)  $default,){
+@optionalTypeArgs TResult map<TResult extends Object?>(TResult Function( _StatsGravity value)  $default,){
 final _that = this;
 switch (_that) {
-case _Gravity():
+case _StatsGravity():
 return $default(_that);}
 }
 /// A variant of `map` that fallback to returning `null`.
@@ -1951,10 +1951,10 @@ return $default(_that);}
 /// }
 /// ```
 
-@optionalTypeArgs TResult? mapOrNull<TResult extends Object?>(TResult? Function( _Gravity value)?  $default,){
+@optionalTypeArgs TResult? mapOrNull<TResult extends Object?>(TResult? Function( _StatsGravity value)?  $default,){
 final _that = this;
 switch (_that) {
-case _Gravity() when $default != null:
+case _StatsGravity() when $default != null:
 return $default(_that);case _:
   return null;
 
@@ -1974,7 +1974,7 @@ return $default(_that);case _:
 
 @optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function(@JsonKey(name: 'domains_being_blocked')  int domainsBeingBlocked, @JsonKey(name: 'last_update')  int lastUpdate)?  $default,{required TResult orElse(),}) {final _that = this;
 switch (_that) {
-case _Gravity() when $default != null:
+case _StatsGravity() when $default != null:
 return $default(_that.domainsBeingBlocked,_that.lastUpdate);case _:
   return orElse();
 
@@ -1995,7 +1995,7 @@ return $default(_that.domainsBeingBlocked,_that.lastUpdate);case _:
 
 @optionalTypeArgs TResult when<TResult extends Object?>(TResult Function(@JsonKey(name: 'domains_being_blocked')  int domainsBeingBlocked, @JsonKey(name: 'last_update')  int lastUpdate)  $default,) {final _that = this;
 switch (_that) {
-case _Gravity():
+case _StatsGravity():
 return $default(_that.domainsBeingBlocked,_that.lastUpdate);}
 }
 /// A variant of `when` that fallback to returning `null`
@@ -2012,7 +2012,7 @@ return $default(_that.domainsBeingBlocked,_that.lastUpdate);}
 
 @optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function(@JsonKey(name: 'domains_being_blocked')  int domainsBeingBlocked, @JsonKey(name: 'last_update')  int lastUpdate)?  $default,) {final _that = this;
 switch (_that) {
-case _Gravity() when $default != null:
+case _StatsGravity() when $default != null:
 return $default(_that.domainsBeingBlocked,_that.lastUpdate);case _:
   return null;
 
@@ -2024,27 +2024,27 @@ return $default(_that.domainsBeingBlocked,_that.lastUpdate);case _:
 /// @nodoc
 @JsonSerializable()
 
-class _Gravity implements Gravity {
-  const _Gravity({@JsonKey(name: 'domains_being_blocked') required this.domainsBeingBlocked, @JsonKey(name: 'last_update') required this.lastUpdate});
-  factory _Gravity.fromJson(Map<String, dynamic> json) => _$GravityFromJson(json);
+class _StatsGravity implements StatsGravity {
+  const _StatsGravity({@JsonKey(name: 'domains_being_blocked') required this.domainsBeingBlocked, @JsonKey(name: 'last_update') required this.lastUpdate});
+  factory _StatsGravity.fromJson(Map<String, dynamic> json) => _$StatsGravityFromJson(json);
 
 @override@JsonKey(name: 'domains_being_blocked') final  int domainsBeingBlocked;
 @override@JsonKey(name: 'last_update') final  int lastUpdate;
 
-/// Create a copy of Gravity
+/// Create a copy of StatsGravity
 /// with the given fields replaced by the non-null parameter values.
 @override @JsonKey(includeFromJson: false, includeToJson: false)
 @pragma('vm:prefer-inline')
-_$GravityCopyWith<_Gravity> get copyWith => __$GravityCopyWithImpl<_Gravity>(this, _$identity);
+_$StatsGravityCopyWith<_StatsGravity> get copyWith => __$StatsGravityCopyWithImpl<_StatsGravity>(this, _$identity);
 
 @override
 Map<String, dynamic> toJson() {
-  return _$GravityToJson(this, );
+  return _$StatsGravityToJson(this, );
 }
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _Gravity&&(identical(other.domainsBeingBlocked, domainsBeingBlocked) || other.domainsBeingBlocked == domainsBeingBlocked)&&(identical(other.lastUpdate, lastUpdate) || other.lastUpdate == lastUpdate));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _StatsGravity&&(identical(other.domainsBeingBlocked, domainsBeingBlocked) || other.domainsBeingBlocked == domainsBeingBlocked)&&(identical(other.lastUpdate, lastUpdate) || other.lastUpdate == lastUpdate));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -2053,15 +2053,15 @@ int get hashCode => Object.hash(runtimeType,domainsBeingBlocked,lastUpdate);
 
 @override
 String toString() {
-  return 'Gravity(domainsBeingBlocked: $domainsBeingBlocked, lastUpdate: $lastUpdate)';
+  return 'StatsGravity(domainsBeingBlocked: $domainsBeingBlocked, lastUpdate: $lastUpdate)';
 }
 
 
 }
 
 /// @nodoc
-abstract mixin class _$GravityCopyWith<$Res> implements $GravityCopyWith<$Res> {
-  factory _$GravityCopyWith(_Gravity value, $Res Function(_Gravity) _then) = __$GravityCopyWithImpl;
+abstract mixin class _$StatsGravityCopyWith<$Res> implements $StatsGravityCopyWith<$Res> {
+  factory _$StatsGravityCopyWith(_StatsGravity value, $Res Function(_StatsGravity) _then) = __$StatsGravityCopyWithImpl;
 @override @useResult
 $Res call({
 @JsonKey(name: 'domains_being_blocked') int domainsBeingBlocked,@JsonKey(name: 'last_update') int lastUpdate
@@ -2072,17 +2072,17 @@ $Res call({
 
 }
 /// @nodoc
-class __$GravityCopyWithImpl<$Res>
-    implements _$GravityCopyWith<$Res> {
-  __$GravityCopyWithImpl(this._self, this._then);
+class __$StatsGravityCopyWithImpl<$Res>
+    implements _$StatsGravityCopyWith<$Res> {
+  __$StatsGravityCopyWithImpl(this._self, this._then);
 
-  final _Gravity _self;
-  final $Res Function(_Gravity) _then;
+  final _StatsGravity _self;
+  final $Res Function(_StatsGravity) _then;
 
-/// Create a copy of Gravity
+/// Create a copy of StatsGravity
 /// with the given fields replaced by the non-null parameter values.
 @override @pragma('vm:prefer-inline') $Res call({Object? domainsBeingBlocked = null,Object? lastUpdate = null,}) {
-  return _then(_Gravity(
+  return _then(_StatsGravity(
 domainsBeingBlocked: null == domainsBeingBlocked ? _self.domainsBeingBlocked : domainsBeingBlocked // ignore: cast_nullable_to_non_nullable
 as int,lastUpdate: null == lastUpdate ? _self.lastUpdate : lastUpdate // ignore: cast_nullable_to_non_nullable
 as int,
@@ -2096,7 +2096,7 @@ as int,
 /// @nodoc
 mixin _$StatsTopDomains {
 
- List<Domain> get domains;@JsonKey(name: 'total_queries') int get totalQueries;@JsonKey(name: 'blocked_queries') int get blockedQueries; double get took;
+ List<StatsDomain> get domains;@JsonKey(name: 'total_queries') int get totalQueries;@JsonKey(name: 'blocked_queries') int get blockedQueries; double get took;
 /// Create a copy of StatsTopDomains
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -2129,7 +2129,7 @@ abstract mixin class $StatsTopDomainsCopyWith<$Res>  {
   factory $StatsTopDomainsCopyWith(StatsTopDomains value, $Res Function(StatsTopDomains) _then) = _$StatsTopDomainsCopyWithImpl;
 @useResult
 $Res call({
- List<Domain> domains,@JsonKey(name: 'total_queries') int totalQueries,@JsonKey(name: 'blocked_queries') int blockedQueries, double took
+ List<StatsDomain> domains,@JsonKey(name: 'total_queries') int totalQueries,@JsonKey(name: 'blocked_queries') int blockedQueries, double took
 });
 
 
@@ -2149,7 +2149,7 @@ class _$StatsTopDomainsCopyWithImpl<$Res>
 @pragma('vm:prefer-inline') @override $Res call({Object? domains = null,Object? totalQueries = null,Object? blockedQueries = null,Object? took = null,}) {
   return _then(_self.copyWith(
 domains: null == domains ? _self.domains : domains // ignore: cast_nullable_to_non_nullable
-as List<Domain>,totalQueries: null == totalQueries ? _self.totalQueries : totalQueries // ignore: cast_nullable_to_non_nullable
+as List<StatsDomain>,totalQueries: null == totalQueries ? _self.totalQueries : totalQueries // ignore: cast_nullable_to_non_nullable
 as int,blockedQueries: null == blockedQueries ? _self.blockedQueries : blockedQueries // ignore: cast_nullable_to_non_nullable
 as int,took: null == took ? _self.took : took // ignore: cast_nullable_to_non_nullable
 as double,
@@ -2234,7 +2234,7 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( List<Domain> domains, @JsonKey(name: 'total_queries')  int totalQueries, @JsonKey(name: 'blocked_queries')  int blockedQueries,  double took)?  $default,{required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( List<StatsDomain> domains, @JsonKey(name: 'total_queries')  int totalQueries, @JsonKey(name: 'blocked_queries')  int blockedQueries,  double took)?  $default,{required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _StatsTopDomains() when $default != null:
 return $default(_that.domains,_that.totalQueries,_that.blockedQueries,_that.took);case _:
@@ -2255,7 +2255,7 @@ return $default(_that.domains,_that.totalQueries,_that.blockedQueries,_that.took
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( List<Domain> domains, @JsonKey(name: 'total_queries')  int totalQueries, @JsonKey(name: 'blocked_queries')  int blockedQueries,  double took)  $default,) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( List<StatsDomain> domains, @JsonKey(name: 'total_queries')  int totalQueries, @JsonKey(name: 'blocked_queries')  int blockedQueries,  double took)  $default,) {final _that = this;
 switch (_that) {
 case _StatsTopDomains():
 return $default(_that.domains,_that.totalQueries,_that.blockedQueries,_that.took);}
@@ -2272,7 +2272,7 @@ return $default(_that.domains,_that.totalQueries,_that.blockedQueries,_that.took
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( List<Domain> domains, @JsonKey(name: 'total_queries')  int totalQueries, @JsonKey(name: 'blocked_queries')  int blockedQueries,  double took)?  $default,) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( List<StatsDomain> domains, @JsonKey(name: 'total_queries')  int totalQueries, @JsonKey(name: 'blocked_queries')  int blockedQueries,  double took)?  $default,) {final _that = this;
 switch (_that) {
 case _StatsTopDomains() when $default != null:
 return $default(_that.domains,_that.totalQueries,_that.blockedQueries,_that.took);case _:
@@ -2287,11 +2287,11 @@ return $default(_that.domains,_that.totalQueries,_that.blockedQueries,_that.took
 
 @JsonSerializable(explicitToJson: true)
 class _StatsTopDomains implements StatsTopDomains {
-  const _StatsTopDomains({required final  List<Domain> domains, @JsonKey(name: 'total_queries') required this.totalQueries, @JsonKey(name: 'blocked_queries') required this.blockedQueries, required this.took}): _domains = domains;
+  const _StatsTopDomains({required final  List<StatsDomain> domains, @JsonKey(name: 'total_queries') required this.totalQueries, @JsonKey(name: 'blocked_queries') required this.blockedQueries, required this.took}): _domains = domains;
   factory _StatsTopDomains.fromJson(Map<String, dynamic> json) => _$StatsTopDomainsFromJson(json);
 
- final  List<Domain> _domains;
-@override List<Domain> get domains {
+ final  List<StatsDomain> _domains;
+@override List<StatsDomain> get domains {
   if (_domains is EqualUnmodifiableListView) return _domains;
   // ignore: implicit_dynamic_type
   return EqualUnmodifiableListView(_domains);
@@ -2334,7 +2334,7 @@ abstract mixin class _$StatsTopDomainsCopyWith<$Res> implements $StatsTopDomains
   factory _$StatsTopDomainsCopyWith(_StatsTopDomains value, $Res Function(_StatsTopDomains) _then) = __$StatsTopDomainsCopyWithImpl;
 @override @useResult
 $Res call({
- List<Domain> domains,@JsonKey(name: 'total_queries') int totalQueries,@JsonKey(name: 'blocked_queries') int blockedQueries, double took
+ List<StatsDomain> domains,@JsonKey(name: 'total_queries') int totalQueries,@JsonKey(name: 'blocked_queries') int blockedQueries, double took
 });
 
 
@@ -2354,7 +2354,7 @@ class __$StatsTopDomainsCopyWithImpl<$Res>
 @override @pragma('vm:prefer-inline') $Res call({Object? domains = null,Object? totalQueries = null,Object? blockedQueries = null,Object? took = null,}) {
   return _then(_StatsTopDomains(
 domains: null == domains ? _self._domains : domains // ignore: cast_nullable_to_non_nullable
-as List<Domain>,totalQueries: null == totalQueries ? _self.totalQueries : totalQueries // ignore: cast_nullable_to_non_nullable
+as List<StatsDomain>,totalQueries: null == totalQueries ? _self.totalQueries : totalQueries // ignore: cast_nullable_to_non_nullable
 as int,blockedQueries: null == blockedQueries ? _self.blockedQueries : blockedQueries // ignore: cast_nullable_to_non_nullable
 as int,took: null == took ? _self.took : took // ignore: cast_nullable_to_non_nullable
 as double,
@@ -2366,22 +2366,22 @@ as double,
 
 
 /// @nodoc
-mixin _$Domain {
+mixin _$StatsDomain {
 
  String get domain; int get count;
-/// Create a copy of Domain
+/// Create a copy of StatsDomain
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
 @pragma('vm:prefer-inline')
-$DomainCopyWith<Domain> get copyWith => _$DomainCopyWithImpl<Domain>(this as Domain, _$identity);
+$StatsDomainCopyWith<StatsDomain> get copyWith => _$StatsDomainCopyWithImpl<StatsDomain>(this as StatsDomain, _$identity);
 
-  /// Serializes this Domain to a JSON map.
+  /// Serializes this StatsDomain to a JSON map.
   Map<String, dynamic> toJson();
 
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is Domain&&(identical(other.domain, domain) || other.domain == domain)&&(identical(other.count, count) || other.count == count));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is StatsDomain&&(identical(other.domain, domain) || other.domain == domain)&&(identical(other.count, count) || other.count == count));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -2390,15 +2390,15 @@ int get hashCode => Object.hash(runtimeType,domain,count);
 
 @override
 String toString() {
-  return 'Domain(domain: $domain, count: $count)';
+  return 'StatsDomain(domain: $domain, count: $count)';
 }
 
 
 }
 
 /// @nodoc
-abstract mixin class $DomainCopyWith<$Res>  {
-  factory $DomainCopyWith(Domain value, $Res Function(Domain) _then) = _$DomainCopyWithImpl;
+abstract mixin class $StatsDomainCopyWith<$Res>  {
+  factory $StatsDomainCopyWith(StatsDomain value, $Res Function(StatsDomain) _then) = _$StatsDomainCopyWithImpl;
 @useResult
 $Res call({
  String domain, int count
@@ -2409,14 +2409,14 @@ $Res call({
 
 }
 /// @nodoc
-class _$DomainCopyWithImpl<$Res>
-    implements $DomainCopyWith<$Res> {
-  _$DomainCopyWithImpl(this._self, this._then);
+class _$StatsDomainCopyWithImpl<$Res>
+    implements $StatsDomainCopyWith<$Res> {
+  _$StatsDomainCopyWithImpl(this._self, this._then);
 
-  final Domain _self;
-  final $Res Function(Domain) _then;
+  final StatsDomain _self;
+  final $Res Function(StatsDomain) _then;
 
-/// Create a copy of Domain
+/// Create a copy of StatsDomain
 /// with the given fields replaced by the non-null parameter values.
 @pragma('vm:prefer-inline') @override $Res call({Object? domain = null,Object? count = null,}) {
   return _then(_self.copyWith(
@@ -2429,8 +2429,8 @@ as int,
 }
 
 
-/// Adds pattern-matching-related methods to [Domain].
-extension DomainPatterns on Domain {
+/// Adds pattern-matching-related methods to [StatsDomain].
+extension StatsDomainPatterns on StatsDomain {
 /// A variant of `map` that fallback to returning `orElse`.
 ///
 /// It is equivalent to doing:
@@ -2443,10 +2443,10 @@ extension DomainPatterns on Domain {
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeMap<TResult extends Object?>(TResult Function( _Domain value)?  $default,{required TResult orElse(),}){
+@optionalTypeArgs TResult maybeMap<TResult extends Object?>(TResult Function( _StatsDomain value)?  $default,{required TResult orElse(),}){
 final _that = this;
 switch (_that) {
-case _Domain() when $default != null:
+case _StatsDomain() when $default != null:
 return $default(_that);case _:
   return orElse();
 
@@ -2465,10 +2465,10 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult map<TResult extends Object?>(TResult Function( _Domain value)  $default,){
+@optionalTypeArgs TResult map<TResult extends Object?>(TResult Function( _StatsDomain value)  $default,){
 final _that = this;
 switch (_that) {
-case _Domain():
+case _StatsDomain():
 return $default(_that);}
 }
 /// A variant of `map` that fallback to returning `null`.
@@ -2483,10 +2483,10 @@ return $default(_that);}
 /// }
 /// ```
 
-@optionalTypeArgs TResult? mapOrNull<TResult extends Object?>(TResult? Function( _Domain value)?  $default,){
+@optionalTypeArgs TResult? mapOrNull<TResult extends Object?>(TResult? Function( _StatsDomain value)?  $default,){
 final _that = this;
 switch (_that) {
-case _Domain() when $default != null:
+case _StatsDomain() when $default != null:
 return $default(_that);case _:
   return null;
 
@@ -2506,7 +2506,7 @@ return $default(_that);case _:
 
 @optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( String domain,  int count)?  $default,{required TResult orElse(),}) {final _that = this;
 switch (_that) {
-case _Domain() when $default != null:
+case _StatsDomain() when $default != null:
 return $default(_that.domain,_that.count);case _:
   return orElse();
 
@@ -2527,7 +2527,7 @@ return $default(_that.domain,_that.count);case _:
 
 @optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( String domain,  int count)  $default,) {final _that = this;
 switch (_that) {
-case _Domain():
+case _StatsDomain():
 return $default(_that.domain,_that.count);}
 }
 /// A variant of `when` that fallback to returning `null`
@@ -2544,7 +2544,7 @@ return $default(_that.domain,_that.count);}
 
 @optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( String domain,  int count)?  $default,) {final _that = this;
 switch (_that) {
-case _Domain() when $default != null:
+case _StatsDomain() when $default != null:
 return $default(_that.domain,_that.count);case _:
   return null;
 
@@ -2556,27 +2556,27 @@ return $default(_that.domain,_that.count);case _:
 /// @nodoc
 @JsonSerializable()
 
-class _Domain implements Domain {
-  const _Domain({required this.domain, required this.count});
-  factory _Domain.fromJson(Map<String, dynamic> json) => _$DomainFromJson(json);
+class _StatsDomain implements StatsDomain {
+  const _StatsDomain({required this.domain, required this.count});
+  factory _StatsDomain.fromJson(Map<String, dynamic> json) => _$StatsDomainFromJson(json);
 
 @override final  String domain;
 @override final  int count;
 
-/// Create a copy of Domain
+/// Create a copy of StatsDomain
 /// with the given fields replaced by the non-null parameter values.
 @override @JsonKey(includeFromJson: false, includeToJson: false)
 @pragma('vm:prefer-inline')
-_$DomainCopyWith<_Domain> get copyWith => __$DomainCopyWithImpl<_Domain>(this, _$identity);
+_$StatsDomainCopyWith<_StatsDomain> get copyWith => __$StatsDomainCopyWithImpl<_StatsDomain>(this, _$identity);
 
 @override
 Map<String, dynamic> toJson() {
-  return _$DomainToJson(this, );
+  return _$StatsDomainToJson(this, );
 }
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _Domain&&(identical(other.domain, domain) || other.domain == domain)&&(identical(other.count, count) || other.count == count));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _StatsDomain&&(identical(other.domain, domain) || other.domain == domain)&&(identical(other.count, count) || other.count == count));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -2585,15 +2585,15 @@ int get hashCode => Object.hash(runtimeType,domain,count);
 
 @override
 String toString() {
-  return 'Domain(domain: $domain, count: $count)';
+  return 'StatsDomain(domain: $domain, count: $count)';
 }
 
 
 }
 
 /// @nodoc
-abstract mixin class _$DomainCopyWith<$Res> implements $DomainCopyWith<$Res> {
-  factory _$DomainCopyWith(_Domain value, $Res Function(_Domain) _then) = __$DomainCopyWithImpl;
+abstract mixin class _$StatsDomainCopyWith<$Res> implements $StatsDomainCopyWith<$Res> {
+  factory _$StatsDomainCopyWith(_StatsDomain value, $Res Function(_StatsDomain) _then) = __$StatsDomainCopyWithImpl;
 @override @useResult
 $Res call({
  String domain, int count
@@ -2604,17 +2604,17 @@ $Res call({
 
 }
 /// @nodoc
-class __$DomainCopyWithImpl<$Res>
-    implements _$DomainCopyWith<$Res> {
-  __$DomainCopyWithImpl(this._self, this._then);
+class __$StatsDomainCopyWithImpl<$Res>
+    implements _$StatsDomainCopyWith<$Res> {
+  __$StatsDomainCopyWithImpl(this._self, this._then);
 
-  final _Domain _self;
-  final $Res Function(_Domain) _then;
+  final _StatsDomain _self;
+  final $Res Function(_StatsDomain) _then;
 
-/// Create a copy of Domain
+/// Create a copy of StatsDomain
 /// with the given fields replaced by the non-null parameter values.
 @override @pragma('vm:prefer-inline') $Res call({Object? domain = null,Object? count = null,}) {
-  return _then(_Domain(
+  return _then(_StatsDomain(
 domain: null == domain ? _self.domain : domain // ignore: cast_nullable_to_non_nullable
 as String,count: null == count ? _self.count : count // ignore: cast_nullable_to_non_nullable
 as int,
@@ -2628,7 +2628,7 @@ as int,
 /// @nodoc
 mixin _$StatsTopClients {
 
- List<Client> get clients;@JsonKey(name: 'total_queries') int get totalQueries;@JsonKey(name: 'blocked_queries') int get blockedQueries; double get took;
+ List<StatsClient> get clients;@JsonKey(name: 'total_queries') int get totalQueries;@JsonKey(name: 'blocked_queries') int get blockedQueries; double get took;
 /// Create a copy of StatsTopClients
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -2661,7 +2661,7 @@ abstract mixin class $StatsTopClientsCopyWith<$Res>  {
   factory $StatsTopClientsCopyWith(StatsTopClients value, $Res Function(StatsTopClients) _then) = _$StatsTopClientsCopyWithImpl;
 @useResult
 $Res call({
- List<Client> clients,@JsonKey(name: 'total_queries') int totalQueries,@JsonKey(name: 'blocked_queries') int blockedQueries, double took
+ List<StatsClient> clients,@JsonKey(name: 'total_queries') int totalQueries,@JsonKey(name: 'blocked_queries') int blockedQueries, double took
 });
 
 
@@ -2681,7 +2681,7 @@ class _$StatsTopClientsCopyWithImpl<$Res>
 @pragma('vm:prefer-inline') @override $Res call({Object? clients = null,Object? totalQueries = null,Object? blockedQueries = null,Object? took = null,}) {
   return _then(_self.copyWith(
 clients: null == clients ? _self.clients : clients // ignore: cast_nullable_to_non_nullable
-as List<Client>,totalQueries: null == totalQueries ? _self.totalQueries : totalQueries // ignore: cast_nullable_to_non_nullable
+as List<StatsClient>,totalQueries: null == totalQueries ? _self.totalQueries : totalQueries // ignore: cast_nullable_to_non_nullable
 as int,blockedQueries: null == blockedQueries ? _self.blockedQueries : blockedQueries // ignore: cast_nullable_to_non_nullable
 as int,took: null == took ? _self.took : took // ignore: cast_nullable_to_non_nullable
 as double,
@@ -2766,7 +2766,7 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( List<Client> clients, @JsonKey(name: 'total_queries')  int totalQueries, @JsonKey(name: 'blocked_queries')  int blockedQueries,  double took)?  $default,{required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( List<StatsClient> clients, @JsonKey(name: 'total_queries')  int totalQueries, @JsonKey(name: 'blocked_queries')  int blockedQueries,  double took)?  $default,{required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _StatsTopClients() when $default != null:
 return $default(_that.clients,_that.totalQueries,_that.blockedQueries,_that.took);case _:
@@ -2787,7 +2787,7 @@ return $default(_that.clients,_that.totalQueries,_that.blockedQueries,_that.took
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( List<Client> clients, @JsonKey(name: 'total_queries')  int totalQueries, @JsonKey(name: 'blocked_queries')  int blockedQueries,  double took)  $default,) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( List<StatsClient> clients, @JsonKey(name: 'total_queries')  int totalQueries, @JsonKey(name: 'blocked_queries')  int blockedQueries,  double took)  $default,) {final _that = this;
 switch (_that) {
 case _StatsTopClients():
 return $default(_that.clients,_that.totalQueries,_that.blockedQueries,_that.took);}
@@ -2804,7 +2804,7 @@ return $default(_that.clients,_that.totalQueries,_that.blockedQueries,_that.took
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( List<Client> clients, @JsonKey(name: 'total_queries')  int totalQueries, @JsonKey(name: 'blocked_queries')  int blockedQueries,  double took)?  $default,) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( List<StatsClient> clients, @JsonKey(name: 'total_queries')  int totalQueries, @JsonKey(name: 'blocked_queries')  int blockedQueries,  double took)?  $default,) {final _that = this;
 switch (_that) {
 case _StatsTopClients() when $default != null:
 return $default(_that.clients,_that.totalQueries,_that.blockedQueries,_that.took);case _:
@@ -2819,11 +2819,11 @@ return $default(_that.clients,_that.totalQueries,_that.blockedQueries,_that.took
 
 @JsonSerializable(explicitToJson: true)
 class _StatsTopClients implements StatsTopClients {
-  const _StatsTopClients({required final  List<Client> clients, @JsonKey(name: 'total_queries') required this.totalQueries, @JsonKey(name: 'blocked_queries') required this.blockedQueries, required this.took}): _clients = clients;
+  const _StatsTopClients({required final  List<StatsClient> clients, @JsonKey(name: 'total_queries') required this.totalQueries, @JsonKey(name: 'blocked_queries') required this.blockedQueries, required this.took}): _clients = clients;
   factory _StatsTopClients.fromJson(Map<String, dynamic> json) => _$StatsTopClientsFromJson(json);
 
- final  List<Client> _clients;
-@override List<Client> get clients {
+ final  List<StatsClient> _clients;
+@override List<StatsClient> get clients {
   if (_clients is EqualUnmodifiableListView) return _clients;
   // ignore: implicit_dynamic_type
   return EqualUnmodifiableListView(_clients);
@@ -2866,7 +2866,7 @@ abstract mixin class _$StatsTopClientsCopyWith<$Res> implements $StatsTopClients
   factory _$StatsTopClientsCopyWith(_StatsTopClients value, $Res Function(_StatsTopClients) _then) = __$StatsTopClientsCopyWithImpl;
 @override @useResult
 $Res call({
- List<Client> clients,@JsonKey(name: 'total_queries') int totalQueries,@JsonKey(name: 'blocked_queries') int blockedQueries, double took
+ List<StatsClient> clients,@JsonKey(name: 'total_queries') int totalQueries,@JsonKey(name: 'blocked_queries') int blockedQueries, double took
 });
 
 
@@ -2886,7 +2886,7 @@ class __$StatsTopClientsCopyWithImpl<$Res>
 @override @pragma('vm:prefer-inline') $Res call({Object? clients = null,Object? totalQueries = null,Object? blockedQueries = null,Object? took = null,}) {
   return _then(_StatsTopClients(
 clients: null == clients ? _self._clients : clients // ignore: cast_nullable_to_non_nullable
-as List<Client>,totalQueries: null == totalQueries ? _self.totalQueries : totalQueries // ignore: cast_nullable_to_non_nullable
+as List<StatsClient>,totalQueries: null == totalQueries ? _self.totalQueries : totalQueries // ignore: cast_nullable_to_non_nullable
 as int,blockedQueries: null == blockedQueries ? _self.blockedQueries : blockedQueries // ignore: cast_nullable_to_non_nullable
 as int,took: null == took ? _self.took : took // ignore: cast_nullable_to_non_nullable
 as double,
@@ -2898,22 +2898,22 @@ as double,
 
 
 /// @nodoc
-mixin _$Client {
+mixin _$StatsClient {
 
  String get ip; String get name; int get count;
-/// Create a copy of Client
+/// Create a copy of StatsClient
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
 @pragma('vm:prefer-inline')
-$ClientCopyWith<Client> get copyWith => _$ClientCopyWithImpl<Client>(this as Client, _$identity);
+$StatsClientCopyWith<StatsClient> get copyWith => _$StatsClientCopyWithImpl<StatsClient>(this as StatsClient, _$identity);
 
-  /// Serializes this Client to a JSON map.
+  /// Serializes this StatsClient to a JSON map.
   Map<String, dynamic> toJson();
 
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is Client&&(identical(other.ip, ip) || other.ip == ip)&&(identical(other.name, name) || other.name == name)&&(identical(other.count, count) || other.count == count));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is StatsClient&&(identical(other.ip, ip) || other.ip == ip)&&(identical(other.name, name) || other.name == name)&&(identical(other.count, count) || other.count == count));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -2922,15 +2922,15 @@ int get hashCode => Object.hash(runtimeType,ip,name,count);
 
 @override
 String toString() {
-  return 'Client(ip: $ip, name: $name, count: $count)';
+  return 'StatsClient(ip: $ip, name: $name, count: $count)';
 }
 
 
 }
 
 /// @nodoc
-abstract mixin class $ClientCopyWith<$Res>  {
-  factory $ClientCopyWith(Client value, $Res Function(Client) _then) = _$ClientCopyWithImpl;
+abstract mixin class $StatsClientCopyWith<$Res>  {
+  factory $StatsClientCopyWith(StatsClient value, $Res Function(StatsClient) _then) = _$StatsClientCopyWithImpl;
 @useResult
 $Res call({
  String ip, String name, int count
@@ -2941,14 +2941,14 @@ $Res call({
 
 }
 /// @nodoc
-class _$ClientCopyWithImpl<$Res>
-    implements $ClientCopyWith<$Res> {
-  _$ClientCopyWithImpl(this._self, this._then);
+class _$StatsClientCopyWithImpl<$Res>
+    implements $StatsClientCopyWith<$Res> {
+  _$StatsClientCopyWithImpl(this._self, this._then);
 
-  final Client _self;
-  final $Res Function(Client) _then;
+  final StatsClient _self;
+  final $Res Function(StatsClient) _then;
 
-/// Create a copy of Client
+/// Create a copy of StatsClient
 /// with the given fields replaced by the non-null parameter values.
 @pragma('vm:prefer-inline') @override $Res call({Object? ip = null,Object? name = null,Object? count = null,}) {
   return _then(_self.copyWith(
@@ -2962,8 +2962,8 @@ as int,
 }
 
 
-/// Adds pattern-matching-related methods to [Client].
-extension ClientPatterns on Client {
+/// Adds pattern-matching-related methods to [StatsClient].
+extension StatsClientPatterns on StatsClient {
 /// A variant of `map` that fallback to returning `orElse`.
 ///
 /// It is equivalent to doing:
@@ -2976,10 +2976,10 @@ extension ClientPatterns on Client {
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeMap<TResult extends Object?>(TResult Function( _Client value)?  $default,{required TResult orElse(),}){
+@optionalTypeArgs TResult maybeMap<TResult extends Object?>(TResult Function( _StatsClient value)?  $default,{required TResult orElse(),}){
 final _that = this;
 switch (_that) {
-case _Client() when $default != null:
+case _StatsClient() when $default != null:
 return $default(_that);case _:
   return orElse();
 
@@ -2998,10 +2998,10 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult map<TResult extends Object?>(TResult Function( _Client value)  $default,){
+@optionalTypeArgs TResult map<TResult extends Object?>(TResult Function( _StatsClient value)  $default,){
 final _that = this;
 switch (_that) {
-case _Client():
+case _StatsClient():
 return $default(_that);}
 }
 /// A variant of `map` that fallback to returning `null`.
@@ -3016,10 +3016,10 @@ return $default(_that);}
 /// }
 /// ```
 
-@optionalTypeArgs TResult? mapOrNull<TResult extends Object?>(TResult? Function( _Client value)?  $default,){
+@optionalTypeArgs TResult? mapOrNull<TResult extends Object?>(TResult? Function( _StatsClient value)?  $default,){
 final _that = this;
 switch (_that) {
-case _Client() when $default != null:
+case _StatsClient() when $default != null:
 return $default(_that);case _:
   return null;
 
@@ -3039,7 +3039,7 @@ return $default(_that);case _:
 
 @optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( String ip,  String name,  int count)?  $default,{required TResult orElse(),}) {final _that = this;
 switch (_that) {
-case _Client() when $default != null:
+case _StatsClient() when $default != null:
 return $default(_that.ip,_that.name,_that.count);case _:
   return orElse();
 
@@ -3060,7 +3060,7 @@ return $default(_that.ip,_that.name,_that.count);case _:
 
 @optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( String ip,  String name,  int count)  $default,) {final _that = this;
 switch (_that) {
-case _Client():
+case _StatsClient():
 return $default(_that.ip,_that.name,_that.count);}
 }
 /// A variant of `when` that fallback to returning `null`
@@ -3077,7 +3077,7 @@ return $default(_that.ip,_that.name,_that.count);}
 
 @optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( String ip,  String name,  int count)?  $default,) {final _that = this;
 switch (_that) {
-case _Client() when $default != null:
+case _StatsClient() when $default != null:
 return $default(_that.ip,_that.name,_that.count);case _:
   return null;
 
@@ -3089,28 +3089,28 @@ return $default(_that.ip,_that.name,_that.count);case _:
 /// @nodoc
 @JsonSerializable()
 
-class _Client implements Client {
-  const _Client({required this.ip, required this.name, required this.count});
-  factory _Client.fromJson(Map<String, dynamic> json) => _$ClientFromJson(json);
+class _StatsClient implements StatsClient {
+  const _StatsClient({required this.ip, required this.name, required this.count});
+  factory _StatsClient.fromJson(Map<String, dynamic> json) => _$StatsClientFromJson(json);
 
 @override final  String ip;
 @override final  String name;
 @override final  int count;
 
-/// Create a copy of Client
+/// Create a copy of StatsClient
 /// with the given fields replaced by the non-null parameter values.
 @override @JsonKey(includeFromJson: false, includeToJson: false)
 @pragma('vm:prefer-inline')
-_$ClientCopyWith<_Client> get copyWith => __$ClientCopyWithImpl<_Client>(this, _$identity);
+_$StatsClientCopyWith<_StatsClient> get copyWith => __$StatsClientCopyWithImpl<_StatsClient>(this, _$identity);
 
 @override
 Map<String, dynamic> toJson() {
-  return _$ClientToJson(this, );
+  return _$StatsClientToJson(this, );
 }
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _Client&&(identical(other.ip, ip) || other.ip == ip)&&(identical(other.name, name) || other.name == name)&&(identical(other.count, count) || other.count == count));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _StatsClient&&(identical(other.ip, ip) || other.ip == ip)&&(identical(other.name, name) || other.name == name)&&(identical(other.count, count) || other.count == count));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -3119,15 +3119,15 @@ int get hashCode => Object.hash(runtimeType,ip,name,count);
 
 @override
 String toString() {
-  return 'Client(ip: $ip, name: $name, count: $count)';
+  return 'StatsClient(ip: $ip, name: $name, count: $count)';
 }
 
 
 }
 
 /// @nodoc
-abstract mixin class _$ClientCopyWith<$Res> implements $ClientCopyWith<$Res> {
-  factory _$ClientCopyWith(_Client value, $Res Function(_Client) _then) = __$ClientCopyWithImpl;
+abstract mixin class _$StatsClientCopyWith<$Res> implements $StatsClientCopyWith<$Res> {
+  factory _$StatsClientCopyWith(_StatsClient value, $Res Function(_StatsClient) _then) = __$StatsClientCopyWithImpl;
 @override @useResult
 $Res call({
  String ip, String name, int count
@@ -3138,17 +3138,17 @@ $Res call({
 
 }
 /// @nodoc
-class __$ClientCopyWithImpl<$Res>
-    implements _$ClientCopyWith<$Res> {
-  __$ClientCopyWithImpl(this._self, this._then);
+class __$StatsClientCopyWithImpl<$Res>
+    implements _$StatsClientCopyWith<$Res> {
+  __$StatsClientCopyWithImpl(this._self, this._then);
 
-  final _Client _self;
-  final $Res Function(_Client) _then;
+  final _StatsClient _self;
+  final $Res Function(_StatsClient) _then;
 
-/// Create a copy of Client
+/// Create a copy of StatsClient
 /// with the given fields replaced by the non-null parameter values.
 @override @pragma('vm:prefer-inline') $Res call({Object? ip = null,Object? name = null,Object? count = null,}) {
-  return _then(_Client(
+  return _then(_StatsClient(
 ip: null == ip ? _self.ip : ip // ignore: cast_nullable_to_non_nullable
 as String,name: null == name ? _self.name : name // ignore: cast_nullable_to_non_nullable
 as String,count: null == count ? _self.count : count // ignore: cast_nullable_to_non_nullable
@@ -3163,7 +3163,7 @@ as int,
 /// @nodoc
 mixin _$StatsUpstreams {
 
- List<Upstream> get upstreams;@JsonKey(name: 'forwarded_queries') int get forwardedQueries;@JsonKey(name: 'total_queries') int get totalQueries; double get took;
+ List<StatsUpstream> get upstreams;@JsonKey(name: 'forwarded_queries') int get forwardedQueries;@JsonKey(name: 'total_queries') int get totalQueries; double get took;
 /// Create a copy of StatsUpstreams
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -3196,7 +3196,7 @@ abstract mixin class $StatsUpstreamsCopyWith<$Res>  {
   factory $StatsUpstreamsCopyWith(StatsUpstreams value, $Res Function(StatsUpstreams) _then) = _$StatsUpstreamsCopyWithImpl;
 @useResult
 $Res call({
- List<Upstream> upstreams,@JsonKey(name: 'forwarded_queries') int forwardedQueries,@JsonKey(name: 'total_queries') int totalQueries, double took
+ List<StatsUpstream> upstreams,@JsonKey(name: 'forwarded_queries') int forwardedQueries,@JsonKey(name: 'total_queries') int totalQueries, double took
 });
 
 
@@ -3216,7 +3216,7 @@ class _$StatsUpstreamsCopyWithImpl<$Res>
 @pragma('vm:prefer-inline') @override $Res call({Object? upstreams = null,Object? forwardedQueries = null,Object? totalQueries = null,Object? took = null,}) {
   return _then(_self.copyWith(
 upstreams: null == upstreams ? _self.upstreams : upstreams // ignore: cast_nullable_to_non_nullable
-as List<Upstream>,forwardedQueries: null == forwardedQueries ? _self.forwardedQueries : forwardedQueries // ignore: cast_nullable_to_non_nullable
+as List<StatsUpstream>,forwardedQueries: null == forwardedQueries ? _self.forwardedQueries : forwardedQueries // ignore: cast_nullable_to_non_nullable
 as int,totalQueries: null == totalQueries ? _self.totalQueries : totalQueries // ignore: cast_nullable_to_non_nullable
 as int,took: null == took ? _self.took : took // ignore: cast_nullable_to_non_nullable
 as double,
@@ -3301,7 +3301,7 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( List<Upstream> upstreams, @JsonKey(name: 'forwarded_queries')  int forwardedQueries, @JsonKey(name: 'total_queries')  int totalQueries,  double took)?  $default,{required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( List<StatsUpstream> upstreams, @JsonKey(name: 'forwarded_queries')  int forwardedQueries, @JsonKey(name: 'total_queries')  int totalQueries,  double took)?  $default,{required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _StatsUpstreams() when $default != null:
 return $default(_that.upstreams,_that.forwardedQueries,_that.totalQueries,_that.took);case _:
@@ -3322,7 +3322,7 @@ return $default(_that.upstreams,_that.forwardedQueries,_that.totalQueries,_that.
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( List<Upstream> upstreams, @JsonKey(name: 'forwarded_queries')  int forwardedQueries, @JsonKey(name: 'total_queries')  int totalQueries,  double took)  $default,) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( List<StatsUpstream> upstreams, @JsonKey(name: 'forwarded_queries')  int forwardedQueries, @JsonKey(name: 'total_queries')  int totalQueries,  double took)  $default,) {final _that = this;
 switch (_that) {
 case _StatsUpstreams():
 return $default(_that.upstreams,_that.forwardedQueries,_that.totalQueries,_that.took);}
@@ -3339,7 +3339,7 @@ return $default(_that.upstreams,_that.forwardedQueries,_that.totalQueries,_that.
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( List<Upstream> upstreams, @JsonKey(name: 'forwarded_queries')  int forwardedQueries, @JsonKey(name: 'total_queries')  int totalQueries,  double took)?  $default,) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( List<StatsUpstream> upstreams, @JsonKey(name: 'forwarded_queries')  int forwardedQueries, @JsonKey(name: 'total_queries')  int totalQueries,  double took)?  $default,) {final _that = this;
 switch (_that) {
 case _StatsUpstreams() when $default != null:
 return $default(_that.upstreams,_that.forwardedQueries,_that.totalQueries,_that.took);case _:
@@ -3354,11 +3354,11 @@ return $default(_that.upstreams,_that.forwardedQueries,_that.totalQueries,_that.
 
 @JsonSerializable(explicitToJson: true)
 class _StatsUpstreams implements StatsUpstreams {
-  const _StatsUpstreams({required final  List<Upstream> upstreams, @JsonKey(name: 'forwarded_queries') required this.forwardedQueries, @JsonKey(name: 'total_queries') required this.totalQueries, required this.took}): _upstreams = upstreams;
+  const _StatsUpstreams({required final  List<StatsUpstream> upstreams, @JsonKey(name: 'forwarded_queries') required this.forwardedQueries, @JsonKey(name: 'total_queries') required this.totalQueries, required this.took}): _upstreams = upstreams;
   factory _StatsUpstreams.fromJson(Map<String, dynamic> json) => _$StatsUpstreamsFromJson(json);
 
- final  List<Upstream> _upstreams;
-@override List<Upstream> get upstreams {
+ final  List<StatsUpstream> _upstreams;
+@override List<StatsUpstream> get upstreams {
   if (_upstreams is EqualUnmodifiableListView) return _upstreams;
   // ignore: implicit_dynamic_type
   return EqualUnmodifiableListView(_upstreams);
@@ -3401,7 +3401,7 @@ abstract mixin class _$StatsUpstreamsCopyWith<$Res> implements $StatsUpstreamsCo
   factory _$StatsUpstreamsCopyWith(_StatsUpstreams value, $Res Function(_StatsUpstreams) _then) = __$StatsUpstreamsCopyWithImpl;
 @override @useResult
 $Res call({
- List<Upstream> upstreams,@JsonKey(name: 'forwarded_queries') int forwardedQueries,@JsonKey(name: 'total_queries') int totalQueries, double took
+ List<StatsUpstream> upstreams,@JsonKey(name: 'forwarded_queries') int forwardedQueries,@JsonKey(name: 'total_queries') int totalQueries, double took
 });
 
 
@@ -3421,7 +3421,7 @@ class __$StatsUpstreamsCopyWithImpl<$Res>
 @override @pragma('vm:prefer-inline') $Res call({Object? upstreams = null,Object? forwardedQueries = null,Object? totalQueries = null,Object? took = null,}) {
   return _then(_StatsUpstreams(
 upstreams: null == upstreams ? _self._upstreams : upstreams // ignore: cast_nullable_to_non_nullable
-as List<Upstream>,forwardedQueries: null == forwardedQueries ? _self.forwardedQueries : forwardedQueries // ignore: cast_nullable_to_non_nullable
+as List<StatsUpstream>,forwardedQueries: null == forwardedQueries ? _self.forwardedQueries : forwardedQueries // ignore: cast_nullable_to_non_nullable
 as int,totalQueries: null == totalQueries ? _self.totalQueries : totalQueries // ignore: cast_nullable_to_non_nullable
 as int,took: null == took ? _self.took : took // ignore: cast_nullable_to_non_nullable
 as double,
@@ -3433,22 +3433,22 @@ as double,
 
 
 /// @nodoc
-mixin _$Upstream {
+mixin _$StatsUpstream {
 
  String get ip; String get name; int get port; int get count; Statistics get statistics;
-/// Create a copy of Upstream
+/// Create a copy of StatsUpstream
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
 @pragma('vm:prefer-inline')
-$UpstreamCopyWith<Upstream> get copyWith => _$UpstreamCopyWithImpl<Upstream>(this as Upstream, _$identity);
+$StatsUpstreamCopyWith<StatsUpstream> get copyWith => _$StatsUpstreamCopyWithImpl<StatsUpstream>(this as StatsUpstream, _$identity);
 
-  /// Serializes this Upstream to a JSON map.
+  /// Serializes this StatsUpstream to a JSON map.
   Map<String, dynamic> toJson();
 
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is Upstream&&(identical(other.ip, ip) || other.ip == ip)&&(identical(other.name, name) || other.name == name)&&(identical(other.port, port) || other.port == port)&&(identical(other.count, count) || other.count == count)&&(identical(other.statistics, statistics) || other.statistics == statistics));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is StatsUpstream&&(identical(other.ip, ip) || other.ip == ip)&&(identical(other.name, name) || other.name == name)&&(identical(other.port, port) || other.port == port)&&(identical(other.count, count) || other.count == count)&&(identical(other.statistics, statistics) || other.statistics == statistics));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -3457,15 +3457,15 @@ int get hashCode => Object.hash(runtimeType,ip,name,port,count,statistics);
 
 @override
 String toString() {
-  return 'Upstream(ip: $ip, name: $name, port: $port, count: $count, statistics: $statistics)';
+  return 'StatsUpstream(ip: $ip, name: $name, port: $port, count: $count, statistics: $statistics)';
 }
 
 
 }
 
 /// @nodoc
-abstract mixin class $UpstreamCopyWith<$Res>  {
-  factory $UpstreamCopyWith(Upstream value, $Res Function(Upstream) _then) = _$UpstreamCopyWithImpl;
+abstract mixin class $StatsUpstreamCopyWith<$Res>  {
+  factory $StatsUpstreamCopyWith(StatsUpstream value, $Res Function(StatsUpstream) _then) = _$StatsUpstreamCopyWithImpl;
 @useResult
 $Res call({
  String ip, String name, int port, int count, Statistics statistics
@@ -3476,14 +3476,14 @@ $StatisticsCopyWith<$Res> get statistics;
 
 }
 /// @nodoc
-class _$UpstreamCopyWithImpl<$Res>
-    implements $UpstreamCopyWith<$Res> {
-  _$UpstreamCopyWithImpl(this._self, this._then);
+class _$StatsUpstreamCopyWithImpl<$Res>
+    implements $StatsUpstreamCopyWith<$Res> {
+  _$StatsUpstreamCopyWithImpl(this._self, this._then);
 
-  final Upstream _self;
-  final $Res Function(Upstream) _then;
+  final StatsUpstream _self;
+  final $Res Function(StatsUpstream) _then;
 
-/// Create a copy of Upstream
+/// Create a copy of StatsUpstream
 /// with the given fields replaced by the non-null parameter values.
 @pragma('vm:prefer-inline') @override $Res call({Object? ip = null,Object? name = null,Object? port = null,Object? count = null,Object? statistics = null,}) {
   return _then(_self.copyWith(
@@ -3495,7 +3495,7 @@ as int,statistics: null == statistics ? _self.statistics : statistics // ignore:
 as Statistics,
   ));
 }
-/// Create a copy of Upstream
+/// Create a copy of StatsUpstream
 /// with the given fields replaced by the non-null parameter values.
 @override
 @pragma('vm:prefer-inline')
@@ -3508,8 +3508,8 @@ $StatisticsCopyWith<$Res> get statistics {
 }
 
 
-/// Adds pattern-matching-related methods to [Upstream].
-extension UpstreamPatterns on Upstream {
+/// Adds pattern-matching-related methods to [StatsUpstream].
+extension StatsUpstreamPatterns on StatsUpstream {
 /// A variant of `map` that fallback to returning `orElse`.
 ///
 /// It is equivalent to doing:
@@ -3522,10 +3522,10 @@ extension UpstreamPatterns on Upstream {
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeMap<TResult extends Object?>(TResult Function( _Upstream value)?  $default,{required TResult orElse(),}){
+@optionalTypeArgs TResult maybeMap<TResult extends Object?>(TResult Function( _StatsUpstream value)?  $default,{required TResult orElse(),}){
 final _that = this;
 switch (_that) {
-case _Upstream() when $default != null:
+case _StatsUpstream() when $default != null:
 return $default(_that);case _:
   return orElse();
 
@@ -3544,10 +3544,10 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult map<TResult extends Object?>(TResult Function( _Upstream value)  $default,){
+@optionalTypeArgs TResult map<TResult extends Object?>(TResult Function( _StatsUpstream value)  $default,){
 final _that = this;
 switch (_that) {
-case _Upstream():
+case _StatsUpstream():
 return $default(_that);}
 }
 /// A variant of `map` that fallback to returning `null`.
@@ -3562,10 +3562,10 @@ return $default(_that);}
 /// }
 /// ```
 
-@optionalTypeArgs TResult? mapOrNull<TResult extends Object?>(TResult? Function( _Upstream value)?  $default,){
+@optionalTypeArgs TResult? mapOrNull<TResult extends Object?>(TResult? Function( _StatsUpstream value)?  $default,){
 final _that = this;
 switch (_that) {
-case _Upstream() when $default != null:
+case _StatsUpstream() when $default != null:
 return $default(_that);case _:
   return null;
 
@@ -3585,7 +3585,7 @@ return $default(_that);case _:
 
 @optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( String ip,  String name,  int port,  int count,  Statistics statistics)?  $default,{required TResult orElse(),}) {final _that = this;
 switch (_that) {
-case _Upstream() when $default != null:
+case _StatsUpstream() when $default != null:
 return $default(_that.ip,_that.name,_that.port,_that.count,_that.statistics);case _:
   return orElse();
 
@@ -3606,7 +3606,7 @@ return $default(_that.ip,_that.name,_that.port,_that.count,_that.statistics);cas
 
 @optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( String ip,  String name,  int port,  int count,  Statistics statistics)  $default,) {final _that = this;
 switch (_that) {
-case _Upstream():
+case _StatsUpstream():
 return $default(_that.ip,_that.name,_that.port,_that.count,_that.statistics);}
 }
 /// A variant of `when` that fallback to returning `null`
@@ -3623,7 +3623,7 @@ return $default(_that.ip,_that.name,_that.port,_that.count,_that.statistics);}
 
 @optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( String ip,  String name,  int port,  int count,  Statistics statistics)?  $default,) {final _that = this;
 switch (_that) {
-case _Upstream() when $default != null:
+case _StatsUpstream() when $default != null:
 return $default(_that.ip,_that.name,_that.port,_that.count,_that.statistics);case _:
   return null;
 
@@ -3635,9 +3635,9 @@ return $default(_that.ip,_that.name,_that.port,_that.count,_that.statistics);cas
 /// @nodoc
 
 @JsonSerializable(explicitToJson: true)
-class _Upstream implements Upstream {
-  const _Upstream({required this.ip, required this.name, required this.port, required this.count, required this.statistics});
-  factory _Upstream.fromJson(Map<String, dynamic> json) => _$UpstreamFromJson(json);
+class _StatsUpstream implements StatsUpstream {
+  const _StatsUpstream({required this.ip, required this.name, required this.port, required this.count, required this.statistics});
+  factory _StatsUpstream.fromJson(Map<String, dynamic> json) => _$StatsUpstreamFromJson(json);
 
 @override final  String ip;
 @override final  String name;
@@ -3645,20 +3645,20 @@ class _Upstream implements Upstream {
 @override final  int count;
 @override final  Statistics statistics;
 
-/// Create a copy of Upstream
+/// Create a copy of StatsUpstream
 /// with the given fields replaced by the non-null parameter values.
 @override @JsonKey(includeFromJson: false, includeToJson: false)
 @pragma('vm:prefer-inline')
-_$UpstreamCopyWith<_Upstream> get copyWith => __$UpstreamCopyWithImpl<_Upstream>(this, _$identity);
+_$StatsUpstreamCopyWith<_StatsUpstream> get copyWith => __$StatsUpstreamCopyWithImpl<_StatsUpstream>(this, _$identity);
 
 @override
 Map<String, dynamic> toJson() {
-  return _$UpstreamToJson(this, );
+  return _$StatsUpstreamToJson(this, );
 }
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _Upstream&&(identical(other.ip, ip) || other.ip == ip)&&(identical(other.name, name) || other.name == name)&&(identical(other.port, port) || other.port == port)&&(identical(other.count, count) || other.count == count)&&(identical(other.statistics, statistics) || other.statistics == statistics));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _StatsUpstream&&(identical(other.ip, ip) || other.ip == ip)&&(identical(other.name, name) || other.name == name)&&(identical(other.port, port) || other.port == port)&&(identical(other.count, count) || other.count == count)&&(identical(other.statistics, statistics) || other.statistics == statistics));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -3667,15 +3667,15 @@ int get hashCode => Object.hash(runtimeType,ip,name,port,count,statistics);
 
 @override
 String toString() {
-  return 'Upstream(ip: $ip, name: $name, port: $port, count: $count, statistics: $statistics)';
+  return 'StatsUpstream(ip: $ip, name: $name, port: $port, count: $count, statistics: $statistics)';
 }
 
 
 }
 
 /// @nodoc
-abstract mixin class _$UpstreamCopyWith<$Res> implements $UpstreamCopyWith<$Res> {
-  factory _$UpstreamCopyWith(_Upstream value, $Res Function(_Upstream) _then) = __$UpstreamCopyWithImpl;
+abstract mixin class _$StatsUpstreamCopyWith<$Res> implements $StatsUpstreamCopyWith<$Res> {
+  factory _$StatsUpstreamCopyWith(_StatsUpstream value, $Res Function(_StatsUpstream) _then) = __$StatsUpstreamCopyWithImpl;
 @override @useResult
 $Res call({
  String ip, String name, int port, int count, Statistics statistics
@@ -3686,17 +3686,17 @@ $Res call({
 
 }
 /// @nodoc
-class __$UpstreamCopyWithImpl<$Res>
-    implements _$UpstreamCopyWith<$Res> {
-  __$UpstreamCopyWithImpl(this._self, this._then);
+class __$StatsUpstreamCopyWithImpl<$Res>
+    implements _$StatsUpstreamCopyWith<$Res> {
+  __$StatsUpstreamCopyWithImpl(this._self, this._then);
 
-  final _Upstream _self;
-  final $Res Function(_Upstream) _then;
+  final _StatsUpstream _self;
+  final $Res Function(_StatsUpstream) _then;
 
-/// Create a copy of Upstream
+/// Create a copy of StatsUpstream
 /// with the given fields replaced by the non-null parameter values.
 @override @pragma('vm:prefer-inline') $Res call({Object? ip = null,Object? name = null,Object? port = null,Object? count = null,Object? statistics = null,}) {
-  return _then(_Upstream(
+  return _then(_StatsUpstream(
 ip: null == ip ? _self.ip : ip // ignore: cast_nullable_to_non_nullable
 as String,name: null == name ? _self.name : name // ignore: cast_nullable_to_non_nullable
 as String,port: null == port ? _self.port : port // ignore: cast_nullable_to_non_nullable
@@ -3706,7 +3706,7 @@ as Statistics,
   ));
 }
 
-/// Create a copy of Upstream
+/// Create a copy of StatsUpstream
 /// with the given fields replaced by the non-null parameter values.
 @override
 @pragma('vm:prefer-inline')

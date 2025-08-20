@@ -8,9 +8,9 @@ part of 'stats.dart';
 
 _StatsSummary _$StatsSummaryFromJson(Map<String, dynamic> json) =>
     _StatsSummary(
-      queries: Queries.fromJson(json['queries'] as Map<String, dynamic>),
-      clients: Clients.fromJson(json['clients'] as Map<String, dynamic>),
-      gravity: Gravity.fromJson(json['gravity'] as Map<String, dynamic>),
+      queries: StatsQueries.fromJson(json['queries'] as Map<String, dynamic>),
+      clients: StatsClients.fromJson(json['clients'] as Map<String, dynamic>),
+      gravity: StatsGravity.fromJson(json['gravity'] as Map<String, dynamic>),
       took: (json['took'] as num).toDouble(),
     );
 
@@ -22,31 +22,33 @@ Map<String, dynamic> _$StatsSummaryToJson(_StatsSummary instance) =>
       'took': instance.took,
     };
 
-_Queries _$QueriesFromJson(Map<String, dynamic> json) => _Queries(
-  total: (json['total'] as num).toInt(),
-  blocked: (json['blocked'] as num).toInt(),
-  percentBlocked: (json['percent_blocked'] as num).toDouble(),
-  uniqueDomains: (json['unique_domains'] as num).toInt(),
-  forwarded: (json['forwarded'] as num).toInt(),
-  cached: (json['cached'] as num).toInt(),
-  types: Types.fromJson(json['types'] as Map<String, dynamic>),
-  status: Status.fromJson(json['status'] as Map<String, dynamic>),
-  replies: Replies.fromJson(json['replies'] as Map<String, dynamic>),
-);
+_StatsQueries _$StatsQueriesFromJson(Map<String, dynamic> json) =>
+    _StatsQueries(
+      total: (json['total'] as num).toInt(),
+      blocked: (json['blocked'] as num).toInt(),
+      percentBlocked: (json['percent_blocked'] as num).toDouble(),
+      uniqueDomains: (json['unique_domains'] as num).toInt(),
+      forwarded: (json['forwarded'] as num).toInt(),
+      cached: (json['cached'] as num).toInt(),
+      types: StatsTypes.fromJson(json['types'] as Map<String, dynamic>),
+      status: StatsStatus.fromJson(json['status'] as Map<String, dynamic>),
+      replies: StatsReplies.fromJson(json['replies'] as Map<String, dynamic>),
+    );
 
-Map<String, dynamic> _$QueriesToJson(_Queries instance) => <String, dynamic>{
-  'total': instance.total,
-  'blocked': instance.blocked,
-  'percent_blocked': instance.percentBlocked,
-  'unique_domains': instance.uniqueDomains,
-  'forwarded': instance.forwarded,
-  'cached': instance.cached,
-  'types': instance.types.toJson(),
-  'status': instance.status.toJson(),
-  'replies': instance.replies.toJson(),
-};
+Map<String, dynamic> _$StatsQueriesToJson(_StatsQueries instance) =>
+    <String, dynamic>{
+      'total': instance.total,
+      'blocked': instance.blocked,
+      'percent_blocked': instance.percentBlocked,
+      'unique_domains': instance.uniqueDomains,
+      'forwarded': instance.forwarded,
+      'cached': instance.cached,
+      'types': instance.types.toJson(),
+      'status': instance.status.toJson(),
+      'replies': instance.replies.toJson(),
+    };
 
-_Types _$TypesFromJson(Map<String, dynamic> json) => _Types(
+_StatsTypes _$StatsTypesFromJson(Map<String, dynamic> json) => _StatsTypes(
   a: (json['A'] as num).toInt(),
   aaaa: (json['AAAA'] as num).toInt(),
   any: (json['ANY'] as num).toInt(),
@@ -65,26 +67,27 @@ _Types _$TypesFromJson(Map<String, dynamic> json) => _Types(
   other: (json['OTHER'] as num).toInt(),
 );
 
-Map<String, dynamic> _$TypesToJson(_Types instance) => <String, dynamic>{
-  'A': instance.a,
-  'AAAA': instance.aaaa,
-  'ANY': instance.any,
-  'SRV': instance.srv,
-  'SOA': instance.soa,
-  'PTR': instance.ptr,
-  'TXT': instance.txt,
-  'NAPTR': instance.naptr,
-  'MX': instance.mx,
-  'DS': instance.ds,
-  'RRSIG': instance.rrsig,
-  'DNSKEY': instance.dnskey,
-  'NS': instance.ns,
-  'SVCB': instance.svcb,
-  'HTTPS': instance.https,
-  'OTHER': instance.other,
-};
+Map<String, dynamic> _$StatsTypesToJson(_StatsTypes instance) =>
+    <String, dynamic>{
+      'A': instance.a,
+      'AAAA': instance.aaaa,
+      'ANY': instance.any,
+      'SRV': instance.srv,
+      'SOA': instance.soa,
+      'PTR': instance.ptr,
+      'TXT': instance.txt,
+      'NAPTR': instance.naptr,
+      'MX': instance.mx,
+      'DS': instance.ds,
+      'RRSIG': instance.rrsig,
+      'DNSKEY': instance.dnskey,
+      'NS': instance.ns,
+      'SVCB': instance.svcb,
+      'HTTPS': instance.https,
+      'OTHER': instance.other,
+    };
 
-_Status _$StatusFromJson(Map<String, dynamic> json) => _Status(
+_StatsStatus _$StatsStatusFromJson(Map<String, dynamic> json) => _StatsStatus(
   unknown: (json['UNKNOWN'] as num).toInt(),
   gravity: (json['GRAVITY'] as num).toInt(),
   forwarded: (json['FORWARDED'] as num).toInt(),
@@ -105,85 +108,89 @@ _Status _$StatusFromJson(Map<String, dynamic> json) => _Status(
   cacheStale: (json['CACHE_STALE'] as num).toInt(),
 );
 
-Map<String, dynamic> _$StatusToJson(_Status instance) => <String, dynamic>{
-  'UNKNOWN': instance.unknown,
-  'GRAVITY': instance.gravity,
-  'FORWARDED': instance.forwarded,
-  'CACHE': instance.cache,
-  'REGEX': instance.regex,
-  'DENYLIST': instance.denylist,
-  'EXTERNAL_BLOCKED_IP': instance.externalBlockedIp,
-  'EXTERNAL_BLOCKED_NULL': instance.externalBlockedNull,
-  'EXTERNAL_BLOCKED_NXRA': instance.externalBlockedNxra,
-  'GRAVITY_CNAME': instance.gravityCname,
-  'REGEX_CNAME': instance.regexCname,
-  'DENYLIST_CNAME': instance.denylistCname,
-  'RETRIED': instance.retried,
-  'RETRIED_DNSSEC': instance.retriedDnssec,
-  'IN_PROGRESS': instance.inProgress,
-  'DBBUSY': instance.dbbusy,
-  'SPECIAL_DOMAIN': instance.specialDomain,
-  'CACHE_STALE': instance.cacheStale,
-};
+Map<String, dynamic> _$StatsStatusToJson(_StatsStatus instance) =>
+    <String, dynamic>{
+      'UNKNOWN': instance.unknown,
+      'GRAVITY': instance.gravity,
+      'FORWARDED': instance.forwarded,
+      'CACHE': instance.cache,
+      'REGEX': instance.regex,
+      'DENYLIST': instance.denylist,
+      'EXTERNAL_BLOCKED_IP': instance.externalBlockedIp,
+      'EXTERNAL_BLOCKED_NULL': instance.externalBlockedNull,
+      'EXTERNAL_BLOCKED_NXRA': instance.externalBlockedNxra,
+      'GRAVITY_CNAME': instance.gravityCname,
+      'REGEX_CNAME': instance.regexCname,
+      'DENYLIST_CNAME': instance.denylistCname,
+      'RETRIED': instance.retried,
+      'RETRIED_DNSSEC': instance.retriedDnssec,
+      'IN_PROGRESS': instance.inProgress,
+      'DBBUSY': instance.dbbusy,
+      'SPECIAL_DOMAIN': instance.specialDomain,
+      'CACHE_STALE': instance.cacheStale,
+    };
 
-_Replies _$RepliesFromJson(Map<String, dynamic> json) => _Replies(
-  unknown: (json['UNKNOWN'] as num).toInt(),
-  nodata: (json['NODATA'] as num).toInt(),
-  nxdomain: (json['NXDOMAIN'] as num).toInt(),
-  cname: (json['CNAME'] as num).toInt(),
-  ip: (json['IP'] as num).toInt(),
-  domain: (json['DOMAIN'] as num).toInt(),
-  rrname: (json['RRNAME'] as num).toInt(),
-  servfail: (json['SERVFAIL'] as num).toInt(),
-  refused: (json['REFUSED'] as num).toInt(),
-  notimp: (json['NOTIMP'] as num).toInt(),
-  other: (json['OTHER'] as num).toInt(),
-  dnssec: (json['DNSSEC'] as num).toInt(),
-  none: (json['NONE'] as num).toInt(),
-  blob: (json['BLOB'] as num).toInt(),
-);
+_StatsReplies _$StatsRepliesFromJson(Map<String, dynamic> json) =>
+    _StatsReplies(
+      unknown: (json['UNKNOWN'] as num).toInt(),
+      nodata: (json['NODATA'] as num).toInt(),
+      nxdomain: (json['NXDOMAIN'] as num).toInt(),
+      cname: (json['CNAME'] as num).toInt(),
+      ip: (json['IP'] as num).toInt(),
+      domain: (json['DOMAIN'] as num).toInt(),
+      rrname: (json['RRNAME'] as num).toInt(),
+      servfail: (json['SERVFAIL'] as num).toInt(),
+      refused: (json['REFUSED'] as num).toInt(),
+      notimp: (json['NOTIMP'] as num).toInt(),
+      other: (json['OTHER'] as num).toInt(),
+      dnssec: (json['DNSSEC'] as num).toInt(),
+      none: (json['NONE'] as num).toInt(),
+      blob: (json['BLOB'] as num).toInt(),
+    );
 
-Map<String, dynamic> _$RepliesToJson(_Replies instance) => <String, dynamic>{
-  'UNKNOWN': instance.unknown,
-  'NODATA': instance.nodata,
-  'NXDOMAIN': instance.nxdomain,
-  'CNAME': instance.cname,
-  'IP': instance.ip,
-  'DOMAIN': instance.domain,
-  'RRNAME': instance.rrname,
-  'SERVFAIL': instance.servfail,
-  'REFUSED': instance.refused,
-  'NOTIMP': instance.notimp,
-  'OTHER': instance.other,
-  'DNSSEC': instance.dnssec,
-  'NONE': instance.none,
-  'BLOB': instance.blob,
-};
+Map<String, dynamic> _$StatsRepliesToJson(_StatsReplies instance) =>
+    <String, dynamic>{
+      'UNKNOWN': instance.unknown,
+      'NODATA': instance.nodata,
+      'NXDOMAIN': instance.nxdomain,
+      'CNAME': instance.cname,
+      'IP': instance.ip,
+      'DOMAIN': instance.domain,
+      'RRNAME': instance.rrname,
+      'SERVFAIL': instance.servfail,
+      'REFUSED': instance.refused,
+      'NOTIMP': instance.notimp,
+      'OTHER': instance.other,
+      'DNSSEC': instance.dnssec,
+      'NONE': instance.none,
+      'BLOB': instance.blob,
+    };
 
-_Clients _$ClientsFromJson(Map<String, dynamic> json) => _Clients(
-  active: (json['active'] as num).toInt(),
-  total: (json['total'] as num).toInt(),
-);
+_StatsClients _$StatsClientsFromJson(Map<String, dynamic> json) =>
+    _StatsClients(
+      active: (json['active'] as num).toInt(),
+      total: (json['total'] as num).toInt(),
+    );
 
-Map<String, dynamic> _$ClientsToJson(_Clients instance) => <String, dynamic>{
-  'active': instance.active,
-  'total': instance.total,
-};
+Map<String, dynamic> _$StatsClientsToJson(_StatsClients instance) =>
+    <String, dynamic>{'active': instance.active, 'total': instance.total};
 
-_Gravity _$GravityFromJson(Map<String, dynamic> json) => _Gravity(
-  domainsBeingBlocked: (json['domains_being_blocked'] as num).toInt(),
-  lastUpdate: (json['last_update'] as num).toInt(),
-);
+_StatsGravity _$StatsGravityFromJson(Map<String, dynamic> json) =>
+    _StatsGravity(
+      domainsBeingBlocked: (json['domains_being_blocked'] as num).toInt(),
+      lastUpdate: (json['last_update'] as num).toInt(),
+    );
 
-Map<String, dynamic> _$GravityToJson(_Gravity instance) => <String, dynamic>{
-  'domains_being_blocked': instance.domainsBeingBlocked,
-  'last_update': instance.lastUpdate,
-};
+Map<String, dynamic> _$StatsGravityToJson(_StatsGravity instance) =>
+    <String, dynamic>{
+      'domains_being_blocked': instance.domainsBeingBlocked,
+      'last_update': instance.lastUpdate,
+    };
 
 _StatsTopDomains _$StatsTopDomainsFromJson(Map<String, dynamic> json) =>
     _StatsTopDomains(
       domains: (json['domains'] as List<dynamic>)
-          .map((e) => Domain.fromJson(e as Map<String, dynamic>))
+          .map((e) => StatsDomain.fromJson(e as Map<String, dynamic>))
           .toList(),
       totalQueries: (json['total_queries'] as num).toInt(),
       blockedQueries: (json['blocked_queries'] as num).toInt(),
@@ -198,20 +205,18 @@ Map<String, dynamic> _$StatsTopDomainsToJson(_StatsTopDomains instance) =>
       'took': instance.took,
     };
 
-_Domain _$DomainFromJson(Map<String, dynamic> json) => _Domain(
+_StatsDomain _$StatsDomainFromJson(Map<String, dynamic> json) => _StatsDomain(
   domain: json['domain'] as String,
   count: (json['count'] as num).toInt(),
 );
 
-Map<String, dynamic> _$DomainToJson(_Domain instance) => <String, dynamic>{
-  'domain': instance.domain,
-  'count': instance.count,
-};
+Map<String, dynamic> _$StatsDomainToJson(_StatsDomain instance) =>
+    <String, dynamic>{'domain': instance.domain, 'count': instance.count};
 
 _StatsTopClients _$StatsTopClientsFromJson(Map<String, dynamic> json) =>
     _StatsTopClients(
       clients: (json['clients'] as List<dynamic>)
-          .map((e) => Client.fromJson(e as Map<String, dynamic>))
+          .map((e) => StatsClient.fromJson(e as Map<String, dynamic>))
           .toList(),
       totalQueries: (json['total_queries'] as num).toInt(),
       blockedQueries: (json['blocked_queries'] as num).toInt(),
@@ -226,22 +231,23 @@ Map<String, dynamic> _$StatsTopClientsToJson(_StatsTopClients instance) =>
       'took': instance.took,
     };
 
-_Client _$ClientFromJson(Map<String, dynamic> json) => _Client(
+_StatsClient _$StatsClientFromJson(Map<String, dynamic> json) => _StatsClient(
   ip: json['ip'] as String,
   name: json['name'] as String,
   count: (json['count'] as num).toInt(),
 );
 
-Map<String, dynamic> _$ClientToJson(_Client instance) => <String, dynamic>{
-  'ip': instance.ip,
-  'name': instance.name,
-  'count': instance.count,
-};
+Map<String, dynamic> _$StatsClientToJson(_StatsClient instance) =>
+    <String, dynamic>{
+      'ip': instance.ip,
+      'name': instance.name,
+      'count': instance.count,
+    };
 
 _StatsUpstreams _$StatsUpstreamsFromJson(Map<String, dynamic> json) =>
     _StatsUpstreams(
       upstreams: (json['upstreams'] as List<dynamic>)
-          .map((e) => Upstream.fromJson(e as Map<String, dynamic>))
+          .map((e) => StatsUpstream.fromJson(e as Map<String, dynamic>))
           .toList(),
       forwardedQueries: (json['forwarded_queries'] as num).toInt(),
       totalQueries: (json['total_queries'] as num).toInt(),
@@ -256,21 +262,25 @@ Map<String, dynamic> _$StatsUpstreamsToJson(_StatsUpstreams instance) =>
       'took': instance.took,
     };
 
-_Upstream _$UpstreamFromJson(Map<String, dynamic> json) => _Upstream(
-  ip: json['ip'] as String,
-  name: json['name'] as String,
-  port: (json['port'] as num).toInt(),
-  count: (json['count'] as num).toInt(),
-  statistics: Statistics.fromJson(json['statistics'] as Map<String, dynamic>),
-);
+_StatsUpstream _$StatsUpstreamFromJson(Map<String, dynamic> json) =>
+    _StatsUpstream(
+      ip: json['ip'] as String,
+      name: json['name'] as String,
+      port: (json['port'] as num).toInt(),
+      count: (json['count'] as num).toInt(),
+      statistics: Statistics.fromJson(
+        json['statistics'] as Map<String, dynamic>,
+      ),
+    );
 
-Map<String, dynamic> _$UpstreamToJson(_Upstream instance) => <String, dynamic>{
-  'ip': instance.ip,
-  'name': instance.name,
-  'port': instance.port,
-  'count': instance.count,
-  'statistics': instance.statistics.toJson(),
-};
+Map<String, dynamic> _$StatsUpstreamToJson(_StatsUpstream instance) =>
+    <String, dynamic>{
+      'ip': instance.ip,
+      'name': instance.name,
+      'port': instance.port,
+      'count': instance.count,
+      'statistics': instance.statistics.toJson(),
+    };
 
 _Statistics _$StatisticsFromJson(Map<String, dynamic> json) => _Statistics(
   response: (json['response'] as num).toDouble(),

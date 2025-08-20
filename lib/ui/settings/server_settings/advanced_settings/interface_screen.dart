@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:pi_hole_client/data/gateway/api_gateway_interface.dart';
-import 'package:pi_hole_client/data/model/v6/network/common.dart';
 import 'package:pi_hole_client/data/model/v6/network/interfaces.dart';
 import 'package:pi_hole_client/domain/models_old/gateway.dart';
 import 'package:pi_hole_client/domain/models_old/gateways.dart';
@@ -14,6 +13,7 @@ import 'package:pi_hole_client/utils/logger.dart';
 import 'package:provider/provider.dart';
 import 'package:skeletonizer/skeletonizer.dart';
 
+// TODO: use domain model
 // fake data for Skeletonizer
 const fakeInterfaceData = InterfaceData(
   name: 'eth0',
@@ -56,7 +56,7 @@ const fakeInterfaceData = InterfaceData(
       address: '192.168.11.3',
       addressType: 'private',
       index: 2,
-      family: RouteFamily.inet,
+      family: 'inet',
       scope: 'universe',
       flags: ['permanent'],
       prefixlen: 24,
@@ -74,7 +74,7 @@ const fakeInterfaceData = InterfaceData(
       address: 'fe80::e65f:1ff:feca:3fd1',
       addressType: 'link-local',
       index: 2,
-      family: RouteFamily.inet6,
+      family: 'inet6',
       scope: 'link',
       flags: ['permanent'],
       prefixlen: 64,

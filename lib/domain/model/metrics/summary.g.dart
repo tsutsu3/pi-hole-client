@@ -68,9 +68,36 @@ Map<String, dynamic> _$SummaryToJson(_Summary instance) => <String, dynamic>{
 
 _QueryTypeStat _$QueryTypeStatFromJson(Map<String, dynamic> json) =>
     _QueryTypeStat(
-      type: json['type'] as String,
+      type: $enumDecode(_$DnsRecordTypeEnumMap, json['type']),
       percentage: (json['percentage'] as num).toDouble(),
     );
 
 Map<String, dynamic> _$QueryTypeStatToJson(_QueryTypeStat instance) =>
-    <String, dynamic>{'type': instance.type, 'percentage': instance.percentage};
+    <String, dynamic>{
+      'type': _$DnsRecordTypeEnumMap[instance.type]!,
+      'percentage': instance.percentage,
+    };
+
+const _$DnsRecordTypeEnumMap = {
+  DnsRecordType.none: 'none',
+  DnsRecordType.a: 'a',
+  DnsRecordType.aaaa: 'aaaa',
+  DnsRecordType.any: 'any',
+  DnsRecordType.srv: 'srv',
+  DnsRecordType.soa: 'soa',
+  DnsRecordType.ptr: 'ptr',
+  DnsRecordType.txt: 'txt',
+  DnsRecordType.naptr: 'naptr',
+  DnsRecordType.mx: 'mx',
+  DnsRecordType.ds: 'ds',
+  DnsRecordType.rrsig: 'rrsig',
+  DnsRecordType.dnskey: 'dnskey',
+  DnsRecordType.ns: 'ns',
+  DnsRecordType.svcb: 'svcb',
+  DnsRecordType.https: 'https',
+  DnsRecordType.na: 'na',
+  DnsRecordType.cname: 'cname',
+  DnsRecordType.other: 'other',
+  DnsRecordType.empty: 'empty',
+  DnsRecordType.unknown: 'unknown',
+};

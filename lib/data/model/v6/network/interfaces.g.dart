@@ -169,7 +169,7 @@ _InterfaceAddress _$InterfaceAddressFromJson(Map<String, dynamic> json) =>
       address: json['address'] as String,
       addressType: json['address_type'] as String,
       index: (json['index'] as num).toInt(),
-      family: $enumDecode(_$RouteFamilyEnumMap, json['family']),
+      family: json['family'] as String,
       scope: json['scope'] as String,
       flags: (json['flags'] as List<dynamic>).map((e) => e as String).toList(),
       prefixlen: (json['prefixlen'] as num).toInt(),
@@ -192,7 +192,7 @@ Map<String, dynamic> _$InterfaceAddressToJson(_InterfaceAddress instance) =>
       'address': instance.address,
       'address_type': instance.addressType,
       'index': instance.index,
-      'family': _$RouteFamilyEnumMap[instance.family]!,
+      'family': instance.family,
       'scope': instance.scope,
       'flags': instance.flags,
       'prefixlen': instance.prefixlen,
@@ -207,12 +207,3 @@ Map<String, dynamic> _$InterfaceAddressToJson(_InterfaceAddress instance) =>
       'broadcast_type': instance.broadcastType,
       'unknown': instance.unknown,
     };
-
-const _$RouteFamilyEnumMap = {
-  RouteFamily.inet: 'inet',
-  RouteFamily.inet6: 'inet6',
-  RouteFamily.link: 'link',
-  RouteFamily.mpls: 'mpls',
-  RouteFamily.bridge: 'bridge',
-  RouteFamily.unknown: 'unknown',
-};

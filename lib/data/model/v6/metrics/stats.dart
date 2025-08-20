@@ -7,9 +7,9 @@ part 'stats.g.dart';
 sealed class StatsSummary with _$StatsSummary {
   @JsonSerializable(explicitToJson: true)
   const factory StatsSummary({
-    required Queries queries,
-    required Clients clients,
-    required Gravity gravity,
+    required StatsQueries queries,
+    required StatsClients clients,
+    required StatsGravity gravity,
     required double took,
   }) = _StatsSummary;
 
@@ -18,27 +18,27 @@ sealed class StatsSummary with _$StatsSummary {
 }
 
 @freezed
-sealed class Queries with _$Queries {
+sealed class StatsQueries with _$StatsQueries {
   @JsonSerializable(explicitToJson: true)
-  const factory Queries({
+  const factory StatsQueries({
     required int total,
     required int blocked,
     @JsonKey(name: 'percent_blocked') required double percentBlocked,
     @JsonKey(name: 'unique_domains') required int uniqueDomains,
     required int forwarded,
     required int cached,
-    required Types types,
-    required Status status,
-    required Replies replies,
-  }) = _Queries;
+    required StatsTypes types,
+    required StatsStatus status,
+    required StatsReplies replies,
+  }) = _StatsQueries;
 
-  factory Queries.fromJson(Map<String, dynamic> json) =>
-      _$QueriesFromJson(json);
+  factory StatsQueries.fromJson(Map<String, dynamic> json) =>
+      _$StatsQueriesFromJson(json);
 }
 
 @freezed
-sealed class Types with _$Types {
-  const factory Types({
+sealed class StatsTypes with _$StatsTypes {
+  const factory StatsTypes({
     @JsonKey(name: 'A') required int a,
     @JsonKey(name: 'AAAA') required int aaaa,
     @JsonKey(name: 'ANY') required int any,
@@ -55,14 +55,15 @@ sealed class Types with _$Types {
     @JsonKey(name: 'SVCB') required int svcb,
     @JsonKey(name: 'HTTPS') required int https,
     @JsonKey(name: 'OTHER') required int other,
-  }) = _Types;
+  }) = _StatsTypes;
 
-  factory Types.fromJson(Map<String, dynamic> json) => _$TypesFromJson(json);
+  factory StatsTypes.fromJson(Map<String, dynamic> json) =>
+      _$StatsTypesFromJson(json);
 }
 
 @freezed
-sealed class Status with _$Status {
-  const factory Status({
+sealed class StatsStatus with _$StatsStatus {
+  const factory StatsStatus({
     @JsonKey(name: 'UNKNOWN') required int unknown,
     @JsonKey(name: 'GRAVITY') required int gravity,
     @JsonKey(name: 'FORWARDED') required int forwarded,
@@ -81,14 +82,15 @@ sealed class Status with _$Status {
     @JsonKey(name: 'DBBUSY') required int dbbusy,
     @JsonKey(name: 'SPECIAL_DOMAIN') required int specialDomain,
     @JsonKey(name: 'CACHE_STALE') required int cacheStale,
-  }) = _Status;
+  }) = _StatsStatus;
 
-  factory Status.fromJson(Map<String, dynamic> json) => _$StatusFromJson(json);
+  factory StatsStatus.fromJson(Map<String, dynamic> json) =>
+      _$StatsStatusFromJson(json);
 }
 
 @freezed
-sealed class Replies with _$Replies {
-  const factory Replies({
+sealed class StatsReplies with _$StatsReplies {
+  const factory StatsReplies({
     @JsonKey(name: 'UNKNOWN') required int unknown,
     @JsonKey(name: 'NODATA') required int nodata,
     @JsonKey(name: 'NXDOMAIN') required int nxdomain,
@@ -103,32 +105,30 @@ sealed class Replies with _$Replies {
     @JsonKey(name: 'DNSSEC') required int dnssec,
     @JsonKey(name: 'NONE') required int none,
     @JsonKey(name: 'BLOB') required int blob,
-  }) = _Replies;
+  }) = _StatsReplies;
 
-  factory Replies.fromJson(Map<String, dynamic> json) =>
-      _$RepliesFromJson(json);
+  factory StatsReplies.fromJson(Map<String, dynamic> json) =>
+      _$StatsRepliesFromJson(json);
 }
 
 @freezed
-sealed class Clients with _$Clients {
-  const factory Clients({
-    required int active,
-    required int total,
-  }) = _Clients;
+sealed class StatsClients with _$StatsClients {
+  const factory StatsClients({required int active, required int total}) =
+      _StatsClients;
 
-  factory Clients.fromJson(Map<String, dynamic> json) =>
-      _$ClientsFromJson(json);
+  factory StatsClients.fromJson(Map<String, dynamic> json) =>
+      _$StatsClientsFromJson(json);
 }
 
 @freezed
-sealed class Gravity with _$Gravity {
-  const factory Gravity({
+sealed class StatsGravity with _$StatsGravity {
+  const factory StatsGravity({
     @JsonKey(name: 'domains_being_blocked') required int domainsBeingBlocked,
     @JsonKey(name: 'last_update') required int lastUpdate,
-  }) = _Gravity;
+  }) = _StatsGravity;
 
-  factory Gravity.fromJson(Map<String, dynamic> json) =>
-      _$GravityFromJson(json);
+  factory StatsGravity.fromJson(Map<String, dynamic> json) =>
+      _$StatsGravityFromJson(json);
 }
 
 //api/stats/top_tomains
@@ -136,7 +136,7 @@ sealed class Gravity with _$Gravity {
 sealed class StatsTopDomains with _$StatsTopDomains {
   @JsonSerializable(explicitToJson: true)
   const factory StatsTopDomains({
-    required List<Domain> domains,
+    required List<StatsDomain> domains,
     @JsonKey(name: 'total_queries') required int totalQueries,
     @JsonKey(name: 'blocked_queries') required int blockedQueries,
     required double took,
@@ -147,13 +147,12 @@ sealed class StatsTopDomains with _$StatsTopDomains {
 }
 
 @freezed
-sealed class Domain with _$Domain {
-  const factory Domain({
-    required String domain,
-    required int count,
-  }) = _Domain;
+sealed class StatsDomain with _$StatsDomain {
+  const factory StatsDomain({required String domain, required int count}) =
+      _StatsDomain;
 
-  factory Domain.fromJson(Map<String, dynamic> json) => _$DomainFromJson(json);
+  factory StatsDomain.fromJson(Map<String, dynamic> json) =>
+      _$StatsDomainFromJson(json);
 }
 
 // api/stats/top_clients
@@ -161,7 +160,7 @@ sealed class Domain with _$Domain {
 sealed class StatsTopClients with _$StatsTopClients {
   @JsonSerializable(explicitToJson: true)
   const factory StatsTopClients({
-    required List<Client> clients,
+    required List<StatsClient> clients,
     @JsonKey(name: 'total_queries') required int totalQueries,
     @JsonKey(name: 'blocked_queries') required int blockedQueries,
     required double took,
@@ -172,14 +171,15 @@ sealed class StatsTopClients with _$StatsTopClients {
 }
 
 @freezed
-sealed class Client with _$Client {
-  const factory Client({
+sealed class StatsClient with _$StatsClient {
+  const factory StatsClient({
     required String ip,
     required String name,
     required int count,
-  }) = _Client;
+  }) = _StatsClient;
 
-  factory Client.fromJson(Map<String, dynamic> json) => _$ClientFromJson(json);
+  factory StatsClient.fromJson(Map<String, dynamic> json) =>
+      _$StatsClientFromJson(json);
 }
 
 // api/stats/StatsUpstreams
@@ -187,7 +187,7 @@ sealed class Client with _$Client {
 sealed class StatsUpstreams with _$StatsUpstreams {
   @JsonSerializable(explicitToJson: true)
   const factory StatsUpstreams({
-    required List<Upstream> upstreams,
+    required List<StatsUpstream> upstreams,
     @JsonKey(name: 'forwarded_queries') required int forwardedQueries,
     @JsonKey(name: 'total_queries') required int totalQueries,
     required double took,
@@ -198,18 +198,18 @@ sealed class StatsUpstreams with _$StatsUpstreams {
 }
 
 @freezed
-sealed class Upstream with _$Upstream {
+sealed class StatsUpstream with _$StatsUpstream {
   @JsonSerializable(explicitToJson: true)
-  const factory Upstream({
+  const factory StatsUpstream({
     required String ip,
     required String name,
     required int port,
     required int count,
     required Statistics statistics,
-  }) = _Upstream;
+  }) = _StatsUpstream;
 
-  factory Upstream.fromJson(Map<String, dynamic> json) =>
-      _$UpstreamFromJson(json);
+  factory StatsUpstream.fromJson(Map<String, dynamic> json) =>
+      _$StatsUpstreamFromJson(json);
 }
 
 @freezed

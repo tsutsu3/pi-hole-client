@@ -10,16 +10,16 @@ _Domains _$DomainsFromJson(Map<String, dynamic> json) => _Domains(
   domains: (json['domains'] as List<dynamic>)
       .map((e) => DomainData.fromJson(e as Map<String, dynamic>))
       .toList(),
+  took: (json['took'] as num).toDouble(),
   processed: json['processed'] == null
       ? null
       : Processed.fromJson(json['processed'] as Map<String, dynamic>),
-  took: (json['took'] as num).toDouble(),
 );
 
 Map<String, dynamic> _$DomainsToJson(_Domains instance) => <String, dynamic>{
   'domains': instance.domains.map((e) => e.toJson()).toList(),
-  'processed': instance.processed?.toJson(),
   'took': instance.took,
+  'processed': instance.processed?.toJson(),
 };
 
 _DomainData _$DomainDataFromJson(Map<String, dynamic> json) => _DomainData(
@@ -27,7 +27,6 @@ _DomainData _$DomainDataFromJson(Map<String, dynamic> json) => _DomainData(
   unicode: json['unicode'] as String,
   type: json['type'] as String,
   kind: json['kind'] as String,
-  comment: json['comment'] as String?,
   groups: (json['groups'] as List<dynamic>)
       .map((e) => (e as num).toInt())
       .toList(),
@@ -35,6 +34,7 @@ _DomainData _$DomainDataFromJson(Map<String, dynamic> json) => _DomainData(
   id: (json['id'] as num).toInt(),
   dateAdded: (json['date_added'] as num).toInt(),
   dateModified: (json['date_modified'] as num).toInt(),
+  comment: json['comment'] as String?,
 );
 
 Map<String, dynamic> _$DomainDataToJson(_DomainData instance) =>
@@ -43,12 +43,12 @@ Map<String, dynamic> _$DomainDataToJson(_DomainData instance) =>
       'unicode': instance.unicode,
       'type': instance.type,
       'kind': instance.kind,
-      'comment': instance.comment,
       'groups': instance.groups,
       'enabled': instance.enabled,
       'id': instance.id,
       'date_added': instance.dateAdded,
       'date_modified': instance.dateModified,
+      'comment': instance.comment,
     };
 
 _Processed _$ProcessedFromJson(Map<String, dynamic> json) => _Processed(

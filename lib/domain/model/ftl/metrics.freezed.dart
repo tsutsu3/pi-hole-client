@@ -592,7 +592,7 @@ as List<DnsTypePercentage>,
 /// @nodoc
 mixin _$DnsTypePercentage {
 
- String get name; double get percentage;
+ DnsRecordType get type; bool get isStale; double get percentage;
 /// Create a copy of DnsTypePercentage
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -605,16 +605,16 @@ $DnsTypePercentageCopyWith<DnsTypePercentage> get copyWith => _$DnsTypePercentag
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is DnsTypePercentage&&(identical(other.name, name) || other.name == name)&&(identical(other.percentage, percentage) || other.percentage == percentage));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is DnsTypePercentage&&(identical(other.type, type) || other.type == type)&&(identical(other.isStale, isStale) || other.isStale == isStale)&&(identical(other.percentage, percentage) || other.percentage == percentage));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,name,percentage);
+int get hashCode => Object.hash(runtimeType,type,isStale,percentage);
 
 @override
 String toString() {
-  return 'DnsTypePercentage(name: $name, percentage: $percentage)';
+  return 'DnsTypePercentage(type: $type, isStale: $isStale, percentage: $percentage)';
 }
 
 
@@ -625,7 +625,7 @@ abstract mixin class $DnsTypePercentageCopyWith<$Res>  {
   factory $DnsTypePercentageCopyWith(DnsTypePercentage value, $Res Function(DnsTypePercentage) _then) = _$DnsTypePercentageCopyWithImpl;
 @useResult
 $Res call({
- String name, double percentage
+ DnsRecordType type, bool isStale, double percentage
 });
 
 
@@ -642,10 +642,11 @@ class _$DnsTypePercentageCopyWithImpl<$Res>
 
 /// Create a copy of DnsTypePercentage
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? name = null,Object? percentage = null,}) {
+@pragma('vm:prefer-inline') @override $Res call({Object? type = null,Object? isStale = null,Object? percentage = null,}) {
   return _then(_self.copyWith(
-name: null == name ? _self.name : name // ignore: cast_nullable_to_non_nullable
-as String,percentage: null == percentage ? _self.percentage : percentage // ignore: cast_nullable_to_non_nullable
+type: null == type ? _self.type : type // ignore: cast_nullable_to_non_nullable
+as DnsRecordType,isStale: null == isStale ? _self.isStale : isStale // ignore: cast_nullable_to_non_nullable
+as bool,percentage: null == percentage ? _self.percentage : percentage // ignore: cast_nullable_to_non_nullable
 as double,
   ));
 }
@@ -728,10 +729,10 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( String name,  double percentage)?  $default,{required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( DnsRecordType type,  bool isStale,  double percentage)?  $default,{required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _DnsTypePercentage() when $default != null:
-return $default(_that.name,_that.percentage);case _:
+return $default(_that.type,_that.isStale,_that.percentage);case _:
   return orElse();
 
 }
@@ -749,10 +750,10 @@ return $default(_that.name,_that.percentage);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( String name,  double percentage)  $default,) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( DnsRecordType type,  bool isStale,  double percentage)  $default,) {final _that = this;
 switch (_that) {
 case _DnsTypePercentage():
-return $default(_that.name,_that.percentage);}
+return $default(_that.type,_that.isStale,_that.percentage);}
 }
 /// A variant of `when` that fallback to returning `null`
 ///
@@ -766,10 +767,10 @@ return $default(_that.name,_that.percentage);}
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( String name,  double percentage)?  $default,) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( DnsRecordType type,  bool isStale,  double percentage)?  $default,) {final _that = this;
 switch (_that) {
 case _DnsTypePercentage() when $default != null:
-return $default(_that.name,_that.percentage);case _:
+return $default(_that.type,_that.isStale,_that.percentage);case _:
   return null;
 
 }
@@ -781,10 +782,11 @@ return $default(_that.name,_that.percentage);case _:
 
 @JsonSerializable(explicitToJson: true)
 class _DnsTypePercentage implements DnsTypePercentage {
-  const _DnsTypePercentage({required this.name, required this.percentage});
+  const _DnsTypePercentage({required this.type, required this.isStale, required this.percentage});
   factory _DnsTypePercentage.fromJson(Map<String, dynamic> json) => _$DnsTypePercentageFromJson(json);
 
-@override final  String name;
+@override final  DnsRecordType type;
+@override final  bool isStale;
 @override final  double percentage;
 
 /// Create a copy of DnsTypePercentage
@@ -800,16 +802,16 @@ Map<String, dynamic> toJson() {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _DnsTypePercentage&&(identical(other.name, name) || other.name == name)&&(identical(other.percentage, percentage) || other.percentage == percentage));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _DnsTypePercentage&&(identical(other.type, type) || other.type == type)&&(identical(other.isStale, isStale) || other.isStale == isStale)&&(identical(other.percentage, percentage) || other.percentage == percentage));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,name,percentage);
+int get hashCode => Object.hash(runtimeType,type,isStale,percentage);
 
 @override
 String toString() {
-  return 'DnsTypePercentage(name: $name, percentage: $percentage)';
+  return 'DnsTypePercentage(type: $type, isStale: $isStale, percentage: $percentage)';
 }
 
 
@@ -820,7 +822,7 @@ abstract mixin class _$DnsTypePercentageCopyWith<$Res> implements $DnsTypePercen
   factory _$DnsTypePercentageCopyWith(_DnsTypePercentage value, $Res Function(_DnsTypePercentage) _then) = __$DnsTypePercentageCopyWithImpl;
 @override @useResult
 $Res call({
- String name, double percentage
+ DnsRecordType type, bool isStale, double percentage
 });
 
 
@@ -837,10 +839,11 @@ class __$DnsTypePercentageCopyWithImpl<$Res>
 
 /// Create a copy of DnsTypePercentage
 /// with the given fields replaced by the non-null parameter values.
-@override @pragma('vm:prefer-inline') $Res call({Object? name = null,Object? percentage = null,}) {
+@override @pragma('vm:prefer-inline') $Res call({Object? type = null,Object? isStale = null,Object? percentage = null,}) {
   return _then(_DnsTypePercentage(
-name: null == name ? _self.name : name // ignore: cast_nullable_to_non_nullable
-as String,percentage: null == percentage ? _self.percentage : percentage // ignore: cast_nullable_to_non_nullable
+type: null == type ? _self.type : type // ignore: cast_nullable_to_non_nullable
+as DnsRecordType,isStale: null == isStale ? _self.isStale : isStale // ignore: cast_nullable_to_non_nullable
+as bool,percentage: null == percentage ? _self.percentage : percentage // ignore: cast_nullable_to_non_nullable
 as double,
   ));
 }

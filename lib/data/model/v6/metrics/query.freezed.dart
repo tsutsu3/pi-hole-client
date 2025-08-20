@@ -293,7 +293,7 @@ as double,
 /// @nodoc
 mixin _$Query {
 
- int get id; double get time; String get type; String get domain; Client get client; Reply get reply; Ede get ede; String? get cname; String? get status; String? get dnssec;@JsonKey(name: 'list_id') int? get listId; String? get upstream;
+ int get id; double get time; String get type; String get domain; QueryClient get client; Reply get reply; Ede get ede; String? get cname; String? get status; String? get dnssec;@JsonKey(name: 'list_id') int? get listId; String? get upstream;
 /// Create a copy of Query
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -326,11 +326,11 @@ abstract mixin class $QueryCopyWith<$Res>  {
   factory $QueryCopyWith(Query value, $Res Function(Query) _then) = _$QueryCopyWithImpl;
 @useResult
 $Res call({
- int id, double time, String type, String domain, Client client, Reply reply, Ede ede, String? cname, String? status, String? dnssec,@JsonKey(name: 'list_id') int? listId, String? upstream
+ int id, double time, String type, String domain, QueryClient client, Reply reply, Ede ede, String? cname, String? status, String? dnssec,@JsonKey(name: 'list_id') int? listId, String? upstream
 });
 
 
-$ClientCopyWith<$Res> get client;$ReplyCopyWith<$Res> get reply;$EdeCopyWith<$Res> get ede;
+$QueryClientCopyWith<$Res> get client;$ReplyCopyWith<$Res> get reply;$EdeCopyWith<$Res> get ede;
 
 }
 /// @nodoc
@@ -350,7 +350,7 @@ as int,time: null == time ? _self.time : time // ignore: cast_nullable_to_non_nu
 as double,type: null == type ? _self.type : type // ignore: cast_nullable_to_non_nullable
 as String,domain: null == domain ? _self.domain : domain // ignore: cast_nullable_to_non_nullable
 as String,client: null == client ? _self.client : client // ignore: cast_nullable_to_non_nullable
-as Client,reply: null == reply ? _self.reply : reply // ignore: cast_nullable_to_non_nullable
+as QueryClient,reply: null == reply ? _self.reply : reply // ignore: cast_nullable_to_non_nullable
 as Reply,ede: null == ede ? _self.ede : ede // ignore: cast_nullable_to_non_nullable
 as Ede,cname: freezed == cname ? _self.cname : cname // ignore: cast_nullable_to_non_nullable
 as String?,status: freezed == status ? _self.status : status // ignore: cast_nullable_to_non_nullable
@@ -364,9 +364,9 @@ as String?,
 /// with the given fields replaced by the non-null parameter values.
 @override
 @pragma('vm:prefer-inline')
-$ClientCopyWith<$Res> get client {
+$QueryClientCopyWith<$Res> get client {
   
-  return $ClientCopyWith<$Res>(_self.client, (value) {
+  return $QueryClientCopyWith<$Res>(_self.client, (value) {
     return _then(_self.copyWith(client: value));
   });
 }/// Create a copy of Query
@@ -466,7 +466,7 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( int id,  double time,  String type,  String domain,  Client client,  Reply reply,  Ede ede,  String? cname,  String? status,  String? dnssec, @JsonKey(name: 'list_id')  int? listId,  String? upstream)?  $default,{required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( int id,  double time,  String type,  String domain,  QueryClient client,  Reply reply,  Ede ede,  String? cname,  String? status,  String? dnssec, @JsonKey(name: 'list_id')  int? listId,  String? upstream)?  $default,{required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _Query() when $default != null:
 return $default(_that.id,_that.time,_that.type,_that.domain,_that.client,_that.reply,_that.ede,_that.cname,_that.status,_that.dnssec,_that.listId,_that.upstream);case _:
@@ -487,7 +487,7 @@ return $default(_that.id,_that.time,_that.type,_that.domain,_that.client,_that.r
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( int id,  double time,  String type,  String domain,  Client client,  Reply reply,  Ede ede,  String? cname,  String? status,  String? dnssec, @JsonKey(name: 'list_id')  int? listId,  String? upstream)  $default,) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( int id,  double time,  String type,  String domain,  QueryClient client,  Reply reply,  Ede ede,  String? cname,  String? status,  String? dnssec, @JsonKey(name: 'list_id')  int? listId,  String? upstream)  $default,) {final _that = this;
 switch (_that) {
 case _Query():
 return $default(_that.id,_that.time,_that.type,_that.domain,_that.client,_that.reply,_that.ede,_that.cname,_that.status,_that.dnssec,_that.listId,_that.upstream);}
@@ -504,7 +504,7 @@ return $default(_that.id,_that.time,_that.type,_that.domain,_that.client,_that.r
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( int id,  double time,  String type,  String domain,  Client client,  Reply reply,  Ede ede,  String? cname,  String? status,  String? dnssec, @JsonKey(name: 'list_id')  int? listId,  String? upstream)?  $default,) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( int id,  double time,  String type,  String domain,  QueryClient client,  Reply reply,  Ede ede,  String? cname,  String? status,  String? dnssec, @JsonKey(name: 'list_id')  int? listId,  String? upstream)?  $default,) {final _that = this;
 switch (_that) {
 case _Query() when $default != null:
 return $default(_that.id,_that.time,_that.type,_that.domain,_that.client,_that.reply,_that.ede,_that.cname,_that.status,_that.dnssec,_that.listId,_that.upstream);case _:
@@ -526,7 +526,7 @@ class _Query implements Query {
 @override final  double time;
 @override final  String type;
 @override final  String domain;
-@override final  Client client;
+@override final  QueryClient client;
 @override final  Reply reply;
 @override final  Ede ede;
 @override final  String? cname;
@@ -568,11 +568,11 @@ abstract mixin class _$QueryCopyWith<$Res> implements $QueryCopyWith<$Res> {
   factory _$QueryCopyWith(_Query value, $Res Function(_Query) _then) = __$QueryCopyWithImpl;
 @override @useResult
 $Res call({
- int id, double time, String type, String domain, Client client, Reply reply, Ede ede, String? cname, String? status, String? dnssec,@JsonKey(name: 'list_id') int? listId, String? upstream
+ int id, double time, String type, String domain, QueryClient client, Reply reply, Ede ede, String? cname, String? status, String? dnssec,@JsonKey(name: 'list_id') int? listId, String? upstream
 });
 
 
-@override $ClientCopyWith<$Res> get client;@override $ReplyCopyWith<$Res> get reply;@override $EdeCopyWith<$Res> get ede;
+@override $QueryClientCopyWith<$Res> get client;@override $ReplyCopyWith<$Res> get reply;@override $EdeCopyWith<$Res> get ede;
 
 }
 /// @nodoc
@@ -592,7 +592,7 @@ as int,time: null == time ? _self.time : time // ignore: cast_nullable_to_non_nu
 as double,type: null == type ? _self.type : type // ignore: cast_nullable_to_non_nullable
 as String,domain: null == domain ? _self.domain : domain // ignore: cast_nullable_to_non_nullable
 as String,client: null == client ? _self.client : client // ignore: cast_nullable_to_non_nullable
-as Client,reply: null == reply ? _self.reply : reply // ignore: cast_nullable_to_non_nullable
+as QueryClient,reply: null == reply ? _self.reply : reply // ignore: cast_nullable_to_non_nullable
 as Reply,ede: null == ede ? _self.ede : ede // ignore: cast_nullable_to_non_nullable
 as Ede,cname: freezed == cname ? _self.cname : cname // ignore: cast_nullable_to_non_nullable
 as String?,status: freezed == status ? _self.status : status // ignore: cast_nullable_to_non_nullable
@@ -607,9 +607,9 @@ as String?,
 /// with the given fields replaced by the non-null parameter values.
 @override
 @pragma('vm:prefer-inline')
-$ClientCopyWith<$Res> get client {
+$QueryClientCopyWith<$Res> get client {
   
-  return $ClientCopyWith<$Res>(_self.client, (value) {
+  return $QueryClientCopyWith<$Res>(_self.client, (value) {
     return _then(_self.copyWith(client: value));
   });
 }/// Create a copy of Query
@@ -635,22 +635,22 @@ $EdeCopyWith<$Res> get ede {
 
 
 /// @nodoc
-mixin _$Client {
+mixin _$QueryClient {
 
  String get ip; String? get name;
-/// Create a copy of Client
+/// Create a copy of QueryClient
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
 @pragma('vm:prefer-inline')
-$ClientCopyWith<Client> get copyWith => _$ClientCopyWithImpl<Client>(this as Client, _$identity);
+$QueryClientCopyWith<QueryClient> get copyWith => _$QueryClientCopyWithImpl<QueryClient>(this as QueryClient, _$identity);
 
-  /// Serializes this Client to a JSON map.
+  /// Serializes this QueryClient to a JSON map.
   Map<String, dynamic> toJson();
 
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is Client&&(identical(other.ip, ip) || other.ip == ip)&&(identical(other.name, name) || other.name == name));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is QueryClient&&(identical(other.ip, ip) || other.ip == ip)&&(identical(other.name, name) || other.name == name));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -659,15 +659,15 @@ int get hashCode => Object.hash(runtimeType,ip,name);
 
 @override
 String toString() {
-  return 'Client(ip: $ip, name: $name)';
+  return 'QueryClient(ip: $ip, name: $name)';
 }
 
 
 }
 
 /// @nodoc
-abstract mixin class $ClientCopyWith<$Res>  {
-  factory $ClientCopyWith(Client value, $Res Function(Client) _then) = _$ClientCopyWithImpl;
+abstract mixin class $QueryClientCopyWith<$Res>  {
+  factory $QueryClientCopyWith(QueryClient value, $Res Function(QueryClient) _then) = _$QueryClientCopyWithImpl;
 @useResult
 $Res call({
  String ip, String? name
@@ -678,14 +678,14 @@ $Res call({
 
 }
 /// @nodoc
-class _$ClientCopyWithImpl<$Res>
-    implements $ClientCopyWith<$Res> {
-  _$ClientCopyWithImpl(this._self, this._then);
+class _$QueryClientCopyWithImpl<$Res>
+    implements $QueryClientCopyWith<$Res> {
+  _$QueryClientCopyWithImpl(this._self, this._then);
 
-  final Client _self;
-  final $Res Function(Client) _then;
+  final QueryClient _self;
+  final $Res Function(QueryClient) _then;
 
-/// Create a copy of Client
+/// Create a copy of QueryClient
 /// with the given fields replaced by the non-null parameter values.
 @pragma('vm:prefer-inline') @override $Res call({Object? ip = null,Object? name = freezed,}) {
   return _then(_self.copyWith(
@@ -698,8 +698,8 @@ as String?,
 }
 
 
-/// Adds pattern-matching-related methods to [Client].
-extension ClientPatterns on Client {
+/// Adds pattern-matching-related methods to [QueryClient].
+extension QueryClientPatterns on QueryClient {
 /// A variant of `map` that fallback to returning `orElse`.
 ///
 /// It is equivalent to doing:
@@ -712,10 +712,10 @@ extension ClientPatterns on Client {
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeMap<TResult extends Object?>(TResult Function( _Client value)?  $default,{required TResult orElse(),}){
+@optionalTypeArgs TResult maybeMap<TResult extends Object?>(TResult Function( _QueryClient value)?  $default,{required TResult orElse(),}){
 final _that = this;
 switch (_that) {
-case _Client() when $default != null:
+case _QueryClient() when $default != null:
 return $default(_that);case _:
   return orElse();
 
@@ -734,10 +734,10 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult map<TResult extends Object?>(TResult Function( _Client value)  $default,){
+@optionalTypeArgs TResult map<TResult extends Object?>(TResult Function( _QueryClient value)  $default,){
 final _that = this;
 switch (_that) {
-case _Client():
+case _QueryClient():
 return $default(_that);}
 }
 /// A variant of `map` that fallback to returning `null`.
@@ -752,10 +752,10 @@ return $default(_that);}
 /// }
 /// ```
 
-@optionalTypeArgs TResult? mapOrNull<TResult extends Object?>(TResult? Function( _Client value)?  $default,){
+@optionalTypeArgs TResult? mapOrNull<TResult extends Object?>(TResult? Function( _QueryClient value)?  $default,){
 final _that = this;
 switch (_that) {
-case _Client() when $default != null:
+case _QueryClient() when $default != null:
 return $default(_that);case _:
   return null;
 
@@ -775,7 +775,7 @@ return $default(_that);case _:
 
 @optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( String ip,  String? name)?  $default,{required TResult orElse(),}) {final _that = this;
 switch (_that) {
-case _Client() when $default != null:
+case _QueryClient() when $default != null:
 return $default(_that.ip,_that.name);case _:
   return orElse();
 
@@ -796,7 +796,7 @@ return $default(_that.ip,_that.name);case _:
 
 @optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( String ip,  String? name)  $default,) {final _that = this;
 switch (_that) {
-case _Client():
+case _QueryClient():
 return $default(_that.ip,_that.name);}
 }
 /// A variant of `when` that fallback to returning `null`
@@ -813,7 +813,7 @@ return $default(_that.ip,_that.name);}
 
 @optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( String ip,  String? name)?  $default,) {final _that = this;
 switch (_that) {
-case _Client() when $default != null:
+case _QueryClient() when $default != null:
 return $default(_that.ip,_that.name);case _:
   return null;
 
@@ -825,27 +825,27 @@ return $default(_that.ip,_that.name);case _:
 /// @nodoc
 @JsonSerializable()
 
-class _Client implements Client {
-  const _Client({required this.ip, this.name});
-  factory _Client.fromJson(Map<String, dynamic> json) => _$ClientFromJson(json);
+class _QueryClient implements QueryClient {
+  const _QueryClient({required this.ip, this.name});
+  factory _QueryClient.fromJson(Map<String, dynamic> json) => _$QueryClientFromJson(json);
 
 @override final  String ip;
 @override final  String? name;
 
-/// Create a copy of Client
+/// Create a copy of QueryClient
 /// with the given fields replaced by the non-null parameter values.
 @override @JsonKey(includeFromJson: false, includeToJson: false)
 @pragma('vm:prefer-inline')
-_$ClientCopyWith<_Client> get copyWith => __$ClientCopyWithImpl<_Client>(this, _$identity);
+_$QueryClientCopyWith<_QueryClient> get copyWith => __$QueryClientCopyWithImpl<_QueryClient>(this, _$identity);
 
 @override
 Map<String, dynamic> toJson() {
-  return _$ClientToJson(this, );
+  return _$QueryClientToJson(this, );
 }
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _Client&&(identical(other.ip, ip) || other.ip == ip)&&(identical(other.name, name) || other.name == name));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _QueryClient&&(identical(other.ip, ip) || other.ip == ip)&&(identical(other.name, name) || other.name == name));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -854,15 +854,15 @@ int get hashCode => Object.hash(runtimeType,ip,name);
 
 @override
 String toString() {
-  return 'Client(ip: $ip, name: $name)';
+  return 'QueryClient(ip: $ip, name: $name)';
 }
 
 
 }
 
 /// @nodoc
-abstract mixin class _$ClientCopyWith<$Res> implements $ClientCopyWith<$Res> {
-  factory _$ClientCopyWith(_Client value, $Res Function(_Client) _then) = __$ClientCopyWithImpl;
+abstract mixin class _$QueryClientCopyWith<$Res> implements $QueryClientCopyWith<$Res> {
+  factory _$QueryClientCopyWith(_QueryClient value, $Res Function(_QueryClient) _then) = __$QueryClientCopyWithImpl;
 @override @useResult
 $Res call({
  String ip, String? name
@@ -873,17 +873,17 @@ $Res call({
 
 }
 /// @nodoc
-class __$ClientCopyWithImpl<$Res>
-    implements _$ClientCopyWith<$Res> {
-  __$ClientCopyWithImpl(this._self, this._then);
+class __$QueryClientCopyWithImpl<$Res>
+    implements _$QueryClientCopyWith<$Res> {
+  __$QueryClientCopyWithImpl(this._self, this._then);
 
-  final _Client _self;
-  final $Res Function(_Client) _then;
+  final _QueryClient _self;
+  final $Res Function(_QueryClient) _then;
 
-/// Create a copy of Client
+/// Create a copy of QueryClient
 /// with the given fields replaced by the non-null parameter values.
 @override @pragma('vm:prefer-inline') $Res call({Object? ip = null,Object? name = freezed,}) {
-  return _then(_Client(
+  return _then(_QueryClient(
 ip: null == ip ? _self.ip : ip // ignore: cast_nullable_to_non_nullable
 as String,name: freezed == name ? _self.name : name // ignore: cast_nullable_to_non_nullable
 as String?,

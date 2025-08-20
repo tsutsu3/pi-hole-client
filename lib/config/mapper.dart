@@ -1,5 +1,14 @@
 import 'package:pi_hole_client/config/enums.dart';
 
+extension IntToLListsStatusMapper on int {
+  ListsStatus toListsStatus() {
+    return ListsStatus.values.firstWhere(
+      (e) => e.index == this,
+      orElse: () => ListsStatus.unknown,
+    );
+  }
+}
+
 extension StringToDomainTypeMapper on String {
   DomainType toDomainType() {
     return DomainType.values.firstWhere(
@@ -23,6 +32,24 @@ extension StringToDnsBlockingStatusMapper on String {
     return DnsBlockingStatus.values.firstWhere(
       (e) => e.name == this,
       orElse: () => DnsBlockingStatus.unknown,
+    );
+  }
+}
+
+extension StringToListTypeMapper on String {
+  ListType toListType() {
+    return ListType.values.firstWhere(
+      (e) => e.name == this,
+      orElse: () => ListType.unknown,
+    );
+  }
+}
+
+extension StringToRouteFamilyTypeMapper on String {
+  RouteFamilyType toRouteFamilyType() {
+    return RouteFamilyType.values.firstWhere(
+      (e) => e.name == this,
+      orElse: () => RouteFamilyType.unknown,
     );
   }
 }
@@ -62,28 +89,48 @@ extension V5DomainTypeToDomainTypeMapper on V5DomainType {
   }
 }
 
-DnsRecordType convertDnsRecordTypeV5(String? type) {
-  switch (type) {
+DnsRecordType convertDnsRecordType(String? type) {
+  switch (type?.toUpperCase()) {
     case 'A':
+    case 'A (IPV4)':
       return DnsRecordType.a;
     case 'AAAA':
+    case 'AAAA (IPV6)':
       return DnsRecordType.aaaa;
-    case 'CNAME':
-      return DnsRecordType.cname;
+    case 'ANY':
+      return DnsRecordType.any;
+    case 'SRV':
+      return DnsRecordType.srv;
+    case 'SOA':
+      return DnsRecordType.soa;
     case 'PTR':
       return DnsRecordType.ptr;
     case 'TXT':
       return DnsRecordType.txt;
-    case 'SRV':
-      return DnsRecordType.srv;
-    case 'HTTPS':
-      return DnsRecordType.https;
+    case 'NAPTR':
+      return DnsRecordType.naptr;
     case 'MX':
       return DnsRecordType.mx;
+    case 'DS':
+      return DnsRecordType.ds;
+    case 'RRSIG':
+      return DnsRecordType.rrsig;
+    case 'DNSKEY':
+      return DnsRecordType.dnskey;
     case 'NS':
       return DnsRecordType.ns;
-    case 'SOA':
-      return DnsRecordType.soa;
+    case 'SVCB':
+      return DnsRecordType.svcb;
+    case 'HTTPS':
+      return DnsRecordType.https;
+    case 'NA':
+      return DnsRecordType.na;
+    case 'CNAME':
+      return DnsRecordType.cname;
+    case 'OTHER':
+      return DnsRecordType.other;
+    case 'EMPTY':
+      return DnsRecordType.empty;
     default:
       return DnsRecordType.unknown;
   }
@@ -118,6 +165,41 @@ ReplyType convertReplyTypeV5(int? code) {
     case 12:
       return ReplyType.none;
     case 13:
+      return ReplyType.blob;
+    default:
+      return ReplyType.unknown;
+  }
+}
+
+ReplyType convertReplyTypeV6(String? type) {
+  switch (type) {
+    case 'NA':
+      return ReplyType.na;
+    case 'NODATA':
+      return ReplyType.nodata;
+    case 'NXDOMAIN':
+      return ReplyType.nxdomain;
+    case 'CNAME':
+      return ReplyType.cname;
+    case 'IP':
+      return ReplyType.ip;
+    case 'DOMAIN':
+      return ReplyType.domain;
+    case 'RRNAME':
+      return ReplyType.rrname;
+    case 'SERVFAIL':
+      return ReplyType.servfail;
+    case 'REFUSED':
+      return ReplyType.refused;
+    case 'NOTIMP':
+      return ReplyType.notimp;
+    case 'UPSTREAM_ERROR':
+      return ReplyType.upstreamError;
+    case 'DNSSEC':
+      return ReplyType.dnssec;
+    case 'NONE':
+      return ReplyType.none;
+    case 'BLOB':
       return ReplyType.blob;
     default:
       return ReplyType.unknown;

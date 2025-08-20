@@ -17,7 +17,7 @@ sealed class Clients with _$Clients {
 
 @freezed
 sealed class Client with _$Client {
-  const factory Client({required String name, required String ip}) = _Client;
+  const factory Client({required String ip, String? name}) = _Client;
 
   factory Client.fromJson(Map<String, dynamic> json) => _$ClientFromJson(json);
 }

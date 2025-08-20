@@ -55,7 +55,7 @@ extension RealTimeStatusMapper on s.RealTimeStatus {
           .entries
           .map(
             (e) => d.QueryTypeStat(
-              type: e.key,
+              type: convertDnsRecordType(e.key),
               percentage: (e.value as num).toDouble(),
             ),
           )
@@ -84,6 +84,6 @@ extension DestinationStatMapper on MapEntry<String, double> {
 
 extension QueryTypeStatMapper on MapEntry<String, double> {
   d.QueryTypeStat toDomain() {
-    return d.QueryTypeStat(type: key, percentage: value);
+    return d.QueryTypeStat(type: convertDnsRecordType(key), percentage: value);
   }
 }

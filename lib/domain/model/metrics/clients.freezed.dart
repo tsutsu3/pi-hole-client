@@ -287,7 +287,7 @@ as List<ClientOverTimeEntry>,
 /// @nodoc
 mixin _$Client {
 
- String get name; String get ip;
+ String get ip; String? get name;
 /// Create a copy of Client
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -300,16 +300,16 @@ $ClientCopyWith<Client> get copyWith => _$ClientCopyWithImpl<Client>(this as Cli
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is Client&&(identical(other.name, name) || other.name == name)&&(identical(other.ip, ip) || other.ip == ip));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is Client&&(identical(other.ip, ip) || other.ip == ip)&&(identical(other.name, name) || other.name == name));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,name,ip);
+int get hashCode => Object.hash(runtimeType,ip,name);
 
 @override
 String toString() {
-  return 'Client(name: $name, ip: $ip)';
+  return 'Client(ip: $ip, name: $name)';
 }
 
 
@@ -320,7 +320,7 @@ abstract mixin class $ClientCopyWith<$Res>  {
   factory $ClientCopyWith(Client value, $Res Function(Client) _then) = _$ClientCopyWithImpl;
 @useResult
 $Res call({
- String name, String ip
+ String ip, String? name
 });
 
 
@@ -337,11 +337,11 @@ class _$ClientCopyWithImpl<$Res>
 
 /// Create a copy of Client
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? name = null,Object? ip = null,}) {
+@pragma('vm:prefer-inline') @override $Res call({Object? ip = null,Object? name = freezed,}) {
   return _then(_self.copyWith(
-name: null == name ? _self.name : name // ignore: cast_nullable_to_non_nullable
-as String,ip: null == ip ? _self.ip : ip // ignore: cast_nullable_to_non_nullable
-as String,
+ip: null == ip ? _self.ip : ip // ignore: cast_nullable_to_non_nullable
+as String,name: freezed == name ? _self.name : name // ignore: cast_nullable_to_non_nullable
+as String?,
   ));
 }
 
@@ -423,10 +423,10 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( String name,  String ip)?  $default,{required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( String ip,  String? name)?  $default,{required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _Client() when $default != null:
-return $default(_that.name,_that.ip);case _:
+return $default(_that.ip,_that.name);case _:
   return orElse();
 
 }
@@ -444,10 +444,10 @@ return $default(_that.name,_that.ip);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( String name,  String ip)  $default,) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( String ip,  String? name)  $default,) {final _that = this;
 switch (_that) {
 case _Client():
-return $default(_that.name,_that.ip);}
+return $default(_that.ip,_that.name);}
 }
 /// A variant of `when` that fallback to returning `null`
 ///
@@ -461,10 +461,10 @@ return $default(_that.name,_that.ip);}
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( String name,  String ip)?  $default,) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( String ip,  String? name)?  $default,) {final _that = this;
 switch (_that) {
 case _Client() when $default != null:
-return $default(_that.name,_that.ip);case _:
+return $default(_that.ip,_that.name);case _:
   return null;
 
 }
@@ -476,11 +476,11 @@ return $default(_that.name,_that.ip);case _:
 @JsonSerializable()
 
 class _Client implements Client {
-  const _Client({required this.name, required this.ip});
+  const _Client({required this.ip, this.name});
   factory _Client.fromJson(Map<String, dynamic> json) => _$ClientFromJson(json);
 
-@override final  String name;
 @override final  String ip;
+@override final  String? name;
 
 /// Create a copy of Client
 /// with the given fields replaced by the non-null parameter values.
@@ -495,16 +495,16 @@ Map<String, dynamic> toJson() {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _Client&&(identical(other.name, name) || other.name == name)&&(identical(other.ip, ip) || other.ip == ip));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _Client&&(identical(other.ip, ip) || other.ip == ip)&&(identical(other.name, name) || other.name == name));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,name,ip);
+int get hashCode => Object.hash(runtimeType,ip,name);
 
 @override
 String toString() {
-  return 'Client(name: $name, ip: $ip)';
+  return 'Client(ip: $ip, name: $name)';
 }
 
 
@@ -515,7 +515,7 @@ abstract mixin class _$ClientCopyWith<$Res> implements $ClientCopyWith<$Res> {
   factory _$ClientCopyWith(_Client value, $Res Function(_Client) _then) = __$ClientCopyWithImpl;
 @override @useResult
 $Res call({
- String name, String ip
+ String ip, String? name
 });
 
 
@@ -532,11 +532,11 @@ class __$ClientCopyWithImpl<$Res>
 
 /// Create a copy of Client
 /// with the given fields replaced by the non-null parameter values.
-@override @pragma('vm:prefer-inline') $Res call({Object? name = null,Object? ip = null,}) {
+@override @pragma('vm:prefer-inline') $Res call({Object? ip = null,Object? name = freezed,}) {
   return _then(_Client(
-name: null == name ? _self.name : name // ignore: cast_nullable_to_non_nullable
-as String,ip: null == ip ? _self.ip : ip // ignore: cast_nullable_to_non_nullable
-as String,
+ip: null == ip ? _self.ip : ip // ignore: cast_nullable_to_non_nullable
+as String,name: freezed == name ? _self.name : name // ignore: cast_nullable_to_non_nullable
+as String?,
   ));
 }
 

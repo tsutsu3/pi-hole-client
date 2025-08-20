@@ -1,5 +1,4 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
-import 'package:pi_hole_client/data/model/v6/network/common.dart';
 
 part 'routes.freezed.dart';
 part 'routes.g.dart';
@@ -18,7 +17,7 @@ sealed class Routes with _$Routes {
 sealed class RouteData with _$RouteData {
   const factory RouteData({
     required int table,
-    required RouteFamily family,
+    required String family,
     required String protocol,
     required String scope,
     required String type,

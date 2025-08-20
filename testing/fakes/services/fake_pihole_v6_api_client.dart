@@ -1,0 +1,538 @@
+import 'package:pi_hole_client/config/enums.dart';
+import 'package:pi_hole_client/data/model/v6/action/action.dart' show Action;
+import 'package:pi_hole_client/data/model/v6/auth/auth.dart' show Session;
+import 'package:pi_hole_client/data/model/v6/auth/sessions.dart'
+    show AuthSessions;
+import 'package:pi_hole_client/data/model/v6/config/config.dart'
+    show Config, ConfigData;
+import 'package:pi_hole_client/data/model/v6/dhcp/dhcp.dart' show Dhcp;
+import 'package:pi_hole_client/data/model/v6/dns/dns.dart' show Blocking;
+import 'package:pi_hole_client/data/model/v6/domains/domains.dart' show Domains;
+import 'package:pi_hole_client/data/model/v6/ftl/client.dart' show InfoClient;
+import 'package:pi_hole_client/data/model/v6/ftl/ftl.dart' show InfoFtl;
+import 'package:pi_hole_client/data/model/v6/ftl/host.dart' show InfoHost;
+import 'package:pi_hole_client/data/model/v6/ftl/messages.dart'
+    show InfoMessages;
+import 'package:pi_hole_client/data/model/v6/ftl/metrics.dart' show InfoMetrics;
+import 'package:pi_hole_client/data/model/v6/ftl/sensors.dart' show InfoSensors;
+import 'package:pi_hole_client/data/model/v6/ftl/system.dart' show InfoSystem;
+import 'package:pi_hole_client/data/model/v6/ftl/version.dart' show InfoVersion;
+import 'package:pi_hole_client/data/model/v6/groups/groups.dart' show Groups;
+import 'package:pi_hole_client/data/model/v6/lists/lists.dart' show Lists;
+import 'package:pi_hole_client/data/model/v6/metrics/history.dart'
+    show History, HistoryClients;
+import 'package:pi_hole_client/data/model/v6/metrics/query.dart' show Queries;
+import 'package:pi_hole_client/data/model/v6/metrics/stats.dart'
+    show StatsSummary, StatsTopClients, StatsTopDomains, StatsUpstreams;
+import 'package:pi_hole_client/data/model/v6/network/devices.dart' show Devices;
+import 'package:pi_hole_client/data/model/v6/network/gateway.dart' show Gateway;
+import 'package:pi_hole_client/data/services/api/pihole_v6_api_client.dart';
+import 'package:result_dart/result_dart.dart';
+
+import '../../models/v6/actions.dart';
+import '../../models/v6/adlist.dart';
+import '../../models/v6/auth.dart';
+import '../../models/v6/config.dart';
+import '../../models/v6/dhcp.dart';
+import '../../models/v6/dns.dart';
+import '../../models/v6/domain.dart';
+import '../../models/v6/ftl.dart';
+import '../../models/v6/group.dart';
+import '../../models/v6/metrics.dart';
+import '../../models/v6/network.dart';
+
+class FakePiholeV6ApiClient implements PiholeV6ApiClient {
+  bool shouldFail = false;
+  bool shouldPostDnsBlockingReturnEnabled = false;
+  bool shouldGetInfoVersionWithDocker = false;
+  bool shouldGetInfoSystemOld = false;
+
+  @override
+  void close() {}
+
+  // ==========================================================================
+  // Authentication
+  // ==========================================================================
+  @override
+  Future<Result<Session>> postAuth({required String password}) async {
+    if (shouldFail) {
+      return Failure(Exception('Forced postAuth failure'));
+    }
+    return Success(kSrvPostAuth);
+  }
+
+  @override
+  Future<Result<Unit>> deleteAuth(String sid) async {
+    if (shouldFail) {
+      return Failure(Exception('Forced deleteAuth failure'));
+    }
+    return const Success(unit);
+  }
+
+  @override
+  Future<Result<AuthSessions>> getAuthSessions(String sid) async {
+    if (shouldFail) {
+      return Failure(Exception('Forced getAuthSessions failure'));
+    }
+    return const Success(kSrvGetAuthSessions);
+  }
+
+  @override
+  Future<Result<Unit>> deleteAuthSession(String sid, {required int id}) async {
+    if (shouldFail) {
+      return Failure(Exception('Forced deleteAuthSession failure'));
+    }
+    return const Success(unit);
+  }
+
+  // ==========================================================================
+  // Metrics
+  // ==========================================================================
+  @override
+  Future<Result<History>> getHistory(String sid) async {
+    if (shouldFail) {
+      return Failure(Exception('Forced getHistory failure'));
+    }
+    return const Success(kSrvGetHistory);
+  }
+
+  @override
+  Future<Result<HistoryClients>> getHistoryClient(
+    String sid, {
+    int? count = 10,
+  }) async {
+    if (shouldFail) {
+      return Failure(Exception('Forced getHistoryClient failure'));
+    }
+    return const Success(kSrvGetHistoryClient);
+  }
+
+  @override
+  Future<Result<Queries>> getQueries(
+    String sid, {
+    required DateTime from,
+    required DateTime until,
+    int? length = 100,
+    int? cursor,
+  }) async {
+    if (shouldFail) {
+      return Failure(Exception('Forced getQueries failure'));
+    }
+    return const Success(kSrvGetQueries);
+  }
+
+  @override
+  Future<Result<StatsSummary>> getStatsSummary(String sid) async {
+    if (shouldFail) {
+      return Failure(Exception('Forced getStatsSummary failure'));
+    }
+    return const Success(kSrvGetStatsSummary);
+  }
+
+  @override
+  Future<Result<StatsUpstreams>> getStatsUpstreams(String sid) async {
+    if (shouldFail) {
+      return Failure(Exception('Forced getStatsUpstreams failure'));
+    }
+    return const Success(kSrvGetStatsUpstreams);
+  }
+
+  @override
+  Future<Result<StatsTopDomains>> getStatsTopDomains(
+    String sid, {
+    bool? blocked = false,
+    int? count = 10,
+  }) async {
+    if (shouldFail) {
+      return Failure(Exception('Forced getStatsTopDomains failure'));
+    }
+    if (blocked == true) {
+      return const Success(kSrvGetStatsTopDomainsBlocked);
+    }
+    return const Success(kSrvGetStatsTopDomains);
+  }
+
+  @override
+  Future<Result<StatsTopClients>> getStatsTopClients(
+    String sid, {
+    bool? blocked = false,
+    int? count = 10,
+  }) async {
+    if (shouldFail) {
+      return Failure(Exception('Forced getStatsTopClients failure'));
+    }
+    if (blocked == true) {
+      return const Success(kSrvGetStatsTopClientsBlocked);
+    }
+    return const Success(kSrvGetStatsTopClients);
+  }
+
+  // ==========================================================================
+  // DNS control
+  // ==========================================================================
+  @override
+  Future<Result<Blocking>> getDnsBlocking(String sid) async {
+    if (shouldFail) {
+      return Failure(Exception('Forced getDnsBlocking failure'));
+    }
+    return Success(kSrvGetDnsBlocking);
+  }
+
+  @override
+  Future<Result<Blocking>> postDnsBlocking(
+    String sid, {
+    bool? enabled = true,
+    int? timer,
+  }) async {
+    if (shouldFail) {
+      return Failure(Exception('Forced postDnsBlocking failure'));
+    }
+
+    if (shouldPostDnsBlockingReturnEnabled) {
+      return Success(kSrvPostDnsBlockingEnabled);
+    }
+    return Success(kSrvPostDnsBlockingDisabled);
+  }
+
+  // ==========================================================================
+  // Group management
+  // ==========================================================================
+  @override
+  Future<Result<Groups>> getGroups(String sid) async {
+    if (shouldFail) {
+      return Failure(Exception('Forced getGroups failure'));
+    }
+    return const Success(kSrvGetGroups);
+  }
+
+  // ==========================================================================
+  // Domain management
+  // ==========================================================================
+  @override
+  Future<Result<Domains>> getDomains(
+    String sid, {
+    DomainType? type,
+    DomainKind? kind,
+    String? domain,
+  }) async {
+    if (shouldFail) {
+      return Failure(Exception('Forced getDomains failure'));
+    }
+    return const Success(kSrvGetDomains);
+  }
+
+  @override
+  Future<Result<Domains>> postDomains(
+    String sid, {
+    required DomainType type,
+    required DomainKind kind,
+    required String domain,
+    String? comment,
+    List<int>? groups = const [0],
+    bool? enabled = true,
+  }) async {
+    if (shouldFail) {
+      return Failure(Exception('Forced postDomains failure'));
+    }
+    return const Success(kSrvPostDomains);
+  }
+
+  @override
+  Future<Result<Domains>> putDomains(
+    String sid, {
+    required DomainType type,
+    required DomainKind kind,
+    required String domain,
+    String? comment,
+    List<int>? groups = const [0],
+    bool? enabled = true,
+  }) async {
+    if (shouldFail) {
+      return Failure(Exception('Forced putDomains failure'));
+    }
+    return const Success(kSrvPutDomains);
+  }
+
+  @override
+  Future<Result<Unit>> deleteDomains(
+    String sid, {
+    required DomainType type,
+    required DomainKind kind,
+    required String domain,
+  }) async {
+    if (shouldFail) {
+      return Failure(Exception('Forced deleteDomains failure'));
+    }
+    return const Success(unit);
+  }
+
+  // ==========================================================================
+  // List management
+  // ==========================================================================
+  @override
+  Future<Result<Lists>> getLists(
+    String sid, {
+    String? adlist,
+    ListType? type,
+  }) async {
+    if (shouldFail) {
+      return Failure(Exception('Forced getLists failure'));
+    }
+    return const Success(kSrvGetLists);
+  }
+
+  @override
+  Future<Result<Lists>> postLists(
+    String sid, {
+    required String address,
+    required ListType type,
+    List<int>? groups = const [0],
+    String? comment = '',
+    bool? enabled = true,
+  }) async {
+    if (shouldFail) {
+      return Failure(Exception('Forced postLists failure'));
+    }
+    return Success(kSrvPostLists);
+  }
+
+  @override
+  Future<Result<Lists>> putLists(
+    String sid, {
+    required String adlist,
+    required ListType type,
+    List<int>? groups = const [0],
+    String? comment = '',
+    bool? enabled = true,
+  }) async {
+    if (shouldFail) {
+      return Failure(Exception('Forced putLists failure'));
+    }
+    return Success(kSrvPutLists);
+  }
+
+  @override
+  Future<Result<Unit>> deleteLists(
+    String sid, {
+    required String adlist,
+    ListType? type,
+  }) async {
+    if (shouldFail) {
+      return Failure(Exception('Forced deleteLists failure'));
+    }
+    return const Success(unit);
+  }
+
+  // ==========================================================================
+  // FTL information
+  // ==========================================================================
+  @override
+  Future<Result<InfoClient>> getInfoClient(String sid) async {
+    if (shouldFail) {
+      return Failure(Exception('Forced getInfoClient failure'));
+    }
+    return const Success(kSrvGetInfoClient);
+  }
+
+  @override
+  Future<Result<InfoFtl>> getInfoFtl(String sid) async {
+    if (shouldFail) {
+      return Failure(Exception('Forced getInfoFtl failure'));
+    }
+    return const Success(kSrvGetInfoFtl);
+  }
+
+  @override
+  Future<Result<InfoHost>> getInfoHost(String sid) async {
+    if (shouldFail) {
+      return Failure(Exception('Forced getInfoHost failure'));
+    }
+    return const Success(kSrvGetInfoHost);
+  }
+
+  @override
+  Future<Result<InfoMessages>> getInfoMessages(String sid) async {
+    if (shouldFail) {
+      return Failure(Exception('Forced getInfoMessages failure'));
+    }
+    return const Success(kSrvGetInfoMessages);
+  }
+
+  @override
+  Future<Result<Unit>> deleteInfoMessages(
+    String sid, {
+    required int messageId,
+  }) async {
+    if (shouldFail) {
+      return Failure(Exception('Forced deleteInfoMessages failure'));
+    }
+    return const Success(unit);
+  }
+
+  @override
+  Future<Result<InfoMetrics>> getInfoMetrics(String sid) async {
+    if (shouldFail) {
+      return Failure(Exception('Forced getInfoMetrics failure'));
+    }
+    return const Success(kSrvGetInfoMetrics);
+  }
+
+  @override
+  Future<Result<InfoSensors>> getInfoSensors(String sid) async {
+    if (shouldFail) {
+      return Failure(Exception('Forced getInfoSensors failure'));
+    }
+    return const Success(kSrvGetInfoSensors);
+  }
+
+  @override
+  Future<Result<InfoSystem>> getInfoSystem(String sid) async {
+    if (shouldFail) {
+      return Failure(Exception('Forced getInfoSystem failure'));
+    }
+    if (shouldGetInfoSystemOld) {
+      return const Success(kSrvGetInfoSystemOld);
+    }
+    return const Success(kSrvGetInfoSystem);
+  }
+
+  @override
+  Future<Result<InfoVersion>> getInfoVersion(String sid) async {
+    if (shouldFail) {
+      return Failure(Exception('Forced getInfoVersion failure'));
+    }
+    if (shouldGetInfoVersionWithDocker) {
+      return const Success(kSrvGetInfoVersionWithDocker);
+    }
+    return const Success(kSrvGetInfoVersion);
+  }
+
+  // ==========================================================================
+  // Network information
+  // ==========================================================================
+  @override
+  Future<Result<Devices>> getNetworkDevices(
+    String sid, {
+    int? maxDevices = 999,
+    int? maxAddresses = 25,
+  }) async {
+    if (shouldFail) {
+      return Failure(Exception('Forced getNetworkDevices failure'));
+    }
+    return const Success(kSrvGetNetworkDevices);
+  }
+
+  @override
+  Future<Result<Unit>> deleteNetworkDevices(
+    String sid, {
+    required int deviceId,
+  }) async {
+    if (shouldFail) {
+      return Failure(Exception('Forced deleteNetworkDevices failure'));
+    }
+    return const Success(unit);
+  }
+
+  @override
+  Future<Result<Gateway>> getNetworkGateway(
+    String sid, {
+    bool? isDetailed,
+  }) async {
+    if (shouldFail) {
+      return Failure(Exception('Forced getNetworkGateway failure'));
+    }
+
+    if (isDetailed == true) {
+      return const Success(kSrvGetNetworkGatewayDetailed);
+    }
+    return const Success(kSrvGetNetworkGateway);
+  }
+
+  // ==========================================================================
+  // Actions
+  // ==========================================================================
+  @override
+  Future<Result<Action>> postActionFlushArp(String sid) async {
+    if (shouldFail) {
+      return Failure(Exception('Forced postActionFlushArp failure'));
+    }
+    return const Success(kSrvPostActionFlushArp);
+  }
+
+  @override
+  Future<Result<Action>> postActionFlushLogs(String sid) async {
+    if (shouldFail) {
+      return Failure(Exception('Forced postActionFlushLogs failure'));
+    }
+    return const Success(kSrvPostActionFlushLogs);
+  }
+
+  @override
+  Stream<Result<List<String>>> postActionGravity(String sid) async* {
+    if (shouldFail) {
+      yield Failure(Exception('Forced postActionGravity failure'));
+    }
+
+    yield* Stream.fromIterable(
+      kSrvPostActionGravity.map(
+        (e) => Success(e.map((item) => item as String).toList()),
+      ),
+    );
+  }
+
+  @override
+  Future<Result<Action>> postActionRestartDns(String sid) async {
+    if (shouldFail) {
+      return Failure(Exception('Forced postActionRestartDns failure'));
+    }
+    return const Success(kSrvPostActionRestartDns);
+  }
+
+  // ==========================================================================
+  // Pi-hole Configuration
+  // ==========================================================================
+  @override
+  Future<Result<Config>> getConfigElement(
+    String sid, {
+    String? element,
+    bool? isDetailed,
+  }) async {
+    if (shouldFail) {
+      return Failure(Exception('Forced getConfigElement failure'));
+    }
+    return const Success(kSrvGetConfigElement);
+  }
+
+  @override
+  Future<Result<Config>> patchConfig(
+    String sid, {
+    required ConfigData body,
+  }) async {
+    if (shouldFail) {
+      return Failure(Exception('Forced patchConfig failure'));
+    }
+    return Success(kSrvPatchConfig);
+  }
+
+  // ==========================================================================
+  // DHCP
+  // ==========================================================================
+  @override
+  Future<Result<Dhcp>> getDhcpLeases(String sid) async {
+    if (shouldFail) {
+      return Failure(Exception('Forced getDhcpLeases failure'));
+    }
+    return const Success(kSrvGetDhcpLeases);
+  }
+
+  @override
+  Future<Result<Unit>> deleteDhcpLeases(
+    String sid, {
+    required String ip,
+  }) async {
+    if (shouldFail) {
+      return Failure(Exception('Forced deleteDhcpLeases failure'));
+    }
+    return const Success(unit);
+  }
+}

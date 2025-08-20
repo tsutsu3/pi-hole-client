@@ -31,7 +31,7 @@ _Query _$QueryFromJson(Map<String, dynamic> json) => _Query(
   time: (json['time'] as num).toDouble(),
   type: json['type'] as String,
   domain: json['domain'] as String,
-  client: Client.fromJson(json['client'] as Map<String, dynamic>),
+  client: QueryClient.fromJson(json['client'] as Map<String, dynamic>),
   reply: Reply.fromJson(json['reply'] as Map<String, dynamic>),
   ede: Ede.fromJson(json['ede'] as Map<String, dynamic>),
   cname: json['cname'] as String?,
@@ -56,13 +56,11 @@ Map<String, dynamic> _$QueryToJson(_Query instance) => <String, dynamic>{
   'upstream': instance.upstream,
 };
 
-_Client _$ClientFromJson(Map<String, dynamic> json) =>
-    _Client(ip: json['ip'] as String, name: json['name'] as String?);
+_QueryClient _$QueryClientFromJson(Map<String, dynamic> json) =>
+    _QueryClient(ip: json['ip'] as String, name: json['name'] as String?);
 
-Map<String, dynamic> _$ClientToJson(_Client instance) => <String, dynamic>{
-  'ip': instance.ip,
-  'name': instance.name,
-};
+Map<String, dynamic> _$QueryClientToJson(_QueryClient instance) =>
+    <String, dynamic>{'ip': instance.ip, 'name': instance.name};
 
 _Reply _$ReplyFromJson(Map<String, dynamic> json) => _Reply(
   time: (json['time'] as num).toDouble(),

@@ -42,12 +42,41 @@ Map<String, dynamic> _$DnsCacheToJson(_DnsCache instance) => <String, dynamic>{
 
 _DnsTypePercentage _$DnsTypePercentageFromJson(Map<String, dynamic> json) =>
     _DnsTypePercentage(
-      name: json['name'] as String,
+      type: $enumDecode(_$DnsRecordTypeEnumMap, json['type']),
+      isStale: json['isStale'] as bool,
       percentage: (json['percentage'] as num).toDouble(),
     );
 
 Map<String, dynamic> _$DnsTypePercentageToJson(_DnsTypePercentage instance) =>
-    <String, dynamic>{'name': instance.name, 'percentage': instance.percentage};
+    <String, dynamic>{
+      'type': _$DnsRecordTypeEnumMap[instance.type]!,
+      'isStale': instance.isStale,
+      'percentage': instance.percentage,
+    };
+
+const _$DnsRecordTypeEnumMap = {
+  DnsRecordType.none: 'none',
+  DnsRecordType.a: 'a',
+  DnsRecordType.aaaa: 'aaaa',
+  DnsRecordType.any: 'any',
+  DnsRecordType.srv: 'srv',
+  DnsRecordType.soa: 'soa',
+  DnsRecordType.ptr: 'ptr',
+  DnsRecordType.txt: 'txt',
+  DnsRecordType.naptr: 'naptr',
+  DnsRecordType.mx: 'mx',
+  DnsRecordType.ds: 'ds',
+  DnsRecordType.rrsig: 'rrsig',
+  DnsRecordType.dnskey: 'dnskey',
+  DnsRecordType.ns: 'ns',
+  DnsRecordType.svcb: 'svcb',
+  DnsRecordType.https: 'https',
+  DnsRecordType.na: 'na',
+  DnsRecordType.cname: 'cname',
+  DnsRecordType.other: 'other',
+  DnsRecordType.empty: 'empty',
+  DnsRecordType.unknown: 'unknown',
+};
 
 _DnsReplies _$DnsRepliesFromJson(Map<String, dynamic> json) => _DnsReplies(
   forwarded: (json['forwarded'] as num).toInt(),

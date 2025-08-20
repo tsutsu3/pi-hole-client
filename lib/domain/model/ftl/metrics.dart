@@ -1,4 +1,5 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
+import 'package:pi_hole_client/config/enums.dart';
 
 part 'metrics.freezed.dart';
 part 'metrics.g.dart';
@@ -36,7 +37,8 @@ sealed class DnsCache with _$DnsCache {
 sealed class DnsTypePercentage with _$DnsTypePercentage {
   @JsonSerializable(explicitToJson: true)
   const factory DnsTypePercentage({
-    required String name,
+    required DnsRecordType type,
+    required bool isStale,
     required double percentage,
   }) = _DnsTypePercentage;
 

@@ -2,10 +2,10 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:pi_hole_client/data/repositories/api/v5/ftl_repository.dart';
 import 'package:pi_hole_client/data/repositories/utils/constants.dart';
 
-import '../../../../../testing/fakes/models/v5/versions.dart';
 import '../../../../../testing/fakes/services/fake_pihole_v5_api_client.dart';
 import '../../../../../testing/fakes/services/fake_session_credential_service.dart';
 import '../../../../../testing/helper/test_helper.dart';
+import '../../../../../testing/models/v5/versions.dart';
 
 void main() {
   group('NotSupportedException', () {
@@ -19,23 +19,23 @@ void main() {
       repository = FtlRepositoryV5(client: client, creds: creds);
     });
 
-    test('getInfoClient should return NotSupportedException', () async {
-      final result = await repository.getInfoClient();
+    test('fetchInfoClient should return NotSupportedException', () async {
+      final result = await repository.fetchInfoClient();
       expectError(result, messageContains: kNotSupportedInV5Message);
     });
 
-    test('getInfoFtl should return NotSupportedException', () async {
-      final result = await repository.getInfoFtl();
+    test('fetchInfoFtl should return NotSupportedException', () async {
+      final result = await repository.fetchInfoFtl();
       expectError(result, messageContains: kNotSupportedInV5Message);
     });
 
-    test('getInfoHost should return NotSupportedException', () async {
-      final result = await repository.getInfoHost();
+    test('fetchInfoHost should return NotSupportedException', () async {
+      final result = await repository.fetchInfoHost();
       expectError(result, messageContains: kNotSupportedInV5Message);
     });
 
-    test('getInfoMessages should return NotSupportedException', () async {
-      final result = await repository.getInfoMessages();
+    test('fetchInfoMessages should return NotSupportedException', () async {
+      final result = await repository.fetchInfoMessages();
       expectError(result, messageContains: kNotSupportedInV5Message);
     });
 
@@ -44,23 +44,23 @@ void main() {
       expectError(result, messageContains: kNotSupportedInV5Message);
     });
 
-    test('getInfoMetrics should return NotSupportedException', () async {
-      final result = await repository.getInfoMetrics();
+    test('fetchInfoMetrics should return NotSupportedException', () async {
+      final result = await repository.fetchInfoMetrics();
       expectError(result, messageContains: kNotSupportedInV5Message);
     });
 
-    test('getInfoSensors should return NotSupportedException', () async {
-      final result = await repository.getInfoSensors();
+    test('fetchInfoSensors should return NotSupportedException', () async {
+      final result = await repository.fetchInfoSensors();
       expectError(result, messageContains: kNotSupportedInV5Message);
     });
 
-    test('getInfoSystem should return NotSupportedException', () async {
-      final result = await repository.getInfoSystem();
+    test('fetchInfoSystem should return NotSupportedException', () async {
+      final result = await repository.fetchInfoSystem();
       expectError(result, messageContains: kNotSupportedInV5Message);
     });
   });
 
-  group('getInfoVersion', () {
+  group('fetchInfoVersion', () {
     late FtlRepositoryV5 repository;
     late FakePiholeV5ApiClient client;
     late FakeSessionCredentialService creds;
@@ -72,7 +72,7 @@ void main() {
     });
 
     test('should get info version successfully', () async {
-      final result = await repository.getInfoVersion();
+      final result = await repository.fetchInfoVersion();
       expect(result.isSuccess(), true);
       final info = result.getOrNull();
       expect(info, kRepoInfoVersion);
@@ -80,7 +80,7 @@ void main() {
 
     test('should get info version with docker successfully', () async {
       client.isDocker = true;
-      final result = await repository.getInfoVersion();
+      final result = await repository.fetchInfoVersion();
       expect(result.isSuccess(), true);
       final info = result.getOrNull();
       expect(info, kRepoInfoVersionWithDocker);
@@ -88,7 +88,7 @@ void main() {
 
     test('should return an error if fetching version fails', () async {
       client.shouldFail = true;
-      final result = await repository.getInfoVersion();
+      final result = await repository.fetchInfoVersion();
       expect(result.isError(), true);
       expectError(result, messageContains: 'Failed to fetch versions');
     });

@@ -12,6 +12,7 @@ import 'package:skeletonizer/skeletonizer.dart';
 class NetInterfaceSection extends StatelessWidget {
   const NetInterfaceSection(this.interface, {super.key});
 
+  // TODO: use domain model
   final InterfaceData interface;
 
   @override
@@ -56,7 +57,7 @@ class NetInterfaceSection extends StatelessWidget {
           ),
           children: interface.addresses.map((address) {
             final title =
-                '${locale.adlistAddress}: ${address.family.name} ${address.address} / ${address.prefixlen} (${detectAddressType(address.family.name)} ${address.addressType})';
+                '${locale.adlistAddress}: ${address.family} ${address.address} / ${address.prefixlen} (${detectAddressType(address.family)} ${address.addressType})';
 
             return ListTile(
               leading: const Icon(Icons.location_on_outlined),

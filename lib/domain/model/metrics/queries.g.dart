@@ -47,16 +47,26 @@ Map<String, dynamic> _$LogToJson(_Log instance) => <String, dynamic>{
 };
 
 const _$DnsRecordTypeEnumMap = {
+  DnsRecordType.none: 'none',
   DnsRecordType.a: 'a',
   DnsRecordType.aaaa: 'aaaa',
-  DnsRecordType.cname: 'cname',
+  DnsRecordType.any: 'any',
+  DnsRecordType.srv: 'srv',
+  DnsRecordType.soa: 'soa',
   DnsRecordType.ptr: 'ptr',
   DnsRecordType.txt: 'txt',
-  DnsRecordType.srv: 'srv',
-  DnsRecordType.https: 'https',
+  DnsRecordType.naptr: 'naptr',
   DnsRecordType.mx: 'mx',
+  DnsRecordType.ds: 'ds',
+  DnsRecordType.rrsig: 'rrsig',
+  DnsRecordType.dnskey: 'dnskey',
   DnsRecordType.ns: 'ns',
-  DnsRecordType.soa: 'soa',
+  DnsRecordType.svcb: 'svcb',
+  DnsRecordType.https: 'https',
+  DnsRecordType.na: 'na',
+  DnsRecordType.cname: 'cname',
+  DnsRecordType.other: 'other',
+  DnsRecordType.empty: 'empty',
   DnsRecordType.unknown: 'unknown',
 };
 
