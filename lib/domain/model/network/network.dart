@@ -8,7 +8,7 @@ part 'network.g.dart';
 sealed class Gateways with _$Gateways {
   @JsonSerializable(explicitToJson: true)
   const factory Gateways({
-    required List<Gateway> gateway,
+    required List<Gateway> gateways,
     List<NetInterface>? interfaces,
     List<Route>? routes,
   }) = _Gateways;

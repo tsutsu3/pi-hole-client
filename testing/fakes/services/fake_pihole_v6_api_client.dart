@@ -39,6 +39,7 @@ import '../../models/v6/domain.dart';
 import '../../models/v6/ftl.dart';
 import '../../models/v6/group.dart';
 import '../../models/v6/metrics.dart';
+import '../../models/v6/network.dart';
 
 class FakePiholeV6ApiClient implements PiholeV6ApiClient {
   bool shouldFail = false;
@@ -415,7 +416,10 @@ class FakePiholeV6ApiClient implements PiholeV6ApiClient {
     int? maxDevices = 999,
     int? maxAddresses = 25,
   }) async {
-    throw UnimplementedError();
+    if (shouldFail) {
+      return Failure(Exception('Forced getNetworkDevices failure'));
+    }
+    return const Success(kSrvGetNetworkDevices);
   }
 
   @override
@@ -434,7 +438,14 @@ class FakePiholeV6ApiClient implements PiholeV6ApiClient {
     String sid, {
     bool? isDetailed,
   }) async {
-    throw UnimplementedError();
+    if (shouldFail) {
+      return Failure(Exception('Forced getNetworkGateway failure'));
+    }
+
+    if (isDetailed == true) {
+      return const Success(kSrvGetNetworkGatewayDetailed);
+    }
+    return const Success(kSrvGetNetworkGateway);
   }
 
   // ==========================================================================

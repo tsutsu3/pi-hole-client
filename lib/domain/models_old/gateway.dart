@@ -7,7 +7,7 @@ class GatewayInfo {
 
   factory GatewayInfo.fromV6(Gateway gateway) {
     return GatewayInfo(
-      gateway: gateway.gateway,
+      gateway: gateway.gateways,
       interfaces: gateway.interfaces,
       routes: gateway.routes,
     );
