@@ -50,7 +50,7 @@ const kSrvGetNetworkDevices = srv.Devices(
 );
 
 const kSrvGetNetworkGateway = srv.Gateway(
-  gateways: [
+  gateway: [
     srv.GatewayData(
       family: 'inet',
       interface: 'eth0',
@@ -68,7 +68,7 @@ const kSrvGetNetworkGateway = srv.Gateway(
 );
 
 const kSrvGetNetworkGatewayDetailed = srv.Gateway(
-  gateways: [
+  gateway: [
     srv.GatewayData(
       family: 'inet',
       interface: 'eth0',

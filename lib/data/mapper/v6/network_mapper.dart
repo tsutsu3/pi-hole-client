@@ -36,7 +36,7 @@ extension DeviceIpMapper on s.DeviceIp {
 extension GatewayMapper on s.Gateway {
   d.Gateways toDomain() {
     return d.Gateways(
-      gateways: gateways.map((e) => e.toDomain()).toList(),
+      gateways: gateway.map((e) => e.toDomain()).toList(),
       interfaces: interfaces?.map((e) => e.toDomain()).toList(),
       routes: routes?.map((e) => e.toDomain()).toList(),
     );

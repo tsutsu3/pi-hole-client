@@ -7,7 +7,7 @@ part of 'gateway.dart';
 // **************************************************************************
 
 _Gateway _$GatewayFromJson(Map<String, dynamic> json) => _Gateway(
-  gateways: (json['gateways'] as List<dynamic>)
+  gateway: (json['gateway'] as List<dynamic>)
       .map((e) => GatewayData.fromJson(e as Map<String, dynamic>))
       .toList(),
   took: (json['took'] as num).toDouble(),
@@ -20,7 +20,7 @@ _Gateway _$GatewayFromJson(Map<String, dynamic> json) => _Gateway(
 );
 
 Map<String, dynamic> _$GatewayToJson(_Gateway instance) => <String, dynamic>{
-  'gateways': instance.gateways.map((e) => e.toJson()).toList(),
+  'gateway': instance.gateway.map((e) => e.toJson()).toList(),
   'took': instance.took,
   'interfaces': instance.interfaces?.map((e) => e.toJson()).toList(),
   'routes': instance.routes?.map((e) => e.toJson()).toList(),

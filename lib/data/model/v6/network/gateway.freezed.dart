@@ -15,7 +15,9 @@ T _$identity<T>(T value) => value;
 /// @nodoc
 mixin _$Gateway {
 
- List<GatewayData> get gateways; double get took; List<InterfaceData>? get interfaces; List<RouteData>? get routes;
+// NOTE: According to Pi-hole v6 API specification, the key is "gateway".
+// Even though it represents a list, it must not be renamed to "gateways".
+ List<GatewayData> get gateway; double get took; List<InterfaceData>? get interfaces; List<RouteData>? get routes;
 /// Create a copy of Gateway
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -28,16 +30,16 @@ $GatewayCopyWith<Gateway> get copyWith => _$GatewayCopyWithImpl<Gateway>(this as
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is Gateway&&const DeepCollectionEquality().equals(other.gateways, gateways)&&(identical(other.took, took) || other.took == took)&&const DeepCollectionEquality().equals(other.interfaces, interfaces)&&const DeepCollectionEquality().equals(other.routes, routes));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is Gateway&&const DeepCollectionEquality().equals(other.gateway, gateway)&&(identical(other.took, took) || other.took == took)&&const DeepCollectionEquality().equals(other.interfaces, interfaces)&&const DeepCollectionEquality().equals(other.routes, routes));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,const DeepCollectionEquality().hash(gateways),took,const DeepCollectionEquality().hash(interfaces),const DeepCollectionEquality().hash(routes));
+int get hashCode => Object.hash(runtimeType,const DeepCollectionEquality().hash(gateway),took,const DeepCollectionEquality().hash(interfaces),const DeepCollectionEquality().hash(routes));
 
 @override
 String toString() {
-  return 'Gateway(gateways: $gateways, took: $took, interfaces: $interfaces, routes: $routes)';
+  return 'Gateway(gateway: $gateway, took: $took, interfaces: $interfaces, routes: $routes)';
 }
 
 
@@ -48,7 +50,7 @@ abstract mixin class $GatewayCopyWith<$Res>  {
   factory $GatewayCopyWith(Gateway value, $Res Function(Gateway) _then) = _$GatewayCopyWithImpl;
 @useResult
 $Res call({
- List<GatewayData> gateways, double took, List<InterfaceData>? interfaces, List<RouteData>? routes
+ List<GatewayData> gateway, double took, List<InterfaceData>? interfaces, List<RouteData>? routes
 });
 
 
@@ -65,9 +67,9 @@ class _$GatewayCopyWithImpl<$Res>
 
 /// Create a copy of Gateway
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? gateways = null,Object? took = null,Object? interfaces = freezed,Object? routes = freezed,}) {
+@pragma('vm:prefer-inline') @override $Res call({Object? gateway = null,Object? took = null,Object? interfaces = freezed,Object? routes = freezed,}) {
   return _then(_self.copyWith(
-gateways: null == gateways ? _self.gateways : gateways // ignore: cast_nullable_to_non_nullable
+gateway: null == gateway ? _self.gateway : gateway // ignore: cast_nullable_to_non_nullable
 as List<GatewayData>,took: null == took ? _self.took : took // ignore: cast_nullable_to_non_nullable
 as double,interfaces: freezed == interfaces ? _self.interfaces : interfaces // ignore: cast_nullable_to_non_nullable
 as List<InterfaceData>?,routes: freezed == routes ? _self.routes : routes // ignore: cast_nullable_to_non_nullable
@@ -153,10 +155,10 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( List<GatewayData> gateways,  double took,  List<InterfaceData>? interfaces,  List<RouteData>? routes)?  $default,{required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( List<GatewayData> gateway,  double took,  List<InterfaceData>? interfaces,  List<RouteData>? routes)?  $default,{required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _Gateway() when $default != null:
-return $default(_that.gateways,_that.took,_that.interfaces,_that.routes);case _:
+return $default(_that.gateway,_that.took,_that.interfaces,_that.routes);case _:
   return orElse();
 
 }
@@ -174,10 +176,10 @@ return $default(_that.gateways,_that.took,_that.interfaces,_that.routes);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( List<GatewayData> gateways,  double took,  List<InterfaceData>? interfaces,  List<RouteData>? routes)  $default,) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( List<GatewayData> gateway,  double took,  List<InterfaceData>? interfaces,  List<RouteData>? routes)  $default,) {final _that = this;
 switch (_that) {
 case _Gateway():
-return $default(_that.gateways,_that.took,_that.interfaces,_that.routes);}
+return $default(_that.gateway,_that.took,_that.interfaces,_that.routes);}
 }
 /// A variant of `when` that fallback to returning `null`
 ///
@@ -191,10 +193,10 @@ return $default(_that.gateways,_that.took,_that.interfaces,_that.routes);}
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( List<GatewayData> gateways,  double took,  List<InterfaceData>? interfaces,  List<RouteData>? routes)?  $default,) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( List<GatewayData> gateway,  double took,  List<InterfaceData>? interfaces,  List<RouteData>? routes)?  $default,) {final _that = this;
 switch (_that) {
 case _Gateway() when $default != null:
-return $default(_that.gateways,_that.took,_that.interfaces,_that.routes);case _:
+return $default(_that.gateway,_that.took,_that.interfaces,_that.routes);case _:
   return null;
 
 }
@@ -206,14 +208,18 @@ return $default(_that.gateways,_that.took,_that.interfaces,_that.routes);case _:
 
 @JsonSerializable(explicitToJson: true)
 class _Gateway implements Gateway {
-  const _Gateway({required final  List<GatewayData> gateways, required this.took, final  List<InterfaceData>? interfaces, final  List<RouteData>? routes}): _gateways = gateways,_interfaces = interfaces,_routes = routes;
+  const _Gateway({required final  List<GatewayData> gateway, required this.took, final  List<InterfaceData>? interfaces, final  List<RouteData>? routes}): _gateway = gateway,_interfaces = interfaces,_routes = routes;
   factory _Gateway.fromJson(Map<String, dynamic> json) => _$GatewayFromJson(json);
 
- final  List<GatewayData> _gateways;
-@override List<GatewayData> get gateways {
-  if (_gateways is EqualUnmodifiableListView) return _gateways;
+// NOTE: According to Pi-hole v6 API specification, the key is "gateway".
+// Even though it represents a list, it must not be renamed to "gateways".
+ final  List<GatewayData> _gateway;
+// NOTE: According to Pi-hole v6 API specification, the key is "gateway".
+// Even though it represents a list, it must not be renamed to "gateways".
+@override List<GatewayData> get gateway {
+  if (_gateway is EqualUnmodifiableListView) return _gateway;
   // ignore: implicit_dynamic_type
-  return EqualUnmodifiableListView(_gateways);
+  return EqualUnmodifiableListView(_gateway);
 }
 
 @override final  double took;
@@ -249,16 +255,16 @@ Map<String, dynamic> toJson() {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _Gateway&&const DeepCollectionEquality().equals(other._gateways, _gateways)&&(identical(other.took, took) || other.took == took)&&const DeepCollectionEquality().equals(other._interfaces, _interfaces)&&const DeepCollectionEquality().equals(other._routes, _routes));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _Gateway&&const DeepCollectionEquality().equals(other._gateway, _gateway)&&(identical(other.took, took) || other.took == took)&&const DeepCollectionEquality().equals(other._interfaces, _interfaces)&&const DeepCollectionEquality().equals(other._routes, _routes));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,const DeepCollectionEquality().hash(_gateways),took,const DeepCollectionEquality().hash(_interfaces),const DeepCollectionEquality().hash(_routes));
+int get hashCode => Object.hash(runtimeType,const DeepCollectionEquality().hash(_gateway),took,const DeepCollectionEquality().hash(_interfaces),const DeepCollectionEquality().hash(_routes));
 
 @override
 String toString() {
-  return 'Gateway(gateways: $gateways, took: $took, interfaces: $interfaces, routes: $routes)';
+  return 'Gateway(gateway: $gateway, took: $took, interfaces: $interfaces, routes: $routes)';
 }
 
 
@@ -269,7 +275,7 @@ abstract mixin class _$GatewayCopyWith<$Res> implements $GatewayCopyWith<$Res> {
   factory _$GatewayCopyWith(_Gateway value, $Res Function(_Gateway) _then) = __$GatewayCopyWithImpl;
 @override @useResult
 $Res call({
- List<GatewayData> gateways, double took, List<InterfaceData>? interfaces, List<RouteData>? routes
+ List<GatewayData> gateway, double took, List<InterfaceData>? interfaces, List<RouteData>? routes
 });
 
 
@@ -286,9 +292,9 @@ class __$GatewayCopyWithImpl<$Res>
 
 /// Create a copy of Gateway
 /// with the given fields replaced by the non-null parameter values.
-@override @pragma('vm:prefer-inline') $Res call({Object? gateways = null,Object? took = null,Object? interfaces = freezed,Object? routes = freezed,}) {
+@override @pragma('vm:prefer-inline') $Res call({Object? gateway = null,Object? took = null,Object? interfaces = freezed,Object? routes = freezed,}) {
   return _then(_Gateway(
-gateways: null == gateways ? _self._gateways : gateways // ignore: cast_nullable_to_non_nullable
+gateway: null == gateway ? _self._gateway : gateway // ignore: cast_nullable_to_non_nullable
 as List<GatewayData>,took: null == took ? _self.took : took // ignore: cast_nullable_to_non_nullable
 as double,interfaces: freezed == interfaces ? _self._interfaces : interfaces // ignore: cast_nullable_to_non_nullable
 as List<InterfaceData>?,routes: freezed == routes ? _self._routes : routes // ignore: cast_nullable_to_non_nullable

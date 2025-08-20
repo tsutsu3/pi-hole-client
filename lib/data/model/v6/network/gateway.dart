@@ -9,7 +9,9 @@ part 'gateway.g.dart';
 sealed class Gateway with _$Gateway {
   @JsonSerializable(explicitToJson: true)
   const factory Gateway({
-    required List<GatewayData> gateways,
+    // NOTE: According to Pi-hole v6 API specification, the key is "gateway".
+    // Even though it represents a list, it must not be renamed to "gateways".
+    required List<GatewayData> gateway,
     required double took,
     List<InterfaceData>? interfaces,
     List<RouteData>? routes,
