@@ -670,7 +670,6 @@ class PiholeV5Handler {
           );
         }
 
-        // list = white, regex_white, black, regex_black の時異なるレスポンス返す
         if (list == 'white') {
           return Response.ok(
             jsonEncode({
