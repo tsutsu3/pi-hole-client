@@ -52,7 +52,7 @@ Middleware requireFTLToken() {
         return innerHandler(request);
       }
 
-      final protectedPrefixes = ['api/admin'];
+      final protectedPrefixes = ['admin'];
 
       final needsAuth = protectedPrefixes.any(
         (prefix) => path.startsWith(prefix),
