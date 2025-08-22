@@ -36,7 +36,6 @@ void main() async {
     late Server server;
     const sessinId = 'n9n9f6c3umrumfq2ese1lvu2pg';
     const url = 'http://example.com/admin/api.php?auth=xxx123&summaryRaw';
-    'http://example.com/admin/api.php?auth=xxx123&summaryRaw';
 
     setUp(() async {
       server = Server(
