@@ -563,6 +563,12 @@ class AppLocalizationsPl extends AppLocalizations {
       'Wyświetla wszystkie aktualnie aktywne dzierżawy DHCP';
 
   @override
+  String get dhcpOff => 'DHCP jest wyłączony';
+
+  @override
+  String get dhcpOffMessage => 'Funkcja serwera DHCP w Pi-hole jest wyłączona.';
+
+  @override
   String get dhcpRemoved => 'Dzierżawa DHCP została pomyślnie usunięta';
 
   @override

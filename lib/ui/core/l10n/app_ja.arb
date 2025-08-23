@@ -177,6 +177,8 @@
   "deviceRemoved": "デバイスの削除に成功しました",
   "dhcp": "DHCP",
   "dhcpDescription": "現在有効なDHCPリースをすべて表示します",
+  "dhcpOff": "DHCP は無効です",
+  "dhcpOffMessage": "Pi-hole の DHCP サーバー機能は無効になっています。",
   "dhcpRemoved": "DHCPリースを正常に削除しました",
   "disable": "無効化",
   "disableQueryLogFailure": "クエリログを無効化に失敗しました",

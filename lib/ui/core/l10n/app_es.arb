@@ -178,6 +178,8 @@
   "deviceRemoved": "Dispositivo eliminado con éxito",
   "dhcp": "DHCP",
   "dhcpDescription": "Muestra todos los arrendamientos DHCP activos actualmente",
+  "dhcpOff": "DHCP está desactivado",
+  "dhcpOffMessage": "La función de servidor DHCP de Pi-hole está desactivada.",
   "dhcpRemoved": "La concesión DHCP se eliminó correctamente",
   "disable": "Desactivar",
   "disableQueryLogFailure": "Error al deshabilitar el registro de consultas",

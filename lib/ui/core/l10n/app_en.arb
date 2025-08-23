@@ -177,6 +177,8 @@
   "deviceRemoved": "Device removed successfully",
   "dhcp": "DHCP",
   "dhcpDescription": "Displays all currently active DHCP leases",
+  "dhcpOff": "DHCP is OFF",
+  "dhcpOffMessage": "The Pi-hole DHCP server feature is disabled.",
   "dhcpRemoved": "DHCP lease removed successfully",
   "disable": "Disable",
   "disableQueryLogFailure": "Failed to disable query logging",

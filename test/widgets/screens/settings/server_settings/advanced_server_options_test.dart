@@ -3,7 +3,9 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/mockito.dart';
 import 'package:pi_hole_client/data/model/v6/config/config.dart';
 import 'package:pi_hole_client/domain/models_old/config.dart';
+import 'package:pi_hole_client/domain/models_old/dhcp.dart';
 import 'package:pi_hole_client/domain/models_old/gateways.dart';
+import 'package:pi_hole_client/ui/common/dhcp_disabled_screen.dart';
 import 'package:pi_hole_client/ui/settings/server_settings/advanced_server_options.dart';
 import 'package:pi_hole_client/ui/settings/server_settings/advanced_settings/dhcp_screen.dart';
 import 'package:pi_hole_client/ui/settings/server_settings/advanced_settings/interface_screen.dart';
@@ -73,6 +75,36 @@ void main() async {
       expect(find.byType(DhcpScreen), findsOneWidget);
 
       expect(find.text('192.168.1.51'), findsOneWidget);
+    });
+
+    testWidgets('should show dhcp disabled screen with tap', (
+      WidgetTester tester,
+    ) async {
+      tester.view.physicalSize = const Size(1080, 2400);
+      tester.view.devicePixelRatio = 2.0;
+
+      when(testSetup.mockApiGatewayV6.getDhcps()).thenAnswer(
+        (_) async => DhcpResponse(
+          result: APiResponseType.success,
+          data: DhcpsInfo(leases: []),
+        ),
+      );
+
+      addTearDown(() {
+        tester.view.resetPhysicalSize();
+        tester.view.resetDevicePixelRatio();
+      });
+
+      await tester.pumpWidget(
+        testSetup.buildTestWidget(const AdvancedServerOptions()),
+      );
+
+      expect(find.byType(AdvancedServerOptions), findsOneWidget);
+      await tester.pump();
+
+      await tester.tap(find.text('DHCP'));
+      await tester.pumpAndSettle();
+      expect(find.byType(DhcpDisabledScreen), findsOneWidget);
     });
 
     testWidgets('should show interface screen with tap', (

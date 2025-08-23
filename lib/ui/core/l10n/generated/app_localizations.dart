@@ -1172,6 +1172,18 @@ abstract class AppLocalizations {
   /// **'Displays all currently active DHCP leases'**
   String get dhcpDescription;
 
+  /// No description provided for @dhcpOff.
+  ///
+  /// In en, this message translates to:
+  /// **'DHCP is OFF'**
+  String get dhcpOff;
+
+  /// No description provided for @dhcpOffMessage.
+  ///
+  /// In en, this message translates to:
+  /// **'The Pi-hole DHCP server feature is disabled.'**
+  String get dhcpOffMessage;
+
   /// No description provided for @dhcpRemoved.
   ///
   /// In en, this message translates to:
