@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:pi_hole_client/data/gateway/api_gateway_interface.dart';
 import 'package:pi_hole_client/domain/models_old/dhcp.dart';
 import 'package:pi_hole_client/domain/models_old/gateways.dart';
+import 'package:pi_hole_client/ui/common/dhcp_disabled_screen.dart';
 import 'package:pi_hole_client/ui/common/empty_data_screen.dart';
 import 'package:pi_hole_client/ui/core/l10n/generated/app_localizations.dart';
 import 'package:pi_hole_client/ui/core/ui/behavior/custom_scroll_behavior.dart';
@@ -154,7 +155,7 @@ class _DhcpState extends State<DhcpScreen> {
               }
 
               if (dhcpsInfo == null || dhcpsInfo!.leases.isEmpty) {
-                return const EmptyDataScreen();
+                return const DhcpDisabledScreen();
               }
 
               return DhcpListView(

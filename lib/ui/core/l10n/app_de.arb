@@ -177,6 +177,8 @@
   "deviceRemoved": "Gerät wurde erfolgreich entfernt",
   "dhcp": "DHCP",
   "dhcpDescription": "Zeigt alle derzeit aktiven DHCP-Leases an",
+  "dhcpOff": "DHCP ist deaktiviert",
+  "dhcpOffMessage": "Die DHCP-Serverfunktion von Pi-hole ist deaktiviert.",
   "dhcpRemoved": "DHCP-Lease wurde erfolgreich entfernt",
   "disable": "Deaktivieren",
   "disableQueryLogFailure": "Deaktivierung der Abfrageprotokollierung fehlgeschlagen",

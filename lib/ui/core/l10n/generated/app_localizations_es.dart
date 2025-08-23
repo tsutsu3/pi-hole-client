@@ -575,6 +575,13 @@ class AppLocalizationsEs extends AppLocalizations {
       'Muestra todos los arrendamientos DHCP activos actualmente';
 
   @override
+  String get dhcpOff => 'DHCP está desactivado';
+
+  @override
+  String get dhcpOffMessage =>
+      'La función de servidor DHCP de Pi-hole está desactivada.';
+
+  @override
   String get dhcpRemoved => 'La concesión DHCP se eliminó correctamente';
 
   @override

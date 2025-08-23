@@ -546,6 +546,12 @@ class AppLocalizationsJa extends AppLocalizations {
   String get dhcpDescription => '現在有効なDHCPリースをすべて表示します';
 
   @override
+  String get dhcpOff => 'DHCP は無効です';
+
+  @override
+  String get dhcpOffMessage => 'Pi-hole の DHCP サーバー機能は無効になっています。';
+
+  @override
   String get dhcpRemoved => 'DHCPリースを正常に削除しました';
 
   @override

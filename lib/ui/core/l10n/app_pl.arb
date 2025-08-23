@@ -177,6 +177,8 @@
   "deviceRemoved": "Urządzenie zostało pomyślnie usunięte",
   "dhcp": "DHCP",
   "dhcpDescription": "Wyświetla wszystkie aktualnie aktywne dzierżawy DHCP",
+  "dhcpOff": "DHCP jest wyłączony",
+  "dhcpOffMessage": "Funkcja serwera DHCP w Pi-hole jest wyłączona.",
   "dhcpRemoved": "Dzierżawa DHCP została pomyślnie usunięta",
   "disable": "Wyłącz na",
   "disableQueryLogFailure": "Nie udało się wyłączyć logowania zapytań",
