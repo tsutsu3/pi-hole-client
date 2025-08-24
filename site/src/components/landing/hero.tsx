@@ -18,7 +18,7 @@ export function Hero() {
         </main>
         <p className="text-xl text-muted-foreground md:w-10/12 mx-auto lg:mx-0">
           The unofficial Pi-hole client for Android. Monitor and manage your
-          Pi-hole instance on the go with a clean, modern interface.
+          Pi-hole on your home network with a clean, modern interface.
         </p>
         <div className="flex flex-col z-10 items-center gap-4 lg:flex-row lg:items-start lg:space-x-4">
           <Link
