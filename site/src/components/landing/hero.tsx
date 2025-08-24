@@ -36,14 +36,14 @@ export function Hero() {
       </div>
       <div className="z-10">
         <Image
-          src="light-mock.png"
+          src="/light-mock.png"
           alt="Pi-Hole client app screenshot"
           width={256}
           height={256}
           className="block dark:hidden"
         />
         <Image
-          src="dark-mock.png"
+          src="/dark-mock.png"
           alt="Pi-Hole client app screenshot (dark mode)"
           width={256}
           height={256}
