@@ -1,10 +1,68 @@
-# Introduction
+# 🧩 Introduction
 
-**Nextra** is a [Next.js](https://nextjs.org) based static site generator.
+**Pi-hole Client** is an unofficial Android app for monitoring and managing
+your own Pi-hole from your phone. It puts everyday admin tasks—checking stats,
+pausing protection, browsing recent queries, and editing lists—into a fast,
+mobile-first experience.
 
-It supports Markdown and React components ([MDX](/features/mdx)), automatically
-generated [sidebar and anchor links](/get-started#sidebar-and-anchor-links),
-file-system based routing, built-in syntax highlighting, image optimization,
-custom layouts, i18n, and all the features you love about Next.js.
+> [!IMPORTANT]
+>
+> Not affiliated with the Pi-hole team. The app talks **directly** to your
+> Pi-hole; there’s no relay or third-party server.
 
-Here's what you will get in 1 minute:
+## ✅ Supported versions
+
+- **Pi-hole v6** — fully supported
+- **Pi-hole v5** — supported as legacy
+
+## 🏠 Access model (LAN-first)
+
+This app is designed for **local network use**. In normal operation you use it **only on your LAN** (home Wi-Fi). We do **not** recommend exposing Pi-hole to the public Internet.
+
+- Connect when your phone and Pi-hole are on the **same LAN/VPN**.
+- **No port forwarding** needed.
+- Use the Pi-hole **IP** (e.g., `http://192.168.1.2/`) or a resolvable hostname.
+- If you must use it away from home, prefer a **VPN** (WireGuard/Tailscale). For HTTPS, use a trusted certificate.
+
+## ✨ Features
+
+- 📊 Dashboard: queries today, blocked %, top domains/clients
+- ⏯️ One-tap pause/resume (with timers)
+- 🔎 Query log with rich filtering
+- ✅/🚫 Allow/Block lists; update Adlists and apply changes
+- 🖥️ Multiple servers with quick switching
+- 🔐 HTTP/HTTPS (use HTTPS outside LAN)
+- 🎨 Material You theming (Android 12+)
+
+## 🧰 Requirements
+
+- A reachable **Pi-hole v6 or v5** instance (same LAN, VPN, or a securely exposed endpoint)
+
+## 🚀 Quick start
+
+1. **Install** from Google Play or download the latest release from GitHub.
+2. **Add your server**
+
+   * **v6:** enter the base URL and password → Save
+   * **v5:** enter the base URL and your API key → Save
+3. **Verify** the dashboard loads; try a 10-second pause to confirm control.
+
+> [!TIP]
+>
+> If the Pi-hole Web UI opens in your phone’s browser at an address, the app should work with the same address.
+
+## 🔒 Privacy & crash reporting
+
+- The app communicates **directly** with your Pi-hole.
+- **Sentry reports are sent only when BOTH are true:**
+  1. **Send diagnostics** is **ON**, **and**
+  2. a **bug/crash** occurs.
+- Sent: stack trace, app/OS version, device model, and minimal context.
+- **Not intentionally sent:** Pi-hole API key, query contents, Adlists, personal data.
+- You can turn reporting off anytime in **Settings → Privacy → Send diagnostics**.
+
+## ⚠️ Disclaimer
+
+This is an **unofficial** project and is not developed or supported by the
+Pi-hole team. Configure remote access (VPN/HTTPS, auth) responsibly if you use
+it outside your LAN.

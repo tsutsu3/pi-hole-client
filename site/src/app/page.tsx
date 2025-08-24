@@ -1,16 +1,15 @@
-export default function IndexPage() {
+import { Hero } from "@/components/landing/hero";
+import { Features } from "@/components/landing/features";
+
+export default function Home() {
   return (
-    <>
-      <h1
-        style={{
-          textAlign: "center",
-          fontSize: 64,
-          margin: "25vh 0",
-          fontWeight: "bold",
-        }}
-      >
-        Index page
-      </h1>
-    </>
+    <div className="flex flex-col min-h-screen">
+      <main className="flex-grow">
+        <div className="mx-auto max-w-[90rem] px-6 md:px-8">
+          <Hero />
+          <Features />
+        </div>
+      </main>
+    </div>
   );
 }

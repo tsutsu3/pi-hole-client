@@ -21,8 +21,7 @@ export type Feature = {
   screenshotHint: string;
 };
 
-const appScreenshot =
-  "https://play-lh.googleusercontent.com/HrDnQ0zWFSP3ckj-q49NVXSDKNgjqB2-EyCxoOlFpR2Pfg4CzQQtUqsLIAqb_gwp940=w5120-h2880";
+const appScreenshot = "/ss.jpg";
 
 export const features: Feature[] = [
   {
