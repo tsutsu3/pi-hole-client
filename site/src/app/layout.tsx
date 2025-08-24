@@ -8,7 +8,12 @@ import "./globals.css";
 import { GitHubIcon } from "nextra/icons";
 
 import type { Metadata } from "next";
-import { GITHUB_URL, PLAY_STORE_URL, WEBSITE_URL } from "@/lib/constants";
+import {
+  GITHUB_URL,
+  PIHOLE_CLIENT_VERSION,
+  PLAY_STORE_URL,
+  WEBSITE_URL,
+} from "@/lib/constants";
 
 export const metadata: Metadata = {
   title: "Pi-hole client",
@@ -63,7 +68,9 @@ export const metadata: Metadata = {
   },
 };
 
-const banner = <Banner storageKey="some-key">Nextra 4.0 is released 🎉</Banner>;
+const banner = (
+  <Banner>Pi-hole client {PIHOLE_CLIENT_VERSION} is released 🎉</Banner>
+);
 
 const navbar = (
   <Navbar
