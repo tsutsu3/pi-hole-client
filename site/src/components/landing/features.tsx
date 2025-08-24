@@ -1,14 +1,6 @@
 "use client";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import {
-  Dialog,
-  DialogContent,
-  DialogHeader,
-  DialogTitle,
-  DialogTrigger,
-} from "@/components/ui/dialog";
 import { features, Feature } from "@/lib/features";
-import Image from "next/image";
 
 const featureTranslations: Record<
   string,
