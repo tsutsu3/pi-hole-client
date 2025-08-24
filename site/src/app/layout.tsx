@@ -126,7 +126,7 @@ export default async function RootLayout({ children }) {
           banner={banner}
           navbar={navbar}
           pageMap={await getPageMap()}
-          docsRepositoryBase={`${GITHUB_URL}/site`}
+          docsRepositoryBase={`${GITHUB_URL}/tree/main/site`}
           footer={footer}
           // ... Your additional layout options
         >
