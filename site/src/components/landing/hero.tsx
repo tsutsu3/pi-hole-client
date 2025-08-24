@@ -1,5 +1,8 @@
 "use client";
 
+import darkMockImg from "@/../public/dark-mock.png";
+import getPlayStoreImg from "@/../public/get-google-play.png";
+import lightMockImg from "@/../public/light-mock.png";
 import { PLAY_STORE_URL } from "@/lib/constants";
 import Image from "next/image";
 import { Link } from "nextra-theme-docs";
@@ -22,20 +25,20 @@ export function Hero() {
         </p>
         <div className="z-10 flex flex-col items-center gap-4 lg:flex-row lg:items-start lg:space-x-4">
           <Link href={PLAY_STORE_URL} className="mx-auto inline-block lg:mx-0 lg:py-6">
-            <Image src="/get-google-play.png" alt="Get it on Google Play" width={200} height={80} />
+            <Image src={getPlayStoreImg} alt="Get it on Google Play" width={200} height={80} />
           </Link>
         </div>
       </div>
       <div className="z-10">
         <Image
-          src="/light-mock.png"
+          src={lightMockImg}
           alt="Pi-Hole client app screenshot"
           width={256}
           height={256}
           className="block dark:hidden"
         />
         <Image
-          src="/dark-mock.png"
+          src={darkMockImg}
           alt="Pi-Hole client app screenshot (dark mode)"
           width={256}
           height={256}
