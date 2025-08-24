@@ -1,37 +1,24 @@
-import { Footer, Layout, Navbar } from "nextra-theme-docs";
-import { ThemeToggle } from "@/components/theme-toggle";
-import { Banner, Head } from "nextra/components";
-import { getPageMap } from "nextra/page-map";
-import Image from "next/image";
-import "nextra-theme-docs/style.css";
 import "./globals.css";
-import { GitHubIcon } from "nextra/icons";
-
+import { ThemeToggle } from "@/components/theme-toggle";
+import { GITHUB_URL, PIHOLE_CLIENT_VERSION, PLAY_STORE_URL, WEBSITE_URL } from "@/lib/constants";
 import type { Metadata } from "next";
-import {
-  GITHUB_URL,
-  PIHOLE_CLIENT_VERSION,
-  PLAY_STORE_URL,
-  WEBSITE_URL,
-} from "@/lib/constants";
+import Image from "next/image";
+import { Footer, Layout, Navbar } from "nextra-theme-docs";
+import "nextra-theme-docs/style.css";
+import { Banner, Head } from "nextra/components";
+import { GitHubIcon } from "nextra/icons";
+import { getPageMap } from "nextra/page-map";
 import { ReactNode } from "react";
 
-interface RootLayoutProps {
+type RootLayoutProps = {
   readonly children: ReactNode;
-}
+};
 
 export const metadata: Metadata = {
   title: "Pi-hole client",
   description:
     "Pi-hole client is a mobile application that allows you to manage your Pi-hole server from your smartphone.",
-  keywords: [
-    "Pi-hole",
-    "adblock",
-    "DNS sinkhole",
-    "network",
-    "client",
-    "dashboard",
-  ],
+  keywords: ["Pi-hole", "adblock", "DNS sinkhole", "network", "client", "dashboard"],
   authors: [{ name: "tsutsu3", url: "https://github.com/tsutsu3" }],
   creator: "tsutsu3",
   publisher: "Pi-hole client Project",
@@ -40,8 +27,7 @@ export const metadata: Metadata = {
   },
   openGraph: {
     title: "Pi-hole client",
-    description:
-      "Manage your Pi-hole server easily from your smartphone with Pi-hole client.",
+    description: "Manage your Pi-hole server easily from your smartphone with Pi-hole client.",
     url: WEBSITE_URL,
     siteName: "Pi-hole client",
     images: [
@@ -59,8 +45,7 @@ export const metadata: Metadata = {
   twitter: {
     card: "summary_large_image",
     title: "Pi-hole client",
-    description:
-      "Monitor and control your Pi-hole server with Pi-hole client for mobile.",
+    description: "Monitor and control your Pi-hole server with Pi-hole client for mobile.",
     images: [`${WEBSITE_URL}/feature-image-og.png`],
     creator: "@_tsutsu3",
   },
@@ -73,9 +58,7 @@ export const metadata: Metadata = {
   },
 };
 
-const banner = (
-  <Banner>Pi-hole client {PIHOLE_CLIENT_VERSION} is released 🎉</Banner>
-);
+const banner = <Banner>Pi-hole client {PIHOLE_CLIENT_VERSION} is released 🎉</Banner>;
 
 const navbar = (
   <Navbar
@@ -87,9 +70,7 @@ const navbar = (
           width={24}
           height={24}
         />
-        <span style={{ marginLeft: ".4em", fontWeight: 800 }}>
-          Pi-hole client
-        </span>
+        <span style={{ marginLeft: ".4em", fontWeight: 800 }}>Pi-hole client</span>
       </>
     }
     projectIcon={<GitHubIcon width={20} height={20} />}

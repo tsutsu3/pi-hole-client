@@ -1,14 +1,14 @@
 "use client";
 
+import { PLAY_STORE_URL } from "@/lib/constants";
 import Image from "next/image";
 import { Link } from "nextra-theme-docs";
-import { PLAY_STORE_URL } from "@/lib/constants";
 
 export function Hero() {
   return (
-    <section className="relative container grid lg:grid-cols-2 place-items-center py-20 md:py-32 gap-10">
-      <div className="text-center lg:text-left space-y-6 md:pl-12">
-        <main className="text-5xl md:text-6xl font-bold">
+    <section className="relative container grid place-items-center gap-10 py-20 md:py-32 lg:grid-cols-2">
+      <div className="space-y-6 text-center md:pl-12 lg:text-left">
+        <main className="text-5xl font-bold md:text-6xl">
           <h1 className="inline">
             <span className="inline bg-gradient-to-r from-rose-500 to-blue-500 bg-clip-text text-transparent">
               Take Control
@@ -16,21 +16,13 @@ export function Hero() {
             of Your Network
           </h1>
         </main>
-        <p className="text-xl text-muted-foreground md:w-10/12 mx-auto lg:mx-0">
-          The unofficial Pi-hole client for Android. Monitor and manage your
-          Pi-hole on your home network with a clean, modern interface.
+        <p className="text-muted-foreground mx-auto text-xl md:w-10/12 lg:mx-0">
+          The unofficial Pi-hole client for Android. Monitor and manage your Pi-hole on your home
+          network with a clean, modern interface.
         </p>
-        <div className="flex flex-col z-10 items-center gap-4 lg:flex-row lg:items-start lg:space-x-4">
-          <Link
-            href={PLAY_STORE_URL}
-            className="mx-auto lg:mx-0 inline-block lg:py-6"
-          >
-            <Image
-              src="/get-google-play.png"
-              alt="Get it on Google Play"
-              width={200}
-              height={80}
-            />
+        <div className="z-10 flex flex-col items-center gap-4 lg:flex-row lg:items-start lg:space-x-4">
+          <Link href={PLAY_STORE_URL} className="mx-auto inline-block lg:mx-0 lg:py-6">
+            <Image src="/get-google-play.png" alt="Get it on Google Play" width={200} height={80} />
           </Link>
         </div>
       </div>
@@ -51,7 +43,7 @@ export function Hero() {
         />
       </div>
       {/* Grids */}
-      <div className="absolute inset-0  h-full w-full pointer-events-none bg-[linear-gradient(to_right,#8080800a_1px,transparent_1px),linear-gradient(to_bottom,#8080800a_1px,transparent_1px)] bg-[size:14px_24px]"></div>
+      <div className="pointer-events-none absolute inset-0 h-full w-full bg-[linear-gradient(to_right,#8080800a_1px,transparent_1px),linear-gradient(to_bottom,#8080800a_1px,transparent_1px)] bg-[size:14px_24px]"></div>
     </section>
   );
 }

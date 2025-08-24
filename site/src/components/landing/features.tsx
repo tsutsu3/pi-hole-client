@@ -1,6 +1,7 @@
 "use client";
+
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { features, Feature } from "@/lib/features";
+import { Feature, features } from "@/lib/features";
 
 const featureTranslations: Record<
   string,
@@ -15,8 +16,7 @@ const featureTranslations: Record<
   },
   "features.piholeV6Support": {
     title: "Pi-hole v6 Support",
-    description:
-      "Full support for the latest Pi-hole v6, while maintaining compatibility with v5.",
+    description: "Full support for the latest Pi-hole v6, while maintaining compatibility with v5.",
     longDescription:
       "Keep up with the latest evolution of Pi-hole. This client is fully optimized for Pi-hole v6, ensuring you can leverage the newest features and performance improvements, while still providing robust support for v5 users.",
   },
@@ -36,15 +36,13 @@ const featureTranslations: Record<
   },
   "features.multipleServers": {
     title: "Multiple Servers",
-    description:
-      "Add multiple Pi-hole servers and manage them all conveniently from one place.",
+    description: "Add multiple Pi-hole servers and manage them all conveniently from one place.",
     longDescription:
       "For users running multiple Pi-hole instances, like one for home and one for work, this feature is a lifesaver. Add different servers and switch between them seamlessly, allowing you to manage settings and monitor activity for each without logging in and out.",
   },
   "features.queryLogs": {
     title: "Query Logs",
-    description:
-      "Explore query logs and access detailed information about your network traffic.",
+    description: "Explore query logs and access detailed information about your network traffic.",
     longDescription:
       "Dig deep into your network traffic. The query log viewer lets you see every DNS request made on your network, showing you what's been blocked and what's been allowed. Search, filter, and investigate individual queries to troubleshoot issues or satisfy your curiosity.",
   },
@@ -64,26 +62,18 @@ const featureTranslations: Record<
   },
   "features.materialYou": {
     title: "Material You Interface",
-    description:
-      "Enjoy a modern interface with dynamic theming on Android 12 and higher.",
+    description: "Enjoy a modern interface with dynamic theming on Android 12 and higher.",
     longDescription:
       "Experience a visually stunning and personalized interface. On devices with Android 12 or higher, the app uses Material You to adapt its color palette to your phone's wallpaper, creating a unique and beautiful user experience that's all your own.",
   },
 };
 
 export function Features() {
-  const colors = [
-    "text-chart-1",
-    "text-chart-2",
-    "text-chart-3",
-    "text-chart-4",
-  ];
+  const colors = ["text-chart-1", "text-chart-2", "text-chart-3", "text-chart-4"];
   return (
-    <section id="features" className="container py-24 sm:py-32 space-y-8">
-      <h2 className="text-3xl lg:text-4xl font-bold md:text-center">
-        Features
-      </h2>
-      <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+    <section id="features" className="container space-y-8 py-24 sm:py-32">
+      <h2 className="text-3xl font-bold md:text-center lg:text-4xl">Features</h2>
+      <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-3">
         {features.map((feature: Feature, index) => {
           const translationKey = feature.titleKey.replace(".title", "");
           const translated = featureTranslations[translationKey] || {
@@ -96,7 +86,7 @@ export function Features() {
           return (
             <Card
               key={feature.slug}
-              className="bg-card/50 hover:bg-accent/10 transition-colors w-full flex flex-col"
+              className="bg-card/50 hover:bg-accent/10 flex w-full flex-col transition-colors"
             >
               <CardHeader>
                 <div className="flex items-center gap-4">
@@ -105,9 +95,7 @@ export function Features() {
                 </div>
               </CardHeader>
               <CardContent className="flex-grow">
-                <p className="text-muted-foreground">
-                  {translated.description}
-                </p>
+                <p className="text-muted-foreground">{translated.description}</p>
               </CardContent>
             </Card>
 
