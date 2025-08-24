@@ -1,4 +1,6 @@
 import "./globals.css";
+import googlePlayImg from "@/../public/googleplay.svg";
+import appImg from "@/../public/pi-hole-client-icon-large-round.svg";
 import { ThemeToggle } from "@/components/theme-toggle";
 import { GITHUB_URL, PIHOLE_CLIENT_VERSION, PLAY_STORE_URL, WEBSITE_URL } from "@/lib/constants";
 import type { Metadata } from "next";
@@ -22,9 +24,6 @@ export const metadata: Metadata = {
   authors: [{ name: "tsutsu3", url: "https://github.com/tsutsu3" }],
   creator: "tsutsu3",
   publisher: "Pi-hole client Project",
-  icons: {
-    icon: "/favicon.ico",
-  },
   openGraph: {
     title: "Pi-hole client",
     description: "Manage your Pi-hole server easily from your smartphone with Pi-hole client.",
@@ -64,12 +63,7 @@ const navbar = (
   <Navbar
     logo={
       <>
-        <Image
-          src="/pi-hole-client-icon-large-round.svg"
-          alt="Pi-hole client logo"
-          width={24}
-          height={24}
-        />
+        <Image src={appImg} alt="Pi-hole client logo" width={24} height={24} />
         <span style={{ marginLeft: ".4em", fontWeight: 800 }}>Pi-hole client</span>
       </>
     }
@@ -78,13 +72,7 @@ const navbar = (
     // Includes a Google Play Store icon and link, which is used for Play Store access (not for chat)
     chatLink={PLAY_STORE_URL}
     chatIcon={
-      <Image
-        src="/googleplay.svg"
-        alt="google play"
-        width={20}
-        height={20}
-        className="dark:invert"
-      />
+      <Image src={googlePlayImg} alt="google play" width={20} height={20} className="dark:invert" />
     }
   >
     <ThemeToggle />
