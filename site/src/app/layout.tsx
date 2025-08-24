@@ -14,6 +14,11 @@ import {
   PLAY_STORE_URL,
   WEBSITE_URL,
 } from "@/lib/constants";
+import { ReactNode } from "react";
+
+interface RootLayoutProps {
+  readonly children: ReactNode;
+}
 
 export const metadata: Metadata = {
   title: "Pi-hole client",
@@ -106,7 +111,7 @@ const navbar = (
 );
 const footer = <Footer>Copyright © {new Date().getFullYear()} tsutsu3</Footer>;
 
-export default async function RootLayout({ children }) {
+export default async function RootLayout({ children }: RootLayoutProps) {
   return (
     <html
       // Not required, but good for SEO
