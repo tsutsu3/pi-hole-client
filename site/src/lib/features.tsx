@@ -11,7 +11,7 @@ import {
 } from "lucide-react";
 import { JSX } from "react";
 
-export type Feature = {
+export interface Feature {
   slug: string;
   icon: JSX.Element;
   titleKey: string;
@@ -19,7 +19,7 @@ export type Feature = {
   longDescriptionKey: string;
   screenshot: string;
   screenshotHint: string;
-};
+}
 
 const appScreenshot = "/ss.jpg";
 
