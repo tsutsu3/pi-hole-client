@@ -121,7 +121,11 @@
 .featureCardIcon.chart4 {
   color: var(--chart-4);
 }
-
+.featuresTitle {
+  margin: 2rem 0;
+  font-size: 2rem;
+  text-align: center;
+}
 .featuresSection {
   max-width: 1100px;
   margin: 0 auto;
