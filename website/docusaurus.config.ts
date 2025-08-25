@@ -2,14 +2,13 @@ import { themes as prismThemes } from "prism-react-renderer";
 import type { Config } from "@docusaurus/types";
 import type * as Preset from "@docusaurus/preset-classic";
 
-// This runs in Node.js - Don't use client-side code here (browser APIs, JSX...)
+const githubUrl = "https://github.com/tsutsu3/pi-hole-client";
 
 const config: Config = {
   title: "Pi-hole client",
   tagline: "Pi-hole mobile client",
   favicon: "/img/favicon.ico",
 
-  // Future flags, see https://docusaurus.io/docs/api/docusaurus-config#future
   future: {
     v4: true, // Improve compatibility with the upcoming Docusaurus v4
   },
@@ -42,9 +41,7 @@ const config: Config = {
       {
         docs: {
           sidebarPath: "./sidebars.ts",
-          // Please change this to your repo.
-          // Remove this to remove the "edit this page" links.
-          editUrl: "https://github.com/tsutsu3/pi-hole-client/site",
+          editUrl: `${githubUrl}/site`,
         },
         blog: {
           showReadingTime: true,
@@ -52,10 +49,7 @@ const config: Config = {
             type: ["rss", "atom"],
             xslt: true,
           },
-          // Please change this to your repo.
-          // Remove this to remove the "edit this page" links.
-          editUrl: "https://github.com/tsutsu3/pi-hole-client/site",
-          // Useful options to enforce blogging best practices
+          editUrl: `${githubUrl}/site`,
           onInlineTags: "warn",
           onInlineAuthors: "warn",
           onUntruncatedBlogPosts: "warn",
@@ -73,8 +67,6 @@ const config: Config = {
       disableSwitch: false,
       respectPrefersColorScheme: true,
     },
-    // Replace with your project's social card
-    // image: 'img/ss.jpg',
     navbar: {
       title: "Pi-hole client",
       logo: {
@@ -95,7 +87,7 @@ const config: Config = {
           "aria-label": "Google Play Store",
         },
         {
-          href: "https://github.com/tsutsu3/pi-hole-client",
+          href: githubUrl,
           position: "right",
           className: "header-github-link",
           "aria-label": "GitHub repository",
@@ -128,7 +120,7 @@ const config: Config = {
           items: [
             {
               label: "GitHub",
-              href: "https://github.com/tsutsu3/pi-hole-client",
+              href: githubUrl,
             },
           ],
         },
