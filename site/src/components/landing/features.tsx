@@ -98,56 +98,6 @@ export function Features() {
                 <p className="text-muted-foreground">{translated.description}</p>
               </CardContent>
             </Card>
-
-            // TODO: Images and layou
-            // <Dialog key={feature.slug}>
-            //   <DialogTrigger asChild>
-            //     <Card className="bg-card/50 hover:bg-accent/10 transition-colors w-full cursor-pointer flex flex-col">
-            //       <CardHeader>
-            //         <div className="flex items-center gap-4">
-            //           <div className={colorClass}>{feature.icon}</div>
-            //           <CardTitle className="text-xl">
-            //             {translated.title}
-            //           </CardTitle>
-            //         </div>
-            //       </CardHeader>
-            //       <CardContent className="flex-grow">
-            //         <p className="text-muted-foreground">
-            //           {translated.description}
-            //         </p>
-            //       </CardContent>
-            //     </Card>
-            //   </DialogTrigger>
-            //   <DialogContent className="sm:max-w-[600px]">
-            //     <DialogHeader>
-            //       <div className="flex items-center gap-4 mb-4">
-            //         <div
-            //           className={`inline-block p-3 bg-accent/10 rounded-lg ${colorClass}`}
-            //         >
-            //           {feature.icon}
-            //         </div>
-            //         <DialogTitle className="text-2xl">
-            //           {translated.title}
-            //         </DialogTitle>
-            //       </div>
-            //     </DialogHeader>
-            //     <div className="space-y-6">
-            //       <p className="text-muted-foreground">
-            //         {translated.longDescription}
-            //       </p>
-            //       <div className="rounded-xl border-2 shadow-lg overflow-hidden">
-            //         <Image
-            //           src={feature.screenshot}
-            //           alt={`${translated.title} Screenshot`}
-            //           width={1200}
-            //           height={800}
-            //           className="w-full"
-            //           data-ai-hint={feature.screenshotHint}
-            //         />
-            //       </div>
-            //     </div>
-            //   </DialogContent>
-            // </Dialog>
           );
         })}
       </div>
