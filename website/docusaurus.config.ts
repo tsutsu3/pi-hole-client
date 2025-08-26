@@ -23,12 +23,13 @@ const config: Config = {
   url: "https://tsutsu3.github.io",
   // Set the /<baseUrl>/ pathname under which your site is served
   // For GitHub pages deployment, it is often '/<projectName>/'
-  baseUrl: "/",
+  baseUrl: "/pi-hole-client/",
 
   // GitHub pages deployment config.
   // If you aren't using GitHub pages, you don't need these.
   organizationName: "tsutsu3", // Usually your GitHub org/user name.
   projectName: "pi-hole-client", // Usually your repo name.
+  trailingSlash: true,
 
   onBrokenLinks: "throw",
   onBrokenMarkdownLinks: "warn",

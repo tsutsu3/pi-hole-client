@@ -16,6 +16,10 @@ import {
 } from "lucide-react";
 import clsx from "clsx";
 
+import getGooglePlayImage from "@site/static/img/get-google-play.png";
+import mockLightImage from "@site/static/img/light-mock.png";
+import mockDarkImage from "@site/static/img/dark-mock.png";
+
 const features = [
   {
     icon: <Power size={28} />,
@@ -129,7 +133,7 @@ const HeroSection = () => {
           rel="noopener noreferrer"
         >
           <img
-            src="/img/get-google-play.png"
+            src={getGooglePlayImage}
             alt="Get it on Google Play"
             className={styles.heroPlayBtn}
           />
@@ -140,8 +144,8 @@ const HeroSection = () => {
           alt="Pi-hole Client"
           className={styles.heroMockImg}
           sources={{
-            light: "/img/light-mock.png",
-            dark: "/img/dark-mock.png",
+            light: mockLightImage,
+            dark: mockDarkImage,
           }}
         />
       </div>
