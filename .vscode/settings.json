@@ -21,9 +21,9 @@
   "[terraform]": {
     "editor.defaultFormatter": "hashicorp.terraform"
   },
-  "prettier.configPath": "site/prettier.config.mjs",
+  "prettier.configPath": "website/prettier.config.mjs",
   "prettier.requireConfig": true,
   "eslint.options": {
-      "configFile": "site/eslint.config.mjs"
+      "configFile": "website/eslint.config.mjs"
     },
 }

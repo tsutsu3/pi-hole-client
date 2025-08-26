@@ -9,7 +9,6 @@ const websiteUrl = "https://tsutsu3.github.io/pi-hole-client";
 const playStoreUrl =
   "https://play.google.com/store/apps/details?id=io.github.tsutsu3.pi_hole_client";
 
-
 const config: Config = {
   title: "Pi-hole client",
   tagline: "Pi-hole mobile client",
@@ -60,14 +59,21 @@ const config: Config = {
   themeConfig: {
     metadata: [
       // Basic SEO
-      { name: "description", content: "Pi-hole client is a mobile application that allows you to manage your Pi-hole server from your smartphone." },
+      {
+        name: "description",
+        content:
+          "Pi-hole client is a mobile application that allows you to manage your Pi-hole server from your smartphone.",
+      },
       { name: "keywords", content: "Pi-hole, adblock, DNS sinkhole, network, client, dashboard" },
       { name: "author", content: "tsutsu3" },
       { name: "publisher", content: "Pi-hole client Project" },
 
       // Open Graph
       { property: "og:title", content: "Pi-hole client" },
-      { property: "og:description", content: "Manage your Pi-hole server easily from your smartphone with Pi-hole client." },
+      {
+        property: "og:description",
+        content: "Manage your Pi-hole server easily from your smartphone with Pi-hole client.",
+      },
       { property: "og:type", content: "website" },
       { property: "og:site_name", content: "Pi-hole client" },
       { property: "og:url", content: websiteUrl },
@@ -80,7 +86,10 @@ const config: Config = {
       // X/Twitter
       { name: "twitter:card", content: "summary_large_image" },
       { name: "twitter:title", content: "Pi-hole client" },
-      { name: "twitter:description", content: "Monitor and control your Pi-hole server with Pi-hole client for mobile." },
+      {
+        name: "twitter:description",
+        content: "Monitor and control your Pi-hole server with Pi-hole client for mobile.",
+      },
       { name: "twitter:image", content: `${websiteUrl}/feature-image-og.png` },
       { name: "twitter:creator", content: "@_tsutsu3" },
     ],
@@ -147,7 +156,7 @@ const config: Config = {
             {
               label: "Google Play Store",
               href: playStoreUrl,
-            }
+            },
           ],
         },
       ],

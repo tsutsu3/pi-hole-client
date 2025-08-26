@@ -82,9 +82,7 @@ const FeatureCard = ({
   return (
     <div className={styles.featureCard}>
       <div className={styles.featureCardHeader}>
-        <div className={clsx(styles.featureCardIcon, styles[colorClass])}>
-          {icon}
-        </div>
+        <div className={clsx(styles.featureCardIcon, styles[colorClass])}>{icon}</div>
         <div className={styles.featureCardTitle}>{title}</div>
       </div>
       <div className={styles.featureCardDesc}>{desc}</div>
@@ -119,12 +117,11 @@ const HeroSection = () => {
       <div className={styles.heroBgGrid}></div>
       <div className={styles.heroText}>
         <h1>
-          <span className={styles.heroGradientTitle}>Take Control</span> of Your
-          Network
+          <span className={styles.heroGradientTitle}>Take Control</span> of Your Network
         </h1>
         <p>
-          The unofficial Pi-hole client for Android. Monitor and manage your
-          Pi-hole on your home network with a clean, modern interface.
+          The unofficial Pi-hole client for Android. Monitor and manage your Pi-hole on your home
+          network with a clean, modern interface.
         </p>
         <a
           className={styles.heroBtn}

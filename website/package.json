@@ -1,5 +1,5 @@
 {
-  "name": "website",
+  "name": "pi-hole-client-website",
   "version": "0.0.0",
   "private": true,
   "scripts": {
@@ -12,7 +12,9 @@
     "serve": "docusaurus serve",
     "write-translations": "docusaurus write-translations",
     "write-heading-ids": "docusaurus write-heading-ids",
-    "typecheck": "tsc"
+    "typecheck": "tsc",
+    "lint": "eslint",
+    "format": "prettier --write ."
   },
   "dependencies": {
     "@docusaurus/core": "3.8.1",
@@ -25,9 +27,11 @@
     "react-dom": "^19.0.0"
   },
   "devDependencies": {
+    "@docusaurus/eslint-plugin": "^3.8.1",
     "@docusaurus/module-type-aliases": "3.8.1",
     "@docusaurus/tsconfig": "3.8.1",
     "@docusaurus/types": "3.8.1",
+    "prettier": "^3.6.2",
     "typescript": "~5.6.2"
   },
   "browserslist": {
