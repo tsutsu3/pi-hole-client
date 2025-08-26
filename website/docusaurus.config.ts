@@ -47,7 +47,7 @@ const config: Config = {
       {
         docs: {
           sidebarPath: "./sidebars.ts",
-          editUrl: `${githubUrl}/main/tree/main/site`,
+          editUrl: `${githubUrl}/blob/main/website`,
         },
         theme: {
           customCss: "./src/css/custom.css",
@@ -80,7 +80,7 @@ const config: Config = {
       { property: "og:type", content: "website" },
       { property: "og:site_name", content: "Pi-hole client" },
       { property: "og:url", content: websiteUrl },
-      { property: "og:image", content: `${websiteUrl}/feature-image-og.png` },
+      { property: "og:image", content: `${websiteUrl}/img/feature-image-og.png` },
       { property: "og:image:width", content: "1200" },
       { property: "og:image:height", content: "630" },
       { property: "og:locale", content: "en_US" },
@@ -93,8 +93,10 @@ const config: Config = {
         name: "twitter:description",
         content: "Monitor and control your Pi-hole server with Pi-hole client for mobile.",
       },
-      { name: "twitter:image", content: `${websiteUrl}/feature-image-og.png` },
+      { name: "twitter:image", content: `${websiteUrl}/img/feature-image-og.png` },
       { name: "twitter:creator", content: "@_tsutsu3" },
+      // Algolia
+      { name: "algolia-site-verification", content: "30C71A65927B89BB" },
     ],
     algolia: {
       // The application ID provided by Algolia
