@@ -50,8 +50,7 @@ html[data-theme="dark"] .navbar {
   display: flex;
   background-color: var(--ifm-navbar-link-color);
   mask-image: url("/img/github.svg");
-  transition: background-color var(--ifm-transition-fast)
-    var(--ifm-transition-timing-default);
+  transition: background-color var(--ifm-transition-fast) var(--ifm-transition-timing-default);
 }
 
 .header-github-link:hover::before {
