@@ -4,6 +4,12 @@ import type * as Preset from "@docusaurus/preset-classic";
 
 const githubUrl = "https://github.com/tsutsu3/pi-hole-client";
 
+const websiteUrl = "https://tsutsu3.github.io/pi-hole-client";
+
+const playStoreUrl =
+  "https://play.google.com/store/apps/details?id=io.github.tsutsu3.pi_hole_client";
+
+
 const config: Config = {
   title: "Pi-hole client",
   tagline: "Pi-hole mobile client",
@@ -41,18 +47,7 @@ const config: Config = {
       {
         docs: {
           sidebarPath: "./sidebars.ts",
-          editUrl: `${githubUrl}/site`,
-        },
-        blog: {
-          showReadingTime: true,
-          feedOptions: {
-            type: ["rss", "atom"],
-            xslt: true,
-          },
-          editUrl: `${githubUrl}/site`,
-          onInlineTags: "warn",
-          onInlineAuthors: "warn",
-          onUntruncatedBlogPosts: "warn",
+          editUrl: `${githubUrl}/main/tree/main/site`,
         },
         theme: {
           customCss: "./src/css/custom.css",
@@ -62,6 +57,32 @@ const config: Config = {
   ],
 
   themeConfig: {
+    metadata: [
+      // Basic SEO
+      { name: "description", content: "Pi-hole client is a mobile application that allows you to manage your Pi-hole server from your smartphone." },
+      { name: "keywords", content: "Pi-hole, adblock, DNS sinkhole, network, client, dashboard" },
+      { name: "author", content: "tsutsu3" },
+      { name: "publisher", content: "Pi-hole client Project" },
+
+      // Open Graph
+      { property: "og:title", content: "Pi-hole client" },
+      { property: "og:description", content: "Manage your Pi-hole server easily from your smartphone with Pi-hole client." },
+      { property: "og:type", content: "website" },
+      { property: "og:site_name", content: "Pi-hole client" },
+      { property: "og:url", content: websiteUrl },
+      { property: "og:image", content: `${websiteUrl}/feature-image-og.png` },
+      { property: "og:image:width", content: "1200" },
+      { property: "og:image:height", content: "630" },
+      { property: "og:locale", content: "en_US" },
+      { property: "og:locale:alternate", content: "ja_JP" },
+
+      // X/Twitter
+      { name: "twitter:card", content: "summary_large_image" },
+      { name: "twitter:title", content: "Pi-hole client" },
+      { name: "twitter:description", content: "Monitor and control your Pi-hole server with Pi-hole client for mobile." },
+      { name: "twitter:image", content: `${websiteUrl}/feature-image-og.png` },
+      { name: "twitter:creator", content: "@_tsutsu3" },
+    ],
     colorMode: {
       defaultMode: "light",
       disableSwitch: false,
@@ -81,7 +102,7 @@ const config: Config = {
           label: "Docs",
         },
         {
-          href: "https://play.google.com/store/apps/details?id=io.github.tsutsu3.pi_hole_client",
+          href: playStoreUrl,
           position: "right",
           className: "header-play-link",
           "aria-label": "Google Play Store",
@@ -122,6 +143,10 @@ const config: Config = {
               label: "GitHub",
               href: githubUrl,
             },
+            {
+              label: "Google Play Store",
+              href: playStoreUrl,
+            }
           ],
         },
       ],
