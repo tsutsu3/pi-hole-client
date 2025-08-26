@@ -64,7 +64,10 @@ const config: Config = {
         content:
           "Pi-hole client is a mobile application that allows you to manage your Pi-hole server from your smartphone.",
       },
-      { name: "keywords", content: "Pi-hole, adblock, DNS sinkhole, network, client, dashboard" },
+      {
+        name: "keywords",
+        content: "Pi-hole, adblock, DNS sinkhole, network, client, dashboard",
+      },
       { name: "author", content: "tsutsu3" },
       { name: "publisher", content: "Pi-hole client Project" },
 
@@ -93,6 +96,29 @@ const config: Config = {
       { name: "twitter:image", content: `${websiteUrl}/feature-image-og.png` },
       { name: "twitter:creator", content: "@_tsutsu3" },
     ],
+    algolia: {
+      // The application ID provided by Algolia
+      appId: "INFPBXF0SW",
+
+      // Public API key: it is safe to commit it
+      apiKey: "c233e68c3f0be545a11a9aff81236036",
+
+      indexName: "pi-hole-client-website",
+
+      // Optional: see doc section below
+      contextualSearch: true,
+
+      // Optional: Replace parts of the item URLs from Algolia. Useful when using the same search index for multiple deployments using a different baseUrl. You can use regexp or string in the `from` param. For example: localhost:3000 vs myCompany.com/docs
+      replaceSearchResultPathname: {
+        from: "/pi-hole-client/", // or as RegExp: /\/docs\//
+        to: "/",
+      },
+
+      // Optional: whether the insights feature is enabled or not on Docsearch (`false` by default)
+      insights: false,
+
+      //... other Algolia params
+    },
     colorMode: {
       defaultMode: "light",
       disableSwitch: false,
