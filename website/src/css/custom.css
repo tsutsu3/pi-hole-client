@@ -1,0 +1,71 @@
+/* You can override the default Infima variables here. */
+:root {
+  --ifm-color-primary: #a00034;
+  --ifm-color-primary-dark: #90002f;
+  --ifm-color-primary-darker: #88002c;
+  --ifm-color-primary-darkest: #700024;
+  --ifm-color-primary-light: #b00039;
+  --ifm-color-primary-lighter: #b8003c;
+  --ifm-color-primary-lightest: #d00044;
+  --ifm-code-font-size: 95%;
+  --docusaurus-highlighted-code-line-bg: rgba(0, 0, 0, 0.1);
+  --chart-1: oklch(0.74 0.22 195); /* hsl(195 89% 45%) */
+  --chart-2: oklch(0.65 0.24 27); /* hsl(0 80% 60%) */
+  --chart-3: oklch(0.82 0.22 95); /* hsl(45 90% 50%) */
+  --chart-4: oklch(0.72 0.17 156); /* hsl(140 80% 45%) */
+  --chart-5: oklch(0.82 0.2 66); /* hsl(27 87% 67%) */
+}
+
+/* For readability concerns, you should choose a lighter palette in dark mode. */
+[data-theme="dark"] {
+  --ifm-color-primary: #ff857b;
+  --ifm-color-primary-dark: #ff6255;
+  --ifm-color-primary-darker: #ff5142;
+  --ifm-color-primary-darkest: #ff1c0a;
+  --ifm-color-primary-light: #ffa8a1;
+  --ifm-color-primary-lighter: #ffb9b4;
+  --ifm-color-primary-lightest: #ffeeec;
+  --docusaurus-highlighted-code-line-bg: rgba(0, 0, 0, 0.3);
+  --chart-1: oklch(0.74 0.22 195); /* hsl(195 89% 45%) */
+  --chart-2: oklch(0.65 0.24 27); /* hsl(0 80% 60%) */
+  --chart-3: oklch(0.82 0.22 95); /* hsl(45 90% 50%) */
+  --chart-4: oklch(0.72 0.17 156); /* hsl(140 80% 45%) */
+  --chart-5: oklch(0.82 0.2 66); /* hsl(27 87% 67%) */
+}
+
+.navbar {
+  background-color: rgba(255, 255, 255, 0.8);
+  backdrop-filter: blur(12px);
+}
+
+html[data-theme="dark"] .navbar {
+  background-color: rgba(32, 32, 32, 0.8);
+  backdrop-filter: blur(12px);
+}
+
+.header-github-link::before {
+  content: "";
+  width: 24px;
+  height: 24px;
+  display: flex;
+  background-color: var(--ifm-navbar-link-color);
+  mask-image: url("/img/github.svg");
+  transition: background-color var(--ifm-transition-fast) var(--ifm-transition-timing-default);
+}
+
+.header-github-link:hover::before {
+  background-color: var(--ifm-navbar-link-hover-color);
+}
+
+.header-play-link::before {
+  content: "";
+  width: 24px;
+  height: 24px;
+  display: flex;
+  background-color: var(--ifm-navbar-link-color);
+  mask: url("/img/googleplay.svg");
+}
+
+.header-play-link:hover::before {
+  background-color: var(--ifm-navbar-link-hover-color);
+}
