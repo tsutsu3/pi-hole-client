@@ -127,6 +127,7 @@ const config: Config = {
       respectPrefersColorScheme: true,
     },
     navbar: {
+      hideOnScroll: true,
       title: "Pi-hole client",
       logo: {
         alt: "Pi-hole client Logo",

@@ -33,16 +33,6 @@
   --chart-5: oklch(0.82 0.2 66); /* hsl(27 87% 67%) */
 }
 
-.navbar {
-  background-color: rgba(255, 255, 255, 0.8);
-  backdrop-filter: blur(12px);
-}
-
-html[data-theme="dark"] .navbar {
-  background-color: rgba(32, 32, 32, 0.8);
-  backdrop-filter: blur(12px);
-}
-
 .header-github-link::before {
   content: "";
   width: 24px;
