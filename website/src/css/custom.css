@@ -14,7 +14,6 @@
   --chart-3: oklch(0.82 0.22 95); /* hsl(45 90% 50%) */
   --chart-4: oklch(0.72 0.17 156); /* hsl(140 80% 45%) */
   --chart-5: oklch(0.82 0.2 66); /* hsl(27 87% 67%) */
-  --hero-text-color: #555;
 }
 
 /* For readability concerns, you should choose a lighter palette in dark mode. */
@@ -32,7 +31,6 @@
   --chart-3: oklch(0.82 0.22 95); /* hsl(45 90% 50%) */
   --chart-4: oklch(0.72 0.17 156); /* hsl(140 80% 45%) */
   --chart-5: oklch(0.82 0.2 66); /* hsl(27 87% 67%) */
-  --hero-text-color: #ccc;
 }
 
 .navbar {
@@ -52,7 +50,8 @@ html[data-theme="dark"] .navbar {
   display: flex;
   background-color: var(--ifm-navbar-link-color);
   mask-image: url("/img/github.svg");
-  transition: background-color var(--ifm-transition-fast) var(--ifm-transition-timing-default);
+  transition: background-color var(--ifm-transition-fast)
+    var(--ifm-transition-timing-default);
 }
 
 .header-github-link:hover::before {
