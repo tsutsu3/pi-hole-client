@@ -1804,6 +1804,12 @@ class AppLocalizationsJa extends AppLocalizations {
   String get visitGooglePlay => 'Google Playページを訪問';
 
   @override
+  String get websiteDescription => 'Pi-hole client の公式サイトを開きます';
+
+  @override
+  String get websiteTitle => 'Webサイト';
+
+  @override
   String get welcomeToApp => 'アプリへようこそ';
 
   @override

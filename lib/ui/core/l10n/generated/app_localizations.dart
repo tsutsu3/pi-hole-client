@@ -3620,6 +3620,18 @@ abstract class AppLocalizations {
   /// **'Visit Google Play page'**
   String get visitGooglePlay;
 
+  /// No description provided for @websiteDescription.
+  ///
+  /// In en, this message translates to:
+  /// **'Visit the official Pi-hole client website'**
+  String get websiteDescription;
+
+  /// No description provided for @websiteTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Website'**
+  String get websiteTitle;
+
   /// No description provided for @welcomeToApp.
   ///
   /// In en, this message translates to:
