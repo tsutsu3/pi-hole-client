@@ -16,7 +16,8 @@ npm install
 npm run start
 ```
 
-This command starts a local development server and opens up a browser window. Most changes are reflected live without having to restart the server.
+This command starts a local development server and opens up a browser window.
+Most changes are reflected live without having to restart the server.
 
 ## Build
 
@@ -26,4 +27,5 @@ npm run build
 
 ## Deployment
 
-See [GitHub Action workflow](../.github/workflows/deploy-docs.yaml) for automated deployment to GitHub Pages.
+See [GitHub Action workflow](../.github/workflows/deploy-docs.yaml) for automated
+deployment to GitHub Pages.
