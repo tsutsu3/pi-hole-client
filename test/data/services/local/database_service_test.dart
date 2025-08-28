@@ -125,8 +125,11 @@ void main() {
       });
       expect(result.isSuccess(), isTrue);
 
-      final queryResult = await dbService
-          .query('servers', where: 'address = ?', whereArgs: ['127.0.0.2']);
+      final queryResult = await dbService.query(
+        'servers',
+        where: 'address = ?',
+        whereArgs: ['127.0.0.2'],
+      );
       expect(queryResult.getOrNull()?.length, 1);
       expect(queryResult.getOrNull()?[0]['alias'], 'Tx');
     });
@@ -157,36 +160,34 @@ void main() {
       expect(queryResult.getOrNull()?[0]['allowSelfSignedCert'], 1);
     });
 
-    test('Insert returns Succes with ConflictAlgorithm.replace on duplicate',
-        () async {
-      await dbService.insert('servers', {
-        'address': '127.0.0.1',
-        'alias': 'Local',
-        'isDefaultServer': 1,
-        'apiVersion': 'v6',
-        'allowSelfSignedCert': 1,
-      });
-      final result = await dbService.insert(
-        'servers',
-        {
+    test(
+      'Insert returns Succes with ConflictAlgorithm.replace on duplicate',
+      () async {
+        await dbService.insert('servers', {
+          'address': '127.0.0.1',
+          'alias': 'Local',
+          'isDefaultServer': 1,
+          'apiVersion': 'v6',
+          'allowSelfSignedCert': 1,
+        });
+        final result = await dbService.insert('servers', {
           'address': '127.0.0.1',
           'alias': 'Duplicate',
           'isDefaultServer': 0,
           'apiVersion': 'v6',
           'allowSelfSignedCert': 1,
-        },
-        conflictAlgorithm: ConflictAlgorithm.replace,
-      );
-      expect(result.isSuccess(), isTrue);
+        }, conflictAlgorithm: ConflictAlgorithm.replace);
+        expect(result.isSuccess(), isTrue);
 
-      final queryResult = await dbService.query('servers');
-      expect(queryResult.getOrNull()?.length, 1);
-      expect(queryResult.getOrNull()?[0]['address'], '127.0.0.1');
-      expect(queryResult.getOrNull()?[0]['alias'], 'Duplicate');
-      expect(queryResult.getOrNull()?[0]['isDefaultServer'], 0);
-      expect(queryResult.getOrNull()?[0]['apiVersion'], 'v6');
-      expect(queryResult.getOrNull()?[0]['allowSelfSignedCert'], 1);
-    });
+        final queryResult = await dbService.query('servers');
+        expect(queryResult.getOrNull()?.length, 1);
+        expect(queryResult.getOrNull()?[0]['address'], '127.0.0.1');
+        expect(queryResult.getOrNull()?[0]['alias'], 'Duplicate');
+        expect(queryResult.getOrNull()?[0]['isDefaultServer'], 0);
+        expect(queryResult.getOrNull()?[0]['apiVersion'], 'v6');
+        expect(queryResult.getOrNull()?[0]['allowSelfSignedCert'], 1);
+      },
+    );
 
     test('Update returns Failure when no rows affected', () async {
       final result = await dbService.update(

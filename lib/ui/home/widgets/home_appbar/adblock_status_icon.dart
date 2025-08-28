@@ -16,9 +16,7 @@ import 'package:provider/provider.dart';
 /// This widget uses [StatusProvider] to determine the server connection status,
 /// and [ServersProvider] to access the selected server's enabled state and color theme.
 class AdBlockStatusIcon extends StatelessWidget {
-  const AdBlockStatusIcon({
-    super.key,
-  });
+  const AdBlockStatusIcon({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -26,9 +24,7 @@ class AdBlockStatusIcon extends StatelessWidget {
       (p) => p.getServerStatus,
     );
 
-    final colors = context.select<ServersProvider, AppColors>(
-      (p) => p.colors,
-    );
+    final colors = context.select<ServersProvider, AppColors>((p) => p.colors);
 
     final enableSelectedServer = context.select<ServersProvider, bool>(
       (p) => p.selectedServer?.enabled ?? false,
@@ -55,10 +51,6 @@ class AdBlockStatusIcon extends StatelessWidget {
         iconColor = convertColor(colors, Colors.orange);
     }
 
-    return Icon(
-      iconData,
-      size: 30,
-      color: iconColor,
-    );
+    return Icon(iconData, size: 30, color: iconColor);
   }
 }

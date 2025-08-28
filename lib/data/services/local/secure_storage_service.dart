@@ -15,7 +15,7 @@ import 'package:result_dart/result_dart.dart';
 /// is created internally.
 class SecureStorageService {
   SecureStorageService({FlutterSecureStorage? secureStorage})
-      : _secureStorage = secureStorage ?? const FlutterSecureStorage();
+    : _secureStorage = secureStorage ?? const FlutterSecureStorage();
 
   final FlutterSecureStorage _secureStorage;
 

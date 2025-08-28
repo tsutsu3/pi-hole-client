@@ -202,8 +202,9 @@ class _AddSubscriptionModalState extends State<AddSubscriptionModal> {
             ),
           ),
           Padding(
-            padding:
-                isLandscape ? EdgeInsets.zero : const EdgeInsets.only(top: 20),
+            padding: isLandscape
+                ? EdgeInsets.zero
+                : const EdgeInsets.only(top: 20),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.end,
               children: [

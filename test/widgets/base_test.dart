@@ -12,124 +12,100 @@ import './helpers.dart';
 void main() async {
   await initializeApp();
 
-  group(
-    'Base Widget Tests',
-    () {
-      late TestSetupHelper testSetup;
+  group('Base Widget Tests', () {
+    late TestSetupHelper testSetup;
 
-      setUp(() async {
-        testSetup = TestSetupHelper();
+    setUp(() async {
+      testSetup = TestSetupHelper();
 
-        testSetup.initializeMock(useApiGatewayVersion: 'v6');
+      testSetup.initializeMock(useApiGatewayVersion: 'v6');
+    });
+
+    testWidgets('should show important info modal when firt time access', (
+      WidgetTester tester,
+    ) async {
+      tester.view.physicalSize = const Size(1080, 2400);
+      tester.view.devicePixelRatio = 2.0;
+
+      addTearDown(() {
+        tester.view.resetPhysicalSize();
+        tester.view.resetDevicePixelRatio();
       });
 
-      testWidgets(
-        'should show important info modal when firt time access',
-        (WidgetTester tester) async {
-          tester.view.physicalSize = const Size(1080, 2400);
-          tester.view.devicePixelRatio = 2.0;
+      when(testSetup.mockServersProvider.selectedServer).thenReturn(null);
+      when(testSetup.mockConfigProvider.importantInfoReaden).thenReturn(false);
 
-          addTearDown(() {
-            tester.view.resetPhysicalSize();
-            tester.view.resetDevicePixelRatio();
-          });
+      await tester.pumpWidget(testSetup.buildTestWidget(const Base()));
 
-          when(testSetup.mockServersProvider.selectedServer).thenReturn(null);
-          when(testSetup.mockConfigProvider.importantInfoReaden)
-              .thenReturn(false);
+      expect(find.byType(Base), findsOneWidget);
+      await tester.pumpAndSettle();
 
-          await tester.pumpWidget(
-            testSetup.buildTestWidget(
-              const Base(),
-            ),
-          );
+      expect(find.byType(StartInfoModal), findsOneWidget);
+      expect(find.text('Getting Started'), findsOneWidget);
+    });
 
-          expect(find.byType(Base), findsOneWidget);
-          await tester.pumpAndSettle();
+    testWidgets('should show mobile layout with no selected server', (
+      WidgetTester tester,
+    ) async {
+      tester.view.physicalSize = const Size(1080, 2400);
+      tester.view.devicePixelRatio = 2.0;
 
-          expect(find.byType(StartInfoModal), findsOneWidget);
-          expect(find.text('Getting Started'), findsOneWidget);
-        },
-      );
+      addTearDown(() {
+        tester.view.resetPhysicalSize();
+        tester.view.resetDevicePixelRatio();
+      });
 
-      testWidgets(
-        'should show mobile layout with no selected server',
-        (WidgetTester tester) async {
-          tester.view.physicalSize = const Size(1080, 2400);
-          tester.view.devicePixelRatio = 2.0;
+      when(testSetup.mockServersProvider.selectedServer).thenReturn(null);
 
-          addTearDown(() {
-            tester.view.resetPhysicalSize();
-            tester.view.resetDevicePixelRatio();
-          });
+      await tester.pumpWidget(testSetup.buildTestWidget(const Base()));
 
-          when(testSetup.mockServersProvider.selectedServer).thenReturn(null);
+      expect(find.byType(Base), findsOneWidget);
+      await tester.pump();
+      expect(find.byType(BottomNavBar), findsOneWidget);
+      expect(find.byIcon(Icons.link_rounded), findsOneWidget);
+      expect(find.text('Servers'), findsOneWidget);
+    });
 
-          await tester.pumpWidget(
-            testSetup.buildTestWidget(
-              const Base(),
-            ),
-          );
+    testWidgets('should show tablet layout with no selected server', (
+      WidgetTester tester,
+    ) async {
+      tester.view.physicalSize = const Size(2560, 1600);
+      tester.view.devicePixelRatio = 1.6;
 
-          expect(find.byType(Base), findsOneWidget);
-          await tester.pump();
-          expect(find.byType(BottomNavBar), findsOneWidget);
-          expect(find.byIcon(Icons.link_rounded), findsOneWidget);
-          expect(find.text('Servers'), findsOneWidget);
-        },
-      );
+      addTearDown(() {
+        tester.view.resetPhysicalSize();
+        tester.view.resetDevicePixelRatio();
+      });
 
-      testWidgets(
-        'should show tablet layout with no selected server',
-        (WidgetTester tester) async {
-          tester.view.physicalSize = const Size(2560, 1600);
-          tester.view.devicePixelRatio = 1.6;
+      when(testSetup.mockServersProvider.selectedServer).thenReturn(null);
 
-          addTearDown(() {
-            tester.view.resetPhysicalSize();
-            tester.view.resetDevicePixelRatio();
-          });
+      await tester.pumpWidget(testSetup.buildTestWidget(const Base()));
 
-          when(testSetup.mockServersProvider.selectedServer).thenReturn(null);
+      expect(find.byType(Base), findsOneWidget);
+      await tester.pump();
+      expect(find.byType(CustomNavigationRail), findsOneWidget);
+      expect(find.byIcon(Icons.link_rounded), findsOneWidget);
+      expect(find.text('Servers'), findsOneWidget);
+    });
 
-          await tester.pumpWidget(
-            testSetup.buildTestWidget(
-              const Base(),
-            ),
-          );
+    testWidgets('should show mobile layout with selected server', (
+      WidgetTester tester,
+    ) async {
+      tester.view.physicalSize = const Size(1080, 2400);
+      tester.view.devicePixelRatio = 2.0;
 
-          expect(find.byType(Base), findsOneWidget);
-          await tester.pump();
-          expect(find.byType(CustomNavigationRail), findsOneWidget);
-          expect(find.byIcon(Icons.link_rounded), findsOneWidget);
-          expect(find.text('Servers'), findsOneWidget);
-        },
-      );
+      addTearDown(() {
+        tester.view.resetPhysicalSize();
+        tester.view.resetDevicePixelRatio();
+      });
 
-      testWidgets(
-        'should show mobile layout with selected server',
-        (WidgetTester tester) async {
-          tester.view.physicalSize = const Size(1080, 2400);
-          tester.view.devicePixelRatio = 2.0;
+      await tester.pumpWidget(testSetup.buildTestWidget(const Base()));
 
-          addTearDown(() {
-            tester.view.resetPhysicalSize();
-            tester.view.resetDevicePixelRatio();
-          });
-
-          await tester.pumpWidget(
-            testSetup.buildTestWidget(
-              const Base(),
-            ),
-          );
-
-          expect(find.byType(Base), findsOneWidget);
-          await tester.pump();
-          expect(find.byType(BottomNavBar), findsOneWidget);
-          expect(find.byIcon(Icons.link_rounded), findsNothing);
-          expect(find.byType(Home), findsOneWidget);
-        },
-      );
-    },
-  );
+      expect(find.byType(Base), findsOneWidget);
+      await tester.pump();
+      expect(find.byType(BottomNavBar), findsOneWidget);
+      expect(find.byIcon(Icons.link_rounded), findsNothing);
+      expect(find.byType(Home), findsOneWidget);
+    });
+  });
 }

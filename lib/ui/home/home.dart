@@ -109,18 +109,18 @@ class _HomeState extends State<Home> {
                   child: NestedScrollView(
                     headerSliverBuilder:
                         (BuildContext context, bool innerBoxIsScrolled) {
-                      return <Widget>[
-                        SliverOverlapAbsorber(
-                          handle:
-                              NestedScrollView.sliverOverlapAbsorberHandleFor(
-                            context,
-                          ),
-                          sliver: HomeAppBar(
-                            innerBoxIsScrolled: innerBoxIsScrolled,
-                          ),
-                        ),
-                      ];
-                    },
+                          return <Widget>[
+                            SliverOverlapAbsorber(
+                              handle:
+                                  NestedScrollView.sliverOverlapAbsorberHandleFor(
+                                    context,
+                                  ),
+                              sliver: HomeAppBar(
+                                innerBoxIsScrolled: innerBoxIsScrolled,
+                              ),
+                            ),
+                          ];
+                        },
                     body: SafeArea(
                       top: false,
                       bottom: false,
@@ -133,8 +133,10 @@ class _HomeState extends State<Home> {
                           child: CustomScrollView(
                             slivers: [
                               SliverOverlapInjector(
-                                handle: NestedScrollView
-                                    .sliverOverlapAbsorberHandleFor(context),
+                                handle:
+                                    NestedScrollView.sliverOverlapAbsorberHandleFor(
+                                      context,
+                                    ),
                               ),
                               SliverList.list(
                                 children: [
@@ -160,8 +162,8 @@ class _HomeState extends State<Home> {
                       curve: Curves.easeInOut,
                       bottom: isVisible && statusLoading == LoadStatus.loaded
                           ? appConfigProvider.showingSnackbar
-                              ? 70
-                              : 20
+                                ? 70
+                                : 20
                           : -70,
                       right: 20,
                       child: FloatingActionButton(

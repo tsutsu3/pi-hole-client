@@ -16,9 +16,7 @@ class LicensesScreen extends StatelessWidget {
           );
         } else if (snapshot.hasError) {
           return Scaffold(
-            body: Center(
-              child: Text('Error: ${snapshot.error}'),
-            ),
+            body: Center(child: Text('Error: ${snapshot.error}')),
           );
         } else if (snapshot.hasData) {
           final packageInfo = snapshot.data!;
@@ -38,9 +36,7 @@ class LicensesScreen extends StatelessWidget {
         } else {
           return const Scaffold(
             body: SafeArea(
-              child: Center(
-                child: Text('Unexpected error occurred'),
-              ),
+              child: Center(child: Text('Unexpected error occurred')),
             ),
           );
         }

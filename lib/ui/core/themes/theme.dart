@@ -197,17 +197,29 @@ class AppColors extends ThemeExtension<AppColors> {
     }
     return AppColors(
       snackBarSuccess: Color.lerp(snackBarSuccess, other.snackBarSuccess, t),
-      snackBarSuccessText:
-          Color.lerp(snackBarSuccessText, other.snackBarSuccessText, t),
+      snackBarSuccessText: Color.lerp(
+        snackBarSuccessText,
+        other.snackBarSuccessText,
+        t,
+      ),
       snackBarCaution: Color.lerp(snackBarCaution, other.snackBarCaution, t),
-      snackBarCautionText:
-          Color.lerp(snackBarCautionText, other.snackBarCautionText, t),
+      snackBarCautionText: Color.lerp(
+        snackBarCautionText,
+        other.snackBarCautionText,
+        t,
+      ),
       snackBarError: Color.lerp(snackBarError, other.snackBarError, t),
-      snackBarErrorText:
-          Color.lerp(snackBarErrorText, other.snackBarErrorText, t),
+      snackBarErrorText: Color.lerp(
+        snackBarErrorText,
+        other.snackBarErrorText,
+        t,
+      ),
       snackBarNeutral: Color.lerp(snackBarNeutral, other.snackBarNeutral, t),
-      snackBarNeutralText:
-          Color.lerp(snackBarNeutralText, other.snackBarNeutralText, t),
+      snackBarNeutralText: Color.lerp(
+        snackBarNeutralText,
+        other.snackBarNeutralText,
+        t,
+      ),
       cardWarning: Color.lerp(cardWarning, other.cardWarning, t),
       cardWarningText: Color.lerp(cardWarningText, other.cardWarningText, t),
       queryRed: Color.lerp(queryRed, other.queryRed, t),
@@ -310,8 +322,9 @@ class GraphColors extends ThemeExtension<GraphColors> {
 
   GraphColors harmonized(ColorScheme dynamic) {
     return copyWith(
-      colors:
-          colors.map((color) => color.harmonizeWith(dynamic.primary)).toList(),
+      colors: colors
+          .map((color) => color.harmonizeWith(dynamic.primary))
+          .toList(),
     );
   }
 
@@ -387,7 +400,8 @@ ThemeData createTheme(
   AppColors appColors,
   GraphColors graphColors,
 ) {
-  final colorScheme = dynamicColorScheme ??
+  final colorScheme =
+      dynamicColorScheme ??
       ColorScheme.fromSeed(seedColor: Colors.blue, brightness: brightness);
 
   return ThemeData(
@@ -396,16 +410,13 @@ ThemeData createTheme(
     brightness: brightness,
     elevatedButtonTheme: ElevatedButtonThemeData(
       style: ButtonStyle(
-        backgroundColor: WidgetStateProperty.resolveWith(
-          (states) {
-            final baseColor = colorScheme.primaryContainer;
-            final greyColor = brightness == Brightness.dark
-                ? Colors.grey[900]!
-                : Colors.grey[300]!;
-            return Color.lerp(baseColor, greyColor, 0.5)!
-                .withValues(alpha: 0.3);
-          },
-        ),
+        backgroundColor: WidgetStateProperty.resolveWith((states) {
+          final baseColor = colorScheme.primaryContainer;
+          final greyColor = brightness == Brightness.dark
+              ? Colors.grey[900]!
+              : Colors.grey[300]!;
+          return Color.lerp(baseColor, greyColor, 0.5)!.withValues(alpha: 0.3);
+        }),
       ),
     ),
     snackBarTheme: SnackBarThemeData(
@@ -419,18 +430,18 @@ ThemeData createTheme(
       iconColor: colorScheme.onSurfaceVariant,
     ),
     cardTheme: CardThemeData(surfaceTintColor: colorScheme.surfaceTint),
-    popupMenuTheme:
-        PopupMenuThemeData(surfaceTintColor: colorScheme.surfaceTint),
-    navigationBarTheme:
-        NavigationBarThemeData(surfaceTintColor: colorScheme.surfaceTint),
+    popupMenuTheme: PopupMenuThemeData(
+      surfaceTintColor: colorScheme.surfaceTint,
+    ),
+    navigationBarTheme: NavigationBarThemeData(
+      surfaceTintColor: colorScheme.surfaceTint,
+    ),
     pageTransitionsTheme: const PageTransitionsTheme(
       builders: {
         TargetPlatform.android: PredictiveBackPageTransitionsBuilder(),
       },
     ),
-    dialogTheme: DialogThemeData(
-      backgroundColor: colorScheme.surface,
-    ),
+    dialogTheme: DialogThemeData(backgroundColor: colorScheme.surface),
     extensions: [
       // dataVisColors.harmonized(colorScheme),
       // appColors.harmonized(colorScheme),
@@ -442,17 +453,17 @@ ThemeData createTheme(
 }
 
 ThemeData lightTheme(ColorScheme? dynamicColorScheme) => createTheme(
-      dynamicColorScheme,
-      Brightness.light,
-      lightDataVisColors,
-      lightAppColors,
-      lightGraphColors,
-    );
+  dynamicColorScheme,
+  Brightness.light,
+  lightDataVisColors,
+  lightAppColors,
+  lightGraphColors,
+);
 
 ThemeData darkTheme(ColorScheme? dynamicColorScheme) => createTheme(
-      dynamicColorScheme,
-      Brightness.dark,
-      darkDataVisColors,
-      darkAppColors,
-      darkGraphColors,
-    );
+  dynamicColorScheme,
+  Brightness.dark,
+  darkDataVisColors,
+  darkAppColors,
+  darkGraphColors,
+);

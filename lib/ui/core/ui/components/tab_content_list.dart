@@ -98,10 +98,7 @@ class CustomTabContentList extends StatelessWidget {
                       childCount: itemsCount,
                     ),
                   ),
-                if (itemsCount == 0)
-                  SliverFillRemaining(
-                    child: noData,
-                  ),
+                if (itemsCount == 0) SliverFillRemaining(child: noData),
                 if (bottomSpaceHeight > 0)
                   SliverToBoxAdapter(
                     child: SizedBox(height: bottomSpaceHeight),

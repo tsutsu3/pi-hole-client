@@ -16,16 +16,19 @@ void main() async {
       testSetup.initializeMock(useApiGatewayVersion: 'v6');
     });
 
-    testWidgets('displays error UI when NOTICE file fails to load',
-        (WidgetTester tester) async {
+    testWidgets('displays error UI when NOTICE file fails to load', (
+      WidgetTester tester,
+    ) async {
       tester.view.physicalSize = const Size(1080, 2400);
       tester.view.devicePixelRatio = 2.0;
 
       addTearDown(() {
         tester.view.resetPhysicalSize();
         tester.view.resetDevicePixelRatio();
-        tester.binding.defaultBinaryMessenger
-            .setMockMessageHandler('flutter/assets', null);
+        tester.binding.defaultBinaryMessenger.setMockMessageHandler(
+          'flutter/assets',
+          null,
+        );
       });
 
       // Raise an error when NOTICE file is requested
@@ -40,11 +43,7 @@ void main() async {
         },
       );
 
-      await tester.pumpWidget(
-        testSetup.buildTestWidget(
-          const LegalScreen(),
-        ),
-      );
+      await tester.pumpWidget(testSetup.buildTestWidget(const LegalScreen()));
 
       expect(find.byType(LegalScreen), findsOneWidget);
       await tester.pump();

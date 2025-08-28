@@ -55,9 +55,7 @@ class ThemeScreen extends StatelessWidget {
         return true;
       },
       child: Scaffold(
-        appBar: AppBar(
-          title: Text(AppLocalizations.of(context)!.theme),
-        ),
+        appBar: AppBar(title: Text(AppLocalizations.of(context)!.theme)),
         body: SafeArea(
           child: ListView(
             children: [

@@ -37,7 +37,8 @@ Map<String, double> sortValues(Map<String, double> values) {
     key: (k) => k,
     value: (k) => values[k] ?? 0.0,
   );
-  final reversed =
-      LinkedHashMap.fromEntries(sortedMap.entries.toList().reversed);
+  final reversed = LinkedHashMap.fromEntries(
+    sortedMap.entries.toList().reversed,
+  );
   return <String, double>{...reversed};
 }

@@ -15,9 +15,7 @@ import 'package:skeletonizer/skeletonizer.dart';
 /// This widget uses the [Skeletonizer] to provide skeleton loading effects while data is being fetched.
 /// The chart type and appearance are determined by the [AppConfigProvider].
 class QueriesSkeleton extends StatelessWidget {
-  const QueriesSkeleton({
-    super.key,
-  });
+  const QueriesSkeleton({super.key});
 
   @override
   Widget build(BuildContext context) {

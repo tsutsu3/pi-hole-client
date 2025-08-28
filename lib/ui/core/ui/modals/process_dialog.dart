@@ -1,10 +1,7 @@
 import 'package:flutter/material.dart';
 
 class ProcessDialog extends StatelessWidget {
-  const ProcessDialog({
-    required this.message,
-    super.key,
-  });
+  const ProcessDialog({required this.message, super.key});
 
   final String message;
 
@@ -13,10 +10,9 @@ class ProcessDialog extends StatelessWidget {
     return PopScope(
       canPop: false,
       child: Dialog(
-        backgroundColor: Theme.of(context)
-            .dialogTheme
-            .backgroundColor!
-            .withValues(alpha: 0.85),
+        backgroundColor: Theme.of(
+          context,
+        ).dialogTheme.backgroundColor!.withValues(alpha: 0.85),
         shadowColor: Colors.black12,
         child: Padding(
           padding: const EdgeInsets.symmetric(vertical: 30, horizontal: 30),

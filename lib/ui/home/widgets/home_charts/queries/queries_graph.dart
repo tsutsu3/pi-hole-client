@@ -16,17 +16,15 @@ import 'package:provider/provider.dart';
 ///
 /// Requires [AppConfigProvider] and [StatusProvider] to be available in the widget tree.
 class QueriesGraph extends StatelessWidget {
-  const QueriesGraph({
-    super.key,
-  });
+  const QueriesGraph({super.key});
 
   @override
   Widget build(BuildContext context) {
     final appConfigProvider = context.read<AppConfigProvider>();
-    final overtimeDataJson =
-        context.select<StatusProvider, Map<String, dynamic>?>(
-      (provider) => provider.getOvertimeDataJson,
-    );
+    final overtimeDataJson = context
+        .select<StatusProvider, Map<String, dynamic>?>(
+          (provider) => provider.getOvertimeDataJson,
+        );
 
     if (appConfigProvider.homeVisualizationMode == 0) {
       return QueriesLastHoursLine(

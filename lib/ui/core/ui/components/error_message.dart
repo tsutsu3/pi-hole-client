@@ -28,10 +28,7 @@ class ErrorMessage extends StatelessWidget {
           Text(
             AppLocalizations.of(context)!.noticeError,
             textAlign: TextAlign.center,
-            style: const TextStyle(
-              fontSize: 24,
-              fontWeight: FontWeight.bold,
-            ),
+            style: const TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
           ),
           const SizedBox(height: 32),
           Text(

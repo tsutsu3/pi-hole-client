@@ -88,10 +88,7 @@ Future<void> showSnackBar({
   final textColor = labelColorSelector?.call(theme) ?? Colors.white;
 
   final snackBar = SnackBar(
-    content: Text(
-      label,
-      style: TextStyle(color: textColor),
-    ),
+    content: Text(label, style: TextStyle(color: textColor)),
     backgroundColor: backgroundColor,
     duration: Duration(seconds: duration),
   );

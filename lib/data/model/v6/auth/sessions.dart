@@ -39,10 +39,7 @@ sealed class SessionData with _$SessionData {
 
 @freezed
 sealed class Tls with _$Tls {
-  const factory Tls({
-    required bool login,
-    required bool mixed,
-  }) = _Tls;
+  const factory Tls({required bool login, required bool mixed}) = _Tls;
 
   factory Tls.fromJson(Map<String, dynamic> json) => _$TlsFromJson(json);
 }

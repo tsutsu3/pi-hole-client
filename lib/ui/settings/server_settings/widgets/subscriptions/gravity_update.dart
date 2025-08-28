@@ -69,10 +69,7 @@ class _GravityUpdateState extends State<GravityUpdate> {
       dense: true,
       contentPadding: const EdgeInsets.only(left: 32),
       leading: icon,
-      title: Text(
-        title,
-        style: const TextStyle(fontWeight: FontWeight.w500),
-      ),
+      title: Text(title, style: const TextStyle(fontWeight: FontWeight.w500)),
       subtitle: Text(subtitle),
     );
   }
@@ -98,16 +95,10 @@ class _GravityUpdateState extends State<GravityUpdate> {
         margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
         child: Padding(
-          padding: const EdgeInsets.symmetric(
-            vertical: 12,
-            horizontal: 16,
-          ),
+          padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 16),
           child: Row(
             children: [
-              Padding(
-                padding: const EdgeInsets.only(right: 12),
-                child: icon,
-              ),
+              Padding(padding: const EdgeInsets.only(right: 12), child: icon),
               Expanded(
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -280,8 +271,9 @@ class _GravityUpdateState extends State<GravityUpdate> {
                       Padding(
                         padding: const EdgeInsets.only(top: 4),
                         child: Text(
-                          AppLocalizations.of(context)!
-                              .updatingInProgressMessage,
+                          AppLocalizations.of(
+                            context,
+                          )!.updatingInProgressMessage,
                           style: Theme.of(context).textTheme.bodyMedium,
                         ),
                       ),
@@ -332,9 +324,11 @@ class _GravityUpdateState extends State<GravityUpdate> {
                       title: Text(
                         gravityProvider.logs.isNotEmpty
                             ? normalizeLogOutput(gravityProvider.logs.last) ==
-                                    ''
-                                ? '...'
-                                : normalizeLogOutput(gravityProvider.logs.last)
+                                      ''
+                                  ? '...'
+                                  : normalizeLogOutput(
+                                      gravityProvider.logs.last,
+                                    )
                             : AppLocalizations.of(context)!.noLogs,
                         style: TextStyle(
                           color: Theme.of(context).colorScheme.onSurface,
@@ -378,17 +372,13 @@ class _GravityUpdateState extends State<GravityUpdate> {
                             ),
                           ),
                         ),
-                        const SizedBox(
-                          height: 16,
-                        ),
+                        const SizedBox(height: 16),
                       ],
                     ),
                   ),
                 ),
               ),
-              const SizedBox(
-                height: 96,
-              ),
+              const SizedBox(height: 96),
             ],
           ),
           AnimatedPositioned(
@@ -397,8 +387,8 @@ class _GravityUpdateState extends State<GravityUpdate> {
             bottom: gravityProvider.status == GravityStatus.running
                 ? -70 // running: hide
                 : appConfigProvider.showingSnackbar
-                    ? 70 // show snackbar: up
-                    : 20, // normal
+                ? 70 // show snackbar: up
+                : 20, // normal
             right: 20,
             child: FloatingActionButton(
               onPressed: gravityProvider.status == GravityStatus.running

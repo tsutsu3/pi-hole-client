@@ -7,11 +7,7 @@ import 'package:flutter/material.dart';
 ///
 /// The `widthFactor` parameter can be used to control the width of the text.
 class AdaptiveTrailingText extends StatelessWidget {
-  const AdaptiveTrailingText({
-    required this.text,
-    this.widthFactor,
-    super.key,
-  });
+  const AdaptiveTrailingText({required this.text, this.widthFactor, super.key});
 
   final String text;
   final double? widthFactor;
@@ -42,12 +38,7 @@ class AdaptiveTrailingText extends StatelessWidget {
             width: availableWidth,
             alignment: Alignment.centerRight,
             padding: const EdgeInsets.only(bottom: 5.0),
-            child: Text(
-              text,
-              maxLines: 1,
-              style: textStyle,
-              softWrap: false,
-            ),
+            child: Text(text, maxLines: 1, style: textStyle, softWrap: false),
           );
         } else {
           // Scroll horizontally if the text is long

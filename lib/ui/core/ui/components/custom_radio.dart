@@ -27,8 +27,8 @@ class CustomRadio extends StatelessWidget {
             color: value == groupValue
                 ? Theme.of(context).colorScheme.primary
                 : Theme.of(context).brightness == Brightness.dark
-                    ? const Color.fromRGBO(184, 184, 184, 1)
-                    : const Color.fromRGBO(104, 104, 104, 1),
+                ? const Color.fromRGBO(184, 184, 184, 1)
+                : const Color.fromRGBO(104, 104, 104, 1),
           ),
         ),
         Container(

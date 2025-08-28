@@ -35,7 +35,7 @@ class AdvancedOptions extends StatelessWidget {
     final logDescription = isV6
         ? AppLocalizations.of(context)!.logsSettingNotApplicable
         : '${appConfigProvider.logsPerQuery == 0.5 ? '30' : appConfigProvider.logsPerQuery.toInt()} '
-            '${appConfigProvider.logsPerQuery == 0.5 ? AppLocalizations.of(context)!.minutes : AppLocalizations.of(context)!.hours}';
+              '${appConfigProvider.logsPerQuery == 0.5 ? AppLocalizations.of(context)!.minutes : AppLocalizations.of(context)!.hours}';
 
     Future<void> updateUseReducedData(bool newStatus) async {
       final result = await appConfigProvider.setReducedDataCharts(newStatus);
@@ -155,20 +155,16 @@ class AdvancedOptions extends StatelessWidget {
             context: context,
             useRootNavigator:
                 false, // Prevents unexpected app exit on mobile when pressing back
-            builder: (BuildContext context) => EnterPasscodeModal(
-              onConfirm: openModal,
-              window: true,
-            ),
+            builder: (BuildContext context) =>
+                EnterPasscodeModal(onConfirm: openModal, window: true),
           );
         } else {
           Navigator.push(
             context,
             MaterialPageRoute(
               fullscreenDialog: true,
-              builder: (BuildContext context) => EnterPasscodeModal(
-                onConfirm: openModal,
-                window: false,
-              ),
+              builder: (BuildContext context) =>
+                  EnterPasscodeModal(onConfirm: openModal, window: false),
             ),
           );
         }
@@ -178,9 +174,7 @@ class AdvancedOptions extends StatelessWidget {
     }
 
     return Scaffold(
-      appBar: AppBar(
-        title: Text(AppLocalizations.of(context)!.advancedSetup),
-      ),
+      appBar: AppBar(title: Text(AppLocalizations.of(context)!.advancedSetup)),
       body: SafeArea(
         child: ListView(
           children: [
@@ -189,8 +183,9 @@ class AdvancedOptions extends StatelessWidget {
             CustomListTile(
               leadingIcon: Icons.lock,
               label: AppLocalizations.of(context)!.dontCheckCertificate,
-              description:
-                  AppLocalizations.of(context)!.dontCheckCertificateDescription,
+              description: AppLocalizations.of(
+                context,
+              )!.dontCheckCertificateDescription,
               padding: const EdgeInsets.only(
                 top: 10,
                 bottom: 10,
@@ -214,8 +209,9 @@ class AdvancedOptions extends StatelessWidget {
             CustomListTile(
               leadingIcon: Icons.stacked_line_chart_rounded,
               label: AppLocalizations.of(context)!.reducedDataCharts,
-              description:
-                  AppLocalizations.of(context)!.reducedDataChartsDescription,
+              description: AppLocalizations.of(
+                context,
+              )!.reducedDataChartsDescription,
               onTap: () =>
                   updateUseReducedData(!appConfigProvider.reducedDataCharts),
               padding: const EdgeInsets.only(
@@ -232,8 +228,9 @@ class AdvancedOptions extends StatelessWidget {
             CustomListTile(
               leadingIcon: Icons.exposure_zero_rounded,
               label: AppLocalizations.of(context)!.hideZeroValues,
-              description:
-                  AppLocalizations.of(context)!.hideZeroValuesDescription,
+              description: AppLocalizations.of(
+                context,
+              )!.hideZeroValuesDescription,
               onTap: () =>
                   updateHideZeroValues(!appConfigProvider.hideZeroValues),
               padding: const EdgeInsets.only(
@@ -250,8 +247,9 @@ class AdvancedOptions extends StatelessWidget {
             CustomListTile(
               leadingIcon: Icons.animation_rounded,
               label: AppLocalizations.of(context)!.showLoadingAnimation,
-              description:
-                  AppLocalizations.of(context)!.showLoadingAnimationDescription,
+              description: AppLocalizations.of(
+                context,
+              )!.showLoadingAnimationDescription,
               onTap: () => updateShowLoadingAnimation(
                 !appConfigProvider.loadingAnimation,
               ),
@@ -269,8 +267,9 @@ class AdvancedOptions extends StatelessWidget {
             CustomListTile(
               leadingIcon: Icons.pie_chart_rounded,
               label: AppLocalizations.of(context)!.chartDisplayModeTitle,
-              description:
-                  AppLocalizations.of(context)!.chartDisplayModeSubtitle,
+              description: AppLocalizations.of(
+                context,
+              )!.chartDisplayModeSubtitle,
               onTap: () => Navigator.push(
                 context,
                 MaterialPageRoute(
@@ -331,9 +330,7 @@ class AdvancedOptions extends StatelessWidget {
               onTap: () => {
                 Navigator.push(
                   context,
-                  MaterialPageRoute(
-                    builder: (context) => const AppLogs(),
-                  ),
+                  MaterialPageRoute(builder: (context) => const AppLogs()),
                 ),
               },
               padding: const EdgeInsets.only(
@@ -352,9 +349,8 @@ class AdvancedOptions extends StatelessWidget {
                 Navigator.push(
                   context,
                   MaterialPageRoute(
-                    builder: (context) => ResetScreen(
-                      onConfirm: deleteApplicationData,
-                    ),
+                    builder: (context) =>
+                        ResetScreen(onConfirm: deleteApplicationData),
                   ),
                 ),
               },

@@ -36,10 +36,7 @@ const _fakeDomains = 123456;
 /// The widget uses themed colors and localized labels, and supports shimmer loading
 /// effects for a better user experience during data fetches.
 class HomeTiles extends StatelessWidget {
-  const HomeTiles({
-    required this.width,
-    super.key,
-  });
+  const HomeTiles({required this.width, super.key});
 
   final double width;
 
@@ -134,11 +131,8 @@ class HomeTiles extends StatelessWidget {
               label: loc.percentageBlocked,
               valueSelector: (context) {
                 return context.select<StatusProvider, String>(
-                  (provider) => '${formatPercentage(
-                    provider.getRealtimeStatus?.adsPercentageToday ??
-                        _fakePercentage,
-                    locale,
-                  )}%',
+                  (provider) =>
+                      '${formatPercentage(provider.getRealtimeStatus?.adsPercentageToday ?? _fakePercentage, locale)}%',
                 );
               },
               width: width,

@@ -34,10 +34,13 @@ class LogsQuantityLoadScreen extends StatelessWidget {
   final String apiVersion;
 
   Future<void> _onChange(BuildContext context, int option) async {
-    final appConfigProvider =
-        Provider.of<AppConfigProvider>(context, listen: false);
-    final result = await appConfigProvider
-        .setLogsPerQuery(LogOption.timeFromIndex(option));
+    final appConfigProvider = Provider.of<AppConfigProvider>(
+      context,
+      listen: false,
+    );
+    final result = await appConfigProvider.setLogsPerQuery(
+      LogOption.timeFromIndex(option),
+    );
 
     if (!context.mounted) return;
 
@@ -59,12 +62,7 @@ class LogsQuantityLoadScreen extends StatelessWidget {
   Widget _buildWarningCard(BuildContext context, AppLocalizations loc) {
     final appColors = Theme.of(context).extension<AppColors>()!;
     return Padding(
-      padding: const EdgeInsets.only(
-        top: 10,
-        bottom: 20,
-        left: 20,
-        right: 20,
-      ),
+      padding: const EdgeInsets.only(top: 10, bottom: 20, left: 20, right: 20),
       child: Container(
         padding: const EdgeInsets.all(20),
         decoration: BoxDecoration(
@@ -73,17 +71,12 @@ class LogsQuantityLoadScreen extends StatelessWidget {
         ),
         child: Row(
           children: [
-            Icon(
-              Icons.warning_rounded,
-              color: appColors.cardWarningText,
-            ),
+            Icon(Icons.warning_rounded, color: appColors.cardWarningText),
             const SizedBox(width: 20),
             Expanded(
               child: Text(
                 loc.logsPerQueryWarning,
-                style: TextStyle(
-                  color: appColors.cardWarningText,
-                ),
+                style: TextStyle(color: appColors.cardWarningText),
               ),
             ),
           ],
@@ -97,9 +90,7 @@ class LogsQuantityLoadScreen extends StatelessWidget {
     final loc = AppLocalizations.of(context)!;
 
     return Scaffold(
-      appBar: AppBar(
-        title: Text(loc.logsQuantityPerLoad),
-      ),
+      appBar: AppBar(title: Text(loc.logsQuantityPerLoad)),
       body: SafeArea(
         child: apiVersion == 'v6'
             ? PiHoleV6NotSupportedScreen(
@@ -118,8 +109,9 @@ class LogsQuantityLoadScreen extends StatelessWidget {
                           groupValue: selectedOption,
                           value: i,
                           title: LogOption.all[i].labelBuilder(loc),
-                          radioBackgroundColor:
-                              Theme.of(context).colorScheme.surface,
+                          radioBackgroundColor: Theme.of(
+                            context,
+                          ).colorScheme.surface,
                           onChanged: (val) => _onChange(context, val),
                         );
                       }),

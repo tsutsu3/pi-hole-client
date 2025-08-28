@@ -37,20 +37,14 @@ class ConfirmationModal extends StatelessWidget {
             color: colorScheme.secondary,
           ),
           const SizedBox(height: 16),
-          Text(
-            title,
-            style: TextStyle(color: colorScheme.onSurface),
-          ),
+          Text(title, style: TextStyle(color: colorScheme.onSurface)),
         ],
       ),
       content: Column(
         mainAxisSize: MainAxisSize.min,
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          Text(
-            message,
-            style: TextStyle(color: colorScheme.onSurface),
-          ),
+          Text(message, style: TextStyle(color: colorScheme.onSurface)),
           if (submessage != null) ...[
             const SizedBox(height: 8),
             Text(

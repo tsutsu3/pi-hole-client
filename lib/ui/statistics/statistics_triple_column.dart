@@ -18,7 +18,7 @@ class StatisticsTripleColumn extends StatelessWidget {
     final statusProvider = Provider.of<StatusProvider>(context);
     final apiVersion =
         context.select((ServersProvider p) => p.selectedServer?.apiVersion) ??
-            'v5';
+        'v5';
 
     final columns = <Widget>[
       _buildColumn(
@@ -109,10 +109,9 @@ class StatisticsTripleColumn extends StatelessWidget {
                   child: Icon(
                     Icons.chevron_left,
                     size: 32,
-                    color: Theme.of(context)
-                        .colorScheme
-                        .onSurfaceVariant
-                        .withValues(alpha: 0.5),
+                    color: Theme.of(
+                      context,
+                    ).colorScheme.onSurfaceVariant.withValues(alpha: 0.5),
                   ),
                 ),
               ),
@@ -126,10 +125,9 @@ class StatisticsTripleColumn extends StatelessWidget {
                   child: Icon(
                     Icons.chevron_right,
                     size: 32,
-                    color: Theme.of(context)
-                        .colorScheme
-                        .onSurfaceVariant
-                        .withValues(alpha: 0.5),
+                    color: Theme.of(
+                      context,
+                    ).colorScheme.onSurfaceVariant.withValues(alpha: 0.5),
                   ),
                 ),
               ),
@@ -156,9 +154,7 @@ class StatisticsTripleColumn extends StatelessWidget {
     }
 
     return Scaffold(
-      appBar: AppBar(
-        title: Text(AppLocalizations.of(context)!.statistics),
-      ),
+      appBar: AppBar(title: Text(AppLocalizations.of(context)!.statistics)),
       body: body,
     );
   }
@@ -175,15 +171,10 @@ class StatisticsTripleColumn extends StatelessWidget {
           padding: const EdgeInsets.all(16),
           child: Text(
             title,
-            style: const TextStyle(
-              fontSize: 18,
-              fontWeight: FontWeight.w500,
-            ),
+            style: const TextStyle(fontSize: 18, fontWeight: FontWeight.w500),
           ),
         ),
-        Expanded(
-          child: ListView(children: [content]),
-        ),
+        Expanded(child: ListView(children: [content])),
       ],
     );
   }

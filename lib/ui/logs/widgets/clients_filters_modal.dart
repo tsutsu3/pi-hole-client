@@ -35,8 +35,9 @@ class _ClientsFiltersModalState extends State<ClientsFiltersModal> {
   void _updateStatusSelected(String option) {
     if (_selectedClients.contains(option) == true) {
       setState(() {
-        _selectedClients =
-            _selectedClients.where((status) => status != option).toList();
+        _selectedClients = _selectedClients
+            .where((status) => status != option)
+            .toList();
       });
     } else {
       setState(() {
@@ -53,10 +54,7 @@ class _ClientsFiltersModalState extends State<ClientsFiltersModal> {
       filtersProvider.setSelectedClients(_selectedClients);
     }
 
-    Widget listItem({
-      required String label,
-      required String value,
-    }) {
+    Widget listItem({required String label, required String value}) {
       return Material(
         color: Colors.transparent,
         child: InkWell(
@@ -119,10 +117,7 @@ class _ClientsFiltersModalState extends State<ClientsFiltersModal> {
                     ),
                   ),
                   ...filtersProvider.totalClients.map(
-                    (e) => listItem(
-                      label: e,
-                      value: e,
-                    ),
+                    (e) => listItem(label: e, value: e),
                   ),
                 ],
               ),
@@ -162,10 +157,9 @@ class _ClientsFiltersModalState extends State<ClientsFiltersModal> {
                                 : Colors.grey,
                           ),
                           overlayColor: WidgetStateProperty.all(
-                            Theme.of(context)
-                                .colorScheme
-                                .primary
-                                .withValues(alpha: 0.1),
+                            Theme.of(
+                              context,
+                            ).colorScheme.primary.withValues(alpha: 0.1),
                           ),
                         ),
                         child: Text(AppLocalizations.of(context)!.apply),

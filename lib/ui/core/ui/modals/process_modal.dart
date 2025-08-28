@@ -46,11 +46,7 @@ class ProcessModal {
             dismissible: false,
             color: Colors.black.withValues(alpha: 0.5),
           ),
-          Center(
-            child: ProcessDialog(
-              message: message,
-            ),
-          ),
+          Center(child: ProcessDialog(message: message)),
         ],
       ),
     );

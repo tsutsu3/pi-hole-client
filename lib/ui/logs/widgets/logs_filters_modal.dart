@@ -146,8 +146,9 @@ class _LogsFiltersModalState extends State<LogsFiltersModal> {
             if (filtersProvider.endTime != null &&
                 value.isAfter(filtersProvider.endTime!)) {
               setState(() {
-                timeError =
-                    AppLocalizations.of(context)!.startTimeNotBeforeEndTime;
+                timeError = AppLocalizations.of(
+                  context,
+                )!.startTimeNotBeforeEndTime;
               });
             } else {
               filtersProvider.setStartTime(value);
@@ -159,8 +160,9 @@ class _LogsFiltersModalState extends State<LogsFiltersModal> {
             if (filtersProvider.startTime != null &&
                 value.isBefore(filtersProvider.startTime!)) {
               setState(() {
-                timeError =
-                    AppLocalizations.of(context)!.endTimeNotAfterStartTime;
+                timeError = AppLocalizations.of(
+                  context,
+                )!.endTimeNotAfterStartTime;
               });
             } else {
               filtersProvider.setEndTime(value);
@@ -239,8 +241,9 @@ class _LogsFiltersModalState extends State<LogsFiltersModal> {
                                         borderRadius: BorderRadius.circular(10),
                                         child: InkWell(
                                           onTap: () => selectTime('from'),
-                                          borderRadius:
-                                              BorderRadius.circular(10),
+                                          borderRadius: BorderRadius.circular(
+                                            10,
+                                          ),
                                           splashColor: Theme.of(context)
                                               .colorScheme
                                               .primary
@@ -258,22 +261,23 @@ class _LogsFiltersModalState extends State<LogsFiltersModal> {
                                               borderRadius:
                                                   BorderRadius.circular(10),
                                               border: Border.all(
-                                                color: Theme.of(context)
-                                                    .colorScheme
-                                                    .primary,
+                                                color: Theme.of(
+                                                  context,
+                                                ).colorScheme.primary,
                                               ),
                                             ),
                                             child: Column(
                                               children: [
                                                 Text(
-                                                  AppLocalizations.of(context)!
-                                                      .fromTime,
+                                                  AppLocalizations.of(
+                                                    context,
+                                                  )!.fromTime,
                                                   style: TextStyle(
                                                     fontWeight: FontWeight.w500,
                                                     fontSize: 14,
-                                                    color: Theme.of(context)
-                                                        .colorScheme
-                                                        .primary,
+                                                    color: Theme.of(
+                                                      context,
+                                                    ).colorScheme.primary,
                                                   ),
                                                 ),
                                                 const SizedBox(height: 5),
@@ -287,8 +291,7 @@ class _LogsFiltersModalState extends State<LogsFiltersModal> {
                                                         )
                                                       : AppLocalizations.of(
                                                           context,
-                                                        )!
-                                                          .notSelected,
+                                                        )!.notSelected,
                                                   style: TextStyle(
                                                     color: Theme.of(context)
                                                         .colorScheme
@@ -303,8 +306,9 @@ class _LogsFiltersModalState extends State<LogsFiltersModal> {
                                       ),
                                     ),
                                     const Padding(
-                                      padding:
-                                          EdgeInsets.symmetric(horizontal: 10),
+                                      padding: EdgeInsets.symmetric(
+                                        horizontal: 10,
+                                      ),
                                       child: Text(
                                         '-',
                                         style: TextStyle(
@@ -319,8 +323,9 @@ class _LogsFiltersModalState extends State<LogsFiltersModal> {
                                         borderRadius: BorderRadius.circular(10),
                                         child: InkWell(
                                           onTap: () => selectTime('to'),
-                                          borderRadius:
-                                              BorderRadius.circular(10),
+                                          borderRadius: BorderRadius.circular(
+                                            10,
+                                          ),
                                           splashColor: Theme.of(context)
                                               .colorScheme
                                               .primary
@@ -338,22 +343,23 @@ class _LogsFiltersModalState extends State<LogsFiltersModal> {
                                               borderRadius:
                                                   BorderRadius.circular(10),
                                               border: Border.all(
-                                                color: Theme.of(context)
-                                                    .colorScheme
-                                                    .primary,
+                                                color: Theme.of(
+                                                  context,
+                                                ).colorScheme.primary,
                                               ),
                                             ),
                                             child: Column(
                                               children: [
                                                 Text(
-                                                  AppLocalizations.of(context)!
-                                                      .toTime,
+                                                  AppLocalizations.of(
+                                                    context,
+                                                  )!.toTime,
                                                   style: TextStyle(
                                                     fontWeight: FontWeight.w500,
                                                     fontSize: 14,
-                                                    color: Theme.of(context)
-                                                        .colorScheme
-                                                        .primary,
+                                                    color: Theme.of(
+                                                      context,
+                                                    ).colorScheme.primary,
                                                   ),
                                                 ),
                                                 const SizedBox(height: 5),
@@ -367,8 +373,7 @@ class _LogsFiltersModalState extends State<LogsFiltersModal> {
                                                         )
                                                       : AppLocalizations.of(
                                                           context,
-                                                        )!
-                                                          .notSelected,
+                                                        )!.notSelected,
                                                   style: TextStyle(
                                                     color: Theme.of(context)
                                                         .colorScheme
@@ -428,13 +433,15 @@ class _LogsFiltersModalState extends State<LogsFiltersModal> {
                             ),
                             ButtonSegment(
                               value: RequestStatus.allowed,
-                              label:
-                                  Text(AppLocalizations.of(context)!.allowed),
+                              label: Text(
+                                AppLocalizations.of(context)!.allowed,
+                              ),
                             ),
                             ButtonSegment(
                               value: RequestStatus.blocked,
-                              label:
-                                  Text(AppLocalizations.of(context)!.blocked),
+                              label: Text(
+                                AppLocalizations.of(context)!.blocked,
+                              ),
                             ),
                           ],
                           selected: <RequestStatus>{
@@ -464,8 +471,9 @@ class _LogsFiltersModalState extends State<LogsFiltersModal> {
                                         CrossAxisAlignment.start,
                                     children: [
                                       Text(
-                                        AppLocalizations.of(context)!
-                                            .advancedStatusFiltering,
+                                        AppLocalizations.of(
+                                          context,
+                                        )!.advancedStatusFiltering,
                                         style: const TextStyle(
                                           fontWeight: FontWeight.w400,
                                           fontSize: 16,
@@ -478,9 +486,9 @@ class _LogsFiltersModalState extends State<LogsFiltersModal> {
                                           serverProvider.numShown,
                                         ),
                                         style: TextStyle(
-                                          color: Theme.of(context)
-                                              .colorScheme
-                                              .onSurfaceVariant,
+                                          color: Theme.of(
+                                            context,
+                                          ).colorScheme.onSurfaceVariant,
                                         ),
                                       ),
                                     ],
@@ -520,13 +528,14 @@ class _LogsFiltersModalState extends State<LogsFiltersModal> {
                                       Text(
                                         statusText(
                                           filtersProvider
-                                              .selectedClients.length,
+                                              .selectedClients
+                                              .length,
                                           filtersProvider.totalClients.length,
                                         ),
                                         style: TextStyle(
-                                          color: Theme.of(context)
-                                              .colorScheme
-                                              .onSurfaceVariant,
+                                          color: Theme.of(
+                                            context,
+                                          ).colorScheme.onSurfaceVariant,
                                         ),
                                       ),
                                     ],
@@ -577,10 +586,9 @@ class _LogsFiltersModalState extends State<LogsFiltersModal> {
                                 : Colors.grey,
                           ),
                           overlayColor: WidgetStateProperty.all(
-                            Theme.of(context)
-                                .colorScheme
-                                .primary
-                                .withValues(alpha: 0.1),
+                            Theme.of(
+                              context,
+                            ).colorScheme.primary.withValues(alpha: 0.1),
                           ),
                         ),
                         child: Text(AppLocalizations.of(context)!.apply),
@@ -611,9 +619,7 @@ class _LogsFiltersModalState extends State<LogsFiltersModal> {
             topRight: Radius.circular(24),
           ),
         ),
-        child: SafeArea(
-          child: content(),
-        ),
+        child: SafeArea(child: content()),
       );
     }
   }

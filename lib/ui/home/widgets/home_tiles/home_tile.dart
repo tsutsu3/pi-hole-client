@@ -69,11 +69,7 @@ class HomeTileItem extends StatelessWidget {
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         Skeleton.keep(
-                          child: Icon(
-                            icon,
-                            size: 65,
-                            color: iconColor,
-                          ),
+                          child: Icon(icon, size: 65, color: iconColor),
                         ),
                       ],
                     ),
@@ -137,10 +133,7 @@ class HomeTileItem extends StatelessWidget {
 /// )
 /// ```
 class _ValueSection extends StatelessWidget {
-  const _ValueSection({
-    required this.loadStatus,
-    required this.valueSelector,
-  });
+  const _ValueSection({required this.loadStatus, required this.valueSelector});
 
   final LoadStatus loadStatus;
   final String Function(BuildContext context) valueSelector;

@@ -51,9 +51,7 @@ sealed class Processed with _$Processed {
 
 @freezed
 sealed class SuccessItem with _$SuccessItem {
-  const factory SuccessItem({
-    required String item,
-  }) = _SuccessItem;
+  const factory SuccessItem({required String item}) = _SuccessItem;
 
   factory SuccessItem.fromJson(Map<String, dynamic> json) =>
       _$SuccessItemFromJson(json);
@@ -61,10 +59,8 @@ sealed class SuccessItem with _$SuccessItem {
 
 @freezed
 sealed class ErrorItem with _$ErrorItem {
-  const factory ErrorItem({
-    required String item,
-    required String error,
-  }) = _ErrorItem;
+  const factory ErrorItem({required String item, required String error}) =
+      _ErrorItem;
 
   factory ErrorItem.fromJson(Map<String, dynamic> json) =>
       _$ErrorItemFromJson(json);

@@ -63,10 +63,8 @@ class ClientsLastHoursLine extends StatelessWidget {
               final key = value.toInt();
               return _titleCache.putIfAbsent(
                 key,
-                () => Text(
-                  key.toString(),
-                  style: const TextStyle(fontSize: 12),
-                ),
+                () =>
+                    Text(key.toString(), style: const TextStyle(fontSize: 12)),
               );
             },
           ),
@@ -197,9 +195,7 @@ class ClientsLastHoursLine extends StatelessWidget {
             isCurved: true,
             preventCurveOverShooting: true,
             isStrokeCapRound: true,
-            dotData: const FlDotData(
-              show: false,
-            ),
+            dotData: const FlDotData(show: false),
             belowBarData: BarAreaData(
               show: true,
               color: getColor(data['clients'][i], i).withValues(alpha: 0.2),

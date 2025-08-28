@@ -10,49 +10,31 @@ import '../../test/data/services/utils/mocks.mocks.dart';
 // ============================================================================
 void mockPost(MockClient client, Uri url, Response response) {
   when(
-    client.post(
-      url,
-      headers: anyNamed('headers'),
-      body: anyNamed('body'),
-    ),
+    client.post(url, headers: anyNamed('headers'), body: anyNamed('body')),
   ).thenAnswer((_) async => response);
 }
 
 void mockGet(MockClient client, Uri url, Response response) {
   when(
-    client.get(
-      url,
-      headers: anyNamed('headers'),
-    ),
+    client.get(url, headers: anyNamed('headers')),
   ).thenAnswer((_) async => response);
 }
 
 void mockPut(MockClient client, Uri url, Response response) {
   when(
-    client.put(
-      url,
-      headers: anyNamed('headers'),
-      body: anyNamed('body'),
-    ),
+    client.put(url, headers: anyNamed('headers'), body: anyNamed('body')),
   ).thenAnswer((_) async => response);
 }
 
 void mockDelete(MockClient client, Uri url, Response response) {
   when(
-    client.delete(
-      url,
-      headers: anyNamed('headers'),
-    ),
+    client.delete(url, headers: anyNamed('headers')),
   ).thenAnswer((_) async => response);
 }
 
 void mockPatch(MockClient client, Uri url, Response response) {
   when(
-    client.patch(
-      url,
-      headers: anyNamed('headers'),
-      body: anyNamed('body'),
-    ),
+    client.patch(url, headers: anyNamed('headers'), body: anyNamed('body')),
   ).thenAnswer((_) async => response);
 }
 
@@ -61,11 +43,7 @@ void mockStreamedResponse(
   Uri url,
   StreamedResponse response,
 ) {
-  when(
-    client.send(
-      any,
-    ),
-  ).thenAnswer((_) async => response);
+  when(client.send(any)).thenAnswer((_) async => response);
 }
 
 // ============================================================================
@@ -136,8 +114,6 @@ void expectError<T extends Object>(
   final error = result.exceptionOrNull();
   expect(
     error,
-    predicate(
-      (e) => e is Exception && e.toString().contains(messageContains),
-    ),
+    predicate((e) => e is Exception && e.toString().contains(messageContains)),
   );
 }

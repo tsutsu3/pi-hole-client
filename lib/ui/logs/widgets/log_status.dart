@@ -5,11 +5,7 @@ import 'package:pi_hole_client/utils/conversions.dart';
 import 'package:provider/provider.dart';
 
 class LogStatus extends StatelessWidget {
-  const LogStatus({
-    required this.status,
-    required this.showIcon,
-    super.key,
-  });
+  const LogStatus({required this.status, required this.showIcon, super.key});
 
   final String status;
   final bool showIcon;
@@ -26,11 +22,7 @@ class LogStatus extends StatelessWidget {
       return Row(
         children: showIcon == true
             ? [
-                Icon(
-                  icon,
-                  color: color,
-                  size: 14,
-                ),
+                Icon(icon, color: color, size: 14),
                 const Flexible(child: SizedBox(width: 10)),
                 Text(
                   text,

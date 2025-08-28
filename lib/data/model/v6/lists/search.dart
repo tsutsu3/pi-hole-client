@@ -5,10 +5,8 @@ part 'search.g.dart';
 
 @freezed
 sealed class Search with _$Search {
-  const factory Search({
-    required SearchData search,
-    required double took,
-  }) = _Search;
+  const factory Search({required SearchData search, required double took}) =
+      _Search;
 
   factory Search.fromJson(Map<String, dynamic> json) => _$SearchFromJson(json);
 }
@@ -94,10 +92,8 @@ sealed class SearchResults with _$SearchResults {
 
 @freezed
 sealed class DomainMatchCount with _$DomainMatchCount {
-  const factory DomainMatchCount({
-    required int exact,
-    required int regex,
-  }) = _DomainMatchCount;
+  const factory DomainMatchCount({required int exact, required int regex}) =
+      _DomainMatchCount;
 
   factory DomainMatchCount.fromJson(Map<String, dynamic> json) =>
       _$DomainMatchCountFromJson(json);
@@ -105,10 +101,8 @@ sealed class DomainMatchCount with _$DomainMatchCount {
 
 @freezed
 sealed class GravityMatchCount with _$GravityMatchCount {
-  const factory GravityMatchCount({
-    required int allow,
-    required int block,
-  }) = _GravityMatchCount;
+  const factory GravityMatchCount({required int allow, required int block}) =
+      _GravityMatchCount;
 
   factory GravityMatchCount.fromJson(Map<String, dynamic> json) =>
       _$GravityMatchCountFromJson(json);

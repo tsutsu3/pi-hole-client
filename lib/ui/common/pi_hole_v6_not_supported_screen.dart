@@ -15,10 +15,7 @@ class PiHoleV6NotSupportedScreen extends StatelessWidget {
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
-              const Icon(
-                Icons.info_outline_rounded,
-                size: 60,
-              ),
+              const Icon(Icons.info_outline_rounded, size: 60),
               const SizedBox(height: 16),
               Text(
                 AppLocalizations.of(context)!.unsupportedFeatureTitle,
@@ -32,10 +29,7 @@ class PiHoleV6NotSupportedScreen extends StatelessWidget {
               Text(
                 message,
                 textAlign: TextAlign.center,
-                style: const TextStyle(
-                  fontSize: 16,
-                  height: 1.5,
-                ),
+                style: const TextStyle(fontSize: 16, height: 1.5),
               ),
             ],
           ),

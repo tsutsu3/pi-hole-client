@@ -5,9 +5,7 @@ part 'dns.g.dart';
 
 @freezed
 sealed class Blocking with _$Blocking {
-  const factory Blocking({
-    required String status,
-  }) = _Blocking;
+  const factory Blocking({required String status}) = _Blocking;
 
   factory Blocking.fromJson(Map<String, dynamic> json) =>
       _$BlockingFromJson(json);

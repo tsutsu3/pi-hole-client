@@ -37,11 +37,7 @@ class QueriesLastHoursLine extends StatelessWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            const Icon(
-              Icons.error,
-              size: 50,
-              color: Colors.red,
-            ),
+            const Icon(Icons.error, size: 50, color: Colors.red),
             const SizedBox(height: 50),
             Text(
               AppLocalizations.of(context)!.chartsNotLoaded,
@@ -96,9 +92,11 @@ class QueriesLastHoursLine extends StatelessWidget {
       };
     }
 
-    for (var i = 0;
-        i < data['domains_over_time'].entries.length;
-        i += interval) {
+    for (
+      var i = 0;
+      i < data['domains_over_time'].entries.length;
+      i += interval
+    ) {
       tmp = _calcTopPoint(data, domainsKeys, adsKeys, i);
       if (tmp > topPoint) {
         topPoint = tmp;
@@ -117,12 +115,7 @@ class QueriesLastHoursLine extends StatelessWidget {
         ),
       );
       // Dummy data for legend
-      flatLines.add(
-        FlSpot(
-          xPosition.toDouble(),
-          0.0,
-        ),
-      );
+      flatLines.add(FlSpot(xPosition.toDouble(), 0.0));
       xPosition++;
     }
 
@@ -235,10 +228,8 @@ class QueriesLastHoursLine extends StatelessWidget {
               final key = value.toInt();
               return _titleCache.putIfAbsent(
                 key,
-                () => Text(
-                  key.toString(),
-                  style: const TextStyle(fontSize: 12),
-                ),
+                () =>
+                    Text(key.toString(), style: const TextStyle(fontSize: 12)),
               );
             },
           ),
@@ -274,15 +265,12 @@ class QueriesLastHoursLine extends StatelessWidget {
           isCurved: true,
           isStrokeCapRound: true,
           preventCurveOverShooting: true,
-          dotData: const FlDotData(
-            show: false,
-          ),
+          dotData: const FlDotData(show: false),
           belowBarData: BarAreaData(
             show: true,
-            color: Theme.of(context)
-                .extension<GraphColors>()!
-                .getColor(0)
-                .withValues(alpha: 0.2),
+            color: Theme.of(
+              context,
+            ).extension<GraphColors>()!.getColor(0).withValues(alpha: 0.2),
           ),
         ),
         // barIndex: 2
@@ -292,15 +280,12 @@ class QueriesLastHoursLine extends StatelessWidget {
           isCurved: true,
           isStrokeCapRound: true,
           preventCurveOverShooting: true,
-          dotData: const FlDotData(
-            show: false,
-          ),
+          dotData: const FlDotData(show: false),
           belowBarData: BarAreaData(
             show: true,
-            color: Theme.of(context)
-                .extension<GraphColors>()!
-                .getColor(3)
-                .withValues(alpha: 0.2),
+            color: Theme.of(
+              context,
+            ).extension<GraphColors>()!.getColor(3).withValues(alpha: 0.2),
           ),
         ),
       ],
@@ -329,7 +314,8 @@ class QueriesLastHoursLine extends StatelessWidget {
     List<String> adsKeys,
     int index,
   ) {
-    final permitted = data['domains_over_time'][domainsKeys[index]] -
+    final permitted =
+        data['domains_over_time'][domainsKeys[index]] -
         data['ads_over_time'][adsKeys[index]];
 
     final blocked = data['ads_over_time'][adsKeys[index]];

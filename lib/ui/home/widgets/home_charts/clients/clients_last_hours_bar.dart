@@ -63,10 +63,8 @@ class ClientsLastHoursBar extends StatelessWidget {
               final key = value.toInt();
               return _titleCache.putIfAbsent(
                 key,
-                () => Text(
-                  key.toString(),
-                  style: const TextStyle(fontSize: 12),
-                ),
+                () =>
+                    Text(key.toString(), style: const TextStyle(fontSize: 12)),
               );
             },
           ),
@@ -98,48 +96,48 @@ class ClientsLastHoursBar extends StatelessWidget {
           fitInsideHorizontally: true,
           getTooltipItem:
               (barChartGroupData, groupIndex, barChartRodData, rodIndex) {
-            final tooltipItems = <TextSpan>[];
+                final tooltipItems = <TextSpan>[];
 
-            for (var i = 0; i < data['clientsColors'].length; i++) {
-              if (hideZeroValues == true) {
-                if (barChartRodData.rodStackItems[i].toY -
-                        barChartRodData.rodStackItems[i].fromY >
-                    0.0) {
-                  tooltipItems.add(
-                    TextSpan(
-                      text: _getLegendName(data, barChartRodData, i),
-                      style: TextStyle(
-                        fontSize: 14,
-                        color: data['clientsColors'][i]['color'],
+                for (var i = 0; i < data['clientsColors'].length; i++) {
+                  if (hideZeroValues == true) {
+                    if (barChartRodData.rodStackItems[i].toY -
+                            barChartRodData.rodStackItems[i].fromY >
+                        0.0) {
+                      tooltipItems.add(
+                        TextSpan(
+                          text: _getLegendName(data, barChartRodData, i),
+                          style: TextStyle(
+                            fontSize: 14,
+                            color: data['clientsColors'][i]['color'],
+                          ),
+                        ),
+                      );
+                    }
+                  } else {
+                    tooltipItems.add(
+                      TextSpan(
+                        text: _getLegendName(data, barChartRodData, i),
+                        style: TextStyle(
+                          fontSize: 14,
+                          color: data['clientsColors'][i]['color'],
+                        ),
                       ),
-                    ),
-                  );
+                    );
+                  }
                 }
-              } else {
-                tooltipItems.add(
-                  TextSpan(
-                    text: _getLegendName(data, barChartRodData, i),
-                    style: TextStyle(
-                      fontSize: 14,
-                      color: data['clientsColors'][i]['color'],
-                    ),
-                  ),
-                );
-              }
-            }
 
-            return BarTooltipItem(
-              formatTimestampForChart(data['time'][groupIndex]),
-              TextStyle(
-                fontWeight: FontWeight.bold,
-                fontSize: 14,
-                color: selectedTheme == ThemeMode.light
-                    ? Colors.black
-                    : Colors.white,
-              ),
-              children: tooltipItems,
-            );
-          },
+                return BarTooltipItem(
+                  formatTimestampForChart(data['time'][groupIndex]),
+                  TextStyle(
+                    fontWeight: FontWeight.bold,
+                    fontSize: 14,
+                    color: selectedTheme == ThemeMode.light
+                        ? Colors.black
+                        : Colors.white,
+                  ),
+                  children: tooltipItems,
+                );
+              },
         ),
       ),
     );
@@ -170,7 +168,8 @@ class ClientsLastHoursBar extends StatelessWidget {
 
       final List<String> keys = data['over_time'].keys.toList();
       final int numClients = data['clients'].length;
-      final barWidth = chartWidth /
+      final barWidth =
+          chartWidth /
           (reducedData == true
               ? keys.length / averageIntervalCount
               : keys.length) *
@@ -224,13 +223,7 @@ class ClientsLastHoursBar extends StatelessWidget {
           ),
         );
 
-        items.add(
-          BarChartGroupData(
-            x: j,
-            barRods: barRods,
-            barsSpace: 2,
-          ),
-        );
+        items.add(BarChartGroupData(x: j, barRods: barRods, barsSpace: 2));
       }
 
       final timestamps = <String>[];

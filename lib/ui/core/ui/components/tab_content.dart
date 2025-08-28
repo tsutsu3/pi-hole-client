@@ -31,8 +31,9 @@ class CustomTabContent extends StatelessWidget {
               controller: controller,
               slivers: [
                 SliverOverlapInjector(
-                  handle:
-                      NestedScrollView.sliverOverlapAbsorberHandleFor(context),
+                  handle: NestedScrollView.sliverOverlapAbsorberHandleFor(
+                    context,
+                  ),
                 ),
                 SliverFillRemaining(
                   child: Padding(
@@ -81,13 +82,17 @@ class CustomTabContent extends StatelessWidget {
               controller: controller,
               slivers: [
                 SliverOverlapInjector(
-                  handle:
-                      NestedScrollView.sliverOverlapAbsorberHandleFor(context),
+                  handle: NestedScrollView.sliverOverlapAbsorberHandleFor(
+                    context,
+                  ),
                 ),
                 SliverFillRemaining(
                   child: Padding(
-                    padding:
-                        const EdgeInsets.only(top: 95, left: 16, right: 16),
+                    padding: const EdgeInsets.only(
+                      top: 95,
+                      left: 16,
+                      right: 16,
+                    ),
                     child: errorGenerator(),
                   ),
                 ),

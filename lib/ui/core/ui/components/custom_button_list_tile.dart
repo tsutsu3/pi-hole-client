@@ -25,10 +25,7 @@ class CustomButtonListTile extends StatelessWidget {
         padding: const EdgeInsets.only(bottom: 5.0),
         child: Text(
           title,
-          style: TextStyle(
-            fontSize: 16,
-            color: color ?? colorScheme.onSurface,
-          ),
+          style: TextStyle(fontSize: 16, color: color ?? colorScheme.onSurface),
         ),
       );
     }

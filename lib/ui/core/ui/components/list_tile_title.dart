@@ -5,10 +5,7 @@ Widget listTileTitle(String title, {ColorScheme? colorScheme}) {
     padding: const EdgeInsets.only(bottom: 5.0),
     child: Text(
       title,
-      style: TextStyle(
-        fontSize: 16,
-        color: colorScheme?.onSurface,
-      ),
+      style: TextStyle(fontSize: 16, color: colorScheme?.onSurface),
     ),
   );
 }
@@ -16,9 +13,6 @@ Widget listTileTitle(String title, {ColorScheme? colorScheme}) {
 Widget listTileTitleNoPadding(String title, {ColorScheme? colorScheme}) {
   return Text(
     title,
-    style: TextStyle(
-      fontSize: 16,
-      color: colorScheme?.onSurface,
-    ),
+    style: TextStyle(fontSize: 16, color: colorScheme?.onSurface),
   );
 }

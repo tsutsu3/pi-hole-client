@@ -20,7 +20,7 @@ import 'package:sqflite/sqflite.dart';
 /// ```
 class FakeDatabaseService extends DatabaseService {
   FakeDatabaseService({String? path})
-      : super(path: path ?? inMemoryDatabasePath);
+    : super(path: path ?? inMemoryDatabasePath);
 
   // Flags to control failure simulation
   // These can be set in tests to simulate specific error conditions

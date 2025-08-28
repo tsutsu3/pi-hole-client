@@ -20,9 +20,7 @@ class LegalScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text(AppLocalizations.of(context)!.legalInfo),
-      ),
+      appBar: AppBar(title: Text(AppLocalizations.of(context)!.legalInfo)),
       body: SafeArea(
         child: SingleChildScrollView(
           padding: const EdgeInsets.all(16),
@@ -69,9 +67,7 @@ class LegalScreen extends StatelessWidget {
 
               return Padding(
                 padding: const EdgeInsets.all(16.0),
-                child: SingleChildScrollView(
-                  child: Text(snapshot.data!),
-                ),
+                child: SingleChildScrollView(child: Text(snapshot.data!)),
               );
             },
           ),

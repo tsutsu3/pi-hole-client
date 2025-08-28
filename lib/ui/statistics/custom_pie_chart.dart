@@ -3,11 +3,7 @@ import 'package:pi_hole_client/ui/core/themes/theme.dart';
 import 'package:pie_chart/pie_chart.dart';
 
 class CustomPieChart extends StatelessWidget {
-  const CustomPieChart({
-    required this.data,
-    this.radiusScale = 3.0,
-    super.key,
-  });
+  const CustomPieChart({required this.data, this.radiusScale = 3.0, super.key});
 
   final Map<String, double> data;
   final double radiusScale;
@@ -15,8 +11,9 @@ class CustomPieChart extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final defaultColors = Theme.of(context).extension<GraphColors>()!.colors;
-    final greyColor =
-        Theme.of(context).extension<AppColors>()!.commonLightGrey!;
+    final greyColor = Theme.of(
+      context,
+    ).extension<AppColors>()!.commonLightGrey!;
 
     final colorList = <Color>[];
     var colorIndex = 0;
@@ -37,9 +34,7 @@ class CustomPieChart extends StatelessWidget {
       initialAngleInDegree: 270,
       chartType: ChartType.ring,
       legendOptions: const LegendOptions(showLegends: false),
-      chartValuesOptions: const ChartValuesOptions(
-        showChartValues: false,
-      ),
+      chartValuesOptions: const ChartValuesOptions(showChartValues: false),
     );
   }
 }

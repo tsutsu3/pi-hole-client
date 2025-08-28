@@ -116,8 +116,9 @@ class _LabeledMultiSelectTileState extends State<LabeledMultiSelectTile> {
                 Theme(
                   data: Theme.of(context).copyWith(),
                   child: ConstrainedBox(
-                    constraints:
-                        BoxConstraints(maxHeight: widget.height.toDouble()),
+                    constraints: BoxConstraints(
+                      maxHeight: widget.height.toDouble(),
+                    ),
                     child: ListView.builder(
                       shrinkWrap: true,
                       physics: const ClampingScrollPhysics(),

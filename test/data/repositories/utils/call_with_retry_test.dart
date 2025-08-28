@@ -4,28 +4,29 @@ import 'package:result_dart/result_dart.dart';
 
 void main() {
   group('runWithRetry', () {
-    test('should return result when action succeeds on first attempt',
-        () async {
-      final result = await runWithRetry(
-        action: () async => 'Success',
-      );
-      expect(result, 'Success');
-    });
+    test(
+      'should return result when action succeeds on first attempt',
+      () async {
+        final result = await runWithRetry(action: () async => 'Success');
+        expect(result, 'Success');
+      },
+    );
 
     test(
-        'should retry and return result when action succeeds on second attempt',
-        () async {
-      var attempts = 0;
-      final result = await runWithRetry(
-        action: () async {
-          attempts++;
-          if (attempts < 2) throw Exception('Failed');
-          return 'Success';
-        },
-      );
-      expect(result, 'Success');
-      expect(attempts, 2); // 1 retry + initial attempt
-    });
+      'should retry and return result when action succeeds on second attempt',
+      () async {
+        var attempts = 0;
+        final result = await runWithRetry(
+          action: () async {
+            attempts++;
+            if (attempts < 2) throw Exception('Failed');
+            return 'Success';
+          },
+        );
+        expect(result, 'Success');
+        expect(attempts, 2); // 1 retry + initial attempt
+      },
+    );
 
     test('should throw exception after max retries', () async {
       var attempts = 0;

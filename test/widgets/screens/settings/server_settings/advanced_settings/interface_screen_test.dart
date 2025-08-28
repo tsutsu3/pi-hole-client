@@ -18,89 +18,81 @@ void main() async {
       testSetup.initializeMock(useApiGatewayVersion: 'v6');
     });
 
-    testWidgets(
-      'should show address screen with tap',
-      (WidgetTester tester) async {
-        tester.view.physicalSize = const Size(1080, 2400);
-        tester.view.devicePixelRatio = 2.0;
+    testWidgets('should show address screen with tap', (
+      WidgetTester tester,
+    ) async {
+      tester.view.physicalSize = const Size(1080, 2400);
+      tester.view.devicePixelRatio = 2.0;
 
-        addTearDown(() {
-          tester.view.resetPhysicalSize();
-          tester.view.resetDevicePixelRatio();
-        });
+      addTearDown(() {
+        tester.view.resetPhysicalSize();
+        tester.view.resetDevicePixelRatio();
+      });
 
-        await tester.pumpWidget(
-          testSetup.buildTestWidget(
-            const InterfaceScreen(),
-          ),
-        );
+      await tester.pumpWidget(
+        testSetup.buildTestWidget(const InterfaceScreen()),
+      );
 
-        expect(find.byType(InterfaceScreen), findsOneWidget);
-        await tester.pump();
+      expect(find.byType(InterfaceScreen), findsOneWidget);
+      await tester.pump();
 
-        await tester.tap(find.text('Addresses').first);
-        await tester.pumpAndSettle();
+      await tester.tap(find.text('Addresses').first);
+      await tester.pumpAndSettle();
 
-        await tester
-            .tap(find.text('Address: inet 127.0.0.1 / 8 (IPv4 loopback)'));
-        await tester.pumpAndSettle();
+      await tester.tap(
+        find.text('Address: inet 127.0.0.1 / 8 (IPv4 loopback)'),
+      );
+      await tester.pumpAndSettle();
 
-        expect(find.byType(AddressDetailScreen), findsOneWidget);
-      },
-    );
+      expect(find.byType(AddressDetailScreen), findsOneWidget);
+    });
 
-    testWidgets(
-      'should show statistics screen with tap',
-      (WidgetTester tester) async {
-        tester.view.physicalSize = const Size(1080, 2400);
-        tester.view.devicePixelRatio = 2.0;
+    testWidgets('should show statistics screen with tap', (
+      WidgetTester tester,
+    ) async {
+      tester.view.physicalSize = const Size(1080, 2400);
+      tester.view.devicePixelRatio = 2.0;
 
-        addTearDown(() {
-          tester.view.resetPhysicalSize();
-          tester.view.resetDevicePixelRatio();
-        });
+      addTearDown(() {
+        tester.view.resetPhysicalSize();
+        tester.view.resetDevicePixelRatio();
+      });
 
-        await tester.pumpWidget(
-          testSetup.buildTestWidget(
-            const InterfaceScreen(),
-          ),
-        );
+      await tester.pumpWidget(
+        testSetup.buildTestWidget(const InterfaceScreen()),
+      );
 
-        expect(find.byType(InterfaceScreen), findsOneWidget);
-        await tester.pump();
+      expect(find.byType(InterfaceScreen), findsOneWidget);
+      await tester.pump();
 
-        await tester.tap(find.text('Statistics').first);
-        await tester.pumpAndSettle();
+      await tester.tap(find.text('Statistics').first);
+      await tester.pumpAndSettle();
 
-        expect(find.byType(StatisticsDetailScreen), findsOneWidget);
-      },
-    );
+      expect(find.byType(StatisticsDetailScreen), findsOneWidget);
+    });
 
-    testWidgets(
-      'should show more detail screen with tap',
-      (WidgetTester tester) async {
-        tester.view.physicalSize = const Size(1080, 2400);
-        tester.view.devicePixelRatio = 2.0;
+    testWidgets('should show more detail screen with tap', (
+      WidgetTester tester,
+    ) async {
+      tester.view.physicalSize = const Size(1080, 2400);
+      tester.view.devicePixelRatio = 2.0;
 
-        addTearDown(() {
-          tester.view.resetPhysicalSize();
-          tester.view.resetDevicePixelRatio();
-        });
+      addTearDown(() {
+        tester.view.resetPhysicalSize();
+        tester.view.resetDevicePixelRatio();
+      });
 
-        await tester.pumpWidget(
-          testSetup.buildTestWidget(
-            const InterfaceScreen(),
-          ),
-        );
+      await tester.pumpWidget(
+        testSetup.buildTestWidget(const InterfaceScreen()),
+      );
 
-        expect(find.byType(InterfaceScreen), findsOneWidget);
-        await tester.pump();
+      expect(find.byType(InterfaceScreen), findsOneWidget);
+      await tester.pump();
 
-        await tester.tap(find.text('More Details').first);
-        await tester.pumpAndSettle();
+      await tester.tap(find.text('More Details').first);
+      await tester.pumpAndSettle();
 
-        expect(find.byType(MoreDetailsScreen), findsOneWidget);
-      },
-    );
+      expect(find.byType(MoreDetailsScreen), findsOneWidget);
+    });
   });
 }

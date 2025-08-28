@@ -14,15 +14,17 @@ void main() {
 
   group('SecureStorageService', () {
     test('saveValue returns Success on write', () async {
-      when(mockStorage.write(key: anyNamed('key'), value: anyNamed('value')))
-          .thenAnswer((_) async => {});
+      when(
+        mockStorage.write(key: anyNamed('key'), value: anyNamed('value')),
+      ).thenAnswer((_) async => {});
       final result = await service.saveValue('testKey', 'testValue');
       expect(result.isSuccess(), true);
     });
 
     test('saveValue returns Failure on exception', () async {
-      when(mockStorage.write(key: anyNamed('key'), value: anyNamed('value')))
-          .thenThrow(Exception('write error'));
+      when(
+        mockStorage.write(key: anyNamed('key'), value: anyNamed('value')),
+      ).thenThrow(Exception('write error'));
       final result = await service.saveValue('testKey', 'testValue');
       expect(result.isError(), true);
       expect(
@@ -32,16 +34,18 @@ void main() {
     });
 
     test('getValue returns Success when value exists', () async {
-      when(mockStorage.read(key: anyNamed('key')))
-          .thenAnswer((_) async => 'storedValue');
+      when(
+        mockStorage.read(key: anyNamed('key')),
+      ).thenAnswer((_) async => 'storedValue');
       final result = await service.getValue('testKey');
       expect(result.isSuccess(), true);
       expect(result.getOrNull(), 'storedValue');
     });
 
     test('getValue returns Failure when value is null', () async {
-      when(mockStorage.read(key: anyNamed('key')))
-          .thenAnswer((_) async => null);
+      when(
+        mockStorage.read(key: anyNamed('key')),
+      ).thenAnswer((_) async => null);
       final result = await service.getValue('testKey');
       expect(result.isError(), true);
       expect(
@@ -51,8 +55,9 @@ void main() {
     });
 
     test('getValue returns Failure on exception', () async {
-      when(mockStorage.read(key: anyNamed('key')))
-          .thenThrow(Exception('read error'));
+      when(
+        mockStorage.read(key: anyNamed('key')),
+      ).thenThrow(Exception('read error'));
       final result = await service.getValue('testKey');
       expect(result.isError(), true);
       expect(
@@ -62,15 +67,17 @@ void main() {
     });
 
     test('deleteValue returns Success on delete', () async {
-      when(mockStorage.delete(key: anyNamed('key')))
-          .thenAnswer((_) async => {});
+      when(
+        mockStorage.delete(key: anyNamed('key')),
+      ).thenAnswer((_) async => {});
       final result = await service.deleteValue('testKey');
       expect(result.isSuccess(), true);
     });
 
     test('deleteValue returns Failure on exception', () async {
-      when(mockStorage.delete(key: anyNamed('key')))
-          .thenThrow(Exception('delete error'));
+      when(
+        mockStorage.delete(key: anyNamed('key')),
+      ).thenThrow(Exception('delete error'));
       final result = await service.deleteValue('testKey');
       expect(result.isError(), true);
       expect(

@@ -33,9 +33,7 @@ class StartInfoModal extends StatelessWidget {
 
         return Dialog(
           child: Container(
-            constraints: const BoxConstraints(
-              maxWidth: 800,
-            ),
+            constraints: const BoxConstraints(maxWidth: 800),
             child: IntrinsicHeight(
               child: AlertDialog(
                 scrollable: true,
@@ -133,8 +131,9 @@ class StartInfoModal extends StatelessWidget {
                             Switch(
                               value: sendCrashReportStatus,
                               onChanged: (value) async {
-                                await appConfigProvider
-                                    .setSendCrashReports(value);
+                                await appConfigProvider.setSendCrashReports(
+                                  value,
+                                );
                               },
                             ),
                           ],
@@ -147,14 +146,16 @@ class StartInfoModal extends StatelessWidget {
                             ),
                             children: [
                               TextSpan(
-                                text: AppLocalizations.of(context)!
-                                    .agreePrivacyPolicy,
+                                text: AppLocalizations.of(
+                                  context,
+                                )!.agreePrivacyPolicy,
                                 style: const TextStyle(fontSize: 14),
                               ),
                               const TextSpan(text: ' '),
                               TextSpan(
-                                text:
-                                    AppLocalizations.of(context)!.privacyPolicy,
+                                text: AppLocalizations.of(
+                                  context,
+                                )!.privacyPolicy,
                                 style: const TextStyle(
                                   color:
                                       Colors.blue, // ToDo: Use the theme color

@@ -4,8 +4,9 @@ import 'package:pi_hole_client/config/formats.dart';
 
 String formatUnixTime(int timestamp, String format) {
   final f = DateFormat(format);
-  return f
-      .format(DateTime.fromMillisecondsSinceEpoch(timestamp * 1000).toLocal());
+  return f.format(
+    DateTime.fromMillisecondsSinceEpoch(timestamp * 1000).toLocal(),
+  );
 }
 
 String formatTimestamp(DateTime timestamp, String format) {

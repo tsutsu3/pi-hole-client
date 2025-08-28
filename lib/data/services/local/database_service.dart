@@ -538,7 +538,8 @@ class DatabaseService {
     await db.transaction((txn) async {
       appConfigRows = await txn.rawQuery('SELECT * FROM appConfig');
     });
-    final allowSelfSignedCert = (appConfigRows.isNotEmpty &&
+    final allowSelfSignedCert =
+        (appConfigRows.isNotEmpty &&
             appConfigRows[0].containsKey('overrideSslCheck'))
         ? appConfigRows[0]['overrideSslCheck']
         : 1; // Default to 1 if the column doesn't exist
@@ -633,8 +634,9 @@ class DatabaseService {
     ''');
 
     await db.execute('DROP TABLE gravity_updates');
-    await db
-        .execute('ALTER TABLE gravity_updates_new RENAME TO gravity_updates');
+    await db.execute(
+      'ALTER TABLE gravity_updates_new RENAME TO gravity_updates',
+    );
 
     await db.execute('''
       CREATE TABLE gravity_logs_new (
@@ -673,8 +675,9 @@ class DatabaseService {
     ''');
 
     await db.execute('DROP TABLE gravity_messages');
-    await db
-        .execute('ALTER TABLE gravity_messages_new RENAME TO gravity_messages');
+    await db.execute(
+      'ALTER TABLE gravity_messages_new RENAME TO gravity_messages',
+    );
 
     logger.d('Database upgraded to version 7');
   }

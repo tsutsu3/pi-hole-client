@@ -44,9 +44,7 @@ class _ResetScreenState extends State<ResetScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text(AppLocalizations.of(context)!.eraseAppData),
-      ),
+      appBar: AppBar(title: Text(AppLocalizations.of(context)!.eraseAppData)),
       body: LayoutBuilder(
         builder: (context, constraints) {
           final contentWidth = constraints.maxWidth > ResponsiveConstants.medium
@@ -60,10 +58,7 @@ class _ResetScreenState extends State<ResetScreen> {
                   padding: const EdgeInsets.all(16),
                   child: Column(
                     children: [
-                      const Icon(
-                        Icons.delete_rounded,
-                        size: 60,
-                      ),
+                      const Icon(Icons.delete_rounded, size: 60),
                       const SizedBox(height: 16),
                       Text(
                         AppLocalizations.of(context)!.eraseAppData,
@@ -77,10 +72,7 @@ class _ResetScreenState extends State<ResetScreen> {
                       Text(
                         AppLocalizations.of(context)!.eraseWarning,
                         textAlign: TextAlign.start,
-                        style: const TextStyle(
-                          fontSize: 16,
-                          height: 1.5,
-                        ),
+                        style: const TextStyle(fontSize: 16, height: 1.5),
                       ),
                       const SizedBox(height: 32),
                       Row(
@@ -92,17 +84,17 @@ class _ResetScreenState extends State<ResetScreen> {
                               Navigator.of(context).pop();
                             },
                             style: TextButton.styleFrom(
-                              padding:
-                                  const EdgeInsets.symmetric(horizontal: 24),
+                              padding: const EdgeInsets.symmetric(
+                                horizontal: 24,
+                              ),
                             ),
                             child: Text(
                               AppLocalizations.of(context)!.cancel,
                               overflow: TextOverflow.ellipsis,
                               style: TextStyle(
-                                color: Theme.of(context)
-                                    .colorScheme
-                                    .onSurface
-                                    .withValues(alpha: 0.8),
+                                color: Theme.of(
+                                  context,
+                                ).colorScheme.onSurface.withValues(alpha: 0.8),
                               ),
                             ),
                           ),
@@ -110,8 +102,9 @@ class _ResetScreenState extends State<ResetScreen> {
                             TextButton(
                               onPressed: null,
                               style: ButtonStyle(
-                                foregroundColor:
-                                    WidgetStateProperty.all(Colors.grey),
+                                foregroundColor: WidgetStateProperty.all(
+                                  Colors.grey,
+                                ),
                                 overlayColor: WidgetStateProperty.all(
                                   Colors.red.withValues(alpha: 0.1),
                                 ),

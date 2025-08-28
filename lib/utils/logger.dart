@@ -9,8 +9,9 @@ Level getLogLevel() {
     return Level.off; // Disable logging in release mode
   }
 
-  final logLevel =
-      dotenv.isInitialized ? dotenv.env['LOG_LEVEL']?.toLowerCase() : 'info';
+  final logLevel = dotenv.isInitialized
+      ? dotenv.env['LOG_LEVEL']?.toLowerCase()
+      : 'info';
 
   switch (logLevel) {
     case 'debug':
@@ -44,8 +45,9 @@ class TimeStampedPrinter extends LogPrinter {
 
   @override
   List<String> log(LogEvent event) {
-    final timestamp =
-        DateFormat(kUnifiedDateTimeLogFormat).format(DateTime.now());
+    final timestamp = DateFormat(
+      kUnifiedDateTimeLogFormat,
+    ).format(DateTime.now());
     return _prettyPrinter
         .log(event)
         .map((line) => '[$timestamp] $line')

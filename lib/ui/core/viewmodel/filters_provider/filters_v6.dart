@@ -7,8 +7,10 @@ class FiltersV6 implements Filters {
     _statusSelected = _statusAll;
   }
 
-  final List<int> _statusAll =
-      queryStatusesV6.where((e) => e.isShown).map((e) => e.index).toList();
+  final List<int> _statusAll = queryStatusesV6
+      .where((e) => e.isShown)
+      .map((e) => e.index)
+      .toList();
   final List<int> _statusAllowed = [3, 4];
   final List<int> _statusBlocked = [2, 5, 6, 7, 8, 9, 10, 11, 12];
   List<int> _statusSelected;

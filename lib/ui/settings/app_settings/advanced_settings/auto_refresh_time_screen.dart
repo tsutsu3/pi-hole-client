@@ -143,19 +143,17 @@ class _AutoRefreshTimeScreenState extends State<AutoRefreshTimeScreen> {
         child: ListView(
           children: [
             const SizedBox(height: 16),
-            ...RefreshOption.all.asMap().entries.map(
-              (entry) {
-                final idx = entry.key;
-                final option = entry.value;
-                return CustomRadioListTile(
-                  groupValue: selectedIndex,
-                  value: idx,
-                  radioBackgroundColor: Theme.of(context).colorScheme.surface,
-                  title: option.labelBuilder(loc),
-                  onChanged: _updateRadioValue,
-                );
-              },
-            ),
+            ...RefreshOption.all.asMap().entries.map((entry) {
+              final idx = entry.key;
+              final option = entry.value;
+              return CustomRadioListTile(
+                groupValue: selectedIndex,
+                value: idx,
+                radioBackgroundColor: Theme.of(context).colorScheme.surface,
+                title: option.labelBuilder(loc),
+                onChanged: _updateRadioValue,
+              );
+            }),
             if (showCustomInput)
               Padding(
                 padding: const EdgeInsets.all(16),
@@ -179,8 +177,8 @@ class _AutoRefreshTimeScreenState extends State<AutoRefreshTimeScreen> {
                   decoration: InputDecoration(
                     errorText:
                         !customValid && customTimeController.text.isNotEmpty
-                            ? loc.valueNotValid
-                            : null,
+                        ? loc.valueNotValid
+                        : null,
                     border: const OutlineInputBorder(
                       borderRadius: BorderRadius.all(Radius.circular(10)),
                     ),

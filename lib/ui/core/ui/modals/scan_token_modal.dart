@@ -85,9 +85,7 @@ class _ScanTokenModalState extends State<ScanTokenModal> {
             height: width,
             child: ClipRRect(
               borderRadius: BorderRadius.circular(28),
-              child: MobileScanner(
-                onDetect: handleBarcode,
-              ),
+              child: MobileScanner(onDetect: handleBarcode),
             ),
           );
 
@@ -134,10 +132,7 @@ class _ScanTokenModalState extends State<ScanTokenModal> {
       backgroundColor: Theme.of(context).dialogTheme.backgroundColor,
       title: Column(
         children: [
-          const Icon(
-            Icons.qr_code_rounded,
-            size: 26,
-          ),
+          const Icon(Icons.qr_code_rounded, size: 26),
           Padding(
             padding: const EdgeInsets.only(top: 20),
             child: Text(

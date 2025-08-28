@@ -91,8 +91,9 @@ class _AppUnlockSetupModalState extends State<AppUnlockSetupModal> {
                 showErrorSnackBar(
                   context: context,
                   appConfigProvider: appConfigProvider,
-                  label:
-                      AppLocalizations.of(context)!.biometricUnlockNotActivated,
+                  label: AppLocalizations.of(
+                    context,
+                  )!.biometricUnlockNotActivated,
                 );
               }
             }
@@ -102,8 +103,9 @@ class _AppUnlockSetupModalState extends State<AppUnlockSetupModal> {
               showErrorSnackBar(
                 context: context,
                 appConfigProvider: appConfigProvider,
-                label: AppLocalizations.of(context)!
-                    .fingerprintAuthUnavailableAttempts,
+                label: AppLocalizations.of(
+                  context,
+                )!.fingerprintAuthUnavailableAttempts,
               );
             } else {
               showErrorSnackBar(
@@ -141,10 +143,7 @@ class _AppUnlockSetupModalState extends State<AppUnlockSetupModal> {
           children: [
             const Padding(
               padding: EdgeInsets.only(top: 24),
-              child: Icon(
-                Icons.password_rounded,
-                size: 26,
-              ),
+              child: Icon(Icons.password_rounded, size: 26),
             ),
             Padding(
               padding: const EdgeInsets.all(24),
@@ -206,8 +205,10 @@ class _AppUnlockSetupModalState extends State<AppUnlockSetupModal> {
                     Text(
                       AppLocalizations.of(context)!.statusDisabled,
                       style: TextStyle(
-                        color:
-                            convertColor(appConfigProvider.colors, Colors.red),
+                        color: convertColor(
+                          appConfigProvider.colors,
+                          Colors.red,
+                        ),
                         fontSize: 15,
                         fontWeight: FontWeight.w500,
                       ),
@@ -227,8 +228,9 @@ class _AppUnlockSetupModalState extends State<AppUnlockSetupModal> {
                     ElevatedButton(
                       onPressed: openPassCodeDialog,
                       style: ButtonStyle(
-                        shadowColor:
-                            WidgetStateProperty.all(Colors.transparent),
+                        shadowColor: WidgetStateProperty.all(
+                          Colors.transparent,
+                        ),
                       ),
                       child: Row(
                         children: [
@@ -236,9 +238,7 @@ class _AppUnlockSetupModalState extends State<AppUnlockSetupModal> {
                             const Icon(Icons.update),
                           if (mediaQuery.size.width > 380)
                             const SizedBox(width: 10),
-                          Text(
-                            AppLocalizations.of(context)!.updatePasscode,
-                          ),
+                          Text(AppLocalizations.of(context)!.updatePasscode),
                         ],
                       ),
                     ),
@@ -251,8 +251,9 @@ class _AppUnlockSetupModalState extends State<AppUnlockSetupModal> {
                     ElevatedButton(
                       onPressed: openRemovePasscode,
                       style: ButtonStyle(
-                        shadowColor:
-                            WidgetStateProperty.all(Colors.transparent),
+                        shadowColor: WidgetStateProperty.all(
+                          Colors.transparent,
+                        ),
                       ),
                       child: Row(
                         children: [
@@ -260,9 +261,7 @@ class _AppUnlockSetupModalState extends State<AppUnlockSetupModal> {
                             const Icon(Icons.delete),
                           if (mediaQuery.size.width > 380)
                             const SizedBox(width: 10),
-                          Text(
-                            AppLocalizations.of(context)!.removePasscode,
-                          ),
+                          Text(AppLocalizations.of(context)!.removePasscode),
                         ],
                       ),
                     ),
@@ -289,8 +288,8 @@ class _AppUnlockSetupModalState extends State<AppUnlockSetupModal> {
             child: InkWell(
               onTap: appConfigProvider.passCode != null
                   ? () => enableDisableBiometricsUnlock(
-                        !appConfigProvider.useBiometrics,
-                      )
+                      !appConfigProvider.useBiometrics,
+                    )
                   : null,
               child: Padding(
                 padding: const EdgeInsets.only(
@@ -349,9 +348,7 @@ class _AppUnlockSetupModalState extends State<AppUnlockSetupModal> {
               child: Center(
                 child: ConstrainedBox(
                   constraints: const BoxConstraints(maxWidth: 400),
-                  child: Column(
-                    children: scrollableContent,
-                  ),
+                  child: Column(children: scrollableContent),
                 ),
               ),
             ),

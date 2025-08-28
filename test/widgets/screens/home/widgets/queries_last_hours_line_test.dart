@@ -14,9 +14,7 @@ import 'package:provider/provider.dart';
 
 import 'queries_last_hours_line_test.mocks.dart';
 
-@GenerateMocks(
-  [AppConfigProvider],
-)
+@GenerateMocks([AppConfigProvider])
 void main() async {
   TestWidgetsFlutterBinding.ensureInitialized();
   await dotenv.load();
@@ -918,97 +916,94 @@ void main() async {
       },
     };
 
-    testWidgets(
-      'should show the line chart with the correct data',
-      (WidgetTester tester) async {
-        tester.view.physicalSize = const Size(1000, 800);
-        tester.view.devicePixelRatio = 1.0;
+    testWidgets('should show the line chart with the correct data', (
+      WidgetTester tester,
+    ) async {
+      tester.view.physicalSize = const Size(1000, 800);
+      tester.view.devicePixelRatio = 1.0;
 
-        addTearDown(() {
-          tester.view.resetPhysicalSize();
-          tester.view.resetDevicePixelRatio();
-        });
+      addTearDown(() {
+        tester.view.resetPhysicalSize();
+        tester.view.resetDevicePixelRatio();
+      });
 
-        await tester.pumpWidget(
-          DynamicColorBuilder(
-            builder: (lightDynamic, darkDynamic) {
-              return MultiProvider(
-                providers: [
-                  ChangeNotifierProvider<AppConfigProvider>(
-                    create: (context) => mockAppConfigProvider,
-                  ),
-                ],
-                child: MaterialApp(
-                  theme: lightTheme(lightDynamic),
-                  darkTheme: darkTheme(darkDynamic),
-                  themeMode: ThemeMode.light,
-                  home: Scaffold(
-                    body: QueriesLastHoursLine(data: data, reducedData: false),
-                  ),
-                  localizationsDelegates: const [
-                    GlobalMaterialLocalizations.delegate,
-                    AppLocalizations.delegate,
-                  ],
-                  scaffoldMessengerKey: scaffoldMessengerKey,
+      await tester.pumpWidget(
+        DynamicColorBuilder(
+          builder: (lightDynamic, darkDynamic) {
+            return MultiProvider(
+              providers: [
+                ChangeNotifierProvider<AppConfigProvider>(
+                  create: (context) => mockAppConfigProvider,
                 ),
-              );
-            },
-          ),
-        );
-
-        expect(find.byType(QueriesLastHoursLine), findsOneWidget);
-        await tester.pumpAndSettle();
-
-        expect(find.byIcon(Icons.error), findsNothing);
-        expect(find.text('Charts could not be loaded'), findsNothing);
-      },
-    );
-
-    testWidgets(
-      'should show the error with the incorrect data',
-      (WidgetTester tester) async {
-        tester.view.physicalSize = const Size(1000, 800);
-        tester.view.devicePixelRatio = 1.0;
-
-        addTearDown(() {
-          tester.view.resetPhysicalSize();
-          tester.view.resetDevicePixelRatio();
-        });
-
-        await tester.pumpWidget(
-          DynamicColorBuilder(
-            builder: (lightDynamic, darkDynamic) {
-              return MultiProvider(
-                providers: [
-                  ChangeNotifierProvider<AppConfigProvider>(
-                    create: (context) => mockAppConfigProvider,
-                  ),
-                ],
-                child: MaterialApp(
-                  theme: lightTheme(lightDynamic),
-                  darkTheme: darkTheme(darkDynamic),
-                  themeMode: ThemeMode.light,
-                  home: Scaffold(
-                    body:
-                        QueriesLastHoursLine(data: errData, reducedData: false),
-                  ),
-                  localizationsDelegates: const [
-                    GlobalMaterialLocalizations.delegate,
-                    AppLocalizations.delegate,
-                  ],
-                  scaffoldMessengerKey: scaffoldMessengerKey,
+              ],
+              child: MaterialApp(
+                theme: lightTheme(lightDynamic),
+                darkTheme: darkTheme(darkDynamic),
+                themeMode: ThemeMode.light,
+                home: Scaffold(
+                  body: QueriesLastHoursLine(data: data, reducedData: false),
                 ),
-              );
-            },
-          ),
-        );
+                localizationsDelegates: const [
+                  GlobalMaterialLocalizations.delegate,
+                  AppLocalizations.delegate,
+                ],
+                scaffoldMessengerKey: scaffoldMessengerKey,
+              ),
+            );
+          },
+        ),
+      );
 
-        expect(find.byType(QueriesLastHoursLine), findsOneWidget);
-        await tester.pumpAndSettle();
+      expect(find.byType(QueriesLastHoursLine), findsOneWidget);
+      await tester.pumpAndSettle();
 
-        expect(find.byIcon(Icons.error), findsOneWidget);
-        expect(find.text('Charts could not be loaded'), findsOneWidget);
-      },
-    );
+      expect(find.byIcon(Icons.error), findsNothing);
+      expect(find.text('Charts could not be loaded'), findsNothing);
+    });
+
+    testWidgets('should show the error with the incorrect data', (
+      WidgetTester tester,
+    ) async {
+      tester.view.physicalSize = const Size(1000, 800);
+      tester.view.devicePixelRatio = 1.0;
+
+      addTearDown(() {
+        tester.view.resetPhysicalSize();
+        tester.view.resetDevicePixelRatio();
+      });
+
+      await tester.pumpWidget(
+        DynamicColorBuilder(
+          builder: (lightDynamic, darkDynamic) {
+            return MultiProvider(
+              providers: [
+                ChangeNotifierProvider<AppConfigProvider>(
+                  create: (context) => mockAppConfigProvider,
+                ),
+              ],
+              child: MaterialApp(
+                theme: lightTheme(lightDynamic),
+                darkTheme: darkTheme(darkDynamic),
+                themeMode: ThemeMode.light,
+                home: Scaffold(
+                  body: QueriesLastHoursLine(data: errData, reducedData: false),
+                ),
+                localizationsDelegates: const [
+                  GlobalMaterialLocalizations.delegate,
+                  AppLocalizations.delegate,
+                ],
+                scaffoldMessengerKey: scaffoldMessengerKey,
+              ),
+            );
+          },
+        ),
+      );
+
+      expect(find.byType(QueriesLastHoursLine), findsOneWidget);
+      await tester.pumpAndSettle();
+
+      expect(find.byIcon(Icons.error), findsOneWidget);
+      expect(find.text('Charts could not be loaded'), findsOneWidget);
+    });
   });
 }

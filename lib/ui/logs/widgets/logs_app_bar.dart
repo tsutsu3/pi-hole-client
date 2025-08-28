@@ -132,10 +132,7 @@ class LogsAppBar extends StatelessWidget implements PreferredSizeWidget {
                 ),
               ),
             )
-          : const PreferredSize(
-              preferredSize: Size.zero,
-              child: SizedBox(),
-            ),
+          : const PreferredSize(preferredSize: Size.zero, child: SizedBox()),
     );
   }
 
@@ -215,9 +212,7 @@ class LogsAppBar extends StatelessWidget implements PreferredSizeWidget {
             children: [
               Icon(icon),
               const SizedBox(width: 15),
-              Flexible(
-                child: Text(label, overflow: TextOverflow.ellipsis),
-              ),
+              Flexible(child: Text(label, overflow: TextOverflow.ellipsis)),
             ],
           ),
         ),

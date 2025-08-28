@@ -42,8 +42,10 @@ class _BarChartSkeletonState extends State<BarChartSkeleton>
     )..repeat();
 
     final rand = Random();
-    _waveOffsets =
-        List.generate(widget.nums, (_) => rand.nextDouble() * 2 * pi);
+    _waveOffsets = List.generate(
+      widget.nums,
+      (_) => rand.nextDouble() * 2 * pi,
+    );
     _scales = List.generate(widget.nums, (_) => 0.8 + rand.nextDouble() * 1);
   }
 
@@ -85,8 +87,10 @@ class _BarChartSkeletonState extends State<BarChartSkeleton>
       var stackedHeight = 0.0;
 
       for (var j = 0; j < widget.nums; j++) {
-        final height =
-            (total * normalized[j]).clamp(0.0, _maxY - stackedHeight);
+        final height = (total * normalized[j]).clamp(
+          0.0,
+          _maxY - stackedHeight,
+        );
         final fromY = stackedHeight;
         final toY = fromY + height;
         stackedHeight = toY;
@@ -98,9 +102,9 @@ class _BarChartSkeletonState extends State<BarChartSkeleton>
             widget.nums == 2
                 ? colors2[j].withValues(alpha: 0.6)
                 : Theme.of(context)
-                    .extension<GraphColors>()!
-                    .getColor(j)
-                    .withValues(alpha: 0.6),
+                      .extension<GraphColors>()!
+                      .getColor(j)
+                      .withValues(alpha: 0.6),
           ),
         );
       }
@@ -190,9 +194,7 @@ class _BarChartSkeletonState extends State<BarChartSkeleton>
           borderData: FlBorderData(
             show: true,
             border: Border(
-              top: BorderSide(
-                color: isLight ? Colors.black12 : Colors.white12,
-              ),
+              top: BorderSide(color: isLight ? Colors.black12 : Colors.white12),
               bottom: BorderSide(
                 color: isLight ? Colors.black12 : Colors.white12,
               ),

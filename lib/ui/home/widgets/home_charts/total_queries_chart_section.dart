@@ -23,10 +23,7 @@ import 'package:provider/provider.dart';
 /// The layout adapts based on screen width using [FractionallySizedBox].
 /// If no valid data is present, a [NoDataChart] is displayed instead.
 class TotalQueriesChartSection extends StatelessWidget {
-  const TotalQueriesChartSection({
-    required this.width,
-    super.key,
-  });
+  const TotalQueriesChartSection({required this.width, super.key});
 
   final double width;
 
@@ -36,10 +33,10 @@ class TotalQueriesChartSection extends StatelessWidget {
       (provider) => provider.getOvertimeDataLoadStatus,
     );
 
-    final overtimeDataJson =
-        context.select<StatusProvider, Map<String, dynamic>?>(
-      (provider) => provider.getOvertimeDataJson,
-    );
+    final overtimeDataJson = context
+        .select<StatusProvider, Map<String, dynamic>?>(
+          (provider) => provider.getOvertimeDataJson,
+        );
 
     Widget child;
     switch (overTimeDataLoadStatus) {
@@ -71,12 +68,8 @@ class TotalQueriesChartSection extends StatelessWidget {
   /// - [overtimeDataJson]: The JSON data containing query statistics.
   bool _hasData(Map<String, dynamic>? overtimeDataJson) {
     if (overtimeDataJson == null) return false;
-    return _checkExistsData(
-          overtimeDataJson['domains_over_time'] ?? {},
-        ) ||
-        _checkExistsData(
-          overtimeDataJson['ads_over_time'] ?? {},
-        );
+    return _checkExistsData(overtimeDataJson['domains_over_time'] ?? {}) ||
+        _checkExistsData(overtimeDataJson['ads_over_time'] ?? {});
   }
 
   /// Checks whether any value in the given [data] map is greater than 0.

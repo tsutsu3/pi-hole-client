@@ -115,10 +115,7 @@ class AppDbData {
     );
   }
 
-  factory AppDbData.withSecrets(
-    AppDbData instance,
-    String? passCode,
-  ) {
+  factory AppDbData.withSecrets(AppDbData instance, String? passCode) {
     return AppDbData(
       autoRefreshTime: instance.autoRefreshTime,
       theme: instance.theme,

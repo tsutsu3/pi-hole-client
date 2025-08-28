@@ -19,14 +19,13 @@ class PiholeVersionSection extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Skeleton.keep(
-          child:
-              SectionLabel(label: AppLocalizations.of(context)!.piholeVersion),
+          child: SectionLabel(
+            label: AppLocalizations.of(context)!.piholeVersion,
+          ),
         ),
         ListTile(
           dense: true,
-          leading: const Skeleton.keep(
-            child: PiholeIcon(),
-          ),
+          leading: const Skeleton.keep(child: PiholeIcon()),
           title: Skeleton.keep(
             child: listTileTitleNoPadding('Core', colorScheme: colorScheme),
           ),
@@ -38,9 +37,7 @@ class PiholeVersionSection extends StatelessWidget {
         ),
         ListTile(
           dense: true,
-          leading: const Skeleton.keep(
-            child: PiholeIcon(),
-          ),
+          leading: const Skeleton.keep(child: PiholeIcon()),
           title: Skeleton.keep(
             child: listTileTitleNoPadding('FTL', colorScheme: colorScheme),
           ),
@@ -52,9 +49,7 @@ class PiholeVersionSection extends StatelessWidget {
         ),
         ListTile(
           dense: true,
-          leading: const Skeleton.keep(
-            child: PiholeIcon(),
-          ),
+          leading: const Skeleton.keep(child: PiholeIcon()),
           title: Skeleton.keep(
             child: listTileTitleNoPadding('Web', colorScheme: colorScheme),
           ),
@@ -66,9 +61,7 @@ class PiholeVersionSection extends StatelessWidget {
         ),
         ListTile(
           dense: true,
-          leading: const Skeleton.keep(
-            child: PiholeIcon(),
-          ),
+          leading: const Skeleton.keep(child: PiholeIcon()),
           title: Skeleton.keep(
             child: listTileTitleNoPadding('Docker', colorScheme: colorScheme),
           ),
@@ -79,10 +72,7 @@ class PiholeVersionSection extends StatelessWidget {
                   text: version?.docker.local.version ?? '-',
                 )
               : Skeleton.replace(
-                  replacement: const InfoTrailing(
-                    isUpdate: false,
-                    text: '',
-                  ),
+                  replacement: const InfoTrailing(isUpdate: false, text: ''),
                   child: Text(
                     version?.docker.local.version ?? '-',
                     style: TextStyle(

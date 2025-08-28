@@ -19,8 +19,9 @@ class PieChartLegend extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final defaultColors = Theme.of(context).extension<GraphColors>()!.colors;
-    final greyColor =
-        Theme.of(context).extension<AppColors>()!.commonLightGrey!;
+    final greyColor = Theme.of(
+      context,
+    ).extension<AppColors>()!.commonLightGrey!;
 
     final colorList = <Color>[];
     var colorIndex = 0;
@@ -43,8 +44,10 @@ class PieChartLegend extends StatelessWidget {
             child: InkWell(
               onTap: onValueTap != null ? () => onValueTap!(key) : null,
               child: Padding(
-                padding:
-                    const EdgeInsets.symmetric(horizontal: 24, vertical: 10),
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 24,
+                  vertical: 10,
+                ),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
@@ -93,8 +96,6 @@ class PieChartLegend extends StatelessWidget {
       return items;
     }
 
-    return Column(
-      children: generateLegendList(data),
-    );
+    return Column(children: generateLegendList(data));
   }
 }

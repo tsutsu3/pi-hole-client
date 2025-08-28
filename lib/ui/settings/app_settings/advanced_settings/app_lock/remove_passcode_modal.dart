@@ -5,9 +5,7 @@ import 'package:pi_hole_client/ui/core/viewmodel/app_config_provider.dart';
 import 'package:provider/provider.dart';
 
 class RemovePasscodeModal extends StatelessWidget {
-  const RemovePasscodeModal({
-    super.key,
-  });
+  const RemovePasscodeModal({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -32,10 +30,7 @@ class RemovePasscodeModal extends StatelessWidget {
       backgroundColor: Theme.of(context).dialogTheme.backgroundColor,
       title: Column(
         children: [
-          const Icon(
-            Icons.delete,
-            size: 26,
-          ),
+          const Icon(Icons.delete, size: 26),
           Padding(
             padding: const EdgeInsets.symmetric(vertical: 24),
             child: Text(

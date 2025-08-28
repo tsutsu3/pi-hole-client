@@ -180,11 +180,13 @@ class _BaseState extends State<Base>
     final domainsListProvider = context.read<DomainsListProvider>();
 
     // Determine the current tab index, mimicking _currentTabIndex logic
-    final currentTab =
-        (!hasSelectedServer && selectedTab > 1) ? 0 : selectedTab;
+    final currentTab = (!hasSelectedServer && selectedTab > 1)
+        ? 0
+        : selectedTab;
     final screens = hasSelectedServer ? appScreens : appScreensNotSelected;
-    final currentPage =
-        hasSelectedServer ? pages[currentTab] : pagesNotSelected[currentTab];
+    final currentPage = hasSelectedServer
+        ? pages[currentTab]
+        : pagesNotSelected[currentTab];
 
     final width = MediaQuery.of(context).size.width;
 

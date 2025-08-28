@@ -10,9 +10,7 @@ import 'package:pi_hole_client/ui/core/viewmodel/app_config_provider.dart';
 import 'package:provider/provider.dart';
 
 class Unlock extends StatefulWidget {
-  const Unlock({
-    super.key,
-  });
+  const Unlock({super.key});
 
   @override
   State<Unlock> createState() => _UnlockState();
@@ -28,8 +26,10 @@ class _UnlockState extends State<Unlock> {
       GlobalKey<ShakeAnimationState>();
 
   Future<void> checkBiometrics() async {
-    final appConfigProvider =
-        Provider.of<AppConfigProvider>(context, listen: false);
+    final appConfigProvider = Provider.of<AppConfigProvider>(
+      context,
+      listen: false,
+    );
 
     final auth = LocalAuthentication();
     final biometrics = await auth.getAvailableBiometrics();
@@ -53,8 +53,9 @@ class _UnlockState extends State<Unlock> {
           showErrorSnackBar(
             context: context,
             appConfigProvider: appConfigProvider,
-            label: AppLocalizations.of(context)!
-                .fingerprintAuthUnavailableAttempts,
+            label: AppLocalizations.of(
+              context,
+            )!.fingerprintAuthUnavailableAttempts,
           );
         } else {
           showErrorSnackBar(
@@ -104,10 +105,7 @@ class _UnlockState extends State<Unlock> {
                 return ConstrainedBox(
                   constraints: width <= ResponsiveConstants.medium
                       ? const BoxConstraints.expand()
-                      : const BoxConstraints(
-                          maxWidth: 600,
-                          maxHeight: 800,
-                        ),
+                      : const BoxConstraints(maxWidth: 600, maxHeight: 800),
                   child: Container(
                     padding: const EdgeInsets.all(16),
                     decoration: width <= ResponsiveConstants.medium
@@ -126,10 +124,7 @@ class _UnlockState extends State<Unlock> {
                             children: [
                               const Padding(
                                 padding: EdgeInsets.only(top: 30),
-                                child: Icon(
-                                  Icons.lock_open_rounded,
-                                  size: 30,
-                                ),
+                                child: Icon(Icons.lock_open_rounded, size: 30),
                               ),
                               Padding(
                                 padding: const EdgeInsets.all(30),
@@ -145,10 +140,7 @@ class _UnlockState extends State<Unlock> {
                           Row(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
-                              const Icon(
-                                Icons.lock_open_rounded,
-                                size: 30,
-                              ),
+                              const Icon(Icons.lock_open_rounded, size: 30),
                               const SizedBox(width: 30),
                               Text(
                                 AppLocalizations.of(context)!.enterCodeUnlock,
@@ -182,9 +174,7 @@ class _UnlockState extends State<Unlock> {
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    const CircularProgressIndicator(
-                      color: Colors.white,
-                    ),
+                    const CircularProgressIndicator(color: Colors.white),
                     const SizedBox(height: 30),
                     Text(
                       AppLocalizations.of(context)!.connecting,

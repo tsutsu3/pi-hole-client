@@ -34,14 +34,16 @@ class ShakeAnimationState extends State<ShakeAnimation>
 
   @override
   Widget build(BuildContext context) {
-    final offsetAnimation = Tween(begin: 0.0, end: 40.0)
-        .chain(CurveTween(curve: Curves.elasticIn))
-        .animate(controller!)
-      ..addStatusListener((status) {
-        if (status == AnimationStatus.completed) {
-          controller!.reverse();
-        }
-      });
+    final offsetAnimation =
+        Tween(
+            begin: 0.0,
+            end: 40.0,
+          ).chain(CurveTween(curve: Curves.elasticIn)).animate(controller!)
+          ..addStatusListener((status) {
+            if (status == AnimationStatus.completed) {
+              controller!.reverse();
+            }
+          });
 
     return AnimatedBuilder(
       animation: offsetAnimation,

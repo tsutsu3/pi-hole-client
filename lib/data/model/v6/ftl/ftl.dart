@@ -6,10 +6,7 @@ part 'ftl.g.dart';
 @freezed
 sealed class InfoFtl with _$InfoFtl {
   @JsonSerializable(explicitToJson: true)
-  const factory InfoFtl({
-    required Ftl ftl,
-    required double took,
-  }) = _InfoFtl;
+  const factory InfoFtl({required Ftl ftl, required double took}) = _InfoFtl;
 
   factory InfoFtl.fromJson(Map<String, dynamic> json) =>
       _$InfoFtlFromJson(json);
@@ -50,10 +47,7 @@ sealed class Database with _$Database {
 
 @freezed
 sealed class Domains with _$Domains {
-  const factory Domains({
-    required int allowed,
-    required int denied,
-  }) = _Domains;
+  const factory Domains({required int allowed, required int denied}) = _Domains;
 
   factory Domains.fromJson(Map<String, dynamic> json) =>
       _$DomainsFromJson(json);
@@ -61,10 +55,7 @@ sealed class Domains with _$Domains {
 
 @freezed
 sealed class Clients with _$Clients {
-  const factory Clients({
-    required int total,
-    required int active,
-  }) = _Clients;
+  const factory Clients({required int total, required int active}) = _Clients;
 
   factory Clients.fromJson(Map<String, dynamic> json) =>
       _$ClientsFromJson(json);

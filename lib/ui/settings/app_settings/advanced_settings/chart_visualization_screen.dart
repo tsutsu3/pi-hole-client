@@ -18,10 +18,7 @@ class ChartVisualizationScreen extends StatelessWidget {
           : appConfigProvider.homeVisualizationMode;
     }
 
-    Future<bool> setGraphValue(
-      GraphSection section,
-      int value,
-    ) async {
+    Future<bool> setGraphValue(GraphSection section, int value) async {
       if (section == GraphSection.statsView) {
         return appConfigProvider.setStatisticsVisualizationMode(value);
       } else {
@@ -29,12 +26,7 @@ class ChartVisualizationScreen extends StatelessWidget {
       }
     }
 
-    Widget item(
-      String title,
-      IconData icon,
-      int value,
-      GraphSection section,
-    ) {
+    Widget item(String title, IconData icon, int value, GraphSection section) {
       const radius = 16.0;
       return Padding(
         padding: const EdgeInsets.symmetric(horizontal: 24),
@@ -47,17 +39,13 @@ class ChartVisualizationScreen extends StatelessWidget {
             child: AnimatedContainer(
               duration: const Duration(milliseconds: 250),
               curve: Curves.easeInOut,
-              padding: const EdgeInsets.symmetric(
-                vertical: 12,
-                horizontal: 16,
-              ),
+              padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 16),
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(radius),
                 color: value == getGraphValue(section)
-                    ? Theme.of(context)
-                        .colorScheme
-                        .primaryContainer
-                        .withValues(alpha: 0.6)
+                    ? Theme.of(
+                        context,
+                      ).colorScheme.primaryContainer.withValues(alpha: 0.6)
                     : Theme.of(context).dialogTheme.backgroundColor,
                 border: Border.all(
                   color: value == getGraphValue(section)
@@ -86,9 +74,9 @@ class ChartVisualizationScreen extends StatelessWidget {
                             fontWeight: FontWeight.bold,
                             color: value == getGraphValue(section)
                                 ? Theme.of(context).colorScheme.primary
-                                : Theme.of(context)
-                                    .colorScheme
-                                    .onSurfaceVariant,
+                                : Theme.of(
+                                    context,
+                                  ).colorScheme.onSurfaceVariant,
                           ),
                         ),
                       ],
@@ -115,8 +103,9 @@ class ChartVisualizationScreen extends StatelessWidget {
             ),
             Padding(
               padding: const EdgeInsets.only(left: 26, right: 26, bottom: 16),
-              child:
-                  Text(AppLocalizations.of(context)!.homeChartModeDescription),
+              child: Text(
+                AppLocalizations.of(context)!.homeChartModeDescription,
+              ),
             ),
             item(
               AppLocalizations.of(context)!.lineChart,
@@ -137,8 +126,9 @@ class ChartVisualizationScreen extends StatelessWidget {
             ),
             Padding(
               padding: const EdgeInsets.only(left: 26, right: 26, bottom: 16),
-              child:
-                  Text(AppLocalizations.of(context)!.statsChartModeDescription),
+              child: Text(
+                AppLocalizations.of(context)!.statsChartModeDescription,
+              ),
             ),
             item(
               AppLocalizations.of(context)!.list,

@@ -6,10 +6,8 @@ part 'system.g.dart';
 @freezed
 sealed class InfoSystem with _$InfoSystem {
   @JsonSerializable(explicitToJson: true)
-  const factory InfoSystem({
-    required SystemData system,
-    required double took,
-  }) = _InfoSystem;
+  const factory InfoSystem({required SystemData system, required double took}) =
+      _InfoSystem;
 
   factory InfoSystem.fromJson(Map<String, dynamic> json) =>
       _$InfoSystemFromJson(json);
@@ -32,10 +30,7 @@ sealed class SystemData with _$SystemData {
 @freezed
 sealed class Memory with _$Memory {
   @JsonSerializable(explicitToJson: true)
-  const factory Memory({
-    required RAM ram,
-    required Swap swap,
-  }) = _Memory;
+  const factory Memory({required RAM ram, required Swap swap}) = _Memory;
 
   factory Memory.fromJson(Map<String, dynamic> json) => _$MemoryFromJson(json);
 }

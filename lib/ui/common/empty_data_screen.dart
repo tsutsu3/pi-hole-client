@@ -13,10 +13,7 @@ class EmptyDataScreen extends StatelessWidget {
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
-              const Icon(
-                Icons.inbox_rounded,
-                size: 60,
-              ),
+              const Icon(Icons.inbox_rounded, size: 60),
               const SizedBox(height: 16),
               Text(
                 AppLocalizations.of(context)!.noData,
@@ -30,10 +27,7 @@ class EmptyDataScreen extends StatelessWidget {
               Text(
                 AppLocalizations.of(context)!.selectServerThenAccess,
                 textAlign: TextAlign.center,
-                style: const TextStyle(
-                  fontSize: 16,
-                  height: 1.5,
-                ),
+                style: const TextStyle(fontSize: 16, height: 1.5),
               ),
             ],
           ),

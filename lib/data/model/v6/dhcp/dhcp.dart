@@ -6,10 +6,8 @@ part 'dhcp.g.dart';
 @freezed
 sealed class Dhcp with _$Dhcp {
   @JsonSerializable(explicitToJson: true)
-  const factory Dhcp({
-    required List<DhcpData> leases,
-    required double took,
-  }) = _Dhcp;
+  const factory Dhcp({required List<DhcpData> leases, required double took}) =
+      _Dhcp;
 
   factory Dhcp.fromJson(Map<String, dynamic> json) => _$DhcpFromJson(json);
 }

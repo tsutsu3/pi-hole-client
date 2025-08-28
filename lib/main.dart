@@ -82,7 +82,8 @@ Future<void> initializeBiometrics(
       logger.w('Error getting available biometrics: $e');
     }
 
-    final noSupported = !available.contains(BiometricType.fingerprint) &&
+    final noSupported =
+        !available.contains(BiometricType.fingerprint) &&
         !available.contains(BiometricType.strong) &&
         !available.contains(BiometricType.weak);
 
@@ -140,8 +141,10 @@ void main() async {
   await dbService.open();
 
   final secureStorageSercie = SecureStorageService();
-  final appConfigRepository =
-      AppConfigRepository(dbService, secureStorageSercie);
+  final appConfigRepository = AppConfigRepository(
+    dbService,
+    secureStorageSercie,
+  );
   final gravityRepository = GravityRepository(dbService);
   final serverRepository = ServerRepository(dbService, secureStorageSercie);
 
@@ -149,10 +152,12 @@ void main() async {
   final configProvider = AppConfigProvider(appConfigRepository);
   final statusProvider = StatusProvider();
   final filtersProvider = FiltersProvider(serversProvider: serversProvider);
-  final domainsListProvider =
-      DomainsListProvider(serversProvider: serversProvider);
-  final subscriptionsListProvider =
-      SubscriptionsListProvider(serversProvider: serversProvider);
+  final domainsListProvider = DomainsListProvider(
+    serversProvider: serversProvider,
+  );
+  final subscriptionsListProvider = SubscriptionsListProvider(
+    serversProvider: serversProvider,
+  );
   final groupsProvider = GroupsProvider(serversProvider: serversProvider);
   final gravityUpdateProvider = GravityUpdateProvider(
     repository: gravityRepository,
@@ -191,82 +196,74 @@ void main() async {
             (dotenv.env['SENTRY_DSN'] != null &&
                 dotenv.env['SENTRY_DSN'] != ''))) {
       logger.d('Send Crash Reports: ON');
-      await SentryFlutter.init(
-        (options) {
-          options.dsn = dotenv.env['SENTRY_DSN'];
-          options.sendDefaultPii = false;
-          options.attachScreenshot =
-              dotenv.env['ENABLE_SENTRY_SCREENSHOTS'] == 'true';
-          options.beforeSend = (event, hint) {
-            if (event.throwable is HttpException) {
-              return null;
-            }
+      await SentryFlutter.init((options) {
+        options.dsn = dotenv.env['SENTRY_DSN'];
+        options.sendDefaultPii = false;
+        options.attachScreenshot =
+            dotenv.env['ENABLE_SENTRY_SCREENSHOTS'] == 'true';
+        options.beforeSend = (event, hint) {
+          if (event.throwable is HttpException) {
+            return null;
+          }
 
-            if (event.message?.formatted.contains('Unexpected character') ??
-                false ||
-                    (event.throwable != null &&
-                        event.throwable!
-                            .toString()
-                            .contains('Unexpected character'))) {
-              return null; // Exclude this event
-            }
+          if (event.message?.formatted.contains('Unexpected character') ??
+              false ||
+                  (event.throwable != null &&
+                      event.throwable!.toString().contains(
+                        'Unexpected character',
+                      ))) {
+            return null; // Exclude this event
+          }
 
-            return event;
-          };
-        },
-      );
+          return event;
+        };
+      });
     }
   }
 
   void startApp() => runApp(
-        MultiProvider(
-          providers: [
-            ChangeNotifierProvider(create: (context) => configProvider),
-            ChangeNotifierProvider(create: (context) => serversProvider),
-            ChangeNotifierProvider(create: (context) => statusProvider),
-            ChangeNotifierProxyProvider<AppConfigProvider, ServersProvider>(
-              create: (context) => serversProvider,
-              update: (context, appConfig, servers) =>
-                  servers!..update(appConfig),
-            ),
-            ChangeNotifierProxyProvider<ServersProvider, FiltersProvider>(
-              create: (context) => filtersProvider,
-              update: (context, serverConfig, servers) =>
-                  servers!..update(serverConfig),
-            ),
-            ChangeNotifierProxyProvider<ServersProvider, DomainsListProvider>(
-              create: (context) => domainsListProvider,
-              update: (context, serverConfig, servers) =>
-                  servers!..update(serverConfig),
-            ),
-            ChangeNotifierProxyProvider<ServersProvider,
-                SubscriptionsListProvider>(
-              create: (context) => subscriptionsListProvider,
-              update: (context, serverConfig, servers) =>
-                  servers!..update(serverConfig),
-            ),
-            ChangeNotifierProxyProvider<ServersProvider, GroupsProvider>(
-              create: (context) => groupsProvider,
-              update: (context, serverConfig, servers) =>
-                  servers!..update(serverConfig),
-            ),
-            ChangeNotifierProxyProvider<ServersProvider, GravityUpdateProvider>(
-              create: (context) => gravityUpdateProvider,
-              update: (context, serverConfig, servers) =>
-                  servers!..update(serverConfig),
-            ),
-            Provider<StatusUpdateService>(
-              create: (_) => statusUpdateService,
-              dispose: (_, service) => service.stopAutoRefresh(),
-            ),
-          ],
-          child: SentryWidget(
-            child: Phoenix(
-              child: const PiHoleClient(),
-            ),
-          ),
+    MultiProvider(
+      providers: [
+        ChangeNotifierProvider(create: (context) => configProvider),
+        ChangeNotifierProvider(create: (context) => serversProvider),
+        ChangeNotifierProvider(create: (context) => statusProvider),
+        ChangeNotifierProxyProvider<AppConfigProvider, ServersProvider>(
+          create: (context) => serversProvider,
+          update: (context, appConfig, servers) => servers!..update(appConfig),
         ),
-      );
+        ChangeNotifierProxyProvider<ServersProvider, FiltersProvider>(
+          create: (context) => filtersProvider,
+          update: (context, serverConfig, servers) =>
+              servers!..update(serverConfig),
+        ),
+        ChangeNotifierProxyProvider<ServersProvider, DomainsListProvider>(
+          create: (context) => domainsListProvider,
+          update: (context, serverConfig, servers) =>
+              servers!..update(serverConfig),
+        ),
+        ChangeNotifierProxyProvider<ServersProvider, SubscriptionsListProvider>(
+          create: (context) => subscriptionsListProvider,
+          update: (context, serverConfig, servers) =>
+              servers!..update(serverConfig),
+        ),
+        ChangeNotifierProxyProvider<ServersProvider, GroupsProvider>(
+          create: (context) => groupsProvider,
+          update: (context, serverConfig, servers) =>
+              servers!..update(serverConfig),
+        ),
+        ChangeNotifierProxyProvider<ServersProvider, GravityUpdateProvider>(
+          create: (context) => gravityUpdateProvider,
+          update: (context, serverConfig, servers) =>
+              servers!..update(serverConfig),
+        ),
+        Provider<StatusUpdateService>(
+          create: (_) => statusUpdateService,
+          dispose: (_, service) => service.stopAutoRefresh(),
+        ),
+      ],
+      child: SentryWidget(child: Phoenix(child: const PiHoleClient())),
+    ),
+  );
 
   await initializeSentry();
   startApp();

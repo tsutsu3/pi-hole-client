@@ -165,8 +165,12 @@ class _DisableModalState extends State<DisableModal> {
           FractionallySizedBox(
             widthFactor: 0.5,
             child: Container(
-              padding:
-                  const EdgeInsets.only(top: 8, left: 16, right: 8, bottom: 8),
+              padding: const EdgeInsets.only(
+                top: 8,
+                left: 16,
+                right: 8,
+                bottom: 8,
+              ),
               child: OptionBox(
                 optionsValue: selectedOption,
                 itemValue: 2,
@@ -190,8 +194,12 @@ class _DisableModalState extends State<DisableModal> {
           FractionallySizedBox(
             widthFactor: 0.5,
             child: Container(
-              padding:
-                  const EdgeInsets.only(top: 8, left: 8, right: 16, bottom: 8),
+              padding: const EdgeInsets.only(
+                top: 8,
+                left: 8,
+                right: 16,
+                bottom: 8,
+              ),
               child: OptionBox(
                 optionsValue: selectedOption,
                 itemValue: 3,

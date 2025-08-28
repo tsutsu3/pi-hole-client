@@ -5,9 +5,7 @@ part 'auth.g.dart';
 
 @freezed
 sealed class Password with _$Password {
-  factory Password({
-    required String password,
-  }) = _Password;
+  factory Password({required String password}) = _Password;
 
   factory Password.fromJson(Map<String, dynamic> json) =>
       _$PasswordFromJson(json);
@@ -16,10 +14,8 @@ sealed class Password with _$Password {
 @freezed
 sealed class Session with _$Session {
   @JsonSerializable(explicitToJson: true)
-  factory Session({
-    required SessionDetail session,
-    required double took,
-  }) = _Session;
+  factory Session({required SessionDetail session, required double took}) =
+      _Session;
 
   factory Session.fromJson(Map<String, dynamic> json) =>
       _$SessionFromJson(json);

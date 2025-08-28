@@ -6,10 +6,8 @@ part 'host.g.dart';
 @freezed
 sealed class InfoHost with _$InfoHost {
   @JsonSerializable(explicitToJson: true)
-  const factory InfoHost({
-    required HostData host,
-    required double took,
-  }) = _InfoHost;
+  const factory InfoHost({required HostData host, required double took}) =
+      _InfoHost;
 
   factory InfoHost.fromJson(Map<String, dynamic> json) =>
       _$InfoHostFromJson(json);
@@ -59,9 +57,8 @@ sealed class HostDmi with _$HostDmi {
 
 @freezed
 sealed class BiosInfo with _$BiosInfo {
-  const factory BiosInfo({
-    @JsonKey(name: 'vendor') required String? vendor,
-  }) = _BiosInfo;
+  const factory BiosInfo({@JsonKey(name: 'vendor') required String? vendor}) =
+      _BiosInfo;
 
   factory BiosInfo.fromJson(Map<String, dynamic> json) =>
       _$BiosInfoFromJson(json);
@@ -93,9 +90,8 @@ sealed class ProductInfo with _$ProductInfo {
 
 @freezed
 sealed class SystemInfo with _$SystemInfo {
-  const factory SystemInfo({
-    @JsonKey(name: 'vendor') required String? vendor,
-  }) = _SystemInfo;
+  const factory SystemInfo({@JsonKey(name: 'vendor') required String? vendor}) =
+      _SystemInfo;
 
   factory SystemInfo.fromJson(Map<String, dynamic> json) =>
       _$SystemInfoFromJson(json);

@@ -27,7 +27,8 @@ class CustomListTile extends StatelessWidget {
       child: InkWell(
         onTap: onTap,
         child: Container(
-          padding: padding ??
+          padding:
+              padding ??
               const EdgeInsets.symmetric(vertical: 12, horizontal: 16),
           width: double.maxFinite,
           child: Row(
@@ -60,10 +61,11 @@ class CustomListTile extends StatelessWidget {
                           Text(
                             description!,
                             style: TextStyle(
-                              color: color ??
-                                  Theme.of(context)
-                                      .colorScheme
-                                      .onSurfaceVariant,
+                              color:
+                                  color ??
+                                  Theme.of(
+                                    context,
+                                  ).colorScheme.onSurfaceVariant,
                             ),
                           ),
                         ],

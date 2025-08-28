@@ -6,10 +6,7 @@ part 'config.g.dart';
 @freezed
 sealed class Config with _$Config {
   @JsonSerializable(explicitToJson: true, includeIfNull: false)
-  const factory Config({
-    ConfigData? config,
-    double? took,
-  }) = _Config;
+  const factory Config({ConfigData? config, double? took}) = _Config;
 
   factory Config.fromJson(Map<String, dynamic> json) => _$ConfigFromJson(json);
 }
@@ -73,11 +70,8 @@ sealed class Dns with _$Dns {
 @freezed
 sealed class DnsCache with _$DnsCache {
   @JsonSerializable(explicitToJson: true, includeIfNull: false)
-  const factory DnsCache({
-    int? size,
-    int? optimizer,
-    int? upstreamBlockedTTL,
-  }) = _DnsCache;
+  const factory DnsCache({int? size, int? optimizer, int? upstreamBlockedTTL}) =
+      _DnsCache;
 
   factory DnsCache.fromJson(Map<String, dynamic> json) =>
       _$DnsCacheFromJson(json);
@@ -86,11 +80,8 @@ sealed class DnsCache with _$DnsCache {
 @freezed
 sealed class DnsBlocking with _$DnsBlocking {
   @JsonSerializable(explicitToJson: true, includeIfNull: false)
-  const factory DnsBlocking({
-    bool? active,
-    String? mode,
-    String? edns,
-  }) = _DnsBlocking;
+  const factory DnsBlocking({bool? active, String? mode, String? edns}) =
+      _DnsBlocking;
 
   factory DnsBlocking.fromJson(Map<String, dynamic> json) =>
       _$DnsBlockingFromJson(json);
@@ -112,10 +103,7 @@ sealed class SpecialDomains with _$SpecialDomains {
 @freezed
 sealed class DnsReply with _$DnsReply {
   @JsonSerializable(explicitToJson: true, includeIfNull: false)
-  const factory DnsReply({
-    ReplyHost? host,
-    ReplyHost? blocking,
-  }) = _DnsReply;
+  const factory DnsReply({ReplyHost? host, ReplyHost? blocking}) = _DnsReply;
 
   factory DnsReply.fromJson(Map<String, dynamic> json) =>
       _$DnsReplyFromJson(json);
@@ -138,10 +126,7 @@ sealed class ReplyHost with _$ReplyHost {
 @freezed
 sealed class RateLimit with _$RateLimit {
   @JsonSerializable(explicitToJson: true, includeIfNull: false)
-  const factory RateLimit({
-    int? count,
-    int? interval,
-  }) = _RateLimit;
+  const factory RateLimit({int? count, int? interval}) = _RateLimit;
 
   factory RateLimit.fromJson(Map<String, dynamic> json) =>
       _$RateLimitFromJson(json);
@@ -171,11 +156,7 @@ sealed class Dhcp with _$Dhcp {
 @freezed
 sealed class Ntp with _$Ntp {
   @JsonSerializable(explicitToJson: true, includeIfNull: false)
-  const factory Ntp({
-    NtpEntry? ipv4,
-    NtpEntry? ipv6,
-    NtpSync? sync,
-  }) = _Ntp;
+  const factory Ntp({NtpEntry? ipv4, NtpEntry? ipv6, NtpSync? sync}) = _Ntp;
 
   factory Ntp.fromJson(Map<String, dynamic> json) => _$NtpFromJson(json);
 }
@@ -209,11 +190,7 @@ sealed class NtpSync with _$NtpSync {
 @freezed
 sealed class NtpRtc with _$NtpRtc {
   @JsonSerializable(explicitToJson: true, includeIfNull: false)
-  const factory NtpRtc({
-    bool? set,
-    String? device,
-    bool? utc,
-  }) = _NtpRtc;
+  const factory NtpRtc({bool? set, String? device, bool? utc}) = _NtpRtc;
 
   factory NtpRtc.fromJson(Map<String, dynamic> json) => _$NtpRtcFromJson(json);
 }
@@ -250,10 +227,8 @@ sealed class Database with _$Database {
 @freezed
 sealed class DatabaseNetwork with _$DatabaseNetwork {
   @JsonSerializable(explicitToJson: true, includeIfNull: false)
-  const factory DatabaseNetwork({
-    bool? parseARPcache,
-    int? expire,
-  }) = _DatabaseNetwork;
+  const factory DatabaseNetwork({bool? parseARPcache, int? expire}) =
+      _DatabaseNetwork;
 
   factory DatabaseNetwork.fromJson(Map<String, dynamic> json) =>
       _$DatabaseNetworkFromJson(json);
@@ -283,10 +258,7 @@ sealed class Webserver with _$Webserver {
 @freezed
 sealed class WebSession with _$WebSession {
   @JsonSerializable(explicitToJson: true, includeIfNull: false)
-  const factory WebSession({
-    int? timeout,
-    bool? restore,
-  }) = _WebSession;
+  const factory WebSession({int? timeout, bool? restore}) = _WebSession;
 
   factory WebSession.fromJson(Map<String, dynamic> json) =>
       _$WebSessionFromJson(json);
@@ -295,9 +267,7 @@ sealed class WebSession with _$WebSession {
 @freezed
 sealed class WebTls with _$WebTls {
   @JsonSerializable(explicitToJson: true, includeIfNull: false)
-  const factory WebTls({
-    String? cert,
-  }) = _WebTls;
+  const factory WebTls({String? cert}) = _WebTls;
 
   factory WebTls.fromJson(Map<String, dynamic> json) => _$WebTlsFromJson(json);
 }
@@ -305,11 +275,8 @@ sealed class WebTls with _$WebTls {
 @freezed
 sealed class WebPaths with _$WebPaths {
   @JsonSerializable(explicitToJson: true, includeIfNull: false)
-  const factory WebPaths({
-    String? webroot,
-    String? webhome,
-    String? prefix,
-  }) = _WebPaths;
+  const factory WebPaths({String? webroot, String? webhome, String? prefix}) =
+      _WebPaths;
 
   factory WebPaths.fromJson(Map<String, dynamic> json) =>
       _$WebPathsFromJson(json);
@@ -318,10 +285,7 @@ sealed class WebPaths with _$WebPaths {
 @freezed
 sealed class WebInterface with _$WebInterface {
   @JsonSerializable(explicitToJson: true, includeIfNull: false)
-  const factory WebInterface({
-    bool? boxed,
-    String? theme,
-  }) = _WebInterface;
+  const factory WebInterface({bool? boxed, String? theme}) = _WebInterface;
 
   factory WebInterface.fromJson(Map<String, dynamic> json) =>
       _$WebInterfaceFromJson(json);
@@ -354,10 +318,7 @@ sealed class WebApi with _$WebApi {
 @freezed
 sealed class Temp with _$Temp {
   @JsonSerializable(explicitToJson: true, includeIfNull: false)
-  const factory Temp({
-    double? limit,
-    String? unit,
-  }) = _Temp;
+  const factory Temp({double? limit, String? unit}) = _Temp;
 
   factory Temp.fromJson(Map<String, dynamic> json) => _$TempFromJson(json);
 }
@@ -382,11 +343,8 @@ sealed class Files with _$Files {
 @freezed
 sealed class LogFiles with _$LogFiles {
   @JsonSerializable(explicitToJson: true, includeIfNull: false)
-  const factory LogFiles({
-    String? ftl,
-    String? dnsmasq,
-    String? webserver,
-  }) = _LogFiles;
+  const factory LogFiles({String? ftl, String? dnsmasq, String? webserver}) =
+      _LogFiles;
 
   factory LogFiles.fromJson(Map<String, dynamic> json) =>
       _$LogFilesFromJson(json);
@@ -413,11 +371,7 @@ sealed class Misc with _$Misc {
 @freezed
 sealed class Check with _$Check {
   @JsonSerializable(explicitToJson: true, includeIfNull: false)
-  const factory Check({
-    bool? load,
-    int? shmem,
-    int? disk,
-  }) = _Check;
+  const factory Check({bool? load, int? shmem, int? disk}) = _Check;
 
   factory Check.fromJson(Map<String, dynamic> json) => _$CheckFromJson(json);
 }

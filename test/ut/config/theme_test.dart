@@ -86,24 +86,26 @@ void main() {
     });
   });
 
-  test('DataVisColors copyWith should return new instance with updated values',
-      () {
-    const original = DataVisColors(
-      blue: Colors.blue,
-      blueDark: Colors.blueGrey,
-      green: Colors.green,
-      greenDark: Colors.greenAccent,
-      orange: Colors.orange,
-      orangeDark: Colors.deepOrange,
-      red: Colors.red,
-      redDark: Colors.redAccent,
-    );
+  test(
+    'DataVisColors copyWith should return new instance with updated values',
+    () {
+      const original = DataVisColors(
+        blue: Colors.blue,
+        blueDark: Colors.blueGrey,
+        green: Colors.green,
+        greenDark: Colors.greenAccent,
+        orange: Colors.orange,
+        orangeDark: Colors.deepOrange,
+        red: Colors.red,
+        redDark: Colors.redAccent,
+      );
 
-    final modified = original.copyWith(blue: Colors.lightBlue);
+      final modified = original.copyWith(blue: Colors.lightBlue);
 
-    expect(modified.blue, Colors.lightBlue);
-    expect(modified.blueDark, original.blueDark);
-  });
+      expect(modified.blue, Colors.lightBlue);
+      expect(modified.blueDark, original.blueDark);
+    },
+  );
 
   test('AppColors copyWith should return new instance with updated values', () {
     const original = AppColors(
@@ -215,21 +217,9 @@ void main() {
   });
 
   test('GraphColors lerp should interpolate colors correctly', () {
-    const start = GraphColors(
-      colors: [
-        Colors.red,
-        Colors.green,
-        Colors.blue,
-      ],
-    );
+    const start = GraphColors(colors: [Colors.red, Colors.green, Colors.blue]);
 
-    const end = GraphColors(
-      colors: [
-        Colors.pink,
-        Colors.teal,
-        Colors.cyan,
-      ],
-    );
+    const end = GraphColors(colors: [Colors.pink, Colors.teal, Colors.cyan]);
 
     final lerped = start.lerp(end, 0.5);
 
@@ -239,26 +229,28 @@ void main() {
     expect(lerped.colors[2], Color.lerp(Colors.blue, Colors.cyan, 0.5));
   });
 
-  test('DataVisColors harmonized should modify colors based on ColorScheme',
-      () {
-    const original = DataVisColors(
-      blue: Colors.blue,
-      blueDark: Colors.blueGrey,
-      green: Colors.green,
-      greenDark: Colors.greenAccent,
-      orange: Colors.orange,
-      orangeDark: Colors.deepOrange,
-      red: Colors.red,
-      redDark: Colors.redAccent,
-    );
+  test(
+    'DataVisColors harmonized should modify colors based on ColorScheme',
+    () {
+      const original = DataVisColors(
+        blue: Colors.blue,
+        blueDark: Colors.blueGrey,
+        green: Colors.green,
+        greenDark: Colors.greenAccent,
+        orange: Colors.orange,
+        orangeDark: Colors.deepOrange,
+        red: Colors.red,
+        redDark: Colors.redAccent,
+      );
 
-    final colorScheme = ColorScheme.fromSeed(seedColor: Colors.teal);
+      final colorScheme = ColorScheme.fromSeed(seedColor: Colors.teal);
 
-    final harmonized = original.harmonized(colorScheme);
+      final harmonized = original.harmonized(colorScheme);
 
-    expect(harmonized.blue, isNot(equals(original.blue)));
-    expect(harmonized.red, isNot(equals(original.red)));
-  });
+      expect(harmonized.blue, isNot(equals(original.blue)));
+      expect(harmonized.red, isNot(equals(original.red)));
+    },
+  );
 
   test('AppColors harmonized should modify colors based on ColorScheme', () {
     const original = AppColors(
@@ -292,11 +284,7 @@ void main() {
 
   test('GraphColors harmonized should modify colors based on ColorScheme', () {
     const original = GraphColors(
-      colors: [
-        Colors.red,
-        Colors.green,
-        Colors.blue,
-      ],
+      colors: [Colors.red, Colors.green, Colors.blue],
     );
 
     final colorScheme = ColorScheme.fromSeed(seedColor: Colors.teal);

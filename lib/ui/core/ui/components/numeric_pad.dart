@@ -62,8 +62,8 @@ class NumericPad extends StatelessWidget {
             padding: EdgeInsets.all(
               width <= ResponsiveConstants.medium
                   ? width > height
-                      ? height * 0.05
-                      : width * 0.05
+                        ? height * 0.05
+                        : width * 0.05
                   : 10,
             ),
             child: ElevatedButton(
@@ -99,8 +99,8 @@ class NumericPad extends StatelessWidget {
             padding: EdgeInsets.all(
               width <= ResponsiveConstants.medium
                   ? width > height
-                      ? height * 0.05
-                      : width * 0.05
+                        ? height * 0.05
+                        : width * 0.05
                   : 10,
             ),
             child: ElevatedButton(

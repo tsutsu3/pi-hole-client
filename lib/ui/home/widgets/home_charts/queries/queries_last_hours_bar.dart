@@ -49,10 +49,8 @@ class QueriesLastHoursBar extends StatelessWidget {
               final key = value.toInt();
               return _titleCache.putIfAbsent(
                 key,
-                () => Text(
-                  key.toString(),
-                  style: const TextStyle(fontSize: 12),
-                ),
+                () =>
+                    Text(key.toString(), style: const TextStyle(fontSize: 12)),
               );
             },
           ),
@@ -145,7 +143,8 @@ class QueriesLastHoursBar extends StatelessWidget {
       final List<String> domainsKeys = data['domains_over_time'].keys.toList();
       final List<String> adsKeys = data['ads_over_time'].keys.toList();
       final interval = reducedData == true ? averageIntervalCount : 1;
-      final barWidth = chartWidth /
+      final barWidth =
+          chartWidth /
           (reducedData == true
               ? domainsKeys.length / averageIntervalCount
               : domainsKeys.length) *
@@ -160,9 +159,11 @@ class QueriesLastHoursBar extends StatelessWidget {
         };
       }
 
-      for (var i = 0;
-          i < data['domains_over_time'].entries.length;
-          i += interval) {
+      for (
+        var i = 0;
+        i < data['domains_over_time'].entries.length;
+        i += interval
+      ) {
         final barRods = <BarChartRodData>[];
         var stackedHeight = 0.0;
         var adsHeight = 0.0;
@@ -181,10 +182,9 @@ class QueriesLastHoursBar extends StatelessWidget {
             0.0,
             adsHeight,
             selectedTheme == ThemeMode.light
-                ? Theme.of(context)
-                    .extension<GraphColors>()!
-                    .getColor(0)
-                    .withValues(alpha: 0.8)
+                ? Theme.of(
+                    context,
+                  ).extension<GraphColors>()!.getColor(0).withValues(alpha: 0.8)
                 : Theme.of(context).extension<GraphColors>()!.getColor(0),
           ),
         );
@@ -195,10 +195,9 @@ class QueriesLastHoursBar extends StatelessWidget {
             adsHeight,
             stackedHeight,
             selectedTheme == ThemeMode.light
-                ? Theme.of(context)
-                    .extension<GraphColors>()!
-                    .getColor(3)
-                    .withValues(alpha: 0.8)
+                ? Theme.of(
+                    context,
+                  ).extension<GraphColors>()!.getColor(3).withValues(alpha: 0.8)
                 : Theme.of(context).extension<GraphColors>()!.getColor(3),
           ),
         );
@@ -216,13 +215,7 @@ class QueriesLastHoursBar extends StatelessWidget {
           ),
         );
 
-        items.add(
-          BarChartGroupData(
-            x: i,
-            barRods: barRods,
-            barsSpace: 2,
-          ),
-        );
+        items.add(BarChartGroupData(x: i, barRods: barRods, barsSpace: 2));
       }
 
       final timestamps = <String>[];
@@ -231,11 +224,7 @@ class QueriesLastHoursBar extends StatelessWidget {
         timestamps.add(k[i]);
       }
 
-      return {
-        'data': items,
-        'topPoint': topPoint,
-        'time': timestamps,
-      };
+      return {'data': items, 'topPoint': topPoint, 'time': timestamps};
     }
 
     return Padding(
@@ -243,19 +232,18 @@ class QueriesLastHoursBar extends StatelessWidget {
       child: LayoutBuilder(
         builder: (context, constraints) {
           final chartWidth = constraints.maxWidth;
-          final formattedData =
-              formatData(data, chartWidth, appConfigProvider.selectedTheme);
+          final formattedData = formatData(
+            data,
+            chartWidth,
+            appConfigProvider.selectedTheme,
+          );
 
           if (formattedData.containsKey('error')) {
             return Center(
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  const Icon(
-                    Icons.error,
-                    size: 50,
-                    color: Colors.red,
-                  ),
+                  const Icon(Icons.error, size: 50, color: Colors.red),
                   const SizedBox(height: 50),
                   Text(
                     AppLocalizations.of(context)!.chartsNotLoaded,
@@ -270,11 +258,7 @@ class QueriesLastHoursBar extends StatelessWidget {
           }
 
           return BarChart(
-            mainData(
-              formattedData,
-              appConfigProvider.selectedTheme,
-              context,
-            ),
+            mainData(formattedData, appConfigProvider.selectedTheme, context),
           );
         },
       ),

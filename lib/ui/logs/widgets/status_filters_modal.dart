@@ -36,8 +36,9 @@ class _StatusFiltersModalState extends State<StatusFiltersModal> {
   void _updateStatusSelected(int option) {
     if (_statusSelected.contains(option) == true) {
       setState(() {
-        _statusSelected =
-            _statusSelected.where((status) => status != option).toList();
+        _statusSelected = _statusSelected
+            .where((status) => status != option)
+            .toList();
       });
     } else {
       setState(() {
@@ -95,14 +96,10 @@ class _StatusFiltersModalState extends State<StatusFiltersModal> {
     }
 
     List<Widget> generateListItems() {
-      return serversProvider.queryStatuses
-          .where((item) => item.isShown)
-          .map((item) {
-        return listItem(
-          icon: item.icon,
-          label: item.text,
-          value: item.index,
-        );
+      return serversProvider.queryStatuses.where((item) => item.isShown).map((
+        item,
+      ) {
+        return listItem(icon: item.icon, label: item.text, value: item.index);
       }).toList();
     }
 
@@ -176,10 +173,9 @@ class _StatusFiltersModalState extends State<StatusFiltersModal> {
                                 : Colors.grey,
                           ),
                           overlayColor: WidgetStateProperty.all(
-                            Theme.of(context)
-                                .colorScheme
-                                .primary
-                                .withValues(alpha: 0.1),
+                            Theme.of(
+                              context,
+                            ).colorScheme.primary.withValues(alpha: 0.1),
                           ),
                         ),
                         child: Text(AppLocalizations.of(context)!.apply),
@@ -210,9 +206,7 @@ class _StatusFiltersModalState extends State<StatusFiltersModal> {
           ),
           color: Theme.of(context).dialogTheme.backgroundColor,
         ),
-        child: SafeArea(
-          child: content(),
-        ),
+        child: SafeArea(child: content()),
       );
     }
   }

@@ -10,7 +10,7 @@ import 'dart:io';
 class HttpStatusCodeException extends HttpException {
   /// Creates an HTTP exception with a [statusCode] and optional [message].
   HttpStatusCodeException(this.statusCode, [String? message])
-      : super(message ?? 'HTTP error: $statusCode');
+    : super(message ?? 'HTTP error: $statusCode');
 
   final int statusCode;
 }

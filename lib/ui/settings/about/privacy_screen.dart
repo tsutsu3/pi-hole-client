@@ -16,9 +16,7 @@ class PrivacyScreen extends StatelessWidget {
     final colorScheme = Theme.of(context).colorScheme;
 
     return Scaffold(
-      appBar: AppBar(
-        title: Text(AppLocalizations.of(context)!.privacyInfo),
-      ),
+      appBar: AppBar(title: Text(AppLocalizations.of(context)!.privacyInfo)),
       body: SafeArea(
         child: SingleChildScrollView(
           padding: const EdgeInsets.all(16),
@@ -26,9 +24,7 @@ class PrivacyScreen extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               // Privacy Policy Section
-              SectionLabel(
-                label: AppLocalizations.of(context)!.privacyPolicy,
-              ),
+              SectionLabel(label: AppLocalizations.of(context)!.privacyPolicy),
               ListTile(
                 leading: const Icon(Icons.privacy_tip_rounded),
                 title: listTileTitle(
@@ -55,30 +51,33 @@ class PrivacyScreen extends StatelessWidget {
                   AppLocalizations.of(context)!.enableCrashReport,
                   colorScheme: colorScheme,
                 ),
-                subtitle:
-                    Text(AppLocalizations.of(context)!.enableCrashReportDetail),
+                subtitle: Text(
+                  AppLocalizations.of(context)!.enableCrashReportDetail,
+                ),
                 trailing: Consumer<AppConfigProvider>(
                   builder: (context, appConfigProvider, child) {
                     return Switch(
                       value: appConfigProvider.sendCrashReports,
                       onChanged: (bool value) async {
-                        final result =
-                            await appConfigProvider.setSendCrashReports(value);
+                        final result = await appConfigProvider
+                            .setSendCrashReports(value);
                         if (!context.mounted) return;
                         if (result == true) {
                           showCautionSnackBar(
                             context: context,
                             appConfigProvider: appConfigProvider,
-                            label: AppLocalizations.of(context)!
-                                .restartAppTakeEffect,
+                            label: AppLocalizations.of(
+                              context,
+                            )!.restartAppTakeEffect,
                             duration: 6,
                           );
                         } else {
                           showErrorSnackBar(
                             context: context,
                             appConfigProvider: appConfigProvider,
-                            label: AppLocalizations.of(context)!
-                                .cannotUpdateSettings,
+                            label: AppLocalizations.of(
+                              context,
+                            )!.cannotUpdateSettings,
                           );
                         }
                       },

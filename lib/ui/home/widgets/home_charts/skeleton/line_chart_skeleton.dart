@@ -42,8 +42,10 @@ class _LineChartSkeletonState extends State<LineChartSkeleton>
     )..repeat();
 
     final rand = Random();
-    _waveOffsets =
-        List.generate(widget.nums, (_) => rand.nextDouble() * 2 * pi);
+    _waveOffsets = List.generate(
+      widget.nums,
+      (_) => rand.nextDouble() * 2 * pi,
+    );
     _scales = List.generate(widget.nums, (_) => 0.8 + rand.nextDouble() * 1);
   }
 
@@ -68,7 +70,8 @@ class _LineChartSkeletonState extends State<LineChartSkeleton>
       final timeScale = 1.0 + 0.2 * variant;
       const baseY = 50.0;
 
-      final y = (sin(frequency1 * x - t * timeScale + offset) * 12 +
+      final y =
+          (sin(frequency1 * x - t * timeScale + offset) * 12 +
                   cos(frequency2 * x - t * timeScale * 1.1) * 8) *
               scale +
           baseY;
@@ -99,11 +102,7 @@ class _LineChartSkeletonState extends State<LineChartSkeleton>
     );
   }
 
-  Widget _buildWaveSkeleton(
-    double time,
-    BuildContext context,
-    bool isLight,
-  ) {
+  Widget _buildWaveSkeleton(double time, BuildContext context, bool isLight) {
     final colors2 = [
       Theme.of(context).extension<GraphColors>()!.getColor(0),
       Theme.of(context).extension<GraphColors>()!.getColor(3),
@@ -125,21 +124,19 @@ class _LineChartSkeletonState extends State<LineChartSkeleton>
                     ),
                     color: widget.nums == 2
                         ? colors2[i]
-                        : Theme.of(context)
-                            .extension<GraphColors>()!
-                            .getColor(i),
+                        : Theme.of(
+                            context,
+                          ).extension<GraphColors>()!.getColor(i),
                     isCurved: true,
-                    dotData: const FlDotData(
-                      show: false,
-                    ),
+                    dotData: const FlDotData(show: false),
                     belowBarData: BarAreaData(
                       show: true,
                       color: widget.nums == 2
                           ? colors2[i].withValues(alpha: 0.2)
                           : Theme.of(context)
-                              .extension<GraphColors>()!
-                              .getColor(i)
-                              .withValues(alpha: 0.2),
+                                .extension<GraphColors>()!
+                                .getColor(i)
+                                .withValues(alpha: 0.2),
                     ),
                   ),
               ]
@@ -174,9 +171,7 @@ class _LineChartSkeletonState extends State<LineChartSkeleton>
         borderData: FlBorderData(
           show: true,
           border: Border(
-            top: BorderSide(
-              color: isLight ? Colors.black12 : Colors.white12,
-            ),
+            top: BorderSide(color: isLight ? Colors.black12 : Colors.white12),
             bottom: BorderSide(
               color: isLight ? Colors.black12 : Colors.white12,
             ),

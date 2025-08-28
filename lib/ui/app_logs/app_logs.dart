@@ -16,8 +16,9 @@ class AppLogs extends StatelessWidget {
     final appConfigProvider = Provider.of<AppConfigProvider>(context);
 
     Future<void> copyLogsClipboard() async {
-      final logsString =
-          appConfigProvider.logs.map((log) => log.toMap()).toList();
+      final logsString = appConfigProvider.logs
+          .map((log) => log.toMap())
+          .toList();
       await Clipboard.setData(ClipboardData(text: jsonEncode(logsString)));
 
       if (!context.mounted) return;
@@ -27,12 +28,14 @@ class AppLogs extends StatelessWidget {
           content: Text(
             AppLocalizations.of(context)!.logsCopiedClipboard,
             style: TextStyle(
-              color:
-                  Theme.of(context).extension<AppColors>()!.snackBarNeutralText,
+              color: Theme.of(
+                context,
+              ).extension<AppColors>()!.snackBarNeutralText,
             ),
           ),
-          backgroundColor:
-              Theme.of(context).extension<AppColors>()!.snackBarNeutral,
+          backgroundColor: Theme.of(
+            context,
+          ).extension<AppColors>()!.snackBarNeutral,
           duration: const Duration(seconds: 3),
         ),
       );
@@ -43,8 +46,9 @@ class AppLogs extends StatelessWidget {
         title: Text(AppLocalizations.of(context)!.logs),
         actions: [
           IconButton(
-            onPressed:
-                appConfigProvider.logs.isNotEmpty ? copyLogsClipboard : null,
+            onPressed: appConfigProvider.logs.isNotEmpty
+                ? copyLogsClipboard
+                : null,
             icon: const Icon(Icons.share),
             tooltip: AppLocalizations.of(context)!.copyLogsClipboard,
           ),

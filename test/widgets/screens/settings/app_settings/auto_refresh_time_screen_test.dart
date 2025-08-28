@@ -8,154 +8,130 @@ import '../../../helpers.dart';
 void main() async {
   await initializeApp();
 
-  group(
-    'Auto refresh Screen Widget Tests',
-    () {
-      late TestSetupHelper testSetup;
+  group('Auto refresh Screen Widget Tests', () {
+    late TestSetupHelper testSetup;
 
-      setUp(() async {
-        testSetup = TestSetupHelper();
-        testSetup.initializeMock(useApiGatewayVersion: 'v6');
+    setUp(() async {
+      testSetup = TestSetupHelper();
+      testSetup.initializeMock(useApiGatewayVersion: 'v6');
+    });
+
+    testWidgets('should save successfully', (WidgetTester tester) async {
+      tester.view.physicalSize = const Size(1080, 2400);
+      tester.view.devicePixelRatio = 2.0;
+
+      addTearDown(() {
+        tester.view.resetPhysicalSize();
+        tester.view.resetDevicePixelRatio();
       });
 
-      testWidgets(
-        'should save successfully',
-        (WidgetTester tester) async {
-          tester.view.physicalSize = const Size(1080, 2400);
-          tester.view.devicePixelRatio = 2.0;
-
-          addTearDown(() {
-            tester.view.resetPhysicalSize();
-            tester.view.resetDevicePixelRatio();
-          });
-
-          await tester.pumpWidget(
-            testSetup.buildTestWidget(
-              const AutoRefreshTimeScreen(),
-            ),
-          );
-
-          expect(find.byType(AutoRefreshTimeScreen), findsOneWidget);
-          expect(find.text('Auto refresh time'), findsOneWidget);
-
-          await tester.tap(find.text('30 seconds'));
-          await tester.pumpAndSettle();
-
-          expect(find.byType(SnackBar), findsOneWidget);
-          expect(
-            find.text('Update time changed successfully.'),
-            findsOneWidget,
-          );
-        },
+      await tester.pumpWidget(
+        testSetup.buildTestWidget(const AutoRefreshTimeScreen()),
       );
 
-      testWidgets(
-        'should save failed',
-        (WidgetTester tester) async {
-          tester.view.physicalSize = const Size(1080, 2400);
-          tester.view.devicePixelRatio = 2.0;
+      expect(find.byType(AutoRefreshTimeScreen), findsOneWidget);
+      expect(find.text('Auto refresh time'), findsOneWidget);
 
-          addTearDown(() {
-            tester.view.resetPhysicalSize();
-            tester.view.resetDevicePixelRatio();
-          });
+      await tester.tap(find.text('30 seconds'));
+      await tester.pumpAndSettle();
 
-          await tester.pumpWidget(
-            testSetup.buildTestWidget(
-              const AutoRefreshTimeScreen(),
-            ),
-          );
+      expect(find.byType(SnackBar), findsOneWidget);
+      expect(find.text('Update time changed successfully.'), findsOneWidget);
+    });
 
-          when(testSetup.mockConfigProvider.setAutoRefreshTime(any))
-              .thenAnswer((_) async => false);
+    testWidgets('should save failed', (WidgetTester tester) async {
+      tester.view.physicalSize = const Size(1080, 2400);
+      tester.view.devicePixelRatio = 2.0;
 
-          expect(find.byType(AutoRefreshTimeScreen), findsOneWidget);
-          expect(find.text('Auto refresh time'), findsOneWidget);
+      addTearDown(() {
+        tester.view.resetPhysicalSize();
+        tester.view.resetDevicePixelRatio();
+      });
 
-          await tester.tap(find.text('30 seconds'));
-          await tester.pumpAndSettle();
-
-          expect(find.byType(SnackBar), findsOneWidget);
-          expect(find.text('Cannot change update time'), findsOneWidget);
-        },
+      await tester.pumpWidget(
+        testSetup.buildTestWidget(const AutoRefreshTimeScreen()),
       );
 
-      testWidgets(
-        'should save successfully with custom time',
-        (WidgetTester tester) async {
-          tester.view.physicalSize = const Size(1080, 2400);
-          tester.view.devicePixelRatio = 2.0;
+      when(
+        testSetup.mockConfigProvider.setAutoRefreshTime(any),
+      ).thenAnswer((_) async => false);
 
-          addTearDown(() {
-            tester.view.resetPhysicalSize();
-            tester.view.resetDevicePixelRatio();
-          });
+      expect(find.byType(AutoRefreshTimeScreen), findsOneWidget);
+      expect(find.text('Auto refresh time'), findsOneWidget);
 
-          await tester.pumpWidget(
-            testSetup.buildTestWidget(
-              const AutoRefreshTimeScreen(),
-            ),
-          );
+      await tester.tap(find.text('30 seconds'));
+      await tester.pumpAndSettle();
 
-          expect(find.byType(AutoRefreshTimeScreen), findsOneWidget);
-          expect(find.text('Auto refresh time'), findsOneWidget);
+      expect(find.byType(SnackBar), findsOneWidget);
+      expect(find.text('Cannot change update time'), findsOneWidget);
+    });
 
-          await tester.tap(find.text('Custom'));
-          await tester.pumpAndSettle();
+    testWidgets('should save successfully with custom time', (
+      WidgetTester tester,
+    ) async {
+      tester.view.physicalSize = const Size(1080, 2400);
+      tester.view.devicePixelRatio = 2.0;
 
-          expect(find.byType(TextField), findsOneWidget);
-          await tester.enterText(find.byType(TextField), '11');
-          await tester.testTextInput.receiveAction(TextInputAction.done);
-          await tester.pumpAndSettle();
+      addTearDown(() {
+        tester.view.resetPhysicalSize();
+        tester.view.resetDevicePixelRatio();
+      });
 
-          expect(
-            find.text('Please enter a number between 1 and 86400 seconds'),
-            findsNothing,
-          );
-
-          expect(find.byType(SnackBar), findsOneWidget);
-
-          expect(
-            find.text('Update time changed successfully.'),
-            findsOneWidget,
-          );
-        },
+      await tester.pumpWidget(
+        testSetup.buildTestWidget(const AutoRefreshTimeScreen()),
       );
 
-      testWidgets(
-        'should save successfully with invalid custom time',
-        (WidgetTester tester) async {
-          tester.view.physicalSize = const Size(1080, 2400);
-          tester.view.devicePixelRatio = 2.0;
+      expect(find.byType(AutoRefreshTimeScreen), findsOneWidget);
+      expect(find.text('Auto refresh time'), findsOneWidget);
 
-          addTearDown(() {
-            tester.view.resetPhysicalSize();
-            tester.view.resetDevicePixelRatio();
-          });
+      await tester.tap(find.text('Custom'));
+      await tester.pumpAndSettle();
 
-          await tester.pumpWidget(
-            testSetup.buildTestWidget(
-              const AutoRefreshTimeScreen(),
-            ),
-          );
+      expect(find.byType(TextField), findsOneWidget);
+      await tester.enterText(find.byType(TextField), '11');
+      await tester.testTextInput.receiveAction(TextInputAction.done);
+      await tester.pumpAndSettle();
 
-          expect(find.byType(AutoRefreshTimeScreen), findsOneWidget);
-          expect(find.text('Auto refresh time'), findsOneWidget);
-
-          await tester.tap(find.text('Custom'));
-          await tester.pumpAndSettle();
-
-          expect(find.byType(TextField), findsOneWidget);
-          await tester.enterText(find.byType(TextField), '0');
-          await tester.pump();
-          await tester.pumpAndSettle();
-
-          expect(
-            find.text('Please enter a number between 1 and 86400 seconds'),
-            findsOneWidget,
-          );
-        },
+      expect(
+        find.text('Please enter a number between 1 and 86400 seconds'),
+        findsNothing,
       );
-    },
-  );
+
+      expect(find.byType(SnackBar), findsOneWidget);
+
+      expect(find.text('Update time changed successfully.'), findsOneWidget);
+    });
+
+    testWidgets('should save successfully with invalid custom time', (
+      WidgetTester tester,
+    ) async {
+      tester.view.physicalSize = const Size(1080, 2400);
+      tester.view.devicePixelRatio = 2.0;
+
+      addTearDown(() {
+        tester.view.resetPhysicalSize();
+        tester.view.resetDevicePixelRatio();
+      });
+
+      await tester.pumpWidget(
+        testSetup.buildTestWidget(const AutoRefreshTimeScreen()),
+      );
+
+      expect(find.byType(AutoRefreshTimeScreen), findsOneWidget);
+      expect(find.text('Auto refresh time'), findsOneWidget);
+
+      await tester.tap(find.text('Custom'));
+      await tester.pumpAndSettle();
+
+      expect(find.byType(TextField), findsOneWidget);
+      await tester.enterText(find.byType(TextField), '0');
+      await tester.pump();
+      await tester.pumpAndSettle();
+
+      expect(
+        find.text('Please enter a number between 1 and 86400 seconds'),
+        findsOneWidget,
+      );
+    });
+  });
 }

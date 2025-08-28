@@ -44,7 +44,7 @@ class _StatisticsState extends State<Statistics> {
   Widget build(BuildContext context) {
     final apiVersion =
         context.select((ServersProvider p) => p.selectedServer?.apiVersion) ??
-            'v5';
+        'v5';
 
     if (MediaQuery.of(context).size.width > ResponsiveConstants.xxLarge) {
       return const StatisticsTripleColumn();
@@ -57,9 +57,7 @@ class _StatisticsState extends State<Statistics> {
           children: [
             const Icon(Icons.dns_rounded),
             const SizedBox(width: 16),
-            Text(
-              AppLocalizations.of(context)!.queriesServers,
-            ),
+            Text(AppLocalizations.of(context)!.queriesServers),
           ],
         ),
       ),
@@ -130,8 +128,9 @@ class _StatisticsState extends State<Statistics> {
           headerSliverBuilder: (context, innerBoxIsScrolled) {
             return [
               SliverOverlapAbsorber(
-                handle:
-                    NestedScrollView.sliverOverlapAbsorberHandleFor(context),
+                handle: NestedScrollView.sliverOverlapAbsorberHandleFor(
+                  context,
+                ),
                 sliver: SliverAppBar(
                   title: Text(AppLocalizations.of(context)!.statistics),
                   pinned: true,

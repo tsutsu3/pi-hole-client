@@ -2,11 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:pi_hole_client/ui/core/themes/theme.dart';
 
 class InfoTrailing extends StatelessWidget {
-  const InfoTrailing({
-    required this.isUpdate,
-    required this.text,
-    super.key,
-  });
+  const InfoTrailing({required this.isUpdate, required this.text, super.key});
 
   final bool isUpdate;
   final String text;

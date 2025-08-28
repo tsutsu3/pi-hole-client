@@ -32,9 +32,9 @@ class QueriesLegendDot extends StatelessWidget {
           height: 10,
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(10),
-            color: Theme.of(context)
-                .extension<GraphColors>()!
-                .getColor(colorIndex),
+            color: Theme.of(
+              context,
+            ).extension<GraphColors>()!.getColor(colorIndex),
           ),
         ),
         const SizedBox(width: 10),

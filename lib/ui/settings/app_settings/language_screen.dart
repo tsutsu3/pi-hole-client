@@ -25,9 +25,7 @@ class LanguageScreen extends StatelessWidget {
         return true;
       },
       child: Scaffold(
-        appBar: AppBar(
-          title: Text(AppLocalizations.of(context)!.language),
-        ),
+        appBar: AppBar(title: Text(AppLocalizations.of(context)!.language)),
         body: SafeArea(
           child: ListView(
             children: sortedLanguageOptions.map((languageOption) {
@@ -50,8 +48,9 @@ class LanguageScreen extends StatelessWidget {
                       trailing: CustomRadio(
                         value: languageOption.index,
                         groupValue: appConfigProvider.selectedLanguageNumber,
-                        backgroundColor:
-                            Theme.of(context).dialogTheme.backgroundColor!,
+                        backgroundColor: Theme.of(
+                          context,
+                        ).dialogTheme.backgroundColor!,
                       ),
                     ),
                   ),

@@ -58,20 +58,20 @@ class _CreatePassCodeModalState extends State<CreatePassCodeModal> {
           TextButton(
             onPressed: _step == 0
                 ? _code.length == 4
-                    ? () => setState(() => _step = 1)
-                    : null
+                      ? () => setState(() => _step = 1)
+                      : null
                 : _repeatedCode.length == 4
-                    ? finish
-                    : null,
+                ? finish
+                : null,
             style: ButtonStyle(
               foregroundColor: WidgetStateProperty.all(
                 _step == 0
                     ? _code.length == 4
-                        ? Theme.of(context).colorScheme.primary
-                        : Colors.grey
+                          ? Theme.of(context).colorScheme.primary
+                          : Colors.grey
                     : _repeatedCode.length == 4
-                        ? Theme.of(context).colorScheme.primary
-                        : Colors.grey,
+                    ? Theme.of(context).colorScheme.primary
+                    : Colors.grey,
               ),
             ),
             child: Text(

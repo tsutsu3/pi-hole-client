@@ -11,18 +11,14 @@ import 'package:pi_hole_client/ui/home/widgets/home_charts/queries/queries_legen
 ///
 /// This widget is intended to be used within the home charts area of the app.
 class QueriesContent extends StatelessWidget {
-  const QueriesContent({
-    super.key,
-  });
+  const QueriesContent({super.key});
 
   @override
   Widget build(BuildContext context) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        SectionLabel(
-          label: AppLocalizations.of(context)!.totalQueries24,
-        ),
+        SectionLabel(label: AppLocalizations.of(context)!.totalQueries24),
         Container(
           width: double.maxFinite,
           height: 350,
