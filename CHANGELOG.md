@@ -1,6 +1,50 @@
 # Changelog
 
-## [1.5.1](https://github.com/tsutsu3/pi-hole-client/compare/1.5.0_(55)..1.5.1) - 2025-07-14
+## [1.6.0](https://github.com/tsutsu3/pi-hole-client/compare/1.5.1_(57)..1.6.0) - 2025-08-28
+
+### 🚀 Features
+
+- *(application_detail)* Add build version ([#359](https://github.com/tsutsu3/pi-hole-client/issues/359)) - ([2989f48](https://github.com/tsutsu3/pi-hole-client/commit/2989f48c5e8939e75b3728c619c67c7ff55bed8b))
+- *(detail)* Add website links ([#387](https://github.com/tsutsu3/pi-hole-client/issues/387)) - ([70561ca](https://github.com/tsutsu3/pi-hole-client/commit/70561ca287f6d4a98c2bcc98c8bc003634913f6d))
+- *(device)* Add localized "hours ago" to lastQuery timestamp display ([#364](https://github.com/tsutsu3/pi-hole-client/issues/364)) - ([0b684c8](https://github.com/tsutsu3/pi-hole-client/commit/0b684c887816a4af23d4b18fd5f532c20d48a94d))
+- *(dhcp)* Add DHCP screen ([#365](https://github.com/tsutsu3/pi-hole-client/issues/365)) - ([dc5245d](https://github.com/tsutsu3/pi-hole-client/commit/dc5245de86463fdf368ef476fe9665a77d84b092))
+
+### 🐛 Bug Fixes
+
+- *(i18n)* Update DHCP disabled messages in localization files ([#381](https://github.com/tsutsu3/pi-hole-client/issues/381)) - ([cfc9c10](https://github.com/tsutsu3/pi-hole-client/commit/cfc9c104bf052c226ea08e531a6165242e0a05e0))
+- *(site)* Fix base path ([#383](https://github.com/tsutsu3/pi-hole-client/issues/383)) - ([e30114f](https://github.com/tsutsu3/pi-hole-client/commit/e30114f783a58a35de1e79c4caf22ab0c61e6a0c))
+- *(website)* Enable navbar to hide on scroll and remove background styles - ([e79049a](https://github.com/tsutsu3/pi-hole-client/commit/e79049ad3ef13709d0f1e55663347312e233dfa3))
+
+### 🚜 Refactor
+
+- Change folder structure and add local repositories ([#373](https://github.com/tsutsu3/pi-hole-client/issues/373)) - ([e58e84d](https://github.com/tsutsu3/pi-hole-client/commit/e58e84de384606b5cb691c0ec24742eb8aff5739))
+
+### 📚 Documentation
+
+- *(readme)* Add releases badge - ([dc40644](https://github.com/tsutsu3/pi-hole-client/commit/dc4064439c8baeb87122b54d320303f3047596df))
+- *(website)* Update README to reflect project name and installation instructions - ([b86adad](https://github.com/tsutsu3/pi-hole-client/commit/b86adad45dba5721b8f67bcfd8fba149eeb31fab))
+
+### 🎨 Styling
+
+- *(website)* Improve formatting in README for clarity - ([f60cf60](https://github.com/tsutsu3/pi-hole-client/commit/f60cf60339f359bffb9601b30abc2fc4ef5280ff))
+- Format lib, test, tesing, mock_api_server - ([07cc6ef](https://github.com/tsutsu3/pi-hole-client/commit/07cc6ef0b78238fd8d93f98841f51836ce6b659a))
+
+### ⚙️ Miscellaneous Tasks
+
+- *(lib)* Update Flutter version to 3.32.8 - ([91c421a](https://github.com/tsutsu3/pi-hole-client/commit/91c421a0a9037bd1ddee6bc8e66db09e65f36c22))
+- *(mock_api_server)* Add Pi-hole v5 mock endpoints and auth middlewares ([#380](https://github.com/tsutsu3/pi-hole-client/issues/380)) - ([042166d](https://github.com/tsutsu3/pi-hole-client/commit/042166d198e10d088f76f5f9f6969cc057630f98))
+- *(site)* Add web site ([#382](https://github.com/tsutsu3/pi-hole-client/issues/382)) - ([9637c79](https://github.com/tsutsu3/pi-hole-client/commit/9637c79489a668beef24f4a5ff34e2493edfb92b))
+- *(test)* Remove unnecessary debug prints from test cases ([#361](https://github.com/tsutsu3/pi-hole-client/issues/361)) - ([9614620](https://github.com/tsutsu3/pi-hole-client/commit/961462060c3c87943a8fc80a2213370ce88eb7f6))
+- *(website)* Fix dosusaurus config - ([e2b4bed](https://github.com/tsutsu3/pi-hole-client/commit/e2b4bed9bfd131bb83d2a2c9cd13be1af61c2aba))
+- *(website)* Correct file extension from .yml to .yaml - ([2365032](https://github.com/tsutsu3/pi-hole-client/commit/2365032612128cb92c41b22543c3603dabf47684))
+- *(website)* Fix artifact path - ([254f445](https://github.com/tsutsu3/pi-hole-client/commit/254f44592eccf38c65e576da671d9302c5da0a00))
+- *(website)* Migrate from Nextra to Docusaurus ([#384](https://github.com/tsutsu3/pi-hole-client/issues/384)) - ([36011a3](https://github.com/tsutsu3/pi-hole-client/commit/36011a39139a5ed3ba895828a4c6e014000a8b88))
+- *(winget)* Winget manifest for v1.5.1 ([#357](https://github.com/tsutsu3/pi-hole-client/issues/357)) - ([0acc177](https://github.com/tsutsu3/pi-hole-client/commit/0acc177b1df517277de7a9400ac556fc22dbdccc))
+- Add v6 repos without modifying existing code ([#379](https://github.com/tsutsu3/pi-hole-client/issues/379)) - ([1279e85](https://github.com/tsutsu3/pi-hole-client/commit/1279e850ed530febb70f1a388d16ff011e3d9f47))
+- Add v5 repos without modifying existing code  ([#377](https://github.com/tsutsu3/pi-hole-client/issues/377)) - ([51366dc](https://github.com/tsutsu3/pi-hole-client/commit/51366dc5986a69a9f44a04098a3ae68ca180d404))
+- Add service without modifying existing code ([#376](https://github.com/tsutsu3/pi-hole-client/issues/376)) - ([f083014](https://github.com/tsutsu3/pi-hole-client/commit/f0830149d1f3cf3c7dae52cc73ff365f137de34b))
+
+## [1.5.1_(57)](https://github.com/tsutsu3/pi-hole-client/compare/1.5.0_(55)..1.5.1_(57)) - 2025-07-14
 
 ### ⚙️ Miscellaneous Tasks
 
