@@ -1,17 +1,19 @@
-# Website
+# Pi-hole Client Website
 
-This website is built using [Docusaurus](https://docusaurus.io/), a modern static website generator.
+This is the source for the **Pi-hole Client Website**.
+
+🌐  [https://tsutsu3.github.io/pi-hole-client/](https://tsutsu3.github.io/pi-hole-client/)
 
 ## Installation
 
 ```bash
-yarn
+npm install
 ```
 
 ## Local Development
 
 ```bash
-yarn start
+npm run start
 ```
 
 This command starts a local development server and opens up a browser window. Most changes are reflected live without having to restart the server.
@@ -19,23 +21,9 @@ This command starts a local development server and opens up a browser window. Mo
 ## Build
 
 ```bash
-yarn build
+npm run build
 ```
-
-This command generates static content into the `build` directory and can be served using any static contents hosting service.
 
 ## Deployment
 
-Using SSH:
-
-```bash
-USE_SSH=true yarn deploy
-```
-
-Not using SSH:
-
-```bash
-GIT_USER=<Your GitHub username> yarn deploy
-```
-
-If you are using GitHub pages for hosting, this command is a convenient way to build the website and push to the `gh-pages` branch.
+See [GitHub Action workflow](../.github/workflows/deploy-docs.yaml) for automated deployment to GitHub Pages.
