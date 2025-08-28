@@ -9,7 +9,7 @@ import 'package:pi_hole_client/utils/open_url.dart';
 
 class AppDetailScreen extends StatelessWidget {
   const AppDetailScreen({super.key, String? appVersion})
-      : _appVersion = appVersion;
+    : _appVersion = appVersion;
 
   final String? _appVersion;
   String get appVersion => _appVersion ?? '';
@@ -20,9 +20,7 @@ class AppDetailScreen extends StatelessWidget {
     final loc = AppLocalizations.of(context)!;
 
     return Scaffold(
-      appBar: AppBar(
-        title: Text(loc.applicationDetail),
-      ),
+      appBar: AppBar(title: Text(loc.applicationDetail)),
       body: SafeArea(
         child: SingleChildScrollView(
           padding: const EdgeInsets.all(16),
@@ -38,37 +36,46 @@ class AppDetailScreen extends StatelessWidget {
               ),
               ListTile(
                 leading: const Icon(Icons.terminal_rounded),
-                title:
-                    listTileTitle(loc.buildVersion, colorScheme: colorScheme),
+                title: listTileTitle(
+                  loc.buildVersion,
+                  colorScheme: colorScheme,
+                ),
                 subtitle: Text(
                   gitCommitHash.isNotEmpty ? gitCommitHash : loc.unknown,
                 ),
               ),
               ListTile(
                 leading: const Icon(Icons.account_circle_rounded),
+                title: listTileTitle(loc.createdBy, colorScheme: colorScheme),
+                subtitle: const Text('tsutsu3'),
+              ),
+              ListTile(
+                leading: const Icon(Icons.web_rounded),
                 title: listTileTitle(
-                  loc.createdBy,
+                  loc.websiteTitle,
                   colorScheme: colorScheme,
                 ),
-                subtitle: const Text('tsutsu3'),
+                subtitle: Text(loc.websiteDescription),
+                onTap: () => openUrl(Urls.appWebSite),
+                trailing: Icon(
+                  Icons.open_in_new_rounded,
+                  color: colorScheme.onSurfaceVariant.withValues(alpha: 0.8),
+                ),
               ),
               const SizedBox(height: 20),
               // Support & Feedback
-              SectionLabel(
-                label: loc.supportFeedback,
-              ),
+              SectionLabel(label: loc.supportFeedback),
               ListTile(
                 leading: SvgPicture.asset(
                   'assets/resources/github.svg',
-                  colorFilter:
-                      ColorFilter.mode(colorScheme.onSurface, BlendMode.srcIn),
+                  colorFilter: ColorFilter.mode(
+                    colorScheme.onSurface,
+                    BlendMode.srcIn,
+                  ),
                   width: 25,
                   height: 25,
                 ),
-                title: listTileTitle(
-                  'GitHub',
-                  colorScheme: colorScheme,
-                ),
+                title: listTileTitle('GitHub', colorScheme: colorScheme),
                 subtitle: Text(loc.openIssueGitHub),
                 onTap: () => openUrl(Urls.issue),
                 trailing: Icon(
@@ -81,13 +88,8 @@ class AppDetailScreen extends StatelessWidget {
                   Icons.contact_support_rounded,
                   color: colorScheme.onSurface,
                 ),
-                title: listTileTitle(
-                  loc.supportForm,
-                  colorScheme: colorScheme,
-                ),
-                subtitle: Text(
-                  loc.supportFormDescription,
-                ),
+                title: listTileTitle(loc.supportForm, colorScheme: colorScheme),
+                subtitle: Text(loc.supportFormDescription),
                 onTap: () => openUrl(Urls.support),
                 trailing: Icon(
                   Icons.open_in_new_rounded,
@@ -104,8 +106,9 @@ class AppDetailScreen extends StatelessWidget {
                   colorScheme: colorScheme,
                 ),
                 subtitle: Text(
-                  AppLocalizations.of(context)!
-                      .serverConnectionGuideDescription,
+                  AppLocalizations.of(
+                    context,
+                  )!.serverConnectionGuideDescription,
                 ),
                 onTap: () => openUrl(Urls.createAConnection),
                 trailing: Icon(
@@ -122,9 +125,7 @@ class AppDetailScreen extends StatelessWidget {
                   loc.supportDeveloperTitle,
                   colorScheme: colorScheme,
                 ),
-                subtitle: Text(
-                  loc.supportDeveloperSubtitle,
-                ),
+                subtitle: Text(loc.supportDeveloperSubtitle),
                 onTap: () => openUrl(Urls.buyMeACoffee, externalBrowser: true),
                 trailing: Icon(
                   Icons.open_in_browser_rounded,
@@ -133,9 +134,7 @@ class AppDetailScreen extends StatelessWidget {
               ),
               const SizedBox(height: 20),
               // Version Requirements
-              SectionLabel(
-                label: loc.versionRequirements,
-              ),
+              SectionLabel(label: loc.versionRequirements),
               Container(
                 width: double.infinity,
                 padding: const EdgeInsets.symmetric(horizontal: 16),
@@ -151,10 +150,7 @@ class AppDetailScreen extends StatelessWidget {
               const SizedBox(height: 10),
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 16),
-                child: Text(
-                  loc.olderVersion,
-                  textAlign: TextAlign.justify,
-                ),
+                child: Text(loc.olderVersion, textAlign: TextAlign.justify),
               ),
             ],
           ),

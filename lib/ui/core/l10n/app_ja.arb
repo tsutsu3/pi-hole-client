@@ -587,6 +587,8 @@
   "versionDescription": "使用している Pi-hole のバージョンを選択してください",
   "versionRequirements": "バージョン要件",
   "visitGooglePlay": "Google Playページを訪問",
+  "websiteDescription": "Pi-hole client の公式サイトを開きます",
+  "websiteTitle": "Webサイト",
   "welcomeToApp": "アプリへようこそ",
   "whitelist": "ホワイトリストに追加",
   "writeEmail": "メールで私に書いてください。",

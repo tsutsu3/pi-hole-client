@@ -585,6 +585,8 @@
   "versionDescription": "Wybierz wersję Pi-hole, której używasz",
   "versionRequirements": "Wymagania dotyczące wersji",
   "visitGooglePlay": "Odwiedź stronę Google Play",
+  "websiteDescription": "Odwiedź oficjalną stronę Pi-hole client",
+  "websiteTitle": "Strona internetowa",
   "welcomeToApp": "Witaj w aplikacji",
   "whitelist": "Dodaj do białej listy",
   "writeEmail": "Napisz do mnie na e-mail.",

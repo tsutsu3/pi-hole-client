@@ -1850,6 +1850,12 @@ class AppLocalizationsEn extends AppLocalizations {
   String get visitGooglePlay => 'Visit Google Play page';
 
   @override
+  String get websiteDescription => 'Visit the official Pi-hole client website';
+
+  @override
+  String get websiteTitle => 'Website';
+
+  @override
   String get welcomeToApp => 'Welcome to the App';
 
   @override
