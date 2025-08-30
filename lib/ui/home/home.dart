@@ -105,6 +105,9 @@ class _HomeState extends State<Home> {
 
     double calcFabPosition() {
       if (isVisible && statusLoading == LoadStatus.loaded) {
+        if (MediaQuery.of(context).size.width <= ResponsiveConstants.medium) {
+          return showingSnackbar ? 100.0 : 20.0;
+        }
         return showingSnackbar ? 70.0 : 20.0;
       }
 
