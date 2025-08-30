@@ -58,7 +58,9 @@ class _HomeState extends State<Home> {
   Widget build(BuildContext context) {
     final serversProvider = context.watch<ServersProvider>();
 
-    final appConfigProvider = context.read<AppConfigProvider>();
+    final showingSnackbar = context.select<AppConfigProvider, bool>(
+      (p) => p.showingSnackbar,
+    );
 
     final statusLoading = context.select<StatusProvider, LoadStatus>(
       (provider) => provider.getStatusLoading,
@@ -99,6 +101,15 @@ class _HomeState extends State<Home> {
           await enableServer(context);
         }
       }
+    }
+
+    double calcFabPosition() {
+      if (isVisible && statusLoading == LoadStatus.loaded) {
+        return showingSnackbar ? 70.0 : 20.0;
+      }
+
+      // If the FAB is not visible, it should be off-screen
+      return -70.0;
     }
 
     return serversProvider.selectedServer != null
@@ -160,11 +171,7 @@ class _HomeState extends State<Home> {
                     AnimatedPositioned(
                       duration: const Duration(milliseconds: 100),
                       curve: Curves.easeInOut,
-                      bottom: isVisible && statusLoading == LoadStatus.loaded
-                          ? appConfigProvider.showingSnackbar
-                                ? 70
-                                : 20
-                          : -70,
+                      bottom: calcFabPosition(),
                       right: 20,
                       child: FloatingActionButton(
                         onPressed: enableDisableServer,
