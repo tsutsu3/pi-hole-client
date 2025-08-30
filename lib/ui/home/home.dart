@@ -105,12 +105,13 @@ class _HomeState extends State<Home> {
 
     double calcFabPosition() {
       if (isVisible && statusLoading == LoadStatus.loaded) {
-        if (MediaQuery.of(context).size.width <= ResponsiveConstants.medium) {
-          return showingSnackbar ? 100.0 : 20.0;
+        if (showingSnackbar) {
+          final isSmallScreen =
+              MediaQuery.of(context).size.width <= ResponsiveConstants.medium;
+          return isSmallScreen ? 100.0 : 70.0;
         }
-        return showingSnackbar ? 70.0 : 20.0;
+        return 20.0;
       }
-
       // If the FAB is not visible, it should be off-screen
       return -70.0;
     }
