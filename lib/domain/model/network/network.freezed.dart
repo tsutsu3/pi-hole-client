@@ -2779,4 +2779,267 @@ as int?,
 
 }
 
+
+/// @nodoc
+mixin _$DeviceOption {
+
+ String get ip; String get hwaddr; String get macVendor;
+/// Create a copy of DeviceOption
+/// with the given fields replaced by the non-null parameter values.
+@JsonKey(includeFromJson: false, includeToJson: false)
+@pragma('vm:prefer-inline')
+$DeviceOptionCopyWith<DeviceOption> get copyWith => _$DeviceOptionCopyWithImpl<DeviceOption>(this as DeviceOption, _$identity);
+
+  /// Serializes this DeviceOption to a JSON map.
+  Map<String, dynamic> toJson();
+
+
+@override
+bool operator ==(Object other) {
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is DeviceOption&&(identical(other.ip, ip) || other.ip == ip)&&(identical(other.hwaddr, hwaddr) || other.hwaddr == hwaddr)&&(identical(other.macVendor, macVendor) || other.macVendor == macVendor));
+}
+
+@JsonKey(includeFromJson: false, includeToJson: false)
+@override
+int get hashCode => Object.hash(runtimeType,ip,hwaddr,macVendor);
+
+@override
+String toString() {
+  return 'DeviceOption(ip: $ip, hwaddr: $hwaddr, macVendor: $macVendor)';
+}
+
+
+}
+
+/// @nodoc
+abstract mixin class $DeviceOptionCopyWith<$Res>  {
+  factory $DeviceOptionCopyWith(DeviceOption value, $Res Function(DeviceOption) _then) = _$DeviceOptionCopyWithImpl;
+@useResult
+$Res call({
+ String ip, String hwaddr, String macVendor
+});
+
+
+
+
+}
+/// @nodoc
+class _$DeviceOptionCopyWithImpl<$Res>
+    implements $DeviceOptionCopyWith<$Res> {
+  _$DeviceOptionCopyWithImpl(this._self, this._then);
+
+  final DeviceOption _self;
+  final $Res Function(DeviceOption) _then;
+
+/// Create a copy of DeviceOption
+/// with the given fields replaced by the non-null parameter values.
+@pragma('vm:prefer-inline') @override $Res call({Object? ip = null,Object? hwaddr = null,Object? macVendor = null,}) {
+  return _then(_self.copyWith(
+ip: null == ip ? _self.ip : ip // ignore: cast_nullable_to_non_nullable
+as String,hwaddr: null == hwaddr ? _self.hwaddr : hwaddr // ignore: cast_nullable_to_non_nullable
+as String,macVendor: null == macVendor ? _self.macVendor : macVendor // ignore: cast_nullable_to_non_nullable
+as String,
+  ));
+}
+
+}
+
+
+/// Adds pattern-matching-related methods to [DeviceOption].
+extension DeviceOptionPatterns on DeviceOption {
+/// A variant of `map` that fallback to returning `orElse`.
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case final Subclass value:
+///     return ...;
+///   case _:
+///     return orElse();
+/// }
+/// ```
+
+@optionalTypeArgs TResult maybeMap<TResult extends Object?>(TResult Function( _DeviceOption value)?  $default,{required TResult orElse(),}){
+final _that = this;
+switch (_that) {
+case _DeviceOption() when $default != null:
+return $default(_that);case _:
+  return orElse();
+
+}
+}
+/// A `switch`-like method, using callbacks.
+///
+/// Callbacks receives the raw object, upcasted.
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case final Subclass value:
+///     return ...;
+///   case final Subclass2 value:
+///     return ...;
+/// }
+/// ```
+
+@optionalTypeArgs TResult map<TResult extends Object?>(TResult Function( _DeviceOption value)  $default,){
+final _that = this;
+switch (_that) {
+case _DeviceOption():
+return $default(_that);}
+}
+/// A variant of `map` that fallback to returning `null`.
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case final Subclass value:
+///     return ...;
+///   case _:
+///     return null;
+/// }
+/// ```
+
+@optionalTypeArgs TResult? mapOrNull<TResult extends Object?>(TResult? Function( _DeviceOption value)?  $default,){
+final _that = this;
+switch (_that) {
+case _DeviceOption() when $default != null:
+return $default(_that);case _:
+  return null;
+
+}
+}
+/// A variant of `when` that fallback to an `orElse` callback.
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case Subclass(:final field):
+///     return ...;
+///   case _:
+///     return orElse();
+/// }
+/// ```
+
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( String ip,  String hwaddr,  String macVendor)?  $default,{required TResult orElse(),}) {final _that = this;
+switch (_that) {
+case _DeviceOption() when $default != null:
+return $default(_that.ip,_that.hwaddr,_that.macVendor);case _:
+  return orElse();
+
+}
+}
+/// A `switch`-like method, using callbacks.
+///
+/// As opposed to `map`, this offers destructuring.
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case Subclass(:final field):
+///     return ...;
+///   case Subclass2(:final field2):
+///     return ...;
+/// }
+/// ```
+
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( String ip,  String hwaddr,  String macVendor)  $default,) {final _that = this;
+switch (_that) {
+case _DeviceOption():
+return $default(_that.ip,_that.hwaddr,_that.macVendor);}
+}
+/// A variant of `when` that fallback to returning `null`
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case Subclass(:final field):
+///     return ...;
+///   case _:
+///     return null;
+/// }
+/// ```
+
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( String ip,  String hwaddr,  String macVendor)?  $default,) {final _that = this;
+switch (_that) {
+case _DeviceOption() when $default != null:
+return $default(_that.ip,_that.hwaddr,_that.macVendor);case _:
+  return null;
+
+}
+}
+
+}
+
+/// @nodoc
+@JsonSerializable()
+
+class _DeviceOption implements DeviceOption {
+  const _DeviceOption({required this.ip, required this.hwaddr, required this.macVendor});
+  factory _DeviceOption.fromJson(Map<String, dynamic> json) => _$DeviceOptionFromJson(json);
+
+@override final  String ip;
+@override final  String hwaddr;
+@override final  String macVendor;
+
+/// Create a copy of DeviceOption
+/// with the given fields replaced by the non-null parameter values.
+@override @JsonKey(includeFromJson: false, includeToJson: false)
+@pragma('vm:prefer-inline')
+_$DeviceOptionCopyWith<_DeviceOption> get copyWith => __$DeviceOptionCopyWithImpl<_DeviceOption>(this, _$identity);
+
+@override
+Map<String, dynamic> toJson() {
+  return _$DeviceOptionToJson(this, );
+}
+
+@override
+bool operator ==(Object other) {
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _DeviceOption&&(identical(other.ip, ip) || other.ip == ip)&&(identical(other.hwaddr, hwaddr) || other.hwaddr == hwaddr)&&(identical(other.macVendor, macVendor) || other.macVendor == macVendor));
+}
+
+@JsonKey(includeFromJson: false, includeToJson: false)
+@override
+int get hashCode => Object.hash(runtimeType,ip,hwaddr,macVendor);
+
+@override
+String toString() {
+  return 'DeviceOption(ip: $ip, hwaddr: $hwaddr, macVendor: $macVendor)';
+}
+
+
+}
+
+/// @nodoc
+abstract mixin class _$DeviceOptionCopyWith<$Res> implements $DeviceOptionCopyWith<$Res> {
+  factory _$DeviceOptionCopyWith(_DeviceOption value, $Res Function(_DeviceOption) _then) = __$DeviceOptionCopyWithImpl;
+@override @useResult
+$Res call({
+ String ip, String hwaddr, String macVendor
+});
+
+
+
+
+}
+/// @nodoc
+class __$DeviceOptionCopyWithImpl<$Res>
+    implements _$DeviceOptionCopyWith<$Res> {
+  __$DeviceOptionCopyWithImpl(this._self, this._then);
+
+  final _DeviceOption _self;
+  final $Res Function(_DeviceOption) _then;
+
+/// Create a copy of DeviceOption
+/// with the given fields replaced by the non-null parameter values.
+@override @pragma('vm:prefer-inline') $Res call({Object? ip = null,Object? hwaddr = null,Object? macVendor = null,}) {
+  return _then(_DeviceOption(
+ip: null == ip ? _self.ip : ip // ignore: cast_nullable_to_non_nullable
+as String,hwaddr: null == hwaddr ? _self.hwaddr : hwaddr // ignore: cast_nullable_to_non_nullable
+as String,macVendor: null == macVendor ? _self.macVendor : macVendor // ignore: cast_nullable_to_non_nullable
+as String,
+  ));
+}
+
+
+}
+
 // dart format on

@@ -1,15 +1,19 @@
 import 'package:flutter/material.dart';
+import 'package:pi_hole_client/domain/model/network/network.dart';
 import 'package:pi_hole_client/ui/core/l10n/generated/app_localizations.dart';
+import 'package:pi_hole_client/ui/settings/server_settings/advanced_settings/local_dns_screen/labeled_single_select_tile.dart';
 
 class AddLocalDnsModal extends StatefulWidget {
   const AddLocalDnsModal({
     required this.addLocalDns,
     required this.window,
+    this.devices,
     super.key,
   });
 
   final void Function(Map<String, dynamic>) addLocalDns;
   final bool window;
+  final List<DeviceOption>? devices;
 
   @override
   State<AddLocalDnsModal> createState() => _AddLocalDnsModalState();
@@ -23,6 +27,8 @@ class _AddLocalDnsModalState extends State<AddLocalDnsModal> {
   String? hostNameError;
   bool wildcard = false;
   bool allDataValid = false;
+  bool useDropdown = true;
+  String? selectedIp;
 
   @override
   void initState() {
@@ -37,7 +43,7 @@ class _AddLocalDnsModalState extends State<AddLocalDnsModal> {
         '^('
         r'(25[0-5]|2[0-4][0-9]|1\d{2}|[1-9]?\d)(\.(25[0-5]|2[0-4][0-9]|1\d{2}|[1-9]?\d)){3}' // IPv4
         '|'
-        '[0-9A-Fa-f:]{2,}' // Easy IPv6
+        r'((([0-9a-f]{1,4}:){7}([0-9a-f]{1,4}|:))|(([0-9a-f]{1,4}:){6}(:[0-9a-f]{1,4}|((25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)(\.(25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)){3})|:))|(([0-9a-f]{1,4}:){5}(((:[0-9a-f]{1,4}){1,2})|:((25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)(\.(25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)){3})|:))|(([0-9a-f]{1,4}:){4}(((:[0-9a-f]{1,4}){1,3})|((:[0-9a-f]{1,4})?:((25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)(\.(25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)){3}))|:))|(([0-9a-f]{1,4}:){3}(((:[0-9a-f]{1,4}){1,4})|((:[0-9a-f]{1,4}){0,2}:((25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)(\.(25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)){3}))|:))|(([0-9a-f]{1,4}:){2}(((:[0-9a-f]{1,4}){1,5})|((:[0-9a-f]{1,4}){0,3}:((25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)(\.(25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)){3}))|:))|(([0-9a-f]{1,4}:){1}(((:[0-9a-f]{1,4}){1,6})|((:[0-9a-f]{1,4}){0,4}:((25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)(\.(25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)){3}))|:))|(:(((:[0-9a-f]{1,4}){1,7})|((:[0-9a-f]{1,4}){0,5}:((25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)(\.(25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)){3}))|:)))(%.+)?\s*$' // IPv6
         r')$',
       );
       if (ipRegex.hasMatch(value) == true) {
@@ -152,22 +158,52 @@ class _AddLocalDnsModalState extends State<AddLocalDnsModal> {
                     ),
                   ),
                   const Padding(padding: EdgeInsets.all(8)),
-                  Container(
-                    width: double.maxFinite,
-                    padding: const EdgeInsets.only(top: 20),
-                    child: TextField(
-                      controller: ipController,
-                      onChanged: validateIp,
-                      decoration: InputDecoration(
-                        prefixIcon: const Icon(Icons.location_on_rounded),
-                        border: const OutlineInputBorder(
-                          borderRadius: BorderRadius.all(Radius.circular(10)),
+                  SwitchListTile(
+                    contentPadding: EdgeInsets.zero,
+                    title: Text(
+                      useDropdown
+                          ? 'Select a device' // TODO: i18n
+                          : 'Enter manually', // TODO: i18n
+                    ),
+                    value: useDropdown,
+                    onChanged: (val) {
+                      setState(() {
+                        useDropdown = val;
+                        selectedIp = null;
+                        ipController.text = '';
+                        allDataValid = false;
+                      });
+                    },
+                  ),
+                  if (useDropdown)
+                    LabeledSingleSelectTile(
+                      labelText: locale.ipAddress,
+                      hintText: locale.ipAddress,
+                      icon: Icons.location_on_rounded,
+                      options: widget.devices!.asMap(),
+                      onChanged: (id) {
+                        final ip = widget.devices!.asMap()[id]?.ip;
+                        ipController.text = ip ?? '';
+                        validateIp(ip);
+                      },
+                    )
+                  else
+                    Container(
+                      margin: const EdgeInsets.only(top: 12),
+                      width: double.maxFinite,
+                      child: TextField(
+                        controller: ipController,
+                        onChanged: validateIp,
+                        decoration: InputDecoration(
+                          prefixIcon: const Icon(Icons.location_on_rounded),
+                          border: const OutlineInputBorder(
+                            borderRadius: BorderRadius.all(Radius.circular(10)),
+                          ),
+                          labelText: locale.ipAddress,
+                          errorText: ipError,
                         ),
-                        labelText: locale.ipAddress,
-                        errorText: ipError,
                       ),
                     ),
-                  ),
                 ],
               ),
             ),

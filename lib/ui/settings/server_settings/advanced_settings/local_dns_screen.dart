@@ -1,8 +1,11 @@
+import 'dart:io';
+
 import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
 import 'package:pi_hole_client/config/responsive.dart';
 import 'package:pi_hole_client/data/gateway/api_gateway_interface.dart';
 import 'package:pi_hole_client/domain/model/local_dns/local_dns.dart';
+import 'package:pi_hole_client/domain/model/network/network.dart';
 import 'package:pi_hole_client/domain/models_old/devices.dart';
 import 'package:pi_hole_client/domain/models_old/gateways.dart';
 import 'package:pi_hole_client/ui/common/empty_data_screen.dart';
@@ -47,6 +50,7 @@ class _LocalDnsState extends State<LocalDnsScreen> {
   bool isLoading = true;
   bool isFetchError = false;
   List<DeviceInfo>? devices;
+  List<DeviceOption>? deviceOptions;
   late bool isVisible;
 
   @override
@@ -170,14 +174,20 @@ class _LocalDnsState extends State<LocalDnsScreen> {
           useSafeArea: !isSmallLandscape,
           useRootNavigator:
               false, // Prevents unexpected app exit on mobile when pressing back
-          builder: (ctx) =>
-              AddLocalDnsModal(addLocalDns: onAddLocalDns, window: true),
+          builder: (ctx) => AddLocalDnsModal(
+            addLocalDns: onAddLocalDns,
+            window: true,
+            devices: deviceOptions,
+          ),
         );
       } else {
         showModalBottomSheet(
           context: context,
-          builder: (ctx) =>
-              AddLocalDnsModal(addLocalDns: onAddLocalDns, window: false),
+          builder: (ctx) => AddLocalDnsModal(
+            addLocalDns: onAddLocalDns,
+            window: false,
+            devices: deviceOptions,
+          ),
           backgroundColor: Colors.transparent,
           isScrollControlled: true,
         );
@@ -291,6 +301,7 @@ class _LocalDnsState extends State<LocalDnsScreen> {
             result[1].result == APiResponseType.success) {
           localDnsInfo = result[0].data;
           devices = result[1].data.devices;
+          deviceOptions = devicesInfoToOptions(devices!);
         } else {
           isFetchError = true;
           logger.e('Failed to load local DNS or client info');
@@ -311,5 +322,63 @@ class _LocalDnsState extends State<LocalDnsScreen> {
         });
       }
     }
+  }
+
+  List<DeviceOption> devicesInfoToOptions(List<DeviceInfo> devices) {
+    final list = devices
+        .map((device) {
+          return device.ips
+              .where((addr) {
+                // Exclude loopback addresses
+                if (addr.ip == '127.0.0.1' ||
+                    addr.ip == '::' ||
+                    addr.ip == '::1') {
+                  return false;
+                }
+                // // Exclude if last segment is 1
+                // if (addr.ip.contains('.') && addr.ip.split('.').last == '1') {
+                //   return false;
+                // }
+                // Exclude if name is present
+                if (addr.name != null && addr.name!.isNotEmpty) {
+                  return false;
+                }
+                return true;
+              })
+              .map((addr) {
+                return DeviceOption(
+                  ip: addr.ip,
+                  hwaddr: device.hwaddr,
+                  macVendor:
+                      device.macVendor ?? AppLocalizations.of(context)!.unknown,
+                );
+              })
+              .toList();
+        })
+        .expand((x) => x)
+        .toList();
+
+    list.sort((a, b) {
+      final ipA = InternetAddress.tryParse(a.ip);
+      final ipB = InternetAddress.tryParse(b.ip);
+
+      if (ipA == null || ipB == null) {
+        return a.ip.compareTo(b.ip);
+      }
+
+      if (ipA.type != ipB.type) {
+        return ipA.type == InternetAddressType.IPv4 ? -1 : 1;
+      }
+
+      final bytesA = ipA.rawAddress;
+      final bytesB = ipB.rawAddress;
+      for (var i = 0; i < bytesA.length; i++) {
+        final diff = bytesA[i].compareTo(bytesB[i]);
+        if (diff != 0) return diff;
+      }
+      return 0;
+    });
+
+    return list;
   }
 }
