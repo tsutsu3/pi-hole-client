@@ -33,6 +33,7 @@ import 'package:pi_hole_client/data/model/v6/metrics/stats.dart'
     show StatsSummary, StatsTopClients, StatsTopDomains, StatsUpstreams;
 import 'package:pi_hole_client/data/model/v6/network/devices.dart';
 import 'package:pi_hole_client/data/model/v6/network/gateway.dart' show Gateway;
+import 'package:pi_hole_client/domain/model/local_dns/local_dns.dart';
 import 'package:pi_hole_client/domain/models_old/app_log.dart';
 import 'package:pi_hole_client/domain/models_old/client.dart';
 import 'package:pi_hole_client/domain/models_old/config.dart';
@@ -79,6 +80,7 @@ class ApiGatewayV6 implements ApiGateway {
   final notImplementedError = 'This feature is not implemented yet.';
   final postError = 'Failed to post data to the server.';
   final deleteError = 'Failed to delete data from the server.';
+  final putError = 'Failed to put data to the server.';
 
   @override
   Server get server => _server;
@@ -1578,8 +1580,167 @@ class ApiGatewayV6 implements ApiGateway {
   }
 
   @override
+  Future<DeleteConfigResponse> deleteConfiguration({
+    required String element,
+    required String value,
+  }) async {
+    try {
+      final results = await httpClient(
+        method: 'delete',
+        url: '${_server.address}/api/config/$element/$value',
+      );
+
+      if (results.statusCode == 204) {
+        return DeleteConfigResponse(result: APiResponseType.success);
+      } else {
+        return DeleteConfigResponse(
+          result: APiResponseType.error,
+          message: deleteError,
+        );
+      }
+    } catch (e) {
+      return DeleteConfigResponse(
+        result: APiResponseType.error,
+        message: unexpectedError,
+      );
+    }
+  }
+
+  @override
+  Future<PutConfigResponse> putConfiguration({
+    required String element,
+    required String value,
+  }) async {
+    try {
+      final results = await httpClient(
+        method: 'put',
+        url: '${_server.address}/api/config/$element/$value',
+      );
+
+      if (results.statusCode == 201) {
+        return PutConfigResponse(result: APiResponseType.success);
+      } else {
+        return PutConfigResponse(
+          result: APiResponseType.error,
+          message: putError,
+        );
+      }
+    } catch (e) {
+      return PutConfigResponse(
+        result: APiResponseType.error,
+        message: unexpectedError,
+      );
+    }
+  }
+
+  @override
   Future<ConfigurationResponse> patchDnsQueryLoggingConfig(bool status) async {
     return patchConfiguration(ConfigData(dns: Dns(queryLogging: status)));
+  }
+
+  @override
+  Future<LocalDnsResponse> getLocalDns() async {
+    final resp = await getConfiguration(element: 'dns/hosts');
+
+    if (resp.result == APiResponseType.success) {
+      final hosts = resp.data?.dns?.hosts ?? [];
+
+      return LocalDnsResponse(
+        result: APiResponseType.success,
+        data: hosts.map((e) {
+          final parts = e.split(' ');
+          return LocalDns(
+            ip: parts.isNotEmpty ? parts.first : '',
+            name: parts.length > 1 ? parts.sublist(1).join(' ') : '',
+          );
+        }).toList(),
+      );
+    } else {
+      return LocalDnsResponse(result: resp.result, message: resp.message);
+    }
+  }
+
+  @override
+  Future<AddLocalDnsResponse> addLocalDns({
+    required String ip,
+    required String name,
+  }) async {
+    final resp = await putConfiguration(
+      element: 'dns/hosts',
+      value: Uri.encodeComponent('$ip $name'),
+    );
+
+    if (resp.result == APiResponseType.success) {
+      return AddLocalDnsResponse(result: APiResponseType.success);
+    } else {
+      return AddLocalDnsResponse(result: resp.result, message: resp.message);
+    }
+  }
+
+  @override
+  Future<LocalDnsResponse> updateLocalDns({
+    required String ip,
+    required String name,
+  }) async {
+    // 1. Get current local DNS entries
+    final currentResp = await getLocalDns();
+
+    if (currentResp.result != APiResponseType.success) {
+      return LocalDnsResponse(
+        result: currentResp.result,
+        message: currentResp.message,
+      );
+    }
+
+    // 2. Prepare updated local DNS entries
+    final currentHosts = currentResp.data ?? [];
+    final existingIndex = currentHosts.indexWhere(
+      (element) => element.ip == ip,
+    );
+
+    if (existingIndex != -1) {
+      // Update existing entry
+      currentHosts[existingIndex] = LocalDns(ip: ip, name: name);
+    } else {
+      // Add new entry
+      currentHosts.add(LocalDns(ip: ip, name: name));
+    }
+
+    final newHosts = currentHosts.map((e) => '${e.ip} ${e.name}').toList();
+
+    // 3. Update the configuration
+    final configResp = await patchConfiguration(
+      ConfigData(dns: Dns(hosts: newHosts)),
+    );
+
+    if (configResp.result == APiResponseType.success) {
+      return LocalDnsResponse(
+        result: APiResponseType.success,
+        data: currentHosts,
+      );
+    } else {
+      return LocalDnsResponse(
+        result: configResp.result,
+        message: configResp.message,
+      );
+    }
+  }
+
+  @override
+  Future<DeleteLocalDnsResponse> deleteLocalDns({
+    required String ip,
+    required String name,
+  }) async {
+    final resp = await deleteConfiguration(
+      element: 'dns/hosts',
+      value: Uri.encodeComponent('$ip $name'),
+    );
+
+    if (resp.result == APiResponseType.success) {
+      return DeleteLocalDnsResponse(result: APiResponseType.success);
+    } else {
+      return DeleteLocalDnsResponse(result: resp.result, message: resp.message);
+    }
   }
 
   @override

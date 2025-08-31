@@ -15,6 +15,7 @@ import 'package:pi_hole_client/ui/core/viewmodel/app_config_provider.dart';
 import 'package:pi_hole_client/ui/core/viewmodel/servers_provider.dart';
 import 'package:pi_hole_client/ui/settings/server_settings/advanced_settings/dhcp_screen.dart';
 import 'package:pi_hole_client/ui/settings/server_settings/advanced_settings/interface_screen.dart';
+import 'package:pi_hole_client/ui/settings/server_settings/advanced_settings/local_dns_screen.dart';
 import 'package:pi_hole_client/ui/settings/server_settings/advanced_settings/network_screen.dart';
 import 'package:pi_hole_client/ui/settings/server_settings/advanced_settings/sessions_screen.dart';
 import 'package:pi_hole_client/utils/logger.dart';
@@ -382,6 +383,18 @@ class _AdvancedServerOptionsState extends State<AdvancedServerOptions> {
                 onTap: () => Navigator.push(
                   context,
                   MaterialPageRoute(builder: (context) => const DhcpScreen()),
+                ),
+              ),
+              CustomListTile(
+                leadingIcon: Icons.book_rounded,
+                label: 'Local DNS',
+                description:
+                    'Local DNS settings. Helps you map IP addresses to hostnames, making local devices easier to recognize.',
+                onTap: () => Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => const LocalDnsScreen(),
+                  ),
                 ),
               ),
               SectionLabel(label: AppLocalizations.of(context)!.tools),
