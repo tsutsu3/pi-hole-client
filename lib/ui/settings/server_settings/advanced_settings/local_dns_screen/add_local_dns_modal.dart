@@ -31,9 +31,14 @@ class _AddLocalDnsModalState extends State<AddLocalDnsModal> {
 
   /// Validate the IP address format
   void validateIp(String? value) {
+    final locale = AppLocalizations.of(context)!;
     if (value != null && value != '') {
       final ipRegex = RegExp(
-        r'^(([0-9]{1,3}\.){3}[0-9]{1,3}|[a-z0-9-]+(\.[a-z0-9-]+)*\.[a-z]{2,})$',
+        '^('
+        r'(25[0-5]|2[0-4][0-9]|1\d{2}|[1-9]?\d)(\.(25[0-5]|2[0-4][0-9]|1\d{2}|[1-9]?\d)){3}' // IPv4
+        '|'
+        '[0-9A-Fa-f:]{2,}' // Easy IPv6
+        r')$',
       );
       if (ipRegex.hasMatch(value) == true) {
         setState(() {
@@ -41,7 +46,7 @@ class _AddLocalDnsModalState extends State<AddLocalDnsModal> {
         });
       } else {
         setState(() {
-          ipError = 'Invalid IP address'; // TODO: i18n
+          ipError = locale.invalidIpAddress;
         });
       }
     } else {
@@ -54,13 +59,21 @@ class _AddLocalDnsModalState extends State<AddLocalDnsModal> {
 
   /// Validate the host name format
   void validateHostName(String? value) {
+    final locale = AppLocalizations.of(context)!;
     if (value != null && value != '') {
-      setState(() {
-        hostNameError = null;
-      });
+      final hostNameRegex = RegExp(r'^[a-zA-Z0-9-_\.]+$');
+      if (hostNameRegex.hasMatch(value) == true) {
+        setState(() {
+          hostNameError = null;
+        });
+      } else {
+        setState(() {
+          hostNameError = locale.invalidHostname;
+        });
+      }
     } else {
       setState(() {
-        hostNameError = 'Invalid hostname'; // TODO: i18n
+        hostNameError = locale.invalidHostname;
       });
     }
     validateAllData();
@@ -86,6 +99,7 @@ class _AddLocalDnsModalState extends State<AddLocalDnsModal> {
     final mediaQuery = MediaQuery.of(context);
     final isLandscape = mediaQuery.orientation == Orientation.landscape;
     final isKeyboardVisible = mediaQuery.viewInsets.bottom > 0;
+    final locale = AppLocalizations.of(context)!;
 
     Widget content() {
       return Column(
@@ -103,11 +117,11 @@ class _AddLocalDnsModalState extends State<AddLocalDnsModal> {
                         size: 24,
                         color: Theme.of(context).colorScheme.secondary,
                       ),
-                      const Padding(
-                        padding: EdgeInsets.all(20),
+                      Padding(
+                        padding: const EdgeInsets.all(20),
                         child: Text(
-                          'Add Local DNS', // TODO: i18n
-                          style: TextStyle(fontSize: 24),
+                          locale.addLocalDns,
+                          style: const TextStyle(fontSize: 24),
                         ),
                       ),
                     ],
@@ -120,12 +134,20 @@ class _AddLocalDnsModalState extends State<AddLocalDnsModal> {
                       controller: hostNameController,
                       onChanged: validateHostName,
                       decoration: InputDecoration(
-                        prefixIcon: const Icon(Icons.domain_rounded),
+                        prefixIcon: const Icon(Icons.computer_rounded),
                         border: const OutlineInputBorder(
                           borderRadius: BorderRadius.all(Radius.circular(10)),
                         ),
-                        labelText: 'Host Name', // TODO: i18n
-                        errorText: hostNameError,
+                        labelText: locale.hostname,
+                        error: Text(
+                          hostNameError ?? '',
+                          overflow: TextOverflow.visible,
+                          softWrap: true,
+                          style: TextStyle(
+                            color: Theme.of(context).colorScheme.error,
+                            fontSize: 12,
+                          ),
+                        ),
                       ),
                     ),
                   ),
@@ -137,11 +159,11 @@ class _AddLocalDnsModalState extends State<AddLocalDnsModal> {
                       controller: ipController,
                       onChanged: validateIp,
                       decoration: InputDecoration(
-                        prefixIcon: const Icon(Icons.domain_rounded),
+                        prefixIcon: const Icon(Icons.location_on_rounded),
                         border: const OutlineInputBorder(
                           borderRadius: BorderRadius.all(Radius.circular(10)),
                         ),
-                        labelText: 'IP Address', // TODO: i18n
+                        labelText: locale.ipAddress,
                         errorText: ipError,
                       ),
                     ),

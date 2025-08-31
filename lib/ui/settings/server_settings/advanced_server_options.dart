@@ -386,10 +386,9 @@ class _AdvancedServerOptionsState extends State<AdvancedServerOptions> {
                 ),
               ),
               CustomListTile(
-                leadingIcon: Icons.book_rounded,
-                label: 'Local DNS',
-                description:
-                    'Local DNS settings. Helps you map IP addresses to hostnames, making local devices easier to recognize.',
+                leadingIcon: Icons.dns_rounded,
+                label: AppLocalizations.of(context)!.localDns,
+                description: AppLocalizations.of(context)!.localDnsDescription,
                 onTap: () => Navigator.push(
                   context,
                   MaterialPageRoute(

@@ -39,6 +39,9 @@ class AppLocalizationsEn extends AppLocalizations {
   String get addDomain => 'Add domain';
 
   @override
+  String get addLocalDns => 'Add Local DNS';
+
+  @override
   String get addServer => 'Add server connection';
 
   @override
@@ -57,7 +60,13 @@ class AppLocalizationsEn extends AppLocalizations {
   String get addingDomain => 'Adding domain...';
 
   @override
+  String get addingLocalDns => 'Adding local DNS...';
+
+  @override
   String get addingWhitelist => 'Adding to whitelist...';
+
+  @override
+  String get additionalInformation => 'Additional Information';
 
   @override
   String get address => 'IP address or domain';
@@ -272,6 +281,9 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get cannotAddDomain => 'Domain couldn\'t be added';
+
+  @override
+  String get cannotAddLocalDns => 'Failed to add Local DNS';
 
   @override
   String get cannotChangeUpdateTime => 'Cannot change update time';
@@ -536,6 +548,13 @@ class AppLocalizationsEn extends AppLocalizations {
       'Are you sure you want to delete this domain?';
 
   @override
+  String get deleteLocalDns => 'Delete Local DNS';
+
+  @override
+  String get deleteLocalDnsMessage =>
+      'Are you sure you want to delete this Local DNS?';
+
+  @override
   String get deleteSession => 'Delete session';
 
   @override
@@ -666,6 +685,12 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get editGroups => 'Edit groups';
+
+  @override
+  String get editHostname => 'Edit Hostname';
+
+  @override
+  String get editIp => 'Edit IP Address';
 
   @override
   String get editServer => 'Edit server connection';
@@ -954,6 +979,13 @@ class AppLocalizationsEn extends AppLocalizations {
   String get invalidDomains => 'Invalid Domains';
 
   @override
+  String get invalidHostname =>
+      'Invalid hostname: only letters (a–z, A–Z), numbers (0–9), hyphen (-), underscore (_), and dot (.) are allowed';
+
+  @override
+  String get invalidIpAddress => 'Invalid IP Address';
+
+  @override
   String get invalidPort => 'Invalid port';
 
   @override
@@ -1056,6 +1088,31 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get localCacheReplies => 'Local/cache replies';
+
+  @override
+  String get localDns => 'Local DNS';
+
+  @override
+  String get localDnsAdded => 'Local DNS has been added successfully';
+
+  @override
+  String get localDnsDescription =>
+      'Map device hostnames to their IP addresses for easier identification on your network';
+
+  @override
+  String get localDnsInformation => 'Local DNS Information';
+
+  @override
+  String get localDnsRemoveError => 'to remove Local DNS';
+
+  @override
+  String get localDnsRemoved => 'Local DNS has been removed successfully';
+
+  @override
+  String get localDnsUpdateFailed => 'Failed to update Local DNS';
+
+  @override
+  String get localDnsUpdated => 'Local DNS has been updated successfully';
 
   @override
   String get logDetails => 'Log details';

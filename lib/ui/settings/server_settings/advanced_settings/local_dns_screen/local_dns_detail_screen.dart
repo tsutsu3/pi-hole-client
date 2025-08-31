@@ -67,7 +67,7 @@ class _LocalDnsDetailScreenState extends State<LocalDnsDetailScreen> {
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Local DNS'), // TODO: i18n
+        title: Text(locale.localDns),
         actions: [
           IconButton(
             onPressed: () => showDialog(
@@ -75,9 +75,8 @@ class _LocalDnsDetailScreenState extends State<LocalDnsDetailScreen> {
               useRootNavigator:
                   false, // Prevents unexpected app exit on mobile when pressing back
               builder: (context) => DeleteModal(
-                title: 'Delete Local DNS', // TODO: i18n
-                message:
-                    'Do you really want to delete this Local DNS entry?', // TODO: i18n
+                title: locale.deleteLocalDns,
+                message: locale.deleteLocalDnsMessage,
                 onDelete: () {
                   Navigator.maybePop(context);
                   widget.onDelete(widget.localDns);
@@ -95,7 +94,7 @@ class _LocalDnsDetailScreenState extends State<LocalDnsDetailScreen> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              SectionLabel(label: 'Local DNS Information'), // TODO: i18n
+              SectionLabel(label: locale.localDnsInformation),
               CustomListTile(
                 leadingIcon: Icons.computer_rounded,
                 label: locale.hostname,
@@ -116,7 +115,7 @@ class _LocalDnsDetailScreenState extends State<LocalDnsDetailScreen> {
                 ),
                 onTap: openIpModal,
               ),
-              SectionLabel(label: 'Additional Information'), // TODO: i18n
+              SectionLabel(label: locale.additionalInformation),
               CustomListTile(
                 leadingIcon: Icons.access_time_rounded,
                 label: locale.vendor,
@@ -137,6 +136,8 @@ class _LocalDnsDetailScreenState extends State<LocalDnsDetailScreen> {
   }
 
   Future<void> onEditLocalDns(LocalDns localDns) async {
+    final locale = AppLocalizations.of(context)!;
+
     final process = ProcessModal(context: context);
     process.open(AppLocalizations.of(context)!.updatingAdlist);
 
@@ -156,19 +157,20 @@ class _LocalDnsDetailScreenState extends State<LocalDnsDetailScreen> {
       showSuccessSnackBar(
         context: context,
         appConfigProvider: appConfigProvider,
-        label: 'Successfully updated local DNS', // TODO: i18n
+        label: locale.localDnsUpdated,
       );
     } else {
       if (!mounted) return;
       showErrorSnackBar(
         context: context,
         appConfigProvider: appConfigProvider,
-        label: 'Failed to update local DNS', // TODO: i18n
+        label: locale.localDnsUpdateFailed,
       );
     }
   }
 
   void openHostNameModal() {
+    final locale = AppLocalizations.of(context)!;
     final mediaQuery = MediaQuery.of(context);
     final isSmallLandscape =
         mediaQuery.size.width > mediaQuery.size.height &&
@@ -183,7 +185,7 @@ class _LocalDnsDetailScreenState extends State<LocalDnsDetailScreen> {
         builder: (ctx) => EditLocalDnsModal(
           localDns: _localDns,
           keyItem: 'name',
-          title: 'Edit Hostname', // TODO: i18n
+          title: locale.editHostname,
           icon: Icons.computer_rounded,
           onConfirm: onEditLocalDns,
           window: true,
@@ -195,7 +197,7 @@ class _LocalDnsDetailScreenState extends State<LocalDnsDetailScreen> {
         builder: (ctx) => EditLocalDnsModal(
           localDns: _localDns,
           keyItem: 'name',
-          title: 'Edit Hostname', // TODO: i18n
+          title: locale.editHostname,
           icon: Icons.computer_rounded,
           onConfirm: onEditLocalDns,
           window: false,
@@ -207,6 +209,7 @@ class _LocalDnsDetailScreenState extends State<LocalDnsDetailScreen> {
   }
 
   void openIpModal() {
+    final locale = AppLocalizations.of(context)!;
     final mediaQuery = MediaQuery.of(context);
     final isSmallLandscape =
         mediaQuery.size.width > mediaQuery.size.height &&
@@ -221,7 +224,7 @@ class _LocalDnsDetailScreenState extends State<LocalDnsDetailScreen> {
         builder: (ctx) => EditLocalDnsModal(
           localDns: _localDns,
           keyItem: 'ip',
-          title: 'Edit IP Address', // TODO: i18n
+          title: locale.editIp,
           icon: Icons.location_on_rounded,
           onConfirm: onEditLocalDns,
           window: true,
@@ -233,7 +236,7 @@ class _LocalDnsDetailScreenState extends State<LocalDnsDetailScreen> {
         builder: (ctx) => EditLocalDnsModal(
           localDns: _localDns,
           keyItem: 'ip',
-          title: 'Edit IP Address', // TODO: i18n
+          title: locale.editIp,
           icon: Icons.location_on_rounded,
           onConfirm: onEditLocalDns,
           window: false,

@@ -39,6 +39,9 @@ class AppLocalizationsJa extends AppLocalizations {
   String get addDomain => 'ドメインを追加';
 
   @override
+  String get addLocalDns => 'ローカルDNSを追加';
+
+  @override
   String get addServer => 'サーバー接続を追加';
 
   @override
@@ -57,7 +60,13 @@ class AppLocalizationsJa extends AppLocalizations {
   String get addingDomain => 'ドメインを追加中...';
 
   @override
+  String get addingLocalDns => 'ローカルDNSを追加中...';
+
+  @override
   String get addingWhitelist => 'ホワイトリストに追加中...';
+
+  @override
+  String get additionalInformation => '追加情報';
 
   @override
   String get address => 'IPアドレスまたはドメイン';
@@ -267,6 +276,9 @@ class AppLocalizationsJa extends AppLocalizations {
 
   @override
   String get cannotAddDomain => 'ドメインを追加できませんでした';
+
+  @override
+  String get cannotAddLocalDns => 'ローカルDNSを追加できませんでした';
 
   @override
   String get cannotChangeUpdateTime => '更新時間を変更できません';
@@ -519,6 +531,12 @@ class AppLocalizationsJa extends AppLocalizations {
   String get deleteDomainMessage => 'このドメインを削除してもよろしいですか？';
 
   @override
+  String get deleteLocalDns => 'ローカルDNSを削除';
+
+  @override
+  String get deleteLocalDnsMessage => 'このローカルDNSを削除してもよろしいですか？';
+
+  @override
   String get deleteSession => 'セッションを削除';
 
   @override
@@ -648,6 +666,12 @@ class AppLocalizationsJa extends AppLocalizations {
 
   @override
   String get editGroups => 'グループを編集';
+
+  @override
+  String get editHostname => 'ホスト名を編集';
+
+  @override
+  String get editIp => 'IPアドレスを編集';
 
   @override
   String get editServer => 'サーバー接続を編集';
@@ -930,6 +954,13 @@ class AppLocalizationsJa extends AppLocalizations {
   String get invalidDomains => '無効なドメイン';
 
   @override
+  String get invalidHostname =>
+      '無効なホスト名: 使用できるのは英字 (a–z、A–Z)、数字 (0–9)、ハイフン (-)、アンダースコア (_)、ドット (.) のみです';
+
+  @override
+  String get invalidIpAddress => '無効なIPアドレス';
+
+  @override
   String get invalidPort => '無効なポート';
 
   @override
@@ -1028,6 +1059,31 @@ class AppLocalizationsJa extends AppLocalizations {
 
   @override
   String get localCacheReplies => 'ローカル／キャッシュ応答';
+
+  @override
+  String get localDns => 'ローカル DNS';
+
+  @override
+  String get localDnsAdded => 'ローカルDNSが正常に追加されました';
+
+  @override
+  String get localDnsDescription =>
+      'デバイスのホスト名をIPアドレスに対応付けて、ネットワーク上で簡単に識別できるようにします';
+
+  @override
+  String get localDnsInformation => 'ローカルDNS情報';
+
+  @override
+  String get localDnsRemoveError => 'ローカルDNSの削除に失敗しました';
+
+  @override
+  String get localDnsRemoved => 'ローカルDNSが正常に削除されました';
+
+  @override
+  String get localDnsUpdateFailed => 'ローカルDNSの更新に失敗しました';
+
+  @override
+  String get localDnsUpdated => 'ローカルDNSの更新に成功しました';
 
   @override
   String get logDetails => 'ログの詳細';

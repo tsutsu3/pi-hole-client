@@ -46,51 +46,66 @@ class _EditLocalDnsModalState extends State<EditLocalDnsModal> {
   }
 
   void validateName(String? value) {
+    final locale = AppLocalizations.of(context)!;
     if (value == widget.localDns.name) {
       setState(() {
+        localDnsError = null;
         allDataValid = false;
       });
     } else {
       if (value != null && value != '') {
-        setState(() {
-          localDnsError = null;
-        });
+        final hostNameRegex = RegExp(r'^[a-zA-Z0-9-_\.]+$');
+        if (hostNameRegex.hasMatch(value) == true) {
+          setState(() {
+            localDnsError = null;
+            allDataValid = true;
+          });
+        } else {
+          setState(() {
+            localDnsError = locale.invalidHostname;
+            allDataValid = false;
+          });
+        }
       } else {
         setState(() {
-          localDnsError = 'Invalid Hostname'; // TODO: i18n
+          localDnsError = locale.invalidHostname;
+          allDataValid = false;
         });
       }
-      setState(() {
-        allDataValid = true;
-      });
     }
   }
 
   void validateIp(String? value) {
+    final locale = AppLocalizations.of(context)!;
     if (value == widget.localDns.ip) {
       setState(() {
+        localDnsError = null;
         allDataValid = false;
       });
     } else {
       if (value != null && value != '') {
         final ipRegex = RegExp(
-          r'^(([0-9]{1,3}\.){3}[0-9]{1,3}|[a-z0-9-]+(\.[a-z0-9-]+)*\.[a-z]{2,})$',
+          '^('
+          r'(25[0-5]|2[0-4][0-9]|1\d{2}|[1-9]?\d)(\.(25[0-5]|2[0-4][0-9]|1\d{2}|[1-9]?\d)){3}' // IPv4
+          '|'
+          '[0-9A-Fa-f:]{2,}' // Easy IPv6
+          r')$',
         );
         if (ipRegex.hasMatch(value) == true) {
           setState(() {
             localDnsError = null;
-            setState(() {
-              allDataValid = true;
-            });
+            allDataValid = true;
           });
         } else {
           setState(() {
-            localDnsError = 'Invalid IP address'; // TODO: i18n
+            localDnsError = locale.invalidIpAddress;
+            allDataValid = false;
           });
         }
       } else {
         setState(() {
-          localDnsError = 'Invalid IP address'; // TODO: i18n
+          localDnsError = locale.invalidIpAddress;
+          allDataValid = false;
         });
       }
     }
@@ -144,7 +159,15 @@ class _EditLocalDnsModalState extends State<EditLocalDnsModal> {
                                 ),
                               ),
                               labelText: AppLocalizations.of(context)!.hostname,
-                              errorText: localDnsError,
+                              error: Text(
+                                localDnsError ?? '',
+                                overflow: TextOverflow.visible,
+                                softWrap: true,
+                                style: TextStyle(
+                                  color: Theme.of(context).colorScheme.error,
+                                  fontSize: 12,
+                                ),
+                              ),
                             ),
                           ),
                         ),

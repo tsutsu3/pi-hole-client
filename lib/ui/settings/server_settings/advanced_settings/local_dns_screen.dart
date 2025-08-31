@@ -1,3 +1,4 @@
+import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
 import 'package:pi_hole_client/config/responsive.dart';
 import 'package:pi_hole_client/data/gateway/api_gateway_interface.dart';
@@ -18,7 +19,6 @@ import 'package:pi_hole_client/ui/settings/server_settings/advanced_settings/loc
 import 'package:pi_hole_client/utils/logger.dart';
 import 'package:provider/provider.dart';
 import 'package:skeletonizer/skeletonizer.dart';
-import 'package:collection/collection.dart';
 
 // fake data for Skeletonizer
 const _fakeLocalDnsInfo = [
@@ -88,9 +88,10 @@ class _LocalDnsState extends State<LocalDnsScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final locale = AppLocalizations.of(context)!;
     if (apiGateway == null) {
       return Scaffold(
-        appBar: AppBar(title: const Text('Local DNS')), // TODO: i18n
+        appBar: AppBar(title: Text(locale.localDns)),
         body: const SafeArea(child: EmptyDataScreen()),
       );
     }
@@ -115,20 +116,20 @@ class _LocalDnsState extends State<LocalDnsScreen> {
         showSuccessSnackBar(
           context: context,
           appConfigProvider: appConfigProvider,
-          label: 'Successfully removed local DNS entry', // TODO: i18n
+          label: locale.localDnsRemoved,
         );
       } else {
         showErrorSnackBar(
           context: context,
           appConfigProvider: appConfigProvider,
-          label: 'Error removing local DNS entry', // TODO: i18n
+          label: locale.localDnsRemoveError,
         );
       }
     }
 
     Future<void> onAddLocalDns(Map<String, dynamic> value) async {
       final process = ProcessModal(context: context);
-      process.open('Adding Local DNS'); // TODO: i18n
+      process.open(locale.addingLocalDns);
 
       final result = await apiGateway?.addLocalDns(
         ip: value['ip'],
@@ -146,13 +147,13 @@ class _LocalDnsState extends State<LocalDnsScreen> {
         showSuccessSnackBar(
           context: context,
           appConfigProvider: appConfigProvider,
-          label: 'Successfully added local DNS entry', // TODO: i18n
+          label: locale.localDnsAdded,
         );
       } else {
         showErrorSnackBar(
           context: context,
           appConfigProvider: appConfigProvider,
-          label: 'Error adding local DNS entry', // TODO: i18n
+          label: locale.cannotAddLocalDns,
         );
       }
     }
@@ -187,14 +188,14 @@ class _LocalDnsState extends State<LocalDnsScreen> {
       behavior: CustomScrollBehavior(),
       child: Scaffold(
         appBar: AppBar(
-          title: const Text('Local DNS'), // TODO: i18n
+          title: Text(locale.localDns),
           actions: [
             Padding(
               padding: const EdgeInsets.only(right: 8),
               child: IconButton(
                 icon: const Icon(Icons.refresh_rounded),
                 onPressed: _loadLocalDns,
-                tooltip: AppLocalizations.of(context)!.refresh,
+                tooltip: locale.refresh,
               ),
             ),
           ],
@@ -221,9 +222,7 @@ class _LocalDnsState extends State<LocalDnsScreen> {
                   }
 
                   if (isFetchError) {
-                    return ErrorMessage(
-                      message: AppLocalizations.of(context)!.dataFetchFailed,
-                    );
+                    return ErrorMessage(message: locale.dataFetchFailed);
                   }
 
                   return LocalDnsListView(
