@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:pi_hole_client/domain/model/network/network.dart';
 import 'package:pi_hole_client/ui/core/l10n/generated/app_localizations.dart';
-import 'package:pi_hole_client/ui/settings/server_settings/advanced_settings/local_dns_screen/labeled_single_select_tile.dart';
+import 'package:pi_hole_client/ui/settings/server_settings/advanced_settings/local_dns_screen/ip_auto_complate_field.dart';
 
 class AddLocalDnsModal extends StatefulWidget {
   const AddLocalDnsModal({
@@ -132,7 +132,6 @@ class _AddLocalDnsModalState extends State<AddLocalDnsModal> {
                       ),
                     ],
                   ),
-
                   Container(
                     width: double.maxFinite,
                     padding: const EdgeInsets.only(top: 20),
@@ -145,65 +144,29 @@ class _AddLocalDnsModalState extends State<AddLocalDnsModal> {
                           borderRadius: BorderRadius.all(Radius.circular(10)),
                         ),
                         labelText: locale.hostname,
-                        error: Text(
-                          hostNameError ?? '',
-                          overflow: TextOverflow.visible,
-                          softWrap: true,
-                          style: TextStyle(
-                            color: Theme.of(context).colorScheme.error,
-                            fontSize: 12,
-                          ),
-                        ),
+                        error: hostNameError != null
+                            ? Text(
+                                hostNameError ?? '',
+                                overflow: TextOverflow.visible,
+                                softWrap: true,
+                                style: TextStyle(
+                                  color: Theme.of(context).colorScheme.error,
+                                  fontSize: 12,
+                                ),
+                              )
+                            : null,
                       ),
                     ),
                   ),
-                  const Padding(padding: EdgeInsets.all(8)),
-                  SwitchListTile(
-                    contentPadding: EdgeInsets.zero,
-                    title: Text(
-                      useDropdown
-                          ? 'Select a device' // TODO: i18n
-                          : 'Enter manually', // TODO: i18n
-                    ),
-                    value: useDropdown,
-                    onChanged: (val) {
-                      setState(() {
-                        useDropdown = val;
-                        selectedIp = null;
-                        ipController.text = '';
-                        allDataValid = false;
-                      });
-                    },
+                  const Padding(padding: EdgeInsets.all(12)),
+                  IpAutoCompleteField(
+                    icon: Icons.location_on_rounded,
+                    labelText: locale.ipAddress,
+                    hintText: locale.ipAddress,
+                    devices: widget.devices!,
+                    controller: ipController,
+                    onChanged: validateIp,
                   ),
-                  if (useDropdown)
-                    LabeledSingleSelectTile(
-                      labelText: locale.ipAddress,
-                      hintText: locale.ipAddress,
-                      icon: Icons.location_on_rounded,
-                      options: widget.devices!.asMap(),
-                      onChanged: (id) {
-                        final ip = widget.devices!.asMap()[id]?.ip;
-                        ipController.text = ip ?? '';
-                        validateIp(ip);
-                      },
-                    )
-                  else
-                    Container(
-                      margin: const EdgeInsets.only(top: 12),
-                      width: double.maxFinite,
-                      child: TextField(
-                        controller: ipController,
-                        onChanged: validateIp,
-                        decoration: InputDecoration(
-                          prefixIcon: const Icon(Icons.location_on_rounded),
-                          border: const OutlineInputBorder(
-                            borderRadius: BorderRadius.all(Radius.circular(10)),
-                          ),
-                          labelText: locale.ipAddress,
-                          errorText: ipError,
-                        ),
-                      ),
-                    ),
                 ],
               ),
             ),
