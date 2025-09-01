@@ -170,6 +170,7 @@ class _AddLocalDnsModalState extends State<AddLocalDnsModal> {
                     subtitleOf: (item) => '${item.hwaddr} (${item.macVendor})',
                     visualDensity: const VisualDensity(vertical: -4),
                     maxPopupHeight: 200,
+                    expandAnimationDurationMilliseconds: 160,
                   ),
                 ],
               ),

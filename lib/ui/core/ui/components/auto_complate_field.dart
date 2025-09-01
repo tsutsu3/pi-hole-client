@@ -41,6 +41,8 @@ class AutoCompleteField<T> extends StatefulWidget {
     this.initialText,
     this.keyboardType,
     this.visualDensity,
+    this.isAnimated = true,
+    this.expandAnimationDurationMilliseconds = 200,
     this.contentPadding = const EdgeInsets.symmetric(vertical: 14),
     super.key,
   });
@@ -88,6 +90,12 @@ class AutoCompleteField<T> extends StatefulWidget {
 
   /// Padding inside the text field.
   final EdgeInsetsGeometry contentPadding;
+
+  /// Duration for the expand/collapse animation.
+  final int expandAnimationDurationMilliseconds;
+
+  /// Whether the expand/collapse animation is enabled.
+  final bool isAnimated;
 
   /// Visual density for suggestion list tiles.
   final VisualDensity? visualDensity;
@@ -208,45 +216,7 @@ class _AutoCompleteFieldState<T> extends State<AutoCompleteField<T>> {
                 ),
               ),
               // Suggestions list
-              if (_isExpanded)
-                ConstrainedBox(
-                  constraints: BoxConstraints(maxHeight: widget.maxPopupHeight),
-                  child: Material(
-                    type: MaterialType.transparency,
-                    child: ListView.builder(
-                      shrinkWrap: true,
-                      physics: const ClampingScrollPhysics(),
-                      itemCount: items.length,
-                      itemBuilder: (context, index) {
-                        final it = items[index];
-                        final title =
-                            widget.titleOf?.call(it) ?? widget.textOf(it);
-                        final subtitle = widget.subtitleOf?.call(it);
-
-                        return ListTile(
-                          visualDensity: widget.visualDensity,
-                          title: Text(title),
-                          subtitle: subtitle != null
-                              ? Text(subtitle, overflow: TextOverflow.ellipsis)
-                              : null,
-                          onTap: () {
-                            final text = widget.textOf(it);
-                            setState(() {
-                              _textCtrl.text = text;
-                              _textCtrl.selection = TextSelection.fromPosition(
-                                TextPosition(offset: _textCtrl.text.length),
-                              );
-                              _selectedText = text;
-                              _isExpanded = false;
-                            });
-                            widget.onChanged(text);
-                            _focusNode.unfocus();
-                          },
-                        );
-                      },
-                    ),
-                  ),
-                ),
+              _buildSuggestions(items),
             ],
           ),
         ),
@@ -271,6 +241,59 @@ class _AutoCompleteFieldState<T> extends State<AutoCompleteField<T>> {
             ),
           ),
       ],
+    );
+  }
+
+  /// Build the suggestions list
+  Widget _buildSuggestions(List<T> items) {
+    final listView = ConstrainedBox(
+      constraints: BoxConstraints(maxHeight: widget.maxPopupHeight),
+      child: Material(
+        type: MaterialType.transparency,
+        child: ListView.builder(
+          shrinkWrap: true,
+          physics: const ClampingScrollPhysics(),
+          itemCount: items.length,
+          itemBuilder: (context, index) {
+            final it = items[index];
+            final title = widget.titleOf?.call(it) ?? widget.textOf(it);
+            final subtitle = widget.subtitleOf?.call(it);
+
+            return ListTile(
+              visualDensity: widget.visualDensity,
+              title: Text(title),
+              subtitle: subtitle != null
+                  ? Text(subtitle, overflow: TextOverflow.ellipsis)
+                  : null,
+              onTap: () {
+                final text = widget.textOf(it);
+                setState(() {
+                  _textCtrl.text = text;
+                  _textCtrl.selection = TextSelection.fromPosition(
+                    TextPosition(offset: _textCtrl.text.length),
+                  );
+                  _selectedText = text;
+                  _isExpanded = false;
+                });
+                widget.onChanged(text);
+                _focusNode.unfocus();
+              },
+            );
+          },
+        ),
+      ),
+    );
+
+    if (!widget.isAnimated) {
+      return _isExpanded ? listView : const SizedBox.shrink();
+    }
+
+    return AnimatedSize(
+      duration: Duration(
+        milliseconds: widget.expandAnimationDurationMilliseconds,
+      ),
+      curve: Curves.easeInOut,
+      child: _isExpanded ? listView : const SizedBox.shrink(),
     );
   }
 }
