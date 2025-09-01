@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:pi_hole_client/domain/model/network/network.dart';
 import 'package:pi_hole_client/ui/core/l10n/generated/app_localizations.dart';
-import 'package:pi_hole_client/ui/settings/server_settings/advanced_settings/local_dns_screen/ip_auto_complate_field.dart';
+import 'package:pi_hole_client/ui/core/ui/components/auto_complate_field.dart';
 
 class AddLocalDnsModal extends StatefulWidget {
   const AddLocalDnsModal({
@@ -159,13 +159,17 @@ class _AddLocalDnsModalState extends State<AddLocalDnsModal> {
                     ),
                   ),
                   const Padding(padding: EdgeInsets.all(12)),
-                  IpAutoCompleteField(
+                  AutoCompleteField<DeviceOption>(
                     icon: Icons.location_on_rounded,
                     labelText: locale.ipAddress,
                     hintText: locale.ipAddress,
-                    devices: widget.devices!,
+                    items: widget.devices!,
                     controller: ipController,
                     onChanged: validateIp,
+                    textOf: (item) => item.ip,
+                    subtitleOf: (item) => '${item.hwaddr} (${item.macVendor})',
+                    visualDensity: const VisualDensity(vertical: -4),
+                    maxPopupHeight: 200,
                   ),
                 ],
               ),
