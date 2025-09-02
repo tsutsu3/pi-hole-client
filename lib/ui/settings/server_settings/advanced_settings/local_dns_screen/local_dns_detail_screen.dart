@@ -5,12 +5,9 @@ import 'package:pi_hole_client/data/gateway/api_gateway_interface.dart';
 import 'package:pi_hole_client/domain/model/local_dns/local_dns.dart';
 import 'package:pi_hole_client/domain/model/network/network.dart';
 import 'package:pi_hole_client/domain/models_old/devices.dart';
-import 'package:pi_hole_client/domain/models_old/gateways.dart';
 import 'package:pi_hole_client/ui/core/l10n/generated/app_localizations.dart';
 import 'package:pi_hole_client/ui/core/ui/components.dart';
-import 'package:pi_hole_client/ui/core/ui/helpers/snackbar.dart';
 import 'package:pi_hole_client/ui/core/ui/modals/delete_modal.dart';
-import 'package:pi_hole_client/ui/core/ui/modals/process_modal.dart';
 import 'package:pi_hole_client/ui/core/viewmodel/app_config_provider.dart';
 import 'package:pi_hole_client/ui/core/viewmodel/servers_provider.dart';
 import 'package:pi_hole_client/ui/settings/server_settings/advanced_settings/local_dns_screen/edit_local_dns_modal.dart';
@@ -20,7 +17,7 @@ class LocalDnsDetailScreen extends StatefulWidget {
   const LocalDnsDetailScreen({
     required this.localDns,
     required this.onDelete,
-    this.onUpdate,
+    required this.onUpdate,
     this.device,
     this.devices,
     super.key,
@@ -29,8 +26,8 @@ class LocalDnsDetailScreen extends StatefulWidget {
   final LocalDns localDns;
   final DeviceInfo? device;
   final List<DeviceOption>? devices;
-  final void Function(LocalDns) onDelete;
-  final void Function(LocalDns updated, String oldIp)? onUpdate;
+  final Future<bool> Function(LocalDns) onDelete;
+  final Future<bool> Function(LocalDns updated, String oldIp) onUpdate;
 
   @override
   State<LocalDnsDetailScreen> createState() => _LocalDnsDetailScreenState();
@@ -87,9 +84,11 @@ class _LocalDnsDetailScreenState extends State<LocalDnsDetailScreen> {
               builder: (context) => DeleteModal(
                 title: locale.deleteLocalDns,
                 message: locale.deleteLocalDnsMessage,
-                onDelete: () {
-                  Navigator.maybePop(context);
-                  widget.onDelete(_localDns);
+                onDelete: () async {
+                  final ok = await widget.onDelete(_localDns);
+                  if (ok && context.mounted) {
+                    await Navigator.maybePop(context);
+                  }
                 },
               ),
             ),
@@ -146,39 +145,10 @@ class _LocalDnsDetailScreenState extends State<LocalDnsDetailScreen> {
   }
 
   Future<void> onEditLocalDns(LocalDns localDns, String oldIp) async {
-    final locale = AppLocalizations.of(context)!;
-
-    final process = ProcessModal(context: context);
-    process.open(AppLocalizations.of(context)!.updatingAdlist);
-
-    final result = await apiGateway?.updateLocalDns(
-      ip: localDns.ip,
-      name: localDns.name,
-      oldIp: oldIp,
-    );
-
-    process.close();
-
-    if (result?.result == APiResponseType.success) {
-      widget.onUpdate?.call(localDns, oldIp);
-
-      setState(() {
-        _localDns = localDns;
-      });
-
-      if (!mounted) return;
-      showSuccessSnackBar(
-        context: context,
-        appConfigProvider: appConfigProvider,
-        label: locale.localDnsUpdated,
-      );
-    } else {
-      if (!mounted) return;
-      showErrorSnackBar(
-        context: context,
-        appConfigProvider: appConfigProvider,
-        label: locale.localDnsUpdateFailed,
-      );
+    final ok = await widget.onUpdate(localDns, oldIp); // 親に丸投げ
+    if (!mounted) return;
+    if (ok) {
+      setState(() => _localDns = localDns); // 成功したら画面の表示だけ更新
     }
   }
 

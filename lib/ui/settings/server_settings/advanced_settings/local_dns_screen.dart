@@ -100,22 +100,50 @@ class _LocalDnsState extends State<LocalDnsScreen> {
       );
     }
 
-    Future<void> updateLocalDns(LocalDns localDns, String oldIp) async {
+    Future<bool> updateLocalDns(LocalDns localDns, String oldIp) async {
       // await _loadLocalDns();
+      final process = ProcessModal(context: context);
+      final locale = AppLocalizations.of(context)!;
+      process.open(locale.updatingAdlist);
+      final result = await apiGateway!.updateLocalDns(
+        ip: localDns.ip,
+        name: localDns.name,
+        oldIp: oldIp,
+      );
+      process.close();
 
-      setState(() {
-        final list = localDnsInfo!;
-        final idx = list.indexWhere((e) => e.ip == oldIp);
-        if (idx != -1) {
-          list[idx] = localDns;
-        } else {
-          // If not found, add it
-          list.add(localDns);
+      if (result.result == APiResponseType.success) {
+        setState(() {
+          final list = localDnsInfo!;
+          final idx = list.indexWhere((e) => e.ip == oldIp);
+          if (idx != -1) {
+            list[idx] = localDns;
+          } else {
+            // If not found, add it
+            list.add(localDns);
+          }
+        });
+        if (context.mounted) {
+          showSuccessSnackBar(
+            context: context,
+            appConfigProvider: appConfigProvider,
+            label: locale.localDnsUpdated,
+          );
         }
-      });
+        return true;
+      } else {
+        if (context.mounted) {
+          showErrorSnackBar(
+            context: context,
+            appConfigProvider: appConfigProvider,
+            label: locale.localDnsUpdateFailed,
+          );
+        }
+        return false;
+      }
     }
 
-    Future<void> removeLocalDns(LocalDns localDns) async {
+    Future<bool> removeLocalDns(LocalDns localDns) async {
       final process = ProcessModal(context: context);
       process.open(AppLocalizations.of(context)!.deleting);
 
@@ -123,7 +151,7 @@ class _LocalDnsState extends State<LocalDnsScreen> {
         ip: localDns.ip,
         name: localDns.name,
       );
-      if (!context.mounted) return;
+      if (!context.mounted) return false;
 
       process.close();
 
@@ -134,18 +162,20 @@ class _LocalDnsState extends State<LocalDnsScreen> {
           localDnsInfo?.removeWhere((e) => e.ip == localDns.ip);
         });
 
-        if (!context.mounted) return;
+        if (!context.mounted) return false;
         showSuccessSnackBar(
           context: context,
           appConfigProvider: appConfigProvider,
           label: locale.localDnsRemoved,
         );
+        return true;
       } else {
         showErrorSnackBar(
           context: context,
           appConfigProvider: appConfigProvider,
           label: locale.localDnsRemoveError,
         );
+        return false;
       }
     }
 
