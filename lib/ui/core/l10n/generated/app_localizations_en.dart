@@ -1103,7 +1103,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get localDnsInformation => 'Local DNS Information';
 
   @override
-  String get localDnsRemoveError => 'to remove Local DNS';
+  String get localDnsRemoveError => 'Failedto remove Local DNS';
 
   @override
   String get localDnsRemoved => 'Local DNS has been removed successfully';

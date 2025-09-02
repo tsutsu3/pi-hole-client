@@ -100,6 +100,21 @@ class _LocalDnsState extends State<LocalDnsScreen> {
       );
     }
 
+    Future<void> updateLocalDns(LocalDns localDns, String oldIp) async {
+      // await _loadLocalDns();
+
+      setState(() {
+        final list = localDnsInfo!;
+        final idx = list.indexWhere((e) => e.ip == oldIp);
+        if (idx != -1) {
+          list[idx] = localDns;
+        } else {
+          // If not found, add it
+          list.add(localDns);
+        }
+      });
+    }
+
     Future<void> removeLocalDns(LocalDns localDns) async {
       final process = ProcessModal(context: context);
       process.open(AppLocalizations.of(context)!.deleting);
@@ -114,7 +129,10 @@ class _LocalDnsState extends State<LocalDnsScreen> {
 
       if (result?.result == APiResponseType.success) {
         await Navigator.maybePop(context);
-        await _loadLocalDns();
+        // await _loadLocalDns();
+        setState(() {
+          localDnsInfo?.removeWhere((e) => e.ip == localDns.ip);
+        });
 
         if (!context.mounted) return;
         showSuccessSnackBar(
@@ -145,7 +163,9 @@ class _LocalDnsState extends State<LocalDnsScreen> {
       if (!context.mounted) return;
 
       if (result?.result == APiResponseType.success) {
-        // await domainsListProvider.fetchDomainsList();
+        // await _loadLocalDns();
+        localDnsInfo?.add(LocalDns(ip: value['ip'], name: value['name']));
+
         if (!context.mounted) return;
 
         showSuccessSnackBar(
@@ -254,6 +274,7 @@ class _LocalDnsState extends State<LocalDnsScreen> {
                             ),
                             devices: devicesInfoToOptions(devices!),
                             onDelete: removeLocalDns,
+                            onUpdate: updateLocalDns,
                           ),
                         ),
                       );

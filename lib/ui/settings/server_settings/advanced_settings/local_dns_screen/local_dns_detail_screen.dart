@@ -1,3 +1,4 @@
+import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
 import 'package:pi_hole_client/config/responsive.dart';
 import 'package:pi_hole_client/data/gateway/api_gateway_interface.dart';
@@ -19,6 +20,7 @@ class LocalDnsDetailScreen extends StatefulWidget {
   const LocalDnsDetailScreen({
     required this.localDns,
     required this.onDelete,
+    this.onUpdate,
     this.device,
     this.devices,
     super.key,
@@ -28,6 +30,7 @@ class LocalDnsDetailScreen extends StatefulWidget {
   final DeviceInfo? device;
   final List<DeviceOption>? devices;
   final void Function(LocalDns) onDelete;
+  final void Function(LocalDns updated, String oldIp)? onUpdate;
 
   @override
   State<LocalDnsDetailScreen> createState() => _LocalDnsDetailScreenState();
@@ -43,6 +46,9 @@ class _LocalDnsDetailScreenState extends State<LocalDnsDetailScreen> {
   void initState() {
     super.initState();
     _localDns = widget.localDns.copyWith();
+    appConfigProvider = context.read<AppConfigProvider>();
+    serversProvider = context.read<ServersProvider>();
+    apiGateway = serversProvider.selectedApiGateway;
   }
 
   @override
@@ -59,14 +65,15 @@ class _LocalDnsDetailScreenState extends State<LocalDnsDetailScreen> {
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
-    appConfigProvider = context.watch<AppConfigProvider>();
-    serversProvider = context.watch<ServersProvider>();
-    apiGateway = serversProvider.selectedApiGateway;
   }
 
   @override
   Widget build(BuildContext context) {
     final locale = AppLocalizations.of(context)!;
+
+    final currentOption = widget.devices?.firstWhereOrNull(
+      (o) => o.ip == _localDns.ip,
+    );
 
     return Scaffold(
       appBar: AppBar(
@@ -82,7 +89,7 @@ class _LocalDnsDetailScreenState extends State<LocalDnsDetailScreen> {
                 message: locale.deleteLocalDnsMessage,
                 onDelete: () {
                   Navigator.maybePop(context);
-                  widget.onDelete(widget.localDns);
+                  widget.onDelete(_localDns);
                 },
               ),
             ),
@@ -101,7 +108,7 @@ class _LocalDnsDetailScreenState extends State<LocalDnsDetailScreen> {
               CustomListTile(
                 leadingIcon: Icons.computer_rounded,
                 label: locale.hostname,
-                description: widget.localDns.name,
+                description: _localDns.name,
                 trailing: Icon(
                   Icons.edit_rounded,
                   color: Theme.of(context).colorScheme.onSurfaceVariant,
@@ -111,7 +118,7 @@ class _LocalDnsDetailScreenState extends State<LocalDnsDetailScreen> {
               CustomListTile(
                 leadingIcon: Icons.location_on_rounded,
                 label: locale.ipAddress,
-                description: widget.localDns.ip,
+                description: _localDns.ip,
                 trailing: Icon(
                   Icons.edit_rounded,
                   color: Theme.of(context).colorScheme.onSurfaceVariant,
@@ -122,14 +129,14 @@ class _LocalDnsDetailScreenState extends State<LocalDnsDetailScreen> {
               CustomListTile(
                 leadingIcon: Icons.access_time_rounded,
                 label: locale.vendor,
-                description: (widget.device?.macVendor?.isNotEmpty ?? false)
-                    ? widget.device!.macVendor
+                description: (currentOption?.macVendor.isNotEmpty ?? false)
+                    ? currentOption!.macVendor
                     : locale.unknown,
               ),
               CustomListTile(
                 leadingIcon: Icons.info_rounded,
                 label: locale.macAddress,
-                description: widget.device?.hwaddr ?? locale.unknown,
+                description: currentOption?.hwaddr ?? locale.unknown,
               ),
             ],
           ),
@@ -138,7 +145,7 @@ class _LocalDnsDetailScreenState extends State<LocalDnsDetailScreen> {
     );
   }
 
-  Future<void> onEditLocalDns(LocalDns localDns, String ip) async {
+  Future<void> onEditLocalDns(LocalDns localDns, String oldIp) async {
     final locale = AppLocalizations.of(context)!;
 
     final process = ProcessModal(context: context);
@@ -147,12 +154,14 @@ class _LocalDnsDetailScreenState extends State<LocalDnsDetailScreen> {
     final result = await apiGateway?.updateLocalDns(
       ip: localDns.ip,
       name: localDns.name,
-      oldIp: ip,
+      oldIp: oldIp,
     );
 
     process.close();
 
     if (result?.result == APiResponseType.success) {
+      widget.onUpdate?.call(localDns, oldIp);
+
       setState(() {
         _localDns = localDns;
       });

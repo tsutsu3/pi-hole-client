@@ -2207,7 +2207,7 @@ abstract class AppLocalizations {
   /// No description provided for @localDnsRemoveError.
   ///
   /// In en, this message translates to:
-  /// **'to remove Local DNS'**
+  /// **'Failedto remove Local DNS'**
   String get localDnsRemoveError;
 
   /// No description provided for @localDnsRemoved.
