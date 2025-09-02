@@ -46,7 +46,7 @@ class _EditLocalDnsModalState extends State<EditLocalDnsModal> {
     }
   }
 
-  void validateName(String? value) {
+  void validateHostName(String? value) {
     final locale = AppLocalizations.of(context)!;
     if (value == widget.localDns.name) {
       setState(() {
@@ -152,7 +152,7 @@ class _EditLocalDnsModalState extends State<EditLocalDnsModal> {
                           width: double.infinity,
                           child: TextField(
                             controller: localDnsController,
-                            onChanged: validateName,
+                            onChanged: validateHostName,
                             decoration: InputDecoration(
                               prefixIcon: const Icon(Icons.computer_rounded),
                               border: const OutlineInputBorder(
@@ -161,15 +161,19 @@ class _EditLocalDnsModalState extends State<EditLocalDnsModal> {
                                 ),
                               ),
                               labelText: locale.hostname,
-                              error: Text(
-                                localDnsError ?? '',
-                                overflow: TextOverflow.visible,
-                                softWrap: true,
-                                style: TextStyle(
-                                  color: Theme.of(context).colorScheme.error,
-                                  fontSize: 12,
-                                ),
-                              ),
+                              error: localDnsError != null
+                                  ? Text(
+                                      localDnsError ?? '',
+                                      overflow: TextOverflow.visible,
+                                      softWrap: true,
+                                      style: TextStyle(
+                                        color: Theme.of(
+                                          context,
+                                        ).colorScheme.error,
+                                        fontSize: 12,
+                                      ),
+                                    )
+                                  : null,
                             ),
                           ),
                         ),
