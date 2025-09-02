@@ -138,7 +138,7 @@ class _LocalDnsDetailScreenState extends State<LocalDnsDetailScreen> {
     );
   }
 
-  Future<void> onEditLocalDns(LocalDns localDns) async {
+  Future<void> onEditLocalDns(LocalDns localDns, String ip) async {
     final locale = AppLocalizations.of(context)!;
 
     final process = ProcessModal(context: context);
@@ -147,6 +147,7 @@ class _LocalDnsDetailScreenState extends State<LocalDnsDetailScreen> {
     final result = await apiGateway?.updateLocalDns(
       ip: localDns.ip,
       name: localDns.name,
+      oldIp: ip,
     );
 
     process.close();

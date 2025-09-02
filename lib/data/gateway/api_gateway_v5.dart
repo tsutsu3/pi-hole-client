@@ -1028,6 +1028,7 @@ class ApiGatewayV5 implements ApiGateway {
   Future<LocalDnsResponse> updateLocalDns({
     required String ip,
     required String name,
+    String? oldIp,
   }) async {
     return Future.value(
       LocalDnsResponse(

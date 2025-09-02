@@ -287,6 +287,7 @@ abstract interface class ApiGateway {
   Future<LocalDnsResponse> updateLocalDns({
     required String ip,
     required String name,
+    String? oldIp,
   });
 
   Future<AddLocalDnsResponse> addLocalDns({

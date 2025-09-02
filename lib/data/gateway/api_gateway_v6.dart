@@ -1681,6 +1681,7 @@ class ApiGatewayV6 implements ApiGateway {
   Future<LocalDnsResponse> updateLocalDns({
     required String ip,
     required String name,
+    String? oldIp,
   }) async {
     // 1. Get current local DNS entries
     final currentResp = await getLocalDns();
@@ -1695,7 +1696,7 @@ class ApiGatewayV6 implements ApiGateway {
     // 2. Prepare updated local DNS entries
     final currentHosts = currentResp.data ?? [];
     final existingIndex = currentHosts.indexWhere(
-      (element) => element.ip == ip,
+      (element) => element.ip == (oldIp ?? ip),
     );
 
     if (existingIndex != -1) {
