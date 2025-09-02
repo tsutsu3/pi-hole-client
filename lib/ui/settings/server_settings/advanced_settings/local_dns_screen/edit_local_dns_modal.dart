@@ -189,9 +189,11 @@ class _EditLocalDnsModalState extends State<EditLocalDnsModal> {
                           subtitleOf: (item) =>
                               '${item.hwaddr} (${item.macVendor})',
                           visualDensity: const VisualDensity(vertical: -4),
-                          maxPopupHeight: 200,
                           expandAnimationDurationMilliseconds: 160,
                           initialText: localDnsController.text,
+                          errorText: localDnsError != null
+                              ? locale.invalidIpAddress
+                              : null,
                         ),
                     ],
                   ),

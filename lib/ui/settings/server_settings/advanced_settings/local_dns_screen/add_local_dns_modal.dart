@@ -79,7 +79,7 @@ class _AddLocalDnsModalState extends State<AddLocalDnsModal> {
       }
     } else {
       setState(() {
-        hostNameError = locale.invalidHostname;
+        hostNameError = null;
       });
     }
     validateAllData();
@@ -169,8 +169,8 @@ class _AddLocalDnsModalState extends State<AddLocalDnsModal> {
                     textOf: (item) => item.ip,
                     subtitleOf: (item) => '${item.hwaddr} (${item.macVendor})',
                     visualDensity: const VisualDensity(vertical: -4),
-                    maxPopupHeight: 200,
                     expandAnimationDurationMilliseconds: 160,
+                    errorText: ipError != null ? locale.invalidIpAddress : null,
                   ),
                 ],
               ),

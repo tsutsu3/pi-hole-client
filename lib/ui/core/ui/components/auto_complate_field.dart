@@ -34,13 +34,14 @@ class AutoCompleteField<T> extends StatefulWidget {
     this.titleOf,
     this.subtitleOf,
     this.matches,
-    this.labelText = '',
-    this.hintText = '',
     this.icon,
-    this.maxPopupHeight = 160,
     this.initialText,
     this.keyboardType,
     this.visualDensity,
+    this.errorText,
+    this.labelText = '',
+    this.hintText = '',
+    this.maxPopupHeight = 160,
     this.isAnimated = true,
     this.expandAnimationDurationMilliseconds = 200,
     this.contentPadding = const EdgeInsets.symmetric(vertical: 14),
@@ -99,6 +100,9 @@ class AutoCompleteField<T> extends StatefulWidget {
 
   /// Visual density for suggestion list tiles.
   final VisualDensity? visualDensity;
+
+  /// Error text shown below the field when validation fails.
+  final String? errorText;
 
   @override
   State<AutoCompleteField<T>> createState() => _AutoCompleteFieldState<T>();
@@ -178,50 +182,72 @@ class _AutoCompleteFieldState<T> extends State<AutoCompleteField<T>> {
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     final primary = theme.colorScheme.primary;
-
+    final isError = (widget.errorText ?? '').isNotEmpty;
     final hasValue = _textCtrl.text.isNotEmpty || _isExpanded;
-    final borderColor = _isExpanded ? primary : theme.dividerColor;
+    final borderColor = isError
+        ? theme.colorScheme.error
+        : _isExpanded
+        ? primary
+        : theme.dividerColor;
     final labelVisible = widget.labelText.isNotEmpty && hasValue;
 
     final items = _filteredItems();
 
     return Stack(
       children: [
-        Container(
-          margin: const EdgeInsets.only(top: 12), // adjust label overlap
-          decoration: BoxDecoration(
-            border: Border.all(color: borderColor, width: _isExpanded ? 2 : 1),
-            borderRadius: BorderRadius.circular(10),
-          ),
-          child: Column(
-            children: [
-              // Input field
-              TextField(
-                textAlignVertical: TextAlignVertical.center,
-                controller: _textCtrl,
-                focusNode: _focusNode,
-                keyboardType: widget.keyboardType ?? TextInputType.text,
-                decoration: InputDecoration(
-                  hintText: widget.hintText,
-                  prefixIcon: widget.icon != null
-                      ? Icon(
-                          size: 24.0,
-                          widget.icon,
-                          color: theme.colorScheme.onSurfaceVariant,
-                        )
-                      : null,
-                  border: InputBorder.none,
-                  isDense: true,
-                  contentPadding: widget.contentPadding,
+        Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Container(
+              margin: const EdgeInsets.only(top: 12), // adjust label overlap
+              decoration: BoxDecoration(
+                border: Border.all(
+                  color: borderColor,
+                  width: _isExpanded ? 2 : 1,
+                ),
+                borderRadius: BorderRadius.circular(10),
+              ),
+              child: Column(
+                children: [
+                  // Input field
+                  TextField(
+                    textAlignVertical: TextAlignVertical.center,
+                    controller: _textCtrl,
+                    focusNode: _focusNode,
+                    keyboardType: widget.keyboardType ?? TextInputType.text,
+                    decoration: InputDecoration(
+                      hintText: widget.hintText,
+                      prefixIcon: widget.icon != null
+                          ? Icon(
+                              size: 24.0,
+                              widget.icon,
+                              color: theme.colorScheme.onSurfaceVariant,
+                            )
+                          : null,
+                      border: InputBorder.none,
+                      isDense: true,
+                      contentPadding: widget.contentPadding,
+                    ),
+                  ),
+                  // Suggestions list
+                  _buildSuggestions(items),
+                ],
+              ),
+            ),
+            if (isError)
+              Padding(
+                padding: const EdgeInsets.only(left: 12, top: 6),
+                child: Text(
+                  widget.errorText!,
+                  style: TextStyle(
+                    color: theme.colorScheme.error,
+                    fontSize: 12,
+                  ),
                 ),
               ),
-              // Suggestions list
-              _buildSuggestions(items),
-            ],
-          ),
+          ],
         ),
 
-        // Floating Label
         if (labelVisible)
           Positioned(
             left: 12,
@@ -233,7 +259,9 @@ class _AutoCompleteFieldState<T> extends State<AutoCompleteField<T>> {
                 widget.labelText,
                 style: TextStyle(
                   fontSize: 12,
-                  color: _isExpanded
+                  color: isError
+                      ? theme.colorScheme.error
+                      : _isExpanded
                       ? primary
                       : theme.colorScheme.onSurfaceVariant,
                 ),
