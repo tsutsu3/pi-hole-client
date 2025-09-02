@@ -97,6 +97,8 @@ const config: Config = {
       { name: "twitter:creator", content: "@_tsutsu3" },
       // Algolia
       { name: "algolia-site-verification", content: "30C71A65927B89BB" },
+      // Google Search Console
+      { name: "google-site-verification", content: "QcUHWbCbOodhUhP5h_PSpMNELHwN8H9_ATs9MfvWbSo" },
     ],
     algolia: {
       // The application ID provided by Algolia
