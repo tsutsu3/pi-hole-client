@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:pi_hole_client/domain/model/local_dns/local_dns.dart';
-import 'package:pi_hole_client/domain/models_old/devices.dart';
+import 'package:pi_hole_client/domain/model/network/network.dart';
 import 'package:pi_hole_client/ui/core/l10n/generated/app_localizations.dart';
+import 'package:pi_hole_client/ui/core/ui/components/auto_complate_field.dart';
 
 class EditLocalDnsModal extends StatefulWidget {
   const EditLocalDnsModal({
@@ -21,7 +22,7 @@ class EditLocalDnsModal extends StatefulWidget {
   final IconData icon;
   final void Function(LocalDns) onConfirm;
   final bool window;
-  final List<DeviceInfo>? devices;
+  final List<DeviceOption>? devices;
 
   @override
   State<EditLocalDnsModal> createState() => _EditLocalDnsModalState();
@@ -115,6 +116,7 @@ class _EditLocalDnsModalState extends State<EditLocalDnsModal> {
   Widget build(BuildContext context) {
     final mediaQuery = MediaQuery.of(context);
     final isLandscape = mediaQuery.orientation == Orientation.landscape;
+    final locale = AppLocalizations.of(context)!;
 
     Widget content() {
       return Container(
@@ -158,7 +160,7 @@ class _EditLocalDnsModalState extends State<EditLocalDnsModal> {
                                   Radius.circular(10),
                                 ),
                               ),
-                              labelText: AppLocalizations.of(context)!.hostname,
+                              labelText: locale.hostname,
                               error: Text(
                                 localDnsError ?? '',
                                 overflow: TextOverflow.visible,
@@ -172,24 +174,20 @@ class _EditLocalDnsModalState extends State<EditLocalDnsModal> {
                           ),
                         ),
                       if (widget.keyItem == 'ip')
-                        SizedBox(
-                          width: double.infinity,
-                          child: TextField(
-                            controller: localDnsController,
-                            onChanged: validateIp,
-                            decoration: InputDecoration(
-                              prefixIcon: const Icon(Icons.location_on_rounded),
-                              border: const OutlineInputBorder(
-                                borderRadius: BorderRadius.all(
-                                  Radius.circular(10),
-                                ),
-                              ),
-                              labelText: AppLocalizations.of(
-                                context,
-                              )!.ipAddress,
-                              errorText: localDnsError,
-                            ),
-                          ),
+                        AutoCompleteField<DeviceOption>(
+                          icon: Icons.location_on_rounded,
+                          labelText: locale.ipAddress,
+                          hintText: locale.ipAddress,
+                          items: widget.devices!,
+                          controller: localDnsController,
+                          onChanged: validateIp,
+                          textOf: (item) => item.ip,
+                          subtitleOf: (item) =>
+                              '${item.hwaddr} (${item.macVendor})',
+                          visualDensity: const VisualDensity(vertical: -4),
+                          maxPopupHeight: 200,
+                          expandAnimationDurationMilliseconds: 160,
+                          initialText: localDnsController.text,
                         ),
                     ],
                   ),
@@ -205,7 +203,7 @@ class _EditLocalDnsModalState extends State<EditLocalDnsModal> {
                 children: [
                   TextButton(
                     onPressed: () => Navigator.maybePop(context),
-                    child: Text(AppLocalizations.of(context)!.cancel),
+                    child: Text(locale.cancel),
                   ),
                   const SizedBox(width: 14),
                   TextButton(
@@ -233,7 +231,7 @@ class _EditLocalDnsModalState extends State<EditLocalDnsModal> {
                         allDataValid == true ? null : Colors.grey,
                       ),
                     ),
-                    child: Text(AppLocalizations.of(context)!.edit),
+                    child: Text(locale.edit),
                   ),
                 ],
               ),

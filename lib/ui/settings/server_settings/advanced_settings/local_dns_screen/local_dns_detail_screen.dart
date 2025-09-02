@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:pi_hole_client/config/responsive.dart';
 import 'package:pi_hole_client/data/gateway/api_gateway_interface.dart';
 import 'package:pi_hole_client/domain/model/local_dns/local_dns.dart';
+import 'package:pi_hole_client/domain/model/network/network.dart';
 import 'package:pi_hole_client/domain/models_old/devices.dart';
 import 'package:pi_hole_client/domain/models_old/gateways.dart';
 import 'package:pi_hole_client/ui/core/l10n/generated/app_localizations.dart';
@@ -19,11 +20,13 @@ class LocalDnsDetailScreen extends StatefulWidget {
     required this.localDns,
     required this.onDelete,
     this.device,
+    this.devices,
     super.key,
   });
 
   final LocalDns localDns;
   final DeviceInfo? device;
+  final List<DeviceOption>? devices;
   final void Function(LocalDns) onDelete;
 
   @override
@@ -189,6 +192,7 @@ class _LocalDnsDetailScreenState extends State<LocalDnsDetailScreen> {
           icon: Icons.computer_rounded,
           onConfirm: onEditLocalDns,
           window: true,
+          devices: widget.devices,
         ),
       );
     } else {
@@ -227,6 +231,7 @@ class _LocalDnsDetailScreenState extends State<LocalDnsDetailScreen> {
           title: locale.editIp,
           icon: Icons.location_on_rounded,
           onConfirm: onEditLocalDns,
+          devices: widget.devices,
           window: true,
         ),
       );
@@ -239,6 +244,7 @@ class _LocalDnsDetailScreenState extends State<LocalDnsDetailScreen> {
           title: locale.editIp,
           icon: Icons.location_on_rounded,
           onConfirm: onEditLocalDns,
+          devices: widget.devices,
           window: false,
         ),
         backgroundColor: Colors.transparent,

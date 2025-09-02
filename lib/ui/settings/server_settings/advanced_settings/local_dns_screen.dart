@@ -252,6 +252,7 @@ class _LocalDnsState extends State<LocalDnsScreen> {
                                 (addr) => addr.ip == localDns.ip,
                               ),
                             ),
+                            devices: devicesInfoToOptions(devices!),
                             onDelete: removeLocalDns,
                           ),
                         ),
@@ -324,6 +325,7 @@ class _LocalDnsState extends State<LocalDnsScreen> {
     }
   }
 
+  // TODO: split logic into smaller functions
   List<DeviceOption> devicesInfoToOptions(List<DeviceInfo> devices) {
     final list = devices
         .map((device) {
