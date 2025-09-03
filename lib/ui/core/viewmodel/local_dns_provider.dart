@@ -103,7 +103,7 @@ class LocalDnsProvider with ChangeNotifier {
     return true;
   }
 
-  Future<bool> updateLoadDns({
+  Future<bool> updateLocalDns({
     required String oldIp,
     required LocalDns item,
   }) async {
