@@ -1,17 +1,13 @@
 import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
 import 'package:pi_hole_client/config/responsive.dart';
-import 'package:pi_hole_client/data/gateway/api_gateway_interface.dart';
 import 'package:pi_hole_client/domain/model/local_dns/local_dns.dart';
 import 'package:pi_hole_client/domain/model/network/network.dart';
 import 'package:pi_hole_client/domain/models_old/devices.dart';
 import 'package:pi_hole_client/ui/core/l10n/generated/app_localizations.dart';
 import 'package:pi_hole_client/ui/core/ui/components.dart';
 import 'package:pi_hole_client/ui/core/ui/modals/delete_modal.dart';
-import 'package:pi_hole_client/ui/core/viewmodel/app_config_provider.dart';
-import 'package:pi_hole_client/ui/core/viewmodel/servers_provider.dart';
 import 'package:pi_hole_client/ui/settings/server_settings/advanced_settings/local_dns_screen/edit_local_dns_modal.dart';
-import 'package:provider/provider.dart';
 
 class LocalDnsDetailScreen extends StatefulWidget {
   const LocalDnsDetailScreen({
@@ -35,17 +31,11 @@ class LocalDnsDetailScreen extends StatefulWidget {
 
 class _LocalDnsDetailScreenState extends State<LocalDnsDetailScreen> {
   late LocalDns _localDns;
-  late ServersProvider serversProvider;
-  late ApiGateway? apiGateway;
-  late AppConfigProvider appConfigProvider;
 
   @override
   void initState() {
     super.initState();
     _localDns = widget.localDns.copyWith();
-    appConfigProvider = context.read<AppConfigProvider>();
-    serversProvider = context.read<ServersProvider>();
-    apiGateway = serversProvider.selectedApiGateway;
   }
 
   @override
@@ -145,10 +135,10 @@ class _LocalDnsDetailScreenState extends State<LocalDnsDetailScreen> {
   }
 
   Future<void> onEditLocalDns(LocalDns localDns, String oldIp) async {
-    final ok = await widget.onUpdate(localDns, oldIp); // 親に丸投げ
+    final ok = await widget.onUpdate(localDns, oldIp);
     if (!mounted) return;
     if (ok) {
-      setState(() => _localDns = localDns); // 成功したら画面の表示だけ更新
+      setState(() => _localDns = localDns);
     }
   }
 

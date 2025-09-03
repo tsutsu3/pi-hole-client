@@ -17,13 +17,11 @@ import 'package:pi_hole_client/ui/core/themes/theme.dart';
 class LocalDnsListView extends StatelessWidget {
   const LocalDnsListView({
     required this.localDnsInfo,
-    required this.devices,
     required this.onDeviceTap,
     super.key,
   });
 
   final List<LocalDns> localDnsInfo;
-  final List<DeviceInfo>? devices;
   final void Function(LocalDns)? onDeviceTap;
 
   @override

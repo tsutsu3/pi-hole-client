@@ -167,7 +167,8 @@ class _AddLocalDnsModalState extends State<AddLocalDnsModal> {
                     controller: ipController,
                     onChanged: validateIp,
                     textOf: (item) => item.ip,
-                    subtitleOf: (item) => '${item.hwaddr} (${item.macVendor})',
+                    subtitleOf: (item) =>
+                        '${item.hwaddr} (${item.macVendor.isNotEmpty ? item.macVendor : locale.unknown})',
                     visualDensity: const VisualDensity(vertical: -4),
                     expandAnimationDurationMilliseconds: 160,
                     errorText: ipError != null ? locale.invalidIpAddress : null,
