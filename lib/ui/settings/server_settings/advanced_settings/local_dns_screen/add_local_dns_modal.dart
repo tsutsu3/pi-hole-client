@@ -119,7 +119,7 @@ class _AddLocalDnsModalState extends State<AddLocalDnsModal> {
                   Column(
                     children: [
                       Icon(
-                        Icons.domain_add_rounded,
+                        Icons.dns_rounded,
                         size: 24,
                         color: Theme.of(context).colorScheme.secondary,
                       ),
