@@ -348,6 +348,7 @@
   "localDns": "Local DNS",
   "localDnsAdded": "Local DNS has been added successfully",
   "localDnsDescription": "Map device hostnames to their IP addresses for easier identification on your network",
+  "localDnsEmptyDescription": "Using Local DNS allows you to assign hostnames to devices that only show an IP address, making them easier to identify.",
   "localDnsInformation": "Local DNS Information",
   "localDnsRemoveError": "Failedto remove Local DNS",
   "localDnsRemoved": "Local DNS has been removed successfully",

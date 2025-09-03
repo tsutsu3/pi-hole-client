@@ -348,6 +348,7 @@
   "localDns": "ローカル DNS",
   "localDnsAdded": "ローカルDNSが正常に追加されました",
   "localDnsDescription": "デバイスのホスト名をIPアドレスに対応付けて、ネットワーク上で簡単に識別できるようにします",
+  "localDnsEmptyDescription": "ローカルDNSを使用すると、IPアドレスのみを表示するデバイスにホスト名を割り当てることができ、識別しやすくなります。",
   "localDnsInformation": "ローカルDNS情報",
   "localDnsRemoveError": "ローカルDNSの削除に失敗しました",
   "localDnsRemoved": "ローカルDNSが正常に削除されました",

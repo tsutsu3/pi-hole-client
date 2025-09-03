@@ -348,6 +348,7 @@
   "localDns": "Lokalny DNS",
   "localDnsAdded": "Lokalny DNS został pomyślnie dodany",
   "localDnsDescription": "Przypisz nazwy hostów urządzeń do ich adresów IP, aby łatwiej je rozpoznawać w sieci",
+  "localDnsEmptyDescription": "Używając lokalnego DNS możesz przypisać nazwy hostów do urządzeń, które pokazują tylko adres IP, co ułatwia ich identyfikację.",
   "localDnsInformation": "Informacje o lokalnym DNS",
   "localDnsRemoveError": "Nie udało się usunąć lokalnego DNS",
   "localDnsRemoved": "Lokalny DNS został pomyślnie usunięty",

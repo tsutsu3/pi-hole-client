@@ -1121,6 +1121,10 @@ class AppLocalizationsDe extends AppLocalizations {
       'Weisen Sie Gerätenamen ihren IP-Adressen zu, um sie im Netzwerk leichter zu erkennen';
 
   @override
+  String get localDnsEmptyDescription =>
+      'Mit Local DNS können Sie Geräten, die nur eine IP-Adresse anzeigen, Hostnamen zuweisen und sie so leichter identifizieren.';
+
+  @override
   String get localDnsInformation => 'Lokale DNS-Informationen';
 
   @override

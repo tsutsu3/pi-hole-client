@@ -192,6 +192,11 @@ class _LocalDnsScreenState extends State<LocalDnsScreen> {
                     case LoadStatus.error:
                       return ErrorMessage(message: locale.dataFetchFailed);
                     case LoadStatus.loaded:
+                      if (store.localDns.isEmpty) {
+                        return EmptyDataScreen(
+                          message: locale.localDnsEmptyDescription,
+                        );
+                      }
                       return LocalDnsListView(
                         localDnsInfo: store.localDns,
                         onDeviceTap: (localDns) {

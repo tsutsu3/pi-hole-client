@@ -1121,6 +1121,10 @@ class AppLocalizationsEs extends AppLocalizations {
       'Asigna nombres de host de dispositivos a sus direcciones IP para identificarlos más fácilmente en la red';
 
   @override
+  String get localDnsEmptyDescription =>
+      'Con DNS local puedes asignar nombres de host a los dispositivos que solo muestran una dirección IP, lo que facilita su identificación.';
+
+  @override
   String get localDnsInformation => 'Información de DNS local';
 
   @override

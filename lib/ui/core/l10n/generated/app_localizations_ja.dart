@@ -1071,6 +1071,10 @@ class AppLocalizationsJa extends AppLocalizations {
       'デバイスのホスト名をIPアドレスに対応付けて、ネットワーク上で簡単に識別できるようにします';
 
   @override
+  String get localDnsEmptyDescription =>
+      'ローカルDNSを使用すると、IPアドレスのみを表示するデバイスにホスト名を割り当てることができ、識別しやすくなります。';
+
+  @override
   String get localDnsInformation => 'ローカルDNS情報';
 
   @override

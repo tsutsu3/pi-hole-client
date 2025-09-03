@@ -1100,6 +1100,10 @@ class AppLocalizationsEn extends AppLocalizations {
       'Map device hostnames to their IP addresses for easier identification on your network';
 
   @override
+  String get localDnsEmptyDescription =>
+      'Using Local DNS allows you to assign hostnames to devices that only show an IP address, making them easier to identify.';
+
+  @override
   String get localDnsInformation => 'Local DNS Information';
 
   @override

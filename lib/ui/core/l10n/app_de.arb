@@ -348,6 +348,7 @@
   "localDns": "Lokales DNS",
   "localDnsAdded": "Lokales DNS wurde erfolgreich hinzugefügt",
   "localDnsDescription": "Weisen Sie Gerätenamen ihren IP-Adressen zu, um sie im Netzwerk leichter zu erkennen",
+  "localDnsEmptyDescription": "Mit Local DNS können Sie Geräten, die nur eine IP-Adresse anzeigen, Hostnamen zuweisen und sie so leichter identifizieren.",
   "localDnsInformation": "Lokale DNS-Informationen",
   "localDnsRemoveError": "Das Entfernen des lokalen DNS ist fehlgeschlagen",
   "localDnsRemoved": "Lokales DNS wurde erfolgreich entfernt",

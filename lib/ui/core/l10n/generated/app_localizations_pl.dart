@@ -1105,6 +1105,10 @@ class AppLocalizationsPl extends AppLocalizations {
       'Przypisz nazwy hostów urządzeń do ich adresów IP, aby łatwiej je rozpoznawać w sieci';
 
   @override
+  String get localDnsEmptyDescription =>
+      'Używając lokalnego DNS możesz przypisać nazwy hostów do urządzeń, które pokazują tylko adres IP, co ułatwia ich identyfikację.';
+
+  @override
   String get localDnsInformation => 'Informacje o lokalnym DNS';
 
   @override

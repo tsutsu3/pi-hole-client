@@ -2198,6 +2198,12 @@ abstract class AppLocalizations {
   /// **'Map device hostnames to their IP addresses for easier identification on your network'**
   String get localDnsDescription;
 
+  /// No description provided for @localDnsEmptyDescription.
+  ///
+  /// In en, this message translates to:
+  /// **'Using Local DNS allows you to assign hostnames to devices that only show an IP address, making them easier to identify.'**
+  String get localDnsEmptyDescription;
+
   /// No description provided for @localDnsInformation.
   ///
   /// In en, this message translates to:
