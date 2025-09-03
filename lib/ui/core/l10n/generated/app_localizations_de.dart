@@ -1883,6 +1883,9 @@ class AppLocalizationsDe extends AppLocalizations {
   String get updateTimeChanged => 'Aktualisierungszeit erfolgreich geändert.';
 
   @override
+  String get updating => 'Aktualisierung läuft…';
+
+  @override
   String get updatingAdlist => 'Adlist wird aktualisiert …';
 
   @override

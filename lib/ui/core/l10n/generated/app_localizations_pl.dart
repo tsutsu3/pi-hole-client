@@ -1867,6 +1867,9 @@ class AppLocalizationsPl extends AppLocalizations {
       'Czas aktualizacji został pomyślnie zmieniony.';
 
   @override
+  String get updating => 'Aktualizowanie…';
+
+  @override
   String get updatingAdlist => 'Trwa aktualizacja listy Adlist...';
 
   @override

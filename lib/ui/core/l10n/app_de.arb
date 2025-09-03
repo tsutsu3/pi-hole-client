@@ -584,6 +584,7 @@
   "updateGravity": "Gravity aktualisieren",
   "updatePasscode": "Passwort ändern",
   "updateTimeChanged": "Aktualisierungszeit erfolgreich geändert.",
+  "updating": "Aktualisierung läuft…",
   "updatingAdlist": "Adlist wird aktualisiert …",
   "updatingInProgressMessage": "Aktualisierung läuft … das kann eine Weile dauern. Bitte lassen Sie die App geöffnet.",
   "upstreamServers": "Upstream-Server",

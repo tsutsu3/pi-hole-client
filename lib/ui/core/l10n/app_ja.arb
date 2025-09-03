@@ -586,6 +586,7 @@
   "updateGravity": "Gravityの更新",
   "updatePasscode": "パスコードを更新",
   "updateTimeChanged": "更新時間が正常に変更されました。",
+  "updating": "更新中…",
   "updatingAdlist": "Adlistを更新中...",
   "updatingInProgressMessage": "更新中です。少し時間がかかる場合があります。アプリを開いたままにしてください。",
   "upstreamServers": "上流サーバー",

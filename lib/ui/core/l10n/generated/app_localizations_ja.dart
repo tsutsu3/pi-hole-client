@@ -1803,6 +1803,9 @@ class AppLocalizationsJa extends AppLocalizations {
   String get updateTimeChanged => '更新時間が正常に変更されました。';
 
   @override
+  String get updating => '更新中…';
+
+  @override
   String get updatingAdlist => 'Adlistを更新中...';
 
   @override

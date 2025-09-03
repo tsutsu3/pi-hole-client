@@ -1879,6 +1879,9 @@ class AppLocalizationsEs extends AppLocalizations {
       'Tiempo de auto actualización cambiado satisfactoriamente.';
 
   @override
+  String get updating => 'Actualizando…';
+
+  @override
   String get updatingAdlist => 'Actualizando adlist...';
 
   @override

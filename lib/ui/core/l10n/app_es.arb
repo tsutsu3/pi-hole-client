@@ -585,6 +585,7 @@
   "updateGravity": "Actualizar Gravity",
   "updatePasscode": "Actualizar código",
   "updateTimeChanged": "Tiempo de auto actualización cambiado satisfactoriamente.",
+  "updating": "Actualizando…",
   "updatingAdlist": "Actualizando adlist...",
   "updatingInProgressMessage": "Actualizando... esto puede tardar un poco. Por favor, mantén la app abierta.",
   "upstreamServers": "Servidores de salida",

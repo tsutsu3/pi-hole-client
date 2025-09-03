@@ -89,8 +89,8 @@ class _LocalDnsScreenState extends State<LocalDnsScreen> {
     }
 
     Future<bool> onUpdateLocalDns(LocalDns updated, String oldIp) async {
-      final process = ProcessModal(context: context)
-        ..open(locale.updatingAdlist);
+      final process = ProcessModal(context: context);
+      process.open(locale.updating);
       final ok = await context.read<LocalDnsProvider>().updateLoadDns(
         oldIp: oldIp,
         item: updated,
