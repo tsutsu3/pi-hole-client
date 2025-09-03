@@ -1901,13 +1901,22 @@ class MockApiGatewayV6 extends _i1.Mock implements _i24.ApiGatewayV6 {
   _i12.Future<_i5.LocalDnsResponse> updateLocalDns({
     required String? ip,
     required String? name,
+    String? oldIp,
   }) =>
       (super.noSuchMethod(
-            Invocation.method(#updateLocalDns, [], {#ip: ip, #name: name}),
+            Invocation.method(#updateLocalDns, [], {
+              #ip: ip,
+              #name: name,
+              #oldIp: oldIp,
+            }),
             returnValue: _i12.Future<_i5.LocalDnsResponse>.value(
               _FakeLocalDnsResponse_34(
                 this,
-                Invocation.method(#updateLocalDns, [], {#ip: ip, #name: name}),
+                Invocation.method(#updateLocalDns, [], {
+                  #ip: ip,
+                  #name: name,
+                  #oldIp: oldIp,
+                }),
               ),
             ),
           )

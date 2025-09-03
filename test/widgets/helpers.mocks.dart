@@ -14,35 +14,40 @@ import 'package:mockito/src/dummies.dart' as _i8;
 import 'package:package_info_plus/package_info_plus.dart' as _i10;
 import 'package:pi_hole_client/config/enums.dart' as _i19;
 import 'package:pi_hole_client/data/gateway/api_gateway_interface.dart' as _i17;
-import 'package:pi_hole_client/data/gateway/api_gateway_v5.dart' as _i26;
-import 'package:pi_hole_client/data/gateway/api_gateway_v6.dart' as _i30;
-import 'package:pi_hole_client/data/model/v6/config/config.dart' as _i29;
+import 'package:pi_hole_client/data/gateway/api_gateway_v5.dart' as _i30;
+import 'package:pi_hole_client/data/gateway/api_gateway_v6.dart' as _i34;
+import 'package:pi_hole_client/data/model/v6/config/config.dart' as _i33;
+import 'package:pi_hole_client/domain/model/local_dns/local_dns.dart' as _i27;
+import 'package:pi_hole_client/domain/model/network/network.dart' as _i28;
 import 'package:pi_hole_client/domain/models_old/app_log.dart' as _i9;
 import 'package:pi_hole_client/domain/models_old/database.dart' as _i13;
+import 'package:pi_hole_client/domain/models_old/devices.dart' as _i29;
 import 'package:pi_hole_client/domain/models_old/domain.dart' as _i25;
 import 'package:pi_hole_client/domain/models_old/gateways.dart' as _i5;
-import 'package:pi_hole_client/domain/models_old/groups.dart' as _i28;
-import 'package:pi_hole_client/domain/models_old/messages.dart' as _i35;
+import 'package:pi_hole_client/domain/models_old/groups.dart' as _i32;
+import 'package:pi_hole_client/domain/models_old/messages.dart' as _i39;
 import 'package:pi_hole_client/domain/models_old/metrics.dart' as _i23;
 import 'package:pi_hole_client/domain/models_old/overtime_data.dart' as _i22;
 import 'package:pi_hole_client/domain/models_old/query_status.dart' as _i16;
 import 'package:pi_hole_client/domain/models_old/realtime_status.dart' as _i21;
 import 'package:pi_hole_client/domain/models_old/server.dart' as _i3;
-import 'package:pi_hole_client/domain/models_old/subscriptions.dart' as _i27;
+import 'package:pi_hole_client/domain/models_old/subscriptions.dart' as _i31;
 import 'package:pi_hole_client/domain/use_cases/status_update_service.dart'
-    as _i31;
+    as _i35;
 import 'package:pi_hole_client/ui/core/themes/theme.dart' as _i2;
 import 'package:pi_hole_client/ui/core/viewmodel/app_config_provider.dart'
     as _i6;
 import 'package:pi_hole_client/ui/core/viewmodel/domains_list_provider.dart'
     as _i24;
 import 'package:pi_hole_client/ui/core/viewmodel/filters_provider.dart' as _i18;
-import 'package:pi_hole_client/ui/core/viewmodel/gravity_provider.dart' as _i34;
-import 'package:pi_hole_client/ui/core/viewmodel/groups_provider.dart' as _i32;
+import 'package:pi_hole_client/ui/core/viewmodel/gravity_provider.dart' as _i38;
+import 'package:pi_hole_client/ui/core/viewmodel/groups_provider.dart' as _i36;
+import 'package:pi_hole_client/ui/core/viewmodel/local_dns_provider.dart'
+    as _i26;
 import 'package:pi_hole_client/ui/core/viewmodel/servers_provider.dart' as _i15;
 import 'package:pi_hole_client/ui/core/viewmodel/status_provider.dart' as _i20;
 import 'package:pi_hole_client/ui/core/viewmodel/subscriptions_list_provider.dart'
-    as _i33;
+    as _i37;
 
 // ignore_for_file: type=lint
 // ignore_for_file: avoid_redundant_argument_values
@@ -1300,10 +1305,140 @@ class MockDomainsListProvider extends _i1.Mock
   );
 }
 
+/// A class which mocks [LocalDnsProvider].
+///
+/// See the documentation for Mockito's code generation for more information.
+class MockLocalDnsProvider extends _i1.Mock implements _i26.LocalDnsProvider {
+  MockLocalDnsProvider() {
+    _i1.throwOnMissingStub(this);
+  }
+
+  @override
+  List<_i27.LocalDns> get localDns =>
+      (super.noSuchMethod(
+            Invocation.getter(#localDns),
+            returnValue: <_i27.LocalDns>[],
+          )
+          as List<_i27.LocalDns>);
+
+  @override
+  List<_i28.DeviceOption> get deviceOptions =>
+      (super.noSuchMethod(
+            Invocation.getter(#deviceOptions),
+            returnValue: <_i28.DeviceOption>[],
+          )
+          as List<_i28.DeviceOption>);
+
+  @override
+  _i19.LoadStatus get loadingStatus =>
+      (super.noSuchMethod(
+            Invocation.getter(#loadingStatus),
+            returnValue: _i19.LoadStatus.loading,
+          )
+          as _i19.LoadStatus);
+
+  @override
+  set serversProvider(_i15.ServersProvider? _serversProvider) =>
+      super.noSuchMethod(
+        Invocation.setter(#serversProvider, _serversProvider),
+        returnValueForMissingStub: null,
+      );
+
+  @override
+  bool get hasListeners =>
+      (super.noSuchMethod(Invocation.getter(#hasListeners), returnValue: false)
+          as bool);
+
+  @override
+  void update(_i15.ServersProvider? provider) => super.noSuchMethod(
+    Invocation.method(#update, [provider]),
+    returnValueForMissingStub: null,
+  );
+
+  @override
+  void setLoadingStatus(_i19.LoadStatus? status) => super.noSuchMethod(
+    Invocation.method(#setLoadingStatus, [status]),
+    returnValueForMissingStub: null,
+  );
+
+  @override
+  _i12.Future<void> load() =>
+      (super.noSuchMethod(
+            Invocation.method(#load, []),
+            returnValue: _i12.Future<void>.value(),
+            returnValueForMissingStub: _i12.Future<void>.value(),
+          )
+          as _i12.Future<void>);
+
+  @override
+  _i12.Future<bool> addLocalDns(_i27.LocalDns? item) =>
+      (super.noSuchMethod(
+            Invocation.method(#addLocalDns, [item]),
+            returnValue: _i12.Future<bool>.value(false),
+          )
+          as _i12.Future<bool>);
+
+  @override
+  _i12.Future<bool> updateLocalDns({
+    required String? oldIp,
+    required _i27.LocalDns? item,
+  }) =>
+      (super.noSuchMethod(
+            Invocation.method(#updateLocalDns, [], {
+              #oldIp: oldIp,
+              #item: item,
+            }),
+            returnValue: _i12.Future<bool>.value(false),
+          )
+          as _i12.Future<bool>);
+
+  @override
+  _i12.Future<bool> removeLocalDns(_i27.LocalDns? item) =>
+      (super.noSuchMethod(
+            Invocation.method(#removeLocalDns, [item]),
+            returnValue: _i12.Future<bool>.value(false),
+          )
+          as _i12.Future<bool>);
+
+  @override
+  List<_i28.DeviceOption> devicesInfoToOptions(
+    List<_i29.DeviceInfo>? devices,
+  ) =>
+      (super.noSuchMethod(
+            Invocation.method(#devicesInfoToOptions, [devices]),
+            returnValue: <_i28.DeviceOption>[],
+          )
+          as List<_i28.DeviceOption>);
+
+  @override
+  void addListener(_i14.VoidCallback? listener) => super.noSuchMethod(
+    Invocation.method(#addListener, [listener]),
+    returnValueForMissingStub: null,
+  );
+
+  @override
+  void removeListener(_i14.VoidCallback? listener) => super.noSuchMethod(
+    Invocation.method(#removeListener, [listener]),
+    returnValueForMissingStub: null,
+  );
+
+  @override
+  void dispose() => super.noSuchMethod(
+    Invocation.method(#dispose, []),
+    returnValueForMissingStub: null,
+  );
+
+  @override
+  void notifyListeners() => super.noSuchMethod(
+    Invocation.method(#notifyListeners, []),
+    returnValueForMissingStub: null,
+  );
+}
+
 /// A class which mocks [ApiGatewayV5].
 ///
 /// See the documentation for Mockito's code generation for more information.
-class MockApiGatewayV5 extends _i1.Mock implements _i26.ApiGatewayV5 {
+class MockApiGatewayV5 extends _i1.Mock implements _i30.ApiGatewayV5 {
   MockApiGatewayV5() {
     _i1.throwOnMissingStub(this);
   }
@@ -1667,7 +1802,7 @@ class MockApiGatewayV5 extends _i1.Mock implements _i26.ApiGatewayV5 {
 
   @override
   _i12.Future<_i5.SubscriptionsResponse> createSubscription({
-    required _i27.SubscriptionRequest? body,
+    required _i31.SubscriptionRequest? body,
   }) =>
       (super.noSuchMethod(
             Invocation.method(#createSubscription, [], {#body: body}),
@@ -1682,7 +1817,7 @@ class MockApiGatewayV5 extends _i1.Mock implements _i26.ApiGatewayV5 {
 
   @override
   _i12.Future<_i5.SubscriptionsResponse> updateSubscription({
-    required _i27.SubscriptionRequest? body,
+    required _i31.SubscriptionRequest? body,
   }) =>
       (super.noSuchMethod(
             Invocation.method(#updateSubscription, [], {#body: body}),
@@ -1751,7 +1886,7 @@ class MockApiGatewayV5 extends _i1.Mock implements _i26.ApiGatewayV5 {
 
   @override
   _i12.Future<_i5.GroupsResponse> createGroup({
-    required _i28.GroupRequest? body,
+    required _i32.GroupRequest? body,
   }) =>
       (super.noSuchMethod(
             Invocation.method(#createGroup, [], {#body: body}),
@@ -1766,7 +1901,7 @@ class MockApiGatewayV5 extends _i1.Mock implements _i26.ApiGatewayV5 {
 
   @override
   _i12.Future<_i5.GroupsResponse> updateGroup({
-    required _i28.GroupRequest? body,
+    required _i32.GroupRequest? body,
   }) =>
       (super.noSuchMethod(
             Invocation.method(#updateGroup, [], {#body: body}),
@@ -1895,7 +2030,7 @@ class MockApiGatewayV5 extends _i1.Mock implements _i26.ApiGatewayV5 {
 
   @override
   _i12.Future<_i5.ConfigurationResponse> patchConfiguration(
-    _i29.ConfigData? body,
+    _i33.ConfigData? body,
   ) =>
       (super.noSuchMethod(
             Invocation.method(#patchConfiguration, [body]),
@@ -2000,13 +2135,22 @@ class MockApiGatewayV5 extends _i1.Mock implements _i26.ApiGatewayV5 {
   _i12.Future<_i5.LocalDnsResponse> updateLocalDns({
     required String? ip,
     required String? name,
+    String? oldIp,
   }) =>
       (super.noSuchMethod(
-            Invocation.method(#updateLocalDns, [], {#ip: ip, #name: name}),
+            Invocation.method(#updateLocalDns, [], {
+              #ip: ip,
+              #name: name,
+              #oldIp: oldIp,
+            }),
             returnValue: _i12.Future<_i5.LocalDnsResponse>.value(
               _FakeLocalDnsResponse_33(
                 this,
-                Invocation.method(#updateLocalDns, [], {#ip: ip, #name: name}),
+                Invocation.method(#updateLocalDns, [], {
+                  #ip: ip,
+                  #name: name,
+                  #oldIp: oldIp,
+                }),
               ),
             ),
           )
@@ -2121,7 +2265,7 @@ class MockApiGatewayV5 extends _i1.Mock implements _i26.ApiGatewayV5 {
 /// A class which mocks [ApiGatewayV6].
 ///
 /// See the documentation for Mockito's code generation for more information.
-class MockApiGatewayV6 extends _i1.Mock implements _i30.ApiGatewayV6 {
+class MockApiGatewayV6 extends _i1.Mock implements _i34.ApiGatewayV6 {
   MockApiGatewayV6() {
     _i1.throwOnMissingStub(this);
   }
@@ -2555,7 +2699,7 @@ class MockApiGatewayV6 extends _i1.Mock implements _i30.ApiGatewayV6 {
 
   @override
   _i12.Future<_i5.SubscriptionsResponse> createSubscription({
-    required _i27.SubscriptionRequest? body,
+    required _i31.SubscriptionRequest? body,
   }) =>
       (super.noSuchMethod(
             Invocation.method(#createSubscription, [], {#body: body}),
@@ -2570,7 +2714,7 @@ class MockApiGatewayV6 extends _i1.Mock implements _i30.ApiGatewayV6 {
 
   @override
   _i12.Future<_i5.SubscriptionsResponse> updateSubscription({
-    required _i27.SubscriptionRequest? body,
+    required _i31.SubscriptionRequest? body,
   }) =>
       (super.noSuchMethod(
             Invocation.method(#updateSubscription, [], {#body: body}),
@@ -2639,7 +2783,7 @@ class MockApiGatewayV6 extends _i1.Mock implements _i30.ApiGatewayV6 {
 
   @override
   _i12.Future<_i5.GroupsResponse> createGroup({
-    required _i28.GroupRequest? body,
+    required _i32.GroupRequest? body,
   }) =>
       (super.noSuchMethod(
             Invocation.method(#createGroup, [], {#body: body}),
@@ -2654,7 +2798,7 @@ class MockApiGatewayV6 extends _i1.Mock implements _i30.ApiGatewayV6 {
 
   @override
   _i12.Future<_i5.GroupsResponse> updateGroup({
-    required _i28.GroupRequest? body,
+    required _i32.GroupRequest? body,
   }) =>
       (super.noSuchMethod(
             Invocation.method(#updateGroup, [], {#body: body}),
@@ -2783,7 +2927,7 @@ class MockApiGatewayV6 extends _i1.Mock implements _i30.ApiGatewayV6 {
 
   @override
   _i12.Future<_i5.ConfigurationResponse> patchConfiguration(
-    _i29.ConfigData? body,
+    _i33.ConfigData? body,
   ) =>
       (super.noSuchMethod(
             Invocation.method(#patchConfiguration, [body]),
@@ -2888,13 +3032,22 @@ class MockApiGatewayV6 extends _i1.Mock implements _i30.ApiGatewayV6 {
   _i12.Future<_i5.LocalDnsResponse> updateLocalDns({
     required String? ip,
     required String? name,
+    String? oldIp,
   }) =>
       (super.noSuchMethod(
-            Invocation.method(#updateLocalDns, [], {#ip: ip, #name: name}),
+            Invocation.method(#updateLocalDns, [], {
+              #ip: ip,
+              #name: name,
+              #oldIp: oldIp,
+            }),
             returnValue: _i12.Future<_i5.LocalDnsResponse>.value(
               _FakeLocalDnsResponse_33(
                 this,
-                Invocation.method(#updateLocalDns, [], {#ip: ip, #name: name}),
+                Invocation.method(#updateLocalDns, [], {
+                  #ip: ip,
+                  #name: name,
+                  #oldIp: oldIp,
+                }),
               ),
             ),
           )
@@ -3010,7 +3163,7 @@ class MockApiGatewayV6 extends _i1.Mock implements _i30.ApiGatewayV6 {
 ///
 /// See the documentation for Mockito's code generation for more information.
 class MockStatusUpdateService extends _i1.Mock
-    implements _i31.StatusUpdateService {
+    implements _i35.StatusUpdateService {
   MockStatusUpdateService() {
     _i1.throwOnMissingStub(this);
   }
@@ -3066,18 +3219,18 @@ class MockStatusUpdateService extends _i1.Mock
 /// A class which mocks [GroupsProvider].
 ///
 /// See the documentation for Mockito's code generation for more information.
-class MockGroupsProvider extends _i1.Mock implements _i32.GroupsProvider {
+class MockGroupsProvider extends _i1.Mock implements _i36.GroupsProvider {
   MockGroupsProvider() {
     _i1.throwOnMissingStub(this);
   }
 
   @override
-  List<_i28.Group> get groups =>
+  List<_i32.Group> get groups =>
       (super.noSuchMethod(
             Invocation.getter(#groups),
-            returnValue: <_i28.Group>[],
+            returnValue: <_i32.Group>[],
           )
-          as List<_i28.Group>);
+          as List<_i32.Group>);
 
   @override
   Map<int, String> get groupItems =>
@@ -3157,7 +3310,7 @@ class MockGroupsProvider extends _i1.Mock implements _i32.GroupsProvider {
 ///
 /// See the documentation for Mockito's code generation for more information.
 class MockSubscriptionsListProvider extends _i1.Mock
-    implements _i33.SubscriptionsListProvider {
+    implements _i37.SubscriptionsListProvider {
   MockSubscriptionsListProvider() {
     _i1.throwOnMissingStub(this);
   }
@@ -3171,36 +3324,36 @@ class MockSubscriptionsListProvider extends _i1.Mock
           as _i19.LoadStatus);
 
   @override
-  List<_i27.Subscription> get whitelistSubscriptions =>
+  List<_i31.Subscription> get whitelistSubscriptions =>
       (super.noSuchMethod(
             Invocation.getter(#whitelistSubscriptions),
-            returnValue: <_i27.Subscription>[],
+            returnValue: <_i31.Subscription>[],
           )
-          as List<_i27.Subscription>);
+          as List<_i31.Subscription>);
 
   @override
-  List<_i27.Subscription> get blacklistSubscriptions =>
+  List<_i31.Subscription> get blacklistSubscriptions =>
       (super.noSuchMethod(
             Invocation.getter(#blacklistSubscriptions),
-            returnValue: <_i27.Subscription>[],
+            returnValue: <_i31.Subscription>[],
           )
-          as List<_i27.Subscription>);
+          as List<_i31.Subscription>);
 
   @override
-  List<_i27.Subscription> get filteredWhitelistSubscriptions =>
+  List<_i31.Subscription> get filteredWhitelistSubscriptions =>
       (super.noSuchMethod(
             Invocation.getter(#filteredWhitelistSubscriptions),
-            returnValue: <_i27.Subscription>[],
+            returnValue: <_i31.Subscription>[],
           )
-          as List<_i27.Subscription>);
+          as List<_i31.Subscription>);
 
   @override
-  List<_i27.Subscription> get filteredBlacklistSubscriptions =>
+  List<_i31.Subscription> get filteredBlacklistSubscriptions =>
       (super.noSuchMethod(
             Invocation.getter(#filteredBlacklistSubscriptions),
-            returnValue: <_i27.Subscription>[],
+            returnValue: <_i31.Subscription>[],
           )
-          as List<_i27.Subscription>);
+          as List<_i31.Subscription>);
 
   @override
   String get searchTerm =>
@@ -3243,14 +3396,14 @@ class MockSubscriptionsListProvider extends _i1.Mock
   );
 
   @override
-  void setWhitelistSubscriptions(List<_i27.Subscription>? subscriptions) =>
+  void setWhitelistSubscriptions(List<_i31.Subscription>? subscriptions) =>
       super.noSuchMethod(
         Invocation.method(#setWhitelistSubscriptions, [subscriptions]),
         returnValueForMissingStub: null,
       );
 
   @override
-  void setBlacklistSubscriptions(List<_i27.Subscription>? subscriptions) =>
+  void setBlacklistSubscriptions(List<_i31.Subscription>? subscriptions) =>
       super.noSuchMethod(
         Invocation.method(#setBlacklistSubscriptions, [subscriptions]),
         returnValueForMissingStub: null,
@@ -3283,7 +3436,7 @@ class MockSubscriptionsListProvider extends _i1.Mock
           as _i12.Future<dynamic>);
 
   @override
-  void removeSubscriptionFromList(_i27.Subscription? subscription) =>
+  void removeSubscriptionFromList(_i31.Subscription? subscription) =>
       super.noSuchMethod(
         Invocation.method(#removeSubscriptionFromList, [subscription]),
         returnValueForMissingStub: null,
@@ -3318,7 +3471,7 @@ class MockSubscriptionsListProvider extends _i1.Mock
 ///
 /// See the documentation for Mockito's code generation for more information.
 class MockGravityUpdateProvider extends _i1.Mock
-    implements _i34.GravityUpdateProvider {
+    implements _i38.GravityUpdateProvider {
   MockGravityUpdateProvider() {
     _i1.throwOnMissingStub(this);
   }
@@ -3342,12 +3495,12 @@ class MockGravityUpdateProvider extends _i1.Mock
           as bool);
 
   @override
-  List<_i35.Message> get messages =>
+  List<_i39.Message> get messages =>
       (super.noSuchMethod(
             Invocation.getter(#messages),
-            returnValue: <_i35.Message>[],
+            returnValue: <_i39.Message>[],
           )
-          as List<_i35.Message>);
+          as List<_i39.Message>);
 
   @override
   bool get hasListeners =>
@@ -3385,7 +3538,7 @@ class MockGravityUpdateProvider extends _i1.Mock
   );
 
   @override
-  void setMessages(_i35.MessagesInfo? messagesInfo) => super.noSuchMethod(
+  void setMessages(_i39.MessagesInfo? messagesInfo) => super.noSuchMethod(
     Invocation.method(#setMessages, [messagesInfo]),
     returnValueForMissingStub: null,
   );
