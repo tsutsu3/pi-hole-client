@@ -39,6 +39,9 @@ class AppLocalizationsDe extends AppLocalizations {
   String get addDomain => 'Domain hinzufügen';
 
   @override
+  String get addLocalDns => 'Lokales DNS hinzufügen';
+
+  @override
   String get addServer => 'Verbindung hinzufügen';
 
   @override
@@ -57,7 +60,13 @@ class AppLocalizationsDe extends AppLocalizations {
   String get addingDomain => 'Domain wird hinzugefügt...';
 
   @override
+  String get addingLocalDns => 'Lokales DNS wird hinzugefügt...';
+
+  @override
   String get addingWhitelist => 'Wird zur Whitelist hinzugefügt...';
+
+  @override
+  String get additionalInformation => 'Zusätzliche Informationen';
 
   @override
   String get address => 'IP Adresse oder Domain';
@@ -276,6 +285,9 @@ class AppLocalizationsDe extends AppLocalizations {
 
   @override
   String get cannotAddDomain => 'Domain konnte nicht hinzugefügt werden';
+
+  @override
+  String get cannotAddLocalDns => 'Konnte lokales DNS nicht hinzufügen';
 
   @override
   String get cannotChangeUpdateTime =>
@@ -549,6 +561,13 @@ class AppLocalizationsDe extends AppLocalizations {
       'Sind Sie sicher, dass Sie diese Domain löschen möchten?';
 
   @override
+  String get deleteLocalDns => 'Lokales DNS löschen';
+
+  @override
+  String get deleteLocalDnsMessage =>
+      'Möchten Sie dieses lokale DNS wirklich löschen?';
+
+  @override
   String get deleteSession => 'Sitzung löschen';
 
   @override
@@ -683,6 +702,12 @@ class AppLocalizationsDe extends AppLocalizations {
 
   @override
   String get editGroups => 'Gruppen bearbeiten';
+
+  @override
+  String get editHostname => 'Hostname bearbeiten';
+
+  @override
+  String get editIp => 'IP-Adresse bearbeiten';
 
   @override
   String get editServer => 'Verbindung bearbeiten';
@@ -976,6 +1001,13 @@ class AppLocalizationsDe extends AppLocalizations {
   String get invalidDomains => 'Ungültige Domains';
 
   @override
+  String get invalidHostname =>
+      'Ungültiger Hostname: Es sind nur Buchstaben (a–z, A–Z), Zahlen (0–9), Bindestriche (-), Unterstriche (_) und Punkte (.) erlaubt';
+
+  @override
+  String get invalidIpAddress => 'Ungültige IP-Adresse';
+
+  @override
   String get invalidPort => 'Ungültiger Port';
 
   @override
@@ -1077,6 +1109,37 @@ class AppLocalizationsDe extends AppLocalizations {
 
   @override
   String get localCacheReplies => 'Lokale/Cache-Antworten';
+
+  @override
+  String get localDns => 'Lokales DNS';
+
+  @override
+  String get localDnsAdded => 'Lokales DNS wurde erfolgreich hinzugefügt';
+
+  @override
+  String get localDnsDescription =>
+      'Weisen Sie Gerätenamen ihren IP-Adressen zu, um sie im Netzwerk leichter zu erkennen';
+
+  @override
+  String get localDnsEmptyDescription =>
+      'Mit Local DNS können Sie Geräten, die nur eine IP-Adresse anzeigen, Hostnamen zuweisen und sie so leichter identifizieren.';
+
+  @override
+  String get localDnsInformation => 'Lokale DNS-Informationen';
+
+  @override
+  String get localDnsRemoveError =>
+      'Das Entfernen des lokalen DNS ist fehlgeschlagen';
+
+  @override
+  String get localDnsRemoved => 'Lokales DNS wurde erfolgreich entfernt';
+
+  @override
+  String get localDnsUpdateFailed =>
+      'Aktualisierung des lokalen DNS ist fehlgeschlagen';
+
+  @override
+  String get localDnsUpdated => 'Lokales DNS wurde erfolgreich aktualisiert';
 
   @override
   String get logDetails => 'Log Details';
@@ -1818,6 +1881,9 @@ class AppLocalizationsDe extends AppLocalizations {
 
   @override
   String get updateTimeChanged => 'Aktualisierungszeit erfolgreich geändert.';
+
+  @override
+  String get updating => 'Aktualisierung läuft…';
 
   @override
   String get updatingAdlist => 'Adlist wird aktualisiert …';

@@ -322,3 +322,17 @@ Map<String, dynamic> _$RouteToJson(_Route instance) => <String, dynamic>{
   'error': instance.error,
   'used': instance.used,
 };
+
+_DeviceOption _$DeviceOptionFromJson(Map<String, dynamic> json) =>
+    _DeviceOption(
+      ip: json['ip'] as String,
+      hwaddr: json['hwaddr'] as String,
+      macVendor: json['macVendor'] as String,
+    );
+
+Map<String, dynamic> _$DeviceOptionToJson(_DeviceOption instance) =>
+    <String, dynamic>{
+      'ip': instance.ip,
+      'hwaddr': instance.hwaddr,
+      'macVendor': instance.macVendor,
+    };

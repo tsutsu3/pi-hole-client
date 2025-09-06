@@ -966,9 +966,85 @@ class ApiGatewayV5 implements ApiGateway {
   }
 
   @override
+  Future<DeleteConfigResponse> deleteConfiguration({
+    required String element,
+    required String value,
+  }) async {
+    return Future.value(
+      DeleteConfigResponse(
+        result: APiResponseType.notSupported,
+        message: notSupportedMessage,
+      ),
+    );
+  }
+
+  @override
+  Future<PutConfigResponse> putConfiguration({
+    required String element,
+    required String value,
+  }) async {
+    return Future.value(
+      PutConfigResponse(
+        result: APiResponseType.notSupported,
+        message: notSupportedMessage,
+      ),
+    );
+  }
+
+  @override
   Future<ConfigurationResponse> patchDnsQueryLoggingConfig(bool status) async {
     return Future.value(
       ConfigurationResponse(
+        result: APiResponseType.notSupported,
+        message: notSupportedMessage,
+      ),
+    );
+  }
+
+  @override
+  Future<LocalDnsResponse> getLocalDns() async {
+    return Future.value(
+      LocalDnsResponse(
+        result: APiResponseType.notSupported,
+        message: notSupportedMessage,
+      ),
+    );
+  }
+
+  @override
+  Future<DeleteLocalDnsResponse> deleteLocalDns({
+    required String ip,
+    required String name,
+  }) async {
+    return Future.value(
+      DeleteLocalDnsResponse(
+        result: APiResponseType.notSupported,
+        message: notSupportedMessage,
+      ),
+    );
+  }
+
+  @override
+  Future<LocalDnsResponse> updateLocalDns({
+    required String ip,
+    required String name,
+    String? oldIp,
+  }) async {
+    return Future.value(
+      LocalDnsResponse(
+        result: APiResponseType.notSupported,
+        message: notSupportedMessage,
+      ),
+    );
+  }
+
+  @override
+  Future<AddLocalDnsResponse> addLocalDns({
+    required String ip,
+    required String name,
+  }) async {
+    return Future.value(
+      AddLocalDnsResponse(
         result: APiResponseType.notSupported,
         message: notSupportedMessage,
       ),

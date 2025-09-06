@@ -200,3 +200,15 @@ sealed class Route with _$Route {
 
   factory Route.fromJson(Map<String, dynamic> json) => _$RouteFromJson(json);
 }
+
+@freezed
+sealed class DeviceOption with _$DeviceOption {
+  const factory DeviceOption({
+    required String ip,
+    required String hwaddr,
+    required String macVendor,
+  }) = _DeviceOption;
+
+  factory DeviceOption.fromJson(Map<String, dynamic> json) =>
+      _$DeviceOptionFromJson(json);
+}

@@ -2455,6 +2455,62 @@ void main() async {
     });
   });
 
+  group('deleteConfiguration', () {
+    late Server server;
+    const notSupportedMessage = 'Pi-hole v5 does not support this feature.';
+
+    setUp(() async {
+      server = Server(
+        address: 'http://example.com',
+        alias: 'example',
+        defaultServer: true,
+        apiVersion: SupportedApiVersions.v5,
+        allowSelfSignedCert: true,
+      );
+      await server.sm.saveToken('xxx123');
+    });
+
+    test('should return notSupported when server is v5', () async {
+      final mockClient = MockClient();
+      final apiGateway = ApiGatewayV5(server, client: mockClient);
+      final response = await apiGateway.deleteConfiguration(
+        element: 'test',
+        value: 'value',
+      );
+
+      expect(response.result, APiResponseType.notSupported);
+      expect(response.message, notSupportedMessage);
+    });
+  });
+
+  group('putConfiguration', () {
+    late Server server;
+    const notSupportedMessage = 'Pi-hole v5 does not support this feature.';
+
+    setUp(() async {
+      server = Server(
+        address: 'http://example.com',
+        alias: 'example',
+        defaultServer: true,
+        apiVersion: SupportedApiVersions.v5,
+        allowSelfSignedCert: true,
+      );
+      await server.sm.saveToken('xxx123');
+    });
+
+    test('should return notSupported when server is v5', () async {
+      final mockClient = MockClient();
+      final apiGateway = ApiGatewayV5(server, client: mockClient);
+      final response = await apiGateway.putConfiguration(
+        element: 'test',
+        value: 'value',
+      );
+
+      expect(response.result, APiResponseType.notSupported);
+      expect(response.message, notSupportedMessage);
+    });
+  });
+
   group('patchConfiguration', () {
     late Server server;
     const notSupportedMessage = 'Pi-hole v5 does not support this feature.';
@@ -2475,6 +2531,115 @@ void main() async {
       final mockClient = MockClient();
       final apiGateway = ApiGatewayV5(server, client: mockClient);
       final response = await apiGateway.patchConfiguration(configData);
+
+      expect(response.result, APiResponseType.notSupported);
+      expect(response.message, notSupportedMessage);
+    });
+  });
+
+  group('getLocalDns', () {
+    late Server server;
+    const notSupportedMessage = 'Pi-hole v5 does not support this feature.';
+
+    setUp(() async {
+      server = Server(
+        address: 'http://example.com',
+        alias: 'example',
+        defaultServer: true,
+        apiVersion: SupportedApiVersions.v5,
+        allowSelfSignedCert: true,
+      );
+      await server.sm.saveToken('xxx123');
+    });
+
+    test('should return notSupported when server is v5', () async {
+      final mockClient = MockClient();
+      final apiGateway = ApiGatewayV5(server, client: mockClient);
+      final response = await apiGateway.getLocalDns();
+
+      expect(response.result, APiResponseType.notSupported);
+      expect(response.message, notSupportedMessage);
+    });
+  });
+
+  group('deleteLocalDns', () {
+    late Server server;
+    const notSupportedMessage = 'Pi-hole v5 does not support this feature.';
+
+    setUp(() async {
+      server = Server(
+        address: 'http://example.com',
+        alias: 'example',
+        defaultServer: true,
+        apiVersion: SupportedApiVersions.v5,
+        allowSelfSignedCert: true,
+      );
+      await server.sm.saveToken('xxx123');
+    });
+
+    test('should return notSupported when server is v5', () async {
+      final mockClient = MockClient();
+      final apiGateway = ApiGatewayV5(server, client: mockClient);
+      final response = await apiGateway.deleteLocalDns(
+        ip: '192.168.1.2',
+        name: 'device',
+      );
+
+      expect(response.result, APiResponseType.notSupported);
+      expect(response.message, notSupportedMessage);
+    });
+  });
+
+  group('updateLocalDns', () {
+    late Server server;
+    const notSupportedMessage = 'Pi-hole v5 does not support this feature.';
+
+    setUp(() async {
+      server = Server(
+        address: 'http://example.com',
+        alias: 'example',
+        defaultServer: true,
+        apiVersion: SupportedApiVersions.v5,
+        allowSelfSignedCert: true,
+      );
+      await server.sm.saveToken('xxx123');
+    });
+
+    test('should return notSupported when server is v5', () async {
+      final mockClient = MockClient();
+      final apiGateway = ApiGatewayV5(server, client: mockClient);
+      final response = await apiGateway.updateLocalDns(
+        ip: '192.168.1.2',
+        name: 'device',
+      );
+
+      expect(response.result, APiResponseType.notSupported);
+      expect(response.message, notSupportedMessage);
+    });
+  });
+
+  group('addLocalDns', () {
+    late Server server;
+    const notSupportedMessage = 'Pi-hole v5 does not support this feature.';
+
+    setUp(() async {
+      server = Server(
+        address: 'http://example.com',
+        alias: 'example',
+        defaultServer: true,
+        apiVersion: SupportedApiVersions.v5,
+        allowSelfSignedCert: true,
+      );
+      await server.sm.saveToken('xxx123');
+    });
+
+    test('should return notSupported when server is v5', () async {
+      final mockClient = MockClient();
+      final apiGateway = ApiGatewayV5(server, client: mockClient);
+      final response = await apiGateway.addLocalDns(
+        ip: '192.168.1.2',
+        name: 'device',
+      );
 
       expect(response.result, APiResponseType.notSupported);
       expect(response.message, notSupportedMessage);

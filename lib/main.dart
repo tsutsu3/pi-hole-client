@@ -21,6 +21,7 @@ import 'package:pi_hole_client/ui/core/viewmodel/domains_list_provider.dart';
 import 'package:pi_hole_client/ui/core/viewmodel/filters_provider.dart';
 import 'package:pi_hole_client/ui/core/viewmodel/gravity_provider.dart';
 import 'package:pi_hole_client/ui/core/viewmodel/groups_provider.dart';
+import 'package:pi_hole_client/ui/core/viewmodel/local_dns_provider.dart';
 import 'package:pi_hole_client/ui/core/viewmodel/servers_provider.dart';
 import 'package:pi_hole_client/ui/core/viewmodel/status_provider.dart';
 import 'package:pi_hole_client/ui/core/viewmodel/subscriptions_list_provider.dart';
@@ -163,6 +164,7 @@ void main() async {
     repository: gravityRepository,
     serversProvider: serversProvider,
   );
+  final localDnsProvider = LocalDnsProvider(serversProvider: serversProvider);
 
   final statusUpdateService = StatusUpdateService(
     serversProvider: serversProvider,
@@ -253,6 +255,11 @@ void main() async {
         ),
         ChangeNotifierProxyProvider<ServersProvider, GravityUpdateProvider>(
           create: (context) => gravityUpdateProvider,
+          update: (context, serverConfig, servers) =>
+              servers!..update(serverConfig),
+        ),
+        ChangeNotifierProxyProvider<ServersProvider, LocalDnsProvider>(
+          create: (context) => localDnsProvider,
           update: (context, serverConfig, servers) =>
               servers!..update(serverConfig),
         ),

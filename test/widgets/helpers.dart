@@ -59,6 +59,7 @@ import 'package:pi_hole_client/ui/core/viewmodel/domains_list_provider.dart';
 import 'package:pi_hole_client/ui/core/viewmodel/filters_provider.dart';
 import 'package:pi_hole_client/ui/core/viewmodel/gravity_provider.dart';
 import 'package:pi_hole_client/ui/core/viewmodel/groups_provider.dart';
+import 'package:pi_hole_client/ui/core/viewmodel/local_dns_provider.dart';
 import 'package:pi_hole_client/ui/core/viewmodel/servers_provider.dart';
 import 'package:pi_hole_client/ui/core/viewmodel/status_provider.dart';
 import 'package:pi_hole_client/ui/core/viewmodel/subscriptions_list_provider.dart';
@@ -1409,6 +1410,7 @@ Future<void> initializeApp() async {
   FiltersProvider,
   StatusProvider,
   DomainsListProvider,
+  LocalDnsProvider,
   ApiGatewayV5,
   ApiGatewayV6,
   StatusUpdateService,
@@ -1426,6 +1428,7 @@ class TestSetupHelper {
     MockGroupsProvider? customGroupsProvider,
     MockSubscriptionsListProvider? customSubscriptionsListProvider,
     MockGravityUpdateProvider? customGravityUpdateProvider,
+    MockLocalDnsProvider? customLocalDnsProvider,
     MockApiGatewayV5? customApiGatewayV5,
     MockApiGatewayV6? customApiGatewayV6,
     MockStatusUpdateService? customStatusUpdateService,
@@ -1441,6 +1444,7 @@ class TestSetupHelper {
         customSubscriptionsListProvider ?? MockSubscriptionsListProvider();
     mockGravityUpdateProvider =
         customGravityUpdateProvider ?? MockGravityUpdateProvider();
+    mockLocalDnsProvider = customLocalDnsProvider ?? MockLocalDnsProvider();
 
     mockApiGatewayV5 = customApiGatewayV5 ?? MockApiGatewayV5();
     mockApiGatewayV6 = customApiGatewayV6 ?? MockApiGatewayV6();
@@ -1457,6 +1461,7 @@ class TestSetupHelper {
   late MockGroupsProvider mockGroupsProvider;
   late MockSubscriptionsListProvider mockSubscriptionsListProvider;
   late MockGravityUpdateProvider mockGravityUpdateProvider;
+  late MockLocalDnsProvider mockLocalDnsProvider;
 
   late MockApiGatewayV5 mockApiGatewayV5;
   late MockApiGatewayV6 mockApiGatewayV6;
@@ -1471,6 +1476,7 @@ class TestSetupHelper {
     _initDomainListProviderMock(useApiGatewayVersion);
     _initGroupsPtoviderMock(useApiGatewayVersion);
     _initSubscriptionsListProviderMock(useApiGatewayVersion);
+    _initLocalDnsProviderMock(useApiGatewayVersion);
     _initGravityUpdateProviderMock(useApiGatewayVersion);
     _initApiGatewayV5Mock();
     _initApiGatewayV6Mock();
@@ -1538,6 +1544,11 @@ class TestSetupHelper {
               create: (context) => mockGravityUpdateProvider,
               update: (context, serverConfig, servers) =>
                   servers!..update(serverConfig),
+            ),
+            ChangeNotifierProxyProvider<ServersProvider, LocalDnsProvider>(
+              create: (context) => mockLocalDnsProvider,
+              update: (context, serverConfig, groups) =>
+                  groups!..update(serverConfig),
             ),
             Provider<StatusUpdateService>(
               create: (_) => mockStatusUpdateService,
@@ -1612,6 +1623,11 @@ class TestSetupHelper {
           create: (context) => mockGravityUpdateProvider,
           update: (context, serverConfig, servers) =>
               servers!..update(serverConfig),
+        ),
+        ChangeNotifierProxyProvider<ServersProvider, LocalDnsProvider>(
+          create: (context) => mockLocalDnsProvider,
+          update: (context, serverConfig, groups) =>
+              groups!..update(serverConfig),
         ),
         Provider<StatusUpdateService>(
           create: (_) => mockStatusUpdateService,
@@ -1886,6 +1902,8 @@ class TestSetupHelper {
     when(mockGravityUpdateProvider.start()).thenAnswer((_) async => ());
     when(mockGravityUpdateProvider.reset()).thenReturn(null);
   }
+
+  void _initLocalDnsProviderMock(String useApiGatewayVersion) {}
 
   void _initApiGatewayV5Mock() {
     when(mockApiGatewayV5.loginQuery()).thenAnswer(
