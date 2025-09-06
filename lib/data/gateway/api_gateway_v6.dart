@@ -1525,7 +1525,8 @@ class ApiGatewayV6 implements ApiGateway {
       final queryParamString = isDetailed == true ? '?detailed=true' : '';
       final results = await httpClient(
         method: 'get',
-        url: '${_server.address}/api/config/$elem$queryParamString',
+        url:
+            '${_server.address}/api/config/${Uri.encodeComponent(elem)}$queryParamString',
       );
 
       if (results.statusCode == 200) {
@@ -1587,7 +1588,8 @@ class ApiGatewayV6 implements ApiGateway {
     try {
       final results = await httpClient(
         method: 'delete',
-        url: '${_server.address}/api/config/$element/$value',
+        url:
+            '${_server.address}/api/config/${Uri.encodeComponent(element)}/${Uri.encodeComponent(value)}',
       );
 
       if (results.statusCode == 204) {
@@ -1614,7 +1616,8 @@ class ApiGatewayV6 implements ApiGateway {
     try {
       final results = await httpClient(
         method: 'put',
-        url: '${_server.address}/api/config/$element/$value',
+        url:
+            '${_server.address}/api/config/${Uri.encodeComponent(element)}/${Uri.encodeComponent(value)}',
       );
 
       if (results.statusCode == 201) {
@@ -1667,7 +1670,7 @@ class ApiGatewayV6 implements ApiGateway {
   }) async {
     final resp = await putConfiguration(
       element: 'dns/hosts',
-      value: Uri.encodeComponent('$ip $name'),
+      value: '$ip $name',
     );
 
     if (resp.result == APiResponseType.success) {
@@ -1736,7 +1739,7 @@ class ApiGatewayV6 implements ApiGateway {
   }) async {
     final resp = await deleteConfiguration(
       element: 'dns/hosts',
-      value: Uri.encodeComponent('$ip $name'),
+      value: '$ip $name',
     );
 
     if (resp.result == APiResponseType.success) {

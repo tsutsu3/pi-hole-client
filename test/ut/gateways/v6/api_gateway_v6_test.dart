@@ -28,6 +28,7 @@ import 'package:pi_hole_client/data/model/v6/lists/search.dart' show Search;
 import 'package:pi_hole_client/data/model/v6/network/devices.dart';
 import 'package:pi_hole_client/data/model/v6/network/gateway.dart';
 import 'package:pi_hole_client/data/repositories/local/secure_data_repository.dart';
+import 'package:pi_hole_client/domain/model/local_dns/local_dns.dart';
 // import 'package:pi_hole_client/data/services/local/session_credential_service.dart';
 import 'package:pi_hole_client/domain/models_old/client.dart';
 import 'package:pi_hole_client/domain/models_old/config.dart';
@@ -135,6 +136,7 @@ void main() async {
   const notImplementedError = 'This feature is not implemented yet.';
   const postError = 'Failed to post data to the server.';
   const deleteError = 'Failed to delete data from the server.';
+  const putError = 'Failed to put data to the server.';
 
   group('loginQuery', () {
     late Server server;
@@ -5446,6 +5448,188 @@ void main() async {
     });
   });
 
+  group('deleteConfiguration', () {
+    late Server server;
+    const erroData = {
+      'error': {'key': 'unauthorized', 'message': 'Unauthorized', 'hint': null},
+      'took': 0.003,
+    };
+    const element = 'dns/hosts';
+    const value = '192.168.1.2 device';
+
+    setUp(() {
+      server = Server(
+        address: 'http://example.com',
+        alias: 'example',
+        defaultServer: true,
+        apiVersion: SupportedApiVersions.v6,
+        allowSelfSignedCert: true,
+      );
+      server.sm.savePassword('xxx123');
+    });
+
+    test('should return success', () async {
+      final mockClient = MockClient();
+      final apiGateway = ApiGatewayV6(server, client: mockClient);
+
+      when(
+        mockClient.delete(
+          Uri.parse(
+            'http://example.com/api/config/${Uri.encodeComponent(element)}/${Uri.encodeComponent(value)}',
+          ),
+          headers: anyNamed('headers'),
+        ),
+      ).thenAnswer((_) async => http.Response('', 204));
+
+      final response = await apiGateway.deleteConfiguration(
+        element: element,
+        value: value,
+      );
+
+      expect(response.result, APiResponseType.success);
+      expect(response.message, null);
+    });
+
+    test('should return an error when status code is 401', () async {
+      final mockClient = MockClient();
+      final apiGateway = ApiGatewayV6(server, client: mockClient);
+
+      when(
+        mockClient.delete(
+          Uri.parse(
+            'http://example.com/api/config/${Uri.encodeComponent(element)}/${Uri.encodeComponent(value)}',
+          ),
+          headers: anyNamed('headers'),
+        ),
+      ).thenAnswer((_) async => http.Response(jsonEncode(erroData), 401));
+
+      final response = await apiGateway.deleteConfiguration(
+        element: element,
+        value: value,
+      );
+
+      expect(response.result, APiResponseType.error);
+      expect(response.message, deleteError);
+    });
+
+    test('should return an error when an unexpected error occurs', () async {
+      final mockClient = MockClient();
+      final apiGateway = ApiGatewayV6(server, client: mockClient);
+
+      when(
+        mockClient.delete(
+          Uri.parse(
+            'http://example.com/api/config/${Uri.encodeComponent(element)}/${Uri.encodeComponent(value)}',
+          ),
+          headers: anyNamed('headers'),
+        ),
+      ).thenThrow(Exception('Unexpected error test'));
+
+      final response = await apiGateway.deleteConfiguration(
+        element: element,
+        value: value,
+      );
+
+      expect(response.result, APiResponseType.error);
+      expect(response.message, unexpectedError);
+    });
+  });
+
+  group('putConfiguration', () {
+    late Server server;
+    const data = {
+      'config': {
+        'dns': {
+          'hosts': ['192.168.1.2 device'],
+        },
+      },
+      'took': 0.003,
+    };
+    const erroData = {
+      'error': {'key': 'unauthorized', 'message': 'Unauthorized', 'hint': null},
+      'took': 0.003,
+    };
+    const element = 'dns/hosts';
+    const value = '192.168.1.2 device';
+
+    setUp(() {
+      server = Server(
+        address: 'http://example.com',
+        alias: 'example',
+        defaultServer: true,
+        apiVersion: SupportedApiVersions.v6,
+        allowSelfSignedCert: true,
+      );
+      server.sm.savePassword('xxx123');
+    });
+
+    test('should return success', () async {
+      final mockClient = MockClient();
+      final apiGateway = ApiGatewayV6(server, client: mockClient);
+
+      when(
+        mockClient.put(
+          Uri.parse(
+            'http://example.com/api/config/${Uri.encodeComponent(element)}/${Uri.encodeComponent(value)}',
+          ),
+          headers: anyNamed('headers'),
+        ),
+      ).thenAnswer((_) async => http.Response(jsonEncode(data), 201));
+
+      final response = await apiGateway.putConfiguration(
+        element: element,
+        value: value,
+      );
+
+      expect(response.result, APiResponseType.success);
+      expect(response.message, null);
+    });
+
+    test('should return an error when status code is 401', () async {
+      final mockClient = MockClient();
+      final apiGateway = ApiGatewayV6(server, client: mockClient);
+
+      when(
+        mockClient.put(
+          Uri.parse(
+            'http://example.com/api/config/${Uri.encodeComponent(element)}/${Uri.encodeComponent(value)}',
+          ),
+          headers: anyNamed('headers'),
+        ),
+      ).thenAnswer((_) async => http.Response(jsonEncode(erroData), 401));
+
+      final response = await apiGateway.putConfiguration(
+        element: element,
+        value: value,
+      );
+
+      expect(response.result, APiResponseType.error);
+      expect(response.message, putError);
+    });
+
+    test('should return an error when an unexpected error occurs', () async {
+      final mockClient = MockClient();
+      final apiGateway = ApiGatewayV6(server, client: mockClient);
+
+      when(
+        mockClient.put(
+          Uri.parse(
+            'http://example.com/api/config/${Uri.encodeComponent(element)}/${Uri.encodeComponent(value)}',
+          ),
+          headers: anyNamed('headers'),
+        ),
+      ).thenThrow(Exception('Unexpected error test'));
+
+      final response = await apiGateway.putConfiguration(
+        element: element,
+        value: value,
+      );
+
+      expect(response.result, APiResponseType.error);
+      expect(response.message, unexpectedError);
+    });
+  });
+
   group('patchConfiguration', () {
     late Server server;
     const data = {
@@ -5615,6 +5799,426 @@ void main() async {
       expect(response.result, APiResponseType.error);
       expect(response.message, unexpectedError);
       expect(response.data?.toJson(), null);
+    });
+  });
+
+  group('getLocalDns', () {
+    late Server server;
+    const data = {
+      'config': {
+        'dns': {
+          'hosts': ['192.168.1.2 device'],
+        },
+      },
+      'took': 0.003,
+    };
+    const erroData = {
+      'error': {'key': 'unauthorized', 'message': 'Unauthorized', 'hint': null},
+      'took': 0.003,
+    };
+    const element = 'dns/hosts';
+
+    setUp(() {
+      server = Server(
+        address: 'http://example.com',
+        alias: 'example',
+        defaultServer: true,
+        apiVersion: SupportedApiVersions.v6,
+        allowSelfSignedCert: true,
+      );
+      server.sm.savePassword('xxx123');
+    });
+
+    test('should return success', () async {
+      final mockClient = MockClient();
+      final apiGateway = ApiGatewayV6(server, client: mockClient);
+
+      when(
+        mockClient.get(
+          Uri.parse(
+            'http://example.com/api/config/${Uri.encodeComponent(element)}',
+          ),
+          headers: anyNamed('headers'),
+        ),
+      ).thenAnswer((_) async => http.Response(jsonEncode(data), 200));
+
+      final response = await apiGateway.getLocalDns();
+
+      expect(response.result, APiResponseType.success);
+      expect(response.message, null);
+      expect(response.data?.map((e) => e.toJson()).toList(), [
+        const LocalDns(ip: '192.168.1.2', name: 'device').toJson(),
+      ]);
+    });
+
+    test('should return an error when status code is 401', () async {
+      final mockClient = MockClient();
+      final apiGateway = ApiGatewayV6(server, client: mockClient);
+
+      when(
+        mockClient.get(
+          Uri.parse(
+            'http://example.com/api/config/${Uri.encodeComponent(element)}',
+          ),
+          headers: anyNamed('headers'),
+        ),
+      ).thenAnswer((_) async => http.Response(jsonEncode(erroData), 401));
+
+      final response = await apiGateway.getLocalDns();
+
+      expect(response.result, APiResponseType.error);
+      expect(response.message, fetchError);
+      expect(response.data, null);
+    });
+
+    test('should return an error when an unexpected error occurs', () async {
+      final mockClient = MockClient();
+      final apiGateway = ApiGatewayV6(server, client: mockClient);
+
+      when(
+        mockClient.get(
+          Uri.parse(
+            'http://example.com/api/config/${Uri.encodeComponent(element)}',
+          ),
+          headers: anyNamed('headers'),
+        ),
+      ).thenThrow(Exception('Unexpected error test'));
+
+      final response = await apiGateway.getLocalDns();
+
+      expect(response.result, APiResponseType.error);
+      expect(response.message, unexpectedError);
+      expect(response.data, null);
+    });
+  });
+
+  group('deleteLocalDns', () {
+    late Server server;
+    const erroData = {
+      'error': {'key': 'unauthorized', 'message': 'Unauthorized', 'hint': null},
+      'took': 0.003,
+    };
+    const ip = '192.168.1.2';
+    const name = 'device';
+
+    setUp(() {
+      server = Server(
+        address: 'http://example.com',
+        alias: 'example',
+        defaultServer: true,
+        apiVersion: SupportedApiVersions.v6,
+        allowSelfSignedCert: true,
+      );
+      server.sm.savePassword('xxx123');
+    });
+
+    test('should return success', () async {
+      final mockClient = MockClient();
+      final apiGateway = ApiGatewayV6(server, client: mockClient);
+
+      when(
+        mockClient.delete(
+          Uri.parse(
+            'http://example.com/api/config/${Uri.encodeComponent('dns/hosts')}/${Uri.encodeComponent('$ip $name')}',
+          ),
+          headers: anyNamed('headers'),
+        ),
+      ).thenAnswer((_) async => http.Response('', 204));
+
+      final response = await apiGateway.deleteLocalDns(ip: ip, name: name);
+
+      expect(response.result, APiResponseType.success);
+      expect(response.message, null);
+    });
+
+    test('should return an error when status code is 401', () async {
+      final mockClient = MockClient();
+      final apiGateway = ApiGatewayV6(server, client: mockClient);
+
+      when(
+        mockClient.delete(
+          Uri.parse(
+            'http://example.com/api/config/${Uri.encodeComponent('dns/hosts')}/${Uri.encodeComponent('$ip $name')}',
+          ),
+          headers: anyNamed('headers'),
+        ),
+      ).thenAnswer((_) async => http.Response(jsonEncode(erroData), 401));
+
+      final response = await apiGateway.deleteLocalDns(ip: ip, name: name);
+
+      expect(response.result, APiResponseType.error);
+      expect(response.message, deleteError);
+    });
+
+    test('should return an error when an unexpected error occurs', () async {
+      final mockClient = MockClient();
+      final apiGateway = ApiGatewayV6(server, client: mockClient);
+
+      when(
+        mockClient.delete(
+          Uri.parse(
+            'http://example.com/api/config/${Uri.encodeComponent('dns/hosts')}/${Uri.encodeComponent('$ip $name')}',
+          ),
+          headers: anyNamed('headers'),
+        ),
+      ).thenThrow(Exception('Unexpected error test'));
+
+      final response = await apiGateway.deleteLocalDns(ip: ip, name: name);
+
+      expect(response.result, APiResponseType.error);
+      expect(response.message, unexpectedError);
+    });
+  });
+
+  group('updateLocalDns', () {
+    late Server server;
+    const data = {
+      'config': {
+        'dns': {
+          'hosts': ['192.168.1.3 device'],
+        },
+      },
+      'took': 0.003,
+    };
+    const data2 = {
+      'config': {
+        'dns': {
+          'hosts': ['192.168.1.3 after'],
+        },
+      },
+      'took': 0.003,
+    };
+    const data3 = {
+      'config': {
+        'dns': {
+          'hosts': ['192.168.1.2 device'],
+        },
+      },
+      'took': 0.003,
+    };
+    const erroData = {
+      'error': {'key': 'unauthorized', 'message': 'Unauthorized', 'hint': null},
+      'took': 0.003,
+    };
+    const ip = '192.168.1.3';
+    const name = 'device';
+
+    setUp(() {
+      server = Server(
+        address: 'http://example.com',
+        alias: 'example',
+        defaultServer: true,
+        apiVersion: SupportedApiVersions.v6,
+        allowSelfSignedCert: true,
+      );
+      server.sm.savePassword('xxx123');
+    });
+
+    test('should return success when updating name', () async {
+      final mockClient = MockClient();
+      final apiGateway = ApiGatewayV6(server, client: mockClient);
+
+      when(
+        mockClient.get(
+          Uri.parse(
+            'http://example.com/api/config/${Uri.encodeComponent('dns/hosts')}',
+          ),
+          headers: anyNamed('headers'),
+        ),
+      ).thenAnswer((_) async => http.Response(jsonEncode(data), 200));
+
+      when(
+        mockClient.patch(
+          Uri.parse('http://example.com/api/config'),
+          headers: anyNamed('headers'),
+          body: jsonEncode({
+            'config': {
+              'dns': {
+                'hosts': ['192.168.1.3 after'],
+              },
+            },
+          }),
+        ),
+      ).thenAnswer((_) async => http.Response(jsonEncode(data2), 200));
+
+      final response = await apiGateway.updateLocalDns(ip: ip, name: 'after');
+
+      expect(response.result, APiResponseType.success);
+      expect(response.message, null);
+      expect(response.data!.length, 1);
+      expect(response.data![0].toJson(), {'ip': ip, 'name': 'after'});
+    });
+
+    test('should return success when updating ip', () async {
+      final mockClient = MockClient();
+      final apiGateway = ApiGatewayV6(server, client: mockClient);
+
+      when(
+        mockClient.get(
+          Uri.parse(
+            'http://example.com/api/config/${Uri.encodeComponent('dns/hosts')}',
+          ),
+          headers: anyNamed('headers'),
+        ),
+      ).thenAnswer((_) async => http.Response(jsonEncode(data), 200));
+
+      when(
+        mockClient.patch(
+          Uri.parse('http://example.com/api/config'),
+          headers: anyNamed('headers'),
+          body: jsonEncode({
+            'config': {
+              'dns': {
+                'hosts': ['192.168.1.2 device'],
+              },
+            },
+          }),
+        ),
+      ).thenAnswer((_) async => http.Response(jsonEncode(data3), 200));
+
+      final response = await apiGateway.updateLocalDns(
+        ip: '192.168.1.2',
+        name: name,
+        oldIp: ip,
+      );
+
+      expect(response.result, APiResponseType.success);
+      expect(response.message, null);
+      expect(response.data!.length, 1);
+      expect(response.data![0].toJson(), {
+        'ip': '192.168.1.2',
+        'name': 'device',
+      });
+    });
+
+    test('should return an error when status code is 401', () async {
+      final mockClient = MockClient();
+      final apiGateway = ApiGatewayV6(server, client: mockClient);
+
+      when(
+        mockClient.get(
+          Uri.parse(
+            'http://example.com/api/config/${Uri.encodeComponent('dns/hosts')}',
+          ),
+          headers: anyNamed('headers'),
+        ),
+      ).thenAnswer((_) async => http.Response(jsonEncode(erroData), 401));
+
+      final response = await apiGateway.updateLocalDns(ip: ip, name: name);
+
+      expect(response.result, APiResponseType.error);
+      expect(response.message, fetchError);
+    });
+
+    test('should return an error when an unexpected error occurs', () async {
+      final mockClient = MockClient();
+      final apiGateway = ApiGatewayV6(server, client: mockClient);
+
+      when(
+        mockClient.get(
+          Uri.parse(
+            'http://example.com/api/config/${Uri.encodeComponent('dns/hosts')}',
+          ),
+          headers: anyNamed('headers'),
+        ),
+      ).thenAnswer((_) async => http.Response(jsonEncode(data), 200));
+
+      when(
+        mockClient.patch(
+          Uri.parse('http://example.com/api/config'),
+          headers: anyNamed('headers'),
+          body: jsonEncode({
+            'config': {
+              'dns': {
+                'hosts': ['192.168.1.2 device'],
+              },
+            },
+          }),
+        ),
+      ).thenThrow(Exception('Unexpected error test'));
+
+      final response = await apiGateway.updateLocalDns(ip: ip, name: name);
+
+      expect(response.result, APiResponseType.error);
+      expect(response.message, unexpectedError);
+    });
+  });
+
+  group('addLocalDns', () {
+    late Server server;
+    const erroData = {
+      'error': {'key': 'unauthorized', 'message': 'Unauthorized', 'hint': null},
+      'took': 0.003,
+    };
+    const ip = '192.168.1.2';
+    const name = 'device';
+
+    setUp(() {
+      server = Server(
+        address: 'http://example.com',
+        alias: 'example',
+        defaultServer: true,
+        apiVersion: SupportedApiVersions.v6,
+        allowSelfSignedCert: true,
+      );
+      server.sm.savePassword('xxx123');
+    });
+
+    test('should return success', () async {
+      final mockClient = MockClient();
+      final apiGateway = ApiGatewayV6(server, client: mockClient);
+
+      when(
+        mockClient.put(
+          Uri.parse(
+            'http://example.com/api/config/${Uri.encodeComponent('dns/hosts')}/${Uri.encodeComponent('$ip $name')}',
+          ),
+          headers: anyNamed('headers'),
+        ),
+      ).thenAnswer((_) async => http.Response('', 201));
+
+      final response = await apiGateway.addLocalDns(ip: ip, name: name);
+
+      expect(response.result, APiResponseType.success);
+      expect(response.message, null);
+    });
+
+    test('should return an error when status code is 401', () async {
+      final mockClient = MockClient();
+      final apiGateway = ApiGatewayV6(server, client: mockClient);
+
+      when(
+        mockClient.put(
+          Uri.parse(
+            'http://example.com/api/config/${Uri.encodeComponent('dns/hosts')}/${Uri.encodeComponent('$ip $name')}',
+          ),
+          headers: anyNamed('headers'),
+        ),
+      ).thenAnswer((_) async => http.Response(jsonEncode(erroData), 401));
+
+      final response = await apiGateway.addLocalDns(ip: ip, name: name);
+
+      expect(response.result, APiResponseType.error);
+      expect(response.message, putError);
+    });
+
+    test('should return an error when an unexpected error occurs', () async {
+      final mockClient = MockClient();
+      final apiGateway = ApiGatewayV6(server, client: mockClient);
+
+      when(
+        mockClient.put(
+          Uri.parse(
+            'http://example.com/api/config/${Uri.encodeComponent('dns/hosts')}/${Uri.encodeComponent('$ip $name')}',
+          ),
+          headers: anyNamed('headers'),
+        ),
+      ).thenThrow(Exception('Unexpected error test'));
+
+      final response = await apiGateway.addLocalDns(ip: ip, name: name);
+
+      expect(response.result, APiResponseType.error);
+      expect(response.message, unexpectedError);
     });
   });
 
