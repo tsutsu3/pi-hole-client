@@ -5383,7 +5383,9 @@ void main() async {
 
       when(
         mockClient.get(
-          Uri.parse('http://example.com/api/config/dns/queryLogging'),
+          Uri.parse(
+            'http://example.com/api/config/${Uri.encodeComponent('dns/queryLogging')}',
+          ),
           headers: anyNamed('headers'),
         ),
       ).thenAnswer((_) async => http.Response(jsonEncode(dataPart), 200));
