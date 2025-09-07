@@ -3,17 +3,15 @@ import 'package:pi_hole_client/ui/core/l10n/generated/app_localizations.dart';
 
 class EmptyDataScreen extends StatelessWidget {
   const EmptyDataScreen({
-    IconData? icon,
-    String? title,
-    String? message,
+    this.icon = Icons.inbox_rounded,
+    this.title,
+    this.message,
     super.key,
-  }) : icon = icon ?? Icons.inbox_rounded,
-       title = title ?? '',
-       message = message ?? '';
+  });
 
   final IconData icon;
-  final String title;
-  final String message;
+  final String? title;
+  final String? message;
 
   @override
   Widget build(BuildContext context) {
@@ -27,7 +25,7 @@ class EmptyDataScreen extends StatelessWidget {
               Icon(icon, size: 60),
               const SizedBox(height: 16),
               Text(
-                title.isEmpty ? AppLocalizations.of(context)!.noData : title,
+                title ?? AppLocalizations.of(context)!.noData,
                 textAlign: TextAlign.center,
                 style: const TextStyle(
                   fontSize: 24,
@@ -36,9 +34,7 @@ class EmptyDataScreen extends StatelessWidget {
               ),
               const SizedBox(height: 32),
               Text(
-                message.isEmpty
-                    ? AppLocalizations.of(context)!.selectServerThenAccess
-                    : message,
+                message ?? AppLocalizations.of(context)!.selectServerThenAccess,
                 textAlign: TextAlign.center,
                 style: const TextStyle(fontSize: 16, height: 1.5),
               ),
