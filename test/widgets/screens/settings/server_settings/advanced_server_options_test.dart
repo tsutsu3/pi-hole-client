@@ -9,6 +9,7 @@ import 'package:pi_hole_client/ui/common/dhcp_disabled_screen.dart';
 import 'package:pi_hole_client/ui/settings/server_settings/advanced_server_options.dart';
 import 'package:pi_hole_client/ui/settings/server_settings/advanced_settings/dhcp_screen.dart';
 import 'package:pi_hole_client/ui/settings/server_settings/advanced_settings/interface_screen.dart';
+import 'package:pi_hole_client/ui/settings/server_settings/advanced_settings/local_dns_screen.dart';
 import 'package:pi_hole_client/ui/settings/server_settings/advanced_settings/network_screen.dart';
 import 'package:pi_hole_client/ui/settings/server_settings/advanced_settings/sessions_screen.dart';
 
@@ -105,6 +106,31 @@ void main() async {
       await tester.tap(find.text('DHCP'));
       await tester.pumpAndSettle();
       expect(find.byType(DhcpDisabledScreen), findsOneWidget);
+    });
+
+    testWidgets('should show local dns screen with tap', (
+      WidgetTester tester,
+    ) async {
+      tester.view.physicalSize = const Size(1080, 2400);
+      tester.view.devicePixelRatio = 2.0;
+
+      addTearDown(() {
+        tester.view.resetPhysicalSize();
+        tester.view.resetDevicePixelRatio();
+      });
+
+      await tester.pumpWidget(
+        testSetup.buildTestWidget(const AdvancedServerOptions()),
+      );
+
+      expect(find.byType(AdvancedServerOptions), findsOneWidget);
+      await tester.pump();
+
+      await tester.tap(find.text('Local DNS'));
+      await tester.pumpAndSettle();
+      expect(find.byType(LocalDnsScreen), findsOneWidget);
+
+      expect(find.text('192.168.1.2'), findsOneWidget);
     });
 
     testWidgets('should show interface screen with tap', (

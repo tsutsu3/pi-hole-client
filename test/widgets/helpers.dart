@@ -30,6 +30,9 @@ import 'package:pi_hole_client/data/model/v6/lists/lists.dart' show Lists;
 import 'package:pi_hole_client/data/model/v6/metrics/query.dart';
 import 'package:pi_hole_client/data/model/v6/network/devices.dart';
 import 'package:pi_hole_client/data/model/v6/network/gateway.dart';
+import 'package:pi_hole_client/domain/model/local_dns/local_dns.dart';
+import 'package:pi_hole_client/domain/model/network/network.dart'
+    show DeviceOption;
 import 'package:pi_hole_client/domain/models_old/app_log.dart';
 import 'package:pi_hole_client/domain/models_old/client.dart';
 import 'package:pi_hole_client/domain/models_old/config.dart';
@@ -1352,6 +1355,14 @@ final dhcp = Dhcp.fromJson({
   'took': 0.003,
 });
 
+final localDns = LocalDns.fromJson({'ip': '192.168.1.2', 'name': 'device'});
+
+final deviceOption = DeviceOption.fromJson({
+  'ip': '192.168.1.2',
+  'hwaddr': 'device',
+  'macVendor': 'xx:xx:xx:xx',
+});
+
 /// Initialize the app with the given environment file.
 ///
 /// This function should be called before any other setup.
@@ -1903,7 +1914,34 @@ class TestSetupHelper {
     when(mockGravityUpdateProvider.reset()).thenReturn(null);
   }
 
-  void _initLocalDnsProviderMock(String useApiGatewayVersion) {}
+  void _initLocalDnsProviderMock(String useApiGatewayVersion) {
+    when(mockLocalDnsProvider.localDns).thenReturn([localDns]);
+    when(mockLocalDnsProvider.deviceOptions).thenReturn([deviceOption]);
+    when(mockLocalDnsProvider.loadingStatus).thenReturn(LoadStatus.loaded);
+
+    when(
+      mockLocalDnsProvider.setLoadingStatus(any),
+    ).thenAnswer((_) async => ());
+
+    when(mockLocalDnsProvider.load()).thenAnswer((_) async => ());
+
+    when(mockLocalDnsProvider.addLocalDns(any)).thenAnswer((_) async => true);
+
+    when(
+      mockLocalDnsProvider.updateLocalDns(
+        oldIp: anyNamed('oldIp'),
+        item: anyNamed('item'),
+      ),
+    ).thenAnswer((_) async => true);
+
+    when(
+      mockLocalDnsProvider.removeLocalDns(any),
+    ).thenAnswer((_) async => true);
+
+    when(
+      mockLocalDnsProvider.devicesInfoToOptions(any),
+    ).thenReturn([deviceOption]);
+  }
 
   void _initApiGatewayV5Mock() {
     when(mockApiGatewayV5.loginQuery()).thenAnswer(
@@ -2112,6 +2150,15 @@ class TestSetupHelper {
       ),
     );
 
+    when(
+      mockApiGatewayV6.deleteConfiguration(
+        element: anyNamed('element'),
+        value: anyNamed('value'),
+      ),
+    ).thenAnswer(
+      (_) async => DeleteConfigResponse(result: APiResponseType.success),
+    );
+
     when(mockApiGatewayV6.patchConfiguration(any)).thenAnswer(
       (_) async => ConfigurationResponse(
         result: APiResponseType.success,
@@ -2119,11 +2166,51 @@ class TestSetupHelper {
       ),
     );
 
+    when(
+      mockApiGatewayV6.putConfiguration(
+        element: anyNamed('element'),
+        value: anyNamed('value'),
+      ),
+    ).thenAnswer(
+      (_) async => PutConfigResponse(result: APiResponseType.success),
+    );
+
     when(mockApiGatewayV6.patchDnsQueryLoggingConfig(any)).thenAnswer(
       (_) async => ConfigurationResponse(
         result: APiResponseType.success,
         data: ConfigInfo.fromV6(configDns),
       ),
+    );
+
+    when(mockApiGatewayV6.getLocalDns()).thenAnswer(
+      (_) async =>
+          LocalDnsResponse(result: APiResponseType.success, data: [localDns]),
+    );
+
+    when(
+      mockApiGatewayV6.addLocalDns(ip: anyNamed('ip'), name: anyNamed('name')),
+    ).thenAnswer(
+      (_) async => AddLocalDnsResponse(result: APiResponseType.success),
+    );
+
+    when(
+      mockApiGatewayV6.updateLocalDns(
+        ip: anyNamed('ip'),
+        name: anyNamed('name'),
+        oldIp: anyNamed('oldIp'),
+      ),
+    ).thenAnswer(
+      (_) async =>
+          LocalDnsResponse(result: APiResponseType.success, data: [localDns]),
+    );
+
+    when(
+      mockApiGatewayV6.deleteLocalDns(
+        ip: anyNamed('ip'),
+        name: anyNamed('name'),
+      ),
+    ).thenAnswer(
+      (_) async => DeleteLocalDnsResponse(result: APiResponseType.success),
     );
 
     when(mockApiGatewayV6.flushArp()).thenAnswer(
