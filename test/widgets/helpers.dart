@@ -30,6 +30,9 @@ import 'package:pi_hole_client/data/model/v6/lists/lists.dart' show Lists;
 import 'package:pi_hole_client/data/model/v6/metrics/query.dart';
 import 'package:pi_hole_client/data/model/v6/network/devices.dart';
 import 'package:pi_hole_client/data/model/v6/network/gateway.dart';
+import 'package:pi_hole_client/domain/model/local_dns/local_dns.dart';
+import 'package:pi_hole_client/domain/model/network/network.dart'
+    show DeviceOption;
 import 'package:pi_hole_client/domain/models_old/app_log.dart';
 import 'package:pi_hole_client/domain/models_old/client.dart';
 import 'package:pi_hole_client/domain/models_old/config.dart';
@@ -59,6 +62,7 @@ import 'package:pi_hole_client/ui/core/viewmodel/domains_list_provider.dart';
 import 'package:pi_hole_client/ui/core/viewmodel/filters_provider.dart';
 import 'package:pi_hole_client/ui/core/viewmodel/gravity_provider.dart';
 import 'package:pi_hole_client/ui/core/viewmodel/groups_provider.dart';
+import 'package:pi_hole_client/ui/core/viewmodel/local_dns_provider.dart';
 import 'package:pi_hole_client/ui/core/viewmodel/servers_provider.dart';
 import 'package:pi_hole_client/ui/core/viewmodel/status_provider.dart';
 import 'package:pi_hole_client/ui/core/viewmodel/subscriptions_list_provider.dart';
@@ -1351,6 +1355,14 @@ final dhcp = Dhcp.fromJson({
   'took': 0.003,
 });
 
+final localDns = LocalDns.fromJson({'ip': '192.168.1.2', 'name': 'device'});
+
+final deviceOption = DeviceOption.fromJson({
+  'ip': '192.168.1.2',
+  'hwaddr': 'device',
+  'macVendor': 'xx:xx:xx:xx',
+});
+
 /// Initialize the app with the given environment file.
 ///
 /// This function should be called before any other setup.
@@ -1409,6 +1421,7 @@ Future<void> initializeApp() async {
   FiltersProvider,
   StatusProvider,
   DomainsListProvider,
+  LocalDnsProvider,
   ApiGatewayV5,
   ApiGatewayV6,
   StatusUpdateService,
@@ -1426,6 +1439,7 @@ class TestSetupHelper {
     MockGroupsProvider? customGroupsProvider,
     MockSubscriptionsListProvider? customSubscriptionsListProvider,
     MockGravityUpdateProvider? customGravityUpdateProvider,
+    MockLocalDnsProvider? customLocalDnsProvider,
     MockApiGatewayV5? customApiGatewayV5,
     MockApiGatewayV6? customApiGatewayV6,
     MockStatusUpdateService? customStatusUpdateService,
@@ -1441,6 +1455,7 @@ class TestSetupHelper {
         customSubscriptionsListProvider ?? MockSubscriptionsListProvider();
     mockGravityUpdateProvider =
         customGravityUpdateProvider ?? MockGravityUpdateProvider();
+    mockLocalDnsProvider = customLocalDnsProvider ?? MockLocalDnsProvider();
 
     mockApiGatewayV5 = customApiGatewayV5 ?? MockApiGatewayV5();
     mockApiGatewayV6 = customApiGatewayV6 ?? MockApiGatewayV6();
@@ -1457,6 +1472,7 @@ class TestSetupHelper {
   late MockGroupsProvider mockGroupsProvider;
   late MockSubscriptionsListProvider mockSubscriptionsListProvider;
   late MockGravityUpdateProvider mockGravityUpdateProvider;
+  late MockLocalDnsProvider mockLocalDnsProvider;
 
   late MockApiGatewayV5 mockApiGatewayV5;
   late MockApiGatewayV6 mockApiGatewayV6;
@@ -1471,6 +1487,7 @@ class TestSetupHelper {
     _initDomainListProviderMock(useApiGatewayVersion);
     _initGroupsPtoviderMock(useApiGatewayVersion);
     _initSubscriptionsListProviderMock(useApiGatewayVersion);
+    _initLocalDnsProviderMock(useApiGatewayVersion);
     _initGravityUpdateProviderMock(useApiGatewayVersion);
     _initApiGatewayV5Mock();
     _initApiGatewayV6Mock();
@@ -1538,6 +1555,11 @@ class TestSetupHelper {
               create: (context) => mockGravityUpdateProvider,
               update: (context, serverConfig, servers) =>
                   servers!..update(serverConfig),
+            ),
+            ChangeNotifierProxyProvider<ServersProvider, LocalDnsProvider>(
+              create: (context) => mockLocalDnsProvider,
+              update: (context, serverConfig, groups) =>
+                  groups!..update(serverConfig),
             ),
             Provider<StatusUpdateService>(
               create: (_) => mockStatusUpdateService,
@@ -1612,6 +1634,11 @@ class TestSetupHelper {
           create: (context) => mockGravityUpdateProvider,
           update: (context, serverConfig, servers) =>
               servers!..update(serverConfig),
+        ),
+        ChangeNotifierProxyProvider<ServersProvider, LocalDnsProvider>(
+          create: (context) => mockLocalDnsProvider,
+          update: (context, serverConfig, groups) =>
+              groups!..update(serverConfig),
         ),
         Provider<StatusUpdateService>(
           create: (_) => mockStatusUpdateService,
@@ -1887,6 +1914,35 @@ class TestSetupHelper {
     when(mockGravityUpdateProvider.reset()).thenReturn(null);
   }
 
+  void _initLocalDnsProviderMock(String useApiGatewayVersion) {
+    when(mockLocalDnsProvider.localDns).thenReturn([localDns]);
+    when(mockLocalDnsProvider.deviceOptions).thenReturn([deviceOption]);
+    when(mockLocalDnsProvider.loadingStatus).thenReturn(LoadStatus.loaded);
+
+    when(
+      mockLocalDnsProvider.setLoadingStatus(any),
+    ).thenAnswer((_) async => ());
+
+    when(mockLocalDnsProvider.load()).thenAnswer((_) async => ());
+
+    when(mockLocalDnsProvider.addLocalDns(any)).thenAnswer((_) async => true);
+
+    when(
+      mockLocalDnsProvider.updateLocalDns(
+        oldIp: anyNamed('oldIp'),
+        item: anyNamed('item'),
+      ),
+    ).thenAnswer((_) async => true);
+
+    when(
+      mockLocalDnsProvider.removeLocalDns(any),
+    ).thenAnswer((_) async => true);
+
+    when(
+      mockLocalDnsProvider.devicesInfoToOptions(any),
+    ).thenReturn([deviceOption]);
+  }
+
   void _initApiGatewayV5Mock() {
     when(mockApiGatewayV5.loginQuery()).thenAnswer(
       (_) async => LoginQueryResponse(
@@ -2094,6 +2150,15 @@ class TestSetupHelper {
       ),
     );
 
+    when(
+      mockApiGatewayV6.deleteConfiguration(
+        element: anyNamed('element'),
+        value: anyNamed('value'),
+      ),
+    ).thenAnswer(
+      (_) async => DeleteConfigResponse(result: APiResponseType.success),
+    );
+
     when(mockApiGatewayV6.patchConfiguration(any)).thenAnswer(
       (_) async => ConfigurationResponse(
         result: APiResponseType.success,
@@ -2101,11 +2166,51 @@ class TestSetupHelper {
       ),
     );
 
+    when(
+      mockApiGatewayV6.putConfiguration(
+        element: anyNamed('element'),
+        value: anyNamed('value'),
+      ),
+    ).thenAnswer(
+      (_) async => PutConfigResponse(result: APiResponseType.success),
+    );
+
     when(mockApiGatewayV6.patchDnsQueryLoggingConfig(any)).thenAnswer(
       (_) async => ConfigurationResponse(
         result: APiResponseType.success,
         data: ConfigInfo.fromV6(configDns),
       ),
+    );
+
+    when(mockApiGatewayV6.getLocalDns()).thenAnswer(
+      (_) async =>
+          LocalDnsResponse(result: APiResponseType.success, data: [localDns]),
+    );
+
+    when(
+      mockApiGatewayV6.addLocalDns(ip: anyNamed('ip'), name: anyNamed('name')),
+    ).thenAnswer(
+      (_) async => AddLocalDnsResponse(result: APiResponseType.success),
+    );
+
+    when(
+      mockApiGatewayV6.updateLocalDns(
+        ip: anyNamed('ip'),
+        name: anyNamed('name'),
+        oldIp: anyNamed('oldIp'),
+      ),
+    ).thenAnswer(
+      (_) async =>
+          LocalDnsResponse(result: APiResponseType.success, data: [localDns]),
+    );
+
+    when(
+      mockApiGatewayV6.deleteLocalDns(
+        ip: anyNamed('ip'),
+        name: anyNamed('name'),
+      ),
+    ).thenAnswer(
+      (_) async => DeleteLocalDnsResponse(result: APiResponseType.success),
     );
 
     when(mockApiGatewayV6.flushArp()).thenAnswer(

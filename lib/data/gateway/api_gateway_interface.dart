@@ -258,10 +258,42 @@ abstract interface class ApiGateway {
   /// supports changing multiple properties at once when you specify several in the payload.
   Future<ConfigurationResponse> patchConfiguration(ConfigData body);
 
+  /// Deletes a configuration element from your Pi-hole
+  Future<DeleteConfigResponse> deleteConfiguration({
+    required String element,
+    required String value,
+  });
+
+  /// Adds a configuration element in your Pi-hole
+  Future<PutConfigResponse> putConfiguration({
+    required String element,
+    required String value,
+  });
+
   /// Change only the DNS query logging configuration
   ///
   /// Sets the `status` to `true` to enable DNS query logging, or `false` to disable it.
   Future<ConfigurationResponse> patchDnsQueryLoggingConfig(bool status);
+
+  /// Get local DNS records from the Pi-hole server.
+  Future<LocalDnsResponse> getLocalDns();
+
+  /// Delete a local DNS record by IP address.
+  Future<DeleteLocalDnsResponse> deleteLocalDns({
+    required String ip,
+    required String name,
+  });
+
+  Future<LocalDnsResponse> updateLocalDns({
+    required String ip,
+    required String name,
+    String? oldIp,
+  });
+
+  Future<AddLocalDnsResponse> addLocalDns({
+    required String ip,
+    required String name,
+  });
 
   /// Run gravity
   Stream<GravityResponse> updateGravity();

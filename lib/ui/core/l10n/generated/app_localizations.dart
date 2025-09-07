@@ -164,6 +164,12 @@ abstract class AppLocalizations {
   /// **'Add domain'**
   String get addDomain;
 
+  /// No description provided for @addLocalDns.
+  ///
+  /// In en, this message translates to:
+  /// **'Add Local DNS'**
+  String get addLocalDns;
+
   /// No description provided for @addServer.
   ///
   /// In en, this message translates to:
@@ -200,11 +206,23 @@ abstract class AppLocalizations {
   /// **'Adding domain...'**
   String get addingDomain;
 
+  /// No description provided for @addingLocalDns.
+  ///
+  /// In en, this message translates to:
+  /// **'Adding local DNS...'**
+  String get addingLocalDns;
+
   /// No description provided for @addingWhitelist.
   ///
   /// In en, this message translates to:
   /// **'Adding to whitelist...'**
   String get addingWhitelist;
+
+  /// No description provided for @additionalInformation.
+  ///
+  /// In en, this message translates to:
+  /// **'Additional Information'**
+  String get additionalInformation;
 
   /// No description provided for @address.
   ///
@@ -619,6 +637,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Domain couldn\'t be added'**
   String get cannotAddDomain;
+
+  /// No description provided for @cannotAddLocalDns.
+  ///
+  /// In en, this message translates to:
+  /// **'Failed to add Local DNS'**
+  String get cannotAddLocalDns;
 
   /// No description provided for @cannotChangeUpdateTime.
   ///
@@ -1118,6 +1142,18 @@ abstract class AppLocalizations {
   /// **'Are you sure you want to delete this domain?'**
   String get deleteDomainMessage;
 
+  /// No description provided for @deleteLocalDns.
+  ///
+  /// In en, this message translates to:
+  /// **'Delete Local DNS'**
+  String get deleteLocalDns;
+
+  /// No description provided for @deleteLocalDnsMessage.
+  ///
+  /// In en, this message translates to:
+  /// **'Are you sure you want to delete this Local DNS?'**
+  String get deleteLocalDnsMessage;
+
   /// No description provided for @deleteSession.
   ///
   /// In en, this message translates to:
@@ -1375,6 +1411,18 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Edit groups'**
   String get editGroups;
+
+  /// No description provided for @editHostname.
+  ///
+  /// In en, this message translates to:
+  /// **'Edit Hostname'**
+  String get editHostname;
+
+  /// No description provided for @editIp.
+  ///
+  /// In en, this message translates to:
+  /// **'Edit IP Address'**
+  String get editIp;
 
   /// No description provided for @editServer.
   ///
@@ -1922,6 +1970,18 @@ abstract class AppLocalizations {
   /// **'Invalid Domains'**
   String get invalidDomains;
 
+  /// No description provided for @invalidHostname.
+  ///
+  /// In en, this message translates to:
+  /// **'Invalid hostname: only letters (a–z, A–Z), numbers (0–9), hyphen (-), underscore (_), and dot (.) are allowed'**
+  String get invalidHostname;
+
+  /// No description provided for @invalidIpAddress.
+  ///
+  /// In en, this message translates to:
+  /// **'Invalid IP Address'**
+  String get invalidIpAddress;
+
   /// No description provided for @invalidPort.
   ///
   /// In en, this message translates to:
@@ -2119,6 +2179,60 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Local/cache replies'**
   String get localCacheReplies;
+
+  /// No description provided for @localDns.
+  ///
+  /// In en, this message translates to:
+  /// **'Local DNS'**
+  String get localDns;
+
+  /// No description provided for @localDnsAdded.
+  ///
+  /// In en, this message translates to:
+  /// **'Local DNS has been added successfully'**
+  String get localDnsAdded;
+
+  /// No description provided for @localDnsDescription.
+  ///
+  /// In en, this message translates to:
+  /// **'Map device hostnames to their IP addresses for easier identification on your network'**
+  String get localDnsDescription;
+
+  /// No description provided for @localDnsEmptyDescription.
+  ///
+  /// In en, this message translates to:
+  /// **'Using Local DNS allows you to assign hostnames to devices that only show an IP address, making them easier to identify.'**
+  String get localDnsEmptyDescription;
+
+  /// No description provided for @localDnsInformation.
+  ///
+  /// In en, this message translates to:
+  /// **'Local DNS Information'**
+  String get localDnsInformation;
+
+  /// No description provided for @localDnsRemoveError.
+  ///
+  /// In en, this message translates to:
+  /// **'Failedto remove Local DNS'**
+  String get localDnsRemoveError;
+
+  /// No description provided for @localDnsRemoved.
+  ///
+  /// In en, this message translates to:
+  /// **'Local DNS has been removed successfully'**
+  String get localDnsRemoved;
+
+  /// No description provided for @localDnsUpdateFailed.
+  ///
+  /// In en, this message translates to:
+  /// **'Failed to update Local DNS'**
+  String get localDnsUpdateFailed;
+
+  /// No description provided for @localDnsUpdated.
+  ///
+  /// In en, this message translates to:
+  /// **'Local DNS has been updated successfully'**
+  String get localDnsUpdated;
 
   /// No description provided for @logDetails.
   ///
@@ -3499,6 +3613,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Update time changed successfully.'**
   String get updateTimeChanged;
+
+  /// No description provided for @updating.
+  ///
+  /// In en, this message translates to:
+  /// **'Updating…'**
+  String get updating;
 
   /// No description provided for @updatingAdlist.
   ///

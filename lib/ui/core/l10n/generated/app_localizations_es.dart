@@ -39,6 +39,9 @@ class AppLocalizationsEs extends AppLocalizations {
   String get addDomain => 'Añadir dominio';
 
   @override
+  String get addLocalDns => 'Agregar DNS local';
+
+  @override
   String get addServer => 'Añadir conexión';
 
   @override
@@ -57,7 +60,13 @@ class AppLocalizationsEs extends AppLocalizations {
   String get addingDomain => 'Añadiendo dominio...';
 
   @override
+  String get addingLocalDns => 'Agregando DNS local...';
+
+  @override
   String get addingWhitelist => 'Añadiendo a lista blanca...';
+
+  @override
+  String get additionalInformation => 'Información adicional';
 
   @override
   String get address => 'Dirección IP o dominio';
@@ -275,6 +284,9 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String get cannotAddDomain => 'El dominio no ha podido ser añadido';
+
+  @override
+  String get cannotAddLocalDns => 'No se pudo agregar el DNS local';
 
   @override
   String get cannotChangeUpdateTime =>
@@ -546,6 +558,13 @@ class AppLocalizationsEs extends AppLocalizations {
       '¿Estás seguro que deseas eliminar este dominio?';
 
   @override
+  String get deleteLocalDns => 'Eliminar DNS local';
+
+  @override
+  String get deleteLocalDnsMessage =>
+      '¿Está seguro de que desea eliminar este DNS local?';
+
+  @override
   String get deleteSession => 'Eliminar sesión';
 
   @override
@@ -681,6 +700,12 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String get editGroups => 'Editar grupos';
+
+  @override
+  String get editHostname => 'Editar nombre de host';
+
+  @override
+  String get editIp => 'Editar dirección IP';
 
   @override
   String get editServer => 'Editar conexión';
@@ -975,6 +1000,13 @@ class AppLocalizationsEs extends AppLocalizations {
   String get invalidDomains => 'Dominios no válidos';
 
   @override
+  String get invalidHostname =>
+      'Nombre de host no válido: solo se permiten letras (a–z, A–Z), números (0–9), guiones (-), guiones bajos (_) y puntos (.)';
+
+  @override
+  String get invalidIpAddress => 'Dirección IP no válida';
+
+  @override
   String get invalidPort => 'Puerto no válido';
 
   @override
@@ -1077,6 +1109,35 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String get localCacheReplies => 'Respuestas locales/cache';
+
+  @override
+  String get localDns => 'DNS local';
+
+  @override
+  String get localDnsAdded => 'El DNS local se ha añadido correctamente';
+
+  @override
+  String get localDnsDescription =>
+      'Asigna nombres de host de dispositivos a sus direcciones IP para identificarlos más fácilmente en la red';
+
+  @override
+  String get localDnsEmptyDescription =>
+      'Con DNS local puedes asignar nombres de host a los dispositivos que solo muestran una dirección IP, lo que facilita su identificación.';
+
+  @override
+  String get localDnsInformation => 'Información de DNS local';
+
+  @override
+  String get localDnsRemoveError => 'Error al eliminar el DNS local';
+
+  @override
+  String get localDnsRemoved => 'El DNS local se ha eliminado correctamente';
+
+  @override
+  String get localDnsUpdateFailed => 'Error al actualizar el DNS local';
+
+  @override
+  String get localDnsUpdated => 'El DNS local se ha actualizado correctamente';
 
   @override
   String get logDetails => 'Detalles del registro';
@@ -1816,6 +1877,9 @@ class AppLocalizationsEs extends AppLocalizations {
   @override
   String get updateTimeChanged =>
       'Tiempo de auto actualización cambiado satisfactoriamente.';
+
+  @override
+  String get updating => 'Actualizando…';
 
   @override
   String get updatingAdlist => 'Actualizando adlist...';

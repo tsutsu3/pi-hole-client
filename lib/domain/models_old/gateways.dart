@@ -1,4 +1,5 @@
 import 'package:pi_hole_client/data/model/v6/domains/domains.dart' as v6;
+import 'package:pi_hole_client/domain/model/local_dns/local_dns.dart';
 import 'package:pi_hole_client/domain/models_old/app_log.dart';
 import 'package:pi_hole_client/domain/models_old/client.dart';
 import 'package:pi_hole_client/domain/models_old/config.dart';
@@ -304,6 +305,14 @@ class ConfigurationResponse extends BaseInfoResponse<ConfigInfo> {
   ConfigurationResponse({required super.result, super.message, super.data});
 }
 
+class DeleteConfigResponse extends BaseInfoResponse<void> {
+  DeleteConfigResponse({required super.result, super.message});
+}
+
+class PutConfigResponse extends BaseInfoResponse<void> {
+  PutConfigResponse({required super.result, super.message});
+}
+
 class ActionResponse extends BaseInfoResponse<String> {
   ActionResponse({required super.result, super.message, super.data});
 }
@@ -326,4 +335,16 @@ class DhcpResponse extends BaseInfoResponse<DhcpsInfo> {
 
 class DeleteDhcpResponse extends BaseInfoResponse<void> {
   DeleteDhcpResponse({required super.result, super.message});
+}
+
+class LocalDnsResponse extends BaseInfoResponse<List<LocalDns>> {
+  LocalDnsResponse({required super.result, super.message, super.data});
+}
+
+class AddLocalDnsResponse extends BaseInfoResponse<void> {
+  AddLocalDnsResponse({required super.result, super.message});
+}
+
+class DeleteLocalDnsResponse extends BaseInfoResponse<void> {
+  DeleteLocalDnsResponse({required super.result, super.message});
 }
