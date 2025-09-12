@@ -46,8 +46,8 @@ dependencies:
   intl: ^0.20.2
   html: ^0.15.6
   pie_chart: ^5.3.2
-  flutter_svg: ^2.2.0
-  fl_chart: ^1.0.0
+  flutter_svg: ^2.2.1
+  fl_chart: ^1.1.0
   animations: ^2.0.3
   permission_handler: ^12.0.1
   dynamic_color: ^1.6.5
@@ -96,7 +96,7 @@ dev_dependencies:
     sdk: flutter
   flutter_launcher_icons: ^0.14.3
   flutter_native_splash: ^2.4.6
-  build_runner: ^2.7.0
+  build_runner: ^2.7.1
 
   # The "flutter_lints" package below contains a set of recommended lints to
   # encourage good coding practices. The lint set provided by the package is
@@ -105,7 +105,7 @@ dev_dependencies:
   # rules and activating additional ones.
   flutter_lints: ^6.0.0
   freezed: ^3.1.0
-  json_serializable: ^6.9.5
+  json_serializable: ^6.11.1
   mockito: ^5.4.6
   full_coverage: ^1.0.0
   flutter_svg_test: ^1.0.3
