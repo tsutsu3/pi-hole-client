@@ -62,6 +62,7 @@ import 'package:pi_hole_client/ui/core/viewmodel/subscriptions_list_provider.dar
 // ignore_for_file: unnecessary_parenthesis
 // ignore_for_file: camel_case_types
 // ignore_for_file: subtype_of_sealed_class
+// ignore_for_file: invalid_use_of_internal_member
 
 class _FakeAppColors_0 extends _i1.SmartFake implements _i2.AppColors {
   _FakeAppColors_0(Object parent, Invocation parentInvocation)
@@ -1212,11 +1213,10 @@ class MockDomainsListProvider extends _i1.Mock
           as bool);
 
   @override
-  set serversProvider(_i15.ServersProvider? _serversProvider) =>
-      super.noSuchMethod(
-        Invocation.setter(#serversProvider, _serversProvider),
-        returnValueForMissingStub: null,
-      );
+  set serversProvider(_i15.ServersProvider? value) => super.noSuchMethod(
+    Invocation.setter(#serversProvider, value),
+    returnValueForMissingStub: null,
+  );
 
   @override
   bool get hasListeners =>
@@ -1338,11 +1338,10 @@ class MockLocalDnsProvider extends _i1.Mock implements _i26.LocalDnsProvider {
           as _i19.LoadStatus);
 
   @override
-  set serversProvider(_i15.ServersProvider? _serversProvider) =>
-      super.noSuchMethod(
-        Invocation.setter(#serversProvider, _serversProvider),
-        returnValueForMissingStub: null,
-      );
+  set serversProvider(_i15.ServersProvider? value) => super.noSuchMethod(
+    Invocation.setter(#serversProvider, value),
+    returnValueForMissingStub: null,
+  );
 
   @override
   bool get hasListeners =>
@@ -3249,11 +3248,10 @@ class MockGroupsProvider extends _i1.Mock implements _i36.GroupsProvider {
           as _i19.LoadStatus);
 
   @override
-  set serversProvider(_i15.ServersProvider? _serversProvider) =>
-      super.noSuchMethod(
-        Invocation.setter(#serversProvider, _serversProvider),
-        returnValueForMissingStub: null,
-      );
+  set serversProvider(_i15.ServersProvider? value) => super.noSuchMethod(
+    Invocation.setter(#serversProvider, value),
+    returnValueForMissingStub: null,
+  );
 
   @override
   bool get hasListeners =>
@@ -3372,11 +3370,10 @@ class MockSubscriptionsListProvider extends _i1.Mock
           as bool);
 
   @override
-  set serversProvider(_i15.ServersProvider? _serversProvider) =>
-      super.noSuchMethod(
-        Invocation.setter(#serversProvider, _serversProvider),
-        returnValueForMissingStub: null,
-      );
+  set serversProvider(_i15.ServersProvider? value) => super.noSuchMethod(
+    Invocation.setter(#serversProvider, value),
+    returnValueForMissingStub: null,
+  );
 
   @override
   bool get hasListeners =>
