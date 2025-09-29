@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_phoenix/flutter_phoenix.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:pi_hole_client/ui/settings/app_settings/advanced_settings/advanced_options.dart';
+import 'package:pi_hole_client/ui/settings/app_settings/advanced_options.dart';
 
 import '../../../../helpers.dart';
 
@@ -31,6 +31,8 @@ void main() async {
         testSetup.buildTestWidget(const AdvancedOptions()),
       );
 
+      await tester.scrollUntilVisible(find.text('Reset application'), 100);
+
       expect(find.byType(AdvancedOptions), findsOneWidget);
       expect(find.text('Reset application'), findsOneWidget);
 
@@ -55,6 +57,8 @@ void main() async {
       await tester.pumpWidget(
         testSetup.buildTestWidget(Phoenix(child: const AdvancedOptions())),
       );
+
+      await tester.scrollUntilVisible(find.text('Reset application'), 100);
 
       expect(find.byType(AdvancedOptions), findsOneWidget);
       expect(find.text('Reset application'), findsOneWidget);

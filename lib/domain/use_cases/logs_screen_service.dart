@@ -6,6 +6,7 @@ import 'package:pi_hole_client/domain/models_old/log.dart';
 import 'package:pi_hole_client/domain/use_cases/logs_pagination_service.dart';
 import 'package:pi_hole_client/utils/logger.dart';
 
+// TODO: not use case
 /// A helper service that encapsulates logic for handling log filtering, sorting,
 /// pagination, and scroll behavior in the logs screen UI.
 ///

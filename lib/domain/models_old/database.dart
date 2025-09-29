@@ -87,6 +87,9 @@ class AppDbData {
     required this.language,
     required this.reducedDataCharts,
     required this.logsPerQuery,
+    required this.logAutoRefreshTime,
+    required this.liveLog,
+    required this.isLivelogPaused,
     required this.passCode,
     required this.useBiometricAuth,
     required this.importantInfoReaden,
@@ -104,6 +107,9 @@ class AppDbData {
       language: map['language']! as String,
       reducedDataCharts: map['reducedDataCharts']! as int,
       logsPerQuery: (map['logsPerQuery']! as num).toDouble(),
+      logAutoRefreshTime: map['logAutoRefreshTime']! as int,
+      liveLog: map['liveLog']! as int,
+      isLivelogPaused: map['isLivelogPaused']! as int,
       passCode: map['passCode'] as String?,
       useBiometricAuth: map['useBiometricAuth']! as int,
       importantInfoReaden: map['importantInfoReaden']! as int,
@@ -122,6 +128,9 @@ class AppDbData {
       language: instance.language,
       reducedDataCharts: instance.reducedDataCharts,
       logsPerQuery: instance.logsPerQuery,
+      logAutoRefreshTime: instance.logAutoRefreshTime,
+      liveLog: instance.liveLog,
+      isLivelogPaused: instance.isLivelogPaused,
       passCode: passCode,
       useBiometricAuth: instance.useBiometricAuth,
       importantInfoReaden: instance.importantInfoReaden,
@@ -138,6 +147,9 @@ class AppDbData {
   final String language;
   final int reducedDataCharts;
   final double logsPerQuery;
+  final int logAutoRefreshTime;
+  final int liveLog;
+  final int isLivelogPaused;
   final String? passCode;
   final int useBiometricAuth;
   final int importantInfoReaden;
@@ -154,6 +166,9 @@ class AppDbData {
       'language': language,
       'reducedDataCharts': reducedDataCharts,
       'logsPerQuery': logsPerQuery,
+      'logAutoRefreshTime': logAutoRefreshTime,
+      'liveLog': liveLog,
+      'isLivelogPaused': isLivelogPaused,
       'passCode': passCode,
       'useBiometricAuth': useBiometricAuth,
       'importantInfoReaden': importantInfoReaden,

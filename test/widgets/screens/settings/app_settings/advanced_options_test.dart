@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/mockito.dart';
 import 'package:pi_hole_client/ui/common/pi_hole_v6_not_supported_screen.dart';
-import 'package:pi_hole_client/ui/settings/app_settings/advanced_settings/advanced_options.dart';
+import 'package:pi_hole_client/ui/settings/app_settings/advanced_options.dart';
 import 'package:pi_hole_client/ui/settings/app_settings/advanced_settings/auto_refresh_time_screen.dart';
 import 'package:pi_hole_client/ui/settings/app_settings/advanced_settings/logs_quantity_load_screen.dart';
 
@@ -35,6 +35,7 @@ void main() async {
       expect(find.byType(AdvancedOptions), findsOneWidget);
 
       // Tap Reset application
+      await tester.scrollUntilVisible(find.text('Reset application'), 100);
       await tester.tap(find.text('Reset application'));
       await tester.pumpAndSettle();
 
@@ -76,7 +77,7 @@ void main() async {
       expect(find.text('Enter passcode'), findsOneWidget);
     });
 
-    testWidgets('should show Auto refresh time screen with tap', (
+    testWidgets('should show Stats refresh interval screen with tap', (
       WidgetTester tester,
     ) async {
       tester.view.physicalSize = const Size(1080, 2400);
@@ -94,7 +95,7 @@ void main() async {
       expect(find.byType(AdvancedOptions), findsOneWidget);
       await tester.pump();
 
-      await tester.tap(find.text('Auto refresh time'));
+      await tester.tap(find.text('Stats refresh interval'));
       await tester.pumpAndSettle();
       expect(find.byType(AutoRefreshTimeScreen), findsOneWidget);
     });

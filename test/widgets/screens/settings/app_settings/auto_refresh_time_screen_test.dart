@@ -30,7 +30,7 @@ void main() async {
       );
 
       expect(find.byType(AutoRefreshTimeScreen), findsOneWidget);
-      expect(find.text('Auto refresh time'), findsOneWidget);
+      expect(find.text('Stats refresh interval'), findsOneWidget);
 
       await tester.tap(find.text('30 seconds'));
       await tester.pumpAndSettle();
@@ -57,7 +57,7 @@ void main() async {
       ).thenAnswer((_) async => false);
 
       expect(find.byType(AutoRefreshTimeScreen), findsOneWidget);
-      expect(find.text('Auto refresh time'), findsOneWidget);
+      expect(find.text('Stats refresh interval'), findsOneWidget);
 
       await tester.tap(find.text('30 seconds'));
       await tester.pumpAndSettle();
@@ -82,7 +82,7 @@ void main() async {
       );
 
       expect(find.byType(AutoRefreshTimeScreen), findsOneWidget);
-      expect(find.text('Auto refresh time'), findsOneWidget);
+      expect(find.text('Stats refresh interval'), findsOneWidget);
 
       await tester.tap(find.text('Custom'));
       await tester.pumpAndSettle();
@@ -118,7 +118,7 @@ void main() async {
       );
 
       expect(find.byType(AutoRefreshTimeScreen), findsOneWidget);
-      expect(find.text('Auto refresh time'), findsOneWidget);
+      expect(find.text('Stats refresh interval'), findsOneWidget);
 
       await tester.tap(find.text('Custom'));
       await tester.pumpAndSettle();

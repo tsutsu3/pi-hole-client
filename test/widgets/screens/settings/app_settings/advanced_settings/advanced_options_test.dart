@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:pi_hole_client/ui/app_logs/app_logs.dart';
-import 'package:pi_hole_client/ui/settings/app_settings/advanced_settings/advanced_options.dart';
+import 'package:pi_hole_client/ui/settings/app_settings/advanced_options.dart';
 import 'package:pi_hole_client/ui/settings/app_settings/advanced_settings/app_unlock_setup_modal.dart';
 import 'package:pi_hole_client/ui/settings/app_settings/advanced_settings/chart_visualization_screen.dart';
 import 'package:pi_hole_client/ui/settings/app_settings/advanced_settings/reset_screen.dart';
@@ -46,6 +46,8 @@ void main() async {
       expect(find.text('Hide zero values'), findsOneWidget);
       expect(find.text('Show loading animation'), findsOneWidget);
       expect(find.text('Chart display mode'), findsOneWidget);
+
+      await tester.scrollUntilVisible(find.text('Reset application'), 100);
 
       expect(find.text('Others'), findsOneWidget);
       expect(find.text('App logs'), findsOneWidget);
@@ -196,6 +198,8 @@ void main() async {
         testSetup.buildTestWidget(const AdvancedOptions()),
       );
 
+      await tester.scrollUntilVisible(find.text('App logs'), 100);
+
       expect(find.byType(AdvancedOptions), findsOneWidget);
       expect(find.text('App logs'), findsOneWidget);
       await tester.tap(find.text('App logs'));
@@ -220,6 +224,8 @@ void main() async {
       );
 
       expect(find.byType(AdvancedOptions), findsOneWidget);
+      await tester.scrollUntilVisible(find.text('Reset application'), 100);
+
       expect(find.text('Reset application'), findsOneWidget);
       await tester.tap(find.text('Reset application'));
       await tester.pumpAndSettle();

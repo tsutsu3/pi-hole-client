@@ -20,6 +20,9 @@ class FakeAppConfigRepository implements AppConfigRepository {
         language: 'en',
         reducedDataCharts: 0,
         logsPerQuery: 2,
+        logAutoRefreshTime: 15,
+        liveLog: 1,
+        isLivelogPaused: 0,
         passCode: null,
         useBiometricAuth: 0,
         importantInfoReaden: 0,
@@ -45,6 +48,9 @@ class FakeAppConfigRepository implements AppConfigRepository {
         language: 'en',
         reducedDataCharts: 0,
         logsPerQuery: 2,
+        logAutoRefreshTime: 15,
+        liveLog: 1,
+        isLivelogPaused: 0,
         passCode: null,
         useBiometricAuth: 0,
         importantInfoReaden: 0,
@@ -93,6 +99,30 @@ class FakeAppConfigRepository implements AppConfigRepository {
   Future<Result<void>> updateLogsPerQuery(double logsPerQuery) async {
     if (shouldFailUpdate) {
       return Failure(Exception('Simulated updateLogsPerQuery error'));
+    }
+    return Success.unit();
+  }
+
+  @override
+  Future<Result<void>> updateLogAutoRefreshTime(int seconds) async {
+    if (shouldFailUpdate) {
+      return Failure(Exception('Simulated updateLogAutoRefreshTime error'));
+    }
+    return Success.unit();
+  }
+
+  @override
+  Future<Result<void>> updateLiveLog(bool liveLog) async {
+    if (shouldFailUpdate) {
+      return Failure(Exception('Simulated updateLiveLog error'));
+    }
+    return Success.unit();
+  }
+
+  @override
+  Future<Result<void>> updateIsLivelogPaused(bool isLivelogPaused) async {
+    if (shouldFailUpdate) {
+      return Failure(Exception('Simulated updateIsLivelogPaused error'));
     }
     return Success.unit();
   }

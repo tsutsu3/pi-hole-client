@@ -228,7 +228,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get authoritativeReplies => 'Authoritative replies';
 
   @override
-  String get autoRefreshTime => 'Auto refresh time';
+  String get autoRefreshTime => 'Stats refresh interval';
 
   @override
   String get barChart => 'Bar Chart';
@@ -1066,6 +1066,13 @@ class AppLocalizationsEn extends AppLocalizations {
       'Displays the data on a list with the label and the numeric value at the left side, and a bar at the right side.';
 
   @override
+  String get liveLog => 'Live Log';
+
+  @override
+  String get liveLogDescription =>
+      'Show DNS queries in real time with automatic refresh at the set interval.';
+
+  @override
   String get loading => 'Loading...';
 
   @override
@@ -1117,6 +1124,9 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get localDnsUpdated => 'Local DNS has been updated successfully';
+
+  @override
+  String get logAutoRefreshTime => 'Log refresh interval';
 
   @override
   String get logDetails => 'Log details';
@@ -1330,6 +1340,9 @@ class AppLocalizationsEn extends AppLocalizations {
   String get passwordNotValid => 'Failed. Password not valid.';
 
   @override
+  String get pause => 'Pause';
+
+  @override
   String get percentageBlocked => 'Percentage blocked';
 
   @override
@@ -1455,6 +1468,9 @@ class AppLocalizationsEn extends AppLocalizations {
   String get restartingDnsResolver => 'Restarting DNS server …';
 
   @override
+  String get resume => 'Resume';
+
+  @override
   String get runningStatus => 'Running...';
 
   @override
@@ -1522,13 +1538,22 @@ class AppLocalizationsEn extends AppLocalizations {
   String get seconds10 => '10 seconds';
 
   @override
+  String get seconds15 => '15 seconds';
+
+  @override
   String get seconds2 => '2 seconds';
+
+  @override
+  String get seconds3 => '3 seconds';
 
   @override
   String get seconds30 => '30 seconds';
 
   @override
   String get seconds5 => '5 seconds';
+
+  @override
+  String get seconds60 => '60 seconds';
 
   @override
   String get security => 'Security';

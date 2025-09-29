@@ -1689,6 +1689,11 @@ class TestSetupHelper {
         buildNumber: '1',
       ),
     );
+
+    when(mockConfigProvider.logAutoRefreshTime).thenReturn(5);
+    when(mockConfigProvider.liveLog).thenReturn(false);
+    when(mockConfigProvider.isLivelogPaused).thenReturn(false);
+
     when(
       mockConfigProvider.setAutoRefreshTime(any),
     ).thenAnswer((_) async => true);
@@ -1708,6 +1713,13 @@ class TestSetupHelper {
     when(mockConfigProvider.loadingAnimation).thenReturn(true);
     when(
       mockConfigProvider.setShowLoadingAnimation(any),
+    ).thenAnswer((_) async => true);
+    when(
+      mockConfigProvider.setLogAutoRefreshTime(any),
+    ).thenAnswer((_) async => true);
+    when(mockConfigProvider.setLiveLog(any)).thenAnswer((_) async => true);
+    when(
+      mockConfigProvider.setLivelogPaused(any),
     ).thenAnswer((_) async => true);
   }
 

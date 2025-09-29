@@ -226,7 +226,7 @@ class AppLocalizationsJa extends AppLocalizations {
   String get authoritativeReplies => '権威応答';
 
   @override
-  String get autoRefreshTime => '自動更新時間';
+  String get autoRefreshTime => '統計の更新間隔';
 
   @override
   String get barChart => '棒グラフ';
@@ -1037,6 +1037,12 @@ class AppLocalizationsJa extends AppLocalizations {
   String get listDescription => 'ラベルと数値を左側に、バーを右側に表示するリストでデータを表示します。';
 
   @override
+  String get liveLog => 'ライブログ';
+
+  @override
+  String get liveLogDescription => 'DNSクエリをリアルタイムで表示し、指定した間隔で自動更新します。';
+
+  @override
   String get loading => '読み込み中...';
 
   @override
@@ -1088,6 +1094,9 @@ class AppLocalizationsJa extends AppLocalizations {
 
   @override
   String get localDnsUpdated => 'ローカルDNSの更新に成功しました';
+
+  @override
+  String get logAutoRefreshTime => 'ログの更新間隔';
 
   @override
   String get logDetails => 'ログの詳細';
@@ -1295,6 +1304,9 @@ class AppLocalizationsJa extends AppLocalizations {
   String get passwordNotValid => '失敗しました。無効なパスワードです。';
 
   @override
+  String get pause => '一時停止';
+
+  @override
   String get percentageBlocked => 'ブロック率';
 
   @override
@@ -1417,6 +1429,9 @@ class AppLocalizationsJa extends AppLocalizations {
   String get restartingDnsResolver => 'DNSサーバーを再起動中です…';
 
   @override
+  String get resume => '再開';
+
+  @override
   String get runningStatus => '実行中...';
 
   @override
@@ -1483,13 +1498,22 @@ class AppLocalizationsJa extends AppLocalizations {
   String get seconds10 => '10秒';
 
   @override
+  String get seconds15 => '15秒';
+
+  @override
   String get seconds2 => '2秒';
+
+  @override
+  String get seconds3 => '3秒';
 
   @override
   String get seconds30 => '30秒';
 
   @override
   String get seconds5 => '5秒';
+
+  @override
+  String get seconds60 => '60秒';
 
   @override
   String get security => 'セキュリティ';

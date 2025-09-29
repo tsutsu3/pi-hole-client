@@ -10,7 +10,7 @@ import 'package:pi_hole_client/ui/settings/about/about.dart' as about;
 import 'package:pi_hole_client/ui/settings/about/app_detail_screen.dart';
 import 'package:pi_hole_client/ui/settings/about/legal_screen.dart';
 import 'package:pi_hole_client/ui/settings/about/privacy_screen.dart';
-import 'package:pi_hole_client/ui/settings/app_settings/advanced_settings/advanced_options.dart';
+import 'package:pi_hole_client/ui/settings/app_settings/advanced_options.dart';
 import 'package:pi_hole_client/ui/settings/app_settings/language_screen.dart';
 import 'package:pi_hole_client/ui/settings/app_settings/theme_screen.dart';
 import 'package:pi_hole_client/ui/settings/server_settings/advanced_server_options.dart';

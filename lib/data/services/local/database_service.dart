@@ -44,7 +44,7 @@ class DatabaseService {
   /// Returns:
   /// - [Success] containing the opened [Database] instance if successful.
   /// - [Failure] containing an [Exception] if an error occurs during opening.
-  Future<Result<Database>> open({int? latestVersion = 7}) async {
+  Future<Result<Database>> open({int? latestVersion = 8}) async {
     try {
       _db = await openDatabase(
         _path,
@@ -276,6 +276,9 @@ class DatabaseService {
         language TEXT NOT NULL,
         reducedDataCharts NUMERIC NOT NULL,
         logsPerQuery NUMERIC NOT NULL,
+        logAutoRefreshTime NUMERIC NOT NULL,
+        liveLog NUMERIC NOT NULL,
+        isLivelogPaused NUMERIC NOT NULL,
         useBiometricAuth NUMERIC NOT NULL,
         importantInfoReaden NUMERIC NOT NULL,
         hideZeroValues NUMERIC NOT NULL,
@@ -293,6 +296,9 @@ class DatabaseService {
         language,
         reducedDataCharts,
         logsPerQuery,
+        logAutoRefreshTime,
+        liveLog,
+        isLivelogPaused,
         useBiometricAuth,
         importantInfoReaden,
         hideZeroValues,
@@ -300,7 +306,7 @@ class DatabaseService {
         statisticsVisualizationMode,
         homeVisualizationMode,
         sendCrashReports
-      ) VALUES (5, 0, 'en', 0, 2, 0, 0, 0, 0, 0, 0, 0)
+      ) VALUES (5, 0, 'en', 0, 2, 15, 1, 0,  0, 0, 0, 0, 0, 0, 0)
     ''');
 
     await db.execute('''
@@ -347,26 +353,34 @@ class DatabaseService {
       await _upgradeToV5(db);
       await _upgradeToV6(db);
       await _upgradeToV7(db);
+      await _upgradeToV8(db);
     } else if (oldVersion == 2) {
       await _upgradeToV3(db);
       await _upgradeToV4(db);
       await _upgradeToV5(db);
       await _upgradeToV6(db);
       await _upgradeToV7(db);
+      await _upgradeToV8(db);
     } else if (oldVersion == 3) {
       await _upgradeToV4(db);
       await _upgradeToV5(db);
       await _upgradeToV6(db);
       await _upgradeToV7(db);
+      await _upgradeToV8(db);
     } else if (oldVersion == 4) {
       await _upgradeToV5(db);
       await _upgradeToV6(db);
       await _upgradeToV7(db);
+      await _upgradeToV8(db);
     } else if (oldVersion == 5) {
       await _upgradeToV6(db);
       await _upgradeToV7(db);
+      await _upgradeToV8(db);
     } else if (oldVersion == 6) {
       await _upgradeToV7(db);
+      await _upgradeToV8(db);
+    } else if (oldVersion == 7) {
+      await _upgradeToV8(db);
     } else {
       logger.w(
         'Database upgrade from version $oldVersion to $newVersion is not handled.',
@@ -680,5 +694,48 @@ class DatabaseService {
     );
 
     logger.d('Database upgraded to version 7');
+  }
+
+  /// Migrates the database to version 8.
+  ///
+  /// Adds a new `logAutoRefreshTime`, `liveLog` column to the `appConfig` table.
+  Future<dynamic> _upgradeToV8(Database db) async {
+    await db.execute('''
+    CREATE TABLE appConfig_new (
+      autoRefreshTime NUMERIC NOT NULL,
+      theme NUMERIC NOT NULL,
+      language TEXT NOT NULL,
+      reducedDataCharts NUMERIC NOT NULL,
+      logsPerQuery NUMERIC NOT NULL,
+      logAutoRefreshTime NUMERIC NOT NULL,
+      liveLog NUMERIC NOT NULL,
+      isLivelogPaused NUMERIC NOT NULL,
+      useBiometricAuth NUMERIC NOT NULL,
+      importantInfoReaden NUMERIC NOT NULL,
+      hideZeroValues NUMERIC NOT NULL,
+      loadingAnimation NUMERIC NOT NULL,
+      statisticsVisualizationMode NUMERIC NOT NULL,
+      homeVisualizationMode NUMERIC NOT NULL,
+      sendCrashReports NUMERIC NOT NULL
+    )
+    ''');
+
+    await db.execute('''
+    INSERT INTO appConfig_new (autoRefreshTime, theme, language,
+      reducedDataCharts, logsPerQuery, logAutoRefreshTime, liveLog, isLivelogPaused,
+      useBiometricAuth, importantInfoReaden, hideZeroValues, loadingAnimation,
+      statisticsVisualizationMode, homeVisualizationMode, sendCrashReports)
+    SELECT autoRefreshTime, theme, language,
+      reducedDataCharts, logsPerQuery, 15, 1, 0,
+      useBiometricAuth, importantInfoReaden, hideZeroValues, loadingAnimation,
+      statisticsVisualizationMode, homeVisualizationMode, sendCrashReports
+    FROM appConfig
+    ''');
+
+    await db.execute('DROP TABLE appConfig');
+
+    await db.execute('ALTER TABLE appConfig_new RENAME TO appConfig');
+
+    logger.d('Database upgraded to version 8');
   }
 }
