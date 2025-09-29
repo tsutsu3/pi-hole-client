@@ -173,6 +173,21 @@ class AppConfigRepository {
     return _updateSecretConfigValue(key: 'passCode', value: passCode);
   }
 
+  Future<Result<void>> updateLogAutoRefreshTime(int seconds) async {
+    return _updateConfigValue(column: 'logAutoRefreshTime', value: seconds);
+  }
+
+  Future<Result<void>> updateLiveLog(bool liveLog) async {
+    return _updateConfigValue(column: 'liveLog', value: liveLog ? 1 : 0);
+  }
+
+  Future<Result<void>> updateIsLivelogPaused(bool isLivelogPaused) async {
+    return _updateConfigValue(
+      column: 'isLivelogPaused',
+      value: isLivelogPaused ? 1 : 0,
+    );
+  }
+
   /// Restores the default values in the app configuration.
   ///
   /// This updates all fields in the `appConfig` table to their defaults,
@@ -191,6 +206,9 @@ class AppConfigRepository {
         'language': 'en',
         'reducedDataCharts': 0,
         'logsPerQuery': 2,
+        'logAutoRefreshTime': 15,
+        'liveLog': 1,
+        'isLivelogPaused': 0,
         'useBiometricAuth': 0,
         'importantInfoReaden': 0,
         'hideZeroValues': 0,
