@@ -31,6 +31,8 @@ void main() async {
         testSetup.buildTestWidget(const AdvancedOptions()),
       );
 
+      await tester.scrollUntilVisible(find.text('Reset application'), 100);
+
       expect(find.byType(AdvancedOptions), findsOneWidget);
       expect(find.text('Reset application'), findsOneWidget);
 
@@ -55,6 +57,8 @@ void main() async {
       await tester.pumpWidget(
         testSetup.buildTestWidget(Phoenix(child: const AdvancedOptions())),
       );
+
+      await tester.scrollUntilVisible(find.text('Reset application'), 100);
 
       expect(find.byType(AdvancedOptions), findsOneWidget);
       expect(find.text('Reset application'), findsOneWidget);

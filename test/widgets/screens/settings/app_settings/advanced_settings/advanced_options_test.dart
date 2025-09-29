@@ -47,6 +47,8 @@ void main() async {
       expect(find.text('Show loading animation'), findsOneWidget);
       expect(find.text('Chart display mode'), findsOneWidget);
 
+      await tester.scrollUntilVisible(find.text('Reset application'), 100);
+
       expect(find.text('Others'), findsOneWidget);
       expect(find.text('App logs'), findsOneWidget);
       expect(find.text('Reset application'), findsOneWidget);
@@ -196,6 +198,8 @@ void main() async {
         testSetup.buildTestWidget(const AdvancedOptions()),
       );
 
+      await tester.scrollUntilVisible(find.text('App logs'), 100);
+
       expect(find.byType(AdvancedOptions), findsOneWidget);
       expect(find.text('App logs'), findsOneWidget);
       await tester.tap(find.text('App logs'));
@@ -220,6 +224,8 @@ void main() async {
       );
 
       expect(find.byType(AdvancedOptions), findsOneWidget);
+      await tester.scrollUntilVisible(find.text('Reset application'), 100);
+
       expect(find.text('Reset application'), findsOneWidget);
       await tester.tap(find.text('Reset application'));
       await tester.pumpAndSettle();

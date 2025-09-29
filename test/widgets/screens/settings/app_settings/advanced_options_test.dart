@@ -35,6 +35,7 @@ void main() async {
       expect(find.byType(AdvancedOptions), findsOneWidget);
 
       // Tap Reset application
+      await tester.scrollUntilVisible(find.text('Reset application'), 100);
       await tester.tap(find.text('Reset application'));
       await tester.pumpAndSettle();
 
@@ -76,7 +77,7 @@ void main() async {
       expect(find.text('Enter passcode'), findsOneWidget);
     });
 
-    testWidgets('should show Auto refresh time screen with tap', (
+    testWidgets('should show Stats refresh interval screen with tap', (
       WidgetTester tester,
     ) async {
       tester.view.physicalSize = const Size(1080, 2400);
@@ -94,7 +95,7 @@ void main() async {
       expect(find.byType(AdvancedOptions), findsOneWidget);
       await tester.pump();
 
-      await tester.tap(find.text('Auto refresh time'));
+      await tester.tap(find.text('Stats refresh interval'));
       await tester.pumpAndSettle();
       expect(find.byType(AutoRefreshTimeScreen), findsOneWidget);
     });
