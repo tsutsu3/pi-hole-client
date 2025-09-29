@@ -539,7 +539,7 @@ abstract class AppLocalizations {
   /// No description provided for @autoRefreshTime.
   ///
   /// In en, this message translates to:
-  /// **'Auto refresh time'**
+  /// **'Stats refresh interval'**
   String get autoRefreshTime;
 
   /// No description provided for @barChart.
@@ -2132,6 +2132,18 @@ abstract class AppLocalizations {
   /// **'Displays the data on a list with the label and the numeric value at the left side, and a bar at the right side.'**
   String get listDescription;
 
+  /// No description provided for @liveLog.
+  ///
+  /// In en, this message translates to:
+  /// **'Live Log'**
+  String get liveLog;
+
+  /// No description provided for @liveLogDescription.
+  ///
+  /// In en, this message translates to:
+  /// **'Show DNS queries in real time with automatic refresh at the set interval.'**
+  String get liveLogDescription;
+
   /// No description provided for @loading.
   ///
   /// In en, this message translates to:
@@ -2233,6 +2245,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Local DNS has been updated successfully'**
   String get localDnsUpdated;
+
+  /// No description provided for @logAutoRefreshTime.
+  ///
+  /// In en, this message translates to:
+  /// **'Log refresh interval'**
+  String get logAutoRefreshTime;
 
   /// No description provided for @logDetails.
   ///
@@ -2642,6 +2660,12 @@ abstract class AppLocalizations {
   /// **'Failed. Password not valid.'**
   String get passwordNotValid;
 
+  /// No description provided for @pause.
+  ///
+  /// In en, this message translates to:
+  /// **'Pause'**
+  String get pause;
+
   /// No description provided for @percentageBlocked.
   ///
   /// In en, this message translates to:
@@ -2882,6 +2906,12 @@ abstract class AppLocalizations {
   /// **'Restarting DNS server …'**
   String get restartingDnsResolver;
 
+  /// No description provided for @resume.
+  ///
+  /// In en, this message translates to:
+  /// **'Resume'**
+  String get resume;
+
   /// No description provided for @runningStatus.
   ///
   /// In en, this message translates to:
@@ -3014,11 +3044,23 @@ abstract class AppLocalizations {
   /// **'10 seconds'**
   String get seconds10;
 
+  /// No description provided for @seconds15.
+  ///
+  /// In en, this message translates to:
+  /// **'15 seconds'**
+  String get seconds15;
+
   /// No description provided for @seconds2.
   ///
   /// In en, this message translates to:
   /// **'2 seconds'**
   String get seconds2;
+
+  /// No description provided for @seconds3.
+  ///
+  /// In en, this message translates to:
+  /// **'3 seconds'**
+  String get seconds3;
 
   /// No description provided for @seconds30.
   ///
@@ -3031,6 +3073,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'5 seconds'**
   String get seconds5;
+
+  /// No description provided for @seconds60.
+  ///
+  /// In en, this message translates to:
+  /// **'60 seconds'**
+  String get seconds60;
 
   /// No description provided for @security.
   ///

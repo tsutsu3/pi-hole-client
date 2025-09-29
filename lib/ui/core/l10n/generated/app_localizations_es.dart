@@ -231,7 +231,7 @@ class AppLocalizationsEs extends AppLocalizations {
   String get authoritativeReplies => 'Respuestas autoritativas';
 
   @override
-  String get autoRefreshTime => 'Tiempo de refresco automático';
+  String get autoRefreshTime => 'Intervalo de actualización de estadísticas';
 
   @override
   String get barChart => 'Gráfico de barras';
@@ -1087,6 +1087,13 @@ class AppLocalizationsEs extends AppLocalizations {
       'Muestra los datos en una lista con la etiqueta y el valor numérico en el lado izquierdo y una barra en el lado derecho.';
 
   @override
+  String get liveLog => 'Registro en vivo';
+
+  @override
+  String get liveLogDescription =>
+      'Muestra las consultas DNS en tiempo real con actualización automática en el intervalo configurado.';
+
+  @override
   String get loading => 'Cargando...';
 
   @override
@@ -1138,6 +1145,9 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String get localDnsUpdated => 'El DNS local se ha actualizado correctamente';
+
+  @override
+  String get logAutoRefreshTime => 'Intervalo de actualización de registros';
 
   @override
   String get logDetails => 'Detalles del registro';
@@ -1350,6 +1360,9 @@ class AppLocalizationsEs extends AppLocalizations {
   String get passwordNotValid => 'Error. Contraseña no válida.';
 
   @override
+  String get pause => 'Pausar';
+
+  @override
   String get percentageBlocked => 'Porcentaje bloqueado';
 
   @override
@@ -1475,6 +1488,9 @@ class AppLocalizationsEs extends AppLocalizations {
   String get restartingDnsResolver => 'Reiniciando el servidor DNS …';
 
   @override
+  String get resume => 'Reanudar';
+
+  @override
   String get runningStatus => 'En ejecución...';
 
   @override
@@ -1543,13 +1559,22 @@ class AppLocalizationsEs extends AppLocalizations {
   String get seconds10 => '10 segundos';
 
   @override
+  String get seconds15 => '15 segundos';
+
+  @override
   String get seconds2 => '2 segundos';
+
+  @override
+  String get seconds3 => '3 segundos';
 
   @override
   String get seconds30 => '30 segundos';
 
   @override
   String get seconds5 => '5 segundos';
+
+  @override
+  String get seconds60 => '60 segundos';
 
   @override
   String get security => 'Seguridad';

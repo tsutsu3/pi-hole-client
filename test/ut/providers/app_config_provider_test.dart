@@ -32,6 +32,9 @@ void main() {
       expect(appConfigProvider.selectedLanguage, 'en');
       expect(appConfigProvider.reducedDataCharts, false);
       expect(appConfigProvider.logsPerQuery, 2);
+      expect(appConfigProvider.logAutoRefreshTime, 15);
+      expect(appConfigProvider.liveLog, true);
+      expect(appConfigProvider.isLivelogPaused, false);
       expect(appConfigProvider.passCode, null);
       expect(appConfigProvider.biometricsSupport, false);
       expect(appConfigProvider.useBiometrics, false);
@@ -167,6 +170,9 @@ void main() {
           language: 'ja',
           reducedDataCharts: 1,
           logsPerQuery: 5,
+          logAutoRefreshTime: 30,
+          liveLog: 0,
+          isLivelogPaused: 1,
           passCode: '9999',
           useBiometricAuth: 1,
           importantInfoReaden: 1,
@@ -183,6 +189,9 @@ void main() {
         expect(appConfigProvider.selectedLanguage, 'ja');
         expect(appConfigProvider.reducedDataCharts, true);
         expect(appConfigProvider.logsPerQuery, 5);
+        expect(appConfigProvider.logAutoRefreshTime, 30);
+        expect(appConfigProvider.liveLog, false);
+        expect(appConfigProvider.isLivelogPaused, true);
         expect(appConfigProvider.passCode, '9999');
         expect(appConfigProvider.useBiometrics, true);
         expect(appConfigProvider.importantInfoReaden, true);
@@ -198,6 +207,9 @@ void main() {
           'language': 'ja',
           'reducedDataCharts': 1,
           'logsPerQuery': 5,
+          'logAutoRefreshTime': 30,
+          'liveLog': 0,
+          'isLivelogPaused': 1,
           'passCode': '9999',
           'useBiometricAuth': 1,
           'importantInfoReaden': 1,
@@ -281,6 +293,9 @@ void main() {
         );
         expect(appConfigProvider.reducedDataCharts, false);
         expect(appConfigProvider.logsPerQuery, 2);
+        expect(appConfigProvider.logAutoRefreshTime, 15);
+        expect(appConfigProvider.liveLog, true);
+        expect(appConfigProvider.isLivelogPaused, false);
         expect(appConfigProvider.passCode, null);
         expect(appConfigProvider.useBiometrics, false);
         expect(appConfigProvider.importantInfoReaden, false);

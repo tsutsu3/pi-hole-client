@@ -13,6 +13,7 @@ import 'package:pi_hole_client/ui/settings/app_settings/advanced_settings/app_un
 import 'package:pi_hole_client/ui/settings/app_settings/advanced_settings/auto_refresh_time_screen.dart';
 import 'package:pi_hole_client/ui/settings/app_settings/advanced_settings/chart_visualization_screen.dart';
 import 'package:pi_hole_client/ui/settings/app_settings/advanced_settings/enter_passcode_modal.dart';
+import 'package:pi_hole_client/ui/settings/app_settings/advanced_settings/log_refresh_interval_screen.dart';
 import 'package:pi_hole_client/ui/settings/app_settings/advanced_settings/logs_quantity_load_screen.dart';
 import 'package:pi_hole_client/ui/settings/app_settings/advanced_settings/reset_screen.dart';
 import 'package:pi_hole_client/utils/conversions.dart';
@@ -77,6 +78,25 @@ class AdvancedOptions extends StatelessWidget {
 
     Future<void> updateShowLoadingAnimation(bool newStatus) async {
       final result = await appConfigProvider.setShowLoadingAnimation(newStatus);
+      if (!context.mounted) return;
+
+      if (result == true) {
+        showSuccessSnackBar(
+          context: context,
+          appConfigProvider: appConfigProvider,
+          label: AppLocalizations.of(context)!.settingsUpdatedSuccessfully,
+        );
+      } else {
+        showErrorSnackBar(
+          context: context,
+          appConfigProvider: appConfigProvider,
+          label: AppLocalizations.of(context)!.cannotUpdateSettings,
+        );
+      }
+    }
+
+    Future<void> updateLiveLog(bool newStatus) async {
+      final result = await appConfigProvider.setLiveLog(newStatus);
       if (!context.mounted) return;
 
       if (result == true) {
@@ -293,6 +313,40 @@ class AdvancedOptions extends StatelessWidget {
                 context,
                 MaterialPageRoute(
                   builder: (context) => const AutoRefreshTimeScreen(),
+                ),
+              ),
+              padding: const EdgeInsets.only(
+                top: 10,
+                bottom: 10,
+                left: 20,
+                right: 10,
+              ),
+            ),
+            CustomListTile(
+              leadingIcon: Icons.timer_outlined,
+              label: AppLocalizations.of(context)!.liveLog,
+              description: AppLocalizations.of(context)!.liveLogDescription,
+              onTap: () => updateLiveLog(!appConfigProvider.liveLog),
+              padding: const EdgeInsets.only(
+                top: 10,
+                bottom: 10,
+                left: 20,
+                right: 10,
+              ),
+              trailing: Switch(
+                value: appConfigProvider.liveLog,
+                onChanged: updateLiveLog,
+              ),
+            ),
+            CustomListTile(
+              leadingIcon: Icons.update,
+              label: AppLocalizations.of(context)!.logAutoRefreshTime,
+              description:
+                  '${appConfigProvider.logAutoRefreshTime} ${AppLocalizations.of(context)!.seconds}',
+              onTap: () => Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => const LogRefreshIntervalScreen(),
                 ),
               ),
               padding: const EdgeInsets.only(

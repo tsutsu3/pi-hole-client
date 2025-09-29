@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:pi_hole_client/ui/core/l10n/generated/app_localizations.dart';
 import 'package:pi_hole_client/ui/core/ui/components/custom_radio.dart';
+import 'package:pi_hole_client/ui/logs/widgets/log_refresh_button.dart';
 
 /// A custom AppBar widget for the logs screen, supporting search, filter, and sort functionalities.
 ///
@@ -114,6 +115,7 @@ class LogsAppBar extends StatelessWidget implements PreferredSizeWidget {
             ),
           ],
         ),
+        const LogRefreshButton(),
       ],
       bottom: hasActiveChips
           ? PreferredSize(

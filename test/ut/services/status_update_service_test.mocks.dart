@@ -458,6 +458,27 @@ class MockAppConfigProvider extends _i1.Mock implements _i6.AppConfigProvider {
           as List<_i9.AppLog>);
 
   @override
+  int get logAutoRefreshTime =>
+      (super.noSuchMethod(
+            Invocation.getter(#logAutoRefreshTime),
+            returnValue: 0,
+          )
+          as int);
+
+  @override
+  bool get liveLog =>
+      (super.noSuchMethod(Invocation.getter(#liveLog), returnValue: false)
+          as bool);
+
+  @override
+  bool get isLivelogPaused =>
+      (super.noSuchMethod(
+            Invocation.getter(#isLivelogPaused),
+            returnValue: false,
+          )
+          as bool);
+
+  @override
   bool get hasListeners =>
       (super.noSuchMethod(Invocation.getter(#hasListeners), returnValue: false)
           as bool);
@@ -570,6 +591,30 @@ class MockAppConfigProvider extends _i1.Mock implements _i6.AppConfigProvider {
   _i12.Future<bool> setSendCrashReports(bool? status) =>
       (super.noSuchMethod(
             Invocation.method(#setSendCrashReports, [status]),
+            returnValue: _i12.Future<bool>.value(false),
+          )
+          as _i12.Future<bool>);
+
+  @override
+  _i12.Future<bool> setLogAutoRefreshTime(int? seconds) =>
+      (super.noSuchMethod(
+            Invocation.method(#setLogAutoRefreshTime, [seconds]),
+            returnValue: _i12.Future<bool>.value(false),
+          )
+          as _i12.Future<bool>);
+
+  @override
+  _i12.Future<bool> setLiveLog(bool? status) =>
+      (super.noSuchMethod(
+            Invocation.method(#setLiveLog, [status]),
+            returnValue: _i12.Future<bool>.value(false),
+          )
+          as _i12.Future<bool>);
+
+  @override
+  _i12.Future<bool> setLivelogPaused(bool? status) =>
+      (super.noSuchMethod(
+            Invocation.method(#setLivelogPaused, [status]),
             returnValue: _i12.Future<bool>.value(false),
           )
           as _i12.Future<bool>);

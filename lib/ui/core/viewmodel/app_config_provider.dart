@@ -34,7 +34,9 @@ class AppConfigProvider with ChangeNotifier {
   int _sendCrashReports = 0;
   int? _selectedSettingsScreen;
   String _selectedLanguage = 'en';
-  // SchedulerBinding.instance.platformDispatcher.locale.languageCode;
+  int _logAutoRefreshTime = 15;
+  bool _liveLog = true;
+  bool _isLivelogPaused = false;
 
   final List<AppLog> _logs = [];
   final AppConfigRepository _repository;
@@ -162,6 +164,18 @@ class AppConfigProvider with ChangeNotifier {
 
   int? get selectedSettingsScreen {
     return _selectedSettingsScreen;
+  }
+
+  int get logAutoRefreshTime {
+    return _logAutoRefreshTime;
+  }
+
+  bool get liveLog {
+    return _liveLog;
+  }
+
+  bool get isLivelogPaused {
+    return _isLivelogPaused;
   }
 
   void setShowingSnackbar(bool status) {
@@ -302,12 +316,48 @@ class AppConfigProvider with ChangeNotifier {
     }
   }
 
+  Future<bool> setLogAutoRefreshTime(int seconds) async {
+    final updated = await _repository.updateLogAutoRefreshTime(seconds);
+    if (updated.isSuccess()) {
+      _logAutoRefreshTime = seconds;
+      notifyListeners();
+      return true;
+    } else {
+      return false;
+    }
+  }
+
+  Future<bool> setLiveLog(bool status) async {
+    final updated = await _repository.updateLiveLog(status);
+    if (updated.isSuccess()) {
+      _liveLog = status;
+      notifyListeners();
+      return true;
+    } else {
+      return false;
+    }
+  }
+
+  Future<bool> setLivelogPaused(bool status) async {
+    final updated = await _repository.updateIsLivelogPaused(status);
+    if (updated.isSuccess()) {
+      _isLivelogPaused = status;
+      notifyListeners();
+      return true;
+    } else {
+      return false;
+    }
+  }
+
   void saveFromDb(AppDbData dbData) {
     _autoRefreshTime = dbData.autoRefreshTime;
     _selectedTheme = dbData.theme;
     _selectedLanguage = dbData.language;
     _reducedDataCharts = dbData.reducedDataCharts;
     _logsPerQuery = dbData.logsPerQuery;
+    _logAutoRefreshTime = dbData.logAutoRefreshTime;
+    _liveLog = dbData.liveLog == 1;
+    _isLivelogPaused = dbData.isLivelogPaused == 1;
     _passCode = dbData.passCode;
     _useBiometrics = dbData.useBiometricAuth;
     _importantInfoReaden = dbData.importantInfoReaden;
@@ -409,6 +459,9 @@ class AppConfigProvider with ChangeNotifier {
       _selectedLanguage = 'en';
       _reducedDataCharts = 0;
       _logsPerQuery = 2;
+      _logAutoRefreshTime = 15;
+      _liveLog = true;
+      _isLivelogPaused = false;
       _passCode = null;
       _useBiometrics = 0;
       _importantInfoReaden = 0;

@@ -232,7 +232,7 @@ class AppLocalizationsDe extends AppLocalizations {
   String get authoritativeReplies => 'Autoritative Antworten';
 
   @override
-  String get autoRefreshTime => 'Aktualisierungsintervall';
+  String get autoRefreshTime => 'Aktualisierungsintervall für Statistiken';
 
   @override
   String get barChart => 'Balkendiagramm';
@@ -1087,6 +1087,13 @@ class AppLocalizationsDe extends AppLocalizations {
       'Zeigt die Daten in einer Liste mit Labeln und Nummern auf der linken Seite, sowie einer Anzeige auf der rechten Seite.';
 
   @override
+  String get liveLog => 'Live-Protokoll';
+
+  @override
+  String get liveLogDescription =>
+      'Zeigt DNS-Abfragen in Echtzeit mit automatischer Aktualisierung im eingestellten Intervall an.';
+
+  @override
   String get loading => 'Lädt...';
 
   @override
@@ -1140,6 +1147,9 @@ class AppLocalizationsDe extends AppLocalizations {
 
   @override
   String get localDnsUpdated => 'Lokales DNS wurde erfolgreich aktualisiert';
+
+  @override
+  String get logAutoRefreshTime => 'Aktualisierungsintervall für Protokolle';
 
   @override
   String get logDetails => 'Log Details';
@@ -1355,6 +1365,9 @@ class AppLocalizationsDe extends AppLocalizations {
   String get passwordNotValid => 'Fehlgeschlagen. Passwort ist ungültig.';
 
   @override
+  String get pause => 'Anhalten';
+
+  @override
   String get percentageBlocked => 'Blockierter Anteil';
 
   @override
@@ -1481,6 +1494,9 @@ class AppLocalizationsDe extends AppLocalizations {
   String get restartingDnsResolver => 'DNS-Server wird neu gestartet …';
 
   @override
+  String get resume => 'Fortsetzen';
+
+  @override
   String get runningStatus => 'Wird ausgeführt …';
 
   @override
@@ -1549,13 +1565,22 @@ class AppLocalizationsDe extends AppLocalizations {
   String get seconds10 => '10 Sekunden';
 
   @override
+  String get seconds15 => '15 Sekunden';
+
+  @override
   String get seconds2 => '2 Sekunden';
+
+  @override
+  String get seconds3 => '3 Sekunden';
 
   @override
   String get seconds30 => '30 Sekunden';
 
   @override
   String get seconds5 => '5 Sekunden';
+
+  @override
+  String get seconds60 => '60 Sekunden';
 
   @override
   String get security => 'Sicherheit';
