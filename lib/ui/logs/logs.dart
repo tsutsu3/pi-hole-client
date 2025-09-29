@@ -368,6 +368,7 @@ class _LogsState extends State<Logs> {
           },
           onFilterTap: showFiltersModal,
           onSortChanged: _updateSortStatus,
+          onRefresh: initializeLoad,
           sortStatus: sortStatus,
           filterChips: ActiveFilterChips(
             filtersProvider: filtersProvider,
@@ -387,15 +388,20 @@ class _LogsState extends State<Logs> {
           hasActiveChips: hasActiveChips(),
         ),
         body: SafeArea(
-          child: LogsContentView(
-            loadStatus: loadStatus,
-            logs: logsListDisplay,
-            isLoadingMore: isLoadingMore,
-            onRefresh: applyFilterAndLoad,
-            onLogTap: showLogDetails,
-            selectedLog: selectedLog,
-            scrollController: scrollController,
-            logsPerQuery: logsPerQuery ?? 0.5,
+          child: RefreshIndicator(
+            onRefresh: () async {
+              await initializeLoad();
+            },
+            child: LogsContentView(
+              loadStatus: loadStatus,
+              logs: logsListDisplay,
+              isLoadingMore: isLoadingMore,
+              onRefresh: applyFilterAndLoad,
+              onLogTap: showLogDetails,
+              selectedLog: selectedLog,
+              scrollController: scrollController,
+              logsPerQuery: logsPerQuery ?? 0.5,
+            ),
           ),
         ),
       );

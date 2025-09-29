@@ -4,7 +4,10 @@ import 'package:pi_hole_client/ui/core/viewmodel/app_config_provider.dart';
 import 'package:provider/provider.dart';
 
 class LogRefreshButton extends StatelessWidget {
-  const LogRefreshButton({super.key});
+  const LogRefreshButton({Future<void> Function()? onRefresh, super.key})
+    : _onRefresh = onRefresh;
+
+  final Future<void> Function()? _onRefresh;
 
   @override
   Widget build(BuildContext context) {
@@ -20,7 +23,7 @@ class LogRefreshButton extends StatelessWidget {
         tooltip: loc.refresh,
         icon: const Icon(Icons.refresh),
         onPressed: () {
-          // TODO: update
+          _onRefresh?.call();
         },
       );
     }
