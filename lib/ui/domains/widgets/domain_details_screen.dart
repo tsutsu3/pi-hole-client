@@ -201,7 +201,7 @@ class _DomainDetailsScreenState extends State<DomainDetailsScreen> {
     final body = DomainRequest.fromJson(value);
 
     final process = ProcessModal(context: context);
-    process.open(AppLocalizations.of(context)!.adlistUpdating);
+    process.open(AppLocalizations.of(context)!.updating);
 
     final result = await apiGateway?.updateDomain(body: body);
 
