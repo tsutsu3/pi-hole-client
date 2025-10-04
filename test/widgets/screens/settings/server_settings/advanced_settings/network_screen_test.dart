@@ -112,7 +112,7 @@ void main() async {
 
       // Show remove modal
       expect(find.byType(DeleteModal), findsOneWidget);
-      expect(find.text('Delete device'), findsOneWidget);
+      expect(find.text('Delete Device'), findsOneWidget);
       await tester.tap(find.text('Delete'));
       await tester.pumpAndSettle();
 
