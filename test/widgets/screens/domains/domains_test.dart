@@ -202,7 +202,7 @@ void main() async {
       // Tap add button
       await tester.tap(find.byIcon(Icons.add));
       await tester.pumpAndSettle();
-      expect(find.text('Add domain'), findsOneWidget);
+      expect(find.text('Add Domain'), findsOneWidget);
       await tester.enterText(find.byType(TextField), 'white03.example.com');
       await tester.pumpAndSettle();
       await tester.tap(find.text('Add'));
