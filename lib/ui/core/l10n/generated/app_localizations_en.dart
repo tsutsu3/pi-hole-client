@@ -33,25 +33,13 @@ class AppLocalizationsEn extends AppLocalizations {
   String get addAsWildcard => 'Add as wildcard';
 
   @override
-  String get addDomain => 'Add domain';
-
-  @override
   String get addLocalDns => 'Add Local DNS';
 
   @override
   String get addServer => 'Add server connection';
 
   @override
-  String get addedBlacklist => 'Domain added to blacklist.';
-
-  @override
-  String get addedWhitelist => 'Domain added to whitelist.';
-
-  @override
   String get addingBlacklist => 'Adding to blacklist...';
-
-  @override
-  String get addingDomain => 'Adding domain...';
 
   @override
   String get addingLocalDns => 'Adding local DNS...';
@@ -75,7 +63,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get adlist => 'Adlist';
 
   @override
-  String get adlistAdd => 'Add adlist';
+  String get adlistAdd => 'Add Adlist';
 
   @override
   String get adlistAddFailed => 'Adlist couldn\'t be added';
@@ -93,7 +81,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get adlistAlreadyAdded => 'Adlist already added';
 
   @override
-  String get adlistDelete => 'Delete adlist';
+  String get adlistDelete => 'Delete Adlist';
 
   @override
   String get adlistDeleteError => 'Error when removing adlist';
@@ -203,12 +191,6 @@ class AppLocalizationsEn extends AppLocalizations {
   String get allowed => 'Allowed';
 
   @override
-  String get alreadyBlacklist => 'Domain is already on blacklist.';
-
-  @override
-  String get alreadyWhitelist => 'Domain is already on whitelist.';
-
-  @override
   String get and => 'and';
 
   @override
@@ -314,9 +296,6 @@ class AppLocalizationsEn extends AppLocalizations {
   String get cancel => 'Cancel';
 
   @override
-  String get cannotAddDomain => 'Domain couldn\'t be added';
-
-  @override
   String get cannotAddLocalDns => 'Failed to add Local DNS';
 
   @override
@@ -328,9 +307,6 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get cannotConnect => 'Cannot connect to server.';
-
-  @override
-  String get cannotEditDomain => 'Failed to update the Domain';
 
   @override
   String get cannotUpdateSettings => 'Settings cannot be updated.';
@@ -484,12 +460,6 @@ class AppLocalizationsEn extends AppLocalizations {
       'Could not connect to the server. Restoring the previous server and reloading its data ...';
 
   @override
-  String get couldntAddBlacklist => 'Could not add domain to blacklist.';
-
-  @override
-  String get couldntAddWhitelist => 'Could not add domain to whitelist.';
-
-  @override
   String get couldntDisableServer => 'Couldn\'t disable server.';
 
   @override
@@ -563,13 +533,6 @@ class AppLocalizationsEn extends AppLocalizations {
   @override
   String get deleteDhcpMessage =>
       'Are you sure you want to delete this DHCP lease?';
-
-  @override
-  String get deleteDomain => 'Delete domain';
-
-  @override
-  String get deleteDomainMessage =>
-      'Are you sure you want to delete this domain?';
 
   @override
   String get deleteLocalDns => 'Delete Local DNS';
@@ -662,13 +625,41 @@ class AppLocalizationsEn extends AppLocalizations {
   String get domain => 'Domain';
 
   @override
+  String get domainAdd => 'Add Domain';
+
+  @override
+  String get domainAddFailed => 'Domain couldn\'t be added';
+
+  @override
   String get domainAdded => 'Domain added successfully';
+
+  @override
+  String get domainAdding => 'Adding domain...';
 
   @override
   String get domainAlreadyAdded => 'Domain already added';
 
   @override
+  String get domainBlacklistAddFailed => 'Could not add domain to blacklist.';
+
+  @override
+  String get domainBlacklistAdded => 'Domain added to blacklist.';
+
+  @override
+  String get domainBlacklistAlready => 'Domain is already on blacklist.';
+
+  @override
+  String get domainDelete => 'Delete Domain';
+
+  @override
+  String get domainDeleteMessage =>
+      'Are you sure you want to delete this domain?';
+
+  @override
   String get domainDetails => 'Domain details';
+
+  @override
+  String get domainInvalid => 'Invalid domain';
 
   @override
   String get domainNotExists => 'Domain does not exist';
@@ -677,7 +668,22 @@ class AppLocalizationsEn extends AppLocalizations {
   String get domainRemoved => 'Domain removed successfully';
 
   @override
+  String get domainSearchOnline => 'Search domain on the Internet';
+
+  @override
+  String get domainUpdateFailed => 'Failed to update the Domain';
+
+  @override
   String get domainUpdated => 'Domain updated successfully';
+
+  @override
+  String get domainWhitelistAddFailed => 'Could not add domain to whitelist.';
+
+  @override
+  String get domainWhitelistAdded => 'Domain added to whitelist.';
+
+  @override
+  String get domainWhitelistAlready => 'Domain is already on whitelist.';
 
   @override
   String get domains => 'Domains';
@@ -686,7 +692,22 @@ class AppLocalizationsEn extends AppLocalizations {
   String get domainsAdlists => 'Domains on Adlists';
 
   @override
+  String get domainsInvalid => 'Invalid Domains';
+
+  @override
+  String get domainsLoading => 'Loading domains...';
+
+  @override
+  String get domainsNone => 'There are no domains to show here.';
+
+  @override
   String get domainsNotLoaded => 'Domains list couldn\'t be loaded';
+
+  @override
+  String get domainsSearch => 'Search domains...';
+
+  @override
+  String get domainsSelectLeftColumn => 'Choose a domain to see its details.';
 
   @override
   String get dontCheckCertificate => 'Don\'t check SSL certificate';
@@ -991,12 +1012,6 @@ class AppLocalizationsEn extends AppLocalizations {
   String get invalidAddress => 'Invalid IP or domain';
 
   @override
-  String get invalidDomain => 'Invalid domain';
-
-  @override
-  String get invalidDomains => 'Invalid Domains';
-
-  @override
   String get invalidHostname =>
       'Invalid hostname: only letters (a–z, A–Z), numbers (0–9), hyphen (-), underscore (_), and dot (.) are allowed';
 
@@ -1095,9 +1110,6 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get loadingCharts => 'Loading charts...';
-
-  @override
-  String get loadingDomains => 'Loading domains...';
 
   @override
   String get loadingList => 'Loading list...';
@@ -1261,9 +1273,6 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get noData => 'No data';
-
-  @override
-  String get noDomains => 'There are no domains to show here.';
 
   @override
   String get noIssuesReported => 'No issues were reported.';
@@ -1523,12 +1532,6 @@ class AppLocalizationsEn extends AppLocalizations {
   String get scope => 'Scope';
 
   @override
-  String get searchDomainInternet => 'Search domain on the Internet';
-
-  @override
-  String get searchDomains => 'Search domains...';
-
-  @override
   String get searchUrl => 'Search by URL...';
 
   @override
@@ -1563,9 +1566,6 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get selectConnection => 'Select a connection';
-
-  @override
-  String get selectDomainsLeftColumn => 'Choose a domain to see its details.';
 
   @override
   String get selectEndTime => 'Select end time';

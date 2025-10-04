@@ -33,25 +33,13 @@ class AppLocalizationsEs extends AppLocalizations {
   String get addAsWildcard => 'Añadir como wildcard';
 
   @override
-  String get addDomain => 'Añadir dominio';
-
-  @override
   String get addLocalDns => 'Agregar DNS local';
 
   @override
   String get addServer => 'Añadir conexión';
 
   @override
-  String get addedBlacklist => 'Dominio añadido a lista negra.';
-
-  @override
-  String get addedWhitelist => 'Dominio añadido a lista blanca.';
-
-  @override
   String get addingBlacklist => 'Añadiendo a lista negra...';
-
-  @override
-  String get addingDomain => 'Añadiendo dominio...';
 
   @override
   String get addingLocalDns => 'Agregando DNS local...';
@@ -206,12 +194,6 @@ class AppLocalizationsEs extends AppLocalizations {
   String get allowed => 'Permitidos';
 
   @override
-  String get alreadyBlacklist => 'El dominio ya está en lista negra.';
-
-  @override
-  String get alreadyWhitelist => 'El dominio ya está en lista blanca.';
-
-  @override
   String get and => 'y';
 
   @override
@@ -317,9 +299,6 @@ class AppLocalizationsEs extends AppLocalizations {
   String get cancel => 'Cancelar';
 
   @override
-  String get cannotAddDomain => 'El dominio no ha podido ser añadido';
-
-  @override
   String get cannotAddLocalDns => 'No se pudo agregar el DNS local';
 
   @override
@@ -332,9 +311,6 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String get cannotConnect => 'No se ha podido conectar al servidor.';
-
-  @override
-  String get cannotEditDomain => 'Error al actualizar el dominio';
 
   @override
   String get cannotUpdateSettings => 'No se han podido actualizar los ajustes.';
@@ -492,14 +468,6 @@ class AppLocalizationsEs extends AppLocalizations {
       'No se pudo conectar al servidor. Restaurando el servidor anterior y recargando sus datos ...';
 
   @override
-  String get couldntAddBlacklist =>
-      'No se ha podido añadir el dominio a lista blanca.';
-
-  @override
-  String get couldntAddWhitelist =>
-      'No se ha podido añadir el dominio a lista negra.';
-
-  @override
   String get couldntDisableServer => 'No se pudo desactivar el servidor.';
 
   @override
@@ -573,13 +541,6 @@ class AppLocalizationsEs extends AppLocalizations {
   @override
   String get deleteDhcpMessage =>
       '¿Está seguro de que desea eliminar esta concesión DHCP?';
-
-  @override
-  String get deleteDomain => 'Eliminar dominio';
-
-  @override
-  String get deleteDomainMessage =>
-      '¿Estás seguro que deseas eliminar este dominio?';
 
   @override
   String get deleteLocalDns => 'Eliminar DNS local';
@@ -677,13 +638,42 @@ class AppLocalizationsEs extends AppLocalizations {
   String get domain => 'Dominio';
 
   @override
+  String get domainAdd => 'Añadir dominio';
+
+  @override
+  String get domainAddFailed => 'El dominio no ha podido ser añadido';
+
+  @override
   String get domainAdded => 'Dominio añadido satisfactoriamente';
+
+  @override
+  String get domainAdding => 'Añadiendo dominio...';
 
   @override
   String get domainAlreadyAdded => 'El dominio ya está añadido';
 
   @override
+  String get domainBlacklistAddFailed =>
+      'No se ha podido añadir el dominio a lista blanca.';
+
+  @override
+  String get domainBlacklistAdded => 'Dominio añadido a lista negra.';
+
+  @override
+  String get domainBlacklistAlready => 'El dominio ya está en lista negra.';
+
+  @override
+  String get domainDelete => 'Eliminar dominio';
+
+  @override
+  String get domainDeleteMessage =>
+      '¿Estás seguro que deseas eliminar este dominio?';
+
+  @override
   String get domainDetails => 'Detalles del dominio';
+
+  @override
+  String get domainInvalid => 'Dominio no válido';
 
   @override
   String get domainNotExists => 'El dominio no existe';
@@ -692,7 +682,23 @@ class AppLocalizationsEs extends AppLocalizations {
   String get domainRemoved => 'Dominio eliminado correctamente';
 
   @override
+  String get domainSearchOnline => 'Buscar el dominio en Internet';
+
+  @override
+  String get domainUpdateFailed => 'Error al actualizar el dominio';
+
+  @override
   String get domainUpdated => 'Dominio actualizado correctamente';
+
+  @override
+  String get domainWhitelistAddFailed =>
+      'No se ha podido añadir el dominio a lista negra.';
+
+  @override
+  String get domainWhitelistAdded => 'Dominio añadido a lista blanca.';
+
+  @override
+  String get domainWhitelistAlready => 'El dominio ya está en lista blanca.';
 
   @override
   String get domains => 'Dominios';
@@ -701,7 +707,23 @@ class AppLocalizationsEs extends AppLocalizations {
   String get domainsAdlists => 'Dominios en Adlists';
 
   @override
+  String get domainsInvalid => 'Dominios no válidos';
+
+  @override
+  String get domainsLoading => 'Cargando dominios...';
+
+  @override
+  String get domainsNone => 'No hay dominios para mostrar aquí.';
+
+  @override
   String get domainsNotLoaded => 'No se ha podido cargar la lista de dominios';
+
+  @override
+  String get domainsSearch => 'Buscar dominios...';
+
+  @override
+  String get domainsSelectLeftColumn =>
+      'Elige un dominio para ver sus detalles.';
 
   @override
   String get dontCheckCertificate => 'No comprobar el certificado SSL';
@@ -1012,12 +1034,6 @@ class AppLocalizationsEs extends AppLocalizations {
   String get invalidAddress => 'IP o dominio no válido';
 
   @override
-  String get invalidDomain => 'Dominio no válido';
-
-  @override
-  String get invalidDomains => 'Dominios no válidos';
-
-  @override
   String get invalidHostname =>
       'Nombre de host no válido: solo se permiten letras (a–z, A–Z), números (0–9), guiones (-), guiones bajos (_) y puntos (.)';
 
@@ -1116,9 +1132,6 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String get loadingCharts => 'Cargando gráficos...';
-
-  @override
-  String get loadingDomains => 'Cargando dominios...';
 
   @override
   String get loadingList => 'Cargando lista...';
@@ -1281,9 +1294,6 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String get noData => 'No hay datos';
-
-  @override
-  String get noDomains => 'No hay dominios para mostrar aquí.';
 
   @override
   String get noIssuesReported => 'No se informaron problemas.';
@@ -1543,12 +1553,6 @@ class AppLocalizationsEs extends AppLocalizations {
   String get scope => 'Ámbito';
 
   @override
-  String get searchDomainInternet => 'Buscar el dominio en Internet';
-
-  @override
-  String get searchDomains => 'Buscar dominios...';
-
-  @override
   String get searchUrl => 'Buscar por URL...';
 
   @override
@@ -1583,10 +1587,6 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String get selectConnection => 'Seleccionar una conexión';
-
-  @override
-  String get selectDomainsLeftColumn =>
-      'Elige un dominio para ver sus detalles.';
 
   @override
   String get selectEndTime => 'Seleccionar tiempo de fin';

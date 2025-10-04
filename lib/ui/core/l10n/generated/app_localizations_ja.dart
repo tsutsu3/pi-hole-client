@@ -33,25 +33,13 @@ class AppLocalizationsJa extends AppLocalizations {
   String get addAsWildcard => 'ワイルドカードとして追加';
 
   @override
-  String get addDomain => 'ドメインを追加';
-
-  @override
   String get addLocalDns => 'ローカルDNSを追加';
 
   @override
   String get addServer => 'サーバー接続を追加';
 
   @override
-  String get addedBlacklist => 'ドメインがブラックリストに追加されました。';
-
-  @override
-  String get addedWhitelist => 'ドメインがホワイトリストに追加されました。';
-
-  @override
   String get addingBlacklist => 'ブラックリストに追加中...';
-
-  @override
-  String get addingDomain => 'ドメインを追加中...';
 
   @override
   String get addingLocalDns => 'ローカルDNSを追加中...';
@@ -201,12 +189,6 @@ class AppLocalizationsJa extends AppLocalizations {
   String get allowed => '許可済み';
 
   @override
-  String get alreadyBlacklist => 'ドメインは既にブラックリストにあります。';
-
-  @override
-  String get alreadyWhitelist => 'ドメインは既にホワイトリストにあります。';
-
-  @override
   String get and => 'と';
 
   @override
@@ -308,9 +290,6 @@ class AppLocalizationsJa extends AppLocalizations {
   String get cancel => 'キャンセル';
 
   @override
-  String get cannotAddDomain => 'ドメインを追加できませんでした';
-
-  @override
   String get cannotAddLocalDns => 'ローカルDNSを追加できませんでした';
 
   @override
@@ -321,9 +300,6 @@ class AppLocalizationsJa extends AppLocalizations {
 
   @override
   String get cannotConnect => 'サーバーに接続できません。';
-
-  @override
-  String get cannotEditDomain => 'ドメインの更新に失敗しました';
 
   @override
   String get cannotUpdateSettings => '設定を更新できません。';
@@ -471,12 +447,6 @@ class AppLocalizationsJa extends AppLocalizations {
       'サーバーに接続できませんでした。前のサーバーに戻り、データを再取得します...';
 
   @override
-  String get couldntAddBlacklist => 'ドメインをブラックリストに追加できませんでした。';
-
-  @override
-  String get couldntAddWhitelist => 'ドメインをホワイトリストに追加できませんでした。';
-
-  @override
   String get couldntDisableServer => 'サーバーを無効化できませんでした。';
 
   @override
@@ -547,12 +517,6 @@ class AppLocalizationsJa extends AppLocalizations {
 
   @override
   String get deleteDhcpMessage => 'このDHCPリースを削除してもよろしいですか？';
-
-  @override
-  String get deleteDomain => 'ドメインを削除';
-
-  @override
-  String get deleteDomainMessage => 'このドメインを削除してもよろしいですか？';
 
   @override
   String get deleteLocalDns => 'ローカルDNSを削除';
@@ -643,13 +607,40 @@ class AppLocalizationsJa extends AppLocalizations {
   String get domain => 'ドメイン';
 
   @override
+  String get domainAdd => 'ドメインを追加';
+
+  @override
+  String get domainAddFailed => 'ドメインを追加できませんでした';
+
+  @override
   String get domainAdded => 'ドメインが正常に追加されました';
+
+  @override
+  String get domainAdding => 'ドメインを追加中...';
 
   @override
   String get domainAlreadyAdded => 'ドメインは既に追加されています';
 
   @override
+  String get domainBlacklistAddFailed => 'ドメインをブラックリストに追加できませんでした。';
+
+  @override
+  String get domainBlacklistAdded => 'ドメインがブラックリストに追加されました。';
+
+  @override
+  String get domainBlacklistAlready => 'ドメインは既にブラックリストにあります。';
+
+  @override
+  String get domainDelete => 'ドメインを削除';
+
+  @override
+  String get domainDeleteMessage => 'このドメインを削除してもよろしいですか？';
+
+  @override
   String get domainDetails => 'ドメインの詳細';
+
+  @override
+  String get domainInvalid => '無効なドメイン';
 
   @override
   String get domainNotExists => 'ドメインが存在しません';
@@ -658,7 +649,22 @@ class AppLocalizationsJa extends AppLocalizations {
   String get domainRemoved => 'ドメインが正常に削除されました';
 
   @override
+  String get domainSearchOnline => 'インターネットでドメインを検索';
+
+  @override
+  String get domainUpdateFailed => 'ドメインの更新に失敗しました';
+
+  @override
   String get domainUpdated => 'ドメインの更新に成功しました';
+
+  @override
+  String get domainWhitelistAddFailed => 'ドメインをホワイトリストに追加できませんでした。';
+
+  @override
+  String get domainWhitelistAdded => 'ドメインがホワイトリストに追加されました。';
+
+  @override
+  String get domainWhitelistAlready => 'ドメインは既にホワイトリストにあります。';
 
   @override
   String get domains => 'ドメイン';
@@ -667,7 +673,22 @@ class AppLocalizationsJa extends AppLocalizations {
   String get domainsAdlists => 'Adlists上のドメイン';
 
   @override
+  String get domainsInvalid => '無効なドメイン';
+
+  @override
+  String get domainsLoading => 'ドメインを読み込んでいます...';
+
+  @override
+  String get domainsNone => '表示するドメインはありません。';
+
+  @override
   String get domainsNotLoaded => 'ドメインリストを読み込めませんでした';
+
+  @override
+  String get domainsSearch => 'ドメインを検索...';
+
+  @override
+  String get domainsSelectLeftColumn => 'ドメインを選択して詳細を確認してください。';
 
   @override
   String get dontCheckCertificate => 'SSL証明書を確認しない';
@@ -966,12 +987,6 @@ class AppLocalizationsJa extends AppLocalizations {
   String get invalidAddress => '無効なIPまたはドメイン';
 
   @override
-  String get invalidDomain => '無効なドメイン';
-
-  @override
-  String get invalidDomains => '無効なドメイン';
-
-  @override
   String get invalidHostname =>
       '無効なホスト名: 使用できるのは英字 (a–z、A–Z)、数字 (0–9)、ハイフン (-)、アンダースコア (_)、ドット (.) のみです';
 
@@ -1065,9 +1080,6 @@ class AppLocalizationsJa extends AppLocalizations {
 
   @override
   String get loadingCharts => 'チャートを読み込み中...';
-
-  @override
-  String get loadingDomains => 'ドメインを読み込んでいます...';
 
   @override
   String get loadingList => 'リストを読み込み中...';
@@ -1227,9 +1239,6 @@ class AppLocalizationsJa extends AppLocalizations {
 
   @override
   String get noData => 'データなし';
-
-  @override
-  String get noDomains => '表示するドメインはありません。';
 
   @override
   String get noIssuesReported => '問題は報告されていません。';
@@ -1483,12 +1492,6 @@ class AppLocalizationsJa extends AppLocalizations {
   String get scope => 'スコープ';
 
   @override
-  String get searchDomainInternet => 'インターネットでドメインを検索';
-
-  @override
-  String get searchDomains => 'ドメインを検索...';
-
-  @override
   String get searchUrl => 'URLで検索...';
 
   @override
@@ -1523,9 +1526,6 @@ class AppLocalizationsJa extends AppLocalizations {
 
   @override
   String get selectConnection => '接続を選択';
-
-  @override
-  String get selectDomainsLeftColumn => 'ドメインを選択して詳細を確認してください。';
 
   @override
   String get selectEndTime => '終了時間を選択';

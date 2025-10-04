@@ -81,7 +81,7 @@ class LogDetailsScreen extends StatelessWidget {
           IconButton(
             onPressed: () => openUrl('$searchDomainBaseUrlGoogle${log.url}'),
             icon: const Icon(Icons.travel_explore_rounded),
-            tooltip: AppLocalizations.of(context)!.searchDomainInternet,
+            tooltip: AppLocalizations.of(context)!.domainSearchOnline,
           ),
           blackWhiteListButton(),
           const SizedBox(width: 10),

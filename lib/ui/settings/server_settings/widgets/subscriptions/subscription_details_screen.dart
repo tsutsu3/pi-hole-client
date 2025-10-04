@@ -184,7 +184,7 @@ class _SubscriptionDetailsScreenState extends State<SubscriptionDetailsScreen> {
             ),
             CustomListTile(
               leadingIcon: Icons.domain_disabled_rounded,
-              label: AppLocalizations.of(context)!.invalidDomains,
+              label: AppLocalizations.of(context)!.domainsInvalid,
               description: _subscription.invalidDomains.toString(),
             ),
             CustomListTile(

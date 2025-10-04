@@ -144,7 +144,7 @@ class _DomainListsWidgetState extends State<DomainListsWidget>
                           decoration: InputDecoration(
                             hintText: AppLocalizations.of(
                               context,
-                            )!.searchDomains,
+                            )!.domainsSearch,
                             hintStyle: const TextStyle(
                               fontWeight: FontWeight.w400,
                             ),
@@ -264,7 +264,7 @@ class _DomainListsWidgetState extends State<DomainListsWidget>
                 : SizedBox(
                     child: SafeArea(
                       child: Text(
-                        AppLocalizations.of(context)!.selectDomainsLeftColumn,
+                        AppLocalizations.of(context)!.domainsSelectLeftColumn,
                         textAlign: TextAlign.center,
                         style: TextStyle(
                           fontSize: 24,

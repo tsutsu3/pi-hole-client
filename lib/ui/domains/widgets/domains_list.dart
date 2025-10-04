@@ -117,7 +117,7 @@ class _DomainsListState extends State<DomainsList> {
 
     Future<void> onAddDomain(Map<String, dynamic> value) async {
       final process = ProcessModal(context: context);
-      process.open(AppLocalizations.of(context)!.addingDomain);
+      process.open(AppLocalizations.of(context)!.domainAdding);
 
       final result = await apiGateway?.addDomainToList(value);
 
@@ -144,7 +144,7 @@ class _DomainsListState extends State<DomainsList> {
         showErrorSnackBar(
           context: context,
           appConfigProvider: appConfigProvider,
-          label: AppLocalizations.of(context)!.cannotAddDomain,
+          label: AppLocalizations.of(context)!.domainAddFailed,
         );
       }
     }
@@ -193,7 +193,7 @@ class _DomainsListState extends State<DomainsList> {
                 const CircularProgressIndicator(),
                 const SizedBox(height: 50),
                 Text(
-                  AppLocalizations.of(context)!.loadingDomains,
+                  AppLocalizations.of(context)!.domainsLoading,
                   textAlign: TextAlign.center,
                   style: TextStyle(
                     color: Theme.of(context).colorScheme.onSurfaceVariant,
@@ -242,7 +242,7 @@ class _DomainsListState extends State<DomainsList> {
             padding: const EdgeInsets.all(20),
             child: Center(
               child: Text(
-                AppLocalizations.of(context)!.noDomains,
+                AppLocalizations.of(context)!.domainsNone,
                 textAlign: TextAlign.center,
                 style: TextStyle(
                   fontSize: 24,
