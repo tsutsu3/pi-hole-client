@@ -30,37 +30,13 @@ class AppLocalizationsEs extends AppLocalizations {
   String get add => 'Añadir';
 
   @override
-  String get addAdlist => 'Agregar adlist';
-
-  @override
   String get addAsWildcard => 'Añadir como wildcard';
-
-  @override
-  String get addDomain => 'Añadir dominio';
-
-  @override
-  String get addLocalDns => 'Agregar DNS local';
 
   @override
   String get addServer => 'Añadir conexión';
 
   @override
-  String get addedBlacklist => 'Dominio añadido a lista negra.';
-
-  @override
-  String get addedWhitelist => 'Dominio añadido a lista blanca.';
-
-  @override
-  String get addingAdlist => 'Agregando adlist...';
-
-  @override
   String get addingBlacklist => 'Añadiendo a lista negra...';
-
-  @override
-  String get addingDomain => 'Añadiendo dominio...';
-
-  @override
-  String get addingLocalDns => 'Agregando DNS local...';
 
   @override
   String get addingWhitelist => 'Añadiendo a lista blanca...';
@@ -81,7 +57,16 @@ class AppLocalizationsEs extends AppLocalizations {
   String get adlist => 'Adlist';
 
   @override
+  String get adlistAdd => 'Agregar adlist';
+
+  @override
+  String get adlistAddFailed => 'No se pudo agregar la adlist';
+
+  @override
   String get adlistAdded => 'Adlist agregada correctamente';
+
+  @override
+  String get adlistAdding => 'Agregando adlist...';
 
   @override
   String get adlistAddress => 'Dirección';
@@ -90,17 +75,26 @@ class AppLocalizationsEs extends AppLocalizations {
   String get adlistAlreadyAdded => 'La adlist ya ha sido agregada';
 
   @override
+  String get adlistDelete => 'Eliminar adlist';
+
+  @override
+  String get adlistDeleteError => 'Error al eliminar la Adlist';
+
+  @override
+  String get adlistDeleteMessage =>
+      '¿Está seguro de que desea eliminar esta adlist?';
+
+  @override
+  String get adlistDescription => 'Administrar y actualizar las Adlists';
+
+  @override
   String get adlistDetails => 'Detalles de Adlist';
 
   @override
   String get adlistInfo => 'Información de Adlist';
 
   @override
-  String get adlistManagementDescription =>
-      'Administrar y actualizar las Adlists';
-
-  @override
-  String get adlistManagementTitle => 'Adlists';
+  String get adlistInvalid => 'URL de Adlist no válida';
 
   @override
   String get adlistNotExists => 'La Adlist no existe';
@@ -115,10 +109,35 @@ class AppLocalizationsEs extends AppLocalizations {
   String get adlistStatus => 'Estado de salud';
 
   @override
+  String get adlistUpdateFailed => 'No se pudo actualizar la lista de anuncios';
+
+  @override
   String get adlistUpdated => 'Adlist actualizada correctamente';
 
   @override
+  String get adlistUpdating => 'Actualizando adlist...';
+
+  @override
+  String get adlists => 'Adlists';
+
+  @override
+  String get adlistsNone => 'No hay adlists para mostrar aquí.';
+
+  @override
   String get adlistsNotLoaded => 'No se pudieron cargar las Adlists';
+
+  @override
+  String get adlistsSearch => 'Buscar adlists...';
+
+  @override
+  String get adlistsSearchOnline => 'Ver adlist en línea';
+
+  @override
+  String get adlistsSearchTitle => 'Buscar Adlists';
+
+  @override
+  String get adlistsSelectLeftColumn =>
+      'Elija una adlist para ver sus detalles.';
 
   @override
   String get advancedAppSetupDescription =>
@@ -167,12 +186,6 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String get allowed => 'Permitidos';
-
-  @override
-  String get alreadyBlacklist => 'El dominio ya está en lista negra.';
-
-  @override
-  String get alreadyWhitelist => 'El dominio ya está en lista blanca.';
 
   @override
   String get and => 'y';
@@ -280,15 +293,6 @@ class AppLocalizationsEs extends AppLocalizations {
   String get cancel => 'Cancelar';
 
   @override
-  String get cannotAddAdlist => 'No se pudo agregar la adlist';
-
-  @override
-  String get cannotAddDomain => 'El dominio no ha podido ser añadido';
-
-  @override
-  String get cannotAddLocalDns => 'No se pudo agregar el DNS local';
-
-  @override
   String get cannotChangeUpdateTime =>
       'No se ha podido cambiar el tiempo de auto actualización.';
 
@@ -298,12 +302,6 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String get cannotConnect => 'No se ha podido conectar al servidor.';
-
-  @override
-  String get cannotEditAdlist => 'No se pudo actualizar la lista de anuncios';
-
-  @override
-  String get cannotEditDomain => 'Error al actualizar el dominio';
 
   @override
   String get cannotUpdateSettings => 'No se han podido actualizar los ajustes.';
@@ -461,14 +459,6 @@ class AppLocalizationsEs extends AppLocalizations {
       'No se pudo conectar al servidor. Restaurando el servidor anterior y recargando sus datos ...';
 
   @override
-  String get couldntAddBlacklist =>
-      'No se ha podido añadir el dominio a lista blanca.';
-
-  @override
-  String get couldntAddWhitelist =>
-      'No se ha podido añadir el dominio a lista negra.';
-
-  @override
   String get couldntDisableServer => 'No se pudo desactivar el servidor.';
 
   @override
@@ -491,9 +481,6 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String get createdBy => 'Creado por';
-
-  @override
-  String get currentSession => 'Sesión actual';
 
   @override
   String get custom => 'Personalizado';
@@ -530,46 +517,11 @@ class AppLocalizationsEs extends AppLocalizations {
   String get delete => 'Eliminar';
 
   @override
-  String get deleteAdlist => 'Eliminar adlist';
-
-  @override
-  String get deleteAdlistMessage =>
-      '¿Está seguro de que desea eliminar esta adlist?';
-
-  @override
-  String get deleteDevice => 'Eliminar dispositivo';
-
-  @override
-  String get deleteDeviceMessage =>
-      '¿Está seguro de que desea eliminar este dispositivo?';
-
-  @override
   String get deleteDhcp => 'Eliminar concesión DHCP';
 
   @override
   String get deleteDhcpMessage =>
       '¿Está seguro de que desea eliminar esta concesión DHCP?';
-
-  @override
-  String get deleteDomain => 'Eliminar dominio';
-
-  @override
-  String get deleteDomainMessage =>
-      '¿Estás seguro que deseas eliminar este dominio?';
-
-  @override
-  String get deleteLocalDns => 'Eliminar DNS local';
-
-  @override
-  String get deleteLocalDnsMessage =>
-      '¿Está seguro de que desea eliminar este DNS local?';
-
-  @override
-  String get deleteSession => 'Eliminar sesión';
-
-  @override
-  String get deleteSessionMessage =>
-      '¿Está seguro de que desea eliminar esta sesión?';
 
   @override
   String get deleting => 'Eliminando...';
@@ -581,10 +533,23 @@ class AppLocalizationsEs extends AppLocalizations {
   String get deviceConfig => 'Configuración del dispositivo';
 
   @override
+  String get deviceDelete => 'Eliminar dispositivo';
+
+  @override
+  String get deviceDeleteFailed => 'Error al eliminar el dispositivo';
+
+  @override
+  String get deviceDeleteMessage =>
+      '¿Está seguro de que desea eliminar este dispositivo?';
+
+  @override
+  String get deviceDeleteSuccess => 'Dispositivo eliminado con éxito';
+
+  @override
   String get deviceInfo => 'Información del dispositivo';
 
   @override
-  String get deviceRemoved => 'Dispositivo eliminado con éxito';
+  String get deviceParent => 'Dispositivo principal';
 
   @override
   String get dhcp => 'DHCP';
@@ -653,13 +618,42 @@ class AppLocalizationsEs extends AppLocalizations {
   String get domain => 'Dominio';
 
   @override
+  String get domainAdd => 'Añadir dominio';
+
+  @override
+  String get domainAddFailed => 'El dominio no ha podido ser añadido';
+
+  @override
   String get domainAdded => 'Dominio añadido satisfactoriamente';
+
+  @override
+  String get domainAdding => 'Añadiendo dominio...';
 
   @override
   String get domainAlreadyAdded => 'El dominio ya está añadido';
 
   @override
+  String get domainBlacklistAddFailed =>
+      'No se ha podido añadir el dominio a lista blanca.';
+
+  @override
+  String get domainBlacklistAdded => 'Dominio añadido a lista negra.';
+
+  @override
+  String get domainBlacklistAlready => 'El dominio ya está en lista negra.';
+
+  @override
+  String get domainDelete => 'Eliminar dominio';
+
+  @override
+  String get domainDeleteMessage =>
+      '¿Estás seguro que deseas eliminar este dominio?';
+
+  @override
   String get domainDetails => 'Detalles del dominio';
+
+  @override
+  String get domainInvalid => 'Dominio no válido';
 
   @override
   String get domainNotExists => 'El dominio no existe';
@@ -668,7 +662,23 @@ class AppLocalizationsEs extends AppLocalizations {
   String get domainRemoved => 'Dominio eliminado correctamente';
 
   @override
+  String get domainSearchOnline => 'Buscar el dominio en Internet';
+
+  @override
+  String get domainUpdateFailed => 'Error al actualizar el dominio';
+
+  @override
   String get domainUpdated => 'Dominio actualizado correctamente';
+
+  @override
+  String get domainWhitelistAddFailed =>
+      'No se ha podido añadir el dominio a lista negra.';
+
+  @override
+  String get domainWhitelistAdded => 'Dominio añadido a lista blanca.';
+
+  @override
+  String get domainWhitelistAlready => 'El dominio ya está en lista blanca.';
 
   @override
   String get domains => 'Dominios';
@@ -677,7 +687,23 @@ class AppLocalizationsEs extends AppLocalizations {
   String get domainsAdlists => 'Dominios en Adlists';
 
   @override
+  String get domainsInvalid => 'Dominios no válidos';
+
+  @override
+  String get domainsLoading => 'Cargando dominios...';
+
+  @override
+  String get domainsNone => 'No hay dominios para mostrar aquí.';
+
+  @override
   String get domainsNotLoaded => 'No se ha podido cargar la lista de dominios';
+
+  @override
+  String get domainsSearch => 'Buscar dominios...';
+
+  @override
+  String get domainsSelectLeftColumn =>
+      'Elige un dominio para ver sus detalles.';
 
   @override
   String get dontCheckCertificate => 'No comprobar el certificado SSL';
@@ -770,12 +796,6 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String get error => 'Error';
-
-  @override
-  String get errorRemovingAdlist => 'Error al eliminar la Adlist';
-
-  @override
-  String get errorRemovingDevice => 'Error al eliminar el dispositivo';
 
   @override
   String get errorRemovingDomain => 'No se ha podido eliminar el dominio';
@@ -991,15 +1011,6 @@ class AppLocalizationsEs extends AppLocalizations {
   String get invalidAddress => 'IP o dominio no válido';
 
   @override
-  String get invalidAdlist => 'URL de Adlist no válida';
-
-  @override
-  String get invalidDomain => 'Dominio no válido';
-
-  @override
-  String get invalidDomains => 'Dominios no válidos';
-
-  @override
   String get invalidHostname =>
       'Nombre de host no válido: solo se permiten letras (a–z, A–Z), números (0–9), guiones (-), guiones bajos (_) y puntos (.)';
 
@@ -1100,9 +1111,6 @@ class AppLocalizationsEs extends AppLocalizations {
   String get loadingCharts => 'Cargando gráficos...';
 
   @override
-  String get loadingDomains => 'Cargando dominios...';
-
-  @override
   String get loadingList => 'Cargando lista...';
 
   @override
@@ -1121,7 +1129,30 @@ class AppLocalizationsEs extends AppLocalizations {
   String get localDns => 'DNS local';
 
   @override
-  String get localDnsAdded => 'El DNS local se ha añadido correctamente';
+  String get localDnsAdd => 'Agregar DNS local';
+
+  @override
+  String get localDnsAddFailed => 'No se pudo agregar el DNS local';
+
+  @override
+  String get localDnsAddSuccess => 'El DNS local se ha añadido correctamente';
+
+  @override
+  String get localDnsAdding => 'Agregando DNS local...';
+
+  @override
+  String get localDnsDelete => 'Eliminar DNS local';
+
+  @override
+  String get localDnsDeleteFailed => 'Error al eliminar el DNS local';
+
+  @override
+  String get localDnsDeleteMessage =>
+      '¿Está seguro de que desea eliminar este DNS local?';
+
+  @override
+  String get localDnsDeleteSuccess =>
+      'El DNS local se ha eliminado correctamente';
 
   @override
   String get localDnsDescription =>
@@ -1135,16 +1166,11 @@ class AppLocalizationsEs extends AppLocalizations {
   String get localDnsInformation => 'Información de DNS local';
 
   @override
-  String get localDnsRemoveError => 'Error al eliminar el DNS local';
-
-  @override
-  String get localDnsRemoved => 'El DNS local se ha eliminado correctamente';
-
-  @override
   String get localDnsUpdateFailed => 'Error al actualizar el DNS local';
 
   @override
-  String get localDnsUpdated => 'El DNS local se ha actualizado correctamente';
+  String get localDnsUpdateSuccess =>
+      'El DNS local se ha actualizado correctamente';
 
   @override
   String get logAutoRefreshTime => 'Intervalo de actualización de registros';
@@ -1249,9 +1275,6 @@ class AppLocalizationsEs extends AppLocalizations {
   String get next => 'Siguiente';
 
   @override
-  String get noAdlists => 'No hay adlists para mostrar aquí.';
-
-  @override
   String get noAvailableBiometrics =>
       'No tienes huellas dactilares guardadas en el dispositivo.';
 
@@ -1266,9 +1289,6 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String get noData => 'No hay datos';
-
-  @override
-  String get noDomains => 'No hay dominios para mostrar aquí.';
 
   @override
   String get noIssuesReported => 'No se informaron problemas.';
@@ -1342,9 +1362,6 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String get others => 'Otros';
-
-  @override
-  String get parentDevice => 'Dispositivo principal';
 
   @override
   String get passCodeNotSaved => 'No se ha podido guardar el código.';
@@ -1528,25 +1545,6 @@ class AppLocalizationsEs extends AppLocalizations {
   String get scope => 'Ámbito';
 
   @override
-  String get searchAdlistInternet => 'Ver adlist en línea';
-
-  @override
-  String get searchAdlists => 'Buscar adlists...';
-
-  @override
-  String get searchAdlistsDescription =>
-      'Buscar dominios incluidos en las adlists';
-
-  @override
-  String get searchAdlistsTitle => 'Buscar Adlists';
-
-  @override
-  String get searchDomainInternet => 'Buscar el dominio en Internet';
-
-  @override
-  String get searchDomains => 'Buscar dominios...';
-
-  @override
   String get searchUrl => 'Buscar por URL...';
 
   @override
@@ -1580,15 +1578,7 @@ class AppLocalizationsEs extends AppLocalizations {
   String get security => 'Seguridad';
 
   @override
-  String get selectAdlistsLeftColumn =>
-      'Elija una adlist para ver sus detalles.';
-
-  @override
   String get selectConnection => 'Seleccionar una conexión';
-
-  @override
-  String get selectDomainsLeftColumn =>
-      'Elige un dominio para ver sus detalles.';
 
   @override
   String get selectEndTime => 'Seleccionar tiempo de fin';
@@ -1659,13 +1649,26 @@ class AppLocalizationsEs extends AppLocalizations {
   String get session => 'Sesión';
 
   @override
-  String get sessionRemoveError => 'Error al eliminar la sesión';
+  String get sessionCurrent => 'Sesión actual';
 
   @override
-  String get sessionRemoved => 'Sesión eliminada con éxito';
+  String get sessionDelete => 'Eliminar sesión';
+
+  @override
+  String get sessionDeleteFailed => 'Error al eliminar la sesión';
+
+  @override
+  String get sessionDeleteMessage =>
+      '¿Está seguro de que desea eliminar esta sesión?';
+
+  @override
+  String get sessionDeleteSuccess => 'Sesión eliminada con éxito';
 
   @override
   String get sessionStatus => 'Estado de la sesión';
+
+  @override
+  String get sessionValid => 'Sesión válida';
 
   @override
   String get sessions => 'Sesiones';
@@ -1907,9 +1910,6 @@ class AppLocalizationsEs extends AppLocalizations {
   String get updating => 'Actualizando…';
 
   @override
-  String get updatingAdlist => 'Actualizando adlist...';
-
-  @override
   String get updatingInProgressMessage =>
       'Actualizando... esto puede tardar un poco. Por favor, mantén la app abierta.';
 
@@ -1942,9 +1942,6 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String get validLifetime => 'Duración válida';
-
-  @override
-  String get validSession => 'Sesión válida';
 
   @override
   String get validUntil => 'Válido hasta';

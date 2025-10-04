@@ -46,7 +46,7 @@ class MoreDetailsScreen extends StatelessWidget {
           SectionLabel(label: locale.deviceConfig),
           CustomListTile(
             leadingIcon: Icons.sync_alt_rounded,
-            label: locale.parentDevice,
+            label: locale.deviceParent,
             description: interfaceData.parentDevName == null
                 ? 'N/A'
                 : '${interfaceData.parentDevName ?? 'N/A'} @ ${interfaceData.parentDevBusName ?? 'N/A'}',

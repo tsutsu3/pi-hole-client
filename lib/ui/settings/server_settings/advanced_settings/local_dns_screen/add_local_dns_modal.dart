@@ -122,7 +122,7 @@ class _AddLocalDnsModalState extends State<AddLocalDnsModal> {
                       Padding(
                         padding: const EdgeInsets.all(20),
                         child: Text(
-                          locale.addLocalDns,
+                          locale.localDnsAdd,
                           style: const TextStyle(fontSize: 24),
                         ),
                       ),

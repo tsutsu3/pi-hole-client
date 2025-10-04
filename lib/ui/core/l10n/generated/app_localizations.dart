@@ -146,29 +146,11 @@ abstract class AppLocalizations {
   /// **'Add'**
   String get add;
 
-  /// No description provided for @addAdlist.
-  ///
-  /// In en, this message translates to:
-  /// **'Add adlist'**
-  String get addAdlist;
-
   /// No description provided for @addAsWildcard.
   ///
   /// In en, this message translates to:
   /// **'Add as wildcard'**
   String get addAsWildcard;
-
-  /// No description provided for @addDomain.
-  ///
-  /// In en, this message translates to:
-  /// **'Add domain'**
-  String get addDomain;
-
-  /// No description provided for @addLocalDns.
-  ///
-  /// In en, this message translates to:
-  /// **'Add Local DNS'**
-  String get addLocalDns;
 
   /// No description provided for @addServer.
   ///
@@ -176,41 +158,11 @@ abstract class AppLocalizations {
   /// **'Add server connection'**
   String get addServer;
 
-  /// No description provided for @addedBlacklist.
-  ///
-  /// In en, this message translates to:
-  /// **'Domain added to blacklist.'**
-  String get addedBlacklist;
-
-  /// No description provided for @addedWhitelist.
-  ///
-  /// In en, this message translates to:
-  /// **'Domain added to whitelist.'**
-  String get addedWhitelist;
-
-  /// No description provided for @addingAdlist.
-  ///
-  /// In en, this message translates to:
-  /// **'Adding adlist...'**
-  String get addingAdlist;
-
   /// No description provided for @addingBlacklist.
   ///
   /// In en, this message translates to:
   /// **'Adding to blacklist...'**
   String get addingBlacklist;
-
-  /// No description provided for @addingDomain.
-  ///
-  /// In en, this message translates to:
-  /// **'Adding domain...'**
-  String get addingDomain;
-
-  /// No description provided for @addingLocalDns.
-  ///
-  /// In en, this message translates to:
-  /// **'Adding local DNS...'**
-  String get addingLocalDns;
 
   /// No description provided for @addingWhitelist.
   ///
@@ -248,11 +200,29 @@ abstract class AppLocalizations {
   /// **'Adlist'**
   String get adlist;
 
+  /// No description provided for @adlistAdd.
+  ///
+  /// In en, this message translates to:
+  /// **'Add Adlist'**
+  String get adlistAdd;
+
+  /// No description provided for @adlistAddFailed.
+  ///
+  /// In en, this message translates to:
+  /// **'Adlist couldn\'t be added'**
+  String get adlistAddFailed;
+
   /// No description provided for @adlistAdded.
   ///
   /// In en, this message translates to:
   /// **'Adlist added successfully'**
   String get adlistAdded;
+
+  /// No description provided for @adlistAdding.
+  ///
+  /// In en, this message translates to:
+  /// **'Adding adlist...'**
+  String get adlistAdding;
 
   /// No description provided for @adlistAddress.
   ///
@@ -266,6 +236,30 @@ abstract class AppLocalizations {
   /// **'Adlist already added'**
   String get adlistAlreadyAdded;
 
+  /// No description provided for @adlistDelete.
+  ///
+  /// In en, this message translates to:
+  /// **'Delete Adlist'**
+  String get adlistDelete;
+
+  /// No description provided for @adlistDeleteError.
+  ///
+  /// In en, this message translates to:
+  /// **'Error when removing adlist'**
+  String get adlistDeleteError;
+
+  /// No description provided for @adlistDeleteMessage.
+  ///
+  /// In en, this message translates to:
+  /// **'Are you sure you want to delete this adlist?'**
+  String get adlistDeleteMessage;
+
+  /// No description provided for @adlistDescription.
+  ///
+  /// In en, this message translates to:
+  /// **'Manage and update Adlists'**
+  String get adlistDescription;
+
   /// No description provided for @adlistDetails.
   ///
   /// In en, this message translates to:
@@ -278,17 +272,11 @@ abstract class AppLocalizations {
   /// **'Adlist Info'**
   String get adlistInfo;
 
-  /// No description provided for @adlistManagementDescription.
+  /// No description provided for @adlistInvalid.
   ///
   /// In en, this message translates to:
-  /// **'Manage and update Adlists'**
-  String get adlistManagementDescription;
-
-  /// No description provided for @adlistManagementTitle.
-  ///
-  /// In en, this message translates to:
-  /// **'Adlists'**
-  String get adlistManagementTitle;
+  /// **'Invalid adlist URL'**
+  String get adlistInvalid;
 
   /// No description provided for @adlistNotExists.
   ///
@@ -314,17 +302,65 @@ abstract class AppLocalizations {
   /// **'Health Status'**
   String get adlistStatus;
 
+  /// No description provided for @adlistUpdateFailed.
+  ///
+  /// In en, this message translates to:
+  /// **'Failed to update the Adlist'**
+  String get adlistUpdateFailed;
+
   /// No description provided for @adlistUpdated.
   ///
   /// In en, this message translates to:
   /// **'Adlist updated successfully'**
   String get adlistUpdated;
 
+  /// No description provided for @adlistUpdating.
+  ///
+  /// In en, this message translates to:
+  /// **'Updating adlist...'**
+  String get adlistUpdating;
+
+  /// No description provided for @adlists.
+  ///
+  /// In en, this message translates to:
+  /// **'Adlists'**
+  String get adlists;
+
+  /// No description provided for @adlistsNone.
+  ///
+  /// In en, this message translates to:
+  /// **'There are no adlists to show here.'**
+  String get adlistsNone;
+
   /// No description provided for @adlistsNotLoaded.
   ///
   /// In en, this message translates to:
   /// **'Adlists couldn\'t be loaded'**
   String get adlistsNotLoaded;
+
+  /// No description provided for @adlistsSearch.
+  ///
+  /// In en, this message translates to:
+  /// **'Search adlists...'**
+  String get adlistsSearch;
+
+  /// No description provided for @adlistsSearchOnline.
+  ///
+  /// In en, this message translates to:
+  /// **'View adlist online'**
+  String get adlistsSearchOnline;
+
+  /// No description provided for @adlistsSearchTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Search Adlists'**
+  String get adlistsSearchTitle;
+
+  /// No description provided for @adlistsSelectLeftColumn.
+  ///
+  /// In en, this message translates to:
+  /// **'Choose an adlist to see its details'**
+  String get adlistsSelectLeftColumn;
 
   /// No description provided for @advancedAppSetupDescription.
   ///
@@ -415,18 +451,6 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Allowed'**
   String get allowed;
-
-  /// No description provided for @alreadyBlacklist.
-  ///
-  /// In en, this message translates to:
-  /// **'Domain is already on blacklist.'**
-  String get alreadyBlacklist;
-
-  /// No description provided for @alreadyWhitelist.
-  ///
-  /// In en, this message translates to:
-  /// **'Domain is already on whitelist.'**
-  String get alreadyWhitelist;
 
   /// No description provided for @and.
   ///
@@ -626,24 +650,6 @@ abstract class AppLocalizations {
   /// **'Cancel'**
   String get cancel;
 
-  /// No description provided for @cannotAddAdlist.
-  ///
-  /// In en, this message translates to:
-  /// **'Adlist couldn\'t be added'**
-  String get cannotAddAdlist;
-
-  /// No description provided for @cannotAddDomain.
-  ///
-  /// In en, this message translates to:
-  /// **'Domain couldn\'t be added'**
-  String get cannotAddDomain;
-
-  /// No description provided for @cannotAddLocalDns.
-  ///
-  /// In en, this message translates to:
-  /// **'Failed to add Local DNS'**
-  String get cannotAddLocalDns;
-
   /// No description provided for @cannotChangeUpdateTime.
   ///
   /// In en, this message translates to:
@@ -661,18 +667,6 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Cannot connect to server.'**
   String get cannotConnect;
-
-  /// No description provided for @cannotEditAdlist.
-  ///
-  /// In en, this message translates to:
-  /// **'Failed to update the Adlist'**
-  String get cannotEditAdlist;
-
-  /// No description provided for @cannotEditDomain.
-  ///
-  /// In en, this message translates to:
-  /// **'Failed to update the Domain'**
-  String get cannotEditDomain;
 
   /// No description provided for @cannotUpdateSettings.
   ///
@@ -962,18 +956,6 @@ abstract class AppLocalizations {
   /// **'Could not connect to the server. Restoring the previous server and reloading its data ...'**
   String get couldNotConnectServerFallback;
 
-  /// No description provided for @couldntAddBlacklist.
-  ///
-  /// In en, this message translates to:
-  /// **'Could not add domain to blacklist.'**
-  String get couldntAddBlacklist;
-
-  /// No description provided for @couldntAddWhitelist.
-  ///
-  /// In en, this message translates to:
-  /// **'Could not add domain to whitelist.'**
-  String get couldntAddWhitelist;
-
   /// No description provided for @couldntDisableServer.
   ///
   /// In en, this message translates to:
@@ -1021,12 +1003,6 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Created by'**
   String get createdBy;
-
-  /// No description provided for @currentSession.
-  ///
-  /// In en, this message translates to:
-  /// **'Current Session'**
-  String get currentSession;
 
   /// No description provided for @custom.
   ///
@@ -1094,30 +1070,6 @@ abstract class AppLocalizations {
   /// **'Delete'**
   String get delete;
 
-  /// No description provided for @deleteAdlist.
-  ///
-  /// In en, this message translates to:
-  /// **'Delete adlist'**
-  String get deleteAdlist;
-
-  /// No description provided for @deleteAdlistMessage.
-  ///
-  /// In en, this message translates to:
-  /// **'Are you sure you want to delete this adlist?'**
-  String get deleteAdlistMessage;
-
-  /// No description provided for @deleteDevice.
-  ///
-  /// In en, this message translates to:
-  /// **'Delete device'**
-  String get deleteDevice;
-
-  /// No description provided for @deleteDeviceMessage.
-  ///
-  /// In en, this message translates to:
-  /// **'Are you sure you want to delete this device?'**
-  String get deleteDeviceMessage;
-
   /// No description provided for @deleteDhcp.
   ///
   /// In en, this message translates to:
@@ -1129,42 +1081,6 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Are you sure you want to delete this DHCP lease?'**
   String get deleteDhcpMessage;
-
-  /// No description provided for @deleteDomain.
-  ///
-  /// In en, this message translates to:
-  /// **'Delete domain'**
-  String get deleteDomain;
-
-  /// No description provided for @deleteDomainMessage.
-  ///
-  /// In en, this message translates to:
-  /// **'Are you sure you want to delete this domain?'**
-  String get deleteDomainMessage;
-
-  /// No description provided for @deleteLocalDns.
-  ///
-  /// In en, this message translates to:
-  /// **'Delete Local DNS'**
-  String get deleteLocalDns;
-
-  /// No description provided for @deleteLocalDnsMessage.
-  ///
-  /// In en, this message translates to:
-  /// **'Are you sure you want to delete this Local DNS?'**
-  String get deleteLocalDnsMessage;
-
-  /// No description provided for @deleteSession.
-  ///
-  /// In en, this message translates to:
-  /// **'Delete session'**
-  String get deleteSession;
-
-  /// No description provided for @deleteSessionMessage.
-  ///
-  /// In en, this message translates to:
-  /// **'Are you sure you want to delete this session?'**
-  String get deleteSessionMessage;
 
   /// No description provided for @deleting.
   ///
@@ -1184,17 +1100,41 @@ abstract class AppLocalizations {
   /// **'Device Configuration'**
   String get deviceConfig;
 
+  /// No description provided for @deviceDelete.
+  ///
+  /// In en, this message translates to:
+  /// **'Delete Device'**
+  String get deviceDelete;
+
+  /// No description provided for @deviceDeleteFailed.
+  ///
+  /// In en, this message translates to:
+  /// **'Error when removing device'**
+  String get deviceDeleteFailed;
+
+  /// No description provided for @deviceDeleteMessage.
+  ///
+  /// In en, this message translates to:
+  /// **'Are you sure you want to delete this device?'**
+  String get deviceDeleteMessage;
+
+  /// No description provided for @deviceDeleteSuccess.
+  ///
+  /// In en, this message translates to:
+  /// **'Device removed successfully'**
+  String get deviceDeleteSuccess;
+
   /// No description provided for @deviceInfo.
   ///
   /// In en, this message translates to:
   /// **'Device Info'**
   String get deviceInfo;
 
-  /// No description provided for @deviceRemoved.
+  /// No description provided for @deviceParent.
   ///
   /// In en, this message translates to:
-  /// **'Device removed successfully'**
-  String get deviceRemoved;
+  /// **'Parent Device'**
+  String get deviceParent;
 
   /// No description provided for @dhcp.
   ///
@@ -1316,11 +1256,29 @@ abstract class AppLocalizations {
   /// **'Domain'**
   String get domain;
 
+  /// No description provided for @domainAdd.
+  ///
+  /// In en, this message translates to:
+  /// **'Add Domain'**
+  String get domainAdd;
+
+  /// No description provided for @domainAddFailed.
+  ///
+  /// In en, this message translates to:
+  /// **'Domain couldn\'t be added'**
+  String get domainAddFailed;
+
   /// No description provided for @domainAdded.
   ///
   /// In en, this message translates to:
   /// **'Domain added successfully'**
   String get domainAdded;
+
+  /// No description provided for @domainAdding.
+  ///
+  /// In en, this message translates to:
+  /// **'Adding domain...'**
+  String get domainAdding;
 
   /// No description provided for @domainAlreadyAdded.
   ///
@@ -1328,11 +1286,47 @@ abstract class AppLocalizations {
   /// **'Domain already added'**
   String get domainAlreadyAdded;
 
+  /// No description provided for @domainBlacklistAddFailed.
+  ///
+  /// In en, this message translates to:
+  /// **'Could not add domain to blacklist.'**
+  String get domainBlacklistAddFailed;
+
+  /// No description provided for @domainBlacklistAdded.
+  ///
+  /// In en, this message translates to:
+  /// **'Domain added to blacklist.'**
+  String get domainBlacklistAdded;
+
+  /// No description provided for @domainBlacklistAlready.
+  ///
+  /// In en, this message translates to:
+  /// **'Domain is already on blacklist.'**
+  String get domainBlacklistAlready;
+
+  /// No description provided for @domainDelete.
+  ///
+  /// In en, this message translates to:
+  /// **'Delete Domain'**
+  String get domainDelete;
+
+  /// No description provided for @domainDeleteMessage.
+  ///
+  /// In en, this message translates to:
+  /// **'Are you sure you want to delete this domain?'**
+  String get domainDeleteMessage;
+
   /// No description provided for @domainDetails.
   ///
   /// In en, this message translates to:
   /// **'Domain details'**
   String get domainDetails;
+
+  /// No description provided for @domainInvalid.
+  ///
+  /// In en, this message translates to:
+  /// **'Invalid domain'**
+  String get domainInvalid;
 
   /// No description provided for @domainNotExists.
   ///
@@ -1346,11 +1340,41 @@ abstract class AppLocalizations {
   /// **'Domain removed successfully'**
   String get domainRemoved;
 
+  /// No description provided for @domainSearchOnline.
+  ///
+  /// In en, this message translates to:
+  /// **'Search domain on the Internet'**
+  String get domainSearchOnline;
+
+  /// No description provided for @domainUpdateFailed.
+  ///
+  /// In en, this message translates to:
+  /// **'Failed to update the Domain'**
+  String get domainUpdateFailed;
+
   /// No description provided for @domainUpdated.
   ///
   /// In en, this message translates to:
   /// **'Domain updated successfully'**
   String get domainUpdated;
+
+  /// No description provided for @domainWhitelistAddFailed.
+  ///
+  /// In en, this message translates to:
+  /// **'Could not add domain to whitelist.'**
+  String get domainWhitelistAddFailed;
+
+  /// No description provided for @domainWhitelistAdded.
+  ///
+  /// In en, this message translates to:
+  /// **'Domain added to whitelist.'**
+  String get domainWhitelistAdded;
+
+  /// No description provided for @domainWhitelistAlready.
+  ///
+  /// In en, this message translates to:
+  /// **'Domain is already on whitelist.'**
+  String get domainWhitelistAlready;
 
   /// No description provided for @domains.
   ///
@@ -1364,11 +1388,41 @@ abstract class AppLocalizations {
   /// **'Domains on Adlists'**
   String get domainsAdlists;
 
+  /// No description provided for @domainsInvalid.
+  ///
+  /// In en, this message translates to:
+  /// **'Invalid Domains'**
+  String get domainsInvalid;
+
+  /// No description provided for @domainsLoading.
+  ///
+  /// In en, this message translates to:
+  /// **'Loading domains...'**
+  String get domainsLoading;
+
+  /// No description provided for @domainsNone.
+  ///
+  /// In en, this message translates to:
+  /// **'There are no domains to show here.'**
+  String get domainsNone;
+
   /// No description provided for @domainsNotLoaded.
   ///
   /// In en, this message translates to:
   /// **'Domains list couldn\'t be loaded'**
   String get domainsNotLoaded;
+
+  /// No description provided for @domainsSearch.
+  ///
+  /// In en, this message translates to:
+  /// **'Search domains...'**
+  String get domainsSearch;
+
+  /// No description provided for @domainsSelectLeftColumn.
+  ///
+  /// In en, this message translates to:
+  /// **'Choose a domain to see its details.'**
+  String get domainsSelectLeftColumn;
 
   /// No description provided for @dontCheckCertificate.
   ///
@@ -1537,18 +1591,6 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Error'**
   String get error;
-
-  /// No description provided for @errorRemovingAdlist.
-  ///
-  /// In en, this message translates to:
-  /// **'Error when removing adlist'**
-  String get errorRemovingAdlist;
-
-  /// No description provided for @errorRemovingDevice.
-  ///
-  /// In en, this message translates to:
-  /// **'Error when removing device'**
-  String get errorRemovingDevice;
 
   /// No description provided for @errorRemovingDomain.
   ///
@@ -1952,24 +1994,6 @@ abstract class AppLocalizations {
   /// **'Invalid IP or domain'**
   String get invalidAddress;
 
-  /// No description provided for @invalidAdlist.
-  ///
-  /// In en, this message translates to:
-  /// **'Invalid adlist URL'**
-  String get invalidAdlist;
-
-  /// No description provided for @invalidDomain.
-  ///
-  /// In en, this message translates to:
-  /// **'Invalid domain'**
-  String get invalidDomain;
-
-  /// No description provided for @invalidDomains.
-  ///
-  /// In en, this message translates to:
-  /// **'Invalid Domains'**
-  String get invalidDomains;
-
   /// No description provided for @invalidHostname.
   ///
   /// In en, this message translates to:
@@ -2156,12 +2180,6 @@ abstract class AppLocalizations {
   /// **'Loading charts...'**
   String get loadingCharts;
 
-  /// No description provided for @loadingDomains.
-  ///
-  /// In en, this message translates to:
-  /// **'Loading domains...'**
-  String get loadingDomains;
-
   /// No description provided for @loadingList.
   ///
   /// In en, this message translates to:
@@ -2198,11 +2216,53 @@ abstract class AppLocalizations {
   /// **'Local DNS'**
   String get localDns;
 
-  /// No description provided for @localDnsAdded.
+  /// No description provided for @localDnsAdd.
+  ///
+  /// In en, this message translates to:
+  /// **'Add Local DNS'**
+  String get localDnsAdd;
+
+  /// No description provided for @localDnsAddFailed.
+  ///
+  /// In en, this message translates to:
+  /// **'Failed to add Local DNS'**
+  String get localDnsAddFailed;
+
+  /// No description provided for @localDnsAddSuccess.
   ///
   /// In en, this message translates to:
   /// **'Local DNS has been added successfully'**
-  String get localDnsAdded;
+  String get localDnsAddSuccess;
+
+  /// No description provided for @localDnsAdding.
+  ///
+  /// In en, this message translates to:
+  /// **'Adding local DNS...'**
+  String get localDnsAdding;
+
+  /// No description provided for @localDnsDelete.
+  ///
+  /// In en, this message translates to:
+  /// **'Delete Local DNS'**
+  String get localDnsDelete;
+
+  /// No description provided for @localDnsDeleteFailed.
+  ///
+  /// In en, this message translates to:
+  /// **'Failedto remove Local DNS'**
+  String get localDnsDeleteFailed;
+
+  /// No description provided for @localDnsDeleteMessage.
+  ///
+  /// In en, this message translates to:
+  /// **'Are you sure you want to delete this Local DNS?'**
+  String get localDnsDeleteMessage;
+
+  /// No description provided for @localDnsDeleteSuccess.
+  ///
+  /// In en, this message translates to:
+  /// **'Local DNS has been removed successfully'**
+  String get localDnsDeleteSuccess;
 
   /// No description provided for @localDnsDescription.
   ///
@@ -2222,29 +2282,17 @@ abstract class AppLocalizations {
   /// **'Local DNS Information'**
   String get localDnsInformation;
 
-  /// No description provided for @localDnsRemoveError.
-  ///
-  /// In en, this message translates to:
-  /// **'Failedto remove Local DNS'**
-  String get localDnsRemoveError;
-
-  /// No description provided for @localDnsRemoved.
-  ///
-  /// In en, this message translates to:
-  /// **'Local DNS has been removed successfully'**
-  String get localDnsRemoved;
-
   /// No description provided for @localDnsUpdateFailed.
   ///
   /// In en, this message translates to:
   /// **'Failed to update Local DNS'**
   String get localDnsUpdateFailed;
 
-  /// No description provided for @localDnsUpdated.
+  /// No description provided for @localDnsUpdateSuccess.
   ///
   /// In en, this message translates to:
   /// **'Local DNS has been updated successfully'**
-  String get localDnsUpdated;
+  String get localDnsUpdateSuccess;
 
   /// No description provided for @logAutoRefreshTime.
   ///
@@ -2444,12 +2492,6 @@ abstract class AppLocalizations {
   /// **'Next'**
   String get next;
 
-  /// No description provided for @noAdlists.
-  ///
-  /// In en, this message translates to:
-  /// **'There are no adlists to show here.'**
-  String get noAdlists;
-
   /// No description provided for @noAvailableBiometrics.
   ///
   /// In en, this message translates to:
@@ -2479,12 +2521,6 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'No data'**
   String get noData;
-
-  /// No description provided for @noDomains.
-  ///
-  /// In en, this message translates to:
-  /// **'There are no domains to show here.'**
-  String get noDomains;
 
   /// No description provided for @noIssuesReported.
   ///
@@ -2629,12 +2665,6 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Others'**
   String get others;
-
-  /// No description provided for @parentDevice.
-  ///
-  /// In en, this message translates to:
-  /// **'Parent Device'**
-  String get parentDevice;
 
   /// No description provided for @passCodeNotSaved.
   ///
@@ -2984,42 +3014,6 @@ abstract class AppLocalizations {
   /// **'Scope'**
   String get scope;
 
-  /// No description provided for @searchAdlistInternet.
-  ///
-  /// In en, this message translates to:
-  /// **'View adlist online'**
-  String get searchAdlistInternet;
-
-  /// No description provided for @searchAdlists.
-  ///
-  /// In en, this message translates to:
-  /// **'Search adlists...'**
-  String get searchAdlists;
-
-  /// No description provided for @searchAdlistsDescription.
-  ///
-  /// In en, this message translates to:
-  /// **'Search for domains listed in adlists'**
-  String get searchAdlistsDescription;
-
-  /// No description provided for @searchAdlistsTitle.
-  ///
-  /// In en, this message translates to:
-  /// **'Search Adlists'**
-  String get searchAdlistsTitle;
-
-  /// No description provided for @searchDomainInternet.
-  ///
-  /// In en, this message translates to:
-  /// **'Search domain on the Internet'**
-  String get searchDomainInternet;
-
-  /// No description provided for @searchDomains.
-  ///
-  /// In en, this message translates to:
-  /// **'Search domains...'**
-  String get searchDomains;
-
   /// No description provided for @searchUrl.
   ///
   /// In en, this message translates to:
@@ -3086,23 +3080,11 @@ abstract class AppLocalizations {
   /// **'Security'**
   String get security;
 
-  /// No description provided for @selectAdlistsLeftColumn.
-  ///
-  /// In en, this message translates to:
-  /// **'Choose an adlist to see its details'**
-  String get selectAdlistsLeftColumn;
-
   /// No description provided for @selectConnection.
   ///
   /// In en, this message translates to:
   /// **'Select a connection'**
   String get selectConnection;
-
-  /// No description provided for @selectDomainsLeftColumn.
-  ///
-  /// In en, this message translates to:
-  /// **'Choose a domain to see its details.'**
-  String get selectDomainsLeftColumn;
 
   /// No description provided for @selectEndTime.
   ///
@@ -3230,23 +3212,47 @@ abstract class AppLocalizations {
   /// **'Session'**
   String get session;
 
-  /// No description provided for @sessionRemoveError.
+  /// No description provided for @sessionCurrent.
+  ///
+  /// In en, this message translates to:
+  /// **'Current Session'**
+  String get sessionCurrent;
+
+  /// No description provided for @sessionDelete.
+  ///
+  /// In en, this message translates to:
+  /// **'Delete Session'**
+  String get sessionDelete;
+
+  /// No description provided for @sessionDeleteFailed.
   ///
   /// In en, this message translates to:
   /// **'Error when removing session'**
-  String get sessionRemoveError;
+  String get sessionDeleteFailed;
 
-  /// No description provided for @sessionRemoved.
+  /// No description provided for @sessionDeleteMessage.
+  ///
+  /// In en, this message translates to:
+  /// **'Are you sure you want to delete this session?'**
+  String get sessionDeleteMessage;
+
+  /// No description provided for @sessionDeleteSuccess.
   ///
   /// In en, this message translates to:
   /// **'Session removed successfully'**
-  String get sessionRemoved;
+  String get sessionDeleteSuccess;
 
   /// No description provided for @sessionStatus.
   ///
   /// In en, this message translates to:
   /// **'Session Status'**
   String get sessionStatus;
+
+  /// No description provided for @sessionValid.
+  ///
+  /// In en, this message translates to:
+  /// **'Valid Session'**
+  String get sessionValid;
 
   /// No description provided for @sessions.
   ///
@@ -3668,12 +3674,6 @@ abstract class AppLocalizations {
   /// **'Updating…'**
   String get updating;
 
-  /// No description provided for @updatingAdlist.
-  ///
-  /// In en, this message translates to:
-  /// **'Updating adlist...'**
-  String get updatingAdlist;
-
   /// No description provided for @updatingInProgressMessage.
   ///
   /// In en, this message translates to:
@@ -3739,12 +3739,6 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Valid Lifetime'**
   String get validLifetime;
-
-  /// No description provided for @validSession.
-  ///
-  /// In en, this message translates to:
-  /// **'Valid Session'**
-  String get validSession;
 
   /// No description provided for @validUntil.
   ///

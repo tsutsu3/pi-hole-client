@@ -110,7 +110,7 @@ class _DhcpState extends State<DhcpScreen> {
         showErrorSnackBar(
           context: context,
           appConfigProvider: appConfigProvider,
-          label: AppLocalizations.of(context)!.errorRemovingDevice,
+          label: AppLocalizations.of(context)!.deviceDeleteFailed,
         );
       }
     }

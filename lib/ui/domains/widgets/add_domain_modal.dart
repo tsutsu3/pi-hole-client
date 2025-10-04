@@ -65,7 +65,7 @@ class _AddDomainModalState extends State<AddDomainModal> {
         });
       } else {
         setState(() {
-          domainError = AppLocalizations.of(context)!.invalidDomain;
+          domainError = AppLocalizations.of(context)!.domainInvalid;
         });
       }
     } else {
@@ -116,7 +116,7 @@ class _AddDomainModalState extends State<AddDomainModal> {
                       Padding(
                         padding: const EdgeInsets.all(20),
                         child: Text(
-                          AppLocalizations.of(context)!.addDomain,
+                          AppLocalizations.of(context)!.domainAdd,
                           style: const TextStyle(fontSize: 24),
                         ),
                       ),

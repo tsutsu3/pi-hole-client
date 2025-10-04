@@ -30,37 +30,13 @@ class AppLocalizationsJa extends AppLocalizations {
   String get add => '追加';
 
   @override
-  String get addAdlist => 'Adlistを追加';
-
-  @override
   String get addAsWildcard => 'ワイルドカードとして追加';
-
-  @override
-  String get addDomain => 'ドメインを追加';
-
-  @override
-  String get addLocalDns => 'ローカルDNSを追加';
 
   @override
   String get addServer => 'サーバー接続を追加';
 
   @override
-  String get addedBlacklist => 'ドメインがブラックリストに追加されました。';
-
-  @override
-  String get addedWhitelist => 'ドメインがホワイトリストに追加されました。';
-
-  @override
-  String get addingAdlist => 'Adlistを追加中...';
-
-  @override
   String get addingBlacklist => 'ブラックリストに追加中...';
-
-  @override
-  String get addingDomain => 'ドメインを追加中...';
-
-  @override
-  String get addingLocalDns => 'ローカルDNSを追加中...';
 
   @override
   String get addingWhitelist => 'ホワイトリストに追加中...';
@@ -81,7 +57,16 @@ class AppLocalizationsJa extends AppLocalizations {
   String get adlist => 'Adlist';
 
   @override
+  String get adlistAdd => 'Adlistを追加';
+
+  @override
+  String get adlistAddFailed => 'Adlistを追加できませんでした';
+
+  @override
   String get adlistAdded => 'Adlistが正常に追加されました';
+
+  @override
+  String get adlistAdding => 'Adlistを追加中...';
 
   @override
   String get adlistAddress => 'アドレス';
@@ -90,16 +75,25 @@ class AppLocalizationsJa extends AppLocalizations {
   String get adlistAlreadyAdded => 'Adlistはすでに追加されています';
 
   @override
+  String get adlistDelete => 'Adlistを削除';
+
+  @override
+  String get adlistDeleteError => 'Adlistの削除中にエラーが発生しました';
+
+  @override
+  String get adlistDeleteMessage => 'このAdlistを削除してもよろしいですか？';
+
+  @override
+  String get adlistDescription => 'Adlistの管理・更新を行います';
+
+  @override
   String get adlistDetails => 'Adlistの詳細';
 
   @override
   String get adlistInfo => 'Adlistの情報';
 
   @override
-  String get adlistManagementDescription => 'Adlistの管理・更新を行います';
-
-  @override
-  String get adlistManagementTitle => 'Adlist';
+  String get adlistInvalid => '無効なAdlistのURLです';
 
   @override
   String get adlistNotExists => 'Adlistが存在しません';
@@ -114,10 +108,34 @@ class AppLocalizationsJa extends AppLocalizations {
   String get adlistStatus => 'ヘルスステータス';
 
   @override
+  String get adlistUpdateFailed => 'Adlistの更新に失敗しました';
+
+  @override
   String get adlistUpdated => 'Adlistの更新に成功しました';
 
   @override
+  String get adlistUpdating => 'Adlistを更新中...';
+
+  @override
+  String get adlists => 'Adlist';
+
+  @override
+  String get adlistsNone => '表示するAdlistがありません。';
+
+  @override
   String get adlistsNotLoaded => 'Adlistを読み込めませんでした';
+
+  @override
+  String get adlistsSearch => 'Adlistを検索...';
+
+  @override
+  String get adlistsSearchOnline => 'Adlistをオンラインで表示';
+
+  @override
+  String get adlistsSearchTitle => 'Adlistを検索';
+
+  @override
+  String get adlistsSelectLeftColumn => '詳細を表示するにはAdlistを選択してください。';
 
   @override
   String get advancedAppSetupDescription => '高度なアプリ設定にアクセス';
@@ -163,12 +181,6 @@ class AppLocalizationsJa extends AppLocalizations {
 
   @override
   String get allowed => '許可済み';
-
-  @override
-  String get alreadyBlacklist => 'ドメインは既にブラックリストにあります。';
-
-  @override
-  String get alreadyWhitelist => 'ドメインは既にホワイトリストにあります。';
 
   @override
   String get and => 'と';
@@ -272,15 +284,6 @@ class AppLocalizationsJa extends AppLocalizations {
   String get cancel => 'キャンセル';
 
   @override
-  String get cannotAddAdlist => 'Adlistを追加できませんでした';
-
-  @override
-  String get cannotAddDomain => 'ドメインを追加できませんでした';
-
-  @override
-  String get cannotAddLocalDns => 'ローカルDNSを追加できませんでした';
-
-  @override
   String get cannotChangeUpdateTime => '更新時間を変更できません';
 
   @override
@@ -288,12 +291,6 @@ class AppLocalizationsJa extends AppLocalizations {
 
   @override
   String get cannotConnect => 'サーバーに接続できません。';
-
-  @override
-  String get cannotEditAdlist => 'Adlistの更新に失敗しました';
-
-  @override
-  String get cannotEditDomain => 'ドメインの更新に失敗しました';
 
   @override
   String get cannotUpdateSettings => '設定を更新できません。';
@@ -441,12 +438,6 @@ class AppLocalizationsJa extends AppLocalizations {
       'サーバーに接続できませんでした。前のサーバーに戻り、データを再取得します...';
 
   @override
-  String get couldntAddBlacklist => 'ドメインをブラックリストに追加できませんでした。';
-
-  @override
-  String get couldntAddWhitelist => 'ドメインをホワイトリストに追加できませんでした。';
-
-  @override
   String get couldntDisableServer => 'サーバーを無効化できませんでした。';
 
   @override
@@ -469,9 +460,6 @@ class AppLocalizationsJa extends AppLocalizations {
 
   @override
   String get createdBy => '作成者';
-
-  @override
-  String get currentSession => '現在のセッション';
 
   @override
   String get custom => 'カスタム';
@@ -507,40 +495,10 @@ class AppLocalizationsJa extends AppLocalizations {
   String get delete => '削除';
 
   @override
-  String get deleteAdlist => 'Adlistを削除';
-
-  @override
-  String get deleteAdlistMessage => 'このAdlistを削除してもよろしいですか？';
-
-  @override
-  String get deleteDevice => 'デバイスの削除';
-
-  @override
-  String get deleteDeviceMessage => 'このデバイスを削除してもよろしいですか？';
-
-  @override
   String get deleteDhcp => 'DHCPリースを削除';
 
   @override
   String get deleteDhcpMessage => 'このDHCPリースを削除してもよろしいですか？';
-
-  @override
-  String get deleteDomain => 'ドメインを削除';
-
-  @override
-  String get deleteDomainMessage => 'このドメインを削除してもよろしいですか？';
-
-  @override
-  String get deleteLocalDns => 'ローカルDNSを削除';
-
-  @override
-  String get deleteLocalDnsMessage => 'このローカルDNSを削除してもよろしいですか？';
-
-  @override
-  String get deleteSession => 'セッションを削除';
-
-  @override
-  String get deleteSessionMessage => 'このセッションを削除してもよろしいですか？';
 
   @override
   String get deleting => '削除中...';
@@ -552,10 +510,22 @@ class AppLocalizationsJa extends AppLocalizations {
   String get deviceConfig => 'デバイス構成';
 
   @override
+  String get deviceDelete => 'デバイスの削除';
+
+  @override
+  String get deviceDeleteFailed => 'デバイスの削除中にエラーが発生しました';
+
+  @override
+  String get deviceDeleteMessage => 'このデバイスを削除してもよろしいですか？';
+
+  @override
+  String get deviceDeleteSuccess => 'デバイスの削除に成功しました';
+
+  @override
   String get deviceInfo => 'デバイス情報';
 
   @override
-  String get deviceRemoved => 'デバイスの削除に成功しました';
+  String get deviceParent => '親デバイス';
 
   @override
   String get dhcp => 'DHCP';
@@ -619,13 +589,40 @@ class AppLocalizationsJa extends AppLocalizations {
   String get domain => 'ドメイン';
 
   @override
+  String get domainAdd => 'ドメインを追加';
+
+  @override
+  String get domainAddFailed => 'ドメインを追加できませんでした';
+
+  @override
   String get domainAdded => 'ドメインが正常に追加されました';
+
+  @override
+  String get domainAdding => 'ドメインを追加中...';
 
   @override
   String get domainAlreadyAdded => 'ドメインは既に追加されています';
 
   @override
+  String get domainBlacklistAddFailed => 'ドメインをブラックリストに追加できませんでした。';
+
+  @override
+  String get domainBlacklistAdded => 'ドメインがブラックリストに追加されました。';
+
+  @override
+  String get domainBlacklistAlready => 'ドメインは既にブラックリストにあります。';
+
+  @override
+  String get domainDelete => 'ドメインを削除';
+
+  @override
+  String get domainDeleteMessage => 'このドメインを削除してもよろしいですか？';
+
+  @override
   String get domainDetails => 'ドメインの詳細';
+
+  @override
+  String get domainInvalid => '無効なドメイン';
 
   @override
   String get domainNotExists => 'ドメインが存在しません';
@@ -634,7 +631,22 @@ class AppLocalizationsJa extends AppLocalizations {
   String get domainRemoved => 'ドメインが正常に削除されました';
 
   @override
+  String get domainSearchOnline => 'インターネットでドメインを検索';
+
+  @override
+  String get domainUpdateFailed => 'ドメインの更新に失敗しました';
+
+  @override
   String get domainUpdated => 'ドメインの更新に成功しました';
+
+  @override
+  String get domainWhitelistAddFailed => 'ドメインをホワイトリストに追加できませんでした。';
+
+  @override
+  String get domainWhitelistAdded => 'ドメインがホワイトリストに追加されました。';
+
+  @override
+  String get domainWhitelistAlready => 'ドメインは既にホワイトリストにあります。';
 
   @override
   String get domains => 'ドメイン';
@@ -643,7 +655,22 @@ class AppLocalizationsJa extends AppLocalizations {
   String get domainsAdlists => 'Adlists上のドメイン';
 
   @override
+  String get domainsInvalid => '無効なドメイン';
+
+  @override
+  String get domainsLoading => 'ドメインを読み込んでいます...';
+
+  @override
+  String get domainsNone => '表示するドメインはありません。';
+
+  @override
   String get domainsNotLoaded => 'ドメインリストを読み込めませんでした';
+
+  @override
+  String get domainsSearch => 'ドメインを検索...';
+
+  @override
+  String get domainsSelectLeftColumn => 'ドメインを選択して詳細を確認してください。';
 
   @override
   String get dontCheckCertificate => 'SSL証明書を確認しない';
@@ -730,12 +757,6 @@ class AppLocalizationsJa extends AppLocalizations {
 
   @override
   String get error => 'エラー';
-
-  @override
-  String get errorRemovingAdlist => 'Adlistの削除中にエラーが発生しました';
-
-  @override
-  String get errorRemovingDevice => 'デバイスの削除中にエラーが発生しました';
 
   @override
   String get errorRemovingDomain => 'ドメイン削除時にエラーが発生しました';
@@ -945,15 +966,6 @@ class AppLocalizationsJa extends AppLocalizations {
   String get invalidAddress => '無効なIPまたはドメイン';
 
   @override
-  String get invalidAdlist => '無効なAdlistのURLです';
-
-  @override
-  String get invalidDomain => '無効なドメイン';
-
-  @override
-  String get invalidDomains => '無効なドメイン';
-
-  @override
   String get invalidHostname =>
       '無効なホスト名: 使用できるのは英字 (a–z、A–Z)、数字 (0–9)、ハイフン (-)、アンダースコア (_)、ドット (.) のみです';
 
@@ -1049,9 +1061,6 @@ class AppLocalizationsJa extends AppLocalizations {
   String get loadingCharts => 'チャートを読み込み中...';
 
   @override
-  String get loadingDomains => 'ドメインを読み込んでいます...';
-
-  @override
   String get loadingList => 'リストを読み込み中...';
 
   @override
@@ -1070,7 +1079,28 @@ class AppLocalizationsJa extends AppLocalizations {
   String get localDns => 'ローカル DNS';
 
   @override
-  String get localDnsAdded => 'ローカルDNSが正常に追加されました';
+  String get localDnsAdd => 'ローカルDNSを追加';
+
+  @override
+  String get localDnsAddFailed => 'ローカルDNSを追加できませんでした';
+
+  @override
+  String get localDnsAddSuccess => 'ローカルDNSが正常に追加されました';
+
+  @override
+  String get localDnsAdding => 'ローカルDNSを追加中...';
+
+  @override
+  String get localDnsDelete => 'ローカルDNSを削除';
+
+  @override
+  String get localDnsDeleteFailed => 'ローカルDNSの削除に失敗しました';
+
+  @override
+  String get localDnsDeleteMessage => 'このローカルDNSを削除してもよろしいですか？';
+
+  @override
+  String get localDnsDeleteSuccess => 'ローカルDNSが正常に削除されました';
 
   @override
   String get localDnsDescription =>
@@ -1084,16 +1114,10 @@ class AppLocalizationsJa extends AppLocalizations {
   String get localDnsInformation => 'ローカルDNS情報';
 
   @override
-  String get localDnsRemoveError => 'ローカルDNSの削除に失敗しました';
-
-  @override
-  String get localDnsRemoved => 'ローカルDNSが正常に削除されました';
-
-  @override
   String get localDnsUpdateFailed => 'ローカルDNSの更新に失敗しました';
 
   @override
-  String get localDnsUpdated => 'ローカルDNSの更新に成功しました';
+  String get localDnsUpdateSuccess => 'ローカルDNSの更新に成功しました';
 
   @override
   String get logAutoRefreshTime => 'ログの更新間隔';
@@ -1196,9 +1220,6 @@ class AppLocalizationsJa extends AppLocalizations {
   String get next => '次へ';
 
   @override
-  String get noAdlists => '表示するAdlistがありません。';
-
-  @override
   String get noAvailableBiometrics => 'デバイスに保存されている指紋がありません。';
 
   @override
@@ -1212,9 +1233,6 @@ class AppLocalizationsJa extends AppLocalizations {
 
   @override
   String get noData => 'データなし';
-
-  @override
-  String get noDomains => '表示するドメインはありません。';
 
   @override
   String get noIssuesReported => '問題は報告されていません。';
@@ -1287,9 +1305,6 @@ class AppLocalizationsJa extends AppLocalizations {
 
   @override
   String get others => 'その他';
-
-  @override
-  String get parentDevice => '親デバイス';
 
   @override
   String get passCodeNotSaved => 'パスコードを保存できませんでした。';
@@ -1468,24 +1483,6 @@ class AppLocalizationsJa extends AppLocalizations {
   String get scope => 'スコープ';
 
   @override
-  String get searchAdlistInternet => 'Adlistをオンラインで表示';
-
-  @override
-  String get searchAdlists => 'Adlistを検索...';
-
-  @override
-  String get searchAdlistsDescription => 'Adlistに含まれるドメインを検索';
-
-  @override
-  String get searchAdlistsTitle => 'Adlistを検索';
-
-  @override
-  String get searchDomainInternet => 'インターネットでドメインを検索';
-
-  @override
-  String get searchDomains => 'ドメインを検索...';
-
-  @override
   String get searchUrl => 'URLで検索...';
 
   @override
@@ -1519,13 +1516,7 @@ class AppLocalizationsJa extends AppLocalizations {
   String get security => 'セキュリティ';
 
   @override
-  String get selectAdlistsLeftColumn => '詳細を表示するにはAdlistを選択してください。';
-
-  @override
   String get selectConnection => '接続を選択';
-
-  @override
-  String get selectDomainsLeftColumn => 'ドメインを選択して詳細を確認してください。';
 
   @override
   String get selectEndTime => '終了時間を選択';
@@ -1591,13 +1582,25 @@ class AppLocalizationsJa extends AppLocalizations {
   String get session => 'セッション';
 
   @override
-  String get sessionRemoveError => 'セッションの削除中にエラーが発生しました';
+  String get sessionCurrent => '現在のセッション';
 
   @override
-  String get sessionRemoved => 'セッションの削除に成功しました';
+  String get sessionDelete => 'セッションを削除';
+
+  @override
+  String get sessionDeleteFailed => 'セッションの削除中にエラーが発生しました';
+
+  @override
+  String get sessionDeleteMessage => 'このセッションを削除してもよろしいですか？';
+
+  @override
+  String get sessionDeleteSuccess => 'セッションの削除に成功しました';
 
   @override
   String get sessionStatus => 'セッションステータス';
+
+  @override
+  String get sessionValid => '有効なセッション';
 
   @override
   String get sessions => 'セッション';
@@ -1830,9 +1833,6 @@ class AppLocalizationsJa extends AppLocalizations {
   String get updating => '更新中…';
 
   @override
-  String get updatingAdlist => 'Adlistを更新中...';
-
-  @override
   String get updatingInProgressMessage =>
       '更新中です。少し時間がかかる場合があります。アプリを開いたままにしてください。';
 
@@ -1865,9 +1865,6 @@ class AppLocalizationsJa extends AppLocalizations {
 
   @override
   String get validLifetime => '有効期間';
-
-  @override
-  String get validSession => '有効なセッション';
 
   @override
   String get validUntil => '有効期限';

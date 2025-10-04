@@ -69,7 +69,7 @@ class _AddSubscriptionModalState extends State<AddSubscriptionModal> {
         });
       } else {
         setState(() {
-          subscriptionError = AppLocalizations.of(context)!.invalidAdlist;
+          subscriptionError = AppLocalizations.of(context)!.adlistInvalid;
         });
       }
     } else {
@@ -119,7 +119,7 @@ class _AddSubscriptionModalState extends State<AddSubscriptionModal> {
                       Padding(
                         padding: const EdgeInsets.all(20),
                         child: Text(
-                          AppLocalizations.of(context)!.addAdlist,
+                          AppLocalizations.of(context)!.adlistAdd,
                           style: const TextStyle(fontSize: 24),
                         ),
                       ),

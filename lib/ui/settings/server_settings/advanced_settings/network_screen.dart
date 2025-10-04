@@ -113,13 +113,13 @@ class _NetworkState extends State<NetworkScreen> {
         showSuccessSnackBar(
           context: context,
           appConfigProvider: appConfigProvider,
-          label: AppLocalizations.of(context)!.deviceRemoved,
+          label: AppLocalizations.of(context)!.deviceDeleteSuccess,
         );
       } else {
         showErrorSnackBar(
           context: context,
           appConfigProvider: appConfigProvider,
-          label: AppLocalizations.of(context)!.errorRemovingDevice,
+          label: AppLocalizations.of(context)!.deviceDeleteFailed,
         );
       }
     }

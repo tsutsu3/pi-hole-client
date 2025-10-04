@@ -72,13 +72,17 @@ class LogActionsService {
         showSuccessSnackBar(
           context: context,
           appConfigProvider: appConfigProvider,
-          label: list == 'white' ? loc.addedWhitelist : loc.addedBlacklist,
+          label: list == 'white'
+              ? loc.domainWhitelistAdded
+              : loc.domainBlacklistAdded,
         );
       } else {
         showSuccessSnackBar(
           context: context,
           appConfigProvider: appConfigProvider,
-          label: list == 'white' ? loc.alreadyWhitelist : loc.alreadyBlacklist,
+          label: list == 'white'
+              ? loc.domainWhitelistAlready
+              : loc.domainBlacklistAlready,
         );
       }
     } else {
@@ -86,8 +90,8 @@ class LogActionsService {
         context: context,
         appConfigProvider: appConfigProvider,
         label: list == 'white'
-            ? loc.couldntAddWhitelist
-            : loc.couldntAddBlacklist,
+            ? loc.domainWhitelistAddFailed
+            : loc.domainBlacklistAddFailed,
       );
     }
   }

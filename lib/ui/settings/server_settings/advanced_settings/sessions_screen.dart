@@ -115,13 +115,13 @@ class _SessionState extends State<SessionsScreen> {
         showSuccessSnackBar(
           context: context,
           appConfigProvider: appConfigProvider,
-          label: AppLocalizations.of(context)!.sessionRemoved,
+          label: AppLocalizations.of(context)!.sessionDeleteSuccess,
         );
       } else {
         showErrorSnackBar(
           context: context,
           appConfigProvider: appConfigProvider,
-          label: AppLocalizations.of(context)!.sessionRemoveError,
+          label: AppLocalizations.of(context)!.sessionDeleteFailed,
         );
       }
     }

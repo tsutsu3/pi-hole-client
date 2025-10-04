@@ -31,8 +31,8 @@ class NetworkDetailScreen extends StatelessWidget {
               useRootNavigator:
                   false, // Prevents unexpected app exit on mobile when pressing back
               builder: (context) => DeleteModal(
-                title: AppLocalizations.of(context)!.deleteDevice,
-                message: AppLocalizations.of(context)!.deleteDeviceMessage,
+                title: AppLocalizations.of(context)!.deviceDelete,
+                message: AppLocalizations.of(context)!.deviceDeleteMessage,
                 onDelete: () {
                   Navigator.maybePop(context);
                   onDelete(device);

@@ -120,7 +120,7 @@ void main() async {
 
       // Show remove modal
       expect(find.byType(DeleteModal), findsOneWidget);
-      expect(find.text('Delete session'), findsOneWidget);
+      expect(find.text('Delete Session'), findsOneWidget);
       await tester.tap(find.text('Delete'));
       await tester.pumpAndSettle();
 

@@ -85,8 +85,8 @@ class _DomainDetailsScreenState extends State<DomainDetailsScreen> {
               useRootNavigator:
                   false, // Prevents unexpected app exit on mobile when pressing back
               builder: (context) => DeleteModal(
-                title: AppLocalizations.of(context)!.deleteDomain,
-                message: AppLocalizations.of(context)!.deleteDomainMessage,
+                title: AppLocalizations.of(context)!.domainDelete,
+                message: AppLocalizations.of(context)!.domainDeleteMessage,
                 onDelete: () {
                   Navigator.maybePop(context);
                   widget.remove(widget.domain);
@@ -201,7 +201,7 @@ class _DomainDetailsScreenState extends State<DomainDetailsScreen> {
     final body = DomainRequest.fromJson(value);
 
     final process = ProcessModal(context: context);
-    process.open(AppLocalizations.of(context)!.updatingAdlist);
+    process.open(AppLocalizations.of(context)!.updating);
 
     final result = await apiGateway?.updateDomain(body: body);
 
@@ -227,7 +227,7 @@ class _DomainDetailsScreenState extends State<DomainDetailsScreen> {
       showErrorSnackBar(
         context: context,
         appConfigProvider: appConfigProvider,
-        label: AppLocalizations.of(context)!.cannotEditDomain,
+        label: AppLocalizations.of(context)!.domainUpdateFailed,
       );
     }
   }

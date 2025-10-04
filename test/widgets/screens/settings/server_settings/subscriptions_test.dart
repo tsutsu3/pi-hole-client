@@ -268,7 +268,7 @@ void main() async {
 
       // Show add modal
       expect(find.byType(AddSubscriptionModal), findsOneWidget);
-      expect(find.text('Add adlist'), findsOneWidget);
+      expect(find.text('Add Adlist'), findsOneWidget);
 
       // Add
       await tester.enterText(
@@ -434,7 +434,7 @@ void main() async {
 
       // Show remove modal
       expect(find.byType(DeleteModal), findsOneWidget);
-      expect(find.text('Delete adlist'), findsOneWidget);
+      expect(find.text('Delete Adlist'), findsOneWidget);
       await tester.tap(find.text('Delete'));
       await tester.pumpAndSettle();
 
@@ -473,7 +473,7 @@ void main() async {
 
       // Show remove modal
       expect(find.byType(DeleteModal), findsOneWidget);
-      expect(find.text('Delete adlist'), findsOneWidget);
+      expect(find.text('Delete Adlist'), findsOneWidget);
       await tester.tap(find.text('Delete'));
       await tester.pumpAndSettle();
 
