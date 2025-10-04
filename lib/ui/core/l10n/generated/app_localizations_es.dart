@@ -33,16 +33,10 @@ class AppLocalizationsEs extends AppLocalizations {
   String get addAsWildcard => 'Añadir como wildcard';
 
   @override
-  String get addLocalDns => 'Agregar DNS local';
-
-  @override
   String get addServer => 'Añadir conexión';
 
   @override
   String get addingBlacklist => 'Añadiendo a lista negra...';
-
-  @override
-  String get addingLocalDns => 'Agregando DNS local...';
 
   @override
   String get addingWhitelist => 'Añadiendo a lista blanca...';
@@ -299,9 +293,6 @@ class AppLocalizationsEs extends AppLocalizations {
   String get cancel => 'Cancelar';
 
   @override
-  String get cannotAddLocalDns => 'No se pudo agregar el DNS local';
-
-  @override
   String get cannotChangeUpdateTime =>
       'No se ha podido cambiar el tiempo de auto actualización.';
 
@@ -541,13 +532,6 @@ class AppLocalizationsEs extends AppLocalizations {
   @override
   String get deleteDhcpMessage =>
       '¿Está seguro de que desea eliminar esta concesión DHCP?';
-
-  @override
-  String get deleteLocalDns => 'Eliminar DNS local';
-
-  @override
-  String get deleteLocalDnsMessage =>
-      '¿Está seguro de que desea eliminar este DNS local?';
 
   @override
   String get deleteSession => 'Eliminar sesión';
@@ -1152,7 +1136,30 @@ class AppLocalizationsEs extends AppLocalizations {
   String get localDns => 'DNS local';
 
   @override
-  String get localDnsAdded => 'El DNS local se ha añadido correctamente';
+  String get localDnsAdd => 'Agregar DNS local';
+
+  @override
+  String get localDnsAddFailed => 'No se pudo agregar el DNS local';
+
+  @override
+  String get localDnsAddSuccess => 'El DNS local se ha añadido correctamente';
+
+  @override
+  String get localDnsAdding => 'Agregando DNS local...';
+
+  @override
+  String get localDnsDelete => 'Eliminar DNS local';
+
+  @override
+  String get localDnsDeleteFailed => 'Error al eliminar el DNS local';
+
+  @override
+  String get localDnsDeleteMessage =>
+      '¿Está seguro de que desea eliminar este DNS local?';
+
+  @override
+  String get localDnsDeleteSuccess =>
+      'El DNS local se ha eliminado correctamente';
 
   @override
   String get localDnsDescription =>
@@ -1166,16 +1173,11 @@ class AppLocalizationsEs extends AppLocalizations {
   String get localDnsInformation => 'Información de DNS local';
 
   @override
-  String get localDnsRemoveError => 'Error al eliminar el DNS local';
-
-  @override
-  String get localDnsRemoved => 'El DNS local se ha eliminado correctamente';
-
-  @override
   String get localDnsUpdateFailed => 'Error al actualizar el DNS local';
 
   @override
-  String get localDnsUpdated => 'El DNS local se ha actualizado correctamente';
+  String get localDnsUpdateSuccess =>
+      'El DNS local se ha actualizado correctamente';
 
   @override
   String get logAutoRefreshTime => 'Intervalo de actualización de registros';

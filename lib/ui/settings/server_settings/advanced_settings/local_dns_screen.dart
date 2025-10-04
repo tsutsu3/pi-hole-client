@@ -65,7 +65,7 @@ class _LocalDnsScreenState extends State<LocalDnsScreen> {
 
     Future<bool> onAddLocalDns(Map<String, dynamic> value) async {
       final process = ProcessModal(context: context)
-        ..open(locale.addingLocalDns);
+        ..open(locale.localDnsAdding);
       final ok = await context.read<LocalDnsProvider>().addLocalDns(
         LocalDns(ip: value['ip'], name: value['name']),
       );
@@ -75,14 +75,14 @@ class _LocalDnsScreenState extends State<LocalDnsScreen> {
         showSuccessSnackBar(
           context: context,
           appConfigProvider: appConfigProvider,
-          label: locale.localDnsAdded,
+          label: locale.localDnsAddSuccess,
         );
         return true;
       } else {
         showErrorSnackBar(
           context: context,
           appConfigProvider: appConfigProvider,
-          label: locale.cannotAddLocalDns,
+          label: locale.localDnsAddFailed,
         );
         return false;
       }
@@ -101,7 +101,7 @@ class _LocalDnsScreenState extends State<LocalDnsScreen> {
         showSuccessSnackBar(
           context: context,
           appConfigProvider: appConfigProvider,
-          label: locale.localDnsUpdated,
+          label: locale.localDnsUpdateSuccess,
         );
       } else {
         showErrorSnackBar(
@@ -122,14 +122,14 @@ class _LocalDnsScreenState extends State<LocalDnsScreen> {
         showSuccessSnackBar(
           context: context,
           appConfigProvider: appConfigProvider,
-          label: locale.localDnsRemoved,
+          label: locale.localDnsDeleteSuccess,
         );
         await Navigator.maybePop(context);
       } else {
         showErrorSnackBar(
           context: context,
           appConfigProvider: appConfigProvider,
-          label: locale.localDnsRemoveError,
+          label: locale.localDnsDeleteFailed,
         );
       }
       return ok;

@@ -33,16 +33,10 @@ class AppLocalizationsJa extends AppLocalizations {
   String get addAsWildcard => 'ワイルドカードとして追加';
 
   @override
-  String get addLocalDns => 'ローカルDNSを追加';
-
-  @override
   String get addServer => 'サーバー接続を追加';
 
   @override
   String get addingBlacklist => 'ブラックリストに追加中...';
-
-  @override
-  String get addingLocalDns => 'ローカルDNSを追加中...';
 
   @override
   String get addingWhitelist => 'ホワイトリストに追加中...';
@@ -290,9 +284,6 @@ class AppLocalizationsJa extends AppLocalizations {
   String get cancel => 'キャンセル';
 
   @override
-  String get cannotAddLocalDns => 'ローカルDNSを追加できませんでした';
-
-  @override
   String get cannotChangeUpdateTime => '更新時間を変更できません';
 
   @override
@@ -517,12 +508,6 @@ class AppLocalizationsJa extends AppLocalizations {
 
   @override
   String get deleteDhcpMessage => 'このDHCPリースを削除してもよろしいですか？';
-
-  @override
-  String get deleteLocalDns => 'ローカルDNSを削除';
-
-  @override
-  String get deleteLocalDnsMessage => 'このローカルDNSを削除してもよろしいですか？';
 
   @override
   String get deleteSession => 'セッションを削除';
@@ -1100,7 +1085,28 @@ class AppLocalizationsJa extends AppLocalizations {
   String get localDns => 'ローカル DNS';
 
   @override
-  String get localDnsAdded => 'ローカルDNSが正常に追加されました';
+  String get localDnsAdd => 'ローカルDNSを追加';
+
+  @override
+  String get localDnsAddFailed => 'ローカルDNSを追加できませんでした';
+
+  @override
+  String get localDnsAddSuccess => 'ローカルDNSが正常に追加されました';
+
+  @override
+  String get localDnsAdding => 'ローカルDNSを追加中...';
+
+  @override
+  String get localDnsDelete => 'ローカルDNSを削除';
+
+  @override
+  String get localDnsDeleteFailed => 'ローカルDNSの削除に失敗しました';
+
+  @override
+  String get localDnsDeleteMessage => 'このローカルDNSを削除してもよろしいですか？';
+
+  @override
+  String get localDnsDeleteSuccess => 'ローカルDNSが正常に削除されました';
 
   @override
   String get localDnsDescription =>
@@ -1114,16 +1120,10 @@ class AppLocalizationsJa extends AppLocalizations {
   String get localDnsInformation => 'ローカルDNS情報';
 
   @override
-  String get localDnsRemoveError => 'ローカルDNSの削除に失敗しました';
-
-  @override
-  String get localDnsRemoved => 'ローカルDNSが正常に削除されました';
-
-  @override
   String get localDnsUpdateFailed => 'ローカルDNSの更新に失敗しました';
 
   @override
-  String get localDnsUpdated => 'ローカルDNSの更新に成功しました';
+  String get localDnsUpdateSuccess => 'ローカルDNSの更新に成功しました';
 
   @override
   String get logAutoRefreshTime => 'ログの更新間隔';

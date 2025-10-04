@@ -33,16 +33,10 @@ class AppLocalizationsEn extends AppLocalizations {
   String get addAsWildcard => 'Add as wildcard';
 
   @override
-  String get addLocalDns => 'Add Local DNS';
-
-  @override
   String get addServer => 'Add server connection';
 
   @override
   String get addingBlacklist => 'Adding to blacklist...';
-
-  @override
-  String get addingLocalDns => 'Adding local DNS...';
 
   @override
   String get addingWhitelist => 'Adding to whitelist...';
@@ -296,9 +290,6 @@ class AppLocalizationsEn extends AppLocalizations {
   String get cancel => 'Cancel';
 
   @override
-  String get cannotAddLocalDns => 'Failed to add Local DNS';
-
-  @override
   String get cannotChangeUpdateTime => 'Cannot change update time';
 
   @override
@@ -533,13 +524,6 @@ class AppLocalizationsEn extends AppLocalizations {
   @override
   String get deleteDhcpMessage =>
       'Are you sure you want to delete this DHCP lease?';
-
-  @override
-  String get deleteLocalDns => 'Delete Local DNS';
-
-  @override
-  String get deleteLocalDnsMessage =>
-      'Are you sure you want to delete this Local DNS?';
 
   @override
   String get deleteSession => 'Delete session';
@@ -1130,7 +1114,29 @@ class AppLocalizationsEn extends AppLocalizations {
   String get localDns => 'Local DNS';
 
   @override
-  String get localDnsAdded => 'Local DNS has been added successfully';
+  String get localDnsAdd => 'Add Local DNS';
+
+  @override
+  String get localDnsAddFailed => 'Failed to add Local DNS';
+
+  @override
+  String get localDnsAddSuccess => 'Local DNS has been added successfully';
+
+  @override
+  String get localDnsAdding => 'Adding local DNS...';
+
+  @override
+  String get localDnsDelete => 'Delete Local DNS';
+
+  @override
+  String get localDnsDeleteFailed => 'Failedto remove Local DNS';
+
+  @override
+  String get localDnsDeleteMessage =>
+      'Are you sure you want to delete this Local DNS?';
+
+  @override
+  String get localDnsDeleteSuccess => 'Local DNS has been removed successfully';
 
   @override
   String get localDnsDescription =>
@@ -1144,16 +1150,10 @@ class AppLocalizationsEn extends AppLocalizations {
   String get localDnsInformation => 'Local DNS Information';
 
   @override
-  String get localDnsRemoveError => 'Failedto remove Local DNS';
-
-  @override
-  String get localDnsRemoved => 'Local DNS has been removed successfully';
-
-  @override
   String get localDnsUpdateFailed => 'Failed to update Local DNS';
 
   @override
-  String get localDnsUpdated => 'Local DNS has been updated successfully';
+  String get localDnsUpdateSuccess => 'Local DNS has been updated successfully';
 
   @override
   String get logAutoRefreshTime => 'Log refresh interval';

@@ -33,16 +33,10 @@ class AppLocalizationsDe extends AppLocalizations {
   String get addAsWildcard => 'Als Wildcard hinzufügen';
 
   @override
-  String get addLocalDns => 'Lokales DNS hinzufügen';
-
-  @override
   String get addServer => 'Verbindung hinzufügen';
 
   @override
   String get addingBlacklist => 'Wird zur Blacklist hinzugefügt...';
-
-  @override
-  String get addingLocalDns => 'Lokales DNS wird hinzugefügt...';
 
   @override
   String get addingWhitelist => 'Wird zur Whitelist hinzugefügt...';
@@ -300,9 +294,6 @@ class AppLocalizationsDe extends AppLocalizations {
   String get cancel => 'Abbrechen';
 
   @override
-  String get cannotAddLocalDns => 'Konnte lokales DNS nicht hinzufügen';
-
-  @override
   String get cannotChangeUpdateTime =>
       'Aktualisierungszeit konnte nicht geändert werden';
 
@@ -544,13 +535,6 @@ class AppLocalizationsDe extends AppLocalizations {
   @override
   String get deleteDhcpMessage =>
       'Möchten Sie dieses DHCP-Lease wirklich löschen?';
-
-  @override
-  String get deleteLocalDns => 'Lokales DNS löschen';
-
-  @override
-  String get deleteLocalDnsMessage =>
-      'Möchten Sie dieses lokale DNS wirklich löschen?';
 
   @override
   String get deleteSession => 'Sitzung löschen';
@@ -1154,7 +1138,30 @@ class AppLocalizationsDe extends AppLocalizations {
   String get localDns => 'Lokales DNS';
 
   @override
-  String get localDnsAdded => 'Lokales DNS wurde erfolgreich hinzugefügt';
+  String get localDnsAdd => 'Lokales DNS hinzufügen';
+
+  @override
+  String get localDnsAddFailed => 'Konnte lokales DNS nicht hinzufügen';
+
+  @override
+  String get localDnsAddSuccess => 'Lokales DNS wurde erfolgreich hinzugefügt';
+
+  @override
+  String get localDnsAdding => 'Lokales DNS wird hinzugefügt...';
+
+  @override
+  String get localDnsDelete => 'Lokales DNS löschen';
+
+  @override
+  String get localDnsDeleteFailed =>
+      'Das Entfernen des lokalen DNS ist fehlgeschlagen';
+
+  @override
+  String get localDnsDeleteMessage =>
+      'Möchten Sie dieses lokale DNS wirklich löschen?';
+
+  @override
+  String get localDnsDeleteSuccess => 'Lokales DNS wurde erfolgreich entfernt';
 
   @override
   String get localDnsDescription =>
@@ -1168,18 +1175,12 @@ class AppLocalizationsDe extends AppLocalizations {
   String get localDnsInformation => 'Lokale DNS-Informationen';
 
   @override
-  String get localDnsRemoveError =>
-      'Das Entfernen des lokalen DNS ist fehlgeschlagen';
-
-  @override
-  String get localDnsRemoved => 'Lokales DNS wurde erfolgreich entfernt';
-
-  @override
   String get localDnsUpdateFailed =>
       'Aktualisierung des lokalen DNS ist fehlgeschlagen';
 
   @override
-  String get localDnsUpdated => 'Lokales DNS wurde erfolgreich aktualisiert';
+  String get localDnsUpdateSuccess =>
+      'Lokales DNS wurde erfolgreich aktualisiert';
 
   @override
   String get logAutoRefreshTime => 'Aktualisierungsintervall für Protokolle';

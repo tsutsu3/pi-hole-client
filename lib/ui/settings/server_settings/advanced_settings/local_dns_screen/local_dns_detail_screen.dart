@@ -72,8 +72,8 @@ class _LocalDnsDetailScreenState extends State<LocalDnsDetailScreen> {
               useRootNavigator:
                   false, // Prevents unexpected app exit on mobile when pressing back
               builder: (context) => DeleteModal(
-                title: locale.deleteLocalDns,
-                message: locale.deleteLocalDnsMessage,
+                title: locale.localDnsDelete,
+                message: locale.localDnsDeleteMessage,
                 onDelete: () async {
                   final ok = await widget.onDelete(_localDns);
                   if (ok && context.mounted) {

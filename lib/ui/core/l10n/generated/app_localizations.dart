@@ -152,12 +152,6 @@ abstract class AppLocalizations {
   /// **'Add as wildcard'**
   String get addAsWildcard;
 
-  /// No description provided for @addLocalDns.
-  ///
-  /// In en, this message translates to:
-  /// **'Add Local DNS'**
-  String get addLocalDns;
-
   /// No description provided for @addServer.
   ///
   /// In en, this message translates to:
@@ -169,12 +163,6 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Adding to blacklist...'**
   String get addingBlacklist;
-
-  /// No description provided for @addingLocalDns.
-  ///
-  /// In en, this message translates to:
-  /// **'Adding local DNS...'**
-  String get addingLocalDns;
 
   /// No description provided for @addingWhitelist.
   ///
@@ -662,12 +650,6 @@ abstract class AppLocalizations {
   /// **'Cancel'**
   String get cancel;
 
-  /// No description provided for @cannotAddLocalDns.
-  ///
-  /// In en, this message translates to:
-  /// **'Failed to add Local DNS'**
-  String get cannotAddLocalDns;
-
   /// No description provided for @cannotChangeUpdateTime.
   ///
   /// In en, this message translates to:
@@ -1117,18 +1099,6 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Are you sure you want to delete this DHCP lease?'**
   String get deleteDhcpMessage;
-
-  /// No description provided for @deleteLocalDns.
-  ///
-  /// In en, this message translates to:
-  /// **'Delete Local DNS'**
-  String get deleteLocalDns;
-
-  /// No description provided for @deleteLocalDnsMessage.
-  ///
-  /// In en, this message translates to:
-  /// **'Are you sure you want to delete this Local DNS?'**
-  String get deleteLocalDnsMessage;
 
   /// No description provided for @deleteSession.
   ///
@@ -2258,11 +2228,53 @@ abstract class AppLocalizations {
   /// **'Local DNS'**
   String get localDns;
 
-  /// No description provided for @localDnsAdded.
+  /// No description provided for @localDnsAdd.
+  ///
+  /// In en, this message translates to:
+  /// **'Add Local DNS'**
+  String get localDnsAdd;
+
+  /// No description provided for @localDnsAddFailed.
+  ///
+  /// In en, this message translates to:
+  /// **'Failed to add Local DNS'**
+  String get localDnsAddFailed;
+
+  /// No description provided for @localDnsAddSuccess.
   ///
   /// In en, this message translates to:
   /// **'Local DNS has been added successfully'**
-  String get localDnsAdded;
+  String get localDnsAddSuccess;
+
+  /// No description provided for @localDnsAdding.
+  ///
+  /// In en, this message translates to:
+  /// **'Adding local DNS...'**
+  String get localDnsAdding;
+
+  /// No description provided for @localDnsDelete.
+  ///
+  /// In en, this message translates to:
+  /// **'Delete Local DNS'**
+  String get localDnsDelete;
+
+  /// No description provided for @localDnsDeleteFailed.
+  ///
+  /// In en, this message translates to:
+  /// **'Failedto remove Local DNS'**
+  String get localDnsDeleteFailed;
+
+  /// No description provided for @localDnsDeleteMessage.
+  ///
+  /// In en, this message translates to:
+  /// **'Are you sure you want to delete this Local DNS?'**
+  String get localDnsDeleteMessage;
+
+  /// No description provided for @localDnsDeleteSuccess.
+  ///
+  /// In en, this message translates to:
+  /// **'Local DNS has been removed successfully'**
+  String get localDnsDeleteSuccess;
 
   /// No description provided for @localDnsDescription.
   ///
@@ -2282,29 +2294,17 @@ abstract class AppLocalizations {
   /// **'Local DNS Information'**
   String get localDnsInformation;
 
-  /// No description provided for @localDnsRemoveError.
-  ///
-  /// In en, this message translates to:
-  /// **'Failedto remove Local DNS'**
-  String get localDnsRemoveError;
-
-  /// No description provided for @localDnsRemoved.
-  ///
-  /// In en, this message translates to:
-  /// **'Local DNS has been removed successfully'**
-  String get localDnsRemoved;
-
   /// No description provided for @localDnsUpdateFailed.
   ///
   /// In en, this message translates to:
   /// **'Failed to update Local DNS'**
   String get localDnsUpdateFailed;
 
-  /// No description provided for @localDnsUpdated.
+  /// No description provided for @localDnsUpdateSuccess.
   ///
   /// In en, this message translates to:
   /// **'Local DNS has been updated successfully'**
-  String get localDnsUpdated;
+  String get localDnsUpdateSuccess;
 
   /// No description provided for @logAutoRefreshTime.
   ///
