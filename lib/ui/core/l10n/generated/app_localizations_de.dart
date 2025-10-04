@@ -520,13 +520,6 @@ class AppLocalizationsDe extends AppLocalizations {
   String get delete => 'Löschen';
 
   @override
-  String get deleteDevice => 'Gerät löschen';
-
-  @override
-  String get deleteDeviceMessage =>
-      'Möchten Sie dieses Gerät wirklich löschen?';
-
-  @override
   String get deleteDhcp => 'DHCP-Lease löschen';
 
   @override
@@ -543,10 +536,23 @@ class AppLocalizationsDe extends AppLocalizations {
   String get deviceConfig => 'Gerätekonfiguration';
 
   @override
+  String get deviceDelete => 'Gerät löschen';
+
+  @override
+  String get deviceDeleteFailed => 'Fehler beim Entfernen des Geräts';
+
+  @override
+  String get deviceDeleteMessage =>
+      'Möchten Sie dieses Gerät wirklich löschen?';
+
+  @override
+  String get deviceDeleteSuccess => 'Gerät wurde erfolgreich entfernt';
+
+  @override
   String get deviceInfo => 'Geräteinformationen';
 
   @override
-  String get deviceRemoved => 'Gerät wurde erfolgreich entfernt';
+  String get deviceParent => 'Übergeordnetes Gerät';
 
   @override
   String get dhcp => 'DHCP';
@@ -793,9 +799,6 @@ class AppLocalizationsDe extends AppLocalizations {
 
   @override
   String get error => 'Fehler';
-
-  @override
-  String get errorRemovingDevice => 'Fehler beim Entfernen des Geräts';
 
   @override
   String get errorRemovingDomain => 'Fehler beim Entfernen der Domain';
@@ -1365,9 +1368,6 @@ class AppLocalizationsDe extends AppLocalizations {
 
   @override
   String get others => 'Andere';
-
-  @override
-  String get parentDevice => 'Übergeordnetes Gerät';
 
   @override
   String get passCodeNotSaved => 'Passwort konnte nicht gespeichert werden.';

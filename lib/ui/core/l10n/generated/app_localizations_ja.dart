@@ -495,12 +495,6 @@ class AppLocalizationsJa extends AppLocalizations {
   String get delete => '削除';
 
   @override
-  String get deleteDevice => 'デバイスの削除';
-
-  @override
-  String get deleteDeviceMessage => 'このデバイスを削除してもよろしいですか？';
-
-  @override
   String get deleteDhcp => 'DHCPリースを削除';
 
   @override
@@ -516,10 +510,22 @@ class AppLocalizationsJa extends AppLocalizations {
   String get deviceConfig => 'デバイス構成';
 
   @override
+  String get deviceDelete => 'デバイスの削除';
+
+  @override
+  String get deviceDeleteFailed => 'デバイスの削除中にエラーが発生しました';
+
+  @override
+  String get deviceDeleteMessage => 'このデバイスを削除してもよろしいですか？';
+
+  @override
+  String get deviceDeleteSuccess => 'デバイスの削除に成功しました';
+
+  @override
   String get deviceInfo => 'デバイス情報';
 
   @override
-  String get deviceRemoved => 'デバイスの削除に成功しました';
+  String get deviceParent => '親デバイス';
 
   @override
   String get dhcp => 'DHCP';
@@ -751,9 +757,6 @@ class AppLocalizationsJa extends AppLocalizations {
 
   @override
   String get error => 'エラー';
-
-  @override
-  String get errorRemovingDevice => 'デバイスの削除中にエラーが発生しました';
 
   @override
   String get errorRemovingDomain => 'ドメイン削除時にエラーが発生しました';
@@ -1302,9 +1305,6 @@ class AppLocalizationsJa extends AppLocalizations {
 
   @override
   String get others => 'その他';
-
-  @override
-  String get parentDevice => '親デバイス';
 
   @override
   String get passCodeNotSaved => 'パスコードを保存できませんでした。';

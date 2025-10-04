@@ -511,12 +511,6 @@ class AppLocalizationsPl extends AppLocalizations {
   String get delete => 'Usuń';
 
   @override
-  String get deleteDevice => 'Usuń urządzenie';
-
-  @override
-  String get deleteDeviceMessage => 'Czy na pewno chcesz usunąć to urządzenie?';
-
-  @override
   String get deleteDhcp => 'Usuń dzierżawę DHCP';
 
   @override
@@ -533,10 +527,22 @@ class AppLocalizationsPl extends AppLocalizations {
   String get deviceConfig => 'Konfiguracja urządzenia';
 
   @override
+  String get deviceDelete => 'Usuń urządzenie';
+
+  @override
+  String get deviceDeleteFailed => 'Błąd podczas usuwania urządzenia';
+
+  @override
+  String get deviceDeleteMessage => 'Czy na pewno chcesz usunąć to urządzenie?';
+
+  @override
+  String get deviceDeleteSuccess => 'Urządzenie zostało pomyślnie usunięte';
+
+  @override
   String get deviceInfo => 'Informacje o urządzeniu';
 
   @override
-  String get deviceRemoved => 'Urządzenie zostało pomyślnie usunięte';
+  String get deviceParent => 'Urządzenie nadrzędne';
 
   @override
   String get dhcp => 'DHCP';
@@ -776,9 +782,6 @@ class AppLocalizationsPl extends AppLocalizations {
 
   @override
   String get error => 'Błąd';
-
-  @override
-  String get errorRemovingDevice => 'Błąd podczas usuwania urządzenia';
 
   @override
   String get errorRemovingDomain => 'Błąd podczas usuwania domeny';
@@ -1348,9 +1351,6 @@ class AppLocalizationsPl extends AppLocalizations {
 
   @override
   String get others => 'Inne';
-
-  @override
-  String get parentDevice => 'Urządzenie nadrzędne';
 
   @override
   String get passCodeNotSaved => 'Nie można zapisać kodu dostępu.';
