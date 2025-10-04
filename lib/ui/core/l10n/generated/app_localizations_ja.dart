@@ -462,9 +462,6 @@ class AppLocalizationsJa extends AppLocalizations {
   String get createdBy => '作成者';
 
   @override
-  String get currentSession => '現在のセッション';
-
-  @override
   String get custom => 'カスタム';
 
   @override
@@ -508,12 +505,6 @@ class AppLocalizationsJa extends AppLocalizations {
 
   @override
   String get deleteDhcpMessage => 'このDHCPリースを削除してもよろしいですか？';
-
-  @override
-  String get deleteSession => 'セッションを削除';
-
-  @override
-  String get deleteSessionMessage => 'このセッションを削除してもよろしいですか？';
 
   @override
   String get deleting => '削除中...';
@@ -1591,13 +1582,25 @@ class AppLocalizationsJa extends AppLocalizations {
   String get session => 'セッション';
 
   @override
-  String get sessionRemoveError => 'セッションの削除中にエラーが発生しました';
+  String get sessionCurrent => '現在のセッション';
 
   @override
-  String get sessionRemoved => 'セッションの削除に成功しました';
+  String get sessionDelete => 'セッションを削除';
+
+  @override
+  String get sessionDeleteFailed => 'セッションの削除中にエラーが発生しました';
+
+  @override
+  String get sessionDeleteMessage => 'このセッションを削除してもよろしいですか？';
+
+  @override
+  String get sessionDeleteSuccess => 'セッションの削除に成功しました';
 
   @override
   String get sessionStatus => 'セッションステータス';
+
+  @override
+  String get sessionValid => '有効なセッション';
 
   @override
   String get sessions => 'セッション';
@@ -1862,9 +1865,6 @@ class AppLocalizationsJa extends AppLocalizations {
 
   @override
   String get validLifetime => '有効期間';
-
-  @override
-  String get validSession => '有効なセッション';
 
   @override
   String get validUntil => '有効期限';

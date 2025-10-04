@@ -475,9 +475,6 @@ class AppLocalizationsEn extends AppLocalizations {
   String get createdBy => 'Created by';
 
   @override
-  String get currentSession => 'Current Session';
-
-  @override
   String get custom => 'Custom';
 
   @override
@@ -524,13 +521,6 @@ class AppLocalizationsEn extends AppLocalizations {
   @override
   String get deleteDhcpMessage =>
       'Are you sure you want to delete this DHCP lease?';
-
-  @override
-  String get deleteSession => 'Delete session';
-
-  @override
-  String get deleteSessionMessage =>
-      'Are you sure you want to delete this session?';
 
   @override
   String get deleting => 'Deleting...';
@@ -1633,13 +1623,26 @@ class AppLocalizationsEn extends AppLocalizations {
   String get session => 'Session';
 
   @override
-  String get sessionRemoveError => 'Error when removing session';
+  String get sessionCurrent => 'Current Session';
 
   @override
-  String get sessionRemoved => 'Session removed successfully';
+  String get sessionDelete => 'Delete Session';
+
+  @override
+  String get sessionDeleteFailed => 'Error when removing session';
+
+  @override
+  String get sessionDeleteMessage =>
+      'Are you sure you want to delete this session?';
+
+  @override
+  String get sessionDeleteSuccess => 'Session removed successfully';
 
   @override
   String get sessionStatus => 'Session Status';
+
+  @override
+  String get sessionValid => 'Valid Session';
 
   @override
   String get sessions => 'Sessions';
@@ -1908,9 +1911,6 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get validLifetime => 'Valid Lifetime';
-
-  @override
-  String get validSession => 'Valid Session';
 
   @override
   String get validUntil => 'Valid Until';

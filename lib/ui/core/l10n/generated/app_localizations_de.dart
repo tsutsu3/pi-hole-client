@@ -486,9 +486,6 @@ class AppLocalizationsDe extends AppLocalizations {
   String get createdBy => 'Erstellt von';
 
   @override
-  String get currentSession => 'Aktuelle Sitzung';
-
-  @override
   String get custom => 'Benutzerdefiniert';
 
   @override
@@ -535,13 +532,6 @@ class AppLocalizationsDe extends AppLocalizations {
   @override
   String get deleteDhcpMessage =>
       'Möchten Sie dieses DHCP-Lease wirklich löschen?';
-
-  @override
-  String get deleteSession => 'Sitzung löschen';
-
-  @override
-  String get deleteSessionMessage =>
-      'Sind Sie sicher, dass Sie diese Sitzung löschen möchten?';
 
   @override
   String get deleting => 'Wird gelöscht...';
@@ -1666,13 +1656,26 @@ class AppLocalizationsDe extends AppLocalizations {
   String get session => 'Sitzung';
 
   @override
-  String get sessionRemoveError => 'Fehler beim Entfernen der Sitzung';
+  String get sessionCurrent => 'Aktuelle Sitzung';
 
   @override
-  String get sessionRemoved => 'Sitzung wurde erfolgreich entfernt';
+  String get sessionDelete => 'Sitzung löschen';
+
+  @override
+  String get sessionDeleteFailed => 'Fehler beim Entfernen der Sitzung';
+
+  @override
+  String get sessionDeleteMessage =>
+      'Sind Sie sicher, dass Sie diese Sitzung löschen möchten?';
+
+  @override
+  String get sessionDeleteSuccess => 'Sitzung wurde erfolgreich entfernt';
 
   @override
   String get sessionStatus => 'Sitzungsstatus';
+
+  @override
+  String get sessionValid => 'Gültige Sitzung';
 
   @override
   String get sessions => 'Sitzungen';
@@ -1944,9 +1947,6 @@ class AppLocalizationsDe extends AppLocalizations {
 
   @override
   String get validLifetime => 'Gültige Lebensdauer';
-
-  @override
-  String get validSession => 'Gültige Sitzung';
 
   @override
   String get validUntil => 'Gültig bis';

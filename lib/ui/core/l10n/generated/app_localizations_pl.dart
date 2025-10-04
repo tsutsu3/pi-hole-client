@@ -477,9 +477,6 @@ class AppLocalizationsPl extends AppLocalizations {
   String get createdBy => 'Stworzone przez';
 
   @override
-  String get currentSession => 'Bieżąca sesja';
-
-  @override
   String get custom => 'Niestandardowo';
 
   @override
@@ -525,12 +522,6 @@ class AppLocalizationsPl extends AppLocalizations {
   @override
   String get deleteDhcpMessage =>
       'Czy na pewno chcesz usunąć tę dzierżawę DHCP?';
-
-  @override
-  String get deleteSession => 'Usuń sesję';
-
-  @override
-  String get deleteSessionMessage => 'Czy na pewno chcesz usunąć tę sesję?';
 
   @override
   String get deleting => 'Usuwanie...';
@@ -1646,13 +1637,25 @@ class AppLocalizationsPl extends AppLocalizations {
   String get session => 'Sesja';
 
   @override
-  String get sessionRemoveError => 'Błąd podczas usuwania sesji';
+  String get sessionCurrent => 'Bieżąca sesja';
 
   @override
-  String get sessionRemoved => 'Sesja została pomyślnie usunięta';
+  String get sessionDelete => 'Usuń Sesję';
+
+  @override
+  String get sessionDeleteFailed => 'Błąd podczas usuwania sesji';
+
+  @override
+  String get sessionDeleteMessage => 'Czy na pewno chcesz usunąć tę sesję?';
+
+  @override
+  String get sessionDeleteSuccess => 'Sesja została pomyślnie usunięta';
 
   @override
   String get sessionStatus => 'Status sesji';
+
+  @override
+  String get sessionValid => 'Prawidłowa sesja';
 
   @override
   String get sessions => 'Sesje';
@@ -1929,9 +1932,6 @@ class AppLocalizationsPl extends AppLocalizations {
 
   @override
   String get validLifetime => 'Ważny czas życia';
-
-  @override
-  String get validSession => 'Prawidłowa sesja';
 
   @override
   String get validUntil => 'Ważna do';

@@ -32,8 +32,8 @@ class SessionDetailScreen extends StatelessWidget {
                 useRootNavigator:
                     false, // Prevents unexpected app exit on mobile when pressing back
                 builder: (context) => DeleteModal(
-                  title: AppLocalizations.of(context)!.deleteSession,
-                  message: AppLocalizations.of(context)!.deleteSessionMessage,
+                  title: AppLocalizations.of(context)!.sessionDelete,
+                  message: AppLocalizations.of(context)!.sessionDeleteMessage,
                   onDelete: () {
                     Navigator.maybePop(context);
                     onDelete(session);
@@ -59,12 +59,12 @@ class SessionDetailScreen extends StatelessWidget {
               ),
               CustomListTile(
                 leadingIcon: Icons.check_rounded,
-                label: locale.validSession,
+                label: locale.sessionValid,
                 description: session.isValid.toString(),
               ),
               CustomListTile(
                 leadingIcon: Icons.my_location_rounded,
-                label: locale.currentSession,
+                label: locale.sessionCurrent,
                 description: session.isCurrentSession.toString(),
               ),
               CustomListTile(

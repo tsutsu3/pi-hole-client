@@ -483,9 +483,6 @@ class AppLocalizationsEs extends AppLocalizations {
   String get createdBy => 'Creado por';
 
   @override
-  String get currentSession => 'Sesión actual';
-
-  @override
   String get custom => 'Personalizado';
 
   @override
@@ -532,13 +529,6 @@ class AppLocalizationsEs extends AppLocalizations {
   @override
   String get deleteDhcpMessage =>
       '¿Está seguro de que desea eliminar esta concesión DHCP?';
-
-  @override
-  String get deleteSession => 'Eliminar sesión';
-
-  @override
-  String get deleteSessionMessage =>
-      '¿Está seguro de que desea eliminar esta sesión?';
 
   @override
   String get deleting => 'Eliminando...';
@@ -1659,13 +1649,26 @@ class AppLocalizationsEs extends AppLocalizations {
   String get session => 'Sesión';
 
   @override
-  String get sessionRemoveError => 'Error al eliminar la sesión';
+  String get sessionCurrent => 'Sesión actual';
 
   @override
-  String get sessionRemoved => 'Sesión eliminada con éxito';
+  String get sessionDelete => 'Eliminar sesión';
+
+  @override
+  String get sessionDeleteFailed => 'Error al eliminar la sesión';
+
+  @override
+  String get sessionDeleteMessage =>
+      '¿Está seguro de que desea eliminar esta sesión?';
+
+  @override
+  String get sessionDeleteSuccess => 'Sesión eliminada con éxito';
 
   @override
   String get sessionStatus => 'Estado de la sesión';
+
+  @override
+  String get sessionValid => 'Sesión válida';
 
   @override
   String get sessions => 'Sesiones';
@@ -1939,9 +1942,6 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String get validLifetime => 'Duración válida';
-
-  @override
-  String get validSession => 'Sesión válida';
 
   @override
   String get validUntil => 'Válido hasta';

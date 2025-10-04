@@ -1004,12 +1004,6 @@ abstract class AppLocalizations {
   /// **'Created by'**
   String get createdBy;
 
-  /// No description provided for @currentSession.
-  ///
-  /// In en, this message translates to:
-  /// **'Current Session'**
-  String get currentSession;
-
   /// No description provided for @custom.
   ///
   /// In en, this message translates to:
@@ -1099,18 +1093,6 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Are you sure you want to delete this DHCP lease?'**
   String get deleteDhcpMessage;
-
-  /// No description provided for @deleteSession.
-  ///
-  /// In en, this message translates to:
-  /// **'Delete session'**
-  String get deleteSession;
-
-  /// No description provided for @deleteSessionMessage.
-  ///
-  /// In en, this message translates to:
-  /// **'Are you sure you want to delete this session?'**
-  String get deleteSessionMessage;
 
   /// No description provided for @deleting.
   ///
@@ -3230,23 +3212,47 @@ abstract class AppLocalizations {
   /// **'Session'**
   String get session;
 
-  /// No description provided for @sessionRemoveError.
+  /// No description provided for @sessionCurrent.
+  ///
+  /// In en, this message translates to:
+  /// **'Current Session'**
+  String get sessionCurrent;
+
+  /// No description provided for @sessionDelete.
+  ///
+  /// In en, this message translates to:
+  /// **'Delete Session'**
+  String get sessionDelete;
+
+  /// No description provided for @sessionDeleteFailed.
   ///
   /// In en, this message translates to:
   /// **'Error when removing session'**
-  String get sessionRemoveError;
+  String get sessionDeleteFailed;
 
-  /// No description provided for @sessionRemoved.
+  /// No description provided for @sessionDeleteMessage.
+  ///
+  /// In en, this message translates to:
+  /// **'Are you sure you want to delete this session?'**
+  String get sessionDeleteMessage;
+
+  /// No description provided for @sessionDeleteSuccess.
   ///
   /// In en, this message translates to:
   /// **'Session removed successfully'**
-  String get sessionRemoved;
+  String get sessionDeleteSuccess;
 
   /// No description provided for @sessionStatus.
   ///
   /// In en, this message translates to:
   /// **'Session Status'**
   String get sessionStatus;
+
+  /// No description provided for @sessionValid.
+  ///
+  /// In en, this message translates to:
+  /// **'Valid Session'**
+  String get sessionValid;
 
   /// No description provided for @sessions.
   ///
@@ -3733,12 +3739,6 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Valid Lifetime'**
   String get validLifetime;
-
-  /// No description provided for @validSession.
-  ///
-  /// In en, this message translates to:
-  /// **'Valid Session'**
-  String get validSession;
 
   /// No description provided for @validUntil.
   ///
