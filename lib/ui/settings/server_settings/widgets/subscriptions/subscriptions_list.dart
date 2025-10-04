@@ -113,7 +113,7 @@ class _SubscriptionsListState extends State<SubscriptionsList> {
         showErrorSnackBar(
           context: context,
           appConfigProvider: appConfigProvider,
-          label: AppLocalizations.of(context)!.errorRemovingAdlist,
+          label: AppLocalizations.of(context)!.adlistDeleteError,
         );
       }
     }
@@ -122,7 +122,7 @@ class _SubscriptionsListState extends State<SubscriptionsList> {
       final data = SubscriptionRequest.fromJson(value);
 
       final process = ProcessModal(context: context);
-      process.open(AppLocalizations.of(context)!.addingAdlist);
+      process.open(AppLocalizations.of(context)!.adlistAdding);
 
       final result = await apiGateway?.createSubscription(body: data);
 
@@ -148,7 +148,7 @@ class _SubscriptionsListState extends State<SubscriptionsList> {
         showErrorSnackBar(
           context: context,
           appConfigProvider: appConfigProvider,
-          label: AppLocalizations.of(context)!.cannotAddAdlist,
+          label: AppLocalizations.of(context)!.adlistAddFailed,
         );
       }
     }
@@ -249,7 +249,7 @@ class _SubscriptionsListState extends State<SubscriptionsList> {
             padding: const EdgeInsets.all(20),
             child: Center(
               child: Text(
-                AppLocalizations.of(context)!.noAdlists,
+                AppLocalizations.of(context)!.adlistsNone,
                 textAlign: TextAlign.center,
                 style: TextStyle(
                   fontSize: 24,

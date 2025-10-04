@@ -34,9 +34,7 @@ class SubscriptionLists extends StatelessWidget {
 
     if (selectedServer == null) {
       return Scaffold(
-        appBar: AppBar(
-          title: Text(AppLocalizations.of(context)!.adlistManagementTitle),
-        ),
+        appBar: AppBar(title: Text(AppLocalizations.of(context)!.adlists)),
         body: const SafeArea(child: EmptyDataScreen()),
       );
     }
@@ -45,9 +43,7 @@ class SubscriptionLists extends StatelessWidget {
 
     if (apiGateway?.server.apiVersion == 'v5') {
       return Scaffold(
-        appBar: AppBar(
-          title: Text(AppLocalizations.of(context)!.adlistManagementTitle),
-        ),
+        appBar: AppBar(title: Text(AppLocalizations.of(context)!.adlists)),
         body: const SafeArea(child: PiHoleV5NotSupportedScreen()),
       );
     }
@@ -155,7 +151,7 @@ class _SubscriptionListsWidgetState extends State<SubscriptionListsWidget>
         showErrorSnackBar(
           context: context,
           appConfigProvider: appConfigProvider,
-          label: AppLocalizations.of(context)!.errorRemovingAdlist,
+          label: AppLocalizations.of(context)!.adlistDeleteError,
         );
       }
     }
@@ -178,7 +174,7 @@ class _SubscriptionListsWidgetState extends State<SubscriptionListsWidget>
                     initialValue: subscriptionsListProvider.searchTerm,
                     onChanged: subscriptionsListProvider.onSearch,
                     decoration: InputDecoration(
-                      hintText: AppLocalizations.of(context)!.searchAdlists,
+                      hintText: AppLocalizations.of(context)!.adlistsSearch,
                       hintStyle: const TextStyle(fontWeight: FontWeight.w400),
                       border: InputBorder.none,
                       prefixIcon: Icon(
@@ -187,7 +183,7 @@ class _SubscriptionListsWidgetState extends State<SubscriptionListsWidget>
                       ),
                     ),
                   )
-                : Text(AppLocalizations.of(context)!.adlistManagementTitle),
+                : Text(AppLocalizations.of(context)!.adlists),
             actions: [
               if (!subscriptionsListProvider.searchMode)
                 IconButton(
@@ -282,7 +278,7 @@ class _SubscriptionListsWidgetState extends State<SubscriptionListsWidget>
                     child: SafeArea(
                       child: Center(
                         child: Text(
-                          AppLocalizations.of(context)!.selectAdlistsLeftColumn,
+                          AppLocalizations.of(context)!.adlistsSelectLeftColumn,
                           textAlign: TextAlign.center,
                           style: TextStyle(
                             fontSize: 24,

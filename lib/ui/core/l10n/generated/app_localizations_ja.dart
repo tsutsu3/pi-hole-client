@@ -30,9 +30,6 @@ class AppLocalizationsJa extends AppLocalizations {
   String get add => '追加';
 
   @override
-  String get addAdlist => 'Adlistを追加';
-
-  @override
   String get addAsWildcard => 'ワイルドカードとして追加';
 
   @override
@@ -49,9 +46,6 @@ class AppLocalizationsJa extends AppLocalizations {
 
   @override
   String get addedWhitelist => 'ドメインがホワイトリストに追加されました。';
-
-  @override
-  String get addingAdlist => 'Adlistを追加中...';
 
   @override
   String get addingBlacklist => 'ブラックリストに追加中...';
@@ -81,7 +75,16 @@ class AppLocalizationsJa extends AppLocalizations {
   String get adlist => 'Adlist';
 
   @override
+  String get adlistAdd => 'Adlistを追加';
+
+  @override
+  String get adlistAddFailed => 'Adlistを追加できませんでした';
+
+  @override
   String get adlistAdded => 'Adlistが正常に追加されました';
+
+  @override
+  String get adlistAdding => 'Adlistを追加中...';
 
   @override
   String get adlistAddress => 'アドレス';
@@ -90,16 +93,25 @@ class AppLocalizationsJa extends AppLocalizations {
   String get adlistAlreadyAdded => 'Adlistはすでに追加されています';
 
   @override
+  String get adlistDelete => 'Adlistを削除';
+
+  @override
+  String get adlistDeleteError => 'Adlistの削除中にエラーが発生しました';
+
+  @override
+  String get adlistDeleteMessage => 'このAdlistを削除してもよろしいですか？';
+
+  @override
+  String get adlistDescription => 'Adlistの管理・更新を行います';
+
+  @override
   String get adlistDetails => 'Adlistの詳細';
 
   @override
   String get adlistInfo => 'Adlistの情報';
 
   @override
-  String get adlistManagementDescription => 'Adlistの管理・更新を行います';
-
-  @override
-  String get adlistManagementTitle => 'Adlist';
+  String get adlistInvalid => '無効なAdlistのURLです';
 
   @override
   String get adlistNotExists => 'Adlistが存在しません';
@@ -114,10 +126,34 @@ class AppLocalizationsJa extends AppLocalizations {
   String get adlistStatus => 'ヘルスステータス';
 
   @override
+  String get adlistUpdateFailed => 'Adlistの更新に失敗しました';
+
+  @override
   String get adlistUpdated => 'Adlistの更新に成功しました';
 
   @override
+  String get adlistUpdating => 'Adlistを更新中...';
+
+  @override
+  String get adlists => 'Adlist';
+
+  @override
+  String get adlistsNone => '表示するAdlistがありません。';
+
+  @override
   String get adlistsNotLoaded => 'Adlistを読み込めませんでした';
+
+  @override
+  String get adlistsSearch => 'Adlistを検索...';
+
+  @override
+  String get adlistsSearchOnline => 'Adlistをオンラインで表示';
+
+  @override
+  String get adlistsSearchTitle => 'Adlistを検索';
+
+  @override
+  String get adlistsSelectLeftColumn => '詳細を表示するにはAdlistを選択してください。';
 
   @override
   String get advancedAppSetupDescription => '高度なアプリ設定にアクセス';
@@ -272,9 +308,6 @@ class AppLocalizationsJa extends AppLocalizations {
   String get cancel => 'キャンセル';
 
   @override
-  String get cannotAddAdlist => 'Adlistを追加できませんでした';
-
-  @override
   String get cannotAddDomain => 'ドメインを追加できませんでした';
 
   @override
@@ -288,9 +321,6 @@ class AppLocalizationsJa extends AppLocalizations {
 
   @override
   String get cannotConnect => 'サーバーに接続できません。';
-
-  @override
-  String get cannotEditAdlist => 'Adlistの更新に失敗しました';
 
   @override
   String get cannotEditDomain => 'ドメインの更新に失敗しました';
@@ -505,12 +535,6 @@ class AppLocalizationsJa extends AppLocalizations {
 
   @override
   String get delete => '削除';
-
-  @override
-  String get deleteAdlist => 'Adlistを削除';
-
-  @override
-  String get deleteAdlistMessage => 'このAdlistを削除してもよろしいですか？';
 
   @override
   String get deleteDevice => 'デバイスの削除';
@@ -732,9 +756,6 @@ class AppLocalizationsJa extends AppLocalizations {
   String get error => 'エラー';
 
   @override
-  String get errorRemovingAdlist => 'Adlistの削除中にエラーが発生しました';
-
-  @override
   String get errorRemovingDevice => 'デバイスの削除中にエラーが発生しました';
 
   @override
@@ -943,9 +964,6 @@ class AppLocalizationsJa extends AppLocalizations {
 
   @override
   String get invalidAddress => '無効なIPまたはドメイン';
-
-  @override
-  String get invalidAdlist => '無効なAdlistのURLです';
 
   @override
   String get invalidDomain => '無効なドメイン';
@@ -1194,9 +1212,6 @@ class AppLocalizationsJa extends AppLocalizations {
 
   @override
   String get next => '次へ';
-
-  @override
-  String get noAdlists => '表示するAdlistがありません。';
 
   @override
   String get noAvailableBiometrics => 'デバイスに保存されている指紋がありません。';
@@ -1468,18 +1483,6 @@ class AppLocalizationsJa extends AppLocalizations {
   String get scope => 'スコープ';
 
   @override
-  String get searchAdlistInternet => 'Adlistをオンラインで表示';
-
-  @override
-  String get searchAdlists => 'Adlistを検索...';
-
-  @override
-  String get searchAdlistsDescription => 'Adlistに含まれるドメインを検索';
-
-  @override
-  String get searchAdlistsTitle => 'Adlistを検索';
-
-  @override
   String get searchDomainInternet => 'インターネットでドメインを検索';
 
   @override
@@ -1517,9 +1520,6 @@ class AppLocalizationsJa extends AppLocalizations {
 
   @override
   String get security => 'セキュリティ';
-
-  @override
-  String get selectAdlistsLeftColumn => '詳細を表示するにはAdlistを選択してください。';
 
   @override
   String get selectConnection => '接続を選択';
@@ -1828,9 +1828,6 @@ class AppLocalizationsJa extends AppLocalizations {
 
   @override
   String get updating => '更新中…';
-
-  @override
-  String get updatingAdlist => 'Adlistを更新中...';
 
   @override
   String get updatingInProgressMessage =>

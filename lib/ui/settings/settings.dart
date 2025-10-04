@@ -239,8 +239,8 @@ class _SettingsWidgetState extends State<SettingsWidget> {
           ),
           settingsTile(
             icon: Icons.security_rounded,
-            title: AppLocalizations.of(context)!.adlistManagementTitle,
-            subtitle: AppLocalizations.of(context)!.adlistManagementDescription,
+            title: AppLocalizations.of(context)!.adlists,
+            subtitle: AppLocalizations.of(context)!.adlistDescription,
             screenToNavigate: const SubscriptionLists(),
             thisItem: 5,
           ),

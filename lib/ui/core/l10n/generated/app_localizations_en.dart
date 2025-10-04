@@ -30,9 +30,6 @@ class AppLocalizationsEn extends AppLocalizations {
   String get add => 'Add';
 
   @override
-  String get addAdlist => 'Add adlist';
-
-  @override
   String get addAsWildcard => 'Add as wildcard';
 
   @override
@@ -49,9 +46,6 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get addedWhitelist => 'Domain added to whitelist.';
-
-  @override
-  String get addingAdlist => 'Adding adlist...';
 
   @override
   String get addingBlacklist => 'Adding to blacklist...';
@@ -81,7 +75,16 @@ class AppLocalizationsEn extends AppLocalizations {
   String get adlist => 'Adlist';
 
   @override
+  String get adlistAdd => 'Add adlist';
+
+  @override
+  String get adlistAddFailed => 'Adlist couldn\'t be added';
+
+  @override
   String get adlistAdded => 'Adlist added successfully';
+
+  @override
+  String get adlistAdding => 'Adding adlist...';
 
   @override
   String get adlistAddress => 'Address';
@@ -90,16 +93,26 @@ class AppLocalizationsEn extends AppLocalizations {
   String get adlistAlreadyAdded => 'Adlist already added';
 
   @override
+  String get adlistDelete => 'Delete adlist';
+
+  @override
+  String get adlistDeleteError => 'Error when removing adlist';
+
+  @override
+  String get adlistDeleteMessage =>
+      'Are you sure you want to delete this adlist?';
+
+  @override
+  String get adlistDescription => 'Manage and update Adlists';
+
+  @override
   String get adlistDetails => 'Adlist Details';
 
   @override
   String get adlistInfo => 'Adlist Info';
 
   @override
-  String get adlistManagementDescription => 'Manage and update Adlists';
-
-  @override
-  String get adlistManagementTitle => 'Adlists';
+  String get adlistInvalid => 'Invalid adlist URL';
 
   @override
   String get adlistNotExists => 'Adlist does not exist';
@@ -114,10 +127,34 @@ class AppLocalizationsEn extends AppLocalizations {
   String get adlistStatus => 'Health Status';
 
   @override
+  String get adlistUpdateFailed => 'Failed to update the Adlist';
+
+  @override
   String get adlistUpdated => 'Adlist updated successfully';
 
   @override
+  String get adlistUpdating => 'Updating adlist...';
+
+  @override
+  String get adlists => 'Adlists';
+
+  @override
+  String get adlistsNone => 'There are no adlists to show here.';
+
+  @override
   String get adlistsNotLoaded => 'Adlists couldn\'t be loaded';
+
+  @override
+  String get adlistsSearch => 'Search adlists...';
+
+  @override
+  String get adlistsSearchOnline => 'View adlist online';
+
+  @override
+  String get adlistsSearchTitle => 'Search Adlists';
+
+  @override
+  String get adlistsSelectLeftColumn => 'Choose an adlist to see its details';
 
   @override
   String get advancedAppSetupDescription => 'Access advanced app settings';
@@ -277,9 +314,6 @@ class AppLocalizationsEn extends AppLocalizations {
   String get cancel => 'Cancel';
 
   @override
-  String get cannotAddAdlist => 'Adlist couldn\'t be added';
-
-  @override
   String get cannotAddDomain => 'Domain couldn\'t be added';
 
   @override
@@ -294,9 +328,6 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get cannotConnect => 'Cannot connect to server.';
-
-  @override
-  String get cannotEditAdlist => 'Failed to update the Adlist';
 
   @override
   String get cannotEditDomain => 'Failed to update the Domain';
@@ -518,13 +549,6 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get delete => 'Delete';
-
-  @override
-  String get deleteAdlist => 'Delete adlist';
-
-  @override
-  String get deleteAdlistMessage =>
-      'Are you sure you want to delete this adlist?';
 
   @override
   String get deleteDevice => 'Delete device';
@@ -752,9 +776,6 @@ class AppLocalizationsEn extends AppLocalizations {
   String get error => 'Error';
 
   @override
-  String get errorRemovingAdlist => 'Error when removing adlist';
-
-  @override
   String get errorRemovingDevice => 'Error when removing device';
 
   @override
@@ -968,9 +989,6 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get invalidAddress => 'Invalid IP or domain';
-
-  @override
-  String get invalidAdlist => 'Invalid adlist URL';
 
   @override
   String get invalidDomain => 'Invalid domain';
@@ -1226,9 +1244,6 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get next => 'Next';
-
-  @override
-  String get noAdlists => 'There are no adlists to show here.';
 
   @override
   String get noAvailableBiometrics =>
@@ -1508,18 +1523,6 @@ class AppLocalizationsEn extends AppLocalizations {
   String get scope => 'Scope';
 
   @override
-  String get searchAdlistInternet => 'View adlist online';
-
-  @override
-  String get searchAdlists => 'Search adlists...';
-
-  @override
-  String get searchAdlistsDescription => 'Search for domains listed in adlists';
-
-  @override
-  String get searchAdlistsTitle => 'Search Adlists';
-
-  @override
   String get searchDomainInternet => 'Search domain on the Internet';
 
   @override
@@ -1557,9 +1560,6 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get security => 'Security';
-
-  @override
-  String get selectAdlistsLeftColumn => 'Choose an adlist to see its details';
 
   @override
   String get selectConnection => 'Select a connection';
@@ -1874,9 +1874,6 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get updating => 'Updating…';
-
-  @override
-  String get updatingAdlist => 'Updating adlist...';
 
   @override
   String get updatingInProgressMessage =>

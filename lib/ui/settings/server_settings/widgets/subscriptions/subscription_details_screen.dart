@@ -81,7 +81,7 @@ class _SubscriptionDetailsScreenState extends State<SubscriptionDetailsScreen> {
           IconButton(
             onPressed: () => openUrl(_subscription.address),
             icon: const Icon(Icons.travel_explore_rounded),
-            tooltip: AppLocalizations.of(context)!.searchAdlistInternet,
+            tooltip: AppLocalizations.of(context)!.adlistsSearchOnline,
           ),
           IconButton(
             onPressed: () => showDialog(
@@ -89,8 +89,8 @@ class _SubscriptionDetailsScreenState extends State<SubscriptionDetailsScreen> {
               useRootNavigator:
                   false, // Prevents unexpected app exit on mobile when pressing back
               builder: (context) => DeleteModal(
-                title: AppLocalizations.of(context)!.deleteAdlist,
-                message: AppLocalizations.of(context)!.deleteAdlistMessage,
+                title: AppLocalizations.of(context)!.adlistDelete,
+                message: AppLocalizations.of(context)!.adlistDeleteMessage,
                 onDelete: () {
                   Navigator.maybePop(context);
                   widget.remove(_subscription);
@@ -229,7 +229,7 @@ class _SubscriptionDetailsScreenState extends State<SubscriptionDetailsScreen> {
     final body = SubscriptionRequest.fromJson(value);
 
     final process = ProcessModal(context: context);
-    process.open(AppLocalizations.of(context)!.updatingAdlist);
+    process.open(AppLocalizations.of(context)!.adlistUpdating);
 
     final result = await apiGateway?.updateSubscription(body: body);
 
@@ -255,7 +255,7 @@ class _SubscriptionDetailsScreenState extends State<SubscriptionDetailsScreen> {
       showErrorSnackBar(
         context: context,
         appConfigProvider: appConfigProvider,
-        label: AppLocalizations.of(context)!.cannotEditAdlist,
+        label: AppLocalizations.of(context)!.adlistUpdateFailed,
       );
     }
   }
