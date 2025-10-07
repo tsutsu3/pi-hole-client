@@ -306,7 +306,7 @@ class DatabaseService {
         statisticsVisualizationMode,
         homeVisualizationMode,
         sendCrashReports
-      ) VALUES (5, 0, 'en', 0, 2, 15, 1, 0,  0, 0, 0, 0, 0, 0, 0)
+      ) VALUES (5, 0, 'en', 0, 2, 15, 0, 0, 0, 0, 0, 0, 0, 0, 0)
     ''');
 
     await db.execute('''
@@ -726,7 +726,7 @@ class DatabaseService {
       useBiometricAuth, importantInfoReaden, hideZeroValues, loadingAnimation,
       statisticsVisualizationMode, homeVisualizationMode, sendCrashReports)
     SELECT autoRefreshTime, theme, language,
-      reducedDataCharts, logsPerQuery, 15, 1, 0,
+      reducedDataCharts, logsPerQuery, 15, 0, 0,
       useBiometricAuth, importantInfoReaden, hideZeroValues, loadingAnimation,
       statisticsVisualizationMode, homeVisualizationMode, sendCrashReports
     FROM appConfig

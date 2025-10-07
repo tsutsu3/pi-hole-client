@@ -20,7 +20,7 @@ void main() {
     'reducedDataCharts': 0,
     'logsPerQuery': 2.0,
     'logAutoRefreshTime': 15,
-    'liveLog': 1,
+    'liveLog': 0,
     'isLivelogPaused': 0,
     'passCode': null,
     'useBiometricAuth': 0,
