@@ -207,7 +207,7 @@ class AppConfigRepository {
         'reducedDataCharts': 0,
         'logsPerQuery': 2,
         'logAutoRefreshTime': 15,
-        'liveLog': 1,
+        'liveLog': 0,
         'isLivelogPaused': 0,
         'useBiometricAuth': 0,
         'importantInfoReaden': 0,
