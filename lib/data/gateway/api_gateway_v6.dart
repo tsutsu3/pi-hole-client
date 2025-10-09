@@ -1059,14 +1059,11 @@ class ApiGatewayV6 implements ApiGateway {
   @override
   Future<RemoveSubscriptionResponse> removeSubscription({
     required String url,
-    String? stype,
+    required String stype,
   }) async {
     try {
-      var requestUrl =
-          '${_server.address}/api/lists/${Uri.encodeComponent(url)}';
-      if (stype != null) {
-        requestUrl += '?type=$stype';
-      }
+      final requestUrl =
+          '${_server.address}/api/lists/${Uri.encodeComponent(url)}?type=$stype';
 
       final results = await httpClient(method: 'delete', url: requestUrl);
 
@@ -1098,7 +1095,7 @@ class ApiGatewayV6 implements ApiGateway {
     try {
       final results = await httpClient(
         method: 'post',
-        url: '${_server.address}/api/lists',
+        url: '${_server.address}/api/lists?type=${body.type}',
         body: body.toJson(),
       );
 

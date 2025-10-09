@@ -3117,12 +3117,17 @@ void main() async {
 
         when(
           mockClient.delete(
-            Uri.parse('http://example.com/api/lists/$encodedAddress'),
+            Uri.parse(
+              'http://example.com/api/lists/$encodedAddress?type=block',
+            ),
             headers: anyNamed('headers'),
           ),
         ).thenAnswer((_) async => http.Response('', 204));
 
-        final response = await apiGateway.removeSubscription(url: address);
+        final response = await apiGateway.removeSubscription(
+          url: address,
+          stype: SubscriptionTypes.block,
+        );
 
         expect(response.result, APiResponseType.success);
         expect(response.message, null);
@@ -3160,12 +3165,15 @@ void main() async {
 
       when(
         mockClient.delete(
-          Uri.parse('http://example.com/api/lists/$encodedAddress'),
+          Uri.parse('http://example.com/api/lists/$encodedAddress?type=block'),
           headers: anyNamed('headers'),
         ),
       ).thenAnswer((_) async => http.Response(jsonEncode(notFoundData), 404));
 
-      final response = await apiGateway.removeSubscription(url: address);
+      final response = await apiGateway.removeSubscription(
+        url: address,
+        stype: SubscriptionTypes.block,
+      );
 
       expect(response.result, APiResponseType.notFound);
       expect(response.message, fetchError);
@@ -3199,12 +3207,17 @@ void main() async {
 
         when(
           mockClient.delete(
-            Uri.parse('http://example.com/api/lists/$encodedAddress'),
+            Uri.parse(
+              'http://example.com/api/lists/$encodedAddress?type=block',
+            ),
             headers: anyNamed('headers'),
           ),
         ).thenThrow(Exception('Unexpected error test'));
 
-        final response = await apiGateway.removeSubscription(url: address);
+        final response = await apiGateway.removeSubscription(
+          url: address,
+          stype: SubscriptionTypes.block,
+        );
 
         expect(response.result, APiResponseType.error);
         expect(response.message, unexpectedError);
@@ -3276,7 +3289,7 @@ void main() async {
 
       when(
         mockClient.post(
-          Uri.parse('http://example.com/api/lists'),
+          Uri.parse('http://example.com/api/lists?type=block'),
           headers: anyNamed('headers'),
           body: anyNamed('body'),
         ),
@@ -3330,7 +3343,7 @@ void main() async {
 
         when(
           mockClient.post(
-            Uri.parse('http://example.com/api/lists'),
+            Uri.parse('http://example.com/api/lists?type=block'),
             headers: anyNamed('headers'),
             body: anyNamed('body'),
           ),
@@ -3350,7 +3363,7 @@ void main() async {
 
       when(
         mockClient.post(
-          Uri.parse('http://example.com/api/lists'),
+          Uri.parse('http://example.com/api/lists?type=block'),
           headers: anyNamed('headers'),
           body: anyNamed('body'),
         ),
@@ -3371,7 +3384,7 @@ void main() async {
 
         when(
           mockClient.post(
-            Uri.parse('http://example.com/api/lists'),
+            Uri.parse('http://example.com/api/lists?type=block'),
             headers: anyNamed('headers'),
             body: anyNamed('body'),
           ),
@@ -3453,7 +3466,9 @@ void main() async {
 
         when(
           mockClient.put(
-            Uri.parse('http://example.com/api/lists/$encodedAddress'),
+            Uri.parse(
+              'http://example.com/api/lists/$encodedAddress?type=block',
+            ),
             headers: anyNamed('headers'),
             body: anyNamed('body'),
           ),
@@ -3476,7 +3491,7 @@ void main() async {
 
       when(
         mockClient.put(
-          Uri.parse('http://example.com/api/lists/$encodedAddress'),
+          Uri.parse('http://example.com/api/lists/$encodedAddress?type=block'),
           headers: anyNamed('headers'),
           body: anyNamed('body'),
         ),
@@ -3497,7 +3512,7 @@ void main() async {
 
         when(
           mockClient.put(
-            Uri.parse('http://example.com/api/lists'),
+            Uri.parse('http://example.com/api/lists?type=block'),
             headers: anyNamed('headers'),
             body: anyNamed('body'),
           ),

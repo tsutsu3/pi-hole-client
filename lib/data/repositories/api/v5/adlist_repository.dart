@@ -55,7 +55,7 @@ class AdlistRepositoryV5 extends BaseV5TokenRepository
   }
 
   @override
-  Future<Result<Unit>> deleteAdlist(String address, {ListType? type}) async {
+  Future<Result<Unit>> deleteAdlist(String address, ListType type) async {
     return Future.value(
       Failure(NotSupportedException(kNotSupportedInV5Message)),
     );

@@ -170,7 +170,7 @@ abstract interface class ApiGateway {
   /// If no matching subscription is found, the operation has no effect.
   Future<RemoveSubscriptionResponse> removeSubscription({
     required String url,
-    String? stype,
+    required String stype,
   });
 
   /// Creates a subscription.
