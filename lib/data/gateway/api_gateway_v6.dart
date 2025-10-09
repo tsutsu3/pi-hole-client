@@ -1548,11 +1548,14 @@ class ApiGatewayV6 implements ApiGateway {
   }
 
   @override
-  Future<ConfigurationResponse> patchConfiguration(ConfigData body) async {
+  Future<ConfigurationResponse> patchConfiguration(
+    ConfigData body, {
+    bool isRestart = true,
+  }) async {
     try {
       final results = await httpClient(
         method: 'patch',
-        url: '${_server.address}/api/config',
+        url: '${_server.address}/api/config?restart=$isRestart',
         body: {'config': body.toJson()},
       );
 
@@ -1581,12 +1584,13 @@ class ApiGatewayV6 implements ApiGateway {
   Future<DeleteConfigResponse> deleteConfiguration({
     required String element,
     required String value,
+    bool isRestart = true,
   }) async {
     try {
       final results = await httpClient(
         method: 'delete',
         url:
-            '${_server.address}/api/config/${Uri.encodeComponent(element)}/${Uri.encodeComponent(value)}',
+            '${_server.address}/api/config/${Uri.encodeComponent(element)}/${Uri.encodeComponent(value)}?restart=$isRestart',
       );
 
       if (results.statusCode == 204) {
@@ -1609,12 +1613,13 @@ class ApiGatewayV6 implements ApiGateway {
   Future<PutConfigResponse> putConfiguration({
     required String element,
     required String value,
+    bool isRestart = true,
   }) async {
     try {
       final results = await httpClient(
         method: 'put',
         url:
-            '${_server.address}/api/config/${Uri.encodeComponent(element)}/${Uri.encodeComponent(value)}',
+            '${_server.address}/api/config/${Uri.encodeComponent(element)}/${Uri.encodeComponent(value)}?restart=$isRestart',
       );
 
       if (results.statusCode == 201) {
@@ -1634,8 +1639,14 @@ class ApiGatewayV6 implements ApiGateway {
   }
 
   @override
-  Future<ConfigurationResponse> patchDnsQueryLoggingConfig(bool status) async {
-    return patchConfiguration(ConfigData(dns: Dns(queryLogging: status)));
+  Future<ConfigurationResponse> patchDnsQueryLoggingConfig(
+    bool status, {
+    bool isRestart = true,
+  }) async {
+    return patchConfiguration(
+      ConfigData(dns: Dns(queryLogging: status)),
+      isRestart: isRestart,
+    );
   }
 
   @override
@@ -1664,10 +1675,12 @@ class ApiGatewayV6 implements ApiGateway {
   Future<AddLocalDnsResponse> addLocalDns({
     required String ip,
     required String name,
+    bool isRestart = true,
   }) async {
     final resp = await putConfiguration(
       element: 'dns/hosts',
       value: '$ip $name',
+      isRestart: isRestart,
     );
 
     if (resp.result == APiResponseType.success) {
@@ -1681,6 +1694,7 @@ class ApiGatewayV6 implements ApiGateway {
   Future<LocalDnsResponse> updateLocalDns({
     required String ip,
     required String name,
+    bool isRestart = true,
     String? oldIp,
   }) async {
     // TODO: 1. Get, 2: Delete oldIP, 3: Add new IP
@@ -1714,6 +1728,7 @@ class ApiGatewayV6 implements ApiGateway {
     // 3. Update the configuration
     final configResp = await patchConfiguration(
       ConfigData(dns: Dns(hosts: newHosts)),
+      isRestart: isRestart,
     );
 
     if (configResp.result == APiResponseType.success) {
@@ -1733,10 +1748,12 @@ class ApiGatewayV6 implements ApiGateway {
   Future<DeleteLocalDnsResponse> deleteLocalDns({
     required String ip,
     required String name,
+    bool isRestart = true,
   }) async {
     final resp = await deleteConfiguration(
       element: 'dns/hosts',
       value: '$ip $name',
+      isRestart: isRestart,
     );
 
     if (resp.result == APiResponseType.success) {

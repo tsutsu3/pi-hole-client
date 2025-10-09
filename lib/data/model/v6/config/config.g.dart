@@ -77,7 +77,7 @@ _Dns _$DnsFromJson(Map<String, dynamic> json) => _Dns(
   hosts: (json['hosts'] as List<dynamic>?)?.map((e) => e as String).toList(),
   domainNeeded: json['domainNeeded'] as bool?,
   expandHosts: json['expandHosts'] as bool?,
-  domain: json['domain'] as String?,
+  domain: const DomainConverter().fromJson(json['domain']),
   bogusPriv: json['bogusPriv'] as bool?,
   dnssec: json['dnssec'] as bool?,
   interface: json['interface'] as String?,
@@ -88,6 +88,7 @@ _Dns _$DnsFromJson(Map<String, dynamic> json) => _Dns(
       ?.map((e) => e as String)
       .toList(),
   port: (json['port'] as num?)?.toInt(),
+  localise: json['localise'] as bool?,
   cache: json['cache'] == null
       ? null
       : DnsCache.fromJson(json['cache'] as Map<String, dynamic>),
@@ -122,7 +123,7 @@ Map<String, dynamic> _$DnsToJson(_Dns instance) => <String, dynamic>{
   'hosts': ?instance.hosts,
   'domainNeeded': ?instance.domainNeeded,
   'expandHosts': ?instance.expandHosts,
-  'domain': ?instance.domain,
+  'domain': ?const DomainConverter().toJson(instance.domain),
   'bogusPriv': ?instance.bogusPriv,
   'dnssec': ?instance.dnssec,
   'interface': ?instance.interface,
@@ -131,6 +132,7 @@ Map<String, dynamic> _$DnsToJson(_Dns instance) => <String, dynamic>{
   'queryLogging': ?instance.queryLogging,
   'cnameRecords': ?instance.cnameRecords,
   'port': ?instance.port,
+  'localise': ?instance.localise,
   'cache': ?instance.cache?.toJson(),
   'revServers': ?instance.revServers,
   'blocking': ?instance.blocking?.toJson(),
@@ -356,6 +358,9 @@ _Webserver _$WebserverFromJson(Map<String, dynamic> json) => _Webserver(
       ?.map((e) => e as String)
       .toList(),
   serveAll: json['serve_all'] as bool?,
+  advancedOpts: (json['advancedOpts'] as List<dynamic>?)
+      ?.map((e) => e as String)
+      .toList(),
   session: json['session'] == null
       ? null
       : WebSession.fromJson(json['session'] as Map<String, dynamic>),
@@ -381,6 +386,7 @@ Map<String, dynamic> _$WebserverToJson(_Webserver instance) =>
       'threads': ?instance.threads,
       'headers': ?instance.headers,
       'serve_all': ?instance.serveAll,
+      'advancedOpts': ?instance.advancedOpts,
       'session': ?instance.session?.toJson(),
       'tls': ?instance.tls?.toJson(),
       'paths': ?instance.paths?.toJson(),
@@ -399,11 +405,14 @@ Map<String, dynamic> _$WebSessionToJson(_WebSession instance) =>
       'restore': ?instance.restore,
     };
 
-_WebTls _$WebTlsFromJson(Map<String, dynamic> json) =>
-    _WebTls(cert: json['cert'] as String?);
+_WebTls _$WebTlsFromJson(Map<String, dynamic> json) => _WebTls(
+  cert: json['cert'] as String?,
+  validity: (json['validity'] as num?)?.toInt(),
+);
 
 Map<String, dynamic> _$WebTlsToJson(_WebTls instance) => <String, dynamic>{
   'cert': ?instance.cert,
+  'validity': ?instance.validity,
 };
 
 _WebPaths _$WebPathsFromJson(Map<String, dynamic> json) => _WebPaths(
@@ -526,6 +535,7 @@ _Misc _$MiscFromJson(Map<String, dynamic> json) => _Misc(
       .toList(),
   extraLogging: json['extraLogging'] as bool?,
   readOnly: json['readOnly'] as bool?,
+  normalizeCPU: json['normalizeCPU'] as bool?,
   check: json['check'] == null
       ? null
       : Check.fromJson(json['check'] as Map<String, dynamic>),
@@ -540,6 +550,7 @@ Map<String, dynamic> _$MiscToJson(_Misc instance) => <String, dynamic>{
   'dnsmasq_lines': ?instance.dnsmasqLines,
   'extraLogging': ?instance.extraLogging,
   'readOnly': ?instance.readOnly,
+  'normalizeCPU': ?instance.normalizeCPU,
   'check': ?instance.check?.toJson(),
 };
 
@@ -619,4 +630,12 @@ Map<String, dynamic> _$DebugToJson(_Debug instance) => <String, dynamic>{
   'ntp': ?instance.ntp,
   'netlink': ?instance.netlink,
   'all': ?instance.all,
+};
+
+_Domain _$DomainFromJson(Map<String, dynamic> json) =>
+    _Domain(name: json['name'] as String, local: json['local'] as bool?);
+
+Map<String, dynamic> _$DomainToJson(_Domain instance) => <String, dynamic>{
+  'name': instance.name,
+  'local': ?instance.local,
 };
