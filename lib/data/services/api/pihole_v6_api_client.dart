@@ -539,11 +539,9 @@ class PiholeV6ApiClient {
   Future<Result<Unit>> deleteLists(
     String sid, {
     required String adlist,
-    ListType? type,
+    required ListType type,
   }) async {
-    final queryString = _buildQueryString({
-      if (type != null) 'type': type.name,
-    });
+    final queryString = _buildQueryString({'type': type.name});
 
     final tmpPath = '/api/lists/${Uri.encodeComponent(adlist)}';
 

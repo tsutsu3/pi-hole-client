@@ -94,6 +94,7 @@ void main() {
     test('should remove adlist successfully', () async {
       final result = await repository.deleteAdlist(
         'https://example.com/adlist.txt',
+        ListType.block,
       );
       expectSuccess(result);
     });
@@ -103,6 +104,7 @@ void main() {
 
       final result = await repository.deleteAdlist(
         'https://example.com/adlist.txt',
+        ListType.block,
       );
       expectError(result, messageContains: 'Forced deleteLists failure');
     });

@@ -778,7 +778,7 @@ class ApiGatewayV5 implements ApiGateway {
   @override
   Future<RemoveSubscriptionResponse> removeSubscription({
     required String url,
-    String? stype,
+    required String stype,
   }) async {
     return Future.value(
       RemoveSubscriptionResponse(
