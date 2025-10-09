@@ -46,6 +46,7 @@ _Database _$DatabaseFromJson(Map<String, dynamic> json) => _Database(
   lists: (json['lists'] as num).toInt(),
   clients: (json['clients'] as num).toInt(),
   domains: Domains.fromJson(json['domains'] as Map<String, dynamic>),
+  regex: Regex.fromJson(json['regex'] as Map<String, dynamic>),
 );
 
 Map<String, dynamic> _$DatabaseToJson(_Database instance) => <String, dynamic>{
@@ -54,16 +55,27 @@ Map<String, dynamic> _$DatabaseToJson(_Database instance) => <String, dynamic>{
   'lists': instance.lists,
   'clients': instance.clients,
   'domains': instance.domains.toJson(),
+  'regex': instance.regex.toJson(),
 };
 
 _Domains _$DomainsFromJson(Map<String, dynamic> json) => _Domains(
-  allowed: (json['allowed'] as num).toInt(),
-  denied: (json['denied'] as num).toInt(),
+  allowed: const IntOrPairConverter().fromJson(json['allowed']),
+  denied: const IntOrPairConverter().fromJson(json['denied']),
 );
 
 Map<String, dynamic> _$DomainsToJson(_Domains instance) => <String, dynamic>{
-  'allowed': instance.allowed,
-  'denied': instance.denied,
+  'allowed': const IntOrPairConverter().toJson(instance.allowed),
+  'denied': const IntOrPairConverter().toJson(instance.denied),
+};
+
+_Regex _$RegexFromJson(Map<String, dynamic> json) => _Regex(
+  allowed: const IntOrPairConverter().fromJson(json['allowed']),
+  denied: const IntOrPairConverter().fromJson(json['denied']),
+);
+
+Map<String, dynamic> _$RegexToJson(_Regex instance) => <String, dynamic>{
+  'allowed': const IntOrPairConverter().toJson(instance.allowed),
+  'denied': const IntOrPairConverter().toJson(instance.denied),
 };
 
 _Clients _$ClientsFromJson(Map<String, dynamic> json) => _Clients(
@@ -133,3 +145,11 @@ Map<String, dynamic> _$DnsmasqToJson(_Dnsmasq instance) => <String, dynamic>{
   'dnssec_max_sig_fail': instance.dnssecMaxSigFail,
   'dnssec_max_work': instance.dnssecMaxWork,
 };
+
+_CountPair _$CountPairFromJson(Map<String, dynamic> json) => _CountPair(
+  total: (json['total'] as num).toInt(),
+  enabled: (json['enabled'] as num).toInt(),
+);
+
+Map<String, dynamic> _$CountPairToJson(_CountPair instance) =>
+    <String, dynamic>{'total': instance.total, 'enabled': instance.enabled};

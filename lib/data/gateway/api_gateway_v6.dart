@@ -1139,7 +1139,7 @@ class ApiGatewayV6 implements ApiGateway {
       final results = await httpClient(
         method: 'put',
         url:
-            '${_server.address}/api/lists/${Uri.encodeComponent(body.address)}',
+            '${_server.address}/api/lists/${Uri.encodeComponent(body.address)}?type=${body.type}',
         body: body.toJson(),
       );
 
