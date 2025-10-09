@@ -28,6 +28,7 @@ const kSrvGetInfoClient = srv.InfoClient(
   took: 0.003,
 );
 
+// FTL < v6.3
 const kSrvGetInfoFtl = srv.InfoFtl(
   ftl: srv.Ftl(
     database: srv.Database(
@@ -35,7 +36,14 @@ const kSrvGetInfoFtl = srv.InfoFtl(
       groups: 6,
       lists: 1,
       clients: 5,
-      domains: srv.Domains(allowed: 10, denied: 3),
+      domains: srv.Domains(
+        allowed: srv.IntOrPair.intValue(10),
+        denied: srv.IntOrPair.intValue(3),
+      ),
+      regex: srv.Regex(
+        allowed: srv.IntOrPair.intValue(2),
+        denied: srv.IntOrPair.intValue(1),
+      ),
     ),
     privacyLevel: 0,
     pid: 1234,
@@ -75,6 +83,8 @@ const kSrvGetInfoFtl = srv.InfoFtl(
   ),
   took: 0.003,
 );
+
+// TODO: FTL v6.3+ models
 
 const kSrvGetInfoHost = srv.InfoHost(
   host: srv.HostData(

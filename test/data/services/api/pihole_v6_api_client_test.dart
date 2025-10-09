@@ -1433,7 +1433,7 @@ void main() {
   group('getInfoFtl', () {
     final url = Uri.parse('$baseUrl/api/info/ftl');
 
-    test('returns FTL information', () async {
+    test('returns FTL information with FTL < 6.2', () async {
       final data = {
         'ftl': {
           'database': {
@@ -1441,7 +1441,77 @@ void main() {
             'groups': 6,
             'lists': 1,
             'clients': 5,
-            'domains': {'allowed': 10, 'denied': 3},
+            'domains': {
+              'allowed': {'total': 10, 'enabled': 10},
+              'denied': {'total': 3, 'enabled': 3},
+            },
+            'regex': {
+              'allowed': {'total': 2, 'enabled': 2},
+              'denied': {'total': 1, 'enabled': 1},
+            },
+          },
+          'privacy_level': 0,
+          'clients': {'total': 10, 'active': 8},
+          'pid': 1234,
+          'uptime': 123456789,
+          '%mem': 0.1,
+          '%cpu': 1.2,
+          'allow_destructive': true,
+          'dnsmasq': {
+            'dns_cache_inserted': 8,
+            'dns_cache_live_freed': 0,
+            'dns_queries_forwarded': 2,
+            'dns_auth_answered': 0,
+            'dns_local_answered': 74,
+            'dns_stale_answered': 0,
+            'dns_unanswered': 0,
+            'bootp': 0,
+            'pxe': 0,
+            'dhcp_ack': 0,
+            'dhcp_decline': 0,
+            'dhcp_discover': 0,
+            'dhcp_inform': 0,
+            'dhcp_nak': 0,
+            'dhcp_offer': 0,
+            'dhcp_release': 0,
+            'dhcp_request': 0,
+            'noanswer': 0,
+            'leases_allocated_4': 0,
+            'leases_pruned_4': 0,
+            'leases_allocated_6': 0,
+            'leases_pruned_6': 0,
+            'tcp_connections': 0,
+            'dnssec_max_crypto_use': 0,
+            'dnssec_max_sig_fail': 0,
+            'dnssec_max_work': 0,
+          },
+        },
+        'took': 0.003,
+      };
+      final response = http.Response(jsonEncode(data), 200);
+      mockGet(mockClient, url, response);
+
+      final result = await apiClient.getInfoFtl(sid);
+
+      expectSuccess(result, data);
+    });
+
+    test('returns FTL information with FTL >= 6.3', () async {
+      final data = {
+        'ftl': {
+          'database': {
+            'gravity': 67906,
+            'groups': 6,
+            'lists': 1,
+            'clients': 5,
+            'domains': {
+              'allowed': {'total': 40, 'enabled': 10},
+              'denied': {'total': 30, 'enabled': 3},
+            },
+            'regex': {
+              'allowed': {'total': 20, 'enabled': 2},
+              'denied': {'total': 10, 'enabled': 1},
+            },
           },
           'privacy_level': 0,
           'clients': {'total': 10, 'active': 8},

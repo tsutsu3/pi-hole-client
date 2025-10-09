@@ -39,6 +39,7 @@ sealed class Database with _$Database {
     required int lists,
     required int clients,
     required Domains domains,
+    required Regex regex,
   }) = _Database;
 
   factory Database.fromJson(Map<String, dynamic> json) =>
@@ -47,10 +48,23 @@ sealed class Database with _$Database {
 
 @freezed
 sealed class Domains with _$Domains {
-  const factory Domains({required int allowed, required int denied}) = _Domains;
+  const factory Domains({
+    @IntOrPairConverter() required IntOrPair allowed,
+    @IntOrPairConverter() required IntOrPair denied,
+  }) = _Domains;
 
   factory Domains.fromJson(Map<String, dynamic> json) =>
       _$DomainsFromJson(json);
+}
+
+@freezed
+sealed class Regex with _$Regex {
+  const factory Regex({
+    @IntOrPairConverter() required IntOrPair allowed,
+    @IntOrPairConverter() required IntOrPair denied,
+  }) = _Regex;
+
+  factory Regex.fromJson(Map<String, dynamic> json) => _$RegexFromJson(json);
 }
 
 @freezed
@@ -94,4 +108,70 @@ sealed class Dnsmasq with _$Dnsmasq {
 
   factory Dnsmasq.fromJson(Map<String, dynamic> json) =>
       _$DnsmasqFromJson(json);
+}
+
+// ========== FTL v6.3+ ===========
+
+/// FTL v6.3 or later only
+@freezed
+sealed class CountPair with _$CountPair {
+  const factory CountPair({required int total, required int enabled}) =
+      _CountPair;
+
+  factory CountPair.fromJson(Map<String, dynamic> json) =>
+      _$CountPairFromJson(json);
+}
+
+/// A union to absorb the dual types of v6.2 (int) or v6.3 (CountPair)
+@freezed
+sealed class IntOrPair with _$IntOrPair {
+  const IntOrPair._();
+
+  const factory IntOrPair.intValue(int value) = _IntValue;
+  const factory IntOrPair.pairValue(CountPair pair) = _PairValue;
+
+  /// Normalize and always return total/enabled (for domains)
+  /// For v6.2 int, treating "total=enabled=value"
+  CountPair asPair() => when(
+    intValue: (v) => CountPair(total: v, enabled: v),
+    pairValue: (p) => p,
+  );
+
+  int get total => asPair().total;
+  int get enabled => asPair().enabled;
+}
+
+/// JSON <-> IntOrPair converter
+class IntOrPairConverter implements JsonConverter<IntOrPair, Object?> {
+  const IntOrPairConverter();
+
+  @override
+  IntOrPair fromJson(Object? json) {
+    if (json is num) {
+      // v6.2 style: int
+      return IntOrPair.intValue(json.toInt());
+    }
+
+    if (json is Map<String, dynamic>) {
+      // v6.3 style: { "total": 123, "enabled": 120 }
+      final total = json['total'];
+      final enabled = json['enabled'];
+
+      if (total is num && enabled is num) {
+        return IntOrPair.pairValue(
+          CountPair(total: total.toInt(), enabled: enabled.toInt()),
+        );
+      }
+    }
+
+    // Fallback: should not happen
+    return const IntOrPair.pairValue(CountPair(total: 0, enabled: 0));
+  }
+
+  @override
+  Object? toJson(IntOrPair object) => object.when(
+    // v6.2 int conversion to v6.3 map style
+    intValue: (v) => {'total': v, 'enabled': v},
+    pairValue: (p) => {'total': p.total, 'enabled': p.enabled},
+  );
 }
