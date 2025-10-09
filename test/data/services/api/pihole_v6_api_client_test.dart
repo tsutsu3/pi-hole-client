@@ -3059,7 +3059,7 @@ void main() {
             'hosts': ['192.168.2.123 mymusicbox'],
             'domainNeeded': true,
             'expandHosts': true,
-            'domain': 'lan',
+            'domain': {'name': 'lan', 'local': null},
             'bogusPriv': true,
             'dnssec': true,
             'interface': 'eth0',
@@ -3071,6 +3071,7 @@ void main() {
               'hourly.yetanother.com,yetanother.com,3600',
             ],
             'port': 53,
+            'localise': true,
             'cache': {
               'size': 10000,
               'optimizer': 3600,
@@ -3154,8 +3155,9 @@ void main() {
               'Referrer-Policy: strict-origin-when-cross-origin',
             ],
             'serve_all': false,
+            'advancedOpts': ['ssl_protocol_version=4'],
             'session': {'timeout': 300, 'restore': true},
-            'tls': {'cert': '/etc/pihole/tls.pem'},
+            'tls': {'cert': '/etc/pihole/tls.pem', 'validity': 47},
             'paths': {
               'webroot': '/var/www/html',
               'webhome': '/admin/',
@@ -3203,6 +3205,7 @@ void main() {
             'dnsmasq_lines': [],
             'extraLogging': false,
             'readOnly': false,
+            'normalizeCPU': false,
             'check': {'load': true, 'shmem': 90, 'disk': 90},
           },
           'debug': {

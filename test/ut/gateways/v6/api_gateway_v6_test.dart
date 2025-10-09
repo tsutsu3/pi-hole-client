@@ -5704,7 +5704,7 @@ void main() async {
       when(
         mockClient.delete(
           Uri.parse(
-            'http://example.com/api/config/${Uri.encodeComponent(element)}/${Uri.encodeComponent(value)}',
+            'http://example.com/api/config/${Uri.encodeComponent(element)}/${Uri.encodeComponent(value)}?restart=true',
           ),
           headers: anyNamed('headers'),
         ),
@@ -5726,7 +5726,7 @@ void main() async {
       when(
         mockClient.delete(
           Uri.parse(
-            'http://example.com/api/config/${Uri.encodeComponent(element)}/${Uri.encodeComponent(value)}',
+            'http://example.com/api/config/${Uri.encodeComponent(element)}/${Uri.encodeComponent(value)}?restart=true',
           ),
           headers: anyNamed('headers'),
         ),
@@ -5748,7 +5748,7 @@ void main() async {
       when(
         mockClient.delete(
           Uri.parse(
-            'http://example.com/api/config/${Uri.encodeComponent(element)}/${Uri.encodeComponent(value)}',
+            'http://example.com/api/config/${Uri.encodeComponent(element)}/${Uri.encodeComponent(value)}?restart=true',
           ),
           headers: anyNamed('headers'),
         ),
@@ -5799,7 +5799,7 @@ void main() async {
       when(
         mockClient.put(
           Uri.parse(
-            'http://example.com/api/config/${Uri.encodeComponent(element)}/${Uri.encodeComponent(value)}',
+            'http://example.com/api/config/${Uri.encodeComponent(element)}/${Uri.encodeComponent(value)}?restart=true',
           ),
           headers: anyNamed('headers'),
         ),
@@ -5821,7 +5821,7 @@ void main() async {
       when(
         mockClient.put(
           Uri.parse(
-            'http://example.com/api/config/${Uri.encodeComponent(element)}/${Uri.encodeComponent(value)}',
+            'http://example.com/api/config/${Uri.encodeComponent(element)}/${Uri.encodeComponent(value)}?restart=true',
           ),
           headers: anyNamed('headers'),
         ),
@@ -5843,7 +5843,7 @@ void main() async {
       when(
         mockClient.put(
           Uri.parse(
-            'http://example.com/api/config/${Uri.encodeComponent(element)}/${Uri.encodeComponent(value)}',
+            'http://example.com/api/config/${Uri.encodeComponent(element)}/${Uri.encodeComponent(value)}?restart=true',
           ),
           headers: anyNamed('headers'),
         ),
@@ -5890,7 +5890,7 @@ void main() async {
 
       when(
         mockClient.patch(
-          Uri.parse('http://example.com/api/config'),
+          Uri.parse('http://example.com/api/config?restart=true'),
           headers: anyNamed('headers'),
           body: anyNamed('body'),
         ),
@@ -5912,7 +5912,7 @@ void main() async {
 
       when(
         mockClient.patch(
-          Uri.parse('http://example.com/api/config'),
+          Uri.parse('http://example.com/api/config?restart=true'),
           headers: anyNamed('headers'),
           body: anyNamed('body'),
         ),
@@ -5931,7 +5931,7 @@ void main() async {
 
       when(
         mockClient.patch(
-          Uri.parse('http://example.com/api/config'),
+          Uri.parse('http://example.com/api/config?restart=true'),
           headers: anyNamed('headers'),
           body: anyNamed('body'),
         ),
@@ -5976,7 +5976,7 @@ void main() async {
 
       when(
         mockClient.patch(
-          Uri.parse('http://example.com/api/config'),
+          Uri.parse('http://example.com/api/config?restart=true'),
           headers: anyNamed('headers'),
           body: anyNamed('body'),
         ),
@@ -5998,7 +5998,7 @@ void main() async {
 
       when(
         mockClient.patch(
-          Uri.parse('http://example.com/api/config'),
+          Uri.parse('http://example.com/api/config?restart=true'),
           headers: anyNamed('headers'),
           body: anyNamed('body'),
         ),
@@ -6017,7 +6017,7 @@ void main() async {
 
       when(
         mockClient.patch(
-          Uri.parse('http://example.com/api/config'),
+          Uri.parse('http://example.com/api/config?restart=true'),
           headers: anyNamed('headers'),
           body: anyNamed('body'),
         ),
@@ -6148,7 +6148,7 @@ void main() async {
       when(
         mockClient.delete(
           Uri.parse(
-            'http://example.com/api/config/${Uri.encodeComponent('dns/hosts')}/${Uri.encodeComponent('$ip $name')}',
+            'http://example.com/api/config/${Uri.encodeComponent('dns/hosts')}/${Uri.encodeComponent('$ip $name')}?restart=true',
           ),
           headers: anyNamed('headers'),
         ),
@@ -6167,7 +6167,7 @@ void main() async {
       when(
         mockClient.delete(
           Uri.parse(
-            'http://example.com/api/config/${Uri.encodeComponent('dns/hosts')}/${Uri.encodeComponent('$ip $name')}',
+            'http://example.com/api/config/${Uri.encodeComponent('dns/hosts')}/${Uri.encodeComponent('$ip $name')}?restart=true',
           ),
           headers: anyNamed('headers'),
         ),
@@ -6186,7 +6186,7 @@ void main() async {
       when(
         mockClient.delete(
           Uri.parse(
-            'http://example.com/api/config/${Uri.encodeComponent('dns/hosts')}/${Uri.encodeComponent('$ip $name')}',
+            'http://example.com/api/config/${Uri.encodeComponent('dns/hosts')}/${Uri.encodeComponent('$ip $name')}?restart=true',
           ),
           headers: anyNamed('headers'),
         ),
@@ -6258,7 +6258,7 @@ void main() async {
 
       when(
         mockClient.patch(
-          Uri.parse('http://example.com/api/config'),
+          Uri.parse('http://example.com/api/config?restart=true'),
           headers: anyNamed('headers'),
           body: jsonEncode({
             'config': {
@@ -6293,7 +6293,7 @@ void main() async {
 
       when(
         mockClient.patch(
-          Uri.parse('http://example.com/api/config'),
+          Uri.parse('http://example.com/api/config?restart=true'),
           headers: anyNamed('headers'),
           body: jsonEncode({
             'config': {
@@ -6346,7 +6346,7 @@ void main() async {
       when(
         mockClient.get(
           Uri.parse(
-            'http://example.com/api/config/${Uri.encodeComponent('dns/hosts')}',
+            'http://example.com/api/config/${Uri.encodeComponent('dns/hosts')}?restart=true',
           ),
           headers: anyNamed('headers'),
         ),
@@ -6400,7 +6400,7 @@ void main() async {
       when(
         mockClient.put(
           Uri.parse(
-            'http://example.com/api/config/${Uri.encodeComponent('dns/hosts')}/${Uri.encodeComponent('$ip $name')}',
+            'http://example.com/api/config/${Uri.encodeComponent('dns/hosts')}/${Uri.encodeComponent('$ip $name')}?restart=true',
           ),
           headers: anyNamed('headers'),
         ),
@@ -6419,7 +6419,7 @@ void main() async {
       when(
         mockClient.put(
           Uri.parse(
-            'http://example.com/api/config/${Uri.encodeComponent('dns/hosts')}/${Uri.encodeComponent('$ip $name')}',
+            'http://example.com/api/config/${Uri.encodeComponent('dns/hosts')}/${Uri.encodeComponent('$ip $name')}?restart=true',
           ),
           headers: anyNamed('headers'),
         ),
@@ -6438,7 +6438,7 @@ void main() async {
       when(
         mockClient.put(
           Uri.parse(
-            'http://example.com/api/config/${Uri.encodeComponent('dns/hosts')}/${Uri.encodeComponent('$ip $name')}',
+            'http://example.com/api/config/${Uri.encodeComponent('dns/hosts')}/${Uri.encodeComponent('$ip $name')}?restart=true',
           ),
           headers: anyNamed('headers'),
         ),
