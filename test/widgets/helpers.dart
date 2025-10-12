@@ -2230,6 +2230,11 @@ class TestSetupHelper {
           ActionResponse(result: APiResponseType.success, data: 'success'),
     );
 
+    when(mockApiGatewayV6.flushNetwork()).thenAnswer(
+      (_) async =>
+          ActionResponse(result: APiResponseType.success, data: 'success'),
+    );
+
     when(mockApiGatewayV6.flushLogs()).thenAnswer(
       (_) async =>
           ActionResponse(result: APiResponseType.success, data: 'success'),

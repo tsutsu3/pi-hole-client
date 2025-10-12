@@ -1794,6 +1794,44 @@ class ApiGatewayV6 implements ApiGateway {
   }
 
   @override
+  Future<ActionResponse> flushNetwork() async {
+    try {
+      final results = await httpClient(
+        method: 'post',
+        url: '${_server.address}/api/action/flush/network',
+      );
+
+      if (results.statusCode == 200) {
+        final action = Action.fromJson(jsonDecode(results.body));
+
+        return ActionResponse(
+          result: APiResponseType.success,
+          data: action.status,
+        );
+      } else if (results.statusCode == 404) {
+        // Pi-hole < v6.3
+        return ActionResponse(
+          result: APiResponseType.notFound,
+          message: 'Flush network is not supported on this Pi-hole version.',
+        );
+      } else {
+        logger.e(
+          'Flush Network failed: ${results.statusCode} - ${results.body}',
+        );
+        return ActionResponse(
+          result: APiResponseType.error,
+          message: postError,
+        );
+      }
+    } catch (e) {
+      return ActionResponse(
+        result: APiResponseType.error,
+        message: unexpectedError,
+      );
+    }
+  }
+
+  @override
   Future<ActionResponse> flushLogs() async {
     try {
       final results = await httpClient(

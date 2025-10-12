@@ -1343,6 +1343,19 @@ class MockApiGatewayV6 extends _i1.Mock implements _i13.ApiGatewayV6 {
           as _i10.Future<_i5.ActionResponse>);
 
   @override
+  _i10.Future<_i5.ActionResponse> flushNetwork() =>
+      (super.noSuchMethod(
+            Invocation.method(#flushNetwork, []),
+            returnValue: _i10.Future<_i5.ActionResponse>.value(
+              _FakeActionResponse_37(
+                this,
+                Invocation.method(#flushNetwork, []),
+              ),
+            ),
+          )
+          as _i10.Future<_i5.ActionResponse>);
+
+  @override
   _i10.Future<_i5.ActionResponse> flushLogs() =>
       (super.noSuchMethod(
             Invocation.method(#flushLogs, []),

@@ -6526,6 +6526,115 @@ void main() async {
     });
   });
 
+  group('flushNetwork', () {
+    late Server server;
+    const data = {'status': 'success', 'took': 0.003};
+    const erroData = {
+      'error': {'key': 'unauthorized', 'message': 'Unauthorized', 'hint': null},
+      'took': 0.003,
+    };
+
+    setUp(() {
+      server = Server(
+        address: 'http://example.com',
+        alias: 'example',
+        defaultServer: true,
+        apiVersion: SupportedApiVersions.v6,
+        allowSelfSignedCert: true,
+      );
+      server.sm.savePassword('xxx123');
+    });
+
+    test('should return success', () async {
+      final mockClient = MockClient();
+      final apiGateway = ApiGatewayV6(server, client: mockClient);
+
+      when(
+        mockClient.post(
+          Uri.parse('http://example.com/api/action/flush/network'),
+          headers: anyNamed('headers'),
+        ),
+      ).thenAnswer((_) async => http.Response(jsonEncode(data), 200));
+
+      final response = await apiGateway.flushNetwork();
+
+      expect(response.result, APiResponseType.success);
+      expect(response.message, null);
+      expect(response.data, Action.fromJson(data).status);
+    });
+
+    test('should return an error when status code is 401', () async {
+      final mockClient = MockClient();
+      final apiGateway = ApiGatewayV6(server, client: mockClient);
+
+      when(
+        mockClient.post(
+          Uri.parse('http://example.com/api/action/flush/network'),
+          headers: anyNamed('headers'),
+        ),
+      ).thenAnswer((_) async => http.Response(jsonEncode(erroData), 401));
+
+      final response = await apiGateway.flushNetwork();
+
+      expect(response.result, APiResponseType.error);
+      expect(response.message, postError);
+      expect(response.data, null);
+    });
+
+    test(
+      'should return error when flushNetwork returns 404 on FTL < 6.3',
+      () async {
+        final mockClient = MockClient();
+        final apiGateway = ApiGatewayV6(server, client: mockClient);
+        const notfoundError = {
+          'error': {
+            'key': 'not_found',
+            'message': 'Not found',
+            'hint': '/api/action/flush/network',
+          },
+          'took': 0.003,
+        };
+
+        when(
+          mockClient.post(
+            Uri.parse('http://example.com/api/action/flush/network'),
+            headers: anyNamed('headers'),
+          ),
+        ).thenAnswer(
+          (_) async => http.Response(jsonEncode(notfoundError), 404),
+        );
+
+        final response = await apiGateway.flushNetwork();
+
+        expect(response.result, APiResponseType.notFound);
+        expect(
+          response.message,
+          'Flush network is not supported on this Pi-hole version.',
+        );
+        expect(response.data, null);
+      },
+    );
+
+    test('should return an error when an unexpected error occurs', () async {
+      final mockClient = MockClient();
+      final apiGateway = ApiGatewayV6(server, client: mockClient);
+
+      when(
+        mockClient.post(
+          Uri.parse('http://example.com/api/action/flush/network'),
+          headers: anyNamed('headers'),
+          body: anyNamed('body'),
+        ),
+      ).thenThrow(Exception('Unexpected error test'));
+
+      final response = await apiGateway.flushNetwork();
+
+      expect(response.result, APiResponseType.error);
+      expect(response.message, unexpectedError);
+      expect(response.data, null);
+    });
+  });
+
   group('flushLogs', () {
     late Server server;
     const data = {'status': 'success', 'took': 0.003};

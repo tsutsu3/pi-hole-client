@@ -313,7 +313,15 @@ abstract interface class ApiGateway {
   /// Flush the network table
   ///
   /// Flushes the network table. This includes emptying the ARP table and removing both all known devices and their associated addresses.
+  /// Deprecated in FTL v6.3 and later.
+  /// Use [flushNetwork] instead.
+  @Deprecated("Deprecated in FTL v6.3+. Use '/action/flush/network' instead.")
   Future<ActionResponse> flushArp();
+
+  /// Flush the network table
+  ///
+  /// Flushes the network table. This includes removing both all known devices and their associated addresses.
+  Future<ActionResponse> flushNetwork();
 
   /// Flush the DNS logs
   ///

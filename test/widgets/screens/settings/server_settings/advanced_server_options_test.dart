@@ -456,14 +456,46 @@ void main() async {
       expect(find.text('Network table cleared.'), findsOneWidget);
     });
 
-    testWidgets('should success Flush network table', (
+    testWidgets('should success Flush network table on FTL < v6.3', (
+      WidgetTester tester,
+    ) async {
+      tester.view.physicalSize = const Size(1080, 2400);
+      tester.view.devicePixelRatio = 2.0;
+
+      when(testSetup.mockApiGatewayV6.flushNetwork()).thenAnswer(
+        (_) async => ActionResponse(result: APiResponseType.notFound),
+      );
+
+      addTearDown(() {
+        tester.view.resetPhysicalSize();
+        tester.view.resetDevicePixelRatio();
+      });
+
+      await tester.pumpWidget(
+        testSetup.buildTestWidget(const AdvancedServerOptions()),
+      );
+
+      expect(find.byType(AdvancedServerOptions), findsOneWidget);
+      await tester.pump();
+
+      await tester.tap(find.text('Flush network table'));
+      await tester.pumpAndSettle();
+
+      await tester.tap(find.text('Flush'));
+      await tester.pumpAndSettle();
+
+      expect(find.byType(SnackBar), findsOneWidget);
+      expect(find.text('Network table cleared.'), findsOneWidget);
+    });
+
+    testWidgets('should failed Flush network table', (
       WidgetTester tester,
     ) async {
       tester.view.physicalSize = const Size(1080, 2400);
       tester.view.devicePixelRatio = 2.0;
 
       when(
-        testSetup.mockApiGatewayV6.flushArp(),
+        testSetup.mockApiGatewayV6.flushNetwork(),
       ).thenAnswer((_) async => ActionResponse(result: APiResponseType.error));
 
       addTearDown(() {

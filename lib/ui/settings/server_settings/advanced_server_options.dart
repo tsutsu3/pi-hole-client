@@ -195,7 +195,12 @@ class _AdvancedServerOptionsState extends State<AdvancedServerOptions> {
       final process = ProcessModal(context: context);
       process.open(AppLocalizations.of(context)!.flushingNetworkTable);
 
-      final result = await apiGateway.flushArp();
+      // Fallback to deprecated method for Pi-hole < v6.3
+      var result = await apiGateway.flushNetwork();
+      if (result.result == APiResponseType.notFound) {
+        logger.w('flushNetwork not found, falling back to flushArp');
+        result = await apiGateway.flushArp();
+      }
       if (!context.mounted) return;
 
       process.close();
