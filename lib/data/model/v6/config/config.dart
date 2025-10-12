@@ -446,9 +446,7 @@ class DomainConverter implements JsonConverter<Domain?, Object?> {
 
     // v6.3: "domain": { "name": "lan", "local": true }
     if (json is Map<String, dynamic>) {
-      final name = json['name'];
-      final local = json['local'];
-      return Domain(name: name, local: local);
+      return Domain.fromJson(json);
     }
 
     return null;
