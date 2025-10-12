@@ -100,6 +100,7 @@ class _LogsState extends State<Logs> {
 
   Future<void> initializeLoad() async {
     if (!mounted) return;
+    logsList.clear();
     setState(() {
       loadStatus = LoadStatus.loading;
     });
