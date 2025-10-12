@@ -1030,7 +1030,7 @@ class ApiGatewayV6 implements ApiGateway {
         requestUrl += '/$url';
       }
       if (stype != null) {
-        requestUrl += '?type=$stype';
+        requestUrl += '?type=${Uri.encodeComponent(stype)}';
       }
 
       final results = await httpClient(method: 'get', url: requestUrl);
@@ -1063,7 +1063,7 @@ class ApiGatewayV6 implements ApiGateway {
   }) async {
     try {
       final requestUrl =
-          '${_server.address}/api/lists/${Uri.encodeComponent(url)}?type=$stype';
+          '${_server.address}/api/lists/${Uri.encodeComponent(url)}?type=${Uri.encodeComponent(stype)}';
 
       final results = await httpClient(method: 'delete', url: requestUrl);
 
@@ -1095,7 +1095,8 @@ class ApiGatewayV6 implements ApiGateway {
     try {
       final results = await httpClient(
         method: 'post',
-        url: '${_server.address}/api/lists?type=${body.type}',
+        url:
+            '${_server.address}/api/lists?type=${Uri.encodeComponent(body.type)}',
         body: body.toJson(),
       );
 
@@ -1136,7 +1137,7 @@ class ApiGatewayV6 implements ApiGateway {
       final results = await httpClient(
         method: 'put',
         url:
-            '${_server.address}/api/lists/${Uri.encodeComponent(body.address)}?type=${body.type}',
+            '${_server.address}/api/lists/${Uri.encodeComponent(body.address)}?type=${Uri.encodeComponent(body.type)}',
         body: body.toJson(),
       );
 
