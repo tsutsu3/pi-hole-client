@@ -102,6 +102,7 @@ class _LogsState extends State<Logs> {
     if (!mounted) return;
     setState(() {
       loadStatus = LoadStatus.loading;
+      logsList.clear();
     });
 
     final now = DateTime.now();
