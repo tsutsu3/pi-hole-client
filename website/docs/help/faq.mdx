@@ -1,0 +1,45 @@
+---
+title: FAQ
+sidebar_position: 1
+---
+
+# FAQ
+
+## ❓ Q1. The app frequently disconnects or fails to fetch status
+
+|home|servers|settings|
+|---|---|---|
+|![](./images/home.png)|![](./images/servers.png)|![](./images/settings.png)|
+
+### 💡 Answer
+
+On certain devices, the app may occasionally fail to connect to your Pi-hole
+server during automatic refresh.
+This can happen when the refresh timing aligns poorly with how long the server
+keeps connections open.
+
+### 🛠 Temporary Workaround
+
+**Try adjusting the auto-refresh interval in the app settings.**
+
+Using exact round numbers like **"5 seconds" (5000 ms)** may increase the chance
+of connection issues.
+Shifting the interval slightly **up or down** can help avoid this.
+
+#### ❌ Avoid
+
+* 5 seconds (5000 ms)
+
+#### ✅ Recommended
+
+* 4 seconds (4000 ms)
+* 6 seconds (6000 ms)
+
+> Since version 1.5.0, the app automatically adds a small buffer to avoid this
+> issue, but manual adjustment may still help in some cases.
+
+### 🔧 Optional Tip
+
+If you continue to experience this issue, feel free to
+[open an issue](https://github.com/tsutsu3/pi-hole-client/issues).
+We're working to improve the reliability across all environments.
