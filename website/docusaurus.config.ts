@@ -107,7 +107,7 @@ const config: Config = {
       // Public API key: it is safe to commit it
       apiKey: "c233e68c3f0be545a11a9aff81236036",
 
-      indexName: "pi-hole-client-website",
+      indexName: "Pi-hole client web",
 
       // Optional: see doc section below
       contextualSearch: true,
