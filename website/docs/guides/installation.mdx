@@ -1,0 +1,72 @@
+---
+title: Installation Guide
+sidebar_position: 1
+---
+
+# 📦 Installation Guide
+
+This page explains how to install **Pi-hole Client** on Linux and Windows.
+
+## 🐧 Linux Installation
+
+### Option 1: Install via `.deb` package
+
+1. Download the `.deb` package from the [Releases page](https://github.com/tsutsu3/pi-hole-client/releases).
+2. Install it with the following command:
+
+   ```bash
+   sudo dpkg -i PiHoleClient_<version>_Linux_amd64.deb
+   ```
+
+:::info
+The app depends on several system libraries:
+
+- **libsecret-1-0**
+- **libjsoncpp1** or **libjsoncpp25**
+
+If the app fails to start, install any missing dependencies manually:
+
+```bash
+sudo apt install libsecret-1-0 libjsoncpp1
+```
+
+or
+
+```bash
+sudo apt install libsecret-1-0 libjsoncpp25
+```
+:::
+
+## 🪟 Windows Installation
+
+### Option 1: Install from GitHub Releases
+
+1. Download the Windows installer (`.exe`) from the [Releases page](https://github.com/tsutsu3/pi-hole-client/releases).
+2. Run the installer and follow the on-screen instructions.
+
+:::info
+This app requires the **Microsoft Visual C++ Redistributable (x64)** runtime.
+
+If you see an error like `MSVCP140.dll` or `VCRUNTIME140.dll` missing,
+install the latest runtime from Microsoft:
+
+👉 [Download Visual C++ Redistributable](https://learn.microsoft.com/en-us/cpp/windows/latest-supported-vc-redist)
+:::
+
+### Option 2: Install using `winget`
+
+If you have [Windows Package Manager](https://learn.microsoft.com/en-us/windows/package-manager/winget/) (`winget`) installed, run:
+
+```powershell
+winget install tsutsu3.Pi-hole-client
+```
+
+:::info
+If you get a permission prompt, approve it or run PowerShell as Administrator.
+:::
+
+
+## 🧩 Next steps
+
+Once installed, continue to **[Getting Started](../../getting-started)**
+to connect your Pi-hole and verify basic operations.
