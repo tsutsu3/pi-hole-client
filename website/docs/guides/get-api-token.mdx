@@ -1,0 +1,41 @@
+---
+title: Getting the API token (v5 only)
+sidebar_position: 2
+---
+import imgLogin from './images/01.png';
+import imgHome from './images/02.png';
+import imgSettings from './images/03.png';
+import imgWeb from './images/04.png';
+import imgYes from './images/05.png';
+import imgApp from './images/06.png';
+
+# 🔑 Getting the API token (v5 only)
+This guide explains how to get the API token to authenticate the application
+with your Pi-hole server.
+
+:::info
+This process applies only to Pi-hole server version 5.x.
+
+If you are using Pi-hole version 6.x, authentication is handled differently
+and does not require an API token.
+:::
+
+1. Go to the admin panel of your Pi-hole® server and log in.
+    <img width="300" alt="login" src={imgLogin} />
+
+2. On the side menu, go to Settings.
+    <img width="600" alt="home" src={imgHome} />
+
+3. Go to API / Web interface.
+    <img width="600" alt="settings" src={imgSettings} />
+
+4. Click on Show API token.
+    <img width="600" alt="web" src={imgWeb} />
+
+5. Click on Yes, show API token.
+    <img width="600" alt="yes" src={imgYes} />
+
+6. On the application, tap the QR code button (1) and then, scan the QR code,
+or copy the API token (text under the QR code) and paste it into the Token
+field (2).
+    <img width="300" alt="app" src={imgApp} />
