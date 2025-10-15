@@ -17,8 +17,8 @@
     "format": "prettier --write ."
   },
   "dependencies": {
-    "@docusaurus/core": "3.8.1",
-    "@docusaurus/preset-classic": "3.8.1",
+    "@docusaurus/core": "^3.9.1",
+    "@docusaurus/preset-classic": "^3.9.1",
     "@mdx-js/react": "^3.0.0",
     "clsx": "^2.0.0",
     "lucide-react": "^0.541.0",
@@ -26,13 +26,10 @@
     "react": "^19.0.0",
     "react-dom": "^19.0.0"
   },
-  "overrides": {
-    "webpack-dev-server": "^5.2.1"
-  },
   "devDependencies": {
-    "@docusaurus/eslint-plugin": "^3.8.1",
-    "@docusaurus/module-type-aliases": "3.8.1",
-    "@docusaurus/tsconfig": "3.8.1",
+    "@docusaurus/eslint-plugin": "^3.9.1",
+    "@docusaurus/module-type-aliases": "^3.9.1",
+    "@docusaurus/tsconfig": "^3.9.1",
     "@docusaurus/types": "3.8.1",
     "prettier": "^3.6.2",
     "typescript": "~5.6.2"
