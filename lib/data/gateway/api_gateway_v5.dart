@@ -6,7 +6,8 @@ import 'package:http/http.dart' as http;
 import 'package:http/http.dart';
 import 'package:http/io_client.dart';
 import 'package:pi_hole_client/data/gateway/api_gateway_interface.dart';
-import 'package:pi_hole_client/data/model/v6/config/config.dart';
+import 'package:pi_hole_client/data/model/v6/config/config.dart'
+    show ConfigData;
 import 'package:pi_hole_client/domain/models_old/app_log.dart';
 import 'package:pi_hole_client/domain/models_old/domain.dart';
 import 'package:pi_hole_client/domain/models_old/gateways.dart';
@@ -778,7 +779,7 @@ class ApiGatewayV5 implements ApiGateway {
   @override
   Future<RemoveSubscriptionResponse> removeSubscription({
     required String url,
-    String? stype,
+    required String stype,
   }) async {
     return Future.value(
       RemoveSubscriptionResponse(
@@ -956,7 +957,10 @@ class ApiGatewayV5 implements ApiGateway {
   }
 
   @override
-  Future<ConfigurationResponse> patchConfiguration(ConfigData body) async {
+  Future<ConfigurationResponse> patchConfiguration(
+    ConfigData body, {
+    bool isRestart = true,
+  }) async {
     return Future.value(
       ConfigurationResponse(
         result: APiResponseType.notSupported,
@@ -969,6 +973,7 @@ class ApiGatewayV5 implements ApiGateway {
   Future<DeleteConfigResponse> deleteConfiguration({
     required String element,
     required String value,
+    bool isRestart = true,
   }) async {
     return Future.value(
       DeleteConfigResponse(
@@ -982,6 +987,7 @@ class ApiGatewayV5 implements ApiGateway {
   Future<PutConfigResponse> putConfiguration({
     required String element,
     required String value,
+    bool isRestart = true,
   }) async {
     return Future.value(
       PutConfigResponse(
@@ -992,7 +998,10 @@ class ApiGatewayV5 implements ApiGateway {
   }
 
   @override
-  Future<ConfigurationResponse> patchDnsQueryLoggingConfig(bool status) async {
+  Future<ConfigurationResponse> patchDnsQueryLoggingConfig(
+    bool status, {
+    bool isRestart = true,
+  }) async {
     return Future.value(
       ConfigurationResponse(
         result: APiResponseType.notSupported,
@@ -1015,6 +1024,7 @@ class ApiGatewayV5 implements ApiGateway {
   Future<DeleteLocalDnsResponse> deleteLocalDns({
     required String ip,
     required String name,
+    bool isRestart = true,
   }) async {
     return Future.value(
       DeleteLocalDnsResponse(
@@ -1029,6 +1039,7 @@ class ApiGatewayV5 implements ApiGateway {
     required String ip,
     required String name,
     String? oldIp,
+    bool isRestart = true,
   }) async {
     return Future.value(
       LocalDnsResponse(
@@ -1042,6 +1053,7 @@ class ApiGatewayV5 implements ApiGateway {
   Future<AddLocalDnsResponse> addLocalDns({
     required String ip,
     required String name,
+    bool isRestart = true,
   }) async {
     return Future.value(
       AddLocalDnsResponse(
@@ -1053,6 +1065,16 @@ class ApiGatewayV5 implements ApiGateway {
 
   @override
   Future<ActionResponse> flushArp() async {
+    return Future.value(
+      ActionResponse(
+        result: APiResponseType.notSupported,
+        message: notSupportedMessage,
+      ),
+    );
+  }
+
+  @override
+  Future<ActionResponse> flushNetwork() async {
     return Future.value(
       ActionResponse(
         result: APiResponseType.notSupported,

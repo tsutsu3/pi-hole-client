@@ -83,7 +83,7 @@ class AdlistRepositoryV6 extends BaseV6SidRepository
   }
 
   @override
-  Future<Result<Unit>> deleteAdlist(String address, {ListType? type}) async {
+  Future<Result<Unit>> deleteAdlist(String address, ListType type) async {
     return runWithResultRetry<Unit>(
       action: () async {
         final sid = await getSid();

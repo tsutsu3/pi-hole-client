@@ -1030,7 +1030,7 @@ class ApiGatewayV6 implements ApiGateway {
         requestUrl += '/$url';
       }
       if (stype != null) {
-        requestUrl += '?type=$stype';
+        requestUrl += '?type=${Uri.encodeComponent(stype)}';
       }
 
       final results = await httpClient(method: 'get', url: requestUrl);
@@ -1059,14 +1059,11 @@ class ApiGatewayV6 implements ApiGateway {
   @override
   Future<RemoveSubscriptionResponse> removeSubscription({
     required String url,
-    String? stype,
+    required String stype,
   }) async {
     try {
-      var requestUrl =
-          '${_server.address}/api/lists/${Uri.encodeComponent(url)}';
-      if (stype != null) {
-        requestUrl += '?type=$stype';
-      }
+      final requestUrl =
+          '${_server.address}/api/lists/${Uri.encodeComponent(url)}?type=${Uri.encodeComponent(stype)}';
 
       final results = await httpClient(method: 'delete', url: requestUrl);
 
@@ -1098,7 +1095,8 @@ class ApiGatewayV6 implements ApiGateway {
     try {
       final results = await httpClient(
         method: 'post',
-        url: '${_server.address}/api/lists',
+        url:
+            '${_server.address}/api/lists?type=${Uri.encodeComponent(body.type)}',
         body: body.toJson(),
       );
 
@@ -1139,7 +1137,7 @@ class ApiGatewayV6 implements ApiGateway {
       final results = await httpClient(
         method: 'put',
         url:
-            '${_server.address}/api/lists/${Uri.encodeComponent(body.address)}',
+            '${_server.address}/api/lists/${Uri.encodeComponent(body.address)}?type=${Uri.encodeComponent(body.type)}',
         body: body.toJson(),
       );
 
@@ -1551,11 +1549,14 @@ class ApiGatewayV6 implements ApiGateway {
   }
 
   @override
-  Future<ConfigurationResponse> patchConfiguration(ConfigData body) async {
+  Future<ConfigurationResponse> patchConfiguration(
+    ConfigData body, {
+    bool isRestart = true,
+  }) async {
     try {
       final results = await httpClient(
         method: 'patch',
-        url: '${_server.address}/api/config',
+        url: '${_server.address}/api/config?restart=$isRestart',
         body: {'config': body.toJson()},
       );
 
@@ -1584,12 +1585,13 @@ class ApiGatewayV6 implements ApiGateway {
   Future<DeleteConfigResponse> deleteConfiguration({
     required String element,
     required String value,
+    bool isRestart = true,
   }) async {
     try {
       final results = await httpClient(
         method: 'delete',
         url:
-            '${_server.address}/api/config/${Uri.encodeComponent(element)}/${Uri.encodeComponent(value)}',
+            '${_server.address}/api/config/${Uri.encodeComponent(element)}/${Uri.encodeComponent(value)}?restart=$isRestart',
       );
 
       if (results.statusCode == 204) {
@@ -1612,12 +1614,13 @@ class ApiGatewayV6 implements ApiGateway {
   Future<PutConfigResponse> putConfiguration({
     required String element,
     required String value,
+    bool isRestart = true,
   }) async {
     try {
       final results = await httpClient(
         method: 'put',
         url:
-            '${_server.address}/api/config/${Uri.encodeComponent(element)}/${Uri.encodeComponent(value)}',
+            '${_server.address}/api/config/${Uri.encodeComponent(element)}/${Uri.encodeComponent(value)}?restart=$isRestart',
       );
 
       if (results.statusCode == 201) {
@@ -1637,8 +1640,14 @@ class ApiGatewayV6 implements ApiGateway {
   }
 
   @override
-  Future<ConfigurationResponse> patchDnsQueryLoggingConfig(bool status) async {
-    return patchConfiguration(ConfigData(dns: Dns(queryLogging: status)));
+  Future<ConfigurationResponse> patchDnsQueryLoggingConfig(
+    bool status, {
+    bool isRestart = true,
+  }) async {
+    return patchConfiguration(
+      ConfigData(dns: Dns(queryLogging: status)),
+      isRestart: isRestart,
+    );
   }
 
   @override
@@ -1667,10 +1676,12 @@ class ApiGatewayV6 implements ApiGateway {
   Future<AddLocalDnsResponse> addLocalDns({
     required String ip,
     required String name,
+    bool isRestart = true,
   }) async {
     final resp = await putConfiguration(
       element: 'dns/hosts',
       value: '$ip $name',
+      isRestart: isRestart,
     );
 
     if (resp.result == APiResponseType.success) {
@@ -1684,6 +1695,7 @@ class ApiGatewayV6 implements ApiGateway {
   Future<LocalDnsResponse> updateLocalDns({
     required String ip,
     required String name,
+    bool isRestart = true,
     String? oldIp,
   }) async {
     // TODO: 1. Get, 2: Delete oldIP, 3: Add new IP
@@ -1717,6 +1729,7 @@ class ApiGatewayV6 implements ApiGateway {
     // 3. Update the configuration
     final configResp = await patchConfiguration(
       ConfigData(dns: Dns(hosts: newHosts)),
+      isRestart: isRestart,
     );
 
     if (configResp.result == APiResponseType.success) {
@@ -1736,10 +1749,12 @@ class ApiGatewayV6 implements ApiGateway {
   Future<DeleteLocalDnsResponse> deleteLocalDns({
     required String ip,
     required String name,
+    bool isRestart = true,
   }) async {
     final resp = await deleteConfiguration(
       element: 'dns/hosts',
       value: '$ip $name',
+      isRestart: isRestart,
     );
 
     if (resp.result == APiResponseType.success) {
@@ -1766,6 +1781,44 @@ class ApiGatewayV6 implements ApiGateway {
         );
       } else {
         logger.e('Flush ARP failed: ${results.statusCode} - ${results.body}');
+        return ActionResponse(
+          result: APiResponseType.error,
+          message: postError,
+        );
+      }
+    } catch (e) {
+      return ActionResponse(
+        result: APiResponseType.error,
+        message: unexpectedError,
+      );
+    }
+  }
+
+  @override
+  Future<ActionResponse> flushNetwork() async {
+    try {
+      final results = await httpClient(
+        method: 'post',
+        url: '${_server.address}/api/action/flush/network',
+      );
+
+      if (results.statusCode == 200) {
+        final action = Action.fromJson(jsonDecode(results.body));
+
+        return ActionResponse(
+          result: APiResponseType.success,
+          data: action.status,
+        );
+      } else if (results.statusCode == 404) {
+        // Pi-hole < v6.3
+        return ActionResponse(
+          result: APiResponseType.notFound,
+          message: 'Flush network is not supported on this Pi-hole version.',
+        );
+      } else {
+        logger.e(
+          'Flush Network failed: ${results.statusCode} - ${results.body}',
+        );
         return ActionResponse(
           result: APiResponseType.error,
           message: postError,

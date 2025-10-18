@@ -628,7 +628,7 @@ $DnsmasqCopyWith<$Res> get dnsmasq {
 /// @nodoc
 mixin _$Database {
 
- int get gravity; int get groups; int get lists; int get clients; Domains get domains;
+ int get gravity; int get groups; int get lists; int get clients; Domains get domains; Regex get regex;
 /// Create a copy of Database
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -641,16 +641,16 @@ $DatabaseCopyWith<Database> get copyWith => _$DatabaseCopyWithImpl<Database>(thi
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is Database&&(identical(other.gravity, gravity) || other.gravity == gravity)&&(identical(other.groups, groups) || other.groups == groups)&&(identical(other.lists, lists) || other.lists == lists)&&(identical(other.clients, clients) || other.clients == clients)&&(identical(other.domains, domains) || other.domains == domains));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is Database&&(identical(other.gravity, gravity) || other.gravity == gravity)&&(identical(other.groups, groups) || other.groups == groups)&&(identical(other.lists, lists) || other.lists == lists)&&(identical(other.clients, clients) || other.clients == clients)&&(identical(other.domains, domains) || other.domains == domains)&&(identical(other.regex, regex) || other.regex == regex));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,gravity,groups,lists,clients,domains);
+int get hashCode => Object.hash(runtimeType,gravity,groups,lists,clients,domains,regex);
 
 @override
 String toString() {
-  return 'Database(gravity: $gravity, groups: $groups, lists: $lists, clients: $clients, domains: $domains)';
+  return 'Database(gravity: $gravity, groups: $groups, lists: $lists, clients: $clients, domains: $domains, regex: $regex)';
 }
 
 
@@ -661,11 +661,11 @@ abstract mixin class $DatabaseCopyWith<$Res>  {
   factory $DatabaseCopyWith(Database value, $Res Function(Database) _then) = _$DatabaseCopyWithImpl;
 @useResult
 $Res call({
- int gravity, int groups, int lists, int clients, Domains domains
+ int gravity, int groups, int lists, int clients, Domains domains, Regex regex
 });
 
 
-$DomainsCopyWith<$Res> get domains;
+$DomainsCopyWith<$Res> get domains;$RegexCopyWith<$Res> get regex;
 
 }
 /// @nodoc
@@ -678,14 +678,15 @@ class _$DatabaseCopyWithImpl<$Res>
 
 /// Create a copy of Database
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? gravity = null,Object? groups = null,Object? lists = null,Object? clients = null,Object? domains = null,}) {
+@pragma('vm:prefer-inline') @override $Res call({Object? gravity = null,Object? groups = null,Object? lists = null,Object? clients = null,Object? domains = null,Object? regex = null,}) {
   return _then(_self.copyWith(
 gravity: null == gravity ? _self.gravity : gravity // ignore: cast_nullable_to_non_nullable
 as int,groups: null == groups ? _self.groups : groups // ignore: cast_nullable_to_non_nullable
 as int,lists: null == lists ? _self.lists : lists // ignore: cast_nullable_to_non_nullable
 as int,clients: null == clients ? _self.clients : clients // ignore: cast_nullable_to_non_nullable
 as int,domains: null == domains ? _self.domains : domains // ignore: cast_nullable_to_non_nullable
-as Domains,
+as Domains,regex: null == regex ? _self.regex : regex // ignore: cast_nullable_to_non_nullable
+as Regex,
   ));
 }
 /// Create a copy of Database
@@ -696,6 +697,15 @@ $DomainsCopyWith<$Res> get domains {
   
   return $DomainsCopyWith<$Res>(_self.domains, (value) {
     return _then(_self.copyWith(domains: value));
+  });
+}/// Create a copy of Database
+/// with the given fields replaced by the non-null parameter values.
+@override
+@pragma('vm:prefer-inline')
+$RegexCopyWith<$Res> get regex {
+  
+  return $RegexCopyWith<$Res>(_self.regex, (value) {
+    return _then(_self.copyWith(regex: value));
   });
 }
 }
@@ -776,10 +786,10 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( int gravity,  int groups,  int lists,  int clients,  Domains domains)?  $default,{required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( int gravity,  int groups,  int lists,  int clients,  Domains domains,  Regex regex)?  $default,{required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _Database() when $default != null:
-return $default(_that.gravity,_that.groups,_that.lists,_that.clients,_that.domains);case _:
+return $default(_that.gravity,_that.groups,_that.lists,_that.clients,_that.domains,_that.regex);case _:
   return orElse();
 
 }
@@ -797,10 +807,10 @@ return $default(_that.gravity,_that.groups,_that.lists,_that.clients,_that.domai
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( int gravity,  int groups,  int lists,  int clients,  Domains domains)  $default,) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( int gravity,  int groups,  int lists,  int clients,  Domains domains,  Regex regex)  $default,) {final _that = this;
 switch (_that) {
 case _Database():
-return $default(_that.gravity,_that.groups,_that.lists,_that.clients,_that.domains);}
+return $default(_that.gravity,_that.groups,_that.lists,_that.clients,_that.domains,_that.regex);}
 }
 /// A variant of `when` that fallback to returning `null`
 ///
@@ -814,10 +824,10 @@ return $default(_that.gravity,_that.groups,_that.lists,_that.clients,_that.domai
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( int gravity,  int groups,  int lists,  int clients,  Domains domains)?  $default,) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( int gravity,  int groups,  int lists,  int clients,  Domains domains,  Regex regex)?  $default,) {final _that = this;
 switch (_that) {
 case _Database() when $default != null:
-return $default(_that.gravity,_that.groups,_that.lists,_that.clients,_that.domains);case _:
+return $default(_that.gravity,_that.groups,_that.lists,_that.clients,_that.domains,_that.regex);case _:
   return null;
 
 }
@@ -829,7 +839,7 @@ return $default(_that.gravity,_that.groups,_that.lists,_that.clients,_that.domai
 
 @JsonSerializable(explicitToJson: true)
 class _Database implements Database {
-  const _Database({required this.gravity, required this.groups, required this.lists, required this.clients, required this.domains});
+  const _Database({required this.gravity, required this.groups, required this.lists, required this.clients, required this.domains, required this.regex});
   factory _Database.fromJson(Map<String, dynamic> json) => _$DatabaseFromJson(json);
 
 @override final  int gravity;
@@ -837,6 +847,7 @@ class _Database implements Database {
 @override final  int lists;
 @override final  int clients;
 @override final  Domains domains;
+@override final  Regex regex;
 
 /// Create a copy of Database
 /// with the given fields replaced by the non-null parameter values.
@@ -851,16 +862,16 @@ Map<String, dynamic> toJson() {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _Database&&(identical(other.gravity, gravity) || other.gravity == gravity)&&(identical(other.groups, groups) || other.groups == groups)&&(identical(other.lists, lists) || other.lists == lists)&&(identical(other.clients, clients) || other.clients == clients)&&(identical(other.domains, domains) || other.domains == domains));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _Database&&(identical(other.gravity, gravity) || other.gravity == gravity)&&(identical(other.groups, groups) || other.groups == groups)&&(identical(other.lists, lists) || other.lists == lists)&&(identical(other.clients, clients) || other.clients == clients)&&(identical(other.domains, domains) || other.domains == domains)&&(identical(other.regex, regex) || other.regex == regex));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,gravity,groups,lists,clients,domains);
+int get hashCode => Object.hash(runtimeType,gravity,groups,lists,clients,domains,regex);
 
 @override
 String toString() {
-  return 'Database(gravity: $gravity, groups: $groups, lists: $lists, clients: $clients, domains: $domains)';
+  return 'Database(gravity: $gravity, groups: $groups, lists: $lists, clients: $clients, domains: $domains, regex: $regex)';
 }
 
 
@@ -871,11 +882,11 @@ abstract mixin class _$DatabaseCopyWith<$Res> implements $DatabaseCopyWith<$Res>
   factory _$DatabaseCopyWith(_Database value, $Res Function(_Database) _then) = __$DatabaseCopyWithImpl;
 @override @useResult
 $Res call({
- int gravity, int groups, int lists, int clients, Domains domains
+ int gravity, int groups, int lists, int clients, Domains domains, Regex regex
 });
 
 
-@override $DomainsCopyWith<$Res> get domains;
+@override $DomainsCopyWith<$Res> get domains;@override $RegexCopyWith<$Res> get regex;
 
 }
 /// @nodoc
@@ -888,14 +899,15 @@ class __$DatabaseCopyWithImpl<$Res>
 
 /// Create a copy of Database
 /// with the given fields replaced by the non-null parameter values.
-@override @pragma('vm:prefer-inline') $Res call({Object? gravity = null,Object? groups = null,Object? lists = null,Object? clients = null,Object? domains = null,}) {
+@override @pragma('vm:prefer-inline') $Res call({Object? gravity = null,Object? groups = null,Object? lists = null,Object? clients = null,Object? domains = null,Object? regex = null,}) {
   return _then(_Database(
 gravity: null == gravity ? _self.gravity : gravity // ignore: cast_nullable_to_non_nullable
 as int,groups: null == groups ? _self.groups : groups // ignore: cast_nullable_to_non_nullable
 as int,lists: null == lists ? _self.lists : lists // ignore: cast_nullable_to_non_nullable
 as int,clients: null == clients ? _self.clients : clients // ignore: cast_nullable_to_non_nullable
 as int,domains: null == domains ? _self.domains : domains // ignore: cast_nullable_to_non_nullable
-as Domains,
+as Domains,regex: null == regex ? _self.regex : regex // ignore: cast_nullable_to_non_nullable
+as Regex,
   ));
 }
 
@@ -908,6 +920,15 @@ $DomainsCopyWith<$Res> get domains {
   return $DomainsCopyWith<$Res>(_self.domains, (value) {
     return _then(_self.copyWith(domains: value));
   });
+}/// Create a copy of Database
+/// with the given fields replaced by the non-null parameter values.
+@override
+@pragma('vm:prefer-inline')
+$RegexCopyWith<$Res> get regex {
+  
+  return $RegexCopyWith<$Res>(_self.regex, (value) {
+    return _then(_self.copyWith(regex: value));
+  });
 }
 }
 
@@ -915,7 +936,7 @@ $DomainsCopyWith<$Res> get domains {
 /// @nodoc
 mixin _$Domains {
 
- int get allowed; int get denied;
+@IntOrPairConverter() IntOrPair get allowed;@IntOrPairConverter() IntOrPair get denied;
 /// Create a copy of Domains
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -948,11 +969,11 @@ abstract mixin class $DomainsCopyWith<$Res>  {
   factory $DomainsCopyWith(Domains value, $Res Function(Domains) _then) = _$DomainsCopyWithImpl;
 @useResult
 $Res call({
- int allowed, int denied
+@IntOrPairConverter() IntOrPair allowed,@IntOrPairConverter() IntOrPair denied
 });
 
 
-
+$IntOrPairCopyWith<$Res> get allowed;$IntOrPairCopyWith<$Res> get denied;
 
 }
 /// @nodoc
@@ -968,11 +989,29 @@ class _$DomainsCopyWithImpl<$Res>
 @pragma('vm:prefer-inline') @override $Res call({Object? allowed = null,Object? denied = null,}) {
   return _then(_self.copyWith(
 allowed: null == allowed ? _self.allowed : allowed // ignore: cast_nullable_to_non_nullable
-as int,denied: null == denied ? _self.denied : denied // ignore: cast_nullable_to_non_nullable
-as int,
+as IntOrPair,denied: null == denied ? _self.denied : denied // ignore: cast_nullable_to_non_nullable
+as IntOrPair,
   ));
 }
-
+/// Create a copy of Domains
+/// with the given fields replaced by the non-null parameter values.
+@override
+@pragma('vm:prefer-inline')
+$IntOrPairCopyWith<$Res> get allowed {
+  
+  return $IntOrPairCopyWith<$Res>(_self.allowed, (value) {
+    return _then(_self.copyWith(allowed: value));
+  });
+}/// Create a copy of Domains
+/// with the given fields replaced by the non-null parameter values.
+@override
+@pragma('vm:prefer-inline')
+$IntOrPairCopyWith<$Res> get denied {
+  
+  return $IntOrPairCopyWith<$Res>(_self.denied, (value) {
+    return _then(_self.copyWith(denied: value));
+  });
+}
 }
 
 
@@ -1051,7 +1090,7 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( int allowed,  int denied)?  $default,{required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function(@IntOrPairConverter()  IntOrPair allowed, @IntOrPairConverter()  IntOrPair denied)?  $default,{required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _Domains() when $default != null:
 return $default(_that.allowed,_that.denied);case _:
@@ -1072,7 +1111,7 @@ return $default(_that.allowed,_that.denied);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( int allowed,  int denied)  $default,) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function(@IntOrPairConverter()  IntOrPair allowed, @IntOrPairConverter()  IntOrPair denied)  $default,) {final _that = this;
 switch (_that) {
 case _Domains():
 return $default(_that.allowed,_that.denied);}
@@ -1089,7 +1128,7 @@ return $default(_that.allowed,_that.denied);}
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( int allowed,  int denied)?  $default,) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function(@IntOrPairConverter()  IntOrPair allowed, @IntOrPairConverter()  IntOrPair denied)?  $default,) {final _that = this;
 switch (_that) {
 case _Domains() when $default != null:
 return $default(_that.allowed,_that.denied);case _:
@@ -1104,11 +1143,11 @@ return $default(_that.allowed,_that.denied);case _:
 @JsonSerializable()
 
 class _Domains implements Domains {
-  const _Domains({required this.allowed, required this.denied});
+  const _Domains({@IntOrPairConverter() required this.allowed, @IntOrPairConverter() required this.denied});
   factory _Domains.fromJson(Map<String, dynamic> json) => _$DomainsFromJson(json);
 
-@override final  int allowed;
-@override final  int denied;
+@override@IntOrPairConverter() final  IntOrPair allowed;
+@override@IntOrPairConverter() final  IntOrPair denied;
 
 /// Create a copy of Domains
 /// with the given fields replaced by the non-null parameter values.
@@ -1143,11 +1182,11 @@ abstract mixin class _$DomainsCopyWith<$Res> implements $DomainsCopyWith<$Res> {
   factory _$DomainsCopyWith(_Domains value, $Res Function(_Domains) _then) = __$DomainsCopyWithImpl;
 @override @useResult
 $Res call({
- int allowed, int denied
+@IntOrPairConverter() IntOrPair allowed,@IntOrPairConverter() IntOrPair denied
 });
 
 
-
+@override $IntOrPairCopyWith<$Res> get allowed;@override $IntOrPairCopyWith<$Res> get denied;
 
 }
 /// @nodoc
@@ -1163,12 +1202,326 @@ class __$DomainsCopyWithImpl<$Res>
 @override @pragma('vm:prefer-inline') $Res call({Object? allowed = null,Object? denied = null,}) {
   return _then(_Domains(
 allowed: null == allowed ? _self.allowed : allowed // ignore: cast_nullable_to_non_nullable
-as int,denied: null == denied ? _self.denied : denied // ignore: cast_nullable_to_non_nullable
-as int,
+as IntOrPair,denied: null == denied ? _self.denied : denied // ignore: cast_nullable_to_non_nullable
+as IntOrPair,
   ));
 }
 
+/// Create a copy of Domains
+/// with the given fields replaced by the non-null parameter values.
+@override
+@pragma('vm:prefer-inline')
+$IntOrPairCopyWith<$Res> get allowed {
+  
+  return $IntOrPairCopyWith<$Res>(_self.allowed, (value) {
+    return _then(_self.copyWith(allowed: value));
+  });
+}/// Create a copy of Domains
+/// with the given fields replaced by the non-null parameter values.
+@override
+@pragma('vm:prefer-inline')
+$IntOrPairCopyWith<$Res> get denied {
+  
+  return $IntOrPairCopyWith<$Res>(_self.denied, (value) {
+    return _then(_self.copyWith(denied: value));
+  });
+}
+}
 
+
+/// @nodoc
+mixin _$Regex {
+
+@IntOrPairConverter() IntOrPair get allowed;@IntOrPairConverter() IntOrPair get denied;
+/// Create a copy of Regex
+/// with the given fields replaced by the non-null parameter values.
+@JsonKey(includeFromJson: false, includeToJson: false)
+@pragma('vm:prefer-inline')
+$RegexCopyWith<Regex> get copyWith => _$RegexCopyWithImpl<Regex>(this as Regex, _$identity);
+
+  /// Serializes this Regex to a JSON map.
+  Map<String, dynamic> toJson();
+
+
+@override
+bool operator ==(Object other) {
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is Regex&&(identical(other.allowed, allowed) || other.allowed == allowed)&&(identical(other.denied, denied) || other.denied == denied));
+}
+
+@JsonKey(includeFromJson: false, includeToJson: false)
+@override
+int get hashCode => Object.hash(runtimeType,allowed,denied);
+
+@override
+String toString() {
+  return 'Regex(allowed: $allowed, denied: $denied)';
+}
+
+
+}
+
+/// @nodoc
+abstract mixin class $RegexCopyWith<$Res>  {
+  factory $RegexCopyWith(Regex value, $Res Function(Regex) _then) = _$RegexCopyWithImpl;
+@useResult
+$Res call({
+@IntOrPairConverter() IntOrPair allowed,@IntOrPairConverter() IntOrPair denied
+});
+
+
+$IntOrPairCopyWith<$Res> get allowed;$IntOrPairCopyWith<$Res> get denied;
+
+}
+/// @nodoc
+class _$RegexCopyWithImpl<$Res>
+    implements $RegexCopyWith<$Res> {
+  _$RegexCopyWithImpl(this._self, this._then);
+
+  final Regex _self;
+  final $Res Function(Regex) _then;
+
+/// Create a copy of Regex
+/// with the given fields replaced by the non-null parameter values.
+@pragma('vm:prefer-inline') @override $Res call({Object? allowed = null,Object? denied = null,}) {
+  return _then(_self.copyWith(
+allowed: null == allowed ? _self.allowed : allowed // ignore: cast_nullable_to_non_nullable
+as IntOrPair,denied: null == denied ? _self.denied : denied // ignore: cast_nullable_to_non_nullable
+as IntOrPair,
+  ));
+}
+/// Create a copy of Regex
+/// with the given fields replaced by the non-null parameter values.
+@override
+@pragma('vm:prefer-inline')
+$IntOrPairCopyWith<$Res> get allowed {
+  
+  return $IntOrPairCopyWith<$Res>(_self.allowed, (value) {
+    return _then(_self.copyWith(allowed: value));
+  });
+}/// Create a copy of Regex
+/// with the given fields replaced by the non-null parameter values.
+@override
+@pragma('vm:prefer-inline')
+$IntOrPairCopyWith<$Res> get denied {
+  
+  return $IntOrPairCopyWith<$Res>(_self.denied, (value) {
+    return _then(_self.copyWith(denied: value));
+  });
+}
+}
+
+
+/// Adds pattern-matching-related methods to [Regex].
+extension RegexPatterns on Regex {
+/// A variant of `map` that fallback to returning `orElse`.
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case final Subclass value:
+///     return ...;
+///   case _:
+///     return orElse();
+/// }
+/// ```
+
+@optionalTypeArgs TResult maybeMap<TResult extends Object?>(TResult Function( _Regex value)?  $default,{required TResult orElse(),}){
+final _that = this;
+switch (_that) {
+case _Regex() when $default != null:
+return $default(_that);case _:
+  return orElse();
+
+}
+}
+/// A `switch`-like method, using callbacks.
+///
+/// Callbacks receives the raw object, upcasted.
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case final Subclass value:
+///     return ...;
+///   case final Subclass2 value:
+///     return ...;
+/// }
+/// ```
+
+@optionalTypeArgs TResult map<TResult extends Object?>(TResult Function( _Regex value)  $default,){
+final _that = this;
+switch (_that) {
+case _Regex():
+return $default(_that);}
+}
+/// A variant of `map` that fallback to returning `null`.
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case final Subclass value:
+///     return ...;
+///   case _:
+///     return null;
+/// }
+/// ```
+
+@optionalTypeArgs TResult? mapOrNull<TResult extends Object?>(TResult? Function( _Regex value)?  $default,){
+final _that = this;
+switch (_that) {
+case _Regex() when $default != null:
+return $default(_that);case _:
+  return null;
+
+}
+}
+/// A variant of `when` that fallback to an `orElse` callback.
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case Subclass(:final field):
+///     return ...;
+///   case _:
+///     return orElse();
+/// }
+/// ```
+
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function(@IntOrPairConverter()  IntOrPair allowed, @IntOrPairConverter()  IntOrPair denied)?  $default,{required TResult orElse(),}) {final _that = this;
+switch (_that) {
+case _Regex() when $default != null:
+return $default(_that.allowed,_that.denied);case _:
+  return orElse();
+
+}
+}
+/// A `switch`-like method, using callbacks.
+///
+/// As opposed to `map`, this offers destructuring.
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case Subclass(:final field):
+///     return ...;
+///   case Subclass2(:final field2):
+///     return ...;
+/// }
+/// ```
+
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function(@IntOrPairConverter()  IntOrPair allowed, @IntOrPairConverter()  IntOrPair denied)  $default,) {final _that = this;
+switch (_that) {
+case _Regex():
+return $default(_that.allowed,_that.denied);}
+}
+/// A variant of `when` that fallback to returning `null`
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case Subclass(:final field):
+///     return ...;
+///   case _:
+///     return null;
+/// }
+/// ```
+
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function(@IntOrPairConverter()  IntOrPair allowed, @IntOrPairConverter()  IntOrPair denied)?  $default,) {final _that = this;
+switch (_that) {
+case _Regex() when $default != null:
+return $default(_that.allowed,_that.denied);case _:
+  return null;
+
+}
+}
+
+}
+
+/// @nodoc
+@JsonSerializable()
+
+class _Regex implements Regex {
+  const _Regex({@IntOrPairConverter() required this.allowed, @IntOrPairConverter() required this.denied});
+  factory _Regex.fromJson(Map<String, dynamic> json) => _$RegexFromJson(json);
+
+@override@IntOrPairConverter() final  IntOrPair allowed;
+@override@IntOrPairConverter() final  IntOrPair denied;
+
+/// Create a copy of Regex
+/// with the given fields replaced by the non-null parameter values.
+@override @JsonKey(includeFromJson: false, includeToJson: false)
+@pragma('vm:prefer-inline')
+_$RegexCopyWith<_Regex> get copyWith => __$RegexCopyWithImpl<_Regex>(this, _$identity);
+
+@override
+Map<String, dynamic> toJson() {
+  return _$RegexToJson(this, );
+}
+
+@override
+bool operator ==(Object other) {
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _Regex&&(identical(other.allowed, allowed) || other.allowed == allowed)&&(identical(other.denied, denied) || other.denied == denied));
+}
+
+@JsonKey(includeFromJson: false, includeToJson: false)
+@override
+int get hashCode => Object.hash(runtimeType,allowed,denied);
+
+@override
+String toString() {
+  return 'Regex(allowed: $allowed, denied: $denied)';
+}
+
+
+}
+
+/// @nodoc
+abstract mixin class _$RegexCopyWith<$Res> implements $RegexCopyWith<$Res> {
+  factory _$RegexCopyWith(_Regex value, $Res Function(_Regex) _then) = __$RegexCopyWithImpl;
+@override @useResult
+$Res call({
+@IntOrPairConverter() IntOrPair allowed,@IntOrPairConverter() IntOrPair denied
+});
+
+
+@override $IntOrPairCopyWith<$Res> get allowed;@override $IntOrPairCopyWith<$Res> get denied;
+
+}
+/// @nodoc
+class __$RegexCopyWithImpl<$Res>
+    implements _$RegexCopyWith<$Res> {
+  __$RegexCopyWithImpl(this._self, this._then);
+
+  final _Regex _self;
+  final $Res Function(_Regex) _then;
+
+/// Create a copy of Regex
+/// with the given fields replaced by the non-null parameter values.
+@override @pragma('vm:prefer-inline') $Res call({Object? allowed = null,Object? denied = null,}) {
+  return _then(_Regex(
+allowed: null == allowed ? _self.allowed : allowed // ignore: cast_nullable_to_non_nullable
+as IntOrPair,denied: null == denied ? _self.denied : denied // ignore: cast_nullable_to_non_nullable
+as IntOrPair,
+  ));
+}
+
+/// Create a copy of Regex
+/// with the given fields replaced by the non-null parameter values.
+@override
+@pragma('vm:prefer-inline')
+$IntOrPairCopyWith<$Res> get allowed {
+  
+  return $IntOrPairCopyWith<$Res>(_self.allowed, (value) {
+    return _then(_self.copyWith(allowed: value));
+  });
+}/// Create a copy of Regex
+/// with the given fields replaced by the non-null parameter values.
+@override
+@pragma('vm:prefer-inline')
+$IntOrPairCopyWith<$Res> get denied {
+  
+  return $IntOrPairCopyWith<$Res>(_self.denied, (value) {
+    return _then(_self.copyWith(denied: value));
+  });
+}
 }
 
 
@@ -1761,6 +2114,567 @@ as int,
 }
 
 
+}
+
+
+/// @nodoc
+mixin _$CountPair {
+
+ int get total; int get enabled;
+/// Create a copy of CountPair
+/// with the given fields replaced by the non-null parameter values.
+@JsonKey(includeFromJson: false, includeToJson: false)
+@pragma('vm:prefer-inline')
+$CountPairCopyWith<CountPair> get copyWith => _$CountPairCopyWithImpl<CountPair>(this as CountPair, _$identity);
+
+  /// Serializes this CountPair to a JSON map.
+  Map<String, dynamic> toJson();
+
+
+@override
+bool operator ==(Object other) {
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is CountPair&&(identical(other.total, total) || other.total == total)&&(identical(other.enabled, enabled) || other.enabled == enabled));
+}
+
+@JsonKey(includeFromJson: false, includeToJson: false)
+@override
+int get hashCode => Object.hash(runtimeType,total,enabled);
+
+@override
+String toString() {
+  return 'CountPair(total: $total, enabled: $enabled)';
+}
+
+
+}
+
+/// @nodoc
+abstract mixin class $CountPairCopyWith<$Res>  {
+  factory $CountPairCopyWith(CountPair value, $Res Function(CountPair) _then) = _$CountPairCopyWithImpl;
+@useResult
+$Res call({
+ int total, int enabled
+});
+
+
+
+
+}
+/// @nodoc
+class _$CountPairCopyWithImpl<$Res>
+    implements $CountPairCopyWith<$Res> {
+  _$CountPairCopyWithImpl(this._self, this._then);
+
+  final CountPair _self;
+  final $Res Function(CountPair) _then;
+
+/// Create a copy of CountPair
+/// with the given fields replaced by the non-null parameter values.
+@pragma('vm:prefer-inline') @override $Res call({Object? total = null,Object? enabled = null,}) {
+  return _then(_self.copyWith(
+total: null == total ? _self.total : total // ignore: cast_nullable_to_non_nullable
+as int,enabled: null == enabled ? _self.enabled : enabled // ignore: cast_nullable_to_non_nullable
+as int,
+  ));
+}
+
+}
+
+
+/// Adds pattern-matching-related methods to [CountPair].
+extension CountPairPatterns on CountPair {
+/// A variant of `map` that fallback to returning `orElse`.
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case final Subclass value:
+///     return ...;
+///   case _:
+///     return orElse();
+/// }
+/// ```
+
+@optionalTypeArgs TResult maybeMap<TResult extends Object?>(TResult Function( _CountPair value)?  $default,{required TResult orElse(),}){
+final _that = this;
+switch (_that) {
+case _CountPair() when $default != null:
+return $default(_that);case _:
+  return orElse();
+
+}
+}
+/// A `switch`-like method, using callbacks.
+///
+/// Callbacks receives the raw object, upcasted.
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case final Subclass value:
+///     return ...;
+///   case final Subclass2 value:
+///     return ...;
+/// }
+/// ```
+
+@optionalTypeArgs TResult map<TResult extends Object?>(TResult Function( _CountPair value)  $default,){
+final _that = this;
+switch (_that) {
+case _CountPair():
+return $default(_that);}
+}
+/// A variant of `map` that fallback to returning `null`.
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case final Subclass value:
+///     return ...;
+///   case _:
+///     return null;
+/// }
+/// ```
+
+@optionalTypeArgs TResult? mapOrNull<TResult extends Object?>(TResult? Function( _CountPair value)?  $default,){
+final _that = this;
+switch (_that) {
+case _CountPair() when $default != null:
+return $default(_that);case _:
+  return null;
+
+}
+}
+/// A variant of `when` that fallback to an `orElse` callback.
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case Subclass(:final field):
+///     return ...;
+///   case _:
+///     return orElse();
+/// }
+/// ```
+
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( int total,  int enabled)?  $default,{required TResult orElse(),}) {final _that = this;
+switch (_that) {
+case _CountPair() when $default != null:
+return $default(_that.total,_that.enabled);case _:
+  return orElse();
+
+}
+}
+/// A `switch`-like method, using callbacks.
+///
+/// As opposed to `map`, this offers destructuring.
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case Subclass(:final field):
+///     return ...;
+///   case Subclass2(:final field2):
+///     return ...;
+/// }
+/// ```
+
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( int total,  int enabled)  $default,) {final _that = this;
+switch (_that) {
+case _CountPair():
+return $default(_that.total,_that.enabled);}
+}
+/// A variant of `when` that fallback to returning `null`
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case Subclass(:final field):
+///     return ...;
+///   case _:
+///     return null;
+/// }
+/// ```
+
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( int total,  int enabled)?  $default,) {final _that = this;
+switch (_that) {
+case _CountPair() when $default != null:
+return $default(_that.total,_that.enabled);case _:
+  return null;
+
+}
+}
+
+}
+
+/// @nodoc
+@JsonSerializable()
+
+class _CountPair implements CountPair {
+  const _CountPair({required this.total, required this.enabled});
+  factory _CountPair.fromJson(Map<String, dynamic> json) => _$CountPairFromJson(json);
+
+@override final  int total;
+@override final  int enabled;
+
+/// Create a copy of CountPair
+/// with the given fields replaced by the non-null parameter values.
+@override @JsonKey(includeFromJson: false, includeToJson: false)
+@pragma('vm:prefer-inline')
+_$CountPairCopyWith<_CountPair> get copyWith => __$CountPairCopyWithImpl<_CountPair>(this, _$identity);
+
+@override
+Map<String, dynamic> toJson() {
+  return _$CountPairToJson(this, );
+}
+
+@override
+bool operator ==(Object other) {
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _CountPair&&(identical(other.total, total) || other.total == total)&&(identical(other.enabled, enabled) || other.enabled == enabled));
+}
+
+@JsonKey(includeFromJson: false, includeToJson: false)
+@override
+int get hashCode => Object.hash(runtimeType,total,enabled);
+
+@override
+String toString() {
+  return 'CountPair(total: $total, enabled: $enabled)';
+}
+
+
+}
+
+/// @nodoc
+abstract mixin class _$CountPairCopyWith<$Res> implements $CountPairCopyWith<$Res> {
+  factory _$CountPairCopyWith(_CountPair value, $Res Function(_CountPair) _then) = __$CountPairCopyWithImpl;
+@override @useResult
+$Res call({
+ int total, int enabled
+});
+
+
+
+
+}
+/// @nodoc
+class __$CountPairCopyWithImpl<$Res>
+    implements _$CountPairCopyWith<$Res> {
+  __$CountPairCopyWithImpl(this._self, this._then);
+
+  final _CountPair _self;
+  final $Res Function(_CountPair) _then;
+
+/// Create a copy of CountPair
+/// with the given fields replaced by the non-null parameter values.
+@override @pragma('vm:prefer-inline') $Res call({Object? total = null,Object? enabled = null,}) {
+  return _then(_CountPair(
+total: null == total ? _self.total : total // ignore: cast_nullable_to_non_nullable
+as int,enabled: null == enabled ? _self.enabled : enabled // ignore: cast_nullable_to_non_nullable
+as int,
+  ));
+}
+
+
+}
+
+/// @nodoc
+mixin _$IntOrPair {
+
+
+
+
+
+@override
+bool operator ==(Object other) {
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is IntOrPair);
+}
+
+
+@override
+int get hashCode => runtimeType.hashCode;
+
+@override
+String toString() {
+  return 'IntOrPair()';
+}
+
+
+}
+
+/// @nodoc
+class $IntOrPairCopyWith<$Res>  {
+$IntOrPairCopyWith(IntOrPair _, $Res Function(IntOrPair) __);
+}
+
+
+/// Adds pattern-matching-related methods to [IntOrPair].
+extension IntOrPairPatterns on IntOrPair {
+/// A variant of `map` that fallback to returning `orElse`.
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case final Subclass value:
+///     return ...;
+///   case _:
+///     return orElse();
+/// }
+/// ```
+
+@optionalTypeArgs TResult maybeMap<TResult extends Object?>({TResult Function( _IntValue value)?  intValue,TResult Function( _PairValue value)?  pairValue,required TResult orElse(),}){
+final _that = this;
+switch (_that) {
+case _IntValue() when intValue != null:
+return intValue(_that);case _PairValue() when pairValue != null:
+return pairValue(_that);case _:
+  return orElse();
+
+}
+}
+/// A `switch`-like method, using callbacks.
+///
+/// Callbacks receives the raw object, upcasted.
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case final Subclass value:
+///     return ...;
+///   case final Subclass2 value:
+///     return ...;
+/// }
+/// ```
+
+@optionalTypeArgs TResult map<TResult extends Object?>({required TResult Function( _IntValue value)  intValue,required TResult Function( _PairValue value)  pairValue,}){
+final _that = this;
+switch (_that) {
+case _IntValue():
+return intValue(_that);case _PairValue():
+return pairValue(_that);}
+}
+/// A variant of `map` that fallback to returning `null`.
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case final Subclass value:
+///     return ...;
+///   case _:
+///     return null;
+/// }
+/// ```
+
+@optionalTypeArgs TResult? mapOrNull<TResult extends Object?>({TResult? Function( _IntValue value)?  intValue,TResult? Function( _PairValue value)?  pairValue,}){
+final _that = this;
+switch (_that) {
+case _IntValue() when intValue != null:
+return intValue(_that);case _PairValue() when pairValue != null:
+return pairValue(_that);case _:
+  return null;
+
+}
+}
+/// A variant of `when` that fallback to an `orElse` callback.
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case Subclass(:final field):
+///     return ...;
+///   case _:
+///     return orElse();
+/// }
+/// ```
+
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>({TResult Function( int value)?  intValue,TResult Function( CountPair pair)?  pairValue,required TResult orElse(),}) {final _that = this;
+switch (_that) {
+case _IntValue() when intValue != null:
+return intValue(_that.value);case _PairValue() when pairValue != null:
+return pairValue(_that.pair);case _:
+  return orElse();
+
+}
+}
+/// A `switch`-like method, using callbacks.
+///
+/// As opposed to `map`, this offers destructuring.
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case Subclass(:final field):
+///     return ...;
+///   case Subclass2(:final field2):
+///     return ...;
+/// }
+/// ```
+
+@optionalTypeArgs TResult when<TResult extends Object?>({required TResult Function( int value)  intValue,required TResult Function( CountPair pair)  pairValue,}) {final _that = this;
+switch (_that) {
+case _IntValue():
+return intValue(_that.value);case _PairValue():
+return pairValue(_that.pair);}
+}
+/// A variant of `when` that fallback to returning `null`
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case Subclass(:final field):
+///     return ...;
+///   case _:
+///     return null;
+/// }
+/// ```
+
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>({TResult? Function( int value)?  intValue,TResult? Function( CountPair pair)?  pairValue,}) {final _that = this;
+switch (_that) {
+case _IntValue() when intValue != null:
+return intValue(_that.value);case _PairValue() when pairValue != null:
+return pairValue(_that.pair);case _:
+  return null;
+
+}
+}
+
+}
+
+/// @nodoc
+
+
+class _IntValue extends IntOrPair {
+  const _IntValue(this.value): super._();
+  
+
+ final  int value;
+
+/// Create a copy of IntOrPair
+/// with the given fields replaced by the non-null parameter values.
+@JsonKey(includeFromJson: false, includeToJson: false)
+@pragma('vm:prefer-inline')
+_$IntValueCopyWith<_IntValue> get copyWith => __$IntValueCopyWithImpl<_IntValue>(this, _$identity);
+
+
+
+@override
+bool operator ==(Object other) {
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _IntValue&&(identical(other.value, value) || other.value == value));
+}
+
+
+@override
+int get hashCode => Object.hash(runtimeType,value);
+
+@override
+String toString() {
+  return 'IntOrPair.intValue(value: $value)';
+}
+
+
+}
+
+/// @nodoc
+abstract mixin class _$IntValueCopyWith<$Res> implements $IntOrPairCopyWith<$Res> {
+  factory _$IntValueCopyWith(_IntValue value, $Res Function(_IntValue) _then) = __$IntValueCopyWithImpl;
+@useResult
+$Res call({
+ int value
+});
+
+
+
+
+}
+/// @nodoc
+class __$IntValueCopyWithImpl<$Res>
+    implements _$IntValueCopyWith<$Res> {
+  __$IntValueCopyWithImpl(this._self, this._then);
+
+  final _IntValue _self;
+  final $Res Function(_IntValue) _then;
+
+/// Create a copy of IntOrPair
+/// with the given fields replaced by the non-null parameter values.
+@pragma('vm:prefer-inline') $Res call({Object? value = null,}) {
+  return _then(_IntValue(
+null == value ? _self.value : value // ignore: cast_nullable_to_non_nullable
+as int,
+  ));
+}
+
+
+}
+
+/// @nodoc
+
+
+class _PairValue extends IntOrPair {
+  const _PairValue(this.pair): super._();
+  
+
+ final  CountPair pair;
+
+/// Create a copy of IntOrPair
+/// with the given fields replaced by the non-null parameter values.
+@JsonKey(includeFromJson: false, includeToJson: false)
+@pragma('vm:prefer-inline')
+_$PairValueCopyWith<_PairValue> get copyWith => __$PairValueCopyWithImpl<_PairValue>(this, _$identity);
+
+
+
+@override
+bool operator ==(Object other) {
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _PairValue&&(identical(other.pair, pair) || other.pair == pair));
+}
+
+
+@override
+int get hashCode => Object.hash(runtimeType,pair);
+
+@override
+String toString() {
+  return 'IntOrPair.pairValue(pair: $pair)';
+}
+
+
+}
+
+/// @nodoc
+abstract mixin class _$PairValueCopyWith<$Res> implements $IntOrPairCopyWith<$Res> {
+  factory _$PairValueCopyWith(_PairValue value, $Res Function(_PairValue) _then) = __$PairValueCopyWithImpl;
+@useResult
+$Res call({
+ CountPair pair
+});
+
+
+$CountPairCopyWith<$Res> get pair;
+
+}
+/// @nodoc
+class __$PairValueCopyWithImpl<$Res>
+    implements _$PairValueCopyWith<$Res> {
+  __$PairValueCopyWithImpl(this._self, this._then);
+
+  final _PairValue _self;
+  final $Res Function(_PairValue) _then;
+
+/// Create a copy of IntOrPair
+/// with the given fields replaced by the non-null parameter values.
+@pragma('vm:prefer-inline') $Res call({Object? pair = null,}) {
+  return _then(_PairValue(
+null == pair ? _self.pair : pair // ignore: cast_nullable_to_non_nullable
+as CountPair,
+  ));
+}
+
+/// Create a copy of IntOrPair
+/// with the given fields replaced by the non-null parameter values.
+@override
+@pragma('vm:prefer-inline')
+$CountPairCopyWith<$Res> get pair {
+  
+  return $CountPairCopyWith<$Res>(_self.pair, (value) {
+    return _then(_self.copyWith(pair: value));
+  });
+}
 }
 
 // dart format on

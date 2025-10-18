@@ -1,6 +1,7 @@
 import 'dart:async';
 
-import 'package:pi_hole_client/data/model/v6/config/config.dart';
+import 'package:pi_hole_client/data/model/v6/config/config.dart'
+    show ConfigData;
 import 'package:pi_hole_client/domain/models_old/domain.dart';
 import 'package:pi_hole_client/domain/models_old/gateways.dart';
 import 'package:pi_hole_client/domain/models_old/groups.dart';
@@ -170,7 +171,7 @@ abstract interface class ApiGateway {
   /// If no matching subscription is found, the operation has no effect.
   Future<RemoveSubscriptionResponse> removeSubscription({
     required String url,
-    String? stype,
+    required String stype,
   });
 
   /// Creates a subscription.
@@ -256,24 +257,32 @@ abstract interface class ApiGateway {
   ///
   /// This API hook allows to modify the config of your Pi-hole. This endpoint
   /// supports changing multiple properties at once when you specify several in the payload.
-  Future<ConfigurationResponse> patchConfiguration(ConfigData body);
+  Future<ConfigurationResponse> patchConfiguration(
+    ConfigData body, {
+    bool isRestart = true,
+  });
 
   /// Deletes a configuration element from your Pi-hole
   Future<DeleteConfigResponse> deleteConfiguration({
     required String element,
     required String value,
+    bool isRestart = true,
   });
 
   /// Adds a configuration element in your Pi-hole
   Future<PutConfigResponse> putConfiguration({
     required String element,
     required String value,
+    bool isRestart = true,
   });
 
   /// Change only the DNS query logging configuration
   ///
   /// Sets the `status` to `true` to enable DNS query logging, or `false` to disable it.
-  Future<ConfigurationResponse> patchDnsQueryLoggingConfig(bool status);
+  Future<ConfigurationResponse> patchDnsQueryLoggingConfig(
+    bool status, {
+    bool isRestart = true,
+  });
 
   /// Get local DNS records from the Pi-hole server.
   Future<LocalDnsResponse> getLocalDns();
@@ -282,17 +291,20 @@ abstract interface class ApiGateway {
   Future<DeleteLocalDnsResponse> deleteLocalDns({
     required String ip,
     required String name,
+    bool isRestart = true,
   });
 
   Future<LocalDnsResponse> updateLocalDns({
     required String ip,
     required String name,
     String? oldIp,
+    bool isRestart = true,
   });
 
   Future<AddLocalDnsResponse> addLocalDns({
     required String ip,
     required String name,
+    bool isRestart = true,
   });
 
   /// Run gravity
@@ -301,7 +313,15 @@ abstract interface class ApiGateway {
   /// Flush the network table
   ///
   /// Flushes the network table. This includes emptying the ARP table and removing both all known devices and their associated addresses.
+  /// Deprecated in FTL v6.3 and later.
+  /// Use [flushNetwork] instead.
+  @Deprecated("Deprecated in FTL v6.3+. Use '/action/flush/network' instead.")
   Future<ActionResponse> flushArp();
+
+  /// Flush the network table
+  ///
+  /// Flushes the network table. This includes removing both all known devices and their associated addresses.
+  Future<ActionResponse> flushNetwork();
 
   /// Flush the DNS logs
   ///

@@ -1825,7 +1825,7 @@ class MockApiGatewayV5 extends _i1.Mock implements _i30.ApiGatewayV5 {
   @override
   _i12.Future<_i5.RemoveSubscriptionResponse> removeSubscription({
     required String? url,
-    String? stype,
+    required String? stype,
   }) =>
       (super.noSuchMethod(
             Invocation.method(#removeSubscription, [], {
@@ -2074,14 +2074,23 @@ class MockApiGatewayV5 extends _i1.Mock implements _i30.ApiGatewayV5 {
 
   @override
   _i12.Future<_i5.ConfigurationResponse> patchConfiguration(
-    _i33.ConfigData? body,
-  ) =>
+    _i33.ConfigData? body, {
+    bool? isRestart = true,
+  }) =>
       (super.noSuchMethod(
-            Invocation.method(#patchConfiguration, [body]),
+            Invocation.method(
+              #patchConfiguration,
+              [body],
+              {#isRestart: isRestart},
+            ),
             returnValue: _i12.Future<_i5.ConfigurationResponse>.value(
               _FakeConfigurationResponse_30(
                 this,
-                Invocation.method(#patchConfiguration, [body]),
+                Invocation.method(
+                  #patchConfiguration,
+                  [body],
+                  {#isRestart: isRestart},
+                ),
               ),
             ),
           )
@@ -2091,11 +2100,13 @@ class MockApiGatewayV5 extends _i1.Mock implements _i30.ApiGatewayV5 {
   _i12.Future<_i5.DeleteConfigResponse> deleteConfiguration({
     required String? element,
     required String? value,
+    bool? isRestart = true,
   }) =>
       (super.noSuchMethod(
             Invocation.method(#deleteConfiguration, [], {
               #element: element,
               #value: value,
+              #isRestart: isRestart,
             }),
             returnValue: _i12.Future<_i5.DeleteConfigResponse>.value(
               _FakeDeleteConfigResponse_31(
@@ -2103,6 +2114,7 @@ class MockApiGatewayV5 extends _i1.Mock implements _i30.ApiGatewayV5 {
                 Invocation.method(#deleteConfiguration, [], {
                   #element: element,
                   #value: value,
+                  #isRestart: isRestart,
                 }),
               ),
             ),
@@ -2113,11 +2125,13 @@ class MockApiGatewayV5 extends _i1.Mock implements _i30.ApiGatewayV5 {
   _i12.Future<_i5.PutConfigResponse> putConfiguration({
     required String? element,
     required String? value,
+    bool? isRestart = true,
   }) =>
       (super.noSuchMethod(
             Invocation.method(#putConfiguration, [], {
               #element: element,
               #value: value,
+              #isRestart: isRestart,
             }),
             returnValue: _i12.Future<_i5.PutConfigResponse>.value(
               _FakePutConfigResponse_32(
@@ -2125,6 +2139,7 @@ class MockApiGatewayV5 extends _i1.Mock implements _i30.ApiGatewayV5 {
                 Invocation.method(#putConfiguration, [], {
                   #element: element,
                   #value: value,
+                  #isRestart: isRestart,
                 }),
               ),
             ),
@@ -2133,14 +2148,23 @@ class MockApiGatewayV5 extends _i1.Mock implements _i30.ApiGatewayV5 {
 
   @override
   _i12.Future<_i5.ConfigurationResponse> patchDnsQueryLoggingConfig(
-    bool? status,
-  ) =>
+    bool? status, {
+    bool? isRestart = true,
+  }) =>
       (super.noSuchMethod(
-            Invocation.method(#patchDnsQueryLoggingConfig, [status]),
+            Invocation.method(
+              #patchDnsQueryLoggingConfig,
+              [status],
+              {#isRestart: isRestart},
+            ),
             returnValue: _i12.Future<_i5.ConfigurationResponse>.value(
               _FakeConfigurationResponse_30(
                 this,
-                Invocation.method(#patchDnsQueryLoggingConfig, [status]),
+                Invocation.method(
+                  #patchDnsQueryLoggingConfig,
+                  [status],
+                  {#isRestart: isRestart},
+                ),
               ),
             ),
           )
@@ -2163,13 +2187,22 @@ class MockApiGatewayV5 extends _i1.Mock implements _i30.ApiGatewayV5 {
   _i12.Future<_i5.DeleteLocalDnsResponse> deleteLocalDns({
     required String? ip,
     required String? name,
+    bool? isRestart = true,
   }) =>
       (super.noSuchMethod(
-            Invocation.method(#deleteLocalDns, [], {#ip: ip, #name: name}),
+            Invocation.method(#deleteLocalDns, [], {
+              #ip: ip,
+              #name: name,
+              #isRestart: isRestart,
+            }),
             returnValue: _i12.Future<_i5.DeleteLocalDnsResponse>.value(
               _FakeDeleteLocalDnsResponse_34(
                 this,
-                Invocation.method(#deleteLocalDns, [], {#ip: ip, #name: name}),
+                Invocation.method(#deleteLocalDns, [], {
+                  #ip: ip,
+                  #name: name,
+                  #isRestart: isRestart,
+                }),
               ),
             ),
           )
@@ -2180,12 +2213,14 @@ class MockApiGatewayV5 extends _i1.Mock implements _i30.ApiGatewayV5 {
     required String? ip,
     required String? name,
     String? oldIp,
+    bool? isRestart = true,
   }) =>
       (super.noSuchMethod(
             Invocation.method(#updateLocalDns, [], {
               #ip: ip,
               #name: name,
               #oldIp: oldIp,
+              #isRestart: isRestart,
             }),
             returnValue: _i12.Future<_i5.LocalDnsResponse>.value(
               _FakeLocalDnsResponse_33(
@@ -2194,6 +2229,7 @@ class MockApiGatewayV5 extends _i1.Mock implements _i30.ApiGatewayV5 {
                   #ip: ip,
                   #name: name,
                   #oldIp: oldIp,
+                  #isRestart: isRestart,
                 }),
               ),
             ),
@@ -2204,13 +2240,22 @@ class MockApiGatewayV5 extends _i1.Mock implements _i30.ApiGatewayV5 {
   _i12.Future<_i5.AddLocalDnsResponse> addLocalDns({
     required String? ip,
     required String? name,
+    bool? isRestart = true,
   }) =>
       (super.noSuchMethod(
-            Invocation.method(#addLocalDns, [], {#ip: ip, #name: name}),
+            Invocation.method(#addLocalDns, [], {
+              #ip: ip,
+              #name: name,
+              #isRestart: isRestart,
+            }),
             returnValue: _i12.Future<_i5.AddLocalDnsResponse>.value(
               _FakeAddLocalDnsResponse_35(
                 this,
-                Invocation.method(#addLocalDns, [], {#ip: ip, #name: name}),
+                Invocation.method(#addLocalDns, [], {
+                  #ip: ip,
+                  #name: name,
+                  #isRestart: isRestart,
+                }),
               ),
             ),
           )
@@ -2222,6 +2267,19 @@ class MockApiGatewayV5 extends _i1.Mock implements _i30.ApiGatewayV5 {
             Invocation.method(#flushArp, []),
             returnValue: _i12.Future<_i5.ActionResponse>.value(
               _FakeActionResponse_36(this, Invocation.method(#flushArp, [])),
+            ),
+          )
+          as _i12.Future<_i5.ActionResponse>);
+
+  @override
+  _i12.Future<_i5.ActionResponse> flushNetwork() =>
+      (super.noSuchMethod(
+            Invocation.method(#flushNetwork, []),
+            returnValue: _i12.Future<_i5.ActionResponse>.value(
+              _FakeActionResponse_36(
+                this,
+                Invocation.method(#flushNetwork, []),
+              ),
             ),
           )
           as _i12.Future<_i5.ActionResponse>);
@@ -2722,7 +2780,7 @@ class MockApiGatewayV6 extends _i1.Mock implements _i34.ApiGatewayV6 {
   @override
   _i12.Future<_i5.RemoveSubscriptionResponse> removeSubscription({
     required String? url,
-    String? stype,
+    required String? stype,
   }) =>
       (super.noSuchMethod(
             Invocation.method(#removeSubscription, [], {
@@ -2971,14 +3029,23 @@ class MockApiGatewayV6 extends _i1.Mock implements _i34.ApiGatewayV6 {
 
   @override
   _i12.Future<_i5.ConfigurationResponse> patchConfiguration(
-    _i33.ConfigData? body,
-  ) =>
+    _i33.ConfigData? body, {
+    bool? isRestart = true,
+  }) =>
       (super.noSuchMethod(
-            Invocation.method(#patchConfiguration, [body]),
+            Invocation.method(
+              #patchConfiguration,
+              [body],
+              {#isRestart: isRestart},
+            ),
             returnValue: _i12.Future<_i5.ConfigurationResponse>.value(
               _FakeConfigurationResponse_30(
                 this,
-                Invocation.method(#patchConfiguration, [body]),
+                Invocation.method(
+                  #patchConfiguration,
+                  [body],
+                  {#isRestart: isRestart},
+                ),
               ),
             ),
           )
@@ -2988,11 +3055,13 @@ class MockApiGatewayV6 extends _i1.Mock implements _i34.ApiGatewayV6 {
   _i12.Future<_i5.DeleteConfigResponse> deleteConfiguration({
     required String? element,
     required String? value,
+    bool? isRestart = true,
   }) =>
       (super.noSuchMethod(
             Invocation.method(#deleteConfiguration, [], {
               #element: element,
               #value: value,
+              #isRestart: isRestart,
             }),
             returnValue: _i12.Future<_i5.DeleteConfigResponse>.value(
               _FakeDeleteConfigResponse_31(
@@ -3000,6 +3069,7 @@ class MockApiGatewayV6 extends _i1.Mock implements _i34.ApiGatewayV6 {
                 Invocation.method(#deleteConfiguration, [], {
                   #element: element,
                   #value: value,
+                  #isRestart: isRestart,
                 }),
               ),
             ),
@@ -3010,11 +3080,13 @@ class MockApiGatewayV6 extends _i1.Mock implements _i34.ApiGatewayV6 {
   _i12.Future<_i5.PutConfigResponse> putConfiguration({
     required String? element,
     required String? value,
+    bool? isRestart = true,
   }) =>
       (super.noSuchMethod(
             Invocation.method(#putConfiguration, [], {
               #element: element,
               #value: value,
+              #isRestart: isRestart,
             }),
             returnValue: _i12.Future<_i5.PutConfigResponse>.value(
               _FakePutConfigResponse_32(
@@ -3022,6 +3094,7 @@ class MockApiGatewayV6 extends _i1.Mock implements _i34.ApiGatewayV6 {
                 Invocation.method(#putConfiguration, [], {
                   #element: element,
                   #value: value,
+                  #isRestart: isRestart,
                 }),
               ),
             ),
@@ -3030,14 +3103,23 @@ class MockApiGatewayV6 extends _i1.Mock implements _i34.ApiGatewayV6 {
 
   @override
   _i12.Future<_i5.ConfigurationResponse> patchDnsQueryLoggingConfig(
-    bool? status,
-  ) =>
+    bool? status, {
+    bool? isRestart = true,
+  }) =>
       (super.noSuchMethod(
-            Invocation.method(#patchDnsQueryLoggingConfig, [status]),
+            Invocation.method(
+              #patchDnsQueryLoggingConfig,
+              [status],
+              {#isRestart: isRestart},
+            ),
             returnValue: _i12.Future<_i5.ConfigurationResponse>.value(
               _FakeConfigurationResponse_30(
                 this,
-                Invocation.method(#patchDnsQueryLoggingConfig, [status]),
+                Invocation.method(
+                  #patchDnsQueryLoggingConfig,
+                  [status],
+                  {#isRestart: isRestart},
+                ),
               ),
             ),
           )
@@ -3060,13 +3142,22 @@ class MockApiGatewayV6 extends _i1.Mock implements _i34.ApiGatewayV6 {
   _i12.Future<_i5.AddLocalDnsResponse> addLocalDns({
     required String? ip,
     required String? name,
+    bool? isRestart = true,
   }) =>
       (super.noSuchMethod(
-            Invocation.method(#addLocalDns, [], {#ip: ip, #name: name}),
+            Invocation.method(#addLocalDns, [], {
+              #ip: ip,
+              #name: name,
+              #isRestart: isRestart,
+            }),
             returnValue: _i12.Future<_i5.AddLocalDnsResponse>.value(
               _FakeAddLocalDnsResponse_35(
                 this,
-                Invocation.method(#addLocalDns, [], {#ip: ip, #name: name}),
+                Invocation.method(#addLocalDns, [], {
+                  #ip: ip,
+                  #name: name,
+                  #isRestart: isRestart,
+                }),
               ),
             ),
           )
@@ -3076,12 +3167,14 @@ class MockApiGatewayV6 extends _i1.Mock implements _i34.ApiGatewayV6 {
   _i12.Future<_i5.LocalDnsResponse> updateLocalDns({
     required String? ip,
     required String? name,
+    bool? isRestart = true,
     String? oldIp,
   }) =>
       (super.noSuchMethod(
             Invocation.method(#updateLocalDns, [], {
               #ip: ip,
               #name: name,
+              #isRestart: isRestart,
               #oldIp: oldIp,
             }),
             returnValue: _i12.Future<_i5.LocalDnsResponse>.value(
@@ -3090,6 +3183,7 @@ class MockApiGatewayV6 extends _i1.Mock implements _i34.ApiGatewayV6 {
                 Invocation.method(#updateLocalDns, [], {
                   #ip: ip,
                   #name: name,
+                  #isRestart: isRestart,
                   #oldIp: oldIp,
                 }),
               ),
@@ -3101,13 +3195,22 @@ class MockApiGatewayV6 extends _i1.Mock implements _i34.ApiGatewayV6 {
   _i12.Future<_i5.DeleteLocalDnsResponse> deleteLocalDns({
     required String? ip,
     required String? name,
+    bool? isRestart = true,
   }) =>
       (super.noSuchMethod(
-            Invocation.method(#deleteLocalDns, [], {#ip: ip, #name: name}),
+            Invocation.method(#deleteLocalDns, [], {
+              #ip: ip,
+              #name: name,
+              #isRestart: isRestart,
+            }),
             returnValue: _i12.Future<_i5.DeleteLocalDnsResponse>.value(
               _FakeDeleteLocalDnsResponse_34(
                 this,
-                Invocation.method(#deleteLocalDns, [], {#ip: ip, #name: name}),
+                Invocation.method(#deleteLocalDns, [], {
+                  #ip: ip,
+                  #name: name,
+                  #isRestart: isRestart,
+                }),
               ),
             ),
           )
@@ -3119,6 +3222,19 @@ class MockApiGatewayV6 extends _i1.Mock implements _i34.ApiGatewayV6 {
             Invocation.method(#flushArp, []),
             returnValue: _i12.Future<_i5.ActionResponse>.value(
               _FakeActionResponse_36(this, Invocation.method(#flushArp, [])),
+            ),
+          )
+          as _i12.Future<_i5.ActionResponse>);
+
+  @override
+  _i12.Future<_i5.ActionResponse> flushNetwork() =>
+      (super.noSuchMethod(
+            Invocation.method(#flushNetwork, []),
+            returnValue: _i12.Future<_i5.ActionResponse>.value(
+              _FakeActionResponse_36(
+                this,
+                Invocation.method(#flushNetwork, []),
+              ),
             ),
           )
           as _i12.Future<_i5.ActionResponse>);

@@ -796,7 +796,9 @@ $DebugCopyWith<$Res>? get debug {
 /// @nodoc
 mixin _$Dns {
 
- List<String>? get upstreams;@JsonKey(name: 'CNAMEdeepInspect') bool? get cnameDeepInspect; bool? get blockESNI;@JsonKey(name: 'EDNS0ECS') bool? get edns0ECS; bool? get ignoreLocalhost; bool? get showDNSSEC; bool? get analyzeOnlyAandAAAA; String? get piholePTR; String? get replyWhenBusy; int? get blockTTL; List<String>? get hosts; bool? get domainNeeded; bool? get expandHosts; String? get domain; bool? get bogusPriv; bool? get dnssec; String? get interface; String? get hostRecord; String? get listeningMode; bool? get queryLogging; List<String>? get cnameRecords; int? get port; DnsCache? get cache; List<String>? get revServers; DnsBlocking? get blocking; SpecialDomains? get specialDomains; DnsReply? get reply; RateLimit? get rateLimit;
+ List<String>? get upstreams;@JsonKey(name: 'CNAMEdeepInspect') bool? get cnameDeepInspect; bool? get blockESNI;@JsonKey(name: 'EDNS0ECS') bool? get edns0ECS; bool? get ignoreLocalhost; bool? get showDNSSEC; bool? get analyzeOnlyAandAAAA; String? get piholePTR; String? get replyWhenBusy; int? get blockTTL; List<String>? get hosts; bool? get domainNeeded; bool? get expandHosts;@DomainConverter() Domain? get domain;// >= 6.3
+ bool? get bogusPriv; bool? get dnssec; String? get interface; String? get hostRecord; String? get listeningMode; bool? get queryLogging; List<String>? get cnameRecords; int? get port; bool? get localise;// >= 6.3
+ DnsCache? get cache; List<String>? get revServers; DnsBlocking? get blocking; SpecialDomains? get specialDomains; DnsReply? get reply; RateLimit? get rateLimit;
 /// Create a copy of Dns
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -809,16 +811,16 @@ $DnsCopyWith<Dns> get copyWith => _$DnsCopyWithImpl<Dns>(this as Dns, _$identity
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is Dns&&const DeepCollectionEquality().equals(other.upstreams, upstreams)&&(identical(other.cnameDeepInspect, cnameDeepInspect) || other.cnameDeepInspect == cnameDeepInspect)&&(identical(other.blockESNI, blockESNI) || other.blockESNI == blockESNI)&&(identical(other.edns0ECS, edns0ECS) || other.edns0ECS == edns0ECS)&&(identical(other.ignoreLocalhost, ignoreLocalhost) || other.ignoreLocalhost == ignoreLocalhost)&&(identical(other.showDNSSEC, showDNSSEC) || other.showDNSSEC == showDNSSEC)&&(identical(other.analyzeOnlyAandAAAA, analyzeOnlyAandAAAA) || other.analyzeOnlyAandAAAA == analyzeOnlyAandAAAA)&&(identical(other.piholePTR, piholePTR) || other.piholePTR == piholePTR)&&(identical(other.replyWhenBusy, replyWhenBusy) || other.replyWhenBusy == replyWhenBusy)&&(identical(other.blockTTL, blockTTL) || other.blockTTL == blockTTL)&&const DeepCollectionEquality().equals(other.hosts, hosts)&&(identical(other.domainNeeded, domainNeeded) || other.domainNeeded == domainNeeded)&&(identical(other.expandHosts, expandHosts) || other.expandHosts == expandHosts)&&(identical(other.domain, domain) || other.domain == domain)&&(identical(other.bogusPriv, bogusPriv) || other.bogusPriv == bogusPriv)&&(identical(other.dnssec, dnssec) || other.dnssec == dnssec)&&(identical(other.interface, interface) || other.interface == interface)&&(identical(other.hostRecord, hostRecord) || other.hostRecord == hostRecord)&&(identical(other.listeningMode, listeningMode) || other.listeningMode == listeningMode)&&(identical(other.queryLogging, queryLogging) || other.queryLogging == queryLogging)&&const DeepCollectionEquality().equals(other.cnameRecords, cnameRecords)&&(identical(other.port, port) || other.port == port)&&(identical(other.cache, cache) || other.cache == cache)&&const DeepCollectionEquality().equals(other.revServers, revServers)&&(identical(other.blocking, blocking) || other.blocking == blocking)&&(identical(other.specialDomains, specialDomains) || other.specialDomains == specialDomains)&&(identical(other.reply, reply) || other.reply == reply)&&(identical(other.rateLimit, rateLimit) || other.rateLimit == rateLimit));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is Dns&&const DeepCollectionEquality().equals(other.upstreams, upstreams)&&(identical(other.cnameDeepInspect, cnameDeepInspect) || other.cnameDeepInspect == cnameDeepInspect)&&(identical(other.blockESNI, blockESNI) || other.blockESNI == blockESNI)&&(identical(other.edns0ECS, edns0ECS) || other.edns0ECS == edns0ECS)&&(identical(other.ignoreLocalhost, ignoreLocalhost) || other.ignoreLocalhost == ignoreLocalhost)&&(identical(other.showDNSSEC, showDNSSEC) || other.showDNSSEC == showDNSSEC)&&(identical(other.analyzeOnlyAandAAAA, analyzeOnlyAandAAAA) || other.analyzeOnlyAandAAAA == analyzeOnlyAandAAAA)&&(identical(other.piholePTR, piholePTR) || other.piholePTR == piholePTR)&&(identical(other.replyWhenBusy, replyWhenBusy) || other.replyWhenBusy == replyWhenBusy)&&(identical(other.blockTTL, blockTTL) || other.blockTTL == blockTTL)&&const DeepCollectionEquality().equals(other.hosts, hosts)&&(identical(other.domainNeeded, domainNeeded) || other.domainNeeded == domainNeeded)&&(identical(other.expandHosts, expandHosts) || other.expandHosts == expandHosts)&&(identical(other.domain, domain) || other.domain == domain)&&(identical(other.bogusPriv, bogusPriv) || other.bogusPriv == bogusPriv)&&(identical(other.dnssec, dnssec) || other.dnssec == dnssec)&&(identical(other.interface, interface) || other.interface == interface)&&(identical(other.hostRecord, hostRecord) || other.hostRecord == hostRecord)&&(identical(other.listeningMode, listeningMode) || other.listeningMode == listeningMode)&&(identical(other.queryLogging, queryLogging) || other.queryLogging == queryLogging)&&const DeepCollectionEquality().equals(other.cnameRecords, cnameRecords)&&(identical(other.port, port) || other.port == port)&&(identical(other.localise, localise) || other.localise == localise)&&(identical(other.cache, cache) || other.cache == cache)&&const DeepCollectionEquality().equals(other.revServers, revServers)&&(identical(other.blocking, blocking) || other.blocking == blocking)&&(identical(other.specialDomains, specialDomains) || other.specialDomains == specialDomains)&&(identical(other.reply, reply) || other.reply == reply)&&(identical(other.rateLimit, rateLimit) || other.rateLimit == rateLimit));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hashAll([runtimeType,const DeepCollectionEquality().hash(upstreams),cnameDeepInspect,blockESNI,edns0ECS,ignoreLocalhost,showDNSSEC,analyzeOnlyAandAAAA,piholePTR,replyWhenBusy,blockTTL,const DeepCollectionEquality().hash(hosts),domainNeeded,expandHosts,domain,bogusPriv,dnssec,interface,hostRecord,listeningMode,queryLogging,const DeepCollectionEquality().hash(cnameRecords),port,cache,const DeepCollectionEquality().hash(revServers),blocking,specialDomains,reply,rateLimit]);
+int get hashCode => Object.hashAll([runtimeType,const DeepCollectionEquality().hash(upstreams),cnameDeepInspect,blockESNI,edns0ECS,ignoreLocalhost,showDNSSEC,analyzeOnlyAandAAAA,piholePTR,replyWhenBusy,blockTTL,const DeepCollectionEquality().hash(hosts),domainNeeded,expandHosts,domain,bogusPriv,dnssec,interface,hostRecord,listeningMode,queryLogging,const DeepCollectionEquality().hash(cnameRecords),port,localise,cache,const DeepCollectionEquality().hash(revServers),blocking,specialDomains,reply,rateLimit]);
 
 @override
 String toString() {
-  return 'Dns(upstreams: $upstreams, cnameDeepInspect: $cnameDeepInspect, blockESNI: $blockESNI, edns0ECS: $edns0ECS, ignoreLocalhost: $ignoreLocalhost, showDNSSEC: $showDNSSEC, analyzeOnlyAandAAAA: $analyzeOnlyAandAAAA, piholePTR: $piholePTR, replyWhenBusy: $replyWhenBusy, blockTTL: $blockTTL, hosts: $hosts, domainNeeded: $domainNeeded, expandHosts: $expandHosts, domain: $domain, bogusPriv: $bogusPriv, dnssec: $dnssec, interface: $interface, hostRecord: $hostRecord, listeningMode: $listeningMode, queryLogging: $queryLogging, cnameRecords: $cnameRecords, port: $port, cache: $cache, revServers: $revServers, blocking: $blocking, specialDomains: $specialDomains, reply: $reply, rateLimit: $rateLimit)';
+  return 'Dns(upstreams: $upstreams, cnameDeepInspect: $cnameDeepInspect, blockESNI: $blockESNI, edns0ECS: $edns0ECS, ignoreLocalhost: $ignoreLocalhost, showDNSSEC: $showDNSSEC, analyzeOnlyAandAAAA: $analyzeOnlyAandAAAA, piholePTR: $piholePTR, replyWhenBusy: $replyWhenBusy, blockTTL: $blockTTL, hosts: $hosts, domainNeeded: $domainNeeded, expandHosts: $expandHosts, domain: $domain, bogusPriv: $bogusPriv, dnssec: $dnssec, interface: $interface, hostRecord: $hostRecord, listeningMode: $listeningMode, queryLogging: $queryLogging, cnameRecords: $cnameRecords, port: $port, localise: $localise, cache: $cache, revServers: $revServers, blocking: $blocking, specialDomains: $specialDomains, reply: $reply, rateLimit: $rateLimit)';
 }
 
 
@@ -829,11 +831,11 @@ abstract mixin class $DnsCopyWith<$Res>  {
   factory $DnsCopyWith(Dns value, $Res Function(Dns) _then) = _$DnsCopyWithImpl;
 @useResult
 $Res call({
- List<String>? upstreams,@JsonKey(name: 'CNAMEdeepInspect') bool? cnameDeepInspect, bool? blockESNI,@JsonKey(name: 'EDNS0ECS') bool? edns0ECS, bool? ignoreLocalhost, bool? showDNSSEC, bool? analyzeOnlyAandAAAA, String? piholePTR, String? replyWhenBusy, int? blockTTL, List<String>? hosts, bool? domainNeeded, bool? expandHosts, String? domain, bool? bogusPriv, bool? dnssec, String? interface, String? hostRecord, String? listeningMode, bool? queryLogging, List<String>? cnameRecords, int? port, DnsCache? cache, List<String>? revServers, DnsBlocking? blocking, SpecialDomains? specialDomains, DnsReply? reply, RateLimit? rateLimit
+ List<String>? upstreams,@JsonKey(name: 'CNAMEdeepInspect') bool? cnameDeepInspect, bool? blockESNI,@JsonKey(name: 'EDNS0ECS') bool? edns0ECS, bool? ignoreLocalhost, bool? showDNSSEC, bool? analyzeOnlyAandAAAA, String? piholePTR, String? replyWhenBusy, int? blockTTL, List<String>? hosts, bool? domainNeeded, bool? expandHosts,@DomainConverter() Domain? domain, bool? bogusPriv, bool? dnssec, String? interface, String? hostRecord, String? listeningMode, bool? queryLogging, List<String>? cnameRecords, int? port, bool? localise, DnsCache? cache, List<String>? revServers, DnsBlocking? blocking, SpecialDomains? specialDomains, DnsReply? reply, RateLimit? rateLimit
 });
 
 
-$DnsCacheCopyWith<$Res>? get cache;$DnsBlockingCopyWith<$Res>? get blocking;$SpecialDomainsCopyWith<$Res>? get specialDomains;$DnsReplyCopyWith<$Res>? get reply;$RateLimitCopyWith<$Res>? get rateLimit;
+$DomainCopyWith<$Res>? get domain;$DnsCacheCopyWith<$Res>? get cache;$DnsBlockingCopyWith<$Res>? get blocking;$SpecialDomainsCopyWith<$Res>? get specialDomains;$DnsReplyCopyWith<$Res>? get reply;$RateLimitCopyWith<$Res>? get rateLimit;
 
 }
 /// @nodoc
@@ -846,7 +848,7 @@ class _$DnsCopyWithImpl<$Res>
 
 /// Create a copy of Dns
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? upstreams = freezed,Object? cnameDeepInspect = freezed,Object? blockESNI = freezed,Object? edns0ECS = freezed,Object? ignoreLocalhost = freezed,Object? showDNSSEC = freezed,Object? analyzeOnlyAandAAAA = freezed,Object? piholePTR = freezed,Object? replyWhenBusy = freezed,Object? blockTTL = freezed,Object? hosts = freezed,Object? domainNeeded = freezed,Object? expandHosts = freezed,Object? domain = freezed,Object? bogusPriv = freezed,Object? dnssec = freezed,Object? interface = freezed,Object? hostRecord = freezed,Object? listeningMode = freezed,Object? queryLogging = freezed,Object? cnameRecords = freezed,Object? port = freezed,Object? cache = freezed,Object? revServers = freezed,Object? blocking = freezed,Object? specialDomains = freezed,Object? reply = freezed,Object? rateLimit = freezed,}) {
+@pragma('vm:prefer-inline') @override $Res call({Object? upstreams = freezed,Object? cnameDeepInspect = freezed,Object? blockESNI = freezed,Object? edns0ECS = freezed,Object? ignoreLocalhost = freezed,Object? showDNSSEC = freezed,Object? analyzeOnlyAandAAAA = freezed,Object? piholePTR = freezed,Object? replyWhenBusy = freezed,Object? blockTTL = freezed,Object? hosts = freezed,Object? domainNeeded = freezed,Object? expandHosts = freezed,Object? domain = freezed,Object? bogusPriv = freezed,Object? dnssec = freezed,Object? interface = freezed,Object? hostRecord = freezed,Object? listeningMode = freezed,Object? queryLogging = freezed,Object? cnameRecords = freezed,Object? port = freezed,Object? localise = freezed,Object? cache = freezed,Object? revServers = freezed,Object? blocking = freezed,Object? specialDomains = freezed,Object? reply = freezed,Object? rateLimit = freezed,}) {
   return _then(_self.copyWith(
 upstreams: freezed == upstreams ? _self.upstreams : upstreams // ignore: cast_nullable_to_non_nullable
 as List<String>?,cnameDeepInspect: freezed == cnameDeepInspect ? _self.cnameDeepInspect : cnameDeepInspect // ignore: cast_nullable_to_non_nullable
@@ -862,7 +864,7 @@ as int?,hosts: freezed == hosts ? _self.hosts : hosts // ignore: cast_nullable_t
 as List<String>?,domainNeeded: freezed == domainNeeded ? _self.domainNeeded : domainNeeded // ignore: cast_nullable_to_non_nullable
 as bool?,expandHosts: freezed == expandHosts ? _self.expandHosts : expandHosts // ignore: cast_nullable_to_non_nullable
 as bool?,domain: freezed == domain ? _self.domain : domain // ignore: cast_nullable_to_non_nullable
-as String?,bogusPriv: freezed == bogusPriv ? _self.bogusPriv : bogusPriv // ignore: cast_nullable_to_non_nullable
+as Domain?,bogusPriv: freezed == bogusPriv ? _self.bogusPriv : bogusPriv // ignore: cast_nullable_to_non_nullable
 as bool?,dnssec: freezed == dnssec ? _self.dnssec : dnssec // ignore: cast_nullable_to_non_nullable
 as bool?,interface: freezed == interface ? _self.interface : interface // ignore: cast_nullable_to_non_nullable
 as String?,hostRecord: freezed == hostRecord ? _self.hostRecord : hostRecord // ignore: cast_nullable_to_non_nullable
@@ -870,7 +872,8 @@ as String?,listeningMode: freezed == listeningMode ? _self.listeningMode : liste
 as String?,queryLogging: freezed == queryLogging ? _self.queryLogging : queryLogging // ignore: cast_nullable_to_non_nullable
 as bool?,cnameRecords: freezed == cnameRecords ? _self.cnameRecords : cnameRecords // ignore: cast_nullable_to_non_nullable
 as List<String>?,port: freezed == port ? _self.port : port // ignore: cast_nullable_to_non_nullable
-as int?,cache: freezed == cache ? _self.cache : cache // ignore: cast_nullable_to_non_nullable
+as int?,localise: freezed == localise ? _self.localise : localise // ignore: cast_nullable_to_non_nullable
+as bool?,cache: freezed == cache ? _self.cache : cache // ignore: cast_nullable_to_non_nullable
 as DnsCache?,revServers: freezed == revServers ? _self.revServers : revServers // ignore: cast_nullable_to_non_nullable
 as List<String>?,blocking: freezed == blocking ? _self.blocking : blocking // ignore: cast_nullable_to_non_nullable
 as DnsBlocking?,specialDomains: freezed == specialDomains ? _self.specialDomains : specialDomains // ignore: cast_nullable_to_non_nullable
@@ -880,6 +883,18 @@ as RateLimit?,
   ));
 }
 /// Create a copy of Dns
+/// with the given fields replaced by the non-null parameter values.
+@override
+@pragma('vm:prefer-inline')
+$DomainCopyWith<$Res>? get domain {
+    if (_self.domain == null) {
+    return null;
+  }
+
+  return $DomainCopyWith<$Res>(_self.domain!, (value) {
+    return _then(_self.copyWith(domain: value));
+  });
+}/// Create a copy of Dns
 /// with the given fields replaced by the non-null parameter values.
 @override
 @pragma('vm:prefer-inline')
@@ -1018,10 +1033,10 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( List<String>? upstreams, @JsonKey(name: 'CNAMEdeepInspect')  bool? cnameDeepInspect,  bool? blockESNI, @JsonKey(name: 'EDNS0ECS')  bool? edns0ECS,  bool? ignoreLocalhost,  bool? showDNSSEC,  bool? analyzeOnlyAandAAAA,  String? piholePTR,  String? replyWhenBusy,  int? blockTTL,  List<String>? hosts,  bool? domainNeeded,  bool? expandHosts,  String? domain,  bool? bogusPriv,  bool? dnssec,  String? interface,  String? hostRecord,  String? listeningMode,  bool? queryLogging,  List<String>? cnameRecords,  int? port,  DnsCache? cache,  List<String>? revServers,  DnsBlocking? blocking,  SpecialDomains? specialDomains,  DnsReply? reply,  RateLimit? rateLimit)?  $default,{required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( List<String>? upstreams, @JsonKey(name: 'CNAMEdeepInspect')  bool? cnameDeepInspect,  bool? blockESNI, @JsonKey(name: 'EDNS0ECS')  bool? edns0ECS,  bool? ignoreLocalhost,  bool? showDNSSEC,  bool? analyzeOnlyAandAAAA,  String? piholePTR,  String? replyWhenBusy,  int? blockTTL,  List<String>? hosts,  bool? domainNeeded,  bool? expandHosts, @DomainConverter()  Domain? domain,  bool? bogusPriv,  bool? dnssec,  String? interface,  String? hostRecord,  String? listeningMode,  bool? queryLogging,  List<String>? cnameRecords,  int? port,  bool? localise,  DnsCache? cache,  List<String>? revServers,  DnsBlocking? blocking,  SpecialDomains? specialDomains,  DnsReply? reply,  RateLimit? rateLimit)?  $default,{required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _Dns() when $default != null:
-return $default(_that.upstreams,_that.cnameDeepInspect,_that.blockESNI,_that.edns0ECS,_that.ignoreLocalhost,_that.showDNSSEC,_that.analyzeOnlyAandAAAA,_that.piholePTR,_that.replyWhenBusy,_that.blockTTL,_that.hosts,_that.domainNeeded,_that.expandHosts,_that.domain,_that.bogusPriv,_that.dnssec,_that.interface,_that.hostRecord,_that.listeningMode,_that.queryLogging,_that.cnameRecords,_that.port,_that.cache,_that.revServers,_that.blocking,_that.specialDomains,_that.reply,_that.rateLimit);case _:
+return $default(_that.upstreams,_that.cnameDeepInspect,_that.blockESNI,_that.edns0ECS,_that.ignoreLocalhost,_that.showDNSSEC,_that.analyzeOnlyAandAAAA,_that.piholePTR,_that.replyWhenBusy,_that.blockTTL,_that.hosts,_that.domainNeeded,_that.expandHosts,_that.domain,_that.bogusPriv,_that.dnssec,_that.interface,_that.hostRecord,_that.listeningMode,_that.queryLogging,_that.cnameRecords,_that.port,_that.localise,_that.cache,_that.revServers,_that.blocking,_that.specialDomains,_that.reply,_that.rateLimit);case _:
   return orElse();
 
 }
@@ -1039,10 +1054,10 @@ return $default(_that.upstreams,_that.cnameDeepInspect,_that.blockESNI,_that.edn
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( List<String>? upstreams, @JsonKey(name: 'CNAMEdeepInspect')  bool? cnameDeepInspect,  bool? blockESNI, @JsonKey(name: 'EDNS0ECS')  bool? edns0ECS,  bool? ignoreLocalhost,  bool? showDNSSEC,  bool? analyzeOnlyAandAAAA,  String? piholePTR,  String? replyWhenBusy,  int? blockTTL,  List<String>? hosts,  bool? domainNeeded,  bool? expandHosts,  String? domain,  bool? bogusPriv,  bool? dnssec,  String? interface,  String? hostRecord,  String? listeningMode,  bool? queryLogging,  List<String>? cnameRecords,  int? port,  DnsCache? cache,  List<String>? revServers,  DnsBlocking? blocking,  SpecialDomains? specialDomains,  DnsReply? reply,  RateLimit? rateLimit)  $default,) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( List<String>? upstreams, @JsonKey(name: 'CNAMEdeepInspect')  bool? cnameDeepInspect,  bool? blockESNI, @JsonKey(name: 'EDNS0ECS')  bool? edns0ECS,  bool? ignoreLocalhost,  bool? showDNSSEC,  bool? analyzeOnlyAandAAAA,  String? piholePTR,  String? replyWhenBusy,  int? blockTTL,  List<String>? hosts,  bool? domainNeeded,  bool? expandHosts, @DomainConverter()  Domain? domain,  bool? bogusPriv,  bool? dnssec,  String? interface,  String? hostRecord,  String? listeningMode,  bool? queryLogging,  List<String>? cnameRecords,  int? port,  bool? localise,  DnsCache? cache,  List<String>? revServers,  DnsBlocking? blocking,  SpecialDomains? specialDomains,  DnsReply? reply,  RateLimit? rateLimit)  $default,) {final _that = this;
 switch (_that) {
 case _Dns():
-return $default(_that.upstreams,_that.cnameDeepInspect,_that.blockESNI,_that.edns0ECS,_that.ignoreLocalhost,_that.showDNSSEC,_that.analyzeOnlyAandAAAA,_that.piholePTR,_that.replyWhenBusy,_that.blockTTL,_that.hosts,_that.domainNeeded,_that.expandHosts,_that.domain,_that.bogusPriv,_that.dnssec,_that.interface,_that.hostRecord,_that.listeningMode,_that.queryLogging,_that.cnameRecords,_that.port,_that.cache,_that.revServers,_that.blocking,_that.specialDomains,_that.reply,_that.rateLimit);}
+return $default(_that.upstreams,_that.cnameDeepInspect,_that.blockESNI,_that.edns0ECS,_that.ignoreLocalhost,_that.showDNSSEC,_that.analyzeOnlyAandAAAA,_that.piholePTR,_that.replyWhenBusy,_that.blockTTL,_that.hosts,_that.domainNeeded,_that.expandHosts,_that.domain,_that.bogusPriv,_that.dnssec,_that.interface,_that.hostRecord,_that.listeningMode,_that.queryLogging,_that.cnameRecords,_that.port,_that.localise,_that.cache,_that.revServers,_that.blocking,_that.specialDomains,_that.reply,_that.rateLimit);}
 }
 /// A variant of `when` that fallback to returning `null`
 ///
@@ -1056,10 +1071,10 @@ return $default(_that.upstreams,_that.cnameDeepInspect,_that.blockESNI,_that.edn
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( List<String>? upstreams, @JsonKey(name: 'CNAMEdeepInspect')  bool? cnameDeepInspect,  bool? blockESNI, @JsonKey(name: 'EDNS0ECS')  bool? edns0ECS,  bool? ignoreLocalhost,  bool? showDNSSEC,  bool? analyzeOnlyAandAAAA,  String? piholePTR,  String? replyWhenBusy,  int? blockTTL,  List<String>? hosts,  bool? domainNeeded,  bool? expandHosts,  String? domain,  bool? bogusPriv,  bool? dnssec,  String? interface,  String? hostRecord,  String? listeningMode,  bool? queryLogging,  List<String>? cnameRecords,  int? port,  DnsCache? cache,  List<String>? revServers,  DnsBlocking? blocking,  SpecialDomains? specialDomains,  DnsReply? reply,  RateLimit? rateLimit)?  $default,) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( List<String>? upstreams, @JsonKey(name: 'CNAMEdeepInspect')  bool? cnameDeepInspect,  bool? blockESNI, @JsonKey(name: 'EDNS0ECS')  bool? edns0ECS,  bool? ignoreLocalhost,  bool? showDNSSEC,  bool? analyzeOnlyAandAAAA,  String? piholePTR,  String? replyWhenBusy,  int? blockTTL,  List<String>? hosts,  bool? domainNeeded,  bool? expandHosts, @DomainConverter()  Domain? domain,  bool? bogusPriv,  bool? dnssec,  String? interface,  String? hostRecord,  String? listeningMode,  bool? queryLogging,  List<String>? cnameRecords,  int? port,  bool? localise,  DnsCache? cache,  List<String>? revServers,  DnsBlocking? blocking,  SpecialDomains? specialDomains,  DnsReply? reply,  RateLimit? rateLimit)?  $default,) {final _that = this;
 switch (_that) {
 case _Dns() when $default != null:
-return $default(_that.upstreams,_that.cnameDeepInspect,_that.blockESNI,_that.edns0ECS,_that.ignoreLocalhost,_that.showDNSSEC,_that.analyzeOnlyAandAAAA,_that.piholePTR,_that.replyWhenBusy,_that.blockTTL,_that.hosts,_that.domainNeeded,_that.expandHosts,_that.domain,_that.bogusPriv,_that.dnssec,_that.interface,_that.hostRecord,_that.listeningMode,_that.queryLogging,_that.cnameRecords,_that.port,_that.cache,_that.revServers,_that.blocking,_that.specialDomains,_that.reply,_that.rateLimit);case _:
+return $default(_that.upstreams,_that.cnameDeepInspect,_that.blockESNI,_that.edns0ECS,_that.ignoreLocalhost,_that.showDNSSEC,_that.analyzeOnlyAandAAAA,_that.piholePTR,_that.replyWhenBusy,_that.blockTTL,_that.hosts,_that.domainNeeded,_that.expandHosts,_that.domain,_that.bogusPriv,_that.dnssec,_that.interface,_that.hostRecord,_that.listeningMode,_that.queryLogging,_that.cnameRecords,_that.port,_that.localise,_that.cache,_that.revServers,_that.blocking,_that.specialDomains,_that.reply,_that.rateLimit);case _:
   return null;
 
 }
@@ -1071,7 +1086,7 @@ return $default(_that.upstreams,_that.cnameDeepInspect,_that.blockESNI,_that.edn
 
 @JsonSerializable(explicitToJson: true, includeIfNull: false)
 class _Dns implements Dns {
-  const _Dns({final  List<String>? upstreams, @JsonKey(name: 'CNAMEdeepInspect') this.cnameDeepInspect, this.blockESNI, @JsonKey(name: 'EDNS0ECS') this.edns0ECS, this.ignoreLocalhost, this.showDNSSEC, this.analyzeOnlyAandAAAA, this.piholePTR, this.replyWhenBusy, this.blockTTL, final  List<String>? hosts, this.domainNeeded, this.expandHosts, this.domain, this.bogusPriv, this.dnssec, this.interface, this.hostRecord, this.listeningMode, this.queryLogging, final  List<String>? cnameRecords, this.port, this.cache, final  List<String>? revServers, this.blocking, this.specialDomains, this.reply, this.rateLimit}): _upstreams = upstreams,_hosts = hosts,_cnameRecords = cnameRecords,_revServers = revServers;
+  const _Dns({final  List<String>? upstreams, @JsonKey(name: 'CNAMEdeepInspect') this.cnameDeepInspect, this.blockESNI, @JsonKey(name: 'EDNS0ECS') this.edns0ECS, this.ignoreLocalhost, this.showDNSSEC, this.analyzeOnlyAandAAAA, this.piholePTR, this.replyWhenBusy, this.blockTTL, final  List<String>? hosts, this.domainNeeded, this.expandHosts, @DomainConverter() this.domain, this.bogusPriv, this.dnssec, this.interface, this.hostRecord, this.listeningMode, this.queryLogging, final  List<String>? cnameRecords, this.port, this.localise, this.cache, final  List<String>? revServers, this.blocking, this.specialDomains, this.reply, this.rateLimit}): _upstreams = upstreams,_hosts = hosts,_cnameRecords = cnameRecords,_revServers = revServers;
   factory _Dns.fromJson(Map<String, dynamic> json) => _$DnsFromJson(json);
 
  final  List<String>? _upstreams;
@@ -1103,7 +1118,8 @@ class _Dns implements Dns {
 
 @override final  bool? domainNeeded;
 @override final  bool? expandHosts;
-@override final  String? domain;
+@override@DomainConverter() final  Domain? domain;
+// >= 6.3
 @override final  bool? bogusPriv;
 @override final  bool? dnssec;
 @override final  String? interface;
@@ -1120,6 +1136,8 @@ class _Dns implements Dns {
 }
 
 @override final  int? port;
+@override final  bool? localise;
+// >= 6.3
 @override final  DnsCache? cache;
  final  List<String>? _revServers;
 @override List<String>? get revServers {
@@ -1148,16 +1166,16 @@ Map<String, dynamic> toJson() {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _Dns&&const DeepCollectionEquality().equals(other._upstreams, _upstreams)&&(identical(other.cnameDeepInspect, cnameDeepInspect) || other.cnameDeepInspect == cnameDeepInspect)&&(identical(other.blockESNI, blockESNI) || other.blockESNI == blockESNI)&&(identical(other.edns0ECS, edns0ECS) || other.edns0ECS == edns0ECS)&&(identical(other.ignoreLocalhost, ignoreLocalhost) || other.ignoreLocalhost == ignoreLocalhost)&&(identical(other.showDNSSEC, showDNSSEC) || other.showDNSSEC == showDNSSEC)&&(identical(other.analyzeOnlyAandAAAA, analyzeOnlyAandAAAA) || other.analyzeOnlyAandAAAA == analyzeOnlyAandAAAA)&&(identical(other.piholePTR, piholePTR) || other.piholePTR == piholePTR)&&(identical(other.replyWhenBusy, replyWhenBusy) || other.replyWhenBusy == replyWhenBusy)&&(identical(other.blockTTL, blockTTL) || other.blockTTL == blockTTL)&&const DeepCollectionEquality().equals(other._hosts, _hosts)&&(identical(other.domainNeeded, domainNeeded) || other.domainNeeded == domainNeeded)&&(identical(other.expandHosts, expandHosts) || other.expandHosts == expandHosts)&&(identical(other.domain, domain) || other.domain == domain)&&(identical(other.bogusPriv, bogusPriv) || other.bogusPriv == bogusPriv)&&(identical(other.dnssec, dnssec) || other.dnssec == dnssec)&&(identical(other.interface, interface) || other.interface == interface)&&(identical(other.hostRecord, hostRecord) || other.hostRecord == hostRecord)&&(identical(other.listeningMode, listeningMode) || other.listeningMode == listeningMode)&&(identical(other.queryLogging, queryLogging) || other.queryLogging == queryLogging)&&const DeepCollectionEquality().equals(other._cnameRecords, _cnameRecords)&&(identical(other.port, port) || other.port == port)&&(identical(other.cache, cache) || other.cache == cache)&&const DeepCollectionEquality().equals(other._revServers, _revServers)&&(identical(other.blocking, blocking) || other.blocking == blocking)&&(identical(other.specialDomains, specialDomains) || other.specialDomains == specialDomains)&&(identical(other.reply, reply) || other.reply == reply)&&(identical(other.rateLimit, rateLimit) || other.rateLimit == rateLimit));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _Dns&&const DeepCollectionEquality().equals(other._upstreams, _upstreams)&&(identical(other.cnameDeepInspect, cnameDeepInspect) || other.cnameDeepInspect == cnameDeepInspect)&&(identical(other.blockESNI, blockESNI) || other.blockESNI == blockESNI)&&(identical(other.edns0ECS, edns0ECS) || other.edns0ECS == edns0ECS)&&(identical(other.ignoreLocalhost, ignoreLocalhost) || other.ignoreLocalhost == ignoreLocalhost)&&(identical(other.showDNSSEC, showDNSSEC) || other.showDNSSEC == showDNSSEC)&&(identical(other.analyzeOnlyAandAAAA, analyzeOnlyAandAAAA) || other.analyzeOnlyAandAAAA == analyzeOnlyAandAAAA)&&(identical(other.piholePTR, piholePTR) || other.piholePTR == piholePTR)&&(identical(other.replyWhenBusy, replyWhenBusy) || other.replyWhenBusy == replyWhenBusy)&&(identical(other.blockTTL, blockTTL) || other.blockTTL == blockTTL)&&const DeepCollectionEquality().equals(other._hosts, _hosts)&&(identical(other.domainNeeded, domainNeeded) || other.domainNeeded == domainNeeded)&&(identical(other.expandHosts, expandHosts) || other.expandHosts == expandHosts)&&(identical(other.domain, domain) || other.domain == domain)&&(identical(other.bogusPriv, bogusPriv) || other.bogusPriv == bogusPriv)&&(identical(other.dnssec, dnssec) || other.dnssec == dnssec)&&(identical(other.interface, interface) || other.interface == interface)&&(identical(other.hostRecord, hostRecord) || other.hostRecord == hostRecord)&&(identical(other.listeningMode, listeningMode) || other.listeningMode == listeningMode)&&(identical(other.queryLogging, queryLogging) || other.queryLogging == queryLogging)&&const DeepCollectionEquality().equals(other._cnameRecords, _cnameRecords)&&(identical(other.port, port) || other.port == port)&&(identical(other.localise, localise) || other.localise == localise)&&(identical(other.cache, cache) || other.cache == cache)&&const DeepCollectionEquality().equals(other._revServers, _revServers)&&(identical(other.blocking, blocking) || other.blocking == blocking)&&(identical(other.specialDomains, specialDomains) || other.specialDomains == specialDomains)&&(identical(other.reply, reply) || other.reply == reply)&&(identical(other.rateLimit, rateLimit) || other.rateLimit == rateLimit));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hashAll([runtimeType,const DeepCollectionEquality().hash(_upstreams),cnameDeepInspect,blockESNI,edns0ECS,ignoreLocalhost,showDNSSEC,analyzeOnlyAandAAAA,piholePTR,replyWhenBusy,blockTTL,const DeepCollectionEquality().hash(_hosts),domainNeeded,expandHosts,domain,bogusPriv,dnssec,interface,hostRecord,listeningMode,queryLogging,const DeepCollectionEquality().hash(_cnameRecords),port,cache,const DeepCollectionEquality().hash(_revServers),blocking,specialDomains,reply,rateLimit]);
+int get hashCode => Object.hashAll([runtimeType,const DeepCollectionEquality().hash(_upstreams),cnameDeepInspect,blockESNI,edns0ECS,ignoreLocalhost,showDNSSEC,analyzeOnlyAandAAAA,piholePTR,replyWhenBusy,blockTTL,const DeepCollectionEquality().hash(_hosts),domainNeeded,expandHosts,domain,bogusPriv,dnssec,interface,hostRecord,listeningMode,queryLogging,const DeepCollectionEquality().hash(_cnameRecords),port,localise,cache,const DeepCollectionEquality().hash(_revServers),blocking,specialDomains,reply,rateLimit]);
 
 @override
 String toString() {
-  return 'Dns(upstreams: $upstreams, cnameDeepInspect: $cnameDeepInspect, blockESNI: $blockESNI, edns0ECS: $edns0ECS, ignoreLocalhost: $ignoreLocalhost, showDNSSEC: $showDNSSEC, analyzeOnlyAandAAAA: $analyzeOnlyAandAAAA, piholePTR: $piholePTR, replyWhenBusy: $replyWhenBusy, blockTTL: $blockTTL, hosts: $hosts, domainNeeded: $domainNeeded, expandHosts: $expandHosts, domain: $domain, bogusPriv: $bogusPriv, dnssec: $dnssec, interface: $interface, hostRecord: $hostRecord, listeningMode: $listeningMode, queryLogging: $queryLogging, cnameRecords: $cnameRecords, port: $port, cache: $cache, revServers: $revServers, blocking: $blocking, specialDomains: $specialDomains, reply: $reply, rateLimit: $rateLimit)';
+  return 'Dns(upstreams: $upstreams, cnameDeepInspect: $cnameDeepInspect, blockESNI: $blockESNI, edns0ECS: $edns0ECS, ignoreLocalhost: $ignoreLocalhost, showDNSSEC: $showDNSSEC, analyzeOnlyAandAAAA: $analyzeOnlyAandAAAA, piholePTR: $piholePTR, replyWhenBusy: $replyWhenBusy, blockTTL: $blockTTL, hosts: $hosts, domainNeeded: $domainNeeded, expandHosts: $expandHosts, domain: $domain, bogusPriv: $bogusPriv, dnssec: $dnssec, interface: $interface, hostRecord: $hostRecord, listeningMode: $listeningMode, queryLogging: $queryLogging, cnameRecords: $cnameRecords, port: $port, localise: $localise, cache: $cache, revServers: $revServers, blocking: $blocking, specialDomains: $specialDomains, reply: $reply, rateLimit: $rateLimit)';
 }
 
 
@@ -1168,11 +1186,11 @@ abstract mixin class _$DnsCopyWith<$Res> implements $DnsCopyWith<$Res> {
   factory _$DnsCopyWith(_Dns value, $Res Function(_Dns) _then) = __$DnsCopyWithImpl;
 @override @useResult
 $Res call({
- List<String>? upstreams,@JsonKey(name: 'CNAMEdeepInspect') bool? cnameDeepInspect, bool? blockESNI,@JsonKey(name: 'EDNS0ECS') bool? edns0ECS, bool? ignoreLocalhost, bool? showDNSSEC, bool? analyzeOnlyAandAAAA, String? piholePTR, String? replyWhenBusy, int? blockTTL, List<String>? hosts, bool? domainNeeded, bool? expandHosts, String? domain, bool? bogusPriv, bool? dnssec, String? interface, String? hostRecord, String? listeningMode, bool? queryLogging, List<String>? cnameRecords, int? port, DnsCache? cache, List<String>? revServers, DnsBlocking? blocking, SpecialDomains? specialDomains, DnsReply? reply, RateLimit? rateLimit
+ List<String>? upstreams,@JsonKey(name: 'CNAMEdeepInspect') bool? cnameDeepInspect, bool? blockESNI,@JsonKey(name: 'EDNS0ECS') bool? edns0ECS, bool? ignoreLocalhost, bool? showDNSSEC, bool? analyzeOnlyAandAAAA, String? piholePTR, String? replyWhenBusy, int? blockTTL, List<String>? hosts, bool? domainNeeded, bool? expandHosts,@DomainConverter() Domain? domain, bool? bogusPriv, bool? dnssec, String? interface, String? hostRecord, String? listeningMode, bool? queryLogging, List<String>? cnameRecords, int? port, bool? localise, DnsCache? cache, List<String>? revServers, DnsBlocking? blocking, SpecialDomains? specialDomains, DnsReply? reply, RateLimit? rateLimit
 });
 
 
-@override $DnsCacheCopyWith<$Res>? get cache;@override $DnsBlockingCopyWith<$Res>? get blocking;@override $SpecialDomainsCopyWith<$Res>? get specialDomains;@override $DnsReplyCopyWith<$Res>? get reply;@override $RateLimitCopyWith<$Res>? get rateLimit;
+@override $DomainCopyWith<$Res>? get domain;@override $DnsCacheCopyWith<$Res>? get cache;@override $DnsBlockingCopyWith<$Res>? get blocking;@override $SpecialDomainsCopyWith<$Res>? get specialDomains;@override $DnsReplyCopyWith<$Res>? get reply;@override $RateLimitCopyWith<$Res>? get rateLimit;
 
 }
 /// @nodoc
@@ -1185,7 +1203,7 @@ class __$DnsCopyWithImpl<$Res>
 
 /// Create a copy of Dns
 /// with the given fields replaced by the non-null parameter values.
-@override @pragma('vm:prefer-inline') $Res call({Object? upstreams = freezed,Object? cnameDeepInspect = freezed,Object? blockESNI = freezed,Object? edns0ECS = freezed,Object? ignoreLocalhost = freezed,Object? showDNSSEC = freezed,Object? analyzeOnlyAandAAAA = freezed,Object? piholePTR = freezed,Object? replyWhenBusy = freezed,Object? blockTTL = freezed,Object? hosts = freezed,Object? domainNeeded = freezed,Object? expandHosts = freezed,Object? domain = freezed,Object? bogusPriv = freezed,Object? dnssec = freezed,Object? interface = freezed,Object? hostRecord = freezed,Object? listeningMode = freezed,Object? queryLogging = freezed,Object? cnameRecords = freezed,Object? port = freezed,Object? cache = freezed,Object? revServers = freezed,Object? blocking = freezed,Object? specialDomains = freezed,Object? reply = freezed,Object? rateLimit = freezed,}) {
+@override @pragma('vm:prefer-inline') $Res call({Object? upstreams = freezed,Object? cnameDeepInspect = freezed,Object? blockESNI = freezed,Object? edns0ECS = freezed,Object? ignoreLocalhost = freezed,Object? showDNSSEC = freezed,Object? analyzeOnlyAandAAAA = freezed,Object? piholePTR = freezed,Object? replyWhenBusy = freezed,Object? blockTTL = freezed,Object? hosts = freezed,Object? domainNeeded = freezed,Object? expandHosts = freezed,Object? domain = freezed,Object? bogusPriv = freezed,Object? dnssec = freezed,Object? interface = freezed,Object? hostRecord = freezed,Object? listeningMode = freezed,Object? queryLogging = freezed,Object? cnameRecords = freezed,Object? port = freezed,Object? localise = freezed,Object? cache = freezed,Object? revServers = freezed,Object? blocking = freezed,Object? specialDomains = freezed,Object? reply = freezed,Object? rateLimit = freezed,}) {
   return _then(_Dns(
 upstreams: freezed == upstreams ? _self._upstreams : upstreams // ignore: cast_nullable_to_non_nullable
 as List<String>?,cnameDeepInspect: freezed == cnameDeepInspect ? _self.cnameDeepInspect : cnameDeepInspect // ignore: cast_nullable_to_non_nullable
@@ -1201,7 +1219,7 @@ as int?,hosts: freezed == hosts ? _self._hosts : hosts // ignore: cast_nullable_
 as List<String>?,domainNeeded: freezed == domainNeeded ? _self.domainNeeded : domainNeeded // ignore: cast_nullable_to_non_nullable
 as bool?,expandHosts: freezed == expandHosts ? _self.expandHosts : expandHosts // ignore: cast_nullable_to_non_nullable
 as bool?,domain: freezed == domain ? _self.domain : domain // ignore: cast_nullable_to_non_nullable
-as String?,bogusPriv: freezed == bogusPriv ? _self.bogusPriv : bogusPriv // ignore: cast_nullable_to_non_nullable
+as Domain?,bogusPriv: freezed == bogusPriv ? _self.bogusPriv : bogusPriv // ignore: cast_nullable_to_non_nullable
 as bool?,dnssec: freezed == dnssec ? _self.dnssec : dnssec // ignore: cast_nullable_to_non_nullable
 as bool?,interface: freezed == interface ? _self.interface : interface // ignore: cast_nullable_to_non_nullable
 as String?,hostRecord: freezed == hostRecord ? _self.hostRecord : hostRecord // ignore: cast_nullable_to_non_nullable
@@ -1209,7 +1227,8 @@ as String?,listeningMode: freezed == listeningMode ? _self.listeningMode : liste
 as String?,queryLogging: freezed == queryLogging ? _self.queryLogging : queryLogging // ignore: cast_nullable_to_non_nullable
 as bool?,cnameRecords: freezed == cnameRecords ? _self._cnameRecords : cnameRecords // ignore: cast_nullable_to_non_nullable
 as List<String>?,port: freezed == port ? _self.port : port // ignore: cast_nullable_to_non_nullable
-as int?,cache: freezed == cache ? _self.cache : cache // ignore: cast_nullable_to_non_nullable
+as int?,localise: freezed == localise ? _self.localise : localise // ignore: cast_nullable_to_non_nullable
+as bool?,cache: freezed == cache ? _self.cache : cache // ignore: cast_nullable_to_non_nullable
 as DnsCache?,revServers: freezed == revServers ? _self._revServers : revServers // ignore: cast_nullable_to_non_nullable
 as List<String>?,blocking: freezed == blocking ? _self.blocking : blocking // ignore: cast_nullable_to_non_nullable
 as DnsBlocking?,specialDomains: freezed == specialDomains ? _self.specialDomains : specialDomains // ignore: cast_nullable_to_non_nullable
@@ -1220,6 +1239,18 @@ as RateLimit?,
 }
 
 /// Create a copy of Dns
+/// with the given fields replaced by the non-null parameter values.
+@override
+@pragma('vm:prefer-inline')
+$DomainCopyWith<$Res>? get domain {
+    if (_self.domain == null) {
+    return null;
+  }
+
+  return $DomainCopyWith<$Res>(_self.domain!, (value) {
+    return _then(_self.copyWith(domain: value));
+  });
+}/// Create a copy of Dns
 /// with the given fields replaced by the non-null parameter values.
 @override
 @pragma('vm:prefer-inline')
@@ -5177,7 +5208,8 @@ as int?,
 /// @nodoc
 mixin _$Webserver {
 
- String? get domain; String? get acl; String? get port; int? get threads; List<String>? get headers;@JsonKey(name: 'serve_all') bool? get serveAll; WebSession? get session; WebTls? get tls; WebPaths? get paths; WebInterface? get interface; WebApi? get api;
+ String? get domain; String? get acl; String? get port; int? get threads; List<String>? get headers;@JsonKey(name: 'serve_all') bool? get serveAll; List<String>? get advancedOpts;// >= 6.3
+ WebSession? get session; WebTls? get tls; WebPaths? get paths; WebInterface? get interface; WebApi? get api;
 /// Create a copy of Webserver
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -5190,16 +5222,16 @@ $WebserverCopyWith<Webserver> get copyWith => _$WebserverCopyWithImpl<Webserver>
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is Webserver&&(identical(other.domain, domain) || other.domain == domain)&&(identical(other.acl, acl) || other.acl == acl)&&(identical(other.port, port) || other.port == port)&&(identical(other.threads, threads) || other.threads == threads)&&const DeepCollectionEquality().equals(other.headers, headers)&&(identical(other.serveAll, serveAll) || other.serveAll == serveAll)&&(identical(other.session, session) || other.session == session)&&(identical(other.tls, tls) || other.tls == tls)&&(identical(other.paths, paths) || other.paths == paths)&&(identical(other.interface, interface) || other.interface == interface)&&(identical(other.api, api) || other.api == api));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is Webserver&&(identical(other.domain, domain) || other.domain == domain)&&(identical(other.acl, acl) || other.acl == acl)&&(identical(other.port, port) || other.port == port)&&(identical(other.threads, threads) || other.threads == threads)&&const DeepCollectionEquality().equals(other.headers, headers)&&(identical(other.serveAll, serveAll) || other.serveAll == serveAll)&&const DeepCollectionEquality().equals(other.advancedOpts, advancedOpts)&&(identical(other.session, session) || other.session == session)&&(identical(other.tls, tls) || other.tls == tls)&&(identical(other.paths, paths) || other.paths == paths)&&(identical(other.interface, interface) || other.interface == interface)&&(identical(other.api, api) || other.api == api));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,domain,acl,port,threads,const DeepCollectionEquality().hash(headers),serveAll,session,tls,paths,interface,api);
+int get hashCode => Object.hash(runtimeType,domain,acl,port,threads,const DeepCollectionEquality().hash(headers),serveAll,const DeepCollectionEquality().hash(advancedOpts),session,tls,paths,interface,api);
 
 @override
 String toString() {
-  return 'Webserver(domain: $domain, acl: $acl, port: $port, threads: $threads, headers: $headers, serveAll: $serveAll, session: $session, tls: $tls, paths: $paths, interface: $interface, api: $api)';
+  return 'Webserver(domain: $domain, acl: $acl, port: $port, threads: $threads, headers: $headers, serveAll: $serveAll, advancedOpts: $advancedOpts, session: $session, tls: $tls, paths: $paths, interface: $interface, api: $api)';
 }
 
 
@@ -5210,7 +5242,7 @@ abstract mixin class $WebserverCopyWith<$Res>  {
   factory $WebserverCopyWith(Webserver value, $Res Function(Webserver) _then) = _$WebserverCopyWithImpl;
 @useResult
 $Res call({
- String? domain, String? acl, String? port, int? threads, List<String>? headers,@JsonKey(name: 'serve_all') bool? serveAll, WebSession? session, WebTls? tls, WebPaths? paths, WebInterface? interface, WebApi? api
+ String? domain, String? acl, String? port, int? threads, List<String>? headers,@JsonKey(name: 'serve_all') bool? serveAll, List<String>? advancedOpts, WebSession? session, WebTls? tls, WebPaths? paths, WebInterface? interface, WebApi? api
 });
 
 
@@ -5227,7 +5259,7 @@ class _$WebserverCopyWithImpl<$Res>
 
 /// Create a copy of Webserver
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? domain = freezed,Object? acl = freezed,Object? port = freezed,Object? threads = freezed,Object? headers = freezed,Object? serveAll = freezed,Object? session = freezed,Object? tls = freezed,Object? paths = freezed,Object? interface = freezed,Object? api = freezed,}) {
+@pragma('vm:prefer-inline') @override $Res call({Object? domain = freezed,Object? acl = freezed,Object? port = freezed,Object? threads = freezed,Object? headers = freezed,Object? serveAll = freezed,Object? advancedOpts = freezed,Object? session = freezed,Object? tls = freezed,Object? paths = freezed,Object? interface = freezed,Object? api = freezed,}) {
   return _then(_self.copyWith(
 domain: freezed == domain ? _self.domain : domain // ignore: cast_nullable_to_non_nullable
 as String?,acl: freezed == acl ? _self.acl : acl // ignore: cast_nullable_to_non_nullable
@@ -5235,7 +5267,8 @@ as String?,port: freezed == port ? _self.port : port // ignore: cast_nullable_to
 as String?,threads: freezed == threads ? _self.threads : threads // ignore: cast_nullable_to_non_nullable
 as int?,headers: freezed == headers ? _self.headers : headers // ignore: cast_nullable_to_non_nullable
 as List<String>?,serveAll: freezed == serveAll ? _self.serveAll : serveAll // ignore: cast_nullable_to_non_nullable
-as bool?,session: freezed == session ? _self.session : session // ignore: cast_nullable_to_non_nullable
+as bool?,advancedOpts: freezed == advancedOpts ? _self.advancedOpts : advancedOpts // ignore: cast_nullable_to_non_nullable
+as List<String>?,session: freezed == session ? _self.session : session // ignore: cast_nullable_to_non_nullable
 as WebSession?,tls: freezed == tls ? _self.tls : tls // ignore: cast_nullable_to_non_nullable
 as WebTls?,paths: freezed == paths ? _self.paths : paths // ignore: cast_nullable_to_non_nullable
 as WebPaths?,interface: freezed == interface ? _self.interface : interface // ignore: cast_nullable_to_non_nullable
@@ -5382,10 +5415,10 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( String? domain,  String? acl,  String? port,  int? threads,  List<String>? headers, @JsonKey(name: 'serve_all')  bool? serveAll,  WebSession? session,  WebTls? tls,  WebPaths? paths,  WebInterface? interface,  WebApi? api)?  $default,{required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( String? domain,  String? acl,  String? port,  int? threads,  List<String>? headers, @JsonKey(name: 'serve_all')  bool? serveAll,  List<String>? advancedOpts,  WebSession? session,  WebTls? tls,  WebPaths? paths,  WebInterface? interface,  WebApi? api)?  $default,{required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _Webserver() when $default != null:
-return $default(_that.domain,_that.acl,_that.port,_that.threads,_that.headers,_that.serveAll,_that.session,_that.tls,_that.paths,_that.interface,_that.api);case _:
+return $default(_that.domain,_that.acl,_that.port,_that.threads,_that.headers,_that.serveAll,_that.advancedOpts,_that.session,_that.tls,_that.paths,_that.interface,_that.api);case _:
   return orElse();
 
 }
@@ -5403,10 +5436,10 @@ return $default(_that.domain,_that.acl,_that.port,_that.threads,_that.headers,_t
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( String? domain,  String? acl,  String? port,  int? threads,  List<String>? headers, @JsonKey(name: 'serve_all')  bool? serveAll,  WebSession? session,  WebTls? tls,  WebPaths? paths,  WebInterface? interface,  WebApi? api)  $default,) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( String? domain,  String? acl,  String? port,  int? threads,  List<String>? headers, @JsonKey(name: 'serve_all')  bool? serveAll,  List<String>? advancedOpts,  WebSession? session,  WebTls? tls,  WebPaths? paths,  WebInterface? interface,  WebApi? api)  $default,) {final _that = this;
 switch (_that) {
 case _Webserver():
-return $default(_that.domain,_that.acl,_that.port,_that.threads,_that.headers,_that.serveAll,_that.session,_that.tls,_that.paths,_that.interface,_that.api);}
+return $default(_that.domain,_that.acl,_that.port,_that.threads,_that.headers,_that.serveAll,_that.advancedOpts,_that.session,_that.tls,_that.paths,_that.interface,_that.api);}
 }
 /// A variant of `when` that fallback to returning `null`
 ///
@@ -5420,10 +5453,10 @@ return $default(_that.domain,_that.acl,_that.port,_that.threads,_that.headers,_t
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( String? domain,  String? acl,  String? port,  int? threads,  List<String>? headers, @JsonKey(name: 'serve_all')  bool? serveAll,  WebSession? session,  WebTls? tls,  WebPaths? paths,  WebInterface? interface,  WebApi? api)?  $default,) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( String? domain,  String? acl,  String? port,  int? threads,  List<String>? headers, @JsonKey(name: 'serve_all')  bool? serveAll,  List<String>? advancedOpts,  WebSession? session,  WebTls? tls,  WebPaths? paths,  WebInterface? interface,  WebApi? api)?  $default,) {final _that = this;
 switch (_that) {
 case _Webserver() when $default != null:
-return $default(_that.domain,_that.acl,_that.port,_that.threads,_that.headers,_that.serveAll,_that.session,_that.tls,_that.paths,_that.interface,_that.api);case _:
+return $default(_that.domain,_that.acl,_that.port,_that.threads,_that.headers,_that.serveAll,_that.advancedOpts,_that.session,_that.tls,_that.paths,_that.interface,_that.api);case _:
   return null;
 
 }
@@ -5435,7 +5468,7 @@ return $default(_that.domain,_that.acl,_that.port,_that.threads,_that.headers,_t
 
 @JsonSerializable(explicitToJson: true, includeIfNull: false)
 class _Webserver implements Webserver {
-  const _Webserver({this.domain, this.acl, this.port, this.threads, final  List<String>? headers, @JsonKey(name: 'serve_all') this.serveAll, this.session, this.tls, this.paths, this.interface, this.api}): _headers = headers;
+  const _Webserver({this.domain, this.acl, this.port, this.threads, final  List<String>? headers, @JsonKey(name: 'serve_all') this.serveAll, final  List<String>? advancedOpts, this.session, this.tls, this.paths, this.interface, this.api}): _headers = headers,_advancedOpts = advancedOpts;
   factory _Webserver.fromJson(Map<String, dynamic> json) => _$WebserverFromJson(json);
 
 @override final  String? domain;
@@ -5452,6 +5485,16 @@ class _Webserver implements Webserver {
 }
 
 @override@JsonKey(name: 'serve_all') final  bool? serveAll;
+ final  List<String>? _advancedOpts;
+@override List<String>? get advancedOpts {
+  final value = _advancedOpts;
+  if (value == null) return null;
+  if (_advancedOpts is EqualUnmodifiableListView) return _advancedOpts;
+  // ignore: implicit_dynamic_type
+  return EqualUnmodifiableListView(value);
+}
+
+// >= 6.3
 @override final  WebSession? session;
 @override final  WebTls? tls;
 @override final  WebPaths? paths;
@@ -5471,16 +5514,16 @@ Map<String, dynamic> toJson() {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _Webserver&&(identical(other.domain, domain) || other.domain == domain)&&(identical(other.acl, acl) || other.acl == acl)&&(identical(other.port, port) || other.port == port)&&(identical(other.threads, threads) || other.threads == threads)&&const DeepCollectionEquality().equals(other._headers, _headers)&&(identical(other.serveAll, serveAll) || other.serveAll == serveAll)&&(identical(other.session, session) || other.session == session)&&(identical(other.tls, tls) || other.tls == tls)&&(identical(other.paths, paths) || other.paths == paths)&&(identical(other.interface, interface) || other.interface == interface)&&(identical(other.api, api) || other.api == api));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _Webserver&&(identical(other.domain, domain) || other.domain == domain)&&(identical(other.acl, acl) || other.acl == acl)&&(identical(other.port, port) || other.port == port)&&(identical(other.threads, threads) || other.threads == threads)&&const DeepCollectionEquality().equals(other._headers, _headers)&&(identical(other.serveAll, serveAll) || other.serveAll == serveAll)&&const DeepCollectionEquality().equals(other._advancedOpts, _advancedOpts)&&(identical(other.session, session) || other.session == session)&&(identical(other.tls, tls) || other.tls == tls)&&(identical(other.paths, paths) || other.paths == paths)&&(identical(other.interface, interface) || other.interface == interface)&&(identical(other.api, api) || other.api == api));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,domain,acl,port,threads,const DeepCollectionEquality().hash(_headers),serveAll,session,tls,paths,interface,api);
+int get hashCode => Object.hash(runtimeType,domain,acl,port,threads,const DeepCollectionEquality().hash(_headers),serveAll,const DeepCollectionEquality().hash(_advancedOpts),session,tls,paths,interface,api);
 
 @override
 String toString() {
-  return 'Webserver(domain: $domain, acl: $acl, port: $port, threads: $threads, headers: $headers, serveAll: $serveAll, session: $session, tls: $tls, paths: $paths, interface: $interface, api: $api)';
+  return 'Webserver(domain: $domain, acl: $acl, port: $port, threads: $threads, headers: $headers, serveAll: $serveAll, advancedOpts: $advancedOpts, session: $session, tls: $tls, paths: $paths, interface: $interface, api: $api)';
 }
 
 
@@ -5491,7 +5534,7 @@ abstract mixin class _$WebserverCopyWith<$Res> implements $WebserverCopyWith<$Re
   factory _$WebserverCopyWith(_Webserver value, $Res Function(_Webserver) _then) = __$WebserverCopyWithImpl;
 @override @useResult
 $Res call({
- String? domain, String? acl, String? port, int? threads, List<String>? headers,@JsonKey(name: 'serve_all') bool? serveAll, WebSession? session, WebTls? tls, WebPaths? paths, WebInterface? interface, WebApi? api
+ String? domain, String? acl, String? port, int? threads, List<String>? headers,@JsonKey(name: 'serve_all') bool? serveAll, List<String>? advancedOpts, WebSession? session, WebTls? tls, WebPaths? paths, WebInterface? interface, WebApi? api
 });
 
 
@@ -5508,7 +5551,7 @@ class __$WebserverCopyWithImpl<$Res>
 
 /// Create a copy of Webserver
 /// with the given fields replaced by the non-null parameter values.
-@override @pragma('vm:prefer-inline') $Res call({Object? domain = freezed,Object? acl = freezed,Object? port = freezed,Object? threads = freezed,Object? headers = freezed,Object? serveAll = freezed,Object? session = freezed,Object? tls = freezed,Object? paths = freezed,Object? interface = freezed,Object? api = freezed,}) {
+@override @pragma('vm:prefer-inline') $Res call({Object? domain = freezed,Object? acl = freezed,Object? port = freezed,Object? threads = freezed,Object? headers = freezed,Object? serveAll = freezed,Object? advancedOpts = freezed,Object? session = freezed,Object? tls = freezed,Object? paths = freezed,Object? interface = freezed,Object? api = freezed,}) {
   return _then(_Webserver(
 domain: freezed == domain ? _self.domain : domain // ignore: cast_nullable_to_non_nullable
 as String?,acl: freezed == acl ? _self.acl : acl // ignore: cast_nullable_to_non_nullable
@@ -5516,7 +5559,8 @@ as String?,port: freezed == port ? _self.port : port // ignore: cast_nullable_to
 as String?,threads: freezed == threads ? _self.threads : threads // ignore: cast_nullable_to_non_nullable
 as int?,headers: freezed == headers ? _self._headers : headers // ignore: cast_nullable_to_non_nullable
 as List<String>?,serveAll: freezed == serveAll ? _self.serveAll : serveAll // ignore: cast_nullable_to_non_nullable
-as bool?,session: freezed == session ? _self.session : session // ignore: cast_nullable_to_non_nullable
+as bool?,advancedOpts: freezed == advancedOpts ? _self._advancedOpts : advancedOpts // ignore: cast_nullable_to_non_nullable
+as List<String>?,session: freezed == session ? _self.session : session // ignore: cast_nullable_to_non_nullable
 as WebSession?,tls: freezed == tls ? _self.tls : tls // ignore: cast_nullable_to_non_nullable
 as WebTls?,paths: freezed == paths ? _self.paths : paths // ignore: cast_nullable_to_non_nullable
 as WebPaths?,interface: freezed == interface ? _self.interface : interface // ignore: cast_nullable_to_non_nullable
@@ -5852,7 +5896,7 @@ as bool?,
 /// @nodoc
 mixin _$WebTls {
 
- String? get cert;
+ String? get cert; int? get validity;
 /// Create a copy of WebTls
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -5865,16 +5909,16 @@ $WebTlsCopyWith<WebTls> get copyWith => _$WebTlsCopyWithImpl<WebTls>(this as Web
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is WebTls&&(identical(other.cert, cert) || other.cert == cert));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is WebTls&&(identical(other.cert, cert) || other.cert == cert)&&(identical(other.validity, validity) || other.validity == validity));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,cert);
+int get hashCode => Object.hash(runtimeType,cert,validity);
 
 @override
 String toString() {
-  return 'WebTls(cert: $cert)';
+  return 'WebTls(cert: $cert, validity: $validity)';
 }
 
 
@@ -5885,7 +5929,7 @@ abstract mixin class $WebTlsCopyWith<$Res>  {
   factory $WebTlsCopyWith(WebTls value, $Res Function(WebTls) _then) = _$WebTlsCopyWithImpl;
 @useResult
 $Res call({
- String? cert
+ String? cert, int? validity
 });
 
 
@@ -5902,10 +5946,11 @@ class _$WebTlsCopyWithImpl<$Res>
 
 /// Create a copy of WebTls
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? cert = freezed,}) {
+@pragma('vm:prefer-inline') @override $Res call({Object? cert = freezed,Object? validity = freezed,}) {
   return _then(_self.copyWith(
 cert: freezed == cert ? _self.cert : cert // ignore: cast_nullable_to_non_nullable
-as String?,
+as String?,validity: freezed == validity ? _self.validity : validity // ignore: cast_nullable_to_non_nullable
+as int?,
   ));
 }
 
@@ -5987,10 +6032,10 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( String? cert)?  $default,{required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( String? cert,  int? validity)?  $default,{required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _WebTls() when $default != null:
-return $default(_that.cert);case _:
+return $default(_that.cert,_that.validity);case _:
   return orElse();
 
 }
@@ -6008,10 +6053,10 @@ return $default(_that.cert);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( String? cert)  $default,) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( String? cert,  int? validity)  $default,) {final _that = this;
 switch (_that) {
 case _WebTls():
-return $default(_that.cert);}
+return $default(_that.cert,_that.validity);}
 }
 /// A variant of `when` that fallback to returning `null`
 ///
@@ -6025,10 +6070,10 @@ return $default(_that.cert);}
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( String? cert)?  $default,) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( String? cert,  int? validity)?  $default,) {final _that = this;
 switch (_that) {
 case _WebTls() when $default != null:
-return $default(_that.cert);case _:
+return $default(_that.cert,_that.validity);case _:
   return null;
 
 }
@@ -6040,10 +6085,11 @@ return $default(_that.cert);case _:
 
 @JsonSerializable(explicitToJson: true, includeIfNull: false)
 class _WebTls implements WebTls {
-  const _WebTls({this.cert});
+  const _WebTls({this.cert, this.validity});
   factory _WebTls.fromJson(Map<String, dynamic> json) => _$WebTlsFromJson(json);
 
 @override final  String? cert;
+@override final  int? validity;
 
 /// Create a copy of WebTls
 /// with the given fields replaced by the non-null parameter values.
@@ -6058,16 +6104,16 @@ Map<String, dynamic> toJson() {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _WebTls&&(identical(other.cert, cert) || other.cert == cert));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _WebTls&&(identical(other.cert, cert) || other.cert == cert)&&(identical(other.validity, validity) || other.validity == validity));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,cert);
+int get hashCode => Object.hash(runtimeType,cert,validity);
 
 @override
 String toString() {
-  return 'WebTls(cert: $cert)';
+  return 'WebTls(cert: $cert, validity: $validity)';
 }
 
 
@@ -6078,7 +6124,7 @@ abstract mixin class _$WebTlsCopyWith<$Res> implements $WebTlsCopyWith<$Res> {
   factory _$WebTlsCopyWith(_WebTls value, $Res Function(_WebTls) _then) = __$WebTlsCopyWithImpl;
 @override @useResult
 $Res call({
- String? cert
+ String? cert, int? validity
 });
 
 
@@ -6095,10 +6141,11 @@ class __$WebTlsCopyWithImpl<$Res>
 
 /// Create a copy of WebTls
 /// with the given fields replaced by the non-null parameter values.
-@override @pragma('vm:prefer-inline') $Res call({Object? cert = freezed,}) {
+@override @pragma('vm:prefer-inline') $Res call({Object? cert = freezed,Object? validity = freezed,}) {
   return _then(_WebTls(
 cert: freezed == cert ? _self.cert : cert // ignore: cast_nullable_to_non_nullable
-as String?,
+as String?,validity: freezed == validity ? _self.validity : validity // ignore: cast_nullable_to_non_nullable
+as int?,
   ));
 }
 
@@ -7796,7 +7843,8 @@ as String?,
 /// @nodoc
 mixin _$Misc {
 
- int? get nice;@JsonKey(name: 'delay_startup') int? get delayStartup; bool? get addr2line;@JsonKey(name: 'etc_dnsmasq_d') bool? get etcDnsmasqD; int? get privacylevel;@JsonKey(name: 'dnsmasq_lines') List<String>? get dnsmasqLines; bool? get extraLogging; bool? get readOnly; Check? get check;
+ int? get nice;@JsonKey(name: 'delay_startup') int? get delayStartup; bool? get addr2line;@JsonKey(name: 'etc_dnsmasq_d') bool? get etcDnsmasqD; int? get privacylevel;@JsonKey(name: 'dnsmasq_lines') List<String>? get dnsmasqLines; bool? get extraLogging; bool? get readOnly; bool? get normalizeCPU;// >= 6.3
+ Check? get check;
 /// Create a copy of Misc
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -7809,16 +7857,16 @@ $MiscCopyWith<Misc> get copyWith => _$MiscCopyWithImpl<Misc>(this as Misc, _$ide
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is Misc&&(identical(other.nice, nice) || other.nice == nice)&&(identical(other.delayStartup, delayStartup) || other.delayStartup == delayStartup)&&(identical(other.addr2line, addr2line) || other.addr2line == addr2line)&&(identical(other.etcDnsmasqD, etcDnsmasqD) || other.etcDnsmasqD == etcDnsmasqD)&&(identical(other.privacylevel, privacylevel) || other.privacylevel == privacylevel)&&const DeepCollectionEquality().equals(other.dnsmasqLines, dnsmasqLines)&&(identical(other.extraLogging, extraLogging) || other.extraLogging == extraLogging)&&(identical(other.readOnly, readOnly) || other.readOnly == readOnly)&&(identical(other.check, check) || other.check == check));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is Misc&&(identical(other.nice, nice) || other.nice == nice)&&(identical(other.delayStartup, delayStartup) || other.delayStartup == delayStartup)&&(identical(other.addr2line, addr2line) || other.addr2line == addr2line)&&(identical(other.etcDnsmasqD, etcDnsmasqD) || other.etcDnsmasqD == etcDnsmasqD)&&(identical(other.privacylevel, privacylevel) || other.privacylevel == privacylevel)&&const DeepCollectionEquality().equals(other.dnsmasqLines, dnsmasqLines)&&(identical(other.extraLogging, extraLogging) || other.extraLogging == extraLogging)&&(identical(other.readOnly, readOnly) || other.readOnly == readOnly)&&(identical(other.normalizeCPU, normalizeCPU) || other.normalizeCPU == normalizeCPU)&&(identical(other.check, check) || other.check == check));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,nice,delayStartup,addr2line,etcDnsmasqD,privacylevel,const DeepCollectionEquality().hash(dnsmasqLines),extraLogging,readOnly,check);
+int get hashCode => Object.hash(runtimeType,nice,delayStartup,addr2line,etcDnsmasqD,privacylevel,const DeepCollectionEquality().hash(dnsmasqLines),extraLogging,readOnly,normalizeCPU,check);
 
 @override
 String toString() {
-  return 'Misc(nice: $nice, delayStartup: $delayStartup, addr2line: $addr2line, etcDnsmasqD: $etcDnsmasqD, privacylevel: $privacylevel, dnsmasqLines: $dnsmasqLines, extraLogging: $extraLogging, readOnly: $readOnly, check: $check)';
+  return 'Misc(nice: $nice, delayStartup: $delayStartup, addr2line: $addr2line, etcDnsmasqD: $etcDnsmasqD, privacylevel: $privacylevel, dnsmasqLines: $dnsmasqLines, extraLogging: $extraLogging, readOnly: $readOnly, normalizeCPU: $normalizeCPU, check: $check)';
 }
 
 
@@ -7829,7 +7877,7 @@ abstract mixin class $MiscCopyWith<$Res>  {
   factory $MiscCopyWith(Misc value, $Res Function(Misc) _then) = _$MiscCopyWithImpl;
 @useResult
 $Res call({
- int? nice,@JsonKey(name: 'delay_startup') int? delayStartup, bool? addr2line,@JsonKey(name: 'etc_dnsmasq_d') bool? etcDnsmasqD, int? privacylevel,@JsonKey(name: 'dnsmasq_lines') List<String>? dnsmasqLines, bool? extraLogging, bool? readOnly, Check? check
+ int? nice,@JsonKey(name: 'delay_startup') int? delayStartup, bool? addr2line,@JsonKey(name: 'etc_dnsmasq_d') bool? etcDnsmasqD, int? privacylevel,@JsonKey(name: 'dnsmasq_lines') List<String>? dnsmasqLines, bool? extraLogging, bool? readOnly, bool? normalizeCPU, Check? check
 });
 
 
@@ -7846,7 +7894,7 @@ class _$MiscCopyWithImpl<$Res>
 
 /// Create a copy of Misc
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? nice = freezed,Object? delayStartup = freezed,Object? addr2line = freezed,Object? etcDnsmasqD = freezed,Object? privacylevel = freezed,Object? dnsmasqLines = freezed,Object? extraLogging = freezed,Object? readOnly = freezed,Object? check = freezed,}) {
+@pragma('vm:prefer-inline') @override $Res call({Object? nice = freezed,Object? delayStartup = freezed,Object? addr2line = freezed,Object? etcDnsmasqD = freezed,Object? privacylevel = freezed,Object? dnsmasqLines = freezed,Object? extraLogging = freezed,Object? readOnly = freezed,Object? normalizeCPU = freezed,Object? check = freezed,}) {
   return _then(_self.copyWith(
 nice: freezed == nice ? _self.nice : nice // ignore: cast_nullable_to_non_nullable
 as int?,delayStartup: freezed == delayStartup ? _self.delayStartup : delayStartup // ignore: cast_nullable_to_non_nullable
@@ -7856,6 +7904,7 @@ as bool?,privacylevel: freezed == privacylevel ? _self.privacylevel : privacylev
 as int?,dnsmasqLines: freezed == dnsmasqLines ? _self.dnsmasqLines : dnsmasqLines // ignore: cast_nullable_to_non_nullable
 as List<String>?,extraLogging: freezed == extraLogging ? _self.extraLogging : extraLogging // ignore: cast_nullable_to_non_nullable
 as bool?,readOnly: freezed == readOnly ? _self.readOnly : readOnly // ignore: cast_nullable_to_non_nullable
+as bool?,normalizeCPU: freezed == normalizeCPU ? _self.normalizeCPU : normalizeCPU // ignore: cast_nullable_to_non_nullable
 as bool?,check: freezed == check ? _self.check : check // ignore: cast_nullable_to_non_nullable
 as Check?,
   ));
@@ -7951,10 +8000,10 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( int? nice, @JsonKey(name: 'delay_startup')  int? delayStartup,  bool? addr2line, @JsonKey(name: 'etc_dnsmasq_d')  bool? etcDnsmasqD,  int? privacylevel, @JsonKey(name: 'dnsmasq_lines')  List<String>? dnsmasqLines,  bool? extraLogging,  bool? readOnly,  Check? check)?  $default,{required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( int? nice, @JsonKey(name: 'delay_startup')  int? delayStartup,  bool? addr2line, @JsonKey(name: 'etc_dnsmasq_d')  bool? etcDnsmasqD,  int? privacylevel, @JsonKey(name: 'dnsmasq_lines')  List<String>? dnsmasqLines,  bool? extraLogging,  bool? readOnly,  bool? normalizeCPU,  Check? check)?  $default,{required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _Misc() when $default != null:
-return $default(_that.nice,_that.delayStartup,_that.addr2line,_that.etcDnsmasqD,_that.privacylevel,_that.dnsmasqLines,_that.extraLogging,_that.readOnly,_that.check);case _:
+return $default(_that.nice,_that.delayStartup,_that.addr2line,_that.etcDnsmasqD,_that.privacylevel,_that.dnsmasqLines,_that.extraLogging,_that.readOnly,_that.normalizeCPU,_that.check);case _:
   return orElse();
 
 }
@@ -7972,10 +8021,10 @@ return $default(_that.nice,_that.delayStartup,_that.addr2line,_that.etcDnsmasqD,
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( int? nice, @JsonKey(name: 'delay_startup')  int? delayStartup,  bool? addr2line, @JsonKey(name: 'etc_dnsmasq_d')  bool? etcDnsmasqD,  int? privacylevel, @JsonKey(name: 'dnsmasq_lines')  List<String>? dnsmasqLines,  bool? extraLogging,  bool? readOnly,  Check? check)  $default,) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( int? nice, @JsonKey(name: 'delay_startup')  int? delayStartup,  bool? addr2line, @JsonKey(name: 'etc_dnsmasq_d')  bool? etcDnsmasqD,  int? privacylevel, @JsonKey(name: 'dnsmasq_lines')  List<String>? dnsmasqLines,  bool? extraLogging,  bool? readOnly,  bool? normalizeCPU,  Check? check)  $default,) {final _that = this;
 switch (_that) {
 case _Misc():
-return $default(_that.nice,_that.delayStartup,_that.addr2line,_that.etcDnsmasqD,_that.privacylevel,_that.dnsmasqLines,_that.extraLogging,_that.readOnly,_that.check);}
+return $default(_that.nice,_that.delayStartup,_that.addr2line,_that.etcDnsmasqD,_that.privacylevel,_that.dnsmasqLines,_that.extraLogging,_that.readOnly,_that.normalizeCPU,_that.check);}
 }
 /// A variant of `when` that fallback to returning `null`
 ///
@@ -7989,10 +8038,10 @@ return $default(_that.nice,_that.delayStartup,_that.addr2line,_that.etcDnsmasqD,
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( int? nice, @JsonKey(name: 'delay_startup')  int? delayStartup,  bool? addr2line, @JsonKey(name: 'etc_dnsmasq_d')  bool? etcDnsmasqD,  int? privacylevel, @JsonKey(name: 'dnsmasq_lines')  List<String>? dnsmasqLines,  bool? extraLogging,  bool? readOnly,  Check? check)?  $default,) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( int? nice, @JsonKey(name: 'delay_startup')  int? delayStartup,  bool? addr2line, @JsonKey(name: 'etc_dnsmasq_d')  bool? etcDnsmasqD,  int? privacylevel, @JsonKey(name: 'dnsmasq_lines')  List<String>? dnsmasqLines,  bool? extraLogging,  bool? readOnly,  bool? normalizeCPU,  Check? check)?  $default,) {final _that = this;
 switch (_that) {
 case _Misc() when $default != null:
-return $default(_that.nice,_that.delayStartup,_that.addr2line,_that.etcDnsmasqD,_that.privacylevel,_that.dnsmasqLines,_that.extraLogging,_that.readOnly,_that.check);case _:
+return $default(_that.nice,_that.delayStartup,_that.addr2line,_that.etcDnsmasqD,_that.privacylevel,_that.dnsmasqLines,_that.extraLogging,_that.readOnly,_that.normalizeCPU,_that.check);case _:
   return null;
 
 }
@@ -8004,7 +8053,7 @@ return $default(_that.nice,_that.delayStartup,_that.addr2line,_that.etcDnsmasqD,
 
 @JsonSerializable(explicitToJson: true, includeIfNull: false)
 class _Misc implements Misc {
-  const _Misc({this.nice, @JsonKey(name: 'delay_startup') this.delayStartup, this.addr2line, @JsonKey(name: 'etc_dnsmasq_d') this.etcDnsmasqD, this.privacylevel, @JsonKey(name: 'dnsmasq_lines') final  List<String>? dnsmasqLines, this.extraLogging, this.readOnly, this.check}): _dnsmasqLines = dnsmasqLines;
+  const _Misc({this.nice, @JsonKey(name: 'delay_startup') this.delayStartup, this.addr2line, @JsonKey(name: 'etc_dnsmasq_d') this.etcDnsmasqD, this.privacylevel, @JsonKey(name: 'dnsmasq_lines') final  List<String>? dnsmasqLines, this.extraLogging, this.readOnly, this.normalizeCPU, this.check}): _dnsmasqLines = dnsmasqLines;
   factory _Misc.fromJson(Map<String, dynamic> json) => _$MiscFromJson(json);
 
 @override final  int? nice;
@@ -8023,6 +8072,8 @@ class _Misc implements Misc {
 
 @override final  bool? extraLogging;
 @override final  bool? readOnly;
+@override final  bool? normalizeCPU;
+// >= 6.3
 @override final  Check? check;
 
 /// Create a copy of Misc
@@ -8038,16 +8089,16 @@ Map<String, dynamic> toJson() {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _Misc&&(identical(other.nice, nice) || other.nice == nice)&&(identical(other.delayStartup, delayStartup) || other.delayStartup == delayStartup)&&(identical(other.addr2line, addr2line) || other.addr2line == addr2line)&&(identical(other.etcDnsmasqD, etcDnsmasqD) || other.etcDnsmasqD == etcDnsmasqD)&&(identical(other.privacylevel, privacylevel) || other.privacylevel == privacylevel)&&const DeepCollectionEquality().equals(other._dnsmasqLines, _dnsmasqLines)&&(identical(other.extraLogging, extraLogging) || other.extraLogging == extraLogging)&&(identical(other.readOnly, readOnly) || other.readOnly == readOnly)&&(identical(other.check, check) || other.check == check));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _Misc&&(identical(other.nice, nice) || other.nice == nice)&&(identical(other.delayStartup, delayStartup) || other.delayStartup == delayStartup)&&(identical(other.addr2line, addr2line) || other.addr2line == addr2line)&&(identical(other.etcDnsmasqD, etcDnsmasqD) || other.etcDnsmasqD == etcDnsmasqD)&&(identical(other.privacylevel, privacylevel) || other.privacylevel == privacylevel)&&const DeepCollectionEquality().equals(other._dnsmasqLines, _dnsmasqLines)&&(identical(other.extraLogging, extraLogging) || other.extraLogging == extraLogging)&&(identical(other.readOnly, readOnly) || other.readOnly == readOnly)&&(identical(other.normalizeCPU, normalizeCPU) || other.normalizeCPU == normalizeCPU)&&(identical(other.check, check) || other.check == check));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,nice,delayStartup,addr2line,etcDnsmasqD,privacylevel,const DeepCollectionEquality().hash(_dnsmasqLines),extraLogging,readOnly,check);
+int get hashCode => Object.hash(runtimeType,nice,delayStartup,addr2line,etcDnsmasqD,privacylevel,const DeepCollectionEquality().hash(_dnsmasqLines),extraLogging,readOnly,normalizeCPU,check);
 
 @override
 String toString() {
-  return 'Misc(nice: $nice, delayStartup: $delayStartup, addr2line: $addr2line, etcDnsmasqD: $etcDnsmasqD, privacylevel: $privacylevel, dnsmasqLines: $dnsmasqLines, extraLogging: $extraLogging, readOnly: $readOnly, check: $check)';
+  return 'Misc(nice: $nice, delayStartup: $delayStartup, addr2line: $addr2line, etcDnsmasqD: $etcDnsmasqD, privacylevel: $privacylevel, dnsmasqLines: $dnsmasqLines, extraLogging: $extraLogging, readOnly: $readOnly, normalizeCPU: $normalizeCPU, check: $check)';
 }
 
 
@@ -8058,7 +8109,7 @@ abstract mixin class _$MiscCopyWith<$Res> implements $MiscCopyWith<$Res> {
   factory _$MiscCopyWith(_Misc value, $Res Function(_Misc) _then) = __$MiscCopyWithImpl;
 @override @useResult
 $Res call({
- int? nice,@JsonKey(name: 'delay_startup') int? delayStartup, bool? addr2line,@JsonKey(name: 'etc_dnsmasq_d') bool? etcDnsmasqD, int? privacylevel,@JsonKey(name: 'dnsmasq_lines') List<String>? dnsmasqLines, bool? extraLogging, bool? readOnly, Check? check
+ int? nice,@JsonKey(name: 'delay_startup') int? delayStartup, bool? addr2line,@JsonKey(name: 'etc_dnsmasq_d') bool? etcDnsmasqD, int? privacylevel,@JsonKey(name: 'dnsmasq_lines') List<String>? dnsmasqLines, bool? extraLogging, bool? readOnly, bool? normalizeCPU, Check? check
 });
 
 
@@ -8075,7 +8126,7 @@ class __$MiscCopyWithImpl<$Res>
 
 /// Create a copy of Misc
 /// with the given fields replaced by the non-null parameter values.
-@override @pragma('vm:prefer-inline') $Res call({Object? nice = freezed,Object? delayStartup = freezed,Object? addr2line = freezed,Object? etcDnsmasqD = freezed,Object? privacylevel = freezed,Object? dnsmasqLines = freezed,Object? extraLogging = freezed,Object? readOnly = freezed,Object? check = freezed,}) {
+@override @pragma('vm:prefer-inline') $Res call({Object? nice = freezed,Object? delayStartup = freezed,Object? addr2line = freezed,Object? etcDnsmasqD = freezed,Object? privacylevel = freezed,Object? dnsmasqLines = freezed,Object? extraLogging = freezed,Object? readOnly = freezed,Object? normalizeCPU = freezed,Object? check = freezed,}) {
   return _then(_Misc(
 nice: freezed == nice ? _self.nice : nice // ignore: cast_nullable_to_non_nullable
 as int?,delayStartup: freezed == delayStartup ? _self.delayStartup : delayStartup // ignore: cast_nullable_to_non_nullable
@@ -8085,6 +8136,7 @@ as bool?,privacylevel: freezed == privacylevel ? _self.privacylevel : privacylev
 as int?,dnsmasqLines: freezed == dnsmasqLines ? _self._dnsmasqLines : dnsmasqLines // ignore: cast_nullable_to_non_nullable
 as List<String>?,extraLogging: freezed == extraLogging ? _self.extraLogging : extraLogging // ignore: cast_nullable_to_non_nullable
 as bool?,readOnly: freezed == readOnly ? _self.readOnly : readOnly // ignore: cast_nullable_to_non_nullable
+as bool?,normalizeCPU: freezed == normalizeCPU ? _self.normalizeCPU : normalizeCPU // ignore: cast_nullable_to_non_nullable
 as bool?,check: freezed == check ? _self.check : check // ignore: cast_nullable_to_non_nullable
 as Check?,
   ));
@@ -8705,6 +8757,266 @@ as bool?,reserved: freezed == reserved ? _self.reserved : reserved // ignore: ca
 as bool?,ntp: freezed == ntp ? _self.ntp : ntp // ignore: cast_nullable_to_non_nullable
 as bool?,netlink: freezed == netlink ? _self.netlink : netlink // ignore: cast_nullable_to_non_nullable
 as bool?,all: freezed == all ? _self.all : all // ignore: cast_nullable_to_non_nullable
+as bool?,
+  ));
+}
+
+
+}
+
+
+/// @nodoc
+mixin _$Domain {
+
+ String get name; bool? get local;
+/// Create a copy of Domain
+/// with the given fields replaced by the non-null parameter values.
+@JsonKey(includeFromJson: false, includeToJson: false)
+@pragma('vm:prefer-inline')
+$DomainCopyWith<Domain> get copyWith => _$DomainCopyWithImpl<Domain>(this as Domain, _$identity);
+
+  /// Serializes this Domain to a JSON map.
+  Map<String, dynamic> toJson();
+
+
+@override
+bool operator ==(Object other) {
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is Domain&&(identical(other.name, name) || other.name == name)&&(identical(other.local, local) || other.local == local));
+}
+
+@JsonKey(includeFromJson: false, includeToJson: false)
+@override
+int get hashCode => Object.hash(runtimeType,name,local);
+
+@override
+String toString() {
+  return 'Domain(name: $name, local: $local)';
+}
+
+
+}
+
+/// @nodoc
+abstract mixin class $DomainCopyWith<$Res>  {
+  factory $DomainCopyWith(Domain value, $Res Function(Domain) _then) = _$DomainCopyWithImpl;
+@useResult
+$Res call({
+ String name, bool? local
+});
+
+
+
+
+}
+/// @nodoc
+class _$DomainCopyWithImpl<$Res>
+    implements $DomainCopyWith<$Res> {
+  _$DomainCopyWithImpl(this._self, this._then);
+
+  final Domain _self;
+  final $Res Function(Domain) _then;
+
+/// Create a copy of Domain
+/// with the given fields replaced by the non-null parameter values.
+@pragma('vm:prefer-inline') @override $Res call({Object? name = null,Object? local = freezed,}) {
+  return _then(_self.copyWith(
+name: null == name ? _self.name : name // ignore: cast_nullable_to_non_nullable
+as String,local: freezed == local ? _self.local : local // ignore: cast_nullable_to_non_nullable
+as bool?,
+  ));
+}
+
+}
+
+
+/// Adds pattern-matching-related methods to [Domain].
+extension DomainPatterns on Domain {
+/// A variant of `map` that fallback to returning `orElse`.
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case final Subclass value:
+///     return ...;
+///   case _:
+///     return orElse();
+/// }
+/// ```
+
+@optionalTypeArgs TResult maybeMap<TResult extends Object?>(TResult Function( _Domain value)?  $default,{required TResult orElse(),}){
+final _that = this;
+switch (_that) {
+case _Domain() when $default != null:
+return $default(_that);case _:
+  return orElse();
+
+}
+}
+/// A `switch`-like method, using callbacks.
+///
+/// Callbacks receives the raw object, upcasted.
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case final Subclass value:
+///     return ...;
+///   case final Subclass2 value:
+///     return ...;
+/// }
+/// ```
+
+@optionalTypeArgs TResult map<TResult extends Object?>(TResult Function( _Domain value)  $default,){
+final _that = this;
+switch (_that) {
+case _Domain():
+return $default(_that);}
+}
+/// A variant of `map` that fallback to returning `null`.
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case final Subclass value:
+///     return ...;
+///   case _:
+///     return null;
+/// }
+/// ```
+
+@optionalTypeArgs TResult? mapOrNull<TResult extends Object?>(TResult? Function( _Domain value)?  $default,){
+final _that = this;
+switch (_that) {
+case _Domain() when $default != null:
+return $default(_that);case _:
+  return null;
+
+}
+}
+/// A variant of `when` that fallback to an `orElse` callback.
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case Subclass(:final field):
+///     return ...;
+///   case _:
+///     return orElse();
+/// }
+/// ```
+
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( String name,  bool? local)?  $default,{required TResult orElse(),}) {final _that = this;
+switch (_that) {
+case _Domain() when $default != null:
+return $default(_that.name,_that.local);case _:
+  return orElse();
+
+}
+}
+/// A `switch`-like method, using callbacks.
+///
+/// As opposed to `map`, this offers destructuring.
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case Subclass(:final field):
+///     return ...;
+///   case Subclass2(:final field2):
+///     return ...;
+/// }
+/// ```
+
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( String name,  bool? local)  $default,) {final _that = this;
+switch (_that) {
+case _Domain():
+return $default(_that.name,_that.local);}
+}
+/// A variant of `when` that fallback to returning `null`
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case Subclass(:final field):
+///     return ...;
+///   case _:
+///     return null;
+/// }
+/// ```
+
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( String name,  bool? local)?  $default,) {final _that = this;
+switch (_that) {
+case _Domain() when $default != null:
+return $default(_that.name,_that.local);case _:
+  return null;
+
+}
+}
+
+}
+
+/// @nodoc
+
+@JsonSerializable(explicitToJson: true, includeIfNull: false)
+class _Domain implements Domain {
+  const _Domain({required this.name, this.local});
+  factory _Domain.fromJson(Map<String, dynamic> json) => _$DomainFromJson(json);
+
+@override final  String name;
+@override final  bool? local;
+
+/// Create a copy of Domain
+/// with the given fields replaced by the non-null parameter values.
+@override @JsonKey(includeFromJson: false, includeToJson: false)
+@pragma('vm:prefer-inline')
+_$DomainCopyWith<_Domain> get copyWith => __$DomainCopyWithImpl<_Domain>(this, _$identity);
+
+@override
+Map<String, dynamic> toJson() {
+  return _$DomainToJson(this, );
+}
+
+@override
+bool operator ==(Object other) {
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _Domain&&(identical(other.name, name) || other.name == name)&&(identical(other.local, local) || other.local == local));
+}
+
+@JsonKey(includeFromJson: false, includeToJson: false)
+@override
+int get hashCode => Object.hash(runtimeType,name,local);
+
+@override
+String toString() {
+  return 'Domain(name: $name, local: $local)';
+}
+
+
+}
+
+/// @nodoc
+abstract mixin class _$DomainCopyWith<$Res> implements $DomainCopyWith<$Res> {
+  factory _$DomainCopyWith(_Domain value, $Res Function(_Domain) _then) = __$DomainCopyWithImpl;
+@override @useResult
+$Res call({
+ String name, bool? local
+});
+
+
+
+
+}
+/// @nodoc
+class __$DomainCopyWithImpl<$Res>
+    implements _$DomainCopyWith<$Res> {
+  __$DomainCopyWithImpl(this._self, this._then);
+
+  final _Domain _self;
+  final $Res Function(_Domain) _then;
+
+/// Create a copy of Domain
+/// with the given fields replaced by the non-null parameter values.
+@override @pragma('vm:prefer-inline') $Res call({Object? name = null,Object? local = freezed,}) {
+  return _then(_Domain(
+name: null == name ? _self.name : name // ignore: cast_nullable_to_non_nullable
+as String,local: freezed == local ? _self.local : local // ignore: cast_nullable_to_non_nullable
 as bool?,
   ));
 }

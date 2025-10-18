@@ -47,7 +47,7 @@ sealed class Dns with _$Dns {
     List<String>? hosts,
     bool? domainNeeded,
     bool? expandHosts,
-    String? domain,
+    @DomainConverter() Domain? domain, // >= 6.3
     bool? bogusPriv,
     bool? dnssec,
     String? interface,
@@ -56,6 +56,7 @@ sealed class Dns with _$Dns {
     bool? queryLogging,
     List<String>? cnameRecords,
     int? port,
+    bool? localise, // >= 6.3
     DnsCache? cache,
     List<String>? revServers,
     DnsBlocking? blocking,
@@ -244,6 +245,7 @@ sealed class Webserver with _$Webserver {
     int? threads,
     List<String>? headers,
     @JsonKey(name: 'serve_all') bool? serveAll,
+    List<String>? advancedOpts, // >= 6.3
     WebSession? session,
     WebTls? tls,
     WebPaths? paths,
@@ -267,7 +269,10 @@ sealed class WebSession with _$WebSession {
 @freezed
 sealed class WebTls with _$WebTls {
   @JsonSerializable(explicitToJson: true, includeIfNull: false)
-  const factory WebTls({String? cert}) = _WebTls;
+  const factory WebTls({
+    String? cert,
+    int? validity, // >= 6.3
+  }) = _WebTls;
 
   factory WebTls.fromJson(Map<String, dynamic> json) => _$WebTlsFromJson(json);
 }
@@ -362,6 +367,7 @@ sealed class Misc with _$Misc {
     @JsonKey(name: 'dnsmasq_lines') List<String>? dnsmasqLines,
     bool? extraLogging,
     bool? readOnly,
+    bool? normalizeCPU, // >= 6.3
     Check? check,
   }) = _Misc;
 
@@ -413,4 +419,42 @@ sealed class Debug with _$Debug {
   }) = _Debug;
 
   factory Debug.fromJson(Map<String, dynamic> json) => _$DebugFromJson(json);
+}
+
+// ========== FTL v6.3+ ===========
+
+@freezed
+sealed class Domain with _$Domain {
+  @JsonSerializable(explicitToJson: true, includeIfNull: false)
+  const factory Domain({required String name, bool? local}) = _Domain;
+
+  factory Domain.fromJson(Map<String, dynamic> json) => _$DomainFromJson(json);
+}
+
+/// JSON <-> Domain converter
+class DomainConverter implements JsonConverter<Domain?, Object?> {
+  const DomainConverter();
+
+  @override
+  Domain? fromJson(Object? json) {
+    if (json == null) return null;
+
+    // v6.2: "domain": "lan"
+    if (json is String) {
+      return Domain(name: json); // local = null
+    }
+
+    // v6.3: "domain": { "name": "lan", "local": true }
+    if (json is Map<String, dynamic>) {
+      return Domain.fromJson(json);
+    }
+
+    return null;
+  }
+
+  @override
+  Object? toJson(Domain? object) {
+    if (object == null) return null;
+    return {'name': object.name, 'local': object.local};
+  }
 }

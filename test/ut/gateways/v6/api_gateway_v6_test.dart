@@ -586,7 +586,7 @@ void main() async {
       server.sm.savePassword('xxx123');
     });
 
-    test('Return success', () async {
+    test('Return success with FTL < v6.3', () async {
       final mockClient = MockClient();
       final apiGateway = ApiGatewayV6(server, client: mockClient);
       final data = [
@@ -668,6 +668,217 @@ void main() async {
               'lists': 1,
               'clients': 5,
               'domains': {'allowed': 10, 'denied': 3},
+              'regex': {'allowed': 4, 'denied': 2},
+            },
+            'privacy_level': 0,
+            'clients': {'total': 10, 'active': 8},
+            'pid': 1234,
+            'uptime': 123456789,
+            '%mem': 0.1,
+            '%cpu': 1.2,
+            'allow_destructive': true,
+            'dnsmasq': {
+              'dns_cache_inserted': 8,
+              'dns_cache_live_freed': 0,
+              'dns_queries_forwarded': 2,
+              'dns_auth_answered': 0,
+              'dns_local_answered': 74,
+              'dns_stale_answered': 0,
+              'dns_unanswered': 0,
+              'bootp': 0,
+              'pxe': 0,
+              'dhcp_ack': 0,
+              'dhcp_decline': 0,
+              'dhcp_discover': 0,
+              'dhcp_inform': 0,
+              'dhcp_nak': 0,
+              'dhcp_offer': 0,
+              'dhcp_release': 0,
+              'dhcp_request': 0,
+              'noanswer': 0,
+              'leases_allocated_4': 0,
+              'leases_pruned_4': 0,
+              'leases_allocated_6': 0,
+              'leases_pruned_6': 0,
+              'tcp_connections': 0,
+              'dnssec_max_crypto_use': 0,
+              'dnssec_max_sig_fail': 0,
+              'dnssec_max_work': 0,
+            },
+          },
+          'took': 0.003,
+        },
+        {'blocking': 'enabled', 'timer': 15, 'took': 0.003},
+        {
+          'domains': [
+            {'domain': 'pi-hole.net', 'count': 8516},
+          ],
+          'total_queries': 29160,
+          'blocked_queries': 6379,
+          'took': 0.003,
+        },
+        {
+          'domains': [
+            {'domain': 'pi-hole.net', 'count': 8516},
+          ],
+          'total_queries': 29160,
+          'blocked_queries': 6379,
+          'took': 0.003,
+        },
+        {
+          'clients': [
+            {'ip': '192.168.0.44', 'name': 'raspberrypi.lan', 'count': 5896},
+          ],
+          'total_queries': 29160,
+          'blocked_queries': 6379,
+          'took': 0.003,
+        },
+        {
+          'clients': [
+            {'ip': '192.168.0.44', 'name': 'raspberrypi.lan', 'count': 5896},
+          ],
+          'total_queries': 29160,
+          'blocked_queries': 6379,
+          'took': 0.003,
+        },
+        {
+          'upstreams': [
+            {
+              'ip': 'blocklist',
+              'name': 'blocklist',
+              'port': -1,
+              'count': 0,
+              'statistics': {'response': 0, 'variance': 0},
+            },
+            {
+              'ip': 'cache',
+              'name': 'cache',
+              'port': -1,
+              'count': 2,
+              'statistics': {'response': 0, 'variance': 0},
+            },
+            {
+              'ip': '8.8.8.8',
+              'name': 'dns.google',
+              'port': 53,
+              'count': 8,
+              'statistics': {
+                'response': 0.0516872935824924,
+                'variance': 0.0049697216173868828,
+              },
+            },
+          ],
+          'total_queries': 8,
+          'forwarded_queries': 6,
+          'took': 5.6982040405273438e-05,
+        },
+      ];
+      for (var i = 0; i < urls.length; i++) {
+        when(
+          mockClient.get(
+            urls[i] == 'http://example.com/api/stats/top_clients'
+                ? Uri.parse('http://example.com/api/stats/top_clients?count=10')
+                : Uri.parse(urls[i]),
+            headers: anyNamed('headers'),
+          ),
+        ).thenAnswer((_) async => http.Response(jsonEncode(data[i]), 200));
+      }
+
+      final response = await apiGateway.realtimeStatus();
+
+      expect(response.result, APiResponseType.success);
+      expect(response.data, isNotNull);
+    });
+
+    test('Return success with FTL >= v6.3', () async {
+      final mockClient = MockClient();
+      final apiGateway = ApiGatewayV6(server, client: mockClient);
+      final data = [
+        {
+          'queries': {
+            'total': 7497,
+            'blocked': 3465,
+            'percent_blocked': 34.5,
+            'unique_domains': 445,
+            'forwarded': 4574,
+            'cached': 9765,
+            'types': {
+              'A': 3643,
+              'AAAA': 123,
+              'ANY': 3423,
+              'SRV': 345,
+              'SOA': 7567,
+              'PTR': 456,
+              'TXT': 85,
+              'NAPTR': 346,
+              'MX': 457,
+              'DS': 456,
+              'RRSIG': 345,
+              'DNSKEY': 55,
+              'NS': 868,
+              'SVCB': 645,
+              'HTTPS': 4,
+              'OTHER': 845,
+            },
+            'status': {
+              'UNKNOWN': 3,
+              'GRAVITY': 72,
+              'FORWARDED': 533,
+              'CACHE': 32,
+              'REGEX': 84,
+              'DENYLIST': 31,
+              'EXTERNAL_BLOCKED_IP': 0,
+              'EXTERNAL_BLOCKED_NULL': 0,
+              'EXTERNAL_BLOCKED_NXRA': 0,
+              'GRAVITY_CNAME': 0,
+              'REGEX_CNAME': 0,
+              'DENYLIST_CNAME': 0,
+              'RETRIED': 0,
+              'RETRIED_DNSSEC': 0,
+              'IN_PROGRESS': 0,
+              'DBBUSY': 0,
+              'SPECIAL_DOMAIN': 0,
+              'CACHE_STALE': 0,
+            },
+            'replies': {
+              'UNKNOWN': 3,
+              'NODATA': 72,
+              'NXDOMAIN': 533,
+              'CNAME': 32,
+              'IP': 84,
+              'DOMAIN': 31,
+              'RRNAME': 0,
+              'SERVFAIL': 0,
+              'REFUSED': 0,
+              'NOTIMP': 0,
+              'OTHER': 0,
+              'DNSSEC': 31,
+              'NONE': 0,
+              'BLOB': 0,
+            },
+          },
+          'clients': {'active': 10, 'total': 22},
+          'gravity': {
+            'domains_being_blocked': 104756,
+            'last_update': 1725194639,
+          },
+          'took': 0.003,
+        },
+        {
+          'ftl': {
+            'database': {
+              'gravity': 67906,
+              'groups': 6,
+              'lists': 1,
+              'clients': 5,
+              'domains': {
+                'allowed': {'total': 67906, 'enabled': 4},
+                'denied': {'total': 4, 'enabled': 2},
+              },
+              'regex': {
+                'allowed': {'total': 67906, 'enabled': 4},
+                'denied': {'total': 10, 'enabled': 2},
+              },
             },
             'privacy_level': 0,
             'clients': {'total': 10, 'active': 8},
@@ -871,6 +1082,7 @@ void main() async {
               'lists': 1,
               'clients': 5,
               'domains': {'allowed': 10, 'denied': 3},
+              'regex': {'allowed': 4, 'denied': 2},
             },
             'privacy_level': 0,
             'clients': {'total': 10, 'active': 8},
@@ -2905,12 +3117,17 @@ void main() async {
 
         when(
           mockClient.delete(
-            Uri.parse('http://example.com/api/lists/$encodedAddress'),
+            Uri.parse(
+              'http://example.com/api/lists/$encodedAddress?type=block',
+            ),
             headers: anyNamed('headers'),
           ),
         ).thenAnswer((_) async => http.Response('', 204));
 
-        final response = await apiGateway.removeSubscription(url: address);
+        final response = await apiGateway.removeSubscription(
+          url: address,
+          stype: SubscriptionTypes.block,
+        );
 
         expect(response.result, APiResponseType.success);
         expect(response.message, null);
@@ -2948,12 +3165,15 @@ void main() async {
 
       when(
         mockClient.delete(
-          Uri.parse('http://example.com/api/lists/$encodedAddress'),
+          Uri.parse('http://example.com/api/lists/$encodedAddress?type=block'),
           headers: anyNamed('headers'),
         ),
       ).thenAnswer((_) async => http.Response(jsonEncode(notFoundData), 404));
 
-      final response = await apiGateway.removeSubscription(url: address);
+      final response = await apiGateway.removeSubscription(
+        url: address,
+        stype: SubscriptionTypes.block,
+      );
 
       expect(response.result, APiResponseType.notFound);
       expect(response.message, fetchError);
@@ -2987,12 +3207,17 @@ void main() async {
 
         when(
           mockClient.delete(
-            Uri.parse('http://example.com/api/lists/$encodedAddress'),
+            Uri.parse(
+              'http://example.com/api/lists/$encodedAddress?type=block',
+            ),
             headers: anyNamed('headers'),
           ),
         ).thenThrow(Exception('Unexpected error test'));
 
-        final response = await apiGateway.removeSubscription(url: address);
+        final response = await apiGateway.removeSubscription(
+          url: address,
+          stype: SubscriptionTypes.block,
+        );
 
         expect(response.result, APiResponseType.error);
         expect(response.message, unexpectedError);
@@ -3064,7 +3289,7 @@ void main() async {
 
       when(
         mockClient.post(
-          Uri.parse('http://example.com/api/lists'),
+          Uri.parse('http://example.com/api/lists?type=block'),
           headers: anyNamed('headers'),
           body: anyNamed('body'),
         ),
@@ -3118,7 +3343,7 @@ void main() async {
 
         when(
           mockClient.post(
-            Uri.parse('http://example.com/api/lists'),
+            Uri.parse('http://example.com/api/lists?type=block'),
             headers: anyNamed('headers'),
             body: anyNamed('body'),
           ),
@@ -3138,7 +3363,7 @@ void main() async {
 
       when(
         mockClient.post(
-          Uri.parse('http://example.com/api/lists'),
+          Uri.parse('http://example.com/api/lists?type=block'),
           headers: anyNamed('headers'),
           body: anyNamed('body'),
         ),
@@ -3159,7 +3384,7 @@ void main() async {
 
         when(
           mockClient.post(
-            Uri.parse('http://example.com/api/lists'),
+            Uri.parse('http://example.com/api/lists?type=block'),
             headers: anyNamed('headers'),
             body: anyNamed('body'),
           ),
@@ -3241,7 +3466,9 @@ void main() async {
 
         when(
           mockClient.put(
-            Uri.parse('http://example.com/api/lists/$encodedAddress'),
+            Uri.parse(
+              'http://example.com/api/lists/$encodedAddress?type=block',
+            ),
             headers: anyNamed('headers'),
             body: anyNamed('body'),
           ),
@@ -3264,7 +3491,7 @@ void main() async {
 
       when(
         mockClient.put(
-          Uri.parse('http://example.com/api/lists/$encodedAddress'),
+          Uri.parse('http://example.com/api/lists/$encodedAddress?type=block'),
           headers: anyNamed('headers'),
           body: anyNamed('body'),
         ),
@@ -3285,7 +3512,7 @@ void main() async {
 
         when(
           mockClient.put(
-            Uri.parse('http://example.com/api/lists'),
+            Uri.parse('http://example.com/api/lists?type=block'),
             headers: anyNamed('headers'),
             body: anyNamed('body'),
           ),
@@ -5477,7 +5704,7 @@ void main() async {
       when(
         mockClient.delete(
           Uri.parse(
-            'http://example.com/api/config/${Uri.encodeComponent(element)}/${Uri.encodeComponent(value)}',
+            'http://example.com/api/config/${Uri.encodeComponent(element)}/${Uri.encodeComponent(value)}?restart=true',
           ),
           headers: anyNamed('headers'),
         ),
@@ -5499,7 +5726,7 @@ void main() async {
       when(
         mockClient.delete(
           Uri.parse(
-            'http://example.com/api/config/${Uri.encodeComponent(element)}/${Uri.encodeComponent(value)}',
+            'http://example.com/api/config/${Uri.encodeComponent(element)}/${Uri.encodeComponent(value)}?restart=true',
           ),
           headers: anyNamed('headers'),
         ),
@@ -5521,7 +5748,7 @@ void main() async {
       when(
         mockClient.delete(
           Uri.parse(
-            'http://example.com/api/config/${Uri.encodeComponent(element)}/${Uri.encodeComponent(value)}',
+            'http://example.com/api/config/${Uri.encodeComponent(element)}/${Uri.encodeComponent(value)}?restart=true',
           ),
           headers: anyNamed('headers'),
         ),
@@ -5572,7 +5799,7 @@ void main() async {
       when(
         mockClient.put(
           Uri.parse(
-            'http://example.com/api/config/${Uri.encodeComponent(element)}/${Uri.encodeComponent(value)}',
+            'http://example.com/api/config/${Uri.encodeComponent(element)}/${Uri.encodeComponent(value)}?restart=true',
           ),
           headers: anyNamed('headers'),
         ),
@@ -5594,7 +5821,7 @@ void main() async {
       when(
         mockClient.put(
           Uri.parse(
-            'http://example.com/api/config/${Uri.encodeComponent(element)}/${Uri.encodeComponent(value)}',
+            'http://example.com/api/config/${Uri.encodeComponent(element)}/${Uri.encodeComponent(value)}?restart=true',
           ),
           headers: anyNamed('headers'),
         ),
@@ -5616,7 +5843,7 @@ void main() async {
       when(
         mockClient.put(
           Uri.parse(
-            'http://example.com/api/config/${Uri.encodeComponent(element)}/${Uri.encodeComponent(value)}',
+            'http://example.com/api/config/${Uri.encodeComponent(element)}/${Uri.encodeComponent(value)}?restart=true',
           ),
           headers: anyNamed('headers'),
         ),
@@ -5663,7 +5890,7 @@ void main() async {
 
       when(
         mockClient.patch(
-          Uri.parse('http://example.com/api/config'),
+          Uri.parse('http://example.com/api/config?restart=true'),
           headers: anyNamed('headers'),
           body: anyNamed('body'),
         ),
@@ -5685,7 +5912,7 @@ void main() async {
 
       when(
         mockClient.patch(
-          Uri.parse('http://example.com/api/config'),
+          Uri.parse('http://example.com/api/config?restart=true'),
           headers: anyNamed('headers'),
           body: anyNamed('body'),
         ),
@@ -5704,7 +5931,7 @@ void main() async {
 
       when(
         mockClient.patch(
-          Uri.parse('http://example.com/api/config'),
+          Uri.parse('http://example.com/api/config?restart=true'),
           headers: anyNamed('headers'),
           body: anyNamed('body'),
         ),
@@ -5749,7 +5976,7 @@ void main() async {
 
       when(
         mockClient.patch(
-          Uri.parse('http://example.com/api/config'),
+          Uri.parse('http://example.com/api/config?restart=true'),
           headers: anyNamed('headers'),
           body: anyNamed('body'),
         ),
@@ -5771,7 +5998,7 @@ void main() async {
 
       when(
         mockClient.patch(
-          Uri.parse('http://example.com/api/config'),
+          Uri.parse('http://example.com/api/config?restart=true'),
           headers: anyNamed('headers'),
           body: anyNamed('body'),
         ),
@@ -5790,7 +6017,7 @@ void main() async {
 
       when(
         mockClient.patch(
-          Uri.parse('http://example.com/api/config'),
+          Uri.parse('http://example.com/api/config?restart=true'),
           headers: anyNamed('headers'),
           body: anyNamed('body'),
         ),
@@ -5921,7 +6148,7 @@ void main() async {
       when(
         mockClient.delete(
           Uri.parse(
-            'http://example.com/api/config/${Uri.encodeComponent('dns/hosts')}/${Uri.encodeComponent('$ip $name')}',
+            'http://example.com/api/config/${Uri.encodeComponent('dns/hosts')}/${Uri.encodeComponent('$ip $name')}?restart=true',
           ),
           headers: anyNamed('headers'),
         ),
@@ -5940,7 +6167,7 @@ void main() async {
       when(
         mockClient.delete(
           Uri.parse(
-            'http://example.com/api/config/${Uri.encodeComponent('dns/hosts')}/${Uri.encodeComponent('$ip $name')}',
+            'http://example.com/api/config/${Uri.encodeComponent('dns/hosts')}/${Uri.encodeComponent('$ip $name')}?restart=true',
           ),
           headers: anyNamed('headers'),
         ),
@@ -5959,7 +6186,7 @@ void main() async {
       when(
         mockClient.delete(
           Uri.parse(
-            'http://example.com/api/config/${Uri.encodeComponent('dns/hosts')}/${Uri.encodeComponent('$ip $name')}',
+            'http://example.com/api/config/${Uri.encodeComponent('dns/hosts')}/${Uri.encodeComponent('$ip $name')}?restart=true',
           ),
           headers: anyNamed('headers'),
         ),
@@ -6031,7 +6258,7 @@ void main() async {
 
       when(
         mockClient.patch(
-          Uri.parse('http://example.com/api/config'),
+          Uri.parse('http://example.com/api/config?restart=true'),
           headers: anyNamed('headers'),
           body: jsonEncode({
             'config': {
@@ -6066,7 +6293,7 @@ void main() async {
 
       when(
         mockClient.patch(
-          Uri.parse('http://example.com/api/config'),
+          Uri.parse('http://example.com/api/config?restart=true'),
           headers: anyNamed('headers'),
           body: jsonEncode({
             'config': {
@@ -6119,7 +6346,7 @@ void main() async {
       when(
         mockClient.get(
           Uri.parse(
-            'http://example.com/api/config/${Uri.encodeComponent('dns/hosts')}',
+            'http://example.com/api/config/${Uri.encodeComponent('dns/hosts')}?restart=true',
           ),
           headers: anyNamed('headers'),
         ),
@@ -6173,7 +6400,7 @@ void main() async {
       when(
         mockClient.put(
           Uri.parse(
-            'http://example.com/api/config/${Uri.encodeComponent('dns/hosts')}/${Uri.encodeComponent('$ip $name')}',
+            'http://example.com/api/config/${Uri.encodeComponent('dns/hosts')}/${Uri.encodeComponent('$ip $name')}?restart=true',
           ),
           headers: anyNamed('headers'),
         ),
@@ -6192,7 +6419,7 @@ void main() async {
       when(
         mockClient.put(
           Uri.parse(
-            'http://example.com/api/config/${Uri.encodeComponent('dns/hosts')}/${Uri.encodeComponent('$ip $name')}',
+            'http://example.com/api/config/${Uri.encodeComponent('dns/hosts')}/${Uri.encodeComponent('$ip $name')}?restart=true',
           ),
           headers: anyNamed('headers'),
         ),
@@ -6211,7 +6438,7 @@ void main() async {
       when(
         mockClient.put(
           Uri.parse(
-            'http://example.com/api/config/${Uri.encodeComponent('dns/hosts')}/${Uri.encodeComponent('$ip $name')}',
+            'http://example.com/api/config/${Uri.encodeComponent('dns/hosts')}/${Uri.encodeComponent('$ip $name')}?restart=true',
           ),
           headers: anyNamed('headers'),
         ),
@@ -6292,6 +6519,115 @@ void main() async {
       ).thenThrow(Exception('Unexpected error test'));
 
       final response = await apiGateway.flushArp();
+
+      expect(response.result, APiResponseType.error);
+      expect(response.message, unexpectedError);
+      expect(response.data, null);
+    });
+  });
+
+  group('flushNetwork', () {
+    late Server server;
+    const data = {'status': 'success', 'took': 0.003};
+    const erroData = {
+      'error': {'key': 'unauthorized', 'message': 'Unauthorized', 'hint': null},
+      'took': 0.003,
+    };
+
+    setUp(() {
+      server = Server(
+        address: 'http://example.com',
+        alias: 'example',
+        defaultServer: true,
+        apiVersion: SupportedApiVersions.v6,
+        allowSelfSignedCert: true,
+      );
+      server.sm.savePassword('xxx123');
+    });
+
+    test('should return success', () async {
+      final mockClient = MockClient();
+      final apiGateway = ApiGatewayV6(server, client: mockClient);
+
+      when(
+        mockClient.post(
+          Uri.parse('http://example.com/api/action/flush/network'),
+          headers: anyNamed('headers'),
+        ),
+      ).thenAnswer((_) async => http.Response(jsonEncode(data), 200));
+
+      final response = await apiGateway.flushNetwork();
+
+      expect(response.result, APiResponseType.success);
+      expect(response.message, null);
+      expect(response.data, Action.fromJson(data).status);
+    });
+
+    test('should return an error when status code is 401', () async {
+      final mockClient = MockClient();
+      final apiGateway = ApiGatewayV6(server, client: mockClient);
+
+      when(
+        mockClient.post(
+          Uri.parse('http://example.com/api/action/flush/network'),
+          headers: anyNamed('headers'),
+        ),
+      ).thenAnswer((_) async => http.Response(jsonEncode(erroData), 401));
+
+      final response = await apiGateway.flushNetwork();
+
+      expect(response.result, APiResponseType.error);
+      expect(response.message, postError);
+      expect(response.data, null);
+    });
+
+    test(
+      'should return error when flushNetwork returns 404 on FTL < 6.3',
+      () async {
+        final mockClient = MockClient();
+        final apiGateway = ApiGatewayV6(server, client: mockClient);
+        const notfoundError = {
+          'error': {
+            'key': 'not_found',
+            'message': 'Not found',
+            'hint': '/api/action/flush/network',
+          },
+          'took': 0.003,
+        };
+
+        when(
+          mockClient.post(
+            Uri.parse('http://example.com/api/action/flush/network'),
+            headers: anyNamed('headers'),
+          ),
+        ).thenAnswer(
+          (_) async => http.Response(jsonEncode(notfoundError), 404),
+        );
+
+        final response = await apiGateway.flushNetwork();
+
+        expect(response.result, APiResponseType.notFound);
+        expect(
+          response.message,
+          'Flush network is not supported on this Pi-hole version.',
+        );
+        expect(response.data, null);
+      },
+    );
+
+    test('should return an error when an unexpected error occurs', () async {
+      final mockClient = MockClient();
+      final apiGateway = ApiGatewayV6(server, client: mockClient);
+
+      when(
+        mockClient.post(
+          Uri.parse('http://example.com/api/action/flush/network'),
+          headers: anyNamed('headers'),
+          body: anyNamed('body'),
+        ),
+      ).thenThrow(Exception('Unexpected error test'));
+
+      final response = await apiGateway.flushNetwork();
 
       expect(response.result, APiResponseType.error);
       expect(response.message, unexpectedError);

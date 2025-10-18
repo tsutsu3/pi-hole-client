@@ -156,6 +156,15 @@ class ActionHandler {
       );
     });
 
+    router.post('/flush/network', (Request request) {
+      final response = {'status': 'success', 'took': 0.003};
+
+      return Response.ok(
+        jsonEncode(response),
+        headers: {'Content-Type': 'application/json'},
+      );
+    });
+
     router.post('/flush/logs', (Request request) {
       final response = {'status': 'success', 'took': 0.003};
 

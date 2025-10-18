@@ -25,5 +25,5 @@ abstract interface class AdListRepository {
   });
 
   /// Deletes an Adlist by address and optional type.
-  Future<Result<Unit>> deleteAdlist(String address, {ListType? type});
+  Future<Result<Unit>> deleteAdlist(String address, ListType type);
 }
