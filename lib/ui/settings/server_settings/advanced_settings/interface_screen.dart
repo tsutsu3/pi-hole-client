@@ -153,11 +153,7 @@ class _InterfaceScreenState extends State<InterfaceScreen> {
               padding: const EdgeInsets.only(right: 8),
               child: IconButton(
                 icon: const Icon(Icons.refresh_rounded),
-                onPressed: () {
-                  setState(() {
-                    _gatewayFuture = _apiGateway?.getGateway(isDetailed: true);
-                  });
-                },
+                onPressed: _refreshData,
                 tooltip: AppLocalizations.of(context)!.refresh,
               ),
             ),
@@ -165,12 +161,7 @@ class _InterfaceScreenState extends State<InterfaceScreen> {
         ),
         body: SafeArea(
           child: RefreshIndicator(
-            onRefresh: () async {
-              setState(() {
-                _gatewayFuture = _apiGateway?.getGateway(isDetailed: true);
-              });
-              await _gatewayFuture;
-            },
+            onRefresh: _refreshData,
             child: FutureBuilder<GatewayResponse?>(
               future: _gatewayFuture,
               builder: (context, snapshot) {
@@ -225,7 +216,6 @@ class _InterfaceScreenState extends State<InterfaceScreen> {
     );
   }
 
-  // 取得後の実データ表示
   Widget _buildGatewayInfoContent({required GatewayInfo? data}) {
     return SingleChildScrollView(
       padding: const EdgeInsets.all(16),
@@ -236,5 +226,13 @@ class _InterfaceScreenState extends State<InterfaceScreen> {
             [const EmptyDataScreen()],
       ),
     );
+  }
+
+  Future<void> _refreshData() async {
+    if (_apiGateway == null) return;
+    setState(() {
+      _gatewayFuture = _apiGateway!.getGateway(isDetailed: true);
+    });
+    await _gatewayFuture;
   }
 }
