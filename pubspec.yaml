@@ -48,7 +48,7 @@ dependencies:
   pie_chart: ^5.3.2
   flutter_svg: ^2.2.0
   fl_chart: ^1.1.1
-  animations: ^2.0.3
+  animations: ^2.1.0
   permission_handler: ^12.0.1
   dynamic_color: ^1.6.5
   device_info_plus: ^12.1.0
@@ -58,7 +58,7 @@ dependencies:
   flutter_app_lock: ^4.3.0
   sqlite3_flutter_libs: ^0.5.40
   sqflite_common_ffi: ^2.2.3
-  sentry_flutter: ^9.6.0
+  sentry_flutter: ^9.7.0
   flutter_dotenv: ^6.0.0
   contextmenu: ^3.0.0
   window_size:
