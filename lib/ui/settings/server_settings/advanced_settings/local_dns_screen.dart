@@ -169,70 +169,87 @@ class _LocalDnsScreenState extends State<LocalDnsScreen> {
     return ScrollConfiguration(
       behavior: CustomScrollBehavior(),
       child: Scaffold(
-        appBar: AppBar(title: Text(locale.localDns)),
+        appBar: AppBar(
+          title: Text(locale.localDns),
+          actions: [
+            Padding(
+              padding: const EdgeInsets.only(right: 8),
+              child: IconButton(
+                icon: const Icon(Icons.refresh_rounded),
+                onPressed: store.load,
+                tooltip: AppLocalizations.of(context)!.refresh,
+              ),
+            ),
+          ],
+        ),
         body: SafeArea(
-          child: Stack(
-            children: [
-              Builder(
-                builder: (context) {
-                  switch (store.loadingStatus) {
-                    case LoadStatus.loading:
-                      return Skeletonizer(
-                        effect: ShimmerEffect(
-                          baseColor: Theme.of(
-                            context,
-                          ).colorScheme.secondaryContainer,
-                          highlightColor: Theme.of(context).colorScheme.surface,
-                        ),
-                        child: LocalDnsListView(
-                          localDnsInfo: _fakeLocalDnsInfo,
-                          onDeviceTap: (_) {},
-                        ),
-                      );
-                    case LoadStatus.error:
-                      return ErrorMessage(message: locale.dataFetchFailed);
-                    case LoadStatus.loaded:
-                      if (store.localDns.isEmpty) {
-                        return EmptyDataScreen(
-                          message: locale.localDnsEmptyDescription,
+          child: RefreshIndicator(
+            onRefresh: store.load,
+            child: Stack(
+              children: [
+                Builder(
+                  builder: (context) {
+                    switch (store.loadingStatus) {
+                      case LoadStatus.loading:
+                        return Skeletonizer(
+                          effect: ShimmerEffect(
+                            baseColor: Theme.of(
+                              context,
+                            ).colorScheme.secondaryContainer,
+                            highlightColor: Theme.of(
+                              context,
+                            ).colorScheme.surface,
+                          ),
+                          child: LocalDnsListView(
+                            localDnsInfo: _fakeLocalDnsInfo,
+                            onDeviceTap: (_) {},
+                          ),
                         );
-                      }
-                      return LocalDnsListView(
-                        localDnsInfo: store.localDns,
-                        onDeviceTap: (localDns) {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (_) => LocalDnsDetailScreen(
-                                localDns: localDns,
-                                devices: store.deviceOptions,
-                                onDelete: (ld) async => onRemoveLocalDns(ld),
-                                onUpdate: onUpdateLocalDns,
-                              ),
-                            ),
+                      case LoadStatus.error:
+                        return ErrorMessage(message: locale.dataFetchFailed);
+                      case LoadStatus.loaded:
+                        if (store.localDns.isEmpty) {
+                          return EmptyDataScreen(
+                            message: locale.localDnsEmptyDescription,
                           );
-                        },
-                      );
-                  }
-                },
-              ),
+                        }
+                        return LocalDnsListView(
+                          localDnsInfo: store.localDns,
+                          onDeviceTap: (localDns) {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (_) => LocalDnsDetailScreen(
+                                  localDns: localDns,
+                                  devices: store.deviceOptions,
+                                  onDelete: (ld) async => onRemoveLocalDns(ld),
+                                  onUpdate: onUpdateLocalDns,
+                                ),
+                              ),
+                            );
+                          },
+                        );
+                    }
+                  },
+                ),
 
-              Selector<AppConfigProvider, bool>(
-                selector: (_, a) => a.showingSnackbar,
-                builder: (_, showingSnackbar, _) {
-                  return AnimatedPositioned(
-                    duration: const Duration(milliseconds: 100),
-                    curve: Curves.easeInOut,
-                    bottom: showingSnackbar ? 70 : 20,
-                    right: 20,
-                    child: FloatingActionButton(
-                      onPressed: openAddModal,
-                      child: const Icon(Icons.add),
-                    ),
-                  );
-                },
-              ),
-            ],
+                Selector<AppConfigProvider, bool>(
+                  selector: (_, a) => a.showingSnackbar,
+                  builder: (_, showingSnackbar, _) {
+                    return AnimatedPositioned(
+                      duration: const Duration(milliseconds: 100),
+                      curve: Curves.easeInOut,
+                      bottom: showingSnackbar ? 70 : 20,
+                      right: 20,
+                      child: FloatingActionButton(
+                        onPressed: openAddModal,
+                        child: const Icon(Icons.add),
+                      ),
+                    );
+                  },
+                ),
+              ],
+            ),
           ),
         ),
       ),

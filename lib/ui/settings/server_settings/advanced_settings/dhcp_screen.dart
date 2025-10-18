@@ -132,49 +132,56 @@ class _DhcpState extends State<DhcpScreen> {
           ],
         ),
         body: SafeArea(
-          child: Builder(
-            builder: (context) {
-              if (isLoading) {
-                return Skeletonizer(
-                  effect: ShimmerEffect(
-                    baseColor: Theme.of(context).colorScheme.secondaryContainer,
-                    highlightColor: Theme.of(context).colorScheme.surface,
-                  ),
-                  child: DhcpListView(
-                    dhcpsInfo: _fakeDhcpsInfo,
-                    currentClientIp: currentClientIp ?? '',
-                    onDeviceTap: (dhcp) {},
-                  ),
-                );
-              }
-
-              if (isFetchError) {
-                return ErrorMessage(
-                  message: AppLocalizations.of(context)!.dataFetchFailed,
-                );
-              }
-
-              if (dhcpsInfo == null || dhcpsInfo!.leases.isEmpty) {
-                return const DhcpDisabledScreen();
-              }
-
-              return DhcpListView(
-                dhcpsInfo: dhcpsInfo!,
-                currentClientIp: currentClientIp ?? '',
-                onDeviceTap: (dhcp) {
-                  setState(() {
-                    selectedDhcp = dhcp;
-                  });
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) =>
-                          DhcpDetailScreen(dhcp: dhcp, onDelete: removeDevice),
+          child: RefreshIndicator(
+            onRefresh: _loadDhcps,
+            child: Builder(
+              builder: (context) {
+                if (isLoading) {
+                  return Skeletonizer(
+                    effect: ShimmerEffect(
+                      baseColor: Theme.of(
+                        context,
+                      ).colorScheme.secondaryContainer,
+                      highlightColor: Theme.of(context).colorScheme.surface,
+                    ),
+                    child: DhcpListView(
+                      dhcpsInfo: _fakeDhcpsInfo,
+                      currentClientIp: currentClientIp ?? '',
+                      onDeviceTap: (dhcp) {},
                     ),
                   );
-                },
-              );
-            },
+                }
+
+                if (isFetchError) {
+                  return ErrorMessage(
+                    message: AppLocalizations.of(context)!.dataFetchFailed,
+                  );
+                }
+
+                if (dhcpsInfo == null || dhcpsInfo!.leases.isEmpty) {
+                  return const DhcpDisabledScreen();
+                }
+
+                return DhcpListView(
+                  dhcpsInfo: dhcpsInfo!,
+                  currentClientIp: currentClientIp ?? '',
+                  onDeviceTap: (dhcp) {
+                    setState(() {
+                      selectedDhcp = dhcp;
+                    });
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => DhcpDetailScreen(
+                          dhcp: dhcp,
+                          onDelete: removeDevice,
+                        ),
+                      ),
+                    );
+                  },
+                );
+              },
+            ),
           ),
         ),
       ),

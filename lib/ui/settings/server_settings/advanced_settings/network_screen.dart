@@ -141,51 +141,56 @@ class _NetworkState extends State<NetworkScreen> {
           ],
         ),
         body: SafeArea(
-          child: Builder(
-            builder: (context) {
-              if (isLoading) {
-                return Skeletonizer(
-                  effect: ShimmerEffect(
-                    baseColor: Theme.of(context).colorScheme.secondaryContainer,
-                    highlightColor: Theme.of(context).colorScheme.surface,
-                  ),
-                  child: NetworkListView(
-                    devicesInfo: _fakeDevicesInfo,
-                    currentClientIp: currentClientIp ?? '',
-                    onDeviceTap: (session) {},
-                  ),
-                );
-              }
-
-              if (isFetchError) {
-                return ErrorMessage(
-                  message: AppLocalizations.of(context)!.dataFetchFailed,
-                );
-              }
-
-              if (devicesInfo == null || devicesInfo!.devices.isEmpty) {
-                return const EmptyDataScreen();
-              }
-
-              return NetworkListView(
-                devicesInfo: devicesInfo!,
-                currentClientIp: currentClientIp ?? '',
-                onDeviceTap: (device) {
-                  setState(() {
-                    selectedDevice = device;
-                  });
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => NetworkDetailScreen(
-                        device: device,
-                        onDelete: removeDevice,
-                      ),
+          child: RefreshIndicator(
+            onRefresh: _loadDevice,
+            child: Builder(
+              builder: (context) {
+                if (isLoading) {
+                  return Skeletonizer(
+                    effect: ShimmerEffect(
+                      baseColor: Theme.of(
+                        context,
+                      ).colorScheme.secondaryContainer,
+                      highlightColor: Theme.of(context).colorScheme.surface,
+                    ),
+                    child: NetworkListView(
+                      devicesInfo: _fakeDevicesInfo,
+                      currentClientIp: currentClientIp ?? '',
+                      onDeviceTap: (session) {},
                     ),
                   );
-                },
-              );
-            },
+                }
+
+                if (isFetchError) {
+                  return ErrorMessage(
+                    message: AppLocalizations.of(context)!.dataFetchFailed,
+                  );
+                }
+
+                if (devicesInfo == null || devicesInfo!.devices.isEmpty) {
+                  return const EmptyDataScreen();
+                }
+
+                return NetworkListView(
+                  devicesInfo: devicesInfo!,
+                  currentClientIp: currentClientIp ?? '',
+                  onDeviceTap: (device) {
+                    setState(() {
+                      selectedDevice = device;
+                    });
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => NetworkDetailScreen(
+                          device: device,
+                          onDelete: removeDevice,
+                        ),
+                      ),
+                    );
+                  },
+                );
+              },
+            ),
           ),
         ),
       ),

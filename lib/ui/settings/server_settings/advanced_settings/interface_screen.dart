@@ -111,16 +111,32 @@ const fakeInterfaceData = InterfaceData(
   parentDevBusName: 'platform',
 );
 
-class InterfaceScreen extends StatelessWidget {
+class InterfaceScreen extends StatefulWidget {
   const InterfaceScreen({super.key});
 
   @override
-  Widget build(BuildContext context) {
-    final apiGateway = context.select<ServersProvider, ApiGateway?>(
-      (provider) => provider.selectedApiGateway,
-    );
+  State<InterfaceScreen> createState() => _InterfaceScreenState();
+}
 
-    if (apiGateway == null) {
+class _InterfaceScreenState extends State<InterfaceScreen> {
+  ApiGateway? _apiGateway;
+  Future<GatewayResponse?>? _gatewayFuture;
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+
+    final selectedGateway = context.watch<ServersProvider>().selectedApiGateway;
+
+    if (!identical(selectedGateway, _apiGateway)) {
+      _apiGateway = selectedGateway;
+      _gatewayFuture = _apiGateway?.getGateway(isDetailed: true);
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    if (_apiGateway == null) {
       return Scaffold(
         appBar: AppBar(title: Text(AppLocalizations.of(context)!.interface)),
         body: const SafeArea(child: EmptyDataScreen()),
@@ -130,47 +146,58 @@ class InterfaceScreen extends StatelessWidget {
     return ScrollConfiguration(
       behavior: CustomScrollBehavior(),
       child: Scaffold(
-        appBar: AppBar(title: Text(AppLocalizations.of(context)!.interface)),
+        appBar: AppBar(
+          title: Text(AppLocalizations.of(context)!.interface),
+          actions: [
+            Padding(
+              padding: const EdgeInsets.only(right: 8),
+              child: IconButton(
+                icon: const Icon(Icons.refresh_rounded),
+                onPressed: _refreshData,
+                tooltip: AppLocalizations.of(context)!.refresh,
+              ),
+            ),
+          ],
+        ),
         body: SafeArea(
-          child: FutureBuilder(
-            future: apiGateway.getGateway(isDetailed: true),
-            builder: (context, snapshot) {
-              if (snapshot.connectionState == ConnectionState.waiting) {
-                return _buildSkeletonLoading(context, apiGateway);
-              } else if (snapshot.hasError) {
-                return ErrorMessage(
-                  message: AppLocalizations.of(context)!.dataFetchFailed,
+          child: RefreshIndicator(
+            onRefresh: _refreshData,
+            child: FutureBuilder<GatewayResponse?>(
+              future: _gatewayFuture,
+              builder: (context, snapshot) {
+                if (snapshot.connectionState == ConnectionState.waiting) {
+                  return _buildSkeletonLoading(context);
+                } else if (snapshot.hasError) {
+                  return ErrorMessage(
+                    message: AppLocalizations.of(context)!.dataFetchFailed,
+                  );
+                } else if (!snapshot.hasData) {
+                  return const EmptyDataScreen();
+                }
+
+                final gatewayInfo = snapshot.data;
+
+                if (gatewayInfo?.result != APiResponseType.success) {
+                  logger.e('Gateway Info fetch failed: ${gatewayInfo?.result}');
+                  return ErrorMessage(
+                    message: AppLocalizations.of(context)!.dataFetchFailed,
+                  );
+                }
+
+                logger.d(
+                  'Interfaces: ${gatewayInfo?.data?.interfaces?.map((e) => e.name).join(', ')}',
                 );
-              } else if (!snapshot.hasData) {
-                return const EmptyDataScreen();
-              }
 
-              final gatewayInfo = snapshot.data;
-
-              if (gatewayInfo?.result != APiResponseType.success) {
-                logger.e('Gateway Info fetch failed: ${gatewayInfo?.result}');
-                return ErrorMessage(
-                  message: AppLocalizations.of(context)!.dataFetchFailed,
-                );
-              }
-
-              logger.d(
-                'Interfaces: ${gatewayInfo?.data?.interfaces?.map((e) => e.name).join(', ')}',
-              );
-
-              return _buildgatewayInfoContent(
-                apiGateway: apiGateway,
-                data: gatewayInfo?.data,
-              );
-            },
+                return _buildGatewayInfoContent(data: gatewayInfo?.data);
+              },
+            ),
           ),
         ),
       ),
     );
   }
 
-  // Show a skeleton loading screen while fetching data
-  Widget _buildSkeletonLoading(BuildContext context, ApiGateway? apiGateway) {
+  Widget _buildSkeletonLoading(BuildContext context) {
     return SingleChildScrollView(
       padding: const EdgeInsets.all(16),
       child: Skeletonizer(
@@ -189,11 +216,7 @@ class InterfaceScreen extends StatelessWidget {
     );
   }
 
-  // Show the server information content. After fetching the data, show the actual content
-  Widget _buildgatewayInfoContent({
-    required ApiGateway? apiGateway,
-    required GatewayInfo? data,
-  }) {
+  Widget _buildGatewayInfoContent({required GatewayInfo? data}) {
     return SingleChildScrollView(
       padding: const EdgeInsets.all(16),
       child: Column(
@@ -203,5 +226,17 @@ class InterfaceScreen extends StatelessWidget {
             [const EmptyDataScreen()],
       ),
     );
+  }
+
+  Future<void> _refreshData() async {
+    if (_apiGateway == null) return;
+    setState(() {
+      _gatewayFuture = _apiGateway!.getGateway(isDetailed: true);
+    });
+    try {
+      await _gatewayFuture;
+    } catch (e, s) {
+      logger.e('Error refreshing interface data', error: e, stackTrace: s);
+    }
   }
 }
