@@ -233,6 +233,10 @@ class _InterfaceScreenState extends State<InterfaceScreen> {
     setState(() {
       _gatewayFuture = _apiGateway!.getGateway(isDetailed: true);
     });
-    await _gatewayFuture;
+    try {
+      await _gatewayFuture;
+    } catch (e, s) {
+      logger.e('Error refreshing interface data', error: e, stackTrace: s);
+    }
   }
 }
