@@ -32,8 +32,8 @@ class _ServerInfoScreenState extends State<ServerInfoScreen> {
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
-    final newGateway = context.read<ServersProvider>().selectedApiGateway;
-    final newServer = context.read<ServersProvider>().selectedServer;
+    final newGateway = context.watch<ServersProvider>().selectedApiGateway;
+    final newServer = context.watch<ServersProvider>().selectedServer;
 
     if (!_initialized) {
       _apiGateway = newGateway;
@@ -60,8 +60,8 @@ class _ServerInfoScreenState extends State<ServerInfoScreen> {
 
     try {
       await _serverInfoFuture;
-    } catch (_) {
-      logger.e('Error during refresh');
+    } catch (e, s) {
+      logger.e('Error during refresh', error: e, stackTrace: s);
     }
   }
 
