@@ -105,6 +105,15 @@ class LogsPaginationService {
     var retryCount = 0;
 
     while (retryCount <= maxRetries) {
+      if (_currentCursor == 0) {
+        // For FTL v6.3 and below, the minimum id is 1; when recordsFiltered is 21, the cursor is 21.
+        // For FTL v6.3 and above, the minimum id is 0; when recordsFiltered is 21, the cursor is 20.
+        // For v6.3 and above, treat cursor == 0 as finished.
+        _finished = LoadStatus.loaded;
+        logger.d('All logs have been fetched.');
+        return [];
+      }
+
       final result = await _apiGateway.fetchLogs(
         _startTime!,
         _endTime!,
