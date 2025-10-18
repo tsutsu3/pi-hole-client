@@ -143,49 +143,54 @@ class _SessionState extends State<SessionsScreen> {
           ],
         ),
         body: SafeArea(
-          child: Builder(
-            builder: (context) {
-              if (isLoading) {
-                return Skeletonizer(
-                  effect: ShimmerEffect(
-                    baseColor: Theme.of(context).colorScheme.secondaryContainer,
-                    highlightColor: Theme.of(context).colorScheme.surface,
-                  ),
-                  child: SessionListView(
-                    sessionsInfo: _fakeSessionsInfo,
-                    onSessionTap: (session) {},
-                  ),
-                );
-              }
-
-              if (isFetchError) {
-                return ErrorMessage(
-                  message: AppLocalizations.of(context)!.dataFetchFailed,
-                );
-              }
-
-              if (sessionsInfo == null || sessionsInfo!.sessions.isEmpty) {
-                return const EmptyDataScreen();
-              }
-
-              return SessionListView(
-                sessionsInfo: sessionsInfo!,
-                onSessionTap: (session) {
-                  setState(() {
-                    selectedSession = session;
-                  });
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => SessionDetailScreen(
-                        session: session,
-                        onDelete: removeSession,
-                      ),
+          child: RefreshIndicator(
+            onRefresh: _loadSessions,
+            child: Builder(
+              builder: (context) {
+                if (isLoading) {
+                  return Skeletonizer(
+                    effect: ShimmerEffect(
+                      baseColor: Theme.of(
+                        context,
+                      ).colorScheme.secondaryContainer,
+                      highlightColor: Theme.of(context).colorScheme.surface,
+                    ),
+                    child: SessionListView(
+                      sessionsInfo: _fakeSessionsInfo,
+                      onSessionTap: (session) {},
                     ),
                   );
-                },
-              );
-            },
+                }
+
+                if (isFetchError) {
+                  return ErrorMessage(
+                    message: AppLocalizations.of(context)!.dataFetchFailed,
+                  );
+                }
+
+                if (sessionsInfo == null || sessionsInfo!.sessions.isEmpty) {
+                  return const EmptyDataScreen();
+                }
+
+                return SessionListView(
+                  sessionsInfo: sessionsInfo!,
+                  onSessionTap: (session) {
+                    setState(() {
+                      selectedSession = session;
+                    });
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => SessionDetailScreen(
+                          session: session,
+                          onDelete: removeSession,
+                        ),
+                      ),
+                    );
+                  },
+                );
+              },
+            ),
           ),
         ),
       ),
