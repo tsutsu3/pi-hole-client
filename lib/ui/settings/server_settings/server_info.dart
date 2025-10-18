@@ -16,19 +16,58 @@ import 'package:pi_hole_client/utils/logger.dart';
 import 'package:provider/provider.dart';
 import 'package:skeletonizer/skeletonizer.dart';
 
-class ServerInfoScreen extends StatelessWidget {
+class ServerInfoScreen extends StatefulWidget {
   const ServerInfoScreen({super.key});
 
   @override
-  Widget build(BuildContext context) {
-    final apiGateway = context.select<ServersProvider, ApiGateway?>(
-      (provider) => provider.selectedApiGateway,
-    );
-    final server = context.select<ServersProvider, Server?>(
-      (provider) => provider.selectedServer,
-    );
+  State<ServerInfoScreen> createState() => _ServerInfoScreenState();
+}
 
-    if (apiGateway == null || server == null) {
+class _ServerInfoScreenState extends State<ServerInfoScreen> {
+  ApiGateway? _apiGateway;
+  Server? _server;
+  Future<PiHoleServerInfoResponse>? _serverInfoFuture;
+  bool _initialized = false;
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    final newGateway = context.read<ServersProvider>().selectedApiGateway;
+    final newServer = context.read<ServersProvider>().selectedServer;
+
+    if (!_initialized) {
+      _apiGateway = newGateway;
+      _server = newServer;
+      _serverInfoFuture = _apiGateway?.fetchAllServerInfo();
+      _initialized = true;
+    } else if (newGateway != _apiGateway || newServer != _server) {
+      _apiGateway = newGateway;
+      _server = newServer;
+      setState(() {
+        _serverInfoFuture = _apiGateway?.fetchAllServerInfo();
+      });
+    }
+  }
+
+  Future<void> _handleRefresh() async {
+    if (_apiGateway == null) {
+      return;
+    }
+
+    setState(() {
+      _serverInfoFuture = _apiGateway!.fetchAllServerInfo();
+    });
+
+    try {
+      await _serverInfoFuture;
+    } catch (_) {
+      logger.e('Error during refresh');
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    if (_apiGateway == null || _server == null) {
       return Scaffold(
         appBar: AppBar(title: Text(AppLocalizations.of(context)!.serverInfo)),
         body: const SafeArea(child: EmptyDataScreen()),
@@ -38,47 +77,79 @@ class ServerInfoScreen extends StatelessWidget {
     return ScrollConfiguration(
       behavior: CustomScrollBehavior(),
       child: Scaffold(
-        appBar: AppBar(title: Text(AppLocalizations.of(context)!.serverInfo)),
+        appBar: AppBar(
+          title: Text(AppLocalizations.of(context)!.serverInfo),
+          actions: [
+            Padding(
+              padding: const EdgeInsets.only(right: 8),
+              child: IconButton(
+                icon: const Icon(Icons.refresh_rounded),
+                onPressed: _handleRefresh,
+                tooltip: AppLocalizations.of(context)!.refresh,
+              ),
+            ),
+          ],
+        ),
         body: SafeArea(
-          child: FutureBuilder(
-            future: apiGateway.fetchAllServerInfo(),
-            builder: (context, snapshot) {
-              if (snapshot.connectionState == ConnectionState.waiting) {
-                return _buildSkeletonLoading(context, server, apiGateway);
-              } else if (snapshot.hasError) {
-                return ErrorMessage(
-                  message: AppLocalizations.of(context)!.dataFetchFailed,
+          child: RefreshIndicator(
+            onRefresh: _handleRefresh,
+            child: FutureBuilder<PiHoleServerInfoResponse>(
+              future: _serverInfoFuture,
+              builder: (context, snapshot) {
+                if (snapshot.connectionState == ConnectionState.waiting) {
+                  return _buildSkeletonLoading(context, _server, _apiGateway);
+                } else if (snapshot.hasError) {
+                  return _wrapWithScroll(
+                    ErrorMessage(
+                      message: AppLocalizations.of(context)!.dataFetchFailed,
+                    ),
+                  );
+                } else if (!snapshot.hasData) {
+                  return _wrapWithScroll(const EmptyDataScreen());
+                }
+
+                final serverInfo = snapshot.data;
+
+                if (serverInfo?.result != APiResponseType.success) {
+                  logger.e('Server Info fetch failed: ${serverInfo?.result}');
+                  return _wrapWithScroll(
+                    ErrorMessage(
+                      message: AppLocalizations.of(context)!.dataFetchFailed,
+                    ),
+                  );
+                }
+
+                logger.d(
+                  'Server Info version: ${serverInfo?.version?.toJson()}',
                 );
-              } else if (!snapshot.hasData) {
-                return const EmptyDataScreen();
-              }
-
-              final serverInfo = snapshot.data;
-
-              if (serverInfo?.result != APiResponseType.success) {
-                logger.e('Server Info fetch failed: ${serverInfo?.result}');
-                return ErrorMessage(
-                  message: AppLocalizations.of(context)!.dataFetchFailed,
+                logger.d('Server Info host: ${serverInfo?.host?.toJson()}');
+                logger.d('Server Info system: ${serverInfo?.system?.toJson()}');
+                logger.d(
+                  'Server Info sensor: ${serverInfo?.sensors?.toJson()}',
                 );
-              }
 
-              logger.d('Server Info version: ${serverInfo?.version?.toJson()}');
-              logger.d('Server Info host: ${serverInfo?.host?.toJson()}');
-              logger.d('Server Info system: ${serverInfo?.system?.toJson()}');
-              logger.d('Server Info sensor: ${serverInfo?.sensors?.toJson()}');
-
-              return _buildServerInfoContent(
-                server: server,
-                apiGateway: apiGateway,
-                host: serverInfo?.host,
-                system: serverInfo?.system,
-                sensors: serverInfo?.sensors,
-                version: serverInfo?.version,
-              );
-            },
+                return _buildServerInfoContent(
+                  server: _server,
+                  apiGateway: _apiGateway,
+                  host: serverInfo?.host,
+                  system: serverInfo?.system,
+                  sensors: serverInfo?.sensors,
+                  version: serverInfo?.version,
+                );
+              },
+            ),
           ),
         ),
       ),
+    );
+  }
+
+  Widget _wrapWithScroll(Widget child) {
+    return CustomScrollView(
+      physics: const AlwaysScrollableScrollPhysics(),
+      slivers: [
+        SliverFillRemaining(hasScrollBody: false, child: Center(child: child)),
+      ],
     );
   }
 
@@ -89,6 +160,7 @@ class ServerInfoScreen extends StatelessWidget {
     ApiGateway? apiGateway,
   ) {
     return SingleChildScrollView(
+      physics: const AlwaysScrollableScrollPhysics(),
       padding: const EdgeInsets.all(16),
       child: Skeletonizer(
         effect: ShimmerEffect(
@@ -123,6 +195,7 @@ class ServerInfoScreen extends StatelessWidget {
     required VersionInfo? version,
   }) {
     return SingleChildScrollView(
+      physics: const AlwaysScrollableScrollPhysics(),
       padding: const EdgeInsets.all(16),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
