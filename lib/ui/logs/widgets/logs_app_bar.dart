@@ -263,8 +263,8 @@ class LogsAppBar extends StatelessWidget implements PreferredSizeWidget {
         ],
       );
     } else {
-      //
-      return const Row(children: [Text('', style: TextStyle(fontSize: 12))]);
+      // Reserve space to prevent layout shifts when the indicator is not visible.
+      return const SizedBox(height: 15.0);
     }
   }
 }
