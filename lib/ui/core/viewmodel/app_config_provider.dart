@@ -34,9 +34,9 @@ class AppConfigProvider with ChangeNotifier {
   int _sendCrashReports = 0;
   int? _selectedSettingsScreen;
   String _selectedLanguage = 'en';
-  int _logAutoRefreshTime = 15;
+  int _logAutoRefreshTime = 5;
   bool _liveLog = true;
-  bool _isLivelogPaused = false;
+  bool _isLivelogPaused = true;
 
   final List<AppLog> _logs = [];
   final AppConfigRepository _repository;
@@ -459,9 +459,9 @@ class AppConfigProvider with ChangeNotifier {
       _selectedLanguage = 'en';
       _reducedDataCharts = 0;
       _logsPerQuery = 2;
-      _logAutoRefreshTime = 15;
+      _logAutoRefreshTime = 5;
       _liveLog = true;
-      _isLivelogPaused = false;
+      _isLivelogPaused = true;
       _passCode = null;
       _useBiometrics = 0;
       _importantInfoReaden = 0;

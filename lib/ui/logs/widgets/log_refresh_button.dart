@@ -33,7 +33,6 @@ class LogRefreshButton extends StatelessWidget {
         tooltip: loc.pause,
         icon: const Icon(Icons.pause_rounded),
         onPressed: () {
-          // TODO: background auto-refresh start
           appConfigProvider.setLivelogPaused(true);
         },
       );
@@ -43,7 +42,6 @@ class LogRefreshButton extends StatelessWidget {
       tooltip: loc.resume,
       icon: const Icon(Icons.auto_mode_rounded),
       onPressed: () {
-        // TODO: background auto-refresh stop
         appConfigProvider.setLivelogPaused(false);
       },
     );

@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:pi_hole_client/config/enums.dart';
 import 'package:pi_hole_client/config/responsive.dart';
 import 'package:pi_hole_client/domain/models_old/log.dart';
+import 'package:pi_hole_client/domain/use_cases/live_logs_service.dart';
 import 'package:pi_hole_client/domain/use_cases/logs_pagination_service.dart';
 import 'package:pi_hole_client/domain/use_cases/logs_screen_service.dart';
 import 'package:pi_hole_client/ui/core/l10n/generated/app_localizations.dart';
@@ -26,7 +27,7 @@ class Logs extends StatefulWidget {
   State<Logs> createState() => _LogsState();
 }
 
-class _LogsState extends State<Logs> {
+class _LogsState extends State<Logs> with WidgetsBindingObserver {
   DateTime? masterStartTime;
   DateTime? masterEndTime;
 
@@ -45,47 +46,73 @@ class _LogsState extends State<Logs> {
   late LogActionsService logActSvc;
   late double? logsPerQuery;
   late ScrollController scrollController;
+  late LogsPaginationService _paginationService;
   final TextEditingController searchController = TextEditingController();
   final maxEmptyWindows = 3;
 
   Timer? debounce;
+  static const int _logsTabIndex = 2;
+
+  Timer? _liveLogTimer;
+  int? _liveLogIntervalSeconds;
+  bool _isLiveTickInProgress = false;
+  bool _isFiltering = false;
+  late final AppConfigProvider _appConfigProvider;
+  late final LogsPaginationService _livePaginationService;
+  LiveLogsService? _liveLogsService;
+  final Set<String> _loadedLogKeys = <String>{};
 
   @override
   void initState() {
     super.initState();
+    WidgetsBinding.instance.addObserver(this);
 
     scrollController = ScrollController()..addListener(scrollListener);
 
-    logsPerQuery = Provider.of<AppConfigProvider>(
-      context,
-      listen: false,
-    ).logsPerQuery;
+    _appConfigProvider = Provider.of<AppConfigProvider>(context, listen: false);
+    _appConfigProvider.addListener(_onAppConfigChanged);
+
+    logsPerQuery = _appConfigProvider.logsPerQuery;
 
     final apiGateway = Provider.of<ServersProvider>(
       context,
       listen: false,
     ).selectedApiGateway;
 
-    final paginationService = LogsPaginationService(apiGateway: apiGateway!);
+    _paginationService = LogsPaginationService(apiGateway: apiGateway!);
+
+    _livePaginationService = LogsPaginationService(apiGateway: apiGateway);
 
     logsSvc = LogsScreenService(
       scrollController: scrollController,
       searchController: searchController,
       logsPerQuery: logsPerQuery!,
-      paginationService: paginationService,
+      paginationService: _paginationService,
     );
 
     logActSvc = LogActionsService(
       apiGateway: apiGateway,
       context: context,
-      appConfigProvider: Provider.of<AppConfigProvider>(context, listen: false),
+      appConfigProvider: _appConfigProvider,
     );
 
     initializeLoad();
   }
 
   @override
+  void didChangeAppLifecycleState(AppLifecycleState state) {
+    if (state == AppLifecycleState.paused) {
+      _stopLiveTimer();
+    } else if (state == AppLifecycleState.resumed) {
+      _configureLiveUpdates();
+    }
+  }
+
+  @override
   void dispose() {
+    WidgetsBinding.instance.removeObserver(this);
+    _stopLiveTimer();
+    _appConfigProvider.removeListener(_onAppConfigChanged);
     scrollController.dispose();
     debounce?.cancel();
     super.dispose();
@@ -100,32 +127,42 @@ class _LogsState extends State<Logs> {
 
   Future<void> initializeLoad() async {
     if (!mounted) return;
-    logsList.clear();
+    _stopLiveTimer();
+    _resetLogsCache();
     setState(() {
       loadStatus = LoadStatus.loading;
     });
 
     final now = DateTime.now();
-    final end = logsSvc.getWindowStart(now);
+    final start = logsSvc.getWindowStart(now);
 
-    logsSvc.resetPagination(now, end);
+    logsSvc.resetPagination(start, now);
 
     await enqueueLoad();
 
     if (!mounted) return;
-    setState(() {
-      if (logsSvc.isError) {
+
+    if (logsSvc.isError) {
+      setState(() {
         loadStatus = LoadStatus.error;
-      } else {
-        loadStatus = LoadStatus.loaded;
-      }
+      });
+      return;
+    }
+
+    setState(() {
+      loadStatus = LoadStatus.loaded;
     });
+
+    final endTime = _paginationService.endTime ?? DateTime.now();
+    _resetLiveBaseline(endTime: endTime);
+    _configureLiveUpdates();
   }
 
   Future<void> resetLogs() async {
     setState(() {
       enableNextWindow = true;
       loadStatus = LoadStatus.loaded;
+      _isFiltering = false;
     });
   }
 
@@ -153,6 +190,7 @@ class _LogsState extends State<Logs> {
     DateTime? inStartTime,
     DateTime? inEndTime,
   }) async {
+    _stopLiveTimer();
     setState(() {
       loadStatus = LoadStatus.loading;
     });
@@ -163,8 +201,8 @@ class _LogsState extends State<Logs> {
     if (inStartTime != null || inEndTime != null) {
       enableNextWindow = false;
       logsSvc.resetPagination(startTime, endTime);
+      _resetLogsCache();
       setState(() {
-        logsList.clear();
         isLoadingMore = true;
       });
 
@@ -173,13 +211,17 @@ class _LogsState extends State<Logs> {
 
       setState(() {
         isLoadingMore = false;
-        logsList.addAll(newLogs);
       });
+      _addLogs(newLogs);
     }
 
     setState(() {
       loadStatus = LoadStatus.loaded;
     });
+
+    final liveEndTime = _paginationService.endTime ?? DateTime.now();
+    _resetLiveBaseline(endTime: liveEndTime);
+    _configureLiveUpdates();
   }
 
   /// Loads additional logs with support for time window-based pagination.
@@ -209,8 +251,7 @@ class _LogsState extends State<Logs> {
       setState(() => isLoadingMore = false);
 
       if (newLogs.isNotEmpty) {
-        if (!mounted) return;
-        setState(() => logsList.addAll(newLogs));
+        _addLogs(newLogs);
         return;
       }
 
@@ -224,9 +265,146 @@ class _LogsState extends State<Logs> {
       setState(() {
         loadStatus = LoadStatus.error;
       });
+      _stopLiveTimer();
     }
 
     logger.w('Max empty windows reached. Stop loading.');
+  }
+
+  void _resetLogsCache() {
+    logsList.clear();
+    _loadedLogKeys.clear();
+  }
+
+  void _addLogs(List<Log> logs, {bool prepend = false}) {
+    if (!mounted) return;
+    final uniqueLogs = _filterNewLogs(logs);
+    if (uniqueLogs.isEmpty) return;
+
+    setState(() {
+      if (prepend) {
+        // Add to the beginning of the list for live updates
+        logsList.insertAll(0, uniqueLogs);
+      } else {
+        // Add to the end of the list for regular loading
+        logsList.addAll(uniqueLogs);
+      }
+    });
+  }
+
+  List<Log> _filterNewLogs(List<Log> logs) {
+    final unique = <Log>[];
+    for (final log in logs) {
+      final key = _logKey(log);
+      if (_loadedLogKeys.add(key)) {
+        unique.add(log);
+      }
+    }
+    return unique;
+  }
+
+  String _logKey(Log log) {
+    if (log.id != null) {
+      return 'id_${log.id}';
+    }
+
+    // V5 API does not provide unique IDs, so we create a composite key
+    return [
+      log.dateTime.microsecondsSinceEpoch,
+      log.type,
+      log.url,
+      log.device,
+      // log.status ?? '',
+      // log.replyType ?? '',
+      // log.replyTime.toString(),
+      // log.answeredBy ?? '',
+    ].join('|');
+  }
+
+  void _resetLiveBaseline({DateTime? endTime}) {
+    _liveLogsService = LiveLogsService(
+      paginationService: _livePaginationService,
+      endTime: endTime ?? DateTime.now(),
+    );
+  }
+
+  void _onAppConfigChanged() {
+    if (!mounted) return;
+    _configureLiveUpdates();
+  }
+
+  bool _shouldRunLiveLog() {
+    if (!mounted) return false;
+    if (_liveLogsService == null) return false;
+    if (!_appConfigProvider.liveLog) return false;
+    if (_appConfigProvider.isLivelogPaused) return false;
+    if (_appConfigProvider.selectedTab != _logsTabIndex) return false;
+    if (loadStatus != LoadStatus.loaded) return false;
+    return true;
+  }
+
+  void _configureLiveUpdates() {
+    if (!_shouldRunLiveLog()) {
+      _stopLiveTimer();
+      return;
+    }
+
+    final interval = _appConfigProvider.logAutoRefreshTime;
+    if (interval <= 0) {
+      _stopLiveTimer();
+      return;
+    }
+
+    if (_liveLogTimer != null && _liveLogIntervalSeconds == interval) {
+      return;
+    }
+
+    _startLiveTimer(interval);
+  }
+
+  void _startLiveTimer(int intervalSeconds) {
+    _stopLiveTimer();
+    _liveLogIntervalSeconds = intervalSeconds;
+    final adjustedMilliseconds = intervalSeconds == 5
+        ? intervalSeconds * 1000 - 300
+        : intervalSeconds * 1000;
+    final timerDuration = Duration(milliseconds: adjustedMilliseconds);
+    _liveLogTimer = Timer.periodic(timerDuration, (_) => _handleLiveTick());
+    _handleLiveTick();
+  }
+
+  void _stopLiveTimer() {
+    if (_liveLogTimer != null) {
+      logger.d('Stopping live log timer');
+      _liveLogTimer?.cancel();
+      _liveLogTimer = null;
+      _liveLogIntervalSeconds = null;
+      _isLiveTickInProgress = false;
+    }
+  }
+
+  Future<void> _handleLiveTick() async {
+    if (_isLiveTickInProgress) return;
+    if (!_shouldRunLiveLog()) {
+      _stopLiveTimer();
+      return;
+    }
+
+    if (_isFiltering) {
+      logger.d('Skipping live log tick due to active filtering');
+      return;
+    }
+
+    _isLiveTickInProgress = true;
+    try {
+      final logs = await _liveLogsService?.tickOnce() ?? const <Log>[];
+      if (logs.isEmpty) return;
+      _addLogs(logs, prepend: true);
+    } catch (error, stackTrace) {
+      logger.e('Live log refresh failed: $error', stackTrace: stackTrace);
+    } finally {
+      _isLiveTickInProgress = false;
+    }
   }
 
   @override
@@ -275,6 +453,7 @@ class _LogsState extends State<Logs> {
                 masterStartTime = filtersProvider.startTime;
                 masterEndTime = filtersProvider.endTime;
                 loadStatus = LoadStatus.loading;
+                _isFiltering = true;
               });
               applyFilterAndLoad(
                 inStartTime: filtersProvider.startTime,
@@ -295,6 +474,7 @@ class _LogsState extends State<Logs> {
                 masterStartTime = filtersProvider.startTime;
                 masterEndTime = filtersProvider.endTime;
                 loadStatus = LoadStatus.loading;
+                _isFiltering = true;
               });
               applyFilterAndLoad(
                 inStartTime: filtersProvider.startTime,
@@ -391,6 +571,8 @@ class _LogsState extends State<Logs> {
         body: SafeArea(
           child: RefreshIndicator(
             onRefresh: () async {
+              // Prevent refresh during filtering
+              if (_isFiltering) return;
               await initializeLoad();
             },
             child: LogsContentView(
