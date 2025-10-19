@@ -41,13 +41,14 @@ class LiveLogsService {
 
     _liveLoading = true;
     try {
+      const maxPagesPerTick = 10;
       final end = DateTime.now();
       final start = _lastEnd;
 
       _paginationService.reset(start, end);
 
       final collected = <Log>[];
-      for (var i = 0; i < 10; i++) {
+      for (var i = 0; i < maxPagesPerTick; i++) {
         final page = await _paginationService.loadNextPage();
         if (page.isEmpty) break;
         collected.addAll(page);
