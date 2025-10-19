@@ -120,6 +120,9 @@ class LogsPaginationService {
         size: _pageSize,
         cursor: _currentCursor != null ? _currentCursor! - 1 : null,
       );
+      logger.d(
+        'Fetching logs with startTime: $_startTime, endTime: $_endTime, cursor: $_currentCursor, nums: ${result.data?.recordsFiltered}',
+      );
 
       if (result.result != APiResponseType.success) {
         retryCount++;
@@ -138,10 +141,6 @@ class LogsPaginationService {
         logger.d('No logs found in the specified time range.');
         return [];
       }
-
-      logger.d(
-        'startTime: $_startTime, endTime: $_endTime, cursor: $_currentCursor, nums: ${result.data?.recordsFiltered}',
-      );
 
       final logs = result.data?.logs ?? [];
 

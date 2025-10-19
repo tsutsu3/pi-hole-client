@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:pi_hole_client/ui/core/l10n/generated/app_localizations.dart';
 import 'package:pi_hole_client/ui/core/ui/components/custom_radio.dart';
+import 'package:pi_hole_client/ui/core/viewmodel/app_config_provider.dart';
 import 'package:pi_hole_client/ui/logs/widgets/log_refresh_button.dart';
+import 'package:provider/provider.dart';
 
 /// A custom AppBar widget for the logs screen, supporting search, filter, and sort functionalities.
 ///
@@ -78,8 +80,22 @@ class LogsAppBar extends StatelessWidget implements PreferredSizeWidget {
   ///
   /// Returns a [PreferredSizeWidget] representing the configured app bar.
   PreferredSizeWidget _buildDefaultAppBar(BuildContext context) {
+    final isLivelogPaused = context.select<AppConfigProvider, bool>(
+      (p) => p.isLivelogPaused,
+    );
+    final isLiveLog = context.select<AppConfigProvider, bool>((p) => p.liveLog);
+
     return AppBar(
-      title: Text(AppLocalizations.of(context)!.queryLogs),
+      title: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Padding(
+            padding: const EdgeInsets.only(top: 15),
+            child: Text(AppLocalizations.of(context)!.queryLogs),
+          ),
+          _buildLiveIndicator(context, isLivelogPaused, isLiveLog),
+        ],
+      ),
       toolbarHeight: 60,
       actions: [
         IconButton(
@@ -227,5 +243,28 @@ class LogsAppBar extends StatelessWidget implements PreferredSizeWidget {
         ),
       ],
     );
+  }
+
+  Widget _buildLiveIndicator(
+    BuildContext context,
+    bool isLivelogPaused,
+    bool isLiveLog,
+  ) {
+    if (!isLivelogPaused && isLiveLog) {
+      return const Row(
+        children: [
+          Icon(Icons.circle, color: Colors.red, size: 12),
+          SizedBox(width: 4),
+          Text(
+            'LIVE',
+            style: TextStyle(color: Colors.red, fontSize: 12),
+            overflow: TextOverflow.ellipsis,
+          ),
+        ],
+      );
+    } else {
+      //
+      return const Row(children: [Text('', style: TextStyle(fontSize: 12))]);
+    }
   }
 }
