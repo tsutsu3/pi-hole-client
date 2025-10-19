@@ -436,11 +436,13 @@ ThemeData createTheme(
     navigationBarTheme: NavigationBarThemeData(
       surfaceTintColor: colorScheme.surfaceTint,
     ),
-    pageTransitionsTheme: const PageTransitionsTheme(
-      builders: {
-        TargetPlatform.android: PredictiveBackPageTransitionsBuilder(),
-      },
-    ),
+    // Disabled PredictiveBack because its animation feels slow.
+    // Revert to ZoomPageTransitionsBuilder() for snappier, faster transitions.
+    // pageTransitionsTheme: const PageTransitionsTheme(
+    //   builders: {
+    //     TargetPlatform.android: PredictiveBackPageTransitionsBuilder(),
+    //   },
+    // ),
     dialogTheme: DialogThemeData(backgroundColor: colorScheme.surface),
     extensions: [
       // dataVisColors.harmonized(colorScheme),
