@@ -51,7 +51,7 @@ dependencies:
   animations: ^2.1.0
   permission_handler: ^12.0.1
   dynamic_color: ^1.6.5
-  device_info_plus: ^12.1.0
+  device_info_plus: ^12.2.0
   vibration: ^3.1.4
   url_launcher: ^6.2.4
   percent_indicator: ^4.2.5
@@ -74,7 +74,7 @@ dependencies:
   #   git:
   #     url: https://github.com/JGeek00/flutter_split_view
   #     ref: master-alt
-  local_auth: ^2.1.6
+  local_auth: ^3.0.0
   flutter_custom_tabs: ^2.4.0
   mobile_scanner: ^7.1.2
   logger: ^2.6.2
@@ -95,8 +95,8 @@ dev_dependencies:
   integration_test:
     sdk: flutter
   flutter_launcher_icons: ^0.14.3
-  flutter_native_splash: ^2.4.6
-  build_runner: ^2.9.0
+  flutter_native_splash: ^2.4.7
+  build_runner: ^2.10.0
 
   # The "flutter_lints" package below contains a set of recommended lints to
   # encourage good coding practices. The lint set provided by the package is
