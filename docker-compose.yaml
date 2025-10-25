@@ -6,7 +6,7 @@ services:
       - "54:53/tcp"
       - "54:53/udp"
       - "8080:80/tcp"
-      - "1444:443/tcp"
+      - "1443:443/tcp"
     environment:
       TZ: 'Asia/Tokyo'
       WEBPASSWORD: 'test123'
@@ -21,40 +21,40 @@ services:
       - "443:443/tcp"
     environment:
       TZ: 'Asia/Tokyo'
-      FTLCONF_webserver_api_password: 'test123'
-
-  piholeV52:
-    container_name: piholeV52
-    image: pihole/pihole:2024.06.0
-    ports:
-      - "56:53/tcp"
-      - "56:53/udp"
-      - "8082:80/tcp"
-      - "1446:443/tcp"
-    environment:
-      TZ: 'Asia/Tokyo'
-      WEBPASSWORD: 'test456'
+      FTLCONF_webserver_api_password: 'test001'
 
   piholeV62:
     container_name: piholeV62
+    image: pihole/pihole:2025.08.0
+    ports:
+      - "56:53/tcp"
+      - "56:53/udp"
+      - "8081:80/tcp"
+      - "1444:443/tcp"
+    environment:
+      TZ: 'Asia/Tokyo'
+      FTLCONF_webserver_api_password: 'test002'
+
+  piholeV63:
+    container_name: piholeV63
     image: pihole/pihole:2025.02.7
     ports:
       - "57:53/tcp"
       - "57:53/udp"
-      - "8083:80/tcp"
-      - "1447:443/tcp"
+      - "8082:80/tcp"
+      - "1445:443/tcp"
     environment:
       TZ: 'Asia/Tokyo'
-      FTLCONF_webserver_api_password: 'test456'
+      FTLCONF_webserver_api_password: 'test003'
 
-  piholeV63:
-    container_name: piholeV63
+  piholeV6dev:
+    container_name: piholeV6dev
     image: pihole/pihole:nightly
     ports:
       - "58:53/tcp"
       - "58:53/udp"
-      - "8084:80/tcp"
-      - "1448:443/tcp"
+      - "8083:80/tcp"
+      - "1446:443/tcp"
     environment:
       TZ: 'Asia/Tokyo'
-      FTLCONF_webserver_api_password: 'test789'
+      FTLCONF_webserver_api_password: 'test000'
