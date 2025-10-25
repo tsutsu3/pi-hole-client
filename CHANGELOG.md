@@ -1,6 +1,49 @@
 # Changelog
 
-## [1.6.0](https://github.com/tsutsu3/pi-hole-client/compare/1.5.1_(57)..1.6.0) - 2025-08-28
+## [1.7.0](https://github.com/tsutsu3/pi-hole-client/compare/1.6.0_(59)..1.7.0) - 2025-10-25
+
+### 🚀 Features
+
+- *(api)* Support Pi-hole FTL v6.3 API changes ([#414](https://github.com/tsutsu3/pi-hole-client/issues/414)) - ([0ce38e4](https://github.com/tsutsu3/pi-hole-client/commit/0ce38e40770587abf4f02db1da00475a7fb4f2c7))
+- *(indicator)* Add pull-to-refresh across settings ([#419](https://github.com/tsutsu3/pi-hole-client/issues/419)) - ([97a19e3](https://github.com/tsutsu3/pi-hole-client/commit/97a19e3a294504176872099491104b3024bb3a23))
+- *(logs)* Add live log ([#420](https://github.com/tsutsu3/pi-hole-client/issues/420)) - ([7b562fb](https://github.com/tsutsu3/pi-hole-client/commit/7b562fbc8bc8d6e0ca5bd4065d21c35bcf46c55a))
+- *(logs)* Add manual refresh and live log settings screen (auto-refresh not yet implemented) ([#408](https://github.com/tsutsu3/pi-hole-client/issues/408)) - ([df93a39](https://github.com/tsutsu3/pi-hole-client/commit/df93a3961621c4b81a32349c0e116a67773a8e08))
+- *(server_settings)* Add local dns screen ([#396](https://github.com/tsutsu3/pi-hole-client/issues/396)) - ([1bb810e](https://github.com/tsutsu3/pi-hole-client/commit/1bb810e2343ef682faf644cbe99b5c73f014b946))
+- *(theme)* Disable slow PredictiveBack transitions for faster page animations ([#423](https://github.com/tsutsu3/pi-hole-client/issues/423)) - ([f087c97](https://github.com/tsutsu3/pi-hole-client/commit/f087c97593e48882c337f120a85429e81cc21790))
+
+### 🐛 Bug Fixes
+
+- *(home)* Ensure FAB position resets after snackbar dismissal ([#392](https://github.com/tsutsu3/pi-hole-client/issues/392)) - ([bbc9274](https://github.com/tsutsu3/pi-hole-client/commit/bbc927426c5c7aa5cf1d01ce053c2730b1c39f10))
+- *(logs)* Prevent duplicate entries by clearing list before reload ([#415](https://github.com/tsutsu3/pi-hole-client/issues/415)) - ([cd7cc64](https://github.com/tsutsu3/pi-hole-client/commit/cd7cc649d02cdbaa1415c1830ba7506bcaa675a3))
+- *(settings)* Hide unfinished livelog settings from release build ([#413](https://github.com/tsutsu3/pi-hole-client/issues/413)) - ([d09380f](https://github.com/tsutsu3/pi-hole-client/commit/d09380fc06a1be7af069bda830bce67889a656ac))
+
+### 🚜 Refactor
+
+- I18n keys ([#410](https://github.com/tsutsu3/pi-hole-client/issues/410)) - ([75ac6a0](https://github.com/tsutsu3/pi-hole-client/commit/75ac6a0a0fa14b37758be04fa95ef8bf715a7887))
+
+### 📚 Documentation
+
+- *(readme)* Add link to Pi-hole client website - ([d3d70c4](https://github.com/tsutsu3/pi-hole-client/commit/d3d70c454375fd93ccd84867ae889babcc41c1b7))
+
+### 🧪 Testing
+
+- Add missing local_dns_provider_test.mocks.dart - ([2b03bee](https://github.com/tsutsu3/pi-hole-client/commit/2b03bee73ae74554b2a8ad00d9fdc310d82b5ac9))
+
+### ⚙️ Miscellaneous Tasks
+
+- *(docker)* Add Pi-hole nightly build to docker-compose for testing - ([27a0e4a](https://github.com/tsutsu3/pi-hole-client/commit/27a0e4a54064bad8d516755976546c64bb7a42c4))
+- *(l10n)* Remove synthetic-package entry from l10n.yaml - ([d70cf4c](https://github.com/tsutsu3/pi-hole-client/commit/d70cf4c4c717aa37cbb19b39430ca78b6f1fff18))
+- *(website)* Update index name - ([8f07e5a](https://github.com/tsutsu3/pi-hole-client/commit/8f07e5aa03b55ef38e11b92ad58fee16c2980540))
+- *(website)* Add wiki page contents ([#417](https://github.com/tsutsu3/pi-hole-client/issues/417)) - ([d87f313](https://github.com/tsutsu3/pi-hole-client/commit/d87f3137b53e300e023068c3f407373d1133a26a))
+- *(website)* Add Google Search Console verification meta tag - ([b4227af](https://github.com/tsutsu3/pi-hole-client/commit/b4227af7e78228e37cac3449e49f0fb3cd894134))
+- *(winget)* Winget manifest for v1.6.0 ([#390](https://github.com/tsutsu3/pi-hole-client/issues/390)) - ([3c1d82b](https://github.com/tsutsu3/pi-hole-client/commit/3c1d82b9d087bdb9b2f8fa37d1cf971dfa5a2f2b))
+- *(workflow)* Ignore paths for website and docs in pull requests - ([6fe472c](https://github.com/tsutsu3/pi-hole-client/commit/6fe472c3535ea60a0c76041caf06d85374caf230))
+
+### 🛡️ Security
+
+- *(deps)* Override webpack-dev-server to version 5.2.1 to fix CVE-2025-30360 ([#395](https://github.com/tsutsu3/pi-hole-client/issues/395)) - ([8bf6b95](https://github.com/tsutsu3/pi-hole-client/commit/8bf6b951d56173073a0d263e36663e2e8f971573))
+
+## [1.6.0_(59)](https://github.com/tsutsu3/pi-hole-client/compare/1.5.1_(57)..1.6.0_(59)) - 2025-08-29
 
 ### 🚀 Features
 
