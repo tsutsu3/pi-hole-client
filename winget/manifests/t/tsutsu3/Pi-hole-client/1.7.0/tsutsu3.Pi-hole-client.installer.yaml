@@ -2,7 +2,7 @@
 # yaml-language-server: $schema=https://aka.ms/winget-manifest.installer.1.10.0.schema.json
 
 PackageIdentifier: tsutsu3.Pi-hole-client
-PackageVersion: 1.6.0
+PackageVersion: 1.7.0
 InstallerType: inno
 InstallModes:
 - silent
@@ -14,7 +14,7 @@ Dependencies:
   - PackageIdentifier: Microsoft.VCRedist.2015+.x64
 Installers:
 - Architecture: x64
-  InstallerUrl: https://github.com/tsutsu3/pi-hole-client/releases/download/1.6.0_(59)/PiHoleClient_1.6.0_Windows_x64.exe
-  InstallerSha256: 93F2ADE45E8AF57DF5B9EDF0C24DBC6E7883C907814C396FD96E2EFA3E6505F6
+  InstallerUrl: https://github.com/tsutsu3/pi-hole-client/releases/download/1.7.0_(63)/PiHoleClient_1.7.0_Windows_x64.exe
+  InstallerSha256: D9D56F62C2BFAB0B1C95EC357F5F4EC1EB443797A5FC9D90B94F4DD0158C8E67
 ManifestType: installer
 ManifestVersion: 1.10.0
