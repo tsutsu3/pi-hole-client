@@ -38,10 +38,12 @@ jobs:
       - name: Checkout main branch
         uses: actions/checkout@v5
 
-      - name: Install winget
-        uses: Cyberboss/install-winget@v1
-        with:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      # Only required when using Windows Server 2022.
+      # On Windows Server 2025, winget is preinstalled and this step is not needed.
+      # - name: Install winget
+      #   uses: Cyberboss/install-winget@v1
+      #   with:
+      #     GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Install wingetcreate
         run: |
