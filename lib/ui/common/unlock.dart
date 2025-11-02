@@ -39,10 +39,8 @@ class _UnlockState extends State<Unlock> {
       try {
         final didAuthenticate = await auth.authenticate(
           localizedReason: AppLocalizations.of(context)!.unlockWithFingerprint,
-          options: const AuthenticationOptions(
-            biometricOnly: true,
-            stickyAuth: true,
-          ),
+          biometricOnly: true,
+          persistAcrossBackgrounding: true,
         );
         if (didAuthenticate == true && mounted) {
           AppLock.of(context)!.didUnlock();

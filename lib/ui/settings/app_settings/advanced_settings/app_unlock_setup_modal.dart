@@ -79,10 +79,8 @@ class _AppUnlockSetupModalState extends State<AppUnlockSetupModal> {
           try {
             final didAuthenticate = await auth.authenticate(
               localizedReason: 'Unlock the app',
-              options: const AuthenticationOptions(
-                biometricOnly: true,
-                stickyAuth: true,
-              ),
+              biometricOnly: true,
+              persistAcrossBackgrounding: true,
             );
             if (didAuthenticate == true) {
               final result = await appConfigProvider.setUseBiometrics(true);
