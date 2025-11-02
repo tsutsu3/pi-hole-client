@@ -48,8 +48,7 @@ class Log {
     device: data[3],
     status: data[4],
     replyType: data[6] != null ? replyTypes[int.parse(data[6])] : null,
-    replyTime:
-        double.parse(data[7]) / 10 / 1000, // Convert to milliseconds > seconds
+    replyTime: double.parse(data[7]) / 10000, // Convert from 0.1ms to seconds
     answeredBy: data[4] == '2'
         ? data.length >= 10
               ? data[10]
