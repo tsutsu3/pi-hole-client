@@ -48,7 +48,8 @@ class Log {
     device: data[3],
     status: data[4],
     replyType: data[6] != null ? replyTypes[int.parse(data[6])] : null,
-    replyTime: BigInt.parse(data[7]),
+    replyTime:
+        double.parse(data[7]) / 10 / 1000, // Convert to milliseconds > seconds
     answeredBy: data[4] == '2'
         ? data.length >= 10
               ? data[10]
@@ -71,7 +72,7 @@ class Log {
           .index
           .toString(), // TODO: Use query.status
       replyType: query.reply.type,
-      replyTime: BigInt.from(query.reply.time * 1000 * 10),
+      replyTime: query.reply.time,
       answeredBy: query.upstream,
     );
   }
@@ -83,7 +84,7 @@ class Log {
   final String device;
   final String? status;
   final String? replyType;
-  final BigInt replyTime;
+  final double replyTime; // seconds
   final String? answeredBy;
 
   static const List<String> replyTypes = [

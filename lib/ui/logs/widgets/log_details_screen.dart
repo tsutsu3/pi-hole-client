@@ -7,6 +7,7 @@ import 'package:pi_hole_client/ui/core/ui/components/custom_list_tile.dart';
 import 'package:pi_hole_client/ui/core/viewmodel/filters_provider.dart';
 import 'package:pi_hole_client/ui/logs/widgets/log_status.dart';
 import 'package:pi_hole_client/utils/format.dart';
+import 'package:pi_hole_client/utils/math.dart';
 import 'package:pi_hole_client/utils/open_url.dart';
 import 'package:provider/provider.dart';
 
@@ -129,7 +130,7 @@ class LogDetailsScreen extends StatelessWidget {
               leadingIcon: Icons.system_update_alt_outlined,
               label: AppLocalizations.of(context)!.reply,
               description:
-                  '${log.replyType} (${log.replyTime / BigInt.from(10)} ms)',
+                  '${log.replyType} (${prettyReplyTimeWithUnit(log.replyTime)})',
             ),
           ],
         ),
