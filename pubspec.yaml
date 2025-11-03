@@ -58,7 +58,7 @@ dependencies:
   flutter_app_lock: ^4.3.0
   sqlite3_flutter_libs: ^0.5.40
   sqflite_common_ffi: ^2.2.3
-  sentry_flutter: ^9.7.0
+  sentry_flutter: ^9.8.0
   flutter_dotenv: ^6.0.0
   contextmenu: ^3.0.0
   window_size:
