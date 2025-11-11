@@ -56,10 +56,16 @@ class _AddDomainModalState extends State<AddDomainModal> {
 
   void validateDomain(String? value) {
     if (value != null && value != '') {
-      final subrouteRegexp = RegExp(
-        r'^([a-z0-9]+(?:[._-][a-z0-9]+)*)([a-z0-9]+(?:[.-][a-z0-9]+)*\.[a-z]{2,})$',
+      // Matches "domain-like" strings such as:
+      // - Single labels: example, local, com, jp
+      // - With dots: example.com, sub.domain.co.jp
+      // - With leading dot: .example.com, .co.jp
+      // Uses only letters, digits, '.' and '-' (case-insensitive).
+      final domainLikeRegexp = RegExp(
+        r'^\.?\-?[a-z0-9]+([.-][a-z0-9]+)*$',
+        caseSensitive: false,
       );
-      if (subrouteRegexp.hasMatch(value) == true) {
+      if (domainLikeRegexp.hasMatch(value)) {
         setState(() {
           domainError = null;
         });

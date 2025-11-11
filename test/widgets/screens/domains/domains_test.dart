@@ -213,6 +213,76 @@ void main() async {
       expect(find.byType(DomainLists), findsOneWidget);
     });
 
+    testWidgets('should add a top TLD domain', (WidgetTester tester) async {
+      tester.view.physicalSize = const Size(1080, 2400);
+      tester.view.devicePixelRatio = 2.0;
+
+      addTearDown(() {
+        tester.view.resetPhysicalSize();
+        tester.view.resetDevicePixelRatio();
+      });
+
+      await tester.pumpWidget(testSetup.buildTestWidget(const DomainLists()));
+
+      // Show whiltelist domains screen
+      expect(find.byType(DomainLists), findsOneWidget);
+      await tester.pumpAndSettle();
+      expect(find.text('Domains'), findsOneWidget);
+
+      // Tap add button
+      await tester.tap(find.byIcon(Icons.add));
+      await tester.pumpAndSettle();
+      expect(find.text('Add Domain'), findsOneWidget);
+      await tester.enterText(find.byType(TextField), 'com');
+      await tester.pumpAndSettle();
+      // toggle Switch
+      await tester.tap(find.byType(Switch));
+      await tester.pumpAndSettle();
+      expect(find.text('Invalid domain'), findsNothing);
+      await tester.tap(find.text('Add'));
+      await tester.pumpAndSettle();
+
+      // Show whiltelist domains screen
+      expect(find.text('Domain added successfully'), findsWidgets);
+      expect(find.byType(DomainLists), findsOneWidget);
+    });
+
+    testWidgets('should add a top TLD domain with leading dot', (
+      WidgetTester tester,
+    ) async {
+      tester.view.physicalSize = const Size(1080, 2400);
+      tester.view.devicePixelRatio = 2.0;
+
+      addTearDown(() {
+        tester.view.resetPhysicalSize();
+        tester.view.resetDevicePixelRatio();
+      });
+
+      await tester.pumpWidget(testSetup.buildTestWidget(const DomainLists()));
+
+      // Show whiltelist domains screen
+      expect(find.byType(DomainLists), findsOneWidget);
+      await tester.pumpAndSettle();
+      expect(find.text('Domains'), findsOneWidget);
+
+      // Tap add button
+      await tester.tap(find.byIcon(Icons.add));
+      await tester.pumpAndSettle();
+      expect(find.text('Add Domain'), findsOneWidget);
+      await tester.enterText(find.byType(TextField), '.com');
+      await tester.pumpAndSettle();
+      // toggle Switch
+      await tester.tap(find.byType(Switch));
+      await tester.pumpAndSettle();
+      expect(find.text('Invalid domain'), findsNothing);
+      await tester.tap(find.text('Add'));
+      await tester.pumpAndSettle();
+
+      // Show whiltelist domains screen
+      expect(find.text('Domain added successfully'), findsWidgets);
+      expect(find.byType(DomainLists), findsOneWidget);
+    });
+
     testWidgets('should show error loading domains list', (
       WidgetTester tester,
     ) async {
