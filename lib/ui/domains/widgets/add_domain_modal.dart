@@ -62,7 +62,7 @@ class _AddDomainModalState extends State<AddDomainModal> {
       // - With leading dot: .example.com, .co.jp
       // Uses only letters, digits, '.' and '-' (case-insensitive).
       final domainLikeRegexp = RegExp(
-        r'^\.?-?[a-z0-9][a-z0-9.-]+$',
+        r'^\.?\-?[a-z0-9]+([.-][a-z0-9]+)*$',
         caseSensitive: false,
       );
       if (domainLikeRegexp.hasMatch(value)) {
