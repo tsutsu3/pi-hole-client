@@ -247,7 +247,7 @@ void main() async {
       expect(find.byType(DomainLists), findsOneWidget);
     });
 
-    testWidgets('should add a top TLD domain with comma', (
+    testWidgets('should add a top TLD domain with leading dot', (
       WidgetTester tester,
     ) async {
       tester.view.physicalSize = const Size(1080, 2400);
