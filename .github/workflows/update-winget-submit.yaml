@@ -14,7 +14,7 @@ jobs:
       VERSION_NUMBER: ${{ steps.extract_version.outputs.VERSION_NUMBER }}
     steps:
       - name: Checkout code
-        uses: actions/checkout@v5
+        uses: actions/checkout@v6
 
       - name: Extract version from pubspec.yaml
         id: extract_version
@@ -36,7 +36,7 @@ jobs:
     if: (github.event.pull_request.merged == true && startsWith(github.event.pull_request.head.ref, 'winget/update-v')) || github.event_name == 'workflow_dispatch'
     steps:
       - name: Checkout main branch
-        uses: actions/checkout@v5
+        uses: actions/checkout@v6
 
       # Only required when using Windows Server 2022.
       # On Windows Server 2025, winget is preinstalled and this step is not needed.

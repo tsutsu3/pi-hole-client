@@ -17,7 +17,7 @@ jobs:
       VERSION_NUMBER: ${{ steps.extract_version.outputs.VERSION_NUMBER }}
     steps:
       - name: Checkout code
-        uses: actions/checkout@v5
+        uses: actions/checkout@v6
 
       - name: Extract version from pubspec.yaml
         id: extract_version
@@ -43,7 +43,7 @@ jobs:
       VERSION_NUMBER: ${{ needs.get-version.outputs.VERSION_NUMBER }}
     steps:
       - name: Checkout code
-        uses: actions/checkout@v5
+        uses: actions/checkout@v6
 
       - name: Decode android/app/keystore.jks
         run: echo "${{ secrets.KEYSTORE_JKS }}" | base64 --decode > android/app/keystore.jks
@@ -105,7 +105,7 @@ jobs:
       VERSION_NUMBER: ${{ needs.get-version.outputs.VERSION_NUMBER }}
     steps:
       - name: Checkout code
-        uses: actions/checkout@v5
+        uses: actions/checkout@v6
 
       - name: Download Android artifacts
         uses: actions/download-artifact@v6
@@ -134,7 +134,7 @@ jobs:
     needs: [test-build-google-play]
     steps:
       - name: Checkout code
-        uses: actions/checkout@v5
+        uses: actions/checkout@v6
         with:
           fetch-depth: 0
 

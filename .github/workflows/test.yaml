@@ -18,7 +18,7 @@ jobs:
 
     steps:
     - name: Checkout code
-      uses: actions/checkout@v5
+      uses: actions/checkout@v6
 
     - name: Install system dependencies
       run: |
@@ -59,7 +59,7 @@ jobs:
 
   #   steps:
   #   - name: Checkout code
-  #     uses: actions/checkout@v5
+  #     uses: actions/checkout@v6
 
   #   - name: Setup Flutter (use cache)
   #     uses: subosito/flutter-action@v2
@@ -129,7 +129,7 @@ jobs:
 
     steps:
     - name: Checkout code
-      uses: actions/checkout@v5
+      uses: actions/checkout@v6
 
     - name: Download unit test coverage artifact
       uses: actions/download-artifact@v6
@@ -157,7 +157,7 @@ jobs:
     if: always()
 
     steps:
-      - uses: actions/checkout@v5
+      - uses: actions/checkout@v6
         with:
           fetch-depth: 0  # Shallow clones should be disabled for a better relevancy of analysis
 
