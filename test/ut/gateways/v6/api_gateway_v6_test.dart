@@ -126,6 +126,80 @@ class SecretManagerMock implements SecureDataRepository {
   }
 }
 
+class SecretManagerMock2 implements SecureDataRepository {
+  SecretManagerMock2(this._sid, this._password);
+  String? _sid;
+  String? _password;
+
+  @override
+  Result<String> get sid {
+    if (_sid == null) {
+      return Failure(Exception('SID not found'));
+    }
+    return Success(_sid!);
+  }
+
+  @override
+  Future<Result<String>> get password async {
+    try {
+      return Success(_password!);
+    } catch (e) {
+      return Failure(Exception('Failed to get password: $e'));
+    }
+  }
+
+  @override
+  Future<Result<String>> get token async {
+    try {
+      return Success(_sid!);
+    } catch (e) {
+      return Failure(Exception('Failed to get token: $e'));
+    }
+  }
+
+  @override
+  Future<Result<void>> saveSid(String sid) async {
+    _sid = sid;
+    return Success.unit();
+  }
+
+  @override
+  Future<Result<String>> loadSid() async {
+    _sid = null;
+    return Failure(Exception('SID not found'));
+  }
+
+  @override
+  Future<Result<void>> deleteSid() async {
+    _sid = null;
+    return Success.unit();
+  }
+
+  @override
+  Future<Result<void>> savePassword(String password) async {
+    _password = password;
+    return Success.unit();
+  }
+
+  @override
+  Future<Result<void>> saveToken(String token) async {
+    _sid = token;
+    return Success.unit();
+  }
+
+  @override
+  Future<Result<void>> deletePassword() async {
+    _password = null;
+    return Success.unit();
+  }
+
+  @override
+  Future<Result<void>> deleteToken() async {
+    _sid = null;
+    return Success.unit();
+  }
+}
+
 @GenerateMocks([http.Client])
 void main() async {
   TestWidgetsFlutterBinding.ensureInitialized();
@@ -557,6 +631,35 @@ void main() async {
 
       expect(response.result, APiResponseType.success);
       expect(response.sid, sessinId);
+      expect(response.status, 'enabled');
+      expect(response.log, isNull);
+    });
+
+    test('Return success without password', () async {
+      final mockClient = MockClient();
+      final server1 = Server(
+        address: 'http://example.com',
+        alias: 'example',
+        defaultServer: true,
+        apiVersion: SupportedApiVersions.v6,
+        allowSelfSignedCert: true,
+        sm: SecretManagerMock2(null, null),
+      );
+      final apiGateway = ApiGatewayV6(server1, client: mockClient);
+
+      when(
+        mockClient.get(Uri.parse(urls[1]), headers: anyNamed('headers')),
+      ).thenAnswer((_) async {
+        return http.Response(
+          jsonEncode({'blocking': 'enabled', 'timer': null, 'took': 0.003}),
+          200,
+        );
+      });
+
+      final response = await apiGateway.loginQuery();
+
+      expect(response.result, APiResponseType.success);
+      expect(response.sid, '');
       expect(response.status, 'enabled');
       expect(response.log, isNull);
     });
