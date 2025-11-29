@@ -26,4 +26,5 @@
   "eslint.options": {
       "configFile": "website/eslint.config.mjs"
     },
+    "java.configuration.updateBuildConfiguration": "interactive",
 }
