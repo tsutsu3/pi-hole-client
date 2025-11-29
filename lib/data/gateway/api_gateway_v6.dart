@@ -274,14 +274,30 @@ class ApiGatewayV6 implements ApiGateway {
         maxRetries: 0,
       );
       if (enableOrDisable.statusCode == 200) {
-        logger.i('Reusing session ID login');
         final enableOrDisableParsed = Blocking.fromJson(
           jsonDecode(enableOrDisable.body),
         );
+
+        // If the server allows unauthenticated access (no password set), we may
+        // get a 200 response without ever having a SID. In that case, persist an
+        // empty SID so downstream callers don't fail trying to read it.
+        var cachedSid = _server.sm.sid.getOrNull();
+        if (cachedSid == null) {
+          await _server.sm.saveSid('');
+          cachedSid = '';
+          logger.i('Login not required (no password configured)');
+        } else {
+          if (cachedSid == '') {
+            logger.i('Reusing empty session ID login (no password configured)');
+          } else {
+            logger.i('Reusing session ID login');
+          }
+        }
+
         return LoginQueryResponse(
           result: APiResponseType.success,
           status: enableOrDisableParsed.blocking,
-          sid: _server.sm.sid.getOrThrow(),
+          sid: cachedSid,
         );
       }
 
