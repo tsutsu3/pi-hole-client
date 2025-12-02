@@ -39,26 +39,26 @@ dependencies:
   cupertino_icons: ^1.0.2
   provider: ^6.1.5
   sqflite: ^2.2.5
-  http: ^1.5.0
+  http: ^1.6.0
   expandable: ^5.0.1
   package_info_plus: ^9.0.0
   flutter_phoenix: ^1.0.0
   intl: ^0.20.2
   html: ^0.15.6
   pie_chart: ^5.3.2
-  flutter_svg: ^2.2.0
+  flutter_svg: ^2.2.3
   fl_chart: ^1.1.1
-  animations: ^2.1.0
+  animations: ^2.1.1
   permission_handler: ^12.0.1
   dynamic_color: ^1.6.5
-  device_info_plus: ^12.2.0
+  device_info_plus: ^12.3.0
   vibration: ^3.1.4
   url_launcher: ^6.2.4
   percent_indicator: ^4.2.5
   flutter_app_lock: ^4.3.0
-  sqlite3_flutter_libs: ^0.5.40
-  sqflite_common_ffi: ^2.2.3
-  sentry_flutter: ^9.7.0
+  sqlite3_flutter_libs: ^0.5.41
+  sqflite_common_ffi: ^2.4.0
+  sentry_flutter: ^9.8.0
   flutter_dotenv: ^6.0.0
   contextmenu: ^3.0.0
   window_size:
@@ -75,7 +75,7 @@ dependencies:
   #     url: https://github.com/JGeek00/flutter_split_view
   #     ref: master-alt
   local_auth: ^3.0.0
-  flutter_custom_tabs: ^2.4.0
+  flutter_custom_tabs: ^2.4.1
   mobile_scanner: ^7.1.3
   logger: ^2.6.2
   freezed_annotation: ^3.0.0
@@ -83,9 +83,9 @@ dependencies:
   flutter_secure_storage: ^9.2.4
   collection: ^1.18.0
   window_manager: ^0.5.0
-  skeletonizer: ^2.1.0+1
+  skeletonizer: ^2.1.1
   loading_animation_widget: ^1.3.0
-  command_it: ^8.0.0
+  command_it: ^9.5.0
   result_dart: ^2.1.1
 
 
@@ -96,7 +96,7 @@ dev_dependencies:
     sdk: flutter
   flutter_launcher_icons: ^0.14.3
   flutter_native_splash: ^2.4.7
-  build_runner: ^2.10.1
+  build_runner: ^2.10.4
 
   # The "flutter_lints" package below contains a set of recommended lints to
   # encourage good coding practices. The lint set provided by the package is
@@ -105,8 +105,8 @@ dev_dependencies:
   # rules and activating additional ones.
   flutter_lints: ^6.0.0
   freezed: ^3.1.0
-  json_serializable: ^6.9.5
-  mockito: ^5.4.6
+  json_serializable: ^6.11.2
+  mockito: ^5.6.1
   full_coverage: ^1.0.0
   flutter_svg_test: ^1.0.3
   pub_version_plus: ^3.1.3
