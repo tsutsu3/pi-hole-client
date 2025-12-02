@@ -33,7 +33,7 @@ android {
         // minSdk = flutter.minSdkVersion
         // targetSdk = flutter.targetSdkVersion
         minSdk = 26
-        targetSdk = 35
+        targetSdk = 36
         versionCode = flutter.versionCode
         versionName = flutter.versionName
         ndkVersion = flutter.ndkVersion
@@ -41,6 +41,7 @@ android {
         println("Application ID: $applicationId")
         println("Min SDK: $minSdk")
         println("Target SDK: $targetSdk")
+        println("Compile SDK: $compileSdk")
         println("Version code: $versionCode")
         println("Version name: $versionName")
         println("Ndk version: $ndkVersion")
