@@ -1,6 +1,19 @@
 # Changelog
 
-## [1.7.0](https://github.com/tsutsu3/pi-hole-client/compare/1.6.0_(59)..1.7.0) - 2025-10-25
+## [1.7.1](https://github.com/tsutsu3/pi-hole-client/compare/1.7.0_(63)..1.7.1) - 2025-12-07
+
+### 🐛 Bug Fixes
+
+- *(domains)* Relax domain validation for TLD and wildcard domains ([#441](https://github.com/tsutsu3/pi-hole-client/issues/441)) - ([02c9dfc](https://github.com/tsutsu3/pi-hole-client/commit/02c9dfc5db5e12ecae31bdc0f5ac6ad7523a3b4e))
+- *(log)* Support microsecond-level reply times ([#436](https://github.com/tsutsu3/pi-hole-client/issues/436)) - ([7063b60](https://github.com/tsutsu3/pi-hole-client/commit/7063b604e5c56ecdc594f1aa7322037d03468836))
+- *(login)* Support Pi-hole server login without password ([#448](https://github.com/tsutsu3/pi-hole-client/issues/448)) - ([0aa2239](https://github.com/tsutsu3/pi-hole-client/commit/0aa223971f6205a7bf5af1e1dc44bf4189469303))
+
+### ⚙️ Miscellaneous Tasks
+
+- *(ci)* Disable winget install action for Windows Server 2025 compatibility ([#427](https://github.com/tsutsu3/pi-hole-client/issues/427)) - ([3b52c80](https://github.com/tsutsu3/pi-hole-client/commit/3b52c80aead8f37cfaf53d5321f542b0d0b0fa21))
+- *(winget)* Winget manifest for v1.7.0 ([#428](https://github.com/tsutsu3/pi-hole-client/issues/428)) - ([8877b09](https://github.com/tsutsu3/pi-hole-client/commit/8877b096768fa790087a44da92677099c7e02da3))
+
+## [1.7.0_(63)](https://github.com/tsutsu3/pi-hole-client/compare/1.6.0_(59)..1.7.0_(63)) - 2025-10-25
 
 ### 🚀 Features
 
