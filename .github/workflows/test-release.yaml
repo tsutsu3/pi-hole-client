@@ -86,7 +86,7 @@ jobs:
         run: mv $ANDROID_AAB_RELEASE_PATH/app-release.aab PiHoleClient_${{ env.VERSION_NAME }}_Android.aab
 
       - name: Upload artifact
-        uses: actions/upload-artifact@v5
+        uses: actions/upload-artifact@v6
         with:
           name: android
           path: |
@@ -108,7 +108,7 @@ jobs:
         uses: actions/checkout@v6
 
       - name: Download Android artifacts
-        uses: actions/download-artifact@v6
+        uses: actions/download-artifact@v7
         with:
           name: android
 

@@ -71,7 +71,7 @@ jobs:
         run: Move-Item -Path build/windows/PiHoleClient.exe -Destination build/windows/PiHoleClient_${{ env.VERSION_NAME }}_Windows_x64.exe
 
       - name: Upload artifact
-        uses: actions/upload-artifact@v5
+        uses: actions/upload-artifact@v6
         with:
           name: windows
           path: build/windows/PiHoleClient_${{ env.VERSION_NAME }}_Windows_x64.exe
