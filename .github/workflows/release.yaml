@@ -87,7 +87,7 @@ jobs:
         run: mv $ANDROID_AAB_RELEASE_PATH/app-release.aab PiHoleClient_${{ env.VERSION_NAME }}_Android.aab
 
       - name: Upload artifact
-        uses: actions/upload-artifact@v5
+        uses: actions/upload-artifact@v6
         with:
           name: android
           path: |
@@ -154,7 +154,7 @@ jobs:
             pi-hole-client
 
       - name: Upload artifact
-        uses: actions/upload-artifact@v5
+        uses: actions/upload-artifact@v6
         with:
           name: linux
           path: |
@@ -205,7 +205,7 @@ jobs:
         run: Move-Item -Path build/windows/PiHoleClient.exe -Destination build/windows/PiHoleClient_${{ env.VERSION_NAME }}_Windows_x64.exe
 
       - name: Upload artifact
-        uses: actions/upload-artifact@v5
+        uses: actions/upload-artifact@v6
         with:
           name: windows
           path: build/windows/PiHoleClient_${{ env.VERSION_NAME }}_Windows_x64.exe
@@ -225,19 +225,19 @@ jobs:
         run: mkdir releases
 
       - name: Download Android artifacts
-        uses: actions/download-artifact@v6
+        uses: actions/download-artifact@v7
         with:
           name: android
           path: releases/
 
       - name: Download Linux artifacts
-        uses: actions/download-artifact@v6
+        uses: actions/download-artifact@v7
         with:
           name: linux
           path: releases/
 
       - name: Download Windows artifacts
-        uses: actions/download-artifact@v6
+        uses: actions/download-artifact@v7
         with:
           name: windows
           path: releases/
@@ -274,7 +274,7 @@ jobs:
         uses: actions/checkout@v6
 
       - name: Download Android artifacts
-        uses: actions/download-artifact@v6
+        uses: actions/download-artifact@v7
         with:
           name: android
 
