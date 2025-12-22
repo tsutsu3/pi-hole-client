@@ -52,14 +52,14 @@ dependencies:
   permission_handler: ^12.0.1
   dynamic_color: ^1.6.5
   device_info_plus: ^12.2.0
-  vibration: ^3.1.4
+  vibration: ^3.1.5
   url_launcher: ^6.2.4
   percent_indicator: ^4.2.5
   flutter_app_lock: ^4.3.0
-  sqlite3_flutter_libs: ^0.5.40
-  sqlite3: ^2.9.4 # Versions above 3 cause a "Couldn't resolve native function 'sqlite3_initialize'" error on Windows.
-  sqflite_common_ffi: ^2.2.3
-  sentry_flutter: ^9.7.0
+  sqlite3_flutter_libs: ^0.5.41
+  sqlite3: ^3.1.1 # Versions above 3 cause a "Couldn't resolve native function 'sqlite3_initialize'" error on Windows.
+  sqflite_common_ffi: ^2.4.0+1
+  sentry_flutter: ^9.9.1
   flutter_dotenv: ^6.0.0
   contextmenu: ^3.0.0
   window_size:
@@ -77,16 +77,16 @@ dependencies:
   #     ref: master-alt
   local_auth: ^3.0.0
   flutter_custom_tabs: ^2.4.0
-  mobile_scanner: ^7.1.3
+  mobile_scanner: ^7.1.4
   logger: ^2.6.2
   freezed_annotation: ^3.0.0
   json_annotation: ^4.9.0
-  flutter_secure_storage: ^9.2.4
+  flutter_secure_storage: ^10.0.0
   collection: ^1.18.0
   window_manager: ^0.5.0
-  skeletonizer: ^2.1.0+1
+  skeletonizer: ^2.1.2
   loading_animation_widget: ^1.3.0
-  command_it: ^8.0.0
+  command_it: ^9.5.0
   result_dart: ^2.1.1
 
 
