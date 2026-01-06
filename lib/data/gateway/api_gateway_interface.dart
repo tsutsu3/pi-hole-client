@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:pi_hole_client/data/model/v6/config/config.dart'
     show ConfigData;
+import 'package:pi_hole_client/domain/models_old/clients.dart';
 import 'package:pi_hole_client/domain/models_old/domain.dart';
 import 'package:pi_hole_client/domain/models_old/gateways.dart';
 import 'package:pi_hole_client/domain/models_old/groups.dart';
@@ -210,7 +211,25 @@ abstract interface class ApiGateway {
   Future<GroupsResponse> createGroup({required GroupRequest body});
 
   /// Updates an existing group on the Pi-hole server.
-  Future<GroupsResponse> updateGroup({required GroupRequest body});
+  Future<GroupsResponse> updateGroup({
+    required String name,
+    required GroupRequest body,
+  });
+
+  /// Fetches client information from the Pi-hole server.
+  Future<ClientsResponse> getClients({String? client});
+
+  /// Removes a client from the Pi-hole server.
+  Future<RemoveClientResponse> removeClient({required String client});
+
+  /// Creates a new client on the Pi-hole server.
+  Future<ClientsResponse> createClient({required ClientRequest body});
+
+  /// Updates an existing client.
+  Future<ClientsResponse> updateClient({
+    required String client,
+    required ClientRequest body,
+  });
 
   /// Get Pi-hole diagnosis messages
   Future<MessagesResponse> getMessages();

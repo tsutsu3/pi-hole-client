@@ -1989,4 +1989,140 @@ class AppLocalizationsDe extends AppLocalizations {
   @override
   String get writeEmailDetails =>
       'Die Email sollte im Optimalfall folgende Infos enthalten: Pi-hole und Web Interface Version, wie kann der Fehler reproduziert werden, Screenshots...\n\nFür alle Informationen sind wir sehr dankbar.';
+
+  @override
+  String get groupsAndClients => 'Gruppen und Clients';
+
+  @override
+  String get groupsAndClientsDescription =>
+      'Gruppen und Client-Zuweisungen verwalten';
+
+  @override
+  String get groupClientSearch => 'Gruppen oder Clients suchen...';
+
+  @override
+  String get groupAdd => 'Gruppe hinzufügen';
+
+  @override
+  String get groupAdding => 'Gruppe wird hinzugefügt...';
+
+  @override
+  String get groupAdded => 'Gruppe erfolgreich hinzugefügt';
+
+  @override
+  String get groupAddFailed => 'Gruppe konnte nicht hinzugefügt werden';
+
+  @override
+  String get groupAlreadyAdded => 'Gruppe bereits hinzugefügt';
+
+  @override
+  String get groupRemoveFailed => 'Gruppe konnte nicht entfernt werden';
+
+  @override
+  String get groupRemoved => 'Gruppe erfolgreich entfernt';
+
+  @override
+  String get groupNotExists => 'Gruppe existiert nicht';
+
+  @override
+  String get groupUpdateFailed => 'Gruppe konnte nicht aktualisiert werden';
+
+  @override
+  String get groupUpdated => 'Gruppe erfolgreich aktualisiert';
+
+  @override
+  String get groupUpdating => 'Gruppe wird aktualisiert...';
+
+  @override
+  String get groupDelete => 'Gruppe löschen';
+
+  @override
+  String get groupDeleteMessage => 'Möchten Sie diese Gruppe wirklich löschen?';
+
+  @override
+  String get groupDetails => 'Gruppendetails';
+
+  @override
+  String get groupSettings => 'Gruppeneinstellungen';
+
+  @override
+  String get groupInfo => 'Gruppeninfo';
+
+  @override
+  String get groupName => 'Gruppenname';
+
+  @override
+  String get groupEdit => 'Gruppe bearbeiten';
+
+  @override
+  String get groupsNone => 'Keine Gruppen vorhanden.';
+
+  @override
+  String get groupsNotLoaded => 'Gruppenliste konnte nicht geladen werden';
+
+  @override
+  String get groupsSelectLeftColumn =>
+      'Wählen Sie eine Gruppe aus, um Details zu sehen.';
+
+  @override
+  String get clientAdd => 'Client hinzufügen';
+
+  @override
+  String get clientAdding => 'Client wird hinzugefügt...';
+
+  @override
+  String get clientAdded => 'Client erfolgreich hinzugefügt';
+
+  @override
+  String get clientAddFailed => 'Client konnte nicht hinzugefügt werden';
+
+  @override
+  String get clientAlreadyAdded => 'Client bereits hinzugefügt';
+
+  @override
+  String get clientRemoveFailed => 'Client konnte nicht entfernt werden';
+
+  @override
+  String get clientRemoved => 'Client erfolgreich entfernt';
+
+  @override
+  String get clientNotExists => 'Client existiert nicht';
+
+  @override
+  String get clientUpdateFailed => 'Client konnte nicht aktualisiert werden';
+
+  @override
+  String get clientUpdated => 'Client erfolgreich aktualisiert';
+
+  @override
+  String get clientUpdating => 'Client wird aktualisiert...';
+
+  @override
+  String get clientDelete => 'Client löschen';
+
+  @override
+  String get clientDeleteMessage =>
+      'Möchten Sie diesen Client wirklich löschen?';
+
+  @override
+  String get clientDetails => 'Client-Details';
+
+  @override
+  String get clientSettings => 'Client-Einstellungen';
+
+  @override
+  String get clientInfo => 'Client-Info';
+
+  @override
+  String get clientAddress => 'Client-Adresse';
+
+  @override
+  String get clientsNone => 'Keine Clients vorhanden.';
+
+  @override
+  String get clientsNotLoaded => 'Clientliste konnte nicht geladen werden';
+
+  @override
+  String get clientsSelectLeftColumn =>
+      'Wählen Sie einen Client aus, um Details zu sehen.';
 }

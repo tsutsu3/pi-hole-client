@@ -1953,4 +1953,139 @@ class AppLocalizationsEn extends AppLocalizations {
   @override
   String get writeEmailDetails =>
       'Include on the body of the email all the possible details: Pi-hole and web interface version, how to reproduce the issue, screenshots...\n\nAll provided information will be very welcome.';
+
+  @override
+  String get groupsAndClients => 'Groups & Clients';
+
+  @override
+  String get groupsAndClientsDescription =>
+      'Manage groups and client assignments';
+
+  @override
+  String get groupClientSearch => 'Search groups or clients...';
+
+  @override
+  String get groupAdd => 'Add Group';
+
+  @override
+  String get groupAdding => 'Adding group...';
+
+  @override
+  String get groupAdded => 'Group added successfully';
+
+  @override
+  String get groupAddFailed => 'Group couldn\'t be added';
+
+  @override
+  String get groupAlreadyAdded => 'Group already added';
+
+  @override
+  String get groupRemoveFailed => 'Could not remove group';
+
+  @override
+  String get groupRemoved => 'Group removed successfully';
+
+  @override
+  String get groupNotExists => 'Group does not exist';
+
+  @override
+  String get groupUpdateFailed => 'Failed to update the group';
+
+  @override
+  String get groupUpdated => 'Group updated successfully';
+
+  @override
+  String get groupUpdating => 'Updating group...';
+
+  @override
+  String get groupDelete => 'Delete Group';
+
+  @override
+  String get groupDeleteMessage =>
+      'Are you sure you want to delete this group?';
+
+  @override
+  String get groupDetails => 'Group details';
+
+  @override
+  String get groupSettings => 'Group settings';
+
+  @override
+  String get groupInfo => 'Group info';
+
+  @override
+  String get groupName => 'Group name';
+
+  @override
+  String get groupEdit => 'Edit group';
+
+  @override
+  String get groupsNone => 'There are no groups to show here.';
+
+  @override
+  String get groupsNotLoaded => 'Groups list couldn\'t be loaded';
+
+  @override
+  String get groupsSelectLeftColumn => 'Select a group to view its details.';
+
+  @override
+  String get clientAdd => 'Add Client';
+
+  @override
+  String get clientAdding => 'Adding client...';
+
+  @override
+  String get clientAdded => 'Client added successfully';
+
+  @override
+  String get clientAddFailed => 'Client couldn\'t be added';
+
+  @override
+  String get clientAlreadyAdded => 'Client already added';
+
+  @override
+  String get clientRemoveFailed => 'Could not remove client';
+
+  @override
+  String get clientRemoved => 'Client removed successfully';
+
+  @override
+  String get clientNotExists => 'Client does not exist';
+
+  @override
+  String get clientUpdateFailed => 'Failed to update the client';
+
+  @override
+  String get clientUpdated => 'Client updated successfully';
+
+  @override
+  String get clientUpdating => 'Updating client...';
+
+  @override
+  String get clientDelete => 'Delete Client';
+
+  @override
+  String get clientDeleteMessage =>
+      'Are you sure you want to delete this client?';
+
+  @override
+  String get clientDetails => 'Client details';
+
+  @override
+  String get clientSettings => 'Client settings';
+
+  @override
+  String get clientInfo => 'Client info';
+
+  @override
+  String get clientAddress => 'Client address';
+
+  @override
+  String get clientsNone => 'There are no clients to show here.';
+
+  @override
+  String get clientsNotLoaded => 'Clients list couldn\'t be loaded';
+
+  @override
+  String get clientsSelectLeftColumn => 'Select a client to view its details.';
 }

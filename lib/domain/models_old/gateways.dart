@@ -2,6 +2,7 @@ import 'package:pi_hole_client/data/model/v6/domains/domains.dart' as v6;
 import 'package:pi_hole_client/domain/model/local_dns/local_dns.dart';
 import 'package:pi_hole_client/domain/models_old/app_log.dart';
 import 'package:pi_hole_client/domain/models_old/client.dart';
+import 'package:pi_hole_client/domain/models_old/clients.dart';
 import 'package:pi_hole_client/domain/models_old/config.dart';
 import 'package:pi_hole_client/domain/models_old/devices.dart';
 import 'package:pi_hole_client/domain/models_old/dhcp.dart';
@@ -271,6 +272,14 @@ class GroupsResponse extends BaseInfoResponse<GroupsInfo> {
 
 class RemoveGroupResponse extends BaseInfoResponse<void> {
   RemoveGroupResponse({required super.result, super.message});
+}
+
+class ClientsResponse extends BaseInfoResponse<ClientsInfo> {
+  ClientsResponse({required super.result, super.message, super.data});
+}
+
+class RemoveClientResponse extends BaseInfoResponse<void> {
+  RemoveClientResponse({required super.result, super.message});
 }
 
 class MessagesResponse extends BaseInfoResponse<MessagesInfo> {

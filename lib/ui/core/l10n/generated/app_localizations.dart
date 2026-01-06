@@ -3817,6 +3817,270 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Include on the body of the email all the possible details: Pi-hole and web interface version, how to reproduce the issue, screenshots...\n\nAll provided information will be very welcome.'**
   String get writeEmailDetails;
+
+  /// No description provided for @groupsAndClients.
+  ///
+  /// In en, this message translates to:
+  /// **'Groups & Clients'**
+  String get groupsAndClients;
+
+  /// No description provided for @groupsAndClientsDescription.
+  ///
+  /// In en, this message translates to:
+  /// **'Manage groups and client assignments'**
+  String get groupsAndClientsDescription;
+
+  /// No description provided for @groupClientSearch.
+  ///
+  /// In en, this message translates to:
+  /// **'Search groups or clients...'**
+  String get groupClientSearch;
+
+  /// No description provided for @groupAdd.
+  ///
+  /// In en, this message translates to:
+  /// **'Add Group'**
+  String get groupAdd;
+
+  /// No description provided for @groupAdding.
+  ///
+  /// In en, this message translates to:
+  /// **'Adding group...'**
+  String get groupAdding;
+
+  /// No description provided for @groupAdded.
+  ///
+  /// In en, this message translates to:
+  /// **'Group added successfully'**
+  String get groupAdded;
+
+  /// No description provided for @groupAddFailed.
+  ///
+  /// In en, this message translates to:
+  /// **'Group couldn\'t be added'**
+  String get groupAddFailed;
+
+  /// No description provided for @groupAlreadyAdded.
+  ///
+  /// In en, this message translates to:
+  /// **'Group already added'**
+  String get groupAlreadyAdded;
+
+  /// No description provided for @groupRemoveFailed.
+  ///
+  /// In en, this message translates to:
+  /// **'Could not remove group'**
+  String get groupRemoveFailed;
+
+  /// No description provided for @groupRemoved.
+  ///
+  /// In en, this message translates to:
+  /// **'Group removed successfully'**
+  String get groupRemoved;
+
+  /// No description provided for @groupNotExists.
+  ///
+  /// In en, this message translates to:
+  /// **'Group does not exist'**
+  String get groupNotExists;
+
+  /// No description provided for @groupUpdateFailed.
+  ///
+  /// In en, this message translates to:
+  /// **'Failed to update the group'**
+  String get groupUpdateFailed;
+
+  /// No description provided for @groupUpdated.
+  ///
+  /// In en, this message translates to:
+  /// **'Group updated successfully'**
+  String get groupUpdated;
+
+  /// No description provided for @groupUpdating.
+  ///
+  /// In en, this message translates to:
+  /// **'Updating group...'**
+  String get groupUpdating;
+
+  /// No description provided for @groupDelete.
+  ///
+  /// In en, this message translates to:
+  /// **'Delete Group'**
+  String get groupDelete;
+
+  /// No description provided for @groupDeleteMessage.
+  ///
+  /// In en, this message translates to:
+  /// **'Are you sure you want to delete this group?'**
+  String get groupDeleteMessage;
+
+  /// No description provided for @groupDetails.
+  ///
+  /// In en, this message translates to:
+  /// **'Group details'**
+  String get groupDetails;
+
+  /// No description provided for @groupSettings.
+  ///
+  /// In en, this message translates to:
+  /// **'Group settings'**
+  String get groupSettings;
+
+  /// No description provided for @groupInfo.
+  ///
+  /// In en, this message translates to:
+  /// **'Group info'**
+  String get groupInfo;
+
+  /// No description provided for @groupName.
+  ///
+  /// In en, this message translates to:
+  /// **'Group name'**
+  String get groupName;
+
+  /// No description provided for @groupEdit.
+  ///
+  /// In en, this message translates to:
+  /// **'Edit group'**
+  String get groupEdit;
+
+  /// No description provided for @groupsNone.
+  ///
+  /// In en, this message translates to:
+  /// **'There are no groups to show here.'**
+  String get groupsNone;
+
+  /// No description provided for @groupsNotLoaded.
+  ///
+  /// In en, this message translates to:
+  /// **'Groups list couldn\'t be loaded'**
+  String get groupsNotLoaded;
+
+  /// No description provided for @groupsSelectLeftColumn.
+  ///
+  /// In en, this message translates to:
+  /// **'Select a group to view its details.'**
+  String get groupsSelectLeftColumn;
+
+  /// No description provided for @clientAdd.
+  ///
+  /// In en, this message translates to:
+  /// **'Add Client'**
+  String get clientAdd;
+
+  /// No description provided for @clientAdding.
+  ///
+  /// In en, this message translates to:
+  /// **'Adding client...'**
+  String get clientAdding;
+
+  /// No description provided for @clientAdded.
+  ///
+  /// In en, this message translates to:
+  /// **'Client added successfully'**
+  String get clientAdded;
+
+  /// No description provided for @clientAddFailed.
+  ///
+  /// In en, this message translates to:
+  /// **'Client couldn\'t be added'**
+  String get clientAddFailed;
+
+  /// No description provided for @clientAlreadyAdded.
+  ///
+  /// In en, this message translates to:
+  /// **'Client already added'**
+  String get clientAlreadyAdded;
+
+  /// No description provided for @clientRemoveFailed.
+  ///
+  /// In en, this message translates to:
+  /// **'Could not remove client'**
+  String get clientRemoveFailed;
+
+  /// No description provided for @clientRemoved.
+  ///
+  /// In en, this message translates to:
+  /// **'Client removed successfully'**
+  String get clientRemoved;
+
+  /// No description provided for @clientNotExists.
+  ///
+  /// In en, this message translates to:
+  /// **'Client does not exist'**
+  String get clientNotExists;
+
+  /// No description provided for @clientUpdateFailed.
+  ///
+  /// In en, this message translates to:
+  /// **'Failed to update the client'**
+  String get clientUpdateFailed;
+
+  /// No description provided for @clientUpdated.
+  ///
+  /// In en, this message translates to:
+  /// **'Client updated successfully'**
+  String get clientUpdated;
+
+  /// No description provided for @clientUpdating.
+  ///
+  /// In en, this message translates to:
+  /// **'Updating client...'**
+  String get clientUpdating;
+
+  /// No description provided for @clientDelete.
+  ///
+  /// In en, this message translates to:
+  /// **'Delete Client'**
+  String get clientDelete;
+
+  /// No description provided for @clientDeleteMessage.
+  ///
+  /// In en, this message translates to:
+  /// **'Are you sure you want to delete this client?'**
+  String get clientDeleteMessage;
+
+  /// No description provided for @clientDetails.
+  ///
+  /// In en, this message translates to:
+  /// **'Client details'**
+  String get clientDetails;
+
+  /// No description provided for @clientSettings.
+  ///
+  /// In en, this message translates to:
+  /// **'Client settings'**
+  String get clientSettings;
+
+  /// No description provided for @clientInfo.
+  ///
+  /// In en, this message translates to:
+  /// **'Client info'**
+  String get clientInfo;
+
+  /// No description provided for @clientAddress.
+  ///
+  /// In en, this message translates to:
+  /// **'Client address'**
+  String get clientAddress;
+
+  /// No description provided for @clientsNone.
+  ///
+  /// In en, this message translates to:
+  /// **'There are no clients to show here.'**
+  String get clientsNone;
+
+  /// No description provided for @clientsNotLoaded.
+  ///
+  /// In en, this message translates to:
+  /// **'Clients list couldn\'t be loaded'**
+  String get clientsNotLoaded;
+
+  /// No description provided for @clientsSelectLeftColumn.
+  ///
+  /// In en, this message translates to:
+  /// **'Select a client to view its details.'**
+  String get clientsSelectLeftColumn;
 }
 
 class _AppLocalizationsDelegate

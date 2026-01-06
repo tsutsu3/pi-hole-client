@@ -1,4 +1,5 @@
 {
+  "@@locale": "ja",
   "about": "概要",
   "aboutThisApp": "サポートとこのアプリについての詳細",
   "accept": "受け入れる",
@@ -561,7 +562,17 @@
   "theme": "テーマ",
   "time": "時間",
   "timeHoursAgo": "{hours, plural, =0{たった今} =1{1時間前} other{{hours}時間前}}",
+  "@timeHoursAgo": {
+    "placeholders": {
+      "hours": {}
+    }
+  },
   "timeHoursIn": "{hours, plural, =0{1時間未満} =1{あと1時間} other{あと{hours}時間}}",
+  "@timeHoursIn": {
+    "placeholders": {
+      "hours": {}
+    }
+  },
   "timestamps": "タイムスタンプ",
   "tlsStatus": "TLSステータス",
   "toTime": "終了時刻",
@@ -619,5 +630,49 @@
   "welcomeToApp": "アプリへようこそ",
   "whitelist": "ホワイトリストに追加",
   "writeEmail": "メールで私に書いてください。",
-  "writeEmailDetails": "メール本文には可能な限り詳細を記載してください：Pi-holeおよびWebインターフェースのバージョン、問題の再現方法、スクリーンショットなど。\n\n提供される情報はすべて歓迎します。"
+  "writeEmailDetails": "メール本文には可能な限り詳細を記載してください：Pi-holeおよびWebインターフェースのバージョン、問題の再現方法、スクリーンショットなど。\n\n提供される情報はすべて歓迎します。",
+  "groupsAndClients": "グループとクライアント",
+  "groupsAndClientsDescription": "グループとクライアントの割り当てを管理",
+  "groupClientSearch": "グループまたはクライアントを検索...",
+  "groupAdd": "グループを追加",
+  "groupAdding": "グループを追加中...",
+  "groupAdded": "グループを追加しました",
+  "groupAddFailed": "グループを追加できませんでした",
+  "groupAlreadyAdded": "グループは既に追加されています",
+  "groupRemoveFailed": "グループを削除できませんでした",
+  "groupRemoved": "グループを削除しました",
+  "groupNotExists": "グループが存在しません",
+  "groupUpdateFailed": "グループを更新できませんでした",
+  "groupUpdated": "グループを更新しました",
+  "groupUpdating": "グループを更新中...",
+  "groupDelete": "グループを削除",
+  "groupDeleteMessage": "このグループを削除しますか？",
+  "groupDetails": "グループの詳細",
+  "groupSettings": "グループ設定",
+  "groupInfo": "グループ情報",
+  "groupName": "グループ名",
+  "groupEdit": "グループを編集",
+  "groupsNone": "表示するグループがありません。",
+  "groupsNotLoaded": "グループ一覧を読み込めませんでした",
+  "groupsSelectLeftColumn": "詳細を表示するグループを選択してください。",
+  "clientAdd": "クライアントを追加",
+  "clientAdding": "クライアントを追加中...",
+  "clientAdded": "クライアントを追加しました",
+  "clientAddFailed": "クライアントを追加できませんでした",
+  "clientAlreadyAdded": "クライアントは既に追加されています",
+  "clientRemoveFailed": "クライアントを削除できませんでした",
+  "clientRemoved": "クライアントを削除しました",
+  "clientNotExists": "クライアントが存在しません",
+  "clientUpdateFailed": "クライアントを更新できませんでした",
+  "clientUpdated": "クライアントを更新しました",
+  "clientUpdating": "クライアントを更新中...",
+  "clientDelete": "クライアントを削除",
+  "clientDeleteMessage": "このクライアントを削除しますか？",
+  "clientDetails": "クライアントの詳細",
+  "clientSettings": "クライアント設定",
+  "clientInfo": "クライアント情報",
+  "clientAddress": "クライアントのアドレス",
+  "clientsNone": "表示するクライアントがありません。",
+  "clientsNotLoaded": "クライアント一覧を読み込めませんでした",
+  "clientsSelectLeftColumn": "詳細を表示するクライアントを選択してください。"
 }

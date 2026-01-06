@@ -16,12 +16,18 @@ class LocalDnsProvider with ChangeNotifier {
   List<LocalDns> _localDns = [];
 
   List<DeviceOption> _deviceOptions = [];
+  Map<String, String> _ipToHostname = {};
+  Map<String, String> _ipToMac = {};
+  Map<String, String> _macToIp = {};
 
   LoadStatus _loadingStatus = LoadStatus.loading;
 
   List<LocalDns> get localDns => List.unmodifiable(_localDns);
 
   List<DeviceOption> get deviceOptions => List.unmodifiable(_deviceOptions);
+  Map<String, String> get ipToHostname => Map.unmodifiable(_ipToHostname);
+  Map<String, String> get ipToMac => Map.unmodifiable(_ipToMac);
+  Map<String, String> get macToIp => Map.unmodifiable(_macToIp);
 
   LoadStatus get loadingStatus {
     return _loadingStatus;
@@ -31,6 +37,9 @@ class LocalDnsProvider with ChangeNotifier {
     serversProvider = provider;
     _localDns = [];
     _deviceOptions = [];
+    _ipToHostname = {};
+    _ipToMac = {};
+    _macToIp = {};
     _loadingStatus = LoadStatus.loading;
   }
 
@@ -68,6 +77,7 @@ class LocalDnsProvider with ChangeNotifier {
         _deviceOptions
           ..clear()
           ..addAll(devicesInfoToOptions(devicesInfo.devices));
+        _buildDeviceMaps(devicesInfo.devices);
         _loadingStatus = LoadStatus.loaded;
       } else {
         _loadingStatus = LoadStatus.error;
@@ -219,5 +229,25 @@ class LocalDnsProvider with ChangeNotifier {
     });
 
     return list;
+  }
+
+  void _buildDeviceMaps(List<DeviceInfo> devices) {
+    final ipToHostname = <String, String>{};
+    final ipToMac = <String, String>{};
+    final macToIp = <String, String>{};
+
+    for (final device in devices) {
+      for (final addr in device.ips) {
+        ipToMac[addr.ip] = device.hwaddr;
+        if ((addr.name ?? '').isNotEmpty) {
+          ipToHostname[addr.ip] = addr.name!;
+        }
+        macToIp.putIfAbsent(device.hwaddr, () => addr.ip);
+      }
+    }
+
+    _ipToHostname = ipToHostname;
+    _ipToMac = ipToMac;
+    _macToIp = macToIp;
   }
 }

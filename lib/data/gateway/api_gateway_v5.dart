@@ -9,6 +9,7 @@ import 'package:pi_hole_client/data/gateway/api_gateway_interface.dart';
 import 'package:pi_hole_client/data/model/v6/config/config.dart'
     show ConfigData;
 import 'package:pi_hole_client/domain/models_old/app_log.dart';
+import 'package:pi_hole_client/domain/models_old/clients.dart';
 import 'package:pi_hole_client/domain/models_old/domain.dart';
 import 'package:pi_hole_client/domain/models_old/gateways.dart';
 import 'package:pi_hole_client/domain/models_old/groups.dart';
@@ -859,9 +860,55 @@ class ApiGatewayV5 implements ApiGateway {
   }
 
   @override
-  Future<GroupsResponse> updateGroup({required GroupRequest body}) async {
+  Future<GroupsResponse> updateGroup({
+    required String name,
+    required GroupRequest body,
+  }) async {
     return Future.value(
       GroupsResponse(
+        result: APiResponseType.notSupported,
+        message: notSupportedMessage,
+      ),
+    );
+  }
+
+  @override
+  Future<ClientsResponse> getClients({String? client}) async {
+    return Future.value(
+      ClientsResponse(
+        result: APiResponseType.notSupported,
+        message: notSupportedMessage,
+      ),
+    );
+  }
+
+  @override
+  Future<RemoveClientResponse> removeClient({required String client}) async {
+    return Future.value(
+      RemoveClientResponse(
+        result: APiResponseType.notSupported,
+        message: notSupportedMessage,
+      ),
+    );
+  }
+
+  @override
+  Future<ClientsResponse> createClient({required ClientRequest body}) async {
+    return Future.value(
+      ClientsResponse(
+        result: APiResponseType.notSupported,
+        message: notSupportedMessage,
+      ),
+    );
+  }
+
+  @override
+  Future<ClientsResponse> updateClient({
+    required String client,
+    required ClientRequest body,
+  }) async {
+    return Future.value(
+      ClientsResponse(
         result: APiResponseType.notSupported,
         message: notSupportedMessage,
       ),
