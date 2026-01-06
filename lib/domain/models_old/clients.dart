@@ -1,3 +1,5 @@
+import 'package:pi_hole_client/data/model/v6/clients/clients.dart';
+
 class ClientRequest {
   ClientRequest({this.client, this.comment, this.groups = const [0]});
 
@@ -34,6 +36,26 @@ class ClientRequest {
 
 class ClientsInfo {
   ClientsInfo({required this.clients});
+
+  factory ClientsInfo.fromV6(Clients clients) {
+    return ClientsInfo(
+      clients: clients.clients.map((client) {
+        return ClientItem(
+          client: client.client,
+          name: client.name,
+          comment: client.comment,
+          groups: client.groups,
+          id: client.id,
+          dateAdded: DateTime.fromMillisecondsSinceEpoch(
+            client.dateAdded * 1000,
+          ),
+          dateModified: DateTime.fromMillisecondsSinceEpoch(
+            client.dateModified * 1000,
+          ),
+        );
+      }).toList(),
+    );
+  }
 
   factory ClientsInfo.fromJson(Map<String, dynamic> json) {
     final clientsJson = json['clients'] as List<dynamic>? ?? [];

@@ -58,6 +58,7 @@ import 'package:pi_hole_client/domain/use_cases/status_update_service.dart';
 import 'package:pi_hole_client/ui/core/l10n/generated/app_localizations.dart';
 import 'package:pi_hole_client/ui/core/themes/theme.dart';
 import 'package:pi_hole_client/ui/core/viewmodel/app_config_provider.dart';
+import 'package:pi_hole_client/ui/core/viewmodel/clients_list_provider.dart';
 import 'package:pi_hole_client/ui/core/viewmodel/domains_list_provider.dart';
 import 'package:pi_hole_client/ui/core/viewmodel/filters_provider.dart';
 import 'package:pi_hole_client/ui/core/viewmodel/gravity_provider.dart';
@@ -1421,6 +1422,7 @@ Future<void> initializeApp() async {
   FiltersProvider,
   StatusProvider,
   DomainsListProvider,
+  ClientsListProvider,
   LocalDnsProvider,
   ApiGatewayV5,
   ApiGatewayV6,
@@ -1436,6 +1438,7 @@ class TestSetupHelper {
     MockFiltersProvider? customFiltersProvider,
     MockStatusProvider? customStatusProvider,
     MockDomainsListProvider? customDomainsListProvider,
+    MockClientsListProvider? customClientsListProvider,
     MockGroupsProvider? customGroupsProvider,
     MockSubscriptionsListProvider? customSubscriptionsListProvider,
     MockGravityUpdateProvider? customGravityUpdateProvider,
@@ -1450,6 +1453,8 @@ class TestSetupHelper {
     mockStatusProvider = customStatusProvider ?? MockStatusProvider();
     mockDomainsListProvider =
         customDomainsListProvider ?? MockDomainsListProvider();
+    mockClientsListProvider =
+        customClientsListProvider ?? MockClientsListProvider();
     mockGroupsProvider = customGroupsProvider ?? MockGroupsProvider();
     mockSubscriptionsListProvider =
         customSubscriptionsListProvider ?? MockSubscriptionsListProvider();
@@ -1469,6 +1474,7 @@ class TestSetupHelper {
   late MockFiltersProvider mockFiltersProvider;
   late MockStatusProvider mockStatusProvider;
   late MockDomainsListProvider mockDomainsListProvider;
+  late MockClientsListProvider mockClientsListProvider;
   late MockGroupsProvider mockGroupsProvider;
   late MockSubscriptionsListProvider mockSubscriptionsListProvider;
   late MockGravityUpdateProvider mockGravityUpdateProvider;
@@ -1485,6 +1491,7 @@ class TestSetupHelper {
     _initFiltersProviderMock(useApiGatewayVersion);
     _initStatusProviderMock(useApiGatewayVersion);
     _initDomainListProviderMock(useApiGatewayVersion);
+    _initClientsListProviderMock(useApiGatewayVersion);
     _initGroupsPtoviderMock(useApiGatewayVersion);
     _initSubscriptionsListProviderMock(useApiGatewayVersion);
     _initLocalDnsProviderMock(useApiGatewayVersion);
@@ -1530,6 +1537,11 @@ class TestSetupHelper {
             ),
             ChangeNotifierProxyProvider<ServersProvider, DomainsListProvider>(
               create: (context) => mockDomainsListProvider,
+              update: (context, serverConfig, servers) =>
+                  servers!..update(serverConfig),
+            ),
+            ChangeNotifierProxyProvider<ServersProvider, ClientsListProvider>(
+              create: (context) => mockClientsListProvider,
               update: (context, serverConfig, servers) =>
                   servers!..update(serverConfig),
             ),
@@ -1612,6 +1624,11 @@ class TestSetupHelper {
         ),
         ChangeNotifierProxyProvider<ServersProvider, DomainsListProvider>(
           create: (context) => mockDomainsListProvider,
+          update: (context, serverConfig, servers) =>
+              servers!..update(serverConfig),
+        ),
+        ChangeNotifierProxyProvider<ServersProvider, ClientsListProvider>(
+          create: (context) => mockClientsListProvider,
           update: (context, serverConfig, servers) =>
               servers!..update(serverConfig),
         ),
@@ -1839,6 +1856,21 @@ class TestSetupHelper {
     ).thenAnswer((_) async => true);
   }
 
+  void _initClientsListProviderMock(String useApiGatewayVersion) {
+    when(mockClientsListProvider.fetchClients()).thenAnswer((_) async {});
+    when(mockClientsListProvider.searchMode).thenReturn(false);
+    when(mockClientsListProvider.searchTerm).thenReturn('');
+    when(mockClientsListProvider.filteredClients).thenReturn([]);
+    when(mockClientsListProvider.clients).thenReturn([]);
+    when(mockClientsListProvider.loadingStatus).thenReturn(LoadStatus.loaded);
+    when(mockClientsListProvider.setLoadingStatus(any)).thenReturn(null);
+    when(mockClientsListProvider.onSearch(any)).thenReturn(null);
+    when(mockClientsListProvider.setSearchMode(any)).thenReturn(null);
+    when(mockClientsListProvider.removeClientFromList(any)).thenReturn(null);
+    when(mockClientsListProvider.updateMacLookup(any)).thenReturn(null);
+    when(mockClientsListProvider.updateGroupLookup(any)).thenReturn(null);
+  }
+
   void _initGroupsPtoviderMock(String useApiGatewayVersion) {
     when(
       mockGroupsProvider.groups,
@@ -1929,6 +1961,13 @@ class TestSetupHelper {
   void _initLocalDnsProviderMock(String useApiGatewayVersion) {
     when(mockLocalDnsProvider.localDns).thenReturn([localDns]);
     when(mockLocalDnsProvider.deviceOptions).thenReturn([deviceOption]);
+    when(mockLocalDnsProvider.ipToMac).thenReturn({
+      deviceOption.ip: deviceOption.hwaddr,
+    });
+    when(mockLocalDnsProvider.ipToHostname).thenReturn({});
+    when(mockLocalDnsProvider.macToIp).thenReturn({
+      deviceOption.hwaddr: deviceOption.ip,
+    });
     when(mockLocalDnsProvider.loadingStatus).thenReturn(LoadStatus.loaded);
 
     when(

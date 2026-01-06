@@ -15,8 +15,9 @@ import 'package:package_info_plus/package_info_plus.dart' as _i10;
 import 'package:pi_hole_client/config/enums.dart' as _i19;
 import 'package:pi_hole_client/data/gateway/api_gateway_interface.dart' as _i17;
 import 'package:pi_hole_client/data/gateway/api_gateway_v6.dart' as _i24;
-import 'package:pi_hole_client/data/model/v6/config/config.dart' as _i28;
+import 'package:pi_hole_client/data/model/v6/config/config.dart' as _i29;
 import 'package:pi_hole_client/domain/models_old/app_log.dart' as _i9;
+import 'package:pi_hole_client/domain/models_old/clients.dart' as _i28;
 import 'package:pi_hole_client/domain/models_old/database.dart' as _i13;
 import 'package:pi_hole_client/domain/models_old/domain.dart' as _i25;
 import 'package:pi_hole_client/domain/models_old/gateways.dart' as _i5;
@@ -197,110 +198,122 @@ class _FakeRemoveGroupResponse_24 extends _i1.SmartFake
     : super(parent, parentInvocation);
 }
 
-class _FakeMessagesResponse_25 extends _i1.SmartFake
+class _FakeClientsResponse_25 extends _i1.SmartFake
+    implements _i5.ClientsResponse {
+  _FakeClientsResponse_25(Object parent, Invocation parentInvocation)
+    : super(parent, parentInvocation);
+}
+
+class _FakeRemoveClientResponse_26 extends _i1.SmartFake
+    implements _i5.RemoveClientResponse {
+  _FakeRemoveClientResponse_26(Object parent, Invocation parentInvocation)
+    : super(parent, parentInvocation);
+}
+
+class _FakeMessagesResponse_27 extends _i1.SmartFake
     implements _i5.MessagesResponse {
-  _FakeMessagesResponse_25(Object parent, Invocation parentInvocation)
+  _FakeMessagesResponse_27(Object parent, Invocation parentInvocation)
     : super(parent, parentInvocation);
 }
 
-class _FakeRemoveMessageResponse_26 extends _i1.SmartFake
+class _FakeRemoveMessageResponse_28 extends _i1.SmartFake
     implements _i5.RemoveMessageResponse {
-  _FakeRemoveMessageResponse_26(Object parent, Invocation parentInvocation)
+  _FakeRemoveMessageResponse_28(Object parent, Invocation parentInvocation)
     : super(parent, parentInvocation);
 }
 
-class _FakeMetricsResponse_27 extends _i1.SmartFake
+class _FakeMetricsResponse_29 extends _i1.SmartFake
     implements _i5.MetricsResponse {
-  _FakeMetricsResponse_27(Object parent, Invocation parentInvocation)
+  _FakeMetricsResponse_29(Object parent, Invocation parentInvocation)
     : super(parent, parentInvocation);
 }
 
-class _FakeGatewayResponse_28 extends _i1.SmartFake
+class _FakeGatewayResponse_30 extends _i1.SmartFake
     implements _i5.GatewayResponse {
-  _FakeGatewayResponse_28(Object parent, Invocation parentInvocation)
+  _FakeGatewayResponse_30(Object parent, Invocation parentInvocation)
     : super(parent, parentInvocation);
 }
 
-class _FakeDevicesResponse_29 extends _i1.SmartFake
+class _FakeDevicesResponse_31 extends _i1.SmartFake
     implements _i5.DevicesResponse {
-  _FakeDevicesResponse_29(Object parent, Invocation parentInvocation)
+  _FakeDevicesResponse_31(Object parent, Invocation parentInvocation)
     : super(parent, parentInvocation);
 }
 
-class _FakeDeleteDeviceResponse_30 extends _i1.SmartFake
+class _FakeDeleteDeviceResponse_32 extends _i1.SmartFake
     implements _i5.DeleteDeviceResponse {
-  _FakeDeleteDeviceResponse_30(Object parent, Invocation parentInvocation)
+  _FakeDeleteDeviceResponse_32(Object parent, Invocation parentInvocation)
     : super(parent, parentInvocation);
 }
 
-class _FakeConfigurationResponse_31 extends _i1.SmartFake
+class _FakeConfigurationResponse_33 extends _i1.SmartFake
     implements _i5.ConfigurationResponse {
-  _FakeConfigurationResponse_31(Object parent, Invocation parentInvocation)
+  _FakeConfigurationResponse_33(Object parent, Invocation parentInvocation)
     : super(parent, parentInvocation);
 }
 
-class _FakeDeleteConfigResponse_32 extends _i1.SmartFake
+class _FakeDeleteConfigResponse_34 extends _i1.SmartFake
     implements _i5.DeleteConfigResponse {
-  _FakeDeleteConfigResponse_32(Object parent, Invocation parentInvocation)
+  _FakeDeleteConfigResponse_34(Object parent, Invocation parentInvocation)
     : super(parent, parentInvocation);
 }
 
-class _FakePutConfigResponse_33 extends _i1.SmartFake
+class _FakePutConfigResponse_35 extends _i1.SmartFake
     implements _i5.PutConfigResponse {
-  _FakePutConfigResponse_33(Object parent, Invocation parentInvocation)
+  _FakePutConfigResponse_35(Object parent, Invocation parentInvocation)
     : super(parent, parentInvocation);
 }
 
-class _FakeLocalDnsResponse_34 extends _i1.SmartFake
+class _FakeLocalDnsResponse_36 extends _i1.SmartFake
     implements _i5.LocalDnsResponse {
-  _FakeLocalDnsResponse_34(Object parent, Invocation parentInvocation)
+  _FakeLocalDnsResponse_36(Object parent, Invocation parentInvocation)
     : super(parent, parentInvocation);
 }
 
-class _FakeAddLocalDnsResponse_35 extends _i1.SmartFake
+class _FakeAddLocalDnsResponse_37 extends _i1.SmartFake
     implements _i5.AddLocalDnsResponse {
-  _FakeAddLocalDnsResponse_35(Object parent, Invocation parentInvocation)
+  _FakeAddLocalDnsResponse_37(Object parent, Invocation parentInvocation)
     : super(parent, parentInvocation);
 }
 
-class _FakeDeleteLocalDnsResponse_36 extends _i1.SmartFake
+class _FakeDeleteLocalDnsResponse_38 extends _i1.SmartFake
     implements _i5.DeleteLocalDnsResponse {
-  _FakeDeleteLocalDnsResponse_36(Object parent, Invocation parentInvocation)
+  _FakeDeleteLocalDnsResponse_38(Object parent, Invocation parentInvocation)
     : super(parent, parentInvocation);
 }
 
-class _FakeActionResponse_37 extends _i1.SmartFake
+class _FakeActionResponse_39 extends _i1.SmartFake
     implements _i5.ActionResponse {
-  _FakeActionResponse_37(Object parent, Invocation parentInvocation)
+  _FakeActionResponse_39(Object parent, Invocation parentInvocation)
     : super(parent, parentInvocation);
 }
 
-class _FakeSessionsResponse_38 extends _i1.SmartFake
+class _FakeSessionsResponse_40 extends _i1.SmartFake
     implements _i5.SessionsResponse {
-  _FakeSessionsResponse_38(Object parent, Invocation parentInvocation)
+  _FakeSessionsResponse_40(Object parent, Invocation parentInvocation)
     : super(parent, parentInvocation);
 }
 
-class _FakeDeleteSessionResponse_39 extends _i1.SmartFake
+class _FakeDeleteSessionResponse_41 extends _i1.SmartFake
     implements _i5.DeleteSessionResponse {
-  _FakeDeleteSessionResponse_39(Object parent, Invocation parentInvocation)
+  _FakeDeleteSessionResponse_41(Object parent, Invocation parentInvocation)
     : super(parent, parentInvocation);
 }
 
-class _FakeClientResponse_40 extends _i1.SmartFake
+class _FakeClientResponse_42 extends _i1.SmartFake
     implements _i5.ClientResponse {
-  _FakeClientResponse_40(Object parent, Invocation parentInvocation)
+  _FakeClientResponse_42(Object parent, Invocation parentInvocation)
     : super(parent, parentInvocation);
 }
 
-class _FakeDhcpResponse_41 extends _i1.SmartFake implements _i5.DhcpResponse {
-  _FakeDhcpResponse_41(Object parent, Invocation parentInvocation)
+class _FakeDhcpResponse_43 extends _i1.SmartFake implements _i5.DhcpResponse {
+  _FakeDhcpResponse_43(Object parent, Invocation parentInvocation)
     : super(parent, parentInvocation);
 }
 
-class _FakeDeleteDhcpResponse_42 extends _i1.SmartFake
+class _FakeDeleteDhcpResponse_44 extends _i1.SmartFake
     implements _i5.DeleteDhcpResponse {
-  _FakeDeleteDhcpResponse_42(Object parent, Invocation parentInvocation)
+  _FakeDeleteDhcpResponse_44(Object parent, Invocation parentInvocation)
     : super(parent, parentInvocation);
 }
 
@@ -1713,18 +1726,84 @@ class MockApiGatewayV6 extends _i1.Mock implements _i24.ApiGatewayV6 {
 
   @override
   _i12.Future<_i5.GroupsResponse> updateGroup({
+    required String? name,
     required _i27.GroupRequest? body,
   }) =>
       (super.noSuchMethod(
-            Invocation.method(#updateGroup, [], {#body: body}),
+            Invocation.method(#updateGroup, [], {#name: name, #body: body}),
             returnValue: _i12.Future<_i5.GroupsResponse>.value(
               _FakeGroupsResponse_23(
                 this,
-                Invocation.method(#updateGroup, [], {#body: body}),
+                Invocation.method(#updateGroup, [], {#name: name, #body: body}),
               ),
             ),
           )
           as _i12.Future<_i5.GroupsResponse>);
+
+  @override
+  _i12.Future<_i5.ClientsResponse> getClients({String? client}) =>
+      (super.noSuchMethod(
+            Invocation.method(#getClients, [], {#client: client}),
+            returnValue: _i12.Future<_i5.ClientsResponse>.value(
+              _FakeClientsResponse_25(
+                this,
+                Invocation.method(#getClients, [], {#client: client}),
+              ),
+            ),
+          )
+          as _i12.Future<_i5.ClientsResponse>);
+
+  @override
+  _i12.Future<_i5.RemoveClientResponse> removeClient({
+    required String? client,
+  }) =>
+      (super.noSuchMethod(
+            Invocation.method(#removeClient, [], {#client: client}),
+            returnValue: _i12.Future<_i5.RemoveClientResponse>.value(
+              _FakeRemoveClientResponse_26(
+                this,
+                Invocation.method(#removeClient, [], {#client: client}),
+              ),
+            ),
+          )
+          as _i12.Future<_i5.RemoveClientResponse>);
+
+  @override
+  _i12.Future<_i5.ClientsResponse> createClient({
+    required _i28.ClientRequest? body,
+  }) =>
+      (super.noSuchMethod(
+            Invocation.method(#createClient, [], {#body: body}),
+            returnValue: _i12.Future<_i5.ClientsResponse>.value(
+              _FakeClientsResponse_25(
+                this,
+                Invocation.method(#createClient, [], {#body: body}),
+              ),
+            ),
+          )
+          as _i12.Future<_i5.ClientsResponse>);
+
+  @override
+  _i12.Future<_i5.ClientsResponse> updateClient({
+    required String? client,
+    required _i28.ClientRequest? body,
+  }) =>
+      (super.noSuchMethod(
+            Invocation.method(#updateClient, [], {
+              #client: client,
+              #body: body,
+            }),
+            returnValue: _i12.Future<_i5.ClientsResponse>.value(
+              _FakeClientsResponse_25(
+                this,
+                Invocation.method(#updateClient, [], {
+                  #client: client,
+                  #body: body,
+                }),
+              ),
+            ),
+          )
+          as _i12.Future<_i5.ClientsResponse>);
 
   @override
   _i12.Stream<_i5.GravityResponse> updateGravity() =>
@@ -1739,7 +1818,7 @@ class MockApiGatewayV6 extends _i1.Mock implements _i24.ApiGatewayV6 {
       (super.noSuchMethod(
             Invocation.method(#getMessages, []),
             returnValue: _i12.Future<_i5.MessagesResponse>.value(
-              _FakeMessagesResponse_25(
+              _FakeMessagesResponse_27(
                 this,
                 Invocation.method(#getMessages, []),
               ),
@@ -1752,7 +1831,7 @@ class MockApiGatewayV6 extends _i1.Mock implements _i24.ApiGatewayV6 {
       (super.noSuchMethod(
             Invocation.method(#removeMessage, [id]),
             returnValue: _i12.Future<_i5.RemoveMessageResponse>.value(
-              _FakeRemoveMessageResponse_26(
+              _FakeRemoveMessageResponse_28(
                 this,
                 Invocation.method(#removeMessage, [id]),
               ),
@@ -1765,7 +1844,7 @@ class MockApiGatewayV6 extends _i1.Mock implements _i24.ApiGatewayV6 {
       (super.noSuchMethod(
             Invocation.method(#getMetrics, []),
             returnValue: _i12.Future<_i5.MetricsResponse>.value(
-              _FakeMetricsResponse_27(this, Invocation.method(#getMetrics, [])),
+              _FakeMetricsResponse_29(this, Invocation.method(#getMetrics, [])),
             ),
           )
           as _i12.Future<_i5.MetricsResponse>);
@@ -1775,7 +1854,7 @@ class MockApiGatewayV6 extends _i1.Mock implements _i24.ApiGatewayV6 {
       (super.noSuchMethod(
             Invocation.method(#getGateway, [], {#isDetailed: isDetailed}),
             returnValue: _i12.Future<_i5.GatewayResponse>.value(
-              _FakeGatewayResponse_28(
+              _FakeGatewayResponse_30(
                 this,
                 Invocation.method(#getGateway, [], {#isDetailed: isDetailed}),
               ),
@@ -1794,7 +1873,7 @@ class MockApiGatewayV6 extends _i1.Mock implements _i24.ApiGatewayV6 {
               #maxAddresses: maxAddresses,
             }),
             returnValue: _i12.Future<_i5.DevicesResponse>.value(
-              _FakeDevicesResponse_29(
+              _FakeDevicesResponse_31(
                 this,
                 Invocation.method(#getDevices, [], {
                   #maxDevices: maxDevices,
@@ -1810,7 +1889,7 @@ class MockApiGatewayV6 extends _i1.Mock implements _i24.ApiGatewayV6 {
       (super.noSuchMethod(
             Invocation.method(#deleteDevice, [id]),
             returnValue: _i12.Future<_i5.DeleteDeviceResponse>.value(
-              _FakeDeleteDeviceResponse_30(
+              _FakeDeleteDeviceResponse_32(
                 this,
                 Invocation.method(#deleteDevice, [id]),
               ),
@@ -1829,7 +1908,7 @@ class MockApiGatewayV6 extends _i1.Mock implements _i24.ApiGatewayV6 {
               #isDetailed: isDetailed,
             }),
             returnValue: _i12.Future<_i5.ConfigurationResponse>.value(
-              _FakeConfigurationResponse_31(
+              _FakeConfigurationResponse_33(
                 this,
                 Invocation.method(#getConfiguration, [], {
                   #element: element,
@@ -1842,7 +1921,7 @@ class MockApiGatewayV6 extends _i1.Mock implements _i24.ApiGatewayV6 {
 
   @override
   _i12.Future<_i5.ConfigurationResponse> patchConfiguration(
-    _i28.ConfigData? body, {
+    _i29.ConfigData? body, {
     bool? isRestart = true,
   }) =>
       (super.noSuchMethod(
@@ -1852,7 +1931,7 @@ class MockApiGatewayV6 extends _i1.Mock implements _i24.ApiGatewayV6 {
               {#isRestart: isRestart},
             ),
             returnValue: _i12.Future<_i5.ConfigurationResponse>.value(
-              _FakeConfigurationResponse_31(
+              _FakeConfigurationResponse_33(
                 this,
                 Invocation.method(
                   #patchConfiguration,
@@ -1877,7 +1956,7 @@ class MockApiGatewayV6 extends _i1.Mock implements _i24.ApiGatewayV6 {
               #isRestart: isRestart,
             }),
             returnValue: _i12.Future<_i5.DeleteConfigResponse>.value(
-              _FakeDeleteConfigResponse_32(
+              _FakeDeleteConfigResponse_34(
                 this,
                 Invocation.method(#deleteConfiguration, [], {
                   #element: element,
@@ -1902,7 +1981,7 @@ class MockApiGatewayV6 extends _i1.Mock implements _i24.ApiGatewayV6 {
               #isRestart: isRestart,
             }),
             returnValue: _i12.Future<_i5.PutConfigResponse>.value(
-              _FakePutConfigResponse_33(
+              _FakePutConfigResponse_35(
                 this,
                 Invocation.method(#putConfiguration, [], {
                   #element: element,
@@ -1926,7 +2005,7 @@ class MockApiGatewayV6 extends _i1.Mock implements _i24.ApiGatewayV6 {
               {#isRestart: isRestart},
             ),
             returnValue: _i12.Future<_i5.ConfigurationResponse>.value(
-              _FakeConfigurationResponse_31(
+              _FakeConfigurationResponse_33(
                 this,
                 Invocation.method(
                   #patchDnsQueryLoggingConfig,
@@ -1943,7 +2022,7 @@ class MockApiGatewayV6 extends _i1.Mock implements _i24.ApiGatewayV6 {
       (super.noSuchMethod(
             Invocation.method(#getLocalDns, []),
             returnValue: _i12.Future<_i5.LocalDnsResponse>.value(
-              _FakeLocalDnsResponse_34(
+              _FakeLocalDnsResponse_36(
                 this,
                 Invocation.method(#getLocalDns, []),
               ),
@@ -1964,7 +2043,7 @@ class MockApiGatewayV6 extends _i1.Mock implements _i24.ApiGatewayV6 {
               #isRestart: isRestart,
             }),
             returnValue: _i12.Future<_i5.AddLocalDnsResponse>.value(
-              _FakeAddLocalDnsResponse_35(
+              _FakeAddLocalDnsResponse_37(
                 this,
                 Invocation.method(#addLocalDns, [], {
                   #ip: ip,
@@ -1991,7 +2070,7 @@ class MockApiGatewayV6 extends _i1.Mock implements _i24.ApiGatewayV6 {
               #oldIp: oldIp,
             }),
             returnValue: _i12.Future<_i5.LocalDnsResponse>.value(
-              _FakeLocalDnsResponse_34(
+              _FakeLocalDnsResponse_36(
                 this,
                 Invocation.method(#updateLocalDns, [], {
                   #ip: ip,
@@ -2017,7 +2096,7 @@ class MockApiGatewayV6 extends _i1.Mock implements _i24.ApiGatewayV6 {
               #isRestart: isRestart,
             }),
             returnValue: _i12.Future<_i5.DeleteLocalDnsResponse>.value(
-              _FakeDeleteLocalDnsResponse_36(
+              _FakeDeleteLocalDnsResponse_38(
                 this,
                 Invocation.method(#deleteLocalDns, [], {
                   #ip: ip,
@@ -2034,7 +2113,7 @@ class MockApiGatewayV6 extends _i1.Mock implements _i24.ApiGatewayV6 {
       (super.noSuchMethod(
             Invocation.method(#flushArp, []),
             returnValue: _i12.Future<_i5.ActionResponse>.value(
-              _FakeActionResponse_37(this, Invocation.method(#flushArp, [])),
+              _FakeActionResponse_39(this, Invocation.method(#flushArp, [])),
             ),
           )
           as _i12.Future<_i5.ActionResponse>);
@@ -2044,7 +2123,7 @@ class MockApiGatewayV6 extends _i1.Mock implements _i24.ApiGatewayV6 {
       (super.noSuchMethod(
             Invocation.method(#flushNetwork, []),
             returnValue: _i12.Future<_i5.ActionResponse>.value(
-              _FakeActionResponse_37(
+              _FakeActionResponse_39(
                 this,
                 Invocation.method(#flushNetwork, []),
               ),
@@ -2057,7 +2136,7 @@ class MockApiGatewayV6 extends _i1.Mock implements _i24.ApiGatewayV6 {
       (super.noSuchMethod(
             Invocation.method(#flushLogs, []),
             returnValue: _i12.Future<_i5.ActionResponse>.value(
-              _FakeActionResponse_37(this, Invocation.method(#flushLogs, [])),
+              _FakeActionResponse_39(this, Invocation.method(#flushLogs, [])),
             ),
           )
           as _i12.Future<_i5.ActionResponse>);
@@ -2067,7 +2146,7 @@ class MockApiGatewayV6 extends _i1.Mock implements _i24.ApiGatewayV6 {
       (super.noSuchMethod(
             Invocation.method(#restartDns, []),
             returnValue: _i12.Future<_i5.ActionResponse>.value(
-              _FakeActionResponse_37(this, Invocation.method(#restartDns, [])),
+              _FakeActionResponse_39(this, Invocation.method(#restartDns, [])),
             ),
           )
           as _i12.Future<_i5.ActionResponse>);
@@ -2077,7 +2156,7 @@ class MockApiGatewayV6 extends _i1.Mock implements _i24.ApiGatewayV6 {
       (super.noSuchMethod(
             Invocation.method(#getSessions, []),
             returnValue: _i12.Future<_i5.SessionsResponse>.value(
-              _FakeSessionsResponse_38(
+              _FakeSessionsResponse_40(
                 this,
                 Invocation.method(#getSessions, []),
               ),
@@ -2090,7 +2169,7 @@ class MockApiGatewayV6 extends _i1.Mock implements _i24.ApiGatewayV6 {
       (super.noSuchMethod(
             Invocation.method(#deleteSession, [id]),
             returnValue: _i12.Future<_i5.DeleteSessionResponse>.value(
-              _FakeDeleteSessionResponse_39(
+              _FakeDeleteSessionResponse_41(
                 this,
                 Invocation.method(#deleteSession, [id]),
               ),
@@ -2103,7 +2182,7 @@ class MockApiGatewayV6 extends _i1.Mock implements _i24.ApiGatewayV6 {
       (super.noSuchMethod(
             Invocation.method(#getClient, []),
             returnValue: _i12.Future<_i5.ClientResponse>.value(
-              _FakeClientResponse_40(this, Invocation.method(#getClient, [])),
+              _FakeClientResponse_42(this, Invocation.method(#getClient, [])),
             ),
           )
           as _i12.Future<_i5.ClientResponse>);
@@ -2113,7 +2192,7 @@ class MockApiGatewayV6 extends _i1.Mock implements _i24.ApiGatewayV6 {
       (super.noSuchMethod(
             Invocation.method(#getDhcps, []),
             returnValue: _i12.Future<_i5.DhcpResponse>.value(
-              _FakeDhcpResponse_41(this, Invocation.method(#getDhcps, [])),
+              _FakeDhcpResponse_43(this, Invocation.method(#getDhcps, [])),
             ),
           )
           as _i12.Future<_i5.DhcpResponse>);
@@ -2123,7 +2202,7 @@ class MockApiGatewayV6 extends _i1.Mock implements _i24.ApiGatewayV6 {
       (super.noSuchMethod(
             Invocation.method(#deleteDhcp, [ip]),
             returnValue: _i12.Future<_i5.DeleteDhcpResponse>.value(
-              _FakeDeleteDhcpResponse_42(
+              _FakeDeleteDhcpResponse_44(
                 this,
                 Invocation.method(#deleteDhcp, [ip]),
               ),

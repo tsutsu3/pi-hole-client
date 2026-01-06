@@ -9,6 +9,7 @@ import 'package:pi_hole_client/data/gateway/api_gateway_interface.dart';
 import 'package:pi_hole_client/data/model/v6/action/action.dart';
 import 'package:pi_hole_client/data/model/v6/auth/auth.dart' show Session;
 import 'package:pi_hole_client/data/model/v6/auth/sessions.dart';
+import 'package:pi_hole_client/data/model/v6/clients/clients.dart';
 import 'package:pi_hole_client/data/model/v6/config/config.dart'
     show Config, ConfigData, Dns;
 import 'package:pi_hole_client/data/model/v6/dhcp/dhcp.dart' show Dhcp;
@@ -1364,7 +1365,7 @@ class ApiGatewayV6 implements ApiGateway {
         final payload = jsonDecode(results.body) as Map<String, dynamic>;
         return ClientsResponse(
           result: APiResponseType.success,
-          data: ClientsInfo.fromJson(payload),
+          data: ClientsInfo.fromV6(Clients.fromJson(payload)),
         );
       } else {
         return ClientsResponse(
@@ -1430,7 +1431,7 @@ class ApiGatewayV6 implements ApiGateway {
 
         return ClientsResponse(
           result: APiResponseType.success,
-          data: ClientsInfo.fromJson(payload),
+          data: ClientsInfo.fromV6(Clients.fromJson(payload)),
         );
       } else {
         return ClientsResponse(
@@ -1462,7 +1463,7 @@ class ApiGatewayV6 implements ApiGateway {
         final payload = jsonDecode(results.body) as Map<String, dynamic>;
         return ClientsResponse(
           result: APiResponseType.success,
-          data: ClientsInfo.fromJson(payload),
+          data: ClientsInfo.fromV6(Clients.fromJson(payload)),
         );
       } else {
         return ClientsResponse(

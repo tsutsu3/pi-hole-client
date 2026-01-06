@@ -12,6 +12,7 @@ import 'package:pi_hole_client/config/subscription_types.dart';
 import 'package:pi_hole_client/data/gateway/api_gateway_v5.dart';
 import 'package:pi_hole_client/data/model/v6/config/config.dart'
     show ConfigData, Dns;
+import 'package:pi_hole_client/domain/models_old/clients.dart';
 import 'package:pi_hole_client/domain/models_old/domain.dart';
 import 'package:pi_hole_client/domain/models_old/gateways.dart';
 import 'package:pi_hole_client/domain/models_old/groups.dart';
@@ -2249,7 +2250,121 @@ void main() async {
       final mockClient = MockClient();
       final apiGateway = ApiGatewayV5(server, client: mockClient);
       final response = await apiGateway.updateGroup(
-        body: GroupRequest(name: 'http://example.com/test.txt', enabled: true),
+        name: 'test',
+        body: GroupRequest(name: 'test', enabled: true),
+      );
+
+      expect(response.result, APiResponseType.notSupported);
+      expect(response.message, notSupportedMessage);
+    });
+  });
+
+  group('getClients', () {
+    late Server server;
+    const notSupportedMessage = 'Pi-hole v5 does not support this feature.';
+
+    setUp(() async {
+      server = Server(
+        address: 'http://example.com',
+        alias: 'example',
+        defaultServer: true,
+        apiVersion: SupportedApiVersions.v5,
+        allowSelfSignedCert: true,
+      );
+      await server.sm.saveToken('xxx123');
+    });
+
+    test('should return notSupported when server is v5', () async {
+      final mockClient = MockClient();
+      final apiGateway = ApiGatewayV5(server, client: mockClient);
+      final response = await apiGateway.getClients();
+
+      expect(response.result, APiResponseType.notSupported);
+      expect(response.message, notSupportedMessage);
+    });
+  });
+
+  group('removeClient', () {
+    late Server server;
+    const notSupportedMessage = 'Pi-hole v5 does not support this feature.';
+
+    setUp(() async {
+      server = Server(
+        address: 'http://example.com',
+        alias: 'example',
+        defaultServer: true,
+        apiVersion: SupportedApiVersions.v5,
+        allowSelfSignedCert: true,
+      );
+      await server.sm.saveToken('xxx123');
+    });
+
+    test('should return notSupported when server is v5', () async {
+      final mockClient = MockClient();
+      final apiGateway = ApiGatewayV5(server, client: mockClient);
+      final response = await apiGateway.removeClient(client: '192.168.0.10');
+
+      expect(response.result, APiResponseType.notSupported);
+      expect(response.message, notSupportedMessage);
+    });
+  });
+
+  group('createClient', () {
+    late Server server;
+    const notSupportedMessage = 'Pi-hole v5 does not support this feature.';
+
+    setUp(() async {
+      server = Server(
+        address: 'http://example.com',
+        alias: 'example',
+        defaultServer: true,
+        apiVersion: SupportedApiVersions.v5,
+        allowSelfSignedCert: true,
+      );
+      await server.sm.saveToken('xxx123');
+    });
+
+    test('should return notSupported when server is v5', () async {
+      final mockClient = MockClient();
+      final apiGateway = ApiGatewayV5(server, client: mockClient);
+      final response = await apiGateway.createClient(
+        body: ClientRequest(
+          client: '192.168.0.10',
+          comment: 'Office',
+          groups: [0],
+        ),
+      );
+
+      expect(response.result, APiResponseType.notSupported);
+      expect(response.message, notSupportedMessage);
+    });
+  });
+
+  group('updateClient', () {
+    late Server server;
+    const notSupportedMessage = 'Pi-hole v5 does not support this feature.';
+
+    setUp(() async {
+      server = Server(
+        address: 'http://example.com',
+        alias: 'example',
+        defaultServer: true,
+        apiVersion: SupportedApiVersions.v5,
+        allowSelfSignedCert: true,
+      );
+      await server.sm.saveToken('xxx123');
+    });
+
+    test('should return notSupported when server is v5', () async {
+      final mockClient = MockClient();
+      final apiGateway = ApiGatewayV5(server, client: mockClient);
+      final response = await apiGateway.updateClient(
+        client: '192.168.0.10',
+        body: ClientRequest(
+          client: '192.168.0.10',
+          comment: 'Office',
+          groups: [0],
+        ),
       );
 
       expect(response.result, APiResponseType.notSupported);
