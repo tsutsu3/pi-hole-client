@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:pi_hole_client/config/responsive.dart';
 import 'package:pi_hole_client/domain/models_old/clients.dart';
@@ -143,8 +145,7 @@ class ClientTile extends StatelessWidget {
   }
 
   bool _isIpAddress(String value) {
-    return RegExp(r'^\d{1,3}(\.\d{1,3}){3}$').hasMatch(value) ||
-        (value.contains(':') && !_isMacAddress(value));
+    return InternetAddress.tryParse(value) != null;
   }
 
   bool _isMacAddress(String value) {
