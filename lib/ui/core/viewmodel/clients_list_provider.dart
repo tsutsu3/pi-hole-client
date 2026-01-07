@@ -1,3 +1,4 @@
+import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
 import 'package:pi_hole_client/config/enums.dart';
 import 'package:pi_hole_client/domain/models_old/clients.dart';
@@ -8,6 +9,11 @@ class ClientsListProvider with ChangeNotifier {
   ClientsListProvider({required this.serversProvider});
 
   ServersProvider? serversProvider;
+
+  static const MapEquality<String, String> _stringMapEquality =
+      MapEquality<String, String>();
+  static const MapEquality<int, String> _intStringMapEquality =
+      MapEquality<int, String>();
 
   LoadStatus _loadingStatus = LoadStatus.loading;
   List<ClientItem> _clients = [];
@@ -39,7 +45,7 @@ class ClientsListProvider with ChangeNotifier {
   }
 
   void updateMacLookup(Map<String, String> ipToMac) {
-    if (_mapEquals(_ipToMac, ipToMac)) {
+    if (_stringMapEquality.equals(_ipToMac, ipToMac)) {
       return;
     }
     _ipToMac = Map<String, String>.from(ipToMac);
@@ -49,7 +55,7 @@ class ClientsListProvider with ChangeNotifier {
   }
 
   void updateGroupLookup(Map<int, String> groupNames) {
-    if (_intStringMapEquals(_groupNames, groupNames)) {
+    if (_intStringMapEquality.equals(_groupNames, groupNames)) {
       return;
     }
     _groupNames = Map<int, String>.from(groupNames);
@@ -62,8 +68,9 @@ class ClientsListProvider with ChangeNotifier {
     _searchTerm = value;
 
     if (value.isNotEmpty) {
-      _filteredClients =
-          _clients.where((client) => _matchesSearch(client, value)).toList();
+      _filteredClients = _clients
+          .where((client) => _matchesSearch(client, value))
+          .toList();
     } else {
       _filteredClients = _clients;
     }
@@ -108,21 +115,5 @@ class ClientsListProvider with ChangeNotifier {
         comment.contains(term) ||
         mac.contains(term) ||
         groupNames.contains(term);
-  }
-
-  bool _mapEquals(Map<String, String> a, Map<String, String> b) {
-    if (a.length != b.length) return false;
-    for (final entry in a.entries) {
-      if (b[entry.key] != entry.value) return false;
-    }
-    return true;
-  }
-
-  bool _intStringMapEquals(Map<int, String> a, Map<int, String> b) {
-    if (a.length != b.length) return false;
-    for (final entry in a.entries) {
-      if (b[entry.key] != entry.value) return false;
-    }
-    return true;
   }
 }
