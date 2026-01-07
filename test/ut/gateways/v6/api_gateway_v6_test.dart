@@ -3991,6 +3991,343 @@ void main() async {
     });
   });
 
+  group('removeGroup', () {
+    late Server server;
+    const groupName = 'Work';
+
+    setUp(() async {
+      server = Server(
+        address: 'http://example.com',
+        alias: 'example',
+        defaultServer: true,
+        apiVersion: SupportedApiVersions.v6,
+        allowSelfSignedCert: true,
+      );
+      await server.sm.saveToken('xxx123');
+    });
+
+    test('should return success when status code is 204', () async {
+      final mockClient = MockClient();
+      final apiGateway = ApiGatewayV6(server, client: mockClient);
+
+      when(
+        mockClient.delete(
+          Uri.parse(
+            'http://example.com/api/groups/${Uri.encodeComponent(groupName)}',
+          ),
+          headers: anyNamed('headers'),
+        ),
+      ).thenAnswer((_) async => http.Response('', 204));
+
+      final response = await apiGateway.removeGroup(name: groupName);
+
+      expect(response.result, APiResponseType.success);
+      expect(response.message, null);
+    });
+
+    test('should return notFound when status code is 404', () async {
+      final mockClient = MockClient();
+      final apiGateway = ApiGatewayV6(server, client: mockClient);
+
+      when(
+        mockClient.delete(
+          Uri.parse(
+            'http://example.com/api/groups/${Uri.encodeComponent(groupName)}',
+          ),
+          headers: anyNamed('headers'),
+        ),
+      ).thenAnswer((_) async => http.Response('', 404));
+
+      final response = await apiGateway.removeGroup(name: groupName);
+
+      expect(response.result, APiResponseType.notFound);
+      expect(response.message, fetchError);
+    });
+
+    test('should return error when status code is not 204/404', () async {
+      final mockClient = MockClient();
+      final apiGateway = ApiGatewayV6(server, client: mockClient);
+
+      when(
+        mockClient.delete(
+          Uri.parse(
+            'http://example.com/api/groups/${Uri.encodeComponent(groupName)}',
+          ),
+          headers: anyNamed('headers'),
+        ),
+      ).thenAnswer((_) async => http.Response('', 500));
+
+      final response = await apiGateway.removeGroup(name: groupName);
+
+      expect(response.result, APiResponseType.error);
+      expect(response.message, fetchError);
+    });
+
+    test('should return error when an unexpected error occurs', () async {
+      final mockClient = MockClient();
+      final apiGateway = ApiGatewayV6(server, client: mockClient);
+
+      when(
+        mockClient.delete(
+          Uri.parse(
+            'http://example.com/api/groups/${Uri.encodeComponent(groupName)}',
+          ),
+          headers: anyNamed('headers'),
+        ),
+      ).thenThrow(Exception('Unexpected error test'));
+
+      final response = await apiGateway.removeGroup(name: groupName);
+
+      expect(response.result, APiResponseType.error);
+      expect(response.message, unexpectedError);
+    });
+  });
+
+  group('createGroup', () {
+    late Server server;
+    const data = {
+      'groups': [
+        {
+          'id': 1,
+          'name': 'Work',
+          'comment': 'Office',
+          'enabled': true,
+          'date_added': 1604871899,
+          'date_modified': 1604871899,
+        },
+      ],
+      'took': 0.003,
+      'processed': {
+        'success': [
+          {'item': 'Work'},
+        ],
+        'errors': [],
+      },
+    };
+
+    const errorData = {
+      'groups': [
+        {
+          'id': 1,
+          'name': 'Work',
+          'comment': 'Office',
+          'enabled': true,
+          'date_added': 1604871899,
+          'date_modified': 1604871899,
+        },
+      ],
+      'took': 0.003,
+      'processed': {
+        'success': [],
+        'errors': [
+          {'item': 'Work', 'error': 'already_exists'},
+        ],
+      },
+    };
+
+    setUp(() async {
+      server = Server(
+        address: 'http://example.com',
+        alias: 'example',
+        defaultServer: true,
+        apiVersion: SupportedApiVersions.v6,
+        allowSelfSignedCert: true,
+      );
+      await server.sm.saveToken('xxx123');
+    });
+
+    test('should return success when status code is 201', () async {
+      final mockClient = MockClient();
+      final apiGateway = ApiGatewayV6(server, client: mockClient);
+
+      when(
+        mockClient.post(
+          Uri.parse('http://example.com/api/groups'),
+          headers: anyNamed('headers'),
+          body: anyNamed('body'),
+        ),
+      ).thenAnswer((_) async => http.Response(jsonEncode(data), 201));
+
+      final response = await apiGateway.createGroup(
+        body: GroupRequest(name: 'Work', enabled: true),
+      );
+
+      expect(response.result, APiResponseType.success);
+      expect(
+        response.data?.toJson(),
+        GroupsInfo.fromV6(Groups.fromJson(data)).toJson(),
+      );
+    });
+
+    test('should return alreadyAdded when processed has errors', () async {
+      final mockClient = MockClient();
+      final apiGateway = ApiGatewayV6(server, client: mockClient);
+
+      when(
+        mockClient.post(
+          Uri.parse('http://example.com/api/groups'),
+          headers: anyNamed('headers'),
+          body: anyNamed('body'),
+        ),
+      ).thenAnswer((_) async => http.Response(jsonEncode(errorData), 201));
+
+      final response = await apiGateway.createGroup(
+        body: GroupRequest(name: 'Work', enabled: true),
+      );
+
+      expect(response.result, APiResponseType.alreadyAdded);
+      expect(response.message, fetchError);
+    });
+
+    test('should return error when status code is not 201', () async {
+      final mockClient = MockClient();
+      final apiGateway = ApiGatewayV6(server, client: mockClient);
+      final badRequestData = {
+        'error': {
+          'key': 'bad_request',
+          'message': 'Invalid request body data (no valid JSON)',
+          'hint': null,
+        },
+        'took': 0.003,
+      };
+
+      when(
+        mockClient.post(
+          Uri.parse('http://example.com/api/groups'),
+          headers: anyNamed('headers'),
+          body: anyNamed('body'),
+        ),
+      ).thenAnswer((_) async => http.Response(jsonEncode(badRequestData), 400));
+
+      final response = await apiGateway.createGroup(
+        body: GroupRequest(name: 'Work', enabled: true),
+      );
+
+      expect(response.result, APiResponseType.error);
+      expect(response.message, fetchError);
+    });
+
+    test('should return error when an unexpected error occurs', () async {
+      final mockClient = MockClient();
+      final apiGateway = ApiGatewayV6(server, client: mockClient);
+
+      when(
+        mockClient.post(
+          Uri.parse('http://example.com/api/groups'),
+          headers: anyNamed('headers'),
+          body: anyNamed('body'),
+        ),
+      ).thenThrow(Exception('Unexpected error test'));
+
+      final response = await apiGateway.createGroup(
+        body: GroupRequest(name: 'Work', enabled: true),
+      );
+
+      expect(response.result, APiResponseType.error);
+      expect(response.message, unexpectedError);
+    });
+  });
+
+  group('updateGroup', () {
+    late Server server;
+    const data = {
+      'groups': [
+        {
+          'id': 1,
+          'name': 'Work',
+          'comment': 'Office',
+          'enabled': true,
+          'date_added': 1604871899,
+          'date_modified': 1604871899,
+        },
+      ],
+      'took': 0.003,
+    };
+
+    setUp(() async {
+      server = Server(
+        address: 'http://example.com',
+        alias: 'example',
+        defaultServer: true,
+        apiVersion: SupportedApiVersions.v6,
+        allowSelfSignedCert: true,
+      );
+      await server.sm.saveToken('xxx123');
+    });
+
+    test('should return success when status code is 200', () async {
+      final mockClient = MockClient();
+      final apiGateway = ApiGatewayV6(server, client: mockClient);
+
+      when(
+        mockClient.put(
+          Uri.parse(
+            'http://example.com/api/groups/${Uri.encodeComponent('Work')}',
+          ),
+          headers: anyNamed('headers'),
+          body: anyNamed('body'),
+        ),
+      ).thenAnswer((_) async => http.Response(jsonEncode(data), 200));
+
+      final response = await apiGateway.updateGroup(
+        name: 'Work',
+        body: GroupRequest(name: 'Work', enabled: true),
+      );
+
+      expect(response.result, APiResponseType.success);
+      expect(
+        response.data?.toJson(),
+        GroupsInfo.fromV6(Groups.fromJson(data)).toJson(),
+      );
+    });
+
+    test('should return error when status code is not 200', () async {
+      final mockClient = MockClient();
+      final apiGateway = ApiGatewayV6(server, client: mockClient);
+
+      when(
+        mockClient.put(
+          Uri.parse(
+            'http://example.com/api/groups/${Uri.encodeComponent('Work')}',
+          ),
+          headers: anyNamed('headers'),
+          body: anyNamed('body'),
+        ),
+      ).thenAnswer((_) async => http.Response('', 500));
+
+      final response = await apiGateway.updateGroup(
+        name: 'Work',
+        body: GroupRequest(name: 'Work', enabled: true),
+      );
+
+      expect(response.result, APiResponseType.error);
+      expect(response.message, fetchError);
+    });
+
+    test('should return error when an unexpected error occurs', () async {
+      final mockClient = MockClient();
+      final apiGateway = ApiGatewayV6(server, client: mockClient);
+
+      when(
+        mockClient.put(
+          Uri.parse(
+            'http://example.com/api/groups/${Uri.encodeComponent('Work')}',
+          ),
+          headers: anyNamed('headers'),
+          body: anyNamed('body'),
+        ),
+      ).thenThrow(Exception('Unexpected error test'));
+
+      final response = await apiGateway.updateGroup(
+        name: 'Work',
+        body: GroupRequest(name: 'Work', enabled: true),
+      );
+
+      expect(response.result, APiResponseType.error);
+      expect(response.message, unexpectedError);
+    });
+  });
+
   group('getClients', () {
     late Server server;
     const multiData = {
