@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'dart:io';
 import 'package:mock_api_server/handlers/action_handler.dart';
+import 'package:mock_api_server/handlers/clients_handler.dart';
 import 'package:mock_api_server/handlers/config_handler.dart';
 import 'package:mock_api_server/handlers/dns_handler.dart';
 import 'package:mock_api_server/handlers/domains_handler.dart';
@@ -83,6 +84,7 @@ Middleware requireFTLSid() {
       final protectedPrefixes = [
         'api/auth',
         'api/action',
+        'api/clients',
         'api/dns',
         'api/domains',
         'api/groups',
@@ -146,6 +148,7 @@ void main(List<String> args) async {
   // v6 api
   router.mount('/api/auth', AuthHandler().router.call);
   router.mount('/api/action', ActionHandler().router.call);
+  router.mount('/api/clients', ClientsHandler().router.call);
   router.mount('/api/dns', DnsHandler().router.call);
   router.mount('/api/domains', DomainsHandler().router.call);
   router.mount('/api/groups', GroupsHandler().router.call);
