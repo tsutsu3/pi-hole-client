@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:pi_hole_client/config/responsive.dart';
 import 'package:pi_hole_client/domain/models_old/clients.dart';
 import 'package:pi_hole_client/ui/core/l10n/generated/app_localizations.dart';
-import 'package:pi_hole_client/ui/core/themes/theme.dart';
 
 class ClientTile extends StatelessWidget {
   const ClientTile({
@@ -41,7 +40,6 @@ class ClientTile extends StatelessWidget {
     final groupsText = buildGroupNames();
     final hasHostname = hostname != '-' && hostname != ipAddress;
     final addressLine = hasHostname ? '$ipAddress ($hostname)' : ipAddress;
-    final queryGrey = Theme.of(context).extension<AppColors>()!.queryGrey;
 
     final Widget content = Row(
       children: [
