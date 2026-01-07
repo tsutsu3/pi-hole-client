@@ -192,7 +192,12 @@ class _GroupClientScreenWidgetState extends State<GroupClientScreenWidget>
                     children: [
                       const Icon(Icons.group_rounded),
                       const SizedBox(width: 4),
-                      Text(AppLocalizations.of(context)!.groups),
+                      Flexible(
+                        child: Text(
+                          AppLocalizations.of(context)!.groups,
+                          overflow: TextOverflow.ellipsis,
+                        ),
+                      ),
                     ],
                   ),
                 ),
@@ -202,7 +207,12 @@ class _GroupClientScreenWidgetState extends State<GroupClientScreenWidget>
                     children: [
                       const Icon(Icons.devices_rounded),
                       const SizedBox(width: 4),
-                      Text(AppLocalizations.of(context)!.clients),
+                      Flexible(
+                        child: Text(
+                          AppLocalizations.of(context)!.clients,
+                          overflow: TextOverflow.ellipsis,
+                        ),
+                      ),
                     ],
                   ),
                 ),
@@ -248,7 +258,8 @@ class _GroupClientScreenWidgetState extends State<GroupClientScreenWidget>
       );
     }
 
-    if (MediaQuery.of(context).size.width > ResponsiveConstants.large) {
+    if (MediaQuery.of(context).size.width > ResponsiveConstants.xxLarge) {
+      // 3 columns layout for xxLarge screens
       return Row(
         children: [
           Expanded(child: scaffold()),
@@ -315,6 +326,41 @@ class _GroupClientScreenWidgetState extends State<GroupClientScreenWidget>
                   ),
           ),
         ],
+      );
+    } else if (MediaQuery.of(context).size.width > ResponsiveConstants.large) {
+      // 2 columns layout for large and xLarge screens
+      return scaffold(
+        onGroupTap: (group) {
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => GroupDetailsScreen(
+                group: group,
+                remove: (g) {
+                  setState(() => selectedGroup = null);
+                },
+              ),
+            ),
+          );
+        },
+        onClientTap: (client) {
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => ClientDetailsScreen(
+                client: client,
+                remove: (c) {
+                  setState(() => selectedClient = null);
+                },
+                groups: groups,
+                colors: serversProvider.colors,
+                ipToMac: ipToMac,
+                ipToHostname: ipToHostname,
+                macToIp: macToIp,
+              ),
+            ),
+          );
+        },
       );
     } else {
       return scaffold(
