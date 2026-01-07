@@ -29,7 +29,12 @@ class ClientTile extends StatelessWidget {
     if (client.groups.isEmpty) {
       return '-';
     }
-    return client.groups.map((id) => groups[id] ?? id.toString()).join(', ');
+    final names = client.groups
+        .map((id) => groups[id])
+        .where((name) => name != null && name.isNotEmpty)
+        .cast<String>()
+        .toList();
+    return names.isEmpty ? '-' : names.join(', ');
   }
 
   @override

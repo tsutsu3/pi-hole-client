@@ -174,9 +174,12 @@ class _ClientDetailsScreenState extends State<ClientDetailsScreen> {
     if (_client.groups.isEmpty) {
       return ['-'];
     }
-    return _client.groups
-        .map((id) => widget.groups[id] ?? id.toString())
+    final names = _client.groups
+        .map((id) => widget.groups[id])
+        .where((name) => name != null && name.isNotEmpty)
+        .cast<String>()
         .toList();
+    return names.isEmpty ? ['-'] : names;
   }
 
   String? getIpAddress() {
