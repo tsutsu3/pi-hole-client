@@ -8,8 +8,8 @@ import 'package:pi_hole_client/ui/common/empty_data_screen.dart';
 import 'package:pi_hole_client/ui/common/pi_hole_v5_not_supported_screen.dart';
 import 'package:pi_hole_client/ui/core/l10n/generated/app_localizations.dart';
 import 'package:pi_hole_client/ui/core/viewmodel/clients_list_provider.dart';
-import 'package:pi_hole_client/ui/core/viewmodel/local_dns_provider.dart';
 import 'package:pi_hole_client/ui/core/viewmodel/groups_provider.dart';
+import 'package:pi_hole_client/ui/core/viewmodel/local_dns_provider.dart';
 import 'package:pi_hole_client/ui/core/viewmodel/servers_provider.dart';
 import 'package:pi_hole_client/ui/settings/server_settings/widgets/group_client/client_details_screen.dart';
 import 'package:pi_hole_client/ui/settings/server_settings/widgets/group_client/clients_list.dart';
@@ -91,15 +91,16 @@ class _GroupClientScreenWidgetState extends State<GroupClientScreenWidget>
 
     Future.microtask(() async {
       widget.clientsListProvider.setLoadingStatus(LoadStatus.loading);
-      await widget.clientsListProvider.fetchClients();
 
       if (!mounted) return;
       final groupsProvider = context.read<GroupsProvider>();
-      await groupsProvider.loadGroups();
-
-      if (!mounted) return;
       final localDnsProvider = context.read<LocalDnsProvider>();
-      await localDnsProvider.load();
+
+      await Future.wait([
+        widget.clientsListProvider.fetchClients(),
+        groupsProvider.loadGroups(),
+        localDnsProvider.load(),
+      ]);
     });
 
     tabController = TabController(length: 2, vsync: this);
@@ -133,7 +134,7 @@ class _GroupClientScreenWidgetState extends State<GroupClientScreenWidget>
 
     Widget buildSearchTitle() {
       return TextFormField(
-        initialValue: searchTerm,
+        controller: searchController,
         onChanged: (value) {
           setState(() => searchTerm = value);
           clientsListProvider.onSearch(value);
@@ -282,17 +283,17 @@ class _GroupClientScreenWidgetState extends State<GroupClientScreenWidget>
                           ),
                         )
                 : selectedClient != null
-                    ? ClientDetailsScreen(
-                        client: selectedClient!,
-                        remove: (client) => setState(() {
-                          selectedClient = null;
-                        }),
-                        groups: groups,
-                        colors: serversProvider.colors,
-                        ipToMac: ipToMac,
-                        ipToHostname: ipToHostname,
-                        macToIp: macToIp,
-                      )
+                ? ClientDetailsScreen(
+                    client: selectedClient!,
+                    remove: (client) => setState(() {
+                      selectedClient = null;
+                    }),
+                    groups: groups,
+                    colors: serversProvider.colors,
+                    ipToMac: ipToMac,
+                    ipToHostname: ipToHostname,
+                    macToIp: macToIp,
+                  )
                 : ColoredBox(
                     color: Theme.of(context).scaffoldBackgroundColor,
                     child: SafeArea(
