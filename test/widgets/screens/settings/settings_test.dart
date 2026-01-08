@@ -14,6 +14,7 @@ import 'package:pi_hole_client/ui/settings/app_settings/advanced_options.dart';
 import 'package:pi_hole_client/ui/settings/app_settings/language_screen.dart';
 import 'package:pi_hole_client/ui/settings/app_settings/theme_screen.dart';
 import 'package:pi_hole_client/ui/settings/server_settings/advanced_server_options.dart';
+import 'package:pi_hole_client/ui/settings/server_settings/group_client_screen.dart';
 import 'package:pi_hole_client/ui/settings/server_settings/server_info.dart';
 import 'package:pi_hole_client/ui/settings/server_settings/subscriptions.dart';
 import 'package:pi_hole_client/ui/settings/settings.dart';
@@ -65,6 +66,9 @@ void main() async {
 
       expect(find.text('Adlists'), findsOneWidget);
       expect(find.text('Manage and update Adlists'), findsOneWidget);
+
+      expect(find.text('Groups & Clients'), findsOneWidget);
+      expect(find.text('Manage groups and client assignments'), findsOneWidget);
 
       expect(find.text('Advanced settings'), findsNWidgets(2));
       expect(find.text('Access advanced server settings'), findsOneWidget);
@@ -130,8 +134,19 @@ void main() async {
       expect(find.text('Adlists'), findsOneWidget);
       expect(find.text('Manage and update Adlists'), findsOneWidget);
 
+      expect(find.text('Groups & Clients'), findsOneWidget);
+      expect(find.text('Manage groups and client assignments'), findsOneWidget);
+
       expect(find.text('Advanced settings'), findsNWidgets(2));
       expect(find.text('Access advanced server settings'), findsOneWidget);
+
+      final scrollableFinder = find.byType(Scrollable);
+      await tester.scrollUntilVisible(
+        find.text('About'),
+        200,
+        scrollable: scrollableFinder.first,
+      );
+      await tester.pumpAndSettle();
 
       expect(find.text('About'), findsOneWidget);
 
@@ -145,7 +160,6 @@ void main() async {
       expect(find.text('Legal information'), findsOneWidget);
 
       // scroll down
-      final scrollableFinder = find.byType(Scrollable);
       await tester.drag(scrollableFinder.first, const Offset(0, -200));
       await tester.pumpAndSettle();
 
@@ -292,6 +306,30 @@ void main() async {
       expect(find.text('There are no adlists to show here.'), findsOneWidget);
     });
 
+    testWidgets('should show groups and clients screen with tap', (
+      WidgetTester tester,
+    ) async {
+      tester.view.physicalSize = const Size(1080, 2400);
+      tester.view.devicePixelRatio = 2.0;
+
+      addTearDown(() {
+        tester.view.resetPhysicalSize();
+        tester.view.resetDevicePixelRatio();
+      });
+
+      await tester.pumpWidget(testSetup.buildTestWidget(const Settings()));
+
+      expect(find.byType(Settings), findsOneWidget);
+      await tester.pump();
+
+      await tester.ensureVisible(find.text('Groups & Clients'));
+      await tester.pumpAndSettle();
+
+      await tester.tap(find.text('Groups & Clients'));
+      await tester.pumpAndSettle();
+      expect(find.byType(GroupClientScreen), findsOneWidget);
+    });
+
     testWidgets('should show advanced server settings screen with tap', (
       WidgetTester tester,
     ) async {
@@ -400,6 +438,9 @@ void main() async {
       expect(find.byType(Settings), findsOneWidget);
       await tester.pump();
 
+      await tester.ensureVisible(find.text('Licenses'));
+      await tester.pumpAndSettle();
+
       await tester.tap(find.text('Licenses'));
       when(testSetup.mockConfigProvider.selectedSettingsScreen).thenReturn(6);
       await tester.pumpAndSettle();
@@ -442,6 +483,9 @@ void main() async {
       );
       expect(find.svg(googlePlaySvg.bytesLoader), findsOneWidget);
 
+      await tester.ensureVisible(find.svg(googlePlaySvg.bytesLoader));
+      await tester.pumpAndSettle();
+
       await tester.tap(find.svg(googlePlaySvg.bytesLoader));
       await tester.pumpAndSettle();
 
@@ -483,6 +527,9 @@ void main() async {
 
       final githubSvg = SvgPicture.asset('assets/resources/github.svg');
       expect(find.svg(githubSvg.bytesLoader), findsOneWidget);
+
+      await tester.ensureVisible(find.svg(githubSvg.bytesLoader));
+      await tester.pumpAndSettle();
 
       await tester.tap(find.svg(githubSvg.bytesLoader));
       await tester.pumpAndSettle();

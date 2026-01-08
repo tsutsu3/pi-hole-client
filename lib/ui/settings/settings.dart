@@ -22,6 +22,7 @@ import 'package:pi_hole_client/ui/settings/app_settings/language_screen.dart';
 import 'package:pi_hole_client/ui/settings/app_settings/theme_screen.dart';
 import 'package:pi_hole_client/ui/settings/server_settings/advanced_server_options.dart';
 import 'package:pi_hole_client/ui/settings/server_settings/advanced_settings/network_screen.dart';
+import 'package:pi_hole_client/ui/settings/server_settings/group_client_screen.dart';
 import 'package:pi_hole_client/ui/settings/server_settings/server_info.dart';
 import 'package:pi_hole_client/ui/settings/server_settings/subscriptions.dart';
 import 'package:pi_hole_client/utils/open_url.dart';
@@ -86,6 +87,8 @@ class _SettingsWidgetState extends State<SettingsWidget> {
           switch (screenToShow) {
             case 5:
               splitView.setSecondary(const SubscriptionLists());
+            case 11:
+              splitView.setSecondary(const GroupClientScreen());
             case 6:
               splitView.setSecondary(const AdvancedServerOptions());
               final apiVersion = context
@@ -243,6 +246,13 @@ class _SettingsWidgetState extends State<SettingsWidget> {
             subtitle: AppLocalizations.of(context)!.adlistDescription,
             screenToNavigate: const SubscriptionLists(),
             thisItem: 5,
+          ),
+          settingsTile(
+            icon: Icons.group_rounded,
+            title: AppLocalizations.of(context)!.groupsAndClients,
+            subtitle: AppLocalizations.of(context)!.groupsAndClientsDescription,
+            screenToNavigate: const GroupClientScreen(),
+            thisItem: 11,
           ),
           settingsTile(
             icon: Icons.build_rounded,

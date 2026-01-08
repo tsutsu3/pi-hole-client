@@ -1,4 +1,5 @@
 {
+  "@@locale": "de",
   "about": "Über diese App",
   "aboutThisApp": "Hilfe erhalten und mehr über diese App erfahren",
   "accept": "Akzeptieren",
@@ -559,7 +560,17 @@
   "theme": "Design",
   "time": "Zeit",
   "timeHoursAgo": "{hours, plural, =0{gerade eben} =1{vor 1 Stunde} other{vor {hours} Stunden}}",
+  "@timeHoursAgo": {
+    "placeholders": {
+      "hours": {}
+    }
+  },
   "timeHoursIn": "{hours, plural, =0{unter 1 Stunde} =1{in 1 Stunde} other{in {hours} Stunden}}",
+  "@timeHoursIn": {
+    "placeholders": {
+      "hours": {}
+    }
+  },
   "timestamps": "Zeitstempel",
   "tlsStatus": "TLS-Status",
   "toTime": "Bis",
@@ -617,5 +628,49 @@
   "welcomeToApp": "Willkommen in der App",
   "whitelist": "Zur Whitelist hinzufügen",
   "writeEmail": "Schreiben Sie mir per E-Mail.",
-  "writeEmailDetails": "Die Email sollte im Optimalfall folgende Infos enthalten: Pi-hole und Web Interface Version, wie kann der Fehler reproduziert werden, Screenshots...\n\nFür alle Informationen sind wir sehr dankbar."
+  "writeEmailDetails": "Die Email sollte im Optimalfall folgende Infos enthalten: Pi-hole und Web Interface Version, wie kann der Fehler reproduziert werden, Screenshots...\n\nFür alle Informationen sind wir sehr dankbar.",
+  "groupsAndClients": "Gruppen und Clients",
+  "groupsAndClientsDescription": "Gruppen und Client-Zuweisungen verwalten",
+  "groupClientSearch": "Gruppen oder Clients suchen...",
+  "groupAdd": "Gruppe hinzufügen",
+  "groupAdding": "Gruppe wird hinzugefügt...",
+  "groupAdded": "Gruppe erfolgreich hinzugefügt",
+  "groupAddFailed": "Gruppe konnte nicht hinzugefügt werden",
+  "groupAlreadyAdded": "Gruppe bereits hinzugefügt",
+  "groupRemoveFailed": "Gruppe konnte nicht entfernt werden",
+  "groupRemoved": "Gruppe erfolgreich entfernt",
+  "groupNotExists": "Gruppe existiert nicht",
+  "groupUpdateFailed": "Gruppe konnte nicht aktualisiert werden",
+  "groupUpdated": "Gruppe erfolgreich aktualisiert",
+  "groupUpdating": "Gruppe wird aktualisiert...",
+  "groupDelete": "Gruppe löschen",
+  "groupDeleteMessage": "Möchten Sie diese Gruppe wirklich löschen?",
+  "groupDetails": "Gruppendetails",
+  "groupSettings": "Gruppeneinstellungen",
+  "groupInfo": "Gruppeninfo",
+  "groupName": "Gruppenname",
+  "groupEdit": "Gruppe bearbeiten",
+  "groupsNone": "Keine Gruppen vorhanden.",
+  "groupsNotLoaded": "Gruppenliste konnte nicht geladen werden",
+  "groupsSelectLeftColumn": "Wählen Sie eine Gruppe aus, um Details zu sehen.",
+  "clientAdd": "Client hinzufügen",
+  "clientAdding": "Client wird hinzugefügt...",
+  "clientAdded": "Client erfolgreich hinzugefügt",
+  "clientAddFailed": "Client konnte nicht hinzugefügt werden",
+  "clientAlreadyAdded": "Client bereits hinzugefügt",
+  "clientRemoveFailed": "Client konnte nicht entfernt werden",
+  "clientRemoved": "Client erfolgreich entfernt",
+  "clientNotExists": "Client existiert nicht",
+  "clientUpdateFailed": "Client konnte nicht aktualisiert werden",
+  "clientUpdated": "Client erfolgreich aktualisiert",
+  "clientUpdating": "Client wird aktualisiert...",
+  "clientDelete": "Client löschen",
+  "clientDeleteMessage": "Möchten Sie diesen Client wirklich löschen?",
+  "clientDetails": "Client-Details",
+  "clientSettings": "Client-Einstellungen",
+  "clientInfo": "Client-Info",
+  "clientAddress": "Client-Adresse",
+  "clientsNone": "Keine Clients vorhanden.",
+  "clientsNotLoaded": "Clientliste konnte nicht geladen werden",
+  "clientsSelectLeftColumn": "Wählen Sie einen Client aus, um Details zu sehen."
 }

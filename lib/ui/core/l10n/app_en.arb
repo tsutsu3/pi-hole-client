@@ -1,4 +1,5 @@
 {
+  "@@locale": "en",
   "about": "About",
   "aboutThisApp": "Get help and learn about this app",
   "accept": "Accept",
@@ -559,7 +560,17 @@
   "theme": "Theme",
   "time": "Time",
   "timeHoursAgo": "{hours, plural, =0{just now} =1{1 hour ago} other{{hours} hours ago}}",
+  "@timeHoursAgo": {
+    "placeholders": {
+      "hours": {}
+    }
+  },
   "timeHoursIn": "{hours, plural, =0{less than 1 hour} =1{in 1 hour} other{in {hours} hours}}",
+  "@timeHoursIn": {
+    "placeholders": {
+      "hours": {}
+    }
+  },
   "timestamps": "Timestamps",
   "tlsStatus": "TLS Status",
   "toTime": "To time",
@@ -617,5 +628,49 @@
   "welcomeToApp": "Welcome to the App",
   "whitelist": "Add to whitelist",
   "writeEmail": "Write me by email.",
-  "writeEmailDetails": "Include on the body of the email all the possible details: Pi-hole and web interface version, how to reproduce the issue, screenshots...\n\nAll provided information will be very welcome."
+  "writeEmailDetails": "Include on the body of the email all the possible details: Pi-hole and web interface version, how to reproduce the issue, screenshots...\n\nAll provided information will be very welcome.",
+  "groupsAndClients": "Groups & Clients",
+  "groupsAndClientsDescription": "Manage groups and client assignments",
+  "groupClientSearch": "Search groups or clients...",
+  "groupAdd": "Add Group",
+  "groupAdding": "Adding group...",
+  "groupAdded": "Group added successfully",
+  "groupAddFailed": "Group couldn't be added",
+  "groupAlreadyAdded": "Group already added",
+  "groupRemoveFailed": "Could not remove group",
+  "groupRemoved": "Group removed successfully",
+  "groupNotExists": "Group does not exist",
+  "groupUpdateFailed": "Failed to update the group",
+  "groupUpdated": "Group updated successfully",
+  "groupUpdating": "Updating group...",
+  "groupDelete": "Delete Group",
+  "groupDeleteMessage": "Are you sure you want to delete this group?",
+  "groupDetails": "Group details",
+  "groupSettings": "Group settings",
+  "groupInfo": "Group info",
+  "groupName": "Group name",
+  "groupEdit": "Edit group",
+  "groupsNone": "There are no groups to show here.",
+  "groupsNotLoaded": "Groups list couldn't be loaded",
+  "groupsSelectLeftColumn": "Select a group to view its details.",
+  "clientAdd": "Add Client",
+  "clientAdding": "Adding client...",
+  "clientAdded": "Client added successfully",
+  "clientAddFailed": "Client couldn't be added",
+  "clientAlreadyAdded": "Client already added",
+  "clientRemoveFailed": "Could not remove client",
+  "clientRemoved": "Client removed successfully",
+  "clientNotExists": "Client does not exist",
+  "clientUpdateFailed": "Failed to update the client",
+  "clientUpdated": "Client updated successfully",
+  "clientUpdating": "Updating client...",
+  "clientDelete": "Delete Client",
+  "clientDeleteMessage": "Are you sure you want to delete this client?",
+  "clientDetails": "Client details",
+  "clientSettings": "Client settings",
+  "clientInfo": "Client info",
+  "clientAddress": "Client address",
+  "clientsNone": "There are no clients to show here.",
+  "clientsNotLoaded": "Clients list couldn't be loaded",
+  "clientsSelectLeftColumn": "Select a client to view its details."
 }

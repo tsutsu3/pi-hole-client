@@ -9,6 +9,7 @@ import 'package:pi_hole_client/data/gateway/api_gateway_interface.dart';
 import 'package:pi_hole_client/data/model/v6/action/action.dart';
 import 'package:pi_hole_client/data/model/v6/auth/auth.dart' show Session;
 import 'package:pi_hole_client/data/model/v6/auth/sessions.dart';
+import 'package:pi_hole_client/data/model/v6/clients/clients.dart';
 import 'package:pi_hole_client/data/model/v6/config/config.dart'
     show Config, ConfigData, Dns;
 import 'package:pi_hole_client/data/model/v6/dhcp/dhcp.dart' show Dhcp;
@@ -36,6 +37,7 @@ import 'package:pi_hole_client/data/model/v6/network/gateway.dart' show Gateway;
 import 'package:pi_hole_client/domain/model/local_dns/local_dns.dart';
 import 'package:pi_hole_client/domain/models_old/app_log.dart';
 import 'package:pi_hole_client/domain/models_old/client.dart';
+import 'package:pi_hole_client/domain/models_old/clients.dart';
 import 'package:pi_hole_client/domain/models_old/config.dart';
 import 'package:pi_hole_client/domain/models_old/devices.dart';
 import 'package:pi_hole_client/domain/models_old/dhcp.dart';
@@ -1253,17 +1255,228 @@ class ApiGatewayV6 implements ApiGateway {
 
   @override
   Future<RemoveGroupResponse> removeGroup({required String name}) async {
-    throw UnimplementedError();
+    try {
+      final requestUrl =
+          '${_server.address}/api/groups/${Uri.encodeComponent(name)}';
+      final results = await httpClient(method: 'delete', url: requestUrl);
+
+      if (results.statusCode == 204) {
+        return RemoveGroupResponse(result: APiResponseType.success);
+      } else if (results.statusCode == 404) {
+        return RemoveGroupResponse(
+          result: APiResponseType.notFound,
+          message: fetchError,
+        );
+      } else {
+        return RemoveGroupResponse(
+          result: APiResponseType.error,
+          message: fetchError,
+        );
+      }
+    } catch (e) {
+      return RemoveGroupResponse(
+        result: APiResponseType.error,
+        message: unexpectedError,
+      );
+    }
   }
 
   @override
   Future<GroupsResponse> createGroup({required GroupRequest body}) async {
-    throw UnimplementedError();
+    try {
+      final results = await httpClient(
+        method: 'post',
+        url: '${_server.address}/api/groups',
+        body: body.toJson(),
+      );
+
+      if (results.statusCode == 201) {
+        final groups = Groups.fromJson(jsonDecode(results.body));
+
+        if (groups.processed?.errors.isNotEmpty == true) {
+          return GroupsResponse(
+            result: APiResponseType.alreadyAdded,
+            message: fetchError,
+          );
+        }
+
+        return GroupsResponse(
+          result: APiResponseType.success,
+          data: GroupsInfo.fromV6(groups),
+        );
+      } else {
+        return GroupsResponse(
+          result: APiResponseType.error,
+          message: fetchError,
+        );
+      }
+    } catch (e) {
+      return GroupsResponse(
+        result: APiResponseType.error,
+        message: unexpectedError,
+      );
+    }
   }
 
   @override
-  Future<GroupsResponse> updateGroup({required GroupRequest body}) async {
-    throw UnimplementedError();
+  Future<GroupsResponse> updateGroup({
+    required String name,
+    required GroupRequest body,
+  }) async {
+    try {
+      final results = await httpClient(
+        method: 'put',
+        url: '${_server.address}/api/groups/${Uri.encodeComponent(name)}',
+        body: body.toJson(),
+      );
+
+      if (results.statusCode == 200) {
+        final groups = Groups.fromJson(jsonDecode(results.body));
+
+        return GroupsResponse(
+          result: APiResponseType.success,
+          data: GroupsInfo.fromV6(groups),
+        );
+      } else {
+        return GroupsResponse(
+          result: APiResponseType.error,
+          message: fetchError,
+        );
+      }
+    } catch (e) {
+      return GroupsResponse(
+        result: APiResponseType.error,
+        message: unexpectedError,
+      );
+    }
+  }
+
+  @override
+  Future<ClientsResponse> getClients({String? client}) async {
+    try {
+      var requestUrl = '${_server.address}/api/clients';
+      if (client != null) {
+        requestUrl += '/${Uri.encodeComponent(client)}';
+      }
+
+      final results = await httpClient(method: 'get', url: requestUrl);
+
+      if (results.statusCode == 200) {
+        final payload = jsonDecode(results.body) as Map<String, dynamic>;
+        return ClientsResponse(
+          result: APiResponseType.success,
+          data: ClientsInfo.fromV6(Clients.fromJson(payload)),
+        );
+      } else {
+        return ClientsResponse(
+          result: APiResponseType.error,
+          message: fetchError,
+        );
+      }
+    } catch (e) {
+      return ClientsResponse(
+        result: APiResponseType.error,
+        message: unexpectedError,
+      );
+    }
+  }
+
+  @override
+  Future<RemoveClientResponse> removeClient({required String client}) async {
+    try {
+      final requestUrl =
+          '${_server.address}/api/clients/${Uri.encodeComponent(client)}';
+      final results = await httpClient(method: 'delete', url: requestUrl);
+
+      if (results.statusCode == 204) {
+        return RemoveClientResponse(result: APiResponseType.success);
+      } else if (results.statusCode == 404) {
+        return RemoveClientResponse(
+          result: APiResponseType.notFound,
+          message: fetchError,
+        );
+      } else {
+        return RemoveClientResponse(
+          result: APiResponseType.error,
+          message: fetchError,
+        );
+      }
+    } catch (e) {
+      return RemoveClientResponse(
+        result: APiResponseType.error,
+        message: unexpectedError,
+      );
+    }
+  }
+
+  @override
+  Future<ClientsResponse> createClient({required ClientRequest body}) async {
+    try {
+      final results = await httpClient(
+        method: 'post',
+        url: '${_server.address}/api/clients',
+        body: body.toJson(),
+      );
+
+      if (results.statusCode == 201 || results.statusCode == 200) {
+        final payload = jsonDecode(results.body) as Map<String, dynamic>;
+        final processed = payload['processed'] as Map<String, dynamic>?;
+        final errors = processed?['errors'] as List<dynamic>?;
+        if (errors != null && errors.isNotEmpty) {
+          return ClientsResponse(
+            result: APiResponseType.alreadyAdded,
+            message: fetchError,
+          );
+        }
+
+        return ClientsResponse(
+          result: APiResponseType.success,
+          data: ClientsInfo.fromV6(Clients.fromJson(payload)),
+        );
+      } else {
+        return ClientsResponse(
+          result: APiResponseType.error,
+          message: fetchError,
+        );
+      }
+    } catch (e) {
+      return ClientsResponse(
+        result: APiResponseType.error,
+        message: unexpectedError,
+      );
+    }
+  }
+
+  @override
+  Future<ClientsResponse> updateClient({
+    required String client,
+    required ClientRequest body,
+  }) async {
+    try {
+      final results = await httpClient(
+        method: 'put',
+        url: '${_server.address}/api/clients/${Uri.encodeComponent(client)}',
+        body: body.toJson(includeClient: false),
+      );
+
+      if (results.statusCode == 200) {
+        final payload = jsonDecode(results.body) as Map<String, dynamic>;
+        return ClientsResponse(
+          result: APiResponseType.success,
+          data: ClientsInfo.fromV6(Clients.fromJson(payload)),
+        );
+      } else {
+        return ClientsResponse(
+          result: APiResponseType.error,
+          message: fetchError,
+        );
+      }
+    } catch (e) {
+      return ClientsResponse(
+        result: APiResponseType.error,
+        message: unexpectedError,
+      );
+    }
   }
 
   @override

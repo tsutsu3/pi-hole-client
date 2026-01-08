@@ -321,7 +321,7 @@ class NetworkHandler {
           },
           {
             'id': 2,
-            'hwaddr': '00:11:22:33:44:xx',
+            'hwaddr': '00:11:22:33:44:66',
             'interface': 'enp2s0',
             'firstSeen': 1664523620,
             'lastQuery': 1664588620,

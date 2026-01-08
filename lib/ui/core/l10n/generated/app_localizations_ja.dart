@@ -1905,4 +1905,136 @@ class AppLocalizationsJa extends AppLocalizations {
   @override
   String get writeEmailDetails =>
       'メール本文には可能な限り詳細を記載してください：Pi-holeおよびWebインターフェースのバージョン、問題の再現方法、スクリーンショットなど。\n\n提供される情報はすべて歓迎します。';
+
+  @override
+  String get groupsAndClients => 'グループとクライアント';
+
+  @override
+  String get groupsAndClientsDescription => 'グループとクライアントの割り当てを管理';
+
+  @override
+  String get groupClientSearch => 'グループまたはクライアントを検索...';
+
+  @override
+  String get groupAdd => 'グループを追加';
+
+  @override
+  String get groupAdding => 'グループを追加中...';
+
+  @override
+  String get groupAdded => 'グループを追加しました';
+
+  @override
+  String get groupAddFailed => 'グループを追加できませんでした';
+
+  @override
+  String get groupAlreadyAdded => 'グループは既に追加されています';
+
+  @override
+  String get groupRemoveFailed => 'グループを削除できませんでした';
+
+  @override
+  String get groupRemoved => 'グループを削除しました';
+
+  @override
+  String get groupNotExists => 'グループが存在しません';
+
+  @override
+  String get groupUpdateFailed => 'グループを更新できませんでした';
+
+  @override
+  String get groupUpdated => 'グループを更新しました';
+
+  @override
+  String get groupUpdating => 'グループを更新中...';
+
+  @override
+  String get groupDelete => 'グループを削除';
+
+  @override
+  String get groupDeleteMessage => 'このグループを削除しますか？';
+
+  @override
+  String get groupDetails => 'グループの詳細';
+
+  @override
+  String get groupSettings => 'グループ設定';
+
+  @override
+  String get groupInfo => 'グループ情報';
+
+  @override
+  String get groupName => 'グループ名';
+
+  @override
+  String get groupEdit => 'グループを編集';
+
+  @override
+  String get groupsNone => '表示するグループがありません。';
+
+  @override
+  String get groupsNotLoaded => 'グループ一覧を読み込めませんでした';
+
+  @override
+  String get groupsSelectLeftColumn => '詳細を表示するグループを選択してください。';
+
+  @override
+  String get clientAdd => 'クライアントを追加';
+
+  @override
+  String get clientAdding => 'クライアントを追加中...';
+
+  @override
+  String get clientAdded => 'クライアントを追加しました';
+
+  @override
+  String get clientAddFailed => 'クライアントを追加できませんでした';
+
+  @override
+  String get clientAlreadyAdded => 'クライアントは既に追加されています';
+
+  @override
+  String get clientRemoveFailed => 'クライアントを削除できませんでした';
+
+  @override
+  String get clientRemoved => 'クライアントを削除しました';
+
+  @override
+  String get clientNotExists => 'クライアントが存在しません';
+
+  @override
+  String get clientUpdateFailed => 'クライアントを更新できませんでした';
+
+  @override
+  String get clientUpdated => 'クライアントを更新しました';
+
+  @override
+  String get clientUpdating => 'クライアントを更新中...';
+
+  @override
+  String get clientDelete => 'クライアントを削除';
+
+  @override
+  String get clientDeleteMessage => 'このクライアントを削除しますか？';
+
+  @override
+  String get clientDetails => 'クライアントの詳細';
+
+  @override
+  String get clientSettings => 'クライアント設定';
+
+  @override
+  String get clientInfo => 'クライアント情報';
+
+  @override
+  String get clientAddress => 'クライアントのアドレス';
+
+  @override
+  String get clientsNone => '表示するクライアントがありません。';
+
+  @override
+  String get clientsNotLoaded => 'クライアント一覧を読み込めませんでした';
+
+  @override
+  String get clientsSelectLeftColumn => '詳細を表示するクライアントを選択してください。';
 }
