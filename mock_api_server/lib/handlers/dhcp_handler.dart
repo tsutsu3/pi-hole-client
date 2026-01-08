@@ -3,7 +3,7 @@ import 'package:shelf/shelf.dart';
 import 'package:shelf_router/shelf_router.dart';
 
 class DhcpHandler {
-  static const _leases = [
+  static final _leases = [
     {
       'expires': 1894112391,
       'name': 'laptop',
@@ -33,8 +33,9 @@ class DhcpHandler {
     });
 
     router.delete('/leases/<ip>', (Request request, String ip) {
-      final found = _leases.any((lease) => lease['ip'] == ip);
-      if (!found) {
+      final originalLength = _leases.length;
+      _leases.removeWhere((lease) => lease['ip'] == ip);
+      if (originalLength == _leases.length) {
         return Response.notFound(
           jsonEncode({
             'error': {'message': 'Lease not found'},
@@ -42,7 +43,6 @@ class DhcpHandler {
           headers: {'Content-Type': 'application/json'},
         );
       }
-
       return Response(204);
     });
 
