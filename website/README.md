@@ -7,13 +7,13 @@ This is the source for the **Pi-hole Client Website**.
 ## Installation
 
 ```bash
-npm install
+pnpm install
 ```
 
 ## Local Development
 
 ```bash
-npm run start
+pnpm start
 ```
 
 This command starts a local development server and opens up a browser window.
@@ -22,7 +22,7 @@ Most changes are reflected live without having to restart the server.
 ## Build
 
 ```bash
-npm run build
+pnpm build
 ```
 
 ## Deployment
