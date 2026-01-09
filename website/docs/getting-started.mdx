@@ -45,4 +45,40 @@ See [Getting the API token (v5 only)](../guides/get-api-token) for details.
 
 ## 🔗 3. Add your server in the app
 
-🚧🚧🚧 **Work in progress** 🚧🚧🚧
+Open **Settings → App Settings → Servers**, then tap **＋** to create a new
+connection.
+
+<div style={{display: "flex", gap: "12px", flexWrap: "wrap"}}>
+  <img width="240" alt="Servers list in App Settings" src={require('./user-manual/images/settings/app-settings/servers.png').default} />
+  <img width="240" alt="Create a connection screen" src={require('./user-manual/images/settings/app-settings/create-a-connection.png').default} />
+</div>
+
+### Fill in the connection details
+
+- **Server name**: a label shown in the app (for example, `Home Pi-hole`)
+- **HTTP / HTTPS**:
+  - Use **HTTP** for a local network setup
+  - Use **HTTPS** if your Pi-hole is exposed through a reverse proxy or has TLS
+- **Address**: your Pi-hole hostname or IP (for example, `pi.hole` or `192.168.1.10`)
+- **Port** (optional): leave empty for the default (`80` for HTTP, `443` for HTTPS)
+
+### Advanced options (only if needed)
+
+- **Subroute** (optional): use this only when Pi-hole is served under a path by a
+  reverse proxy (example: `/pihole`)
+- **Allow self-signed certificates**: only available on **HTTPS**; enable it only
+  if you intentionally use a self-signed certificate
+
+### Select your Pi-hole version and authentication
+
+- **Pi-hole v6 (recommended)**: enter your **Web UI password**
+- **Pi-hole v5**: enter your **API token** (you can also scan it via QR code on mobile)
+
+Tap **Connect** to verify the details and save the server.
+
+If connection fails, double-check that the web interface is reachable from your
+phone (LAN/VPN), and that the version and authentication match your Pi-hole.
+
+See also:
+- [Connecting to Your Pi-hole](../guides/create-a-connection)
+- [Getting the API token (v5 only)](../guides/get-api-token)
