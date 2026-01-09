@@ -1,0 +1,315 @@
+---
+title: Server Settings
+sidebar_position: 2
+---
+
+import imgServerInfo from "../images/settings/server-settings/pi-hole-server/pihole-server.png";
+import imgServerInfoExpandTop from "../images/settings/server-settings/pi-hole-server/pihole-server-expand-top.png";
+import imgServerInfoExpandBottom from "../images/settings/server-settings/pi-hole-server/pihole-server-expan-bottom.png";
+import imgAdlists from "../images/settings/server-settings/adlists/adlists.png";
+import imgAdlistAdd from "../images/settings/server-settings/adlists/add-adlist.png";
+import imgAdlistDetail from "../images/settings/server-settings/adlists/adlist-detail.png";
+import imgUpdateGravity from "../images/settings/server-settings/adlists/update-gravity.png";
+import imgGroups from "../images/settings/server-settings/groups-clients/groups.png";
+import imgGroupDetails from "../images/settings/server-settings/groups-clients/group-details.png";
+import imgAddGroup from "../images/settings/server-settings/groups-clients/add-group.png";
+import imgClients from "../images/settings/server-settings/groups-clients/clients.png";
+import imgClientDetail from "../images/settings/server-settings/groups-clients/client-detail.png";
+import imgAddClients from "../images/settings/server-settings/groups-clients/add-clients.png";
+import imgAdvancedSettings from "../images/settings/server-settings/advanced-settings/advanxed-settings.png";
+import imgDhcp from "../images/settings/server-settings/advanced-settings/dhcp/dhcp.png";
+import imgDhcpOff from "../images/settings/server-settings/advanced-settings/dhcp/dhcp-off.png";
+import imgDhcpDetail from "../images/settings/server-settings/advanced-settings/dhcp/dhcp-detail.png";
+import imgInterface from "../images/settings/server-settings/advanced-settings/interface/interface.png";
+import imgInterfaceAddress from "../images/settings/server-settings/advanced-settings/interface/address.png";
+import imgInterfaceStats from "../images/settings/server-settings/advanced-settings/interface/statistics.png";
+import imgInterfaceMore from "../images/settings/server-settings/advanced-settings/interface/more-detail.png";
+import imgLocalDns from "../images/settings/server-settings/advanced-settings/local-dns/local-dns.png";
+import imgLocalDnsAdd from "../images/settings/server-settings/advanced-settings/local-dns/add-local-dns.png";
+import imgLocalDnsDetail from "../images/settings/server-settings/advanced-settings/local-dns/local-dns-detail.png";
+import imgNetworks from "../images/settings/server-settings/advanced-settings/network/networks.png";
+import imgNetworkDevice from "../images/settings/server-settings/advanced-settings/network/device.png";
+import imgSessions from "../images/settings/server-settings/advanced-settings/sessions/sessions.png";
+import imgSessionDetail from "../images/settings/server-settings/advanced-settings/sessions/session-detail.png";
+import imgSessionDetailInUse from "../images/settings/server-settings/advanced-settings/sessions/session-detail-in-use.png";
+
+# 🔧 Server Settings
+
+## What you can do on this screen
+
+Server Settings is where you manage **the currently selected Pi-hole server itself**.
+Unlike App Settings, everything here affects server behavior and data.
+
+Use this screen to:
+- Confirm server identity, version, and health
+- Maintain adlists, groups, and client assignments
+- Perform advanced maintenance and network-related actions
+
+Most features on this screen are available on **Pi-hole v6 servers**.
+
+---
+
+## Server Info
+
+Server Info shows **detailed information about the currently connected
+Pi-hole server**.
+Use this screen to confirm that the app is connected to the correct device
+and to check the server’s current state.
+
+<img width="320" alt="Server info screen" src={imgServerInfo} />
+
+On this screen, you can confirm:
+
+- **Server identity**
+  - Server name
+  - Hostname
+  - Hardware model (for example, Raspberry Pi model)
+
+- **Connection status**
+  - Whether the server is currently reachable
+  - Which server is selected as active
+
+- **Performance**
+  - Current CPU usage
+  - Current memory (RAM) usage
+  These values help you judge whether the server is under load.
+
+- **Pi-hole versions**
+  - Core version
+  - FTL version
+  Use these to confirm feature availability and compatibility
+  (for example, v5 vs v6 differences).
+
+Scroll down to reveal additional sections when you need more detail,
+such as extended system or environment information.
+
+<div style={{ display: "flex", gap: "12px", flexWrap: "wrap" }}>
+  <img width="240" alt="Server info expanded top" src={imgServerInfoExpandTop} />
+  <img width="240" alt="Server info expanded bottom" src={imgServerInfoExpandBottom} />
+</div>
+
+Always check Server Info before making changes in **Adlists**, **Groups & Clients**,
+or **Advanced Setup**, to ensure you are operating on the intended Pi-hole server.
+
+
+## Adlists
+
+Adlists control which external blocklists Pi-hole uses to build its blocking
+database (gravity). This section is available on **Pi-hole v6 only**.
+
+<img width="320" alt="Adlists screen" src={imgAdlists} />
+
+### Add a list
+
+Use **Add** to register a new blocklist URL.
+
+<img width="320" alt="Add adlist dialog" src={imgAdlistAdd} />
+
+Only add lists from trusted sources.
+Keep new lists enabled only after confirming they behave as expected.
+
+### Review and manage lists
+
+Tap a list to review its status and details.
+
+<img width="320" alt="Adlist detail" src={imgAdlistDetail} />
+
+Disable a list to pause its effect without losing configuration.
+Delete a list only when you are sure it is no longer needed.
+
+### Update Gravity
+
+After adding or editing lists, use **Update Gravity** to rebuild the blocking
+database.
+
+<img width="320" alt="Update Gravity" src={imgUpdateGravity} />
+
+This operation refreshes Pi-hole’s block rules and may take a short time.
+
+## Groups and Clients
+
+Groups and Clients let you control **which rules apply to which devices**.
+This section is available on **Pi-hole v6 only**.
+
+<img width="320" alt="Groups list" src={imgGroups} />
+
+### Groups
+
+Groups define policy sets that can be assigned to clients.
+
+Tap a group to edit its name or configuration.
+
+<img width="320" alt="Group details" src={imgGroupDetails} />
+
+Use **Add Group** to create a new group.
+
+<img width="320" alt="Add group" src={imgAddGroup} />
+
+Only create groups you intend to use, to keep policy management clear.
+
+### Clients
+
+Switch to the **Clients** tab to view devices known to the server.
+
+<img width="320" alt="Clients list" src={imgClients} />
+
+Tap a client to review its identity and group assignment.
+
+<img width="320" alt="Client detail" src={imgClientDetail} />
+
+Use **Add Clients** to manually register a device by IP, MAC, or name.
+
+<img width="320" alt="Add clients" src={imgAddClients} />
+
+Always confirm the device identity before assigning or changing groups.
+
+---
+
+## Advanced setup
+
+Advanced Setup exposes **server-level maintenance and network tools**.
+These actions directly affect Pi-hole behavior.
+
+<img width="320" alt="Advanced server settings" src={imgAdvancedSettings} />
+
+### Actions
+
+- **Disable / Enable query logging**
+  Temporarily stop logging DNS queries.
+  Use only for short troubleshooting sessions.
+
+- **Restart DNS resolver**
+  Restart Pi-hole’s DNS service.
+  This briefly interrupts DNS resolution.
+
+- **Flush network table**
+  Clear and rebuild device mappings.
+  Useful after IP or hostname changes.
+
+- **Flush logs (last 24 hours)**
+  Remove recent query history.
+  Avoid doing this if logs are still needed for analysis.
+
+---
+
+## Sessions
+
+Sessions show active and recent DNS usage.
+
+<img width="320" alt="Sessions list" src={imgSessions} />
+
+Tap a session to view details.
+If a session is currently in use, editing options may be limited.
+
+<div style={{ display: "flex", gap: "12px", flexWrap: "wrap" }}>
+  <img width="240" alt="Session detail" src={imgSessionDetail} />
+  <img width="240" alt="Session in use" src={imgSessionDetailInUse} />
+</div>
+
+## DHCP
+
+Use DHCP only if Pi-hole is acting as your DHCP server.
+
+<div style={{ display: "flex", gap: "12px", flexWrap: "wrap" }}>
+  <img width="240" alt="DHCP enabled" src={imgDhcp} />
+  <img width="240" alt="DHCP disabled" src={imgDhcpOff} />
+</div>
+
+Tap a lease to review details and confirm IP assignments.
+
+<img width="320" alt="DHCP lease detail" src={imgDhcpDetail} />
+
+Keep DHCP disabled if another device already manages leases.
+
+## Local DNS
+
+Local DNS allows you to define custom hostnames inside your network.
+
+<img width="320" alt="Local DNS list" src={imgLocalDns} />
+
+Add entries when devices need stable, human-readable names.
+
+<img width="320" alt="Add local DNS" src={imgLocalDnsAdd} />
+
+Tap an entry to review or edit it.
+
+<img width="320" alt="Local DNS detail" src={imgLocalDnsDetail} />
+
+Avoid duplicate entries to prevent resolution conflicts.
+
+---
+
+## Interface
+
+Interface shows which network interface Pi-hole is using.
+
+<img width="320" alt="Interface overview" src={imgInterface} />
+
+Review address details to confirm IP configuration.
+
+<img width="320" alt="Interface address" src={imgInterfaceAddress} />
+
+Statistics help verify whether traffic is flowing as expected.
+
+<img width="320" alt="Interface statistics" src={imgInterfaceStats} />
+
+Use detailed views only when troubleshooting connectivity issues.
+
+<img width="320" alt="Interface detail" src={imgInterfaceMore} />
+
+## Network
+
+Network displays devices discovered on your local network.
+
+<img width="320" alt="Networks list" src={imgNetworks} />
+
+Tap a device to inspect details and activity.
+
+<img width="320" alt="Network device" src={imgNetworkDevice} />
+
+Use this view to identify unknown devices or confirm network visibility.
+
+---
+
+## Common real-world scenarios
+
+- **A device behaves differently from others**
+  Use **Groups & Clients** to confirm the client identity and adjust
+  its group assignment.
+
+- **Too many false positives after adding a list**
+  Open **Adlists**, temporarily disable the list, and update gravity
+  to confirm the impact.
+
+- **DNS responses look incorrect or stale**
+  Use **Restart DNS resolver** from Advanced Setup to refresh the service.
+
+- **Network layout changed**
+  Flush the network table so Pi-hole can rebuild device mappings.
+
+## Important notes and limits
+
+Server Settings always apply to the **currently selected Pi-hole server**.
+If multiple servers are configured in the app, double-check Server Info
+before making changes.
+
+Some features are available only on **Pi-hole v6**.
+If an option does not appear, this usually reflects the server’s version
+or configuration rather than an app error.
+
+Certain actions, such as restarting DNS or flushing logs,
+may briefly affect DNS service or remove diagnostic data.
+Avoid using them during peak usage or active investigations.
+
+## Pi-hole concepts used on this screen
+
+A **server setting** changes how Pi-hole processes DNS requests
+for all connected clients.
+
+- **Adlists** define which external blocklists are used
+- **Groups** control which policies apply to which clients
+- **Gravity** is the compiled blocking database built from adlists
+- **FTL** is Pi-hole’s DNS engine responsible for query handling
+
+Understanding these concepts helps ensure that server-level changes
+are intentional, traceable, and reversible when needed.
