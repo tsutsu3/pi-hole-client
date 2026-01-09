@@ -45,7 +45,9 @@ Use this screen to:
 - Maintain adlists, groups, and client assignments
 - Perform advanced maintenance and network-related actions
 
-Most features on this screen are available on **Pi-hole v6 servers**.
+:::info
+Most tools on this screen are designed around the **Pi-hole v6 API**.
+:::
 
 ---
 
@@ -94,14 +96,15 @@ or **Advanced Setup**, to ensure you are operating on the intended Pi-hole serve
 
 ## Adlists
 
-Adlists control which external blocklists Pi-hole uses to build its blocking
-database (gravity). This section is available on **Pi-hole v6 only**.
+Adlists control which subscription lists Pi-hole uses to build its filtering
+database (gravity). In Pi-hole v6, this includes both allowlist and blocklist
+sources.
 
 <img width="320" alt="Adlists screen" src={imgAdlists} />
 
 ### Add a list
 
-Use **Add** to register a new blocklist URL.
+Use **Add** to register a new subscription URL for the currently selected tab.
 
 <img width="320" alt="Add adlist dialog" src={imgAdlistAdd} />
 
@@ -124,12 +127,12 @@ database.
 
 <img width="320" alt="Update Gravity" src={imgUpdateGravity} />
 
-This operation refreshes Pi-hole’s block rules and may take a short time.
+This operation refreshes Pi-hole’s filtering database and may take a short time.
 
-## Groups and Clients
+## Groups & Clients
 
 Groups and Clients let you control **which rules apply to which devices**.
-This section is available on **Pi-hole v6 only**.
+This is a Pi-hole v6 feature in the app.
 
 <img width="320" alt="Groups list" src={imgGroups} />
 

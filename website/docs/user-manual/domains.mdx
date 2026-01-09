@@ -27,8 +27,8 @@ and want to apply a persistent rule.
 
 At the top of the screen, you see two tabs that separate domain rules by type:
 
-- **Whitelist** - domains that are always allowed
-- **Blacklist** - domains that are always blocked
+- **Whitelist** (allowlist) - domains that are always allowed
+- **Blacklist** (denylist) - domains that are always blocked
 
 Tap a tab to switch the list below it.
 The list immediately updates to show only rules of the selected type.
@@ -49,9 +49,10 @@ To create a new rule, tap the floating **＋** button in the bottom-right corner
 
 In the add dialog:
 
-1. Choose whether the rule is **Allow** or **Block**
+1. Choose whether the rule is **Whitelist** or **Blacklist**
 2. Enter the domain name
-3. Tap **Add** to save
+3. (Optional) Enable **Add as wildcard** to also match subdomains
+4. Tap **Add** to save
 
 The list refreshes automatically after the rule is created.
 
@@ -75,6 +76,12 @@ On this screen, you can:
 
 Disabling a rule keeps it in Pi-hole but stops it from applying.
 This is useful when testing whether a rule is still needed.
+
+:::info
+If you are connected to **Pi-hole v5**, the app does not offer a per-rule
+enable/disable switch. Use the Pi-hole web interface if you need to disable a
+rule without deleting it.
+:::
 
 Deleting a rule removes it entirely and cannot be undone.
 Only delete rules you are sure you no longer need.

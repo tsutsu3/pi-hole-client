@@ -14,7 +14,7 @@ The Settings screen is where you configure **how the app behaves** and
 **how it interacts with Pi-hole servers**. You mainly use it to:
 
 - Customize app behavior such as theme, language, and server selection
-- Manage Pi-hole server tools like Adlists and Groups
+- Manage Pi-hole server tools like Adlists (Subscriptions) and Groups & Clients
 - View application and privacy information
 
 This screen is not used frequently, but it becomes important during initial
@@ -45,13 +45,17 @@ interact with the currently selected Pi-hole server.
 In this section, you can manage Pi-hole configuration and data, including:
 
 - **Server Info** - check server version, status, and basic details
-- **Adlists** - manage blocklist subscriptions used by Pi-hole
+- **Adlists** - manage subscription sources used by Pi-hole (allowlist and blocklist)
 - **Groups & Clients** - organize clients and rules into groups
 - **Advanced Setup** - access advanced server-side tools
 
 All pages in this section operate on the **selected server only**.
-Available options may vary depending on the Pi-hole version (v5 or v6)
-and server permissions.
+
+:::info
+These server-management tools are designed around the Pi-hole v6 API.
+If you are connected to Pi-hole v5, some pages are replaced by an informational
+message and should be managed from the Pi-hole web interface instead.
+:::
 
 ## About (bottom section)
 

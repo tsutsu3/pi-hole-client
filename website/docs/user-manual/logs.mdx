@@ -24,7 +24,7 @@ Pi-hole. You mainly use it to:
 
 - Find a specific query by domain, time, or client
 - Confirm whether a request was allowed or blocked
-- Allow or block a domain directly from a log entry
+- Add a domain to the Whitelist or Blacklist directly from a log entry
 
 This screen is your primary tool when troubleshooting broken apps, websites,
 or unexpected blocking behavior.
@@ -61,10 +61,12 @@ Tap it to pause live updates.
 Live updates are currently stopped.
 The icon on the right changes to a **resume-style** symbol.
 Tap it to resume live updates and return to real-time monitoring.
+By default, **Live Log is enabled**, but live updates start **paused** until you
+tap resume.
 
 **Right: Live mode disabled**
 Live mode is currently disabled by app settings.
-By default, Live mode is **enabled**, but it can be turned off manually.
+This is a manual choice in App Settings.
 
 When disabled, the icon on the right changes to a **manual refresh** button.
 Tap this button to fetch the latest logs once,
@@ -147,44 +149,45 @@ Once you find a relevant entry, tap it to open the detail view.
 Each detail view shows the domain, client, time, and status of the query,
 along with actions you can take.
 
-### Allow a domain
+### Whitelist a domain
 
-Use **Allow** when a legitimate site or app is broken by blocking.
-This adds the domain to Pi-hole’s allowlist, and future queries will be permitted.
-
-<img width="320" alt="Log detail allow action" src={imgLogDetailAllow} />
-
-### Block a domain
-
-Use **Deny** when you are confident the domain is unwanted.
+Use **Whitelist** when a legitimate site or app is broken by blocking.
+This adds the domain to Pi-hole’s whitelist (allowlist), and future queries will
+be permitted.
 
 <img width="320" alt="Log detail deny action" src={imgLogDetailDeny} />
 
-Blocking adds the domain to Pi-hole’s denylist.
+### Blacklist a domain
+
+Use **Blacklist** when you are confident the domain is unwanted.
+
+<img width="320" alt="Log detail allow action" src={imgLogDetailAllow} />
+
+Blocking adds the domain to Pi-hole’s blacklist (denylist).
 Future queries will be blocked according to this rule.
 
 ---
 
 ## Typical ways to use Logs
 
-- **A website does not load**
-  Open Logs, filter by *Blocked*, find the domain, and allow it if appropriate.
+- **A website does not load**:
+  Open Logs, filter by *Blocked*, find the domain, and whitelist it if appropriate.
 
-- **One device behaves strangely**
+- **One device behaves strangely**:
   Filter by client and inspect recent queries from that device.
 
-- **Real-time troubleshooting**
+- **Real-time troubleshooting**:
   Enable live mode, reproduce the issue, and watch queries appear as they happen.
 
 ## Important notes and limits
 
 - Logs can be limited or anonymized by Pi-hole privacy settings.
 - Heavy filtering may take time on large datasets.
-- Allow and deny actions affect only the currently selected server.
+- Whitelist and blacklist actions affect only the currently selected server.
 
 ## Pi-hole concepts used on this screen
 
 Each log entry represents a **DNS query** processed by Pi-hole.
 The **status** indicates whether the query was allowed or blocked.
-Allowing or denying a domain updates Pi-hole’s lists and affects
+Whitelisting or blacklisting a domain updates Pi-hole’s lists and affects
 future queries immediately.
