@@ -45,6 +45,9 @@ importers:
       '@docusaurus/types':
         specifier: 3.8.1
         version: 3.8.1(react-dom@19.2.3(react@19.2.3))(react@19.2.3)
+      eslint:
+        specifier: ^8.57.1
+        version: 8.57.1
       prettier:
         specifier: ^3.7.4
         version: 3.7.4
