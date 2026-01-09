@@ -98,13 +98,14 @@ const FeatureSection = () => {
       <h2 className={styles.featuresTitle}>Features</h2>
       <div className={styles.featuresGrid}>
         {features.map((f, index) => (
-          <FeatureCard
-            key={f.title}
-            icon={f.icon}
-            title={f.title}
-            desc={f.desc}
-            colorClass={colors[index % colors.length]}
-          />
+          <React.Fragment key={f.title}>
+            <FeatureCard
+              icon={f.icon}
+              title={f.title}
+              desc={f.desc}
+              colorClass={colors[index % colors.length]}
+            />
+          </React.Fragment>
         ))}
       </div>
     </section>
