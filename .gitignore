@@ -99,3 +99,5 @@ terraform.rc
 
 # Build metadata
 lib/build_info/git_commit.dart
+
+pihole-docs/

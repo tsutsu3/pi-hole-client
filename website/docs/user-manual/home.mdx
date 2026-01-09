@@ -1,0 +1,183 @@
+---
+title: Home
+sidebar_position: 1
+---
+
+import imgHomeTop from "./images/home/home-top.png";
+import imgHomeBottom from "./images/home/home-bottom.png";
+import imgHomeMenu from "./images/home/home-menu.png";
+import imgHomeServerSelect from "./images/home/home-switch.png";
+import imgHomeFab from "./images/home/home-fab.png";
+import imgHomeStatusIcon from "./images/home/home-status-icon.png";
+import imgHomeTiles from "./images/home/home-tiles.png";
+
+# 🏠 Home
+
+## What you can do on this screen
+
+The Home screen is the control center of Pi-hole Client.
+You mainly use it to:
+
+- Check whether Pi-hole is currently blocking traffic
+- Temporarily pause or resume blocking when something breaks
+- Jump directly to detailed views such as Logs or Adlists
+
+Open this screen first when ads suddenly appear or when you want to confirm
+that you are connected to the correct server.
+
+---
+
+## Start by confirming the server and its state
+
+When Home opens, do not tap anything yet.
+First, look at the **top area of the screen**.
+
+You will see the currently selected server name and a shield status icon.
+This area tells you **which server you are controlling** and **whether it is
+ready to accept actions**.
+
+<div style={{display: "flex", gap: "12px", flexWrap: "wrap"}}>
+  <img width="240" alt="Home top area with server name and summary tiles" src={imgHomeTop} />
+  <img width="240" alt="Home bottom area" src={imgHomeBottom} />
+</div>
+
+The shield icon represents the current state:
+
+- **Green shield with a check**:
+  Blocking is enabled and Pi-hole is actively filtering queries.
+- **Red shield with a cross**:
+  Blocking is **disabled** and all DNS queries are allowed.
+- **Orange shield with an exclamation mark**:
+  The app cannot communicate with the server.
+- **Gray shield outline**:
+  The app is still connecting or loading data.
+
+<img width="320" alt="Home status icon legend" src={imgHomeStatusIcon} />
+
+This icon is **not tappable**.
+Use it to decide what to do next: wait, reconnect, switch servers, or toggle
+blocking.
+
+If the icon is gray or orange, avoid making changes until the connection
+stabilizes.
+
+## Quick actions from the menu
+
+Tap the three-dot icon in the top-right corner to open quick actions.
+
+<img width="320" alt="Home menu actions" src={imgHomeMenu} />
+
+Depending on the current state, you may see:
+
+- **Refresh** - reload server status and statistics
+- **Open Web Panel** - open the Pi-hole admin interface in a browser
+- **Change Server** - switch to another configured server
+
+Use this menu when the displayed data looks outdated or when you need to access
+the full web interface for advanced configuration.
+
+Note: *Open Web Panel* assumes the admin interface is available at `/admin/`.
+If your Pi-hole uses a custom path, open it manually in a browser.
+
+## Switching the active server
+
+Next to the server name, you see a **⇄ icon**.
+This indicates that server switching is available.
+
+Tap the server name area to open the server switch dialog.
+
+<img width="320" alt="Server selection screen" src={imgHomeServerSelect} />
+
+In this dialog, you can:
+
+- View all configured Pi-hole servers
+- See which server is currently active
+- Tap another server to switch immediately
+
+After selecting a server, Home reloads automatically.
+All statistics, status icons, and actions now refer to the newly selected server.
+
+Use this feature when you manage multiple Pi-hole instances
+(for example, a home server and a remote server).
+
+Always confirm the server name again after switching.
+Actions such as pausing blocking apply **only to the currently selected server**.
+
+## Using summary tiles to jump to details
+
+Below the top status area, you see four summary tiles showing live statistics.
+
+Each tile is tappable and works as a shortcut:
+
+<img width="320" alt="Home summary tiles" src={imgHomeTiles} />
+
+- **Total Queries**
+  Opens Network (showing all devices).
+- **Queries Blocked**
+  Opens Logs with blocked queries in focus.
+- **Percentage Blocked**
+  Opens Logs with the status filter reset to show all queries.
+- **Domains on Adlists**
+  Opens the adlist (subscription) view in Server Settings.
+
+Use these tiles when you already know what you want to inspect and want to
+skip manual navigation through Settings.
+
+While data is loading, skeleton placeholders appear.
+This means the server connection is active but the data is not ready yet.
+
+## Controlling blocking with the floating shield button
+
+The floating shield button in the bottom-right corner is the fastest way to
+control blocking.
+
+<img width="320" alt="Home floating shield button" src={imgHomeFab} />
+
+- When blocking is **ON**, tapping the button opens a pause dialog
+- Choose a duration (for example, 5 minutes)
+- Blocking automatically resumes after the selected time
+
+If blocking is already **OFF**, tapping the button resumes it immediately.
+
+The button hides while you scroll down and reappears when you scroll up.
+It is also hidden while the screen is still loading.
+
+Use this control only for short troubleshooting.
+Leaving blocking disabled for long periods reduces the effectiveness of Pi-hole.
+
+---
+
+## Typical operation: pause blocking briefly
+
+1. Open **Home**
+2. Confirm the shield icon is green
+3. Tap the floating shield button
+4. Select **5 minutes**
+5. Blocking pauses and resumes automatically
+
+This flow is designed to be quick and reversible without opening Settings.
+
+## Common real-world scenarios
+
+- **Ads suddenly appear**
+  Open Home, check the shield icon, and resume blocking if it is red.
+
+- **A website or app fails to load**
+  Pause blocking for a short time, test again, and let blocking resume
+  automatically.
+
+- **Investigating blocked traffic**
+  Tap *Queries Blocked* to jump directly to Logs with the relevant filter applied.
+
+## Important notes and limits
+
+If no server is selected, Home shows almost no data and most actions are disabled.
+Connection errors appear as an orange shield, and blocking controls will not work.
+Some shortcuts depend on Pi-hole v6 features and may not exist on older versions.
+
+## Pi-hole concepts used on this screen
+
+A **query** is a DNS request handled by Pi-hole.
+A **blocked** query means Pi-hole returned a blocking response instead of an IP
+address.
+Pausing blocking temporarily disables filtering at the Pi-hole core level.
