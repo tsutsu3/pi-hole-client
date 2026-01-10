@@ -350,7 +350,7 @@ class _SettingsWidgetState extends State<SettingsWidget> {
                 handle: NestedScrollView.sliverOverlapAbsorberHandleFor(
                   context,
                 ),
-                sliver: SliverAppBar.large(
+                sliver: SliverAppBar.medium(
                   floating: true,
                   centerTitle: false,
                   forceElevated: innerBoxIsScrolled,
