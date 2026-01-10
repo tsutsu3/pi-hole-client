@@ -27,10 +27,12 @@
     grid-template-columns: 1fr;
     padding: 3rem 0 2rem 0;
   }
+  .heroText {
+    padding: 0 1rem;
+  }
 }
 .heroText {
   text-align: center;
-  padding-left: 0;
 }
 @media (min-width: 900px) {
   .heroText {
