@@ -223,7 +223,7 @@ const FeatureSection = () => {
       <h2 className={styles.featuresTitle}>Features</h2>
       <div className={styles.featuresGrid}>
         {features.map((f, index) => (
-          <React.Fragment key={f.title}>
+          <React.Fragment key={f.id}>
             <FeatureCard
               id={f.id}
               icon={f.icon}
@@ -265,16 +265,14 @@ const FeatureSection = () => {
                 <div
                   className={clsx(
                     styles.featureDetailMediaGrid,
-                    feature.mediaLayout === "grid" && styles.featureDetailMediaGridCompact,
                     feature.mediaLayout === "stack" && styles.featureDetailMediaStack,
                   )}
                 >
                   {feature.media.map((item) => (
-                    // <img key={item.src} src={item.src} alt={item.alt} />
                     <ThemedImage
                       key={item.src}
                       alt={item.alt}
-                      className={styles.heroMockImg}
+                      className={styles.featureDetailImage}
                       sources={{
                         light: item.src,
                         dark: item.srcDark || item.src,
