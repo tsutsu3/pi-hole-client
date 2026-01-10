@@ -26,11 +26,13 @@ class SubscriptionDetailsScreen extends StatefulWidget {
     required this.remove,
     required this.groups,
     this.colors,
+    this.onUpdated,
     super.key,
   });
 
   final Subscription subscription;
   final void Function(Subscription) remove;
+  final void Function(Subscription)? onUpdated;
   final Map<int, String> groups;
   final AppColors? colors;
 
@@ -238,9 +240,16 @@ class _SubscriptionDetailsScreenState extends State<SubscriptionDetailsScreen> {
     if (result?.result == APiResponseType.success) {
       await subscriptionsListProvider.fetchSubscriptionsList();
 
+      final updatedList = result!.data!.subscriptions;
+      final matched = updatedList.firstWhere(
+        (item) =>
+            item.address == body.address.trim() && item.type == body.type,
+        orElse: () => _subscription,
+      );
       setState(() {
-        _subscription = result!.data!.subscriptions.first.copyWith();
+        _subscription = matched.copyWith();
       });
+      widget.onUpdated?.call(_subscription);
 
       if (!mounted) return;
 

@@ -1819,6 +1819,61 @@ class AppLocalizationsPl extends AppLocalizations {
   String get tools => 'Narzędzia';
 
   @override
+  String get search => 'Szukaj';
+
+  @override
+  String get findDomainsInLists => 'Znajdź domeny na listach';
+
+  @override
+  String get findDomainsInListsDescription =>
+      'Szukaj domen na liście dozwolonych, blokowanych i adlistach';
+
+  @override
+  String get findDomainsSearchLabel => 'Szukaj domeny';
+
+  @override
+  String get usePartialMatching => 'Użyj dopasowania częściowego';
+
+  @override
+  String get maxResultsToReturnLabel => 'Maksymalna liczba wyników';
+
+  @override
+  String get noResultsFound => 'Brak wyników';
+
+  @override
+  String get summary => 'Podsumowanie';
+
+  @override
+  String get total => 'Łącznie';
+
+  @override
+  String get domainsExactMatches => 'Domeny (dokładne)';
+
+  @override
+  String get domainsRegexMatches => 'Domeny (regex)';
+
+  @override
+  String get gravityAllowMatches => 'Dopasowania na liście dozwolonych';
+
+  @override
+  String get gravityBlockMatches => 'Dopasowania na liście blokowanych';
+
+  @override
+  String get domainLevelLists => 'Listy na poziomie domen';
+
+  @override
+  String get listLevelLists => 'Listy na poziomie list';
+
+  @override
+  String get matchingEntries => 'Pasujące wpisy:';
+
+  @override
+  String get searchTermRequired => 'Wpisz domenę do wyszukania.';
+
+  @override
+  String get invalidMaxResults => 'Wpisz maksymalną liczbę większą niż 0.';
+
+  @override
   String get topBlockedDomains => 'Najczęściej blokowane domeny';
 
   @override
