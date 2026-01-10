@@ -13,6 +13,7 @@ import 'package:mock_api_server/handlers/lists_handler.dart';
 import 'package:mock_api_server/handlers/network_handler.dart';
 import 'package:mock_api_server/handlers/pihole_v5_handler.dart';
 import 'package:mock_api_server/handlers/queries_handler.dart';
+import 'package:mock_api_server/handlers/search_handler.dart';
 import 'package:mock_api_server/handlers/stats_handler.dart';
 import 'package:shelf/shelf.dart';
 import 'package:shelf/shelf_io.dart' as io;
@@ -94,6 +95,7 @@ Middleware requireFTLSid() {
         'api/info',
         'api/lists',
         'api/queries',
+        'api/search',
         'api/stats',
         'api/network',
         'api/config',
@@ -159,6 +161,7 @@ void main(List<String> args) async {
   router.mount('/api/info', InfoHandler().router.call);
   router.mount('/api/lists', ListsHandler().router.call);
   router.mount('/api/queries', QueriesHandler().router.call);
+  router.mount('/api/search', SearchHandler().router.call);
   router.mount('/api/stats', StatsHandler().router.call);
   router.mount('/api/network', NetworkHandler().router.call);
   router.mount('/api/config', ConfigHandler().router.call);
