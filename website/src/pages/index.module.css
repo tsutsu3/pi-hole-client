@@ -226,17 +226,7 @@
   width: 100%;
   max-width: 460px;
 }
-.featureDetailMediaGridCompact {
-  max-width: 460px;
-  grid-template-columns: repeat(auto-fit, minmax(200px, 200px));
-  justify-content: center;
-}
-.featureDetailMediaStack {
-  grid-template-columns: repeat(auto-fit, minmax(200px, 200px));
-  justify-content: center;
-  max-width: 460px;
-}
-.featureDetailMediaGrid img {
+.featureDetailImage {
   width: 100%;
   border-radius: 14px;
   border: 1px solid #0000000f;
@@ -270,9 +260,7 @@
   .featureDetailReverse .featureDetailMedia {
     order: initial;
   }
-  .featureDetailMediaGrid,
-  .featureDetailMediaGridCompact,
-  .featureDetailMediaStack {
+  .featureDetailMediaGrid {
     max-width: 100%;
   }
 }

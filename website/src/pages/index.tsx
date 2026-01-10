@@ -77,7 +77,6 @@ const features = [
       { src: imgServerInfo, srcDark: imgServerInfoDark, alt: "Server info screen" },
       { src: imgGroups, srcDark: imgGroupsDark, alt: "Groups and clients screen" },
     ],
-    mediaLayout: "stack",
   },
   {
     id: "secure-connection",
@@ -95,7 +94,6 @@ const features = [
       { src: imgCreateConnection, srcDark: imgCreateConnectionDark, alt: "Create a connection screen" },
       { src: imgServersList, srcDark: imgServersListDark, alt: "Servers list in App Settings" },
     ],
-    mediaLayout: "grid",
   },
   {
     id: "statistics",
@@ -191,6 +189,10 @@ const features = [
   },
 ];
 
+function createKey(text: string, index: number) {
+  return `${text.replaceAll(/\s+/g, "_").toLowerCase()}_${index}`;
+}
+
 const FeatureCard = ({
   id,
   icon,
@@ -246,15 +248,17 @@ const FeatureSection = () => {
             >
               <div className={styles.featureDetailContent}>
                 <div className={styles.featureDetailHeader}>
-                  <div className={clsx(styles.featureCardIcon, styles[colors[index % colors.length]])}>
+                  <div
+                    className={clsx(styles.featureCardIcon, styles[colors[index % colors.length]])}
+                  >
                     {feature.icon}
                   </div>
                   <h4 className={styles.featureDetailTitle}>{feature.title}</h4>
                 </div>
                 <p className={styles.featureDetailDesc}>{feature.detail}</p>
                 <ul className={styles.featureDetailList}>
-                  {feature.bullets.map((item) => (
-                    <li key={item}>{item}</li>
+                  {feature.bullets.map((item, index) => (
+                    <li key={createKey(item, index)}>{item}</li>
                   ))}
                 </ul>
                 <a className={styles.backToFeatures} href="#features">
@@ -262,12 +266,7 @@ const FeatureSection = () => {
                 </a>
               </div>
               <div className={styles.featureDetailMedia}>
-                <div
-                  className={clsx(
-                    styles.featureDetailMediaGrid,
-                    feature.mediaLayout === "stack" && styles.featureDetailMediaStack,
-                  )}
-                >
+                <div className={clsx(styles.featureDetailMediaGrid)}>
                   {feature.media.map((item) => (
                     <ThemedImage
                       key={item.src}
