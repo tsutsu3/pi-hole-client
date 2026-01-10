@@ -5,7 +5,7 @@ class Urls {
   static const String gitHub = 'https://github.com/tsutsu3/pi-hole-client';
 
   static const String createAConnection =
-      'https://tsutsu3.github.io/pi-hole-client/docs/guides/create-a-connection/';
+      '${appWebSite}docs/guides/create-a-connection/';
 
   static const String issue =
       'https://github.com/tsutsu3/pi-hole-client/issues';
@@ -13,8 +13,7 @@ class Urls {
   static const String support =
       'https://docs.google.com/forms/d/e/1FAIpQLSdNm7H2iDUaQ0q-JA6hvrUSsGe50_iL5NVK6fR_2hkCsyrA-A/viewform?hl=en';
 
-  static const String privacyPolicy =
-      'https://tsutsu3.github.io/pi-hole-client/docs/help/privacy/';
+  static const String privacyPolicy = '${appWebSite}docs/help/privacy/';
 
   static const String buyMeACoffee = 'https://buymeacoffee.com/tsutsu3';
 
