@@ -2,6 +2,8 @@ package io.github.tsutsu3.pi_hole_client.widget
 
 import android.content.Context
 import android.content.SharedPreferences
+import androidx.security.crypto.EncryptedSharedPreferences
+import androidx.security.crypto.MasterKey
 import org.json.JSONArray
 import org.json.JSONObject
 
@@ -24,10 +26,81 @@ data class WidgetServer(
  *
  * The widget process reads cached server metadata and SID values written by
  * Flutter, and never performs account or credential management itself.
+ *
+ * Security note:
+ * - SID values are treated as sensitive session tokens.
+ * - This wrapper prefers `EncryptedSharedPreferences` when available and falls back to
+ *   regular `SharedPreferences` only if encryption cannot be initialized on the device.
+ * - A one-time migration copies legacy plaintext values into the encrypted store and
+ *   clears the legacy file to reduce exposure on disk.
  */
 class WidgetPrefs(context: Context) {
-    private val prefs: SharedPreferences =
-        context.getSharedPreferences(WidgetConstants.PREFS_NAME, Context.MODE_PRIVATE)
+    private val prefs: SharedPreferences = run {
+        val encrypted = buildEncryptedPrefs(context)
+        if (encrypted != null) {
+            migrateLegacyPrefsIfNeeded(context, encrypted)
+            encrypted
+        } else {
+            context.getSharedPreferences(WidgetConstants.PREFS_NAME, Context.MODE_PRIVATE)
+        }
+    }
+
+    /**
+     * Builds encrypted preferences storage for widget state.
+     *
+     * Returns `null` when encryption cannot be initialized (e.g. platform/provider issues),
+     * in which case the caller must fall back to regular SharedPreferences.
+     */
+    private fun buildEncryptedPrefs(context: Context): SharedPreferences? {
+        return try {
+            val masterKey = MasterKey.Builder(context)
+                .setKeyScheme(MasterKey.KeyScheme.AES256_GCM)
+                .build()
+            EncryptedSharedPreferences.create(
+                context,
+                "${WidgetConstants.PREFS_NAME}_encrypted",
+                masterKey,
+                EncryptedSharedPreferences.PrefKeyEncryptionScheme.AES256_SIV,
+                EncryptedSharedPreferences.PrefValueEncryptionScheme.AES256_GCM,
+            )
+        } catch (_: Exception) {
+            null
+        }
+    }
+
+    /**
+     * Migrates legacy plaintext widget prefs into the encrypted store (one-time).
+     *
+     * This reduces the chance of session tokens being left on disk unencrypted after upgrade.
+     */
+    private fun migrateLegacyPrefsIfNeeded(context: Context, encryptedPrefs: SharedPreferences) {
+        val markerKey = "__migrated_v1"
+        if (encryptedPrefs.getBoolean(markerKey, false)) return
+
+        val legacyPrefs = context.getSharedPreferences(WidgetConstants.PREFS_NAME, Context.MODE_PRIVATE)
+        val legacyAll = legacyPrefs.all
+
+        val editor = encryptedPrefs.edit()
+        legacyAll.forEach { (key, value) ->
+            when (value) {
+                is String -> editor.putString(key, value)
+                is Boolean -> editor.putBoolean(key, value)
+                is Int -> editor.putInt(key, value)
+                is Long -> editor.putLong(key, value)
+                is Float -> editor.putFloat(key, value)
+                is Set<*> -> {
+                    @Suppress("UNCHECKED_CAST")
+                    editor.putStringSet(key, value as Set<String>)
+                }
+            }
+        }
+        editor.putBoolean(markerKey, true)
+        editor.apply()
+
+        if (legacyAll.isNotEmpty()) {
+            legacyPrefs.edit().clear().apply()
+        }
+    }
 
     /**
      * Persist the selected server id for a specific widget instance.
