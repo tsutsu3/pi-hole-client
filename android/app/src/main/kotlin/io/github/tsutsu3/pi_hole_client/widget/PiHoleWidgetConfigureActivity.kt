@@ -20,6 +20,14 @@ import io.github.tsutsu3.pi_hole_client.R
 class PiHoleWidgetConfigureActivity : AppCompatActivity() {
     private var appWidgetId: Int = AppWidgetManager.INVALID_APPWIDGET_ID
 
+    private data class ServerItemViewHolder(
+        val title: TextView,
+        val subtitle: TextView,
+        val button: Button,
+        val root: android.view.View,
+        val icon: android.widget.ImageView,
+    )
+
     /**
      * Loads server list and returns the selected server id to the host.
      */
@@ -68,33 +76,37 @@ class PiHoleWidgetConfigureActivity : AppCompatActivity() {
                     R.layout.widget_server_item,
                     parent,
                     false,
-                )
+                ).apply {
+                    tag = ServerItemViewHolder(
+                        title = findViewById(R.id.widget_server_item_title),
+                        subtitle = findViewById(R.id.widget_server_item_subtitle),
+                        button = findViewById(R.id.widget_server_item_select),
+                        root = findViewById(R.id.widget_server_item_root),
+                        icon = findViewById(R.id.widget_server_item_icon),
+                    )
+                }
+                val holder = view.tag as ServerItemViewHolder
                 val server = servers[position]
                 val isSupported = server.apiVersion == "v6"
-                val title = view.findViewById<TextView>(R.id.widget_server_item_title)
-                val subtitle = view.findViewById<TextView>(R.id.widget_server_item_subtitle)
-                val button = view.findViewById<Button>(R.id.widget_server_item_select)
-                val root = view.findViewById<android.view.View>(R.id.widget_server_item_root)
-                val icon = view.findViewById<android.widget.ImageView>(R.id.widget_server_item_icon)
 
-                title.text = server.address
-                subtitle.text = server.alias
-                button.isEnabled = isSupported
-                button.alpha = if (isSupported) 1.0f else 0.4f
-                root.isEnabled = isSupported
-                root.background = ContextCompat.getDrawable(
+                holder.title.text = server.address
+                holder.subtitle.text = server.alias
+                holder.button.isEnabled = isSupported
+                holder.button.alpha = if (isSupported) 1.0f else 0.4f
+                holder.root.isEnabled = isSupported
+                holder.root.background = ContextCompat.getDrawable(
                     this@PiHoleWidgetConfigureActivity,
                     R.drawable.widget_config_card,
                 )
-                icon.setImageResource(
+                holder.icon.setImageResource(
                     if (isSupported) {
                         R.drawable.widget_server_icon
                     } else {
                         R.drawable.widget_server_icon_off
                     },
                 )
-                title.setTextColor(titleColor)
-                subtitle.setTextColor(subtitleColor)
+                holder.title.setTextColor(titleColor)
+                holder.subtitle.setTextColor(subtitleColor)
 
                 val selectAction = android.view.View.OnClickListener {
                     if (!isSupported) {
@@ -115,8 +127,8 @@ class PiHoleWidgetConfigureActivity : AppCompatActivity() {
                     finish()
                 }
 
-                button.setOnClickListener(selectAction)
-                root.setOnClickListener(null)
+                holder.button.setOnClickListener(selectAction)
+                holder.root.setOnClickListener(null)
 
                 return view
             }
