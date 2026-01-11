@@ -4,8 +4,10 @@ import android.appwidget.AppWidgetManager
 import android.appwidget.AppWidgetProvider
 import android.content.Context
 import android.content.Intent
+import androidx.work.Constraints
 import androidx.work.ExistingPeriodicWorkPolicy
 import androidx.work.ExistingWorkPolicy
+import androidx.work.NetworkType
 import androidx.work.OneTimeWorkRequestBuilder
 import androidx.work.PeriodicWorkRequestBuilder
 import androidx.work.WorkManager
@@ -99,10 +101,16 @@ class PiHoleWidgetProvider : AppWidgetProvider() {
      * Periodic refresh to keep widget state reasonably fresh.
      */
     private fun schedulePeriodic(context: Context) {
+        // Avoid waking the worker when the device is offline to reduce failures/cost.
+        val constraints = Constraints.Builder()
+            .setRequiredNetworkType(NetworkType.CONNECTED)
+            .build()
         val request = PeriodicWorkRequestBuilder<PiHoleWidgetWorker>(
             30,
             TimeUnit.MINUTES,
-        ).build()
+        )
+            .setConstraints(constraints)
+            .build()
         WorkManager.getInstance(context).enqueueUniquePeriodicWork(
             "pihole_widget_periodic",
             ExistingPeriodicWorkPolicy.UPDATE,
