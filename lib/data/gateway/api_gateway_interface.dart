@@ -242,6 +242,11 @@ abstract interface class ApiGateway {
   /// This API hook returns live information about the DNS and DHCP metrics.
   Future<MetricsResponse> getMetrics();
 
+  /// Get summarized data for PADD.
+  ///
+  /// If [full] is set to `true`, the response will include extended data.
+  Future<PaddResponse> getPadd({bool? full});
+
   /// Get info about the gateway of your Pi-hole
   ///
   /// If the optional parameter `isDetailed` is set to `true`, the response will
