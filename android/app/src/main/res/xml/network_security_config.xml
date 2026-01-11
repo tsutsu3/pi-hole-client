@@ -1,4 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <network-security-config>
+    <!--
+      This app supports user-configured Pi-hole servers that may be reachable only over HTTP.
+      Prefer HTTPS where possible to avoid exposing tokens/traffic on the network.
+    -->
     <base-config cleartextTrafficPermitted="true" />
 </network-security-config>
