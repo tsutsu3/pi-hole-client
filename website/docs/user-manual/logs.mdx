@@ -3,6 +3,7 @@ title: Logs
 sidebar_position: 3
 ---
 
+import ImageRow from '@site/src/components/image-row';
 import imgLogSearch from "./images/logs/log-search.png";
 import imgLogFilter from "./images/logs/log-filter.png";
 import imgLogFilterDate from "./images/logs/log-filter-date.png";
@@ -45,11 +46,11 @@ Live mode lets you watch DNS queries **as they happen**.
 Use it when reproducing an issue and confirming which domains are queried
 in real time.
 
-<div style={{display: "flex", gap: "12px", flexWrap: "wrap"}}>
+<ImageRow>
   <img width="240" alt="Logs live on state" src={imgLogLiveOn} />
   <img width="240" alt="Logs live off state" src={imgLogLiveOff} />
   <img width="240" alt="Logs live disabled state" src={imgLogLiveDisabled} />
-</div>
+</ImageRow>
 
 **Left: Live mode ON**
 Live updates are active. A **● LIVE** label appears under the screen title,

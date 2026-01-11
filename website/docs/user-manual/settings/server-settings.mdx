@@ -3,6 +3,7 @@ title: Server Settings
 sidebar_position: 2
 ---
 
+import ImageRow from '@site/src/components/image-row';
 import imgServerInfo from "../images/settings/server-settings/pi-hole-server/pihole-server.png";
 import imgServerInfoExpandTop from "../images/settings/server-settings/pi-hole-server/pihole-server-expand-top.png";
 import imgServerInfoExpandBottom from "../images/settings/server-settings/pi-hole-server/pihole-server-expand-bottom.png";
@@ -87,10 +88,10 @@ On this screen, you can confirm:
 Scroll down to reveal additional sections when you need more detail,
 such as extended system or environment information.
 
-<div style={{ display: "flex", gap: "12px", flexWrap: "wrap", marginBottom: "12px" }}>
+<ImageRow>
   <img width="240" alt="Server info expanded top" src={imgServerInfoExpandTop} />
   <img width="240" alt="Server info expanded bottom" src={imgServerInfoExpandBottom} />
-</div>
+</ImageRow>
 
 Always check Server Info before making changes in **Adlists**, **Groups & Clients**,
 or **Advanced Setup**, to ensure you are operating on the intended Pi-hole server.
@@ -206,19 +207,19 @@ Sessions show active and recent DNS usage.
 Tap a session to view details.
 If a session is currently in use, editing options may be limited.
 
-<div style={{ display: "flex", gap: "12px", flexWrap: "wrap", marginBottom: "12px" }}>
+<ImageRow>
   <img width="240" alt="Session detail" src={imgSessionDetail} />
   <img width="240" alt="Session in use" src={imgSessionDetailInUse} />
-</div>
+</ImageRow>
 
 ## DHCP
 
 Use DHCP only if Pi-hole is acting as your DHCP server.
 
-<div style={{ display: "flex", gap: "12px", flexWrap: "wrap", marginBottom: "12px" }}>
+<ImageRow>
   <img width="240" alt="DHCP enabled" src={imgDhcp} />
   <img width="240" alt="DHCP disabled" src={imgDhcpOff} />
-</div>
+</ImageRow>
 
 Tap a lease to review details and confirm IP assignments.
 
@@ -248,10 +249,10 @@ Avoid duplicate entries to prevent resolution conflicts.
 
 Find Domains In Lists lets you check **where a domain is defined** in Pi-hole.
 
-<div style={{ display: "flex", gap: "12px", flexWrap: "wrap", marginBottom: "12px" }}>
+<ImageRow>
   <img width="240" alt="Find domains in lists top" src={imgFindDomainsTop} />
   <img width="240" alt="Find domains in lists bottom" src={imgFindDomainsBottom} />
-</div>
+</ImageRow>
 
 It searches across:
 - **Domain-level lists** (Whitelist / Blacklist: exact + regex)
