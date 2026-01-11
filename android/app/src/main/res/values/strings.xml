@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="widget_status_on">Blocking ON</string>
+    <string name="widget_status_off">Blocking OFF</string>
+    <string name="widget_status_auth">Authentication required</string>
+    <string name="widget_status_error">Error / Disconnected</string>
+    <string name="widget_status_description">Pi-hole status</string>
+    <string name="widget_total_label">Queries</string>
+    <string name="widget_blocked_label">Blocked</string>
+    <string name="widget_percent_label">Blocked %</string>
+    <string name="widget_domains_label">Domains</string>
+    <string name="widget_total_label_long">Total Queries</string>
+    <string name="widget_blocked_label_long">Queries blocked</string>
+    <string name="widget_percent_label_long">Percentage blocked</string>
+    <string name="widget_domains_label_long">Domains on Adlists</string>
+    <string name="widget_total_label_short">Q</string>
+    <string name="widget_blocked_label_short">B</string>
+    <string name="widget_percent_label_short">%</string>
+    <string name="widget_domains_label_short">D</string>
+    <string name="widget_updated_label">Last updated</string>
+    <string name="widget_total_format">%1$s</string>
+    <string name="widget_blocked_format">%1$s</string>
+    <string name="widget_percent_format">%1$s</string>
+    <string name="widget_domains_format">%1$s</string>
+    <string name="widget_last_updated_format">%1$s</string>
+    <string name="widget_toggle">Toggle</string>
+    <string name="widget_refresh">Refresh</string>
+    <string name="widget_open_app">Open</string>
+    <string name="widget_uptime">Uptime</string>
+    <string name="widget_cpu_temp">CPU temperature</string>
+    <string name="widget_cpu_usage">CPU usage</string>
+    <string name="widget_memory_usage">Memory usage</string>
+    <string name="widget_config_title">Select Pi-hole server</string>
+    <string name="widget_config_empty">No servers found. Open the app to add one.</string>
+    <string name="widget_unknown_server">Server not available</string>
+    <string name="widget_select">Select</string>
+    <string name="widget_v5_unsupported">v5 unsupported</string>
+    <string name="widget_connect">Connect</string>
+</resources>
