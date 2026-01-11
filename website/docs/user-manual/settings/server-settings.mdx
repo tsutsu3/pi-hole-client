@@ -16,7 +16,7 @@ import imgAddGroup from "../images/settings/server-settings/groups-clients/add-g
 import imgClients from "../images/settings/server-settings/groups-clients/clients.png";
 import imgClientDetail from "../images/settings/server-settings/groups-clients/client-detail.png";
 import imgAddClients from "../images/settings/server-settings/groups-clients/add-clients.png";
-import imgAdvancedSettings from "../images/settings/server-settings/advanced-settings/advanxed-settings.png";
+import imgAdvancedSettings from "../images/settings/server-settings/advanced-settings/advanced-settings-top.png";
 import imgDhcp from "../images/settings/server-settings/advanced-settings/dhcp/dhcp.png";
 import imgDhcpOff from "../images/settings/server-settings/advanced-settings/dhcp/dhcp-off.png";
 import imgDhcpDetail from "../images/settings/server-settings/advanced-settings/dhcp/dhcp-detail.png";
@@ -27,6 +27,8 @@ import imgInterfaceMore from "../images/settings/server-settings/advanced-settin
 import imgLocalDns from "../images/settings/server-settings/advanced-settings/local-dns/local-dns.png";
 import imgLocalDnsAdd from "../images/settings/server-settings/advanced-settings/local-dns/add-local-dns.png";
 import imgLocalDnsDetail from "../images/settings/server-settings/advanced-settings/local-dns/local-dns-detail.png";
+import imgFindDomainsTop from "../images/settings/server-settings/advanced-settings/find-domains/find-domains-top.png";
+import imgFindDomainsBottom from "../images/settings/server-settings/advanced-settings/find-domains/find-domains-bottom.png";
 import imgNetworks from "../images/settings/server-settings/advanced-settings/network/networks.png";
 import imgNetworkDevice from "../images/settings/server-settings/advanced-settings/network/device.png";
 import imgSessions from "../images/settings/server-settings/advanced-settings/sessions/sessions.png";
@@ -85,7 +87,7 @@ On this screen, you can confirm:
 Scroll down to reveal additional sections when you need more detail,
 such as extended system or environment information.
 
-<div style={{ display: "flex", gap: "12px", flexWrap: "wrap" }}>
+<div style={{ display: "flex", gap: "12px", flexWrap: "wrap", marginBottom: "12px" }}>
   <img width="240" alt="Server info expanded top" src={imgServerInfoExpandTop} />
   <img width="240" alt="Server info expanded bottom" src={imgServerInfoExpandBottom} />
 </div>
@@ -204,7 +206,7 @@ Sessions show active and recent DNS usage.
 Tap a session to view details.
 If a session is currently in use, editing options may be limited.
 
-<div style={{ display: "flex", gap: "12px", flexWrap: "wrap" }}>
+<div style={{ display: "flex", gap: "12px", flexWrap: "wrap", marginBottom: "12px" }}>
   <img width="240" alt="Session detail" src={imgSessionDetail} />
   <img width="240" alt="Session in use" src={imgSessionDetailInUse} />
 </div>
@@ -213,7 +215,7 @@ If a session is currently in use, editing options may be limited.
 
 Use DHCP only if Pi-hole is acting as your DHCP server.
 
-<div style={{ display: "flex", gap: "12px", flexWrap: "wrap" }}>
+<div style={{ display: "flex", gap: "12px", flexWrap: "wrap", marginBottom: "12px" }}>
   <img width="240" alt="DHCP enabled" src={imgDhcp} />
   <img width="240" alt="DHCP disabled" src={imgDhcpOff} />
 </div>
@@ -241,6 +243,40 @@ Tap an entry to review or edit it.
 Avoid duplicate entries to prevent resolution conflicts.
 
 ---
+
+## Find Domains In Lists
+
+Find Domains In Lists lets you check **where a domain is defined** in Pi-hole.
+
+<div style={{ display: "flex", gap: "12px", flexWrap: "wrap", marginBottom: "12px" }}>
+  <img width="240" alt="Find domains in lists top" src={imgFindDomainsTop} />
+  <img width="240" alt="Find domains in lists bottom" src={imgFindDomainsBottom} />
+</div>
+
+It searches across:
+- **Domain-level lists** (Whitelist / Blacklist: exact + regex)
+- **List-level lists** (Allowlist / Blocklist subscriptions: adlists)
+
+## How to use
+
+1. Enter a domain (example: `doubleclick.net`)
+2. (Optional) Toggle **Use partial matching**
+   - On (default): partial matches
+   - Off: exact matches only
+3. Set the max results (default: `20`)
+4. Tap **Search** (it does not search while typing)
+
+## Results and navigation
+
+Results are split into sections.
+
+- **Domain-level lists**: tap an entry to open **Domain detail**
+- **List-level lists**: results are grouped by adlist; tap a card to open **Adlist detail**
+  (Matching entries can be expanded; the list is scrollable)
+
+If nothing matches, the screen shows **No results found**.
+Changes made in the detail screens are reflected when you return.
+
 
 ## Interface
 
