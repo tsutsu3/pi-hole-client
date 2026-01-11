@@ -1,4 +1,36 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <color name="ic_launcher_background">#ff5c4d</color>
+    <color name="widget_status_on">#2e7d32</color>
+    <color name="widget_status_off">#c62828</color>
+    <color name="widget_status_auth">#ef6c00</color>
+    <color name="widget_status_error">#757575</color>
+    <color name="widget_text_primary">#1b1b1b</color>
+    <color name="widget_text_secondary">#4e4e4e</color>
+    <color name="widget_surface">#f6f7f9</color>
+    <color name="widget_text_on_card">#ffffff</color>
+    <!-- <color name="widget_card_blue">#2196F3</color>
+    <color name="widget_card_red">#F44336</color>
+    <color name="widget_card_green">#4CAF50</color>
+    <color name="widget_card_orange">#FF9800</color> -->
+    <color name="widget_card_blue">#007BFF</color>
+    <color name="widget_card_red">#DD4B39</color>
+    <color name="widget_card_green">#00A65A</color>
+    <color name="widget_card_orange">#F39C12</color>
+    <color name="widget_action_button">#e0e0e0</color>
+    <color name="widget_action_button_pressed">#cfcfcf</color>
+    <color name="widget_action_button_shadow">#55000000</color>
+    <color name="widget_action_button_on">#43A047</color>
+    <color name="widget_action_button_on_pressed">#388E3C</color>
+    <color name="widget_action_button_off">#E53935</color>
+    <color name="widget_action_button_off_pressed">#D32F2F</color>
+    <color name="widget_action_button_disabled">#bdbdbd</color>
+    <color name="widget_icon_on_color">#ffffff</color>
+    <color name="widget_icon_shield_base">#ffffff</color>
+    <color name="widget_icon_shield_on">#2e7d32</color>
+    <color name="widget_icon_shield_off">#c62828</color>
+    <color name="widget_icon_shield_disabled">#9e9e9e</color>
+    <color name="widget_config_card_bg">#f2f3f6</color>
+    <color name="widget_config_button_bg">#4a5f97</color>
+    <color name="widget_config_button_ripple">#33ffffff</color>
 </resources>

@@ -14,6 +14,7 @@ import 'package:pi_hole_client/data/repositories/local/gravity_repository.dart';
 import 'package:pi_hole_client/data/repositories/local/server_repository.dart';
 import 'package:pi_hole_client/data/services/local/database_service.dart';
 import 'package:pi_hole_client/data/services/local/secure_storage_service.dart';
+import 'package:pi_hole_client/domain/models_old/server.dart';
 import 'package:pi_hole_client/domain/use_cases/status_update_service.dart';
 import 'package:pi_hole_client/pi_hole_client.dart';
 import 'package:pi_hole_client/ui/core/viewmodel/app_config_provider.dart';
@@ -27,6 +28,7 @@ import 'package:pi_hole_client/ui/core/viewmodel/servers_provider.dart';
 import 'package:pi_hole_client/ui/core/viewmodel/status_provider.dart';
 import 'package:pi_hole_client/ui/core/viewmodel/subscriptions_list_provider.dart';
 import 'package:pi_hole_client/utils/logger.dart';
+import 'package:pi_hole_client/utils/widget_channel.dart';
 import 'package:provider/provider.dart';
 import 'package:sentry_flutter/sentry_flutter.dart';
 import 'package:sqflite_common_ffi/sqflite_ffi.dart';
@@ -177,10 +179,35 @@ void main() async {
     filtersProvider: filtersProvider,
   );
 
+  const widgetChannel = MethodChannel('pihole/widget');
+
   final appdata = await appConfigRepository.fetchAppConfig();
   final servers = await serverRepository.fetchServers();
   configProvider.saveFromDb(appdata.getOrThrow());
   await serversProvider.saveFromDb(servers.getOrThrow());
+  await WidgetChannel.sendServersUpdated(serversProvider.getServersList);
+
+  widgetChannel.setMethodCallHandler((call) async {
+    if (call.method != 'openServer') return;
+    final args = call.arguments;
+    if (args is! Map) return;
+    final serverId = args['serverId'];
+    if (serverId is! String || serverId.isEmpty) return;
+
+    Server? target;
+    for (final server in serversProvider.getServersList) {
+      if (server.address == serverId) {
+        target = server;
+        break;
+      }
+    }
+    if (target == null) return;
+
+    serversProvider.setselectedServer(server: target, toHomeTab: true);
+    final result = await serversProvider.selectedApiGateway?.loginQuery();
+    serversProvider.updateselectedServerStatus(result?.status == 'enabled');
+    statusUpdateService.startAutoRefresh(showLoadingIndicator: false);
+  });
 
   // Initialize devices
   await initializeBiometrics(configProvider, appConfigRepository);

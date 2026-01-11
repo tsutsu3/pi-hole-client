@@ -21,6 +21,7 @@ import 'package:pi_hole_client/domain/models_old/subscriptions.dart';
 import 'package:pi_hole_client/domain/models_old/version.dart';
 import 'package:pi_hole_client/utils/conversions.dart';
 import 'package:pi_hole_client/utils/misc.dart';
+import 'package:pi_hole_client/utils/widget_channel.dart';
 
 class ApiGatewayV5 implements ApiGateway {
   /// Creates a new instance of the `ApiGatewayV5` class.
@@ -298,6 +299,7 @@ class ApiGatewayV5 implements ApiGateway {
       );
       final body = jsonDecode(response.body);
       if (body.runtimeType != List && body['status'] != null) {
+        await WidgetChannel.sendBlockingUpdated(server: _server);
         return DisableServerResponse(
           result: APiResponseType.success,
           status: body['status'],
@@ -329,6 +331,7 @@ class ApiGatewayV5 implements ApiGateway {
       );
       final body = jsonDecode(response.body);
       if (body.runtimeType != List && body['status'] != null) {
+        await WidgetChannel.sendBlockingUpdated(server: _server);
         return EnableServerResponse(
           result: APiResponseType.success,
           status: body['status'],
@@ -951,6 +954,16 @@ class ApiGatewayV5 implements ApiGateway {
   Future<MetricsResponse> getMetrics() async {
     return Future.value(
       MetricsResponse(
+        result: APiResponseType.notSupported,
+        message: notSupportedMessage,
+      ),
+    );
+  }
+
+  @override
+  Future<PaddResponse> getPadd({bool? full}) async {
+    return Future.value(
+      PaddResponse(
         result: APiResponseType.notSupported,
         message: notSupportedMessage,
       ),
