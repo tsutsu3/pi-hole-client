@@ -33,6 +33,7 @@ import 'package:pi_hole_client/data/model/v6/metrics/query.dart' show Queries;
 import 'package:pi_hole_client/data/model/v6/metrics/stats.dart'
     show StatsSummary, StatsTopClients, StatsTopDomains, StatsUpstreams;
 import 'package:pi_hole_client/data/model/v6/network/devices.dart';
+import 'package:pi_hole_client/data/model/v6/padd/padd.dart';
 import 'package:pi_hole_client/data/model/v6/network/gateway.dart' show Gateway;
 import 'package:pi_hole_client/domain/model/local_dns/local_dns.dart';
 import 'package:pi_hole_client/domain/models_old/app_log.dart';
@@ -59,6 +60,7 @@ import 'package:pi_hole_client/domain/models_old/subscriptions.dart';
 import 'package:pi_hole_client/domain/models_old/system.dart';
 import 'package:pi_hole_client/domain/models_old/version.dart';
 import 'package:pi_hole_client/utils/logger.dart';
+import 'package:pi_hole_client/utils/widget_channel.dart';
 import 'package:pi_hole_client/utils/misc.dart';
 
 class ApiGatewayV6 implements ApiGateway {
@@ -185,8 +187,9 @@ class ApiGatewayV6 implements ApiGateway {
         timeout: timeout,
       );
 
-      if (response.statusCode == 401) {
+      if (response.statusCode == 401 || response.statusCode == 403) {
         if (attempt >= maxRetries) {
+          await WidgetChannel.sendSidInvalidated(server: _server);
           return response;
         }
 
@@ -232,8 +235,12 @@ class ApiGatewayV6 implements ApiGateway {
           .send(request)
           .timeout(Duration(seconds: timeout));
 
-      if (streamedResponse.statusCode == 401) {
-        if (attempt >= maxRetries) return streamedResponse;
+      if (streamedResponse.statusCode == 401 ||
+          streamedResponse.statusCode == 403) {
+        if (attempt >= maxRetries) {
+          await WidgetChannel.sendSidInvalidated(server: _server);
+          return streamedResponse;
+        }
 
         await loginQuery();
         continue;
@@ -296,6 +303,8 @@ class ApiGatewayV6 implements ApiGateway {
           }
         }
 
+        await WidgetChannel.sendSidUpdated(server: _server, sid: cachedSid);
+
         return LoginQueryResponse(
           result: APiResponseType.success,
           status: enableOrDisableParsed.blocking,
@@ -325,6 +334,11 @@ class ApiGatewayV6 implements ApiGateway {
           final enableOrDisableParsed = Blocking.fromJson(
             jsonDecode(enableOrDisable.body),
           );
+          await WidgetChannel.sendSidUpdated(
+            server: _server,
+            sid: statusParsed.session.sid,
+          );
+
           return LoginQueryResponse(
             result: APiResponseType.success,
             status: enableOrDisableParsed.blocking,
@@ -517,6 +531,7 @@ class ApiGatewayV6 implements ApiGateway {
       );
       if (response.statusCode == 200) {
         final body = Blocking.fromJson(jsonDecode(response.body));
+        await WidgetChannel.sendBlockingUpdated(server: _server);
         return DisableServerResponse(
           result: APiResponseType.success,
           status: body.blocking,
@@ -548,6 +563,7 @@ class ApiGatewayV6 implements ApiGateway {
       );
       if (response.statusCode == 200) {
         final body = Blocking.fromJson(jsonDecode(response.body));
+        await WidgetChannel.sendBlockingUpdated(server: _server);
         return EnableServerResponse(
           result: APiResponseType.success,
           status: body.blocking,
@@ -1621,6 +1637,28 @@ class ApiGatewayV6 implements ApiGateway {
         result: APiResponseType.error,
         message: unexpectedError,
       );
+    }
+  }
+
+  @override
+  Future<PaddResponse> getPadd({bool? full}) async {
+    try {
+      var requestUrl = '${_server.address}/api/padd';
+      if (full != null) {
+        requestUrl += '?full=$full';
+      }
+
+      final results = await httpClient(method: 'get', url: requestUrl);
+
+      if (results.statusCode == 200) {
+        final info = Padd.fromJson(jsonDecode(results.body));
+
+        return PaddResponse(result: APiResponseType.success, data: info);
+      } else {
+        return PaddResponse(result: APiResponseType.error, message: fetchError);
+      }
+    } catch (e) {
+      return PaddResponse(result: APiResponseType.error, message: fetchError);
     }
   }
 
