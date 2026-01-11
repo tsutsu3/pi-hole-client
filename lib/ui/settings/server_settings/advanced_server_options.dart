@@ -14,6 +14,7 @@ import 'package:pi_hole_client/ui/core/ui/modals/process_modal.dart';
 import 'package:pi_hole_client/ui/core/viewmodel/app_config_provider.dart';
 import 'package:pi_hole_client/ui/core/viewmodel/servers_provider.dart';
 import 'package:pi_hole_client/ui/settings/server_settings/advanced_settings/dhcp_screen.dart';
+import 'package:pi_hole_client/ui/settings/server_settings/advanced_settings/find_domains_in_lists_screen.dart';
 import 'package:pi_hole_client/ui/settings/server_settings/advanced_settings/interface_screen.dart';
 import 'package:pi_hole_client/ui/settings/server_settings/advanced_settings/local_dns_screen.dart';
 import 'package:pi_hole_client/ui/settings/server_settings/advanced_settings/network_screen.dart';
@@ -402,12 +403,18 @@ class _AdvancedServerOptionsState extends State<AdvancedServerOptions> {
                 ),
               ),
               SectionLabel(label: AppLocalizations.of(context)!.tools),
-              // CustomListTile(
-              //   leadingIcon: Icons.manage_search_rounded,
-              //   label: AppLocalizations.of(context)!.searchAdlistsTitle,
-              //   description:
-              //       AppLocalizations.of(context)!.searchAdlistsDescription,
-              // ),
+              CustomListTile(
+                leadingIcon: Icons.manage_search_rounded,
+                label: AppLocalizations.of(context)!.findDomainsInLists,
+                description:
+                    AppLocalizations.of(context)!.findDomainsInListsDescription,
+                onTap: () => Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => const FindDomainsInListsScreen(),
+                  ),
+                ),
+              ),
               CustomListTile(
                 leadingIcon: Icons.wifi_rounded,
                 label: AppLocalizations.of(context)!.interface,

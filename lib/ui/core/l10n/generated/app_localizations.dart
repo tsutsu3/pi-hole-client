@@ -3518,6 +3518,114 @@ abstract class AppLocalizations {
   /// **'Tools'**
   String get tools;
 
+  /// No description provided for @search.
+  ///
+  /// In en, this message translates to:
+  /// **'Search'**
+  String get search;
+
+  /// No description provided for @findDomainsInLists.
+  ///
+  /// In en, this message translates to:
+  /// **'Find Domains In Lists'**
+  String get findDomainsInLists;
+
+  /// No description provided for @findDomainsInListsDescription.
+  ///
+  /// In en, this message translates to:
+  /// **'Search domains across whitelist, blacklist, and adlists'**
+  String get findDomainsInListsDescription;
+
+  /// No description provided for @findDomainsSearchLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Search domain'**
+  String get findDomainsSearchLabel;
+
+  /// No description provided for @usePartialMatching.
+  ///
+  /// In en, this message translates to:
+  /// **'Use partial matching'**
+  String get usePartialMatching;
+
+  /// No description provided for @maxResultsToReturnLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Maximum number of results to be returned'**
+  String get maxResultsToReturnLabel;
+
+  /// No description provided for @noResultsFound.
+  ///
+  /// In en, this message translates to:
+  /// **'No results found'**
+  String get noResultsFound;
+
+  /// No description provided for @summary.
+  ///
+  /// In en, this message translates to:
+  /// **'Summary'**
+  String get summary;
+
+  /// No description provided for @total.
+  ///
+  /// In en, this message translates to:
+  /// **'Total'**
+  String get total;
+
+  /// No description provided for @domainsExactMatches.
+  ///
+  /// In en, this message translates to:
+  /// **'Domains (exact)'**
+  String get domainsExactMatches;
+
+  /// No description provided for @domainsRegexMatches.
+  ///
+  /// In en, this message translates to:
+  /// **'Domains (regex)'**
+  String get domainsRegexMatches;
+
+  /// No description provided for @gravityAllowMatches.
+  ///
+  /// In en, this message translates to:
+  /// **'Allowlist matches'**
+  String get gravityAllowMatches;
+
+  /// No description provided for @gravityBlockMatches.
+  ///
+  /// In en, this message translates to:
+  /// **'Denylist matches'**
+  String get gravityBlockMatches;
+
+  /// No description provided for @domainLevelLists.
+  ///
+  /// In en, this message translates to:
+  /// **'Domain-level lists'**
+  String get domainLevelLists;
+
+  /// No description provided for @listLevelLists.
+  ///
+  /// In en, this message translates to:
+  /// **'List-level lists'**
+  String get listLevelLists;
+
+  /// No description provided for @matchingEntries.
+  ///
+  /// In en, this message translates to:
+  /// **'Matching entries:'**
+  String get matchingEntries;
+
+  /// No description provided for @searchTermRequired.
+  ///
+  /// In en, this message translates to:
+  /// **'Please enter a domain to search.'**
+  String get searchTermRequired;
+
+  /// No description provided for @invalidMaxResults.
+  ///
+  /// In en, this message translates to:
+  /// **'Please enter a maximum number greater than 0.'**
+  String get invalidMaxResults;
+
   /// No description provided for @topBlockedDomains.
   ///
   /// In en, this message translates to:

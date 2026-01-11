@@ -1801,6 +1801,63 @@ class AppLocalizationsEn extends AppLocalizations {
   String get tools => 'Tools';
 
   @override
+  String get search => 'Search';
+
+  @override
+  String get findDomainsInLists => 'Find Domains In Lists';
+
+  @override
+  String get findDomainsInListsDescription =>
+      'Search domains across whitelist, blacklist, and adlists';
+
+  @override
+  String get findDomainsSearchLabel => 'Search domain';
+
+  @override
+  String get usePartialMatching => 'Use partial matching';
+
+  @override
+  String get maxResultsToReturnLabel =>
+      'Maximum number of results to be returned';
+
+  @override
+  String get noResultsFound => 'No results found';
+
+  @override
+  String get summary => 'Summary';
+
+  @override
+  String get total => 'Total';
+
+  @override
+  String get domainsExactMatches => 'Domains (exact)';
+
+  @override
+  String get domainsRegexMatches => 'Domains (regex)';
+
+  @override
+  String get gravityAllowMatches => 'Allowlist matches';
+
+  @override
+  String get gravityBlockMatches => 'Denylist matches';
+
+  @override
+  String get domainLevelLists => 'Domain-level lists';
+
+  @override
+  String get listLevelLists => 'List-level lists';
+
+  @override
+  String get matchingEntries => 'Matching entries:';
+
+  @override
+  String get searchTermRequired => 'Please enter a domain to search.';
+
+  @override
+  String get invalidMaxResults =>
+      'Please enter a maximum number greater than 0.';
+
+  @override
   String get topBlockedDomains => 'Top blocked domains';
 
   @override

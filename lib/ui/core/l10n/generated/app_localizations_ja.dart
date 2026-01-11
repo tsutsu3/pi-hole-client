@@ -1755,6 +1755,60 @@ class AppLocalizationsJa extends AppLocalizations {
   String get tools => 'ツール';
 
   @override
+  String get search => '検索';
+
+  @override
+  String get findDomainsInLists => 'リスト内ドメイン検索';
+
+  @override
+  String get findDomainsInListsDescription => 'ホワイト/ブラックリストとAdlist内のドメインを検索';
+
+  @override
+  String get findDomainsSearchLabel => 'ドメインを検索';
+
+  @override
+  String get usePartialMatching => '部分一致を使用';
+
+  @override
+  String get maxResultsToReturnLabel => '最大取得件数';
+
+  @override
+  String get noResultsFound => '結果が見つかりません';
+
+  @override
+  String get summary => 'サマリー';
+
+  @override
+  String get total => '合計';
+
+  @override
+  String get domainsExactMatches => 'ドメイン（完全一致）';
+
+  @override
+  String get domainsRegexMatches => 'ドメイン（正規表現）';
+
+  @override
+  String get gravityAllowMatches => '許可リストの一致';
+
+  @override
+  String get gravityBlockMatches => '拒否リストの一致';
+
+  @override
+  String get domainLevelLists => 'ドメインレベルのリスト';
+
+  @override
+  String get listLevelLists => 'リストレベルのリスト';
+
+  @override
+  String get matchingEntries => '一致したエントリ：';
+
+  @override
+  String get searchTermRequired => '検索するドメインを入力してください。';
+
+  @override
+  String get invalidMaxResults => '0より大きい最大件数を入力してください。';
+
+  @override
   String get topBlockedDomains => 'ブロックされたトップドメイン';
 
   @override

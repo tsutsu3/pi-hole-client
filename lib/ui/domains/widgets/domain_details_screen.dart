@@ -25,6 +25,7 @@ class DomainDetailsScreen extends StatefulWidget {
     required this.remove,
     required this.groups,
     this.colors,
+    this.onUpdated,
     super.key,
   });
 
@@ -32,6 +33,7 @@ class DomainDetailsScreen extends StatefulWidget {
   final void Function(Domain) remove;
   final Map<int, String> groups;
   final AppColors? colors;
+  final void Function(Domain)? onUpdated;
 
   @override
   State<DomainDetailsScreen> createState() => _DomainDetailsScreenState();
@@ -213,6 +215,7 @@ class _DomainDetailsScreenState extends State<DomainDetailsScreen> {
       setState(() {
         _domain = result!.data!.copyWith();
       });
+      widget.onUpdated?.call(_domain);
 
       if (!mounted) return;
 

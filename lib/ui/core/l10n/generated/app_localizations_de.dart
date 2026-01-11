@@ -1836,6 +1836,62 @@ class AppLocalizationsDe extends AppLocalizations {
   String get tools => 'Werkzeuge';
 
   @override
+  String get search => 'Suche';
+
+  @override
+  String get findDomainsInLists => 'Domains in Listen finden';
+
+  @override
+  String get findDomainsInListsDescription =>
+      'Domains in Whitelist, Blacklist und Adlists suchen';
+
+  @override
+  String get findDomainsSearchLabel => 'Domain suchen';
+
+  @override
+  String get usePartialMatching => 'Teilweise Übereinstimmung verwenden';
+
+  @override
+  String get maxResultsToReturnLabel => 'Maximale Anzahl der Ergebnisse';
+
+  @override
+  String get noResultsFound => 'Keine Ergebnisse gefunden';
+
+  @override
+  String get summary => 'Zusammenfassung';
+
+  @override
+  String get total => 'Gesamt';
+
+  @override
+  String get domainsExactMatches => 'Domains (exakt)';
+
+  @override
+  String get domainsRegexMatches => 'Domains (Regex)';
+
+  @override
+  String get gravityAllowMatches => 'Allowlist-Treffer';
+
+  @override
+  String get gravityBlockMatches => 'Blocklist-Treffer';
+
+  @override
+  String get domainLevelLists => 'Listen auf Domain-Ebene';
+
+  @override
+  String get listLevelLists => 'Listen auf Listen-Ebene';
+
+  @override
+  String get matchingEntries => 'Übereinstimmende Einträge:';
+
+  @override
+  String get searchTermRequired => 'Bitte eine Domain zum Suchen eingeben.';
+
+  @override
+  String get invalidMaxResults =>
+      'Bitte eine maximale Anzahl größer als 0 eingeben.';
+
+  @override
   String get topBlockedDomains => 'Top blockierte Domains';
 
   @override
