@@ -3593,7 +3593,7 @@ abstract class AppLocalizations {
   /// No description provided for @gravityBlockMatches.
   ///
   /// In en, this message translates to:
-  /// **'Denylist matches'**
+  /// **'Blocklist matches'**
   String get gravityBlockMatches;
 
   /// No description provided for @domainLevelLists.

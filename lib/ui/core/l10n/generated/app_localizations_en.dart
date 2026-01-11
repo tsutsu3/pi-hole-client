@@ -1839,7 +1839,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get gravityAllowMatches => 'Allowlist matches';
 
   @override
-  String get gravityBlockMatches => 'Denylist matches';
+  String get gravityBlockMatches => 'Blocklist matches';
 
   @override
   String get domainLevelLists => 'Domain-level lists';
