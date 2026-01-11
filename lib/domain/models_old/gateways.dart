@@ -1,4 +1,5 @@
 import 'package:pi_hole_client/data/model/v6/domains/domains.dart' as v6;
+import 'package:pi_hole_client/data/model/v6/padd/padd.dart';
 import 'package:pi_hole_client/domain/model/local_dns/local_dns.dart';
 import 'package:pi_hole_client/domain/models_old/app_log.dart';
 import 'package:pi_hole_client/domain/models_old/client.dart';
@@ -14,7 +15,6 @@ import 'package:pi_hole_client/domain/models_old/log.dart';
 import 'package:pi_hole_client/domain/models_old/messages.dart';
 import 'package:pi_hole_client/domain/models_old/metrics.dart';
 import 'package:pi_hole_client/domain/models_old/overtime_data.dart';
-import 'package:pi_hole_client/data/model/v6/padd/padd.dart';
 import 'package:pi_hole_client/domain/models_old/realtime_status.dart';
 import 'package:pi_hole_client/domain/models_old/search.dart';
 import 'package:pi_hole_client/domain/models_old/sensors.dart';
