@@ -92,16 +92,17 @@ class WidgetPrefs(context: Context) {
             obj.put("allowSelfSignedCert", server.allowSelfSignedCert)
             jsonArray.put(obj)
         }
-        prefs.edit().putString(WidgetConstants.KEY_SERVERS_JSON, jsonArray.toString()).apply()
+        val editor = prefs.edit()
+        editor.putString(WidgetConstants.KEY_SERVERS_JSON, jsonArray.toString())
         servers.forEach { server ->
             // Store denormalized fields for quick per-server lookups.
-            prefs.edit()
+            editor
                 .putString(keyForAlias(server.serverId), server.alias)
                 .putString(keyForAddress(server.serverId), server.address)
                 .putString(keyForApiVersion(server.serverId), server.apiVersion)
                 .putBoolean(keyForAllowSelfSigned(server.serverId), server.allowSelfSignedCert)
-                .apply()
         }
+        editor.apply()
     }
 
     /**
