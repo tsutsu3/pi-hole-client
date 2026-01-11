@@ -3,6 +3,7 @@ title: App Settings
 sidebar_position: 1
 ---
 
+import ImageRow from '@site/src/components/image-row';
 import imgAppSettingsMain from "../images/settings/app-settings/servers.png";
 import imgAppSettingsAdvanced from "../images/settings/app-settings/advanced settings/advanced-settings-top.png";
 import imgReducedDataOn from "../images/settings/app-settings/advanced settings/use-reduced-data/linechart-reduce-on.png";
@@ -47,10 +48,10 @@ Use this screen to:
 
 Choose how the app looks.
 
-<div style={{display: "flex", gap: "12px", flexWrap: "wrap"}}>
+<ImageRow>
   <img width="240" alt="Theme settings" src={imgTheme} />
   <img width="240" alt="Theme settings dark" src={imgThemeDark} />
-</div>
+</ImageRow>
 
 You can select:
 - **Light** - always use a light theme
@@ -63,10 +64,10 @@ Changes apply immediately and affect all screens.
 
 Choose the language used for the app interface.
 
-<div style={{display: "flex", gap: "12px", flexWrap: "wrap"}}>
+<ImageRow>
   <img width="240" alt="Language settings" src={imgLanguage} />
   <img width="240" alt="Language settings Japanese" src={imgLanguageJp} />
-</div>
+</ImageRow>
 
 Available languages include:
 - English (default)
@@ -166,10 +167,10 @@ This option controls how much data is rendered in charts.
 
 When **Use Reduced Data** is enabled, charts display fewer data points.
 
-<div style={{display: "flex", gap: "12px", flexWrap: "wrap"}}>
+<ImageRow>
   <img width="240" alt="Reduced data off" src={imgReducedDataOff} />
   <img width="240" alt="Reduced data on" src={imgReducedDataOn} />
-</div>
+</ImageRow>
 
 Enable this when:
 - You are on a slow or metered connection
@@ -183,10 +184,10 @@ Disable it when you want the highest level of detail.
 
 This option removes series with zero values from charts.
 
-<div style={{display: "flex", gap: "12px", flexWrap: "wrap"}}>
+<ImageRow>
   <img width="240" alt="Hide zero values off" src={imgHideZeroOff} />
   <img width="240" alt="Hide zero values on" src={imgHideZeroOn} />
-</div>
+</ImageRow>
 
 Enable it when charts feel cluttered or hard to read.
 Disable it when you want to see all possible series, even inactive ones.
@@ -213,10 +214,10 @@ On the Home screen, you can switch between:
 - **Line chart** (left)
 - **Bar chart** (right)
 
-<div style={{display: "flex", gap: "12px", flexWrap: "wrap"}}>
+<ImageRow>
   <img width="240" alt="Line chart display mode" src={imgReducedDataOn} />
   <img width="240" alt="Bar chart display mode" src={imgReducedDataBarOn} />
-</div>
+</ImageRow>
 
 Use line charts to see trends over time.
 Use bar charts to compare values at a glance.
@@ -228,10 +229,10 @@ On the Statistics screen, you can choose how client data is displayed:
 - **List view** (left)
 - **Pie chart view** (right)
 
-<div style={{display: "flex", gap: "12px", flexWrap: "wrap"}}>
+<ImageRow>
   <img width="240" alt="Client list view" src={imgClientsList} />
   <img width="240" alt="Client pie chart view" src={imgClientsPie} />
-</div>
+</ImageRow>
 
 List view is best for precise numbers.
 Pie charts are useful for quick visual comparison.
@@ -305,7 +306,7 @@ In that case, logs update only when you manually refresh the list.
 This setting controls how many log entries are returned per request.
 Its behavior differs between Pi-hole versions.
 
-<div style={{ display: "flex", gap: "12px", flexWrap: "wrap" }}>
+<ImageRow>
   <img
     width="240"
     alt="Logs quantity per request behavior on Pi-hole v6"
@@ -316,7 +317,7 @@ Its behavior differs between Pi-hole versions.
     alt="Logs quantity per request setting on Pi-hole v5"
     src={imgLogQuantityPerRequestV5}
   />
-</div>
+</ImageRow>
 
 **Left: Pi-hole v6**
 In Pi-hole v6, this setting is no longer configurable.

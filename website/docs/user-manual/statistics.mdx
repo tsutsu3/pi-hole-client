@@ -3,6 +3,7 @@ title: Statistics
 sidebar_position: 2
 ---
 
+import ImageRow from '@site/src/components/image-row';
 import imgQueriesServersTop from "./images/stats/queries-servers-top.png";
 import imgQueriesServersBottom from "./images/stats/queries-servers-bottom.png";
 import imgDomainsTop from "./images/stats/domain-top.png";
@@ -48,10 +49,10 @@ The chart and the list always represent the same category.
 Charts are visual only and cannot be tapped.
 Use them to spot patterns, then rely on the list to take action.
 
-<div style={{display: "flex", gap: "12px", flexWrap: "wrap"}}>
+<ImageRow>
   <img width="240" alt="Queries and servers chart" src={imgQueriesServersTop} />
   <img width="240" alt="Queries and servers list" src={imgQueriesServersBottom} />
-</div>
+</ImageRow>
 
 Use **Queries & Servers** as a starting point when you are not yet sure
 whether the issue is related to a domain, a client, or upstream routing.
@@ -68,10 +69,10 @@ Below the chart, a ranked list appears for the same category.
 Each row represents one domain, client, or server, along with its percentage
 of total queries.
 
-<div style={{display: "flex", gap: "12px", flexWrap: "wrap"}}>
+<ImageRow>
   <img width="240" alt="Top domains list" src={imgDomainsTop} />
   <img width="240" alt="Bottom domains list" src={imgDomainsBottom} />
-</div>
+</ImageRow>
 
 Use the chart to identify overall trends, then use the list to determine
 **which specific item explains that trend**.
@@ -88,10 +89,10 @@ Tap a domain or client to open **Logs** with the corresponding filter
 already applied. This allows you to inspect individual queries immediately,
 without manually configuring filters.
 
-<div style={{display: "flex", gap: "12px", flexWrap: "wrap"}}>
+<ImageRow>
   <img width="240" alt="Top clients statistics" src={imgClientsTop} />
   <img width="240" alt="Bottom clients list" src={imgClientsBottom} />
-</div>
+</ImageRow>
 
 This workflow is useful when one entry dominates the list and you want to
 confirm whether the traffic is expected or requires action.
@@ -101,10 +102,10 @@ confirm whether the traffic is expected or requires action.
 On Pi-hole v6 servers, the **DNS** tab provides additional metrics such as
 query types and DNS behavior.
 
-<div style={{display: "flex", gap: "12px", flexWrap: "wrap"}}>
+<ImageRow>
   <img width="240" alt="DNS metrics statistics" src={imgDnsTop} />
   <img width="240" alt="Bottom DNS metrics list" src={imgDnsBottom} />
-</div>
+</ImageRow>
 
 Use this view to confirm that DNS activity looks balanced and normal.
 If the DNS tab is not visible, the connected server does not support

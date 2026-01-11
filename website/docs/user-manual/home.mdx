@@ -3,6 +3,7 @@ title: Home
 sidebar_position: 1
 ---
 
+import ImageRow from '@site/src/components/image-row';
 import imgHomeTop from "./images/home/home-top.png";
 import imgHomeBottom from "./images/home/home-bottom.png";
 import imgHomeMenu from "./images/home/home-menu.png";
@@ -36,10 +37,10 @@ You will see the currently selected server name and a shield status icon.
 This area tells you **which server you are controlling** and **whether it is
 ready to accept actions**.
 
-<div style={{display: "flex", gap: "12px", flexWrap: "wrap"}}>
+<ImageRow>
   <img width="240" alt="Home top area with server name and summary tiles" src={imgHomeTop} />
   <img width="240" alt="Home bottom area" src={imgHomeBottom} />
-</div>
+</ImageRow>
 
 The shield icon represents the current state:
 

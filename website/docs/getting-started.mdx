@@ -3,6 +3,8 @@ title: Getting Started
 sidebar_position: 2
 ---
 
+import ImageRow from '@site/src/components/image-row';
+
 # 🚀 Getting Started
 
 Follow these steps to connect the app to your Pi-hole and start managing it
@@ -48,10 +50,10 @@ See [Getting the API token (v5 only)](../guides/get-api-token) for details.
 Open **Settings → App Settings → Servers**, then tap **＋** to create a new
 connection.
 
-<div style={{display: "flex", gap: "12px", flexWrap: "wrap"}}>
+<ImageRow>
   <img width="240" alt="Servers list in App Settings" src={require('./user-manual/images/settings/app-settings/servers.png').default} />
   <img width="240" alt="Create a connection screen" src={require('./user-manual/images/settings/app-settings/create-a-connection.png').default} />
-</div>
+</ImageRow>
 
 ### Fill in the connection details
 
