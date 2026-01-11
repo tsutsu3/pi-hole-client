@@ -109,6 +109,11 @@ class MainActivity : FlutterFragmentActivity() {
         )
     }
 
+    /**
+     * Extracts a required `serverId` argument from a widget MethodChannel call.
+     *
+     * Returns `null` and reports an error to Flutter when the argument is missing/blank.
+     */
     private fun requireServerId(call: MethodCall, result: MethodChannel.Result): String? {
         val serverId = call.argument<String>("serverId")
         if (serverId.isNullOrEmpty()) {

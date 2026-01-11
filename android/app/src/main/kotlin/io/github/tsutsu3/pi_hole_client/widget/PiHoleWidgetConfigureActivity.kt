@@ -20,6 +20,12 @@ import io.github.tsutsu3.pi_hole_client.R
 class PiHoleWidgetConfigureActivity : AppCompatActivity() {
     private var appWidgetId: Int = AppWidgetManager.INVALID_APPWIDGET_ID
 
+    /**
+     * ViewHolder for the server selection ListView.
+     *
+     * Remote widget config can list multiple servers; caching view references avoids
+     * repeated `findViewById` calls during ListView recycling.
+     */
     private data class ServerItemViewHolder(
         val title: TextView,
         val subtitle: TextView,
