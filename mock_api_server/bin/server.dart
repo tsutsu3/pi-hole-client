@@ -11,6 +11,7 @@ import 'package:mock_api_server/handlers/history_handler.dart';
 import 'package:mock_api_server/handlers/info_handler.dart';
 import 'package:mock_api_server/handlers/lists_handler.dart';
 import 'package:mock_api_server/handlers/network_handler.dart';
+import 'package:mock_api_server/handlers/padd_handler.dart';
 import 'package:mock_api_server/handlers/pihole_v5_handler.dart';
 import 'package:mock_api_server/handlers/queries_handler.dart';
 import 'package:mock_api_server/handlers/search_handler.dart';
@@ -94,6 +95,7 @@ Middleware requireFTLSid() {
         'api/history',
         'api/info',
         'api/lists',
+        'api/padd',
         'api/queries',
         'api/search',
         'api/stats',
@@ -165,6 +167,7 @@ void main(List<String> args) async {
   router.mount('/api/stats', StatsHandler().router.call);
   router.mount('/api/network', NetworkHandler().router.call);
   router.mount('/api/config', ConfigHandler().router.call);
+  router.mount('/api/padd', PaddHandler().router.call);
 
   final handler = Pipeline()
       .addMiddleware(logRequests())
