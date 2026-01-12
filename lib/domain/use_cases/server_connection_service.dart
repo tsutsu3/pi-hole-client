@@ -15,6 +15,7 @@ import 'package:pi_hole_client/ui/core/viewmodel/app_config_provider.dart';
 import 'package:pi_hole_client/ui/core/viewmodel/servers_provider.dart';
 import 'package:pi_hole_client/ui/core/viewmodel/status_provider.dart';
 import 'package:pi_hole_client/ui/servers/add_server_fullscreen.dart';
+import 'package:pi_hole_client/ui/servers/certificate_details_dialog.dart';
 import 'package:pi_hole_client/utils/logger.dart';
 import 'package:pi_hole_client/utils/tls_certificate.dart';
 
@@ -345,20 +346,10 @@ class ServerConnectionService {
     final info = certificateInfo;
     final confirmed = await showDialog<bool>(
       context: context,
-      builder: (dialogContext) => AlertDialog(
-        title: Text(loc.serverCertificateUpdatePinTitle),
-        content: SelectableText(
-          [
-            loc.serverCertificateUpdatePinHelp,
-            '',
-            '${loc.tlsCertSubject}: ${info.subject}',
-            '${loc.tlsCertIssuer}: ${info.issuer}',
-            '${loc.tlsCertValidFrom}: ${info.startValidity.toIso8601String()}',
-            '${loc.tlsCertValidUntil}: ${info.endValidity.toIso8601String()}',
-            '',
-            '${loc.tlsCertSha256}: ${info.sha256}',
-          ].join('\n'),
-        ),
+      builder: (dialogContext) => CertificateDetailsDialog(
+        title: loc.serverCertificateUpdatePinTitle,
+        description: loc.serverCertificateUpdatePinHelp,
+        certificateInfo: info,
         actions: [
           TextButton(
             onPressed: () => Navigator.pop(dialogContext, false),
