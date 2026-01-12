@@ -1658,7 +1658,10 @@ class ApiGatewayV6 implements ApiGateway {
         return PaddResponse(result: APiResponseType.error, message: fetchError);
       }
     } catch (e) {
-      return PaddResponse(result: APiResponseType.error, message: fetchError);
+      return PaddResponse(
+        result: APiResponseType.error,
+        message: unexpectedError,
+      );
     }
   }
 
