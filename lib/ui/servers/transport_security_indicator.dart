@@ -257,14 +257,14 @@ class _TransportSecurityIndicatorState
         final view = _viewData(context, status);
 
         return Row(
-          mainAxisSize: MainAxisSize.min,
           children: [
             Icon(view.icon, size: 14, color: view.color),
             const SizedBox(width: 6),
-            Flexible(
+            Expanded(
               child: Text(
                 view.label,
                 overflow: TextOverflow.ellipsis,
+                softWrap: false,
                 style: TextStyle(
                   fontSize: 12,
                   fontWeight: FontWeight.w500,

@@ -50,7 +50,6 @@ class ServerTileActions extends StatelessWidget {
     final loc = AppLocalizations.of(context)!;
 
     return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
         Expanded(
           child: Row(
@@ -103,10 +102,11 @@ class ServerTileActions extends StatelessWidget {
                 ],
               ),
               const SizedBox(width: 8),
-              TransportSecurityIndicator(server: server),
+              Expanded(child: TransportSecurityIndicator(server: server)),
             ],
           ),
         ),
+        const SizedBox(width: 8),
         Padding(
           padding: const EdgeInsets.only(right: 16),
           child: isSelected
