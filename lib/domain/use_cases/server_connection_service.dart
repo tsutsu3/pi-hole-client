@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:pi_hole_client/config/enums.dart';
@@ -43,7 +44,17 @@ class ServerConnectionService {
 
     _startConnection();
 
-    final result = await _runLoginQuery();
+    final serverForLogin = await _ensurePinnedFingerprintIfNeeded(server);
+    if (serverForLogin == null) {
+      _abortConnection(previouslySelectedServer);
+      return;
+    }
+
+    if (serversProvider.connectingServer != server) {
+      return;
+    }
+
+    final result = await _runLoginQuery(serverForLogin);
 
     // If another server (other than B) is selected while switching from server A to B, abort the process.
     // Without this check, it may appear as if the app is connected to B, even though a different server was actually selected.
@@ -65,7 +76,7 @@ class ServerConnectionService {
         '${previouslySelectedServer?.address}(${previouslySelectedServer?.alias}) '
         '-> ${server.address}(${server.alias})',
       );
-      _onSuccess(result!);
+      _onSuccess(result!, serverForLogin);
     } else {
       logger.d(
         'Fallback to previously selected server: '
@@ -82,19 +93,36 @@ class ServerConnectionService {
     statusProvider.setServerStatus(LoadStatus.loading);
   }
 
-  Future<LoginQueryResponse?> _runLoginQuery() async {
+  void _abortConnection(Server? fallback) {
+    if (serversProvider.connectingServer != server) {
+      return;
+    }
+    serversProvider.clearConnectingServer();
+
+    if (fallback != null) {
+      serversProvider.setselectedServer(server: fallback);
+      statusProvider.setServerStatus(LoadStatus.loaded);
+      statusUpdateService.startAutoRefresh();
+    } else {
+      statusProvider.setServerStatus(LoadStatus.error);
+    }
+  }
+
+  Future<LoginQueryResponse?> _runLoginQuery(Server serverForLogin) async {
     ProcessModal? process;
     if (showModal) {
       process = ProcessModal(context: context);
       process.open(AppLocalizations.of(context)!.connecting);
     }
 
-    final result = await serversProvider.loadApiGateway(server)?.loginQuery();
+    final result = await serversProvider
+        .loadApiGateway(serverForLogin)
+        ?.loginQuery();
     process?.close();
     return result;
   }
 
-  void _onSuccess(LoginQueryResponse result) {
+  void _onSuccess(LoginQueryResponse result, Server connectedServer) {
     if (serversProvider.selectedServer == null &&
         appConfigProvider.selectedTab == 1) {
       appConfigProvider.setSelectedTab(4);
@@ -102,18 +130,56 @@ class ServerConnectionService {
 
     serversProvider.setselectedServer(
       server: Server(
-        address: server.address,
-        alias: server.alias,
-        defaultServer: server.defaultServer,
-        apiVersion: server.apiVersion,
+        address: connectedServer.address,
+        alias: connectedServer.alias,
+        defaultServer: connectedServer.defaultServer,
+        apiVersion: connectedServer.apiVersion,
         enabled: result.status == 'enabled',
-        allowSelfSignedCert: server.allowSelfSignedCert,
-        sm: server.sm,
+        allowSelfSignedCert: connectedServer.allowSelfSignedCert,
+        pinnedCertificateSha256: connectedServer.pinnedCertificateSha256,
+        sm: connectedServer.sm,
       ),
     );
 
     statusProvider.setServerStatus(LoadStatus.loaded);
     statusUpdateService.startAutoRefresh();
+  }
+
+  Future<Server?> _ensurePinnedFingerprintIfNeeded(Server server) async {
+    if (!context.mounted) return server;
+
+    Uri uri;
+    try {
+      uri = Uri.parse(server.address);
+    } catch (_) {
+      return server;
+    }
+
+    final pin = server.pinnedCertificateSha256;
+    final hasPin = pin != null && pin.trim().isNotEmpty;
+    if (uri.scheme != 'https' || !server.allowSelfSignedCert || hasPin) {
+      return server;
+    }
+
+    // If the platform TLS validation succeeds, treat the connection as verified
+    // and do not require pin setup (user may still choose to pin manually).
+    try {
+      await fetchTlsCertificateInfo(
+        uri,
+        allowBadCertificates: false,
+        timeout: const Duration(seconds: 3),
+      );
+      return server;
+    } on HandshakeException {
+      // Untrusted certificate + allowSelfSignedCert enabled + no pin:
+      // prompt the user to pin before connecting.
+    } catch (_) {
+      // Network issues etc. are handled by the normal connection flow.
+      return server;
+    }
+
+    if (!context.mounted) return null;
+    return _openUpdatePinnedFingerprint(context, server);
   }
 
   Future<void> _onFailure(Server? fallback, LoginQueryResponse? result) async {
@@ -222,14 +288,26 @@ class ServerConnectionService {
 
     if (shouldEdit == true && targetContext.mounted) {
       if (isPinMismatch) {
-        await _openUpdatePinnedFingerprint(targetContext, server);
+        final updated = await _openUpdatePinnedFingerprint(targetContext, server);
+        if (updated != null && targetContext.mounted) {
+          await ServerConnectionService(
+            context: targetContext,
+            appConfigProvider: appConfigProvider,
+            statusProvider: statusProvider,
+            serversProvider: serversProvider,
+            statusUpdateService: statusUpdateService,
+            server: updated,
+            useRootContextOnFailure: useRootContextOnFailure,
+            showModal: showModal,
+          ).connect();
+        }
       } else {
         _openEditServer(targetContext, server);
       }
     }
   }
 
-  Future<void> _openUpdatePinnedFingerprint(
+  Future<Server?> _openUpdatePinnedFingerprint(
     BuildContext context,
     Server server,
   ) async {
@@ -237,9 +315,9 @@ class ServerConnectionService {
     try {
       uri = Uri.parse(server.address);
     } catch (_) {
-      return;
+      return null;
     }
-    if (uri.scheme != 'https') return;
+    if (uri.scheme != 'https') return null;
 
     final loc = AppLocalizations.of(context)!;
 
@@ -253,7 +331,7 @@ class ServerConnectionService {
       certificateInfo = null;
     }
 
-    if (!context.mounted) return;
+    if (!context.mounted) return null;
 
     if (certificateInfo == null) {
       showErrorSnackBar(
@@ -261,7 +339,7 @@ class ServerConnectionService {
         appConfigProvider: appConfigProvider,
         label: loc.serverCertificateFetchFailed,
       );
-      return;
+      return null;
     }
 
     final info = certificateInfo;
@@ -294,12 +372,12 @@ class ServerConnectionService {
       ),
     );
 
-    if (confirmed != true || !context.mounted) return;
+    if (confirmed != true || !context.mounted) return null;
 
     final updated = server.copyWith(pinnedCertificateSha256: info.sha256);
     final result = await serversProvider.editServer(updated);
 
-    if (!context.mounted) return;
+    if (!context.mounted) return null;
 
     if (result == true) {
       showSuccessSnackBar(
@@ -307,12 +385,14 @@ class ServerConnectionService {
         appConfigProvider: appConfigProvider,
         label: loc.editServerSuccessfully,
       );
+      return updated;
     } else {
       showErrorSnackBar(
         context: context,
         appConfigProvider: appConfigProvider,
         label: loc.cantSaveConnectionData,
       );
+      return null;
     }
   }
 
