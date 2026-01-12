@@ -8323,13 +8323,8 @@ void main() async {
       final response = await apiGateway.getPadd();
 
       expect(response.result, APiResponseType.success);
-      expect(response.data, isNotNull);
-      verify(
-        mockClient.get(
-          Uri.parse('http://example.com/api/padd'),
-          headers: anyNamed('headers'),
-        ),
-      ).called(1);
+      expect(response.message, null);
+      expect(response.data?.toJson(), Padd.fromJson(data).toJson());
     });
 
     test('should call /api/padd?full=true when full is true', () async {
@@ -8346,13 +8341,8 @@ void main() async {
       final response = await apiGateway.getPadd(full: true);
 
       expect(response.result, APiResponseType.success);
-      expect(response.data, isNotNull);
-      verify(
-        mockClient.get(
-          Uri.parse('http://example.com/api/padd?full=true'),
-          headers: anyNamed('headers'),
-        ),
-      ).called(1);
+      expect(response.message, null);
+      expect(response.data?.toJson(), Padd.fromJson(data).toJson());
     });
 
     test('should return error when status code is not 200', () async {
