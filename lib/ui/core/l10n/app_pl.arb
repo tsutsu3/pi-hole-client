@@ -57,6 +57,11 @@
   "allowCrashReport": "Zezwolić na przesyłanie raportów o awariach?",
   "allowList": "Lista dozwolonych",
   "allowSelfSignedCertificates": "Zezwól na certyfikaty z podpisem własnym",
+  "tlsCertSubject": "Podmiot",
+  "tlsCertIssuer": "Wystawca",
+  "tlsCertValidFrom": "Ważny od",
+  "tlsCertValidUntil": "Ważny do",
+  "tlsCertSha256": "SHA-256",
   "allowed": "Dozwolone",
   "and": "i",
   "answeredBy": "Odpowiedź od",
@@ -690,5 +695,12 @@
   "clientAddress": "Adres klienta",
   "clientsNone": "Brak klientów do wyświetlenia.",
   "clientsNotLoaded": "Nie udało się wczytać listy klientów",
-  "clientsSelectLeftColumn": "Wybierz klienta, aby zobaczyć szczegóły."
+  "clientsSelectLeftColumn": "Wybierz klienta, aby zobaczyć szczegóły.",
+  "serverSecurityHttp": "HTTP",
+  "serverSecurityHttpsVerified": "HTTPS zweryfikowane",
+  "serverSecurityHttpsPinned": "HTTPS przypięte",
+  "serverSecurityHttpsUntrustedAllowed": "HTTPS niezaufane dozwolone",
+  "serverSecurityHttpsUntrustedBlocked": "HTTPS niezaufane zablokowane",
+  "serverSecurityHttpsPinMismatch": "HTTPS niezgodny PIN",
+  "serverSecurityHttpsUnknown": "HTTPS nieznane"
 }

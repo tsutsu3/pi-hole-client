@@ -29,6 +29,7 @@ class ServerDbData {
     required this.apiVersion,
     required this.sid,
     required this.allowSelfSignedCert,
+    required this.pinnedCertificateSha256,
   });
 
   factory ServerDbData.withSecrets(
@@ -44,6 +45,7 @@ class ServerDbData {
       apiVersion: instance.apiVersion,
       sid: sid,
       allowSelfSignedCert: instance.allowSelfSignedCert,
+      pinnedCertificateSha256: instance.pinnedCertificateSha256,
     );
   }
 
@@ -56,6 +58,7 @@ class ServerDbData {
       apiVersion: map['apiVersion']! as String,
       sid: map['sid'] as String?,
       allowSelfSignedCert: map['allowSelfSignedCert']! as int == 1,
+      pinnedCertificateSha256: map['pinnedCertificateSha256'] as String?,
     );
   }
 
@@ -66,6 +69,7 @@ class ServerDbData {
   final String apiVersion;
   final String? sid;
   final bool allowSelfSignedCert;
+  final String? pinnedCertificateSha256;
 
   Map<String, dynamic> toDict() {
     return {
@@ -76,6 +80,7 @@ class ServerDbData {
       'apiVersion': apiVersion,
       'sid': sid,
       'allowSelfSignedCert': allowSelfSignedCert ? 1 : 0,
+      'pinnedCertificateSha256': pinnedCertificateSha256,
     };
   }
 }

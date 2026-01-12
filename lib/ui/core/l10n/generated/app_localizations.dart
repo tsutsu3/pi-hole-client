@@ -446,6 +446,36 @@ abstract class AppLocalizations {
   /// **'Allow self-signed certificates'**
   String get allowSelfSignedCertificates;
 
+  /// No description provided for @tlsCertSubject.
+  ///
+  /// In en, this message translates to:
+  /// **'Subject'**
+  String get tlsCertSubject;
+
+  /// No description provided for @tlsCertIssuer.
+  ///
+  /// In en, this message translates to:
+  /// **'Issuer'**
+  String get tlsCertIssuer;
+
+  /// No description provided for @tlsCertValidFrom.
+  ///
+  /// In en, this message translates to:
+  /// **'Valid from'**
+  String get tlsCertValidFrom;
+
+  /// No description provided for @tlsCertValidUntil.
+  ///
+  /// In en, this message translates to:
+  /// **'Valid until'**
+  String get tlsCertValidUntil;
+
+  /// No description provided for @tlsCertSha256.
+  ///
+  /// In en, this message translates to:
+  /// **'SHA-256'**
+  String get tlsCertSha256;
+
   /// No description provided for @allowed.
   ///
   /// In en, this message translates to:
@@ -4189,6 +4219,48 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Select a client to view its details.'**
   String get clientsSelectLeftColumn;
+
+  /// No description provided for @serverSecurityHttp.
+  ///
+  /// In en, this message translates to:
+  /// **'HTTP'**
+  String get serverSecurityHttp;
+
+  /// No description provided for @serverSecurityHttpsVerified.
+  ///
+  /// In en, this message translates to:
+  /// **'HTTPS Verified'**
+  String get serverSecurityHttpsVerified;
+
+  /// No description provided for @serverSecurityHttpsPinned.
+  ///
+  /// In en, this message translates to:
+  /// **'HTTPS Pinned'**
+  String get serverSecurityHttpsPinned;
+
+  /// No description provided for @serverSecurityHttpsUntrustedAllowed.
+  ///
+  /// In en, this message translates to:
+  /// **'HTTPS Untrusted Allowed'**
+  String get serverSecurityHttpsUntrustedAllowed;
+
+  /// No description provided for @serverSecurityHttpsUntrustedBlocked.
+  ///
+  /// In en, this message translates to:
+  /// **'HTTPS Untrusted Blocked'**
+  String get serverSecurityHttpsUntrustedBlocked;
+
+  /// No description provided for @serverSecurityHttpsPinMismatch.
+  ///
+  /// In en, this message translates to:
+  /// **'HTTPS Pin Mismatch'**
+  String get serverSecurityHttpsPinMismatch;
+
+  /// No description provided for @serverSecurityHttpsUnknown.
+  ///
+  /// In en, this message translates to:
+  /// **'HTTPS Unknown'**
+  String get serverSecurityHttpsUnknown;
 }
 
 class _AppLocalizationsDelegate

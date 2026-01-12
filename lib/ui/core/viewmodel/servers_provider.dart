@@ -253,6 +253,7 @@ class ServersProvider with ChangeNotifier {
           defaultServer: convertFromIntToBool(server.isDefaultServer)!,
           apiVersion: server.apiVersion,
           allowSelfSignedCert: server.allowSelfSignedCert,
+          pinnedCertificateSha256: server.pinnedCertificateSha256,
         );
         _serversList.add(serverObj);
         _serverGateways[serverObj.address] = ApiGatewayFactory.create(

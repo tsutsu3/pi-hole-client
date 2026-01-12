@@ -13,6 +13,7 @@ import 'package:pi_hole_client/ui/core/ui/modals/scan_token_modal.dart';
 import 'package:pi_hole_client/ui/core/viewmodel/app_config_provider.dart';
 import 'package:pi_hole_client/ui/core/viewmodel/servers_provider.dart';
 import 'package:pi_hole_client/utils/open_url.dart';
+import 'package:pi_hole_client/utils/tls_certificate.dart';
 import 'package:provider/provider.dart';
 
 class AddServerFullscreen extends StatefulWidget {
@@ -47,6 +48,7 @@ class _AddServerFullscreenState extends State<AddServerFullscreen> {
   String piHoleVersion = SupportedApiVersions.v6;
   bool defaultCheckbox = false;
   bool allowSelfSignedCert = true;
+  String? pinnedCertificateSha256;
 
   String? errorUrl;
   bool allDataValid = false;
@@ -80,6 +82,7 @@ class _AddServerFullscreenState extends State<AddServerFullscreen> {
       piHoleVersion = widget.server!.apiVersion;
       defaultCheckbox = widget.server!.defaultServer;
       allowSelfSignedCert = widget.server!.allowSelfSignedCert;
+      pinnedCertificateSha256 = widget.server!.pinnedCertificateSha256;
       _loadSecrets();
     }
   }
@@ -253,6 +256,73 @@ class _AddServerFullscreenState extends State<AddServerFullscreen> {
       }
     }
 
+    Future<String?> ensurePinnedFingerprint({
+      required BuildContext context,
+      required Uri uri,
+      required String? existingPin,
+    }) async {
+      if (existingPin != null && existingPin.isNotEmpty) {
+        return existingPin;
+      }
+
+      try {
+        // If the certificate is trusted by the platform, no pin is needed.
+        await fetchTlsCertificateInfo(uri, allowBadCertificates: false);
+        return '';
+      } on HandshakeException {
+        // Untrusted certificate (likely self-signed). Retrieve fingerprint for user verification.
+      } catch (_) {
+        // Fall back to existing behavior without pin prompt on non-TLS failures.
+        return '';
+      }
+
+      TlsCertificateInfo? certificateInfo;
+      try {
+        certificateInfo = await fetchTlsCertificateInfo(
+          uri,
+          allowBadCertificates: true,
+        );
+      } catch (_) {
+        // If we cannot obtain the fingerprint, don't block the connection flow.
+        return '';
+      }
+      if (!context.mounted || certificateInfo == null) {
+        return null;
+      }
+
+      final confirmed = await showDialog<bool>(
+        context: context,
+        builder: (dialogContext) => AlertDialog(
+          icon: const Icon(Icons.assignment_outlined),
+          title: Text(
+            AppLocalizations.of(dialogContext)!.allowSelfSignedCertificates,
+          ),
+          content: SelectableText(
+            [
+              '${AppLocalizations.of(dialogContext)!.tlsCertSubject}: ${certificateInfo?.subject}',
+              '${AppLocalizations.of(dialogContext)!.tlsCertIssuer}: ${certificateInfo?.issuer}',
+              '${AppLocalizations.of(dialogContext)!.tlsCertValidFrom}: ${certificateInfo?.startValidity.toIso8601String()}',
+              '${AppLocalizations.of(dialogContext)!.tlsCertValidUntil}: ${certificateInfo?.endValidity.toIso8601String()}',
+              '',
+              '${AppLocalizations.of(dialogContext)!.tlsCertSha256}: ${certificateInfo?.sha256}',
+            ].join('\n'),
+          ),
+          actions: [
+            TextButton(
+              onPressed: () => Navigator.pop(dialogContext, false),
+              child: Text(AppLocalizations.of(dialogContext)!.cancel),
+            ),
+            TextButton(
+              onPressed: () => Navigator.pop(dialogContext, true),
+              child: Text(AppLocalizations.of(dialogContext)!.confirm),
+            ),
+          ],
+        ),
+      );
+
+      return confirmed == true ? certificateInfo.sha256 : null;
+    }
+
     Future<void> connect() async {
       FocusManager.instance.primaryFocus?.unfocus();
       setState(() {
@@ -283,15 +353,40 @@ class _AddServerFullscreenState extends State<AddServerFullscreen> {
         setState(() {
           errorUrl = null;
         });
-        final serverObj = Server(
+        var serverObj = Server(
           address: url,
           alias: aliasFieldController.text,
           defaultServer: false,
           apiVersion: piHoleVersion,
           allowSelfSignedCert: allowSelfSignedCert,
+          pinnedCertificateSha256: pinnedCertificateSha256,
         );
         await serverObj.sm.savePassword(passwordFieldController.text);
         await serverObj.sm.saveToken(tokenFieldController.text);
+
+        if (connectionType == ConnectionType.https && allowSelfSignedCert) {
+          final uri = Uri.parse(serverObj.address);
+          if (!context.mounted) return;
+          final pin = await ensurePinnedFingerprint(
+            context: context,
+            uri: uri,
+            existingPin: serverObj.pinnedCertificateSha256,
+          );
+          if (!context.mounted) return;
+          if (pin == null) {
+            setState(() {
+              isConnecting = false;
+            });
+            return;
+          }
+          serverObj = serverObj.copyWith(
+            pinnedCertificateSha256: pin.isEmpty ? null : pin,
+          );
+        } else {
+          // ignore: avoid_redundant_argument_values
+          serverObj = serverObj.copyWith(pinnedCertificateSha256: null);
+        }
+
         final result = await serversProvider
             .loadApiGateway(serverObj)
             ?.loginQuery();
@@ -312,6 +407,7 @@ class _AddServerFullscreenState extends State<AddServerFullscreen> {
               apiVersion: piHoleVersion,
               enabled: result!.status == 'enabled' ? true : false,
               allowSelfSignedCert: allowSelfSignedCert,
+              pinnedCertificateSha256: serverObj.pinnedCertificateSha256,
               sm: serverObj.sm,
             ),
           );
@@ -346,12 +442,13 @@ class _AddServerFullscreenState extends State<AddServerFullscreen> {
         isConnecting = true;
       });
 
-      final serverObj = Server(
+      var serverObj = Server(
         address: widget.server!.address,
         alias: aliasFieldController.text,
         defaultServer: false,
         apiVersion: piHoleVersion,
         allowSelfSignedCert: allowSelfSignedCert,
+        pinnedCertificateSha256: pinnedCertificateSha256,
       );
       await serverObj.sm.savePassword(passwordFieldController.text);
       await serverObj.sm.saveToken(tokenFieldController.text);
@@ -363,6 +460,29 @@ class _AddServerFullscreenState extends State<AddServerFullscreen> {
           ?.loginQuery(refresh: true);
 
       if (result?.result == APiResponseType.success) {
+        if (connectionType == ConnectionType.https && allowSelfSignedCert) {
+          final uri = Uri.parse(serverObj.address);
+          if (!context.mounted) return;
+          final pin = await ensurePinnedFingerprint(
+            context: context,
+            uri: uri,
+            existingPin: serverObj.pinnedCertificateSha256,
+          );
+          if (!context.mounted) return;
+          if (pin == null) {
+            setState(() {
+              isConnecting = false;
+            });
+            return;
+          }
+          serverObj = serverObj.copyWith(
+            pinnedCertificateSha256: pin.isEmpty ? null : pin,
+          );
+        } else {
+          // ignore: avoid_redundant_argument_values
+          serverObj = serverObj.copyWith(pinnedCertificateSha256: null);
+        }
+
         final server = serverObj.copyWith(defaultServer: defaultCheckbox);
         final result = await serversProvider.editServer(server);
         if (context.mounted) {

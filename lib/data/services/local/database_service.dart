@@ -44,7 +44,7 @@ class DatabaseService {
   /// Returns:
   /// - [Success] containing the opened [Database] instance if successful.
   /// - [Failure] containing an [Exception] if an error occurs during opening.
-  Future<Result<Database>> open({int? latestVersion = 8}) async {
+  Future<Result<Database>> open({int? latestVersion = 9}) async {
     try {
       _db = await openDatabase(
         _path,
@@ -265,7 +265,8 @@ class DatabaseService {
         alias TEXT NOT NULL,
         isDefaultServer NUMERIC NOT NULL,
         apiVersion TEXT NOT NULL,
-        allowSelfSignedCert NUMERIC NOT NULL
+        allowSelfSignedCert NUMERIC NOT NULL,
+        pinnedCertificateSha256 TEXT
       )
     ''');
 
@@ -354,6 +355,7 @@ class DatabaseService {
       await _upgradeToV6(db);
       await _upgradeToV7(db);
       await _upgradeToV8(db);
+      await _upgradeToV9(db);
     } else if (oldVersion == 2) {
       await _upgradeToV3(db);
       await _upgradeToV4(db);
@@ -361,26 +363,34 @@ class DatabaseService {
       await _upgradeToV6(db);
       await _upgradeToV7(db);
       await _upgradeToV8(db);
+      await _upgradeToV9(db);
     } else if (oldVersion == 3) {
       await _upgradeToV4(db);
       await _upgradeToV5(db);
       await _upgradeToV6(db);
       await _upgradeToV7(db);
       await _upgradeToV8(db);
+      await _upgradeToV9(db);
     } else if (oldVersion == 4) {
       await _upgradeToV5(db);
       await _upgradeToV6(db);
       await _upgradeToV7(db);
       await _upgradeToV8(db);
+      await _upgradeToV9(db);
     } else if (oldVersion == 5) {
       await _upgradeToV6(db);
       await _upgradeToV7(db);
       await _upgradeToV8(db);
+      await _upgradeToV9(db);
     } else if (oldVersion == 6) {
       await _upgradeToV7(db);
       await _upgradeToV8(db);
+      await _upgradeToV9(db);
     } else if (oldVersion == 7) {
       await _upgradeToV8(db);
+      await _upgradeToV9(db);
+    } else if (oldVersion == 8) {
+      await _upgradeToV9(db);
     } else {
       logger.w(
         'Database upgrade from version $oldVersion to $newVersion is not handled.',
@@ -737,5 +747,15 @@ class DatabaseService {
     await db.execute('ALTER TABLE appConfig_new RENAME TO appConfig');
 
     logger.d('Database upgraded to version 8');
+  }
+
+  /// Migrates the database to version 9.
+  ///
+  /// Adds `pinnedCertificateSha256` to the `servers` table to support certificate pinning.
+  Future<void> _upgradeToV9(Database db) async {
+    await db.execute(
+      'ALTER TABLE servers ADD COLUMN pinnedCertificateSha256 TEXT',
+    );
+    logger.d('Database upgraded to version 9');
   }
 }

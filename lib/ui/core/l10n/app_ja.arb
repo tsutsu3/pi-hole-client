@@ -57,6 +57,11 @@
   "allowCrashReport": "クラッシュレポートの送信を許可しますか？",
   "allowList": "許可リスト",
   "allowSelfSignedCertificates": "自己署名証明書を許可する",
+  "tlsCertSubject": "サブジェクト",
+  "tlsCertIssuer": "発行者",
+  "tlsCertValidFrom": "有効開始",
+  "tlsCertValidUntil": "有効期限",
+  "tlsCertSha256": "SHA-256",
   "allowed": "許可済み",
   "and": "と",
   "answeredBy": "回答者",
@@ -692,5 +697,12 @@
   "clientAddress": "クライアントのアドレス",
   "clientsNone": "表示するクライアントがありません。",
   "clientsNotLoaded": "クライアント一覧を読み込めませんでした",
-  "clientsSelectLeftColumn": "詳細を表示するクライアントを選択してください。"
+  "clientsSelectLeftColumn": "詳細を表示するクライアントを選択してください。",
+  "serverSecurityHttp": "HTTP",
+  "serverSecurityHttpsVerified": "HTTPS（検証済み）",
+  "serverSecurityHttpsPinned": "HTTPS（ピン留め）",
+  "serverSecurityHttpsUntrustedAllowed": "HTTPS（未検証 許可）",
+  "serverSecurityHttpsUntrustedBlocked": "HTTPS（未検証 ブロック）",
+  "serverSecurityHttpsPinMismatch": "HTTPS（ピン不一致）",
+  "serverSecurityHttpsUnknown": "HTTPS（不明）"
 }

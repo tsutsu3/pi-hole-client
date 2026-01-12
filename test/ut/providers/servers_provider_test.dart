@@ -164,6 +164,7 @@ void main() async {
           apiVersion: server.apiVersion,
           sid: 'sid01',
           allowSelfSignedCert: server.allowSelfSignedCert,
+          pinnedCertificateSha256: null,
         ),
       ];
 

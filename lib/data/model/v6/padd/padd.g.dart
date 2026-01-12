@@ -7,10 +7,6 @@ part of 'padd.dart';
 // **************************************************************************
 
 _Padd _$PaddFromJson(Map<String, dynamic> json) => _Padd(
-  recentBlocked: json['recent_blocked'] as String?,
-  topDomain: json['top_domain'] as String?,
-  topBlocked: json['top_blocked'] as String?,
-  topClient: json['top_client'] as String?,
   activeClients: (json['active_clients'] as num).toInt(),
   gravitySize: (json['gravity_size'] as num).toInt(),
   blocking: json['blocking'] as String,
@@ -18,7 +14,6 @@ _Padd _$PaddFromJson(Map<String, dynamic> json) => _Padd(
   cache: PaddCache.fromJson(json['cache'] as Map<String, dynamic>),
   iface: PaddIface.fromJson(json['iface'] as Map<String, dynamic>),
   nodeName: json['node_name'] as String,
-  hostModel: json['host_model'] as String?,
   config: PaddConfig.fromJson(json['config'] as Map<String, dynamic>),
   cpuPercent: (json['%cpu'] as num).toDouble(),
   memPercent: (json['%mem'] as num).toDouble(),
@@ -27,13 +22,14 @@ _Padd _$PaddFromJson(Map<String, dynamic> json) => _Padd(
   system: PaddSystem.fromJson(json['system'] as Map<String, dynamic>),
   version: VersionData.fromJson(json['version'] as Map<String, dynamic>),
   took: (json['took'] as num).toDouble(),
+  recentBlocked: json['recent_blocked'] as String?,
+  topDomain: json['top_domain'] as String?,
+  topBlocked: json['top_blocked'] as String?,
+  topClient: json['top_client'] as String?,
+  hostModel: json['host_model'] as String?,
 );
 
 Map<String, dynamic> _$PaddToJson(_Padd instance) => <String, dynamic>{
-  'recent_blocked': instance.recentBlocked,
-  'top_domain': instance.topDomain,
-  'top_blocked': instance.topBlocked,
-  'top_client': instance.topClient,
   'active_clients': instance.activeClients,
   'gravity_size': instance.gravitySize,
   'blocking': instance.blocking,
@@ -41,7 +37,6 @@ Map<String, dynamic> _$PaddToJson(_Padd instance) => <String, dynamic>{
   'cache': instance.cache.toJson(),
   'iface': instance.iface.toJson(),
   'node_name': instance.nodeName,
-  'host_model': instance.hostModel,
   'config': instance.config.toJson(),
   '%cpu': instance.cpuPercent,
   '%mem': instance.memPercent,
@@ -50,6 +45,11 @@ Map<String, dynamic> _$PaddToJson(_Padd instance) => <String, dynamic>{
   'system': instance.system.toJson(),
   'version': instance.version.toJson(),
   'took': instance.took,
+  'recent_blocked': instance.recentBlocked,
+  'top_domain': instance.topDomain,
+  'top_blocked': instance.topBlocked,
+  'top_client': instance.topClient,
+  'host_model': instance.hostModel,
 };
 
 _PaddQueries _$PaddQueriesFromJson(Map<String, dynamic> json) => _PaddQueries(
@@ -87,36 +87,36 @@ Map<String, dynamic> _$PaddIfaceToJson(_PaddIface instance) =>
     <String, dynamic>{'v4': instance.v4.toJson(), 'v6': instance.v6.toJson()};
 
 _PaddIfaceV4 _$PaddIfaceV4FromJson(Map<String, dynamic> json) => _PaddIfaceV4(
-  addr: json['addr'] as String?,
   rxBytes: PaddIfaceBytes.fromJson(json['rx_bytes'] as Map<String, dynamic>),
   txBytes: PaddIfaceBytes.fromJson(json['tx_bytes'] as Map<String, dynamic>),
   numAddrs: (json['num_addrs'] as num).toInt(),
   name: json['name'] as String,
+  addr: json['addr'] as String?,
   gwAddr: json['gw_addr'] as String?,
 );
 
 Map<String, dynamic> _$PaddIfaceV4ToJson(_PaddIfaceV4 instance) =>
     <String, dynamic>{
-      'addr': instance.addr,
       'rx_bytes': instance.rxBytes.toJson(),
       'tx_bytes': instance.txBytes.toJson(),
       'num_addrs': instance.numAddrs,
       'name': instance.name,
+      'addr': instance.addr,
       'gw_addr': instance.gwAddr,
     };
 
 _PaddIfaceV6 _$PaddIfaceV6FromJson(Map<String, dynamic> json) => _PaddIfaceV6(
-  addr: json['addr'] as String?,
   numAddrs: (json['num_addrs'] as num).toInt(),
   name: json['name'] as String,
+  addr: json['addr'] as String?,
   gwAddr: json['gw_addr'] as String?,
 );
 
 Map<String, dynamic> _$PaddIfaceV6ToJson(_PaddIfaceV6 instance) =>
     <String, dynamic>{
-      'addr': instance.addr,
       'num_addrs': instance.numAddrs,
       'name': instance.name,
+      'addr': instance.addr,
       'gw_addr': instance.gwAddr,
     };
 
@@ -157,16 +157,16 @@ Map<String, dynamic> _$PaddConfigToJson(_PaddConfig instance) =>
     };
 
 _PaddSensors _$PaddSensorsFromJson(Map<String, dynamic> json) => _PaddSensors(
-  cpuTemp: (json['cpu_temp'] as num?)?.toDouble(),
   hotLimit: (json['hot_limit'] as num).toDouble(),
   unit: json['unit'] as String,
+  cpuTemp: (json['cpu_temp'] as num?)?.toDouble(),
 );
 
 Map<String, dynamic> _$PaddSensorsToJson(_PaddSensors instance) =>
     <String, dynamic>{
-      'cpu_temp': instance.cpuTemp,
       'hot_limit': instance.hotLimit,
       'unit': instance.unit,
+      'cpu_temp': instance.cpuTemp,
     };
 
 _PaddSystem _$PaddSystemFromJson(Map<String, dynamic> json) => _PaddSystem(
@@ -235,15 +235,15 @@ Map<String, dynamic> _$PaddSystemSwapToJson(_PaddSystemSwap instance) =>
 _PaddSystemCpu _$PaddSystemCpuFromJson(Map<String, dynamic> json) =>
     _PaddSystemCpu(
       nprocs: (json['nprocs'] as num).toInt(),
-      percentCpu: (json['%cpu'] as num?)?.toDouble(),
       load: PaddSystemLoad.fromJson(json['load'] as Map<String, dynamic>),
+      percentCpu: (json['%cpu'] as num?)?.toDouble(),
     );
 
 Map<String, dynamic> _$PaddSystemCpuToJson(_PaddSystemCpu instance) =>
     <String, dynamic>{
       'nprocs': instance.nprocs,
-      '%cpu': instance.percentCpu,
       'load': instance.load.toJson(),
+      '%cpu': instance.percentCpu,
     };
 
 _PaddSystemLoad _$PaddSystemLoadFromJson(Map<String, dynamic> json) =>

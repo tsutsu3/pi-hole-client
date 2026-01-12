@@ -15,7 +15,7 @@ T _$identity<T>(T value) => value;
 /// @nodoc
 mixin _$Padd {
 
-@JsonKey(name: 'recent_blocked') String? get recentBlocked;@JsonKey(name: 'top_domain') String? get topDomain;@JsonKey(name: 'top_blocked') String? get topBlocked;@JsonKey(name: 'top_client') String? get topClient;@JsonKey(name: 'active_clients') int get activeClients;@JsonKey(name: 'gravity_size') int get gravitySize; String get blocking; PaddQueries get queries; PaddCache get cache; PaddIface get iface;@JsonKey(name: 'node_name') String get nodeName;@JsonKey(name: 'host_model') String? get hostModel; PaddConfig get config;@JsonKey(name: '%cpu') double get cpuPercent;@JsonKey(name: '%mem') double get memPercent; int get pid; PaddSensors get sensors; PaddSystem get system; VersionData get version; double get took;
+@JsonKey(name: 'active_clients') int get activeClients;@JsonKey(name: 'gravity_size') int get gravitySize; String get blocking; PaddQueries get queries; PaddCache get cache; PaddIface get iface;@JsonKey(name: 'node_name') String get nodeName; PaddConfig get config;@JsonKey(name: '%cpu') double get cpuPercent;@JsonKey(name: '%mem') double get memPercent; int get pid; PaddSensors get sensors; PaddSystem get system; VersionData get version; double get took;@JsonKey(name: 'recent_blocked') String? get recentBlocked;@JsonKey(name: 'top_domain') String? get topDomain;@JsonKey(name: 'top_blocked') String? get topBlocked;@JsonKey(name: 'top_client') String? get topClient;@JsonKey(name: 'host_model') String? get hostModel;
 /// Create a copy of Padd
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -28,16 +28,16 @@ $PaddCopyWith<Padd> get copyWith => _$PaddCopyWithImpl<Padd>(this as Padd, _$ide
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is Padd&&(identical(other.recentBlocked, recentBlocked) || other.recentBlocked == recentBlocked)&&(identical(other.topDomain, topDomain) || other.topDomain == topDomain)&&(identical(other.topBlocked, topBlocked) || other.topBlocked == topBlocked)&&(identical(other.topClient, topClient) || other.topClient == topClient)&&(identical(other.activeClients, activeClients) || other.activeClients == activeClients)&&(identical(other.gravitySize, gravitySize) || other.gravitySize == gravitySize)&&(identical(other.blocking, blocking) || other.blocking == blocking)&&(identical(other.queries, queries) || other.queries == queries)&&(identical(other.cache, cache) || other.cache == cache)&&(identical(other.iface, iface) || other.iface == iface)&&(identical(other.nodeName, nodeName) || other.nodeName == nodeName)&&(identical(other.hostModel, hostModel) || other.hostModel == hostModel)&&(identical(other.config, config) || other.config == config)&&(identical(other.cpuPercent, cpuPercent) || other.cpuPercent == cpuPercent)&&(identical(other.memPercent, memPercent) || other.memPercent == memPercent)&&(identical(other.pid, pid) || other.pid == pid)&&(identical(other.sensors, sensors) || other.sensors == sensors)&&(identical(other.system, system) || other.system == system)&&(identical(other.version, version) || other.version == version)&&(identical(other.took, took) || other.took == took));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is Padd&&(identical(other.activeClients, activeClients) || other.activeClients == activeClients)&&(identical(other.gravitySize, gravitySize) || other.gravitySize == gravitySize)&&(identical(other.blocking, blocking) || other.blocking == blocking)&&(identical(other.queries, queries) || other.queries == queries)&&(identical(other.cache, cache) || other.cache == cache)&&(identical(other.iface, iface) || other.iface == iface)&&(identical(other.nodeName, nodeName) || other.nodeName == nodeName)&&(identical(other.config, config) || other.config == config)&&(identical(other.cpuPercent, cpuPercent) || other.cpuPercent == cpuPercent)&&(identical(other.memPercent, memPercent) || other.memPercent == memPercent)&&(identical(other.pid, pid) || other.pid == pid)&&(identical(other.sensors, sensors) || other.sensors == sensors)&&(identical(other.system, system) || other.system == system)&&(identical(other.version, version) || other.version == version)&&(identical(other.took, took) || other.took == took)&&(identical(other.recentBlocked, recentBlocked) || other.recentBlocked == recentBlocked)&&(identical(other.topDomain, topDomain) || other.topDomain == topDomain)&&(identical(other.topBlocked, topBlocked) || other.topBlocked == topBlocked)&&(identical(other.topClient, topClient) || other.topClient == topClient)&&(identical(other.hostModel, hostModel) || other.hostModel == hostModel));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hashAll([runtimeType,recentBlocked,topDomain,topBlocked,topClient,activeClients,gravitySize,blocking,queries,cache,iface,nodeName,hostModel,config,cpuPercent,memPercent,pid,sensors,system,version,took]);
+int get hashCode => Object.hashAll([runtimeType,activeClients,gravitySize,blocking,queries,cache,iface,nodeName,config,cpuPercent,memPercent,pid,sensors,system,version,took,recentBlocked,topDomain,topBlocked,topClient,hostModel]);
 
 @override
 String toString() {
-  return 'Padd(recentBlocked: $recentBlocked, topDomain: $topDomain, topBlocked: $topBlocked, topClient: $topClient, activeClients: $activeClients, gravitySize: $gravitySize, blocking: $blocking, queries: $queries, cache: $cache, iface: $iface, nodeName: $nodeName, hostModel: $hostModel, config: $config, cpuPercent: $cpuPercent, memPercent: $memPercent, pid: $pid, sensors: $sensors, system: $system, version: $version, took: $took)';
+  return 'Padd(activeClients: $activeClients, gravitySize: $gravitySize, blocking: $blocking, queries: $queries, cache: $cache, iface: $iface, nodeName: $nodeName, config: $config, cpuPercent: $cpuPercent, memPercent: $memPercent, pid: $pid, sensors: $sensors, system: $system, version: $version, took: $took, recentBlocked: $recentBlocked, topDomain: $topDomain, topBlocked: $topBlocked, topClient: $topClient, hostModel: $hostModel)';
 }
 
 
@@ -48,7 +48,7 @@ abstract mixin class $PaddCopyWith<$Res>  {
   factory $PaddCopyWith(Padd value, $Res Function(Padd) _then) = _$PaddCopyWithImpl;
 @useResult
 $Res call({
-@JsonKey(name: 'recent_blocked') String? recentBlocked,@JsonKey(name: 'top_domain') String? topDomain,@JsonKey(name: 'top_blocked') String? topBlocked,@JsonKey(name: 'top_client') String? topClient,@JsonKey(name: 'active_clients') int activeClients,@JsonKey(name: 'gravity_size') int gravitySize, String blocking, PaddQueries queries, PaddCache cache, PaddIface iface,@JsonKey(name: 'node_name') String nodeName,@JsonKey(name: 'host_model') String? hostModel, PaddConfig config,@JsonKey(name: '%cpu') double cpuPercent,@JsonKey(name: '%mem') double memPercent, int pid, PaddSensors sensors, PaddSystem system, VersionData version, double took
+@JsonKey(name: 'active_clients') int activeClients,@JsonKey(name: 'gravity_size') int gravitySize, String blocking, PaddQueries queries, PaddCache cache, PaddIface iface,@JsonKey(name: 'node_name') String nodeName, PaddConfig config,@JsonKey(name: '%cpu') double cpuPercent,@JsonKey(name: '%mem') double memPercent, int pid, PaddSensors sensors, PaddSystem system, VersionData version, double took,@JsonKey(name: 'recent_blocked') String? recentBlocked,@JsonKey(name: 'top_domain') String? topDomain,@JsonKey(name: 'top_blocked') String? topBlocked,@JsonKey(name: 'top_client') String? topClient,@JsonKey(name: 'host_model') String? hostModel
 });
 
 
@@ -65,21 +65,16 @@ class _$PaddCopyWithImpl<$Res>
 
 /// Create a copy of Padd
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? recentBlocked = freezed,Object? topDomain = freezed,Object? topBlocked = freezed,Object? topClient = freezed,Object? activeClients = null,Object? gravitySize = null,Object? blocking = null,Object? queries = null,Object? cache = null,Object? iface = null,Object? nodeName = null,Object? hostModel = freezed,Object? config = null,Object? cpuPercent = null,Object? memPercent = null,Object? pid = null,Object? sensors = null,Object? system = null,Object? version = null,Object? took = null,}) {
+@pragma('vm:prefer-inline') @override $Res call({Object? activeClients = null,Object? gravitySize = null,Object? blocking = null,Object? queries = null,Object? cache = null,Object? iface = null,Object? nodeName = null,Object? config = null,Object? cpuPercent = null,Object? memPercent = null,Object? pid = null,Object? sensors = null,Object? system = null,Object? version = null,Object? took = null,Object? recentBlocked = freezed,Object? topDomain = freezed,Object? topBlocked = freezed,Object? topClient = freezed,Object? hostModel = freezed,}) {
   return _then(_self.copyWith(
-recentBlocked: freezed == recentBlocked ? _self.recentBlocked : recentBlocked // ignore: cast_nullable_to_non_nullable
-as String?,topDomain: freezed == topDomain ? _self.topDomain : topDomain // ignore: cast_nullable_to_non_nullable
-as String?,topBlocked: freezed == topBlocked ? _self.topBlocked : topBlocked // ignore: cast_nullable_to_non_nullable
-as String?,topClient: freezed == topClient ? _self.topClient : topClient // ignore: cast_nullable_to_non_nullable
-as String?,activeClients: null == activeClients ? _self.activeClients : activeClients // ignore: cast_nullable_to_non_nullable
+activeClients: null == activeClients ? _self.activeClients : activeClients // ignore: cast_nullable_to_non_nullable
 as int,gravitySize: null == gravitySize ? _self.gravitySize : gravitySize // ignore: cast_nullable_to_non_nullable
 as int,blocking: null == blocking ? _self.blocking : blocking // ignore: cast_nullable_to_non_nullable
 as String,queries: null == queries ? _self.queries : queries // ignore: cast_nullable_to_non_nullable
 as PaddQueries,cache: null == cache ? _self.cache : cache // ignore: cast_nullable_to_non_nullable
 as PaddCache,iface: null == iface ? _self.iface : iface // ignore: cast_nullable_to_non_nullable
 as PaddIface,nodeName: null == nodeName ? _self.nodeName : nodeName // ignore: cast_nullable_to_non_nullable
-as String,hostModel: freezed == hostModel ? _self.hostModel : hostModel // ignore: cast_nullable_to_non_nullable
-as String?,config: null == config ? _self.config : config // ignore: cast_nullable_to_non_nullable
+as String,config: null == config ? _self.config : config // ignore: cast_nullable_to_non_nullable
 as PaddConfig,cpuPercent: null == cpuPercent ? _self.cpuPercent : cpuPercent // ignore: cast_nullable_to_non_nullable
 as double,memPercent: null == memPercent ? _self.memPercent : memPercent // ignore: cast_nullable_to_non_nullable
 as double,pid: null == pid ? _self.pid : pid // ignore: cast_nullable_to_non_nullable
@@ -87,7 +82,12 @@ as int,sensors: null == sensors ? _self.sensors : sensors // ignore: cast_nullab
 as PaddSensors,system: null == system ? _self.system : system // ignore: cast_nullable_to_non_nullable
 as PaddSystem,version: null == version ? _self.version : version // ignore: cast_nullable_to_non_nullable
 as VersionData,took: null == took ? _self.took : took // ignore: cast_nullable_to_non_nullable
-as double,
+as double,recentBlocked: freezed == recentBlocked ? _self.recentBlocked : recentBlocked // ignore: cast_nullable_to_non_nullable
+as String?,topDomain: freezed == topDomain ? _self.topDomain : topDomain // ignore: cast_nullable_to_non_nullable
+as String?,topBlocked: freezed == topBlocked ? _self.topBlocked : topBlocked // ignore: cast_nullable_to_non_nullable
+as String?,topClient: freezed == topClient ? _self.topClient : topClient // ignore: cast_nullable_to_non_nullable
+as String?,hostModel: freezed == hostModel ? _self.hostModel : hostModel // ignore: cast_nullable_to_non_nullable
+as String?,
   ));
 }
 /// Create a copy of Padd
@@ -232,10 +232,10 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function(@JsonKey(name: 'recent_blocked')  String? recentBlocked, @JsonKey(name: 'top_domain')  String? topDomain, @JsonKey(name: 'top_blocked')  String? topBlocked, @JsonKey(name: 'top_client')  String? topClient, @JsonKey(name: 'active_clients')  int activeClients, @JsonKey(name: 'gravity_size')  int gravitySize,  String blocking,  PaddQueries queries,  PaddCache cache,  PaddIface iface, @JsonKey(name: 'node_name')  String nodeName, @JsonKey(name: 'host_model')  String? hostModel,  PaddConfig config, @JsonKey(name: '%cpu')  double cpuPercent, @JsonKey(name: '%mem')  double memPercent,  int pid,  PaddSensors sensors,  PaddSystem system,  VersionData version,  double took)?  $default,{required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function(@JsonKey(name: 'active_clients')  int activeClients, @JsonKey(name: 'gravity_size')  int gravitySize,  String blocking,  PaddQueries queries,  PaddCache cache,  PaddIface iface, @JsonKey(name: 'node_name')  String nodeName,  PaddConfig config, @JsonKey(name: '%cpu')  double cpuPercent, @JsonKey(name: '%mem')  double memPercent,  int pid,  PaddSensors sensors,  PaddSystem system,  VersionData version,  double took, @JsonKey(name: 'recent_blocked')  String? recentBlocked, @JsonKey(name: 'top_domain')  String? topDomain, @JsonKey(name: 'top_blocked')  String? topBlocked, @JsonKey(name: 'top_client')  String? topClient, @JsonKey(name: 'host_model')  String? hostModel)?  $default,{required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _Padd() when $default != null:
-return $default(_that.recentBlocked,_that.topDomain,_that.topBlocked,_that.topClient,_that.activeClients,_that.gravitySize,_that.blocking,_that.queries,_that.cache,_that.iface,_that.nodeName,_that.hostModel,_that.config,_that.cpuPercent,_that.memPercent,_that.pid,_that.sensors,_that.system,_that.version,_that.took);case _:
+return $default(_that.activeClients,_that.gravitySize,_that.blocking,_that.queries,_that.cache,_that.iface,_that.nodeName,_that.config,_that.cpuPercent,_that.memPercent,_that.pid,_that.sensors,_that.system,_that.version,_that.took,_that.recentBlocked,_that.topDomain,_that.topBlocked,_that.topClient,_that.hostModel);case _:
   return orElse();
 
 }
@@ -253,10 +253,10 @@ return $default(_that.recentBlocked,_that.topDomain,_that.topBlocked,_that.topCl
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function(@JsonKey(name: 'recent_blocked')  String? recentBlocked, @JsonKey(name: 'top_domain')  String? topDomain, @JsonKey(name: 'top_blocked')  String? topBlocked, @JsonKey(name: 'top_client')  String? topClient, @JsonKey(name: 'active_clients')  int activeClients, @JsonKey(name: 'gravity_size')  int gravitySize,  String blocking,  PaddQueries queries,  PaddCache cache,  PaddIface iface, @JsonKey(name: 'node_name')  String nodeName, @JsonKey(name: 'host_model')  String? hostModel,  PaddConfig config, @JsonKey(name: '%cpu')  double cpuPercent, @JsonKey(name: '%mem')  double memPercent,  int pid,  PaddSensors sensors,  PaddSystem system,  VersionData version,  double took)  $default,) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function(@JsonKey(name: 'active_clients')  int activeClients, @JsonKey(name: 'gravity_size')  int gravitySize,  String blocking,  PaddQueries queries,  PaddCache cache,  PaddIface iface, @JsonKey(name: 'node_name')  String nodeName,  PaddConfig config, @JsonKey(name: '%cpu')  double cpuPercent, @JsonKey(name: '%mem')  double memPercent,  int pid,  PaddSensors sensors,  PaddSystem system,  VersionData version,  double took, @JsonKey(name: 'recent_blocked')  String? recentBlocked, @JsonKey(name: 'top_domain')  String? topDomain, @JsonKey(name: 'top_blocked')  String? topBlocked, @JsonKey(name: 'top_client')  String? topClient, @JsonKey(name: 'host_model')  String? hostModel)  $default,) {final _that = this;
 switch (_that) {
 case _Padd():
-return $default(_that.recentBlocked,_that.topDomain,_that.topBlocked,_that.topClient,_that.activeClients,_that.gravitySize,_that.blocking,_that.queries,_that.cache,_that.iface,_that.nodeName,_that.hostModel,_that.config,_that.cpuPercent,_that.memPercent,_that.pid,_that.sensors,_that.system,_that.version,_that.took);}
+return $default(_that.activeClients,_that.gravitySize,_that.blocking,_that.queries,_that.cache,_that.iface,_that.nodeName,_that.config,_that.cpuPercent,_that.memPercent,_that.pid,_that.sensors,_that.system,_that.version,_that.took,_that.recentBlocked,_that.topDomain,_that.topBlocked,_that.topClient,_that.hostModel);}
 }
 /// A variant of `when` that fallback to returning `null`
 ///
@@ -270,10 +270,10 @@ return $default(_that.recentBlocked,_that.topDomain,_that.topBlocked,_that.topCl
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function(@JsonKey(name: 'recent_blocked')  String? recentBlocked, @JsonKey(name: 'top_domain')  String? topDomain, @JsonKey(name: 'top_blocked')  String? topBlocked, @JsonKey(name: 'top_client')  String? topClient, @JsonKey(name: 'active_clients')  int activeClients, @JsonKey(name: 'gravity_size')  int gravitySize,  String blocking,  PaddQueries queries,  PaddCache cache,  PaddIface iface, @JsonKey(name: 'node_name')  String nodeName, @JsonKey(name: 'host_model')  String? hostModel,  PaddConfig config, @JsonKey(name: '%cpu')  double cpuPercent, @JsonKey(name: '%mem')  double memPercent,  int pid,  PaddSensors sensors,  PaddSystem system,  VersionData version,  double took)?  $default,) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function(@JsonKey(name: 'active_clients')  int activeClients, @JsonKey(name: 'gravity_size')  int gravitySize,  String blocking,  PaddQueries queries,  PaddCache cache,  PaddIface iface, @JsonKey(name: 'node_name')  String nodeName,  PaddConfig config, @JsonKey(name: '%cpu')  double cpuPercent, @JsonKey(name: '%mem')  double memPercent,  int pid,  PaddSensors sensors,  PaddSystem system,  VersionData version,  double took, @JsonKey(name: 'recent_blocked')  String? recentBlocked, @JsonKey(name: 'top_domain')  String? topDomain, @JsonKey(name: 'top_blocked')  String? topBlocked, @JsonKey(name: 'top_client')  String? topClient, @JsonKey(name: 'host_model')  String? hostModel)?  $default,) {final _that = this;
 switch (_that) {
 case _Padd() when $default != null:
-return $default(_that.recentBlocked,_that.topDomain,_that.topBlocked,_that.topClient,_that.activeClients,_that.gravitySize,_that.blocking,_that.queries,_that.cache,_that.iface,_that.nodeName,_that.hostModel,_that.config,_that.cpuPercent,_that.memPercent,_that.pid,_that.sensors,_that.system,_that.version,_that.took);case _:
+return $default(_that.activeClients,_that.gravitySize,_that.blocking,_that.queries,_that.cache,_that.iface,_that.nodeName,_that.config,_that.cpuPercent,_that.memPercent,_that.pid,_that.sensors,_that.system,_that.version,_that.took,_that.recentBlocked,_that.topDomain,_that.topBlocked,_that.topClient,_that.hostModel);case _:
   return null;
 
 }
@@ -285,13 +285,9 @@ return $default(_that.recentBlocked,_that.topDomain,_that.topBlocked,_that.topCl
 
 @JsonSerializable(explicitToJson: true)
 class _Padd implements Padd {
-  const _Padd({@JsonKey(name: 'recent_blocked') this.recentBlocked, @JsonKey(name: 'top_domain') this.topDomain, @JsonKey(name: 'top_blocked') this.topBlocked, @JsonKey(name: 'top_client') this.topClient, @JsonKey(name: 'active_clients') required this.activeClients, @JsonKey(name: 'gravity_size') required this.gravitySize, required this.blocking, required this.queries, required this.cache, required this.iface, @JsonKey(name: 'node_name') required this.nodeName, @JsonKey(name: 'host_model') this.hostModel, required this.config, @JsonKey(name: '%cpu') required this.cpuPercent, @JsonKey(name: '%mem') required this.memPercent, required this.pid, required this.sensors, required this.system, required this.version, required this.took});
+  const _Padd({@JsonKey(name: 'active_clients') required this.activeClients, @JsonKey(name: 'gravity_size') required this.gravitySize, required this.blocking, required this.queries, required this.cache, required this.iface, @JsonKey(name: 'node_name') required this.nodeName, required this.config, @JsonKey(name: '%cpu') required this.cpuPercent, @JsonKey(name: '%mem') required this.memPercent, required this.pid, required this.sensors, required this.system, required this.version, required this.took, @JsonKey(name: 'recent_blocked') this.recentBlocked, @JsonKey(name: 'top_domain') this.topDomain, @JsonKey(name: 'top_blocked') this.topBlocked, @JsonKey(name: 'top_client') this.topClient, @JsonKey(name: 'host_model') this.hostModel});
   factory _Padd.fromJson(Map<String, dynamic> json) => _$PaddFromJson(json);
 
-@override@JsonKey(name: 'recent_blocked') final  String? recentBlocked;
-@override@JsonKey(name: 'top_domain') final  String? topDomain;
-@override@JsonKey(name: 'top_blocked') final  String? topBlocked;
-@override@JsonKey(name: 'top_client') final  String? topClient;
 @override@JsonKey(name: 'active_clients') final  int activeClients;
 @override@JsonKey(name: 'gravity_size') final  int gravitySize;
 @override final  String blocking;
@@ -299,7 +295,6 @@ class _Padd implements Padd {
 @override final  PaddCache cache;
 @override final  PaddIface iface;
 @override@JsonKey(name: 'node_name') final  String nodeName;
-@override@JsonKey(name: 'host_model') final  String? hostModel;
 @override final  PaddConfig config;
 @override@JsonKey(name: '%cpu') final  double cpuPercent;
 @override@JsonKey(name: '%mem') final  double memPercent;
@@ -308,6 +303,11 @@ class _Padd implements Padd {
 @override final  PaddSystem system;
 @override final  VersionData version;
 @override final  double took;
+@override@JsonKey(name: 'recent_blocked') final  String? recentBlocked;
+@override@JsonKey(name: 'top_domain') final  String? topDomain;
+@override@JsonKey(name: 'top_blocked') final  String? topBlocked;
+@override@JsonKey(name: 'top_client') final  String? topClient;
+@override@JsonKey(name: 'host_model') final  String? hostModel;
 
 /// Create a copy of Padd
 /// with the given fields replaced by the non-null parameter values.
@@ -322,16 +322,16 @@ Map<String, dynamic> toJson() {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _Padd&&(identical(other.recentBlocked, recentBlocked) || other.recentBlocked == recentBlocked)&&(identical(other.topDomain, topDomain) || other.topDomain == topDomain)&&(identical(other.topBlocked, topBlocked) || other.topBlocked == topBlocked)&&(identical(other.topClient, topClient) || other.topClient == topClient)&&(identical(other.activeClients, activeClients) || other.activeClients == activeClients)&&(identical(other.gravitySize, gravitySize) || other.gravitySize == gravitySize)&&(identical(other.blocking, blocking) || other.blocking == blocking)&&(identical(other.queries, queries) || other.queries == queries)&&(identical(other.cache, cache) || other.cache == cache)&&(identical(other.iface, iface) || other.iface == iface)&&(identical(other.nodeName, nodeName) || other.nodeName == nodeName)&&(identical(other.hostModel, hostModel) || other.hostModel == hostModel)&&(identical(other.config, config) || other.config == config)&&(identical(other.cpuPercent, cpuPercent) || other.cpuPercent == cpuPercent)&&(identical(other.memPercent, memPercent) || other.memPercent == memPercent)&&(identical(other.pid, pid) || other.pid == pid)&&(identical(other.sensors, sensors) || other.sensors == sensors)&&(identical(other.system, system) || other.system == system)&&(identical(other.version, version) || other.version == version)&&(identical(other.took, took) || other.took == took));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _Padd&&(identical(other.activeClients, activeClients) || other.activeClients == activeClients)&&(identical(other.gravitySize, gravitySize) || other.gravitySize == gravitySize)&&(identical(other.blocking, blocking) || other.blocking == blocking)&&(identical(other.queries, queries) || other.queries == queries)&&(identical(other.cache, cache) || other.cache == cache)&&(identical(other.iface, iface) || other.iface == iface)&&(identical(other.nodeName, nodeName) || other.nodeName == nodeName)&&(identical(other.config, config) || other.config == config)&&(identical(other.cpuPercent, cpuPercent) || other.cpuPercent == cpuPercent)&&(identical(other.memPercent, memPercent) || other.memPercent == memPercent)&&(identical(other.pid, pid) || other.pid == pid)&&(identical(other.sensors, sensors) || other.sensors == sensors)&&(identical(other.system, system) || other.system == system)&&(identical(other.version, version) || other.version == version)&&(identical(other.took, took) || other.took == took)&&(identical(other.recentBlocked, recentBlocked) || other.recentBlocked == recentBlocked)&&(identical(other.topDomain, topDomain) || other.topDomain == topDomain)&&(identical(other.topBlocked, topBlocked) || other.topBlocked == topBlocked)&&(identical(other.topClient, topClient) || other.topClient == topClient)&&(identical(other.hostModel, hostModel) || other.hostModel == hostModel));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hashAll([runtimeType,recentBlocked,topDomain,topBlocked,topClient,activeClients,gravitySize,blocking,queries,cache,iface,nodeName,hostModel,config,cpuPercent,memPercent,pid,sensors,system,version,took]);
+int get hashCode => Object.hashAll([runtimeType,activeClients,gravitySize,blocking,queries,cache,iface,nodeName,config,cpuPercent,memPercent,pid,sensors,system,version,took,recentBlocked,topDomain,topBlocked,topClient,hostModel]);
 
 @override
 String toString() {
-  return 'Padd(recentBlocked: $recentBlocked, topDomain: $topDomain, topBlocked: $topBlocked, topClient: $topClient, activeClients: $activeClients, gravitySize: $gravitySize, blocking: $blocking, queries: $queries, cache: $cache, iface: $iface, nodeName: $nodeName, hostModel: $hostModel, config: $config, cpuPercent: $cpuPercent, memPercent: $memPercent, pid: $pid, sensors: $sensors, system: $system, version: $version, took: $took)';
+  return 'Padd(activeClients: $activeClients, gravitySize: $gravitySize, blocking: $blocking, queries: $queries, cache: $cache, iface: $iface, nodeName: $nodeName, config: $config, cpuPercent: $cpuPercent, memPercent: $memPercent, pid: $pid, sensors: $sensors, system: $system, version: $version, took: $took, recentBlocked: $recentBlocked, topDomain: $topDomain, topBlocked: $topBlocked, topClient: $topClient, hostModel: $hostModel)';
 }
 
 
@@ -342,7 +342,7 @@ abstract mixin class _$PaddCopyWith<$Res> implements $PaddCopyWith<$Res> {
   factory _$PaddCopyWith(_Padd value, $Res Function(_Padd) _then) = __$PaddCopyWithImpl;
 @override @useResult
 $Res call({
-@JsonKey(name: 'recent_blocked') String? recentBlocked,@JsonKey(name: 'top_domain') String? topDomain,@JsonKey(name: 'top_blocked') String? topBlocked,@JsonKey(name: 'top_client') String? topClient,@JsonKey(name: 'active_clients') int activeClients,@JsonKey(name: 'gravity_size') int gravitySize, String blocking, PaddQueries queries, PaddCache cache, PaddIface iface,@JsonKey(name: 'node_name') String nodeName,@JsonKey(name: 'host_model') String? hostModel, PaddConfig config,@JsonKey(name: '%cpu') double cpuPercent,@JsonKey(name: '%mem') double memPercent, int pid, PaddSensors sensors, PaddSystem system, VersionData version, double took
+@JsonKey(name: 'active_clients') int activeClients,@JsonKey(name: 'gravity_size') int gravitySize, String blocking, PaddQueries queries, PaddCache cache, PaddIface iface,@JsonKey(name: 'node_name') String nodeName, PaddConfig config,@JsonKey(name: '%cpu') double cpuPercent,@JsonKey(name: '%mem') double memPercent, int pid, PaddSensors sensors, PaddSystem system, VersionData version, double took,@JsonKey(name: 'recent_blocked') String? recentBlocked,@JsonKey(name: 'top_domain') String? topDomain,@JsonKey(name: 'top_blocked') String? topBlocked,@JsonKey(name: 'top_client') String? topClient,@JsonKey(name: 'host_model') String? hostModel
 });
 
 
@@ -359,21 +359,16 @@ class __$PaddCopyWithImpl<$Res>
 
 /// Create a copy of Padd
 /// with the given fields replaced by the non-null parameter values.
-@override @pragma('vm:prefer-inline') $Res call({Object? recentBlocked = freezed,Object? topDomain = freezed,Object? topBlocked = freezed,Object? topClient = freezed,Object? activeClients = null,Object? gravitySize = null,Object? blocking = null,Object? queries = null,Object? cache = null,Object? iface = null,Object? nodeName = null,Object? hostModel = freezed,Object? config = null,Object? cpuPercent = null,Object? memPercent = null,Object? pid = null,Object? sensors = null,Object? system = null,Object? version = null,Object? took = null,}) {
+@override @pragma('vm:prefer-inline') $Res call({Object? activeClients = null,Object? gravitySize = null,Object? blocking = null,Object? queries = null,Object? cache = null,Object? iface = null,Object? nodeName = null,Object? config = null,Object? cpuPercent = null,Object? memPercent = null,Object? pid = null,Object? sensors = null,Object? system = null,Object? version = null,Object? took = null,Object? recentBlocked = freezed,Object? topDomain = freezed,Object? topBlocked = freezed,Object? topClient = freezed,Object? hostModel = freezed,}) {
   return _then(_Padd(
-recentBlocked: freezed == recentBlocked ? _self.recentBlocked : recentBlocked // ignore: cast_nullable_to_non_nullable
-as String?,topDomain: freezed == topDomain ? _self.topDomain : topDomain // ignore: cast_nullable_to_non_nullable
-as String?,topBlocked: freezed == topBlocked ? _self.topBlocked : topBlocked // ignore: cast_nullable_to_non_nullable
-as String?,topClient: freezed == topClient ? _self.topClient : topClient // ignore: cast_nullable_to_non_nullable
-as String?,activeClients: null == activeClients ? _self.activeClients : activeClients // ignore: cast_nullable_to_non_nullable
+activeClients: null == activeClients ? _self.activeClients : activeClients // ignore: cast_nullable_to_non_nullable
 as int,gravitySize: null == gravitySize ? _self.gravitySize : gravitySize // ignore: cast_nullable_to_non_nullable
 as int,blocking: null == blocking ? _self.blocking : blocking // ignore: cast_nullable_to_non_nullable
 as String,queries: null == queries ? _self.queries : queries // ignore: cast_nullable_to_non_nullable
 as PaddQueries,cache: null == cache ? _self.cache : cache // ignore: cast_nullable_to_non_nullable
 as PaddCache,iface: null == iface ? _self.iface : iface // ignore: cast_nullable_to_non_nullable
 as PaddIface,nodeName: null == nodeName ? _self.nodeName : nodeName // ignore: cast_nullable_to_non_nullable
-as String,hostModel: freezed == hostModel ? _self.hostModel : hostModel // ignore: cast_nullable_to_non_nullable
-as String?,config: null == config ? _self.config : config // ignore: cast_nullable_to_non_nullable
+as String,config: null == config ? _self.config : config // ignore: cast_nullable_to_non_nullable
 as PaddConfig,cpuPercent: null == cpuPercent ? _self.cpuPercent : cpuPercent // ignore: cast_nullable_to_non_nullable
 as double,memPercent: null == memPercent ? _self.memPercent : memPercent // ignore: cast_nullable_to_non_nullable
 as double,pid: null == pid ? _self.pid : pid // ignore: cast_nullable_to_non_nullable
@@ -381,7 +376,12 @@ as int,sensors: null == sensors ? _self.sensors : sensors // ignore: cast_nullab
 as PaddSensors,system: null == system ? _self.system : system // ignore: cast_nullable_to_non_nullable
 as PaddSystem,version: null == version ? _self.version : version // ignore: cast_nullable_to_non_nullable
 as VersionData,took: null == took ? _self.took : took // ignore: cast_nullable_to_non_nullable
-as double,
+as double,recentBlocked: freezed == recentBlocked ? _self.recentBlocked : recentBlocked // ignore: cast_nullable_to_non_nullable
+as String?,topDomain: freezed == topDomain ? _self.topDomain : topDomain // ignore: cast_nullable_to_non_nullable
+as String?,topBlocked: freezed == topBlocked ? _self.topBlocked : topBlocked // ignore: cast_nullable_to_non_nullable
+as String?,topClient: freezed == topClient ? _self.topClient : topClient // ignore: cast_nullable_to_non_nullable
+as String?,hostModel: freezed == hostModel ? _self.hostModel : hostModel // ignore: cast_nullable_to_non_nullable
+as String?,
   ));
 }
 
@@ -1277,7 +1277,7 @@ $PaddIfaceV6CopyWith<$Res> get v6 {
 /// @nodoc
 mixin _$PaddIfaceV4 {
 
- String? get addr;@JsonKey(name: 'rx_bytes') PaddIfaceBytes get rxBytes;@JsonKey(name: 'tx_bytes') PaddIfaceBytes get txBytes;@JsonKey(name: 'num_addrs') int get numAddrs; String get name;@JsonKey(name: 'gw_addr') String? get gwAddr;
+@JsonKey(name: 'rx_bytes') PaddIfaceBytes get rxBytes;@JsonKey(name: 'tx_bytes') PaddIfaceBytes get txBytes;@JsonKey(name: 'num_addrs') int get numAddrs; String get name; String? get addr;@JsonKey(name: 'gw_addr') String? get gwAddr;
 /// Create a copy of PaddIfaceV4
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -1290,16 +1290,16 @@ $PaddIfaceV4CopyWith<PaddIfaceV4> get copyWith => _$PaddIfaceV4CopyWithImpl<Padd
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is PaddIfaceV4&&(identical(other.addr, addr) || other.addr == addr)&&(identical(other.rxBytes, rxBytes) || other.rxBytes == rxBytes)&&(identical(other.txBytes, txBytes) || other.txBytes == txBytes)&&(identical(other.numAddrs, numAddrs) || other.numAddrs == numAddrs)&&(identical(other.name, name) || other.name == name)&&(identical(other.gwAddr, gwAddr) || other.gwAddr == gwAddr));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is PaddIfaceV4&&(identical(other.rxBytes, rxBytes) || other.rxBytes == rxBytes)&&(identical(other.txBytes, txBytes) || other.txBytes == txBytes)&&(identical(other.numAddrs, numAddrs) || other.numAddrs == numAddrs)&&(identical(other.name, name) || other.name == name)&&(identical(other.addr, addr) || other.addr == addr)&&(identical(other.gwAddr, gwAddr) || other.gwAddr == gwAddr));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,addr,rxBytes,txBytes,numAddrs,name,gwAddr);
+int get hashCode => Object.hash(runtimeType,rxBytes,txBytes,numAddrs,name,addr,gwAddr);
 
 @override
 String toString() {
-  return 'PaddIfaceV4(addr: $addr, rxBytes: $rxBytes, txBytes: $txBytes, numAddrs: $numAddrs, name: $name, gwAddr: $gwAddr)';
+  return 'PaddIfaceV4(rxBytes: $rxBytes, txBytes: $txBytes, numAddrs: $numAddrs, name: $name, addr: $addr, gwAddr: $gwAddr)';
 }
 
 
@@ -1310,7 +1310,7 @@ abstract mixin class $PaddIfaceV4CopyWith<$Res>  {
   factory $PaddIfaceV4CopyWith(PaddIfaceV4 value, $Res Function(PaddIfaceV4) _then) = _$PaddIfaceV4CopyWithImpl;
 @useResult
 $Res call({
- String? addr,@JsonKey(name: 'rx_bytes') PaddIfaceBytes rxBytes,@JsonKey(name: 'tx_bytes') PaddIfaceBytes txBytes,@JsonKey(name: 'num_addrs') int numAddrs, String name,@JsonKey(name: 'gw_addr') String? gwAddr
+@JsonKey(name: 'rx_bytes') PaddIfaceBytes rxBytes,@JsonKey(name: 'tx_bytes') PaddIfaceBytes txBytes,@JsonKey(name: 'num_addrs') int numAddrs, String name, String? addr,@JsonKey(name: 'gw_addr') String? gwAddr
 });
 
 
@@ -1327,14 +1327,14 @@ class _$PaddIfaceV4CopyWithImpl<$Res>
 
 /// Create a copy of PaddIfaceV4
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? addr = freezed,Object? rxBytes = null,Object? txBytes = null,Object? numAddrs = null,Object? name = null,Object? gwAddr = freezed,}) {
+@pragma('vm:prefer-inline') @override $Res call({Object? rxBytes = null,Object? txBytes = null,Object? numAddrs = null,Object? name = null,Object? addr = freezed,Object? gwAddr = freezed,}) {
   return _then(_self.copyWith(
-addr: freezed == addr ? _self.addr : addr // ignore: cast_nullable_to_non_nullable
-as String?,rxBytes: null == rxBytes ? _self.rxBytes : rxBytes // ignore: cast_nullable_to_non_nullable
+rxBytes: null == rxBytes ? _self.rxBytes : rxBytes // ignore: cast_nullable_to_non_nullable
 as PaddIfaceBytes,txBytes: null == txBytes ? _self.txBytes : txBytes // ignore: cast_nullable_to_non_nullable
 as PaddIfaceBytes,numAddrs: null == numAddrs ? _self.numAddrs : numAddrs // ignore: cast_nullable_to_non_nullable
 as int,name: null == name ? _self.name : name // ignore: cast_nullable_to_non_nullable
-as String,gwAddr: freezed == gwAddr ? _self.gwAddr : gwAddr // ignore: cast_nullable_to_non_nullable
+as String,addr: freezed == addr ? _self.addr : addr // ignore: cast_nullable_to_non_nullable
+as String?,gwAddr: freezed == gwAddr ? _self.gwAddr : gwAddr // ignore: cast_nullable_to_non_nullable
 as String?,
   ));
 }
@@ -1435,10 +1435,10 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( String? addr, @JsonKey(name: 'rx_bytes')  PaddIfaceBytes rxBytes, @JsonKey(name: 'tx_bytes')  PaddIfaceBytes txBytes, @JsonKey(name: 'num_addrs')  int numAddrs,  String name, @JsonKey(name: 'gw_addr')  String? gwAddr)?  $default,{required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function(@JsonKey(name: 'rx_bytes')  PaddIfaceBytes rxBytes, @JsonKey(name: 'tx_bytes')  PaddIfaceBytes txBytes, @JsonKey(name: 'num_addrs')  int numAddrs,  String name,  String? addr, @JsonKey(name: 'gw_addr')  String? gwAddr)?  $default,{required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _PaddIfaceV4() when $default != null:
-return $default(_that.addr,_that.rxBytes,_that.txBytes,_that.numAddrs,_that.name,_that.gwAddr);case _:
+return $default(_that.rxBytes,_that.txBytes,_that.numAddrs,_that.name,_that.addr,_that.gwAddr);case _:
   return orElse();
 
 }
@@ -1456,10 +1456,10 @@ return $default(_that.addr,_that.rxBytes,_that.txBytes,_that.numAddrs,_that.name
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( String? addr, @JsonKey(name: 'rx_bytes')  PaddIfaceBytes rxBytes, @JsonKey(name: 'tx_bytes')  PaddIfaceBytes txBytes, @JsonKey(name: 'num_addrs')  int numAddrs,  String name, @JsonKey(name: 'gw_addr')  String? gwAddr)  $default,) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function(@JsonKey(name: 'rx_bytes')  PaddIfaceBytes rxBytes, @JsonKey(name: 'tx_bytes')  PaddIfaceBytes txBytes, @JsonKey(name: 'num_addrs')  int numAddrs,  String name,  String? addr, @JsonKey(name: 'gw_addr')  String? gwAddr)  $default,) {final _that = this;
 switch (_that) {
 case _PaddIfaceV4():
-return $default(_that.addr,_that.rxBytes,_that.txBytes,_that.numAddrs,_that.name,_that.gwAddr);}
+return $default(_that.rxBytes,_that.txBytes,_that.numAddrs,_that.name,_that.addr,_that.gwAddr);}
 }
 /// A variant of `when` that fallback to returning `null`
 ///
@@ -1473,10 +1473,10 @@ return $default(_that.addr,_that.rxBytes,_that.txBytes,_that.numAddrs,_that.name
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( String? addr, @JsonKey(name: 'rx_bytes')  PaddIfaceBytes rxBytes, @JsonKey(name: 'tx_bytes')  PaddIfaceBytes txBytes, @JsonKey(name: 'num_addrs')  int numAddrs,  String name, @JsonKey(name: 'gw_addr')  String? gwAddr)?  $default,) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function(@JsonKey(name: 'rx_bytes')  PaddIfaceBytes rxBytes, @JsonKey(name: 'tx_bytes')  PaddIfaceBytes txBytes, @JsonKey(name: 'num_addrs')  int numAddrs,  String name,  String? addr, @JsonKey(name: 'gw_addr')  String? gwAddr)?  $default,) {final _that = this;
 switch (_that) {
 case _PaddIfaceV4() when $default != null:
-return $default(_that.addr,_that.rxBytes,_that.txBytes,_that.numAddrs,_that.name,_that.gwAddr);case _:
+return $default(_that.rxBytes,_that.txBytes,_that.numAddrs,_that.name,_that.addr,_that.gwAddr);case _:
   return null;
 
 }
@@ -1488,14 +1488,14 @@ return $default(_that.addr,_that.rxBytes,_that.txBytes,_that.numAddrs,_that.name
 
 @JsonSerializable(explicitToJson: true)
 class _PaddIfaceV4 implements PaddIfaceV4 {
-  const _PaddIfaceV4({this.addr, @JsonKey(name: 'rx_bytes') required this.rxBytes, @JsonKey(name: 'tx_bytes') required this.txBytes, @JsonKey(name: 'num_addrs') required this.numAddrs, required this.name, @JsonKey(name: 'gw_addr') this.gwAddr});
+  const _PaddIfaceV4({@JsonKey(name: 'rx_bytes') required this.rxBytes, @JsonKey(name: 'tx_bytes') required this.txBytes, @JsonKey(name: 'num_addrs') required this.numAddrs, required this.name, this.addr, @JsonKey(name: 'gw_addr') this.gwAddr});
   factory _PaddIfaceV4.fromJson(Map<String, dynamic> json) => _$PaddIfaceV4FromJson(json);
 
-@override final  String? addr;
 @override@JsonKey(name: 'rx_bytes') final  PaddIfaceBytes rxBytes;
 @override@JsonKey(name: 'tx_bytes') final  PaddIfaceBytes txBytes;
 @override@JsonKey(name: 'num_addrs') final  int numAddrs;
 @override final  String name;
+@override final  String? addr;
 @override@JsonKey(name: 'gw_addr') final  String? gwAddr;
 
 /// Create a copy of PaddIfaceV4
@@ -1511,16 +1511,16 @@ Map<String, dynamic> toJson() {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _PaddIfaceV4&&(identical(other.addr, addr) || other.addr == addr)&&(identical(other.rxBytes, rxBytes) || other.rxBytes == rxBytes)&&(identical(other.txBytes, txBytes) || other.txBytes == txBytes)&&(identical(other.numAddrs, numAddrs) || other.numAddrs == numAddrs)&&(identical(other.name, name) || other.name == name)&&(identical(other.gwAddr, gwAddr) || other.gwAddr == gwAddr));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _PaddIfaceV4&&(identical(other.rxBytes, rxBytes) || other.rxBytes == rxBytes)&&(identical(other.txBytes, txBytes) || other.txBytes == txBytes)&&(identical(other.numAddrs, numAddrs) || other.numAddrs == numAddrs)&&(identical(other.name, name) || other.name == name)&&(identical(other.addr, addr) || other.addr == addr)&&(identical(other.gwAddr, gwAddr) || other.gwAddr == gwAddr));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,addr,rxBytes,txBytes,numAddrs,name,gwAddr);
+int get hashCode => Object.hash(runtimeType,rxBytes,txBytes,numAddrs,name,addr,gwAddr);
 
 @override
 String toString() {
-  return 'PaddIfaceV4(addr: $addr, rxBytes: $rxBytes, txBytes: $txBytes, numAddrs: $numAddrs, name: $name, gwAddr: $gwAddr)';
+  return 'PaddIfaceV4(rxBytes: $rxBytes, txBytes: $txBytes, numAddrs: $numAddrs, name: $name, addr: $addr, gwAddr: $gwAddr)';
 }
 
 
@@ -1531,7 +1531,7 @@ abstract mixin class _$PaddIfaceV4CopyWith<$Res> implements $PaddIfaceV4CopyWith
   factory _$PaddIfaceV4CopyWith(_PaddIfaceV4 value, $Res Function(_PaddIfaceV4) _then) = __$PaddIfaceV4CopyWithImpl;
 @override @useResult
 $Res call({
- String? addr,@JsonKey(name: 'rx_bytes') PaddIfaceBytes rxBytes,@JsonKey(name: 'tx_bytes') PaddIfaceBytes txBytes,@JsonKey(name: 'num_addrs') int numAddrs, String name,@JsonKey(name: 'gw_addr') String? gwAddr
+@JsonKey(name: 'rx_bytes') PaddIfaceBytes rxBytes,@JsonKey(name: 'tx_bytes') PaddIfaceBytes txBytes,@JsonKey(name: 'num_addrs') int numAddrs, String name, String? addr,@JsonKey(name: 'gw_addr') String? gwAddr
 });
 
 
@@ -1548,14 +1548,14 @@ class __$PaddIfaceV4CopyWithImpl<$Res>
 
 /// Create a copy of PaddIfaceV4
 /// with the given fields replaced by the non-null parameter values.
-@override @pragma('vm:prefer-inline') $Res call({Object? addr = freezed,Object? rxBytes = null,Object? txBytes = null,Object? numAddrs = null,Object? name = null,Object? gwAddr = freezed,}) {
+@override @pragma('vm:prefer-inline') $Res call({Object? rxBytes = null,Object? txBytes = null,Object? numAddrs = null,Object? name = null,Object? addr = freezed,Object? gwAddr = freezed,}) {
   return _then(_PaddIfaceV4(
-addr: freezed == addr ? _self.addr : addr // ignore: cast_nullable_to_non_nullable
-as String?,rxBytes: null == rxBytes ? _self.rxBytes : rxBytes // ignore: cast_nullable_to_non_nullable
+rxBytes: null == rxBytes ? _self.rxBytes : rxBytes // ignore: cast_nullable_to_non_nullable
 as PaddIfaceBytes,txBytes: null == txBytes ? _self.txBytes : txBytes // ignore: cast_nullable_to_non_nullable
 as PaddIfaceBytes,numAddrs: null == numAddrs ? _self.numAddrs : numAddrs // ignore: cast_nullable_to_non_nullable
 as int,name: null == name ? _self.name : name // ignore: cast_nullable_to_non_nullable
-as String,gwAddr: freezed == gwAddr ? _self.gwAddr : gwAddr // ignore: cast_nullable_to_non_nullable
+as String,addr: freezed == addr ? _self.addr : addr // ignore: cast_nullable_to_non_nullable
+as String?,gwAddr: freezed == gwAddr ? _self.gwAddr : gwAddr // ignore: cast_nullable_to_non_nullable
 as String?,
   ));
 }
@@ -1585,7 +1585,7 @@ $PaddIfaceBytesCopyWith<$Res> get txBytes {
 /// @nodoc
 mixin _$PaddIfaceV6 {
 
- String? get addr;@JsonKey(name: 'num_addrs') int get numAddrs; String get name;@JsonKey(name: 'gw_addr') String? get gwAddr;
+@JsonKey(name: 'num_addrs') int get numAddrs; String get name; String? get addr;@JsonKey(name: 'gw_addr') String? get gwAddr;
 /// Create a copy of PaddIfaceV6
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -1598,16 +1598,16 @@ $PaddIfaceV6CopyWith<PaddIfaceV6> get copyWith => _$PaddIfaceV6CopyWithImpl<Padd
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is PaddIfaceV6&&(identical(other.addr, addr) || other.addr == addr)&&(identical(other.numAddrs, numAddrs) || other.numAddrs == numAddrs)&&(identical(other.name, name) || other.name == name)&&(identical(other.gwAddr, gwAddr) || other.gwAddr == gwAddr));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is PaddIfaceV6&&(identical(other.numAddrs, numAddrs) || other.numAddrs == numAddrs)&&(identical(other.name, name) || other.name == name)&&(identical(other.addr, addr) || other.addr == addr)&&(identical(other.gwAddr, gwAddr) || other.gwAddr == gwAddr));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,addr,numAddrs,name,gwAddr);
+int get hashCode => Object.hash(runtimeType,numAddrs,name,addr,gwAddr);
 
 @override
 String toString() {
-  return 'PaddIfaceV6(addr: $addr, numAddrs: $numAddrs, name: $name, gwAddr: $gwAddr)';
+  return 'PaddIfaceV6(numAddrs: $numAddrs, name: $name, addr: $addr, gwAddr: $gwAddr)';
 }
 
 
@@ -1618,7 +1618,7 @@ abstract mixin class $PaddIfaceV6CopyWith<$Res>  {
   factory $PaddIfaceV6CopyWith(PaddIfaceV6 value, $Res Function(PaddIfaceV6) _then) = _$PaddIfaceV6CopyWithImpl;
 @useResult
 $Res call({
- String? addr,@JsonKey(name: 'num_addrs') int numAddrs, String name,@JsonKey(name: 'gw_addr') String? gwAddr
+@JsonKey(name: 'num_addrs') int numAddrs, String name, String? addr,@JsonKey(name: 'gw_addr') String? gwAddr
 });
 
 
@@ -1635,12 +1635,12 @@ class _$PaddIfaceV6CopyWithImpl<$Res>
 
 /// Create a copy of PaddIfaceV6
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? addr = freezed,Object? numAddrs = null,Object? name = null,Object? gwAddr = freezed,}) {
+@pragma('vm:prefer-inline') @override $Res call({Object? numAddrs = null,Object? name = null,Object? addr = freezed,Object? gwAddr = freezed,}) {
   return _then(_self.copyWith(
-addr: freezed == addr ? _self.addr : addr // ignore: cast_nullable_to_non_nullable
-as String?,numAddrs: null == numAddrs ? _self.numAddrs : numAddrs // ignore: cast_nullable_to_non_nullable
+numAddrs: null == numAddrs ? _self.numAddrs : numAddrs // ignore: cast_nullable_to_non_nullable
 as int,name: null == name ? _self.name : name // ignore: cast_nullable_to_non_nullable
-as String,gwAddr: freezed == gwAddr ? _self.gwAddr : gwAddr // ignore: cast_nullable_to_non_nullable
+as String,addr: freezed == addr ? _self.addr : addr // ignore: cast_nullable_to_non_nullable
+as String?,gwAddr: freezed == gwAddr ? _self.gwAddr : gwAddr // ignore: cast_nullable_to_non_nullable
 as String?,
   ));
 }
@@ -1723,10 +1723,10 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( String? addr, @JsonKey(name: 'num_addrs')  int numAddrs,  String name, @JsonKey(name: 'gw_addr')  String? gwAddr)?  $default,{required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function(@JsonKey(name: 'num_addrs')  int numAddrs,  String name,  String? addr, @JsonKey(name: 'gw_addr')  String? gwAddr)?  $default,{required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _PaddIfaceV6() when $default != null:
-return $default(_that.addr,_that.numAddrs,_that.name,_that.gwAddr);case _:
+return $default(_that.numAddrs,_that.name,_that.addr,_that.gwAddr);case _:
   return orElse();
 
 }
@@ -1744,10 +1744,10 @@ return $default(_that.addr,_that.numAddrs,_that.name,_that.gwAddr);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( String? addr, @JsonKey(name: 'num_addrs')  int numAddrs,  String name, @JsonKey(name: 'gw_addr')  String? gwAddr)  $default,) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function(@JsonKey(name: 'num_addrs')  int numAddrs,  String name,  String? addr, @JsonKey(name: 'gw_addr')  String? gwAddr)  $default,) {final _that = this;
 switch (_that) {
 case _PaddIfaceV6():
-return $default(_that.addr,_that.numAddrs,_that.name,_that.gwAddr);}
+return $default(_that.numAddrs,_that.name,_that.addr,_that.gwAddr);}
 }
 /// A variant of `when` that fallback to returning `null`
 ///
@@ -1761,10 +1761,10 @@ return $default(_that.addr,_that.numAddrs,_that.name,_that.gwAddr);}
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( String? addr, @JsonKey(name: 'num_addrs')  int numAddrs,  String name, @JsonKey(name: 'gw_addr')  String? gwAddr)?  $default,) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function(@JsonKey(name: 'num_addrs')  int numAddrs,  String name,  String? addr, @JsonKey(name: 'gw_addr')  String? gwAddr)?  $default,) {final _that = this;
 switch (_that) {
 case _PaddIfaceV6() when $default != null:
-return $default(_that.addr,_that.numAddrs,_that.name,_that.gwAddr);case _:
+return $default(_that.numAddrs,_that.name,_that.addr,_that.gwAddr);case _:
   return null;
 
 }
@@ -1776,12 +1776,12 @@ return $default(_that.addr,_that.numAddrs,_that.name,_that.gwAddr);case _:
 @JsonSerializable()
 
 class _PaddIfaceV6 implements PaddIfaceV6 {
-  const _PaddIfaceV6({this.addr, @JsonKey(name: 'num_addrs') required this.numAddrs, required this.name, @JsonKey(name: 'gw_addr') this.gwAddr});
+  const _PaddIfaceV6({@JsonKey(name: 'num_addrs') required this.numAddrs, required this.name, this.addr, @JsonKey(name: 'gw_addr') this.gwAddr});
   factory _PaddIfaceV6.fromJson(Map<String, dynamic> json) => _$PaddIfaceV6FromJson(json);
 
-@override final  String? addr;
 @override@JsonKey(name: 'num_addrs') final  int numAddrs;
 @override final  String name;
+@override final  String? addr;
 @override@JsonKey(name: 'gw_addr') final  String? gwAddr;
 
 /// Create a copy of PaddIfaceV6
@@ -1797,16 +1797,16 @@ Map<String, dynamic> toJson() {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _PaddIfaceV6&&(identical(other.addr, addr) || other.addr == addr)&&(identical(other.numAddrs, numAddrs) || other.numAddrs == numAddrs)&&(identical(other.name, name) || other.name == name)&&(identical(other.gwAddr, gwAddr) || other.gwAddr == gwAddr));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _PaddIfaceV6&&(identical(other.numAddrs, numAddrs) || other.numAddrs == numAddrs)&&(identical(other.name, name) || other.name == name)&&(identical(other.addr, addr) || other.addr == addr)&&(identical(other.gwAddr, gwAddr) || other.gwAddr == gwAddr));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,addr,numAddrs,name,gwAddr);
+int get hashCode => Object.hash(runtimeType,numAddrs,name,addr,gwAddr);
 
 @override
 String toString() {
-  return 'PaddIfaceV6(addr: $addr, numAddrs: $numAddrs, name: $name, gwAddr: $gwAddr)';
+  return 'PaddIfaceV6(numAddrs: $numAddrs, name: $name, addr: $addr, gwAddr: $gwAddr)';
 }
 
 
@@ -1817,7 +1817,7 @@ abstract mixin class _$PaddIfaceV6CopyWith<$Res> implements $PaddIfaceV6CopyWith
   factory _$PaddIfaceV6CopyWith(_PaddIfaceV6 value, $Res Function(_PaddIfaceV6) _then) = __$PaddIfaceV6CopyWithImpl;
 @override @useResult
 $Res call({
- String? addr,@JsonKey(name: 'num_addrs') int numAddrs, String name,@JsonKey(name: 'gw_addr') String? gwAddr
+@JsonKey(name: 'num_addrs') int numAddrs, String name, String? addr,@JsonKey(name: 'gw_addr') String? gwAddr
 });
 
 
@@ -1834,12 +1834,12 @@ class __$PaddIfaceV6CopyWithImpl<$Res>
 
 /// Create a copy of PaddIfaceV6
 /// with the given fields replaced by the non-null parameter values.
-@override @pragma('vm:prefer-inline') $Res call({Object? addr = freezed,Object? numAddrs = null,Object? name = null,Object? gwAddr = freezed,}) {
+@override @pragma('vm:prefer-inline') $Res call({Object? numAddrs = null,Object? name = null,Object? addr = freezed,Object? gwAddr = freezed,}) {
   return _then(_PaddIfaceV6(
-addr: freezed == addr ? _self.addr : addr // ignore: cast_nullable_to_non_nullable
-as String?,numAddrs: null == numAddrs ? _self.numAddrs : numAddrs // ignore: cast_nullable_to_non_nullable
+numAddrs: null == numAddrs ? _self.numAddrs : numAddrs // ignore: cast_nullable_to_non_nullable
 as int,name: null == name ? _self.name : name // ignore: cast_nullable_to_non_nullable
-as String,gwAddr: freezed == gwAddr ? _self.gwAddr : gwAddr // ignore: cast_nullable_to_non_nullable
+as String,addr: freezed == addr ? _self.addr : addr // ignore: cast_nullable_to_non_nullable
+as String?,gwAddr: freezed == gwAddr ? _self.gwAddr : gwAddr // ignore: cast_nullable_to_non_nullable
 as String?,
   ));
 }
@@ -2395,7 +2395,7 @@ as int,
 /// @nodoc
 mixin _$PaddSensors {
 
-@JsonKey(name: 'cpu_temp') double? get cpuTemp;@JsonKey(name: 'hot_limit') double get hotLimit; String get unit;
+@JsonKey(name: 'hot_limit') double get hotLimit; String get unit;@JsonKey(name: 'cpu_temp') double? get cpuTemp;
 /// Create a copy of PaddSensors
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -2408,16 +2408,16 @@ $PaddSensorsCopyWith<PaddSensors> get copyWith => _$PaddSensorsCopyWithImpl<Padd
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is PaddSensors&&(identical(other.cpuTemp, cpuTemp) || other.cpuTemp == cpuTemp)&&(identical(other.hotLimit, hotLimit) || other.hotLimit == hotLimit)&&(identical(other.unit, unit) || other.unit == unit));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is PaddSensors&&(identical(other.hotLimit, hotLimit) || other.hotLimit == hotLimit)&&(identical(other.unit, unit) || other.unit == unit)&&(identical(other.cpuTemp, cpuTemp) || other.cpuTemp == cpuTemp));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,cpuTemp,hotLimit,unit);
+int get hashCode => Object.hash(runtimeType,hotLimit,unit,cpuTemp);
 
 @override
 String toString() {
-  return 'PaddSensors(cpuTemp: $cpuTemp, hotLimit: $hotLimit, unit: $unit)';
+  return 'PaddSensors(hotLimit: $hotLimit, unit: $unit, cpuTemp: $cpuTemp)';
 }
 
 
@@ -2428,7 +2428,7 @@ abstract mixin class $PaddSensorsCopyWith<$Res>  {
   factory $PaddSensorsCopyWith(PaddSensors value, $Res Function(PaddSensors) _then) = _$PaddSensorsCopyWithImpl;
 @useResult
 $Res call({
-@JsonKey(name: 'cpu_temp') double? cpuTemp,@JsonKey(name: 'hot_limit') double hotLimit, String unit
+@JsonKey(name: 'hot_limit') double hotLimit, String unit,@JsonKey(name: 'cpu_temp') double? cpuTemp
 });
 
 
@@ -2445,12 +2445,12 @@ class _$PaddSensorsCopyWithImpl<$Res>
 
 /// Create a copy of PaddSensors
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? cpuTemp = freezed,Object? hotLimit = null,Object? unit = null,}) {
+@pragma('vm:prefer-inline') @override $Res call({Object? hotLimit = null,Object? unit = null,Object? cpuTemp = freezed,}) {
   return _then(_self.copyWith(
-cpuTemp: freezed == cpuTemp ? _self.cpuTemp : cpuTemp // ignore: cast_nullable_to_non_nullable
-as double?,hotLimit: null == hotLimit ? _self.hotLimit : hotLimit // ignore: cast_nullable_to_non_nullable
+hotLimit: null == hotLimit ? _self.hotLimit : hotLimit // ignore: cast_nullable_to_non_nullable
 as double,unit: null == unit ? _self.unit : unit // ignore: cast_nullable_to_non_nullable
-as String,
+as String,cpuTemp: freezed == cpuTemp ? _self.cpuTemp : cpuTemp // ignore: cast_nullable_to_non_nullable
+as double?,
   ));
 }
 
@@ -2532,10 +2532,10 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function(@JsonKey(name: 'cpu_temp')  double? cpuTemp, @JsonKey(name: 'hot_limit')  double hotLimit,  String unit)?  $default,{required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function(@JsonKey(name: 'hot_limit')  double hotLimit,  String unit, @JsonKey(name: 'cpu_temp')  double? cpuTemp)?  $default,{required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _PaddSensors() when $default != null:
-return $default(_that.cpuTemp,_that.hotLimit,_that.unit);case _:
+return $default(_that.hotLimit,_that.unit,_that.cpuTemp);case _:
   return orElse();
 
 }
@@ -2553,10 +2553,10 @@ return $default(_that.cpuTemp,_that.hotLimit,_that.unit);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function(@JsonKey(name: 'cpu_temp')  double? cpuTemp, @JsonKey(name: 'hot_limit')  double hotLimit,  String unit)  $default,) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function(@JsonKey(name: 'hot_limit')  double hotLimit,  String unit, @JsonKey(name: 'cpu_temp')  double? cpuTemp)  $default,) {final _that = this;
 switch (_that) {
 case _PaddSensors():
-return $default(_that.cpuTemp,_that.hotLimit,_that.unit);}
+return $default(_that.hotLimit,_that.unit,_that.cpuTemp);}
 }
 /// A variant of `when` that fallback to returning `null`
 ///
@@ -2570,10 +2570,10 @@ return $default(_that.cpuTemp,_that.hotLimit,_that.unit);}
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function(@JsonKey(name: 'cpu_temp')  double? cpuTemp, @JsonKey(name: 'hot_limit')  double hotLimit,  String unit)?  $default,) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function(@JsonKey(name: 'hot_limit')  double hotLimit,  String unit, @JsonKey(name: 'cpu_temp')  double? cpuTemp)?  $default,) {final _that = this;
 switch (_that) {
 case _PaddSensors() when $default != null:
-return $default(_that.cpuTemp,_that.hotLimit,_that.unit);case _:
+return $default(_that.hotLimit,_that.unit,_that.cpuTemp);case _:
   return null;
 
 }
@@ -2585,12 +2585,12 @@ return $default(_that.cpuTemp,_that.hotLimit,_that.unit);case _:
 @JsonSerializable()
 
 class _PaddSensors implements PaddSensors {
-  const _PaddSensors({@JsonKey(name: 'cpu_temp') this.cpuTemp, @JsonKey(name: 'hot_limit') required this.hotLimit, required this.unit});
+  const _PaddSensors({@JsonKey(name: 'hot_limit') required this.hotLimit, required this.unit, @JsonKey(name: 'cpu_temp') this.cpuTemp});
   factory _PaddSensors.fromJson(Map<String, dynamic> json) => _$PaddSensorsFromJson(json);
 
-@override@JsonKey(name: 'cpu_temp') final  double? cpuTemp;
 @override@JsonKey(name: 'hot_limit') final  double hotLimit;
 @override final  String unit;
+@override@JsonKey(name: 'cpu_temp') final  double? cpuTemp;
 
 /// Create a copy of PaddSensors
 /// with the given fields replaced by the non-null parameter values.
@@ -2605,16 +2605,16 @@ Map<String, dynamic> toJson() {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _PaddSensors&&(identical(other.cpuTemp, cpuTemp) || other.cpuTemp == cpuTemp)&&(identical(other.hotLimit, hotLimit) || other.hotLimit == hotLimit)&&(identical(other.unit, unit) || other.unit == unit));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _PaddSensors&&(identical(other.hotLimit, hotLimit) || other.hotLimit == hotLimit)&&(identical(other.unit, unit) || other.unit == unit)&&(identical(other.cpuTemp, cpuTemp) || other.cpuTemp == cpuTemp));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,cpuTemp,hotLimit,unit);
+int get hashCode => Object.hash(runtimeType,hotLimit,unit,cpuTemp);
 
 @override
 String toString() {
-  return 'PaddSensors(cpuTemp: $cpuTemp, hotLimit: $hotLimit, unit: $unit)';
+  return 'PaddSensors(hotLimit: $hotLimit, unit: $unit, cpuTemp: $cpuTemp)';
 }
 
 
@@ -2625,7 +2625,7 @@ abstract mixin class _$PaddSensorsCopyWith<$Res> implements $PaddSensorsCopyWith
   factory _$PaddSensorsCopyWith(_PaddSensors value, $Res Function(_PaddSensors) _then) = __$PaddSensorsCopyWithImpl;
 @override @useResult
 $Res call({
-@JsonKey(name: 'cpu_temp') double? cpuTemp,@JsonKey(name: 'hot_limit') double hotLimit, String unit
+@JsonKey(name: 'hot_limit') double hotLimit, String unit,@JsonKey(name: 'cpu_temp') double? cpuTemp
 });
 
 
@@ -2642,12 +2642,12 @@ class __$PaddSensorsCopyWithImpl<$Res>
 
 /// Create a copy of PaddSensors
 /// with the given fields replaced by the non-null parameter values.
-@override @pragma('vm:prefer-inline') $Res call({Object? cpuTemp = freezed,Object? hotLimit = null,Object? unit = null,}) {
+@override @pragma('vm:prefer-inline') $Res call({Object? hotLimit = null,Object? unit = null,Object? cpuTemp = freezed,}) {
   return _then(_PaddSensors(
-cpuTemp: freezed == cpuTemp ? _self.cpuTemp : cpuTemp // ignore: cast_nullable_to_non_nullable
-as double?,hotLimit: null == hotLimit ? _self.hotLimit : hotLimit // ignore: cast_nullable_to_non_nullable
+hotLimit: null == hotLimit ? _self.hotLimit : hotLimit // ignore: cast_nullable_to_non_nullable
 as double,unit: null == unit ? _self.unit : unit // ignore: cast_nullable_to_non_nullable
-as String,
+as String,cpuTemp: freezed == cpuTemp ? _self.cpuTemp : cpuTemp // ignore: cast_nullable_to_non_nullable
+as double?,
   ));
 }
 
@@ -3812,7 +3812,7 @@ as double,
 /// @nodoc
 mixin _$PaddSystemCpu {
 
- int get nprocs;@JsonKey(name: '%cpu') double? get percentCpu; PaddSystemLoad get load;
+ int get nprocs; PaddSystemLoad get load;@JsonKey(name: '%cpu') double? get percentCpu;
 /// Create a copy of PaddSystemCpu
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -3825,16 +3825,16 @@ $PaddSystemCpuCopyWith<PaddSystemCpu> get copyWith => _$PaddSystemCpuCopyWithImp
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is PaddSystemCpu&&(identical(other.nprocs, nprocs) || other.nprocs == nprocs)&&(identical(other.percentCpu, percentCpu) || other.percentCpu == percentCpu)&&(identical(other.load, load) || other.load == load));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is PaddSystemCpu&&(identical(other.nprocs, nprocs) || other.nprocs == nprocs)&&(identical(other.load, load) || other.load == load)&&(identical(other.percentCpu, percentCpu) || other.percentCpu == percentCpu));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,nprocs,percentCpu,load);
+int get hashCode => Object.hash(runtimeType,nprocs,load,percentCpu);
 
 @override
 String toString() {
-  return 'PaddSystemCpu(nprocs: $nprocs, percentCpu: $percentCpu, load: $load)';
+  return 'PaddSystemCpu(nprocs: $nprocs, load: $load, percentCpu: $percentCpu)';
 }
 
 
@@ -3845,7 +3845,7 @@ abstract mixin class $PaddSystemCpuCopyWith<$Res>  {
   factory $PaddSystemCpuCopyWith(PaddSystemCpu value, $Res Function(PaddSystemCpu) _then) = _$PaddSystemCpuCopyWithImpl;
 @useResult
 $Res call({
- int nprocs,@JsonKey(name: '%cpu') double? percentCpu, PaddSystemLoad load
+ int nprocs, PaddSystemLoad load,@JsonKey(name: '%cpu') double? percentCpu
 });
 
 
@@ -3862,12 +3862,12 @@ class _$PaddSystemCpuCopyWithImpl<$Res>
 
 /// Create a copy of PaddSystemCpu
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? nprocs = null,Object? percentCpu = freezed,Object? load = null,}) {
+@pragma('vm:prefer-inline') @override $Res call({Object? nprocs = null,Object? load = null,Object? percentCpu = freezed,}) {
   return _then(_self.copyWith(
 nprocs: null == nprocs ? _self.nprocs : nprocs // ignore: cast_nullable_to_non_nullable
-as int,percentCpu: freezed == percentCpu ? _self.percentCpu : percentCpu // ignore: cast_nullable_to_non_nullable
-as double?,load: null == load ? _self.load : load // ignore: cast_nullable_to_non_nullable
-as PaddSystemLoad,
+as int,load: null == load ? _self.load : load // ignore: cast_nullable_to_non_nullable
+as PaddSystemLoad,percentCpu: freezed == percentCpu ? _self.percentCpu : percentCpu // ignore: cast_nullable_to_non_nullable
+as double?,
   ));
 }
 /// Create a copy of PaddSystemCpu
@@ -3958,10 +3958,10 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( int nprocs, @JsonKey(name: '%cpu')  double? percentCpu,  PaddSystemLoad load)?  $default,{required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( int nprocs,  PaddSystemLoad load, @JsonKey(name: '%cpu')  double? percentCpu)?  $default,{required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _PaddSystemCpu() when $default != null:
-return $default(_that.nprocs,_that.percentCpu,_that.load);case _:
+return $default(_that.nprocs,_that.load,_that.percentCpu);case _:
   return orElse();
 
 }
@@ -3979,10 +3979,10 @@ return $default(_that.nprocs,_that.percentCpu,_that.load);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( int nprocs, @JsonKey(name: '%cpu')  double? percentCpu,  PaddSystemLoad load)  $default,) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( int nprocs,  PaddSystemLoad load, @JsonKey(name: '%cpu')  double? percentCpu)  $default,) {final _that = this;
 switch (_that) {
 case _PaddSystemCpu():
-return $default(_that.nprocs,_that.percentCpu,_that.load);}
+return $default(_that.nprocs,_that.load,_that.percentCpu);}
 }
 /// A variant of `when` that fallback to returning `null`
 ///
@@ -3996,10 +3996,10 @@ return $default(_that.nprocs,_that.percentCpu,_that.load);}
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( int nprocs, @JsonKey(name: '%cpu')  double? percentCpu,  PaddSystemLoad load)?  $default,) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( int nprocs,  PaddSystemLoad load, @JsonKey(name: '%cpu')  double? percentCpu)?  $default,) {final _that = this;
 switch (_that) {
 case _PaddSystemCpu() when $default != null:
-return $default(_that.nprocs,_that.percentCpu,_that.load);case _:
+return $default(_that.nprocs,_that.load,_that.percentCpu);case _:
   return null;
 
 }
@@ -4011,12 +4011,12 @@ return $default(_that.nprocs,_that.percentCpu,_that.load);case _:
 
 @JsonSerializable(explicitToJson: true)
 class _PaddSystemCpu implements PaddSystemCpu {
-  const _PaddSystemCpu({required this.nprocs, @JsonKey(name: '%cpu') this.percentCpu, required this.load});
+  const _PaddSystemCpu({required this.nprocs, required this.load, @JsonKey(name: '%cpu') this.percentCpu});
   factory _PaddSystemCpu.fromJson(Map<String, dynamic> json) => _$PaddSystemCpuFromJson(json);
 
 @override final  int nprocs;
-@override@JsonKey(name: '%cpu') final  double? percentCpu;
 @override final  PaddSystemLoad load;
+@override@JsonKey(name: '%cpu') final  double? percentCpu;
 
 /// Create a copy of PaddSystemCpu
 /// with the given fields replaced by the non-null parameter values.
@@ -4031,16 +4031,16 @@ Map<String, dynamic> toJson() {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _PaddSystemCpu&&(identical(other.nprocs, nprocs) || other.nprocs == nprocs)&&(identical(other.percentCpu, percentCpu) || other.percentCpu == percentCpu)&&(identical(other.load, load) || other.load == load));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _PaddSystemCpu&&(identical(other.nprocs, nprocs) || other.nprocs == nprocs)&&(identical(other.load, load) || other.load == load)&&(identical(other.percentCpu, percentCpu) || other.percentCpu == percentCpu));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,nprocs,percentCpu,load);
+int get hashCode => Object.hash(runtimeType,nprocs,load,percentCpu);
 
 @override
 String toString() {
-  return 'PaddSystemCpu(nprocs: $nprocs, percentCpu: $percentCpu, load: $load)';
+  return 'PaddSystemCpu(nprocs: $nprocs, load: $load, percentCpu: $percentCpu)';
 }
 
 
@@ -4051,7 +4051,7 @@ abstract mixin class _$PaddSystemCpuCopyWith<$Res> implements $PaddSystemCpuCopy
   factory _$PaddSystemCpuCopyWith(_PaddSystemCpu value, $Res Function(_PaddSystemCpu) _then) = __$PaddSystemCpuCopyWithImpl;
 @override @useResult
 $Res call({
- int nprocs,@JsonKey(name: '%cpu') double? percentCpu, PaddSystemLoad load
+ int nprocs, PaddSystemLoad load,@JsonKey(name: '%cpu') double? percentCpu
 });
 
 
@@ -4068,12 +4068,12 @@ class __$PaddSystemCpuCopyWithImpl<$Res>
 
 /// Create a copy of PaddSystemCpu
 /// with the given fields replaced by the non-null parameter values.
-@override @pragma('vm:prefer-inline') $Res call({Object? nprocs = null,Object? percentCpu = freezed,Object? load = null,}) {
+@override @pragma('vm:prefer-inline') $Res call({Object? nprocs = null,Object? load = null,Object? percentCpu = freezed,}) {
   return _then(_PaddSystemCpu(
 nprocs: null == nprocs ? _self.nprocs : nprocs // ignore: cast_nullable_to_non_nullable
-as int,percentCpu: freezed == percentCpu ? _self.percentCpu : percentCpu // ignore: cast_nullable_to_non_nullable
-as double?,load: null == load ? _self.load : load // ignore: cast_nullable_to_non_nullable
-as PaddSystemLoad,
+as int,load: null == load ? _self.load : load // ignore: cast_nullable_to_non_nullable
+as PaddSystemLoad,percentCpu: freezed == percentCpu ? _self.percentCpu : percentCpu // ignore: cast_nullable_to_non_nullable
+as double?,
   ));
 }
 

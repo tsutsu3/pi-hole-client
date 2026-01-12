@@ -57,6 +57,11 @@
   "allowCrashReport": "Allow crash report submission?",
   "allowList": "Allowlist",
   "allowSelfSignedCertificates": "Allow self-signed certificates",
+  "tlsCertSubject": "Subject",
+  "tlsCertIssuer": "Issuer",
+  "tlsCertValidFrom": "Valid from",
+  "tlsCertValidUntil": "Valid until",
+  "tlsCertSha256": "SHA-256",
   "allowed": "Allowed",
   "and": "and",
   "answeredBy": "Answered by",
@@ -690,5 +695,12 @@
   "clientAddress": "Client address",
   "clientsNone": "There are no clients to show here.",
   "clientsNotLoaded": "Clients list couldn't be loaded",
-  "clientsSelectLeftColumn": "Select a client to view its details."
+  "clientsSelectLeftColumn": "Select a client to view its details.",
+  "serverSecurityHttp": "HTTP",
+  "serverSecurityHttpsVerified": "HTTPS Verified",
+  "serverSecurityHttpsPinned": "HTTPS Pinned",
+  "serverSecurityHttpsUntrustedAllowed": "HTTPS Untrusted Allowed",
+  "serverSecurityHttpsUntrustedBlocked": "HTTPS Untrusted Blocked",
+  "serverSecurityHttpsPinMismatch": "HTTPS Pin Mismatch",
+  "serverSecurityHttpsUnknown": "HTTPS Unknown"
 }

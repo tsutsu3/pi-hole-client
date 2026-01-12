@@ -180,6 +180,21 @@ class AppLocalizationsJa extends AppLocalizations {
   String get allowSelfSignedCertificates => '自己署名証明書を許可する';
 
   @override
+  String get tlsCertSubject => 'サブジェクト';
+
+  @override
+  String get tlsCertIssuer => '発行者';
+
+  @override
+  String get tlsCertValidFrom => '有効開始';
+
+  @override
+  String get tlsCertValidUntil => '有効期限';
+
+  @override
+  String get tlsCertSha256 => 'SHA-256';
+
+  @override
   String get allowed => '許可済み';
 
   @override
@@ -2091,4 +2106,25 @@ class AppLocalizationsJa extends AppLocalizations {
 
   @override
   String get clientsSelectLeftColumn => '詳細を表示するクライアントを選択してください。';
+
+  @override
+  String get serverSecurityHttp => 'HTTP';
+
+  @override
+  String get serverSecurityHttpsVerified => 'HTTPS（検証済み）';
+
+  @override
+  String get serverSecurityHttpsPinned => 'HTTPS（ピン留め）';
+
+  @override
+  String get serverSecurityHttpsUntrustedAllowed => 'HTTPS（未検証 許可）';
+
+  @override
+  String get serverSecurityHttpsUntrustedBlocked => 'HTTPS（未検証 ブロック）';
+
+  @override
+  String get serverSecurityHttpsPinMismatch => 'HTTPS（ピン不一致）';
+
+  @override
+  String get serverSecurityHttpsUnknown => 'HTTPS（不明）';
 }

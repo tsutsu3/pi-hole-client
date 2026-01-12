@@ -5,6 +5,7 @@ import 'package:pi_hole_client/ui/core/l10n/generated/app_localizations.dart';
 import 'package:pi_hole_client/ui/core/themes/theme.dart';
 import 'package:pi_hole_client/ui/core/viewmodel/servers_provider.dart';
 import 'package:pi_hole_client/ui/core/viewmodel/status_provider.dart';
+import 'package:pi_hole_client/ui/servers/transport_security_indicator.dart';
 import 'package:provider/provider.dart';
 
 /// A widget that displays action buttons for a server tile, including options to
@@ -48,23 +49,34 @@ class ServerTileActions extends StatelessWidget {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
-        PopupMenuButton(
-          itemBuilder: (context) => [
-            _buildMenuItem(
-              icon: Icons.star,
-              text: server.defaultServer == true
-                  ? loc.defaultConnection
-                  : loc.setDefault,
-              enabled: server.defaultServer == false,
-              onTap: server.defaultServer == false ? onSetDefault : null,
-            ),
-            _buildMenuItem(icon: Icons.edit, text: loc.edit, onTap: onEdit),
-            _buildMenuItem(
-              icon: Icons.delete,
-              text: loc.delete,
-              onTap: onDelete,
-            ),
-          ],
+        Expanded(
+          child: Row(
+            children: [
+              PopupMenuButton(
+                itemBuilder: (context) => [
+                  _buildMenuItem(
+                    icon: Icons.star,
+                    text: server.defaultServer == true
+                        ? loc.defaultConnection
+                        : loc.setDefault,
+                    enabled: server.defaultServer == false,
+                    onTap: server.defaultServer == false ? onSetDefault : null,
+                  ),
+                  _buildMenuItem(
+                    icon: Icons.edit,
+                    text: loc.edit,
+                    onTap: onEdit,
+                  ),
+                  _buildMenuItem(
+                    icon: Icons.delete,
+                    text: loc.delete,
+                    onTap: onDelete,
+                  ),
+                ],
+              ),
+              TransportSecurityIndicator(server: server),
+            ],
+          ),
         ),
         Padding(
           padding: const EdgeInsets.only(right: 16),

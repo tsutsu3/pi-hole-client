@@ -185,6 +185,21 @@ class AppLocalizationsEs extends AppLocalizations {
       'Permitir certificados autofirmados';
 
   @override
+  String get tlsCertSubject => 'Sujeto';
+
+  @override
+  String get tlsCertIssuer => 'Emisor';
+
+  @override
+  String get tlsCertValidFrom => 'Válido desde';
+
+  @override
+  String get tlsCertValidUntil => 'Válido hasta';
+
+  @override
+  String get tlsCertSha256 => 'SHA-256';
+
+  @override
   String get allowed => 'Permitidos';
 
   @override
@@ -2175,4 +2190,27 @@ class AppLocalizationsEs extends AppLocalizations {
   @override
   String get clientsSelectLeftColumn =>
       'Selecciona un cliente para ver sus detalles.';
+
+  @override
+  String get serverSecurityHttp => 'HTTP';
+
+  @override
+  String get serverSecurityHttpsVerified => 'HTTPS verificado';
+
+  @override
+  String get serverSecurityHttpsPinned => 'HTTPS fijado';
+
+  @override
+  String get serverSecurityHttpsUntrustedAllowed =>
+      'HTTPS no confiable permitido';
+
+  @override
+  String get serverSecurityHttpsUntrustedBlocked =>
+      'HTTPS no confiable bloqueado';
+
+  @override
+  String get serverSecurityHttpsPinMismatch => 'HTTPS PIN no coincide';
+
+  @override
+  String get serverSecurityHttpsUnknown => 'HTTPS desconocido';
 }
