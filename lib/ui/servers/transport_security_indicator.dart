@@ -4,6 +4,7 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:pi_hole_client/domain/models_old/server.dart';
 import 'package:pi_hole_client/ui/core/l10n/generated/app_localizations.dart';
+import 'package:pi_hole_client/ui/core/themes/theme.dart';
 import 'package:pi_hole_client/utils/tls_certificate.dart';
 
 enum _TransportSecurityStatus {
@@ -191,55 +192,57 @@ class _TransportSecurityIndicatorState
     _TransportSecurityStatus status,
   ) {
     final loc = AppLocalizations.of(context)!;
+    final theme = Theme.of(context);
+    final appColors = theme.extension<AppColors>()!;
 
     switch (status) {
       case _TransportSecurityStatus.http:
         return _TransportSecurityViewData(
           status: status,
           icon: Icons.no_encryption_rounded,
-          color: Colors.orange,
+          color: appColors.queryOrange!,
           label: loc.serverSecurityHttp,
         );
       case _TransportSecurityStatus.httpsVerified:
         return _TransportSecurityViewData(
           status: status,
           icon: Icons.verified_user,
-          color: Colors.green,
+          color: appColors.queryGreen!,
           label: loc.serverSecurityHttpsVerified,
         );
       case _TransportSecurityStatus.httpsPinned:
         return _TransportSecurityViewData(
           status: status,
           icon: Icons.push_pin,
-          color: Colors.teal,
+          color: appColors.securityPinned!,
           label: loc.serverSecurityHttpsPinned,
         );
       case _TransportSecurityStatus.httpsUntrustedAllowed:
         return _TransportSecurityViewData(
           status: status,
           icon: Icons.gpp_maybe,
-          color: Colors.orange,
+          color: appColors.queryOrange!,
           label: loc.serverSecurityHttpsUntrustedAllowed,
         );
       case _TransportSecurityStatus.httpsUntrustedBlocked:
         return _TransportSecurityViewData(
           status: status,
           icon: Icons.gpp_bad,
-          color: Colors.red,
+          color: appColors.queryRed!,
           label: loc.serverSecurityHttpsUntrustedBlocked,
         );
       case _TransportSecurityStatus.httpsPinMismatch:
         return _TransportSecurityViewData(
           status: status,
           icon: Icons.error,
-          color: Colors.red,
+          color: appColors.queryRed!,
           label: loc.serverSecurityHttpsPinMismatch,
         );
       case _TransportSecurityStatus.unknown:
         return _TransportSecurityViewData(
           status: status,
           icon: Icons.help_outline,
-          color: Theme.of(context).colorScheme.onSurfaceVariant,
+          color: theme.colorScheme.onSurfaceVariant,
           label: loc.serverSecurityHttpsUnknown,
         );
     }
