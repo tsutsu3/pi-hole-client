@@ -2213,4 +2213,40 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String get serverSecurityHttpsUnknown => 'HTTPS desconocido';
+
+  @override
+  String get serverCertificateIssueTitle => 'Problema de certificado';
+
+  @override
+  String get serverCertificateIssueDetected =>
+      'Se detectó un problema de certificado. Es posible que el certificado del servidor haya cambiado.';
+
+  @override
+  String get serverCertificateIssueHelp =>
+      'El certificado TLS del servidor puede haber cambiado o volverse no confiable. Revisa la configuración del servidor y actualiza la huella fijada si es necesario.';
+
+  @override
+  String get serverCertificatePinMismatchDetected =>
+      'La huella fijada no coincide. Es posible que el certificado del servidor haya cambiado.';
+
+  @override
+  String get serverCertificatePinMismatchHelp =>
+      'El certificado del servidor no coincide con la huella fijada. Verifica el certificado y actualiza la huella en la configuración del servidor.';
+
+  @override
+  String get serverCertificateView => 'Ver certificado';
+
+  @override
+  String get serverCertificateUpdatePin => 'Actualizar huella fijada';
+
+  @override
+  String get serverCertificateUpdatePinTitle => 'Actualizar huella fijada';
+
+  @override
+  String get serverCertificateUpdatePinHelp =>
+      'Esto reemplazará la huella SHA-256 fijada usada al permitir certificados no confiables. Continúa solo si verificaste el certificado por otro medio.';
+
+  @override
+  String get serverCertificateFetchFailed =>
+      'No se pudo obtener la información del certificado.';
 }

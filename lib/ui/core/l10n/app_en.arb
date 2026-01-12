@@ -702,5 +702,15 @@
   "serverSecurityHttpsUntrustedAllowed": "HTTPS Untrusted Allowed",
   "serverSecurityHttpsUntrustedBlocked": "HTTPS Untrusted Blocked",
   "serverSecurityHttpsPinMismatch": "HTTPS Pin Mismatch",
-  "serverSecurityHttpsUnknown": "HTTPS Unknown"
+  "serverSecurityHttpsUnknown": "HTTPS Unknown",
+  "serverCertificateIssueTitle": "Certificate issue",
+  "serverCertificateIssueDetected": "A certificate issue was detected. The server's certificate may have changed.",
+  "serverCertificateIssueHelp": "The server's TLS certificate may have changed or become untrusted. Review the server settings and update the pinned fingerprint if needed.",
+  "serverCertificatePinMismatchDetected": "Pinned certificate mismatch. The server's certificate may have changed.",
+  "serverCertificatePinMismatchHelp": "The server's certificate does not match the pinned fingerprint. Verify the certificate and update the pinned fingerprint in the server settings.",
+  "serverCertificateView": "View certificate",
+  "serverCertificateUpdatePin": "Update pinned fingerprint",
+  "serverCertificateUpdatePinTitle": "Update pinned fingerprint",
+  "serverCertificateUpdatePinHelp": "This will replace the pinned SHA-256 fingerprint used when allowing untrusted certificates. Only proceed if you verified the certificate out of band.",
+  "serverCertificateFetchFailed": "Could not fetch certificate information."
 }

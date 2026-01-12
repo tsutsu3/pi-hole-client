@@ -4261,6 +4261,66 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'HTTPS Unknown'**
   String get serverSecurityHttpsUnknown;
+
+  /// No description provided for @serverCertificateIssueTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Certificate issue'**
+  String get serverCertificateIssueTitle;
+
+  /// No description provided for @serverCertificateIssueDetected.
+  ///
+  /// In en, this message translates to:
+  /// **'A certificate issue was detected. The server\'s certificate may have changed.'**
+  String get serverCertificateIssueDetected;
+
+  /// No description provided for @serverCertificateIssueHelp.
+  ///
+  /// In en, this message translates to:
+  /// **'The server\'s TLS certificate may have changed or become untrusted. Review the server settings and update the pinned fingerprint if needed.'**
+  String get serverCertificateIssueHelp;
+
+  /// No description provided for @serverCertificatePinMismatchDetected.
+  ///
+  /// In en, this message translates to:
+  /// **'Pinned certificate mismatch. The server\'s certificate may have changed.'**
+  String get serverCertificatePinMismatchDetected;
+
+  /// No description provided for @serverCertificatePinMismatchHelp.
+  ///
+  /// In en, this message translates to:
+  /// **'The server\'s certificate does not match the pinned fingerprint. Verify the certificate and update the pinned fingerprint in the server settings.'**
+  String get serverCertificatePinMismatchHelp;
+
+  /// No description provided for @serverCertificateView.
+  ///
+  /// In en, this message translates to:
+  /// **'View certificate'**
+  String get serverCertificateView;
+
+  /// No description provided for @serverCertificateUpdatePin.
+  ///
+  /// In en, this message translates to:
+  /// **'Update pinned fingerprint'**
+  String get serverCertificateUpdatePin;
+
+  /// No description provided for @serverCertificateUpdatePinTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Update pinned fingerprint'**
+  String get serverCertificateUpdatePinTitle;
+
+  /// No description provided for @serverCertificateUpdatePinHelp.
+  ///
+  /// In en, this message translates to:
+  /// **'This will replace the pinned SHA-256 fingerprint used when allowing untrusted certificates. Only proceed if you verified the certificate out of band.'**
+  String get serverCertificateUpdatePinHelp;
+
+  /// No description provided for @serverCertificateFetchFailed.
+  ///
+  /// In en, this message translates to:
+  /// **'Could not fetch certificate information.'**
+  String get serverCertificateFetchFailed;
 }
 
 class _AppLocalizationsDelegate

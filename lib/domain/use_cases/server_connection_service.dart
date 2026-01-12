@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:pi_hole_client/config/enums.dart';
 import 'package:pi_hole_client/config/globals.dart';
+import 'package:pi_hole_client/config/responsive.dart';
 import 'package:pi_hole_client/domain/models_old/gateways.dart';
 import 'package:pi_hole_client/domain/models_old/server.dart';
 import 'package:pi_hole_client/domain/use_cases/status_update_service.dart';
@@ -12,7 +13,9 @@ import 'package:pi_hole_client/ui/core/ui/modals/process_modal.dart';
 import 'package:pi_hole_client/ui/core/viewmodel/app_config_provider.dart';
 import 'package:pi_hole_client/ui/core/viewmodel/servers_provider.dart';
 import 'package:pi_hole_client/ui/core/viewmodel/status_provider.dart';
+import 'package:pi_hole_client/ui/servers/add_server_fullscreen.dart';
 import 'package:pi_hole_client/utils/logger.dart';
+import 'package:pi_hole_client/utils/tls_certificate.dart';
 
 class ServerConnectionService {
   ServerConnectionService({
@@ -69,7 +72,7 @@ class ServerConnectionService {
         '${previouslySelectedServer?.address}(${previouslySelectedServer?.alias}) '
         '<- ${server.address}(${server.alias})',
       );
-      _onFailure(previouslySelectedServer);
+      await _onFailure(previouslySelectedServer, result);
     }
   }
 
@@ -113,7 +116,7 @@ class ServerConnectionService {
     statusUpdateService.startAutoRefresh();
   }
 
-  void _onFailure(Server? fallback) {
+  Future<void> _onFailure(Server? fallback, LoginQueryResponse? result) async {
     if (fallback != null) {
       serversProvider.setselectedServer(server: fallback);
       statusProvider.setServerStatus(LoadStatus.loading);
@@ -173,6 +176,111 @@ class ServerConnectionService {
         label: label,
         duration: duration,
       );
+    }
+
+    if (result?.result != APiResponseType.sslError) return;
+    if (targetContext == null) return;
+    if (!targetContext.mounted) return;
+
+    final isPinMismatch = await _isPinnedCertificateMismatch(server);
+
+    if (!targetContext.mounted) return;
+    final loc = AppLocalizations.of(targetContext)!;
+
+    showCautionSnackBar(
+      context: targetContext,
+      appConfigProvider: appConfigProvider,
+      label: isPinMismatch
+          ? loc.serverCertificatePinMismatchDetected
+          : loc.serverCertificateIssueDetected,
+      duration: 5,
+    );
+
+    final shouldEdit = await showDialog<bool>(
+      context: targetContext,
+      builder: (dialogContext) => AlertDialog(
+        title: Text(loc.serverCertificateIssueTitle),
+        content: Text(
+          isPinMismatch
+              ? loc.serverCertificatePinMismatchHelp
+              : loc.serverCertificateIssueHelp,
+        ),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.pop(dialogContext, false),
+            child: Text(loc.cancel),
+          ),
+          TextButton(
+            onPressed: () => Navigator.pop(dialogContext, true),
+            child: Text(loc.edit),
+          ),
+        ],
+      ),
+    );
+
+    if (shouldEdit == true && targetContext.mounted) {
+      _openEditServer(targetContext, server);
+    }
+  }
+
+  void _openEditServer(BuildContext context, Server server) {
+    final width = MediaQuery.of(context).size.width;
+
+    if (width > ResponsiveConstants.medium) {
+      showDialog(
+        context: context,
+        useRootNavigator: false,
+        barrierDismissible: false,
+        builder: (context) => AddServerFullscreen(
+          server: server,
+          window: true,
+          title: AppLocalizations.of(context)!.editConnection,
+        ),
+      );
+    } else {
+      Navigator.push(
+        context,
+        MaterialPageRoute(
+          fullscreenDialog: true,
+          builder: (BuildContext context) => AddServerFullscreen(
+            server: server,
+            window: false,
+            title: AppLocalizations.of(context)!.editConnection,
+          ),
+        ),
+      );
+    }
+  }
+
+  Future<bool> _isPinnedCertificateMismatch(Server server) async {
+    final pin = server.pinnedCertificateSha256;
+    if (pin == null || pin.trim().isEmpty) return false;
+
+    Uri uri;
+    try {
+      uri = Uri.parse(server.address);
+    } catch (_) {
+      return false;
+    }
+    if (uri.scheme != 'https') return false;
+
+    // Only attempt mismatch detection when the app is configured to allow
+    // untrusted certificates (pin fallback path).
+    if (!server.allowSelfSignedCert) return false;
+
+    try {
+      final info = await fetchTlsCertificateInfo(
+        uri,
+        allowBadCertificates: true,
+        timeout: const Duration(seconds: 3),
+      );
+      if (info == null) return false;
+
+      String normalize(String value) =>
+          value.replaceAll(':', '').toLowerCase().trim();
+      return normalize(info.sha256) != normalize(pin);
+    } catch (_) {
+      return false;
     }
   }
 }

@@ -2181,4 +2181,40 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get serverSecurityHttpsUnknown => 'HTTPS Unknown';
+
+  @override
+  String get serverCertificateIssueTitle => 'Certificate issue';
+
+  @override
+  String get serverCertificateIssueDetected =>
+      'A certificate issue was detected. The server\'s certificate may have changed.';
+
+  @override
+  String get serverCertificateIssueHelp =>
+      'The server\'s TLS certificate may have changed or become untrusted. Review the server settings and update the pinned fingerprint if needed.';
+
+  @override
+  String get serverCertificatePinMismatchDetected =>
+      'Pinned certificate mismatch. The server\'s certificate may have changed.';
+
+  @override
+  String get serverCertificatePinMismatchHelp =>
+      'The server\'s certificate does not match the pinned fingerprint. Verify the certificate and update the pinned fingerprint in the server settings.';
+
+  @override
+  String get serverCertificateView => 'View certificate';
+
+  @override
+  String get serverCertificateUpdatePin => 'Update pinned fingerprint';
+
+  @override
+  String get serverCertificateUpdatePinTitle => 'Update pinned fingerprint';
+
+  @override
+  String get serverCertificateUpdatePinHelp =>
+      'This will replace the pinned SHA-256 fingerprint used when allowing untrusted certificates. Only proceed if you verified the certificate out of band.';
+
+  @override
+  String get serverCertificateFetchFailed =>
+      'Could not fetch certificate information.';
 }

@@ -2217,4 +2217,42 @@ class AppLocalizationsDe extends AppLocalizations {
 
   @override
   String get serverSecurityHttpsUnknown => 'HTTPS unbekannt';
+
+  @override
+  String get serverCertificateIssueTitle => 'Zertifikatsproblem';
+
+  @override
+  String get serverCertificateIssueDetected =>
+      'Ein Zertifikatsproblem wurde erkannt. Das Serverzertifikat wurde möglicherweise geändert.';
+
+  @override
+  String get serverCertificateIssueHelp =>
+      'Das TLS-Zertifikat des Servers wurde möglicherweise geändert oder ist nicht vertrauenswürdig. Bitte Servereinstellungen prüfen und ggf. den angepinnten Fingerabdruck aktualisieren.';
+
+  @override
+  String get serverCertificatePinMismatchDetected =>
+      'Angepinntes Zertifikat stimmt nicht überein. Das Serverzertifikat wurde möglicherweise geändert.';
+
+  @override
+  String get serverCertificatePinMismatchHelp =>
+      'Das Serverzertifikat stimmt nicht mit dem angepinnten Fingerabdruck überein. Zertifikat prüfen und den Fingerabdruck in den Servereinstellungen aktualisieren.';
+
+  @override
+  String get serverCertificateView => 'Zertifikat anzeigen';
+
+  @override
+  String get serverCertificateUpdatePin =>
+      'Angepinnter Fingerabdruck aktualisieren';
+
+  @override
+  String get serverCertificateUpdatePinTitle =>
+      'Angepinnter Fingerabdruck aktualisieren';
+
+  @override
+  String get serverCertificateUpdatePinHelp =>
+      'Dies ersetzt den angepinnten SHA-256-Fingerabdruck, der bei unzuverlässigen Zertifikaten verwendet wird. Nur fortfahren, wenn das Zertifikat anderweitig geprüft wurde.';
+
+  @override
+  String get serverCertificateFetchFailed =>
+      'Zertifikatsinformationen konnten nicht abgerufen werden.';
 }

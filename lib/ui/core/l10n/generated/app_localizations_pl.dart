@@ -2199,4 +2199,40 @@ class AppLocalizationsPl extends AppLocalizations {
 
   @override
   String get serverSecurityHttpsUnknown => 'HTTPS nieznane';
+
+  @override
+  String get serverCertificateIssueTitle => 'Problem z certyfikatem';
+
+  @override
+  String get serverCertificateIssueDetected =>
+      'Wykryto problem z certyfikatem. Certyfikat serwera mógł się zmienić.';
+
+  @override
+  String get serverCertificateIssueHelp =>
+      'Certyfikat TLS serwera mógł się zmienić lub stać się niezaufany. Sprawdź ustawienia serwera i w razie potrzeby zaktualizuj przypięty odcisk.';
+
+  @override
+  String get serverCertificatePinMismatchDetected =>
+      'Niezgodność przypiętego certyfikatu. Certyfikat serwera mógł się zmienić.';
+
+  @override
+  String get serverCertificatePinMismatchHelp =>
+      'Certyfikat serwera nie pasuje do przypiętego odcisku. Zweryfikuj certyfikat i zaktualizuj odcisk w ustawieniach serwera.';
+
+  @override
+  String get serverCertificateView => 'Pokaż certyfikat';
+
+  @override
+  String get serverCertificateUpdatePin => 'Zaktualizuj przypięty odcisk';
+
+  @override
+  String get serverCertificateUpdatePinTitle => 'Zaktualizuj przypięty odcisk';
+
+  @override
+  String get serverCertificateUpdatePinHelp =>
+      'Spowoduje to zastąpienie przypiętego odcisku SHA-256 używanego przy zezwalaniu na niezaufane certyfikaty. Kontynuuj tylko, jeśli zweryfikowałeś certyfikat inną metodą.';
+
+  @override
+  String get serverCertificateFetchFailed =>
+      'Nie udało się pobrać informacji o certyfikacie.';
 }

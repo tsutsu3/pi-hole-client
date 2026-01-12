@@ -3,9 +3,12 @@ import 'package:pi_hole_client/config/enums.dart';
 import 'package:pi_hole_client/domain/models_old/server.dart';
 import 'package:pi_hole_client/ui/core/l10n/generated/app_localizations.dart';
 import 'package:pi_hole_client/ui/core/themes/theme.dart';
+import 'package:pi_hole_client/ui/core/ui/helpers/snackbar.dart';
+import 'package:pi_hole_client/ui/core/viewmodel/app_config_provider.dart';
 import 'package:pi_hole_client/ui/core/viewmodel/servers_provider.dart';
 import 'package:pi_hole_client/ui/core/viewmodel/status_provider.dart';
 import 'package:pi_hole_client/ui/servers/transport_security_indicator.dart';
+import 'package:pi_hole_client/utils/tls_certificate.dart';
 import 'package:provider/provider.dart';
 
 /// A widget that displays action buttons for a server tile, including options to
@@ -72,8 +75,34 @@ class ServerTileActions extends StatelessWidget {
                     text: loc.delete,
                     onTap: onDelete,
                   ),
+                  const PopupMenuItem<void>(
+                    enabled: false,
+                    height: 12,
+                    child: Divider(height: 1),
+                  ),
+                  _buildMenuItem(
+                    icon: Icons.verified,
+                    text: loc.serverCertificateView,
+                    enabled: _tryParseHttpsUri(server.address) != null,
+                    onTap: _tryParseHttpsUri(server.address) != null
+                        ? () => _showCertificateDialog(context, server)
+                        : null,
+                  ),
+                  _buildMenuItem(
+                    icon: Icons.push_pin,
+                    text: loc.serverCertificateUpdatePin,
+                    enabled:
+                        _tryParseHttpsUri(server.address) != null &&
+                        server.allowSelfSignedCert,
+                    onTap:
+                        _tryParseHttpsUri(server.address) != null &&
+                            server.allowSelfSignedCert
+                        ? () => _updatePinnedCertificate(context, server)
+                        : null,
+                  ),
                 ],
               ),
+              const SizedBox(width: 8),
               TransportSecurityIndicator(server: server),
             ],
           ),
@@ -109,6 +138,156 @@ class ServerTileActions extends StatelessWidget {
         ],
       ),
     );
+  }
+
+  Uri? _tryParseHttpsUri(String address) {
+    try {
+      final uri = Uri.parse(address);
+      return uri.scheme == 'https' ? uri : null;
+    } catch (_) {
+      return null;
+    }
+  }
+
+  Future<void> _showCertificateDialog(
+    BuildContext context,
+    Server server,
+  ) async {
+    final uri = _tryParseHttpsUri(server.address);
+    if (uri == null) return;
+
+    final loc = AppLocalizations.of(context)!;
+    final appConfigProvider = context.read<AppConfigProvider>();
+
+    TlsCertificateInfo? certificateInfo;
+    try {
+      certificateInfo = await fetchTlsCertificateInfo(
+        uri,
+        allowBadCertificates: true,
+      );
+    } catch (_) {
+      certificateInfo = null;
+    }
+
+    if (!context.mounted) return;
+
+    if (certificateInfo == null) {
+      showErrorSnackBar(
+        context: context,
+        appConfigProvider: appConfigProvider,
+        label: loc.serverCertificateFetchFailed,
+      );
+      return;
+    }
+
+    final info = certificateInfo;
+
+    await showDialog<void>(
+      context: context,
+      builder: (dialogContext) => AlertDialog(
+        title: Text(loc.serverCertificateIssueTitle),
+        content: SelectableText(
+          [
+            '${loc.tlsCertSubject}: ${info.subject}',
+            '${loc.tlsCertIssuer}: ${info.issuer}',
+            '${loc.tlsCertValidFrom}: ${info.startValidity.toIso8601String()}',
+            '${loc.tlsCertValidUntil}: ${info.endValidity.toIso8601String()}',
+            '',
+            '${loc.tlsCertSha256}: ${info.sha256}',
+          ].join('\n'),
+        ),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.pop(dialogContext),
+            child: Text(loc.close),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Future<void> _updatePinnedCertificate(
+    BuildContext context,
+    Server server,
+  ) async {
+    final uri = _tryParseHttpsUri(server.address);
+    if (uri == null) return;
+
+    final loc = AppLocalizations.of(context)!;
+    final appConfigProvider = context.read<AppConfigProvider>();
+    final serversProvider = context.read<ServersProvider>();
+
+    TlsCertificateInfo? certificateInfo;
+    try {
+      certificateInfo = await fetchTlsCertificateInfo(
+        uri,
+        allowBadCertificates: true,
+      );
+    } catch (_) {
+      certificateInfo = null;
+    }
+
+    if (!context.mounted) return;
+
+    if (certificateInfo == null) {
+      showErrorSnackBar(
+        context: context,
+        appConfigProvider: appConfigProvider,
+        label: loc.serverCertificateFetchFailed,
+      );
+      return;
+    }
+
+    final info = certificateInfo;
+
+    final confirmed = await showDialog<bool>(
+      context: context,
+      builder: (dialogContext) => AlertDialog(
+        title: Text(loc.serverCertificateUpdatePinTitle),
+        content: SelectableText(
+          [
+            loc.serverCertificateUpdatePinHelp,
+            '',
+            '${loc.tlsCertSubject}: ${info.subject}',
+            '${loc.tlsCertIssuer}: ${info.issuer}',
+            '${loc.tlsCertValidFrom}: ${info.startValidity.toIso8601String()}',
+            '${loc.tlsCertValidUntil}: ${info.endValidity.toIso8601String()}',
+            '',
+            '${loc.tlsCertSha256}: ${info.sha256}',
+          ].join('\n'),
+        ),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.pop(dialogContext, false),
+            child: Text(loc.cancel),
+          ),
+          TextButton(
+            onPressed: () => Navigator.pop(dialogContext, true),
+            child: Text(loc.confirm),
+          ),
+        ],
+      ),
+    );
+
+    if (confirmed != true || !context.mounted) return;
+
+    final updated = server.copyWith(pinnedCertificateSha256: info.sha256);
+    final result = await serversProvider.editServer(updated);
+    if (!context.mounted) return;
+
+    if (result == true) {
+      showSuccessSnackBar(
+        context: context,
+        appConfigProvider: appConfigProvider,
+        label: loc.editServerSuccessfully,
+      );
+    } else {
+      showErrorSnackBar(
+        context: context,
+        appConfigProvider: appConfigProvider,
+        label: loc.cantSaveConnectionData,
+      );
+    }
   }
 }
 

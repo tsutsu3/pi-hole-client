@@ -702,5 +702,15 @@
   "serverSecurityHttpsUntrustedAllowed": "HTTPS niezaufane dozwolone",
   "serverSecurityHttpsUntrustedBlocked": "HTTPS niezaufane zablokowane",
   "serverSecurityHttpsPinMismatch": "HTTPS niezgodny PIN",
-  "serverSecurityHttpsUnknown": "HTTPS nieznane"
+  "serverSecurityHttpsUnknown": "HTTPS nieznane",
+  "serverCertificateIssueTitle": "Problem z certyfikatem",
+  "serverCertificateIssueDetected": "Wykryto problem z certyfikatem. Certyfikat serwera mógł się zmienić.",
+  "serverCertificateIssueHelp": "Certyfikat TLS serwera mógł się zmienić lub stać się niezaufany. Sprawdź ustawienia serwera i w razie potrzeby zaktualizuj przypięty odcisk.",
+  "serverCertificatePinMismatchDetected": "Niezgodność przypiętego certyfikatu. Certyfikat serwera mógł się zmienić.",
+  "serverCertificatePinMismatchHelp": "Certyfikat serwera nie pasuje do przypiętego odcisku. Zweryfikuj certyfikat i zaktualizuj odcisk w ustawieniach serwera.",
+  "serverCertificateView": "Pokaż certyfikat",
+  "serverCertificateUpdatePin": "Zaktualizuj przypięty odcisk",
+  "serverCertificateUpdatePinTitle": "Zaktualizuj przypięty odcisk",
+  "serverCertificateUpdatePinHelp": "Spowoduje to zastąpienie przypiętego odcisku SHA-256 używanego przy zezwalaniu na niezaufane certyfikaty. Kontynuuj tylko, jeśli zweryfikowałeś certyfikat inną metodą.",
+  "serverCertificateFetchFailed": "Nie udało się pobrać informacji o certyfikacie."
 }

@@ -702,5 +702,15 @@
   "serverSecurityHttpsUntrustedAllowed": "HTTPS unsicher erlaubt",
   "serverSecurityHttpsUntrustedBlocked": "HTTPS unsicher blockiert",
   "serverSecurityHttpsPinMismatch": "HTTPS PIN stimmt nicht überein",
-  "serverSecurityHttpsUnknown": "HTTPS unbekannt"
+  "serverSecurityHttpsUnknown": "HTTPS unbekannt",
+  "serverCertificateIssueTitle": "Zertifikatsproblem",
+  "serverCertificateIssueDetected": "Ein Zertifikatsproblem wurde erkannt. Das Serverzertifikat wurde möglicherweise geändert.",
+  "serverCertificateIssueHelp": "Das TLS-Zertifikat des Servers wurde möglicherweise geändert oder ist nicht vertrauenswürdig. Bitte Servereinstellungen prüfen und ggf. den angepinnten Fingerabdruck aktualisieren.",
+  "serverCertificatePinMismatchDetected": "Angepinntes Zertifikat stimmt nicht überein. Das Serverzertifikat wurde möglicherweise geändert.",
+  "serverCertificatePinMismatchHelp": "Das Serverzertifikat stimmt nicht mit dem angepinnten Fingerabdruck überein. Zertifikat prüfen und den Fingerabdruck in den Servereinstellungen aktualisieren.",
+  "serverCertificateView": "Zertifikat anzeigen",
+  "serverCertificateUpdatePin": "Angepinnter Fingerabdruck aktualisieren",
+  "serverCertificateUpdatePinTitle": "Angepinnter Fingerabdruck aktualisieren",
+  "serverCertificateUpdatePinHelp": "Dies ersetzt den angepinnten SHA-256-Fingerabdruck, der bei unzuverlässigen Zertifikaten verwendet wird. Nur fortfahren, wenn das Zertifikat anderweitig geprüft wurde.",
+  "serverCertificateFetchFailed": "Zertifikatsinformationen konnten nicht abgerufen werden."
 }
