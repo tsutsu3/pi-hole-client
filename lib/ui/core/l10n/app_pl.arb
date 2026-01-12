@@ -708,6 +708,7 @@
   "serverCertificateIssueHelp": "Certyfikat TLS serwera mógł się zmienić lub stać się niezaufany. Sprawdź ustawienia serwera i w razie potrzeby zaktualizuj przypięty odcisk.",
   "serverCertificatePinMismatchDetected": "Niezgodność przypiętego certyfikatu. Certyfikat serwera mógł się zmienić.",
   "serverCertificatePinMismatchHelp": "Certyfikat serwera nie pasuje do przypiętego odcisku. Zweryfikuj certyfikat i zaktualizuj odcisk w ustawieniach serwera.",
+  "serverCertificateTitle": "Certyfikat",
   "serverCertificateView": "Pokaż certyfikat",
   "serverCertificateUpdatePin": "Zaktualizuj",
   "serverCertificateUpdatePinTitle": "Zaktualizuj przypięty odcisk",

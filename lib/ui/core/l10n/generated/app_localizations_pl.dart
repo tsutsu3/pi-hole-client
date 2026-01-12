@@ -2220,6 +2220,9 @@ class AppLocalizationsPl extends AppLocalizations {
       'Certyfikat serwera nie pasuje do przypiętego odcisku. Zweryfikuj certyfikat i zaktualizuj odcisk w ustawieniach serwera.';
 
   @override
+  String get serverCertificateTitle => 'Certyfikat';
+
+  @override
   String get serverCertificateView => 'Pokaż certyfikat';
 
   @override

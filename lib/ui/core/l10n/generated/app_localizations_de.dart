@@ -2238,6 +2238,9 @@ class AppLocalizationsDe extends AppLocalizations {
       'Das Serverzertifikat stimmt nicht mit dem angepinnten Fingerabdruck überein. Zertifikat prüfen und den Fingerabdruck in den Servereinstellungen aktualisieren.';
 
   @override
+  String get serverCertificateTitle => 'Zertifikat';
+
+  @override
   String get serverCertificateView => 'Zertifikat anzeigen';
 
   @override

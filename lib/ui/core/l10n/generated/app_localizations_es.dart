@@ -2234,6 +2234,9 @@ class AppLocalizationsEs extends AppLocalizations {
       'El certificado del servidor no coincide con la huella fijada. Verifica el certificado y actualiza la huella en la configuración del servidor.';
 
   @override
+  String get serverCertificateTitle => 'Certificado';
+
+  @override
   String get serverCertificateView => 'Ver certificado';
 
   @override

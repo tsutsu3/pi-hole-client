@@ -185,7 +185,7 @@ class ServerTileActions extends StatelessWidget {
     await showDialog<void>(
       context: context,
       builder: (dialogContext) => AlertDialog(
-        title: Text(loc.serverCertificateIssueTitle),
+        title: Text(loc.serverCertificateTitle),
         content: SelectableText(
           [
             '${loc.tlsCertSubject}: ${info.subject}',

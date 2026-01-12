@@ -708,6 +708,7 @@
   "serverCertificateIssueHelp": "The server's TLS certificate may have changed or become untrusted. Review the server settings and update the pinned fingerprint if needed.",
   "serverCertificatePinMismatchDetected": "Pinned certificate mismatch. The server's certificate may have changed.",
   "serverCertificatePinMismatchHelp": "The server's certificate does not match the pinned fingerprint. Verify the certificate and update the pinned fingerprint in the server settings.",
+  "serverCertificateTitle": "Certificate",
   "serverCertificateView": "View certificate",
   "serverCertificateUpdatePin": "Update",
   "serverCertificateUpdatePinTitle": "Update pinned fingerprint",

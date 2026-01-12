@@ -2202,6 +2202,9 @@ class AppLocalizationsEn extends AppLocalizations {
       'The server\'s certificate does not match the pinned fingerprint. Verify the certificate and update the pinned fingerprint in the server settings.';
 
   @override
+  String get serverCertificateTitle => 'Certificate';
+
+  @override
   String get serverCertificateView => 'View certificate';
 
   @override

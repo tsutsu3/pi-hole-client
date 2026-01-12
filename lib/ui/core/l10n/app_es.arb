@@ -709,6 +709,7 @@
   "serverCertificateIssueHelp": "El certificado TLS del servidor puede haber cambiado o volverse no confiable. Revisa la configuración del servidor y actualiza la huella fijada si es necesario.",
   "serverCertificatePinMismatchDetected": "La huella fijada no coincide. Es posible que el certificado del servidor haya cambiado.",
   "serverCertificatePinMismatchHelp": "El certificado del servidor no coincide con la huella fijada. Verifica el certificado y actualiza la huella en la configuración del servidor.",
+  "serverCertificateTitle": "Certificado",
   "serverCertificateView": "Ver certificado",
   "serverCertificateUpdatePin": "Actualizar",
   "serverCertificateUpdatePinTitle": "Actualizar huella fijada",

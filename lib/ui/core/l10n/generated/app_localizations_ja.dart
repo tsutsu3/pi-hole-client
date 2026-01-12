@@ -2148,6 +2148,9 @@ class AppLocalizationsJa extends AppLocalizations {
       'サーバーの証明書がピン留め（SHA-256）と一致しません。証明書を確認した上で、サーバー設定からピン留めを更新してください。';
 
   @override
+  String get serverCertificateTitle => '証明書';
+
+  @override
   String get serverCertificateView => '証明書を表示';
 
   @override

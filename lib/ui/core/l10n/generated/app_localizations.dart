@@ -4292,6 +4292,12 @@ abstract class AppLocalizations {
   /// **'The server\'s certificate does not match the pinned fingerprint. Verify the certificate and update the pinned fingerprint in the server settings.'**
   String get serverCertificatePinMismatchHelp;
 
+  /// No description provided for @serverCertificateTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Certificate'**
+  String get serverCertificateTitle;
+
   /// No description provided for @serverCertificateView.
   ///
   /// In en, this message translates to:
