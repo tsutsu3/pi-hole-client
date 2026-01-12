@@ -4301,7 +4301,7 @@ abstract class AppLocalizations {
   /// No description provided for @serverCertificateUpdatePin.
   ///
   /// In en, this message translates to:
-  /// **'Update pinned fingerprint'**
+  /// **'Update'**
   String get serverCertificateUpdatePin;
 
   /// No description provided for @serverCertificateUpdatePinTitle.

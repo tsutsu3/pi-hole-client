@@ -2151,7 +2151,7 @@ class AppLocalizationsJa extends AppLocalizations {
   String get serverCertificateView => '証明書を表示';
 
   @override
-  String get serverCertificateUpdatePin => 'ピン留めを更新';
+  String get serverCertificateUpdatePin => '更新';
 
   @override
   String get serverCertificateUpdatePinTitle => 'ピン留めを更新';

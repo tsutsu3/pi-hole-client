@@ -709,7 +709,7 @@
   "serverCertificatePinMismatchDetected": "Pinned certificate mismatch. The server's certificate may have changed.",
   "serverCertificatePinMismatchHelp": "The server's certificate does not match the pinned fingerprint. Verify the certificate and update the pinned fingerprint in the server settings.",
   "serverCertificateView": "View certificate",
-  "serverCertificateUpdatePin": "Update pinned fingerprint",
+  "serverCertificateUpdatePin": "Update",
   "serverCertificateUpdatePinTitle": "Update pinned fingerprint",
   "serverCertificateUpdatePinHelp": "This will replace the pinned SHA-256 fingerprint used when allowing untrusted certificates. Only proceed if you verified the certificate out of band.",
   "serverCertificateFetchFailed": "Could not fetch certificate information."

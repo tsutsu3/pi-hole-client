@@ -2241,8 +2241,7 @@ class AppLocalizationsDe extends AppLocalizations {
   String get serverCertificateView => 'Zertifikat anzeigen';
 
   @override
-  String get serverCertificateUpdatePin =>
-      'Angepinnter Fingerabdruck aktualisieren';
+  String get serverCertificateUpdatePin => 'Aktualisieren';
 
   @override
   String get serverCertificateUpdatePinTitle =>

@@ -709,7 +709,7 @@
   "serverCertificatePinMismatchDetected": "Angepinntes Zertifikat stimmt nicht überein. Das Serverzertifikat wurde möglicherweise geändert.",
   "serverCertificatePinMismatchHelp": "Das Serverzertifikat stimmt nicht mit dem angepinnten Fingerabdruck überein. Zertifikat prüfen und den Fingerabdruck in den Servereinstellungen aktualisieren.",
   "serverCertificateView": "Zertifikat anzeigen",
-  "serverCertificateUpdatePin": "Angepinnter Fingerabdruck aktualisieren",
+  "serverCertificateUpdatePin": "Aktualisieren",
   "serverCertificateUpdatePinTitle": "Angepinnter Fingerabdruck aktualisieren",
   "serverCertificateUpdatePinHelp": "Dies ersetzt den angepinnten SHA-256-Fingerabdruck, der bei unzuverlässigen Zertifikaten verwendet wird. Nur fortfahren, wenn das Zertifikat anderweitig geprüft wurde.",
   "serverCertificateFetchFailed": "Zertifikatsinformationen konnten nicht abgerufen werden."

@@ -2205,7 +2205,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get serverCertificateView => 'View certificate';
 
   @override
-  String get serverCertificateUpdatePin => 'Update pinned fingerprint';
+  String get serverCertificateUpdatePin => 'Update';
 
   @override
   String get serverCertificateUpdatePinTitle => 'Update pinned fingerprint';

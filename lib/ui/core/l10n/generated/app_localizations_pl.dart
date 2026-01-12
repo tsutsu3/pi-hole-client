@@ -2223,7 +2223,7 @@ class AppLocalizationsPl extends AppLocalizations {
   String get serverCertificateView => 'Pokaż certyfikat';
 
   @override
-  String get serverCertificateUpdatePin => 'Zaktualizuj przypięty odcisk';
+  String get serverCertificateUpdatePin => 'Zaktualizuj';
 
   @override
   String get serverCertificateUpdatePinTitle => 'Zaktualizuj przypięty odcisk';

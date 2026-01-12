@@ -2237,7 +2237,7 @@ class AppLocalizationsEs extends AppLocalizations {
   String get serverCertificateView => 'Ver certificado';
 
   @override
-  String get serverCertificateUpdatePin => 'Actualizar huella fijada';
+  String get serverCertificateUpdatePin => 'Actualizar';
 
   @override
   String get serverCertificateUpdatePinTitle => 'Actualizar huella fijada';

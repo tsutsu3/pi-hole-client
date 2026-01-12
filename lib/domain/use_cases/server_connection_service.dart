@@ -212,14 +212,107 @@ class ServerConnectionService {
           ),
           TextButton(
             onPressed: () => Navigator.pop(dialogContext, true),
-            child: Text(loc.edit),
+            child: Text(
+              isPinMismatch ? loc.serverCertificateUpdatePin : loc.edit,
+            ),
           ),
         ],
       ),
     );
 
     if (shouldEdit == true && targetContext.mounted) {
-      _openEditServer(targetContext, server);
+      if (isPinMismatch) {
+        await _openUpdatePinnedFingerprint(targetContext, server);
+      } else {
+        _openEditServer(targetContext, server);
+      }
+    }
+  }
+
+  Future<void> _openUpdatePinnedFingerprint(
+    BuildContext context,
+    Server server,
+  ) async {
+    Uri uri;
+    try {
+      uri = Uri.parse(server.address);
+    } catch (_) {
+      return;
+    }
+    if (uri.scheme != 'https') return;
+
+    final loc = AppLocalizations.of(context)!;
+
+    TlsCertificateInfo? certificateInfo;
+    try {
+      certificateInfo = await fetchTlsCertificateInfo(
+        uri,
+        allowBadCertificates: true,
+      );
+    } catch (_) {
+      certificateInfo = null;
+    }
+
+    if (!context.mounted) return;
+
+    if (certificateInfo == null) {
+      showErrorSnackBar(
+        context: context,
+        appConfigProvider: appConfigProvider,
+        label: loc.serverCertificateFetchFailed,
+      );
+      return;
+    }
+
+    final info = certificateInfo;
+    final confirmed = await showDialog<bool>(
+      context: context,
+      builder: (dialogContext) => AlertDialog(
+        title: Text(loc.serverCertificateUpdatePinTitle),
+        content: SelectableText(
+          [
+            loc.serverCertificateUpdatePinHelp,
+            '',
+            '${loc.tlsCertSubject}: ${info.subject}',
+            '${loc.tlsCertIssuer}: ${info.issuer}',
+            '${loc.tlsCertValidFrom}: ${info.startValidity.toIso8601String()}',
+            '${loc.tlsCertValidUntil}: ${info.endValidity.toIso8601String()}',
+            '',
+            '${loc.tlsCertSha256}: ${info.sha256}',
+          ].join('\n'),
+        ),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.pop(dialogContext, false),
+            child: Text(loc.cancel),
+          ),
+          TextButton(
+            onPressed: () => Navigator.pop(dialogContext, true),
+            child: Text(loc.confirm),
+          ),
+        ],
+      ),
+    );
+
+    if (confirmed != true || !context.mounted) return;
+
+    final updated = server.copyWith(pinnedCertificateSha256: info.sha256);
+    final result = await serversProvider.editServer(updated);
+
+    if (!context.mounted) return;
+
+    if (result == true) {
+      showSuccessSnackBar(
+        context: context,
+        appConfigProvider: appConfigProvider,
+        label: loc.editServerSuccessfully,
+      );
+    } else {
+      showErrorSnackBar(
+        context: context,
+        appConfigProvider: appConfigProvider,
+        label: loc.cantSaveConnectionData,
+      );
     }
   }
 
