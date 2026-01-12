@@ -71,6 +71,7 @@ The server mounts the following routes:
 /api/info
 /api/lists
 /api/queries
+/api/padd
 /api/stats
 /api/network
 /api/config

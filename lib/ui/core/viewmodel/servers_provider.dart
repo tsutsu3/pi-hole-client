@@ -13,6 +13,7 @@ import 'package:pi_hole_client/ui/core/themes/theme.dart';
 import 'package:pi_hole_client/ui/core/viewmodel/app_config_provider.dart';
 import 'package:pi_hole_client/utils/conversions.dart';
 import 'package:pi_hole_client/utils/logger.dart';
+import 'package:pi_hole_client/utils/widget_channel.dart';
 
 class ServersProvider with ChangeNotifier {
   ServersProvider(this._repository);
@@ -139,6 +140,7 @@ class ServersProvider with ChangeNotifier {
         if (defaultServer == true) {
           // Create new list so context.select() can detect the change
           _serversList = [..._serversList, server];
+          await WidgetChannel.sendServersUpdated(_serversList);
           notifyListeners();
           return true;
         } else {
@@ -147,6 +149,7 @@ class ServersProvider with ChangeNotifier {
       } else {
         // Create new list so context.select() can detect the change
         _serversList = [..._serversList, server];
+        await WidgetChannel.sendServersUpdated(_serversList);
         notifyListeners();
         return true;
       }
@@ -186,6 +189,7 @@ class ServersProvider with ChangeNotifier {
         }
       }
 
+      await WidgetChannel.sendServersUpdated(_serversList);
       notifyListeners();
       return true;
     } else {
@@ -209,6 +213,8 @@ class ServersProvider with ChangeNotifier {
           _selectedServer = null;
         }
 
+        await WidgetChannel.sendServerRemoved(serverAddress);
+        await WidgetChannel.sendServersUpdated(_serversList);
         notifyListeners();
         return true;
       }

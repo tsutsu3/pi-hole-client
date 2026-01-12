@@ -22,12 +22,13 @@ import 'package:pi_hole_client/data/model/v6/ftl/messages.dart'
 import 'package:pi_hole_client/data/model/v6/ftl/metrics.dart' show InfoMetrics;
 import 'package:pi_hole_client/data/model/v6/ftl/sensors.dart' show InfoSensors;
 import 'package:pi_hole_client/data/model/v6/ftl/system.dart' show InfoSystem;
-import 'package:pi_hole_client/data/model/v6/ftl/version.dart' show InfoVersion;
+import 'package:pi_hole_client/data/model/v6/ftl/version.dart';
 import 'package:pi_hole_client/data/model/v6/groups/groups.dart';
 import 'package:pi_hole_client/data/model/v6/lists/lists.dart' show Lists;
 import 'package:pi_hole_client/data/model/v6/lists/search.dart' show Search;
 import 'package:pi_hole_client/data/model/v6/network/devices.dart';
 import 'package:pi_hole_client/data/model/v6/network/gateway.dart';
+import 'package:pi_hole_client/data/model/v6/padd/padd.dart';
 import 'package:pi_hole_client/data/repositories/local/secure_data_repository.dart';
 import 'package:pi_hole_client/domain/model/local_dns/local_dns.dart';
 // import 'package:pi_hole_client/data/services/local/session_credential_service.dart';
@@ -8180,6 +8181,199 @@ void main() async {
       ).thenThrow(Exception('Unexpected error test'));
 
       final response = await apiGateway.deleteDhcp('192.168.2.111');
+
+      expect(response.result, APiResponseType.error);
+      expect(response.message, unexpectedError);
+    });
+  });
+
+  group('getPadd', () {
+    late Server server;
+
+    const data = {
+      'recent_blocked': 'bad.example.com',
+      'top_domain': 'good.example.com',
+      'top_blocked': 'bad.example.com',
+      'top_client': 'localhost',
+      'active_clients': 22,
+      'gravity_size': 225382,
+      'blocking': 'enabled',
+      'queries': {'total': 92258, 'blocked': 4784, 'percent_blocked': 5.18},
+      'cache': {'size': 10000, 'inserted': 233, 'evicted': 0},
+      'iface': {
+        'v4': {
+          'addr': '192.168.2.11',
+          'rx_bytes': {'value': 76.46, 'unit': 'G'},
+          'tx_bytes': {'value': 68.58, 'unit': 'G'},
+          'num_addrs': 1,
+          'name': 'eth0',
+          'gw_addr': '192.168.2.1',
+        },
+        'v6': {
+          'addr': 'fe80::b0e4:1b1e:7b7d:5855',
+          'num_addrs': 3,
+          'name': 'eth0',
+          'gw_addr': 'fe80::b0e4:1b1e:7b7d:1b1e',
+        },
+      },
+      'node_name': 'pihole',
+      'host_model': 'Raspberry Pi 3 Model B Plus Rev 1.3',
+      'config': {
+        'dhcp_active': true,
+        'dhcp_start': '192.168.0.1',
+        'dhcp_end': '192.168.0.254',
+        'dhcp_ipv6': false,
+        'dns_domain': 'lan',
+        'dns_port': 53,
+        'dns_num_upstreams': 1,
+        'dns_dnssec': true,
+        'dns_revServer_active': false,
+        'privacy_level': 0,
+      },
+      '%cpu': 0,
+      '%mem': 1.5,
+      'pid': 1639,
+      'sensors': {'cpu_temp': 45, 'hot_limit': 80, 'unit': 'C'},
+      'system': {
+        'uptime': 67906,
+        'memory': {
+          'ram': {
+            'total': 10317877,
+            'free': 308736,
+            'used': 8920416,
+            'available': 972304,
+            '%used': 26.854,
+          },
+          'swap': {
+            'total': 10317877,
+            'used': 8920416,
+            'free': 308736,
+            '%used': 1.67,
+          },
+        },
+        'procs': 1452,
+        'cpu': {
+          'nprocs': 8,
+          '%cpu': 0,
+          'load': {
+            'raw': [0.58837890625, 0.64990234375, 0.66748046875],
+            'percent': [
+              4.903157711029053,
+              5.415853023529053,
+              5.562337398529053,
+            ],
+          },
+        },
+        'ftl': {'%mem': 0.1, '%cpu': 1.2},
+      },
+      'version': {
+        'core': {
+          'local': {
+            'branch': 'development',
+            'version': 'v6.1',
+            'hash': '955e36a9',
+          },
+          'remote': {'version': 'v6.1', 'hash': '955e36a9'},
+        },
+        'web': {
+          'local': {'branch': 'devel', 'version': 'v6.1', 'hash': 'f69f7e88'},
+          'remote': {'version': 'v6.1', 'hash': 'f69f7e88'},
+        },
+        'ftl': {
+          'local': {
+            'branch': 'development',
+            'version': 'v6.1',
+            'hash': '64441ed6-dirty',
+            'date': '2023-01-09 20:25:24 +0100',
+          },
+          'remote': {'version': 'v6.1', 'hash': '64441ed6'},
+        },
+        'docker': {'local': 'v6.1', 'remote': 'v6.1'},
+      },
+      'took': 0.003,
+    };
+
+    const erroData = {
+      'error': {'key': 'unauthorized', 'message': 'Unauthorized', 'hint': null},
+      'took': 0.003,
+    };
+
+    setUp(() {
+      server = Server(
+        address: 'http://example.com',
+        alias: 'example',
+        defaultServer: true,
+        apiVersion: SupportedApiVersions.v6,
+        allowSelfSignedCert: true,
+        sm: SecretManagerMock('sid', 'xxx123'),
+      );
+    });
+
+    test('should call /api/padd without query and parse response', () async {
+      final mockClient = MockClient();
+      final apiGateway = ApiGatewayV6(server, client: mockClient);
+
+      when(
+        mockClient.get(
+          Uri.parse('http://example.com/api/padd'),
+          headers: anyNamed('headers'),
+        ),
+      ).thenAnswer((_) async => http.Response(jsonEncode(data), 200));
+
+      final response = await apiGateway.getPadd();
+
+      expect(response.result, APiResponseType.success);
+      expect(response.message, null);
+      expect(response.data?.toJson(), Padd.fromJson(data).toJson());
+    });
+
+    test('should call /api/padd?full=true when full is true', () async {
+      final mockClient = MockClient();
+      final apiGateway = ApiGatewayV6(server, client: mockClient);
+
+      when(
+        mockClient.get(
+          Uri.parse('http://example.com/api/padd?full=true'),
+          headers: anyNamed('headers'),
+        ),
+      ).thenAnswer((_) async => http.Response(jsonEncode(data), 200));
+
+      final response = await apiGateway.getPadd(full: true);
+
+      expect(response.result, APiResponseType.success);
+      expect(response.message, null);
+      expect(response.data?.toJson(), Padd.fromJson(data).toJson());
+    });
+
+    test('should return error when status code is not 200', () async {
+      final mockClient = MockClient();
+      final apiGateway = ApiGatewayV6(server, client: mockClient);
+
+      when(
+        mockClient.get(
+          Uri.parse('http://example.com/api/padd?full=false'),
+          headers: anyNamed('headers'),
+        ),
+      ).thenAnswer((_) async => http.Response(jsonEncode(erroData), 401));
+
+      final response = await apiGateway.getPadd(full: false);
+
+      expect(response.result, APiResponseType.error);
+      expect(response.message, fetchError);
+    });
+
+    test('should return an error when an unexpected error occurs', () async {
+      final mockClient = MockClient();
+      final apiGateway = ApiGatewayV6(server, client: mockClient);
+
+      when(
+        mockClient.get(
+          Uri.parse('http://example.com/api/padd?full=false'),
+          headers: anyNamed('headers'),
+        ),
+      ).thenThrow(Exception('An unexpected error occurred.'));
+
+      final response = await apiGateway.getPadd(full: false);
 
       expect(response.result, APiResponseType.error);
       expect(response.message, unexpectedError);
