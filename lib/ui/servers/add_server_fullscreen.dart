@@ -12,6 +12,7 @@ import 'package:pi_hole_client/ui/core/ui/helpers/snackbar.dart';
 import 'package:pi_hole_client/ui/core/ui/modals/scan_token_modal.dart';
 import 'package:pi_hole_client/ui/core/viewmodel/app_config_provider.dart';
 import 'package:pi_hole_client/ui/core/viewmodel/servers_provider.dart';
+import 'package:pi_hole_client/ui/servers/certificate_details_dialog.dart';
 import 'package:pi_hole_client/utils/open_url.dart';
 import 'package:pi_hole_client/utils/tls_certificate.dart';
 import 'package:provider/provider.dart';
@@ -290,23 +291,17 @@ class _AddServerFullscreenState extends State<AddServerFullscreen> {
         return null;
       }
 
+      final info = certificateInfo;
       final confirmed = await showDialog<bool>(
         context: context,
-        builder: (dialogContext) => AlertDialog(
-          icon: const Icon(Icons.assignment_outlined),
-          title: Text(
-            AppLocalizations.of(dialogContext)!.allowSelfSignedCertificates,
-          ),
-          content: SelectableText(
-            [
-              '${AppLocalizations.of(dialogContext)!.tlsCertSubject}: ${certificateInfo?.subject}',
-              '${AppLocalizations.of(dialogContext)!.tlsCertIssuer}: ${certificateInfo?.issuer}',
-              '${AppLocalizations.of(dialogContext)!.tlsCertValidFrom}: ${certificateInfo?.startValidity.toIso8601String()}',
-              '${AppLocalizations.of(dialogContext)!.tlsCertValidUntil}: ${certificateInfo?.endValidity.toIso8601String()}',
-              '',
-              '${AppLocalizations.of(dialogContext)!.tlsCertSha256}: ${certificateInfo?.sha256}',
-            ].join('\n'),
-          ),
+        builder: (dialogContext) => CertificateDetailsDialog(
+          title: AppLocalizations.of(
+            dialogContext,
+          )!.allowSelfSignedCertificates,
+          description: AppLocalizations.of(
+            dialogContext,
+          )!.serverCertificateUpdatePinHelp,
+          certificateInfo: info,
           actions: [
             TextButton(
               onPressed: () => Navigator.pop(dialogContext, false),
@@ -320,7 +315,7 @@ class _AddServerFullscreenState extends State<AddServerFullscreen> {
         ),
       );
 
-      return confirmed == true ? certificateInfo.sha256 : null;
+      return confirmed == true ? info.sha256 : null;
     }
 
     Future<void> connect() async {
