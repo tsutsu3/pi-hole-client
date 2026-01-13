@@ -36,9 +36,6 @@ void main() async {
 
       expect(find.byType(AdvancedOptions), findsOneWidget);
       expect(find.text('Advanced settings'), findsOneWidget);
-
-      expect(find.text('Security'), findsOneWidget);
-      expect(find.text("Don't check SSL certificate"), findsOneWidget);
       expect(find.text('App unlock'), findsOneWidget);
 
       expect(find.text('Charts'), findsOneWidget);
@@ -52,25 +49,6 @@ void main() async {
       expect(find.text('Others'), findsOneWidget);
       expect(find.text('App logs'), findsOneWidget);
       expect(find.text('Reset application'), findsOneWidget);
-    });
-
-    testWidgets('should show ssl certificate check setting', (
-      WidgetTester tester,
-    ) async {
-      tester.view.physicalSize = const Size(1080, 2400);
-      tester.view.devicePixelRatio = 2.0;
-
-      addTearDown(() {
-        tester.view.resetPhysicalSize();
-        tester.view.resetDevicePixelRatio();
-      });
-
-      await tester.pumpWidget(
-        testSetup.buildTestWidget(const AdvancedOptions()),
-      );
-
-      expect(find.byType(AdvancedOptions), findsOneWidget);
-      expect(find.text("Don't check SSL certificate"), findsOneWidget);
     });
 
     testWidgets('should show App Unlock screen', (WidgetTester tester) async {

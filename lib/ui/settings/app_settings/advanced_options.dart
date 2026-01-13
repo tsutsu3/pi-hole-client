@@ -199,20 +199,6 @@ class AdvancedOptions extends StatelessWidget {
         child: ListView(
           children: [
             SectionLabel(label: AppLocalizations.of(context)!.security),
-            // TODO: Delete this option
-            CustomListTile(
-              leadingIcon: Icons.lock,
-              label: AppLocalizations.of(context)!.dontCheckCertificate,
-              description: AppLocalizations.of(
-                context,
-              )!.dontCheckCertificateDescription,
-              padding: const EdgeInsets.only(
-                top: 10,
-                bottom: 10,
-                left: 20,
-                right: 10,
-              ),
-            ),
             CustomListTile(
               leadingIcon: Icons.fingerprint_rounded,
               label: AppLocalizations.of(context)!.appUnlock,
