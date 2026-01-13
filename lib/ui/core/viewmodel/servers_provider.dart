@@ -253,6 +253,7 @@ class ServersProvider with ChangeNotifier {
           defaultServer: convertFromIntToBool(server.isDefaultServer)!,
           apiVersion: server.apiVersion,
           allowSelfSignedCert: server.allowSelfSignedCert,
+          ignoreCertificateErrors: server.ignoreCertificateErrors,
           pinnedCertificateSha256: server.pinnedCertificateSha256,
         );
         _serversList.add(serverObj);

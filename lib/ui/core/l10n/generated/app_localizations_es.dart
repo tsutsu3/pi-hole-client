@@ -185,6 +185,10 @@ class AppLocalizationsEs extends AppLocalizations {
       'Permitir certificados autofirmados';
 
   @override
+  String get allowSelfSignedCertificatesDescription =>
+      'Allows self-signed certificates without CA verification.';
+
+  @override
   String get tlsCertSubject => 'Sujeto';
 
   @override
@@ -725,7 +729,7 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String get dontCheckCertificateDescription =>
-      'Esta opción se eliminará en una versión futura. Gestione la verificación de certificados desde la configuración de cada servidor (Configuración > Servidores).';
+      'Accepts all SSL certificates without validation (not recommended).';
 
   @override
   String get edit => 'Editar';

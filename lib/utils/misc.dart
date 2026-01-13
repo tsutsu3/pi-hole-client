@@ -32,16 +32,22 @@ String convertTemperatureUnit(String? unit) {
 /// default TLS validation fails. When invoked, the callback can allow the
 /// connection based on [pinnedCertificateSha256].
 ///
+/// If [ignoreCertificateErrors] is `true`, the client will accept any
+/// certificate that fails platform validation, bypassing pin checks.
+///
 /// If [keepAlive] is `true`, idle connections are kept open indefinitely
 /// (by setting `idleTimeout` to `Duration.zero`).
 /// If `false`, the default `HttpClient` idle timeout is used.
 ///
 /// - [allowSelfSignedCert]: Whether to allow self-signed certificates. Defaults to `true`.
+/// - [ignoreCertificateErrors]: Whether to ignore TLS certificate validation
+///   entirely. Defaults to `false`.
 /// - [keepAlive]: Whether to keep idle connections alive indefinitely. Defaults to `false`.
 ///
 /// Returns an instance of [HttpClient].
 HttpClient createHttpClient({
   bool allowSelfSignedCert = true,
+  bool ignoreCertificateErrors = false,
   bool keepAlive = false,
   String? pinnedCertificateSha256,
 }) {
@@ -52,7 +58,10 @@ HttpClient createHttpClient({
   if (keepAlive) {
     client.idleTimeout = Duration.zero;
   }
-  if (allowSelfSignedCert) {
+  if (ignoreCertificateErrors) {
+    client.badCertificateCallback =
+        (X509Certificate cert, String host, int port) => true;
+  } else if (allowSelfSignedCert) {
     client.badCertificateCallback =
         (X509Certificate cert, String host, int port) => _isCertificatePinned(
           pinnedCertificateSha256: pinnedCertificateSha256,
@@ -84,7 +93,8 @@ bool _isCertificatePinned({
     return true;
   }
 
-  String normalize(String value) => value.replaceAll(':', '').toLowerCase().trim();
+  String normalize(String value) =>
+      value.replaceAll(':', '').toLowerCase().trim();
   final matched =
       normalize(pinnedCertificateSha256) == normalize(certificateSha256);
   final logKey = 'pin-check:$host:$port:${normalize(pinnedCertificateSha256)}';

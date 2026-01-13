@@ -22,6 +22,7 @@ void main() {
     defaultServer: false,
     apiVersion: 'v5',
     allowSelfSignedCert: true,
+    ignoreCertificateErrors: false,
     enabled: true,
     sm: SecureDataRepository(
       FakeSecureStorageService(),
@@ -34,6 +35,7 @@ void main() {
     defaultServer: true,
     apiVersion: 'v6',
     allowSelfSignedCert: true,
+    ignoreCertificateErrors: false,
     enabled: true,
     sm: SecureDataRepository(FakeSecureStorageService(), 'http://localhost'),
   );

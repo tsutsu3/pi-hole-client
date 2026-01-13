@@ -266,6 +266,7 @@ class DatabaseService {
         isDefaultServer NUMERIC NOT NULL,
         apiVersion TEXT NOT NULL,
         allowSelfSignedCert NUMERIC NOT NULL,
+        ignoreCertificateErrors NUMERIC NOT NULL,
         pinnedCertificateSha256 TEXT
       )
     ''');
@@ -751,11 +752,42 @@ class DatabaseService {
 
   /// Migrates the database to version 9.
   ///
-  /// Adds `pinnedCertificateSha256` to the `servers` table to support certificate pinning.
+  /// Adds `pinnedCertificateSha256` and `ignoreCertificateErrors` to the
+  /// `servers` table to support certificate pinning.
   Future<void> _upgradeToV9(Database db) async {
-    await db.execute(
-      'ALTER TABLE servers ADD COLUMN pinnedCertificateSha256 TEXT',
-    );
+    await db.execute('''
+      CREATE TABLE servers_new (
+        address TEXT PRIMARY KEY NOT NULL,
+        alias TEXT NOT NULL,
+        isDefaultServer NUMERIC NOT NULL,
+        apiVersion TEXT NOT NULL,
+        allowSelfSignedCert NUMERIC NOT NULL,
+        ignoreCertificateErrors NUMERIC NOT NULL,
+        pinnedCertificateSha256 TEXT
+      )
+    ''');
+    await db.execute('''
+      INSERT INTO servers_new (
+        address,
+        alias,
+        isDefaultServer,
+        apiVersion,
+        allowSelfSignedCert,
+        ignoreCertificateErrors,
+        pinnedCertificateSha256
+      )
+      SELECT
+        address,
+        alias,
+        isDefaultServer,
+        apiVersion,
+        allowSelfSignedCert,
+        0,
+        NULL
+      FROM servers
+    ''');
+    await db.execute('DROP TABLE servers');
+    await db.execute('ALTER TABLE servers_new RENAME TO servers');
     logger.d('Database upgraded to version 9');
   }
 }

@@ -230,6 +230,7 @@ void main() async {
         defaultServer: true,
         apiVersion: SupportedApiVersions.v6,
         allowSelfSignedCert: true,
+        ignoreCertificateErrors: false,
         sm: SecretManagerMock(sessinId, 'xxx123'),
       );
     });
@@ -302,6 +303,7 @@ void main() async {
         defaultServer: true,
         apiVersion: SupportedApiVersions.v6,
         allowSelfSignedCert: false,
+        ignoreCertificateErrors: false,
         sm: SecretManagerMock(sessinId, 'xxx123'),
       );
       final mockClient = MockClient();
@@ -646,6 +648,7 @@ void main() async {
         defaultServer: true,
         apiVersion: SupportedApiVersions.v6,
         allowSelfSignedCert: true,
+        ignoreCertificateErrors: false,
         sm: SecretManagerMock2(null, null),
       );
       final apiGateway = ApiGatewayV6(server1, client: mockClient);
@@ -688,6 +691,7 @@ void main() async {
         defaultServer: true,
         apiVersion: SupportedApiVersions.v6,
         allowSelfSignedCert: true,
+        ignoreCertificateErrors: false,
       );
       server.sm.savePassword('xxx123');
     });
@@ -1338,6 +1342,7 @@ void main() async {
         defaultServer: true,
         apiVersion: SupportedApiVersions.v6,
         allowSelfSignedCert: true,
+        ignoreCertificateErrors: false,
       );
       server.sm.savePassword('xxx123');
     });
@@ -1390,6 +1395,7 @@ void main() async {
         defaultServer: true,
         apiVersion: SupportedApiVersions.v6,
         allowSelfSignedCert: true,
+        ignoreCertificateErrors: false,
       );
     });
 
@@ -1443,6 +1449,7 @@ void main() async {
         defaultServer: true,
         apiVersion: SupportedApiVersions.v6,
         allowSelfSignedCert: true,
+        ignoreCertificateErrors: false,
       );
     });
 
@@ -1611,6 +1618,7 @@ void main() async {
         defaultServer: true,
         apiVersion: SupportedApiVersions.v6,
         allowSelfSignedCert: true,
+        ignoreCertificateErrors: false,
       );
     });
 
@@ -1810,6 +1818,7 @@ void main() async {
         defaultServer: true,
         apiVersion: SupportedApiVersions.v6,
         allowSelfSignedCert: true,
+        ignoreCertificateErrors: false,
       );
     });
 
@@ -1986,6 +1995,7 @@ void main() async {
         defaultServer: true,
         apiVersion: SupportedApiVersions.v6,
         allowSelfSignedCert: true,
+        ignoreCertificateErrors: false,
       );
     });
 
@@ -2057,6 +2067,7 @@ void main() async {
         defaultServer: true,
         apiVersion: SupportedApiVersions.v6,
         allowSelfSignedCert: true,
+        ignoreCertificateErrors: false,
       );
     });
 
@@ -2122,6 +2133,7 @@ void main() async {
         defaultServer: true,
         apiVersion: SupportedApiVersions.v6,
         allowSelfSignedCert: true,
+        ignoreCertificateErrors: false,
       );
     });
 
@@ -2316,6 +2328,7 @@ void main() async {
         defaultServer: true,
         apiVersion: SupportedApiVersions.v6,
         allowSelfSignedCert: true,
+        ignoreCertificateErrors: false,
       );
       server.sm.savePassword('xxx123');
     });
@@ -2429,6 +2442,7 @@ void main() async {
         defaultServer: true,
         apiVersion: SupportedApiVersions.v6,
         allowSelfSignedCert: true,
+        ignoreCertificateErrors: false,
       );
       server.sm.savePassword('xxx123');
     });
@@ -2541,6 +2555,7 @@ void main() async {
         defaultServer: true,
         apiVersion: SupportedApiVersions.v6,
         allowSelfSignedCert: true,
+        ignoreCertificateErrors: false,
       );
       server.sm.savePassword('xxx123');
     });
@@ -2597,6 +2612,7 @@ void main() async {
         defaultServer: true,
         apiVersion: SupportedApiVersions.v6,
         allowSelfSignedCert: true,
+        ignoreCertificateErrors: false,
       );
       server.sm.savePassword('xxx123');
     });
@@ -2698,6 +2714,7 @@ void main() async {
         defaultServer: true,
         apiVersion: SupportedApiVersions.v6,
         allowSelfSignedCert: true,
+        ignoreCertificateErrors: false,
       );
       server.sm.savePassword('xxx123');
     });
@@ -2865,6 +2882,7 @@ void main() async {
         defaultServer: true,
         apiVersion: SupportedApiVersions.v6,
         allowSelfSignedCert: true,
+        ignoreCertificateErrors: false,
       );
       server.sm.savePassword('xxx123');
     });
@@ -3051,6 +3069,7 @@ void main() async {
         defaultServer: true,
         apiVersion: SupportedApiVersions.v6,
         allowSelfSignedCert: true,
+        ignoreCertificateErrors: false,
       );
       server.sm.savePassword('xxx123');
     });
@@ -3211,6 +3230,7 @@ void main() async {
         defaultServer: true,
         apiVersion: SupportedApiVersions.v6,
         allowSelfSignedCert: true,
+        ignoreCertificateErrors: false,
       );
       server.sm.savePassword('xxx123');
     });
@@ -3385,6 +3405,7 @@ void main() async {
         defaultServer: true,
         apiVersion: SupportedApiVersions.v6,
         allowSelfSignedCert: true,
+        ignoreCertificateErrors: false,
       );
       server.sm.savePassword('xxx123');
     });
@@ -3560,6 +3581,7 @@ void main() async {
         defaultServer: true,
         apiVersion: SupportedApiVersions.v6,
         allowSelfSignedCert: true,
+        ignoreCertificateErrors: false,
       );
       server.sm.savePassword('xxx123');
     });
@@ -3697,6 +3719,7 @@ void main() async {
         defaultServer: true,
         apiVersion: SupportedApiVersions.v6,
         allowSelfSignedCert: true,
+        ignoreCertificateErrors: false,
       );
       server.sm.savePassword('xxx123');
     });
@@ -3888,6 +3911,7 @@ void main() async {
         defaultServer: true,
         apiVersion: SupportedApiVersions.v6,
         allowSelfSignedCert: true,
+        ignoreCertificateErrors: false,
       );
       server.sm.savePassword('xxx123');
     });
@@ -4003,6 +4027,7 @@ void main() async {
         defaultServer: true,
         apiVersion: SupportedApiVersions.v6,
         allowSelfSignedCert: true,
+        ignoreCertificateErrors: false,
       );
       await server.sm.saveToken('xxx123');
     });
@@ -4133,6 +4158,7 @@ void main() async {
         defaultServer: true,
         apiVersion: SupportedApiVersions.v6,
         allowSelfSignedCert: true,
+        ignoreCertificateErrors: false,
       );
       await server.sm.saveToken('xxx123');
     });
@@ -4252,6 +4278,7 @@ void main() async {
         defaultServer: true,
         apiVersion: SupportedApiVersions.v6,
         allowSelfSignedCert: true,
+        ignoreCertificateErrors: false,
       );
       await server.sm.saveToken('xxx123');
     });
@@ -4373,6 +4400,7 @@ void main() async {
         defaultServer: true,
         apiVersion: SupportedApiVersions.v6,
         allowSelfSignedCert: true,
+        ignoreCertificateErrors: false,
       );
       server.sm.savePassword('xxx123');
     });
@@ -4516,6 +4544,7 @@ void main() async {
         defaultServer: true,
         apiVersion: SupportedApiVersions.v6,
         allowSelfSignedCert: true,
+        ignoreCertificateErrors: false,
       );
       server.sm.savePassword('xxx123');
     });
@@ -4641,6 +4670,7 @@ void main() async {
         defaultServer: true,
         apiVersion: SupportedApiVersions.v6,
         allowSelfSignedCert: true,
+        ignoreCertificateErrors: false,
       );
       server.sm.savePassword('xxx123');
     });
@@ -4730,6 +4760,7 @@ void main() async {
         defaultServer: true,
         apiVersion: SupportedApiVersions.v6,
         allowSelfSignedCert: true,
+        ignoreCertificateErrors: false,
       );
       server.sm.savePassword('xxx123');
     });
@@ -4813,6 +4844,7 @@ void main() async {
         defaultServer: true,
         apiVersion: SupportedApiVersions.v6,
         allowSelfSignedCert: true,
+        ignoreCertificateErrors: false,
       );
       server.sm.savePassword('xxx123');
     });
@@ -4926,6 +4958,7 @@ void main() async {
         defaultServer: true,
         apiVersion: SupportedApiVersions.v6,
         allowSelfSignedCert: true,
+        ignoreCertificateErrors: false,
       );
       server.sm.savePassword('xxx123');
     });
@@ -5025,6 +5058,7 @@ void main() async {
         defaultServer: true,
         apiVersion: SupportedApiVersions.v6,
         allowSelfSignedCert: true,
+        ignoreCertificateErrors: false,
       );
       server.sm.savePassword('xxx123');
     });
@@ -5185,6 +5219,7 @@ void main() async {
         defaultServer: true,
         apiVersion: SupportedApiVersions.v6,
         allowSelfSignedCert: true,
+        ignoreCertificateErrors: false,
       );
       server.sm.savePassword('xxx123');
     });
@@ -5931,6 +5966,7 @@ void main() async {
         defaultServer: true,
         apiVersion: SupportedApiVersions.v6,
         allowSelfSignedCert: true,
+        ignoreCertificateErrors: false,
       );
       server.sm.savePassword('xxx123');
     });
@@ -6075,6 +6111,7 @@ void main() async {
         defaultServer: true,
         apiVersion: SupportedApiVersions.v6,
         allowSelfSignedCert: true,
+        ignoreCertificateErrors: false,
       );
       server.sm.savePassword('xxx123');
     });
@@ -6207,6 +6244,7 @@ void main() async {
         defaultServer: true,
         apiVersion: SupportedApiVersions.v6,
         allowSelfSignedCert: true,
+        ignoreCertificateErrors: false,
       );
       server.sm.savePassword('xxx123');
     });
@@ -6496,6 +6534,7 @@ void main() async {
         defaultServer: true,
         apiVersion: SupportedApiVersions.v6,
         allowSelfSignedCert: true,
+        ignoreCertificateErrors: false,
       );
       server.sm.savePassword('xxx123');
     });
@@ -6610,6 +6649,7 @@ void main() async {
         defaultServer: true,
         apiVersion: SupportedApiVersions.v6,
         allowSelfSignedCert: true,
+        ignoreCertificateErrors: false,
       );
       server.sm.savePassword('xxx123');
     });
@@ -6705,6 +6745,7 @@ void main() async {
         defaultServer: true,
         apiVersion: SupportedApiVersions.v6,
         allowSelfSignedCert: true,
+        ignoreCertificateErrors: false,
       );
       server.sm.savePassword('xxx123');
     });
@@ -6797,6 +6838,7 @@ void main() async {
         defaultServer: true,
         apiVersion: SupportedApiVersions.v6,
         allowSelfSignedCert: true,
+        ignoreCertificateErrors: false,
       );
       server.sm.savePassword('xxx123');
     });
@@ -6883,6 +6925,7 @@ void main() async {
         defaultServer: true,
         apiVersion: SupportedApiVersions.v6,
         allowSelfSignedCert: true,
+        ignoreCertificateErrors: false,
       );
       server.sm.savePassword('xxx123');
     });
@@ -6971,6 +7014,7 @@ void main() async {
         defaultServer: true,
         apiVersion: SupportedApiVersions.v6,
         allowSelfSignedCert: true,
+        ignoreCertificateErrors: false,
       );
       server.sm.savePassword('xxx123');
     });
@@ -7054,6 +7098,7 @@ void main() async {
         defaultServer: true,
         apiVersion: SupportedApiVersions.v6,
         allowSelfSignedCert: true,
+        ignoreCertificateErrors: false,
       );
       server.sm.savePassword('xxx123');
     });
@@ -7156,6 +7201,7 @@ void main() async {
         defaultServer: true,
         apiVersion: SupportedApiVersions.v6,
         allowSelfSignedCert: true,
+        ignoreCertificateErrors: false,
       );
       server.sm.savePassword('xxx123');
     });
@@ -7306,6 +7352,7 @@ void main() async {
         defaultServer: true,
         apiVersion: SupportedApiVersions.v6,
         allowSelfSignedCert: true,
+        ignoreCertificateErrors: false,
       );
       server.sm.savePassword('xxx123');
     });
@@ -7383,6 +7430,7 @@ void main() async {
         defaultServer: true,
         apiVersion: SupportedApiVersions.v6,
         allowSelfSignedCert: true,
+        ignoreCertificateErrors: false,
       );
       server.sm.savePassword('xxx123');
     });
@@ -7458,6 +7506,7 @@ void main() async {
         defaultServer: true,
         apiVersion: SupportedApiVersions.v6,
         allowSelfSignedCert: true,
+        ignoreCertificateErrors: false,
       );
       server.sm.savePassword('xxx123');
     });
@@ -7567,6 +7616,7 @@ void main() async {
         defaultServer: true,
         apiVersion: SupportedApiVersions.v6,
         allowSelfSignedCert: true,
+        ignoreCertificateErrors: false,
       );
       server.sm.savePassword('xxx123');
     });
@@ -7642,6 +7692,7 @@ void main() async {
         defaultServer: true,
         apiVersion: SupportedApiVersions.v6,
         allowSelfSignedCert: true,
+        ignoreCertificateErrors: false,
       );
       server.sm.savePassword('xxx123');
     });
@@ -7764,6 +7815,7 @@ void main() async {
         defaultServer: true,
         apiVersion: SupportedApiVersions.v6,
         allowSelfSignedCert: true,
+        ignoreCertificateErrors: false,
       );
       server.sm.savePassword('xxx123');
     });
@@ -7848,6 +7900,7 @@ void main() async {
         defaultServer: true,
         apiVersion: SupportedApiVersions.v6,
         allowSelfSignedCert: true,
+        ignoreCertificateErrors: false,
       );
       server.sm.savePassword('xxx123');
     });
@@ -7946,6 +7999,7 @@ void main() async {
         defaultServer: true,
         apiVersion: SupportedApiVersions.v6,
         allowSelfSignedCert: true,
+        ignoreCertificateErrors: false,
       );
       server.sm.savePassword('xxx123');
     });
@@ -8034,6 +8088,7 @@ void main() async {
         defaultServer: true,
         apiVersion: SupportedApiVersions.v6,
         allowSelfSignedCert: true,
+        ignoreCertificateErrors: false,
       );
       server.sm.savePassword('xxx123');
     });
@@ -8114,6 +8169,7 @@ void main() async {
         defaultServer: true,
         apiVersion: SupportedApiVersions.v6,
         allowSelfSignedCert: true,
+        ignoreCertificateErrors: false,
       );
       server.sm.savePassword('xxx123');
     });
@@ -8305,6 +8361,7 @@ void main() async {
         defaultServer: true,
         apiVersion: SupportedApiVersions.v6,
         allowSelfSignedCert: true,
+        ignoreCertificateErrors: false,
         sm: SecretManagerMock('sid', 'xxx123'),
       );
     });

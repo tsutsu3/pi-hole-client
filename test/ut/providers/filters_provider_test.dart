@@ -26,6 +26,7 @@ void main() {
           defaultServer: false,
           apiVersion: 'v5',
           allowSelfSignedCert: true,
+          ignoreCertificateErrors: false,
         ),
       );
 
@@ -70,6 +71,7 @@ void main() {
           defaultServer: false,
           apiVersion: 'v6',
           allowSelfSignedCert: true,
+          ignoreCertificateErrors: false,
         ),
       );
       filtersProvider.update(mockServersProvider);
@@ -229,6 +231,7 @@ void main() {
           defaultServer: false,
           apiVersion: 'v6',
           allowSelfSignedCert: true,
+          ignoreCertificateErrors: false,
         ),
       );
 

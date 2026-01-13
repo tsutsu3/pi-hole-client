@@ -47,6 +47,7 @@ void main() async {
         defaultServer: true,
         apiVersion: SupportedApiVersions.v5,
         allowSelfSignedCert: true,
+        ignoreCertificateErrors: false,
       );
       await server.sm.saveToken('xxx123');
     });
@@ -126,6 +127,7 @@ void main() async {
           defaultServer: true,
           apiVersion: SupportedApiVersions.v5,
           allowSelfSignedCert: false,
+          ignoreCertificateErrors: false,
         );
         await server2.sm.saveToken('xxx123');
 
@@ -317,6 +319,7 @@ void main() async {
         defaultServer: true,
         apiVersion: SupportedApiVersions.v5,
         allowSelfSignedCert: true,
+        ignoreCertificateErrors: false,
       );
       await server.sm.saveToken('xxx123');
     });
@@ -433,6 +436,7 @@ void main() async {
         defaultServer: true,
         apiVersion: SupportedApiVersions.v5,
         allowSelfSignedCert: true,
+        ignoreCertificateErrors: false,
       );
       await server.sm.saveToken('xxx123');
     });
@@ -477,6 +481,7 @@ void main() async {
         defaultServer: true,
         apiVersion: SupportedApiVersions.v5,
         allowSelfSignedCert: true,
+        ignoreCertificateErrors: false,
       );
       await server.sm.saveToken('xxx123');
     });
@@ -522,6 +527,7 @@ void main() async {
         defaultServer: true,
         apiVersion: SupportedApiVersions.v5,
         allowSelfSignedCert: true,
+        ignoreCertificateErrors: false,
       );
       await server.sm.saveToken('xxx123');
     });
@@ -1322,6 +1328,7 @@ void main() async {
         defaultServer: true,
         apiVersion: SupportedApiVersions.v5,
         allowSelfSignedCert: true,
+        ignoreCertificateErrors: false,
       );
       await server.sm.saveToken('xxx123');
     });
@@ -1402,6 +1409,7 @@ void main() async {
         defaultServer: true,
         apiVersion: SupportedApiVersions.v5,
         allowSelfSignedCert: true,
+        ignoreCertificateErrors: false,
       );
       await server.sm.saveToken('xxx123');
     });
@@ -1499,6 +1507,7 @@ void main() async {
         defaultServer: true,
         apiVersion: SupportedApiVersions.v5,
         allowSelfSignedCert: true,
+        ignoreCertificateErrors: false,
       );
       await server.sm.saveToken('xxx123');
     });
@@ -1582,6 +1591,7 @@ void main() async {
         defaultServer: true,
         apiVersion: SupportedApiVersions.v5,
         allowSelfSignedCert: true,
+        ignoreCertificateErrors: false,
       );
       await server.sm.saveToken('xxx123');
     });
@@ -1649,6 +1659,7 @@ void main() async {
         defaultServer: true,
         apiVersion: SupportedApiVersions.v5,
         allowSelfSignedCert: true,
+        ignoreCertificateErrors: false,
       );
       await server.sm.saveToken('xxx123');
     });
@@ -1741,6 +1752,7 @@ void main() async {
         defaultServer: true,
         apiVersion: SupportedApiVersions.v5,
         allowSelfSignedCert: true,
+        ignoreCertificateErrors: false,
       );
       await server.sm.saveToken('xxx123');
     });
@@ -1766,6 +1778,7 @@ void main() async {
         defaultServer: true,
         apiVersion: SupportedApiVersions.v5,
         allowSelfSignedCert: true,
+        ignoreCertificateErrors: false,
       );
       await server.sm.saveToken('xxx123');
     });
@@ -1791,6 +1804,7 @@ void main() async {
         defaultServer: true,
         apiVersion: SupportedApiVersions.v5,
         allowSelfSignedCert: true,
+        ignoreCertificateErrors: false,
       );
       await server.sm.saveToken('xxx123');
     });
@@ -1816,6 +1830,7 @@ void main() async {
         defaultServer: true,
         apiVersion: SupportedApiVersions.v5,
         allowSelfSignedCert: true,
+        ignoreCertificateErrors: false,
       );
       await server.sm.saveToken('xxx123');
     });
@@ -1858,6 +1873,7 @@ void main() async {
         defaultServer: true,
         apiVersion: SupportedApiVersions.v5,
         allowSelfSignedCert: true,
+        ignoreCertificateErrors: false,
       );
       await server.sm.saveToken('xxx123');
     });
@@ -1973,6 +1989,7 @@ void main() async {
         defaultServer: true,
         apiVersion: SupportedApiVersions.v5,
         allowSelfSignedCert: true,
+        ignoreCertificateErrors: false,
       );
       await server.sm.saveToken('xxx123');
     });
@@ -2021,6 +2038,7 @@ void main() async {
         defaultServer: true,
         apiVersion: SupportedApiVersions.v5,
         allowSelfSignedCert: true,
+        ignoreCertificateErrors: false,
       );
       await server.sm.saveToken('xxx123');
     });
@@ -2046,6 +2064,7 @@ void main() async {
         defaultServer: true,
         apiVersion: SupportedApiVersions.v5,
         allowSelfSignedCert: true,
+        ignoreCertificateErrors: false,
       );
       await server.sm.saveToken('xxx123');
     });
@@ -2074,6 +2093,7 @@ void main() async {
         defaultServer: true,
         apiVersion: SupportedApiVersions.v5,
         allowSelfSignedCert: true,
+        ignoreCertificateErrors: false,
       );
       await server.sm.saveToken('xxx123');
     });
@@ -2105,6 +2125,7 @@ void main() async {
         defaultServer: true,
         apiVersion: SupportedApiVersions.v5,
         allowSelfSignedCert: true,
+        ignoreCertificateErrors: false,
       );
       await server.sm.saveToken('xxx123');
     });
@@ -2136,6 +2157,7 @@ void main() async {
         defaultServer: true,
         apiVersion: SupportedApiVersions.v5,
         allowSelfSignedCert: true,
+        ignoreCertificateErrors: false,
       );
       await server.sm.saveToken('xxx123');
     });
@@ -2163,6 +2185,7 @@ void main() async {
         defaultServer: true,
         apiVersion: SupportedApiVersions.v5,
         allowSelfSignedCert: true,
+        ignoreCertificateErrors: false,
       );
       await server.sm.saveToken('xxx123');
     });
@@ -2188,6 +2211,7 @@ void main() async {
         defaultServer: true,
         apiVersion: SupportedApiVersions.v5,
         allowSelfSignedCert: true,
+        ignoreCertificateErrors: false,
       );
       await server.sm.saveToken('xxx123');
     });
@@ -2215,6 +2239,7 @@ void main() async {
         defaultServer: true,
         apiVersion: SupportedApiVersions.v5,
         allowSelfSignedCert: true,
+        ignoreCertificateErrors: false,
       );
       await server.sm.saveToken('xxx123');
     });
@@ -2242,6 +2267,7 @@ void main() async {
         defaultServer: true,
         apiVersion: SupportedApiVersions.v5,
         allowSelfSignedCert: true,
+        ignoreCertificateErrors: false,
       );
       await server.sm.saveToken('xxx123');
     });
@@ -2270,6 +2296,7 @@ void main() async {
         defaultServer: true,
         apiVersion: SupportedApiVersions.v5,
         allowSelfSignedCert: true,
+        ignoreCertificateErrors: false,
       );
       await server.sm.saveToken('xxx123');
     });
@@ -2295,6 +2322,7 @@ void main() async {
         defaultServer: true,
         apiVersion: SupportedApiVersions.v5,
         allowSelfSignedCert: true,
+        ignoreCertificateErrors: false,
       );
       await server.sm.saveToken('xxx123');
     });
@@ -2320,6 +2348,7 @@ void main() async {
         defaultServer: true,
         apiVersion: SupportedApiVersions.v5,
         allowSelfSignedCert: true,
+        ignoreCertificateErrors: false,
       );
       await server.sm.saveToken('xxx123');
     });
@@ -2351,6 +2380,7 @@ void main() async {
         defaultServer: true,
         apiVersion: SupportedApiVersions.v5,
         allowSelfSignedCert: true,
+        ignoreCertificateErrors: false,
       );
       await server.sm.saveToken('xxx123');
     });
@@ -2383,6 +2413,7 @@ void main() async {
         defaultServer: true,
         apiVersion: SupportedApiVersions.v5,
         allowSelfSignedCert: true,
+        ignoreCertificateErrors: false,
       );
       await server.sm.saveToken('xxx123');
     });
@@ -2409,6 +2440,7 @@ void main() async {
         defaultServer: true,
         apiVersion: SupportedApiVersions.v5,
         allowSelfSignedCert: true,
+        ignoreCertificateErrors: false,
       );
       await server.sm.saveToken('xxx123');
     });
@@ -2434,6 +2466,7 @@ void main() async {
         defaultServer: true,
         apiVersion: SupportedApiVersions.v5,
         allowSelfSignedCert: true,
+        ignoreCertificateErrors: false,
       );
       await server.sm.saveToken('xxx123');
     });
@@ -2459,6 +2492,7 @@ void main() async {
         defaultServer: true,
         apiVersion: SupportedApiVersions.v5,
         allowSelfSignedCert: true,
+        ignoreCertificateErrors: false,
       );
       await server.sm.saveToken('xxx123');
     });
@@ -2484,6 +2518,7 @@ void main() async {
         defaultServer: true,
         apiVersion: SupportedApiVersions.v5,
         allowSelfSignedCert: true,
+        ignoreCertificateErrors: false,
       );
       await server.sm.saveToken('xxx123');
     });
@@ -2509,6 +2544,7 @@ void main() async {
         defaultServer: true,
         apiVersion: SupportedApiVersions.v5,
         allowSelfSignedCert: true,
+        ignoreCertificateErrors: false,
       );
       await server.sm.saveToken('xxx123');
     });
@@ -2534,6 +2570,7 @@ void main() async {
         defaultServer: true,
         apiVersion: SupportedApiVersions.v5,
         allowSelfSignedCert: true,
+        ignoreCertificateErrors: false,
       );
       await server.sm.saveToken('xxx123');
     });
@@ -2559,6 +2596,7 @@ void main() async {
         defaultServer: true,
         apiVersion: SupportedApiVersions.v5,
         allowSelfSignedCert: true,
+        ignoreCertificateErrors: false,
       );
       await server.sm.saveToken('xxx123');
     });
@@ -2584,6 +2622,7 @@ void main() async {
         defaultServer: true,
         apiVersion: SupportedApiVersions.v5,
         allowSelfSignedCert: true,
+        ignoreCertificateErrors: false,
       );
       await server.sm.saveToken('xxx123');
     });
@@ -2612,6 +2651,7 @@ void main() async {
         defaultServer: true,
         apiVersion: SupportedApiVersions.v5,
         allowSelfSignedCert: true,
+        ignoreCertificateErrors: false,
       );
       await server.sm.saveToken('xxx123');
     });
@@ -2640,6 +2680,7 @@ void main() async {
         defaultServer: true,
         apiVersion: SupportedApiVersions.v5,
         allowSelfSignedCert: true,
+        ignoreCertificateErrors: false,
       );
       await server.sm.saveToken('xxx123');
     });
@@ -2666,6 +2707,7 @@ void main() async {
         defaultServer: true,
         apiVersion: SupportedApiVersions.v5,
         allowSelfSignedCert: true,
+        ignoreCertificateErrors: false,
       );
       await server.sm.saveToken('xxx123');
     });
@@ -2691,6 +2733,7 @@ void main() async {
         defaultServer: true,
         apiVersion: SupportedApiVersions.v5,
         allowSelfSignedCert: true,
+        ignoreCertificateErrors: false,
       );
       await server.sm.saveToken('xxx123');
     });
@@ -2719,6 +2762,7 @@ void main() async {
         defaultServer: true,
         apiVersion: SupportedApiVersions.v5,
         allowSelfSignedCert: true,
+        ignoreCertificateErrors: false,
       );
       await server.sm.saveToken('xxx123');
     });
@@ -2747,6 +2791,7 @@ void main() async {
         defaultServer: true,
         apiVersion: SupportedApiVersions.v5,
         allowSelfSignedCert: true,
+        ignoreCertificateErrors: false,
       );
       await server.sm.saveToken('xxx123');
     });
@@ -2775,6 +2820,7 @@ void main() async {
         defaultServer: true,
         apiVersion: SupportedApiVersions.v5,
         allowSelfSignedCert: true,
+        ignoreCertificateErrors: false,
       );
       await server.sm.saveToken('xxx123');
     });
@@ -2800,6 +2846,7 @@ void main() async {
         defaultServer: true,
         apiVersion: SupportedApiVersions.v5,
         allowSelfSignedCert: true,
+        ignoreCertificateErrors: false,
       );
       await server.sm.saveToken('xxx123');
     });
@@ -2825,6 +2872,7 @@ void main() async {
         defaultServer: true,
         apiVersion: SupportedApiVersions.v5,
         allowSelfSignedCert: true,
+        ignoreCertificateErrors: false,
       );
       await server.sm.saveToken('xxx123');
     });
@@ -2850,6 +2898,7 @@ void main() async {
         defaultServer: true,
         apiVersion: SupportedApiVersions.v5,
         allowSelfSignedCert: true,
+        ignoreCertificateErrors: false,
       );
       await server.sm.saveToken('xxx123');
     });
@@ -2875,6 +2924,7 @@ void main() async {
         defaultServer: true,
         apiVersion: SupportedApiVersions.v5,
         allowSelfSignedCert: true,
+        ignoreCertificateErrors: false,
       );
       await server.sm.saveToken('xxx123');
     });
@@ -2900,6 +2950,7 @@ void main() async {
         defaultServer: true,
         apiVersion: SupportedApiVersions.v5,
         allowSelfSignedCert: true,
+        ignoreCertificateErrors: false,
       );
       await server.sm.saveToken('xxx123');
     });
@@ -2925,6 +2976,7 @@ void main() async {
         defaultServer: true,
         apiVersion: SupportedApiVersions.v5,
         allowSelfSignedCert: true,
+        ignoreCertificateErrors: false,
       );
       await server.sm.saveToken('xxx123');
     });
@@ -2950,6 +3002,7 @@ void main() async {
         defaultServer: true,
         apiVersion: SupportedApiVersions.v5,
         allowSelfSignedCert: true,
+        ignoreCertificateErrors: false,
       );
       await server.sm.saveToken('xxx123');
     });
@@ -2975,6 +3028,7 @@ void main() async {
         defaultServer: true,
         apiVersion: SupportedApiVersions.v5,
         allowSelfSignedCert: true,
+        ignoreCertificateErrors: false,
       );
       await server.sm.saveToken('xxx123');
     });
@@ -3000,6 +3054,7 @@ void main() async {
         defaultServer: true,
         apiVersion: SupportedApiVersions.v5,
         allowSelfSignedCert: true,
+        ignoreCertificateErrors: false,
       );
       await server.sm.saveToken('xxx123');
     });

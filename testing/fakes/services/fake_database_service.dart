@@ -100,6 +100,15 @@ class FakeDatabaseService extends DatabaseService {
     if (shouldThrowOnInsert) {
       throw Exception('Simulated insert exception');
     }
+    if (table == 'servers' && !values.containsKey('ignoreCertificateErrors')) {
+      final updatedValues = Map<String, dynamic>.from(values)
+        ..['ignoreCertificateErrors'] = 0;
+      return super.insert(
+        table,
+        updatedValues,
+        conflictAlgorithm: conflictAlgorithm,
+      );
+    }
     return super.insert(table, values, conflictAlgorithm: conflictAlgorithm);
   }
 

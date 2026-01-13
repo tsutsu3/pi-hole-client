@@ -37,6 +37,7 @@ class ApiGatewayV5 implements ApiGateway {
           IOClient(
             createHttpClient(
               allowSelfSignedCert: server.allowSelfSignedCert,
+              ignoreCertificateErrors: server.ignoreCertificateErrors,
               pinnedCertificateSha256: server.pinnedCertificateSha256,
             ),
           ) {
@@ -65,6 +66,7 @@ class ApiGatewayV5 implements ApiGateway {
     final key =
         '${uri.scheme}://${uri.host}:${uri.hasPort ? uri.port : (uri.scheme == 'https' ? 443 : 80)}'
         ':allowSelfSigned=${_server.allowSelfSignedCert}'
+        ':ignoreCertErrors=${_server.ignoreCertificateErrors}'
         ':pinSet=${_server.pinnedCertificateSha256?.isNotEmpty == true}';
     if (!_loggedTransportSecurityPolicies.add(key)) return;
 
@@ -74,7 +76,16 @@ class ApiGatewayV5 implements ApiGateway {
     }
 
     if (uri.scheme != 'https') {
-      logger.w('Transport security: unknown scheme "${uri.scheme}" for ${uri.host}.');
+      logger.w(
+        'Transport security: unknown scheme "${uri.scheme}" for ${uri.host}.',
+      );
+      return;
+    }
+
+    if (_server.ignoreCertificateErrors) {
+      logger.w(
+        'Transport security: HTTPS certificate validation ignored (ignoreCertificateErrors=true) for ${uri.host}.',
+      );
       return;
     }
 

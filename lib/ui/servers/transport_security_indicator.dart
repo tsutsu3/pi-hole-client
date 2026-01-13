@@ -14,6 +14,7 @@ enum _TransportSecurityStatus {
   httpsUntrustedAllowed,
   httpsUntrustedBlocked,
   httpsPinMismatch,
+  httpsCertIgnored,
   unknown,
 }
 
@@ -60,6 +61,8 @@ class _TransportSecurityIndicatorState
     if (oldWidget.server.address != widget.server.address ||
         oldWidget.server.allowSelfSignedCert !=
             widget.server.allowSelfSignedCert ||
+        oldWidget.server.ignoreCertificateErrors !=
+            widget.server.ignoreCertificateErrors ||
         oldWidget.server.pinnedCertificateSha256 !=
             widget.server.pinnedCertificateSha256) {
       _future = _statusFutureFor(widget.server);
@@ -69,7 +72,7 @@ class _TransportSecurityIndicatorState
   Future<_TransportSecurityStatus> _statusFutureFor(Server server) {
     final pinKey = (server.pinnedCertificateSha256 ?? '').trim();
     final cacheKey =
-        '${server.address}|allowSelfSigned=${server.allowSelfSignedCert}|pin=$pinKey';
+        '${server.address}|allowSelfSigned=${server.allowSelfSignedCert}|ignoreCertErrors=${server.ignoreCertificateErrors}|pin=$pinKey';
     return _statusFuturesByKey.putIfAbsent(cacheKey, () => _resolve(server));
   }
 
@@ -97,6 +100,10 @@ class _TransportSecurityIndicatorState
 
   Future<_TransportSecurityStatus> _resolveHttps(Server server, Uri uri) async {
     const connectTimeout = Duration(seconds: 2);
+
+    if (server.ignoreCertificateErrors) {
+      return _TransportSecurityStatus.httpsCertIgnored;
+    }
 
     final isTrusted = await _isPlatformTlsTrusted(uri, timeout: connectTimeout);
     if (isTrusted == true) {
@@ -237,6 +244,13 @@ class _TransportSecurityIndicatorState
           icon: Icons.error,
           color: appColors.queryRed!,
           label: loc.serverSecurityHttpsPinMismatch,
+        );
+      case _TransportSecurityStatus.httpsCertIgnored:
+        return _TransportSecurityViewData(
+          status: status,
+          icon: Icons.warning_amber_rounded,
+          color: appColors.queryOrange!,
+          label: loc.dontCheckCertificate,
         );
       case _TransportSecurityStatus.unknown:
         return _TransportSecurityViewData(

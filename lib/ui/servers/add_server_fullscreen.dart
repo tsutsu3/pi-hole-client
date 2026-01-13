@@ -7,6 +7,7 @@ import 'package:pi_hole_client/domain/models_old/gateways.dart';
 import 'package:pi_hole_client/domain/models_old/server.dart';
 import 'package:pi_hole_client/domain/use_cases/status_update_service.dart';
 import 'package:pi_hole_client/ui/core/l10n/generated/app_localizations.dart';
+import 'package:pi_hole_client/ui/core/themes/theme.dart';
 import 'package:pi_hole_client/ui/core/ui/components/section_label.dart';
 import 'package:pi_hole_client/ui/core/ui/helpers/snackbar.dart';
 import 'package:pi_hole_client/ui/core/ui/modals/scan_token_modal.dart';
@@ -49,6 +50,7 @@ class _AddServerFullscreenState extends State<AddServerFullscreen> {
   String piHoleVersion = SupportedApiVersions.v6;
   bool defaultCheckbox = false;
   bool allowSelfSignedCert = true;
+  bool ignoreCertificateErrors = false;
   String? pinnedCertificateSha256;
 
   String? errorUrl;
@@ -83,6 +85,7 @@ class _AddServerFullscreenState extends State<AddServerFullscreen> {
       piHoleVersion = widget.server!.apiVersion;
       defaultCheckbox = widget.server!.defaultServer;
       allowSelfSignedCert = widget.server!.allowSelfSignedCert;
+      ignoreCertificateErrors = widget.server!.ignoreCertificateErrors;
       pinnedCertificateSha256 = widget.server!.pinnedCertificateSha256;
       _loadSecrets();
     }
@@ -218,6 +221,7 @@ class _AddServerFullscreenState extends State<AddServerFullscreen> {
     final serversProvider = Provider.of<ServersProvider>(context);
     final appConfigProvider = Provider.of<AppConfigProvider>(context);
     final statusUpdateService = context.read<StatusUpdateService>();
+    final appColors = Theme.of(context).extension<AppColors>()!;
 
     final mediaQuery = MediaQuery.of(context);
 
@@ -354,12 +358,15 @@ class _AddServerFullscreenState extends State<AddServerFullscreen> {
           defaultServer: false,
           apiVersion: piHoleVersion,
           allowSelfSignedCert: allowSelfSignedCert,
+          ignoreCertificateErrors: ignoreCertificateErrors,
           pinnedCertificateSha256: pinnedCertificateSha256,
         );
         await serverObj.sm.savePassword(passwordFieldController.text);
         await serverObj.sm.saveToken(tokenFieldController.text);
 
-        if (connectionType == ConnectionType.https && allowSelfSignedCert) {
+        if (connectionType == ConnectionType.https &&
+            allowSelfSignedCert &&
+            !ignoreCertificateErrors) {
           final uri = Uri.parse(serverObj.address);
           if (!context.mounted) return;
           final pin = await ensurePinnedFingerprint(
@@ -402,6 +409,7 @@ class _AddServerFullscreenState extends State<AddServerFullscreen> {
               apiVersion: piHoleVersion,
               enabled: result!.status == 'enabled' ? true : false,
               allowSelfSignedCert: allowSelfSignedCert,
+              ignoreCertificateErrors: ignoreCertificateErrors,
               pinnedCertificateSha256: serverObj.pinnedCertificateSha256,
               sm: serverObj.sm,
             ),
@@ -443,6 +451,7 @@ class _AddServerFullscreenState extends State<AddServerFullscreen> {
         defaultServer: false,
         apiVersion: piHoleVersion,
         allowSelfSignedCert: allowSelfSignedCert,
+        ignoreCertificateErrors: ignoreCertificateErrors,
         pinnedCertificateSha256: pinnedCertificateSha256,
       );
       await serverObj.sm.savePassword(passwordFieldController.text);
@@ -455,7 +464,9 @@ class _AddServerFullscreenState extends State<AddServerFullscreen> {
           ?.loginQuery(refresh: true);
 
       if (result?.result == APiResponseType.success) {
-        if (connectionType == ConnectionType.https && allowSelfSignedCert) {
+        if (connectionType == ConnectionType.https &&
+            allowSelfSignedCert &&
+            !ignoreCertificateErrors) {
           final uri = Uri.parse(serverObj.address);
           if (!context.mounted) return;
           final pin = await ensurePinnedFingerprint(
@@ -782,7 +793,9 @@ class _AddServerFullscreenState extends State<AddServerFullscreen> {
                       CheckboxListTile(
                         contentPadding: const EdgeInsets.only(right: 8),
                         value: allowSelfSignedCert,
-                        onChanged: connectionType == ConnectionType.https
+                        onChanged:
+                            connectionType == ConnectionType.https &&
+                                !ignoreCertificateErrors
                             ? (v) => setState(() => allowSelfSignedCert = v!)
                             : null,
                         title: Text(
@@ -791,10 +804,32 @@ class _AddServerFullscreenState extends State<AddServerFullscreen> {
                           )!.allowSelfSignedCertificates,
                         ),
                         subtitle: Text(
-                          AppLocalizations.of(context)!.onlyAvailableWithHttps,
-                          style: const TextStyle(
+                          AppLocalizations.of(
+                            context,
+                          )!.allowSelfSignedCertificatesDescription,
+                          style: TextStyle(
                             fontSize: 12,
-                            color: Colors.grey,
+                            color: appColors.queryOrange,
+                          ),
+                        ),
+                      ),
+                      CheckboxListTile(
+                        contentPadding: const EdgeInsets.only(right: 8),
+                        value: ignoreCertificateErrors,
+                        onChanged: connectionType == ConnectionType.https
+                            ? (v) =>
+                                  setState(() => ignoreCertificateErrors = v!)
+                            : null,
+                        title: Text(
+                          AppLocalizations.of(context)!.dontCheckCertificate,
+                        ),
+                        subtitle: Text(
+                          AppLocalizations.of(
+                            context,
+                          )!.dontCheckCertificateDescription,
+                          style: TextStyle(
+                            fontSize: 12,
+                            color: appColors.queryRed,
                           ),
                         ),
                       ),

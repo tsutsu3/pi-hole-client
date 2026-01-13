@@ -446,6 +446,12 @@ abstract class AppLocalizations {
   /// **'Allow self-signed certificates'**
   String get allowSelfSignedCertificates;
 
+  /// No description provided for @allowSelfSignedCertificatesDescription.
+  ///
+  /// In en, this message translates to:
+  /// **'Allows self-signed certificates without CA verification.'**
+  String get allowSelfSignedCertificatesDescription;
+
   /// No description provided for @tlsCertSubject.
   ///
   /// In en, this message translates to:
@@ -1463,7 +1469,7 @@ abstract class AppLocalizations {
   /// No description provided for @dontCheckCertificateDescription.
   ///
   /// In en, this message translates to:
-  /// **'This option will be removed in a future version. Please manage certificate verification from each server\'s settings (Settings > Servers).'**
+  /// **'Accepts all SSL certificates without validation (not recommended).'**
   String get dontCheckCertificateDescription;
 
   /// No description provided for @edit.
@@ -2669,7 +2675,7 @@ abstract class AppLocalizations {
   /// No description provided for @onlyAvailableWithHttps.
   ///
   /// In en, this message translates to:
-  /// **'Only available with HTTPS'**
+  /// **'Available only when the connection uses HTTPS.'**
   String get onlyAvailableWithHttps;
 
   /// No description provided for @openExternalUrl.

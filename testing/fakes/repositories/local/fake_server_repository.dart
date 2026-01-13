@@ -15,6 +15,7 @@ class FakeServerRepository implements ServerRepository {
         apiVersion: 'v6',
         sid: 'sid123',
         allowSelfSignedCert: true,
+        ignoreCertificateErrors: false,
         pinnedCertificateSha256: null,
       ),
       ServerDbData(
@@ -25,6 +26,7 @@ class FakeServerRepository implements ServerRepository {
         apiVersion: 'v5',
         sid: null,
         allowSelfSignedCert: true,
+        ignoreCertificateErrors: false,
         pinnedCertificateSha256: null,
       ),
     ]);

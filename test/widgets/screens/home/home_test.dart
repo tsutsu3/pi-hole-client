@@ -156,6 +156,7 @@ void main() async {
         apiVersion: 'v6',
         enabled: false,
         allowSelfSignedCert: true,
+        ignoreCertificateErrors: false,
       );
       when(testSetup.mockServersProvider.selectedServer).thenReturn(serverV6);
 

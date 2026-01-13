@@ -12,6 +12,7 @@ class Server {
     required this.defaultServer,
     required this.apiVersion,
     required this.allowSelfSignedCert,
+    required this.ignoreCertificateErrors,
     this.pinnedCertificateSha256,
     this.enabled,
     SecureDataRepository? sm,
@@ -35,6 +36,9 @@ class Server {
   /// Whether to allow self-signed certificates
   final bool allowSelfSignedCert;
 
+  /// Whether to skip TLS certificate validation entirely.
+  final bool ignoreCertificateErrors;
+
   /// Pinned SHA-256 certificate fingerprint for self-signed TLS connections.
   ///
   /// When set, TLS connections that would otherwise fail certificate validation
@@ -51,6 +55,7 @@ class Server {
     bool? enabled,
     String? apiVersion,
     bool? allowSelfSignedCert,
+    bool? ignoreCertificateErrors,
     String? pinnedCertificateSha256,
     SecureDataRepository? sm,
   }) {
@@ -61,6 +66,8 @@ class Server {
       enabled: enabled ?? this.enabled,
       apiVersion: apiVersion ?? this.apiVersion,
       allowSelfSignedCert: allowSelfSignedCert ?? this.allowSelfSignedCert,
+      ignoreCertificateErrors:
+          ignoreCertificateErrors ?? this.ignoreCertificateErrors,
       pinnedCertificateSha256:
           pinnedCertificateSha256 ?? this.pinnedCertificateSha256,
       sm: sm ?? this.sm,

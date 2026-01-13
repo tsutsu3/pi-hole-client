@@ -93,10 +93,12 @@ class ServerTileActions extends StatelessWidget {
                     text: loc.serverCertificateUpdatePin,
                     enabled:
                         _tryParseHttpsUri(server.address) != null &&
-                        server.allowSelfSignedCert,
+                        server.allowSelfSignedCert &&
+                        !server.ignoreCertificateErrors,
                     onTap:
                         _tryParseHttpsUri(server.address) != null &&
-                            server.allowSelfSignedCert
+                            server.allowSelfSignedCert &&
+                            !server.ignoreCertificateErrors
                         ? () => _updatePinnedCertificate(context, server)
                         : null,
                   ),

@@ -182,6 +182,10 @@ class AppLocalizationsEn extends AppLocalizations {
   String get allowSelfSignedCertificates => 'Allow self-signed certificates';
 
   @override
+  String get allowSelfSignedCertificatesDescription =>
+      'Allows self-signed certificates without CA verification.';
+
+  @override
   String get tlsCertSubject => 'Subject';
 
   @override
@@ -709,7 +713,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get dontCheckCertificateDescription =>
-      'This option will be removed in a future version. Please manage certificate verification from each server\'s settings (Settings > Servers).';
+      'Accepts all SSL certificates without validation (not recommended).';
 
   @override
   String get edit => 'Edit';
@@ -1341,7 +1345,8 @@ class AppLocalizationsEn extends AppLocalizations {
   String get on => 'ON';
 
   @override
-  String get onlyAvailableWithHttps => 'Only available with HTTPS';
+  String get onlyAvailableWithHttps =>
+      'Available only when the connection uses HTTPS.';
 
   @override
   String get openExternalUrl => 'Opens an external link';

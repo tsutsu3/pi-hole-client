@@ -137,6 +137,7 @@ class ServerConnectionService {
         apiVersion: connectedServer.apiVersion,
         enabled: result.status == 'enabled',
         allowSelfSignedCert: connectedServer.allowSelfSignedCert,
+        ignoreCertificateErrors: connectedServer.ignoreCertificateErrors,
         pinnedCertificateSha256: connectedServer.pinnedCertificateSha256,
         sm: connectedServer.sm,
       ),
@@ -158,7 +159,10 @@ class ServerConnectionService {
 
     final pin = server.pinnedCertificateSha256;
     final hasPin = pin != null && pin.trim().isNotEmpty;
-    if (uri.scheme != 'https' || !server.allowSelfSignedCert || hasPin) {
+    if (uri.scheme != 'https' ||
+        server.ignoreCertificateErrors ||
+        !server.allowSelfSignedCert ||
+        hasPin) {
       return server;
     }
 
@@ -289,7 +293,10 @@ class ServerConnectionService {
 
     if (shouldEdit == true && targetContext.mounted) {
       if (isPinMismatch) {
-        final updated = await _openUpdatePinnedFingerprint(targetContext, server);
+        final updated = await _openUpdatePinnedFingerprint(
+          targetContext,
+          server,
+        );
         if (updated != null && targetContext.mounted) {
           await ServerConnectionService(
             context: targetContext,
@@ -430,6 +437,7 @@ class ServerConnectionService {
 
     // Only attempt mismatch detection when the app is configured to allow
     // untrusted certificates (pin fallback path).
+    if (server.ignoreCertificateErrors) return false;
     if (!server.allowSelfSignedCert) return false;
 
     try {

@@ -180,6 +180,10 @@ class AppLocalizationsJa extends AppLocalizations {
   String get allowSelfSignedCertificates => '自己署名証明書を許可する';
 
   @override
+  String get allowSelfSignedCertificatesDescription =>
+      '認証局による署名は確認せず、自己署名証明書でも接続を許可します。';
+
+  @override
   String get tlsCertSubject => 'サブジェクト';
 
   @override
@@ -691,8 +695,7 @@ class AppLocalizationsJa extends AppLocalizations {
   String get dontCheckCertificate => 'SSL証明書を確認しない';
 
   @override
-  String get dontCheckCertificateDescription =>
-      'この項目は将来的に削除されます。現在は、各サーバーの設定から証明書の検証を管理してください（Settings > Servers）。';
+  String get dontCheckCertificateDescription => 'すべてのSSL証明書を無条件で受け入れます（非推奨）。';
 
   @override
   String get edit => '編集';
@@ -1307,7 +1310,7 @@ class AppLocalizationsJa extends AppLocalizations {
   String get on => 'オン';
 
   @override
-  String get onlyAvailableWithHttps => ' HTTPSでのみ利用可能';
+  String get onlyAvailableWithHttps => 'HTTPS 接続の場合のみ有効です。';
 
   @override
   String get openExternalUrl => '外部リンクを開きます';
