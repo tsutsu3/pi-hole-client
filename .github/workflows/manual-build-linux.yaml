@@ -57,7 +57,7 @@ jobs:
         with:
           channel: stable
           cache: true
-          flutter-version: 3.38.3
+          flutter-version: 3.38.6
       - run: flutter clean
       - run: flutter pub get
 
