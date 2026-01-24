@@ -101,3 +101,9 @@ terraform.rc
 lib/build_info/git_commit.dart
 
 pihole-docs/
+
+# AI agents
+.[Cc]odex/
+.[Cc]laude/
+.[Cc]opilot/
+.[Cc]ursor/
