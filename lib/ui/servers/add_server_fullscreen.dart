@@ -367,25 +367,52 @@ class _AddServerFullscreenState extends State<AddServerFullscreen> {
         await serverObj.sm.saveToken(tokenFieldController.text);
 
         if (connectionType == ConnectionType.https &&
-            allowSelfSignedCert &&
             !ignoreCertificateErrors) {
           final uri = Uri.parse(serverObj.address);
-          if (!context.mounted) return;
-          final pin = await ensurePinnedFingerprint(
-            context: context,
-            uri: uri,
-            existingPin: serverObj.pinnedCertificateSha256,
-          );
-          if (!context.mounted) return;
-          if (pin == null) {
-            setState(() {
-              isConnecting = false;
-            });
-            return;
+
+          if (allowSelfSignedCert) {
+            // Allow self-signed: prompt user to pin the certificate
+            if (!context.mounted) return;
+            final pin = await ensurePinnedFingerprint(
+              context: context,
+              uri: uri,
+              existingPin: serverObj.pinnedCertificateSha256,
+            );
+            if (!context.mounted) return;
+            if (pin == null) {
+              setState(() {
+                isConnecting = false;
+              });
+              return;
+            }
+            serverObj = serverObj.copyWith(
+              pinnedCertificateSha256: pin.isEmpty ? null : pin,
+            );
+          } else {
+            // Strict mode: verify certificate is trusted by the platform
+            try {
+              await fetchTlsCertificateInfo(uri, allowBadCertificates: false);
+              // Certificate is trusted, proceed without pin
+              // ignore: avoid_redundant_argument_values
+              serverObj = serverObj.copyWith(pinnedCertificateSha256: null);
+            } on HandshakeException {
+              // Certificate not trusted - block connection
+              if (!context.mounted) return;
+              setState(() {
+                isConnecting = false;
+              });
+              showErrorSnackBar(
+                context: context,
+                appConfigProvider: appConfigProvider,
+                label: AppLocalizations.of(context)!.sslErrorLong,
+              );
+              return;
+            } catch (e) {
+              // Other network errors - let loginQuery handle them
+              // ignore: avoid_redundant_argument_values
+              serverObj = serverObj.copyWith(pinnedCertificateSha256: null);
+            }
           }
-          serverObj = serverObj.copyWith(
-            pinnedCertificateSha256: pin.isEmpty ? null : pin,
-          );
         } else {
           // ignore: avoid_redundant_argument_values
           serverObj = serverObj.copyWith(pinnedCertificateSha256: null);
@@ -463,29 +490,58 @@ class _AddServerFullscreenState extends State<AddServerFullscreen> {
       }
 
       // Validate certificate BEFORE connection test (same as connect())
-      if (connectionType == ConnectionType.https &&
-          allowSelfSignedCert &&
-          !ignoreCertificateErrors) {
+      if (connectionType == ConnectionType.https && !ignoreCertificateErrors) {
         final uri = Uri.parse(serverObj.address);
-        if (!context.mounted) return;
-        final pin = await ensurePinnedFingerprint(
-          context: context,
-          uri: uri,
-          existingPin: serverObj.pinnedCertificateSha256,
-        );
-        if (!context.mounted) return;
-        if (pin == null) {
-          setState(() {
-            isConnecting = false;
-          });
-          if (serversProvider.selectedServer != null) {
-            statusUpdateService.startAutoRefresh();
+
+        if (allowSelfSignedCert) {
+          // Allow self-signed: prompt user to pin the certificate
+          if (!context.mounted) return;
+          final pin = await ensurePinnedFingerprint(
+            context: context,
+            uri: uri,
+            existingPin: serverObj.pinnedCertificateSha256,
+          );
+          if (!context.mounted) return;
+          if (pin == null) {
+            setState(() {
+              isConnecting = false;
+            });
+            if (serversProvider.selectedServer != null) {
+              statusUpdateService.startAutoRefresh();
+            }
+            return;
           }
-          return;
+          serverObj = serverObj.copyWith(
+            pinnedCertificateSha256: pin.isEmpty ? null : pin,
+          );
+        } else {
+          // Strict mode: verify certificate is trusted by the platform
+          try {
+            await fetchTlsCertificateInfo(uri, allowBadCertificates: false);
+            // Certificate is trusted, proceed without pin
+            // ignore: avoid_redundant_argument_values
+            serverObj = serverObj.copyWith(pinnedCertificateSha256: null);
+          } on HandshakeException {
+            // Certificate not trusted - block connection
+            if (!context.mounted) return;
+            setState(() {
+              isConnecting = false;
+            });
+            if (serversProvider.selectedServer != null) {
+              statusUpdateService.startAutoRefresh();
+            }
+            showErrorSnackBar(
+              context: context,
+              appConfigProvider: appConfigProvider,
+              label: AppLocalizations.of(context)!.sslErrorLong,
+            );
+            return;
+          } catch (e) {
+            // Other network errors - let loginQuery handle them
+            // ignore: avoid_redundant_argument_values
+            serverObj = serverObj.copyWith(pinnedCertificateSha256: null);
+          }
         }
-        serverObj = serverObj.copyWith(
-          pinnedCertificateSha256: pin.isEmpty ? null : pin,
-        );
       } else {
         // ignore: avoid_redundant_argument_values
         serverObj = serverObj.copyWith(pinnedCertificateSha256: null);
