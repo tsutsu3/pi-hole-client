@@ -752,7 +752,7 @@ class DatabaseService {
     //
     // To preserve existing behavior:
     // - ignoreCertificateErrors = old allowSelfSignedCert (maintains previous behavior)
-    // - allowSelfSignedCert = true (default, enables pinning option)
+    // - allowSelfSignedCert = old allowSelfSignedCert (maintains previous behavior)
     await db.execute('''
       INSERT INTO servers_new (
         address,
