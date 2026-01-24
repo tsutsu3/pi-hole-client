@@ -271,8 +271,14 @@ class _AddServerFullscreenState extends State<AddServerFullscreen> {
       }
 
       try {
-        // If the certificate is trusted by the platform, no pin is needed.
-        await fetchTlsCertificateInfo(uri, allowBadCertificates: false);
+        // If the certificate is trusted by the platform, pin it automatically.
+        final info = await fetchTlsCertificateInfo(
+          uri,
+          allowBadCertificates: false,
+        );
+        if (info != null) {
+          return info.sha256;
+        }
         return '';
       } on HandshakeException {
         // Untrusted certificate (likely self-signed). Retrieve fingerprint for user verification.
@@ -329,6 +335,10 @@ class _AddServerFullscreenState extends State<AddServerFullscreen> {
       setState(() {
         isConnecting = true;
       });
+      if (!allowSelfSignedCert) {
+        pinnedCertificateSha256 = null;
+      }
+
       final url =
           '${connectionType.name}://${addressFieldController.text}${portFieldController.text != '' ? ':${portFieldController.text}' : ''}${subrouteFieldController.text}';
       final exists = await serversProvider.checkUrlExists(url);
@@ -473,6 +483,10 @@ class _AddServerFullscreenState extends State<AddServerFullscreen> {
         errorUrl = null;
         isConnecting = true;
       });
+
+      if (!allowSelfSignedCert) {
+        pinnedCertificateSha256 = null;
+      }
 
       var serverObj = Server(
         address: widget.server!.address,
@@ -859,7 +873,12 @@ class _AddServerFullscreenState extends State<AddServerFullscreen> {
                         onChanged:
                             connectionType == ConnectionType.https &&
                                 !ignoreCertificateErrors
-                            ? (v) => setState(() => allowSelfSignedCert = v!)
+                            ? (v) => setState(() {
+                                allowSelfSignedCert = v!;
+                                if (!allowSelfSignedCert) {
+                                  pinnedCertificateSha256 = null;
+                                }
+                              })
                             : null,
                         title: Text(
                           AppLocalizations.of(
