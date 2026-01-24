@@ -103,5 +103,7 @@ lib/build_info/git_commit.dart
 pihole-docs/
 
 # AI agents
-.codex/
-.claude/
+.[Cc]odex/
+.[Cc]laude/
+.[Cc]opilot/
+.[Cc]ursor/
