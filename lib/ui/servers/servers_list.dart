@@ -31,8 +31,6 @@ class ServersList extends StatefulWidget {
 }
 
 class _ServersListState extends State<ServersList> {
-  bool _bannerDismissed = false;
-
   void _openEditServer(Server server) {
     final width = MediaQuery.of(context).size.width;
 
@@ -70,9 +68,12 @@ class _ServersListState extends State<ServersList> {
     final unverifiedServers = context.select<ServersProvider, List<Server>>(
       (p) => p.serversWithUnverifiedCertificates,
     );
+    final bannerDismissed = context.select<ServersProvider, bool>(
+      (p) => p.unverifiedBannerDismissed,
+    );
 
     // Debug log
-    logger.d('ServersList: total=${serversList.length}, unverified=${unverifiedServers.length}, dismissed=$_bannerDismissed');
+    logger.d('ServersList: total=${serversList.length}, unverified=${unverifiedServers.length}, dismissed=$bannerDismissed');
     for (final s in serversList) {
       logger.d('  - ${s.alias}: https=${s.address.toLowerCase().startsWith("https://")}, allowSelfSigned=${s.allowSelfSignedCert}, ignoreCertErrors=${s.ignoreCertificateErrors}, pinned=${s.pinnedCertificateSha256}');
     }
@@ -81,11 +82,14 @@ class _ServersListState extends State<ServersList> {
       return ListView(
         padding: const EdgeInsets.only(bottom: 80),
         children: [
-          if (unverifiedServers.isNotEmpty && !_bannerDismissed)
+          if (unverifiedServers.isNotEmpty && !bannerDismissed)
             UnverifiedCertificatesBanner(
               servers: unverifiedServers,
               onServerTap: _openEditServer,
-              onDismiss: () => setState(() => _bannerDismissed = true),
+              onDismiss:
+                  () => context
+                      .read<ServersProvider>()
+                      .setUnverifiedBannerDismissed(true),
             ),
           Wrap(
             children: serversList

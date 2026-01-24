@@ -28,6 +28,7 @@ class ServersProvider with ChangeNotifier {
   Server? _selectedServer;
 
   Server? _connectingServer;
+  bool _unverifiedBannerDismissed = false;
 
   final Map<String, ApiGateway> _serverGateways = {};
 
@@ -46,6 +47,7 @@ class ServersProvider with ChangeNotifier {
   }
 
   Server? get connectingServer => _connectingServer;
+  bool get unverifiedBannerDismissed => _unverifiedBannerDismissed;
 
   /// Returns servers that have unverified certificates allowed
   /// (allowSelfSignedCert=true, ignoreCertificateErrors=false, no pinned cert)
@@ -99,6 +101,12 @@ class ServersProvider with ChangeNotifier {
 
   void clearConnectingServer() {
     _connectingServer = null;
+  }
+
+  void setUnverifiedBannerDismissed(bool dismissed) {
+    if (_unverifiedBannerDismissed == dismissed) return;
+    _unverifiedBannerDismissed = dismissed;
+    notifyListeners();
   }
 
   ApiGateway? loadApiGateway(Server server) {
