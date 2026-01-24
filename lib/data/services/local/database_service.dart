@@ -348,54 +348,31 @@ class DatabaseService {
   }
 
   Future<void> _onUpgrade(Database db, int oldVersion, int newVersion) async {
-    if (oldVersion == 1) {
-      await _upgradeToV2(db);
-      await _upgradeToV3(db);
-      await _upgradeToV4(db);
-      await _upgradeToV5(db);
-      await _upgradeToV6(db);
-      await _upgradeToV7(db);
-      await _upgradeToV8(db);
-      await _upgradeToV9(db);
-    } else if (oldVersion == 2) {
-      await _upgradeToV3(db);
-      await _upgradeToV4(db);
-      await _upgradeToV5(db);
-      await _upgradeToV6(db);
-      await _upgradeToV7(db);
-      await _upgradeToV8(db);
-      await _upgradeToV9(db);
-    } else if (oldVersion == 3) {
-      await _upgradeToV4(db);
-      await _upgradeToV5(db);
-      await _upgradeToV6(db);
-      await _upgradeToV7(db);
-      await _upgradeToV8(db);
-      await _upgradeToV9(db);
-    } else if (oldVersion == 4) {
-      await _upgradeToV5(db);
-      await _upgradeToV6(db);
-      await _upgradeToV7(db);
-      await _upgradeToV8(db);
-      await _upgradeToV9(db);
-    } else if (oldVersion == 5) {
-      await _upgradeToV6(db);
-      await _upgradeToV7(db);
-      await _upgradeToV8(db);
-      await _upgradeToV9(db);
-    } else if (oldVersion == 6) {
-      await _upgradeToV7(db);
-      await _upgradeToV8(db);
-      await _upgradeToV9(db);
-    } else if (oldVersion == 7) {
-      await _upgradeToV8(db);
-      await _upgradeToV9(db);
-    } else if (oldVersion == 8) {
-      await _upgradeToV9(db);
-    } else {
-      logger.w(
-        'Database upgrade from version $oldVersion to $newVersion is not handled.',
-      );
+    for (var version = oldVersion + 1; version <= newVersion; version++) {
+      await _upgradeTo(db, version);
+    }
+  }
+
+  Future<void> _upgradeTo(Database db, int version) async {
+    switch (version) {
+      case 2:
+        await _upgradeToV2(db);
+      case 3:
+        await _upgradeToV3(db);
+      case 4:
+        await _upgradeToV4(db);
+      case 5:
+        await _upgradeToV5(db);
+      case 6:
+        await _upgradeToV6(db);
+      case 7:
+        await _upgradeToV7(db);
+      case 8:
+        await _upgradeToV8(db);
+      case 9:
+        await _upgradeToV9(db);
+      default:
+        logger.w('Database upgrade to version $version is not handled.');
     }
   }
 
