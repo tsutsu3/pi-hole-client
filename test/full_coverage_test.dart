@@ -303,6 +303,7 @@ import 'package:pi_hole_client/ui/servers/servers_list.dart';
 import 'package:pi_hole_client/ui/servers/servers_tile_item.dart';
 import 'package:pi_hole_client/ui/servers/servers_tile_item_controller.dart';
 import 'package:pi_hole_client/ui/servers/transport_security_indicator.dart';
+import 'package:pi_hole_client/ui/servers/unverified_certificates_banner.dart';
 import 'package:pi_hole_client/ui/settings/about/about.dart';
 import 'package:pi_hole_client/ui/settings/about/app_detail_screen.dart';
 import 'package:pi_hole_client/ui/settings/about/legal_screen.dart';

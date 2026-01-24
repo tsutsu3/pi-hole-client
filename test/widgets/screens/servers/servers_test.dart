@@ -2,9 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/mockito.dart';
 import 'package:pi_hole_client/domain/models_old/gateways.dart';
+import 'package:pi_hole_client/domain/models_old/server.dart';
 import 'package:pi_hole_client/ui/servers/add_server_fullscreen.dart';
 import 'package:pi_hole_client/ui/servers/delete_server_modal.dart';
 import 'package:pi_hole_client/ui/servers/servers.dart';
+import 'package:pi_hole_client/ui/servers/unverified_certificates_banner.dart';
 
 import '../../helpers.dart';
 
@@ -213,6 +215,74 @@ void main() async {
       await tester.pumpAndSettle();
       expect(find.byType(SnackBar), findsOneWidget);
       expect(find.text('Cannot connect to server.'), findsOneWidget);
+    });
+
+    testWidgets('should show unverified certificates banner', (
+      WidgetTester tester,
+    ) async {
+      tester.view.physicalSize = const Size(1080, 2400);
+      tester.view.devicePixelRatio = 2.0;
+
+      // Mock unverified server
+      final unverifiedServer = Server(
+        address: 'https://localhost:8443',
+        alias: 'unverified',
+        defaultServer: false,
+        apiVersion: 'v6',
+        enabled: false,
+        allowSelfSignedCert: true,
+        ignoreCertificateErrors: false,
+      );
+
+      when(testSetup.mockServersProvider.serversWithUnverifiedCertificates)
+          .thenReturn([unverifiedServer]);
+
+      addTearDown(() {
+        tester.view.resetPhysicalSize();
+        tester.view.resetDevicePixelRatio();
+      });
+
+      await tester.pumpWidget(testSetup.buildTestWidget(const ServersPage()));
+
+      expect(find.byType(ServersPage), findsOneWidget);
+      expect(find.byType(UnverifiedCertificatesBanner), findsOneWidget);
+      expect(find.text('Servers'), findsOneWidget);
+    });
+
+    testWidgets('should hide banner when dismissed', (
+      WidgetTester tester,
+    ) async {
+      tester.view.physicalSize = const Size(1080, 2400);
+      tester.view.devicePixelRatio = 2.0;
+
+      // Mock unverified server
+      final unverifiedServer = Server(
+        address: 'https://localhost:8443',
+        alias: 'unverified',
+        defaultServer: false,
+        apiVersion: 'v6',
+        enabled: false,
+        allowSelfSignedCert: true,
+        ignoreCertificateErrors: false,
+      );
+
+      when(testSetup.mockServersProvider.serversWithUnverifiedCertificates)
+          .thenReturn([unverifiedServer]);
+
+      addTearDown(() {
+        tester.view.resetPhysicalSize();
+        tester.view.resetDevicePixelRatio();
+      });
+
+      await tester.pumpWidget(testSetup.buildTestWidget(const ServersPage()));
+
+      expect(find.byType(UnverifiedCertificatesBanner), findsOneWidget);
+
+      // Dismiss the banner
+      await tester.tap(find.byIcon(Icons.close));
+      await tester.pump();
+
+      expect(find.byType(UnverifiedCertificatesBanner), findsNothing);
     });
   });
 }
