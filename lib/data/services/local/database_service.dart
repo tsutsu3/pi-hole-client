@@ -766,6 +766,16 @@ class DatabaseService {
         pinnedCertificateSha256 TEXT
       )
     ''');
+    // Migration note:
+    // Previously, allowSelfSignedCert meant "skip SSL verification entirely"
+    // (equivalent to current ignoreCertificateErrors).
+    // Now we have separate flags:
+    // - allowSelfSignedCert: allow self-signed certs with optional pinning
+    // - ignoreCertificateErrors: skip all SSL verification (dangerous)
+    //
+    // To preserve existing behavior:
+    // - ignoreCertificateErrors = old allowSelfSignedCert (maintains previous behavior)
+    // - allowSelfSignedCert = true (default, enables pinning option)
     await db.execute('''
       INSERT INTO servers_new (
         address,
@@ -781,8 +791,8 @@ class DatabaseService {
         alias,
         isDefaultServer,
         apiVersion,
+        1,
         allowSelfSignedCert,
-        0,
         NULL
       FROM servers
     ''');
