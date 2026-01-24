@@ -19,7 +19,7 @@ class SwitchServerModal extends StatelessWidget {
       (s) => s.address == server.address,
     )) {
       return Icon(
-        Icons.warning_amber_rounded,
+        Icons.warning_rounded,
         color: colorScheme.queryOrange,
         size: 16,
       );

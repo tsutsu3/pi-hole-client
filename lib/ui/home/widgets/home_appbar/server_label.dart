@@ -142,7 +142,7 @@ class _ServerLabelText extends StatelessWidget {
             if (hasUnverifiedCert) ...[
               const SizedBox(width: 8),
               Icon(
-                Icons.warning_amber_rounded,
+                Icons.warning_rounded,
                 color: Theme.of(context).extension<AppColors>()!.queryOrange,
                 size: 16,
               ),
