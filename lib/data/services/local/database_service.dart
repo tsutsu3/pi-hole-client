@@ -768,7 +768,7 @@ class DatabaseService {
         alias,
         isDefaultServer,
         apiVersion,
-        1,
+        allowSelfSignedCert,
         allowSelfSignedCert,
         NULL
       FROM servers
