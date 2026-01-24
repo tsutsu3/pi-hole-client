@@ -288,8 +288,10 @@ class _AddServerFullscreenState extends State<AddServerFullscreen> {
           allowBadCertificates: true,
         );
       } catch (_) {
-        // If we cannot obtain the fingerprint, don't block the connection flow.
-        return '';
+        // If we cannot obtain the fingerprint, block the connection.
+        // This typically happens with reverse proxies where certificate
+        // pinning cannot work reliably.
+        return null;
       }
       if (!context.mounted || certificateInfo == null) {
         return null;
@@ -459,36 +461,41 @@ class _AddServerFullscreenState extends State<AddServerFullscreen> {
       if (serversProvider.selectedServer != null) {
         statusUpdateService.stopAutoRefresh();
       }
+
+      // Validate certificate BEFORE connection test (same as connect())
+      if (connectionType == ConnectionType.https &&
+          allowSelfSignedCert &&
+          !ignoreCertificateErrors) {
+        final uri = Uri.parse(serverObj.address);
+        if (!context.mounted) return;
+        final pin = await ensurePinnedFingerprint(
+          context: context,
+          uri: uri,
+          existingPin: serverObj.pinnedCertificateSha256,
+        );
+        if (!context.mounted) return;
+        if (pin == null) {
+          setState(() {
+            isConnecting = false;
+          });
+          if (serversProvider.selectedServer != null) {
+            statusUpdateService.startAutoRefresh();
+          }
+          return;
+        }
+        serverObj = serverObj.copyWith(
+          pinnedCertificateSha256: pin.isEmpty ? null : pin,
+        );
+      } else {
+        // ignore: avoid_redundant_argument_values
+        serverObj = serverObj.copyWith(pinnedCertificateSha256: null);
+      }
+
       final result = await serversProvider
           .createApiGateway(serverObj)
           ?.loginQuery(refresh: true);
 
       if (result?.result == APiResponseType.success) {
-        if (connectionType == ConnectionType.https &&
-            allowSelfSignedCert &&
-            !ignoreCertificateErrors) {
-          final uri = Uri.parse(serverObj.address);
-          if (!context.mounted) return;
-          final pin = await ensurePinnedFingerprint(
-            context: context,
-            uri: uri,
-            existingPin: serverObj.pinnedCertificateSha256,
-          );
-          if (!context.mounted) return;
-          if (pin == null) {
-            setState(() {
-              isConnecting = false;
-            });
-            return;
-          }
-          serverObj = serverObj.copyWith(
-            pinnedCertificateSha256: pin.isEmpty ? null : pin,
-          );
-        } else {
-          // ignore: avoid_redundant_argument_values
-          serverObj = serverObj.copyWith(pinnedCertificateSha256: null);
-        }
-
         final server = serverObj.copyWith(defaultServer: defaultCheckbox);
         final result = await serversProvider.editServer(server);
         if (context.mounted) {
