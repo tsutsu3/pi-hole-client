@@ -757,6 +757,14 @@ class MockServersProvider extends _i1.Mock implements _i15.ServersProvider {
           as List<_i3.Server>);
 
   @override
+  List<_i3.Server> get serversWithUnverifiedCertificates =>
+      (super.noSuchMethod(
+            Invocation.getter(#serversWithUnverifiedCertificates),
+            returnValue: <_i3.Server>[],
+          )
+          as List<_i3.Server>);
+
+  @override
   int get numShown =>
       (super.noSuchMethod(Invocation.getter(#numShown), returnValue: 0) as int);
 
