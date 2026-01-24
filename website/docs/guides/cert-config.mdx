@@ -1,0 +1,321 @@
+---
+title: Certificate Configuration Guide
+sidebar_position:  4
+---
+
+import imgStatusAll from "./images/cert-config/server-cert-status-all.png";
+import imgStatusVerify from "./images/cert-config/server-cert-status-01-verify.png";
+import imgStatusPinned from "./images/cert-config/server-cert-status-02-pinned.png";
+import imgStatusSkip from "./images/cert-config/server-cert-status-03-skip.png";
+import imgStatusUntrustedAllow from "./images/cert-config/server-cert-status-04-untrusted-allow.png";
+import imgStatusHttp from "./images/cert-config/server-cert-status-05-http.png";
+import imgStatusMismatch from "./images/cert-config/server-cert-status-06-mismatch.png";
+import imgStatusBlock from "./images/cert-config/server-cert-status-07-block.png";
+import imgWarningBar from "./images/cert-config/server-warning-bar.png";
+import imgSignedCert from "./images/cert-config/signed-cert.png";
+import imgSelfSignedCert from "./images/cert-config/self-signed-cert.png";
+import imgIgnoreCertError from "./images/cert-config/ignore-cert-all-error.png";
+import imgDockerError from "./images/cert-config/pihole-docker-error.png";
+import imgAllowSelfSignedModal from "./images/cert-config/allow-self-signed-cert.png";
+import imgServerMenu from "./images/cert-config/server-menu-view-update-cert.png";
+
+# 🪪 Certificate Configuration Guide
+
+This guide explains the **certificate status (cert status)** displayed in the
+app and helps you understand what each status means, what actions you should take,
+and which settings to configure based on your environment.
+
+## Certificate Status Overview
+
+The app displays the connection security status for each server. Here are all possible statuses:
+
+<img width="320" alt="All certificate statuses" src={imgStatusAll} />
+
+|           Status            | Security Level |             Description             |
+| --------------------------- | -------------- | ----------------------------------- |
+| HTTPS Verified              | Highest        | Valid CA-signed certificate         |
+| HTTPS Pinned                | High           | Certificate fingerprint verified    |
+| Don't check SSL certificate | Low            | All certificate validation disabled |
+| HTTPS Untrusted Allowed     | Low            | Self-signed certificates accepted   |
+| HTTP                        | None           | Unencrypted connection              |
+| HTTPS Pin Mismatch          | Error          | Pinned fingerprint doesn't match    |
+| HTTPS Untrusted Blocked     | Error          | Self-signed certificate rejected    |
+
+---
+
+## Certificate Status Details
+
+### HTTPS Verified
+
+<img width="512" alt="HTTPS Verified status" src={imgStatusVerify} />
+
+**What it means:**
+- The server has a valid SSL certificate signed by a trusted Certificate Authority (CA)
+- This is the most secure and recommended configuration
+
+**When this appears:**
+- Server uses a certificate from Let's Encrypt, DigiCert, or other trusted CAs
+- **"Allow self-signed certificates"** is **OFF**
+
+**User action:**
+- No action needed. This is the ideal state.
+
+**Recommended for:**
+- Production environments
+- Servers accessible over the internet
+- Users with reverse proxy setups using Let's Encrypt
+
+---
+
+### HTTPS Pinned
+
+<img width="512" alt="HTTPS Pinned status" src={imgStatusPinned} />
+
+**What it means:**
+- The app has saved (pinned) the server's certificate fingerprint
+- Each connection verifies the fingerprint matches the saved value
+- Provides protection against certificate tampering or MITM attacks
+
+**When this appears:**
+- **"Allow self-signed certificates"** is **ON**
+- You've connected and pinned the certificate fingerprint
+
+**User action:**
+- Verify the fingerprint matches your server's actual certificate (out-of-band verification recommended)
+- If you regenerate your server's certificate, you'll need to update the pin
+
+**Recommended for:**
+- Self-signed certificate users who want additional security
+- Users who can verify the certificate fingerprint manually
+
+:::tip
+You can view and update the pinned fingerprint from the server's menu by selecting **"View certificate"** or **"Update"**.
+
+<img width="320" alt="Server menu with Update option" src={imgServerMenu} />
+:::
+
+---
+
+### Don't check SSL certificate
+
+<img width="512" alt="Don't check SSL certificate status" src={imgStatusSkip} />
+
+**What it means:**
+- All SSL/TLS certificate validation is disabled
+- The app accepts any certificate without verification
+
+**When this appears:**
+- **"Don't check SSL certificate"** option is **ON**
+
+**User action:**
+- Use only on trusted local networks
+- Consider setting up a proper certificate instead
+
+:::warning
+This setting bypasses all security checks. Only use this when absolutely necessary and on trusted networks.
+:::
+
+**Recommended for:**
+- Pi-hole running in Docker without proper TLS termination
+- Temporary troubleshooting
+- Isolated local networks with no external access
+
+---
+
+### HTTPS Untrusted Allowed
+
+<img width="512" alt="HTTPS Untrusted Allowed status" src={imgStatusUntrustedAllow} />
+
+**What it means:**
+- The server's certificate is not signed by a trusted CA
+- The app is configured to accept self-signed certificates
+- No certificate pinning is active
+
+**When this appears:**
+- Server uses a self-signed certificate
+- "Allow self-signed certificates" is ON
+- Certificate has not been pinned yet
+
+**User action:**
+- For better security, pin the certificate fingerprint when prompted
+- Or consider getting a CA-signed certificate
+
+---
+
+### HTTP
+
+<img width="512" alt="HTTP status" src={imgStatusHttp} />
+
+**What it means:**
+- Connection is unencrypted
+- Data is transmitted in plain text
+
+**When this appears:**
+- Server URL uses `http://` scheme
+
+**User action:**
+- Consider enabling HTTPS on your Pi-hole server for better security
+- Acceptable only on isolated local networks
+
+:::warning
+HTTP connections transmit your API token/password in plain text. Anyone on the same network could potentially intercept this data.
+:::
+
+---
+
+### HTTPS Pin Mismatch
+
+<img width="512" alt="HTTPS Pin Mismatch status" src={imgStatusMismatch} />
+
+**What it means:**
+- The server's certificate fingerprint doesn't match the pinned value
+- Connection is blocked for security
+
+**When this appears:**
+- Server certificate was renewed or regenerated
+- Potential MITM attack (rare but possible)
+
+**User action:**
+1. Verify if you recently changed your server's certificate
+2. If intentional change: Update the pinned fingerprint from server settings
+3. If unexpected: Investigate before updating the pin
+
+:::danger
+If you didn't change your certificate, this could indicate a security issue. Verify your server's certificate before updating the pin.
+:::
+
+---
+
+### HTTPS Untrusted Blocked
+
+<img width="512" alt="HTTPS Untrusted Blocked status" src={imgStatusBlock} />
+
+**What it means:**
+- Server has a self-signed or invalid certificate
+- **"Allow self-signed certificates"** is **OFF**
+- Connection is blocked
+
+**When this appears:**
+- Attempting to connect to a server with self-signed certificate
+- App default settings are in effect but server needs self-signed support
+
+**User action:**
+- Enable **"Allow self-signed certificates"** in server settings
+- Or install a CA-signed certificate on your server
+
+---
+
+## Default App Settings
+
+By default, the app has:
+- **Allow self-signed certificates:** ON
+- **Don't check SSL certificate:** OFF
+
+<img width="320" alt="Self-signed certificate setting" src={imgSelfSignedCert} />
+
+:::info
+If your Pi-hole server uses a **valid CA-signed certificate** (e.g., Let's Encrypt), you should turn OFF "Allow self-signed certificates" to achieve the "HTTPS Verified" status.
+:::
+
+<img width="320" alt="Signed certificate setting" src={imgSignedCert} />
+
+---
+
+## After App Update: Backward Compatibility
+
+If you had **"Allow self-signed certificates"** enabled before updating the app,
+the update will automatically enable **both** **"Allow self-signed certificates"**
+AND **"Don't check SSL certificate"** for backward compatibility.
+
+This means all your HTTPS servers will show **"Don't check SSL certificate"**
+status, and you'll see a warning banner:
+
+<img width="320" alt="Warning banner after app update" src={imgWarningBar} />
+
+:::warning
+After an app update,
+if **"Allow self-signed certificates"** was **ON** before the update,
+all HTTPS servers will show **"Don't check SSL certificate"** status.
+This is less secure than the pinned certificate approach.
+
+If it was **OFF** before the update, no changes occur—your servers will remain
+at **"HTTPS Verified"** or **"HTTPS Untrusted Blocked"** status.
+:::
+
+### How to Fix This
+
+1. Open the server details screen for the affected server
+2. Turn **OFF** **"Don't check SSL certificate"**
+3. Save the settings
+4. The **"Allow self-signed certificates"** confirmation modal will appear
+5. Verify the certificate fingerprint and tap **"Confirm"**
+
+<img width="320" alt="Allow self-signed certificate confirmation modal" src={imgAllowSelfSignedModal} />
+
+After confirming,
+your server will show **"HTTPS Pinned"** status, which provides better security
+than "Don't check SSL certificate".
+
+---
+
+## Pi-hole in Docker: Special Considerations
+
+If you're running Pi-hole in Docker, you may encounter connection issues even with "Allow self-signed certificates" enabled.
+
+<img width="320" alt="Docker connection error" src={imgDockerError} />
+
+This happens because the Pi-hole Docker container's built-in web server certificate cannot be properly validated by the app's TLS implementation.
+
+### Solution 1: Disable Certificate Checking (Simple, Not Recommended)
+
+<img width="320" alt="Ignore certificate errors setting" src={imgIgnoreCertError} />
+
+1. In server settings, enable **"Don't check SSL certificate"**
+2. Save and reconnect
+
+:::warning
+Only use this on trusted local networks. This disables all certificate validation.
+:::
+
+### Solution 2: Use a Reverse Proxy (Recommended)
+
+Set up a reverse proxy (nginx, Caddy, Traefik, etc.) in front of Pi-hole:
+
+1. Configure the reverse proxy to handle TLS termination
+2. Use Let's Encrypt for a free, valid certificate
+3. Or use your own self-signed certificate on the reverse proxy
+4. Connect to Pi-hole through the reverse proxy URL
+
+**Benefits:**
+- Achieve "HTTPS Verified" or "HTTPS Pinned" status
+- Proper certificate management
+- Better security overall
+
+**Example with Caddy:**
+```
+pihole.local {
+    reverse_proxy pihole:80
+    tls internal
+}
+```
+
+---
+
+## Recommended Configuration by Use Case
+
+|               Use Case               |                 Recommended Setting                  | Expected Status |
+| ------------------------------------ | ---------------------------------------------------- | --------------- |
+| Valid CA certificate (Let's Encrypt) | **Allow self-signed certificates: OFF**              | HTTPS Verified  |
+| Self-signed certificate              | **Allow self-signed certificates: ON**, Pin the cert | HTTPS Pinned    |
+| Docker without reverse proxy         | **Don't check SSL certificate: ON**                  | Don't check SSL |
+| Local HTTP only                      | -                                                    | HTTP            |
+
+---
+
+## Troubleshooting
+
+Having issues with certificate configuration? Check out the [FAQ](../help/faq) for common questions and solutions:
+
+- [Q2. "Connection failed" with self-signed certificate](../help/faq#-q2-connection-failed-with-self-signed-certificate)
+- [Q3. Certificate pin mismatch after server certificate update](../help/faq#-q3-certificate-pin-mismatch-after-server-certificate-update)
+- [Q4. Warning banner about unverified certificates keeps appearing](../help/faq#-q4-warning-banner-about-unverified-certificates-keeps-appearing)
