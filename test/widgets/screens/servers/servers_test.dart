@@ -234,8 +234,9 @@ void main() async {
         ignoreCertificateErrors: false,
       );
 
-      when(testSetup.mockServersProvider.serversWithUnverifiedCertificates)
-          .thenReturn([unverifiedServer]);
+      when(
+        testSetup.mockServersProvider.serversWithUnverifiedCertificates,
+      ).thenReturn([unverifiedServer]);
 
       addTearDown(() {
         tester.view.resetPhysicalSize();
@@ -249,40 +250,45 @@ void main() async {
       expect(find.text('Servers'), findsOneWidget);
     });
 
-    testWidgets('should hide banner when dismissed', (
-      WidgetTester tester,
-    ) async {
-      tester.view.physicalSize = const Size(1080, 2400);
-      tester.view.devicePixelRatio = 2.0;
+    testWidgets(
+      'should hide banner when dismissed (call dismiss when close button tapped)',
+      (WidgetTester tester) async {
+        tester.view.physicalSize = const Size(1080, 2400);
+        tester.view.devicePixelRatio = 2.0;
 
-      // Mock unverified server
-      final unverifiedServer = Server(
-        address: 'https://localhost:8443',
-        alias: 'unverified',
-        defaultServer: false,
-        apiVersion: 'v6',
-        enabled: false,
-        allowSelfSignedCert: true,
-        ignoreCertificateErrors: false,
-      );
+        // Mock unverified server
+        final unverifiedServer = Server(
+          address: 'https://localhost:8443',
+          alias: 'unverified',
+          defaultServer: false,
+          apiVersion: 'v6',
+          enabled: false,
+          allowSelfSignedCert: true,
+          ignoreCertificateErrors: false,
+        );
 
-      when(testSetup.mockServersProvider.serversWithUnverifiedCertificates)
-          .thenReturn([unverifiedServer]);
+        when(
+          testSetup.mockServersProvider.serversWithUnverifiedCertificates,
+        ).thenReturn([unverifiedServer]);
 
-      addTearDown(() {
-        tester.view.resetPhysicalSize();
-        tester.view.resetDevicePixelRatio();
-      });
+        addTearDown(() {
+          tester.view.resetPhysicalSize();
+          tester.view.resetDevicePixelRatio();
+        });
 
-      await tester.pumpWidget(testSetup.buildTestWidget(const ServersPage()));
+        await tester.pumpWidget(testSetup.buildTestWidget(const ServersPage()));
 
-      expect(find.byType(UnverifiedCertificatesBanner), findsOneWidget);
+        expect(find.byType(UnverifiedCertificatesBanner), findsOneWidget);
 
-      // Dismiss the banner
-      await tester.tap(find.byIcon(Icons.close));
-      await tester.pump();
+        // Dismiss the banner
+        await tester.tap(find.byIcon(Icons.close));
+        await tester.pumpAndSettle();
 
-      expect(find.byType(UnverifiedCertificatesBanner), findsNothing);
-    });
+        // Verify that setUnverifiedBannerDismissed was called with true
+        verify(
+          testSetup.mockServersProvider.setUnverifiedBannerDismissed(true),
+        ).called(1);
+      },
+    );
   });
 }

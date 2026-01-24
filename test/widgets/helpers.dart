@@ -1785,6 +1785,7 @@ class TestSetupHelper {
     when(mockServersProvider.deleteDbData()).thenAnswer((_) async => true);
     when(mockServersProvider.connectingServer).thenReturn(serverV6);
     when(mockServersProvider.serversWithUnverifiedCertificates).thenReturn([]);
+    when(mockServersProvider.unverifiedBannerDismissed).thenReturn(false);
   }
 
   void _initFiltersProviderMock(String useApiGatewayVersion) {
