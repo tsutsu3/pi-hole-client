@@ -6,6 +6,7 @@ import 'package:http/http.dart' as http;
 import 'package:http/http.dart';
 import 'package:http/io_client.dart';
 import 'package:pi_hole_client/data/gateway/api_gateway_interface.dart';
+import 'package:pi_hole_client/data/gateway/transport_security_logger.dart';
 import 'package:pi_hole_client/data/model/v6/action/action.dart';
 import 'package:pi_hole_client/data/model/v6/auth/auth.dart' show Session;
 import 'package:pi_hole_client/data/model/v6/auth/sessions.dart';
@@ -80,12 +81,10 @@ class ApiGatewayV6 implements ApiGateway {
               pinnedCertificateSha256: server.pinnedCertificateSha256,
             ),
           ) {
-    _logTransportSecurityPolicyOnce();
+    TransportSecurityLogger.logTransportSecurityPolicyOnce(server);
   }
   final Server _server;
   final http.Client _client;
-
-  static final Set<String> _loggedTransportSecurityPolicies = <String>{};
 
   final unexpectedError = 'An unexpected error occurred.';
   final fetchError = 'Failed to fetch data from the server.';
@@ -96,60 +95,6 @@ class ApiGatewayV6 implements ApiGateway {
 
   @override
   Server get server => _server;
-
-  void _logTransportSecurityPolicyOnce() {
-    Uri? uri;
-    try {
-      uri = Uri.parse(_server.address);
-    } catch (_) {
-      return;
-    }
-
-    final key =
-        '${uri.scheme}://${uri.host}:${uri.hasPort ? uri.port : (uri.scheme == 'https' ? 443 : 80)}'
-        ':allowSelfSigned=${_server.allowSelfSignedCert}'
-        ':ignoreCertErrors=${_server.ignoreCertificateErrors}'
-        ':pinSet=${_server.pinnedCertificateSha256?.isNotEmpty == true}';
-    if (!_loggedTransportSecurityPolicies.add(key)) return;
-
-    if (uri.scheme == 'http') {
-      logger.w('Transport security: HTTP (cleartext) for ${uri.host}.');
-      return;
-    }
-
-    if (uri.scheme != 'https') {
-      logger.w(
-        'Transport security: unknown scheme "${uri.scheme}" for ${uri.host}.',
-      );
-      return;
-    }
-
-    if (_server.ignoreCertificateErrors) {
-      logger.w(
-        'Transport security: HTTPS certificate validation ignored (ignoreCertificateErrors=true) for ${uri.host}.',
-      );
-      return;
-    }
-
-    if (!_server.allowSelfSignedCert) {
-      logger.i(
-        'Transport security: HTTPS with platform TLS validation only (allowSelfSignedCert=false) for ${uri.host}.',
-      );
-      return;
-    }
-
-    if (_server.pinnedCertificateSha256 == null ||
-        _server.pinnedCertificateSha256!.isEmpty) {
-      logger.w(
-        'Transport security: HTTPS with allowSelfSignedCert=true but no pin set; untrusted certificates may be accepted (legacy behavior) for ${uri.host}.',
-      );
-      return;
-    }
-
-    logger.i(
-      'Transport security: HTTPS with platform TLS validation and pin fallback enabled for ${uri.host} (pin is checked only when TLS validation fails).',
-    );
-  }
 
   Future<Response> _sendRequest({
     required String method,

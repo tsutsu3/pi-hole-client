@@ -18,6 +18,7 @@ import 'package:pi_hole_client/data/gateway/api_gateway_factory.dart';
 import 'package:pi_hole_client/data/gateway/api_gateway_interface.dart';
 import 'package:pi_hole_client/data/gateway/api_gateway_v5.dart';
 import 'package:pi_hole_client/data/gateway/api_gateway_v6.dart';
+import 'package:pi_hole_client/data/gateway/transport_security_logger.dart';
 import 'package:pi_hole_client/data/mapper/v5/domain_mapper.dart';
 import 'package:pi_hole_client/data/mapper/v5/ftl_mapper.dart';
 import 'package:pi_hole_client/data/mapper/v5/metrics_mapper.dart';
