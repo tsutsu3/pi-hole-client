@@ -53,9 +53,9 @@ class ServersProvider with ChangeNotifier {
     return _serversList.where((server) {
       final address = server.address.toLowerCase();
       final isHttps = address.startsWith('https://');
-      return isHttps &&
-          server.allowSelfSignedCert &&
-          !server.ignoreCertificateErrors &&
+      if (!isHttps) return false;
+      if (server.ignoreCertificateErrors) return true;
+      return server.allowSelfSignedCert &&
           (server.pinnedCertificateSha256 == null ||
               server.pinnedCertificateSha256!.isEmpty);
     }).toList();
