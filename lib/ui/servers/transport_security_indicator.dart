@@ -44,15 +44,12 @@ class TransportSecurityIndicator extends StatefulWidget {
 
 class _TransportSecurityIndicatorState
     extends State<TransportSecurityIndicator> {
-  static final Map<String, Future<_TransportSecurityStatus>>
-  _statusFuturesByKey = <String, Future<_TransportSecurityStatus>>{};
-
   late Future<_TransportSecurityStatus> _future;
 
   @override
   void initState() {
     super.initState();
-    _future = _statusFutureFor(widget.server);
+    _future = _resolve(widget.server);
   }
 
   @override
@@ -65,15 +62,8 @@ class _TransportSecurityIndicatorState
             widget.server.ignoreCertificateErrors ||
         oldWidget.server.pinnedCertificateSha256 !=
             widget.server.pinnedCertificateSha256) {
-      _future = _statusFutureFor(widget.server);
+      _future = _resolve(widget.server);
     }
-  }
-
-  Future<_TransportSecurityStatus> _statusFutureFor(Server server) {
-    final pinKey = (server.pinnedCertificateSha256 ?? '').trim();
-    final cacheKey =
-        '${server.address}|allowSelfSigned=${server.allowSelfSignedCert}|ignoreCertErrors=${server.ignoreCertificateErrors}|pin=$pinKey';
-    return _statusFuturesByKey.putIfAbsent(cacheKey, () => _resolve(server));
   }
 
   Future<_TransportSecurityStatus> _resolve(Server server) async {
