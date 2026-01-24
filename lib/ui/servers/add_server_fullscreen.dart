@@ -334,6 +334,67 @@ class _AddServerFullscreenState extends State<AddServerFullscreen> {
       return confirmed == true ? info.sha256 : null;
     }
 
+    /// Validates and updates the server's certificate configuration.
+    ///
+    /// This method handles certificate validation and pinning for HTTPS connections.
+    /// It returns the updated Server object if validation succeeds, or null if the
+    /// user cancels or validation fails.
+    ///
+    /// Parameters:
+    /// - [serverObj]: The server object to validate
+    /// - [onValidationFailed]: Optional callback for handling additional cleanup on failure
+    Future<Server?> validateAndUpdateServerCertificate({
+      required Server serverObj,
+      VoidCallback? onValidationFailed,
+    }) async {
+      if (connectionType != ConnectionType.https || ignoreCertificateErrors) {
+        return serverObj.copyWith(pinnedCertificateSha256: null);
+      }
+
+      final uri = Uri.parse(serverObj.address);
+
+      if (allowSelfSignedCert) {
+        // Allow self-signed: prompt user to pin the certificate
+        if (!context.mounted) return null;
+        final pin = await ensurePinnedFingerprint(
+          context: context,
+          uri: uri,
+          existingPin: serverObj.pinnedCertificateSha256,
+        );
+        if (!context.mounted) return null;
+        if (pin == null) {
+          onValidationFailed?.call();
+          return null;
+        }
+        return serverObj.copyWith(
+          pinnedCertificateSha256: pin.isEmpty ? null : pin,
+        );
+      } else {
+        // Strict mode: verify certificate is trusted by the platform
+        try {
+          await fetchTlsCertificateInfo(uri, allowBadCertificates: false);
+          // Certificate is trusted, proceed without pin
+          // ignore: avoid_redundant_argument_values
+          return serverObj.copyWith(pinnedCertificateSha256: null);
+        } on HandshakeException {
+          // Certificate not trusted - block connection
+          if (!context.mounted) return null;
+          onValidationFailed?.call();
+          if (!context.mounted) return null;
+          showErrorSnackBar(
+            context: context,
+            appConfigProvider: appConfigProvider,
+            label: AppLocalizations.of(context)!.sslErrorLong,
+          );
+          return null;
+        } catch (e) {
+          // Other network errors - let loginQuery handle them
+          // ignore: avoid_redundant_argument_values
+          return serverObj.copyWith(pinnedCertificateSha256: null);
+        }
+      }
+    }
+
     Future<void> connect() async {
       FocusManager.instance.primaryFocus?.unfocus();
       setState(() {
@@ -380,57 +441,14 @@ class _AddServerFullscreenState extends State<AddServerFullscreen> {
         await serverObj.sm.savePassword(passwordFieldController.text);
         await serverObj.sm.saveToken(tokenFieldController.text);
 
-        if (connectionType == ConnectionType.https &&
-            !ignoreCertificateErrors) {
-          final uri = Uri.parse(serverObj.address);
-
-          if (allowSelfSignedCert) {
-            // Allow self-signed: prompt user to pin the certificate
-            if (!context.mounted) return;
-            final pin = await ensurePinnedFingerprint(
-              context: context,
-              uri: uri,
-              existingPin: serverObj.pinnedCertificateSha256,
-            );
-            if (!context.mounted) return;
-            if (pin == null) {
-              setState(() {
-                isConnecting = false;
-              });
-              return;
-            }
-            serverObj = serverObj.copyWith(
-              pinnedCertificateSha256: pin.isEmpty ? null : pin,
-            );
-          } else {
-            // Strict mode: verify certificate is trusted by the platform
-            try {
-              await fetchTlsCertificateInfo(uri, allowBadCertificates: false);
-              // Certificate is trusted, proceed without pin
-              // ignore: avoid_redundant_argument_values
-              serverObj = serverObj.copyWith(pinnedCertificateSha256: null);
-            } on HandshakeException {
-              // Certificate not trusted - block connection
-              if (!context.mounted) return;
-              setState(() {
-                isConnecting = false;
-              });
-              showErrorSnackBar(
-                context: context,
-                appConfigProvider: appConfigProvider,
-                label: AppLocalizations.of(context)!.sslErrorLong,
-              );
-              return;
-            } catch (e) {
-              // Other network errors - let loginQuery handle them
-              // ignore: avoid_redundant_argument_values
-              serverObj = serverObj.copyWith(pinnedCertificateSha256: null);
-            }
-          }
-        } else {
-          // ignore: avoid_redundant_argument_values
-          serverObj = serverObj.copyWith(pinnedCertificateSha256: null);
-        }
+        serverObj = await validateAndUpdateServerCertificate(
+          serverObj: serverObj,
+          onValidationFailed: () {
+            setState(() {
+              isConnecting = false;
+            });
+          },
+        ) ?? serverObj;
 
         final result = await serversProvider
             .loadApiGateway(serverObj)
@@ -508,62 +526,23 @@ class _AddServerFullscreenState extends State<AddServerFullscreen> {
       }
 
       // Validate certificate BEFORE connection test (same as connect())
-      if (connectionType == ConnectionType.https && !ignoreCertificateErrors) {
-        final uri = Uri.parse(serverObj.address);
+      final updatedServer = await validateAndUpdateServerCertificate(
+        serverObj: serverObj,
+        onValidationFailed: () {
+          setState(() {
+            isConnecting = false;
+          });
+          if (serversProvider.selectedServer != null) {
+            statusUpdateService.startAutoRefresh();
+          }
+        },
+      );
 
-        if (allowSelfSignedCert) {
-          // Allow self-signed: prompt user to pin the certificate
-          if (!context.mounted) return;
-          final pin = await ensurePinnedFingerprint(
-            context: context,
-            uri: uri,
-            existingPin: serverObj.pinnedCertificateSha256,
-          );
-          if (!context.mounted) return;
-          if (pin == null) {
-            setState(() {
-              isConnecting = false;
-            });
-            if (serversProvider.selectedServer != null) {
-              statusUpdateService.startAutoRefresh();
-            }
-            return;
-          }
-          serverObj = serverObj.copyWith(
-            pinnedCertificateSha256: pin.isEmpty ? null : pin,
-          );
-        } else {
-          // Strict mode: verify certificate is trusted by the platform
-          try {
-            await fetchTlsCertificateInfo(uri, allowBadCertificates: false);
-            // Certificate is trusted, proceed without pin
-            // ignore: avoid_redundant_argument_values
-            serverObj = serverObj.copyWith(pinnedCertificateSha256: null);
-          } on HandshakeException {
-            // Certificate not trusted - block connection
-            if (!context.mounted) return;
-            setState(() {
-              isConnecting = false;
-            });
-            if (serversProvider.selectedServer != null) {
-              statusUpdateService.startAutoRefresh();
-            }
-            showErrorSnackBar(
-              context: context,
-              appConfigProvider: appConfigProvider,
-              label: AppLocalizations.of(context)!.sslErrorLong,
-            );
-            return;
-          } catch (e) {
-            // Other network errors - let loginQuery handle them
-            // ignore: avoid_redundant_argument_values
-            serverObj = serverObj.copyWith(pinnedCertificateSha256: null);
-          }
-        }
-      } else {
-        // ignore: avoid_redundant_argument_values
-        serverObj = serverObj.copyWith(pinnedCertificateSha256: null);
+      if (updatedServer == null) {
+        return;
       }
+
+      serverObj = updatedServer;
 
       final result = await serversProvider
           .createApiGateway(serverObj)
