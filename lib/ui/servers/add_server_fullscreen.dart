@@ -64,6 +64,7 @@ class _AddServerFullscreenState extends State<AddServerFullscreen> {
 
   String? initToken;
   String? initPassword;
+  bool _advancedOptionsExpanded = false;
 
   @override
   void initState() {
@@ -87,6 +88,9 @@ class _AddServerFullscreenState extends State<AddServerFullscreen> {
       allowSelfSignedCert = widget.server!.allowSelfSignedCert;
       ignoreCertificateErrors = widget.server!.ignoreCertificateErrors;
       pinnedCertificateSha256 = widget.server!.pinnedCertificateSha256;
+      // For edit mode, expand Advanced Options if HTTPS
+      _advancedOptionsExpanded =
+          connectionType == ConnectionType.https;
       _loadSecrets();
     }
   }
@@ -795,7 +799,12 @@ class _AddServerFullscreenState extends State<AddServerFullscreen> {
                     ],
                     selected: <ConnectionType>{connectionType},
                     onSelectionChanged: (value) =>
-                        setState(() => connectionType = value.first),
+                        setState(() {
+                          connectionType = value.first;
+                          // Expand Advanced Options when HTTPS is selected, collapse for HTTP
+                          _advancedOptionsExpanded =
+                              connectionType == ConnectionType.https;
+                        }),
                   ),
                 ),
                 Padding(
@@ -839,7 +848,14 @@ class _AddServerFullscreenState extends State<AddServerFullscreen> {
                     highlightColor: Colors.transparent,
                   ),
                   child: ExpansionTile(
+                    key: ValueKey(_advancedOptionsExpanded),
                     tilePadding: EdgeInsets.zero,
+                    initiallyExpanded: _advancedOptionsExpanded,
+                    onExpansionChanged: (expanded) {
+                      setState(() {
+                        _advancedOptionsExpanded = expanded;
+                      });
+                    },
                     title: SectionLabel(
                       label: AppLocalizations.of(context)!.advancedOptions,
                       padding: const EdgeInsets.symmetric(vertical: 16),
