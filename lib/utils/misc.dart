@@ -73,8 +73,6 @@ HttpClient createHttpClient({
   return client;
 }
 
-final Set<String> _loggedTlsDecisions = <String>{};
-
 bool _isCertificatePinned({
   required String? pinnedCertificateSha256,
   required String certificateSha256,
@@ -82,12 +80,9 @@ bool _isCertificatePinned({
   required int port,
 }) {
   if (pinnedCertificateSha256 == null || pinnedCertificateSha256.isEmpty) {
-    final logKey = 'untrusted-allowed:$host:$port';
-    if (_loggedTlsDecisions.add(logKey)) {
-      logger.w(
-        'TLS validation failed for $host:$port; allowing untrusted certificate because no pin is set (legacy allowSelfSignedCert behavior).',
-      );
-    }
+    logger.w(
+      'TLS validation failed for $host:$port; allowing untrusted certificate because no pin is set (legacy allowSelfSignedCert behavior).',
+    );
     // Backward compatible behavior: allow untrusted certificates when explicitly enabled.
     // Prefer certificate pinning to avoid accepting arbitrary self-signed certificates.
     return true;
@@ -97,11 +92,8 @@ bool _isCertificatePinned({
       value.replaceAll(':', '').toLowerCase().trim();
   final matched =
       normalize(pinnedCertificateSha256) == normalize(certificateSha256);
-  final logKey = 'pin-check:$host:$port:${normalize(pinnedCertificateSha256)}';
-  if (_loggedTlsDecisions.add(logKey)) {
-    logger.i(
-      'TLS validation failed for $host:$port; using certificate pin check (matched=$matched).',
-    );
-  }
+  logger.i(
+    'TLS validation failed for $host:$port; using certificate pin check (matched=$matched).',
+  );
   return matched;
 }
