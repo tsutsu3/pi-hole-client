@@ -107,3 +107,6 @@ pihole-docs/
 .[Cc]laude/
 .[Cc]opilot/
 .[Cc]ursor/
+
+certs-dev/*
+!certs-dev/generate.sh
