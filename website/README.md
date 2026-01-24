@@ -2,7 +2,7 @@
 
 This is the source for the **Pi-hole Client Website**.
 
-🌐  [https://tsutsu3.github.io/pi-hole-client/](https://tsutsu3.github.io/pi-hole-client/)
+🌐 [https://tsutsu3.github.io/pi-hole-client/](https://tsutsu3.github.io/pi-hole-client/)
 
 ## Installation
 

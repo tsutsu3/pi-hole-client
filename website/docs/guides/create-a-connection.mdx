@@ -12,10 +12,10 @@ cases. There may be other configurations that aren't covered by this guide.
 ## ⚙️ Common settings
 
 - **Version**: You can choose between `v5` and `v6 (default)`. The latest
-version is `v6`, while the previous generation is `v5`.
+  version is `v6`, while the previous generation is `v5`.
 - **Authentication**:
-   - **v5**: Requires an API **token** (See: [Getting the API token (v5 only)](../get-api-token)).
-   - **v6**: Requires a **password** to log in to the web UI.
+  - **v5**: Requires an API **token** (See: [Getting the API token (v5 only)](../get-api-token)).
+  - **v6**: Requires a **password** to log in to the web UI.
 
 ## 1. Basic connection
 
@@ -51,6 +51,7 @@ If you are using **Pi-hole v6** with a **self-signed SSL certificate**, the conn
 **To prevent SSL certificate validation errors**, please follow the steps below based on your app version:
 
 **App version >= v1.3.0**
+
 1. Go to: `Settings > Servers`
 2. Select an existing server or create a new one
 3. Check **Allow self-signed certificates** (`default: checked`)
@@ -58,6 +59,7 @@ If you are using **Pi-hole v6** with a **self-signed SSL certificate**, the conn
 ![](./images/create-a-connection.png)
 
 **App version < v1.3.0**
+
 1. Go to: `Settings > Advanced settings > Don't check SSL certificate`
 2. Turn it `ON` (default: `ON`)
 3. Restart the application

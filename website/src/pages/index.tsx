@@ -91,7 +91,11 @@ const features = [
       "Connection validation before saving",
     ],
     media: [
-      { src: imgCreateConnection, srcDark: imgCreateConnectionDark, alt: "Create a connection screen" },
+      {
+        src: imgCreateConnection,
+        srcDark: imgCreateConnectionDark,
+        alt: "Create a connection screen",
+      },
       { src: imgServersList, srcDark: imgServersListDark, alt: "Servers list in App Settings" },
     ],
   },
@@ -107,7 +111,9 @@ const features = [
       "Tap list rows to open filtered Logs",
       "Display mode toggle for charts vs lists",
     ],
-    media: [{ src: imgStatsQueries, srcDark: imgStatsQueriesDark, alt: "Queries and servers chart" }],
+    media: [
+      { src: imgStatsQueries, srcDark: imgStatsQueriesDark, alt: "Queries and servers chart" },
+    ],
   },
   {
     id: "multi-server",
@@ -184,7 +190,11 @@ const features = [
     ],
     media: [
       { src: imgTheme, srcDark: imgThemeDark, alt: "Theme pages" },
-      { src: imgStatsDomainsRed, srcDark: imgStatsDomainsRedDark, alt: "Domains chart with red theme" },
+      {
+        src: imgStatsDomainsRed,
+        srcDark: imgStatsDomainsRedDark,
+        alt: "Domains chart with red theme",
+      },
     ],
   },
 ];

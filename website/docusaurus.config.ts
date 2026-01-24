@@ -53,7 +53,7 @@ const config: Config = {
           customCss: "./src/css/custom.css",
         },
         sitemap: {
-          ignorePatterns: ['**/search', '**/search/**'],
+          ignorePatterns: ["**/search", "**/search/**"],
         },
       } satisfies Preset.Options,
     ],
