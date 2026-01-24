@@ -130,17 +130,7 @@ class ServerConnectionService {
     }
 
     serversProvider.setselectedServer(
-      server: Server(
-        address: connectedServer.address,
-        alias: connectedServer.alias,
-        defaultServer: connectedServer.defaultServer,
-        apiVersion: connectedServer.apiVersion,
-        enabled: result.status == 'enabled',
-        allowSelfSignedCert: connectedServer.allowSelfSignedCert,
-        ignoreCertificateErrors: connectedServer.ignoreCertificateErrors,
-        pinnedCertificateSha256: connectedServer.pinnedCertificateSha256,
-        sm: connectedServer.sm,
-      ),
+      server: connectedServer.copyWith(enabled: result.status == 'enabled'),
     );
 
     statusProvider.setServerStatus(LoadStatus.loaded);
