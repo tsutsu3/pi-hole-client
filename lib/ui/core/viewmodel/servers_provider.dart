@@ -52,15 +52,18 @@ class ServersProvider with ChangeNotifier {
   /// Returns servers that have unverified certificates allowed
   /// (allowSelfSignedCert=true, ignoreCertificateErrors=false, no pinned cert)
   List<Server> get serversWithUnverifiedCertificates {
-    return _serversList.where((server) {
-      final address = server.address.toLowerCase();
-      final isHttps = address.startsWith('https://');
-      if (!isHttps) return false;
-      if (server.ignoreCertificateErrors) return true;
-      return server.allowSelfSignedCert &&
-          (server.pinnedCertificateSha256 == null ||
-              server.pinnedCertificateSha256!.isEmpty);
-    }).toList();
+    return _serversList.where(_hasUnverifiedCertificate).toList();
+  }
+
+  /// Checks if a single server has unverified certificate settings
+  bool _hasUnverifiedCertificate(Server server) {
+    final address = server.address.toLowerCase();
+    final isHttps = address.startsWith('https://');
+    if (!isHttps) return false;
+    if (server.ignoreCertificateErrors) return true;
+    return server.allowSelfSignedCert &&
+        (server.pinnedCertificateSha256 == null ||
+            server.pinnedCertificateSha256!.isEmpty);
   }
 
   /// Returns the gateway for the selected server if a server is selected,
