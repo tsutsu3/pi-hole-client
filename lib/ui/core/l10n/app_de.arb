@@ -714,5 +714,15 @@
   "serverCertificateUpdatePin": "Aktualisieren",
   "serverCertificateUpdatePinTitle": "Angepinnter Fingerabdruck aktualisieren",
   "serverCertificateUpdatePinHelp": "Dies ersetzt den angepinnten SHA-256-Fingerabdruck, der bei unzuverlässigen Zertifikaten verwendet wird. Nur fortfahren, wenn das Zertifikat anderweitig geprüft wurde.",
-  "serverCertificateFetchFailed": "Zertifikatsinformationen konnten nicht abgerufen werden."
+  "serverCertificateFetchFailed": "Zertifikatsinformationen konnten nicht abgerufen werden.",
+  "unverifiedCertificatesBannerTitle": "{count, plural, =1{1 Server erlaubt nicht verifizierte Zertifikate} other{{count} Server erlauben nicht verifizierte Zertifikate}}",
+  "@unverifiedCertificatesBannerTitle": {
+    "placeholders": {
+      "count": {}
+    }
+  },
+  "unverifiedCertificatesBannerExpand": "Ausklappen",
+  "unverifiedCertificatesBannerCollapse": "Einklappen",
+  "unverifiedCertificatesBannerLearnMore": "Mehr erfahren",
+  "unverifiedCertificatesBannerGoToDetails": "Zu den Details"
 }

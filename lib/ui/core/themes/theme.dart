@@ -277,8 +277,8 @@ const lightAppColors = AppColors(
   snackBarErrorText: Color(0xFFFFEBEE), // shade50
   snackBarNeutral: Colors.blueGrey,
   snackBarNeutralText: Color(0xFFECEFF1), // shade50
-  cardWarning: Color(0xFFFFF176), // shade300
-  cardWarningText: Colors.black87,
+  cardWarning: Color(0xFFFFE082), //amber.shade200
+  cardWarningText: Color(0xFF3E2723), //brown.shade900
   queryRed: Colors.red,
   queryGreen: Colors.green,
   queryBlue: Colors.blue,
@@ -299,8 +299,8 @@ const darkAppColors = AppColors(
   snackBarErrorText: Color(0xFFFFCDD2), // shade100
   snackBarNeutral: Color(0xFF37474F), // shade800
   snackBarNeutralText: Color(0xFFCFD8DC), // shade100
-  cardWarning: Color(0xFFF57F17), // shade900
-  cardWarningText: Color(0xFFFFFDE7), // shade50
+  cardWarning: Color(0xFFFF8F00), //amber.shade800
+  cardWarningText: Color(0xFFFFF8E1), //amber.shade50
   queryRed: Colors.redAccent,
   queryGreen: Colors.greenAccent,
   queryBlue: Colors.blueAccent,

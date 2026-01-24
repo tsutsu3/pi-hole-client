@@ -2261,4 +2261,27 @@ class AppLocalizationsDe extends AppLocalizations {
   @override
   String get serverCertificateFetchFailed =>
       'Zertifikatsinformationen konnten nicht abgerufen werden.';
+
+  @override
+  String unverifiedCertificatesBannerTitle(num count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count Server erlauben nicht verifizierte Zertifikate',
+      one: '1 Server erlaubt nicht verifizierte Zertifikate',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get unverifiedCertificatesBannerExpand => 'Ausklappen';
+
+  @override
+  String get unverifiedCertificatesBannerCollapse => 'Einklappen';
+
+  @override
+  String get unverifiedCertificatesBannerLearnMore => 'Mehr erfahren';
+
+  @override
+  String get unverifiedCertificatesBannerGoToDetails => 'Zu den Details';
 }

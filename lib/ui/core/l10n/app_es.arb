@@ -715,5 +715,15 @@
   "serverCertificateUpdatePin": "Actualizar",
   "serverCertificateUpdatePinTitle": "Actualizar huella fijada",
   "serverCertificateUpdatePinHelp": "Esto reemplazará la huella SHA-256 fijada usada al permitir certificados no confiables. Continúa solo si verificaste el certificado por otro medio.",
-  "serverCertificateFetchFailed": "No se pudo obtener la información del certificado."
+  "serverCertificateFetchFailed": "No se pudo obtener la información del certificado.",
+  "unverifiedCertificatesBannerTitle": "{count, plural, =1{1 servidor permite certificados no verificados} other{{count} servidores permiten certificados no verificados}}",
+  "@unverifiedCertificatesBannerTitle": {
+    "placeholders": {
+      "count": {}
+    }
+  },
+  "unverifiedCertificatesBannerExpand": "Expandir",
+  "unverifiedCertificatesBannerCollapse": "Contraer",
+  "unverifiedCertificatesBannerLearnMore": "Más información",
+  "unverifiedCertificatesBannerGoToDetails": "Ir a detalles"
 }

@@ -47,6 +47,20 @@ class ServersProvider with ChangeNotifier {
 
   Server? get connectingServer => _connectingServer;
 
+  /// Returns servers that have unverified certificates allowed
+  /// (allowSelfSignedCert=true, ignoreCertificateErrors=false, no pinned cert)
+  List<Server> get serversWithUnverifiedCertificates {
+    return _serversList.where((server) {
+      final address = server.address.toLowerCase();
+      final isHttps = address.startsWith('https://');
+      return isHttps &&
+          server.allowSelfSignedCert &&
+          !server.ignoreCertificateErrors &&
+          (server.pinnedCertificateSha256 == null ||
+              server.pinnedCertificateSha256!.isEmpty);
+    }).toList();
+  }
+
   /// Returns the gateway for the selected server if a server is selected,
   /// otherwise returns null.
   ApiGateway? get selectedApiGateway => _selectedServer != null

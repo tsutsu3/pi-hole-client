@@ -4333,6 +4333,36 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Could not fetch certificate information.'**
   String get serverCertificateFetchFailed;
+
+  /// No description provided for @unverifiedCertificatesBannerTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, =1{1 server has unverified certificates allowed} other{{count} servers have unverified certificates allowed}}'**
+  String unverifiedCertificatesBannerTitle(num count);
+
+  /// No description provided for @unverifiedCertificatesBannerExpand.
+  ///
+  /// In en, this message translates to:
+  /// **'Expand'**
+  String get unverifiedCertificatesBannerExpand;
+
+  /// No description provided for @unverifiedCertificatesBannerCollapse.
+  ///
+  /// In en, this message translates to:
+  /// **'Collapse'**
+  String get unverifiedCertificatesBannerCollapse;
+
+  /// No description provided for @unverifiedCertificatesBannerLearnMore.
+  ///
+  /// In en, this message translates to:
+  /// **'Learn more'**
+  String get unverifiedCertificatesBannerLearnMore;
+
+  /// No description provided for @unverifiedCertificatesBannerGoToDetails.
+  ///
+  /// In en, this message translates to:
+  /// **'Go to details'**
+  String get unverifiedCertificatesBannerGoToDetails;
 }
 
 class _AppLocalizationsDelegate

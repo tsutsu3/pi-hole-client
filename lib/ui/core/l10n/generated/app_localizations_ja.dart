@@ -2168,4 +2168,27 @@ class AppLocalizationsJa extends AppLocalizations {
 
   @override
   String get serverCertificateFetchFailed => '証明書情報を取得できませんでした。';
+
+  @override
+  String unverifiedCertificatesBannerTitle(num count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '未検証の証明書が許可されているサーバーが$count件あります',
+      one: '未検証の証明書が許可されているサーバーが1件あります',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get unverifiedCertificatesBannerExpand => '展開';
+
+  @override
+  String get unverifiedCertificatesBannerCollapse => '閉じる';
+
+  @override
+  String get unverifiedCertificatesBannerLearnMore => '詳しく見る';
+
+  @override
+  String get unverifiedCertificatesBannerGoToDetails => '詳細へ';
 }

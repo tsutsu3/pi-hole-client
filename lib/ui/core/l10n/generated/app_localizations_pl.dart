@@ -2242,4 +2242,27 @@ class AppLocalizationsPl extends AppLocalizations {
   @override
   String get serverCertificateFetchFailed =>
       'Nie udało się pobrać informacji o certyfikacie.';
+
+  @override
+  String unverifiedCertificatesBannerTitle(num count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count serwery dopuszczają niezweryfikowane certyfikaty',
+      one: '1 serwer dopuszcza niezweryfikowane certyfikaty',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get unverifiedCertificatesBannerExpand => 'Rozwiń';
+
+  @override
+  String get unverifiedCertificatesBannerCollapse => 'Zwiń';
+
+  @override
+  String get unverifiedCertificatesBannerLearnMore => 'Dowiedz się więcej';
+
+  @override
+  String get unverifiedCertificatesBannerGoToDetails => 'Przejdź do szczegółów';
 }

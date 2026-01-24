@@ -716,5 +716,15 @@
   "serverCertificateUpdatePin": "更新",
   "serverCertificateUpdatePinTitle": "ピン留めを更新",
   "serverCertificateUpdatePinHelp": "未検証の証明書を許可する際に使う SHA-256 のピン留めを更新します。証明書を別手段で確認した場合のみ続行してください。",
-  "serverCertificateFetchFailed": "証明書情報を取得できませんでした。"
+  "serverCertificateFetchFailed": "証明書情報を取得できませんでした。",
+  "unverifiedCertificatesBannerTitle": "{count, plural, =1{未検証の証明書が許可されているサーバーが1件あります} other{未検証の証明書が許可されているサーバーが{count}件あります}}",
+  "@unverifiedCertificatesBannerTitle": {
+    "placeholders": {
+      "count": {}
+    }
+  },
+  "unverifiedCertificatesBannerExpand": "展開",
+  "unverifiedCertificatesBannerCollapse": "閉じる",
+  "unverifiedCertificatesBannerLearnMore": "詳しく見る",
+  "unverifiedCertificatesBannerGoToDetails": "詳細へ"
 }
