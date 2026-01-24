@@ -152,13 +152,10 @@ class ServerTileActions extends StatelessWidget {
     }
   }
 
-  Future<void> _showCertificateDialog(
+  Future<TlsCertificateInfo?> _fetchAndValidateCertificate(
     BuildContext context,
-    Server server,
+    Uri uri,
   ) async {
-    final uri = _tryParseHttpsUri(server.address);
-    if (uri == null) return;
-
     final loc = AppLocalizations.of(context)!;
     final appConfigProvider = context.read<AppConfigProvider>();
 
@@ -172,7 +169,7 @@ class ServerTileActions extends StatelessWidget {
       certificateInfo = null;
     }
 
-    if (!context.mounted) return;
+    if (!context.mounted) return null;
 
     if (certificateInfo == null) {
       showErrorSnackBar(
@@ -180,16 +177,30 @@ class ServerTileActions extends StatelessWidget {
         appConfigProvider: appConfigProvider,
         label: loc.serverCertificateFetchFailed,
       );
-      return;
+      return null;
     }
 
-    final info = certificateInfo;
+    return certificateInfo;
+  }
+
+  Future<void> _showCertificateDialog(
+    BuildContext context,
+    Server server,
+  ) async {
+    final uri = _tryParseHttpsUri(server.address);
+    if (uri == null) return;
+
+    final loc = AppLocalizations.of(context)!;
+    final certificateInfo = await _fetchAndValidateCertificate(context, uri);
+    if (certificateInfo == null) return;
+
+    if (!context.mounted) return;
 
     await showDialog<void>(
       context: context,
       builder: (dialogContext) => CertificateDetailsDialog(
         title: loc.serverCertificateTitle,
-        certificateInfo: info,
+        certificateInfo: certificateInfo,
         actions: [
           TextButton(
             onPressed: () => Navigator.pop(dialogContext),
@@ -211,35 +222,17 @@ class ServerTileActions extends StatelessWidget {
     final appConfigProvider = context.read<AppConfigProvider>();
     final serversProvider = context.read<ServersProvider>();
 
-    TlsCertificateInfo? certificateInfo;
-    try {
-      certificateInfo = await fetchTlsCertificateInfo(
-        uri,
-        allowBadCertificates: true,
-      );
-    } catch (_) {
-      certificateInfo = null;
-    }
+    final certificateInfo = await _fetchAndValidateCertificate(context, uri);
+    if (certificateInfo == null) return;
 
     if (!context.mounted) return;
-
-    if (certificateInfo == null) {
-      showErrorSnackBar(
-        context: context,
-        appConfigProvider: appConfigProvider,
-        label: loc.serverCertificateFetchFailed,
-      );
-      return;
-    }
-
-    final info = certificateInfo;
 
     final confirmed = await showDialog<bool>(
       context: context,
       builder: (dialogContext) => CertificateDetailsDialog(
         title: loc.serverCertificateUpdatePinTitle,
         description: loc.serverCertificateUpdatePinHelp,
-        certificateInfo: info,
+        certificateInfo: certificateInfo,
         actions: [
           TextButton(
             onPressed: () => Navigator.pop(dialogContext, false),
@@ -255,7 +248,9 @@ class ServerTileActions extends StatelessWidget {
 
     if (confirmed != true || !context.mounted) return;
 
-    final updated = server.copyWith(pinnedCertificateSha256: info.sha256);
+    final updated = server.copyWith(
+      pinnedCertificateSha256: certificateInfo.sha256,
+    );
     final result = await serversProvider.editServer(updated);
     if (!context.mounted) return;
 
