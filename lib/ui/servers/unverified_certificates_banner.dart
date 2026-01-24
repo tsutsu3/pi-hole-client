@@ -27,7 +27,7 @@ class _UnverifiedCertificatesBannerState
   bool _isExpanded = false;
 
   Future<void> _openDocumentation() async {
-    final url = Uri.parse(Urls.certConfigt);
+    final url = Uri.parse(Urls.certConfig);
     if (await canLaunchUrl(url)) {
       await launchUrl(url, mode: LaunchMode.externalApplication);
     }
