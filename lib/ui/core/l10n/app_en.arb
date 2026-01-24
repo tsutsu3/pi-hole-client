@@ -723,6 +723,5 @@
   },
   "unverifiedCertificatesBannerExpand": "Expand",
   "unverifiedCertificatesBannerCollapse": "Collapse",
-  "unverifiedCertificatesBannerLearnMore": "Learn more",
-  "unverifiedCertificatesBannerGoToDetails": "Go to details"
+  "unverifiedCertificatesBannerLearnMore": "Learn more"
 }

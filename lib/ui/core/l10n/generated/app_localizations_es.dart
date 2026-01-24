@@ -2276,7 +2276,4 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String get unverifiedCertificatesBannerLearnMore => 'Más información';
-
-  @override
-  String get unverifiedCertificatesBannerGoToDetails => 'Ir a detalles';
 }

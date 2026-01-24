@@ -2262,7 +2262,4 @@ class AppLocalizationsPl extends AppLocalizations {
 
   @override
   String get unverifiedCertificatesBannerLearnMore => 'Dowiedz się więcej';
-
-  @override
-  String get unverifiedCertificatesBannerGoToDetails => 'Przejdź do szczegółów';
 }

@@ -2188,7 +2188,4 @@ class AppLocalizationsJa extends AppLocalizations {
 
   @override
   String get unverifiedCertificatesBannerLearnMore => '詳しく見る';
-
-  @override
-  String get unverifiedCertificatesBannerGoToDetails => '詳細へ';
 }

@@ -4357,12 +4357,6 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Learn more'**
   String get unverifiedCertificatesBannerLearnMore;
-
-  /// No description provided for @unverifiedCertificatesBannerGoToDetails.
-  ///
-  /// In en, this message translates to:
-  /// **'Go to details'**
-  String get unverifiedCertificatesBannerGoToDetails;
 }
 
 class _AppLocalizationsDelegate
