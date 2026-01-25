@@ -120,6 +120,7 @@ class AppColors extends ThemeExtension<AppColors> {
     required this.queryBlue,
     required this.queryOrange,
     required this.queryGrey,
+    required this.securityPinned,
     required this.commonRed,
     required this.commonGreen,
     required this.commonLightGrey,
@@ -143,6 +144,12 @@ class AppColors extends ThemeExtension<AppColors> {
   final Color? queryOrange;
   final Color? queryGrey;
 
+  /// Accent color used for "certificate pinned" / "pinned security" UI states.
+  ///
+  /// Kept as an app-level token (instead of hardcoded `Colors.teal`) so it can
+  /// be tuned per theme (light/dark) and harmonized with dynamic colors.
+  final Color? securityPinned;
+
   final Color? commonRed;
   final Color? commonGreen;
   final Color? commonLightGrey;
@@ -164,6 +171,7 @@ class AppColors extends ThemeExtension<AppColors> {
     Color? queryBlue,
     Color? queryOrange,
     Color? queryGrey,
+    Color? securityPinned,
     Color? commonRed,
     Color? commonGreen,
     Color? commonLightGrey,
@@ -184,6 +192,7 @@ class AppColors extends ThemeExtension<AppColors> {
       queryBlue: queryBlue ?? this.queryBlue,
       queryOrange: queryOrange ?? this.queryOrange,
       queryGrey: queryGrey ?? this.queryGrey,
+      securityPinned: securityPinned ?? this.securityPinned,
       commonRed: commonRed ?? this.commonRed,
       commonGreen: commonGreen ?? this.commonGreen,
       commonLightGrey: commonLightGrey ?? this.commonLightGrey,
@@ -227,6 +236,7 @@ class AppColors extends ThemeExtension<AppColors> {
       queryBlue: Color.lerp(queryBlue, other.queryBlue, t),
       queryOrange: Color.lerp(queryOrange, other.queryOrange, t),
       queryGrey: Color.lerp(queryGrey, other.queryGrey, t),
+      securityPinned: Color.lerp(securityPinned, other.securityPinned, t),
       commonRed: Color.lerp(commonRed, other.commonRed, t),
       commonGreen: Color.lerp(commonGreen, other.commonGreen, t),
       commonLightGrey: Color.lerp(commonLightGrey, other.commonLightGrey, t),
@@ -250,6 +260,7 @@ class AppColors extends ThemeExtension<AppColors> {
       queryBlue: queryBlue!.harmonizeWith(dynamic.primary),
       queryOrange: queryOrange!.harmonizeWith(dynamic.primary),
       queryGrey: queryGrey!.harmonizeWith(dynamic.primary),
+      securityPinned: securityPinned!.harmonizeWith(dynamic.primary),
       commonRed: commonRed!.harmonizeWith(dynamic.primary),
       commonGreen: commonGreen!.harmonizeWith(dynamic.primary),
       commonLightGrey: commonLightGrey!.harmonizeWith(dynamic.primary),
@@ -266,13 +277,14 @@ const lightAppColors = AppColors(
   snackBarErrorText: Color(0xFFFFEBEE), // shade50
   snackBarNeutral: Colors.blueGrey,
   snackBarNeutralText: Color(0xFFECEFF1), // shade50
-  cardWarning: Color(0xFFFFF176), // shade300
-  cardWarningText: Colors.black87,
+  cardWarning: Color(0xFFFFE082), //amber.shade200
+  cardWarningText: Color(0xFF3E2723), //brown.shade900
   queryRed: Colors.red,
   queryGreen: Colors.green,
   queryBlue: Colors.blue,
   queryOrange: Colors.orange,
   queryGrey: Color(0xFF757575), // shade600
+  securityPinned: Colors.teal,
   commonRed: Colors.red,
   commonGreen: Colors.green,
   commonLightGrey: Color(0xFFBDBDBD), // shade300
@@ -287,13 +299,14 @@ const darkAppColors = AppColors(
   snackBarErrorText: Color(0xFFFFCDD2), // shade100
   snackBarNeutral: Color(0xFF37474F), // shade800
   snackBarNeutralText: Color(0xFFCFD8DC), // shade100
-  cardWarning: Color(0xFFF57F17), // shade900
-  cardWarningText: Color(0xFFFFFDE7), // shade50
+  cardWarning: Color(0xFFFF8F00), //amber.shade800
+  cardWarningText: Color(0xFFFFF8E1), //amber.shade50
   queryRed: Colors.redAccent,
   queryGreen: Colors.greenAccent,
   queryBlue: Colors.blueAccent,
   queryOrange: Colors.orangeAccent,
   queryGrey: Colors.grey,
+  securityPinned: Colors.tealAccent,
   commonRed: Colors.redAccent,
   commonGreen: Colors.greenAccent,
   commonLightGrey: Color(0xFFBDBDBD), // shade300

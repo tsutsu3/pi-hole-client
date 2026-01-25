@@ -78,6 +78,7 @@ final serverV5 = Server(
   apiVersion: 'v5',
   enabled: false,
   allowSelfSignedCert: true,
+  ignoreCertificateErrors: false,
 );
 
 final serverV6 = Server(
@@ -87,6 +88,7 @@ final serverV6 = Server(
   apiVersion: 'v6',
   enabled: true,
   allowSelfSignedCert: true,
+  ignoreCertificateErrors: false,
 );
 
 final domains = [
@@ -1782,6 +1784,8 @@ class TestSetupHelper {
     when(mockServersProvider.removeServer(any)).thenAnswer((_) async => true);
     when(mockServersProvider.deleteDbData()).thenAnswer((_) async => true);
     when(mockServersProvider.connectingServer).thenReturn(serverV6);
+    when(mockServersProvider.serversWithUnverifiedCertificates).thenReturn([]);
+    when(mockServersProvider.unverifiedBannerDismissed).thenReturn(false);
   }
 
   void _initFiltersProviderMock(String useApiGatewayVersion) {
@@ -1961,13 +1965,13 @@ class TestSetupHelper {
   void _initLocalDnsProviderMock(String useApiGatewayVersion) {
     when(mockLocalDnsProvider.localDns).thenReturn([localDns]);
     when(mockLocalDnsProvider.deviceOptions).thenReturn([deviceOption]);
-    when(mockLocalDnsProvider.ipToMac).thenReturn({
-      deviceOption.ip: deviceOption.hwaddr,
-    });
+    when(
+      mockLocalDnsProvider.ipToMac,
+    ).thenReturn({deviceOption.ip: deviceOption.hwaddr});
     when(mockLocalDnsProvider.ipToHostname).thenReturn({});
-    when(mockLocalDnsProvider.macToIp).thenReturn({
-      deviceOption.hwaddr: deviceOption.ip,
-    });
+    when(
+      mockLocalDnsProvider.macToIp,
+    ).thenReturn({deviceOption.hwaddr: deviceOption.ip});
     when(mockLocalDnsProvider.loadingStatus).thenReturn(LoadStatus.loaded);
 
     when(

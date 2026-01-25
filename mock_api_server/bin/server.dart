@@ -132,6 +132,9 @@ Middleware requireFTLSid() {
 void main(List<String> args) async {
   var delayMs = 500;
   var host = 'localhost';
+  var useHttps = false;
+  var certPath = '../certs-dev/server.crt';
+  var keyPath = '../certs-dev/server.key';
 
   final delayArgIndex = args.indexOf('--delay');
   if (delayArgIndex != -1 && delayArgIndex + 1 < args.length) {
@@ -144,6 +147,20 @@ void main(List<String> args) async {
   final hostArgIndex = args.indexOf('--host');
   if (hostArgIndex != -1 && hostArgIndex + 1 < args.length) {
     host = args[hostArgIndex + 1];
+  }
+
+  if (args.contains('--https')) {
+    useHttps = true;
+  }
+
+  final certArgIndex = args.indexOf('--cert');
+  if (certArgIndex != -1 && certArgIndex + 1 < args.length) {
+    certPath = args[certArgIndex + 1];
+  }
+
+  final keyArgIndex = args.indexOf('--key');
+  if (keyArgIndex != -1 && keyArgIndex + 1 < args.length) {
+    keyPath = args[keyArgIndex + 1];
   }
 
   final router = Router();
@@ -182,7 +199,39 @@ void main(List<String> args) async {
           ? InternetAddress.anyIPv4
           : InternetAddress.loopbackIPv4;
 
-  final server = await io.serve(handler, address, 8888);
+  if (useHttps) {
+    final certFile = File(certPath);
+    final keyFile = File(keyPath);
 
-  print('✅ Mock API server running at http://$host:${server.port}');
+    if (!certFile.existsSync() || !keyFile.existsSync()) {
+      print('❌ Certificate or key file not found!');
+      print('   Certificate path: $certPath');
+      print('   Key path: $keyPath');
+      print('   Generate certificates in certs-dev directory using:');
+      print('   cd certs-dev && ./generate.sh');
+      exit(1);
+    }
+
+    try {
+      final context = SecurityContext.defaultContext
+        ..useCertificateChain(certPath)
+        ..usePrivateKey(keyPath);
+
+      final httpsServer = await HttpServer.bindSecure(
+        address,
+        8888,
+        context,
+      );
+
+      io.serveRequests(httpsServer, handler);
+
+      print('✅ Mock API server running at https://$host:${httpsServer.port}');
+    } catch (e) {
+      print('❌ Failed to start HTTPS server: $e');
+      exit(1);
+    }
+  } else {
+    final server = await io.serve(handler, address, 8888);
+    print('✅ Mock API server running at http://$host:${server.port}');
+  }
 }

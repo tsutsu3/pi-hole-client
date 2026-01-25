@@ -7,12 +7,15 @@ import 'package:pi_hole_client/domain/models_old/gateways.dart';
 import 'package:pi_hole_client/domain/models_old/server.dart';
 import 'package:pi_hole_client/domain/use_cases/status_update_service.dart';
 import 'package:pi_hole_client/ui/core/l10n/generated/app_localizations.dart';
+import 'package:pi_hole_client/ui/core/themes/theme.dart';
 import 'package:pi_hole_client/ui/core/ui/components/section_label.dart';
 import 'package:pi_hole_client/ui/core/ui/helpers/snackbar.dart';
 import 'package:pi_hole_client/ui/core/ui/modals/scan_token_modal.dart';
 import 'package:pi_hole_client/ui/core/viewmodel/app_config_provider.dart';
 import 'package:pi_hole_client/ui/core/viewmodel/servers_provider.dart';
+import 'package:pi_hole_client/ui/servers/certificate_details_dialog.dart';
 import 'package:pi_hole_client/utils/open_url.dart';
+import 'package:pi_hole_client/utils/tls_certificate.dart';
 import 'package:provider/provider.dart';
 
 class AddServerFullscreen extends StatefulWidget {
@@ -47,6 +50,8 @@ class _AddServerFullscreenState extends State<AddServerFullscreen> {
   String piHoleVersion = SupportedApiVersions.v6;
   bool defaultCheckbox = false;
   bool allowSelfSignedCert = true;
+  bool ignoreCertificateErrors = false;
+  String? pinnedCertificateSha256;
 
   String? errorUrl;
   bool allDataValid = false;
@@ -59,6 +64,7 @@ class _AddServerFullscreenState extends State<AddServerFullscreen> {
 
   String? initToken;
   String? initPassword;
+  bool _advancedOptionsExpanded = false;
 
   @override
   void initState() {
@@ -80,6 +86,11 @@ class _AddServerFullscreenState extends State<AddServerFullscreen> {
       piHoleVersion = widget.server!.apiVersion;
       defaultCheckbox = widget.server!.defaultServer;
       allowSelfSignedCert = widget.server!.allowSelfSignedCert;
+      ignoreCertificateErrors = widget.server!.ignoreCertificateErrors;
+      pinnedCertificateSha256 = widget.server!.pinnedCertificateSha256;
+      // For edit mode, expand Advanced Options if HTTPS
+      _advancedOptionsExpanded =
+          connectionType == ConnectionType.https;
       _loadSecrets();
     }
   }
@@ -214,6 +225,7 @@ class _AddServerFullscreenState extends State<AddServerFullscreen> {
     final serversProvider = Provider.of<ServersProvider>(context);
     final appConfigProvider = Provider.of<AppConfigProvider>(context);
     final statusUpdateService = context.read<StatusUpdateService>();
+    final appColors = Theme.of(context).extension<AppColors>()!;
 
     final mediaQuery = MediaQuery.of(context);
 
@@ -253,11 +265,145 @@ class _AddServerFullscreenState extends State<AddServerFullscreen> {
       }
     }
 
+    Future<String?> ensurePinnedFingerprint({
+      required BuildContext context,
+      required Uri uri,
+      required String? existingPin,
+    }) async {
+      if (existingPin != null && existingPin.isNotEmpty) {
+        return existingPin;
+      }
+
+      try {
+        // If the certificate is trusted by the platform, pin it automatically.
+        final info = await fetchTlsCertificateInfo(
+          uri,
+          allowBadCertificates: false,
+        );
+        if (info != null) {
+          return info.sha256;
+        }
+        return '';
+      } on HandshakeException {
+        // Untrusted certificate (likely self-signed). Retrieve fingerprint for user verification.
+      } catch (_) {
+        // Fall back to existing behavior without pin prompt on non-TLS failures.
+        return '';
+      }
+
+      TlsCertificateInfo? certificateInfo;
+      try {
+        certificateInfo = await fetchTlsCertificateInfo(
+          uri,
+          allowBadCertificates: true,
+        );
+      } catch (_) {
+        // If we cannot obtain the fingerprint, block the connection.
+        // This typically happens with reverse proxies where certificate
+        // pinning cannot work reliably.
+        return null;
+      }
+      if (!context.mounted || certificateInfo == null) {
+        return null;
+      }
+
+      final info = certificateInfo;
+      final confirmed = await showDialog<bool>(
+        context: context,
+        builder: (dialogContext) => CertificateDetailsDialog(
+          title: AppLocalizations.of(
+            dialogContext,
+          )!.allowSelfSignedCertificates,
+          description: AppLocalizations.of(
+            dialogContext,
+          )!.serverCertificateUpdatePinHelp,
+          certificateInfo: info,
+          actions: [
+            TextButton(
+              onPressed: () => Navigator.pop(dialogContext, false),
+              child: Text(AppLocalizations.of(dialogContext)!.cancel),
+            ),
+            TextButton(
+              onPressed: () => Navigator.pop(dialogContext, true),
+              child: Text(AppLocalizations.of(dialogContext)!.confirm),
+            ),
+          ],
+        ),
+      );
+
+      return confirmed == true ? info.sha256 : null;
+    }
+
+    /// Validates and updates the server's certificate configuration.
+    ///
+    /// This method handles certificate validation and pinning for HTTPS connections.
+    /// It returns the updated Server object if validation succeeds, or null if the
+    /// user cancels or validation fails.
+    ///
+    /// Parameters:
+    /// - [serverObj]: The server object to validate
+    /// - [onValidationFailed]: Optional callback for handling additional cleanup on failure
+    Future<Server?> validateAndUpdateServerCertificate({
+      required Server serverObj,
+      VoidCallback? onValidationFailed,
+    }) async {
+      if (connectionType != ConnectionType.https || ignoreCertificateErrors) {
+        return serverObj.copyWith(pinnedCertificateSha256: null);
+      }
+
+      final uri = Uri.parse(serverObj.address);
+
+      if (allowSelfSignedCert) {
+        // Allow self-signed: prompt user to pin the certificate
+        if (!context.mounted) return null;
+        final pin = await ensurePinnedFingerprint(
+          context: context,
+          uri: uri,
+          existingPin: serverObj.pinnedCertificateSha256,
+        );
+        if (!context.mounted) return null;
+        if (pin == null) {
+          onValidationFailed?.call();
+          return null;
+        }
+        return serverObj.copyWith(
+          pinnedCertificateSha256: pin.isEmpty ? null : pin,
+        );
+      } else {
+        // Strict mode: verify certificate is trusted by the platform
+        try {
+          await fetchTlsCertificateInfo(uri, allowBadCertificates: false);
+          // Certificate is trusted, proceed without pin
+          // ignore: avoid_redundant_argument_values
+          return serverObj.copyWith(pinnedCertificateSha256: null);
+        } on HandshakeException {
+          // Certificate not trusted - block connection
+          if (!context.mounted) return null;
+          onValidationFailed?.call();
+          if (!context.mounted) return null;
+          showErrorSnackBar(
+            context: context,
+            appConfigProvider: appConfigProvider,
+            label: AppLocalizations.of(context)!.sslErrorLong,
+          );
+          return null;
+        } catch (e) {
+          // Other network errors - let loginQuery handle them
+          // ignore: avoid_redundant_argument_values
+          return serverObj.copyWith(pinnedCertificateSha256: null);
+        }
+      }
+    }
+
     Future<void> connect() async {
       FocusManager.instance.primaryFocus?.unfocus();
       setState(() {
         isConnecting = true;
       });
+      if (!allowSelfSignedCert) {
+        pinnedCertificateSha256 = null;
+      }
+
       final url =
           '${connectionType.name}://${addressFieldController.text}${portFieldController.text != '' ? ':${portFieldController.text}' : ''}${subrouteFieldController.text}';
       final exists = await serversProvider.checkUrlExists(url);
@@ -283,15 +429,27 @@ class _AddServerFullscreenState extends State<AddServerFullscreen> {
         setState(() {
           errorUrl = null;
         });
-        final serverObj = Server(
+        var serverObj = Server(
           address: url,
           alias: aliasFieldController.text,
           defaultServer: false,
           apiVersion: piHoleVersion,
           allowSelfSignedCert: allowSelfSignedCert,
+          ignoreCertificateErrors: ignoreCertificateErrors,
+          pinnedCertificateSha256: pinnedCertificateSha256,
         );
         await serverObj.sm.savePassword(passwordFieldController.text);
         await serverObj.sm.saveToken(tokenFieldController.text);
+
+        serverObj = await validateAndUpdateServerCertificate(
+          serverObj: serverObj,
+          onValidationFailed: () {
+            setState(() {
+              isConnecting = false;
+            });
+          },
+        ) ?? serverObj;
+
         final result = await serversProvider
             .loadApiGateway(serverObj)
             ?.loginQuery();
@@ -312,6 +470,8 @@ class _AddServerFullscreenState extends State<AddServerFullscreen> {
               apiVersion: piHoleVersion,
               enabled: result!.status == 'enabled' ? true : false,
               allowSelfSignedCert: allowSelfSignedCert,
+              ignoreCertificateErrors: ignoreCertificateErrors,
+              pinnedCertificateSha256: serverObj.pinnedCertificateSha256,
               sm: serverObj.sm,
             ),
           );
@@ -346,18 +506,44 @@ class _AddServerFullscreenState extends State<AddServerFullscreen> {
         isConnecting = true;
       });
 
-      final serverObj = Server(
+      if (!allowSelfSignedCert) {
+        pinnedCertificateSha256 = null;
+      }
+
+      var serverObj = Server(
         address: widget.server!.address,
         alias: aliasFieldController.text,
         defaultServer: false,
         apiVersion: piHoleVersion,
         allowSelfSignedCert: allowSelfSignedCert,
+        ignoreCertificateErrors: ignoreCertificateErrors,
+        pinnedCertificateSha256: pinnedCertificateSha256,
       );
       await serverObj.sm.savePassword(passwordFieldController.text);
       await serverObj.sm.saveToken(tokenFieldController.text);
       if (serversProvider.selectedServer != null) {
         statusUpdateService.stopAutoRefresh();
       }
+
+      // Validate certificate BEFORE connection test (same as connect())
+      final updatedServer = await validateAndUpdateServerCertificate(
+        serverObj: serverObj,
+        onValidationFailed: () {
+          setState(() {
+            isConnecting = false;
+          });
+          if (serversProvider.selectedServer != null) {
+            statusUpdateService.startAutoRefresh();
+          }
+        },
+      );
+
+      if (updatedServer == null) {
+        return;
+      }
+
+      serverObj = updatedServer;
+
       final result = await serversProvider
           .createApiGateway(serverObj)
           ?.loginQuery(refresh: true);
@@ -592,7 +778,12 @@ class _AddServerFullscreenState extends State<AddServerFullscreen> {
                     ],
                     selected: <ConnectionType>{connectionType},
                     onSelectionChanged: (value) =>
-                        setState(() => connectionType = value.first),
+                        setState(() {
+                          connectionType = value.first;
+                          // Expand Advanced Options when HTTPS is selected, collapse for HTTP
+                          _advancedOptionsExpanded =
+                              connectionType == ConnectionType.https;
+                        }),
                   ),
                 ),
                 Padding(
@@ -636,7 +827,14 @@ class _AddServerFullscreenState extends State<AddServerFullscreen> {
                     highlightColor: Colors.transparent,
                   ),
                   child: ExpansionTile(
+                    key: ValueKey(_advancedOptionsExpanded),
                     tilePadding: EdgeInsets.zero,
+                    initiallyExpanded: _advancedOptionsExpanded,
+                    onExpansionChanged: (expanded) {
+                      setState(() {
+                        _advancedOptionsExpanded = expanded;
+                      });
+                    },
                     title: SectionLabel(
                       label: AppLocalizations.of(context)!.advancedOptions,
                       padding: const EdgeInsets.symmetric(vertical: 16),
@@ -667,8 +865,15 @@ class _AddServerFullscreenState extends State<AddServerFullscreen> {
                       CheckboxListTile(
                         contentPadding: const EdgeInsets.only(right: 8),
                         value: allowSelfSignedCert,
-                        onChanged: connectionType == ConnectionType.https
-                            ? (v) => setState(() => allowSelfSignedCert = v!)
+                        onChanged:
+                            connectionType == ConnectionType.https &&
+                                !ignoreCertificateErrors
+                            ? (v) => setState(() {
+                                allowSelfSignedCert = v!;
+                                if (!allowSelfSignedCert) {
+                                  pinnedCertificateSha256 = null;
+                                }
+                              })
                             : null,
                         title: Text(
                           AppLocalizations.of(
@@ -676,10 +881,32 @@ class _AddServerFullscreenState extends State<AddServerFullscreen> {
                           )!.allowSelfSignedCertificates,
                         ),
                         subtitle: Text(
-                          AppLocalizations.of(context)!.onlyAvailableWithHttps,
-                          style: const TextStyle(
+                          AppLocalizations.of(
+                            context,
+                          )!.allowSelfSignedCertificatesDescription,
+                          style: TextStyle(
                             fontSize: 12,
-                            color: Colors.grey,
+                            color: appColors.queryOrange,
+                          ),
+                        ),
+                      ),
+                      CheckboxListTile(
+                        contentPadding: const EdgeInsets.only(right: 8),
+                        value: ignoreCertificateErrors,
+                        onChanged: connectionType == ConnectionType.https
+                            ? (v) =>
+                                  setState(() => ignoreCertificateErrors = v!)
+                            : null,
+                        title: Text(
+                          AppLocalizations.of(context)!.dontCheckCertificate,
+                        ),
+                        subtitle: Text(
+                          AppLocalizations.of(
+                            context,
+                          )!.dontCheckCertificateDescription,
+                          style: TextStyle(
+                            fontSize: 12,
+                            color: appColors.queryRed,
                           ),
                         ),
                       ),

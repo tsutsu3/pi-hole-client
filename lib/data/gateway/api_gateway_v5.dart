@@ -6,6 +6,7 @@ import 'package:http/http.dart' as http;
 import 'package:http/http.dart';
 import 'package:http/io_client.dart';
 import 'package:pi_hole_client/data/gateway/api_gateway_interface.dart';
+import 'package:pi_hole_client/data/gateway/transport_security_logger.dart';
 import 'package:pi_hole_client/data/model/v6/config/config.dart'
     show ConfigData;
 import 'package:pi_hole_client/domain/models_old/app_log.dart';
@@ -34,8 +35,14 @@ class ApiGatewayV5 implements ApiGateway {
       _client =
           client ??
           IOClient(
-            createHttpClient(allowSelfSignedCert: server.allowSelfSignedCert),
-          );
+            createHttpClient(
+              allowSelfSignedCert: server.allowSelfSignedCert,
+              ignoreCertificateErrors: server.ignoreCertificateErrors,
+              pinnedCertificateSha256: server.pinnedCertificateSha256,
+            ),
+          ) {
+    TransportSecurityLogger.logTransportSecurityPolicyOnce(server);
+  }
   final Server _server;
   final http.Client _client;
 

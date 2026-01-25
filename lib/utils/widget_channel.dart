@@ -46,6 +46,7 @@ class WidgetChannel {
                 'address': server.address,
                 'apiVersion': server.apiVersion,
                 'allowSelfSignedCert': server.allowSelfSignedCert,
+                'pinnedCertificateSha256': server.pinnedCertificateSha256,
               })
           .toList();
       await _channel.invokeMethod('serversUpdated', {

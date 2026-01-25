@@ -62,6 +62,7 @@ class ServerTileHeader extends StatelessWidget {
                       ),
                     ),
                     Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         const SizedBox(height: 3),
                         Text(

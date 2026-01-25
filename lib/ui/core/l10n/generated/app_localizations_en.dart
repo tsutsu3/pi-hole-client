@@ -182,6 +182,25 @@ class AppLocalizationsEn extends AppLocalizations {
   String get allowSelfSignedCertificates => 'Allow self-signed certificates';
 
   @override
+  String get allowSelfSignedCertificatesDescription =>
+      'Allows self-signed certificates without CA verification.';
+
+  @override
+  String get tlsCertSubject => 'Subject';
+
+  @override
+  String get tlsCertIssuer => 'Issuer';
+
+  @override
+  String get tlsCertValidFrom => 'Valid from';
+
+  @override
+  String get tlsCertValidUntil => 'Valid until';
+
+  @override
+  String get tlsCertSha256 => 'SHA-256';
+
+  @override
   String get allowed => 'Allowed';
 
   @override
@@ -694,7 +713,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get dontCheckCertificateDescription =>
-      'This option will be removed in a future version. Please manage certificate verification from each server\'s settings (Settings > Servers).';
+      'Accepts all SSL certificates without validation (not recommended).';
 
   @override
   String get edit => 'Edit';
@@ -1326,7 +1345,8 @@ class AppLocalizationsEn extends AppLocalizations {
   String get on => 'ON';
 
   @override
-  String get onlyAvailableWithHttps => 'Only available with HTTPS';
+  String get onlyAvailableWithHttps =>
+      'Available only when the connection uses HTTPS.';
 
   @override
   String get openExternalUrl => 'Opens an external link';
@@ -2145,4 +2165,84 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get clientsSelectLeftColumn => 'Select a client to view its details.';
+
+  @override
+  String get serverSecurityHttp => 'HTTP';
+
+  @override
+  String get serverSecurityHttpsVerified => 'HTTPS Verified';
+
+  @override
+  String get serverSecurityHttpsPinned => 'HTTPS Pinned';
+
+  @override
+  String get serverSecurityHttpsUntrustedAllowed => 'HTTPS Untrusted Allowed';
+
+  @override
+  String get serverSecurityHttpsUntrustedBlocked => 'HTTPS Untrusted Blocked';
+
+  @override
+  String get serverSecurityHttpsPinMismatch => 'HTTPS Pin Mismatch';
+
+  @override
+  String get serverSecurityHttpsUnknown => 'HTTPS Unknown';
+
+  @override
+  String get serverCertificateIssueTitle => 'Certificate issue';
+
+  @override
+  String get serverCertificateIssueDetected =>
+      'A certificate issue was detected. The server\'s certificate may have changed.';
+
+  @override
+  String get serverCertificateIssueHelp =>
+      'The server\'s TLS certificate may have changed or become untrusted. Review the server settings and update the pinned fingerprint if needed.';
+
+  @override
+  String get serverCertificatePinMismatchDetected =>
+      'Pinned certificate mismatch. The server\'s certificate may have changed.';
+
+  @override
+  String get serverCertificatePinMismatchHelp =>
+      'The server\'s certificate does not match the pinned fingerprint. Verify the certificate and update the pinned fingerprint in the server settings.';
+
+  @override
+  String get serverCertificateTitle => 'Certificate';
+
+  @override
+  String get serverCertificateView => 'View certificate';
+
+  @override
+  String get serverCertificateUpdatePin => 'Update';
+
+  @override
+  String get serverCertificateUpdatePinTitle => 'Update pinned fingerprint';
+
+  @override
+  String get serverCertificateUpdatePinHelp =>
+      'This will replace the pinned SHA-256 fingerprint used when allowing untrusted certificates. Only proceed if you verified the certificate out of band.';
+
+  @override
+  String get serverCertificateFetchFailed =>
+      'Could not fetch certificate information.';
+
+  @override
+  String unverifiedCertificatesBannerTitle(num count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count servers have unverified certificates allowed',
+      one: '1 server has unverified certificates allowed',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get unverifiedCertificatesBannerExpand => 'Expand';
+
+  @override
+  String get unverifiedCertificatesBannerCollapse => 'Collapse';
+
+  @override
+  String get unverifiedCertificatesBannerLearnMore => 'Learn more';
 }

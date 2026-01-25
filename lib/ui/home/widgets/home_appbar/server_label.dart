@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:pi_hole_client/domain/use_cases/server_connection_service.dart';
 import 'package:pi_hole_client/domain/use_cases/status_update_service.dart';
+import 'package:pi_hole_client/ui/core/themes/theme.dart';
 import 'package:pi_hole_client/ui/core/viewmodel/app_config_provider.dart';
 import 'package:pi_hole_client/ui/core/viewmodel/servers_provider.dart';
 import 'package:pi_hole_client/ui/core/viewmodel/status_provider.dart';
@@ -124,11 +125,30 @@ class _ServerLabelText extends StatelessWidget {
     final address = context.select<ServersProvider, String>(
       (p) => p.selectedServer?.address ?? '',
     );
+    final serversProvider = context.watch<ServersProvider>();
+    final selectedServer = serversProvider.selectedServer;
+    final hasUnverifiedCert =
+        selectedServer != null &&
+        serversProvider.serversWithUnverifiedCertificates.any(
+          (s) => s.address == selectedServer.address,
+        );
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text(alias, style: const TextStyle(fontSize: 20)),
+        Row(
+          children: [
+            Text(alias, style: const TextStyle(fontSize: 20)),
+            if (hasUnverifiedCert) ...[
+              const SizedBox(width: 8),
+              Icon(
+                Icons.warning_rounded,
+                color: Theme.of(context).extension<AppColors>()!.queryOrange,
+                size: 16,
+              ),
+            ],
+          ],
+        ),
         Text(
           address,
           style: TextStyle(

@@ -107,6 +107,8 @@ class ServerRepository {
         'isDefaultServer': server.defaultServer ? 1 : 0,
         'apiVersion': server.apiVersion,
         'allowSelfSignedCert': server.allowSelfSignedCert ? 1 : 0,
+        'ignoreCertificateErrors': server.ignoreCertificateErrors ? 1 : 0,
+        'pinnedCertificateSha256': server.pinnedCertificateSha256,
       });
     } catch (e, st) {
       logger.e('Failed to save server: $e\n$st');
@@ -155,6 +157,8 @@ class ServerRepository {
           'isDefaultServer': convertFromBoolToInt(server.defaultServer),
           'apiVersion': server.apiVersion,
           'allowSelfSignedCert': server.allowSelfSignedCert ? 1 : 0,
+          'ignoreCertificateErrors': server.ignoreCertificateErrors ? 1 : 0,
+          'pinnedCertificateSha256': server.pinnedCertificateSha256,
         },
         where: 'address = ?',
         whereArgs: [server.address],

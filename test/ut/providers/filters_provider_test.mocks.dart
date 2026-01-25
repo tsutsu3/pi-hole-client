@@ -61,6 +61,22 @@ class MockServersProvider extends _i1.Mock implements _i3.ServersProvider {
           as List<_i4.Server>);
 
   @override
+  bool get unverifiedBannerDismissed =>
+      (super.noSuchMethod(
+            Invocation.getter(#unverifiedBannerDismissed),
+            returnValue: false,
+          )
+          as bool);
+
+  @override
+  List<_i4.Server> get serversWithUnverifiedCertificates =>
+      (super.noSuchMethod(
+            Invocation.getter(#serversWithUnverifiedCertificates),
+            returnValue: <_i4.Server>[],
+          )
+          as List<_i4.Server>);
+
+  @override
   int get numShown =>
       (super.noSuchMethod(Invocation.getter(#numShown), returnValue: 0) as int);
 
@@ -92,6 +108,12 @@ class MockServersProvider extends _i1.Mock implements _i3.ServersProvider {
   @override
   void clearConnectingServer() => super.noSuchMethod(
     Invocation.method(#clearConnectingServer, []),
+    returnValueForMissingStub: null,
+  );
+
+  @override
+  void setUnverifiedBannerDismissed(bool? dismissed) => super.noSuchMethod(
+    Invocation.method(#setUnverifiedBannerDismissed, [dismissed]),
     returnValueForMissingStub: null,
   );
 

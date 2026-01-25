@@ -41,11 +41,15 @@ class PiholeV6ApiClient {
     required String url,
     http.Client? client,
     bool? allowSelfSignedCert,
+    bool? ignoreCertificateErrors,
   }) : _url = url,
        _client =
            client ??
            IOClient(
-             createHttpClient(allowSelfSignedCert: allowSelfSignedCert ?? true),
+             createHttpClient(
+               allowSelfSignedCert: allowSelfSignedCert ?? true,
+               ignoreCertificateErrors: ignoreCertificateErrors ?? false,
+             ),
            );
 
   final String _url;

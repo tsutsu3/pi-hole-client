@@ -31,6 +31,7 @@ void main() async {
       defaultServer: false,
       apiVersion: 'v6',
       allowSelfSignedCert: true,
+      ignoreCertificateErrors: false,
     );
 
     final devicesInfo = DevicesInfo(

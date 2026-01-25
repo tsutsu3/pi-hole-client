@@ -1,0 +1,16 @@
+# Pi-hole V6 reverse proxy with self-signed certificate
+{
+	auto_https disable_redirects
+}
+
+:8443 {
+	tls /certs/server.crt /certs/server.key
+
+	reverse_proxy piholeV6-https:80
+}
+
+:8444 {
+	tls /certs/server.crt /certs/server.key
+
+	reverse_proxy piholeV5-https:80
+}

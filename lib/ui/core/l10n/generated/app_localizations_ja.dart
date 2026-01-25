@@ -180,6 +180,25 @@ class AppLocalizationsJa extends AppLocalizations {
   String get allowSelfSignedCertificates => '自己署名証明書を許可する';
 
   @override
+  String get allowSelfSignedCertificatesDescription =>
+      '認証局による署名は確認せず、自己署名証明書でも接続を許可します。';
+
+  @override
+  String get tlsCertSubject => 'サブジェクト';
+
+  @override
+  String get tlsCertIssuer => '発行者';
+
+  @override
+  String get tlsCertValidFrom => '有効開始';
+
+  @override
+  String get tlsCertValidUntil => '有効期限';
+
+  @override
+  String get tlsCertSha256 => 'SHA-256';
+
+  @override
   String get allowed => '許可済み';
 
   @override
@@ -676,8 +695,7 @@ class AppLocalizationsJa extends AppLocalizations {
   String get dontCheckCertificate => 'SSL証明書を確認しない';
 
   @override
-  String get dontCheckCertificateDescription =>
-      'この項目は将来的に削除されます。現在は、各サーバーの設定から証明書の検証を管理してください（Settings > Servers）。';
+  String get dontCheckCertificateDescription => 'すべてのSSL証明書を無条件で受け入れます（非推奨）。';
 
   @override
   String get edit => '編集';
@@ -1292,7 +1310,7 @@ class AppLocalizationsJa extends AppLocalizations {
   String get on => 'オン';
 
   @override
-  String get onlyAvailableWithHttps => ' HTTPSでのみ利用可能';
+  String get onlyAvailableWithHttps => 'HTTPS 接続の場合のみ有効です。';
 
   @override
   String get openExternalUrl => '外部リンクを開きます';
@@ -2091,4 +2109,83 @@ class AppLocalizationsJa extends AppLocalizations {
 
   @override
   String get clientsSelectLeftColumn => '詳細を表示するクライアントを選択してください。';
+
+  @override
+  String get serverSecurityHttp => 'HTTP';
+
+  @override
+  String get serverSecurityHttpsVerified => 'HTTPS（検証済み）';
+
+  @override
+  String get serverSecurityHttpsPinned => 'HTTPS（ピン留め）';
+
+  @override
+  String get serverSecurityHttpsUntrustedAllowed => 'HTTPS（未検証 許可）';
+
+  @override
+  String get serverSecurityHttpsUntrustedBlocked => 'HTTPS（未検証 ブロック）';
+
+  @override
+  String get serverSecurityHttpsPinMismatch => 'HTTPS（ピン不一致）';
+
+  @override
+  String get serverSecurityHttpsUnknown => 'HTTPS（不明）';
+
+  @override
+  String get serverCertificateIssueTitle => '証明書の問題';
+
+  @override
+  String get serverCertificateIssueDetected =>
+      '証明書の問題が検出されました。サーバーの証明書が変わった可能性があります。';
+
+  @override
+  String get serverCertificateIssueHelp =>
+      'TLS 証明書が変更された、または信頼できない状態になっている可能性があります。サーバー設定を確認し、必要に応じてピン留め（SHA-256）を更新してください。';
+
+  @override
+  String get serverCertificatePinMismatchDetected =>
+      'ピン留め証明書が一致しません。サーバーの証明書が変わった可能性があります。';
+
+  @override
+  String get serverCertificatePinMismatchHelp =>
+      'サーバーの証明書がピン留め（SHA-256）と一致しません。証明書を確認した上で、サーバー設定からピン留めを更新してください。';
+
+  @override
+  String get serverCertificateTitle => '証明書';
+
+  @override
+  String get serverCertificateView => '証明書を表示';
+
+  @override
+  String get serverCertificateUpdatePin => '更新';
+
+  @override
+  String get serverCertificateUpdatePinTitle => 'ピン留めを更新';
+
+  @override
+  String get serverCertificateUpdatePinHelp =>
+      '未検証の証明書を許可する際に使う SHA-256 のピン留めを更新します。証明書を別手段で確認した場合のみ続行してください。';
+
+  @override
+  String get serverCertificateFetchFailed => '証明書情報を取得できませんでした。';
+
+  @override
+  String unverifiedCertificatesBannerTitle(num count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '未検証の証明書が許可されているサーバーが$count件あります',
+      one: '未検証の証明書が許可されているサーバーが1件あります',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get unverifiedCertificatesBannerExpand => '展開';
+
+  @override
+  String get unverifiedCertificatesBannerCollapse => '閉じる';
+
+  @override
+  String get unverifiedCertificatesBannerLearnMore => '詳しく見る';
 }

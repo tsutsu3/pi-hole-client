@@ -184,6 +184,25 @@ class AppLocalizationsPl extends AppLocalizations {
       'Zezwól na certyfikaty z podpisem własnym';
 
   @override
+  String get allowSelfSignedCertificatesDescription =>
+      'Allows self-signed certificates without CA verification.';
+
+  @override
+  String get tlsCertSubject => 'Podmiot';
+
+  @override
+  String get tlsCertIssuer => 'Wystawca';
+
+  @override
+  String get tlsCertValidFrom => 'Ważny od';
+
+  @override
+  String get tlsCertValidUntil => 'Ważny do';
+
+  @override
+  String get tlsCertSha256 => 'SHA-256';
+
+  @override
   String get allowed => 'Dozwolone';
 
   @override
@@ -699,7 +718,7 @@ class AppLocalizationsPl extends AppLocalizations {
 
   @override
   String get dontCheckCertificateDescription =>
-      'Opcja ta zostanie usunięta w przyszłej wersji. Zarządzaj weryfikacją certyfikatów w ustawieniach poszczególnych serwerów (Ustawienia > Serwery).';
+      'Accepts all SSL certificates without validation (not recommended).';
 
   @override
   String get edit => 'Edytuj';
@@ -2161,4 +2180,86 @@ class AppLocalizationsPl extends AppLocalizations {
   @override
   String get clientsSelectLeftColumn =>
       'Wybierz klienta, aby zobaczyć szczegóły.';
+
+  @override
+  String get serverSecurityHttp => 'HTTP';
+
+  @override
+  String get serverSecurityHttpsVerified => 'HTTPS zweryfikowane';
+
+  @override
+  String get serverSecurityHttpsPinned => 'HTTPS przypięte';
+
+  @override
+  String get serverSecurityHttpsUntrustedAllowed =>
+      'HTTPS niezaufane dozwolone';
+
+  @override
+  String get serverSecurityHttpsUntrustedBlocked =>
+      'HTTPS niezaufane zablokowane';
+
+  @override
+  String get serverSecurityHttpsPinMismatch => 'HTTPS niezgodny PIN';
+
+  @override
+  String get serverSecurityHttpsUnknown => 'HTTPS nieznane';
+
+  @override
+  String get serverCertificateIssueTitle => 'Problem z certyfikatem';
+
+  @override
+  String get serverCertificateIssueDetected =>
+      'Wykryto problem z certyfikatem. Certyfikat serwera mógł się zmienić.';
+
+  @override
+  String get serverCertificateIssueHelp =>
+      'Certyfikat TLS serwera mógł się zmienić lub stać się niezaufany. Sprawdź ustawienia serwera i w razie potrzeby zaktualizuj przypięty odcisk.';
+
+  @override
+  String get serverCertificatePinMismatchDetected =>
+      'Niezgodność przypiętego certyfikatu. Certyfikat serwera mógł się zmienić.';
+
+  @override
+  String get serverCertificatePinMismatchHelp =>
+      'Certyfikat serwera nie pasuje do przypiętego odcisku. Zweryfikuj certyfikat i zaktualizuj odcisk w ustawieniach serwera.';
+
+  @override
+  String get serverCertificateTitle => 'Certyfikat';
+
+  @override
+  String get serverCertificateView => 'Pokaż certyfikat';
+
+  @override
+  String get serverCertificateUpdatePin => 'Zaktualizuj';
+
+  @override
+  String get serverCertificateUpdatePinTitle => 'Zaktualizuj przypięty odcisk';
+
+  @override
+  String get serverCertificateUpdatePinHelp =>
+      'Spowoduje to zastąpienie przypiętego odcisku SHA-256 używanego przy zezwalaniu na niezaufane certyfikaty. Kontynuuj tylko, jeśli zweryfikowałeś certyfikat inną metodą.';
+
+  @override
+  String get serverCertificateFetchFailed =>
+      'Nie udało się pobrać informacji o certyfikacie.';
+
+  @override
+  String unverifiedCertificatesBannerTitle(num count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count serwery dopuszczają niezweryfikowane certyfikaty',
+      one: '1 serwer dopuszcza niezweryfikowane certyfikaty',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get unverifiedCertificatesBannerExpand => 'Rozwiń';
+
+  @override
+  String get unverifiedCertificatesBannerCollapse => 'Zwiń';
+
+  @override
+  String get unverifiedCertificatesBannerLearnMore => 'Dowiedz się więcej';
 }

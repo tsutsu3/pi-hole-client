@@ -44,7 +44,7 @@ class DatabaseService {
   /// Returns:
   /// - [Success] containing the opened [Database] instance if successful.
   /// - [Failure] containing an [Exception] if an error occurs during opening.
-  Future<Result<Database>> open({int? latestVersion = 8}) async {
+  Future<Result<Database>> open({int? latestVersion = 9}) async {
     try {
       _db = await openDatabase(
         _path,
@@ -265,7 +265,9 @@ class DatabaseService {
         alias TEXT NOT NULL,
         isDefaultServer NUMERIC NOT NULL,
         apiVersion TEXT NOT NULL,
-        allowSelfSignedCert NUMERIC NOT NULL
+        allowSelfSignedCert NUMERIC NOT NULL,
+        ignoreCertificateErrors NUMERIC NOT NULL,
+        pinnedCertificateSha256 TEXT
       )
     ''');
 
@@ -346,45 +348,31 @@ class DatabaseService {
   }
 
   Future<void> _onUpgrade(Database db, int oldVersion, int newVersion) async {
-    if (oldVersion == 1) {
-      await _upgradeToV2(db);
-      await _upgradeToV3(db);
-      await _upgradeToV4(db);
-      await _upgradeToV5(db);
-      await _upgradeToV6(db);
-      await _upgradeToV7(db);
-      await _upgradeToV8(db);
-    } else if (oldVersion == 2) {
-      await _upgradeToV3(db);
-      await _upgradeToV4(db);
-      await _upgradeToV5(db);
-      await _upgradeToV6(db);
-      await _upgradeToV7(db);
-      await _upgradeToV8(db);
-    } else if (oldVersion == 3) {
-      await _upgradeToV4(db);
-      await _upgradeToV5(db);
-      await _upgradeToV6(db);
-      await _upgradeToV7(db);
-      await _upgradeToV8(db);
-    } else if (oldVersion == 4) {
-      await _upgradeToV5(db);
-      await _upgradeToV6(db);
-      await _upgradeToV7(db);
-      await _upgradeToV8(db);
-    } else if (oldVersion == 5) {
-      await _upgradeToV6(db);
-      await _upgradeToV7(db);
-      await _upgradeToV8(db);
-    } else if (oldVersion == 6) {
-      await _upgradeToV7(db);
-      await _upgradeToV8(db);
-    } else if (oldVersion == 7) {
-      await _upgradeToV8(db);
-    } else {
-      logger.w(
-        'Database upgrade from version $oldVersion to $newVersion is not handled.',
-      );
+    for (var version = oldVersion + 1; version <= newVersion; version++) {
+      await _upgradeTo(db, version);
+    }
+  }
+
+  Future<void> _upgradeTo(Database db, int version) async {
+    switch (version) {
+      case 2:
+        await _upgradeToV2(db);
+      case 3:
+        await _upgradeToV3(db);
+      case 4:
+        await _upgradeToV4(db);
+      case 5:
+        await _upgradeToV5(db);
+      case 6:
+        await _upgradeToV6(db);
+      case 7:
+        await _upgradeToV7(db);
+      case 8:
+        await _upgradeToV8(db);
+      case 9:
+        await _upgradeToV9(db);
+      default:
+        logger.w('Database upgrade to version $version is not handled.');
     }
   }
 
@@ -737,5 +725,56 @@ class DatabaseService {
     await db.execute('ALTER TABLE appConfig_new RENAME TO appConfig');
 
     logger.d('Database upgraded to version 8');
+  }
+
+  /// Migrates the database to version 9.
+  ///
+  /// Adds `pinnedCertificateSha256` and `ignoreCertificateErrors` to the
+  /// `servers` table to support certificate pinning.
+  Future<void> _upgradeToV9(Database db) async {
+    await db.execute('''
+      CREATE TABLE servers_new (
+        address TEXT PRIMARY KEY NOT NULL,
+        alias TEXT NOT NULL,
+        isDefaultServer NUMERIC NOT NULL,
+        apiVersion TEXT NOT NULL,
+        allowSelfSignedCert NUMERIC NOT NULL,
+        ignoreCertificateErrors NUMERIC NOT NULL,
+        pinnedCertificateSha256 TEXT
+      )
+    ''');
+    // Migration note:
+    // Previously, allowSelfSignedCert meant "skip SSL verification entirely"
+    // (equivalent to current ignoreCertificateErrors).
+    // Now we have separate flags:
+    // - allowSelfSignedCert: allow self-signed certs with optional pinning
+    // - ignoreCertificateErrors: skip all SSL verification (dangerous)
+    //
+    // To preserve existing behavior:
+    // - ignoreCertificateErrors = old allowSelfSignedCert (maintains previous behavior)
+    // - allowSelfSignedCert = old allowSelfSignedCert (maintains previous behavior)
+    await db.execute('''
+      INSERT INTO servers_new (
+        address,
+        alias,
+        isDefaultServer,
+        apiVersion,
+        allowSelfSignedCert,
+        ignoreCertificateErrors,
+        pinnedCertificateSha256
+      )
+      SELECT
+        address,
+        alias,
+        isDefaultServer,
+        apiVersion,
+        allowSelfSignedCert,
+        allowSelfSignedCert,
+        NULL
+      FROM servers
+    ''');
+    await db.execute('DROP TABLE servers');
+    await db.execute('ALTER TABLE servers_new RENAME TO servers');
+    logger.d('Database upgraded to version 9');
   }
 }

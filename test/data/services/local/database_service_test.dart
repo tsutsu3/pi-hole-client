@@ -41,6 +41,8 @@ void main() {
         'isDefaultServer': 1,
         'apiVersion': 'v6',
         'allowSelfSignedCert': 1,
+        'ignoreCertificateErrors': 0,
+        'pinnedCertificateSha256': null,
       });
       expect(insertResult.isSuccess(), isTrue);
 
@@ -61,6 +63,8 @@ void main() {
         'isDefaultServer': 1,
         'apiVersion': 'v6',
         'allowSelfSignedCert': 1,
+        'ignoreCertificateErrors': 0,
+        'pinnedCertificateSha256': null,
       });
       final updateResult = await dbService.update(
         'servers',
@@ -82,6 +86,8 @@ void main() {
         'isDefaultServer': 1,
         'apiVersion': 'v6',
         'allowSelfSignedCert': 1,
+        'ignoreCertificateErrors': 0,
+        'pinnedCertificateSha256': null,
       });
       final deleteResult = await dbService.delete(
         'servers',
@@ -102,6 +108,8 @@ void main() {
         'isDefaultServer': 1,
         'apiVersion': 'v6',
         'allowSelfSignedCert': 1,
+        'ignoreCertificateErrors': 0,
+        'pinnedCertificateSha256': null,
       });
       final rawResult = await dbService.rawQuery('SELECT * FROM servers');
       expect(rawResult.isSuccess(), isTrue);
@@ -121,6 +129,8 @@ void main() {
           'isDefaultServer': 0,
           'apiVersion': 'v6',
           'allowSelfSignedCert': 1,
+          'ignoreCertificateErrors': 0,
+          'pinnedCertificateSha256': null,
         });
       });
       expect(result.isSuccess(), isTrue);
@@ -141,6 +151,8 @@ void main() {
         'isDefaultServer': 1,
         'apiVersion': 'v6',
         'allowSelfSignedCert': 1,
+        'ignoreCertificateErrors': 0,
+        'pinnedCertificateSha256': null,
       });
       final result = await dbService.insert('servers', {
         'address': '127.0.0.1',
@@ -148,6 +160,8 @@ void main() {
         'isDefaultServer': 0,
         'apiVersion': 'v6',
         'allowSelfSignedCert': 1,
+        'ignoreCertificateErrors': 0,
+        'pinnedCertificateSha256': null,
       });
       expect(result.isError(), isTrue);
 
@@ -169,6 +183,8 @@ void main() {
           'isDefaultServer': 1,
           'apiVersion': 'v6',
           'allowSelfSignedCert': 1,
+          'ignoreCertificateErrors': 0,
+          'pinnedCertificateSha256': null,
         });
         final result = await dbService.insert('servers', {
           'address': '127.0.0.1',
@@ -176,6 +192,8 @@ void main() {
           'isDefaultServer': 0,
           'apiVersion': 'v6',
           'allowSelfSignedCert': 1,
+          'ignoreCertificateErrors': 0,
+          'pinnedCertificateSha256': null,
         }, conflictAlgorithm: ConflictAlgorithm.replace);
         expect(result.isSuccess(), isTrue);
 

@@ -29,6 +29,7 @@ void main() async {
       defaultServer: false,
       apiVersion: 'v6',
       allowSelfSignedCert: true,
+      ignoreCertificateErrors: false,
     );
 
     setUp(() {
@@ -111,6 +112,7 @@ void main() async {
           defaultServer: true,
           apiVersion: 'v6',
           allowSelfSignedCert: true,
+          ignoreCertificateErrors: false,
         );
         final result = await serversProvider.addServer(server2);
 
@@ -164,6 +166,8 @@ void main() async {
           apiVersion: server.apiVersion,
           sid: 'sid01',
           allowSelfSignedCert: server.allowSelfSignedCert,
+          ignoreCertificateErrors: server.ignoreCertificateErrors,
+          pinnedCertificateSha256: null,
         ),
       ];
 

@@ -1,4 +1,19 @@
 services:
+  caddy:
+    container_name: caddy
+    image: caddy:latest
+    ports:
+      - "1447:8443"
+      - "1448:8444"
+    volumes:
+      - ./Caddyfile:/etc/caddy/Caddyfile:ro
+      - ./certs-dev:/certs:ro
+      - caddy_data:/data
+      - caddy_config:/config
+    depends_on:
+      - piholeV6-https
+      - piholeV5-https
+
   piholeV5:
     container_name: piholeV5
     image: pihole/pihole:2024.07.0
@@ -11,6 +26,15 @@ services:
       TZ: 'Asia/Tokyo'
       WEBPASSWORD: 'test123'
 
+  piholeV5-https:
+    container_name: piholeV5-https
+    image: pihole/pihole:2024.07.0
+    expose:
+      - "80"
+    environment:
+      TZ: 'Asia/Tokyo'
+      WEBPASSWORD: 'test123'
+
   piholeV6:
     container_name: piholeV6
     image: pihole/pihole:latest
@@ -19,6 +43,16 @@ services:
       - "55:53/udp"
       - "80:80/tcp"
       - "443:443/tcp"
+    environment:
+      TZ: 'Asia/Tokyo'
+      FTLCONF_webserver_api_password: 'test001'
+
+  # Pi-hole V6 with reverse proxy (self-signed HTTPS)
+  piholeV6-https:
+    container_name: piholeV6-https
+    image: pihole/pihole:latest
+    expose:
+      - "80"
     environment:
       TZ: 'Asia/Tokyo'
       FTLCONF_webserver_api_password: 'test001'
@@ -58,3 +92,7 @@ services:
     environment:
       TZ: 'Asia/Tokyo'
       FTLCONF_webserver_api_password: 'test000'
+
+volumes:
+  caddy_data:
+  caddy_config:
