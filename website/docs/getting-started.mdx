@@ -3,7 +3,7 @@ title: Getting Started
 sidebar_position: 2
 ---
 
-import ImageRow from '@site/src/components/image-row';
+import ImageRow from "@site/src/components/image-row";
 
 # 🚀 Getting Started
 
@@ -43,7 +43,7 @@ Before connecting:
 ### For Pi-hole v5
 
 - Find your **API key** in`Settings → API/Web interface → Show API token`.
-See [Getting the API token (v5 only)](../guides/get-api-token) for details.
+  See [Getting the API token (v5 only)](../guides/get-api-token) for details.
 
 ## 3. Add your server in the app
 
@@ -51,8 +51,16 @@ Open **Settings → App Settings → Servers**, then tap **＋** to create a new
 connection.
 
 <ImageRow>
-  <img width="240" alt="Servers list in App Settings" src={require('./user-manual/images/settings/app-settings/servers.png').default} />
-  <img width="240" alt="Create a connection screen" src={require('./user-manual/images/settings/app-settings/create-a-connection.png').default} />
+  <img
+    width="240"
+    alt="Servers list in App Settings"
+    src={require("./user-manual/images/settings/app-settings/servers.png").default}
+  />
+  <img
+    width="240"
+    alt="Create a connection screen"
+    src={require("./user-manual/images/settings/app-settings/create-a-connection.png").default}
+  />
 </ImageRow>
 
 ### Fill in the connection details
@@ -84,6 +92,7 @@ For HTTPS, self-signed certificates, or reverse-proxy setups (subroutes), see
 [Connecting to Your Pi-hole](../guides/create-a-connection).
 
 See also:
+
 - [Connecting to Your Pi-hole](../guides/create-a-connection)
 - [Getting the API token (v5 only)](../guides/get-api-token)
 - [User Manual](../user-manual)

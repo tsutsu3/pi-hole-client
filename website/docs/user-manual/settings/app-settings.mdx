@@ -3,7 +3,7 @@ title: App Settings
 sidebar_position: 1
 ---
 
-import ImageRow from '@site/src/components/image-row';
+import ImageRow from "@site/src/components/image-row";
 import imgAppSettingsMain from "../images/settings/app-settings/servers.png";
 import imgAppSettingsAdvanced from "../images/settings/app-settings/advanced settings/advanced-settings-top.png";
 import imgReducedDataOn from "../images/settings/app-settings/advanced settings/use-reduced-data/linechart-reduce-on.png";
@@ -36,6 +36,7 @@ These settings do not change Pi-hole itself, but they affect how information
 is displayed, how often data refreshes, and how the app feels to use.
 
 Use this screen to:
+
 - Customize appearance and language
 - Tune chart behavior and performance
 - Adjust advanced app-side preferences
@@ -54,6 +55,7 @@ Choose how the app looks.
 </ImageRow>
 
 You can select:
+
 - **Light** - always use a light theme
 - **Dark** - always use a dark theme
 - **System Default** - follow the device setting
@@ -70,6 +72,7 @@ Choose the language used for the app interface.
 </ImageRow>
 
 Available languages include:
+
 - English (default)
 - Deutsch (German)
 - Español (Spanish)
@@ -85,6 +88,7 @@ The **Servers** section controls which Pi-hole instances the app can connect to.
 <img width="320" alt="App settings main list" src={imgAppSettingsMain} />
 
 From here, you can:
+
 - Switch the currently selected server
 - Add a new Pi-hole server
 - Edit an existing server entry
@@ -173,6 +177,7 @@ When **Use Reduced Data** is enabled, charts display fewer data points.
 </ImageRow>
 
 Enable this when:
+
 - You are on a slow or metered connection
 - Charts feel heavy or slow to update
 
@@ -201,7 +206,6 @@ This setting controls whether charts animate while data is loading.
 Enable it if you want clear visual feedback during refresh.
 Disable it if you prefer a quieter, static interface.
 
-
 ## Chart display mode
 
 Chart Display Mode controls **how statistics are presented**.
@@ -211,6 +215,7 @@ Chart Display Mode controls **how statistics are presented**.
 ### Home screen chart style
 
 On the Home screen, you can switch between:
+
 - **Line chart** (left)
 - **Bar chart** (right)
 
@@ -245,6 +250,7 @@ is refreshed.
 <img width="320" alt="Statistics refresh interval" src={imgStatsRefreshInterval} />
 
 It affects:
+
 - The **four summary tiles on the Home screen**
 - Data shown on the **Statistics screen**, including Domains and Clients
 
@@ -253,6 +259,7 @@ On the Statistics screen, this interval determines how frequently
 Domains and Clients data is updated.
 
 You can choose:
+
 - A fixed refresh interval from the predefined options
 - A **custom interval** by entering a number of seconds manually
 
@@ -291,6 +298,7 @@ When **Live Log is enabled**, this interval determines how frequently
 new log entries are requested and added to the list.
 
 You can choose:
+
 - A fixed refresh interval from the predefined options
 - A **custom interval** by entering a number of seconds manually
 
@@ -337,7 +345,6 @@ but it requires choosing a fixed limit in advance.
 If you are using Pi-hole v6, no action is required.
 The infinite scrolling behavior replaces this setting
 and provides improved log browsing by default.
-
 
 ---
 

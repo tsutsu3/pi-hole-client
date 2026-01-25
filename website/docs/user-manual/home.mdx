@@ -3,7 +3,7 @@ title: Home
 sidebar_position: 1
 ---
 
-import ImageRow from '@site/src/components/image-row';
+import ImageRow from "@site/src/components/image-row";
 import imgHomeTop from "./images/home/home-top.png";
 import imgHomeBottom from "./images/home/home-bottom.png";
 import imgHomeMenu from "./images/home/home-menu.png";
@@ -11,6 +11,7 @@ import imgHomeServerSelect from "./images/home/home-switch.png";
 import imgHomeFab from "./images/home/home-fab.png";
 import imgHomeStatusIcon from "./images/home/home-status-icon.png";
 import imgHomeTiles from "./images/home/home-tiles.png";
+import imgHomeCertIcon from "./images/home/home-cert-icon.png";
 
 # 🏠 Home
 
@@ -55,7 +56,32 @@ The shield icon represents the current state:
 
 <img width="320" alt="Home status icon legend" src={imgHomeStatusIcon} />
 
-This icon is **not tappable**.
+### Server certificate warning
+
+Next to the server name, you may also see a **certificate warning icon** (⚠️).
+
+<img width="512" alt="Home certificate warning icon" src={imgHomeCertIcon} />
+
+This warning icon indicates that there is a **connection issue with the server's SSL/TLS certificate**.
+It can appear in two places:
+
+- **Next to the server name** on the Home screen
+- **In the server list** when you open the server switch dialog
+
+This warning appears when one of these conditions is true:
+
+- **"HTTPS Untrusted Blocked"** - Server has a self-signed or invalid certificate,
+  but "Allow self-signed certificates" is disabled
+- **"HTTPS Pin Mismatch"** - The server's certificate fingerprint doesn't match the
+  previously pinned value (certificate may have been renewed or replaced)
+- **"Don't check SSL certificate"** - All SSL/TLS certificate validation is disabled
+  (useful for testing but reduces security)
+
+:::info
+If this warning appears, see [Certificate Configuration](/docs/guides/cert-config/)
+for how to handle certificate errors (verify, pin, skip validation, or trust the certificate).
+:::
+
 Use it to decide what to do next: wait, reconnect, switch servers, or toggle
 blocking.
 
@@ -77,7 +103,7 @@ Depending on the current state, you may see:
 Use this menu when the displayed data looks outdated or when you need to access
 the full web interface for advanced configuration.
 
-Note: *Open Web Panel* assumes the admin interface is available at `/admin/`.
+Note: _Open Web Panel_ assumes the admin interface is available at `/admin/`.
 If your Pi-hole uses a custom path, open it manually in a browser.
 
 ## Switching the active server
@@ -93,7 +119,13 @@ In this dialog, you can:
 
 - View all configured Pi-hole servers
 - See which server is currently active
+- See any **certificate warnings** (indicated by ⚠️) next to problematic servers
 - Tap another server to switch immediately
+
+If a certificate warning icon appears next to a server, it means there is a connection issue
+with that server's SSL/TLS certificate.
+You can still switch to that server, but you will need to resolve the certificate issue
+from Server Settings before normal operation is possible.
 
 After selecting a server, Home reloads automatically.
 All statistics, status icons, and actions now refer to the newly selected server.
@@ -168,7 +200,7 @@ This flow is designed to be quick and reversible without opening Settings.
   automatically.
 
 - **Investigating blocked traffic**
-  Tap *Queries Blocked* to jump directly to Logs with the relevant filter applied.
+  Tap _Queries Blocked_ to jump directly to Logs with the relevant filter applied.
 
 ## Important notes and limits
 
