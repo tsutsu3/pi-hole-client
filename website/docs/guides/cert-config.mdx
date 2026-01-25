@@ -3,6 +3,7 @@ title: Certificate Configuration Guide
 sidebar_position: 4
 ---
 
+import ImageRow from "@site/src/components/image-row";
 import imgStatusAll from "./images/cert-config/server-cert-status-all.png";
 import imgStatusVerify from "./images/cert-config/server-cert-status-01-verify.png";
 import imgStatusPinned from "./images/cert-config/server-cert-status-02-pinned.png";
@@ -248,23 +249,37 @@ If your Pi-hole server uses a **valid CA-signed certificate** (e.g., Let's Encry
 
 ## After App Update: Backward Compatibility
 
-If you had **"Allow self-signed certificates"** enabled before updating the app,
-the update will automatically enable **both** **"Allow self-signed certificates"**
-AND **"Don't check SSL certificate"** for backward compatibility.
+:::info v1.8.0 Update Notice
+This backward compatibility behavior applies **only when updating to v1.8.0**.
 
-This means all your HTTPS servers will show **"Don't check SSL certificate"**
-status, and you'll see a warning banner:
+In v1.8.0, the SSL verification settings were restructured.
+To prevent existing connections from breaking, servers that had
+**"Allow self-signed certificates"** enabled before the update are
+automatically migrated to a less strict configuration.
+
+For better security, we strongly recommend reviewing each affected server
+and switching back to the **certificate pinning** approach.
+:::
+
+If you had **"Allow self-signed certificates"** enabled before updating the app,
+the update will automatically enable **both**
+**"Allow self-signed certificates"** **and**
+**"Don't check SSL certificate"** for backward compatibility.
+
+As a result, all your HTTPS servers will display the
+**"Don't check SSL certificate"** status, and a warning banner will appear:
 
 <img width="320" alt="Warning banner after app update" src={imgWarningBar} />
 
 :::warning
-After an app update,
+After the app update,
 if **"Allow self-signed certificates"** was **ON** before the update,
-all HTTPS servers will show **"Don't check SSL certificate"** status.
-This is less secure than the pinned certificate approach.
+all HTTPS servers will show the **"Don't check SSL certificate"** status.
+This configuration is less secure than the certificate pinning approach.
 
-If it was **OFF** before the update, no changes occur—your servers will remain
-at **"HTTPS Verified"** or **"HTTPS Untrusted Blocked"** status.
+If it was **OFF** before the update, no changes are applied—
+your servers will remain in either
+**"HTTPS Verified"** or **"HTTPS Untrusted Blocked"** status.
 :::
 
 ### How to Fix This
@@ -275,17 +290,15 @@ at **"HTTPS Verified"** or **"HTTPS Untrusted Blocked"** status.
 4. The **"Allow self-signed certificates"** confirmation modal will appear
 5. Verify the certificate fingerprint and tap **"Confirm"**
 
-<img
-  width="320"
-  alt="Allow self-signed certificate confirmation modal"
-  src={imgAllowSelfSignedModal}
-/>
+<ImageRow>
+  <img width="240" alt="Self-signed certificate settings" src={imgSelfSignedCert} />
+  <img width="240" alt="Allow self-signed certificate confirmation modal" src={imgAllowSelfSignedModal} />
+</ImageRow>
 
 After confirming,
-your server will show **"HTTPS Pinned"** status, which provides better security
-than "Don't check SSL certificate".
+the server will show the **"HTTPS Pinned"** status, which provides stronger
+security than **"Don't check SSL certificate"**.
 
----
 
 ## Pi-hole in Docker: Special Considerations
 
