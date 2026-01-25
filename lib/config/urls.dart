@@ -18,5 +18,6 @@ class Urls {
 
   static const String privacyPolicy = '${appWebSite}docs/help/privacy/';
 
-  static const String certConfig = '${appWebSite}docs/guides/cert-config/';
+  static const String certConfig =
+      '${appWebSite}docs/guides/cert-config/#after-app-update-backward-compatibility';
 }
