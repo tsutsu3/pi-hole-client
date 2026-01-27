@@ -117,8 +117,8 @@ class ToggleWidgetWorker(
             ignoreCertificateErrors = server.ignoreCertificateErrors,
             pinnedCertificateSha256 = server.pinnedCertificateSha256,
         )
-        if (!client.canConnect()) {
-            Log.w(TAG, "Certificate pin required for server $serverId")
+        if (!client.canConnect(server.address)) {
+            Log.w(TAG, "Certificate pin required for server $serverId (${server.address})")
             updateState(widgetId, errorState(serverId, server.alias))
             return
         }
@@ -146,6 +146,7 @@ class ToggleWidgetWorker(
         val resp = client.get("${server.address}/api/dns/blocking", sid)
 
         if (PiHoleApiClient.isAuthFailure(resp.statusCode, resp.body)) {
+            Log.w(TAG, "Auth failure in handleRefresh for server $serverId: ${resp.statusCode}")
             prefs.setSidValid(serverId, false)
             updateState(
                 widgetId,
@@ -155,6 +156,7 @@ class ToggleWidgetWorker(
         }
 
         if (resp.statusCode !in 200..299) {
+            Log.w(TAG, "API request failed in handleRefresh for server $serverId: status=${resp.statusCode}, body=${resp.body}")
             updateState(widgetId, errorState(serverId, server.alias))
             return
         }
@@ -186,6 +188,7 @@ class ToggleWidgetWorker(
         val statusResp = client.get("${server.address}/api/dns/blocking", sid)
 
         if (PiHoleApiClient.isAuthFailure(statusResp.statusCode, statusResp.body)) {
+            Log.w(TAG, "Auth failure in handleToggle for server $serverId: ${statusResp.statusCode}")
             prefs.setSidValid(serverId, false)
             updateState(
                 widgetId,
@@ -194,6 +197,7 @@ class ToggleWidgetWorker(
             return
         }
         if (statusResp.statusCode !in 200..299) {
+            Log.w(TAG, "Get status failed in handleToggle for server $serverId: status=${statusResp.statusCode}, body=${statusResp.body}")
             updateState(widgetId, errorState(serverId, server.alias))
             return
         }
@@ -212,6 +216,7 @@ class ToggleWidgetWorker(
         )
 
         if (PiHoleApiClient.isAuthFailure(toggleResp.statusCode, toggleResp.body)) {
+            Log.w(TAG, "Auth failure in toggle POST for server $serverId: ${toggleResp.statusCode}")
             prefs.setSidValid(serverId, false)
             updateState(
                 widgetId,
@@ -223,6 +228,7 @@ class ToggleWidgetWorker(
         val finalStatus = if (toggleResp.statusCode in 200..299) {
             if (nextBlocking) WidgetStatus.BLOCKING_ON else WidgetStatus.BLOCKING_OFF
         } else {
+            Log.w(TAG, "Toggle POST failed for server $serverId: status=${toggleResp.statusCode}, body=${toggleResp.body}")
             parseBlockingStatus(currentBlocking)
         }
 

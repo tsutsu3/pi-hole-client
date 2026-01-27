@@ -138,11 +138,11 @@ class PiHoleWidgetWorker(
             ignoreCertificateErrors = server.ignoreCertificateErrors,
             pinnedCertificateSha256 = server.pinnedCertificateSha256,
         )
-        if (!client.canConnect()) {
+        if (!client.canConnect(server.address)) {
             // Self-signed cert enabled without a pinned fingerprint.
             // The widget refuses to trust arbitrary certificates; the user
             // must open the app and pin the server's certificate.
-            Log.w(TAG, "Certificate pin required for server $serverId")
+            Log.w(TAG, "Certificate pin required for server $serverId (${server.address})")
             updateState(
                 widgetId,
                 placeholderState(
@@ -200,6 +200,7 @@ class PiHoleWidgetWorker(
 
         if (PiHoleApiClient.isAuthFailure(paddResponse.statusCode, paddResponse.body)) {
             // Mark SID invalid so Flutter can refresh on next app open.
+            Log.w(TAG, "Auth failure for server $serverId: ${paddResponse.statusCode}")
             prefs.setSidValid(serverId, false)
             updateState(
                 widgetId,
@@ -215,6 +216,7 @@ class PiHoleWidgetWorker(
 
         if (paddResponse.statusCode !in 200..299) {
             // Avoid retries here; worker will run again on next schedule.
+            Log.w(TAG, "API request failed for server $serverId: status=${paddResponse.statusCode}, body=${paddResponse.body}")
             updateState(
                 widgetId,
                 placeholderState(

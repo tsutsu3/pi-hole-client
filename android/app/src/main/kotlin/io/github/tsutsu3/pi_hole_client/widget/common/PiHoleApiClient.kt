@@ -68,8 +68,17 @@ class PiHoleApiClient(
      * Returns `false` when self-signed certs are allowed but no pinned
      * fingerprint is configured — the widget refuses to trust arbitrary
      * certificates and requires the user to pin one via the app.
+     *
+     * For HTTP URLs, always returns `true` since certificate validation
+     * is not applicable to cleartext traffic.
      */
-    fun canConnect(): Boolean {
+    fun canConnect(serverAddress: String): Boolean {
+        // HTTP doesn't use certificates, so always allow connection
+        if (serverAddress.startsWith("http://", ignoreCase = true)) {
+            return true
+        }
+
+        // HTTPS certificate validation logic
         if (ignoreCertificateErrors) return true
         if (allowSelfSigned && pinnedCertificateSha256.isNullOrEmpty()) return false
         return true
@@ -110,7 +119,9 @@ class PiHoleApiClient(
      * certificate validation mode.
      */
     private fun openConnection(url: String): HttpURLConnection {
+        Log.d(TAG, "Opening connection to: $url")
         val connection = URL(url).openConnection() as HttpURLConnection
+        Log.d(TAG, "Connection type: ${connection.javaClass.simpleName}")
         if (connection is HttpsURLConnection) {
             configureTls(connection)
         }
@@ -164,19 +175,26 @@ class PiHoleApiClient(
      * Reads the response body and normalizes empty error streams.
      */
     private fun readResponse(connection: HttpURLConnection): ApiResponse {
-        val statusCode = connection.responseCode
-        val stream = if (statusCode in 200..299) {
-            connection.inputStream
-        } else {
-            connection.errorStream
+        return try {
+            val statusCode = connection.responseCode
+            Log.d(TAG, "Response code: $statusCode")
+            val stream = if (statusCode in 200..299) {
+                connection.inputStream
+            } else {
+                connection.errorStream
+            }
+            val body = if (stream != null) {
+                BufferedReader(InputStreamReader(stream)).use { it.readText() }
+            } else {
+                ""
+            }
+            connection.disconnect()
+            ApiResponse(statusCode, body)
+        } catch (e: Exception) {
+            Log.e(TAG, "Connection failed", e)
+            // Return error response with detailed exception info
+            ApiResponse(-1, "Connection error: ${e.javaClass.simpleName}: ${e.message}")
         }
-        val body = if (stream != null) {
-            BufferedReader(InputStreamReader(stream)).use { it.readText() }
-        } else {
-            ""
-        }
-        connection.disconnect()
-        return ApiResponse(statusCode, body)
     }
 
     /**
