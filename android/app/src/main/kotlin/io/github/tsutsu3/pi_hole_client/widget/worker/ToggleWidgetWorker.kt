@@ -161,16 +161,21 @@ class ToggleWidgetWorker(
             return
         }
 
-        val blocking = JSONObject(resp.body).optString("blocking")
-        updateState(
-            widgetId,
-            ToggleWidgetState(
-                serverId = serverId,
-                serverName = server.alias,
-                status = parseBlockingStatus(blocking),
-                actionsEnabled = true,
-            ),
-        )
+        try {
+            val blocking = JSONObject(resp.body).optString("blocking")
+            updateState(
+                widgetId,
+                ToggleWidgetState(
+                    serverId = serverId,
+                    serverName = server.alias,
+                    status = parseBlockingStatus(blocking),
+                    actionsEnabled = true,
+                ),
+            )
+        } catch (e: org.json.JSONException) {
+            Log.w(TAG, "Invalid JSON response in handleRefresh for server $serverId: ${e.message}, body=${resp.body}")
+            updateState(widgetId, errorState(serverId, server.alias))
+        }
     }
 
     /**
@@ -202,49 +207,54 @@ class ToggleWidgetWorker(
             return
         }
 
-        val currentBlocking = JSONObject(statusResp.body).optString("blocking")
-        val nextBlocking = currentBlocking == "disabled"
+        try {
+            val currentBlocking = JSONObject(statusResp.body).optString("blocking")
+            val nextBlocking = currentBlocking == "disabled"
 
-        val body = JSONObject()
-        body.put("blocking", nextBlocking)
-        body.put("timer", JSONObject.NULL)
+            val body = JSONObject()
+            body.put("blocking", nextBlocking)
+            body.put("timer", JSONObject.NULL)
 
-        val toggleResp = client.post(
-            "${server.address}/api/dns/blocking",
-            sid,
-            body.toString(),
-        )
+            val toggleResp = client.post(
+                "${server.address}/api/dns/blocking",
+                sid,
+                body.toString(),
+            )
 
-        if (PiHoleApiClient.isAuthFailure(toggleResp.statusCode, toggleResp.body)) {
-            Log.w(TAG, "Auth failure in toggle POST for server $serverId: ${toggleResp.statusCode}")
-            prefs.setSidValid(serverId, false)
+            if (PiHoleApiClient.isAuthFailure(toggleResp.statusCode, toggleResp.body)) {
+                Log.w(TAG, "Auth failure in toggle POST for server $serverId: ${toggleResp.statusCode}")
+                prefs.setSidValid(serverId, false)
+                updateState(
+                    widgetId,
+                    ToggleWidgetState(serverId, server.alias, WidgetStatus.AUTH_REQUIRED, false),
+                )
+                return
+            }
+
+            val finalStatus = if (toggleResp.statusCode in 200..299) {
+                if (nextBlocking) WidgetStatus.BLOCKING_ON else WidgetStatus.BLOCKING_OFF
+            } else {
+                Log.w(TAG, "Toggle POST failed for server $serverId: status=${toggleResp.statusCode}, body=${toggleResp.body}")
+                parseBlockingStatus(currentBlocking)
+            }
+
             updateState(
                 widgetId,
-                ToggleWidgetState(serverId, server.alias, WidgetStatus.AUTH_REQUIRED, false),
+                ToggleWidgetState(
+                    serverId = serverId,
+                    serverName = server.alias,
+                    status = finalStatus,
+                    actionsEnabled = true,
+                ),
             )
-            return
-        }
 
-        val finalStatus = if (toggleResp.statusCode in 200..299) {
-            if (nextBlocking) WidgetStatus.BLOCKING_ON else WidgetStatus.BLOCKING_OFF
-        } else {
-            Log.w(TAG, "Toggle POST failed for server $serverId: status=${toggleResp.statusCode}, body=${toggleResp.body}")
-            parseBlockingStatus(currentBlocking)
-        }
-
-        updateState(
-            widgetId,
-            ToggleWidgetState(
-                serverId = serverId,
-                serverName = server.alias,
-                status = finalStatus,
-                actionsEnabled = true,
-            ),
-        )
-
-        // Refresh all other widgets bound to this server.
-        if (toggleResp.statusCode in 200..299) {
-            WidgetUpdateHelper.refreshWidgetsForServer(applicationContext, serverId)
+            // Refresh all other widgets bound to this server.
+            if (toggleResp.statusCode in 200..299) {
+                WidgetUpdateHelper.refreshWidgetsForServer(applicationContext, serverId)
+            }
+        } catch (e: org.json.JSONException) {
+            Log.w(TAG, "Invalid JSON response in handleToggle for server $serverId: ${e.message}, body=${statusResp.body}")
+            updateState(widgetId, errorState(serverId, server.alias))
         }
     }
 

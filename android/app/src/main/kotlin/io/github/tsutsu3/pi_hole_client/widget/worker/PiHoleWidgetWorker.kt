@@ -229,114 +229,127 @@ class PiHoleWidgetWorker(
             return
         }
 
-        val paddJson = JSONObject(paddResponse.body)
-        var currentBlocking = paddJson.optString("blocking")
-        if (action == WidgetConstants.ACTION_TOGGLE) {
-            val nextBlocking = currentBlocking == "disabled"
-            val body = JSONObject()
-            body.put("blocking", nextBlocking)
-            body.put("timer", JSONObject.NULL)
-            val toggleResponse = client.post(
-                "$serverAddress/api/dns/blocking",
-                sid,
-                body.toString(),
-            )
-            if (PiHoleApiClient.isAuthFailure(toggleResponse.statusCode, toggleResponse.body)) {
-                // Widget cannot recover from auth errors; surface auth required.
-                prefs.setSidValid(serverId, false)
-                updateState(
-                    widgetId,
-                    placeholderState(
-                        serverId = serverId,
-                        serverName = serverName,
-                        status = WidgetStatus.AUTH_REQUIRED,
-                        actionsEnabled = false,
-                    ),
+        try {
+            val paddJson = JSONObject(paddResponse.body)
+            var currentBlocking = paddJson.optString("blocking")
+            if (action == WidgetConstants.ACTION_TOGGLE) {
+                val nextBlocking = currentBlocking == "disabled"
+                val body = JSONObject()
+                body.put("blocking", nextBlocking)
+                body.put("timer", JSONObject.NULL)
+                val toggleResponse = client.post(
+                    "$serverAddress/api/dns/blocking",
+                    sid,
+                    body.toString(),
                 )
-                return
+                if (PiHoleApiClient.isAuthFailure(toggleResponse.statusCode, toggleResponse.body)) {
+                    // Widget cannot recover from auth errors; surface auth required.
+                    prefs.setSidValid(serverId, false)
+                    updateState(
+                        widgetId,
+                        placeholderState(
+                            serverId = serverId,
+                            serverName = serverName,
+                            status = WidgetStatus.AUTH_REQUIRED,
+                            actionsEnabled = false,
+                        ),
+                    )
+                    return
+                }
+                if (toggleResponse.statusCode in 200..299) {
+                    currentBlocking = if (nextBlocking) "enabled" else "disabled"
+                    // Refresh all other widgets bound to this server.
+                    WidgetUpdateHelper.refreshWidgetsForServer(applicationContext, serverId)
+                }
             }
-            if (toggleResponse.statusCode in 200..299) {
-                currentBlocking = if (nextBlocking) "enabled" else "disabled"
-                // Refresh all other widgets bound to this server.
-                WidgetUpdateHelper.refreshWidgetsForServer(applicationContext, serverId)
+
+            val numberFormat = NumberFormat.getIntegerInstance()
+            val queries = paddJson.optJSONObject("queries")
+            val total = if (queries?.has("total") == true) {
+                numberFormat.format(queries.optLong("total"))
+            } else {
+                "--"
             }
-        }
+            val blocked = if (queries?.has("blocked") == true) {
+                numberFormat.format(queries.optLong("blocked"))
+            } else {
+                "--"
+            }
+            val percent = if (queries?.has("percent_blocked") == true) {
+                queries.optDouble("percent_blocked")
+            } else {
+                null
+            }
+            val domainsOnAdlists = if (paddJson.has("gravity_size")) {
+                numberFormat.format(paddJson.optLong("gravity_size"))
+            } else {
+                "--"
+            }
+            val percentText = if (percent != null) {
+                String.format(Locale.getDefault(), "%.1f%%", percent)
+            } else {
+                "--"
+            }
 
-        val numberFormat = NumberFormat.getIntegerInstance()
-        val queries = paddJson.optJSONObject("queries")
-        val total = if (queries?.has("total") == true) {
-            numberFormat.format(queries.optLong("total"))
-        } else {
-            "--"
-        }
-        val blocked = if (queries?.has("blocked") == true) {
-            numberFormat.format(queries.optLong("blocked"))
-        } else {
-            "--"
-        }
-        val percent = if (queries?.has("percent_blocked") == true) {
-            queries.optDouble("percent_blocked")
-        } else {
-            null
-        }
-        val domainsOnAdlists = if (paddJson.has("gravity_size")) {
-            numberFormat.format(paddJson.optLong("gravity_size"))
-        } else {
-            "--"
-        }
-        val percentText = if (percent != null) {
-            String.format(Locale.getDefault(), "%.1f%%", percent)
-        } else {
-            "--"
-        }
+            val system = paddJson.optJSONObject("system")
+            val uptime = if (system?.has("uptime") == true) {
+                formatUptime(system.optLong("uptime"))
+            } else {
+                "--"
+            }
+            val cpuUsage = system?.optJSONObject("cpu")
+            val cpuUsageText = if (cpuUsage?.has("%cpu") == true) {
+                String.format(Locale.getDefault(), "%.1f%%", cpuUsage.optDouble("%cpu"))
+            } else {
+                "--"
+            }
+            val memUsage = system?.optJSONObject("memory")?.optJSONObject("ram")
+            val memUsageText = if (memUsage?.has("%used") == true) {
+                String.format(Locale.getDefault(), "%.1f%%", memUsage.optDouble("%used"))
+            } else {
+                "--"
+            }
+            val sensors = paddJson.optJSONObject("sensors")
+            val tempUnit = sensors?.optString("unit").orEmpty()
+            val tempText = if (sensors?.has("cpu_temp") == true) {
+                val temp = sensors.optDouble("cpu_temp")
+                String.format(Locale.getDefault(), "%.1f°%s", temp, tempUnit)
+            } else {
+                "--"
+            }
 
-        val system = paddJson.optJSONObject("system")
-        val uptime = if (system?.has("uptime") == true) {
-            formatUptime(system.optLong("uptime"))
-        } else {
-            "--"
-        }
-        val cpuUsage = system?.optJSONObject("cpu")
-        val cpuUsageText = if (cpuUsage?.has("%cpu") == true) {
-            String.format(Locale.getDefault(), "%.1f%%", cpuUsage.optDouble("%cpu"))
-        } else {
-            "--"
-        }
-        val memUsage = system?.optJSONObject("memory")?.optJSONObject("ram")
-        val memUsageText = if (memUsage?.has("%used") == true) {
-            String.format(Locale.getDefault(), "%.1f%%", memUsage.optDouble("%used"))
-        } else {
-            "--"
-        }
-        val sensors = paddJson.optJSONObject("sensors")
-        val tempUnit = sensors?.optString("unit").orEmpty()
-        val tempText = if (sensors?.has("cpu_temp") == true) {
-            val temp = sensors.optDouble("cpu_temp")
-            String.format(Locale.getDefault(), "%.1f°%s", temp, tempUnit)
-        } else {
-            "--"
-        }
+            val status = parseBlockingStatus(currentBlocking)
 
-        val status = parseBlockingStatus(currentBlocking)
-
-        updateState(
-            widgetId,
-            WidgetState(
-                serverId = serverId,
-                serverName = serverName,
-                status = status,
-                totalQueries = total,
-                blockedQueries = blocked,
-                percentBlocked = percentText,
-                domainsOnAdlists = domainsOnAdlists,
-                uptime = uptime,
-                cpuTemp = tempText,
-                cpuUsage = cpuUsageText,
-                memUsage = memUsageText,
-                updatedAt = nowString(),
-                actionsEnabled = true,
-            ),
-        )
+            updateState(
+                widgetId,
+                WidgetState(
+                    serverId = serverId,
+                    serverName = serverName,
+                    status = status,
+                    totalQueries = total,
+                    blockedQueries = blocked,
+                    percentBlocked = percentText,
+                    domainsOnAdlists = domainsOnAdlists,
+                    uptime = uptime,
+                    cpuTemp = tempText,
+                    cpuUsage = cpuUsageText,
+                    memUsage = memUsageText,
+                    updatedAt = nowString(),
+                    actionsEnabled = true,
+                ),
+            )
+        } catch (e: org.json.JSONException) {
+            Log.w(TAG, "Invalid JSON response for server $serverId: ${e.message}, body=${paddResponse.body}")
+            updateState(
+                widgetId,
+                placeholderState(
+                    serverId = serverId,
+                    serverName = serverName,
+                    status = WidgetStatus.ERROR,
+                    actionsEnabled = false,
+                ),
+            )
+        }
     }
 
     /**
