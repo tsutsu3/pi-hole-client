@@ -34,7 +34,7 @@
         </activity>
 
         <activity
-            android:name=".widget.PiHoleWidgetConfigureActivity"
+            android:name=".widget.config.PiHoleWidgetConfigureActivity"
             android:exported="true"
             android:label="@string/widget_config_title"
             android:theme="@style/WidgetConfigTheme">
@@ -44,8 +44,9 @@
         </activity>
 
         <receiver
-            android:name=".widget.PiHoleWidgetProvider"
-            android:exported="true">
+            android:name=".widget.ui.stats.PiHoleWidgetProvider"
+            android:exported="true"
+            android:label="@string/widget_label_stats">
             <intent-filter>
                 <action android:name="android.appwidget.action.APPWIDGET_UPDATE"/>
                 <action android:name="io.github.tsutsu3.pi_hole_client.widget.REFRESH"/>
@@ -54,7 +55,36 @@
 
             <meta-data
                 android:name="android.appwidget.provider"
-                android:resource="@xml/pihole_widget_info" />
+                android:resource="@xml/pihole_stats_widget_info" />
+        </receiver>
+
+        <receiver
+            android:name=".widget.ui.toggle.ToggleWidgetProvider"
+            android:exported="true"
+            android:label="@string/widget_label_toggle">
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_UPDATE"/>
+                <action android:name="io.github.tsutsu3.pi_hole_client.widget.REFRESH"/>
+                <action android:name="io.github.tsutsu3.pi_hole_client.widget.TOGGLE"/>
+            </intent-filter>
+
+            <meta-data
+                android:name="android.appwidget.provider"
+                android:resource="@xml/pihole_toggle_widget_info" />
+        </receiver>
+        <receiver
+            android:name=".widget.ui.compact.CompactWidgetProvider"
+            android:exported="true"
+            android:label="@string/widget_label_compact">
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_UPDATE"/>
+                <action android:name="io.github.tsutsu3.pi_hole_client.widget.REFRESH"/>
+                <action android:name="io.github.tsutsu3.pi_hole_client.widget.TOGGLE"/>
+            </intent-filter>
+
+            <meta-data
+                android:name="android.appwidget.provider"
+                android:resource="@xml/pihole_compact_widget_info" />
         </receiver>
         <!-- Don't delete the meta-data below.
              This is used by the Flutter tool to generate GeneratedPluginRegistrant.java -->

@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <string name="app_name">Pi-hole</string>
     <string name="widget_status_on">Blocking ON</string>
     <string name="widget_status_off">Blocking OFF</string>
     <string name="widget_status_auth">Authentication required</string>
@@ -36,4 +37,10 @@
     <string name="widget_select">Select</string>
     <string name="widget_v5_unsupported">v5 unsupported</string>
     <string name="widget_connect">Connect</string>
+    <string name="widget_label_stats">Pi-hole Stats</string>
+    <string name="widget_label_compact">Pi-hole Compact</string>
+    <string name="widget_label_toggle">Pi-hole Toggle</string>
+    <string name="widget_toggle_description">Quick toggle to enable/disable Pi-hole blocking</string>
+    <string name="widget_compact_description">Compact view with blocking stats and toggle</string>
+    <string name="widget_full_description">Full dashboard with stats, system info, and toggle</string>
 </resources>

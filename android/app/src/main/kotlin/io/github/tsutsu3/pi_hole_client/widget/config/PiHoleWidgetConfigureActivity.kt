@@ -1,4 +1,4 @@
-package io.github.tsutsu3.pi_hole_client.widget
+package io.github.tsutsu3.pi_hole_client.widget.config
 
 import android.app.Activity
 import android.appwidget.AppWidgetManager
@@ -10,12 +10,19 @@ import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import io.github.tsutsu3.pi_hole_client.R
+import io.github.tsutsu3.pi_hole_client.widget.WidgetUpdateHelper
+import io.github.tsutsu3.pi_hole_client.widget.data.WidgetPrefs
 
 /**
  * Configuration activity shown when a widget is added.
  *
  * It reads the server list saved by Flutter and writes the selected server id
  * for the widget instance; it never performs network calls directly.
+ *
+ * Only Pi-hole v6 servers are selectable because the widget relies on
+ * session-based SIDs for authentication. v5 uses a static API token
+ * managed entirely by Flutter and cannot issue SIDs, so the widget would
+ * have no way to authenticate API calls independently.
  */
 class PiHoleWidgetConfigureActivity : AppCompatActivity() {
     private var appWidgetId: Int = AppWidgetManager.INVALID_APPWIDGET_ID
@@ -93,6 +100,8 @@ class PiHoleWidgetConfigureActivity : AppCompatActivity() {
                 }
                 val holder = view.tag as ServerItemViewHolder
                 val server = servers[position]
+                // v5 servers are shown but disabled: v5 uses a static API token
+                // managed by Flutter and cannot issue session SIDs for the widget.
                 val isSupported = server.apiVersion == "v6"
 
                 holder.title.text = server.address
@@ -120,10 +129,9 @@ class PiHoleWidgetConfigureActivity : AppCompatActivity() {
                     }
                     // Persist the mapping and trigger an immediate refresh.
                     prefs.setServerForWidget(appWidgetId, server.serverId)
-                    PiHoleWidgetProvider().onUpdate(
+                    WidgetUpdateHelper.refreshWidget(
                         this@PiHoleWidgetConfigureActivity,
-                        AppWidgetManager.getInstance(this@PiHoleWidgetConfigureActivity),
-                        intArrayOf(appWidgetId),
+                        appWidgetId,
                     )
                     val resultValue = Intent().putExtra(
                         AppWidgetManager.EXTRA_APPWIDGET_ID,

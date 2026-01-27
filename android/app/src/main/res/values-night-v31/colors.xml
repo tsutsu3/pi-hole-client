@@ -7,4 +7,6 @@
     <color name="widget_config_button_bg">@android:color/system_accent1_300</color>
     <color name="widget_text_on_card">@android:color/system_neutral1_0</color>
     <color name="widget_config_button_ripple">@android:color/system_accent1_100</color>
+    <color name="widget_toggle_surface">#f6f7f9</color>
+    <color name="widget_toggle_text">#ffffff</color>
 </resources>

@@ -6,20 +6,21 @@ import io.flutter.embedding.android.FlutterFragmentActivity
 import io.flutter.embedding.engine.FlutterEngine
 import io.flutter.plugin.common.MethodCall
 import io.flutter.plugin.common.MethodChannel
-import io.github.tsutsu3.pi_hole_client.widget.WidgetPrefs
-import io.github.tsutsu3.pi_hole_client.widget.WidgetServer
 import io.github.tsutsu3.pi_hole_client.widget.WidgetUpdateHelper
+import io.github.tsutsu3.pi_hole_client.widget.data.WidgetPrefs
+import io.github.tsutsu3.pi_hole_client.widget.data.WidgetServer
 
 class MainActivity : FlutterFragmentActivity() {
     private var pendingServerId: String? = null
     private lateinit var widgetChannel: MethodChannel
+    private val widgetPrefs by lazy { WidgetPrefs(this) }
 
     override fun configureFlutterEngine(flutterEngine: FlutterEngine) {
         super.configureFlutterEngine(flutterEngine)
 
         widgetChannel = MethodChannel(flutterEngine.dartExecutor.binaryMessenger, "pihole/widget")
         widgetChannel.setMethodCallHandler { call, result ->
-            val prefs = WidgetPrefs(this)
+            val prefs = widgetPrefs
             when (call.method) {
                 "sidUpdated" -> {
                     val serverId = requireServerId(call, result) ?: return@setMethodCallHandler
@@ -45,12 +46,16 @@ class MainActivity : FlutterFragmentActivity() {
                         val address = item["address"] as? String ?: serverId
                         val apiVersion = item["apiVersion"] as? String ?: "v6"
                         val allowSelfSigned = item["allowSelfSignedCert"] as? Boolean ?: false
+                        val ignoreCertErrors = item["ignoreCertificateErrors"] as? Boolean ?: false
+                        val pinnedCertSha256 = item["pinnedCertificateSha256"] as? String
                         WidgetServer(
                             serverId = serverId,
                             alias = alias,
                             address = address,
                             apiVersion = apiVersion,
                             allowSelfSignedCert = allowSelfSigned,
+                            ignoreCertificateErrors = ignoreCertErrors,
+                            pinnedCertificateSha256 = pinnedCertSha256,
                         )
                     }
                     prefs.saveServers(servers)

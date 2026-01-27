@@ -1,9 +1,10 @@
-package io.github.tsutsu3.pi_hole_client.widget
+package io.github.tsutsu3.pi_hole_client.widget.ui.compact
 
 import android.appwidget.AppWidgetManager
-import android.appwidget.AppWidgetProvider
 import android.content.Context
 import android.content.Intent
+import androidx.glance.appwidget.GlanceAppWidget
+import androidx.glance.appwidget.GlanceAppWidgetReceiver
 import androidx.work.Constraints
 import androidx.work.ExistingPeriodicWorkPolicy
 import androidx.work.ExistingWorkPolicy
@@ -12,32 +13,32 @@ import androidx.work.OneTimeWorkRequestBuilder
 import androidx.work.PeriodicWorkRequestBuilder
 import androidx.work.WorkManager
 import androidx.work.workDataOf
+import io.github.tsutsu3.pi_hole_client.widget.WidgetConstants
+import io.github.tsutsu3.pi_hole_client.widget.data.WidgetPrefs
+import io.github.tsutsu3.pi_hole_client.widget.worker.PiHoleWidgetWorker
 import java.util.concurrent.TimeUnit
 
 /**
- * AppWidgetProvider for the Pi-hole Home Widget.
+ * Glance receiver for the 2x1 Pi-hole compact widget.
  *
- * It forwards lifecycle and user actions to WorkManager so the widget never
- * blocks the broadcast receiver on network or disk IO.
+ * Mirrors [PiHoleWidgetProvider] but uses [CompactGlanceWidget] for rendering
+ * and distinct work names to avoid collisions.
  */
-class PiHoleWidgetProvider : AppWidgetProvider() {
-    /**
-     * Enqueue refresh work for each widget instance.
-     */
+class CompactWidgetProvider : GlanceAppWidgetReceiver() {
+    override val glanceAppWidget: GlanceAppWidget = CompactGlanceWidget()
+
     override fun onUpdate(
         context: Context,
         appWidgetManager: AppWidgetManager,
         appWidgetIds: IntArray,
     ) {
+        super.onUpdate(context, appWidgetManager, appWidgetIds)
         appWidgetIds.forEach { widgetId ->
             enqueueWork(context, widgetId, WidgetConstants.ACTION_REFRESH)
         }
         schedulePeriodic(context)
     }
 
-    /**
-     * Handles widget broadcast actions (refresh/toggle).
-     */
     override fun onReceive(context: Context, intent: Intent) {
         super.onReceive(context, intent)
         val widgetId = intent.getIntExtra(
@@ -55,9 +56,6 @@ class PiHoleWidgetProvider : AppWidgetProvider() {
         }
     }
 
-    /**
-     * Triggers a refresh when the widget size changes.
-     */
     override fun onAppWidgetOptionsChanged(
         context: Context,
         appWidgetManager: AppWidgetManager,
@@ -76,32 +74,38 @@ class PiHoleWidgetProvider : AppWidgetProvider() {
         super.onDeleted(context, appWidgetIds)
     }
 
-    /**
-     * Enqueues a one-time worker for a single widget instance.
-     */
-    private fun enqueueWork(context: Context, widgetId: Int, action: String) {
-        val request = OneTimeWorkRequestBuilder<PiHoleWidgetWorker>()
-            .setInputData(
-                workDataOf(
-                    AppWidgetManager.EXTRA_APPWIDGET_ID to widgetId,
-                    WidgetConstants.EXTRA_ACTION to action,
-                ),
-            )
-            .build()
+    companion object {
+        /**
+         * Enqueues a one-time worker for a single widget instance.
+         * Uses PiHoleWidgetWorker to reuse the full stats + toggle logic.
+         */
+        fun enqueueWork(context: Context, widgetId: Int, action: String) {
+            val request = OneTimeWorkRequestBuilder<PiHoleWidgetWorker>()
+                .setInputData(
+                    workDataOf(
+                        AppWidgetManager.EXTRA_APPWIDGET_ID to widgetId,
+                        WidgetConstants.EXTRA_ACTION to action,
+                    ),
+                )
+                .build()
 
-        // Unique work keeps only the latest action for this widget id.
-        WorkManager.getInstance(context).enqueueUniqueWork(
-            "pihole_widget_$widgetId",
-            ExistingWorkPolicy.REPLACE,
-            request,
-        )
+            WorkManager.getInstance(context).enqueueUniqueWork(
+                "pihole_compact_widget_$widgetId",
+                ExistingWorkPolicy.REPLACE,
+                request,
+            )
+        }
     }
 
     /**
      * Periodic refresh to keep widget state reasonably fresh.
+     *
+     * The 30-minute interval balances data freshness against battery cost.
+     * Shorter intervals (e.g. 15 min) would improve responsiveness but drain
+     * the battery noticeably, while longer intervals make the widget feel stale.
+     * 30 minutes is also the minimum that WorkManager's periodic API guarantees.
      */
     private fun schedulePeriodic(context: Context) {
-        // Avoid waking the worker when the device is offline to reduce failures/cost.
         val constraints = Constraints.Builder()
             .setRequiredNetworkType(NetworkType.CONNECTED)
             .build()
@@ -112,7 +116,7 @@ class PiHoleWidgetProvider : AppWidgetProvider() {
             .setConstraints(constraints)
             .build()
         WorkManager.getInstance(context).enqueueUniquePeriodicWork(
-            "pihole_widget_periodic",
+            "pihole_compact_widget_periodic",
             ExistingPeriodicWorkPolicy.UPDATE,
             request,
         )

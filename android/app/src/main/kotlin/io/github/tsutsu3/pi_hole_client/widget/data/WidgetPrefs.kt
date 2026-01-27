@@ -1,9 +1,10 @@
-package io.github.tsutsu3.pi_hole_client.widget
+package io.github.tsutsu3.pi_hole_client.widget.data
 
 import android.content.Context
 import android.content.SharedPreferences
 import androidx.security.crypto.EncryptedSharedPreferences
 import androidx.security.crypto.MasterKey
+import io.github.tsutsu3.pi_hole_client.widget.WidgetConstants
 import org.json.JSONArray
 import org.json.JSONObject
 
@@ -19,6 +20,8 @@ data class WidgetServer(
     val address: String,
     val apiVersion: String,
     val allowSelfSignedCert: Boolean,
+    val ignoreCertificateErrors: Boolean,
+    val pinnedCertificateSha256: String?,
 )
 
 /**
@@ -163,6 +166,10 @@ class WidgetPrefs(context: Context) {
             obj.put("address", server.address)
             obj.put("apiVersion", server.apiVersion)
             obj.put("allowSelfSignedCert", server.allowSelfSignedCert)
+            obj.put("ignoreCertificateErrors", server.ignoreCertificateErrors)
+            if (server.pinnedCertificateSha256 != null) {
+                obj.put("pinnedCertificateSha256", server.pinnedCertificateSha256)
+            }
             jsonArray.put(obj)
         }
         val editor = prefs.edit()
@@ -174,6 +181,12 @@ class WidgetPrefs(context: Context) {
                 .putString(keyForAddress(server.serverId), server.address)
                 .putString(keyForApiVersion(server.serverId), server.apiVersion)
                 .putBoolean(keyForAllowSelfSigned(server.serverId), server.allowSelfSignedCert)
+                .putBoolean(keyForIgnoreCertErrors(server.serverId), server.ignoreCertificateErrors)
+            if (server.pinnedCertificateSha256 != null) {
+                editor.putString(keyForPinnedCertSha256(server.serverId), server.pinnedCertificateSha256)
+            } else {
+                editor.remove(keyForPinnedCertSha256(server.serverId))
+            }
         }
         editor.apply()
     }
@@ -189,6 +202,8 @@ class WidgetPrefs(context: Context) {
             .remove(keyForAddress(serverId))
             .remove(keyForApiVersion(serverId))
             .remove(keyForAllowSelfSigned(serverId))
+            .remove(keyForIgnoreCertErrors(serverId))
+            .remove(keyForPinnedCertSha256(serverId))
             .apply()
     }
 
@@ -208,6 +223,8 @@ class WidgetPrefs(context: Context) {
                     address = obj.optString("address"),
                     apiVersion = obj.optString("apiVersion"),
                     allowSelfSignedCert = obj.optBoolean("allowSelfSignedCert", false),
+                    ignoreCertificateErrors = obj.optBoolean("ignoreCertificateErrors", false),
+                    pinnedCertificateSha256 = obj.optString("pinnedCertificateSha256").ifEmpty { null },
                 ),
             )
         }
@@ -222,12 +239,16 @@ class WidgetPrefs(context: Context) {
         val address = prefs.getString(keyForAddress(serverId), null) ?: return null
         val apiVersion = prefs.getString(keyForApiVersion(serverId), "v6") ?: "v6"
         val allowSelfSigned = prefs.getBoolean(keyForAllowSelfSigned(serverId), false)
+        val ignoreCertErrors = prefs.getBoolean(keyForIgnoreCertErrors(serverId), false)
+        val pinnedCertSha256 = prefs.getString(keyForPinnedCertSha256(serverId), null)
         return WidgetServer(
             serverId = serverId,
             alias = alias,
             address = address,
             apiVersion = apiVersion,
             allowSelfSignedCert = allowSelfSigned,
+            ignoreCertificateErrors = ignoreCertErrors,
+            pinnedCertificateSha256 = pinnedCertSha256,
         )
     }
 
@@ -259,4 +280,10 @@ class WidgetPrefs(context: Context) {
 
     private fun keyForAllowSelfSigned(serverId: String) =
         "${WidgetConstants.KEY_SERVER_ALLOW_SELF_SIGNED_PREFIX}$serverId"
+
+    private fun keyForIgnoreCertErrors(serverId: String) =
+        "${WidgetConstants.KEY_SERVER_IGNORE_CERT_ERRORS_PREFIX}$serverId"
+
+    private fun keyForPinnedCertSha256(serverId: String) =
+        "${WidgetConstants.KEY_SERVER_PINNED_CERT_SHA256_PREFIX}$serverId"
 }
