@@ -23,8 +23,8 @@ import io.github.tsutsu3.pi_hole_client.widget.ui.compact.CompactWidgetProvider
 import io.github.tsutsu3.pi_hole_client.widget.ui.compact.CompactGlanceWidget
 import org.json.JSONObject
 import java.text.NumberFormat
-import java.text.SimpleDateFormat
-import java.util.Date
+import java.time.LocalDateTime
+import java.time.format.DateTimeFormatter
 import java.util.Locale
 
 /**
@@ -409,10 +409,12 @@ class PiHoleWidgetWorker(
 
     /**
      * Formats a timestamp for display in widget text.
+     *
+     * Uses java.time API which is thread-safe, unlike SimpleDateFormat.
      */
     private fun nowString(): String {
-        val formatter = SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.US)
-        return formatter.format(Date())
+        val formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")
+        return LocalDateTime.now().format(formatter)
     }
 
     /**
