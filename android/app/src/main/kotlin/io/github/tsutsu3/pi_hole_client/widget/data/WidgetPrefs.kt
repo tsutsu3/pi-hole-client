@@ -212,23 +212,28 @@ class WidgetPrefs(context: Context) {
      */
     fun getServers(): List<WidgetServer> {
         val raw = prefs.getString(WidgetConstants.KEY_SERVERS_JSON, null) ?: return emptyList()
-        val list = mutableListOf<WidgetServer>()
-        val array = JSONArray(raw)
-        for (i in 0 until array.length()) {
-            val obj = array.getJSONObject(i)
-            list.add(
-                WidgetServer(
-                    serverId = obj.optString("serverId"),
-                    alias = obj.optString("alias"),
-                    address = obj.optString("address"),
-                    apiVersion = obj.optString("apiVersion"),
-                    allowSelfSignedCert = obj.optBoolean("allowSelfSignedCert", false),
-                    ignoreCertificateErrors = obj.optBoolean("ignoreCertificateErrors", false),
-                    pinnedCertificateSha256 = obj.optString("pinnedCertificateSha256").ifEmpty { null },
-                ),
-            )
+        return try {
+            val list = mutableListOf<WidgetServer>()
+            val array = JSONArray(raw)
+            for (i in 0 until array.length()) {
+                val obj = array.getJSONObject(i)
+                list.add(
+                    WidgetServer(
+                        serverId = obj.optString("serverId"),
+                        alias = obj.optString("alias"),
+                        address = obj.optString("address"),
+                        apiVersion = obj.optString("apiVersion"),
+                        allowSelfSignedCert = obj.optBoolean("allowSelfSignedCert", false),
+                        ignoreCertificateErrors = obj.optBoolean("ignoreCertificateErrors", false),
+                        pinnedCertificateSha256 = obj.optString("pinnedCertificateSha256").ifEmpty { null },
+                    ),
+                )
+            }
+            list
+        } catch (e: org.json.JSONException) {
+            android.util.Log.w("WidgetPrefs", "Invalid JSON in getServers: ${e.message}, raw=$raw")
+            emptyList()
         }
-        return list
     }
 
     /**
