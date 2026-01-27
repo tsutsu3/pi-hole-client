@@ -513,6 +513,20 @@ private data class MetricLabels(
     val domains: String,
 )
 
+// Widget size thresholds (in dp)
+private const val WIDGET_WIDTH_4_COLUMNS = 360
+private const val WIDGET_WIDTH_3_COLUMNS = 210
+private const val WIDGET_WIDTH_2_COLUMNS = 140
+
+private const val WIDGET_HEIGHT_3_ROWS = 180
+private const val WIDGET_HEIGHT_2_ROWS = 110
+
+// Layout resolution thresholds
+private const val LAYOUT_COLUMNS_EXTRA_LARGE = 4
+private const val LAYOUT_COLUMNS_LARGE = 3
+private const val LAYOUT_COLUMNS_MEDIUM = 2
+private const val LAYOUT_ROWS_REQUIRED = 2
+
 private enum class WidgetLayoutType {
     EXTRA_LARGE,
     LARGE,
@@ -523,11 +537,11 @@ private enum class WidgetLayoutType {
 private fun resolveLayoutType(size: DpSize): WidgetLayoutType {
     // Keep the same thresholds as the legacy RemoteViews layout for consistency.
     val columns = estimateColumns(size.width.value.toInt())
-    val rows = estimateRows(size.height.value.toInt()).coerceAtMost(2)
+    val rows = estimateRows(size.height.value.toInt()).coerceAtMost(LAYOUT_ROWS_REQUIRED)
     return when {
-        columns >= 4 && rows >= 2 -> WidgetLayoutType.EXTRA_LARGE
-        columns >= 3 && rows >= 2 -> WidgetLayoutType.LARGE
-        columns >= 2 && rows >= 2 -> WidgetLayoutType.MEDIUM
+        columns >= LAYOUT_COLUMNS_EXTRA_LARGE && rows >= LAYOUT_ROWS_REQUIRED -> WidgetLayoutType.EXTRA_LARGE
+        columns >= LAYOUT_COLUMNS_LARGE && rows >= LAYOUT_ROWS_REQUIRED -> WidgetLayoutType.LARGE
+        columns >= LAYOUT_COLUMNS_MEDIUM && rows >= LAYOUT_ROWS_REQUIRED -> WidgetLayoutType.MEDIUM
         else -> WidgetLayoutType.TALL
     }
 }
@@ -535,17 +549,17 @@ private fun resolveLayoutType(size: DpSize): WidgetLayoutType {
 private fun estimateColumns(sizeDp: Int): Int {
     // Align with widget_info min widths so 3x2 does not collapse to 2x2.
     return when {
-        sizeDp >= 360 -> 4
-        sizeDp >= 210 -> 3
-        sizeDp >= 140 -> 2
+        sizeDp >= WIDGET_WIDTH_4_COLUMNS -> 4
+        sizeDp >= WIDGET_WIDTH_3_COLUMNS -> 3
+        sizeDp >= WIDGET_WIDTH_2_COLUMNS -> 2
         else -> 1
     }
 }
 
 private fun estimateRows(sizeDp: Int): Int {
     return when {
-        sizeDp >= 180 -> 3
-        sizeDp >= 110 -> 2
+        sizeDp >= WIDGET_HEIGHT_3_ROWS -> 3
+        sizeDp >= WIDGET_HEIGHT_2_ROWS -> 2
         else -> 1
     }
 }
