@@ -384,7 +384,7 @@ class PiHoleWidgetWorker(
     /**
      * Builds a minimal placeholder state for error/auth/missing data cases.
      */
-    private fun placeholderState(
+    internal fun placeholderState(
         serverId: String,
         serverName: String,
         status: WidgetStatus,
@@ -422,7 +422,7 @@ class PiHoleWidgetWorker(
      *
      * Shows only the largest time unit to keep widget text concise.
      */
-    private fun formatUptime(seconds: Long): String {
+    internal fun formatUptime(seconds: Long): String {
         if (seconds <= 0) return "--"
         val days = seconds / 86400
         val hours = (seconds % 86400) / 3600

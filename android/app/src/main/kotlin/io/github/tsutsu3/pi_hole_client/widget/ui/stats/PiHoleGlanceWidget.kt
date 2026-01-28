@@ -527,14 +527,14 @@ private const val LAYOUT_COLUMNS_LARGE = 3
 private const val LAYOUT_COLUMNS_MEDIUM = 2
 private const val LAYOUT_ROWS_REQUIRED = 2
 
-private enum class WidgetLayoutType {
+internal enum class WidgetLayoutType {
     EXTRA_LARGE,
     LARGE,
     MEDIUM,
     TALL,
 }
 
-private fun resolveLayoutType(size: DpSize): WidgetLayoutType {
+internal fun resolveLayoutType(size: DpSize): WidgetLayoutType {
     // Keep the same thresholds as the legacy RemoteViews layout for consistency.
     val columns = estimateColumns(size.width.value.toInt())
     val rows = estimateRows(size.height.value.toInt()).coerceAtMost(LAYOUT_ROWS_REQUIRED)
@@ -546,7 +546,7 @@ private fun resolveLayoutType(size: DpSize): WidgetLayoutType {
     }
 }
 
-private fun estimateColumns(sizeDp: Int): Int {
+internal fun estimateColumns(sizeDp: Int): Int {
     // Align with widget_info min widths so 3x2 does not collapse to 2x2.
     return when {
         sizeDp >= WIDGET_WIDTH_4_COLUMNS -> 4
@@ -556,7 +556,7 @@ private fun estimateColumns(sizeDp: Int): Int {
     }
 }
 
-private fun estimateRows(sizeDp: Int): Int {
+internal fun estimateRows(sizeDp: Int): Int {
     return when {
         sizeDp >= WIDGET_HEIGHT_3_ROWS -> 3
         sizeDp >= WIDGET_HEIGHT_2_ROWS -> 2
@@ -564,13 +564,13 @@ private fun estimateRows(sizeDp: Int): Int {
     }
 }
 
-private fun formatCompactNumber(value: String): String {
+internal fun formatCompactNumber(value: String): String {
     val cleaned = value.replace(",", "").trim()
     val number = cleaned.toLongOrNull() ?: return value
     return formatCompactNumber(number)
 }
 
-private fun formatCompactNumber(number: Long): String {
+internal fun formatCompactNumber(number: Long): String {
     if (number < 1000) {
         return number.toString()
     }
