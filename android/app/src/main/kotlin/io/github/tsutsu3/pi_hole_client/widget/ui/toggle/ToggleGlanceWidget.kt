@@ -9,6 +9,7 @@ import androidx.glance.GlanceModifier
 import androidx.glance.Image
 import androidx.glance.ImageProvider
 import androidx.glance.LocalContext
+import androidx.glance.LocalSize
 import androidx.glance.action.Action
 import androidx.glance.action.ActionParameters
 import androidx.glance.action.actionParametersOf
@@ -87,6 +88,7 @@ class ToggleToggleCallback : ActionCallback {
 @Composable
 private fun ToggleWidgetContent(state: ToggleWidgetState) {
     val context = LocalContext.current
+    val size = LocalSize.current
 
     val openAppAction: Action = actionStartActivity<MainActivity>(
         actionParametersOf(WidgetTheme.ServerIdKey to state.serverId),
@@ -100,6 +102,14 @@ private fun ToggleWidgetContent(state: ToggleWidgetState) {
 
     val label = state.serverName.ifEmpty { "Pi-hole" }
 
+    // Calculate proportional sizes based on the smaller dimension (typically width for 1x1)
+    val minDimension = minOf(size.width.value, size.height.value)
+    val outerBoxSize = (minDimension * 0.75f).coerceIn(56f, 80f).dp
+    val circleSize = (outerBoxSize.value * 0.88f).dp
+    val iconSize = (circleSize.value * 0.73f).dp
+    val badgeSize = (outerBoxSize.value * 0.35f).coerceIn(20f, 28f).dp
+    val labelFontSize = (minDimension * 0.15f).coerceIn(12f, 20f).sp
+
     // Vertical layout: circular icon + text label below
     Column(
         modifier = GlanceModifier
@@ -110,15 +120,15 @@ private fun ToggleWidgetContent(state: ToggleWidgetState) {
     ) {
         // Outer box: holds circular icon + badge overlay (badge outside circle)
         Box(
-            modifier = GlanceModifier.size(68.dp),
+            modifier = GlanceModifier.size(outerBoxSize),
             contentAlignment = Alignment.Center,
         ) {
             // Circular icon container (clickable here to avoid black rectangle ripple)
             Box(
                 modifier = GlanceModifier
-                    .size(60.dp)
+                    .size(circleSize)
                     .background(WidgetTheme.toggleBackground(state.status, state.actionsEnabled))
-                    .cornerRadius(30.dp)
+                    .cornerRadius(circleSize / 2)
                     .clickable(toggleAction),
                 contentAlignment = Alignment.Center,
             ) {
@@ -127,7 +137,7 @@ private fun ToggleWidgetContent(state: ToggleWidgetState) {
                     provider = ImageProvider(WidgetTheme.toggleIcon(state.status, state.actionsEnabled)),
                     contentDescription = context.getString(R.string.widget_toggle),
                     modifier = GlanceModifier
-                        .size(44.dp)
+                        .size(iconSize)
                         .padding(bottom = 2.dp),
                 )
             }
@@ -140,7 +150,7 @@ private fun ToggleWidgetContent(state: ToggleWidgetState) {
                 Image(
                     provider = ImageProvider(R.mipmap.ic_launcher),
                     contentDescription = null,
-                    modifier = GlanceModifier.size(24.dp),
+                    modifier = GlanceModifier.size(badgeSize),
                 )
             }
         }
@@ -154,7 +164,7 @@ private fun ToggleWidgetContent(state: ToggleWidgetState) {
             Text(
                 text = label,
                 style = TextStyle(
-                    fontSize = 14.sp,
+                    fontSize = labelFontSize,
                     fontWeight = FontWeight.Medium,
                     color = ColorProvider(Color(0x80000000)),
                 ),
@@ -165,7 +175,7 @@ private fun ToggleWidgetContent(state: ToggleWidgetState) {
             Text(
                 text = label,
                 style = TextStyle(
-                    fontSize = 14.sp,
+                    fontSize = labelFontSize,
                     fontWeight = FontWeight.Medium,
                     color = ColorProvider(R.color.widget_toggle_text),
                 ),

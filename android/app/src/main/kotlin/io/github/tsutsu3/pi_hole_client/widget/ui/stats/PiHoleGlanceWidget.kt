@@ -31,6 +31,7 @@ import androidx.glance.layout.Box
 import androidx.glance.layout.Column
 import androidx.glance.layout.Row
 import androidx.glance.layout.Spacer
+import androidx.glance.layout.fillMaxHeight
 import androidx.glance.layout.fillMaxSize
 import androidx.glance.layout.fillMaxWidth
 import androidx.glance.layout.padding
@@ -57,12 +58,15 @@ import kotlin.math.floor
  */
 class PiHoleGlanceWidget : GlanceAppWidget() {
     // Fixed size buckets keep the layout aligned with common launcher grid sizes.
+    // Includes tablet-friendly heights (180dp+) for full metric card display.
     override val sizeMode: SizeMode = SizeMode.Responsive(
         setOf(
-            DpSize(140.dp, 110.dp),
-            DpSize(210.dp, 110.dp),
-            DpSize(320.dp, 110.dp),
-            DpSize(360.dp, 180.dp),
+            DpSize(140.dp, 110.dp),   // TALL or MEDIUM (phone 2x2 min)
+            DpSize(210.dp, 110.dp),   // MEDIUM (phone 3x2 min height)
+            DpSize(210.dp, 180.dp),   // LARGE (phone/tablet 3x2 full)
+            DpSize(320.dp, 180.dp),   // LARGE (tablet wider)
+            DpSize(360.dp, 180.dp),   // EXTRA_LARGE (tablet 4x2)
+            DpSize(360.dp, 250.dp),   // EXTRA_LARGE (tablet taller)
         ),
     )
     // Preferences-backed state keeps the widget lightweight and easily updated by workers.
@@ -118,17 +122,55 @@ class StatsToggleCallback : ActionCallback {
     }
 }
 
+/**
+ * Proportional sizing parameters calculated from widget dimensions.
+ */
+private data class WidgetSizing(
+    val padding: androidx.compose.ui.unit.Dp,
+    val cornerRadius: androidx.compose.ui.unit.Dp,
+    val buttonSize: Int,
+    val buttonIconSize: Int,
+    val cardCornerRadius: androidx.compose.ui.unit.Dp,
+    val cardPadding: androidx.compose.ui.unit.Dp,
+    val cardGap: androidx.compose.ui.unit.Dp,
+    val cardLabelFontSize: androidx.compose.ui.unit.TextUnit,
+    val cardValueFontSize: androidx.compose.ui.unit.TextUnit,
+    val cardIconSize: androidx.compose.ui.unit.Dp,
+    val headerSpacing: androidx.compose.ui.unit.Dp,
+)
+
 @Composable
 private fun WidgetContent(
     state: WidgetState,
     layoutType: WidgetLayoutType,
 ) {
     val context = LocalContext.current
+    val size = LocalSize.current
     val serverName = if (state.serverName.isNotBlank()) {
         state.serverName
     } else {
         context.getString(R.string.widget_unknown_server)
     }
+
+    // Calculate proportional sizes based on widget dimensions
+    val minDimension = minOf(size.width.value, size.height.value)
+    val sizing = WidgetSizing(
+        padding = if (layoutType == WidgetLayoutType.TALL) {
+            (minDimension * 0.08f).coerceIn(6f, 10f).dp
+        } else {
+            (minDimension * 0.06f).coerceIn(10f, 16f).dp
+        },
+        cornerRadius = (minDimension * 0.08f).coerceIn(12f, 20f).dp,
+        buttonSize = (minDimension * 0.18f).coerceIn(32f, 40f).toInt(),
+        buttonIconSize = (minDimension * 0.10f).coerceIn(18f, 24f).toInt(),
+        cardCornerRadius = (minDimension * 0.06f).coerceIn(10f, 14f).dp,
+        cardPadding = (minDimension * 0.04f).coerceIn(6f, 10f).dp,
+        cardGap = (minDimension * 0.03f).coerceIn(4f, 8f).dp,
+        cardLabelFontSize = (minDimension * 0.08f).coerceIn(9f, 12f).sp,
+        cardValueFontSize = (minDimension * 0.11f).coerceIn(12f, 18f).sp,
+        cardIconSize = (minDimension * 0.07f).coerceIn(9f, 12f).dp,
+        headerSpacing = (minDimension * 0.03f).coerceIn(2f, 6f).dp,
+    )
 
     val openAppAction = actionStartActivity<MainActivity>(
         actionParametersOf(WidgetTheme.ServerIdKey to state.serverId),
@@ -153,8 +195,8 @@ private fun WidgetContent(
     val rootModifier = GlanceModifier
         .fillMaxSize()
         .background(R.color.widget_surface)
-        .cornerRadius(16.dp)
-        .padding(if (layoutType == WidgetLayoutType.TALL) 8.dp else 12.dp)
+        .cornerRadius(sizing.cornerRadius)
+        .padding(sizing.padding)
         .clickable(openAppAction)
 
     Column(modifier = rootModifier) {
@@ -165,40 +207,49 @@ private fun WidgetContent(
             toggleAction = toggleAction,
             status = state.status,
             actionsEnabled = state.actionsEnabled,
+            sizing = sizing,
         )
 
         when (layoutType) {
             WidgetLayoutType.EXTRA_LARGE,
             WidgetLayoutType.LARGE,
             -> {
-                Spacer(GlanceModifier.height(6.dp))
+                Spacer(GlanceModifier.height(sizing.headerSpacing))
                 SystemStatsRow(
                     state = state,
                     includeUptime = true,
                     includeTemp = true,
                 )
-                Spacer(GlanceModifier.height(4.dp))
+                Spacer(GlanceModifier.height(sizing.headerSpacing))
                 LastUpdatedText(state.updatedAt, fontSize = 12.sp)
-                Spacer(GlanceModifier.height(10.dp))
-                MetricsGrid(
-                    layoutType = layoutType,
-                    state = state,
-                )
+                Spacer(GlanceModifier.height(sizing.headerSpacing))
+                // MetricsGrid fills remaining vertical space
+                Box(modifier = GlanceModifier.fillMaxWidth().defaultWeight()) {
+                    MetricsGrid(
+                        layoutType = layoutType,
+                        state = state,
+                        sizing = sizing,
+                    )
+                }
             }
             WidgetLayoutType.MEDIUM -> {
-                Spacer(GlanceModifier.height(6.dp))
+                Spacer(GlanceModifier.height(sizing.headerSpacing))
                 SystemStatsRow(
                     state = state,
                     includeUptime = false,
                     includeTemp = false,
                 )
-                Spacer(GlanceModifier.height(6.dp))
+                Spacer(GlanceModifier.height(sizing.headerSpacing))
                 LastUpdatedText(state.updatedAt, fontSize = 12.sp)
-                Spacer(GlanceModifier.height(6.dp))
-                MetricsGrid(
-                    layoutType = layoutType,
-                    state = state,
-                )
+                Spacer(GlanceModifier.height(sizing.headerSpacing))
+                // MetricsGrid fills remaining vertical space
+                Box(modifier = GlanceModifier.fillMaxWidth().defaultWeight()) {
+                    MetricsGrid(
+                        layoutType = layoutType,
+                        state = state,
+                        sizing = sizing,
+                    )
+                }
             }
             WidgetLayoutType.TALL -> {
                 Spacer(GlanceModifier.height(8.dp))
@@ -232,6 +283,7 @@ private fun WidgetHeader(
     toggleAction: Action?,
     status: WidgetStatus,
     actionsEnabled: Boolean,
+    sizing: WidgetSizing,
 ) {
     val titleSize = if (layoutType == WidgetLayoutType.TALL) 14.sp else 16.sp
     Row(
@@ -258,6 +310,8 @@ private fun WidgetHeader(
                 tintColorRes = R.color.widget_text_secondary,
                 action = refreshAction,
                 enabled = true,
+                buttonSize = sizing.buttonSize,
+                iconSize = sizing.buttonIconSize,
             )
             Spacer(GlanceModifier.width(6.dp))
         }
@@ -269,8 +323,8 @@ private fun WidgetHeader(
             tintColorRes = null,
             action = toggleAction,
             enabled = actionsEnabled,
-            buttonSize = 36,
-            iconSize = 20,
+            buttonSize = sizing.buttonSize,
+            iconSize = sizing.buttonIconSize,
         )
     }
 }
@@ -384,6 +438,7 @@ private fun LastUpdatedText(updatedAt: String, fontSize: TextUnit) {
 private fun MetricsGrid(
     layoutType: WidgetLayoutType,
     state: WidgetState,
+    sizing: WidgetSizing,
 ) {
     val context = LocalContext.current
     val labels = when (layoutType) {
@@ -414,48 +469,69 @@ private fun MetricsGrid(
     val domainsValue = if (compactNumbers) formatCompactNumber(state.domainsOnAdlists) else state.domainsOnAdlists
     val percentValue = state.percentBlocked
 
-    Column(modifier = GlanceModifier.fillMaxWidth()) {
-        Row(modifier = GlanceModifier.fillMaxWidth()) {
+    // Fill remaining space and distribute rows evenly
+    Column(modifier = GlanceModifier.fillMaxSize()) {
+        Row(modifier = GlanceModifier.fillMaxWidth().defaultWeight()) {
             MetricCard(
-                modifier = GlanceModifier.defaultWeight(),
+                modifier = GlanceModifier.defaultWeight().fillMaxHeight(),
                 iconRes = R.drawable.widget_icon_queries,
                 iconDescription = context.getString(R.string.widget_total_label),
                 label = labels.total,
                 value = context.getString(R.string.widget_total_format, totalValue),
                 backgroundColorRes = R.color.widget_card_blue,
                 compact = compactNumbers,
+                cornerRadius = sizing.cardCornerRadius,
+                padding = sizing.cardPadding,
+                labelFontSize = sizing.cardLabelFontSize,
+                valueFontSize = sizing.cardValueFontSize,
+                iconSize = sizing.cardIconSize,
             )
-            Spacer(GlanceModifier.width(8.dp))
+            Spacer(GlanceModifier.width(sizing.cardGap))
             MetricCard(
-                modifier = GlanceModifier.defaultWeight(),
+                modifier = GlanceModifier.defaultWeight().fillMaxHeight(),
                 iconRes = R.drawable.widget_icon_blocked,
                 iconDescription = context.getString(R.string.widget_blocked_label),
                 label = labels.blocked,
                 value = context.getString(R.string.widget_blocked_format, blockedValue),
                 backgroundColorRes = R.color.widget_card_red,
                 compact = compactNumbers,
+                cornerRadius = sizing.cardCornerRadius,
+                padding = sizing.cardPadding,
+                labelFontSize = sizing.cardLabelFontSize,
+                valueFontSize = sizing.cardValueFontSize,
+                iconSize = sizing.cardIconSize,
             )
         }
-        Spacer(GlanceModifier.height(8.dp))
-        Row(modifier = GlanceModifier.fillMaxWidth()) {
+        Spacer(GlanceModifier.height(sizing.cardGap))
+        Row(modifier = GlanceModifier.fillMaxWidth().defaultWeight()) {
             MetricCard(
-                modifier = GlanceModifier.defaultWeight(),
+                modifier = GlanceModifier.defaultWeight().fillMaxHeight(),
                 iconRes = R.drawable.widget_icon_percent,
                 iconDescription = context.getString(R.string.widget_percent_label),
                 label = labels.percent,
                 value = context.getString(R.string.widget_percent_format, percentValue),
                 backgroundColorRes = R.color.widget_card_orange,
                 compact = compactNumbers,
+                cornerRadius = sizing.cardCornerRadius,
+                padding = sizing.cardPadding,
+                labelFontSize = sizing.cardLabelFontSize,
+                valueFontSize = sizing.cardValueFontSize,
+                iconSize = sizing.cardIconSize,
             )
-            Spacer(GlanceModifier.width(8.dp))
+            Spacer(GlanceModifier.width(sizing.cardGap))
             MetricCard(
-                modifier = GlanceModifier.defaultWeight(),
+                modifier = GlanceModifier.defaultWeight().fillMaxHeight(),
                 iconRes = R.drawable.widget_icon_domains,
                 iconDescription = context.getString(R.string.widget_domains_label),
                 label = labels.domains,
                 value = context.getString(R.string.widget_domains_format, domainsValue),
                 backgroundColorRes = R.color.widget_card_green,
                 compact = compactNumbers,
+                cornerRadius = sizing.cardCornerRadius,
+                padding = sizing.cardPadding,
+                labelFontSize = sizing.cardLabelFontSize,
+                valueFontSize = sizing.cardValueFontSize,
+                iconSize = sizing.cardIconSize,
             )
         }
     }
@@ -470,36 +546,44 @@ private fun MetricCard(
     value: String,
     backgroundColorRes: Int,
     compact: Boolean,
+    showLabel: Boolean = true,
+    cornerRadius: androidx.compose.ui.unit.Dp = 12.dp,
+    padding: androidx.compose.ui.unit.Dp = 10.dp,
+    labelFontSize: androidx.compose.ui.unit.TextUnit = 12.sp,
+    valueFontSize: androidx.compose.ui.unit.TextUnit = 18.sp,
+    iconSize: androidx.compose.ui.unit.Dp = 12.dp,
 ) {
     Column(
         modifier = modifier
             .background(backgroundColorRes)
-            .cornerRadius(12.dp)
-            .padding(10.dp),
+            .cornerRadius(cornerRadius)
+            .padding(padding),
     ) {
-        Row(verticalAlignment = Alignment.CenterVertically) {
-            Image(
-                provider = ImageProvider(iconRes),
-                contentDescription = iconDescription,
-                modifier = GlanceModifier.size(12.dp),
-                colorFilter = ColorFilter.tint(ColorProvider(R.color.widget_text_on_card)),
-            )
-            Spacer(GlanceModifier.width(4.dp))
-            Text(
-                text = label,
-                maxLines = if (compact) 1 else Int.MAX_VALUE,
-                style = TextStyle(
-                    color = ColorProvider(R.color.widget_text_on_card),
-                    fontSize = 12.sp,
-                ),
-            )
+        if (showLabel) {
+            Row(verticalAlignment = Alignment.CenterVertically) {
+                Image(
+                    provider = ImageProvider(iconRes),
+                    contentDescription = iconDescription,
+                    modifier = GlanceModifier.size(iconSize),
+                    colorFilter = ColorFilter.tint(ColorProvider(R.color.widget_text_on_card)),
+                )
+                Spacer(GlanceModifier.width(4.dp))
+                Text(
+                    text = label,
+                    maxLines = if (compact) 1 else Int.MAX_VALUE,
+                    style = TextStyle(
+                        color = ColorProvider(R.color.widget_text_on_card),
+                        fontSize = labelFontSize,
+                    ),
+                )
+            }
         }
         Text(
             text = value,
             maxLines = if (compact) 1 else Int.MAX_VALUE,
             style = TextStyle(
                 color = ColorProvider(R.color.widget_text_on_card),
-                fontSize = 18.sp,
+                fontSize = valueFontSize,
                 fontWeight = FontWeight.Bold,
             ),
         )

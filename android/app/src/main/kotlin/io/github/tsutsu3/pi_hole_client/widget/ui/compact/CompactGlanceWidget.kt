@@ -10,6 +10,7 @@ import androidx.glance.GlanceModifier
 import androidx.glance.Image
 import androidx.glance.ImageProvider
 import androidx.glance.LocalContext
+import androidx.glance.LocalSize
 import androidx.glance.action.Action
 import androidx.glance.action.ActionParameters
 import androidx.glance.action.actionParametersOf
@@ -51,7 +52,7 @@ import io.github.tsutsu3.pi_hole_client.widget.data.toWidgetState
 /**
  * Glance widget for 2x1 compact Pi-hole display.
  *
- * Left: stats list (server name, total/blocked/percent/domains, timestamp)
+ * Left: stats list (server name, total/blocked/percent, and optionally domains when tall enough)
  * Right: large toggleable shield icon (like ToggleGlanceWidget)
  */
 class CompactGlanceWidget : GlanceAppWidget() {
@@ -88,6 +89,7 @@ class CompactToggleCallback : ActionCallback {
 @Composable
 private fun CompactWidgetContent(state: WidgetState) {
     val context = LocalContext.current
+    val size = LocalSize.current
     val serverName = if (state.serverName.isNotBlank()) {
         state.serverName
     } else {
@@ -104,12 +106,24 @@ private fun CompactWidgetContent(state: WidgetState) {
         openAppAction
     }
 
+    // Calculate proportional sizes based on widget height
+    val widgetHeight = size.height.value
+    val shieldSize = (widgetHeight * 0.65f).coerceIn(48f, 72f).dp
+    val iconSize = (shieldSize.value * 0.73f).dp
+    val padding = (widgetHeight * 0.08f).coerceIn(6f, 12f).dp
+    val cornerRadius = (widgetHeight * 0.16f).coerceIn(12f, 20f).dp
+    val serverNameFontSize = (widgetHeight * 0.10f).coerceIn(12f, 16f).sp
+    val statFontSize = (widgetHeight * 0.10f).coerceIn(12f, 16f).sp
+    val statIconSize = (widgetHeight * 0.10f).coerceIn(12f, 16f).dp
+    // Show 4 rows (including Domains) when widget is tall enough
+    val showFourRows = widgetHeight >= 90f
+
     Row(
         modifier = GlanceModifier
             .fillMaxSize()
             .background(R.color.widget_surface)
-            .cornerRadius(16.dp)
-            .padding(8.dp)
+            .cornerRadius(cornerRadius)
+            .padding(padding)
             .clickable(openAppAction),
         verticalAlignment = Alignment.CenterVertically,
     ) {
@@ -126,7 +140,7 @@ private fun CompactWidgetContent(state: WidgetState) {
                 maxLines = 1,
                 style = TextStyle(
                     color = ColorProvider(R.color.widget_text_primary),
-                    fontSize = 12.sp,
+                    fontSize = serverNameFontSize,
                     fontWeight = FontWeight.Medium,
                 ),
             )
@@ -137,32 +151,33 @@ private fun CompactWidgetContent(state: WidgetState) {
                 iconRes = R.drawable.widget_icon_queries,
                 value = state.totalQueries,
                 color = R.color.widget_card_blue,
+                fontSize = statFontSize,
+                iconSize = statIconSize,
             )
             CompactStatRow(
                 iconRes = R.drawable.widget_icon_blocked,
                 value = state.blockedQueries,
                 color = R.color.widget_card_red,
+                fontSize = statFontSize,
+                iconSize = statIconSize,
             )
             CompactStatRow(
                 iconRes = R.drawable.widget_icon_percent,
                 value = state.percentBlocked,
                 color = R.color.widget_card_orange,
+                fontSize = statFontSize,
+                iconSize = statIconSize,
             )
-            CompactStatRow(
-                iconRes = R.drawable.widget_icon_domains,
-                value = state.domainsOnAdlists,
-                color = R.color.widget_card_green,
-            )
-
-            Spacer(GlanceModifier.height(4.dp))
-            // Timestamp
-            Text(
-                text = state.updatedAt,
-                style = TextStyle(
-                    color = ColorProvider(R.color.widget_text_secondary),
-                    fontSize = 10.sp,
-                ),
-            )
+            // Show Domains row only when there's enough vertical space
+            if (showFourRows) {
+                CompactStatRow(
+                    iconRes = R.drawable.widget_icon_domains,
+                    value = state.domainsOnAdlists,
+                    color = R.color.widget_card_green,
+                    fontSize = statFontSize,
+                    iconSize = statIconSize,
+                )
+            }
         }
 
         Spacer(GlanceModifier.width(8.dp))
@@ -172,6 +187,8 @@ private fun CompactWidgetContent(state: WidgetState) {
             status = state.status,
             actionsEnabled = state.actionsEnabled,
             toggleAction = toggleAction,
+            boxSize = shieldSize,
+            iconSize = iconSize,
         )
     }
 }
@@ -181,6 +198,8 @@ private fun CompactStatRow(
     iconRes: Int,
     value: String,
     color: Int,
+    fontSize: androidx.compose.ui.unit.TextUnit,
+    iconSize: androidx.compose.ui.unit.Dp,
 ) {
     Row(
         verticalAlignment = Alignment.CenterVertically,
@@ -189,7 +208,7 @@ private fun CompactStatRow(
         Image(
             provider = ImageProvider(iconRes),
             contentDescription = null,
-            modifier = GlanceModifier.size(12.dp),
+            modifier = GlanceModifier.size(iconSize),
             colorFilter = androidx.glance.ColorFilter.tint(ColorProvider(color)),
         )
         Spacer(GlanceModifier.width(4.dp))
@@ -198,7 +217,7 @@ private fun CompactStatRow(
             maxLines = 1,
             style = TextStyle(
                 color = ColorProvider(color),
-                fontSize = 12.sp,
+                fontSize = fontSize,
                 fontWeight = FontWeight.Bold,
             ),
         )
@@ -210,14 +229,17 @@ private fun ShieldIconBox(
     status: WidgetStatus,
     actionsEnabled: Boolean,
     toggleAction: Action,
+    boxSize: androidx.compose.ui.unit.Dp = 60.dp,
+    iconSize: androidx.compose.ui.unit.Dp = 44.dp,
 ) {
     val action = if (actionsEnabled) toggleAction else null
+    val cornerRadius = (boxSize.value * 0.2f).dp
 
     var modifier = GlanceModifier
-        .size(60.dp)
+        .size(boxSize)
         .background(WidgetTheme.toggleBackground(status, actionsEnabled))
-        .cornerRadius(12.dp)
-        .padding(8.dp)
+        .cornerRadius(cornerRadius)
+        .padding((boxSize.value * 0.13f).dp)
 
     if (action != null) {
         modifier = modifier.clickable(action)
@@ -230,7 +252,7 @@ private fun ShieldIconBox(
         Image(
             provider = ImageProvider(WidgetTheme.toggleIcon(status, actionsEnabled)),
             contentDescription = LocalContext.current.getString(R.string.widget_toggle),
-            modifier = GlanceModifier.size(44.dp),
+            modifier = GlanceModifier.size(iconSize),
         )
     }
 }
