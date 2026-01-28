@@ -68,7 +68,7 @@ class ToggleWidgetWorker(
      * Loads cached server info and dispatches to refresh or toggle handler.
      */
     private suspend fun refreshWidget(widgetId: Int) {
-        val prefs = WidgetPrefs(applicationContext)
+        val prefs = WidgetPrefs.getInstance(applicationContext)
         val serverId = prefs.getServerForWidget(widgetId)
         if (serverId.isNullOrEmpty()) {
             updateState(

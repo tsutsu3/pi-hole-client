@@ -13,7 +13,7 @@ import io.github.tsutsu3.pi_hole_client.widget.data.WidgetServer
 class MainActivity : FlutterFragmentActivity() {
     private var pendingServerId: String? = null
     private lateinit var widgetChannel: MethodChannel
-    private val widgetPrefs by lazy { WidgetPrefs(this) }
+    private val widgetPrefs by lazy { WidgetPrefs.getInstance(this) }
 
     override fun configureFlutterEngine(flutterEngine: FlutterEngine) {
         super.configureFlutterEngine(flutterEngine)

@@ -67,7 +67,7 @@ class CompactWidgetProvider : GlanceAppWidgetReceiver() {
     }
 
     override fun onDeleted(context: Context, appWidgetIds: IntArray) {
-        val prefs = WidgetPrefs(context)
+        val prefs = WidgetPrefs.getInstance(context)
         appWidgetIds.forEach { widgetId ->
             prefs.clearWidget(widgetId)
         }

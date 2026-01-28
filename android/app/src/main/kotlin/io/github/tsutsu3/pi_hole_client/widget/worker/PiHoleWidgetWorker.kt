@@ -83,7 +83,7 @@ class PiHoleWidgetWorker(
      * Loads cached server info and fetches fresh data from the Pi-hole API.
      */
     private suspend fun refreshWidget(widgetId: Int) {
-        val prefs = WidgetPrefs(applicationContext)
+        val prefs = WidgetPrefs.getInstance(applicationContext)
         val serverId = prefs.getServerForWidget(widgetId)
         if (serverId.isNullOrEmpty()) {
             // Widget must stay stable even when no server is configured.

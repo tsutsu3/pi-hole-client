@@ -35,7 +35,7 @@ object WidgetUpdateHelper {
      */
     fun refreshWidgetsForServer(context: Context, serverId: String) {
         val manager = AppWidgetManager.getInstance(context)
-        val prefs = WidgetPrefs(context)
+        val prefs = WidgetPrefs.getInstance(context)
 
         // Stats widgets
         val statsIds = manager.getAppWidgetIds(

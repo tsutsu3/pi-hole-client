@@ -61,7 +61,7 @@ class PiHoleWidgetConfigureActivity : AppCompatActivity() {
             return
         }
 
-        val prefs = WidgetPrefs(this)
+        val prefs = WidgetPrefs.getInstance(this)
         val servers = prefs.getServers()
         val listView = findViewById<ListView>(R.id.widget_server_list)
         val emptyView = findViewById<TextView>(R.id.widget_server_empty)

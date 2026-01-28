@@ -36,8 +36,13 @@ data class WidgetServer(
  *   regular `SharedPreferences` only if encryption cannot be initialized on the device.
  * - A one-time migration copies legacy plaintext values into the encrypted store and
  *   clears the legacy file to reduce exposure on disk.
+ *
+ * Performance note:
+ * - This class uses a singleton pattern to avoid repeatedly initializing
+ *   EncryptedSharedPreferences and MasterKey (50-200ms on Samsung/Knox devices).
+ * - Call [getInstance] instead of the constructor.
  */
-class WidgetPrefs(context: Context) {
+class WidgetPrefs private constructor(context: Context) {
     private val prefs: SharedPreferences = run {
         val encrypted = buildEncryptedPrefs(context)
         if (encrypted != null) {
@@ -45,6 +50,23 @@ class WidgetPrefs(context: Context) {
             encrypted
         } else {
             context.getSharedPreferences(WidgetConstants.PREFS_NAME, Context.MODE_PRIVATE)
+        }
+    }
+
+    companion object {
+        @Volatile
+        private var instance: WidgetPrefs? = null
+
+        /**
+         * Returns the singleton instance of WidgetPrefs.
+         *
+         * Thread-safe with double-checked locking. Uses applicationContext to
+         * avoid memory leaks.
+         */
+        fun getInstance(context: Context): WidgetPrefs {
+            return instance ?: synchronized(this) {
+                instance ?: WidgetPrefs(context.applicationContext).also { instance = it }
+            }
         }
     }
 
