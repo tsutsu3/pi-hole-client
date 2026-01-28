@@ -50,15 +50,14 @@ class PiHoleApiClient(
         private const val TAG = "PiHoleApiClient"
 
         /**
-         * Detects auth failures from either HTTP status code or body content.
+         * Detects auth failures from HTTP status code.
          *
-         * Pi-hole v6 returns 401/403 for expired or invalid SIDs, but some
-         * proxy setups may wrap the error in a 200 body instead.
+         * Pi-hole v6 returns 401/403 for expired or invalid SIDs. Body content
+         * checking was removed to prevent false positives when domain names or
+         * query data contain "unauthorized"/"forbidden" strings.
          */
         fun isAuthFailure(statusCode: Int, body: String): Boolean {
-            if (statusCode == 401 || statusCode == 403) return true
-            return body.contains("unauthorized", ignoreCase = true) ||
-                body.contains("forbidden", ignoreCase = true)
+            return statusCode == 401 || statusCode == 403
         }
     }
 

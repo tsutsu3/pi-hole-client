@@ -114,26 +114,19 @@ class PiHoleApiClientTest {
     }
 
     @Test
-    fun isAuthFailure_withUnauthorizedInBody() {
-        // 200 with "unauthorized" in body should be detected as auth failure
-        assertTrue(PiHoleApiClient.isAuthFailure(200, "Error: unauthorized access"))
-        assertTrue(PiHoleApiClient.isAuthFailure(200, "Unauthorized request"))
-        assertTrue(PiHoleApiClient.isAuthFailure(200, "UNAUTHORIZED"))
-    }
-
-    @Test
-    fun isAuthFailure_withForbiddenInBody() {
-        // 200 with "forbidden" in body should be detected as auth failure
-        assertTrue(PiHoleApiClient.isAuthFailure(200, "Error: forbidden resource"))
-        assertTrue(PiHoleApiClient.isAuthFailure(200, "Forbidden access"))
-        assertTrue(PiHoleApiClient.isAuthFailure(200, "FORBIDDEN"))
-    }
-
-    @Test
     fun isAuthFailure_withSuccessResponse() {
-        // 200 with normal body should not be detected as auth failure
+        // 200 should not be detected as auth failure, regardless of body content
         assertFalse(PiHoleApiClient.isAuthFailure(200, "{\"status\":\"enabled\"}"))
         assertFalse(PiHoleApiClient.isAuthFailure(200, "success"))
+    }
+
+    @Test
+    fun isAuthFailure_withBodyContainingAuthStrings() {
+        // 200 with "unauthorized"/"forbidden" in body should NOT trigger false positive
+        // (e.g., domain names like "unauthorized.example.com" should not be treated as auth failure)
+        assertFalse(PiHoleApiClient.isAuthFailure(200, "blocked: unauthorized.example.com"))
+        assertFalse(PiHoleApiClient.isAuthFailure(200, "forbidden-site.com"))
+        assertFalse(PiHoleApiClient.isAuthFailure(200, "Query: UNAUTHORIZED in uppercase"))
     }
 
     @Test
