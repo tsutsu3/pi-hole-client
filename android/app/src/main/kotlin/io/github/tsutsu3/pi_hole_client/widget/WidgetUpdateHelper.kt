@@ -3,10 +3,16 @@ package io.github.tsutsu3.pi_hole_client.widget
 import android.appwidget.AppWidgetManager
 import android.content.ComponentName
 import android.content.Context
+import androidx.work.Constraints
+import androidx.work.ExistingPeriodicWorkPolicy
 import androidx.work.ExistingWorkPolicy
+import androidx.work.ListenableWorker
+import androidx.work.NetworkType
 import androidx.work.OneTimeWorkRequestBuilder
+import androidx.work.PeriodicWorkRequestBuilder
 import androidx.work.WorkManager
 import androidx.work.workDataOf
+import java.util.concurrent.TimeUnit
 import io.github.tsutsu3.pi_hole_client.widget.data.WidgetPrefs
 import io.github.tsutsu3.pi_hole_client.widget.ui.stats.PiHoleWidgetProvider
 import io.github.tsutsu3.pi_hole_client.widget.ui.compact.CompactWidgetProvider
@@ -22,6 +28,8 @@ import io.github.tsutsu3.pi_hole_client.widget.worker.ToggleWidgetWorker
  * ([ToggleWidgetProvider]), and compact widget ([CompactWidgetProvider]).
  */
 object WidgetUpdateHelper {
+    private const val REFRESH_INTERVAL_MINUTES = 30
+
     /**
      * Refreshes widgets that are bound to a specific server id.
      */
@@ -159,5 +167,52 @@ object WidgetUpdateHelper {
             ExistingWorkPolicy.REPLACE,
             request,
         )
+    }
+
+    /**
+     * Schedules periodic background refresh for a widget type.
+     *
+     * @param T The worker type to schedule (PiHoleWidgetWorker or ToggleWidgetWorker)
+     * @param workName Unique work name for WorkManager queue
+     */
+    private inline fun <reified T : ListenableWorker> schedulePeriodicUpdate(
+        context: Context,
+        workName: String,
+    ) {
+        val constraints = Constraints.Builder()
+            .setRequiredNetworkType(NetworkType.CONNECTED)
+            .build()
+        val request = PeriodicWorkRequestBuilder<T>(
+            REFRESH_INTERVAL_MINUTES.toLong(),
+            TimeUnit.MINUTES,
+        )
+            .setConstraints(constraints)
+            .build()
+        WorkManager.getInstance(context).enqueueUniquePeriodicWork(
+            workName,
+            ExistingPeriodicWorkPolicy.UPDATE,
+            request,
+        )
+    }
+
+    /**
+     * Schedules periodic background refresh for stats widgets.
+     */
+    fun scheduleStatsPeriodicUpdate(context: Context) {
+        schedulePeriodicUpdate<PiHoleWidgetWorker>(context, "pihole_widget_periodic")
+    }
+
+    /**
+     * Schedules periodic background refresh for compact widgets.
+     */
+    fun scheduleCompactPeriodicUpdate(context: Context) {
+        schedulePeriodicUpdate<PiHoleWidgetWorker>(context, "pihole_compact_widget_periodic")
+    }
+
+    /**
+     * Schedules periodic background refresh for toggle widgets.
+     */
+    fun scheduleTogglePeriodicUpdate(context: Context) {
+        schedulePeriodicUpdate<ToggleWidgetWorker>(context, "pihole_toggle_widget_periodic")
     }
 }

@@ -106,19 +106,6 @@ class CompactWidgetProvider : GlanceAppWidgetReceiver() {
      * 30 minutes is also the minimum that WorkManager's periodic API guarantees.
      */
     private fun schedulePeriodic(context: Context) {
-        val constraints = Constraints.Builder()
-            .setRequiredNetworkType(NetworkType.CONNECTED)
-            .build()
-        val request = PeriodicWorkRequestBuilder<PiHoleWidgetWorker>(
-            30,
-            TimeUnit.MINUTES,
-        )
-            .setConstraints(constraints)
-            .build()
-        WorkManager.getInstance(context).enqueueUniquePeriodicWork(
-            "pihole_compact_widget_periodic",
-            ExistingPeriodicWorkPolicy.UPDATE,
-            request,
-        )
+        WidgetUpdateHelper.scheduleCompactPeriodicUpdate(context)
     }
 }

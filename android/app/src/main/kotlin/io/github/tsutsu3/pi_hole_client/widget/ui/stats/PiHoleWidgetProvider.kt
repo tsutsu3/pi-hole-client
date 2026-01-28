@@ -115,20 +115,6 @@ class PiHoleWidgetProvider : GlanceAppWidgetReceiver() {
      * 30 minutes is also the minimum that WorkManager's periodic API guarantees.
      */
     private fun schedulePeriodic(context: Context) {
-        // Avoid waking the worker when the device is offline to reduce failures/cost.
-        val constraints = Constraints.Builder()
-            .setRequiredNetworkType(NetworkType.CONNECTED)
-            .build()
-        val request = PeriodicWorkRequestBuilder<PiHoleWidgetWorker>(
-            30,
-            TimeUnit.MINUTES,
-        )
-            .setConstraints(constraints)
-            .build()
-        WorkManager.getInstance(context).enqueueUniquePeriodicWork(
-            "pihole_widget_periodic",
-            ExistingPeriodicWorkPolicy.UPDATE,
-            request,
-        )
+        WidgetUpdateHelper.scheduleStatsPeriodicUpdate(context)
     }
 }

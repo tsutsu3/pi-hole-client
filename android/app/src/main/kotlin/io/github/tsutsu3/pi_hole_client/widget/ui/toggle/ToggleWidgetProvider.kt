@@ -95,19 +95,6 @@ class ToggleWidgetProvider : GlanceAppWidgetReceiver() {
      * 30 minutes is also the minimum that WorkManager's periodic API guarantees.
      */
     private fun schedulePeriodic(context: Context) {
-        val constraints = Constraints.Builder()
-            .setRequiredNetworkType(NetworkType.CONNECTED)
-            .build()
-        val request = PeriodicWorkRequestBuilder<ToggleWidgetWorker>(
-            30,
-            TimeUnit.MINUTES,
-        )
-            .setConstraints(constraints)
-            .build()
-        WorkManager.getInstance(context).enqueueUniquePeriodicWork(
-            "pihole_toggle_widget_periodic",
-            ExistingPeriodicWorkPolicy.UPDATE,
-            request,
-        )
+        WidgetUpdateHelper.scheduleTogglePeriodicUpdate(context)
     }
 }
