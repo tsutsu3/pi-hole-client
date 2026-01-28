@@ -117,7 +117,6 @@ private fun ToggleWidgetContent(state: ToggleWidgetState) {
             Box(
                 modifier = GlanceModifier
                     .size(60.dp)
-                    .background(R.color.widget_toggle_surface)
                     .background(WidgetTheme.toggleBackground(state.status, state.actionsEnabled))
                     .cornerRadius(30.dp)
                     .clickable(toggleAction),

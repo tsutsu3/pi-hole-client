@@ -135,22 +135,22 @@ private fun CompactWidgetContent(state: WidgetState) {
             // Stats (compact number format with icons and colors)
             CompactStatRow(
                 iconRes = R.drawable.widget_icon_queries,
-                value = state.totalQueries.toString(),
+                value = state.totalQueries,
                 color = R.color.widget_card_blue,
             )
             CompactStatRow(
                 iconRes = R.drawable.widget_icon_blocked,
-                value = state.blockedQueries.toString(),
+                value = state.blockedQueries,
                 color = R.color.widget_card_red,
             )
             CompactStatRow(
                 iconRes = R.drawable.widget_icon_percent,
-                value = state.percentBlocked.toString(),
+                value = state.percentBlocked,
                 color = R.color.widget_card_orange,
             )
             CompactStatRow(
                 iconRes = R.drawable.widget_icon_domains,
-                value = state.domainsOnAdlists.toString(),
+                value = state.domainsOnAdlists,
                 color = R.color.widget_card_green,
             )
 
