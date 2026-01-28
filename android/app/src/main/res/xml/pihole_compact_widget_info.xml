@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<appwidget-provider xmlns:android="http://schemas.android.com/apk/res/android"
+    android:minWidth="100dp"
+    android:minHeight="40dp"
+    android:targetCellWidth="2"
+    android:targetCellHeight="1"
+    android:updatePeriodMillis="0"
+    android:initialLayout="@layout/pihole_compact_widget_initial"
+    android:previewLayout="@layout/pihole_compact_widget_preview"
+    android:resizeMode="none"
+    android:widgetCategory="home_screen"
+    android:widgetFeatures="reconfigurable"
+    android:configure="io.github.tsutsu3.pi_hole_client.widget.config.PiHoleWidgetConfigureActivity"
+    android:description="@string/widget_compact_description" />
