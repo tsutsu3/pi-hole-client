@@ -32,8 +32,11 @@ object WidgetUpdateHelper {
 
     /**
      * Refreshes widgets that are bound to a specific server id.
+     *
+     * @param excludeWidgetId Optional widget ID to exclude from refresh (e.g., the widget
+     *                        that just performed a toggle action and already has fresh state).
      */
-    fun refreshWidgetsForServer(context: Context, serverId: String) {
+    fun refreshWidgetsForServer(context: Context, serverId: String, excludeWidgetId: Int? = null) {
         val manager = AppWidgetManager.getInstance(context)
         val prefs = WidgetPrefs.getInstance(context)
 
@@ -42,7 +45,9 @@ object WidgetUpdateHelper {
             ComponentName(context, PiHoleWidgetProvider::class.java),
         )
         prefs.getWidgetIdsForServer(statsIds, serverId).forEach { widgetId ->
-            enqueueStatsRefresh(context, widgetId)
+            if (widgetId != excludeWidgetId) {
+                enqueueStatsRefresh(context, widgetId)
+            }
         }
 
         // Toggle widgets
@@ -50,7 +55,9 @@ object WidgetUpdateHelper {
             ComponentName(context, ToggleWidgetProvider::class.java),
         )
         prefs.getWidgetIdsForServer(toggleIds, serverId).forEach { widgetId ->
-            enqueueToggleRefresh(context, widgetId)
+            if (widgetId != excludeWidgetId) {
+                enqueueToggleRefresh(context, widgetId)
+            }
         }
 
         // Compact widgets
@@ -58,7 +65,9 @@ object WidgetUpdateHelper {
             ComponentName(context, CompactWidgetProvider::class.java),
         )
         prefs.getWidgetIdsForServer(compactIds, serverId).forEach { widgetId ->
-            enqueueCompactRefresh(context, widgetId)
+            if (widgetId != excludeWidgetId) {
+                enqueueCompactRefresh(context, widgetId)
+            }
         }
     }
 

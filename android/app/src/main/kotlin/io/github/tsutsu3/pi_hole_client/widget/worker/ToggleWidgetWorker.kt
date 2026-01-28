@@ -248,9 +248,9 @@ class ToggleWidgetWorker(
                 ),
             )
 
-            // Refresh all other widgets bound to this server.
+            // Refresh all other widgets bound to this server (exclude current widget to avoid redundant API call).
             if (toggleResp.statusCode in 200..299) {
-                WidgetUpdateHelper.refreshWidgetsForServer(applicationContext, serverId)
+                WidgetUpdateHelper.refreshWidgetsForServer(applicationContext, serverId, excludeWidgetId = widgetId)
             }
         } catch (e: org.json.JSONException) {
             Log.w(TAG, "Invalid JSON response in handleToggle for server $serverId: ${e.message}, body=${statusResp.body}")

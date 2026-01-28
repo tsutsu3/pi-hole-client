@@ -258,8 +258,8 @@ class PiHoleWidgetWorker(
                 }
                 if (toggleResponse.statusCode in 200..299) {
                     currentBlocking = if (nextBlocking) "enabled" else "disabled"
-                    // Refresh all other widgets bound to this server.
-                    WidgetUpdateHelper.refreshWidgetsForServer(applicationContext, serverId)
+                    // Refresh all other widgets bound to this server (exclude current widget to avoid redundant API call).
+                    WidgetUpdateHelper.refreshWidgetsForServer(applicationContext, serverId, excludeWidgetId = widgetId)
                 }
             }
 
