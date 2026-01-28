@@ -28,7 +28,7 @@ import io.github.tsutsu3.pi_hole_client.widget.worker.ToggleWidgetWorker
  * ([ToggleWidgetProvider]), and compact widget ([CompactWidgetProvider]).
  */
 object WidgetUpdateHelper {
-    private const val REFRESH_INTERVAL_MINUTES = 30
+    private const val REFRESH_INTERVAL_MINUTES = 1
 
     /**
      * Refreshes widgets that are bound to a specific server id.

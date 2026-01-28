@@ -233,7 +233,9 @@ class PiHoleWidgetWorker(
             val paddJson = JSONObject(paddResponse.body)
             var currentBlocking = paddJson.optString("blocking")
             if (action == WidgetConstants.ACTION_TOGGLE) {
-                val nextBlocking = currentBlocking == "disabled"
+                // Toggle direction: enable when not currently enabled (covers
+                // "disabled", "failure", and any unknown value).
+                val nextBlocking = currentBlocking != "enabled"
                 val body = JSONObject()
                 body.put("blocking", nextBlocking)
                 body.put("timer", JSONObject.NULL)

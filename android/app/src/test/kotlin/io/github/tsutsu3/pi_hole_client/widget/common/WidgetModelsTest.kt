@@ -10,6 +10,7 @@ class WidgetModelsTest {
         // Test all valid WidgetStatus enum values
         assertEquals(WidgetStatus.BLOCKING_ON, parseWidgetStatus("BLOCKING_ON"))
         assertEquals(WidgetStatus.BLOCKING_OFF, parseWidgetStatus("BLOCKING_OFF"))
+        assertEquals(WidgetStatus.BLOCKING_FAILURE, parseWidgetStatus("BLOCKING_FAILURE"))
         assertEquals(WidgetStatus.AUTH_REQUIRED, parseWidgetStatus("AUTH_REQUIRED"))
         assertEquals(WidgetStatus.ERROR, parseWidgetStatus("ERROR"))
     }
@@ -38,6 +39,12 @@ class WidgetModelsTest {
     fun parseBlockingStatus_disabled() {
         // "disabled" should map to BLOCKING_OFF
         assertEquals(WidgetStatus.BLOCKING_OFF, parseBlockingStatus("disabled"))
+    }
+
+    @Test
+    fun parseBlockingStatus_failure() {
+        // "failure" should map to BLOCKING_FAILURE (server reachable but blocking subsystem failed)
+        assertEquals(WidgetStatus.BLOCKING_FAILURE, parseBlockingStatus("failure"))
     }
 
     @Test

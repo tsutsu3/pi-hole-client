@@ -209,7 +209,9 @@ class ToggleWidgetWorker(
 
         try {
             val currentBlocking = JSONObject(statusResp.body).optString("blocking")
-            val nextBlocking = currentBlocking == "disabled"
+            // Toggle direction: enable when not currently enabled (covers
+            // "disabled", "failure", and any unknown value).
+            val nextBlocking = currentBlocking != "enabled"
 
             val body = JSONObject()
             body.put("blocking", nextBlocking)

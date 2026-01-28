@@ -30,6 +30,7 @@ object WidgetTheme {
         return when (status) {
             WidgetStatus.BLOCKING_ON -> R.color.widget_action_button_on
             WidgetStatus.BLOCKING_OFF -> R.color.widget_action_button_off
+            WidgetStatus.BLOCKING_FAILURE -> R.color.widget_action_button_failure
             WidgetStatus.AUTH_REQUIRED -> R.color.widget_action_button_disabled
             WidgetStatus.ERROR -> R.color.widget_action_button_disabled
         }
@@ -48,6 +49,7 @@ object WidgetTheme {
         return when (status) {
             WidgetStatus.BLOCKING_ON -> R.drawable.widget_icon_shield_on
             WidgetStatus.BLOCKING_OFF -> R.drawable.widget_icon_shield_off
+            WidgetStatus.BLOCKING_FAILURE -> R.drawable.widget_icon_shield_failure
             WidgetStatus.AUTH_REQUIRED -> R.drawable.widget_icon_shield_disabled
             WidgetStatus.ERROR -> R.drawable.widget_icon_shield_disabled
         }

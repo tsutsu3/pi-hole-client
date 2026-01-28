@@ -5,12 +5,15 @@ package io.github.tsutsu3.pi_hole_client.widget.common
  *
  * - [BLOCKING_ON]: Pi-hole is actively filtering DNS queries.
  * - [BLOCKING_OFF]: Filtering is paused; all queries pass through.
+ * - [BLOCKING_FAILURE]: Pi-hole reported that the blocking subsystem failed
+ *   (e.g. DNS not available). The server **is** reachable but blocking is not active.
  * - [AUTH_REQUIRED]: The cached SID is expired or missing; the user must open the app.
  * - [ERROR]: Communication with the Pi-hole server failed or returned unexpected data.
  */
 enum class WidgetStatus {
     BLOCKING_ON,
     BLOCKING_OFF,
+    BLOCKING_FAILURE,
     AUTH_REQUIRED,
     ERROR,
 }
@@ -74,10 +77,15 @@ fun parseWidgetStatus(raw: String?): WidgetStatus {
 }
 
 /**
- * Converts the Pi-hole API blocking field ("enabled"/"disabled") into a [WidgetStatus].
+ * Converts the Pi-hole API blocking field into a [WidgetStatus].
+ *
+ * Pi-hole v6 may return `"failure"` when the blocking subsystem cannot
+ * initialise (e.g. DNS service unavailable on Azure App Service). This is
+ * distinct from a widget communication error; the server **is** reachable.
  */
 fun parseBlockingStatus(value: String): WidgetStatus = when (value) {
     "enabled" -> WidgetStatus.BLOCKING_ON
     "disabled" -> WidgetStatus.BLOCKING_OFF
+    "failure" -> WidgetStatus.BLOCKING_FAILURE
     else -> WidgetStatus.ERROR
 }
