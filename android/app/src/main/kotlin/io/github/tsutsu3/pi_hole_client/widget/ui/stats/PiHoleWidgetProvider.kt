@@ -14,6 +14,7 @@ import androidx.work.PeriodicWorkRequestBuilder
 import androidx.work.WorkManager
 import androidx.work.workDataOf
 import io.github.tsutsu3.pi_hole_client.widget.WidgetConstants
+import io.github.tsutsu3.pi_hole_client.widget.WidgetUpdateHelper
 import io.github.tsutsu3.pi_hole_client.widget.data.WidgetPrefs
 import io.github.tsutsu3.pi_hole_client.widget.worker.PiHoleWidgetWorker
 import java.util.concurrent.TimeUnit
