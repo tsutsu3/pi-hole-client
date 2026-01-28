@@ -76,7 +76,7 @@ class ToggleToggleCallback : ActionCallback {
         glanceId: GlanceId,
         parameters: ActionParameters,
     ) {
-        val appWidgetId = (glanceId as AppWidgetId).appWidgetId
+        val appWidgetId = (glanceId as? AppWidgetId)?.appWidgetId ?: return
         ToggleWidgetProvider.enqueueWork(
             context,
             appWidgetId,

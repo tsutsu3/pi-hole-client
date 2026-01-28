@@ -95,7 +95,7 @@ class StatsRefreshCallback : ActionCallback {
         glanceId: androidx.glance.GlanceId,
         parameters: ActionParameters,
     ) {
-        val appWidgetId = (glanceId as AppWidgetId).appWidgetId
+        val appWidgetId = (glanceId as? AppWidgetId)?.appWidgetId ?: return
         PiHoleWidgetProvider.enqueueWork(
             context,
             appWidgetId,
@@ -113,7 +113,7 @@ class StatsToggleCallback : ActionCallback {
         glanceId: androidx.glance.GlanceId,
         parameters: ActionParameters,
     ) {
-        val appWidgetId = (glanceId as AppWidgetId).appWidgetId
+        val appWidgetId = (glanceId as? AppWidgetId)?.appWidgetId ?: return
         PiHoleWidgetProvider.enqueueWork(
             context,
             appWidgetId,

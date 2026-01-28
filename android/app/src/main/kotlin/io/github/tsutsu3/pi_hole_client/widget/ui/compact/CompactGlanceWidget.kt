@@ -77,7 +77,7 @@ class CompactToggleCallback : ActionCallback {
         glanceId: GlanceId,
         parameters: ActionParameters,
     ) {
-        val appWidgetId = (glanceId as AppWidgetId).appWidgetId
+        val appWidgetId = (glanceId as? AppWidgetId)?.appWidgetId ?: return
         CompactWidgetProvider.enqueueWork(
             context,
             appWidgetId,
