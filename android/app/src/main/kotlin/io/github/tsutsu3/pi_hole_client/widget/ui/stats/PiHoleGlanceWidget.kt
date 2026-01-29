@@ -166,8 +166,8 @@ private fun WidgetContent(
         cardCornerRadius = (minDimension * 0.06f).coerceIn(10f, 14f).dp,
         cardPadding = (minDimension * 0.04f).coerceIn(6f, 10f).dp,
         cardGap = (minDimension * 0.03f).coerceIn(4f, 8f).dp,
-        cardLabelFontSize = (minDimension * 0.08f).coerceIn(9f, 12f).sp,
-        cardValueFontSize = (minDimension * 0.11f).coerceIn(12f, 18f).sp,
+        cardLabelFontSize = 12f.sp,
+        cardValueFontSize = 16f.sp,
         cardIconSize = (minDimension * 0.07f).coerceIn(9f, 12f).dp,
         headerSpacing = (minDimension * 0.03f).coerceIn(2f, 6f).dp,
     )
