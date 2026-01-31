@@ -280,9 +280,7 @@ void main() async {
       tester.view.devicePixelRatio = 1.0;
 
       when(
-        testSetup.mockApiGatewayV6.createGroup(
-          body: anyNamed('body'),
-        ),
+        testSetup.mockApiGatewayV6.createGroup(body: anyNamed('body')),
       ).thenAnswer(
         (_) async => GroupsResponse(
           result: APiResponseType.success,
@@ -764,9 +762,7 @@ void main() async {
 
       verify(
         testSetup.mockClientsListProvider.removeClientFromList(
-          argThat(
-            isA<ClientItem>().having((c) => c.id, 'id', client.id),
-          ),
+          argThat(isA<ClientItem>().having((c) => c.id, 'id', client.id)),
         ),
       ).called(1);
       expect(find.text('Client removed successfully'), findsOneWidget);
