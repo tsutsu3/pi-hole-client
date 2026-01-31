@@ -3,6 +3,15 @@ title: Android Home Widget
 sidebar_position: 6
 ---
 
+import ImageRow from "@site/src/components/image-row";
+import imageWidgetList from "./images/widget/home-widget-list.png";
+import imageWidgetPreview from "./images/widget/home-widget-preview.png";
+import imageWidgetSelectServer from "./images/widget/home-widget-select-server.png";
+import imageWidgetOn from "./images/widget/home-widget-all.png";
+import imageWidgetLarge from "./images/widget/home-widget-01.png";  // Stats
+import imageWidgetMedium from "./images/widget/home-widget-02.png"; // Compact
+import imageWidgetSmall from "./images/widget/home-widget-03.png"; // Toggle only
+
 # 🧩 Android Home Widget
 
 ## Overview
@@ -16,7 +25,11 @@ Use it when you want to:
 - Toggle blocking quickly when something breaks
 - Glance at key statistics at any time
 
-<img width="320" alt="Android Home Widget overview" src="./images/widget-overview.png" />
+<ImageRow>
+  <img width="240" alt="Home Widget List" src={imageWidgetList} />
+  <img width="240" alt="Home Widget Preview" src={imageWidgetPreview} />
+  <img width="240" alt="All widgets with blocking enabled" src={imageWidgetOn} />
+</ImageRow>
 
 ---
 
@@ -49,7 +62,7 @@ In that case, select a different server or use the in-app Home screen instead.
 If the server selection screen shows an empty list, open the app once and confirm you have at least
 one server configured.
 
-<img width="320" alt="Widget server selection screen" src="./images/widget-config.png" />
+<img width="320" alt="Widget server selection screen" src={imageWidgetSelectServer} />
 
 ---
 
@@ -79,7 +92,7 @@ These values help you understand current activity at a glance:
 
 - **Total**: total DNS queries handled
 - **Blocked**: queries blocked by Pi-hole
-- **%**: percentage of blocked queries
+- **Blocked %**: percentage of blocked queries
 - **Domains**: domains on adlists (the size of your blocklists)
 
 ### Updated time
@@ -89,7 +102,7 @@ Use this to judge whether the displayed data is still current enough for your si
 
 ### Toggle button (Shield)
 
-When available, tap the shield to toggle blocking ON / OFF for the widget’s selected server.
+When available, tap the shield to toggle blocking ON / OFF for the widget's selected server.
 If the widget shows **Error** or **Auth required**, toggling is disabled.
 
 ### Refresh button
@@ -97,29 +110,29 @@ If the widget shows **Error** or **Auth required**, toggling is disabled.
 On medium and larger widget sizes, a refresh icon appears next to the shield.
 Use it when you need the latest state immediately.
 
-<img width="320" alt="Widget UI elements" src="./images/widget-elements.png" />
-
 ---
 
 ## Widget sizes and behavior
 
-The widget adapts to the size you choose on the Home screen.
+The widget comes in three sizes to fit your Home screen:
 
-- **2x2**: compact view for quick status + core stats
-- **3x2**: more readable labels and space for actions
-- **4x2**: the most detailed view with the clearest layout
+### Stats (Large)
 
-On smaller sizes, labels may be shorter and some secondary details may be hidden to keep the widget readable.
+The most detailed view with full statistics, server name, and all actions visible.
 
-### Resize the widget
+<img width="320" alt="Stats widget (large)" src={imageWidgetLarge} />
 
-1. Long-press the widget.
-2. Drag the resize handles to change the width.
-3. Release to apply the new size.
+### Compact (Medium)
 
-Note: depending on your launcher, the widget height may stay fixed.
+A balanced view showing key stats and toggle/refresh actions in a smaller footprint.
 
-<img width="320" alt="Widget size variations" src="./images/widget-sizes.png" />
+<img width="280" alt="Compact widget (medium)" src={imageWidgetMedium} />
+
+### Toggle (Small)
+
+Minimal widget focused on the toggle action. Shows status and blocking control only.
+
+<img width="128" alt="Toggle widget (small)" src={imageWidgetSmall} />
 
 ---
 
@@ -128,30 +141,11 @@ Note: depending on your launcher, the widget height may stay fixed.
 Widgets refresh more conservatively than in-app screens.
 This is normal and helps reduce battery usage.
 
-- **Automatic refresh**: the widget updates periodically in the background (timing may vary by device)
+- **Automatic refresh**: due to Android OS limitations, the widget updates approximately every **30 minutes** in the background
 - **Manual refresh**: use the refresh action when you need the latest state right now
 
 If your device is in battery saver mode or background activity is restricted,
 updates may be less frequent.
-
----
-
-## Authentication and session state
-
-For safety, the widget does **not** handle passwords directly.
-It relies on your existing app session.
-
-If you see **Auth required**:
-
-- The widget cannot refresh further on its own
-- Open Pi-hole Client once to restore access
-- Return to the Home screen and refresh again if needed (or tap the widget to open the app)
-
-<img
-  width="320"
-  alt="Widget authentication required state"
-  src="./images/widget-auth-required.png"
-/>
 
 ---
 
