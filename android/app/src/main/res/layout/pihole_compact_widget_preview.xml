@@ -149,5 +149,7 @@
         android:importantForAccessibility="no"
         android:src="@drawable/widget_icon_shield_on"
         android:background="@drawable/widget_action_button_on_circle"
+        android:clipToOutline="true"
+        android:outlineProvider="background"
         android:padding="8dp" />
 </LinearLayout>

@@ -3,6 +3,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/widget_background"
+    android:clipToOutline="true"
+    android:outlineProvider="background"
     android:orientation="vertical">
 
     <LinearLayout
@@ -26,6 +28,8 @@
             android:layout_width="36dp"
             android:layout_height="36dp"
             android:background="@drawable/widget_action_button"
+            android:clipToOutline="true"
+            android:outlineProvider="background"
             android:contentDescription="@string/widget_refresh"
             android:padding="8dp"
             android:src="@drawable/widget_icon_refresh"
@@ -36,6 +40,8 @@
             android:layout_height="36dp"
             android:layout_marginStart="6dp"
             android:background="@drawable/widget_action_button_on"
+            android:clipToOutline="true"
+            android:outlineProvider="background"
             android:contentDescription="@string/widget_toggle"
             android:padding="8dp"
             android:src="@drawable/widget_icon_shield_on" />
@@ -136,6 +142,8 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:background="@drawable/widget_card_blue"
+                android:clipToOutline="true"
+                android:outlineProvider="background"
                 android:orientation="vertical"
                 android:padding="10dp">
 
@@ -176,6 +184,8 @@
                 android:layout_marginStart="8dp"
                 android:layout_weight="1"
                 android:background="@drawable/widget_card_red"
+                android:clipToOutline="true"
+                android:outlineProvider="background"
                 android:orientation="vertical"
                 android:padding="10dp">
 
@@ -222,6 +232,8 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:background="@drawable/widget_card_orange"
+                android:clipToOutline="true"
+                android:outlineProvider="background"
                 android:orientation="vertical"
                 android:padding="10dp">
 
@@ -262,6 +274,8 @@
                 android:layout_marginStart="8dp"
                 android:layout_weight="1"
                 android:background="@drawable/widget_card_green"
+                android:clipToOutline="true"
+                android:outlineProvider="background"
                 android:orientation="vertical"
                 android:padding="10dp">
 

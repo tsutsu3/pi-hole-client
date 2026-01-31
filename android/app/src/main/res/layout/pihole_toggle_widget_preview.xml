@@ -15,7 +15,9 @@
             android:layout_width="60dp"
             android:layout_height="60dp"
             android:layout_gravity="center"
-            android:background="@drawable/widget_toggle_preview_circle">
+            android:background="@drawable/widget_toggle_preview_circle"
+            android:clipToOutline="true"
+            android:outlineProvider="background">
 
             <ImageView
                 android:layout_width="44dp"
