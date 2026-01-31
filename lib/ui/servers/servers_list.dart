@@ -73,9 +73,13 @@ class _ServersListState extends State<ServersList> {
     );
 
     // Debug log
-    logger.d('ServersList: total=${serversList.length}, unverified=${unverifiedServers.length}, dismissed=$bannerDismissed');
+    logger.d(
+      'ServersList: total=${serversList.length}, unverified=${unverifiedServers.length}, dismissed=$bannerDismissed',
+    );
     for (final s in serversList) {
-      logger.d('  - ${s.alias}: https=${s.address.toLowerCase().startsWith("https://")}, allowSelfSigned=${s.allowSelfSignedCert}, ignoreCertErrors=${s.ignoreCertificateErrors}, pinned=${s.pinnedCertificateSha256}');
+      logger.d(
+        '  - ${s.alias}: https=${s.address.toLowerCase().startsWith("https://")}, allowSelfSigned=${s.allowSelfSignedCert}, ignoreCertErrors=${s.ignoreCertificateErrors}, pinned=${s.pinnedCertificateSha256}',
+      );
     }
 
     if (serversList.isNotEmpty) {
@@ -86,10 +90,9 @@ class _ServersListState extends State<ServersList> {
             UnverifiedCertificatesBanner(
               servers: unverifiedServers,
               onServerTap: _openEditServer,
-              onDismiss:
-                  () => context
-                      .read<ServersProvider>()
-                      .setUnverifiedBannerDismissed(true),
+              onDismiss: () => context
+                  .read<ServersProvider>()
+                  .setUnverifiedBannerDismissed(true),
             ),
           Wrap(
             children: serversList

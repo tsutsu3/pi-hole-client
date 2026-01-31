@@ -152,11 +152,7 @@ class AdlistResultCard extends StatelessWidget {
 }
 
 class IconMetaRow extends StatelessWidget {
-  const IconMetaRow({
-    required this.icon,
-    required this.text,
-    super.key,
-  });
+  const IconMetaRow({required this.icon, required this.text, super.key});
 
   final IconData icon;
   final String text;
@@ -225,11 +221,7 @@ class Tag extends StatelessWidget {
 }
 
 class MatchingList extends StatelessWidget {
-  const MatchingList({
-    required this.matches,
-    this.storageKey,
-    super.key,
-  });
+  const MatchingList({required this.matches, this.storageKey, super.key});
 
   final List<String> matches;
   final PageStorageKey<String>? storageKey;

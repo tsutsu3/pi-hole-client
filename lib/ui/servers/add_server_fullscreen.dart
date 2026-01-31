@@ -89,8 +89,7 @@ class _AddServerFullscreenState extends State<AddServerFullscreen> {
       ignoreCertificateErrors = widget.server!.ignoreCertificateErrors;
       pinnedCertificateSha256 = widget.server!.pinnedCertificateSha256;
       // For edit mode, expand Advanced Options if HTTPS
-      _advancedOptionsExpanded =
-          connectionType == ConnectionType.https;
+      _advancedOptionsExpanded = connectionType == ConnectionType.https;
       _loadSecrets();
     }
   }
@@ -441,14 +440,16 @@ class _AddServerFullscreenState extends State<AddServerFullscreen> {
         await serverObj.sm.savePassword(passwordFieldController.text);
         await serverObj.sm.saveToken(tokenFieldController.text);
 
-        serverObj = await validateAndUpdateServerCertificate(
-          serverObj: serverObj,
-          onValidationFailed: () {
-            setState(() {
-              isConnecting = false;
-            });
-          },
-        ) ?? serverObj;
+        serverObj =
+            await validateAndUpdateServerCertificate(
+              serverObj: serverObj,
+              onValidationFailed: () {
+                setState(() {
+                  isConnecting = false;
+                });
+              },
+            ) ??
+            serverObj;
 
         final result = await serversProvider
             .loadApiGateway(serverObj)
@@ -777,13 +778,12 @@ class _AddServerFullscreenState extends State<AddServerFullscreen> {
                       ),
                     ],
                     selected: <ConnectionType>{connectionType},
-                    onSelectionChanged: (value) =>
-                        setState(() {
-                          connectionType = value.first;
-                          // Expand Advanced Options when HTTPS is selected, collapse for HTTP
-                          _advancedOptionsExpanded =
-                              connectionType == ConnectionType.https;
-                        }),
+                    onSelectionChanged: (value) => setState(() {
+                      connectionType = value.first;
+                      // Expand Advanced Options when HTTPS is selected, collapse for HTTP
+                      _advancedOptionsExpanded =
+                          connectionType == ConnectionType.https;
+                    }),
                   ),
                 ),
                 Padding(

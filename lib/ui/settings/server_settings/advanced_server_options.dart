@@ -406,8 +406,9 @@ class _AdvancedServerOptionsState extends State<AdvancedServerOptions> {
               CustomListTile(
                 leadingIcon: Icons.manage_search_rounded,
                 label: AppLocalizations.of(context)!.findDomainsInLists,
-                description:
-                    AppLocalizations.of(context)!.findDomainsInListsDescription,
+                description: AppLocalizations.of(
+                  context,
+                )!.findDomainsInListsDescription,
                 onTap: () => Navigator.push(
                   context,
                   MaterialPageRoute(
