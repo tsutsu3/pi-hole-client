@@ -73,10 +73,7 @@ class ResultsSection extends StatelessWidget {
         if (adlistResults.isNotEmpty) ...[
           SectionLabel(label: AppLocalizations.of(context)!.listLevelLists),
           const SizedBox(height: 8),
-          AdlistResultsList(
-            results: adlistResults,
-            onTap: onAdlistTap,
-          ),
+          AdlistResultsList(results: adlistResults, onTap: onAdlistTap),
         ],
       ],
     );

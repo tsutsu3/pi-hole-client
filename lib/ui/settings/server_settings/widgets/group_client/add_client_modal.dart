@@ -80,8 +80,8 @@ class _AddClientModalState extends State<AddClientModal> {
                       return '${item.hwaddr} ($vendor)';
                     },
                     matches: (item, query) {
-                      final hostname =
-                          (widget.ipToHostname[item.ip] ?? '').toLowerCase();
+                      final hostname = (widget.ipToHostname[item.ip] ?? '')
+                          .toLowerCase();
                       final ip = item.ip.toLowerCase();
                       return ip.contains(query) || hostname.contains(query);
                     },

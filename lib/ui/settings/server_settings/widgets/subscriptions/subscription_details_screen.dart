@@ -242,8 +242,7 @@ class _SubscriptionDetailsScreenState extends State<SubscriptionDetailsScreen> {
 
       final updatedList = result!.data!.subscriptions;
       final matched = updatedList.firstWhere(
-        (item) =>
-            item.address == body.address.trim() && item.type == body.type,
+        (item) => item.address == body.address.trim() && item.type == body.type,
         orElse: () => _subscription,
       );
       setState(() {

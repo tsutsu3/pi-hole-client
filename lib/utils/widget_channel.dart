@@ -40,19 +40,19 @@ class WidgetChannel {
     if (!_isSupported()) return;
     try {
       final payload = servers
-          .map((server) => {
-                'serverId': server.address,
-                'alias': server.alias,
-                'address': server.address,
-                'apiVersion': server.apiVersion,
-                'allowSelfSignedCert': server.allowSelfSignedCert,
-                'ignoreCertificateErrors': server.ignoreCertificateErrors,
-                'pinnedCertificateSha256': server.pinnedCertificateSha256,
-              })
+          .map(
+            (server) => {
+              'serverId': server.address,
+              'alias': server.alias,
+              'address': server.address,
+              'apiVersion': server.apiVersion,
+              'allowSelfSignedCert': server.allowSelfSignedCert,
+              'ignoreCertificateErrors': server.ignoreCertificateErrors,
+              'pinnedCertificateSha256': server.pinnedCertificateSha256,
+            },
+          )
           .toList();
-      await _channel.invokeMethod('serversUpdated', {
-        'servers': payload,
-      });
+      await _channel.invokeMethod('serversUpdated', {'servers': payload});
     } catch (e) {
       logger.w('Widget serversUpdated failed: $e');
     }
@@ -61,9 +61,7 @@ class WidgetChannel {
   static Future<void> sendServerRemoved(String serverId) async {
     if (!_isSupported()) return;
     try {
-      await _channel.invokeMethod('serverRemoved', {
-        'serverId': serverId,
-      });
+      await _channel.invokeMethod('serverRemoved', {'serverId': serverId});
     } catch (e) {
       logger.w('Widget serverRemoved failed: $e');
     }
