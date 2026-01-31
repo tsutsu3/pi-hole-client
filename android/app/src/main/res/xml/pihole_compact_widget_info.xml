@@ -7,6 +7,7 @@
     android:updatePeriodMillis="0"
     android:initialLayout="@layout/pihole_compact_widget_initial"
     android:previewLayout="@layout/pihole_compact_widget_preview"
+    android:previewImage="@drawable/widget_preview_compact"
     android:resizeMode="none"
     android:widgetCategory="home_screen"
     android:widgetFeatures="reconfigurable"
