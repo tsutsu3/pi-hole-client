@@ -12,7 +12,7 @@ const playStoreUrl =
 const config: Config = {
   title: "Pi-hole client",
   tagline: "Pi-hole mobile client",
-  favicon: "/img/favicon.ico",
+  favicon: "img/favicon.ico",
 
   future: {
     v4: true, // Improve compatibility with the upcoming Docusaurus v4
