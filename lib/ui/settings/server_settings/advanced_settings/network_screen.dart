@@ -219,7 +219,11 @@ class _NetworkState extends State<NetworkScreen> {
           currentClientIp = result[1].data?.addr;
         } else {
           isFetchError = true;
-          logger.e('Failed to load network devices or client info');
+          logger.e(
+            'Failed to load network data. '
+            'getDevices: ${result[0].result} (${result[0].message ?? 'no message'}), '
+            'getClient: ${result[1].result} (${result[1].message ?? 'no message'})',
+          );
         }
       });
     } catch (e) {

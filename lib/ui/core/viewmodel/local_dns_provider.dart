@@ -7,6 +7,7 @@ import 'package:pi_hole_client/domain/model/network/network.dart';
 import 'package:pi_hole_client/domain/models_old/devices.dart';
 import 'package:pi_hole_client/domain/models_old/gateways.dart';
 import 'package:pi_hole_client/ui/core/viewmodel/servers_provider.dart';
+import 'package:pi_hole_client/utils/logger.dart';
 
 class LocalDnsProvider with ChangeNotifier {
   LocalDnsProvider({required this.serversProvider});
@@ -80,9 +81,15 @@ class LocalDnsProvider with ChangeNotifier {
         _buildDeviceMaps(devicesInfo.devices);
         _loadingStatus = LoadStatus.loaded;
       } else {
+        logger.e(
+          'Failed to load LocalDns data. '
+          'getLocalDns: ${result[0].result} (${result[0].message ?? 'no message'}), '
+          'getDevices: ${result[1].result} (${result[1].message ?? 'no message'})',
+        );
         _loadingStatus = LoadStatus.error;
       }
     } catch (e) {
+      logger.e('Failed to load LocalDns data', error: e);
       _loadingStatus = LoadStatus.error;
     } finally {
       notifyListeners();
