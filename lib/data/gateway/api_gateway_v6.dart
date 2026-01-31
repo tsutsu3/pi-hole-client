@@ -1729,7 +1729,10 @@ class ApiGatewayV6 implements ApiGateway {
       final results = await httpClient(method: 'get', url: uri.toString());
 
       if (results.statusCode == 200) {
-        final devices = Devices.fromJson(jsonDecode(results.body));
+        // Use allowMalformed to handle invalid UTF-8 characters in device
+        // names or MAC vendor names
+        final body = utf8.decode(results.bodyBytes, allowMalformed: true);
+        final devices = Devices.fromJson(jsonDecode(body));
 
         return DevicesResponse(
           result: APiResponseType.success,
@@ -1741,7 +1744,8 @@ class ApiGatewayV6 implements ApiGateway {
           message: fetchError,
         );
       }
-    } catch (e) {
+    } catch (e, stackTrace) {
+      logger.e('getDevices failed', error: e, stackTrace: stackTrace);
       return DevicesResponse(
         result: APiResponseType.error,
         message: unexpectedError,
