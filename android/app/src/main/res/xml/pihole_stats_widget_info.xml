@@ -12,7 +12,7 @@
     android:initialLayout="@layout/pihole_stats_widget_initial"
     android:previewLayout="@layout/pihole_stats_widget_preview"
     android:previewImage="@drawable/widget_preview_stats"
-    android:resizeMode="horizontal"
+    android:resizeMode="horizontal|vertical"
     android:widgetCategory="home_screen"
     android:widgetFeatures="reconfigurable"
     android:description="@string/widget_full_description"
