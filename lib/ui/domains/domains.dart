@@ -126,7 +126,7 @@ class _DomainListsWidgetState extends State<DomainListsWidget>
       }
     }
 
-    Widget scaffold({void Function(Domain)? onTap}) {
+    Widget scaffold() {
       return DefaultTabController(
         length: 2,
         child: Scaffold(
@@ -245,25 +245,13 @@ class _DomainListsWidgetState extends State<DomainListsWidget>
               DomainsList(
                 type: 'whitelist',
                 scrollController: scrollController,
-                onDomainSelected: (d) {
-                  if (onTap != null) {
-                    onTap(d);
-                  } else {
-                    setState(() => selectedDomain = d);
-                  }
-                },
+                onDomainSelected: (d) => setState(() => selectedDomain = d),
                 selectedDomain: selectedDomain,
               ),
               DomainsList(
                 type: 'blacklist',
                 scrollController: scrollController,
-                onDomainSelected: (d) {
-                  if (onTap != null) {
-                    onTap(d);
-                  } else {
-                    setState(() => selectedDomain = d);
-                  }
-                },
+                onDomainSelected: (d) => setState(() => selectedDomain = d),
                 selectedDomain: selectedDomain,
               ),
             ],
