@@ -22,6 +22,8 @@ class SubscriptionsListProvider with ChangeNotifier {
 
   bool _searchMode = false;
 
+  int? _groupFilter;
+
   LoadStatus get loadingStatus {
     return _loadingStatus;
   }
@@ -54,6 +56,10 @@ class SubscriptionsListProvider with ChangeNotifier {
     return _searchMode;
   }
 
+  int? get groupFilter {
+    return _groupFilter;
+  }
+
   void update(ServersProvider? provider) {
     serversProvider = provider;
   }
@@ -82,6 +88,32 @@ class SubscriptionsListProvider with ChangeNotifier {
     notifyListeners();
   }
 
+  void setGroupFilter(int? groupId) {
+    _groupFilter = groupId;
+    _applyFilters();
+    notifyListeners();
+  }
+
+  void clearGroupFilter() => setGroupFilter(null);
+
+  void _applyFilters() {
+    _filteredWhitelistSubscriptions = _whitelistSubscriptions.where((sub) {
+      final matchesSearch =
+          _searchTerm.isEmpty || sub.address.contains(_searchTerm);
+      final matchesGroup =
+          _groupFilter == null || sub.groups.contains(_groupFilter);
+      return matchesSearch && matchesGroup;
+    }).toList();
+
+    _filteredBlacklistSubscriptions = _blacklistSubscriptions.where((sub) {
+      final matchesSearch =
+          _searchTerm.isEmpty || sub.address.contains(_searchTerm);
+      final matchesGroup =
+          _groupFilter == null || sub.groups.contains(_groupFilter);
+      return matchesSearch && matchesGroup;
+    }).toList();
+  }
+
   /// Updates the search term and filters the blacklist and whitelist subscriptions
   /// based on the provided search value. If the search value is not empty, it filters
   /// the subscriptions whose addresses contain the search value. If the search value
@@ -90,19 +122,7 @@ class SubscriptionsListProvider with ChangeNotifier {
   /// Notifies listeners about the changes.
   void onSearch(String value) {
     _searchTerm = value;
-
-    if (value != '') {
-      _filteredBlacklistSubscriptions = _blacklistSubscriptions
-          .where((i) => i.address.contains(value))
-          .toList();
-      _filteredWhitelistSubscriptions = _whitelistSubscriptions
-          .where((i) => i.address.contains(value))
-          .toList();
-    } else {
-      _filteredBlacklistSubscriptions = _blacklistSubscriptions;
-      _filteredWhitelistSubscriptions = _whitelistSubscriptions;
-    }
-
+    _applyFilters();
     notifyListeners();
   }
 
@@ -110,7 +130,7 @@ class SubscriptionsListProvider with ChangeNotifier {
   ///
   /// This method retrieves the subscriptions list from the selected API gateway
   /// and categorizes them into whitelist and blacklist based on their type.
-  /// It also filters the subscriptions based on the search term.
+  /// It also filters the subscriptions based on the search term and group filter.
   ///
   /// The method updates the loading status to `LoadStatus.loaded` if the fetch
   /// is successful, otherwise it sets the status to `LoadStatus.error`.
@@ -122,22 +142,15 @@ class SubscriptionsListProvider with ChangeNotifier {
     final apiGateway = serversProvider?.selectedApiGateway;
     final result = await apiGateway?.getSubscriptions();
     if (result?.result == APiResponseType.success) {
-      final whitelist = <Subscription>[
+      _whitelistSubscriptions = <Subscription>[
         ...result!.data!.subscriptions.where((i) => i.type == 'allow'),
       ];
-      _whitelistSubscriptions = whitelist;
-      _filteredWhitelistSubscriptions = whitelist
-          .where((i) => i.address.contains(_searchTerm))
-          .toList();
 
-      final blacklist = <Subscription>[
+      _blacklistSubscriptions = <Subscription>[
         ...result.data!.subscriptions.where((i) => i.type == 'block'),
       ];
-      _blacklistSubscriptions = blacklist;
-      _filteredBlacklistSubscriptions = blacklist
-          .where((i) => i.address.contains(_searchTerm))
-          .toList();
 
+      _applyFilters();
       _loadingStatus = LoadStatus.loaded;
     } else {
       _loadingStatus = LoadStatus.error;

@@ -1846,6 +1846,7 @@ class TestSetupHelper {
     when(mockDomainsListProvider.fetchDomainsList()).thenAnswer((_) async {});
     when(mockDomainsListProvider.searchMode).thenReturn(false);
     when(mockDomainsListProvider.searchTerm).thenReturn('');
+    when(mockDomainsListProvider.groupFilter).thenReturn(null);
     when(mockDomainsListProvider.filteredWhitelistDomains).thenReturn(domains);
     when(mockDomainsListProvider.filteredBlacklistDomains).thenReturn([]);
     when(mockDomainsListProvider.loadingStatus).thenReturn(LoadStatus.loaded);
@@ -1914,6 +1915,8 @@ class TestSetupHelper {
     when(mockSubscriptionsListProvider.selectedTab).thenReturn(0);
 
     when(mockSubscriptionsListProvider.searchMode).thenReturn(false);
+
+    when(mockSubscriptionsListProvider.groupFilter).thenReturn(null);
 
     when(mockSubscriptionsListProvider.setLoadingStatus(any)).thenReturn(null);
 

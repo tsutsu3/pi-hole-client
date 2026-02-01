@@ -1347,6 +1347,18 @@ class MockDomainsListProvider extends _i1.Mock
   );
 
   @override
+  void setGroupFilter(int? groupId) => super.noSuchMethod(
+    Invocation.method(#setGroupFilter, [groupId]),
+    returnValueForMissingStub: null,
+  );
+
+  @override
+  void clearGroupFilter() => super.noSuchMethod(
+    Invocation.method(#clearGroupFilter, []),
+    returnValueForMissingStub: null,
+  );
+
+  @override
   void onSearch(String? value) => super.noSuchMethod(
     Invocation.method(#onSearch, [value]),
     returnValueForMissingStub: null,
@@ -3936,6 +3948,18 @@ class MockSubscriptionsListProvider extends _i1.Mock
   @override
   void setSearchMode(bool? value) => super.noSuchMethod(
     Invocation.method(#setSearchMode, [value]),
+    returnValueForMissingStub: null,
+  );
+
+  @override
+  void setGroupFilter(int? groupId) => super.noSuchMethod(
+    Invocation.method(#setGroupFilter, [groupId]),
+    returnValueForMissingStub: null,
+  );
+
+  @override
+  void clearGroupFilter() => super.noSuchMethod(
+    Invocation.method(#clearGroupFilter, []),
     returnValueForMissingStub: null,
   );
 

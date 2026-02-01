@@ -3,10 +3,8 @@ import 'package:pi_hole_client/config/enums.dart';
 import 'package:pi_hole_client/config/responsive.dart';
 import 'package:pi_hole_client/domain/models_old/domain.dart';
 import 'package:pi_hole_client/domain/models_old/gateways.dart';
-import 'package:pi_hole_client/domain/models_old/server.dart';
 import 'package:pi_hole_client/ui/core/l10n/generated/app_localizations.dart';
 import 'package:pi_hole_client/ui/core/ui/helpers/snackbar.dart';
-import 'package:pi_hole_client/ui/core/ui/modals/group_filter_modal.dart';
 import 'package:pi_hole_client/ui/core/ui/modals/process_modal.dart';
 import 'package:pi_hole_client/ui/core/viewmodel/app_config_provider.dart';
 import 'package:pi_hole_client/ui/core/viewmodel/domains_list_provider.dart';
@@ -16,43 +14,26 @@ import 'package:pi_hole_client/ui/domains/widgets/domain_details_screen.dart';
 import 'package:pi_hole_client/ui/domains/widgets/domains_list.dart';
 import 'package:provider/provider.dart';
 
-class DomainLists extends StatelessWidget {
-  const DomainLists({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    final serversProvider = Provider.of<ServersProvider>(context);
-    final domainsListProvider = Provider.of<DomainsListProvider>(
-      context,
-      listen: false,
-    );
-
-    return DomainListsWidget(
-      server: serversProvider.selectedServer!,
-      domainsListProvider: domainsListProvider,
-    );
-  }
-}
-
-class DomainListsWidget extends StatefulWidget {
-  const DomainListsWidget({
-    required this.server,
-    required this.domainsListProvider,
+class FilteredDomainLists extends StatefulWidget {
+  const FilteredDomainLists({
+    required this.groupId,
+    required this.groupName,
+    this.initialTab = 0,
     super.key,
   });
 
-  final Server server;
-  final DomainsListProvider domainsListProvider;
+  final int groupId;
+  final String groupName;
+  final int initialTab;
 
   @override
-  State<DomainListsWidget> createState() => _DomainListsWidgetState();
+  State<FilteredDomainLists> createState() => _FilteredDomainListsState();
 }
 
-class _DomainListsWidgetState extends State<DomainListsWidget>
+class _FilteredDomainListsState extends State<FilteredDomainLists>
     with TickerProviderStateMixin {
   late TabController tabController;
   final ScrollController scrollController = ScrollController();
-
   final TextEditingController searchController = TextEditingController();
 
   Domain? selectedDomain;
@@ -61,22 +42,32 @@ class _DomainListsWidgetState extends State<DomainListsWidget>
   void initState() {
     super.initState();
 
-    Future.microtask(() async {
-      widget.domainsListProvider.setLoadingStatus(LoadStatus.loading);
+    tabController = TabController(
+      length: 2,
+      vsync: this,
+      initialIndex: widget.initialTab,
+    );
 
-      await widget.domainsListProvider.fetchDomainsList();
+    Future.microtask(() async {
+      if (!mounted) return;
+
+      final domainsListProvider = context.read<DomainsListProvider>();
+      domainsListProvider.setLoadingStatus(LoadStatus.loading);
+      domainsListProvider.setGroupFilter(widget.groupId);
+      domainsListProvider.setSelectedTab(widget.initialTab);
+
+      await domainsListProvider.fetchDomainsList();
 
       if (!mounted) return;
       final groupsProvider = context.read<GroupsProvider>();
       await groupsProvider.loadGroups();
     });
-
-    widget.domainsListProvider.setSelectedTab(0);
-    tabController = TabController(length: 2, vsync: this);
   }
 
   @override
   void dispose() {
+    final domainsListProvider = context.read<DomainsListProvider>();
+    domainsListProvider.clearGroupFilter();
     tabController.dispose();
     scrollController.dispose();
     searchController.dispose();
@@ -178,45 +169,33 @@ class _DomainListsWidgetState extends State<DomainListsWidget>
                         }),
                         icon: const Icon(Icons.close_rounded),
                       ),
-                    if (!domainsListProvider.searchMode)
-                      IconButton(
-                        onPressed: () => showGroupFilterModal(
-                          context: context,
-                          groups: groups,
-                          selectedGroupId: domainsListProvider.groupFilter,
-                          onApply: domainsListProvider.setGroupFilter,
-                        ),
-                        icon: const Icon(Icons.filter_list_rounded),
-                      ),
                     const SizedBox(width: 10),
                   ],
                   bottom: PreferredSize(
-                    preferredSize: Size.fromHeight(
-                      domainsListProvider.groupFilter != null ? 96 : 46,
-                    ),
+                    preferredSize: const Size.fromHeight(96),
                     child: Column(
                       children: [
-                        if (domainsListProvider.groupFilter != null)
-                          Container(
-                            width: double.maxFinite,
-                            height: 50,
-                            padding: const EdgeInsets.only(bottom: 10),
-                            child: ListView(
-                              scrollDirection: Axis.horizontal,
-                              children: [
-                                const SizedBox(width: 16),
-                                Chip(
-                                  label: Text(
-                                    '${AppLocalizations.of(context)!.groups}: ${groups[domainsListProvider.groupFilter] ?? ''}',
-                                  ),
-                                  deleteIcon: const Icon(Icons.close, size: 18),
-                                  onDeleted:
-                                      domainsListProvider.clearGroupFilter,
+                        Container(
+                          width: double.maxFinite,
+                          height: 50,
+                          padding: const EdgeInsets.only(bottom: 10),
+                          child: ListView(
+                            scrollDirection: Axis.horizontal,
+                            children: [
+                              const SizedBox(width: 16),
+                              Chip(
+                                label: Text(
+                                  '${AppLocalizations.of(context)!.groups}: ${widget.groupName}',
                                 ),
-                                const SizedBox(width: 16),
-                              ],
-                            ),
+                                deleteIcon: const Icon(Icons.close, size: 18),
+                                onDeleted: () {
+                                  Navigator.pop(context);
+                                },
+                              ),
+                              const SizedBox(width: 16),
+                            ],
                           ),
+                        ),
                         TabBar(
                           controller: tabController,
                           onTap: domainsListProvider.setSelectedTab,
@@ -282,43 +261,47 @@ class _DomainListsWidgetState extends State<DomainListsWidget>
     }
 
     if (MediaQuery.of(context).size.width > ResponsiveConstants.large) {
-      return Row(
-        children: [
-          Expanded(
-            flex: MediaQuery.of(context).size.width > ResponsiveConstants.xLarge
-                ? 2
-                : 3,
-            child: scaffold(),
-          ),
-          Expanded(
-            flex: 3,
-            child: selectedDomain != null
-                ? DomainDetailsScreen(
-                    domain: selectedDomain!,
-                    remove: (domain) {
-                      setState(() => selectedDomain = null);
-                      removeDomain(domain);
-                    },
-                    groups: groups,
-                    colors: serversProvider.colors,
-                  )
-                : SizedBox(
-                    child: SafeArea(
-                      child: Text(
-                        AppLocalizations.of(context)!.domainsSelectLeftColumn,
-                        textAlign: TextAlign.center,
-                        style: TextStyle(
-                          fontSize: 24,
-                          color: Theme.of(context).colorScheme.onSurfaceVariant,
+      return Scaffold(
+        body: Row(
+          children: [
+            Expanded(
+              flex:
+                  MediaQuery.of(context).size.width > ResponsiveConstants.xLarge
+                      ? 2
+                      : 3,
+              child: scaffold(),
+            ),
+            Expanded(
+              flex: 3,
+              child: selectedDomain != null
+                  ? DomainDetailsScreen(
+                      domain: selectedDomain!,
+                      remove: (domain) {
+                        setState(() => selectedDomain = null);
+                        removeDomain(domain);
+                      },
+                      groups: groups,
+                      colors: serversProvider.colors,
+                    )
+                  : SizedBox(
+                      child: SafeArea(
+                        child: Text(
+                          AppLocalizations.of(context)!.domainsSelectLeftColumn,
+                          textAlign: TextAlign.center,
+                          style: TextStyle(
+                            fontSize: 24,
+                            color:
+                                Theme.of(context).colorScheme.onSurfaceVariant,
+                          ),
                         ),
                       ),
                     ),
-                  ),
-          ),
-        ],
+            ),
+          ],
+        ),
       );
     } else {
-      return scaffold();
+      return Scaffold(body: scaffold());
     }
   }
 }

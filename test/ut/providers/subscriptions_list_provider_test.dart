@@ -87,6 +87,7 @@ void main() {
       expect(provider.selectedTab, null);
       expect(provider.searchTerm, '');
       expect(provider.searchMode, false);
+      expect(provider.groupFilter, null);
       expect(listenerCalled, false);
     });
 
@@ -154,6 +155,146 @@ void main() {
       provider.removeSubscriptionFromList(subscriptions[0]);
       expect(provider.blacklistSubscriptions, []);
       expect(listenerCalled, true);
+    });
+
+    group('Group Filter', () {
+      final subscriptionsWithGroups = [
+        Subscription(
+          address: 'https://example.com/list1',
+          type: 'allow',
+          groups: [1, 2],
+          enabled: true,
+          id: 1,
+          dateAdded: DateTime.now(),
+          dateModified: DateTime.now(),
+          dateUpdated: DateTime.now(),
+          number: 100,
+          invalidDomains: 0,
+          abpEntries: 0,
+          status: ListsStatus.downloaded,
+        ),
+        Subscription(
+          address: 'https://example.com/list2',
+          type: 'allow',
+          groups: [2, 3],
+          enabled: true,
+          id: 2,
+          dateAdded: DateTime.now(),
+          dateModified: DateTime.now(),
+          dateUpdated: DateTime.now(),
+          number: 200,
+          invalidDomains: 0,
+          abpEntries: 0,
+          status: ListsStatus.downloaded,
+        ),
+        Subscription(
+          address: 'https://example.com/list3',
+          type: 'allow',
+          groups: [1],
+          enabled: true,
+          id: 3,
+          dateAdded: DateTime.now(),
+          dateModified: DateTime.now(),
+          dateUpdated: DateTime.now(),
+          number: 300,
+          invalidDomains: 0,
+          abpEntries: 0,
+          status: ListsStatus.downloaded,
+        ),
+      ];
+
+      final blacklistSubscriptionsWithGroups = [
+        Subscription(
+          address: 'https://example.com/blocklist1',
+          type: 'block',
+          groups: [1],
+          enabled: true,
+          id: 4,
+          dateAdded: DateTime.now(),
+          dateModified: DateTime.now(),
+          dateUpdated: DateTime.now(),
+          number: 400,
+          invalidDomains: 0,
+          abpEntries: 0,
+          status: ListsStatus.downloaded,
+        ),
+        Subscription(
+          address: 'https://example.com/blocklist2',
+          type: 'block',
+          groups: [2],
+          enabled: true,
+          id: 5,
+          dateAdded: DateTime.now(),
+          dateModified: DateTime.now(),
+          dateUpdated: DateTime.now(),
+          number: 500,
+          invalidDomains: 0,
+          abpEntries: 0,
+          status: ListsStatus.downloaded,
+        ),
+      ];
+
+      test('setGroupFilter updates groupFilter and filters subscriptions', () {
+        provider.setWhitelistSubscriptions(subscriptionsWithGroups);
+        provider.setBlacklistSubscriptions(blacklistSubscriptionsWithGroups);
+        listenerCalled = false;
+
+        provider.setGroupFilter(1);
+
+        expect(provider.groupFilter, 1);
+        expect(provider.filteredWhitelistSubscriptions.length, 2);
+        expect(provider.filteredBlacklistSubscriptions.length, 1);
+        expect(listenerCalled, true);
+      });
+
+      test('setGroupFilter with group 2 filters correctly', () {
+        provider.setWhitelistSubscriptions(subscriptionsWithGroups);
+        provider.setBlacklistSubscriptions(blacklistSubscriptionsWithGroups);
+
+        provider.setGroupFilter(2);
+
+        expect(provider.groupFilter, 2);
+        expect(provider.filteredWhitelistSubscriptions.length, 2);
+        expect(provider.filteredBlacklistSubscriptions.length, 1);
+      });
+
+      test('clearGroupFilter clears the filter', () {
+        provider.setWhitelistSubscriptions(subscriptionsWithGroups);
+        provider.setBlacklistSubscriptions(blacklistSubscriptionsWithGroups);
+        provider.setGroupFilter(1);
+        listenerCalled = false;
+
+        provider.clearGroupFilter();
+
+        expect(provider.groupFilter, null);
+        expect(provider.filteredWhitelistSubscriptions.length, 3);
+        expect(provider.filteredBlacklistSubscriptions.length, 2);
+        expect(listenerCalled, true);
+      });
+
+      test('group filter and search filter combine correctly', () {
+        provider.setWhitelistSubscriptions(subscriptionsWithGroups);
+        provider.setBlacklistSubscriptions(blacklistSubscriptionsWithGroups);
+
+        provider.setGroupFilter(1);
+        provider.onSearch('list1');
+
+        expect(provider.filteredWhitelistSubscriptions.length, 1);
+        expect(
+          provider.filteredWhitelistSubscriptions[0].address,
+          'https://example.com/list1',
+        );
+      });
+
+      test('setGroupFilter with non-existent group returns empty list', () {
+        provider.setWhitelistSubscriptions(subscriptionsWithGroups);
+        provider.setBlacklistSubscriptions(blacklistSubscriptionsWithGroups);
+
+        provider.setGroupFilter(999);
+
+        expect(provider.filteredWhitelistSubscriptions.length, 0);
+        expect(provider.filteredBlacklistSubscriptions.length, 0);
+      });
     });
   });
 }

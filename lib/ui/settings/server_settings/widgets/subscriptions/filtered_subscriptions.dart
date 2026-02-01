@@ -2,80 +2,40 @@ import 'package:flutter/material.dart';
 import 'package:pi_hole_client/config/enums.dart';
 import 'package:pi_hole_client/config/responsive.dart';
 import 'package:pi_hole_client/domain/models_old/gateways.dart';
-import 'package:pi_hole_client/domain/models_old/server.dart';
 import 'package:pi_hole_client/domain/models_old/subscriptions.dart';
-import 'package:pi_hole_client/ui/common/empty_data_screen.dart';
-import 'package:pi_hole_client/ui/common/pi_hole_v5_not_supported_screen.dart';
 import 'package:pi_hole_client/ui/core/l10n/generated/app_localizations.dart';
 import 'package:pi_hole_client/ui/core/ui/helpers/snackbar.dart';
-import 'package:pi_hole_client/ui/core/ui/modals/group_filter_modal.dart';
 import 'package:pi_hole_client/ui/core/ui/modals/process_modal.dart';
 import 'package:pi_hole_client/ui/core/viewmodel/app_config_provider.dart';
 import 'package:pi_hole_client/ui/core/viewmodel/gravity_provider.dart';
 import 'package:pi_hole_client/ui/core/viewmodel/groups_provider.dart';
 import 'package:pi_hole_client/ui/core/viewmodel/servers_provider.dart';
 import 'package:pi_hole_client/ui/core/viewmodel/subscriptions_list_provider.dart';
-import 'package:pi_hole_client/ui/settings/server_settings/widgets/subscriptions/gravity_update.dart';
 import 'package:pi_hole_client/ui/settings/server_settings/widgets/subscriptions/subscription_details_screen.dart';
 import 'package:pi_hole_client/ui/settings/server_settings/widgets/subscriptions/subscriptions_list.dart';
 import 'package:provider/provider.dart';
 
-class SubscriptionLists extends StatelessWidget {
-  const SubscriptionLists({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    final serversProvider = Provider.of<ServersProvider>(context);
-    final subscriptionsListProvider = Provider.of<SubscriptionsListProvider>(
-      context,
-      listen: false,
-    );
-
-    final selectedServer = serversProvider.selectedServer;
-
-    if (selectedServer == null) {
-      return Scaffold(
-        appBar: AppBar(title: Text(AppLocalizations.of(context)!.adlists)),
-        body: const SafeArea(child: EmptyDataScreen()),
-      );
-    }
-
-    final apiGateway = serversProvider.selectedApiGateway;
-
-    if (apiGateway?.server.apiVersion == 'v5') {
-      return Scaffold(
-        appBar: AppBar(title: Text(AppLocalizations.of(context)!.adlists)),
-        body: const SafeArea(child: PiHoleV5NotSupportedScreen()),
-      );
-    }
-
-    return SubscriptionListsWidget(
-      server: selectedServer,
-      subscriptionsListProvider: subscriptionsListProvider,
-    );
-  }
-}
-
-class SubscriptionListsWidget extends StatefulWidget {
-  const SubscriptionListsWidget({
-    required this.server,
-    required this.subscriptionsListProvider,
+class FilteredSubscriptionLists extends StatefulWidget {
+  const FilteredSubscriptionLists({
+    required this.groupId,
+    required this.groupName,
+    this.initialTab = 0,
     super.key,
   });
 
-  final Server server;
-  final SubscriptionsListProvider subscriptionsListProvider;
+  final int groupId;
+  final String groupName;
+  final int initialTab;
 
   @override
-  State<SubscriptionListsWidget> createState() =>
-      _SubscriptionListsWidgetState();
+  State<FilteredSubscriptionLists> createState() =>
+      _FilteredSubscriptionListsState();
 }
 
-class _SubscriptionListsWidgetState extends State<SubscriptionListsWidget>
+class _FilteredSubscriptionListsState extends State<FilteredSubscriptionLists>
     with TickerProviderStateMixin {
   late TabController tabController;
   final ScrollController scrollController = ScrollController();
-
   final TextEditingController searchController = TextEditingController();
 
   Subscription? selectedSubscription;
@@ -84,9 +44,22 @@ class _SubscriptionListsWidgetState extends State<SubscriptionListsWidget>
   void initState() {
     super.initState();
 
+    tabController = TabController(
+      length: 2,
+      vsync: this,
+      initialIndex: widget.initialTab,
+    );
+
     Future.microtask(() async {
-      widget.subscriptionsListProvider.setLoadingStatus(LoadStatus.loading);
-      await widget.subscriptionsListProvider.fetchSubscriptionsList();
+      if (!mounted) return;
+
+      final subscriptionsListProvider =
+          context.read<SubscriptionsListProvider>();
+      subscriptionsListProvider.setLoadingStatus(LoadStatus.loading);
+      subscriptionsListProvider.setGroupFilter(widget.groupId);
+      subscriptionsListProvider.setSelectedTab(widget.initialTab);
+
+      await subscriptionsListProvider.fetchSubscriptionsList();
 
       if (!mounted) return;
       final groupsProvider = context.read<GroupsProvider>();
@@ -96,13 +69,12 @@ class _SubscriptionListsWidgetState extends State<SubscriptionListsWidget>
       final gravityUpdateProvider = context.read<GravityUpdateProvider>();
       await gravityUpdateProvider.load();
     });
-
-    widget.subscriptionsListProvider.setSelectedTab(0);
-    tabController = TabController(length: 3, vsync: this);
   }
 
   @override
   void dispose() {
+    final subscriptionsListProvider = context.read<SubscriptionsListProvider>();
+    subscriptionsListProvider.clearGroupFilter();
     tabController.dispose();
     scrollController.dispose();
     searchController.dispose();
@@ -111,9 +83,8 @@ class _SubscriptionListsWidgetState extends State<SubscriptionListsWidget>
 
   @override
   Widget build(BuildContext context) {
-    final subscriptionsListProvider = Provider.of<SubscriptionsListProvider>(
-      context,
-    );
+    final subscriptionsListProvider =
+        Provider.of<SubscriptionsListProvider>(context);
     final serversProvider = Provider.of<ServersProvider>(context);
     final appConfigProvider = Provider.of<AppConfigProvider>(context);
     final apiGateway = serversProvider.selectedApiGateway;
@@ -167,7 +138,7 @@ class _SubscriptionListsWidgetState extends State<SubscriptionListsWidget>
 
     Widget scaffold({void Function(Subscription)? onTap}) {
       return DefaultTabController(
-        length: 3,
+        length: 2,
         child: Scaffold(
           appBar: AppBar(
             title: subscriptionsListProvider.searchMode
@@ -201,45 +172,33 @@ class _SubscriptionListsWidgetState extends State<SubscriptionListsWidget>
                   }),
                   icon: const Icon(Icons.close_rounded),
                 ),
-              if (!subscriptionsListProvider.searchMode)
-                IconButton(
-                  onPressed: () => showGroupFilterModal(
-                    context: context,
-                    groups: groups,
-                    selectedGroupId: subscriptionsListProvider.groupFilter,
-                    onApply: subscriptionsListProvider.setGroupFilter,
-                  ),
-                  icon: const Icon(Icons.filter_list_rounded),
-                ),
               const SizedBox(width: 10),
             ],
             bottom: PreferredSize(
-              preferredSize: Size.fromHeight(
-                subscriptionsListProvider.groupFilter != null ? 96 : 46,
-              ),
+              preferredSize: const Size.fromHeight(96),
               child: Column(
                 children: [
-                  if (subscriptionsListProvider.groupFilter != null)
-                    Container(
-                      width: double.maxFinite,
-                      height: 50,
-                      padding: const EdgeInsets.only(bottom: 10),
-                      child: ListView(
-                        scrollDirection: Axis.horizontal,
-                        children: [
-                          const SizedBox(width: 16),
-                          Chip(
-                            label: Text(
-                              '${AppLocalizations.of(context)!.groups}: ${groups[subscriptionsListProvider.groupFilter] ?? ''}',
-                            ),
-                            deleteIcon: const Icon(Icons.close, size: 18),
-                            onDeleted:
-                                subscriptionsListProvider.clearGroupFilter,
+                  Container(
+                    width: double.maxFinite,
+                    height: 50,
+                    padding: const EdgeInsets.only(bottom: 10),
+                    child: ListView(
+                      scrollDirection: Axis.horizontal,
+                      children: [
+                        const SizedBox(width: 16),
+                        Chip(
+                          label: Text(
+                            '${AppLocalizations.of(context)!.groups}: ${widget.groupName}',
                           ),
-                          const SizedBox(width: 16),
-                        ],
-                      ),
+                          deleteIcon: const Icon(Icons.close, size: 18),
+                          onDeleted: () {
+                            Navigator.pop(context);
+                          },
+                        ),
+                        const SizedBox(width: 16),
+                      ],
                     ),
+                  ),
                   TabBar(
                     tabAlignment: TabAlignment.start,
                     isScrollable: true,
@@ -253,10 +212,6 @@ class _SubscriptionListsWidgetState extends State<SubscriptionListsWidget>
                       buildIconTab(
                         Icons.block_rounded,
                         AppLocalizations.of(context)!.blockList,
-                      ),
-                      buildIconTab(
-                        Icons.rocket_launch_rounded,
-                        AppLocalizations.of(context)!.updateGravity,
                       ),
                     ],
                   ),
@@ -291,7 +246,6 @@ class _SubscriptionListsWidgetState extends State<SubscriptionListsWidget>
                 },
                 selectedSubscription: selectedSubscription,
               ),
-              const GravityUpdate(),
             ],
           ),
         ),
@@ -299,7 +253,6 @@ class _SubscriptionListsWidgetState extends State<SubscriptionListsWidget>
     }
 
     if (MediaQuery.of(context).size.width > ResponsiveConstants.xxLarge) {
-      // 3 columns layout
       return Row(
         children: [
           Expanded(child: scaffold()),
@@ -325,9 +278,8 @@ class _SubscriptionListsWidgetState extends State<SubscriptionListsWidget>
                             fontSize: 24,
                             fontWeight: FontWeight.normal,
                             decoration: TextDecoration.none,
-                            color: Theme.of(
-                              context,
-                            ).colorScheme.onSurfaceVariant,
+                            color:
+                                Theme.of(context).colorScheme.onSurfaceVariant,
                           ),
                         ),
                       ),
@@ -337,7 +289,6 @@ class _SubscriptionListsWidgetState extends State<SubscriptionListsWidget>
         ],
       );
     } else if (MediaQuery.of(context).size.width > ResponsiveConstants.large) {
-      // 2 columns layout
       return scaffold(
         onTap: (subscription) {
           Navigator.push(
@@ -357,7 +308,6 @@ class _SubscriptionListsWidgetState extends State<SubscriptionListsWidget>
         },
       );
     } else {
-      // mobile layout
       return scaffold();
     }
   }

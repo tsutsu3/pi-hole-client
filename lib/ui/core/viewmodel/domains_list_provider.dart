@@ -22,6 +22,8 @@ class DomainsListProvider with ChangeNotifier {
 
   bool _searchMode = false;
 
+  int? _groupFilter;
+
   LoadStatus get loadingStatus {
     return _loadingStatus;
   }
@@ -54,6 +56,10 @@ class DomainsListProvider with ChangeNotifier {
     return _searchMode;
   }
 
+  int? get groupFilter {
+    return _groupFilter;
+  }
+
   void update(ServersProvider? provider) {
     serversProvider = provider;
   }
@@ -82,21 +88,35 @@ class DomainsListProvider with ChangeNotifier {
     notifyListeners();
   }
 
+  void setGroupFilter(int? groupId) {
+    _groupFilter = groupId;
+    _applyFilters();
+    notifyListeners();
+  }
+
+  void clearGroupFilter() => setGroupFilter(null);
+
+  void _applyFilters() {
+    _filteredWhitelistDomains = _whitelistDomains.where((domain) {
+      final matchesSearch =
+          _searchTerm.isEmpty || domain.domain.contains(_searchTerm);
+      final matchesGroup =
+          _groupFilter == null || domain.groups.contains(_groupFilter);
+      return matchesSearch && matchesGroup;
+    }).toList();
+
+    _filteredBlacklistDomains = _blacklistDomains.where((domain) {
+      final matchesSearch =
+          _searchTerm.isEmpty || domain.domain.contains(_searchTerm);
+      final matchesGroup =
+          _groupFilter == null || domain.groups.contains(_groupFilter);
+      return matchesSearch && matchesGroup;
+    }).toList();
+  }
+
   void onSearch(String value) {
     _searchTerm = value;
-
-    if (value != '') {
-      _filteredBlacklistDomains = _blacklistDomains
-          .where((i) => i.domain.contains(value))
-          .toList();
-      _filteredWhitelistDomains = _whitelistDomains
-          .where((i) => i.domain.contains(value))
-          .toList();
-    } else {
-      _filteredBlacklistDomains = _blacklistDomains;
-      _filteredWhitelistDomains = _whitelistDomains;
-    }
-
+    _applyFilters();
     notifyListeners();
   }
 
@@ -104,24 +124,17 @@ class DomainsListProvider with ChangeNotifier {
     final apiGateway = serversProvider?.selectedApiGateway;
     final result = await apiGateway?.getDomainLists();
     if (result?.result == APiResponseType.success) {
-      final whitelist = <Domain>[
+      _whitelistDomains = <Domain>[
         ...result!.data!.whitelist,
         ...result.data!.whitelistRegex,
       ];
-      _whitelistDomains = whitelist;
-      _filteredWhitelistDomains = whitelist
-          .where((i) => i.domain.contains(_searchTerm))
-          .toList();
 
-      final blacklist = <Domain>[
+      _blacklistDomains = <Domain>[
         ...result.data!.blacklist,
         ...result.data!.blacklistRegex,
       ];
-      _blacklistDomains = blacklist;
-      _filteredBlacklistDomains = blacklist
-          .where((i) => i.domain.contains(_searchTerm))
-          .toList();
 
+      _applyFilters();
       _loadingStatus = LoadStatus.loaded;
     } else {
       _loadingStatus = LoadStatus.error;

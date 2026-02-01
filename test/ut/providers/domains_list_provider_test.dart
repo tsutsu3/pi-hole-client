@@ -62,6 +62,7 @@ void main() {
       expect(provider.selectedTab, null);
       expect(provider.searchTerm, '');
       expect(provider.searchMode, false);
+      expect(provider.groupFilter, null);
       expect(listenerCalled, false);
     });
 
@@ -128,6 +129,123 @@ void main() {
       provider.removeDomainFromList(domains[0]);
       expect(provider.whitelistDomains, []);
       expect(listenerCalled, true);
+    });
+
+    group('Group Filter', () {
+      final domainsWithGroups = [
+        Domain(
+          id: 1,
+          type: 0,
+          domain: 'example1.com',
+          enabled: 1,
+          dateAdded: DateTime.now(),
+          dateModified: DateTime.now(),
+          comment: null,
+          groups: [1, 2],
+        ),
+        Domain(
+          id: 2,
+          type: 0,
+          domain: 'example2.com',
+          enabled: 1,
+          dateAdded: DateTime.now(),
+          dateModified: DateTime.now(),
+          comment: null,
+          groups: [2, 3],
+        ),
+        Domain(
+          id: 3,
+          type: 0,
+          domain: 'example3.com',
+          enabled: 1,
+          dateAdded: DateTime.now(),
+          dateModified: DateTime.now(),
+          comment: null,
+          groups: [1],
+        ),
+      ];
+
+      final blacklistDomainsWithGroups = [
+        Domain(
+          id: 4,
+          type: 1,
+          domain: 'blocked1.com',
+          enabled: 1,
+          dateAdded: DateTime.now(),
+          dateModified: DateTime.now(),
+          comment: null,
+          groups: [1],
+        ),
+        Domain(
+          id: 5,
+          type: 1,
+          domain: 'blocked2.com',
+          enabled: 1,
+          dateAdded: DateTime.now(),
+          dateModified: DateTime.now(),
+          comment: null,
+          groups: [2],
+        ),
+      ];
+
+      test('setGroupFilter updates groupFilter and filters domains', () {
+        provider.setWhitelistDomains(domainsWithGroups);
+        provider.setBlacklistDomains(blacklistDomainsWithGroups);
+        listenerCalled = false;
+
+        provider.setGroupFilter(1);
+
+        expect(provider.groupFilter, 1);
+        expect(provider.filteredWhitelistDomains.length, 2);
+        expect(provider.filteredBlacklistDomains.length, 1);
+        expect(listenerCalled, true);
+      });
+
+      test('setGroupFilter with group 2 filters correctly', () {
+        provider.setWhitelistDomains(domainsWithGroups);
+        provider.setBlacklistDomains(blacklistDomainsWithGroups);
+
+        provider.setGroupFilter(2);
+
+        expect(provider.groupFilter, 2);
+        expect(provider.filteredWhitelistDomains.length, 2);
+        expect(provider.filteredBlacklistDomains.length, 1);
+      });
+
+      test('clearGroupFilter clears the filter', () {
+        provider.setWhitelistDomains(domainsWithGroups);
+        provider.setBlacklistDomains(blacklistDomainsWithGroups);
+        provider.setGroupFilter(1);
+        listenerCalled = false;
+
+        provider.clearGroupFilter();
+
+        expect(provider.groupFilter, null);
+        expect(provider.filteredWhitelistDomains.length, 3);
+        expect(provider.filteredBlacklistDomains.length, 2);
+        expect(listenerCalled, true);
+      });
+
+      test('group filter and search filter combine correctly', () {
+        provider.setWhitelistDomains(domainsWithGroups);
+        provider.setBlacklistDomains(blacklistDomainsWithGroups);
+
+        provider.setGroupFilter(1);
+        provider.onSearch('example1');
+
+        expect(provider.filteredWhitelistDomains.length, 1);
+        expect(provider.filteredWhitelistDomains[0].domain, 'example1.com');
+      });
+
+      test('setGroupFilter with non-existent group returns empty list', () {
+        provider.setWhitelistDomains(domainsWithGroups);
+        provider.setBlacklistDomains(blacklistDomainsWithGroups);
+
+        provider.setGroupFilter(999);
+
+        expect(provider.filteredWhitelistDomains.length, 0);
+        expect(provider.filteredBlacklistDomains.length, 0);
+      });
     });
   });
 }

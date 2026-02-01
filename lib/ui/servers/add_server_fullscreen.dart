@@ -347,6 +347,7 @@ class _AddServerFullscreenState extends State<AddServerFullscreen> {
       VoidCallback? onValidationFailed,
     }) async {
       if (connectionType != ConnectionType.https || ignoreCertificateErrors) {
+        // ignore: avoid_redundant_argument_values
         return serverObj.copyWith(pinnedCertificateSha256: null);
       }
 
