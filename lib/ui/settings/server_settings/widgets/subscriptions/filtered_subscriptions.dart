@@ -37,6 +37,7 @@ class _FilteredSubscriptionListsState extends State<FilteredSubscriptionLists>
   late TabController tabController;
   final ScrollController scrollController = ScrollController();
   final TextEditingController searchController = TextEditingController();
+  late SubscriptionsListProvider _subscriptionsListProvider;
 
   Subscription? selectedSubscription;
 
@@ -50,16 +51,16 @@ class _FilteredSubscriptionListsState extends State<FilteredSubscriptionLists>
       initialIndex: widget.initialTab,
     );
 
+    _subscriptionsListProvider = context.read<SubscriptionsListProvider>();
+
     Future.microtask(() async {
       if (!mounted) return;
 
-      final subscriptionsListProvider =
-          context.read<SubscriptionsListProvider>();
-      subscriptionsListProvider.setLoadingStatus(LoadStatus.loading);
-      subscriptionsListProvider.setGroupFilter(widget.groupId);
-      subscriptionsListProvider.setSelectedTab(widget.initialTab);
+      _subscriptionsListProvider.setLoadingStatus(LoadStatus.loading);
+      _subscriptionsListProvider.setGroupFilter(widget.groupId);
+      _subscriptionsListProvider.setSelectedTab(widget.initialTab);
 
-      await subscriptionsListProvider.fetchSubscriptionsList();
+      await _subscriptionsListProvider.fetchSubscriptionsList();
 
       if (!mounted) return;
       final groupsProvider = context.read<GroupsProvider>();
@@ -73,8 +74,7 @@ class _FilteredSubscriptionListsState extends State<FilteredSubscriptionLists>
 
   @override
   void dispose() {
-    final subscriptionsListProvider = context.read<SubscriptionsListProvider>();
-    subscriptionsListProvider.clearGroupFilter();
+    _subscriptionsListProvider.clearGroupFilter();
     tabController.dispose();
     scrollController.dispose();
     searchController.dispose();
