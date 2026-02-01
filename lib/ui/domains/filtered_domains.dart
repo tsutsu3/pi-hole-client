@@ -118,141 +118,133 @@ class _FilteredDomainListsState extends State<FilteredDomainLists>
       }
     }
 
-    Widget scaffold() {
+    Widget scaffold({void Function(Domain)? onTap}) {
       return DefaultTabController(
         length: 2,
-        child: NestedScrollView(
-          controller: scrollController,
-          headerSliverBuilder: (context, innerBoxIsScrolled) {
-            return [
-              SliverOverlapAbsorber(
-                handle: NestedScrollView.sliverOverlapAbsorberHandleFor(
-                  context,
+        child: Scaffold(
+          appBar: AppBar(
+            title: domainsListProvider.searchMode
+                ? TextFormField(
+                    initialValue: domainsListProvider.searchTerm,
+                    onChanged: domainsListProvider.onSearch,
+                    decoration: InputDecoration(
+                      hintText: AppLocalizations.of(context)!.domainsSearch,
+                      hintStyle: const TextStyle(fontWeight: FontWeight.w400),
+                      border: InputBorder.none,
+                      prefixIcon: Icon(
+                        Icons.search_rounded,
+                        color: Theme.of(context).colorScheme.onSurfaceVariant,
+                      ),
+                    ),
+                  )
+                : Text(AppLocalizations.of(context)!.domains),
+            actions: [
+              if (!domainsListProvider.searchMode)
+                IconButton(
+                  onPressed: () => domainsListProvider.setSearchMode(true),
+                  icon: const Icon(Icons.search_rounded),
                 ),
-                sliver: SliverAppBar(
-                  title: domainsListProvider.searchMode
-                      ? TextFormField(
-                          initialValue: domainsListProvider.searchTerm,
-                          onChanged: domainsListProvider.onSearch,
-                          decoration: InputDecoration(
-                            hintText: AppLocalizations.of(
-                              context,
-                            )!.domainsSearch,
-                            hintStyle: const TextStyle(
-                              fontWeight: FontWeight.w400,
-                            ),
-                            border: InputBorder.none,
-                            prefixIcon: Icon(
-                              Icons.search_rounded,
-                              color: Theme.of(
-                                context,
-                              ).colorScheme.onSurfaceVariant,
-                            ),
-                          ),
-                        )
-                      : Text(AppLocalizations.of(context)!.domains),
-                  pinned: true,
-                  floating: true,
-                  forceElevated: innerBoxIsScrolled,
-                  actions: [
-                    if (!domainsListProvider.searchMode)
-                      IconButton(
-                        onPressed: () =>
-                            domainsListProvider.setSearchMode(true),
-                        icon: const Icon(Icons.search),
-                      ),
-                    if (domainsListProvider.searchMode)
-                      IconButton(
-                        onPressed: () => setState(() {
-                          domainsListProvider.setSearchMode(false);
-                          searchController.text = '';
-                          domainsListProvider.onSearch('');
-                        }),
-                        icon: const Icon(Icons.close_rounded),
-                      ),
-                    const SizedBox(width: 10),
-                  ],
-                  bottom: PreferredSize(
-                    preferredSize: const Size.fromHeight(96),
-                    child: Column(
+              if (domainsListProvider.searchMode)
+                IconButton(
+                  onPressed: () => setState(() {
+                    domainsListProvider.setSearchMode(false);
+                    searchController.text = '';
+                    domainsListProvider.onSearch('');
+                  }),
+                  icon: const Icon(Icons.close_rounded),
+                ),
+              const SizedBox(width: 10),
+            ],
+            bottom: PreferredSize(
+              preferredSize: const Size.fromHeight(98),
+              child: Column(
+                children: [
+                  Container(
+                    width: double.maxFinite,
+                    height: 52,
+                    padding: const EdgeInsets.only(bottom: 10),
+                    child: ListView(
+                      scrollDirection: Axis.horizontal,
                       children: [
-                        Container(
-                          width: double.maxFinite,
-                          height: 50,
-                          padding: const EdgeInsets.only(bottom: 10),
-                          child: ListView(
-                            scrollDirection: Axis.horizontal,
-                            children: [
-                              const SizedBox(width: 16),
-                              Chip(
-                                label: Text(
-                                  '${AppLocalizations.of(context)!.groups}: ${widget.groupName}',
-                                ),
-                                deleteIcon: const Icon(Icons.close, size: 18),
-                                onDeleted: () {
-                                  Navigator.pop(context);
-                                },
-                              ),
-                              const SizedBox(width: 16),
-                            ],
+                        const SizedBox(width: 16),
+                        Chip(
+                          label: Text(
+                            '${AppLocalizations.of(context)!.groups}: ${widget.groupName}',
                           ),
+                          deleteIcon: const Icon(Icons.close, size: 18),
+                          onDeleted: () {
+                            Navigator.pop(context);
+                          },
                         ),
-                        TabBar(
-                          controller: tabController,
-                          onTap: domainsListProvider.setSelectedTab,
-                          tabs: const [
-                            Tab(
-                              child: Row(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  Icon(Icons.check_circle_rounded),
-                                  Flexible(child: SizedBox(width: 16)),
-                                  Flexible(
-                                    child: Text(
-                                      'Whitelist',
-                                      overflow: TextOverflow.ellipsis,
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ),
-                            Tab(
-                              child: Row(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  Icon(Icons.block),
-                                  Flexible(child: SizedBox(width: 16)),
-                                  Flexible(
-                                    child: Text(
-                                      'Blacklist',
-                                      overflow: TextOverflow.ellipsis,
-                                    ),
-                                  ),
-                                ],
+                        const SizedBox(width: 16),
+                      ],
+                    ),
+                  ),
+                  TabBar(
+                    controller: tabController,
+                    onTap: domainsListProvider.setSelectedTab,
+                    tabs: const [
+                      Tab(
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Icon(Icons.check_circle_rounded),
+                            Flexible(child: SizedBox(width: 16)),
+                            Flexible(
+                              child: Text(
+                                'Whitelist',
+                                overflow: TextOverflow.ellipsis,
                               ),
                             ),
                           ],
                         ),
-                      ],
-                    ),
+                      ),
+                      Tab(
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Icon(Icons.block),
+                            Flexible(child: SizedBox(width: 16)),
+                            Flexible(
+                              child: Text(
+                                'Blacklist',
+                                overflow: TextOverflow.ellipsis,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ],
                   ),
-                ),
+                ],
               ),
-            ];
-          },
+            ),
+          ),
           body: TabBarView(
             controller: tabController,
             children: [
               DomainsList(
                 type: 'whitelist',
                 scrollController: scrollController,
-                onDomainSelected: (d) => setState(() => selectedDomain = d),
+                onDomainSelected: (d) {
+                  if (onTap != null) {
+                    onTap(d);
+                  } else {
+                    setState(() => selectedDomain = d);
+                  }
+                },
                 selectedDomain: selectedDomain,
               ),
               DomainsList(
                 type: 'blacklist',
                 scrollController: scrollController,
-                onDomainSelected: (d) => setState(() => selectedDomain = d),
+                onDomainSelected: (d) {
+                  if (onTap != null) {
+                    onTap(d);
+                  } else {
+                    setState(() => selectedDomain = d);
+                  }
+                },
                 selectedDomain: selectedDomain,
               ),
             ],
@@ -302,7 +294,7 @@ class _FilteredDomainListsState extends State<FilteredDomainLists>
         ),
       );
     } else {
-      return Scaffold(body: scaffold());
+      return scaffold();
     }
   }
 }
