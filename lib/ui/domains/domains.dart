@@ -163,13 +163,13 @@ class _DomainListsWidgetState extends State<DomainListsWidget>
                   floating: true,
                   forceElevated: innerBoxIsScrolled,
                   actions: [
-                    if (domainsListProvider.searchMode == false)
+                    if (!domainsListProvider.searchMode)
                       IconButton(
                         onPressed: () =>
                             domainsListProvider.setSearchMode(true),
                         icon: const Icon(Icons.search),
                       ),
-                    if (domainsListProvider.searchMode == true)
+                    if (domainsListProvider.searchMode)
                       IconButton(
                         onPressed: () => setState(() {
                           domainsListProvider.setSearchMode(false);
@@ -178,7 +178,7 @@ class _DomainListsWidgetState extends State<DomainListsWidget>
                         }),
                         icon: const Icon(Icons.close_rounded),
                       ),
-                    if (domainsListProvider.searchMode == false)
+                    if (!domainsListProvider.searchMode)
                       IconButton(
                         onPressed: () => showGroupFilterModal(
                           context: context,

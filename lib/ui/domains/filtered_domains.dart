@@ -154,13 +154,13 @@ class _FilteredDomainListsState extends State<FilteredDomainLists>
                   floating: true,
                   forceElevated: innerBoxIsScrolled,
                   actions: [
-                    if (domainsListProvider.searchMode == false)
+                    if (!domainsListProvider.searchMode)
                       IconButton(
                         onPressed: () =>
                             domainsListProvider.setSearchMode(true),
                         icon: const Icon(Icons.search),
                       ),
-                    if (domainsListProvider.searchMode == true)
+                    if (domainsListProvider.searchMode)
                       IconButton(
                         onPressed: () => setState(() {
                           domainsListProvider.setSearchMode(false);
