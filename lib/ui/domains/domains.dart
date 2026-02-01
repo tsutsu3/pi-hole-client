@@ -129,137 +129,116 @@ class _DomainListsWidgetState extends State<DomainListsWidget>
     Widget scaffold() {
       return DefaultTabController(
         length: 2,
-        child: NestedScrollView(
-          controller: scrollController,
-          headerSliverBuilder: (context, innerBoxIsScrolled) {
-            return [
-              SliverOverlapAbsorber(
-                handle: NestedScrollView.sliverOverlapAbsorberHandleFor(
-                  context,
-                ),
-                sliver: SliverAppBar(
-                  title: domainsListProvider.searchMode
-                      ? TextFormField(
-                          initialValue: domainsListProvider.searchTerm,
-                          onChanged: domainsListProvider.onSearch,
-                          decoration: InputDecoration(
-                            hintText: AppLocalizations.of(
-                              context,
-                            )!.domainsSearch,
-                            hintStyle: const TextStyle(
-                              fontWeight: FontWeight.w400,
-                            ),
-                            border: InputBorder.none,
-                            prefixIcon: Icon(
-                              Icons.search_rounded,
-                              color: Theme.of(
-                                context,
-                              ).colorScheme.onSurfaceVariant,
-                            ),
-                          ),
-                        )
-                      : Text(AppLocalizations.of(context)!.domains),
-                  pinned: true,
-                  floating: true,
-                  forceElevated: innerBoxIsScrolled,
-                  actions: [
-                    if (!domainsListProvider.searchMode)
-                      IconButton(
-                        onPressed: () =>
-                            domainsListProvider.setSearchMode(true),
-                        icon: const Icon(Icons.search),
+        child: Scaffold(
+          appBar: AppBar(
+            title: domainsListProvider.searchMode
+                ? TextFormField(
+                    initialValue: domainsListProvider.searchTerm,
+                    onChanged: domainsListProvider.onSearch,
+                    decoration: InputDecoration(
+                      hintText: AppLocalizations.of(context)!.domainsSearch,
+                      hintStyle: const TextStyle(fontWeight: FontWeight.w400),
+                      border: InputBorder.none,
+                      prefixIcon: Icon(
+                        Icons.search_rounded,
+                        color: Theme.of(context).colorScheme.onSurfaceVariant,
                       ),
-                    if (domainsListProvider.searchMode)
-                      IconButton(
-                        onPressed: () => setState(() {
-                          domainsListProvider.setSearchMode(false);
-                          searchController.text = '';
-                          domainsListProvider.onSearch('');
-                        }),
-                        icon: const Icon(Icons.close_rounded),
-                      ),
-                    if (!domainsListProvider.searchMode)
-                      IconButton(
-                        onPressed: () => showGroupFilterModal(
-                          context: context,
-                          groups: groups,
-                          selectedGroupId: domainsListProvider.groupFilter,
-                          onApply: domainsListProvider.setGroupFilter,
-                        ),
-                        icon: const Icon(Icons.filter_list_rounded),
-                      ),
-                    const SizedBox(width: 10),
-                  ],
-                  bottom: PreferredSize(
-                    preferredSize: Size.fromHeight(
-                      domainsListProvider.groupFilter != null ? 96 : 46,
                     ),
-                    child: Column(
-                      children: [
-                        if (domainsListProvider.groupFilter != null)
-                          Container(
-                            width: double.maxFinite,
-                            height: 50,
-                            padding: const EdgeInsets.only(bottom: 10),
-                            child: ListView(
-                              scrollDirection: Axis.horizontal,
-                              children: [
-                                const SizedBox(width: 16),
-                                Chip(
-                                  label: Text(
-                                    '${AppLocalizations.of(context)!.groups}: ${groups[domainsListProvider.groupFilter] ?? ''}',
-                                  ),
-                                  deleteIcon: const Icon(Icons.close, size: 18),
-                                  onDeleted:
-                                      domainsListProvider.clearGroupFilter,
-                                ),
-                                const SizedBox(width: 16),
-                              ],
+                  )
+                : Text(AppLocalizations.of(context)!.domains),
+            actions: [
+              if (!domainsListProvider.searchMode)
+                IconButton(
+                  onPressed: () => domainsListProvider.setSearchMode(true),
+                  icon: const Icon(Icons.search_rounded),
+                ),
+              if (domainsListProvider.searchMode)
+                IconButton(
+                  onPressed: () => setState(() {
+                    domainsListProvider.setSearchMode(false);
+                    searchController.text = '';
+                    domainsListProvider.onSearch('');
+                  }),
+                  icon: const Icon(Icons.close_rounded),
+                ),
+              if (!domainsListProvider.searchMode)
+                IconButton(
+                  onPressed: () => showGroupFilterModal(
+                    context: context,
+                    groups: groups,
+                    selectedGroupId: domainsListProvider.groupFilter,
+                    onApply: domainsListProvider.setGroupFilter,
+                  ),
+                  icon: const Icon(Icons.filter_list_rounded),
+                ),
+              const SizedBox(width: 10),
+            ],
+            bottom: PreferredSize(
+              preferredSize: Size.fromHeight(
+                domainsListProvider.groupFilter != null ? 96 : 46,
+              ),
+              child: Column(
+                children: [
+                  if (domainsListProvider.groupFilter != null)
+                    Container(
+                      width: double.maxFinite,
+                      height: 50,
+                      padding: const EdgeInsets.only(bottom: 10),
+                      child: ListView(
+                        scrollDirection: Axis.horizontal,
+                        children: [
+                          const SizedBox(width: 16),
+                          Chip(
+                            label: Text(
+                              '${AppLocalizations.of(context)!.groups}: ${groups[domainsListProvider.groupFilter] ?? ''}',
                             ),
+                            deleteIcon: const Icon(Icons.close, size: 18),
+                            onDeleted: domainsListProvider.clearGroupFilter,
                           ),
-                        TabBar(
-                          controller: tabController,
-                          onTap: domainsListProvider.setSelectedTab,
-                          tabs: const [
-                            Tab(
-                              child: Row(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  Icon(Icons.check_circle_rounded),
-                                  Flexible(child: SizedBox(width: 16)),
-                                  Flexible(
-                                    child: Text(
-                                      'Whitelist',
-                                      overflow: TextOverflow.ellipsis,
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ),
-                            Tab(
-                              child: Row(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  Icon(Icons.block),
-                                  Flexible(child: SizedBox(width: 16)),
-                                  Flexible(
-                                    child: Text(
-                                      'Blacklist',
-                                      overflow: TextOverflow.ellipsis,
-                                    ),
-                                  ),
-                                ],
+                          const SizedBox(width: 16),
+                        ],
+                      ),
+                    ),
+                  TabBar(
+                    controller: tabController,
+                    onTap: domainsListProvider.setSelectedTab,
+                    tabs: const [
+                      Tab(
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Icon(Icons.check_circle_rounded),
+                            Flexible(child: SizedBox(width: 16)),
+                            Flexible(
+                              child: Text(
+                                'Whitelist',
+                                overflow: TextOverflow.ellipsis,
                               ),
                             ),
                           ],
                         ),
-                      ],
-                    ),
+                      ),
+                      Tab(
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Icon(Icons.block),
+                            Flexible(child: SizedBox(width: 16)),
+                            Flexible(
+                              child: Text(
+                                'Blacklist',
+                                overflow: TextOverflow.ellipsis,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ],
                   ),
-                ),
+                ],
               ),
-            ];
-          },
+            ),
+          ),
           body: TabBarView(
             controller: tabController,
             children: [
