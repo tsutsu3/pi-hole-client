@@ -8,6 +8,7 @@ import 'package:pi_hole_client/ui/common/empty_data_screen.dart';
 import 'package:pi_hole_client/ui/common/pi_hole_v5_not_supported_screen.dart';
 import 'package:pi_hole_client/ui/core/l10n/generated/app_localizations.dart';
 import 'package:pi_hole_client/ui/core/ui/helpers/snackbar.dart';
+import 'package:pi_hole_client/ui/core/ui/modals/group_filter_modal.dart';
 import 'package:pi_hole_client/ui/core/ui/modals/process_modal.dart';
 import 'package:pi_hole_client/ui/core/viewmodel/app_config_provider.dart';
 import 'package:pi_hole_client/ui/core/viewmodel/gravity_provider.dart';
@@ -200,27 +201,70 @@ class _SubscriptionListsWidgetState extends State<SubscriptionListsWidget>
                   }),
                   icon: const Icon(Icons.close_rounded),
                 ),
+              if (!subscriptionsListProvider.searchMode)
+                IconButton(
+                  onPressed: () => showGroupFilterModal(
+                    context: context,
+                    groups: groups,
+                    selectedGroupId: subscriptionsListProvider.groupFilter,
+                    onApply: (groupId) {
+                      subscriptionsListProvider.setGroupFilter(groupId);
+                    },
+                  ),
+                  icon: const Icon(Icons.filter_list_rounded),
+                ),
               const SizedBox(width: 10),
             ],
-            bottom: TabBar(
-              tabAlignment: TabAlignment.start,
-              isScrollable: true,
-              controller: tabController,
-              onTap: subscriptionsListProvider.setSelectedTab,
-              tabs: [
-                buildIconTab(
-                  Icons.check_circle_rounded,
-                  AppLocalizations.of(context)!.allowList,
-                ),
-                buildIconTab(
-                  Icons.block_rounded,
-                  AppLocalizations.of(context)!.blockList,
-                ),
-                buildIconTab(
-                  Icons.rocket_launch_rounded,
-                  AppLocalizations.of(context)!.updateGravity,
-                ),
-              ],
+            bottom: PreferredSize(
+              preferredSize: Size.fromHeight(
+                subscriptionsListProvider.groupFilter != null ? 96 : 46,
+              ),
+              child: Column(
+                children: [
+                  if (subscriptionsListProvider.groupFilter != null)
+                    Container(
+                      width: double.maxFinite,
+                      height: 50,
+                      padding: const EdgeInsets.only(bottom: 10),
+                      child: ListView(
+                        scrollDirection: Axis.horizontal,
+                        children: [
+                          const SizedBox(width: 16),
+                          Chip(
+                            label: Text(
+                              '${AppLocalizations.of(context)!.groups}: ${groups[subscriptionsListProvider.groupFilter] ?? ''}',
+                            ),
+                            deleteIcon: const Icon(Icons.close, size: 18),
+                            onDeleted: () {
+                              subscriptionsListProvider.clearGroupFilter();
+                            },
+                          ),
+                          const SizedBox(width: 16),
+                        ],
+                      ),
+                    ),
+                  TabBar(
+                    tabAlignment: TabAlignment.start,
+                    isScrollable: true,
+                    controller: tabController,
+                    onTap: subscriptionsListProvider.setSelectedTab,
+                    tabs: [
+                      buildIconTab(
+                        Icons.check_circle_rounded,
+                        AppLocalizations.of(context)!.allowList,
+                      ),
+                      buildIconTab(
+                        Icons.block_rounded,
+                        AppLocalizations.of(context)!.blockList,
+                      ),
+                      buildIconTab(
+                        Icons.rocket_launch_rounded,
+                        AppLocalizations.of(context)!.updateGravity,
+                      ),
+                    ],
+                  ),
+                ],
+              ),
             ),
           ),
           body: TabBarView(

@@ -6,6 +6,7 @@ import 'package:pi_hole_client/domain/models_old/gateways.dart';
 import 'package:pi_hole_client/domain/models_old/server.dart';
 import 'package:pi_hole_client/ui/core/l10n/generated/app_localizations.dart';
 import 'package:pi_hole_client/ui/core/ui/helpers/snackbar.dart';
+import 'package:pi_hole_client/ui/core/ui/modals/group_filter_modal.dart';
 import 'package:pi_hole_client/ui/core/ui/modals/process_modal.dart';
 import 'package:pi_hole_client/ui/core/viewmodel/app_config_provider.dart';
 import 'package:pi_hole_client/ui/core/viewmodel/domains_list_provider.dart';
@@ -177,43 +178,86 @@ class _DomainListsWidgetState extends State<DomainListsWidget>
                         }),
                         icon: const Icon(Icons.close_rounded),
                       ),
+                    if (domainsListProvider.searchMode == false)
+                      IconButton(
+                        onPressed: () => showGroupFilterModal(
+                          context: context,
+                          groups: groups,
+                          selectedGroupId: domainsListProvider.groupFilter,
+                          onApply: (groupId) {
+                            domainsListProvider.setGroupFilter(groupId);
+                          },
+                        ),
+                        icon: const Icon(Icons.filter_list_rounded),
+                      ),
                     const SizedBox(width: 10),
                   ],
-                  bottom: TabBar(
-                    controller: tabController,
-                    onTap: domainsListProvider.setSelectedTab,
-                    tabs: const [
-                      Tab(
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Icon(Icons.check_circle_rounded),
-                            Flexible(child: SizedBox(width: 16)),
-                            Flexible(
-                              child: Text(
-                                'Whitelist',
-                                overflow: TextOverflow.ellipsis,
+                  bottom: PreferredSize(
+                    preferredSize: Size.fromHeight(
+                      domainsListProvider.groupFilter != null ? 96 : 46,
+                    ),
+                    child: Column(
+                      children: [
+                        if (domainsListProvider.groupFilter != null)
+                          Container(
+                            width: double.maxFinite,
+                            height: 50,
+                            padding: const EdgeInsets.only(bottom: 10),
+                            child: ListView(
+                              scrollDirection: Axis.horizontal,
+                              children: [
+                                const SizedBox(width: 16),
+                                Chip(
+                                  label: Text(
+                                    '${AppLocalizations.of(context)!.groups}: ${groups[domainsListProvider.groupFilter] ?? ''}',
+                                  ),
+                                  deleteIcon: const Icon(Icons.close, size: 18),
+                                  onDeleted: () {
+                                    domainsListProvider.clearGroupFilter();
+                                  },
+                                ),
+                                const SizedBox(width: 16),
+                              ],
+                            ),
+                          ),
+                        TabBar(
+                          controller: tabController,
+                          onTap: domainsListProvider.setSelectedTab,
+                          tabs: const [
+                            Tab(
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  Icon(Icons.check_circle_rounded),
+                                  Flexible(child: SizedBox(width: 16)),
+                                  Flexible(
+                                    child: Text(
+                                      'Whitelist',
+                                      overflow: TextOverflow.ellipsis,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                            Tab(
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  Icon(Icons.block),
+                                  Flexible(child: SizedBox(width: 16)),
+                                  Flexible(
+                                    child: Text(
+                                      'Blacklist',
+                                      overflow: TextOverflow.ellipsis,
+                                    ),
+                                  ),
+                                ],
                               ),
                             ),
                           ],
                         ),
-                      ),
-                      Tab(
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Icon(Icons.block),
-                            Flexible(child: SizedBox(width: 16)),
-                            Flexible(
-                              child: Text(
-                                'Blacklist',
-                                overflow: TextOverflow.ellipsis,
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                    ],
+                      ],
+                    ),
                   ),
                 ),
               ),

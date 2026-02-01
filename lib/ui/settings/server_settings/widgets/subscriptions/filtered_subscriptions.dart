@@ -155,20 +155,7 @@ class _FilteredSubscriptionListsState extends State<FilteredSubscriptionLists>
                       ),
                     ),
                   )
-                : Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(AppLocalizations.of(context)!.adlists),
-                      Text(
-                        widget.groupName,
-                        style: TextStyle(
-                          fontSize: 12,
-                          fontWeight: FontWeight.w400,
-                          color: Theme.of(context).colorScheme.onSurfaceVariant,
-                        ),
-                      ),
-                    ],
-                  ),
+                : Text(AppLocalizations.of(context)!.adlists),
             actions: [
               if (!subscriptionsListProvider.searchMode)
                 IconButton(
@@ -187,21 +174,49 @@ class _FilteredSubscriptionListsState extends State<FilteredSubscriptionLists>
                 ),
               const SizedBox(width: 10),
             ],
-            bottom: TabBar(
-              tabAlignment: TabAlignment.start,
-              isScrollable: true,
-              controller: tabController,
-              onTap: subscriptionsListProvider.setSelectedTab,
-              tabs: [
-                buildIconTab(
-                  Icons.check_circle_rounded,
-                  AppLocalizations.of(context)!.allowList,
-                ),
-                buildIconTab(
-                  Icons.block_rounded,
-                  AppLocalizations.of(context)!.blockList,
-                ),
-              ],
+            bottom: PreferredSize(
+              preferredSize: const Size.fromHeight(96),
+              child: Column(
+                children: [
+                  Container(
+                    width: double.maxFinite,
+                    height: 50,
+                    padding: const EdgeInsets.only(bottom: 10),
+                    child: ListView(
+                      scrollDirection: Axis.horizontal,
+                      children: [
+                        const SizedBox(width: 16),
+                        Chip(
+                          label: Text(
+                            '${AppLocalizations.of(context)!.groups}: ${widget.groupName}',
+                          ),
+                          deleteIcon: const Icon(Icons.close, size: 18),
+                          onDeleted: () {
+                            Navigator.pop(context);
+                          },
+                        ),
+                        const SizedBox(width: 16),
+                      ],
+                    ),
+                  ),
+                  TabBar(
+                    tabAlignment: TabAlignment.start,
+                    isScrollable: true,
+                    controller: tabController,
+                    onTap: subscriptionsListProvider.setSelectedTab,
+                    tabs: [
+                      buildIconTab(
+                        Icons.check_circle_rounded,
+                        AppLocalizations.of(context)!.allowList,
+                      ),
+                      buildIconTab(
+                        Icons.block_rounded,
+                        AppLocalizations.of(context)!.blockList,
+                      ),
+                    ],
+                  ),
+                ],
+              ),
             ),
           ),
           body: TabBarView(
