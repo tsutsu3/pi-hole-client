@@ -11,9 +11,14 @@ import 'package:pi_hole_client/ui/core/ui/helpers/snackbar.dart';
 import 'package:pi_hole_client/ui/core/ui/modals/delete_modal.dart';
 import 'package:pi_hole_client/ui/core/ui/modals/process_modal.dart';
 import 'package:pi_hole_client/ui/core/viewmodel/app_config_provider.dart';
+import 'package:pi_hole_client/ui/core/viewmodel/clients_list_provider.dart';
+import 'package:pi_hole_client/ui/core/viewmodel/domains_list_provider.dart';
 import 'package:pi_hole_client/ui/core/viewmodel/groups_provider.dart';
 import 'package:pi_hole_client/ui/core/viewmodel/servers_provider.dart';
+import 'package:pi_hole_client/ui/core/viewmodel/subscriptions_list_provider.dart';
+import 'package:pi_hole_client/ui/domains/filtered_domains.dart';
 import 'package:pi_hole_client/ui/settings/server_settings/widgets/group_client/edit_group_modal.dart';
+import 'package:pi_hole_client/ui/settings/server_settings/widgets/subscriptions/filtered_subscriptions.dart';
 import 'package:pi_hole_client/utils/format.dart';
 import 'package:provider/provider.dart';
 
@@ -37,6 +42,9 @@ class _GroupDetailsScreenState extends State<GroupDetailsScreen> {
   late ApiGateway? apiGateway;
   late GroupsProvider groupsProvider;
   late AppConfigProvider appConfigProvider;
+  late ClientsListProvider clientsListProvider;
+  late DomainsListProvider domainsListProvider;
+  late SubscriptionsListProvider subscriptionsListProvider;
 
   @override
   void initState() {
@@ -60,6 +68,9 @@ class _GroupDetailsScreenState extends State<GroupDetailsScreen> {
     appConfigProvider = context.watch<AppConfigProvider>();
     serversProvider = context.watch<ServersProvider>();
     groupsProvider = context.watch<GroupsProvider>();
+    clientsListProvider = context.watch<ClientsListProvider>();
+    domainsListProvider = context.watch<DomainsListProvider>();
+    subscriptionsListProvider = context.watch<SubscriptionsListProvider>();
     apiGateway = serversProvider.selectedApiGateway;
   }
 
@@ -149,6 +160,46 @@ class _GroupDetailsScreenState extends State<GroupDetailsScreen> {
                 _group.dateModified,
                 kUnifiedDateTimeFormat,
               ),
+            ),
+            SectionLabel(label: AppLocalizations.of(context)!.groupMembers),
+            _buildMemberCountTile(
+              icon: Icons.devices_rounded,
+              label: AppLocalizations.of(context)!.clients,
+              count: clientsListProvider.clients
+                  .where((c) => c.groups.contains(_group.id))
+                  .length,
+            ),
+            _buildMemberCountTile(
+              icon: Icons.check_circle_outline_rounded,
+              label: AppLocalizations.of(context)!.domainsWhitelist,
+              count: domainsListProvider.whitelistDomains
+                  .where((d) => d.groups.contains(_group.id))
+                  .length,
+              onTap: () => _navigateToFilteredDomains(initialTab: 0),
+            ),
+            _buildMemberCountTile(
+              icon: Icons.block_rounded,
+              label: AppLocalizations.of(context)!.domainsBlacklist,
+              count: domainsListProvider.blacklistDomains
+                  .where((d) => d.groups.contains(_group.id))
+                  .length,
+              onTap: () => _navigateToFilteredDomains(initialTab: 1),
+            ),
+            _buildMemberCountTile(
+              icon: Icons.playlist_add_check_rounded,
+              label: AppLocalizations.of(context)!.adlistsAllow,
+              count: subscriptionsListProvider.whitelistSubscriptions
+                  .where((s) => s.groups.contains(_group.id))
+                  .length,
+              onTap: () => _navigateToFilteredSubscriptions(initialTab: 0),
+            ),
+            _buildMemberCountTile(
+              icon: Icons.playlist_remove_rounded,
+              label: AppLocalizations.of(context)!.adlistsBlock,
+              count: subscriptionsListProvider.blacklistSubscriptions
+                  .where((s) => s.groups.contains(_group.id))
+                  .length,
+              onTap: () => _navigateToFilteredSubscriptions(initialTab: 1),
             ),
           ],
         ),
@@ -272,5 +323,51 @@ class _GroupDetailsScreenState extends State<GroupDetailsScreen> {
         isScrollControlled: true,
       );
     }
+  }
+
+  Widget _buildMemberCountTile({
+    required IconData icon,
+    required String label,
+    required int count,
+    VoidCallback? onTap,
+  }) {
+    return CustomListTile(
+      leadingIcon: icon,
+      label: label,
+      description: count.toString(),
+      onTap: onTap,
+      trailing: onTap != null
+          ? Icon(
+              Icons.chevron_right_rounded,
+              color: Theme.of(context).colorScheme.onSurfaceVariant,
+            )
+          : null,
+    );
+  }
+
+  void _navigateToFilteredDomains({required int initialTab}) {
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => FilteredDomainLists(
+          groupId: _group.id,
+          groupName: _group.name,
+          initialTab: initialTab,
+        ),
+      ),
+    );
+  }
+
+  void _navigateToFilteredSubscriptions({required int initialTab}) {
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => FilteredSubscriptionLists(
+          groupId: _group.id,
+          groupName: _group.name,
+          initialTab: initialTab,
+        ),
+      ),
+    );
   }
 }

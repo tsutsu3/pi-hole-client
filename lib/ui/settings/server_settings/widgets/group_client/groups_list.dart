@@ -9,8 +9,10 @@ import 'package:pi_hole_client/ui/core/ui/helpers/snackbar.dart';
 import 'package:pi_hole_client/ui/core/ui/modals/process_modal.dart';
 import 'package:pi_hole_client/ui/core/viewmodel/app_config_provider.dart';
 import 'package:pi_hole_client/ui/core/viewmodel/clients_list_provider.dart';
+import 'package:pi_hole_client/ui/core/viewmodel/domains_list_provider.dart';
 import 'package:pi_hole_client/ui/core/viewmodel/groups_provider.dart';
 import 'package:pi_hole_client/ui/core/viewmodel/servers_provider.dart';
+import 'package:pi_hole_client/ui/core/viewmodel/subscriptions_list_provider.dart';
 import 'package:pi_hole_client/ui/settings/server_settings/widgets/group_client/add_group_modal.dart';
 import 'package:pi_hole_client/ui/settings/server_settings/widgets/group_client/group_tile.dart';
 import 'package:provider/provider.dart';
@@ -68,10 +70,21 @@ class _GroupsListState extends State<GroupsList> {
     final serversProvider = Provider.of<ServersProvider>(context);
     final groupsProvider = Provider.of<GroupsProvider>(context);
     final clientsListProvider = Provider.of<ClientsListProvider>(context);
+    final domainsListProvider = Provider.of<DomainsListProvider>(context);
+    final subscriptionsListProvider =
+        Provider.of<SubscriptionsListProvider>(context);
     final appConfigProvider = Provider.of<AppConfigProvider>(context);
     final apiGateway = serversProvider.selectedApiGateway;
 
     final clients = clientsListProvider.clients;
+    final allDomains = [
+      ...domainsListProvider.whitelistDomains,
+      ...domainsListProvider.blacklistDomains,
+    ];
+    final allSubscriptions = [
+      ...subscriptionsListProvider.whitelistSubscriptions,
+      ...subscriptionsListProvider.blacklistSubscriptions,
+    ];
 
     final groups = widget.searchTerm.isNotEmpty
         ? groupsProvider.groups
@@ -112,6 +125,39 @@ class _GroupsListState extends State<GroupsList> {
           context: context,
           appConfigProvider: appConfigProvider,
           label: AppLocalizations.of(context)!.groupAddFailed,
+        );
+      }
+    }
+
+    Future<void> onToggleGroupEnabled(Group group, bool enabled) async {
+      final body = GroupRequest(
+        name: group.name,
+        comment: group.comment,
+        enabled: enabled,
+      );
+
+      final process = ProcessModal(context: context);
+      process.open(AppLocalizations.of(context)!.groupUpdating);
+
+      final result = await apiGateway?.updateGroup(name: group.name, body: body);
+
+      process.close();
+
+      if (!context.mounted) return;
+
+      if (result?.result == APiResponseType.success) {
+        await groupsProvider.loadGroups();
+        if (!context.mounted) return;
+        showSuccessSnackBar(
+          context: context,
+          appConfigProvider: appConfigProvider,
+          label: AppLocalizations.of(context)!.groupUpdated,
+        );
+      } else {
+        showErrorSnackBar(
+          context: context,
+          appConfigProvider: appConfigProvider,
+          label: AppLocalizations.of(context)!.groupUpdateFailed,
         );
       }
     }
@@ -176,8 +222,15 @@ class _GroupsListState extends State<GroupsList> {
                 clientCount: clients
                     .where((client) => client.groups.contains(thisGroup.id))
                     .length,
+                domainCount: allDomains
+                    .where((domain) => domain.groups.contains(thisGroup.id))
+                    .length,
+                adlistCount: allSubscriptions
+                    .where((sub) => sub.groups.contains(thisGroup.id))
+                    .length,
                 isGroupSelected: widget.selectedGroup == thisGroup,
                 showGroupDetails: (g) => widget.onGroupSelected(g),
+                onToggleEnabled: onToggleGroupEnabled,
               ),
             );
           },

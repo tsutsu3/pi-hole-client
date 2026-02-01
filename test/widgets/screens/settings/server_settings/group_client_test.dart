@@ -265,7 +265,7 @@ void main() async {
 
       expect(find.text('Work'), findsOneWidget);
       expect(find.text('Default'), findsNothing);
-      expect(find.text('Clients: 1'), findsOneWidget);
+      expect(find.text('Clients: 1 | Domains: 0 | Adlists: 0'), findsOneWidget);
 
       await tester.tap(find.byType(FloatingActionButton));
       await tester.pumpAndSettle();

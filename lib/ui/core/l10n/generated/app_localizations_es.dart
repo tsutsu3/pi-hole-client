@@ -2134,6 +2134,21 @@ class AppLocalizationsEs extends AppLocalizations {
       'Selecciona un grupo para ver sus detalles.';
 
   @override
+  String get groupMembers => 'Miembros del grupo';
+
+  @override
+  String get domainsWhitelist => 'Dominios (lista blanca)';
+
+  @override
+  String get domainsBlacklist => 'Dominios (lista negra)';
+
+  @override
+  String get adlistsAllow => 'Adlists (permitir)';
+
+  @override
+  String get adlistsBlock => 'Adlists (bloquear)';
+
+  @override
   String get clientAdd => 'Añadir cliente';
 
   @override

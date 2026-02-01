@@ -8,14 +8,20 @@ class GroupTile extends StatelessWidget {
   const GroupTile({
     required this.group,
     required this.clientCount,
+    required this.domainCount,
+    required this.adlistCount,
     required this.showGroupDetails,
+    required this.onToggleEnabled,
     this.isGroupSelected,
     super.key,
   });
 
   final Group group;
   final int clientCount;
+  final int domainCount;
+  final int adlistCount;
   final void Function(Group) showGroupDetails;
+  final void Function(Group, bool) onToggleEnabled;
   final bool? isGroupSelected;
 
   @override
@@ -32,7 +38,7 @@ class GroupTile extends StatelessWidget {
     }
 
     final subtitleText =
-        '${AppLocalizations.of(context)!.clients}: $clientCount';
+        '${AppLocalizations.of(context)!.clients}: $clientCount | ${AppLocalizations.of(context)!.domains}: $domainCount | ${AppLocalizations.of(context)!.adlists}: $adlistCount';
 
     final Widget content = Row(
       children: [
@@ -63,6 +69,10 @@ class GroupTile extends StatelessWidget {
               ),
             ],
           ),
+        ),
+        Switch(
+          value: group.enabled,
+          onChanged: (value) => onToggleEnabled(group, value),
         ),
       ],
     );

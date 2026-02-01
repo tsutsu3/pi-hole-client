@@ -4106,6 +4106,36 @@ abstract class AppLocalizations {
   /// **'Select a group to view its details.'**
   String get groupsSelectLeftColumn;
 
+  /// No description provided for @groupMembers.
+  ///
+  /// In en, this message translates to:
+  /// **'Group members'**
+  String get groupMembers;
+
+  /// No description provided for @domainsWhitelist.
+  ///
+  /// In en, this message translates to:
+  /// **'Domains (whitelist)'**
+  String get domainsWhitelist;
+
+  /// No description provided for @domainsBlacklist.
+  ///
+  /// In en, this message translates to:
+  /// **'Domains (blacklist)'**
+  String get domainsBlacklist;
+
+  /// No description provided for @adlistsAllow.
+  ///
+  /// In en, this message translates to:
+  /// **'Adlists (allow)'**
+  String get adlistsAllow;
+
+  /// No description provided for @adlistsBlock.
+  ///
+  /// In en, this message translates to:
+  /// **'Adlists (block)'**
+  String get adlistsBlock;
+
   /// No description provided for @clientAdd.
   ///
   /// In en, this message translates to:
