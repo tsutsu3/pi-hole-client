@@ -35,6 +35,7 @@ class _FilteredDomainListsState extends State<FilteredDomainLists>
   late TabController tabController;
   final ScrollController scrollController = ScrollController();
   final TextEditingController searchController = TextEditingController();
+  late DomainsListProvider _domainsListProvider;
 
   Domain? selectedDomain;
 
@@ -48,15 +49,16 @@ class _FilteredDomainListsState extends State<FilteredDomainLists>
       initialIndex: widget.initialTab,
     );
 
+    _domainsListProvider = context.read<DomainsListProvider>();
+
     Future.microtask(() async {
       if (!mounted) return;
 
-      final domainsListProvider = context.read<DomainsListProvider>();
-      domainsListProvider.setLoadingStatus(LoadStatus.loading);
-      domainsListProvider.setGroupFilter(widget.groupId);
-      domainsListProvider.setSelectedTab(widget.initialTab);
+      _domainsListProvider.setLoadingStatus(LoadStatus.loading);
+      _domainsListProvider.setGroupFilter(widget.groupId);
+      _domainsListProvider.setSelectedTab(widget.initialTab);
 
-      await domainsListProvider.fetchDomainsList();
+      await _domainsListProvider.fetchDomainsList();
 
       if (!mounted) return;
       final groupsProvider = context.read<GroupsProvider>();
@@ -66,8 +68,7 @@ class _FilteredDomainListsState extends State<FilteredDomainLists>
 
   @override
   void dispose() {
-    final domainsListProvider = context.read<DomainsListProvider>();
-    domainsListProvider.clearGroupFilter();
+    _domainsListProvider.clearGroupFilter();
     tabController.dispose();
     scrollController.dispose();
     searchController.dispose();
