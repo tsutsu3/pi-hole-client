@@ -2051,6 +2051,21 @@ class AppLocalizationsJa extends AppLocalizations {
   String get groupsSelectLeftColumn => '詳細を表示するグループを選択してください。';
 
   @override
+  String get groupMembers => 'グループメンバー';
+
+  @override
+  String get domainsWhitelist => 'ドメイン (ホワイトリスト)';
+
+  @override
+  String get domainsBlacklist => 'ドメイン (ブラックリスト)';
+
+  @override
+  String get adlistsAllow => 'Adlists (許可)';
+
+  @override
+  String get adlistsBlock => 'Adlists (ブロック)';
+
+  @override
   String get clientAdd => 'クライアントを追加';
 
   @override

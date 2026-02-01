@@ -2121,6 +2121,21 @@ class AppLocalizationsPl extends AppLocalizations {
   String get groupsSelectLeftColumn => 'Wybierz grupę, aby zobaczyć szczegóły.';
 
   @override
+  String get groupMembers => 'Członkowie grupy';
+
+  @override
+  String get domainsWhitelist => 'Domeny (biała lista)';
+
+  @override
+  String get domainsBlacklist => 'Domeny (czarna lista)';
+
+  @override
+  String get adlistsAllow => 'Adlisty (dozwolone)';
+
+  @override
+  String get adlistsBlock => 'Adlisty (blokowane)';
+
+  @override
   String get clientAdd => 'Dodaj klienta';
 
   @override

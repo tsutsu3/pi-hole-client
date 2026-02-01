@@ -724,5 +724,10 @@
   },
   "unverifiedCertificatesBannerExpand": "Expandir",
   "unverifiedCertificatesBannerCollapse": "Contraer",
-  "unverifiedCertificatesBannerLearnMore": "Más información"
+  "unverifiedCertificatesBannerLearnMore": "Más información",
+  "groupMembers": "Miembros del grupo",
+  "domainsWhitelist": "Dominios (lista blanca)",
+  "domainsBlacklist": "Dominios (lista negra)",
+  "adlistsAllow": "Adlists (permitir)",
+  "adlistsBlock": "Adlists (bloquear)"
 }

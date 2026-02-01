@@ -8,9 +8,11 @@ import 'package:pi_hole_client/ui/common/empty_data_screen.dart';
 import 'package:pi_hole_client/ui/common/pi_hole_v5_not_supported_screen.dart';
 import 'package:pi_hole_client/ui/core/l10n/generated/app_localizations.dart';
 import 'package:pi_hole_client/ui/core/viewmodel/clients_list_provider.dart';
+import 'package:pi_hole_client/ui/core/viewmodel/domains_list_provider.dart';
 import 'package:pi_hole_client/ui/core/viewmodel/groups_provider.dart';
 import 'package:pi_hole_client/ui/core/viewmodel/local_dns_provider.dart';
 import 'package:pi_hole_client/ui/core/viewmodel/servers_provider.dart';
+import 'package:pi_hole_client/ui/core/viewmodel/subscriptions_list_provider.dart';
 import 'package:pi_hole_client/ui/settings/server_settings/widgets/group_client/client_details_screen.dart';
 import 'package:pi_hole_client/ui/settings/server_settings/widgets/group_client/clients_list.dart';
 import 'package:pi_hole_client/ui/settings/server_settings/widgets/group_client/group_details_screen.dart';
@@ -95,11 +97,16 @@ class _GroupClientScreenWidgetState extends State<GroupClientScreenWidget>
       if (!mounted) return;
       final groupsProvider = context.read<GroupsProvider>();
       final localDnsProvider = context.read<LocalDnsProvider>();
+      final domainsListProvider = context.read<DomainsListProvider>();
+      final subscriptionsListProvider =
+          context.read<SubscriptionsListProvider>();
 
       await Future.wait([
         widget.clientsListProvider.fetchClients(),
         groupsProvider.loadGroups(),
         localDnsProvider.load(),
+        domainsListProvider.fetchDomainsList(),
+        subscriptionsListProvider.fetchSubscriptionsList(),
       ]);
     });
 
