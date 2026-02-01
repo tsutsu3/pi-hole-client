@@ -52,37 +52,25 @@ class _GroupFilterModalState extends State<GroupFilterModal> {
           ),
           Flexible(
             child: SingleChildScrollView(
-              child: Column(
-                children: [
-                  ListTile(
-                    title: Text(AppLocalizations.of(context)!.all),
-                    leading: Radio<int?>(
+              child: RadioGroup<int?>(
+                groupValue: _selectedGroupId,
+                onChanged: (value) {
+                  setState(() => _selectedGroupId = value);
+                },
+                child: Column(
+                  children: [
+                    RadioListTile<int?>(
+                      title: Text(AppLocalizations.of(context)!.all),
                       value: null,
-                      groupValue: _selectedGroupId,
-                      onChanged: (value) {
-                        setState(() => _selectedGroupId = value);
-                      },
                     ),
-                    onTap: () {
-                      setState(() => _selectedGroupId = null);
-                    },
-                  ),
-                  ...widget.groups.entries.map((entry) {
-                    return ListTile(
-                      title: Text(entry.value),
-                      leading: Radio<int?>(
+                    ...widget.groups.entries.map((entry) {
+                      return RadioListTile<int?>(
+                        title: Text(entry.value),
                         value: entry.key,
-                        groupValue: _selectedGroupId,
-                        onChanged: (value) {
-                          setState(() => _selectedGroupId = value);
-                        },
-                      ),
-                      onTap: () {
-                        setState(() => _selectedGroupId = entry.key);
-                      },
-                    );
-                  }),
-                ],
+                      );
+                    }),
+                  ],
+                ),
               ),
             ),
           ),

@@ -184,9 +184,7 @@ class _DomainListsWidgetState extends State<DomainListsWidget>
                           context: context,
                           groups: groups,
                           selectedGroupId: domainsListProvider.groupFilter,
-                          onApply: (groupId) {
-                            domainsListProvider.setGroupFilter(groupId);
-                          },
+                          onApply: domainsListProvider.setGroupFilter,
                         ),
                         icon: const Icon(Icons.filter_list_rounded),
                       ),
@@ -212,9 +210,8 @@ class _DomainListsWidgetState extends State<DomainListsWidget>
                                     '${AppLocalizations.of(context)!.groups}: ${groups[domainsListProvider.groupFilter] ?? ''}',
                                   ),
                                   deleteIcon: const Icon(Icons.close, size: 18),
-                                  onDeleted: () {
-                                    domainsListProvider.clearGroupFilter();
-                                  },
+                                  onDeleted:
+                                      domainsListProvider.clearGroupFilter,
                                 ),
                                 const SizedBox(width: 16),
                               ],

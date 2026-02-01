@@ -207,9 +207,7 @@ class _SubscriptionListsWidgetState extends State<SubscriptionListsWidget>
                     context: context,
                     groups: groups,
                     selectedGroupId: subscriptionsListProvider.groupFilter,
-                    onApply: (groupId) {
-                      subscriptionsListProvider.setGroupFilter(groupId);
-                    },
+                    onApply: subscriptionsListProvider.setGroupFilter,
                   ),
                   icon: const Icon(Icons.filter_list_rounded),
                 ),
@@ -235,9 +233,8 @@ class _SubscriptionListsWidgetState extends State<SubscriptionListsWidget>
                               '${AppLocalizations.of(context)!.groups}: ${groups[subscriptionsListProvider.groupFilter] ?? ''}',
                             ),
                             deleteIcon: const Icon(Icons.close, size: 18),
-                            onDeleted: () {
-                              subscriptionsListProvider.clearGroupFilter();
-                            },
+                            onDeleted:
+                                subscriptionsListProvider.clearGroupFilter,
                           ),
                           const SizedBox(width: 16),
                         ],

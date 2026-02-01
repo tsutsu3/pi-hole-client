@@ -172,7 +172,6 @@ void main() {
           invalidDomains: 0,
           abpEntries: 0,
           status: ListsStatus.downloaded,
-          comment: null,
         ),
         Subscription(
           address: 'https://example.com/list2',
@@ -187,7 +186,6 @@ void main() {
           invalidDomains: 0,
           abpEntries: 0,
           status: ListsStatus.downloaded,
-          comment: null,
         ),
         Subscription(
           address: 'https://example.com/list3',
@@ -202,7 +200,6 @@ void main() {
           invalidDomains: 0,
           abpEntries: 0,
           status: ListsStatus.downloaded,
-          comment: null,
         ),
       ];
 
@@ -220,7 +217,6 @@ void main() {
           invalidDomains: 0,
           abpEntries: 0,
           status: ListsStatus.downloaded,
-          comment: null,
         ),
         Subscription(
           address: 'https://example.com/blocklist2',
@@ -235,7 +231,6 @@ void main() {
           invalidDomains: 0,
           abpEntries: 0,
           status: ListsStatus.downloaded,
-          comment: null,
         ),
       ];
 
