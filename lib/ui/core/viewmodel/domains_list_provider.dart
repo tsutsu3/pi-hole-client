@@ -94,11 +94,7 @@ class DomainsListProvider with ChangeNotifier {
     notifyListeners();
   }
 
-  void clearGroupFilter() {
-    _groupFilter = null;
-    _applyFilters();
-    notifyListeners();
-  }
+  void clearGroupFilter() => setGroupFilter(null);
 
   void _applyFilters() {
     _filteredWhitelistDomains = _whitelistDomains.where((domain) {

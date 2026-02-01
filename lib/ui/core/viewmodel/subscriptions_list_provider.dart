@@ -94,11 +94,7 @@ class SubscriptionsListProvider with ChangeNotifier {
     notifyListeners();
   }
 
-  void clearGroupFilter() {
-    _groupFilter = null;
-    _applyFilters();
-    notifyListeners();
-  }
+  void clearGroupFilter() => setGroupFilter(null);
 
   void _applyFilters() {
     _filteredWhitelistSubscriptions = _whitelistSubscriptions.where((sub) {
