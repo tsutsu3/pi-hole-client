@@ -126,20 +126,12 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="4dp"
-                android:text="191,134"
+                android:text="1,300,200"
                 android:textSize="12sp"
                 android:textColor="@color/widget_card_green"
                 android:textStyle="bold"
                 android:maxLines="1" />
         </LinearLayout>
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="4dp"
-            android:text="14:28"
-            android:textSize="10sp"
-            android:textColor="@color/widget_text_secondary" />
     </LinearLayout>
 
     <ImageView

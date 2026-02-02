@@ -44,9 +44,12 @@ import androidx.glance.state.PreferencesGlanceStateDefinition
 import io.github.tsutsu3.pi_hole_client.MainActivity
 import io.github.tsutsu3.pi_hole_client.R
 import io.github.tsutsu3.pi_hole_client.widget.WidgetConstants
+import io.github.tsutsu3.pi_hole_client.widget.common.WidgetLayoutHint
 import io.github.tsutsu3.pi_hole_client.widget.common.WidgetState
 import io.github.tsutsu3.pi_hole_client.widget.common.WidgetStatus
 import io.github.tsutsu3.pi_hole_client.widget.common.WidgetTheme
+import io.github.tsutsu3.pi_hole_client.widget.common.getLayoutHint
+import io.github.tsutsu3.pi_hole_client.widget.common.getWidgetSizingSpec
 import io.github.tsutsu3.pi_hole_client.widget.data.toWidgetState
 
 /**
@@ -106,24 +109,25 @@ private fun CompactWidgetContent(state: WidgetState) {
         openAppAction
     }
 
-    // Calculate proportional sizes based on widget height
+    // Bootstrap-style: get pre-defined sizing spec based on widget size
+    val widgetWidth = size.width.value
     val widgetHeight = size.height.value
-    val shieldSize = (widgetHeight * 0.65f).coerceIn(48f, 72f).dp
-    val iconSize = (shieldSize.value * 0.73f).dp
-    val padding = (widgetHeight * 0.08f).coerceIn(6f, 12f).dp
-    val cornerRadius = (widgetHeight * 0.16f).coerceIn(12f, 20f).dp
-    val serverNameFontSize = (widgetHeight * 0.10f).coerceIn(12f, 16f).sp
-    val statFontSize = (widgetHeight * 0.10f).coerceIn(12f, 16f).sp
-    val statIconSize = (widgetHeight * 0.10f).coerceIn(12f, 16f).dp
-    // Show 4 rows (including Domains) when widget is tall enough
-    val showFourRows = widgetHeight >= 90f
+    val spec = getWidgetSizingSpec(widgetWidth, widgetHeight)
+    val layoutHint = getLayoutHint(widgetWidth, widgetHeight)
+
+    // Adjust shield size for wide layouts (Compact is typically wide)
+    val shieldSize = when (layoutHint) {
+        WidgetLayoutHint.WIDE -> (spec.iconSize.value * 0.85f).dp
+        else -> spec.iconSize
+    }
+    val shieldIconSize = (shieldSize.value * 0.70f).dp
 
     Row(
         modifier = GlanceModifier
             .fillMaxSize()
             .background(R.color.widget_surface)
-            .cornerRadius(cornerRadius)
-            .padding(padding)
+            .cornerRadius(spec.cornerRadius)
+            .padding(spec.padding)
             .clickable(openAppAction),
         verticalAlignment = Alignment.CenterVertically,
     ) {
@@ -140,47 +144,44 @@ private fun CompactWidgetContent(state: WidgetState) {
                 maxLines = 1,
                 style = TextStyle(
                     color = ColorProvider(R.color.widget_text_primary),
-                    fontSize = serverNameFontSize,
+                    fontSize = spec.titleFontSize,
                     fontWeight = FontWeight.Medium,
                 ),
             )
-            Spacer(GlanceModifier.height(4.dp))
+            Spacer(GlanceModifier.height(2.dp))
 
-            // Stats (compact number format with icons and colors)
+            // Stats (compact layout with minimal vertical spacing for 4 rows)
             CompactStatRow(
                 iconRes = R.drawable.widget_icon_queries,
                 value = state.totalQueries,
                 color = R.color.widget_card_blue,
-                fontSize = statFontSize,
-                iconSize = statIconSize,
+                fontSize = spec.labelFontSize,
+                iconSize = spec.smallIconSize,
             )
             CompactStatRow(
                 iconRes = R.drawable.widget_icon_blocked,
                 value = state.blockedQueries,
                 color = R.color.widget_card_red,
-                fontSize = statFontSize,
-                iconSize = statIconSize,
+                fontSize = spec.labelFontSize,
+                iconSize = spec.smallIconSize,
             )
             CompactStatRow(
                 iconRes = R.drawable.widget_icon_percent,
                 value = state.percentBlocked,
                 color = R.color.widget_card_orange,
-                fontSize = statFontSize,
-                iconSize = statIconSize,
+                fontSize = spec.labelFontSize,
+                iconSize = spec.smallIconSize,
             )
-            // Show Domains row only when there's enough vertical space
-            if (showFourRows) {
-                CompactStatRow(
-                    iconRes = R.drawable.widget_icon_domains,
-                    value = state.domainsOnAdlists,
-                    color = R.color.widget_card_green,
-                    fontSize = statFontSize,
-                    iconSize = statIconSize,
-                )
-            }
+            CompactStatRow(
+                iconRes = R.drawable.widget_icon_domains,
+                value = state.domainsOnAdlists,
+                color = R.color.widget_card_green,
+                fontSize = spec.labelFontSize,
+                iconSize = spec.smallIconSize,
+            )
         }
 
-        Spacer(GlanceModifier.width(8.dp))
+        Spacer(GlanceModifier.width(spec.spacing))
 
         // Right: Shield icon (clickable for toggle)
         ShieldIconBox(
@@ -188,7 +189,7 @@ private fun CompactWidgetContent(state: WidgetState) {
             actionsEnabled = state.actionsEnabled,
             toggleAction = toggleAction,
             boxSize = shieldSize,
-            iconSize = iconSize,
+            iconSize = shieldIconSize,
         )
     }
 }
@@ -203,7 +204,6 @@ private fun CompactStatRow(
 ) {
     Row(
         verticalAlignment = Alignment.CenterVertically,
-        modifier = GlanceModifier.padding(vertical = 1.dp),
     ) {
         Image(
             provider = ImageProvider(iconRes),
