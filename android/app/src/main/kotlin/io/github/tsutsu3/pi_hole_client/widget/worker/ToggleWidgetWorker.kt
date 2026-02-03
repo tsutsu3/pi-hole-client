@@ -10,6 +10,7 @@ import androidx.work.CoroutineWorker
 import androidx.work.WorkerParameters
 import io.github.tsutsu3.pi_hole_client.R
 import io.github.tsutsu3.pi_hole_client.widget.WidgetConstants
+import io.github.tsutsu3.pi_hole_client.widget.WidgetDebugConfig
 import io.github.tsutsu3.pi_hole_client.widget.WidgetUpdateHelper
 import io.github.tsutsu3.pi_hole_client.widget.common.PiHoleApiClient
 import io.github.tsutsu3.pi_hole_client.widget.common.WidgetStatus
@@ -90,7 +91,9 @@ class ToggleWidgetWorker(
         // Only v6 servers can be selected in widget config (PiHoleWidgetConfigureActivity),
         // but stale metadata could contain a v5 entry. Guard against it defensively.
         if (server.apiVersion != "v6") {
-            Log.w(TAG, "Unsupported API version: ${server.apiVersion} for server $serverId")
+            if (WidgetDebugConfig.DEBUG) {
+                Log.w(TAG, "Unsupported API version: ${server.apiVersion}")
+            }
             updateState(widgetId, errorState(serverId, server.alias))
             return
         }
@@ -118,7 +121,9 @@ class ToggleWidgetWorker(
             pinnedCertificateSha256 = server.pinnedCertificateSha256,
         )
         if (!client.canConnect(server.address)) {
-            Log.w(TAG, "Certificate pin required for server $serverId (${server.address})")
+            if (WidgetDebugConfig.DEBUG) {
+                Log.w(TAG, "Certificate pin required for widget")
+            }
             updateState(widgetId, errorState(serverId, server.alias))
             return
         }
@@ -145,8 +150,10 @@ class ToggleWidgetWorker(
     ) {
         val resp = client.get("${server.address}/api/dns/blocking", sid)
 
-        if (PiHoleApiClient.isAuthFailure(resp.statusCode, resp.body)) {
-            Log.w(TAG, "Auth failure in handleRefresh for server $serverId: ${resp.statusCode}")
+        if (PiHoleApiClient.isAuthFailure(resp.statusCode)) {
+            if (WidgetDebugConfig.DEBUG) {
+                Log.w(TAG, "Auth failure: ${resp.statusCode}")
+            }
             prefs.setSidValid(serverId, false)
             updateState(
                 widgetId,
@@ -156,7 +163,9 @@ class ToggleWidgetWorker(
         }
 
         if (resp.statusCode !in 200..299) {
-            Log.w(TAG, "API request failed in handleRefresh for server $serverId: status=${resp.statusCode}, body=${resp.body}")
+            if (WidgetDebugConfig.DEBUG) {
+                Log.w(TAG, "API request failed: status=${resp.statusCode}")
+            }
             updateState(widgetId, errorState(serverId, server.alias))
             return
         }
@@ -173,7 +182,9 @@ class ToggleWidgetWorker(
                 ),
             )
         } catch (e: org.json.JSONException) {
-            Log.w(TAG, "Invalid JSON response in handleRefresh for server $serverId: ${e.message}, body=${resp.body}")
+            if (WidgetDebugConfig.DEBUG) {
+                Log.w(TAG, "Invalid JSON response: ${e.message}")
+            }
             updateState(widgetId, errorState(serverId, server.alias))
         }
     }
@@ -192,8 +203,10 @@ class ToggleWidgetWorker(
         // Get current status first.
         val statusResp = client.get("${server.address}/api/dns/blocking", sid)
 
-        if (PiHoleApiClient.isAuthFailure(statusResp.statusCode, statusResp.body)) {
-            Log.w(TAG, "Auth failure in handleToggle for server $serverId: ${statusResp.statusCode}")
+        if (PiHoleApiClient.isAuthFailure(statusResp.statusCode)) {
+            if (WidgetDebugConfig.DEBUG) {
+                Log.w(TAG, "Auth failure: ${statusResp.statusCode}")
+            }
             prefs.setSidValid(serverId, false)
             updateState(
                 widgetId,
@@ -202,7 +215,9 @@ class ToggleWidgetWorker(
             return
         }
         if (statusResp.statusCode !in 200..299) {
-            Log.w(TAG, "Get status failed in handleToggle for server $serverId: status=${statusResp.statusCode}, body=${statusResp.body}")
+            if (WidgetDebugConfig.DEBUG) {
+                Log.w(TAG, "Get status failed: status=${statusResp.statusCode}")
+            }
             updateState(widgetId, errorState(serverId, server.alias))
             return
         }
@@ -223,8 +238,10 @@ class ToggleWidgetWorker(
                 body.toString(),
             )
 
-            if (PiHoleApiClient.isAuthFailure(toggleResp.statusCode, toggleResp.body)) {
-                Log.w(TAG, "Auth failure in toggle POST for server $serverId: ${toggleResp.statusCode}")
+            if (PiHoleApiClient.isAuthFailure(toggleResp.statusCode)) {
+                if (WidgetDebugConfig.DEBUG) {
+                    Log.w(TAG, "Auth failure in toggle: ${toggleResp.statusCode}")
+                }
                 prefs.setSidValid(serverId, false)
                 updateState(
                     widgetId,
@@ -236,7 +253,9 @@ class ToggleWidgetWorker(
             val finalStatus = if (toggleResp.statusCode in 200..299) {
                 if (nextBlocking) WidgetStatus.BLOCKING_ON else WidgetStatus.BLOCKING_OFF
             } else {
-                Log.w(TAG, "Toggle POST failed for server $serverId: status=${toggleResp.statusCode}, body=${toggleResp.body}")
+                if (WidgetDebugConfig.DEBUG) {
+                    Log.w(TAG, "Toggle POST failed: status=${toggleResp.statusCode}")
+                }
                 parseBlockingStatus(currentBlocking)
             }
 
@@ -255,7 +274,9 @@ class ToggleWidgetWorker(
                 WidgetUpdateHelper.refreshWidgetsForServer(applicationContext, serverId, excludeWidgetId = widgetId)
             }
         } catch (e: org.json.JSONException) {
-            Log.w(TAG, "Invalid JSON response in handleToggle for server $serverId: ${e.message}, body=${statusResp.body}")
+            if (WidgetDebugConfig.DEBUG) {
+                Log.w(TAG, "Invalid JSON response: ${e.message}")
+            }
             updateState(widgetId, errorState(serverId, server.alias))
         }
     }

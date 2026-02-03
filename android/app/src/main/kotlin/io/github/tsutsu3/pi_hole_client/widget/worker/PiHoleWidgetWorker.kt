@@ -10,6 +10,7 @@ import androidx.work.CoroutineWorker
 import androidx.work.WorkerParameters
 import io.github.tsutsu3.pi_hole_client.R
 import io.github.tsutsu3.pi_hole_client.widget.WidgetConstants
+import io.github.tsutsu3.pi_hole_client.widget.WidgetDebugConfig
 import io.github.tsutsu3.pi_hole_client.widget.WidgetUpdateHelper
 import io.github.tsutsu3.pi_hole_client.widget.common.PiHoleApiClient
 import io.github.tsutsu3.pi_hole_client.widget.common.WidgetStatus
@@ -117,7 +118,9 @@ class PiHoleWidgetWorker(
         // Only v6 servers can be selected in widget config (PiHoleWidgetConfigureActivity),
         // but stale metadata could contain a v5 entry. Guard against it defensively.
         if (server.apiVersion != "v6") {
-            Log.w(TAG, "Unsupported API version: ${server.apiVersion} for server $serverId")
+            if (WidgetDebugConfig.DEBUG) {
+                Log.w(TAG, "Unsupported API version: ${server.apiVersion}")
+            }
             updateState(
                 widgetId,
                 placeholderState(
@@ -142,7 +145,9 @@ class PiHoleWidgetWorker(
             // Self-signed cert enabled without a pinned fingerprint.
             // The widget refuses to trust arbitrary certificates; the user
             // must open the app and pin the server's certificate.
-            Log.w(TAG, "Certificate pin required for server $serverId (${server.address})")
+            if (WidgetDebugConfig.DEBUG) {
+                Log.w(TAG, "Certificate pin required for widget")
+            }
             updateState(
                 widgetId,
                 placeholderState(
@@ -198,9 +203,11 @@ class PiHoleWidgetWorker(
 
         val paddResponse = client.get("$serverAddress/api/padd", sid)
 
-        if (PiHoleApiClient.isAuthFailure(paddResponse.statusCode, paddResponse.body)) {
+        if (PiHoleApiClient.isAuthFailure(paddResponse.statusCode)) {
             // Mark SID invalid so Flutter can refresh on next app open.
-            Log.w(TAG, "Auth failure for server $serverId: ${paddResponse.statusCode}")
+            if (WidgetDebugConfig.DEBUG) {
+                Log.w(TAG, "Auth failure: ${paddResponse.statusCode}")
+            }
             prefs.setSidValid(serverId, false)
             updateState(
                 widgetId,
@@ -216,7 +223,10 @@ class PiHoleWidgetWorker(
 
         if (paddResponse.statusCode !in 200..299) {
             // Avoid retries here; worker will run again on next schedule.
-            Log.w(TAG, "API request failed for server $serverId: status=${paddResponse.statusCode}, body=${paddResponse.body}")
+            if (WidgetDebugConfig.DEBUG) {
+                // Only log status code, never response body (may contain sensitive data)
+                Log.w(TAG, "API request failed: status=${paddResponse.statusCode}")
+            }
             updateState(
                 widgetId,
                 placeholderState(
@@ -244,7 +254,7 @@ class PiHoleWidgetWorker(
                     sid,
                     body.toString(),
                 )
-                if (PiHoleApiClient.isAuthFailure(toggleResponse.statusCode, toggleResponse.body)) {
+                if (PiHoleApiClient.isAuthFailure(toggleResponse.statusCode)) {
                     // Widget cannot recover from auth errors; surface auth required.
                     prefs.setSidValid(serverId, false)
                     updateState(
@@ -341,7 +351,10 @@ class PiHoleWidgetWorker(
                 ),
             )
         } catch (e: org.json.JSONException) {
-            Log.w(TAG, "Invalid JSON response for server $serverId: ${e.message}, body=${paddResponse.body}")
+            if (WidgetDebugConfig.DEBUG) {
+                // Only log exception message, never response body (may contain sensitive data)
+                Log.w(TAG, "Invalid JSON response: ${e.message}")
+            }
             updateState(
                 widgetId,
                 placeholderState(
