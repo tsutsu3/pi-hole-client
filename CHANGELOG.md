@@ -1,6 +1,58 @@
 # Changelog
 
-## [1.7.1](https://github.com/tsutsu3/pi-hole-client/compare/1.7.0_(63)..1.7.1) - 2025-12-07
+## [1.8.0](https://github.com/tsutsu3/pi-hole-client/compare/1.7.1_(65)..1.8.0) - 2026-02-03
+
+### 🚀 Features
+
+- *(groups)* Enhance group screen with domain and adlist management features ([#495](https://github.com/tsutsu3/pi-hole-client/issues/495)) - ([62dd6d7](https://github.com/tsutsu3/pi-hole-client/commit/62dd6d70f60b89bae0990a4434556da59d014bcf))
+- *(security)* Replace self-signed certificate trust-all with proper certificate verification and pinning ([#473](https://github.com/tsutsu3/pi-hole-client/issues/473)) - ([bd8a5f8](https://github.com/tsutsu3/pi-hole-client/commit/bd8a5f8d03456e3a858d4d84337cde7415a06cb6))
+- *(settings)* Add domain/adlists search screen ([#465](https://github.com/tsutsu3/pi-hole-client/issues/465)) - ([15ad03e](https://github.com/tsutsu3/pi-hole-client/commit/15ad03ecc0da08602a2d7f64b9811ced4390e0eb))
+- *(ui)* Change domains screen header to not collapse on scroll ([#497](https://github.com/tsutsu3/pi-hole-client/issues/497)) - ([3613a60](https://github.com/tsutsu3/pi-hole-client/commit/3613a60c1a3481878bf11978d5c9c231becc30e6))
+- *(ui)* Add group filter to domains and adlists screens ([#492](https://github.com/tsutsu3/pi-hole-client/issues/492)) - ([40caff2](https://github.com/tsutsu3/pi-hole-client/commit/40caff247dd5b2ca23ba08f7e9bfd13670022d98))
+- *(widget)* Implement bootstrap-style breakpoint system for widget sizing and layout ([#499](https://github.com/tsutsu3/pi-hole-client/issues/499)) - ([7a53667](https://github.com/tsutsu3/pi-hole-client/commit/7a5366728042642286597fd437c9cc25f7045436))
+- *(widget)* Improve widget preview and resize flexibility ([#491](https://github.com/tsutsu3/pi-hole-client/issues/491)) - ([46c7366](https://github.com/tsutsu3/pi-hole-client/commit/46c736646938e394c39584d8841ba02db4c871f3))
+- *(widget)* Add Android home widge ([#470](https://github.com/tsutsu3/pi-hole-client/issues/470)) - ([6da347f](https://github.com/tsutsu3/pi-hole-client/commit/6da347f17b30780006b2ff8a62d121fddfa59f8a))
+- Add PADD API and widget channel for Android home widget ([#472](https://github.com/tsutsu3/pi-hole-client/issues/472)) - ([76d820f](https://github.com/tsutsu3/pi-hole-client/commit/76d820ff58cb08788811184f7612beb5cfd651a9))
+- Add groups&clients screen ([#460](https://github.com/tsutsu3/pi-hole-client/issues/460)) ([#460](https://github.com/tsutsu3/pi-hole-client/issues/460)) - ([d86a384](https://github.com/tsutsu3/pi-hole-client/commit/d86a3840d752ff7932a5f480bd957aa11e49f5ae))
+
+### 🐛 Bug Fixes
+
+- *(api)* Handle invalid UTF-8 in network devices response ([#489](https://github.com/tsutsu3/pi-hole-client/issues/489)) - ([6777b1a](https://github.com/tsutsu3/pi-hole-client/commit/6777b1a979bdefb848b144fcfaa32b23a24e71be))
+- *(l10n)* Add regenerated app_localizations.dart ([#467](https://github.com/tsutsu3/pi-hole-client/issues/467)) - ([d7a2933](https://github.com/tsutsu3/pi-hole-client/commit/d7a293325736f68a99d87860cab660343c311e19))
+- *(localization)* Update 'Denylist' to 'Blocklist' for consistency ([#466](https://github.com/tsutsu3/pi-hole-client/issues/466)) - ([fabe5b5](https://github.com/tsutsu3/pi-hole-client/commit/fabe5b519b35f6a544254d8eac845b47e068f7e1))
+- *(ui)* Refactor provider usage in filtered domains and subscriptios screens ([#496](https://github.com/tsutsu3/pi-hole-client/issues/496)) - ([c82eca8](https://github.com/tsutsu3/pi-hole-client/commit/c82eca8b30da1dace2d10ab78a115e52bf047f49))
+- *(website)* Add padding - ([c227b6b](https://github.com/tsutsu3/pi-hole-client/commit/c227b6bd0139c39f7c029d840c18aa67acfb197d))
+
+### 🚜 Refactor
+
+- *(settings)* Change SliverAppBar from large to medium to reduce top spacing - ([6d992d4](https://github.com/tsutsu3/pi-hole-client/commit/6d992d45e04697758d4f326ad5f8eee5091ed74d))
+
+### 📚 Documentation
+
+- *(website)* Update user manual ([#462](https://github.com/tsutsu3/pi-hole-client/issues/462)) - ([c596518](https://github.com/tsutsu3/pi-hole-client/commit/c596518ab551b5aa4367401747534bf1a1f73320))
+
+### 🎨 Styling
+
+- Normalize formatting and line endings ([#490](https://github.com/tsutsu3/pi-hole-client/issues/490)) - ([80a5c40](https://github.com/tsutsu3/pi-hole-client/commit/80a5c407955c1377a26d3a886a2d8ecc6fff06ab))
+
+### ⚙️ Miscellaneous Tasks
+
+- *(flutter)* Update Flutter version to 3.38.6 in workflow files ([#478](https://github.com/tsutsu3/pi-hole-client/issues/478)) - ([28fa4e8](https://github.com/tsutsu3/pi-hole-client/commit/28fa4e8317caf5c96ce8ca54006621ab4956a2e1))
+- *(git)* Update .gitignore to include  AI agents directories ([#481](https://github.com/tsutsu3/pi-hole-client/issues/481)) - ([b53f415](https://github.com/tsutsu3/pi-hole-client/commit/b53f4157ec07f3a711d9eb16c187e483163674b5))
+- *(mock)* Add DHCP handler with leases management ([#461](https://github.com/tsutsu3/pi-hole-client/issues/461)) - ([5e6af15](https://github.com/tsutsu3/pi-hole-client/commit/5e6af15133b38c5532d194d603b1af4300f6ffff))
+- *(settings)* Remove deprecated security option from advanced settings ([#476](https://github.com/tsutsu3/pi-hole-client/issues/476)) - ([2a66dc3](https://github.com/tsutsu3/pi-hole-client/commit/2a66dc3fb412874730011e76f8b8c2aafbda9741))
+- *(urls)* Update URLs for connection guide and privacy policy ([#464](https://github.com/tsutsu3/pi-hole-client/issues/464)) - ([d3e6185](https://github.com/tsutsu3/pi-hole-client/commit/d3e6185344897fabdc5a3c62bee83d76d664c7ac))
+- *(website)* Refine certificate checking solution section for clarity ([#485](https://github.com/tsutsu3/pi-hole-client/issues/485)) - ([eab2fe1](https://github.com/tsutsu3/pi-hole-client/commit/eab2fe19bc98709e3544052884094c8dc86086a1))
+- *(website)* Add Android Home Widget docs ([#474](https://github.com/tsutsu3/pi-hole-client/issues/474)) - ([2cc8e43](https://github.com/tsutsu3/pi-hole-client/commit/2cc8e4330ad1e26afef14d2600a1fbdb502adcc8))
+- *(website)* Add Certificate Configuration Guide ([#482](https://github.com/tsutsu3/pi-hole-client/issues/482)) - ([ac0fdd1](https://github.com/tsutsu3/pi-hole-client/commit/ac0fdd1cb582a9be3344382b35ee5a47528dc324))
+- *(website)* Add sitemap configuration to ignore search patterns ([#477](https://github.com/tsutsu3/pi-hole-client/issues/477)) - ([90f99da](https://github.com/tsutsu3/pi-hole-client/commit/90f99dad21e8b51384c244c1b3f0ead2a3ac603a))
+- *(website)* Update headings for clarity in server settings manual ([#469](https://github.com/tsutsu3/pi-hole-client/issues/469)) - ([63fbe90](https://github.com/tsutsu3/pi-hole-client/commit/63fbe9061c25c5b107230426aedc229eb6850925))
+- *(website)* Add find domains pages ([#468](https://github.com/tsutsu3/pi-hole-client/issues/468)) - ([40a5ce2](https://github.com/tsutsu3/pi-hole-client/commit/40a5ce2f9880b1707eb90c6d580e8d94eeb66f4a))
+- *(website)* Enhance feature details section ([#463](https://github.com/tsutsu3/pi-hole-client/issues/463)) - ([c141b55](https://github.com/tsutsu3/pi-hole-client/commit/c141b550ede4c891c58730191422702bda517218))
+- *(widget)* Update font sizes for card label and value ([#483](https://github.com/tsutsu3/pi-hole-client/issues/483)) - ([a389752](https://github.com/tsutsu3/pi-hole-client/commit/a3897521e617894c0554ad3e3f9eeeb9869db867))
+- *(winget)* Winget manifest for v1.7.1 ([#454](https://github.com/tsutsu3/pi-hole-client/issues/454)) - ([c99f27c](https://github.com/tsutsu3/pi-hole-client/commit/c99f27c9c2b3f8b6681fd175bc540850eb77e5eb))
+
+## [1.7.1_(65)](https://github.com/tsutsu3/pi-hole-client/compare/1.7.0_(63)..1.7.1_(65)) - 2025-12-10
 
 ### 🐛 Bug Fixes
 
