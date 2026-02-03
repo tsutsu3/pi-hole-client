@@ -42,6 +42,7 @@ import io.github.tsutsu3.pi_hole_client.R
 import io.github.tsutsu3.pi_hole_client.widget.WidgetConstants
 import io.github.tsutsu3.pi_hole_client.widget.common.ToggleWidgetState
 import io.github.tsutsu3.pi_hole_client.widget.common.WidgetTheme
+import io.github.tsutsu3.pi_hole_client.widget.common.getWidgetSizingSpec
 import io.github.tsutsu3.pi_hole_client.widget.data.toToggleWidgetState
 
 /**
@@ -102,13 +103,15 @@ private fun ToggleWidgetContent(state: ToggleWidgetState) {
 
     val label = state.serverName.ifEmpty { "Pi-hole" }
 
-    // Calculate proportional sizes based on the smaller dimension (typically width for 1x1)
-    val minDimension = minOf(size.width.value, size.height.value)
-    val outerBoxSize = (minDimension * 0.75f).coerceIn(56f, 80f).dp
-    val circleSize = (outerBoxSize.value * 0.88f).dp
-    val iconSize = (circleSize.value * 0.73f).dp
-    val badgeSize = (outerBoxSize.value * 0.35f).coerceIn(20f, 28f).dp
-    val labelFontSize = (minDimension * 0.15f).coerceIn(12f, 20f).sp
+    // Bootstrap-style: get pre-defined sizing spec (for font size only)
+    val spec = getWidgetSizingSpec(size.width.value, size.height.value)
+
+    // Toggle-specific: fixed sizes matching launcher icon style (like XML layout)
+    val outerBoxSize = 68.dp
+    val circleSize = 60.dp
+    val iconSize = 44.dp
+    val badgeSize = 24.dp
+    val badgeOffset = 2.dp
 
     // Vertical layout: circular icon + text label below
     Column(
@@ -144,7 +147,9 @@ private fun ToggleWidgetContent(state: ToggleWidgetState) {
 
             // Pi-hole client logo badge (positioned on outer box, not clipped by circle)
             Box(
-                modifier = GlanceModifier.fillMaxSize(),
+                modifier = GlanceModifier
+                    .fillMaxSize()
+                    .padding(end = badgeOffset, bottom = badgeOffset),
                 contentAlignment = Alignment.BottomEnd,
             ) {
                 Image(
@@ -164,7 +169,7 @@ private fun ToggleWidgetContent(state: ToggleWidgetState) {
             Text(
                 text = label,
                 style = TextStyle(
-                    fontSize = labelFontSize,
+                    fontSize = spec.titleFontSize,
                     fontWeight = FontWeight.Medium,
                     color = ColorProvider(Color(0x80000000)),
                 ),
@@ -175,7 +180,7 @@ private fun ToggleWidgetContent(state: ToggleWidgetState) {
             Text(
                 text = label,
                 style = TextStyle(
-                    fontSize = labelFontSize,
+                    fontSize = spec.titleFontSize,
                     fontWeight = FontWeight.Medium,
                     color = ColorProvider(R.color.widget_toggle_text),
                 ),

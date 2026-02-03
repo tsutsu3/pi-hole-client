@@ -2,9 +2,11 @@ package io.github.tsutsu3.pi_hole_client.widget.data
 
 import android.content.Context
 import android.content.SharedPreferences
+import android.util.Log
 import androidx.security.crypto.EncryptedSharedPreferences
 import androidx.security.crypto.MasterKey
 import io.github.tsutsu3.pi_hole_client.widget.WidgetConstants
+import io.github.tsutsu3.pi_hole_client.widget.WidgetDebugConfig
 import org.json.JSONArray
 import org.json.JSONObject
 
@@ -54,6 +56,8 @@ class WidgetPrefs private constructor(context: Context) {
     }
 
     companion object {
+        private const val TAG = "WidgetPrefs"
+
         @Volatile
         private var instance: WidgetPrefs? = null
 
@@ -88,7 +92,12 @@ class WidgetPrefs private constructor(context: Context) {
                 EncryptedSharedPreferences.PrefKeyEncryptionScheme.AES256_SIV,
                 EncryptedSharedPreferences.PrefValueEncryptionScheme.AES256_GCM,
             )
-        } catch (_: Exception) {
+        } catch (e: Exception) {
+            // Log encryption failure in debug builds for troubleshooting.
+            // Falls back to unencrypted storage - not ideal but ensures widget functionality.
+            if (WidgetDebugConfig.DEBUG) {
+                Log.w(TAG, "Failed to initialize encrypted prefs: ${e.javaClass.simpleName}")
+            }
             null
         }
     }
@@ -253,7 +262,10 @@ class WidgetPrefs private constructor(context: Context) {
             }
             list
         } catch (e: org.json.JSONException) {
-            android.util.Log.w("WidgetPrefs", "Invalid JSON in getServers: ${e.message}, raw=$raw")
+            if (WidgetDebugConfig.DEBUG) {
+                // Only log exception message, never raw data (may contain server addresses)
+                Log.w(TAG, "Invalid JSON in getServers: ${e.message}")
+            }
             emptyList()
         }
     }

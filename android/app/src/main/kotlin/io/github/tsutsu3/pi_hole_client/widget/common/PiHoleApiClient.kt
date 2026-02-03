@@ -1,25 +1,73 @@
 package io.github.tsutsu3.pi_hole_client.widget.common
 
 import android.util.Log
+import io.github.tsutsu3.pi_hole_client.widget.WidgetDebugConfig
 import java.io.BufferedReader
 import java.io.InputStreamReader
 import java.net.HttpURLConnection
+import java.net.SocketTimeoutException
 import java.net.URL
+import java.net.UnknownHostException
 import java.security.MessageDigest
 import java.security.cert.CertificateException
 import java.security.cert.X509Certificate
 import javax.net.ssl.HostnameVerifier
 import javax.net.ssl.HttpsURLConnection
 import javax.net.ssl.SSLContext
+import javax.net.ssl.SSLException
 import javax.net.ssl.TrustManager
 import javax.net.ssl.X509TrustManager
+
+/**
+ * Classifies connection error types for appropriate UI feedback.
+ */
+enum class ConnectionErrorType {
+    /** Network unreachable or DNS resolution failed */
+    NETWORK,
+    /** Connection or read timeout */
+    TIMEOUT,
+    /** SSL/TLS handshake or certificate validation failed */
+    SSL,
+    /** Other unexpected errors */
+    UNKNOWN,
+}
 
 /**
  * Minimal HTTP response payload for widget usage.
  *
  * Widgets avoid heavier networking stacks to keep dependencies small.
+ *
+ * @param statusCode HTTP status code, or negative value for connection errors:
+ *   - `-1`: Network error (DNS, unreachable)
+ *   - `-2`: Timeout error
+ *   - `-3`: SSL/TLS error
+ *   - `-4`: Unknown error
+ * @param body Response body or error message for connection failures
  */
-data class ApiResponse(val statusCode: Int, val body: String)
+data class ApiResponse(val statusCode: Int, val body: String) {
+    /**
+     * Returns the error type for connection failures (negative status codes).
+     * Returns null for successful HTTP responses.
+     */
+    val errorType: ConnectionErrorType?
+        get() = when (statusCode) {
+            STATUS_NETWORK_ERROR -> ConnectionErrorType.NETWORK
+            STATUS_TIMEOUT_ERROR -> ConnectionErrorType.TIMEOUT
+            STATUS_SSL_ERROR -> ConnectionErrorType.SSL
+            STATUS_UNKNOWN_ERROR -> ConnectionErrorType.UNKNOWN
+            else -> null
+        }
+
+    val isConnectionError: Boolean
+        get() = statusCode < 0
+
+    companion object {
+        const val STATUS_NETWORK_ERROR = -1
+        const val STATUS_TIMEOUT_ERROR = -2
+        const val STATUS_SSL_ERROR = -3
+        const val STATUS_UNKNOWN_ERROR = -4
+    }
+}
 
 /**
  * Lightweight HTTP client for widget polling and toggling.
@@ -49,14 +97,18 @@ class PiHoleApiClient(
     companion object {
         private const val TAG = "PiHoleApiClient"
 
+        /** Connection timeout in milliseconds */
+        private const val CONNECT_TIMEOUT_MS = 10_000
+
+        /** Read timeout in milliseconds */
+        private const val READ_TIMEOUT_MS = 10_000
+
         /**
          * Detects auth failures from HTTP status code.
          *
-         * Pi-hole v6 returns 401/403 for expired or invalid SIDs. Body content
-         * checking was removed to prevent false positives when domain names or
-         * query data contain "unauthorized"/"forbidden" strings.
+         * Pi-hole v6 returns 401/403 for expired or invalid SIDs.
          */
-        fun isAuthFailure(statusCode: Int, body: String): Boolean {
+        fun isAuthFailure(statusCode: Int): Boolean {
             return statusCode == 401 || statusCode == 403
         }
     }
@@ -118,15 +170,17 @@ class PiHoleApiClient(
      * certificate validation mode.
      */
     private fun openConnection(url: String): HttpURLConnection {
-        Log.d(TAG, "Opening connection to: $url")
+        if (WidgetDebugConfig.DEBUG) {
+            // Only log in debug builds to avoid leaking server addresses in production
+            Log.d(TAG, "Opening connection")
+        }
         val connection = URL(url).openConnection() as HttpURLConnection
-        Log.d(TAG, "Connection type: ${connection.javaClass.simpleName}")
         if (connection is HttpsURLConnection) {
             configureTls(connection)
         }
         // Keep timeouts short to avoid blocking widget refresh.
-        connection.connectTimeout = 10000
-        connection.readTimeout = 10000
+        connection.connectTimeout = CONNECT_TIMEOUT_MS
+        connection.readTimeout = READ_TIMEOUT_MS
         return connection
     }
 
@@ -172,11 +226,19 @@ class PiHoleApiClient(
 
     /**
      * Reads the response body and normalizes empty error streams.
+     *
+     * Classifies connection errors into specific types for appropriate UI feedback:
+     * - Network errors (DNS failure, unreachable host)
+     * - Timeout errors (connection or read timeout)
+     * - SSL errors (certificate validation, handshake failure)
+     * - Unknown errors (other exceptions)
      */
     private fun readResponse(connection: HttpURLConnection): ApiResponse {
         return try {
             val statusCode = connection.responseCode
-            Log.d(TAG, "Response code: $statusCode")
+            if (WidgetDebugConfig.DEBUG) {
+                Log.d(TAG, "Response code: $statusCode")
+            }
             val stream = if (statusCode in 200..299) {
                 connection.inputStream
             } else {
@@ -189,10 +251,31 @@ class PiHoleApiClient(
             }
             connection.disconnect()
             ApiResponse(statusCode, body)
+        } catch (e: UnknownHostException) {
+            logConnectionError("DNS resolution failed", e)
+            ApiResponse(ApiResponse.STATUS_NETWORK_ERROR, "Network error: Unable to resolve host")
+        } catch (e: SocketTimeoutException) {
+            logConnectionError("Connection timed out", e)
+            ApiResponse(ApiResponse.STATUS_TIMEOUT_ERROR, "Timeout: Server did not respond in time")
+        } catch (e: SSLException) {
+            logConnectionError("SSL/TLS error", e)
+            ApiResponse(ApiResponse.STATUS_SSL_ERROR, "SSL error: ${e.message ?: "Certificate validation failed"}")
+        } catch (e: java.net.ConnectException) {
+            logConnectionError("Connection refused", e)
+            ApiResponse(ApiResponse.STATUS_NETWORK_ERROR, "Network error: Connection refused")
         } catch (e: Exception) {
-            Log.e(TAG, "Connection failed", e)
-            // Return error response with detailed exception info
-            ApiResponse(-1, "Connection error: ${e.javaClass.simpleName}: ${e.message}")
+            logConnectionError("Unexpected error", e)
+            ApiResponse(ApiResponse.STATUS_UNKNOWN_ERROR, "Error: ${e.javaClass.simpleName}")
+        }
+    }
+
+    /**
+     * Logs connection errors only in debug builds to avoid exposing
+     * sensitive information in production logs.
+     */
+    private fun logConnectionError(message: String, e: Exception) {
+        if (WidgetDebugConfig.DEBUG) {
+            Log.w(TAG, "$message: ${e.javaClass.simpleName}", e)
         }
     }
 
@@ -231,10 +314,11 @@ class PiHoleApiClient(
             val normalizedPin = pinnedSha256.replace(":", "").lowercase().trim()
 
             if (certFingerprint != normalizedPin) {
-                Log.w(TAG, "Certificate pin mismatch: expected=$normalizedPin actual=$certFingerprint")
-                throw CertificateException(
-                    "Certificate fingerprint mismatch: expected $normalizedPin but got $certFingerprint",
-                )
+                if (WidgetDebugConfig.DEBUG) {
+                    // Only log fingerprints in debug builds to avoid exposing certificate details
+                    Log.w(TAG, "Certificate pin mismatch")
+                }
+                throw CertificateException("Certificate fingerprint mismatch")
             }
         }
 
