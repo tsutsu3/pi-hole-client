@@ -5,6 +5,7 @@ sidebar_position: 1
 
 import imgServerMenu from "../guides/images/cert-config/server-menu-view-update-cert.png";
 import imgCertUpdate from "../guides/images/cert-config/cert-update.png";
+import imgWidgetOffline from "../user-manual/images/widget/home-widget-offline.png";
 
 # 🤔 FAQ
 
@@ -99,3 +100,28 @@ The warning banner appears when you have servers with **"HTTPS Untrusted Allowed
 2. Or tap **"Dismiss"** on the banner (not recommended as it reduces security awareness)
 
 For more details, see the [Certificate Configuration Guide](../../guides/cert-config).
+
+---
+
+## ❓ Q5. Android Home Widget shows offline or error state
+
+<img width="320" alt="Widget offline state" src={imgWidgetOffline} />
+
+### 💡 Answer
+
+The widget may show an offline or error state for several reasons:
+
+- **Session expired**: Pi-hole v6 uses session-based authentication (SID). The session expires after a period of inactivity.
+- **Screen off for extended time**: Background connections may be lost when your device has been idle for a long time.
+- **Server unreachable**: The Pi-hole server may be offline or network connectivity is interrupted.
+
+### 🛠 How to Fix
+
+**Tap the widget to launch the app and reconnect.**
+
+1. Tap anywhere on the widget
+2. The app opens and automatically connects to the server associated with that widget
+3. Once connected, return to your Home screen
+4. The widget will update with the latest status
+
+For more details, see the [Android Home Widget Guide](../../user-manual/android-home-widget).
