@@ -11,6 +11,7 @@ import imageWidgetOn from "./images/widget/home-widget-all.png";
 import imageWidgetLarge from "./images/widget/home-widget-01.png";  // Stats
 import imageWidgetMedium from "./images/widget/home-widget-02.png"; // Compact
 import imageWidgetSmall from "./images/widget/home-widget-03.png"; // Toggle only
+import imageWidgetOffline from "./images/widget/home-widget-offline.png";
 
 # 🧩 Android Home Widget
 
@@ -146,6 +147,29 @@ This is normal and helps reduce battery usage.
 
 If your device is in battery saver mode or background activity is restricted,
 updates may be less frequent.
+
+---
+
+## When the widget shows offline or error state
+
+The widget may display an offline or error state in several situations:
+
+<img width="320" alt="Widget offline state" src={imageWidgetOffline} />
+
+### Common causes
+
+- **Session expired (SID expired)**: Pi-hole v6 uses session-based authentication. The session ID (SID) expires after a period of inactivity, requiring re-authentication.
+- **Device screen off for a long time**: When your device has been idle or the screen has been off for an extended period, the widget's background connection may be lost.
+- **Pi-hole server unreachable**: The server may be offline, or network connectivity between your device and the Pi-hole server may be interrupted.
+
+### How to recover
+
+**Tap the widget to launch the app and reconnect.**
+
+When you tap the widget, the app opens and automatically connects to the server associated with that widget.
+Once the app establishes a connection and refreshes authentication, the widget will resume normal operation.
+
+After the app reconnects successfully, you can return to your Home screen and the widget will update with the latest status.
 
 ---
 
