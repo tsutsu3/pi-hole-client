@@ -1,0 +1,28 @@
+# OpenAPI Generator configuration for Pi-hole v6 API client
+# See: https://openapi-generator.tech/docs/generators/dart-dio
+
+# Use local bundled spec (with $ref resolved)
+inputSpec: tools/openapi/spec/bundled.yaml
+
+# Generator type
+generatorName: dart-dio
+
+# Output directory for generated code
+outputDir: lib/data/services/api/generated/v6
+
+# Additional properties for dart-dio generator
+additionalProperties:
+  pubName: pihole_v6_api
+  nullSafe: "true"
+  serializationLibrary: json_serializable
+
+# Map oneOf (String | List<String>) types to StringOrList
+# StringOrList is created by generate.sh inside the generated package
+typeMappings:
+  AddressMaybeArrayAddress: "StringOrList"
+  DomainMaybeArrayDomain: "StringOrList"
+  ClientMaybeArrayClient: "StringOrList"
+  NameMaybeArrayName: "StringOrList"
+
+importMappings:
+  StringOrList: "package:pihole_v6_api/src/model/string_or_list.dart"

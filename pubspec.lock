@@ -193,6 +193,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "3.1.2"
+  copy_with_extension:
+    dependency: transitive
+    description:
+      name: copy_with_extension
+      sha256: "28b8a99384df46f5287ed87e249869fddedd299752ea83603800448e0523f00b"
+      url: "https://pub.dev"
+    source: hosted
+    version: "7.1.0"
   crypto:
     dependency: "direct main"
     description:
@@ -241,6 +249,22 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "7.0.3"
+  dio:
+    dependency: transitive
+    description:
+      name: dio
+      sha256: b9d46faecab38fc8cc286f80bc4d61a3bb5d4ac49e51ed877b4d6706efe57b25
+      url: "https://pub.dev"
+    source: hosted
+    version: "5.9.1"
+  dio_web_adapter:
+    dependency: transitive
+    description:
+      name: dio_web_adapter
+      sha256: "7586e476d70caecaf1686d21eee7247ea43ef5c345eab9e0cc3583ff13378d78"
+      url: "https://pub.dev"
+    source: hosted
+    version: "2.1.1"
   dynamic_color:
     dependency: "direct main"
     description:
@@ -758,7 +782,7 @@ packages:
     source: hosted
     version: "0.11.1"
   meta:
-    dependency: transitive
+    dependency: "direct main"
     description:
       name: meta
       sha256: "23f08335362185a5ea2ad3a4e597f1375e78bce8a040df5c600c8d3552ef2394"
@@ -965,6 +989,13 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "5.4.0"
+  pihole_v6_api:
+    dependency: "direct main"
+    description:
+      path: "lib/data/services/api/generated/v6"
+      relative: true
+    source: path
+    version: "1.0.0"
   platform:
     dependency: transitive
     description:
