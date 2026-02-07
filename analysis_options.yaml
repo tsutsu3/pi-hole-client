@@ -236,3 +236,4 @@ analyzer:
     - test/**/*.mocks.dart
     - lib/**/*.g.dart
     - lib/ui/settings/about/about.dart
+    - lib/data/services/api/generated/**

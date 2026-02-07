@@ -6,8 +6,12 @@ targets:
           include:
             - lib/domain/**/*.dart
             - lib/data/**/*.dart
+          exclude:
+            - lib/data/services/api/generated/**
       json_serializable:
         generate_for:
           include:
             - lib/domain/**/*.dart
             - lib/data/**/*.dart
+          exclude:
+            - lib/data/services/api/generated/**

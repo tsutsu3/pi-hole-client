@@ -110,3 +110,15 @@ pihole-docs/
 
 certs-dev/*
 !certs-dev/generate.sh
+
+# OpenAPI spec (upstream comparison file and temp directory)
+tools/openapi/spec/upstream-bundled.yaml
+tools/openapi/.temp-ftl/
+
+# OpenAPI generated code (keep only lib/)
+lib/data/services/api/generated/v6/doc/
+lib/data/services/api/generated/v6/test/
+lib/data/services/api/generated/v6/.dart_tool/
+lib/data/services/api/generated/v6/.openapi-generator/
+lib/data/services/api/generated/v6/README.md
+lib/data/services/api/generated/v6/pubspec.lock

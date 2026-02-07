@@ -89,6 +89,10 @@ dependencies:
   command_it: ^8.0.0
   result_dart: ^2.1.1
   crypto: ^3.0.3
+  # OpenAPI generated v6 API client
+  pihole_v6_api:
+    path: lib/data/services/api/generated/v6
+  meta: ^1.17.0
 
 
 dev_dependencies:
