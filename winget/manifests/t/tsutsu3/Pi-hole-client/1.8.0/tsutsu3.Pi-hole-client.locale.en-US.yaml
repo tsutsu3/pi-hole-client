@@ -22,6 +22,6 @@ Tags:
 - v6
 Documentations:
 - DocumentLabel: Wiki
-  DocumentUrl: https://github.com/tsutsu3/pi-hole-client/wiki
+  DocumentUrl: https://tsutsu3.github.io/pi-hole-client/
 ManifestType: defaultLocale
 ManifestVersion: 1.10.0
