@@ -257,6 +257,27 @@ void main() async {
   void startApp() => runApp(
     MultiProvider(
       providers: [
+        // ===================================================
+        // Layer 1: Services (stateless, no dependencies)
+        // ===================================================
+        Provider<DatabaseService>(create: (_) => dbService),
+        Provider<SecureStorageService>(create: (_) => secureStorageSercie),
+
+        // ===================================================
+        // Layer 2: Repositories (depend on Services)
+        // ===================================================
+        Provider<AppConfigRepository>(create: (_) => appConfigRepository),
+        Provider<ServerRepository>(create: (_) => serverRepository),
+        Provider<GravityRepository>(create: (_) => gravityRepository),
+
+        // ===================================================
+        // Layer 3: ViewModels / Providers (depend on Repositories)
+        //
+        // NOTE: In Phase 3, new ViewModels will NOT be registered
+        // here. They will be created in go_router's route builders
+        // via context.read<Repository>().
+        // Existing providers below are kept until migration.
+        // ===================================================
         ChangeNotifierProvider(create: (context) => configProvider),
         ChangeNotifierProvider(create: (context) => serversProvider),
         ChangeNotifierProvider(create: (context) => statusProvider),
@@ -299,6 +320,10 @@ void main() async {
           update: (context, serverConfig, servers) =>
               servers!..update(serverConfig),
         ),
+
+        // ===================================================
+        // Layer 4: Use Cases / Services (cross-cutting)
+        // ===================================================
         Provider<StatusUpdateService>(
           create: (_) => statusUpdateService,
           dispose: (_, service) => service.stopAutoRefresh(),
