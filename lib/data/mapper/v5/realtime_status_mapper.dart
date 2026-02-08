@@ -61,7 +61,6 @@ extension RealTimeStatusMapper on s.RealTimeStatus {
       forwardDestinations: forwardDestinations.entries
           .map((e) => DestinationStatMapper(e).toDomain())
           .toList(),
-      queryTypes: mappedQueryTypes,
     );
   }
 }

@@ -15,7 +15,7 @@ T _$identity<T>(T value) => value;
 /// @nodoc
 mixin _$RealtimeStatus {
 
- Summary get summary; DnsBlockingStatus get status; int get privacyLevel; TopDomains get topDomains; TopClients get topClients; List<DestinationStat> get forwardDestinations; List<QueryTypeStat> get queryTypes;
+ Summary get summary; DnsBlockingStatus get status; int get privacyLevel; TopDomains get topDomains; TopClients get topClients; List<DestinationStat> get forwardDestinations;
 /// Create a copy of RealtimeStatus
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -28,16 +28,16 @@ $RealtimeStatusCopyWith<RealtimeStatus> get copyWith => _$RealtimeStatusCopyWith
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is RealtimeStatus&&(identical(other.summary, summary) || other.summary == summary)&&(identical(other.status, status) || other.status == status)&&(identical(other.privacyLevel, privacyLevel) || other.privacyLevel == privacyLevel)&&(identical(other.topDomains, topDomains) || other.topDomains == topDomains)&&(identical(other.topClients, topClients) || other.topClients == topClients)&&const DeepCollectionEquality().equals(other.forwardDestinations, forwardDestinations)&&const DeepCollectionEquality().equals(other.queryTypes, queryTypes));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is RealtimeStatus&&(identical(other.summary, summary) || other.summary == summary)&&(identical(other.status, status) || other.status == status)&&(identical(other.privacyLevel, privacyLevel) || other.privacyLevel == privacyLevel)&&(identical(other.topDomains, topDomains) || other.topDomains == topDomains)&&(identical(other.topClients, topClients) || other.topClients == topClients)&&const DeepCollectionEquality().equals(other.forwardDestinations, forwardDestinations));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,summary,status,privacyLevel,topDomains,topClients,const DeepCollectionEquality().hash(forwardDestinations),const DeepCollectionEquality().hash(queryTypes));
+int get hashCode => Object.hash(runtimeType,summary,status,privacyLevel,topDomains,topClients,const DeepCollectionEquality().hash(forwardDestinations));
 
 @override
 String toString() {
-  return 'RealtimeStatus(summary: $summary, status: $status, privacyLevel: $privacyLevel, topDomains: $topDomains, topClients: $topClients, forwardDestinations: $forwardDestinations, queryTypes: $queryTypes)';
+  return 'RealtimeStatus(summary: $summary, status: $status, privacyLevel: $privacyLevel, topDomains: $topDomains, topClients: $topClients, forwardDestinations: $forwardDestinations)';
 }
 
 
@@ -48,7 +48,7 @@ abstract mixin class $RealtimeStatusCopyWith<$Res>  {
   factory $RealtimeStatusCopyWith(RealtimeStatus value, $Res Function(RealtimeStatus) _then) = _$RealtimeStatusCopyWithImpl;
 @useResult
 $Res call({
- Summary summary, DnsBlockingStatus status, int privacyLevel, TopDomains topDomains, TopClients topClients, List<DestinationStat> forwardDestinations, List<QueryTypeStat> queryTypes
+ Summary summary, DnsBlockingStatus status, int privacyLevel, TopDomains topDomains, TopClients topClients, List<DestinationStat> forwardDestinations
 });
 
 
@@ -65,7 +65,7 @@ class _$RealtimeStatusCopyWithImpl<$Res>
 
 /// Create a copy of RealtimeStatus
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? summary = null,Object? status = null,Object? privacyLevel = null,Object? topDomains = null,Object? topClients = null,Object? forwardDestinations = null,Object? queryTypes = null,}) {
+@pragma('vm:prefer-inline') @override $Res call({Object? summary = null,Object? status = null,Object? privacyLevel = null,Object? topDomains = null,Object? topClients = null,Object? forwardDestinations = null,}) {
   return _then(_self.copyWith(
 summary: null == summary ? _self.summary : summary // ignore: cast_nullable_to_non_nullable
 as Summary,status: null == status ? _self.status : status // ignore: cast_nullable_to_non_nullable
@@ -73,8 +73,7 @@ as DnsBlockingStatus,privacyLevel: null == privacyLevel ? _self.privacyLevel : p
 as int,topDomains: null == topDomains ? _self.topDomains : topDomains // ignore: cast_nullable_to_non_nullable
 as TopDomains,topClients: null == topClients ? _self.topClients : topClients // ignore: cast_nullable_to_non_nullable
 as TopClients,forwardDestinations: null == forwardDestinations ? _self.forwardDestinations : forwardDestinations // ignore: cast_nullable_to_non_nullable
-as List<DestinationStat>,queryTypes: null == queryTypes ? _self.queryTypes : queryTypes // ignore: cast_nullable_to_non_nullable
-as List<QueryTypeStat>,
+as List<DestinationStat>,
   ));
 }
 /// Create a copy of RealtimeStatus
@@ -183,10 +182,10 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( Summary summary,  DnsBlockingStatus status,  int privacyLevel,  TopDomains topDomains,  TopClients topClients,  List<DestinationStat> forwardDestinations,  List<QueryTypeStat> queryTypes)?  $default,{required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( Summary summary,  DnsBlockingStatus status,  int privacyLevel,  TopDomains topDomains,  TopClients topClients,  List<DestinationStat> forwardDestinations)?  $default,{required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _RealtimeStatus() when $default != null:
-return $default(_that.summary,_that.status,_that.privacyLevel,_that.topDomains,_that.topClients,_that.forwardDestinations,_that.queryTypes);case _:
+return $default(_that.summary,_that.status,_that.privacyLevel,_that.topDomains,_that.topClients,_that.forwardDestinations);case _:
   return orElse();
 
 }
@@ -204,10 +203,10 @@ return $default(_that.summary,_that.status,_that.privacyLevel,_that.topDomains,_
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( Summary summary,  DnsBlockingStatus status,  int privacyLevel,  TopDomains topDomains,  TopClients topClients,  List<DestinationStat> forwardDestinations,  List<QueryTypeStat> queryTypes)  $default,) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( Summary summary,  DnsBlockingStatus status,  int privacyLevel,  TopDomains topDomains,  TopClients topClients,  List<DestinationStat> forwardDestinations)  $default,) {final _that = this;
 switch (_that) {
 case _RealtimeStatus():
-return $default(_that.summary,_that.status,_that.privacyLevel,_that.topDomains,_that.topClients,_that.forwardDestinations,_that.queryTypes);}
+return $default(_that.summary,_that.status,_that.privacyLevel,_that.topDomains,_that.topClients,_that.forwardDestinations);}
 }
 /// A variant of `when` that fallback to returning `null`
 ///
@@ -221,10 +220,10 @@ return $default(_that.summary,_that.status,_that.privacyLevel,_that.topDomains,_
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( Summary summary,  DnsBlockingStatus status,  int privacyLevel,  TopDomains topDomains,  TopClients topClients,  List<DestinationStat> forwardDestinations,  List<QueryTypeStat> queryTypes)?  $default,) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( Summary summary,  DnsBlockingStatus status,  int privacyLevel,  TopDomains topDomains,  TopClients topClients,  List<DestinationStat> forwardDestinations)?  $default,) {final _that = this;
 switch (_that) {
 case _RealtimeStatus() when $default != null:
-return $default(_that.summary,_that.status,_that.privacyLevel,_that.topDomains,_that.topClients,_that.forwardDestinations,_that.queryTypes);case _:
+return $default(_that.summary,_that.status,_that.privacyLevel,_that.topDomains,_that.topClients,_that.forwardDestinations);case _:
   return null;
 
 }
@@ -236,7 +235,7 @@ return $default(_that.summary,_that.status,_that.privacyLevel,_that.topDomains,_
 
 @JsonSerializable(explicitToJson: true)
 class _RealtimeStatus implements RealtimeStatus {
-   _RealtimeStatus({required this.summary, required this.status, required this.privacyLevel, required this.topDomains, required this.topClients, required final  List<DestinationStat> forwardDestinations, required final  List<QueryTypeStat> queryTypes}): _forwardDestinations = forwardDestinations,_queryTypes = queryTypes;
+   _RealtimeStatus({required this.summary, required this.status, required this.privacyLevel, required this.topDomains, required this.topClients, required final  List<DestinationStat> forwardDestinations}): _forwardDestinations = forwardDestinations;
   factory _RealtimeStatus.fromJson(Map<String, dynamic> json) => _$RealtimeStatusFromJson(json);
 
 @override final  Summary summary;
@@ -249,13 +248,6 @@ class _RealtimeStatus implements RealtimeStatus {
   if (_forwardDestinations is EqualUnmodifiableListView) return _forwardDestinations;
   // ignore: implicit_dynamic_type
   return EqualUnmodifiableListView(_forwardDestinations);
-}
-
- final  List<QueryTypeStat> _queryTypes;
-@override List<QueryTypeStat> get queryTypes {
-  if (_queryTypes is EqualUnmodifiableListView) return _queryTypes;
-  // ignore: implicit_dynamic_type
-  return EqualUnmodifiableListView(_queryTypes);
 }
 
 
@@ -272,16 +264,16 @@ Map<String, dynamic> toJson() {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _RealtimeStatus&&(identical(other.summary, summary) || other.summary == summary)&&(identical(other.status, status) || other.status == status)&&(identical(other.privacyLevel, privacyLevel) || other.privacyLevel == privacyLevel)&&(identical(other.topDomains, topDomains) || other.topDomains == topDomains)&&(identical(other.topClients, topClients) || other.topClients == topClients)&&const DeepCollectionEquality().equals(other._forwardDestinations, _forwardDestinations)&&const DeepCollectionEquality().equals(other._queryTypes, _queryTypes));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _RealtimeStatus&&(identical(other.summary, summary) || other.summary == summary)&&(identical(other.status, status) || other.status == status)&&(identical(other.privacyLevel, privacyLevel) || other.privacyLevel == privacyLevel)&&(identical(other.topDomains, topDomains) || other.topDomains == topDomains)&&(identical(other.topClients, topClients) || other.topClients == topClients)&&const DeepCollectionEquality().equals(other._forwardDestinations, _forwardDestinations));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,summary,status,privacyLevel,topDomains,topClients,const DeepCollectionEquality().hash(_forwardDestinations),const DeepCollectionEquality().hash(_queryTypes));
+int get hashCode => Object.hash(runtimeType,summary,status,privacyLevel,topDomains,topClients,const DeepCollectionEquality().hash(_forwardDestinations));
 
 @override
 String toString() {
-  return 'RealtimeStatus(summary: $summary, status: $status, privacyLevel: $privacyLevel, topDomains: $topDomains, topClients: $topClients, forwardDestinations: $forwardDestinations, queryTypes: $queryTypes)';
+  return 'RealtimeStatus(summary: $summary, status: $status, privacyLevel: $privacyLevel, topDomains: $topDomains, topClients: $topClients, forwardDestinations: $forwardDestinations)';
 }
 
 
@@ -292,7 +284,7 @@ abstract mixin class _$RealtimeStatusCopyWith<$Res> implements $RealtimeStatusCo
   factory _$RealtimeStatusCopyWith(_RealtimeStatus value, $Res Function(_RealtimeStatus) _then) = __$RealtimeStatusCopyWithImpl;
 @override @useResult
 $Res call({
- Summary summary, DnsBlockingStatus status, int privacyLevel, TopDomains topDomains, TopClients topClients, List<DestinationStat> forwardDestinations, List<QueryTypeStat> queryTypes
+ Summary summary, DnsBlockingStatus status, int privacyLevel, TopDomains topDomains, TopClients topClients, List<DestinationStat> forwardDestinations
 });
 
 
@@ -309,7 +301,7 @@ class __$RealtimeStatusCopyWithImpl<$Res>
 
 /// Create a copy of RealtimeStatus
 /// with the given fields replaced by the non-null parameter values.
-@override @pragma('vm:prefer-inline') $Res call({Object? summary = null,Object? status = null,Object? privacyLevel = null,Object? topDomains = null,Object? topClients = null,Object? forwardDestinations = null,Object? queryTypes = null,}) {
+@override @pragma('vm:prefer-inline') $Res call({Object? summary = null,Object? status = null,Object? privacyLevel = null,Object? topDomains = null,Object? topClients = null,Object? forwardDestinations = null,}) {
   return _then(_RealtimeStatus(
 summary: null == summary ? _self.summary : summary // ignore: cast_nullable_to_non_nullable
 as Summary,status: null == status ? _self.status : status // ignore: cast_nullable_to_non_nullable
@@ -317,8 +309,7 @@ as DnsBlockingStatus,privacyLevel: null == privacyLevel ? _self.privacyLevel : p
 as int,topDomains: null == topDomains ? _self.topDomains : topDomains // ignore: cast_nullable_to_non_nullable
 as TopDomains,topClients: null == topClients ? _self.topClients : topClients // ignore: cast_nullable_to_non_nullable
 as TopClients,forwardDestinations: null == forwardDestinations ? _self._forwardDestinations : forwardDestinations // ignore: cast_nullable_to_non_nullable
-as List<DestinationStat>,queryTypes: null == queryTypes ? _self._queryTypes : queryTypes // ignore: cast_nullable_to_non_nullable
-as List<QueryTypeStat>,
+as List<DestinationStat>,
   ));
 }
 

@@ -88,7 +88,6 @@ class RealtimeStatusUseCaseV6 implements RealtimeStatusUseCase {
         topSourcesBlocked: topClientsBlocked,
       ),
       forwardDestinations: upstreams,
-      queryTypes: statsSummary.queryTypes,
     );
   }
 }

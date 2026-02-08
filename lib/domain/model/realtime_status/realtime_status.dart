@@ -18,7 +18,6 @@ sealed class RealtimeStatus with _$RealtimeStatus {
     required TopDomains topDomains,
     required TopClients topClients,
     required List<DestinationStat> forwardDestinations,
-    required List<QueryTypeStat> queryTypes,
   }) = _RealtimeStatus;
 
   factory RealtimeStatus.fromJson(Map<String, dynamic> json) =>

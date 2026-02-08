@@ -17,9 +17,6 @@ _RealtimeStatus _$RealtimeStatusFromJson(
   forwardDestinations: (json['forwardDestinations'] as List<dynamic>)
       .map((e) => DestinationStat.fromJson(e as Map<String, dynamic>))
       .toList(),
-  queryTypes: (json['queryTypes'] as List<dynamic>)
-      .map((e) => QueryTypeStat.fromJson(e as Map<String, dynamic>))
-      .toList(),
 );
 
 Map<String, dynamic> _$RealtimeStatusToJson(_RealtimeStatus instance) =>
@@ -32,7 +29,6 @@ Map<String, dynamic> _$RealtimeStatusToJson(_RealtimeStatus instance) =>
       'forwardDestinations': instance.forwardDestinations
           .map((e) => e.toJson())
           .toList(),
-      'queryTypes': instance.queryTypes.map((e) => e.toJson()).toList(),
     };
 
 const _$DnsBlockingStatusEnumMap = {
