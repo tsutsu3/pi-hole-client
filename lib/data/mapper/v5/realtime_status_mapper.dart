@@ -9,57 +9,67 @@ import 'package:pi_hole_client/domain/model/realtime_status/realtime_status.dart
 
 extension RealTimeStatusMapper on s.RealTimeStatus {
   d.RealtimeStatus toDomain() {
+    final mappedQueryTypes = queryTypes
+        .toJson()
+        .entries
+        .map(
+          (e) => d.QueryTypeStat(
+            type: convertDnsRecordType(e.key),
+            percentage: (e.value as num).toDouble(),
+          ),
+        )
+        .toList();
+
     return d.RealtimeStatus(
-      domainsBeingBlocked: domainsBeingBlocked,
-      dnsQueriesToday: dnsQueriesToday,
-      adsBlockedToday: adsBlockedToday,
-      adsPercentageToday: adsPercentageToday,
-      uniqueDomains: uniqueDomains,
-      queriesForwarded: queriesForwarded,
-      queriesCached: queriesCached,
-      clientsEverSeen: clientsEverSeen,
-      uniqueClients: uniqueClients,
-      dnsQueriesAllTypes: dnsQueriesAllTypes,
-      replyUnknown: replyUnknown,
-      replyNodata: replyNodata,
-      replyNxDomain: replyNxDomain,
-      replyCname: replyCname,
-      replyIp: replyIp,
-      replyDomain: replyDomain,
-      replyRrname: replyRrname,
-      replyServfail: replyServfail,
-      replyRefused: replyRefused,
-      replyNotimp: replyNotimp,
-      replyOther: replyOther,
-      replyDnssec: replyDnssec,
-      replyNone: replyNone,
-      replyBlob: replyBlob,
-      dnsQueriesAllReplies: dnsQueriesAllReplies,
-      privacyLevel: privacyLevel,
+      summary: d.Summary(
+        domainsBeingBlocked: domainsBeingBlocked,
+        dnsQueriesToday: dnsQueriesToday,
+        adsBlockedToday: adsBlockedToday,
+        adsPercentageToday: adsPercentageToday,
+        uniqueDomains: uniqueDomains,
+        queriesForwarded: queriesForwarded,
+        queriesCached: queriesCached,
+        clientsEverSeen: clientsEverSeen,
+        uniqueClients: uniqueClients,
+        dnsQueriesAllTypes: dnsQueriesAllTypes,
+        replyUnknown: replyUnknown,
+        replyNodata: replyNodata,
+        replyNxDomain: replyNxDomain,
+        replyCname: replyCname,
+        replyIp: replyIp,
+        replyDomain: replyDomain,
+        replyRrname: replyRrname,
+        replyServfail: replyServfail,
+        replyRefused: replyRefused,
+        replyNotimp: replyNotimp,
+        replyOther: replyOther,
+        replyDnssec: replyDnssec,
+        replyNone: replyNone,
+        replyBlob: replyBlob,
+        dnsQueriesAllReplies: dnsQueriesAllReplies,
+        queryTypes: mappedQueryTypes,
+      ),
       status: status.toDnsBlockingStatus(),
-      topQueries: topQueries.entries
-          .map((e) => QueryStatMapper(e).toDomain())
-          .toList(),
-      topAds: topAds.entries.map((e) => QueryStatMapper(e).toDomain()).toList(),
-      topSources: topSources.entries
-          .map((e) => SourceStatMapper(e).toDomain())
-          .toList(),
-      topSourcesBlocked: topSourcesBlocked.entries
-          .map((e) => SourceStatMapper(e).toDomain())
-          .toList(),
+      privacyLevel: privacyLevel,
+      topDomains: d.TopDomains(
+        topQueries: topQueries.entries
+            .map((e) => QueryStatMapper(e).toDomain())
+            .toList(),
+        topAds:
+            topAds.entries.map((e) => QueryStatMapper(e).toDomain()).toList(),
+      ),
+      topClients: d.TopClients(
+        topSources: topSources.entries
+            .map((e) => SourceStatMapper(e).toDomain())
+            .toList(),
+        topSourcesBlocked: topSourcesBlocked.entries
+            .map((e) => SourceStatMapper(e).toDomain())
+            .toList(),
+      ),
       forwardDestinations: forwardDestinations.entries
           .map((e) => DestinationStatMapper(e).toDomain())
           .toList(),
-      queryTypes: queryTypes
-          .toJson()
-          .entries
-          .map(
-            (e) => d.QueryTypeStat(
-              type: convertDnsRecordType(e.key),
-              percentage: (e.value as num).toDouble(),
-            ),
-          )
-          .toList(),
+      queryTypes: mappedQueryTypes,
     );
   }
 }

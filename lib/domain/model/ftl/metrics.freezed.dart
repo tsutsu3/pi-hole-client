@@ -855,7 +855,7 @@ as double,
 /// @nodoc
 mixin _$DnsReplies {
 
- int get forwarded; int get unanswered; int get local; int get optimized; int get auth; int get sum; double get forwardedPercentage; double get unansweredPercentage; double get localPercentage; double get optimizedPercentage; double get authPercentage;
+ int get forwarded; int get unanswered; int get local; int get optimized; int get auth; int get sum;
 /// Create a copy of DnsReplies
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -868,16 +868,16 @@ $DnsRepliesCopyWith<DnsReplies> get copyWith => _$DnsRepliesCopyWithImpl<DnsRepl
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is DnsReplies&&(identical(other.forwarded, forwarded) || other.forwarded == forwarded)&&(identical(other.unanswered, unanswered) || other.unanswered == unanswered)&&(identical(other.local, local) || other.local == local)&&(identical(other.optimized, optimized) || other.optimized == optimized)&&(identical(other.auth, auth) || other.auth == auth)&&(identical(other.sum, sum) || other.sum == sum)&&(identical(other.forwardedPercentage, forwardedPercentage) || other.forwardedPercentage == forwardedPercentage)&&(identical(other.unansweredPercentage, unansweredPercentage) || other.unansweredPercentage == unansweredPercentage)&&(identical(other.localPercentage, localPercentage) || other.localPercentage == localPercentage)&&(identical(other.optimizedPercentage, optimizedPercentage) || other.optimizedPercentage == optimizedPercentage)&&(identical(other.authPercentage, authPercentage) || other.authPercentage == authPercentage));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is DnsReplies&&(identical(other.forwarded, forwarded) || other.forwarded == forwarded)&&(identical(other.unanswered, unanswered) || other.unanswered == unanswered)&&(identical(other.local, local) || other.local == local)&&(identical(other.optimized, optimized) || other.optimized == optimized)&&(identical(other.auth, auth) || other.auth == auth)&&(identical(other.sum, sum) || other.sum == sum));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,forwarded,unanswered,local,optimized,auth,sum,forwardedPercentage,unansweredPercentage,localPercentage,optimizedPercentage,authPercentage);
+int get hashCode => Object.hash(runtimeType,forwarded,unanswered,local,optimized,auth,sum);
 
 @override
 String toString() {
-  return 'DnsReplies(forwarded: $forwarded, unanswered: $unanswered, local: $local, optimized: $optimized, auth: $auth, sum: $sum, forwardedPercentage: $forwardedPercentage, unansweredPercentage: $unansweredPercentage, localPercentage: $localPercentage, optimizedPercentage: $optimizedPercentage, authPercentage: $authPercentage)';
+  return 'DnsReplies(forwarded: $forwarded, unanswered: $unanswered, local: $local, optimized: $optimized, auth: $auth, sum: $sum)';
 }
 
 
@@ -888,7 +888,7 @@ abstract mixin class $DnsRepliesCopyWith<$Res>  {
   factory $DnsRepliesCopyWith(DnsReplies value, $Res Function(DnsReplies) _then) = _$DnsRepliesCopyWithImpl;
 @useResult
 $Res call({
- int forwarded, int unanswered, int local, int optimized, int auth, int sum, double forwardedPercentage, double unansweredPercentage, double localPercentage, double optimizedPercentage, double authPercentage
+ int forwarded, int unanswered, int local, int optimized, int auth, int sum
 });
 
 
@@ -905,7 +905,7 @@ class _$DnsRepliesCopyWithImpl<$Res>
 
 /// Create a copy of DnsReplies
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? forwarded = null,Object? unanswered = null,Object? local = null,Object? optimized = null,Object? auth = null,Object? sum = null,Object? forwardedPercentage = null,Object? unansweredPercentage = null,Object? localPercentage = null,Object? optimizedPercentage = null,Object? authPercentage = null,}) {
+@pragma('vm:prefer-inline') @override $Res call({Object? forwarded = null,Object? unanswered = null,Object? local = null,Object? optimized = null,Object? auth = null,Object? sum = null,}) {
   return _then(_self.copyWith(
 forwarded: null == forwarded ? _self.forwarded : forwarded // ignore: cast_nullable_to_non_nullable
 as int,unanswered: null == unanswered ? _self.unanswered : unanswered // ignore: cast_nullable_to_non_nullable
@@ -913,12 +913,7 @@ as int,local: null == local ? _self.local : local // ignore: cast_nullable_to_no
 as int,optimized: null == optimized ? _self.optimized : optimized // ignore: cast_nullable_to_non_nullable
 as int,auth: null == auth ? _self.auth : auth // ignore: cast_nullable_to_non_nullable
 as int,sum: null == sum ? _self.sum : sum // ignore: cast_nullable_to_non_nullable
-as int,forwardedPercentage: null == forwardedPercentage ? _self.forwardedPercentage : forwardedPercentage // ignore: cast_nullable_to_non_nullable
-as double,unansweredPercentage: null == unansweredPercentage ? _self.unansweredPercentage : unansweredPercentage // ignore: cast_nullable_to_non_nullable
-as double,localPercentage: null == localPercentage ? _self.localPercentage : localPercentage // ignore: cast_nullable_to_non_nullable
-as double,optimizedPercentage: null == optimizedPercentage ? _self.optimizedPercentage : optimizedPercentage // ignore: cast_nullable_to_non_nullable
-as double,authPercentage: null == authPercentage ? _self.authPercentage : authPercentage // ignore: cast_nullable_to_non_nullable
-as double,
+as int,
   ));
 }
 
@@ -1000,10 +995,10 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( int forwarded,  int unanswered,  int local,  int optimized,  int auth,  int sum,  double forwardedPercentage,  double unansweredPercentage,  double localPercentage,  double optimizedPercentage,  double authPercentage)?  $default,{required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( int forwarded,  int unanswered,  int local,  int optimized,  int auth,  int sum)?  $default,{required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _DnsReplies() when $default != null:
-return $default(_that.forwarded,_that.unanswered,_that.local,_that.optimized,_that.auth,_that.sum,_that.forwardedPercentage,_that.unansweredPercentage,_that.localPercentage,_that.optimizedPercentage,_that.authPercentage);case _:
+return $default(_that.forwarded,_that.unanswered,_that.local,_that.optimized,_that.auth,_that.sum);case _:
   return orElse();
 
 }
@@ -1021,10 +1016,10 @@ return $default(_that.forwarded,_that.unanswered,_that.local,_that.optimized,_th
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( int forwarded,  int unanswered,  int local,  int optimized,  int auth,  int sum,  double forwardedPercentage,  double unansweredPercentage,  double localPercentage,  double optimizedPercentage,  double authPercentage)  $default,) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( int forwarded,  int unanswered,  int local,  int optimized,  int auth,  int sum)  $default,) {final _that = this;
 switch (_that) {
 case _DnsReplies():
-return $default(_that.forwarded,_that.unanswered,_that.local,_that.optimized,_that.auth,_that.sum,_that.forwardedPercentage,_that.unansweredPercentage,_that.localPercentage,_that.optimizedPercentage,_that.authPercentage);}
+return $default(_that.forwarded,_that.unanswered,_that.local,_that.optimized,_that.auth,_that.sum);}
 }
 /// A variant of `when` that fallback to returning `null`
 ///
@@ -1038,10 +1033,10 @@ return $default(_that.forwarded,_that.unanswered,_that.local,_that.optimized,_th
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( int forwarded,  int unanswered,  int local,  int optimized,  int auth,  int sum,  double forwardedPercentage,  double unansweredPercentage,  double localPercentage,  double optimizedPercentage,  double authPercentage)?  $default,) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( int forwarded,  int unanswered,  int local,  int optimized,  int auth,  int sum)?  $default,) {final _that = this;
 switch (_that) {
 case _DnsReplies() when $default != null:
-return $default(_that.forwarded,_that.unanswered,_that.local,_that.optimized,_that.auth,_that.sum,_that.forwardedPercentage,_that.unansweredPercentage,_that.localPercentage,_that.optimizedPercentage,_that.authPercentage);case _:
+return $default(_that.forwarded,_that.unanswered,_that.local,_that.optimized,_that.auth,_that.sum);case _:
   return null;
 
 }
@@ -1052,8 +1047,8 @@ return $default(_that.forwarded,_that.unanswered,_that.local,_that.optimized,_th
 /// @nodoc
 @JsonSerializable()
 
-class _DnsReplies implements DnsReplies {
-  const _DnsReplies({required this.forwarded, required this.unanswered, required this.local, required this.optimized, required this.auth, required this.sum, required this.forwardedPercentage, required this.unansweredPercentage, required this.localPercentage, required this.optimizedPercentage, required this.authPercentage});
+class _DnsReplies extends DnsReplies {
+  const _DnsReplies({required this.forwarded, required this.unanswered, required this.local, required this.optimized, required this.auth, required this.sum}): super._();
   factory _DnsReplies.fromJson(Map<String, dynamic> json) => _$DnsRepliesFromJson(json);
 
 @override final  int forwarded;
@@ -1062,11 +1057,6 @@ class _DnsReplies implements DnsReplies {
 @override final  int optimized;
 @override final  int auth;
 @override final  int sum;
-@override final  double forwardedPercentage;
-@override final  double unansweredPercentage;
-@override final  double localPercentage;
-@override final  double optimizedPercentage;
-@override final  double authPercentage;
 
 /// Create a copy of DnsReplies
 /// with the given fields replaced by the non-null parameter values.
@@ -1081,16 +1071,16 @@ Map<String, dynamic> toJson() {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _DnsReplies&&(identical(other.forwarded, forwarded) || other.forwarded == forwarded)&&(identical(other.unanswered, unanswered) || other.unanswered == unanswered)&&(identical(other.local, local) || other.local == local)&&(identical(other.optimized, optimized) || other.optimized == optimized)&&(identical(other.auth, auth) || other.auth == auth)&&(identical(other.sum, sum) || other.sum == sum)&&(identical(other.forwardedPercentage, forwardedPercentage) || other.forwardedPercentage == forwardedPercentage)&&(identical(other.unansweredPercentage, unansweredPercentage) || other.unansweredPercentage == unansweredPercentage)&&(identical(other.localPercentage, localPercentage) || other.localPercentage == localPercentage)&&(identical(other.optimizedPercentage, optimizedPercentage) || other.optimizedPercentage == optimizedPercentage)&&(identical(other.authPercentage, authPercentage) || other.authPercentage == authPercentage));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _DnsReplies&&(identical(other.forwarded, forwarded) || other.forwarded == forwarded)&&(identical(other.unanswered, unanswered) || other.unanswered == unanswered)&&(identical(other.local, local) || other.local == local)&&(identical(other.optimized, optimized) || other.optimized == optimized)&&(identical(other.auth, auth) || other.auth == auth)&&(identical(other.sum, sum) || other.sum == sum));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,forwarded,unanswered,local,optimized,auth,sum,forwardedPercentage,unansweredPercentage,localPercentage,optimizedPercentage,authPercentage);
+int get hashCode => Object.hash(runtimeType,forwarded,unanswered,local,optimized,auth,sum);
 
 @override
 String toString() {
-  return 'DnsReplies(forwarded: $forwarded, unanswered: $unanswered, local: $local, optimized: $optimized, auth: $auth, sum: $sum, forwardedPercentage: $forwardedPercentage, unansweredPercentage: $unansweredPercentage, localPercentage: $localPercentage, optimizedPercentage: $optimizedPercentage, authPercentage: $authPercentage)';
+  return 'DnsReplies(forwarded: $forwarded, unanswered: $unanswered, local: $local, optimized: $optimized, auth: $auth, sum: $sum)';
 }
 
 
@@ -1101,7 +1091,7 @@ abstract mixin class _$DnsRepliesCopyWith<$Res> implements $DnsRepliesCopyWith<$
   factory _$DnsRepliesCopyWith(_DnsReplies value, $Res Function(_DnsReplies) _then) = __$DnsRepliesCopyWithImpl;
 @override @useResult
 $Res call({
- int forwarded, int unanswered, int local, int optimized, int auth, int sum, double forwardedPercentage, double unansweredPercentage, double localPercentage, double optimizedPercentage, double authPercentage
+ int forwarded, int unanswered, int local, int optimized, int auth, int sum
 });
 
 
@@ -1118,7 +1108,7 @@ class __$DnsRepliesCopyWithImpl<$Res>
 
 /// Create a copy of DnsReplies
 /// with the given fields replaced by the non-null parameter values.
-@override @pragma('vm:prefer-inline') $Res call({Object? forwarded = null,Object? unanswered = null,Object? local = null,Object? optimized = null,Object? auth = null,Object? sum = null,Object? forwardedPercentage = null,Object? unansweredPercentage = null,Object? localPercentage = null,Object? optimizedPercentage = null,Object? authPercentage = null,}) {
+@override @pragma('vm:prefer-inline') $Res call({Object? forwarded = null,Object? unanswered = null,Object? local = null,Object? optimized = null,Object? auth = null,Object? sum = null,}) {
   return _then(_DnsReplies(
 forwarded: null == forwarded ? _self.forwarded : forwarded // ignore: cast_nullable_to_non_nullable
 as int,unanswered: null == unanswered ? _self.unanswered : unanswered // ignore: cast_nullable_to_non_nullable
@@ -1126,12 +1116,7 @@ as int,local: null == local ? _self.local : local // ignore: cast_nullable_to_no
 as int,optimized: null == optimized ? _self.optimized : optimized // ignore: cast_nullable_to_non_nullable
 as int,auth: null == auth ? _self.auth : auth // ignore: cast_nullable_to_non_nullable
 as int,sum: null == sum ? _self.sum : sum // ignore: cast_nullable_to_non_nullable
-as int,forwardedPercentage: null == forwardedPercentage ? _self.forwardedPercentage : forwardedPercentage // ignore: cast_nullable_to_non_nullable
-as double,unansweredPercentage: null == unansweredPercentage ? _self.unansweredPercentage : unansweredPercentage // ignore: cast_nullable_to_non_nullable
-as double,localPercentage: null == localPercentage ? _self.localPercentage : localPercentage // ignore: cast_nullable_to_non_nullable
-as double,optimizedPercentage: null == optimizedPercentage ? _self.optimizedPercentage : optimizedPercentage // ignore: cast_nullable_to_non_nullable
-as double,authPercentage: null == authPercentage ? _self.authPercentage : authPercentage // ignore: cast_nullable_to_non_nullable
-as double,
+as int,
   ));
 }
 

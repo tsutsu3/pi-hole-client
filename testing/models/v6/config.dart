@@ -1,5 +1,6 @@
 import 'package:pi_hole_client/data/model/v6/config/config.dart' as srv;
 import 'package:pi_hole_client/domain/model/config/config.dart' as repo;
+import 'package:pi_hole_client/domain/model/config/dns_config.dart' as repo;
 
 const kSrvJsonConfigData = {
   'config': {
@@ -197,8 +198,8 @@ const kSrvGetConfigElement = srv.Config(
 
 final kSrvPatchConfig = srv.Config.fromJson(kSrvJsonConfigData);
 
-const kRepoFetchDnsQueryLogging = repo.Config(
-  dns: repo.Dns(queryLogging: true),
+final kRepoFetchDnsQueryLogging = repo.Config(
+  dns: repo.DnsConfig(queryLogging: true),
 );
 
-const kRepoSetDnsQueryLogging = repo.Config(dns: repo.Dns(queryLogging: false));
+final kRepoSetDnsQueryLogging = repo.Config(dns: repo.DnsConfig(queryLogging: false));

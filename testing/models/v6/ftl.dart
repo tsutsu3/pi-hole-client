@@ -471,11 +471,6 @@ const kRepoFetchInfoMetrics = repo.InfoDnsMetrics(
     optimized: 1,
     auth: 0,
     sum: 131,
-    forwardedPercentage: 46 / 131 * 100,
-    unansweredPercentage: 0 / 131 * 100,
-    localPercentage: 84 / 131 * 100,
-    optimizedPercentage: 1 / 131 * 100,
-    authPercentage: 0 / 131 * 100,
   ),
 );
 

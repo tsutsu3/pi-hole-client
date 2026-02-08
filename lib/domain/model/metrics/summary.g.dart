@@ -19,7 +19,7 @@ _Summary _$SummaryFromJson(Map<String, dynamic> json) => _Summary(
   dnsQueriesAllTypes: (json['dnsQueriesAllTypes'] as num).toInt(),
   replyUnknown: (json['replyUnknown'] as num).toInt(),
   replyNodata: (json['replyNodata'] as num).toInt(),
-  replyNxdomain: (json['replyNxdomain'] as num).toInt(),
+  replyNxDomain: (json['replyNxDomain'] as num).toInt(),
   replyCname: (json['replyCname'] as num).toInt(),
   replyIp: (json['replyIp'] as num).toInt(),
   replyDomain: (json['replyDomain'] as num).toInt(),
@@ -50,7 +50,7 @@ Map<String, dynamic> _$SummaryToJson(_Summary instance) => <String, dynamic>{
   'dnsQueriesAllTypes': instance.dnsQueriesAllTypes,
   'replyUnknown': instance.replyUnknown,
   'replyNodata': instance.replyNodata,
-  'replyNxdomain': instance.replyNxdomain,
+  'replyNxDomain': instance.replyNxDomain,
   'replyCname': instance.replyCname,
   'replyIp': instance.replyIp,
   'replyDomain': instance.replyDomain,
@@ -70,12 +70,14 @@ _QueryTypeStat _$QueryTypeStatFromJson(Map<String, dynamic> json) =>
     _QueryTypeStat(
       type: $enumDecode(_$DnsRecordTypeEnumMap, json['type']),
       percentage: (json['percentage'] as num).toDouble(),
+      count: (json['count'] as num?)?.toInt(),
     );
 
 Map<String, dynamic> _$QueryTypeStatToJson(_QueryTypeStat instance) =>
     <String, dynamic>{
       'type': _$DnsRecordTypeEnumMap[instance.type]!,
       'percentage': instance.percentage,
+      'count': instance.count,
     };
 
 const _$DnsRecordTypeEnumMap = {

@@ -15,7 +15,8 @@ T _$identity<T>(T value) => value;
 /// @nodoc
 mixin _$DestinationStat {
 
- String get destination; double get percentage;
+ String get destination; double get percentage;// v6-only field
+ int? get count;
 /// Create a copy of DestinationStat
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -28,16 +29,16 @@ $DestinationStatCopyWith<DestinationStat> get copyWith => _$DestinationStatCopyW
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is DestinationStat&&(identical(other.destination, destination) || other.destination == destination)&&(identical(other.percentage, percentage) || other.percentage == percentage));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is DestinationStat&&(identical(other.destination, destination) || other.destination == destination)&&(identical(other.percentage, percentage) || other.percentage == percentage)&&(identical(other.count, count) || other.count == count));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,destination,percentage);
+int get hashCode => Object.hash(runtimeType,destination,percentage,count);
 
 @override
 String toString() {
-  return 'DestinationStat(destination: $destination, percentage: $percentage)';
+  return 'DestinationStat(destination: $destination, percentage: $percentage, count: $count)';
 }
 
 
@@ -48,7 +49,7 @@ abstract mixin class $DestinationStatCopyWith<$Res>  {
   factory $DestinationStatCopyWith(DestinationStat value, $Res Function(DestinationStat) _then) = _$DestinationStatCopyWithImpl;
 @useResult
 $Res call({
- String destination, double percentage
+ String destination, double percentage, int? count
 });
 
 
@@ -65,11 +66,12 @@ class _$DestinationStatCopyWithImpl<$Res>
 
 /// Create a copy of DestinationStat
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? destination = null,Object? percentage = null,}) {
+@pragma('vm:prefer-inline') @override $Res call({Object? destination = null,Object? percentage = null,Object? count = freezed,}) {
   return _then(_self.copyWith(
 destination: null == destination ? _self.destination : destination // ignore: cast_nullable_to_non_nullable
 as String,percentage: null == percentage ? _self.percentage : percentage // ignore: cast_nullable_to_non_nullable
-as double,
+as double,count: freezed == count ? _self.count : count // ignore: cast_nullable_to_non_nullable
+as int?,
   ));
 }
 
@@ -151,10 +153,10 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( String destination,  double percentage)?  $default,{required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( String destination,  double percentage,  int? count)?  $default,{required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _DestinationStat() when $default != null:
-return $default(_that.destination,_that.percentage);case _:
+return $default(_that.destination,_that.percentage,_that.count);case _:
   return orElse();
 
 }
@@ -172,10 +174,10 @@ return $default(_that.destination,_that.percentage);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( String destination,  double percentage)  $default,) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( String destination,  double percentage,  int? count)  $default,) {final _that = this;
 switch (_that) {
 case _DestinationStat():
-return $default(_that.destination,_that.percentage);}
+return $default(_that.destination,_that.percentage,_that.count);}
 }
 /// A variant of `when` that fallback to returning `null`
 ///
@@ -189,10 +191,10 @@ return $default(_that.destination,_that.percentage);}
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( String destination,  double percentage)?  $default,) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( String destination,  double percentage,  int? count)?  $default,) {final _that = this;
 switch (_that) {
 case _DestinationStat() when $default != null:
-return $default(_that.destination,_that.percentage);case _:
+return $default(_that.destination,_that.percentage,_that.count);case _:
   return null;
 
 }
@@ -204,11 +206,13 @@ return $default(_that.destination,_that.percentage);case _:
 @JsonSerializable()
 
 class _DestinationStat implements DestinationStat {
-  const _DestinationStat({required this.destination, required this.percentage});
+  const _DestinationStat({required this.destination, required this.percentage, this.count});
   factory _DestinationStat.fromJson(Map<String, dynamic> json) => _$DestinationStatFromJson(json);
 
 @override final  String destination;
 @override final  double percentage;
+// v6-only field
+@override final  int? count;
 
 /// Create a copy of DestinationStat
 /// with the given fields replaced by the non-null parameter values.
@@ -223,16 +227,16 @@ Map<String, dynamic> toJson() {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _DestinationStat&&(identical(other.destination, destination) || other.destination == destination)&&(identical(other.percentage, percentage) || other.percentage == percentage));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _DestinationStat&&(identical(other.destination, destination) || other.destination == destination)&&(identical(other.percentage, percentage) || other.percentage == percentage)&&(identical(other.count, count) || other.count == count));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,destination,percentage);
+int get hashCode => Object.hash(runtimeType,destination,percentage,count);
 
 @override
 String toString() {
-  return 'DestinationStat(destination: $destination, percentage: $percentage)';
+  return 'DestinationStat(destination: $destination, percentage: $percentage, count: $count)';
 }
 
 
@@ -243,7 +247,7 @@ abstract mixin class _$DestinationStatCopyWith<$Res> implements $DestinationStat
   factory _$DestinationStatCopyWith(_DestinationStat value, $Res Function(_DestinationStat) _then) = __$DestinationStatCopyWithImpl;
 @override @useResult
 $Res call({
- String destination, double percentage
+ String destination, double percentage, int? count
 });
 
 
@@ -260,11 +264,12 @@ class __$DestinationStatCopyWithImpl<$Res>
 
 /// Create a copy of DestinationStat
 /// with the given fields replaced by the non-null parameter values.
-@override @pragma('vm:prefer-inline') $Res call({Object? destination = null,Object? percentage = null,}) {
+@override @pragma('vm:prefer-inline') $Res call({Object? destination = null,Object? percentage = null,Object? count = freezed,}) {
   return _then(_DestinationStat(
 destination: null == destination ? _self.destination : destination // ignore: cast_nullable_to_non_nullable
 as String,percentage: null == percentage ? _self.percentage : percentage // ignore: cast_nullable_to_non_nullable
-as double,
+as double,count: freezed == count ? _self.count : count // ignore: cast_nullable_to_non_nullable
+as int?,
   ));
 }
 

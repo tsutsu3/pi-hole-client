@@ -78,7 +78,7 @@ extension StatsSummaryMapper on ss.StatsSummary {
       dnsQueriesAllTypes: queries.total,
       replyUnknown: queries.replies.unknown,
       replyNodata: queries.replies.nodata,
-      replyNxdomain: queries.replies.nxdomain,
+      replyNxDomain: queries.replies.nxdomain,
       replyCname: queries.replies.cname,
       replyIp: queries.replies.ip,
       replyDomain: queries.replies.domain,
