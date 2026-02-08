@@ -4,6 +4,7 @@ import 'package:pi_hole_client/data/repositories/api/v6/base_v6_sid_repository.d
 import 'package:pi_hole_client/data/repositories/utils/call_with_retry.dart';
 import 'package:pi_hole_client/data/services/api/pihole_v6_api_client.dart';
 import 'package:pi_hole_client/domain/model/config/config.dart';
+import 'package:pi_hole_client/domain/model/config/dns_config.dart';
 import 'package:result_dart/result_dart.dart';
 
 class ConfigRepositoryV6 extends BaseV6SidRepository
@@ -23,7 +24,7 @@ class ConfigRepositoryV6 extends BaseV6SidRepository
 
   @override
   Future<Result<Config>> setDnsQueryLogging(bool status) async {
-    final config = Config(dns: Dns(queryLogging: status));
+    final config = Config(dns: DnsConfig(queryLogging: status));
     return _updateConfig(config);
   }
 

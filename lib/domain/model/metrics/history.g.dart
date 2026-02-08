@@ -24,10 +24,16 @@ _HistoryEntry _$HistoryEntryFromJson(Map<String, dynamic> json) =>
     _HistoryEntry(
       timestamp: DateTime.parse(json['timestamp'] as String),
       count: (json['count'] as num).toInt(),
+      blocked: (json['blocked'] as num?)?.toInt(),
+      cached: (json['cached'] as num?)?.toInt(),
+      forwarded: (json['forwarded'] as num?)?.toInt(),
     );
 
 Map<String, dynamic> _$HistoryEntryToJson(_HistoryEntry instance) =>
     <String, dynamic>{
       'timestamp': instance.timestamp.toIso8601String(),
       'count': instance.count,
+      'blocked': instance.blocked,
+      'cached': instance.cached,
+      'forwarded': instance.forwarded,
     };

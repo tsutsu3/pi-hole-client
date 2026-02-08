@@ -19,6 +19,10 @@ sealed class HistoryEntry with _$HistoryEntry {
   const factory HistoryEntry({
     required DateTime timestamp,
     required int count,
+    // v6-only fields
+    int? blocked,
+    int? cached,
+    int? forwarded,
   }) = _HistoryEntry;
 
   factory HistoryEntry.fromJson(Map<String, dynamic> json) =>

@@ -236,16 +236,7 @@ extension DnsRepliesMapper on s.DnsReplies {
       optimized: optimized,
       auth: auth,
       sum: sum,
-      forwardedPercentage: pct(forwarded, sum),
-      unansweredPercentage: pct(unanswered, sum),
-      localPercentage: pct(local, sum),
-      optimizedPercentage: pct(optimized, sum),
-      authPercentage: pct(auth, sum),
     );
-  }
-
-  double pct(int value, int sum) {
-    return (sum > 0) ? value.toDouble() / sum.toDouble() * 100.0 : 0.0;
   }
 }
 

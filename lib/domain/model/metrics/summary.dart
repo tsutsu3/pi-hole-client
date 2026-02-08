@@ -20,7 +20,7 @@ sealed class Summary with _$Summary {
     required int dnsQueriesAllTypes,
     required int replyUnknown,
     required int replyNodata,
-    required int replyNxdomain,
+    required int replyNxDomain,
     required int replyCname,
     required int replyIp,
     required int replyDomain,
@@ -40,12 +40,13 @@ sealed class Summary with _$Summary {
       _$SummaryFromJson(json);
 }
 
-// ToDO: add int count
 @freezed
 sealed class QueryTypeStat with _$QueryTypeStat {
   const factory QueryTypeStat({
     required DnsRecordType type,
     required double percentage,
+    // v6-only field
+    int? count,
   }) = _QueryTypeStat;
 
   factory QueryTypeStat.fromJson(Map<String, dynamic> json) =>

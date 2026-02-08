@@ -13,6 +13,286 @@ part of 'top_domains.dart';
 T _$identity<T>(T value) => value;
 
 /// @nodoc
+mixin _$TopDomains {
+
+ List<QueryStat> get topQueries; List<QueryStat> get topAds;// v6-only fields
+ int? get totalQueries; int? get blockedQueries;
+/// Create a copy of TopDomains
+/// with the given fields replaced by the non-null parameter values.
+@JsonKey(includeFromJson: false, includeToJson: false)
+@pragma('vm:prefer-inline')
+$TopDomainsCopyWith<TopDomains> get copyWith => _$TopDomainsCopyWithImpl<TopDomains>(this as TopDomains, _$identity);
+
+  /// Serializes this TopDomains to a JSON map.
+  Map<String, dynamic> toJson();
+
+
+@override
+bool operator ==(Object other) {
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is TopDomains&&const DeepCollectionEquality().equals(other.topQueries, topQueries)&&const DeepCollectionEquality().equals(other.topAds, topAds)&&(identical(other.totalQueries, totalQueries) || other.totalQueries == totalQueries)&&(identical(other.blockedQueries, blockedQueries) || other.blockedQueries == blockedQueries));
+}
+
+@JsonKey(includeFromJson: false, includeToJson: false)
+@override
+int get hashCode => Object.hash(runtimeType,const DeepCollectionEquality().hash(topQueries),const DeepCollectionEquality().hash(topAds),totalQueries,blockedQueries);
+
+@override
+String toString() {
+  return 'TopDomains(topQueries: $topQueries, topAds: $topAds, totalQueries: $totalQueries, blockedQueries: $blockedQueries)';
+}
+
+
+}
+
+/// @nodoc
+abstract mixin class $TopDomainsCopyWith<$Res>  {
+  factory $TopDomainsCopyWith(TopDomains value, $Res Function(TopDomains) _then) = _$TopDomainsCopyWithImpl;
+@useResult
+$Res call({
+ List<QueryStat> topQueries, List<QueryStat> topAds, int? totalQueries, int? blockedQueries
+});
+
+
+
+
+}
+/// @nodoc
+class _$TopDomainsCopyWithImpl<$Res>
+    implements $TopDomainsCopyWith<$Res> {
+  _$TopDomainsCopyWithImpl(this._self, this._then);
+
+  final TopDomains _self;
+  final $Res Function(TopDomains) _then;
+
+/// Create a copy of TopDomains
+/// with the given fields replaced by the non-null parameter values.
+@pragma('vm:prefer-inline') @override $Res call({Object? topQueries = null,Object? topAds = null,Object? totalQueries = freezed,Object? blockedQueries = freezed,}) {
+  return _then(_self.copyWith(
+topQueries: null == topQueries ? _self.topQueries : topQueries // ignore: cast_nullable_to_non_nullable
+as List<QueryStat>,topAds: null == topAds ? _self.topAds : topAds // ignore: cast_nullable_to_non_nullable
+as List<QueryStat>,totalQueries: freezed == totalQueries ? _self.totalQueries : totalQueries // ignore: cast_nullable_to_non_nullable
+as int?,blockedQueries: freezed == blockedQueries ? _self.blockedQueries : blockedQueries // ignore: cast_nullable_to_non_nullable
+as int?,
+  ));
+}
+
+}
+
+
+/// Adds pattern-matching-related methods to [TopDomains].
+extension TopDomainsPatterns on TopDomains {
+/// A variant of `map` that fallback to returning `orElse`.
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case final Subclass value:
+///     return ...;
+///   case _:
+///     return orElse();
+/// }
+/// ```
+
+@optionalTypeArgs TResult maybeMap<TResult extends Object?>(TResult Function( _TopDomains value)?  $default,{required TResult orElse(),}){
+final _that = this;
+switch (_that) {
+case _TopDomains() when $default != null:
+return $default(_that);case _:
+  return orElse();
+
+}
+}
+/// A `switch`-like method, using callbacks.
+///
+/// Callbacks receives the raw object, upcasted.
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case final Subclass value:
+///     return ...;
+///   case final Subclass2 value:
+///     return ...;
+/// }
+/// ```
+
+@optionalTypeArgs TResult map<TResult extends Object?>(TResult Function( _TopDomains value)  $default,){
+final _that = this;
+switch (_that) {
+case _TopDomains():
+return $default(_that);}
+}
+/// A variant of `map` that fallback to returning `null`.
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case final Subclass value:
+///     return ...;
+///   case _:
+///     return null;
+/// }
+/// ```
+
+@optionalTypeArgs TResult? mapOrNull<TResult extends Object?>(TResult? Function( _TopDomains value)?  $default,){
+final _that = this;
+switch (_that) {
+case _TopDomains() when $default != null:
+return $default(_that);case _:
+  return null;
+
+}
+}
+/// A variant of `when` that fallback to an `orElse` callback.
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case Subclass(:final field):
+///     return ...;
+///   case _:
+///     return orElse();
+/// }
+/// ```
+
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( List<QueryStat> topQueries,  List<QueryStat> topAds,  int? totalQueries,  int? blockedQueries)?  $default,{required TResult orElse(),}) {final _that = this;
+switch (_that) {
+case _TopDomains() when $default != null:
+return $default(_that.topQueries,_that.topAds,_that.totalQueries,_that.blockedQueries);case _:
+  return orElse();
+
+}
+}
+/// A `switch`-like method, using callbacks.
+///
+/// As opposed to `map`, this offers destructuring.
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case Subclass(:final field):
+///     return ...;
+///   case Subclass2(:final field2):
+///     return ...;
+/// }
+/// ```
+
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( List<QueryStat> topQueries,  List<QueryStat> topAds,  int? totalQueries,  int? blockedQueries)  $default,) {final _that = this;
+switch (_that) {
+case _TopDomains():
+return $default(_that.topQueries,_that.topAds,_that.totalQueries,_that.blockedQueries);}
+}
+/// A variant of `when` that fallback to returning `null`
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case Subclass(:final field):
+///     return ...;
+///   case _:
+///     return null;
+/// }
+/// ```
+
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( List<QueryStat> topQueries,  List<QueryStat> topAds,  int? totalQueries,  int? blockedQueries)?  $default,) {final _that = this;
+switch (_that) {
+case _TopDomains() when $default != null:
+return $default(_that.topQueries,_that.topAds,_that.totalQueries,_that.blockedQueries);case _:
+  return null;
+
+}
+}
+
+}
+
+/// @nodoc
+
+@JsonSerializable(explicitToJson: true)
+class _TopDomains implements TopDomains {
+  const _TopDomains({required final  List<QueryStat> topQueries, required final  List<QueryStat> topAds, this.totalQueries, this.blockedQueries}): _topQueries = topQueries,_topAds = topAds;
+  factory _TopDomains.fromJson(Map<String, dynamic> json) => _$TopDomainsFromJson(json);
+
+ final  List<QueryStat> _topQueries;
+@override List<QueryStat> get topQueries {
+  if (_topQueries is EqualUnmodifiableListView) return _topQueries;
+  // ignore: implicit_dynamic_type
+  return EqualUnmodifiableListView(_topQueries);
+}
+
+ final  List<QueryStat> _topAds;
+@override List<QueryStat> get topAds {
+  if (_topAds is EqualUnmodifiableListView) return _topAds;
+  // ignore: implicit_dynamic_type
+  return EqualUnmodifiableListView(_topAds);
+}
+
+// v6-only fields
+@override final  int? totalQueries;
+@override final  int? blockedQueries;
+
+/// Create a copy of TopDomains
+/// with the given fields replaced by the non-null parameter values.
+@override @JsonKey(includeFromJson: false, includeToJson: false)
+@pragma('vm:prefer-inline')
+_$TopDomainsCopyWith<_TopDomains> get copyWith => __$TopDomainsCopyWithImpl<_TopDomains>(this, _$identity);
+
+@override
+Map<String, dynamic> toJson() {
+  return _$TopDomainsToJson(this, );
+}
+
+@override
+bool operator ==(Object other) {
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _TopDomains&&const DeepCollectionEquality().equals(other._topQueries, _topQueries)&&const DeepCollectionEquality().equals(other._topAds, _topAds)&&(identical(other.totalQueries, totalQueries) || other.totalQueries == totalQueries)&&(identical(other.blockedQueries, blockedQueries) || other.blockedQueries == blockedQueries));
+}
+
+@JsonKey(includeFromJson: false, includeToJson: false)
+@override
+int get hashCode => Object.hash(runtimeType,const DeepCollectionEquality().hash(_topQueries),const DeepCollectionEquality().hash(_topAds),totalQueries,blockedQueries);
+
+@override
+String toString() {
+  return 'TopDomains(topQueries: $topQueries, topAds: $topAds, totalQueries: $totalQueries, blockedQueries: $blockedQueries)';
+}
+
+
+}
+
+/// @nodoc
+abstract mixin class _$TopDomainsCopyWith<$Res> implements $TopDomainsCopyWith<$Res> {
+  factory _$TopDomainsCopyWith(_TopDomains value, $Res Function(_TopDomains) _then) = __$TopDomainsCopyWithImpl;
+@override @useResult
+$Res call({
+ List<QueryStat> topQueries, List<QueryStat> topAds, int? totalQueries, int? blockedQueries
+});
+
+
+
+
+}
+/// @nodoc
+class __$TopDomainsCopyWithImpl<$Res>
+    implements _$TopDomainsCopyWith<$Res> {
+  __$TopDomainsCopyWithImpl(this._self, this._then);
+
+  final _TopDomains _self;
+  final $Res Function(_TopDomains) _then;
+
+/// Create a copy of TopDomains
+/// with the given fields replaced by the non-null parameter values.
+@override @pragma('vm:prefer-inline') $Res call({Object? topQueries = null,Object? topAds = null,Object? totalQueries = freezed,Object? blockedQueries = freezed,}) {
+  return _then(_TopDomains(
+topQueries: null == topQueries ? _self._topQueries : topQueries // ignore: cast_nullable_to_non_nullable
+as List<QueryStat>,topAds: null == topAds ? _self._topAds : topAds // ignore: cast_nullable_to_non_nullable
+as List<QueryStat>,totalQueries: freezed == totalQueries ? _self.totalQueries : totalQueries // ignore: cast_nullable_to_non_nullable
+as int?,blockedQueries: freezed == blockedQueries ? _self.blockedQueries : blockedQueries // ignore: cast_nullable_to_non_nullable
+as int?,
+  ));
+}
+
+
+}
+
+
+/// @nodoc
 mixin _$QueryStat {
 
  String get domain; int get count;

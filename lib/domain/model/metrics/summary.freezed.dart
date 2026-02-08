@@ -15,7 +15,7 @@ T _$identity<T>(T value) => value;
 /// @nodoc
 mixin _$Summary {
 
- int get domainsBeingBlocked; int get dnsQueriesToday; int get adsBlockedToday; double get adsPercentageToday; int get uniqueDomains; int get queriesForwarded; int get queriesCached; int get clientsEverSeen; int get uniqueClients; int get dnsQueriesAllTypes; int get replyUnknown; int get replyNodata; int get replyNxdomain; int get replyCname; int get replyIp; int get replyDomain; int get replyRrname; int get replyServfail; int get replyRefused; int get replyNotimp; int get replyOther; int get replyDnssec; int get replyNone; int get replyBlob; int get dnsQueriesAllReplies; List<QueryTypeStat> get queryTypes;
+ int get domainsBeingBlocked; int get dnsQueriesToday; int get adsBlockedToday; double get adsPercentageToday; int get uniqueDomains; int get queriesForwarded; int get queriesCached; int get clientsEverSeen; int get uniqueClients; int get dnsQueriesAllTypes; int get replyUnknown; int get replyNodata; int get replyNxDomain; int get replyCname; int get replyIp; int get replyDomain; int get replyRrname; int get replyServfail; int get replyRefused; int get replyNotimp; int get replyOther; int get replyDnssec; int get replyNone; int get replyBlob; int get dnsQueriesAllReplies; List<QueryTypeStat> get queryTypes;
 /// Create a copy of Summary
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -28,16 +28,16 @@ $SummaryCopyWith<Summary> get copyWith => _$SummaryCopyWithImpl<Summary>(this as
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is Summary&&(identical(other.domainsBeingBlocked, domainsBeingBlocked) || other.domainsBeingBlocked == domainsBeingBlocked)&&(identical(other.dnsQueriesToday, dnsQueriesToday) || other.dnsQueriesToday == dnsQueriesToday)&&(identical(other.adsBlockedToday, adsBlockedToday) || other.adsBlockedToday == adsBlockedToday)&&(identical(other.adsPercentageToday, adsPercentageToday) || other.adsPercentageToday == adsPercentageToday)&&(identical(other.uniqueDomains, uniqueDomains) || other.uniqueDomains == uniqueDomains)&&(identical(other.queriesForwarded, queriesForwarded) || other.queriesForwarded == queriesForwarded)&&(identical(other.queriesCached, queriesCached) || other.queriesCached == queriesCached)&&(identical(other.clientsEverSeen, clientsEverSeen) || other.clientsEverSeen == clientsEverSeen)&&(identical(other.uniqueClients, uniqueClients) || other.uniqueClients == uniqueClients)&&(identical(other.dnsQueriesAllTypes, dnsQueriesAllTypes) || other.dnsQueriesAllTypes == dnsQueriesAllTypes)&&(identical(other.replyUnknown, replyUnknown) || other.replyUnknown == replyUnknown)&&(identical(other.replyNodata, replyNodata) || other.replyNodata == replyNodata)&&(identical(other.replyNxdomain, replyNxdomain) || other.replyNxdomain == replyNxdomain)&&(identical(other.replyCname, replyCname) || other.replyCname == replyCname)&&(identical(other.replyIp, replyIp) || other.replyIp == replyIp)&&(identical(other.replyDomain, replyDomain) || other.replyDomain == replyDomain)&&(identical(other.replyRrname, replyRrname) || other.replyRrname == replyRrname)&&(identical(other.replyServfail, replyServfail) || other.replyServfail == replyServfail)&&(identical(other.replyRefused, replyRefused) || other.replyRefused == replyRefused)&&(identical(other.replyNotimp, replyNotimp) || other.replyNotimp == replyNotimp)&&(identical(other.replyOther, replyOther) || other.replyOther == replyOther)&&(identical(other.replyDnssec, replyDnssec) || other.replyDnssec == replyDnssec)&&(identical(other.replyNone, replyNone) || other.replyNone == replyNone)&&(identical(other.replyBlob, replyBlob) || other.replyBlob == replyBlob)&&(identical(other.dnsQueriesAllReplies, dnsQueriesAllReplies) || other.dnsQueriesAllReplies == dnsQueriesAllReplies)&&const DeepCollectionEquality().equals(other.queryTypes, queryTypes));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is Summary&&(identical(other.domainsBeingBlocked, domainsBeingBlocked) || other.domainsBeingBlocked == domainsBeingBlocked)&&(identical(other.dnsQueriesToday, dnsQueriesToday) || other.dnsQueriesToday == dnsQueriesToday)&&(identical(other.adsBlockedToday, adsBlockedToday) || other.adsBlockedToday == adsBlockedToday)&&(identical(other.adsPercentageToday, adsPercentageToday) || other.adsPercentageToday == adsPercentageToday)&&(identical(other.uniqueDomains, uniqueDomains) || other.uniqueDomains == uniqueDomains)&&(identical(other.queriesForwarded, queriesForwarded) || other.queriesForwarded == queriesForwarded)&&(identical(other.queriesCached, queriesCached) || other.queriesCached == queriesCached)&&(identical(other.clientsEverSeen, clientsEverSeen) || other.clientsEverSeen == clientsEverSeen)&&(identical(other.uniqueClients, uniqueClients) || other.uniqueClients == uniqueClients)&&(identical(other.dnsQueriesAllTypes, dnsQueriesAllTypes) || other.dnsQueriesAllTypes == dnsQueriesAllTypes)&&(identical(other.replyUnknown, replyUnknown) || other.replyUnknown == replyUnknown)&&(identical(other.replyNodata, replyNodata) || other.replyNodata == replyNodata)&&(identical(other.replyNxDomain, replyNxDomain) || other.replyNxDomain == replyNxDomain)&&(identical(other.replyCname, replyCname) || other.replyCname == replyCname)&&(identical(other.replyIp, replyIp) || other.replyIp == replyIp)&&(identical(other.replyDomain, replyDomain) || other.replyDomain == replyDomain)&&(identical(other.replyRrname, replyRrname) || other.replyRrname == replyRrname)&&(identical(other.replyServfail, replyServfail) || other.replyServfail == replyServfail)&&(identical(other.replyRefused, replyRefused) || other.replyRefused == replyRefused)&&(identical(other.replyNotimp, replyNotimp) || other.replyNotimp == replyNotimp)&&(identical(other.replyOther, replyOther) || other.replyOther == replyOther)&&(identical(other.replyDnssec, replyDnssec) || other.replyDnssec == replyDnssec)&&(identical(other.replyNone, replyNone) || other.replyNone == replyNone)&&(identical(other.replyBlob, replyBlob) || other.replyBlob == replyBlob)&&(identical(other.dnsQueriesAllReplies, dnsQueriesAllReplies) || other.dnsQueriesAllReplies == dnsQueriesAllReplies)&&const DeepCollectionEquality().equals(other.queryTypes, queryTypes));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hashAll([runtimeType,domainsBeingBlocked,dnsQueriesToday,adsBlockedToday,adsPercentageToday,uniqueDomains,queriesForwarded,queriesCached,clientsEverSeen,uniqueClients,dnsQueriesAllTypes,replyUnknown,replyNodata,replyNxdomain,replyCname,replyIp,replyDomain,replyRrname,replyServfail,replyRefused,replyNotimp,replyOther,replyDnssec,replyNone,replyBlob,dnsQueriesAllReplies,const DeepCollectionEquality().hash(queryTypes)]);
+int get hashCode => Object.hashAll([runtimeType,domainsBeingBlocked,dnsQueriesToday,adsBlockedToday,adsPercentageToday,uniqueDomains,queriesForwarded,queriesCached,clientsEverSeen,uniqueClients,dnsQueriesAllTypes,replyUnknown,replyNodata,replyNxDomain,replyCname,replyIp,replyDomain,replyRrname,replyServfail,replyRefused,replyNotimp,replyOther,replyDnssec,replyNone,replyBlob,dnsQueriesAllReplies,const DeepCollectionEquality().hash(queryTypes)]);
 
 @override
 String toString() {
-  return 'Summary(domainsBeingBlocked: $domainsBeingBlocked, dnsQueriesToday: $dnsQueriesToday, adsBlockedToday: $adsBlockedToday, adsPercentageToday: $adsPercentageToday, uniqueDomains: $uniqueDomains, queriesForwarded: $queriesForwarded, queriesCached: $queriesCached, clientsEverSeen: $clientsEverSeen, uniqueClients: $uniqueClients, dnsQueriesAllTypes: $dnsQueriesAllTypes, replyUnknown: $replyUnknown, replyNodata: $replyNodata, replyNxdomain: $replyNxdomain, replyCname: $replyCname, replyIp: $replyIp, replyDomain: $replyDomain, replyRrname: $replyRrname, replyServfail: $replyServfail, replyRefused: $replyRefused, replyNotimp: $replyNotimp, replyOther: $replyOther, replyDnssec: $replyDnssec, replyNone: $replyNone, replyBlob: $replyBlob, dnsQueriesAllReplies: $dnsQueriesAllReplies, queryTypes: $queryTypes)';
+  return 'Summary(domainsBeingBlocked: $domainsBeingBlocked, dnsQueriesToday: $dnsQueriesToday, adsBlockedToday: $adsBlockedToday, adsPercentageToday: $adsPercentageToday, uniqueDomains: $uniqueDomains, queriesForwarded: $queriesForwarded, queriesCached: $queriesCached, clientsEverSeen: $clientsEverSeen, uniqueClients: $uniqueClients, dnsQueriesAllTypes: $dnsQueriesAllTypes, replyUnknown: $replyUnknown, replyNodata: $replyNodata, replyNxDomain: $replyNxDomain, replyCname: $replyCname, replyIp: $replyIp, replyDomain: $replyDomain, replyRrname: $replyRrname, replyServfail: $replyServfail, replyRefused: $replyRefused, replyNotimp: $replyNotimp, replyOther: $replyOther, replyDnssec: $replyDnssec, replyNone: $replyNone, replyBlob: $replyBlob, dnsQueriesAllReplies: $dnsQueriesAllReplies, queryTypes: $queryTypes)';
 }
 
 
@@ -48,7 +48,7 @@ abstract mixin class $SummaryCopyWith<$Res>  {
   factory $SummaryCopyWith(Summary value, $Res Function(Summary) _then) = _$SummaryCopyWithImpl;
 @useResult
 $Res call({
- int domainsBeingBlocked, int dnsQueriesToday, int adsBlockedToday, double adsPercentageToday, int uniqueDomains, int queriesForwarded, int queriesCached, int clientsEverSeen, int uniqueClients, int dnsQueriesAllTypes, int replyUnknown, int replyNodata, int replyNxdomain, int replyCname, int replyIp, int replyDomain, int replyRrname, int replyServfail, int replyRefused, int replyNotimp, int replyOther, int replyDnssec, int replyNone, int replyBlob, int dnsQueriesAllReplies, List<QueryTypeStat> queryTypes
+ int domainsBeingBlocked, int dnsQueriesToday, int adsBlockedToday, double adsPercentageToday, int uniqueDomains, int queriesForwarded, int queriesCached, int clientsEverSeen, int uniqueClients, int dnsQueriesAllTypes, int replyUnknown, int replyNodata, int replyNxDomain, int replyCname, int replyIp, int replyDomain, int replyRrname, int replyServfail, int replyRefused, int replyNotimp, int replyOther, int replyDnssec, int replyNone, int replyBlob, int dnsQueriesAllReplies, List<QueryTypeStat> queryTypes
 });
 
 
@@ -65,7 +65,7 @@ class _$SummaryCopyWithImpl<$Res>
 
 /// Create a copy of Summary
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? domainsBeingBlocked = null,Object? dnsQueriesToday = null,Object? adsBlockedToday = null,Object? adsPercentageToday = null,Object? uniqueDomains = null,Object? queriesForwarded = null,Object? queriesCached = null,Object? clientsEverSeen = null,Object? uniqueClients = null,Object? dnsQueriesAllTypes = null,Object? replyUnknown = null,Object? replyNodata = null,Object? replyNxdomain = null,Object? replyCname = null,Object? replyIp = null,Object? replyDomain = null,Object? replyRrname = null,Object? replyServfail = null,Object? replyRefused = null,Object? replyNotimp = null,Object? replyOther = null,Object? replyDnssec = null,Object? replyNone = null,Object? replyBlob = null,Object? dnsQueriesAllReplies = null,Object? queryTypes = null,}) {
+@pragma('vm:prefer-inline') @override $Res call({Object? domainsBeingBlocked = null,Object? dnsQueriesToday = null,Object? adsBlockedToday = null,Object? adsPercentageToday = null,Object? uniqueDomains = null,Object? queriesForwarded = null,Object? queriesCached = null,Object? clientsEverSeen = null,Object? uniqueClients = null,Object? dnsQueriesAllTypes = null,Object? replyUnknown = null,Object? replyNodata = null,Object? replyNxDomain = null,Object? replyCname = null,Object? replyIp = null,Object? replyDomain = null,Object? replyRrname = null,Object? replyServfail = null,Object? replyRefused = null,Object? replyNotimp = null,Object? replyOther = null,Object? replyDnssec = null,Object? replyNone = null,Object? replyBlob = null,Object? dnsQueriesAllReplies = null,Object? queryTypes = null,}) {
   return _then(_self.copyWith(
 domainsBeingBlocked: null == domainsBeingBlocked ? _self.domainsBeingBlocked : domainsBeingBlocked // ignore: cast_nullable_to_non_nullable
 as int,dnsQueriesToday: null == dnsQueriesToday ? _self.dnsQueriesToday : dnsQueriesToday // ignore: cast_nullable_to_non_nullable
@@ -79,7 +79,7 @@ as int,uniqueClients: null == uniqueClients ? _self.uniqueClients : uniqueClient
 as int,dnsQueriesAllTypes: null == dnsQueriesAllTypes ? _self.dnsQueriesAllTypes : dnsQueriesAllTypes // ignore: cast_nullable_to_non_nullable
 as int,replyUnknown: null == replyUnknown ? _self.replyUnknown : replyUnknown // ignore: cast_nullable_to_non_nullable
 as int,replyNodata: null == replyNodata ? _self.replyNodata : replyNodata // ignore: cast_nullable_to_non_nullable
-as int,replyNxdomain: null == replyNxdomain ? _self.replyNxdomain : replyNxdomain // ignore: cast_nullable_to_non_nullable
+as int,replyNxDomain: null == replyNxDomain ? _self.replyNxDomain : replyNxDomain // ignore: cast_nullable_to_non_nullable
 as int,replyCname: null == replyCname ? _self.replyCname : replyCname // ignore: cast_nullable_to_non_nullable
 as int,replyIp: null == replyIp ? _self.replyIp : replyIp // ignore: cast_nullable_to_non_nullable
 as int,replyDomain: null == replyDomain ? _self.replyDomain : replyDomain // ignore: cast_nullable_to_non_nullable
@@ -175,10 +175,10 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( int domainsBeingBlocked,  int dnsQueriesToday,  int adsBlockedToday,  double adsPercentageToday,  int uniqueDomains,  int queriesForwarded,  int queriesCached,  int clientsEverSeen,  int uniqueClients,  int dnsQueriesAllTypes,  int replyUnknown,  int replyNodata,  int replyNxdomain,  int replyCname,  int replyIp,  int replyDomain,  int replyRrname,  int replyServfail,  int replyRefused,  int replyNotimp,  int replyOther,  int replyDnssec,  int replyNone,  int replyBlob,  int dnsQueriesAllReplies,  List<QueryTypeStat> queryTypes)?  $default,{required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( int domainsBeingBlocked,  int dnsQueriesToday,  int adsBlockedToday,  double adsPercentageToday,  int uniqueDomains,  int queriesForwarded,  int queriesCached,  int clientsEverSeen,  int uniqueClients,  int dnsQueriesAllTypes,  int replyUnknown,  int replyNodata,  int replyNxDomain,  int replyCname,  int replyIp,  int replyDomain,  int replyRrname,  int replyServfail,  int replyRefused,  int replyNotimp,  int replyOther,  int replyDnssec,  int replyNone,  int replyBlob,  int dnsQueriesAllReplies,  List<QueryTypeStat> queryTypes)?  $default,{required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _Summary() when $default != null:
-return $default(_that.domainsBeingBlocked,_that.dnsQueriesToday,_that.adsBlockedToday,_that.adsPercentageToday,_that.uniqueDomains,_that.queriesForwarded,_that.queriesCached,_that.clientsEverSeen,_that.uniqueClients,_that.dnsQueriesAllTypes,_that.replyUnknown,_that.replyNodata,_that.replyNxdomain,_that.replyCname,_that.replyIp,_that.replyDomain,_that.replyRrname,_that.replyServfail,_that.replyRefused,_that.replyNotimp,_that.replyOther,_that.replyDnssec,_that.replyNone,_that.replyBlob,_that.dnsQueriesAllReplies,_that.queryTypes);case _:
+return $default(_that.domainsBeingBlocked,_that.dnsQueriesToday,_that.adsBlockedToday,_that.adsPercentageToday,_that.uniqueDomains,_that.queriesForwarded,_that.queriesCached,_that.clientsEverSeen,_that.uniqueClients,_that.dnsQueriesAllTypes,_that.replyUnknown,_that.replyNodata,_that.replyNxDomain,_that.replyCname,_that.replyIp,_that.replyDomain,_that.replyRrname,_that.replyServfail,_that.replyRefused,_that.replyNotimp,_that.replyOther,_that.replyDnssec,_that.replyNone,_that.replyBlob,_that.dnsQueriesAllReplies,_that.queryTypes);case _:
   return orElse();
 
 }
@@ -196,10 +196,10 @@ return $default(_that.domainsBeingBlocked,_that.dnsQueriesToday,_that.adsBlocked
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( int domainsBeingBlocked,  int dnsQueriesToday,  int adsBlockedToday,  double adsPercentageToday,  int uniqueDomains,  int queriesForwarded,  int queriesCached,  int clientsEverSeen,  int uniqueClients,  int dnsQueriesAllTypes,  int replyUnknown,  int replyNodata,  int replyNxdomain,  int replyCname,  int replyIp,  int replyDomain,  int replyRrname,  int replyServfail,  int replyRefused,  int replyNotimp,  int replyOther,  int replyDnssec,  int replyNone,  int replyBlob,  int dnsQueriesAllReplies,  List<QueryTypeStat> queryTypes)  $default,) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( int domainsBeingBlocked,  int dnsQueriesToday,  int adsBlockedToday,  double adsPercentageToday,  int uniqueDomains,  int queriesForwarded,  int queriesCached,  int clientsEverSeen,  int uniqueClients,  int dnsQueriesAllTypes,  int replyUnknown,  int replyNodata,  int replyNxDomain,  int replyCname,  int replyIp,  int replyDomain,  int replyRrname,  int replyServfail,  int replyRefused,  int replyNotimp,  int replyOther,  int replyDnssec,  int replyNone,  int replyBlob,  int dnsQueriesAllReplies,  List<QueryTypeStat> queryTypes)  $default,) {final _that = this;
 switch (_that) {
 case _Summary():
-return $default(_that.domainsBeingBlocked,_that.dnsQueriesToday,_that.adsBlockedToday,_that.adsPercentageToday,_that.uniqueDomains,_that.queriesForwarded,_that.queriesCached,_that.clientsEverSeen,_that.uniqueClients,_that.dnsQueriesAllTypes,_that.replyUnknown,_that.replyNodata,_that.replyNxdomain,_that.replyCname,_that.replyIp,_that.replyDomain,_that.replyRrname,_that.replyServfail,_that.replyRefused,_that.replyNotimp,_that.replyOther,_that.replyDnssec,_that.replyNone,_that.replyBlob,_that.dnsQueriesAllReplies,_that.queryTypes);}
+return $default(_that.domainsBeingBlocked,_that.dnsQueriesToday,_that.adsBlockedToday,_that.adsPercentageToday,_that.uniqueDomains,_that.queriesForwarded,_that.queriesCached,_that.clientsEverSeen,_that.uniqueClients,_that.dnsQueriesAllTypes,_that.replyUnknown,_that.replyNodata,_that.replyNxDomain,_that.replyCname,_that.replyIp,_that.replyDomain,_that.replyRrname,_that.replyServfail,_that.replyRefused,_that.replyNotimp,_that.replyOther,_that.replyDnssec,_that.replyNone,_that.replyBlob,_that.dnsQueriesAllReplies,_that.queryTypes);}
 }
 /// A variant of `when` that fallback to returning `null`
 ///
@@ -213,10 +213,10 @@ return $default(_that.domainsBeingBlocked,_that.dnsQueriesToday,_that.adsBlocked
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( int domainsBeingBlocked,  int dnsQueriesToday,  int adsBlockedToday,  double adsPercentageToday,  int uniqueDomains,  int queriesForwarded,  int queriesCached,  int clientsEverSeen,  int uniqueClients,  int dnsQueriesAllTypes,  int replyUnknown,  int replyNodata,  int replyNxdomain,  int replyCname,  int replyIp,  int replyDomain,  int replyRrname,  int replyServfail,  int replyRefused,  int replyNotimp,  int replyOther,  int replyDnssec,  int replyNone,  int replyBlob,  int dnsQueriesAllReplies,  List<QueryTypeStat> queryTypes)?  $default,) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( int domainsBeingBlocked,  int dnsQueriesToday,  int adsBlockedToday,  double adsPercentageToday,  int uniqueDomains,  int queriesForwarded,  int queriesCached,  int clientsEverSeen,  int uniqueClients,  int dnsQueriesAllTypes,  int replyUnknown,  int replyNodata,  int replyNxDomain,  int replyCname,  int replyIp,  int replyDomain,  int replyRrname,  int replyServfail,  int replyRefused,  int replyNotimp,  int replyOther,  int replyDnssec,  int replyNone,  int replyBlob,  int dnsQueriesAllReplies,  List<QueryTypeStat> queryTypes)?  $default,) {final _that = this;
 switch (_that) {
 case _Summary() when $default != null:
-return $default(_that.domainsBeingBlocked,_that.dnsQueriesToday,_that.adsBlockedToday,_that.adsPercentageToday,_that.uniqueDomains,_that.queriesForwarded,_that.queriesCached,_that.clientsEverSeen,_that.uniqueClients,_that.dnsQueriesAllTypes,_that.replyUnknown,_that.replyNodata,_that.replyNxdomain,_that.replyCname,_that.replyIp,_that.replyDomain,_that.replyRrname,_that.replyServfail,_that.replyRefused,_that.replyNotimp,_that.replyOther,_that.replyDnssec,_that.replyNone,_that.replyBlob,_that.dnsQueriesAllReplies,_that.queryTypes);case _:
+return $default(_that.domainsBeingBlocked,_that.dnsQueriesToday,_that.adsBlockedToday,_that.adsPercentageToday,_that.uniqueDomains,_that.queriesForwarded,_that.queriesCached,_that.clientsEverSeen,_that.uniqueClients,_that.dnsQueriesAllTypes,_that.replyUnknown,_that.replyNodata,_that.replyNxDomain,_that.replyCname,_that.replyIp,_that.replyDomain,_that.replyRrname,_that.replyServfail,_that.replyRefused,_that.replyNotimp,_that.replyOther,_that.replyDnssec,_that.replyNone,_that.replyBlob,_that.dnsQueriesAllReplies,_that.queryTypes);case _:
   return null;
 
 }
@@ -228,7 +228,7 @@ return $default(_that.domainsBeingBlocked,_that.dnsQueriesToday,_that.adsBlocked
 
 @JsonSerializable(explicitToJson: true)
 class _Summary implements Summary {
-   _Summary({required this.domainsBeingBlocked, required this.dnsQueriesToday, required this.adsBlockedToday, required this.adsPercentageToday, required this.uniqueDomains, required this.queriesForwarded, required this.queriesCached, required this.clientsEverSeen, required this.uniqueClients, required this.dnsQueriesAllTypes, required this.replyUnknown, required this.replyNodata, required this.replyNxdomain, required this.replyCname, required this.replyIp, required this.replyDomain, required this.replyRrname, required this.replyServfail, required this.replyRefused, required this.replyNotimp, required this.replyOther, required this.replyDnssec, required this.replyNone, required this.replyBlob, required this.dnsQueriesAllReplies, required final  List<QueryTypeStat> queryTypes}): _queryTypes = queryTypes;
+   _Summary({required this.domainsBeingBlocked, required this.dnsQueriesToday, required this.adsBlockedToday, required this.adsPercentageToday, required this.uniqueDomains, required this.queriesForwarded, required this.queriesCached, required this.clientsEverSeen, required this.uniqueClients, required this.dnsQueriesAllTypes, required this.replyUnknown, required this.replyNodata, required this.replyNxDomain, required this.replyCname, required this.replyIp, required this.replyDomain, required this.replyRrname, required this.replyServfail, required this.replyRefused, required this.replyNotimp, required this.replyOther, required this.replyDnssec, required this.replyNone, required this.replyBlob, required this.dnsQueriesAllReplies, required final  List<QueryTypeStat> queryTypes}): _queryTypes = queryTypes;
   factory _Summary.fromJson(Map<String, dynamic> json) => _$SummaryFromJson(json);
 
 @override final  int domainsBeingBlocked;
@@ -243,7 +243,7 @@ class _Summary implements Summary {
 @override final  int dnsQueriesAllTypes;
 @override final  int replyUnknown;
 @override final  int replyNodata;
-@override final  int replyNxdomain;
+@override final  int replyNxDomain;
 @override final  int replyCname;
 @override final  int replyIp;
 @override final  int replyDomain;
@@ -277,16 +277,16 @@ Map<String, dynamic> toJson() {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _Summary&&(identical(other.domainsBeingBlocked, domainsBeingBlocked) || other.domainsBeingBlocked == domainsBeingBlocked)&&(identical(other.dnsQueriesToday, dnsQueriesToday) || other.dnsQueriesToday == dnsQueriesToday)&&(identical(other.adsBlockedToday, adsBlockedToday) || other.adsBlockedToday == adsBlockedToday)&&(identical(other.adsPercentageToday, adsPercentageToday) || other.adsPercentageToday == adsPercentageToday)&&(identical(other.uniqueDomains, uniqueDomains) || other.uniqueDomains == uniqueDomains)&&(identical(other.queriesForwarded, queriesForwarded) || other.queriesForwarded == queriesForwarded)&&(identical(other.queriesCached, queriesCached) || other.queriesCached == queriesCached)&&(identical(other.clientsEverSeen, clientsEverSeen) || other.clientsEverSeen == clientsEverSeen)&&(identical(other.uniqueClients, uniqueClients) || other.uniqueClients == uniqueClients)&&(identical(other.dnsQueriesAllTypes, dnsQueriesAllTypes) || other.dnsQueriesAllTypes == dnsQueriesAllTypes)&&(identical(other.replyUnknown, replyUnknown) || other.replyUnknown == replyUnknown)&&(identical(other.replyNodata, replyNodata) || other.replyNodata == replyNodata)&&(identical(other.replyNxdomain, replyNxdomain) || other.replyNxdomain == replyNxdomain)&&(identical(other.replyCname, replyCname) || other.replyCname == replyCname)&&(identical(other.replyIp, replyIp) || other.replyIp == replyIp)&&(identical(other.replyDomain, replyDomain) || other.replyDomain == replyDomain)&&(identical(other.replyRrname, replyRrname) || other.replyRrname == replyRrname)&&(identical(other.replyServfail, replyServfail) || other.replyServfail == replyServfail)&&(identical(other.replyRefused, replyRefused) || other.replyRefused == replyRefused)&&(identical(other.replyNotimp, replyNotimp) || other.replyNotimp == replyNotimp)&&(identical(other.replyOther, replyOther) || other.replyOther == replyOther)&&(identical(other.replyDnssec, replyDnssec) || other.replyDnssec == replyDnssec)&&(identical(other.replyNone, replyNone) || other.replyNone == replyNone)&&(identical(other.replyBlob, replyBlob) || other.replyBlob == replyBlob)&&(identical(other.dnsQueriesAllReplies, dnsQueriesAllReplies) || other.dnsQueriesAllReplies == dnsQueriesAllReplies)&&const DeepCollectionEquality().equals(other._queryTypes, _queryTypes));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _Summary&&(identical(other.domainsBeingBlocked, domainsBeingBlocked) || other.domainsBeingBlocked == domainsBeingBlocked)&&(identical(other.dnsQueriesToday, dnsQueriesToday) || other.dnsQueriesToday == dnsQueriesToday)&&(identical(other.adsBlockedToday, adsBlockedToday) || other.adsBlockedToday == adsBlockedToday)&&(identical(other.adsPercentageToday, adsPercentageToday) || other.adsPercentageToday == adsPercentageToday)&&(identical(other.uniqueDomains, uniqueDomains) || other.uniqueDomains == uniqueDomains)&&(identical(other.queriesForwarded, queriesForwarded) || other.queriesForwarded == queriesForwarded)&&(identical(other.queriesCached, queriesCached) || other.queriesCached == queriesCached)&&(identical(other.clientsEverSeen, clientsEverSeen) || other.clientsEverSeen == clientsEverSeen)&&(identical(other.uniqueClients, uniqueClients) || other.uniqueClients == uniqueClients)&&(identical(other.dnsQueriesAllTypes, dnsQueriesAllTypes) || other.dnsQueriesAllTypes == dnsQueriesAllTypes)&&(identical(other.replyUnknown, replyUnknown) || other.replyUnknown == replyUnknown)&&(identical(other.replyNodata, replyNodata) || other.replyNodata == replyNodata)&&(identical(other.replyNxDomain, replyNxDomain) || other.replyNxDomain == replyNxDomain)&&(identical(other.replyCname, replyCname) || other.replyCname == replyCname)&&(identical(other.replyIp, replyIp) || other.replyIp == replyIp)&&(identical(other.replyDomain, replyDomain) || other.replyDomain == replyDomain)&&(identical(other.replyRrname, replyRrname) || other.replyRrname == replyRrname)&&(identical(other.replyServfail, replyServfail) || other.replyServfail == replyServfail)&&(identical(other.replyRefused, replyRefused) || other.replyRefused == replyRefused)&&(identical(other.replyNotimp, replyNotimp) || other.replyNotimp == replyNotimp)&&(identical(other.replyOther, replyOther) || other.replyOther == replyOther)&&(identical(other.replyDnssec, replyDnssec) || other.replyDnssec == replyDnssec)&&(identical(other.replyNone, replyNone) || other.replyNone == replyNone)&&(identical(other.replyBlob, replyBlob) || other.replyBlob == replyBlob)&&(identical(other.dnsQueriesAllReplies, dnsQueriesAllReplies) || other.dnsQueriesAllReplies == dnsQueriesAllReplies)&&const DeepCollectionEquality().equals(other._queryTypes, _queryTypes));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hashAll([runtimeType,domainsBeingBlocked,dnsQueriesToday,adsBlockedToday,adsPercentageToday,uniqueDomains,queriesForwarded,queriesCached,clientsEverSeen,uniqueClients,dnsQueriesAllTypes,replyUnknown,replyNodata,replyNxdomain,replyCname,replyIp,replyDomain,replyRrname,replyServfail,replyRefused,replyNotimp,replyOther,replyDnssec,replyNone,replyBlob,dnsQueriesAllReplies,const DeepCollectionEquality().hash(_queryTypes)]);
+int get hashCode => Object.hashAll([runtimeType,domainsBeingBlocked,dnsQueriesToday,adsBlockedToday,adsPercentageToday,uniqueDomains,queriesForwarded,queriesCached,clientsEverSeen,uniqueClients,dnsQueriesAllTypes,replyUnknown,replyNodata,replyNxDomain,replyCname,replyIp,replyDomain,replyRrname,replyServfail,replyRefused,replyNotimp,replyOther,replyDnssec,replyNone,replyBlob,dnsQueriesAllReplies,const DeepCollectionEquality().hash(_queryTypes)]);
 
 @override
 String toString() {
-  return 'Summary(domainsBeingBlocked: $domainsBeingBlocked, dnsQueriesToday: $dnsQueriesToday, adsBlockedToday: $adsBlockedToday, adsPercentageToday: $adsPercentageToday, uniqueDomains: $uniqueDomains, queriesForwarded: $queriesForwarded, queriesCached: $queriesCached, clientsEverSeen: $clientsEverSeen, uniqueClients: $uniqueClients, dnsQueriesAllTypes: $dnsQueriesAllTypes, replyUnknown: $replyUnknown, replyNodata: $replyNodata, replyNxdomain: $replyNxdomain, replyCname: $replyCname, replyIp: $replyIp, replyDomain: $replyDomain, replyRrname: $replyRrname, replyServfail: $replyServfail, replyRefused: $replyRefused, replyNotimp: $replyNotimp, replyOther: $replyOther, replyDnssec: $replyDnssec, replyNone: $replyNone, replyBlob: $replyBlob, dnsQueriesAllReplies: $dnsQueriesAllReplies, queryTypes: $queryTypes)';
+  return 'Summary(domainsBeingBlocked: $domainsBeingBlocked, dnsQueriesToday: $dnsQueriesToday, adsBlockedToday: $adsBlockedToday, adsPercentageToday: $adsPercentageToday, uniqueDomains: $uniqueDomains, queriesForwarded: $queriesForwarded, queriesCached: $queriesCached, clientsEverSeen: $clientsEverSeen, uniqueClients: $uniqueClients, dnsQueriesAllTypes: $dnsQueriesAllTypes, replyUnknown: $replyUnknown, replyNodata: $replyNodata, replyNxDomain: $replyNxDomain, replyCname: $replyCname, replyIp: $replyIp, replyDomain: $replyDomain, replyRrname: $replyRrname, replyServfail: $replyServfail, replyRefused: $replyRefused, replyNotimp: $replyNotimp, replyOther: $replyOther, replyDnssec: $replyDnssec, replyNone: $replyNone, replyBlob: $replyBlob, dnsQueriesAllReplies: $dnsQueriesAllReplies, queryTypes: $queryTypes)';
 }
 
 
@@ -297,7 +297,7 @@ abstract mixin class _$SummaryCopyWith<$Res> implements $SummaryCopyWith<$Res> {
   factory _$SummaryCopyWith(_Summary value, $Res Function(_Summary) _then) = __$SummaryCopyWithImpl;
 @override @useResult
 $Res call({
- int domainsBeingBlocked, int dnsQueriesToday, int adsBlockedToday, double adsPercentageToday, int uniqueDomains, int queriesForwarded, int queriesCached, int clientsEverSeen, int uniqueClients, int dnsQueriesAllTypes, int replyUnknown, int replyNodata, int replyNxdomain, int replyCname, int replyIp, int replyDomain, int replyRrname, int replyServfail, int replyRefused, int replyNotimp, int replyOther, int replyDnssec, int replyNone, int replyBlob, int dnsQueriesAllReplies, List<QueryTypeStat> queryTypes
+ int domainsBeingBlocked, int dnsQueriesToday, int adsBlockedToday, double adsPercentageToday, int uniqueDomains, int queriesForwarded, int queriesCached, int clientsEverSeen, int uniqueClients, int dnsQueriesAllTypes, int replyUnknown, int replyNodata, int replyNxDomain, int replyCname, int replyIp, int replyDomain, int replyRrname, int replyServfail, int replyRefused, int replyNotimp, int replyOther, int replyDnssec, int replyNone, int replyBlob, int dnsQueriesAllReplies, List<QueryTypeStat> queryTypes
 });
 
 
@@ -314,7 +314,7 @@ class __$SummaryCopyWithImpl<$Res>
 
 /// Create a copy of Summary
 /// with the given fields replaced by the non-null parameter values.
-@override @pragma('vm:prefer-inline') $Res call({Object? domainsBeingBlocked = null,Object? dnsQueriesToday = null,Object? adsBlockedToday = null,Object? adsPercentageToday = null,Object? uniqueDomains = null,Object? queriesForwarded = null,Object? queriesCached = null,Object? clientsEverSeen = null,Object? uniqueClients = null,Object? dnsQueriesAllTypes = null,Object? replyUnknown = null,Object? replyNodata = null,Object? replyNxdomain = null,Object? replyCname = null,Object? replyIp = null,Object? replyDomain = null,Object? replyRrname = null,Object? replyServfail = null,Object? replyRefused = null,Object? replyNotimp = null,Object? replyOther = null,Object? replyDnssec = null,Object? replyNone = null,Object? replyBlob = null,Object? dnsQueriesAllReplies = null,Object? queryTypes = null,}) {
+@override @pragma('vm:prefer-inline') $Res call({Object? domainsBeingBlocked = null,Object? dnsQueriesToday = null,Object? adsBlockedToday = null,Object? adsPercentageToday = null,Object? uniqueDomains = null,Object? queriesForwarded = null,Object? queriesCached = null,Object? clientsEverSeen = null,Object? uniqueClients = null,Object? dnsQueriesAllTypes = null,Object? replyUnknown = null,Object? replyNodata = null,Object? replyNxDomain = null,Object? replyCname = null,Object? replyIp = null,Object? replyDomain = null,Object? replyRrname = null,Object? replyServfail = null,Object? replyRefused = null,Object? replyNotimp = null,Object? replyOther = null,Object? replyDnssec = null,Object? replyNone = null,Object? replyBlob = null,Object? dnsQueriesAllReplies = null,Object? queryTypes = null,}) {
   return _then(_Summary(
 domainsBeingBlocked: null == domainsBeingBlocked ? _self.domainsBeingBlocked : domainsBeingBlocked // ignore: cast_nullable_to_non_nullable
 as int,dnsQueriesToday: null == dnsQueriesToday ? _self.dnsQueriesToday : dnsQueriesToday // ignore: cast_nullable_to_non_nullable
@@ -328,7 +328,7 @@ as int,uniqueClients: null == uniqueClients ? _self.uniqueClients : uniqueClient
 as int,dnsQueriesAllTypes: null == dnsQueriesAllTypes ? _self.dnsQueriesAllTypes : dnsQueriesAllTypes // ignore: cast_nullable_to_non_nullable
 as int,replyUnknown: null == replyUnknown ? _self.replyUnknown : replyUnknown // ignore: cast_nullable_to_non_nullable
 as int,replyNodata: null == replyNodata ? _self.replyNodata : replyNodata // ignore: cast_nullable_to_non_nullable
-as int,replyNxdomain: null == replyNxdomain ? _self.replyNxdomain : replyNxdomain // ignore: cast_nullable_to_non_nullable
+as int,replyNxDomain: null == replyNxDomain ? _self.replyNxDomain : replyNxDomain // ignore: cast_nullable_to_non_nullable
 as int,replyCname: null == replyCname ? _self.replyCname : replyCname // ignore: cast_nullable_to_non_nullable
 as int,replyIp: null == replyIp ? _self.replyIp : replyIp // ignore: cast_nullable_to_non_nullable
 as int,replyDomain: null == replyDomain ? _self.replyDomain : replyDomain // ignore: cast_nullable_to_non_nullable
@@ -353,7 +353,8 @@ as List<QueryTypeStat>,
 /// @nodoc
 mixin _$QueryTypeStat {
 
- DnsRecordType get type; double get percentage;
+ DnsRecordType get type; double get percentage;// v6-only field
+ int? get count;
 /// Create a copy of QueryTypeStat
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -366,16 +367,16 @@ $QueryTypeStatCopyWith<QueryTypeStat> get copyWith => _$QueryTypeStatCopyWithImp
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is QueryTypeStat&&(identical(other.type, type) || other.type == type)&&(identical(other.percentage, percentage) || other.percentage == percentage));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is QueryTypeStat&&(identical(other.type, type) || other.type == type)&&(identical(other.percentage, percentage) || other.percentage == percentage)&&(identical(other.count, count) || other.count == count));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,type,percentage);
+int get hashCode => Object.hash(runtimeType,type,percentage,count);
 
 @override
 String toString() {
-  return 'QueryTypeStat(type: $type, percentage: $percentage)';
+  return 'QueryTypeStat(type: $type, percentage: $percentage, count: $count)';
 }
 
 
@@ -386,7 +387,7 @@ abstract mixin class $QueryTypeStatCopyWith<$Res>  {
   factory $QueryTypeStatCopyWith(QueryTypeStat value, $Res Function(QueryTypeStat) _then) = _$QueryTypeStatCopyWithImpl;
 @useResult
 $Res call({
- DnsRecordType type, double percentage
+ DnsRecordType type, double percentage, int? count
 });
 
 
@@ -403,11 +404,12 @@ class _$QueryTypeStatCopyWithImpl<$Res>
 
 /// Create a copy of QueryTypeStat
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? type = null,Object? percentage = null,}) {
+@pragma('vm:prefer-inline') @override $Res call({Object? type = null,Object? percentage = null,Object? count = freezed,}) {
   return _then(_self.copyWith(
 type: null == type ? _self.type : type // ignore: cast_nullable_to_non_nullable
 as DnsRecordType,percentage: null == percentage ? _self.percentage : percentage // ignore: cast_nullable_to_non_nullable
-as double,
+as double,count: freezed == count ? _self.count : count // ignore: cast_nullable_to_non_nullable
+as int?,
   ));
 }
 
@@ -489,10 +491,10 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( DnsRecordType type,  double percentage)?  $default,{required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( DnsRecordType type,  double percentage,  int? count)?  $default,{required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _QueryTypeStat() when $default != null:
-return $default(_that.type,_that.percentage);case _:
+return $default(_that.type,_that.percentage,_that.count);case _:
   return orElse();
 
 }
@@ -510,10 +512,10 @@ return $default(_that.type,_that.percentage);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( DnsRecordType type,  double percentage)  $default,) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( DnsRecordType type,  double percentage,  int? count)  $default,) {final _that = this;
 switch (_that) {
 case _QueryTypeStat():
-return $default(_that.type,_that.percentage);}
+return $default(_that.type,_that.percentage,_that.count);}
 }
 /// A variant of `when` that fallback to returning `null`
 ///
@@ -527,10 +529,10 @@ return $default(_that.type,_that.percentage);}
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( DnsRecordType type,  double percentage)?  $default,) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( DnsRecordType type,  double percentage,  int? count)?  $default,) {final _that = this;
 switch (_that) {
 case _QueryTypeStat() when $default != null:
-return $default(_that.type,_that.percentage);case _:
+return $default(_that.type,_that.percentage,_that.count);case _:
   return null;
 
 }
@@ -542,11 +544,13 @@ return $default(_that.type,_that.percentage);case _:
 @JsonSerializable()
 
 class _QueryTypeStat implements QueryTypeStat {
-  const _QueryTypeStat({required this.type, required this.percentage});
+  const _QueryTypeStat({required this.type, required this.percentage, this.count});
   factory _QueryTypeStat.fromJson(Map<String, dynamic> json) => _$QueryTypeStatFromJson(json);
 
 @override final  DnsRecordType type;
 @override final  double percentage;
+// v6-only field
+@override final  int? count;
 
 /// Create a copy of QueryTypeStat
 /// with the given fields replaced by the non-null parameter values.
@@ -561,16 +565,16 @@ Map<String, dynamic> toJson() {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _QueryTypeStat&&(identical(other.type, type) || other.type == type)&&(identical(other.percentage, percentage) || other.percentage == percentage));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _QueryTypeStat&&(identical(other.type, type) || other.type == type)&&(identical(other.percentage, percentage) || other.percentage == percentage)&&(identical(other.count, count) || other.count == count));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,type,percentage);
+int get hashCode => Object.hash(runtimeType,type,percentage,count);
 
 @override
 String toString() {
-  return 'QueryTypeStat(type: $type, percentage: $percentage)';
+  return 'QueryTypeStat(type: $type, percentage: $percentage, count: $count)';
 }
 
 
@@ -581,7 +585,7 @@ abstract mixin class _$QueryTypeStatCopyWith<$Res> implements $QueryTypeStatCopy
   factory _$QueryTypeStatCopyWith(_QueryTypeStat value, $Res Function(_QueryTypeStat) _then) = __$QueryTypeStatCopyWithImpl;
 @override @useResult
 $Res call({
- DnsRecordType type, double percentage
+ DnsRecordType type, double percentage, int? count
 });
 
 
@@ -598,11 +602,12 @@ class __$QueryTypeStatCopyWithImpl<$Res>
 
 /// Create a copy of QueryTypeStat
 /// with the given fields replaced by the non-null parameter values.
-@override @pragma('vm:prefer-inline') $Res call({Object? type = null,Object? percentage = null,}) {
+@override @pragma('vm:prefer-inline') $Res call({Object? type = null,Object? percentage = null,Object? count = freezed,}) {
   return _then(_QueryTypeStat(
 type: null == type ? _self.type : type // ignore: cast_nullable_to_non_nullable
 as DnsRecordType,percentage: null == percentage ? _self.percentage : percentage // ignore: cast_nullable_to_non_nullable
-as double,
+as double,count: freezed == count ? _self.count : count // ignore: cast_nullable_to_non_nullable
+as int?,
   ));
 }
 

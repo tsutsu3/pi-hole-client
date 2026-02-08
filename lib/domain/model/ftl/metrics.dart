@@ -48,6 +48,8 @@ sealed class DnsTypePercentage with _$DnsTypePercentage {
 
 @freezed
 sealed class DnsReplies with _$DnsReplies {
+  const DnsReplies._();
+
   const factory DnsReplies({
     required int forwarded,
     required int unanswered,
@@ -55,13 +57,14 @@ sealed class DnsReplies with _$DnsReplies {
     required int optimized,
     required int auth,
     required int sum,
-    required double forwardedPercentage,
-    required double unansweredPercentage,
-    required double localPercentage,
-    required double optimizedPercentage,
-    required double authPercentage,
   }) = _DnsReplies;
 
   factory DnsReplies.fromJson(Map<String, dynamic> json) =>
       _$DnsRepliesFromJson(json);
+
+  double get forwardedPercentage => sum > 0 ? (forwarded / sum) * 100 : 0;
+  double get unansweredPercentage => sum > 0 ? (unanswered / sum) * 100 : 0;
+  double get localPercentage => sum > 0 ? (local / sum) * 100 : 0;
+  double get optimizedPercentage => sum > 0 ? (optimized / sum) * 100 : 0;
+  double get authPercentage => sum > 0 ? (auth / sum) * 100 : 0;
 }

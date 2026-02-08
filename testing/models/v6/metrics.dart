@@ -316,7 +316,7 @@ final kRepoFetchStatsSummary = repo.Summary(
   dnsQueriesAllTypes: 7497,
   replyUnknown: 3,
   replyNodata: 72,
-  replyNxdomain: 533,
+  replyNxDomain: 533,
   replyCname: 32,
   replyIp: 84,
   replyDomain: 31,
