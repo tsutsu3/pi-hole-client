@@ -15,6 +15,23 @@ import 'package:pi_hole_client/routing/routes.dart';
 /// internal tab-based navigation. In Phase 3, individual screens will be
 /// migrated to use go_router directly.
 ///
+/// ## ViewModel DI Pattern (Phase 3)
+///
+/// New ViewModels will be created in route builders, NOT in MultiProvider.
+/// Repositories are available via `context.read<T>()` from MultiProvider.
+///
+/// ```dart
+/// GoRoute(
+///   path: '/domains',
+///   name: Routes.domains,
+///   builder: (context, state) => DomainsScreen(
+///     viewModel: DomainsViewModel(
+///       repository: context.read<DomainRepository>(),
+///     ),
+///   ),
+/// )
+/// ```
+///
 /// The [navigatorKey] parameter allows external observers like
 /// [SentryNavigatorObserver] to track navigation events.
 GoRouter createAppRouter({
