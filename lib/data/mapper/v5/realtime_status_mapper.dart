@@ -1,3 +1,4 @@
+import 'package:pi_hole_client/config/enums.dart';
 import 'package:pi_hole_client/config/mapper.dart';
 import 'package:pi_hole_client/data/model/v5/realtime_status.dart' as s;
 import 'package:pi_hole_client/domain/model/metrics/summary.dart' as d;
@@ -9,16 +10,7 @@ import 'package:pi_hole_client/domain/model/realtime_status/realtime_status.dart
 
 extension RealTimeStatusMapper on s.RealTimeStatus {
   d.RealtimeStatus toDomain() {
-    final mappedQueryTypes = queryTypes
-        .toJson()
-        .entries
-        .map(
-          (e) => d.QueryTypeStat(
-            type: convertDnsRecordType(e.key),
-            percentage: (e.value as num).toDouble(),
-          ),
-        )
-        .toList();
+    final mappedQueryTypes = _mapQueryTypes(queryTypes);
 
     return d.RealtimeStatus(
       summary: d.Summary(
@@ -92,8 +84,23 @@ extension DestinationStatMapper on MapEntry<String, double> {
   }
 }
 
-extension QueryTypeStatMapper on MapEntry<String, double> {
-  d.QueryTypeStat toDomain() {
-    return d.QueryTypeStat(type: convertDnsRecordType(key), percentage: value);
-  }
+List<d.QueryTypeStat> _mapQueryTypes(s.QueryTypes qt) {
+  return [
+    d.QueryTypeStat(type: DnsRecordType.a, percentage: qt.a),
+    d.QueryTypeStat(type: DnsRecordType.aaaa, percentage: qt.aaaa),
+    d.QueryTypeStat(type: DnsRecordType.any, percentage: qt.any),
+    d.QueryTypeStat(type: DnsRecordType.srv, percentage: qt.srv),
+    d.QueryTypeStat(type: DnsRecordType.soa, percentage: qt.soa),
+    d.QueryTypeStat(type: DnsRecordType.ptr, percentage: qt.ptr),
+    d.QueryTypeStat(type: DnsRecordType.txt, percentage: qt.txt),
+    d.QueryTypeStat(type: DnsRecordType.naptr, percentage: qt.naptr),
+    d.QueryTypeStat(type: DnsRecordType.mx, percentage: qt.mx),
+    d.QueryTypeStat(type: DnsRecordType.ds, percentage: qt.ds),
+    d.QueryTypeStat(type: DnsRecordType.rrsig, percentage: qt.rrsig),
+    d.QueryTypeStat(type: DnsRecordType.dnskey, percentage: qt.dnskey),
+    d.QueryTypeStat(type: DnsRecordType.ns, percentage: qt.ns),
+    d.QueryTypeStat(type: DnsRecordType.other, percentage: qt.other),
+    d.QueryTypeStat(type: DnsRecordType.svcb, percentage: qt.svcb),
+    d.QueryTypeStat(type: DnsRecordType.https, percentage: qt.https),
+  ];
 }
