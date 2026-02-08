@@ -190,6 +190,8 @@ import 'package:pi_hole_client/domain/use_cases/status_update_service.dart';
 import 'package:pi_hole_client/domain/use_cases/usecase_factory.dart';
 import 'package:pi_hole_client/main.dart';
 import 'package:pi_hole_client/pi_hole_client.dart';
+import 'package:pi_hole_client/routing/app_router.dart';
+import 'package:pi_hole_client/routing/routes.dart';
 import 'package:pi_hole_client/ui/app_logs/app_log_details_modal.dart';
 import 'package:pi_hole_client/ui/app_logs/app_logs.dart';
 import 'package:pi_hole_client/ui/common/dhcp_disabled_screen.dart';
