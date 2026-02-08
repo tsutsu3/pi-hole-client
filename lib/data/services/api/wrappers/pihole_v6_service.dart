@@ -196,6 +196,13 @@ class PiholeV6Service {
   // Groups
   // ==========================================================================
 
+  Future<Result<GetGroups200Response>> getAllGroups() {
+    return safeDioCall(() async {
+      final response = await _groupApi.getAllGroups();
+      return response.data!;
+    });
+  }
+
   Future<Result<GetGroups200Response>> getGroups({
     required String name,
   }) {
@@ -239,6 +246,26 @@ class PiholeV6Service {
   // ==========================================================================
   // Domains
   // ==========================================================================
+
+  Future<Result<GetDomains200Response>> getAllDomains() {
+    return safeDioCall(() async {
+      final response = await _domainApi.getAllDomains();
+      return response.data!;
+    });
+  }
+
+  Future<Result<GetDomains200Response>> getDomainsByTypeKind({
+    required String type,
+    required String kind,
+  }) {
+    return safeDioCall(() async {
+      final response = await _domainApi.getDomainsByTypeKind(
+        type: type,
+        kind: kind,
+      );
+      return response.data!;
+    });
+  }
 
   Future<Result<GetDomains200Response>> getDomains({
     required String type,
@@ -306,6 +333,15 @@ class PiholeV6Service {
   // Lists (Adlists/Subscriptions)
   // ==========================================================================
 
+  Future<Result<GetLists200Response>> getAllLists({
+    String? type,
+  }) {
+    return safeDioCall(() async {
+      final response = await _listApi.getAllLists(type: type);
+      return response.data!;
+    });
+  }
+
   Future<Result<GetLists200Response>> getLists({
     required String list,
     String? type,
@@ -369,6 +405,13 @@ class PiholeV6Service {
   // ==========================================================================
   // Clients
   // ==========================================================================
+
+  Future<Result<GetClients200Response>> getAllClients() {
+    return safeDioCall(() async {
+      final response = await _clientApi.getAllClients();
+      return response.data!;
+    });
+  }
 
   Future<Result<GetClients200Response>> getClients({
     required String client,
