@@ -144,13 +144,13 @@ void main() async {
   final dbService = DatabaseService();
   await dbService.open();
 
-  final secureStorageSercie = SecureStorageService();
+  final secureStorageService = SecureStorageService();
   final appConfigRepository = AppConfigRepository(
     dbService,
-    secureStorageSercie,
+    secureStorageService,
   );
   final gravityRepository = GravityRepository(dbService);
-  final serverRepository = ServerRepository(dbService, secureStorageSercie);
+  final serverRepository = ServerRepository(dbService, secureStorageService);
 
   final serversProvider = ServersProvider(serverRepository);
   final configProvider = AppConfigProvider(appConfigRepository);
@@ -261,7 +261,7 @@ void main() async {
         // Layer 1: Services (stateless, no dependencies)
         // ===================================================
         Provider<DatabaseService>(create: (_) => dbService),
-        Provider<SecureStorageService>(create: (_) => secureStorageSercie),
+        Provider<SecureStorageService>(create: (_) => secureStorageService),
 
         // ===================================================
         // Layer 2: Repositories (depend on Services)
