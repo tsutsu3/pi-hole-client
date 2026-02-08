@@ -22,10 +22,7 @@ void main() {
           response: Response(
             statusCode: 401,
             data: {
-              'error': {
-                'key': 'unauthorized',
-                'message': 'Session expired',
-              },
+              'error': {'key': 'unauthorized', 'message': 'Session expired'},
             },
             requestOptions: RequestOptions(),
           ),
@@ -147,6 +144,69 @@ void main() {
       expect(results[0].isError(), true);
       final error = results[0].exceptionOrNull()! as ApiException;
       expect(error.message, contains('Unexpected error'));
+    });
+  });
+
+  group('RequireData', () {
+    test('returns data when response.data is non-null', () {
+      final response = Response<String>(
+        data: 'hello',
+        statusCode: 200,
+        requestOptions: RequestOptions(),
+      );
+
+      expect(response.requireData, 'hello');
+    });
+
+    test('throws ApiException when response.data is null', () {
+      final response = Response<String>(
+        // data: null,
+        statusCode: 200,
+        requestOptions: RequestOptions(),
+      );
+
+      expect(
+        () => response.requireData,
+        throwsA(
+          isA<ApiException>()
+              .having(
+                (e) => e.message,
+                'message',
+                'API returned null response body',
+              )
+              .having((e) => e.statusCode, 'statusCode', 200),
+        ),
+      );
+    });
+
+    test('includes status code in thrown ApiException', () {
+      final response = Response<Map<String, dynamic>>(
+        // data: null,
+        statusCode: 204,
+        requestOptions: RequestOptions(),
+      );
+
+      expect(
+        () => response.requireData,
+        throwsA(
+          isA<ApiException>().having((e) => e.statusCode, 'statusCode', 204),
+        ),
+      );
+    });
+
+    test('null data inside safeDioCall returns Failure', () async {
+      final result = await safeDioCall<String>(() async {
+        final response = Response<String>(
+          // data: null,
+          statusCode: 200,
+          requestOptions: RequestOptions(),
+        );
+        return response.requireData;
+      });
+
+      expect(result.isError(), true);
+      final error = result.exceptionOrNull()! as ApiException;
+      expect(error.message, contains('API returned null response body'));
     });
   });
 }

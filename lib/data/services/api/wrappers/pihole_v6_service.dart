@@ -44,14 +44,14 @@ class PiholeV6Service {
       final response = await _authApi.addAuth(
         password: Password(password: password),
       );
-      return response.data!;
+      return response.requireData;
     });
   }
 
   Future<Result<GetAuth200Response>> getAuth() {
     return safeDioCall(() async {
       final response = await _authApi.getAuth();
-      return response.data!;
+      return response.requireData;
     });
   }
 
@@ -65,7 +65,7 @@ class PiholeV6Service {
   Future<Result<GetAuthSessions200Response>> getAuthSessions() {
     return safeDioCall(() async {
       final response = await _authApi.getAuthSessions();
-      return response.data!;
+      return response.requireData;
     });
   }
 
@@ -83,14 +83,14 @@ class PiholeV6Service {
   Future<Result<GetActivityMetrics200Response>> getHistory() {
     return safeDioCall(() async {
       final response = await _metricsApi.getActivityMetrics();
-      return response.data!;
+      return response.requireData;
     });
   }
 
   Future<Result<GetClientMetrics200Response>> getHistoryClients() {
     return safeDioCall(() async {
       final response = await _metricsApi.getClientMetrics();
-      return response.data!;
+      return response.requireData;
     });
   }
 
@@ -119,21 +119,21 @@ class PiholeV6Service {
         type: type,
         status: status,
       );
-      return response.data!;
+      return response.requireData;
     });
   }
 
   Future<Result<GetMetricsSummary200Response>> getStatsSummary() {
     return safeDioCall(() async {
       final response = await _metricsApi.getMetricsSummary();
-      return response.data!;
+      return response.requireData;
     });
   }
 
   Future<Result<GetMetricsUpstreams200Response>> getStatsUpstreams() {
     return safeDioCall(() async {
       final response = await _metricsApi.getMetricsUpstreams();
-      return response.data!;
+      return response.requireData;
     });
   }
 
@@ -146,7 +146,7 @@ class PiholeV6Service {
         blocked: blocked,
         count: count,
       );
-      return response.data!;
+      return response.requireData;
     });
   }
 
@@ -159,14 +159,14 @@ class PiholeV6Service {
         blocked: blocked,
         count: count,
       );
-      return response.data!;
+      return response.requireData;
     });
   }
 
   Future<Result<GetMetricsQueryTypes200Response>> getQueryTypes() {
     return safeDioCall(() async {
       final response = await _metricsApi.getMetricsQueryTypes();
-      return response.data!;
+      return response.requireData;
     });
   }
 
@@ -177,7 +177,7 @@ class PiholeV6Service {
   Future<Result<GetBlocking200Response>> getDnsBlocking() {
     return safeDioCall(() async {
       final response = await _dnsApi.getBlocking();
-      return response.data!;
+      return response.requireData;
     });
   }
 
@@ -188,7 +188,7 @@ class PiholeV6Service {
       final response = await _dnsApi.setBlocking(
         setBlockingRequest: request,
       );
-      return response.data!;
+      return response.requireData;
     });
   }
 
@@ -199,7 +199,7 @@ class PiholeV6Service {
   Future<Result<GetGroups200Response>> getAllGroups() {
     return safeDioCall(() async {
       final response = await _groupApi.getAllGroups();
-      return response.data!;
+      return response.requireData;
     });
   }
 
@@ -208,7 +208,7 @@ class PiholeV6Service {
   }) {
     return safeDioCall(() async {
       final response = await _groupApi.getGroups(name: name);
-      return response.data!;
+      return response.requireData;
     });
   }
 
@@ -217,7 +217,7 @@ class PiholeV6Service {
   }) {
     return safeDioCall(() async {
       final response = await _groupApi.addGroup(groupsPost: body);
-      return response.data!;
+      return response.requireData;
     });
   }
 
@@ -230,13 +230,11 @@ class PiholeV6Service {
         name: name,
         groupsPut: body,
       );
-      return response.data!;
+      return response.requireData;
     });
   }
 
   Future<Result<Unit>> deleteGroup({required String name}) {
-    // Generated API uses deleteGroup(groupId: int), but the spec uses name.
-    // Wrapping as-is from the generated code.
     return safeDioCall(() async {
       await _groupApi.deleteGroup(name: name);
       return unit;
@@ -250,7 +248,7 @@ class PiholeV6Service {
   Future<Result<GetDomains200Response>> getAllDomains() {
     return safeDioCall(() async {
       final response = await _domainApi.getAllDomains();
-      return response.data!;
+      return response.requireData;
     });
   }
 
@@ -263,7 +261,7 @@ class PiholeV6Service {
         type: type,
         kind: kind,
       );
-      return response.data!;
+      return response.requireData;
     });
   }
 
@@ -278,7 +276,7 @@ class PiholeV6Service {
         kind: kind,
         domain: domain,
       );
-      return response.data!;
+      return response.requireData;
     });
   }
 
@@ -293,7 +291,7 @@ class PiholeV6Service {
         kind: kind,
         post: body,
       );
-      return response.data!;
+      return response.requireData;
     });
   }
 
@@ -310,7 +308,7 @@ class PiholeV6Service {
         domain: domain,
         replaceDomainRequest: body,
       );
-      return response.data!;
+      return response.requireData;
     });
   }
 
@@ -338,7 +336,7 @@ class PiholeV6Service {
   }) {
     return safeDioCall(() async {
       final response = await _listApi.getAllLists(type: type);
-      return response.data!;
+      return response.requireData;
     });
   }
 
@@ -348,7 +346,7 @@ class PiholeV6Service {
   }) {
     return safeDioCall(() async {
       final response = await _listApi.getLists(list: list, type: type);
-      return response.data!;
+      return response.requireData;
     });
   }
 
@@ -358,7 +356,7 @@ class PiholeV6Service {
   }) {
     return safeDioCall(() async {
       final response = await _listApi.addList(type: type, listsPost: body);
-      return response.data!;
+      return response.requireData;
     });
   }
 
@@ -373,7 +371,7 @@ class PiholeV6Service {
         type: type,
         listsPut: body,
       );
-      return response.data!;
+      return response.requireData;
     });
   }
 
@@ -398,7 +396,7 @@ class PiholeV6Service {
         N: n,
         partial: partial,
       );
-      return response.data!;
+      return response.requireData;
     });
   }
 
@@ -409,7 +407,7 @@ class PiholeV6Service {
   Future<Result<GetClients200Response>> getAllClients() {
     return safeDioCall(() async {
       final response = await _clientApi.getAllClients();
-      return response.data!;
+      return response.requireData;
     });
   }
 
@@ -418,7 +416,7 @@ class PiholeV6Service {
   }) {
     return safeDioCall(() async {
       final response = await _clientApi.getClients(client: client);
-      return response.data!;
+      return response.requireData;
     });
   }
 
@@ -427,7 +425,7 @@ class PiholeV6Service {
   }) {
     return safeDioCall(() async {
       final response = await _clientApi.addClient(addClientRequest: body);
-      return response.data!;
+      return response.requireData;
     });
   }
 
@@ -440,7 +438,7 @@ class PiholeV6Service {
         client: client,
         replaceClientRequest: body,
       );
-      return response.data!;
+      return response.requireData;
     });
   }
 
@@ -458,28 +456,28 @@ class PiholeV6Service {
   Future<Result<GetClient200Response>> getInfoClient() {
     return safeDioCall(() async {
       final response = await _ftlApi.getClient();
-      return response.data!;
+      return response.requireData;
     });
   }
 
   Future<Result<GetFtlinfo200Response>> getInfoFtl() {
     return safeDioCall(() async {
       final response = await _ftlApi.getFtlinfo();
-      return response.data!;
+      return response.requireData;
     });
   }
 
   Future<Result<GetHostinfo200Response>> getInfoHost() {
     return safeDioCall(() async {
       final response = await _ftlApi.getHostinfo();
-      return response.data!;
+      return response.requireData;
     });
   }
 
   Future<Result<GetMessages200Response>> getInfoMessages() {
     return safeDioCall(() async {
       final response = await _ftlApi.getMessages();
-      return response.data!;
+      return response.requireData;
     });
   }
 
@@ -493,28 +491,28 @@ class PiholeV6Service {
   Future<Result<GetMetricsinfo200Response>> getInfoMetrics() {
     return safeDioCall(() async {
       final response = await _ftlApi.getMetricsinfo();
-      return response.data!;
+      return response.requireData;
     });
   }
 
   Future<Result<GetSensors200Response>> getInfoSensors() {
     return safeDioCall(() async {
       final response = await _ftlApi.getSensors();
-      return response.data!;
+      return response.requireData;
     });
   }
 
   Future<Result<GetSysteminfo200Response>> getInfoSystem() {
     return safeDioCall(() async {
       final response = await _ftlApi.getSysteminfo();
-      return response.data!;
+      return response.requireData;
     });
   }
 
   Future<Result<GetVersion200Response>> getInfoVersion() {
     return safeDioCall(() async {
       final response = await _ftlApi.getVersion();
-      return response.data!;
+      return response.requireData;
     });
   }
 
@@ -525,7 +523,7 @@ class PiholeV6Service {
   Future<Result<GetNetwork200Response>> getNetworkDevices() {
     return safeDioCall(() async {
       final response = await _networkApi.getNetwork();
-      return response.data!;
+      return response.requireData;
     });
   }
 
@@ -541,7 +539,7 @@ class PiholeV6Service {
   }) {
     return safeDioCall(() async {
       final response = await _networkApi.getGateway(detailed: detailed);
-      return response.data!;
+      return response.requireData;
     });
   }
 
@@ -553,35 +551,35 @@ class PiholeV6Service {
     return safeDioCall(() async {
       // ignore: deprecated_member_use
       final response = await _actionsApi.actionFlusharp();
-      return response.data!;
+      return response.requireData;
     });
   }
 
   Future<Result<ActionRestartdns200Response>> actionFlushNetwork() {
     return safeDioCall(() async {
       final response = await _actionsApi.actionFlushnetwork();
-      return response.data!;
+      return response.requireData;
     });
   }
 
   Future<Result<ActionRestartdns200Response>> actionFlushLogs() {
     return safeDioCall(() async {
       final response = await _actionsApi.actionFlushlogs();
-      return response.data!;
+      return response.requireData;
     });
   }
 
   Future<Result<String>> actionGravity() {
     return safeDioCall(() async {
       final response = await _actionsApi.actionGravity();
-      return response.data!;
+      return response.requireData;
     });
   }
 
   Future<Result<ActionRestartdns200Response>> actionRestartDns() {
     return safeDioCall(() async {
       final response = await _actionsApi.actionRestartdns();
-      return response.data!;
+      return response.requireData;
     });
   }
 
@@ -592,7 +590,7 @@ class PiholeV6Service {
   Future<Result<GetConfig200Response>> getConfig() {
     return safeDioCall(() async {
       final response = await _configApi.getConfig();
-      return response.data!;
+      return response.requireData;
     });
   }
 
@@ -605,7 +603,7 @@ class PiholeV6Service {
         getConfig200Response: body,
         restart: restart,
       );
-      return response.data!;
+      return response.requireData;
     });
   }
 
@@ -616,7 +614,7 @@ class PiholeV6Service {
   Future<Result<GetDhcp200Response>> getDhcpLeases() {
     return safeDioCall(() async {
       final response = await _dhcpApi.getDhcp();
-      return response.data!;
+      return response.requireData;
     });
   }
 

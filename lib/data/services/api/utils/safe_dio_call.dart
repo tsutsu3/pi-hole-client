@@ -18,10 +18,13 @@ import 'package:result_dart/result_dart.dart';
 /// Future<Result<GetDomains200Response>> getDomains() {
 ///   return safeDioCall(() async {
 ///     final response = await _domainApi.getDomains(...);
-///     return response.data!;
+///     return response.requireData;
 ///   });
 /// }
 /// ```
+///
+/// See also [RequireData.requireData] for safely unwrapping nullable
+/// response bodies.
 Future<Result<T>> safeDioCall<T extends Object>(
   Future<T> Function() apiCall,
 ) async {
@@ -84,5 +87,24 @@ Stream<Result<T>> safeDioCallStream<T extends Object>(
     final exception = ApiException.unknown('Unexpected error: $e\n$st');
     logger.e(exception.message);
     yield Failure(exception);
+  }
+}
+
+/// Extension on [Response] that provides a null-safe accessor for response data.
+///
+/// Dio's `Response<T>.data` is nullable even when the API guarantees a body.
+/// Using `response.data!` gives an unhelpful "Null check operator used on a
+/// null value" message on failure. This extension throws an [ApiException] with
+/// a clear message instead.
+extension RequireData<T> on Response<T> {
+  T get requireData {
+    final d = data;
+    if (d == null) {
+      throw ApiException(
+        message: 'API returned null response body',
+        statusCode: statusCode,
+      );
+    }
+    return d;
   }
 }
