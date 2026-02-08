@@ -21,7 +21,6 @@ void main() {
       expect(piholeClient.client, '192.168.1.100');
       expect(piholeClient.name, 'my-laptop');
       expect(piholeClient.groups, [0, 2]);
-      expect(piholeClient.enabled, true);
       expect(
         piholeClient.dateAdded,
         DateTime.fromMillisecondsSinceEpoch(1700000000 * 1000),
@@ -54,7 +53,6 @@ void main() {
       expect(piholeClient.client, '');
       expect(piholeClient.name, isNull);
       expect(piholeClient.groups, [0]);
-      expect(piholeClient.enabled, true);
       expect(piholeClient.comment, isNull);
       expect(piholeClient.dateAdded, DateTime.fromMillisecondsSinceEpoch(0));
       expect(

@@ -10,7 +10,6 @@ extension ClientsGetClientsInnerMapper on ClientsGetClientsInner {
       client: client ?? '',
       name: name,
       groups: groups ?? [0],
-      enabled: true,
       dateAdded: DateTime.fromMillisecondsSinceEpoch((dateAdded ?? 0) * 1000),
       dateModified:
           DateTime.fromMillisecondsSinceEpoch((dateModified ?? 0) * 1000),

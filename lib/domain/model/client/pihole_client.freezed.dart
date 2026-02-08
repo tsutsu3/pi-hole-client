@@ -15,7 +15,7 @@ T _$identity<T>(T value) => value;
 /// @nodoc
 mixin _$PiholeClient {
 
- int get id; String get client; List<int> get groups; bool get enabled; DateTime get dateAdded; DateTime get dateModified; String? get name; String? get comment;
+ int get id; String get client; List<int> get groups; DateTime get dateAdded; DateTime get dateModified; String? get name; String? get comment;
 /// Create a copy of PiholeClient
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -28,16 +28,16 @@ $PiholeClientCopyWith<PiholeClient> get copyWith => _$PiholeClientCopyWithImpl<P
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is PiholeClient&&(identical(other.id, id) || other.id == id)&&(identical(other.client, client) || other.client == client)&&const DeepCollectionEquality().equals(other.groups, groups)&&(identical(other.enabled, enabled) || other.enabled == enabled)&&(identical(other.dateAdded, dateAdded) || other.dateAdded == dateAdded)&&(identical(other.dateModified, dateModified) || other.dateModified == dateModified)&&(identical(other.name, name) || other.name == name)&&(identical(other.comment, comment) || other.comment == comment));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is PiholeClient&&(identical(other.id, id) || other.id == id)&&(identical(other.client, client) || other.client == client)&&const DeepCollectionEquality().equals(other.groups, groups)&&(identical(other.dateAdded, dateAdded) || other.dateAdded == dateAdded)&&(identical(other.dateModified, dateModified) || other.dateModified == dateModified)&&(identical(other.name, name) || other.name == name)&&(identical(other.comment, comment) || other.comment == comment));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,id,client,const DeepCollectionEquality().hash(groups),enabled,dateAdded,dateModified,name,comment);
+int get hashCode => Object.hash(runtimeType,id,client,const DeepCollectionEquality().hash(groups),dateAdded,dateModified,name,comment);
 
 @override
 String toString() {
-  return 'PiholeClient(id: $id, client: $client, groups: $groups, enabled: $enabled, dateAdded: $dateAdded, dateModified: $dateModified, name: $name, comment: $comment)';
+  return 'PiholeClient(id: $id, client: $client, groups: $groups, dateAdded: $dateAdded, dateModified: $dateModified, name: $name, comment: $comment)';
 }
 
 
@@ -48,7 +48,7 @@ abstract mixin class $PiholeClientCopyWith<$Res>  {
   factory $PiholeClientCopyWith(PiholeClient value, $Res Function(PiholeClient) _then) = _$PiholeClientCopyWithImpl;
 @useResult
 $Res call({
- int id, String client, List<int> groups, bool enabled, DateTime dateAdded, DateTime dateModified, String? name, String? comment
+ int id, String client, List<int> groups, DateTime dateAdded, DateTime dateModified, String? name, String? comment
 });
 
 
@@ -65,13 +65,12 @@ class _$PiholeClientCopyWithImpl<$Res>
 
 /// Create a copy of PiholeClient
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? id = null,Object? client = null,Object? groups = null,Object? enabled = null,Object? dateAdded = null,Object? dateModified = null,Object? name = freezed,Object? comment = freezed,}) {
+@pragma('vm:prefer-inline') @override $Res call({Object? id = null,Object? client = null,Object? groups = null,Object? dateAdded = null,Object? dateModified = null,Object? name = freezed,Object? comment = freezed,}) {
   return _then(_self.copyWith(
 id: null == id ? _self.id : id // ignore: cast_nullable_to_non_nullable
 as int,client: null == client ? _self.client : client // ignore: cast_nullable_to_non_nullable
 as String,groups: null == groups ? _self.groups : groups // ignore: cast_nullable_to_non_nullable
-as List<int>,enabled: null == enabled ? _self.enabled : enabled // ignore: cast_nullable_to_non_nullable
-as bool,dateAdded: null == dateAdded ? _self.dateAdded : dateAdded // ignore: cast_nullable_to_non_nullable
+as List<int>,dateAdded: null == dateAdded ? _self.dateAdded : dateAdded // ignore: cast_nullable_to_non_nullable
 as DateTime,dateModified: null == dateModified ? _self.dateModified : dateModified // ignore: cast_nullable_to_non_nullable
 as DateTime,name: freezed == name ? _self.name : name // ignore: cast_nullable_to_non_nullable
 as String?,comment: freezed == comment ? _self.comment : comment // ignore: cast_nullable_to_non_nullable
@@ -157,10 +156,10 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( int id,  String client,  List<int> groups,  bool enabled,  DateTime dateAdded,  DateTime dateModified,  String? name,  String? comment)?  $default,{required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( int id,  String client,  List<int> groups,  DateTime dateAdded,  DateTime dateModified,  String? name,  String? comment)?  $default,{required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _PiholeClient() when $default != null:
-return $default(_that.id,_that.client,_that.groups,_that.enabled,_that.dateAdded,_that.dateModified,_that.name,_that.comment);case _:
+return $default(_that.id,_that.client,_that.groups,_that.dateAdded,_that.dateModified,_that.name,_that.comment);case _:
   return orElse();
 
 }
@@ -178,10 +177,10 @@ return $default(_that.id,_that.client,_that.groups,_that.enabled,_that.dateAdded
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( int id,  String client,  List<int> groups,  bool enabled,  DateTime dateAdded,  DateTime dateModified,  String? name,  String? comment)  $default,) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( int id,  String client,  List<int> groups,  DateTime dateAdded,  DateTime dateModified,  String? name,  String? comment)  $default,) {final _that = this;
 switch (_that) {
 case _PiholeClient():
-return $default(_that.id,_that.client,_that.groups,_that.enabled,_that.dateAdded,_that.dateModified,_that.name,_that.comment);}
+return $default(_that.id,_that.client,_that.groups,_that.dateAdded,_that.dateModified,_that.name,_that.comment);}
 }
 /// A variant of `when` that fallback to returning `null`
 ///
@@ -195,10 +194,10 @@ return $default(_that.id,_that.client,_that.groups,_that.enabled,_that.dateAdded
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( int id,  String client,  List<int> groups,  bool enabled,  DateTime dateAdded,  DateTime dateModified,  String? name,  String? comment)?  $default,) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( int id,  String client,  List<int> groups,  DateTime dateAdded,  DateTime dateModified,  String? name,  String? comment)?  $default,) {final _that = this;
 switch (_that) {
 case _PiholeClient() when $default != null:
-return $default(_that.id,_that.client,_that.groups,_that.enabled,_that.dateAdded,_that.dateModified,_that.name,_that.comment);case _:
+return $default(_that.id,_that.client,_that.groups,_that.dateAdded,_that.dateModified,_that.name,_that.comment);case _:
   return null;
 
 }
@@ -210,7 +209,7 @@ return $default(_that.id,_that.client,_that.groups,_that.enabled,_that.dateAdded
 @JsonSerializable()
 
 class _PiholeClient implements PiholeClient {
-  const _PiholeClient({required this.id, required this.client, required final  List<int> groups, required this.enabled, required this.dateAdded, required this.dateModified, this.name, this.comment}): _groups = groups;
+  const _PiholeClient({required this.id, required this.client, required final  List<int> groups, required this.dateAdded, required this.dateModified, this.name, this.comment}): _groups = groups;
   factory _PiholeClient.fromJson(Map<String, dynamic> json) => _$PiholeClientFromJson(json);
 
 @override final  int id;
@@ -222,7 +221,6 @@ class _PiholeClient implements PiholeClient {
   return EqualUnmodifiableListView(_groups);
 }
 
-@override final  bool enabled;
 @override final  DateTime dateAdded;
 @override final  DateTime dateModified;
 @override final  String? name;
@@ -241,16 +239,16 @@ Map<String, dynamic> toJson() {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _PiholeClient&&(identical(other.id, id) || other.id == id)&&(identical(other.client, client) || other.client == client)&&const DeepCollectionEquality().equals(other._groups, _groups)&&(identical(other.enabled, enabled) || other.enabled == enabled)&&(identical(other.dateAdded, dateAdded) || other.dateAdded == dateAdded)&&(identical(other.dateModified, dateModified) || other.dateModified == dateModified)&&(identical(other.name, name) || other.name == name)&&(identical(other.comment, comment) || other.comment == comment));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _PiholeClient&&(identical(other.id, id) || other.id == id)&&(identical(other.client, client) || other.client == client)&&const DeepCollectionEquality().equals(other._groups, _groups)&&(identical(other.dateAdded, dateAdded) || other.dateAdded == dateAdded)&&(identical(other.dateModified, dateModified) || other.dateModified == dateModified)&&(identical(other.name, name) || other.name == name)&&(identical(other.comment, comment) || other.comment == comment));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,id,client,const DeepCollectionEquality().hash(_groups),enabled,dateAdded,dateModified,name,comment);
+int get hashCode => Object.hash(runtimeType,id,client,const DeepCollectionEquality().hash(_groups),dateAdded,dateModified,name,comment);
 
 @override
 String toString() {
-  return 'PiholeClient(id: $id, client: $client, groups: $groups, enabled: $enabled, dateAdded: $dateAdded, dateModified: $dateModified, name: $name, comment: $comment)';
+  return 'PiholeClient(id: $id, client: $client, groups: $groups, dateAdded: $dateAdded, dateModified: $dateModified, name: $name, comment: $comment)';
 }
 
 
@@ -261,7 +259,7 @@ abstract mixin class _$PiholeClientCopyWith<$Res> implements $PiholeClientCopyWi
   factory _$PiholeClientCopyWith(_PiholeClient value, $Res Function(_PiholeClient) _then) = __$PiholeClientCopyWithImpl;
 @override @useResult
 $Res call({
- int id, String client, List<int> groups, bool enabled, DateTime dateAdded, DateTime dateModified, String? name, String? comment
+ int id, String client, List<int> groups, DateTime dateAdded, DateTime dateModified, String? name, String? comment
 });
 
 
@@ -278,13 +276,12 @@ class __$PiholeClientCopyWithImpl<$Res>
 
 /// Create a copy of PiholeClient
 /// with the given fields replaced by the non-null parameter values.
-@override @pragma('vm:prefer-inline') $Res call({Object? id = null,Object? client = null,Object? groups = null,Object? enabled = null,Object? dateAdded = null,Object? dateModified = null,Object? name = freezed,Object? comment = freezed,}) {
+@override @pragma('vm:prefer-inline') $Res call({Object? id = null,Object? client = null,Object? groups = null,Object? dateAdded = null,Object? dateModified = null,Object? name = freezed,Object? comment = freezed,}) {
   return _then(_PiholeClient(
 id: null == id ? _self.id : id // ignore: cast_nullable_to_non_nullable
 as int,client: null == client ? _self.client : client // ignore: cast_nullable_to_non_nullable
 as String,groups: null == groups ? _self._groups : groups // ignore: cast_nullable_to_non_nullable
-as List<int>,enabled: null == enabled ? _self.enabled : enabled // ignore: cast_nullable_to_non_nullable
-as bool,dateAdded: null == dateAdded ? _self.dateAdded : dateAdded // ignore: cast_nullable_to_non_nullable
+as List<int>,dateAdded: null == dateAdded ? _self.dateAdded : dateAdded // ignore: cast_nullable_to_non_nullable
 as DateTime,dateModified: null == dateModified ? _self.dateModified : dateModified // ignore: cast_nullable_to_non_nullable
 as DateTime,name: freezed == name ? _self.name : name // ignore: cast_nullable_to_non_nullable
 as String?,comment: freezed == comment ? _self.comment : comment // ignore: cast_nullable_to_non_nullable

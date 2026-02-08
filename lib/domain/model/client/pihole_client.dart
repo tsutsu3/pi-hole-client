@@ -9,7 +9,6 @@ sealed class PiholeClient with _$PiholeClient {
     required int id,
     required String client,
     required List<int> groups,
-    required bool enabled,
     required DateTime dateAdded,
     required DateTime dateModified,
     String? name,

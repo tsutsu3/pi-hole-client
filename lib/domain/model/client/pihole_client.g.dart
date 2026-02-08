@@ -13,7 +13,6 @@ _PiholeClient _$PiholeClientFromJson(Map<String, dynamic> json) =>
       groups: (json['groups'] as List<dynamic>)
           .map((e) => (e as num).toInt())
           .toList(),
-      enabled: json['enabled'] as bool,
       dateAdded: DateTime.parse(json['dateAdded'] as String),
       dateModified: DateTime.parse(json['dateModified'] as String),
       name: json['name'] as String?,
@@ -25,7 +24,6 @@ Map<String, dynamic> _$PiholeClientToJson(_PiholeClient instance) =>
       'id': instance.id,
       'client': instance.client,
       'groups': instance.groups,
-      'enabled': instance.enabled,
       'dateAdded': instance.dateAdded.toIso8601String(),
       'dateModified': instance.dateModified.toIso8601String(),
       'name': instance.name,
