@@ -300,6 +300,98 @@ _bodyData=jsonEncode(batchDeleteDomainsRequestInner);
     return _response;
   }
 
+  /// Get all domains
+  /// Returns all configured domains (allow and deny, exact and regex). 
+  ///
+  /// Parameters:
+  /// * [cancelToken] - A [CancelToken] that can be used to cancel the operation
+  /// * [headers] - Can be used to add additional headers to the request
+  /// * [extras] - Can be used to add flags to the request
+  /// * [validateStatus] - A [ValidateStatus] callback that can be used to determine request success based on the HTTP status of the response
+  /// * [onSendProgress] - A [ProgressCallback] that can be used to get the send progress
+  /// * [onReceiveProgress] - A [ProgressCallback] that can be used to get the receive progress
+  ///
+  /// Returns a [Future] containing a [Response] with a [GetDomains200Response] as data
+  /// Throws [DioException] if API call or serialization fails
+  Future<Response<GetDomains200Response>> getAllDomains({ 
+    CancelToken? cancelToken,
+    Map<String, dynamic>? headers,
+    Map<String, dynamic>? extra,
+    ValidateStatus? validateStatus,
+    ProgressCallback? onSendProgress,
+    ProgressCallback? onReceiveProgress,
+  }) async {
+    final _path = r'/domains';
+    final _options = Options(
+      method: r'GET',
+      headers: <String, dynamic>{
+        ...?headers,
+      },
+      extra: <String, dynamic>{
+        'secure': <Map<String, String>>[
+          {
+            'type': 'apiKey',
+            'name': 'x_header_sid',
+            'keyName': 'X-FTL-SID',
+            'where': 'header',
+          },{
+            'type': 'apiKey',
+            'name': 'query_sid',
+            'keyName': 'sid',
+            'where': 'query',
+          },{
+            'type': 'apiKey',
+            'name': 'cookie_sid',
+            'keyName': 'sid',
+            'where': '',
+          },{
+            'type': 'apiKey',
+            'name': 'header_sid',
+            'keyName': 'sid',
+            'where': 'header',
+          },
+        ],
+        ...?extra,
+      },
+      validateStatus: validateStatus,
+    );
+
+    final _response = await _dio.request<Object>(
+      _path,
+      options: _options,
+      cancelToken: cancelToken,
+      onSendProgress: onSendProgress,
+      onReceiveProgress: onReceiveProgress,
+    );
+
+    GetDomains200Response? _responseData;
+
+    try {
+final rawData = _response.data;
+_responseData = rawData == null ? null : deserialize<GetDomains200Response, GetDomains200Response>(rawData, 'GetDomains200Response', growable: true);
+
+    } catch (error, stackTrace) {
+      throw DioException(
+        requestOptions: _response.requestOptions,
+        response: _response,
+        type: DioExceptionType.unknown,
+        error: error,
+        stackTrace: stackTrace,
+      );
+    }
+
+    return Response<GetDomains200Response>(
+      data: _responseData,
+      headers: _response.headers,
+      isRedirect: _response.isRedirect,
+      requestOptions: _response.requestOptions,
+      redirects: _response.redirects,
+      statusCode: _response.statusCode,
+      statusMessage: _response.statusMessage,
+      extra: _response.extra,
+    );
+  }
+
   /// Get domain
   /// &#x60;{type}&#x60;, &#x60;{kind}&#x60;, and &#x60;{domain}&#x60; are optional. Specifying any of these may result in only a subset of the available data being returned.  Valid combinations are: - &#x60;/api/domains&#x60; (all domains) - &#x60;/api/domains/abc.com&#x60; (all domains identical to &#x60;abc.com&#x60;) - &#x60;/api/domains/allow&#x60; (only allowed domains) - &#x60;/api/domains/allow/abc.com&#x60; (only allowed domains identical to &#x60;abc.com&#x60;) - &#x60;/api/domains/allow/exact&#x60; (only exactly allowed domains) - &#x60;/api/domains/allow/exact/abc.com&#x60; (only exactly allowed domain identical to &#x60;abc.com&#x60;) - &#x60;/api/domains/allow/regex&#x60; (only allowed regex domains) - &#x60;/api/domains/allow/regex/abc.com&#x60; (only allowed regex domains identical to &#x60;abc.com&#x60;) - &#x60;/api/domains/deny&#x60; (only denied domains) - &#x60;/api/domains/deny/abc.com&#x60; (only denied domains identical to &#x60;abc.com&#x60;) - &#x60;/api/domains/deny/exact&#x60; (only exactly denied domains) - &#x60;/api/domains/deny/exact/abc.com&#x60; (only exactly denied domain identical to &#x60;abc.com&#x60;) - &#x60;/api/domains/deny/regex&#x60; (only denied regex domains) - &#x60;/api/domains/deny/regex/abc.com&#x60; (only denied regex domains identical to &#x60;abc.com&#x60;) - &#x60;/api/domains/exact&#x60; (allowed and denied exact domains) - &#x60;/api/domains/exact/abc.com&#x60; (allowed and denied exact domains identical to &#x60;abc.com&#x60;) - &#x60;/api/domains/regex&#x60; (allowed and denied regex domains) - &#x60;/api/domains/regex/abc.com&#x60; (allowed and denied regex domains identical to &#x60;abc.com&#x60;) 
   ///
@@ -328,6 +420,102 @@ _bodyData=jsonEncode(batchDeleteDomainsRequestInner);
     ProgressCallback? onReceiveProgress,
   }) async {
     final _path = r'/domains/{type}/{kind}/{domain}'.replaceAll('{' r'type' '}', type.toString()).replaceAll('{' r'kind' '}', kind.toString()).replaceAll('{' r'domain' '}', domain.toString());
+    final _options = Options(
+      method: r'GET',
+      headers: <String, dynamic>{
+        ...?headers,
+      },
+      extra: <String, dynamic>{
+        'secure': <Map<String, String>>[
+          {
+            'type': 'apiKey',
+            'name': 'x_header_sid',
+            'keyName': 'X-FTL-SID',
+            'where': 'header',
+          },{
+            'type': 'apiKey',
+            'name': 'query_sid',
+            'keyName': 'sid',
+            'where': 'query',
+          },{
+            'type': 'apiKey',
+            'name': 'cookie_sid',
+            'keyName': 'sid',
+            'where': '',
+          },{
+            'type': 'apiKey',
+            'name': 'header_sid',
+            'keyName': 'sid',
+            'where': 'header',
+          },
+        ],
+        ...?extra,
+      },
+      validateStatus: validateStatus,
+    );
+
+    final _response = await _dio.request<Object>(
+      _path,
+      options: _options,
+      cancelToken: cancelToken,
+      onSendProgress: onSendProgress,
+      onReceiveProgress: onReceiveProgress,
+    );
+
+    GetDomains200Response? _responseData;
+
+    try {
+final rawData = _response.data;
+_responseData = rawData == null ? null : deserialize<GetDomains200Response, GetDomains200Response>(rawData, 'GetDomains200Response', growable: true);
+
+    } catch (error, stackTrace) {
+      throw DioException(
+        requestOptions: _response.requestOptions,
+        response: _response,
+        type: DioExceptionType.unknown,
+        error: error,
+        stackTrace: stackTrace,
+      );
+    }
+
+    return Response<GetDomains200Response>(
+      data: _responseData,
+      headers: _response.headers,
+      isRedirect: _response.isRedirect,
+      requestOptions: _response.requestOptions,
+      redirects: _response.redirects,
+      statusCode: _response.statusCode,
+      statusMessage: _response.statusMessage,
+      extra: _response.extra,
+    );
+  }
+
+  /// Get domains by type and kind
+  /// Returns domains filtered by type (allow/deny) and kind (exact/regex). 
+  ///
+  /// Parameters:
+  /// * [type] - Type (allowed or denied domain)
+  /// * [kind] - Kind (exact domain or regular expression)
+  /// * [cancelToken] - A [CancelToken] that can be used to cancel the operation
+  /// * [headers] - Can be used to add additional headers to the request
+  /// * [extras] - Can be used to add flags to the request
+  /// * [validateStatus] - A [ValidateStatus] callback that can be used to determine request success based on the HTTP status of the response
+  /// * [onSendProgress] - A [ProgressCallback] that can be used to get the send progress
+  /// * [onReceiveProgress] - A [ProgressCallback] that can be used to get the receive progress
+  ///
+  /// Returns a [Future] containing a [Response] with a [GetDomains200Response] as data
+  /// Throws [DioException] if API call or serialization fails
+  Future<Response<GetDomains200Response>> getDomainsByTypeKind({ 
+    required String type,
+    required String kind,
+    CancelToken? cancelToken,
+    Map<String, dynamic>? headers,
+    Map<String, dynamic>? extra,
+    ValidateStatus? validateStatus,
+    ProgressCallback? onSendProgress,
+    ProgressCallback? onReceiveProgress,
+  }) async {
+    final _path = r'/domains/{type}/{kind}'.replaceAll('{' r'type' '}', type.toString()).replaceAll('{' r'kind' '}', kind.toString());
     final _options = Options(
       method: r'GET',
       headers: <String, dynamic>{

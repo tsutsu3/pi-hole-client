@@ -92,6 +92,7 @@ dependencies:
   # OpenAPI generated v6 API client
   pihole_v6_api:
     path: lib/data/services/api/generated/v6
+  dio: ^5.7.0
   meta: ^1.17.0
   go_router: ^17.1.0
 
