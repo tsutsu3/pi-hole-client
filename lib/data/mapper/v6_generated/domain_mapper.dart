@@ -27,29 +27,29 @@ extension GetDomains200ResponseMapper on GetDomains200Response {
   }
 
   DomainLists toDomainLists() {
-    final whitelist = <Domain>[];
-    final whitelistRegex = <Domain>[];
-    final blacklist = <Domain>[];
-    final blacklistRegex = <Domain>[];
+    final allowExact = <Domain>[];
+    final allowRegex = <Domain>[];
+    final denyExact = <Domain>[];
+    final denyRegex = <Domain>[];
 
     for (final domain in toDomainList()) {
       switch ((domain.type, domain.kind)) {
         case (DomainType.allow, DomainKind.exact):
-          whitelist.add(domain);
+          allowExact.add(domain);
         case (DomainType.allow, DomainKind.regex):
-          whitelistRegex.add(domain);
+          allowRegex.add(domain);
         case (DomainType.deny, DomainKind.exact):
-          blacklist.add(domain);
+          denyExact.add(domain);
         case (DomainType.deny, DomainKind.regex):
-          blacklistRegex.add(domain);
+          denyRegex.add(domain);
       }
     }
 
     return DomainLists(
-      whitelist: whitelist,
-      whitelistRegex: whitelistRegex,
-      blacklist: blacklist,
-      blacklistRegex: blacklistRegex,
+      allowExact: allowExact,
+      allowRegex: allowRegex,
+      denyExact: denyExact,
+      denyRegex: denyRegex,
     );
   }
 }

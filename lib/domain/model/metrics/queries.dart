@@ -24,7 +24,7 @@ sealed class Log with _$Log {
     required DnsRecordType type,
     required String url,
     required String device,
-    required BigInt replyTime,
+    required double replyTime, // in seconds
     QueryStatusType? status,
     ReplyType? replyType,
     int? id,

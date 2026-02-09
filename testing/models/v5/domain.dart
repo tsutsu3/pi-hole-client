@@ -90,10 +90,10 @@ final kRepoGetDomainsBlackRegex = repo.Domain(
 );
 
 final kRepoGetDomains = repo.DomainLists(
-  whitelist: [kRepoGetDomainsWhite],
-  whitelistRegex: [],
-  blacklist: [kRepoGetDomainsBlack],
-  blacklistRegex: [kRepoGetDomainsBlackRegex],
+  allowExact: [kRepoGetDomainsWhite],
+  allowRegex: [],
+  denyExact: [kRepoGetDomainsBlack],
+  denyRegex: [kRepoGetDomainsBlackRegex],
 );
 
 final kRepoAddDomain = repo.Domain(

@@ -14,7 +14,6 @@ sealed class RealtimeStatus with _$RealtimeStatus {
   factory RealtimeStatus({
     required Summary summary,
     required DnsBlockingStatus status,
-    required int privacyLevel,
     required TopDomains topDomains,
     required TopClients topClients,
     required List<DestinationStat> forwardDestinations,

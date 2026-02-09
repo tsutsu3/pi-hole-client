@@ -1,9 +1,7 @@
 import 'package:pi_hole_client/config/mapper.dart';
 import 'package:pi_hole_client/data/repositories/api/interfaces/dns_repository.dart';
-import 'package:pi_hole_client/data/repositories/api/interfaces/ftl_repository.dart';
 import 'package:pi_hole_client/data/repositories/api/interfaces/metrics_repository.dart';
 import 'package:pi_hole_client/domain/model/dns/dns.dart';
-import 'package:pi_hole_client/domain/model/ftl/ftl.dart';
 import 'package:pi_hole_client/domain/model/metrics/summary.dart';
 import 'package:pi_hole_client/domain/model/metrics/top_clients.dart';
 import 'package:pi_hole_client/domain/model/metrics/top_domains.dart';
@@ -15,14 +13,11 @@ import 'package:result_dart/result_dart.dart';
 class RealtimeStatusUseCaseV6 implements RealtimeStatusUseCase {
   RealtimeStatusUseCaseV6({
     required MetricsRepository metricsRepository,
-    required FtlRepository ftlRepository,
     required DnsRepository dnsRepository,
   }) : _metricsRepository = metricsRepository,
-       _ftlRepository = ftlRepository,
        _dnsRepository = dnsRepository;
 
   final MetricsRepository _metricsRepository;
-  final FtlRepository _ftlRepository;
   final DnsRepository _dnsRepository;
 
   @override
@@ -30,7 +25,6 @@ class RealtimeStatusUseCaseV6 implements RealtimeStatusUseCase {
     try {
       final response = await Future.wait([
         _metricsRepository.fetchStatsSummary(),
-        _ftlRepository.fetchInfoFtl(),
         _dnsRepository.fetchBlockingStatus(),
         _metricsRepository.fetchStatsUpstreams(),
         _metricsRepository.fetchStatsTopDomainsAllowed(),
@@ -40,18 +34,16 @@ class RealtimeStatusUseCaseV6 implements RealtimeStatusUseCase {
       ]);
 
       final statsSummary = response[0] as Result<Summary>;
-      final ftlInfo = response[1] as Result<InfoFtl>;
-      final blockingStatus = response[2] as Result<Blocking>;
-      final upstreams = response[3] as Result<List<DestinationStat>>;
-      final topDomainsAllowed = response[4] as Result<List<QueryStat>>;
-      final topDomainsBlocked = response[5] as Result<List<QueryStat>>;
-      final topClientsAllowed = response[6] as Result<List<SourceStat>>;
-      final topClientsBlocked = response[7] as Result<List<SourceStat>>;
+      final blockingStatus = response[1] as Result<Blocking>;
+      final upstreams = response[2] as Result<List<DestinationStat>>;
+      final topDomainsAllowed = response[3] as Result<List<QueryStat>>;
+      final topDomainsBlocked = response[4] as Result<List<QueryStat>>;
+      final topClientsAllowed = response[5] as Result<List<SourceStat>>;
+      final topClientsBlocked = response[6] as Result<List<SourceStat>>;
 
       return Success(
         _convert(
           statsSummary.getOrThrow(),
-          ftlInfo.getOrThrow(),
           blockingStatus.getOrThrow(),
           upstreams.getOrThrow(),
           topDomainsAllowed.getOrThrow(),
@@ -67,7 +59,6 @@ class RealtimeStatusUseCaseV6 implements RealtimeStatusUseCase {
 
   RealtimeStatus _convert(
     Summary statsSummary,
-    InfoFtl ftlInfo,
     Blocking blockingStatus,
     List<DestinationStat> upstreams,
     List<QueryStat> topDomainsAllowed,
@@ -78,7 +69,6 @@ class RealtimeStatusUseCaseV6 implements RealtimeStatusUseCase {
     return RealtimeStatus(
       summary: statsSummary,
       status: blockingStatus.status.name.toDnsBlockingStatus(),
-      privacyLevel: ftlInfo.privacyLevel,
       topDomains: TopDomains(
         topQueries: topDomainsAllowed,
         topAds: topDomainsBlocked,

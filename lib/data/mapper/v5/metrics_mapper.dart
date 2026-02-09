@@ -65,7 +65,7 @@ extension LogMapper on List<String> {
     final replyIndex = _tryParseInt(_at(6));
     final replyType = convertReplyTypeV5(replyIndex);
 
-    final replyTime = _tryParseBigInt(_at(7));
+    final replyTime = _tryParseInt(_at(7));
 
     final answeredBy = (status == '2') ? _at(10) : null;
 
@@ -74,7 +74,7 @@ extension LogMapper on List<String> {
       type: convertDnsRecordType(type),
       url: url ?? '',
       device: device ?? '',
-      replyTime: replyTime ?? BigInt.zero,
+      replyTime: (replyTime ?? 0) / 10000, // seconds
       status: convertQueryStatusTypeV5(_tryParseInt(status)),
       replyType: replyType,
       answeredBy: answeredBy,
@@ -87,6 +87,4 @@ extension LogMapper on List<String> {
   String? _at(int index) => (index >= 0 && index < length) ? this[index] : null;
 
   int? _tryParseInt(String? s) => (s == null) ? null : int.tryParse(s);
-
-  BigInt? _tryParseBigInt(String? s) => (s == null) ? null : BigInt.tryParse(s);
 }

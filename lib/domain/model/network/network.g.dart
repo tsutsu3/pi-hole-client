@@ -25,17 +25,26 @@ Map<String, dynamic> _$GatewaysToJson(_Gateways instance) => <String, dynamic>{
 };
 
 _Gateway _$GatewayFromJson(Map<String, dynamic> json) => _Gateway(
-  family: json['family'] as String,
+  family: $enumDecode(_$RouteFamilyTypeEnumMap, json['family']),
   interface: json['interface'] as String,
   address: json['address'] as String,
   local: (json['local'] as List<dynamic>).map((e) => e as String).toList(),
 );
 
 Map<String, dynamic> _$GatewayToJson(_Gateway instance) => <String, dynamic>{
-  'family': instance.family,
+  'family': _$RouteFamilyTypeEnumMap[instance.family]!,
   'interface': instance.interface,
   'address': instance.address,
   'local': instance.local,
+};
+
+const _$RouteFamilyTypeEnumMap = {
+  RouteFamilyType.inet: 'inet',
+  RouteFamilyType.inet6: 'inet6',
+  RouteFamilyType.link: 'link',
+  RouteFamilyType.mpls: 'mpls',
+  RouteFamilyType.bridge: 'bridge',
+  RouteFamilyType.unknown: 'unknown',
 };
 
 _NetInterface _$NetInterfaceFromJson(Map<String, dynamic> json) =>
@@ -229,15 +238,6 @@ Map<String, dynamic> _$InterfaceAddressToJson(_InterfaceAddress instance) =>
       'broadcastType': instance.broadcastType,
       'unknown': instance.unknown,
     };
-
-const _$RouteFamilyTypeEnumMap = {
-  RouteFamilyType.inet: 'inet',
-  RouteFamilyType.inet6: 'inet6',
-  RouteFamilyType.link: 'link',
-  RouteFamilyType.mpls: 'mpls',
-  RouteFamilyType.bridge: 'bridge',
-  RouteFamilyType.unknown: 'unknown',
-};
 
 _Device _$DeviceFromJson(Map<String, dynamic> json) => _Device(
   id: (json['id'] as num).toInt(),

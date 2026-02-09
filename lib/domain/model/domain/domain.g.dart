@@ -7,26 +7,26 @@ part of 'domain.dart';
 // **************************************************************************
 
 _DomainLists _$DomainListsFromJson(Map<String, dynamic> json) => _DomainLists(
-  whitelist: (json['whitelist'] as List<dynamic>)
+  allowExact: (json['allowExact'] as List<dynamic>)
       .map((e) => Domain.fromJson(e as Map<String, dynamic>))
       .toList(),
-  whitelistRegex: (json['whitelistRegex'] as List<dynamic>)
+  allowRegex: (json['allowRegex'] as List<dynamic>)
       .map((e) => Domain.fromJson(e as Map<String, dynamic>))
       .toList(),
-  blacklist: (json['blacklist'] as List<dynamic>)
+  denyExact: (json['denyExact'] as List<dynamic>)
       .map((e) => Domain.fromJson(e as Map<String, dynamic>))
       .toList(),
-  blacklistRegex: (json['blacklistRegex'] as List<dynamic>)
+  denyRegex: (json['denyRegex'] as List<dynamic>)
       .map((e) => Domain.fromJson(e as Map<String, dynamic>))
       .toList(),
 );
 
 Map<String, dynamic> _$DomainListsToJson(_DomainLists instance) =>
     <String, dynamic>{
-      'whitelist': instance.whitelist.map((e) => e.toJson()).toList(),
-      'whitelistRegex': instance.whitelistRegex.map((e) => e.toJson()).toList(),
-      'blacklist': instance.blacklist.map((e) => e.toJson()).toList(),
-      'blacklistRegex': instance.blacklistRegex.map((e) => e.toJson()).toList(),
+      'allowExact': instance.allowExact.map((e) => e.toJson()).toList(),
+      'allowRegex': instance.allowRegex.map((e) => e.toJson()).toList(),
+      'denyExact': instance.denyExact.map((e) => e.toJson()).toList(),
+      'denyRegex': instance.denyRegex.map((e) => e.toJson()).toList(),
     };
 
 _Domain _$DomainFromJson(Map<String, dynamic> json) => _Domain(

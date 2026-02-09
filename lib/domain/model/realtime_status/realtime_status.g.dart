@@ -11,7 +11,6 @@ _RealtimeStatus _$RealtimeStatusFromJson(
 ) => _RealtimeStatus(
   summary: Summary.fromJson(json['summary'] as Map<String, dynamic>),
   status: $enumDecode(_$DnsBlockingStatusEnumMap, json['status']),
-  privacyLevel: (json['privacyLevel'] as num).toInt(),
   topDomains: TopDomains.fromJson(json['topDomains'] as Map<String, dynamic>),
   topClients: TopClients.fromJson(json['topClients'] as Map<String, dynamic>),
   forwardDestinations: (json['forwardDestinations'] as List<dynamic>)
@@ -23,7 +22,6 @@ Map<String, dynamic> _$RealtimeStatusToJson(_RealtimeStatus instance) =>
     <String, dynamic>{
       'summary': instance.summary.toJson(),
       'status': _$DnsBlockingStatusEnumMap[instance.status]!,
-      'privacyLevel': instance.privacyLevel,
       'topDomains': instance.topDomains.toJson(),
       'topClients': instance.topClients.toJson(),
       'forwardDestinations': instance.forwardDestinations

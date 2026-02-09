@@ -141,14 +141,14 @@ void main() {
 
       final lists = response.toDomainLists();
 
-      expect(lists.whitelist.length, 1);
-      expect(lists.whitelist[0].name, 'allow-exact.com');
-      expect(lists.whitelistRegex.length, 1);
-      expect(lists.whitelistRegex[0].name, '.*allow-regex');
-      expect(lists.blacklist.length, 1);
-      expect(lists.blacklist[0].name, 'deny-exact.com');
-      expect(lists.blacklistRegex.length, 1);
-      expect(lists.blacklistRegex[0].name, '.*deny-regex');
+      expect(lists.allowExact.length, 1);
+      expect(lists.allowExact[0].name, 'allow-exact.com');
+      expect(lists.allowRegex.length, 1);
+      expect(lists.allowRegex[0].name, '.*allow-regex');
+      expect(lists.denyExact.length, 1);
+      expect(lists.denyExact[0].name, 'deny-exact.com');
+      expect(lists.denyRegex.length, 1);
+      expect(lists.denyRegex[0].name, '.*deny-regex');
     });
 
     test('toDomainLists returns empty lists when no domains', () {
@@ -156,10 +156,10 @@ void main() {
 
       final lists = response.toDomainLists();
 
-      expect(lists.whitelist, isEmpty);
-      expect(lists.whitelistRegex, isEmpty);
-      expect(lists.blacklist, isEmpty);
-      expect(lists.blacklistRegex, isEmpty);
+      expect(lists.allowExact, isEmpty);
+      expect(lists.allowRegex, isEmpty);
+      expect(lists.denyExact, isEmpty);
+      expect(lists.denyRegex, isEmpty);
     });
   });
 

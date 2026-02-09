@@ -300,7 +300,7 @@ as List<Route>?,
 /// @nodoc
 mixin _$Gateway {
 
- String get family; String get interface; String get address; List<String> get local;
+ RouteFamilyType get family; String get interface; String get address; List<String> get local;
 /// Create a copy of Gateway
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -333,7 +333,7 @@ abstract mixin class $GatewayCopyWith<$Res>  {
   factory $GatewayCopyWith(Gateway value, $Res Function(Gateway) _then) = _$GatewayCopyWithImpl;
 @useResult
 $Res call({
- String family, String interface, String address, List<String> local
+ RouteFamilyType family, String interface, String address, List<String> local
 });
 
 
@@ -353,7 +353,7 @@ class _$GatewayCopyWithImpl<$Res>
 @pragma('vm:prefer-inline') @override $Res call({Object? family = null,Object? interface = null,Object? address = null,Object? local = null,}) {
   return _then(_self.copyWith(
 family: null == family ? _self.family : family // ignore: cast_nullable_to_non_nullable
-as String,interface: null == interface ? _self.interface : interface // ignore: cast_nullable_to_non_nullable
+as RouteFamilyType,interface: null == interface ? _self.interface : interface // ignore: cast_nullable_to_non_nullable
 as String,address: null == address ? _self.address : address // ignore: cast_nullable_to_non_nullable
 as String,local: null == local ? _self.local : local // ignore: cast_nullable_to_non_nullable
 as List<String>,
@@ -438,7 +438,7 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( String family,  String interface,  String address,  List<String> local)?  $default,{required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( RouteFamilyType family,  String interface,  String address,  List<String> local)?  $default,{required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _Gateway() when $default != null:
 return $default(_that.family,_that.interface,_that.address,_that.local);case _:
@@ -459,7 +459,7 @@ return $default(_that.family,_that.interface,_that.address,_that.local);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( String family,  String interface,  String address,  List<String> local)  $default,) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( RouteFamilyType family,  String interface,  String address,  List<String> local)  $default,) {final _that = this;
 switch (_that) {
 case _Gateway():
 return $default(_that.family,_that.interface,_that.address,_that.local);}
@@ -476,7 +476,7 @@ return $default(_that.family,_that.interface,_that.address,_that.local);}
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( String family,  String interface,  String address,  List<String> local)?  $default,) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( RouteFamilyType family,  String interface,  String address,  List<String> local)?  $default,) {final _that = this;
 switch (_that) {
 case _Gateway() when $default != null:
 return $default(_that.family,_that.interface,_that.address,_that.local);case _:
@@ -494,7 +494,7 @@ class _Gateway implements Gateway {
   const _Gateway({required this.family, required this.interface, required this.address, required final  List<String> local}): _local = local;
   factory _Gateway.fromJson(Map<String, dynamic> json) => _$GatewayFromJson(json);
 
-@override final  String family;
+@override final  RouteFamilyType family;
 @override final  String interface;
 @override final  String address;
  final  List<String> _local;
@@ -538,7 +538,7 @@ abstract mixin class _$GatewayCopyWith<$Res> implements $GatewayCopyWith<$Res> {
   factory _$GatewayCopyWith(_Gateway value, $Res Function(_Gateway) _then) = __$GatewayCopyWithImpl;
 @override @useResult
 $Res call({
- String family, String interface, String address, List<String> local
+ RouteFamilyType family, String interface, String address, List<String> local
 });
 
 
@@ -558,7 +558,7 @@ class __$GatewayCopyWithImpl<$Res>
 @override @pragma('vm:prefer-inline') $Res call({Object? family = null,Object? interface = null,Object? address = null,Object? local = null,}) {
   return _then(_Gateway(
 family: null == family ? _self.family : family // ignore: cast_nullable_to_non_nullable
-as String,interface: null == interface ? _self.interface : interface // ignore: cast_nullable_to_non_nullable
+as RouteFamilyType,interface: null == interface ? _self.interface : interface // ignore: cast_nullable_to_non_nullable
 as String,address: null == address ? _self.address : address // ignore: cast_nullable_to_non_nullable
 as String,local: null == local ? _self._local : local // ignore: cast_nullable_to_non_nullable
 as List<String>,
