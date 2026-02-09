@@ -287,7 +287,8 @@ as int?,
 /// @nodoc
 mixin _$Log {
 
- DateTime get dateTime; DnsRecordType get type; String get url; String get device; double get replyTime; QueryStatusType? get status; ReplyType? get replyType; int? get id; String? get answeredBy;// v6-only fields
+ DateTime get dateTime; DnsRecordType get type; String get url; String get device; double get replyTime;// in seconds
+ QueryStatusType? get status; ReplyType? get replyType; int? get id; String? get answeredBy;// v6-only fields
  String? get cname; String? get dnssec; int? get listId; String? get edeCode; String? get edeText;
 /// Create a copy of Log
 /// with the given fields replaced by the non-null parameter values.
@@ -497,6 +498,7 @@ class _Log implements Log {
 @override final  String url;
 @override final  String device;
 @override final  double replyTime;
+// in seconds
 @override final  QueryStatusType? status;
 @override final  ReplyType? replyType;
 @override final  int? id;

@@ -59,6 +59,11 @@ extension QueryMapper on sq.Query {
       replyType: convertReplyTypeV6(reply.type),
       id: id,
       answeredBy: upstream,
+      cname: cname,
+      dnssec: dnssec,
+      listId: listId,
+      edeCode: ede.code.toString(),
+      edeText: ede.text,
     );
   }
 }
