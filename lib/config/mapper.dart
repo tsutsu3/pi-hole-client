@@ -108,6 +108,21 @@ extension StringToBlockingModeMapper on String {
   }
 }
 
+extension StringToTemperatureUnitMapper on String {
+  TemperatureUnit toTemperatureUnit() {
+    switch (this) {
+      case 'C':
+        return TemperatureUnit.celsius;
+      case 'F':
+        return TemperatureUnit.fahrenheit;
+      case 'K':
+        return TemperatureUnit.kelvin;
+      default:
+        return TemperatureUnit.unknown;
+    }
+  }
+}
+
 extension StringToListeningModeMapper on String {
   ListeningMode toListeningMode() {
     switch (this) {

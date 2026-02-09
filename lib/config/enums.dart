@@ -242,6 +242,21 @@ enum QueryStatusType {
 
 enum RouteFamilyType { inet, inet6, link, mpls, bridge, unknown }
 
+/// Temperature unit (Pi-hole v6)
+/// FTL: src/enums.h — enum temp_unit
+enum TemperatureUnit {
+  /// Celsius (default)
+  celsius,
+
+  /// Fahrenheit
+  fahrenheit,
+
+  /// Kelvin
+  kelvin,
+
+  unknown,
+}
+
 /// DNS blocking mode (Pi-hole v6)
 enum BlockingMode {
   /// Reply with NULL (0.0.0.0 or ::) — default and recommended

@@ -72,7 +72,7 @@ extension InfoSensorsMapper on s.InfoSensors {
   d.FtlSensor toDomain() {
     return d.FtlSensor(
       hotLimit: sensors.hotLimit,
-      unit: sensors.unit,
+      unit: sensors.unit.toTemperatureUnit(),
       cpuTemp: sensors.cpuTemp,
     );
   }

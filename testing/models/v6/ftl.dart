@@ -476,7 +476,7 @@ const kRepoFetchFtlMetrics = repo.FtlDnsMetrics(
 
 const kRepoFetchFtlSensors = repo.FtlSensor(
   hotLimit: 60,
-  unit: 'C',
+  unit: TemperatureUnit.celsius,
   cpuTemp: 48,
 );
 

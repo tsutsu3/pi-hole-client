@@ -15,7 +15,7 @@ T _$identity<T>(T value) => value;
 /// @nodoc
 mixin _$FtlSensor {
 
- double get hotLimit; String get unit; double? get cpuTemp;
+ double get hotLimit; TemperatureUnit get unit; double? get cpuTemp;
 /// Create a copy of FtlSensor
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -48,7 +48,7 @@ abstract mixin class $FtlSensorCopyWith<$Res>  {
   factory $FtlSensorCopyWith(FtlSensor value, $Res Function(FtlSensor) _then) = _$FtlSensorCopyWithImpl;
 @useResult
 $Res call({
- double hotLimit, String unit, double? cpuTemp
+ double hotLimit, TemperatureUnit unit, double? cpuTemp
 });
 
 
@@ -69,7 +69,7 @@ class _$FtlSensorCopyWithImpl<$Res>
   return _then(_self.copyWith(
 hotLimit: null == hotLimit ? _self.hotLimit : hotLimit // ignore: cast_nullable_to_non_nullable
 as double,unit: null == unit ? _self.unit : unit // ignore: cast_nullable_to_non_nullable
-as String,cpuTemp: freezed == cpuTemp ? _self.cpuTemp : cpuTemp // ignore: cast_nullable_to_non_nullable
+as TemperatureUnit,cpuTemp: freezed == cpuTemp ? _self.cpuTemp : cpuTemp // ignore: cast_nullable_to_non_nullable
 as double?,
   ));
 }
@@ -152,7 +152,7 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( double hotLimit,  String unit,  double? cpuTemp)?  $default,{required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( double hotLimit,  TemperatureUnit unit,  double? cpuTemp)?  $default,{required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _FtlSensor() when $default != null:
 return $default(_that.hotLimit,_that.unit,_that.cpuTemp);case _:
@@ -173,7 +173,7 @@ return $default(_that.hotLimit,_that.unit,_that.cpuTemp);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( double hotLimit,  String unit,  double? cpuTemp)  $default,) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( double hotLimit,  TemperatureUnit unit,  double? cpuTemp)  $default,) {final _that = this;
 switch (_that) {
 case _FtlSensor():
 return $default(_that.hotLimit,_that.unit,_that.cpuTemp);}
@@ -190,7 +190,7 @@ return $default(_that.hotLimit,_that.unit,_that.cpuTemp);}
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( double hotLimit,  String unit,  double? cpuTemp)?  $default,) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( double hotLimit,  TemperatureUnit unit,  double? cpuTemp)?  $default,) {final _that = this;
 switch (_that) {
 case _FtlSensor() when $default != null:
 return $default(_that.hotLimit,_that.unit,_that.cpuTemp);case _:
@@ -209,7 +209,7 @@ class _FtlSensor implements FtlSensor {
   factory _FtlSensor.fromJson(Map<String, dynamic> json) => _$FtlSensorFromJson(json);
 
 @override final  double hotLimit;
-@override final  String unit;
+@override final  TemperatureUnit unit;
 @override final  double? cpuTemp;
 
 /// Create a copy of FtlSensor
@@ -245,7 +245,7 @@ abstract mixin class _$FtlSensorCopyWith<$Res> implements $FtlSensorCopyWith<$Re
   factory _$FtlSensorCopyWith(_FtlSensor value, $Res Function(_FtlSensor) _then) = __$FtlSensorCopyWithImpl;
 @override @useResult
 $Res call({
- double hotLimit, String unit, double? cpuTemp
+ double hotLimit, TemperatureUnit unit, double? cpuTemp
 });
 
 
@@ -266,7 +266,7 @@ class __$FtlSensorCopyWithImpl<$Res>
   return _then(_FtlSensor(
 hotLimit: null == hotLimit ? _self.hotLimit : hotLimit // ignore: cast_nullable_to_non_nullable
 as double,unit: null == unit ? _self.unit : unit // ignore: cast_nullable_to_non_nullable
-as String,cpuTemp: freezed == cpuTemp ? _self.cpuTemp : cpuTemp // ignore: cast_nullable_to_non_nullable
+as TemperatureUnit,cpuTemp: freezed == cpuTemp ? _self.cpuTemp : cpuTemp // ignore: cast_nullable_to_non_nullable
 as double?,
   ));
 }
