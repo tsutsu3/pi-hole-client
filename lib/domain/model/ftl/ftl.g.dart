@@ -6,10 +6,10 @@ part of 'ftl.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-_InfoFtl _$InfoFtlFromJson(Map<String, dynamic> json) => _InfoFtl(
+_FtlInfo _$FtlInfoFromJson(Map<String, dynamic> json) => _FtlInfo(
   privacyLevel: (json['privacyLevel'] as num).toInt(),
   pid: (json['pid'] as num?)?.toInt(),
-  uptime: (json['uptime'] as num?)?.toDouble(),
+  uptime: (json['uptime'] as num?)?.toInt(),
   percentMem: (json['percentMem'] as num?)?.toDouble(),
   percentCpu: (json['percentCpu'] as num?)?.toDouble(),
   queryFrequency: (json['queryFrequency'] as num?)?.toDouble(),
@@ -22,7 +22,7 @@ _InfoFtl _$InfoFtlFromJson(Map<String, dynamic> json) => _InfoFtl(
       : FtlClients.fromJson(json['clients'] as Map<String, dynamic>),
 );
 
-Map<String, dynamic> _$InfoFtlToJson(_InfoFtl instance) => <String, dynamic>{
+Map<String, dynamic> _$FtlInfoToJson(_FtlInfo instance) => <String, dynamic>{
   'privacyLevel': instance.privacyLevel,
   'pid': instance.pid,
   'uptime': instance.uptime,

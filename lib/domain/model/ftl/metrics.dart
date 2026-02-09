@@ -5,15 +5,15 @@ part 'metrics.freezed.dart';
 part 'metrics.g.dart';
 
 @freezed
-sealed class InfoDnsMetrics with _$InfoDnsMetrics {
+sealed class FtlDnsMetrics with _$FtlDnsMetrics {
   @JsonSerializable(explicitToJson: true)
-  const factory InfoDnsMetrics({
+  const factory FtlDnsMetrics({
     required DnsCache cache,
     required DnsReplies replies,
-  }) = _InfoDnsMetrics;
+  }) = _FtlDnsMetrics;
 
-  factory InfoDnsMetrics.fromJson(Map<String, dynamic> json) =>
-      _$InfoDnsMetricsFromJson(json);
+  factory FtlDnsMetrics.fromJson(Map<String, dynamic> json) =>
+      _$FtlDnsMetricsFromJson(json);
 }
 
 @freezed

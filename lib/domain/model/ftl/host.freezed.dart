@@ -13,23 +13,23 @@ part of 'host.dart';
 T _$identity<T>(T value) => value;
 
 /// @nodoc
-mixin _$InfoHost {
+mixin _$FtlHost {
 
  String get domainName; String get arch; String get hostName; String get release; String get sysName; String get version; String? get model;// v6-only field
  DmiInfo? get dmi;
-/// Create a copy of InfoHost
+/// Create a copy of FtlHost
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
 @pragma('vm:prefer-inline')
-$InfoHostCopyWith<InfoHost> get copyWith => _$InfoHostCopyWithImpl<InfoHost>(this as InfoHost, _$identity);
+$FtlHostCopyWith<FtlHost> get copyWith => _$FtlHostCopyWithImpl<FtlHost>(this as FtlHost, _$identity);
 
-  /// Serializes this InfoHost to a JSON map.
+  /// Serializes this FtlHost to a JSON map.
   Map<String, dynamic> toJson();
 
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is InfoHost&&(identical(other.domainName, domainName) || other.domainName == domainName)&&(identical(other.arch, arch) || other.arch == arch)&&(identical(other.hostName, hostName) || other.hostName == hostName)&&(identical(other.release, release) || other.release == release)&&(identical(other.sysName, sysName) || other.sysName == sysName)&&(identical(other.version, version) || other.version == version)&&(identical(other.model, model) || other.model == model)&&(identical(other.dmi, dmi) || other.dmi == dmi));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is FtlHost&&(identical(other.domainName, domainName) || other.domainName == domainName)&&(identical(other.arch, arch) || other.arch == arch)&&(identical(other.hostName, hostName) || other.hostName == hostName)&&(identical(other.release, release) || other.release == release)&&(identical(other.sysName, sysName) || other.sysName == sysName)&&(identical(other.version, version) || other.version == version)&&(identical(other.model, model) || other.model == model)&&(identical(other.dmi, dmi) || other.dmi == dmi));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -38,15 +38,15 @@ int get hashCode => Object.hash(runtimeType,domainName,arch,hostName,release,sys
 
 @override
 String toString() {
-  return 'InfoHost(domainName: $domainName, arch: $arch, hostName: $hostName, release: $release, sysName: $sysName, version: $version, model: $model, dmi: $dmi)';
+  return 'FtlHost(domainName: $domainName, arch: $arch, hostName: $hostName, release: $release, sysName: $sysName, version: $version, model: $model, dmi: $dmi)';
 }
 
 
 }
 
 /// @nodoc
-abstract mixin class $InfoHostCopyWith<$Res>  {
-  factory $InfoHostCopyWith(InfoHost value, $Res Function(InfoHost) _then) = _$InfoHostCopyWithImpl;
+abstract mixin class $FtlHostCopyWith<$Res>  {
+  factory $FtlHostCopyWith(FtlHost value, $Res Function(FtlHost) _then) = _$FtlHostCopyWithImpl;
 @useResult
 $Res call({
  String domainName, String arch, String hostName, String release, String sysName, String version, String? model, DmiInfo? dmi
@@ -57,14 +57,14 @@ $DmiInfoCopyWith<$Res>? get dmi;
 
 }
 /// @nodoc
-class _$InfoHostCopyWithImpl<$Res>
-    implements $InfoHostCopyWith<$Res> {
-  _$InfoHostCopyWithImpl(this._self, this._then);
+class _$FtlHostCopyWithImpl<$Res>
+    implements $FtlHostCopyWith<$Res> {
+  _$FtlHostCopyWithImpl(this._self, this._then);
 
-  final InfoHost _self;
-  final $Res Function(InfoHost) _then;
+  final FtlHost _self;
+  final $Res Function(FtlHost) _then;
 
-/// Create a copy of InfoHost
+/// Create a copy of FtlHost
 /// with the given fields replaced by the non-null parameter values.
 @pragma('vm:prefer-inline') @override $Res call({Object? domainName = null,Object? arch = null,Object? hostName = null,Object? release = null,Object? sysName = null,Object? version = null,Object? model = freezed,Object? dmi = freezed,}) {
   return _then(_self.copyWith(
@@ -79,7 +79,7 @@ as String?,dmi: freezed == dmi ? _self.dmi : dmi // ignore: cast_nullable_to_non
 as DmiInfo?,
   ));
 }
-/// Create a copy of InfoHost
+/// Create a copy of FtlHost
 /// with the given fields replaced by the non-null parameter values.
 @override
 @pragma('vm:prefer-inline')
@@ -95,8 +95,8 @@ $DmiInfoCopyWith<$Res>? get dmi {
 }
 
 
-/// Adds pattern-matching-related methods to [InfoHost].
-extension InfoHostPatterns on InfoHost {
+/// Adds pattern-matching-related methods to [FtlHost].
+extension FtlHostPatterns on FtlHost {
 /// A variant of `map` that fallback to returning `orElse`.
 ///
 /// It is equivalent to doing:
@@ -109,10 +109,10 @@ extension InfoHostPatterns on InfoHost {
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeMap<TResult extends Object?>(TResult Function( _InfoHost value)?  $default,{required TResult orElse(),}){
+@optionalTypeArgs TResult maybeMap<TResult extends Object?>(TResult Function( _FtlHost value)?  $default,{required TResult orElse(),}){
 final _that = this;
 switch (_that) {
-case _InfoHost() when $default != null:
+case _FtlHost() when $default != null:
 return $default(_that);case _:
   return orElse();
 
@@ -131,10 +131,10 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult map<TResult extends Object?>(TResult Function( _InfoHost value)  $default,){
+@optionalTypeArgs TResult map<TResult extends Object?>(TResult Function( _FtlHost value)  $default,){
 final _that = this;
 switch (_that) {
-case _InfoHost():
+case _FtlHost():
 return $default(_that);}
 }
 /// A variant of `map` that fallback to returning `null`.
@@ -149,10 +149,10 @@ return $default(_that);}
 /// }
 /// ```
 
-@optionalTypeArgs TResult? mapOrNull<TResult extends Object?>(TResult? Function( _InfoHost value)?  $default,){
+@optionalTypeArgs TResult? mapOrNull<TResult extends Object?>(TResult? Function( _FtlHost value)?  $default,){
 final _that = this;
 switch (_that) {
-case _InfoHost() when $default != null:
+case _FtlHost() when $default != null:
 return $default(_that);case _:
   return null;
 
@@ -172,7 +172,7 @@ return $default(_that);case _:
 
 @optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( String domainName,  String arch,  String hostName,  String release,  String sysName,  String version,  String? model,  DmiInfo? dmi)?  $default,{required TResult orElse(),}) {final _that = this;
 switch (_that) {
-case _InfoHost() when $default != null:
+case _FtlHost() when $default != null:
 return $default(_that.domainName,_that.arch,_that.hostName,_that.release,_that.sysName,_that.version,_that.model,_that.dmi);case _:
   return orElse();
 
@@ -193,7 +193,7 @@ return $default(_that.domainName,_that.arch,_that.hostName,_that.release,_that.s
 
 @optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( String domainName,  String arch,  String hostName,  String release,  String sysName,  String version,  String? model,  DmiInfo? dmi)  $default,) {final _that = this;
 switch (_that) {
-case _InfoHost():
+case _FtlHost():
 return $default(_that.domainName,_that.arch,_that.hostName,_that.release,_that.sysName,_that.version,_that.model,_that.dmi);}
 }
 /// A variant of `when` that fallback to returning `null`
@@ -210,7 +210,7 @@ return $default(_that.domainName,_that.arch,_that.hostName,_that.release,_that.s
 
 @optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( String domainName,  String arch,  String hostName,  String release,  String sysName,  String version,  String? model,  DmiInfo? dmi)?  $default,) {final _that = this;
 switch (_that) {
-case _InfoHost() when $default != null:
+case _FtlHost() when $default != null:
 return $default(_that.domainName,_that.arch,_that.hostName,_that.release,_that.sysName,_that.version,_that.model,_that.dmi);case _:
   return null;
 
@@ -222,9 +222,9 @@ return $default(_that.domainName,_that.arch,_that.hostName,_that.release,_that.s
 /// @nodoc
 
 @JsonSerializable(explicitToJson: true)
-class _InfoHost implements InfoHost {
-  const _InfoHost({required this.domainName, required this.arch, required this.hostName, required this.release, required this.sysName, required this.version, this.model, this.dmi});
-  factory _InfoHost.fromJson(Map<String, dynamic> json) => _$InfoHostFromJson(json);
+class _FtlHost implements FtlHost {
+  const _FtlHost({required this.domainName, required this.arch, required this.hostName, required this.release, required this.sysName, required this.version, this.model, this.dmi});
+  factory _FtlHost.fromJson(Map<String, dynamic> json) => _$FtlHostFromJson(json);
 
 @override final  String domainName;
 @override final  String arch;
@@ -236,20 +236,20 @@ class _InfoHost implements InfoHost {
 // v6-only field
 @override final  DmiInfo? dmi;
 
-/// Create a copy of InfoHost
+/// Create a copy of FtlHost
 /// with the given fields replaced by the non-null parameter values.
 @override @JsonKey(includeFromJson: false, includeToJson: false)
 @pragma('vm:prefer-inline')
-_$InfoHostCopyWith<_InfoHost> get copyWith => __$InfoHostCopyWithImpl<_InfoHost>(this, _$identity);
+_$FtlHostCopyWith<_FtlHost> get copyWith => __$FtlHostCopyWithImpl<_FtlHost>(this, _$identity);
 
 @override
 Map<String, dynamic> toJson() {
-  return _$InfoHostToJson(this, );
+  return _$FtlHostToJson(this, );
 }
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _InfoHost&&(identical(other.domainName, domainName) || other.domainName == domainName)&&(identical(other.arch, arch) || other.arch == arch)&&(identical(other.hostName, hostName) || other.hostName == hostName)&&(identical(other.release, release) || other.release == release)&&(identical(other.sysName, sysName) || other.sysName == sysName)&&(identical(other.version, version) || other.version == version)&&(identical(other.model, model) || other.model == model)&&(identical(other.dmi, dmi) || other.dmi == dmi));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _FtlHost&&(identical(other.domainName, domainName) || other.domainName == domainName)&&(identical(other.arch, arch) || other.arch == arch)&&(identical(other.hostName, hostName) || other.hostName == hostName)&&(identical(other.release, release) || other.release == release)&&(identical(other.sysName, sysName) || other.sysName == sysName)&&(identical(other.version, version) || other.version == version)&&(identical(other.model, model) || other.model == model)&&(identical(other.dmi, dmi) || other.dmi == dmi));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -258,15 +258,15 @@ int get hashCode => Object.hash(runtimeType,domainName,arch,hostName,release,sys
 
 @override
 String toString() {
-  return 'InfoHost(domainName: $domainName, arch: $arch, hostName: $hostName, release: $release, sysName: $sysName, version: $version, model: $model, dmi: $dmi)';
+  return 'FtlHost(domainName: $domainName, arch: $arch, hostName: $hostName, release: $release, sysName: $sysName, version: $version, model: $model, dmi: $dmi)';
 }
 
 
 }
 
 /// @nodoc
-abstract mixin class _$InfoHostCopyWith<$Res> implements $InfoHostCopyWith<$Res> {
-  factory _$InfoHostCopyWith(_InfoHost value, $Res Function(_InfoHost) _then) = __$InfoHostCopyWithImpl;
+abstract mixin class _$FtlHostCopyWith<$Res> implements $FtlHostCopyWith<$Res> {
+  factory _$FtlHostCopyWith(_FtlHost value, $Res Function(_FtlHost) _then) = __$FtlHostCopyWithImpl;
 @override @useResult
 $Res call({
  String domainName, String arch, String hostName, String release, String sysName, String version, String? model, DmiInfo? dmi
@@ -277,17 +277,17 @@ $Res call({
 
 }
 /// @nodoc
-class __$InfoHostCopyWithImpl<$Res>
-    implements _$InfoHostCopyWith<$Res> {
-  __$InfoHostCopyWithImpl(this._self, this._then);
+class __$FtlHostCopyWithImpl<$Res>
+    implements _$FtlHostCopyWith<$Res> {
+  __$FtlHostCopyWithImpl(this._self, this._then);
 
-  final _InfoHost _self;
-  final $Res Function(_InfoHost) _then;
+  final _FtlHost _self;
+  final $Res Function(_FtlHost) _then;
 
-/// Create a copy of InfoHost
+/// Create a copy of FtlHost
 /// with the given fields replaced by the non-null parameter values.
 @override @pragma('vm:prefer-inline') $Res call({Object? domainName = null,Object? arch = null,Object? hostName = null,Object? release = null,Object? sysName = null,Object? version = null,Object? model = freezed,Object? dmi = freezed,}) {
-  return _then(_InfoHost(
+  return _then(_FtlHost(
 domainName: null == domainName ? _self.domainName : domainName // ignore: cast_nullable_to_non_nullable
 as String,arch: null == arch ? _self.arch : arch // ignore: cast_nullable_to_non_nullable
 as String,hostName: null == hostName ? _self.hostName : hostName // ignore: cast_nullable_to_non_nullable
@@ -300,7 +300,7 @@ as DmiInfo?,
   ));
 }
 
-/// Create a copy of InfoHost
+/// Create a copy of FtlHost
 /// with the given fields replaced by the non-null parameter values.
 @override
 @pragma('vm:prefer-inline')

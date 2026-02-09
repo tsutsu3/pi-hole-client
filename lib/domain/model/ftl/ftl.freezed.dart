@@ -13,23 +13,23 @@ part of 'ftl.dart';
 T _$identity<T>(T value) => value;
 
 /// @nodoc
-mixin _$InfoFtl {
+mixin _$FtlInfo {
 
  int get privacyLevel;// v6-only fields
- int? get pid; double? get uptime; double? get percentMem; double? get percentCpu; double? get queryFrequency; bool? get allowDestructive; FtlDatabase? get database; FtlClients? get clients;
-/// Create a copy of InfoFtl
+ int? get pid; int? get uptime; double? get percentMem; double? get percentCpu; double? get queryFrequency; bool? get allowDestructive; FtlDatabase? get database; FtlClients? get clients;
+/// Create a copy of FtlInfo
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
 @pragma('vm:prefer-inline')
-$InfoFtlCopyWith<InfoFtl> get copyWith => _$InfoFtlCopyWithImpl<InfoFtl>(this as InfoFtl, _$identity);
+$FtlInfoCopyWith<FtlInfo> get copyWith => _$FtlInfoCopyWithImpl<FtlInfo>(this as FtlInfo, _$identity);
 
-  /// Serializes this InfoFtl to a JSON map.
+  /// Serializes this FtlInfo to a JSON map.
   Map<String, dynamic> toJson();
 
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is InfoFtl&&(identical(other.privacyLevel, privacyLevel) || other.privacyLevel == privacyLevel)&&(identical(other.pid, pid) || other.pid == pid)&&(identical(other.uptime, uptime) || other.uptime == uptime)&&(identical(other.percentMem, percentMem) || other.percentMem == percentMem)&&(identical(other.percentCpu, percentCpu) || other.percentCpu == percentCpu)&&(identical(other.queryFrequency, queryFrequency) || other.queryFrequency == queryFrequency)&&(identical(other.allowDestructive, allowDestructive) || other.allowDestructive == allowDestructive)&&(identical(other.database, database) || other.database == database)&&(identical(other.clients, clients) || other.clients == clients));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is FtlInfo&&(identical(other.privacyLevel, privacyLevel) || other.privacyLevel == privacyLevel)&&(identical(other.pid, pid) || other.pid == pid)&&(identical(other.uptime, uptime) || other.uptime == uptime)&&(identical(other.percentMem, percentMem) || other.percentMem == percentMem)&&(identical(other.percentCpu, percentCpu) || other.percentCpu == percentCpu)&&(identical(other.queryFrequency, queryFrequency) || other.queryFrequency == queryFrequency)&&(identical(other.allowDestructive, allowDestructive) || other.allowDestructive == allowDestructive)&&(identical(other.database, database) || other.database == database)&&(identical(other.clients, clients) || other.clients == clients));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -38,18 +38,18 @@ int get hashCode => Object.hash(runtimeType,privacyLevel,pid,uptime,percentMem,p
 
 @override
 String toString() {
-  return 'InfoFtl(privacyLevel: $privacyLevel, pid: $pid, uptime: $uptime, percentMem: $percentMem, percentCpu: $percentCpu, queryFrequency: $queryFrequency, allowDestructive: $allowDestructive, database: $database, clients: $clients)';
+  return 'FtlInfo(privacyLevel: $privacyLevel, pid: $pid, uptime: $uptime, percentMem: $percentMem, percentCpu: $percentCpu, queryFrequency: $queryFrequency, allowDestructive: $allowDestructive, database: $database, clients: $clients)';
 }
 
 
 }
 
 /// @nodoc
-abstract mixin class $InfoFtlCopyWith<$Res>  {
-  factory $InfoFtlCopyWith(InfoFtl value, $Res Function(InfoFtl) _then) = _$InfoFtlCopyWithImpl;
+abstract mixin class $FtlInfoCopyWith<$Res>  {
+  factory $FtlInfoCopyWith(FtlInfo value, $Res Function(FtlInfo) _then) = _$FtlInfoCopyWithImpl;
 @useResult
 $Res call({
- int privacyLevel, int? pid, double? uptime, double? percentMem, double? percentCpu, double? queryFrequency, bool? allowDestructive, FtlDatabase? database, FtlClients? clients
+ int privacyLevel, int? pid, int? uptime, double? percentMem, double? percentCpu, double? queryFrequency, bool? allowDestructive, FtlDatabase? database, FtlClients? clients
 });
 
 
@@ -57,21 +57,21 @@ $FtlDatabaseCopyWith<$Res>? get database;$FtlClientsCopyWith<$Res>? get clients;
 
 }
 /// @nodoc
-class _$InfoFtlCopyWithImpl<$Res>
-    implements $InfoFtlCopyWith<$Res> {
-  _$InfoFtlCopyWithImpl(this._self, this._then);
+class _$FtlInfoCopyWithImpl<$Res>
+    implements $FtlInfoCopyWith<$Res> {
+  _$FtlInfoCopyWithImpl(this._self, this._then);
 
-  final InfoFtl _self;
-  final $Res Function(InfoFtl) _then;
+  final FtlInfo _self;
+  final $Res Function(FtlInfo) _then;
 
-/// Create a copy of InfoFtl
+/// Create a copy of FtlInfo
 /// with the given fields replaced by the non-null parameter values.
 @pragma('vm:prefer-inline') @override $Res call({Object? privacyLevel = null,Object? pid = freezed,Object? uptime = freezed,Object? percentMem = freezed,Object? percentCpu = freezed,Object? queryFrequency = freezed,Object? allowDestructive = freezed,Object? database = freezed,Object? clients = freezed,}) {
   return _then(_self.copyWith(
 privacyLevel: null == privacyLevel ? _self.privacyLevel : privacyLevel // ignore: cast_nullable_to_non_nullable
 as int,pid: freezed == pid ? _self.pid : pid // ignore: cast_nullable_to_non_nullable
 as int?,uptime: freezed == uptime ? _self.uptime : uptime // ignore: cast_nullable_to_non_nullable
-as double?,percentMem: freezed == percentMem ? _self.percentMem : percentMem // ignore: cast_nullable_to_non_nullable
+as int?,percentMem: freezed == percentMem ? _self.percentMem : percentMem // ignore: cast_nullable_to_non_nullable
 as double?,percentCpu: freezed == percentCpu ? _self.percentCpu : percentCpu // ignore: cast_nullable_to_non_nullable
 as double?,queryFrequency: freezed == queryFrequency ? _self.queryFrequency : queryFrequency // ignore: cast_nullable_to_non_nullable
 as double?,allowDestructive: freezed == allowDestructive ? _self.allowDestructive : allowDestructive // ignore: cast_nullable_to_non_nullable
@@ -80,7 +80,7 @@ as FtlDatabase?,clients: freezed == clients ? _self.clients : clients // ignore:
 as FtlClients?,
   ));
 }
-/// Create a copy of InfoFtl
+/// Create a copy of FtlInfo
 /// with the given fields replaced by the non-null parameter values.
 @override
 @pragma('vm:prefer-inline')
@@ -92,7 +92,7 @@ $FtlDatabaseCopyWith<$Res>? get database {
   return $FtlDatabaseCopyWith<$Res>(_self.database!, (value) {
     return _then(_self.copyWith(database: value));
   });
-}/// Create a copy of InfoFtl
+}/// Create a copy of FtlInfo
 /// with the given fields replaced by the non-null parameter values.
 @override
 @pragma('vm:prefer-inline')
@@ -108,8 +108,8 @@ $FtlClientsCopyWith<$Res>? get clients {
 }
 
 
-/// Adds pattern-matching-related methods to [InfoFtl].
-extension InfoFtlPatterns on InfoFtl {
+/// Adds pattern-matching-related methods to [FtlInfo].
+extension FtlInfoPatterns on FtlInfo {
 /// A variant of `map` that fallback to returning `orElse`.
 ///
 /// It is equivalent to doing:
@@ -122,10 +122,10 @@ extension InfoFtlPatterns on InfoFtl {
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeMap<TResult extends Object?>(TResult Function( _InfoFtl value)?  $default,{required TResult orElse(),}){
+@optionalTypeArgs TResult maybeMap<TResult extends Object?>(TResult Function( _FtlInfo value)?  $default,{required TResult orElse(),}){
 final _that = this;
 switch (_that) {
-case _InfoFtl() when $default != null:
+case _FtlInfo() when $default != null:
 return $default(_that);case _:
   return orElse();
 
@@ -144,10 +144,10 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult map<TResult extends Object?>(TResult Function( _InfoFtl value)  $default,){
+@optionalTypeArgs TResult map<TResult extends Object?>(TResult Function( _FtlInfo value)  $default,){
 final _that = this;
 switch (_that) {
-case _InfoFtl():
+case _FtlInfo():
 return $default(_that);}
 }
 /// A variant of `map` that fallback to returning `null`.
@@ -162,10 +162,10 @@ return $default(_that);}
 /// }
 /// ```
 
-@optionalTypeArgs TResult? mapOrNull<TResult extends Object?>(TResult? Function( _InfoFtl value)?  $default,){
+@optionalTypeArgs TResult? mapOrNull<TResult extends Object?>(TResult? Function( _FtlInfo value)?  $default,){
 final _that = this;
 switch (_that) {
-case _InfoFtl() when $default != null:
+case _FtlInfo() when $default != null:
 return $default(_that);case _:
   return null;
 
@@ -183,9 +183,9 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( int privacyLevel,  int? pid,  double? uptime,  double? percentMem,  double? percentCpu,  double? queryFrequency,  bool? allowDestructive,  FtlDatabase? database,  FtlClients? clients)?  $default,{required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( int privacyLevel,  int? pid,  int? uptime,  double? percentMem,  double? percentCpu,  double? queryFrequency,  bool? allowDestructive,  FtlDatabase? database,  FtlClients? clients)?  $default,{required TResult orElse(),}) {final _that = this;
 switch (_that) {
-case _InfoFtl() when $default != null:
+case _FtlInfo() when $default != null:
 return $default(_that.privacyLevel,_that.pid,_that.uptime,_that.percentMem,_that.percentCpu,_that.queryFrequency,_that.allowDestructive,_that.database,_that.clients);case _:
   return orElse();
 
@@ -204,9 +204,9 @@ return $default(_that.privacyLevel,_that.pid,_that.uptime,_that.percentMem,_that
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( int privacyLevel,  int? pid,  double? uptime,  double? percentMem,  double? percentCpu,  double? queryFrequency,  bool? allowDestructive,  FtlDatabase? database,  FtlClients? clients)  $default,) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( int privacyLevel,  int? pid,  int? uptime,  double? percentMem,  double? percentCpu,  double? queryFrequency,  bool? allowDestructive,  FtlDatabase? database,  FtlClients? clients)  $default,) {final _that = this;
 switch (_that) {
-case _InfoFtl():
+case _FtlInfo():
 return $default(_that.privacyLevel,_that.pid,_that.uptime,_that.percentMem,_that.percentCpu,_that.queryFrequency,_that.allowDestructive,_that.database,_that.clients);}
 }
 /// A variant of `when` that fallback to returning `null`
@@ -221,9 +221,9 @@ return $default(_that.privacyLevel,_that.pid,_that.uptime,_that.percentMem,_that
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( int privacyLevel,  int? pid,  double? uptime,  double? percentMem,  double? percentCpu,  double? queryFrequency,  bool? allowDestructive,  FtlDatabase? database,  FtlClients? clients)?  $default,) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( int privacyLevel,  int? pid,  int? uptime,  double? percentMem,  double? percentCpu,  double? queryFrequency,  bool? allowDestructive,  FtlDatabase? database,  FtlClients? clients)?  $default,) {final _that = this;
 switch (_that) {
-case _InfoFtl() when $default != null:
+case _FtlInfo() when $default != null:
 return $default(_that.privacyLevel,_that.pid,_that.uptime,_that.percentMem,_that.percentCpu,_that.queryFrequency,_that.allowDestructive,_that.database,_that.clients);case _:
   return null;
 
@@ -235,14 +235,14 @@ return $default(_that.privacyLevel,_that.pid,_that.uptime,_that.percentMem,_that
 /// @nodoc
 
 @JsonSerializable(explicitToJson: true)
-class _InfoFtl implements InfoFtl {
-  const _InfoFtl({required this.privacyLevel, this.pid, this.uptime, this.percentMem, this.percentCpu, this.queryFrequency, this.allowDestructive, this.database, this.clients});
-  factory _InfoFtl.fromJson(Map<String, dynamic> json) => _$InfoFtlFromJson(json);
+class _FtlInfo implements FtlInfo {
+  const _FtlInfo({required this.privacyLevel, this.pid, this.uptime, this.percentMem, this.percentCpu, this.queryFrequency, this.allowDestructive, this.database, this.clients});
+  factory _FtlInfo.fromJson(Map<String, dynamic> json) => _$FtlInfoFromJson(json);
 
 @override final  int privacyLevel;
 // v6-only fields
 @override final  int? pid;
-@override final  double? uptime;
+@override final  int? uptime;
 @override final  double? percentMem;
 @override final  double? percentCpu;
 @override final  double? queryFrequency;
@@ -250,20 +250,20 @@ class _InfoFtl implements InfoFtl {
 @override final  FtlDatabase? database;
 @override final  FtlClients? clients;
 
-/// Create a copy of InfoFtl
+/// Create a copy of FtlInfo
 /// with the given fields replaced by the non-null parameter values.
 @override @JsonKey(includeFromJson: false, includeToJson: false)
 @pragma('vm:prefer-inline')
-_$InfoFtlCopyWith<_InfoFtl> get copyWith => __$InfoFtlCopyWithImpl<_InfoFtl>(this, _$identity);
+_$FtlInfoCopyWith<_FtlInfo> get copyWith => __$FtlInfoCopyWithImpl<_FtlInfo>(this, _$identity);
 
 @override
 Map<String, dynamic> toJson() {
-  return _$InfoFtlToJson(this, );
+  return _$FtlInfoToJson(this, );
 }
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _InfoFtl&&(identical(other.privacyLevel, privacyLevel) || other.privacyLevel == privacyLevel)&&(identical(other.pid, pid) || other.pid == pid)&&(identical(other.uptime, uptime) || other.uptime == uptime)&&(identical(other.percentMem, percentMem) || other.percentMem == percentMem)&&(identical(other.percentCpu, percentCpu) || other.percentCpu == percentCpu)&&(identical(other.queryFrequency, queryFrequency) || other.queryFrequency == queryFrequency)&&(identical(other.allowDestructive, allowDestructive) || other.allowDestructive == allowDestructive)&&(identical(other.database, database) || other.database == database)&&(identical(other.clients, clients) || other.clients == clients));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _FtlInfo&&(identical(other.privacyLevel, privacyLevel) || other.privacyLevel == privacyLevel)&&(identical(other.pid, pid) || other.pid == pid)&&(identical(other.uptime, uptime) || other.uptime == uptime)&&(identical(other.percentMem, percentMem) || other.percentMem == percentMem)&&(identical(other.percentCpu, percentCpu) || other.percentCpu == percentCpu)&&(identical(other.queryFrequency, queryFrequency) || other.queryFrequency == queryFrequency)&&(identical(other.allowDestructive, allowDestructive) || other.allowDestructive == allowDestructive)&&(identical(other.database, database) || other.database == database)&&(identical(other.clients, clients) || other.clients == clients));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -272,18 +272,18 @@ int get hashCode => Object.hash(runtimeType,privacyLevel,pid,uptime,percentMem,p
 
 @override
 String toString() {
-  return 'InfoFtl(privacyLevel: $privacyLevel, pid: $pid, uptime: $uptime, percentMem: $percentMem, percentCpu: $percentCpu, queryFrequency: $queryFrequency, allowDestructive: $allowDestructive, database: $database, clients: $clients)';
+  return 'FtlInfo(privacyLevel: $privacyLevel, pid: $pid, uptime: $uptime, percentMem: $percentMem, percentCpu: $percentCpu, queryFrequency: $queryFrequency, allowDestructive: $allowDestructive, database: $database, clients: $clients)';
 }
 
 
 }
 
 /// @nodoc
-abstract mixin class _$InfoFtlCopyWith<$Res> implements $InfoFtlCopyWith<$Res> {
-  factory _$InfoFtlCopyWith(_InfoFtl value, $Res Function(_InfoFtl) _then) = __$InfoFtlCopyWithImpl;
+abstract mixin class _$FtlInfoCopyWith<$Res> implements $FtlInfoCopyWith<$Res> {
+  factory _$FtlInfoCopyWith(_FtlInfo value, $Res Function(_FtlInfo) _then) = __$FtlInfoCopyWithImpl;
 @override @useResult
 $Res call({
- int privacyLevel, int? pid, double? uptime, double? percentMem, double? percentCpu, double? queryFrequency, bool? allowDestructive, FtlDatabase? database, FtlClients? clients
+ int privacyLevel, int? pid, int? uptime, double? percentMem, double? percentCpu, double? queryFrequency, bool? allowDestructive, FtlDatabase? database, FtlClients? clients
 });
 
 
@@ -291,21 +291,21 @@ $Res call({
 
 }
 /// @nodoc
-class __$InfoFtlCopyWithImpl<$Res>
-    implements _$InfoFtlCopyWith<$Res> {
-  __$InfoFtlCopyWithImpl(this._self, this._then);
+class __$FtlInfoCopyWithImpl<$Res>
+    implements _$FtlInfoCopyWith<$Res> {
+  __$FtlInfoCopyWithImpl(this._self, this._then);
 
-  final _InfoFtl _self;
-  final $Res Function(_InfoFtl) _then;
+  final _FtlInfo _self;
+  final $Res Function(_FtlInfo) _then;
 
-/// Create a copy of InfoFtl
+/// Create a copy of FtlInfo
 /// with the given fields replaced by the non-null parameter values.
 @override @pragma('vm:prefer-inline') $Res call({Object? privacyLevel = null,Object? pid = freezed,Object? uptime = freezed,Object? percentMem = freezed,Object? percentCpu = freezed,Object? queryFrequency = freezed,Object? allowDestructive = freezed,Object? database = freezed,Object? clients = freezed,}) {
-  return _then(_InfoFtl(
+  return _then(_FtlInfo(
 privacyLevel: null == privacyLevel ? _self.privacyLevel : privacyLevel // ignore: cast_nullable_to_non_nullable
 as int,pid: freezed == pid ? _self.pid : pid // ignore: cast_nullable_to_non_nullable
 as int?,uptime: freezed == uptime ? _self.uptime : uptime // ignore: cast_nullable_to_non_nullable
-as double?,percentMem: freezed == percentMem ? _self.percentMem : percentMem // ignore: cast_nullable_to_non_nullable
+as int?,percentMem: freezed == percentMem ? _self.percentMem : percentMem // ignore: cast_nullable_to_non_nullable
 as double?,percentCpu: freezed == percentCpu ? _self.percentCpu : percentCpu // ignore: cast_nullable_to_non_nullable
 as double?,queryFrequency: freezed == queryFrequency ? _self.queryFrequency : queryFrequency // ignore: cast_nullable_to_non_nullable
 as double?,allowDestructive: freezed == allowDestructive ? _self.allowDestructive : allowDestructive // ignore: cast_nullable_to_non_nullable
@@ -315,7 +315,7 @@ as FtlClients?,
   ));
 }
 
-/// Create a copy of InfoFtl
+/// Create a copy of FtlInfo
 /// with the given fields replaced by the non-null parameter values.
 @override
 @pragma('vm:prefer-inline')
@@ -327,7 +327,7 @@ $FtlDatabaseCopyWith<$Res>? get database {
   return $FtlDatabaseCopyWith<$Res>(_self.database!, (value) {
     return _then(_self.copyWith(database: value));
   });
-}/// Create a copy of InfoFtl
+}/// Create a copy of FtlInfo
 /// with the given fields replaced by the non-null parameter values.
 @override
 @pragma('vm:prefer-inline')

@@ -365,11 +365,11 @@ const kSrvGetInfoVersion = srv.InfoVersion(
 
 // repo models
 
-const kRepoFetchInfoClient = repo.InfoClient(addr: '127.0.0.1');
+const kRepoFetchFtlClient = repo.FtlClient(addr: '127.0.0.1');
 
-const kRepoFetchInfoFtl = repo.InfoFtl(privacyLevel: 0);
+const kRepoFetchFtlInfo = repo.FtlInfo(privacyLevel: 0);
 
-const kRepoFetchInfoHost = repo.InfoHost(
+const kRepoFetchFtlHost = repo.FtlHost(
   domainName: '(none)',
   arch: 'x86_64',
   hostName: 'raspberrypi',
@@ -379,8 +379,8 @@ const kRepoFetchInfoHost = repo.InfoHost(
   model: 'Raspberry Pi Model 4B',
 );
 
-final kRepoFetchInfoMessages = [
-  repo.InfoMessage(
+final kRepoFetchFtlMessages = [
+  repo.FtlMessage(
     id: 5,
     timestamp: DateTime.fromMillisecondsSinceEpoch(1743936482 * 1000),
     message: 'List with ID 10 was inaccessible during last gravity run',
@@ -388,7 +388,7 @@ final kRepoFetchInfoMessages = [
   ),
 ];
 
-const kRepoFetchInfoMetrics = repo.InfoDnsMetrics(
+const kRepoFetchFtlMetrics = repo.FtlDnsMetrics(
   cache: repo.DnsCache(
     size: 10000,
     records: 94,
@@ -474,25 +474,25 @@ const kRepoFetchInfoMetrics = repo.InfoDnsMetrics(
   ),
 );
 
-const kRepoFetchInfoSensors = repo.InfoSensor(
+const kRepoFetchFtlSensors = repo.FtlSensor(
   hotLimit: 60,
   unit: 'C',
   cpuTemp: 48,
 );
 
-const kRepoFetchInfoSystem = repo.InfoSystem(
+const kRepoFetchFtlSystem = repo.FtlSystem(
   uptime: 67906,
   ramUsage: 26.854,
   cpuUsage: 3.3232043958349604,
 );
 
-const kRepoFetchInfoSystemOld = repo.InfoSystem(
+const kRepoFetchFtlSystemOld = repo.FtlSystem(
   uptime: 67906,
   ramUsage: 26.854,
   cpuUsage: 5.293782711029053,
 );
 
-const kRepoFetchInfoVersion = repo.InfoVersion(
+const kRepoFetchFtlVersion = repo.FtlVersion(
   core: repo.ComponentVersion(
     local: repo.VersionDetail(version: 'v6.0.4', branch: 'master'),
     remote: repo.VersionDetail(version: 'v6.0.5'),
@@ -515,7 +515,7 @@ const kRepoFetchInfoVersion = repo.InfoVersion(
   ),
 );
 
-const kRepoFetchInfoVersionWithDocker = repo.InfoVersion(
+const kRepoFetchFtlVersionWithDocker = repo.FtlVersion(
   core: repo.ComponentVersion(
     local: repo.VersionDetail(version: 'v6.0.5', branch: 'master'),
     remote: repo.VersionDetail(version: 'v6.0.5'),
@@ -538,9 +538,9 @@ const kRepoFetchInfoVersionWithDocker = repo.InfoVersion(
   ),
 );
 
-const kRepoFetchAllServerInfo = repo.InfoPiholeServer(
-  host: kRepoFetchInfoHost,
-  sensor: kRepoFetchInfoSensors,
-  system: kRepoFetchInfoSystem,
-  version: kRepoFetchInfoVersion,
+const kRepoFetchAllServerInfo = repo.PiholeServer(
+  host: kRepoFetchFtlHost,
+  sensor: kRepoFetchFtlSensors,
+  system: kRepoFetchFtlSystem,
+  version: kRepoFetchFtlVersion,
 );

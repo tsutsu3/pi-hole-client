@@ -13,22 +13,22 @@ part of 'sensor.dart';
 T _$identity<T>(T value) => value;
 
 /// @nodoc
-mixin _$InfoSensor {
+mixin _$FtlSensor {
 
  double get hotLimit; String get unit; double? get cpuTemp;
-/// Create a copy of InfoSensor
+/// Create a copy of FtlSensor
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
 @pragma('vm:prefer-inline')
-$InfoSensorCopyWith<InfoSensor> get copyWith => _$InfoSensorCopyWithImpl<InfoSensor>(this as InfoSensor, _$identity);
+$FtlSensorCopyWith<FtlSensor> get copyWith => _$FtlSensorCopyWithImpl<FtlSensor>(this as FtlSensor, _$identity);
 
-  /// Serializes this InfoSensor to a JSON map.
+  /// Serializes this FtlSensor to a JSON map.
   Map<String, dynamic> toJson();
 
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is InfoSensor&&(identical(other.hotLimit, hotLimit) || other.hotLimit == hotLimit)&&(identical(other.unit, unit) || other.unit == unit)&&(identical(other.cpuTemp, cpuTemp) || other.cpuTemp == cpuTemp));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is FtlSensor&&(identical(other.hotLimit, hotLimit) || other.hotLimit == hotLimit)&&(identical(other.unit, unit) || other.unit == unit)&&(identical(other.cpuTemp, cpuTemp) || other.cpuTemp == cpuTemp));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -37,15 +37,15 @@ int get hashCode => Object.hash(runtimeType,hotLimit,unit,cpuTemp);
 
 @override
 String toString() {
-  return 'InfoSensor(hotLimit: $hotLimit, unit: $unit, cpuTemp: $cpuTemp)';
+  return 'FtlSensor(hotLimit: $hotLimit, unit: $unit, cpuTemp: $cpuTemp)';
 }
 
 
 }
 
 /// @nodoc
-abstract mixin class $InfoSensorCopyWith<$Res>  {
-  factory $InfoSensorCopyWith(InfoSensor value, $Res Function(InfoSensor) _then) = _$InfoSensorCopyWithImpl;
+abstract mixin class $FtlSensorCopyWith<$Res>  {
+  factory $FtlSensorCopyWith(FtlSensor value, $Res Function(FtlSensor) _then) = _$FtlSensorCopyWithImpl;
 @useResult
 $Res call({
  double hotLimit, String unit, double? cpuTemp
@@ -56,14 +56,14 @@ $Res call({
 
 }
 /// @nodoc
-class _$InfoSensorCopyWithImpl<$Res>
-    implements $InfoSensorCopyWith<$Res> {
-  _$InfoSensorCopyWithImpl(this._self, this._then);
+class _$FtlSensorCopyWithImpl<$Res>
+    implements $FtlSensorCopyWith<$Res> {
+  _$FtlSensorCopyWithImpl(this._self, this._then);
 
-  final InfoSensor _self;
-  final $Res Function(InfoSensor) _then;
+  final FtlSensor _self;
+  final $Res Function(FtlSensor) _then;
 
-/// Create a copy of InfoSensor
+/// Create a copy of FtlSensor
 /// with the given fields replaced by the non-null parameter values.
 @pragma('vm:prefer-inline') @override $Res call({Object? hotLimit = null,Object? unit = null,Object? cpuTemp = freezed,}) {
   return _then(_self.copyWith(
@@ -77,8 +77,8 @@ as double?,
 }
 
 
-/// Adds pattern-matching-related methods to [InfoSensor].
-extension InfoSensorPatterns on InfoSensor {
+/// Adds pattern-matching-related methods to [FtlSensor].
+extension FtlSensorPatterns on FtlSensor {
 /// A variant of `map` that fallback to returning `orElse`.
 ///
 /// It is equivalent to doing:
@@ -91,10 +91,10 @@ extension InfoSensorPatterns on InfoSensor {
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeMap<TResult extends Object?>(TResult Function( _InfoSensor value)?  $default,{required TResult orElse(),}){
+@optionalTypeArgs TResult maybeMap<TResult extends Object?>(TResult Function( _FtlSensor value)?  $default,{required TResult orElse(),}){
 final _that = this;
 switch (_that) {
-case _InfoSensor() when $default != null:
+case _FtlSensor() when $default != null:
 return $default(_that);case _:
   return orElse();
 
@@ -113,10 +113,10 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult map<TResult extends Object?>(TResult Function( _InfoSensor value)  $default,){
+@optionalTypeArgs TResult map<TResult extends Object?>(TResult Function( _FtlSensor value)  $default,){
 final _that = this;
 switch (_that) {
-case _InfoSensor():
+case _FtlSensor():
 return $default(_that);}
 }
 /// A variant of `map` that fallback to returning `null`.
@@ -131,10 +131,10 @@ return $default(_that);}
 /// }
 /// ```
 
-@optionalTypeArgs TResult? mapOrNull<TResult extends Object?>(TResult? Function( _InfoSensor value)?  $default,){
+@optionalTypeArgs TResult? mapOrNull<TResult extends Object?>(TResult? Function( _FtlSensor value)?  $default,){
 final _that = this;
 switch (_that) {
-case _InfoSensor() when $default != null:
+case _FtlSensor() when $default != null:
 return $default(_that);case _:
   return null;
 
@@ -154,7 +154,7 @@ return $default(_that);case _:
 
 @optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( double hotLimit,  String unit,  double? cpuTemp)?  $default,{required TResult orElse(),}) {final _that = this;
 switch (_that) {
-case _InfoSensor() when $default != null:
+case _FtlSensor() when $default != null:
 return $default(_that.hotLimit,_that.unit,_that.cpuTemp);case _:
   return orElse();
 
@@ -175,7 +175,7 @@ return $default(_that.hotLimit,_that.unit,_that.cpuTemp);case _:
 
 @optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( double hotLimit,  String unit,  double? cpuTemp)  $default,) {final _that = this;
 switch (_that) {
-case _InfoSensor():
+case _FtlSensor():
 return $default(_that.hotLimit,_that.unit,_that.cpuTemp);}
 }
 /// A variant of `when` that fallback to returning `null`
@@ -192,7 +192,7 @@ return $default(_that.hotLimit,_that.unit,_that.cpuTemp);}
 
 @optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( double hotLimit,  String unit,  double? cpuTemp)?  $default,) {final _that = this;
 switch (_that) {
-case _InfoSensor() when $default != null:
+case _FtlSensor() when $default != null:
 return $default(_that.hotLimit,_that.unit,_that.cpuTemp);case _:
   return null;
 
@@ -204,28 +204,28 @@ return $default(_that.hotLimit,_that.unit,_that.cpuTemp);case _:
 /// @nodoc
 
 @JsonSerializable(explicitToJson: true)
-class _InfoSensor implements InfoSensor {
-  const _InfoSensor({required this.hotLimit, required this.unit, this.cpuTemp});
-  factory _InfoSensor.fromJson(Map<String, dynamic> json) => _$InfoSensorFromJson(json);
+class _FtlSensor implements FtlSensor {
+  const _FtlSensor({required this.hotLimit, required this.unit, this.cpuTemp});
+  factory _FtlSensor.fromJson(Map<String, dynamic> json) => _$FtlSensorFromJson(json);
 
 @override final  double hotLimit;
 @override final  String unit;
 @override final  double? cpuTemp;
 
-/// Create a copy of InfoSensor
+/// Create a copy of FtlSensor
 /// with the given fields replaced by the non-null parameter values.
 @override @JsonKey(includeFromJson: false, includeToJson: false)
 @pragma('vm:prefer-inline')
-_$InfoSensorCopyWith<_InfoSensor> get copyWith => __$InfoSensorCopyWithImpl<_InfoSensor>(this, _$identity);
+_$FtlSensorCopyWith<_FtlSensor> get copyWith => __$FtlSensorCopyWithImpl<_FtlSensor>(this, _$identity);
 
 @override
 Map<String, dynamic> toJson() {
-  return _$InfoSensorToJson(this, );
+  return _$FtlSensorToJson(this, );
 }
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _InfoSensor&&(identical(other.hotLimit, hotLimit) || other.hotLimit == hotLimit)&&(identical(other.unit, unit) || other.unit == unit)&&(identical(other.cpuTemp, cpuTemp) || other.cpuTemp == cpuTemp));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _FtlSensor&&(identical(other.hotLimit, hotLimit) || other.hotLimit == hotLimit)&&(identical(other.unit, unit) || other.unit == unit)&&(identical(other.cpuTemp, cpuTemp) || other.cpuTemp == cpuTemp));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -234,15 +234,15 @@ int get hashCode => Object.hash(runtimeType,hotLimit,unit,cpuTemp);
 
 @override
 String toString() {
-  return 'InfoSensor(hotLimit: $hotLimit, unit: $unit, cpuTemp: $cpuTemp)';
+  return 'FtlSensor(hotLimit: $hotLimit, unit: $unit, cpuTemp: $cpuTemp)';
 }
 
 
 }
 
 /// @nodoc
-abstract mixin class _$InfoSensorCopyWith<$Res> implements $InfoSensorCopyWith<$Res> {
-  factory _$InfoSensorCopyWith(_InfoSensor value, $Res Function(_InfoSensor) _then) = __$InfoSensorCopyWithImpl;
+abstract mixin class _$FtlSensorCopyWith<$Res> implements $FtlSensorCopyWith<$Res> {
+  factory _$FtlSensorCopyWith(_FtlSensor value, $Res Function(_FtlSensor) _then) = __$FtlSensorCopyWithImpl;
 @override @useResult
 $Res call({
  double hotLimit, String unit, double? cpuTemp
@@ -253,17 +253,17 @@ $Res call({
 
 }
 /// @nodoc
-class __$InfoSensorCopyWithImpl<$Res>
-    implements _$InfoSensorCopyWith<$Res> {
-  __$InfoSensorCopyWithImpl(this._self, this._then);
+class __$FtlSensorCopyWithImpl<$Res>
+    implements _$FtlSensorCopyWith<$Res> {
+  __$FtlSensorCopyWithImpl(this._self, this._then);
 
-  final _InfoSensor _self;
-  final $Res Function(_InfoSensor) _then;
+  final _FtlSensor _self;
+  final $Res Function(_FtlSensor) _then;
 
-/// Create a copy of InfoSensor
+/// Create a copy of FtlSensor
 /// with the given fields replaced by the non-null parameter values.
 @override @pragma('vm:prefer-inline') $Res call({Object? hotLimit = null,Object? unit = null,Object? cpuTemp = freezed,}) {
-  return _then(_InfoSensor(
+  return _then(_FtlSensor(
 hotLimit: null == hotLimit ? _self.hotLimit : hotLimit // ignore: cast_nullable_to_non_nullable
 as double,unit: null == unit ? _self.unit : unit // ignore: cast_nullable_to_non_nullable
 as String,cpuTemp: freezed == cpuTemp ? _self.cpuTemp : cpuTemp // ignore: cast_nullable_to_non_nullable

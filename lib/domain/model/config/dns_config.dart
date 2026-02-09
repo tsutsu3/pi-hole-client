@@ -1,4 +1,5 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
+import 'package:pi_hole_client/config/enums.dart';
 
 part 'dns_config.freezed.dart';
 part 'dns_config.g.dart';
@@ -14,7 +15,7 @@ sealed class DnsConfig with _$DnsConfig {
     bool? bogusPriv,
     bool? domainNeeded,
     bool? expandHosts,
-    String? listeningMode,
+    ListeningMode? listeningMode,
     int? port,
     int? blockTTL,
     List<String>? cnameRecords,
@@ -32,7 +33,7 @@ sealed class DnsConfig with _$DnsConfig {
 sealed class DnsBlockingConfig with _$DnsBlockingConfig {
   const factory DnsBlockingConfig({
     required bool active,
-    required String mode,
+    required BlockingMode mode,
   }) = _DnsBlockingConfig;
 
   factory DnsBlockingConfig.fromJson(Map<String, dynamic> json) =>

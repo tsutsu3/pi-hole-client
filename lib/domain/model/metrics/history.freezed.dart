@@ -287,7 +287,8 @@ as List<HistoryEntry>,
 /// @nodoc
 mixin _$HistoryEntry {
 
- DateTime get timestamp; int get count;// v6-only fields
+ DateTime get timestamp; int get count;// v5: total queries, v6: total or blocked depending on context
+// v6-only fields
  int? get blocked; int? get cached; int? get forwarded;
 /// Create a copy of HistoryEntry
 /// with the given fields replaced by the non-null parameter values.
@@ -485,6 +486,7 @@ class _HistoryEntry implements HistoryEntry {
 
 @override final  DateTime timestamp;
 @override final  int count;
+// v5: total queries, v6: total or blocked depending on context
 // v6-only fields
 @override final  int? blocked;
 @override final  int? cached;

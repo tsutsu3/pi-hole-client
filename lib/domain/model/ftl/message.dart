@@ -4,14 +4,14 @@ part 'message.freezed.dart';
 part 'message.g.dart';
 
 @freezed
-sealed class InfoMessage with _$InfoMessage {
-  const factory InfoMessage({
+sealed class FtlMessage with _$FtlMessage {
+  const factory FtlMessage({
     required int id,
     required DateTime timestamp,
     required String message,
     required String url,
-  }) = _InfoMessage;
+  }) = _FtlMessage;
 
-  factory InfoMessage.fromJson(Map<String, dynamic> json) =>
-      _$InfoMessageFromJson(json);
+  factory FtlMessage.fromJson(Map<String, dynamic> json) =>
+      _$FtlMessageFromJson(json);
 }

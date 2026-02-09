@@ -20,7 +20,7 @@ void main() {
 
     test('should fetch info client successfully', () async {
       final result = await repository.fetchInfoClient();
-      expect(result.getOrNull(), kRepoFetchInfoClient);
+      expect(result.getOrNull(), kRepoFetchFtlClient);
     });
 
     test('should fail when fetching info client fails', () async {
@@ -40,7 +40,7 @@ void main() {
 
     test('should fetch info ftl successfully', () async {
       final result = await repository.fetchInfoFtl();
-      expect(result.getOrNull(), kRepoFetchInfoFtl);
+      expect(result.getOrNull(), kRepoFetchFtlInfo);
     });
 
     test('should fail when fetching info ftl fails', () async {
@@ -60,7 +60,7 @@ void main() {
 
     test('should fetch info host successfully', () async {
       final result = await repository.fetchInfoHost();
-      expect(result.getOrNull(), kRepoFetchInfoHost);
+      expect(result.getOrNull(), kRepoFetchFtlHost);
     });
 
     test('should fail when fetching info host fails', () async {
@@ -80,7 +80,7 @@ void main() {
 
     test('should fetch gravity messages successfully', () async {
       final result = await repository.fetchInfoMessages();
-      expect(result.getOrNull(), kRepoFetchInfoMessages);
+      expect(result.getOrNull(), kRepoFetchFtlMessages);
     });
 
     test('should fail when fetching gravity messages fails', () async {
@@ -120,7 +120,7 @@ void main() {
 
     test('should fetch info metrics successfully', () async {
       final result = await repository.fetchInfoMetrics();
-      expect(result.getOrNull(), kRepoFetchInfoMetrics);
+      expect(result.getOrNull(), kRepoFetchFtlMetrics);
     });
 
     test('should fail when fetching info metrics fails', () async {
@@ -140,7 +140,7 @@ void main() {
 
     test('should fetch all sensors successfully', () async {
       final result = await repository.fetchInfoSensors();
-      expect(result.getOrNull(), kRepoFetchInfoSensors);
+      expect(result.getOrNull(), kRepoFetchFtlSensors);
     });
 
     test('should fail when fetching all sensors fails', () async {
@@ -160,13 +160,13 @@ void main() {
 
     test('should fetch info system successfully', () async {
       final result = await repository.fetchInfoSystem();
-      expect(result.getOrNull(), kRepoFetchInfoSystem);
+      expect(result.getOrNull(), kRepoFetchFtlSystem);
     });
 
     test('should fetch info system successfully (FTL < 6.1)', () async {
       client.shouldGetInfoSystemOld = true;
       final result = await repository.fetchInfoSystem();
-      expect(result.getOrNull(), kRepoFetchInfoSystemOld);
+      expect(result.getOrNull(), kRepoFetchFtlSystemOld);
     });
 
     test('should fail when fetching info system fails', () async {
@@ -186,13 +186,13 @@ void main() {
 
     test('should fetch info version successfully', () async {
       final result = await repository.fetchInfoVersion();
-      expect(result.getOrNull(), kRepoFetchInfoVersion);
+      expect(result.getOrNull(), kRepoFetchFtlVersion);
     });
 
     test('should fetch info version successfully (with Docker)', () async {
       client.shouldGetInfoVersionWithDocker = true;
       final result = await repository.fetchInfoVersion();
-      expect(result.getOrNull(), kRepoFetchInfoVersionWithDocker);
+      expect(result.getOrNull(), kRepoFetchFtlVersionWithDocker);
     });
 
     test('should fail when fetching info version fails', () async {

@@ -4,23 +4,23 @@ part 'ftl.freezed.dart';
 part 'ftl.g.dart';
 
 @freezed
-sealed class InfoFtl with _$InfoFtl {
+sealed class FtlInfo with _$FtlInfo {
   @JsonSerializable(explicitToJson: true)
-  const factory InfoFtl({
+  const factory FtlInfo({
     required int privacyLevel,
     // v6-only fields
     int? pid,
-    double? uptime,
+    int? uptime,
     double? percentMem,
     double? percentCpu,
     double? queryFrequency,
     bool? allowDestructive,
     FtlDatabase? database,
     FtlClients? clients,
-  }) = _InfoFtl;
+  }) = _FtlInfo;
 
-  factory InfoFtl.fromJson(Map<String, dynamic> json) =>
-      _$InfoFtlFromJson(json);
+  factory FtlInfo.fromJson(Map<String, dynamic> json) =>
+      _$FtlInfoFromJson(json);
 }
 
 @freezed

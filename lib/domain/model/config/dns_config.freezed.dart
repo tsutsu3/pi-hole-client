@@ -16,7 +16,7 @@ T _$identity<T>(T value) => value;
 mixin _$DnsConfig {
 
  bool get queryLogging;// v6-only fields
- List<String>? get upstreams; bool? get dnssec; bool? get bogusPriv; bool? get domainNeeded; bool? get expandHosts; String? get listeningMode; int? get port; int? get blockTTL; List<String>? get cnameRecords; List<String>? get revServers; List<String>? get hosts; DnsBlockingConfig? get blocking; DnsRateLimitConfig? get rateLimit;
+ List<String>? get upstreams; bool? get dnssec; bool? get bogusPriv; bool? get domainNeeded; bool? get expandHosts; ListeningMode? get listeningMode; int? get port; int? get blockTTL; List<String>? get cnameRecords; List<String>? get revServers; List<String>? get hosts; DnsBlockingConfig? get blocking; DnsRateLimitConfig? get rateLimit;
 /// Create a copy of DnsConfig
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -49,7 +49,7 @@ abstract mixin class $DnsConfigCopyWith<$Res>  {
   factory $DnsConfigCopyWith(DnsConfig value, $Res Function(DnsConfig) _then) = _$DnsConfigCopyWithImpl;
 @useResult
 $Res call({
- bool queryLogging, List<String>? upstreams, bool? dnssec, bool? bogusPriv, bool? domainNeeded, bool? expandHosts, String? listeningMode, int? port, int? blockTTL, List<String>? cnameRecords, List<String>? revServers, List<String>? hosts, DnsBlockingConfig? blocking, DnsRateLimitConfig? rateLimit
+ bool queryLogging, List<String>? upstreams, bool? dnssec, bool? bogusPriv, bool? domainNeeded, bool? expandHosts, ListeningMode? listeningMode, int? port, int? blockTTL, List<String>? cnameRecords, List<String>? revServers, List<String>? hosts, DnsBlockingConfig? blocking, DnsRateLimitConfig? rateLimit
 });
 
 
@@ -75,7 +75,7 @@ as bool?,bogusPriv: freezed == bogusPriv ? _self.bogusPriv : bogusPriv // ignore
 as bool?,domainNeeded: freezed == domainNeeded ? _self.domainNeeded : domainNeeded // ignore: cast_nullable_to_non_nullable
 as bool?,expandHosts: freezed == expandHosts ? _self.expandHosts : expandHosts // ignore: cast_nullable_to_non_nullable
 as bool?,listeningMode: freezed == listeningMode ? _self.listeningMode : listeningMode // ignore: cast_nullable_to_non_nullable
-as String?,port: freezed == port ? _self.port : port // ignore: cast_nullable_to_non_nullable
+as ListeningMode?,port: freezed == port ? _self.port : port // ignore: cast_nullable_to_non_nullable
 as int?,blockTTL: freezed == blockTTL ? _self.blockTTL : blockTTL // ignore: cast_nullable_to_non_nullable
 as int?,cnameRecords: freezed == cnameRecords ? _self.cnameRecords : cnameRecords // ignore: cast_nullable_to_non_nullable
 as List<String>?,revServers: freezed == revServers ? _self.revServers : revServers // ignore: cast_nullable_to_non_nullable
@@ -188,7 +188,7 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( bool queryLogging,  List<String>? upstreams,  bool? dnssec,  bool? bogusPriv,  bool? domainNeeded,  bool? expandHosts,  String? listeningMode,  int? port,  int? blockTTL,  List<String>? cnameRecords,  List<String>? revServers,  List<String>? hosts,  DnsBlockingConfig? blocking,  DnsRateLimitConfig? rateLimit)?  $default,{required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( bool queryLogging,  List<String>? upstreams,  bool? dnssec,  bool? bogusPriv,  bool? domainNeeded,  bool? expandHosts,  ListeningMode? listeningMode,  int? port,  int? blockTTL,  List<String>? cnameRecords,  List<String>? revServers,  List<String>? hosts,  DnsBlockingConfig? blocking,  DnsRateLimitConfig? rateLimit)?  $default,{required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _DnsConfig() when $default != null:
 return $default(_that.queryLogging,_that.upstreams,_that.dnssec,_that.bogusPriv,_that.domainNeeded,_that.expandHosts,_that.listeningMode,_that.port,_that.blockTTL,_that.cnameRecords,_that.revServers,_that.hosts,_that.blocking,_that.rateLimit);case _:
@@ -209,7 +209,7 @@ return $default(_that.queryLogging,_that.upstreams,_that.dnssec,_that.bogusPriv,
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( bool queryLogging,  List<String>? upstreams,  bool? dnssec,  bool? bogusPriv,  bool? domainNeeded,  bool? expandHosts,  String? listeningMode,  int? port,  int? blockTTL,  List<String>? cnameRecords,  List<String>? revServers,  List<String>? hosts,  DnsBlockingConfig? blocking,  DnsRateLimitConfig? rateLimit)  $default,) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( bool queryLogging,  List<String>? upstreams,  bool? dnssec,  bool? bogusPriv,  bool? domainNeeded,  bool? expandHosts,  ListeningMode? listeningMode,  int? port,  int? blockTTL,  List<String>? cnameRecords,  List<String>? revServers,  List<String>? hosts,  DnsBlockingConfig? blocking,  DnsRateLimitConfig? rateLimit)  $default,) {final _that = this;
 switch (_that) {
 case _DnsConfig():
 return $default(_that.queryLogging,_that.upstreams,_that.dnssec,_that.bogusPriv,_that.domainNeeded,_that.expandHosts,_that.listeningMode,_that.port,_that.blockTTL,_that.cnameRecords,_that.revServers,_that.hosts,_that.blocking,_that.rateLimit);}
@@ -226,7 +226,7 @@ return $default(_that.queryLogging,_that.upstreams,_that.dnssec,_that.bogusPriv,
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( bool queryLogging,  List<String>? upstreams,  bool? dnssec,  bool? bogusPriv,  bool? domainNeeded,  bool? expandHosts,  String? listeningMode,  int? port,  int? blockTTL,  List<String>? cnameRecords,  List<String>? revServers,  List<String>? hosts,  DnsBlockingConfig? blocking,  DnsRateLimitConfig? rateLimit)?  $default,) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( bool queryLogging,  List<String>? upstreams,  bool? dnssec,  bool? bogusPriv,  bool? domainNeeded,  bool? expandHosts,  ListeningMode? listeningMode,  int? port,  int? blockTTL,  List<String>? cnameRecords,  List<String>? revServers,  List<String>? hosts,  DnsBlockingConfig? blocking,  DnsRateLimitConfig? rateLimit)?  $default,) {final _that = this;
 switch (_that) {
 case _DnsConfig() when $default != null:
 return $default(_that.queryLogging,_that.upstreams,_that.dnssec,_that.bogusPriv,_that.domainNeeded,_that.expandHosts,_that.listeningMode,_that.port,_that.blockTTL,_that.cnameRecords,_that.revServers,_that.hosts,_that.blocking,_that.rateLimit);case _:
@@ -260,7 +260,7 @@ class _DnsConfig implements DnsConfig {
 @override final  bool? bogusPriv;
 @override final  bool? domainNeeded;
 @override final  bool? expandHosts;
-@override final  String? listeningMode;
+@override final  ListeningMode? listeningMode;
 @override final  int? port;
 @override final  int? blockTTL;
  final  List<String>? _cnameRecords;
@@ -326,7 +326,7 @@ abstract mixin class _$DnsConfigCopyWith<$Res> implements $DnsConfigCopyWith<$Re
   factory _$DnsConfigCopyWith(_DnsConfig value, $Res Function(_DnsConfig) _then) = __$DnsConfigCopyWithImpl;
 @override @useResult
 $Res call({
- bool queryLogging, List<String>? upstreams, bool? dnssec, bool? bogusPriv, bool? domainNeeded, bool? expandHosts, String? listeningMode, int? port, int? blockTTL, List<String>? cnameRecords, List<String>? revServers, List<String>? hosts, DnsBlockingConfig? blocking, DnsRateLimitConfig? rateLimit
+ bool queryLogging, List<String>? upstreams, bool? dnssec, bool? bogusPriv, bool? domainNeeded, bool? expandHosts, ListeningMode? listeningMode, int? port, int? blockTTL, List<String>? cnameRecords, List<String>? revServers, List<String>? hosts, DnsBlockingConfig? blocking, DnsRateLimitConfig? rateLimit
 });
 
 
@@ -352,7 +352,7 @@ as bool?,bogusPriv: freezed == bogusPriv ? _self.bogusPriv : bogusPriv // ignore
 as bool?,domainNeeded: freezed == domainNeeded ? _self.domainNeeded : domainNeeded // ignore: cast_nullable_to_non_nullable
 as bool?,expandHosts: freezed == expandHosts ? _self.expandHosts : expandHosts // ignore: cast_nullable_to_non_nullable
 as bool?,listeningMode: freezed == listeningMode ? _self.listeningMode : listeningMode // ignore: cast_nullable_to_non_nullable
-as String?,port: freezed == port ? _self.port : port // ignore: cast_nullable_to_non_nullable
+as ListeningMode?,port: freezed == port ? _self.port : port // ignore: cast_nullable_to_non_nullable
 as int?,blockTTL: freezed == blockTTL ? _self.blockTTL : blockTTL // ignore: cast_nullable_to_non_nullable
 as int?,cnameRecords: freezed == cnameRecords ? _self._cnameRecords : cnameRecords // ignore: cast_nullable_to_non_nullable
 as List<String>?,revServers: freezed == revServers ? _self._revServers : revServers // ignore: cast_nullable_to_non_nullable
@@ -394,7 +394,7 @@ $DnsRateLimitConfigCopyWith<$Res>? get rateLimit {
 /// @nodoc
 mixin _$DnsBlockingConfig {
 
- bool get active; String get mode;
+ bool get active; BlockingMode get mode;
 /// Create a copy of DnsBlockingConfig
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -427,7 +427,7 @@ abstract mixin class $DnsBlockingConfigCopyWith<$Res>  {
   factory $DnsBlockingConfigCopyWith(DnsBlockingConfig value, $Res Function(DnsBlockingConfig) _then) = _$DnsBlockingConfigCopyWithImpl;
 @useResult
 $Res call({
- bool active, String mode
+ bool active, BlockingMode mode
 });
 
 
@@ -448,7 +448,7 @@ class _$DnsBlockingConfigCopyWithImpl<$Res>
   return _then(_self.copyWith(
 active: null == active ? _self.active : active // ignore: cast_nullable_to_non_nullable
 as bool,mode: null == mode ? _self.mode : mode // ignore: cast_nullable_to_non_nullable
-as String,
+as BlockingMode,
   ));
 }
 
@@ -530,7 +530,7 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( bool active,  String mode)?  $default,{required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( bool active,  BlockingMode mode)?  $default,{required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _DnsBlockingConfig() when $default != null:
 return $default(_that.active,_that.mode);case _:
@@ -551,7 +551,7 @@ return $default(_that.active,_that.mode);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( bool active,  String mode)  $default,) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( bool active,  BlockingMode mode)  $default,) {final _that = this;
 switch (_that) {
 case _DnsBlockingConfig():
 return $default(_that.active,_that.mode);}
@@ -568,7 +568,7 @@ return $default(_that.active,_that.mode);}
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( bool active,  String mode)?  $default,) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( bool active,  BlockingMode mode)?  $default,) {final _that = this;
 switch (_that) {
 case _DnsBlockingConfig() when $default != null:
 return $default(_that.active,_that.mode);case _:
@@ -587,7 +587,7 @@ class _DnsBlockingConfig implements DnsBlockingConfig {
   factory _DnsBlockingConfig.fromJson(Map<String, dynamic> json) => _$DnsBlockingConfigFromJson(json);
 
 @override final  bool active;
-@override final  String mode;
+@override final  BlockingMode mode;
 
 /// Create a copy of DnsBlockingConfig
 /// with the given fields replaced by the non-null parameter values.
@@ -622,7 +622,7 @@ abstract mixin class _$DnsBlockingConfigCopyWith<$Res> implements $DnsBlockingCo
   factory _$DnsBlockingConfigCopyWith(_DnsBlockingConfig value, $Res Function(_DnsBlockingConfig) _then) = __$DnsBlockingConfigCopyWithImpl;
 @override @useResult
 $Res call({
- bool active, String mode
+ bool active, BlockingMode mode
 });
 
 
@@ -643,7 +643,7 @@ class __$DnsBlockingConfigCopyWithImpl<$Res>
   return _then(_DnsBlockingConfig(
 active: null == active ? _self.active : active // ignore: cast_nullable_to_non_nullable
 as bool,mode: null == mode ? _self.mode : mode // ignore: cast_nullable_to_non_nullable
-as String,
+as BlockingMode,
   ));
 }
 

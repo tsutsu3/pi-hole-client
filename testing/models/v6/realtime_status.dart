@@ -116,11 +116,14 @@ final kRepoFetchRealTimeStatus = repo.RealtimeStatus(
     ],
   ),
   forwardDestinations: const [
-    repo.DestinationStat(destination: 'blocklist|blocklist', percentage: 0.0),
-    repo.DestinationStat(destination: 'cache|cache', percentage: 20.0),
+    repo.DestinationStat(
+        destination: 'blocklist|blocklist', percentage: 0.0, count: 0),
+    repo.DestinationStat(
+        destination: 'cache|cache', percentage: 20.0, count: 2),
     repo.DestinationStat(
       destination: 'dns.google#53|8.8.8.8#53',
       percentage: 80.0,
+      count: 8,
     ),
   ],
 );

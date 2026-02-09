@@ -17,8 +17,8 @@ import 'package:pi_hole_client/domain/model/ftl/system.dart' as d;
 import 'package:pi_hole_client/domain/model/ftl/version.dart' as d;
 
 extension InfoVersionMapper on s.InfoVersion {
-  d.InfoVersion toDomain() {
-    return d.InfoVersion(
+  d.FtlVersion toDomain() {
+    return d.FtlVersion(
       core: d.ComponentVersion(
         local: d.VersionDetail(
           version: version.core.local.version ?? '',
@@ -69,8 +69,8 @@ extension InfoVersionMapper on s.InfoVersion {
 }
 
 extension InfoSensorsMapper on s.InfoSensors {
-  d.InfoSensor toDomain() {
-    return d.InfoSensor(
+  d.FtlSensor toDomain() {
+    return d.FtlSensor(
       hotLimit: sensors.hotLimit,
       unit: sensors.unit,
       cpuTemp: sensors.cpuTemp,
@@ -79,13 +79,13 @@ extension InfoSensorsMapper on s.InfoSensors {
 }
 
 extension InfoClientMapper on s.InfoClient {
-  d.InfoClient toDomain() {
-    return d.InfoClient(addr: remoteAddr);
+  d.FtlClient toDomain() {
+    return d.FtlClient(addr: remoteAddr);
   }
 }
 
 extension InfoMessagesMapper on s.InfoMessages {
-  List<d.InfoMessage> toDomain() {
+  List<d.FtlMessage> toDomain() {
     return messages
         .map(
           (message) => _tryParsePlain(
@@ -98,7 +98,7 @@ extension InfoMessagesMapper on s.InfoMessages {
         .toList();
   }
 
-  d.InfoMessage? _tryParsePlain({
+  d.FtlMessage? _tryParsePlain({
     required int id,
     required int timestamp,
     required String plain,
@@ -113,7 +113,7 @@ extension InfoMessagesMapper on s.InfoMessages {
     final listId = match.group(1);
     final listUrl = match.group(2);
 
-    return d.InfoMessage(
+    return d.FtlMessage(
       id: id,
       timestamp: DateTime.fromMillisecondsSinceEpoch(timestamp * 1000),
       message: 'List with ID $listId was inaccessible during last gravity run',
@@ -123,8 +123,8 @@ extension InfoMessagesMapper on s.InfoMessages {
 }
 
 extension InfoHostMapper on s.InfoHost {
-  d.InfoHost toDomain() {
-    return d.InfoHost(
+  d.FtlHost toDomain() {
+    return d.FtlHost(
       domainName: host.uname.domainname,
       arch: host.uname.machine,
       hostName: host.uname.nodename,
@@ -137,14 +137,14 @@ extension InfoHostMapper on s.InfoHost {
 }
 
 extension InfoFtlMapper on s.InfoFtl {
-  d.InfoFtl toDomain() {
-    return d.InfoFtl(privacyLevel: ftl.privacyLevel);
+  d.FtlInfo toDomain() {
+    return d.FtlInfo(privacyLevel: ftl.privacyLevel);
   }
 }
 
 extension InfoMetricsMapper on s.InfoMetrics {
-  d.InfoDnsMetrics toDomain() {
-    return d.InfoDnsMetrics(
+  d.FtlDnsMetrics toDomain() {
+    return d.FtlDnsMetrics(
       cache: metrics.dns.cache.toDomain(),
       replies: metrics.dns.replies.toDomain(),
     );
@@ -241,8 +241,8 @@ extension DnsRepliesMapper on s.DnsReplies {
 }
 
 extension InfoSystemMapper on s.InfoSystem {
-  d.InfoSystem toDomain() {
-    return d.InfoSystem(
+  d.FtlSystem toDomain() {
+    return d.FtlSystem(
       uptime: system.uptime,
       ramUsage: system.memory.ram.percentUsed,
       cpuUsage: system.cpu.percentCpu ?? _average(system.cpu.load.percent),

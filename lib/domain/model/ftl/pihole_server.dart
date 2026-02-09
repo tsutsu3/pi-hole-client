@@ -8,15 +8,15 @@ part 'pihole_server.freezed.dart';
 part 'pihole_server.g.dart';
 
 @freezed
-sealed class InfoPiholeServer with _$InfoPiholeServer {
+sealed class PiholeServer with _$PiholeServer {
   @JsonSerializable(explicitToJson: true)
-  const factory InfoPiholeServer({
-    InfoHost? host,
-    InfoSensor? sensor,
-    InfoSystem? system,
-    InfoVersion? version,
-  }) = _InfoPiholeServer;
+  const factory PiholeServer({
+    FtlHost? host,
+    FtlSensor? sensor,
+    FtlSystem? system,
+    FtlVersion? version,
+  }) = _PiholeServer;
 
-  factory InfoPiholeServer.fromJson(Map<String, dynamic> json) =>
-      _$InfoPiholeServerFromJson(json);
+  factory PiholeServer.fromJson(Map<String, dynamic> json) =>
+      _$PiholeServerFromJson(json);
 }

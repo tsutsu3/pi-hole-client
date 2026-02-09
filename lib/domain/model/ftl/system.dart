@@ -4,9 +4,9 @@ part 'system.freezed.dart';
 part 'system.g.dart';
 
 @freezed
-sealed class InfoSystem with _$InfoSystem {
+sealed class FtlSystem with _$FtlSystem {
   @JsonSerializable(explicitToJson: true)
-  const factory InfoSystem({
+  const factory FtlSystem({
     required int uptime,
     required double ramUsage,
     required double cpuUsage,
@@ -14,10 +14,10 @@ sealed class InfoSystem with _$InfoSystem {
     int? procs,
     MemoryInfo? memory,
     CpuLoad? cpuLoad,
-  }) = _InfoSystem;
+  }) = _FtlSystem;
 
-  factory InfoSystem.fromJson(Map<String, dynamic> json) =>
-      _$InfoSystemFromJson(json);
+  factory FtlSystem.fromJson(Map<String, dynamic> json) =>
+      _$FtlSystemFromJson(json);
 }
 
 @freezed

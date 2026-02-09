@@ -75,7 +75,7 @@ void main() {
       final result = await repository.fetchInfoVersion();
       expect(result.isSuccess(), true);
       final info = result.getOrNull();
-      expect(info, kRepoInfoVersion);
+      expect(info, kRepoFtlVersion);
     });
 
     test('should get info version with docker successfully', () async {
@@ -83,7 +83,7 @@ void main() {
       final result = await repository.fetchInfoVersion();
       expect(result.isSuccess(), true);
       final info = result.getOrNull();
-      expect(info, kRepoInfoVersionWithDocker);
+      expect(info, kRepoFtlVersionWithDocker);
     });
 
     test('should return an error if fetching version fails', () async {
@@ -108,14 +108,14 @@ void main() {
     test('should fetch all server info successfully', () async {
       final result = await repository.fetchAllServerInfo();
       expect(result.isSuccess(), true);
-      expect(result.getOrNull(), kRepoInfoPiholeServer);
+      expect(result.getOrNull(), kRepoPiholeServer);
     });
 
     test('should fetch all server info with docker successfully', () async {
       client.isDocker = true;
       final result = await repository.fetchAllServerInfo();
       expect(result.isSuccess(), true);
-      expect(result.getOrNull(), kRepoInfoPiholeServerWithDocker);
+      expect(result.getOrNull(), kRepoPiholeServerWithDocker);
     });
 
     test('should return an error if fetching server info fails', () async {

@@ -119,7 +119,6 @@ import 'package:pi_hole_client/data/repositories/local/server_repository.dart';
 import 'package:pi_hole_client/data/repositories/utils/call_with_retry.dart';
 import 'package:pi_hole_client/data/repositories/utils/constants.dart';
 import 'package:pi_hole_client/data/repositories/utils/exceptions.dart';
-import 'package:pi_hole_client/data/services/api/generated/v6/.dart_tool/build/entrypoint/build.dart';
 import 'package:pi_hole_client/data/services/api/generated/v6/lib/pihole_v6_api.dart';
 import 'package:pi_hole_client/data/services/api/generated/v6/lib/src/api.dart';
 import 'package:pi_hole_client/data/services/api/generated/v6/lib/src/api/actions_api.dart';

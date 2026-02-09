@@ -13,22 +13,22 @@ part of 'metrics.dart';
 T _$identity<T>(T value) => value;
 
 /// @nodoc
-mixin _$InfoDnsMetrics {
+mixin _$FtlDnsMetrics {
 
  DnsCache get cache; DnsReplies get replies;
-/// Create a copy of InfoDnsMetrics
+/// Create a copy of FtlDnsMetrics
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
 @pragma('vm:prefer-inline')
-$InfoDnsMetricsCopyWith<InfoDnsMetrics> get copyWith => _$InfoDnsMetricsCopyWithImpl<InfoDnsMetrics>(this as InfoDnsMetrics, _$identity);
+$FtlDnsMetricsCopyWith<FtlDnsMetrics> get copyWith => _$FtlDnsMetricsCopyWithImpl<FtlDnsMetrics>(this as FtlDnsMetrics, _$identity);
 
-  /// Serializes this InfoDnsMetrics to a JSON map.
+  /// Serializes this FtlDnsMetrics to a JSON map.
   Map<String, dynamic> toJson();
 
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is InfoDnsMetrics&&(identical(other.cache, cache) || other.cache == cache)&&(identical(other.replies, replies) || other.replies == replies));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is FtlDnsMetrics&&(identical(other.cache, cache) || other.cache == cache)&&(identical(other.replies, replies) || other.replies == replies));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -37,15 +37,15 @@ int get hashCode => Object.hash(runtimeType,cache,replies);
 
 @override
 String toString() {
-  return 'InfoDnsMetrics(cache: $cache, replies: $replies)';
+  return 'FtlDnsMetrics(cache: $cache, replies: $replies)';
 }
 
 
 }
 
 /// @nodoc
-abstract mixin class $InfoDnsMetricsCopyWith<$Res>  {
-  factory $InfoDnsMetricsCopyWith(InfoDnsMetrics value, $Res Function(InfoDnsMetrics) _then) = _$InfoDnsMetricsCopyWithImpl;
+abstract mixin class $FtlDnsMetricsCopyWith<$Res>  {
+  factory $FtlDnsMetricsCopyWith(FtlDnsMetrics value, $Res Function(FtlDnsMetrics) _then) = _$FtlDnsMetricsCopyWithImpl;
 @useResult
 $Res call({
  DnsCache cache, DnsReplies replies
@@ -56,14 +56,14 @@ $DnsCacheCopyWith<$Res> get cache;$DnsRepliesCopyWith<$Res> get replies;
 
 }
 /// @nodoc
-class _$InfoDnsMetricsCopyWithImpl<$Res>
-    implements $InfoDnsMetricsCopyWith<$Res> {
-  _$InfoDnsMetricsCopyWithImpl(this._self, this._then);
+class _$FtlDnsMetricsCopyWithImpl<$Res>
+    implements $FtlDnsMetricsCopyWith<$Res> {
+  _$FtlDnsMetricsCopyWithImpl(this._self, this._then);
 
-  final InfoDnsMetrics _self;
-  final $Res Function(InfoDnsMetrics) _then;
+  final FtlDnsMetrics _self;
+  final $Res Function(FtlDnsMetrics) _then;
 
-/// Create a copy of InfoDnsMetrics
+/// Create a copy of FtlDnsMetrics
 /// with the given fields replaced by the non-null parameter values.
 @pragma('vm:prefer-inline') @override $Res call({Object? cache = null,Object? replies = null,}) {
   return _then(_self.copyWith(
@@ -72,7 +72,7 @@ as DnsCache,replies: null == replies ? _self.replies : replies // ignore: cast_n
 as DnsReplies,
   ));
 }
-/// Create a copy of InfoDnsMetrics
+/// Create a copy of FtlDnsMetrics
 /// with the given fields replaced by the non-null parameter values.
 @override
 @pragma('vm:prefer-inline')
@@ -81,7 +81,7 @@ $DnsCacheCopyWith<$Res> get cache {
   return $DnsCacheCopyWith<$Res>(_self.cache, (value) {
     return _then(_self.copyWith(cache: value));
   });
-}/// Create a copy of InfoDnsMetrics
+}/// Create a copy of FtlDnsMetrics
 /// with the given fields replaced by the non-null parameter values.
 @override
 @pragma('vm:prefer-inline')
@@ -94,8 +94,8 @@ $DnsRepliesCopyWith<$Res> get replies {
 }
 
 
-/// Adds pattern-matching-related methods to [InfoDnsMetrics].
-extension InfoDnsMetricsPatterns on InfoDnsMetrics {
+/// Adds pattern-matching-related methods to [FtlDnsMetrics].
+extension FtlDnsMetricsPatterns on FtlDnsMetrics {
 /// A variant of `map` that fallback to returning `orElse`.
 ///
 /// It is equivalent to doing:
@@ -108,10 +108,10 @@ extension InfoDnsMetricsPatterns on InfoDnsMetrics {
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeMap<TResult extends Object?>(TResult Function( _InfoDnsMetrics value)?  $default,{required TResult orElse(),}){
+@optionalTypeArgs TResult maybeMap<TResult extends Object?>(TResult Function( _FtlDnsMetrics value)?  $default,{required TResult orElse(),}){
 final _that = this;
 switch (_that) {
-case _InfoDnsMetrics() when $default != null:
+case _FtlDnsMetrics() when $default != null:
 return $default(_that);case _:
   return orElse();
 
@@ -130,10 +130,10 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult map<TResult extends Object?>(TResult Function( _InfoDnsMetrics value)  $default,){
+@optionalTypeArgs TResult map<TResult extends Object?>(TResult Function( _FtlDnsMetrics value)  $default,){
 final _that = this;
 switch (_that) {
-case _InfoDnsMetrics():
+case _FtlDnsMetrics():
 return $default(_that);}
 }
 /// A variant of `map` that fallback to returning `null`.
@@ -148,10 +148,10 @@ return $default(_that);}
 /// }
 /// ```
 
-@optionalTypeArgs TResult? mapOrNull<TResult extends Object?>(TResult? Function( _InfoDnsMetrics value)?  $default,){
+@optionalTypeArgs TResult? mapOrNull<TResult extends Object?>(TResult? Function( _FtlDnsMetrics value)?  $default,){
 final _that = this;
 switch (_that) {
-case _InfoDnsMetrics() when $default != null:
+case _FtlDnsMetrics() when $default != null:
 return $default(_that);case _:
   return null;
 
@@ -171,7 +171,7 @@ return $default(_that);case _:
 
 @optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( DnsCache cache,  DnsReplies replies)?  $default,{required TResult orElse(),}) {final _that = this;
 switch (_that) {
-case _InfoDnsMetrics() when $default != null:
+case _FtlDnsMetrics() when $default != null:
 return $default(_that.cache,_that.replies);case _:
   return orElse();
 
@@ -192,7 +192,7 @@ return $default(_that.cache,_that.replies);case _:
 
 @optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( DnsCache cache,  DnsReplies replies)  $default,) {final _that = this;
 switch (_that) {
-case _InfoDnsMetrics():
+case _FtlDnsMetrics():
 return $default(_that.cache,_that.replies);}
 }
 /// A variant of `when` that fallback to returning `null`
@@ -209,7 +209,7 @@ return $default(_that.cache,_that.replies);}
 
 @optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( DnsCache cache,  DnsReplies replies)?  $default,) {final _that = this;
 switch (_that) {
-case _InfoDnsMetrics() when $default != null:
+case _FtlDnsMetrics() when $default != null:
 return $default(_that.cache,_that.replies);case _:
   return null;
 
@@ -221,27 +221,27 @@ return $default(_that.cache,_that.replies);case _:
 /// @nodoc
 
 @JsonSerializable(explicitToJson: true)
-class _InfoDnsMetrics implements InfoDnsMetrics {
-  const _InfoDnsMetrics({required this.cache, required this.replies});
-  factory _InfoDnsMetrics.fromJson(Map<String, dynamic> json) => _$InfoDnsMetricsFromJson(json);
+class _FtlDnsMetrics implements FtlDnsMetrics {
+  const _FtlDnsMetrics({required this.cache, required this.replies});
+  factory _FtlDnsMetrics.fromJson(Map<String, dynamic> json) => _$FtlDnsMetricsFromJson(json);
 
 @override final  DnsCache cache;
 @override final  DnsReplies replies;
 
-/// Create a copy of InfoDnsMetrics
+/// Create a copy of FtlDnsMetrics
 /// with the given fields replaced by the non-null parameter values.
 @override @JsonKey(includeFromJson: false, includeToJson: false)
 @pragma('vm:prefer-inline')
-_$InfoDnsMetricsCopyWith<_InfoDnsMetrics> get copyWith => __$InfoDnsMetricsCopyWithImpl<_InfoDnsMetrics>(this, _$identity);
+_$FtlDnsMetricsCopyWith<_FtlDnsMetrics> get copyWith => __$FtlDnsMetricsCopyWithImpl<_FtlDnsMetrics>(this, _$identity);
 
 @override
 Map<String, dynamic> toJson() {
-  return _$InfoDnsMetricsToJson(this, );
+  return _$FtlDnsMetricsToJson(this, );
 }
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _InfoDnsMetrics&&(identical(other.cache, cache) || other.cache == cache)&&(identical(other.replies, replies) || other.replies == replies));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _FtlDnsMetrics&&(identical(other.cache, cache) || other.cache == cache)&&(identical(other.replies, replies) || other.replies == replies));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -250,15 +250,15 @@ int get hashCode => Object.hash(runtimeType,cache,replies);
 
 @override
 String toString() {
-  return 'InfoDnsMetrics(cache: $cache, replies: $replies)';
+  return 'FtlDnsMetrics(cache: $cache, replies: $replies)';
 }
 
 
 }
 
 /// @nodoc
-abstract mixin class _$InfoDnsMetricsCopyWith<$Res> implements $InfoDnsMetricsCopyWith<$Res> {
-  factory _$InfoDnsMetricsCopyWith(_InfoDnsMetrics value, $Res Function(_InfoDnsMetrics) _then) = __$InfoDnsMetricsCopyWithImpl;
+abstract mixin class _$FtlDnsMetricsCopyWith<$Res> implements $FtlDnsMetricsCopyWith<$Res> {
+  factory _$FtlDnsMetricsCopyWith(_FtlDnsMetrics value, $Res Function(_FtlDnsMetrics) _then) = __$FtlDnsMetricsCopyWithImpl;
 @override @useResult
 $Res call({
  DnsCache cache, DnsReplies replies
@@ -269,24 +269,24 @@ $Res call({
 
 }
 /// @nodoc
-class __$InfoDnsMetricsCopyWithImpl<$Res>
-    implements _$InfoDnsMetricsCopyWith<$Res> {
-  __$InfoDnsMetricsCopyWithImpl(this._self, this._then);
+class __$FtlDnsMetricsCopyWithImpl<$Res>
+    implements _$FtlDnsMetricsCopyWith<$Res> {
+  __$FtlDnsMetricsCopyWithImpl(this._self, this._then);
 
-  final _InfoDnsMetrics _self;
-  final $Res Function(_InfoDnsMetrics) _then;
+  final _FtlDnsMetrics _self;
+  final $Res Function(_FtlDnsMetrics) _then;
 
-/// Create a copy of InfoDnsMetrics
+/// Create a copy of FtlDnsMetrics
 /// with the given fields replaced by the non-null parameter values.
 @override @pragma('vm:prefer-inline') $Res call({Object? cache = null,Object? replies = null,}) {
-  return _then(_InfoDnsMetrics(
+  return _then(_FtlDnsMetrics(
 cache: null == cache ? _self.cache : cache // ignore: cast_nullable_to_non_nullable
 as DnsCache,replies: null == replies ? _self.replies : replies // ignore: cast_nullable_to_non_nullable
 as DnsReplies,
   ));
 }
 
-/// Create a copy of InfoDnsMetrics
+/// Create a copy of FtlDnsMetrics
 /// with the given fields replaced by the non-null parameter values.
 @override
 @pragma('vm:prefer-inline')
@@ -295,7 +295,7 @@ $DnsCacheCopyWith<$Res> get cache {
   return $DnsCacheCopyWith<$Res>(_self.cache, (value) {
     return _then(_self.copyWith(cache: value));
   });
-}/// Create a copy of InfoDnsMetrics
+}/// Create a copy of FtlDnsMetrics
 /// with the given fields replaced by the non-null parameter values.
 @override
 @pragma('vm:prefer-inline')

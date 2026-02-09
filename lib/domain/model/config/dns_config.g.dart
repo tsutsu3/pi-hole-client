@@ -15,7 +15,10 @@ _DnsConfig _$DnsConfigFromJson(Map<String, dynamic> json) => _DnsConfig(
   bogusPriv: json['bogusPriv'] as bool?,
   domainNeeded: json['domainNeeded'] as bool?,
   expandHosts: json['expandHosts'] as bool?,
-  listeningMode: json['listeningMode'] as String?,
+  listeningMode: $enumDecodeNullable(
+    _$ListeningModeEnumMap,
+    json['listeningMode'],
+  ),
   port: (json['port'] as num?)?.toInt(),
   blockTTL: (json['blockTTL'] as num?)?.toInt(),
   cnameRecords: (json['cnameRecords'] as List<dynamic>?)
@@ -41,7 +44,7 @@ Map<String, dynamic> _$DnsConfigToJson(_DnsConfig instance) =>
       'bogusPriv': ?instance.bogusPriv,
       'domainNeeded': ?instance.domainNeeded,
       'expandHosts': ?instance.expandHosts,
-      'listeningMode': ?instance.listeningMode,
+      'listeningMode': ?_$ListeningModeEnumMap[instance.listeningMode],
       'port': ?instance.port,
       'blockTTL': ?instance.blockTTL,
       'cnameRecords': ?instance.cnameRecords,
@@ -51,14 +54,35 @@ Map<String, dynamic> _$DnsConfigToJson(_DnsConfig instance) =>
       'rateLimit': ?instance.rateLimit?.toJson(),
     };
 
+const _$ListeningModeEnumMap = {
+  ListeningMode.local: 'local',
+  ListeningMode.all: 'all',
+  ListeningMode.single: 'single',
+  ListeningMode.bind: 'bind',
+  ListeningMode.none: 'none',
+  ListeningMode.unknown: 'unknown',
+};
+
 _DnsBlockingConfig _$DnsBlockingConfigFromJson(Map<String, dynamic> json) =>
     _DnsBlockingConfig(
       active: json['active'] as bool,
-      mode: json['mode'] as String,
+      mode: $enumDecode(_$BlockingModeEnumMap, json['mode']),
     );
 
 Map<String, dynamic> _$DnsBlockingConfigToJson(_DnsBlockingConfig instance) =>
-    <String, dynamic>{'active': instance.active, 'mode': instance.mode};
+    <String, dynamic>{
+      'active': instance.active,
+      'mode': _$BlockingModeEnumMap[instance.mode]!,
+    };
+
+const _$BlockingModeEnumMap = {
+  BlockingMode.nullMode: 'nullMode',
+  BlockingMode.ipNodataAaaa: 'ipNodataAaaa',
+  BlockingMode.ip: 'ip',
+  BlockingMode.nxdomain: 'nxdomain',
+  BlockingMode.nodata: 'nodata',
+  BlockingMode.unknown: 'unknown',
+};
 
 _DnsRateLimitConfig _$DnsRateLimitConfigFromJson(Map<String, dynamic> json) =>
     _DnsRateLimitConfig(

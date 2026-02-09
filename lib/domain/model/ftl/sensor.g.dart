@@ -6,13 +6,13 @@ part of 'sensor.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-_InfoSensor _$InfoSensorFromJson(Map<String, dynamic> json) => _InfoSensor(
+_FtlSensor _$FtlSensorFromJson(Map<String, dynamic> json) => _FtlSensor(
   hotLimit: (json['hotLimit'] as num).toDouble(),
   unit: json['unit'] as String,
   cpuTemp: (json['cpuTemp'] as num?)?.toDouble(),
 );
 
-Map<String, dynamic> _$InfoSensorToJson(_InfoSensor instance) =>
+Map<String, dynamic> _$FtlSensorToJson(_FtlSensor instance) =>
     <String, dynamic>{
       'hotLimit': instance.hotLimit,
       'unit': instance.unit,

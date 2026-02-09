@@ -12,7 +12,7 @@ sealed class OverTime with _$OverTime {
     required List<HistoryEntry> domainsOverTime,
     required List<HistoryEntry> adsOverTime,
     required List<Client> clients,
-    required List<ClientOverTimeEntry> overTime,
+    required List<ClientOverTimeEntry> clientEntries,
   }) = _OverTime;
 
   factory OverTime.fromJson(Map<String, dynamic> json) =>

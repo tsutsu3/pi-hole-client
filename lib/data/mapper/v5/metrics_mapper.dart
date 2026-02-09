@@ -14,7 +14,7 @@ extension OverTimeDataMapper on s.OverTimeData {
           .toList(),
       adsOverTime: adsOverTime.entries.map((e) => e.toDomain()).toList(),
       clients: clients.map((client) => client.toDomain()).toList(),
-      overTime: overTime.entries.map((e) => e.toDomain()).toList(),
+      clientEntries: overTime.entries.map((e) => e.toDomain()).toList(),
     );
   }
 }

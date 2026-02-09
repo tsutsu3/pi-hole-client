@@ -4,9 +4,9 @@ part 'host.freezed.dart';
 part 'host.g.dart';
 
 @freezed
-sealed class InfoHost with _$InfoHost {
+sealed class FtlHost with _$FtlHost {
   @JsonSerializable(explicitToJson: true)
-  const factory InfoHost({
+  const factory FtlHost({
     required String domainName,
     required String arch,
     required String hostName,
@@ -16,10 +16,10 @@ sealed class InfoHost with _$InfoHost {
     String? model,
     // v6-only field
     DmiInfo? dmi,
-  }) = _InfoHost;
+  }) = _FtlHost;
 
-  factory InfoHost.fromJson(Map<String, dynamic> json) =>
-      _$InfoHostFromJson(json);
+  factory FtlHost.fromJson(Map<String, dynamic> json) =>
+      _$FtlHostFromJson(json);
 }
 
 @freezed

@@ -13,23 +13,23 @@ part of 'system.dart';
 T _$identity<T>(T value) => value;
 
 /// @nodoc
-mixin _$InfoSystem {
+mixin _$FtlSystem {
 
  int get uptime; double get ramUsage; double get cpuUsage;// v6-only fields
  int? get procs; MemoryInfo? get memory; CpuLoad? get cpuLoad;
-/// Create a copy of InfoSystem
+/// Create a copy of FtlSystem
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
 @pragma('vm:prefer-inline')
-$InfoSystemCopyWith<InfoSystem> get copyWith => _$InfoSystemCopyWithImpl<InfoSystem>(this as InfoSystem, _$identity);
+$FtlSystemCopyWith<FtlSystem> get copyWith => _$FtlSystemCopyWithImpl<FtlSystem>(this as FtlSystem, _$identity);
 
-  /// Serializes this InfoSystem to a JSON map.
+  /// Serializes this FtlSystem to a JSON map.
   Map<String, dynamic> toJson();
 
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is InfoSystem&&(identical(other.uptime, uptime) || other.uptime == uptime)&&(identical(other.ramUsage, ramUsage) || other.ramUsage == ramUsage)&&(identical(other.cpuUsage, cpuUsage) || other.cpuUsage == cpuUsage)&&(identical(other.procs, procs) || other.procs == procs)&&(identical(other.memory, memory) || other.memory == memory)&&(identical(other.cpuLoad, cpuLoad) || other.cpuLoad == cpuLoad));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is FtlSystem&&(identical(other.uptime, uptime) || other.uptime == uptime)&&(identical(other.ramUsage, ramUsage) || other.ramUsage == ramUsage)&&(identical(other.cpuUsage, cpuUsage) || other.cpuUsage == cpuUsage)&&(identical(other.procs, procs) || other.procs == procs)&&(identical(other.memory, memory) || other.memory == memory)&&(identical(other.cpuLoad, cpuLoad) || other.cpuLoad == cpuLoad));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -38,15 +38,15 @@ int get hashCode => Object.hash(runtimeType,uptime,ramUsage,cpuUsage,procs,memor
 
 @override
 String toString() {
-  return 'InfoSystem(uptime: $uptime, ramUsage: $ramUsage, cpuUsage: $cpuUsage, procs: $procs, memory: $memory, cpuLoad: $cpuLoad)';
+  return 'FtlSystem(uptime: $uptime, ramUsage: $ramUsage, cpuUsage: $cpuUsage, procs: $procs, memory: $memory, cpuLoad: $cpuLoad)';
 }
 
 
 }
 
 /// @nodoc
-abstract mixin class $InfoSystemCopyWith<$Res>  {
-  factory $InfoSystemCopyWith(InfoSystem value, $Res Function(InfoSystem) _then) = _$InfoSystemCopyWithImpl;
+abstract mixin class $FtlSystemCopyWith<$Res>  {
+  factory $FtlSystemCopyWith(FtlSystem value, $Res Function(FtlSystem) _then) = _$FtlSystemCopyWithImpl;
 @useResult
 $Res call({
  int uptime, double ramUsage, double cpuUsage, int? procs, MemoryInfo? memory, CpuLoad? cpuLoad
@@ -57,14 +57,14 @@ $MemoryInfoCopyWith<$Res>? get memory;$CpuLoadCopyWith<$Res>? get cpuLoad;
 
 }
 /// @nodoc
-class _$InfoSystemCopyWithImpl<$Res>
-    implements $InfoSystemCopyWith<$Res> {
-  _$InfoSystemCopyWithImpl(this._self, this._then);
+class _$FtlSystemCopyWithImpl<$Res>
+    implements $FtlSystemCopyWith<$Res> {
+  _$FtlSystemCopyWithImpl(this._self, this._then);
 
-  final InfoSystem _self;
-  final $Res Function(InfoSystem) _then;
+  final FtlSystem _self;
+  final $Res Function(FtlSystem) _then;
 
-/// Create a copy of InfoSystem
+/// Create a copy of FtlSystem
 /// with the given fields replaced by the non-null parameter values.
 @pragma('vm:prefer-inline') @override $Res call({Object? uptime = null,Object? ramUsage = null,Object? cpuUsage = null,Object? procs = freezed,Object? memory = freezed,Object? cpuLoad = freezed,}) {
   return _then(_self.copyWith(
@@ -77,7 +77,7 @@ as MemoryInfo?,cpuLoad: freezed == cpuLoad ? _self.cpuLoad : cpuLoad // ignore: 
 as CpuLoad?,
   ));
 }
-/// Create a copy of InfoSystem
+/// Create a copy of FtlSystem
 /// with the given fields replaced by the non-null parameter values.
 @override
 @pragma('vm:prefer-inline')
@@ -89,7 +89,7 @@ $MemoryInfoCopyWith<$Res>? get memory {
   return $MemoryInfoCopyWith<$Res>(_self.memory!, (value) {
     return _then(_self.copyWith(memory: value));
   });
-}/// Create a copy of InfoSystem
+}/// Create a copy of FtlSystem
 /// with the given fields replaced by the non-null parameter values.
 @override
 @pragma('vm:prefer-inline')
@@ -105,8 +105,8 @@ $CpuLoadCopyWith<$Res>? get cpuLoad {
 }
 
 
-/// Adds pattern-matching-related methods to [InfoSystem].
-extension InfoSystemPatterns on InfoSystem {
+/// Adds pattern-matching-related methods to [FtlSystem].
+extension FtlSystemPatterns on FtlSystem {
 /// A variant of `map` that fallback to returning `orElse`.
 ///
 /// It is equivalent to doing:
@@ -119,10 +119,10 @@ extension InfoSystemPatterns on InfoSystem {
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeMap<TResult extends Object?>(TResult Function( _InfoSystem value)?  $default,{required TResult orElse(),}){
+@optionalTypeArgs TResult maybeMap<TResult extends Object?>(TResult Function( _FtlSystem value)?  $default,{required TResult orElse(),}){
 final _that = this;
 switch (_that) {
-case _InfoSystem() when $default != null:
+case _FtlSystem() when $default != null:
 return $default(_that);case _:
   return orElse();
 
@@ -141,10 +141,10 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult map<TResult extends Object?>(TResult Function( _InfoSystem value)  $default,){
+@optionalTypeArgs TResult map<TResult extends Object?>(TResult Function( _FtlSystem value)  $default,){
 final _that = this;
 switch (_that) {
-case _InfoSystem():
+case _FtlSystem():
 return $default(_that);}
 }
 /// A variant of `map` that fallback to returning `null`.
@@ -159,10 +159,10 @@ return $default(_that);}
 /// }
 /// ```
 
-@optionalTypeArgs TResult? mapOrNull<TResult extends Object?>(TResult? Function( _InfoSystem value)?  $default,){
+@optionalTypeArgs TResult? mapOrNull<TResult extends Object?>(TResult? Function( _FtlSystem value)?  $default,){
 final _that = this;
 switch (_that) {
-case _InfoSystem() when $default != null:
+case _FtlSystem() when $default != null:
 return $default(_that);case _:
   return null;
 
@@ -182,7 +182,7 @@ return $default(_that);case _:
 
 @optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( int uptime,  double ramUsage,  double cpuUsage,  int? procs,  MemoryInfo? memory,  CpuLoad? cpuLoad)?  $default,{required TResult orElse(),}) {final _that = this;
 switch (_that) {
-case _InfoSystem() when $default != null:
+case _FtlSystem() when $default != null:
 return $default(_that.uptime,_that.ramUsage,_that.cpuUsage,_that.procs,_that.memory,_that.cpuLoad);case _:
   return orElse();
 
@@ -203,7 +203,7 @@ return $default(_that.uptime,_that.ramUsage,_that.cpuUsage,_that.procs,_that.mem
 
 @optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( int uptime,  double ramUsage,  double cpuUsage,  int? procs,  MemoryInfo? memory,  CpuLoad? cpuLoad)  $default,) {final _that = this;
 switch (_that) {
-case _InfoSystem():
+case _FtlSystem():
 return $default(_that.uptime,_that.ramUsage,_that.cpuUsage,_that.procs,_that.memory,_that.cpuLoad);}
 }
 /// A variant of `when` that fallback to returning `null`
@@ -220,7 +220,7 @@ return $default(_that.uptime,_that.ramUsage,_that.cpuUsage,_that.procs,_that.mem
 
 @optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( int uptime,  double ramUsage,  double cpuUsage,  int? procs,  MemoryInfo? memory,  CpuLoad? cpuLoad)?  $default,) {final _that = this;
 switch (_that) {
-case _InfoSystem() when $default != null:
+case _FtlSystem() when $default != null:
 return $default(_that.uptime,_that.ramUsage,_that.cpuUsage,_that.procs,_that.memory,_that.cpuLoad);case _:
   return null;
 
@@ -232,9 +232,9 @@ return $default(_that.uptime,_that.ramUsage,_that.cpuUsage,_that.procs,_that.mem
 /// @nodoc
 
 @JsonSerializable(explicitToJson: true)
-class _InfoSystem implements InfoSystem {
-  const _InfoSystem({required this.uptime, required this.ramUsage, required this.cpuUsage, this.procs, this.memory, this.cpuLoad});
-  factory _InfoSystem.fromJson(Map<String, dynamic> json) => _$InfoSystemFromJson(json);
+class _FtlSystem implements FtlSystem {
+  const _FtlSystem({required this.uptime, required this.ramUsage, required this.cpuUsage, this.procs, this.memory, this.cpuLoad});
+  factory _FtlSystem.fromJson(Map<String, dynamic> json) => _$FtlSystemFromJson(json);
 
 @override final  int uptime;
 @override final  double ramUsage;
@@ -244,20 +244,20 @@ class _InfoSystem implements InfoSystem {
 @override final  MemoryInfo? memory;
 @override final  CpuLoad? cpuLoad;
 
-/// Create a copy of InfoSystem
+/// Create a copy of FtlSystem
 /// with the given fields replaced by the non-null parameter values.
 @override @JsonKey(includeFromJson: false, includeToJson: false)
 @pragma('vm:prefer-inline')
-_$InfoSystemCopyWith<_InfoSystem> get copyWith => __$InfoSystemCopyWithImpl<_InfoSystem>(this, _$identity);
+_$FtlSystemCopyWith<_FtlSystem> get copyWith => __$FtlSystemCopyWithImpl<_FtlSystem>(this, _$identity);
 
 @override
 Map<String, dynamic> toJson() {
-  return _$InfoSystemToJson(this, );
+  return _$FtlSystemToJson(this, );
 }
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _InfoSystem&&(identical(other.uptime, uptime) || other.uptime == uptime)&&(identical(other.ramUsage, ramUsage) || other.ramUsage == ramUsage)&&(identical(other.cpuUsage, cpuUsage) || other.cpuUsage == cpuUsage)&&(identical(other.procs, procs) || other.procs == procs)&&(identical(other.memory, memory) || other.memory == memory)&&(identical(other.cpuLoad, cpuLoad) || other.cpuLoad == cpuLoad));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _FtlSystem&&(identical(other.uptime, uptime) || other.uptime == uptime)&&(identical(other.ramUsage, ramUsage) || other.ramUsage == ramUsage)&&(identical(other.cpuUsage, cpuUsage) || other.cpuUsage == cpuUsage)&&(identical(other.procs, procs) || other.procs == procs)&&(identical(other.memory, memory) || other.memory == memory)&&(identical(other.cpuLoad, cpuLoad) || other.cpuLoad == cpuLoad));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -266,15 +266,15 @@ int get hashCode => Object.hash(runtimeType,uptime,ramUsage,cpuUsage,procs,memor
 
 @override
 String toString() {
-  return 'InfoSystem(uptime: $uptime, ramUsage: $ramUsage, cpuUsage: $cpuUsage, procs: $procs, memory: $memory, cpuLoad: $cpuLoad)';
+  return 'FtlSystem(uptime: $uptime, ramUsage: $ramUsage, cpuUsage: $cpuUsage, procs: $procs, memory: $memory, cpuLoad: $cpuLoad)';
 }
 
 
 }
 
 /// @nodoc
-abstract mixin class _$InfoSystemCopyWith<$Res> implements $InfoSystemCopyWith<$Res> {
-  factory _$InfoSystemCopyWith(_InfoSystem value, $Res Function(_InfoSystem) _then) = __$InfoSystemCopyWithImpl;
+abstract mixin class _$FtlSystemCopyWith<$Res> implements $FtlSystemCopyWith<$Res> {
+  factory _$FtlSystemCopyWith(_FtlSystem value, $Res Function(_FtlSystem) _then) = __$FtlSystemCopyWithImpl;
 @override @useResult
 $Res call({
  int uptime, double ramUsage, double cpuUsage, int? procs, MemoryInfo? memory, CpuLoad? cpuLoad
@@ -285,17 +285,17 @@ $Res call({
 
 }
 /// @nodoc
-class __$InfoSystemCopyWithImpl<$Res>
-    implements _$InfoSystemCopyWith<$Res> {
-  __$InfoSystemCopyWithImpl(this._self, this._then);
+class __$FtlSystemCopyWithImpl<$Res>
+    implements _$FtlSystemCopyWith<$Res> {
+  __$FtlSystemCopyWithImpl(this._self, this._then);
 
-  final _InfoSystem _self;
-  final $Res Function(_InfoSystem) _then;
+  final _FtlSystem _self;
+  final $Res Function(_FtlSystem) _then;
 
-/// Create a copy of InfoSystem
+/// Create a copy of FtlSystem
 /// with the given fields replaced by the non-null parameter values.
 @override @pragma('vm:prefer-inline') $Res call({Object? uptime = null,Object? ramUsage = null,Object? cpuUsage = null,Object? procs = freezed,Object? memory = freezed,Object? cpuLoad = freezed,}) {
-  return _then(_InfoSystem(
+  return _then(_FtlSystem(
 uptime: null == uptime ? _self.uptime : uptime // ignore: cast_nullable_to_non_nullable
 as int,ramUsage: null == ramUsage ? _self.ramUsage : ramUsage // ignore: cast_nullable_to_non_nullable
 as double,cpuUsage: null == cpuUsage ? _self.cpuUsage : cpuUsage // ignore: cast_nullable_to_non_nullable
@@ -306,7 +306,7 @@ as CpuLoad?,
   ));
 }
 
-/// Create a copy of InfoSystem
+/// Create a copy of FtlSystem
 /// with the given fields replaced by the non-null parameter values.
 @override
 @pragma('vm:prefer-inline')
@@ -318,7 +318,7 @@ $MemoryInfoCopyWith<$Res>? get memory {
   return $MemoryInfoCopyWith<$Res>(_self.memory!, (value) {
     return _then(_self.copyWith(memory: value));
   });
-}/// Create a copy of InfoSystem
+}/// Create a copy of FtlSystem
 /// with the given fields replaced by the non-null parameter values.
 @override
 @pragma('vm:prefer-inline')

@@ -2,8 +2,8 @@ import 'package:pi_hole_client/data/model/v5/versions.dart' as s;
 import 'package:pi_hole_client/domain/model/ftl/version.dart' as d;
 
 extension VersionsMapper on s.Versions {
-  d.InfoVersion toDomain() {
-    return d.InfoVersion(
+  d.FtlVersion toDomain() {
+    return d.FtlVersion(
       core: d.ComponentVersion(
         local: d.VersionDetail(version: coreCurrent, branch: coreBranch),
         remote: d.VersionDetail(version: coreLatest),

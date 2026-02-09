@@ -26,28 +26,28 @@ class FtlRepositoryV5 extends BaseV5TokenRepository implements FtlRepository {
   final PiholeV5ApiClient _client;
 
   @override
-  Future<Result<InfoClient>> fetchInfoClient() {
+  Future<Result<FtlClient>> fetchInfoClient() {
     return Future.value(
       Failure(NotSupportedException(kNotSupportedInV5Message)),
     );
   }
 
   @override
-  Future<Result<InfoFtl>> fetchInfoFtl() {
+  Future<Result<FtlInfo>> fetchInfoFtl() {
     return Future.value(
       Failure(NotSupportedException(kNotSupportedInV5Message)),
     );
   }
 
   @override
-  Future<Result<InfoHost>> fetchInfoHost() {
+  Future<Result<FtlHost>> fetchInfoHost() {
     return Future.value(
       Failure(NotSupportedException(kNotSupportedInV5Message)),
     );
   }
 
   @override
-  Future<Result<List<InfoMessage>>> fetchInfoMessages() {
+  Future<Result<List<FtlMessage>>> fetchInfoMessages() {
     return Future.value(
       Failure(NotSupportedException(kNotSupportedInV5Message)),
     );
@@ -61,28 +61,28 @@ class FtlRepositoryV5 extends BaseV5TokenRepository implements FtlRepository {
   }
 
   @override
-  Future<Result<InfoDnsMetrics>> fetchInfoMetrics() {
+  Future<Result<FtlDnsMetrics>> fetchInfoMetrics() {
     return Future.value(
       Failure(NotSupportedException(kNotSupportedInV5Message)),
     );
   }
 
   @override
-  Future<Result<InfoSensor>> fetchInfoSensors() {
+  Future<Result<FtlSensor>> fetchInfoSensors() {
     return Future.value(
       Failure(NotSupportedException(kNotSupportedInV5Message)),
     );
   }
 
   @override
-  Future<Result<InfoSystem>> fetchInfoSystem() {
+  Future<Result<FtlSystem>> fetchInfoSystem() {
     return Future.value(
       Failure(NotSupportedException(kNotSupportedInV5Message)),
     );
   }
 
   @override
-  Future<Result<InfoVersion>> fetchInfoVersion() {
+  Future<Result<FtlVersion>> fetchInfoVersion() {
     return runWithResultRetry(
       action: () async {
         final token = await getToken();
@@ -94,12 +94,12 @@ class FtlRepositoryV5 extends BaseV5TokenRepository implements FtlRepository {
   }
 
   @override
-  Future<Result<InfoPiholeServer>> fetchAllServerInfo() {
+  Future<Result<PiholeServer>> fetchAllServerInfo() {
     return runWithResultRetry(
       action: () async {
         final token = await getToken();
         final result = await _client.getVersions(token);
-        return result.map((v) => InfoPiholeServer(version: v.toDomain()));
+        return result.map((v) => PiholeServer(version: v.toDomain()));
       },
       onRetry: (_) => clearToken(),
     );

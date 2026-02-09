@@ -6,13 +6,13 @@ part of 'metrics.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-_InfoDnsMetrics _$InfoDnsMetricsFromJson(Map<String, dynamic> json) =>
-    _InfoDnsMetrics(
+_FtlDnsMetrics _$FtlDnsMetricsFromJson(Map<String, dynamic> json) =>
+    _FtlDnsMetrics(
       cache: DnsCache.fromJson(json['cache'] as Map<String, dynamic>),
       replies: DnsReplies.fromJson(json['replies'] as Map<String, dynamic>),
     );
 
-Map<String, dynamic> _$InfoDnsMetricsToJson(_InfoDnsMetrics instance) =>
+Map<String, dynamic> _$FtlDnsMetricsToJson(_FtlDnsMetrics instance) =>
     <String, dynamic>{
       'cache': instance.cache.toJson(),
       'replies': instance.replies.toJson(),

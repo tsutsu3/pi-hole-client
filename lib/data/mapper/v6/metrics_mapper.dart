@@ -134,6 +134,7 @@ extension StatsUpstreamsMapper on ss.StatsUpstreams {
       return d.DestinationStat(
         destination: destination,
         percentage: percentage,
+        count: upstream.count,
       );
     }).toList();
   }
@@ -159,7 +160,7 @@ extension HistoryClientsMapper on sh.HistoryClients {
     final orderedClients = clients.entries.map((e) {
       final ip = e.key;
       final name = e.value.name ?? '';
-      return d.Client(name: name, ip: ip);
+      return d.Client(name: name, ip: ip, total: e.value.total);
     }).toList();
 
     final overTime = <d.ClientOverTimeEntry>[];
@@ -178,7 +179,7 @@ extension HistoryClientsMapper on sh.HistoryClients {
       );
     }
 
-    return d.Clients(clients: orderedClients, overTime: overTime);
+    return d.Clients(clients: orderedClients, clientEntries: overTime);
   }
 }
 
@@ -209,7 +210,7 @@ extension OverTimeDataMapper on (d.History, d.Clients) {
       adsOverTime: $1.adsOverTime,
       domainsOverTime: $1.domainsOverTime,
       clients: $2.clients,
-      overTime: $2.overTime,
+      clientEntries: $2.clientEntries,
     );
   }
 }

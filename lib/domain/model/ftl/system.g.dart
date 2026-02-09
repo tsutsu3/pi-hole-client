@@ -6,7 +6,7 @@ part of 'system.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-_InfoSystem _$InfoSystemFromJson(Map<String, dynamic> json) => _InfoSystem(
+_FtlSystem _$FtlSystemFromJson(Map<String, dynamic> json) => _FtlSystem(
   uptime: (json['uptime'] as num).toInt(),
   ramUsage: (json['ramUsage'] as num).toDouble(),
   cpuUsage: (json['cpuUsage'] as num).toDouble(),
@@ -19,7 +19,7 @@ _InfoSystem _$InfoSystemFromJson(Map<String, dynamic> json) => _InfoSystem(
       : CpuLoad.fromJson(json['cpuLoad'] as Map<String, dynamic>),
 );
 
-Map<String, dynamic> _$InfoSystemToJson(_InfoSystem instance) =>
+Map<String, dynamic> _$FtlSystemToJson(_FtlSystem instance) =>
     <String, dynamic>{
       'uptime': instance.uptime,
       'ramUsage': instance.ramUsage,

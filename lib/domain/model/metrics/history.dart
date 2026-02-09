@@ -18,7 +18,7 @@ sealed class History with _$History {
 sealed class HistoryEntry with _$HistoryEntry {
   const factory HistoryEntry({
     required DateTime timestamp,
-    required int count,
+    required int count, // v5: total queries, v6: total or blocked depending on context
     // v6-only fields
     int? blocked,
     int? cached,

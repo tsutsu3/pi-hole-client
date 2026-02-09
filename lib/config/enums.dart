@@ -241,3 +241,43 @@ enum QueryStatusType {
 }
 
 enum RouteFamilyType { inet, inet6, link, mpls, bridge, unknown }
+
+/// DNS blocking mode (Pi-hole v6)
+enum BlockingMode {
+  /// Reply with NULL (0.0.0.0 or ::) — default and recommended
+  nullMode,
+
+  /// Reply with Pi-hole's IP for A queries, NODATA for AAAA
+  ipNodataAaaa,
+
+  /// Reply with Pi-hole's IP for both A and AAAA
+  ip,
+
+  /// Reply with NXDOMAIN
+  nxdomain,
+
+  /// Reply with NODATA
+  nodata,
+
+  unknown,
+}
+
+/// DNS listening mode (Pi-hole v6)
+enum ListeningMode {
+  /// Allow only local requests (default)
+  local,
+
+  /// Permit all origins
+  all,
+
+  /// Respond only on a single interface
+  single,
+
+  /// Listen with bind configuration
+  bind,
+
+  /// Don't listen
+  none,
+
+  unknown,
+}

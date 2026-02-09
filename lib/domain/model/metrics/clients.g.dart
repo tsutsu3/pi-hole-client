@@ -10,22 +10,26 @@ _Clients _$ClientsFromJson(Map<String, dynamic> json) => _Clients(
   clients: (json['clients'] as List<dynamic>)
       .map((e) => Client.fromJson(e as Map<String, dynamic>))
       .toList(),
-  overTime: (json['overTime'] as List<dynamic>)
+  clientEntries: (json['clientEntries'] as List<dynamic>)
       .map((e) => ClientOverTimeEntry.fromJson(e as Map<String, dynamic>))
       .toList(),
 );
 
 Map<String, dynamic> _$ClientsToJson(_Clients instance) => <String, dynamic>{
   'clients': instance.clients.map((e) => e.toJson()).toList(),
-  'overTime': instance.overTime.map((e) => e.toJson()).toList(),
+  'clientEntries': instance.clientEntries.map((e) => e.toJson()).toList(),
 };
 
-_Client _$ClientFromJson(Map<String, dynamic> json) =>
-    _Client(ip: json['ip'] as String, name: json['name'] as String?);
+_Client _$ClientFromJson(Map<String, dynamic> json) => _Client(
+  ip: json['ip'] as String,
+  name: json['name'] as String?,
+  total: (json['total'] as num?)?.toInt(),
+);
 
 Map<String, dynamic> _$ClientToJson(_Client instance) => <String, dynamic>{
   'ip': instance.ip,
   'name': instance.name,
+  'total': instance.total,
 };
 
 _ClientOverTimeEntry _$ClientOverTimeEntryFromJson(Map<String, dynamic> json) =>

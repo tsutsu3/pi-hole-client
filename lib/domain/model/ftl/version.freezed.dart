@@ -13,22 +13,22 @@ part of 'version.dart';
 T _$identity<T>(T value) => value;
 
 /// @nodoc
-mixin _$InfoVersion {
+mixin _$FtlVersion {
 
  ComponentVersion get core; ComponentVersion get web; ComponentVersion get ftl; ComponentVersion get docker;
-/// Create a copy of InfoVersion
+/// Create a copy of FtlVersion
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
 @pragma('vm:prefer-inline')
-$InfoVersionCopyWith<InfoVersion> get copyWith => _$InfoVersionCopyWithImpl<InfoVersion>(this as InfoVersion, _$identity);
+$FtlVersionCopyWith<FtlVersion> get copyWith => _$FtlVersionCopyWithImpl<FtlVersion>(this as FtlVersion, _$identity);
 
-  /// Serializes this InfoVersion to a JSON map.
+  /// Serializes this FtlVersion to a JSON map.
   Map<String, dynamic> toJson();
 
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is InfoVersion&&(identical(other.core, core) || other.core == core)&&(identical(other.web, web) || other.web == web)&&(identical(other.ftl, ftl) || other.ftl == ftl)&&(identical(other.docker, docker) || other.docker == docker));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is FtlVersion&&(identical(other.core, core) || other.core == core)&&(identical(other.web, web) || other.web == web)&&(identical(other.ftl, ftl) || other.ftl == ftl)&&(identical(other.docker, docker) || other.docker == docker));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -37,15 +37,15 @@ int get hashCode => Object.hash(runtimeType,core,web,ftl,docker);
 
 @override
 String toString() {
-  return 'InfoVersion(core: $core, web: $web, ftl: $ftl, docker: $docker)';
+  return 'FtlVersion(core: $core, web: $web, ftl: $ftl, docker: $docker)';
 }
 
 
 }
 
 /// @nodoc
-abstract mixin class $InfoVersionCopyWith<$Res>  {
-  factory $InfoVersionCopyWith(InfoVersion value, $Res Function(InfoVersion) _then) = _$InfoVersionCopyWithImpl;
+abstract mixin class $FtlVersionCopyWith<$Res>  {
+  factory $FtlVersionCopyWith(FtlVersion value, $Res Function(FtlVersion) _then) = _$FtlVersionCopyWithImpl;
 @useResult
 $Res call({
  ComponentVersion core, ComponentVersion web, ComponentVersion ftl, ComponentVersion docker
@@ -56,14 +56,14 @@ $ComponentVersionCopyWith<$Res> get core;$ComponentVersionCopyWith<$Res> get web
 
 }
 /// @nodoc
-class _$InfoVersionCopyWithImpl<$Res>
-    implements $InfoVersionCopyWith<$Res> {
-  _$InfoVersionCopyWithImpl(this._self, this._then);
+class _$FtlVersionCopyWithImpl<$Res>
+    implements $FtlVersionCopyWith<$Res> {
+  _$FtlVersionCopyWithImpl(this._self, this._then);
 
-  final InfoVersion _self;
-  final $Res Function(InfoVersion) _then;
+  final FtlVersion _self;
+  final $Res Function(FtlVersion) _then;
 
-/// Create a copy of InfoVersion
+/// Create a copy of FtlVersion
 /// with the given fields replaced by the non-null parameter values.
 @pragma('vm:prefer-inline') @override $Res call({Object? core = null,Object? web = null,Object? ftl = null,Object? docker = null,}) {
   return _then(_self.copyWith(
@@ -74,7 +74,7 @@ as ComponentVersion,docker: null == docker ? _self.docker : docker // ignore: ca
 as ComponentVersion,
   ));
 }
-/// Create a copy of InfoVersion
+/// Create a copy of FtlVersion
 /// with the given fields replaced by the non-null parameter values.
 @override
 @pragma('vm:prefer-inline')
@@ -83,7 +83,7 @@ $ComponentVersionCopyWith<$Res> get core {
   return $ComponentVersionCopyWith<$Res>(_self.core, (value) {
     return _then(_self.copyWith(core: value));
   });
-}/// Create a copy of InfoVersion
+}/// Create a copy of FtlVersion
 /// with the given fields replaced by the non-null parameter values.
 @override
 @pragma('vm:prefer-inline')
@@ -92,7 +92,7 @@ $ComponentVersionCopyWith<$Res> get web {
   return $ComponentVersionCopyWith<$Res>(_self.web, (value) {
     return _then(_self.copyWith(web: value));
   });
-}/// Create a copy of InfoVersion
+}/// Create a copy of FtlVersion
 /// with the given fields replaced by the non-null parameter values.
 @override
 @pragma('vm:prefer-inline')
@@ -101,7 +101,7 @@ $ComponentVersionCopyWith<$Res> get ftl {
   return $ComponentVersionCopyWith<$Res>(_self.ftl, (value) {
     return _then(_self.copyWith(ftl: value));
   });
-}/// Create a copy of InfoVersion
+}/// Create a copy of FtlVersion
 /// with the given fields replaced by the non-null parameter values.
 @override
 @pragma('vm:prefer-inline')
@@ -114,8 +114,8 @@ $ComponentVersionCopyWith<$Res> get docker {
 }
 
 
-/// Adds pattern-matching-related methods to [InfoVersion].
-extension InfoVersionPatterns on InfoVersion {
+/// Adds pattern-matching-related methods to [FtlVersion].
+extension FtlVersionPatterns on FtlVersion {
 /// A variant of `map` that fallback to returning `orElse`.
 ///
 /// It is equivalent to doing:
@@ -128,10 +128,10 @@ extension InfoVersionPatterns on InfoVersion {
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeMap<TResult extends Object?>(TResult Function( _InfoVersion value)?  $default,{required TResult orElse(),}){
+@optionalTypeArgs TResult maybeMap<TResult extends Object?>(TResult Function( _FtlVersion value)?  $default,{required TResult orElse(),}){
 final _that = this;
 switch (_that) {
-case _InfoVersion() when $default != null:
+case _FtlVersion() when $default != null:
 return $default(_that);case _:
   return orElse();
 
@@ -150,10 +150,10 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult map<TResult extends Object?>(TResult Function( _InfoVersion value)  $default,){
+@optionalTypeArgs TResult map<TResult extends Object?>(TResult Function( _FtlVersion value)  $default,){
 final _that = this;
 switch (_that) {
-case _InfoVersion():
+case _FtlVersion():
 return $default(_that);}
 }
 /// A variant of `map` that fallback to returning `null`.
@@ -168,10 +168,10 @@ return $default(_that);}
 /// }
 /// ```
 
-@optionalTypeArgs TResult? mapOrNull<TResult extends Object?>(TResult? Function( _InfoVersion value)?  $default,){
+@optionalTypeArgs TResult? mapOrNull<TResult extends Object?>(TResult? Function( _FtlVersion value)?  $default,){
 final _that = this;
 switch (_that) {
-case _InfoVersion() when $default != null:
+case _FtlVersion() when $default != null:
 return $default(_that);case _:
   return null;
 
@@ -191,7 +191,7 @@ return $default(_that);case _:
 
 @optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( ComponentVersion core,  ComponentVersion web,  ComponentVersion ftl,  ComponentVersion docker)?  $default,{required TResult orElse(),}) {final _that = this;
 switch (_that) {
-case _InfoVersion() when $default != null:
+case _FtlVersion() when $default != null:
 return $default(_that.core,_that.web,_that.ftl,_that.docker);case _:
   return orElse();
 
@@ -212,7 +212,7 @@ return $default(_that.core,_that.web,_that.ftl,_that.docker);case _:
 
 @optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( ComponentVersion core,  ComponentVersion web,  ComponentVersion ftl,  ComponentVersion docker)  $default,) {final _that = this;
 switch (_that) {
-case _InfoVersion():
+case _FtlVersion():
 return $default(_that.core,_that.web,_that.ftl,_that.docker);}
 }
 /// A variant of `when` that fallback to returning `null`
@@ -229,7 +229,7 @@ return $default(_that.core,_that.web,_that.ftl,_that.docker);}
 
 @optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( ComponentVersion core,  ComponentVersion web,  ComponentVersion ftl,  ComponentVersion docker)?  $default,) {final _that = this;
 switch (_that) {
-case _InfoVersion() when $default != null:
+case _FtlVersion() when $default != null:
 return $default(_that.core,_that.web,_that.ftl,_that.docker);case _:
   return null;
 
@@ -241,29 +241,29 @@ return $default(_that.core,_that.web,_that.ftl,_that.docker);case _:
 /// @nodoc
 
 @JsonSerializable(explicitToJson: true)
-class _InfoVersion implements InfoVersion {
-  const _InfoVersion({required this.core, required this.web, required this.ftl, required this.docker});
-  factory _InfoVersion.fromJson(Map<String, dynamic> json) => _$InfoVersionFromJson(json);
+class _FtlVersion implements FtlVersion {
+  const _FtlVersion({required this.core, required this.web, required this.ftl, required this.docker});
+  factory _FtlVersion.fromJson(Map<String, dynamic> json) => _$FtlVersionFromJson(json);
 
 @override final  ComponentVersion core;
 @override final  ComponentVersion web;
 @override final  ComponentVersion ftl;
 @override final  ComponentVersion docker;
 
-/// Create a copy of InfoVersion
+/// Create a copy of FtlVersion
 /// with the given fields replaced by the non-null parameter values.
 @override @JsonKey(includeFromJson: false, includeToJson: false)
 @pragma('vm:prefer-inline')
-_$InfoVersionCopyWith<_InfoVersion> get copyWith => __$InfoVersionCopyWithImpl<_InfoVersion>(this, _$identity);
+_$FtlVersionCopyWith<_FtlVersion> get copyWith => __$FtlVersionCopyWithImpl<_FtlVersion>(this, _$identity);
 
 @override
 Map<String, dynamic> toJson() {
-  return _$InfoVersionToJson(this, );
+  return _$FtlVersionToJson(this, );
 }
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _InfoVersion&&(identical(other.core, core) || other.core == core)&&(identical(other.web, web) || other.web == web)&&(identical(other.ftl, ftl) || other.ftl == ftl)&&(identical(other.docker, docker) || other.docker == docker));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _FtlVersion&&(identical(other.core, core) || other.core == core)&&(identical(other.web, web) || other.web == web)&&(identical(other.ftl, ftl) || other.ftl == ftl)&&(identical(other.docker, docker) || other.docker == docker));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -272,15 +272,15 @@ int get hashCode => Object.hash(runtimeType,core,web,ftl,docker);
 
 @override
 String toString() {
-  return 'InfoVersion(core: $core, web: $web, ftl: $ftl, docker: $docker)';
+  return 'FtlVersion(core: $core, web: $web, ftl: $ftl, docker: $docker)';
 }
 
 
 }
 
 /// @nodoc
-abstract mixin class _$InfoVersionCopyWith<$Res> implements $InfoVersionCopyWith<$Res> {
-  factory _$InfoVersionCopyWith(_InfoVersion value, $Res Function(_InfoVersion) _then) = __$InfoVersionCopyWithImpl;
+abstract mixin class _$FtlVersionCopyWith<$Res> implements $FtlVersionCopyWith<$Res> {
+  factory _$FtlVersionCopyWith(_FtlVersion value, $Res Function(_FtlVersion) _then) = __$FtlVersionCopyWithImpl;
 @override @useResult
 $Res call({
  ComponentVersion core, ComponentVersion web, ComponentVersion ftl, ComponentVersion docker
@@ -291,17 +291,17 @@ $Res call({
 
 }
 /// @nodoc
-class __$InfoVersionCopyWithImpl<$Res>
-    implements _$InfoVersionCopyWith<$Res> {
-  __$InfoVersionCopyWithImpl(this._self, this._then);
+class __$FtlVersionCopyWithImpl<$Res>
+    implements _$FtlVersionCopyWith<$Res> {
+  __$FtlVersionCopyWithImpl(this._self, this._then);
 
-  final _InfoVersion _self;
-  final $Res Function(_InfoVersion) _then;
+  final _FtlVersion _self;
+  final $Res Function(_FtlVersion) _then;
 
-/// Create a copy of InfoVersion
+/// Create a copy of FtlVersion
 /// with the given fields replaced by the non-null parameter values.
 @override @pragma('vm:prefer-inline') $Res call({Object? core = null,Object? web = null,Object? ftl = null,Object? docker = null,}) {
-  return _then(_InfoVersion(
+  return _then(_FtlVersion(
 core: null == core ? _self.core : core // ignore: cast_nullable_to_non_nullable
 as ComponentVersion,web: null == web ? _self.web : web // ignore: cast_nullable_to_non_nullable
 as ComponentVersion,ftl: null == ftl ? _self.ftl : ftl // ignore: cast_nullable_to_non_nullable
@@ -310,7 +310,7 @@ as ComponentVersion,
   ));
 }
 
-/// Create a copy of InfoVersion
+/// Create a copy of FtlVersion
 /// with the given fields replaced by the non-null parameter values.
 @override
 @pragma('vm:prefer-inline')
@@ -319,7 +319,7 @@ $ComponentVersionCopyWith<$Res> get core {
   return $ComponentVersionCopyWith<$Res>(_self.core, (value) {
     return _then(_self.copyWith(core: value));
   });
-}/// Create a copy of InfoVersion
+}/// Create a copy of FtlVersion
 /// with the given fields replaced by the non-null parameter values.
 @override
 @pragma('vm:prefer-inline')
@@ -328,7 +328,7 @@ $ComponentVersionCopyWith<$Res> get web {
   return $ComponentVersionCopyWith<$Res>(_self.web, (value) {
     return _then(_self.copyWith(web: value));
   });
-}/// Create a copy of InfoVersion
+}/// Create a copy of FtlVersion
 /// with the given fields replaced by the non-null parameter values.
 @override
 @pragma('vm:prefer-inline')
@@ -337,7 +337,7 @@ $ComponentVersionCopyWith<$Res> get ftl {
   return $ComponentVersionCopyWith<$Res>(_self.ftl, (value) {
     return _then(_self.copyWith(ftl: value));
   });
-}/// Create a copy of InfoVersion
+}/// Create a copy of FtlVersion
 /// with the given fields replaced by the non-null parameter values.
 @override
 @pragma('vm:prefer-inline')

@@ -6,7 +6,7 @@ part of 'host.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-_InfoHost _$InfoHostFromJson(Map<String, dynamic> json) => _InfoHost(
+_FtlHost _$FtlHostFromJson(Map<String, dynamic> json) => _FtlHost(
   domainName: json['domainName'] as String,
   arch: json['arch'] as String,
   hostName: json['hostName'] as String,
@@ -19,7 +19,7 @@ _InfoHost _$InfoHostFromJson(Map<String, dynamic> json) => _InfoHost(
       : DmiInfo.fromJson(json['dmi'] as Map<String, dynamic>),
 );
 
-Map<String, dynamic> _$InfoHostToJson(_InfoHost instance) => <String, dynamic>{
+Map<String, dynamic> _$FtlHostToJson(_FtlHost instance) => <String, dynamic>{
   'domainName': instance.domainName,
   'arch': instance.arch,
   'hostName': instance.hostName,
