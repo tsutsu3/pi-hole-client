@@ -6,13 +6,13 @@ part of 'metrics.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-_InfoDnsMetrics _$InfoDnsMetricsFromJson(Map<String, dynamic> json) =>
-    _InfoDnsMetrics(
+_FtlDnsMetrics _$FtlDnsMetricsFromJson(Map<String, dynamic> json) =>
+    _FtlDnsMetrics(
       cache: DnsCache.fromJson(json['cache'] as Map<String, dynamic>),
       replies: DnsReplies.fromJson(json['replies'] as Map<String, dynamic>),
     );
 
-Map<String, dynamic> _$InfoDnsMetricsToJson(_InfoDnsMetrics instance) =>
+Map<String, dynamic> _$FtlDnsMetricsToJson(_FtlDnsMetrics instance) =>
     <String, dynamic>{
       'cache': instance.cache.toJson(),
       'replies': instance.replies.toJson(),
@@ -85,11 +85,6 @@ _DnsReplies _$DnsRepliesFromJson(Map<String, dynamic> json) => _DnsReplies(
   optimized: (json['optimized'] as num).toInt(),
   auth: (json['auth'] as num).toInt(),
   sum: (json['sum'] as num).toInt(),
-  forwardedPercentage: (json['forwardedPercentage'] as num).toDouble(),
-  unansweredPercentage: (json['unansweredPercentage'] as num).toDouble(),
-  localPercentage: (json['localPercentage'] as num).toDouble(),
-  optimizedPercentage: (json['optimizedPercentage'] as num).toDouble(),
-  authPercentage: (json['authPercentage'] as num).toDouble(),
 );
 
 Map<String, dynamic> _$DnsRepliesToJson(_DnsReplies instance) =>
@@ -100,9 +95,4 @@ Map<String, dynamic> _$DnsRepliesToJson(_DnsReplies instance) =>
       'optimized': instance.optimized,
       'auth': instance.auth,
       'sum': instance.sum,
-      'forwardedPercentage': instance.forwardedPercentage,
-      'unansweredPercentage': instance.unansweredPercentage,
-      'localPercentage': instance.localPercentage,
-      'optimizedPercentage': instance.optimizedPercentage,
-      'authPercentage': instance.authPercentage,
     };

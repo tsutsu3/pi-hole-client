@@ -15,7 +15,7 @@ T _$identity<T>(T value) => value;
 /// @nodoc
 mixin _$DomainLists {
 
- List<Domain> get whitelist; List<Domain> get whitelistRegex; List<Domain> get blacklist; List<Domain> get blacklistRegex;
+ List<Domain> get allowExact; List<Domain> get allowRegex; List<Domain> get denyExact; List<Domain> get denyRegex;
 /// Create a copy of DomainLists
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -28,16 +28,16 @@ $DomainListsCopyWith<DomainLists> get copyWith => _$DomainListsCopyWithImpl<Doma
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is DomainLists&&const DeepCollectionEquality().equals(other.whitelist, whitelist)&&const DeepCollectionEquality().equals(other.whitelistRegex, whitelistRegex)&&const DeepCollectionEquality().equals(other.blacklist, blacklist)&&const DeepCollectionEquality().equals(other.blacklistRegex, blacklistRegex));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is DomainLists&&const DeepCollectionEquality().equals(other.allowExact, allowExact)&&const DeepCollectionEquality().equals(other.allowRegex, allowRegex)&&const DeepCollectionEquality().equals(other.denyExact, denyExact)&&const DeepCollectionEquality().equals(other.denyRegex, denyRegex));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,const DeepCollectionEquality().hash(whitelist),const DeepCollectionEquality().hash(whitelistRegex),const DeepCollectionEquality().hash(blacklist),const DeepCollectionEquality().hash(blacklistRegex));
+int get hashCode => Object.hash(runtimeType,const DeepCollectionEquality().hash(allowExact),const DeepCollectionEquality().hash(allowRegex),const DeepCollectionEquality().hash(denyExact),const DeepCollectionEquality().hash(denyRegex));
 
 @override
 String toString() {
-  return 'DomainLists(whitelist: $whitelist, whitelistRegex: $whitelistRegex, blacklist: $blacklist, blacklistRegex: $blacklistRegex)';
+  return 'DomainLists(allowExact: $allowExact, allowRegex: $allowRegex, denyExact: $denyExact, denyRegex: $denyRegex)';
 }
 
 
@@ -48,7 +48,7 @@ abstract mixin class $DomainListsCopyWith<$Res>  {
   factory $DomainListsCopyWith(DomainLists value, $Res Function(DomainLists) _then) = _$DomainListsCopyWithImpl;
 @useResult
 $Res call({
- List<Domain> whitelist, List<Domain> whitelistRegex, List<Domain> blacklist, List<Domain> blacklistRegex
+ List<Domain> allowExact, List<Domain> allowRegex, List<Domain> denyExact, List<Domain> denyRegex
 });
 
 
@@ -65,12 +65,12 @@ class _$DomainListsCopyWithImpl<$Res>
 
 /// Create a copy of DomainLists
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? whitelist = null,Object? whitelistRegex = null,Object? blacklist = null,Object? blacklistRegex = null,}) {
+@pragma('vm:prefer-inline') @override $Res call({Object? allowExact = null,Object? allowRegex = null,Object? denyExact = null,Object? denyRegex = null,}) {
   return _then(_self.copyWith(
-whitelist: null == whitelist ? _self.whitelist : whitelist // ignore: cast_nullable_to_non_nullable
-as List<Domain>,whitelistRegex: null == whitelistRegex ? _self.whitelistRegex : whitelistRegex // ignore: cast_nullable_to_non_nullable
-as List<Domain>,blacklist: null == blacklist ? _self.blacklist : blacklist // ignore: cast_nullable_to_non_nullable
-as List<Domain>,blacklistRegex: null == blacklistRegex ? _self.blacklistRegex : blacklistRegex // ignore: cast_nullable_to_non_nullable
+allowExact: null == allowExact ? _self.allowExact : allowExact // ignore: cast_nullable_to_non_nullable
+as List<Domain>,allowRegex: null == allowRegex ? _self.allowRegex : allowRegex // ignore: cast_nullable_to_non_nullable
+as List<Domain>,denyExact: null == denyExact ? _self.denyExact : denyExact // ignore: cast_nullable_to_non_nullable
+as List<Domain>,denyRegex: null == denyRegex ? _self.denyRegex : denyRegex // ignore: cast_nullable_to_non_nullable
 as List<Domain>,
   ));
 }
@@ -153,10 +153,10 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( List<Domain> whitelist,  List<Domain> whitelistRegex,  List<Domain> blacklist,  List<Domain> blacklistRegex)?  $default,{required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( List<Domain> allowExact,  List<Domain> allowRegex,  List<Domain> denyExact,  List<Domain> denyRegex)?  $default,{required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _DomainLists() when $default != null:
-return $default(_that.whitelist,_that.whitelistRegex,_that.blacklist,_that.blacklistRegex);case _:
+return $default(_that.allowExact,_that.allowRegex,_that.denyExact,_that.denyRegex);case _:
   return orElse();
 
 }
@@ -174,10 +174,10 @@ return $default(_that.whitelist,_that.whitelistRegex,_that.blacklist,_that.black
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( List<Domain> whitelist,  List<Domain> whitelistRegex,  List<Domain> blacklist,  List<Domain> blacklistRegex)  $default,) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( List<Domain> allowExact,  List<Domain> allowRegex,  List<Domain> denyExact,  List<Domain> denyRegex)  $default,) {final _that = this;
 switch (_that) {
 case _DomainLists():
-return $default(_that.whitelist,_that.whitelistRegex,_that.blacklist,_that.blacklistRegex);}
+return $default(_that.allowExact,_that.allowRegex,_that.denyExact,_that.denyRegex);}
 }
 /// A variant of `when` that fallback to returning `null`
 ///
@@ -191,10 +191,10 @@ return $default(_that.whitelist,_that.whitelistRegex,_that.blacklist,_that.black
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( List<Domain> whitelist,  List<Domain> whitelistRegex,  List<Domain> blacklist,  List<Domain> blacklistRegex)?  $default,) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( List<Domain> allowExact,  List<Domain> allowRegex,  List<Domain> denyExact,  List<Domain> denyRegex)?  $default,) {final _that = this;
 switch (_that) {
 case _DomainLists() when $default != null:
-return $default(_that.whitelist,_that.whitelistRegex,_that.blacklist,_that.blacklistRegex);case _:
+return $default(_that.allowExact,_that.allowRegex,_that.denyExact,_that.denyRegex);case _:
   return null;
 
 }
@@ -206,35 +206,35 @@ return $default(_that.whitelist,_that.whitelistRegex,_that.blacklist,_that.black
 
 @JsonSerializable(explicitToJson: true)
 class _DomainLists implements DomainLists {
-  const _DomainLists({required final  List<Domain> whitelist, required final  List<Domain> whitelistRegex, required final  List<Domain> blacklist, required final  List<Domain> blacklistRegex}): _whitelist = whitelist,_whitelistRegex = whitelistRegex,_blacklist = blacklist,_blacklistRegex = blacklistRegex;
+  const _DomainLists({required final  List<Domain> allowExact, required final  List<Domain> allowRegex, required final  List<Domain> denyExact, required final  List<Domain> denyRegex}): _allowExact = allowExact,_allowRegex = allowRegex,_denyExact = denyExact,_denyRegex = denyRegex;
   factory _DomainLists.fromJson(Map<String, dynamic> json) => _$DomainListsFromJson(json);
 
- final  List<Domain> _whitelist;
-@override List<Domain> get whitelist {
-  if (_whitelist is EqualUnmodifiableListView) return _whitelist;
+ final  List<Domain> _allowExact;
+@override List<Domain> get allowExact {
+  if (_allowExact is EqualUnmodifiableListView) return _allowExact;
   // ignore: implicit_dynamic_type
-  return EqualUnmodifiableListView(_whitelist);
+  return EqualUnmodifiableListView(_allowExact);
 }
 
- final  List<Domain> _whitelistRegex;
-@override List<Domain> get whitelistRegex {
-  if (_whitelistRegex is EqualUnmodifiableListView) return _whitelistRegex;
+ final  List<Domain> _allowRegex;
+@override List<Domain> get allowRegex {
+  if (_allowRegex is EqualUnmodifiableListView) return _allowRegex;
   // ignore: implicit_dynamic_type
-  return EqualUnmodifiableListView(_whitelistRegex);
+  return EqualUnmodifiableListView(_allowRegex);
 }
 
- final  List<Domain> _blacklist;
-@override List<Domain> get blacklist {
-  if (_blacklist is EqualUnmodifiableListView) return _blacklist;
+ final  List<Domain> _denyExact;
+@override List<Domain> get denyExact {
+  if (_denyExact is EqualUnmodifiableListView) return _denyExact;
   // ignore: implicit_dynamic_type
-  return EqualUnmodifiableListView(_blacklist);
+  return EqualUnmodifiableListView(_denyExact);
 }
 
- final  List<Domain> _blacklistRegex;
-@override List<Domain> get blacklistRegex {
-  if (_blacklistRegex is EqualUnmodifiableListView) return _blacklistRegex;
+ final  List<Domain> _denyRegex;
+@override List<Domain> get denyRegex {
+  if (_denyRegex is EqualUnmodifiableListView) return _denyRegex;
   // ignore: implicit_dynamic_type
-  return EqualUnmodifiableListView(_blacklistRegex);
+  return EqualUnmodifiableListView(_denyRegex);
 }
 
 
@@ -251,16 +251,16 @@ Map<String, dynamic> toJson() {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _DomainLists&&const DeepCollectionEquality().equals(other._whitelist, _whitelist)&&const DeepCollectionEquality().equals(other._whitelistRegex, _whitelistRegex)&&const DeepCollectionEquality().equals(other._blacklist, _blacklist)&&const DeepCollectionEquality().equals(other._blacklistRegex, _blacklistRegex));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _DomainLists&&const DeepCollectionEquality().equals(other._allowExact, _allowExact)&&const DeepCollectionEquality().equals(other._allowRegex, _allowRegex)&&const DeepCollectionEquality().equals(other._denyExact, _denyExact)&&const DeepCollectionEquality().equals(other._denyRegex, _denyRegex));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,const DeepCollectionEquality().hash(_whitelist),const DeepCollectionEquality().hash(_whitelistRegex),const DeepCollectionEquality().hash(_blacklist),const DeepCollectionEquality().hash(_blacklistRegex));
+int get hashCode => Object.hash(runtimeType,const DeepCollectionEquality().hash(_allowExact),const DeepCollectionEquality().hash(_allowRegex),const DeepCollectionEquality().hash(_denyExact),const DeepCollectionEquality().hash(_denyRegex));
 
 @override
 String toString() {
-  return 'DomainLists(whitelist: $whitelist, whitelistRegex: $whitelistRegex, blacklist: $blacklist, blacklistRegex: $blacklistRegex)';
+  return 'DomainLists(allowExact: $allowExact, allowRegex: $allowRegex, denyExact: $denyExact, denyRegex: $denyRegex)';
 }
 
 
@@ -271,7 +271,7 @@ abstract mixin class _$DomainListsCopyWith<$Res> implements $DomainListsCopyWith
   factory _$DomainListsCopyWith(_DomainLists value, $Res Function(_DomainLists) _then) = __$DomainListsCopyWithImpl;
 @override @useResult
 $Res call({
- List<Domain> whitelist, List<Domain> whitelistRegex, List<Domain> blacklist, List<Domain> blacklistRegex
+ List<Domain> allowExact, List<Domain> allowRegex, List<Domain> denyExact, List<Domain> denyRegex
 });
 
 
@@ -288,12 +288,12 @@ class __$DomainListsCopyWithImpl<$Res>
 
 /// Create a copy of DomainLists
 /// with the given fields replaced by the non-null parameter values.
-@override @pragma('vm:prefer-inline') $Res call({Object? whitelist = null,Object? whitelistRegex = null,Object? blacklist = null,Object? blacklistRegex = null,}) {
+@override @pragma('vm:prefer-inline') $Res call({Object? allowExact = null,Object? allowRegex = null,Object? denyExact = null,Object? denyRegex = null,}) {
   return _then(_DomainLists(
-whitelist: null == whitelist ? _self._whitelist : whitelist // ignore: cast_nullable_to_non_nullable
-as List<Domain>,whitelistRegex: null == whitelistRegex ? _self._whitelistRegex : whitelistRegex // ignore: cast_nullable_to_non_nullable
-as List<Domain>,blacklist: null == blacklist ? _self._blacklist : blacklist // ignore: cast_nullable_to_non_nullable
-as List<Domain>,blacklistRegex: null == blacklistRegex ? _self._blacklistRegex : blacklistRegex // ignore: cast_nullable_to_non_nullable
+allowExact: null == allowExact ? _self._allowExact : allowExact // ignore: cast_nullable_to_non_nullable
+as List<Domain>,allowRegex: null == allowRegex ? _self._allowRegex : allowRegex // ignore: cast_nullable_to_non_nullable
+as List<Domain>,denyExact: null == denyExact ? _self._denyExact : denyExact // ignore: cast_nullable_to_non_nullable
+as List<Domain>,denyRegex: null == denyRegex ? _self._denyRegex : denyRegex // ignore: cast_nullable_to_non_nullable
 as List<Domain>,
   ));
 }

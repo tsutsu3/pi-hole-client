@@ -20,7 +20,7 @@ sealed class Gateways with _$Gateways {
 @freezed
 sealed class Gateway with _$Gateway {
   const factory Gateway({
-    required String family,
+    required RouteFamilyType family,
     required String interface,
     required String address,
     required List<String> local,

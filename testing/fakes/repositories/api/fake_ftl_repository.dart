@@ -16,35 +16,35 @@ class FakeFtlRepository implements FtlRepository {
   bool shouldFail = false;
 
   @override
-  Future<Result<InfoClient>> fetchInfoClient() async {
+  Future<Result<FtlClient>> fetchInfoClient() async {
     if (shouldFail) {
       return Failure(Exception('Force fetchInfoClient failure'));
     }
-    return const Success(kRepoFetchInfoClient);
+    return const Success(kRepoFetchFtlClient);
   }
 
   @override
-  Future<Result<InfoFtl>> fetchInfoFtl() async {
+  Future<Result<FtlInfo>> fetchInfoFtl() async {
     if (shouldFail) {
       return Failure(Exception('Force fetchInfoFtl failure'));
     }
-    return const Success(kRepoFetchInfoFtl);
+    return const Success(kRepoFetchFtlInfo);
   }
 
   @override
-  Future<Result<InfoHost>> fetchInfoHost() async {
+  Future<Result<FtlHost>> fetchInfoHost() async {
     if (shouldFail) {
       return Failure(Exception('Force fetchInfoHost failure'));
     }
-    return const Success(kRepoFetchInfoHost);
+    return const Success(kRepoFetchFtlHost);
   }
 
   @override
-  Future<Result<List<InfoMessage>>> fetchInfoMessages() async {
+  Future<Result<List<FtlMessage>>> fetchInfoMessages() async {
     if (shouldFail) {
       return Failure(Exception('Force fetchInfoMessages failure'));
     }
-    return Success(kRepoFetchInfoMessages);
+    return Success(kRepoFetchFtlMessages);
   }
 
   @override
@@ -56,39 +56,39 @@ class FakeFtlRepository implements FtlRepository {
   }
 
   @override
-  Future<Result<InfoDnsMetrics>> fetchInfoMetrics() async {
+  Future<Result<FtlDnsMetrics>> fetchInfoMetrics() async {
     if (shouldFail) {
       return Failure(Exception('Force fetchInfoMetrics failure'));
     }
-    return const Success(kRepoFetchInfoMetrics);
+    return const Success(kRepoFetchFtlMetrics);
   }
 
   @override
-  Future<Result<InfoSensor>> fetchInfoSensors() async {
+  Future<Result<FtlSensor>> fetchInfoSensors() async {
     if (shouldFail) {
       return Failure(Exception('Force fetchInfoSensors failure'));
     }
-    return const Success(kRepoFetchInfoSensors);
+    return const Success(kRepoFetchFtlSensors);
   }
 
   @override
-  Future<Result<InfoSystem>> fetchInfoSystem() async {
+  Future<Result<FtlSystem>> fetchInfoSystem() async {
     if (shouldFail) {
       return Failure(Exception('Force fetchInfoSystem failure'));
     }
-    return const Success(kRepoFetchInfoSystem);
+    return const Success(kRepoFetchFtlSystem);
   }
 
   @override
-  Future<Result<InfoVersion>> fetchInfoVersion() async {
+  Future<Result<FtlVersion>> fetchInfoVersion() async {
     if (shouldFail) {
       return Failure(Exception('Force fetchInfoVersion failure'));
     }
-    return const Success(kRepoFetchInfoVersion);
+    return const Success(kRepoFetchFtlVersion);
   }
 
   @override
-  Future<Result<InfoPiholeServer>> fetchAllServerInfo() async {
+  Future<Result<PiholeServer>> fetchAllServerInfo() async {
     if (shouldFail) {
       return Failure(Exception('Force fetchAllServerInfo failure'));
     }

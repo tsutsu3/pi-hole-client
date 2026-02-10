@@ -19,34 +19,34 @@ extension DomainsMapper on s.Domains {
   }
 
   d.DomainLists toDomainLists() {
-    final whitelist = <d.Domain>[];
-    final whitelistRegex = <d.Domain>[];
-    final blacklist = <d.Domain>[];
-    final blacklistRegex = <d.Domain>[];
+    final allowExact = <d.Domain>[];
+    final allowRegex = <d.Domain>[];
+    final denyExact = <d.Domain>[];
+    final denyRegex = <d.Domain>[];
 
     for (final domain in domains) {
       final dDomain = domain.toDomain();
 
       if (domain.type == DomainType.allow.name &&
           domain.kind == DomainKind.exact.name) {
-        whitelist.add(dDomain);
+        allowExact.add(dDomain);
       } else if (domain.type == DomainType.allow.name &&
           domain.kind == DomainKind.regex.name) {
-        whitelistRegex.add(dDomain);
+        allowRegex.add(dDomain);
       } else if (domain.type == DomainType.deny.name &&
           domain.kind == DomainKind.exact.name) {
-        blacklist.add(dDomain);
+        denyExact.add(dDomain);
       } else if (domain.type == DomainType.deny.name &&
           domain.kind == DomainKind.regex.name) {
-        blacklistRegex.add(dDomain);
+        denyRegex.add(dDomain);
       }
     }
 
     return d.DomainLists(
-      whitelist: whitelist,
-      whitelistRegex: whitelistRegex,
-      blacklist: blacklist,
-      blacklistRegex: blacklistRegex,
+      allowExact: allowExact,
+      allowRegex: allowRegex,
+      denyExact: denyExact,
+      denyRegex: denyRegex,
     );
   }
 }

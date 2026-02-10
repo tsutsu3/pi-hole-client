@@ -13,22 +13,22 @@ part of 'client.dart';
 T _$identity<T>(T value) => value;
 
 /// @nodoc
-mixin _$InfoClient {
+mixin _$FtlClient {
 
  String get addr;
-/// Create a copy of InfoClient
+/// Create a copy of FtlClient
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
 @pragma('vm:prefer-inline')
-$InfoClientCopyWith<InfoClient> get copyWith => _$InfoClientCopyWithImpl<InfoClient>(this as InfoClient, _$identity);
+$FtlClientCopyWith<FtlClient> get copyWith => _$FtlClientCopyWithImpl<FtlClient>(this as FtlClient, _$identity);
 
-  /// Serializes this InfoClient to a JSON map.
+  /// Serializes this FtlClient to a JSON map.
   Map<String, dynamic> toJson();
 
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is InfoClient&&(identical(other.addr, addr) || other.addr == addr));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is FtlClient&&(identical(other.addr, addr) || other.addr == addr));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -37,15 +37,15 @@ int get hashCode => Object.hash(runtimeType,addr);
 
 @override
 String toString() {
-  return 'InfoClient(addr: $addr)';
+  return 'FtlClient(addr: $addr)';
 }
 
 
 }
 
 /// @nodoc
-abstract mixin class $InfoClientCopyWith<$Res>  {
-  factory $InfoClientCopyWith(InfoClient value, $Res Function(InfoClient) _then) = _$InfoClientCopyWithImpl;
+abstract mixin class $FtlClientCopyWith<$Res>  {
+  factory $FtlClientCopyWith(FtlClient value, $Res Function(FtlClient) _then) = _$FtlClientCopyWithImpl;
 @useResult
 $Res call({
  String addr
@@ -56,14 +56,14 @@ $Res call({
 
 }
 /// @nodoc
-class _$InfoClientCopyWithImpl<$Res>
-    implements $InfoClientCopyWith<$Res> {
-  _$InfoClientCopyWithImpl(this._self, this._then);
+class _$FtlClientCopyWithImpl<$Res>
+    implements $FtlClientCopyWith<$Res> {
+  _$FtlClientCopyWithImpl(this._self, this._then);
 
-  final InfoClient _self;
-  final $Res Function(InfoClient) _then;
+  final FtlClient _self;
+  final $Res Function(FtlClient) _then;
 
-/// Create a copy of InfoClient
+/// Create a copy of FtlClient
 /// with the given fields replaced by the non-null parameter values.
 @pragma('vm:prefer-inline') @override $Res call({Object? addr = null,}) {
   return _then(_self.copyWith(
@@ -75,8 +75,8 @@ as String,
 }
 
 
-/// Adds pattern-matching-related methods to [InfoClient].
-extension InfoClientPatterns on InfoClient {
+/// Adds pattern-matching-related methods to [FtlClient].
+extension FtlClientPatterns on FtlClient {
 /// A variant of `map` that fallback to returning `orElse`.
 ///
 /// It is equivalent to doing:
@@ -89,10 +89,10 @@ extension InfoClientPatterns on InfoClient {
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeMap<TResult extends Object?>(TResult Function( _InfoClient value)?  $default,{required TResult orElse(),}){
+@optionalTypeArgs TResult maybeMap<TResult extends Object?>(TResult Function( _FtlClient value)?  $default,{required TResult orElse(),}){
 final _that = this;
 switch (_that) {
-case _InfoClient() when $default != null:
+case _FtlClient() when $default != null:
 return $default(_that);case _:
   return orElse();
 
@@ -111,10 +111,10 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult map<TResult extends Object?>(TResult Function( _InfoClient value)  $default,){
+@optionalTypeArgs TResult map<TResult extends Object?>(TResult Function( _FtlClient value)  $default,){
 final _that = this;
 switch (_that) {
-case _InfoClient():
+case _FtlClient():
 return $default(_that);}
 }
 /// A variant of `map` that fallback to returning `null`.
@@ -129,10 +129,10 @@ return $default(_that);}
 /// }
 /// ```
 
-@optionalTypeArgs TResult? mapOrNull<TResult extends Object?>(TResult? Function( _InfoClient value)?  $default,){
+@optionalTypeArgs TResult? mapOrNull<TResult extends Object?>(TResult? Function( _FtlClient value)?  $default,){
 final _that = this;
 switch (_that) {
-case _InfoClient() when $default != null:
+case _FtlClient() when $default != null:
 return $default(_that);case _:
   return null;
 
@@ -152,7 +152,7 @@ return $default(_that);case _:
 
 @optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( String addr)?  $default,{required TResult orElse(),}) {final _that = this;
 switch (_that) {
-case _InfoClient() when $default != null:
+case _FtlClient() when $default != null:
 return $default(_that.addr);case _:
   return orElse();
 
@@ -173,7 +173,7 @@ return $default(_that.addr);case _:
 
 @optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( String addr)  $default,) {final _that = this;
 switch (_that) {
-case _InfoClient():
+case _FtlClient():
 return $default(_that.addr);}
 }
 /// A variant of `when` that fallback to returning `null`
@@ -190,7 +190,7 @@ return $default(_that.addr);}
 
 @optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( String addr)?  $default,) {final _that = this;
 switch (_that) {
-case _InfoClient() when $default != null:
+case _FtlClient() when $default != null:
 return $default(_that.addr);case _:
   return null;
 
@@ -202,26 +202,26 @@ return $default(_that.addr);case _:
 /// @nodoc
 @JsonSerializable()
 
-class _InfoClient implements InfoClient {
-  const _InfoClient({required this.addr});
-  factory _InfoClient.fromJson(Map<String, dynamic> json) => _$InfoClientFromJson(json);
+class _FtlClient implements FtlClient {
+  const _FtlClient({required this.addr});
+  factory _FtlClient.fromJson(Map<String, dynamic> json) => _$FtlClientFromJson(json);
 
 @override final  String addr;
 
-/// Create a copy of InfoClient
+/// Create a copy of FtlClient
 /// with the given fields replaced by the non-null parameter values.
 @override @JsonKey(includeFromJson: false, includeToJson: false)
 @pragma('vm:prefer-inline')
-_$InfoClientCopyWith<_InfoClient> get copyWith => __$InfoClientCopyWithImpl<_InfoClient>(this, _$identity);
+_$FtlClientCopyWith<_FtlClient> get copyWith => __$FtlClientCopyWithImpl<_FtlClient>(this, _$identity);
 
 @override
 Map<String, dynamic> toJson() {
-  return _$InfoClientToJson(this, );
+  return _$FtlClientToJson(this, );
 }
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _InfoClient&&(identical(other.addr, addr) || other.addr == addr));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _FtlClient&&(identical(other.addr, addr) || other.addr == addr));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -230,15 +230,15 @@ int get hashCode => Object.hash(runtimeType,addr);
 
 @override
 String toString() {
-  return 'InfoClient(addr: $addr)';
+  return 'FtlClient(addr: $addr)';
 }
 
 
 }
 
 /// @nodoc
-abstract mixin class _$InfoClientCopyWith<$Res> implements $InfoClientCopyWith<$Res> {
-  factory _$InfoClientCopyWith(_InfoClient value, $Res Function(_InfoClient) _then) = __$InfoClientCopyWithImpl;
+abstract mixin class _$FtlClientCopyWith<$Res> implements $FtlClientCopyWith<$Res> {
+  factory _$FtlClientCopyWith(_FtlClient value, $Res Function(_FtlClient) _then) = __$FtlClientCopyWithImpl;
 @override @useResult
 $Res call({
  String addr
@@ -249,17 +249,17 @@ $Res call({
 
 }
 /// @nodoc
-class __$InfoClientCopyWithImpl<$Res>
-    implements _$InfoClientCopyWith<$Res> {
-  __$InfoClientCopyWithImpl(this._self, this._then);
+class __$FtlClientCopyWithImpl<$Res>
+    implements _$FtlClientCopyWith<$Res> {
+  __$FtlClientCopyWithImpl(this._self, this._then);
 
-  final _InfoClient _self;
-  final $Res Function(_InfoClient) _then;
+  final _FtlClient _self;
+  final $Res Function(_FtlClient) _then;
 
-/// Create a copy of InfoClient
+/// Create a copy of FtlClient
 /// with the given fields replaced by the non-null parameter values.
 @override @pragma('vm:prefer-inline') $Res call({Object? addr = null,}) {
-  return _then(_InfoClient(
+  return _then(_FtlClient(
 addr: null == addr ? _self.addr : addr // ignore: cast_nullable_to_non_nullable
 as String,
   ));

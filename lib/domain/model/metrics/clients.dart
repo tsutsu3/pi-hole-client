@@ -8,7 +8,7 @@ sealed class Clients with _$Clients {
   @JsonSerializable(explicitToJson: true)
   const factory Clients({
     required List<Client> clients,
-    required List<ClientOverTimeEntry> overTime,
+    required List<ClientOverTimeEntry> clientEntries,
   }) = _Clients;
 
   factory Clients.fromJson(Map<String, dynamic> json) =>
@@ -17,7 +17,8 @@ sealed class Clients with _$Clients {
 
 @freezed
 sealed class Client with _$Client {
-  const factory Client({required String ip, String? name}) = _Client;
+  const factory Client({required String ip, String? name, int? total}) =
+      _Client;
 
   factory Client.fromJson(Map<String, dynamic> json) => _$ClientFromJson(json);
 }

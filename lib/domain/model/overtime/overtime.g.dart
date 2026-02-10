@@ -16,7 +16,7 @@ _OverTime _$OverTimeFromJson(Map<String, dynamic> json) => _OverTime(
   clients: (json['clients'] as List<dynamic>)
       .map((e) => Client.fromJson(e as Map<String, dynamic>))
       .toList(),
-  overTime: (json['overTime'] as List<dynamic>)
+  clientEntries: (json['clientEntries'] as List<dynamic>)
       .map((e) => ClientOverTimeEntry.fromJson(e as Map<String, dynamic>))
       .toList(),
 );
@@ -25,5 +25,5 @@ Map<String, dynamic> _$OverTimeToJson(_OverTime instance) => <String, dynamic>{
   'domainsOverTime': instance.domainsOverTime.map((e) => e.toJson()).toList(),
   'adsOverTime': instance.adsOverTime.map((e) => e.toJson()).toList(),
   'clients': instance.clients.map((e) => e.toJson()).toList(),
-  'overTime': instance.overTime.map((e) => e.toJson()).toList(),
+  'clientEntries': instance.clientEntries.map((e) => e.toJson()).toList(),
 };

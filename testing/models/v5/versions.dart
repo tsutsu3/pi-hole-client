@@ -37,7 +37,7 @@ const kSrvVersionsWithDocker = srv.Versions(
 
 // repo model
 
-const kRepoInfoVersionWithDocker = repo.InfoVersion(
+const kRepoFtlVersionWithDocker = repo.FtlVersion(
   core: repo.ComponentVersion(
     local: repo.VersionDetail(version: 'v5.18.3', branch: 'master'),
     remote: repo.VersionDetail(version: 'v6.0.5'),
@@ -60,7 +60,7 @@ const kRepoInfoVersionWithDocker = repo.InfoVersion(
   ),
 );
 
-const kRepoInfoVersion = repo.InfoVersion(
+const kRepoFtlVersion = repo.FtlVersion(
   core: repo.ComponentVersion(
     local: repo.VersionDetail(version: 'v5.18.3', branch: 'master'),
     remote: repo.VersionDetail(version: 'v6.0.5'),
@@ -83,8 +83,8 @@ const kRepoInfoVersion = repo.InfoVersion(
   ),
 );
 
-const kRepoInfoPiholeServer = repo.InfoPiholeServer(version: kRepoInfoVersion);
+const kRepoPiholeServer = repo.PiholeServer(version: kRepoFtlVersion);
 
-const kRepoInfoPiholeServerWithDocker = repo.InfoPiholeServer(
-  version: kRepoInfoVersionWithDocker,
+const kRepoPiholeServerWithDocker = repo.PiholeServer(
+  version: kRepoFtlVersionWithDocker,
 );

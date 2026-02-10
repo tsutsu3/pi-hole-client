@@ -24,7 +24,7 @@ class FtlRepositoryV6 extends BaseV6SidRepository implements FtlRepository {
   final PiholeV6ApiClient _client;
 
   @override
-  Future<Result<InfoClient>> fetchInfoClient() {
+  Future<Result<FtlClient>> fetchInfoClient() {
     return runWithResultRetry(
       action: () async {
         final sid = await getSid();
@@ -36,7 +36,7 @@ class FtlRepositoryV6 extends BaseV6SidRepository implements FtlRepository {
   }
 
   @override
-  Future<Result<InfoFtl>> fetchInfoFtl() {
+  Future<Result<FtlInfo>> fetchInfoFtl() {
     return runWithResultRetry(
       action: () async {
         final sid = await getSid();
@@ -48,7 +48,7 @@ class FtlRepositoryV6 extends BaseV6SidRepository implements FtlRepository {
   }
 
   @override
-  Future<Result<InfoHost>> fetchInfoHost() {
+  Future<Result<FtlHost>> fetchInfoHost() {
     return runWithResultRetry(
       action: () async {
         final sid = await getSid();
@@ -60,7 +60,7 @@ class FtlRepositoryV6 extends BaseV6SidRepository implements FtlRepository {
   }
 
   @override
-  Future<Result<List<InfoMessage>>> fetchInfoMessages() {
+  Future<Result<List<FtlMessage>>> fetchInfoMessages() {
     return runWithResultRetry(
       action: () async {
         final sid = await getSid();
@@ -87,7 +87,7 @@ class FtlRepositoryV6 extends BaseV6SidRepository implements FtlRepository {
   }
 
   @override
-  Future<Result<InfoDnsMetrics>> fetchInfoMetrics() {
+  Future<Result<FtlDnsMetrics>> fetchInfoMetrics() {
     return runWithResultRetry(
       action: () async {
         final sid = await getSid();
@@ -99,7 +99,7 @@ class FtlRepositoryV6 extends BaseV6SidRepository implements FtlRepository {
   }
 
   @override
-  Future<Result<InfoSensor>> fetchInfoSensors() {
+  Future<Result<FtlSensor>> fetchInfoSensors() {
     return runWithResultRetry(
       action: () async {
         final sid = await getSid();
@@ -111,7 +111,7 @@ class FtlRepositoryV6 extends BaseV6SidRepository implements FtlRepository {
   }
 
   @override
-  Future<Result<InfoSystem>> fetchInfoSystem() {
+  Future<Result<FtlSystem>> fetchInfoSystem() {
     return runWithResultRetry(
       action: () async {
         final sid = await getSid();
@@ -123,7 +123,7 @@ class FtlRepositoryV6 extends BaseV6SidRepository implements FtlRepository {
   }
 
   @override
-  Future<Result<InfoVersion>> fetchInfoVersion() {
+  Future<Result<FtlVersion>> fetchInfoVersion() {
     return runWithResultRetry(
       action: () async {
         final sid = await getSid();
@@ -135,7 +135,7 @@ class FtlRepositoryV6 extends BaseV6SidRepository implements FtlRepository {
   }
 
   @override
-  Future<Result<InfoPiholeServer>> fetchAllServerInfo() {
+  Future<Result<PiholeServer>> fetchAllServerInfo() {
     return runWithResultRetry(
       action: () async {
         final result = await Future.wait([
@@ -146,11 +146,11 @@ class FtlRepositoryV6 extends BaseV6SidRepository implements FtlRepository {
         ]);
 
         return Success(
-          InfoPiholeServer(
-            host: (result[0] as Result<InfoHost>).getOrThrow(),
-            sensor: (result[1] as Result<InfoSensor>).getOrThrow(),
-            system: (result[2] as Result<InfoSystem>).getOrThrow(),
-            version: (result[3] as Result<InfoVersion>).getOrThrow(),
+          PiholeServer(
+            host: (result[0] as Result<FtlHost>).getOrThrow(),
+            sensor: (result[1] as Result<FtlSensor>).getOrThrow(),
+            system: (result[2] as Result<FtlSystem>).getOrThrow(),
+            version: (result[3] as Result<FtlVersion>).getOrThrow(),
           ),
         );
       },

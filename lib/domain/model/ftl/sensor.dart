@@ -1,17 +1,18 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
+import 'package:pi_hole_client/config/enums.dart';
 
 part 'sensor.freezed.dart';
 part 'sensor.g.dart';
 
 @freezed
-sealed class InfoSensor with _$InfoSensor {
+sealed class FtlSensor with _$FtlSensor {
   @JsonSerializable(explicitToJson: true)
-  const factory InfoSensor({
+  const factory FtlSensor({
     required double hotLimit,
-    required String unit,
+    required TemperatureUnit unit,
     double? cpuTemp,
-  }) = _InfoSensor;
+  }) = _FtlSensor;
 
-  factory InfoSensor.fromJson(Map<String, dynamic> json) =>
-      _$InfoSensorFromJson(json);
+  factory FtlSensor.fromJson(Map<String, dynamic> json) =>
+      _$FtlSensorFromJson(json);
 }

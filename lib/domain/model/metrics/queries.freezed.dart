@@ -287,7 +287,9 @@ as int?,
 /// @nodoc
 mixin _$Log {
 
- DateTime get dateTime; DnsRecordType get type; String get url; String get device; BigInt get replyTime; QueryStatusType? get status; ReplyType? get replyType; int? get id; String? get answeredBy;
+ DateTime get dateTime; DnsRecordType get type; String get url; String get device; double get replyTime;// in seconds
+ QueryStatusType? get status; ReplyType? get replyType; int? get id; String? get answeredBy;// v6-only fields
+ String? get cname; String? get dnssec; int? get listId; String? get edeCode; String? get edeText;
 /// Create a copy of Log
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -300,16 +302,16 @@ $LogCopyWith<Log> get copyWith => _$LogCopyWithImpl<Log>(this as Log, _$identity
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is Log&&(identical(other.dateTime, dateTime) || other.dateTime == dateTime)&&(identical(other.type, type) || other.type == type)&&(identical(other.url, url) || other.url == url)&&(identical(other.device, device) || other.device == device)&&(identical(other.replyTime, replyTime) || other.replyTime == replyTime)&&(identical(other.status, status) || other.status == status)&&(identical(other.replyType, replyType) || other.replyType == replyType)&&(identical(other.id, id) || other.id == id)&&(identical(other.answeredBy, answeredBy) || other.answeredBy == answeredBy));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is Log&&(identical(other.dateTime, dateTime) || other.dateTime == dateTime)&&(identical(other.type, type) || other.type == type)&&(identical(other.url, url) || other.url == url)&&(identical(other.device, device) || other.device == device)&&(identical(other.replyTime, replyTime) || other.replyTime == replyTime)&&(identical(other.status, status) || other.status == status)&&(identical(other.replyType, replyType) || other.replyType == replyType)&&(identical(other.id, id) || other.id == id)&&(identical(other.answeredBy, answeredBy) || other.answeredBy == answeredBy)&&(identical(other.cname, cname) || other.cname == cname)&&(identical(other.dnssec, dnssec) || other.dnssec == dnssec)&&(identical(other.listId, listId) || other.listId == listId)&&(identical(other.edeCode, edeCode) || other.edeCode == edeCode)&&(identical(other.edeText, edeText) || other.edeText == edeText));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,dateTime,type,url,device,replyTime,status,replyType,id,answeredBy);
+int get hashCode => Object.hash(runtimeType,dateTime,type,url,device,replyTime,status,replyType,id,answeredBy,cname,dnssec,listId,edeCode,edeText);
 
 @override
 String toString() {
-  return 'Log(dateTime: $dateTime, type: $type, url: $url, device: $device, replyTime: $replyTime, status: $status, replyType: $replyType, id: $id, answeredBy: $answeredBy)';
+  return 'Log(dateTime: $dateTime, type: $type, url: $url, device: $device, replyTime: $replyTime, status: $status, replyType: $replyType, id: $id, answeredBy: $answeredBy, cname: $cname, dnssec: $dnssec, listId: $listId, edeCode: $edeCode, edeText: $edeText)';
 }
 
 
@@ -320,7 +322,7 @@ abstract mixin class $LogCopyWith<$Res>  {
   factory $LogCopyWith(Log value, $Res Function(Log) _then) = _$LogCopyWithImpl;
 @useResult
 $Res call({
- DateTime dateTime, DnsRecordType type, String url, String device, BigInt replyTime, QueryStatusType? status, ReplyType? replyType, int? id, String? answeredBy
+ DateTime dateTime, DnsRecordType type, String url, String device, double replyTime, QueryStatusType? status, ReplyType? replyType, int? id, String? answeredBy, String? cname, String? dnssec, int? listId, String? edeCode, String? edeText
 });
 
 
@@ -337,17 +339,22 @@ class _$LogCopyWithImpl<$Res>
 
 /// Create a copy of Log
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? dateTime = null,Object? type = null,Object? url = null,Object? device = null,Object? replyTime = null,Object? status = freezed,Object? replyType = freezed,Object? id = freezed,Object? answeredBy = freezed,}) {
+@pragma('vm:prefer-inline') @override $Res call({Object? dateTime = null,Object? type = null,Object? url = null,Object? device = null,Object? replyTime = null,Object? status = freezed,Object? replyType = freezed,Object? id = freezed,Object? answeredBy = freezed,Object? cname = freezed,Object? dnssec = freezed,Object? listId = freezed,Object? edeCode = freezed,Object? edeText = freezed,}) {
   return _then(_self.copyWith(
 dateTime: null == dateTime ? _self.dateTime : dateTime // ignore: cast_nullable_to_non_nullable
 as DateTime,type: null == type ? _self.type : type // ignore: cast_nullable_to_non_nullable
 as DnsRecordType,url: null == url ? _self.url : url // ignore: cast_nullable_to_non_nullable
 as String,device: null == device ? _self.device : device // ignore: cast_nullable_to_non_nullable
 as String,replyTime: null == replyTime ? _self.replyTime : replyTime // ignore: cast_nullable_to_non_nullable
-as BigInt,status: freezed == status ? _self.status : status // ignore: cast_nullable_to_non_nullable
+as double,status: freezed == status ? _self.status : status // ignore: cast_nullable_to_non_nullable
 as QueryStatusType?,replyType: freezed == replyType ? _self.replyType : replyType // ignore: cast_nullable_to_non_nullable
 as ReplyType?,id: freezed == id ? _self.id : id // ignore: cast_nullable_to_non_nullable
 as int?,answeredBy: freezed == answeredBy ? _self.answeredBy : answeredBy // ignore: cast_nullable_to_non_nullable
+as String?,cname: freezed == cname ? _self.cname : cname // ignore: cast_nullable_to_non_nullable
+as String?,dnssec: freezed == dnssec ? _self.dnssec : dnssec // ignore: cast_nullable_to_non_nullable
+as String?,listId: freezed == listId ? _self.listId : listId // ignore: cast_nullable_to_non_nullable
+as int?,edeCode: freezed == edeCode ? _self.edeCode : edeCode // ignore: cast_nullable_to_non_nullable
+as String?,edeText: freezed == edeText ? _self.edeText : edeText // ignore: cast_nullable_to_non_nullable
 as String?,
   ));
 }
@@ -430,10 +437,10 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( DateTime dateTime,  DnsRecordType type,  String url,  String device,  BigInt replyTime,  QueryStatusType? status,  ReplyType? replyType,  int? id,  String? answeredBy)?  $default,{required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( DateTime dateTime,  DnsRecordType type,  String url,  String device,  double replyTime,  QueryStatusType? status,  ReplyType? replyType,  int? id,  String? answeredBy,  String? cname,  String? dnssec,  int? listId,  String? edeCode,  String? edeText)?  $default,{required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _Log() when $default != null:
-return $default(_that.dateTime,_that.type,_that.url,_that.device,_that.replyTime,_that.status,_that.replyType,_that.id,_that.answeredBy);case _:
+return $default(_that.dateTime,_that.type,_that.url,_that.device,_that.replyTime,_that.status,_that.replyType,_that.id,_that.answeredBy,_that.cname,_that.dnssec,_that.listId,_that.edeCode,_that.edeText);case _:
   return orElse();
 
 }
@@ -451,10 +458,10 @@ return $default(_that.dateTime,_that.type,_that.url,_that.device,_that.replyTime
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( DateTime dateTime,  DnsRecordType type,  String url,  String device,  BigInt replyTime,  QueryStatusType? status,  ReplyType? replyType,  int? id,  String? answeredBy)  $default,) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( DateTime dateTime,  DnsRecordType type,  String url,  String device,  double replyTime,  QueryStatusType? status,  ReplyType? replyType,  int? id,  String? answeredBy,  String? cname,  String? dnssec,  int? listId,  String? edeCode,  String? edeText)  $default,) {final _that = this;
 switch (_that) {
 case _Log():
-return $default(_that.dateTime,_that.type,_that.url,_that.device,_that.replyTime,_that.status,_that.replyType,_that.id,_that.answeredBy);}
+return $default(_that.dateTime,_that.type,_that.url,_that.device,_that.replyTime,_that.status,_that.replyType,_that.id,_that.answeredBy,_that.cname,_that.dnssec,_that.listId,_that.edeCode,_that.edeText);}
 }
 /// A variant of `when` that fallback to returning `null`
 ///
@@ -468,10 +475,10 @@ return $default(_that.dateTime,_that.type,_that.url,_that.device,_that.replyTime
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( DateTime dateTime,  DnsRecordType type,  String url,  String device,  BigInt replyTime,  QueryStatusType? status,  ReplyType? replyType,  int? id,  String? answeredBy)?  $default,) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( DateTime dateTime,  DnsRecordType type,  String url,  String device,  double replyTime,  QueryStatusType? status,  ReplyType? replyType,  int? id,  String? answeredBy,  String? cname,  String? dnssec,  int? listId,  String? edeCode,  String? edeText)?  $default,) {final _that = this;
 switch (_that) {
 case _Log() when $default != null:
-return $default(_that.dateTime,_that.type,_that.url,_that.device,_that.replyTime,_that.status,_that.replyType,_that.id,_that.answeredBy);case _:
+return $default(_that.dateTime,_that.type,_that.url,_that.device,_that.replyTime,_that.status,_that.replyType,_that.id,_that.answeredBy,_that.cname,_that.dnssec,_that.listId,_that.edeCode,_that.edeText);case _:
   return null;
 
 }
@@ -483,18 +490,25 @@ return $default(_that.dateTime,_that.type,_that.url,_that.device,_that.replyTime
 @JsonSerializable()
 
 class _Log implements Log {
-  const _Log({required this.dateTime, required this.type, required this.url, required this.device, required this.replyTime, this.status, this.replyType, this.id, this.answeredBy});
+  const _Log({required this.dateTime, required this.type, required this.url, required this.device, required this.replyTime, this.status, this.replyType, this.id, this.answeredBy, this.cname, this.dnssec, this.listId, this.edeCode, this.edeText});
   factory _Log.fromJson(Map<String, dynamic> json) => _$LogFromJson(json);
 
 @override final  DateTime dateTime;
 @override final  DnsRecordType type;
 @override final  String url;
 @override final  String device;
-@override final  BigInt replyTime;
+@override final  double replyTime;
+// in seconds
 @override final  QueryStatusType? status;
 @override final  ReplyType? replyType;
 @override final  int? id;
 @override final  String? answeredBy;
+// v6-only fields
+@override final  String? cname;
+@override final  String? dnssec;
+@override final  int? listId;
+@override final  String? edeCode;
+@override final  String? edeText;
 
 /// Create a copy of Log
 /// with the given fields replaced by the non-null parameter values.
@@ -509,16 +523,16 @@ Map<String, dynamic> toJson() {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _Log&&(identical(other.dateTime, dateTime) || other.dateTime == dateTime)&&(identical(other.type, type) || other.type == type)&&(identical(other.url, url) || other.url == url)&&(identical(other.device, device) || other.device == device)&&(identical(other.replyTime, replyTime) || other.replyTime == replyTime)&&(identical(other.status, status) || other.status == status)&&(identical(other.replyType, replyType) || other.replyType == replyType)&&(identical(other.id, id) || other.id == id)&&(identical(other.answeredBy, answeredBy) || other.answeredBy == answeredBy));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _Log&&(identical(other.dateTime, dateTime) || other.dateTime == dateTime)&&(identical(other.type, type) || other.type == type)&&(identical(other.url, url) || other.url == url)&&(identical(other.device, device) || other.device == device)&&(identical(other.replyTime, replyTime) || other.replyTime == replyTime)&&(identical(other.status, status) || other.status == status)&&(identical(other.replyType, replyType) || other.replyType == replyType)&&(identical(other.id, id) || other.id == id)&&(identical(other.answeredBy, answeredBy) || other.answeredBy == answeredBy)&&(identical(other.cname, cname) || other.cname == cname)&&(identical(other.dnssec, dnssec) || other.dnssec == dnssec)&&(identical(other.listId, listId) || other.listId == listId)&&(identical(other.edeCode, edeCode) || other.edeCode == edeCode)&&(identical(other.edeText, edeText) || other.edeText == edeText));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,dateTime,type,url,device,replyTime,status,replyType,id,answeredBy);
+int get hashCode => Object.hash(runtimeType,dateTime,type,url,device,replyTime,status,replyType,id,answeredBy,cname,dnssec,listId,edeCode,edeText);
 
 @override
 String toString() {
-  return 'Log(dateTime: $dateTime, type: $type, url: $url, device: $device, replyTime: $replyTime, status: $status, replyType: $replyType, id: $id, answeredBy: $answeredBy)';
+  return 'Log(dateTime: $dateTime, type: $type, url: $url, device: $device, replyTime: $replyTime, status: $status, replyType: $replyType, id: $id, answeredBy: $answeredBy, cname: $cname, dnssec: $dnssec, listId: $listId, edeCode: $edeCode, edeText: $edeText)';
 }
 
 
@@ -529,7 +543,7 @@ abstract mixin class _$LogCopyWith<$Res> implements $LogCopyWith<$Res> {
   factory _$LogCopyWith(_Log value, $Res Function(_Log) _then) = __$LogCopyWithImpl;
 @override @useResult
 $Res call({
- DateTime dateTime, DnsRecordType type, String url, String device, BigInt replyTime, QueryStatusType? status, ReplyType? replyType, int? id, String? answeredBy
+ DateTime dateTime, DnsRecordType type, String url, String device, double replyTime, QueryStatusType? status, ReplyType? replyType, int? id, String? answeredBy, String? cname, String? dnssec, int? listId, String? edeCode, String? edeText
 });
 
 
@@ -546,17 +560,22 @@ class __$LogCopyWithImpl<$Res>
 
 /// Create a copy of Log
 /// with the given fields replaced by the non-null parameter values.
-@override @pragma('vm:prefer-inline') $Res call({Object? dateTime = null,Object? type = null,Object? url = null,Object? device = null,Object? replyTime = null,Object? status = freezed,Object? replyType = freezed,Object? id = freezed,Object? answeredBy = freezed,}) {
+@override @pragma('vm:prefer-inline') $Res call({Object? dateTime = null,Object? type = null,Object? url = null,Object? device = null,Object? replyTime = null,Object? status = freezed,Object? replyType = freezed,Object? id = freezed,Object? answeredBy = freezed,Object? cname = freezed,Object? dnssec = freezed,Object? listId = freezed,Object? edeCode = freezed,Object? edeText = freezed,}) {
   return _then(_Log(
 dateTime: null == dateTime ? _self.dateTime : dateTime // ignore: cast_nullable_to_non_nullable
 as DateTime,type: null == type ? _self.type : type // ignore: cast_nullable_to_non_nullable
 as DnsRecordType,url: null == url ? _self.url : url // ignore: cast_nullable_to_non_nullable
 as String,device: null == device ? _self.device : device // ignore: cast_nullable_to_non_nullable
 as String,replyTime: null == replyTime ? _self.replyTime : replyTime // ignore: cast_nullable_to_non_nullable
-as BigInt,status: freezed == status ? _self.status : status // ignore: cast_nullable_to_non_nullable
+as double,status: freezed == status ? _self.status : status // ignore: cast_nullable_to_non_nullable
 as QueryStatusType?,replyType: freezed == replyType ? _self.replyType : replyType // ignore: cast_nullable_to_non_nullable
 as ReplyType?,id: freezed == id ? _self.id : id // ignore: cast_nullable_to_non_nullable
 as int?,answeredBy: freezed == answeredBy ? _self.answeredBy : answeredBy // ignore: cast_nullable_to_non_nullable
+as String?,cname: freezed == cname ? _self.cname : cname // ignore: cast_nullable_to_non_nullable
+as String?,dnssec: freezed == dnssec ? _self.dnssec : dnssec // ignore: cast_nullable_to_non_nullable
+as String?,listId: freezed == listId ? _self.listId : listId // ignore: cast_nullable_to_non_nullable
+as int?,edeCode: freezed == edeCode ? _self.edeCode : edeCode // ignore: cast_nullable_to_non_nullable
+as String?,edeText: freezed == edeText ? _self.edeText : edeText // ignore: cast_nullable_to_non_nullable
 as String?,
   ));
 }

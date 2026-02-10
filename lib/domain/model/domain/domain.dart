@@ -8,10 +8,10 @@ part 'domain.g.dart';
 sealed class DomainLists with _$DomainLists {
   @JsonSerializable(explicitToJson: true)
   const factory DomainLists({
-    required List<Domain> whitelist,
-    required List<Domain> whitelistRegex,
-    required List<Domain> blacklist,
-    required List<Domain> blacklistRegex,
+    required List<Domain> allowExact,
+    required List<Domain> allowRegex,
+    required List<Domain> denyExact,
+    required List<Domain> denyRegex,
   }) = _DomainLists;
 
   factory DomainLists.fromJson(Map<String, dynamic> json) =>

@@ -255,13 +255,13 @@ final kRepoFetchHistory = repo.History(
 
 final kRepoFetchHistoryClient = repo.Clients(
   clients: const [
-    repo.Client(name: 'localhost', ip: '127.0.0.1'),
-    repo.Client(name: 'ip6-localnet', ip: '::1'),
-    repo.Client(name: '', ip: '192.168.1.1'), // TODO: name null, not empty
-    repo.Client(name: 'pi.hole', ip: '::'),
-    repo.Client(name: 'other clients', ip: '0.0.0.0'),
+    repo.Client(name: 'localhost', ip: '127.0.0.1', total: 13428),
+    repo.Client(name: 'ip6-localnet', ip: '::1', total: 2100),
+    repo.Client(name: '', ip: '192.168.1.1', total: 254), // TODO: name null, not empty
+    repo.Client(name: 'pi.hole', ip: '::', total: 29),
+    repo.Client(name: 'other clients', ip: '0.0.0.0', total: 14),
   ],
-  overTime: [
+  clientEntries: [
     repo.ClientOverTimeEntry(
       time: DateTime.fromMillisecondsSinceEpoch(1511819900 * 1000),
       values: [35, 63, 20, 9, 0],
@@ -280,22 +280,28 @@ final kRepoFetchQueries = repo.Logs(
       type: DnsRecordType.a,
       url: 'community.stoplight.io',
       device: 'desktop.lan',
-      replyTime: BigInt.from(190000),
+      replyTime: 19.0,
       status: QueryStatusType.forwarded,
       replyType: ReplyType.ip,
       id: 1,
       answeredBy: 'localhost#5353',
+      dnssec: 'INSECURE',
+      edeCode: '0',
     ),
     repo.Log(
       dateTime: DateTime.fromMillisecondsSinceEpoch(1581907871 * 1000),
       type: DnsRecordType.aaaa,
       url: 'api.github.com',
       device: 'localhost',
-      replyTime: BigInt.from(123000),
+      replyTime: 12.3,
       status: QueryStatusType.forwarded,
       replyType: ReplyType.ip,
       id: 2,
       answeredBy: 'localhost#5353',
+      cname: 'test.com',
+      dnssec: 'UNKNOWN',
+      listId: 1,
+      edeCode: '0',
     ),
   ],
   cursor: 175881,
@@ -314,21 +320,23 @@ final kRepoFetchStatsSummary = repo.Summary(
   clientsEverSeen: 22,
   uniqueClients: 10,
   dnsQueriesAllTypes: 7497,
-  replyUnknown: 3,
-  replyNodata: 72,
-  replyNxdomain: 533,
-  replyCname: 32,
-  replyIp: 84,
-  replyDomain: 31,
-  replyRrname: 0,
-  replyServfail: 0,
-  replyRefused: 0,
-  replyNotimp: 0,
-  replyOther: 0,
-  replyDnssec: 327,
-  replyNone: 0,
-  replyBlob: 286,
-  dnsQueriesAllReplies: 7497,
+  replies: const repo.ReplyCounts(
+    unknown: 3,
+    nodata: 72,
+    nxDomain: 533,
+    cname: 32,
+    ip: 84,
+    domain: 31,
+    rrname: 0,
+    servfail: 0,
+    refused: 0,
+    notimp: 0,
+    other: 0,
+    dnssec: 327,
+    none: 0,
+    blob: 286,
+    total: 7497,
+  ),
   queryTypes: const [
     repo.QueryTypeStat(type: DnsRecordType.a, percentage: 3643 / 19663 * 100),
     repo.QueryTypeStat(type: DnsRecordType.aaaa, percentage: 123 / 19663 * 100),
@@ -362,11 +370,16 @@ final kRepoFetchStatsSummary = repo.Summary(
 );
 
 const kRepoFetchStatsUpstreams = [
-  repo.DestinationStat(destination: 'blocklist|blocklist', percentage: 0.0),
-  repo.DestinationStat(destination: 'cache|cache', percentage: 20.0),
+  repo.DestinationStat(
+    destination: 'blocklist|blocklist',
+    percentage: 0.0,
+    count: 0,
+  ),
+  repo.DestinationStat(destination: 'cache|cache', percentage: 20.0, count: 2),
   repo.DestinationStat(
     destination: 'dns.google#53|8.8.8.8#53',
     percentage: 80.0,
+    count: 8,
   ),
 ];
 
@@ -408,13 +421,13 @@ final kRepoFetchOverTime = repo.OverTime(
     ),
   ],
   clients: const [
-    repo.Client(ip: '127.0.0.1', name: 'localhost'),
-    repo.Client(ip: '::1', name: 'ip6-localnet'),
-    repo.Client(ip: '192.168.1.1', name: ''), // TODO: name null
-    repo.Client(ip: '::', name: 'pi.hole'),
-    repo.Client(ip: '0.0.0.0', name: 'other clients'),
+    repo.Client(ip: '127.0.0.1', name: 'localhost', total: 13428),
+    repo.Client(ip: '::1', name: 'ip6-localnet', total: 2100),
+    repo.Client(ip: '192.168.1.1', name: '', total: 254), // TODO: name null
+    repo.Client(ip: '::', name: 'pi.hole', total: 29),
+    repo.Client(ip: '0.0.0.0', name: 'other clients', total: 14),
   ],
-  overTime: [
+  clientEntries: [
     repo.ClientOverTimeEntry(
       time: DateTime.fromMillisecondsSinceEpoch(1511819900 * 1000),
       values: [35, 63, 20, 9, 0],

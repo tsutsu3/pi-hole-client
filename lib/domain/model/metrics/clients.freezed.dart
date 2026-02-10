@@ -15,7 +15,7 @@ T _$identity<T>(T value) => value;
 /// @nodoc
 mixin _$Clients {
 
- List<Client> get clients; List<ClientOverTimeEntry> get overTime;
+ List<Client> get clients; List<ClientOverTimeEntry> get clientEntries;
 /// Create a copy of Clients
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -28,16 +28,16 @@ $ClientsCopyWith<Clients> get copyWith => _$ClientsCopyWithImpl<Clients>(this as
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is Clients&&const DeepCollectionEquality().equals(other.clients, clients)&&const DeepCollectionEquality().equals(other.overTime, overTime));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is Clients&&const DeepCollectionEquality().equals(other.clients, clients)&&const DeepCollectionEquality().equals(other.clientEntries, clientEntries));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,const DeepCollectionEquality().hash(clients),const DeepCollectionEquality().hash(overTime));
+int get hashCode => Object.hash(runtimeType,const DeepCollectionEquality().hash(clients),const DeepCollectionEquality().hash(clientEntries));
 
 @override
 String toString() {
-  return 'Clients(clients: $clients, overTime: $overTime)';
+  return 'Clients(clients: $clients, clientEntries: $clientEntries)';
 }
 
 
@@ -48,7 +48,7 @@ abstract mixin class $ClientsCopyWith<$Res>  {
   factory $ClientsCopyWith(Clients value, $Res Function(Clients) _then) = _$ClientsCopyWithImpl;
 @useResult
 $Res call({
- List<Client> clients, List<ClientOverTimeEntry> overTime
+ List<Client> clients, List<ClientOverTimeEntry> clientEntries
 });
 
 
@@ -65,10 +65,10 @@ class _$ClientsCopyWithImpl<$Res>
 
 /// Create a copy of Clients
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? clients = null,Object? overTime = null,}) {
+@pragma('vm:prefer-inline') @override $Res call({Object? clients = null,Object? clientEntries = null,}) {
   return _then(_self.copyWith(
 clients: null == clients ? _self.clients : clients // ignore: cast_nullable_to_non_nullable
-as List<Client>,overTime: null == overTime ? _self.overTime : overTime // ignore: cast_nullable_to_non_nullable
+as List<Client>,clientEntries: null == clientEntries ? _self.clientEntries : clientEntries // ignore: cast_nullable_to_non_nullable
 as List<ClientOverTimeEntry>,
   ));
 }
@@ -151,10 +151,10 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( List<Client> clients,  List<ClientOverTimeEntry> overTime)?  $default,{required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( List<Client> clients,  List<ClientOverTimeEntry> clientEntries)?  $default,{required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _Clients() when $default != null:
-return $default(_that.clients,_that.overTime);case _:
+return $default(_that.clients,_that.clientEntries);case _:
   return orElse();
 
 }
@@ -172,10 +172,10 @@ return $default(_that.clients,_that.overTime);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( List<Client> clients,  List<ClientOverTimeEntry> overTime)  $default,) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( List<Client> clients,  List<ClientOverTimeEntry> clientEntries)  $default,) {final _that = this;
 switch (_that) {
 case _Clients():
-return $default(_that.clients,_that.overTime);}
+return $default(_that.clients,_that.clientEntries);}
 }
 /// A variant of `when` that fallback to returning `null`
 ///
@@ -189,10 +189,10 @@ return $default(_that.clients,_that.overTime);}
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( List<Client> clients,  List<ClientOverTimeEntry> overTime)?  $default,) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( List<Client> clients,  List<ClientOverTimeEntry> clientEntries)?  $default,) {final _that = this;
 switch (_that) {
 case _Clients() when $default != null:
-return $default(_that.clients,_that.overTime);case _:
+return $default(_that.clients,_that.clientEntries);case _:
   return null;
 
 }
@@ -204,7 +204,7 @@ return $default(_that.clients,_that.overTime);case _:
 
 @JsonSerializable(explicitToJson: true)
 class _Clients implements Clients {
-  const _Clients({required final  List<Client> clients, required final  List<ClientOverTimeEntry> overTime}): _clients = clients,_overTime = overTime;
+  const _Clients({required final  List<Client> clients, required final  List<ClientOverTimeEntry> clientEntries}): _clients = clients,_clientEntries = clientEntries;
   factory _Clients.fromJson(Map<String, dynamic> json) => _$ClientsFromJson(json);
 
  final  List<Client> _clients;
@@ -214,11 +214,11 @@ class _Clients implements Clients {
   return EqualUnmodifiableListView(_clients);
 }
 
- final  List<ClientOverTimeEntry> _overTime;
-@override List<ClientOverTimeEntry> get overTime {
-  if (_overTime is EqualUnmodifiableListView) return _overTime;
+ final  List<ClientOverTimeEntry> _clientEntries;
+@override List<ClientOverTimeEntry> get clientEntries {
+  if (_clientEntries is EqualUnmodifiableListView) return _clientEntries;
   // ignore: implicit_dynamic_type
-  return EqualUnmodifiableListView(_overTime);
+  return EqualUnmodifiableListView(_clientEntries);
 }
 
 
@@ -235,16 +235,16 @@ Map<String, dynamic> toJson() {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _Clients&&const DeepCollectionEquality().equals(other._clients, _clients)&&const DeepCollectionEquality().equals(other._overTime, _overTime));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _Clients&&const DeepCollectionEquality().equals(other._clients, _clients)&&const DeepCollectionEquality().equals(other._clientEntries, _clientEntries));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,const DeepCollectionEquality().hash(_clients),const DeepCollectionEquality().hash(_overTime));
+int get hashCode => Object.hash(runtimeType,const DeepCollectionEquality().hash(_clients),const DeepCollectionEquality().hash(_clientEntries));
 
 @override
 String toString() {
-  return 'Clients(clients: $clients, overTime: $overTime)';
+  return 'Clients(clients: $clients, clientEntries: $clientEntries)';
 }
 
 
@@ -255,7 +255,7 @@ abstract mixin class _$ClientsCopyWith<$Res> implements $ClientsCopyWith<$Res> {
   factory _$ClientsCopyWith(_Clients value, $Res Function(_Clients) _then) = __$ClientsCopyWithImpl;
 @override @useResult
 $Res call({
- List<Client> clients, List<ClientOverTimeEntry> overTime
+ List<Client> clients, List<ClientOverTimeEntry> clientEntries
 });
 
 
@@ -272,10 +272,10 @@ class __$ClientsCopyWithImpl<$Res>
 
 /// Create a copy of Clients
 /// with the given fields replaced by the non-null parameter values.
-@override @pragma('vm:prefer-inline') $Res call({Object? clients = null,Object? overTime = null,}) {
+@override @pragma('vm:prefer-inline') $Res call({Object? clients = null,Object? clientEntries = null,}) {
   return _then(_Clients(
 clients: null == clients ? _self._clients : clients // ignore: cast_nullable_to_non_nullable
-as List<Client>,overTime: null == overTime ? _self._overTime : overTime // ignore: cast_nullable_to_non_nullable
+as List<Client>,clientEntries: null == clientEntries ? _self._clientEntries : clientEntries // ignore: cast_nullable_to_non_nullable
 as List<ClientOverTimeEntry>,
   ));
 }
@@ -287,7 +287,7 @@ as List<ClientOverTimeEntry>,
 /// @nodoc
 mixin _$Client {
 
- String get ip; String? get name;
+ String get ip; String? get name; int? get total;
 /// Create a copy of Client
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -300,16 +300,16 @@ $ClientCopyWith<Client> get copyWith => _$ClientCopyWithImpl<Client>(this as Cli
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is Client&&(identical(other.ip, ip) || other.ip == ip)&&(identical(other.name, name) || other.name == name));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is Client&&(identical(other.ip, ip) || other.ip == ip)&&(identical(other.name, name) || other.name == name)&&(identical(other.total, total) || other.total == total));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,ip,name);
+int get hashCode => Object.hash(runtimeType,ip,name,total);
 
 @override
 String toString() {
-  return 'Client(ip: $ip, name: $name)';
+  return 'Client(ip: $ip, name: $name, total: $total)';
 }
 
 
@@ -320,7 +320,7 @@ abstract mixin class $ClientCopyWith<$Res>  {
   factory $ClientCopyWith(Client value, $Res Function(Client) _then) = _$ClientCopyWithImpl;
 @useResult
 $Res call({
- String ip, String? name
+ String ip, String? name, int? total
 });
 
 
@@ -337,11 +337,12 @@ class _$ClientCopyWithImpl<$Res>
 
 /// Create a copy of Client
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? ip = null,Object? name = freezed,}) {
+@pragma('vm:prefer-inline') @override $Res call({Object? ip = null,Object? name = freezed,Object? total = freezed,}) {
   return _then(_self.copyWith(
 ip: null == ip ? _self.ip : ip // ignore: cast_nullable_to_non_nullable
 as String,name: freezed == name ? _self.name : name // ignore: cast_nullable_to_non_nullable
-as String?,
+as String?,total: freezed == total ? _self.total : total // ignore: cast_nullable_to_non_nullable
+as int?,
   ));
 }
 
@@ -423,10 +424,10 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( String ip,  String? name)?  $default,{required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( String ip,  String? name,  int? total)?  $default,{required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _Client() when $default != null:
-return $default(_that.ip,_that.name);case _:
+return $default(_that.ip,_that.name,_that.total);case _:
   return orElse();
 
 }
@@ -444,10 +445,10 @@ return $default(_that.ip,_that.name);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( String ip,  String? name)  $default,) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( String ip,  String? name,  int? total)  $default,) {final _that = this;
 switch (_that) {
 case _Client():
-return $default(_that.ip,_that.name);}
+return $default(_that.ip,_that.name,_that.total);}
 }
 /// A variant of `when` that fallback to returning `null`
 ///
@@ -461,10 +462,10 @@ return $default(_that.ip,_that.name);}
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( String ip,  String? name)?  $default,) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( String ip,  String? name,  int? total)?  $default,) {final _that = this;
 switch (_that) {
 case _Client() when $default != null:
-return $default(_that.ip,_that.name);case _:
+return $default(_that.ip,_that.name,_that.total);case _:
   return null;
 
 }
@@ -476,11 +477,12 @@ return $default(_that.ip,_that.name);case _:
 @JsonSerializable()
 
 class _Client implements Client {
-  const _Client({required this.ip, this.name});
+  const _Client({required this.ip, this.name, this.total});
   factory _Client.fromJson(Map<String, dynamic> json) => _$ClientFromJson(json);
 
 @override final  String ip;
 @override final  String? name;
+@override final  int? total;
 
 /// Create a copy of Client
 /// with the given fields replaced by the non-null parameter values.
@@ -495,16 +497,16 @@ Map<String, dynamic> toJson() {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _Client&&(identical(other.ip, ip) || other.ip == ip)&&(identical(other.name, name) || other.name == name));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _Client&&(identical(other.ip, ip) || other.ip == ip)&&(identical(other.name, name) || other.name == name)&&(identical(other.total, total) || other.total == total));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,ip,name);
+int get hashCode => Object.hash(runtimeType,ip,name,total);
 
 @override
 String toString() {
-  return 'Client(ip: $ip, name: $name)';
+  return 'Client(ip: $ip, name: $name, total: $total)';
 }
 
 
@@ -515,7 +517,7 @@ abstract mixin class _$ClientCopyWith<$Res> implements $ClientCopyWith<$Res> {
   factory _$ClientCopyWith(_Client value, $Res Function(_Client) _then) = __$ClientCopyWithImpl;
 @override @useResult
 $Res call({
- String ip, String? name
+ String ip, String? name, int? total
 });
 
 
@@ -532,11 +534,12 @@ class __$ClientCopyWithImpl<$Res>
 
 /// Create a copy of Client
 /// with the given fields replaced by the non-null parameter values.
-@override @pragma('vm:prefer-inline') $Res call({Object? ip = null,Object? name = freezed,}) {
+@override @pragma('vm:prefer-inline') $Res call({Object? ip = null,Object? name = freezed,Object? total = freezed,}) {
   return _then(_Client(
 ip: null == ip ? _self.ip : ip // ignore: cast_nullable_to_non_nullable
 as String,name: freezed == name ? _self.name : name // ignore: cast_nullable_to_non_nullable
-as String?,
+as String?,total: freezed == total ? _self.total : total // ignore: cast_nullable_to_non_nullable
+as int?,
   ));
 }
 

@@ -17,21 +17,7 @@ _Summary _$SummaryFromJson(Map<String, dynamic> json) => _Summary(
   clientsEverSeen: (json['clientsEverSeen'] as num).toInt(),
   uniqueClients: (json['uniqueClients'] as num).toInt(),
   dnsQueriesAllTypes: (json['dnsQueriesAllTypes'] as num).toInt(),
-  replyUnknown: (json['replyUnknown'] as num).toInt(),
-  replyNodata: (json['replyNodata'] as num).toInt(),
-  replyNxdomain: (json['replyNxdomain'] as num).toInt(),
-  replyCname: (json['replyCname'] as num).toInt(),
-  replyIp: (json['replyIp'] as num).toInt(),
-  replyDomain: (json['replyDomain'] as num).toInt(),
-  replyRrname: (json['replyRrname'] as num).toInt(),
-  replyServfail: (json['replyServfail'] as num).toInt(),
-  replyRefused: (json['replyRefused'] as num).toInt(),
-  replyNotimp: (json['replyNotimp'] as num).toInt(),
-  replyOther: (json['replyOther'] as num).toInt(),
-  replyDnssec: (json['replyDnssec'] as num).toInt(),
-  replyNone: (json['replyNone'] as num).toInt(),
-  replyBlob: (json['replyBlob'] as num).toInt(),
-  dnsQueriesAllReplies: (json['dnsQueriesAllReplies'] as num).toInt(),
+  replies: ReplyCounts.fromJson(json['replies'] as Map<String, dynamic>),
   queryTypes: (json['queryTypes'] as List<dynamic>)
       .map((e) => QueryTypeStat.fromJson(e as Map<String, dynamic>))
       .toList(),
@@ -48,34 +34,59 @@ Map<String, dynamic> _$SummaryToJson(_Summary instance) => <String, dynamic>{
   'clientsEverSeen': instance.clientsEverSeen,
   'uniqueClients': instance.uniqueClients,
   'dnsQueriesAllTypes': instance.dnsQueriesAllTypes,
-  'replyUnknown': instance.replyUnknown,
-  'replyNodata': instance.replyNodata,
-  'replyNxdomain': instance.replyNxdomain,
-  'replyCname': instance.replyCname,
-  'replyIp': instance.replyIp,
-  'replyDomain': instance.replyDomain,
-  'replyRrname': instance.replyRrname,
-  'replyServfail': instance.replyServfail,
-  'replyRefused': instance.replyRefused,
-  'replyNotimp': instance.replyNotimp,
-  'replyOther': instance.replyOther,
-  'replyDnssec': instance.replyDnssec,
-  'replyNone': instance.replyNone,
-  'replyBlob': instance.replyBlob,
-  'dnsQueriesAllReplies': instance.dnsQueriesAllReplies,
+  'replies': instance.replies.toJson(),
   'queryTypes': instance.queryTypes.map((e) => e.toJson()).toList(),
 };
+
+_ReplyCounts _$ReplyCountsFromJson(Map<String, dynamic> json) => _ReplyCounts(
+  unknown: (json['unknown'] as num).toInt(),
+  nodata: (json['nodata'] as num).toInt(),
+  nxDomain: (json['nxDomain'] as num).toInt(),
+  cname: (json['cname'] as num).toInt(),
+  ip: (json['ip'] as num).toInt(),
+  domain: (json['domain'] as num).toInt(),
+  rrname: (json['rrname'] as num).toInt(),
+  servfail: (json['servfail'] as num).toInt(),
+  refused: (json['refused'] as num).toInt(),
+  notimp: (json['notimp'] as num).toInt(),
+  other: (json['other'] as num).toInt(),
+  dnssec: (json['dnssec'] as num).toInt(),
+  none: (json['none'] as num).toInt(),
+  blob: (json['blob'] as num).toInt(),
+  total: (json['total'] as num).toInt(),
+);
+
+Map<String, dynamic> _$ReplyCountsToJson(_ReplyCounts instance) =>
+    <String, dynamic>{
+      'unknown': instance.unknown,
+      'nodata': instance.nodata,
+      'nxDomain': instance.nxDomain,
+      'cname': instance.cname,
+      'ip': instance.ip,
+      'domain': instance.domain,
+      'rrname': instance.rrname,
+      'servfail': instance.servfail,
+      'refused': instance.refused,
+      'notimp': instance.notimp,
+      'other': instance.other,
+      'dnssec': instance.dnssec,
+      'none': instance.none,
+      'blob': instance.blob,
+      'total': instance.total,
+    };
 
 _QueryTypeStat _$QueryTypeStatFromJson(Map<String, dynamic> json) =>
     _QueryTypeStat(
       type: $enumDecode(_$DnsRecordTypeEnumMap, json['type']),
       percentage: (json['percentage'] as num).toDouble(),
+      count: (json['count'] as num?)?.toInt(),
     );
 
 Map<String, dynamic> _$QueryTypeStatToJson(_QueryTypeStat instance) =>
     <String, dynamic>{
       'type': _$DnsRecordTypeEnumMap[instance.type]!,
       'percentage': instance.percentage,
+      'count': instance.count,
     };
 
 const _$DnsRecordTypeEnumMap = {

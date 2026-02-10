@@ -5,7 +5,6 @@ import 'package:pi_hole_client/domain/model/metrics/history.dart';
 part 'overtime.freezed.dart';
 part 'overtime.g.dart';
 
-// TODO: Refactor OverTime model.
 @freezed
 sealed class OverTime with _$OverTime {
   @JsonSerializable(explicitToJson: true)
@@ -13,7 +12,7 @@ sealed class OverTime with _$OverTime {
     required List<HistoryEntry> domainsOverTime,
     required List<HistoryEntry> adsOverTime,
     required List<Client> clients,
-    required List<ClientOverTimeEntry> overTime,
+    required List<ClientOverTimeEntry> clientEntries,
   }) = _OverTime;
 
   factory OverTime.fromJson(Map<String, dynamic> json) =>

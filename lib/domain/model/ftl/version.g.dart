@@ -6,14 +6,14 @@ part of 'version.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-_InfoVersion _$InfoVersionFromJson(Map<String, dynamic> json) => _InfoVersion(
+_FtlVersion _$FtlVersionFromJson(Map<String, dynamic> json) => _FtlVersion(
   core: ComponentVersion.fromJson(json['core'] as Map<String, dynamic>),
   web: ComponentVersion.fromJson(json['web'] as Map<String, dynamic>),
   ftl: ComponentVersion.fromJson(json['ftl'] as Map<String, dynamic>),
   docker: ComponentVersion.fromJson(json['docker'] as Map<String, dynamic>),
 );
 
-Map<String, dynamic> _$InfoVersionToJson(_InfoVersion instance) =>
+Map<String, dynamic> _$FtlVersionToJson(_FtlVersion instance) =>
     <String, dynamic>{
       'core': instance.core.toJson(),
       'web': instance.web.toJson(),

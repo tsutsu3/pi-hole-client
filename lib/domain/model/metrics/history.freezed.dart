@@ -287,7 +287,9 @@ as List<HistoryEntry>,
 /// @nodoc
 mixin _$HistoryEntry {
 
- DateTime get timestamp; int get count;
+ DateTime get timestamp; int get count;// v5: total queries, v6: total or blocked depending on context
+// v6-only fields
+ int? get blocked; int? get cached; int? get forwarded;
 /// Create a copy of HistoryEntry
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -300,16 +302,16 @@ $HistoryEntryCopyWith<HistoryEntry> get copyWith => _$HistoryEntryCopyWithImpl<H
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is HistoryEntry&&(identical(other.timestamp, timestamp) || other.timestamp == timestamp)&&(identical(other.count, count) || other.count == count));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is HistoryEntry&&(identical(other.timestamp, timestamp) || other.timestamp == timestamp)&&(identical(other.count, count) || other.count == count)&&(identical(other.blocked, blocked) || other.blocked == blocked)&&(identical(other.cached, cached) || other.cached == cached)&&(identical(other.forwarded, forwarded) || other.forwarded == forwarded));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,timestamp,count);
+int get hashCode => Object.hash(runtimeType,timestamp,count,blocked,cached,forwarded);
 
 @override
 String toString() {
-  return 'HistoryEntry(timestamp: $timestamp, count: $count)';
+  return 'HistoryEntry(timestamp: $timestamp, count: $count, blocked: $blocked, cached: $cached, forwarded: $forwarded)';
 }
 
 
@@ -320,7 +322,7 @@ abstract mixin class $HistoryEntryCopyWith<$Res>  {
   factory $HistoryEntryCopyWith(HistoryEntry value, $Res Function(HistoryEntry) _then) = _$HistoryEntryCopyWithImpl;
 @useResult
 $Res call({
- DateTime timestamp, int count
+ DateTime timestamp, int count, int? blocked, int? cached, int? forwarded
 });
 
 
@@ -337,11 +339,14 @@ class _$HistoryEntryCopyWithImpl<$Res>
 
 /// Create a copy of HistoryEntry
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? timestamp = null,Object? count = null,}) {
+@pragma('vm:prefer-inline') @override $Res call({Object? timestamp = null,Object? count = null,Object? blocked = freezed,Object? cached = freezed,Object? forwarded = freezed,}) {
   return _then(_self.copyWith(
 timestamp: null == timestamp ? _self.timestamp : timestamp // ignore: cast_nullable_to_non_nullable
 as DateTime,count: null == count ? _self.count : count // ignore: cast_nullable_to_non_nullable
-as int,
+as int,blocked: freezed == blocked ? _self.blocked : blocked // ignore: cast_nullable_to_non_nullable
+as int?,cached: freezed == cached ? _self.cached : cached // ignore: cast_nullable_to_non_nullable
+as int?,forwarded: freezed == forwarded ? _self.forwarded : forwarded // ignore: cast_nullable_to_non_nullable
+as int?,
   ));
 }
 
@@ -423,10 +428,10 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( DateTime timestamp,  int count)?  $default,{required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( DateTime timestamp,  int count,  int? blocked,  int? cached,  int? forwarded)?  $default,{required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _HistoryEntry() when $default != null:
-return $default(_that.timestamp,_that.count);case _:
+return $default(_that.timestamp,_that.count,_that.blocked,_that.cached,_that.forwarded);case _:
   return orElse();
 
 }
@@ -444,10 +449,10 @@ return $default(_that.timestamp,_that.count);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( DateTime timestamp,  int count)  $default,) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( DateTime timestamp,  int count,  int? blocked,  int? cached,  int? forwarded)  $default,) {final _that = this;
 switch (_that) {
 case _HistoryEntry():
-return $default(_that.timestamp,_that.count);}
+return $default(_that.timestamp,_that.count,_that.blocked,_that.cached,_that.forwarded);}
 }
 /// A variant of `when` that fallback to returning `null`
 ///
@@ -461,10 +466,10 @@ return $default(_that.timestamp,_that.count);}
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( DateTime timestamp,  int count)?  $default,) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( DateTime timestamp,  int count,  int? blocked,  int? cached,  int? forwarded)?  $default,) {final _that = this;
 switch (_that) {
 case _HistoryEntry() when $default != null:
-return $default(_that.timestamp,_that.count);case _:
+return $default(_that.timestamp,_that.count,_that.blocked,_that.cached,_that.forwarded);case _:
   return null;
 
 }
@@ -476,11 +481,16 @@ return $default(_that.timestamp,_that.count);case _:
 @JsonSerializable()
 
 class _HistoryEntry implements HistoryEntry {
-  const _HistoryEntry({required this.timestamp, required this.count});
+  const _HistoryEntry({required this.timestamp, required this.count, this.blocked, this.cached, this.forwarded});
   factory _HistoryEntry.fromJson(Map<String, dynamic> json) => _$HistoryEntryFromJson(json);
 
 @override final  DateTime timestamp;
 @override final  int count;
+// v5: total queries, v6: total or blocked depending on context
+// v6-only fields
+@override final  int? blocked;
+@override final  int? cached;
+@override final  int? forwarded;
 
 /// Create a copy of HistoryEntry
 /// with the given fields replaced by the non-null parameter values.
@@ -495,16 +505,16 @@ Map<String, dynamic> toJson() {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _HistoryEntry&&(identical(other.timestamp, timestamp) || other.timestamp == timestamp)&&(identical(other.count, count) || other.count == count));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _HistoryEntry&&(identical(other.timestamp, timestamp) || other.timestamp == timestamp)&&(identical(other.count, count) || other.count == count)&&(identical(other.blocked, blocked) || other.blocked == blocked)&&(identical(other.cached, cached) || other.cached == cached)&&(identical(other.forwarded, forwarded) || other.forwarded == forwarded));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,timestamp,count);
+int get hashCode => Object.hash(runtimeType,timestamp,count,blocked,cached,forwarded);
 
 @override
 String toString() {
-  return 'HistoryEntry(timestamp: $timestamp, count: $count)';
+  return 'HistoryEntry(timestamp: $timestamp, count: $count, blocked: $blocked, cached: $cached, forwarded: $forwarded)';
 }
 
 
@@ -515,7 +525,7 @@ abstract mixin class _$HistoryEntryCopyWith<$Res> implements $HistoryEntryCopyWi
   factory _$HistoryEntryCopyWith(_HistoryEntry value, $Res Function(_HistoryEntry) _then) = __$HistoryEntryCopyWithImpl;
 @override @useResult
 $Res call({
- DateTime timestamp, int count
+ DateTime timestamp, int count, int? blocked, int? cached, int? forwarded
 });
 
 
@@ -532,11 +542,14 @@ class __$HistoryEntryCopyWithImpl<$Res>
 
 /// Create a copy of HistoryEntry
 /// with the given fields replaced by the non-null parameter values.
-@override @pragma('vm:prefer-inline') $Res call({Object? timestamp = null,Object? count = null,}) {
+@override @pragma('vm:prefer-inline') $Res call({Object? timestamp = null,Object? count = null,Object? blocked = freezed,Object? cached = freezed,Object? forwarded = freezed,}) {
   return _then(_HistoryEntry(
 timestamp: null == timestamp ? _self.timestamp : timestamp // ignore: cast_nullable_to_non_nullable
 as DateTime,count: null == count ? _self.count : count // ignore: cast_nullable_to_non_nullable
-as int,
+as int,blocked: freezed == blocked ? _self.blocked : blocked // ignore: cast_nullable_to_non_nullable
+as int?,cached: freezed == cached ? _self.cached : cached // ignore: cast_nullable_to_non_nullable
+as int?,forwarded: freezed == forwarded ? _self.forwarded : forwarded // ignore: cast_nullable_to_non_nullable
+as int?,
   ));
 }
 

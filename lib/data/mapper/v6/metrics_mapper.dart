@@ -55,10 +55,15 @@ extension QueryMapper on sq.Query {
       url: domain,
       device: client.name ?? client.ip,
       status: convertQueryStatusTypeV6(status),
-      replyTime: BigInt.from(reply.time * 1000 * 10),
+      replyTime: reply.time,
       replyType: convertReplyTypeV6(reply.type),
       id: id,
       answeredBy: upstream,
+      cname: cname,
+      dnssec: dnssec,
+      listId: listId,
+      edeCode: ede.code.toString(),
+      edeText: ede.text,
     );
   }
 }
@@ -76,21 +81,23 @@ extension StatsSummaryMapper on ss.StatsSummary {
       clientsEverSeen: clients.total,
       uniqueClients: clients.active,
       dnsQueriesAllTypes: queries.total,
-      replyUnknown: queries.replies.unknown,
-      replyNodata: queries.replies.nodata,
-      replyNxdomain: queries.replies.nxdomain,
-      replyCname: queries.replies.cname,
-      replyIp: queries.replies.ip,
-      replyDomain: queries.replies.domain,
-      replyRrname: queries.replies.rrname,
-      replyServfail: queries.replies.servfail,
-      replyRefused: queries.replies.refused,
-      replyNotimp: queries.replies.notimp,
-      replyOther: queries.replies.other,
-      replyDnssec: queries.replies.dnssec,
-      replyNone: queries.replies.none,
-      replyBlob: queries.replies.blob,
-      dnsQueriesAllReplies: queries.total,
+      replies: d.ReplyCounts(
+        unknown: queries.replies.unknown,
+        nodata: queries.replies.nodata,
+        nxDomain: queries.replies.nxdomain,
+        cname: queries.replies.cname,
+        ip: queries.replies.ip,
+        domain: queries.replies.domain,
+        rrname: queries.replies.rrname,
+        servfail: queries.replies.servfail,
+        refused: queries.replies.refused,
+        notimp: queries.replies.notimp,
+        other: queries.replies.other,
+        dnssec: queries.replies.dnssec,
+        none: queries.replies.none,
+        blob: queries.replies.blob,
+        total: queries.total,
+      ),
       queryTypes: queries.types.toDomain(),
     );
   }
@@ -127,6 +134,7 @@ extension StatsUpstreamsMapper on ss.StatsUpstreams {
       return d.DestinationStat(
         destination: destination,
         percentage: percentage,
+        count: upstream.count,
       );
     }).toList();
   }
@@ -152,7 +160,7 @@ extension HistoryClientsMapper on sh.HistoryClients {
     final orderedClients = clients.entries.map((e) {
       final ip = e.key;
       final name = e.value.name ?? '';
-      return d.Client(name: name, ip: ip);
+      return d.Client(name: name, ip: ip, total: e.value.total);
     }).toList();
 
     final overTime = <d.ClientOverTimeEntry>[];
@@ -171,7 +179,7 @@ extension HistoryClientsMapper on sh.HistoryClients {
       );
     }
 
-    return d.Clients(clients: orderedClients, overTime: overTime);
+    return d.Clients(clients: orderedClients, clientEntries: overTime);
   }
 }
 
@@ -202,7 +210,7 @@ extension OverTimeDataMapper on (d.History, d.Clients) {
       adsOverTime: $1.adsOverTime,
       domainsOverTime: $1.domainsOverTime,
       clients: $2.clients,
-      overTime: $2.overTime,
+      clientEntries: $2.clientEntries,
     );
   }
 }

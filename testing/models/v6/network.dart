@@ -231,13 +231,13 @@ final kRepoFetchDevices = [
 const kRepoFetchGateways = repo.Gateways(
   gateways: [
     repo.Gateway(
-      family: 'inet',
+      family: RouteFamilyType.inet,
       interface: 'eth0',
       address: '192.168.0.1',
       local: ['192.168.0.22'],
     ),
     repo.Gateway(
-      family: 'inet6',
+      family: RouteFamilyType.inet6,
       interface: 'eth0',
       address: 'fe80::3587:2fff:f11a:1',
       local: ['fe80::3587:2fff:f11a:4321'],
@@ -248,7 +248,7 @@ const kRepoFetchGateways = repo.Gateways(
 const repo.Gateways kRepoFetchGatewaysDetailed = repo.Gateways(
   gateways: [
     repo.Gateway(
-      family: 'inet',
+      family: RouteFamilyType.inet,
       interface: 'eth0',
       address: '192.168.0.1',
       local: ['192.168.0.22'],

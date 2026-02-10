@@ -46,7 +46,7 @@ extension GatewayMapper on s.Gateway {
 extension GatewayDataMapper on s.GatewayData {
   d.Gateway toDomain() {
     return d.Gateway(
-      family: family,
+      family: family.toRouteFamilyType(),
       interface: interface,
       address: address,
       local: local,

@@ -89,6 +89,59 @@ extension V5DomainTypeToDomainTypeMapper on V5DomainType {
   }
 }
 
+extension StringToBlockingModeMapper on String {
+  BlockingMode toBlockingMode() {
+    switch (this) {
+      case 'NULL':
+        return BlockingMode.nullMode;
+      case 'IP_NODATA_AAAA':
+        return BlockingMode.ipNodataAaaa;
+      case 'IP':
+        return BlockingMode.ip;
+      case 'NX':
+        return BlockingMode.nxdomain;
+      case 'NODATA':
+        return BlockingMode.nodata;
+      default:
+        return BlockingMode.unknown;
+    }
+  }
+}
+
+extension StringToTemperatureUnitMapper on String {
+  TemperatureUnit toTemperatureUnit() {
+    switch (this) {
+      case 'C':
+        return TemperatureUnit.celsius;
+      case 'F':
+        return TemperatureUnit.fahrenheit;
+      case 'K':
+        return TemperatureUnit.kelvin;
+      default:
+        return TemperatureUnit.unknown;
+    }
+  }
+}
+
+extension StringToListeningModeMapper on String {
+  ListeningMode toListeningMode() {
+    switch (this) {
+      case 'LOCAL':
+        return ListeningMode.local;
+      case 'ALL':
+        return ListeningMode.all;
+      case 'SINGLE':
+        return ListeningMode.single;
+      case 'BIND':
+        return ListeningMode.bind;
+      case 'NONE':
+        return ListeningMode.none;
+      default:
+        return ListeningMode.unknown;
+    }
+  }
+}
+
 DnsRecordType convertDnsRecordType(String? type) {
   switch (type?.toUpperCase()) {
     case 'A':

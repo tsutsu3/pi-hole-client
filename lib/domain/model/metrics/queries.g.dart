@@ -27,11 +27,16 @@ _Log _$LogFromJson(Map<String, dynamic> json) => _Log(
   type: $enumDecode(_$DnsRecordTypeEnumMap, json['type']),
   url: json['url'] as String,
   device: json['device'] as String,
-  replyTime: BigInt.parse(json['replyTime'] as String),
+  replyTime: (json['replyTime'] as num).toDouble(),
   status: $enumDecodeNullable(_$QueryStatusTypeEnumMap, json['status']),
   replyType: $enumDecodeNullable(_$ReplyTypeEnumMap, json['replyType']),
   id: (json['id'] as num?)?.toInt(),
   answeredBy: json['answeredBy'] as String?,
+  cname: json['cname'] as String?,
+  dnssec: json['dnssec'] as String?,
+  listId: (json['listId'] as num?)?.toInt(),
+  edeCode: json['edeCode'] as String?,
+  edeText: json['edeText'] as String?,
 );
 
 Map<String, dynamic> _$LogToJson(_Log instance) => <String, dynamic>{
@@ -39,11 +44,16 @@ Map<String, dynamic> _$LogToJson(_Log instance) => <String, dynamic>{
   'type': _$DnsRecordTypeEnumMap[instance.type]!,
   'url': instance.url,
   'device': instance.device,
-  'replyTime': instance.replyTime.toString(),
+  'replyTime': instance.replyTime,
   'status': _$QueryStatusTypeEnumMap[instance.status],
   'replyType': _$ReplyTypeEnumMap[instance.replyType],
   'id': instance.id,
   'answeredBy': instance.answeredBy,
+  'cname': instance.cname,
+  'dnssec': instance.dnssec,
+  'listId': instance.listId,
+  'edeCode': instance.edeCode,
+  'edeText': instance.edeText,
 };
 
 const _$DnsRecordTypeEnumMap = {

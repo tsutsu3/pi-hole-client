@@ -4,17 +4,17 @@ part 'version.freezed.dart';
 part 'version.g.dart';
 
 @freezed
-sealed class InfoVersion with _$InfoVersion {
+sealed class FtlVersion with _$FtlVersion {
   @JsonSerializable(explicitToJson: true)
-  const factory InfoVersion({
+  const factory FtlVersion({
     required ComponentVersion core,
     required ComponentVersion web,
     required ComponentVersion ftl,
     required ComponentVersion docker,
-  }) = _InfoVersion;
+  }) = _FtlVersion;
 
-  factory InfoVersion.fromJson(Map<String, dynamic> json) =>
-      _$InfoVersionFromJson(json);
+  factory FtlVersion.fromJson(Map<String, dynamic> json) =>
+      _$FtlVersionFromJson(json);
 }
 
 @freezed

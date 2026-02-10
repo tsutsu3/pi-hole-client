@@ -18,21 +18,7 @@ sealed class Summary with _$Summary {
     required int clientsEverSeen,
     required int uniqueClients,
     required int dnsQueriesAllTypes,
-    required int replyUnknown,
-    required int replyNodata,
-    required int replyNxdomain,
-    required int replyCname,
-    required int replyIp,
-    required int replyDomain,
-    required int replyRrname,
-    required int replyServfail,
-    required int replyRefused,
-    required int replyNotimp,
-    required int replyOther,
-    required int replyDnssec,
-    required int replyNone,
-    required int replyBlob,
-    required int dnsQueriesAllReplies,
+    required ReplyCounts replies,
     required List<QueryTypeStat> queryTypes,
   }) = _Summary;
 
@@ -40,12 +26,37 @@ sealed class Summary with _$Summary {
       _$SummaryFromJson(json);
 }
 
-// ToDO: add int count
+@freezed
+sealed class ReplyCounts with _$ReplyCounts {
+  const factory ReplyCounts({
+    required int unknown,
+    required int nodata,
+    required int nxDomain,
+    required int cname,
+    required int ip,
+    required int domain,
+    required int rrname,
+    required int servfail,
+    required int refused,
+    required int notimp,
+    required int other,
+    required int dnssec,
+    required int none,
+    required int blob,
+    required int total,
+  }) = _ReplyCounts;
+
+  factory ReplyCounts.fromJson(Map<String, dynamic> json) =>
+      _$ReplyCountsFromJson(json);
+}
+
 @freezed
 sealed class QueryTypeStat with _$QueryTypeStat {
   const factory QueryTypeStat({
     required DnsRecordType type,
     required double percentage,
+    // v6-only field
+    int? count,
   }) = _QueryTypeStat;
 
   factory QueryTypeStat.fromJson(Map<String, dynamic> json) =>

@@ -1,6 +1,5 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:pi_hole_client/config/enums.dart';
-// import 'package:pi_hole_client/config/enums.dart';
 
 part 'queries.freezed.dart';
 part 'queries.g.dart';
@@ -25,11 +24,17 @@ sealed class Log with _$Log {
     required DnsRecordType type,
     required String url,
     required String device,
-    required BigInt replyTime,
+    required double replyTime, // in seconds
     QueryStatusType? status,
     ReplyType? replyType,
     int? id,
     String? answeredBy,
+    // v6-only fields
+    String? cname,
+    String? dnssec,
+    int? listId,
+    String? edeCode,
+    String? edeText,
   }) = _Log;
 
   factory Log.fromJson(Map<String, dynamic> json) => _$LogFromJson(json);

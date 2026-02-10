@@ -37,10 +37,10 @@ class DomainRepositoryV5 extends BaseV5TokenRepository
         }
 
         final domainLists = DomainLists(
-          whitelist: results[0].getOrThrow().toDomain(),
-          whitelistRegex: results[1].getOrThrow().toDomain(),
-          blacklist: results[2].getOrThrow().toDomain(),
-          blacklistRegex: results[3].getOrThrow().toDomain(),
+          allowExact: results[0].getOrThrow().toDomain(),
+          allowRegex: results[1].getOrThrow().toDomain(),
+          denyExact: results[2].getOrThrow().toDomain(),
+          denyRegex: results[3].getOrThrow().toDomain(),
         );
 
         return Success(domainLists);

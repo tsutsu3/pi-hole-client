@@ -76,7 +76,7 @@ const kSrvPutDomains = srv.Domains(
 // repo models
 
 final kRepoFetchAllDomains = repo.DomainLists(
-  whitelist: [
+  allowExact: [
     repo.Domain(
       id: 1,
       name: 'example.com',
@@ -89,9 +89,9 @@ final kRepoFetchAllDomains = repo.DomainLists(
       dateModified: DateTime.fromMillisecondsSinceEpoch(1581907993 * 1000),
     ),
   ],
-  whitelistRegex: [],
-  blacklist: [],
-  blacklistRegex: [
+  allowRegex: [],
+  denyExact: [],
+  denyRegex: [
     repo.Domain(
       id: 2,
       name: r'てすと\.com$',

@@ -15,7 +15,7 @@ T _$identity<T>(T value) => value;
 /// @nodoc
 mixin _$DhcpLease {
 
- DateTime get expires; String get name; String get hwaddr; String get ip; String get clientid;
+ String get name; String get hwaddr; String get ip; String get clientid; DateTime? get expires;
 /// Create a copy of DhcpLease
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -28,16 +28,16 @@ $DhcpLeaseCopyWith<DhcpLease> get copyWith => _$DhcpLeaseCopyWithImpl<DhcpLease>
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is DhcpLease&&(identical(other.expires, expires) || other.expires == expires)&&(identical(other.name, name) || other.name == name)&&(identical(other.hwaddr, hwaddr) || other.hwaddr == hwaddr)&&(identical(other.ip, ip) || other.ip == ip)&&(identical(other.clientid, clientid) || other.clientid == clientid));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is DhcpLease&&(identical(other.name, name) || other.name == name)&&(identical(other.hwaddr, hwaddr) || other.hwaddr == hwaddr)&&(identical(other.ip, ip) || other.ip == ip)&&(identical(other.clientid, clientid) || other.clientid == clientid)&&(identical(other.expires, expires) || other.expires == expires));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,expires,name,hwaddr,ip,clientid);
+int get hashCode => Object.hash(runtimeType,name,hwaddr,ip,clientid,expires);
 
 @override
 String toString() {
-  return 'DhcpLease(expires: $expires, name: $name, hwaddr: $hwaddr, ip: $ip, clientid: $clientid)';
+  return 'DhcpLease(name: $name, hwaddr: $hwaddr, ip: $ip, clientid: $clientid, expires: $expires)';
 }
 
 
@@ -48,7 +48,7 @@ abstract mixin class $DhcpLeaseCopyWith<$Res>  {
   factory $DhcpLeaseCopyWith(DhcpLease value, $Res Function(DhcpLease) _then) = _$DhcpLeaseCopyWithImpl;
 @useResult
 $Res call({
- DateTime expires, String name, String hwaddr, String ip, String clientid
+ String name, String hwaddr, String ip, String clientid, DateTime? expires
 });
 
 
@@ -65,14 +65,14 @@ class _$DhcpLeaseCopyWithImpl<$Res>
 
 /// Create a copy of DhcpLease
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? expires = null,Object? name = null,Object? hwaddr = null,Object? ip = null,Object? clientid = null,}) {
+@pragma('vm:prefer-inline') @override $Res call({Object? name = null,Object? hwaddr = null,Object? ip = null,Object? clientid = null,Object? expires = freezed,}) {
   return _then(_self.copyWith(
-expires: null == expires ? _self.expires : expires // ignore: cast_nullable_to_non_nullable
-as DateTime,name: null == name ? _self.name : name // ignore: cast_nullable_to_non_nullable
+name: null == name ? _self.name : name // ignore: cast_nullable_to_non_nullable
 as String,hwaddr: null == hwaddr ? _self.hwaddr : hwaddr // ignore: cast_nullable_to_non_nullable
 as String,ip: null == ip ? _self.ip : ip // ignore: cast_nullable_to_non_nullable
 as String,clientid: null == clientid ? _self.clientid : clientid // ignore: cast_nullable_to_non_nullable
-as String,
+as String,expires: freezed == expires ? _self.expires : expires // ignore: cast_nullable_to_non_nullable
+as DateTime?,
   ));
 }
 
@@ -154,10 +154,10 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( DateTime expires,  String name,  String hwaddr,  String ip,  String clientid)?  $default,{required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( String name,  String hwaddr,  String ip,  String clientid,  DateTime? expires)?  $default,{required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _DhcpLease() when $default != null:
-return $default(_that.expires,_that.name,_that.hwaddr,_that.ip,_that.clientid);case _:
+return $default(_that.name,_that.hwaddr,_that.ip,_that.clientid,_that.expires);case _:
   return orElse();
 
 }
@@ -175,10 +175,10 @@ return $default(_that.expires,_that.name,_that.hwaddr,_that.ip,_that.clientid);c
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( DateTime expires,  String name,  String hwaddr,  String ip,  String clientid)  $default,) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( String name,  String hwaddr,  String ip,  String clientid,  DateTime? expires)  $default,) {final _that = this;
 switch (_that) {
 case _DhcpLease():
-return $default(_that.expires,_that.name,_that.hwaddr,_that.ip,_that.clientid);}
+return $default(_that.name,_that.hwaddr,_that.ip,_that.clientid,_that.expires);}
 }
 /// A variant of `when` that fallback to returning `null`
 ///
@@ -192,10 +192,10 @@ return $default(_that.expires,_that.name,_that.hwaddr,_that.ip,_that.clientid);}
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( DateTime expires,  String name,  String hwaddr,  String ip,  String clientid)?  $default,) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( String name,  String hwaddr,  String ip,  String clientid,  DateTime? expires)?  $default,) {final _that = this;
 switch (_that) {
 case _DhcpLease() when $default != null:
-return $default(_that.expires,_that.name,_that.hwaddr,_that.ip,_that.clientid);case _:
+return $default(_that.name,_that.hwaddr,_that.ip,_that.clientid,_that.expires);case _:
   return null;
 
 }
@@ -207,14 +207,14 @@ return $default(_that.expires,_that.name,_that.hwaddr,_that.ip,_that.clientid);c
 @JsonSerializable()
 
 class _DhcpLease implements DhcpLease {
-  const _DhcpLease({required this.expires, required this.name, required this.hwaddr, required this.ip, required this.clientid});
+  const _DhcpLease({required this.name, required this.hwaddr, required this.ip, required this.clientid, this.expires});
   factory _DhcpLease.fromJson(Map<String, dynamic> json) => _$DhcpLeaseFromJson(json);
 
-@override final  DateTime expires;
 @override final  String name;
 @override final  String hwaddr;
 @override final  String ip;
 @override final  String clientid;
+@override final  DateTime? expires;
 
 /// Create a copy of DhcpLease
 /// with the given fields replaced by the non-null parameter values.
@@ -229,16 +229,16 @@ Map<String, dynamic> toJson() {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _DhcpLease&&(identical(other.expires, expires) || other.expires == expires)&&(identical(other.name, name) || other.name == name)&&(identical(other.hwaddr, hwaddr) || other.hwaddr == hwaddr)&&(identical(other.ip, ip) || other.ip == ip)&&(identical(other.clientid, clientid) || other.clientid == clientid));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _DhcpLease&&(identical(other.name, name) || other.name == name)&&(identical(other.hwaddr, hwaddr) || other.hwaddr == hwaddr)&&(identical(other.ip, ip) || other.ip == ip)&&(identical(other.clientid, clientid) || other.clientid == clientid)&&(identical(other.expires, expires) || other.expires == expires));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,expires,name,hwaddr,ip,clientid);
+int get hashCode => Object.hash(runtimeType,name,hwaddr,ip,clientid,expires);
 
 @override
 String toString() {
-  return 'DhcpLease(expires: $expires, name: $name, hwaddr: $hwaddr, ip: $ip, clientid: $clientid)';
+  return 'DhcpLease(name: $name, hwaddr: $hwaddr, ip: $ip, clientid: $clientid, expires: $expires)';
 }
 
 
@@ -249,7 +249,7 @@ abstract mixin class _$DhcpLeaseCopyWith<$Res> implements $DhcpLeaseCopyWith<$Re
   factory _$DhcpLeaseCopyWith(_DhcpLease value, $Res Function(_DhcpLease) _then) = __$DhcpLeaseCopyWithImpl;
 @override @useResult
 $Res call({
- DateTime expires, String name, String hwaddr, String ip, String clientid
+ String name, String hwaddr, String ip, String clientid, DateTime? expires
 });
 
 
@@ -266,14 +266,14 @@ class __$DhcpLeaseCopyWithImpl<$Res>
 
 /// Create a copy of DhcpLease
 /// with the given fields replaced by the non-null parameter values.
-@override @pragma('vm:prefer-inline') $Res call({Object? expires = null,Object? name = null,Object? hwaddr = null,Object? ip = null,Object? clientid = null,}) {
+@override @pragma('vm:prefer-inline') $Res call({Object? name = null,Object? hwaddr = null,Object? ip = null,Object? clientid = null,Object? expires = freezed,}) {
   return _then(_DhcpLease(
-expires: null == expires ? _self.expires : expires // ignore: cast_nullable_to_non_nullable
-as DateTime,name: null == name ? _self.name : name // ignore: cast_nullable_to_non_nullable
+name: null == name ? _self.name : name // ignore: cast_nullable_to_non_nullable
 as String,hwaddr: null == hwaddr ? _self.hwaddr : hwaddr // ignore: cast_nullable_to_non_nullable
 as String,ip: null == ip ? _self.ip : ip // ignore: cast_nullable_to_non_nullable
 as String,clientid: null == clientid ? _self.clientid : clientid // ignore: cast_nullable_to_non_nullable
-as String,
+as String,expires: freezed == expires ? _self.expires : expires // ignore: cast_nullable_to_non_nullable
+as DateTime?,
   ));
 }
 

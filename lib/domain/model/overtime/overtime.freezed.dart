@@ -15,7 +15,7 @@ T _$identity<T>(T value) => value;
 /// @nodoc
 mixin _$OverTime {
 
- List<HistoryEntry> get domainsOverTime; List<HistoryEntry> get adsOverTime; List<Client> get clients; List<ClientOverTimeEntry> get overTime;
+ List<HistoryEntry> get domainsOverTime; List<HistoryEntry> get adsOverTime; List<Client> get clients; List<ClientOverTimeEntry> get clientEntries;
 /// Create a copy of OverTime
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -28,16 +28,16 @@ $OverTimeCopyWith<OverTime> get copyWith => _$OverTimeCopyWithImpl<OverTime>(thi
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is OverTime&&const DeepCollectionEquality().equals(other.domainsOverTime, domainsOverTime)&&const DeepCollectionEquality().equals(other.adsOverTime, adsOverTime)&&const DeepCollectionEquality().equals(other.clients, clients)&&const DeepCollectionEquality().equals(other.overTime, overTime));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is OverTime&&const DeepCollectionEquality().equals(other.domainsOverTime, domainsOverTime)&&const DeepCollectionEquality().equals(other.adsOverTime, adsOverTime)&&const DeepCollectionEquality().equals(other.clients, clients)&&const DeepCollectionEquality().equals(other.clientEntries, clientEntries));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,const DeepCollectionEquality().hash(domainsOverTime),const DeepCollectionEquality().hash(adsOverTime),const DeepCollectionEquality().hash(clients),const DeepCollectionEquality().hash(overTime));
+int get hashCode => Object.hash(runtimeType,const DeepCollectionEquality().hash(domainsOverTime),const DeepCollectionEquality().hash(adsOverTime),const DeepCollectionEquality().hash(clients),const DeepCollectionEquality().hash(clientEntries));
 
 @override
 String toString() {
-  return 'OverTime(domainsOverTime: $domainsOverTime, adsOverTime: $adsOverTime, clients: $clients, overTime: $overTime)';
+  return 'OverTime(domainsOverTime: $domainsOverTime, adsOverTime: $adsOverTime, clients: $clients, clientEntries: $clientEntries)';
 }
 
 
@@ -48,7 +48,7 @@ abstract mixin class $OverTimeCopyWith<$Res>  {
   factory $OverTimeCopyWith(OverTime value, $Res Function(OverTime) _then) = _$OverTimeCopyWithImpl;
 @useResult
 $Res call({
- List<HistoryEntry> domainsOverTime, List<HistoryEntry> adsOverTime, List<Client> clients, List<ClientOverTimeEntry> overTime
+ List<HistoryEntry> domainsOverTime, List<HistoryEntry> adsOverTime, List<Client> clients, List<ClientOverTimeEntry> clientEntries
 });
 
 
@@ -65,12 +65,12 @@ class _$OverTimeCopyWithImpl<$Res>
 
 /// Create a copy of OverTime
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? domainsOverTime = null,Object? adsOverTime = null,Object? clients = null,Object? overTime = null,}) {
+@pragma('vm:prefer-inline') @override $Res call({Object? domainsOverTime = null,Object? adsOverTime = null,Object? clients = null,Object? clientEntries = null,}) {
   return _then(_self.copyWith(
 domainsOverTime: null == domainsOverTime ? _self.domainsOverTime : domainsOverTime // ignore: cast_nullable_to_non_nullable
 as List<HistoryEntry>,adsOverTime: null == adsOverTime ? _self.adsOverTime : adsOverTime // ignore: cast_nullable_to_non_nullable
 as List<HistoryEntry>,clients: null == clients ? _self.clients : clients // ignore: cast_nullable_to_non_nullable
-as List<Client>,overTime: null == overTime ? _self.overTime : overTime // ignore: cast_nullable_to_non_nullable
+as List<Client>,clientEntries: null == clientEntries ? _self.clientEntries : clientEntries // ignore: cast_nullable_to_non_nullable
 as List<ClientOverTimeEntry>,
   ));
 }
@@ -153,10 +153,10 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( List<HistoryEntry> domainsOverTime,  List<HistoryEntry> adsOverTime,  List<Client> clients,  List<ClientOverTimeEntry> overTime)?  $default,{required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( List<HistoryEntry> domainsOverTime,  List<HistoryEntry> adsOverTime,  List<Client> clients,  List<ClientOverTimeEntry> clientEntries)?  $default,{required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _OverTime() when $default != null:
-return $default(_that.domainsOverTime,_that.adsOverTime,_that.clients,_that.overTime);case _:
+return $default(_that.domainsOverTime,_that.adsOverTime,_that.clients,_that.clientEntries);case _:
   return orElse();
 
 }
@@ -174,10 +174,10 @@ return $default(_that.domainsOverTime,_that.adsOverTime,_that.clients,_that.over
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( List<HistoryEntry> domainsOverTime,  List<HistoryEntry> adsOverTime,  List<Client> clients,  List<ClientOverTimeEntry> overTime)  $default,) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( List<HistoryEntry> domainsOverTime,  List<HistoryEntry> adsOverTime,  List<Client> clients,  List<ClientOverTimeEntry> clientEntries)  $default,) {final _that = this;
 switch (_that) {
 case _OverTime():
-return $default(_that.domainsOverTime,_that.adsOverTime,_that.clients,_that.overTime);}
+return $default(_that.domainsOverTime,_that.adsOverTime,_that.clients,_that.clientEntries);}
 }
 /// A variant of `when` that fallback to returning `null`
 ///
@@ -191,10 +191,10 @@ return $default(_that.domainsOverTime,_that.adsOverTime,_that.clients,_that.over
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( List<HistoryEntry> domainsOverTime,  List<HistoryEntry> adsOverTime,  List<Client> clients,  List<ClientOverTimeEntry> overTime)?  $default,) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( List<HistoryEntry> domainsOverTime,  List<HistoryEntry> adsOverTime,  List<Client> clients,  List<ClientOverTimeEntry> clientEntries)?  $default,) {final _that = this;
 switch (_that) {
 case _OverTime() when $default != null:
-return $default(_that.domainsOverTime,_that.adsOverTime,_that.clients,_that.overTime);case _:
+return $default(_that.domainsOverTime,_that.adsOverTime,_that.clients,_that.clientEntries);case _:
   return null;
 
 }
@@ -206,7 +206,7 @@ return $default(_that.domainsOverTime,_that.adsOverTime,_that.clients,_that.over
 
 @JsonSerializable(explicitToJson: true)
 class _OverTime implements OverTime {
-   _OverTime({required final  List<HistoryEntry> domainsOverTime, required final  List<HistoryEntry> adsOverTime, required final  List<Client> clients, required final  List<ClientOverTimeEntry> overTime}): _domainsOverTime = domainsOverTime,_adsOverTime = adsOverTime,_clients = clients,_overTime = overTime;
+   _OverTime({required final  List<HistoryEntry> domainsOverTime, required final  List<HistoryEntry> adsOverTime, required final  List<Client> clients, required final  List<ClientOverTimeEntry> clientEntries}): _domainsOverTime = domainsOverTime,_adsOverTime = adsOverTime,_clients = clients,_clientEntries = clientEntries;
   factory _OverTime.fromJson(Map<String, dynamic> json) => _$OverTimeFromJson(json);
 
  final  List<HistoryEntry> _domainsOverTime;
@@ -230,11 +230,11 @@ class _OverTime implements OverTime {
   return EqualUnmodifiableListView(_clients);
 }
 
- final  List<ClientOverTimeEntry> _overTime;
-@override List<ClientOverTimeEntry> get overTime {
-  if (_overTime is EqualUnmodifiableListView) return _overTime;
+ final  List<ClientOverTimeEntry> _clientEntries;
+@override List<ClientOverTimeEntry> get clientEntries {
+  if (_clientEntries is EqualUnmodifiableListView) return _clientEntries;
   // ignore: implicit_dynamic_type
-  return EqualUnmodifiableListView(_overTime);
+  return EqualUnmodifiableListView(_clientEntries);
 }
 
 
@@ -251,16 +251,16 @@ Map<String, dynamic> toJson() {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _OverTime&&const DeepCollectionEquality().equals(other._domainsOverTime, _domainsOverTime)&&const DeepCollectionEquality().equals(other._adsOverTime, _adsOverTime)&&const DeepCollectionEquality().equals(other._clients, _clients)&&const DeepCollectionEquality().equals(other._overTime, _overTime));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _OverTime&&const DeepCollectionEquality().equals(other._domainsOverTime, _domainsOverTime)&&const DeepCollectionEquality().equals(other._adsOverTime, _adsOverTime)&&const DeepCollectionEquality().equals(other._clients, _clients)&&const DeepCollectionEquality().equals(other._clientEntries, _clientEntries));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,const DeepCollectionEquality().hash(_domainsOverTime),const DeepCollectionEquality().hash(_adsOverTime),const DeepCollectionEquality().hash(_clients),const DeepCollectionEquality().hash(_overTime));
+int get hashCode => Object.hash(runtimeType,const DeepCollectionEquality().hash(_domainsOverTime),const DeepCollectionEquality().hash(_adsOverTime),const DeepCollectionEquality().hash(_clients),const DeepCollectionEquality().hash(_clientEntries));
 
 @override
 String toString() {
-  return 'OverTime(domainsOverTime: $domainsOverTime, adsOverTime: $adsOverTime, clients: $clients, overTime: $overTime)';
+  return 'OverTime(domainsOverTime: $domainsOverTime, adsOverTime: $adsOverTime, clients: $clients, clientEntries: $clientEntries)';
 }
 
 
@@ -271,7 +271,7 @@ abstract mixin class _$OverTimeCopyWith<$Res> implements $OverTimeCopyWith<$Res>
   factory _$OverTimeCopyWith(_OverTime value, $Res Function(_OverTime) _then) = __$OverTimeCopyWithImpl;
 @override @useResult
 $Res call({
- List<HistoryEntry> domainsOverTime, List<HistoryEntry> adsOverTime, List<Client> clients, List<ClientOverTimeEntry> overTime
+ List<HistoryEntry> domainsOverTime, List<HistoryEntry> adsOverTime, List<Client> clients, List<ClientOverTimeEntry> clientEntries
 });
 
 
@@ -288,12 +288,12 @@ class __$OverTimeCopyWithImpl<$Res>
 
 /// Create a copy of OverTime
 /// with the given fields replaced by the non-null parameter values.
-@override @pragma('vm:prefer-inline') $Res call({Object? domainsOverTime = null,Object? adsOverTime = null,Object? clients = null,Object? overTime = null,}) {
+@override @pragma('vm:prefer-inline') $Res call({Object? domainsOverTime = null,Object? adsOverTime = null,Object? clients = null,Object? clientEntries = null,}) {
   return _then(_OverTime(
 domainsOverTime: null == domainsOverTime ? _self._domainsOverTime : domainsOverTime // ignore: cast_nullable_to_non_nullable
 as List<HistoryEntry>,adsOverTime: null == adsOverTime ? _self._adsOverTime : adsOverTime // ignore: cast_nullable_to_non_nullable
 as List<HistoryEntry>,clients: null == clients ? _self._clients : clients // ignore: cast_nullable_to_non_nullable
-as List<Client>,overTime: null == overTime ? _self._overTime : overTime // ignore: cast_nullable_to_non_nullable
+as List<Client>,clientEntries: null == clientEntries ? _self._clientEntries : clientEntries // ignore: cast_nullable_to_non_nullable
 as List<ClientOverTimeEntry>,
   ));
 }

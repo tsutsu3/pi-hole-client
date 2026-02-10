@@ -4,9 +4,9 @@ part 'client.freezed.dart';
 part 'client.g.dart';
 
 @freezed
-sealed class InfoClient with _$InfoClient {
-  const factory InfoClient({required String addr}) = _InfoClient;
+sealed class FtlClient with _$FtlClient {
+  const factory FtlClient({required String addr}) = _FtlClient;
 
-  factory InfoClient.fromJson(Map<String, dynamic> json) =>
-      _$InfoClientFromJson(json);
+  factory FtlClient.fromJson(Map<String, dynamic> json) =>
+      _$FtlClientFromJson(json);
 }
