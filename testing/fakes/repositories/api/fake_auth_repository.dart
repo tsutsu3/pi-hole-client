@@ -6,6 +6,7 @@ import '../../../models/v6/auth.dart';
 
 class FakeAuthRepository implements AuthRepository {
   bool shouldFail = false;
+  int getAllSessionsCallCount = 0;
 
   @override
   Future<Result<Auth>> createSession(String password) async {
@@ -25,6 +26,7 @@ class FakeAuthRepository implements AuthRepository {
 
   @override
   Future<Result<List<AuthSession>>> getAllSessions() async {
+    getAllSessionsCallCount++;
     if (shouldFail) {
       return Failure(Exception('Force getAllSessions failure'));
     }

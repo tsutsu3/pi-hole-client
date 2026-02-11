@@ -7,22 +7,18 @@ import 'package:pi_hole_client/ui/settings/server_settings/advanced_settings/ses
 import 'package:pi_hole_client/ui/settings/server_settings/advanced_settings/sessions_screen/session_detail_screen.dart';
 import 'package:pi_hole_client/ui/settings/server_settings/advanced_settings/sessions_screen/viewmodel/sessions_viewmodel.dart';
 
-import '../../../../../../testing/fakes/repositories/api/fake_auth_repository.dart';
-import '../../../../helpers.dart';
+import '../../../../../testing/fakes/repositories/api/fake_auth_repository.dart';
+import '../../../helpers/test_app.dart';
 
 void main() async {
-  await initializeApp();
+  await initTestApp();
 
   group('Sessions Screen tests', () {
-    late TestSetupHelper testSetup;
     late FakeAuthRepository fakeAuthRepository;
     late SessionsViewModel viewModel;
 
     setUp(() async {
-      // ignore: unnecessary_underscores
-Command.globalExceptionHandler = (_, __) {};
-      testSetup = TestSetupHelper();
-      testSetup.initializeMock(useApiGatewayVersion: 'v6');
+      Command.globalExceptionHandler = (_, _) {};
       fakeAuthRepository = FakeAuthRepository();
       viewModel = SessionsViewModel(authRepository: fakeAuthRepository);
     });
@@ -33,7 +29,7 @@ Command.globalExceptionHandler = (_, __) {};
     });
 
     Widget buildSessionsWidget() {
-      return testSetup.buildTestWidget(
+      return buildTestApp(
         SessionsScreen(viewModel: viewModel..loadSessions.run()),
       );
     }
@@ -59,9 +55,7 @@ Command.globalExceptionHandler = (_, __) {};
       });
 
       await tester.pumpWidget(
-        testSetup.buildTestWidget(
-          SessionsScreen(viewModel: viewModel),
-        ),
+        buildTestApp(SessionsScreen(viewModel: viewModel)),
       );
       await tester.pumpAndSettle();
 
@@ -141,6 +135,39 @@ Command.globalExceptionHandler = (_, __) {};
 
       expect(find.byType(SnackBar), findsOneWidget);
       expect(find.text('Session removed successfully'), findsWidgets);
+    });
+
+    testWidgets('should show error snackbar when delete session fails', (
+      WidgetTester tester,
+    ) async {
+      tester.view.physicalSize = const Size(1080, 2400);
+      tester.view.devicePixelRatio = 2.0;
+
+      addTearDown(() {
+        tester.view.resetPhysicalSize();
+        tester.view.resetDevicePixelRatio();
+      });
+
+      await tester.pumpWidget(buildSessionsWidget());
+      await tester.pumpAndSettle();
+
+      await tester.tap(find.text('192.168.0.30'));
+      await tester.pumpAndSettle();
+
+      expect(find.byType(SessionDetailScreen), findsOneWidget);
+
+      // Set failure before triggering delete
+      fakeAuthRepository.shouldFail = true;
+
+      await tester.tap(find.byIcon(Icons.delete_rounded));
+      await tester.pumpAndSettle();
+
+      expect(find.byType(DeleteModal), findsOneWidget);
+      await tester.tap(find.text('Delete'));
+      await tester.pumpAndSettle();
+
+      expect(find.byType(SnackBar), findsOneWidget);
+      expect(find.text('Error when removing session'), findsWidgets);
     });
   });
 }

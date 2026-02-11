@@ -2,8 +2,8 @@ import 'package:command_it/command_it.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:pi_hole_client/ui/settings/server_settings/advanced_settings/sessions_screen/viewmodel/sessions_viewmodel.dart';
 
-import '../../../../../../../../testing/fakes/repositories/api/fake_auth_repository.dart';
-import '../../../../../../../../testing/models/v6/auth.dart';
+import '../../../../../../../testing/fakes/repositories/api/fake_auth_repository.dart';
+import '../../../../../../../testing/models/v6/auth.dart';
 
 void main() {
   group('SessionsViewModel', () {
@@ -38,14 +38,13 @@ void main() {
     });
 
     test('deleteSession success reloads sessions', () async {
-      // First load sessions
       await viewModel.loadSessions.runAsync();
-      expect(viewModel.loadSessions.value.length, 3);
+      expect(fakeAuthRepository.getAllSessionsCallCount, 1);
 
-      // Delete a session (reload happens inside _deleteSession)
       await viewModel.deleteSession.runAsync(0);
 
-      // Sessions should be reloaded
+      // getAllSessions called again by _deleteSession's reload
+      expect(fakeAuthRepository.getAllSessionsCallCount, 2);
       expect(viewModel.loadSessions.value, equals(kRepoGetAllSessions));
     });
 

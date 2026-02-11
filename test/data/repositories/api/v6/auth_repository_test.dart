@@ -11,19 +11,19 @@ void main() {
   late FakePiholeV6ApiClient client;
   late FakeSessionCredentialService creds;
 
-  group('createSession', () {
-    setUp(() {
-      client = FakePiholeV6ApiClient();
-      creds = FakeSessionCredentialService();
-      repository = AuthRepositoryV6(client: client, creds: creds);
-    });
+  setUp(() {
+    client = FakePiholeV6ApiClient();
+    creds = FakeSessionCredentialService();
+    repository = AuthRepositoryV6(client: client, creds: creds);
+  });
 
+  group('createSession', () {
     test('should create a session successfully', () async {
       final result = await repository.createSession('password123');
       expect(result.getOrNull(), kRepoCreateSession);
     });
 
-    test('retries on failure', () async {
+    test('returns error when API fails', () async {
       client.shouldFail = true;
 
       final result = await repository.createSession('password123');
@@ -32,18 +32,12 @@ void main() {
   });
 
   group('deleteCurrentSession', () {
-    setUp(() {
-      client = FakePiholeV6ApiClient();
-      creds = FakeSessionCredentialService();
-      repository = AuthRepositoryV6(client: client, creds: creds);
-    });
-
     test('should delete the current session successfully', () async {
       final result = await repository.deleteCurrentSession();
       expectSuccess(result);
     });
 
-    test('retries on failure', () async {
+    test('returns error when API fails', () async {
       client.shouldFail = true;
 
       final result = await repository.deleteCurrentSession();
@@ -52,18 +46,12 @@ void main() {
   });
 
   group('getAllSessions', () {
-    setUp(() {
-      client = FakePiholeV6ApiClient();
-      creds = FakeSessionCredentialService();
-      repository = AuthRepositoryV6(client: client, creds: creds);
-    });
-
     test('should return all sessions successfully', () async {
       final result = await repository.getAllSessions();
       expect(result.getOrNull(), kRepoGetAllSessions);
     });
 
-    test('retries on failure', () async {
+    test('returns error when API fails', () async {
       client.shouldFail = true;
 
       final result = await repository.getAllSessions();
@@ -72,18 +60,12 @@ void main() {
   });
 
   group('deleteSessionById', () {
-    setUp(() {
-      client = FakePiholeV6ApiClient();
-      creds = FakeSessionCredentialService();
-      repository = AuthRepositoryV6(client: client, creds: creds);
-    });
-
     test('should delete a session by ID successfully', () async {
       final result = await repository.deleteSessionById(1);
       expectSuccess(result);
     });
 
-    test('retries on failure', () async {
+    test('returns error when API fails', () async {
       client.shouldFail = true;
 
       final result = await repository.deleteSessionById(1);
