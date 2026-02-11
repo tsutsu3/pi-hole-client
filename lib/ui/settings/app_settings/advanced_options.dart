@@ -5,6 +5,7 @@ import 'package:pi_hole_client/ui/app_logs/app_logs.dart';
 import 'package:pi_hole_client/ui/core/l10n/generated/app_localizations.dart';
 import 'package:pi_hole_client/ui/core/ui/components/custom_list_tile.dart';
 import 'package:pi_hole_client/ui/core/ui/components/section_label.dart';
+import 'package:pi_hole_client/ui/core/ui/helpers/color_helpers.dart';
 import 'package:pi_hole_client/ui/core/ui/helpers/snackbar.dart';
 import 'package:pi_hole_client/ui/core/ui/modals/process_modal.dart';
 import 'package:pi_hole_client/ui/core/viewmodel/app_config_provider.dart';
@@ -16,7 +17,6 @@ import 'package:pi_hole_client/ui/settings/app_settings/advanced_settings/enter_
 import 'package:pi_hole_client/ui/settings/app_settings/advanced_settings/log_refresh_interval_screen.dart';
 import 'package:pi_hole_client/ui/settings/app_settings/advanced_settings/logs_quantity_load_screen.dart';
 import 'package:pi_hole_client/ui/settings/app_settings/advanced_settings/reset_screen.dart';
-import 'package:pi_hole_client/utils/conversions.dart';
 import 'package:provider/provider.dart';
 
 class AdvancedOptions extends StatelessWidget {
